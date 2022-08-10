@@ -1,4 +1,5 @@
 /* eslint-disable max-lines */
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -19,6 +20,7 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
+import { URL_SUPPORT } from '../../../../shared/http/constants/urls';
 import { Quotation } from '../../../../shared/models';
 import { Customer } from '../../../../shared/models/customer';
 import { QuotationDetail } from '../../../../shared/models/quotation-detail';
@@ -312,9 +314,27 @@ export class ProcessCaseEffect {
             PriceService.addCalculationsForDetails(item.quotationDetails)
           ),
           map((item) => removePositionsSuccess({ item })),
-          catchError((errorMessage) =>
-            of(removePositionsFailure({ errorMessage }))
-          )
+          catchError((errorMessage: HttpErrorResponse) => {
+            const messageText =
+              errorMessage.status === 400
+                ? 'errorInterceptorActionForbidden'
+                : 'errorInterceptorMessageDefault';
+
+            this.snackBar
+              .open(
+                translate(messageText),
+                translate('errorInterceptorActionDefault'),
+                {
+                  duration: 5000,
+                }
+              )
+              .onAction()
+              .subscribe(() => window.open(URL_SUPPORT, '_blank').focus());
+
+            return of(
+              removePositionsFailure({ errorMessage: errorMessage.message })
+            );
+          })
         )
       )
     );

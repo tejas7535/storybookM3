@@ -1,6 +1,7 @@
 import {
   HTTP_INTERCEPTORS,
   HttpClient,
+  HttpContext,
   HttpStatusCode,
 } from '@angular/common/http';
 import {
@@ -24,7 +25,10 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { ApiVersion } from '../models';
 import { QuotationPaths } from '../services/rest-services/quotation-service/models/quotation-paths.enum';
-import { BaseHttpInterceptor } from './base-http.interceptor';
+import {
+  BaseHttpInterceptor,
+  BYPASS_DEFAULT_ERROR_HANDLING,
+} from './base-http.interceptor';
 
 const environment = {
   baseUrl: 'localhost:8000/api/v1',
@@ -42,6 +46,12 @@ class ExampleService {
 
   public getPosts(): Observable<string> {
     return this.http.get<string>(`${this.apiUrl}/test`);
+  }
+
+  public getCustomers(): Observable<string> {
+    return this.http.get<string>(`${this.apiUrl}/testcustomer`, {
+      context: new HttpContext().set(BYPASS_DEFAULT_ERROR_HANDLING, true),
+    });
   }
 
   public getQuotation(): Observable<string> {
@@ -294,6 +304,25 @@ describe(`BaseHttpInterceptor`, () => {
           detail: 'Damn monkey',
         },
       } as unknown as ErrorEvent);
+    });
+
+    test('should not intercept calls with BYPASS_DEFAULT_ERROR_HANDLING', () => {
+      service.getCustomers().subscribe({
+        next: () => {
+          expect(true).toEqual(false);
+        },
+        error: (_response) => {
+          expect(snackBar.open).not.toHaveBeenCalled();
+        },
+      });
+
+      const httpRequest = httpMock.expectOne(
+        `${environment.baseUrl}/testcustomer`
+      );
+
+      expect(httpRequest.request.method).toEqual('GET');
+
+      httpRequest.error(undefined as unknown as ErrorEvent);
     });
   });
 });

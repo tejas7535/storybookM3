@@ -1,4 +1,5 @@
 import {
+  HttpContextToken,
   HttpErrorResponse,
   HttpEvent,
   HttpHandler,
@@ -23,6 +24,8 @@ import { QuotationPaths } from '../services/rest-services/quotation-service/mode
 import { SearchPaths } from '../services/rest-services/search-service/models/search-paths.enum';
 import { AUTH_URLS, URL_SUPPORT } from './constants/urls';
 
+export const BYPASS_DEFAULT_ERROR_HANDLING = new HttpContextToken(() => false);
+
 @Injectable()
 export class BaseHttpInterceptor implements HttpInterceptor {
   public constructor(
@@ -43,6 +46,10 @@ export class BaseHttpInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    if (request.context.get(BYPASS_DEFAULT_ERROR_HANDLING)) {
+      return next.handle(request);
+    }
+
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         let errorMessage = '';

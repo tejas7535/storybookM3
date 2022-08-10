@@ -624,7 +624,12 @@ describe('ProcessCaseEffect', () => {
         const result = removePositionsFailure({ errorMessage });
 
         actions$ = m.hot('-a', { a: action });
-        const response = m.cold('-#|', undefined, errorMessage);
+
+        // removePositionsFailure is not handeled by base-http.interceptor anymore
+        // so the errorMessage is the default angular HttpErrorResponse instead of a string
+        const response = m.cold('-#|', undefined, {
+          message: 'An error occured',
+        });
         const expected = m.cold('--b', { b: result });
 
         m.expect(effects.removePositions$).toBeObservable(expected);
