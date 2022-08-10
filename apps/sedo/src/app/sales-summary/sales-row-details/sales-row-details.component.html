@@ -1,4 +1,4 @@
-<div *ngIf="rowData" class="expanded-row-wrapper">
+<div *ngIf="rowData" class="flex flex-row flex-wrap">
   <mat-list>
     <mat-list-item>
       <div mat-line>{{ rowData.combinedKey }}</div>
@@ -21,9 +21,9 @@
     </mat-list-item>
   </mat-list>
 
-  <div class="date-form-wrapper" [formGroup]="datesFormGroup">
+  <div class="flex flex-col items-start" [formGroup]="datesFormGroup">
     <div>
-      <mat-form-field appearance="fill">
+      <mat-form-field class="!m-4 !mb-0" appearance="fill">
         <mat-label>Choose EOP</mat-label>
         <input
           matInput
@@ -45,7 +45,7 @@
         >
       </mat-form-field>
 
-      <span class="info-icon">
+      <span class="cursor-help text-medium-emphasis">
         <mat-icon
           [matMenuTriggerFor]="infoMenu"
           #infoMenuTrigger="matMenuTrigger"
@@ -61,7 +61,7 @@
           [hasBackdrop]="false"
           class="mat-menu-width"
         >
-          <p class="info-text">
+          <p class="m-0 p-5 text-body-1 leading-6 text-medium-emphasis">
             The SeDo Application calculates the EOP Dates with a dataset of
             monthly budget planning for the next 24 months.<br />
             Therefore a calculated EOP in 24 months might not be the correct EOP
@@ -72,7 +72,7 @@
         </mat-menu>
       </span>
     </div>
-    <mat-form-field appearance="fill">
+    <mat-form-field class="!m-4 !mb-0" appearance="fill">
       <mat-label>Choose EDO</mat-label>
       <input
         matInput

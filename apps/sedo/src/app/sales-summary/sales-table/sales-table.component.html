@@ -1,13 +1,13 @@
-<div class="table-container">
+<div class="m-7 flex h-[calc(100%-60px)] flex-col">
   <button
-    class="filter-button w-[250px]"
+    class="filter-button text-button !mb-2 w-[250px]"
     mat-raised-button
     (click)="setLastModifierFilter()"
   >
     FILTER ASSIGNED TO ME
   </button>
   <ag-grid-angular
-    class="ag-theme-material"
+    class="ag-theme-material h-full"
     [columnDefs]="columnDefs"
     [defaultColDef]="defaultColDef"
     [gridOptions]="gridOptions"

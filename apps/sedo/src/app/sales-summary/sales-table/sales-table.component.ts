@@ -37,7 +37,6 @@ import { SIDE_BAR_CONFIG } from './config/sidebar-definition';
 @Component({
   selector: 'sedo-sales-table',
   templateUrl: './sales-table.component.html',
-  styleUrls: ['./sales-table.component.scss'],
 })
 export class SalesTableComponent implements OnInit, OnDestroy {
   public modules: Module[] = [

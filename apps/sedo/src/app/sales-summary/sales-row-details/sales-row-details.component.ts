@@ -27,7 +27,6 @@ import { IgnoreFlagDialogComponent } from './ignore-flag-dialog/ignore-flag-dial
 @Component({
   selector: 'sedo-sales-row-details',
   templateUrl: './sales-row-details.component.html',
-  styleUrls: ['./sales-row-details.component.scss'],
 })
 export class SalesRowDetailsComponent
   implements ICellRendererAngularComp, OnDestroy
