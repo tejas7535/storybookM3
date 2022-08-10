@@ -69,7 +69,7 @@ export class SelectComponent
       this.searchControl.valueChanges
         .pipe(debounceTime(500))
         .subscribe((value) =>
-          this.searchUpdated.emit(value.length > 1 ? value : '')
+          this.searchUpdated.emit(value?.length > 1 ? value : '')
         )
     );
   }
