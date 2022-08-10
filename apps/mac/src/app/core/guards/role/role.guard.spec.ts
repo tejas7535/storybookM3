@@ -4,7 +4,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { RoutePath } from './../../app-routing.enum';
+import { RoutePath } from '@mac/app-routing.enum';
+
 import { RoleGuard } from './role.guard';
 
 describe('RoleGuard', () => {

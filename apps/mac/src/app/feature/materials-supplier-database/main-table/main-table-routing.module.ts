@@ -1,12 +1,15 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
+
+import { MACRoutes } from '@mac/shared/models';
+
 import { MainTableComponent } from './main-table.component';
 
 export enum MainTablePaths {
   BasePath = '',
 }
 
-const routes: Routes = [
+const routes: MACRoutes = [
   { path: MainTablePaths.BasePath, component: MainTableComponent },
 ];
 

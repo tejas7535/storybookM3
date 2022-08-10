@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 import { MsalGuard } from '@azure/msal-angular';
 
 import { LegalRoute } from '@schaeffler/legal-pages';
 
 import { RoutePath } from '@mac/app-routing.enum';
-import { RoleGuard } from '@mac/core/guards/role.guard';
+import { RoleGuard } from '@mac/core/guards';
+import { MACRoutes } from '@mac/shared/models';
 
-export const appRoutePaths: Routes = [
+export const appRoutePaths: MACRoutes = [
   {
     path: RoutePath.BasePath,
     redirectTo: `/${RoutePath.OverviewPath}`,

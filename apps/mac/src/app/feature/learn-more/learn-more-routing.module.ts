@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
+
+import { MACRoutes } from '@mac/shared/models';
 
 import { LearnMoreResolver } from './resolver/learn-more.resolver';
 
-const routes: Routes = [
+const routes: MACRoutes = [
   {
     // path: 'hardness-converter',
     path: ':id',
