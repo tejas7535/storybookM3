@@ -24,20 +24,20 @@ apps/gq @soehnpsc_SGGIT @herpisef_SGGIT @kauppfbi_SGGIT @schlunls_SGGIT
 apps/gq-e2e @soehnpsc_SGGIT @herpisef_SGGIT @kauppfbi_SGGIT @schlunls_SGGIT
 
 # MAC
-apps/mac @berndcri_SGGIT @PELZESEN_SGGIT @krausrbe_SGGIT @tgoetzcissolutionseu_SGGIT
-apps/mac-e2e @berndcri_SGGIT @PELZESEN_SGGIT @krausrbe_SGGIT @tgoetzcissolutionseu_SGGIT
+apps/mac @berndcri_SGGIT @PELZESEN_SGGIT @krausrbe_SGGIT @tgoetzcissolutionseu_SGGIT @konramic_SGGIT
+apps/mac-e2e @berndcri_SGGIT @PELZESEN_SGGIT @krausrbe_SGGIT @tgoetzcissolutionseu_SGGIT @konramic_SGGIT
 
 # IA
 apps/ia @herpisef_SGGIT @przybmci_SGGIT @krausrbe_SGGIT
 apps/ia-e2e @herpisef_SGGIT @przybmci_SGGIT @krausrbe_SGGIT
 
 # MM
-apps/mm @krausrbe_SGGIT @berndcri_SGGIT @tgoetzcissolutionseu_SGGIT
-apps/mm-e2e @krausrbe_SGGIT @berndcri_SGGIT @tgoetzcissolutionseu_SGGIT
+apps/mm @krausrbe_SGGIT @berndcri_SGGIT @tgoetzcissolutionseu_SGGIT @konramic_SGGIT
+apps/mm-e2e @krausrbe_SGGIT @berndcri_SGGIT @tgoetzcissolutionseu_SGGIT @konramic_SGGIT
 
 # GA
-apps/ga @krausrbe_SGGIT @berndcri_SGGIT @tgoetzcissolutionseu_SGGIT
-apps/ga-e2e @krausrbe_SGGIT @berndcri_SGGIT @tgoetzcissolutionseu_SGGIT
+apps/ga @krausrbe_SGGIT @berndcri_SGGIT @tgoetzcissolutionseu_SGGIT @konramic_SGGIT
+apps/ga-e2e @krausrbe_SGGIT @berndcri_SGGIT @tgoetzcissolutionseu_SGGIT @konramic_SGGIT
 
 
 
