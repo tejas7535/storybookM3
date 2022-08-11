@@ -236,6 +236,7 @@
     },
     "showCompactView": "Show compact view",
     "reportSectionInput": "Input",
+    "shopLinkText": "Available products",
     "shopBaseUrl": "https://medias.schaeffler.de/en",
     "snackbarError": "Unfortunately an error occurred. Please try again later.",
     "snackbarRetry": "Retry",

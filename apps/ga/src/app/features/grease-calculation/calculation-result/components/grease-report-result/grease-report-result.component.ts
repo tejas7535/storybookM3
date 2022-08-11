@@ -8,6 +8,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -39,6 +40,7 @@ export const shopSearchPathBase = 'search/searchpage?text=';
   imports: [
     CommonModule,
     SharedTranslocoModule,
+    MatButtonModule,
     MatIconModule,
     MatTooltipModule,
     LabelValueModule,

@@ -8,40 +8,19 @@
     }"
   >
     <div class="p-3">
-      <a
-        *ngIf="greaseResult.isSufficient; else insufficientGreaseResult"
-        class="flex items-center justify-between font-medium text-link"
-        [attr.href]="getShopUrl()"
-        target="_blank"
-        (click)="trackGreaseSelection()"
-      >
-        <div>
+      <div class="flex items-center justify-between">
+        <div class="font-medium">
           {{ greaseResult.mainTitle }}
-          <mat-icon
-            class="ml-1 !h-[auto] !w-[auto] align-text-bottom !text-[16px] !leading-[inherit]"
-            >open_in_new</mat-icon
-          >
         </div>
         <div
-          *ngIf="indicateGreasePreference"
-          class="ml-3 inline-block rounded-full bg-background-dark px-3 py-[1px] text-caption font-normal text-medium-emphasis"
-          [ngClass]="{ '!bg-primary !text-white': greaseResult.isPreferred }"
+          *ngIf="!greaseResult.isSufficient"
+          class="relative ml-3 inline-block pr-7"
         >
-          {{
-            t(
-              greaseResult.isPreferred
-                ? 'preferredGreaseHintSelected'
-                : 'preferredGreaseHintAlternative'
-            )
-          }}
-        </div>
-      </a>
-      <ng-template #insufficientGreaseResult>
-        <div class="inline-block font-medium text-medium-emphasis">
-          {{ greaseResult.mainTitle }}
-        </div>
-        <div class="relative ml-3 inline-block pr-7 font-medium text-error">
-          {{ t('insufficientGreaseResultHint') }}
+          <div
+            class="ml-3 inline-block rounded-full bg-error px-3 py-[1px] text-caption text-white"
+          >
+            {{ t('insufficientGreaseResultHint') }}
+          </div>
           <mat-icon
             color="primary"
             class="absolute right-0 top-[-2px] cursor-help"
@@ -52,10 +31,35 @@
             info_outline
           </mat-icon>
         </div>
-      </ng-template>
-      <p class="text-caption">
+        <div
+          *ngIf="greaseResult.isSufficient && indicateGreasePreference"
+          class="ml-3 inline-block rounded-full bg-background-dark px-3 py-[1px] text-caption text-medium-emphasis"
+          [ngClass]="{ '!bg-primary !text-white': greaseResult.isPreferred }"
+        >
+          {{
+            t(
+              greaseResult.isPreferred
+                ? 'preferredGreaseHintSelected'
+                : 'preferredGreaseHintAlternative'
+            )
+          }}
+        </div>
+      </div>
+      <div class="text-caption text-medium-emphasis">
         {{ greaseResult.subTitle }}
-      </p>
+      </div>
+      <div *ngIf="greaseResult.isSufficient" class="pt-3">
+        <a
+          mat-raised-button
+          color="primary"
+          [attr.href]="getShopUrl()"
+          target="_blank"
+          (click)="trackGreaseSelection()"
+        >
+          <mat-icon>water_drop_outline</mat-icon>
+          {{ t('shopLinkText') }}
+        </a>
+      </div>
     </div>
     <schaeffler-label-value
       [labelValues]="labelValues"
