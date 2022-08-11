@@ -52,6 +52,8 @@ const Template: Story<SelectComponent> = (args: SelectComponent) => ({
           [searchPlaceholder]="searchPlaceholder"
           [addEntryPlaceholder]="addEntryPlaceholder"
           [hint]="hint"
+          [initialValue]="initialValue"
+          [initialSearchValue]="initialSearchValue"
           [label]="label"
           [loading]="loading"
           [error]="error"
@@ -109,6 +111,7 @@ Primary.args = {
   searchPlaceholder: 'Search...',
   addEntryPlaceholder: 'New Entry',
   hint: 'optional hint',
+  initialSearchValue: '',
   loading: false,
   error: false,
   multiple: false,
@@ -131,6 +134,15 @@ Primary.argTypes = {
     options: ['fill', 'outline'],
     control: 'radio',
     defaultValue: 'fill',
+  },
+  initialValue: {
+    options: ['none', 'option1'],
+    control: 'radio',
+    defaultValue: 'none',
+    mapping: {
+      none: undefined,
+      option1: { id: 1, title: 'option1' },
+    },
   },
   filterFn: {
     options: ['No Filter', 'Custom Filter'],

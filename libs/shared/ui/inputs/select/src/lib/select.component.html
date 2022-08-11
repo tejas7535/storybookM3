@@ -10,6 +10,7 @@
     (openedChange)="$event ? searchInput.focus() : undefined"
     #selectInput
     [required]="formControlRequired"
+    [compareWith]="compareWith"
   >
     <mat-select-trigger>{{ currentValue }} </mat-select-trigger>
     <div (keydown)="$event.stopPropagation()">

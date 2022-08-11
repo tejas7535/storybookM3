@@ -83,6 +83,22 @@ In the parent component:
     [control]="control"
 ></schaeffler-select>
 
+<!--  setting an initial value for the select control -->
+<schaeffler-select
+    [stringOptions]="options"
+    [initialValue]="initialValue"
+    (searchUpdated)="onSearchUpdated($event)"
+    (optionSelected)="onOptionSelected($event)"
+></schaeffler-select>
+
+<!--  setting an initial value for the search input -->
+<schaeffler-select
+    [stringOptions]="options"
+    [initialSearchValue]="initialSearchValue"
+    (searchUpdated)="onSearchUpdated($event)"
+    (optionSelected)="onOptionSelected($event)"
+></schaeffler-select>
+
 <!--  allow adding of new entries implementation  -->
 <schaeffler-select
     [stringOptions]="options"
@@ -139,13 +155,16 @@ import { StringOption } from '@schaeffler/inputs';
   templateUrl: './example.component.html',
 })
 export class ExampleComponent implements OnInit {
+    public initialValue: StringOption = { id: 1, title: 'minimum option' };
+    public initialSearchValue = 'minimum';
+
     public allOptions: StringOption[] = [
         {
-        id: '1',
-        title: 'full option',
-        removable: true,
-        tooltip: 'option tooltip',
-        tooltipDelay: 1000,
+            id: '1',
+            title: 'full option',
+            removable: true,
+            tooltip: 'option tooltip',
+            tooltipDelay: 1000,
         },
         {
             id: 1,
@@ -155,11 +174,11 @@ export class ExampleComponent implements OnInit {
 
     public options: StringOption[] = [
         {
-        id: '1',
-        title: 'full option',
-        removable: true,
-        tooltip: 'option tooltip',
-        tooltipDelay: 1000,
+            id: '1',
+            title: 'full option',
+            removable: true,
+            tooltip: 'option tooltip',
+            tooltipDelay: 1000,
         },
         {
             id: 1,
@@ -241,6 +260,8 @@ For further information about the option type see [@schaeffler/inputs documentat
 | searchPlaceholder     | (optional) the placeholder for the search control inside the select                                              |
 | addEntryplaceholder   | (optional) the placeholder for the add entry input control                                                       |
 | hint                  | (optional) the hint to display below the search bar                                                              |
+| initialValue          | (optional) the initial value to set for the select (has to be within the provided options)                       |
+| initialSearchValue    | (optional) the initial value to set in the search bar                                                            |
 | loading               | (optional) whether the control should be in loading state (displays ng-content with selector `loadingContent`)   |
 | error                 | (optional) whether the control should be in error state (displays ng-content with selector `errorContent`)       |
 | multiple              | (optional) whether the select control should should allow the selection of multiple items                        |

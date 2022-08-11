@@ -28,6 +28,9 @@ export class SelectComponent
   @Input() public addEntryPlaceholder = '';
   @Input() public hint = '';
 
+  @Input() public initialValue?: StringOption;
+  @Input() public initialSearchValue?: string;
+
   @Input() public stringOptions!: StringOption[];
   @Input() public loading?: boolean;
   @Input() public error?: boolean;
@@ -57,6 +60,17 @@ export class SelectComponent
   public ngOnInit(): void {
     if (this.filterFn) {
       this.filterOptions = this.filterFn;
+    }
+
+    if (this.initialValue) {
+      this.control.setValue(this.initialValue);
+    }
+
+    if (this.initialSearchValue) {
+      this.searchControl.setValue(this.initialSearchValue);
+      this.searchUpdated.emit(
+        this.initialSearchValue.length > 1 ? this.initialSearchValue : ''
+      );
     }
 
     this.subscription.add(
@@ -144,6 +158,9 @@ export class SelectComponent
   }
 
   public filterOptions = (_option?: StringOption, _value?: string) => true;
+
+  public compareWith = (option: StringOption, selection: StringOption) =>
+    option.id === selection.id && option.title === selection.title;
 
   public trackByFn(index: number): number {
     return index;

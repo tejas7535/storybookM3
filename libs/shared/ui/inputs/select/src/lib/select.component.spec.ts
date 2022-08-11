@@ -78,6 +78,40 @@ describe('SelectComponent', () => {
       expect(component.filterOptions).toEqual(mockFn);
     });
 
+    it('should set the initial value', () => {
+      component.control.setValue = jest.fn();
+      const mockValue: StringOption = { id: 'test', title: 'test' };
+      component.initialValue = mockValue;
+
+      component.ngOnInit();
+
+      expect(component.control.setValue).toHaveBeenCalledWith(mockValue);
+    });
+
+    it('should set the initial search value', () => {
+      component.searchControl.setValue = jest.fn();
+      component.searchUpdated.emit = jest.fn();
+      const mockValue = 'test';
+      component.initialSearchValue = mockValue;
+
+      component.ngOnInit();
+
+      expect(component.searchControl.setValue).toHaveBeenCalledWith(mockValue);
+      expect(component.searchUpdated.emit).toHaveBeenCalledWith(mockValue);
+    });
+
+    it('should set the initial search value and emit an empty string if the value is too short', () => {
+      component.searchControl.setValue = jest.fn();
+      component.searchUpdated.emit = jest.fn();
+      const mockValue = 't';
+      component.initialSearchValue = mockValue;
+
+      component.ngOnInit();
+
+      expect(component.searchControl.setValue).toHaveBeenCalledWith(mockValue);
+      expect(component.searchUpdated.emit).toHaveBeenCalledWith('');
+    });
+
     it('should emit on change of the formControl', () => {
       const mockOption = { id: 'mockId', title: 'mockTitle' };
       component.optionSelected.emit = jest.fn();
@@ -341,6 +375,44 @@ describe('SelectComponent', () => {
       const result = component.filterOptions();
 
       expect(result).toBe(true);
+    });
+  });
+
+  describe('compareWith', () => {
+    it('should return true if id and title match', () => {
+      const option: StringOption = { id: 'id', title: 'title' };
+      const selection: StringOption = { id: 'id', title: 'title' };
+
+      const result = component.compareWith(option, selection);
+
+      expect(result).toBe(true);
+    });
+
+    it('should return false if only id matches', () => {
+      const option: StringOption = { id: 'id', title: 'title' };
+      const selection: StringOption = { id: 'id', title: 'nottitle' };
+
+      const result = component.compareWith(option, selection);
+
+      expect(result).toBe(false);
+    });
+
+    it('should return false if only title matches', () => {
+      const option: StringOption = { id: 'id', title: 'title' };
+      const selection: StringOption = { id: 'notid', title: 'title' };
+
+      const result = component.compareWith(option, selection);
+
+      expect(result).toBe(false);
+    });
+
+    it('should return false if neither id nor title matches', () => {
+      const option: StringOption = { id: 'id', title: 'title' };
+      const selection: StringOption = { id: 'notid', title: 'nottitle' };
+
+      const result = component.compareWith(option, selection);
+
+      expect(result).toBe(false);
     });
   });
 
