@@ -163,13 +163,14 @@ export class ParentComponent implements OnInit {
 
 ### API
 
-| Name                   | Description                                                                                        |
-|------------------------|----------------------------------------------------------------------------------------------------|
-| controlItems           | (RotaryControlItem[]) (default: []) The items that form the scale marks                            |
-| controlValue           | (number) The value that is displayed (default: 0)                                                  |
-| controlValueChangeable | (optional) (boolean) Make the value changeable by the user (default: false)                        |
-| offsetAngle            | (optional) Angle offset for the first item to create a prominent first scale mark (default: 0)     |
-| rotateScale            | (optional) (boolean) Instead of the pointer, rotate the scale ring show the value (default: false) |
+| Type     | Name                   | Description                                                                                              |
+|----------|------------------------|----------------------------------------------------------------------------------------------------------|
+| @Input   | controlItems           | (RotaryControlItem[]) (default: []) The items that form the scale marks                                  |
+| @Input   | controlValue           | (number) The value that is displayed (default: 0)                                                        |
+| @Input   | controlValueChangeable | (optional) (boolean) Make the value changeable by the user (default: false)                              |
+| @Input   | offsetAngle            | (optional) Angle offset for the first item to create a prominent first scale mark (default: 0)           |
+| @Input   | rotateScale            | (optional) (boolean) Instead of the pointer, rotate the scale ring show the value (default: false)       |
+| @Output  | controlValueChanged    | (number) Event when the control value changes. The payload is the index of the value in the controlItems |
 
 
 ## Development
