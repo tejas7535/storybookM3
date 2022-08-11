@@ -27,6 +27,7 @@
       "netValue": "Nettowert",
       "price": "Nettopreis",
       "priceDiff": "Preisunterschied %",
+      "priceDiffInfoText": "Nettopreis vs. Letzter Kundenpreis",
       "gqRating": "GQ Rating",
       "gqPrice": "GQ Preis",
       "priceUnit": "pro",

@@ -6,5 +6,6 @@ import { Component, Input } from '@angular/core';
 })
 export class InfoIconComponent {
   @Input() showHelpIcon: boolean;
+  @Input() displaySmall: boolean;
   @Input() text: string;
 }

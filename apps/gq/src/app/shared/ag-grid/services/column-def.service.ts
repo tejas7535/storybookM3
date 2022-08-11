@@ -6,6 +6,7 @@ import { ColDef, ValueGetterParams } from 'ag-grid-enterprise';
 
 import { EditCellData } from '../../ag-grid/cell-renderer/models/edit-cell-class-params.model';
 import { EditableColumnHeaderComponent } from '../column-headers/editable-column-header/editable-column-header.component';
+import { HeaderInfoIconComponent } from '../column-headers/header-info-icon/header-info-icon.component';
 import { ColumnFields } from '../constants/column-fields.enum';
 import {
   DATE_COLUMN_FILTER,
@@ -289,6 +290,7 @@ export class ColumnDefService {
     {
       headerName: translate('shared.quotationDetailsTable.priceDiff'),
       field: ColumnFields.PRICE_DIFF,
+      headerComponent: HeaderInfoIconComponent,
       valueFormatter: (params) =>
         this.columnUtilityService.percentageFormatter(params),
       filter: NUMBER_COLUMN_FILTER,

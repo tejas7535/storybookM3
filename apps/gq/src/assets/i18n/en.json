@@ -27,6 +27,7 @@
       "netValue": "Net Value",
       "price": "Net Price",
       "priceDiff": "Price Diff %",
+      "priceDiffInfoText": "Net Price vs. Last Customer Price",
       "gqPrice": "GQ Price",
       "gqRating": "GQ Rating",
       "priceUnit": "per",
