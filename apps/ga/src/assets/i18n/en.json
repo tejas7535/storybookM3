@@ -115,7 +115,7 @@
       "quickSelection": {
         "searchPlaceholder": "Enter a bearing designation, e.g. 6215",
         "selectButton": "Select bearing",
-        "selectOption": "Lubrication calculation for bearing &nbsp;<strong>{{bearing}}</strong>",
+        "selectOption": "<span class=\"text-medium-emphasis\">Lubrication calculation for bearing</span> &nbsp;<strong>{{bearing}}</strong>",
         "noResults": "No results found"
       },
       "advancedSelection": {

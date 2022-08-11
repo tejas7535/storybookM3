@@ -115,7 +115,7 @@
       "quickSelection": {
         "searchPlaceholder": "Introduzca una designación de rodamiento, p. ej.: 6215",
         "selectButton": "Seleccione el rodamiento",
-        "selectOption": "Cálculo de la lubricación del rodamiento &nbsp;<strong>{{bearing}}</strong>",
+        "selectOption": "<span class=\"text-medium-emphasis\">Cálculo de la lubricación del rodamiento</span> &nbsp;<strong>{{bearing}}</strong>",
         "noResults": "No se han encontrado resultados"
       },
       "advancedSelection": {

@@ -115,7 +115,7 @@
       "quickSelection": {
         "searchPlaceholder": "输入轴承名称，例如 6215",
         "selectButton": "选择轴承",
-        "selectOption": "轴承的润滑计算 &nbsp;<strong>{{bearing}}</strong>",
+        "selectOption": "<span class=\"text-medium-emphasis\">轴承的润滑计算</span> &nbsp;<strong>{{bearing}}</strong>",
         "noResults": "未找到结果"
       },
       "advancedSelection": {
