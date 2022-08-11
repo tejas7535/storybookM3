@@ -6,14 +6,13 @@ import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import { FilterService } from '../../../../filter-section/filter.service';
-import { IdValue } from '../../../../shared/models';
+import { FilterDimension, IdValue } from '../../../../shared/models';
 import { loadUserSettingsOrgUnits } from '../../../../user-settings/store/actions/user-settings.action';
 import {
   loadFilterDimensionData,
   loadFilterDimensionDataFailure,
   loadFilterDimensionDataSuccess,
 } from '../../actions';
-import { FilterDimension as FilterDimension } from '../../reducers/filter/filter.reducer';
 import { getSelectedTimeRange } from '../../selectors';
 
 @Injectable()
@@ -35,7 +34,12 @@ export class FilterEffects {
             })
           ),
           catchError((error) =>
-            of(loadFilterDimensionDataFailure({ errorMessage: error.message }))
+            of(
+              loadFilterDimensionDataFailure({
+                filterDimension: action.filterDimension,
+                errorMessage: error.message,
+              })
+            )
           )
         )
       )
@@ -43,25 +47,43 @@ export class FilterEffects {
   });
 
   getDataForFilterDimension(
-    filterDimension: FilterDimension,
+    filterDimension: string,
     searchFor?: string,
     timeRangeId?: string
   ): Observable<IdValue[]> {
     switch (filterDimension) {
-      case FilterDimension.ORG_UNITS:
+      case FilterDimension.ORG_UNIT:
         return this.filterService.getOrgUnits(searchFor, timeRangeId);
 
-      case FilterDimension.REGIONS:
+      case FilterDimension.REGION:
         return this.filterService.getRegions();
 
-      case FilterDimension.SUB_REGIONS:
+      case FilterDimension.SUB_REGION:
         return this.filterService.getSubRegions();
 
-      case FilterDimension.COUNTRIES:
+      case FilterDimension.COUNTRY:
         return this.filterService.getCountries();
 
-      case FilterDimension.SUB_FUNCTIONS:
+      case FilterDimension.FUNCTION:
+        return this.filterService.getFunctions();
+
+      case FilterDimension.SUB_FUNCTION:
         return this.filterService.getSubFunctions();
+
+      case FilterDimension.SEGMENT:
+        return this.filterService.getSegments();
+
+      case FilterDimension.SUB_SEGMENT:
+        return this.filterService.getSubSegments();
+
+      case FilterDimension.SEGMENT_UNIT:
+        return this.filterService.getSegmentUnits();
+
+      case FilterDimension.BOARD:
+        return this.filterService.getBoards();
+
+      case FilterDimension.SUB_BOARD:
+        return this.filterService.getSubBoards();
 
       default:
         return EMPTY;

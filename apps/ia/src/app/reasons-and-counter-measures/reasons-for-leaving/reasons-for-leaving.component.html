@@ -6,8 +6,8 @@
     <ia-filter
       class="order-1"
       [layout]="filterLayout.SLIM"
-      [orgUnitsFilter]="orgUnitsFilter$ | ngrxPush"
-      [selectedOrgUnit]="selectedOrgUnit$ | ngrxPush"
+      [businessAreaFilter]="orgUnitsFilter$ | ngrxPush"
+      [selectedBusinessArea]="selectedOrgUnit$ | ngrxPush"
       [disableFilters]="true"
       [timePeriods]="timePeriods$ | ngrxPush"
       [selectedTimePeriod]="selectedTimePeriod$ | ngrxPush"
@@ -37,9 +37,9 @@
       </button>
       <ia-filter
         [layout]="filterLayout.SLIM"
-        [orgUnitsFilter]="comparedOrgUnitsFilter$ | ngrxPush"
+        [businessAreaFilter]="comparedOrgUnitsFilter$ | ngrxPush"
         [orgUnitsLoading]="comparedSelectedOrgUnitLoading$ | ngrxPush"
-        [selectedOrgUnit]="comparedSelectedOrgUnit$ | ngrxPush"
+        [selectedBusinessArea]="comparedSelectedOrgUnit$ | ngrxPush"
         [timePeriods]="timePeriods$ | ngrxPush"
         [selectedTimePeriod]="comparedSelectedTimePeriod$ | ngrxPush"
         [selectedTime]="comparedSelectedTime$ | ngrxPush"

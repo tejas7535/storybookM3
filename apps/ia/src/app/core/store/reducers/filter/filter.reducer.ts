@@ -5,6 +5,7 @@ import moment, { Moment } from 'moment';
 import { DATA_IMPORT_DAY } from '../../../../shared/constants';
 import {
   filterAdapter,
+  FilterDimension,
   FilterKey,
   IdValue,
   SelectedFilter,
@@ -31,25 +32,12 @@ export interface FilterData {
   errorMessage: string;
 }
 
-export enum FilterDimension {
-  ORG_UNITS = 'orgUnits',
-  REGIONS = 'regions',
-  SUB_REGIONS = 'subRegions',
-  COUNTRIES = 'countries',
-  FUNCTIONS = 'functions',
-  SUB_FUNCTIONS = 'subFunctions',
-  SEGMENTS = 'segments',
-  SUB_SEGMENTS = 'subSegments',
-  SEGMENT_UNITS = 'segmentUnits',
-  BOARDS = 'boards',
-  SUB_BOARDS = 'subBoards',
-}
-
 export interface FilterState {
   data: Record<FilterDimension, FilterData>;
   timePeriods: IdValue[];
   selectedFilters: EntityState<SelectedFilter>; // currently selected filters
   selectedTimePeriod: TimePeriod;
+  selectedDimension: FilterDimension;
 }
 
 export const getInitialSelectedTimeRange = (today: Moment) => {
@@ -105,31 +93,33 @@ export const initialState: FilterState = {
     },
   }),
   selectedTimePeriod: TimePeriod.LAST_12_MONTHS,
+  selectedDimension: FilterDimension.ORG_UNIT,
 };
 
 export const filterReducer = createReducer(
   initialState,
   on(
     loadFilterDimensionData,
-    (state: FilterState, { filterDimension: filterType }): FilterState => ({
+    (state: FilterState, { filterDimension }): FilterState => ({
       ...state,
       data: {
         ...state.data,
-        [filterType]: {
-          ...state.data[filterType],
+        [filterDimension]: {
+          ...state.data[filterDimension],
           loading: true,
         },
       },
+      selectedDimension: filterDimension,
     })
   ),
   on(
     loadFilterDimensionDataSuccess,
-    (state: FilterState, { items }): FilterState => ({
+    (state: FilterState, { filterDimension, items }): FilterState => ({
       ...state,
       data: {
         ...state.data,
-        [FilterDimension.ORG_UNITS]: {
-          ...state.data.orgUnits,
+        [filterDimension]: {
+          ...state.data[filterDimension],
           loading: false,
           items,
         },
@@ -138,12 +128,12 @@ export const filterReducer = createReducer(
   ),
   on(
     loadFilterDimensionDataFailure,
-    (state: FilterState, { errorMessage }): FilterState => ({
+    (state: FilterState, { filterDimension, errorMessage }): FilterState => ({
       ...state,
       data: {
         ...state.data,
-        [FilterDimension.ORG_UNITS]: {
-          ...state.data.orgUnits,
+        [FilterDimension.ORG_UNIT]: {
+          ...state.data[filterDimension],
           errorMessage,
           loading: false,
         },

@@ -5,8 +5,8 @@ import { combineLatest, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import {
-  getOrgUnitsFilter,
-  getSelectedOrgUnit,
+  getBusinessAreaFilter,
+  getSelectedBusinessArea,
   getSelectedTimePeriod,
   getSelectedTimeRange,
   getTimePeriods,
@@ -81,8 +81,8 @@ export class ReasonsForLeavingComponent implements OnInit {
   constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
-    this.orgUnitsFilter$ = this.store.select(getOrgUnitsFilter);
-    this.selectedOrgUnit$ = this.store.select(getSelectedOrgUnit);
+    this.orgUnitsFilter$ = this.store.select(getBusinessAreaFilter);
+    this.selectedOrgUnit$ = this.store.select(getSelectedBusinessArea);
     this.timePeriods$ = this.store.select(getTimePeriods);
     this.selectedTimePeriod$ = this.store.select(getSelectedTimePeriod);
     this.selectedTime$ = this.store.select(getSelectedTimeRange);

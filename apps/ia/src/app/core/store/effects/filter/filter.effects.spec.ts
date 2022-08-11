@@ -7,13 +7,12 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/jest';
 
 import { FilterService } from '../../../../filter-section/filter.service';
-import { IdValue } from '../../../../shared/models';
+import { FilterDimension, IdValue } from '../../../../shared/models';
 import {
   loadFilterDimensionData,
   loadFilterDimensionDataFailure,
   loadFilterDimensionDataSuccess,
 } from '../../actions/filter/filter.action';
-import { FilterDimension } from '../../reducers/filter/filter.reducer';
 import { getSelectedTimeRange } from '../../selectors';
 import { FilterEffects } from './filter.effects';
 
@@ -59,7 +58,7 @@ describe('Filter Effects', () => {
 
     beforeEach(() => {
       action = loadFilterDimensionData({
-        filterDimension: FilterDimension.ORG_UNITS,
+        filterDimension: FilterDimension.ORG_UNIT,
         searchFor,
       });
       store.overrideSelector(getSelectedTimeRange, {
@@ -73,7 +72,7 @@ describe('Filter Effects', () => {
       marbles((m) => {
         const items = [new IdValue('Department1', 'Department1')];
         const result = loadFilterDimensionDataSuccess({
-          filterDimension: FilterDimension.ORG_UNITS,
+          filterDimension: FilterDimension.ORG_UNIT,
           items,
         });
 
@@ -97,6 +96,7 @@ describe('Filter Effects', () => {
       'should return loadOrgUnitsFailure on REST error',
       marbles((m) => {
         const result = loadFilterDimensionDataFailure({
+          filterDimension: FilterDimension.ORG_UNIT,
           errorMessage: error.message,
         });
 
@@ -123,7 +123,7 @@ describe('Filter Effects', () => {
       filterService.getOrgUnits = jest.fn().mockReturnValue(expectedResult);
 
       const result = service.getDataForFilterDimension(
-        FilterDimension.ORG_UNITS,
+        FilterDimension.ORG_UNIT,
         searchFor,
         timeRange
       );
@@ -139,7 +139,7 @@ describe('Filter Effects', () => {
       const expectedResult = of();
       filterService.getRegions = jest.fn().mockReturnValue(expectedResult);
 
-      const result = service.getDataForFilterDimension(FilterDimension.REGIONS);
+      const result = service.getDataForFilterDimension(FilterDimension.REGION);
 
       expect(result).toEqual(expectedResult);
       expect(filterService.getRegions).toHaveBeenCalled();
@@ -150,7 +150,7 @@ describe('Filter Effects', () => {
       filterService.getSubRegions = jest.fn().mockReturnValue(expectedResult);
 
       const result = service.getDataForFilterDimension(
-        FilterDimension.SUB_REGIONS
+        FilterDimension.SUB_REGION
       );
 
       expect(result).toEqual(expectedResult);
@@ -161,9 +161,7 @@ describe('Filter Effects', () => {
       const expectedResult = of();
       filterService.getCountries = jest.fn().mockReturnValue(expectedResult);
 
-      const result = service.getDataForFilterDimension(
-        FilterDimension.COUNTRIES
-      );
+      const result = service.getDataForFilterDimension(FilterDimension.COUNTRY);
 
       expect(result).toEqual(expectedResult);
       expect(filterService.getCountries).toHaveBeenCalled();
@@ -174,7 +172,7 @@ describe('Filter Effects', () => {
       filterService.getSubFunctions = jest.fn().mockReturnValue(expectedResult);
 
       const result = service.getDataForFilterDimension(
-        FilterDimension.SUB_FUNCTIONS
+        FilterDimension.SUB_FUNCTION
       );
 
       expect(result).toEqual(expectedResult);

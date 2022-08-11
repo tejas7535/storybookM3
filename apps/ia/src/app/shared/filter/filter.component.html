@@ -12,21 +12,48 @@
         class="mb-2 flex items-center"
         *ngIf="layout === filterLayout.DEFAULT"
       >
-        {{ t('organization.title') }}
+        {{ t('dimension.title') }}
+      </h6>
+      <ia-select-input
+        class="mr-1 flex-1"
+        [appearance]="'fill'"
+        [label]="t('dimension.dimension')"
+        [hint]="t('dimension.hint')"
+        [disabled]="false"
+        [options]="availableDimensions"
+        [selectedOption]="activeDimension"
+        (selected)="dimensionSelected($event)"
+      ></ia-select-input>
+    </div>
+  </div>
+  <div [ngClass]="{ 'w-full lg:w-auto': layout === filterLayout.DEFAULT }">
+    <div class="flex flex-col">
+      <h6
+        class="mb-2 flex items-center"
+        *ngIf="layout === filterLayout.DEFAULT"
+      >
+        {{ t('businessArea.title', { dimension: getDimensionName() }) }}
         <mat-icon
-          [matTooltip]="t('organization.organizationTooltip')"
+          [matTooltip]="t('businessArea.organizationTooltip')"
           class="h-[20px] w-[20px] cursor-default text-[20px]"
         >
           info
         </mat-icon>
       </h6>
       <ia-autocomplete-input
-        [filter]="orgUnitsFilter"
+        [filter]="businessAreaFilter"
         [autoCompleteLoading]="orgUnitsLoading"
-        [label]="t('organization.organizationLabel')"
-        [hint]="disableFilters ? undefined : t('organization.organizationHint')"
-        [noResultMessage]="t('organization.nothingFound')"
-        [value]="selectedOrgUnit"
+        [autoCompleteLoading]="businessAreaLoading"
+        [label]="getDimensionName()"
+        [hint]="
+          disableFilters
+            ? undefined
+            : t('businessArea.businessAreaHint', {
+                dimension: getDimensionName()
+              })
+        "
+        [noResultMessage]="t('businessArea.nothingFound')"
+        [value]="selectedBusinessArea"
         [disabled]="disableFilters"
         (selected)="optionSelected($event)"
         (invalidFormControl)="orgUnitInvalid($event)"

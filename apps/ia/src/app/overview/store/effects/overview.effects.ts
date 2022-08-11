@@ -18,6 +18,7 @@ import { OrganizationalViewService } from '../../../organizational-view/organiza
 import {
   AttritionOverTime,
   EmployeesRequest,
+  FilterDimension,
   TimePeriod,
 } from '../../../shared/models';
 import {
@@ -53,7 +54,9 @@ export class OverviewEffects implements OnInitEffects {
       ofType(filterSelected, triggerLoad),
       concatLatestFrom(() => this.store.select(getCurrentFilters)),
       map(([_action, request]) => request),
-      filter((request) => request.orgUnit && request.timeRange),
+      filter(
+        (request) => request[FilterDimension.ORG_UNIT] && request.timeRange
+      ),
       mergeMap((request: EmployeesRequest) => [
         loadAttritionOverTimeOverview({ orgUnit: request.orgUnit }),
         loadFluctuationRatesOverview({ request }),

@@ -10,12 +10,11 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from '../../assets/i18n/en.json';
 import { filterSelected, loadFilterDimensionData } from '../core/store/actions';
-import { FilterDimension } from '../core/store/reducers/filter/filter.reducer';
 import {
-  getOrgUnitsFilter,
+  getBusinessAreaFilter,
   getOrgUnitsLoading,
+  getSelectedBusinessArea,
   getSelectedFilterValues,
-  getSelectedOrgUnit,
   getSelectedTimePeriod,
   getSelectedTimeRange,
   getTimePeriods,
@@ -23,6 +22,7 @@ import {
 import { FilterModule } from '../shared/filter/filter.module';
 import {
   Filter,
+  FilterDimension,
   FilterKey,
   IdValue,
   SelectedFilter,
@@ -80,10 +80,10 @@ describe('FilterSectionComponent', () => {
       'should set orgUnitsFilter',
       marbles((m) => {
         const result = new Filter(FilterKey.ORG_UNIT, []);
-        store.overrideSelector(getOrgUnitsFilter, result);
+        store.overrideSelector(getBusinessAreaFilter, result);
         component.ngOnInit();
 
-        m.expect(component.orgUnitsFilter$).toBeObservable(
+        m.expect(component.businessAreaFilter$).toBeObservable(
           m.cold('a', { a: result })
         );
       })
@@ -135,7 +135,7 @@ describe('FilterSectionComponent', () => {
           id: 'Org123',
           value: 'Org123',
         };
-        store.overrideSelector(getSelectedOrgUnit, result);
+        store.overrideSelector(getSelectedBusinessArea, result);
         component.ngOnInit();
 
         m.expect(component.selectedOrgUnit$).toBeObservable(
@@ -216,7 +216,7 @@ describe('FilterSectionComponent', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(
         loadFilterDimensionData({
-          filterDimension: FilterDimension.ORG_UNITS,
+          filterDimension: FilterDimension.ORG_UNIT,
           searchFor,
         })
       );

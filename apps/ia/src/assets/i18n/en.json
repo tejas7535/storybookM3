@@ -1,10 +1,26 @@
 {
   "filters": {
-    "organization": {
-      "title": "Select an organization",
-      "organization": "Organization",
-      "organizationLabel": "Organization",
-      "organizationHint": "Select an organization",
+    "dimension": {
+      "title": "Select a dimension",
+      "dimension": "Dimension",
+      "hint": "Select a dimension",
+      "availableDimensions": {
+        "orgUnit": "Organizational Unit",
+        "region": "Region",
+        "subRegion": "Sub Region",
+        "country": "Country",
+        "function": "Function",
+        "subFunction": "Sub Function",
+        "segment": "Segment",
+        "subSegment": "Sub Segment",
+        "segmentUnit": "Segment Unit",
+        "board": "Board",
+        "subBoard": "Sub Board"
+      }
+    },
+    "businessArea": {
+      "title": "Select {{dimension}}",
+      "businessAreaHint": "Select {{dimension}}",
       "organizationTooltip": "The shown figures and KPIs are based on ALL org units below and including the selected one.",
       "nothingFound": "Nothing found"
     },

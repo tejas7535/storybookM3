@@ -4,7 +4,13 @@ import moment from 'moment';
 import { FilterState } from '../../../core/store/reducers/filter/filter.reducer';
 import { DoughnutConfig } from '../../../shared/charts/models/doughnut-config.model';
 import { DoughnutSeriesConfig } from '../../../shared/charts/models/doughnut-series-config.model';
-import { ActionType, Color, Employee, FilterKey } from '../../../shared/models';
+import {
+  ActionType,
+  Color,
+  Employee,
+  FilterDimension,
+  FilterKey,
+} from '../../../shared/models';
 import {
   FluctuationKpi,
   LeavingType,
@@ -161,6 +167,7 @@ describe('Overview Selector', () => {
           },
         },
       },
+      selectedDimension: FilterDimension.ORG_UNIT,
     } as unknown as FilterState,
   };
 
@@ -491,9 +498,7 @@ function createEmployee(
     orgUnit,
     parentEmployeeId: '10',
     exitDate,
-    entryDate: entryDate
-      ? entryDate
-      : new Date(2021, 5, 1).valueOf().toString(),
+    entryDate: entryDate ?? new Date(2021, 5, 1).valueOf().toString(),
     reasonForLeaving: LeavingType.UNFORCED,
     level: 4,
     directSubordinates: 2,

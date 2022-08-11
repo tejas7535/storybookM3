@@ -4,6 +4,7 @@ import { createSelector } from '@ngrx/store';
 
 import {
   Filter,
+  FilterDimension,
   FilterKey,
   IdValue,
   SelectedFilter,
@@ -18,15 +19,33 @@ import {
   selectAllSelectedFilters,
 } from '../../reducers/filter/filter.reducer';
 
-export const getOrgUnitsFilter = createSelector(
+export const getSelectedDimension = createSelector(
   selectFilterState,
-  (state: FilterState) =>
-    new Filter(FilterKey.ORG_UNIT, state.data.orgUnits.items)
+  (state: FilterState) => state.selectedDimension
+);
+
+export const getBusinessAreaFilter = createSelector(
+  selectFilterState,
+  getSelectedDimension,
+  (state: FilterState, selectedDimension: FilterDimension) =>
+    state.data[selectedDimension]
+      ? new Filter(
+          Object.entries(FilterDimension).find(
+            ([_, value]) => value === selectedDimension
+          )?.[1],
+          state.data[selectedDimension].items
+        )
+      : undefined
 );
 
 export const getOrgUnitsLoading = createSelector(
   selectFilterState,
-  (state: FilterState) => state.data.orgUnits.loading
+  (state: FilterState) => state.data.orgUnit.loading
+);
+
+export const getBusinessAreaLoading = createSelector(
+  selectFilterState,
+  (state: FilterState) => state.data[state.selectedDimension]?.loading
 );
 
 export const getCurrentRoute = createSelector(
@@ -63,23 +82,31 @@ export const getAllSelectedFilters = createSelector(
 
 export const getCurrentFilters = createSelector(
   getAllSelectedFilters,
-  (filters: SelectedFilter[]) =>
-    // eslint-disable-next-line unicorn/no-array-reduce
-    filters.reduce((filterMap: any, filter) => {
-      filterMap[filter.name] = filter.idValue.id;
+  getSelectedDimension,
+  (filters: SelectedFilter[], selectedDimension: FilterDimension) =>
+    filters
+      .filter(
+        (filter) =>
+          filter.name === selectedDimension ||
+          filter.name === FilterKey.TIME_RANGE
+      )
+      // eslint-disable-next-line unicorn/no-array-reduce
+      .reduce((filterMap: any, filter) => {
+        filterMap[filter.name] = filter.idValue.id;
 
-      return filterMap;
-    }, {})
+        return filterMap;
+      }, {})
 );
 
-export const getSelectedOrgUnit = createSelector(
+export const getSelectedBusinessArea = createSelector(
   getAllSelectedFilters,
-  (filters: SelectedFilter[]) =>
-    filters.find((filter) => filter.name === FilterKey.ORG_UNIT)?.idValue
+  getSelectedDimension,
+  (filters: SelectedFilter[], selectedDimension: FilterDimension) =>
+    filters.find((filter) => filter.name === selectedDimension)?.idValue
 );
 
 export const getSelectOrgUnitValueShort = createSelector(
-  getSelectedOrgUnit,
+  getSelectedBusinessArea,
   (val: IdValue) => val?.value?.split('(')[0].trim()
 );
 
@@ -91,7 +118,14 @@ export const getSelectedTimeRange = createSelector(
 
 export const getSelectedFilterValues = createSelector(
   getAllSelectedFilters,
-  (filters: SelectedFilter[]) => [
-    ...filters.map((filter) => filter.idValue.value),
+  getSelectedDimension,
+  (filters: SelectedFilter[], selectedDimension: FilterDimension) => [
+    ...filters
+      .filter(
+        (filter) =>
+          filter.name === FilterKey.TIME_RANGE ||
+          filter.name === selectedDimension
+      )
+      .map((filter) => filter.idValue.value),
   ]
 );

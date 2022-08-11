@@ -12,7 +12,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { getUserRoles } from '../core/store/selectors';
 import { AutocompleteInputModule } from '../shared/autocomplete-input/autocomplete-input.module';
-import { FilterKey, SelectedFilter } from '../shared/models';
+import { FilterDimension, FilterKey, SelectedFilter } from '../shared/models';
 import { updateUserSettings } from './store/actions/user-settings.action';
 import { getUserOrgUnit } from './store/selectors/user-settings.selector';
 import { UserSettingsComponent } from './user-settings.component';
@@ -41,16 +41,19 @@ describe('UserSettingsComponent', () => {
             },
           },
           filter: {
-            orgUnits: {
-              loading: false,
-              items: [],
-              errorMessage: undefined,
+            data: {
+              orgUnits: {
+                loading: false,
+                items: [],
+                errorMessage: undefined,
+              },
             },
             timePeriods: [],
             selectedFilters: {
               ids: [],
               entities: {},
             },
+            selectedDimension: FilterDimension.ORG_UNIT,
           },
           userSettings: {
             data: {

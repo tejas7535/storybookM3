@@ -1,7 +1,12 @@
 import { Action } from '@ngrx/store';
 import moment from 'moment';
 
-import { IdValue, SelectedFilter, TimePeriod } from '../../../../shared/models';
+import {
+  FilterDimension,
+  IdValue,
+  SelectedFilter,
+  TimePeriod,
+} from '../../../../shared/models';
 import {
   filterSelected,
   loadFilterDimensionData,
@@ -10,7 +15,6 @@ import {
   timePeriodSelected,
 } from '../../actions/filter/filter.action';
 import {
-  FilterDimension,
   filterReducer,
   getInitialSelectedTimeRange,
   initialState,
@@ -24,12 +28,12 @@ describe('Filter Reducer', () => {
     test('should set loading', () => {
       const searchFor = 'search';
       const action = loadFilterDimensionData({
-        filterDimension: FilterDimension.ORG_UNITS,
+        filterDimension: FilterDimension.ORG_UNIT,
         searchFor,
       });
       const state = filterReducer(initialState, action);
 
-      expect(state.data.orgUnits.loading).toBeTruthy();
+      expect(state.data.orgUnit.loading).toBeTruthy();
     });
   });
 
@@ -38,24 +42,27 @@ describe('Filter Reducer', () => {
       const items = [new IdValue('Department1', 'Department1')];
 
       const action = loadFilterDimensionDataSuccess({
-        filterDimension: FilterDimension.ORG_UNITS,
+        filterDimension: FilterDimension.ORG_UNIT,
         items,
       });
 
       const state = filterReducer(initialState, action);
 
-      expect(state.data.orgUnits.loading).toBeFalsy();
-      expect(state.data.orgUnits.items).toEqual(items);
+      expect(state.data.orgUnit.loading).toBeFalsy();
+      expect(state.data.orgUnit.items).toEqual(items);
     });
   });
 
   describe('loadOrgUnitsFailure', () => {
     test('should unset loading / set error message', () => {
-      const action = loadFilterDimensionDataFailure({ errorMessage });
+      const action = loadFilterDimensionDataFailure({
+        filterDimension: FilterDimension.ORG_UNIT,
+        errorMessage,
+      });
       const fakeState = {
         ...initialState,
         orgUnits: {
-          ...initialState.data.orgUnits,
+          ...initialState.data.orgUnit,
           loading: true,
           errorMessage: '',
         },
@@ -63,8 +70,8 @@ describe('Filter Reducer', () => {
 
       const state = filterReducer(fakeState, action);
 
-      expect(state.data.orgUnits.loading).toBeFalsy();
-      expect(state.data.orgUnits.errorMessage).toEqual(errorMessage);
+      expect(state.data.orgUnit.loading).toBeFalsy();
+      expect(state.data.orgUnit.errorMessage).toEqual(errorMessage);
     });
   });
 

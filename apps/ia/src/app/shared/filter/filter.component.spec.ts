@@ -106,12 +106,12 @@ describe('FilterComponent', () => {
 
   describe('autoCompleteOrgUnitsChange', () => {
     test('should emit search string', () => {
-      const ssearch = 'search';
+      const search = 'search';
       component.autoCompleteOrgUnits.emit = jest.fn();
 
-      component.autoCompleteOrgUnitsChange(ssearch);
+      component.autoCompleteOrgUnitsChange(search);
 
-      expect(component.autoCompleteOrgUnits.emit).toHaveBeenCalledWith(ssearch);
+      expect(component.autoCompleteOrgUnits.emit).toHaveBeenCalledWith(search);
     });
   });
 });

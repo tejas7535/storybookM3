@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store';
 
 import {
-  getSelectedOrgUnit,
+  getSelectedBusinessArea,
   getSelectedTimeRange,
   getSelectOrgUnitValueShort,
 } from '../../../core/store/selectors';
@@ -56,7 +56,7 @@ export const getExitEmployees = createSelector(
 
 export const getOverviewFluctuationKpi = createSelector(
   getOverviewFluctuationRates,
-  getSelectedOrgUnit,
+  getSelectedBusinessArea,
   (
     overviewFluctuationRates: OverviewFluctuationRates,
     selectedOrgUnit: IdValue
@@ -73,7 +73,7 @@ export const getOverviewFluctuationKpi = createSelector(
 
 export const getOverviewUnforcedFluctuationKpi = createSelector(
   getOverviewFluctuationRates,
-  getSelectedOrgUnit,
+  getSelectedBusinessArea,
   (
     overviewFluctuationRates: OverviewFluctuationRates,
     selectedOrgUnit: IdValue
@@ -96,7 +96,7 @@ export const getIsLoadingDoughnutsConfig = createSelector(
 export const getOverviewFluctuationExitsDoughnutConfig = createSelector(
   getExitEmployees,
   getSelectedTimeRange,
-  getSelectedOrgUnit,
+  getSelectedBusinessArea,
   (employees: Employee[], selectedTimeRange: IdValue) => {
     const internal = employees?.filter((employee) =>
       employee.actions?.some(

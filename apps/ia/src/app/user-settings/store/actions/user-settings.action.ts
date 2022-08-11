@@ -1,6 +1,6 @@
 import { createAction, props, union } from '@ngrx/store';
 
-import { FilterDimension } from '../../../core/store/reducers/filter/filter.reducer';
+import { FilterDimension } from '../../../shared/models';
 import { UserSettings } from '../../models/user-settings.model';
 
 export const loadUserSettings = createAction(

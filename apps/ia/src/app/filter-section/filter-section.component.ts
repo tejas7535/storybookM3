@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
+import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import {
@@ -9,18 +10,25 @@ import {
   loadFilterDimensionData,
   timePeriodSelected,
 } from '../core/store/actions';
-import { FilterDimension } from '../core/store/reducers/filter/filter.reducer';
 import {
-  getOrgUnitsFilter,
+  getBusinessAreaFilter,
+  getBusinessAreaLoading,
   getOrgUnitsLoading,
+  getSelectedBusinessArea,
+  getSelectedDimension,
   getSelectedFilterValues,
-  getSelectedOrgUnit,
   getSelectedTimePeriod,
   getSelectedTimeRange,
   getTimePeriods,
 } from '../core/store/selectors';
 import { FilterLayout } from '../shared/filter/filter-layout.enum';
-import { Filter, IdValue, SelectedFilter, TimePeriod } from '../shared/models';
+import {
+  Filter,
+  FilterDimension,
+  IdValue,
+  SelectedFilter,
+  TimePeriod,
+} from '../shared/models';
 
 @Component({
   selector: 'ia-filter-section',
@@ -29,8 +37,11 @@ import { Filter, IdValue, SelectedFilter, TimePeriod } from '../shared/models';
 export class FilterSectionComponent implements OnInit {
   isExpanded = true;
 
-  orgUnitsFilter$: Observable<Filter>;
+  availableDimensions$: Observable<IdValue[]>;
+  activeDimension$: Observable<FilterDimension>;
+  businessAreaFilter$: Observable<Filter>;
   orgUnitsLoading$: Observable<boolean>;
+  businessAreaLoading$: Observable<boolean>;
   selectedOrgUnit$: Observable<IdValue>;
   timePeriods$: Observable<IdValue[]>;
   selectedTimePeriod$: Observable<TimePeriod>;
@@ -39,16 +50,38 @@ export class FilterSectionComponent implements OnInit {
 
   filterLayout = FilterLayout;
 
-  constructor(private readonly store: Store) {}
+  constructor(
+    private readonly store: Store,
+    private readonly translocoService: TranslocoService
+  ) {}
 
   ngOnInit(): void {
-    this.orgUnitsFilter$ = this.store.select(getOrgUnitsFilter);
+    this.availableDimensions$ = this.translocoService
+      .selectTranslateObject('filters.dimension.availableDimensions')
+      .pipe(
+        map((translateObject) =>
+          Object.values(FilterDimension)
+            .sort()
+            .map((value) => new IdValue(value, translateObject[value]))
+        )
+      );
+    this.activeDimension$ = this.store.select(getSelectedDimension);
+    this.businessAreaLoading$ = this.store.select(getBusinessAreaLoading);
+    this.businessAreaFilter$ = this.store.select(getBusinessAreaFilter);
     this.orgUnitsLoading$ = this.store.select(getOrgUnitsLoading);
     this.timePeriods$ = this.store.select(getTimePeriods);
     this.selectedTimePeriod$ = this.store.select(getSelectedTimePeriod);
-    this.selectedOrgUnit$ = this.store.select(getSelectedOrgUnit);
+    this.selectedOrgUnit$ = this.store.select(getSelectedBusinessArea);
     this.selectedTime$ = this.store.select(getSelectedTimeRange);
     this.selectedFilterValues$ = this.store.select(getSelectedFilterValues);
+  }
+
+  dimensionSelected(dimension: IdValue): void {
+    const filterDimension = Object.entries(FilterDimension).find(
+      ([_, value]) => value === dimension.id
+    )?.[1];
+
+    this.store.dispatch(loadFilterDimensionData({ filterDimension }));
   }
 
   filterSelected(filter: SelectedFilter): void {
@@ -66,7 +99,7 @@ export class FilterSectionComponent implements OnInit {
   autoCompleteOrgUnitsChange(searchFor: string): void {
     this.store.dispatch(
       loadFilterDimensionData({
-        filterDimension: FilterDimension.ORG_UNITS,
+        filterDimension: FilterDimension.ORG_UNIT,
         searchFor,
       })
     );

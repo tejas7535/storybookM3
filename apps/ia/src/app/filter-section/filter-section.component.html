@@ -16,12 +16,16 @@
     <div class="mb-4 px-6">
       <ia-filter
         [layout]="filterLayout.DEFAULT"
-        [orgUnitsFilter]="orgUnitsFilter$ | ngrxPush"
+        [availableDimensions]="availableDimensions$ | ngrxPush"
+        [activeDimension]="activeDimension$ | ngrxPush"
+        [businessAreaLoading]="businessAreaLoading$ | ngrxPush"
+        [businessAreaFilter]="businessAreaFilter$ | ngrxPush"
         [orgUnitsLoading]="orgUnitsLoading$ | ngrxPush"
-        [selectedOrgUnit]="selectedOrgUnit$ | ngrxPush"
+        [selectedBusinessArea]="selectedOrgUnit$ | ngrxPush"
         [timePeriods]="timePeriods$ | ngrxPush"
         [selectedTimePeriod]="selectedTimePeriod$ | ngrxPush"
         [selectedTime]="selectedTime$ | ngrxPush"
+        (selectDimension)="dimensionSelected($event)"
         (selectFilter)="filterSelected($event)"
         (selectTimePeriod)="timePeriodSelected($event)"
         (autoCompleteOrgUnits)="autoCompleteOrgUnitsChange($event)"

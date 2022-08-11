@@ -9,8 +9,8 @@ import { marbles } from 'rxjs-marbles/jest';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
-  getOrgUnitsFilter,
-  getSelectedOrgUnit,
+  getBusinessAreaFilter,
+  getSelectedBusinessArea,
   getSelectedTimePeriod,
   getSelectedTimeRange,
   getTimePeriods,
@@ -75,8 +75,8 @@ describe('ReasonsForLeavingComponent', () => {
       'should initialize observables from store',
       marbles((m) => {
         const result = 'a' as any;
-        store.overrideSelector(getOrgUnitsFilter, result);
-        store.overrideSelector(getSelectedOrgUnit, result);
+        store.overrideSelector(getBusinessAreaFilter, result);
+        store.overrideSelector(getSelectedBusinessArea, result);
         store.overrideSelector(getTimePeriods, result);
         store.overrideSelector(getSelectedTimePeriod, result);
         store.overrideSelector(getSelectedTimeRange, result);

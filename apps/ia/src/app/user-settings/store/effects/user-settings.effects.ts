@@ -9,7 +9,7 @@ import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 
 import { filterSelected } from '../../../core/store/actions';
-import { FilterKey } from '../../../shared/models';
+import { FilterDimension, FilterKey } from '../../../shared/models';
 import { UserSettingsService } from '../../user-settings.service';
 import { UserSettingsDialogComponent } from '../../user-settings-dialog/user-settings-dialog.component';
 import {
@@ -101,7 +101,7 @@ export class UserSettingsEffects implements OnInitEffects {
       map((data) => {
         // set global filter default value
         const filter = {
-          name: FilterKey.ORG_UNIT,
+          name: FilterDimension.ORG_UNIT,
           idValue: {
             id: data.orgUnitKey,
             value: data.orgUnitDisplayName,

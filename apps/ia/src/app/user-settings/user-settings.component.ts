@@ -6,9 +6,8 @@ import { Store } from '@ngrx/store';
 
 import { RolesGroup } from '@schaeffler/roles-and-rights';
 
-import { FilterDimension } from '../core/store/reducers/filter/filter.reducer';
-import { getOrgUnitsFilter, getUserRoles } from '../core/store/selectors';
-import { Filter, SelectedFilter } from '../shared/models';
+import { getBusinessAreaFilter, getUserRoles } from '../core/store/selectors';
+import { Filter, FilterDimension, SelectedFilter } from '../shared/models';
 import { UserSettings } from './models/user-settings.model';
 import {
   loadUserSettingsOrgUnits,
@@ -34,7 +33,7 @@ export class UserSettingsComponent implements OnInit {
   ngOnInit(): void {
     this.selectedOrgUnit$ = this.store.select(getUserOrgUnit);
     this.roleGroups$ = this.store.select(getUserRoles);
-    this.orgUnitsFilter$ = this.store.select(getOrgUnitsFilter);
+    this.orgUnitsFilter$ = this.store.select(getBusinessAreaFilter);
     this.orgUnitsLoading$ = this.store.select(getDialogOrgUnitLoading);
   }
 
@@ -53,7 +52,7 @@ export class UserSettingsComponent implements OnInit {
   autoCompleteOrgUnitsChange(searchFor: string): void {
     this.store.dispatch(
       loadUserSettingsOrgUnits({
-        filterDimension: FilterDimension.ORG_UNITS,
+        filterDimension: FilterDimension.ORG_UNIT,
         searchFor,
       })
     );

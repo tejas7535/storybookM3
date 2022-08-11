@@ -1,14 +1,21 @@
-import { FilterKey, IdValue, TimePeriod } from '../../../../shared/models';
+import {
+  FilterDimension,
+  FilterKey,
+  IdValue,
+  TimePeriod,
+} from '../../../../shared/models';
 import { initialState } from '../../reducers/filter/filter.reducer';
 import {
   getAllSelectedFilters,
+  getBusinessAreaFilter,
+  getBusinessAreaLoading,
   getCurrentFilters,
   getCurrentRoute,
-  getOrgUnitsFilter,
   getOrgUnitsLoading,
+  getSelectedBusinessArea,
+  getSelectedDimension,
   getSelectedFilters,
   getSelectedFilterValues,
-  getSelectedOrgUnit,
   getSelectedTimePeriod,
   getSelectedTimeRange,
   getSelectOrgUnitValueShort,
@@ -20,7 +27,7 @@ describe('Filter Selector', () => {
     filter: {
       ...initialState,
       data: {
-        orgUnits: {
+        [FilterKey.ORG_UNIT]: {
           loading: true,
           items: [new IdValue('Schaeffler_IT_1', 'Schaeffler_IT_1')],
           errorMessage: '',
@@ -45,6 +52,7 @@ describe('Filter Selector', () => {
           },
         },
       },
+      selectedDimension: FilterDimension.ORG_UNIT,
     },
     router: {
       state: {
@@ -53,9 +61,21 @@ describe('Filter Selector', () => {
     },
   };
 
-  describe('getOrgUnitsFilter', () => {
+  describe('getSelectedDimension', () => {
+    test('should return selected dimension', () => {
+      expect(getSelectedDimension(fakeState)).toEqual(FilterDimension.ORG_UNIT);
+    });
+  });
+
+  describe('getBusinessAreaFilter', () => {
     test('should return organization units filter', () => {
-      expect(getOrgUnitsFilter(fakeState).options.length).toEqual(1);
+      expect(getBusinessAreaFilter(fakeState).options.length).toEqual(1);
+    });
+  });
+
+  describe('getBusinessAreaLoading', () => {
+    test('should return loading status', () => {
+      expect(getBusinessAreaLoading(fakeState)).toBeTruthy();
     });
   });
 
@@ -132,9 +152,9 @@ describe('Filter Selector', () => {
     });
   });
 
-  describe('getSelectedOrgUnit', () => {
+  describe('getSelectedBusinessArea', () => {
     test('should return selected org unit', () => {
-      expect(getSelectedOrgUnit(fakeState)).toEqual({
+      expect(getSelectedBusinessArea(fakeState)).toEqual({
         id: 'Schaeffler_IT_1',
         value: 'Schaeffler_IT_1',
       });

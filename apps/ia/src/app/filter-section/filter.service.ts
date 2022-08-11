@@ -17,7 +17,13 @@ export class FilterService {
   readonly REGIONS = 'regions';
   readonly SUB_REGIONS = 'sub-regions';
   readonly COUNTRIES = 'countries';
+  readonly FUNCTIONS = 'functions';
   readonly SUB_FUNCTIONS = 'sub-functions';
+  readonly SEGMENTS = 'segments';
+  readonly SUB_SEGMENTS = 'sub-segments';
+  readonly SEGMENT_UNITS = 'segment-units';
+  readonly BOARDS = 'boards';
+  readonly SUB_BOARDS = 'sub-boards';
 
   constructor(
     private readonly http: HttpClient,
@@ -59,9 +65,51 @@ export class FilterService {
     );
   }
 
+  getFunctions(): Observable<IdValue[]> {
+    return this.http.get<IdValue[]>(
+      `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.FUNCTIONS}`,
+      { context: withCache() }
+    );
+  }
+
   getSubFunctions(): Observable<IdValue[]> {
     return this.http.get<IdValue[]>(
       `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.SUB_FUNCTIONS}`,
+      { context: withCache() }
+    );
+  }
+
+  getSegments(): Observable<IdValue[]> {
+    return this.http.get<IdValue[]>(
+      `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.SEGMENTS}`,
+      { context: withCache() }
+    );
+  }
+
+  getSubSegments(): Observable<IdValue[]> {
+    return this.http.get<IdValue[]>(
+      `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.SUB_SEGMENTS}`,
+      { context: withCache() }
+    );
+  }
+
+  getSegmentUnits(): Observable<IdValue[]> {
+    return this.http.get<IdValue[]>(
+      `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.SEGMENT_UNITS}`,
+      { context: withCache() }
+    );
+  }
+
+  getBoards(): Observable<IdValue[]> {
+    return this.http.get<IdValue[]>(
+      `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.BOARDS}`,
+      { context: withCache() }
+    );
+  }
+
+  getSubBoards(): Observable<IdValue[]> {
+    return this.http.get<IdValue[]>(
+      `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.SUB_BOARDS}`,
       { context: withCache() }
     );
   }

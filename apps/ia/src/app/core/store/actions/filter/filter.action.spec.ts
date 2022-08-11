@@ -1,5 +1,9 @@
-import { IdValue, SelectedFilter, TimePeriod } from '../../../../shared/models';
-import { FilterDimension } from '../../reducers/filter/filter.reducer';
+import {
+  FilterDimension,
+  IdValue,
+  SelectedFilter,
+  TimePeriod,
+} from '../../../../shared/models';
 import {
   filterSelected,
   loadFilterDimensionData,
@@ -16,12 +20,12 @@ describe('Filter Actions', () => {
     test('loadFilterDimenstionData', () => {
       const searchFor = 'search';
       const action = loadFilterDimensionData({
-        filterDimension: FilterDimension.ORG_UNITS,
+        filterDimension: FilterDimension.ORG_UNIT,
         searchFor,
       });
 
       expect(action).toEqual({
-        filterDimension: FilterDimension.ORG_UNITS,
+        filterDimension: FilterDimension.ORG_UNIT,
         searchFor,
         type: '[Filter] Load Filter Dimension Data',
       });
@@ -30,21 +34,25 @@ describe('Filter Actions', () => {
     test('loadFilterDimensionDataSuccess', () => {
       const items = [new IdValue('Department1', 'Department1')];
       const action = loadFilterDimensionDataSuccess({
-        filterDimension: FilterDimension.ORG_UNITS,
+        filterDimension: FilterDimension.ORG_UNIT,
         items,
       });
 
       expect(action).toEqual({
-        filterDimension: FilterDimension.ORG_UNITS,
+        filterDimension: FilterDimension.ORG_UNIT,
         items,
         type: '[Filter] Load Filter Dimension Data Success',
       });
     });
 
     test('loadFilterDimensionDataFailure', () => {
-      const action = loadFilterDimensionDataFailure({ errorMessage });
+      const action = loadFilterDimensionDataFailure({
+        filterDimension: FilterDimension.ORG_UNIT,
+        errorMessage,
+      });
 
       expect(action).toEqual({
+        filterDimension: FilterDimension.ORG_UNIT,
         errorMessage,
         type: '[Filter] Load Filter Dimension Data Failure',
       });

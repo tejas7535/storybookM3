@@ -4,9 +4,8 @@ import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
-import { FilterDimension } from '../../core/store/reducers/filter/filter.reducer';
-import { getOrgUnitsFilter } from '../../core/store/selectors/filter/filter.selector';
-import { Filter, SelectedFilter } from '../../shared/models';
+import { getBusinessAreaFilter } from '../../core/store/selectors/filter/filter.selector';
+import { Filter, FilterDimension, SelectedFilter } from '../../shared/models';
 import { UserSettings } from '../models/user-settings.model';
 import {
   loadUserSettingsOrgUnits,
@@ -29,7 +28,7 @@ export class UserSettingsDialogComponent implements OnInit {
   constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
-    this.orgUnitsFilter$ = this.store.select(getOrgUnitsFilter);
+    this.orgUnitsFilter$ = this.store.select(getBusinessAreaFilter);
     this.orgUnitsLoading$ = this.store.select(getDialogOrgUnitLoading);
   }
 
@@ -52,7 +51,7 @@ export class UserSettingsDialogComponent implements OnInit {
   autoCompleteOrgUnitsChange(searchFor: string): void {
     this.store.dispatch(
       loadUserSettingsOrgUnits({
-        filterDimension: FilterDimension.ORG_UNITS,
+        filterDimension: FilterDimension.ORG_UNIT,
         searchFor,
       })
     );

@@ -8,6 +8,7 @@ import {
 
 import {
   Filter,
+  FilterDimension,
   FilterKey,
   IdValue,
   SelectedFilter,
@@ -29,16 +30,20 @@ export class FilterComponent {
   disabledTimeRangeFilter = true;
   filterLayout = FilterLayout;
 
+  @Input() activeDimension: FilterDimension;
+  @Input() availableDimensions: IdValue[];
+  @Input() businessAreaLoading: boolean;
+  @Input() businessAreaFilter: Filter;
+
   @Input() layout: FilterLayout = FilterLayout.DEFAULT;
 
   @Input() disableFilters: boolean;
-  @Input() orgUnitsFilter: Filter;
   @Input() orgUnitsLoading: boolean;
-  @Input() set selectedOrgUnit(selectedOrgUnit: IdValue) {
+  @Input() set selectedBusinessArea(selectedOrgUnit: IdValue) {
     this._selectedOrgUnit = selectedOrgUnit;
     this.disabledTimeRangeFilter = selectedOrgUnit === undefined;
   }
-  get selectedOrgUnit(): IdValue {
+  get selectedBusinessArea(): IdValue {
     return this._selectedOrgUnit;
   }
 
@@ -53,10 +58,15 @@ export class FilterComponent {
     return this._selectedTimePeriod;
   }
 
+  @Output() selectDimension = new EventEmitter<IdValue>();
   @Output() selectTimePeriod = new EventEmitter<TimePeriod>();
   @Output() selectFilter = new EventEmitter<SelectedFilter>();
   @Output() readonly autoCompleteOrgUnits: EventEmitter<string> =
     new EventEmitter();
+
+  dimensionSelected(selectedDimension: IdValue): void {
+    this.selectDimension.emit(selectedDimension);
+  }
 
   optionSelected(selectedFilter: SelectedFilter): void {
     this.selectFilter.emit(selectedFilter);
@@ -83,5 +93,11 @@ export class FilterComponent {
 
   autoCompleteOrgUnitsChange(searchFor: string): void {
     this.autoCompleteOrgUnits.emit(searchFor);
+  }
+
+  getDimensionName(): string {
+    return this.availableDimensions?.find(
+      (dimension) => dimension.id === this.activeDimension
+    )?.value;
   }
 }

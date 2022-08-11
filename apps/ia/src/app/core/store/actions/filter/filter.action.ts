@@ -1,7 +1,11 @@
 import { createAction, props, union } from '@ngrx/store';
 
-import { IdValue, SelectedFilter, TimePeriod } from '../../../../shared/models';
-import { FilterDimension as FilterDimension } from '../../reducers/filter/filter.reducer';
+import {
+  FilterDimension,
+  IdValue,
+  SelectedFilter,
+  TimePeriod,
+} from '../../../../shared/models';
 
 export const loadFilterDimensionData = createAction(
   '[Filter] Load Filter Dimension Data',
@@ -15,7 +19,7 @@ export const loadFilterDimensionDataSuccess = createAction(
 
 export const loadFilterDimensionDataFailure = createAction(
   '[Filter] Load Filter Dimension Data Failure',
-  props<{ errorMessage: string }>()
+  props<{ filterDimension: FilterDimension; errorMessage: string }>()
 );
 
 export const filterSelected = createAction(
