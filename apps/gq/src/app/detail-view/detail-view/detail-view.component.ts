@@ -12,13 +12,17 @@ import {
   getDetailViewQueryParams,
   getMaterialStock,
   getMaterialStockLoading,
+  getPlantMaterialDetails,
   getQuotation,
   getQuotationLoading,
   getSelectedQuotationDetail,
 } from '../../core/store';
 import { MaterialStock } from '../../core/store/reducers/material-stock/models/material-stock.model';
 import { Quotation } from '../../shared/models';
-import { QuotationDetail } from '../../shared/models/quotation-detail';
+import {
+  PlantMaterialDetail,
+  QuotationDetail,
+} from '../../shared/models/quotation-detail';
 import { AgGridStateService } from '../../shared/services/ag-grid-state.service/ag-grid-state.service';
 import { BreadcrumbsService } from '../../shared/services/breadcrumbs-service/breadcrumbs.service';
 
@@ -31,6 +35,7 @@ export class DetailViewComponent implements OnInit {
   public quotation$: Observable<Quotation>;
   public quotationLoading$: Observable<boolean>;
   public quotationDetail$: Observable<QuotationDetail>;
+  public plantMaterialDetails$: Observable<PlantMaterialDetail[]>;
   public materialStock$: Observable<MaterialStock>;
   public materialStockLoading$: Observable<boolean>;
 
@@ -49,6 +54,7 @@ export class DetailViewComponent implements OnInit {
     this.quotation$ = this.store.select(getQuotation);
     this.quotationLoading$ = this.store.select(getQuotationLoading);
     this.quotationDetail$ = this.store.select(getSelectedQuotationDetail);
+    this.plantMaterialDetails$ = this.store.select(getPlantMaterialDetails);
     this.materialStock$ = this.store.select(getMaterialStock);
     this.materialStockLoading$ = this.store.select(getMaterialStockLoading);
     this.breadcrumbs$ = this.store

@@ -21,7 +21,7 @@ describe('MaterialComparableCost Action', () => {
       action = loadMaterialComparableCosts({ gqPositionId });
       expect(action).toEqual({
         gqPositionId,
-        type: '[Detail View] Load material comparable costs for Quotation Detail',
+        type: '[Material Comparable Costs] Load Material Comparable Costs For Quotation Detail',
       });
     });
     test('fetch success', () => {
@@ -31,14 +31,14 @@ describe('MaterialComparableCost Action', () => {
       });
       expect(action).toEqual({
         materialComparableCosts,
-        type: '[Detail View] Load material comparable costs for Quotation Detail Success',
+        type: '[Material Comparable Costs] Load Material Comparable Costs For Quotation Detail Success',
       });
     });
     test('fetch failure', () => {
       action = loadMaterialComparableCostsFailure({ errorMessage });
       expect(action).toEqual({
         errorMessage,
-        type: '[Detail View] Load material comparable costs for Quotation Detail Failure',
+        type: '[Material Comparable Costs] Load Material Comparable Costs For Quotation Detail Failure',
       });
     });
   });

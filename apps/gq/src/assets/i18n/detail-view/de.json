@@ -77,8 +77,35 @@
     "supplyChainDetails": {
       "title": "Supply Chain Informationen",
       "supplyPlant": "Lieferwerk",
+      "supplyPlantStType": "Stochastiktyp (Lieferwerk)",
       "productionPlant": "Produktionswerk",
-      "productionPlantRlt": "Produktionswerk WBZ"
+      "productionPlantStType": "Stochastiktyp (Produktionswerk)",
+      "productionPlantRlt": "Produktionswerk WBZ",
+      "stochasticTypes": {
+        "1": "PTA: Produce to Availability",
+        "2": "PTS: Produce to Series",
+        "3": "PTO: Produce to Order",
+        "4": "SFA: Supply for Availability",
+        "5": "SFS: Supply for Series",
+        "6": "SFO: Supply for Order",
+        "A": "OP: Produkt-Auslauf, mit Nachfolge-Produkt",
+        "C": "SP: kundenspezifischer Sicherheitsbestand",
+        "D": "OP: Direktversand",
+        "H": "OP: Order Programm",
+        "L": "OP: Logistische Kundenanforderung",
+        "M": "AP: Rollierende Planung",
+        "O": "OP: Produkt-Auslauf, ohne Nachfolge-Produkt",
+        "R": "OP: Kennzeichen für AP-SNP Relevant im RLP",
+        "S": "AP: Sicherheitsbestand",
+        "U": "AP: Erstbevorratung",
+        "W": "OP: Werksverlagerung (Direktversand)",
+        "I": "OP: Werksverlagerung (Beschaffung)",
+        "X": "OP: Kennzeichen für GAM (Stochastiktyp Alt)",
+        "E": "SP: Verlängerung des Auftragsbuches",
+        "F": "SP: Ausgleich von Bedarfsschwankungen",
+        "N": "AP: Rollierende Planung (neues Produkt)",
+        "K": "OP: Umklassifizierung"
+      }
     },
     "relocationCostDetails": {
       "title": "Zukünftige Kosten",

@@ -7,9 +7,13 @@ import { Store } from '@ngrx/store';
 import {
   getMaterialComparableCostsLoading,
   getMaterialSalesOrgLoading,
+  getPlantMaterialDetailsLoading,
   getQuotationCurrency,
 } from '../../../core/store';
-import { QuotationDetail } from '../../../shared/models/quotation-detail';
+import {
+  PlantMaterialDetail,
+  QuotationDetail,
+} from '../../../shared/models/quotation-detail';
 
 @Component({
   selector: 'gq-pricing-details',
@@ -17,9 +21,28 @@ import { QuotationDetail } from '../../../shared/models/quotation-detail';
 })
 export class PricingDetailsComponent implements OnInit {
   @Input() quotationDetail: QuotationDetail;
+  @Input() set plantMaterialDetails(
+    plantMaterialDetails: PlantMaterialDetail[]
+  ) {
+    this.productionPlantStochasticType =
+      plantMaterialDetails?.find(
+        (plant) =>
+          plant.plantId === this.quotationDetail.productionPlant.plantNumber
+      )?.stochasticType || undefined;
+
+    this.supplyPlantStochasticType =
+      plantMaterialDetails?.find(
+        (plant) => plant.plantId === this.quotationDetail.plant.plantNumber
+      )?.stochasticType || undefined;
+  }
+
   quotationCurrency$: Observable<string>;
   materialComparableCostsLoading$: Observable<boolean>;
   materialSalesOrgLoading$: Observable<boolean>;
+  plantMaterialDetailsLoading$: Observable<boolean>;
+  productionPlantStochasticType: string;
+  supplyPlantStochasticType: string;
+
   public constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
@@ -29,6 +52,9 @@ export class PricingDetailsComponent implements OnInit {
     );
     this.materialSalesOrgLoading$ = this.store.select(
       getMaterialSalesOrgLoading
+    );
+    this.plantMaterialDetailsLoading$ = this.store.select(
+      getPlantMaterialDetailsLoading
     );
   }
 }

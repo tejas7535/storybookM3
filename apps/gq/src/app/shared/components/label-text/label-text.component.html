@@ -8,11 +8,29 @@
       'font-medium': modalVersion
     }"
   >
-    <span class="pr-2" [ngClass]="{ 'text-low-emphasis': modalVersion }"
-      ><ng-content select="[label]"></ng-content>:</span
-    >
-    <span class="text-high-emphasis"
-      ><ng-content select="[text]"></ng-content
-    ></span>
+    <span class="pr-2" [ngClass]="{ 'text-low-emphasis': modalVersion }">
+      <ng-content select="[label]"></ng-content>:
+    </span>
+
+    <ng-container *ngIf="!tooltipText; else textWithTooltip">
+      <ng-container *ngTemplateOutlet="textContent"></ng-container>
+    </ng-container>
+
+    <ng-template #textWithTooltip>
+      <span class="flex h-5 items-center justify-center overflow-hidden">
+        <ng-container *ngTemplateOutlet="textContent"></ng-container>
+        <gq-info-icon
+          [text]="tooltipText"
+          [displaySmall]="true"
+          class="pl-1"
+        ></gq-info-icon>
+      </span>
+    </ng-template>
+
+    <ng-template #textContent>
+      <span class="text-high-emphasis">
+        <ng-content select="[text]"></ng-content>
+      </span>
+    </ng-template>
   </p>
 </div>

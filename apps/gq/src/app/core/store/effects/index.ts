@@ -4,6 +4,7 @@ import { HealthCheckEffects } from './health-check/health-check.effects';
 import { MaterialComparableCostEffect } from './material-comparable-costs/material-comparable-costs.effects';
 import { MaterialSalesOrgEffect } from './material-sales-org/material-sales-org.effects';
 import { MaterialStockEffects } from './material-stock/material-stock.effects';
+import { PlantMaterialDetailsEffects } from './plant-material-details/plant-material-details.effects';
 import { ProcessCaseEffect } from './process-case/process-case.effects';
 import { SapPriceDetailsEffects } from './sap-price-details/sap-price-details.effects';
 import { TransactionsEffect } from './transactions/transactions.effects';
@@ -20,4 +21,5 @@ export const effects = [
   HealthCheckEffects,
   SapPriceDetailsEffects,
   MaterialStockEffects,
+  PlantMaterialDetailsEffects,
 ];

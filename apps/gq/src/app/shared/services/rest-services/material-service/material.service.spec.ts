@@ -3,6 +3,8 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 
+import { of } from 'rxjs';
+
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { ApiVersion } from '../../../models';
@@ -88,6 +90,38 @@ describe('MaterialService', () => {
       );
 
       expect(req.request.method).toBe('GET');
+    });
+  });
+
+  describe('getPlantMaterialDetails', () => {
+    test('should call', () => {
+      const materialId = '123';
+      const plantIds = ['456', '789'];
+
+      service
+        .getPlantMaterialDetails(materialId, plantIds)
+        .subscribe((response) => {
+          expect(response).toEqual([]);
+        });
+
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/materials/${materialId}/plant-material-details`
+      );
+
+      expect(req.request.method).toBe('POST');
+    });
+
+    test('should extract plantIds', () => {
+      const materialId = '123';
+      const plantIds = ['456', '789'];
+      service['http'].post = jest.fn().mockReturnValue(of([]));
+
+      service.getPlantMaterialDetails(materialId, plantIds);
+
+      expect(service['http'].post).toHaveBeenCalledWith(
+        `${ApiVersion.V1}/materials/${materialId}/plant-material-details`,
+        { plantIds }
+      );
     });
   });
 });

@@ -26,7 +26,10 @@
       </gq-filter-pricing>
     </div>
     <div class="mt-4 w-full md:mt-0 md:w-2/5">
-      <gq-pricing-details [quotationDetail]="quotationDetail$ | ngrxPush">
+      <gq-pricing-details
+        [quotationDetail]="quotationDetail$ | ngrxPush"
+        [plantMaterialDetails]="plantMaterialDetails$ | ngrxPush"
+      >
       </gq-pricing-details>
     </div>
   </div>

@@ -24,6 +24,7 @@ import { SubheaderModule } from '@schaeffler/subheader';
 
 import {
   MATERIAL_STOCK_STATE_MOCK,
+  PLANT_MATERIAL_DETAILS_STATE_MOCK,
   PROCESS_CASE_STATE_MOCK,
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
@@ -71,6 +72,7 @@ describe('DetailViewComponent', () => {
         initialState: {
           processCase: PROCESS_CASE_STATE_MOCK,
           materialStock: MATERIAL_STOCK_STATE_MOCK,
+          plantMaterialDetails: PLANT_MATERIAL_DETAILS_STATE_MOCK,
         },
       }),
       mockProvider(AgGridStateService),
@@ -116,6 +118,11 @@ describe('DetailViewComponent', () => {
         );
         m.expect(component.breadcrumbs$).toBeObservable(
           m.cold('a', { a: [{ label: 'test' }] })
+        );
+        m.expect(component.plantMaterialDetails$).toBeObservable(
+          m.cold('a', {
+            a: PLANT_MATERIAL_DETAILS_STATE_MOCK.plantMaterialDetails,
+          })
         );
       })
     );

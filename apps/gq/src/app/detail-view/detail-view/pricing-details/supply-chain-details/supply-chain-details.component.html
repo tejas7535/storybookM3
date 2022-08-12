@@ -14,9 +14,35 @@
       <span label>{{ t('productionPlant') }}</span>
       <span text>{{ quotationDetail.productionPlant | plantDisplay }}</span>
     </gq-label-text>
-    <gq-label-text [marginBottom]="false">
+    <gq-label-text>
       <span label>{{ t('productionPlantRlt') }}</span>
       <span text>{{ quotationDetail.rlt || '-' }}</span>
+    </gq-label-text>
+    <gq-label-text
+      [tooltipText]="
+        supplyPlantStochasticType
+          ? t('stochasticTypes.' + supplyPlantStochasticType)
+          : ''
+      "
+    >
+      <span label>{{ t('supplyPlantStType') }}</span>
+      <span text>
+        {{ supplyPlantStochasticType | nullableString }}
+      </span>
+    </gq-label-text>
+
+    <gq-label-text
+      [marginBottom]="false"
+      [tooltipText]="
+        productionPlantStochasticType
+          ? t('stochasticTypes.' + productionPlantStochasticType)
+          : ''
+      "
+    >
+      <span label>{{ t('productionPlantStType') }}</span>
+      <span text>
+        {{ productionPlantStochasticType | nullableString }}
+      </span>
     </gq-label-text>
   </div>
 </mat-card>

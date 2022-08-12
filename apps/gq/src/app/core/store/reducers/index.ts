@@ -15,6 +15,7 @@ import * as fromHealthCheck from './health-check/health-check.reducer';
 import * as fromMaterialComparableCosts from './material-comparable-costs/material-comparable-costs.reducer';
 import * as fromMaterialSalesOrg from './material-sales-org/material-sales-org.reducer';
 import * as fromMaterialStock from './material-stock/material-stock.reducer';
+import * as fromPlantMaterialDetails from './plant-material-details/plant-material-details.reducer';
 import * as fromProcessCase from './process-case/process-case.reducer';
 import * as fromSapPriceDetails from './sap-price-details/sap-price-details.reducer';
 import * as fromTransactions from './transactions/transactions.reducer';
@@ -39,6 +40,7 @@ export interface AppState {
   sapPriceDetails: fromSapPriceDetails.SapPriceDetailsState;
   materialStock: fromMaterialStock.MaterialStockState;
   currency: fromCurrencies.CurrencyState;
+  plantMaterialDetails: fromPlantMaterialDetails.PlantMaterialDetailsState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
@@ -56,6 +58,7 @@ export const reducers: ActionReducerMap<AppState> = {
   sapPriceDetails: fromSapPriceDetails.sapPriceDetailsReducer,
   materialStock: fromMaterialStock.materialStockReducer,
   currency: fromCurrencies.currencyReducer,
+  plantMaterialDetails: fromPlantMaterialDetails.plantMaterialDetailsReducer,
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production
@@ -104,6 +107,11 @@ export const getMaterialStockState =
 
 export const getCurrenciesState =
   createFeatureSelector<fromCurrencies.CurrencyState>('currency');
+
+export const getPlantMaterialDetailsState =
+  createFeatureSelector<fromPlantMaterialDetails.PlantMaterialDetailsState>(
+    'plantMaterialDetails'
+  );
 
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl>

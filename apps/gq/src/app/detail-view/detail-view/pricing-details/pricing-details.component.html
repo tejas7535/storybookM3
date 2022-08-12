@@ -4,7 +4,8 @@
       <div
         *ngIf="
           !(materialComparableCostsLoading$ | ngrxPush) &&
-            !(materialSalesOrgLoading$ | ngrxPush);
+            !(materialSalesOrgLoading$ | ngrxPush) &&
+            !(plantMaterialDetailsLoading$ | ngrxPush);
           else loading
         "
       >
@@ -28,6 +29,8 @@
             ></gq-relocation-cost-details>
             <gq-supply-chain-details
               [quotationDetail]="quotationDetail"
+              [productionPlantStochasticType]="productionPlantStochasticType"
+              [supplyPlantStochasticType]="supplyPlantStochasticType"
             ></gq-supply-chain-details>
           </div>
           <div class="mt-4 w-full md:mt-0 md:w-1/2">

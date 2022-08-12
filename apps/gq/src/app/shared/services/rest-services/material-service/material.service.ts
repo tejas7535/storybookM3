@@ -1,10 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { mergeMap, Observable, of } from 'rxjs';
 
 import { MaterialStock } from '../../../../core/store/reducers/material-stock/models/material-stock.model';
 import { ApiVersion } from '../../../models';
+import { PlantMaterialDetail } from '../../../models/quotation-detail';
 import { MaterialTableItem, MaterialValidation } from '../../../models/table';
 @Injectable({
   providedIn: 'root',
@@ -40,5 +41,16 @@ export class MaterialService {
       `${ApiVersion.V1}/${this.PATH_MATERIAL_STOCK}`,
       { params }
     );
+  }
+
+  public getPlantMaterialDetails(
+    materialId: string,
+    plantIds: string[]
+  ): Observable<PlantMaterialDetail[]> {
+    return this.http
+      .post(`${ApiVersion.V1}/materials/${materialId}/plant-material-details`, {
+        plantIds,
+      })
+      .pipe(mergeMap((result: any) => of([...result.plantMaterialDetailDtos])));
   }
 }

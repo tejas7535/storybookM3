@@ -14,11 +14,13 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import {
   MATERIAL_COMPARABLE_COSTS_STATE_MOCK,
   MATERIAL_SALES_ORG_STATE_MOCK,
+  PLANT_MATERIAL_DETAILS_STATE_MOCK,
   PROCESS_CASE_STATE_MOCK,
   QUOTATION_MOCK,
 } from '../../../../testing/mocks';
 import { LabelTextModule } from '../../../shared/components/label-text/label-text.module';
 import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
+import { HelperService } from '../../../shared/services/helper-service/helper-service.service';
 import { MaterialComparableCostDetailsComponent } from './material-comparable-cost-details/material-comparable-cost-details.component';
 import { MaterialDetailsModule } from './material-details/material-details.module';
 import { PricingDetailsComponent } from './pricing-details.component';
@@ -51,9 +53,14 @@ describe('PricingDetailsComponent', () => {
           processCase: PROCESS_CASE_STATE_MOCK,
           materialSalesOrg: MATERIAL_SALES_ORG_STATE_MOCK,
           materialComparableCosts: MATERIAL_COMPARABLE_COSTS_STATE_MOCK,
+          plantMaterialDetails: PLANT_MATERIAL_DETAILS_STATE_MOCK,
         },
       }),
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+      {
+        provide: HelperService,
+        useValue: { transformMarginDetails: jest.fn() },
+      },
     ],
     declarations: [
       SupplyChainDetailsComponent,
@@ -90,7 +97,66 @@ describe('PricingDetailsComponent', () => {
             a: MATERIAL_COMPARABLE_COSTS_STATE_MOCK.materialComparableCostsLoading,
           }
         );
+        m.expect(component.plantMaterialDetailsLoading$).toBeObservable('a', {
+          a: PLANT_MATERIAL_DETAILS_STATE_MOCK.plantMaterialDetailsLoading,
+        });
       })
     );
+  });
+
+  describe('set stochastic types', () => {
+    const mockQuotationDetails = {
+      ...QUOTATION_MOCK.quotationDetails[0],
+      productionPlant: {
+        ...QUOTATION_MOCK.quotationDetails[0].productionPlant,
+        plantNumber: '456',
+      },
+    };
+
+    beforeEach(() => {
+      spectator.setInput('quotationDetail', mockQuotationDetails);
+    });
+
+    test('should set stochastic type for production and supply plant', () => {
+      spectator.setInput('plantMaterialDetails', [
+        {
+          material: mockQuotationDetails.material.materialNumber15,
+          plantId: mockQuotationDetails.productionPlant.plantNumber,
+          stochasticType: 'H',
+        },
+        {
+          material: mockQuotationDetails.material.materialNumber15,
+          plantId: mockQuotationDetails.plant.plantNumber,
+          stochasticType: '1',
+        },
+      ]);
+
+      expect(component.productionPlantStochasticType).toEqual('H');
+      expect(component.supplyPlantStochasticType).toEqual('1');
+    });
+    test('should NOT set supply plant stochastic type when plant material detail is missing', () => {
+      spectator.setInput('plantMaterialDetails', [
+        {
+          material: mockQuotationDetails.material.materialNumber15,
+          plantId: mockQuotationDetails.productionPlant.plantNumber,
+          stochasticType: 'H',
+        },
+      ]);
+
+      expect(component.productionPlantStochasticType).toEqual('H');
+      expect(component.supplyPlantStochasticType).toEqual(undefined);
+    });
+    test('should NOT set production plant stochastic type when plant material detail is missing', () => {
+      spectator.setInput('plantMaterialDetails', [
+        {
+          material: mockQuotationDetails.material.materialNumber15,
+          plantId: mockQuotationDetails.plant.plantNumber,
+          stochasticType: '1',
+        },
+      ]);
+
+      expect(component.supplyPlantStochasticType).toEqual('1');
+      expect(component.productionPlantStochasticType).toEqual(undefined);
+    });
   });
 });
