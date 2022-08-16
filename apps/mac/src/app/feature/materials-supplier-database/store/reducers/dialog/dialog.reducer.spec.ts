@@ -1,4 +1,8 @@
-import { ManufacturerSupplier, MaterialStandard } from '@mac/msd/models';
+import {
+  CreateMaterialRecord,
+  ManufacturerSupplier,
+  MaterialStandard,
+} from '@mac/msd/models';
 import * as DataActions from '@mac/msd/store/actions/dialog';
 
 import { dialogReducer, DialogState, initialState } from './dialog.reducer';
@@ -373,6 +377,8 @@ describe('dialogReducer', () => {
 
     it('should set the createMaterialLoading and createMaterialSuccess state', () => {
       const action = DataActions.addMaterialDialogConfirmed({
+        standard: undefined,
+        supplier: undefined,
         material: undefined,
       });
       const newState = dialogReducer(
@@ -386,19 +392,20 @@ describe('dialogReducer', () => {
         ...state,
         createMaterial: {
           createMaterialLoading: true,
-          createMaterialSuccess: undefined,
+          createMaterialRecord: undefined,
         },
       });
     });
 
     it('should set the createMaterialLoading and createMaterialSuccess state after creation', () => {
-      const action = DataActions.createMaterialComplete({ success: true });
+      const mockRecord = {} as CreateMaterialRecord;
+      const action = DataActions.createMaterialComplete({ record: mockRecord });
       const newState = dialogReducer(
         {
           ...state,
           createMaterial: {
             createMaterialLoading: true,
-            createMaterialSuccess: undefined,
+            createMaterialRecord: undefined,
           },
         },
         action
@@ -408,7 +415,7 @@ describe('dialogReducer', () => {
         ...state,
         createMaterial: {
           createMaterialLoading: false,
-          createMaterialSuccess: true,
+          createMaterialRecord: mockRecord,
         },
       });
     });
@@ -457,6 +464,186 @@ describe('dialogReducer', () => {
         dialogOptions: {
           ...state.dialogOptions,
           customCastingDiameters: ['new', 'old'],
+        },
+      });
+    });
+
+    it('should set the custom std doc if they are not defined', () => {
+      const action = DataActions.addCustomMaterialStandardDocument({
+        standardDocument: 'new',
+      });
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            customMaterialStandardDocuments: undefined,
+          },
+        },
+        action
+      );
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          customMaterialStandardDocuments: ['new'],
+        },
+      });
+    });
+
+    it('should add a custom standard document', () => {
+      const action = DataActions.addCustomMaterialStandardDocument({
+        standardDocument: 'new',
+      });
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            customMaterialStandardDocuments: ['old'],
+          },
+        },
+        action
+      );
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          customMaterialStandardDocuments: ['new', 'old'],
+        },
+      });
+    });
+
+    it('should set the custom material name if they are not defined', () => {
+      const action = DataActions.addCustomMaterialStandardName({
+        materialName: 'new',
+      });
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            customMaterialStandardNames: undefined,
+          },
+        },
+        action
+      );
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          customMaterialStandardNames: ['new'],
+        },
+      });
+    });
+
+    it('should add a custom material name', () => {
+      const action = DataActions.addCustomMaterialStandardName({
+        materialName: 'new',
+      });
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            customMaterialStandardNames: ['old'],
+          },
+        },
+        action
+      );
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          customMaterialStandardNames: ['new', 'old'],
+        },
+      });
+    });
+
+    it('should set the custom supplier names if they are not defined', () => {
+      const action = DataActions.addCustomSupplierName({ supplierName: 'new' });
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            customManufacturerSupplierNames: undefined,
+          },
+        },
+        action
+      );
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          customManufacturerSupplierNames: ['new'],
+        },
+      });
+    });
+
+    it('should add a custom supplier name', () => {
+      const action = DataActions.addCustomSupplierName({ supplierName: 'new' });
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            customManufacturerSupplierNames: ['old'],
+          },
+        },
+        action
+      );
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          customManufacturerSupplierNames: ['new', 'old'],
+        },
+      });
+    });
+
+    it('should set the custom supplier plant if they are not defined', () => {
+      const action = DataActions.addCustomSupplierPlant({
+        supplierPlant: 'new',
+      });
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            customManufacturerSupplierPlants: undefined,
+          },
+        },
+        action
+      );
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          customManufacturerSupplierPlants: ['new'],
+        },
+      });
+    });
+
+    it('should add a custom supplier plant', () => {
+      const action = DataActions.addCustomSupplierPlant({
+        supplierPlant: 'new',
+      });
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            customManufacturerSupplierPlants: ['old'],
+          },
+        },
+        action
+      );
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          customManufacturerSupplierPlants: ['new', 'old'],
         },
       });
     });

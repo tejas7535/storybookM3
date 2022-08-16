@@ -26,9 +26,17 @@ import { SelectModule } from '@schaeffler/inputs/select';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { ManufacturerSupplier, MaterialStandard } from '@mac/msd/models';
+import {
+  CreateMaterialRecord,
+  ManufacturerSupplier,
+  MaterialStandard,
+} from '@mac/msd/models';
 import {
   addCustomCastingDiameter,
+  addCustomMaterialStandardDocument,
+  addCustomMaterialStandardName,
+  addCustomSupplierName,
+  addCustomSupplierPlant,
   fetchCastingDiameters,
 } from '@mac/msd/store';
 import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
@@ -106,6 +114,8 @@ describe('InputDialogComponent', () => {
       },
     },
   };
+  const createOption = (title: string, data?: any) =>
+    ({ id: 2, title, data } as StringOption);
 
   const createComponent = createComponentFactory({
     component: InputDialogComponent,
@@ -199,6 +209,71 @@ describe('InputDialogComponent', () => {
         },
       } as StringOption;
       describe('modify standard documents', () => {
+        it('should patch createMaterialForm and NOT reset materialNames with equal data', () => {
+          // prepare
+          component.materialNamesControl.setValue(matNameOption, {
+            emitEvent: false,
+          });
+          // mock
+          component.materialNamesControl.reset = jest.fn();
+          component.createMaterialForm.patchValue = jest.fn();
+          // start patch
+          component.standardDocumentsControl.patchValue({
+            ...stdDocOption,
+            data: {
+              materialNames: [{ id: 100, materialName: matNameOption.title }],
+            },
+          } as StringOption);
+
+          expect(component.materialNamesControl.reset).not.toHaveBeenCalled();
+          expect(component.createMaterialForm.patchValue).toHaveBeenCalledWith({
+            materialStandardId: 100,
+          });
+        });
+
+        it('should patch createMaterialForm and NOT reset materialNames with custom material name', () => {
+          // prepare
+          component.materialNamesControl.setValue(
+            {
+              id: undefined,
+              title: 'customMatName',
+            } as StringOption,
+            {
+              emitEvent: false,
+            }
+          );
+          // mock
+          component.materialNamesControl.reset = jest.fn();
+          component.createMaterialForm.patchValue = jest.fn();
+          // start patch
+          component.standardDocumentsControl.setValue(stdDocOption);
+
+          expect(component.materialNamesControl.reset).not.toHaveBeenCalled();
+          expect(component.createMaterialForm.patchValue).toHaveBeenCalledWith({
+            materialStandardId: undefined,
+          });
+        });
+
+        it('should patch createMaterialForm and NOT reset materialNames with custom standard document', () => {
+          // prepare
+          component.materialNamesControl.setValue(matNameOption, {
+            emitEvent: false,
+          });
+          // mock
+          component.materialNamesControl.reset = jest.fn();
+          component.createMaterialForm.patchValue = jest.fn();
+          // start patch
+          component.standardDocumentsControl.setValue({
+            id: undefined,
+            title: 'custom standard document',
+          } as StringOption);
+
+          expect(component.materialNamesControl.reset).not.toHaveBeenCalled();
+          expect(component.createMaterialForm.patchValue).toHaveBeenCalledWith({
+            materialStandardId: undefined,
+          });
+        });
+
         it('should patch createMaterialForm and reset materialNames when stdDoc is undefined', () => {
           // prepare
           component.materialNamesControl.setValue(matNameOption, {
@@ -235,28 +310,6 @@ describe('InputDialogComponent', () => {
           expect(component.materialNamesControl.reset).toHaveBeenCalled();
         });
 
-        it('should patch createMaterialForm and NOT reset materialNames with equal data', () => {
-          // prepare
-          component.materialNamesControl.setValue(matNameOption, {
-            emitEvent: false,
-          });
-          // mock
-          component.materialNamesControl.reset = jest.fn();
-          component.createMaterialForm.patchValue = jest.fn();
-          // start patch
-          component.standardDocumentsControl.patchValue({
-            ...stdDocOption,
-            data: {
-              materialNames: [{ id: 100, materialName: matNameOption.title }],
-            },
-          } as StringOption);
-
-          expect(component.materialNamesControl.reset).not.toHaveBeenCalled();
-          expect(component.createMaterialForm.patchValue).toHaveBeenCalledWith({
-            materialStandardId: 100,
-          });
-        });
-
         it('should NOT patch createMaterialForm and NOT reset materialNames with matName not set', () => {
           // mock
           component.materialNamesControl.reset = jest.fn();
@@ -271,77 +324,8 @@ describe('InputDialogComponent', () => {
         });
       });
 
-      describe('modify casting diameter dependencies', () => {
-        it('should disable castingDiameter if supplierId is not defined', () => {
-          component.castingDiameterControl.disable = jest.fn();
-          component.castingModesControl.reset = jest.fn();
-
-          component['castingDiameterDependencies'].patchValue({
-            supplierId: undefined,
-            castingMode: 'ingot',
-          });
-
-          expect(component.castingDiameterControl.disable).toHaveBeenCalled();
-          expect(component.castingModesControl.reset).toHaveBeenCalled();
-        });
-
-        it('should disable castingDiameter if castingMode is not defined', () => {
-          component.castingModesControl.enable = jest.fn();
-          component.castingDiameterControl.disable = jest.fn();
-
-          component['castingDiameterDependencies'].patchValue({
-            supplierId: 1,
-            castingMode: undefined,
-          });
-
-          expect(component.castingDiameterControl.disable).toHaveBeenCalled();
-          expect(component.castingModesControl.enable).toHaveBeenCalled();
-        });
-
-        it('should enable castingDiameter and fetch if supplierId and castingMode are defined', () => {
-          component.castingDiameterControl.enable = jest.fn();
-          component['dialogFacade'].dispatch = jest.fn();
-
-          component.manufacturerSupplierIdControl.patchValue(1);
-          component.castingModesControl.patchValue('ingot');
-
-          expect(component.castingDiameterControl.enable).toHaveBeenCalled();
-          expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
-            fetchCastingDiameters({ supplierId: 1, castingMode: 'ingot' })
-          );
-        });
-      });
-
-      describe('modify material names', () => {
-        it('should ignore updates if value is undefined', () => {
-          // mock
-          component.standardDocumentsControl.reset = jest.fn();
-          component.materialStandardIdControl.reset = jest.fn();
-          // start patch with undefined value
-          // eslint-disable-next-line unicorn/no-useless-undefined
-          component.materialNamesControl.patchValue(undefined);
-          expect(component.standardDocumentsControl.reset).toHaveBeenCalled();
-          expect(component.materialStandardIdControl.reset).toHaveBeenCalled();
-        });
-
-        it('should patch createMaterialForm and reset standardDoc', () => {
-          // prepare
-          component.standardDocumentsControl.setValue(stdDocOption, {
-            emitEvent: false,
-          });
-          // mock
-          component.standardDocumentsControl.reset = jest.fn();
-          component.createMaterialForm.patchValue = jest.fn();
-          // start patch
-          component.materialNamesControl.patchValue(matNameOption);
-
-          expect(component.standardDocumentsControl.reset).toHaveBeenCalled();
-          expect(
-            component.createMaterialForm.patchValue
-          ).not.toHaveBeenCalled();
-        });
-
-        it('should NOT patch createMaterialForm and NOT reset standardDoc with equal data', () => {
+      describe('modify material name', () => {
+        it('should patch createMaterialForm and NOT reset stdDoc with equal data', () => {
           // prepare
           component.standardDocumentsControl.setValue(stdDocOption, {
             emitEvent: false,
@@ -357,7 +341,7 @@ describe('InputDialogComponent', () => {
                 { id: 100, standardDocument: stdDocOption.title },
               ],
             },
-          });
+          } as StringOption);
 
           expect(
             component.standardDocumentsControl.reset
@@ -367,324 +351,561 @@ describe('InputDialogComponent', () => {
           });
         });
 
-        it('should patch createMaterialForm and NOT reset standardDoc with matName not set', () => {
+        it('should patch createMaterialForm and NOT reset stdDoc with custom std doc', () => {
+          // prepare
+          component.standardDocumentsControl.setValue(
+            { id: undefined, title: 'customStdDoc' } as StringOption,
+            {
+              emitEvent: false,
+            }
+          );
           // mock
           component.standardDocumentsControl.reset = jest.fn();
           component.createMaterialForm.patchValue = jest.fn();
           // start patch
-          component.materialNamesControl.patchValue(matNameOption);
+          component.materialNamesControl.setValue(matNameOption);
 
           expect(
             component.standardDocumentsControl.reset
           ).not.toHaveBeenCalled();
-          expect(
-            component.createMaterialForm.patchValue
-          ).not.toHaveBeenCalled();
-        });
-      });
-
-      describe('modify supplier', () => {
-        const supplierOption = { id: '89', title: 'supplier' } as StringOption;
-        const supplierPlantOption = {
-          id: '32',
-          title: 'supplierPlant',
-          data: { supplierName: 'some supplier name' },
-        } as StringOption;
-
-        it('should disable plant selection with undefined supplier', async () => {
-          // prepare
-          component.supplierPlantsControl.setValue(supplierPlantOption, {
-            emitEvent: false,
+          expect(component.createMaterialForm.patchValue).toHaveBeenCalledWith({
+            materialStandardId: undefined,
           });
-          component.suppliersControl.setValue(supplierOption, {
+        });
+
+        it('should patch createMaterialForm and NOT reset stdDoc with custom matName', () => {
+          // prepare
+          component.standardDocumentsControl.setValue(stdDocOption, {
             emitEvent: false,
           });
           // mock
-          component.supplierPlantsControl.reset = jest.fn();
-          component.supplierPlantsControl.enable = jest.fn();
-          component.supplierPlantsControl.disable = jest.fn();
+          component.standardDocumentsControl.reset = jest.fn();
           component.createMaterialForm.patchValue = jest.fn();
           // start patch
-          // eslint-disable-next-line unicorn/no-useless-undefined
-          component.suppliersControl.patchValue(undefined);
-
-          expect(component.supplierPlantsControl.enable).not.toHaveBeenCalled();
-          expect(component.supplierPlantsControl.disable).toHaveBeenCalled();
-          expect(component.supplierPlantsControl.reset).toHaveBeenCalled();
-        });
-
-        it('should patch createMaterialForm and reset supplier plants', () => {
-          // prepare
-          component.supplierPlantsControl.setValue(supplierPlantOption);
-          // mock
-          component.supplierPlantsControl.disable = jest.fn();
-          component.supplierPlantsControl.enable = jest.fn();
-          component.supplierPlantsControl.reset = jest.fn();
-          // start patch
-          component.suppliersControl.patchValue(supplierOption);
-
-          expect(
-            component.supplierPlantsControl.disable
-          ).not.toHaveBeenCalled();
-          expect(component.supplierPlantsControl.enable).toHaveBeenCalled();
-          expect(component.supplierPlantsControl.reset).toHaveBeenCalled();
-        });
-
-        it('should patch createMaterialForm and NOT reset supplier plants with equal title', () => {
-          // prepare
-          component.supplierPlantsControl.setValue({
-            ...supplierPlantOption,
-            data: {
-              supplierName: supplierOption.title,
-            },
-          });
-          // mock
-          component.supplierPlantsControl.disable = jest.fn();
-          component.supplierPlantsControl.enable = jest.fn();
-          component.supplierPlantsControl.reset = jest.fn();
-          // start patch
-          component.suppliersControl.patchValue(supplierOption);
-
-          expect(
-            component.supplierPlantsControl.disable
-          ).not.toHaveBeenCalled();
-          expect(component.supplierPlantsControl.enable).toHaveBeenCalled();
-          expect(component.supplierPlantsControl.reset).not.toHaveBeenCalled();
-        });
-      });
-      describe('modify supplier plant', () => {
-        const plantData: StringOption = {
-          id: '11',
-          title: '',
-          data: { supplierId: 53 },
-        };
-
-        it('should patch createMaterialForm', () => {
-          component.manufacturerSupplierIdControl.patchValue = jest.fn();
-          // start patch
-          component.supplierPlantsControl.patchValue(plantData);
-
-          expect(
-            component.manufacturerSupplierIdControl.patchValue
-          ).toHaveBeenCalledWith(plantData.data.supplierId);
-        });
-
-        it('should reset createMaterialForm if plant is undefined', () => {
-          component.supplierPlantsControl.setValue(plantData, {
-            emitEvent: false,
-          });
-          component.manufacturerSupplierIdControl.patchValue = jest.fn();
-          // start patch
-          // eslint-disable-next-line unicorn/no-useless-undefined
-          component.supplierPlantsControl.setValue(undefined);
-
-          expect(
-            component.manufacturerSupplierIdControl.patchValue
-          ).toHaveBeenCalledWith(undefined);
-        });
-      });
-
-      describe('modify Co2ScopeX', () => {
-        it('should call validator with scope1', () => {
-          component.co2TotalControl.updateValueAndValidity = jest.fn();
-          component.co2Scope1Control.patchValue(7);
-          expect(
-            component.co2TotalControl.updateValueAndValidity
-          ).toHaveBeenCalled();
-        });
-        it('should call validator with scope2', () => {
-          component.co2TotalControl.updateValueAndValidity = jest.fn();
-          component.co2Scope2Control.patchValue(7);
-          expect(
-            component.co2TotalControl.updateValueAndValidity
-          ).toHaveBeenCalled();
-        });
-
-        it('should call validator with scope3', () => {
-          component.co2TotalControl.updateValueAndValidity = jest.fn();
-          component.co2Scope3Control.patchValue(7);
-          expect(
-            component.co2TotalControl.updateValueAndValidity
-          ).toHaveBeenCalled();
-        });
-
-        it('should call validator with co2Total', () => {
-          component.co2TotalControl.updateValueAndValidity = jest.fn();
-          component.co2TotalControl.patchValue(7);
-          expect(
-            component.co2TotalControl.updateValueAndValidity
-          ).toHaveBeenCalled();
-        });
-      });
-
-      describe('modify co2TotalControl', () => {
-        it('co2Classification should be enabled when co2Total has a value', () => {
-          component.co2ClassificationControl.enable = jest.fn();
-          component.co2ClassificationControl.disable = jest.fn();
-
-          component.co2TotalControl.setValue(1);
-
-          expect(
-            component.co2ClassificationControl.disable
-          ).not.toHaveBeenCalled();
-          expect(component.co2ClassificationControl.enable).toHaveBeenCalled();
-        });
-        it('co2Classification should be disabled when co2Total has no value', () => {
-          component.co2ClassificationControl.enable = jest.fn();
-          component.co2ClassificationControl.disable = jest.fn();
-
-          // eslint-disable-next-line unicorn/no-useless-undefined
-          component.co2TotalControl.setValue(undefined);
-
-          expect(component.co2ClassificationControl.disable).toHaveBeenCalled();
-          expect(
-            component.co2ClassificationControl.enable
-          ).not.toHaveBeenCalled();
-        });
-      });
-
-      describe('modify rating', () => {
-        it('ratingChangeComment should be enabled when rating has a value', () => {
-          component.ratingChangeCommentControl.enable = jest.fn();
-          component.ratingChangeCommentControl.disable = jest.fn();
-
-          component.ratingsControl.setValue({
-            id: 1,
-            title: 'title',
-          } as StringOption);
-
-          expect(
-            component.ratingChangeCommentControl.disable
-          ).not.toHaveBeenCalled();
-          expect(
-            component.ratingChangeCommentControl.enable
-          ).toHaveBeenCalled();
-        });
-        it('co2Classification should be disabled when co2Total has no value', () => {
-          component.ratingChangeCommentControl.enable = jest.fn();
-          component.ratingChangeCommentControl.disable = jest.fn();
-
-          // eslint-disable-next-line unicorn/no-useless-undefined
-          component.ratingsControl.setValue({
+          component.materialNamesControl.setValue({
             id: undefined,
-            title: 'None',
+            title: 'customMatName',
           } as StringOption);
 
           expect(
-            component.ratingChangeCommentControl.disable
-          ).toHaveBeenCalled();
-          expect(
-            component.ratingChangeCommentControl.enable
+            component.standardDocumentsControl.reset
           ).not.toHaveBeenCalled();
-          expect(component.ratingChangeCommentControl.value).toBe(undefined);
+          expect(component.createMaterialForm.patchValue).toHaveBeenCalledWith({
+            materialStandardId: undefined,
+          });
+        });
+
+        describe('modify casting supplier dependencies', () => {
+          it('should disable castingDiameter if supplierId is not defined', () => {
+            component.castingDiameterControl.disable = jest.fn();
+            component.castingModesControl.reset = jest.fn();
+
+            component['suppliersDependencies'].patchValue({
+              supplierName: undefined,
+              castingMode: 'ingot',
+            });
+
+            expect(component.castingDiameterControl.disable).toHaveBeenCalled();
+            expect(component.castingModesControl.reset).toHaveBeenCalled();
+          });
+
+          it('should disable castingDiameter if castingMode is not defined', () => {
+            component.castingModesControl.enable = jest.fn();
+            component.castingDiameterControl.disable = jest.fn();
+
+            component.suppliersControl.setValue(createOption('supplierA'));
+            component.supplierPlantsControl.setValue(
+              createOption('plant', { supplierName: 'supplierA' })
+            );
+
+            expect(component.castingDiameterControl.disable).toHaveBeenCalled();
+            expect(component.castingModesControl.enable).toHaveBeenCalled();
+          });
+
+          it('should enable castingDiameter and fetch if supplier and castingMode are defined', () => {
+            component.castingDiameterControl.enable = jest.fn();
+            component['dialogFacade'].dispatch = jest.fn();
+
+            component.suppliersControl.setValue(createOption('supplierA'));
+            component.supplierPlantsControl.setValue(
+              createOption('plant', {
+                supplierName: 'supplierA',
+                supplierId: 1,
+              })
+            );
+            component.castingModesControl.patchValue('ingot');
+
+            expect(component.castingDiameterControl.enable).toHaveBeenCalled();
+            expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+              fetchCastingDiameters({ supplierId: 1, castingMode: 'ingot' })
+            );
+          });
+        });
+
+        describe('modify material names', () => {
+          it('should ignore updates if value is undefined', () => {
+            // mock
+            component.standardDocumentsControl.reset = jest.fn();
+            component.materialStandardIdControl.reset = jest.fn();
+            // start patch with undefined value
+            // eslint-disable-next-line unicorn/no-useless-undefined
+            component.materialNamesControl.patchValue(undefined);
+            expect(component.standardDocumentsControl.reset).toHaveBeenCalled();
+            expect(
+              component.materialStandardIdControl.reset
+            ).toHaveBeenCalled();
+          });
+
+          it('should patch createMaterialForm and reset standardDoc', () => {
+            // prepare
+            component.standardDocumentsControl.setValue(stdDocOption, {
+              emitEvent: false,
+            });
+            // mock
+            component.standardDocumentsControl.reset = jest.fn();
+            component.createMaterialForm.patchValue = jest.fn();
+            // start patch
+            component.materialNamesControl.patchValue(matNameOption);
+
+            expect(component.standardDocumentsControl.reset).toHaveBeenCalled();
+            expect(
+              component.createMaterialForm.patchValue
+            ).not.toHaveBeenCalled();
+          });
+
+          it('should NOT patch createMaterialForm and NOT reset standardDoc with equal data', () => {
+            // prepare
+            component.standardDocumentsControl.setValue(stdDocOption, {
+              emitEvent: false,
+            });
+            // mock
+            component.standardDocumentsControl.reset = jest.fn();
+            component.createMaterialForm.patchValue = jest.fn();
+            // start patch
+            component.materialNamesControl.patchValue({
+              ...matNameOption,
+              data: {
+                standardDocuments: [
+                  { id: 100, standardDocument: stdDocOption.title },
+                ],
+              },
+            });
+
+            expect(
+              component.standardDocumentsControl.reset
+            ).not.toHaveBeenCalled();
+            expect(
+              component.createMaterialForm.patchValue
+            ).toHaveBeenCalledWith({
+              materialStandardId: 100,
+            });
+          });
+
+          it('should patch createMaterialForm and NOT reset standardDoc with matName not set', () => {
+            // mock
+            component.standardDocumentsControl.reset = jest.fn();
+            component.createMaterialForm.patchValue = jest.fn();
+            // start patch
+            component.materialNamesControl.patchValue(matNameOption);
+
+            expect(
+              component.standardDocumentsControl.reset
+            ).not.toHaveBeenCalled();
+            expect(
+              component.createMaterialForm.patchValue
+            ).not.toHaveBeenCalled();
+          });
+        });
+
+        describe('modify supplier', () => {
+          const supplierOption = {
+            id: '89',
+            title: 'supplier',
+          } as StringOption;
+          const supplierPlantOption = {
+            id: '32',
+            title: 'supplierPlant',
+            data: { supplierName: 'supplier' },
+          } as StringOption;
+
+          it('should disable plant selection with undefined supplier', async () => {
+            // prepare
+            component.supplierPlantsControl.setValue(supplierPlantOption, {
+              emitEvent: false,
+            });
+            component.suppliersControl.setValue(supplierOption, {
+              emitEvent: false,
+            });
+            // mock
+            component.supplierPlantsControl.reset = jest.fn();
+            component.supplierPlantsControl.enable = jest.fn();
+            component.supplierPlantsControl.disable = jest.fn();
+            component.createMaterialForm.patchValue = jest.fn();
+            // start patch
+            // eslint-disable-next-line unicorn/no-useless-undefined
+            component.suppliersControl.patchValue(undefined);
+
+            expect(
+              component.supplierPlantsControl.enable
+            ).not.toHaveBeenCalled();
+            expect(component.supplierPlantsControl.disable).toHaveBeenCalled();
+            expect(component.supplierPlantsControl.reset).toHaveBeenCalled();
+          });
+
+          it('should patch createMaterialForm and reset supplier plants', () => {
+            // prepare
+            component.suppliersControl.patchValue(supplierOption);
+            component.supplierPlantsControl.setValue(supplierPlantOption);
+            // mock
+            component.supplierPlantsControl.disable = jest.fn();
+            component.supplierPlantsControl.enable = jest.fn();
+            component.supplierPlantsControl.reset = jest.fn();
+            // start patch
+            component.suppliersControl.patchValue(
+              createOption('other supplier')
+            );
+
+            expect(
+              component.supplierPlantsControl.disable
+            ).not.toHaveBeenCalled();
+            expect(component.supplierPlantsControl.enable).toHaveBeenCalled();
+            expect(component.supplierPlantsControl.reset).toHaveBeenCalled();
+          });
+
+          it('should patch createMaterialForm and NOT reset supplier plants with equal title', () => {
+            // prepare
+            component.supplierPlantsControl.setValue({
+              ...supplierPlantOption,
+              data: {
+                supplierName: supplierOption.title,
+              },
+            });
+            // mock
+            component.supplierPlantsControl.disable = jest.fn();
+            component.supplierPlantsControl.enable = jest.fn();
+            component.supplierPlantsControl.reset = jest.fn();
+            // start patch
+            component.suppliersControl.patchValue(supplierOption);
+
+            expect(
+              component.supplierPlantsControl.disable
+            ).not.toHaveBeenCalled();
+            expect(component.supplierPlantsControl.enable).toHaveBeenCalled();
+            expect(
+              component.supplierPlantsControl.reset
+            ).not.toHaveBeenCalled();
+          });
+        });
+        describe('modify supplier plant', () => {
+          const supplier: StringOption = createOption('supplier');
+          const plant: StringOption = {
+            ...createOption('plant'),
+            data: {
+              supplierId: 22,
+              supplierName: 'supplier',
+            },
+          };
+
+          it('should patch createMaterialForm', () => {
+            component.manufacturerSupplierIdControl.patchValue = jest.fn();
+            // start patch
+            component.suppliersControl.patchValue(supplier);
+            component.supplierPlantsControl.patchValue(plant);
+
+            expect(
+              component.manufacturerSupplierIdControl.patchValue
+            ).toHaveBeenCalledWith(plant.data.supplierId);
+          });
+
+          it('should reset createMaterialForm if plant is undefined', () => {
+            component.suppliersControl.patchValue(supplier, {
+              emitEvent: false,
+            });
+            component.supplierPlantsControl.setValue(plant, {
+              emitEvent: false,
+            });
+            component.manufacturerSupplierIdControl.reset = jest.fn();
+            // start patch
+            // eslint-disable-next-line unicorn/no-useless-undefined
+            component.supplierPlantsControl.setValue(undefined);
+
+            expect(
+              component.manufacturerSupplierIdControl.reset
+            ).toHaveBeenCalled();
+          });
+        });
+
+        describe('modify Co2ScopeX', () => {
+          it('should call validator with scope1', () => {
+            component.co2TotalControl.updateValueAndValidity = jest.fn();
+            component.co2Scope1Control.patchValue(7);
+            expect(
+              component.co2TotalControl.updateValueAndValidity
+            ).toHaveBeenCalled();
+          });
+          it('should call validator with scope2', () => {
+            component.co2TotalControl.updateValueAndValidity = jest.fn();
+            component.co2Scope2Control.patchValue(7);
+            expect(
+              component.co2TotalControl.updateValueAndValidity
+            ).toHaveBeenCalled();
+          });
+
+          it('should call validator with scope3', () => {
+            component.co2TotalControl.updateValueAndValidity = jest.fn();
+            component.co2Scope3Control.patchValue(7);
+            expect(
+              component.co2TotalControl.updateValueAndValidity
+            ).toHaveBeenCalled();
+          });
+
+          it('should call validator with co2Total', () => {
+            component.co2TotalControl.updateValueAndValidity = jest.fn();
+            component.co2TotalControl.patchValue(7);
+            expect(
+              component.co2TotalControl.updateValueAndValidity
+            ).toHaveBeenCalled();
+          });
+        });
+
+        describe('modify co2TotalControl', () => {
+          it('co2Classification should be enabled when co2Total has a value', () => {
+            component.co2ClassificationControl.enable = jest.fn();
+            component.co2ClassificationControl.disable = jest.fn();
+
+            component.co2TotalControl.setValue(1);
+
+            expect(
+              component.co2ClassificationControl.disable
+            ).not.toHaveBeenCalled();
+            expect(
+              component.co2ClassificationControl.enable
+            ).toHaveBeenCalled();
+          });
+          it('co2Classification should be disabled when co2Total has no value', () => {
+            component.co2ClassificationControl.enable = jest.fn();
+            component.co2ClassificationControl.disable = jest.fn();
+
+            // eslint-disable-next-line unicorn/no-useless-undefined
+            component.co2TotalControl.setValue(undefined);
+
+            expect(
+              component.co2ClassificationControl.disable
+            ).toHaveBeenCalled();
+            expect(
+              component.co2ClassificationControl.enable
+            ).not.toHaveBeenCalled();
+          });
+        });
+
+        describe('modify rating', () => {
+          it('ratingChangeComment should be enabled when rating has a value', () => {
+            component.ratingChangeCommentControl.enable = jest.fn();
+            component.ratingChangeCommentControl.disable = jest.fn();
+
+            component.ratingsControl.setValue({
+              id: 1,
+              title: 'title',
+            } as StringOption);
+
+            expect(
+              component.ratingChangeCommentControl.disable
+            ).not.toHaveBeenCalled();
+            expect(
+              component.ratingChangeCommentControl.enable
+            ).toHaveBeenCalled();
+          });
+          it('co2Classification should be disabled when co2Total has no value', () => {
+            component.ratingChangeCommentControl.enable = jest.fn();
+            component.ratingChangeCommentControl.disable = jest.fn();
+
+            // eslint-disable-next-line unicorn/no-useless-undefined
+            component.ratingsControl.setValue({
+              id: undefined,
+              title: 'None',
+            } as StringOption);
+
+            expect(
+              component.ratingChangeCommentControl.disable
+            ).toHaveBeenCalled();
+            expect(
+              component.ratingChangeCommentControl.enable
+            ).not.toHaveBeenCalled();
+            expect(component.ratingChangeCommentControl.value).toBe(undefined);
+          });
         });
       });
     });
-  });
 
-  describe('ngOnDestory', () => {
-    it('should complete the observable', () => {
-      component.destroy$.next = jest.fn();
-      component.destroy$.complete = jest.fn();
+    describe('ngOnDestory', () => {
+      it('should complete the observable', () => {
+        component.destroy$.next = jest.fn();
+        component.destroy$.complete = jest.fn();
 
-      component.ngOnDestroy();
+        component.ngOnDestroy();
 
-      expect(component.destroy$.next).toHaveBeenCalled();
-      expect(component.destroy$.complete).toHaveBeenCalled();
-    });
-  });
-
-  describe('addMaterial', () => {
-    const option: StringOption = { id: 1, title: 'title' };
-    const material = {
-      manufacturerSupplierId: 1,
-      materialStandardId: 1,
-      blocked: false,
-      castingDiameter: option,
-      castingMode: '',
-      co2Classification: option,
-      co2PerTon: 1,
-      co2Scope1: 2,
-      co2Scope2: 3,
-      co2Scope3: 3,
-      materialName: option,
-      maxDimension: 3,
-      minDimension: 4,
-      productCategory: option,
-      rating: option,
-      ratingRemark: '',
-      ratingChangeComment: '',
-      referenceDoc: [option],
-      releaseDateMonth: 12,
-      releaseDateYear: 1223,
-      releaseRestrictions: '',
-      standardDocument: option,
-      steelMakingProcess: option,
-      supplier: option,
-      supplierPlant: option,
-    };
-    it('store material and open snackbar with success?', () => {
-      const mockSubject = new Subject();
-      store.select = jest.fn(() => mockSubject);
-      store.dispatch = jest.fn();
-      component['snackbar'].open = jest.fn();
-      component.castingDiameterControl.enable();
-      component.createMaterialForm.setValue(material, { emitEvent: false });
-      component.closeDialog = jest.fn();
-
-      component.addMaterial();
-      mockSubject.next(true);
-
-      expect(store.dispatch).toBeCalled();
-      expect(component['snackbar'].open).toBeCalled();
-      expect(component.closeDialog).toHaveBeenCalledWith(true);
-    });
-    it('stores material and open snackbar with failure?', () => {
-      const mockSubject = new Subject();
-      store.select = jest.fn(() => mockSubject);
-      store.dispatch = jest.fn();
-      component['snackbar'].open = jest.fn();
-      component.castingDiameterControl.enable();
-      component.createMaterialForm.setValue(material, { emitEvent: false });
-
-      component.addMaterial();
-      mockSubject.next(false);
-
-      expect(store.dispatch).toBeCalled();
-      expect(component['snackbar'].open).toBeCalled();
-    });
-  });
-
-  describe('closeDialog', () => {
-    it('should close the dialog', () => {
-      component['dialogRef'].close = jest.fn();
-
-      component.closeDialog('test');
-
-      expect(component['dialogRef'].close).toHaveBeenCalledWith('test');
-    });
-  });
-
-  describe('addReferenceDocument', () => {
-    it('should add values to select', () => {
-      const s = 'string';
-      component.referenceDocument.push = jest.fn();
-      component.addReferenceDocument(s);
-      expect(component.referenceDocument.push).toHaveBeenCalledWith({
-        id: s,
-        title: s,
+        expect(component.destroy$.next).toHaveBeenCalled();
+        expect(component.destroy$.complete).toHaveBeenCalled();
       });
     });
-  });
 
-  describe('addCastingDiameter', () => {
-    it('should add values to select', () => {
-      const castingDiameter = 'string';
-      store.dispatch = jest.fn();
-      component.addCastingDiameter(castingDiameter);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        addCustomCastingDiameter({ castingDiameter })
-      );
+    describe('addMaterial', () => {
+      const option: StringOption = { id: 1, title: 'title' };
+      const supplierOption = { id: '89', title: 'supplier' } as StringOption;
+      const supplierPlantOption = {
+        id: '32',
+        title: 'supplierPlant',
+        data: { supplierName: 'supplier' },
+      } as StringOption;
+
+      const material = {
+        manufacturerSupplierId: 1,
+        materialStandardId: 1,
+        blocked: false,
+        castingDiameter: option,
+        castingMode: '',
+        co2Classification: option,
+        co2PerTon: 1,
+        co2Scope1: 2,
+        co2Scope2: 3,
+        co2Scope3: 3,
+        materialName: option,
+        maxDimension: 3,
+        minDimension: 4,
+        productCategory: option,
+        rating: option,
+        ratingRemark: '',
+        ratingChangeComment: '',
+        referenceDoc: [option],
+        releaseDateMonth: 12,
+        releaseDateYear: 1223,
+        releaseRestrictions: '',
+        standardDocument: option,
+        steelMakingProcess: option,
+        supplier: supplierOption,
+        supplierPlant: supplierPlantOption,
+        materialNumber: '1.1234',
+      };
+      it('store material and open snackbar with success?', () => {
+        const mockSubject = new Subject<CreateMaterialRecord>();
+        component['dialogFacade'].dispatch = jest.fn();
+        component['dialogFacade'].createMaterialRecord$ = mockSubject;
+        component['snackbar'].open = jest.fn();
+        component.closeDialog = jest.fn();
+        const createMaterialRecord = {
+          error: false,
+        } as CreateMaterialRecord;
+
+        component.suppliersControl.setValue(supplierOption);
+        component.supplierPlantsControl.setValue(supplierPlantOption);
+        component.castingModesControl.setValue('sth');
+        component.castingDiameterControl.setValue(option);
+        component.createMaterialForm.setValue(material, { emitEvent: false });
+
+        component.addMaterial();
+        mockSubject.next(createMaterialRecord);
+
+        expect(component['dialogFacade'].dispatch).toBeCalled();
+        expect(component['snackbar'].open).toBeCalled();
+        expect(component.closeDialog).toHaveBeenCalledWith(true);
+      });
+      it('stores material and open snackbar with failure?', () => {
+        const mockSubject = new Subject<CreateMaterialRecord>();
+        component['dialogFacade'].dispatch = jest.fn();
+        component['dialogFacade'].createMaterialRecord$ = mockSubject;
+        component['snackbar'].open = jest.fn();
+        component.closeDialog = jest.fn();
+        const createMaterialRecord = {
+          error: true,
+        } as CreateMaterialRecord;
+
+        component.suppliersControl.setValue(supplierOption);
+        component.supplierPlantsControl.setValue(supplierPlantOption);
+        component.castingModesControl.setValue('sth');
+        component.castingDiameterControl.setValue(option);
+        component.createMaterialForm.setValue(material, { emitEvent: false });
+
+        component.addMaterial();
+        mockSubject.next(createMaterialRecord);
+
+        expect(component['snackbar'].open).toBeCalled();
+        expect(component.closeDialog).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('closeDialog', () => {
+      it('should close the dialog', () => {
+        component['dialogRef'].close = jest.fn();
+
+        component.closeDialog('test');
+
+        expect(component['dialogRef'].close).toHaveBeenCalledWith('test');
+      });
+    });
+
+    describe('addReferenceDocument', () => {
+      it('should add values to select', () => {
+        const s = 'string';
+        component.referenceDocument.push = jest.fn();
+        component.addReferenceDocument(s);
+        expect(component.referenceDocument.push).toHaveBeenCalledWith({
+          id: s,
+          title: s,
+        });
+      });
+    });
+
+    describe('addCastingDiameter', () => {
+      it('should add values to select', () => {
+        const castingDiameter = 'string';
+        store.dispatch = jest.fn();
+        component.addCastingDiameter(castingDiameter);
+        expect(store.dispatch).toHaveBeenCalledWith(
+          addCustomCastingDiameter({ castingDiameter })
+        );
+      });
+    });
+
+    describe('addStandardDocument', () => {
+      it('should add values to select', () => {
+        const standardDocument = 'string';
+        store.dispatch = jest.fn();
+        component.addStandardDocument(standardDocument);
+        expect(store.dispatch).toHaveBeenCalledWith(
+          addCustomMaterialStandardDocument({ standardDocument })
+        );
+      });
+    });
+
+    describe('addMaterialName', () => {
+      it('should add values to select', () => {
+        const materialName = 'string';
+        store.dispatch = jest.fn();
+        component.addMaterialName(materialName);
+        expect(store.dispatch).toHaveBeenCalledWith(
+          addCustomMaterialStandardName({ materialName })
+        );
+      });
+    });
+    describe('addSupplierName', () => {
+      it('should add values to select', () => {
+        const supplierName = 'string';
+        store.dispatch = jest.fn();
+        component.addSupplierName(supplierName);
+        expect(store.dispatch).toHaveBeenCalledWith(
+          addCustomSupplierName({ supplierName })
+        );
+      });
+    });
+    describe('addSupplierPlant', () => {
+      it('should add values to select', () => {
+        const supplierPlant = 'string';
+        store.dispatch = jest.fn();
+        component.addSupplierPlant(supplierPlant);
+        expect(store.dispatch).toHaveBeenCalledWith(
+          addCustomSupplierPlant({ supplierPlant })
+        );
+      });
     });
   });
 });

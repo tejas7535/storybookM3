@@ -8,6 +8,8 @@ import { marbles } from 'rxjs-marbles';
 import { StringOption } from '@schaeffler/inputs';
 
 import {
+  CreateMaterialRecord,
+  CreateMaterialState,
   ManufacturerSupplier,
   Material,
   MaterialStandard,
@@ -38,6 +40,9 @@ import {
   fetchSteelMakingProcesses,
   fetchSteelMakingProcessesFailure,
   fetchSteelMakingProcessesSuccess,
+  postManufacturerSupplier,
+  postMaterial,
+  postMaterialStandard,
 } from '@mac/msd/store/actions';
 
 import { DialogEffects } from './dialog.effects';
@@ -360,47 +365,287 @@ describe('Data Effects', () => {
 
   describe('addMaterialDialogConfirmed$', () => {
     it(
-      'should create material and return success action on success',
+      'should call post material standard',
       marbles((m) => {
         const mockMaterial = {} as Material;
-        action = addMaterialDialogConfirmed({ material: mockMaterial });
+        const mockStandard = {} as MaterialStandard;
+        const mockSupplier = {} as ManufacturerSupplier;
+        action = addMaterialDialogConfirmed({
+          material: mockMaterial,
+          standard: mockStandard,
+          supplier: mockSupplier,
+        });
         actions$ = m.hot('-a', { a: action });
-
-        const response = m.cold('-a|');
-        msdDataService.createMaterial = jest.fn(() => response);
-
-        const result = createMaterialComplete({ success: true });
-        const expected = m.cold('--b', { b: result });
+        const expected = m.cold('-(b)', {
+          b: postMaterialStandard({
+            record: {
+              material: mockMaterial,
+              standard: mockStandard,
+              supplier: mockSupplier,
+              error: false,
+              state: 0,
+            } as CreateMaterialRecord,
+          }),
+        });
 
         m.expect(effects.addMaterialDialogConfirmed$).toBeObservable(expected);
         m.flush();
+      })
+    );
+  });
 
-        expect(msdDataService.createMaterial).toHaveBeenCalledWith(
-          mockMaterial
-        );
+  describe('postMaterialStandard$', () => {
+    const recordMock = {
+      standard: {
+        id: 1,
+        materialName: 'matName',
+        standardDocument: 'S 123456',
+      },
+    } as CreateMaterialRecord;
+    it(
+      'should call skipp adding material standard',
+      marbles((m) => {
+        const record = recordMock;
+        action = postMaterialStandard({ record });
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-(b)', {
+          b: postManufacturerSupplier({
+            record: {
+              ...record,
+              state: CreateMaterialState.MaterialStandardSkipped,
+            },
+          }),
+        });
+
+        m.expect(effects.postMaterialStandard$).toBeObservable(expected);
+        m.flush();
       })
     );
 
     it(
-      'should create material and return failure action on failure',
+      'should call create a material standard',
       marbles((m) => {
-        const mockMaterial = {} as Material;
-        action = addMaterialDialogConfirmed({ material: mockMaterial });
+        const record = {
+          ...recordMock,
+          standard: {
+            ...recordMock.standard,
+            id: undefined,
+          },
+        } as CreateMaterialRecord;
+        action = postMaterialStandard({ record });
+        actions$ = m.hot('-a', { a: action });
+
+        const resultMock = { id: 42 };
+        const response = m.cold('-a|', { a: resultMock });
+        msdDataService.createMaterialStandard = jest.fn(() => response);
+
+        const expected = m.cold('--(c)', {
+          c: postManufacturerSupplier({
+            record: {
+              ...record,
+              material: {
+                ...record.material,
+                materialStandardId: 42,
+              },
+              state: CreateMaterialState.MaterialStandardCreated,
+            },
+          }),
+        });
+
+        m.expect(effects.postMaterialStandard$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+
+    it(
+      'should call return failed state',
+      marbles((m) => {
+        const record = {
+          ...recordMock,
+          standard: {
+            ...recordMock.standard,
+            id: undefined,
+          },
+        } as CreateMaterialRecord;
+        action = postMaterialStandard({ record });
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataService.createMaterialStandard = jest
+          .fn()
+          .mockReturnValue(throwError(() => 'error'));
+
+        const expected = m.cold('-b', {
+          b: createMaterialComplete({
+            record: {
+              ...record,
+              state: CreateMaterialState.MaterialStandardCreationFailed,
+              error: true,
+            },
+          }),
+        });
+
+        m.expect(effects.postMaterialStandard$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+  });
+
+  describe('postManufacturerSupplier$', () => {
+    const recordMock = {
+      supplier: {
+        id: 1,
+        name: 'supName',
+        plant: 'NUE',
+      },
+    } as CreateMaterialRecord;
+    it(
+      'should call skip adding supplier',
+      marbles((m) => {
+        const record = recordMock;
+        action = postManufacturerSupplier({ record });
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-(b)', {
+          b: postMaterial({
+            record: {
+              ...record,
+              state: CreateMaterialState.ManufacturerSupplierSkipped,
+            },
+          }),
+        });
+
+        m.expect(effects.postManufacturerSupplier$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+
+    it(
+      'should call create a manufacturer supplier',
+      marbles((m) => {
+        const record = {
+          ...recordMock,
+          supplier: {
+            ...recordMock.supplier,
+            id: undefined,
+          },
+        } as CreateMaterialRecord;
+        action = postManufacturerSupplier({ record });
+        actions$ = m.hot('-a', { a: action });
+
+        const resultMock = { id: 42 };
+        const response = m.cold('-a|', { a: resultMock });
+        msdDataService.createManufacturerSupplier = jest.fn(() => response);
+
+        const expected = m.cold('--(c)', {
+          c: postMaterial({
+            record: {
+              ...record,
+              material: {
+                ...record.material,
+                manufacturerSupplierId: 42,
+              },
+              state: CreateMaterialState.ManufacturerSupplierCreated,
+            },
+          }),
+        });
+
+        m.expect(effects.postManufacturerSupplier$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+
+    it(
+      'should call return failed state',
+      marbles((m) => {
+        const record = {
+          ...recordMock,
+          supplier: {
+            ...recordMock.supplier,
+            id: undefined,
+          },
+        } as CreateMaterialRecord;
+        action = postManufacturerSupplier({ record });
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataService.createManufacturerSupplier = jest
+          .fn()
+          .mockReturnValue(throwError(() => 'error'));
+
+        const expected = m.cold('-b', {
+          b: createMaterialComplete({
+            record: {
+              ...record,
+              state: CreateMaterialState.ManufacturerSupplierCreationFailed,
+              error: true,
+            },
+          }),
+        });
+
+        m.expect(effects.postManufacturerSupplier$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+  });
+
+  describe('postMaterial$', () => {
+    const recordMock = {} as CreateMaterialRecord;
+    it(
+      'should create a material',
+      marbles((m) => {
+        const record = {
+          ...recordMock,
+        } as CreateMaterialRecord;
+        action = postMaterial({ record });
+        actions$ = m.hot('-a', { a: action });
+
+        const resultMock = { id: 42 };
+        const response = m.cold('-a|', { a: resultMock });
+        msdDataService.createMaterial = jest.fn(() => response);
+
+        const expected = m.cold('--(c)', {
+          c: createMaterialComplete({
+            record: {
+              ...record,
+              state: CreateMaterialState.MaterialCreated,
+            },
+          }),
+        });
+
+        m.expect(effects.postMaterial$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+
+    it(
+      'should call return failed state',
+      marbles((m) => {
+        const record = {
+          ...recordMock,
+          supplier: {
+            ...recordMock.supplier,
+            id: undefined,
+          },
+        } as CreateMaterialRecord;
+        action = postMaterial({ record });
         actions$ = m.hot('-a', { a: action });
 
         msdDataService.createMaterial = jest
           .fn()
           .mockReturnValue(throwError(() => 'error'));
 
-        const result = createMaterialComplete({ success: false });
-        const expected = m.cold('-b', { b: result });
+        const expected = m.cold('-b', {
+          b: createMaterialComplete({
+            record: {
+              ...record,
+              state: CreateMaterialState.MaterialCreationFailed,
+              error: true,
+            },
+          }),
+        });
 
-        m.expect(effects.addMaterialDialogConfirmed$).toBeObservable(expected);
+        m.expect(effects.postMaterial$).toBeObservable(expected);
         m.flush();
-
-        expect(msdDataService.createMaterial).toHaveBeenCalledWith(
-          mockMaterial
-        );
       })
     );
   });

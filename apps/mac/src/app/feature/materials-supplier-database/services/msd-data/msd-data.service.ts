@@ -202,6 +202,26 @@ export class MsdDataService {
     );
   }
 
+  public createMaterialStandard(standard: MaterialStandard) {
+    const modStd = {
+      materialName: standard.materialName,
+      standardDocument: standard.standardDocument,
+      materialNumber: standard.materialNumber?.split(', '),
+    };
+
+    return this.httpClient.post<{ id: number }>(
+      `${this.BASE_URL}/materials/materialStandards`,
+      modStd
+    );
+  }
+
+  public createManufacturerSupplier(supplier: ManufacturerSupplier) {
+    return this.httpClient.post<{ id: number }>(
+      `${this.BASE_URL}/materials/manufacturerSuppliers`,
+      supplier
+    );
+  }
+
   public createMaterial(material: Material) {
     return this.httpClient.post<{ id: number }>(
       `${this.BASE_URL}/materials`,

@@ -1,6 +1,11 @@
 /* eslint-disable max-lines */
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormControl,
+  FormGroup,
+} from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -11,9 +16,17 @@ import { translate } from '@ngneat/transloco';
 import { StringOption } from '@schaeffler/inputs';
 
 import { DialogControlsService } from '@mac/msd/main-table/input-dialog/services';
-import { Material } from '@mac/msd/models';
+import {
+  ManufacturerSupplier,
+  Material,
+  MaterialStandard,
+} from '@mac/msd/models';
 import {
   addCustomCastingDiameter,
+  addCustomMaterialStandardDocument,
+  addCustomMaterialStandardName,
+  addCustomSupplierName,
+  addCustomSupplierPlant,
   addMaterialDialogConfirmed,
   DialogFacade,
   fetchCastingDiameters,
@@ -46,9 +59,8 @@ export class InputDialogComponent implements OnInit, OnDestroy {
   public destroy$ = new Subject<void>();
 
   public manufacturerSupplierIdControl =
-    this.controlsService.getRequiredControl<number>();
-  public materialStandardIdControl =
-    this.controlsService.getRequiredControl<number>();
+    this.controlsService.getControl<number>();
+  public materialStandardIdControl = this.controlsService.getControl<number>();
   public standardDocumentsControl =
     this.controlsService.getRequiredControl<StringOption>();
   public materialNamesControl =
@@ -117,16 +129,13 @@ export class InputDialogComponent implements OnInit, OnDestroy {
     ratingChangeComment: FormControl<string>;
 
     standardDocument: FormControl<StringOption>;
+    materialNumber: FormControl<string>;
     materialName: FormControl<StringOption>;
     supplier: FormControl<StringOption>;
     supplierPlant: FormControl<StringOption>;
   }>;
 
   private scopesControls: FormArray;
-  private castingDiameterDependencies: FormGroup<{
-    supplierId: FormControl<number>;
-    castingMode: FormControl<string>;
-  }>;
 
   public filterFn = util.filterFn;
   public materialNameFilterFnFactory = util.materialNameFilterFnFactory;
@@ -136,6 +145,11 @@ export class InputDialogComponent implements OnInit, OnDestroy {
   public valueOptionKeyToTitleFilterFnFactory =
     util.valueOptionKeyToTitleFilterFnFactory;
   public getErrorMessage = util.getErrorMessage;
+  suppliersDependencies: FormGroup<{
+    supplierName: FormControl<StringOption>;
+    supplierPlant: FormControl<StringOption>;
+    castingMode: FormControl<string>;
+  }>;
 
   public constructor(
     private readonly dialogFacade: DialogFacade,
@@ -173,6 +187,7 @@ export class InputDialogComponent implements OnInit, OnDestroy {
 
       // these controls are not used for creating a material, only for materialStandards or manufacturerSuppliers
       standardDocument: this.standardDocumentsControl,
+      materialNumber: this.steelNumberControl,
       materialName: this.materialNamesControl,
       supplier: this.suppliersControl,
       supplierPlant: this.supplierPlantsControl,
@@ -185,8 +200,9 @@ export class InputDialogComponent implements OnInit, OnDestroy {
       this.co2TotalControl,
     ]);
 
-    this.castingDiameterDependencies = new FormGroup({
-      supplierId: this.manufacturerSupplierIdControl,
+    this.suppliersDependencies = new FormGroup({
+      supplierName: this.suppliersControl,
+      supplierPlant: this.supplierPlantsControl,
       castingMode: this.castingModesControl,
     });
 
@@ -196,6 +212,7 @@ export class InputDialogComponent implements OnInit, OnDestroy {
     this.standardDocumentsControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
+        // reset material name if stdDoc has been reseted
         tap((standardDocument) => {
           if (!standardDocument) {
             this.createMaterialForm
@@ -208,9 +225,11 @@ export class InputDialogComponent implements OnInit, OnDestroy {
         }),
         filter((standardDocument) => !!standardDocument)
       )
+      /* Detect changes of stdDoc and reset material name if value from matName does
+         not fit to selected value */
       .subscribe((standardDocument: StringOption) => {
         if (this.createMaterialForm.get('materialName').value) {
-          const mappedSelection = standardDocument.data.materialNames.find(
+          const mappedSelection = standardDocument.data?.materialNames.find(
             ({ materialName }: { id: number; materialName: string }) =>
               materialName ===
               this.createMaterialForm.get('materialName').value.title
@@ -218,6 +237,15 @@ export class InputDialogComponent implements OnInit, OnDestroy {
           if (mappedSelection) {
             this.createMaterialForm.patchValue({
               materialStandardId: mappedSelection.id,
+            });
+          }
+          // special rule for selecting custom added entries
+          else if (
+            !standardDocument.id ||
+            !this.createMaterialForm.get('materialName').value.id
+          ) {
+            this.createMaterialForm.patchValue({
+              materialStandardId: undefined,
             });
           } else {
             this.createMaterialForm
@@ -230,6 +258,7 @@ export class InputDialogComponent implements OnInit, OnDestroy {
     this.materialNamesControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
+        // reset stdDoc if field has been reseted
         tap((materialName) => {
           if (!materialName) {
             this.createMaterialForm
@@ -242,9 +271,11 @@ export class InputDialogComponent implements OnInit, OnDestroy {
         }),
         filter((materialName) => !!materialName)
       )
+      /* Detect changes of field and reset stdDoc if value from stdDoc does
+         not fit to selected value */
       .subscribe((materialName: StringOption) => {
         if (this.createMaterialForm.get('standardDocument').value) {
-          const mappedSelection = materialName.data.standardDocuments.find(
+          const mappedSelection = materialName.data?.standardDocuments.find(
             ({ standardDocument }: { id: number; standardDocument: string }) =>
               standardDocument ===
               this.createMaterialForm.get('standardDocument').value.title
@@ -252,6 +283,15 @@ export class InputDialogComponent implements OnInit, OnDestroy {
           if (mappedSelection) {
             this.createMaterialForm.patchValue({
               materialStandardId: mappedSelection.id,
+            });
+          }
+          // special rule for new created custom entries
+          else if (
+            !materialName.id ||
+            !this.createMaterialForm.get('standardDocument').value.id
+          ) {
+            this.createMaterialForm.patchValue({
+              materialStandardId: undefined,
             });
           } else {
             this.createMaterialForm
@@ -261,34 +301,7 @@ export class InputDialogComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.suppliersControl.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        tap((value) =>
-          value
-            ? this.supplierPlantsControl.enable({ emitEvent: false })
-            : this.supplierPlantsControl.disable({ emitEvent: false })
-        )
-      )
-      .subscribe((supplier: StringOption) => {
-        if (
-          !supplier ||
-          (this.supplierPlantsControl.value &&
-            this.supplierPlantsControl.value.data['supplierName'] !==
-              supplier.title)
-        ) {
-          this.supplierPlantsControl.reset();
-        }
-      });
-
-    this.supplierPlantsControl.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((plant: StringOption) => {
-        this.manufacturerSupplierIdControl.patchValue(
-          plant?.data['supplierId']
-        );
-      });
-
+    // detect changes of the co2Scope fields
     this.scopesControls.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
@@ -302,27 +315,6 @@ export class InputDialogComponent implements OnInit, OnDestroy {
           : this.co2ClassificationControl.disable({ emitEvent: false })
       );
 
-    this.castingDiameterDependencies.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(({ supplierId, castingMode }) => {
-        if (!supplierId) {
-          this.castingModesControl.reset(
-            { value: undefined, disabled: true },
-            { emitEvent: false }
-          );
-        } else {
-          this.castingModesControl.enable({ emitEvent: false });
-        }
-        if (!supplierId || !castingMode) {
-          this.castingDiameterControl.disable({ emitEvent: false });
-        } else {
-          this.castingDiameterControl.enable({ emitEvent: false });
-          this.dialogFacade.dispatch(
-            fetchCastingDiameters({ supplierId, castingMode })
-          );
-        }
-      });
-
     this.ratingsControl.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((value: StringOption) =>
@@ -330,6 +322,81 @@ export class InputDialogComponent implements OnInit, OnDestroy {
           ? this.ratingChangeCommentControl.enable({ emitEvent: false })
           : this.ratingChangeCommentControl.disable({ emitEvent: false })
       );
+
+    this.suppliersDependencies.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(({ supplierName, supplierPlant, castingMode }) => {
+        // all supplier fields depend on the selection of a supplier
+        if (supplierName) {
+          this.supplierPlantsControl.enable({ emitEvent: false });
+          if (supplierPlant) {
+            // verify selected plant is available for selected supplier name (special case for created items)
+            if (
+              supplierName.id && // new custom supplier has been selected
+              supplierPlant.id && // new custom plant has been selected
+              supplierPlant.data['supplierName'] !== supplierName.title
+            ) {
+              this.supplierPlantsControl.reset();
+            } else {
+              // enable casting mode and store supplier id (not available for created entries)
+              const supplierId = supplierPlant?.data?.['supplierId'];
+              this.manufacturerSupplierIdControl.patchValue(supplierId);
+              this.castingModesControl.enable({ emitEvent: false });
+              if (castingMode) {
+                // enable casting diameter selection
+                this.castingDiameterControl.enable({ emitEvent: false });
+                // pull list of available diameters for selected supplier
+                this.dialogFacade.dispatch(
+                  fetchCastingDiameters({ supplierId, castingMode })
+                );
+              } else {
+                this.disable([this.castingDiameterControl]);
+              }
+            }
+          } else {
+            this.disable([
+              this.manufacturerSupplierIdControl,
+              this.castingModesControl,
+              this.castingDiameterControl,
+            ]);
+          }
+        } else {
+          this.disable([
+            this.manufacturerSupplierIdControl,
+            this.supplierPlantsControl,
+            this.castingModesControl,
+            this.castingDiameterControl,
+          ]);
+        }
+      });
+  }
+
+  private disable(controls: AbstractControl[]): void {
+    controls.forEach((control) => {
+      switch (control) {
+        case this.manufacturerSupplierIdControl:
+          this.manufacturerSupplierIdControl.reset();
+          break;
+        case this.supplierPlantsControl:
+          this.supplierPlantsControl.disable({ emitEvent: false });
+          this.supplierPlantsControl.reset(
+            { value: undefined, disabled: true },
+            { emitEvent: false }
+          );
+          break;
+        case this.castingModesControl:
+          this.castingModesControl.reset(
+            { value: undefined, disabled: true },
+            { emitEvent: false }
+          );
+          break;
+        case this.castingDiameterControl:
+          this.castingDiameterControl.disable({ emitEvent: false });
+          break;
+        default:
+          break;
+      }
+    });
   }
 
   public ngOnDestroy(): void {
@@ -339,6 +406,20 @@ export class InputDialogComponent implements OnInit, OnDestroy {
 
   public addMaterial(): void {
     const baseMaterial = this.createMaterialForm.value;
+
+    const standard: MaterialStandard = {
+      id: baseMaterial.materialStandardId,
+      materialName: baseMaterial.materialName.title,
+      materialNumber: baseMaterial.materialNumber,
+      standardDocument: baseMaterial.standardDocument.title,
+    };
+
+    const supplier: ManufacturerSupplier = {
+      id: baseMaterial.manufacturerSupplierId,
+      name: baseMaterial.supplier.title,
+      plant: baseMaterial.supplierPlant.title,
+    };
+
     const material: Material = {
       // TODO: should not be hardcoded later on
       materialClass: 'st',
@@ -368,15 +449,19 @@ export class InputDialogComponent implements OnInit, OnDestroy {
       // attachments: '',
     };
 
-    this.dialogFacade.dispatch(addMaterialDialogConfirmed({ material }));
+    // include material, stdDoc and supplier put logic in effect
+    this.dialogFacade.dispatch(
+      addMaterialDialogConfirmed({ standard, supplier, material })
+    );
 
-    this.dialogFacade.createMaterialSuccess$
+    // rename to createMaterialComplete, return object instead of
+    this.dialogFacade.createMaterialRecord$
       .pipe(
-        filter((success) => success !== undefined),
+        filter((record) => !!record),
         take(1)
       )
-      .subscribe((success) => {
-        if (success) {
+      .subscribe((record) => {
+        if (!record.error) {
           this.snackbar.open(
             translate(
               'materialsSupplierDatabase.mainTable.dialog.createMaterialSuccess'
@@ -407,5 +492,23 @@ export class InputDialogComponent implements OnInit, OnDestroy {
 
   public addCastingDiameter(castingDiameter: string): void {
     this.dialogFacade.dispatch(addCustomCastingDiameter({ castingDiameter }));
+  }
+
+  public addStandardDocument(standardDocument: string): void {
+    this.dialogFacade.dispatch(
+      addCustomMaterialStandardDocument({ standardDocument })
+    );
+  }
+
+  public addMaterialName(materialName: string): void {
+    this.dialogFacade.dispatch(addCustomMaterialStandardName({ materialName }));
+  }
+
+  public addSupplierName(supplierName: string): void {
+    this.dialogFacade.dispatch(addCustomSupplierName({ supplierName }));
+  }
+
+  public addSupplierPlant(supplierPlant: string): void {
+    this.dialogFacade.dispatch(addCustomSupplierPlant({ supplierPlant }));
   }
 }

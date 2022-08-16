@@ -1,4 +1,5 @@
 import {
+  CreateMaterialRecord,
   ManufacturerSupplier,
   Material,
   MaterialStandard,
@@ -6,11 +7,14 @@ import {
 
 import {
   addCustomCastingDiameter,
+  addCustomMaterialStandardDocument,
+  addCustomMaterialStandardName,
+  addCustomSupplierName,
+  addCustomSupplierPlant,
   addMaterialDialogCanceled,
   addMaterialDialogConfirmed,
   addMaterialDialogOpened,
   createMaterialComplete,
-  createMaterialFailure,
   fetchCastingDiameters,
   fetchCastingDiametersFailure,
   fetchCastingDiametersSuccess,
@@ -32,6 +36,9 @@ import {
   fetchSteelMakingProcesses,
   fetchSteelMakingProcessesFailure,
   fetchSteelMakingProcessesSuccess,
+  postManufacturerSupplier,
+  postMaterial,
+  postMaterialStandard,
 } from './dialog.actions';
 
 describe('Dialog Actions', () => {
@@ -58,10 +65,18 @@ describe('Dialog Actions', () => {
   describe('Add Material Confirmed', () => {
     it('addMaterialDialogConfirmed', () => {
       const mockMaterial = {} as Material;
-      const action = addMaterialDialogConfirmed({ material: mockMaterial });
+      const mockStandard = {} as MaterialStandard;
+      const mockSupplier = {} as ManufacturerSupplier;
+      const action = addMaterialDialogConfirmed({
+        material: mockMaterial,
+        standard: mockStandard,
+        supplier: mockSupplier,
+      });
 
       expect(action).toEqual({
         material: mockMaterial,
+        standard: mockStandard,
+        supplier: mockSupplier,
         type: '[MSD - Dialog] Add Material Confirmed',
       });
     });
@@ -274,21 +289,12 @@ describe('Dialog Actions', () => {
 
   describe('Create Material Success', () => {
     it('createMaterialSuccess', () => {
-      const action = createMaterialComplete({ success: true });
+      const mockRecord = {} as CreateMaterialRecord;
+      const action = createMaterialComplete({ record: mockRecord });
 
       expect(action).toEqual({
         type: '[MSD - Dialog] Create Material Complete',
-        success: true,
-      });
-    });
-  });
-
-  describe('Create Material Failure', () => {
-    it('createMaterialFailure', () => {
-      const action = createMaterialFailure();
-
-      expect(action).toEqual({
-        type: '[MSD - Dialog] Create Material Failure',
+        record: mockRecord,
       });
     });
   });
@@ -337,8 +343,84 @@ describe('Dialog Actions', () => {
       const action = addCustomCastingDiameter({ castingDiameter: '200x200' });
 
       expect(action).toEqual({
-        type: '[MSD - Dialog] Add Custom Casting DIameter',
+        type: '[MSD - Dialog] Add Custom Casting Diameter',
         castingDiameter: '200x200',
+      });
+    });
+  });
+
+  describe('Add Custom Material standard', () => {
+    it('Standard Document', () => {
+      const action = addCustomMaterialStandardDocument({
+        standardDocument: 'doc',
+      });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Add Custom Material Standard Document',
+        standardDocument: 'doc',
+      });
+    });
+
+    it('material name', () => {
+      const action = addCustomMaterialStandardName({ materialName: 'name' });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Add Custom Material Standard Name',
+        materialName: 'name',
+      });
+    });
+  });
+
+  describe('Add Custom Supplier', () => {
+    it('Name', () => {
+      const action = addCustomSupplierName({
+        supplierName: 'name',
+      });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Add Custom Supplier Name',
+        supplierName: 'name',
+      });
+    });
+
+    it('Plant', () => {
+      const action = addCustomSupplierPlant({ supplierPlant: 'plant' });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Add Custom Supplier Plant',
+        supplierPlant: 'plant',
+      });
+    });
+  });
+
+  describe('Post Material', () => {
+    it('MaterialName', () => {
+      const record = {} as CreateMaterialRecord;
+      const action = postMaterial({ record });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Post Material',
+        record,
+      });
+    });
+
+    it('Material standard', () => {
+      const record = {} as CreateMaterialRecord;
+      const action = postMaterialStandard({ record });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Post Material standard',
+        record,
+      });
+    });
+
+    it('Manufacturer Supplier', () => {
+      const record = {} as CreateMaterialRecord;
+      const action = postManufacturerSupplier({ record });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Post Manufacturer Supplier',
+        record,
       });
     });
   });

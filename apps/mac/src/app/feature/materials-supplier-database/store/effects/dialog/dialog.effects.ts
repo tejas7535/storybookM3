@@ -6,7 +6,11 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import { StringOption } from '@schaeffler/inputs';
 
-import { ManufacturerSupplier, MaterialStandard } from '@mac/msd/models';
+import {
+  CreateMaterialState,
+  ManufacturerSupplier,
+  MaterialStandard,
+} from '@mac/msd/models';
 import { MsdDataService } from '@mac/msd/services';
 import * as DialogActions from '@mac/msd/store/actions/dialog/dialog.actions';
 
@@ -130,12 +134,138 @@ export class DialogEffects {
   public addMaterialDialogConfirmed$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DialogActions.addMaterialDialogConfirmed),
-      switchMap(({ material }) =>
-        this.msdDataService.createMaterial(material).pipe(
-          map(() => DialogActions.createMaterialComplete({ success: true })),
+      switchMap(({ standard, supplier, material }) => [
+        DialogActions.postMaterialStandard({
+          record: {
+            standard,
+            supplier,
+            material,
+            state: CreateMaterialState.Initial,
+            error: false,
+          },
+        }),
+      ])
+    );
+  });
+
+  public postMaterialStandard$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.postMaterialStandard),
+      switchMap(({ record }) =>
+        record.standard.id
+          ? // material standard already exists
+            of(
+              DialogActions.postManufacturerSupplier({
+                record: {
+                  ...record,
+                  state: CreateMaterialState.MaterialStandardSkipped,
+                },
+              })
+            )
+          : // create new material standard entry
+            this.msdDataService.createMaterialStandard(record.standard).pipe(
+              map((response) =>
+                DialogActions.postManufacturerSupplier({
+                  record: {
+                    ...record,
+                    material: {
+                      ...record.material,
+                      materialStandardId: response.id,
+                    },
+                    state: CreateMaterialState.MaterialStandardCreated,
+                  },
+                })
+              ),
+              // TODO: implement proper error handling
+              catchError(() =>
+                of(
+                  DialogActions.createMaterialComplete({
+                    record: {
+                      ...record,
+                      state: CreateMaterialState.MaterialStandardCreationFailed,
+                      error: true,
+                    },
+                  })
+                )
+              )
+            )
+      )
+    );
+  });
+
+  public postManufacturerSupplier$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.postManufacturerSupplier),
+      switchMap(({ record }) =>
+        record.supplier.id
+          ? // skip creating manufacturer
+            of(
+              DialogActions.postMaterial({
+                record: {
+                  ...record,
+                  state: CreateMaterialState.ManufacturerSupplierSkipped,
+                },
+              })
+            )
+          : // create new manufacturer
+            this.msdDataService
+              .createManufacturerSupplier(record.supplier)
+              .pipe(
+                map((response) =>
+                  DialogActions.postMaterial({
+                    record: {
+                      ...record,
+                      material: {
+                        ...record.material,
+                        manufacturerSupplierId: response.id,
+                      },
+                      state: CreateMaterialState.ManufacturerSupplierCreated,
+                    },
+                  })
+                ),
+                // TODO: implement proper error handling
+                catchError(() =>
+                  of(
+                    DialogActions.createMaterialComplete({
+                      record: {
+                        ...record,
+                        state:
+                          CreateMaterialState.ManufacturerSupplierCreationFailed,
+                        error: true,
+                      },
+                    })
+                  )
+                )
+              )
+      )
+    );
+  });
+
+  public postMaterial$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.postMaterial),
+      switchMap(({ record }) =>
+        this.msdDataService.createMaterial(record.material).pipe(
+          map(() =>
+            DialogActions.createMaterialComplete({
+              record: {
+                ...record,
+                // there is currently no place in Material to store the ID...
+                state: CreateMaterialState.MaterialCreated,
+              },
+            })
+          ),
           // TODO: implement proper error handling
           catchError(() =>
-            of(DialogActions.createMaterialComplete({ success: false }))
+            of(
+              DialogActions.createMaterialComplete({
+                record: {
+                  ...record,
+                  state: CreateMaterialState.MaterialCreationFailed,
+                  error: true,
+                },
+              })
+            )
           )
         )
       )

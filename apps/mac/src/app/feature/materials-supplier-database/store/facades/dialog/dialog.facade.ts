@@ -12,13 +12,13 @@ import {
   getAddMaterialDialogRatings,
   getAddMaterialDialogSteelMakingProcesses,
   getCreateMaterialLoading,
-  getCreateMaterialSuccess,
+  getCreateMaterialRecord,
   getMaterialNameStringOptionsMerged,
   getMaterialStandardDocumentStringOptionsMerged,
   getProductCategoryOptions,
   getStringOptions,
-  getSupplierPlantStringOptions,
-  getSupplierStringOptions,
+  getSupplierNameStringOptionsMerged,
+  getSupplierPlantsStringOptionsMerged,
   getUniqueStringOptions,
 } from '@mac/msd/store';
 
@@ -30,16 +30,12 @@ export class DialogFacade {
   createMaterialLoading$ = this.store.select(getCreateMaterialLoading);
 
   standardDocuments$ = this.store.select(
-    getUniqueStringOptions(getMaterialStandardDocumentStringOptionsMerged)
+    getMaterialStandardDocumentStringOptionsMerged
   );
 
-  materialNames$ = this.store.select(
-    getUniqueStringOptions(getMaterialNameStringOptionsMerged)
-  );
-  suppliers$ = this.store.select(
-    getUniqueStringOptions(getSupplierStringOptions)
-  );
-  supplierPlants$ = this.store.select(getSupplierPlantStringOptions);
+  materialNames$ = this.store.select(getMaterialNameStringOptionsMerged);
+  suppliers$ = this.store.select(getSupplierNameStringOptionsMerged);
+  supplierPlants$ = this.store.select(getSupplierPlantsStringOptionsMerged);
   castingModes$ = this.store.select(getAddMaterialDialogCastingModes);
   co2Classification$ = this.store.select(
     getAddMaterialDialogCo2Classifications
@@ -65,7 +61,7 @@ export class DialogFacade {
     getAddMaterialDialogCastingDiametersLoading
   );
 
-  createMaterialSuccess$ = this.store.select(getCreateMaterialSuccess);
+  createMaterialRecord$ = this.store.select(getCreateMaterialRecord);
 
   constructor(private readonly store: Store) {}
 

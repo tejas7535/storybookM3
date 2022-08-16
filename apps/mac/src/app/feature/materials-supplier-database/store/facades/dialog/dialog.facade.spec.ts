@@ -283,15 +283,15 @@ describe('DialogFacade', () => {
     );
   });
 
-  describe('createMaterialSuccess$', () => {
+  describe('createMaterialRecord$', () => {
     it(
-      'should return false',
+      'should return undefined',
       marbles((m) => {
         const expected = m.cold('a', {
-          a: false,
+          a: undefined,
         });
 
-        m.expect(facade.createMaterialSuccess$).toBeObservable(expected);
+        m.expect(facade.createMaterialRecord$).toBeObservable(expected);
       })
     );
   });

@@ -27,6 +27,7 @@ export const valueTitleToOptionKeyFilterFnFactory =
   (control: FormControl<StringOption>, dataKey: string) =>
   (option?: StringOption, value?: string) => {
     if (
+      option.id &&
       control.value &&
       control.value.title &&
       control.value.title !== option.data[dataKey]
@@ -55,6 +56,7 @@ export const materialNameFilterFnFactory =
   (standardDocumentsControl: FormControl<StringOption>) =>
   (option?: StringOption, value?: string) => {
     if (
+      option.id &&
       standardDocumentsControl.value &&
       standardDocumentsControl.value.data &&
       !standardDocumentsControl.value.data['materialNames'].some(
@@ -72,6 +74,7 @@ export const standardDocumentFilterFnFactory =
   (materialNamesControl: FormControl<StringOption>) =>
   (option?: StringOption, value?: string) => {
     if (
+      option.id &&
       materialNamesControl.value &&
       materialNamesControl.value.data &&
       !materialNamesControl.value.data['standardDocuments'].some(

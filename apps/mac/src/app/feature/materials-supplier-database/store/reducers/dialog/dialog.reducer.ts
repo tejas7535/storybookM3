@@ -2,10 +2,18 @@ import { Action, createReducer, on } from '@ngrx/store';
 
 import { StringOption } from '@schaeffler/inputs';
 
-import { ManufacturerSupplier, MaterialStandard } from '@mac/msd/models';
+import {
+  CreateMaterialRecord,
+  ManufacturerSupplier,
+  MaterialStandard,
+} from '@mac/msd/models';
 // TODO: clean import
 import {
   addCustomCastingDiameter,
+  addCustomMaterialStandardDocument,
+  addCustomMaterialStandardName,
+  addCustomSupplierName,
+  addCustomSupplierPlant,
   addMaterialDialogCanceled,
   addMaterialDialogConfirmed,
   addMaterialDialogOpened,
@@ -39,8 +47,12 @@ export interface DialogState {
   };
   dialogOptions: {
     materialStandards: MaterialStandard[];
+    customMaterialStandardNames: string[];
+    customMaterialStandardDocuments: string[];
     materialStandardsLoading: boolean;
     manufacturerSuppliers: ManufacturerSupplier[];
+    customManufacturerSupplierNames: string[];
+    customManufacturerSupplierPlants: string[];
     manufacturerSuppliersLoading: boolean;
     ratings: string[];
     ratingsLoading: boolean;
@@ -57,7 +69,7 @@ export interface DialogState {
   };
   createMaterial: {
     createMaterialLoading: boolean;
-    createMaterialSuccess: boolean;
+    createMaterialRecord: CreateMaterialRecord;
   };
 }
 
@@ -275,17 +287,17 @@ export const dialogReducer = createReducer(
       ...state,
       createMaterial: {
         createMaterialLoading: true,
-        createMaterialSuccess: undefined,
+        createMaterialRecord: undefined,
       },
     })
   ),
   on(
     createMaterialComplete,
-    (state, { success }): DialogState => ({
+    (state, { record }): DialogState => ({
       ...state,
       createMaterial: {
         createMaterialLoading: false,
-        createMaterialSuccess: success,
+        createMaterialRecord: record,
       },
     })
   ),
@@ -300,6 +312,69 @@ export const dialogReducer = createReducer(
       dialogOptions: {
         ...state.dialogOptions,
         customCastingDiameters,
+      },
+    };
+  }),
+
+  on(
+    addCustomMaterialStandardDocument,
+    (state, { standardDocument }): DialogState => {
+      const stdDoc = state.dialogOptions.customMaterialStandardDocuments
+        ? [...state.dialogOptions.customMaterialStandardDocuments]
+        : [];
+      stdDoc.unshift(standardDocument);
+
+      return {
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          customMaterialStandardDocuments: stdDoc,
+        },
+      };
+    }
+  ),
+
+  on(addCustomMaterialStandardName, (state, { materialName }): DialogState => {
+    const matNames = state.dialogOptions.customMaterialStandardNames
+      ? [...state.dialogOptions.customMaterialStandardNames]
+      : [];
+    matNames.unshift(materialName);
+
+    return {
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        customMaterialStandardNames: matNames,
+      },
+    };
+  }),
+
+  on(addCustomSupplierName, (state, { supplierName }): DialogState => {
+    const manufNames = state.dialogOptions.customManufacturerSupplierNames
+      ? [...state.dialogOptions.customManufacturerSupplierNames]
+      : [];
+    manufNames.unshift(supplierName);
+
+    return {
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        customManufacturerSupplierNames: manufNames,
+      },
+    };
+  }),
+
+  on(addCustomSupplierPlant, (state, { supplierPlant }): DialogState => {
+    const manufPlants = state.dialogOptions.customManufacturerSupplierPlants
+      ? [...state.dialogOptions.customManufacturerSupplierPlants]
+      : [];
+    manufPlants.unshift(supplierPlant);
+
+    return {
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        customManufacturerSupplierPlants: manufPlants,
       },
     };
   })

@@ -3,6 +3,7 @@ import { createAction, props } from '@ngrx/store';
 import { StringOption } from '@schaeffler/inputs';
 
 import {
+  CreateMaterialRecord,
   ManufacturerSupplier,
   Material,
   MaterialStandard,
@@ -18,7 +19,11 @@ export const addMaterialDialogCanceled = createAction(
 
 export const addMaterialDialogConfirmed = createAction(
   '[MSD - Dialog] Add Material Confirmed',
-  props<{ material: Material }>()
+  props<{
+    standard: MaterialStandard;
+    supplier: ManufacturerSupplier;
+    material: Material;
+  }>()
 );
 
 export const fetchMaterialStandards = createAction(
@@ -99,11 +104,7 @@ export const fetchCastingModesFailure = createAction(
 
 export const createMaterialComplete = createAction(
   '[MSD - Dialog] Create Material Complete',
-  props<{ success: boolean }>()
-);
-
-export const createMaterialFailure = createAction(
-  '[MSD - Dialog] Create Material Failure'
+  props<{ record: CreateMaterialRecord }>()
 );
 
 export const fetchCastingDiameters = createAction(
@@ -121,6 +122,38 @@ export const fetchCastingDiametersFailure = createAction(
 );
 
 export const addCustomCastingDiameter = createAction(
-  '[MSD - Dialog] Add Custom Casting DIameter',
+  '[MSD - Dialog] Add Custom Casting Diameter',
   props<{ castingDiameter: string }>()
+);
+
+export const addCustomMaterialStandardName = createAction(
+  '[MSD - Dialog] Add Custom Material Standard Name',
+  props<{ materialName: string }>()
+);
+
+export const addCustomMaterialStandardDocument = createAction(
+  '[MSD - Dialog] Add Custom Material Standard Document',
+  props<{ standardDocument: string }>()
+);
+
+export const addCustomSupplierName = createAction(
+  '[MSD - Dialog] Add Custom Supplier Name',
+  props<{ supplierName: string }>()
+);
+export const addCustomSupplierPlant = createAction(
+  '[MSD - Dialog] Add Custom Supplier Plant',
+  props<{ supplierPlant: string }>()
+);
+
+export const postMaterial = createAction(
+  '[MSD - Dialog] Post Material',
+  props<{ record: CreateMaterialRecord }>()
+);
+export const postMaterialStandard = createAction(
+  '[MSD - Dialog] Post Material standard',
+  props<{ record: CreateMaterialRecord }>()
+);
+export const postManufacturerSupplier = createAction(
+  '[MSD - Dialog] Post Manufacturer Supplier',
+  props<{ record: CreateMaterialRecord }>()
 );

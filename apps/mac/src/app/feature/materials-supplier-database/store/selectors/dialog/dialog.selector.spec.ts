@@ -527,8 +527,36 @@ describe('DialogSelectors', () => {
     ];
 
     expect(
-      DialogSelectors.getMaterialNameStringOptionsMerged.projector(
+      DialogSelectors.getMaterialNameStringOptionsExtended.projector(
         materialNameOptions
+      )
+    ).toEqual(expected);
+  });
+
+  it('should return custom materialNames first', () => {
+    const materialNameOptions: StringOption[] = [
+      {
+        id: 3,
+        title: '3',
+      },
+    ];
+    const customMaterialStandardNames: string[] = ['first'];
+
+    const expected: StringOption[] = [
+      {
+        id: undefined,
+        title: 'first',
+      },
+      {
+        id: 3,
+        title: '3',
+      },
+    ];
+
+    expect(
+      DialogSelectors.getMaterialNameStringOptionsMerged.projector(
+        materialNameOptions,
+        customMaterialStandardNames
       )
     ).toEqual(expected);
   });
@@ -647,8 +675,35 @@ describe('DialogSelectors', () => {
     ];
 
     expect(
-      DialogSelectors.getMaterialStandardDocumentStringOptionsMerged.projector(
+      DialogSelectors.getMaterialStandardDocumentStringOptionsExtended.projector(
         standardDocumentOptions
+      )
+    ).toEqual(expected);
+  });
+
+  it('should return standardDocuments with custom standard documents', () => {
+    const standardDocumentOptions: StringOption[] = [
+      {
+        id: 1,
+        title: '1',
+      },
+    ];
+    const customs: string[] = ['first'];
+    const expected: StringOption[] = [
+      {
+        id: undefined,
+        title: 'first',
+      },
+      {
+        id: 1,
+        title: '1',
+      },
+    ];
+
+    expect(
+      DialogSelectors.getMaterialStandardDocumentStringOptionsMerged.projector(
+        standardDocumentOptions,
+        customs
       )
     ).toEqual(expected);
   });
@@ -716,14 +771,14 @@ describe('DialogSelectors', () => {
     ).toEqual(true);
   });
 
-  it('should return createMaterialSuccess', () => {
+  it('should return createMaterialRecord', () => {
     expect(
-      DialogSelectors.getCreateMaterialSuccess.projector({
+      DialogSelectors.getCreateMaterialRecord.projector({
         createMaterial: {
-          createMaterialSuccess: true,
+          createMaterialRecord: {},
         },
       })
-    ).toEqual(true);
+    ).toEqual({});
   });
 
   it('should remove duplicate string options and sort', () => {

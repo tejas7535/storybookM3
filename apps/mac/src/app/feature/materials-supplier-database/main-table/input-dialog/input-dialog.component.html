@@ -29,6 +29,8 @@
             [label]="t('standardDocument')"
             [filterFn]="standardDocumentFilterFnFactory(materialNamesControl)"
             [resetButton]="true"
+            addEntry="true"
+            (entryAdded)="addStandardDocument($event)"
           >
             <div matErrorContent *ngIf="standardDocumentsControl.invalid">
               {{ getErrorMessage(standardDocumentsControl.errors) }}
@@ -41,6 +43,8 @@
             [control]="materialNamesControl"
             [label]="t('materialName')"
             [filterFn]="materialNameFilterFnFactory(standardDocumentsControl)"
+            addEntry="true"
+            (entryAdded)="addMaterialName($event)"
           >
             <div matErrorContent *ngIf="materialNamesControl.invalid">
               {{ getErrorMessage(materialNamesControl.errors) }}
@@ -102,6 +106,8 @@
             [control]="suppliersControl"
             [filterFn]="filterFn"
             [label]="t('supplierName')"
+            [addEntry]="true"
+            (entryAdded)="addSupplierName($event)"
           >
             <div matErrorContent *ngIf="suppliersControl.invalid">
               {{ getErrorMessage(suppliersControl.errors) }}
@@ -119,6 +125,8 @@
               )
             "
             [label]="t('supplierPlant')"
+            [addEntry]="true"
+            (entryAdded)="addSupplierPlant($event)"
           >
             <div matErrorContent *ngIf="supplierPlantsControl.invalid">
               {{ getErrorMessage(supplierPlantsControl.errors) }}
