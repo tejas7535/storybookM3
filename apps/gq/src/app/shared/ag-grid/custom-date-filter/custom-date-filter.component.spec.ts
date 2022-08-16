@@ -1,5 +1,6 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { IDoesFilterPassParams, IFilterParams } from 'ag-grid-community';
+import moment from 'moment';
 
 import { CustomDateFilterComponent } from './custom-date-filter.component';
 
@@ -31,19 +32,31 @@ describe('CustomDateFilterComponent', () => {
       component.params = {
         filterChangedCallback: jest.fn(),
       } as any as IFilterParams;
-      const date = new Date(
-        'Fri Aug 12 2022 09:21:06 GMT+0200 (Mitteleuropäische Sommerzeit)'
+      const compareMoment = moment(
+        new Date(
+          'Fri Aug 12 2022 09:21:06 GMT+0200 (Mitteleuropäische Sommerzeit)'
+        )
       );
-      component.takeValueFromFloatingFilter(date);
 
-      expect(component.compareDate).toEqual(date);
+      component.takeValueFromFloatingFilter(compareMoment);
+
+      expect(component.compareMoment).toEqual(compareMoment);
       expect(component.params.filterChangedCallback).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('isFilterActive', () => {
     test('should return true', () => {
+      component.compareMoment = moment(
+        new Date(
+          'Fri Aug 12 2022 09:21:06 GMT+0200 (Mitteleuropäische Sommerzeit)'
+        )
+      );
       expect(component.isFilterActive()).toBeTruthy();
+    });
+    test('should return false', () => {
+      component.compareMoment = undefined as any;
+      expect(component.isFilterActive()).toBeFalsy();
     });
   });
 
@@ -64,17 +77,17 @@ describe('CustomDateFilterComponent', () => {
       component.params = iFilterParams;
     });
     test('should pass on equal date', () => {
-      component.compareDate = new Date('2020-12-02T00:00:00');
+      component.compareMoment = moment(new Date('2020-12-02T00:00:00'));
 
       expect(component.doesFilterPass(params)).toBeTruthy();
     });
     test('should pass on missing compare date', () => {
-      component.compareDate = undefined;
+      component.compareMoment = undefined as any;
 
       expect(component.doesFilterPass(params)).toBeTruthy();
     });
     test('should not pass on mismatching compare date', () => {
-      component.compareDate = new Date('2020-12-05T00:00:00');
+      component.compareMoment = moment(new Date('2020-12-05T00:00:00'));
 
       expect(component.doesFilterPass(params)).toBeFalsy();
     });

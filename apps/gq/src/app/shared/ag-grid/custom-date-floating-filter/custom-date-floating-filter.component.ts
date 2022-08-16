@@ -1,10 +1,22 @@
+import 'moment/locale/de';
+
 import { Component, OnInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { DateAdapter, MatNativeDateModule } from '@angular/material/core';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+  MatNativeDateModule,
+} from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import {
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+  MAT_MOMENT_DATE_FORMATS,
+  MomentDateAdapter,
+} from '@angular/material-moment-adapter';
 
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { IFloatingFilterAngularComp } from 'ag-grid-angular';
@@ -12,7 +24,6 @@ import { FilterChangedEvent } from 'ag-grid-community';
 import { IFloatingFilterParams } from 'ag-grid-enterprise';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
-
 @Component({
   standalone: true,
   imports: [
@@ -26,6 +37,14 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
   ],
   selector: 'gq-custom-date-filter',
   templateUrl: './custom-date-floating-filter.component.html',
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
+  ],
 })
 export class CustomDateFloatingFilterComponent
   implements IFloatingFilterAngularComp, OnInit

@@ -30,9 +30,7 @@ export class ColumnDefService {
       valueFormatter: (data) =>
         this.columnUtilityService.dateFormatter(data.value),
       floatingFilterComponent: CustomDateFloatingFilterComponent,
-      floatingFilterComponentParams: {
-        suppressFilterButton: true,
-      },
+      floatingFilterComponentParams: ColumnUtilityService.dateFilterParams,
       filter: CustomDateFilterComponent,
       maxWidth: 200,
     },

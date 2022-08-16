@@ -279,7 +279,7 @@ export class ColumnDefService {
       floatingFilterComponent: CustomDateFloatingFilterComponent,
       valueFormatter: (params) =>
         this.columnUtilityService.dateFormatter(params.value),
-      filterParams: ColumnUtilityService.dateFilterParams,
+      floatingFilterComponentParams: ColumnUtilityService.dateFilterParams,
     },
     {
       headerName: translate(
@@ -323,7 +323,7 @@ export class ColumnDefService {
       floatingFilterComponent: CustomDateFloatingFilterComponent,
       valueFormatter: (params) =>
         this.columnUtilityService.dateFormatter(params.value),
-      filterParams: ColumnUtilityService.dateFilterParams,
+      floatingFilterComponentParams: ColumnUtilityService.dateFilterParams,
     },
     {
       headerName: translate('shared.quotationDetailsTable.reasonForRejection'),
@@ -353,7 +353,7 @@ export class ColumnDefService {
         this.columnUtilityService.dateFormatter(params.value),
       filter: CustomDateFilterComponent,
       floatingFilterComponent: CustomDateFloatingFilterComponent,
-      filterParams: ColumnUtilityService.dateFilterParams,
+      floatingFilterComponentParams: ColumnUtilityService.dateFilterParams,
     },
     {
       headerName: translate(

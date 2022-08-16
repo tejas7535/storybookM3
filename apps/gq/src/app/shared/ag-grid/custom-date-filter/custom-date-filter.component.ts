@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-type-arguments */
-/* eslint-disable unused-imports/no-unused-vars */
 import { Component } from '@angular/core';
 
 import { IFilterAngularComp } from 'ag-grid-angular';
@@ -9,6 +7,7 @@ import {
   IDoesFilterPassParams,
   IFilterParams,
 } from 'ag-grid-community';
+import { Moment } from 'moment';
 
 @Component({
   selector: 'gq-custom-date-filter',
@@ -16,22 +15,23 @@ import {
 })
 export class CustomDateFilterComponent implements IFilterAngularComp {
   params: IFilterParams;
-  compareDate: Date;
+  compareMoment: Moment;
 
   agInit(params: IFilterParams): void {
     this.params = params;
   }
 
   // custom method for receiving filter value from floating filter component
-  takeValueFromFloatingFilter(value: Date) {
-    this.compareDate = value;
+  takeValueFromFloatingFilter(value: Moment) {
+    this.compareMoment = value;
 
     this.params.filterChangedCallback();
   }
 
   // filtering will only apply if filter is active
+  // filter icon will be displayed if true is returned
   isFilterActive(): boolean {
-    return true;
+    return this.compareMoment !== undefined;
   }
 
   doesFilterPass(params: IDoesFilterPassParams): boolean {
@@ -39,14 +39,14 @@ export class CustomDateFilterComponent implements IFilterAngularComp {
       (params.data as any)[this.params.column.getColId()]
     );
     // always match on missing compareDate
-    if (!this.compareDate) {
+    if (!this.compareMoment) {
       return true;
     }
-
-    this.compareDate.setHours(0, 0, 0, 0);
+    const compareDate = this.compareMoment.toDate();
+    compareDate.setHours(0, 0, 0, 0);
     cellDate.setHours(0, 0, 0, 0);
 
-    const parsedCompareDate = this.compareDate.getTime();
+    const parsedCompareDate = compareDate.getTime();
     const parsedCellDate = cellDate.getTime();
 
     if (parsedCompareDate === parsedCellDate) {

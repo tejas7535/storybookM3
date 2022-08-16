@@ -68,7 +68,7 @@ export class SapPriceDetailsColumnDefService {
       floatingFilterComponent: CustomDateFloatingFilterComponent,
       valueFormatter: (data) =>
         this.columnUtilityService.dateFormatter(data.value),
-      filterParams: ColumnUtilityService.dateFilterParams,
+      floatingFilterComponentParams: ColumnUtilityService.dateFilterParams,
     },
   ];
 }
