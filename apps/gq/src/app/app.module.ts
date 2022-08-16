@@ -27,9 +27,9 @@ import {
 } from '@schaeffler/legal-pages';
 
 import { environment } from '../environments/environment';
-import { AppComponent } from './app.component';
 import { AppRoutePath } from './app-route-path.enum';
 import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { responsiblePerson } from './shared/constants/legal-constants';
 

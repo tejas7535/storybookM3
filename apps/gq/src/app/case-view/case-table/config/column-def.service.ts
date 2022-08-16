@@ -3,10 +3,9 @@ import { Injectable } from '@angular/core';
 import { translate } from '@ngneat/transloco';
 import { ColDef } from 'ag-grid-enterprise';
 
-import {
-  DATE_COLUMN_FILTER,
-  FILTER_PARAMS,
-} from '../../../shared/ag-grid/constants/filters';
+import { FILTER_PARAMS } from '../../../shared/ag-grid/constants/filters';
+import { CustomDateFilterComponent } from '../../../shared/ag-grid/custom-date-filter/custom-date-filter.component';
+import { CustomDateFloatingFilterComponent } from '../../../shared/ag-grid/custom-date-floating-filter/custom-date-floating-filter.component';
 import { ColumnUtilityService } from '../../../shared/ag-grid/services/column-utility.service';
 
 @Injectable({
@@ -28,10 +27,14 @@ export class ColumnDefService {
     {
       headerName: translate('caseView.caseTable.creationDate'),
       field: 'gqCreated',
-      filter: DATE_COLUMN_FILTER,
       valueFormatter: (data) =>
         this.columnUtilityService.dateFormatter(data.value),
-      filterParams: ColumnUtilityService.dateFilterParams,
+      floatingFilterComponent: CustomDateFloatingFilterComponent,
+      floatingFilterComponentParams: {
+        suppressFilterButton: true,
+      },
+      filter: CustomDateFilterComponent,
+      maxWidth: 200,
     },
     {
       headerName: translate('caseView.caseTable.caseName'),

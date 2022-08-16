@@ -1,0 +1,31 @@
+<div>
+  <mat-form-field
+    *transloco="let t; read: 'shared.agGrid.dateFloatingFilter'"
+    (click)="picker.open()"
+    appearance="fill"
+    class="mt-1 w-[150px] cursor-pointer"
+  >
+    <mat-label>{{ t('label') }}</mat-label>
+    <input
+      [formControl]="dateFormControl"
+      class="w-8"
+      matInput
+      [matDatepicker]="picker"
+    />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker>
+      <mat-datepicker-actions>
+        <button
+          mat-raised-button
+          matDateRangePickerCancel
+          (click)="resetDate()"
+        >
+          {{ t('actions.reset') }}
+        </button>
+        <button mat-raised-button matDatepickerApply color="primary">
+          {{ t('actions.apply') }}
+        </button>
+      </mat-datepicker-actions>
+    </mat-datepicker>
+  </mat-form-field>
+</div>

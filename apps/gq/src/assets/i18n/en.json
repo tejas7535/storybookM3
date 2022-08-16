@@ -1,5 +1,14 @@
 {
   "shared": {
+    "agGrid": {
+      "dateFloatingFilter": {
+        "label": "Choose a date",
+        "actions": {
+          "reset": "Reset",
+          "apply": "Apply"
+        }
+      }
+    },
     "quotationDetailsTable": {
       "gpi": "GPI % (GPC)",
       "gpm": "GPM % (SQV)",

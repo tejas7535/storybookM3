@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 
 import { translate } from '@ngneat/transloco';
 import { ColDef } from 'ag-grid-enterprise';
+import { CustomDateFilterComponent } from 'apps/gq/src/app/shared/ag-grid/custom-date-filter/custom-date-filter.component';
+import { CustomDateFloatingFilterComponent } from 'apps/gq/src/app/shared/ag-grid/custom-date-floating-filter/custom-date-floating-filter.component';
 
 import { SapPriceDetailsColumnFields } from '../../../../shared/ag-grid/constants/column-fields.enum';
 import {
-  DATE_COLUMN_FILTER,
   FILTER_PARAMS,
   NUMBER_COLUMN_FILTER,
 } from '../../../../shared/ag-grid/constants/filters';
@@ -63,7 +64,8 @@ export class SapPriceDetailsColumnDefService {
     {
       headerName: translate('sapView.sapConditionsTable.validTo'),
       field: SapPriceDetailsColumnFields.SAP_VALID_TO,
-      filter: DATE_COLUMN_FILTER,
+      filter: CustomDateFilterComponent,
+      floatingFilterComponent: CustomDateFloatingFilterComponent,
       valueFormatter: (data) =>
         this.columnUtilityService.dateFormatter(data.value),
       filterParams: ColumnUtilityService.dateFilterParams,

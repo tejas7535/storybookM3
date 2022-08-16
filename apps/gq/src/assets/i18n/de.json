@@ -1,5 +1,14 @@
 {
   "shared": {
+    "agGrid": {
+      "dateFloatingFilter": {
+        "label": "Datum auswählen",
+        "actions": {
+          "reset": "Zurücksetzen",
+          "apply": "Anwenden"
+        }
+      }
+    },
     "quotationDetailsTable": {
       "gpi": "GPI % (KHK)",
       "gpm": "GPM % (SAW)",

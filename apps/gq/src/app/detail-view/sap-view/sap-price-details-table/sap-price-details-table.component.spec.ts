@@ -1,7 +1,9 @@
 import { Spectator } from '@ngneat/spectator';
 import { createComponentFactory } from '@ngneat/spectator/jest';
+import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { PushModule } from '@ngrx/component';
 import { AgGridModule } from 'ag-grid-angular';
+import { MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -14,8 +16,15 @@ describe('SapConditionsTableComponent', () => {
 
   const createComponent = createComponentFactory({
     component: SapPriceDetailsTableComponent,
-    imports: [AgGridModule, provideTranslocoTestingModule({}), PushModule],
-    providers: [{ provide: HelperService, useValue: {} }],
+    imports: [
+      AgGridModule,
+      provideTranslocoTestingModule({ en: {} }),
+      PushModule,
+    ],
+    providers: [
+      { provide: HelperService, useValue: {} },
+      MockProvider(TranslocoLocaleService),
+    ],
   });
 
   beforeEach(() => {

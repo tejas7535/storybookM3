@@ -9,11 +9,12 @@ import { EditableColumnHeaderComponent } from '../column-headers/editable-column
 import { HeaderInfoIconComponent } from '../column-headers/header-info-icon/header-info-icon.component';
 import { ColumnFields } from '../constants/column-fields.enum';
 import {
-  DATE_COLUMN_FILTER,
   FILTER_PARAMS,
   NUMBER_COLUMN_FILTER,
   TEXT_COLUMN_FILTER,
 } from '../constants/filters';
+import { CustomDateFilterComponent } from '../custom-date-filter/custom-date-filter.component';
+import { CustomDateFloatingFilterComponent } from '../custom-date-floating-filter/custom-date-floating-filter.component';
 import { ColumnUtilityService } from './column-utility.service';
 
 @Injectable({
@@ -274,7 +275,8 @@ export class ColumnDefService {
         'shared.quotationDetailsTable.lastCustomerPriceDate'
       ),
       field: ColumnFields.LAST_CUSTOMER_PRICE_DATE,
-      filter: DATE_COLUMN_FILTER,
+      filter: CustomDateFilterComponent,
+      floatingFilterComponent: CustomDateFloatingFilterComponent,
       valueFormatter: (params) =>
         this.columnUtilityService.dateFormatter(params.value),
       filterParams: ColumnUtilityService.dateFilterParams,
@@ -317,7 +319,8 @@ export class ColumnDefService {
     {
       headerName: translate('shared.quotationDetailsTable.lastOfferDate'),
       field: ColumnFields.LAST_OFFER_PRICE_DATE,
-      filter: DATE_COLUMN_FILTER,
+      filter: CustomDateFilterComponent,
+      floatingFilterComponent: CustomDateFloatingFilterComponent,
       valueFormatter: (params) =>
         this.columnUtilityService.dateFormatter(params.value),
       filterParams: ColumnUtilityService.dateFilterParams,
@@ -348,7 +351,9 @@ export class ColumnDefService {
       field: ColumnFields.DATE_NEXT_FREE_ATP,
       valueFormatter: (params) =>
         this.columnUtilityService.dateFormatter(params.value),
-      filter: DATE_COLUMN_FILTER,
+      filter: CustomDateFilterComponent,
+      floatingFilterComponent: CustomDateFloatingFilterComponent,
+      filterParams: ColumnUtilityService.dateFilterParams,
     },
     {
       headerName: translate(
