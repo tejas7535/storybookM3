@@ -25,16 +25,7 @@ import { ColumnDefService } from './config/column-def.service';
 @Component({
   selector: 'gq-case-table',
   templateUrl: './case-table.component.html',
-  styles: [
-    basicTableStyle,
-    disableTableHorizontalScrollbar,
-    statusBarStlye,
-    `
-      :host::ng-deep gq-custom-date-filter {
-        margin-top: 12px !important;
-      }
-    `,
-  ],
+  styles: [basicTableStyle, disableTableHorizontalScrollbar, statusBarStlye],
 })
 export class CaseTableComponent implements OnInit {
   constructor(
