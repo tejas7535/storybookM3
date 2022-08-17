@@ -51,6 +51,7 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
   updateLoading$: Observable<boolean>;
   quotationCurrency$: Observable<string>;
   value: number;
+  localeValue: string;
   affectedKpis: KpiValue[];
   fields = ColumnFields;
 
@@ -117,6 +118,7 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
         : (this.modalData.quotationDetail[
             this.modalData.field as keyof QuotationDetail
           ] as number);
+    this.localeValue = this.helperService.transformNumber(this.value, true);
 
     this.setAffectedKpis(this.value);
 

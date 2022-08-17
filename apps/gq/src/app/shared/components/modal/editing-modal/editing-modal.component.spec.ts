@@ -168,6 +168,7 @@ describe('EditingModalComponent', () => {
       expect(component.setAffectedKpis).toHaveBeenCalledWith(
         QUOTATION_DETAIL_MOCK.gpi
       );
+      expect(component.localeValue).toEqual('90,00');
       expect(
         component.editInputField.nativeElement.focus
       ).toHaveBeenCalledTimes(1);
@@ -360,6 +361,9 @@ describe('EditingModalComponent', () => {
     beforeEach(() => {
       store.dispatch = jest.fn();
       component.editingFormGroup.get('valueInput').setValue('10');
+    });
+    afterAll(() => {
+      jest.clearAllMocks();
     });
     test('should edit quantity', () => {
       component.modalData = {
@@ -557,7 +561,7 @@ describe('EditingModalComponent', () => {
 
       expect(component.editingFormGroup.get('valueInput').value).toEqual('2');
       expect(helperService.transformNumber).toHaveBeenCalledWith(2, false);
-      expect(helperService.transformNumber).toHaveBeenCalledTimes(1);
+      expect(helperService.transformNumber).toHaveBeenCalledTimes(2);
     });
 
     test('should increment price on placeholder value', () => {
@@ -572,7 +576,7 @@ describe('EditingModalComponent', () => {
 
       expect(component.editingFormGroup.get('valueInput').value).toEqual('11');
       expect(helperService.transformNumber).toHaveBeenCalledWith(11, false);
-      expect(helperService.transformNumber).toHaveBeenCalledTimes(1);
+      expect(helperService.transformNumber).toHaveBeenCalledTimes(2);
     });
     test('should not increment gpi', () => {
       component.modalData = {
@@ -583,7 +587,7 @@ describe('EditingModalComponent', () => {
       component.increment();
 
       expect(component.editingFormGroup.get('valueInput').value).toEqual('99');
-      expect(helperService.transformNumber).not.toHaveBeenCalled();
+      expect(helperService.transformNumber).toHaveBeenCalledTimes(1);
     });
 
     test('should use 0 if the value is not parseable', () => {
@@ -598,7 +602,7 @@ describe('EditingModalComponent', () => {
 
       expect(component.editingFormGroup.get('valueInput').value).toEqual('1');
       expect(helperService.transformNumber).toHaveBeenCalledWith(1, false);
-      expect(helperService.transformNumber).toHaveBeenCalledTimes(1);
+      expect(helperService.transformNumber).toHaveBeenCalledTimes(2);
     });
 
     test('should increment float value', () => {
@@ -614,7 +618,7 @@ describe('EditingModalComponent', () => {
         '11,25'
       );
       expect(helperService.transformNumber).toHaveBeenCalledWith(11.25, true);
-      expect(helperService.transformNumber).toHaveBeenCalledTimes(1);
+      expect(helperService.transformNumber).toHaveBeenCalledTimes(2);
     });
   });
 
@@ -635,7 +639,7 @@ describe('EditingModalComponent', () => {
 
       expect(component.editingFormGroup.get('valueInput').value).toEqual('99');
       expect(helperService.transformNumber).toHaveBeenCalledWith(99, false);
-      expect(helperService.transformNumber).toHaveBeenCalledTimes(1);
+      expect(helperService.transformNumber).toHaveBeenCalledTimes(2);
     });
     test('should not decrement quantity', () => {
       component.modalData = {
@@ -648,7 +652,7 @@ describe('EditingModalComponent', () => {
       component.decrement();
 
       expect(component.editingFormGroup.get('valueInput').value).toEqual('1');
-      expect(helperService.transformNumber).not.toHaveBeenCalled();
+      expect(helperService.transformNumber).toHaveBeenCalledTimes(1);
     });
     test('should decrement gpi', () => {
       component.modalData = {
@@ -662,7 +666,7 @@ describe('EditingModalComponent', () => {
 
       expect(component.editingFormGroup.get('valueInput').value).toEqual('-91');
       expect(helperService.transformNumber).toHaveBeenCalledWith(-91, false);
-      expect(helperService.transformNumber).toHaveBeenCalledTimes(1);
+      expect(helperService.transformNumber).toHaveBeenCalledTimes(2);
     });
     test('should not decrement gpi', () => {
       component.modalData = {
@@ -675,7 +679,7 @@ describe('EditingModalComponent', () => {
       component.decrement();
 
       expect(component.editingFormGroup.get('valueInput').value).toEqual('-90');
-      expect(helperService.transformNumber).not.toHaveBeenCalled();
+      expect(helperService.transformNumber).toHaveBeenCalledTimes(1);
     });
     test('should not decrement absolute price', () => {
       component.modalData = {
@@ -691,7 +695,7 @@ describe('EditingModalComponent', () => {
       component.decrement();
 
       expect(component.editingFormGroup.get('valueInput').value).toEqual('1');
-      expect(helperService.transformNumber).not.toHaveBeenCalled();
+      expect(helperService.transformNumber).toHaveBeenCalledTimes(1);
     });
     test('should decrement absolute price', () => {
       component.modalData = {
@@ -708,7 +712,7 @@ describe('EditingModalComponent', () => {
 
       expect(component.editingFormGroup.get('valueInput').value).toEqual('19');
       expect(helperService.transformNumber).toHaveBeenCalledWith(19, false);
-      expect(helperService.transformNumber).toHaveBeenCalledTimes(1);
+      expect(helperService.transformNumber).toHaveBeenCalledTimes(2);
     });
     test('should decrement for placeholder', () => {
       component.modalData = {
@@ -721,7 +725,7 @@ describe('EditingModalComponent', () => {
 
       expect(component.editingFormGroup.get('valueInput').value).toEqual('95');
       expect(helperService.transformNumber).toHaveBeenCalledWith(95, false);
-      expect(helperService.transformNumber).toHaveBeenCalledTimes(1);
+      expect(helperService.transformNumber).toHaveBeenCalledTimes(2);
     });
     test('should use 0 if the value is not parseable', () => {
       component.modalData = {
@@ -735,7 +739,7 @@ describe('EditingModalComponent', () => {
 
       expect(component.editingFormGroup.get('valueInput').value).toEqual('-1');
       expect(helperService.transformNumber).toHaveBeenCalledWith(-1, false);
-      expect(helperService.transformNumber).toHaveBeenCalledTimes(1);
+      expect(helperService.transformNumber).toHaveBeenCalledTimes(2);
     });
 
     test('should decrement float value', () => {
@@ -751,7 +755,7 @@ describe('EditingModalComponent', () => {
         '9,25'
       );
       expect(helperService.transformNumber).toHaveBeenCalledWith(9.25, true);
-      expect(helperService.transformNumber).toHaveBeenCalledTimes(1);
+      expect(helperService.transformNumber).toHaveBeenCalledTimes(2);
     });
   });
 
