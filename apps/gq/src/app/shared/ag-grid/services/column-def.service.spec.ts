@@ -2,7 +2,9 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { mockProvider } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { HelperService } from '../../services/helper-service/helper-service.service';
@@ -23,6 +25,7 @@ describe('ColumnDefService', () => {
       provideMockStore({}),
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       { provide: HelperService, useValue: {} },
+      mockProvider(TranslocoLocaleService),
     ],
   });
 
