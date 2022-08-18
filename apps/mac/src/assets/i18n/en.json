@@ -15,6 +15,12 @@
     "sumValue": "Sum value (Si + Mn + Cr):",
     "title": "AQM Calculator"
   },
+  "env": {
+    "devSystem": "Test System (Development)",
+    "localDev": "Local Development",
+    "prodSystem": "",
+    "qaSystem": "Test System (Quality)"
+  },
   "hardnessConverter": {
     "averageValue": "Average value",
     "close": "Close",
@@ -34,6 +40,74 @@
     "utsTooltip": "Ultimate tensile strength",
     "value": "Value",
     "valuesCalculatedWith": "Values calculated with Backend v.{{version}}"
+  },
+  "learnmore": {
+    "default": {
+      "content": [""]
+    },
+    "feedback": "feedback",
+    "getAccess": "Request Access",
+    "guides": "Tutorials and Guidelines",
+    "hardnessConverter": {
+      "content": [
+        "Hardness measurements are a very important means to ensure the reliability of Schaeffler products. Most products have a certain method for the hardness measurement given on the drawing or in product specific standards. However, sometimes it is necessary to convert hardnesses from one measurement method to another, e.g. if the measurement method is not appropriate for the size or the material condition of the sample (see S266010 for details), or to estimate the ultimate tensile strength from hardness values. This is usually done using the conversion charts of ISO 18265, if not integrated in the measuring device.",
+        "The Hardness Converter in Materials App Center (MAC HC) allows the conversion of measured hardnesses according ISO 18265 Table A.1 from and to Vickers (HV), Brinell (HB), Rockwell A (HRA), Rockwell B (HRB), and Rockwell C (HRC) and the ultimate tensile strength (UTS) in MPa.",
+        "The conversion according ISO 18265 table A.1 is usually used for unalloyed and low alloyed steels, in soft and hardened states. The application to high alloyed and austenitic steels as well as thermo or thermo-chemically treated steels (induction or case hardening) can also work sufficiently. However, using the conversion for carbonitrided and nitrided or nitrocarburised parts might reasonably be possible, but must be used with greater care. Using the conversion for materials like multi-phase or self-hardening steels, cast iron or non-iron metals is not recommended.",
+        "The user interface has some features. Clicking the Reset button at the bottom, resets the full user interface to its initial state. The Share button on the upper right corner, allows to send the link to the hardness converter to other users, without preserving already entered or converted hardness values.",
+        "In case, the conversion cannot be performed, because the value is not in the range of table A.1, the value will be presented as “out-of-range”, as a valid conversion result cannot be given.",
+        "It is possible to enter multiple hardness values. In that case the arithmetic mean and the standard deviation is calculated. The conversion then is done using the arithmetic mean value for all measurement methods in the MAC hardness converter.",
+        "The resulting conversion value can be copied to the clipboard by clicking on the clipboard symbol to the right of the values and can then be pasted in any Office document, email, or wherever you like.",
+        "In case multiple values are given, the hardness converter checks the values for plausibility. Therefore it considers the measurements as a series of measurements on one and the same part and performs a repeat precision check according S285018, as you would do with calibration plates. In case the multiple hardness values do not comply with the repeatability test, a short warning message appears. The warning is just a reminder for the user to check if the measurements are plausible, i. e. a measurement might result in a warning, but due to locally changing microstructure (e. g. Pearlite formation) the measurement might still be correct. As the repeat precision is dependent on some other factors too, and in order to keep the hardness converter simple, only some repeat precision values were chosen. In case some special rules apply (e. g. micro hardness testing), think about results and possible different repeat precision ranges.",
+        "The following repeat precisions were implemented (H̅: average hardness value):",
+        "../../../assets/img/learnmore/hc_table.png",
+        "Example",
+        "You want to convert three hardness values (200 HB, 201 HB, 207 HB) from Brinell to Vickers.",
+        "The repeat precision for Brinell is at that load level at 3 %, resulting in ≈ 6 HB allowance. When entering the values above, a warning message appears, as the maximum value of 207 HB is out of the range: the difference between maximum and minimum value is larger than the allowance (207 HB - 200 HB = 7 HB > 6 HB). This reminds you to maybe think about the value of 207 HB.",
+        "The arithmetic mean value of 203 HB is then converted in the other values, e.g. to 214 HV, 686 MPa, etc.. However, for HRC and HRA the conversion is only possible for ≥228 HB according ISO 18265, table A.1, so the respective values are given as “out-of-range”.",
+        "../../../assets/img/learnmore/hc_example.png",
+        "The hardness converter is free to use and free of charge. Just a Schaeffler user account is necessary."
+      ],
+      "linkgroup1": "Further Information",
+      "linkgroup1_1_name": "ISO 18265",
+      "linkgroup1_1_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASP&doknr=DINENISO18265&doktl=EN",
+      "linkgroup1_2_name": "S285018",
+      "linkgroup1_2_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASI&doknr=S285018&doktl=EN",
+      "linkgroup1_3_name": "S266010",
+      "linkgroup1_3_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASI&doknr=S266010&doktl=EN",
+      "linkgroup1_4_name": "DIN EN ISO 6506-1",
+      "linkgroup1_4_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASP&doknr=DINENISO6506-1&doktl=EN",
+      "linkgroup1_5_name": "DIN EN ISO 6507-1",
+      "linkgroup1_5_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASP&doknr=DINENISO6507-1&doktl=EN",
+      "linkgroup1_6_name": "DIN EN ISO 6508-1",
+      "linkgroup1_6_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASP&doknr=DINENISO6508-1&doktl=EN",
+      "linkgroup1_7_name": "ASTM E140",
+      "linkgroup1_7_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASP&doknr=ASTME140&doktl=EN",
+      "linkgroup2": "German Links",
+      "linkgroup2_1_name": "S 266010",
+      "linkgroup2_1_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASI&doknr=S266010&doktl=DE",
+      "linkgroup2_2_name": "DIN EN ISO 18265",
+      "linkgroup2_2_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASP&doknr=DINENISO18265&doktl=DE",
+      "linkgroup2_3_name": "DIN EN ISO 6507",
+      "linkgroup2_3_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASP&doknr=DINENISO6507-1&doktl=DE",
+      "linkgroup2_4_name": "S 285018",
+      "linkgroup2_4_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASI&doknr=S285018&doktl=DE",
+      "linkgroup2_5_name": "DIN EN ISO 6506",
+      "linkgroup2_5_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASP&doknr=DINENISO6506-1&doktl=DE",
+      "linkgroup2_6_name": "DIN EN ISO 6508",
+      "linkgroup2_6_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASP&doknr=DINENISO6508-1&doktl=DE",
+      "linkgroup3": "Contact",
+      "linkgroup3_1_name": "Materials App Center",
+      "linkgroup3_1_uri": "https://sconnect.schaeffler.com/groups/material-app-center",
+      "linkgroup3_2_name": "Email - Materials App Center",
+      "linkgroup3_2_uri": "mailto:materials-app-center@schaeffler.com",
+      "subTitle": "Hardness converting tool",
+      "title": "HardnessConverter"
+    },
+    "openApp": "Open Application",
+    "overview": "Overview",
+    "showless": "[ Show less ]",
+    "showmore": "[ Show more ]",
+    "title": "Learn More"
   },
   "legal": {
     "cookiePolicy": "Cookie Policy",
@@ -227,14 +301,6 @@
         "steelMakingProcess": "Steel Making Process",
         "steelNumber": "Steel number (EN 10027)"
       },
-      "tooltip": {
-        "castingMode": "Final steel-manufacturing step; either a casting (continuous or ingot) or remelting process (VAR: vacuum arc remelting, ESR: electro slag remelting)",
-        "castingDiameter": "Detail on final steel-manufacturing step, e.g., casting dimension, ingot name, dimension, or weight",
-        "steelMakingProcess": "Details on steelmaking process; BF: blast furnace, DRI: direct reduced iron, BOF: basic oxygen furnace, EAF: electric arc furnace, EOF: energy optimizing furnace, VIM: vacuum induction melting, VAR: vacuum arc remelting, ESR: electro slag remelting",
-        "maxDimension": "Maximum dimension (diameter, thickness) allowed to be delivered by supplier",
-        "rating": "Quality level of steel supplier according to S 266042 (if available); from RSI (highest quality) to RSIII (lowest quality)",
-        "co2PerTon": "Scope 3.1 upstream green-house gas emissions of product (cradle-to-gate)"
-      },
       "dialog": {
         "blocked": "Blocked",
         "cancel": "Cancel",
@@ -242,7 +308,6 @@
         "castingMode": "Casting / Remelting process",
         "close": "Close",
         "co2AndProductInformationTitle": "Product & CO₂ information",
-        "ratingChangeComment": "Reason for change of supplier rating",
         "co2Classification": "CO₂ data classification",
         "co2ClassificationValues": {
           "c1": "ISO-conform calculation method, and third-party certified (product-specific)",
@@ -265,6 +330,7 @@
           "required": "Input required",
           "steelNumber": "Required format: 1.1234(, 1.3456, ...)"
         },
+        "esr": "ESR",
         "ingot": "Ingot",
         "materialName": "Material Name",
         "materialStandardTitle": "Material Standard Information",
@@ -286,7 +352,9 @@
           "12": "December"
         },
         "none": "None",
+        "pesr": "PESR",
         "productCategory": "Product Category",
+        "ratingChangeComment": "Reason for change of supplier rating",
         "referencedInDocument": "Referenced in document",
         "releaseDateMonth": "Release Month",
         "releaseDateYear": "Release Year",
@@ -307,14 +375,23 @@
           "blocked": "Indication of whether the material/supplier is blocked (not displayed in the table)",
           "co2Classification": "Classification of the method used to calculate the CO₂ emissions",
           "referencedInDocument": "Identifier(s) of document(s) that refer to this material/supplier, e.g., a product-specific standard"
-        }
+        },
+        "var": "VAR"
       },
       "excelExport": {
         "author": "MSD (Materials Supplier Database)",
         "fileNameSuffix": "-MSD-export.xlsx",
         "sheetName": "MSD-Export"
       },
-      "productCategories": "Product Categories"
+      "productCategories": "Product Categories",
+      "tooltip": {
+        "castingDiameter": "Detail on final steel-manufacturing step, e.g., casting dimension, ingot name, dimension, or weight",
+        "castingMode": "Final steel-manufacturing step; either a casting (continuous or ingot) or remelting process (VAR: vacuum arc remelting, ESR: electro slag remelting)",
+        "co2PerTon": "Scope 3.1 upstream green-house gas emissions of product (cradle-to-gate)",
+        "maxDimension": "Maximum dimension (diameter, thickness) allowed to be delivered by supplier",
+        "rating": "Quality level of steel supplier according to S 266042 (if available); from RSI (highest quality) to RSIII (lowest quality)",
+        "steelMakingProcess": "Details on steelmaking process; BF: blast furnace, DRI: direct reduced iron, BOF: basic oxygen furnace, EAF: electric arc furnace, EOF: energy optimizing furnace, VIM: vacuum induction melting, VAR: vacuum arc remelting, ESR: electro slag remelting"
+      }
     },
     "materialClass": "Material Class",
     "materialClassValues": {
@@ -418,82 +495,5 @@
     "title": "Home",
     "welcomeText": "Welcome to the Materials App Center – the central access point for materials know-how at Schaeffler."
   },
-  "learnmore": {
-    "title": "Learn More",
-    "feedback": "feedback",
-    "overview": "Overview",
-    "getAccess": "Request Access",
-    "openApp": "Open Application",
-    "showmore": "[ Show more ]",
-    "showless": "[ Show less ]",
-    "guides": "Tutorials and Guidelines",
-    "default": {
-      "content": [""]
-    },
-    "hardnessConverter": {
-      "title": "HardnessConverter",
-      "subTitle": "Hardness converting tool",
-      "content": [
-        "Hardness measurements are a very important means to ensure the reliability of Schaeffler products. Most products have a certain method for the hardness measurement given on the drawing or in product specific standards. However, sometimes it is necessary to convert hardnesses from one measurement method to another, e.g. if the measurement method is not appropriate for the size or the material condition of the sample (see S266010 for details), or to estimate the ultimate tensile strength from hardness values. This is usually done using the conversion charts of ISO 18265, if not integrated in the measuring device.",
-        "The Hardness Converter in Materials App Center (MAC HC) allows the conversion of measured hardnesses according ISO 18265 Table A.1 from and to Vickers (HV), Brinell (HB), Rockwell A (HRA), Rockwell B (HRB), and Rockwell C (HRC) and the ultimate tensile strength (UTS) in MPa.",
-        "The conversion according ISO 18265 table A.1 is usually used for unalloyed and low alloyed steels, in soft and hardened states. The application to high alloyed and austenitic steels as well as thermo or thermo-chemically treated steels (induction or case hardening) can also work sufficiently. However, using the conversion for carbonitrided and nitrided or nitrocarburised parts might reasonably be possible, but must be used with greater care. Using the conversion for materials like multi-phase or self-hardening steels, cast iron or non-iron metals is not recommended.",
-        "The user interface has some features. Clicking the Reset button at the bottom, resets the full user interface to its initial state. The Share button on the upper right corner, allows to send the link to the hardness converter to other users, without preserving already entered or converted hardness values.",
-        "In case, the conversion cannot be performed, because the value is not in the range of table A.1, the value will be presented as “out-of-range”, as a valid conversion result cannot be given.",
-        "It is possible to enter multiple hardness values. In that case the arithmetic mean and the standard deviation is calculated. The conversion then is done using the arithmetic mean value for all measurement methods in the MAC hardness converter.",
-        "The resulting conversion value can be copied to the clipboard by clicking on the clipboard symbol to the right of the values and can then be pasted in any Office document, email, or wherever you like.",
-        "In case multiple values are given, the hardness converter checks the values for plausibility. Therefore it considers the measurements as a series of measurements on one and the same part and performs a repeat precision check according S285018, as you would do with calibration plates. In case the multiple hardness values do not comply with the repeatability test, a short warning message appears. The warning is just a reminder for the user to check if the measurements are plausible, i. e. a measurement might result in a warning, but due to locally changing microstructure (e. g. Pearlite formation) the measurement might still be correct. As the repeat precision is dependent on some other factors too, and in order to keep the hardness converter simple, only some repeat precision values were chosen. In case some special rules apply (e. g. micro hardness testing), think about results and possible different repeat precision ranges.",
-        "The following repeat precisions were implemented (H̅: average hardness value):",
-        "../../../assets/img/learnmore/hc_table.png",
-        "Example",
-        "You want to convert three hardness values (200 HB, 201 HB, 207 HB) from Brinell to Vickers.",
-        "The repeat precision for Brinell is at that load level at 3 %, resulting in ≈ 6 HB allowance. When entering the values above, a warning message appears, as the maximum value of 207 HB is out of the range: the difference between maximum and minimum value is larger than the allowance (207 HB - 200 HB = 7 HB > 6 HB). This reminds you to maybe think about the value of 207 HB.",
-        "The arithmetic mean value of 203 HB is then converted in the other values, e.g. to 214 HV, 686 MPa, etc.. However, for HRC and HRA the conversion is only possible for ≥228 HB according ISO 18265, table A.1, so the respective values are given as “out-of-range”.",
-        "../../../assets/img/learnmore/hc_example.png",
-        "The hardness converter is free to use and free of charge. Just a Schaeffler user account is necessary."
-      ],
-
-      "linkgroup1": "Further Information",
-      "linkgroup1_1_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASP&doknr=DINENISO18265&doktl=EN",
-      "linkgroup1_1_name": "ISO 18265",
-      "linkgroup1_2_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASI&doknr=S285018&doktl=EN",
-      "linkgroup1_2_name": "S285018",
-      "linkgroup1_3_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASI&doknr=S266010&doktl=EN",
-      "linkgroup1_3_name": "S266010",
-      "linkgroup1_4_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASP&doknr=DINENISO6506-1&doktl=EN",
-      "linkgroup1_4_name": "DIN EN ISO 6506-1",
-      "linkgroup1_5_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASP&doknr=DINENISO6507-1&doktl=EN",
-      "linkgroup1_5_name": "DIN EN ISO 6507-1",
-      "linkgroup1_6_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASP&doknr=DINENISO6508-1&doktl=EN",
-      "linkgroup1_6_name": "DIN EN ISO 6508-1",
-      "linkgroup1_7_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASP&doknr=ASTME140&doktl=EN",
-      "linkgroup1_7_name": "ASTM E140",
-
-      "linkgroup2": "German Links",
-      "linkgroup2_1_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASI&doknr=S266010&doktl=DE",
-      "linkgroup2_1_name": "S 266010",
-      "linkgroup2_2_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASP&doknr=DINENISO18265&doktl=DE",
-      "linkgroup2_2_name": "DIN EN ISO 18265",
-      "linkgroup2_3_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASP&doknr=DINENISO6507-1&doktl=DE",
-      "linkgroup2_3_name": "DIN EN ISO 6507",
-      "linkgroup2_4_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASI&doknr=S285018&doktl=DE",
-      "linkgroup2_4_name": "S 285018",
-      "linkgroup2_5_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASP&doknr=DINENISO6506-1&doktl=DE",
-      "linkgroup2_5_name": "DIN EN ISO 6506",
-      "linkgroup2_6_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASP&doknr=DINENISO6508-1&doktl=DE",
-      "linkgroup2_6_name": "DIN EN ISO 6508",
-
-      "linkgroup3": "Contact",
-      "linkgroup3_1_uri": "https://sconnect.schaeffler.com/groups/material-app-center",
-      "linkgroup3_1_name": "Materials App Center",
-      "linkgroup3_2_uri": "mailto:materials-app-center@schaeffler.com",
-      "linkgroup3_2_name": "Email - Materials App Center"
-    }
-  },
-  "title": "Materials App Center",
-  "env": {
-    "localDev": "Local Development",
-    "devSystem": "Test System (Development)",
-    "qaSystem": "Test System (Quality)",
-    "prodSystem": ""
-  }
+  "title": "Materials App Center"
 }
