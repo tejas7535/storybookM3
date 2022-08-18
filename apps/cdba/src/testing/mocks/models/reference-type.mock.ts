@@ -39,6 +39,7 @@ export const REFERENCE_TYPE_MOCK: ReferenceType = {
   customerGroups: ['G1', 'G2', 'G3'],
   customers: ['BMW AG'],
   salesOrganizations: ['0060'],
+  salesOrganizationsDescriptions: ['Schaeffler Technologies AG & Co. KG'],
   productDescription: 'description lorem ipsum',
   sqvSapLatestMonth: 0.566,
   isPcmRow: false,

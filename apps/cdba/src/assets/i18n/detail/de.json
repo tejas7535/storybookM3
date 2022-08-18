@@ -78,6 +78,7 @@
       "productLine": "Produktlinie",
       "rfq": "RFQ-Nummer",
       "salesOrganization": "Verkaufsorganisation(en)",
+      "salesOrganizationDescription": "Verkaufsorganisationsbeschreibung(en)",
       "projectName": "Projektname",
       "productDescription": "Produktbeschreibung"
     }

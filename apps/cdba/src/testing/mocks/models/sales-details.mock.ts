@@ -9,6 +9,7 @@ export const SALES_DETAILS_MOCK: SalesDetails = new SalesDetails(
   REFERENCE_TYPE_MOCK.productLine,
   REFERENCE_TYPE_MOCK.pcmCalculations[0].rfq,
   REFERENCE_TYPE_MOCK.salesOrganizations,
+  REFERENCE_TYPE_MOCK.salesOrganizationsDescriptions,
   REFERENCE_TYPE_MOCK.pcmCalculations[0].projectName,
   REFERENCE_TYPE_MOCK.productDescription
 );

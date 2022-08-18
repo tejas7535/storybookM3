@@ -37,6 +37,7 @@ export interface ReferenceType {
   customerGroups: string[];
   customers: string[];
   salesOrganizations: string[];
+  salesOrganizationsDescriptions: string[];
   productDescription: string;
   sqvSapLatestMonth: number;
   isPcmRow: boolean;

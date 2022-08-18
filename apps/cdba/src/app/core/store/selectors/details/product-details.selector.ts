@@ -1,3 +1,5 @@
+import { createSelector } from '@ngrx/store';
+
 import {
   CustomerDetails,
   DimensionAndWeightDetails,
@@ -8,7 +10,6 @@ import {
   ReferenceTypeIdentifier,
   SalesDetails,
 } from '@cdba/shared/models';
-import { createSelector } from '@ngrx/store';
 
 import { getDetailState } from '../../reducers';
 import { DetailState } from '../../reducers/detail/detail.reducer';
@@ -44,6 +45,7 @@ export const getSalesDetails = createSelector(
           referenceType.productLine,
           referenceType.pcmCalculations?.[0]?.rfq,
           referenceType.salesOrganizations,
+          referenceType.salesOrganizationsDescriptions,
           referenceType.pcmCalculations?.[0]?.projectName,
           referenceType.productDescription
         )
