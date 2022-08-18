@@ -47,6 +47,25 @@ export class ColumnUtilityService {
 
   numberFilterParams = {
     allowedCharPattern: '\\d\\.\\,\\-',
+    // textFormatter: (value: any) => {
+    //   console.log(value);
+
+    //   return value;
+    // },
+    // textMatcher: ({
+    //   value,
+    //   filterText,
+    // }: {
+    //   value: string;
+    //   filterText: string;
+    // }) => {
+    //   const localeCellValue = this.helperService.transformNumber(
+    //     Number.parseFloat(value),
+    //     true
+    //   );
+
+    //   return filterText === localeCellValue;
+    // },
     numberParser: (text: string | null) => {
       if (!text) {
         return undefined as any;
@@ -60,7 +79,7 @@ export class ColumnUtilityService {
         );
       }
 
-      return 0;
+      return Number.parseFloat(text);
     },
   };
 
