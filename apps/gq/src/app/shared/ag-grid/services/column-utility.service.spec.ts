@@ -1,6 +1,8 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { translate, TranslocoModule } from '@ngneat/transloco';
+import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { ValueFormatterParams, ValueGetterParams } from 'ag-grid-community';
+import { MockProvider } from 'ng-mocks';
 
 import {
   QUOTATION_DETAIL_MOCK,
@@ -57,6 +59,7 @@ describe('CreateColumnService', () => {
             ),
         },
       },
+      MockProvider(TranslocoLocaleService),
     ],
   });
 

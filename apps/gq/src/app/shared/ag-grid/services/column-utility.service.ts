@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { translate } from '@ngneat/transloco';
+import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import {
   ColDef,
   ValueFormatterParams,
@@ -8,6 +9,7 @@ import {
 } from 'ag-grid-enterprise';
 
 import { CalculationType } from '../../../core/store/reducers/sap-price-details/models/calculation-type.enum';
+import { getNumberFilterRegex } from '../../constants';
 import { UserRoles } from '../../constants/user-roles.enum';
 import { Keyboard } from '../../models';
 import { PriceSource, QuotationDetail } from '../../models/quotation-detail';
@@ -31,10 +33,35 @@ export class ColumnUtilityService {
   static materialPipe = new MaterialTransformPipe();
   static materialClassificationSOPPipe = new MaterialClassificationSOPPipe();
 
-  constructor(private readonly helperService: HelperService) {}
+  constructor(
+    private readonly helperService: HelperService,
+    private readonly translocoLocaleService: TranslocoLocaleService
+  ) {}
 
   static dateFilterParams = {
     suppressFilterButton: true,
+  };
+  static integerFilterParams = {
+    allowedCharPattern: '\\d',
+  };
+
+  numberFilterParams = {
+    allowedCharPattern: '\\d\\.\\,\\-',
+    numberParser: (text: string | null) => {
+      if (!text) {
+        return undefined as any;
+      }
+      if (
+        getNumberFilterRegex(this.translocoLocaleService.getLocale()).test(text)
+      ) {
+        return HelperService.parseLocalizedInputValue(
+          text,
+          this.translocoLocaleService.getLocale()
+        );
+      }
+
+      return 0;
+    },
   };
 
   static createColumnDefs(roles: string[], colDefs: ColDef[]): ColDef[] {
@@ -69,6 +96,12 @@ export class ColumnUtilityService {
     if (valid2 && !valid1) {
       return -1;
     }
+
+    return 0;
+  }
+  static localeNumberComparator(one: any, two: any): number {
+    console.log(one);
+    console.log(two);
 
     return 0;
   }
