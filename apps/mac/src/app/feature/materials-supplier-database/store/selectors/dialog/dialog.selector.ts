@@ -1,4 +1,6 @@
-import { createSelector, MemoizedSelector } from '@ngrx/store';
+import { filter, map, pipe } from 'rxjs';
+
+import { createSelector, MemoizedSelector, select } from '@ngrx/store';
 
 import { StringOption } from '@schaeffler/inputs';
 
@@ -63,20 +65,20 @@ export const getDialogState = createSelector(
   fromStore.getMSDState,
   (msdState) => msdState.dialog
 );
-export const getAddMaterialDialogOptions = createSelector(
+export const getMaterialDialogOptions = createSelector(
   getDialogState,
-  (addMaterialDialog) => addMaterialDialog.dialogOptions
+  (materialDialog) => materialDialog.dialogOptions
 );
 export const getCustomMaterialStandardNames = createSelector(
-  getAddMaterialDialogOptions,
+  getMaterialDialogOptions,
   (dialogOptions) => dialogOptions.customMaterialStandardNames
 );
 export const getCustomMaterialStandardDocuments = createSelector(
-  getAddMaterialDialogOptions,
+  getMaterialDialogOptions,
   (dialogOptions) => dialogOptions.customMaterialStandardDocuments
 );
-export const getAddMaterialDialogOptionsLoading = createSelector(
-  getAddMaterialDialogOptions,
+export const getMaterialDialogOptionsLoading = createSelector(
+  getMaterialDialogOptions,
   (dialogOptions) =>
     dialogOptions.ratingsLoading ||
     dialogOptions.castingModesLoading ||
@@ -86,8 +88,8 @@ export const getAddMaterialDialogOptionsLoading = createSelector(
     dialogOptions.manufacturerSuppliersLoading
 );
 
-export const getAddMaterialDialogOptionsLoadingError = createSelector(
-  getAddMaterialDialogOptions,
+export const getMaterialDialogOptionsLoadingError = createSelector(
+  getMaterialDialogOptions,
   (dialogOptions) =>
     dialogOptions.ratingsLoading === undefined ||
     dialogOptions.castingModesLoading === undefined ||
@@ -97,52 +99,52 @@ export const getAddMaterialDialogOptionsLoadingError = createSelector(
     dialogOptions.manufacturerSuppliersLoading === undefined
 );
 
-export const getAddMaterialDialogCastingModes = createSelector(
-  getAddMaterialDialogOptions,
+export const getMaterialDialogCastingModes = createSelector(
+  getMaterialDialogOptions,
   (dialogOptions) => dialogOptions.castingModes
 );
-export const getAddMaterialDialogCo2Classifications = createSelector(
-  getAddMaterialDialogOptions,
+export const getMaterialDialogCo2Classifications = createSelector(
+  getMaterialDialogOptions,
   (dialogOptions) => dialogOptions.co2Classifications
 );
-export const getAddMaterialDialogSuppliers = createSelector(
-  getAddMaterialDialogOptions,
+export const getMaterialDialogSuppliers = createSelector(
+  getMaterialDialogOptions,
   (dialogOptions) => dialogOptions.manufacturerSuppliers
 );
 export const getCustomSupplierNames = createSelector(
-  getAddMaterialDialogOptions,
+  getMaterialDialogOptions,
   (dialogOptions) => dialogOptions.customManufacturerSupplierNames
 );
 export const getCustomSupplierPlants = createSelector(
-  getAddMaterialDialogOptions,
+  getMaterialDialogOptions,
   (dialogOptions) => dialogOptions.customManufacturerSupplierPlants
 );
-export const getAddMaterialDialogMaterialStandards = createSelector(
-  getAddMaterialDialogOptions,
+export const getMaterialDialogMaterialStandards = createSelector(
+  getMaterialDialogOptions,
   (dialogOptions) => dialogOptions.materialStandards
 );
-export const getAddMaterialDialogRatings = createSelector(
-  getAddMaterialDialogOptions,
+export const getMaterialDialogRatings = createSelector(
+  getMaterialDialogOptions,
   (dialogOptions) => dialogOptions.ratings
 );
-export const getAddMaterialDialogSteelMakingProcesses = createSelector(
-  getAddMaterialDialogOptions,
+export const getMaterialDialogSteelMakingProcesses = createSelector(
+  getMaterialDialogOptions,
   (dialogOptions) => dialogOptions.steelMakingProcesses
 );
 
-export const getAddMaterialDialogCastingDiameters = createSelector(
-  getAddMaterialDialogOptions,
+export const getMaterialDialogCastingDiameters = createSelector(
+  getMaterialDialogOptions,
   (dialogOptions) => dialogOptions.castingDiameters
 );
 
-export const getAddMaterialDialogCustomCastingDiameters = createSelector(
-  getAddMaterialDialogOptions,
+export const getMaterialDialogCustomCastingDiameters = createSelector(
+  getMaterialDialogOptions,
   (dialogOptions) => dialogOptions.customCastingDiameters
 );
 
-export const getAddMaterialDialogCastingDiameterStringOptions = createSelector(
-  getAddMaterialDialogCastingDiameters,
-  getAddMaterialDialogCustomCastingDiameters,
+export const getMaterialDialogCastingDiameterStringOptions = createSelector(
+  getMaterialDialogCastingDiameters,
+  getMaterialDialogCustomCastingDiameters,
   (castingDiameters, customCastingDiameters) => {
     const options: StringOption[] = (castingDiameters || [])
       .filter((diameter) => !!diameter)
@@ -157,13 +159,44 @@ export const getAddMaterialDialogCastingDiameterStringOptions = createSelector(
   }
 );
 
-export const getAddMaterialDialogCastingDiametersLoading = createSelector(
-  getAddMaterialDialogOptions,
+export const getMaterialDialogCastingDiametersLoading = createSelector(
+  getMaterialDialogOptions,
   (dialogOptions) => dialogOptions.castingDiametersLoading
 );
 
+export const getMaterialDialogReferenceDocuments = createSelector(
+  getMaterialDialogOptions,
+  (dialogOptions) => dialogOptions.referenceDocuments
+);
+
+export const getMaterialDialogCustomReferenceDocuments = createSelector(
+  getMaterialDialogOptions,
+  (dialogOptions) => dialogOptions.customReferenceDocuments
+);
+
+export const getMaterialDialogReferenceDocumentsStringOptions = createSelector(
+  getMaterialDialogReferenceDocuments,
+  getMaterialDialogCustomReferenceDocuments,
+  (referenceDocuments, customReferenceDocuments) => {
+    const options: StringOption[] = (referenceDocuments || [])
+      .filter((document) => !!document)
+      .map((document) => ({ id: document, title: document }));
+    const customOptions: StringOption[] = (customReferenceDocuments || []).map(
+      (document) => ({ id: document, title: document })
+    );
+    options.unshift(...customOptions);
+
+    return options;
+  }
+);
+
+export const getMaterialDialogReferenceDocumentsLoading = createSelector(
+  getMaterialDialogOptions,
+  (dialogOptions) => dialogOptions.referenceDocumentsLoading
+);
+
 export const getSupplierStringOptions = createSelector(
-  getAddMaterialDialogSuppliers,
+  getMaterialDialogSuppliers,
   (suppliers): StringOption[] =>
     suppliers.map((supplier) => ({
       id: supplier.id,
@@ -173,7 +206,7 @@ export const getSupplierStringOptions = createSelector(
 );
 
 export const getSupplierPlantStringOptions = createSelector(
-  getAddMaterialDialogSuppliers,
+  getMaterialDialogSuppliers,
   (suppliers): StringOption[] =>
     suppliers
       .map((supplier) => ({
@@ -212,7 +245,7 @@ export const getSupplierPlantsStringOptionsMerged = createSelector(
 );
 
 export const getMaterialNameStringOptions = createSelector(
-  getAddMaterialDialogMaterialStandards,
+  getMaterialDialogMaterialStandards,
   (materialStandards): StringOption[] =>
     materialStandards.map((materialStandard) => ({
       id: materialStandard.id,
@@ -264,7 +297,7 @@ export const getMaterialNameStringOptionsMerged = createSelector(
 );
 
 export const getMaterialStandardDocumentStringOptions = createSelector(
-  getAddMaterialDialogMaterialStandards,
+  getMaterialDialogMaterialStandards,
   (materialStandards): StringOption[] =>
     materialStandards.map((materialStandard) => ({
       id: materialStandard.id,
@@ -320,10 +353,34 @@ export const getMaterialStandardDocumentStringOptionsMerged = createSelector(
 
 export const getCreateMaterialLoading = createSelector(
   getDialogState,
-  (addMaterialDialog) => addMaterialDialog.createMaterial?.createMaterialLoading
+  (materialDialog) => materialDialog.createMaterial?.createMaterialLoading
 );
 
 export const getCreateMaterialRecord = createSelector(
   getDialogState,
-  (addMaterialDialog) => addMaterialDialog.createMaterial?.createMaterialRecord
+  (materialDialog) => materialDialog.createMaterial?.createMaterialRecord
+);
+
+export const getEditMaterialData = createSelector(
+  getDialogState,
+  (dialogState) => dialogState.editMaterial
+);
+
+export const getEditMaterialDataLoaded = pipe(
+  select(getEditMaterialData),
+  filter((editMaterial) => !!editMaterial),
+  filter(
+    (editMaterial) =>
+      !editMaterial.standardDocumentsLoading &&
+      !editMaterial.materialNamesLoading &&
+      !editMaterial.supplierIdsLoading
+  ),
+  filter((editMaterial) => editMaterial.loadingComplete),
+  map((editMaterial) =>
+    editMaterial.standardDocumentsLoading !== undefined &&
+    editMaterial.materialNamesLoading !== undefined &&
+    editMaterial.supplierIdsLoading !== undefined
+      ? editMaterial
+      : undefined
+  )
 );

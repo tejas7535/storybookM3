@@ -1,0 +1,17 @@
+<div
+  class="flex h-full min-h-[46px] w-full flex-row justify-center"
+  (mouseover)="setHovered(true)"
+  (mouseout)="setHovered(false)"
+>
+  <span class="flex-1 truncate">{{ params?.value }}</span>
+  <div class="h-full" *ngIf="params?.hasEditorRole">
+    <button
+      class="my-auto"
+      mat-icon-button
+      [ngClass]="{ '!hidden': !hovered }"
+      (click)="onEditClick()"
+    >
+      <mat-icon class="text-medium-emphasis">edit</mat-icon>
+    </button>
+  </div>
+</div>

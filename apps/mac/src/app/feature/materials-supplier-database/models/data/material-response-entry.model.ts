@@ -25,6 +25,7 @@ export interface MaterialResponseEntry {
   releaseDateYear: number;
   releaseDateMonth: number;
   releaseRestrictions?: string;
+  blocked?: boolean;
   castingMode: string;
   castingDiameter: string;
   minDimension?: number;

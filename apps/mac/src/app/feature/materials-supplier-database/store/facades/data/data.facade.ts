@@ -6,6 +6,8 @@ import { hasIdTokenRole } from '@schaeffler/azure-auth';
 
 import {
   getAgGridFilter,
+  getEditMaterialData,
+  getEditMaterialDataLoaded,
   getFilters,
   getLoading,
   getMaterialClassOptions,
@@ -35,6 +37,9 @@ export class DataFacade {
   agGridFilter$ = this.store.select(getAgGridFilter);
 
   shareQueryParams$ = this.store.select(getShareQueryParams);
+
+  editMaterialInformation = this.store.pipe(getEditMaterialDataLoaded);
+  editMaterial = this.store.select(getEditMaterialData);
 
   constructor(private readonly store: Store) {}
 

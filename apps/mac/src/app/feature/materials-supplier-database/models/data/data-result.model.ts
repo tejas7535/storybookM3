@@ -21,6 +21,7 @@ export interface DataResult {
   releaseDateYear: number;
   releaseDateMonth: number;
   releaseRestrictions?: string;
+  blocked?: boolean;
   castingMode: string;
   castingDiameter: string;
   minDimension?: number;

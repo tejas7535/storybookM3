@@ -1,4 +1,5 @@
 export interface Material {
+  id?: number;
   materialClass: string;
   materialStandardId: number;
   manufacturerSupplierId: number;

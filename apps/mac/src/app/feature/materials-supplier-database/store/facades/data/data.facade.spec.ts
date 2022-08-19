@@ -60,6 +60,19 @@ describe('DataFacade', () => {
               productCategoryLoading: false,
               filter: mockFilters,
             },
+            dialog: {
+              editMaterial: {
+                material: {} as DataResult,
+                column: 'column',
+                materialNames: [],
+                materialNamesLoading: false,
+                standardDocuments: [],
+                standardDocumentsLoading: false,
+                supplierIds: [],
+                supplierIdsLoading: false,
+                loadingComplete: true,
+              },
+            },
           },
           'azure-auth': {
             accountInfo: {},
@@ -214,6 +227,52 @@ describe('DataFacade', () => {
         });
 
         m.expect(facade.shareQueryParams$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('editMaterialInformation', () => {
+    it(
+      'should provide the editMaterialInformation',
+      marbles((m) => {
+        const expected = m.cold('a', {
+          a: {
+            material: {} as DataResult,
+            column: 'column',
+            materialNames: [],
+            materialNamesLoading: false,
+            standardDocuments: [],
+            standardDocumentsLoading: false,
+            supplierIds: [],
+            supplierIdsLoading: false,
+            loadingComplete: true,
+          },
+        });
+
+        m.expect(facade.editMaterialInformation).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('editMaterial', () => {
+    it(
+      'should provide the editMaterial',
+      marbles((m) => {
+        const expected = m.cold('a', {
+          a: {
+            material: {} as DataResult,
+            column: 'column',
+            materialNames: [],
+            materialNamesLoading: false,
+            standardDocuments: [],
+            standardDocumentsLoading: false,
+            supplierIds: [],
+            supplierIdsLoading: false,
+            loadingComplete: true,
+          },
+        });
+
+        m.expect(facade.editMaterial).toBeObservable(expected);
       })
     );
   });

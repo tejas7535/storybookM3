@@ -302,6 +302,8 @@
         "steelNumber": "Steel number (EN 10027)"
       },
       "dialog": {
+        "addMaterial": "ADD MATERIAL",
+        "addTitle": "Add Material",
         "blocked": "Blocked",
         "cancel": "Cancel",
         "castingDiameter": "Cast / Remelt product information",
@@ -318,7 +320,6 @@
         },
         "co2PerTon": "kg CO₂e / t",
         "co2Total": "CO₂ Total",
-        "confirm": "ADD MATERIAL",
         "continuous": "Continuous",
         "createMaterialFailure": "Material creation failed",
         "createMaterialSuccess": "Material added successfully",
@@ -370,12 +371,13 @@
         "supplierPlant": "Supplier Plant",
         "supplierRating": "Supplier Rating",
         "supplierRatingRemark": "Supplier Rating Remark",
-        "title": "Add Material",
         "tooltip": {
           "blocked": "Indication of whether the material/supplier is blocked (not displayed in the table)",
           "co2Classification": "Classification of the method used to calculate the CO₂ emissions",
           "referencedInDocument": "Identifier(s) of document(s) that refer to this material/supplier, e.g., a product-specific standard"
         },
+        "updateMaterial": "UPDATE MATERIAL",
+        "updateTitle": "Update Material",
         "var": "VAR"
       },
       "excelExport": {
@@ -416,6 +418,7 @@
     "selectAll": "Select All",
     "share": "Share",
     "shareCopiedToClipboard": "Link copied to clipboard",
+    "somethingWentWrong": "Something went wrong. Please try again later.",
     "subtotal": "Subtotal:",
     "title": "Materials Supplier Database"
   },

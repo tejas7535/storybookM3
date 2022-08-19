@@ -4,21 +4,22 @@ import { StringOption } from '@schaeffler/inputs';
 
 import {
   CreateMaterialRecord,
+  DataResult,
   ManufacturerSupplier,
   Material,
   MaterialStandard,
 } from '@mac/msd/models';
 
-export const addMaterialDialogOpened = createAction(
-  '[MSD - Dialog] Add Material Dialog Opened'
+export const materialDialogOpened = createAction(
+  '[MSD - Dialog] Material Dialog Opened'
 );
 
-export const addMaterialDialogCanceled = createAction(
-  '[MSD - Dialog] Add Material Dialog Canceled'
+export const materialDialogCanceled = createAction(
+  '[MSD - Dialog] Material Dialog Canceled'
 );
 
-export const addMaterialDialogConfirmed = createAction(
-  '[MSD - Dialog] Add Material Confirmed',
+export const materialDialogConfirmed = createAction(
+  '[MSD - Dialog] Material Confirmed',
   props<{
     standard: MaterialStandard;
     supplier: ManufacturerSupplier;
@@ -121,9 +122,28 @@ export const fetchCastingDiametersFailure = createAction(
   '[MSD - Dialog] Fetch Casting Diameters Failure'
 );
 
+export const fetchReferenceDocuments = createAction(
+  '[MSD - Dialog] Fetch Reference Documents',
+  props<{ materialStandardId: number }>()
+);
+
+export const fetchReferenceDocumentsSuccess = createAction(
+  '[MSD - Dialog] Fetch Reference Documents Success',
+  props<{ referenceDocuments: string[] }>()
+);
+
+export const fetchReferenceDocumentsFailure = createAction(
+  '[MSD - Dialog] Fetch Reference Documents Failure'
+);
+
 export const addCustomCastingDiameter = createAction(
   '[MSD - Dialog] Add Custom Casting Diameter',
   props<{ castingDiameter: string }>()
+);
+
+export const addCustomReferenceDocument = createAction(
+  '[MSD - Dialog] Add Custom Reference Document',
+  props<{ referenceDocument: string }>()
 );
 
 export const addCustomMaterialStandardName = createAction(
@@ -140,6 +160,7 @@ export const addCustomSupplierName = createAction(
   '[MSD - Dialog] Add Custom Supplier Name',
   props<{ supplierName: string }>()
 );
+
 export const addCustomSupplierPlant = createAction(
   '[MSD - Dialog] Add Custom Supplier Plant',
   props<{ supplierPlant: string }>()
@@ -149,11 +170,68 @@ export const postMaterial = createAction(
   '[MSD - Dialog] Post Material',
   props<{ record: CreateMaterialRecord }>()
 );
+
 export const postMaterialStandard = createAction(
   '[MSD - Dialog] Post Material standard',
   props<{ record: CreateMaterialRecord }>()
 );
+
 export const postManufacturerSupplier = createAction(
   '[MSD - Dialog] Post Manufacturer Supplier',
   props<{ record: CreateMaterialRecord }>()
+);
+
+export const openEditDialog = createAction(
+  '[MSD - Dialog] Open Edit Dialog',
+  props<{ material: DataResult; column: string }>()
+);
+
+export const fetchEditStandardDocumentData = createAction(
+  '[MSD - Dialog] Fetch Edit Standard Document Data',
+  props<{ standardDocument: string }>()
+);
+
+export const fetchEditStandardDocumentDataSuccess = createAction(
+  '[MSD - Dialog] Fetch Edit Standard Document Data Success',
+  props<{ materialNames: { id: number; materialName: string }[] }>()
+);
+
+export const fetchEditStandardDocumentDataFailure = createAction(
+  '[MSD - Dialog] Fetch Edit Standard Document Data Failure'
+);
+
+export const fetchEditMaterialNameData = createAction(
+  '[MSD - Dialog] Fetch Edit Material Name Data',
+  props<{ materialName: string }>()
+);
+
+export const fetchEditMaterialNameDataSuccess = createAction(
+  '[MSD - Dialog] Fetch Edit Material Name Data Success',
+  props<{ standardDocuments: { id: number; standardDocument: string }[] }>()
+);
+
+export const fetchEditMaterialNameDataFailure = createAction(
+  '[MSD - Dialog] Fetch Edit Material Name Data Failure'
+);
+
+export const fetchEditMaterialSuppliers = createAction(
+  '[MSD - Dialog] Fetch Edit Material Suppliers',
+  props<{ supplierName: string }>()
+);
+
+export const fetchEditMaterialSuppliersSuccess = createAction(
+  '[MSD - Dialog] Fetch Edit Material Suppliers Success',
+  props<{ supplierIds: number[] }>()
+);
+
+export const fetchEditMaterialSuppliersFailure = createAction(
+  '[MSD - Dialog] Fetch Edit Material Suppliers Failure'
+);
+
+export const editDialogLoadingFailure = createAction(
+  '[MSD - Dialog] Edit Dialog Loading Failure'
+);
+
+export const editDialogLoadingComplete = createAction(
+  '[MSD - Dialog] Edit Dialog Loading Complete'
 );

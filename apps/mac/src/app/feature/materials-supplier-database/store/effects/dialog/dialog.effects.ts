@@ -1,8 +1,9 @@
+/* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 
-import { catchError, map, of, switchMap } from 'rxjs';
+import { catchError, filter, map, of, switchMap } from 'rxjs';
 
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 
 import { StringOption } from '@schaeffler/inputs';
 
@@ -12,18 +13,20 @@ import {
   MaterialStandard,
 } from '@mac/msd/models';
 import { MsdDataService } from '@mac/msd/services';
+import { DataFacade } from '@mac/msd/store';
 import * as DialogActions from '@mac/msd/store/actions/dialog/dialog.actions';
 
 @Injectable()
 export class DialogEffects {
   constructor(
     private readonly actions$: Actions,
-    private readonly msdDataService: MsdDataService
+    private readonly msdDataService: MsdDataService,
+    private readonly dataFacade: DataFacade
   ) {}
 
-  public addMaterialDialogOpened$ = createEffect(() => {
+  public materialDialogOpened$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(DialogActions.addMaterialDialogOpened),
+      ofType(DialogActions.materialDialogOpened),
       switchMap(() => [
         DialogActions.fetchMaterialStandards(),
         DialogActions.fetchCo2Classifications(),
@@ -131,9 +134,9 @@ export class DialogEffects {
     );
   });
 
-  public addMaterialDialogConfirmed$ = createEffect(() => {
+  public materialDialogConfirmed$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(DialogActions.addMaterialDialogConfirmed),
+      ofType(DialogActions.materialDialogConfirmed),
       switchMap(({ standard, supplier, material }) => [
         DialogActions.postMaterialStandard({
           record: {
@@ -291,6 +294,175 @@ export class DialogEffects {
             catchError(() => of(DialogActions.fetchCastingDiametersFailure()))
           );
       })
+    );
+  });
+
+  public fetchReferenceDocuments$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.fetchReferenceDocuments),
+      switchMap(({ materialStandardId }) => {
+        if (!materialStandardId) {
+          return of(
+            DialogActions.fetchReferenceDocumentsSuccess({
+              referenceDocuments: [],
+            })
+          );
+        }
+
+        return this.msdDataService
+          .fetchReferenceDocuments(materialStandardId)
+          .pipe(
+            map((referenceDocuments) => {
+              const parsedDocuments: string[] = [];
+              for (const documents of referenceDocuments) {
+                // TODO: can be removed as soon as it is guaranteed that we have only parsable options in the db (not during we still work on the modification of materials)
+                try {
+                  JSON.parse(documents).map((document: string) =>
+                    parsedDocuments.push(document)
+                  );
+                } catch {
+                  parsedDocuments.push(documents);
+                }
+              }
+
+              return parsedDocuments;
+            }),
+            map((parsedDocuments) =>
+              parsedDocuments.filter(
+                (document, index) => parsedDocuments.indexOf(document) === index
+              )
+            ),
+            map((referenceDocuments) =>
+              DialogActions.fetchReferenceDocumentsSuccess({
+                referenceDocuments,
+              })
+            ),
+            catchError(() => of(DialogActions.fetchReferenceDocumentsFailure()))
+          );
+      })
+    );
+  });
+
+  public openEditDialog$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.openEditDialog),
+      switchMap(({ material }) => [
+        DialogActions.fetchEditStandardDocumentData({
+          standardDocument: material.materialStandardStandardDocument,
+        }),
+        DialogActions.fetchEditMaterialNameData({
+          materialName: material.materialStandardMaterialName,
+        }),
+        DialogActions.fetchEditMaterialSuppliers({
+          supplierName: material.manufacturerSupplierName,
+        }),
+      ])
+    );
+  });
+
+  public fetchEditStandardDocumentData$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.fetchEditStandardDocumentData),
+      switchMap(({ standardDocument }) =>
+        this.msdDataService
+          .fetchMaterialNamesForStandardDocuments(standardDocument)
+          .pipe(
+            map((materialNamesList) =>
+              materialNamesList.sort((a, b) => a[0] - b[0])
+            ),
+            map((materialNamesList) => {
+              const materialNames = [];
+              for (const materialNameTuple of materialNamesList) {
+                materialNames.push({
+                  id: materialNameTuple[0],
+                  materialName: materialNameTuple[1],
+                });
+              }
+
+              return DialogActions.fetchEditStandardDocumentDataSuccess({
+                materialNames,
+              });
+            }),
+            catchError(() =>
+              of(DialogActions.fetchEditStandardDocumentDataFailure())
+            )
+          )
+      )
+    );
+  });
+
+  public fetchEditMaterialNameData$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.fetchEditMaterialNameData),
+      switchMap(({ materialName }) =>
+        this.msdDataService
+          .fetchStandardDocumentsForMaterialName(materialName)
+          .pipe(
+            map((standardDocumentsList) =>
+              standardDocumentsList.sort((a, b) => a[0] - b[0])
+            ),
+            map((standardDocumentsList) => {
+              const standardDocuments = [];
+              for (const standardDocumentTuple of standardDocumentsList) {
+                standardDocuments.push({
+                  id: standardDocumentTuple[0],
+                  standardDocument: standardDocumentTuple[1],
+                });
+              }
+
+              return DialogActions.fetchEditMaterialNameDataSuccess({
+                standardDocuments,
+              });
+            }),
+            catchError(() =>
+              of(DialogActions.fetchEditMaterialNameDataFailure())
+            )
+          )
+      )
+    );
+  });
+
+  public fetchEditMaterialSuppliers$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.fetchEditMaterialSuppliers),
+      switchMap(({ supplierName }) =>
+        this.msdDataService
+          .fetchManufacturerSuppliersForSupplierName(supplierName)
+          .pipe(
+            map((supplierIds) => supplierIds.sort((a, b) => a - b)),
+            map((supplierIds) =>
+              DialogActions.fetchEditMaterialSuppliersSuccess({ supplierIds })
+            ),
+            catchError(() =>
+              of(DialogActions.fetchEditMaterialSuppliersFailure())
+            )
+          )
+      )
+    );
+  });
+
+  public editDialogLoaded$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(
+        DialogActions.fetchEditMaterialNameDataSuccess,
+        DialogActions.fetchEditMaterialNameDataFailure,
+        DialogActions.fetchEditStandardDocumentDataSuccess,
+        DialogActions.fetchEditStandardDocumentDataFailure,
+        DialogActions.fetchEditMaterialSuppliersSuccess,
+        DialogActions.fetchEditMaterialSuppliersFailure
+      ),
+      map((_action) => {}),
+      concatLatestFrom(() => this.dataFacade.editMaterial),
+      filter(
+        ([_nothing, editMaterial]) =>
+          !!editMaterial &&
+          !!editMaterial.material &&
+          !editMaterial.materialNamesLoading &&
+          !editMaterial.standardDocumentsLoading &&
+          !editMaterial.supplierIdsLoading &&
+          !editMaterial.loadingComplete
+      ),
+      map((_nothing) => DialogActions.editDialogLoadingComplete())
     );
   });
 }

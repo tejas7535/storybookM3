@@ -1,9 +1,11 @@
+/* eslint-disable max-lines */
 import { Action, createReducer, on } from '@ngrx/store';
 
 import { StringOption } from '@schaeffler/inputs';
 
 import {
   CreateMaterialRecord,
+  DataResult,
   ManufacturerSupplier,
   MaterialStandard,
 } from '@mac/msd/models';
@@ -12,11 +14,9 @@ import {
   addCustomCastingDiameter,
   addCustomMaterialStandardDocument,
   addCustomMaterialStandardName,
+  addCustomReferenceDocument,
   addCustomSupplierName,
   addCustomSupplierPlant,
-  addMaterialDialogCanceled,
-  addMaterialDialogConfirmed,
-  addMaterialDialogOpened,
   createMaterialComplete,
   fetchCastingDiameters,
   fetchCastingDiametersFailure,
@@ -31,9 +31,26 @@ import {
   fetchMaterialStandardsSuccess,
   fetchRatingsFailure,
   fetchRatingsSuccess,
+  fetchReferenceDocuments,
+  fetchReferenceDocumentsFailure,
+  fetchReferenceDocumentsSuccess,
   fetchSteelMakingProcessesFailure,
   fetchSteelMakingProcessesSuccess,
+  materialDialogCanceled,
+  materialDialogConfirmed,
+  materialDialogOpened,
+  openEditDialog,
 } from '@mac/msd/store/actions/dialog';
+
+import {
+  editDialogLoadingComplete,
+  fetchEditMaterialNameDataFailure,
+  fetchEditMaterialNameDataSuccess,
+  fetchEditMaterialSuppliersFailure,
+  fetchEditMaterialSuppliersSuccess,
+  fetchEditStandardDocumentDataFailure,
+  fetchEditStandardDocumentDataSuccess,
+} from './../../actions/dialog/dialog.actions';
 
 export interface DialogState {
   manufacturerSupplier: {
@@ -54,6 +71,9 @@ export interface DialogState {
     customManufacturerSupplierNames: string[];
     customManufacturerSupplierPlants: string[];
     manufacturerSuppliersLoading: boolean;
+    referenceDocuments: string[];
+    referenceDocumentsLoading: boolean;
+    customReferenceDocuments: string[];
     ratings: string[];
     ratingsLoading: boolean;
     steelMakingProcesses: string[];
@@ -71,6 +91,17 @@ export interface DialogState {
     createMaterialLoading: boolean;
     createMaterialRecord: CreateMaterialRecord;
   };
+  editMaterial: {
+    material: DataResult;
+    column: string;
+    standardDocuments: { id: number; standardDocument: string }[];
+    standardDocumentsLoading: boolean;
+    materialNames: { id: number; materialName: string }[];
+    materialNamesLoading: boolean;
+    supplierIds: number[];
+    supplierIdsLoading: boolean;
+    loadingComplete: boolean;
+  };
 }
 
 export const initialState: DialogState = {
@@ -78,12 +109,13 @@ export const initialState: DialogState = {
   materialStandard: undefined,
   dialogOptions: undefined,
   createMaterial: undefined,
+  editMaterial: undefined,
 };
 
 export const dialogReducer = createReducer(
   initialState,
   on(
-    addMaterialDialogCanceled,
+    materialDialogCanceled,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -96,11 +128,14 @@ export const dialogReducer = createReducer(
         castingModes: undefined,
         castingDiameters: undefined,
         customCastingDiameters: undefined,
+        referenceDocuments: undefined,
+        customReferenceDocuments: undefined,
       },
+      editMaterial: undefined,
     })
   ),
   on(
-    addMaterialDialogOpened,
+    materialDialogOpened,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -113,6 +148,8 @@ export const dialogReducer = createReducer(
         castingModesLoading: true,
         customCastingDiameters: undefined,
         castingDiameters: undefined,
+        referenceDocuments: undefined,
+        customReferenceDocuments: undefined,
       },
     })
   ),
@@ -190,6 +227,39 @@ export const dialogReducer = createReducer(
         ...state.dialogOptions,
         castingDiameters: [],
         castingDiametersLoading: undefined,
+      },
+    })
+  ),
+  on(
+    fetchReferenceDocuments,
+    (state): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        referenceDocuments: [],
+        referenceDocumentsLoading: true,
+      },
+    })
+  ),
+  on(
+    fetchReferenceDocumentsSuccess,
+    (state, { referenceDocuments }): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        referenceDocuments,
+        referenceDocumentsLoading: false,
+      },
+    })
+  ),
+  on(
+    fetchReferenceDocumentsFailure,
+    (state): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        referenceDocuments: [],
+        referenceDocumentsLoading: undefined,
       },
     })
   ),
@@ -282,7 +352,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    addMaterialDialogConfirmed,
+    materialDialogConfirmed,
     (state): DialogState => ({
       ...state,
       createMaterial: {
@@ -299,6 +369,7 @@ export const dialogReducer = createReducer(
         createMaterialLoading: false,
         createMaterialRecord: record,
       },
+      editMaterial: undefined,
     })
   ),
   on(addCustomCastingDiameter, (state, { castingDiameter }): DialogState => {
@@ -315,6 +386,25 @@ export const dialogReducer = createReducer(
       },
     };
   }),
+
+  on(
+    addCustomReferenceDocument,
+    (state, { referenceDocument }): DialogState => {
+      const customReferenceDocuments = state.dialogOptions
+        .customReferenceDocuments
+        ? [...state.dialogOptions.customReferenceDocuments]
+        : [];
+      customReferenceDocuments.unshift(referenceDocument);
+
+      return {
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          customReferenceDocuments,
+        },
+      };
+    }
+  ),
 
   on(
     addCustomMaterialStandardDocument,
@@ -377,7 +467,109 @@ export const dialogReducer = createReducer(
         customManufacturerSupplierPlants: manufPlants,
       },
     };
-  })
+  }),
+
+  on(
+    openEditDialog,
+    (state, { material, column }): DialogState => ({
+      ...state,
+      editMaterial: {
+        ...state.editMaterial,
+        material,
+        column,
+        materialNames: undefined,
+        materialNamesLoading: true,
+        standardDocuments: undefined,
+        standardDocumentsLoading: true,
+        supplierIds: undefined,
+        supplierIdsLoading: true,
+        loadingComplete: false,
+      },
+    })
+  ),
+
+  on(
+    fetchEditMaterialNameDataSuccess,
+    (state, { standardDocuments }): DialogState => ({
+      ...state,
+      editMaterial: {
+        ...state.editMaterial,
+        standardDocuments,
+        standardDocumentsLoading: false,
+      },
+    })
+  ),
+
+  on(
+    fetchEditMaterialNameDataFailure,
+    (state): DialogState => ({
+      ...state,
+      editMaterial: {
+        ...state.editMaterial,
+        standardDocuments: undefined,
+        standardDocumentsLoading: undefined,
+      },
+    })
+  ),
+
+  on(
+    fetchEditStandardDocumentDataSuccess,
+    (state, { materialNames }): DialogState => ({
+      ...state,
+      editMaterial: {
+        ...state.editMaterial,
+        materialNames,
+        materialNamesLoading: false,
+      },
+    })
+  ),
+
+  on(
+    fetchEditStandardDocumentDataFailure,
+    (state): DialogState => ({
+      ...state,
+      editMaterial: {
+        ...state.editMaterial,
+        materialNames: undefined,
+        materialNamesLoading: undefined,
+      },
+    })
+  ),
+
+  on(
+    fetchEditMaterialSuppliersSuccess,
+    (state, { supplierIds }): DialogState => ({
+      ...state,
+      editMaterial: {
+        ...state.editMaterial,
+        supplierIds,
+        supplierIdsLoading: false,
+      },
+    })
+  ),
+
+  on(
+    fetchEditMaterialSuppliersFailure,
+    (state): DialogState => ({
+      ...state,
+      editMaterial: {
+        ...state.editMaterial,
+        supplierIds: undefined,
+        supplierIdsLoading: undefined,
+      },
+    })
+  ),
+
+  on(
+    editDialogLoadingComplete,
+    (state): DialogState => ({
+      ...state,
+      editMaterial: {
+        ...state.editMaterial,
+        loadingComplete: true,
+      },
+    })
+  )
 );
 
 export function reducer(state: DialogState, action: Action): DialogState {

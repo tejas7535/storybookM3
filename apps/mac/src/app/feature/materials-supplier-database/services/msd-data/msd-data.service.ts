@@ -115,9 +115,11 @@ export class MsdDataService {
                 co2Scope2: materialResponse.co2Scope2,
                 co2Scope3: materialResponse.co2Scope3,
                 co2PerTon: materialResponse.co2PerTon,
+                co2Classification: materialResponse.co2Classification,
                 releaseDateYear: materialResponse.releaseDateYear,
                 releaseDateMonth: materialResponse.releaseDateMonth,
                 releaseRestrictions: materialResponse.releaseRestrictions,
+                blocked: materialResponse.blocked,
                 castingMode: materialResponse.castingMode,
                 castingDiameter: materialResponse.castingDiameter,
                 minDimension: materialResponse.minDimension,
@@ -197,6 +199,82 @@ export class MsdDataService {
     };
 
     return this.httpClient.post<string[]>(
+      `${this.BASE_URL}/materials/query`,
+      body
+    );
+  }
+
+  public fetchReferenceDocuments(materialStandardId: number) {
+    const body = {
+      select: ['referenceDoc'],
+      where: [
+        {
+          col: 'materialStandard.id',
+          op: 'IN',
+          values: [materialStandardId.toString()],
+        },
+      ],
+      distinct: true,
+    };
+
+    return this.httpClient.post<string[]>(
+      `${this.BASE_URL}/materials/query`,
+      body
+    );
+  }
+
+  public fetchStandardDocumentsForMaterialName(materialName: string) {
+    const body = {
+      select: ['materialStandard.id', 'materialStandard.standardDocument'],
+      where: [
+        {
+          col: 'materialStandard.materialName',
+          op: 'IN',
+          values: [materialName],
+        },
+      ],
+      distinct: true,
+    };
+
+    return this.httpClient.post<[number, string][]>(
+      `${this.BASE_URL}/materials/query`,
+      body
+    );
+  }
+
+  public fetchManufacturerSuppliersForSupplierName(supplierName: string) {
+    const body = {
+      select: ['manufacturerSupplier.id'],
+      where: [
+        {
+          col: 'manufacturerSupplier.name',
+          op: 'IN',
+          values: [supplierName],
+        },
+      ],
+      distinct: true,
+    };
+
+    return this.httpClient.post<number[]>(
+      `${this.BASE_URL}/materials/query`,
+      body
+    );
+  }
+
+  public fetchMaterialNamesForStandardDocuments(standardDocument: string) {
+    const body = {
+      select: ['materialStandard.id', 'materialStandard.materialName'],
+      where: [
+        {
+          col: 'materialStandard.standardDocument',
+          op: 'IN',
+          values: [standardDocument],
+        },
+      ],
+      distinct: true,
+    };
+
+    return this.httpClient.post<[number, string][]>(
       `${this.BASE_URL}/materials/query`,
       body
     );

@@ -1,5 +1,6 @@
 import {
   CreateMaterialRecord,
+  DataResult,
   ManufacturerSupplier,
   MaterialStandard,
 } from '@mac/msd/models';
@@ -23,8 +24,8 @@ describe('dialogReducer', () => {
     });
 
     it('should reset the dialogOptions', () => {
-      const action = DataActions.addMaterialDialogCanceled();
-      const mockState = {
+      const action = DataActions.materialDialogCanceled();
+      const mockState: DialogState = {
         ...state,
         dialogOptions: {
           ...state.dialogOptions,
@@ -34,6 +35,19 @@ describe('dialogReducer', () => {
           steelMakingProcesses: ['1'],
           co2Classifications: [{ id: 'c1', title: '1' }],
           castingModes: ['1'],
+          referenceDocuments: ['reference'],
+          customReferenceDocuments: ['reference2'],
+        },
+        editMaterial: {
+          material: {} as DataResult,
+          column: 'column',
+          materialNames: undefined,
+          materialNamesLoading: true,
+          standardDocuments: undefined,
+          standardDocumentsLoading: true,
+          supplierIds: undefined,
+          supplierIdsLoading: true,
+          loadingComplete: false,
         },
       };
 
@@ -49,12 +63,15 @@ describe('dialogReducer', () => {
           steelMakingProcesses: undefined,
           co2Classifications: undefined,
           castingModes: undefined,
+          referenceDocuments: undefined,
+          customReferenceDocuments: undefined,
         },
+        editMaterial: undefined,
       });
     });
 
     it('should set the loading state for the dialog to true', () => {
-      const action = DataActions.addMaterialDialogOpened();
+      const action = DataActions.materialDialogOpened();
       const newState = dialogReducer(state, action);
 
       expect(newState).toEqual({
@@ -245,6 +262,75 @@ describe('dialogReducer', () => {
       });
     });
 
+    it('should reset the referenceDocuments and set the loading state to true', () => {
+      const referenceDocuments = ['reference', 'reference2'];
+      const action = DataActions.fetchReferenceDocuments({
+        materialStandardId: 1,
+      });
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            referenceDocuments,
+            referenceDocumentsLoading: false,
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          referenceDocuments: [],
+          referenceDocumentsLoading: true,
+        },
+      });
+    });
+
+    it('should set the referenceDocuments', () => {
+      const referenceDocuments = ['reference', 'reference2'];
+      const action = DataActions.fetchReferenceDocumentsSuccess({
+        referenceDocuments,
+      });
+      const newState = dialogReducer(state, action);
+
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          referenceDocuments,
+          referenceDocumentsLoading: false,
+        },
+      });
+    });
+
+    it('should set the referenceDocuments and the loading state to undefined', () => {
+      const referenceDocuments = ['reference', 'reference2'];
+      const action = DataActions.fetchReferenceDocumentsFailure();
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            referenceDocuments,
+            referenceDocumentsLoading: false,
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          referenceDocuments: [],
+          referenceDocumentsLoading: undefined,
+        },
+      });
+    });
+
     it('should set the steel making processes', () => {
       const steelMakingProcesses = ['1', '2'];
       const action = DataActions.fetchSteelMakingProcessesSuccess({
@@ -376,7 +462,7 @@ describe('dialogReducer', () => {
     });
 
     it('should set the createMaterialLoading and createMaterialSuccess state', () => {
-      const action = DataActions.addMaterialDialogConfirmed({
+      const action = DataActions.materialDialogConfirmed({
         standard: undefined,
         supplier: undefined,
         material: undefined,
@@ -394,6 +480,7 @@ describe('dialogReducer', () => {
           createMaterialLoading: true,
           createMaterialRecord: undefined,
         },
+        editMaterial: undefined,
       });
     });
 
@@ -464,6 +551,54 @@ describe('dialogReducer', () => {
         dialogOptions: {
           ...state.dialogOptions,
           customCastingDiameters: ['new', 'old'],
+        },
+      });
+    });
+
+    it('should set the custom reference documents if they are not defined', () => {
+      const action = DataActions.addCustomReferenceDocument({
+        referenceDocument: 'new',
+      });
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            customReferenceDocuments: undefined,
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          customReferenceDocuments: ['new'],
+        },
+      });
+    });
+
+    it('should add a custom reference document', () => {
+      const action = DataActions.addCustomReferenceDocument({
+        referenceDocument: 'new',
+      });
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            customReferenceDocuments: ['old'],
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          customReferenceDocuments: ['new', 'old'],
         },
       });
     });
@@ -644,6 +779,292 @@ describe('dialogReducer', () => {
         dialogOptions: {
           ...state.dialogOptions,
           customManufacturerSupplierPlants: ['new', 'old'],
+        },
+      });
+    });
+
+    it('should set the editMaterial', () => {
+      const action = DataActions.openEditDialog({
+        material: {} as DataResult,
+        column: 'column',
+      });
+      const newState = dialogReducer(
+        {
+          ...state,
+          editMaterial: undefined,
+        },
+        action
+      );
+      expect(newState).toEqual({
+        ...state,
+        editMaterial: {
+          material: {} as DataResult,
+          column: 'column',
+          materialNames: undefined,
+          materialNamesLoading: true,
+          standardDocuments: undefined,
+          standardDocumentsLoading: true,
+          supplierIds: undefined,
+          supplierIdsLoading: true,
+          loadingComplete: false,
+        },
+      });
+    });
+
+    it('should set the standard documents', () => {
+      const action = DataActions.fetchEditMaterialNameDataSuccess({
+        standardDocuments: [],
+      });
+      const newState = dialogReducer(
+        {
+          ...state,
+          editMaterial: {
+            material: {} as DataResult,
+            column: 'column',
+            materialNames: undefined,
+            materialNamesLoading: true,
+            standardDocuments: undefined,
+            standardDocumentsLoading: true,
+            supplierIds: undefined,
+            supplierIdsLoading: true,
+            loadingComplete: false,
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        editMaterial: {
+          material: {} as DataResult,
+          column: 'column',
+          materialNames: undefined,
+          materialNamesLoading: true,
+          standardDocuments: [],
+          standardDocumentsLoading: false,
+          supplierIds: undefined,
+          supplierIdsLoading: true,
+          loadingComplete: false,
+        },
+      });
+    });
+
+    it('should reset the standard documents', () => {
+      const action = DataActions.fetchEditMaterialNameDataFailure();
+      const newState = dialogReducer(
+        {
+          ...state,
+          editMaterial: {
+            material: {} as DataResult,
+            column: 'column',
+            materialNames: undefined,
+            materialNamesLoading: true,
+            standardDocuments: undefined,
+            standardDocumentsLoading: true,
+            supplierIds: undefined,
+            supplierIdsLoading: true,
+            loadingComplete: false,
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        editMaterial: {
+          material: {} as DataResult,
+          column: 'column',
+          materialNames: undefined,
+          materialNamesLoading: true,
+          standardDocuments: undefined,
+          standardDocumentsLoading: undefined,
+          supplierIds: undefined,
+          supplierIdsLoading: true,
+          loadingComplete: false,
+        },
+      });
+    });
+
+    it('should set the material names', () => {
+      const action = DataActions.fetchEditStandardDocumentDataSuccess({
+        materialNames: [],
+      });
+      const newState = dialogReducer(
+        {
+          ...state,
+          editMaterial: {
+            material: {} as DataResult,
+            column: 'column',
+            materialNames: undefined,
+            materialNamesLoading: true,
+            standardDocuments: undefined,
+            standardDocumentsLoading: true,
+            supplierIds: undefined,
+            supplierIdsLoading: true,
+            loadingComplete: false,
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        editMaterial: {
+          material: {} as DataResult,
+          column: 'column',
+          materialNames: [],
+          materialNamesLoading: false,
+          standardDocuments: undefined,
+          standardDocumentsLoading: true,
+          supplierIds: undefined,
+          supplierIdsLoading: true,
+          loadingComplete: false,
+        },
+      });
+    });
+
+    it('should reset the material names', () => {
+      const action = DataActions.fetchEditStandardDocumentDataFailure();
+      const newState = dialogReducer(
+        {
+          ...state,
+          editMaterial: {
+            material: {} as DataResult,
+            column: 'column',
+            materialNames: undefined,
+            materialNamesLoading: true,
+            standardDocuments: undefined,
+            standardDocumentsLoading: true,
+            supplierIds: undefined,
+            supplierIdsLoading: true,
+            loadingComplete: false,
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        editMaterial: {
+          material: {} as DataResult,
+          column: 'column',
+          materialNames: undefined,
+          materialNamesLoading: undefined,
+          standardDocuments: undefined,
+          standardDocumentsLoading: true,
+          supplierIds: undefined,
+          supplierIdsLoading: true,
+          loadingComplete: false,
+        },
+      });
+    });
+
+    it('should set the supplierIds', () => {
+      const action = DataActions.fetchEditMaterialSuppliersSuccess({
+        supplierIds: [],
+      });
+      const newState = dialogReducer(
+        {
+          ...state,
+          editMaterial: {
+            material: {} as DataResult,
+            column: 'column',
+            materialNames: undefined,
+            materialNamesLoading: true,
+            standardDocuments: undefined,
+            standardDocumentsLoading: true,
+            supplierIds: undefined,
+            supplierIdsLoading: true,
+            loadingComplete: false,
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        editMaterial: {
+          material: {} as DataResult,
+          column: 'column',
+          materialNames: undefined,
+          materialNamesLoading: true,
+          standardDocuments: undefined,
+          standardDocumentsLoading: true,
+          supplierIds: [],
+          supplierIdsLoading: false,
+          loadingComplete: false,
+        },
+      });
+    });
+
+    it('should reset the supplierIds', () => {
+      const action = DataActions.fetchEditMaterialSuppliersFailure();
+      const newState = dialogReducer(
+        {
+          ...state,
+          editMaterial: {
+            material: {} as DataResult,
+            column: 'column',
+            materialNames: undefined,
+            materialNamesLoading: true,
+            standardDocuments: undefined,
+            standardDocumentsLoading: true,
+            supplierIds: undefined,
+            supplierIdsLoading: true,
+            loadingComplete: false,
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        editMaterial: {
+          material: {} as DataResult,
+          column: 'column',
+          materialNames: undefined,
+          materialNamesLoading: true,
+          standardDocuments: undefined,
+          standardDocumentsLoading: true,
+          supplierIds: undefined,
+          supplierIdsLoading: undefined,
+          loadingComplete: false,
+        },
+      });
+    });
+
+    it('should set loading complete', () => {
+      const action = DataActions.editDialogLoadingComplete();
+      const newState = dialogReducer(
+        {
+          ...state,
+          editMaterial: {
+            material: {} as DataResult,
+            column: 'column',
+            materialNames: undefined,
+            materialNamesLoading: true,
+            standardDocuments: undefined,
+            standardDocumentsLoading: true,
+            supplierIds: undefined,
+            supplierIdsLoading: true,
+            loadingComplete: false,
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        editMaterial: {
+          material: {} as DataResult,
+          column: 'column',
+          materialNames: undefined,
+          materialNamesLoading: true,
+          standardDocuments: undefined,
+          standardDocumentsLoading: true,
+          supplierIds: undefined,
+          supplierIdsLoading: true,
+          loadingComplete: true,
         },
       });
     });

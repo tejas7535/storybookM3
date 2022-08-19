@@ -7,26 +7,27 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { Observable, of, Subject } from 'rxjs';
 
-import {
-  Column,
-  ValueFormatterParams,
-  ValueGetterParams,
-  ColumnApi,
-  IFilterComp,
-  RowNode,
-  ExcelRow,
-} from 'ag-grid-community';
-import { AgGridModule } from 'ag-grid-angular';
-import { ColDef, ColumnState, GridApi } from 'ag-grid-enterprise';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { AgGridModule } from 'ag-grid-angular';
+import {
+  Column,
+  ColumnApi,
+  ExcelRow,
+  IFilterComp,
+  RowNode,
+  ValueFormatterParams,
+  ValueGetterParams,
+} from 'ag-grid-community';
+import { ColDef, ColumnState, GridApi } from 'ag-grid-enterprise';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { StringOption } from '@schaeffler/inputs';
@@ -44,13 +45,14 @@ import {
 } from '@mac/msd/main-table/table-config/column-definitions';
 import { DataResult } from '@mac/msd/models';
 import {
-  addMaterialDialogOpened,
   fetchMaterials,
+  materialDialogOpened,
   setAgGridColumns,
   setAgGridFilter,
   setFilter,
 } from '@mac/msd/store/actions';
 import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
+import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
 
 import * as en from '../../../../assets/i18n/en.json';
 import { MainTableComponent } from './main-table.component';
@@ -69,7 +71,7 @@ describe('MainTableComponent', () => {
   let router: Router;
 
   const initialState = {
-    msd: { data: initialDataState },
+    msd: { data: initialDataState, dialog: initialDialogState },
     'azure-auth': {
       accountInfo: {
         idTokenClaims: {
@@ -120,6 +122,12 @@ describe('MainTableComponent', () => {
         provide: ApplicationInsightsService,
         useValue: {
           logEvent: jest.fn(),
+        },
+      },
+      {
+        provide: MatSnackBar,
+        useValue: {
+          open: jest.fn(),
         },
       },
     ],
@@ -187,6 +195,29 @@ describe('MainTableComponent', () => {
         await new Promise((resolve) => setTimeout(resolve, 100));
 
         expect(store.dispatch).toHaveBeenCalledWith(setFilter(mockValue));
+      });
+
+      it('should call open dialog', () => {
+        const mockSubject = new Subject<any>();
+        component['dataFacade'].editMaterialInformation = mockSubject;
+        component.openDialog = jest.fn();
+
+        component.ngOnInit();
+
+        mockSubject.next({} as DataResult);
+        expect(component.openDialog).toHaveBeenCalledWith({} as DataResult);
+      });
+
+      it('should open snackbar', () => {
+        const mockSubject = new Subject<any>();
+        component['dataFacade'].editMaterialInformation = mockSubject;
+        component.openDialog = jest.fn();
+
+        component.ngOnInit();
+
+        // eslint-disable-next-line unicorn/no-useless-undefined
+        mockSubject.next(undefined);
+        expect(component['snackbar'].open).toHaveBeenCalled();
       });
     });
   });
@@ -1438,7 +1469,7 @@ describe('MainTableComponent', () => {
     it('should return translated column defs', () => {
       const columnDefs = component.columnDefs;
 
-      const translatedColumnDefs = component.getColumnDefs();
+      const translatedColumnDefs = component.getColumnDefs(false);
 
       for (const columnDef of columnDefs) {
         expect(translate).toHaveBeenCalledWith(
@@ -1470,7 +1501,7 @@ describe('MainTableComponent', () => {
           tooltipField: undefined,
         },
       ];
-      component.getColumnDefs();
+      component.getColumnDefs(true);
       expect(translate).not.toHaveBeenCalledWith(
         `materialsSupplierDatabase.mainTable.tooltip.fieldname`
       );
@@ -1483,7 +1514,7 @@ describe('MainTableComponent', () => {
           tooltipField: 'fieldname',
         },
       ];
-      component.getColumnDefs();
+      component.getColumnDefs(false);
       expect(translate).toHaveBeenCalledWith(
         `materialsSupplierDatabase.mainTable.tooltip.fieldname`
       );
@@ -1552,7 +1583,7 @@ describe('MainTableComponent', () => {
           restoreFocus: false,
         }
       );
-      expect(store.dispatch).toHaveBeenCalledWith(addMaterialDialogOpened());
+      expect(store.dispatch).toHaveBeenCalledWith(materialDialogOpened());
     });
 
     it('should do nothing on close if reload is not set', () => {
@@ -1577,7 +1608,7 @@ describe('MainTableComponent', () => {
           restoreFocus: false,
         }
       );
-      expect(store.dispatch).toHaveBeenCalledWith(addMaterialDialogOpened());
+      expect(store.dispatch).toHaveBeenCalledWith(materialDialogOpened());
       expect(component.fetchMaterials).not.toHaveBeenCalled();
     });
 
@@ -1603,7 +1634,7 @@ describe('MainTableComponent', () => {
           restoreFocus: false,
         }
       );
-      expect(store.dispatch).toHaveBeenCalledWith(addMaterialDialogOpened());
+      expect(store.dispatch).toHaveBeenCalledWith(materialDialogOpened());
       expect(component.fetchMaterials).toHaveBeenCalled();
     });
   });

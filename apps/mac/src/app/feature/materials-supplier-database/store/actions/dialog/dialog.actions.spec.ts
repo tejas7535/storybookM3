@@ -1,5 +1,6 @@
 import {
   CreateMaterialRecord,
+  DataResult,
   ManufacturerSupplier,
   Material,
   MaterialStandard,
@@ -9,12 +10,12 @@ import {
   addCustomCastingDiameter,
   addCustomMaterialStandardDocument,
   addCustomMaterialStandardName,
+  addCustomReferenceDocument,
   addCustomSupplierName,
   addCustomSupplierPlant,
-  addMaterialDialogCanceled,
-  addMaterialDialogConfirmed,
-  addMaterialDialogOpened,
   createMaterialComplete,
+  editDialogLoadingComplete,
+  editDialogLoadingFailure,
   fetchCastingDiameters,
   fetchCastingDiametersFailure,
   fetchCastingDiametersSuccess,
@@ -24,6 +25,15 @@ import {
   fetchCo2Classifications,
   fetchCo2ClassificationsFailure,
   fetchCo2ClassificationsSuccess,
+  fetchEditMaterialNameData,
+  fetchEditMaterialNameDataFailure,
+  fetchEditMaterialNameDataSuccess,
+  fetchEditMaterialSuppliers,
+  fetchEditMaterialSuppliersFailure,
+  fetchEditMaterialSuppliersSuccess,
+  fetchEditStandardDocumentData,
+  fetchEditStandardDocumentDataFailure,
+  fetchEditStandardDocumentDataSuccess,
   fetchManufacturerSuppliers,
   fetchManufacturerSuppliersFailure,
   fetchManufacturerSuppliersSuccess,
@@ -33,41 +43,48 @@ import {
   fetchRatings,
   fetchRatingsFailure,
   fetchRatingsSuccess,
+  fetchReferenceDocuments,
+  fetchReferenceDocumentsFailure,
+  fetchReferenceDocumentsSuccess,
   fetchSteelMakingProcesses,
   fetchSteelMakingProcessesFailure,
   fetchSteelMakingProcessesSuccess,
+  materialDialogCanceled,
+  materialDialogConfirmed,
+  materialDialogOpened,
+  openEditDialog,
   postManufacturerSupplier,
   postMaterial,
   postMaterialStandard,
 } from './dialog.actions';
 
 describe('Dialog Actions', () => {
-  describe('Add Material Dialog Opened', () => {
-    it('addMaterialDialogOpened', () => {
-      const action = addMaterialDialogOpened();
+  describe('Material Dialog Opened', () => {
+    it('materialDialogOpened', () => {
+      const action = materialDialogOpened();
 
       expect(action).toEqual({
-        type: '[MSD - Dialog] Add Material Dialog Opened',
+        type: '[MSD - Dialog] Material Dialog Opened',
       });
     });
   });
 
   describe('Add Material Dialog Canceled', () => {
-    it('addMaterialDialogOpened', () => {
-      const action = addMaterialDialogCanceled();
+    it('materialDialogOpened', () => {
+      const action = materialDialogCanceled();
 
       expect(action).toEqual({
-        type: '[MSD - Dialog] Add Material Dialog Canceled',
+        type: '[MSD - Dialog] Material Dialog Canceled',
       });
     });
   });
 
   describe('Add Material Confirmed', () => {
-    it('addMaterialDialogConfirmed', () => {
+    it('materialDialogConfirmed', () => {
       const mockMaterial = {} as Material;
       const mockStandard = {} as MaterialStandard;
       const mockSupplier = {} as ManufacturerSupplier;
-      const action = addMaterialDialogConfirmed({
+      const action = materialDialogConfirmed({
         material: mockMaterial,
         standard: mockStandard,
         supplier: mockSupplier,
@@ -77,7 +94,7 @@ describe('Dialog Actions', () => {
         material: mockMaterial,
         standard: mockStandard,
         supplier: mockSupplier,
-        type: '[MSD - Dialog] Add Material Confirmed',
+        type: '[MSD - Dialog] Material Confirmed',
       });
     });
   });
@@ -338,6 +355,43 @@ describe('Dialog Actions', () => {
     });
   });
 
+  describe('Fetch Reference Documents', () => {
+    it('fetchReferenceDocuments', () => {
+      const action = fetchReferenceDocuments({
+        materialStandardId: 1,
+      });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch Reference Documents',
+        materialStandardId: 1,
+      });
+    });
+  });
+
+  describe('Fetch Reference Documents Success', () => {
+    it('fetchReferenceDocumentsSuccess', () => {
+      const mockReferenceDocuments = ['doc'];
+      const action = fetchReferenceDocumentsSuccess({
+        referenceDocuments: mockReferenceDocuments,
+      });
+
+      expect(action).toEqual({
+        referenceDocuments: mockReferenceDocuments,
+        type: '[MSD - Dialog] Fetch Reference Documents Success',
+      });
+    });
+  });
+
+  describe('Fetch Reference Documents Failure', () => {
+    it('fetchReferenceDocumentsFailure', () => {
+      const action = fetchReferenceDocumentsFailure();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch Reference Documents Failure',
+      });
+    });
+  });
+
   describe('Add Custom Casting Diameter', () => {
     it('addCustomCastingDiameter', () => {
       const action = addCustomCastingDiameter({ castingDiameter: '200x200' });
@@ -345,6 +399,19 @@ describe('Dialog Actions', () => {
       expect(action).toEqual({
         type: '[MSD - Dialog] Add Custom Casting Diameter',
         castingDiameter: '200x200',
+      });
+    });
+  });
+
+  describe('Add Custom Reference Document', () => {
+    it('addCustomReferenceDocument', () => {
+      const action = addCustomReferenceDocument({
+        referenceDocument: 'document',
+      });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Add Custom Reference Document',
+        referenceDocument: 'document',
       });
     });
   });
@@ -421,6 +488,144 @@ describe('Dialog Actions', () => {
       expect(action).toEqual({
         type: '[MSD - Dialog] Post Manufacturer Supplier',
         record,
+      });
+    });
+  });
+
+  describe('Open Edit Dialog', () => {
+    it('openEditDialog', () => {
+      const mockMaterial = {} as DataResult;
+      const action = openEditDialog({
+        material: mockMaterial,
+        column: 'column',
+      });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Open Edit Dialog',
+        material: mockMaterial,
+        column: 'column',
+      });
+    });
+  });
+
+  describe('Fetch Edit Standard Document Data', () => {
+    it('fetchEditStandardDocumentData', () => {
+      const action = fetchEditStandardDocumentData({
+        standardDocument: 'document',
+      });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch Edit Standard Document Data',
+        standardDocument: 'document',
+      });
+    });
+  });
+
+  describe('Fetch Edit Standard Document Data Success', () => {
+    it('fetchEditStandardDocumentDataSuccess', () => {
+      const action = fetchEditStandardDocumentDataSuccess({
+        materialNames: [{ id: 1, materialName: 'material' }],
+      });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch Edit Standard Document Data Success',
+        materialNames: [{ id: 1, materialName: 'material' }],
+      });
+    });
+  });
+
+  describe('Fetch Edit Standard Document Data Failure', () => {
+    it('fetchEditStandardDocumentDataFailure', () => {
+      const action = fetchEditStandardDocumentDataFailure();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch Edit Standard Document Data Failure',
+      });
+    });
+  });
+
+  describe('Fetch Edit Material Name Data', () => {
+    it('fetchEditMaterialNameData', () => {
+      const action = fetchEditMaterialNameData({ materialName: 'material' });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch Edit Material Name Data',
+        materialName: 'material',
+      });
+    });
+  });
+
+  describe('Fetch Edit Material Name Data Success', () => {
+    it('fetchEditMaterialNameDataSuccess', () => {
+      const action = fetchEditMaterialNameDataSuccess({
+        standardDocuments: [{ id: 1, standardDocument: 'document' }],
+      });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch Edit Material Name Data Success',
+        standardDocuments: [{ id: 1, standardDocument: 'document' }],
+      });
+    });
+  });
+
+  describe('Fetch Edit Material Name Data Failure', () => {
+    it('fetchEditMaterialNameDataFailure', () => {
+      const action = fetchEditMaterialNameDataFailure();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch Edit Material Name Data Failure',
+      });
+    });
+  });
+
+  describe('Fetch Edit Suppliers Data', () => {
+    it('fetchEditMaterialSuppliersData', () => {
+      const action = fetchEditMaterialSuppliers({ supplierName: 'supplier' });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch Edit Material Suppliers',
+        supplierName: 'supplier',
+      });
+    });
+  });
+
+  describe('Fetch Edit Suppliers Success', () => {
+    it('fetchEditMaterialSuppliersSuccess', () => {
+      const action = fetchEditMaterialSuppliersSuccess({ supplierIds: [1, 2] });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch Edit Material Suppliers Success',
+        supplierIds: [1, 2],
+      });
+    });
+  });
+
+  describe('Fetch Edit Suppliers Failure', () => {
+    it('fetchEditMaterialSuppliersFailure', () => {
+      const action = fetchEditMaterialSuppliersFailure();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch Edit Material Suppliers Failure',
+      });
+    });
+  });
+
+  describe('Edit Dialog Loading Failure', () => {
+    it('editDialogLoadingFailure', () => {
+      const action = editDialogLoadingFailure();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Edit Dialog Loading Failure',
+      });
+    });
+  });
+
+  describe('Edit Dialog Loading Complete', () => {
+    it('editDialogLoadingComplete', () => {
+      const action = editDialogLoadingComplete();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Edit Dialog Loading Complete',
       });
     });
   });

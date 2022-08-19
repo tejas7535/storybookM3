@@ -1,4 +1,4 @@
-import { throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions } from '@ngrx/effects';
@@ -10,15 +10,15 @@ import { StringOption } from '@schaeffler/inputs';
 import {
   CreateMaterialRecord,
   CreateMaterialState,
+  DataResult,
   ManufacturerSupplier,
   Material,
   MaterialStandard,
 } from '@mac/msd/models';
 import { MsdDataService } from '@mac/msd/services';
 import {
-  addMaterialDialogConfirmed,
-  addMaterialDialogOpened,
   createMaterialComplete,
+  editDialogLoadingComplete,
   fetchCastingDiameters,
   fetchCastingDiametersFailure,
   fetchCastingDiametersSuccess,
@@ -28,6 +28,15 @@ import {
   fetchCo2Classifications,
   fetchCo2ClassificationsFailure,
   fetchCo2ClassificationsSuccess,
+  fetchEditMaterialNameData,
+  fetchEditMaterialNameDataFailure,
+  fetchEditMaterialNameDataSuccess,
+  fetchEditMaterialSuppliers,
+  fetchEditMaterialSuppliersFailure,
+  fetchEditMaterialSuppliersSuccess,
+  fetchEditStandardDocumentData,
+  fetchEditStandardDocumentDataFailure,
+  fetchEditStandardDocumentDataSuccess,
   fetchManufacturerSuppliers,
   fetchManufacturerSuppliersFailure,
   fetchManufacturerSuppliersSuccess,
@@ -37,14 +46,21 @@ import {
   fetchRatings,
   fetchRatingsFailure,
   fetchRatingsSuccess,
+  fetchReferenceDocuments,
+  fetchReferenceDocumentsFailure,
+  fetchReferenceDocumentsSuccess,
   fetchSteelMakingProcesses,
   fetchSteelMakingProcessesFailure,
   fetchSteelMakingProcessesSuccess,
+  materialDialogConfirmed,
+  materialDialogOpened,
+  openEditDialog,
   postManufacturerSupplier,
   postMaterial,
   postMaterialStandard,
 } from '@mac/msd/store/actions';
 
+import { DataFacade } from '../..';
 import { DialogEffects } from './dialog.effects';
 
 describe('Data Effects', () => {
@@ -64,6 +80,12 @@ describe('Data Effects', () => {
           getMaterials: () => {},
         },
       },
+      {
+        provide: DataFacade,
+        useValue: {
+          editMaterial: undefined,
+        },
+      },
     ],
   });
 
@@ -74,11 +96,11 @@ describe('Data Effects', () => {
     msdDataService = spectator.inject(MsdDataService);
   });
 
-  describe('addMaterialDialogOpened$', () => {
+  describe('materialDialogOpened$', () => {
     it(
       'should dispatch the fetch actions',
       marbles((m) => {
-        action = addMaterialDialogOpened();
+        action = materialDialogOpened();
         actions$ = m.hot('-a', { a: action });
 
         const expected = m.cold('-(bcdefg)', {
@@ -90,7 +112,7 @@ describe('Data Effects', () => {
           g: fetchCastingModes(),
         });
 
-        m.expect(effects.addMaterialDialogOpened$).toBeObservable(expected);
+        m.expect(effects.materialDialogOpened$).toBeObservable(expected);
         m.flush();
       })
     );
@@ -363,14 +385,14 @@ describe('Data Effects', () => {
     );
   });
 
-  describe('addMaterialDialogConfirmed$', () => {
+  describe('materialDialogConfirmed$', () => {
     it(
       'should call post material standard',
       marbles((m) => {
         const mockMaterial = {} as Material;
         const mockStandard = {} as MaterialStandard;
         const mockSupplier = {} as ManufacturerSupplier;
-        action = addMaterialDialogConfirmed({
+        action = materialDialogConfirmed({
           material: mockMaterial,
           standard: mockStandard,
           supplier: mockSupplier,
@@ -388,7 +410,7 @@ describe('Data Effects', () => {
           }),
         });
 
-        m.expect(effects.addMaterialDialogConfirmed$).toBeObservable(expected);
+        m.expect(effects.materialDialogConfirmed$).toBeObservable(expected);
         m.flush();
       })
     );
@@ -742,6 +764,298 @@ describe('Data Effects', () => {
           1,
           'ingot'
         );
+      })
+    );
+  });
+
+  describe('fetchReferenceDocuments$', () => {
+    it(
+      'should return empty success action with empty materialStandardId',
+      marbles((m) => {
+        action = fetchReferenceDocuments({
+          materialStandardId: undefined,
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataService.fetchReferenceDocuments = jest.fn();
+
+        const result = fetchReferenceDocumentsSuccess({
+          referenceDocuments: [],
+        });
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.fetchReferenceDocuments$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.fetchReferenceDocuments).not.toHaveBeenCalled();
+      })
+    );
+
+    it(
+      'should fetch referenceDocuments and return success action on success',
+      marbles((m) => {
+        action = fetchReferenceDocuments({ materialStandardId: 1 });
+        actions$ = m.hot('-a', { a: action });
+
+        const resultMock: string[] = ['reference', 'document', '["as json"]'];
+        const response = m.cold('-a|', { a: resultMock });
+        msdDataService.fetchReferenceDocuments = jest.fn(() => response);
+
+        const result = fetchReferenceDocumentsSuccess({
+          referenceDocuments: ['reference', 'document', 'as json'],
+        });
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.fetchReferenceDocuments$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.fetchReferenceDocuments).toHaveBeenCalledWith(1);
+      })
+    );
+
+    it(
+      'should fetch castingDiameters and return failure action on failure',
+      marbles((m) => {
+        action = fetchReferenceDocuments({ materialStandardId: 1 });
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataService.fetchReferenceDocuments = jest
+          .fn()
+          .mockReturnValue(throwError(() => 'error'));
+
+        const result = fetchReferenceDocumentsFailure();
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.fetchReferenceDocuments$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.fetchReferenceDocuments).toHaveBeenCalledWith(1);
+      })
+    );
+  });
+
+  describe('openEditDialog$', () => {
+    it(
+      'should dispatch the actions',
+      marbles((m) => {
+        action = openEditDialog({
+          material: {
+            manufacturerSupplierName: 'supplier',
+            materialStandardMaterialName: 'material',
+            materialStandardStandardDocument: 'document',
+          } as DataResult,
+          column: 'column',
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-(bcd)', {
+          b: fetchEditStandardDocumentData({ standardDocument: 'document' }),
+          c: fetchEditMaterialNameData({ materialName: 'material' }),
+          d: fetchEditMaterialSuppliers({ supplierName: 'supplier' }),
+        });
+
+        m.expect(effects.openEditDialog$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+  });
+
+  describe('fetchEditStandardDocumentData$', () => {
+    it(
+      'should fetch the material names',
+      marbles((m) => {
+        action = fetchEditStandardDocumentData({
+          standardDocument: 'document',
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        const resultMock: [number, string][] = [
+          [3, 'material3'],
+          [1, 'material1'],
+        ];
+        const response = m.cold('-a|', { a: resultMock });
+        msdDataService.fetchMaterialNamesForStandardDocuments = jest.fn(
+          () => response
+        );
+
+        const result = fetchEditStandardDocumentDataSuccess({
+          materialNames: [
+            { id: 1, materialName: 'material1' },
+            { id: 3, materialName: 'material3' },
+          ],
+        });
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.fetchEditStandardDocumentData$).toBeObservable(
+          expected
+        );
+        m.flush();
+
+        expect(
+          msdDataService.fetchMaterialNamesForStandardDocuments
+        ).toHaveBeenCalledWith('document');
+      })
+    );
+
+    it(
+      'should fetch material names and return failure action on failure',
+      marbles((m) => {
+        action = fetchEditStandardDocumentData({
+          standardDocument: 'document',
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataService.fetchMaterialNamesForStandardDocuments = jest
+          .fn()
+          .mockReturnValue(throwError(() => 'error'));
+
+        const result = fetchEditStandardDocumentDataFailure();
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.fetchEditStandardDocumentData$).toBeObservable(
+          expected
+        );
+        m.flush();
+
+        expect(
+          msdDataService.fetchMaterialNamesForStandardDocuments
+        ).toHaveBeenCalledWith('document');
+      })
+    );
+  });
+
+  describe('fetchEditMaterialNameData$', () => {
+    it(
+      'should fetch the standard documents',
+      marbles((m) => {
+        action = fetchEditMaterialNameData({ materialName: 'material' });
+        actions$ = m.hot('-a', { a: action });
+
+        const resultMock: [number, string][] = [
+          [3, 'material3'],
+          [1, 'material1'],
+        ];
+        const response = m.cold('-a|', { a: resultMock });
+        msdDataService.fetchStandardDocumentsForMaterialName = jest.fn(
+          () => response
+        );
+
+        const result = fetchEditMaterialNameDataSuccess({
+          standardDocuments: [
+            { id: 1, standardDocument: 'material1' },
+            { id: 3, standardDocument: 'material3' },
+          ],
+        });
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.fetchEditMaterialNameData$).toBeObservable(expected);
+        m.flush();
+
+        expect(
+          msdDataService.fetchStandardDocumentsForMaterialName
+        ).toHaveBeenCalledWith('material');
+      })
+    );
+
+    it(
+      'should fetch standard documents and return failure action on failure',
+      marbles((m) => {
+        action = fetchEditMaterialNameData({ materialName: 'document' });
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataService.fetchStandardDocumentsForMaterialName = jest
+          .fn()
+          .mockReturnValue(throwError(() => 'error'));
+
+        const result = fetchEditMaterialNameDataFailure();
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.fetchEditMaterialNameData$).toBeObservable(expected);
+        m.flush();
+
+        expect(
+          msdDataService.fetchStandardDocumentsForMaterialName
+        ).toHaveBeenCalledWith('document');
+      })
+    );
+  });
+
+  describe('fetchEditMaterialSupplier$', () => {
+    it(
+      'should fetch the supplier Ids',
+      marbles((m) => {
+        action = fetchEditMaterialSuppliers({ supplierName: 'supplier' });
+        actions$ = m.hot('-a', { a: action });
+
+        const resultMock: number[] = [3, 1];
+        const response = m.cold('-a|', { a: resultMock });
+        msdDataService.fetchManufacturerSuppliersForSupplierName = jest.fn(
+          () => response
+        );
+
+        const result = fetchEditMaterialSuppliersSuccess({
+          supplierIds: [1, 3],
+        });
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.fetchEditMaterialSuppliers$).toBeObservable(expected);
+        m.flush();
+
+        expect(
+          msdDataService.fetchManufacturerSuppliersForSupplierName
+        ).toHaveBeenCalledWith('supplier');
+      })
+    );
+
+    it(
+      'should fetch supplier Ids and return failure action on failure',
+      marbles((m) => {
+        action = fetchEditMaterialSuppliers({ supplierName: 'supplier' });
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataService.fetchManufacturerSuppliersForSupplierName = jest
+          .fn()
+          .mockReturnValue(throwError(() => 'error'));
+
+        const result = fetchEditMaterialSuppliersFailure();
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.fetchEditMaterialSuppliers$).toBeObservable(
+          expected as any
+        );
+        m.flush();
+
+        expect(
+          msdDataService.fetchManufacturerSuppliersForSupplierName
+        ).toHaveBeenCalledWith('supplier');
+      })
+    );
+  });
+
+  describe('editDialogLoaded$', () => {
+    it(
+      'should return loading complete action with full edit information',
+      marbles((m) => {
+        action = fetchEditMaterialNameDataSuccess({ standardDocuments: [] });
+        actions$ = m.hot('-a', { a: action });
+
+        effects['dataFacade'].editMaterial = of({
+          material: {} as DataResult,
+          column: 'column',
+          materialNames: [],
+          materialNamesLoading: false,
+          standardDocuments: [],
+          standardDocumentsLoading: false,
+          supplierIds: [],
+          supplierIdsLoading: false,
+          loadingComplete: false,
+        });
+
+        const result = editDialogLoadingComplete();
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.editDialogLoaded$).toBeObservable(expected);
+        m.flush();
       })
     );
   });

@@ -5,7 +5,7 @@
   <div mat-dialog-title class="!-mx-6 !-mt-4">
     <div class="flex flex-row content-around justify-between pl-4 pb-2 pr-2">
       <div class="text-h6 my-auto text-high-emphasis">
-        {{ t('title') }}
+        {{ materialId ? t('updateTitle') : t('addTitle') }}
       </div>
       <button mat-icon-button (click)="closeDialog()">
         <mat-icon>close</mat-icon>
@@ -31,6 +31,8 @@
             [resetButton]="true"
             addEntry="true"
             (entryAdded)="addStandardDocument($event)"
+            name="materialStandardStandardDocument"
+            #dialogControl
           >
             <div matErrorContent *ngIf="standardDocumentsControl.invalid">
               {{ getErrorMessage(standardDocumentsControl.errors) }}
@@ -45,6 +47,8 @@
             [filterFn]="materialNameFilterFnFactory(standardDocumentsControl)"
             addEntry="true"
             (entryAdded)="addMaterialName($event)"
+            name="materialStandardMaterialName"
+            #dialogControl
           >
             <div matErrorContent *ngIf="materialNamesControl.invalid">
               {{ getErrorMessage(materialNamesControl.errors) }}
@@ -59,6 +63,8 @@
               placeholder="1.1234"
               value=""
               [formControl]="steelNumberControl"
+              name="materialNumbers"
+              #dialogControl
             />
             <mat-error
               *ngIf="steelNumberControl.invalid"
@@ -76,11 +82,14 @@
               class="w-full"
               [filterFn]="filterFn"
               [label]="t('referencedInDocument')"
-              [stringOptions]="referenceDocument"
+              [stringOptions]="referenceDocuments$ | ngrxPush"
               [control]="referenceDocumentControl"
+              [loading]="referenceDocumentsLoading$ | ngrxPush"
               [addEntry]="true"
               [multiple]="true"
               (entryAdded)="addReferenceDocument($event)"
+              name="referenceDoc"
+              #dialogControl
             ></schaeffler-select>
             <span mat-icon class="mb-4 self-center pl-4">
               <mat-icon
@@ -108,6 +117,8 @@
             [label]="t('supplierName')"
             [addEntry]="true"
             (entryAdded)="addSupplierName($event)"
+            name="manufacturerSupplierName"
+            #dialogControl
           >
             <div matErrorContent *ngIf="suppliersControl.invalid">
               {{ getErrorMessage(suppliersControl.errors) }}
@@ -127,6 +138,8 @@
             [label]="t('supplierPlant')"
             [addEntry]="true"
             (entryAdded)="addSupplierPlant($event)"
+            name="manufacturerSupplierPlant"
+            #dialogControl
           >
             <div matErrorContent *ngIf="supplierPlantsControl.invalid">
               {{ getErrorMessage(supplierPlantsControl.errors) }}
@@ -136,7 +149,11 @@
         <div class="flex flex-row gap-x-6">
           <mat-form-field appearance="outline" class="w-full">
             <mat-label>{{ t('castingMode') }}</mat-label>
-            <mat-select [formControl]="castingModesControl">
+            <mat-select
+              [formControl]="castingModesControl"
+              name="castingMode"
+              #dialogControl
+            >
               <mat-option
                 *ngFor="let mode of castingModes$ | ngrxPush"
                 [value]="mode"
@@ -160,6 +177,8 @@
             (entryAdded)="addCastingDiameter($event)"
             [resetButton]="false"
             [loading]="castingDiametersLoading$ | ngrxPush"
+            name="castingDiameter"
+            #dialogControl
           >
             <div matErrorContent *ngIf="castingDiameterControl.invalid">
               {{ getErrorMessage(castingDiameterControl.errors) }}
@@ -169,7 +188,12 @@
         <div class="flex flex-row gap-x-6">
           <mat-form-field appearance="outline" class="w-auto">
             <mat-label>{{ t('supplierRating') }}</mat-label>
-            <mat-select [formControl]="ratingsControl">
+            <mat-select
+              [formControl]="ratingsControl"
+              [compareWith]="compareWithId"
+              name="rating"
+              #dialogControl
+            >
               <mat-option
                 *ngFor="let rating of ratings$ | ngrxPush"
                 [value]="rating"
@@ -184,7 +208,12 @@
 
           <mat-form-field appearance="outline" class="w-full">
             <mat-label>{{ t('supplierRatingRemark') }}</mat-label>
-            <input matInput [formControl]="ratingRemarkControl" />
+            <input
+              matInput
+              [formControl]="ratingRemarkControl"
+              name="ratingRemark"
+              #dialogControl
+            />
           </mat-form-field>
         </div>
       </div>
@@ -195,6 +224,9 @@
           <textarea
             matInput
             [formControl]="ratingChangeCommentControl"
+            required
+            name="ratingChangeComment"
+            #dialogControl
           ></textarea>
         </mat-form-field>
       </div>
@@ -206,7 +238,13 @@
         <div class="flex flex-row gap-x-6">
           <mat-form-field appearance="outline" class="w-full">
             <mat-label>{{ t('maxDim') }}</mat-label>
-            <input matInput [formControl]="maxDimControl" type="number" />
+            <input
+              matInput
+              [formControl]="maxDimControl"
+              type="number"
+              name="maxDimension"
+              #dialogControl
+            />
             <span matSuffix class="relative -top-1 pl-1 text-caption">{{
               t('mm')
             }}</span>
@@ -216,7 +254,13 @@
           </mat-form-field>
           <mat-form-field appearance="outline" class="w-full">
             <mat-label>{{ t('minDim') }}</mat-label>
-            <input matInput [formControl]="minDimControl" type="number" />
+            <input
+              matInput
+              [formControl]="minDimControl"
+              type="number"
+              name="minDimension"
+              #dialogControl
+            />
             <span matSuffix class="relative -top-1 pl-1 text-caption">{{
               t('mm')
             }}</span>
@@ -232,6 +276,8 @@
             [filterFn]="filterFn"
             [label]="t('productCategory')"
             [resetButton]="false"
+            name="productCategoryText"
+            #dialogControl
           >
             <div matErrorContent *ngIf="categoriesControl.invalid">
               {{ getErrorMessage(categoriesControl.errors) }}
@@ -243,7 +289,13 @@
         <div class="flex flex-row">
           <mat-form-field appearance="outline" class="w-1/4 pr-6">
             <mat-label>{{ t('scope1') }}</mat-label>
-            <input matInput [formControl]="co2Scope1Control" type="number" />
+            <input
+              matInput
+              [formControl]="co2Scope1Control"
+              type="number"
+              name="co2Scope1"
+              #dialogControl
+            />
             <span matSuffix class="relative -top-1 pl-1 text-caption">{{
               t('co2PerTon')
             }}</span>
@@ -253,7 +305,13 @@
           </mat-form-field>
           <mat-form-field appearance="outline" class="w-1/4 pr-6">
             <mat-label>{{ t('scope2') }}</mat-label>
-            <input matInput [formControl]="co2Scope2Control" type="number" />
+            <input
+              matInput
+              [formControl]="co2Scope2Control"
+              type="number"
+              name="co2Scope2"
+              #dialogControl
+            />
             <span matSuffix class="relative -top-1 pl-1 text-caption">{{
               t('co2PerTon')
             }}</span>
@@ -263,7 +321,13 @@
           </mat-form-field>
           <mat-form-field appearance="outline" class="w-1/4 pr-6">
             <mat-label>{{ t('scope3') }}</mat-label>
-            <input matInput [formControl]="co2Scope3Control" type="number" />
+            <input
+              matInput
+              [formControl]="co2Scope3Control"
+              type="number"
+              name="co2Scope3"
+              #dialogControl
+            />
             <span matSuffix class="relative -top-1 pl-1 text-caption">{{
               t('co2PerTon')
             }}</span>
@@ -273,7 +337,13 @@
           </mat-form-field>
           <mat-form-field appearance="outline" class="w-1/4">
             <mat-label>{{ t('co2Total') }}</mat-label>
-            <input matInput [formControl]="co2TotalControl" type="number" />
+            <input
+              matInput
+              [formControl]="co2TotalControl"
+              type="number"
+              name="co2PerTon"
+              #dialogControl
+            />
             <span matSuffix class="relative -top-1 pl-1 text-caption">{{
               t('co2PerTon')
             }}</span>
@@ -302,6 +372,8 @@
             [control]="steelMakingProcessControl"
             [filterFn]="filterFn"
             [label]="t('steelMakingProcess')"
+            name="steelMakingProcess"
+            #dialogControl
           ></schaeffler-select>
           <div class="flex w-full flex-row">
             <schaeffler-select
@@ -312,6 +384,8 @@
               [filterFn]="filterFn"
               [label]="t('co2Classification')"
               [resetButton]="false"
+              name="co2Classification"
+              #dialogControl
             >
               <div matErrorContent *ngIf="co2ClassificationControl.invalid">
                 {{ getErrorMessage(co2ClassificationControl.errors) }}
@@ -331,7 +405,11 @@
         <div class="flex flex-row gap-x-6">
           <mat-form-field appearance="outline" class="w-full">
             <mat-label>{{ t('releaseDateYear') }}</mat-label>
-            <mat-select [formControl]="releaseYearControl">
+            <mat-select
+              [formControl]="releaseYearControl"
+              name="releaseDateYear"
+              #dialogControl
+            >
               <mat-option *ngFor="let year of years" [value]="year">
                 {{ year }}
               </mat-option>
@@ -343,7 +421,11 @@
 
           <mat-form-field appearance="outline" class="w-full">
             <mat-label>{{ t('releaseDateMonth') }}</mat-label>
-            <mat-select [formControl]="releaseMonthControl">
+            <mat-select
+              [formControl]="releaseMonthControl"
+              name="releaseDateMonth"
+              #dialogControl
+            >
               <mat-option *ngFor="let month of months" [value]="month">
                 {{ t('month.' + month) }}
               </mat-option>
@@ -360,12 +442,19 @@
             <textarea
               matInput
               [formControl]="releaseRestrictionsControl"
+              name="releaseRestrictions"
+              #dialogControl
             ></textarea>
           </mat-form-field>
         </div>
 
         <div class="flex flex-row gap-x-6">
-          <mat-checkbox color="primary" [formControl]="isBlockedControl">
+          <mat-checkbox
+            color="primary"
+            [formControl]="isBlockedControl"
+            name="blocked"
+            #dialogControl
+          >
             <div
               class="flex flex-row justify-center gap-x-2 text-caption text-high-emphasis"
             >
@@ -401,10 +490,10 @@
         mat-stroked-button
         class="!ml-4 text-link"
         [disabled]="!createMaterialForm.valid"
-        (click)="addMaterial()"
+        (click)="confirmMaterial()"
       >
         <div class="flex flex-row gap-x-2">
-          {{ t('confirm') }}
+          {{ materialId ? t('updateMaterial') : t('addMaterial') }}
           <mat-spinner
             *ngIf="createMaterialLoading | ngrxPush"
             class="my-auto"

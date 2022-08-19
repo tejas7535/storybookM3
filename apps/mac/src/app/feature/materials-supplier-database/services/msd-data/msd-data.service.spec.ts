@@ -9,14 +9,15 @@ import { translate, TranslocoModule } from '@ngneat/transloco';
 import { StringOption } from '@schaeffler/inputs';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import * as en from '../../../../../assets/i18n/en.json';
 import {
   DataResult,
   ManufacturerSupplier,
   Material,
   MaterialResponseEntry,
   MaterialStandard,
-} from '../../models';
+} from '@mac/msd/models';
+
+import * as en from '../../../../../assets/i18n/en.json';
 import { MsdDataService } from './msd-data.service';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -395,6 +396,42 @@ describe('MsdDataService', () => {
     });
   });
 
+  describe('createMaterialStandard', () => {
+    it('should post a material standard', (done) => {
+      const mockResponse = { id: 1 };
+      service
+        .createMaterialStandard({} as MaterialStandard)
+        .subscribe((result) => {
+          expect(result).toEqual(mockResponse);
+          done();
+        });
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/materialStandards`
+      );
+      expect(req.request.method).toBe('POST');
+      req.flush(mockResponse);
+    });
+  });
+
+  describe('createManufacturerSupplier', () => {
+    it('should post a manufacturer supplier', (done) => {
+      const mockResponse = { id: 1 };
+      service
+        .createManufacturerSupplier({} as ManufacturerSupplier)
+        .subscribe((result) => {
+          expect(result).toEqual(mockResponse);
+          done();
+        });
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/manufacturerSuppliers`
+      );
+      expect(req.request.method).toBe('POST');
+      req.flush(mockResponse);
+    });
+  });
+
   describe('createMaterial', () => {
     it('should post a material', (done) => {
       const mockResponse = { id: 1 };
@@ -435,6 +472,125 @@ describe('MsdDataService', () => {
 
       const req = httpMock.expectOne(`${service['BASE_URL']}/materials/query`);
       expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual(expectedBody);
+      req.flush(mockResponse);
+    });
+  });
+
+  describe('fetchReferenceDocuments', () => {
+    it('should post a query for the reference documents', (done) => {
+      const mockResponse = ['document'];
+      const expectedBody = {
+        select: ['referenceDoc'],
+        where: [
+          {
+            col: 'materialStandard.id',
+            op: 'IN',
+            values: ['1'],
+          },
+        ],
+        distinct: true,
+      };
+      service.fetchReferenceDocuments(1).subscribe((result) => {
+        expect(result).toEqual(mockResponse);
+        done();
+      });
+
+      const req = httpMock.expectOne(`${service['BASE_URL']}/materials/query`);
+      expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual(expectedBody);
+      req.flush(mockResponse);
+    });
+  });
+
+  describe('fetchStandardDocumentsForMaterialName', () => {
+    it('should post a query for standard documents', (done) => {
+      const mockResponse = [
+        [1, 'S 123456'],
+        [2, 'S 654321'],
+      ];
+      const expectedBody = {
+        select: ['materialStandard.id', 'materialStandard.standardDocument'],
+        where: [
+          {
+            col: 'materialStandard.materialName',
+            op: 'IN',
+            values: ['materialName'],
+          },
+        ],
+        distinct: true,
+      };
+
+      service
+        .fetchStandardDocumentsForMaterialName('materialName')
+        .subscribe((result) => {
+          expect(result).toEqual(mockResponse);
+          done();
+        });
+
+      const req = httpMock.expectOne(`${service['BASE_URL']}/materials/query`);
+      expect(req.request.method).toEqual('POST');
+      expect(req.request.body).toEqual(expectedBody);
+      req.flush(mockResponse);
+    });
+  });
+
+  describe('fetchMaterialNamesForStandardDocuments', () => {
+    it('should post a query for material names', (done) => {
+      const mockResponse = [
+        [1, 'name1'],
+        [2, 'name2'],
+      ];
+      const expectedBody = {
+        select: ['materialStandard.id', 'materialStandard.materialName'],
+        where: [
+          {
+            col: 'materialStandard.standardDocument',
+            op: 'IN',
+            values: ['standardDocument'],
+          },
+        ],
+        distinct: true,
+      };
+
+      service
+        .fetchMaterialNamesForStandardDocuments('standardDocument')
+        .subscribe((result) => {
+          expect(result).toEqual(mockResponse);
+          done();
+        });
+
+      const req = httpMock.expectOne(`${service['BASE_URL']}/materials/query`);
+      expect(req.request.method).toEqual('POST');
+      expect(req.request.body).toEqual(expectedBody);
+      req.flush(mockResponse);
+    });
+  });
+
+  describe('fetchManufacturerSuppliersForSupplierName', () => {
+    it('should post a query for supplier ids', (done) => {
+      const mockResponse = [1, 2];
+      const expectedBody = {
+        select: ['manufacturerSupplier.id'],
+        where: [
+          {
+            col: 'manufacturerSupplier.name',
+            op: 'IN',
+            values: ['supplier'],
+          },
+        ],
+        distinct: true,
+      };
+
+      service
+        .fetchManufacturerSuppliersForSupplierName('supplier')
+        .subscribe((result) => {
+          expect(result).toEqual(mockResponse);
+          done();
+        });
+
+      const req = httpMock.expectOne(`${service['BASE_URL']}/materials/query`);
+      expect(req.request.method).toEqual('POST');
       expect(req.request.body).toEqual(expectedBody);
       req.flush(mockResponse);
     });

@@ -3,7 +3,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatOptionModule } from '@angular/material/core';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -19,7 +23,7 @@ import { Subject } from 'rxjs';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { StringOption } from '@schaeffler/inputs';
 import { SelectModule } from '@schaeffler/inputs/select';
@@ -28,16 +32,20 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
   CreateMaterialRecord,
+  DataResult,
   ManufacturerSupplier,
+  MaterialFormValue,
   MaterialStandard,
 } from '@mac/msd/models';
 import {
   addCustomCastingDiameter,
   addCustomMaterialStandardDocument,
   addCustomMaterialStandardName,
+  addCustomReferenceDocument,
   addCustomSupplierName,
   addCustomSupplierPlant,
   fetchCastingDiameters,
+  fetchReferenceDocuments,
 } from '@mac/msd/store';
 import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
 import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
@@ -54,7 +62,6 @@ jest.mock('@ngneat/transloco', () => ({
 describe('InputDialogComponent', () => {
   let component: InputDialogComponent;
   let spectator: Spectator<InputDialogComponent>;
-  let store: MockStore;
 
   const mockMaterialStandards: MaterialStandard[] = [
     {
@@ -117,6 +124,68 @@ describe('InputDialogComponent', () => {
   const createOption = (title: string, data?: any) =>
     ({ id: 2, title, data } as StringOption);
 
+  const mockDialogData: { material: DataResult; column: string } = {
+    material: {
+      id: 1,
+      materialClass: 'st',
+      materialClassText: 'Steel',
+      materialStandardId: 1,
+      materialStandardMaterialName: 'material',
+      materialStandardStandardDocument: 'document',
+      manufacturerSupplierId: 1,
+      manufacturerSupplierName: 'supplier',
+      manufacturerSupplierPlant: 'plant',
+      productCategory: 'brightBar',
+      productCategoryText: 'Bright Bar',
+      referenceDoc: '["reference"]',
+      co2Scope1: 1,
+      co2Scope2: 1,
+      co2Scope3: 1,
+      co2PerTon: 3,
+      co2Classification: 'C1',
+      releaseDateYear: 1,
+      releaseDateMonth: 1,
+      releaseRestrictions: 'restriction',
+      blocked: false,
+      castingMode: 'mode',
+      castingDiameter: 'diameter',
+      minDimension: 1,
+      maxDimension: 1,
+      steelMakingProcess: 'process',
+      rating: 'rating',
+      ratingRemark: 'remark',
+      ratingChangeComment: 'comment',
+    } as DataResult,
+    column: 'column',
+  };
+
+  const mockDialogDataPartial: { material: DataResult; column: string } = {
+    material: {
+      id: 1,
+      materialClass: 'st',
+      materialClassText: 'Steel',
+      materialStandardId: 1,
+      materialStandardMaterialName: 'material',
+      materialStandardStandardDocument: 'document',
+      manufacturerSupplierId: 1,
+      manufacturerSupplierName: 'supplier',
+      manufacturerSupplierPlant: 'plant',
+      productCategory: 'brightBar',
+      productCategoryText: 'Bright Bar',
+      referenceDoc: 'reference',
+      releaseDateYear: 1,
+      releaseDateMonth: 1,
+      releaseRestrictions: 'restriction',
+      blocked: false,
+      castingMode: 'mode',
+      minDimension: 1,
+      maxDimension: 1,
+      ratingRemark: 'remark',
+      ratingChangeComment: 'comment',
+    } as DataResult,
+    column: 'column',
+  };
+
   const createComponent = createComponentFactory({
     component: InputDialogComponent,
     imports: [
@@ -149,14 +218,16 @@ describe('InputDialogComponent', () => {
         },
       },
       DialogControlsService,
+      {
+        provide: MAT_DIALOG_DATA,
+        useValue: {},
+      },
     ],
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    store = spectator.inject(MockStore);
-    store.select = jest.fn();
   });
 
   afterEach(() => {
@@ -734,178 +805,396 @@ describe('InputDialogComponent', () => {
             expect(component.ratingChangeCommentControl.value).toBe(undefined);
           });
         });
-      });
-    });
 
-    describe('ngOnDestory', () => {
-      it('should complete the observable', () => {
-        component.destroy$.next = jest.fn();
-        component.destroy$.complete = jest.fn();
+        describe('modify material standard', () => {
+          it('should dispatch fetch action for reference documents on material standard id change', () => {
+            component['dialogFacade'].dispatch = jest.fn();
+            component.materialStandardIdControl.patchValue(5);
 
-        component.ngOnDestroy();
-
-        expect(component.destroy$.next).toHaveBeenCalled();
-        expect(component.destroy$.complete).toHaveBeenCalled();
-      });
-    });
-
-    describe('addMaterial', () => {
-      const option: StringOption = { id: 1, title: 'title' };
-      const supplierOption = { id: '89', title: 'supplier' } as StringOption;
-      const supplierPlantOption = {
-        id: '32',
-        title: 'supplierPlant',
-        data: { supplierName: 'supplier' },
-      } as StringOption;
-
-      const material = {
-        manufacturerSupplierId: 1,
-        materialStandardId: 1,
-        blocked: false,
-        castingDiameter: option,
-        castingMode: '',
-        co2Classification: option,
-        co2PerTon: 1,
-        co2Scope1: 2,
-        co2Scope2: 3,
-        co2Scope3: 3,
-        materialName: option,
-        maxDimension: 3,
-        minDimension: 4,
-        productCategory: option,
-        rating: option,
-        ratingRemark: '',
-        ratingChangeComment: '',
-        referenceDoc: [option],
-        releaseDateMonth: 12,
-        releaseDateYear: 1223,
-        releaseRestrictions: '',
-        standardDocument: option,
-        steelMakingProcess: option,
-        supplier: supplierOption,
-        supplierPlant: supplierPlantOption,
-        materialNumber: '1.1234',
-      };
-      it('store material and open snackbar with success?', () => {
-        const mockSubject = new Subject<CreateMaterialRecord>();
-        component['dialogFacade'].dispatch = jest.fn();
-        component['dialogFacade'].createMaterialRecord$ = mockSubject;
-        component['snackbar'].open = jest.fn();
-        component.closeDialog = jest.fn();
-        const createMaterialRecord = {
-          error: false,
-        } as CreateMaterialRecord;
-
-        component.suppliersControl.setValue(supplierOption);
-        component.supplierPlantsControl.setValue(supplierPlantOption);
-        component.castingModesControl.setValue('sth');
-        component.castingDiameterControl.setValue(option);
-        component.createMaterialForm.setValue(material, { emitEvent: false });
-
-        component.addMaterial();
-        mockSubject.next(createMaterialRecord);
-
-        expect(component['dialogFacade'].dispatch).toBeCalled();
-        expect(component['snackbar'].open).toBeCalled();
-        expect(component.closeDialog).toHaveBeenCalledWith(true);
-      });
-      it('stores material and open snackbar with failure?', () => {
-        const mockSubject = new Subject<CreateMaterialRecord>();
-        component['dialogFacade'].dispatch = jest.fn();
-        component['dialogFacade'].createMaterialRecord$ = mockSubject;
-        component['snackbar'].open = jest.fn();
-        component.closeDialog = jest.fn();
-        const createMaterialRecord = {
-          error: true,
-        } as CreateMaterialRecord;
-
-        component.suppliersControl.setValue(supplierOption);
-        component.supplierPlantsControl.setValue(supplierPlantOption);
-        component.castingModesControl.setValue('sth');
-        component.castingDiameterControl.setValue(option);
-        component.createMaterialForm.setValue(material, { emitEvent: false });
-
-        component.addMaterial();
-        mockSubject.next(createMaterialRecord);
-
-        expect(component['snackbar'].open).toBeCalled();
-        expect(component.closeDialog).not.toHaveBeenCalled();
-      });
-    });
-
-    describe('closeDialog', () => {
-      it('should close the dialog', () => {
-        component['dialogRef'].close = jest.fn();
-
-        component.closeDialog('test');
-
-        expect(component['dialogRef'].close).toHaveBeenCalledWith('test');
-      });
-    });
-
-    describe('addReferenceDocument', () => {
-      it('should add values to select', () => {
-        const s = 'string';
-        component.referenceDocument.push = jest.fn();
-        component.addReferenceDocument(s);
-        expect(component.referenceDocument.push).toHaveBeenCalledWith({
-          id: s,
-          title: s,
+            expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+              fetchReferenceDocuments({ materialStandardId: 5 })
+            );
+          });
         });
       });
     });
+  });
 
-    describe('addCastingDiameter', () => {
-      it('should add values to select', () => {
-        const castingDiameter = 'string';
-        store.dispatch = jest.fn();
-        component.addCastingDiameter(castingDiameter);
-        expect(store.dispatch).toHaveBeenCalledWith(
-          addCustomCastingDiameter({ castingDiameter })
+  describe('ngOnDestory', () => {
+    it('should complete the observable', () => {
+      component.destroy$.next = jest.fn();
+      component.destroy$.complete = jest.fn();
+
+      component.ngOnDestroy();
+
+      expect(component.destroy$.next).toHaveBeenCalled();
+      expect(component.destroy$.complete).toHaveBeenCalled();
+    });
+  });
+
+  describe('ngAfterViewInit', () => {
+    describe('with full material', () => {
+      beforeEach(() => {
+        component['editMaterialData'].material = mockDialogData.material;
+        component['editMaterialData'].column = mockDialogData.column;
+      });
+
+      it('should prepare the form', () => {
+        const expectedFormValue: Partial<MaterialFormValue> = {
+          manufacturerSupplierId: 1,
+          materialStandardId: 1,
+          productCategory: {
+            id: 'brightBar',
+            title: undefined,
+          },
+          referenceDoc: [{ id: 'reference', title: 'reference' }],
+          co2Scope1: 1,
+          co2Scope2: 1,
+          co2Scope3: 1,
+          co2PerTon: 3,
+          materialNumber: undefined,
+          co2Classification: {
+            id: 'C1',
+            title: undefined,
+          },
+          releaseDateYear: 1,
+          releaseDateMonth: 1,
+          releaseRestrictions: 'restriction',
+          blocked: false,
+          castingMode: 'mode',
+          castingDiameter: { id: 'diameter', title: 'diameter' },
+          maxDimension: 1,
+          minDimension: 1,
+          steelMakingProcess: {
+            id: 'process',
+            title: 'process',
+          },
+          rating: { id: 'rating', title: 'rating' },
+          ratingRemark: 'remark',
+          standardDocument: {
+            id: 1,
+            title: 'document',
+          },
+          materialName: {
+            id: 1,
+            title: 'material',
+          },
+          supplier: {
+            id: 1,
+            title: 'supplier',
+          },
+          supplierPlant: {
+            id: 'plant',
+            title: 'plant',
+            data: {
+              supplierId: 1,
+              supplierName: 'supplier',
+            },
+          },
+        };
+
+        component['dialogFacade'].dispatch = jest.fn();
+
+        component.supplierPlantsControl.enable = jest.fn();
+        component.castingModesControl.enable = jest.fn();
+        component.castingDiameterControl.enable = jest.fn();
+
+        component.ratingChangeCommentControl.disable = jest.fn();
+
+        component.co2ClassificationControl.enable = jest.fn();
+
+        component.createMaterialForm.patchValue = jest.fn();
+
+        component['cdRef'].markForCheck = jest.fn();
+        component['cdRef'].detectChanges = jest.fn();
+
+        component.ngAfterViewInit();
+
+        expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+          fetchReferenceDocuments({ materialStandardId: 1 })
         );
+        expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+          fetchCastingDiameters({ supplierId: 1, castingMode: 'mode' })
+        );
+        expect(component.supplierPlantsControl.enable).toHaveBeenCalled();
+        expect(component.castingModesControl.enable).toHaveBeenCalled();
+        expect(component.castingDiameterControl.enable).toHaveBeenCalled();
+        expect(component.ratingChangeCommentControl.disable).toHaveBeenCalled();
+        expect(component.co2ClassificationControl.enable).toHaveBeenCalled();
+        expect(component.createMaterialForm.patchValue).toHaveBeenCalledWith(
+          expectedFormValue
+        );
+
+        expect(component['cdRef'].markForCheck).toHaveBeenCalled();
+        expect(component['cdRef'].detectChanges).toHaveBeenCalled();
       });
     });
 
-    describe('addStandardDocument', () => {
-      it('should add values to select', () => {
-        const standardDocument = 'string';
-        store.dispatch = jest.fn();
-        component.addStandardDocument(standardDocument);
-        expect(store.dispatch).toHaveBeenCalledWith(
-          addCustomMaterialStandardDocument({ standardDocument })
-        );
+    describe('without co2 value and parsable reference document', () => {
+      beforeEach(() => {
+        component['editMaterialData'].material = mockDialogDataPartial.material;
+        component['editMaterialData'].column = mockDialogDataPartial.column;
       });
+
+      it('should prepare the form', () => {
+        const expectedFormValue: Partial<MaterialFormValue> = {
+          manufacturerSupplierId: 1,
+          materialStandardId: 1,
+          productCategory: {
+            id: 'brightBar',
+            title: undefined,
+          },
+          referenceDoc: [{ id: 'reference', title: 'reference' }],
+          co2Scope1: undefined,
+          co2Scope2: undefined,
+          co2Scope3: undefined,
+          co2PerTon: undefined,
+          materialNumber: undefined,
+          co2Classification: undefined,
+          releaseDateYear: 1,
+          releaseDateMonth: 1,
+          releaseRestrictions: 'restriction',
+          blocked: false,
+          castingMode: 'mode',
+          castingDiameter: undefined,
+          maxDimension: 1,
+          minDimension: 1,
+          steelMakingProcess: undefined,
+          rating: { id: undefined, title: undefined },
+          ratingRemark: 'remark',
+          standardDocument: {
+            id: 1,
+            title: 'document',
+          },
+          materialName: {
+            id: 1,
+            title: 'material',
+          },
+          supplier: {
+            id: 1,
+            title: 'supplier',
+          },
+          supplierPlant: {
+            id: 'plant',
+            title: 'plant',
+            data: {
+              supplierId: 1,
+              supplierName: 'supplier',
+            },
+          },
+        };
+
+        component['dialogFacade'].dispatch = jest.fn();
+
+        component.supplierPlantsControl.enable = jest.fn();
+        component.castingModesControl.enable = jest.fn();
+        component.castingDiameterControl.enable = jest.fn();
+
+        component.ratingChangeCommentControl.disable = jest.fn();
+
+        component.co2ClassificationControl.enable = jest.fn();
+
+        component.createMaterialForm.patchValue = jest.fn();
+
+        component['cdRef'].markForCheck = jest.fn();
+        component['cdRef'].detectChanges = jest.fn();
+
+        component.ngAfterViewInit();
+
+        expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+          fetchReferenceDocuments({ materialStandardId: 1 })
+        );
+        expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+          fetchCastingDiameters({ supplierId: 1, castingMode: 'mode' })
+        );
+        expect(component.supplierPlantsControl.enable).toHaveBeenCalled();
+        expect(component.castingModesControl.enable).toHaveBeenCalled();
+        expect(component.castingDiameterControl.enable).toHaveBeenCalled();
+        expect(component.ratingChangeCommentControl.disable).toHaveBeenCalled();
+        expect(
+          component.co2ClassificationControl.enable
+        ).not.toHaveBeenCalled();
+        expect(component.createMaterialForm.patchValue).toHaveBeenCalledWith(
+          expectedFormValue
+        );
+
+        expect(component['cdRef'].markForCheck).toHaveBeenCalled();
+        expect(component['cdRef'].detectChanges).toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('addMaterial', () => {
+    const option: StringOption = { id: 1, title: 'title' };
+    const supplierOption = { id: '89', title: 'supplier' } as StringOption;
+    const supplierPlantOption = {
+      id: '32',
+      title: 'supplierPlant',
+      data: { supplierName: 'supplier' },
+    } as StringOption;
+
+    const material = {
+      manufacturerSupplierId: 1,
+      materialStandardId: 1,
+      blocked: false,
+      castingDiameter: option,
+      castingMode: '',
+      co2Classification: option,
+      co2PerTon: 1,
+      co2Scope1: 2,
+      co2Scope2: 3,
+      co2Scope3: 3,
+      materialName: option,
+      maxDimension: 3,
+      minDimension: 4,
+      productCategory: option,
+      rating: option,
+      ratingRemark: '',
+      ratingChangeComment: '',
+      referenceDoc: [option],
+      releaseDateMonth: 12,
+      releaseDateYear: 1223,
+      releaseRestrictions: '',
+      standardDocument: option,
+      steelMakingProcess: option,
+      supplier: supplierOption,
+      supplierPlant: supplierPlantOption,
+      materialNumber: '1.1234',
+    };
+    it('store material and open snackbar with success?', () => {
+      const mockSubject = new Subject<CreateMaterialRecord>();
+      component['dialogFacade'].dispatch = jest.fn();
+      component['dialogFacade'].createMaterialRecord$ = mockSubject;
+      component['snackbar'].open = jest.fn();
+      component.closeDialog = jest.fn();
+      const createMaterialRecord = {
+        error: false,
+      } as CreateMaterialRecord;
+
+      component.suppliersControl.setValue(supplierOption);
+      component.supplierPlantsControl.setValue(supplierPlantOption);
+      component.castingModesControl.setValue('sth');
+      component.castingDiameterControl.setValue(option);
+      component.createMaterialForm.setValue(material, { emitEvent: false });
+
+      component.confirmMaterial();
+      mockSubject.next(createMaterialRecord);
+
+      expect(component['dialogFacade'].dispatch).toBeCalled();
+      expect(component['snackbar'].open).toBeCalled();
+      expect(component.closeDialog).toHaveBeenCalledWith(true);
+    });
+    it('stores material and open snackbar with failure?', () => {
+      const mockSubject = new Subject<CreateMaterialRecord>();
+      component['dialogFacade'].dispatch = jest.fn();
+      component['dialogFacade'].createMaterialRecord$ = mockSubject;
+      component['snackbar'].open = jest.fn();
+      component.closeDialog = jest.fn();
+      const createMaterialRecord = {
+        error: true,
+      } as CreateMaterialRecord;
+
+      component.suppliersControl.setValue(supplierOption);
+      component.supplierPlantsControl.setValue(supplierPlantOption);
+      component.castingModesControl.setValue('sth');
+      component.castingDiameterControl.setValue(option);
+      component.createMaterialForm.setValue(material, { emitEvent: false });
+
+      component.confirmMaterial();
+      mockSubject.next(createMaterialRecord);
+
+      expect(component['snackbar'].open).toBeCalled();
+      expect(component.closeDialog).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('closeDialog', () => {
+    it('should close the dialog', () => {
+      component['dialogRef'].close = jest.fn();
+
+      component.closeDialog('test');
+
+      expect(component['dialogRef'].close).toHaveBeenCalledWith('test');
+    });
+  });
+
+  describe('addReferenceDocument', () => {
+    it('should add values to select', () => {
+      const referenceDocument = 'string';
+      component['dialogFacade'].dispatch = jest.fn();
+      component.addReferenceDocument(referenceDocument);
+      expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+        addCustomReferenceDocument({ referenceDocument })
+      );
+    });
+  });
+
+  describe('addCastingDiameter', () => {
+    it('should add values to select', () => {
+      const castingDiameter = 'string';
+      component['dialogFacade'].dispatch = jest.fn();
+      component.addCastingDiameter(castingDiameter);
+      expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+        addCustomCastingDiameter({ castingDiameter })
+      );
+    });
+  });
+
+  describe('addStandardDocument', () => {
+    it('should add values to select', () => {
+      const standardDocument = 'string';
+      component['dialogFacade'].dispatch = jest.fn();
+      component.addStandardDocument(standardDocument);
+      expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+        addCustomMaterialStandardDocument({ standardDocument })
+      );
+    });
+  });
+
+  describe('addMaterialName', () => {
+    it('should add values to select', () => {
+      const materialName = 'string';
+      component['dialogFacade'].dispatch = jest.fn();
+      component.addMaterialName(materialName);
+      expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+        addCustomMaterialStandardName({ materialName })
+      );
+    });
+  });
+  describe('addSupplierName', () => {
+    it('should add values to select', () => {
+      const supplierName = 'string';
+      component['dialogFacade'].dispatch = jest.fn();
+      component.addSupplierName(supplierName);
+      expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+        addCustomSupplierName({ supplierName })
+      );
+    });
+  });
+  describe('addSupplierPlant', () => {
+    it('should add values to select', () => {
+      const supplierPlant = 'string';
+      component['dialogFacade'].dispatch = jest.fn();
+      component.addSupplierPlant(supplierPlant);
+      expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+        addCustomSupplierPlant({ supplierPlant })
+      );
+    });
+  });
+
+  describe('compareWithId', () => {
+    it('should return true if the id is equal', () => {
+      const mockOption1 = { id: 1, title: 'a' };
+      const mockOption2 = { id: 1, title: 'b' };
+
+      expect(component.compareWithId(mockOption1, mockOption2)).toBe(true);
     });
 
-    describe('addMaterialName', () => {
-      it('should add values to select', () => {
-        const materialName = 'string';
-        store.dispatch = jest.fn();
-        component.addMaterialName(materialName);
-        expect(store.dispatch).toHaveBeenCalledWith(
-          addCustomMaterialStandardName({ materialName })
-        );
-      });
-    });
-    describe('addSupplierName', () => {
-      it('should add values to select', () => {
-        const supplierName = 'string';
-        store.dispatch = jest.fn();
-        component.addSupplierName(supplierName);
-        expect(store.dispatch).toHaveBeenCalledWith(
-          addCustomSupplierName({ supplierName })
-        );
-      });
-    });
-    describe('addSupplierPlant', () => {
-      it('should add values to select', () => {
-        const supplierPlant = 'string';
-        store.dispatch = jest.fn();
-        component.addSupplierPlant(supplierPlant);
-        expect(store.dispatch).toHaveBeenCalledWith(
-          addCustomSupplierPlant({ supplierPlant })
-        );
-      });
+    it('should return false if the id is not equal', () => {
+      const mockOption1 = { id: 1, title: 'a' };
+      const mockOption2 = { id: 2, title: 'b' };
+
+      expect(component.compareWithId(mockOption1, mockOption2)).toBe(false);
     });
   });
 });

@@ -13,20 +13,21 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatOption } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Subject, withLatestFrom } from 'rxjs';
 import { debounceTime, take, takeUntil } from 'rxjs/operators';
 
+import { translate } from '@ngneat/transloco';
 import {
-  ColumnApi,
   Column,
+  ColumnApi,
   ColumnState,
-  RowNode,
   ExcelRow,
+  RowNode,
 } from 'ag-grid-community';
 import { ColDef, ExcelCell, GridApi, SideBarDef } from 'ag-grid-enterprise';
-import { translate } from '@ngneat/transloco';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { StringOption } from '@schaeffler/inputs';
@@ -41,10 +42,10 @@ import {
 import { DataResult } from '@mac/msd/models';
 import { MsdAgGridStateService } from '@mac/msd/services';
 import {
-  addMaterialDialogOpened,
   DataFacade,
   fetchClassAndCategoryOptions,
   fetchMaterials,
+  materialDialogOpened,
   setAgGridColumns,
   setAgGridFilter,
   setFilter,
@@ -120,11 +121,16 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly datePipe: DatePipe,
     private readonly applicationInsightsService: ApplicationInsightsService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly snackbar: MatSnackBar
   ) {}
 
   public ngOnInit(): void {
-    this.columnDefs = this.getColumnDefs();
+    this.hasEditorRole$
+      .pipe(take(1))
+      .subscribe(
+        (hasEditorRole) => (this.columnDefs = this.getColumnDefs(hasEditorRole))
+      );
 
     this.dataFacade.dispatch(fetchClassAndCategoryOptions());
 
@@ -186,6 +192,20 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe((filterModel: { [key: string]: any }) => {
         if (this.agGridApi && !filterModel) {
           this.agGridApi.setFilterModel(filterModel);
+        }
+      });
+
+    this.dataFacade.editMaterialInformation
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((editMaterial) => {
+        if (editMaterial) {
+          this.openDialog(editMaterial);
+        } else {
+          this.snackbar.open(
+            translate('materialsSupplierDatabase.somethingWentWrong'),
+            translate('materialsSupplierDatabase.close'),
+            { duration: 5000 }
+          );
         }
       });
   }
@@ -362,14 +382,16 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public resetAgGridColumnConfiguration(): void {
     if (this.agGridColumnApi) {
-      const state = this.getColumnDefs().map(
-        (column: ColDef) =>
-          ({
-            colId: column.field,
-          } as ColumnState)
-      );
-      this.agGridColumnApi.applyColumnState({ state, applyOrder: true });
-      this.setVisibleColumns();
+      this.hasEditorRole$.pipe(take(1)).subscribe((hasEditorRole) => {
+        const state = this.getColumnDefs(hasEditorRole).map(
+          (column: ColDef) =>
+            ({
+              colId: column.field,
+            } as ColumnState)
+        );
+        this.agGridColumnApi.applyColumnState({ state, applyOrder: true });
+        this.setVisibleColumns();
+      });
     }
   }
 
@@ -516,7 +538,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       : params.value?.toString() || '';
   }
 
-  public getColumnDefs = (): ColDef[] =>
+  public getColumnDefs = (hasEditorRole: boolean): ColDef[] =>
     this.defaultColumnDefs.map((columnDef) => ({
       ...columnDef,
       headerName: translate(
@@ -527,16 +549,25 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
             `materialsSupplierDatabase.mainTable.tooltip.${columnDef.tooltipField}`
           )
         : undefined,
+      cellRendererParams: {
+        hasEditorRole,
+      },
     }));
 
-  public openDialog(): void {
+  public openDialog(editMaterial?: {
+    material: DataResult;
+    column: string;
+    materialNames: { id: number; materialName: string }[];
+    standardDocuments: { id: number; standardDocument: string }[];
+  }): void {
     const dialogRef = this.dialog.open(InputDialogComponent, {
       width: '863px',
       autoFocus: false,
       enterAnimationDuration: '100ms',
       restoreFocus: false,
+      data: editMaterial,
     });
-    this.dataFacade.dispatch(addMaterialDialogOpened());
+    this.dataFacade.dispatch(materialDialogOpened());
 
     dialogRef
       .afterClosed()

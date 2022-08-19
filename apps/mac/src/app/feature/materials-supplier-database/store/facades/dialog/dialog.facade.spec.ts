@@ -60,6 +60,9 @@ describe('DialogFacade', () => {
                 castingDiameters: ['diameter'],
                 customCastingDiameters: ['customDiameter'],
                 castingDiametersLoading: false,
+                referenceDocuments: ['reference'],
+                customReferenceDocuments: ['reference2'],
+                referenceDocumentsLoading: false,
               },
               createMaterial: {
                 createMaterialLoading: false,
@@ -292,6 +295,41 @@ describe('DialogFacade', () => {
         });
 
         m.expect(facade.createMaterialRecord$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('referenceDocuments$', () => {
+    it(
+      'should return the reference documents',
+      marbles((m) => {
+        const expected = m.cold('a', {
+          a: [
+            {
+              id: 'reference2',
+              title: 'reference2',
+            },
+            {
+              id: 'reference',
+              title: 'reference',
+            },
+          ],
+        });
+
+        m.expect(facade.referenceDocuments$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('referenceDocumentsLoading$', () => {
+    it(
+      'should return the loading state for reference documents',
+      marbles((m) => {
+        const expected = m.cold('a', {
+          a: false,
+        });
+
+        m.expect(facade.referenceDocumentsLoading$).toBeObservable(expected);
       })
     );
   });

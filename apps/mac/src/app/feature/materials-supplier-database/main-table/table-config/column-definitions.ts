@@ -1,5 +1,6 @@
 import { ColDef } from 'ag-grid-enterprise';
 
+import { EditCellRendererComponent } from '../edit-cell-renderer/edit-cell-renderer.component';
 import { FILTER_PARAMS } from './filter-params';
 
 export const MATERIAL_STANDARD_MATERIAL_NAME = 'materialStandardMaterialName';
@@ -31,27 +32,32 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     field: MATERIAL_STANDARD_MATERIAL_NAME,
     headerName: 'Material Name',
     filterParams: FILTER_PARAMS,
+    cellRenderer: EditCellRendererComponent,
   },
   {
     field: MATERIAL_STANDARD_STANDARD_DOCUMENT,
     headerName: 'Standard Document',
     filterParams: FILTER_PARAMS,
+    cellRenderer: EditCellRendererComponent,
   },
   {
     field: MATERIAL_NUMBERS,
     headerName: 'Material Numbers',
     filterParams: FILTER_PARAMS,
     hide: true,
+    cellRenderer: EditCellRendererComponent,
   },
   {
     field: MANUFACTURER_SUPPLIER_NAME,
     headerName: 'Supplier Name',
     filterParams: FILTER_PARAMS,
+    cellRenderer: EditCellRendererComponent,
   },
   {
     field: MANUFACTURER_SUPPLIER_PLANT,
     headerName: 'Supplier Plant',
     filterParams: FILTER_PARAMS,
+    cellRenderer: EditCellRendererComponent,
   },
   {
     field: SAP_SUPPLIER_IDS,
@@ -64,40 +70,47 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     headerName: 'Min Dimension',
     filter: 'agNumberColumnFilter',
     hide: true,
+    cellRenderer: EditCellRendererComponent,
   },
   {
     field: MAX_DIMENSION,
     headerName: 'Max Dimension',
     filter: 'agNumberColumnFilter',
     tooltipField: MAX_DIMENSION,
+    cellRenderer: EditCellRendererComponent,
   },
   {
     field: RATING,
     headerName: 'Supplier Rating',
     filterParams: FILTER_PARAMS,
     tooltipField: RATING,
+    cellRenderer: EditCellRendererComponent,
   },
   {
     field: RATING_REMARK,
     headerName: 'Rating Remark',
     filterParams: FILTER_PARAMS,
     hide: true,
+    cellRenderer: EditCellRendererComponent,
   },
   {
     field: CO2_PER_TON,
     headerName: 'kg CO₂e / t',
     filter: 'agNumberColumnFilter',
     tooltipField: CO2_PER_TON,
+    cellRenderer: EditCellRendererComponent,
   },
   {
     field: CO2_CLASSIFICATION,
     headerName: 'CO₂ Data Classification',
     hide: true,
+    cellRenderer: EditCellRendererComponent,
   },
   {
     field: PRODUCT_CATEGORY,
     headerName: 'Product Category',
     filterParams: FILTER_PARAMS,
+    cellRenderer: EditCellRendererComponent,
   },
   {
     field: CASTING_MODE,
@@ -105,6 +118,7 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     filterParams: FILTER_PARAMS,
     hide: true,
     tooltipField: CASTING_MODE,
+    cellRenderer: EditCellRendererComponent,
   },
   {
     field: CASTING_DIAMETER,
@@ -112,6 +126,7 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     filterParams: FILTER_PARAMS,
     hide: true,
     tooltipField: CASTING_DIAMETER,
+    cellRenderer: EditCellRendererComponent,
   },
   {
     field: STEEL_MAKING_PROCESS,
@@ -119,23 +134,27 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     filterParams: FILTER_PARAMS,
     hide: true,
     tooltipField: STEEL_MAKING_PROCESS,
+    cellRenderer: EditCellRendererComponent,
   },
   {
     field: RELEASE_DATE_YEAR,
     headerName: 'Release Date Year',
     filterParams: FILTER_PARAMS,
     hide: true,
+    cellRenderer: EditCellRendererComponent,
   },
   {
     field: RELEASE_DATE_MONTH,
     headerName: 'Release Date Month',
     filterParams: FILTER_PARAMS,
     hide: true,
+    cellRenderer: EditCellRendererComponent,
   },
   {
     field: RELEASE_RESTRICTIONS,
     headerName: 'Release Restrictions',
     filterParams: FILTER_PARAMS,
     hide: true,
+    cellRenderer: EditCellRendererComponent,
   },
 ];

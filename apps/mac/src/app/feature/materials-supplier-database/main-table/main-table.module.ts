@@ -17,9 +17,10 @@ import { InputDialogModule } from '@mac/msd/main-table/input-dialog/input-dialog
 
 import { MainTableComponent } from './main-table.component';
 import { MainTableRoutingModule } from './main-table-routing.module';
+import { EditCellRendererComponent } from './edit-cell-renderer/edit-cell-renderer.component';
 
 @NgModule({
-  declarations: [MainTableComponent],
+  declarations: [MainTableComponent, EditCellRendererComponent],
   imports: [
     CommonModule,
     MainTableRoutingModule,

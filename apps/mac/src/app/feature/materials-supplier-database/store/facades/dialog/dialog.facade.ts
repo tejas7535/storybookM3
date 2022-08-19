@@ -4,15 +4,17 @@ import { translate } from '@ngneat/transloco';
 import { Action, Store } from '@ngrx/store';
 
 import {
-  getAddMaterialDialogCastingDiametersLoading,
-  getAddMaterialDialogCastingDiameterStringOptions,
-  getAddMaterialDialogCastingModes,
-  getAddMaterialDialogCo2Classifications,
-  getAddMaterialDialogOptionsLoading,
-  getAddMaterialDialogRatings,
-  getAddMaterialDialogSteelMakingProcesses,
   getCreateMaterialLoading,
   getCreateMaterialRecord,
+  getMaterialDialogCastingDiametersLoading,
+  getMaterialDialogCastingDiameterStringOptions,
+  getMaterialDialogCastingModes,
+  getMaterialDialogCo2Classifications,
+  getMaterialDialogOptionsLoading,
+  getMaterialDialogRatings,
+  getMaterialDialogReferenceDocumentsLoading,
+  getMaterialDialogReferenceDocumentsStringOptions,
+  getMaterialDialogSteelMakingProcesses,
   getMaterialNameStringOptionsMerged,
   getMaterialStandardDocumentStringOptionsMerged,
   getProductCategoryOptions,
@@ -26,7 +28,7 @@ import {
   providedIn: 'root',
 })
 export class DialogFacade {
-  dialogLoading$ = this.store.select(getAddMaterialDialogOptionsLoading);
+  dialogLoading$ = this.store.select(getMaterialDialogOptionsLoading);
   createMaterialLoading$ = this.store.select(getCreateMaterialLoading);
 
   standardDocuments$ = this.store.select(
@@ -36,12 +38,10 @@ export class DialogFacade {
   materialNames$ = this.store.select(getMaterialNameStringOptionsMerged);
   suppliers$ = this.store.select(getSupplierNameStringOptionsMerged);
   supplierPlants$ = this.store.select(getSupplierPlantsStringOptionsMerged);
-  castingModes$ = this.store.select(getAddMaterialDialogCastingModes);
-  co2Classification$ = this.store.select(
-    getAddMaterialDialogCo2Classifications
-  );
+  castingModes$ = this.store.select(getMaterialDialogCastingModes);
+  co2Classification$ = this.store.select(getMaterialDialogCo2Classifications);
   ratings$ = this.store.select(
-    getStringOptions(getAddMaterialDialogRatings, [
+    getStringOptions(getMaterialDialogRatings, [
       {
         id: undefined,
         title: translate('materialsSupplierDatabase.mainTable.dialog.none'),
@@ -49,16 +49,23 @@ export class DialogFacade {
     ])
   );
   steelMakingProcess$ = this.store.select(
-    getStringOptions(getAddMaterialDialogSteelMakingProcesses)
+    getStringOptions(getMaterialDialogSteelMakingProcesses)
   );
   categories$ = this.store.select(
     getUniqueStringOptions(getProductCategoryOptions)
   );
   castingDiameters$ = this.store.select(
-    getAddMaterialDialogCastingDiameterStringOptions
+    getMaterialDialogCastingDiameterStringOptions
   );
   castingDiametersLoading$ = this.store.select(
-    getAddMaterialDialogCastingDiametersLoading
+    getMaterialDialogCastingDiametersLoading
+  );
+
+  referenceDocuments$ = this.store.select(
+    getMaterialDialogReferenceDocumentsStringOptions
+  );
+  referenceDocumentsLoading$ = this.store.select(
+    getMaterialDialogReferenceDocumentsLoading
   );
 
   createMaterialRecord$ = this.store.select(getCreateMaterialRecord);
