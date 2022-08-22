@@ -1,7 +1,9 @@
 /* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 
+import { translate } from '@ngneat/transloco';
 import { ColDef } from 'ag-grid-enterprise';
+
 import {
   ColumnUtilsService,
   filterParamsForDecimalValues,
@@ -10,7 +12,6 @@ import {
 import { BetaFeature } from '@cdba/shared/constants/beta-feature';
 import { ScrambleMaterialNumberPipe } from '@cdba/shared/pipes';
 import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
-import { translate } from '@ngneat/transloco';
 
 @Injectable()
 export class ColumnDefinitionService {
@@ -473,10 +474,14 @@ export class ColumnDefinitionService {
       headerName: translate('shared.bom.headers.capacityUtilizationRate'),
       type: 'numericColumn',
       valueFormatter: (params) =>
-        this.columnUtilsService.formatNumber(params, {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        }),
+        this.columnUtilsService.formatNumber(
+          params,
+          {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          },
+          'percent'
+        ),
       hide: true,
     },
     {
