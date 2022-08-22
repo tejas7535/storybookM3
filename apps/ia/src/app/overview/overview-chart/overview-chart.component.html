@@ -1,8 +1,3 @@
 <div class="h-[400px] w-full bg-surface">
-  <div
-    echarts
-    [options]="options"
-    (chartInit)="onChartInit($event)"
-    (chartClick)="onChartClick($event)"
-  ></div>
+  <div echarts [options]="options" (chartClick)="onChartClick($event)"></div>
 </div>

@@ -82,7 +82,8 @@ describe('LostJobProfilesComponent', () => {
           title,
           translate('lossOfSkill.employeeListDialog.contentTitle')
         ),
-        [{ employeeName: 'Donald' } as unknown as Employee]
+        [{ employeeName: 'Donald' } as unknown as Employee],
+        true
       );
 
       expect(component['dialog'].open).toHaveBeenCalledWith(

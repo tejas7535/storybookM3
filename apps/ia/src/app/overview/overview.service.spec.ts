@@ -53,9 +53,11 @@ describe('OverviewService', () => {
   });
 
   describe('getResignedEmployees', () => {
-    test('should get reisgned employees', () => {
+    test('should get resigned employees', () => {
       const mock: ResignedEmployeesResponse = {
         employees: [],
+        resignedEmployeesCount: 5,
+        responseModified: true,
       };
       const orgUnit = 'ABC123';
 

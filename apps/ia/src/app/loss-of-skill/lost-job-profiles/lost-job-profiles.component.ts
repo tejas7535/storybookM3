@@ -109,7 +109,8 @@ export class LostJobProfilesComponent implements OnChanges {
         title,
         translate('lossOfSkill.employeeListDialog.contentTitle')
       ),
-      employees
+      employees,
+      true // TODO
     );
 
     this.dialog.open(EmployeeListDialogComponent, {

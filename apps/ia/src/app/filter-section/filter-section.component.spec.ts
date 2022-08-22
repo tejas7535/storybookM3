@@ -222,4 +222,21 @@ describe('FilterSectionComponent', () => {
       );
     });
   });
+
+  describe('dimensionSelected', () => {
+    test('should return selected dimension', () => {
+      const dimension = {
+        id: FilterDimension.COUNTRY,
+        value: 'Germany',
+      };
+
+      store.dispatch = jest.fn();
+
+      component.dimensionSelected(dimension);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        loadFilterDimensionData({ filterDimension: FilterDimension.COUNTRY })
+      );
+    });
+  });
 });

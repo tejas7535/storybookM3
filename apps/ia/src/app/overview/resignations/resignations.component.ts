@@ -4,7 +4,7 @@ import { translate } from '@ngneat/transloco';
 import { ColDef } from 'ag-grid-community';
 import moment from 'moment';
 
-import { ResignedEmployee } from '../models';
+import { Employee } from '../../shared/models';
 
 @Component({
   selector: 'ia-resignations',
@@ -13,7 +13,8 @@ import { ResignedEmployee } from '../models';
 })
 export class ResignationsComponent {
   @Input() loading: boolean; // not used at the moment
-  @Input() data: ResignedEmployee[];
+  @Input() data: Employee[];
+  @Input() totalCount: number;
 
   frameworkComponents = {};
 

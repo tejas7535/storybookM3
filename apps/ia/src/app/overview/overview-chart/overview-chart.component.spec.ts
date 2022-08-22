@@ -103,44 +103,6 @@ describe('OverviewChartComponent', () => {
     });
   });
 
-  describe('toggleChartSeries', () => {
-    beforeEach(() => {
-      component['chartInstance'] = { dispatchAction: jest.fn() };
-
-      const chartSeries = [
-        { name: '2020', checked: true },
-        { name: '2019', checked: true },
-      ];
-
-      component.chartSeries = chartSeries;
-    });
-
-    it('should switch checked value of series', () => {
-      component.toggleChartSeries('2020');
-
-      expect(component.chartSeries[0].checked).toBeFalsy();
-    });
-
-    it('should dispatch toggle action on chart instance', () => {
-      component.toggleChartSeries('2020');
-
-      expect(component['chartInstance'].dispatchAction).toHaveBeenCalledWith({
-        name: '2020',
-        type: 'legendToggleSelect',
-      });
-    });
-  });
-
-  describe('onChartInit', () => {
-    it('should set chart instance', () => {
-      const chartInstance = { foo: 'bar' };
-
-      component.onChartInit(chartInstance);
-
-      expect(component['chartInstance']).toEqual(chartInstance);
-    });
-  });
-
   describe('onChartClick', () => {
     const employee: any = {
       employeeName: 'Donald Trump',
@@ -177,16 +139,19 @@ describe('OverviewChartComponent', () => {
               undefined
             ),
             employees: [employee],
+            enoughRightsToShowAllEmployees: false,
+            showFluctuationType: undefined,
           },
         }
       );
     });
 
-    it('should not open the dialog when no employee left', () => {
+    it('should not open the dialog when not attrition', () => {
       const event = { dataIndex: 0, seriesName: '2020', name: 'Jan' };
 
       component['dialog'].open = jest.fn();
       data['2020'].employees = [[], [], []];
+      data['2020'].attrition = [0, 0, 0];
 
       component.data = data;
       component.onChartClick(event);

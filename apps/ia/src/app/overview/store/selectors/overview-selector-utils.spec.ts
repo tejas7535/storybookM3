@@ -68,14 +68,16 @@ describe('OverviewSelectorUtils', () => {
       const expectedResult = new FluctuationKpi(
         fluctuationRates,
         selectedOrgUnit,
-        employees
+        employees,
+        5
       );
 
       const result = utils.createFluctuationKpi(
         companyKpi,
         orgUnitKpi,
         selectedOrgUnit,
-        employees
+        employees,
+        5
       );
 
       expect(result).toEqual(expectedResult);
@@ -178,23 +180,17 @@ describe('OverviewSelectorUtils', () => {
 
   describe('createDoughnutConfig', () => {
     test('should create doughnut config', () => {
-      const internals = [{} as Employee];
-      const externals = [{} as Employee, {} as Employee];
       const name = selectedOrgUnit;
 
-      const result = utils.createDoughnutConfig(internals, externals, name);
+      const result = utils.createDoughnutConfig(1, 2, name);
 
       const internalLabel = 'internal';
       const externalLabel = 'external';
       expect(result).toEqual(
         new DoughnutConfig(name, [
+          new DoughnutSeriesConfig([{ value: 1 }], internalLabel, Color.LIME),
           new DoughnutSeriesConfig(
-            [{ value: internals.length }],
-            internalLabel,
-            Color.LIME
-          ),
-          new DoughnutSeriesConfig(
-            [{ value: externals.length }],
+            [{ value: 2 }],
             externalLabel,
             Color.LIGHT_BLUE
           ),

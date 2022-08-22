@@ -9,7 +9,7 @@ import { EChartsOption } from 'echarts';
 import { DoughnutConfig } from '../shared/charts/models/doughnut-config.model';
 import { EmployeeListDialogMetaHeadings } from '../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
 import { AttritionSeries, Employee } from '../shared/models';
-import { FluctuationKpi, OpenApplication, ResignedEmployee } from './models';
+import { FluctuationKpi, OpenApplication } from './models';
 import {
   getAttritionOverTimeOverviewData,
   getEntryEmployees,
@@ -29,6 +29,7 @@ import {
   getOverviewFluctuationTotalEmployeesCount,
   getOverviewUnforcedFluctuationKpi,
   getResignedEmployees,
+  getResignedEmployeesCount,
   getUnforcedFluctuationRatesForChart,
 } from './store/selectors/overview.selector';
 
@@ -60,7 +61,8 @@ export class OverviewComponent implements OnInit {
   entryEmployees$: Observable<Employee[]>;
   totalEmployeesCount$: Observable<number>;
 
-  resignedEmployees$: Observable<ResignedEmployee[]>;
+  resignedEmployees$: Observable<Employee[]>;
+  resignedEmployeesCount$: Observable<number>;
   resignedEmployeesLoading$: Observable<boolean>;
 
   openApplications$: Observable<OpenApplication[]>;
@@ -133,6 +135,7 @@ export class OverviewComponent implements OnInit {
     this.resignedEmployeesLoading$ = this.store.select(
       getIsLoadingResignedEmployees
     );
+    this.resignedEmployeesCount$ = this.store.select(getResignedEmployeesCount);
   }
 
   loadOpenApplicationsData() {

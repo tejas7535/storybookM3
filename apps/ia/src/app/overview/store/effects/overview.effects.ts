@@ -25,7 +25,7 @@ import {
   FluctuationRatesChartData,
   OpenApplication,
   OverviewFluctuationRates,
-  ResignedEmployee,
+  ResignedEmployeesResponse,
 } from '../../models';
 import { OverviewService } from '../../overview.service';
 import {
@@ -138,7 +138,7 @@ export class OverviewEffects implements OnInitEffects {
       map((action) => action.orgUnit),
       switchMap((orgUnit: string) =>
         this.overviewService.getResignedEmployees(orgUnit).pipe(
-          map((data: ResignedEmployee[]) =>
+          map((data: ResignedEmployeesResponse) =>
             loadResignedEmployeesSuccess({ data })
           ),
           catchError((error) =>

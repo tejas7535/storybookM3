@@ -1,3 +1,5 @@
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import * as cdkDragDropLib from '@angular/cdk/drag-drop';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -12,6 +14,11 @@ import { FeaturesDialogComponent } from '../features-dialog/features-dialog.comp
 import { FeatureParams } from '../models';
 import { FeatureSelector } from '../models/feature-selector.model';
 import { FeatureAnalysisComponent } from './feature-analysis.component';
+
+jest.mock('@angular/cdk/drag-drop', () => ({
+  ...jest.requireActual('@angular/cdk/drag-drop'),
+  moveItemInArray: jest.fn(),
+}));
 
 describe('FeatureAnalysisComponent', () => {
   let component: FeatureAnalysisComponent;
@@ -155,6 +162,50 @@ describe('FeatureAnalysisComponent', () => {
       component.onSelectedFeatures(allFeatures);
 
       expect(component.selectFeatures.emit).toHaveBeenCalledWith(allFeatures);
+    });
+  });
+
+  describe('drop', () => {
+    test('should move selected features and trigger change', () => {
+      const region = 'Germany';
+      const allSelectors = [
+        {
+          selected: true,
+          feature: {
+            region,
+          },
+        } as unknown as FeatureSelector,
+        {
+          selected: true,
+          feature: {
+            region: 'Brasil',
+          },
+        } as unknown as FeatureSelector,
+        {
+          selected: false,
+        } as unknown as FeatureSelector,
+      ];
+
+      component.region = region;
+      component.allFeatureSelectors = allSelectors;
+
+      const event = {
+        previousIndex: 3,
+        currentIndex: 2,
+      } as unknown as CdkDragDrop<string[]>;
+
+      component.onSelectedFeatures = jest.fn();
+
+      component.drop(event);
+
+      expect(component.onSelectedFeatures).toHaveBeenCalledWith([
+        allSelectors[0],
+      ]);
+      expect(cdkDragDropLib.moveItemInArray).toHaveBeenCalledWith(
+        [allSelectors[0]],
+        event.previousIndex,
+        event.currentIndex
+      );
     });
   });
 });

@@ -39,7 +39,8 @@
     "table": {
       "date": "Date",
       "name": "Name"
-    }
+    },
+    "enoughRightsToShowAllEmployees": "This employee list is not complete due to insufficient user rights."
   },
   "employeeListDialog": {
     "contentTitle": "Staff"

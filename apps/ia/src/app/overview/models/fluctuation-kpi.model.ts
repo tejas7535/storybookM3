@@ -5,6 +5,7 @@ export class FluctuationKpi {
   public constructor(
     public kpiRates: PercentageFluctuationRate,
     public orgUnitName: string,
-    public exitEmployees: Employee[]
+    public exitEmployees: Employee[],
+    public realEmployeesCount: number
   ) {}
 }

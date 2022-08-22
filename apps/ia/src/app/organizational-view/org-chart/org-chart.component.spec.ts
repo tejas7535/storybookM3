@@ -114,6 +114,7 @@ describe('OrgChartComponent', () => {
           contentTitle: 'organizationalView.employeeListDialog.contentTitle',
         } as EmployeeListDialogMetaHeadings,
         employees: [] as any[],
+        enoughRightsToShowAllEmployees: true,
       };
 
       component.clickout({

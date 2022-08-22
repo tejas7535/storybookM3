@@ -5,7 +5,7 @@ import {
   FluctuationRatesChartData,
   OpenApplication,
   OverviewFluctuationRates,
-  ResignedEmployee,
+  ResignedEmployeesResponse,
 } from '../../models';
 
 export const loadAttritionOverTimeOverview = createAction(
@@ -60,7 +60,7 @@ export const loadResignedEmployees = createAction(
 
 export const loadResignedEmployeesSuccess = createAction(
   '[Overview] Load Resigned Employees Success',
-  props<{ data: ResignedEmployee[] }>()
+  props<{ data: ResignedEmployeesResponse }>()
 );
 
 export const loadResignedEmployeesFailure = createAction(

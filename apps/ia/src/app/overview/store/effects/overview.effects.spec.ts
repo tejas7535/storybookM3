@@ -17,7 +17,7 @@ import {
   FluctuationRatesChartData,
   OpenApplication,
   OverviewFluctuationRates,
-  ResignedEmployee,
+  ResignedEmployeesResponse,
 } from '../../models';
 import { OverviewService } from '../../overview.service';
 import {
@@ -179,6 +179,12 @@ describe('Overview Effects', () => {
           totalEmployeesCount: 0,
           fluctuationRate: { global: 0, orgUnit: 0 },
           unforcedFluctuationRate: { global: 0, orgUnit: 0 },
+          internalExitCount: 0,
+          externalExitCount: 0,
+          externalUnforcedExitCount: 0,
+          internalEntryCount: 0,
+          externalEntryCount: 0,
+          responseModified: true,
         };
         const result = loadFluctuationRatesOverviewSuccess({
           data,
@@ -272,7 +278,11 @@ describe('Overview Effects', () => {
     it(
       'should load data',
       marbles((m) => {
-        const data: ResignedEmployee[] = [];
+        const data: ResignedEmployeesResponse = {
+          employees: [],
+          resignedEmployeesCount: 0,
+          responseModified: true,
+        };
         const result = loadResignedEmployeesSuccess({
           data,
         });

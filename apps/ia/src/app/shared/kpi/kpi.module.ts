@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -14,6 +15,7 @@ import { KpiComponent } from './kpi.component';
     SharedTranslocoModule,
     MatIconModule,
     EmployeeListDialogModule,
+    MatTooltipModule,
   ],
   exports: [KpiComponent],
 })

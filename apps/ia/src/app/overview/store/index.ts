@@ -5,7 +5,7 @@ import {
   FluctuationRatesChartData,
   OpenApplication,
   OverviewFluctuationRates,
-  ResignedEmployee,
+  ResignedEmployeesResponse,
 } from '../models';
 import {
   loadAttritionOverTimeOverview,
@@ -44,7 +44,7 @@ export interface OverviewState {
     errorMessage: string;
   };
   resignedEmployees: {
-    data: ResignedEmployee[];
+    data: ResignedEmployeesResponse;
     loading: boolean;
     errorMessage: string;
   };

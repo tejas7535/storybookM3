@@ -16,10 +16,12 @@ import { EmployeeListDialogMeta } from './employee-list-dialog-meta.model';
 export class EmployeeListDialogComponent {
   showFluctuationType: boolean;
   employeeListType: EmployeeListDialogType;
+  enoughRightsToShowAllEmployees: boolean;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: EmployeeListDialogMeta) {
     this.showFluctuationType = data.showFluctuationType;
     this.employeeListType = data.employeeListType;
+    this.enoughRightsToShowAllEmployees = data.enoughRightsToShowAllEmployees;
   }
 
   hasExternalAction(employee: Employee): boolean {

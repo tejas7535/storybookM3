@@ -5,7 +5,7 @@ import {
   FluctuationRatesChartData,
   OpenApplication,
   OverviewFluctuationRates,
-  ResignedEmployee,
+  ResignedEmployeesResponse,
 } from '../models';
 import { initialState, overviewReducer, OverviewState, reducer } from '.';
 import {
@@ -170,7 +170,11 @@ describe('Overview Reducer', () => {
 
   describe('loadResignedEmployeesSuccess', () => {
     test('should unset loading and set resigned employees', () => {
-      const data: ResignedEmployee[] = [];
+      const data: ResignedEmployeesResponse = {
+        employees: [],
+        resignedEmployeesCount: 5,
+        responseModified: true,
+      };
 
       const action = loadResignedEmployeesSuccess({ data });
 

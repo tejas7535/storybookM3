@@ -7,8 +7,9 @@
     <span class="mt-4 flex flex-row text-body-2">{{
       t('totalResignations')
     }}</span>
-    <h4 class="mb-4 flex flex-row">{{ data?.length | defaultValue }}</h4>
+    <h4 class="mb-4 flex flex-row">{{ totalCount | defaultValue }}</h4>
   </div>
+
   <ag-grid-angular
     class="ag-theme-material h-full border border-border"
     [rowData]="data"
@@ -22,4 +23,7 @@
     [suppressCellFocus]="true"
   >
   </ag-grid-angular>
+  <p *ngIf="totalCount !== data?.length" class="italic text-warning">
+    {{ t('enoughRightsToShowAllEmployees') }}
+  </p>
 </div>

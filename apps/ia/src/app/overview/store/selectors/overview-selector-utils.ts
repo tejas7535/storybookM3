@@ -29,7 +29,8 @@ export function createFluctuationKpi(
   company: number,
   orgUnit: number,
   orgUnitName: string,
-  employees: Employee[]
+  employees: Employee[],
+  realEmployeesCount: number
 ) {
   const companyPercentageRate = getPercentageValueSigned(company);
   const orgUnitPercentageValue = getPercentageValueSigned(orgUnit);
@@ -38,7 +39,12 @@ export function createFluctuationKpi(
     orgUnitPercentageValue
   );
 
-  return new FluctuationKpi(fluctuationRates, orgUnitName, employees);
+  return new FluctuationKpi(
+    fluctuationRates,
+    orgUnitName,
+    employees,
+    realEmployeesCount
+  );
 }
 
 export function isDateInTimeRange(
@@ -111,22 +117,22 @@ export function createFluctuationRateChartConfig(
 }
 
 export function createDoughnutConfig(
-  internal: Employee[],
-  external: Employee[],
+  internalCount: number,
+  externalCount: number,
   name: string
 ) {
   const labelInternal = 'internal';
   const labelExternal = 'external';
 
-  return internal && external
+  return internalCount !== undefined && externalCount !== undefined
     ? new DoughnutConfig(name, [
         new DoughnutSeriesConfig(
-          [{ value: internal.length }],
+          [{ value: internalCount }],
           labelInternal,
           Color.LIME
         ),
         new DoughnutSeriesConfig(
-          [{ value: external.length }],
+          [{ value: externalCount }],
           labelExternal,
           Color.LIGHT_BLUE
         ),

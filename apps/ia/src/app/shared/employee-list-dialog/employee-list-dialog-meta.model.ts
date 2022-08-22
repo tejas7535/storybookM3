@@ -5,6 +5,7 @@ export class EmployeeListDialogMeta {
   public constructor(
     public headings: EmployeeListDialogMetaHeadings,
     public employees: Employee[],
+    public enoughRightsToShowAllEmployees: boolean,
     public showFluctuationType?: boolean,
     public employeeListType?: EmployeeListDialogType
   ) {}

@@ -2,7 +2,7 @@ import { AttritionOverTime, EmployeesRequest } from '../../../shared/models';
 import {
   FluctuationRatesChartData,
   OverviewFluctuationRates,
-  ResignedEmployee,
+  ResignedEmployeesResponse,
 } from '../../models';
 import {
   loadAttritionOverTimeOverview,
@@ -125,7 +125,11 @@ describe('Overview Actions', () => {
   });
 
   test('loadResignedEmployeesSuccess', () => {
-    const data: ResignedEmployee[] = [];
+    const data: ResignedEmployeesResponse = {
+      employees: [],
+      resignedEmployeesCount: 5,
+      responseModified: true,
+    };
     const action = loadResignedEmployeesSuccess({ data });
 
     expect(action).toEqual({

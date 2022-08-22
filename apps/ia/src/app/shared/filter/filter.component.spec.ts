@@ -6,7 +6,12 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AutocompleteInputModule } from '../autocomplete-input/autocomplete-input.module';
 import { DateInputModule } from '../date-input/date-input.module';
-import { FilterKey, SelectedFilter, TimePeriod } from '../models';
+import {
+  FilterDimension,
+  FilterKey,
+  SelectedFilter,
+  TimePeriod,
+} from '../models';
 import { SelectInputModule } from '../select-input/select-input.module';
 import { getTimeRangeHint } from '../utils/utilities';
 import { FilterComponent } from './filter.component';
@@ -112,6 +117,56 @@ describe('FilterComponent', () => {
       component.autoCompleteOrgUnitsChange(search);
 
       expect(component.autoCompleteOrgUnits.emit).toHaveBeenCalledWith(search);
+    });
+  });
+
+  describe('set selectedBusinessArea', () => {
+    test('should set org unit and disable range filter if undefined', () => {
+      component.selectedBusinessArea = undefined;
+
+      expect(component.selectedBusinessArea).toBeUndefined();
+      expect(component.disabledTimeRangeFilter).toBeTruthy();
+    });
+
+    test('should set org unit and enable range filter if org unti set', () => {
+      const idVal = {
+        id: '123',
+        value: 'Test 1234',
+      };
+      component.selectedBusinessArea = idVal;
+
+      expect(component.selectedBusinessArea).toEqual(idVal);
+      expect(component.disabledTimeRangeFilter).toBeFalsy();
+    });
+  });
+
+  describe('getDimensionName', () => {
+    test('should retun undefined if dimensions undefined', () => {
+      component.availableDimensions = undefined;
+
+      const result = component.getDimensionName();
+
+      expect(result).toBeUndefined();
+    });
+
+    test('should retun undefined if dimension not found', () => {
+      component.availableDimensions = [{ id: '123', value: 'Test 1234' }];
+      component.activeDimension = FilterDimension.BOARD;
+
+      const result = component.getDimensionName();
+
+      expect(result).toBeUndefined();
+    });
+
+    test('should retun active dimension value', () => {
+      component.availableDimensions = [
+        { id: FilterDimension.BOARD, value: 'Test 1234' },
+      ];
+      component.activeDimension = FilterDimension.BOARD;
+
+      const result = component.getDimensionName();
+
+      expect(result).toEqual('Test 1234');
     });
   });
 });

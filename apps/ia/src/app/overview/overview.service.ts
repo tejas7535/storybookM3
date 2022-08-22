@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import { withCache } from '@ngneat/cashew';
 
@@ -12,7 +11,6 @@ import {
   FluctuationRatesChartData,
   OpenApplication,
   OverviewFluctuationRates,
-  ResignedEmployee,
   ResignedEmployeesResponse,
 } from './models';
 
@@ -59,18 +57,16 @@ export class OverviewService {
     );
   }
 
-  getResignedEmployees(orgUnit: string): Observable<ResignedEmployee[]> {
+  getResignedEmployees(orgUnit: string): Observable<ResignedEmployeesResponse> {
     const params = this.paramsCreator.createHttpParamsForOrgUnit(orgUnit);
 
-    return this.http
-      .get<ResignedEmployeesResponse>(
-        `${ApiVersion.V1}/${this.RESIGNED_EMPLOYEES}`,
-        {
-          params,
-          context: withCache(),
-        }
-      )
-      .pipe(map((response) => response.employees));
+    return this.http.get<ResignedEmployeesResponse>(
+      `${ApiVersion.V1}/${this.RESIGNED_EMPLOYEES}`,
+      {
+        params,
+        context: withCache(),
+      }
+    );
   }
 
   getOpenApplications(orgUnit: string): Observable<OpenApplication[]> {

@@ -19,7 +19,6 @@ import { ChartSeries } from '../models/chart-series.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OverviewChartComponent {
-  private chartInstance: any;
   private _data: {
     [seriesName: string]: {
       employees: Employee[][];
@@ -99,30 +98,19 @@ export class OverviewChartComponent {
 
   constructor(private readonly dialog: MatDialog) {}
 
-  public toggleChartSeries(name: string): void {
-    const series = this.chartSeries.find((serie) => serie.name === name);
-    series.checked = !series.checked;
-
-    this.chartInstance.dispatchAction({
-      name,
-      type: 'legendToggleSelect',
-    });
-  }
-
-  public onChartInit(eCharts: any): void {
-    this.chartInstance = eCharts;
-  }
-
   public onChartClick(event: any): void {
     const employees = this.data[event.seriesName].employees[event.dataIndex];
+    const attrition = this.data[event.seriesName].attrition[event.dataIndex];
+    const enoughRights = employees?.length === attrition;
 
-    if (employees && employees.length > 0) {
+    if (attrition > 0) {
       const data = new EmployeeListDialogMeta(
         new EmployeeListDialogMetaHeadings(
           `${event.seriesName} - ${event.name}:`,
           undefined
         ),
-        employees
+        employees,
+        enoughRights
       );
 
       this.dialog.open(EmployeeListDialogComponent, {

@@ -1,5 +1,8 @@
 <div mat-dialog-title class="!flex flex-row" *ngIf="data?.headings?.header">
-  <h6 class="!mt-0 !mr-0 !mb-4 !ml-1 grow font-medium !text-high-emphasis">
+  <h6
+    class="!mt-0 !mr-0 !mb-4 !ml-1 grow font-medium !text-high-emphasis"
+    *transloco="let t; read: 'employeeListDialog'"
+  >
     {{ data?.headings?.header }}
   </h6>
 </div>
@@ -7,6 +10,9 @@
   class="!overflow-hidden"
   *transloco="let t; read: 'employeeListDialog'"
 >
+  <span *ngIf="!enoughRightsToShowAllEmployees" class="italic text-warning">
+    {{ t('enoughRightsToShowAllEmployees') }}
+  </span>
   <h6
     *ngIf="data?.headings?.contentTitle"
     class="text-overline mt-0 mr-0 mb-2 ml-1 font-medium leading-3"
@@ -81,7 +87,13 @@
   </cdk-virtual-scroll-viewport>
 </mat-dialog-content>
 <mat-dialog-actions align="end" *transloco="let t; read: 'employeeListDialog'">
-  <p class="mr-auto text-caption text-low-emphasis">
+  <p
+    class="mr-auto text-caption"
+    [ngClass]="{
+      'text-low-emphasis': enoughRightsToShowAllEmployees,
+      'text-warning': !enoughRightsToShowAllEmployees
+    }"
+  >
     {{
       t('total', {
         total: data.employees?.length

@@ -11,6 +11,7 @@
               <ia-kpi
                 [title]="t('companyName')"
                 [value]="(fluctuationKpi$ | ngrxPush)?.kpiRates.company"
+                [showTeamMemberDialog]="false"
               ></ia-kpi>
             </div>
             <div class="mb-4 pl-4">
@@ -20,6 +21,9 @@
                 [employees]="(fluctuationKpi$ | ngrxPush)?.exitEmployees"
                 [employeeListDialogMetaHeadings]="
                   employeeListDialogMetaHeadings$ | ngrxPush
+                "
+                [realEmployeesCount]="
+                  (fluctuationKpi$ | ngrxPush)?.realEmployeesCount
                 "
               ></ia-kpi>
             </div>
@@ -45,6 +49,7 @@
               <ia-kpi
                 [title]="t('companyName')"
                 [value]="(unforcedFluctuationKpi$ | ngrxPush)?.kpiRates.company"
+                [showTeamMemberDialog]="false"
               ></ia-kpi>
             </div>
             <div class="mb-4 pl-4">
@@ -56,6 +61,9 @@
                 "
                 [employeeListDialogMetaHeadings]="
                   employeeListDialogMetaHeadings$ | ngrxPush
+                "
+                [realEmployeesCount]="
+                  (unforcedFluctuationKpi$ | ngrxPush)?.realEmployeesCount
                 "
               ></ia-kpi>
             </div>
@@ -99,6 +107,7 @@
           <ia-resignations
             [data]="resignedEmployees$ | ngrxPush"
             [loading]="resignedEmployeesLoading$ | ngrxPush"
+            [totalCount]="resignedEmployeesCount$ | ngrxPush"
           ></ia-resignations>
         </div>
       </div>
