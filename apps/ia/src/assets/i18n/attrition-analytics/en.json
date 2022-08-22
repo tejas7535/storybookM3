@@ -50,7 +50,7 @@
     "country": "Country",
     "divisionSegment": "Division Segment",
     "education": "Education",
-    "educationalEstablishment": "Education Establishment",
+    "educationEstablishment": "Education Establishment",
     "function": "Function",
     "gender": "Gender",
     "job": "Job",
@@ -81,6 +81,7 @@
     "subRegion": "Sub Region",
     "subSegment": "Sub Segment",
     "weeklyWorkingHour": "Weekly Working Hour",
-    "workLocation": "Work Location"
+    "workLocation": "Work Location",
+    "collarType": "Collar Type"
   }
 }
