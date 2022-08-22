@@ -133,12 +133,13 @@ export class BomTableComponent implements OnChanges {
   }
 
   onRowClicked(evt: RowClickedEvent): void {
-    this.rowSelected.emit(evt.data);
-
-    this.nonLevel2Children = [];
-    this.currentSelectedRow = evt;
-    this.updateNonLevel2Children(evt.node);
-    evt.node.setExpanded(true);
+    if (!evt.node.expanded) {
+      this.rowSelected.emit(evt.data);
+      this.nonLevel2Children = [];
+      this.currentSelectedRow = evt;
+      this.updateNonLevel2Children(evt.node);
+    }
+    evt.node.setExpanded(!evt.node.expanded);
     this.gridApi.redrawRows();
   }
 

@@ -4,6 +4,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { withCache } from '@ngneat/cashew';
+
 import { API, DetailPath } from '@cdba/shared/constants/api';
 import { BetaFeature } from '@cdba/shared/constants/beta-feature';
 import {
@@ -19,7 +21,6 @@ import {
   OdataBomIdentifier,
 } from '@cdba/shared/models/bom-item-odata.model';
 import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
-import { withCache } from '@ngneat/cashew';
 
 import {
   BomResult,
@@ -230,23 +231,27 @@ export class DetailService {
           let sumVariableValue = 0;
           let sumFixedValue = 0;
 
-          items.forEach((item) => {
-            if (item.splitType === 'MAIN') {
-              sumTotalValue += item.totalValue;
-              sumVariableValue += item.variableValue;
-              sumFixedValue += item.fixedValue;
-            }
-          });
+          // only compute if split type "total" is not included in an array
+          // this way we know the response is not cached
+          if (!items.some((el) => el.splitType === 'TOTAL')) {
+            items.forEach((item) => {
+              if (item.splitType === 'MAIN') {
+                sumTotalValue += item.totalValue;
+                sumVariableValue += item.variableValue;
+                sumFixedValue += item.fixedValue;
+              }
+            });
 
-          items.push({
-            costComponent: undefined,
-            description: undefined,
-            splitType: 'TOTAL',
-            totalValue: sumTotalValue,
-            fixedValue: sumFixedValue,
-            variableValue: sumVariableValue,
-            currency: items[0]?.currency,
-          });
+            items.push({
+              costComponent: undefined,
+              description: undefined,
+              splitType: 'TOTAL',
+              totalValue: sumTotalValue,
+              fixedValue: sumFixedValue,
+              variableValue: sumVariableValue,
+              currency: items[0]?.currency,
+            });
+          }
 
           return items;
         })
