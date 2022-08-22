@@ -47,25 +47,6 @@ export class ColumnUtilityService {
 
   numberFilterParams = {
     allowedCharPattern: '\\d\\.\\,\\-',
-    // textFormatter: (value: any) => {
-    //   console.log(value);
-
-    //   return value;
-    // },
-    // textMatcher: ({
-    //   value,
-    //   filterText,
-    // }: {
-    //   value: string;
-    //   filterText: string;
-    // }) => {
-    //   const localeCellValue = this.helperService.transformNumber(
-    //     Number.parseFloat(value),
-    //     true
-    //   );
-
-    //   return filterText === localeCellValue;
-    // },
     numberParser: (text: string | null) => {
       if (!text) {
         return undefined as any;
@@ -115,12 +96,6 @@ export class ColumnUtilityService {
     if (valid2 && !valid1) {
       return -1;
     }
-
-    return 0;
-  }
-  static localeNumberComparator(one: any, two: any): number {
-    console.log(one);
-    console.log(two);
 
     return 0;
   }

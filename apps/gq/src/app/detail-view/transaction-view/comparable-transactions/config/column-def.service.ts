@@ -39,11 +39,13 @@ export class ColumnDefService {
       valueFormatter: (params) =>
         this.columnUtilityService.numberCurrencyFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
+      filterParams: this.columnUtilityService.numberFilterParams,
     },
     {
       headerName: translate('transactionView.transactions.table.quantity'),
       field: 'quantity',
       filter: NUMBER_COLUMN_FILTER,
+      filterParams: ColumnUtilityService.integerFilterParams,
       valueFormatter: (params) =>
         this.columnUtilityService.numberFormatter(params),
     },
@@ -53,6 +55,7 @@ export class ColumnDefService {
       valueFormatter: (params) =>
         this.columnUtilityService.percentageFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
+      filterParams: this.columnUtilityService.numberFilterParams,
     },
     {
       headerName: translate(

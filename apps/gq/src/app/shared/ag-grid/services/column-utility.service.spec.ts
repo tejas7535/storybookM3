@@ -10,6 +10,7 @@ import {
   SAP_PRICE_DETAIL_ZMIN_MOCK,
 } from '../../../../testing/mocks';
 import { CalculationType } from '../../../core/store/reducers/sap-price-details/models/calculation-type.enum';
+import { LOCALE_DE } from '../../constants';
 import { UserRoles } from '../../constants/user-roles.enum';
 import { Keyboard } from '../../models';
 import {
@@ -70,6 +71,31 @@ describe('CreateColumnService', () => {
 
   beforeAll(() => {
     roles = [UserRoles.BASIC];
+  });
+
+  describe('numberFilterParams', () => {
+    test('should return undefined on undefined input', () => {
+      expect(service.numberFilterParams.numberParser(undefined as any)).toEqual(
+        undefined
+      );
+    });
+    test('should return undefined on no input', () => {
+      expect(service.numberFilterParams.numberParser('')).toEqual(undefined);
+    });
+    test('should parse localized number', () => {
+      service['translocoLocaleService'].getLocale = jest.fn(() => LOCALE_DE.id);
+
+      const result = service.numberFilterParams.numberParser('34,12');
+
+      expect(result).toEqual(34.12);
+    });
+    test('should parse on invalid input', () => {
+      service['translocoLocaleService'].getLocale = jest.fn(() => LOCALE_DE.id);
+
+      const result = service.numberFilterParams.numberParser('34,');
+
+      expect(result).toEqual(34);
+    });
   });
 
   describe('filterGpc', () => {

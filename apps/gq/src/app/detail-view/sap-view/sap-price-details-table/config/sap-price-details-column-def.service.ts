@@ -41,6 +41,7 @@ export class SapPriceDetailsColumnDefService {
       valueFormatter: (data) =>
         this.columnUtilityService.sapConditionAmountFormatter(data),
       filter: NUMBER_COLUMN_FILTER,
+      filterParams: this.columnUtilityService.numberFilterParams,
     },
     {
       headerName: translate('sapView.sapConditionsTable.pricingUnit'),
@@ -60,6 +61,7 @@ export class SapPriceDetailsColumnDefService {
       valueFormatter: (data) =>
         this.columnUtilityService.numberCurrencyFormatter(data),
       filter: NUMBER_COLUMN_FILTER,
+      filterParams: this.columnUtilityService.numberFilterParams,
     },
     {
       headerName: translate('sapView.sapConditionsTable.validTo'),
