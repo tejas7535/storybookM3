@@ -10,7 +10,7 @@ import {
   SAP_PRICE_DETAIL_ZMIN_MOCK,
 } from '../../../../testing/mocks';
 import { CalculationType } from '../../../core/store/reducers/sap-price-details/models/calculation-type.enum';
-import { LOCALE_DE } from '../../constants';
+import { LOCALE_DE, LOCALE_EN } from '../../constants';
 import { UserRoles } from '../../constants/user-roles.enum';
 import { Keyboard } from '../../models';
 import {
@@ -95,6 +95,13 @@ describe('CreateColumnService', () => {
       const result = service.numberFilterParams.numberParser('34,');
 
       expect(result).toEqual(34);
+    });
+    test('should support german input on english locale', () => {
+      service['translocoLocaleService'].getLocale = jest.fn(() => LOCALE_EN.id);
+
+      const result = service.numberFilterParams.numberParser('34,19');
+
+      expect(result).toEqual(34.19);
     });
   });
 

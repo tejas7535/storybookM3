@@ -9,7 +9,7 @@ import {
 } from 'ag-grid-enterprise';
 
 import { CalculationType } from '../../../core/store/reducers/sap-price-details/models/calculation-type.enum';
-import { getNumberFilterRegex } from '../../constants';
+import { getNumberFilterRegex, LOCALE_DE, LOCALE_EN } from '../../constants';
 import { UserRoles } from '../../constants/user-roles.enum';
 import { Keyboard } from '../../models';
 import { PriceSource, QuotationDetail } from '../../models/quotation-detail';
@@ -48,19 +48,28 @@ export class ColumnUtilityService {
   numberFilterParams = {
     allowedCharPattern: '\\d\\.\\,\\-',
     numberParser: (text: string | null) => {
+      let inputText = text;
+
       if (!text) {
         return undefined as any;
       }
       if (
-        getNumberFilterRegex(this.translocoLocaleService.getLocale()).test(text)
+        getNumberFilterRegex(this.translocoLocaleService.getLocale()).test(
+          inputText
+        )
       ) {
         return HelperService.parseLocalizedInputValue(
-          text,
+          inputText,
           this.translocoLocaleService.getLocale()
         );
+      } else if (
+        this.translocoLocaleService.getLocale() === LOCALE_EN.id &&
+        getNumberFilterRegex(LOCALE_DE.id).test(inputText)
+      ) {
+        inputText = text.replace(/,/g, Keyboard.DOT);
       }
 
-      return Number.parseFloat(text);
+      return Number.parseFloat(inputText);
     },
   };
 
