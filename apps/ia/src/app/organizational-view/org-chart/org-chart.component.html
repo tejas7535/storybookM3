@@ -1,9 +1,14 @@
 <div
-  #chartContainer
-  id="chartContainer"
   class="flex h-full grow flex-col overflow-hidden"
   *transloco="let t; read: 'organizationalView.orgChart'"
 >
+  <div
+    #chartContainer
+    id="chartContainer"
+    class="h-full w-full"
+    *ngIf="chartData?.length || isLoading"
+  ></div>
+
   <schaeffler-loading-spinner
     *ngIf="isLoading"
     [diameter]="40"
