@@ -116,9 +116,12 @@ export class ProcessCaseEffect {
       map(([_action, quotationIdentifier]) => quotationIdentifier),
       mergeMap((quotationIdentifier: QuotationIdentifier) =>
         this.quotationService.getQuotation(quotationIdentifier.gqId).pipe(
-          tap((item) =>
-            PriceService.addCalculationsForDetails(item.quotationDetails)
-          ),
+          tap((item) => {
+            item.quotationDetails.sort(
+              (a, b) => a.quotationItemId - b.quotationItemId
+            );
+            PriceService.addCalculationsForDetails(item.quotationDetails);
+          }),
           mergeMap((item: Quotation) => {
             if (item.calculationInProgress || item.sapCallInProgress) {
               return [loadQuotationSuccess({ item })];

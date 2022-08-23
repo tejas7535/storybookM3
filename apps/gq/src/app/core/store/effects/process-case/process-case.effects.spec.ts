@@ -242,21 +242,37 @@ describe('ProcessCaseEffect', () => {
       })
     );
     test(
-      'should return loadQuotationSuccess action when REST call is successful and refresh not completed',
+      'should return loadQuotationSuccess action with sorted quotation details when REST call is successful and refresh not completed',
       marbles((m) => {
         quotationService.getQuotation = jest.fn(() => response);
-        const item = {
+
+        const serviceResponse = {
           ...QUOTATION_MOCK,
           calculationInProgress: false,
           sapCallInProgress: true,
-        };
+          quotationDetails: [
+            { ...QUOTATION_DETAIL_MOCK, quotationItemId: 20 },
+            { ...QUOTATION_DETAIL_MOCK, quotationItemId: 10 },
+          ],
+        } as Quotation;
+        const expectedItem = {
+          ...QUOTATION_MOCK,
+          calculationInProgress: false,
+          sapCallInProgress: true,
+          quotationDetails: [
+            { ...QUOTATION_DETAIL_MOCK, quotationItemId: 10 },
+            { ...QUOTATION_DETAIL_MOCK, quotationItemId: 20 },
+          ],
+        } as Quotation;
 
         actions$ = m.hot('-a', { a: action });
 
         const response = m.cold('-a|', {
-          a: item,
+          a: serviceResponse,
         });
-        const expected = m.cold('--b', { b: loadQuotationSuccess({ item }) });
+        const expected = m.cold('--b', {
+          b: loadQuotationSuccess({ item: expectedItem }),
+        });
 
         m.expect(effects.quotation$).toBeObservable(expected);
         m.flush();
