@@ -4,7 +4,7 @@
     class="overflow-hidden border-y-[1.5px] border-border md:rounded md:border-x-[1.5px]"
     [ngClass]="{
       'border-primary': greaseResult.isPreferred,
-      '!border-[#FFA026]': !greaseResult.isSufficient
+      '!border-attention': !greaseResult.isSufficient
     }"
   >
     <div class="p-3">
@@ -17,7 +17,7 @@
           class="relative ml-3 inline-block pr-7"
         >
           <div
-            class="ml-3 inline-block rounded-full bg-[#FFA026] px-3 py-[1px] text-caption text-white"
+            class="ml-3 inline-block rounded-full bg-orange px-3 py-[1px] text-caption text-white"
           >
             {{ t('insufficientGreaseResultHint') }}
           </div>

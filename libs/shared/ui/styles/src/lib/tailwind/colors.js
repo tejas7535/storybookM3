@@ -17,6 +17,7 @@ const colors = {
   'nordic-blue': '#4398af',
   'sunny-yellow': '#fbe06d',
   lime: '#9ac465',
+  orange: '#ffa026',
 
   // Text
   'dark-high-emphasis': 'rgba(0, 0, 0, 0.87)',

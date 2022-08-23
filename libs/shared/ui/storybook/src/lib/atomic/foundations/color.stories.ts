@@ -26,6 +26,7 @@ const colors = {
   'nordic-blue': '#4398af',
   'sunny-yellow': '#fbe06d',
   lime: '#9ac465',
+  orange: '#ffa026',
 
   // Text
   'dark-high-emphasis': 'rgba(0, 0, 0, 0.87)',
@@ -71,7 +72,8 @@ const Template: Story = (args) => ({
       <div class="mat-elevation-z0 bg-secondary-900"><div class="p-4 pt-[60px]">bg-secondary-900 {{colors['secondary-900']}} (called grey/900 in design)</div></div>
       <div class="mat-elevation-z0 bg-background-dark"><div class="p-4 pt-[60px]">bg-background-dark {{colors['background-dark']}}</div></div>
       <div class="mat-elevation-z0 bg-surface"><div class="p-4 pt-[60px]">bg-surface {{colors.surface}}</div></div>
-      <div class="mat-elevation-z0 bg-error"><div class="p-4 pt-[60px]">bg-error {{colors.error}}</div></div>
+      <div class="mat-elevation-z0 bg-error"><div class="p-4 pt-[60px]">bg-error {{colors['error-red']}}</div></div>
+      <div class="mat-elevation-z0 bg-orange"><div class="p-4 pt-[60px]">bg-orange {{colors.orange}}</div></div>
       
       <h4 class="mt-20">Color Accent</h4>
       <div class="mat-elevation-z0 bg-nordic-blue"><div class="p-4 pt-[60px]">bg-nordic-blue {{colors['nordic-blue']}}</div></div>
@@ -112,6 +114,9 @@ const Template: Story = (args) => ({
       </div>
       <div class="mat-elevation-z0 bg-secondary border border-warning">
             <div class="p-4 pt-[60px]">border-warning</div>    
+      </div>
+      <div class="mat-elevation-z0 bg-secondary border border-attention">
+        <div class="p-4 pt-[60px]">border-attention</div>    
       </div>
     </section>
   `,

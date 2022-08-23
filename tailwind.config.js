@@ -15,6 +15,7 @@ const baseColors = {
   'sunny-yellow': colors['sunny-yellow'],
   'nordic-blue': colors['nordic-blue'],
   lime: colors.lime,
+  orange: colors.orange,
 };
 
 const greys = {
@@ -45,6 +46,7 @@ const border = {
   primary: colors.primary,
   info: colors['nordic-blue'],
   warning: colors['sunny-yellow'],
+  attention: colors.orange,
   'medium-emphasis': colors['medium-emphasis'],
 };
 
