@@ -13,7 +13,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { LetModule, PushModule } from '@ngrx/component';
 import { AgGridModule } from 'ag-grid-angular';
 
-import { DropdownInputModule } from '@schaeffler/dropdown-input';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -54,7 +53,6 @@ import { QuotationDetailsTableComponent } from './quotation-details-table.compon
     SharedPipesModule,
     MatRadioModule,
     FormsModule,
-    DropdownInputModule,
     MatSelectModule,
     MatTooltipModule,
   ],

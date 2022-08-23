@@ -28,9 +28,9 @@ import { MmNumberPipe } from './pipes/mm-number.pipe';
     LetModule,
     PushModule,
     PictureCardModule,
-    SelectModule,
     LoadingSpinnerModule,
     MaterialModule,
+    SelectModule,
   ],
   exports: [
     CommonModule,
@@ -45,10 +45,10 @@ import { MmNumberPipe } from './pipes/mm-number.pipe';
     LetModule,
     PushModule,
     MagneticSliderComponent,
-    SelectModule,
     LoadingSpinnerModule,
     MaterialModule,
     SharedTranslocoModule,
+    SelectModule,
   ],
   declarations: [
     MmNumberPipe,

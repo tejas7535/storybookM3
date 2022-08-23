@@ -1,7 +1,7 @@
 import { translate } from '@ngneat/transloco';
 import { createSelector } from '@ngrx/store';
 
-import { SearchAutocompleteOption } from '@schaeffler/search-autocomplete';
+import { StringOption } from '@schaeffler/inputs';
 
 import {
   AdvancedBearingSelectionFilters,
@@ -48,7 +48,7 @@ export const getAdvancedBearingSelectionFilters = createSelector(
 
 export const getQuickBearingSelectionResultList = createSelector(
   getBearingSelectionState,
-  (state): SearchAutocompleteOption[] =>
+  (state): StringOption[] =>
     state?.quickBearingSelection?.resultList.map((bearing) => ({
       id: bearing,
       title: translate('bearing.bearingSelection.quickSelection.selectOption', {
@@ -59,7 +59,7 @@ export const getQuickBearingSelectionResultList = createSelector(
 
 export const getAdvancedBearingSelectionResultList = createSelector(
   getBearingSelectionState,
-  (state): SearchAutocompleteOption[] =>
+  (state): StringOption[] =>
     state?.advancedBearingSelection?.resultList?.map((bearing) => ({
       id: bearing,
       title: bearing,

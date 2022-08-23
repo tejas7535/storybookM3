@@ -7,7 +7,6 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
-import { SearchAutocompleteModule } from '@schaeffler/search-autocomplete';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { BEARING } from '../../shared/constants/tracking-names';
@@ -24,7 +23,6 @@ describe('BearingSearchComponent', () => {
     imports: [
       ReactiveFormsModule,
       PushModule,
-      SearchAutocompleteModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [

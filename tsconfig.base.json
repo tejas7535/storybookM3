@@ -41,9 +41,6 @@
       "@schaeffler/banner": ["libs/shared/ui/banner/src/index.ts"],
       "@schaeffler/breadcrumbs": ["libs/shared/ui/breadcrumbs/src/index.ts"],
       "@schaeffler/controls": ["libs/shared/ui/controls/src/index.ts"],
-      "@schaeffler/dropdown-input": [
-        "libs/shared/ui/dropdown-input/src/index.ts"
-      ],
       "@schaeffler/empty-states": ["libs/shared/ui/empty-states/src/index.ts"],
       "@schaeffler/icons": ["libs/shared/ui/icons/src/index.ts"],
       "@schaeffler/inputs": ["libs/shared/ui/inputs/src/index.ts"],
@@ -62,9 +59,6 @@
       "@schaeffler/report": ["libs/shared/ui/report/src/index.ts"],
       "@schaeffler/roles-and-rights": [
         "libs/shared/ui/roles-and-rights/src/index.ts"
-      ],
-      "@schaeffler/search-autocomplete": [
-        "libs/shared/ui/search-autocomplete/src/index.ts"
       ],
       "@schaeffler/share-button": ["libs/shared/ui/share-button/src/index.ts"],
       "@schaeffler/shared/cypress-utils": [
