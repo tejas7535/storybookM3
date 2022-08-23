@@ -22,10 +22,21 @@
           "
         >
           <ng-container *ngIf="(options$ | ngrxPush).length > 0">
-            <schaeffler-dropdown-input
+            <schaeffler-select
               *ngIf="
                 isDropdownInput(meta.member?.type, meta.member?.id);
                 else select
+              "
+              ngDefaultControl
+              appearance="outline"
+              [stringOptions]="options$ | ngrxPush"
+              [resetButton]="false"
+              [formControl]="control"
+              [placeholder]="
+                t('form.select', { fieldname: meta.member.text | transloco })
+              "
+              [searchPlaceholder]="
+                t('form.select', { fieldname: meta.member.text | transloco })
               "
               [label]="
                 meta.page.id === PROPERTY_PAGE_MOUNTING_SITUATION_SUB ||
@@ -33,12 +44,10 @@
                   ? meta.member.text
                   : undefined
               "
-              [options]="options$ | ngrxPush"
-              [formControl]="control"
-              [placeholder]="
-                t('form.select', { fieldname: meta.member.text | transloco })
-              "
-            ></schaeffler-dropdown-input>
+              [initialValue]="selectedOption"
+              (optionSelected)="onOptionSelected($event)"
+            >
+            </schaeffler-select>
             <ng-template #select>
               <mm-select-member
                 [placeholder]="

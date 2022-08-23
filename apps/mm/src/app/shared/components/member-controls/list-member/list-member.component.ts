@@ -15,6 +15,7 @@ import {
   startWith,
   Subject,
   takeUntil,
+  tap,
   withLatestFrom,
 } from 'rxjs';
 
@@ -25,12 +26,15 @@ import {
 } from '@caeonline/dynamic-forms';
 import { translate } from '@ngneat/transloco';
 
+import { StringOption } from '@schaeffler/inputs';
+
 import {
   MemberTypes,
   PROPERTY_PAGE_MOUNTING,
   PROPERTY_PAGE_MOUNTING_SITUATION_SUB,
 } from '../../../constants/dialog-constant';
 import { forcedSelectsList } from '../../../constants/forced-selects-list';
+import { ListMember } from './list-member.model';
 
 @Component({
   templateUrl: 'list-member.component.html',
@@ -43,13 +47,9 @@ export class ListMemberComponent implements OnInit, OnDestroy {
 
   public isBoolean = false;
 
-  public options$: Observable<
-    (BearinxListValue & {
-      value: string;
-      caption: string;
-      imageUrl: string;
-    })[]
-  > = of([]);
+  public options$: Observable<ListMember[]> = of([]);
+
+  public selectedOption?: StringOption;
 
   public isPictureList$: Observable<boolean>;
 
@@ -69,12 +69,13 @@ export class ListMemberComponent implements OnInit, OnDestroy {
     const listValues$ = this.meta.listValues$ ?? of([]);
 
     this.isPictureList$ = listValues$.pipe(
-      map((options: any[]) => options.some((option: any) => option.imageUrl))
+      map((options) => options.some((option) => option.imageUrl))
     );
 
     this.setupOptions(listValues$);
     this.connectRuntime();
     this.preselectOnlyOption();
+    this.setSelectedOption();
   }
 
   public ngOnDestroy(): void {
@@ -100,6 +101,12 @@ export class ListMemberComponent implements OnInit, OnDestroy {
     );
   }
 
+  public onOptionSelected(option: StringOption | StringOption[]): void {
+    if (option) {
+      this.control.setValue((option as StringOption).id);
+    }
+  }
+
   private connectRuntime(): void {
     const runtime = this.meta.runtime;
     if (runtime) {
@@ -113,18 +120,23 @@ export class ListMemberComponent implements OnInit, OnDestroy {
 
   private setupOptions(listValues$: Observable<BearinxListValue[]>): void {
     this.options$ = listValues$.pipe(
-      map((listValues: any[]) =>
-        listValues.map((listValue: any) => ({
-          ...listValue,
-          value:
+      map((listValues: BearinxListValue[]) =>
+        listValues.map((listValue: BearinxListValue) => {
+          const titleValue =
             this.translationRequired(
               this.meta.member.type,
               this.meta.member.id
             ) &&
             !(this.meta.member.type === MemberTypes.List && listValue.imageUrl)
               ? translate(listValue.text)
-              : listValue.text,
-        }))
+              : listValue.text;
+
+          return {
+            ...listValue,
+            title: titleValue,
+            value: titleValue,
+          } as ListMember;
+        })
       )
     );
 
@@ -135,10 +147,10 @@ export class ListMemberComponent implements OnInit, OnDestroy {
         startWith(this.control.value),
         withLatestFrom(this.options$),
         filter(([value, options]) =>
-          options.every((option: any) => option.id !== value)
+          options.every((option: ListMember) => option.id !== value)
         )
       )
-      .subscribe(([_, options]: [any, any[]]) => {
+      .subscribe(([_, options]: [ListMember, ListMember[]]) => {
         const { defaultValue } = this.meta.member;
         if (options.some(({ id }) => id === defaultValue)) {
           this.control.setValue(defaultValue);
@@ -152,7 +164,21 @@ export class ListMemberComponent implements OnInit, OnDestroy {
       if (options.length === 1) {
         this.control.patchValue(options[0].id);
         this.meta.control?.get('value')?.setValue(options[0].id);
+        this.selectedOption = options[0];
       }
     });
+  }
+
+  private setSelectedOption(): void {
+    this.options$
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((options) => {
+          this.selectedOption = options.find(
+            (option) => this.control.value === option.id
+          );
+        })
+      )
+      .subscribe();
   }
 }
