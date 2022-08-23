@@ -18,13 +18,9 @@ export class FeatureImportanceComponent {
     }
   }
   @Input() hasNextFeatures: boolean;
-  @Input() sortDirection: SortDirection;
 
   @Output()
   private readonly loadNext: EventEmitter<void> = new EventEmitter();
-
-  @Output()
-  private readonly toggleSort: EventEmitter<void> = new EventEmitter();
 
   options: EChartsOption;
   sortDirectionEnum = SortDirection;
@@ -35,9 +31,5 @@ export class FeatureImportanceComponent {
 
   loadNextFeatures(): void {
     this.loadNext.emit();
-  }
-
-  toggleSortDirection(): void {
-    this.toggleSort.emit();
   }
 }

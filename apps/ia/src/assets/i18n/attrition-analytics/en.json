@@ -25,15 +25,14 @@
     "totalUnforcedLeavers": "Total Unforced Leavers"
   },
   "featureImportance": {
-    "title": "Feature Importance",
+    "title": "Top Drivers of Unforced Fluctuation",
     "xAxisName": "SHAP value",
     "legend": {
       "title": "Feature Value",
       "top": "High",
       "bottom": "Low"
     },
-    "loadMore": "Load more features",
-    "sortBy": "Sort by feature importance"
+    "loadMore": "Load more features"
   },
   "features": {
     "absenceDays": "Absence Days",
@@ -51,6 +50,7 @@
     "divisionSegment": "Division Segment",
     "education": "Education",
     "educationEstablishment": "Education Establishment",
+    "educationalEstablishment": "Educational Establishment",
     "function": "Function",
     "gender": "Gender",
     "job": "Job",

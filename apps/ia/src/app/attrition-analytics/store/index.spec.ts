@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { Slice, SortDirection } from '../../shared/models';
+import { Slice } from '../../shared/models';
 import {
   EmployeeAnalytics,
   FeatureImportanceGroup,
@@ -19,7 +19,6 @@ import {
   loadFeatureImportance,
   loadFeatureImportanceFailure,
   loadFeatureImportanceSuccess,
-  toggleFeatureImportanceSort,
 } from './actions/attrition-analytics.action';
 
 describe('Attrition Analytics Reducer', () => {
@@ -174,18 +173,6 @@ describe('Attrition Analytics Reducer', () => {
 
       expect(state.featureImportance.loading).toBeFalsy();
       expect(state.featureImportance.errorMessage).toEqual(errorMessage);
-    });
-  });
-
-  describe('toggleFeatureImportanceSort', () => {
-    test('should set loading true, reset data/pageable and toggle sort', () => {
-      const action = toggleFeatureImportanceSort();
-
-      const state = attritionAnalyticsReducer(initialState, action);
-
-      expect(state.featureImportance.loading).toBeTruthy();
-      expect(state.featureImportance.data).toBeUndefined();
-      expect(state.featureImportance.sort.direction).toEqual(SortDirection.ASC);
     });
   });
 });

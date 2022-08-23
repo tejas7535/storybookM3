@@ -83,14 +83,4 @@ describe('FeatureImportanceComponent', () => {
       expect(component['loadNext'].emit).toHaveBeenCalledTimes(1);
     });
   });
-
-  describe('toggleSortDirection', () => {
-    test('should emit toggleSort', () => {
-      component['toggleSort'].emit = jest.fn();
-
-      component.toggleSortDirection();
-
-      expect(component['toggleSort'].emit).toHaveBeenCalledTimes(1);
-    });
-  });
 });

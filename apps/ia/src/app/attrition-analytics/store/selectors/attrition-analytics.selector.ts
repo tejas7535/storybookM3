@@ -149,8 +149,3 @@ export const getFeatureImportanceSort = createSelector(
   selectAttritionAnalyticsState,
   (state: AttritionAnalyticsState) => state.featureImportance.sort
 );
-
-export const getFeatureImportanceSortDirection = createSelector(
-  selectAttritionAnalyticsState,
-  (state: AttritionAnalyticsState) => state.featureImportance.sort.direction
-);

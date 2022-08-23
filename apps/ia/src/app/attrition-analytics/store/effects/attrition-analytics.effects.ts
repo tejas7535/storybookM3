@@ -36,7 +36,6 @@ import {
   loadFeatureImportanceFailure,
   loadFeatureImportanceSuccess,
   selectRegion,
-  toggleFeatureImportanceSort,
 } from '../actions/attrition-analytics.action';
 import {
   getFeatureImportanceHasNext,
@@ -135,7 +134,7 @@ export class AttritionAnalyticsEffects implements OnInitEffects {
 
   loadNextFeatureImportance$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(loadFeatureImportance, toggleFeatureImportanceSort, selectRegion),
+      ofType(loadFeatureImportance, selectRegion),
       withLatestFrom(
         this.store.select(getFeatureImportanceHasNext),
         this.store.select(getFeatureImportancePageable),

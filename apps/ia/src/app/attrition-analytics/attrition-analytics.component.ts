@@ -15,7 +15,6 @@ import {
   changeSelectedFeatures,
   loadFeatureImportance,
   selectRegion,
-  toggleFeatureImportanceSort,
 } from './store/actions/attrition-analytics.action';
 import {
   getAvailableRegionsIdValues,
@@ -24,7 +23,6 @@ import {
   getFeatureImportanceGroups,
   getFeatureImportanceHasNext,
   getFeatureImportanceLoading,
-  getFeatureImportanceSortDirection,
   getFeatureOverallAttritionRate,
   getFeatureSelectorsForSelectedRegion,
   getSelectedFeatureParams,
@@ -82,10 +80,6 @@ export class AttritionAnalyticsComponent implements OnInit {
     this.featureImportanceHasNext$ = this.store.select(
       getFeatureImportanceHasNext
     );
-    this.featureImportanceSortDirection$ = this.store.select(
-      getFeatureImportanceSortDirection
-    );
-
     this.featureAnalysisOverallAttritionRate$ = this.store.select(
       getFeatureOverallAttritionRate
     );
@@ -97,10 +91,6 @@ export class AttritionAnalyticsComponent implements OnInit {
 
   loadNextFeatureImportance(): void {
     this.store.dispatch(loadFeatureImportance());
-  }
-
-  toggleSortFeatureImportance(): void {
-    this.store.dispatch(toggleFeatureImportanceSort());
   }
 
   regionSelected(region: IdValue) {

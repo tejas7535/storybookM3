@@ -70,10 +70,6 @@ export const loadFeatureImportanceFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
-export const toggleFeatureImportanceSort = createAction(
-  '[AttritionAnalytics] Toggle Feature Importance Sort'
-);
-
 const all = union({
   loadEmployeeAnalytics,
   loadEmployeeAnalyticsSuccess,
@@ -87,7 +83,6 @@ const all = union({
   loadFeatureImportance,
   loadFeatureImportanceSuccess,
   loadFeatureImportanceFailure,
-  toggleFeatureImportanceSort,
 });
 
 export type AttritionAnalyticsActions = typeof all;

@@ -19,7 +19,6 @@ import {
   loadFeatureImportanceFailure,
   loadFeatureImportanceSuccess,
   selectRegion,
-  toggleFeatureImportanceSort,
 } from './actions/attrition-analytics.action';
 
 export const attrtionAnalyticsFeatureKey = 'attritionAnalytics';
@@ -265,28 +264,6 @@ export const attritionAnalyticsReducer = createReducer(
         ...state.featureImportance,
         errorMessage,
         loading: false,
-      },
-    })
-  ),
-  on(
-    toggleFeatureImportanceSort,
-    (state: AttritionAnalyticsState): AttritionAnalyticsState => ({
-      ...state,
-      featureImportance: {
-        ...state.featureImportance,
-        data: undefined,
-        loading: true,
-        pageable: {
-          ...state.featureImportance.pageable,
-          pageNumber: -1,
-        },
-        sort: {
-          ...state.featureImportance.sort,
-          direction:
-            state.featureImportance.sort.direction === SortDirection.DESC
-              ? SortDirection.ASC
-              : SortDirection.DESC,
-        },
       },
     })
   )

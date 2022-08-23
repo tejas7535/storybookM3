@@ -64,9 +64,7 @@
         [loading]="featureImportanceLoading$ | ngrxPush"
         [hasNextFeatures]="featureImportanceHasNext$ | ngrxPush"
         [groups]="featureImportanceGroups$ | ngrxPush"
-        [sortDirection]="featureImportanceSortDirection$ | ngrxPush"
         (loadNext)="loadNextFeatureImportance()"
-        (toggleSort)="toggleSortFeatureImportance()"
       ></ia-feature-importance>
     </div>
   </mat-card>

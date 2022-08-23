@@ -10,7 +10,6 @@ import {
   loadFeatureImportance,
   loadFeatureImportanceFailure,
   loadFeatureImportanceSuccess,
-  toggleFeatureImportanceSort,
 } from './attrition-analytics.action';
 
 describe('Attrition Analytics Actions', () => {
@@ -99,14 +98,6 @@ describe('Attrition Analytics Actions', () => {
     expect(action).toEqual({
       type: '[AttritionAnalytics] Load Feature Importance Failure',
       errorMessage,
-    });
-  });
-
-  test('toggleFeatureImportanceSort', () => {
-    const action = toggleFeatureImportanceSort();
-
-    expect(action).toEqual({
-      type: '[AttritionAnalytics] Toggle Feature Importance Sort',
     });
   });
 });

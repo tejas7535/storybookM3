@@ -13,21 +13,6 @@
     >
       <mat-icon>sync</mat-icon>
     </button>
-    <button
-      class="text-medium-emphasis"
-      mat-icon-button
-      [attr.aria-label]="t('sortBy')"
-      [matTooltip]="t('sortBy')"
-      (click)="toggleSortDirection()"
-      [disabled]="loading"
-    >
-      <mat-icon *ngIf="sortDirection === sortDirectionEnum.DESC; else arrowUp"
-        >arrow_downward</mat-icon
-      >
-      <ng-template #arrowUp>
-        <mat-icon>arrow_upward</mat-icon>
-      </ng-template>
-    </button>
   </div>
   <div class="grid grid-cols-12 items-center">
     <div class="relative col-span-10 h-[520px]">
@@ -45,7 +30,7 @@
     <div class="flex h-[78%] flex-col justify-between">
       <label class="text-subtitle-2">{{ t('legend.top') }}</label>
       <label
-        class="ml-4 origin-left -rotate-90 transform whitespace-nowrap text-subtitle-2"
+        class="text-subtitle-2 ml-4 origin-left -rotate-90 transform whitespace-nowrap"
       >
         {{ t('legend.title') }}
       </label>

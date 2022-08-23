@@ -11,7 +11,6 @@ import {
   getFeatureImportanceLoading,
   getFeatureImportancePageable,
   getFeatureImportanceSort,
-  getFeatureImportanceSortDirection,
   getFeatureOverallAttritionRate,
   getFeatureSelectorsForSelectedRegion,
   getSelectedFeatureParams,
@@ -198,15 +197,6 @@ describe('attrition analytics selector', () => {
     test('should return sort', () => {
       const expectedResult = fakeState.featureImportance.sort;
       const result = getFeatureImportanceSort.projector(fakeState);
-
-      expect(result).toEqual(expectedResult);
-    });
-  });
-
-  describe('getFeatureImportanceSortDirection', () => {
-    test('should return sort direction', () => {
-      const expectedResult = fakeState.featureImportance.sort.direction;
-      const result = getFeatureImportanceSortDirection.projector(fakeState);
 
       expect(result).toEqual(expectedResult);
     });
