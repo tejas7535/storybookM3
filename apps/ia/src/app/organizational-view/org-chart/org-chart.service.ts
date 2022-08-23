@@ -11,75 +11,77 @@ import { OrgChartNode } from './models/org-chart-node.model';
 })
 export class OrgChartService {
   mapOrgUnitsToNodes(data: OrgUnitFluctuationData[]): OrgChartNode[] {
-    return data.map((elem: OrgUnitFluctuationData) => {
-      let parentNodeId = elem.parentId;
+    return data
+      .map((elem: OrgUnitFluctuationData) => {
+        let parentNodeId = elem.parentId;
 
-      // check if current node is local root
-      if (
-        elem.parentId &&
-        !data.map((empl) => empl.id).includes(elem.parentId)
-      ) {
-        // user has a parent that is out of scope -> local root
-        parentNodeId = undefined;
-      }
+        // check if current node is local root
+        if (
+          elem.parentId &&
+          !data.map((empl) => empl.id).includes(elem.parentId)
+        ) {
+          // user has a parent that is out of scope -> local root
+          parentNodeId = undefined;
+        }
 
-      const nodeId = elem.id;
-      const name = elem.managerOfOrgUnit;
-      const organization = elem.orgUnit;
-      const expanded = false;
-      const directSubordinates = elem.directEmployees;
-      const totalSubordinates = elem.totalEmployees;
-      const directAttrition = elem.directAttrition;
-      const totalAttrition = elem.totalAttrition;
-      const textColumnDirect = translate(
-        'organizationalView.orgChart.table.columnDirect'
-      );
-      const textColumnOverall = translate(
-        'organizationalView.orgChart.table.columnOverall'
-      );
-      const textRowEmployees = translate(
-        'organizationalView.orgChart.table.rowEmployees'
-      );
-      const textRowAttrition = translate(
-        'organizationalView.orgChart.table.rowAttrition'
-      );
+        const nodeId = elem.id;
+        const name = elem.managerOfOrgUnit;
+        const organization = elem.orgUnit;
+        const expanded = false;
+        const directSubordinates = elem.directEmployees;
+        const totalSubordinates = elem.totalEmployees;
+        const directAttrition = elem.directAttrition;
+        const totalAttrition = elem.totalAttrition;
+        const textColumnDirect = translate(
+          'organizationalView.orgChart.table.columnDirect'
+        );
+        const textColumnOverall = translate(
+          'organizationalView.orgChart.table.columnOverall'
+        );
+        const textRowEmployees = translate(
+          'organizationalView.orgChart.table.rowEmployees'
+        );
+        const textRowAttrition = translate(
+          'organizationalView.orgChart.table.rowAttrition'
+        );
 
-      // TODO: calculate heat
-      const heatMapClass = 'bg-secondary-900';
+        // TODO: calculate heat
+        const heatMapClass = 'bg-secondary-900';
 
-      // switch (elem.attritionMeta?.heatType) {
-      //   case HeatType.GREEN_HEAT:
-      //     heatMapClass = 'bg-primary';
-      //     break;
-      //   case HeatType.ORANGE_HEAT:
-      //     heatMapClass = 'bg-sunny-yellow';
-      //     break;
-      //   case HeatType.RED_HEAT:
-      //     heatMapClass = 'bg-error';
-      //     break;
-      //   default:
-      //     heatMapClass = 'bg-selected-overlay';
-      // }
+        // switch (elem.attritionMeta?.heatType) {
+        //   case HeatType.GREEN_HEAT:
+        //     heatMapClass = 'bg-primary';
+        //     break;
+        //   case HeatType.ORANGE_HEAT:
+        //     heatMapClass = 'bg-sunny-yellow';
+        //     break;
+        //   case HeatType.RED_HEAT:
+        //     heatMapClass = 'bg-error';
+        //     break;
+        //   default:
+        //     heatMapClass = 'bg-selected-overlay';
+        // }
 
-      return {
-        nodeId,
-        parentNodeId,
-        expanded,
-        name,
-        organization,
-        heatMapClass,
-        directSubordinates,
-        totalSubordinates,
-        directAttrition,
-        totalAttrition,
-        textColumnDirect,
-        textColumnOverall,
-        textRowEmployees,
-        textRowAttrition,
-        showUpperParentBtn:
-          parentNodeId === undefined && elem.parentId !== undefined,
-      };
-    });
+        return {
+          nodeId,
+          parentNodeId,
+          expanded,
+          name,
+          organization,
+          heatMapClass,
+          directSubordinates,
+          totalSubordinates,
+          directAttrition,
+          totalAttrition,
+          textColumnDirect,
+          textColumnOverall,
+          textRowEmployees,
+          textRowAttrition,
+          showUpperParentBtn:
+            parentNodeId === undefined && elem.parentId !== undefined,
+        };
+      })
+      .sort((a, b) => (a.organization > b.organization ? 1 : -1)); // sort alphabetically to ensure same order on every reload
   }
 
   updateLinkStyles(): void {

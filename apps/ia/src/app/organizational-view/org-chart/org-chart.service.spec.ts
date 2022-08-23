@@ -58,6 +58,39 @@ describe('OrgChartService', () => {
       });
     });
 
+    test('should sort data alphabetically', () => {
+      const data: OrgUnitFluctuationData[] = [
+        {
+          id: '123',
+          orgUnit: 'Hans',
+          attritionMeta: {},
+        } as unknown as OrgUnitFluctuationData,
+        {
+          id: '1234',
+          orgUnit: 'Abel',
+          attritionMeta: {},
+        } as unknown as OrgUnitFluctuationData,
+        {
+          id: '12345',
+          orgUnit: 'Georg',
+          attritionMeta: {},
+        } as unknown as OrgUnitFluctuationData,
+        {
+          id: '123456',
+          orgUnit: 'Zorro',
+          attritionMeta: {},
+        } as unknown as OrgUnitFluctuationData,
+      ];
+
+      const result = service.mapOrgUnitsToNodes(data);
+
+      expect(result.length).toEqual(4);
+      expect(result[0].organization).toEqual('Abel');
+      expect(result[1].organization).toEqual('Georg');
+      expect(result[2].organization).toEqual('Hans');
+      expect(result[3].organization).toEqual('Zorro');
+    });
+
     test('should set showUpperButton to false if parent of one org unit is null', () => {
       const data: OrgUnitFluctuationData[] = [
         {
