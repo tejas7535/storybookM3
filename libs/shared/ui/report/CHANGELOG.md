@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.7.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/report-v0.7.1...report-v0.7.2) (2022-08-24)
+
+
+### 🎸 Features
+
+* **report:** add spanish grease report texts ([f1d0804](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f1d080438f5095979079e9a729b14b81334165ab))
+
+
+### 🐛 Bug Fixes
+
+* **report:** missing translations and medias link ([7e36506](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7e365063f1c88eaf6af9ab2e9c0a248bf7b2eedc))
+
 ### [0.7.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/report-v0.7.0...report-v0.7.1) (2022-07-20)
 
 
