@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/empty-states-v2.3.1...empty-states-v2.4.0) (2022-08-24)
+
+
+### 🎸 Features
+
+* **empty-states:** add routing for maintenance ([#4466](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4466)) ([2b3a8a1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2b3a8a1743bfa67308ed54b66d6a31742bd6765e))
+
 ### [2.3.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/empty-states-v2.3.0...empty-states-v2.3.1) (2022-07-20)
 
 ## [2.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/empty-states-v2.2.0...empty-states-v2.3.0) (2022-07-07)
