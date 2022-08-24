@@ -12,6 +12,7 @@
         "main": "libs/shared/ui/styles/src/index.ts",
         "tsConfig": "libs/shared/ui/styles/tsconfig.lib.json",
         "assets": [
+          "libs/shared/ui/styles/**/*.js",
           "libs/shared/ui/styles/**/*.scss",
           "libs/shared/ui/styles/*.md"
         ]
