@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.0.10](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/app-shell-v0.0.9...app-shell-v0.0.10) (2022-08-24)
+
+
+### 🎸 Features
+
+* **app-shell:** optional scroll to top ([9241917](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/924191765d426e8d0b2da6049f1833449c4edcd7))
+
 ### [0.0.9](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/app-shell-v0.0.8...app-shell-v0.0.9) (2022-07-20)
 
 ### [0.0.8](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/app-shell-v0.0.7...app-shell-v0.0.8) (2022-07-07)
