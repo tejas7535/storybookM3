@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.7.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/styles-v1.6.1...styles-v1.7.0) (2022-08-24)
+
+
+### 🎸 Features
+
+* **styles:** provide new orange through tailwind ([53789d1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/53789d1a34527e9a174b5a4a56d540c7aa9a4b46))
+
+
+### 🐛 Bug Fixes
+
+* **styles:** add tailwind files to library assets ([#4530](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4530)) ([b7e07ef](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b7e07efb1fcf7d13f11299f77eebd6e7c95fb4d8))
+* **styles:** add white background to outline inputs in override ([bf95b5b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bf95b5be89203b6ca319a3a56e68ea94390152be))
+
 ### [1.6.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/styles-v1.6.0...styles-v1.6.1) (2022-07-20)
 
 ## [1.6.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/styles-v1.5.0...styles-v1.6.0) (2022-07-07)
