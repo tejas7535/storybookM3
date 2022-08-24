@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Optional } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 
 import { filter, map, merge, Observable, of, take } from 'rxjs';
 
-import { translate, TranslocoService } from '@ngneat/transloco';
+import { OneTrustService } from '@altack/ngx-onetrust';
+import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { AppShellFooterLink } from '@schaeffler/app-shell';
@@ -32,7 +33,6 @@ export class AppComponent implements OnInit {
   titleLink = AppRoutePath.CaseViewPath;
 
   public isCookiePage = false;
-  public cookieSettings = translate('legal.cookieSettings');
   public appVersion = packageJson.version;
   public footerLinks: AppShellFooterLink[] = [
     {
@@ -78,7 +78,8 @@ export class AppComponent implements OnInit {
     private readonly store: Store,
     private readonly router: Router,
     private readonly translocoService: TranslocoService,
-    private readonly appInsightsService: ApplicationInsightsService
+    private readonly appInsightsService: ApplicationInsightsService,
+    @Optional() private readonly oneTrustService: OneTrustService
   ) {}
 
   public ngOnInit(): void {
@@ -88,6 +89,10 @@ export class AppComponent implements OnInit {
     this.healthCheckLoading$ = this.store.select(getHealthCheckLoading);
     this.isHealthCheckAvailable$ = this.store.select(getHealthCheckAvailable);
     this.handleCurrentRoute();
+
+    this.translocoService.langChanges$.subscribe((language) => {
+      this.oneTrustService?.translateBanner(language, true);
+    });
 
     this.appInsightsService.addCustomPropertyToTelemetryData(
       'appVersion',

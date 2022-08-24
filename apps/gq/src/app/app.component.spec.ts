@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, RouterEvent } from '@angular/router';
 
 import { ReplaySubject } from 'rxjs';
 
+import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
@@ -11,14 +12,15 @@ import { MockModule } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
 import { AppShellModule } from '@schaeffler/app-shell';
+import { COOKIE_GROUPS } from '@schaeffler/application-insights';
 import { MaintenanceModule } from '@schaeffler/empty-states';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AUTH_STATE_MOCK, HEALTH_CHECK_STATE_MOCK } from '../testing/mocks';
-import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
 import { UserSettingsModule } from './shared/components/user-settings/user-settings.module';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -38,6 +40,7 @@ describe('AppComponent', () => {
   let component: AppComponent;
   let spectator: Spectator<AppComponent>;
   let store: MockStore;
+  let oneTrustService: OneTrustService;
 
   const createComponent = createComponentFactory({
     component: AppComponent,
@@ -49,6 +52,10 @@ describe('AppComponent', () => {
       MockModule(UserSettingsModule),
       MaintenanceModule,
       AppRoutingModule,
+      OneTrustModule.forRoot({
+        cookiesGroups: COOKIE_GROUPS,
+        domainScript: 'mockOneTrustId',
+      }),
     ],
     providers: [
       provideMockStore({
@@ -81,6 +88,7 @@ describe('AppComponent', () => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     store = spectator.inject(MockStore);
+    oneTrustService = spectator.inject(OneTrustService);
   });
 
   test('should create the app', () => {
@@ -89,6 +97,7 @@ describe('AppComponent', () => {
 
   describe('ngOnInit', () => {
     test('should set observables and dispatch login', () => {
+      oneTrustService.translateBanner = jest.fn();
       store.dispatch = jest.fn();
       component.handleCurrentRoute = jest.fn();
 
@@ -96,6 +105,7 @@ describe('AppComponent', () => {
 
       expect(component.username$).toBeDefined();
       expect(component.handleCurrentRoute).toHaveBeenCalledTimes(1);
+      expect(oneTrustService.translateBanner).toHaveBeenCalledTimes(1);
     });
   });
 
