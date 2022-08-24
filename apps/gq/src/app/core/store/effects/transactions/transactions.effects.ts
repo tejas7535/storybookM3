@@ -68,7 +68,7 @@ export class TransactionsEffect {
               transactions: ComparableLinkedTransaction[];
               priceUnit: number;
             }) =>
-              PriceService.multiplyTransactionsWithPriceUnit(
+              PriceService.executeTransactionComputations(
                 object.transactions,
                 object.priceUnit
               )

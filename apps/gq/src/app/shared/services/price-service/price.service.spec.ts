@@ -194,17 +194,23 @@ describe('PriceService', () => {
       expect(result).toEqual(NaN);
     });
   });
-  describe('multiplyTransactionsWithPriceUnit', () => {
+  describe('executeTransactionComputations', () => {
     test('should return multipliedTransacitons', () => {
-      const transactions = [COMPARABLE_LINKED_TRANSACTION_MOCK];
+      const transactions = [
+        { ...COMPARABLE_LINKED_TRANSACTION_MOCK, profitMargin: 0.511_11 },
+      ];
 
-      const result = PriceService.multiplyTransactionsWithPriceUnit(
+      const result = PriceService.executeTransactionComputations(
         transactions,
         100
       );
 
       expect(result).toEqual([
-        { ...COMPARABLE_LINKED_TRANSACTION_MOCK, price: 1000 },
+        {
+          ...COMPARABLE_LINKED_TRANSACTION_MOCK,
+          price: 1000,
+          profitMargin: 0.51,
+        },
       ]);
     });
   });

@@ -191,13 +191,14 @@ export class PriceService {
     return Math.round(number * 100) / 100;
   }
 
-  static multiplyTransactionsWithPriceUnit(
+  static executeTransactionComputations(
     transactions: ComparableLinkedTransaction[],
     priceUnit: number
   ): ComparableLinkedTransaction[] {
     return transactions.map((transaction) => ({
       ...transaction,
       price: PriceService.multiplyAndRoundValues(transaction.price, priceUnit),
+      profitMargin: PriceService.roundToTwoDecimals(transaction.profitMargin),
     }));
   }
 

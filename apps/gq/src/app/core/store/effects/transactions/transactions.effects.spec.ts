@@ -75,9 +75,7 @@ describe('TransactionsEffect', () => {
     const transactions: ComparableLinkedTransaction[] = [];
 
     beforeEach(() => {
-      PriceService.multiplyTransactionsWithPriceUnit = jest.fn(
-        () => transactions
-      );
+      PriceService.executeTransactionComputations = jest.fn(() => transactions);
       store.overrideSelector(getPriceUnitOfSelectedQuotationDetail, 1);
       action = loadComparableTransactions({ gqPositionId });
     });
@@ -96,7 +94,7 @@ describe('TransactionsEffect', () => {
         m.flush();
 
         expect(
-          PriceService.multiplyTransactionsWithPriceUnit
+          PriceService.executeTransactionComputations
         ).toHaveBeenCalledWith(transactions, 1);
         expect(quotationDetailsService.getTransactions).toHaveBeenCalledTimes(
           1
