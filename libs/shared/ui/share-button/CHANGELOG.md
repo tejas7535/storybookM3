@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.2.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/share-button-v0.2.2...share-button-v0.2.3) (2022-08-24)
+
 ### [0.2.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/share-button-v0.2.1...share-button-v0.2.2) (2022-07-20)
 
 ### 0.2.1 (2022-07-07)
