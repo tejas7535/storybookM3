@@ -1,8 +1,5 @@
-@import 'libs/shared/ui/styles/src/lib/scss/colors';
-@import 'libs/shared/ui/styles/src/lib/scss/fonts';
-
 p {
-  color: $schaeffler-gray-7;
-  font-size: $schaeffler-labels;
+  @apply bg-medium-emphasis;
+  @apply text-body-2;
   font-style: italic;
 }

@@ -1,9 +1,6 @@
-@import 'libs/shared/ui/styles/src/lib/scss/colors';
-@import 'libs/shared/ui/styles/src/lib/scss/fonts';
-
 .no-results-found {
-  color: $schaeffler-gray-7;
-  font-size: $schaeffler-labels;
+  @apply text-medium-emphasis;
+  @apply text-body-2;
   padding: 0 16px;
 }
 
@@ -23,7 +20,7 @@
     }
 
     .mat-form-field-underline {
-      background-color: $schaeffler-gray-3;
+      @apply bg-surface;
     }
   }
 }
@@ -31,7 +28,7 @@
 .divider {
   padding: 0 16px;
   hr {
-    border-top: 1px solid $schaeffler-gray-3;
+    @apply border-t-[bg-surface];
     margin: 8px 0;
   }
 }
@@ -46,12 +43,12 @@
   overflow-y: auto;
 
   &::-webkit-scrollbar {
-    background-color: $schaeffler-gray-0;
+    @apply bg-secondary;
     width: 6px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: $schaeffler-gray-7;
+    @apply bg-medium-emphasis;
     border-radius: 20px;
   }
 }
@@ -67,15 +64,15 @@
     }
 
     span.mat-checkbox-label {
-      color: $schaeffler-carbon-gray;
-      font-size: $schaeffler-text;
+      @apply text-high-emphasis;
+      @apply text-body-1;
       width: 100%;
     }
 
     .label {
-      color: $schaeffler-gray-7;
+      @apply bg-medium-emphasis;
       float: right;
-      font-size: $schaeffler-labels;
+      @apply text-body-2;
     }
   }
 }

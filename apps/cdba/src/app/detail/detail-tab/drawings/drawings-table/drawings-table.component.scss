@@ -1,10 +1,8 @@
-@import 'libs/shared/ui/styles/src/lib/scss/colors';
-
 :host {
   width: 100%;
 
   ag-grid-angular {
-    border: 1px solid $schaeffler-gray-4;
+    @apply border-border;
     border-radius: 3px;
     height: calc(100% - 6px);
     padding: 3px;
