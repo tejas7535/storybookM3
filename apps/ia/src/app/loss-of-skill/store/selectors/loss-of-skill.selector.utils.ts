@@ -1,18 +1,14 @@
-import { JobProfile, LostJobProfile, OpenPosition } from '../../models';
+import { JobProfile, OpenPosition } from '../../models';
 
-export const convertJobProfilesToLostJobProfiles = (
-  jobProfiles: JobProfile[]
-): LostJobProfile[] =>
-  jobProfiles?.map((jobProfile) => ({
-    ...jobProfile,
+export const enrichJobProfilesWithOpenPositions = (
+  jobProfiles: JobProfile[],
+  openPositions: OpenPosition[]
+): (JobProfile & { openPositions: number })[] => {
+  const enrichedProfiles = jobProfiles?.map((profile) => ({
+    ...profile,
     openPositions: 0,
   }));
-
-export const enrichLostJobProfilesWithOpenPositions = (
-  lostJobProfiles: LostJobProfile[],
-  openPositions: OpenPosition[]
-): LostJobProfile[] => {
-  const profiles = lostJobProfiles ?? [];
+  const profiles = enrichedProfiles ?? [];
 
   openPositions?.forEach((openPosition) => {
     const entry = profiles.find(

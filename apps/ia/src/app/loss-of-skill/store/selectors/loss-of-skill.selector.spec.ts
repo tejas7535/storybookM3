@@ -1,5 +1,5 @@
 import { Employee } from '../../../shared/models';
-import { JobProfile, OpenPosition } from '../../models';
+import { LostJobProfilesResponse, OpenPosition } from '../../models';
 import { LossOfSkillState } from '..';
 import {
   getLostJobProfilesData,
@@ -10,8 +10,7 @@ import * as utils from './loss-of-skill.selector.utils';
 jest.mock('./loss-of-skill.selector.utils', () => ({
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-arguments
   ...jest.requireActual<any>('./loss-of-skill.selector.utils'),
-  convertJobProfilesToLostJobProfiles: jest.fn(() => []),
-  enrichLostJobProfilesWithOpenPositions: jest.fn(() => []),
+  enrichJobProfilesWithOpenPositions: jest.fn(() => []),
 }));
 
 describe('LossOfSkill Selector', () => {
@@ -21,13 +20,18 @@ describe('LossOfSkill Selector', () => {
     lossOfSkill: {
       jobProfiles: {
         loading: false,
-        data: [
-          {
-            positionDescription: 'Software Engineer',
-            employees: [],
-            leavers: [],
-          },
-        ],
+        data: {
+          lostJobProfiles: [
+            {
+              positionDescription: 'Software Engineer',
+              employees: [],
+              leavers: [],
+              employeesCount: 0,
+              leaversCount: 0,
+            },
+          ],
+          responseModified: false,
+        },
         errorMessage: 'Fancy Error',
       },
       openPositions: {
@@ -77,28 +81,35 @@ describe('LossOfSkill Selector', () => {
   });
 
   describe('getLostJobProfilesData', () => {
-    let jobProfiles: JobProfile[];
+    let jobProfiles: LostJobProfilesResponse;
     let openPositions: OpenPosition[];
 
     beforeEach(() => {
-      jobProfiles = [
-        {
-          positionDescription: 'Developer',
-          leavers: [
-            { employeeName: 'Hans' } as Employee,
-            { employeeName: 'Peter' } as Employee,
-          ],
-          employees: [{ employeeName: 'Thorsten' } as Employee],
-        },
-        {
-          positionDescription: 'PO',
-          leavers: [],
-          employees: [
-            { employeeName: 'Serge' } as Employee,
-            { employeeName: 'Maria' } as Employee,
-          ],
-        },
-      ];
+      jobProfiles = {
+        lostJobProfiles: [
+          {
+            positionDescription: 'Developer',
+            leavers: [
+              { employeeName: 'Hans' } as Employee,
+              { employeeName: 'Peter' } as Employee,
+            ],
+            leaversCount: 2,
+            employeesCount: 1,
+            employees: [{ employeeName: 'Thorsten' } as Employee],
+          },
+          {
+            positionDescription: 'PO',
+            leavers: [],
+            leaversCount: 0,
+            employeesCount: 2,
+            employees: [
+              { employeeName: 'Serge' } as Employee,
+              { employeeName: 'Maria' } as Employee,
+            ],
+          },
+        ],
+        responseModified: false,
+      };
       openPositions = [
         {
           positionDescription: 'Developer',
@@ -118,16 +129,15 @@ describe('LossOfSkill Selector', () => {
     test('should return lost job profiles from merge job profiles and open positions', () => {
       const result = getLostJobProfilesData.projector(
         jobProfiles,
-        openPositions
+        openPositions,
+        false,
+        false
       );
 
       expect(result).toBeDefined();
       expect(result.length).toEqual(0);
-      expect(utils.convertJobProfilesToLostJobProfiles).toHaveBeenCalledWith(
-        jobProfiles
-      );
-      expect(utils.enrichLostJobProfilesWithOpenPositions).toHaveBeenCalledWith(
-        [],
+      expect(utils.enrichJobProfilesWithOpenPositions).toHaveBeenCalledWith(
+        jobProfiles.lostJobProfiles,
         openPositions
       );
     });

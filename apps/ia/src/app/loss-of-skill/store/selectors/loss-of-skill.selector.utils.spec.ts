@@ -1,10 +1,7 @@
 /* eslint-disable unicorn/no-useless-undefined */
 import { Employee } from '../../../shared/models';
-import { JobProfile, LostJobProfile, OpenPosition } from '../../models';
-import {
-  convertJobProfilesToLostJobProfiles,
-  enrichLostJobProfilesWithOpenPositions,
-} from './loss-of-skill.selector.utils';
+import { JobProfile, OpenPosition } from '../../models';
+import { enrichJobProfilesWithOpenPositions } from './loss-of-skill.selector.utils';
 
 describe('loss of skill selector utils', () => {
   let jobProfiles: JobProfile[];
@@ -14,6 +11,8 @@ describe('loss of skill selector utils', () => {
     jobProfiles = [
       {
         positionDescription: 'Developer',
+        leaversCount: 2,
+        employeesCount: 1,
         leavers: [
           { employeeName: 'Hans' } as Employee,
           { employeeName: 'Peter' } as Employee,
@@ -23,6 +22,8 @@ describe('loss of skill selector utils', () => {
       {
         positionDescription: 'PO',
         leavers: [],
+        employeesCount: 1,
+        leaversCount: 0,
         employees: [
           { employeeName: 'Serge' } as Employee,
           { employeeName: 'Maria' } as Employee,
@@ -45,51 +46,23 @@ describe('loss of skill selector utils', () => {
     ];
   });
 
-  describe('convertJobProfilesToLostJobProfiles', () => {
-    test('should return undefined if job profiles are undefined', () => {
-      const result = convertJobProfilesToLostJobProfiles(undefined);
-
-      expect(result).toBeUndefined();
-    });
-
-    test('should return initialized lost job profiles from job profiles', () => {
-      const result = convertJobProfilesToLostJobProfiles(jobProfiles);
-
-      expect(result.length).toEqual(jobProfiles.length);
-      expect(result[0].openPositions).toEqual(0);
-    });
-  });
-
-  describe('enrichLostJobProfilesWithOpenPositions', () => {
-    let lostJobProfiles: LostJobProfile[];
-
-    beforeEach(() => {
-      lostJobProfiles = jobProfiles.map((profile) => ({
-        ...profile,
-        openPositions: 0,
-      }));
-    });
-
+  describe('enrichJobProfilesWithOpenPositions', () => {
     test('should return empty list if lost job profiles is undefined and open positions undefined', () => {
-      const result = enrichLostJobProfilesWithOpenPositions(
-        undefined,
-        undefined
-      );
+      const result = enrichJobProfilesWithOpenPositions(undefined, undefined);
 
       expect(result.length).toEqual(0);
     });
 
     test('should return lost job profiles if open positions are undefined', () => {
-      const result = enrichLostJobProfilesWithOpenPositions(
-        lostJobProfiles,
-        undefined
-      );
+      const result = enrichJobProfilesWithOpenPositions(jobProfiles, undefined);
 
-      expect(result).toEqual(lostJobProfiles);
+      expect(result).toEqual(
+        jobProfiles.map((profile) => ({ ...profile, openPositions: 0 }))
+      );
     });
 
-    test('should return empty list if lost job profiles undefined', () => {
-      const result = enrichLostJobProfilesWithOpenPositions(
+    test('should return empty list if lost jprofiles undefined', () => {
+      const result = enrichJobProfilesWithOpenPositions(
         undefined,
         openPositions
       );
@@ -97,9 +70,9 @@ describe('loss of skill selector utils', () => {
       expect(result.length).toEqual(0);
     });
 
-    test('should return merged open positions with lost job profiles', () => {
-      const result = enrichLostJobProfilesWithOpenPositions(
-        lostJobProfiles,
+    test('should return merged open positions with job profiles', () => {
+      const result = enrichJobProfilesWithOpenPositions(
+        jobProfiles,
         openPositions
       );
 

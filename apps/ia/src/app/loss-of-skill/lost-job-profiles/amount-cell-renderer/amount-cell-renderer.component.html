@@ -1,5 +1,13 @@
 <div class="flex cursor-pointer items-center gap-2">
-  <mat-icon class="text-[20px] text-medium-emphasis">people</mat-icon>
+  <mat-icon
+    class="text-[20px]"
+    [matTooltip]="tooltip"
+    [ngClass]="{
+      'text-warning': restrictedAccess,
+      'text-high-emphasis': !restrictedAccess
+    }"
+    >people</mat-icon
+  >
   <span>
     {{ amount }}
   </span>

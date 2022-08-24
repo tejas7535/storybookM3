@@ -41,6 +41,8 @@ describe('LostJobProfilesComponent', () => {
       data: {
         employees: ['Foo', 'Bar'],
         leavers: ['Donald'],
+        employeesCount: 3,
+        leaversCount: 2,
       },
     };
 
@@ -53,7 +55,8 @@ describe('LostJobProfilesComponent', () => {
       expect(translate).toHaveBeenCalled();
       expect(component['openEmployeeListDialog']).toHaveBeenCalledWith(
         'translate it',
-        ['Foo', 'Bar']
+        ['Foo', 'Bar'],
+        false
       );
     });
 
@@ -63,7 +66,8 @@ describe('LostJobProfilesComponent', () => {
       expect(translate).toHaveBeenCalled();
       expect(component['openEmployeeListDialog']).toHaveBeenCalledWith(
         'translate it',
-        ['Donald']
+        ['Donald'],
+        false
       );
     });
   });
@@ -75,7 +79,7 @@ describe('LostJobProfilesComponent', () => {
 
       component['dialog'].open = jest.fn();
 
-      component['openEmployeeListDialog'](title, employees);
+      component['openEmployeeListDialog'](title, employees, true);
 
       const data = new EmployeeListDialogMeta(
         new EmployeeListDialogMetaHeadings(

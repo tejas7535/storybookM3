@@ -1,10 +1,7 @@
 import { createSelector } from '@ngrx/store';
 
 import { LossOfSkillState, selectLossOfSkillState } from '..';
-import {
-  convertJobProfilesToLostJobProfiles,
-  enrichLostJobProfilesWithOpenPositions,
-} from './loss-of-skill.selector.utils';
+import { enrichJobProfilesWithOpenPositions } from './loss-of-skill.selector.utils';
 
 const getJobProfilesState = createSelector(
   selectLossOfSkillState,
@@ -55,8 +52,8 @@ export const getLostJobProfilesData = createSelector(
     areJobProfilesLoading
   ) =>
     !areOpenPositionsLoading && !areJobProfilesLoading
-      ? enrichLostJobProfilesWithOpenPositions(
-          convertJobProfilesToLostJobProfiles(jobProfiles),
+      ? enrichJobProfilesWithOpenPositions(
+          jobProfiles?.lostJobProfiles,
           openPositions
         )
       : undefined

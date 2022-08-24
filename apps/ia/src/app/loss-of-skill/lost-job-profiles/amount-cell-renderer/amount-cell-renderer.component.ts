@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+import { TranslocoService } from '@ngneat/transloco';
 import { ICellRendererParams } from 'ag-grid-community';
 
 @Component({
@@ -7,8 +8,23 @@ import { ICellRendererParams } from 'ag-grid-community';
   templateUrl: './amount-cell-renderer.component.html',
 })
 export class AmountCellRendererComponent {
-  public amount: number;
+  amount: number;
+  restrictedAccess: boolean;
+  tooltip = '';
+
+  constructor(private readonly translocoService: TranslocoService) {}
+
   agInit(params: ICellRendererParams): void {
-    this.amount = params.value;
+    this.amount = params.value.count;
+    this.restrictedAccess = params.value.restrictedAccess;
+    this.setTooltip();
+  }
+
+  setTooltip(): void {
+    this.tooltip = !this.restrictedAccess
+      ? this.translocoService.translate('accessRights.showTeamMembers')
+      : this.translocoService.translate(
+          'accessRights.showTeamMembersPartially'
+        );
   }
 }

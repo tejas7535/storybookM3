@@ -9,7 +9,7 @@ import { EmployeeListDialogComponent } from '../../shared/employee-list-dialog/e
 import { EmployeeListDialogMeta } from '../../shared/employee-list-dialog/employee-list-dialog-meta.model';
 import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
 import { Employee } from '../../shared/models';
-import { LostJobProfile } from '../models';
+import { JobProfile } from '../models';
 import { AmountCellRendererComponent } from './amount-cell-renderer/amount-cell-renderer.component';
 
 type CellType = 'workforce' | 'leavers';
@@ -20,7 +20,7 @@ type CellType = 'workforce' | 'leavers';
 })
 export class LostJobProfilesComponent implements OnChanges {
   @Input() loading: boolean; // not used at the moment
-  @Input() data: LostJobProfile[];
+  @Input() data: JobProfile[];
 
   gridApi: GridApi;
 
@@ -54,7 +54,11 @@ export class LostJobProfilesComponent implements OnChanges {
       cellClass: 'amount-cell',
       cellRenderer: 'amountCellRenderer',
       onCellClicked: (params) => this.handleCellClick(params, 'workforce'),
-      valueGetter: (params) => params.data.employees?.length,
+      valueGetter: (params) => ({
+        count: params.data.employeesCount,
+        restrictedAccess:
+          params.data.employeesCount !== params.data.employees?.length,
+      }),
     },
     {
       field: 'leavers',
@@ -65,7 +69,11 @@ export class LostJobProfilesComponent implements OnChanges {
       cellRenderer: 'amountCellRenderer',
       cellClass: 'amount-cell',
       onCellClicked: (params) => this.handleCellClick(params, 'leavers'),
-      valueGetter: (params) => params.data.leavers?.length,
+      valueGetter: (params) => ({
+        count: params.data.leaversCount,
+        restrictedAccess:
+          params.data.leaversCount !== params.data.leavers?.length,
+      }),
     },
     {
       field: 'openPositions',
@@ -99,18 +107,26 @@ export class LostJobProfilesComponent implements OnChanges {
 
     const employees: Employee[] =
       key === 'workforce' ? params.data.employees : params.data.leavers;
+    const enoughRights =
+      key === 'workforce'
+        ? params.data.employees?.length === params.data.employeesCount
+        : params.data.leavers?.length === params.data.leaversCount;
 
-    this.openEmployeeListDialog(title, employees);
+    this.openEmployeeListDialog(title, employees, enoughRights);
   }
 
-  openEmployeeListDialog(title: string, employees: Employee[]): void {
+  openEmployeeListDialog(
+    title: string,
+    employees: Employee[],
+    enoughRights: boolean
+  ): void {
     const data = new EmployeeListDialogMeta(
       new EmployeeListDialogMetaHeadings(
         title,
         translate('lossOfSkill.employeeListDialog.contentTitle')
       ),
       employees,
-      true // TODO
+      enoughRights
     );
 
     this.dialog.open(EmployeeListDialogComponent, {

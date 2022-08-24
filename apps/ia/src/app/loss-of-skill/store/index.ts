@@ -1,6 +1,6 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
-import { JobProfile, OpenPosition } from '../models';
+import { LostJobProfilesResponse, OpenPosition } from '../models';
 import {
   loadJobProfiles,
   loadJobProfilesFailure,
@@ -15,7 +15,7 @@ export const lossOfSkillFeatureKey = 'lossOfSkill';
 export interface LossOfSkillState {
   jobProfiles: {
     loading: boolean;
-    data: JobProfile[];
+    data: LostJobProfilesResponse;
     errorMessage: string;
   };
   openPositions: {
@@ -52,10 +52,13 @@ export const lossOfSkillReducer = createReducer(
   ),
   on(
     loadJobProfilesSuccess,
-    (state: LossOfSkillState, { jobProfiles }): LossOfSkillState => ({
+    (
+      state: LossOfSkillState,
+      { lostJobProfilesResponse }
+    ): LossOfSkillState => ({
       ...state,
       jobProfiles: {
-        data: jobProfiles,
+        data: lostJobProfilesResponse,
         loading: false,
         errorMessage: undefined,
       },

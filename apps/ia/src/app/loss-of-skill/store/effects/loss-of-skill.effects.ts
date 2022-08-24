@@ -16,7 +16,7 @@ import { filterSelected, triggerLoad } from '../../../core/store/actions';
 import { getCurrentFilters } from '../../../core/store/selectors';
 import { EmployeesRequest } from '../../../shared/models';
 import { LossOfSkillService } from '../../loss-of-skill.service';
-import { JobProfile, OpenPosition } from '../../models';
+import { LostJobProfilesResponse, OpenPosition } from '../../models';
 import {
   loadJobProfiles,
   loadJobProfilesFailure,
@@ -53,8 +53,8 @@ export class LossOfSkillEffects implements OnInitEffects {
       map((action) => action.request),
       switchMap((request: EmployeesRequest) =>
         this.lossOfSkillService.getJobProfiles(request).pipe(
-          map((jobProfiles: JobProfile[]) =>
-            loadJobProfilesSuccess({ jobProfiles })
+          map((lostJobProfilesResponse: LostJobProfilesResponse) =>
+            loadJobProfilesSuccess({ lostJobProfilesResponse })
           ),
           catchError((error) =>
             of(loadJobProfilesFailure({ errorMessage: error.message }))

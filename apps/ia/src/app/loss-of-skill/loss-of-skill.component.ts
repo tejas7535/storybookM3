@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
-import { LostJobProfile } from './models';
+import { JobProfile } from './models';
 import {
   getLostJobProfilesData,
   getLostJobProfilesLoading,
@@ -16,7 +16,9 @@ import {
 })
 export class LossOfSkillComponent implements OnInit {
   public lostJobProfilesLoading$: Observable<boolean>;
-  public lostJobProfilesData$: Observable<LostJobProfile[]>;
+  public lostJobProfilesData$: Observable<
+    (JobProfile & { openPositions: number })[]
+  >;
 
   constructor(private readonly store: Store) {}
 

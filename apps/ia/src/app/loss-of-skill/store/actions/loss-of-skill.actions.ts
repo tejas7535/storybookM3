@@ -1,7 +1,7 @@
 import { createAction, props, union } from '@ngrx/store';
 
 import { EmployeesRequest } from '../../../shared/models';
-import { JobProfile, OpenPosition } from '../../models';
+import { LostJobProfilesResponse, OpenPosition } from '../../models';
 
 export const loadJobProfiles = createAction(
   '[Loss of Skill] Load Job Profiles',
@@ -10,7 +10,7 @@ export const loadJobProfiles = createAction(
 
 export const loadJobProfilesSuccess = createAction(
   '[Loss of Skill] Load Job Profiles Success',
-  props<{ jobProfiles: JobProfile[] }>()
+  props<{ lostJobProfilesResponse: LostJobProfilesResponse }>()
 );
 
 export const loadJobProfilesFailure = createAction(

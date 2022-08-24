@@ -8,7 +8,7 @@ import { filterSelected, triggerLoad } from '../../../core/store/actions';
 import { getCurrentFilters } from '../../../core/store/selectors';
 import { EmployeesRequest, SelectedFilter } from '../../../shared/models';
 import { LossOfSkillService } from '../../loss-of-skill.service';
-import { JobProfile, OpenPosition } from '../../models';
+import { LostJobProfilesResponse, OpenPosition } from '../../models';
 import {
   loadJobProfiles,
   loadJobProfilesFailure,
@@ -106,26 +106,34 @@ describe('LossOfSkill Effects', () => {
     test(
       'should return loadJobProfilesSuccess action when REST call is successful',
       marbles((m) => {
-        const jobProfiles: JobProfile[] = [
-          {
-            positionDescription: 'Data Scientist',
-            employees: [],
-            leavers: [],
-          },
-          {
-            positionDescription: 'Software Engineer',
-            employees: [],
-            leavers: [],
-          },
-        ];
+        const lostJobProfilesResponse = {
+          lostJobProfiles: [
+            {
+              positionDescription: 'Data Scientist',
+              employees: [],
+              leavers: [],
+              employeesCount: 0,
+              leaversCount: 0,
+            },
+            {
+              positionDescription: 'Software Engineer',
+              employees: [],
+              leavers: [],
+              employeesCount: 0,
+              leaversCount: 0,
+            },
+          ],
+          responseModified: false,
+        } as LostJobProfilesResponse;
+
         const result = loadJobProfilesSuccess({
-          jobProfiles,
+          lostJobProfilesResponse,
         });
 
         actions$ = m.hot('-a', { a: action });
 
         const response = m.cold('-a|', {
-          a: jobProfiles,
+          a: lostJobProfilesResponse,
         });
         const expected = m.cold('--b', { b: result });
 

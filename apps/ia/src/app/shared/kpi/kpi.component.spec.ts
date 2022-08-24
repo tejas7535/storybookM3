@@ -97,7 +97,7 @@ describe('KpiComponent', () => {
       component.setTooltip();
 
       expect(component.tooltip).toEqual(mockTranslation);
-      expect(translate).toHaveBeenCalledWith('kpi.showTeamMembers');
+      expect(translate).toHaveBeenCalledWith('accessRights.showTeamMembers');
     });
 
     test('should set rights hint tooltip if user has not enough rights', () => {
@@ -107,7 +107,9 @@ describe('KpiComponent', () => {
       component.setTooltip();
 
       expect(component.tooltip).toEqual(mockTranslation);
-      expect(translate).toHaveBeenCalledWith('kpi.showTeamMembersPartially');
+      expect(translate).toHaveBeenCalledWith(
+        'accessRights.showTeamMembersPartially'
+      );
     });
   });
 });

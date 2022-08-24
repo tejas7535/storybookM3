@@ -1,7 +1,13 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
+import { TranslocoService } from '@ngneat/transloco';
 import { ICellRendererParams } from 'ag-grid-community';
 
 import { AmountCellRendererComponent } from './amount-cell-renderer.component';
@@ -9,12 +15,16 @@ import { AmountCellRendererComponent } from './amount-cell-renderer.component';
 describe('AmountCellRendererComponent', () => {
   let component: AmountCellRendererComponent;
   let spectator: Spectator<AmountCellRendererComponent>;
+  const translate = jest.fn();
 
   const createComponent = createComponentFactory({
     component: AmountCellRendererComponent,
-    imports: [MatIconModule],
+    imports: [MatIconModule, MatTooltipModule],
     declarations: [AmountCellRendererComponent],
-    providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
+    providers: [
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+      mockProvider(TranslocoService, { translate }),
+    ],
   });
 
   beforeEach(() => {
@@ -27,12 +37,48 @@ describe('AmountCellRendererComponent', () => {
   });
 
   describe('agInit', () => {
-    it('should set amount', () => {
-      const params = { value: 100 } as unknown as ICellRendererParams;
+    it('should set data', () => {
+      const params = {
+        value: {
+          count: 100,
+          restrictedAccess: true,
+        },
+      } as unknown as ICellRendererParams;
+      component.setTooltip = jest.fn();
 
       component.agInit(params);
 
       expect(component.amount).toEqual(100);
+      expect(component.restrictedAccess).toBeTruthy();
+      expect(component.setTooltip).toHaveBeenCalled();
+    });
+  });
+
+  describe('setTooltip', () => {
+    const mockTranslation = 'mock';
+
+    beforeEach(() => {
+      translate.mockReturnValue(mockTranslation);
+    });
+
+    test('should set default tooltip if user has enough rights', () => {
+      component.restrictedAccess = false;
+
+      component.setTooltip();
+
+      expect(component.tooltip).toEqual(mockTranslation);
+      expect(translate).toHaveBeenCalledWith('accessRights.showTeamMembers');
+    });
+
+    test('should set rights hint tooltip if user has not enough rights', () => {
+      component.restrictedAccess = true;
+
+      component.setTooltip();
+
+      expect(component.tooltip).toEqual(mockTranslation);
+      expect(translate).toHaveBeenCalledWith(
+        'accessRights.showTeamMembersPartially'
+      );
     });
   });
 });

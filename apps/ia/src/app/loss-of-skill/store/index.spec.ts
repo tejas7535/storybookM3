@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { Employee, EmployeesRequest } from '../../shared/models';
-import { JobProfile, OpenPosition } from '../models';
+import { LostJobProfilesResponse, OpenPosition } from '../models';
 import { initialState, lossOfSkillReducer, reducer } from '.';
 import {
   loadJobProfiles,
@@ -28,20 +28,24 @@ describe('LossOfSkill Reducer', () => {
 
   describe('loadJobProfilesSuccess', () => {
     test('should unset loading and set lost job profiles', () => {
-      const jobProfiles: JobProfile[] = [
-        {
-          positionDescription: 'Foo Bar',
-          employees: [],
-          leavers: [],
-        },
-      ];
+      const lostJobProfilesResponse = {
+        lostJobProfiles: [
+          {
+            positionDescription: 'Foo Bar',
+            employees: [],
+            leavers: [],
+            leaversCount: 0,
+            employeesCount: 0,
+          },
+        ],
+      } as LostJobProfilesResponse;
 
-      const action = loadJobProfilesSuccess({ jobProfiles });
+      const action = loadJobProfilesSuccess({ lostJobProfilesResponse });
 
       const state = lossOfSkillReducer(initialState, action);
 
       expect(state.jobProfiles.loading).toBeFalsy();
-      expect(state.jobProfiles.data).toEqual(jobProfiles);
+      expect(state.jobProfiles.data).toEqual(lostJobProfilesResponse);
     });
   });
 
@@ -53,13 +57,18 @@ describe('LossOfSkill Reducer', () => {
         jobProfiles: {
           ...initialState.jobProfiles,
           loading: true,
-          data: [
-            {
-              employees: [{ employeeName: 'Hans' } as Employee],
-              leavers: [{ employeeName: 'Peter' } as Employee],
-              positionDescription: 'Foo Bar',
-            },
-          ],
+          data: {
+            lostJobProfiles: [
+              {
+                employees: [{ employeeName: 'Hans' } as Employee],
+                leavers: [{ employeeName: 'Peter' } as Employee],
+                positionDescription: 'Foo Bar',
+                leaversCount: 2,
+                employeesCount: 23,
+              },
+            ],
+            responseModified: true,
+          },
         },
       };
 

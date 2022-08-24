@@ -66,10 +66,12 @@ export class KpiComponent {
 
   setTooltip(): void {
     if (this.employees?.length === this.realEmployeesCount) {
-      this.tooltip = this.translocoService.translate('kpi.showTeamMembers');
+      this.tooltip = this.translocoService.translate(
+        'accessRights.showTeamMembers'
+      );
     } else if (this.employees?.length < this.realEmployeesCount) {
       this.tooltip = this.translocoService.translate(
-        'kpi.showTeamMembersPartially'
+        'accessRights.showTeamMembersPartially'
       );
     }
   }

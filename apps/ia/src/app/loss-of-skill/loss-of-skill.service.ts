@@ -7,7 +7,7 @@ import { withCache } from '@ngneat/cashew';
 
 import { ParamsCreatorService } from '../shared/http/params-creator.service';
 import { ApiVersion, EmployeesRequest } from '../shared/models';
-import { JobProfile, OpenPosition } from './models';
+import { LostJobProfilesResponse, OpenPosition } from './models';
 
 @Injectable({
   providedIn: 'root',
@@ -21,13 +21,15 @@ export class LossOfSkillService {
     private readonly paramsCreator: ParamsCreatorService
   ) {}
 
-  getJobProfiles(employeesRequest: EmployeesRequest): Observable<JobProfile[]> {
+  getJobProfiles(
+    employeesRequest: EmployeesRequest
+  ): Observable<LostJobProfilesResponse> {
     const params = this.paramsCreator.createHttpParamsForOrgUnitAndTimeRange(
       employeesRequest.orgUnit,
       employeesRequest.timeRange
     );
 
-    return this.http.get<JobProfile[]>(
+    return this.http.get<LostJobProfilesResponse>(
       `${ApiVersion.V1}/${this.JOB_PROFILES}`,
       {
         params,

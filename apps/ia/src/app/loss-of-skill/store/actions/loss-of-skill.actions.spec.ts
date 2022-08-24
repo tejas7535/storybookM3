@@ -1,5 +1,5 @@
 import { EmployeesRequest } from '../../../shared/models';
-import { JobProfile, OpenPosition } from '../../models';
+import { LostJobProfilesResponse, OpenPosition } from '../../models';
 import {
   loadJobProfiles,
   loadJobProfilesFailure,
@@ -23,12 +23,12 @@ describe('LossOfSkill Actions', () => {
   });
 
   test('loadLostJobProfilesSuccess', () => {
-    const jobProfiles: JobProfile[] = [];
+    const lostJobProfilesResponse = {} as LostJobProfilesResponse;
 
-    const action = loadJobProfilesSuccess({ jobProfiles });
+    const action = loadJobProfilesSuccess({ lostJobProfilesResponse });
 
     expect(action).toEqual({
-      jobProfiles,
+      lostJobProfilesResponse,
       type: '[Loss of Skill] Load Job Profiles Success',
     });
   });
