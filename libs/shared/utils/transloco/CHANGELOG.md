@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [4.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/transloco-v3.3.1...transloco-v4.0.0) (2022-08-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* **transloco:** Every app which uses the SharedTranslocoModule needs to add one more parameter:
+localStorageKey. This should be the key of the local storage item or undefined if the language is
+not persisted in local storage
+
+### 🐛 Bug Fixes
+
+* **gq:** fixed issue with persisting language (GQUOTE-1520) ([#4377](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4377)) ([61c5f5f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/61c5f5ff1a53dd8a74a99112e9acb4511157dcc6))
+* **transloco:** mobile a11y for locale select tooltip (UFTABI-5968) ([2ad44b8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2ad44b8b8b7836b352a8e66c273a7af3c7f8b2a8))
+* **transloco:** sets the language saved in local storage as default active language ([492d5f5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/492d5f59ebe303afd53d051f947553a57dc6aa13))
+
 ### [3.3.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/transloco-v3.3.0...transloco-v3.3.1) (2022-07-20)
 
 ## [3.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/transloco-v3.2.0...transloco-v3.3.0) (2022-07-07)
