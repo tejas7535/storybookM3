@@ -38,6 +38,7 @@ import {
   selectAutocompleteOption,
   selectSalesOrg,
   setSelectedAutocompleteOption,
+  setSelectedGpsdGroups,
   setSelectedProductLines,
   setSelectedSeries,
   unselectAutocompleteOptions,
@@ -296,6 +297,7 @@ describe('Create Actions', () => {
             value: 'NU',
           },
         ],
+        gpsdGroupIds: [{ selected: false, value: 'F02' }],
       };
 
       const action = getPLsAndSeriesSuccess({ plsAndSeries });
@@ -337,6 +339,17 @@ describe('Create Actions', () => {
       expect(action).toEqual({
         selectedSeries,
         type: '[Create Case] Set Selected Series',
+      });
+    });
+  });
+  describe('setSelectedGpsdGroups', () => {
+    test('setSelectedGpsdGroups', () => {
+      const selectedGpsdGroups = ['1'];
+      const action = setSelectedGpsdGroups({ selectedGpsdGroups });
+
+      expect(action).toEqual({
+        selectedGpsdGroups,
+        type: '[Create Case] Set Selected GPSD Groups',
       });
     });
   });

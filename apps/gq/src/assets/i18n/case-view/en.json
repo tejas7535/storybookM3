@@ -34,6 +34,7 @@
         "title": "Additional filters",
         "productLines": "Product Lines",
         "series": "Series",
+        "gpsdGroups": "GPSD",
         "others": "others",
         "nothingFound": "No product lines or series could be found."
       },

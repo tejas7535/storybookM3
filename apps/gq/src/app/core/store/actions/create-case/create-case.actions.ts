@@ -135,6 +135,11 @@ export const setSelectedSeries = createAction(
   props<{ selectedSeries: string[] }>()
 );
 
+export const setSelectedGpsdGroups = createAction(
+  '[Create Case] Set Selected GPSD Groups',
+  props<{ selectedGpsdGroups: string[] }>()
+);
+
 export const resetProductLineAndSeries = createAction(
   '[Create Case] Reset ProductLineAndSeries'
 );

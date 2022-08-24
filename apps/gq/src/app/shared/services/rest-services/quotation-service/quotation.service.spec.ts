@@ -155,6 +155,7 @@ describe('QuotationService', () => {
         includeQuotationHistory: true,
         productLines: ['1'],
         series: ['2'],
+        gpsdGroupIds: ['F02'],
         salesIndications: [SalesIndication.INVOICE],
         historicalDataLimitInYear: 2,
       };

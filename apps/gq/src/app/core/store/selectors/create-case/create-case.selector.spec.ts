@@ -166,8 +166,24 @@ describe('Create Case Selector', () => {
   });
   describe('getCreateCustomerCaseDisabled', () => {
     test('should return true', () => {
+      const mockState = {
+        ...fakeState.case,
+        customer: {
+          customerId: '1234',
+          salesOrgs: [{ id: '1', selected: true }],
+        },
+        plSeries: {
+          ...fakeState.case.plSeries,
+          plsAndSeries: {
+            pls: [{ value: '1', name: '1', series: ['1'], selected: true }],
+            series: [{ value: '1', selected: false }],
+            gpsdGroupIds: [{ value: '1', selected: false }],
+          },
+        },
+      };
+
       expect(
-        createSelectors.getCreateCustomerCaseDisabled.projector(fakeState.case)
+        createSelectors.getCreateCustomerCaseDisabled.projector(mockState)
       ).toBeTruthy();
     });
     test('should return false', () => {
@@ -179,16 +195,21 @@ describe('Create Case Selector', () => {
         },
         plSeries: {
           ...fakeState.case.plSeries,
+          materialSelection: {
+            includeQuotationHistory: true,
+            salesIndications: [SalesIndication.INVOICE],
+          },
           plsAndSeries: {
             pls: [{ value: '1', name: '1', series: ['1'], selected: true }],
             series: [{ value: '1', selected: true }],
+            gpsdGroupIds: [{ value: '1', selected: true }],
           },
         },
       };
 
       expect(
         createSelectors.getCreateCustomerCaseDisabled.projector(mockState)
-      ).toBeTruthy();
+      ).toBeFalsy();
     });
   });
 
@@ -205,6 +226,7 @@ describe('Create Case Selector', () => {
           plsAndSeries: {
             pls: [{ value: '1', name: '1', series: ['1'], selected: true }],
             series: [{ value: '1', selected: true }],
+            gpsdGroupIds: [{ value: 'F02', selected: true }],
           },
           materialSelection: {
             includeQuotationHistory: true,
@@ -222,6 +244,7 @@ describe('Create Case Selector', () => {
         includeQuotationHistory: true,
         productLines: ['1'],
         series: ['1'],
+        gpsdGroupIds: ['F02'],
         salesIndications: [SalesIndication.INVOICE],
         historicalDataLimitInYear: 2,
       };

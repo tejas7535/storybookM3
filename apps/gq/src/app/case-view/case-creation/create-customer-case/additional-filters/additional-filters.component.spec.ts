@@ -11,6 +11,7 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
+  setSelectedGpsdGroups,
   setSelectedProductLines,
   setSelectedSeries,
 } from '../../../../core/store';
@@ -69,6 +70,17 @@ describe('AdditionalFiltersComponent', () => {
       expect(store.dispatch).toHaveBeenCalledTimes(1);
       expect(store.dispatch).toHaveBeenCalledWith(
         setSelectedSeries({ selectedSeries })
+      );
+    });
+  });
+  describe('selectGpsdGroups', () => {
+    test('should dispatch action', () => {
+      store.dispatch = jest.fn();
+      const selectedGpsdGroups = ['132'];
+      component.selectGpsdGroups(selectedGpsdGroups);
+      expect(store.dispatch).toHaveBeenCalledTimes(1);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        setSelectedGpsdGroups({ selectedGpsdGroups })
       );
     });
   });

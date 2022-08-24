@@ -470,11 +470,17 @@ describe('Create Case Effects', () => {
           historicalDataLimitInYear: 2,
         };
         const plsSeriesResponse: PLsSeriesResponse[] = [
-          { series: '1', productLine: 'one', productLineId: '1' },
+          {
+            series: '1',
+            productLine: 'one',
+            productLineId: '1',
+            gpsdGroupId: 'F02',
+          },
         ];
         const plsAndSeries: PLsAndSeries = {
           pls: [{ name: 'one', series: ['1'], value: '1', selected: true }],
           series: [{ selected: true, value: '1' }],
+          gpsdGroupIds: [{ selected: true, value: 'F02' }],
         };
         HelperService.transformPLsAndSeriesResponse = jest.fn(
           () => plsAndSeries

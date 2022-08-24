@@ -12,11 +12,18 @@
       (selection)="selectProductLines($event)"
     >
     </gq-filter-selection>
-    <div class="mt-11"></div>
     <gq-filter-selection
+      class="mt-11"
       [title]="seriesTitle$ | ngrxPush"
       [items]="plsAndSeries?.series || []"
       (selection)="selectSeries($event)"
+    >
+    </gq-filter-selection>
+    <gq-filter-selection
+      class="mt-11"
+      [title]="gpsdGroupTitle$ | ngrxPush"
+      [items]="plsAndSeries?.gpsdGroupIds || []"
+      (selection)="selectGpsdGroups($event)"
     >
     </gq-filter-selection>
     <div

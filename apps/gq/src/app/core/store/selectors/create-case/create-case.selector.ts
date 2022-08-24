@@ -176,7 +176,9 @@ export const getCreateCustomerCaseDisabled = createSelector(
     const plAndSeries =
       state.plSeries.plsAndSeries?.pls.filter((el) => el.selected).length > 0 &&
       state.plSeries.plsAndSeries?.series.filter((el) => el.selected).length >
-        0;
+        0 &&
+      state.plSeries.plsAndSeries?.gpsdGroupIds.filter((el) => el.selected)
+        .length;
 
     return !(customer && materialSelection && plAndSeries);
   }
@@ -197,6 +199,9 @@ export const getCreateCustomerCasePayload = createSelector(
       .filter((el) => el.selected)
       .map((el) => el.value),
     productLines: state.plSeries.plsAndSeries?.pls
+      .filter((el) => el.selected)
+      .map((el) => el.value),
+    gpsdGroupIds: state.plSeries.plsAndSeries?.gpsdGroupIds
       .filter((el) => el.selected)
       .map((el) => el.value),
     historicalDataLimitInYear: state.plSeries.historicalDataLimitInYear,

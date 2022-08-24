@@ -37,6 +37,7 @@ import {
   resetProductLineAndSeries,
   selectAutocompleteOption,
   setSelectedAutocompleteOption,
+  setSelectedGpsdGroups,
   setSelectedProductLines,
   setSelectedSeries,
   unselectAutocompleteOptions,
@@ -691,6 +692,27 @@ describe('Create Case Reducer', () => {
 
         expect(
           state.plSeries.plsAndSeries.series.every((i) => !i.selected)
+        ).toBeTruthy();
+      });
+    });
+    describe('setSelectedGpsdGroups', () => {
+      test('should set selected gpsd groups', () => {
+        const selectedGpsdGroups = ['F02'];
+        const action = setSelectedGpsdGroups({ selectedGpsdGroups });
+        const storeMock = {
+          ...CREATE_CASE_STORE_STATE_MOCK,
+          plSeries: {
+            ...CREATE_CASE_STORE_STATE_MOCK.plSeries,
+            plsAndSeries: {
+              ...CREATE_CASE_STORE_STATE_MOCK.plSeries.plsAndSeries,
+              gpsdGroupIds: [{ selected: false, value: 'F02' }],
+            },
+          },
+        };
+        const state = createCaseReducer(storeMock, action);
+
+        expect(
+          state.plSeries.plsAndSeries.gpsdGroupIds.every((i) => i.selected)
         ).toBeTruthy();
       });
     });

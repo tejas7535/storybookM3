@@ -6,6 +6,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import {
+  setSelectedGpsdGroups,
   setSelectedProductLines,
   setSelectedSeries,
 } from '../../../../core/store';
@@ -21,6 +22,8 @@ export class AdditionalFiltersComponent {
 
   productLineTitle$: Observable<string>;
   seriesTitle$: Observable<string>;
+  gpsdGroupTitle$: Observable<string>;
+
   constructor(
     private readonly store: Store,
     private readonly translocoService: TranslocoService
@@ -35,6 +38,11 @@ export class AdditionalFiltersComponent {
       {},
       'case-view'
     );
+    this.gpsdGroupTitle$ = this.translocoService.selectTranslate(
+      'caseCreation.createCustomerCase.additionalMaterials.gpsdGroups',
+      {},
+      'case-view'
+    );
   }
 
   selectProductLines(selectedProductLines: string[]) {
@@ -42,5 +50,8 @@ export class AdditionalFiltersComponent {
   }
   selectSeries(selectedSeries: string[]) {
     this.store.dispatch(setSelectedSeries({ selectedSeries }));
+  }
+  selectGpsdGroups(selectedGpsdGroups: string[]) {
+    this.store.dispatch(setSelectedGpsdGroups({ selectedGpsdGroups }));
   }
 }

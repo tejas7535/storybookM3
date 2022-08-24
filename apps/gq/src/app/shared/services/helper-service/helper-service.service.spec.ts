@@ -453,8 +453,18 @@ describe('HelperServiceService', () => {
   describe('transformPLsAndSeriesResponse', () => {
     test('should transform reponse', () => {
       const response: PLsSeriesResponse[] = [
-        { productLine: '10', productLineId: '10', series: '20' },
-        { productLine: '10', productLineId: '10', series: '30' },
+        {
+          productLine: '10',
+          productLineId: '10',
+          series: '20',
+          gpsdGroupId: 'F02',
+        },
+        {
+          productLine: '10',
+          productLineId: '10',
+          series: '30',
+          gpsdGroupId: 'F03',
+        },
       ];
       const result = HelperService.transformPLsAndSeriesResponse(response);
 
@@ -465,6 +475,10 @@ describe('HelperServiceService', () => {
         series: [
           { value: '20', selected: true },
           { value: '30', selected: true },
+        ],
+        gpsdGroupIds: [
+          { value: 'F02', selected: true },
+          { value: 'F03', selected: true },
         ],
       };
       expect(result).toEqual(expected);

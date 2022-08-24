@@ -38,6 +38,7 @@ import {
   selectAutocompleteOption,
   selectSalesOrg,
   setSelectedAutocompleteOption,
+  setSelectedGpsdGroups,
   setSelectedProductLines,
   setSelectedSeries,
   unselectAutocompleteOptions,
@@ -491,6 +492,24 @@ export const createCaseReducer = createReducer(
             ...series,
             selected: selectedSeries.includes(series.value),
           })),
+        },
+      },
+    })
+  ),
+  on(
+    setSelectedGpsdGroups,
+    (state: CreateCaseState, { selectedGpsdGroups }): CreateCaseState => ({
+      ...state,
+      plSeries: {
+        ...state.plSeries,
+        plsAndSeries: {
+          ...state.plSeries.plsAndSeries,
+          gpsdGroupIds: state.plSeries.plsAndSeries.gpsdGroupIds.map(
+            (gpsdGroups) => ({
+              ...gpsdGroups,
+              selected: selectedGpsdGroups.includes(gpsdGroups.value),
+            })
+          ),
         },
       },
     })

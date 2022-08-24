@@ -84,9 +84,13 @@ export class HelperService {
     const series = [...new Set(response.map((item) => item.series))].map(
       (el) => ({ value: el, selected: true })
     );
+    const gpsdGroupIds = [
+      ...new Set(response.map((item) => item.gpsdGroupId)),
+    ].map((el) => ({ value: el, selected: true }));
     const plsAndSeries: PLsAndSeries = {
       series,
       pls: [],
+      gpsdGroupIds,
     };
 
     response.forEach((element) => {

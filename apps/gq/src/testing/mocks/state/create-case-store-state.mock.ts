@@ -13,7 +13,7 @@ export const CREATE_CASE_STORE_STATE_MOCK: CreateCaseState = {
   plSeries: {
     errorMessage: undefined,
     loading: false,
-    plsAndSeries: { series: [], pls: [] },
+    plsAndSeries: { series: [], pls: [], gpsdGroupIds: [] },
     materialSelection: { includeQuotationHistory: false, salesIndications: [] },
     historicalDataLimitInYear: 2,
   },
