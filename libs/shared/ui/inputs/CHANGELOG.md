@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.0.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/inputs-v0.0.3...inputs-v0.0.4) (2022-08-24)
+
+
+### ✏️ Documentation
+
+* **inputs:** adjust docs & event type in shared-search-component ([63f127d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/63f127d6c863781c172bd686f131fe1a32b64421))
+
+
+### 🎸 Features
+
+* **inputs:** add initial values for select and search control ([#4484](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4484)) ([f4980f7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f4980f7214115364a678e30d1a8250c4bec08c98))
+* **inputs:** add optional initial value to search ([f73b555](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f73b5555cfe1b63d0b63534d343edc6538a3e8f6))
+* **inputs:** denoise tests ([a984f1e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a984f1ea41d85fe3f43ff482a4df132c404e9448))
+* **inputs:** finalize search component ([57d77b9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/57d77b91b7d09e7c7df7fc39020e8509e73934fd))
+
+
+### 🐛 Bug Fixes
+
+* **inputs:** clear with empty string ([#4481](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4481)) ([7baa105](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7baa1053597fcc1c19751ee6b35bc1a4307f024e))
+* **inputs:** remove warning messages ([baf9877](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/baf98773a6cfd53b8408d43a931e1e384c0b67d9))
+
 ### [0.0.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/inputs-v0.0.2...inputs-v0.0.3) (2022-07-20)
 
 
