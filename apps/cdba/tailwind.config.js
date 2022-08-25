@@ -1,5 +1,6 @@
 const { createGlobPatternsForDependencies } = require('@nrwl/angular/tailwind');
 const { join } = require('path');
+const colors = require('../../libs/shared/ui/styles/src/lib/tailwind/colors');
 const {
   schaefflerTailwindPreset,
 } = require('../../libs/shared/ui/styles/src/lib/tailwind/preset');
@@ -32,6 +33,9 @@ module.exports = {
         secondary: secondaryColorPalette,
         'light-red': '#EFCCD2',
         'light-blue': '#ECF5F7',
+      },
+      borderColor: {
+        'low-emphasis': colors['dark-low-emphasis'],
       },
     },
   },

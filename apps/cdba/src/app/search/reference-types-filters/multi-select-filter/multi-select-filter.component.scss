@@ -28,7 +28,7 @@
 .divider {
   padding: 0 16px;
   hr {
-    @apply border-t-[bg-surface];
+    @apply border-t-low-emphasis;
     margin: 8px 0;
   }
 }
@@ -43,7 +43,7 @@
   overflow-y: auto;
 
   &::-webkit-scrollbar {
-    @apply bg-secondary;
+    @apply bg-[#fff];
     width: 6px;
   }
 
