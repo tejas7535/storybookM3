@@ -4,6 +4,19 @@
   "sourceRoot": "libs/shared/ui/report/src",
   "prefix": "schaeffler",
   "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "options": {
+        "tsConfig": "libs/shared/ui/report/tsconfig.lib.json",
+        "project": "libs/shared/ui/report/ng-package.json",
+        "tailwindConfig": "libs/shared/ui/report/tailwind.config.js"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/shared/ui/report/tsconfig.lib.prod.json"
+        }
+      }
+    },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
@@ -34,6 +47,16 @@
       "options": {
         "command": "npx standard-version --no-verify {args.params}",
         "cwd": "libs/shared/ui/report"
+      }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "npm publish dist/libs/shared/ui/report --tag latest"
+          }
+        ]
       }
     }
   },
