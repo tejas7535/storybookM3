@@ -163,3 +163,73 @@ If you want to log events GDPR compliant using cookies, implement like so:
         return () => oneTrustService.loadOneTrust();
     }
 ```
+
+3. Add cookie banner to app component
+   1. Legal pages (`libs/ui/legal-pages`) are required for using cookie banner within your application.
+   2. Before implementing cookie banner within your application, please check the [Documentation](https://confluence.schaeffler.com/display/FRON/Tracking) and follow the described steps.
+
+Adjustments to app.component.ts:
+
+```ts
+    import { LegalPath } from '@schaeffler/legal-pages';
+
+    @Component({
+        selector: 'app-root',
+        templateUrl: './app.component.html',
+    })
+    export class AppComponent {
+        isCookieRouteActive$: Observable<boolean>;
+
+        public constructor(
+            private readonly translocoService: TranslocoService,
+            @Optional() private readonly oneTrustService: OneTrustService
+        ) {}
+
+        public ngOnInit(): void {
+            this.handleCurrentRoute();
+
+            // only required if your application supports multiple language via transloco
+            this.translocoService.langChanges$.subscribe((language) => {
+                this.oneTrustService?.translateBanner(language, true);
+            });
+        }
+
+        handleCurrentRoute(): void {
+            // on first load app component loads after router event
+            const initialLoad = of(this.router).pipe(
+                take(1),
+                map((router) => router.url)
+            );
+            // listen to all subsequent route changes
+            const routerEvents = this.router.events.pipe(
+                filter((event) => event instanceof NavigationEnd),
+                map((event) => (event as unknown as NavigationEnd)?.url)
+            );
+            // check if current route is cookie page
+            this.isCookieRouteActive$ = merge(initialLoad, routerEvents).pipe(
+                map((url) => url.split('/').pop() === LegalPath.CookiePath)
+            );
+        }
+    }
+
+```
+
+Adjustments to app.component.html:
+
+```html
+    <router-outlet></router-outlet>
+    <div
+        *transloco="let t; read: 'legal'"
+        class="mx-auto w-full max-w-screen-md bg-surface"
+        [ngClass]="{ hidden: !(isCookieRouteActive$ | ngrxPush) }"
+    >
+        <div class="py-3 px-4">
+            <button id="ot-sdk-btn" class="ot-sdk-show-settings">
+                {{ t('cookieSettings') }}
+            </button>
+        </div>
+        <div class="py-3 md:px-4">
+            <div id="ot-sdk-cookie-policy"></div>
+        </div>
+    </div>
+```
