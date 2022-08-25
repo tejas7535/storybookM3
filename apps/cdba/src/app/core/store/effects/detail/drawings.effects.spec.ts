@@ -1,11 +1,5 @@
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 
-import { DetailService } from '@cdba/detail/service/detail.service';
-import {
-  AUTH_STATE_MOCK,
-  DRAWINGS_MOCK,
-  REFERENCE_TYPE_IDENTIFIER_MOCK,
-} from '@cdba/testing/mocks';
 import {
   createServiceFactory,
   mockProvider,
@@ -15,6 +9,13 @@ import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/jest';
+
+import { DetailService } from '@cdba/detail/service/detail.service';
+import {
+  AUTH_STATE_MOCK,
+  DRAWINGS_MOCK,
+  REFERENCE_TYPE_IDENTIFIER_MOCK,
+} from '@cdba/testing/mocks';
 
 import {
   loadDrawings,

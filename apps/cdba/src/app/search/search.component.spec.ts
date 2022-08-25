@@ -1,7 +1,5 @@
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { BlockUiModule } from '@cdba/shared/components';
-import { SEARCH_STATE_MOCK } from '@cdba/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -9,6 +7,9 @@ import { MockModule } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
+import { BlockUiModule } from '@cdba/shared/components';
+import { SEARCH_STATE_MOCK } from '@cdba/testing/mocks';
 
 import { ReferenceTypesFiltersModule } from './reference-types-filters/reference-types-filters.module';
 import { SearchComponent } from './search.component';

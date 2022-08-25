@@ -5,7 +5,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
-import { GridApi } from 'ag-grid-enterprise';
 import {
   createComponentFactory,
   mockProvider,
@@ -14,6 +13,7 @@ import {
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { LetModule, PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { GridApi } from 'ag-grid-enterprise';
 import { MockModule } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 

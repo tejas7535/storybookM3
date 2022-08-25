@@ -5,10 +5,11 @@ import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
-import { DetailService } from '@cdba/detail/service/detail.service';
-import { Drawing, ReferenceTypeIdentifier } from '@cdba/shared/models';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
+
+import { DetailService } from '@cdba/detail/service/detail.service';
+import { Drawing, ReferenceTypeIdentifier } from '@cdba/shared/models';
 
 import {
   loadDrawings,

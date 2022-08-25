@@ -1,11 +1,12 @@
 import { map, pipe } from 'rxjs';
 
-import { adminRoles, RolePrefix } from '@cdba/core/auth/auth.config';
-import { RoleDescriptions } from '@cdba/core/auth/models/roles.models';
-import { RolesState } from '@cdba/core/store/reducers/roles/models/roles-state.model';
 import { createSelector } from '@ngrx/store';
 
 import { getRoles } from '@schaeffler/azure-auth';
+
+import { adminRoles, RolePrefix } from '@cdba/core/auth/auth.config';
+import { RoleDescriptions } from '@cdba/core/auth/models/roles.models';
+import { RolesState } from '@cdba/core/store/reducers/roles/models/roles-state.model';
 
 import { getRolesState } from '../../reducers';
 

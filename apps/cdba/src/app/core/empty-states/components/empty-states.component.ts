@@ -3,9 +3,9 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { Subscription } from 'rxjs';
 
-import { RoleDescriptionsDialogComponent } from '@cdba/shared/components/role-descriptions/role-descriptions-dialog/role-descriptions-dialog.component';
-
 import { ForbiddenEventService } from '@schaeffler/empty-states';
+
+import { RoleDescriptionsDialogComponent } from '@cdba/shared/components/role-descriptions/role-descriptions-dialog/role-descriptions-dialog.component';
 
 @Component({
   selector: 'cdba-empty-states',

@@ -1,5 +1,15 @@
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 
+import {
+  createServiceFactory,
+  mockProvider,
+  SpectatorService,
+} from '@ngneat/spectator/jest';
+import { Actions } from '@ngrx/effects';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles';
+
 import { RoleFacade } from '@cdba/core/auth/role.facade';
 import { DetailService } from '@cdba/detail/service/detail.service';
 import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
@@ -13,15 +23,6 @@ import {
   ODATA_BOM_IDENTIFIER_MOCK,
   REFERENCE_TYPE_IDENTIFIER_MOCK,
 } from '@cdba/testing/mocks';
-import {
-  createServiceFactory,
-  mockProvider,
-  SpectatorService,
-} from '@ngneat/spectator/jest';
-import { Actions } from '@ngrx/effects';
-import { provideMockActions } from '@ngrx/effects/testing';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { marbles } from 'rxjs-marbles';
 
 import {
   loadBom,

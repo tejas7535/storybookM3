@@ -1,7 +1,8 @@
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+
 import { ENV, getEnv } from '@cdba/environments/environment.provider';
 import { MaterialNumberModule } from '@cdba/shared/pipes';
 import { BOM_ODATA_MOCK } from '@cdba/testing/mocks';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { COST_SHARE_CATEGORY_COLORS } from '../../../constants/colors';
 import { MaterialDesignationCellRendererComponent } from './material-designation-cell-renderer.component';

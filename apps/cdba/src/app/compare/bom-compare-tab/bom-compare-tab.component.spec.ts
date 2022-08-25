@@ -1,11 +1,12 @@
 import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
-import { BomContainerModule } from '@cdba/shared/components';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
+import { BomContainerModule } from '@cdba/shared/components';
 
 import { BomCompareTabComponent } from './bom-compare-tab.component';
 

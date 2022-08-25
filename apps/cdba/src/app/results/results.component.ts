@@ -4,6 +4,10 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
+import { Store } from '@ngrx/store';
+
+import { Breadcrumb } from '@schaeffler/breadcrumbs';
+
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 import {
   getReferenceTypes,
@@ -13,9 +17,6 @@ import {
 } from '@cdba/core/store';
 import { ReferenceType } from '@cdba/shared/models';
 import { BreadcrumbsService } from '@cdba/shared/services';
-import { Store } from '@ngrx/store';
-
-import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
 @Component({
   selector: 'cdba-results',

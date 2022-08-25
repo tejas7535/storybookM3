@@ -2,8 +2,6 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { of } from 'rxjs';
 
-import { RoleDescriptionsService } from '@cdba/core/auth/services/role-descriptions.service';
-import { ROLE_DESCRIPTIONS_MOCK } from '@cdba/testing/mocks';
 import {
   createServiceFactory,
   mockProvider,
@@ -16,6 +14,9 @@ import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { getIsLoggedIn } from '@schaeffler/azure-auth';
+
+import { RoleDescriptionsService } from '@cdba/core/auth/services/role-descriptions.service';
+import { ROLE_DESCRIPTIONS_MOCK } from '@cdba/testing/mocks';
 
 import {
   loadRoleDescriptions,

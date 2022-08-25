@@ -4,9 +4,10 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { withCache } from '@ngneat/cashew';
+
 import { API } from '@cdba/shared/constants/api';
 import { HttpParamsEncoder } from '@cdba/shared/http';
-import { withCache } from '@ngneat/cashew';
 
 import {
   FilterItem,

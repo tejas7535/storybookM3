@@ -3,7 +3,9 @@ import { Params, Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
 
+import { Store } from '@ngrx/store';
 import { GridApi, RowNode } from 'ag-grid-enterprise';
+
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 import {
   getSelectedCalculationNodeIds,
@@ -14,7 +16,6 @@ import {
   COMPARE_ITEMS_MIN_COUNT,
 } from '@cdba/shared/constants/table';
 import { isDetailRoute } from '@cdba/shared/utils';
-import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'cdba-compare-button',

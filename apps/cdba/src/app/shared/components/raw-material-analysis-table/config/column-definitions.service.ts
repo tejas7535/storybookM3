@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { ColDef } from 'ag-grid-enterprise';
 import { translate } from '@ngneat/transloco';
+import { ColDef } from 'ag-grid-enterprise';
 
 import { ColumnUtilsService } from '../../table';
 
@@ -61,7 +61,7 @@ export class ColumnDefinitionService {
         valueFormatter: (params) =>
           `${this.columnUtilsService.formatNumber(params, {
             minimumFractionDigits: 3,
-          })} ${params.data.unitOfWeight ? params.data.unitOfWeight : ''}`,
+          })} ${params.data.unitOfWeight || ''}`,
         width: 170,
       },
       {

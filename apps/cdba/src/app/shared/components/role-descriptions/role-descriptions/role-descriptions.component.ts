@@ -3,14 +3,15 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 
+import { TranslocoService } from '@ngneat/transloco';
+
+import { RolesGroup } from '@schaeffler/roles-and-rights';
+
 import { RolesGroupAdapter } from '@cdba/core/auth/adapters/roles-group.adapter';
 import { CostRoles } from '@cdba/core/auth/auth.config';
 import { RoleDescriptions } from '@cdba/core/auth/models/roles.models';
 import { RoleFacade } from '@cdba/core/auth/role.facade';
 import * as urls from '@cdba/shared/constants/urls';
-import { TranslocoService } from '@ngneat/transloco';
-
-import { RolesGroup } from '@schaeffler/roles-and-rights';
 
 @Component({
   selector: 'cdba-role-descriptions',

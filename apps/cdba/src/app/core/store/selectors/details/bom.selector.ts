@@ -1,3 +1,5 @@
+import { createSelector } from '@ngrx/store';
+
 import {
   BomIdentifier,
   BomItem,
@@ -13,7 +15,6 @@ import {
   getRawMaterialAnalysisSummary,
   mapBomItemsToRawMaterialAnalyses,
 } from '@cdba/shared/utils';
-import { createSelector } from '@ngrx/store';
 
 import { getDetailState } from '../../reducers';
 import { DetailState } from '../../reducers/detail/detail.reducer';

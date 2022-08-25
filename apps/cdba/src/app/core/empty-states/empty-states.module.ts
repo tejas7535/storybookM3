@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 
-import { RoleDescriptionsModule } from '@cdba/shared/components/role-descriptions/role-descriptions.module';
-
 import { SharedTranslocoModule } from '@schaeffler/transloco';
+
+import { RoleDescriptionsModule } from '@cdba/shared/components/role-descriptions/role-descriptions.module';
 
 import { EmptyStatesComponent } from './components/empty-states.component';
 import { EmptyStatesRoutingModule } from './empty-states-routing.module';

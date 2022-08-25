@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
 
-import {
-  getHasDescriptiveRoles,
-  getRoleDescriptions,
-  getRoleDescriptionsLoaded,
-} from '@cdba/core/store/selectors/roles/roles.selector';
 import { Store } from '@ngrx/store';
 
 import {
@@ -12,6 +7,12 @@ import {
   hasAnyIdTokenRole,
   hasIdTokenRole,
 } from '@schaeffler/azure-auth';
+
+import {
+  getHasDescriptiveRoles,
+  getRoleDescriptions,
+  getRoleDescriptionsLoaded,
+} from '@cdba/core/store/selectors/roles/roles.selector';
 
 import { authConfig } from './auth.config';
 

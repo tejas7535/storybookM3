@@ -1,8 +1,5 @@
 import { Router } from '@angular/router';
 
-import { getReferenceTypes, selectReferenceTypes } from '@cdba/core/store';
-import { BreadcrumbsService } from '@cdba/shared/services';
-import { SEARCH_STATE_MOCK } from '@cdba/testing/mocks';
 import {
   createComponentFactory,
   mockProvider,
@@ -15,6 +12,10 @@ import { marbles } from 'rxjs-marbles/jest';
 
 import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
+import { getReferenceTypes, selectReferenceTypes } from '@cdba/core/store';
+import { BreadcrumbsService } from '@cdba/shared/services';
+import { SEARCH_STATE_MOCK } from '@cdba/testing/mocks';
 
 import { ReferenceTypesTableModule } from './reference-types-table/reference-types-table.module';
 import { ResultsComponent } from './results.component';

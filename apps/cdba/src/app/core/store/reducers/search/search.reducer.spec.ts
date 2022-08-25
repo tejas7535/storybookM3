@@ -1,6 +1,7 @@
 /* eslint-disable max-lines */
-import { REFERENCE_TYPE_MOCK } from '@cdba/testing/mocks';
 import { Action } from '@ngrx/store';
+
+import { REFERENCE_TYPE_MOCK } from '@cdba/testing/mocks';
 
 import {
   applyTextSearch,

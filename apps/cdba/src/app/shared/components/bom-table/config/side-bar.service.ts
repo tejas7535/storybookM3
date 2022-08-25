@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { SideBarDef } from 'ag-grid-enterprise';
 import { translate } from '@ngneat/transloco';
+import { SideBarDef } from 'ag-grid-enterprise';
 
 @Injectable()
 export class SidebarService {

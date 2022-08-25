@@ -1,10 +1,5 @@
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { getReferenceType } from '@cdba/core/store';
-import { ENV, getEnv } from '@cdba/environments/environment.provider';
-import { TabsHeaderModule } from '@cdba/shared/components';
-import { MaterialNumberModule } from '@cdba/shared/pipes';
-import { BreadcrumbsService } from '@cdba/shared/services';
 import {
   createComponentFactory,
   mockProvider,
@@ -17,6 +12,12 @@ import { MockModule } from 'ng-mocks';
 import { ShareButtonModule } from '@schaeffler/share-button';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
+import { getReferenceType } from '@cdba/core/store';
+import { ENV, getEnv } from '@cdba/environments/environment.provider';
+import { TabsHeaderModule } from '@cdba/shared/components';
+import { MaterialNumberModule } from '@cdba/shared/pipes';
+import { BreadcrumbsService } from '@cdba/shared/services';
 
 import { AUTH_STATE_MOCK, REFERENCE_TYPE_MOCK } from '../../testing/mocks';
 import { DetailComponent } from './detail.component';

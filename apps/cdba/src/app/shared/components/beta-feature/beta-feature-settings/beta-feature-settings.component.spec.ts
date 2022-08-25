@@ -1,8 +1,6 @@
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
-import { BetaFeatureModule } from '@cdba/shared/components/index';
-import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
 import {
   createComponentFactory,
   mockProvider,
@@ -10,6 +8,9 @@ import {
 } from '@ngneat/spectator/jest';
 import { SpyObject } from '@ngneat/spectator/jest/lib/mock';
 import { MockModule } from 'ng-mocks';
+
+import { BetaFeatureModule } from '@cdba/shared/components/index';
+import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
 
 import { BetaFeatureSettingsComponent } from './beta-feature-settings.component';
 

@@ -1,4 +1,3 @@
-import { ColumnUtilsService } from '@cdba/shared/components/table';
 import {
   createServiceFactory,
   mockProvider,
@@ -6,6 +5,8 @@ import {
 } from '@ngneat/spectator';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
+import { ColumnUtilsService } from '@cdba/shared/components/table';
 
 import { ColumnDefinitionService } from './column-definitions.service';
 

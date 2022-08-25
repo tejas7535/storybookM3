@@ -5,11 +5,12 @@ import { Injectable } from '@angular/core';
 import { exhaustMap, of } from 'rxjs';
 import { catchError, filter, map, mergeMap } from 'rxjs/operators';
 
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
+
 import { RoleFacade } from '@cdba/core/auth/role.facade';
 import { DetailService } from '@cdba/detail/service/detail.service';
 import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
-import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
 
 import {
   loadBom,

@@ -4,9 +4,10 @@ import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 
-import { AppRoutePath } from '@cdba/app-route-path.enum';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
+
+import { AppRoutePath } from '@cdba/app-route-path.enum';
 
 import { SearchService } from '../../../../search/services/search.service';
 import {

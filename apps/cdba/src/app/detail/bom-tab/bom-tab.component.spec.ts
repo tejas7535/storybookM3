@@ -1,8 +1,9 @@
-import { BomContainerModule } from '@cdba/shared/components';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
+import { BomContainerModule } from '@cdba/shared/components';
 
 import { BomTabComponent } from './bom-tab.component';
 

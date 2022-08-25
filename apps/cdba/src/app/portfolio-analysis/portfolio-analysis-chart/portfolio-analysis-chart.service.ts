@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { CurrencyService } from '@cdba/shared/services/currency/currency.service';
 import { TranslocoService } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { EChartsOption } from 'echarts';
+
+import { CurrencyService } from '@cdba/shared/services/currency/currency.service';
 
 const COLOR_PLATTE = ['#5C6BC0', '#57A184', '#FFA726', '#EC407A', '#78909C'];
 

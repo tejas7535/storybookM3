@@ -1,13 +1,5 @@
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 
-import { RoleFacade } from '@cdba/core/auth/role.facade';
-import { DetailService } from '@cdba/detail/service/detail.service';
-import {
-  AUTH_STATE_MOCK,
-  CALCULATIONS_MOCK,
-  EXCLUDED_CALCULATIONS_MOCK,
-  REFERENCE_TYPE_IDENTIFIER_MOCK,
-} from '@cdba/testing/mocks';
 import {
   createServiceFactory,
   mockProvider,
@@ -17,6 +9,15 @@ import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
+
+import { RoleFacade } from '@cdba/core/auth/role.facade';
+import { DetailService } from '@cdba/detail/service/detail.service';
+import {
+  AUTH_STATE_MOCK,
+  CALCULATIONS_MOCK,
+  EXCLUDED_CALCULATIONS_MOCK,
+  REFERENCE_TYPE_IDENTIFIER_MOCK,
+} from '@cdba/testing/mocks';
 
 import {
   loadCalculations,

@@ -1,5 +1,6 @@
-import { RoleDescriptions } from '@cdba/core/auth/models/roles.models';
 import { createAction, props } from '@ngrx/store';
+
+import { RoleDescriptions } from '@cdba/core/auth/models/roles.models';
 
 export const loadRoleDescriptions = createAction(
   '[Roles] Load Role Descriptions'

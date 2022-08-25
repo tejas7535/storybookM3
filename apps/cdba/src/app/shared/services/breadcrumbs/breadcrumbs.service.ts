@@ -10,6 +10,13 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 
+import { translate } from '@ngneat/transloco';
+import { ComponentStore } from '@ngrx/component-store';
+import { concatLatestFrom } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
+
+import { Breadcrumb } from '@schaeffler/breadcrumbs';
+
 import {
   getMaterialDesignation,
   getMaterialDesignationOfSelectedRefType,
@@ -18,12 +25,6 @@ import {
 import { getEnv } from '@cdba/environments/environment.provider';
 import { ScrambleMaterialDesignationPipe } from '@cdba/shared/pipes';
 import * as routeUtils from '@cdba/shared/utils/routes';
-import { translate } from '@ngneat/transloco';
-import { ComponentStore } from '@ngrx/component-store';
-import { concatLatestFrom } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
-
-import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
 export interface BreadcrumbState {
   items: Breadcrumb[];

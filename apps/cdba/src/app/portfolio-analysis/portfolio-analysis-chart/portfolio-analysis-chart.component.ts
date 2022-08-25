@@ -7,8 +7,9 @@ import {
   SimpleChanges,
 } from '@angular/core';
 
-import { ProductCostAnalysis } from '@cdba/shared/models';
 import { EChartsOption } from 'echarts';
+
+import { ProductCostAnalysis } from '@cdba/shared/models';
 
 import { PortfolioAnalysisChartService } from './portfolio-analysis-chart.service';
 

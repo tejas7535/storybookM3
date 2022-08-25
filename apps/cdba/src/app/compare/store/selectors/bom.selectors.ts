@@ -1,3 +1,5 @@
+import { createSelector } from '@ngrx/store';
+
 import { getCompareState } from '@cdba/core/store/reducers';
 import {
   BomItem,
@@ -13,7 +15,6 @@ import {
   getRawMaterialAnalysisSummary,
   mapBomItemsToRawMaterialAnalyses,
 } from '@cdba/shared/utils';
-import { createSelector } from '@ngrx/store';
 
 import { CompareState } from '../reducers/compare.reducer';
 

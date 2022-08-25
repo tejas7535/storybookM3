@@ -1,6 +1,7 @@
-import { UndefinedAttributeFallbackModule } from '@cdba/shared/pipes';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockModule } from 'ng-mocks';
+
+import { UndefinedAttributeFallbackModule } from '@cdba/shared/pipes';
 
 import { DetailsLabelValueComponent } from './details-label-value.component';
 

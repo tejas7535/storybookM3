@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { Store } from '@ngrx/store';
+
 import {
   CustomerDetails,
   DimensionAndWeightDetails,
@@ -10,7 +12,6 @@ import {
   QuantitiesDetails,
   SalesDetails,
 } from '@cdba/shared/models';
-import { Store } from '@ngrx/store';
 
 import {
   getCustomerDetails,

@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { Breadcrumb } from '@schaeffler/breadcrumbs';
+
 import { Tab } from '@cdba/shared/components';
 import { BreadcrumbsService } from '@cdba/shared/services';
-
-import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
 import { CompareRoutePath } from './compare-route-path.enum';
 

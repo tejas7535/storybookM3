@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
 
+import { Store } from '@ngrx/store';
+
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 import {
   getSelectedCalculationNodeIds,
@@ -12,7 +14,6 @@ import {
   PORTFOLIO_ANALYSIS_ITEMS_MAX_COUNT,
   PORTFOLIO_ANALYSIS_ITEMS_MIN_COUNT,
 } from '@cdba/shared/constants/table';
-import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'cdba-portfolio-analysis-button',

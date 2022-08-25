@@ -1,3 +1,5 @@
+import { createReducer, on } from '@ngrx/store';
+
 import {
   BomItem,
   Calculation,
@@ -7,7 +9,6 @@ import {
   ReferenceType,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
-import { createReducer, on } from '@ngrx/store';
 
 import {
   loadBom,

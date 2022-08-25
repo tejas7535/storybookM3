@@ -3,9 +3,9 @@ import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { UndefinedAttributeFallbackModule } from '@cdba/shared/pipes';
-
 import { SharedTranslocoModule } from '@schaeffler/transloco';
+
+import { UndefinedAttributeFallbackModule } from '@cdba/shared/pipes';
 
 import { PcmCalculationsComponent } from './pcm-calculations.component';
 

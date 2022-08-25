@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 
-import { RoleFacade } from '@cdba/core/auth/role.facade';
-import { FOOTER_LINKS } from '@cdba/shared/constants/footer';
 import { Store } from '@ngrx/store';
 
 import {
@@ -9,6 +7,9 @@ import {
   getProfileImage,
   getUsername,
 } from '@schaeffler/azure-auth';
+
+import { RoleFacade } from '@cdba/core/auth/role.facade';
+import { FOOTER_LINKS } from '@cdba/shared/constants/footer';
 
 import packageJson from '../../package.json';
 import { AppRoutePath } from './app-route-path.enum';

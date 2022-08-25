@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 
-import { BetaFeatureModule } from '@cdba/shared/components';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 
 import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
+
+import { BetaFeatureModule } from '@cdba/shared/components';
 
 import { PortfolioAnalysisComponent } from './portfolio-analysis.component';
 import { PortfolioAnalysisRoutingModule } from './portfolio-analysis.routing.module';

@@ -1,7 +1,5 @@
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { BreadcrumbsService } from '@cdba/shared/services';
-import { SEARCH_STATE_MOCK } from '@cdba/testing/mocks';
 import {
   createComponentFactory,
   mockProvider,
@@ -12,6 +10,9 @@ import { MockModule } from 'ng-mocks';
 
 import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
+import { BreadcrumbsService } from '@cdba/shared/services';
+import { SEARCH_STATE_MOCK } from '@cdba/testing/mocks';
 
 import { PortfolioAnalysisComponent } from './portfolio-analysis.component';
 

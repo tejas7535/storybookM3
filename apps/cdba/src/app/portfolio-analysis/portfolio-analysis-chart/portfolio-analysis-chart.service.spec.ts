@@ -1,11 +1,12 @@
-import { Currency } from '@cdba/shared/constants/currency';
-import { CurrencyService } from '@cdba/shared/services/currency/currency.service';
-import { PRODUCT_COST_ANALYSIS_MOCK } from '@cdba/testing/mocks/models/product-cost-analysis.mock';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { mockProvider } from '@ngneat/spectator/jest';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
+import { Currency } from '@cdba/shared/constants/currency';
+import { CurrencyService } from '@cdba/shared/services/currency/currency.service';
+import { PRODUCT_COST_ANALYSIS_MOCK } from '@cdba/testing/mocks/models/product-cost-analysis.mock';
 
 import { PortfolioAnalysisChartService } from './portfolio-analysis-chart.service';
 

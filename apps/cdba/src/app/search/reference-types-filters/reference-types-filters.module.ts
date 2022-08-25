@@ -12,10 +12,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { MaterialNumberModule } from '@cdba/shared/pipes';
 import { PushModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
+
+import { MaterialNumberModule } from '@cdba/shared/pipes';
 
 import { MultiSelectFilterComponent } from './multi-select-filter/multi-select-filter.component';
 import { FormatValuePipe } from './multi-select-filter/pipes/format-value.pipe';

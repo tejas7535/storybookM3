@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { Store } from '@ngrx/store';
+
 import {
   getAdditionalInformation,
   getDimensionAndWeightDetails,
@@ -12,7 +14,6 @@ import {
   AdditionalInformationDetails,
   DimensionAndWeightDetails,
 } from '@cdba/shared/models';
-import { Store } from '@ngrx/store';
 
 import { MaterialCardStore } from './material-card.store';
 

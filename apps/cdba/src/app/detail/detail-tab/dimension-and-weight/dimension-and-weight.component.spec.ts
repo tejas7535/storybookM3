@@ -1,7 +1,8 @@
-import { UndefinedAttributeFallbackModule } from '@cdba/shared/pipes';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
+import { UndefinedAttributeFallbackModule } from '@cdba/shared/pipes';
 
 import { DetailsLabelValueModule } from '../details-label-value';
 import { DimensionAndWeightComponent } from './dimension-and-weight.component';

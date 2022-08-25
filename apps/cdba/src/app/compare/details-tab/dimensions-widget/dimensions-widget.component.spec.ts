@@ -1,5 +1,3 @@
-import { DimensionAndWeightDetails } from '@cdba/shared/models';
-import { UndefinedAttributeFallbackModule } from '@cdba/shared/pipes';
 import {
   createComponentFactory,
   mockProvider,
@@ -8,6 +6,9 @@ import {
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
+import { DimensionAndWeightDetails } from '@cdba/shared/models';
+import { UndefinedAttributeFallbackModule } from '@cdba/shared/pipes';
 
 import * as compareEnJson from '../../../../assets/i18n/compare/en.json';
 import * as sharedEnJson from '../../../../assets/i18n/en.json';

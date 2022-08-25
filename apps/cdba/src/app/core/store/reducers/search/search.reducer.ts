@@ -1,5 +1,6 @@
-import { ReferenceType } from '@cdba/shared/models';
 import { Action, createReducer, on } from '@ngrx/store';
+
+import { ReferenceType } from '@cdba/shared/models';
 
 import {
   applyTextSearch,

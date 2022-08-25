@@ -3,8 +3,9 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { API } from '@cdba/shared/constants/api';
 import { withCache } from '@ngneat/cashew';
+
+import { API } from '@cdba/shared/constants/api';
 
 import { RoleDescriptions } from '../models/roles.models';
 

@@ -41,7 +41,10 @@ export class BomChartComponent implements OnChanges {
     this.hasNegativeCostValues = false;
 
     data.forEach((value) => {
-      const totalValue = value.hasOwnProperty('totalPricePerPc')
+      const totalValue = Object.prototype.hasOwnProperty.call(
+        value,
+        'totalPricePerPc'
+      )
         ? value.totalPricePerPc
         : value.costing.costAreaTotalValue;
 

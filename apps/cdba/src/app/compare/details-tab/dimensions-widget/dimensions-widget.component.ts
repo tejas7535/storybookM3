@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { DimensionAndWeightDetails } from '@cdba/shared/models';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+
+import { DimensionAndWeightDetails } from '@cdba/shared/models';
 
 interface DimensionData {
   width: string;

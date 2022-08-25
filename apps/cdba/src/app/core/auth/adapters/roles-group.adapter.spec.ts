@@ -1,7 +1,8 @@
-import { PRODUCT_LINE_ROLE_DESCRIPTION_MOCK } from '@cdba/testing/mocks';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
 import { Role, RolesGroup } from '@schaeffler/roles-and-rights';
+
+import { PRODUCT_LINE_ROLE_DESCRIPTION_MOCK } from '@cdba/testing/mocks';
 
 import { RoleDescription } from '../models/roles.models';
 import { RolesGroupAdapter } from './roles-group.adapter';

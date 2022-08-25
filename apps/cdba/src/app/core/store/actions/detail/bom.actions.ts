@@ -1,12 +1,13 @@
 import { HttpStatusCode } from '@angular/common/http';
 
+import { createAction, props, union } from '@ngrx/store';
+
 import {
   BomIdentifier,
   BomItem,
   CostComponentSplit,
   OdataBomIdentifier,
 } from '@cdba/shared/models';
-import { createAction, props, union } from '@ngrx/store';
 
 export const loadBom = createAction(
   '[Detail] Load BOM',

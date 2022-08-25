@@ -1,5 +1,15 @@
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 
+import {
+  createServiceFactory,
+  mockProvider,
+  SpectatorService,
+} from '@ngneat/spectator/jest';
+import { Actions } from '@ngrx/effects';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles';
+
 import { CalculationsResponse } from '@cdba/core/store/reducers/detail/models';
 import { DetailService } from '@cdba/detail/service/detail.service';
 import { ReferenceTypeIdentifier } from '@cdba/shared/models';
@@ -10,15 +20,6 @@ import {
   EXCLUDED_CALCULATIONS_MOCK,
   REFERENCE_TYPE_IDENTIFIER_MOCK,
 } from '@cdba/testing/mocks';
-import {
-  createServiceFactory,
-  mockProvider,
-  SpectatorService,
-} from '@ngneat/spectator/jest';
-import { Actions } from '@ngrx/effects';
-import { provideMockActions } from '@ngrx/effects/testing';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { marbles } from 'rxjs-marbles';
 
 import {
   loadCalculationHistory,

@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 
+import { PushModule } from '@ngrx/component';
+
 import { ExcludedCalculationsModule } from '@cdba/shared/components/excluded-calculations';
 import { InViewModule } from '@cdba/shared/directives/in-view';
-import { PushModule } from '@ngrx/component';
 
 import { CompareButtonModule } from '../../button/compare-button';
 import { LoadBomButtonModule } from '../../button/load-bom-button';

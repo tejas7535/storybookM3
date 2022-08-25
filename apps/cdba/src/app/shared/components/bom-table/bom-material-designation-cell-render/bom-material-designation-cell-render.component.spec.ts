@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 
-import { ICellRendererParams } from 'ag-grid-enterprise';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { ICellRendererParams } from 'ag-grid-enterprise';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 

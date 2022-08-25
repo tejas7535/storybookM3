@@ -1,5 +1,6 @@
-import { ENV, getEnv } from '@cdba/environments/environment.provider';
 import { createPipeFactory, SpectatorPipe } from '@ngneat/spectator/jest';
+
+import { ENV, getEnv } from '@cdba/environments/environment.provider';
 
 import { ScrambleMaterialNumberPipe } from './scramble-material-number.pipe';
 

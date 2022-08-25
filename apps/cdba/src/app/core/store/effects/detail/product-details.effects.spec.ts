@@ -2,13 +2,6 @@ import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { DetailService } from '@cdba/detail/service/detail.service';
-import { ReferenceTypeIdentifier } from '@cdba/shared/models';
-import {
-  AUTH_STATE_MOCK,
-  REFERENCE_TYPE_IDENTIFIER_MOCK,
-  REFERENCE_TYPE_MOCK,
-} from '@cdba/testing/mocks';
 import {
   createServiceFactory,
   mockProvider,
@@ -19,6 +12,14 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
+
+import { DetailService } from '@cdba/detail/service/detail.service';
+import { ReferenceTypeIdentifier } from '@cdba/shared/models';
+import {
+  AUTH_STATE_MOCK,
+  REFERENCE_TYPE_IDENTIFIER_MOCK,
+  REFERENCE_TYPE_MOCK,
+} from '@cdba/testing/mocks';
 
 import {
   loadReferenceType,

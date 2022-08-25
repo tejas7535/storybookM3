@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import { CurrencyService } from '@cdba/shared/services/currency/currency.service';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+
+import { CurrencyService } from '@cdba/shared/services/currency/currency.service';
 
 import { DataPoint } from './data-point.model';
 

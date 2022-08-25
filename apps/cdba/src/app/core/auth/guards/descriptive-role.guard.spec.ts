@@ -1,11 +1,12 @@
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+
 import {
   ROLES_STATE_ERROR_MOCK,
   ROLES_STATE_SUCCESS_MOCK,
 } from '@cdba/testing/mocks';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { DescriptiveRoleGuard } from './descriptive-role.guard';
 

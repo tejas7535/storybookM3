@@ -1,6 +1,7 @@
-import { LocalStorageMock } from '@cdba/testing/mocks/storage/local-storage.mock';
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+
+import { LocalStorageMock } from '@cdba/testing/mocks/storage/local-storage.mock';
 
 import { BetaFeatureService } from './beta-feature.service';
 

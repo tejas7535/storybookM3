@@ -1,8 +1,9 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { EMAIL_DEFAULT } from '@cdba/shared/constants/emails';
 import { TranslocoService } from '@ngneat/transloco';
+
+import { EMAIL_DEFAULT } from '@cdba/shared/constants/emails';
 
 @Component({
   selector: 'cdba-beta-feature-dialog',

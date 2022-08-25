@@ -1,4 +1,3 @@
-import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -6,6 +5,8 @@ import { MockModule } from 'ng-mocks';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
+import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 
 import { DetailTabComponent } from './detail-tab.component';
 

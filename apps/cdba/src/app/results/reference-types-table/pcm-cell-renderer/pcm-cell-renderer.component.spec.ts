@@ -1,7 +1,8 @@
-import { ICellRendererParams } from 'ag-grid-enterprise';
-import { PcmBadgeModule } from '@cdba/shared/components/pcm-badge';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { ICellRendererParams } from 'ag-grid-enterprise';
 import { MockModule } from 'ng-mocks';
+
+import { PcmBadgeModule } from '@cdba/shared/components/pcm-badge';
 
 import { PcmCellRendererComponent } from './pcm-cell-renderer.component';
 

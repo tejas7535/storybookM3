@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import { addArrayItem, removeArrayItem } from '@cdba/shared/utils';
 import { ComponentStore } from '@ngrx/component-store';
+
+import { addArrayItem, removeArrayItem } from '@cdba/shared/utils';
 
 interface MaterialCardState {
   expandedItems: number[];

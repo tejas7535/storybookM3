@@ -3,14 +3,15 @@ import { Router } from '@angular/router';
 
 import { Observable, tap } from 'rxjs';
 
+import { Store } from '@ngrx/store';
+
+import { Breadcrumb } from '@schaeffler/breadcrumbs';
+
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 import { getPortfolioAnalysisDataForSelectedNodes } from '@cdba/core/store';
 import { EMAIL_CDBA } from '@cdba/shared/constants/emails';
 import { ProductCostAnalysis } from '@cdba/shared/models';
 import { BreadcrumbsService } from '@cdba/shared/services';
-import { Store } from '@ngrx/store';
-
-import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
 @Component({
   selector: 'cdba-portfolio-analysis',

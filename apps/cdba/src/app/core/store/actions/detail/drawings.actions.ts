@@ -1,7 +1,8 @@
 import { HttpStatusCode } from '@angular/common/http';
 
-import { Drawing } from '@cdba/shared/models';
 import { createAction, props, union } from '@ngrx/store';
+
+import { Drawing } from '@cdba/shared/models';
 
 export const selectDrawing = createAction(
   '[Detail] Select Drawing',

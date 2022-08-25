@@ -1,7 +1,8 @@
 import { HttpStatusCode } from '@angular/common/http';
 
-import { Calculation, ExcludedCalculations } from '@cdba/shared/models';
 import { createAction, props, union } from '@ngrx/store';
+
+import { Calculation, ExcludedCalculations } from '@cdba/shared/models';
 
 export const loadCalculations = createAction('[Compare] Load Calculations');
 

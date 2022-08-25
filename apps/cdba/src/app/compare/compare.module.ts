@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 
-import { TabsHeaderModule } from '@cdba/shared/components';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
@@ -9,6 +8,8 @@ import { StoreModule } from '@ngrx/store';
 import { ShareButtonModule } from '@schaeffler/share-button';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
+
+import { TabsHeaderModule } from '@cdba/shared/components';
 
 import { CompareComponent } from './compare.component';
 import { CompareRoutingModule } from './compare-routing.module';

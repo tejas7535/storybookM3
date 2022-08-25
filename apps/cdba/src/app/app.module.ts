@@ -4,6 +4,11 @@ import { NgModule } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
 
 import { MsalRedirectComponent } from '@azure/msal-angular';
+import { HttpCacheInterceptorModule } from '@ngneat/cashew';
+import { PushModule } from '@ngrx/component';
+
+import { AppShellModule } from '@schaeffler/app-shell';
+
 import { CoreModule } from '@cdba/core';
 import { ENV, getEnv } from '@cdba/environments/environment.provider';
 import {
@@ -13,10 +18,6 @@ import {
   RoleDescriptionsModule,
   UserSettingsModule,
 } from '@cdba/shared/components';
-import { HttpCacheInterceptorModule } from '@ngneat/cashew';
-import { PushModule } from '@ngrx/component';
-
-import { AppShellModule } from '@schaeffler/app-shell';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';

@@ -1,9 +1,10 @@
 import { MatDialog } from '@angular/material/dialog';
 
-import { BrowserDetectionService } from '@cdba/shared/services';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { SpyObject } from '@ngneat/spectator/jest/lib/mock.js';
 import { marbles } from 'rxjs-marbles';
+
+import { BrowserDetectionService } from '@cdba/shared/services';
 
 import { BrowserSupportDetectorComponent } from './browser-support-detector.component';
 

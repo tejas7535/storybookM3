@@ -1,9 +1,3 @@
-import { selectDrawing } from '@cdba/core/store';
-import { ENV, getEnv } from '@cdba/environments/environment.provider';
-import { LoadingSpinnerModule } from '@cdba/shared/components';
-import { Drawing } from '@cdba/shared/models';
-import { MaterialNumberModule } from '@cdba/shared/pipes';
-import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -11,6 +5,13 @@ import { MockModule } from 'ng-mocks';
 
 import { UnderConstructionModule } from '@schaeffler/empty-states';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
+import { selectDrawing } from '@cdba/core/store';
+import { ENV, getEnv } from '@cdba/environments/environment.provider';
+import { LoadingSpinnerModule } from '@cdba/shared/components';
+import { Drawing } from '@cdba/shared/models';
+import { MaterialNumberModule } from '@cdba/shared/pipes';
+import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 
 import { DrawingsComponent } from './drawings.component';
 import { DrawingsTableModule } from './drawings-table/drawings-table.module';

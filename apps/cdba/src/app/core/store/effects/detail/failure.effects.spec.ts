@@ -1,8 +1,6 @@
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { HttpErrorService } from '@cdba/core/http/services/http-error.service';
-import { COMPARE_STATE_MOCK } from '@cdba/testing/mocks';
 import {
   createServiceFactory,
   mockProvider,
@@ -12,6 +10,9 @@ import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
+
+import { HttpErrorService } from '@cdba/core/http/services/http-error.service';
+import { COMPARE_STATE_MOCK } from '@cdba/testing/mocks';
 
 import {
   loadBomFailure,

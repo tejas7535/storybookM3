@@ -1,7 +1,8 @@
 import { Inject, Injectable } from '@angular/core';
 
-import { BetaFeature } from '@cdba/shared/constants/beta-feature';
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
+
+import { BetaFeature } from '@cdba/shared/constants/beta-feature';
 
 @Injectable({
   providedIn: 'root',

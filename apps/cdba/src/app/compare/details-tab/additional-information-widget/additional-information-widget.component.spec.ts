@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 
-import { UndefinedAttributeFallbackModule } from '@cdba/shared/pipes';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
+import { UndefinedAttributeFallbackModule } from '@cdba/shared/pipes';
 
 import { AdditionalInformationWidgetComponent } from './additional-information-widget.component';
 

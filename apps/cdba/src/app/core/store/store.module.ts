@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { environment } from '@cdba/environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { RouterState, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule as NgrxStoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
+import { environment } from '@cdba/environments/environment';
 
 import { RolesEffects, RootEffects } from './effects';
 import { CustomSerializer, metaReducers, reducers } from './reducers';

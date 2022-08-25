@@ -1,10 +1,11 @@
+import { createSelector } from '@ngrx/store';
+
 import { getCompareState } from '@cdba/core/store/reducers';
 import {
   AdditionalInformationDetails,
   DimensionAndWeightDetails,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
-import { createSelector } from '@ngrx/store';
 
 import { CompareState } from '../reducers/compare.reducer';
 

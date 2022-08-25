@@ -1,8 +1,9 @@
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { IStatusPanelParams } from 'ag-grid-enterprise';
+import { MockModule } from 'ng-mocks';
+
 import { CompareButtonModule } from '@cdba/shared/components/table/button/compare-button';
 import { PortfolioAnalysisButtonModule } from '@cdba/shared/components/table/button/portfolio-analysis-button';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { MockModule } from 'ng-mocks';
 
 import { ResultsStatusBarComponent } from './results-status-bar.component';
 

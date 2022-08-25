@@ -1,7 +1,8 @@
 import { HttpStatusCode } from '@angular/common/http';
 
-import { ReferenceType, ReferenceTypeIdentifier } from '@cdba/shared/models';
 import { createAction, props, union } from '@ngrx/store';
+
+import { ReferenceType, ReferenceTypeIdentifier } from '@cdba/shared/models';
 
 export const selectReferenceType = createAction(
   '[Detail] Select Reference Type',

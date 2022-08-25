@@ -1,6 +1,5 @@
 import { SimpleChanges } from '@angular/core';
 
-import { PRODUCT_COST_ANALYSIS_MOCK } from '@cdba/testing/mocks/models/product-cost-analysis.mock';
 import {
   createComponentFactory,
   mockProvider,
@@ -8,6 +7,8 @@ import {
 } from '@ngneat/spectator/jest';
 import { NgxEchartsModule } from 'ngx-echarts';
 import resize_observer_polyfill from 'resize-observer-polyfill';
+
+import { PRODUCT_COST_ANALYSIS_MOCK } from '@cdba/testing/mocks/models/product-cost-analysis.mock';
 
 import { PortfolioAnalysisChartComponent } from './portfolio-analysis-chart.component';
 import { PortfolioAnalysisChartService } from './portfolio-analysis-chart.service';

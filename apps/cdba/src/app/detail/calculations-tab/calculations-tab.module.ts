@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 
-import { CalculationsTableModule } from '@cdba/shared/components';
 import { PushModule } from '@ngrx/component';
+
+import { CalculationsTableModule } from '@cdba/shared/components';
 
 import { CalculationsTabComponent } from './calculations-tab.component';
 import { CalculationsTabRoutingModule } from './caluclations-tab-routing.module';

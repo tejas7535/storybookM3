@@ -1,11 +1,12 @@
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
-import { CostRoles } from '@cdba/core/auth/auth.config';
-import { EXCLUDED_CALCULATIONS_MOCK } from '@cdba/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
+import { CostRoles } from '@cdba/core/auth/auth.config';
+import { EXCLUDED_CALCULATIONS_MOCK } from '@cdba/testing/mocks';
 
 import { ExcludedCalculationsDialogComponent } from './excluded-calculations-dialog.component';
 

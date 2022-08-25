@@ -3,11 +3,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
 
 import { of } from 'rxjs';
 
-import {
-  AdditionalInformationDetails,
-  DimensionAndWeightDetails,
-} from '@cdba/shared/models';
-import { COMPARE_STATE_MOCK } from '@cdba/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -15,6 +10,12 @@ import { MockModule } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles/marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
+import {
+  AdditionalInformationDetails,
+  DimensionAndWeightDetails,
+} from '@cdba/shared/models';
+import { COMPARE_STATE_MOCK } from '@cdba/testing/mocks';
 
 import { AdditionalInformationWidgetModule } from '../additional-information-widget/additional-information-widget.module';
 import { DimensionsWidgetModule } from '../dimensions-widget/dimensions-widget.module';

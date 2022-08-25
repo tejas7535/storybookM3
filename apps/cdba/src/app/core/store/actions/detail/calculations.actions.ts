@@ -1,11 +1,12 @@
 import { HttpStatusCode } from '@angular/common/http';
 
+import { createAction, props, union } from '@ngrx/store';
+
 import {
   Calculation,
   ExcludedCalculations,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
-import { createAction, props, union } from '@ngrx/store';
 
 export const loadCalculations = createAction('[Detail] Load Calculations');
 

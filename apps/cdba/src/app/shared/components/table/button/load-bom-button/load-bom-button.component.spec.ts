@@ -3,14 +3,15 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { GridApi, IStatusPanelParams, RowNode } from 'ag-grid-enterprise';
+
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
 import { selectCalculation } from '@cdba/core/store';
 import { Calculation } from '@cdba/shared/models';
 import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-
-import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { LoadBomButtonComponent } from './load-bom-button.component';
 
