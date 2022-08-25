@@ -63,7 +63,7 @@
               *ngIf="hasInternalAction(employee)"
               disableRipple="true"
               selectable="false"
-              class="w-[40px] !bg-lime text-caption !text-white after:!bg-transparent"
+              class="w-[40px] !bg-lime text-caption !text-high-emphasis-dark-bg after:!bg-transparent"
               [matTooltip]="t('fluctuationType.internal.label')"
               (click)="$event.stopPropagation()"
             >
@@ -73,7 +73,7 @@
               *ngIf="hasExternalAction(employee)"
               disableRipple="true"
               selectable="false"
-              class="!bg-light-blue w-[40px] text-caption !text-white after:!bg-transparent"
+              class="!bg-light-blue w-[40px] text-caption !text-high-emphasis-dark-bg after:!bg-transparent"
               [matTooltip]="t('fluctuationType.external.label')"
               (click)="$event.stopPropagation()"
             >

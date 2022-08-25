@@ -8,13 +8,13 @@
 
     .mat-step-header[aria-labelledby='enabled'] {
       .mat-step-icon {
-        @apply bg-medium-emphasis text-white;
+        @apply bg-medium-emphasis text-high-emphasis-dark-bg;
       }
     }
 
     .mat-step-header[aria-labelledby='active'] {
       .mat-step-icon {
-        @apply bg-primary text-white;
+        @apply bg-primary text-high-emphasis-dark-bg;
       }
     }
 

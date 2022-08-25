@@ -6,12 +6,12 @@
 
         &-state-done,
         &-state-edit {
-          @apply bg-medium-emphasis text-white;
+          @apply bg-medium-emphasis text-high-emphasis-dark-bg;
         }
       }
 
       &-icon-selected {
-        @apply bg-primary text-white;
+        @apply bg-primary text-high-emphasis-dark-bg;
       }
 
       &-label {

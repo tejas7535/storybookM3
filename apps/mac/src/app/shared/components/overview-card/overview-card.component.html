@@ -43,17 +43,19 @@
                   >
                     <mat-icon
                       [svgIcon]="icon"
-                      class="!h-12 !w-12 text-h1-mobile text-white"
+                      class="!h-12 !w-12 text-h1-mobile text-high-emphasis-dark-bg"
                       [inline]="false"
                     ></mat-icon>
                     <div
-                      class="text-center text-caption text-white"
+                      class="text-center text-caption text-high-emphasis-dark-bg"
                       *ngIf="!external; else externalTemplate"
                     >
                       {{ t('openApplication') }}
                     </div>
                     <ng-template #externalTemplate>
-                      <div class="text-center text-caption text-white">
+                      <div
+                        class="text-center text-caption text-high-emphasis-dark-bg"
+                      >
                         {{ t('openApplicationInNewWindow') }}
                       </div>
                     </ng-template>
@@ -68,17 +70,17 @@
                   >
                     <mat-icon
                       [svgIcon]="icon"
-                      class="!h-24 !w-24 text-white"
+                      class="!h-24 !w-24 text-high-emphasis-dark-bg"
                     ></mat-icon>
                     <div
-                      class="absolute bottom-6 text-center text-caption text-white"
+                      class="absolute bottom-6 text-center text-caption text-high-emphasis-dark-bg"
                       *ngIf="!external; else externalTemplateInverted"
                     >
                       {{ t('openApplication') }}
                     </div>
                     <ng-template #externalTemplateInverted>
                       <div
-                        class="absolute bottom-6 text-center text-caption text-white"
+                        class="absolute bottom-6 text-center text-caption text-high-emphasis-dark-bg"
                       >
                         {{ t('openApplicationInNewTab') }}
                       </div>
@@ -112,8 +114,10 @@
         <div
           class="flex h-full w-full flex-col items-center justify-center gap-4 rounded-t-sm bg-[rgb(0,0,0,0.2)]"
         >
-          <mat-icon class="text-white">lock</mat-icon>
-          <div class="text-caption text-white">{{ t('noAccessText') }}</div>
+          <mat-icon class="text-high-emphasis-dark-bg">lock</mat-icon>
+          <div class="text-caption text-high-emphasis-dark-bg">
+            {{ t('noAccessText') }}
+          </div>
         </div>
       </ng-template>
     </div>

@@ -14,10 +14,10 @@
   }
 
   .row-highest-cost-share {
-    @apply bg-secondary-800 text-white;
+    @apply bg-secondary-800 text-high-emphasis-dark-bg;
 
     .ag-icon {
-      @apply text-white;
+      @apply text-high-emphasis-dark-bg;
     }
   }
 

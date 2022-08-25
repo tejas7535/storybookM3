@@ -125,7 +125,7 @@ export class OrgChartService {
               ${data.heatMapClass}">
                 <span class="text-body-2 ${
                   data.heatMapClass !== undefined
-                    ? 'text-white'
+                    ? 'text-high-emphasis-dark-bg'
                     : 'text-high-emphasis'
                 }">${data.organization}</span>
             </div>

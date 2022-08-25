@@ -20,7 +20,11 @@
       >
       <span
         class="text-left text-high-emphasis"
-        [ngClass]="simulationModeEnabled ? 'text-white ' : 'text-high-emphasis'"
+        [ngClass]="
+          simulationModeEnabled
+            ? 'text-high-emphasis-dark-bg '
+            : 'text-high-emphasis'
+        "
       >
         {{ totalRowCount }}</span
       >
@@ -39,7 +43,9 @@
       <span
         class="text-left"
         [ngClass]="
-          simulationModeEnabled ? 'text-white ' : 'text-high-emphasis-emphasis'
+          simulationModeEnabled
+            ? 'text-high-emphasis-dark-bg '
+            : 'text-high-emphasis-emphasis'
         "
       >
         {{ selectedRowCount }}</span

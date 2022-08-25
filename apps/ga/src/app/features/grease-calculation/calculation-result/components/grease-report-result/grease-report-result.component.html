@@ -17,7 +17,7 @@
           class="relative ml-3 inline-block pr-7"
         >
           <div
-            class="ml-3 inline-block rounded-full bg-orange px-3 py-[1px] text-caption text-white"
+            class="ml-3 inline-block rounded-full bg-orange px-3 py-[1px] text-caption text-high-emphasis-dark-bg"
           >
             {{ t('insufficientGreaseResultHint') }}
           </div>
@@ -34,7 +34,9 @@
         <div
           *ngIf="greaseResult.isSufficient && indicateGreasePreference"
           class="ml-3 inline-block rounded-full bg-background-dark px-3 py-[1px] text-caption text-medium-emphasis"
-          [ngClass]="{ '!bg-primary !text-white': greaseResult.isPreferred }"
+          [ngClass]="{
+            '!bg-primary !text-high-emphasis-dark-bg': greaseResult.isPreferred
+          }"
         >
           {{
             t(
