@@ -65,12 +65,12 @@
 
     span.mat-checkbox-label {
       @apply text-high-emphasis;
-      @apply text-body-1;
+      @apply text-body-2;
       width: 100%;
     }
 
     .label {
-      @apply bg-medium-emphasis;
+      @apply text-medium-emphasis;
       float: right;
       @apply text-body-2;
     }
