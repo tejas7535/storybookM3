@@ -1,5 +1,4 @@
 @use '@angular/material' as mat;
-@import './colors';
 
 @mixin schaeffler-theme-overrides($theme) {
   // button overrides
@@ -20,10 +19,9 @@
 
   // snackbar overrides
   .mat-snack-bar-container {
-    background: $schaeffler-black;
-    color: $schaeffler-white;
-    padding-bottom: 0 !important;
-    padding-top: 0 !important;
+    @apply bg-high-emphasis;
+    @apply text-high-emphasis-dark-bg;
+    @apply py-0 #{!important};
 
     .mat-simple-snackbar {
       @apply flex-wrap;
@@ -40,7 +38,7 @@
         @apply justify-end;
         @apply mt-2;
         @apply mb-2;
-        color: $schaeffler-white;
+        @apply text-high-emphasis-dark-bg;
       }
     }
   }
@@ -48,7 +46,7 @@
   // tooltip overrides
   mat-tooltip-component .mat-tooltip {
     @apply whitespace-pre-line py-2 px-4 text-caption;
-    background: $schaeffler-carbon-gray; // Todo: change to whatever the new primary-900 will be called
+    @apply bg-secondary-900;
   }
 
   // expansion panel overrides
