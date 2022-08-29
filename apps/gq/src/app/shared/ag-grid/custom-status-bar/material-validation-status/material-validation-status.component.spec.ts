@@ -66,7 +66,7 @@ describe('MaterialValidationStatusComponent', () => {
 
       expect(component['params']).toEqual(params);
       expect(params.api.addEventListener).toHaveBeenCalledWith(
-        'rowDataChanged',
+        'rowDataUpdated',
         expect.any(Function)
       );
     });

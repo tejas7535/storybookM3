@@ -55,7 +55,7 @@ export class QuotationDetailsStatusComponent implements OnInit {
       this.onSelectionChange.bind(this)
     );
     this.params.api.addEventListener(
-      'rowDataChanged',
+      'rowDataUpdated',
       this.rowValueChanges.bind(this)
     );
   }

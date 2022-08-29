@@ -105,7 +105,7 @@ describe('QuotationDetailsStatusComponent', () => {
       })
     );
   });
-  describe('onRowDataChanged', () => {
+  describe('onRowDataUpdated', () => {
     beforeEach(() => {
       component['params'] = params;
       component.onSelectionChange = jest.fn();

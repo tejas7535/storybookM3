@@ -18,7 +18,7 @@ export class MaterialValidationStatusComponent {
     this.params = params;
 
     this.params.api.addEventListener(
-      'rowDataChanged',
+      'rowDataUpdated',
       this.rowValueChanges.bind(this)
     );
   }
@@ -28,6 +28,7 @@ export class MaterialValidationStatusComponent {
     this.total = 0;
 
     this.params.api.forEachNode((row: RowNode) => {
+      console.log(row);
       if (
         row?.data?.info?.description?.includes(
           ValidationDescription.Not_Validated
