@@ -1,4 +1,6 @@
 import { NgModule } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -16,6 +18,8 @@ import { EntriesExitsComponent } from './entries-exits.component';
     LooseDoughnutChartModule,
     CombinedLegendModule,
     KpiModule,
+    MatIconModule,
+    MatTooltipModule,
   ],
   exports: [EntriesExitsComponent],
 })

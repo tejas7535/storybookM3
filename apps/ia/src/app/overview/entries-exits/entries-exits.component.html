@@ -1,5 +1,13 @@
-<div *transloco="let t; read: 'overview'">
-  <h5>{{ t('workforceBalance') }}</h5>
+<div *transloco="let t; read: 'overview.workforceBalance'">
+  <h5 class="flex items-center">
+    {{ t('title') }}
+    <mat-icon
+      [matTooltip]="t('hint')"
+      class="ml-1 cursor-default text-high-emphasis"
+    >
+      info
+    </mat-icon>
+  </h5>
   <div class="grid grid-cols-6 gap-4">
     <ia-kpi
       class="col-span-2 text-center"
@@ -46,7 +54,7 @@
   </div>
   <div class="flex justify-center pt-3">
     <ia-external-legend
-      *ngIf="!isDataLoading"
+      *ngIf="!isDataLoading && !!entriesDoughnutConfig && !!exitsDoughnutConfig"
       [legend]="legend"
       (selectedLegendItem)="onSelectedLegendItem($event)"
     ></ia-external-legend>

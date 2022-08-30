@@ -19,16 +19,29 @@ export class EntriesExitsComponent {
   initialConfig = [
     new DoughnutSeriesConfig(
       [new DoughnutChartData(0)],
-      translate('overview.internal'),
+      translate('overview.workforceBalance.internal'),
       Color.LIME
     ),
     new DoughnutSeriesConfig(
       [new DoughnutChartData(0)],
-      translate('overview.external'),
+      translate('overview.workforceBalance.external'),
       Color.LIGHT_BLUE
     ),
   ];
-  legend: ChartLegendItem[];
+  legend: ChartLegendItem[] = [
+    new ChartLegendItem(
+      translate('overview.workforceBalance.internal'),
+      Color.LIME,
+      translate('overview.workforceBalance.hintInternal'),
+      true
+    ),
+    new ChartLegendItem(
+      translate('overview.workforceBalance.external'),
+      Color.LIGHT_BLUE,
+      translate('overview.workforceBalance.hintExternal'),
+      true
+    ),
+  ];
   legendSelectAction: LegendSelectAction;
   entriesDoughnutConfig: DoughnutConfig;
   exitsDoughnutConfig: DoughnutConfig;
@@ -48,27 +61,9 @@ export class EntriesExitsComponent {
     // copy of data is needed to trigger internal reset
     this.entriesDoughnutConfig = data[0];
     this.exitsDoughnutConfig = data[1];
-    this.legend = this.getLegend();
   }
 
   onSelectedLegendItem(action: LegendSelectAction): void {
     this.legendSelectAction = action;
-  }
-
-  getLegend(): ChartLegendItem[] {
-    return [
-      new ChartLegendItem(
-        translate('overview.internal'),
-        Color.LIME,
-        undefined,
-        true
-      ),
-      new ChartLegendItem(
-        translate('overview.external'),
-        Color.LIGHT_BLUE,
-        undefined,
-        true
-      ),
-    ];
   }
 }

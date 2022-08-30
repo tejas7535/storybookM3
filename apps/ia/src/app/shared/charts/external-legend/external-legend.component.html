@@ -17,5 +17,16 @@
       [ngClass]="{ 'text-low-emphasis': !item.selected }"
       >{{ item.name }}</span
     >
+    <mat-icon
+      *ngIf="item.tooltip"
+      [matTooltip]="item.tooltip"
+      [ngClass]="{
+        'text-low-emphasis': !item.selected,
+        'text-high-emphasis': item.selected
+      }"
+      class="ml-1 !h-[16px] !w-[16px] cursor-default !text-[16px]"
+    >
+      info
+    </mat-icon>
   </div>
 </div>
