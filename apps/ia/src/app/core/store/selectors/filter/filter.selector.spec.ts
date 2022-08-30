@@ -1,4 +1,5 @@
 import {
+  EmployeesRequest,
   FilterDimension,
   FilterKey,
   IdValue,
@@ -146,9 +147,10 @@ describe('Filter Selector', () => {
   describe('getCurrentFilters', () => {
     test('should return currently selected filters and time range', () => {
       expect(getCurrentFilters(fakeState)).toEqual({
-        orgUnit: 'Schaeffler_IT_1',
+        filterDimension: FilterDimension.ORG_UNIT,
+        value: 'Schaeffler_IT_1',
         timeRange: '1577863715000|1609399715000',
-      });
+      } as EmployeesRequest);
     });
   });
 

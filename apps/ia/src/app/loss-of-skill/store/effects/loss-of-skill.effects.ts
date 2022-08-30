@@ -39,7 +39,7 @@ export class LossOfSkillEffects implements OnInitEffects {
       ofType(filterSelected, triggerLoad),
       concatLatestFrom(() => this.store.select(getCurrentFilters)),
       map(([_action, request]) => request),
-      filter((request) => request.orgUnit),
+      filter((request) => !!(request.timeRange && request.value)),
       mergeMap((request: EmployeesRequest) => [
         loadJobProfiles({ request }),
         loadOpenPositions({ request }),

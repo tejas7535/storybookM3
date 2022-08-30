@@ -204,7 +204,7 @@ describe('Organization View Reducer', () => {
   describe('loadAttritionOverTimeOrgChart', () => {
     test('should set loading', () => {
       const action = loadAttritionOverTimeOrgChart({
-        orgUnit: 'ACS',
+        request: { value: 'ACS' } as EmployeesRequest,
       });
       const state = organizationalViewReducer(initialState, action);
 

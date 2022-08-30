@@ -8,6 +8,7 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import {
   AttritionOverTime,
   EmployeesRequest,
+  FilterDimension,
   TimePeriod,
 } from '../shared/models';
 import { OrgChartResponse, OrgUnitFluctuationRate } from './org-chart/models';
@@ -43,14 +44,18 @@ describe('OrganizationalViewService', () => {
       const orgUnit = 'Schaeffler12';
       const timeRange = '123-321';
       const mock: OrgChartResponse = { orgUnits: [] };
-      const request = { orgUnit, timeRange } as unknown as EmployeesRequest;
+      const request = {
+        filterDimension: FilterDimension.ORG_UNIT,
+        value: orgUnit,
+        timeRange,
+      } as EmployeesRequest;
 
       service.getOrgChart(request).subscribe((response) => {
         expect(response).toEqual(mock);
       });
 
       const req = httpMock.expectOne(
-        `api/v1/org-chart?org_unit_key=${orgUnit}&time_range=${timeRange}`
+        `api/v1/org-chart?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}&time_range=${timeRange}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);
@@ -92,7 +97,11 @@ describe('OrganizationalViewService', () => {
       const orgUnit = 'Schaeffler12';
       const timeRange = '123-321';
       const mock: WorldMapResponse = { data: [] };
-      const request = { orgUnit, timeRange } as unknown as EmployeesRequest;
+      const request = {
+        filterDimension: FilterDimension.ORG_UNIT,
+        value: orgUnit,
+        timeRange,
+      } as EmployeesRequest;
       service.addContinentToCountryData = jest.fn(() => mock.data);
 
       service.getWorldMap(request).subscribe((response) => {
@@ -103,7 +112,7 @@ describe('OrganizationalViewService', () => {
       });
 
       const req = httpMock.expectOne(
-        `api/v1/world-map?org_unit_key=${orgUnit}&time_range=${timeRange}`
+        `api/v1/world-map?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}&time_range=${timeRange}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);
@@ -136,17 +145,21 @@ describe('OrganizationalViewService', () => {
       };
       const mock: OrgUnitFluctuationRate = {
         ...response,
-        orgUnitKey: orgUnit,
+        value: orgUnit,
         timeRange,
       };
-      const request = { orgUnit, timeRange } as unknown as EmployeesRequest;
+      const request = {
+        filterDimension: FilterDimension.ORG_UNIT,
+        value: orgUnit,
+        timeRange,
+      } as EmployeesRequest;
 
       service.getOrgUnitFluctuationRate(request).subscribe((resp) => {
         expect(resp).toEqual(mock);
       });
 
       const req = httpMock.expectOne(
-        `api/v1/fluctuation-rate?org_unit_key=${orgUnit}&time_range=${timeRange}`
+        `api/v1/fluctuation-rate?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}&time_range=${timeRange}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(response);
@@ -166,13 +179,17 @@ describe('OrganizationalViewService', () => {
       };
 
       service
-        .getAttritionOverTime(orgUnit, TimePeriod.LAST_THREE_YEARS)
+        .getAttritionOverTime(
+          FilterDimension.ORG_UNIT,
+          orgUnit,
+          TimePeriod.LAST_THREE_YEARS
+        )
         .subscribe((response) => {
           expect(response).toEqual(mock);
         });
 
       const req = httpMock.expectOne(
-        `api/v1/attrition-over-time?org_unit_key=${orgUnit}&time_period=${TimePeriod.LAST_THREE_YEARS}`
+        `api/v1/attrition-over-time?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}&time_period=${TimePeriod.LAST_THREE_YEARS}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);

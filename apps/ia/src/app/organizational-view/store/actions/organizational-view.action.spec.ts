@@ -94,7 +94,7 @@ describe('Organizational View Actions', () => {
 
   test('loadOrgUnitFluctuationRateSuccess', () => {
     const rate: OrgUnitFluctuationRate = {
-      orgUnitKey: '123',
+      value: '123',
       timeRange: '123|456',
       fluctuationRate: 0.1,
       unforcedFluctuationRate: 0.01,
@@ -187,10 +187,12 @@ describe('Organizational View Actions', () => {
   test('loadAttritionOverTimeOrgChart', () => {
     const orgUnit = 'ACB';
 
-    const action = loadAttritionOverTimeOrgChart({ orgUnit });
+    const action = loadAttritionOverTimeOrgChart({
+      request: { value: orgUnit } as EmployeesRequest,
+    });
 
     expect(action).toEqual({
-      orgUnit,
+      request: { value: orgUnit },
       type: '[Organizational View] Load AttritionOverTime for plus minus three months',
     });
   });

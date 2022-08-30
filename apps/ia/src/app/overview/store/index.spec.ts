@@ -32,7 +32,7 @@ describe('Overview Reducer', () => {
   describe('loadAttritionOverTimeOverview', () => {
     test('should set loading', () => {
       const action = loadAttritionOverTimeOverview({
-        orgUnit: 'ACB',
+        request: { value: 'ACB' } as EmployeesRequest,
       });
       const state = overviewReducer(initialState, action);
 
@@ -160,7 +160,7 @@ describe('Overview Reducer', () => {
   describe('loadResignedEmployees', () => {
     test('should set loading', () => {
       const action = loadResignedEmployees({
-        orgUnit: 'ABC',
+        request: { value: 'abc' } as EmployeesRequest,
       });
       const state = overviewReducer(initialState, action);
 

@@ -23,28 +23,89 @@ import { FilterLayout } from './filter-layout.enum';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilterComponent {
-  private _selectedOrgUnit: IdValue;
+  private readonly ASYNC_SEARCH_MIN_CHAR_LENGTH = 2;
+  private readonly LOCAL_SEARCH_MIN_CHAR_LENGTH = 0;
+
+  private _selectedBusinessArea: IdValue;
   private _selectedTimePeriod: TimePeriod;
+  private _businessAreaFilter: Filter;
+  private _options: IdValue[];
+  private _minCharLength = 0;
+  private _asyncMode = false;
+  private _dimensionName: string;
+
+  get dimensionName(): string {
+    return this._dimensionName;
+  }
+
+  private _activeDimension: FilterDimension;
+
+  get activeDimension(): FilterDimension {
+    return this._activeDimension;
+  }
+
+  @Input() set activeDimension(activeDimension: FilterDimension) {
+    this._activeDimension = activeDimension;
+    this._dimensionName = this.availableDimensions?.find(
+      (dimension) => dimension.id === this.activeDimension
+    )?.value;
+  }
+
   timeRangeHintValue = 'time range';
 
   disabledTimeRangeFilter = true;
   filterLayout = FilterLayout;
 
-  @Input() activeDimension: FilterDimension;
-  @Input() availableDimensions: IdValue[];
+  private _availableDimensions: IdValue[];
+
+  @Input() set availableDimensions(availableDimensions: IdValue[]) {
+    this._availableDimensions = availableDimensions;
+    this._dimensionName = this.getDimensionName();
+  }
+
+  get availableDimensions(): IdValue[] {
+    return this._availableDimensions;
+  }
+
   @Input() businessAreaLoading: boolean;
-  @Input() businessAreaFilter: Filter;
+  @Input() orgUnitsLoading: boolean;
+
+  @Input() set businessAreaFilter(businessAreaFilter: Filter) {
+    this._businessAreaFilter = businessAreaFilter;
+    this._options = businessAreaFilter.options;
+    this._minCharLength =
+      businessAreaFilter.name === FilterDimension.ORG_UNIT
+        ? this.ASYNC_SEARCH_MIN_CHAR_LENGTH
+        : this.LOCAL_SEARCH_MIN_CHAR_LENGTH;
+    this._asyncMode = businessAreaFilter.name === FilterDimension.ORG_UNIT;
+  }
+
+  get businessAreaFilter(): Filter {
+    return this._businessAreaFilter;
+  }
+
+  get options(): IdValue[] {
+    return this._options;
+  }
+
+  get minCharLength(): number {
+    return this._minCharLength;
+  }
+
+  get asyncMode(): boolean {
+    return this._asyncMode;
+  }
 
   @Input() layout: FilterLayout = FilterLayout.DEFAULT;
 
   @Input() disableFilters: boolean;
-  @Input() orgUnitsLoading: boolean;
-  @Input() set selectedBusinessArea(selectedOrgUnit: IdValue) {
-    this._selectedOrgUnit = selectedOrgUnit;
-    this.disabledTimeRangeFilter = selectedOrgUnit === undefined;
+  @Input() set selectedBusinessArea(selectedBusinessArea: IdValue) {
+    this._selectedBusinessArea = selectedBusinessArea;
+    this.disabledTimeRangeFilter = selectedBusinessArea === undefined;
   }
+
   get selectedBusinessArea(): IdValue {
-    return this._selectedOrgUnit;
+    return this._selectedBusinessArea;
   }
 
   @Input() selectedTime: IdValue;
@@ -61,7 +122,7 @@ export class FilterComponent {
   @Output() selectDimension = new EventEmitter<IdValue>();
   @Output() selectTimePeriod = new EventEmitter<TimePeriod>();
   @Output() selectFilter = new EventEmitter<SelectedFilter>();
-  @Output() readonly autoCompleteOrgUnits: EventEmitter<string> =
+  @Output() readonly autoCompleteInput: EventEmitter<string> =
     new EventEmitter();
 
   dimensionSelected(selectedDimension: IdValue): void {
@@ -87,12 +148,21 @@ export class FilterComponent {
     this.selectFilter.emit(filter);
   }
 
-  orgUnitInvalid(orgUnitIsInvalid: boolean): void {
-    this.disabledTimeRangeFilter = orgUnitIsInvalid;
+  businessAreaInvalid(businessAreaIsInvalid: boolean): void {
+    this.disabledTimeRangeFilter = businessAreaIsInvalid;
   }
 
-  autoCompleteOrgUnitsChange(searchFor: string): void {
-    this.autoCompleteOrgUnits.emit(searchFor);
+  autoCompleteInputChange(searchFor: string): void {
+    if (this.asyncMode) {
+      this.autoCompleteInput.emit(searchFor);
+    } else {
+      this.businessAreaFilter.options =
+        searchFor.length > 0
+          ? this.options?.filter((option) =>
+              option.value?.toUpperCase().startsWith(searchFor.toUpperCase())
+            )
+          : this.options;
+    }
   }
 
   getDimensionName(): string {

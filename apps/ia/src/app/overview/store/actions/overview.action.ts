@@ -10,7 +10,7 @@ import {
 
 export const loadAttritionOverTimeOverview = createAction(
   '[Overview] Load AttritionOverTime for last three years',
-  props<{ orgUnit: string }>()
+  props<{ request: EmployeesRequest }>()
 );
 
 export const loadAttritionOverTimeOverviewSuccess = createAction(
@@ -55,7 +55,7 @@ export const loadFluctuationRatesChartDataFailure = createAction(
 
 export const loadResignedEmployees = createAction(
   '[Overview] Load Resigned Employees',
-  props<{ orgUnit: string }>()
+  props<{ request: EmployeesRequest }>()
 );
 
 export const loadResignedEmployeesSuccess = createAction(

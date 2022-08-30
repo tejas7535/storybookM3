@@ -18,6 +18,8 @@ import { IGNORE_HTTP_CALLS } from './constants';
 export class BaseHttpInterceptor implements HttpInterceptor {
   public constructor(private readonly snackbar: MatSnackBar) {}
 
+  private readonly constraintViolationTitle = 'Constraint Violation';
+
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
@@ -58,6 +60,10 @@ export class BaseHttpInterceptor implements HttpInterceptor {
 
             // show default error message
             errorMessage = 'An error occurred. Please try again later.';
+          } else if (error.error?.title === this.constraintViolationTitle) {
+            errorMessage = (error.error.violations as { message: string }[])
+              .map((violation) => violation.message)
+              .toString();
           } else {
             // Backend Response
             console.error(

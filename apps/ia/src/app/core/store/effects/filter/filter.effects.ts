@@ -6,14 +6,19 @@ import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import { FilterService } from '../../../../filter-section/filter.service';
-import { FilterDimension, IdValue } from '../../../../shared/models';
+import {
+  FilterDimension,
+  IdValue,
+  SelectedFilter,
+} from '../../../../shared/models';
 import { loadUserSettingsOrgUnits } from '../../../../user-settings/store/actions/user-settings.action';
 import {
+  filterSelected,
   loadFilterDimensionData,
   loadFilterDimensionDataFailure,
   loadFilterDimensionDataSuccess,
 } from '../../actions';
-import { getSelectedTimeRange } from '../../selectors';
+import { getSelectedBusinessArea, getSelectedTimeRange } from '../../selectors';
 
 @Injectable()
 export class FilterEffects {
@@ -43,6 +48,25 @@ export class FilterEffects {
           )
         )
       )
+    );
+  });
+
+  loadFilterDimensionDataSuccess$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(loadFilterDimensionDataSuccess),
+      concatLatestFrom(() => this.store.select(getSelectedBusinessArea)),
+      mergeMap(([action, selectedBusinessArea]) => {
+        return selectedBusinessArea
+          ? of(
+              filterSelected({
+                filter: {
+                  name: action.filterDimension,
+                  idValue: selectedBusinessArea,
+                } as SelectedFilter,
+              })
+            )
+          : EMPTY;
+      })
     );
   });
 

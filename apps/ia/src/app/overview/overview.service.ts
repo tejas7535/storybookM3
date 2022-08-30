@@ -6,7 +6,11 @@ import { Observable } from 'rxjs';
 import { withCache } from '@ngneat/cashew';
 
 import { ParamsCreatorService } from '../shared/http/params-creator.service';
-import { ApiVersion, EmployeesRequest } from '../shared/models';
+import {
+  ApiVersion,
+  EmployeesRequest,
+  FilterDimension,
+} from '../shared/models';
 import {
   FluctuationRatesChartData,
   OpenApplication,
@@ -34,7 +38,8 @@ export class OverviewService {
     employeesRequest: EmployeesRequest
   ): Observable<OverviewFluctuationRates> {
     const params = this.paramsCreator.createHttpParamsForOrgUnitAndTimeRange(
-      employeesRequest.orgUnit,
+      employeesRequest.filterDimension,
+      employeesRequest.value,
       employeesRequest.timeRange
     );
 
@@ -47,8 +52,9 @@ export class OverviewService {
   getFluctuationRateChartData(
     employeesRequest: EmployeesRequest
   ): Observable<FluctuationRatesChartData> {
-    const params = this.paramsCreator.createHttpParamsForOrgUnit(
-      employeesRequest.orgUnit
+    const params = this.paramsCreator.createHttpParamsForFilterDimension(
+      employeesRequest.filterDimension,
+      employeesRequest.value
     );
 
     return this.http.get<FluctuationRatesChartData>(
@@ -57,8 +63,14 @@ export class OverviewService {
     );
   }
 
-  getResignedEmployees(orgUnit: string): Observable<ResignedEmployeesResponse> {
-    const params = this.paramsCreator.createHttpParamsForOrgUnit(orgUnit);
+  getResignedEmployees(
+    filterDimension: FilterDimension,
+    orgUnit: string
+  ): Observable<ResignedEmployeesResponse> {
+    const params = this.paramsCreator.createHttpParamsForFilterDimension(
+      filterDimension,
+      orgUnit
+    );
 
     return this.http.get<ResignedEmployeesResponse>(
       `${ApiVersion.V1}/${this.RESIGNED_EMPLOYEES}`,
@@ -70,7 +82,10 @@ export class OverviewService {
   }
 
   getOpenApplications(orgUnit: string): Observable<OpenApplication[]> {
-    const params = this.paramsCreator.createHttpParamsForOrgUnit(orgUnit);
+    const params = this.paramsCreator.createHttpParamsForFilterDimension(
+      FilterDimension.ORG_UNIT,
+      orgUnit
+    );
 
     return this.http.get<OpenApplication[]>(
       `${ApiVersion.V1}/${this.OPEN_APPLICATIONS}`,

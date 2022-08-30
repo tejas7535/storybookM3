@@ -12,6 +12,7 @@ import {
   ApiVersion,
   AttritionOverTime,
   EmployeesRequest,
+  FilterDimension,
   IdValue,
   TimePeriod,
 } from '../shared/models';
@@ -44,7 +45,8 @@ export class OrganizationalViewService {
     employeesRequest: EmployeesRequest
   ): Observable<OrgUnitFluctuationData[]> {
     const params = this.paramsCreator.createHttpParamsForOrgUnitAndTimeRange(
-      employeesRequest.orgUnit,
+      employeesRequest.filterDimension,
+      employeesRequest.value,
       employeesRequest.timeRange
     );
 
@@ -74,7 +76,8 @@ export class OrganizationalViewService {
 
   getWorldMap(employeesRequest: EmployeesRequest): Observable<CountryData[]> {
     const params = this.paramsCreator.createHttpParamsForOrgUnitAndTimeRange(
-      employeesRequest.orgUnit,
+      employeesRequest.filterDimension,
+      employeesRequest.value,
       employeesRequest.timeRange
     );
 
@@ -93,7 +96,8 @@ export class OrganizationalViewService {
     employeesRequest: EmployeesRequest
   ): Observable<OrgUnitFluctuationRate> {
     const params = this.paramsCreator.createHttpParamsForOrgUnitAndTimeRange(
-      employeesRequest.orgUnit,
+      employeesRequest.filterDimension,
+      employeesRequest.value,
       employeesRequest.timeRange
     );
 
@@ -108,7 +112,7 @@ export class OrganizationalViewService {
       .pipe(
         map((response) => ({
           ...response,
-          orgUnitKey: employeesRequest.orgUnit,
+          value: employeesRequest.value,
           timeRange: employeesRequest.timeRange,
         }))
       );
@@ -124,11 +128,13 @@ export class OrganizationalViewService {
   }
 
   getAttritionOverTime(
-    orgUnit: string,
+    filterDimension: FilterDimension,
+    key: string,
     timePeriod: TimePeriod.LAST_THREE_YEARS | TimePeriod.LAST_6_MONTHS
   ): Observable<AttritionOverTime> {
     const params = this.paramsCreator.createHttpParamsForOrgUnitAndTimePeriod(
-      orgUnit,
+      filterDimension,
+      key,
       timePeriod
     );
 

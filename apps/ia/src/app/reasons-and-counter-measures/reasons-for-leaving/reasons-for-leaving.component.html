@@ -44,7 +44,7 @@
         [selectedTimePeriod]="comparedSelectedTimePeriod$ | ngrxPush"
         [selectedTime]="comparedSelectedTime$ | ngrxPush"
         (selectFilter)="comparedFilterSelected($event)"
-        (autoCompleteOrgUnits)="comparedAutoCompleteOrgUnitsChange($event)"
+        (autoCompleteInput)="comparedAutoCompleteOrgUnitsChange($event)"
         (selectTimePeriod)="comparedTimePeriodSelected($event)"
       >
       </ia-filter>

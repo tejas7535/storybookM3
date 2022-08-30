@@ -86,7 +86,10 @@ describe('ReasonsAndCounterMeasures Effects', () => {
           value: 'best',
         });
         action = filterSelected({ filter });
-        store.overrideSelector(getCurrentFilters, {});
+        store.overrideSelector(
+          getCurrentFilters,
+          {} as EmployeesRequest as any
+        );
 
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('--');
@@ -99,7 +102,10 @@ describe('ReasonsAndCounterMeasures Effects', () => {
       'timeRangeSelected - should do nothing when organization is not set',
       marbles((m) => {
         action = triggerLoad();
-        store.overrideSelector(getCurrentFilters, {});
+        store.overrideSelector(
+          getCurrentFilters,
+          {} as EmployeesRequest as any
+        );
 
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('--');

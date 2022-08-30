@@ -20,6 +20,7 @@ import {
 import {
   AttritionOverTime,
   EmployeesRequest,
+  FilterDimension,
   FilterKey,
   IdValue,
   SelectedFilter,
@@ -55,11 +56,11 @@ export class OrganizationalViewEffects implements OnInitEffects {
       ofType(filterSelected, triggerLoad),
       concatLatestFrom(() => this.store.select(getCurrentFilters)),
       map(([_action, request]) => request),
-      filter((request) => request.orgUnit),
+      filter((request) => !!request.timeRange),
       mergeMap((request: EmployeesRequest) => [
         loadOrgChart({ request }),
         loadWorldMap({ request }),
-        loadAttritionOverTimeOrgChart({ orgUnit: request.orgUnit }),
+        loadAttritionOverTimeOrgChart({ request }),
       ])
     );
   });
@@ -87,7 +88,8 @@ export class OrganizationalViewEffects implements OnInitEffects {
       concatLatestFrom(() => this.store.select(getSelectedTimeRange)),
       map(([action, timeRange]) => {
         return {
-          orgUnit: action.data.orgUnitKey,
+          filterDimension: FilterDimension.ORG_UNIT,
+          value: action.data.orgUnitKey,
           timeRange: timeRange.id,
         };
       }),
@@ -163,10 +165,14 @@ export class OrganizationalViewEffects implements OnInitEffects {
   loadAttritionOverTimeOrgChart$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadAttritionOverTimeOrgChart),
-      map((action) => action.orgUnit),
-      switchMap((orgUnit: string) =>
+      map((action) => action.request),
+      switchMap((request: EmployeesRequest) =>
         this.organizationalViewService
-          .getAttritionOverTime(orgUnit, TimePeriod.LAST_6_MONTHS)
+          .getAttritionOverTime(
+            request.filterDimension,
+            request.value,
+            TimePeriod.LAST_6_MONTHS
+          )
           .pipe(
             map((data: AttritionOverTime) =>
               loadAttritionOverTimeOrgChartSuccess({ data })

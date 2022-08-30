@@ -42,7 +42,7 @@ export class ReasonsAndCounterMeasuresEffects implements OnInitEffects {
       ofType(filterSelected, triggerLoad),
       concatLatestFrom(() => this.store.select(getCurrentFilters)),
       map(([_action, selectedFilters]) => selectedFilters),
-      filter((request) => request.orgUnit && request.timeRange),
+      filter((request) => !!request.timeRange),
       mergeMap((request: EmployeesRequest) => [
         loadReasonsWhyPeopleLeft({ request }),
       ])

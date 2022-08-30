@@ -18,7 +18,6 @@ import { OrganizationalViewService } from '../../../organizational-view/organiza
 import {
   AttritionOverTime,
   EmployeesRequest,
-  FilterDimension,
   TimePeriod,
 } from '../../../shared/models';
 import {
@@ -55,14 +54,15 @@ export class OverviewEffects implements OnInitEffects {
       concatLatestFrom(() => this.store.select(getCurrentFilters)),
       map(([_action, request]) => request),
       filter(
-        (request) => request[FilterDimension.ORG_UNIT] && request.timeRange
+        (request) =>
+          !!(request.filterDimension && request.value && request.timeRange)
       ),
       mergeMap((request: EmployeesRequest) => [
-        loadAttritionOverTimeOverview({ orgUnit: request.orgUnit }),
+        loadAttritionOverTimeOverview({ request }),
         loadFluctuationRatesOverview({ request }),
         loadFluctuationRatesChartData({ request }),
-        loadResignedEmployees({ orgUnit: request.orgUnit }),
-        loadOpenApplications({ orgUnit: request.orgUnit }),
+        loadResignedEmployees({ request }),
+        loadOpenApplications({ orgUnit: request.value }),
       ])
     )
   );
@@ -70,10 +70,14 @@ export class OverviewEffects implements OnInitEffects {
   loadAttritionOverTimeOverview$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadAttritionOverTimeOverview),
-      map((action) => action.orgUnit),
-      switchMap((orgUnit: string) =>
+      map((action) => action.request),
+      switchMap((request: EmployeesRequest) =>
         this.organizationalViewService
-          .getAttritionOverTime(orgUnit, TimePeriod.LAST_THREE_YEARS)
+          .getAttritionOverTime(
+            request.filterDimension,
+            request.value,
+            TimePeriod.LAST_THREE_YEARS
+          )
           .pipe(
             map((data: AttritionOverTime) =>
               loadAttritionOverTimeOverviewSuccess({ data })
@@ -135,20 +139,22 @@ export class OverviewEffects implements OnInitEffects {
   loadResignedEmployees$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadResignedEmployees),
-      map((action) => action.orgUnit),
-      switchMap((orgUnit: string) =>
-        this.overviewService.getResignedEmployees(orgUnit).pipe(
-          map((data: ResignedEmployeesResponse) =>
-            loadResignedEmployeesSuccess({ data })
-          ),
-          catchError((error) =>
-            of(
-              loadResignedEmployeesFailure({
-                errorMessage: error.message,
-              })
+      map((action) => action.request),
+      switchMap((request: EmployeesRequest) =>
+        this.overviewService
+          .getResignedEmployees(request.filterDimension, request.value)
+          .pipe(
+            map((data: ResignedEmployeesResponse) =>
+              loadResignedEmployeesSuccess({ data })
+            ),
+            catchError((error) =>
+              of(
+                loadResignedEmployeesFailure({
+                  errorMessage: error.message,
+                })
+              )
             )
           )
-        )
       )
     )
   );

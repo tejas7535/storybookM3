@@ -48,6 +48,8 @@ export class AutocompleteInputComponent implements OnInit, OnDestroy {
 
   @Input() appearance: MatFormFieldAppearance = 'fill';
 
+  @Input() minCharLength = 0;
+
   @Output()
   readonly selected: EventEmitter<SelectedFilter> = new EventEmitter();
 
@@ -59,7 +61,6 @@ export class AutocompleteInputComponent implements OnInit, OnDestroy {
 
   private readonly subscription: Subscription = new Subscription();
   private readonly DEBOUNCE_TIME_DEFAULT = 500;
-  readonly ONE_CHAR_LENGTH = 1;
 
   inputControl = new UntypedFormControl();
   isTyping = false;
@@ -78,7 +79,7 @@ export class AutocompleteInputComponent implements OnInit, OnDestroy {
         .pipe(
           tap(() => (this.isTyping = true)),
           debounce(() =>
-            this.inputControl.value.length > this.ONE_CHAR_LENGTH
+            this.inputControl.value.length >= this.minCharLength
               ? timer(this.DEBOUNCE_TIME_DEFAULT)
               : EMPTY
           )

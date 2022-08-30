@@ -6,7 +6,11 @@ import { marbles } from 'rxjs-marbles/jest';
 
 import { filterSelected, triggerLoad } from '../../../core/store/actions';
 import { getCurrentFilters } from '../../../core/store/selectors';
-import { EmployeesRequest, SelectedFilter } from '../../../shared/models';
+import {
+  EmployeesRequest,
+  FilterDimension,
+  SelectedFilter,
+} from '../../../shared/models';
 import { LossOfSkillService } from '../../loss-of-skill.service';
 import { LostJobProfilesResponse, OpenPosition } from '../../models';
 import {
@@ -61,7 +65,11 @@ describe('LossOfSkill Effects', () => {
           id: 'best',
           value: 'best',
         });
-        const request = { orgUnit: {} } as unknown as EmployeesRequest;
+        const request = {
+          filterDimension: FilterDimension.ORG_UNIT,
+          value: 'AVC',
+          timeRange: '12',
+        } as EmployeesRequest;
         action = filterSelected({ filter });
         store.overrideSelector(getCurrentFilters, request);
         const resultJobProfiles = loadJobProfiles({ request });
@@ -85,7 +93,7 @@ describe('LossOfSkill Effects', () => {
           value: 'best',
         });
         action = filterSelected({ filter });
-        store.overrideSelector(getCurrentFilters, {});
+        store.overrideSelector(getCurrentFilters, {} as EmployeesRequest);
 
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('--');

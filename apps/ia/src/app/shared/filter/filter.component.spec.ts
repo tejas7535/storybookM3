@@ -7,8 +7,10 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { AutocompleteInputModule } from '../autocomplete-input/autocomplete-input.module';
 import { DateInputModule } from '../date-input/date-input.module';
 import {
+  Filter,
   FilterDimension,
   FilterKey,
+  IdValue,
   SelectedFilter,
   TimePeriod,
 } from '../models';
@@ -54,6 +56,30 @@ describe('FilterComponent', () => {
 
       expect(component.selectedTimePeriod).toEqual(period);
       expect(getTimeRangeHint).toHaveBeenCalledWith(period);
+    });
+  });
+
+  describe('businessAreaFilter', () => {
+    test('set businessAreaFilter should set properties and asyncMode false when not org unit', () => {
+      const idValue = new IdValue('DE', 'Germany');
+      const filter = new Filter(FilterDimension.COUNTRY, [idValue]);
+
+      component.businessAreaFilter = filter;
+
+      expect(component.businessAreaFilter).toBe(filter);
+      expect(component.options).toBe(filter.options);
+      expect(component.asyncMode).toBeFalsy();
+    });
+
+    test('set businessAreaFilter should set properties and asyncMode true when org unit', () => {
+      const idValue = new IdValue('DE', 'Germany');
+      const filter = new Filter(FilterDimension.ORG_UNIT, [idValue]);
+
+      component.businessAreaFilter = filter;
+
+      expect(component.businessAreaFilter).toBe(filter);
+      expect(component.options).toBe(filter.options);
+      expect(component.asyncMode).toBeTruthy();
     });
   });
 
@@ -103,20 +129,42 @@ describe('FilterComponent', () => {
     test('should set disabledTimeRangeFilter', () => {
       const invalid = true;
 
-      component.orgUnitInvalid(invalid);
+      component.businessAreaInvalid(invalid);
 
       expect(component.disabledTimeRangeFilter).toEqual(invalid);
     });
   });
 
-  describe('autoCompleteOrgUnitsChange', () => {
-    test('should emit search string', () => {
+  describe('autoCompleteInputChange', () => {
+    test('should emit search string when asyncMode', () => {
       const search = 'search';
-      component.autoCompleteOrgUnits.emit = jest.fn();
+      component.businessAreaFilter = {
+        name: FilterDimension.ORG_UNIT,
+        options: [],
+      };
+      component.autoCompleteInput.emit = jest.fn();
 
-      component.autoCompleteOrgUnitsChange(search);
+      component.autoCompleteInputChange(search);
 
-      expect(component.autoCompleteOrgUnits.emit).toHaveBeenCalledWith(search);
+      expect(component.autoCompleteInput.emit).toHaveBeenCalledWith(search);
+    });
+
+    test('should filter options when asyncMode false', () => {
+      const search = 'g';
+      const option1 = new IdValue('DE', 'Germany');
+      const option2 = new IdValue('GR', 'Greece');
+      const option3 = new IdValue('PL', 'Poland');
+      const options = [option1, option2, option3];
+      component.businessAreaFilter = new Filter(
+        FilterDimension.COUNTRY,
+        options
+      );
+
+      component.autoCompleteInputChange(search);
+
+      expect(component.businessAreaFilter.options).toContain(option1);
+      expect(component.businessAreaFilter.options).toContain(option2);
+      expect(component.businessAreaFilter.options).not.toContain(option3);
     });
   });
 

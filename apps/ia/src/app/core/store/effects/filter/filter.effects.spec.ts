@@ -9,11 +9,12 @@ import { marbles } from 'rxjs-marbles/jest';
 import { FilterService } from '../../../../filter-section/filter.service';
 import { FilterDimension, IdValue } from '../../../../shared/models';
 import {
+  filterSelected,
   loadFilterDimensionData,
   loadFilterDimensionDataFailure,
   loadFilterDimensionDataSuccess,
 } from '../../actions/filter/filter.action';
-import { getSelectedTimeRange } from '../../selectors';
+import { getSelectedBusinessArea, getSelectedTimeRange } from '../../selectors';
 import { FilterEffects } from './filter.effects';
 
 describe('Filter Effects', () => {
@@ -111,6 +112,55 @@ describe('Filter Effects', () => {
         m.expect(effects.loadFilterDimensionData$).toBeObservable(expected);
         m.flush();
         expect(filterService.getOrgUnits).toHaveBeenCalledTimes(1);
+      })
+    );
+  });
+
+  describe('loadFilterDimensionDataSuccess$', () => {
+    const idValue = new IdValue('DE', 'Germany');
+    const filterDimension = FilterDimension.COUNTRY;
+    const selectedFilter = {
+      name: filterDimension,
+      idValue,
+    };
+
+    beforeEach(() => {
+      action = loadFilterDimensionDataSuccess({
+        filterDimension,
+        items: [idValue],
+      });
+    });
+
+    test(
+      'should dispatch filterSelected action',
+      marbles((m) => {
+        store.overrideSelector(getSelectedBusinessArea, idValue);
+        const result = filterSelected({
+          filter: selectedFilter,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.loadFilterDimensionDataSuccess$).toBeObservable(
+          expected
+        );
+        m.flush();
+      })
+    );
+
+    test(
+      'should return empty observable when selectedBusinessArea undefined',
+      marbles((m) => {
+        store.overrideSelector(getSelectedBusinessArea, undefined as IdValue);
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('', {});
+
+        m.expect(effects.loadFilterDimensionDataSuccess$).toBeObservable(
+          expected
+        );
+        m.flush();
       })
     );
   });

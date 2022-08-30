@@ -12,6 +12,7 @@ import {
 import {
   AttritionOverTime,
   EmployeesRequest,
+  FilterDimension,
   FilterKey,
   IdValue,
   SelectedFilter,
@@ -83,15 +84,15 @@ describe('Organizational View Effects', () => {
           value: 'best',
         });
         const request = {
-          orgUnit: filter.idValue.id,
-        } as unknown as EmployeesRequest;
+          filterDimension: FilterDimension.ORG_UNIT,
+          value: filter.idValue.id,
+          timeRange: '123',
+        } as EmployeesRequest;
         action = filterSelected({ filter });
         store.overrideSelector(getCurrentFilters, request);
         const resultOrg = loadOrgChart({ request });
         const resultWorld = loadWorldMap({ request });
-        const resultAttrition = loadAttritionOverTimeOrgChart({
-          orgUnit: filter.idValue.id,
-        });
+        const resultAttrition = loadAttritionOverTimeOrgChart({ request });
 
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('-(bcd)', {
@@ -112,7 +113,7 @@ describe('Organizational View Effects', () => {
           value: 'best',
         });
         action = filterSelected({ filter });
-        store.overrideSelector(getCurrentFilters, {});
+        store.overrideSelector(getCurrentFilters, {} as EmployeesRequest);
 
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('--');
@@ -137,8 +138,9 @@ describe('Organizational View Effects', () => {
           value: '1.1.2020 - 31.1.2022',
         } as IdValue;
         const request = {
-          orgUnit: orgUnitFluctuationData.orgUnitKey,
+          value: orgUnitFluctuationData.orgUnitKey,
           timeRange: timeRange.id,
+          filterDimension: FilterDimension.ORG_UNIT,
         };
 
         action = loadOrgUnitFluctuationMeta({ data: orgUnitFluctuationData });
@@ -229,7 +231,7 @@ describe('Organizational View Effects', () => {
       'should return loadOrgUnitFluctuationRateSuccess action when REST call is successful',
       marbles((m) => {
         const rate = {
-          orgUnitKey: '123',
+          value: '123',
           timeRange: '123|456',
           fluctuationRate: 0.1,
           unforcedFluctuationRate: 0.02,
@@ -435,11 +437,21 @@ describe('Organizational View Effects', () => {
   });
 
   describe('loadAttritionOverTimeOrgChart$', () => {
-    let orgUnit: string;
+    let value: string;
+    let timeRange: string;
+    let filterDimension: FilterDimension;
 
     beforeEach(() => {
-      orgUnit = 'ACB';
-      action = loadAttritionOverTimeOrgChart({ orgUnit });
+      timeRange = '123';
+      value = 'ACB';
+      filterDimension = FilterDimension.ORG_UNIT;
+      action = loadAttritionOverTimeOrgChart({
+        request: {
+          filterDimension,
+          value,
+          timeRange,
+        } as EmployeesRequest,
+      });
     });
 
     test(
@@ -467,7 +479,11 @@ describe('Organizational View Effects', () => {
         m.flush();
         expect(
           organizationalViewService.getAttritionOverTime
-        ).toHaveBeenCalledWith(orgUnit, TimePeriod.LAST_6_MONTHS);
+        ).toHaveBeenCalledWith(
+          filterDimension,
+          value,
+          TimePeriod.LAST_6_MONTHS
+        );
       })
     );
 
@@ -492,7 +508,11 @@ describe('Organizational View Effects', () => {
         m.flush();
         expect(
           organizationalViewService.getAttritionOverTime
-        ).toHaveBeenCalledWith(orgUnit, TimePeriod.LAST_6_MONTHS);
+        ).toHaveBeenCalledWith(
+          filterDimension,
+          value,
+          TimePeriod.LAST_6_MONTHS
+        );
       })
     );
   });

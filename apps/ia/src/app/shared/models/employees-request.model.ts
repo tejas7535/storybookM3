@@ -1,3 +1,9 @@
+import { FilterDimension } from './filter';
+
 export class EmployeesRequest {
-  public constructor(public orgUnit: string, public timeRange: string) {}
+  public constructor(
+    public filterDimension: FilterDimension,
+    public value: string,
+    public timeRange: string
+  ) {}
 }

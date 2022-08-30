@@ -24,10 +24,12 @@ describe('Overview Actions', () => {
 
   test('loadAttritionOverTimeOverview', () => {
     const orgUnit = 'ABC';
-    const action = loadAttritionOverTimeOverview({ orgUnit });
+    const action = loadAttritionOverTimeOverview({
+      request: { value: orgUnit } as EmployeesRequest,
+    });
 
     expect(action).toEqual({
-      orgUnit,
+      request: { value: orgUnit },
       type: '[Overview] Load AttritionOverTime for last three years',
     });
   });
@@ -115,11 +117,11 @@ describe('Overview Actions', () => {
   });
 
   test('loadResignedEmployees', () => {
-    const orgUnit = 'ABC123';
-    const action = loadResignedEmployees({ orgUnit });
+    const request = { request: { value: 'AVC' } as EmployeesRequest };
+    const action = loadResignedEmployees(request);
 
     expect(action).toEqual({
-      orgUnit,
+      ...request,
       type: '[Overview] Load Resigned Employees',
     });
   });

@@ -40,7 +40,7 @@ export const getBusinessAreaFilter = createSelector(
 
 export const getOrgUnitsLoading = createSelector(
   selectFilterState,
-  (state: FilterState) => state.data.orgUnit.loading
+  (state: FilterState) => state.data[FilterDimension.ORG_UNIT].loading
 );
 
 export const getBusinessAreaLoading = createSelector(
@@ -83,19 +83,22 @@ export const getAllSelectedFilters = createSelector(
 export const getCurrentFilters = createSelector(
   getAllSelectedFilters,
   getSelectedDimension,
-  (filters: SelectedFilter[], selectedDimension: FilterDimension) =>
-    filters
-      .filter(
-        (filter) =>
-          filter.name === selectedDimension ||
-          filter.name === FilterKey.TIME_RANGE
-      )
-      // eslint-disable-next-line unicorn/no-array-reduce
-      .reduce((filterMap: any, filter) => {
-        filterMap[filter.name] = filter.idValue.id;
+  (filters: SelectedFilter[], selectedDimension: FilterDimension) => {
+    const selectedFilters = filters.filter(
+      (filter) =>
+        filter.name === selectedDimension ||
+        filter.name === FilterKey.TIME_RANGE
+    );
 
-        return filterMap;
-      }, {})
+    return {
+      filterDimension: selectedDimension,
+      value: selectedFilters.find((filter) => filter.name === selectedDimension)
+        ?.idValue.id,
+      timeRange: selectedFilters.find(
+        (filter) => filter.name === FilterKey.TIME_RANGE
+      )?.idValue.id,
+    };
+  }
 );
 
 export const getSelectedBusinessArea = createSelector(

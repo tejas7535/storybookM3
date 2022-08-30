@@ -6,7 +6,7 @@ import {
 import { SpectatorService } from '@ngneat/spectator';
 import { createServiceFactory } from '@ngneat/spectator/jest';
 
-import { EmployeesRequest } from '../shared/models';
+import { EmployeesRequest, FilterDimension } from '../shared/models';
 import { ReasonForLeavingStats } from './models/reason-for-leaving-stats.model';
 import { ReasonsAndCounterMeasuresService } from './reasons-and-counter-measures.service';
 
@@ -38,7 +38,11 @@ describe('ReasonsAndCounterMeasuresService', () => {
     test('should call rest service', () => {
       const orgUnit = 'Schaeffler1';
       const timeRange = '123-321';
-      const request = { orgUnit, timeRange } as unknown as EmployeesRequest;
+      const request = {
+        filterDimension: FilterDimension.ORG_UNIT,
+        value: orgUnit,
+        timeRange,
+      } as EmployeesRequest;
 
       const response = [] as ReasonForLeavingStats[];
 
@@ -47,7 +51,7 @@ describe('ReasonsAndCounterMeasuresService', () => {
       });
 
       const req = httpMock.expectOne(
-        `api/v1/reasons-why-people-left?org_unit_key=${orgUnit}&time_range=${timeRange}`
+        `api/v1/reasons-why-people-left?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}&time_range=${timeRange}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(request);

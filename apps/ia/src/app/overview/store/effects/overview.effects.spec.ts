@@ -10,6 +10,7 @@ import { OrganizationalViewService } from '../../../organizational-view/organiza
 import {
   AttritionOverTime,
   EmployeesRequest,
+  FilterDimension,
   SelectedFilter,
   TimePeriod,
 } from '../../../shared/models';
@@ -89,7 +90,7 @@ describe('Overview Effects', () => {
           value: 'best',
         });
         action = filterSelected({ filter });
-        store.overrideSelector(getCurrentFilters, {});
+        store.overrideSelector(getCurrentFilters, {} as EmployeesRequest);
 
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('--');
@@ -104,7 +105,12 @@ describe('Overview Effects', () => {
 
     beforeEach(() => {
       orgUnit = 'ACB';
-      action = loadAttritionOverTimeOverview({ orgUnit });
+      action = loadAttritionOverTimeOverview({
+        request: {
+          filterDimension: FilterDimension.ORG_UNIT,
+          value: orgUnit,
+        } as EmployeesRequest,
+      });
     });
 
     test(
@@ -132,7 +138,11 @@ describe('Overview Effects', () => {
         m.flush();
         expect(
           organizationalViewService.getAttritionOverTime
-        ).toHaveBeenCalledWith(orgUnit, TimePeriod.LAST_THREE_YEARS);
+        ).toHaveBeenCalledWith(
+          FilterDimension.ORG_UNIT,
+          orgUnit,
+          TimePeriod.LAST_THREE_YEARS
+        );
       })
     );
 
@@ -157,7 +167,11 @@ describe('Overview Effects', () => {
         m.flush();
         expect(
           organizationalViewService.getAttritionOverTime
-        ).toHaveBeenCalledWith(orgUnit, TimePeriod.LAST_THREE_YEARS);
+        ).toHaveBeenCalledWith(
+          FilterDimension.ORG_UNIT,
+          orgUnit,
+          TimePeriod.LAST_THREE_YEARS
+        );
       })
     );
   });
@@ -273,7 +287,12 @@ describe('Overview Effects', () => {
 
     beforeEach(() => {
       orgUnit = 'ABC123';
-      action = loadResignedEmployees({ orgUnit });
+      action = loadResignedEmployees({
+        request: {
+          filterDimension: FilterDimension.ORG_UNIT,
+          value: orgUnit,
+        } as EmployeesRequest,
+      });
     });
     it(
       'should load data',
@@ -298,6 +317,7 @@ describe('Overview Effects', () => {
         m.expect(effects.loadResignedEmployees$).toBeObservable(expected);
         m.flush();
         expect(overviewService.getResignedEmployees).toHaveBeenCalledWith(
+          FilterDimension.ORG_UNIT,
           orgUnit
         );
       })
@@ -321,6 +341,7 @@ describe('Overview Effects', () => {
         m.expect(effects.loadResignedEmployees$).toBeObservable(expected);
         m.flush();
         expect(overviewService.getResignedEmployees).toHaveBeenCalledWith(
+          FilterDimension.ORG_UNIT,
           orgUnit
         );
       })

@@ -5,7 +5,7 @@ import {
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
-import { EmployeesRequest } from '../shared/models';
+import { EmployeesRequest, FilterDimension } from '../shared/models';
 import {
   FluctuationRatesChartData,
   OpenApplication,
@@ -36,7 +36,10 @@ describe('OverviewService', () => {
   describe('getFluctuationRateChartData', () => {
     test('should call rest service', () => {
       const orgUnit = 'Schaeffler12';
-      const request = { orgUnit } as unknown as EmployeesRequest;
+      const request = {
+        filterDimension: FilterDimension.ORG_UNIT,
+        value: orgUnit,
+      } as EmployeesRequest;
 
       const response = {} as FluctuationRatesChartData;
 
@@ -45,7 +48,7 @@ describe('OverviewService', () => {
       });
 
       const req = httpMock.expectOne(
-        `api/v1/fluctuation-rates-chart?org_unit_key=${orgUnit}`
+        `api/v1/fluctuation-rates-chart?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(request);
@@ -61,12 +64,14 @@ describe('OverviewService', () => {
       };
       const orgUnit = 'ABC123';
 
-      service.getResignedEmployees(orgUnit).subscribe((response) => {
-        expect(response).toEqual(mock.employees);
-      });
+      service
+        .getResignedEmployees(FilterDimension.ORG_UNIT, orgUnit)
+        .subscribe((response) => {
+          expect(response).toEqual(mock.employees);
+        });
 
       const req = httpMock.expectOne(
-        `api/v1/resigned-employees?org_unit_key=${orgUnit}`
+        `api/v1/resigned-employees?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);
@@ -91,7 +96,7 @@ describe('OverviewService', () => {
       });
 
       const req = httpMock.expectOne(
-        `api/v1/open-applications?org_unit_key=${orgUnit}`
+        `api/v1/open-applications?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);

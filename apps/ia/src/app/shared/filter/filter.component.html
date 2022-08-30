@@ -32,7 +32,7 @@
         class="mb-2 flex items-center"
         *ngIf="layout === filterLayout.DEFAULT"
       >
-        {{ t('businessArea.title', { dimension: getDimensionName() }) }}
+        {{ t('businessArea.title', { dimension: dimensionName }) }}
         <mat-icon
           [matTooltip]="t('businessArea.organizationTooltip')"
           class="h-[20px] w-[20px] cursor-default text-[20px]"
@@ -44,20 +44,21 @@
         [filter]="businessAreaFilter"
         [autoCompleteLoading]="orgUnitsLoading"
         [autoCompleteLoading]="businessAreaLoading"
-        [label]="getDimensionName()"
+        [label]="dimensionName"
         [hint]="
           disableFilters
             ? undefined
             : t('businessArea.businessAreaHint', {
-                dimension: getDimensionName()
+                dimension: dimensionName
               })
         "
         [noResultMessage]="t('businessArea.nothingFound')"
         [value]="selectedBusinessArea"
         [disabled]="disableFilters"
+        [minCharLength]="minCharLength"
         (selected)="optionSelected($event)"
-        (invalidFormControl)="orgUnitInvalid($event)"
-        (autoComplete)="autoCompleteOrgUnitsChange($event)"
+        (invalidFormControl)="businessAreaInvalid($event)"
+        (autoComplete)="autoCompleteInputChange($event)"
       ></ia-autocomplete-input>
     </div>
   </div>

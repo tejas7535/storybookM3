@@ -24,7 +24,8 @@ export class ReasonsAndCounterMeasuresService {
     employeesRequest: EmployeesRequest
   ): Observable<ReasonForLeavingStats[]> {
     const params = this.paramsCreator.createHttpParamsForOrgUnitAndTimeRange(
-      employeesRequest.orgUnit,
+      employeesRequest.filterDimension,
+      employeesRequest.value,
       employeesRequest.timeRange
     );
 

@@ -105,7 +105,7 @@ describe('Organizational View Selector', () => {
             selectedEmployeeId: '123',
             data: [
               {
-                orgUnitKey: '432432',
+                value: '432432',
                 timeRange: '1577863715000|1609399715000',
                 fluctuationRate: 0.1,
                 unforcedFluctuationRate: 0.01,

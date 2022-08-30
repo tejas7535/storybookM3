@@ -25,7 +25,8 @@ export class LossOfSkillService {
     employeesRequest: EmployeesRequest
   ): Observable<LostJobProfilesResponse> {
     const params = this.paramsCreator.createHttpParamsForOrgUnitAndTimeRange(
-      employeesRequest.orgUnit,
+      employeesRequest.filterDimension,
+      employeesRequest.value,
       employeesRequest.timeRange
     );
 
@@ -41,8 +42,9 @@ export class LossOfSkillService {
   getOpenPositions(
     employeesRequest: EmployeesRequest
   ): Observable<OpenPosition[]> {
-    const params = this.paramsCreator.createHttpParamsForOrgUnit(
-      employeesRequest.orgUnit
+    const params = this.paramsCreator.createHttpParamsForFilterDimension(
+      employeesRequest.filterDimension,
+      employeesRequest.value
     );
 
     return this.http.get<OpenPosition[]>(
