@@ -30,6 +30,7 @@ import { OrgChartService } from './org-chart.service';
 })
 export class OrgChartComponent implements AfterViewInit {
   private _data: OrgUnitFluctuationData[] = [];
+  private _chartContainer: ElementRef;
 
   @Input() set data(data: OrgUnitFluctuationData[]) {
     this._data = data;
@@ -49,7 +50,16 @@ export class OrgChartComponent implements AfterViewInit {
   @Output()
   readonly loadMeta: EventEmitter<OrgUnitFluctuationData> = new EventEmitter();
 
-  @ViewChild('chartContainer') chartContainer: ElementRef;
+  @ViewChild('chartContainer') set chartContainer(chartContainer: ElementRef) {
+    if (chartContainer) {
+      this._chartContainer = chartContainer;
+      this.updateChart();
+    }
+  }
+
+  get chartContainer(): ElementRef {
+    return this._chartContainer;
+  }
 
   chart: any;
   chartData: any[];
@@ -116,7 +126,12 @@ export class OrgChartComponent implements AfterViewInit {
   }
 
   updateChart(): void {
-    if (!this.chart || !this.chartData || this.chartData.length === 0) {
+    if (
+      !this.chart ||
+      !this.chartData ||
+      this.chartData.length === 0 ||
+      !this.chartContainer
+    ) {
       return;
     }
 
@@ -124,7 +139,7 @@ export class OrgChartComponent implements AfterViewInit {
       .container(this.chartContainer.nativeElement)
       .data(this.chartData)
       .svgHeight(
-        this.chartContainer.nativeElement.getBoundingClientRect().height
+        this.chartContainer.nativeElement.getBoundingClientRect().height || 376 // default height
       )
       .backgroundColor('white')
       .initialZoom(0.8)

@@ -1,3 +1,4 @@
+import { ElementRef } from '@angular/core';
 import { fakeAsync, tick } from '@angular/core/testing';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -70,6 +71,30 @@ describe('OrgChartComponent', () => {
       expect(
         component['orgChartService'].mapOrgUnitsToNodes
       ).toHaveBeenCalledWith(employees);
+    });
+  });
+
+  describe('set chartContainer', () => {
+    test('should set container and update chart if elementRef', () => {
+      component.updateChart = jest.fn();
+      component['_chartContainer'] = undefined;
+
+      const ref = {} as unknown as ElementRef;
+
+      component.chartContainer = ref;
+
+      expect(component.chartContainer).toEqual(ref);
+      expect(component.updateChart).toHaveBeenCalledTimes(1);
+    });
+
+    test('should do nothing when elementRef unavailable', () => {
+      component.updateChart = jest.fn();
+      component['_chartContainer'] = undefined;
+
+      component.chartContainer = undefined;
+
+      expect(component.chartContainer).toBeUndefined();
+      expect(component.updateChart).not.toHaveBeenCalled();
     });
   });
 
