@@ -38,6 +38,7 @@
       "priceDiff": "Price Diff %",
       "priceDiffInfoText": "Net Price vs. Last Customer Price",
       "gqPrice": "GQ Price",
+      "gqPriceInfoText": "Click GQ Price to see further details",
       "gqRating": "GQ Rating",
       "priceUnit": "per",
       "priceSource": "Price Source",
@@ -73,6 +74,7 @@
       "sapGrossPrice": "SAP Gross Price",
       "discount": "Discount %",
       "sapPrice": "SAP Price",
+      "sapPriceInfoText": "Click SAP Price to see further details",
       "rsp": "RSP",
       "msp": "MSP",
       "toolTip": {

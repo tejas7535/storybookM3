@@ -1,12 +1,11 @@
-<span
-  class="text-body-2"
-  *transloco="let t; read: 'shared.quotationDetailsTable'"
->
+<span class="text-body-2">
   <span class="mr-1">
     {{ params?.displayName }}
   </span>
-  <gq-info-icon
-    [displaySmall]="true"
-    [text]="t('priceDiffInfoText')"
-  ></gq-info-icon>
+  <ng-container *ngIf="params?.tooltipText">
+    <gq-info-icon
+      [displaySmall]="true"
+      [text]="params?.tooltipText"
+    ></gq-info-icon>
+  </ng-container>
 </span>

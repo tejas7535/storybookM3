@@ -1,11 +1,12 @@
 /* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 
-import { translate } from '@ngneat/transloco';
+import { translate, TranslocoService } from '@ngneat/transloco';
 import { ColDef, ValueGetterParams } from 'ag-grid-enterprise';
 
 import { EditCellData } from '../../ag-grid/cell-renderer/models/edit-cell-class-params.model';
 import { GqPriceCellComponent } from '../cell-renderer/gq-price-cell/gq-price-cell.component';
+import { SapPriceCellComponent } from '../cell-renderer/sap-price-cell/sap-price-cell.component';
 import { EditableColumnHeaderComponent } from '../column-headers/editable-column-header/editable-column-header.component';
 import { HeaderInfoIconComponent } from '../column-headers/header-info-icon/header-info-icon.component';
 import { ColumnFields } from '../constants/column-fields.enum';
@@ -21,7 +22,10 @@ import { ColumnUtilityService } from './column-utility.service';
   providedIn: 'root',
 })
 export class ColumnDefService {
-  constructor(private readonly columnUtilityService: ColumnUtilityService) {}
+  constructor(
+    private readonly columnUtilityService: ColumnUtilityService,
+    private readonly translocoService: TranslocoService
+  ) {}
 
   COLUMN_DEFS: ColDef[] = [
     {
@@ -123,6 +127,12 @@ export class ColumnDefService {
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       cellRenderer: GqPriceCellComponent,
+      headerComponent: HeaderInfoIconComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.gqPriceInfoText'
+        ),
+      },
     },
     {
       headerName: translate('shared.quotationDetailsTable.gqRating'),
@@ -137,6 +147,13 @@ export class ColumnDefService {
         this.columnUtilityService.numberCurrencyFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
+      cellRenderer: SapPriceCellComponent,
+      headerComponent: HeaderInfoIconComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.sapPriceInfoText'
+        ),
+      },
     },
     {
       headerName: translate('shared.quotationDetailsTable.rsp'),
@@ -314,6 +331,11 @@ export class ColumnDefService {
       headerName: translate('shared.quotationDetailsTable.priceDiff'),
       field: ColumnFields.PRICE_DIFF,
       headerComponent: HeaderInfoIconComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.priceDiffInfoText'
+        ),
+      },
       valueFormatter: (params) =>
         this.columnUtilityService.percentageFormatter(params),
       filter: NUMBER_COLUMN_FILTER,

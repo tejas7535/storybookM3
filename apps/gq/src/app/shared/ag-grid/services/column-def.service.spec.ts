@@ -7,6 +7,8 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
 import { HelperService } from '../../services/helper-service/helper-service.service';
 import { ColumnDefService } from './column-def.service';
 
@@ -20,7 +22,7 @@ describe('ColumnDefService', () => {
 
   const createService = createServiceFactory({
     service: ColumnDefService,
-    imports: [MatSnackBarModule],
+    imports: [MatSnackBarModule, provideTranslocoTestingModule({ en: {} })],
     providers: [
       provideMockStore({}),
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },

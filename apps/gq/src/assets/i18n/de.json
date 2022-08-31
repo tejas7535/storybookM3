@@ -39,6 +39,7 @@
       "priceDiffInfoText": "Nettopreis vs. Letzter Kundenpreis",
       "gqRating": "GQ Rating",
       "gqPrice": "GQ Preis",
+      "gqPriceInfoText": "GQ-Preis anklicken, um weitere Details zu finden",
       "priceUnit": "pro",
       "priceSource": "Preisquelle",
       "productionCity": "Ort",
@@ -73,6 +74,7 @@
       "sapGrossPrice": "SAP Bruttopreis",
       "discount": "Rabatt %",
       "sapPrice": "SAP Preis",
+      "sapPriceInfoText": "SAP-Preis anklicken, um weitere Details zu finden",
       "rsp": "RSP",
       "msp": "MSP",
       "toolTip": {
