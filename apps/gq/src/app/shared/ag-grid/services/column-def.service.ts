@@ -5,6 +5,7 @@ import { translate } from '@ngneat/transloco';
 import { ColDef, ValueGetterParams } from 'ag-grid-enterprise';
 
 import { EditCellData } from '../../ag-grid/cell-renderer/models/edit-cell-class-params.model';
+import { GqPriceCellComponent } from '../cell-renderer/gq-price-cell/gq-price-cell.component';
 import { EditableColumnHeaderComponent } from '../column-headers/editable-column-header/editable-column-header.component';
 import { HeaderInfoIconComponent } from '../column-headers/header-info-icon/header-info-icon.component';
 import { ColumnFields } from '../constants/column-fields.enum';
@@ -16,7 +17,6 @@ import {
 import { CustomDateFilterComponent } from '../custom-date-filter/custom-date-filter.component';
 import { CustomDateFloatingFilterComponent } from '../custom-date-floating-filter/custom-date-floating-filter.component';
 import { ColumnUtilityService } from './column-utility.service';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -122,6 +122,7 @@ export class ColumnDefService {
         this.columnUtilityService.numberCurrencyFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
+      cellRenderer: GqPriceCellComponent,
     },
     {
       headerName: translate('shared.quotationDetailsTable.gqRating'),
