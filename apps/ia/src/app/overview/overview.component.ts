@@ -6,6 +6,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import { EChartsOption } from 'echarts';
 
+import { getSelectedDimension } from '../core/store/selectors/filter/filter.selector';
 import { DoughnutConfig } from '../shared/charts/models/doughnut-config.model';
 import { EmployeeListDialogMetaHeadings } from '../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
 import { AttritionSeries, Employee } from '../shared/models';
@@ -50,6 +51,7 @@ export class OverviewComponent implements OnInit {
   events$: Observable<Event[]>;
   attritionData$: Observable<AttritionSeries>;
 
+  dimensionHint$: Observable<string>;
   exitsDoughnutConfig$: Observable<DoughnutConfig>;
   entriesDoughnutConfig$: Observable<DoughnutConfig>;
   chartData$: Observable<[DoughnutConfig, DoughnutConfig]>;
@@ -75,7 +77,7 @@ export class OverviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadFluctuationData();
-    this.loadEntriesAndExitsData();
+    this.loadWorkforceBalanceData();
     this.loadResignedEmployeesData();
     this.loadOpenApplicationsData();
     this.loadAttritionRateData();
@@ -104,7 +106,7 @@ export class OverviewComponent implements OnInit {
     );
   }
 
-  loadEntriesAndExitsData() {
+  loadWorkforceBalanceData() {
     this.entriesDoughnutConfig$ = this.store.select(
       getOverviewFluctuationEntriesDoughnutConfig
     );
@@ -127,6 +129,20 @@ export class OverviewComponent implements OnInit {
     this.entryEmployees$ = this.store.select(getEntryEmployees);
     this.totalEmployeesCount$ = this.store.select(
       getOverviewFluctuationTotalEmployeesCount
+    );
+
+    const availableDimensions$ = this.translocoService.selectTranslateObject(
+      'filters.dimension.availableDimensions'
+    );
+    const selectedDimensions$ = this.store.select(getSelectedDimension);
+
+    this.dimensionHint$ = combineLatest([
+      selectedDimensions$,
+      availableDimensions$,
+    ]).pipe(
+      map(([dimension, translateObject]) =>
+        translateObject[dimension]?.toLocaleLowerCase()
+      )
     );
   }
 

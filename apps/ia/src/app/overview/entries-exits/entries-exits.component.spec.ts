@@ -11,6 +11,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { ExternalLegendComponent } from '../../shared/charts/external-legend/external-legend.component';
 import { LooseDoughnutChartComponent } from '../../shared/charts/loose-doughnut-chart/loose-doughnut-chart.component';
 import { LegendSelectAction } from '../../shared/charts/models';
+import { ChartLegendItem } from '../../shared/charts/models/chart-legend-item.model';
 import { DoughnutConfig } from '../../shared/charts/models/doughnut-config.model';
 import { DoughnutSeriesConfig } from '../../shared/charts/models/doughnut-series-config.model';
 import { KpiModule } from '../../shared/kpi/kpi.module';
@@ -108,7 +109,7 @@ describe('EntriesExitsComponent', () => {
   });
 
   describe('set data', () => {
-    test('should set data and legend', () => {
+    test('should set data', () => {
       const data: [DoughnutConfig, DoughnutConfig] = [
         new DoughnutConfig('donnut 1', []),
         new DoughnutConfig('donnut 2', []),
@@ -121,6 +122,18 @@ describe('EntriesExitsComponent', () => {
     });
   });
 
+  describe('set dimensionHint', () => {
+    test('should set dimensionHint and create legend', () => {
+      const dimensionHint = 'test';
+
+      component.createLegend = jest.fn();
+      component.dimensionHint = dimensionHint;
+
+      expect(component.dimensionHint).toEqual(dimensionHint);
+      expect(component.createLegend).toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe('onSelectedLegendItem', () => {
     test('should set legend select action', () => {
       const action: LegendSelectAction = { dog: true };
@@ -128,6 +141,22 @@ describe('EntriesExitsComponent', () => {
       component.onSelectedLegendItem(action);
 
       expect(component.legendSelectAction).toBe(action);
+    });
+  });
+
+  describe('createLegend', () => {
+    test('should create legend', () => {
+      component.createLegend();
+
+      expect(component.legend).toEqual([
+        new ChartLegendItem('translate it', Color.LIME, 'translate it', true),
+        new ChartLegendItem(
+          'translate it',
+          Color.LIGHT_BLUE,
+          'translate it',
+          true
+        ),
+      ]);
     });
   });
 });

@@ -16,6 +16,8 @@ import { Color, Employee, EmployeeListDialogType } from '../../shared/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EntriesExitsComponent {
+  private _dimensionHint: string;
+
   initialConfig = [
     new DoughnutSeriesConfig(
       [new DoughnutChartData(0)],
@@ -28,26 +30,14 @@ export class EntriesExitsComponent {
       Color.LIGHT_BLUE
     ),
   ];
-  legend: ChartLegendItem[] = [
-    new ChartLegendItem(
-      translate('overview.workforceBalance.internal'),
-      Color.LIME,
-      translate('overview.workforceBalance.hintInternal'),
-      true
-    ),
-    new ChartLegendItem(
-      translate('overview.workforceBalance.external'),
-      Color.LIGHT_BLUE,
-      translate('overview.workforceBalance.hintExternal'),
-      true
-    ),
-  ];
+
   legendSelectAction: LegendSelectAction;
   entriesDoughnutConfig: DoughnutConfig;
   exitsDoughnutConfig: DoughnutConfig;
 
   exitType = EmployeeListDialogType.EXIT;
   entryType = EmployeeListDialogType.ENTRY;
+  legend: ChartLegendItem[] = [];
 
   @Input() isDataLoading: boolean;
   @Input() entriesCount: number;
@@ -57,6 +47,15 @@ export class EntriesExitsComponent {
   @Input() entryEmployees: Employee[] = [];
   @Input() employeeListDialogMetaHeadings: EmployeeListDialogMetaHeadings;
 
+  @Input() set dimensionHint(dimensionHint: string) {
+    this._dimensionHint = dimensionHint;
+    this.createLegend();
+  }
+
+  get dimensionHint(): string {
+    return this._dimensionHint;
+  }
+
   @Input() set data(data: [DoughnutConfig, DoughnutConfig]) {
     // copy of data is needed to trigger internal reset
     this.entriesDoughnutConfig = data[0];
@@ -65,5 +64,24 @@ export class EntriesExitsComponent {
 
   onSelectedLegendItem(action: LegendSelectAction): void {
     this.legendSelectAction = action;
+  }
+
+  createLegend(): void {
+    this.legend = [
+      new ChartLegendItem(
+        translate('overview.workforceBalance.internal'),
+        Color.LIME,
+        translate('overview.workforceBalance.hintInternal', {
+          dimension: this.dimensionHint,
+        }),
+        true
+      ),
+      new ChartLegendItem(
+        translate('overview.workforceBalance.external'),
+        Color.LIGHT_BLUE,
+        translate('overview.workforceBalance.hintExternal'),
+        true
+      ),
+    ];
   }
 }

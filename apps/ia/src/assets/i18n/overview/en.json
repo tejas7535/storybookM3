@@ -24,9 +24,9 @@
     "totalHeadcount": "Total Headcount",
     "internal": "internal",
     "external": "external",
-    "hint": "The \"Workforce Balance\" Feature gives detailed information about employee movement in the selected area and timeframe.",
+    "hint": "The \"Workforce Balance\" Feature gives detailed information about employee movement in the selected {{dimension}} and timeframe.",
     "hintExternal": "External entries & exits contain employees that enter/leave the Schaeffler Group.\nHint: External Exits are used to calculate the official (unforced) fluctuation quota.",
-    "hintInternal": "Internal entries & exits describe employees that change their organizational unit within the company and are therefore not included in official fluctuation quotas.\nHowever, these internal changes complete the big picture of unforced fluctuation in the selected Area of responsibility!"
+    "hintInternal": "Internal entries & exits describe employees that change from one {{dimension}} to another but remain within the company. These employees are therefore not included in official fluctuation quotas.\nHowever, internal changes like this complete the big picture of unforced fluctuation in the selected area of responsibility!"
   },
   "openForApplications": "Open for application",
   "internalMatches": "Internal matches",
