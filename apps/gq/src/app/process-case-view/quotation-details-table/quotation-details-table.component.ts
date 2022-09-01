@@ -7,7 +7,6 @@ import { Observable, take } from 'rxjs';
 import { Store } from '@ngrx/store';
 import {
   ColDef,
-  ColumnApi,
   ExcelStyle,
   FilterChangedEvent,
   FirstDataRenderedEvent,
@@ -187,8 +186,18 @@ export class QuotationDetailsTableComponent implements OnInit {
   };
 
   public onFirstDataRendered(event: FirstDataRenderedEvent): void {
-    const gridColumnApi: ColumnApi = event.columnApi;
-    gridColumnApi.autoSizeAllColumns(false);
+    const columnIds = event.columnApi
+      .getAllGridColumns()
+      .map((col) => col.getColId())
+      .filter(
+        (s) =>
+          ![
+            ColumnFields.RECOMMENDED_PRICE,
+            ColumnFields.SAP_PRICE,
+            ColumnFields.PRICE_DIFF,
+          ].includes(s as ColumnFields)
+      );
+    columnIds.forEach((colId) => event.columnApi.autoSizeColumn(colId, false));
   }
 
   public onRowSelected(event: RowSelectedEvent): void {

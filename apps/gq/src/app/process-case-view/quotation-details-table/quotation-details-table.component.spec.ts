@@ -278,13 +278,18 @@ describe('QuotationDetailsTableComponent', () => {
     test('should call autoSizeAllColumns', () => {
       const params = {
         columnApi: {
-          autoSizeAllColumns: jest.fn(),
+          getAllGridColumns: jest.fn(() => [
+            { getColId: jest.fn(() => ColumnFields.NET_VALUE) },
+            { getColId: jest.fn(() => ColumnFields.RECOMMENDED_PRICE) },
+          ]),
+          autoSizeColumn: jest.fn(),
         },
       } as any;
 
       component.onFirstDataRendered(params);
 
-      expect(params.columnApi.autoSizeAllColumns).toHaveBeenCalledTimes(1);
+      expect(params.columnApi.getAllGridColumns).toHaveBeenCalledTimes(1);
+      expect(params.columnApi.autoSizeColumn).toHaveBeenCalledTimes(1);
     });
   });
 

@@ -133,6 +133,7 @@ export class ColumnDefService {
           'shared.quotationDetailsTable.gqPriceInfoText'
         ),
       },
+      width: 175,
     },
     {
       headerName: translate('shared.quotationDetailsTable.gqRating'),
@@ -154,6 +155,7 @@ export class ColumnDefService {
           'shared.quotationDetailsTable.sapPriceInfoText'
         ),
       },
+      width: 175,
     },
     {
       headerName: translate('shared.quotationDetailsTable.rsp'),
@@ -345,6 +347,7 @@ export class ColumnDefService {
         condition: { enabled: false },
         field: ColumnFields.PRICE_DIFF,
       } as EditCellData,
+      width: 225,
     },
     {
       headerName: translate('shared.quotationDetailsTable.lastOfferPrice'),
