@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.10.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.9.1...gq-v2.10.0) (2022-09-01)
+
+
+### 🎸 Features
+
+* **gq:** add custom date filter (GQUOTE-1544) ([#4493](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4493)) ([d4072e5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d4072e539a84e15db38ba4cb58f5afd478adbce8))
+* **gq:** add filterparams to all tables ([30b740b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/30b740bfff2c486d422718c107bfd1f208a48f76))
+* **gq:** add gpsd group to create customer case (GQUOTE-1588) ([#4517](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4517)) ([25f43f1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/25f43f1f88cebb9149385ffb1503e756d28a29ba))
+* **gq:** add link to gq price details (GQUOTE-1614) ([#4560](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4560)) ([3f0ad6b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3f0ad6b2821809073e8823139b5b60035989b75f))
+* **gq:** add price diff cell header with info icon (GQUOTE-1532) ([#4472](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4472)) ([e51e493](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e51e4935df0864929b8f300a7c59ce72f21b9119))
+* **gq:** added custom error handling (GQUOTE-1548) ([#4474](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4474)) ([314dfae](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/314dfae25b4972c70ae861b83ae09b50a9be0f5c))
+* **gq:** added link to sap price display (GQUOTE-1623) ([#4563](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4563)) ([1e196b5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1e196b58393476fe86e6c87010e9ec874dc94ffb))
+* **gq:** added stochastic type to detail view (GQUOTE-1406) ([#4492](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4492)) ([8495a0d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8495a0d86ff38fb741f491ac089c76fd3cd13f7c))
+* **workspace:** upgrade to ag-grid v28 ([#4427](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4427)) ([2c7c976](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2c7c97600c0646e238ce646f5e2adcc9d668b41c))
+
+
+### 🐛 Bug Fixes
+
+* **gq:** add default row sorting on quotation loading (GQUOTE-1576) ([#4522](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4522)) ([c62adf2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c62adf2fcff2f41768321238c775abb6801f40b0))
+* **gq:** adjust modal placeholder to locale (GQUOTE-1578) ([#4505](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4505)) ([c670136](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c670136be6e58e81638518e6902278596d6fede3))
+* **gq:** adjust number column filter for localization (GQUOTE-1579) ([b851d80](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b851d80c97b36fdcf58e541c5ebbde660024e144))
+* **gq:** enable sorting on info icon cell renderer header (GQUOTE-1622) ([#4562](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4562)) ([a0728bc](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a0728bc30d795dc84632c8cfd3bf58e83ac144e7))
+* **gq:** fix cookie banner language bug (GQUOTE-1568) ([#4526](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4526)) ([3263f6b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3263f6b69da6681de4850f9d7431f0212d4b79d8))
+* **gq:** fix filter error for not rounded profit margins (GQUOTE-1579) ([#4534](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4534)) ([9f45356](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9f4535682cb06ea790d36f375cb18167ba24bfd8))
+* **gq:** fix german input on english locale ([82998cf](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/82998cfbbb2314f480d00a67c3347e3ee4451a86))
+* **gq:** fix info icon alignment (GQUOTE-1573) ([#4503](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4503)) ([f2c5595](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f2c5595dafb65c9be39a143f59237e4b33f26785))
+* **gq:** fix locale switch bug ([1174c32](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1174c32e2b45ae73d666c1ea67955814be4d297b))
+* **gq:** fix localize date filter locale ([#4499](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4499)) ([e80798d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e80798d812bd80430fefad22f0d32cc3971d8c5d))
+* **gq:** fix margins of custom date filter ([#4502](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4502)) ([68aceac](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/68aceac50621d5dff1ef4d74c76a004504f9894a))
+* **gq:** fix rowUpdatedEvent (GQUOTE-1607) ([#4543](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4543)) ([04e4474](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/04e44741323a89863b970a911e6997df2579545a))
+* **gq:** fix test ([0f4b7f2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0f4b7f249a49a5ecda9c7d368153af4a9d237f92))
+
 ### [2.9.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.9.0...gq-v2.9.1) (2022-08-09)
 
 
