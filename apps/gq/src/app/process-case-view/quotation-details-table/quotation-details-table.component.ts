@@ -37,7 +37,11 @@ import { AgGridLocale } from '../../shared/ag-grid/models/ag-grid-locale.interfa
 import { ColumnDefService } from '../../shared/ag-grid/services/column-def.service';
 import { LocalizationService } from '../../shared/ag-grid/services/localization.service';
 import { KpiValue } from '../../shared/components/modal/editing-modal/kpi-value.model';
-import { basicTableStyle, statusBarStlye } from '../../shared/constants';
+import {
+  basicTableStyle,
+  statusBarSimulation,
+  statusBarStlye,
+} from '../../shared/constants';
 import { Quotation } from '../../shared/models';
 import {
   PriceSource,
@@ -57,7 +61,7 @@ import { TableContext } from './config/tablecontext.model';
 @Component({
   selector: 'gq-quotation-details-table',
   templateUrl: './quotation-details-table.component.html',
-  styles: [basicTableStyle, statusBarStlye],
+  styles: [basicTableStyle, statusBarStlye, statusBarSimulation],
 })
 export class QuotationDetailsTableComponent implements OnInit {
   @Input() set quotation(quotation: Quotation) {

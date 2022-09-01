@@ -1,5 +1,5 @@
 export const basicTableStyle = `
-::ng-deep ag-grid-angular {
+:host::ng-deep ag-grid-angular {
   .ag-root-wrapper-body {
     border: 0;
   }
@@ -19,7 +19,7 @@ export const basicTableStyle = `
 `;
 
 export const statusBarStlye = `
-::ng-deep ag-grid-angular {
+:host::ng-deep ag-grid-angular {
     .ag-status-bar {
     border: none !important;
     padding-left: 0 !important;
@@ -28,7 +28,7 @@ export const statusBarStlye = `
 }`;
 
 export const disableTableHorizontalScrollbar = `
-::ng-deep ag-grid-angular {
+:host::ng-deep ag-grid-angular {
     .ag-body-viewport {
     overflow-x: hidden;
   }
@@ -36,13 +36,10 @@ export const disableTableHorizontalScrollbar = `
 `;
 
 export const statusBarSimulation = `
-::ng-deep ag-grid-angular {
+:host::ng-deep ag-grid-angular {
   .ag-status-bar-right {
     width: 100%;
     justify-content: end;
   }
-}
-:host {
-  width: 100%;
 }
 `;

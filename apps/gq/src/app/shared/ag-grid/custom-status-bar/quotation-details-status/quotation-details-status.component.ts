@@ -14,7 +14,6 @@ import {
   userHasSQVRole,
 } from '../../../../core/store';
 import { StatusBarModalComponent } from '../../../../shared/components/modal/status-bar-modal/status-bar-modal.component';
-import { statusBarSimulation } from '../../../constants';
 import { SimulatedQuotation, StatusBar } from '../../../models';
 import { QuotationDetail } from '../../../models/quotation-detail';
 import { PriceService } from '../../../services/price-service/price.service';
@@ -22,7 +21,13 @@ import { PriceService } from '../../../services/price-service/price.service';
 @Component({
   selector: 'gq-quotation-details-status',
   templateUrl: './quotation-details-status.component.html',
-  styles: [statusBarSimulation],
+  styles: [
+    `
+      :host {
+        width: 100%;
+      }
+    `,
+  ],
 })
 export class QuotationDetailsStatusComponent implements OnInit {
   showGPI$: Observable<boolean>;
