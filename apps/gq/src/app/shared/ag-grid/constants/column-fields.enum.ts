@@ -22,7 +22,6 @@ export enum ColumnFields {
   LAST_OFFER_PRICE = 'lastOfferDetail.lastOfferPrice',
   LAST_OFFER_PRICE_DATE = 'lastOfferDetail.lastOfferDate',
   LAST_OFFER_QUANTITY = 'lastOfferDetail.positionQuantity',
-  TARGET_PRICE = 'lastOfferDetail.targetPrice',
   FOLLOWING_TYPE = 'material.followingType',
   DISCOUNT = 'discount',
   INPUT_QUANTITY = 'inputQuantity',

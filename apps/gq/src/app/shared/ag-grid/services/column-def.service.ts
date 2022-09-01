@@ -198,14 +198,6 @@ export class ColumnDefService {
       headerComponent: EditableColumnHeaderComponent,
     },
     {
-      headerName: translate('shared.quotationDetailsTable.targetPrice'),
-      field: ColumnFields.TARGET_PRICE,
-      valueFormatter: (params) =>
-        this.columnUtilityService.numberCurrencyFormatter(params),
-      filter: NUMBER_COLUMN_FILTER,
-      filterParams: this.columnUtilityService.numberFilterParams,
-    },
-    {
       headerName: translate('shared.quotationDetailsTable.gpc'),
       field: ColumnFields.GPC,
       valueFormatter: (params) =>
