@@ -13,16 +13,13 @@
 ></schaeffler-loading-spinner>
 
 <div class="absolute right-10 top-40 flex flex-col">
-  <div
-    *ngFor="let continent of continents; trackBy: trackByFn"
-    [matTooltip]="continent"
-  >
+  <div *ngFor="let region of regions; trackBy: trackByFn">
     <button
       mat-stroked-button
-      (click)="openDialogWithContinentData(continent)"
+      (click)="openDialogWithRegionData(region)"
       class="m-b-5 w-[150px]"
     >
-      {{ continent }}
+      {{ region }}
     </button>
   </div>
 </div>

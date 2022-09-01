@@ -6,7 +6,6 @@ import { CountryData } from '../../world-map/models/country-data.model';
 import { initialState, OrganizationalViewState } from '..';
 import {
   getAttritionOverTimeOrgChartData,
-  getContinents,
   getIsLoadingAttritionOverTimeOrgChart,
   getIsLoadingOrgChart,
   getIsLoadingOrgUnitFluctuationRate,
@@ -14,6 +13,7 @@ import {
   getOrgChart,
   getOrgUnitFluctuationDialogEmployeeData,
   getOrgUnitFluctuationDialogMeta,
+  getRegions,
   getSelectedChartType,
   getWorldMap,
   getWorldMapFluctuationDialogMeta,
@@ -42,12 +42,12 @@ describe('Organizational View Selector', () => {
         },
       },
       worldMap: {
-        selectedContinent: undefined,
+        selectedRegion: undefined,
         selectedCountry: 'Germany',
         data: [
           {
             name: 'Germany',
-            continent: 'Europe',
+            region: 'Europe',
             attritionMeta: {
               employeesLost: 3,
               remainingFluctuation: 1,
@@ -60,7 +60,7 @@ describe('Organizational View Selector', () => {
           } as unknown as CountryData,
           {
             name: 'Poland',
-            continent: 'Europe',
+            region: 'Europe',
             attritionMeta: {
               employeesLost: 33,
               remainingFluctuation: 0,
@@ -173,11 +173,11 @@ describe('Organizational View Selector', () => {
     });
   });
 
-  describe('getContinents', () => {
-    test('should return continents', () => {
-      const result = getContinents.projector([
-        { continent: 'Europe' },
-        { continent: 'Asia' },
+  describe('getRegions', () => {
+    test('should return regions', () => {
+      const result = getRegions.projector([
+        { region: 'Europe' },
+        { region: 'Asia' },
       ]);
 
       expect(result).toEqual(['Europe', 'Asia']);
@@ -185,12 +185,12 @@ describe('Organizational View Selector', () => {
   });
 
   describe('getWorldMapFluctuationDialogMetaData', () => {
-    test('should return continent meta if continent set', () => {
+    test('should return region meta if region set', () => {
       const input = {
         ...fakeState.organizationalView,
         worldMap: {
           ...fakeState.organizationalView.worldMap,
-          selectedContinent: 'Europe',
+          selectedRegion: 'Europe',
           selectedCountry: undefined as string,
         },
       };

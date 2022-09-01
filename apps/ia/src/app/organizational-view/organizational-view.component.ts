@@ -13,14 +13,14 @@ import {
   chartTypeSelected,
   loadOrgUnitFluctuationMeta,
   loadParent,
-  loadWorldMapFluctuationContinentMeta,
   loadWorldMapFluctuationCountryMeta,
+  loadWorldMapFluctuationRegionMeta,
 } from './store/actions/organizational-view.action';
 import {
-  getContinents,
   getIsLoadingOrgChart,
   getIsLoadingWorldMap,
   getOrgChart,
+  getRegions,
   getSelectedChartType,
   getWorldMap,
 } from './store/selectors/organizational-view.selector';
@@ -43,7 +43,7 @@ export class OrganizationalViewComponent implements OnInit {
   isLoadingWorldMap$: Observable<boolean>;
   selectedChartType$: Observable<ChartType>;
   worldMap$: Observable<CountryData[]>;
-  continents$: Observable<string[]>;
+  regions$: Observable<string[]>;
   selectedTimeRange$: Observable<IdValue>;
 
   chartLegendItems = [
@@ -74,7 +74,7 @@ export class OrganizationalViewComponent implements OnInit {
     this.isLoadingWorldMap$ = this.store.select(getIsLoadingWorldMap);
     this.selectedChartType$ = this.store.select(getSelectedChartType);
     this.worldMap$ = this.store.select(getWorldMap);
-    this.continents$ = this.store.select(getContinents);
+    this.regions$ = this.store.select(getRegions);
     this.selectedTimeRange$ = this.store.select(getSelectedTimeRange);
   }
 
@@ -90,8 +90,8 @@ export class OrganizationalViewComponent implements OnInit {
     this.store.dispatch(loadOrgUnitFluctuationMeta({ data }));
   }
 
-  loadContinentMeta(continent: string): void {
-    this.store.dispatch(loadWorldMapFluctuationContinentMeta({ continent }));
+  loadRegionMeta(region: string): void {
+    this.store.dispatch(loadWorldMapFluctuationRegionMeta({ region }));
   }
 
   loadCountryMeta(country: string): void {

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { MapChart } from 'echarts/charts';
 import {
@@ -35,7 +34,6 @@ echarts.use([
     MatButtonModule,
     AttritionDialogModule,
     ChartLegendModule,
-    MatTooltipModule,
   ],
   exports: [WorldMapComponent],
 })

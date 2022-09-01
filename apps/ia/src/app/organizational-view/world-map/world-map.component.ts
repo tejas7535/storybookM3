@@ -48,13 +48,13 @@ export class WorldMapComponent implements OnInit {
     return this._data;
   }
 
-  @Input() continents: string[];
+  @Input() regions: string[];
 
   @Output()
   readonly loadCountryMeta: EventEmitter<string> = new EventEmitter();
 
   @Output()
-  readonly loadContinentMeta: EventEmitter<string> = new EventEmitter();
+  readonly loadRegionMeta: EventEmitter<string> = new EventEmitter();
 
   mergeOptions: any;
   options: any;
@@ -114,8 +114,8 @@ export class WorldMapComponent implements OnInit {
     }
   }
 
-  openDialogWithContinentData(continent: string): void {
-    this.loadContinentMeta.emit(continent);
+  openDialogWithRegionData(region: string): void {
+    this.loadRegionMeta.emit(region);
 
     this.openDialog();
   }

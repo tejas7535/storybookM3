@@ -27,8 +27,8 @@ import {
   loadParentSuccess,
   loadWorldMap,
   loadWorldMapFailure,
-  loadWorldMapFluctuationContinentMeta,
   loadWorldMapFluctuationCountryMeta,
+  loadWorldMapFluctuationRegionMeta,
   loadWorldMapSuccess,
 } from './actions/organizational-view.action';
 
@@ -123,27 +123,27 @@ describe('Organization View Reducer', () => {
     });
   });
 
-  describe('loadWorldMapFluctuationContinentMeta', () => {
+  describe('loadWorldMapFluctuationRegionMeta', () => {
     test('should toggle selected country/continent', () => {
-      const continent = 'Europe';
-      const action = loadWorldMapFluctuationContinentMeta({ continent });
+      const region = 'Europe';
+      const action = loadWorldMapFluctuationRegionMeta({ region });
 
       const state = organizationalViewReducer(initialState, action);
 
-      expect(state.worldMap.selectedContinent).toEqual(continent);
+      expect(state.worldMap.selectedRegion).toEqual(region);
       expect(state.worldMap.selectedCountry).toBeUndefined();
     });
   });
 
   describe('loadWorldMapFluctuationCountryMeta', () => {
-    test('should toggle selected country/continent', () => {
+    test('should toggle selected country/region', () => {
       const country = 'Germany';
       const action = loadWorldMapFluctuationCountryMeta({ country });
 
       const state = organizationalViewReducer(initialState, action);
 
       expect(state.worldMap.selectedCountry).toEqual(country);
-      expect(state.worldMap.selectedContinent).toBeUndefined();
+      expect(state.worldMap.selectedRegion).toBeUndefined();
     });
   });
 

@@ -6,7 +6,6 @@ import { map } from 'rxjs/operators';
 
 import { withCache } from '@ngneat/cashew';
 
-import worldJson from '../../assets/world.json';
 import { ParamsCreatorService } from '../shared/http/params-creator.service';
 import {
   ApiVersion,
@@ -58,22 +57,6 @@ export class OrganizationalViewService {
       .pipe(map((response) => response.orgUnits));
   }
 
-  addContinentToCountryData(countryData: CountryData[]): CountryData[] {
-    return countryData.map((country) => {
-      const countryJson = (worldJson as any).features.find(
-        (elem: any) =>
-          elem.properties.name === country.name ||
-          elem.properties.nameLong === country.name
-      );
-
-      return {
-        ...country,
-        name: country.name,
-        continent: countryJson?.properties.continent,
-      };
-    });
-  }
-
   getWorldMap(employeesRequest: EmployeesRequest): Observable<CountryData[]> {
     const params = this.paramsCreator.createHttpParamsForOrgUnitAndTimeRange(
       employeesRequest.filterDimension,
@@ -86,10 +69,7 @@ export class OrganizationalViewService {
         params,
         context: withCache(),
       })
-      .pipe(
-        map((response) => response.data),
-        map((countryData) => this.addContinentToCountryData(countryData))
-      );
+      .pipe(map((response) => response.data));
   }
 
   getOrgUnitFluctuationRate(

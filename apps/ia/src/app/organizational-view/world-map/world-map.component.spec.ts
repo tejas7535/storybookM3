@@ -1,6 +1,5 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { NgxEchartsModule } from 'ngx-echarts';
@@ -30,7 +29,6 @@ describe('WorldMapComponent', () => {
         echarts: async () => import('echarts'),
       }),
       LoadingSpinnerModule,
-      MatTooltipModule,
       MatDialogModule,
     ],
     providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
@@ -141,15 +139,15 @@ describe('WorldMapComponent', () => {
     });
   });
 
-  describe('openDialogWithContinentData', () => {
+  describe('openDialogWithRegionData', () => {
     test('should emit continent and open dialog', () => {
       component.openDialog = jest.fn();
-      component.loadContinentMeta.emit = jest.fn();
+      component.loadRegionMeta.emit = jest.fn();
 
-      component.openDialogWithContinentData('Europe');
+      component.openDialogWithRegionData('Europe');
 
       expect(component.openDialog).toHaveBeenCalledTimes(1);
-      expect(component.loadContinentMeta.emit).toHaveBeenCalledWith('Europe');
+      expect(component.loadRegionMeta.emit).toHaveBeenCalledWith('Europe');
     });
   });
 

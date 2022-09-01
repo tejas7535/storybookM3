@@ -54,12 +54,12 @@ export const getOrgUnitFluctuationDialogMeta = createSelector(
   })
 );
 
-const getWorldMapFluctuationDialogContinentMetaData = (
+const getWorldMapFluctuationDialogRegionMetaData = (
   data: CountryData[],
-  continent: string
+  region: string
 ) => {
   const relevantCountries = data.filter(
-    (countryData) => countryData.continent === continent
+    (countryData) => countryData.region === region
   );
   let employeesLost = 0;
   let remainingFluctuation = 0;
@@ -80,7 +80,7 @@ const getWorldMapFluctuationDialogContinentMetaData = (
   });
 
   return {
-    title: continent,
+    title: region,
     employeesLost,
     remainingFluctuation,
     forcedFluctuation,
@@ -94,10 +94,10 @@ const getWorldMapFluctuationDialogContinentMetaData = (
 export const getWorldMapFluctuationDialogMetaData = createSelector(
   selectOrganizationalViewState,
   (state: OrganizationalViewState) =>
-    state.worldMap.selectedContinent !== undefined
-      ? getWorldMapFluctuationDialogContinentMetaData(
+    state.worldMap.selectedRegion !== undefined
+      ? getWorldMapFluctuationDialogRegionMetaData(
           state.worldMap.data,
-          state.worldMap.selectedContinent
+          state.worldMap.selectedRegion
         )
       : (state.worldMap.data?.find(
           (elem) => elem.name === state.worldMap.selectedCountry
@@ -150,10 +150,10 @@ export const getIsLoadingAttritionOverTimeOrgChart = createSelector(
   (state: OrganizationalViewState) => state.attritionOverTime?.loading
 );
 
-export const getContinents = createSelector(
+export const getRegions = createSelector(
   getWorldMap,
   (countryData: CountryData[]) => [
-    ...new Set(countryData.map((country) => country.continent)),
+    ...new Set(countryData.map((country) => country.region)),
   ]
 );
 

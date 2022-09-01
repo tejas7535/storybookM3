@@ -50,9 +50,9 @@ export const loadOrgUnitFluctuationRateFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
-export const loadWorldMapFluctuationContinentMeta = createAction(
-  '[Organizational View] Load World Map Fluctuation Continent Meta',
-  props<{ continent: string }>()
+export const loadWorldMapFluctuationRegionMeta = createAction(
+  '[Organizational View] Load World Map Fluctuation Region Meta',
+  props<{ region: string }>()
 );
 
 export const loadWorldMapFluctuationCountryMeta = createAction(
@@ -114,7 +114,7 @@ const all = union({
   loadOrgUnitFluctuationRate,
   loadOrgUnitFluctuationRateSuccess,
   loadOrgUnitFluctuationRateFailure,
-  loadWorldMapFluctuationContinentMeta,
+  loadWorldMapFluctuationRegionMeta,
   loadWorldMapFluctuationCountryMeta,
   loadWorldMap,
   loadWorldMapSuccess,

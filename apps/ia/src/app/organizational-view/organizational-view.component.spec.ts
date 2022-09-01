@@ -11,8 +11,8 @@ import {
   chartTypeSelected,
   loadOrgUnitFluctuationMeta,
   loadParent,
-  loadWorldMapFluctuationContinentMeta,
   loadWorldMapFluctuationCountryMeta,
+  loadWorldMapFluctuationRegionMeta,
 } from './store/actions/organizational-view.action';
 import { ToggleChartsModule } from './toggle-charts/toggle-charts.module';
 
@@ -47,7 +47,7 @@ describe('OrganizationalViewComponent', () => {
       expect(component.isLoadingWorldMap$).toBeDefined();
       expect(component.selectedChartType$).toBeDefined();
       expect(component.worldMap$).toBeDefined();
-      expect(component.continents$).toBeDefined();
+      expect(component.regions$).toBeDefined();
       expect(component.selectedTimeRange$).toBeDefined();
     });
   });
@@ -90,15 +90,15 @@ describe('OrganizationalViewComponent', () => {
       );
     });
   });
-  describe('loadContinentMeta', () => {
-    test('should dispatch loadWorldMapFluctuationContinentMeta', () => {
+  describe('loadRegionMeta', () => {
+    test('should dispatch loadWorldMapFluctuationRegionMeta', () => {
       component['store'].dispatch = jest.fn();
-      const continent = 'Europe';
+      const region = 'Europe';
 
-      component.loadContinentMeta(continent);
+      component.loadRegionMeta(region);
 
       expect(component['store'].dispatch).toHaveBeenCalledWith(
-        loadWorldMapFluctuationContinentMeta({ continent })
+        loadWorldMapFluctuationRegionMeta({ region })
       );
     });
   });

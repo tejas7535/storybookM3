@@ -13,7 +13,7 @@ import {
 } from '../shared/models';
 import { OrgChartResponse, OrgUnitFluctuationRate } from './org-chart/models';
 import { OrganizationalViewService } from './organizational-view.service';
-import { CountryData, WorldMapResponse } from './world-map/models';
+import { WorldMapResponse } from './world-map/models';
 
 describe('OrganizationalViewService', () => {
   let httpMock: HttpTestingController;
@@ -62,36 +62,6 @@ describe('OrganizationalViewService', () => {
     });
   });
 
-  describe('addContinentToCountryData', () => {
-    test('should look for correct continent and set it', () => {
-      const data = [
-        {
-          name: 'Germany',
-        } as CountryData,
-      ];
-
-      const result = service.addContinentToCountryData(data);
-
-      expect(result.length).toEqual(1);
-      expect(result[0].continent).toEqual('Europe');
-    });
-
-    test('should look for correct continent and set it with nameLong prop', () => {
-      const data = [
-        {
-          name: 'Czech Republic',
-        } as CountryData,
-      ];
-
-      // world.json contains Czech Rep. as name and Czech Republic as nameLong
-      const result = service.addContinentToCountryData(data);
-
-      expect(result.length).toEqual(1);
-      expect(result[0].continent).toEqual('Europe');
-      expect(result[0].name).toEqual('Czech Republic');
-    });
-  });
-
   describe('getWorldMap', () => {
     test('should get country data for world map', () => {
       const orgUnit = 'Schaeffler12';
@@ -102,13 +72,9 @@ describe('OrganizationalViewService', () => {
         value: orgUnit,
         timeRange,
       } as EmployeesRequest;
-      service.addContinentToCountryData = jest.fn(() => mock.data);
 
       service.getWorldMap(request).subscribe((response) => {
         expect(response).toEqual(mock);
-        expect(service.addContinentToCountryData).toHaveBeenCalledWith(
-          mock.data
-        );
       });
 
       const req = httpMock.expectOne(

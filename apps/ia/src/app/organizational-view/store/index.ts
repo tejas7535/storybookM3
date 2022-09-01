@@ -22,8 +22,8 @@ import {
   loadParentSuccess,
   loadWorldMap,
   loadWorldMapFailure,
-  loadWorldMapFluctuationContinentMeta,
   loadWorldMapFluctuationCountryMeta,
+  loadWorldMapFluctuationRegionMeta,
   loadWorldMapSuccess,
 } from './actions/organizational-view.action';
 
@@ -42,7 +42,7 @@ export interface OrganizationalViewState {
     };
   };
   worldMap: {
-    selectedContinent: string;
+    selectedRegion: string;
     selectedCountry: string;
     data: CountryData[];
     loading: boolean;
@@ -69,7 +69,7 @@ export const initialState: OrganizationalViewState = {
     },
   },
   worldMap: {
-    selectedContinent: undefined,
+    selectedRegion: undefined,
     selectedCountry: undefined,
     data: [],
     loading: false,
@@ -191,15 +191,12 @@ export const organizationalViewReducer = createReducer(
     })
   ),
   on(
-    loadWorldMapFluctuationContinentMeta,
-    (
-      state: OrganizationalViewState,
-      { continent }
-    ): OrganizationalViewState => ({
+    loadWorldMapFluctuationRegionMeta,
+    (state: OrganizationalViewState, { region }): OrganizationalViewState => ({
       ...state,
       worldMap: {
         ...state.worldMap,
-        selectedContinent: continent,
+        selectedRegion: region,
         selectedCountry: undefined,
       },
     })
@@ -210,7 +207,7 @@ export const organizationalViewReducer = createReducer(
       ...state,
       worldMap: {
         ...state.worldMap,
-        selectedContinent: undefined,
+        selectedRegion: undefined,
         selectedCountry: country,
       },
     })

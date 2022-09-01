@@ -17,10 +17,10 @@
     <ia-world-map
       *ngIf="selectedChart === chartType.WORLD_MAP"
       [data]="worldMap$ | ngrxPush"
-      [continents]="continents$ | ngrxPush"
+      [regions]="regions$ | ngrxPush"
       [selectedTimeRange]="(selectedTimeRange$ | ngrxPush).value"
       [isLoading]="isLoadingWorldMap$ | ngrxPush"
-      (loadContinentMeta)="loadContinentMeta($event)"
+      (loadRegionMeta)="loadRegionMeta($event)"
       (loadCountryMeta)="loadCountryMeta($event)"
     ></ia-world-map>
   </div>
