@@ -133,7 +133,7 @@ export class ColumnDefService {
           'shared.quotationDetailsTable.gqPriceInfoText'
         ),
       },
-      width: 175,
+      width: 185,
     },
     {
       headerName: translate('shared.quotationDetailsTable.gqRating'),
@@ -155,7 +155,7 @@ export class ColumnDefService {
           'shared.quotationDetailsTable.sapPriceInfoText'
         ),
       },
-      width: 175,
+      width: 190,
     },
     {
       headerName: translate('shared.quotationDetailsTable.rsp'),
