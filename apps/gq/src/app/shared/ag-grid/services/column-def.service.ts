@@ -476,6 +476,12 @@ export class ColumnDefService {
       filterParams: FILTER_PARAMS,
     },
     {
+      headerName: translate('shared.quotationDetailsTable.strategicMaterial'),
+      field: 'strategicMaterial',
+      valueFormatter: ColumnUtilityService.basicTransform,
+      filterParams: FILTER_PARAMS,
+    },
+    {
       headerName: translate('shared.quotationDetailsTable.followingType'),
       field: ColumnFields.FOLLOWING_TYPE,
       valueFormatter: ColumnUtilityService.materialTransform,

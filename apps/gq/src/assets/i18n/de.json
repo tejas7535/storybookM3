@@ -81,6 +81,7 @@
         "priceLowerThanMsp": "Nettopreis ist niedriger als MSP. Bitte beantragen Sie die Genehmigung der Preisgestaltung.",
         "gpmOrGpiTooLow": "Aktueller Nettopreis führt zu einem Loss Maker (Marge < 25%). Bitte Preisstellung überprüfen."
       },
+      "strategicMaterial": "Strateg. Material GC",
       "headers": {
         "priceSource": {
           "gqPriceSource": "GQ Preis",

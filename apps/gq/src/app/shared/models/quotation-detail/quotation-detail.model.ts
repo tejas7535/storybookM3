@@ -47,6 +47,7 @@ export class QuotationDetail {
   public materialStockByPlant: MaterialStockByPlant;
   public filteredSapConditionDetails: SapPriceConditionDetail[];
   public materialClassificationSOP: string;
+  public strategicMaterial: string;
 
   // properties added in GQ application
   public priceDiff: number;

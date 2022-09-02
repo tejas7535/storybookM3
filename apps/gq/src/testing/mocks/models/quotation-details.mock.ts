@@ -73,6 +73,7 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   materialClassificationSOP: '1',
   msp: 0.99,
   rsp: 1,
+  strategicMaterial: 'Y-PT',
 };
 
 export const QUOTATION_DETAILS_MOCK = [
