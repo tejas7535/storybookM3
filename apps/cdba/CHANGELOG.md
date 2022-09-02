@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.18.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.17.0...cdba-v2.18.0) (2022-09-02)
+
+
+### 🎸 Features
+
+* **cdba:** added sales org description field ([#4490](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4490)) ([e687afa](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e687afa67db8bb81204b73088c60cd0f15968632))
+* **cdba:** changed field utilization rate to be in percentage ([#4518](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4518)) ([6a8a6d9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6a8a6d950af3db867b3649867ab464b7f60a1758))
+* **workspace:** upgrade to ag-grid v28 ([#4427](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4427)) ([2c7c976](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2c7c97600c0646e238ce646f5e2adcc9d668b41c))
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** adjust color types ([2983bcd](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2983bcd7639878a35cf42e2a5358b1c21f92e737))
+* **cdba:** adjust styles to allow for build ([4047a25](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4047a25bc24997ec23848ed1d0cf22aea003f146))
+* **cdba:** fix for the error modal and "/ by zero" error ([#4511](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4511)) ([e6b9ef1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e6b9ef13e0d972bead089f2f1e32df484c0c6899))
+
 ## [2.17.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.16.0...cdba-v2.17.0) (2022-08-05)
 
 
