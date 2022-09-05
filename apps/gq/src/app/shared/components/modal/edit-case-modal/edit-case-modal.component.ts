@@ -23,6 +23,8 @@ import { getAvailableCurrencies } from '../../../../core/store';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditCaseModalComponent implements OnInit {
+  NAME_MAX_LENGTH = 20;
+
   public caseModalForm: UntypedFormGroup;
 
   currencies$: Observable<string[]>;
@@ -43,7 +45,7 @@ export class EditCaseModalComponent implements OnInit {
     this.caseModalForm = new UntypedFormGroup({
       caseName: new UntypedFormControl(this.modalData?.caseName || '', [
         Validators.pattern('\\s*\\S.*'),
-        Validators.maxLength(20),
+        Validators.maxLength(this.NAME_MAX_LENGTH),
       ]),
       currency: new UntypedFormControl(this.modalData.currency, [
         Validators.required,

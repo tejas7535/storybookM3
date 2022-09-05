@@ -341,7 +341,7 @@
       "title": "Case Einstellungen",
       "cancel": "Abbrechen",
       "update": "Speichern",
-      "nameLabel": "Individueller Name",
+      "nameLabel": "Case Bezeichnung",
       "currencyLabel": "Individuelle Währung"
     }
   },

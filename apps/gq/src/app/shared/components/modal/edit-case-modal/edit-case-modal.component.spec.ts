@@ -122,4 +122,41 @@ describe('EditCaseModalComponent', () => {
       });
     });
   });
+
+  describe('show hint', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+
+    test('should show correct hint for empty name', () => {
+      spectator.detectChanges();
+      component.caseModalForm.controls.caseName.setValue('');
+
+      spectator.detectChanges();
+
+      const hint = spectator.query('mat-hint');
+      expect(hint.textContent).toEqual('0 / 20');
+    });
+
+    test('should show correct hint for non-empty name', () => {
+      spectator.detectChanges();
+      component.caseModalForm.controls.caseName.setValue('Test Case');
+
+      spectator.detectChanges();
+
+      const hint = spectator.query('mat-hint');
+      expect(hint.textContent).toEqual('9 / 20');
+    });
+  });
+
+  describe('set maxLength', () => {
+    test('should set maxLength attribute on the input', () => {
+      component.NAME_MAX_LENGTH = 10;
+      spectator.detectChanges();
+
+      const input = spectator.query('input') as HTMLInputElement;
+
+      expect(input.maxLength).toEqual(10);
+    });
+  });
 });

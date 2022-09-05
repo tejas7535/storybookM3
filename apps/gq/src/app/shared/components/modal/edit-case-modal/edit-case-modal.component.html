@@ -12,7 +12,13 @@
           autocomplete="off"
           matInput
           data-cy="edit-case-modal_custom-name-input"
+          [maxlength]="NAME_MAX_LENGTH"
         />
+        <mat-hint align="end">{{
+          (caseModalForm.controls.caseName.value?.length.toString() || '0') +
+            ' / ' +
+            NAME_MAX_LENGTH.toString()
+        }}</mat-hint>
       </mat-form-field>
 
       <mat-form-field class="w-1/3" appearance="outline">

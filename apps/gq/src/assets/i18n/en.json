@@ -341,7 +341,7 @@
       "title": "Case settings",
       "cancel": "Cancel",
       "update": "Update",
-      "nameLabel": "Custom Name",
+      "nameLabel": "Case Name",
       "currencyLabel": "Custom Currency"
     }
   },
