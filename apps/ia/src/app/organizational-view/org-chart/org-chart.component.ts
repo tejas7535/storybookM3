@@ -19,7 +19,7 @@ import { EmployeeListDialogMeta } from '../../shared/employee-list-dialog/employ
 import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
 import { ChartType } from '../models/chart-type.enum';
-import { OrgUnitFluctuationData } from '../models/org-unit-fluctuation-data.model';
+import { DimensionFluctuationData } from '../models/dimension-fluctuation-data.model';
 import * as OrgChartConfig from './models/org-chart-config';
 import { OrgChartService } from './org-chart.service';
 
@@ -29,26 +29,26 @@ import { OrgChartService } from './org-chart.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrgChartComponent implements AfterViewInit {
-  private _data: OrgUnitFluctuationData[] = [];
+  private _data: DimensionFluctuationData[] = [];
   private _chartContainer: ElementRef;
 
-  @Input() set data(data: OrgUnitFluctuationData[]) {
+  @Input() set data(data: DimensionFluctuationData[]) {
     this._data = data;
     this.chartData = this.orgChartService.mapOrgUnitsToNodes(data);
     this.updateChart();
   }
 
-  get data(): OrgUnitFluctuationData[] {
+  get data(): DimensionFluctuationData[] {
     return this._data;
   }
 
   @Input() isLoading = false;
 
   @Output()
-  readonly showParent: EventEmitter<OrgUnitFluctuationData> = new EventEmitter();
+  readonly showParent: EventEmitter<DimensionFluctuationData> = new EventEmitter();
 
   @Output()
-  readonly loadMeta: EventEmitter<OrgUnitFluctuationData> = new EventEmitter();
+  readonly loadMeta: EventEmitter<DimensionFluctuationData> = new EventEmitter();
 
   @ViewChild('chartContainer') set chartContainer(chartContainer: ElementRef) {
     if (chartContainer) {
@@ -79,7 +79,7 @@ export class OrgChartComponent implements AfterViewInit {
       case OrgChartConfig.BUTTON_CSS.people: {
         const data = new EmployeeListDialogMeta(
           new EmployeeListDialogMetaHeadings(
-            `${orgUnit.managerOfOrgUnit} (${orgUnit.orgUnit})`,
+            `${orgUnit.managerOfOrgUnit} (${orgUnit.dimension})`,
             this.translocoService.translate(
               'employeeListDialog.contentTitle',
               {},

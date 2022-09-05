@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
@@ -12,11 +12,11 @@ import {
   AttritionOverTime,
   EmployeesRequest,
   FilterDimension,
-  IdValue,
   TimePeriod,
 } from '../shared/models';
-import { OrgUnitFluctuationData } from './models/org-unit-fluctuation-data.model';
+import { DimensionFluctuationData } from './models/dimension-fluctuation-data.model';
 import {
+  DimensionParentResponse,
   OrgChartResponse,
   OrgUnitFluctuationRate,
   OrgUnitFluctuationRateResponse,
@@ -29,11 +29,9 @@ import { CountryData, WorldMapResponse } from './world-map/models';
 export class OrganizationalViewService {
   readonly ORG_CHART = 'org-chart';
   readonly WORLD_MAP = 'world-map';
-  readonly ORG_UNIT = 'org-unit';
+  readonly DIMENSION_PARENT = 'dimension-parent';
   readonly ATTRITION_OVER_TIME = 'attrition-over-time';
   readonly FLUCTUATION_RATE = 'fluctuation-rate';
-
-  readonly PARAM_ID = 'id';
 
   constructor(
     private readonly http: HttpClient,
@@ -42,7 +40,7 @@ export class OrganizationalViewService {
 
   getOrgChart(
     employeesRequest: EmployeesRequest
-  ): Observable<OrgUnitFluctuationData[]> {
+  ): Observable<DimensionFluctuationData[]> {
     const params = this.paramsCreator.createHttpParamsForOrgUnitAndTimeRange(
       employeesRequest.filterDimension,
       employeesRequest.value,
@@ -54,7 +52,7 @@ export class OrganizationalViewService {
         params,
         context: withCache(),
       })
-      .pipe(map((response) => response.orgUnits));
+      .pipe(map((response) => response.dimensions));
   }
 
   getWorldMap(employeesRequest: EmployeesRequest): Observable<CountryData[]> {
@@ -98,13 +96,22 @@ export class OrganizationalViewService {
       );
   }
 
-  getParentOrgUnit(parentId: string): Observable<IdValue> {
-    const params = new HttpParams().set(this.PARAM_ID, parentId);
+  getParentOrgUnit(
+    childDimension: FilterDimension,
+    parentId: string
+  ): Observable<DimensionParentResponse> {
+    const params = this.paramsCreator.createHttpParamsForFilterDimension(
+      childDimension,
+      parentId
+    );
 
-    return this.http.get<IdValue>(`${ApiVersion.V1}/${this.ORG_UNIT}`, {
-      params,
-      context: withCache(),
-    });
+    return this.http.get<DimensionParentResponse>(
+      `${ApiVersion.V1}/${this.DIMENSION_PARENT}`,
+      {
+        params,
+        context: withCache(),
+      }
+    );
   }
 
   getAttritionOverTime(

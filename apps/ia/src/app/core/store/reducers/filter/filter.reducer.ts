@@ -17,6 +17,7 @@ import {
   getTimeRangeFromDates,
 } from '../../../../shared/utils/utilities';
 import {
+  filterDimensionSelected,
   filterSelected,
   loadFilterDimensionData,
   loadFilterDimensionDataFailure,
@@ -132,7 +133,7 @@ export const filterReducer = createReducer(
       ...state,
       data: {
         ...state.data,
-        [FilterDimension.ORG_UNIT]: {
+        [filterDimension]: {
           ...state.data[filterDimension],
           errorMessage,
           loading: false,
@@ -145,6 +146,14 @@ export const filterReducer = createReducer(
     (state: FilterState, { filter }): FilterState => ({
       ...state,
       selectedFilters: filterAdapter.upsertOne(filter, state.selectedFilters),
+    })
+  ),
+  on(
+    filterDimensionSelected,
+    (state: FilterState, { filterDimension, filter }): FilterState => ({
+      ...state,
+      selectedFilters: filterAdapter.upsertOne(filter, state.selectedFilters),
+      selectedDimension: filterDimension,
     })
   ),
   on(

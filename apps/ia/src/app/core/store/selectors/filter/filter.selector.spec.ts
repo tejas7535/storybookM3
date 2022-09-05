@@ -28,17 +28,17 @@ describe('Filter Selector', () => {
     filter: {
       ...initialState,
       data: {
-        [FilterKey.ORG_UNIT]: {
+        [FilterDimension.ORG_UNIT]: {
           loading: true,
           items: [new IdValue('Schaeffler_IT_1', 'Schaeffler_IT_1')],
           errorMessage: '',
         },
       },
       selectedFilters: {
-        ids: [FilterKey.ORG_UNIT, FilterKey.TIME_RANGE],
+        ids: [FilterDimension.ORG_UNIT, FilterKey.TIME_RANGE],
         entities: {
-          [FilterKey.ORG_UNIT]: {
-            name: FilterKey.ORG_UNIT,
+          [FilterDimension.ORG_UNIT]: {
+            name: FilterDimension.ORG_UNIT,
             idValue: {
               id: 'Schaeffler_IT_1',
               value: 'Schaeffler_IT_1',
@@ -127,7 +127,7 @@ describe('Filter Selector', () => {
     test('should return all selected filters', () => {
       expect(getAllSelectedFilters(fakeState)).toEqual([
         {
-          name: FilterKey.ORG_UNIT,
+          name: FilterDimension.ORG_UNIT,
           idValue: {
             id: 'Schaeffler_IT_1',
             value: 'Schaeffler_IT_1',

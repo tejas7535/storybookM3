@@ -13,6 +13,7 @@ import {
 } from '../../../../shared/models';
 import { loadUserSettingsOrgUnits } from '../../../../user-settings/store/actions/user-settings.action';
 import {
+  filterDimensionSelected,
   filterSelected,
   loadFilterDimensionData,
   loadFilterDimensionDataFailure,
@@ -67,6 +68,13 @@ export class FilterEffects {
             )
           : EMPTY;
       })
+    );
+  });
+
+  filterDimensionSelected$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(filterDimensionSelected),
+      map((filter) => filterSelected({ filter: filter.filter }))
     );
   });
 

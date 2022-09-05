@@ -12,22 +12,26 @@ import {
 } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 
-import { filterSelected, triggerLoad } from '../../../core/store/actions';
+import {
+  filterDimensionSelected,
+  filterSelected,
+  triggerLoad,
+} from '../../../core/store/actions';
 import {
   getCurrentFilters,
-  getSelectedTimeRange,
+  getSelectedDimension,
+  getSelectedTimeRangeWithDimension,
 } from '../../../core/store/selectors';
 import {
   AttritionOverTime,
   EmployeesRequest,
-  FilterDimension,
-  FilterKey,
-  IdValue,
-  SelectedFilter,
   TimePeriod,
 } from '../../../shared/models';
-import { OrgUnitFluctuationData } from '../../models/org-unit-fluctuation-data.model';
-import { OrgUnitFluctuationRate } from '../../org-chart/models';
+import { DimensionFluctuationData } from '../../models/dimension-fluctuation-data.model';
+import {
+  DimensionParentResponse,
+  OrgUnitFluctuationRate,
+} from '../../org-chart/models';
 import { OrganizationalViewService } from '../../organizational-view.service';
 import { CountryData } from '../../world-map/models/country-data.model';
 import {
@@ -71,7 +75,7 @@ export class OrganizationalViewEffects implements OnInitEffects {
       map((action) => action.request),
       switchMap((request: EmployeesRequest) =>
         this.organizationalViewService.getOrgChart(request).pipe(
-          map((data: OrgUnitFluctuationData[]) =>
+          map((data: DimensionFluctuationData[]) =>
             loadOrgChartSuccess({ data })
           ),
           catchError((error) =>
@@ -85,12 +89,14 @@ export class OrganizationalViewEffects implements OnInitEffects {
   loadOrgUnitFluctuationMeta$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadOrgUnitFluctuationMeta),
-      concatLatestFrom(() => this.store.select(getSelectedTimeRange)),
-      map(([action, timeRange]) => {
+      concatLatestFrom(() =>
+        this.store.select(getSelectedTimeRangeWithDimension)
+      ),
+      map(([action, filterWithDimension]) => {
         return {
-          filterDimension: FilterDimension.ORG_UNIT,
-          value: action.data.orgUnitKey,
-          timeRange: timeRange.id,
+          filterDimension: filterWithDimension.dimension,
+          value: action.data.dimensionKey,
+          timeRange: filterWithDimension.timeRange.id,
         };
       }),
       switchMap((request: EmployeesRequest) =>
@@ -136,11 +142,14 @@ export class OrganizationalViewEffects implements OnInitEffects {
   loadParent$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadParent),
-      switchMap((action) =>
+      concatLatestFrom(() => this.store.select(getSelectedDimension)),
+      mergeMap(([action, selectedDimension]) =>
         this.organizationalViewService
-          .getParentOrgUnit(action.data.parentId)
+          .getParentOrgUnit(selectedDimension, action.data.parentId)
           .pipe(
-            map((idValue: IdValue) => loadParentSuccess({ idValue })),
+            map((response: DimensionParentResponse) =>
+              loadParentSuccess({ response })
+            ),
             catchError((error) =>
               of(loadParentFailure({ errorMessage: error.message }))
             )
@@ -152,12 +161,14 @@ export class OrganizationalViewEffects implements OnInitEffects {
   loadParentSuccess$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadParentSuccess),
-      map((action) => ({
-        name: FilterKey.ORG_UNIT,
-        idValue: action.idValue,
-      })),
-      map((selectedFilter: SelectedFilter) =>
-        filterSelected({ filter: selectedFilter })
+      map((selectedFilter) =>
+        filterDimensionSelected({
+          filterDimension: selectedFilter.response.filterDimension,
+          filter: {
+            idValue: selectedFilter.response.data,
+            name: selectedFilter.response.filterDimension,
+          },
+        })
       )
     );
   });

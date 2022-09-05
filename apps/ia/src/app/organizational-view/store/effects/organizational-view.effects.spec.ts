@@ -4,21 +4,26 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/jest';
 
-import { filterSelected, triggerLoad } from '../../../core/store/actions';
+import {
+  filterDimensionSelected,
+  filterSelected,
+  triggerLoad,
+} from '../../../core/store/actions';
 import {
   getCurrentFilters,
-  getSelectedTimeRange,
+  getSelectedDimension,
+  getSelectedTimeRangeWithDimension,
 } from '../../../core/store/selectors';
 import {
   AttritionOverTime,
   EmployeesRequest,
   FilterDimension,
-  FilterKey,
   IdValue,
   SelectedFilter,
   TimePeriod,
 } from '../../../shared/models';
-import { OrgUnitFluctuationData } from '../../models/org-unit-fluctuation-data.model';
+import { DimensionFluctuationData } from '../../models/dimension-fluctuation-data.model';
+import { DimensionParentResponse } from '../../org-chart/models';
 import { OrganizationalViewService } from '../../organizational-view.service';
 import { CountryData } from '../../world-map/models/country-data.model';
 import {
@@ -128,23 +133,26 @@ describe('Organizational View Effects', () => {
       'should load org unit rates',
       marbles((m) => {
         const orgUnitFluctuationData = {
-          orgUnitKey: '123',
+          dimensionKey: '123',
           id: '32',
           parentId: '23',
-        } as OrgUnitFluctuationData;
+        } as DimensionFluctuationData;
 
         const timeRange = {
           id: '1234|4567',
           value: '1.1.2020 - 31.1.2022',
         } as IdValue;
         const request = {
-          value: orgUnitFluctuationData.orgUnitKey,
+          value: orgUnitFluctuationData.dimensionKey,
           timeRange: timeRange.id,
           filterDimension: FilterDimension.ORG_UNIT,
         };
 
         action = loadOrgUnitFluctuationMeta({ data: orgUnitFluctuationData });
-        store.overrideSelector(getSelectedTimeRange, timeRange);
+        store.overrideSelector(getSelectedTimeRangeWithDimension, {
+          timeRange,
+          dimension: FilterDimension.ORG_UNIT,
+        });
         const result = loadOrgUnitFluctuationRate({ request });
 
         actions$ = m.hot('-a', { a: action });
@@ -169,8 +177,8 @@ describe('Organizational View Effects', () => {
       'should return loadOrgChartSuccess action when REST call is successful',
       marbles((m) => {
         const data = [
-          { id: '123' } as unknown as OrgUnitFluctuationData,
-          { id: '456' } as unknown as OrgUnitFluctuationData,
+          { id: '123' } as unknown as DimensionFluctuationData,
+          { id: '456' } as unknown as DimensionFluctuationData,
         ];
         const result = loadOrgChartSuccess({
           data,
@@ -201,6 +209,7 @@ describe('Organizational View Effects', () => {
         const result = loadOrgChartFailure({
           errorMessage: error.message,
         });
+        store.overrideSelector(getSelectedDimension, FilterDimension.ORG_UNIT);
 
         actions$ = m.hot('-a', { a: action });
         const response = m.cold('-#|', undefined, error);
@@ -352,7 +361,7 @@ describe('Organizational View Effects', () => {
       parentId = '123';
       const data = {
         parentId,
-      } as unknown as OrgUnitFluctuationData;
+      } as unknown as DimensionFluctuationData;
 
       action = loadParent({ data });
     });
@@ -363,21 +372,26 @@ describe('Organizational View Effects', () => {
           id: '12',
           value: '123',
         };
+        const parentResponse: DimensionParentResponse = {
+          data: idValue,
+          filterDimension: FilterDimension.ORG_UNIT,
+        };
         const response = m.cold('-a|', {
-          a: idValue,
+          a: parentResponse,
         });
         organizationalViewService.getParentOrgUnit = jest
           .fn()
           .mockImplementation(() => response);
 
         actions$ = m.hot('-a', { a: action });
-        const result = loadParentSuccess({ idValue });
+        const result = loadParentSuccess({ response: parentResponse });
 
         const expected = m.cold('--b', { b: result });
 
         m.expect(effects.loadParent$).toBeObservable(expected);
         m.flush();
         expect(organizationalViewService.getParentOrgUnit).toHaveBeenCalledWith(
+          FilterDimension.ORG_UNIT,
           parentId
         );
       })
@@ -394,6 +408,8 @@ describe('Organizational View Effects', () => {
         const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
 
+        store.overrideSelector(getSelectedDimension, FilterDimension.ORG_UNIT);
+
         organizationalViewService.getParentOrgUnit = jest
           .fn()
           .mockImplementation(() => response);
@@ -401,6 +417,7 @@ describe('Organizational View Effects', () => {
         m.expect(effects.loadParent$).toBeObservable(expected);
         m.flush();
         expect(organizationalViewService.getParentOrgUnit).toHaveBeenCalledWith(
+          FilterDimension.ORG_UNIT,
           parentId
         );
       })
@@ -409,17 +426,21 @@ describe('Organizational View Effects', () => {
 
   describe('loadParentSuccess$', () => {
     test(
-      'should return filterSelected action',
+      'should return filterDimensionSelected action',
       marbles((m) => {
         const idValue: IdValue = {
           id: 'Schaeffler_IT',
           value: '888',
         };
+        const parentResponse: DimensionParentResponse = {
+          data: idValue,
+          filterDimension: FilterDimension.ORG_UNIT,
+        };
 
-        action = loadParentSuccess({ idValue });
+        action = loadParentSuccess({ response: parentResponse });
 
         const filter = {
-          name: FilterKey.ORG_UNIT,
+          name: FilterDimension.ORG_UNIT,
           idValue: {
             id: idValue.id,
             value: idValue.value,
@@ -427,7 +448,10 @@ describe('Organizational View Effects', () => {
         };
 
         actions$ = m.hot('-a', { a: action });
-        const result = filterSelected({ filter });
+        const result = filterDimensionSelected({
+          filter,
+          filterDimension: FilterDimension.ORG_UNIT,
+        });
 
         const expected = m.cold('-b', { b: result });
 

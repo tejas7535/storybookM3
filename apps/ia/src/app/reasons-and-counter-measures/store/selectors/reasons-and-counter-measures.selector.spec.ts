@@ -2,7 +2,12 @@ import { translate, TranslocoModule } from '@ngneat/transloco';
 
 import { DoughnutChartData } from '../../../shared/charts/models';
 import { ChartLegendItem } from '../../../shared/charts/models/chart-legend-item.model';
-import { FilterKey, IdValue, TimePeriod } from '../../../shared/models';
+import {
+  FilterDimension,
+  FilterKey,
+  IdValue,
+  TimePeriod,
+} from '../../../shared/models';
 import { ReasonsAndCounterMeasuresState } from '..';
 import {
   getComparedOrgUnitsFilter,
@@ -84,10 +89,10 @@ describe('ReasonsAndCounterMeasures Selector', () => {
         errorMessage: '',
       },
       comparedSelectedFilters: {
-        ids: [FilterKey.ORG_UNIT, FilterKey.TIME_RANGE],
+        ids: [FilterDimension.ORG_UNIT, FilterKey.TIME_RANGE],
         entities: {
-          [FilterKey.ORG_UNIT]: {
-            name: FilterKey.ORG_UNIT,
+          [FilterDimension.ORG_UNIT]: {
+            name: FilterDimension.ORG_UNIT,
             idValue: {
               id: 'Schaeffler_IT_1',
               value: 'Schaeffler_IT_1',
@@ -346,7 +351,7 @@ describe('ReasonsAndCounterMeasures Selector', () => {
           )
         )
       ).toEqual({
-        orgUnit: 'Schaeffler_IT_1',
+        ORG_UNIT: 'Schaeffler_IT_1',
         timeRange: '1577863715000|1609399715000',
       });
     });

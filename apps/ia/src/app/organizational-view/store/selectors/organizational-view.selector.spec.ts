@@ -1,7 +1,7 @@
 import { FilterState } from '../../../core/store/reducers/filter/filter.reducer';
 import { AttritionOverTime, HeatType } from '../../../shared/models';
 import { ChartType } from '../../models/chart-type.enum';
-import { OrgUnitFluctuationData } from '../../models/org-unit-fluctuation-data.model';
+import { DimensionFluctuationData } from '../../models/dimension-fluctuation-data.model';
 import { CountryData } from '../../world-map/models/country-data.model';
 import { initialState, OrganizationalViewState } from '..';
 import {
@@ -29,8 +29,8 @@ describe('Organizational View Selector', () => {
       ...initialState,
       orgChart: {
         data: [
-          { id: '123' } as OrgUnitFluctuationData,
-          { id: '456' } as OrgUnitFluctuationData,
+          { id: '123' } as DimensionFluctuationData,
+          { id: '456' } as DimensionFluctuationData,
         ],
         loading: true,
         errorMessage: undefined,
@@ -118,11 +118,11 @@ describe('Organizational View Selector', () => {
             {
               id: '123',
               parentId: '321',
-              orgUnitKey: '432432',
+              dimensionKey: '432432',
               attritionMeta: {
                 employeesLost: 4,
               },
-            } as OrgUnitFluctuationData,
+            } as DimensionFluctuationData,
           ],
         },
         attritionOverTime: {

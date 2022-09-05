@@ -15,7 +15,7 @@ import { ChartLegendItem } from '../../shared/charts/models/chart-legend-item.mo
 import { DoughnutConfig } from '../../shared/charts/models/doughnut-config.model';
 import { DoughnutSeriesConfig } from '../../shared/charts/models/doughnut-series-config.model';
 import { KpiModule } from '../../shared/kpi/kpi.module';
-import { FilterKey } from '../../shared/models';
+import { FilterDimension } from '../../shared/models';
 import { Color } from '../../shared/models/color.enum';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { SharedModule } from '../../shared/shared.module';
@@ -45,10 +45,10 @@ describe('EntriesExitsComponent', () => {
           },
           filter: {
             selectedFilters: {
-              ids: [FilterKey.ORG_UNIT],
+              ids: [FilterDimension.ORG_UNIT],
               entities: {
                 orgUnit: {
-                  name: FilterKey.ORG_UNIT,
+                  name: FilterDimension.ORG_UNIT,
                   value: 'Schaeffler_IT_1',
                 },
               },

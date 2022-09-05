@@ -42,7 +42,7 @@ export class FilterSectionComponent implements OnInit {
   businessAreaFilter$: Observable<Filter>;
   orgUnitsLoading$: Observable<boolean>;
   businessAreaLoading$: Observable<boolean>;
-  selectedOrgUnit$: Observable<IdValue>;
+  selectedBusinessArea$: Observable<IdValue>;
   timePeriods$: Observable<IdValue[]>;
   selectedTimePeriod$: Observable<TimePeriod>;
   selectedTime$: Observable<IdValue>;
@@ -71,7 +71,7 @@ export class FilterSectionComponent implements OnInit {
     this.orgUnitsLoading$ = this.store.select(getOrgUnitsLoading);
     this.timePeriods$ = this.store.select(getTimePeriods);
     this.selectedTimePeriod$ = this.store.select(getSelectedTimePeriod);
-    this.selectedOrgUnit$ = this.store.select(getSelectedBusinessArea);
+    this.selectedBusinessArea$ = this.store.select(getSelectedBusinessArea);
     this.selectedTime$ = this.store.select(getSelectedTimeRange);
     this.selectedFilterValues$ = this.store.select(getSelectedFilterValues);
   }

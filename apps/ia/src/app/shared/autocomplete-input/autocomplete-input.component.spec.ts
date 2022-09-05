@@ -8,7 +8,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
-import { FilterKey } from '../../shared/models';
+import { FilterDimension } from '../../shared/models';
 import { Filter, IdValue } from '../models';
 import { AutocompleteInputComponent } from './autocomplete-input.component';
 import { InputValidatorDirective } from './validation/input-validator.directive';
@@ -43,7 +43,7 @@ describe('AutocompleteInputComponent', () => {
     ];
     spectator = createComponent({
       props: {
-        filter: new Filter(FilterKey.ORG_UNIT, options),
+        filter: new Filter(FilterDimension.ORG_UNIT, options),
       },
     });
     component = spectator.debugElement.componentInstance;
@@ -56,7 +56,7 @@ describe('AutocompleteInputComponent', () => {
   describe('set value', () => {
     test('should set value of input', () => {
       component.inputControl.setValue = jest.fn();
-      component.filter = new Filter(FilterKey.ORG_UNIT, [
+      component.filter = new Filter(FilterDimension.ORG_UNIT, [
         { id: '123', value: '123' },
       ]);
       component.value = '123';
@@ -120,7 +120,7 @@ describe('AutocompleteInputComponent', () => {
         id: '123',
         value: '123',
       };
-      component.filter = new Filter(FilterKey.ORG_UNIT, [
+      component.filter = new Filter(FilterDimension.ORG_UNIT, [
         { id: '123', value: '123' },
       ]);
 

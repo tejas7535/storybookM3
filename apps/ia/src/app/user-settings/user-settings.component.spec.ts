@@ -12,7 +12,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { getUserRoles } from '../core/store/selectors';
 import { AutocompleteInputModule } from '../shared/autocomplete-input/autocomplete-input.module';
-import { FilterDimension, FilterKey, SelectedFilter } from '../shared/models';
+import { FilterDimension, SelectedFilter } from '../shared/models';
 import { updateUserSettings } from './store/actions/user-settings.action';
 import { getUserOrgUnit } from './store/selectors/user-settings.selector';
 import { UserSettingsComponent } from './user-settings.component';
@@ -124,7 +124,7 @@ describe('UserSettingsComponent', () => {
   describe('optionSelected', () => {
     test('should save user`s resort', () => {
       const selectedFilter: SelectedFilter = new SelectedFilter(
-        FilterKey.ORG_UNIT,
+        FilterDimension.ORG_UNIT,
         {
           id: 'Sales',
           value: 'Sales',
@@ -141,7 +141,7 @@ describe('UserSettingsComponent', () => {
   describe('saveOrgUnit', () => {
     test('should save user`s resort', () => {
       const selectedFilter: SelectedFilter = new SelectedFilter(
-        FilterKey.ORG_UNIT,
+        FilterDimension.ORG_UNIT,
         {
           id: 'Sales',
           value: 'Sales',

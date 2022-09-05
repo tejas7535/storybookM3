@@ -1,10 +1,10 @@
 import { Employee, EmployeeAttritionMeta } from '../../shared/models/employee';
 
-export interface OrgUnitFluctuationData {
+export interface DimensionFluctuationData {
   id: string;
   parentId: string;
-  orgUnit: string;
-  orgUnitKey: string;
+  dimension: string;
+  dimensionKey: string;
   managerOfOrgUnit: string;
   directEmployees: number;
   totalEmployees: number;

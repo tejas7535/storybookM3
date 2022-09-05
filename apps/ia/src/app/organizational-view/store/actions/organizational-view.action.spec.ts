@@ -1,11 +1,14 @@
 import {
   AttritionOverTime,
   EmployeesRequest,
-  IdValue,
+  FilterDimension,
 } from '../../../shared/models';
 import { ChartType } from '../../models/chart-type.enum';
-import { OrgUnitFluctuationData } from '../../models/org-unit-fluctuation-data.model';
-import { OrgUnitFluctuationRate } from '../../org-chart/models';
+import { DimensionFluctuationData } from '../../models/dimension-fluctuation-data.model';
+import {
+  DimensionParentResponse,
+  OrgUnitFluctuationRate,
+} from '../../org-chart/models';
 import { CountryData } from '../../world-map/models/country-data.model';
 import {
   chartTypeSelected,
@@ -50,7 +53,7 @@ describe('Organizational View Actions', () => {
   });
 
   test('loadOrgChartSuccess', () => {
-    const data: OrgUnitFluctuationData[] = [];
+    const data: DimensionFluctuationData[] = [];
 
     const action = loadOrgChartSuccess({ data });
 
@@ -71,9 +74,9 @@ describe('Organizational View Actions', () => {
 
   test('loadOrgUnitFluctuationMeta', () => {
     const data = {
-      orgUnit: 'SH/ZHZ',
+      dimension: 'SH/ZHZ',
       id: '1',
-    } as OrgUnitFluctuationData;
+    } as DimensionFluctuationData;
     const action = loadOrgUnitFluctuationMeta({ data });
 
     expect(action).toEqual({
@@ -151,7 +154,7 @@ describe('Organizational View Actions', () => {
     const data = {
       id: '1515',
       parentId: '12',
-    } as OrgUnitFluctuationData;
+    } as DimensionFluctuationData;
 
     const action = loadParent({ data });
 
@@ -162,15 +165,18 @@ describe('Organizational View Actions', () => {
   });
 
   test('loadParentSuccess', () => {
-    const idValue = {
-      id: '1515',
-      value: 'Sh/ZHZ',
-    } as IdValue;
+    const response = {
+      data: {
+        id: '1515',
+        value: 'Sh/ZHZ',
+      },
+      filterDimension: FilterDimension.ORG_UNIT,
+    } as DimensionParentResponse;
 
-    const action = loadParentSuccess({ idValue });
+    const action = loadParentSuccess({ response });
 
     expect(action).toEqual({
-      idValue,
+      response,
       type: '[Organizational View] Load Parent Success',
     });
   });

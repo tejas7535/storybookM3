@@ -8,7 +8,7 @@ import { getSelectedTimeRange } from '../core/store/selectors';
 import { ChartLegendItem } from '../shared/charts/models/chart-legend-item.model';
 import { IdValue, TailwindColor } from '../shared/models';
 import { ChartType } from './models/chart-type.enum';
-import { OrgUnitFluctuationData } from './models/org-unit-fluctuation-data.model';
+import { DimensionFluctuationData } from './models/dimension-fluctuation-data.model';
 import {
   chartTypeSelected,
   loadOrgUnitFluctuationMeta,
@@ -38,7 +38,7 @@ import { CountryData } from './world-map/models/country-data.model';
   ],
 })
 export class OrganizationalViewComponent implements OnInit {
-  orgChart$: Observable<OrgUnitFluctuationData[]>;
+  orgChart$: Observable<DimensionFluctuationData[]>;
   isLoadingOrgChart$: Observable<boolean>;
   isLoadingWorldMap$: Observable<boolean>;
   selectedChartType$: Observable<ChartType>;
@@ -82,11 +82,11 @@ export class OrganizationalViewComponent implements OnInit {
     this.store.dispatch(chartTypeSelected({ chartType }));
   }
 
-  loadParent(data: OrgUnitFluctuationData): void {
+  loadParent(data: DimensionFluctuationData): void {
     this.store.dispatch(loadParent({ data }));
   }
 
-  loadFluctuationMeta(data: OrgUnitFluctuationData): void {
+  loadFluctuationMeta(data: DimensionFluctuationData): void {
     this.store.dispatch(loadOrgUnitFluctuationMeta({ data }));
   }
 

@@ -10,7 +10,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/marbles';
 
 import { filterSelected } from '../../../core/store/actions';
-import { FilterKey } from '../../../shared/models';
+import { FilterDimension } from '../../../shared/models';
 import { UserSettings } from '../../models/user-settings.model';
 import { UserSettingsService } from '../../user-settings.service';
 import { UserSettingsDialogComponent } from '../../user-settings-dialog/user-settings-dialog.component';
@@ -89,7 +89,7 @@ describe('User Settings Effects', () => {
         });
         const resultFilter = filterSelected({
           filter: {
-            name: FilterKey.ORG_UNIT,
+            name: FilterDimension.ORG_UNIT,
             idValue: {
               id: orgUnitKey,
               value: orgUnitDisplayName,
@@ -287,7 +287,7 @@ describe('User Settings Effects', () => {
       'should return filterSelected',
       marbles((m) => {
         const filter = {
-          name: FilterKey.ORG_UNIT,
+          name: FilterDimension.ORG_UNIT,
           idValue: {
             id: 'test',
             value: 'test-test',

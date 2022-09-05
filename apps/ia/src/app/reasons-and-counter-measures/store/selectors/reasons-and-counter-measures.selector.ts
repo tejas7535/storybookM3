@@ -9,6 +9,7 @@ import { ChartLegendItem } from '../../../shared/charts/models/chart-legend-item
 import { DoughnutChartData } from '../../../shared/charts/models/doughnut-chart-data.model';
 import {
   Filter,
+  FilterDimension,
   FilterKey,
   IdValue,
   SelectedFilter,
@@ -88,7 +89,7 @@ export const getComparedOrgUnitsFilter = createSelector(
   selectReasonsAndCounterMeasuresState,
   (state: ReasonsAndCounterMeasuresState) =>
     new Filter(
-      FilterKey.ORG_UNIT,
+      FilterDimension.ORG_UNIT,
       state.reasonsForLeaving.comparedOrgUnits.items
     )
 );
@@ -102,7 +103,7 @@ export const getComparedSelectedTimeRange = createSelector(
 export const getComparedSelectedOrgUnit = createSelector(
   getAllComparedSelectedFilters,
   (filters: SelectedFilter[]) =>
-    filters.find((filter) => filter.name === FilterKey.ORG_UNIT)?.idValue
+    filters.find((filter) => filter.name === FilterDimension.ORG_UNIT)?.idValue
 );
 
 export const getComparedSelectedOrgUnitLoading = createSelector(

@@ -1,2 +1,2 @@
 export * from './chart-type.enum';
-export * from './org-unit-fluctuation-data.model';
+export * from './dimension-fluctuation-data.model';

@@ -24,11 +24,11 @@ export class ParamsCreatorService {
 
   createHttpParamsForFilterDimension(
     filterDimension: FilterDimension,
-    orgUnitKey: string
+    value: string
   ) {
     return new HttpParams()
       .set(this.PARAM_FILTER_DIMENSION, filterDimension)
-      .set(this.PARAM_FILTER_VALUE, orgUnitKey);
+      .set(this.PARAM_FILTER_VALUE, value);
   }
 
   createHttpParamsForOrgUnitAndTimeRange(

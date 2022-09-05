@@ -106,11 +106,11 @@ describe('Overview Selector', () => {
           exitEmployees: [leaverIT1, leaverIT2, internalLeaver1],
           fluctuationRate: {
             global: 0.041,
-            orgUnit: 0.023,
+            dimension: 0.023,
           },
           unforcedFluctuationRate: {
             global: 0.081,
-            orgUnit: 0.065,
+            dimension: 0.065,
           },
           totalEmployeesCount: 20,
           internalExitCount: 5,
@@ -126,12 +126,12 @@ describe('Overview Selector', () => {
       fluctuationRates: {
         data: {
           unforcedFluctuationRates: [
-            { global: 0.02, orgUnit: 0.013 },
-            { global: 0.04, orgUnit: 0.03 },
+            { global: 0.02, dimension: 0.013 },
+            { global: 0.04, dimension: 0.03 },
           ],
           fluctuationRates: [
-            { global: 0.025, orgUnit: 0.018 },
-            { global: 0.035, orgUnit: 0.014 },
+            { global: 0.025, dimension: 0.018 },
+            { global: 0.035, dimension: 0.014 },
           ],
         },
         errorMessage: undefined,
@@ -154,10 +154,10 @@ describe('Overview Selector', () => {
     },
     filter: {
       selectedFilters: {
-        ids: [FilterKey.ORG_UNIT, FilterKey.TIME_RANGE],
+        ids: [FilterDimension.ORG_UNIT, FilterKey.TIME_RANGE],
         entities: {
-          [FilterKey.ORG_UNIT]: {
-            name: FilterKey.ORG_UNIT,
+          [FilterDimension.ORG_UNIT]: {
+            name: FilterDimension.ORG_UNIT,
             idValue: {
               id: 'Schaeffler_IT',
               value: 'Schaeffler_IT',
@@ -207,11 +207,11 @@ describe('Overview Selector', () => {
         exitEmployees: [leaverIT1, leaverIT2, internalLeaver1],
         fluctuationRate: {
           global: 0.041,
-          orgUnit: 0.023,
+          dimension: 0.023,
         },
         unforcedFluctuationRate: {
           global: 0.081,
-          orgUnit: 0.065,
+          dimension: 0.065,
         },
         totalEmployeesCount: 20,
         internalExitCount: 5,
@@ -354,11 +354,15 @@ describe('Overview Selector', () => {
         filter: {
           selectedTimeRange: '1577863715000|1609399715000', // 01.01.2020 - 31.12.2020
           selectedFilters: {
-            ids: [FilterKey.ORG_UNIT],
+            ids: [FilterDimension.ORG_UNIT],
             entities: {
-              orgUnit: { name: FilterKey.ORG_UNIT, value: 'Schaeffler_IT' },
+              ORG_UNIT: {
+                name: FilterDimension.ORG_UNIT,
+                value: 'Schaeffler_IT',
+              },
             },
           },
+          selectedDimension: FilterDimension.ORG_UNIT,
         } as unknown as FilterState,
       };
 
@@ -389,11 +393,15 @@ describe('Overview Selector', () => {
         filter: {
           selectedTimeRange: '1577863715000|1609399715000', // 01.01.2020 - 31.12.2020
           selectedFilters: {
-            ids: [FilterKey.ORG_UNIT],
+            ids: [FilterDimension.ORG_UNIT],
             entities: {
-              orgUnit: { name: FilterKey.ORG_UNIT, value: 'Schaeffler_IT' },
+              ORG_UNIT: {
+                name: FilterDimension.ORG_UNIT,
+                value: 'Schaeffler_IT',
+              },
             },
           },
+          selectedDimension: FilterDimension.ORG_UNIT,
         } as unknown as FilterState,
       };
 
@@ -451,11 +459,12 @@ function getStateForFluctuationKpiTesting() {
     filter: {
       selectedTimeRange: '1577863715000|1609399715000',
       selectedFilters: {
-        ids: [FilterKey.ORG_UNIT],
+        ids: [FilterDimension.ORG_UNIT],
         entities: {
-          orgUnit: { name: FilterKey.ORG_UNIT, value: 'Schaeffler_IT' },
+          ORG_UNIT: { name: FilterDimension.ORG_UNIT, value: 'Schaeffler_IT' },
         },
       },
+      selectedDimension: FilterDimension.ORG_UNIT,
     } as unknown as FilterState,
   };
 }

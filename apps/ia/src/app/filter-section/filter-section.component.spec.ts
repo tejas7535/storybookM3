@@ -23,7 +23,6 @@ import { FilterModule } from '../shared/filter/filter.module';
 import {
   Filter,
   FilterDimension,
-  FilterKey,
   IdValue,
   SelectedFilter,
   TimePeriod,
@@ -79,7 +78,7 @@ describe('FilterSectionComponent', () => {
     test(
       'should set orgUnitsFilter',
       marbles((m) => {
-        const result = new Filter(FilterKey.ORG_UNIT, []);
+        const result = new Filter(FilterDimension.ORG_UNIT, []);
         store.overrideSelector(getBusinessAreaFilter, result);
         component.ngOnInit();
 
@@ -138,7 +137,7 @@ describe('FilterSectionComponent', () => {
         store.overrideSelector(getSelectedBusinessArea, result);
         component.ngOnInit();
 
-        m.expect(component.selectedOrgUnit$).toBeObservable(
+        m.expect(component.selectedBusinessArea$).toBeObservable(
           m.cold('a', { a: result })
         );
         expect(component.selectedTime$).toBeDefined();

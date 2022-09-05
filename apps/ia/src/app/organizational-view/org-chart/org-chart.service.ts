@@ -3,16 +3,18 @@ import { Injectable } from '@angular/core';
 import { translate } from '@ngneat/transloco';
 import * as d3Selection from 'd3-selection';
 
-import { OrgUnitFluctuationData } from '../models/org-unit-fluctuation-data.model';
+import { DimensionFluctuationData } from '../models/dimension-fluctuation-data.model';
 import { OrgChartNode } from './models/org-chart-node.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrgChartService {
-  mapOrgUnitsToNodes(data: OrgUnitFluctuationData[]): OrgChartNode[] {
+  public static readonly ROOT_ID = 'ROOT';
+
+  mapOrgUnitsToNodes(data: DimensionFluctuationData[]): OrgChartNode[] {
     return data
-      .map((elem: OrgUnitFluctuationData) => {
+      .map((elem: DimensionFluctuationData) => {
         let parentNodeId = elem.parentId;
 
         // check if current node is local root
@@ -26,7 +28,7 @@ export class OrgChartService {
 
         const nodeId = elem.id;
         const name = elem.managerOfOrgUnit;
-        const organization = elem.orgUnit;
+        const organization = elem.dimension;
         const expanded = false;
         const directSubordinates = elem.directEmployees;
         const totalSubordinates = elem.totalEmployees;
@@ -78,7 +80,8 @@ export class OrgChartService {
           textRowEmployees,
           textRowAttrition,
           showUpperParentBtn:
-            parentNodeId === undefined && elem.parentId !== undefined,
+            parentNodeId === undefined &&
+            elem.parentId !== OrgChartService.ROOT_ID,
         };
       })
       .sort((a, b) => (a.organization > b.organization ? 1 : -1)); // sort alphabetically to ensure same order on every reload

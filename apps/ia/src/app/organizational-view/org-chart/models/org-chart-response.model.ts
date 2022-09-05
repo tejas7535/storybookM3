@@ -1,5 +1,5 @@
-import { OrgUnitFluctuationData } from '../../models/org-unit-fluctuation-data.model';
+import { DimensionFluctuationData } from '../../models/dimension-fluctuation-data.model';
 
 export interface OrgChartResponse {
-  orgUnits: OrgUnitFluctuationData[];
+  dimensions: DimensionFluctuationData[];
 }

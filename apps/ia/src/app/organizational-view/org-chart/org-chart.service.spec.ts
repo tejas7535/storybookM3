@@ -1,7 +1,7 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import d3Selection from 'd3-selection';
 
-import { OrgUnitFluctuationData } from '../models/org-unit-fluctuation-data.model';
+import { DimensionFluctuationData } from '../models/dimension-fluctuation-data.model';
 import { OrgChartService } from './org-chart.service';
 
 const mock: any = {
@@ -29,12 +29,14 @@ describe('OrgChartService', () => {
 
   describe('mapOrgUnitsToNodes', () => {
     test('should map org unit data', () => {
-      const data: OrgUnitFluctuationData[] = [
+      const data: DimensionFluctuationData[] = [
         {
           id: '123',
-          orgUnit: 'Hans',
+          dimension: 'Hans',
           attritionMeta: {},
-        } as unknown as OrgUnitFluctuationData,
+          managerOfOrgUnit: 'Helmut',
+          parentId: OrgChartService.ROOT_ID,
+        } as unknown as DimensionFluctuationData,
       ];
 
       const result = service.mapOrgUnitsToNodes(data);
@@ -42,9 +44,9 @@ describe('OrgChartService', () => {
       expect(result.length).toEqual(1);
       expect(result[0]).toEqual({
         nodeId: data[0].id,
-        parentNodeId: data[0].parentId,
+        name: data[0].managerOfOrgUnit,
         expanded: false,
-        organization: data[0].orgUnit,
+        organization: data[0].dimension,
         directSubordinates: data[0].directEmployees,
         totalSubordinates: data[0].totalEmployees,
         directAttrition: data[0].directAttrition,
@@ -59,27 +61,27 @@ describe('OrgChartService', () => {
     });
 
     test('should sort data alphabetically', () => {
-      const data: OrgUnitFluctuationData[] = [
+      const data: DimensionFluctuationData[] = [
         {
           id: '123',
-          orgUnit: 'Hans',
+          dimension: 'Hans',
           attritionMeta: {},
-        } as unknown as OrgUnitFluctuationData,
+        } as unknown as DimensionFluctuationData,
         {
           id: '1234',
-          orgUnit: 'Abel',
+          dimension: 'Abel',
           attritionMeta: {},
-        } as unknown as OrgUnitFluctuationData,
+        } as unknown as DimensionFluctuationData,
         {
           id: '12345',
-          orgUnit: 'Georg',
+          dimension: 'Georg',
           attritionMeta: {},
-        } as unknown as OrgUnitFluctuationData,
+        } as unknown as DimensionFluctuationData,
         {
           id: '123456',
-          orgUnit: 'Zorro',
+          dimension: 'Zorro',
           attritionMeta: {},
-        } as unknown as OrgUnitFluctuationData,
+        } as unknown as DimensionFluctuationData,
       ];
 
       const result = service.mapOrgUnitsToNodes(data);
@@ -92,12 +94,13 @@ describe('OrgChartService', () => {
     });
 
     test('should set showUpperButton to false if parent of one org unit is null', () => {
-      const data: OrgUnitFluctuationData[] = [
+      const data: DimensionFluctuationData[] = [
         {
           id: '123',
-          orgUnit: 'Hans',
+          dimension: 'Hans',
           attritionMeta: {},
-        } as unknown as OrgUnitFluctuationData,
+          parentId: OrgChartService.ROOT_ID,
+        } as unknown as DimensionFluctuationData,
       ];
 
       const result = service.mapOrgUnitsToNodes(data);
@@ -106,13 +109,13 @@ describe('OrgChartService', () => {
     });
 
     test('should set showUpperButton to true if parent of one org unit is not null', () => {
-      const data: OrgUnitFluctuationData[] = [
+      const data: DimensionFluctuationData[] = [
         {
           id: '123',
-          orgUnit: 'Hans',
+          dimension: 'Hans',
           parentId: '456',
           attritionMeta: {},
-        } as unknown as OrgUnitFluctuationData,
+        } as unknown as DimensionFluctuationData,
       ];
 
       const result = service.mapOrgUnitsToNodes(data);

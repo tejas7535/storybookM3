@@ -11,7 +11,11 @@ import {
   FilterDimension,
   TimePeriod,
 } from '../shared/models';
-import { OrgChartResponse, OrgUnitFluctuationRate } from './org-chart/models';
+import {
+  DimensionParentResponse,
+  OrgChartResponse,
+  OrgUnitFluctuationRate,
+} from './org-chart/models';
 import { OrganizationalViewService } from './organizational-view.service';
 import { WorldMapResponse } from './world-map/models';
 
@@ -43,7 +47,7 @@ describe('OrganizationalViewService', () => {
     test('should get org units for org chart', () => {
       const orgUnit = 'Schaeffler12';
       const timeRange = '123-321';
-      const mock: OrgChartResponse = { orgUnits: [] };
+      const mock: OrgChartResponse = { dimensions: [] };
       const request = {
         filterDimension: FilterDimension.ORG_UNIT,
         value: orgUnit,
@@ -87,15 +91,20 @@ describe('OrganizationalViewService', () => {
 
   describe('getParentOrgUnit', () => {
     test('should get parent for provided org unit id', () => {
-      const mock: OrgUnitFluctuationRate =
-        {} as unknown as OrgUnitFluctuationRate;
+      const mock: DimensionParentResponse =
+        {} as unknown as DimensionParentResponse;
       const parentEmployeeId = '123';
+      const dimension = FilterDimension.ORG_UNIT;
 
-      service.getParentOrgUnit(parentEmployeeId).subscribe((response) => {
-        expect(response).toEqual(mock);
-      });
+      service
+        .getParentOrgUnit(dimension, parentEmployeeId)
+        .subscribe((response) => {
+          expect(response).toEqual(mock);
+        });
 
-      const req = httpMock.expectOne('api/v1/org-unit?id=123');
+      const req = httpMock.expectOne(
+        `api/v1/dimension-parent?dimension=${dimension}&value=123`
+      );
       expect(req.request.method).toBe('GET');
       req.flush(mock);
     });

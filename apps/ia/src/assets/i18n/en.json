@@ -5,17 +5,17 @@
       "dimension": "Dimension",
       "hint": "Select a dimension",
       "availableDimensions": {
-        "orgUnit": "Organizational Unit",
-        "region": "Region",
-        "subRegion": "Sub Region",
-        "country": "Country",
-        "function": "Function",
-        "subFunction": "Sub Function",
-        "segment": "Segment",
-        "subSegment": "Sub Segment",
-        "segmentUnit": "Segment Unit",
-        "board": "Board",
-        "subBoard": "Sub Board"
+        "ORG_UNIT": "Organizational Unit",
+        "REGION": "Region",
+        "SUB_REGION": "Sub Region",
+        "COUNTRY": "Country",
+        "FUNCTION": "Function",
+        "SUB_FUNCTION": "Sub Function",
+        "SEGMENT": "Segment",
+        "SUB_SEGMENT": "Sub Segment",
+        "SEGMENT_UNIT": "Segment Unit",
+        "BOARD": "Board",
+        "SUB_BOARD": "Sub Board"
       }
     },
     "businessArea": {

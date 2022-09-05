@@ -81,7 +81,7 @@ export function createFluctuationRateChartConfig(
     getPercentageValue(rate.global)
   );
   const data2 = ratesChartData.map((rate: FluctuationRate) =>
-    getPercentageValue(rate.orgUnit)
+    getPercentageValue(rate.dimension)
   );
 
   return {

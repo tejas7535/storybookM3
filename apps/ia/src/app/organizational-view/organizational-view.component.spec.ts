@@ -5,7 +5,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { SharedModule } from '../shared/shared.module';
 import { ChartType } from './models/chart-type.enum';
-import { OrgUnitFluctuationData } from './models/org-unit-fluctuation-data.model';
+import { DimensionFluctuationData } from './models/dimension-fluctuation-data.model';
 import { OrganizationalViewComponent } from './organizational-view.component';
 import {
   chartTypeSelected,
@@ -68,7 +68,7 @@ describe('OrganizationalViewComponent', () => {
   describe('loadParent', () => {
     test('should dispatch loadParent', () => {
       component['store'].dispatch = jest.fn();
-      const orgUnit = { id: '123' } as unknown as OrgUnitFluctuationData;
+      const orgUnit = { id: '123' } as unknown as DimensionFluctuationData;
 
       component.loadParent(orgUnit);
 
@@ -81,7 +81,7 @@ describe('OrganizationalViewComponent', () => {
   describe('loadFluctuationMeta', () => {
     test('should dispatch loadOrgUnitFluctuationMeta', () => {
       component['store'].dispatch = jest.fn();
-      const orgUnit = { id: '123' } as unknown as OrgUnitFluctuationData;
+      const orgUnit = { id: '123' } as unknown as DimensionFluctuationData;
 
       component.loadFluctuationMeta(orgUnit);
 

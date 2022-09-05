@@ -27,6 +27,11 @@ export const filterSelected = createAction(
   props<{ filter: SelectedFilter }>()
 );
 
+export const filterDimensionSelected = createAction(
+  '[Filter] Filter dimension selected',
+  props<{ filterDimension: FilterDimension; filter: SelectedFilter }>()
+);
+
 export const timePeriodSelected = createAction(
   '[Filter] Time period selected',
   props<{ timePeriod: TimePeriod }>()

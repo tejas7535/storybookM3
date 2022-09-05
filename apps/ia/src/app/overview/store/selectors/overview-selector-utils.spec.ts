@@ -143,8 +143,8 @@ describe('OverviewSelectorUtils', () => {
   describe('createFluctuationRateChartConfig', () => {
     test('should create chart config', () => {
       const data = [
-        { global: 0.342, orgUnit: 0.012 },
-        { global: 0.431, orgUnit: 0.001 },
+        { global: 0.342, dimension: 0.012 },
+        { global: 0.431, dimension: 0.001 },
       ] as FluctuationRate[];
       const rates = {
         fluctuationRates: data,
@@ -170,8 +170,8 @@ describe('OverviewSelectorUtils', () => {
           ...SMOOTH_LINE_SERIES_OPTIONS,
           name: selectedOrgUnit,
           data: [
-            rates.fluctuationRates[0].orgUnit * 100,
-            rates.fluctuationRates[1].orgUnit * 100,
+            rates.fluctuationRates[0].dimension * 100,
+            rates.fluctuationRates[1].dimension * 100,
           ],
         },
       ]);

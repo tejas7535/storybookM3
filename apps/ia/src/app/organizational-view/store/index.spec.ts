@@ -1,13 +1,12 @@
 import { Action } from '@ngrx/store';
 
-import {
-  AttritionOverTime,
-  EmployeesRequest,
-  IdValue,
-} from '../../shared/models';
+import { AttritionOverTime, EmployeesRequest } from '../../shared/models';
 import { ChartType } from '../models/chart-type.enum';
-import { OrgUnitFluctuationData } from '../models/org-unit-fluctuation-data.model';
-import { OrgUnitFluctuationRate } from '../org-chart/models';
+import { DimensionFluctuationData } from '../models/dimension-fluctuation-data.model';
+import {
+  DimensionParentResponse,
+  OrgUnitFluctuationRate,
+} from '../org-chart/models';
 import { CountryData } from '../world-map/models/country-data.model';
 import { initialState, organizationalViewReducer, reducer } from '.';
 import {
@@ -58,8 +57,8 @@ describe('Organization View Reducer', () => {
 
   describe('loadOrgChartSuccess', () => {
     test('should unset loading and set employees', () => {
-      const data: OrgUnitFluctuationData[] = [
-        {} as unknown as OrgUnitFluctuationData,
+      const data: DimensionFluctuationData[] = [
+        {} as unknown as DimensionFluctuationData,
       ];
 
       const action = loadOrgChartSuccess({ data });
@@ -149,7 +148,7 @@ describe('Organization View Reducer', () => {
 
   describe('loadOrgUnitFluctuationMeta', () => {
     test('should unset loading and set employee id', () => {
-      const data = { id: '123' } as unknown as OrgUnitFluctuationData;
+      const data = { id: '123' } as unknown as DimensionFluctuationData;
       const action = loadOrgUnitFluctuationMeta({
         data,
       });
@@ -245,7 +244,7 @@ describe('Organization View Reducer', () => {
 
   describe('loadParent', () => {
     test('should set loading', () => {
-      const data = {} as unknown as OrgUnitFluctuationData;
+      const data = {} as unknown as DimensionFluctuationData;
       const action = loadParent({ data });
       const state = organizationalViewReducer(initialState, action);
 
@@ -255,8 +254,8 @@ describe('Organization View Reducer', () => {
 
   describe('loadParentSuccess', () => {
     test('should do nothing', () => {
-      const idValue = {} as unknown as IdValue;
-      const action = loadParentSuccess({ idValue });
+      const idValue = {} as unknown as DimensionParentResponse;
+      const action = loadParentSuccess({ response: idValue });
 
       const state = organizationalViewReducer(initialState, action);
 

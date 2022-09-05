@@ -2,7 +2,7 @@ import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
 import { AttritionOverTime } from '../../shared/models';
 import { ChartType } from '../models/chart-type.enum';
-import { OrgUnitFluctuationData } from '../models/org-unit-fluctuation-data.model';
+import { DimensionFluctuationData } from '../models/dimension-fluctuation-data.model';
 import { OrgUnitFluctuationRate } from '../org-chart/models';
 import { CountryData } from '../world-map/models/country-data.model';
 import {
@@ -31,7 +31,7 @@ export const organizationalViewFeatureKey = 'organizationalView';
 
 export interface OrganizationalViewState {
   orgChart: {
-    data: OrgUnitFluctuationData[];
+    data: DimensionFluctuationData[];
     loading: boolean;
     errorMessage: string;
     fluctuationRates: {

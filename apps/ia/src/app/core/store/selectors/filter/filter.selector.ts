@@ -119,6 +119,15 @@ export const getSelectedTimeRange = createSelector(
     filters.find((filter) => filter.name === FilterKey.TIME_RANGE)?.idValue
 );
 
+export const getSelectedTimeRangeWithDimension = createSelector(
+  getSelectedTimeRange,
+  getSelectedDimension,
+  (timeRange: IdValue, dimension: FilterDimension) => ({
+    timeRange,
+    dimension,
+  })
+);
+
 export const getSelectedFilterValues = createSelector(
   getAllSelectedFilters,
   getSelectedDimension,

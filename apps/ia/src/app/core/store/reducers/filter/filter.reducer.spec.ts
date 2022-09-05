@@ -33,7 +33,7 @@ describe('Filter Reducer', () => {
       });
       const state = filterReducer(initialState, action);
 
-      expect(state.data.orgUnit.loading).toBeTruthy();
+      expect(state.data.ORG_UNIT.loading).toBeTruthy();
     });
   });
 
@@ -48,8 +48,8 @@ describe('Filter Reducer', () => {
 
       const state = filterReducer(initialState, action);
 
-      expect(state.data.orgUnit.loading).toBeFalsy();
-      expect(state.data.orgUnit.items).toEqual(items);
+      expect(state.data.ORG_UNIT.loading).toBeFalsy();
+      expect(state.data.ORG_UNIT.items).toEqual(items);
     });
   });
 
@@ -62,7 +62,7 @@ describe('Filter Reducer', () => {
       const fakeState = {
         ...initialState,
         orgUnits: {
-          ...initialState.data.orgUnit,
+          ...initialState.data.ORG_UNIT,
           loading: true,
           errorMessage: '',
         },
@@ -70,8 +70,8 @@ describe('Filter Reducer', () => {
 
       const state = filterReducer(fakeState, action);
 
-      expect(state.data.orgUnit.loading).toBeFalsy();
-      expect(state.data.orgUnit.errorMessage).toEqual(errorMessage);
+      expect(state.data.ORG_UNIT.loading).toBeFalsy();
+      expect(state.data.ORG_UNIT.errorMessage).toEqual(errorMessage);
     });
   });
 

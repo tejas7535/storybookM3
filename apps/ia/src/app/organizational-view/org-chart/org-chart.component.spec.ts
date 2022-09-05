@@ -18,7 +18,7 @@ import { EmployeeListDialogMeta } from '../../shared/employee-list-dialog/employ
 import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
 import { ChartType } from '../models/chart-type.enum';
-import { OrgUnitFluctuationData } from '../models/org-unit-fluctuation-data.model';
+import { DimensionFluctuationData } from '../models/dimension-fluctuation-data.model';
 import { OrgChartComponent } from './org-chart.component';
 import { OrgChartService } from './org-chart.service';
 
@@ -63,7 +63,7 @@ describe('OrgChartComponent', () => {
     test('should set chart data and update chart', () => {
       component.updateChart = jest.fn();
       component['orgChartService'].mapOrgUnitsToNodes = jest.fn();
-      const employees = [{ id: '123' } as unknown as OrgUnitFluctuationData];
+      const employees = [{ id: '123' } as unknown as DimensionFluctuationData];
 
       component.data = employees;
 
@@ -106,9 +106,9 @@ describe('OrgChartComponent', () => {
           id: '123',
           parentId: '321',
           directLeafChildren: [],
-          orgUnit: 'Schaeffler_IT',
+          dimension: 'Schaeffler_IT',
           managerOfOrgUnit: 'Hans',
-        } as OrgUnitFluctuationData,
+        } as DimensionFluctuationData,
       ];
     });
     test('should open dialog with attrition data when attrition icon is clicked', () => {
