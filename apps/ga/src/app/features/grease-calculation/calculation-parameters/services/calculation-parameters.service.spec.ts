@@ -29,12 +29,14 @@ describe('CalculationParametersService', () => {
   it('should provide units', () => {
     expect(service.loadUnit).toBeDefined();
     expect(service.temperatureUnit).toBeDefined();
+    expect(service.weightUnit).toBeDefined();
 
     service['measurementUnitsService'].getMeasurementUnits = jest.fn(
       () => MeasurementUnits.Imperial
     );
     expect(service.loadUnit()).toBe('lbf');
     expect(service.temperatureUnit()).toBe('°F');
+    expect(service.weightUnit()).toBe('oz');
   });
 
   it('should provide form controls', () => {

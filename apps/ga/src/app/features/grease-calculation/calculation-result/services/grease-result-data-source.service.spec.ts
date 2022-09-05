@@ -8,6 +8,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { greaseResultDataMock } from '@ga/testing/mocks';
 import * as subordinateDataMock from '@ga/testing/mocks/models/grease-report-subordinate-data.mock';
 
+import { CalculationParametersService } from '../../calculation-parameters/services';
 import { SubordinateDataItemField } from '../models';
 import { UndefinedValuePipe } from '../pipes/undefined-value.pipe';
 import { GreaseResultDataSourceService } from './grease-result-data-source.service';
@@ -39,6 +40,7 @@ describe('GreaseResultDataSourceService', () => {
     providers: [
       mockProvider(TranslocoLocaleService, { localizeNumber }),
       UndefinedValuePipe,
+      CalculationParametersService,
     ],
   });
 

@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 
 import { convertCelsiusToFahrenheit } from '@ga/shared/helpers/temperature-helpers';
+import { convertGramToOunces } from '@ga/shared/helpers/weight-helpers';
 import { MeasurementUnits } from '@ga/shared/models';
 import { MeasurementUnitsService } from '@ga/shared/services';
 
@@ -29,6 +30,12 @@ export class CalculationParametersService {
     MeasurementUnits.Imperial
       ? '°F'
       : '°C';
+
+  public weightUnit = (): string =>
+    this.measurementUnitsService.getMeasurementUnits() ===
+    MeasurementUnits.Imperial
+      ? 'oz'
+      : 'g';
 
   public getEnvironmentTemperatureControl = () =>
     (this.environmentTemperature = new UntypedFormControl(
@@ -63,6 +70,12 @@ export class CalculationParametersService {
       return undefined;
     };
   }
+
+  public getWeightFromGram = (gram: number): number =>
+    this.measurementUnitsService.getMeasurementUnits() ===
+    MeasurementUnits.Imperial
+      ? convertGramToOunces(gram)
+      : gram;
 
   private readonly getTemperatureFromCelsius = (centigrade: number): number =>
     this.measurementUnitsService.getMeasurementUnits() ===

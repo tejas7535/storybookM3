@@ -17,6 +17,7 @@ import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { COOKIE_GROUPS } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { CalculationParametersService } from '@ga/features/grease-calculation/calculation-parameters/services';
 import { GREASE_RESULT_SUBORDINATES_MOCK } from '@ga/testing/mocks';
 
 import {
@@ -53,6 +54,7 @@ describe('GreaseReportComponent', () => {
     ],
     providers: [
       mockProvider(GreaseReportService),
+      mockProvider(CalculationParametersService),
       mockProvider(TranslocoLocaleService, { localizeNumber, localeChanges$ }),
     ],
   });

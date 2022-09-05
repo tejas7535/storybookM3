@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { translate } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
+import { CalculationParametersService } from '../../calculation-parameters/services';
 import * as helpers from '../helpers/grease-helpers';
 import {
   GreaseReportSubordinateDataItem,
@@ -20,7 +21,8 @@ export class GreaseResultDataSourceService {
 
   public constructor(
     private readonly localeService: TranslocoLocaleService,
-    private readonly undefinedValuePipe: UndefinedValuePipe
+    private readonly undefinedValuePipe: UndefinedValuePipe,
+    private readonly calculationParametersService: CalculationParametersService
   ) {}
 
   public isSufficient(dataItems: GreaseReportSubordinateDataItem[]): boolean {
@@ -428,7 +430,9 @@ export class GreaseResultDataSourceService {
     timespan?: string,
     tiny = false
   ): string => {
-    const value = rho * quantity;
+    const value = this.calculationParametersService.getWeightFromGram(
+      rho * quantity
+    );
 
     return value
       ? `<span>${
@@ -440,7 +444,7 @@ export class GreaseResultDataSourceService {
                 this.tinyNumberFormatOptions
               )
             : this.localeService.localizeNumber(value, 'decimal')
-        } ${translate('calculationResult.gramsAbbreviation')}${
+        } ${this.calculationParametersService.weightUnit()}${
           timespan ? `/${timespan}` : ''
         }</span>`
       : `<span>${translate('calculationResult.undefinedValue')}</span>`;
