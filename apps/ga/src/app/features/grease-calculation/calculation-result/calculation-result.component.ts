@@ -17,6 +17,9 @@ import { ReportUrls } from '@ga/shared/models';
 @Component({
   selector: 'ga-calculation-result',
   templateUrl: './calculation-result.component.html',
+  styles: [
+    '::ng-deep schaeffler-subheader > div { @apply bg-[#fafafa] #{!important}}', // temporary until everything is just white
+  ],
 })
 export class CalculationResultComponent implements OnInit, OnDestroy {
   public reportUrls: ReportUrls;

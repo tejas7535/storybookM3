@@ -53,6 +53,9 @@ import { CalculationParametersService } from './services';
 @Component({
   selector: 'ga-calculation-parameters',
   templateUrl: './calculation-parameters.component.html',
+  styles: [
+    '::ng-deep schaeffler-subheader > div { @apply bg-[#fafafa] #{!important}}', // temporary until everything is just white
+  ],
 })
 export class CalculationParametersComponent implements OnInit, OnDestroy {
   public movement = Movement;

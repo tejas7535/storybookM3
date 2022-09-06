@@ -6,11 +6,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
-import { PushModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { MaintenanceModule } from '@schaeffler/empty-states';
+import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { CalculationParametersEffects } from '@ga/core/store/effects';
@@ -31,6 +32,7 @@ import { CalculationParametersService } from './services';
     // UI
     BreadcrumbsModule,
     MaintenanceModule,
+    SubheaderModule,
     FormFieldModule,
     PreferredGreaseSelectionComponent,
 
@@ -46,6 +48,7 @@ import { CalculationParametersService } from './services';
 
     // Store
     EffectsModule.forFeature([CalculationParametersEffects]),
+    LetModule,
   ],
   providers: [CalculationParametersService],
 })

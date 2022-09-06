@@ -161,7 +161,7 @@
   },
   "parameters": {
     "title": {
-      "main": "Betriebsbedingungen für Lager",
+      "main": "Betriebsbedingungen für",
       "backButton": "Lagerauswahl ändern"
     },
     "preferredGrease": {
@@ -231,8 +231,9 @@
   },
   "calculationResult": {
     "title": {
-      "main": "Ergebnisse für Lager",
-      "backButton": "Betriebsbedingungen ändern"
+      "main": "Ergebnisse für",
+      "backButton": "Betriebsbedingungen ändern",
+      "247hint": "Alle Ergebnisse beziehen sich auf durchgehenden 24/7 Betrieb."
     },
     "showCompactView": "Anzeige mit kompakter Darstellung",
     "reportSectionInput": "Eingaben",

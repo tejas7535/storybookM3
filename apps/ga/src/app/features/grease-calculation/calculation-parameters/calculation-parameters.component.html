@@ -1,19 +1,16 @@
 <ng-container *transloco="let t; read: 'parameters'">
   <div class="flex h-full flex-col">
-    <div class="container mx-auto py-4 px-4 md:px-0">
-      <h6>
-        <span class="mr-2 inline-block">{{ t('title.main') }}</span>
-        <span class="inline-block">{{ selectedBearing$ | ngrxPush }}</span>
-      </h6>
-      <div
-        *ngIf="!(appIsEmbedded$ | ngrxPush)"
-        class="-ml-1 inline-flex cursor-pointer items-center gap-1 py-2 pr-2 text-link"
-        (click)="navigateBack()"
-      >
-        <mat-icon>arrow_back</mat-icon>
-        {{ t('title.backButton') }}
-      </div>
-    </div>
+    <schaeffler-subheader
+      *ngrxLet="selectedBearing$ as selectedBearing"
+      [hideLine]="true"
+      [showBackButton]="!(appIsEmbedded$ | ngrxPush)"
+      (backButtonClicked)="navigateBack()"
+    >
+      <ng-container subheaderTitleContent>
+        <span class="hidden sm:block">{{ t('title.main') }}&nbsp;</span>
+        <span class="truncate">{{ selectedBearing }}</span>
+      </ng-container>
+    </schaeffler-subheader>
     <div
       *ngIf="
         (modelCreationLoading$ | ngrxPush) ||

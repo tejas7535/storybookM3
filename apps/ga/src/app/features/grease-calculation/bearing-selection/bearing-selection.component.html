@@ -3,10 +3,15 @@
     *ngrxLet="bearingSelectionType$; let selectionType"
     class="flex h-full max-w-full flex-col"
   >
-    <div class="container mx-auto py-4 px-4 md:max-w-2xl md:px-0">
-      <h6>{{ t('title.main') }}</h6>
-      <div class="py-2 text-body-2">{{ t('title.sub') }}</div>
-    </div>
+    <schaeffler-subheader
+      [subheaderTitle]="t('title.main')"
+      [hideLine]="true"
+      [showBackButton]="false"
+    >
+      <ng-container subheaderBlockContent>
+        {{ t('title.sub') }}
+      </ng-container>
+    </schaeffler-subheader>
     <div class="container mx-auto md:max-w-2xl">
       <div class="mb-4 text-center md:text-left">
         <mat-slide-toggle

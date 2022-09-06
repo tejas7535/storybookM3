@@ -161,7 +161,7 @@
   },
   "parameters": {
     "title": {
-      "main": "Condiciones de funcionamiento del rodamiento",
+      "main": "Condiciones de funcionamiento para",
       "backButton": "Cambiar la selección de rodamientos"
     },
     "preferredGrease": {
@@ -231,8 +231,9 @@
   },
   "calculationResult": {
     "title": {
-      "main": "Informe para el rodamiento",
-      "backButton": "Cambiar las condiciones de funcionamiento"
+      "main": "Informe para",
+      "backButton": "Cambiar las condiciones de funcionamiento",
+      "247hint": "Todos los resultados se refieren a un funcionamiento continuo 24/7."
     },
     "showCompactView": "Mostrar vista compacta",
     "reportSectionInput": "Entrada",

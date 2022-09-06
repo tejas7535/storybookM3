@@ -161,7 +161,7 @@
   },
   "parameters": {
     "title": {
-      "main": "轴承的操作条件",
+      "main": "操作条件为",
       "backButton": "改变轴承选择"
     },
     "preferredGrease": {
@@ -231,8 +231,9 @@
   },
   "calculationResult": {
     "title": {
-      "main": "报告报告",
-      "backButton": "改变操作条件"
+      "main": "报告的内容",
+      "backButton": "改变操作条件",
+      "247hint": "所有的结果都是指连续24/7的操作。"
     },
     "showCompactView": "显示紧凑视图",
     "reportSectionInput": "输入",

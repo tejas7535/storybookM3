@@ -161,7 +161,7 @@
   },
   "parameters": {
     "title": {
-      "main": "Operating conditions for bearing",
+      "main": "Operating conditions for",
       "backButton": "Change bearing selection"
     },
     "preferredGrease": {
@@ -231,8 +231,9 @@
   },
   "calculationResult": {
     "title": {
-      "main": "Report for bearing",
-      "backButton": "Change operating conditions"
+      "main": "Report for",
+      "backButton": "Change operating conditions",
+      "247hint": "All results refer to continuous 24/7 operation."
     },
     "showCompactView": "Show compact view",
     "reportSectionInput": "Input",

@@ -1,20 +1,26 @@
 <ng-container *transloco="let t; read: 'calculationResult'">
   <div class="flex h-full flex-col px-4">
-    <div class="py-4">
-      <h6>
-        <span class="mr-2 inline-block">{{ t('title.main') }}</span>
-        <span class="inline-block">{{ selectedBearing$ | ngrxPush }}</span>
-      </h6>
-      <div
-        class="-ml-1 inline-flex cursor-pointer items-center gap-1 py-2 pr-2 text-link"
-        (click)="navigateBack()"
-      >
-        <mat-icon>arrow_back</mat-icon>
-        {{ t('title.backButton') }}
-      </div>
-    </div>
+    <schaeffler-subheader
+      class="-mx-4"
+      *ngrxLet="selectedBearing$ as selectedBearing"
+      [hideLine]="true"
+      (backButtonClicked)="navigateBack()"
+    >
+      <ng-container subheaderTitleContent>
+        <span class="hidden sm:block">{{ t('title.main') }}&nbsp;</span>
+        <span class="truncate">{{ selectedBearing }}</span>
+        <mat-icon
+          class="ml-2 !h-[28px] !w-[28px] cursor-help !text-[28px] text-low-emphasis sm:ml-4 sm:!h-[34px] sm:!w-[34px] sm:!text-h4"
+          #tooltip="matTooltip"
+          [matTooltip]="t('title.247hint')"
+          (click)="tooltip.toggle()"
+        >
+          info_outline
+        </mat-icon>
+      </ng-container>
+    </schaeffler-subheader>
     <div *ngIf="reportUrls; else loading_spinner">
-      <div class="mb-4">
+      <div class="mb-4 flex w-full justify-end">
         <mat-slide-toggle
           color="primary"
           labelPosition="before"

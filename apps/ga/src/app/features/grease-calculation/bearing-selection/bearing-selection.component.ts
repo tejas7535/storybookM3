@@ -15,6 +15,9 @@ import { BearingSelectionType } from '@ga/shared/models';
 @Component({
   selector: 'ga-bearing-selection',
   templateUrl: './bearing-selection.component.html',
+  styles: [
+    '::ng-deep schaeffler-subheader > div { @apply bg-[#fafafa] #{!important}}', // temporary until everything is just white
+  ],
 })
 export class BearingSelectionComponent implements OnInit {
   bearingSelectionType = BearingSelectionType;

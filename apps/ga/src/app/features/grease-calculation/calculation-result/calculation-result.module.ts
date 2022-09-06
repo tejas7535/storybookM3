@@ -4,13 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { PushModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
-import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { ReportModule } from '@schaeffler/report';
+import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { CalculationResultEffects } from '@ga/core/store';
@@ -35,14 +36,16 @@ import { GreaseReportComponent } from './components/grease-report';
     // Store
     StoreModule.forFeature('calculationResult', calculationResultReducer),
     EffectsModule.forFeature([CalculationResultEffects]),
+    LetModule,
 
     // Material
     MatIconModule,
     MatProgressSpinnerModule,
     MatSlideToggleModule,
+    MatTooltipModule,
 
     // Components
-    BreadcrumbsModule,
+    SubheaderModule,
     ReportModule,
     GreaseReportComponent,
   ],

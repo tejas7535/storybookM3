@@ -6,6 +6,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { LetModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 
+import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { BearingSelectionEffects } from '@ga/core/store';
@@ -38,6 +39,7 @@ import { AdvancedBearingSelectionModule } from './components/advanced-bearing-se
     // Components
     AdvancedBearingSelectionModule,
     QuickBearingSelectionComponent,
+    SubheaderModule,
   ],
 })
 export class BearingSelectionModule {}
