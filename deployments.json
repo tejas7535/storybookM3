@@ -1,7 +1,7 @@
 {
   "helloworld-azure": "/hello-world/helloworld-frontend-deployment/master/",
   "cdba": "/cdba/cdba-fe-deployment/master/",
-  "sedo": "/CDAI2/sedo/sedo-frontend/master",
+  "sedo": "/CDAIS1/SEDO/sedo-fe-deployment/master",
   "gq": "/guidedquoting/gq-fe-deployment/master",
   "ia": "/insight-attrition/ia-fe-deployment/master",
   "mac": "/CDAI2/material_app_center/MAC-Frontend-Deployment/master",
