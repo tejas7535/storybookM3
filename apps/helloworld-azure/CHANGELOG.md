@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [3.3.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/hellworld-azure-v3.3.0...hellworld-azure-v3.3.1) (2022-09-07)
+
+
+### 🐛 Bug Fixes
+
+* **helloworld-azure:** update SharedTranslocoModule import to fix issues with language persisting ([5781b2f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5781b2fa0a138021433e52bc6405678667cdce68))
+
 ## [3.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/hellworld-azure-v3.2.1...hellworld-azure-v3.3.0) (2022-07-07)
 
 
