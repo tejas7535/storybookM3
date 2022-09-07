@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.2.11](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.9...ga-v1.2.11) (2022-09-07)
+
+
+### ✏️ Documentation
+
+* **ga:** add Readme (UFTABI-5937) ([90f4f0c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/90f4f0cdf8767e94916a965eb111ad9d7dfcf633))
+
+
+### 🐛 Bug Fixes
+
+* **ga:** mobile style alignments for grease report (UFTABI-5969) ([1ff4548](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1ff454802fd313db75fea10f42db58e1e750b614))
+
+
+### 🎸 Features
+
+* **ga:** adjust insufficient design according design review (UFTABI-6011) ([c653f7b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c653f7ba1aa2fdd7df7ef2c434949168b822d585))
+* **ga:** center adv. bearing buttons on mobile devices (UFTABI-5965) ([4c834f1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4c834f10e183c2cbe981d47e18cb37a071a92afb))
+* **ga:** change text color in quick bearing search (UFTABI-6002) ([32abb65](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/32abb65fef6098304c97b717e895ea67c55976f2))
+* **ga:** consider measurement units setting in parameters (UFTABI-5789) ([cb2ded2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/cb2ded2077af4ae57bcab0e82422692a56d3744c))
+* **ga:** create select component for measurement units (UFTABI-5789) ([cd9ed10](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/cd9ed1098fae1ed280f3aee71d722554c1b01d0a))
+* **ga:** ensure variable measurement units in interceptor (UFTABI-5789) ([dfcfcf3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/dfcfcf327168b02cba8800a87acdb6244f80670f))
+* **ga:** exchange search component library (UFTABI-5973) ([546d9b7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/546d9b703a369606114e9c916808365f7145ca25))
+* **ga:** footer not sticky ([01f782a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/01f782a11ef170122337c56fb353aba435342177))
+* **ga:** keep result panel open in grease report (UFTABI-5967) ([1a9c46c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1a9c46cb19fa62b8cb32d91b06808214c0c5c059))
+* **ga:** minor style rework for home page (UFTABI-6000) ([3c88efd](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3c88efd299cbcb01062edeceb2c460bce6afc6ee))
+* **ga:** only show active step label ([e71d32b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e71d32b7ecf9cf7f4dad13e2c7ba1d0366c8a7c6))
+* **ga:** re-work grease report result item (UFTABI-6005) ([f11af3a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f11af3abc9ff5810d3502db1e052ae6eaed0b78f))
+* **ga:** recolor 24/7 hint to primary green ([#4582](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4582)) ([3ab634b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3ab634bc9a01cd01e9445bea59aaf79fcb555b0f))
+* **ga:** rounded bottom for home page card image (UFTABI-6001) ([34a60f1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/34a60f1adbdf2ecdf951890e23c193da03672dab))
+* **ga:** scroll to top in app-shell ([a460fac](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a460fac887fd2a96f14236e2d934c5a77c9e4c75))
+* **ga:** show 24/7 hint in result (UFTABI-5790) ([#4549](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4549)) ([599b6b3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/599b6b3b7e7795c9fe25ff5ac08fedf75bb8a787))
+* **ga:** show weights in ounces for imperial units (UFTABI-6008) ([2233c40](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2233c40d722b6e3557919a496504db509e8523e6))
+* **ga:** two col grid for operating conditions ([e80b52b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e80b52b66a8fd311c525ed3ce3dcbdecee0a771e))
+* **styles:** provide new orange through tailwind ([53789d1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/53789d1a34527e9a174b5a4a56d540c7aa9a4b46))
+
 ### [1.2.9](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.8...ga-v1.2.9) (2022-07-27)
 
 
