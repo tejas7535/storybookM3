@@ -6,7 +6,11 @@
     class="flex flex-col items-start justify-start border-r border-border p-4"
   >
     <ng-container>
-      <mat-form-field appearance="outline" class="w-56">
+      <mat-form-field
+        appearance="outline"
+        class="w-56 opacity-100 transition-all duration-1000"
+        [ngClass]="{ 'w-0 opacity-0': minimizeSideBar }"
+      >
         <mat-label>{{ t('materialClass') }}</mat-label>
         <mat-select
           [formControl]="materialClassSelectionControl"
@@ -23,7 +27,11 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field appearance="outline" class="w-56">
+      <mat-form-field
+        appearance="outline"
+        class="w-56 opacity-100 transition-all duration-1000"
+        [ngClass]="{ 'w-0 opacity-0': minimizeSideBar }"
+      >
         <mat-label>{{ t('productCategory') }}</mat-label>
         <mat-select
           [formControl]="productCategorySelectionControl"
@@ -51,6 +59,19 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+
+      <div class="flex-auto"></div>
+      <button
+        mat-mini-fab
+        class="place-self-end !rounded-xl !bg-secondary-variant !shadow-none"
+        (click)="toggleSideBar()"
+      >
+        <mat-icon
+          class="text-medium-emphasis"
+          [ngClass]="{ 'rotate-180': minimizeSideBar }"
+          >chevron_left</mat-icon
+        >
+      </button>
     </ng-container>
   </div>
   <div class="flex w-full flex-1 flex-col md:p-4 md:pb-0 md:pr-0">

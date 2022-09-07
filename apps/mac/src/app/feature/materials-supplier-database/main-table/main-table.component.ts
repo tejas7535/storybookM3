@@ -112,6 +112,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private visibleColumns: string[];
   public agGridTooltipDelay = 500;
+  public minimizeSideBar = false;
 
   public constructor(
     private readonly dataFacade: DataFacade,
@@ -577,5 +578,9 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
           this.fetchMaterials();
         }
       });
+  }
+
+  public toggleSideBar() {
+    this.minimizeSideBar = !this.minimizeSideBar;
   }
 }

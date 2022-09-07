@@ -1638,4 +1638,19 @@ describe('MainTableComponent', () => {
       expect(component.fetchMaterials).toHaveBeenCalled();
     });
   });
+
+  describe('toggle sidebar', () => {
+    it('change value after toggle', () => {
+      expect(component.minimizeSideBar).toBeFalsy();
+      component.toggleSideBar();
+      expect(component.minimizeSideBar).toBeTruthy();
+    });
+
+    it('change back after second toggle', () => {
+      expect(component.minimizeSideBar).toBeFalsy();
+      component.toggleSideBar();
+      component.toggleSideBar();
+      expect(component.minimizeSideBar).toBeFalsy();
+    });
+  });
 });
