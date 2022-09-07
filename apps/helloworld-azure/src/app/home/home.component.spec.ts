@@ -50,7 +50,6 @@ describe('HomeComponent', () => {
       service.greetUsers = jest.fn();
       service.greetDotNetAuthorized = jest.fn();
       service.greetDotNetPublic = jest.fn();
-      service.greetAzFunctions = jest.fn();
 
       component.ngOnInit();
 
@@ -60,7 +59,6 @@ describe('HomeComponent', () => {
       expect(service.greetUsers).toHaveBeenCalled();
       expect(service.greetDotNetAuthorized).toHaveBeenCalled();
       expect(service.greetDotNetPublic).toHaveBeenCalled();
-      expect(service.greetAzFunctions).toHaveBeenCalledTimes(1);
     });
   });
 });

@@ -59,9 +59,6 @@
       <p *ngIf="responseDotNetAuthorized$ | ngrxPush as message; else loading">
         {{ message }}
       </p>
-      <p *ngIf="responseAzFunctions$ | ngrxPush as message; else loading">
-        {{ message }}
-      </p>
 
       <h5 class="mt-5 mb-3">What the backend has to say to official Users:</h5>
       <p *ngIf="responseUsers$ | ngrxPush as message; else loading">

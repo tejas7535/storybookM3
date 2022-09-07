@@ -17,7 +17,6 @@ export class HomeComponent implements OnInit {
   public responseDotNetAuthorized$: Observable<string>;
   public responseDotNetUsers$: Observable<string>;
   public responseDotNetAdmins$: Observable<string>;
-  public responseAzFunctions$: Observable<string>;
 
   constructor(private readonly greetingsService: GreetingService) {}
 
@@ -31,6 +30,5 @@ export class HomeComponent implements OnInit {
       this.greetingsService.greetDotNetAuthorized();
     this.responseDotNetUsers$ = this.greetingsService.greetDotNetUsers();
     this.responseDotNetAdmins$ = this.greetingsService.greetDotNetAdmins();
-    this.responseAzFunctions$ = this.greetingsService.greetAzFunctions();
   }
 }
