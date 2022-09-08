@@ -150,7 +150,7 @@ export class HomeStore extends ComponentStore<HomeState> {
               (bearings: any) => {
                 const bearing = bearings.find(
                   (_bearing: any) => _bearing.id === id
-                ).text;
+                )?.text;
                 this.setBearing(bearing);
               },
               (error) => {
