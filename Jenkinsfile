@@ -545,6 +545,8 @@ pipeline {
                         success {
                             // Unit tests results
                             publishCoverage adapters: [istanbulCoberturaAdapter(mergeToOneReport: true, path: 'coverage/**/*cobertura-coverage.xml')], sourceFileResolver: sourceFiles('NEVER_STORE')
+                        }
+                        always {
                             junit allowEmptyResults: true, testResults: 'coverage/junit/test-*.xml'
                         }
                     }
