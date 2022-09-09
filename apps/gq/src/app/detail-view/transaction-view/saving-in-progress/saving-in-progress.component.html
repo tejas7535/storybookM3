@@ -5,8 +5,8 @@
   <div class="cursor-pointer" (click)="reload()">
     <img [src]="imagePath" />
   </div>
-  <h4 class="mt-12">
-    {{ t('header') }}
+  <h4 class="mt-12 max-w-5xl text-center">
+    {{ hideRolesHint ? t('headerWithoutRolesHint') : t('headerWithRolesHint') }}
   </h4>
   <div class="mt-6 text-center">
     <span class="block text-subtitle-1">{{ t('subtitle1') }}</span>

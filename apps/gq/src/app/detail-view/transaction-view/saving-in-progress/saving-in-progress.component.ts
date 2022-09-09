@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'gq-saving-in-progress',
@@ -6,6 +6,8 @@ import { Component } from '@angular/core';
   styles: [],
 })
 export class SavingInProgressComponent {
+  @Input() hideRolesHint: boolean;
+
   imagePath = 'assets/png/calc_in_progress.png';
 
   reload(): void {

@@ -29,12 +29,13 @@
     *ngIf="
       !(transactionsLoading$ | ngrxPush) &&
         (transactions$ | ngrxPush)?.length === 0;
-      else savingInProgress
+      else transparencyGraph
     "
+    [hideRolesHint]="hideRolesHint$ | ngrxPush"
   ></gq-saving-in-progress>
 
-  <ng-template #savingInProgress
-    ><div class="flex flex-1 flex-col pt-4 pb-16 lg:flex-row">
+  <ng-template #transparencyGraph>
+    <div class="flex flex-1 flex-col pt-4 pb-16 lg:flex-row">
       <div class="flex h-full w-full pl-4 pr-4 lg:w-1/2 lg:pr-2">
         <mat-card
           class="flex-1 overflow-hidden border-[1px] border-border !shadow-none"

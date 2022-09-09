@@ -7,6 +7,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import { FilterChangedEvent, RowNode } from 'ag-grid-community';
 
+import { hasIdTokenRoles } from '@schaeffler/azure-auth';
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
 import {
@@ -22,6 +23,7 @@ import {
   userHasGPCRole,
 } from '../../core/store';
 import { ComparableLinkedTransaction } from '../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
+import { UserRoles } from '../../shared/constants';
 import { Customer } from '../../shared/models/customer';
 import {
   Coefficients,
@@ -45,6 +47,7 @@ export class TransactionViewComponent implements OnInit {
   coefficients$: Observable<Coefficients>;
   customer$: Observable<Customer>;
   hasGpcRole$: Observable<boolean>;
+  hideRolesHint$: Observable<boolean>;
 
   filteredTransactionIdentifier = new BehaviorSubject<number[] | undefined>(
     undefined
@@ -99,6 +102,9 @@ export class TransactionViewComponent implements OnInit {
           )
         )
       );
+    this.hideRolesHint$ = this.store.pipe(
+      hasIdTokenRoles([UserRoles.REGION_WORLD, UserRoles.SECTOR_ALL])
+    );
   }
 
   onFilterChanged(event: FilterChangedEvent): void {

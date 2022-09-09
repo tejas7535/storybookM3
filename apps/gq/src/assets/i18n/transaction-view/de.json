@@ -28,6 +28,7 @@
   },
   "graph": {
     "title": "Margen-Mengen Graph",
+    "hint": "Einzelne Transaktionen können aufgrund fehlender Berechtigungen ausgefiltert sein",
     "salesIndication": {
       "invoice": "Faktura",
       "lostQuote": "Lost Quote",
@@ -45,7 +46,8 @@
     "y-axis": "Marge %"
   },
   "savingInProgress": {
-    "header": "Die GQ-Preisdetails werden aktuell kalkuliert...",
+    "headerWithRolesHint": "Die GQ-Preisdetails werden aktuell kalkuliert oder die Detailansicht ist aufgrund fehlender Berechtigungen nicht verfügbar",
+    "headerWithoutRolesHint": "Die GQ-Preisdetails werden aktuell kalkuliert...",
     "subtitle1": "Bitte aktualisieren Sie diese Seite, um zu prüfen, ob sie verfügbar sind."
   }
 }

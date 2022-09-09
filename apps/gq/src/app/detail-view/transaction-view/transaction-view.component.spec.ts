@@ -139,6 +139,9 @@ describe('TransactionViewComponent', () => {
         m.expect(component.hasGpcRole$).toBeObservable(
           m.cold('a', { a: false })
         );
+        m.expect(component.hideRolesHint$).toBeObservable(
+          m.cold('a', { a: false })
+        );
       })
     );
   });

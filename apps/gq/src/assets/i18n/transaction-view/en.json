@@ -28,6 +28,7 @@
   },
   "graph": {
     "title": "Margin Volume Graph",
+    "hint": "Some transactions might be filtered out due to missing roles",
     "salesIndication": {
       "invoice": "Invoice",
       "lostQuote": "Lost Quote",
@@ -45,7 +46,8 @@
     "y-axis": "GPI %"
   },
   "savingInProgress": {
-    "header": "The GQ Pricing Details are currently being calculated.",
+    "headerWithRolesHint": "The GQ Pricing Details are currently being calculated or the details are not available due to missing roles",
+    "headerWithoutRolesHint": "The GQ Pricing Details are currently being calculated...",
     "subtitle1": "Please refresh this page to check if they are available."
   }
 }
