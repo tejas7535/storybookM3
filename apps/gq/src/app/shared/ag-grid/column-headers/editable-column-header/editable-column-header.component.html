@@ -9,29 +9,37 @@
     role="presentation"
     *ngIf="!(editMode || value)"
   >
-    <div class="flex items-center">
-      <span ref="eText" class="ag-header-cell-text pr-2">
-        {{ params.displayName }}
-      </span>
-      <mat-icon
-        (click)="enableEditMode($event)"
-        class="edit-icon"
-        *ngIf="showEditIcon"
-      >
-        mode_edit
-      </mat-icon>
-    </div>
+    <span ref="eText" class="ag-header-cell-text w-full truncate">
+      {{ params.displayName }}
+    </span>
 
-    <div class="w-8 pl-2">
-      <span class="ag-icon ag-icon-asc" *ngIf="sort === 'asc'"></span>
-      <span class="ag-icon ag-icon-desc" *ngIf="sort === 'desc'"></span>
-      <span class="ag-icon ag-sort-none-icon" *ngIf="!sort"></span>
+    <div class="flex w-10 items-center justify-between">
+      <div class="w-4">
+        <span class="ag-icon ag-icon-asc" *ngIf="sort === 'asc'"></span>
+        <span class="ag-icon ag-icon-desc" *ngIf="sort === 'desc'"></span>
+        <span class="ag-icon ag-sort-none-icon" *ngIf="!sort"></span>
+      </div>
+
+      <div class="ml-2 w-4">
+        <ng-container *ngIf="showEditIcon">
+          <mat-icon (click)="enableEditMode($event)" class="edit-icon">
+            mode_edit
+          </mat-icon>
+        </ng-container>
+
+        <ng-container *ngIf="!showEditIcon && params?.tooltipText">
+          <gq-info-icon
+            [displaySmall]="true"
+            [text]="params?.tooltipText"
+          ></gq-info-icon>
+        </ng-container>
+      </div>
     </div>
   </div>
 
   <span
     ref="eMenu"
-    class="ag-header-icon ag-header-cell-menu-button pl-4"
+    class="ag-header-icon ag-header-cell-menu-button pl-2"
     aria-hidden="true"
     *ngIf="!(editMode || value)"
   >

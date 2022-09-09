@@ -78,6 +78,11 @@ export class ColumnDefService {
       filterParams: this.columnUtilityService.numberFilterParams,
       headerComponentFramework: EditableColumnHeaderComponent,
       headerComponent: EditableColumnHeaderComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.priceInfoText'
+        ),
+      },
     },
     {
       headerName: translate('shared.quotationDetailsTable.priceSource'),
@@ -91,6 +96,11 @@ export class ColumnDefService {
       },
       headerComponentFramework: EditableColumnHeaderComponent,
       headerComponent: EditableColumnHeaderComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.priceSourceInfoText'
+        ),
+      },
     },
     {
       headerName: translate('shared.quotationDetailsTable.priceUnit'),
@@ -98,12 +108,24 @@ export class ColumnDefService {
       valueFormatter: (params) =>
         this.columnUtilityService.numberDashFormatter(params),
       filterParams: FILTER_PARAMS,
+      headerComponent: HeaderInfoIconComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.priceUnitInfoText'
+        ),
+      },
     },
     {
       headerName: translate('shared.quotationDetailsTable.uom'),
       field: ColumnFields.UOM,
       filterParams: FILTER_PARAMS,
       valueFormatter: ColumnUtilityService.transformConditionUnit,
+      headerComponent: HeaderInfoIconComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.uomInfoText'
+        ),
+      },
     },
     {
       headerName: translate('shared.quotationDetailsTable.netValue'),
@@ -117,8 +139,13 @@ export class ColumnDefService {
         condition: { enabled: false },
         field: ColumnFields.NET_VALUE,
       } as EditCellData,
+      headerComponent: HeaderInfoIconComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.netValueInfoText'
+        ),
+      },
     },
-
     {
       headerName: translate('shared.quotationDetailsTable.gqPrice'),
       field: ColumnFields.RECOMMENDED_PRICE,
@@ -140,6 +167,12 @@ export class ColumnDefService {
       cellRenderer: 'GqRatingComponent',
       field: 'gqRating',
       filterParams: FILTER_PARAMS,
+      headerComponent: HeaderInfoIconComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.gqRatingInfoText'
+        ),
+      },
     },
     {
       headerName: translate('shared.quotationDetailsTable.sapPrice'),
@@ -164,6 +197,12 @@ export class ColumnDefService {
         this.columnUtilityService.numberCurrencyFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
+      headerComponent: HeaderInfoIconComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.rspInfoText'
+        ),
+      },
     },
     {
       headerName: translate('shared.quotationDetailsTable.msp'),
@@ -172,6 +211,12 @@ export class ColumnDefService {
         this.columnUtilityService.numberCurrencyFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
+      headerComponent: HeaderInfoIconComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.mspInfoText'
+        ),
+      },
     },
     {
       headerName: translate('shared.quotationDetailsTable.sapGrossPrice'),
@@ -196,6 +241,11 @@ export class ColumnDefService {
       filterParams: this.columnUtilityService.numberFilterParams,
       headerComponentFramework: EditableColumnHeaderComponent,
       headerComponent: EditableColumnHeaderComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.discountInfoText'
+        ),
+      },
     },
     {
       headerName: translate('shared.quotationDetailsTable.gpc'),
@@ -204,6 +254,12 @@ export class ColumnDefService {
         this.columnUtilityService.numberCurrencyFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
+      headerComponent: HeaderInfoIconComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.gpcInfoText'
+        ),
+      },
     },
     {
       headerName: translate('shared.quotationDetailsTable.sqv'),
@@ -212,6 +268,12 @@ export class ColumnDefService {
         this.columnUtilityService.numberCurrencyFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
+      headerComponent: HeaderInfoIconComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.sqvInfoText'
+        ),
+      },
     },
     {
       headerName: translate('shared.quotationDetailsTable.relocCost'),
@@ -220,6 +282,12 @@ export class ColumnDefService {
         this.columnUtilityService.numberCurrencyFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
+      headerComponent: HeaderInfoIconComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.relocCostInfoText'
+        ),
+      },
     },
     {
       headerName: translate('shared.quotationDetailsTable.gpi'),
@@ -235,6 +303,11 @@ export class ColumnDefService {
       filterParams: this.columnUtilityService.numberFilterParams,
       headerComponentFramework: EditableColumnHeaderComponent,
       headerComponent: EditableColumnHeaderComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.gpiInfoText'
+        ),
+      },
     },
     {
       headerName: translate('shared.quotationDetailsTable.gpm'),
@@ -250,6 +323,11 @@ export class ColumnDefService {
       filterParams: this.columnUtilityService.numberFilterParams,
       headerComponentFramework: EditableColumnHeaderComponent,
       headerComponent: EditableColumnHeaderComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.gpmInfoText'
+        ),
+      },
     },
     {
       headerName: translate('shared.quotationDetailsTable.rlm'),
@@ -263,6 +341,12 @@ export class ColumnDefService {
         condition: { enabled: false },
         field: ColumnFields.RLM,
       } as EditCellData,
+      headerComponent: HeaderInfoIconComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.rlmInfoText'
+        ),
+      },
     },
     {
       headerName: translate('shared.quotationDetailsTable.lastCustomerPrice'),
@@ -271,6 +355,12 @@ export class ColumnDefService {
         this.columnUtilityService.numberCurrencyFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
+      headerComponent: HeaderInfoIconComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.lastCustomerPriceInfoText'
+        ),
+      },
     },
     {
       headerName: translate(
@@ -281,6 +371,12 @@ export class ColumnDefService {
         this.columnUtilityService.numberDashFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: ColumnUtilityService.integerFilterParams,
+      headerComponent: HeaderInfoIconComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.lastCustomerPriceQuantityInfoText'
+        ),
+      },
     },
     {
       headerName: translate(
@@ -291,6 +387,12 @@ export class ColumnDefService {
         this.columnUtilityService.percentageFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
+      headerComponent: HeaderInfoIconComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.lastCustomerPriceGpiInfoText'
+        ),
+      },
     },
     {
       headerName: translate(
@@ -301,6 +403,12 @@ export class ColumnDefService {
         this.columnUtilityService.percentageFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
+      headerComponent: HeaderInfoIconComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.lastCustomerPriceGpmInfoText'
+        ),
+      },
     },
     {
       headerName: translate(
@@ -312,6 +420,12 @@ export class ColumnDefService {
       valueFormatter: (params) =>
         this.columnUtilityService.dateFormatter(params.value),
       floatingFilterComponentParams: ColumnUtilityService.dateFilterParams,
+      headerComponent: HeaderInfoIconComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.lastCustomerPriceDateInfoText'
+        ),
+      },
     },
     {
       headerName: translate(
@@ -348,6 +462,12 @@ export class ColumnDefService {
       valueFormatter: (params) =>
         this.columnUtilityService.numberCurrencyFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
+      headerComponent: HeaderInfoIconComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.lastOfferPriceInfoText'
+        ),
+      },
     },
     {
       headerName: translate('shared.quotationDetailsTable.lastOfferQuantity'),
@@ -356,6 +476,12 @@ export class ColumnDefService {
         this.columnUtilityService.numberDashFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: ColumnUtilityService.integerFilterParams,
+      headerComponent: HeaderInfoIconComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.lastOfferQuantityInfoText'
+        ),
+      },
     },
     {
       headerName: translate('shared.quotationDetailsTable.lastOfferDate'),
@@ -365,12 +491,24 @@ export class ColumnDefService {
       valueFormatter: (params) =>
         this.columnUtilityService.dateFormatter(params.value),
       floatingFilterComponentParams: ColumnUtilityService.dateFilterParams,
+      headerComponent: HeaderInfoIconComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.lastOfferDateInfoText'
+        ),
+      },
     },
     {
       headerName: translate('shared.quotationDetailsTable.reasonForRejection'),
       field: 'lastOfferDetail.reasonForRejection',
       valueFormatter: ColumnUtilityService.basicTransform,
       filterParams: FILTER_PARAMS,
+      headerComponent: HeaderInfoIconComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.reasonForRejectionInfoText'
+        ),
+      },
     },
     {
       headerName: translate(
@@ -379,6 +517,12 @@ export class ColumnDefService {
       field: 'lastOfferDetail.detailReasonForRejection',
       valueFormatter: ColumnUtilityService.basicTransform,
       filterParams: FILTER_PARAMS,
+      headerComponent: HeaderInfoIconComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.detailReasonForRejectionInfoText'
+        ),
+      },
     },
     {
       headerName: translate('shared.quotationDetailsTable.freeStock'),
@@ -386,6 +530,12 @@ export class ColumnDefService {
       valueFormatter: (params) =>
         this.columnUtilityService.numberDashFormatter(params),
       filterParams: NUMBER_COLUMN_FILTER,
+      headerComponent: HeaderInfoIconComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.freeStockInfoText'
+        ),
+      },
     },
     {
       headerName: translate('shared.quotationDetailsTable.dateNextFreeAtp'),
@@ -395,6 +545,12 @@ export class ColumnDefService {
       filter: CustomDateFilterComponent,
       floatingFilterComponent: CustomDateFloatingFilterComponent,
       floatingFilterComponentParams: ColumnUtilityService.dateFilterParams,
+      headerComponent: HeaderInfoIconComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.dateNextFreeAtpInfoText'
+        ),
+      },
     },
     {
       headerName: translate(
@@ -406,12 +562,24 @@ export class ColumnDefService {
           params.data.materialClassificationSOP
         ),
       filterParams: FILTER_PARAMS,
+      headerComponent: HeaderInfoIconComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.materialClassificationSOPInfoText'
+        ),
+      },
     },
     {
       headerName: translate('shared.quotationDetailsTable.rlt'),
       field: 'rlt',
       valueFormatter: ColumnUtilityService.basicTransform,
       filterParams: FILTER_PARAMS,
+      headerComponent: HeaderInfoIconComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.rltInfoText'
+        ),
+      },
     },
     {
       headerName: translate('shared.quotationDetailsTable.productionPlant'),
@@ -437,18 +605,36 @@ export class ColumnDefService {
       field: 'relocatedProductionPlant.plantNumber',
       valueFormatter: ColumnUtilityService.basicTransform,
       filterParams: FILTER_PARAMS,
+      headerComponent: HeaderInfoIconComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.relocPlantInfoText'
+        ),
+      },
     },
     {
       headerName: translate('shared.quotationDetailsTable.relocCity'),
       field: 'relocatedProductionPlant.city',
       valueFormatter: ColumnUtilityService.basicTransform,
       filterParams: FILTER_PARAMS,
+      headerComponent: HeaderInfoIconComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.relocCityInfoText'
+        ),
+      },
     },
     {
       headerName: translate('shared.quotationDetailsTable.relocCountry'),
       field: 'relocatedProductionPlant.country',
       valueFormatter: ColumnUtilityService.basicTransform,
       filterParams: FILTER_PARAMS,
+      headerComponent: HeaderInfoIconComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.relocCountryInfoText'
+        ),
+      },
     },
     {
       headerName: translate('shared.quotationDetailsTable.customerMaterial'),
@@ -462,12 +648,24 @@ export class ColumnDefService {
       valueFormatter: ColumnUtilityService.basicTransform,
       cellClass: 'keepLeadingZero',
       filterParams: FILTER_PARAMS,
+      headerComponent: HeaderInfoIconComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.productLineInfoText'
+        ),
+      },
     },
     {
       headerName: translate('shared.quotationDetailsTable.gpsd'),
       field: 'material.gpsdGroupId',
       valueFormatter: ColumnUtilityService.basicTransform,
       filterParams: FILTER_PARAMS,
+      headerComponent: HeaderInfoIconComponent,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.gpsdInfoText'
+        ),
+      },
     },
     {
       headerName: translate('shared.quotationDetailsTable.materialStatus'),

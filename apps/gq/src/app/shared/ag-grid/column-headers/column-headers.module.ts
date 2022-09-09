@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { InfoIconModule } from '../../components/info-icon/info-icon.module';
 import { EditableColumnHeaderComponent } from './editable-column-header/editable-column-header.component';
 
 @NgModule({
@@ -16,6 +17,7 @@ import { EditableColumnHeaderComponent } from './editable-column-header/editable
     ReactiveFormsModule,
     FormsModule,
     SharedTranslocoModule,
+    InfoIconModule,
   ],
   declarations: [EditableColumnHeaderComponent],
   exports: [EditableColumnHeaderComponent],

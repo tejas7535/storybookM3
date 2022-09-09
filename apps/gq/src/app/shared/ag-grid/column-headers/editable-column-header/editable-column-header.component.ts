@@ -24,6 +24,10 @@ import { HelperService } from '../../../services/helper-service/helper-service.s
 import { ColumnFields } from '../../constants/column-fields.enum';
 import { PriceSourceOptions } from './models/price-source-options.enum';
 
+export type EditableColumnHeaderComponentParams = IHeaderParams & {
+  tooltipText: string;
+};
+
 @Component({
   selector: 'gq-editable-column-header',
   templateUrl: './editable-column-header.component.html',
@@ -34,7 +38,7 @@ export class EditableColumnHeaderComponent
 {
   private readonly subscription: Subscription = new Subscription();
 
-  public params!: IHeaderParams;
+  public params!: EditableColumnHeaderComponentParams;
 
   public sort: 'asc' | 'desc';
 
@@ -97,7 +101,7 @@ export class EditableColumnHeaderComponent
     this.subscription.unsubscribe();
   }
 
-  agInit(params: IHeaderParams): void {
+  agInit(params: EditableColumnHeaderComponentParams): void {
     this.value = 0;
 
     this.editFormControl = new UntypedFormControl('', [

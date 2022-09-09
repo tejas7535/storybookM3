@@ -14,10 +14,14 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 import { PROCESS_CASE_STATE_MOCK } from '../../../../../testing/mocks';
+import { InfoIconModule } from '../../../components/info-icon/info-icon.module';
 import { EVENT_NAMES } from '../../../models';
 import { PriceSource, QuotationDetail } from '../../../models/quotation-detail';
 import { ColumnFields } from '../../constants/column-fields.enum';
-import { EditableColumnHeaderComponent } from './editable-column-header.component';
+import {
+  EditableColumnHeaderComponent,
+  EditableColumnHeaderComponentParams,
+} from './editable-column-header.component';
 import { PriceSourceOptions } from './models/price-source-options.enum';
 
 describe('EditableColumnHeaderComponent', () => {
@@ -46,11 +50,18 @@ describe('EditableColumnHeaderComponent', () => {
     showColumnMenu: jest.fn(),
     setSort: jest.fn(),
     progressSort: jest.fn(),
-  };
+    tooltipText: '',
+  } as EditableColumnHeaderComponentParams;
 
   const createComponent = createComponentFactory({
     component: EditableColumnHeaderComponent,
-    imports: [MatIconModule, MatInputModule, ReactiveFormsModule, FormsModule],
+    imports: [
+      MatIconModule,
+      MatInputModule,
+      ReactiveFormsModule,
+      FormsModule,
+      InfoIconModule,
+    ],
     providers: [
       mockProvider(TranslocoLocaleService),
       provideMockStore({
@@ -224,7 +235,7 @@ describe('EditableColumnHeaderComponent', () => {
           ...DEFAULT_PARAMS.column,
           getId: () => ColumnFields.PRICE_SOURCE,
         },
-      });
+      } as EditableColumnHeaderComponentParams);
       component.enableEditMode({
         stopPropagation: jest.fn(),
         preventDefault: jest.fn(),
@@ -464,7 +475,7 @@ describe('EditableColumnHeaderComponent', () => {
           ...DEFAULT_PARAMS.column,
           getId: () => ColumnFields.PRICE_SOURCE,
         },
-      });
+      } as EditableColumnHeaderComponentParams);
 
       expect(component.isPriceSource).toBeTruthy();
     });
@@ -541,6 +552,36 @@ describe('EditableColumnHeaderComponent', () => {
         EVENT_NAMES.MASS_SIMULATION_UPDATED,
         { type: 'price', numberOfSimulatedRows: 1, simulatedValue: 2 }
       );
+    });
+  });
+
+  describe('tooltip', () => {
+    test('should show tooltip if provided', () => {
+      component.params = {
+        displayName: 'text',
+        tooltipText: 'tooltip-text',
+      } as EditableColumnHeaderComponentParams;
+      component.editMode = false;
+      component.showEditIcon = false;
+
+      spectator.detectChanges();
+
+      const infoIcon = spectator.query('gq-info-icon');
+
+      expect(infoIcon).toBeTruthy();
+      expect(infoIcon.textContent.trim()).toEqual('info_outline');
+    });
+
+    test('should NOT show tooltip if not provided', () => {
+      component.params = {
+        displayName: 'text',
+      } as EditableColumnHeaderComponentParams;
+
+      spectator.detectChanges();
+
+      const infoIcon = spectator.query('gq-info-icon');
+
+      expect(infoIcon).toBeFalsy();
     });
   });
 });
