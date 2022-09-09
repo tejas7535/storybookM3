@@ -30,6 +30,7 @@ export const initialState: CalculationParametersState = {
     nlgiClass: undefined,
     loading: false,
   },
+  automaticLubrication: true,
   valid: false,
   updating: false,
   properties: undefined,
@@ -111,6 +112,13 @@ export const calculationParametersReducer = createReducer(
         ...state.preferredGrease,
         selectedGrease: undefined,
       },
+    })
+  ),
+  on(
+    parametersActions.setAutomaticLubrication,
+    (state, { automaticLubrication }): CalculationParametersState => ({
+      ...state,
+      automaticLubrication,
     })
   )
 );

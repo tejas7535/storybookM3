@@ -12,6 +12,7 @@ import { debounceTime, filter, Subject, take, takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { isEqual } from 'lodash';
 
+import { environment } from '@ga/../environments/environment';
 import { AppRoutePath } from '@ga/app-route-path.enum';
 import { getCalculationParametersState, SettingsFacade } from '@ga/core/store';
 import {
@@ -19,6 +20,7 @@ import {
   getProperties,
   patchParameters,
   resetPreferredGreaseSelection,
+  setAutomaticLubrication,
 } from '@ga/core/store/actions';
 import { CalculationParametersState } from '@ga/core/store/models';
 import { initialState } from '@ga/core/store/reducers/calculation-parameters/calculation-parameters.reducer';
@@ -29,6 +31,7 @@ import {
 } from '@ga/core/store/selectors/bearing-selection/bearing-selection.selector';
 import {
   axialLoadPossible,
+  getAutomaticLubrication,
   getEnvironmentTemperatures,
   getLoadsInputType,
   getParameterUpdating,
@@ -58,6 +61,7 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
   public movement = Movement;
   public loadUnit = this.calculationParametersService.loadUnit();
   public loadRatioOptions = loadRatioOptions;
+  public isProduction = environment.production; // TODO: remove once Bearinx 2022.1 is released
 
   public radial = new UntypedFormControl(undefined, loadValidators);
   public axial = new UntypedFormControl(undefined, loadValidators);
@@ -138,6 +142,7 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
   public preferredGreaseSelection$ = this.store.select(
     getPreferredGreaseSelection
   );
+  public automaticLubrication$ = this.store.select(getAutomaticLubrication);
   public modelCreationSuccess$ = this.store.select(getModelCreationSuccess);
   public modelCreationLoading$ = this.store.select(getModelCreationLoading);
   public appIsEmbedded$ = this.settingsFacade.appIsEmbedded$;
@@ -239,6 +244,12 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
 
   public toggleLoadsType(toggleChange: MatSlideToggleChange): void {
     this.exact.patchValue(toggleChange.checked);
+  }
+
+  public toggleAutomaticLubrication({
+    checked: automaticLubrication,
+  }: MatSlideToggleChange): void {
+    this.store.dispatch(setAutomaticLubrication({ automaticLubrication }));
   }
 
   public completeStep(): void {

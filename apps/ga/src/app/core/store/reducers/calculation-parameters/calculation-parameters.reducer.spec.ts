@@ -9,6 +9,7 @@ import {
   PREFERRED_GREASE_OPTION_MOCK,
   PROPERTIES_MOCK,
 } from '@ga/testing/mocks';
+import { AUTOMATIC_LUBRICATON_MOCK } from '@ga/testing/mocks/models/automatic-lubrication.mock';
 
 import {
   calculationParametersReducer,
@@ -50,6 +51,7 @@ describe('calculationParametersReducer', () => {
           environmentImpact: EnvironmentImpact.moderate,
         },
         preferredGrease: PREFERRED_GREASE_MOCK,
+        automaticLubrication: true,
         valid: true,
         updating: false,
       } as CalculationParametersState;
@@ -191,6 +193,22 @@ describe('calculationParametersReducer', () => {
       );
 
       expect(newState).toEqual(initialState);
+    });
+  });
+
+  describe('setAutomaticLubrication', () => {
+    it('should set the automatic Lubrication boolean value', () => {
+      const newState = calculationParametersReducer(
+        initialState,
+        parametersActions.setAutomaticLubrication({
+          automaticLubrication: AUTOMATIC_LUBRICATON_MOCK,
+        })
+      );
+
+      expect(newState).toEqual({
+        ...initialState,
+        automaticLubrication: AUTOMATIC_LUBRICATON_MOCK,
+      });
     });
   });
 });

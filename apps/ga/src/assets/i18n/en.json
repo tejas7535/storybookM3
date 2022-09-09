@@ -164,15 +164,19 @@
       "main": "Operating conditions for",
       "backButton": "Change bearing selection"
     },
-    "preferredGrease": {
+    "productPreselection": {
       "title": {
-        "main": "NEW: Arcanol Grease Selection (opt)"
+        "main": "NEU: Product Preselection (optional)"
       },
-      "label": {
-        "grease": "Grease"
+      "grease": {
+        "label": "Grease",
+        "defaultOption": "All Greases",
+        "tooltip": "The selected grease will be given priority in the calculation report.\nIf the selected grease is not suitable, alternatives will be displayed."
       },
-      "defaultOption": "All greases",
-      "tooltip": "The selected grease will be given priority in the calculation report.\nIf the selected grease is not suitable, alternatives will be displayed."
+      "concept1": {
+        "label": "Calculate automatic lubrication (CONCEPT1)",
+        "tooltip": "If automatic lubrication is activated, the automatic lubrication with CONCEPT1 is additionally calculated and displayed, if possible. Deactivate shows only manual values"
+      }
     },
     "requiredInformation": "* required information",
     "loads": "Loads",

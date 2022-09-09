@@ -52,3 +52,8 @@ export const setPreferredGreaseSelection = createAction(
 export const resetPreferredGreaseSelection = createAction(
   '[Calculation Parameters] Reset Preferred Grease Selection'
 );
+
+export const setAutomaticLubrication = createAction(
+  '[Calculation Parameters] Set Automatic Lubrication',
+  props<{ automaticLubrication: boolean }>()
+);

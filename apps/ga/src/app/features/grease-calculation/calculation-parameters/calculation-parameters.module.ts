@@ -5,6 +5,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { LetModule, PushModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
@@ -28,6 +29,7 @@ import { CalculationParametersService } from './services';
     CommonModule,
     CalculationParametersRoutingModule,
     PushModule,
+    LetModule,
 
     // UI
     BreadcrumbsModule,
@@ -42,13 +44,13 @@ import { CalculationParametersService } from './services';
     MatIconModule,
     MatProgressSpinnerModule,
     MatSlideToggleModule,
+    MatTooltipModule,
 
     // Translation
     SharedTranslocoModule,
 
     // Store
     EffectsModule.forFeature([CalculationParametersEffects]),
-    LetModule,
   ],
   providers: [CalculationParametersService],
 })

@@ -158,3 +158,8 @@ export const getPreferredGreaseSelection = createSelector(
   getPreferredGrease,
   (preferredGrease) => preferredGrease?.selectedGrease
 );
+
+export const getAutomaticLubrication = createSelector(
+  getCalculationParametersState,
+  (state) => state?.automaticLubrication
+);

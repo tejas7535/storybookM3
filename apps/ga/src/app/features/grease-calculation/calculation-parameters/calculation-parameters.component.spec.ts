@@ -3,7 +3,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import {
+  MatSlideToggleChange,
+  MatSlideToggleModule,
+} from '@angular/material/slide-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
@@ -20,6 +24,7 @@ import { AppRoutePath } from '@ga/app-route-path.enum';
 import {
   patchParameters,
   resetPreferredGreaseSelection,
+  setAutomaticLubrication,
 } from '@ga/core/store/actions';
 import { CalculationParametersState } from '@ga/core/store/models';
 import { initialState } from '@ga/core/store/reducers/calculation-parameters/calculation-parameters.reducer';
@@ -32,6 +37,7 @@ import {
   PROPERTIES_MOCK,
   SETTINGS_STATE_MOCK,
 } from '@ga/testing/mocks';
+import { AUTOMATIC_LUBRICATON_MOCK } from '@ga/testing/mocks/models/automatic-lubrication.mock';
 
 import { GreaseCalculationPath } from '../grease-calculation-path.enum';
 import { CalculationParametersComponent } from './calculation-parameters.component';
@@ -67,6 +73,7 @@ describe('CalculationParametersComponent', () => {
       MockModule(MatIconModule),
       MockModule(MatProgressSpinnerModule),
       MockModule(MatSlideToggleModule),
+      MockModule(MatTooltipModule),
     ],
     providers: [
       provideMockStore({
@@ -300,6 +307,19 @@ describe('CalculationParametersComponent', () => {
       });
 
       expect(patchValueSpy).toBeCalledWith(false);
+    });
+  });
+
+  describe('toggleAutomaticLubrication', () => {
+    it('should dispatch the setAutocomplet', () => {
+      component.toggleAutomaticLubrication({
+        checked: AUTOMATIC_LUBRICATON_MOCK,
+      } as MatSlideToggleChange);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        setAutomaticLubrication({
+          automaticLubrication: AUTOMATIC_LUBRICATON_MOCK,
+        })
+      );
     });
   });
 

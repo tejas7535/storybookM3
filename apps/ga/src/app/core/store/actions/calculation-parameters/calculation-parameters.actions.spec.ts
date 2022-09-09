@@ -1,5 +1,6 @@
 import { CalculationParametersState } from '@ga/core/store/models';
 import { PROPERTIES_MOCK } from '@ga/testing/mocks';
+import { AUTOMATIC_LUBRICATON_MOCK } from '@ga/testing/mocks/models/automatic-lubrication.mock';
 
 import {
   getProperties,
@@ -7,6 +8,7 @@ import {
   getPropertiesSuccess,
   modelUpdateSuccess,
   patchParameters,
+  setAutomaticLubrication,
 } from './calculation-parameters.actions';
 
 describe('Calculation Parameters Actions', () => {
@@ -59,6 +61,19 @@ describe('Calculation Parameters Actions', () => {
 
       expect(action).toEqual({
         type: '[Calculation Parameters] Get Properties Failure',
+      });
+    });
+  });
+
+  describe('Set Automatic Lubrication', () => {
+    it('setAutomaticLubrication', () => {
+      const action = setAutomaticLubrication({
+        automaticLubrication: AUTOMATIC_LUBRICATON_MOCK,
+      });
+
+      expect(action).toEqual({
+        type: '[Calculation Parameters] Set Automatic Lubrication',
+        automaticLubrication: AUTOMATIC_LUBRICATON_MOCK,
       });
     });
   });

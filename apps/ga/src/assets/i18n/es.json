@@ -164,15 +164,19 @@
       "main": "Condiciones de funcionamiento para",
       "backButton": "Cambiar la selección de rodamientos"
     },
-    "preferredGrease": {
+    "productPreselection": {
       "title": {
-        "main": "NUEVO: Selección de grasa Arcanol (opt)"
+        "main": "NUEVO: Preselección de productos (opt)"
       },
-      "label": {
-        "grease": "Grasa"
+      "grease": {
+        "label": "Grasa",
+        "defaultOption": "Todas las grasas",
+        "tooltip": "La grasa seleccionada tendrá prioridad en el informe de cálculo.\nSi la grasa seleccionada no es adecuada, se mostrarán alternativas."
       },
-      "defaultOption": "Todas las grasas",
-      "tooltip": "La grasa seleccionada tendrá prioridad en el informe de cálculo.\nSi la grasa seleccionada no es adecuada, se mostrarán alternativas."
+      "concept1": {
+        "label": "Calcular la lubricación automática (CONCEPT1)",
+        "tooltip": "Si la lubricación automática está activada, se calcula y muestra adicionalmente la lubricación automática con CONCEPT1, si es posible. Desactivar muestra sólo los valores manuales"
+      }
     },
     "requiredInformation": "* Información necesaria",
     "loads": "Cargas",

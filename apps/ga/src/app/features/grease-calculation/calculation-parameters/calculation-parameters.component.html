@@ -12,12 +12,12 @@
       </ng-container>
     </schaeffler-subheader>
     <div
+      class="container mx-auto pb-4 sm:px-4 md:px-0 md:pb-8"
       *ngIf="
         (modelCreationLoading$ | ngrxPush) ||
           (modelCreationSuccess$ | ngrxPush);
         else invalid_model
       "
-      class="container mx-auto pb-4 sm:px-4 md:px-0 md:pb-8"
     >
       <div class="flex flex-col gap-0 sm:gap-5 lg:grid lg:grid-cols-2">
         <div
@@ -166,24 +166,44 @@
             ></ga-select>
           </div>
         </div>
-        <mat-accordion>
-          <mat-expansion-panel
-            [expanded]="!!(preferredGreaseSelection$ | ngrxPush)"
-            class="!rounded-none sm:!rounded"
+        <div
+          class="border-t border-border bg-surface sm:rounded sm:border-x sm:border-b"
+        >
+          <div
+            class="flex flex-row items-center border-b border-border bg-primary-variant p-5 text-link"
           >
-            <mat-expansion-panel-header class="!bg-primary-variant">
-              <mat-panel-title class="!text-link">
-                <mat-icon class="mr-2">manage_search</mat-icon>
-                {{ t('preferredGrease.title.main') }}
-              </mat-panel-title>
-            </mat-expansion-panel-header>
+            <mat-icon class="mr-2">manage_search</mat-icon>
+            <h5 class="mr-4 text-body-2">
+              {{ t('productPreselection.title.main') }}
+            </h5>
+          </div>
+          <div class="p-4 pb-0">
+            <ga-preferred-grease-selection></ga-preferred-grease-selection>
             <div
-              class="grid grid-cols-1 gap-0 p-4 pb-2 text-body-1 md:grid-cols-2 md:gap-4"
+              *ngIf="!isProduction"
+              class="flex items-center justify-between"
             >
-              <ga-preferred-grease-selection></ga-preferred-grease-selection>
+              <mat-slide-toggle
+                color="primary"
+                labelPosition="before"
+                [checked]="automaticLubrication$ | ngrxPush"
+                (change)="toggleAutomaticLubrication($event)"
+              >
+                {{ t('productPreselection.concept1.label') }}
+              </mat-slide-toggle>
+
+              <mat-icon
+                color="primary"
+                class="cursor-help"
+                #tooltip="matTooltip"
+                [matTooltip]="t('productPreselection.concept1.tooltip')"
+                (click)="tooltip.toggle()"
+              >
+                info_outline
+              </mat-icon>
             </div>
-          </mat-expansion-panel>
-        </mat-accordion>
+          </div>
+        </div>
         <div
           class="col-span-2 flex flex-col justify-between gap-5 px-4 pt-6 sm:px-0 sm:pt-0 md:flex-row"
         >

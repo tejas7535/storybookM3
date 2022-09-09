@@ -164,15 +164,19 @@
       "main": "Betriebsbedingungen für",
       "backButton": "Lagerauswahl ändern"
     },
-    "preferredGrease": {
+    "productPreselection": {
       "title": {
-        "main": "NEU: Arcanol Fettauswahl (optional)"
+        "main": "NEU: Produktvorauswahl (optional)"
       },
-      "label": {
-        "grease": "Fett"
+      "grease": {
+        "label": "Fett",
+        "defaultOption": "Alle Fette",
+        "tooltip": "Das ausgewählte Fett wird im Berechnungsbericht vorrangig berücksichtigt.\nWenn das ausgewählte Fett nicht geeignet ist, werden Alternativen angezeigt."
       },
-      "defaultOption": "Alle Fette",
-      "tooltip": "Das ausgewählte Fett wird im Berechnungsbericht vorrangig berücksichtigt.\nWenn das ausgewählte Fett nicht geeignet ist, werden Alternativen angezeigt."
+      "concept1": {
+        "label": "Automatische Schmierung berechnen (CONCEPT1)",
+        "tooltip": "Bei aktivierter automatischer Schmierung wird zusätzlich die automatische Schmierung mit CONCEPT1 berechnet und dargestellt, wenn möglich. Deaktivieren zeigt nur manuelle Werte"
+      }
     },
     "requiredInformation": "* Pflichtangabe",
     "loads": "Lasten",

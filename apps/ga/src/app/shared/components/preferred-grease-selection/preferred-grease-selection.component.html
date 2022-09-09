@@ -6,7 +6,7 @@
   >
     <mat-label>{{
       t('shared.label.defaultSelect', {
-        label: t('parameters.preferredGrease.label.grease')
+        label: t('parameters.productPreselection.grease.label')
       })
     }}</mat-label>
     <mat-select
@@ -31,7 +31,7 @@
     color="primary"
     class="cursor-help"
     #tooltip="matTooltip"
-    [matTooltip]="t('parameters.preferredGrease.tooltip')"
+    [matTooltip]="t('parameters.productPreselection.grease.tooltip')"
     (click)="tooltip.toggle()"
   >
     info_outline

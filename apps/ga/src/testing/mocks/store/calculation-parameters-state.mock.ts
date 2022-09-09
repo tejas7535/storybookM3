@@ -27,6 +27,7 @@ export const CALCULATION_PARAMETERS_STATE_MOCK: CalculationParametersState = {
     nlgiClass: undefined,
     loading: false,
   },
+  automaticLubrication: true,
   valid: false,
   updating: false,
   properties: undefined,

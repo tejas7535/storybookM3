@@ -7,6 +7,7 @@ import {
 
 import {
   axialLoadPossible,
+  getAutomaticLubrication,
   getCalculationParameters,
   getEnvironmentTemperatures,
   getLoadDirections,
@@ -158,6 +159,12 @@ describe('Calculation Parameters Selector', () => {
           idslC_TEMPERATURE: '20.0',
         },
       });
+    });
+  });
+
+  describe('getAutomaticLubrication', () => {
+    it('should return the value of automaticLubrication', () => {
+      expect(getAutomaticLubrication(mockState)).toEqual(true);
     });
   });
 });

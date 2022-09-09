@@ -25,6 +25,7 @@ export interface CalculationParametersState {
     environmentImpact: EnvironmentImpact;
   };
   preferredGrease: PreferredGrease;
+  automaticLubrication: boolean;
   valid: boolean;
   updating: boolean;
   properties: Property[];
