@@ -9,12 +9,14 @@ import {
   getEditMaterialData,
   getEditMaterialDataLoaded,
   getFilters,
+  getHasMinimizedDialog,
   getLoading,
   getMaterialClassOptions,
   getOptionsLoading,
   getProductCategoryOptions,
   getResult,
   getResultCount,
+  getResumeDialogData,
   getShareQueryParams,
 } from '@mac/msd/store';
 
@@ -40,6 +42,9 @@ export class DataFacade {
 
   editMaterialInformation = this.store.pipe(getEditMaterialDataLoaded);
   editMaterial = this.store.select(getEditMaterialData);
+
+  hasMinimizedDialog$ = this.store.select(getHasMinimizedDialog);
+  resumeDialogData$ = this.store.select(getResumeDialogData);
 
   constructor(private readonly store: Store) {}
 

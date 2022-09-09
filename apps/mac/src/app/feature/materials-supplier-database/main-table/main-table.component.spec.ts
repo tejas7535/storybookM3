@@ -43,10 +43,11 @@ import {
   COLUMN_DEFINITIONS,
   SAP_SUPPLIER_IDS,
 } from '@mac/msd/main-table/table-config/column-definitions';
-import { DataResult } from '@mac/msd/models';
+import { DataResult, DialogData, MaterialFormValue } from '@mac/msd/models';
 import {
   fetchMaterials,
   materialDialogOpened,
+  minimizeDialog,
   setAgGridColumns,
   setAgGridFilter,
   setFilter,
@@ -204,8 +205,8 @@ describe('MainTableComponent', () => {
 
         component.ngOnInit();
 
-        mockSubject.next({} as DataResult);
-        expect(component.openDialog).toHaveBeenCalledWith({} as DataResult);
+        mockSubject.next({});
+        expect(component.openDialog).toHaveBeenCalledWith({ editMaterial: {} });
       });
 
       it('should open snackbar', () => {
@@ -1563,16 +1564,35 @@ describe('MainTableComponent', () => {
     });
   });
 
+  describe('resumeDialog', () => {
+    it('should call open dialog', () => {
+      const mockSubject = new Subject<any>();
+      component['dataFacade'].resumeDialogData$ = mockSubject;
+      component.openDialog = jest.fn();
+
+      component.resumeDialog();
+
+      mockSubject.next({} as DialogData);
+      expect(component.openDialog).toHaveBeenCalledWith({} as DialogData);
+    });
+  });
+
   describe('openDialog', () => {
     it('should open the dialog', () => {
       component['dialog'].open = jest.fn(
         () =>
           ({
             afterClosed: jest.fn(() => new Observable()),
-          } as unknown as MatDialogRef<InputDialogComponent>)
+          } as unknown as MatDialogRef<
+            InputDialogComponent,
+            {
+              reload?: boolean;
+              minimize?: { id: number; value: MaterialFormValue };
+            }
+          >)
       );
 
-      component.openDialog();
+      component.openDialog({} as DialogData);
 
       expect(component['dialog'].open).toHaveBeenCalledWith(
         InputDialogComponent,
@@ -1580,24 +1600,35 @@ describe('MainTableComponent', () => {
           width: '863px',
           autoFocus: false,
           enterAnimationDuration: '100ms',
+          disableClose: true,
           restoreFocus: false,
+          data: {} as DialogData,
         }
       );
       expect(store.dispatch).toHaveBeenCalledWith(materialDialogOpened());
     });
 
     it('should do nothing on close if reload is not set', () => {
-      const mockObservable = new Subject<void>();
+      const mockObservable = new Subject<{
+        reload?: boolean;
+        minimize?: { id: number; value: MaterialFormValue };
+      }>();
       component['dialog'].open = jest.fn(
         () =>
           ({
             afterClosed: jest.fn(() => mockObservable),
-          } as unknown as MatDialogRef<InputDialogComponent>)
+          } as unknown as MatDialogRef<
+            InputDialogComponent,
+            {
+              reload?: boolean;
+              minimize?: { id: number; value: MaterialFormValue };
+            }
+          >)
       );
       component.fetchMaterials = jest.fn();
 
-      component.openDialog();
-      mockObservable.next();
+      component.openDialog({} as DialogData);
+      mockObservable.next({});
 
       expect(component['dialog'].open).toHaveBeenCalledWith(
         InputDialogComponent,
@@ -1605,7 +1636,9 @@ describe('MainTableComponent', () => {
           width: '863px',
           autoFocus: false,
           enterAnimationDuration: '100ms',
+          disableClose: true,
           restoreFocus: false,
+          data: {} as DialogData,
         }
       );
       expect(store.dispatch).toHaveBeenCalledWith(materialDialogOpened());
@@ -1613,17 +1646,26 @@ describe('MainTableComponent', () => {
     });
 
     it('should call fetchMaterials on close if reload is true', () => {
-      const mockObservable = new Subject<boolean>();
+      const mockObservable = new Subject<{
+        reload?: boolean;
+        minimize?: { id: number; value: MaterialFormValue };
+      }>();
       component['dialog'].open = jest.fn(
         () =>
           ({
             afterClosed: jest.fn(() => mockObservable),
-          } as unknown as MatDialogRef<InputDialogComponent>)
+          } as unknown as MatDialogRef<
+            InputDialogComponent,
+            {
+              reload?: boolean;
+              minimize?: { id: number; value: MaterialFormValue };
+            }
+          >)
       );
       component.fetchMaterials = jest.fn();
 
-      component.openDialog();
-      mockObservable.next(true);
+      component.openDialog({} as DialogData);
+      mockObservable.next({ reload: true });
 
       expect(component['dialog'].open).toHaveBeenCalledWith(
         InputDialogComponent,
@@ -1631,11 +1673,59 @@ describe('MainTableComponent', () => {
           width: '863px',
           autoFocus: false,
           enterAnimationDuration: '100ms',
+          disableClose: true,
           restoreFocus: false,
+          data: {} as DialogData,
         }
       );
       expect(store.dispatch).toHaveBeenCalledWith(materialDialogOpened());
       expect(component.fetchMaterials).toHaveBeenCalled();
+    });
+
+    it('should call minimizeDialog on close if minimized information is provided', () => {
+      const mockObservable = new Subject<{
+        reload?: boolean;
+        minimize?: { id: number; value: MaterialFormValue };
+      }>();
+      component['dialog'].open = jest.fn(
+        () =>
+          ({
+            afterClosed: jest.fn(() => mockObservable),
+          } as unknown as MatDialogRef<
+            InputDialogComponent,
+            {
+              reload?: boolean;
+              minimize?: { id: number; value: MaterialFormValue };
+            }
+          >)
+      );
+      component.fetchMaterials = jest.fn();
+
+      component.openDialog({} as DialogData);
+      mockObservable.next({
+        minimize: {
+          id: 1,
+          value: { manufacturerSupplierId: 1 } as MaterialFormValue,
+        },
+      });
+
+      expect(component['dialog'].open).toHaveBeenCalledWith(
+        InputDialogComponent,
+        {
+          width: '863px',
+          autoFocus: false,
+          enterAnimationDuration: '100ms',
+          disableClose: true,
+          restoreFocus: false,
+          data: {} as DialogData,
+        }
+      );
+      expect(store.dispatch).toHaveBeenCalledWith(
+        minimizeDialog({
+          id: 1,
+          value: { manufacturerSupplierId: 1 } as MaterialFormValue,
+        })
+      );
     });
   });
 

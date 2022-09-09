@@ -66,11 +66,6 @@ describe('EditCellRendererComponent', () => {
 
   describe('onEditClick', () => {
     it('should dispatch the edit dialog action', () => {
-      const mockData = {} as DataResult;
-      const mockColumn = {
-        getColId: jest.fn(() => 'column'),
-      } as unknown as Column;
-
       component.params = {
         data: mockData,
         column: mockColumn,
@@ -79,7 +74,7 @@ describe('EditCellRendererComponent', () => {
       component.onEditClick();
 
       expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
-        openEditDialog({ material: mockData, column: 'column' })
+        openEditDialog({ row: mockData, column: 'column' })
       );
     });
   });

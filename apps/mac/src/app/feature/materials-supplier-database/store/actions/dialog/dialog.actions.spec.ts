@@ -3,6 +3,7 @@ import {
   DataResult,
   ManufacturerSupplier,
   Material,
+  MaterialFormValue,
   MaterialStandard,
 } from '@mac/msd/models';
 
@@ -52,10 +53,13 @@ import {
   materialDialogCanceled,
   materialDialogConfirmed,
   materialDialogOpened,
+  minimizeDialog,
   openEditDialog,
+  parseMaterialFormValue,
   postManufacturerSupplier,
   postMaterial,
   postMaterialStandard,
+  setMaterialFormValue,
 } from './dialog.actions';
 
 describe('Dialog Actions', () => {
@@ -496,13 +500,13 @@ describe('Dialog Actions', () => {
     it('openEditDialog', () => {
       const mockMaterial = {} as DataResult;
       const action = openEditDialog({
-        material: mockMaterial,
+        row: mockMaterial,
         column: 'column',
       });
 
       expect(action).toEqual({
         type: '[MSD - Dialog] Open Edit Dialog',
-        material: mockMaterial,
+        row: mockMaterial,
         column: 'column',
       });
     });
@@ -626,6 +630,41 @@ describe('Dialog Actions', () => {
 
       expect(action).toEqual({
         type: '[MSD - Dialog] Edit Dialog Loading Complete',
+      });
+    });
+  });
+
+  describe('Parse Material Form Value', () => {
+    it('parseMaterialFormValue', () => {
+      const action = parseMaterialFormValue();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Parse Material Form Value',
+      });
+    });
+  });
+
+  describe('Set Material Form Value', () => {
+    it('setMaterialFormValue', () => {
+      const action = setMaterialFormValue({
+        parsedMaterial: {} as MaterialFormValue,
+      });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Set Material Form Value',
+        parsedMaterial: {} as MaterialFormValue,
+      });
+    });
+  });
+
+  describe('Minimize Dialog', () => {
+    it('minimizeDialog', () => {
+      const action = minimizeDialog({ id: 1, value: {} as MaterialFormValue });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Minimize Dialog',
+        id: 1,
+        value: {} as MaterialFormValue,
       });
     });
   });

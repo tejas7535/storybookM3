@@ -27,7 +27,7 @@ import { StringOption } from '@schaeffler/inputs';
 
 import { DialogControlsService } from '@mac/msd/main-table/input-dialog/services';
 import {
-  DataResult,
+  DialogData,
   ManufacturerSupplier,
   Material,
   MaterialFormValue,
@@ -180,13 +180,7 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly controlsService: DialogControlsService,
     private readonly cdRef: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA)
-    private readonly editMaterialData?: {
-      material: DataResult;
-      column: string;
-      materialNames: { id: number; materialName: string }[];
-      standardDocuments: { id: number; standardDocument: string }[];
-      supplierIds: number[];
-    }
+    private readonly dialogData: DialogData
   ) {}
 
   public years: number[];
@@ -419,174 +413,86 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    if (this.editMaterialData?.material) {
-      this.materialId = this.editMaterialData.material.id;
-      const material = this.editMaterialData.material;
-      this.defaultRating = material.rating;
+    if (this.dialogData) {
+      const materialFormValue: Partial<MaterialFormValue> =
+        this.dialogData.minimizedDialog?.value ??
+        this.dialogData.editMaterial?.parsedMaterial;
+      this.materialId =
+        this.dialogData.minimizedDialog?.id ??
+        this.dialogData.editMaterial?.row?.id;
+      this.defaultRating = this.dialogData.editMaterial?.row?.rating;
 
-      this.ratingChangeCommentControl.disable({ emitEvent: false });
-
-      this.dialogFacade.dispatch(
-        fetchReferenceDocuments({
-          materialStandardId: material.materialStandardId,
-        })
-      );
-      this.dialogFacade.dispatch(
-        fetchCastingDiameters({
-          supplierId: material.manufacturerSupplierId,
-          castingMode: material.castingMode,
-        })
-      );
-
-      if (material.manufacturerSupplierName) {
-        this.supplierPlantsControl.enable({ emitEvent: false });
-      }
-
-      if (material.manufacturerSupplierPlant) {
-        this.castingModesControl.enable({ emitEvent: false });
-      }
-
-      if (material.castingMode) {
-        this.castingDiameterControl.enable({ emitEvent: false });
-      }
-
-      this.ratingChangeCommentControl.disable({ emitEvent: false });
-
-      if (material.co2PerTon) {
-        this.co2ClassificationControl.enable({ emitEvent: false });
-      }
-
-      let referenceDocValue;
-      try {
-        referenceDocValue = JSON.parse(material.referenceDoc || '[]').map(
-          (document: string) => ({ id: document, title: document })
+      if (materialFormValue) {
+        this.dialogFacade.dispatch(
+          fetchReferenceDocuments({
+            materialStandardId: materialFormValue.materialStandardId,
+          })
         );
-      } catch {
-        referenceDocValue = [
-          { id: material.referenceDoc, title: material.referenceDoc },
-        ];
+
+        if (materialFormValue.supplier) {
+          this.supplierPlantsControl.enable({ emitEvent: false });
+        }
+
+        if (materialFormValue.supplierPlant) {
+          this.castingModesControl.enable({ emitEvent: false });
+        }
+
+        if (materialFormValue.castingMode) {
+          this.dialogFacade.dispatch(
+            fetchCastingDiameters({
+              supplierId: materialFormValue.manufacturerSupplierId,
+              castingMode: materialFormValue.castingMode,
+            })
+          );
+          this.castingDiameterControl.enable({ emitEvent: false });
+        }
+
+        this.ratingChangeCommentControl.disable({ emitEvent: false });
+
+        if (materialFormValue.co2PerTon) {
+          this.co2ClassificationControl.enable({ emitEvent: false });
+        }
+
+        this.createMaterialForm.patchValue(materialFormValue);
+
+        if (this.dialogData.minimizedDialog || this.materialId) {
+          this.createMaterialForm.markAllAsTouched();
+        }
+
+        this.createMaterialForm.updateValueAndValidity();
+
+        this.cdRef.markForCheck();
+        this.cdRef.detectChanges();
       }
 
-      const editMaterialFormValue: Partial<MaterialFormValue> = {
-        manufacturerSupplierId: material.manufacturerSupplierId,
-        materialStandardId: material.materialStandardId,
-        productCategory: {
-          id: material.productCategory,
-          title: translate(
-            `materialsSupplierDatabase.productCategoryValues.${material.productCategory}`
-          ),
-        },
-        referenceDoc: referenceDocValue,
-        co2Scope1: material.co2Scope1,
-        co2Scope2: material.co2Scope2,
-        co2Scope3: material.co2Scope3,
-        co2PerTon: material.co2PerTon,
-        co2Classification: material.co2Classification
-          ? {
-              id: material.co2Classification,
-              title: translate(
-                `materialsSupplierDatabase.mainTable.dialog.co2ClassificationValues.${material.co2Classification.toLowerCase()}`
-              ),
-            }
-          : undefined,
-        releaseDateYear: material.releaseDateYear,
-        releaseDateMonth: material.releaseDateMonth,
-        releaseRestrictions: material.releaseRestrictions,
-        blocked: material.blocked,
-        castingMode: material.castingMode,
-        castingDiameter: material.castingDiameter
-          ? { id: material.castingDiameter, title: material.castingDiameter }
-          : undefined,
-        maxDimension: material.maxDimension,
-        minDimension: material.minDimension,
-        steelMakingProcess: material.steelMakingProcess
-          ? {
-              id: material.steelMakingProcess,
-              title: material.steelMakingProcess,
-            }
-          : undefined,
-        rating: material.rating
-          ? { id: material.rating, title: material.rating }
-          : {
-              id: undefined,
-              title: translate(
-                'materialsSupplierDatabase.mainTable.dialog.none'
-              ),
-            },
-        ratingRemark: material.ratingRemark,
-        materialNumber: material.materialNumbers
-          ? material.materialNumbers.join(', ')
-          : undefined,
+      if (!this.dialogData.minimizedDialog && this.dialogData.editMaterial) {
+        this.dialogControlRefs.changes
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((changes: QueryList<ElementRef>) => {
+            const selectedItem: ElementRef = changes.find((item: ElementRef) =>
+              item.nativeElement.name
+                ? item.nativeElement.name ===
+                  this.dialogData.editMaterial.column
+                : item.nativeElement.outerHTML.includes(
+                    `name="${this.dialogData.editMaterial.column}`
+                  )
+            );
 
-        standardDocument: {
-          id: material.materialStandardId,
-          title: material.materialStandardStandardDocument,
-          data: this.editMaterialData.materialNames
-            ? {
-                materialNames: this.editMaterialData.materialNames,
-              }
-            : undefined,
-        },
-        materialName: {
-          id:
-            this.editMaterialData.standardDocuments?.length > 1
-              ? this.editMaterialData.standardDocuments[0].id
-              : material.materialStandardId,
-          title: material.materialStandardMaterialName,
-          data: this.editMaterialData.standardDocuments
-            ? {
-                standardDocuments: this.editMaterialData.standardDocuments,
-              }
-            : undefined,
-        },
-        supplier: {
-          id:
-            this.editMaterialData.supplierIds?.length > 0
-              ? this.editMaterialData.supplierIds[0]
-              : material.manufacturerSupplierId,
-          title: material.manufacturerSupplierName,
-        },
-        supplierPlant: {
-          id: material.manufacturerSupplierPlant,
-          title: material.manufacturerSupplierPlant,
-          data: {
-            supplierId: material.manufacturerSupplierId,
-            supplierName: material.manufacturerSupplierName,
-          },
-        },
-      };
-      this.createMaterialForm.patchValue(editMaterialFormValue);
-
-      this.createMaterialForm.updateValueAndValidity();
-
-      this.cdRef.markForCheck();
-      this.cdRef.detectChanges();
-
-      this.dialogControlRefs.changes
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((changes: QueryList<ElementRef>) => {
-          const selectedItem: ElementRef = changes.find((item: ElementRef) =>
-            item.nativeElement.name
-              ? item.nativeElement.name === this.editMaterialData.column
-              : item.nativeElement.outerHTML.includes(
-                  `name="${this.editMaterialData.column}`
-                )
-          );
-
-          if (selectedItem.nativeElement.name) {
-            selectedItem.nativeElement.focus();
-          } else {
-            const matSelect =
-              selectedItem.nativeElement.querySelector('mat-select');
-            if (matSelect) {
-              matSelect.focus();
-            } else {
+            if (selectedItem.nativeElement.name) {
               selectedItem.nativeElement.focus();
+            } else {
+              const matSelect =
+                selectedItem.nativeElement.querySelector('mat-select');
+              if (matSelect) {
+                matSelect.focus();
+              } else {
+                selectedItem.nativeElement.focus();
+              }
             }
-          }
-          this.cdRef.markForCheck();
-          this.cdRef.detectChanges();
-        });
+            this.cdRef.markForCheck();
+            this.cdRef.detectChanges();
+          });
+      }
     }
   }
 
@@ -697,8 +603,18 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
       });
   }
 
-  public closeDialog(result?: any): void {
-    this.dialogRef.close(result);
+  public cancelDialog(): void {
+    this.closeDialog(false);
+  }
+
+  public closeDialog(reload: boolean): void {
+    this.dialogRef.close({ reload });
+  }
+
+  public minimizeDialog(): void {
+    this.dialogRef.close({
+      minimize: { id: this.materialId, value: this.createMaterialForm.value },
+    });
   }
 
   public addReferenceDocument(referenceDocument: string): void {
@@ -730,5 +646,5 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public compareWithId = (option: StringOption, selected: StringOption) =>
-    option.id === selected.id;
+    option?.id === selected?.id;
 }

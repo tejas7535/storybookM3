@@ -1,4 +1,5 @@
 export * from './data-result.model';
+export * from './dialog-data.model';
 export * from './manufacturer-supplier.model';
 export * from './material.model';
 export * from './material-form-value.model';

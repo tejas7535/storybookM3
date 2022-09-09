@@ -1,9 +1,9 @@
 import { SpectatorService } from '@ngneat/spectator';
 import { createServiceFactory } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { marbles } from 'rxjs-marbles';
+import { marbles } from 'rxjs-marbles/jest';
 
-import { DataResult } from '@mac/msd/models';
+import { DataResult, MaterialFormValue } from '@mac/msd/models';
 import { initialState } from '@mac/msd/store/reducers/data/data.reducer';
 
 import { DataFacade } from '.';
@@ -62,7 +62,8 @@ describe('DataFacade', () => {
             },
             dialog: {
               editMaterial: {
-                material: {} as DataResult,
+                row: {} as DataResult,
+                parsedMaterial: {} as MaterialFormValue,
                 column: 'column',
                 materialNames: [],
                 materialNamesLoading: false,
@@ -71,6 +72,10 @@ describe('DataFacade', () => {
                 supplierIds: [],
                 supplierIdsLoading: false,
                 loadingComplete: true,
+              },
+              minimizedDialog: {
+                id: undefined,
+                value: {} as MaterialFormValue,
               },
             },
           },
@@ -237,7 +242,8 @@ describe('DataFacade', () => {
       marbles((m) => {
         const expected = m.cold('a', {
           a: {
-            material: {} as DataResult,
+            row: {} as DataResult,
+            parsedMaterial: {} as MaterialFormValue,
             column: 'column',
             materialNames: [],
             materialNamesLoading: false,
@@ -260,7 +266,8 @@ describe('DataFacade', () => {
       marbles((m) => {
         const expected = m.cold('a', {
           a: {
-            material: {} as DataResult,
+            row: {} as DataResult,
+            parsedMaterial: {} as MaterialFormValue,
             column: 'column',
             materialNames: [],
             materialNamesLoading: false,
@@ -273,6 +280,46 @@ describe('DataFacade', () => {
         });
 
         m.expect(facade.editMaterial).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('hasMinimizedDialog', () => {
+    it(
+      'should return a boolean indicating if a dialog is minimized',
+      marbles((m) => {
+        const expected = m.cold('a', {
+          a: true,
+        });
+
+        m.expect(facade.hasMinimizedDialog$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('resumeDialogData$', () => {
+    it(
+      'should return the resume dialog data',
+      marbles((m) => {
+        const expected = m.cold('a', {
+          a: {
+            editMaterial: {
+              row: {} as DataResult,
+              parsedMaterial: {} as MaterialFormValue,
+              column: 'column',
+              materialNames: [],
+              materialNamesLoading: false,
+              standardDocuments: [],
+              standardDocumentsLoading: false,
+              supplierIds: [],
+              supplierIdsLoading: false,
+              loadingComplete: true,
+            },
+            minimizedDialog: { id: undefined, value: {} as MaterialFormValue },
+          },
+        });
+
+        m.expect(facade.resumeDialogData$).toBeObservable(expected);
       })
     );
   });

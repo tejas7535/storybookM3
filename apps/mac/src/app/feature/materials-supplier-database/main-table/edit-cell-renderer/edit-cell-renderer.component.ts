@@ -32,7 +32,7 @@ export class EditCellRendererComponent implements ICellRendererAngularComp {
   public onEditClick(): void {
     this.dialogFacade.dispatch(
       openEditDialog({
-        material: this.params.data as DataResult,
+        row: this.params.data as DataResult,
         column: this.params.column.getColId(),
       })
     );

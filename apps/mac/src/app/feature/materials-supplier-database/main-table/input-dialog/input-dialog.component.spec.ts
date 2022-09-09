@@ -33,6 +33,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import {
   CreateMaterialRecord,
   DataResult,
+  DialogData,
   ManufacturerSupplier,
   MaterialFormValue,
   MaterialStandard,
@@ -124,66 +125,315 @@ describe('InputDialogComponent', () => {
   const createOption = (title: string, data?: any) =>
     ({ id: 2, title, data } as StringOption);
 
-  const mockDialogData: { material: DataResult; column: string } = {
-    material: {
-      id: 1,
-      materialClass: 'st',
-      materialClassText: 'Steel',
-      materialStandardId: 1,
-      materialStandardMaterialName: 'material',
-      materialStandardStandardDocument: 'document',
-      manufacturerSupplierId: 1,
-      manufacturerSupplierName: 'supplier',
-      manufacturerSupplierPlant: 'plant',
-      productCategory: 'brightBar',
-      productCategoryText: 'Bright Bar',
-      referenceDoc: '["reference"]',
-      co2Scope1: 1,
-      co2Scope2: 1,
-      co2Scope3: 1,
-      co2PerTon: 3,
-      co2Classification: 'C1',
-      releaseDateYear: 1,
-      releaseDateMonth: 1,
-      releaseRestrictions: 'restriction',
-      blocked: false,
-      castingMode: 'mode',
-      castingDiameter: 'diameter',
-      minDimension: 1,
-      maxDimension: 1,
-      steelMakingProcess: 'process',
-      rating: 'rating',
-      ratingRemark: 'remark',
-      ratingChangeComment: 'comment',
-    } as DataResult,
-    column: 'column',
+  const mockDialogData: DialogData = {
+    editMaterial: {
+      row: {
+        id: 1,
+        materialClass: 'st',
+        materialClassText: 'Steel',
+        materialStandardId: 1,
+        materialStandardMaterialName: 'material',
+        materialStandardStandardDocument: 'document',
+        manufacturerSupplierId: 1,
+        manufacturerSupplierName: 'supplier',
+        manufacturerSupplierPlant: 'plant',
+        productCategory: 'brightBar',
+        productCategoryText: 'Bright Bar',
+        referenceDoc: '["reference"]',
+        co2Scope1: 1,
+        co2Scope2: 1,
+        co2Scope3: 1,
+        co2PerTon: 3,
+        co2Classification: 'C1',
+        releaseDateYear: 1,
+        releaseDateMonth: 1,
+        releaseRestrictions: 'restriction',
+        blocked: false,
+        castingMode: 'mode',
+        castingDiameter: 'diameter',
+        minDimension: 1,
+        maxDimension: 1,
+        steelMakingProcess: 'process',
+        rating: 'rating',
+        ratingRemark: 'remark',
+        ratingChangeComment: 'comment',
+      } as DataResult,
+      column: 'column',
+      parsedMaterial: {
+        manufacturerSupplierId: 1,
+        materialStandardId: 1,
+        productCategory: {
+          id: 'brightBar',
+          title: undefined,
+        },
+        referenceDoc: [{ id: 'reference', title: 'reference' }],
+        co2Scope1: 1,
+        co2Scope2: 1,
+        co2Scope3: 1,
+        co2PerTon: 3,
+        materialNumber: undefined,
+        co2Classification: {
+          id: 'C1',
+          title: undefined,
+        },
+        releaseDateYear: 1,
+        releaseDateMonth: 1,
+        releaseRestrictions: 'restriction',
+        blocked: false,
+        castingMode: 'mode',
+        castingDiameter: { id: 'diameter', title: 'diameter' },
+        maxDimension: 1,
+        minDimension: 1,
+        steelMakingProcess: {
+          id: 'process',
+          title: 'process',
+        },
+        rating: { id: 'rating', title: 'rating' },
+        ratingRemark: 'remark',
+        standardDocument: {
+          id: 1,
+          title: 'document',
+        },
+        materialName: {
+          id: 1,
+          title: 'material',
+        },
+        supplier: {
+          id: 1,
+          title: 'supplier',
+        },
+        supplierPlant: {
+          id: 'plant',
+          title: 'plant',
+          data: {
+            supplierId: 1,
+            supplierName: 'supplier',
+          },
+        },
+      },
+      materialNames: [],
+      standardDocuments: [],
+    },
   };
 
-  const mockDialogDataPartial: { material: DataResult; column: string } = {
-    material: {
+  const mockDialogDataPartial: DialogData = {
+    editMaterial: {
+      row: {
+        id: 1,
+        materialClass: 'st',
+        materialClassText: 'Steel',
+        materialStandardId: 1,
+        materialStandardMaterialName: 'material',
+        materialStandardStandardDocument: 'document',
+        manufacturerSupplierId: 1,
+        manufacturerSupplierName: 'supplier',
+        manufacturerSupplierPlant: 'plant',
+        productCategory: 'brightBar',
+        productCategoryText: 'Bright Bar',
+        referenceDoc: 'reference',
+        releaseDateYear: 1,
+        releaseDateMonth: 1,
+        releaseRestrictions: 'restriction',
+        blocked: false,
+        castingMode: 'mode',
+        minDimension: 1,
+        maxDimension: 1,
+        ratingRemark: 'remark',
+        ratingChangeComment: 'comment',
+      } as DataResult,
+      parsedMaterial: {
+        manufacturerSupplierId: 1,
+        materialStandardId: 1,
+        productCategory: {
+          id: 'brightBar',
+          title: undefined,
+        },
+        referenceDoc: [{ id: 'reference', title: 'reference' }],
+        co2Scope1: undefined,
+        co2Scope2: undefined,
+        co2Scope3: undefined,
+        co2PerTon: undefined,
+        materialNumber: undefined,
+        co2Classification: undefined,
+        releaseDateYear: 1,
+        releaseDateMonth: 1,
+        releaseRestrictions: 'restriction',
+        blocked: false,
+        castingMode: 'mode',
+        castingDiameter: undefined,
+        maxDimension: 1,
+        minDimension: 1,
+        steelMakingProcess: undefined,
+        rating: { id: undefined, title: undefined },
+        ratingRemark: 'remark',
+        standardDocument: {
+          id: 1,
+          title: 'document',
+        },
+        materialName: {
+          id: 1,
+          title: 'material',
+        },
+        supplier: {
+          id: 1,
+          title: 'supplier',
+        },
+        supplierPlant: {
+          id: 'plant',
+          title: 'plant',
+          data: {
+            supplierId: 1,
+            supplierName: 'supplier',
+          },
+        },
+      },
+      column: 'column',
+      materialNames: [],
+      standardDocuments: [],
+    },
+  };
+
+  const mockDialogDataMinimized: DialogData = {
+    minimizedDialog: {
       id: 1,
-      materialClass: 'st',
-      materialClassText: 'Steel',
-      materialStandardId: 1,
-      materialStandardMaterialName: 'material',
-      materialStandardStandardDocument: 'document',
-      manufacturerSupplierId: 1,
-      manufacturerSupplierName: 'supplier',
-      manufacturerSupplierPlant: 'plant',
-      productCategory: 'brightBar',
-      productCategoryText: 'Bright Bar',
-      referenceDoc: 'reference',
-      releaseDateYear: 1,
-      releaseDateMonth: 1,
-      releaseRestrictions: 'restriction',
-      blocked: false,
-      castingMode: 'mode',
-      minDimension: 1,
-      maxDimension: 1,
-      ratingRemark: 'remark',
-      ratingChangeComment: 'comment',
-    } as DataResult,
-    column: 'column',
+      value: {
+        manufacturerSupplierId: 1,
+        materialStandardId: 1,
+        productCategory: {
+          id: 'brightBar',
+          title: undefined,
+        },
+        referenceDoc: [{ id: 'reference', title: 'reference' }],
+        co2Scope1: undefined,
+        co2Scope2: undefined,
+        co2Scope3: undefined,
+        co2PerTon: undefined,
+        materialNumber: undefined,
+        co2Classification: undefined,
+        releaseDateYear: 1,
+        releaseDateMonth: 1,
+        releaseRestrictions: 'restriction',
+        blocked: false,
+        maxDimension: 1,
+        minDimension: 1,
+        steelMakingProcess: undefined,
+        rating: { id: undefined, title: undefined },
+        ratingRemark: 'remark',
+        standardDocument: {
+          id: 1,
+          title: 'document',
+        },
+        materialName: {
+          id: 1,
+          title: 'material',
+        },
+        supplier: {
+          id: 1,
+          title: 'supplier',
+        },
+        supplierPlant: {
+          id: 'plant',
+          title: 'plant',
+          data: {
+            supplierId: 1,
+            supplierName: 'supplier',
+          },
+        },
+      },
+    },
+  };
+
+  const minimizeValue: Partial<MaterialFormValue> = {
+    manufacturerSupplierId: 1,
+    materialStandardId: 1,
+    productCategory: {
+      id: 'brightBar',
+      title: undefined,
+    },
+    referenceDoc: [{ id: 'reference', title: 'reference' }],
+    co2Scope1: 1,
+    co2Scope2: 1,
+    co2Scope3: 1,
+    co2PerTon: 3,
+    materialNumber: '1.1234',
+    releaseDateYear: 1,
+    releaseDateMonth: 1,
+    releaseRestrictions: 'restriction',
+    blocked: false,
+    castingMode: 'mode',
+    maxDimension: 1,
+    minDimension: 1,
+    steelMakingProcess: {
+      id: 'process',
+      title: 'process',
+    },
+    rating: { id: 'rating', title: 'rating' },
+    ratingRemark: 'remark',
+    standardDocument: {
+      id: 1,
+      title: 'document',
+    },
+    materialName: {
+      id: 1,
+      title: 'material',
+    },
+    supplier: {
+      id: 1,
+      title: 'supplier',
+    },
+    supplierPlant: {
+      id: 'plant',
+      title: 'plant',
+      data: {
+        supplierId: 1,
+        supplierName: 'supplier',
+      },
+    },
+  };
+
+  const mockValue: Partial<MaterialFormValue> = {
+    manufacturerSupplierId: 1,
+    materialStandardId: 1,
+    productCategory: {
+      id: 'brightBar',
+      title: undefined,
+    },
+    referenceDoc: [{ id: 'reference', title: 'reference' }],
+    co2Scope1: undefined,
+    co2Scope2: undefined,
+    co2Scope3: undefined,
+    co2PerTon: undefined,
+    materialNumber: undefined,
+    co2Classification: undefined,
+    releaseDateYear: 1,
+    releaseDateMonth: 1,
+    releaseRestrictions: 'restriction',
+    blocked: false,
+    maxDimension: 1,
+    minDimension: 1,
+    steelMakingProcess: undefined,
+    rating: { id: undefined, title: undefined },
+    ratingRemark: 'remark',
+    standardDocument: {
+      id: 1,
+      title: 'document',
+    },
+    materialName: {
+      id: 1,
+      title: 'material',
+    },
+    supplier: {
+      id: 1,
+      title: 'supplier',
+    },
+    supplierPlant: {
+      id: 'plant',
+      title: 'plant',
+      data: {
+        supplierId: 1,
+        supplierName: 'supplier',
+      },
+    },
   };
 
   const createComponent = createComponentFactory({
@@ -835,64 +1085,10 @@ describe('InputDialogComponent', () => {
   describe('ngAfterViewInit', () => {
     describe('with full material', () => {
       beforeEach(() => {
-        component['editMaterialData'].material = mockDialogData.material;
-        component['editMaterialData'].column = mockDialogData.column;
+        component['dialogData'].editMaterial = mockDialogData.editMaterial;
       });
 
       it('should prepare the form', () => {
-        const expectedFormValue: Partial<MaterialFormValue> = {
-          manufacturerSupplierId: 1,
-          materialStandardId: 1,
-          productCategory: {
-            id: 'brightBar',
-            title: undefined,
-          },
-          referenceDoc: [{ id: 'reference', title: 'reference' }],
-          co2Scope1: 1,
-          co2Scope2: 1,
-          co2Scope3: 1,
-          co2PerTon: 3,
-          materialNumber: undefined,
-          co2Classification: {
-            id: 'C1',
-            title: undefined,
-          },
-          releaseDateYear: 1,
-          releaseDateMonth: 1,
-          releaseRestrictions: 'restriction',
-          blocked: false,
-          castingMode: 'mode',
-          castingDiameter: { id: 'diameter', title: 'diameter' },
-          maxDimension: 1,
-          minDimension: 1,
-          steelMakingProcess: {
-            id: 'process',
-            title: 'process',
-          },
-          rating: { id: 'rating', title: 'rating' },
-          ratingRemark: 'remark',
-          standardDocument: {
-            id: 1,
-            title: 'document',
-          },
-          materialName: {
-            id: 1,
-            title: 'material',
-          },
-          supplier: {
-            id: 1,
-            title: 'supplier',
-          },
-          supplierPlant: {
-            id: 'plant',
-            title: 'plant',
-            data: {
-              supplierId: 1,
-              supplierName: 'supplier',
-            },
-          },
-        };
-
         component['dialogFacade'].dispatch = jest.fn();
 
         component.supplierPlantsControl.enable = jest.fn();
@@ -904,6 +1100,7 @@ describe('InputDialogComponent', () => {
         component.co2ClassificationControl.enable = jest.fn();
 
         component.createMaterialForm.patchValue = jest.fn();
+        component.createMaterialForm.markAllAsTouched = jest.fn();
 
         component['cdRef'].markForCheck = jest.fn();
         component['cdRef'].detectChanges = jest.fn();
@@ -922,8 +1119,11 @@ describe('InputDialogComponent', () => {
         expect(component.ratingChangeCommentControl.disable).toHaveBeenCalled();
         expect(component.co2ClassificationControl.enable).toHaveBeenCalled();
         expect(component.createMaterialForm.patchValue).toHaveBeenCalledWith(
-          expectedFormValue
+          mockDialogData.editMaterial.parsedMaterial
         );
+        expect(
+          component.createMaterialForm.markAllAsTouched
+        ).toHaveBeenCalled();
 
         expect(component['cdRef'].markForCheck).toHaveBeenCalled();
         expect(component['cdRef'].detectChanges).toHaveBeenCalled();
@@ -932,58 +1132,11 @@ describe('InputDialogComponent', () => {
 
     describe('without co2 value and parsable reference document', () => {
       beforeEach(() => {
-        component['editMaterialData'].material = mockDialogDataPartial.material;
-        component['editMaterialData'].column = mockDialogDataPartial.column;
+        component['dialogData'].editMaterial =
+          mockDialogDataPartial.editMaterial;
       });
 
       it('should prepare the form', () => {
-        const expectedFormValue: Partial<MaterialFormValue> = {
-          manufacturerSupplierId: 1,
-          materialStandardId: 1,
-          productCategory: {
-            id: 'brightBar',
-            title: undefined,
-          },
-          referenceDoc: [{ id: 'reference', title: 'reference' }],
-          co2Scope1: undefined,
-          co2Scope2: undefined,
-          co2Scope3: undefined,
-          co2PerTon: undefined,
-          materialNumber: undefined,
-          co2Classification: undefined,
-          releaseDateYear: 1,
-          releaseDateMonth: 1,
-          releaseRestrictions: 'restriction',
-          blocked: false,
-          castingMode: 'mode',
-          castingDiameter: undefined,
-          maxDimension: 1,
-          minDimension: 1,
-          steelMakingProcess: undefined,
-          rating: { id: undefined, title: undefined },
-          ratingRemark: 'remark',
-          standardDocument: {
-            id: 1,
-            title: 'document',
-          },
-          materialName: {
-            id: 1,
-            title: 'material',
-          },
-          supplier: {
-            id: 1,
-            title: 'supplier',
-          },
-          supplierPlant: {
-            id: 'plant',
-            title: 'plant',
-            data: {
-              supplierId: 1,
-              supplierName: 'supplier',
-            },
-          },
-        };
-
         component['dialogFacade'].dispatch = jest.fn();
 
         component.supplierPlantsControl.enable = jest.fn();
@@ -995,6 +1148,7 @@ describe('InputDialogComponent', () => {
         component.co2ClassificationControl.enable = jest.fn();
 
         component.createMaterialForm.patchValue = jest.fn();
+        component.createMaterialForm.markAllAsTouched = jest.fn();
 
         component['cdRef'].markForCheck = jest.fn();
         component['cdRef'].detectChanges = jest.fn();
@@ -1015,8 +1169,60 @@ describe('InputDialogComponent', () => {
           component.co2ClassificationControl.enable
         ).not.toHaveBeenCalled();
         expect(component.createMaterialForm.patchValue).toHaveBeenCalledWith(
-          expectedFormValue
+          mockDialogDataPartial.editMaterial.parsedMaterial
         );
+        expect(
+          component.createMaterialForm.markAllAsTouched
+        ).toHaveBeenCalled();
+
+        expect(component['cdRef'].markForCheck).toHaveBeenCalled();
+        expect(component['cdRef'].detectChanges).toHaveBeenCalled();
+      });
+    });
+
+    describe('with minimized dialog', () => {
+      beforeEach(() => {
+        component['dialogData'].minimizedDialog =
+          mockDialogDataMinimized.minimizedDialog;
+      });
+
+      it('should prepare the form', () => {
+        component['dialogFacade'].dispatch = jest.fn();
+
+        component.supplierPlantsControl.enable = jest.fn();
+        component.castingModesControl.enable = jest.fn();
+        component.castingDiameterControl.enable = jest.fn();
+
+        component.ratingChangeCommentControl.disable = jest.fn();
+
+        component.co2ClassificationControl.enable = jest.fn();
+
+        component.createMaterialForm.patchValue = jest.fn();
+        component.createMaterialForm.markAllAsTouched = jest.fn();
+
+        component['cdRef'].markForCheck = jest.fn();
+        component['cdRef'].detectChanges = jest.fn();
+
+        component.ngAfterViewInit();
+
+        expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+          fetchReferenceDocuments({ materialStandardId: 1 })
+        );
+        expect(component['dialogFacade'].dispatch).not.toHaveBeenCalledWith(
+          fetchCastingDiameters({ supplierId: 1, castingMode: 'mode' })
+        );
+        expect(component.supplierPlantsControl.enable).toHaveBeenCalled();
+        expect(component.castingModesControl.enable).toHaveBeenCalled();
+        expect(component.ratingChangeCommentControl.disable).toHaveBeenCalled();
+        expect(
+          component.co2ClassificationControl.enable
+        ).not.toHaveBeenCalled();
+        expect(component.createMaterialForm.patchValue).toHaveBeenCalledWith(
+          mockValue
+        );
+        expect(
+          component.createMaterialForm.markAllAsTouched
+        ).toHaveBeenCalled();
 
         expect(component['cdRef'].markForCheck).toHaveBeenCalled();
         expect(component['cdRef'].detectChanges).toHaveBeenCalled();
@@ -1109,12 +1315,40 @@ describe('InputDialogComponent', () => {
   });
 
   describe('closeDialog', () => {
-    it('should close the dialog', () => {
+    it('should close the dialog with reload', () => {
       component['dialogRef'].close = jest.fn();
 
-      component.closeDialog('test');
+      component.closeDialog(true);
 
-      expect(component['dialogRef'].close).toHaveBeenCalledWith('test');
+      expect(component['dialogRef'].close).toHaveBeenCalledWith({
+        reload: true,
+      });
+    });
+  });
+
+  describe('cancelDialog', () => {
+    it('should call closeDialog with false', () => {
+      component.closeDialog = jest.fn();
+
+      component.cancelDialog();
+
+      expect(component.closeDialog).toHaveBeenCalledWith(false);
+    });
+  });
+
+  describe('minimizeDialog', () => {
+    it('should close the dialog with the minimize data', () => {
+      component['dialogRef'].close = jest.fn();
+      component.materialId = 1;
+      component.createMaterialForm.patchValue(minimizeValue, {
+        emitEvent: false,
+      });
+
+      component.minimizeDialog();
+
+      expect(component['dialogRef'].close).toHaveBeenCalledWith({
+        minimize: { id: 1, value: minimizeValue },
+      });
     });
   });
 

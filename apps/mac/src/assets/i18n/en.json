@@ -266,6 +266,7 @@
     "woehlerYLabel": "Prin­cipal stress am­pli­tude in MPa"
   },
   "materialsSupplierDatabase": {
+    "addItem": "Add Item",
     "all": "All",
     "allClass": "All {{class}}:",
     "allSelected": "All selected",
@@ -415,6 +416,7 @@
     },
     "reload": "Reload",
     "resetTable": "Reset Table",
+    "resume": "Resume",
     "selectAll": "Select All",
     "share": "Share",
     "shareCopiedToClipboard": "Link copied to clipboard",

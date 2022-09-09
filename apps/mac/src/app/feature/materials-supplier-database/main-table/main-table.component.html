@@ -108,12 +108,26 @@
       <button
         mat-raised-button
         color="primary"
-        (click)="openDialog()"
+        (click)="
+          openDialog({ editMaterial: undefined, minimizedDialog: undefined })
+        "
         [disabled]="!(hasEditorRole$ | ngrxPush)"
+        *ngIf="!(hasMinimizedDialog$ | ngrxPush); else resumeButton"
       >
         <mat-icon class="material-icons-outlined">add</mat-icon>
-        <span>Add Item</span>
+        <span>{{ t('addItem') }}</span>
       </button>
+      <ng-template #resumeButton>
+        <button
+          mat-raised-button
+          class="!bg-nordic-blue"
+          (click)="resumeDialog()"
+          [disabled]="!(hasEditorRole$ | ngrxPush)"
+        >
+          <mat-icon class="text-white">play_arrow</mat-icon>
+          <span class="text-white">{{ t('resume') }}</span>
+        </button>
+      </ng-template>
       <button mat-button color="primary" (click)="exportExcel()">
         <mat-icon class="material-icons-outlined">download</mat-icon>
         <span>{{ t('export') }}</span>

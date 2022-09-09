@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatOption } from '@angular/material/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -39,13 +39,15 @@ import {
   SAP_SUPPLIER_IDS,
   SIDE_BAR_CONFIG,
 } from '@mac/msd/main-table/table-config';
-import { DataResult } from '@mac/msd/models';
+import { DataResult, DialogData, MaterialFormValue } from '@mac/msd/models';
 import { MsdAgGridStateService } from '@mac/msd/services';
 import {
   DataFacade,
   fetchClassAndCategoryOptions,
   fetchMaterials,
+  materialDialogCanceled,
   materialDialogOpened,
+  minimizeDialog,
   setAgGridColumns,
   setAgGridFilter,
   setFilter,
@@ -68,6 +70,8 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   public displayCount = 0;
 
   public hasEditorRole$ = this.dataFacade.hasEditorRole$;
+
+  public hasMinimizedDialog$ = this.dataFacade.hasMinimizedDialog$;
 
   public selectedClass: string;
   public selectedCategory: string;
@@ -200,7 +204,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe((editMaterial) => {
         if (editMaterial) {
-          this.openDialog(editMaterial);
+          this.openDialog({ editMaterial });
         } else {
           this.snackbar.open(
             translate('materialsSupplierDatabase.somethingWentWrong'),
@@ -555,27 +559,37 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       },
     }));
 
-  public openDialog(editMaterial?: {
-    material: DataResult;
-    column: string;
-    materialNames: { id: number; materialName: string }[];
-    standardDocuments: { id: number; standardDocument: string }[];
-  }): void {
-    const dialogRef = this.dialog.open(InputDialogComponent, {
+  public resumeDialog(): void {
+    this.dataFacade.resumeDialogData$
+      .pipe(take(1))
+      .subscribe((resumeDialogData) => this.openDialog(resumeDialogData));
+  }
+
+  public openDialog(dialogData: DialogData): void {
+    const dialogRef: MatDialogRef<
+      InputDialogComponent,
+      { reload?: boolean; minimize?: { id: number; value: MaterialFormValue } }
+    > = this.dialog.open(InputDialogComponent, {
       width: '863px',
       autoFocus: false,
       enterAnimationDuration: '100ms',
       restoreFocus: false,
-      data: editMaterial,
+      disableClose: true,
+      data: dialogData,
     });
     this.dataFacade.dispatch(materialDialogOpened());
 
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.destroy$))
-      .subscribe((reload?: boolean) => {
+      .subscribe(({ reload, minimize }) => {
         if (reload) {
           this.fetchMaterials();
+        }
+        if (minimize) {
+          this.dataFacade.dispatch(minimizeDialog(minimize));
+        } else if (!reload) {
+          this.dataFacade.dispatch(materialDialogCanceled());
         }
       });
   }

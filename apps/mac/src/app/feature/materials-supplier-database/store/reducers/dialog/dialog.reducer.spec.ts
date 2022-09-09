@@ -2,9 +2,10 @@ import {
   CreateMaterialRecord,
   DataResult,
   ManufacturerSupplier,
+  MaterialFormValue,
   MaterialStandard,
 } from '@mac/msd/models';
-import * as DataActions from '@mac/msd/store/actions/dialog';
+import * as DialogActions from '@mac/msd/store/actions/dialog';
 
 import { dialogReducer, DialogState, initialState } from './dialog.reducer';
 
@@ -24,7 +25,7 @@ describe('dialogReducer', () => {
     });
 
     it('should reset the dialogOptions', () => {
-      const action = DataActions.materialDialogCanceled();
+      const action = DialogActions.materialDialogCanceled();
       const mockState: DialogState = {
         ...state,
         dialogOptions: {
@@ -39,7 +40,8 @@ describe('dialogReducer', () => {
           customReferenceDocuments: ['reference2'],
         },
         editMaterial: {
-          material: {} as DataResult,
+          row: {} as DataResult,
+          parsedMaterial: {} as MaterialFormValue,
           column: 'column',
           materialNames: undefined,
           materialNamesLoading: true,
@@ -71,7 +73,7 @@ describe('dialogReducer', () => {
     });
 
     it('should set the loading state for the dialog to true', () => {
-      const action = DataActions.materialDialogOpened();
+      const action = DialogActions.materialDialogOpened();
       const newState = dialogReducer(state, action);
 
       expect(newState).toEqual({
@@ -90,7 +92,7 @@ describe('dialogReducer', () => {
 
     it('should set the material standards', () => {
       const materialStandards = [{} as MaterialStandard];
-      const action = DataActions.fetchMaterialStandardsSuccess({
+      const action = DialogActions.fetchMaterialStandardsSuccess({
         materialStandards,
       });
       const newState = dialogReducer(state, action);
@@ -107,7 +109,7 @@ describe('dialogReducer', () => {
 
     it('should set the material standards and the loading state to undefined', () => {
       const materialStandards = [{} as MaterialStandard];
-      const action = DataActions.fetchMaterialStandardsFailure();
+      const action = DialogActions.fetchMaterialStandardsFailure();
       const newState = dialogReducer(
         {
           ...state,
@@ -132,7 +134,7 @@ describe('dialogReducer', () => {
 
     it('should set the manufacturer suppliers', () => {
       const manufacturerSuppliers = [{} as ManufacturerSupplier];
-      const action = DataActions.fetchManufacturerSuppliersSuccess({
+      const action = DialogActions.fetchManufacturerSuppliersSuccess({
         manufacturerSuppliers,
       });
       const newState = dialogReducer(state, action);
@@ -149,7 +151,7 @@ describe('dialogReducer', () => {
 
     it('should set the manufacturer suppliers and the loading state to undefined', () => {
       const manufacturerSuppliers = [{} as ManufacturerSupplier];
-      const action = DataActions.fetchManufacturerSuppliersFailure();
+      const action = DialogActions.fetchManufacturerSuppliersFailure();
       const newState = dialogReducer(
         {
           ...state,
@@ -175,7 +177,7 @@ describe('dialogReducer', () => {
     it('should reset the castingDiameters and set the loading state to true', () => {
       const supplierId = 1;
       const castingMode = 'ingot';
-      const action = DataActions.fetchCastingDiameters({
+      const action = DialogActions.fetchCastingDiameters({
         supplierId,
         castingMode,
       });
@@ -193,7 +195,7 @@ describe('dialogReducer', () => {
 
     it('should set the castingDiameters', () => {
       const castingDiameters = ['200x200'];
-      const action = DataActions.fetchCastingDiametersSuccess({
+      const action = DialogActions.fetchCastingDiametersSuccess({
         castingDiameters,
       });
       const newState = dialogReducer(state, action);
@@ -209,7 +211,7 @@ describe('dialogReducer', () => {
     });
 
     it('should set the castingDiameters and the loading state to undefined', () => {
-      const action = DataActions.fetchCastingDiametersFailure();
+      const action = DialogActions.fetchCastingDiametersFailure();
       const newState = dialogReducer(state, action);
 
       expect(newState).toEqual({
@@ -224,7 +226,7 @@ describe('dialogReducer', () => {
 
     it('should set the ratings', () => {
       const ratings = ['1', '2'];
-      const action = DataActions.fetchRatingsSuccess({ ratings });
+      const action = DialogActions.fetchRatingsSuccess({ ratings });
       const newState = dialogReducer(state, action);
 
       expect(newState).toEqual({
@@ -239,7 +241,7 @@ describe('dialogReducer', () => {
 
     it('should set the ratings and the loading state to undefined', () => {
       const ratings = ['1', '2'];
-      const action = DataActions.fetchRatingsFailure();
+      const action = DialogActions.fetchRatingsFailure();
       const newState = dialogReducer(
         {
           ...state,
@@ -264,7 +266,7 @@ describe('dialogReducer', () => {
 
     it('should reset the referenceDocuments and set the loading state to true', () => {
       const referenceDocuments = ['reference', 'reference2'];
-      const action = DataActions.fetchReferenceDocuments({
+      const action = DialogActions.fetchReferenceDocuments({
         materialStandardId: 1,
       });
       const newState = dialogReducer(
@@ -291,7 +293,7 @@ describe('dialogReducer', () => {
 
     it('should set the referenceDocuments', () => {
       const referenceDocuments = ['reference', 'reference2'];
-      const action = DataActions.fetchReferenceDocumentsSuccess({
+      const action = DialogActions.fetchReferenceDocumentsSuccess({
         referenceDocuments,
       });
       const newState = dialogReducer(state, action);
@@ -308,7 +310,7 @@ describe('dialogReducer', () => {
 
     it('should set the referenceDocuments and the loading state to undefined', () => {
       const referenceDocuments = ['reference', 'reference2'];
-      const action = DataActions.fetchReferenceDocumentsFailure();
+      const action = DialogActions.fetchReferenceDocumentsFailure();
       const newState = dialogReducer(
         {
           ...state,
@@ -333,7 +335,7 @@ describe('dialogReducer', () => {
 
     it('should set the steel making processes', () => {
       const steelMakingProcesses = ['1', '2'];
-      const action = DataActions.fetchSteelMakingProcessesSuccess({
+      const action = DialogActions.fetchSteelMakingProcessesSuccess({
         steelMakingProcesses,
       });
       const newState = dialogReducer(state, action);
@@ -350,7 +352,7 @@ describe('dialogReducer', () => {
 
     it('should set the steel making processes and the loading state to undefined', () => {
       const steelMakingProcesses = ['1', '2'];
-      const action = DataActions.fetchSteelMakingProcessesFailure();
+      const action = DialogActions.fetchSteelMakingProcessesFailure();
       const newState = dialogReducer(
         {
           ...state,
@@ -378,7 +380,7 @@ describe('dialogReducer', () => {
         { id: 'c1', title: '1' },
         { id: 'c2', title: '2' },
       ];
-      const action = DataActions.fetchCo2ClassificationsSuccess({
+      const action = DialogActions.fetchCo2ClassificationsSuccess({
         co2Classifications,
       });
       const newState = dialogReducer(state, action);
@@ -398,7 +400,7 @@ describe('dialogReducer', () => {
         { id: 'c1', title: '1' },
         { id: 'c2', title: '2' },
       ];
-      const action = DataActions.fetchCo2ClassificationsFailure();
+      const action = DialogActions.fetchCo2ClassificationsFailure();
       const newState = dialogReducer(
         {
           ...state,
@@ -423,7 +425,7 @@ describe('dialogReducer', () => {
 
     it('should set the casting modes', () => {
       const castingModes = ['1', '2'];
-      const action = DataActions.fetchCastingModesSuccess({ castingModes });
+      const action = DialogActions.fetchCastingModesSuccess({ castingModes });
       const newState = dialogReducer(state, action);
 
       expect(newState).toEqual({
@@ -438,7 +440,7 @@ describe('dialogReducer', () => {
 
     it('should set the casting modes and the loading state to undefined', () => {
       const castingModes = ['1', '2'];
-      const action = DataActions.fetchCastingModesFailure();
+      const action = DialogActions.fetchCastingModesFailure();
       const newState = dialogReducer(
         {
           ...state,
@@ -462,7 +464,7 @@ describe('dialogReducer', () => {
     });
 
     it('should set the createMaterialLoading and createMaterialSuccess state', () => {
-      const action = DataActions.materialDialogConfirmed({
+      const action = DialogActions.materialDialogConfirmed({
         standard: undefined,
         supplier: undefined,
         material: undefined,
@@ -486,7 +488,9 @@ describe('dialogReducer', () => {
 
     it('should set the createMaterialLoading and createMaterialSuccess state after creation', () => {
       const mockRecord = {} as CreateMaterialRecord;
-      const action = DataActions.createMaterialComplete({ record: mockRecord });
+      const action = DialogActions.createMaterialComplete({
+        record: mockRecord,
+      });
       const newState = dialogReducer(
         {
           ...state,
@@ -504,11 +508,17 @@ describe('dialogReducer', () => {
           createMaterialLoading: false,
           createMaterialRecord: mockRecord,
         },
+        dialogOptions: {
+          castingDiameters: undefined,
+          customCastingDiameters: undefined,
+          referenceDocuments: undefined,
+          customReferenceDocuments: undefined,
+        },
       });
     });
 
     it('should set the custom diameters if they are not defined', () => {
-      const action = DataActions.addCustomCastingDiameter({
+      const action = DialogActions.addCustomCastingDiameter({
         castingDiameter: 'new',
       });
       const newState = dialogReducer(
@@ -532,7 +542,7 @@ describe('dialogReducer', () => {
     });
 
     it('should add a custom diameter', () => {
-      const action = DataActions.addCustomCastingDiameter({
+      const action = DialogActions.addCustomCastingDiameter({
         castingDiameter: 'new',
       });
       const newState = dialogReducer(
@@ -556,7 +566,7 @@ describe('dialogReducer', () => {
     });
 
     it('should set the custom reference documents if they are not defined', () => {
-      const action = DataActions.addCustomReferenceDocument({
+      const action = DialogActions.addCustomReferenceDocument({
         referenceDocument: 'new',
       });
       const newState = dialogReducer(
@@ -580,7 +590,7 @@ describe('dialogReducer', () => {
     });
 
     it('should add a custom reference document', () => {
-      const action = DataActions.addCustomReferenceDocument({
+      const action = DialogActions.addCustomReferenceDocument({
         referenceDocument: 'new',
       });
       const newState = dialogReducer(
@@ -604,7 +614,7 @@ describe('dialogReducer', () => {
     });
 
     it('should set the custom std doc if they are not defined', () => {
-      const action = DataActions.addCustomMaterialStandardDocument({
+      const action = DialogActions.addCustomMaterialStandardDocument({
         standardDocument: 'new',
       });
       const newState = dialogReducer(
@@ -627,7 +637,7 @@ describe('dialogReducer', () => {
     });
 
     it('should add a custom standard document', () => {
-      const action = DataActions.addCustomMaterialStandardDocument({
+      const action = DialogActions.addCustomMaterialStandardDocument({
         standardDocument: 'new',
       });
       const newState = dialogReducer(
@@ -650,7 +660,7 @@ describe('dialogReducer', () => {
     });
 
     it('should set the custom material name if they are not defined', () => {
-      const action = DataActions.addCustomMaterialStandardName({
+      const action = DialogActions.addCustomMaterialStandardName({
         materialName: 'new',
       });
       const newState = dialogReducer(
@@ -673,7 +683,7 @@ describe('dialogReducer', () => {
     });
 
     it('should add a custom material name', () => {
-      const action = DataActions.addCustomMaterialStandardName({
+      const action = DialogActions.addCustomMaterialStandardName({
         materialName: 'new',
       });
       const newState = dialogReducer(
@@ -696,7 +706,9 @@ describe('dialogReducer', () => {
     });
 
     it('should set the custom supplier names if they are not defined', () => {
-      const action = DataActions.addCustomSupplierName({ supplierName: 'new' });
+      const action = DialogActions.addCustomSupplierName({
+        supplierName: 'new',
+      });
       const newState = dialogReducer(
         {
           ...state,
@@ -717,7 +729,9 @@ describe('dialogReducer', () => {
     });
 
     it('should add a custom supplier name', () => {
-      const action = DataActions.addCustomSupplierName({ supplierName: 'new' });
+      const action = DialogActions.addCustomSupplierName({
+        supplierName: 'new',
+      });
       const newState = dialogReducer(
         {
           ...state,
@@ -738,7 +752,7 @@ describe('dialogReducer', () => {
     });
 
     it('should set the custom supplier plant if they are not defined', () => {
-      const action = DataActions.addCustomSupplierPlant({
+      const action = DialogActions.addCustomSupplierPlant({
         supplierPlant: 'new',
       });
       const newState = dialogReducer(
@@ -761,7 +775,7 @@ describe('dialogReducer', () => {
     });
 
     it('should add a custom supplier plant', () => {
-      const action = DataActions.addCustomSupplierPlant({
+      const action = DialogActions.addCustomSupplierPlant({
         supplierPlant: 'new',
       });
       const newState = dialogReducer(
@@ -784,8 +798,8 @@ describe('dialogReducer', () => {
     });
 
     it('should set the editMaterial', () => {
-      const action = DataActions.openEditDialog({
-        material: {} as DataResult,
+      const action = DialogActions.openEditDialog({
+        row: {} as DataResult,
         column: 'column',
       });
       const newState = dialogReducer(
@@ -798,7 +812,7 @@ describe('dialogReducer', () => {
       expect(newState).toEqual({
         ...state,
         editMaterial: {
-          material: {} as DataResult,
+          row: {} as DataResult,
           column: 'column',
           materialNames: undefined,
           materialNamesLoading: true,
@@ -812,14 +826,15 @@ describe('dialogReducer', () => {
     });
 
     it('should set the standard documents', () => {
-      const action = DataActions.fetchEditMaterialNameDataSuccess({
+      const action = DialogActions.fetchEditMaterialNameDataSuccess({
         standardDocuments: [],
       });
       const newState = dialogReducer(
         {
           ...state,
           editMaterial: {
-            material: {} as DataResult,
+            row: {} as DataResult,
+            parsedMaterial: {} as MaterialFormValue,
             column: 'column',
             materialNames: undefined,
             materialNamesLoading: true,
@@ -836,7 +851,8 @@ describe('dialogReducer', () => {
       expect(newState).toEqual({
         ...state,
         editMaterial: {
-          material: {} as DataResult,
+          row: {} as DataResult,
+          parsedMaterial: {} as MaterialFormValue,
           column: 'column',
           materialNames: undefined,
           materialNamesLoading: true,
@@ -850,12 +866,13 @@ describe('dialogReducer', () => {
     });
 
     it('should reset the standard documents', () => {
-      const action = DataActions.fetchEditMaterialNameDataFailure();
+      const action = DialogActions.fetchEditMaterialNameDataFailure();
       const newState = dialogReducer(
         {
           ...state,
           editMaterial: {
-            material: {} as DataResult,
+            row: {} as DataResult,
+            parsedMaterial: {} as MaterialFormValue,
             column: 'column',
             materialNames: undefined,
             materialNamesLoading: true,
@@ -872,7 +889,8 @@ describe('dialogReducer', () => {
       expect(newState).toEqual({
         ...state,
         editMaterial: {
-          material: {} as DataResult,
+          row: {} as DataResult,
+          parsedMaterial: {} as MaterialFormValue,
           column: 'column',
           materialNames: undefined,
           materialNamesLoading: true,
@@ -886,14 +904,15 @@ describe('dialogReducer', () => {
     });
 
     it('should set the material names', () => {
-      const action = DataActions.fetchEditStandardDocumentDataSuccess({
+      const action = DialogActions.fetchEditStandardDocumentDataSuccess({
         materialNames: [],
       });
       const newState = dialogReducer(
         {
           ...state,
           editMaterial: {
-            material: {} as DataResult,
+            row: {} as DataResult,
+            parsedMaterial: {} as MaterialFormValue,
             column: 'column',
             materialNames: undefined,
             materialNamesLoading: true,
@@ -910,7 +929,8 @@ describe('dialogReducer', () => {
       expect(newState).toEqual({
         ...state,
         editMaterial: {
-          material: {} as DataResult,
+          row: {} as DataResult,
+          parsedMaterial: {} as MaterialFormValue,
           column: 'column',
           materialNames: [],
           materialNamesLoading: false,
@@ -924,12 +944,13 @@ describe('dialogReducer', () => {
     });
 
     it('should reset the material names', () => {
-      const action = DataActions.fetchEditStandardDocumentDataFailure();
+      const action = DialogActions.fetchEditStandardDocumentDataFailure();
       const newState = dialogReducer(
         {
           ...state,
           editMaterial: {
-            material: {} as DataResult,
+            row: {} as DataResult,
+            parsedMaterial: {} as MaterialFormValue,
             column: 'column',
             materialNames: undefined,
             materialNamesLoading: true,
@@ -946,7 +967,8 @@ describe('dialogReducer', () => {
       expect(newState).toEqual({
         ...state,
         editMaterial: {
-          material: {} as DataResult,
+          row: {} as DataResult,
+          parsedMaterial: {} as MaterialFormValue,
           column: 'column',
           materialNames: undefined,
           materialNamesLoading: undefined,
@@ -960,14 +982,15 @@ describe('dialogReducer', () => {
     });
 
     it('should set the supplierIds', () => {
-      const action = DataActions.fetchEditMaterialSuppliersSuccess({
+      const action = DialogActions.fetchEditMaterialSuppliersSuccess({
         supplierIds: [],
       });
       const newState = dialogReducer(
         {
           ...state,
           editMaterial: {
-            material: {} as DataResult,
+            row: {} as DataResult,
+            parsedMaterial: {} as MaterialFormValue,
             column: 'column',
             materialNames: undefined,
             materialNamesLoading: true,
@@ -984,7 +1007,8 @@ describe('dialogReducer', () => {
       expect(newState).toEqual({
         ...state,
         editMaterial: {
-          material: {} as DataResult,
+          row: {} as DataResult,
+          parsedMaterial: {} as MaterialFormValue,
           column: 'column',
           materialNames: undefined,
           materialNamesLoading: true,
@@ -998,12 +1022,13 @@ describe('dialogReducer', () => {
     });
 
     it('should reset the supplierIds', () => {
-      const action = DataActions.fetchEditMaterialSuppliersFailure();
+      const action = DialogActions.fetchEditMaterialSuppliersFailure();
       const newState = dialogReducer(
         {
           ...state,
           editMaterial: {
-            material: {} as DataResult,
+            row: {} as DataResult,
+            parsedMaterial: {} as MaterialFormValue,
             column: 'column',
             materialNames: undefined,
             materialNamesLoading: true,
@@ -1020,7 +1045,8 @@ describe('dialogReducer', () => {
       expect(newState).toEqual({
         ...state,
         editMaterial: {
-          material: {} as DataResult,
+          row: {} as DataResult,
+          parsedMaterial: {} as MaterialFormValue,
           column: 'column',
           materialNames: undefined,
           materialNamesLoading: true,
@@ -1034,12 +1060,13 @@ describe('dialogReducer', () => {
     });
 
     it('should set loading complete', () => {
-      const action = DataActions.editDialogLoadingComplete();
+      const action = DialogActions.editDialogLoadingComplete();
       const newState = dialogReducer(
         {
           ...state,
           editMaterial: {
-            material: {} as DataResult,
+            row: {} as DataResult,
+            parsedMaterial: {} as MaterialFormValue,
             column: 'column',
             materialNames: undefined,
             materialNamesLoading: true,
@@ -1056,7 +1083,8 @@ describe('dialogReducer', () => {
       expect(newState).toEqual({
         ...state,
         editMaterial: {
-          material: {} as DataResult,
+          row: {} as DataResult,
+          parsedMaterial: {} as MaterialFormValue,
           column: 'column',
           materialNames: undefined,
           materialNamesLoading: true,
@@ -1065,6 +1093,52 @@ describe('dialogReducer', () => {
           supplierIds: undefined,
           supplierIdsLoading: true,
           loadingComplete: true,
+        },
+      });
+    });
+
+    it('should set the material form value', () => {
+      const action = DialogActions.setMaterialFormValue({
+        parsedMaterial: {} as MaterialFormValue,
+      });
+      const newState = dialogReducer(
+        {
+          ...state,
+          editMaterial: {
+            ...state.editMaterial,
+            parsedMaterial: undefined,
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        editMaterial: {
+          ...state.editMaterial,
+          parsedMaterial: {} as MaterialFormValue,
+        },
+      });
+    });
+
+    it('should set minimized dialog', () => {
+      const action = DialogActions.minimizeDialog({
+        id: 1,
+        value: {} as MaterialFormValue,
+      });
+      const newState = dialogReducer(
+        {
+          ...state,
+          minimizedDialog: undefined,
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        minimizedDialog: {
+          id: 1,
+          value: {} as MaterialFormValue,
         },
       });
     });

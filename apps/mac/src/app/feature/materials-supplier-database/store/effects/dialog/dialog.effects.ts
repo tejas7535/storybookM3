@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 
 import { catchError, filter, map, of, switchMap } from 'rxjs';
 
+import { translate } from '@ngneat/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 
 import { StringOption } from '@schaeffler/inputs';
@@ -10,6 +11,7 @@ import { StringOption } from '@schaeffler/inputs';
 import {
   CreateMaterialState,
   ManufacturerSupplier,
+  MaterialFormValue,
   MaterialStandard,
 } from '@mac/msd/models';
 import { MsdDataService } from '@mac/msd/services';
@@ -346,15 +348,15 @@ export class DialogEffects {
   public openEditDialog$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DialogActions.openEditDialog),
-      switchMap(({ material }) => [
+      switchMap(({ row }) => [
         DialogActions.fetchEditStandardDocumentData({
-          standardDocument: material.materialStandardStandardDocument,
+          standardDocument: row.materialStandardStandardDocument,
         }),
         DialogActions.fetchEditMaterialNameData({
-          materialName: material.materialStandardMaterialName,
+          materialName: row.materialStandardMaterialName,
         }),
         DialogActions.fetchEditMaterialSuppliers({
-          supplierName: material.manufacturerSupplierName,
+          supplierName: row.manufacturerSupplierName,
         }),
       ])
     );
@@ -402,7 +404,10 @@ export class DialogEffects {
               standardDocumentsList.sort((a, b) => a[0] - b[0])
             ),
             map((standardDocumentsList) => {
-              const standardDocuments = [];
+              const standardDocuments: {
+                id: number;
+                standardDocument: string;
+              }[] = [];
               for (const standardDocumentTuple of standardDocumentsList) {
                 standardDocuments.push({
                   id: standardDocumentTuple[0],
@@ -456,13 +461,132 @@ export class DialogEffects {
       filter(
         ([_nothing, editMaterial]) =>
           !!editMaterial &&
-          !!editMaterial.material &&
+          !!editMaterial.row &&
           !editMaterial.materialNamesLoading &&
           !editMaterial.standardDocumentsLoading &&
           !editMaterial.supplierIdsLoading &&
           !editMaterial.loadingComplete
       ),
-      map((_nothing) => DialogActions.editDialogLoadingComplete())
+      map((_nothing) => DialogActions.parseMaterialFormValue())
+    );
+  });
+
+  public parseMaterialFormValue$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.parseMaterialFormValue),
+      concatLatestFrom(() => this.dataFacade.editMaterial),
+      map(([_nothing, editMaterial]) => {
+        const material = editMaterial.row;
+
+        let referenceDocValue;
+        try {
+          referenceDocValue = JSON.parse(material.referenceDoc || '[]').map(
+            (document: string) => ({ id: document, title: document })
+          );
+        } catch {
+          referenceDocValue = [
+            { id: material.referenceDoc, title: material.referenceDoc },
+          ];
+        }
+
+        const parsedMaterial: Partial<MaterialFormValue> = {
+          manufacturerSupplierId: material.manufacturerSupplierId,
+          materialStandardId: material.materialStandardId,
+          productCategory: {
+            id: material.productCategory,
+            title: translate(
+              `materialsSupplierDatabase.productCategoryValues.${material.productCategory}`
+            ),
+          },
+          referenceDoc: referenceDocValue,
+          co2Scope1: material.co2Scope1,
+          co2Scope2: material.co2Scope2,
+          co2Scope3: material.co2Scope3,
+          co2PerTon: material.co2PerTon,
+          co2Classification: material.co2Classification
+            ? {
+                id: material.co2Classification,
+                title: translate(
+                  `materialsSupplierDatabase.mainTable.dialog.co2ClassificationValues.${material.co2Classification.toLowerCase()}`
+                ),
+              }
+            : undefined,
+          releaseDateYear: material.releaseDateYear,
+          releaseDateMonth: material.releaseDateMonth,
+          releaseRestrictions: material.releaseRestrictions,
+          blocked: material.blocked,
+          castingMode: material.castingMode,
+          castingDiameter: material.castingDiameter
+            ? { id: material.castingDiameter, title: material.castingDiameter }
+            : undefined,
+          maxDimension: material.maxDimension,
+          minDimension: material.minDimension,
+          steelMakingProcess: material.steelMakingProcess
+            ? {
+                id: material.steelMakingProcess,
+                title: material.steelMakingProcess,
+              }
+            : undefined,
+          rating: material.rating
+            ? { id: material.rating, title: material.rating }
+            : {
+                id: undefined,
+                title: translate(
+                  'materialsSupplierDatabase.mainTable.dialog.none'
+                ),
+              },
+          ratingRemark: material.ratingRemark,
+          materialNumber: material.materialNumbers
+            ? material.materialNumbers.join(', ')
+            : undefined,
+
+          standardDocument: {
+            id: material.materialStandardId,
+            title: material.materialStandardStandardDocument,
+            data: editMaterial.materialNames
+              ? {
+                  materialNames: editMaterial.materialNames,
+                }
+              : undefined,
+          },
+          materialName: {
+            id:
+              editMaterial.standardDocuments?.length > 1
+                ? editMaterial.standardDocuments[0].id
+                : material.materialStandardId,
+            title: material.materialStandardMaterialName,
+            data: editMaterial.standardDocuments
+              ? {
+                  standardDocuments: editMaterial.standardDocuments,
+                }
+              : undefined,
+          },
+          supplier: {
+            id:
+              editMaterial.supplierIds?.length > 0
+                ? editMaterial.supplierIds[0]
+                : material.manufacturerSupplierId,
+            title: material.manufacturerSupplierName,
+          },
+          supplierPlant: {
+            id: material.manufacturerSupplierPlant,
+            title: material.manufacturerSupplierPlant,
+            data: {
+              supplierId: material.manufacturerSupplierId,
+              supplierName: material.manufacturerSupplierName,
+            },
+          },
+        };
+
+        return DialogActions.setMaterialFormValue({ parsedMaterial });
+      })
+    );
+  });
+
+  public setMaterialFormValue$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.setMaterialFormValue),
+      map(() => DialogActions.editDialogLoadingComplete())
     );
   });
 }

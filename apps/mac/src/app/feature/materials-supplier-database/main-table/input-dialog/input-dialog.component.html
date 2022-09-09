@@ -7,9 +7,14 @@
       <div class="text-h6 my-auto text-high-emphasis">
         {{ materialId ? t('updateTitle') : t('addTitle') }}
       </div>
-      <button mat-icon-button (click)="closeDialog()">
-        <mat-icon>close</mat-icon>
-      </button>
+      <div class="flex flex-row">
+        <button mat-icon-button (click)="minimizeDialog()">
+          <mat-icon class="text-medium-emphasis">minimize</mat-icon>
+        </button>
+        <button mat-icon-button (click)="cancelDialog()">
+          <mat-icon class="text-medium-emphasis">close</mat-icon>
+        </button>
+      </div>
     </div>
     <mat-divider></mat-divider>
   </div>
@@ -483,7 +488,7 @@
   <mat-dialog-actions align="end" class="-mx-6">
     <mat-divider class="w-full pb-4"></mat-divider>
     <div class="px-4 pb-2">
-      <button mat-stroked-button (click)="closeDialog()">
+      <button mat-stroked-button (click)="cancelDialog()">
         {{ t('cancel') }}
       </button>
       <button

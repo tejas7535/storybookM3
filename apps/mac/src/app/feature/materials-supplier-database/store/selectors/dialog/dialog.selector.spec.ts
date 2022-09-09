@@ -8,6 +8,7 @@ import { StringOption } from '@schaeffler/inputs';
 import {
   DataResult,
   ManufacturerSupplier,
+  MaterialFormValue,
   MaterialStandard,
 } from '@mac/msd/models';
 import { initialState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
@@ -856,11 +857,70 @@ describe('DialogSelectors', () => {
     expect(
       DialogSelectors.getEditMaterialData.projector({
         editMaterial: {
-          material: {} as DataResult,
+          row: {} as DataResult,
           column: 'column',
         },
       })
-    ).toEqual({ material: {} as DataResult, column: 'column' });
+    ).toEqual({ row: {} as DataResult, column: 'column' });
+  });
+
+  it('should return false if there is no minimized dialog', () => {
+    expect(
+      DialogSelectors.getHasMinimizedDialog.projector({
+        minimizedDialog: undefined,
+      })
+    ).toBe(false);
+  });
+
+  it('should return true if there is a minimized dialog', () => {
+    expect(
+      DialogSelectors.getHasMinimizedDialog.projector({
+        minimizedDialog: {
+          id: 1,
+          value: {} as MaterialFormValue,
+        },
+      })
+    ).toBe(true);
+  });
+
+  it('should return the minimized dialog', () => {
+    expect(
+      DialogSelectors.getMinimizedDialog.projector({
+        minimizedDialog: {
+          id: 1,
+          value: {} as MaterialFormValue,
+        },
+      })
+    ).toEqual({
+      id: 1,
+      value: {} as MaterialFormValue,
+    });
+  });
+
+  it('should return the resume dialog data', () => {
+    expect(
+      DialogSelectors.getResumeDialogData.projector(
+        {
+          row: {} as DataResult,
+          parsedMaterial: {} as MaterialFormValue,
+          column: 'column',
+        },
+        {
+          id: 1,
+          value: {} as MaterialFormValue,
+        }
+      )
+    ).toEqual({
+      editMaterial: {
+        row: {} as DataResult,
+        parsedMaterial: {} as MaterialFormValue,
+        column: 'column',
+      },
+      minimizedDialog: {
+        id: 1,
+        value: {} as MaterialFormValue,
+      },
+    });
   });
 
   it('should remove duplicate string options and sort', () => {
@@ -996,7 +1056,8 @@ describe('DialogSelectors', () => {
       'should return the edit information if all info is loaded',
       marbles((m) => {
         const editMaterial = {
-          material: {} as DataResult,
+          row: {} as DataResult,
+          parsedMaterial: {} as MaterialFormValue,
           column: 'column',
           materialNames: [] as { id: number; materialName: string }[],
           materialNamesLoading: false,
@@ -1028,7 +1089,8 @@ describe('DialogSelectors', () => {
       'should return undefined if some loading failed',
       marbles((m) => {
         const editMaterial: { [key: string]: any } = {
-          material: {} as DataResult,
+          row: {} as DataResult,
+          parsedMaterial: {} as MaterialFormValue,
           column: 'column',
           materialNames: [] as { id: number; materialName: string }[],
           materialNamesLoading: undefined,

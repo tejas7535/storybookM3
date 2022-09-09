@@ -1,9 +1,10 @@
 import { of, throwError } from 'rxjs';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { TranslocoModule } from '@ngneat/transloco';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { marbles } from 'rxjs-marbles';
+import { marbles } from 'rxjs-marbles/jest';
 
 import { StringOption } from '@schaeffler/inputs';
 
@@ -13,6 +14,7 @@ import {
   DataResult,
   ManufacturerSupplier,
   Material,
+  MaterialFormValue,
   MaterialStandard,
 } from '@mac/msd/models';
 import { MsdDataService } from '@mac/msd/services';
@@ -55,13 +57,20 @@ import {
   materialDialogConfirmed,
   materialDialogOpened,
   openEditDialog,
+  parseMaterialFormValue,
   postManufacturerSupplier,
   postMaterial,
   postMaterialStandard,
+  setMaterialFormValue,
 } from '@mac/msd/store/actions';
 
 import { DataFacade } from '../..';
 import { DialogEffects } from './dialog.effects';
+
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+  translate: jest.fn((string) => string.split('.').pop()),
+}));
 
 describe('Data Effects', () => {
   let action: any;
@@ -839,7 +848,7 @@ describe('Data Effects', () => {
       'should dispatch the actions',
       marbles((m) => {
         action = openEditDialog({
-          material: {
+          row: {
             manufacturerSupplierName: 'supplier',
             materialStandardMaterialName: 'material',
             materialStandardStandardDocument: 'document',
@@ -1040,7 +1049,8 @@ describe('Data Effects', () => {
         actions$ = m.hot('-a', { a: action });
 
         effects['dataFacade'].editMaterial = of({
-          material: {} as DataResult,
+          row: {} as DataResult,
+          parsedMaterial: {} as MaterialFormValue,
           column: 'column',
           materialNames: [],
           materialNamesLoading: false,
@@ -1051,10 +1061,249 @@ describe('Data Effects', () => {
           loadingComplete: false,
         });
 
-        const result = editDialogLoadingComplete();
+        const result = parseMaterialFormValue();
         const expected = m.cold('-b', { b: result });
 
         m.expect(effects.editDialogLoaded$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+  });
+
+  describe('parseMaterialFormValue$', () => {
+    it(
+      'should return set material form value action',
+      marbles((m) => {
+        const row = {
+          id: 1,
+          materialClass: 'st',
+          materialClassText: 'Steel',
+          materialStandardId: 1,
+          materialStandardMaterialName: 'material',
+          materialStandardStandardDocument: 'document',
+          manufacturerSupplierId: 1,
+          manufacturerSupplierName: 'supplier',
+          manufacturerSupplierPlant: 'plant',
+          productCategory: 'brightBar',
+          productCategoryText: 'Bright Bar',
+          referenceDoc: '["reference"]',
+          co2Scope1: 1,
+          co2Scope2: 1,
+          co2Scope3: 1,
+          co2PerTon: 3,
+          co2Classification: 'C1',
+          releaseDateYear: 1,
+          releaseDateMonth: 1,
+          releaseRestrictions: 'restriction',
+          blocked: false,
+          castingMode: 'mode',
+          castingDiameter: 'diameter',
+          minDimension: 1,
+          maxDimension: 1,
+          steelMakingProcess: 'process',
+          rating: 'rating',
+          ratingRemark: 'remark',
+          ratingChangeComment: 'comment',
+        } as DataResult;
+
+        const expectedFormValue: Partial<MaterialFormValue> = {
+          manufacturerSupplierId: 1,
+          materialStandardId: 1,
+          productCategory: {
+            id: 'brightBar',
+            title: 'brightBar',
+          },
+          referenceDoc: [{ id: 'reference', title: 'reference' }],
+          co2Scope1: 1,
+          co2Scope2: 1,
+          co2Scope3: 1,
+          co2PerTon: 3,
+          materialNumber: undefined,
+          co2Classification: {
+            id: 'C1',
+            title: 'c1',
+          },
+          releaseDateYear: 1,
+          releaseDateMonth: 1,
+          releaseRestrictions: 'restriction',
+          blocked: false,
+          castingMode: 'mode',
+          castingDiameter: { id: 'diameter', title: 'diameter' },
+          maxDimension: 1,
+          minDimension: 1,
+          steelMakingProcess: {
+            id: 'process',
+            title: 'process',
+          },
+          rating: { id: 'rating', title: 'rating' },
+          ratingRemark: 'remark',
+          standardDocument: {
+            id: 1,
+            title: 'document',
+            data: { materialNames: [] },
+          },
+          materialName: {
+            id: 1,
+            title: 'material',
+            data: { standardDocuments: [] },
+          },
+          supplier: {
+            id: 1,
+            title: 'supplier',
+          },
+          supplierPlant: {
+            id: 'plant',
+            title: 'plant',
+            data: {
+              supplierId: 1,
+              supplierName: 'supplier',
+            },
+          },
+        };
+
+        const editMaterial: any = {
+          row,
+          parsedMaterial: undefined,
+          column: 'column',
+          materialNames: [],
+          standardDocuments: [],
+          supplierIds: [1, 2],
+        };
+
+        effects['dataFacade'].editMaterial = of(editMaterial);
+
+        action = parseMaterialFormValue();
+        actions$ = m.hot('-a', { a: action });
+
+        const result = setMaterialFormValue({
+          parsedMaterial: expectedFormValue,
+        });
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.parseMaterialFormValue$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+
+    it(
+      'should return set material form value action with partial data',
+      marbles((m) => {
+        const row = {
+          id: 1,
+          materialClass: 'st',
+          materialClassText: 'Steel',
+          materialStandardId: 1,
+          materialStandardMaterialName: 'material',
+          materialStandardStandardDocument: 'document',
+          manufacturerSupplierId: 1,
+          manufacturerSupplierName: 'supplier',
+          manufacturerSupplierPlant: 'plant',
+          productCategory: 'brightBar',
+          productCategoryText: 'Bright Bar',
+          referenceDoc: 'reference',
+          co2Scope1: 1,
+          co2Scope2: 1,
+          co2Scope3: 1,
+          co2PerTon: 3,
+          releaseDateYear: 1,
+          releaseDateMonth: 1,
+          releaseRestrictions: 'restriction',
+          blocked: false,
+          castingMode: 'mode',
+          minDimension: 1,
+          maxDimension: 1,
+          ratingRemark: 'remark',
+          ratingChangeComment: 'comment',
+          materialNumbers: ['1', '2'],
+        } as DataResult;
+
+        const expectedFormValue: Partial<MaterialFormValue> = {
+          manufacturerSupplierId: 1,
+          materialStandardId: 1,
+          productCategory: {
+            id: 'brightBar',
+            title: 'brightBar',
+          },
+          referenceDoc: [{ id: 'reference', title: 'reference' }],
+          co2Scope1: 1,
+          co2Scope2: 1,
+          co2Scope3: 1,
+          co2PerTon: 3,
+          co2Classification: undefined,
+          releaseDateYear: 1,
+          releaseDateMonth: 1,
+          releaseRestrictions: 'restriction',
+          blocked: false,
+          castingMode: 'mode',
+          castingDiameter: undefined,
+          maxDimension: 1,
+          minDimension: 1,
+          steelMakingProcess: undefined,
+          rating: { id: undefined, title: 'none' },
+          ratingRemark: 'remark',
+          materialNumber: '1, 2',
+          standardDocument: {
+            data: undefined,
+            id: 1,
+            title: 'document',
+          },
+          materialName: {
+            data: undefined,
+            id: 1,
+            title: 'material',
+          },
+          supplier: {
+            id: 1,
+            title: 'supplier',
+          },
+          supplierPlant: {
+            id: 'plant',
+            title: 'plant',
+            data: {
+              supplierId: 1,
+              supplierName: 'supplier',
+            },
+          },
+        };
+
+        const editMaterial: any = {
+          row,
+          parsedMaterial: undefined,
+          column: 'column',
+          materialNames: undefined,
+          standardDocuments: undefined,
+          supplierIds: [],
+        };
+
+        effects['dataFacade'].editMaterial = of(editMaterial);
+
+        action = parseMaterialFormValue();
+        actions$ = m.hot('-a', { a: action });
+
+        const result = setMaterialFormValue({
+          parsedMaterial: expectedFormValue,
+        });
+        const expected = m.hot('-b', { b: result });
+
+        m.expect(effects.parseMaterialFormValue$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+  });
+
+  describe('setMaterialFormValue$', () => {
+    it(
+      'should return the loading complete action',
+      marbles((m) => {
+        action = setMaterialFormValue({
+          parsedMaterial: {} as MaterialFormValue,
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        const result = editDialogLoadingComplete();
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.setMaterialFormValue$).toBeObservable(expected);
         m.flush();
       })
     );

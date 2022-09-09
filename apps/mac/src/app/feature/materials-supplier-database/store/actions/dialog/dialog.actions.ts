@@ -7,6 +7,7 @@ import {
   DataResult,
   ManufacturerSupplier,
   Material,
+  MaterialFormValue,
   MaterialStandard,
 } from '@mac/msd/models';
 
@@ -183,7 +184,7 @@ export const postManufacturerSupplier = createAction(
 
 export const openEditDialog = createAction(
   '[MSD - Dialog] Open Edit Dialog',
-  props<{ material: DataResult; column: string }>()
+  props<{ row: DataResult; column: string }>()
 );
 
 export const fetchEditStandardDocumentData = createAction(
@@ -234,4 +235,18 @@ export const editDialogLoadingFailure = createAction(
 
 export const editDialogLoadingComplete = createAction(
   '[MSD - Dialog] Edit Dialog Loading Complete'
+);
+
+export const parseMaterialFormValue = createAction(
+  '[MSD - Dialog] Parse Material Form Value'
+);
+
+export const setMaterialFormValue = createAction(
+  '[MSD - Dialog] Set Material Form Value',
+  props<{ parsedMaterial: Partial<MaterialFormValue> }>()
+);
+
+export const minimizeDialog = createAction(
+  '[MSD - Dialog] Minimize Dialog',
+  props<{ id?: number; value: Partial<MaterialFormValue> }>()
 );

@@ -7,6 +7,7 @@ import {
   CreateMaterialRecord,
   DataResult,
   ManufacturerSupplier,
+  MaterialFormValue,
   MaterialStandard,
 } from '@mac/msd/models';
 // TODO: clean import
@@ -50,6 +51,8 @@ import {
   fetchEditMaterialSuppliersSuccess,
   fetchEditStandardDocumentDataFailure,
   fetchEditStandardDocumentDataSuccess,
+  minimizeDialog,
+  setMaterialFormValue,
 } from './../../actions/dialog/dialog.actions';
 
 export interface DialogState {
@@ -92,7 +95,8 @@ export interface DialogState {
     createMaterialRecord: CreateMaterialRecord;
   };
   editMaterial: {
-    material: DataResult;
+    row: DataResult;
+    parsedMaterial: Partial<MaterialFormValue>;
     column: string;
     standardDocuments: { id: number; standardDocument: string }[];
     standardDocumentsLoading: boolean;
@@ -102,6 +106,10 @@ export interface DialogState {
     supplierIdsLoading: boolean;
     loadingComplete: boolean;
   };
+  minimizedDialog: {
+    id: number;
+    value: Partial<MaterialFormValue>;
+  };
 }
 
 export const initialState: DialogState = {
@@ -110,6 +118,7 @@ export const initialState: DialogState = {
   dialogOptions: undefined,
   createMaterial: undefined,
   editMaterial: undefined,
+  minimizedDialog: undefined,
 };
 
 export const dialogReducer = createReducer(
@@ -132,6 +141,7 @@ export const dialogReducer = createReducer(
         customReferenceDocuments: undefined,
       },
       editMaterial: undefined,
+      minimizedDialog: undefined,
     })
   ),
   on(
@@ -146,10 +156,6 @@ export const dialogReducer = createReducer(
         steelMakingProcessesLoading: true,
         co2ClassificationsLoading: true,
         castingModesLoading: true,
-        customCastingDiameters: undefined,
-        castingDiameters: undefined,
-        referenceDocuments: undefined,
-        customReferenceDocuments: undefined,
       },
     })
   ),
@@ -369,7 +375,15 @@ export const dialogReducer = createReducer(
         createMaterialLoading: false,
         createMaterialRecord: record,
       },
+      dialogOptions: {
+        ...state.dialogOptions,
+        customCastingDiameters: undefined,
+        castingDiameters: undefined,
+        referenceDocuments: undefined,
+        customReferenceDocuments: undefined,
+      },
       editMaterial: undefined,
+      minimizedDialog: undefined,
     })
   ),
   on(addCustomCastingDiameter, (state, { castingDiameter }): DialogState => {
@@ -471,11 +485,11 @@ export const dialogReducer = createReducer(
 
   on(
     openEditDialog,
-    (state, { material, column }): DialogState => ({
+    (state, { row, column }): DialogState => ({
       ...state,
       editMaterial: {
         ...state.editMaterial,
-        material,
+        row,
         column,
         materialNames: undefined,
         materialNamesLoading: true,
@@ -484,6 +498,17 @@ export const dialogReducer = createReducer(
         supplierIds: undefined,
         supplierIdsLoading: true,
         loadingComplete: false,
+      },
+    })
+  ),
+
+  on(
+    setMaterialFormValue,
+    (state, { parsedMaterial }): DialogState => ({
+      ...state,
+      editMaterial: {
+        ...state.editMaterial,
+        parsedMaterial,
       },
     })
   ),
@@ -567,6 +592,17 @@ export const dialogReducer = createReducer(
       editMaterial: {
         ...state.editMaterial,
         loadingComplete: true,
+      },
+    })
+  ),
+
+  on(
+    minimizeDialog,
+    (state, { id, value }): DialogState => ({
+      ...state,
+      minimizedDialog: {
+        id,
+        value,
       },
     })
   )

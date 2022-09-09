@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { filter, map, pipe } from 'rxjs';
 
 import { createSelector, MemoizedSelector, select } from '@ngrx/store';
@@ -364,6 +365,22 @@ export const getCreateMaterialRecord = createSelector(
 export const getEditMaterialData = createSelector(
   getDialogState,
   (dialogState) => dialogState.editMaterial
+);
+
+export const getHasMinimizedDialog = createSelector(
+  getDialogState,
+  (dialogState) => !!dialogState.minimizedDialog
+);
+
+export const getMinimizedDialog = createSelector(
+  getDialogState,
+  (dialogState) => dialogState.minimizedDialog
+);
+
+export const getResumeDialogData = createSelector(
+  getEditMaterialData,
+  getMinimizedDialog,
+  (editMaterial, minimizedDialog) => ({ editMaterial, minimizedDialog })
 );
 
 export const getEditMaterialDataLoaded = pipe(
