@@ -104,6 +104,12 @@ describe('Overview Selector', () => {
             entryEmployee1,
           ],
           exitEmployees: [leaverIT1, leaverIT2, internalLeaver1],
+        },
+        loading: true,
+        errorMessage: undefined,
+      },
+      entriesExitsMeta: {
+        data: {
           fluctuationRate: {
             global: 0.041,
             dimension: 0.023,
@@ -196,15 +202,6 @@ describe('Overview Selector', () => {
   describe('getOverviewFluctuationRates', () => {
     it('should return actual fluctuation data', () => {
       expect(getOverviewFluctuationRates(fakeState)).toEqual({
-        entryEmployees: [
-          entryEmployee2,
-          entryEmployeeAfterTimeRange,
-          internalEntryEmployeeBeforeTimeRange,
-          internalEntryEmployee1,
-          entryEmployeeBeforeTimeRange,
-          entryEmployee1,
-        ],
-        exitEmployees: [leaverIT1, leaverIT2, internalLeaver1],
         fluctuationRate: {
           global: 0.041,
           dimension: 0.023,
@@ -270,7 +267,7 @@ describe('Overview Selector', () => {
     it('should return total headcount', () => {
       expect(
         getOverviewFluctuationTotalEmployeesCount.projector(fakeState.overview)
-      ).toEqual(fakeState.overview.entriesExits.data.totalEmployeesCount);
+      ).toEqual(fakeState.overview.entriesExitsMeta.data.totalEmployeesCount);
     });
   });
   describe('getOverviewFluctuationExitsCount', () => {
@@ -339,7 +336,6 @@ describe('Overview Selector', () => {
           orgUnit: '2.3%',
         },
         orgUnitName: 'Schaeffler_IT',
-        exitEmployees: [leaverIT1, leaverIT2],
         realEmployeesCount: 3,
       } as FluctuationKpi;
       const x = getOverviewFluctuationKpi(fakeState);
@@ -370,7 +366,7 @@ describe('Overview Selector', () => {
     });
   });
 
-  describe('getOveriviewUnforcedFluctuationKpi', () => {
+  describe('getOverviewUnforcedFluctuationKpi', () => {
     it('should return kpis', () => {
       const expectedResult = {
         kpiRates: {
@@ -378,7 +374,6 @@ describe('Overview Selector', () => {
           orgUnit: '6.5%',
         },
         orgUnitName: 'Schaeffler_IT',
-        exitEmployees: [leaverIT1, leaverIT2],
         realEmployeesCount: 0,
       } as FluctuationKpi;
       const x = getOverviewUnforcedFluctuationKpi(fakeState);

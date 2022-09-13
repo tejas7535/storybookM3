@@ -18,7 +18,7 @@
               <ia-kpi
                 [title]="(fluctuationKpi$ | ngrxPush)?.orgUnitName"
                 [value]="(fluctuationKpi$ | ngrxPush)?.kpiRates.orgUnit"
-                [employees]="(fluctuationKpi$ | ngrxPush)?.exitEmployees"
+                [employees]="[]"
                 [employeeListDialogMetaHeadings]="
                   employeeListDialogMetaHeadings$ | ngrxPush
                 "
@@ -56,9 +56,7 @@
               <ia-kpi
                 [title]="(unforcedFluctuationKpi$ | ngrxPush)?.orgUnitName"
                 [value]="(unforcedFluctuationKpi$ | ngrxPush)?.kpiRates.orgUnit"
-                [employees]="
-                  (unforcedFluctuationKpi$ | ngrxPush)?.exitEmployees
-                "
+                [employees]="[]"
                 [employeeListDialogMetaHeadings]="
                   employeeListDialogMetaHeadings$ | ngrxPush
                 "

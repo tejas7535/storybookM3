@@ -68,7 +68,6 @@ describe('OverviewSelectorUtils', () => {
       const expectedResult = new FluctuationKpi(
         fluctuationRates,
         selectedOrgUnit,
-        employees,
         5
       );
 
@@ -76,7 +75,6 @@ describe('OverviewSelectorUtils', () => {
         companyKpi,
         orgUnitKpi,
         selectedOrgUnit,
-        employees,
         5
       );
 

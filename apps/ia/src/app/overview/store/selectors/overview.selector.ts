@@ -5,7 +5,12 @@ import {
   getSelectedTimeRange,
   getSelectOrgUnitValueShort,
 } from '../../../core/store/selectors';
-import { ActionType, AttritionOverTime, IdValue } from '../../../shared/models';
+import {
+  ActionType,
+  AttritionOverTime,
+  Employee,
+  IdValue,
+} from '../../../shared/models';
 import { OverviewFluctuationRates } from '../../models/overview-fluctuation-rates.model';
 import { OverviewState, selectOverviewState } from '..';
 import * as utils from './overview-selector-utils';
@@ -27,18 +32,20 @@ export const getAttritionOverTimeOverviewData = createSelector(
 
 export const getOverviewFluctuationRates = createSelector(
   selectOverviewState,
+  (state: OverviewState) => state.entriesExitsMeta?.data
+);
+
+export const getOverviewExitsEntries = createSelector(
+  selectOverviewState,
   (state: OverviewState) => state.entriesExits?.data
 );
 
 export const getExitEmployees = createSelector(
-  getOverviewFluctuationRates,
+  getOverviewExitsEntries,
   getSelectedTimeRange,
-  (
-    overviewFluctuationRates: OverviewFluctuationRates,
-    selectedTimeRange: IdValue
-  ) =>
-    overviewFluctuationRates?.exitEmployees.filter(
-      (employee) =>
+  (overviewExitEntries: any, selectedTimeRange: IdValue) =>
+    overviewExitEntries?.exitEmployees.filter(
+      (employee: Employee) =>
         utils.isDateInTimeRange(selectedTimeRange.id, employee.exitDate) ||
         utils.isDateInTimeRange(
           selectedTimeRange.id,
@@ -61,7 +68,6 @@ export const getOverviewFluctuationKpi = createSelector(
           overviewFluctuationRates.fluctuationRate.global,
           overviewFluctuationRates.fluctuationRate.dimension,
           selectedOrgUnit.value,
-          utils.getExternalLeavers(overviewFluctuationRates.exitEmployees),
           overviewFluctuationRates.externalExitCount
         )
       : undefined
@@ -79,7 +85,6 @@ export const getOverviewUnforcedFluctuationKpi = createSelector(
           overviewFluctuationRates.unforcedFluctuationRate.global,
           overviewFluctuationRates.unforcedFluctuationRate.dimension,
           selectedOrgUnit.value,
-          utils.getUnforcedLeavers(overviewFluctuationRates.exitEmployees),
           overviewFluctuationRates.externalUnforcedExitCount
         )
       : undefined
@@ -87,31 +92,31 @@ export const getOverviewUnforcedFluctuationKpi = createSelector(
 
 export const getIsLoadingDoughnutsConfig = createSelector(
   selectOverviewState,
-  (overviewState: OverviewState) => overviewState.entriesExits?.loading
+  (overviewState: OverviewState) => overviewState.entriesExitsMeta?.loading
 );
 
 export const getInternalExitCount = createSelector(
   selectOverviewState,
   (overviewState: OverviewState) =>
-    overviewState.entriesExits?.data?.internalExitCount
+    overviewState.entriesExitsMeta?.data?.internalExitCount
 );
 
 export const getExternalExitCount = createSelector(
   selectOverviewState,
   (overviewState: OverviewState) =>
-    overviewState.entriesExits?.data?.externalExitCount
+    overviewState.entriesExitsMeta?.data?.externalExitCount
 );
 
 export const getInternalEntryCount = createSelector(
   selectOverviewState,
   (overviewState: OverviewState) =>
-    overviewState.entriesExits?.data?.internalEntryCount
+    overviewState.entriesExitsMeta?.data?.internalEntryCount
 );
 
 export const getExternalEntryCount = createSelector(
   selectOverviewState,
   (overviewState: OverviewState) =>
-    overviewState.entriesExits?.data?.externalEntryCount
+    overviewState.entriesExitsMeta?.data?.externalEntryCount
 );
 
 export const getOverviewFluctuationExitsDoughnutConfig = createSelector(
@@ -138,18 +143,15 @@ export const getOverviewFluctuationEntriesCount = createSelector(
 export const getOverviewFluctuationTotalEmployeesCount = createSelector(
   selectOverviewState,
   (overviewState: OverviewState) =>
-    overviewState.entriesExits.data?.totalEmployeesCount
+    overviewState.entriesExitsMeta.data?.totalEmployeesCount
 );
 
 export const getEntryEmployees = createSelector(
-  getOverviewFluctuationRates,
+  getOverviewExitsEntries,
   getSelectedTimeRange,
-  (
-    overviewFluctuationRates: OverviewFluctuationRates,
-    selectedTimeRange: IdValue
-  ) =>
-    overviewFluctuationRates?.entryEmployees.filter(
-      (employee) =>
+  (overviewExitsEntries: any, selectedTimeRange: IdValue) =>
+    overviewExitsEntries?.entryEmployees.filter(
+      (employee: Employee) =>
         utils.isDateInTimeRange(selectedTimeRange.id, employee.entryDate) ||
         utils.isDateInTimeRange(
           selectedTimeRange.id,

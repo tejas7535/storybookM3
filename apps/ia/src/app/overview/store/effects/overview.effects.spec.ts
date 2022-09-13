@@ -188,8 +188,6 @@ describe('Overview Effects', () => {
       'should return loadOverviewFluctuationRatesSuccess action when REST call is successful',
       marbles((m) => {
         const data: OverviewFluctuationRates = {
-          entryEmployees: [],
-          exitEmployees: [],
           totalEmployeesCount: 0,
           fluctuationRate: { global: 0, dimension: 0 },
           unforcedFluctuationRate: { global: 0, dimension: 0 },

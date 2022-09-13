@@ -29,7 +29,6 @@ export function createFluctuationKpi(
   company: number,
   orgUnit: number,
   orgUnitName: string,
-  employees: Employee[],
   realEmployeesCount: number
 ) {
   const companyPercentageRate = getPercentageValueSigned(company);
@@ -39,12 +38,7 @@ export function createFluctuationKpi(
     orgUnitPercentageValue
   );
 
-  return new FluctuationKpi(
-    fluctuationRates,
-    orgUnitName,
-    employees,
-    realEmployeesCount
-  );
+  return new FluctuationKpi(fluctuationRates, orgUnitName, realEmployeesCount);
 }
 
 export function isDateInTimeRange(

@@ -34,6 +34,11 @@ export interface OverviewState {
     errorMessage: string;
   };
   entriesExits: {
+    data: any;
+    loading: boolean;
+    errorMessage: string;
+  };
+  entriesExitsMeta: {
     data: OverviewFluctuationRates;
     loading: boolean;
     errorMessage: string;
@@ -62,6 +67,11 @@ export const initialState: OverviewState = {
     errorMessage: undefined,
   },
   entriesExits: {
+    data: undefined,
+    loading: false,
+    errorMessage: undefined,
+  },
+  entriesExitsMeta: {
     data: undefined,
     loading: false,
     errorMessage: undefined,
@@ -122,8 +132,8 @@ export const overviewReducer = createReducer(
     loadFluctuationRatesOverview,
     (state: OverviewState): OverviewState => ({
       ...state,
-      entriesExits: {
-        ...state.entriesExits,
+      entriesExitsMeta: {
+        ...state.entriesExitsMeta,
         loading: true,
       },
     })
@@ -132,8 +142,8 @@ export const overviewReducer = createReducer(
     loadFluctuationRatesOverviewSuccess,
     (state: OverviewState, { data }): OverviewState => ({
       ...state,
-      entriesExits: {
-        ...state.entriesExits,
+      entriesExitsMeta: {
+        ...state.entriesExitsMeta,
         data,
         loading: false,
       },
@@ -143,8 +153,8 @@ export const overviewReducer = createReducer(
     loadFluctuationRatesOverviewFailure,
     (state: OverviewState, { errorMessage }): OverviewState => ({
       ...state,
-      entriesExits: {
-        ...state.entriesExits,
+      entriesExitsMeta: {
+        ...state.entriesExitsMeta,
         errorMessage,
         data: undefined,
         loading: false,
