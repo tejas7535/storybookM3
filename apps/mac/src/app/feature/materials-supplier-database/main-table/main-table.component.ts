@@ -40,7 +40,10 @@ import {
   SIDE_BAR_CONFIG,
 } from '@mac/msd/main-table/table-config';
 import { DataResult, DialogData, MaterialFormValue } from '@mac/msd/models';
-import { MsdAgGridStateService } from '@mac/msd/services';
+import {
+  MsdAgGridReadyService,
+  MsdAgGridStateService,
+} from '@mac/msd/services';
 import {
   DataFacade,
   fetchClassAndCategoryOptions,
@@ -123,6 +126,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly agGridStateService: MsdAgGridStateService,
+    private readonly agGridReadyService: MsdAgGridReadyService,
     private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly datePipe: DatePipe,
     private readonly applicationInsightsService: ApplicationInsightsService,
@@ -366,6 +370,11 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.displayCount = api.getDisplayedRowCount();
     this.setVisibleColumns();
+
+    this.agGridReadyService.agGridApiready(
+      this.agGridApi,
+      this.agGridColumnApi
+    );
   }
 
   public onColumnChange({ columnApi }: { columnApi: ColumnApi }): void {

@@ -5,6 +5,7 @@ import { Action, Store } from '@ngrx/store';
 import { hasIdTokenRole } from '@schaeffler/azure-auth';
 
 import {
+  getAgGridColumns,
   getAgGridFilter,
   getEditMaterialData,
   getEditMaterialDataLoaded,
@@ -37,6 +38,7 @@ export class DataFacade {
 
   filters$ = this.store.select(getFilters);
   agGridFilter$ = this.store.select(getAgGridFilter);
+  agGridColumns$ = this.store.select(getAgGridColumns);
 
   shareQueryParams$ = this.store.select(getShareQueryParams);
 

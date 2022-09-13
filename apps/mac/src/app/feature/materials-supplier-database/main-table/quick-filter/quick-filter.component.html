@@ -1,0 +1,51 @@
+<div
+  *transloco="let t; read: 'materialsSupplierDatabase.mainTable.quickfilter'"
+>
+  <mat-button-toggle-group
+    (change)="onQuickfilterSelect($event)"
+    [value]="active"
+    class="!rounded-b-none !border-b-0"
+  >
+    <mat-button-toggle
+      class="bg-[#fafafa] px-1 !text-caption text-medium-emphasis hover:!font-medium hover:text-high-emphasis [&>button>span]:!leading-8 [&>.mat-button-toggle-focus-overlay]:hidden"
+      *ngFor="let item of staticFilters; let i = index"
+      [value]="item"
+      [ngClass]="{
+        '!bg-secondary font-medium text-high-emphasis': item === active
+      }"
+    >
+      {{ t('defaultfilters.' + item.title) }}
+      <mat-icon *ngIf="i !== 0" class="mb-0.5 ml-2.5 !h-3 !w-3 !text-[12px]"
+        >lock_outline</mat-icon
+      >
+    </mat-button-toggle>
+
+    <mat-button-toggle
+      class="bg-[#fafafa] px-1 !text-caption text-medium-emphasis hover:!font-medium hover:text-high-emphasis [&>button>span]:!leading-8 [&>.mat-button-toggle-focus-overlay]:hidden"
+      *ngFor="let item of customFilters$ | ngrxPush"
+      [value]="item"
+      [ngClass]="{
+        '!bg-secondary font-medium text-high-emphasis': item === active
+      }"
+    >
+      {{ item.title }}
+      <mat-icon
+        class="mb-0.5 ml-2.5 !h-3 !w-3 !text-[12px]"
+        (click)="edit(item); $event.stopPropagation()"
+        >edit</mat-icon
+      >
+      <mat-icon
+        class="mb-0.5 ml-2.5 !h-3 !w-3 !text-[12px]"
+        (click)="remove(item); $event.stopPropagation()"
+        >close</mat-icon
+      >
+    </mat-button-toggle>
+    <mat-button-toggle
+      class="!bg-[#fafafa] px-1 !text-caption text-medium-emphasis hover:text-high-emphasis [&>button>span]:!leading-8 [&>.mat-button-toggle-focus-overlay]:hidden [&>button]:!cursor-pointer"
+      disabled="true"
+      (click)="add()"
+    >
+      <mat-icon class="!h-3 !text-[12px]">add</mat-icon>
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+</div>

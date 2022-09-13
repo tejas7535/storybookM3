@@ -81,10 +81,12 @@
         else loading
       "
     >
+      <mac-quick-filter></mac-quick-filter>
+
       <div class="flex w-full flex-1" *ngIf="result$ | ngrxPush">
         <div class="h-full w-full">
           <ag-grid-angular
-            class="ag-theme-material h-full"
+            class="ag-theme-material h-full border border-border"
             [columnDefs]="columnDefs"
             [defaultColDef]="defaultColDef"
             [sideBar]="sidebar"

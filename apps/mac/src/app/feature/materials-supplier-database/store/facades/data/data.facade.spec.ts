@@ -59,6 +59,7 @@ describe('DataFacade', () => {
               materialClassLoading: false,
               productCategoryLoading: false,
               filter: mockFilters,
+              agGridColumns: 'agGridColumns',
             },
             dialog: {
               editMaterial: {
@@ -213,6 +214,19 @@ describe('DataFacade', () => {
         });
 
         m.expect(facade.agGridFilter$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('agGridColumns$', () => {
+    it(
+      'should provide the agGridColumns',
+      marbles((m) => {
+        const expected = m.cold('a', {
+          a: 'agGridColumns',
+        });
+
+        m.expect(facade.agGridColumns$).toBeObservable(expected);
       })
     );
   });

@@ -394,6 +394,22 @@
         "maxDimension": "Maximum dimension (diameter, thickness) allowed to be delivered by supplier",
         "rating": "Quality level of steel supplier according to S 266042 (if available); from RSI (highest quality) to RSIII (lowest quality)",
         "steelMakingProcess": "Details on steelmaking process; BF: blast furnace, DRI: direct reduced iron, BOF: basic oxygen furnace, EAF: electric arc furnace, EOF: energy optimizing furnace, VIM: vacuum induction melting, VAR: vacuum arc remelting, ESR: electro slag remelting"
+      },
+      "quickfilter": {
+        "defaultfilters": {
+          "default": "All view",
+          "co2": "CO2e emissions",
+          "rating": "SupplierRating"
+        },
+        "dialog": {
+          "title_add": "Set View name",
+          "title_edit": "Edit View name",
+          "name": "View name:",
+          "save": "Apply",
+          "cancel": "Cancel",
+          "radio_current": "Create from current view",
+          "radio_default": "Create from standard view"
+        }
       }
     },
     "materialClass": "Material Class",

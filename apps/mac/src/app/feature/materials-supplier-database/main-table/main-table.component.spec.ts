@@ -43,7 +43,7 @@ import {
   COLUMN_DEFINITIONS,
   SAP_SUPPLIER_IDS,
 } from '@mac/msd/main-table/table-config/column-definitions';
-import { DataResult, DialogData, MaterialFormValue } from '@mac/msd/models';
+import { DataResult, MaterialFormValue } from '@mac/msd/models';
 import {
   fetchMaterials,
   materialDialogOpened,
@@ -54,10 +54,13 @@ import {
 } from '@mac/msd/store/actions';
 import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
 import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
+import { initialState as initialQuickfilterState } from '@mac/msd/store/reducers/quickfilter/quickfilter.reducer';
 
 import * as en from '../../../../assets/i18n/en.json';
+import { DialogData } from '../models/data/dialog-data.model';
 import { MainTableComponent } from './main-table.component';
 import { MainTableRoutingModule } from './main-table-routing.module';
+import { QuickFilterComponent } from './quick-filter/quick-filter.component';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
@@ -72,7 +75,11 @@ describe('MainTableComponent', () => {
   let router: Router;
 
   const initialState = {
-    msd: { data: initialDataState, dialog: initialDialogState },
+    msd: {
+      data: initialDataState,
+      dialog: initialDialogState,
+      quickfilter: initialQuickfilterState,
+    },
     'azure-auth': {
       accountInfo: {
         idTokenClaims: {
@@ -110,6 +117,7 @@ describe('MainTableComponent', () => {
       LoadingSpinnerModule,
       MatCheckboxModule,
       MatIconModule,
+      QuickFilterComponent,
       provideTranslocoTestingModule({ en }),
     ],
     providers: [
@@ -681,6 +689,7 @@ describe('MainTableComponent', () => {
 
       // eslint-disable-next-line unicorn/no-useless-undefined
       component['agGridStateService'].getColumnState = jest.fn(() => undefined);
+      component['agGridReadyService'].agGridApiready = jest.fn(() => '');
 
       component.setAgGridFilter = jest.fn();
 
@@ -702,6 +711,7 @@ describe('MainTableComponent', () => {
       expect(component['agGridStateService'].getColumnState).toHaveBeenCalled();
       expect(component.setAgGridFilter).toHaveBeenCalledWith({ api: mockApi });
       expect(component['setVisibleColumns']).toHaveBeenCalled();
+      expect(component['agGridReadyService'].agGridApiready).toHaveBeenCalled();
     });
     it('should dispatch setFilteredRows and set column count and apply column state if column state is defined', () => {
       const mockDataResult: DataResult = {
@@ -721,6 +731,7 @@ describe('MainTableComponent', () => {
 
       // eslint-disable-next-line unicorn/no-useless-undefined
       component['agGridStateService'].getColumnState = jest.fn(() => []);
+      component['agGridReadyService'].agGridApiready = jest.fn(() => '');
       component.setAgGridFilter = jest.fn();
 
       component['agGridApi'] = undefined;
@@ -744,6 +755,7 @@ describe('MainTableComponent', () => {
       expect(component['agGridStateService'].getColumnState).toHaveBeenCalled();
       expect(component.setAgGridFilter).toHaveBeenCalledWith({ api: mockApi });
       expect(component['setVisibleColumns']).toHaveBeenCalled();
+      expect(component['agGridReadyService'].agGridApiready).toHaveBeenCalled();
     });
   });
   describe('onColumnChange', () => {
