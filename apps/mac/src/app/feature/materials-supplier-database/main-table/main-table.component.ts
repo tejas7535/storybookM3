@@ -605,5 +605,12 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public toggleSideBar() {
     this.minimizeSideBar = !this.minimizeSideBar;
+    if (this.minimizeSideBar) {
+      this.productCategorySelectionControl.disable({ emitEvent: false });
+      this.materialClassSelectionControl.disable({ emitEvent: false });
+    } else {
+      this.productCategorySelectionControl.enable({ emitEvent: false });
+      this.materialClassSelectionControl.enable({ emitEvent: false });
+    }
   }
 }

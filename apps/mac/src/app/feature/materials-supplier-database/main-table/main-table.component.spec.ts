@@ -1746,6 +1746,8 @@ describe('MainTableComponent', () => {
       expect(component.minimizeSideBar).toBeFalsy();
       component.toggleSideBar();
       expect(component.minimizeSideBar).toBeTruthy();
+      expect(component.productCategorySelectionControl.disabled).toBeTruthy();
+      expect(component.materialClassSelectionControl.disabled).toBeTruthy();
     });
 
     it('change back after second toggle', () => {
@@ -1753,6 +1755,8 @@ describe('MainTableComponent', () => {
       component.toggleSideBar();
       component.toggleSideBar();
       expect(component.minimizeSideBar).toBeFalsy();
+      expect(component.productCategorySelectionControl.disabled).toBeFalsy();
+      expect(component.materialClassSelectionControl.disabled).toBeFalsy();
     });
   });
 });
