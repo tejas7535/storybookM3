@@ -2,7 +2,6 @@ import { ColDef } from 'ag-grid-enterprise';
 
 export const DEFAULT_COLUMN_DEFS: ColDef = {
   enablePivot: false,
-  enableRowGroup: true,
   filter: true,
   floatingFilter: true,
   menuTabs: ['generalMenuTab'],
