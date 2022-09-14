@@ -40,22 +40,15 @@
               </mat-form-field>
               <mat-form-field appearance="outline" class="md:w-72">
                 <mat-label>{{ t('from') }}</mat-label>
-                <mat-select [formControl]="inputUnit">
-                  <mat-select-trigger>
-                    {{ initialInput.controls.inputUnit.value }}
-                    <ng-container
-                      *ngIf="initialInput.controls.inputUnit.value === MPA"
-                    >
-                      <span [matTooltip]="utsTooltip">{{ t('uts') }}</span>
-                    </ng-container></mat-select-trigger
-                  >
+                <mat-select
+                  [formControl]="inputUnit"
+                  [matTooltip]="getTooltip(inputUnit.value)"
+                >
                   <mat-option
                     *ngFor="let unit of units$ | ngrxPush; trackBy: trackByFn"
                     [value]="unit"
-                    >{{ unit }}
-                    <ng-container *ngIf="unit === MPA">
-                      <span [matTooltip]="utsTooltip">{{ t('uts') }}</span>
-                    </ng-container>
+                    [matTooltip]="getTooltip(unit)"
+                    >{{ t('unit.' + unit) }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -102,11 +95,9 @@
                 <mac-copy-input
                   class="w-full"
                   [value]="average$ | ngrxPush"
-                  [unit]="inputUnit.value"
+                  [unit]="t('resultunit.' + inputUnit.value)"
                   [label]="t('averageValue')"
-                  [tooltip]="
-                    inputUnit.value === MPA ? t('utsTooltip') : undefined
-                  "
+                  [tooltip]="getTooltip(inputUnit.value)"
                   [precision]="getPrecision(inputUnit.value)"
                 ></mac-copy-input>
               </div>
@@ -114,11 +105,9 @@
                 <mac-copy-input
                   class="w-full"
                   [value]="standardDeviation$ | ngrxPush"
-                  [unit]="inputUnit.value"
+                  [unit]="t('resultunit.' + inputUnit.value)"
                   [label]="t('standardDeviation')"
-                  [tooltip]="
-                    inputUnit.value === MPA ? t('utsTooltip') : undefined
-                  "
+                  [tooltip]="getTooltip(inputUnit.value)"
                   [precision]="1"
                 ></mac-copy-input>
               </div>
@@ -164,8 +153,8 @@
                   class="w-full"
                   [value]="result.value"
                   [warning]="result.warning"
-                  [unit]="result.unit"
-                  [tooltip]="result.unit === MPA ? utsTooltip : undefined"
+                  [unit]="t('resultunit.' + result.unit)"
+                  [tooltip]="getTooltip(result.unit)"
                   [precision]="getPrecision(result.unit)"
                 ></mac-copy-input>
               </div>

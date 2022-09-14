@@ -212,4 +212,10 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
   public trackByFn(index: number): number {
     return index;
   }
+
+  public getTooltip(unit: string): string | undefined {
+    return unit === MPA
+      ? this.translocoService.translate('hardnessConverter.utsTooltip')
+      : undefined;
+  }
 }

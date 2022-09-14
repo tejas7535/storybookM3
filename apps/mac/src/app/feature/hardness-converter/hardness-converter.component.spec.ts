@@ -360,4 +360,13 @@ describe('HardnessConverterComponent', () => {
       expect(result).toEqual(3);
     });
   });
+
+  describe('getTooltip', () => {
+    it('should return translation for MPA', () => {
+      expect(component.getTooltip('MPa')).toBeTruthy();
+    });
+    it("should return 'undefined' for other units", () => {
+      expect(component.getTooltip('HC')).toBeFalsy();
+    });
+  });
 });

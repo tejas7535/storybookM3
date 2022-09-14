@@ -22,6 +22,28 @@
     "qaSystem": "Test System (Quality)"
   },
   "hardnessConverter": {
+    "unit": {
+      "HRa": "HRA",
+      "HRA": "HRA",
+      "HRb": "HRB",
+      "HRB": "HRB",
+      "HRc": "HRC",
+      "HRC": "HRC",
+      "MPa": "MPa (UTS)",
+      "HV": "HV",
+      "HB": "HB"
+    },
+    "resultunit": {
+      "HRa": "HRA",
+      "HRA": "HRA",
+      "HRb": "HRB",
+      "HRB": "HRB",
+      "HRc": "HRC",
+      "HRC": "HRC",
+      "MPa": "MPa",
+      "HV": "HV",
+      "HB": "HB"
+    },
     "averageValue": "Average value",
     "close": "Close",
     "convertedAfter": "Converted after {{norm}}",
@@ -36,7 +58,6 @@
     "standardDeviation": "Standard deviation",
     "statisticalEvaluation": "Statistical evaluation",
     "title": "Hardness Converter",
-    "uts": "(UTS)",
     "utsTooltip": "Ultimate tensile strength",
     "value": "Value",
     "valuesCalculatedWith": "Values calculated with Backend v.{{version}}"
