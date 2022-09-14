@@ -15,16 +15,14 @@ import { QuotationDetail } from '../../models/quotation-detail';
 import { PriceService } from './price.service';
 
 describe('PriceService', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe('addCalculationForDetail', () => {
     test('should return detail', () => {
       const detail: QuotationDetail = {
         ...QUOTATION_DETAIL_MOCK,
-        gpi: 0,
-        gpm: 0,
-        lastCustomerPriceGpi: 0,
-        lastCustomerPriceGpm: 0,
-        priceDiff: 0,
-        netValue: 0,
       };
 
       PriceService.addCalculationsForDetail(detail);
@@ -32,6 +30,58 @@ describe('PriceService', () => {
       expect(detail).toEqual(QUOTATION_DETAIL_MOCK);
     });
   });
+
+  [
+    { value: 20, roundedValue: 20 },
+    { value: 20.01, roundedValue: 20.01 },
+    { value: 20.012, roundedValue: 20.01 },
+    { value: 20.018, roundedValue: 20.02 },
+    { value: 20.016, roundedValue: 20.02 },
+    { value: 20.024, roundedValue: 20.02 },
+    { value: 20.0149, roundedValue: 20.01 },
+    { value: 20.0144, roundedValue: 20.01 },
+    { value: 20.014_56, roundedValue: 20.01 },
+    { value: 20.014_423, roundedValue: 20.01 },
+  ].forEach((testCase) => {
+    test(`should correctly round all price values of ${testCase.value} to ${testCase.roundedValue}`, () => {
+      const detail: QuotationDetail = {
+        ...QUOTATION_DETAIL_MOCK,
+        price: testCase.value,
+        recommendedPrice: testCase.value,
+        lastCustomerPrice: testCase.value,
+        gpc: testCase.value,
+        sqv: testCase.value,
+      };
+
+      PriceService.addCalculationsForDetail(detail);
+
+      expect(detail.price).toEqual(testCase.roundedValue);
+      expect(detail.recommendedPrice).toEqual(testCase.roundedValue);
+      expect(detail.lastCustomerPrice).toEqual(testCase.roundedValue);
+      expect(detail.gpc).toEqual(testCase.roundedValue);
+      expect(detail.sqv).toEqual(testCase.roundedValue);
+    });
+  });
+
+  // eslint-disable-next-line unicorn/no-null
+  ['asd', undefined, null].forEach((val) => {
+    test(`should not round invalid value ${val}`, () => {
+      const spy = jest.spyOn(PriceService, 'roundValue');
+      const detail: QuotationDetail = {
+        ...QUOTATION_DETAIL_MOCK,
+        price: val as any,
+        recommendedPrice: val as any,
+        lastCustomerPrice: val as any,
+        gpc: val as any,
+        sqv: val as any,
+      };
+
+      PriceService.addCalculationsForDetail(detail);
+
+      expect(spy).not.toHaveBeenCalled();
+    });
+  });
+
   describe('multiplyAndRoundValues', () => {
     test('should return multiplied rounded value', () => {
       const result = PriceService.multiplyAndRoundValues(1.111_11, 100);

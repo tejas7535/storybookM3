@@ -17,6 +17,28 @@ export class PriceService {
   }
 
   static addCalculationsForDetail(detail: QuotationDetail): void {
+    // First we need to round the price value to prevent wrong calculations down the line
+    // See GQUOTE-1673
+    if (typeof detail.price === 'number') {
+      detail.price = this.roundValue(detail.price);
+    }
+
+    if (typeof detail.recommendedPrice === 'number') {
+      detail.recommendedPrice = this.roundValue(detail.recommendedPrice);
+    }
+
+    if (typeof detail.lastCustomerPrice === 'number') {
+      detail.lastCustomerPrice = this.roundValue(detail.lastCustomerPrice);
+    }
+
+    if (typeof detail.gpc === 'number') {
+      detail.gpc = this.roundValue(detail.gpc);
+    }
+
+    if (typeof detail.sqv === 'number') {
+      detail.sqv = this.roundValue(detail.sqv);
+    }
+
     detail.netValue = PriceService.calculateNetValue(
       detail.price,
       detail.orderQuantity
@@ -42,6 +64,9 @@ export class PriceService {
     );
     PriceService.calculateSapPriceValues(detail);
   }
+
+  static roundValue = (val: number) =>
+    Math.round((val + Number.EPSILON) * 100) / 100;
 
   static calculatePriceUnitValues(detail: QuotationDetail): void {
     const { priceUnit } = detail.material;
