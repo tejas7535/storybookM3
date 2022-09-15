@@ -37,6 +37,9 @@
                   type="number"
                   [step]="step"
                 />
+                <mat-error *ngIf="inputValue.invalid"
+                  >{{ t('negativeValueError') }}
+                </mat-error>
               </mat-form-field>
               <mat-form-field appearance="outline" class="md:w-72">
                 <mat-label>{{ t('from') }}</mat-label>
@@ -63,6 +66,9 @@
                     [step]="step"
                     type="number"
                   />
+                  <mat-error *ngIf="inputGroup.get('0')"
+                    >{{ t('negativeValueError') }}
+                  </mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="md:w-72">
                   <mat-label>{{ t('value') }}</mat-label>
@@ -72,6 +78,9 @@
                     [step]="step"
                     type="number"
                   />
+                  <mat-error *ngIf="inputGroup.get('1')"
+                    >{{ t('negativeValueError') }}
+                  </mat-error>
                 </mat-form-field>
               </div>
             </ng-container>
@@ -114,7 +123,10 @@
             </div>
             <div
               class="my-4 max-w-fit"
-              *ngIf="(conversionResult$ | ngrxPush).deviationWarning"
+              *ngIf="
+                (conversionResult$ | ngrxPush) &&
+                (conversionResult$ | ngrxPush).deviationWarning
+              "
             >
               <div
                 class="flex min-w-0 flex-row gap-4 rounded border border-warning bg-sunny-yellow bg-opacity-10 p-3"

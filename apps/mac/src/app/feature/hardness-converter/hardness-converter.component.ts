@@ -6,9 +6,11 @@ import {
   OnInit,
 } from '@angular/core';
 import {
+  FormControl,
   UntypedFormArray,
   UntypedFormControl,
   UntypedFormGroup,
+  Validators,
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -43,7 +45,7 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
   public units$ = new ReplaySubject<string[]>();
   public version$ = new ReplaySubject<string>();
 
-  public inputValue = new UntypedFormControl(undefined);
+  public inputValue = this.createInputFormControl();
   public inputUnit = new UntypedFormControl(HV);
 
   public initialInput = new UntypedFormGroup({
@@ -114,7 +116,9 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
         filter(({ values }) => values.length > 0)
       )
       .subscribe(({ values, unit }) => {
-        if (values.length > 1) {
+        if (!this.conversionForm.valid) {
+          this.resetResult();
+        } else if (values.length > 1) {
           this.calculateValues(values);
         } else {
           this.multipleValues$.next(false);
@@ -175,8 +179,8 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
 
   public onAddButtonClick(): void {
     const newInputs = new UntypedFormGroup({
-      [0]: new UntypedFormControl(),
-      [1]: new UntypedFormControl(),
+      [0]: this.createInputFormControl(),
+      [1]: this.createInputFormControl(),
     });
     this.additionalInputs.push(newInputs, { emitEvent: false });
     this.conversionForm.markAsTouched();
@@ -217,5 +221,15 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
     return unit === MPA
       ? this.translocoService.translate('hardnessConverter.utsTooltip')
       : undefined;
+  }
+
+  private createInputFormControl() {
+    return new FormControl<number>(undefined, Validators.min(0));
+  }
+
+  private resetResult() {
+    // eslint-disable-next-line unicorn/no-useless-undefined
+    this.conversionResult$.next(undefined);
+    this.multipleValues$.next(false);
   }
 }

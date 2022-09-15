@@ -1,5 +1,5 @@
 import { waitForAsync } from '@angular/core/testing';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -134,11 +134,11 @@ describe('HardnessConverterComponent', () => {
 
       jest.advanceTimersByTime(500);
 
-      const mockControl = new FormControl();
+      const mockControl = component['createInputFormControl']();
 
       component.additionalInputs.push(
         new FormGroup({
-          [0]: new FormControl(),
+          [0]: component['createInputFormControl'](),
           [1]: mockControl,
         })
       );
@@ -173,6 +173,60 @@ describe('HardnessConverterComponent', () => {
       expect(component['calculateValues']).not.toHaveBeenCalled();
       expect(component.multipleValues$.next).toHaveBeenCalledWith(false);
       expect(component['convertValue']).toHaveBeenCalledWith(500, 'HV');
+    });
+
+    it('should parse the values and reset calculation on negative items', () => {
+      jest.useFakeTimers();
+      component['setupUnitList'] = jest.fn();
+
+      component['calculateValues'] = jest.fn();
+      component['convertValue'] = jest.fn();
+      component['resetResult'] = jest.fn();
+
+      component.ngOnInit();
+
+      const mockControl = component['createInputFormControl']();
+
+      component.additionalInputs.push(
+        new FormGroup({
+          [0]: component['createInputFormControl'](),
+          [1]: mockControl,
+        })
+      );
+      mockControl.patchValue(7);
+      component.inputValue.patchValue(-1);
+      jest.advanceTimersByTime(500);
+
+      expect(component['calculateValues']).not.toHaveBeenCalled();
+      expect(component['convertValue']).not.toHaveBeenCalled();
+      expect(component['resetResult']).toHaveBeenCalled();
+    });
+
+    it('should parse the values and reset calculation on negative additional input', () => {
+      jest.useFakeTimers();
+      component['setupUnitList'] = jest.fn();
+
+      component['calculateValues'] = jest.fn();
+      component['convertValue'] = jest.fn();
+      component['resetResult'] = jest.fn();
+
+      component.ngOnInit();
+
+      const mockControl = component['createInputFormControl']();
+
+      component.additionalInputs.push(
+        new FormGroup({
+          [0]: component['createInputFormControl'](),
+          [1]: mockControl,
+        })
+      );
+      component.inputValue.patchValue(7);
+      mockControl.patchValue(-1);
+      jest.advanceTimersByTime(500);
+
+      expect(component['calculateValues']).not.toHaveBeenCalled();
+      expect(component['convertValue']).not.toHaveBeenCalled();
+      expect(component['resetResult']).toHaveBeenCalled();
     });
   });
 
@@ -368,5 +422,29 @@ describe('HardnessConverterComponent', () => {
     it("should return 'undefined' for other units", () => {
       expect(component.getTooltip('HC')).toBeFalsy();
     });
+  });
+
+  describe('createInputFormControl', () => {
+    it('should allow positive input', () => {
+      const comp = component['createInputFormControl']();
+      comp.setValue(77);
+      expect(comp.valid).toBeTruthy();
+    });
+
+    it('should NOT allow negative input', () => {
+      const comp = component['createInputFormControl']();
+      comp.setValue(-4);
+      expect(comp.valid).toBeFalsy();
+    });
+  });
+
+  it('resetResult should reset result and multiValue fields', () => {
+    component.conversionResult$.next = jest.fn();
+    component.multipleValues$.next = jest.fn();
+
+    component['resetResult']();
+    // eslint-disable-next-line unicorn/no-useless-undefined
+    expect(component.conversionResult$.next).toBeCalledWith(undefined);
+    expect(component.multipleValues$.next).toBeCalledWith(false);
   });
 });

@@ -60,7 +60,8 @@
     "title": "Hardness Converter",
     "utsTooltip": "Ultimate tensile strength",
     "value": "Value",
-    "valuesCalculatedWith": "Values calculated with Backend v.{{version}}"
+    "valuesCalculatedWith": "Values calculated with Backend v.{{version}}",
+    "negativeValueError": "Hardness and strength values must be positive!"
   },
   "learnmore": {
     "default": {
