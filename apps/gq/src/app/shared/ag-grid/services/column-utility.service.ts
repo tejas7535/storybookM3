@@ -21,6 +21,7 @@ import { UomPipe } from '../../pipes/uom/uom.pipe';
 import { HelperService } from '../../services/helper-service/helper-service.service';
 import { PriceService } from '../../services/price-service/price.service';
 import {
+  ChinaSpecificColumns,
   ColumnFields,
   GpcColumns,
   SqvColumns,
@@ -77,9 +78,11 @@ export class ColumnUtilityService {
     return colDefs.filter(
       (col: ColDef) =>
         ColumnUtilityService.filterGpc(col, roles) &&
-        ColumnUtilityService.filterSqv(col, roles)
+        ColumnUtilityService.filterSqv(col, roles) &&
+        ColumnUtilityService.filterChinaSpecificColumns(col, roles)
     );
   }
+
   static filterGpc(col: ColDef, roles: string[]): boolean {
     return GpcColumns.includes(col.field as ColumnFields)
       ? roles.includes(UserRoles.COST_GPC)
@@ -89,6 +92,16 @@ export class ColumnUtilityService {
   static filterSqv(col: ColDef, roles: string[]): boolean {
     return SqvColumns.includes(col.field as ColumnFields)
       ? roles.includes(UserRoles.COST_SQV)
+      : true;
+  }
+
+  static filterChinaSpecificColumns(col: ColDef, roles: string[]): boolean {
+    return ChinaSpecificColumns.includes(col.field as ColumnFields)
+      ? roles.some((role) =>
+          [UserRoles.REGION_GREATER_CHINA, UserRoles.REGION_WORLD].includes(
+            role as UserRoles
+          )
+        )
       : true;
   }
 

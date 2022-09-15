@@ -170,11 +170,52 @@ describe('CreateColumnService', () => {
       });
     });
   });
+  describe('filterChinaSpecificColumns', () => {
+    test('should return false on missing role', () => {
+      const userRoles = [
+        UserRoles.BASIC,
+        UserRoles.COST_GPC,
+        UserRoles.COST_SQV,
+        UserRoles.SECTOR_ALL,
+      ];
+      const col = { field: ColumnFields.STRATEGIC_MATERIAL };
+      const res = ColumnUtilityService.filterChinaSpecificColumns(
+        col,
+        userRoles
+      );
+
+      expect(res).toBeFalsy();
+    });
+    test('should return true on REGION.GREATER.CHINA', () => {
+      const userRoles = [UserRoles.REGION_GREATER_CHINA];
+      const col = { field: ColumnFields.STRATEGIC_MATERIAL };
+      const res = ColumnUtilityService.filterChinaSpecificColumns(
+        col,
+        userRoles
+      );
+
+      expect(res).toBeTruthy();
+    });
+    test('should return true on REGION.WORLD', () => {
+      const userRoles = [UserRoles.REGION_WORLD];
+      const col = { field: ColumnFields.STRATEGIC_MATERIAL };
+      const res = ColumnUtilityService.filterChinaSpecificColumns(
+        col,
+        userRoles
+      );
+
+      expect(res).toBeTruthy();
+    });
+  });
 
   describe('createColumnDefs', () => {
     test('should return all cols', () => {
       ColumnUtilityService.filterGpc = jest.fn().mockReturnValue(true);
       ColumnUtilityService.filterSqv = jest.fn().mockReturnValue(true);
+      ColumnUtilityService.filterChinaSpecificColumns = jest
+        .fn()
+        .mockReturnValue(true);
+
       const allRoles = [
         UserRoles.BASIC,
         UserRoles.COST_GPC,

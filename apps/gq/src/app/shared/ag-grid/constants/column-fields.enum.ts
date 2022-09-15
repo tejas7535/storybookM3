@@ -32,6 +32,7 @@ export enum ColumnFields {
   RECOMMENDED_PRICE = 'recommendedPrice',
   PRICE_DIFF = 'priceDiff',
   DATE_NEXT_FREE_ATP = 'materialStockByPlant.dateNextFree',
+  STRATEGIC_MATERIAL = 'strategicMaterial',
 }
 
 export enum SapPriceDetailsColumnFields {
@@ -99,3 +100,5 @@ export const GpcColumns = [
   ColumnFields.GPI,
   ColumnFields.LAST_CUSTOMER_PRICE_GPI,
 ];
+
+export const ChinaSpecificColumns = [ColumnFields.STRATEGIC_MATERIAL];

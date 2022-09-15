@@ -675,7 +675,7 @@ export class ColumnDefService {
     },
     {
       headerName: translate('shared.quotationDetailsTable.strategicMaterial'),
-      field: 'strategicMaterial',
+      field: ColumnFields.STRATEGIC_MATERIAL,
       valueFormatter: ColumnUtilityService.basicTransform,
       filterParams: FILTER_PARAMS,
     },
