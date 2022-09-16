@@ -6,6 +6,7 @@ import { debounceTime, Subscription } from 'rxjs';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
+import { environment } from '@ga/../environments/environment';
 import { AppRoutePath } from '@ga/app-route-path.enum';
 import { getSelectedBearing } from '@ga/core/store';
 import { getCalculation } from '@ga/core/store/actions/calculation-result/calculation-result.actions';
@@ -13,7 +14,6 @@ import { getPreferredGreaseSelection } from '@ga/core/store/selectors/calculatio
 import { getReportUrls } from '@ga/core/store/selectors/calculation-result/calculation-result.selector';
 import { GreaseCalculationPath } from '@ga/features/grease-calculation/grease-calculation-path.enum';
 import { ReportUrls } from '@ga/shared/models';
-import { environment } from 'apps/ga/src/environments/environment';
 
 @Component({
   selector: 'ga-calculation-result',
