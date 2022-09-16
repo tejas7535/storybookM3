@@ -27,8 +27,12 @@
   >
     <div class="max-w-7xl">
       <div class="relative text-high-emphasis-dark-bg">
+        <div
+          class="absolute top-0 h-80 w-full rounded-lg bg-[#000]"
+          [ngClass]="{ 'opacity-60': darkenImg, 'opacity-0': !darkenImg }"
+        ></div>
         <img
-          class="h-80 w-full rounded-lg"
+          class="top-0 h-80 w-full rounded-lg"
           [src]="imgUrl"
           [title]="imgTitle"
           [alt]="imgTitle"
@@ -52,7 +56,7 @@
             *ngFor="
               let content of getTruncatedOverview(
                 t(translocoKey + '.content'),
-                400
+                1000
               );
               let last = last
             "

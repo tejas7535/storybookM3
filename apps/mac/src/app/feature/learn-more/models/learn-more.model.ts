@@ -1,6 +1,7 @@
 export interface LearnMoreData {
   translocoKey: string;
   imgUrl?: string;
+  darkenImg?: boolean;
   svgIconUrl?: string;
   guides: GuideGroup[];
   linkGroups: LinkGroup[];

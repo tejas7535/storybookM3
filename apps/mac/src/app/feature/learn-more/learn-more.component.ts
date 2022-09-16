@@ -34,6 +34,7 @@ import { GuideGroup, LinkGroup } from './models';
 })
 export class LearnMoreComponent implements OnInit {
   public imgUrl = '';
+  public darkenImg = false;
   public linkGroups: LinkGroup[] = [];
   public svgIconUrl: string = undefined;
   public content: string[] = [];
@@ -67,6 +68,7 @@ export class LearnMoreComponent implements OnInit {
       // I don't know why this is wrapped in `data`
       const learnMore = data.data;
       this.imgUrl = learnMore.imgUrl;
+      this.darkenImg = learnMore.darkenImg;
       this.svgIconUrl = learnMore.svgIconUrl;
       this.content = learnMore.content;
       this.guides = learnMore.guides;

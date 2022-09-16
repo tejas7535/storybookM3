@@ -2,7 +2,8 @@ import { LearnMoreData } from '../models';
 
 export const hardnessConverterLearnMoreData: LearnMoreData = {
   translocoKey: 'hardnessConverter',
-  imgUrl: '../../../assets/img/learnmore/def_background.png',
+  imgUrl: '../../../assets/img/learnmore/hc_background.png',
+  darkenImg: true,
   svgIconUrl: '../../../assets/img/hardness_converter.svg',
   samsLink:
     'https://schaefflerprod.service-now.com/sup?id=sc_cat_item&sys_id=ed6a579fdb780410fa8c40a505961911&sysparm_category=69bbcbde1b22c014503297539b4bcba0',
