@@ -207,6 +207,34 @@ describe('AddEntryComponent', () => {
         event
       );
     });
+
+    test('should addRow on Enter if data is valid', () => {
+      component.addRowEnabled = true;
+
+      component.addRow = jest.fn();
+      HelperService.validateQuantityInputKeyPress = jest.fn();
+      const event = { key: 'Enter' } as KeyboardEvent;
+
+      component.onQuantityKeyPress(event);
+      expect(
+        HelperService.validateQuantityInputKeyPress
+      ).not.toHaveBeenCalled();
+      expect(component.addRow).toHaveBeenCalled();
+    });
+
+    test('should NOT caddRow on Enter if data is invalid', () => {
+      component.addRowEnabled = false;
+
+      component.addRow = jest.fn();
+      HelperService.validateQuantityInputKeyPress = jest.fn();
+      const event = { key: 'Enter' } as KeyboardEvent;
+
+      component.onQuantityKeyPress(event);
+      expect(HelperService.validateQuantityInputKeyPress).toHaveBeenCalledTimes(
+        1
+      );
+      expect(component.addRow).not.toHaveBeenCalled();
+    });
   });
 
   describe('materialHasInput', () => {

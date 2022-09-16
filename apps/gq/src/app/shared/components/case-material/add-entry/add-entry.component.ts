@@ -22,6 +22,7 @@ import {
   unselectAutocompleteOptions,
 } from '../../../../core/store';
 import { CaseFilterItem } from '../../../../core/store/reducers/create-case/models';
+import { Keyboard } from '../../../models';
 import { AutocompleteSearch, IdValue } from '../../../models/search';
 import { MaterialTableItem } from '../../../models/table/material-table-item-model';
 import { ValidationDescription } from '../../../models/table/validation-description.enum';
@@ -159,6 +160,12 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   }
 
   onQuantityKeyPress(event: KeyboardEvent): void {
+    if (event.key === Keyboard.ENTER && this.addRowEnabled) {
+      this.addRow();
+
+      return;
+    }
+
     HelperService.validateQuantityInputKeyPress(event);
   }
 

@@ -6,6 +6,11 @@ import { ColDef } from 'ag-grid-enterprise';
 
 import { AgGridLocale } from '../../../ag-grid/models/ag-grid-locale.interface';
 import { LocalizationService } from '../../../ag-grid/services/localization.service';
+import {
+  basicTableStyle,
+  disableTableHorizontalScrollbar,
+  statusBarStlye,
+} from '../../../constants/table-styles';
 import { StatusBarConfig } from '../../../models/table';
 import { HelperService } from '../../../services/helper-service/helper-service.service';
 import {
@@ -18,7 +23,7 @@ import {
 @Component({
   selector: 'gq-material-input-table',
   templateUrl: './input-table.component.html',
-  styleUrls: ['./input-table.component.scss'],
+  styles: [basicTableStyle, statusBarStlye, disableTableHorizontalScrollbar],
 })
 export class InputTableComponent implements OnInit {
   constructor(

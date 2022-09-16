@@ -3,7 +3,7 @@
   *transloco="let t; read: 'shared.caseMaterial.addEntry'"
 >
   <div>
-    <div class="mt-6">
+    <div class="mt-6 flex items-end justify-between">
       <span class="text-h6 text-medium-emphasis">
         {{ t('addItems') }}
       </span>
@@ -27,8 +27,8 @@
     <hr class="mt-6 opacity-[12%]" />
   </div>
 
-  <div class="mt-6 flex w-full flex-row">
-    <div class="w-1/4" *ngIf="materialDesc$ | ngrxPush as materialDesc">
+  <div class="mt-6 grid grid-cols-2 gap-x-6 gap-y-2 lg:grid-cols-4">
+    <div *ngIf="materialDesc$ | ngrxPush as materialDesc">
       <gq-autocomplete-input
         #materialDescInput
         [filterName]="materialDesc.filter"
@@ -41,10 +41,7 @@
         (autocomplete)="autocomplete($event)"
       ></gq-autocomplete-input>
     </div>
-    <div
-      class="ml-6 w-1/4"
-      *ngIf="materialNumber$ | ngrxPush as materialNumber"
-    >
+    <div *ngIf="materialNumber$ | ngrxPush as materialNumber">
       <gq-autocomplete-input
         #materialNumberInput
         [filterName]="materialNumber.filter"
@@ -57,7 +54,7 @@
         (autocomplete)="autocomplete($event)"
       ></gq-autocomplete-input>
     </div>
-    <div class="ml-6 w-1/4">
+    <div>
       <mat-form-field appearance="outline" class="w-full">
         <mat-label>
           {{ t('quantity.label') }}
@@ -78,7 +75,7 @@
         }}</mat-error>
       </mat-form-field>
     </div>
-    <div class="ml-6 w-1/4">
+    <div>
       <button
         class="!mt-6"
         mat-raised-button

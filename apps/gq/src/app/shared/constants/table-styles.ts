@@ -1,9 +1,12 @@
 export const basicTableStyle = `
 :host::ng-deep ag-grid-angular {
-  .ag-root-wrapper-body {
-    border: 0;
+  .ag-status-bar {
+    @apply pr-0  #{!important};
+    padding-left: 0 !important;
   }
   .ag-root-wrapper {
+    border: none !important;
+    box-shadow: none !important;
     border: 0;
   }
   .ag-pinned-left-header {
@@ -14,6 +17,9 @@ export const basicTableStyle = `
   }
   .ag-text-field-input {
     color: #00893D !important;
+  }
+  .ag-root-wrapper-body {
+    border: 0;
   }
 }
 `;

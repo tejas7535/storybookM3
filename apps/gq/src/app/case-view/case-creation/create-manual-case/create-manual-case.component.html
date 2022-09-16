@@ -1,5 +1,5 @@
 <div
-  class="flex h-full flex-col"
+  class="flex h-full flex-col overflow-y-auto overflow-x-hidden px-4"
   *transloco="let t; read: 'caseView.caseCreation.createManualCase'"
 >
   <gq-dialog-header
@@ -28,7 +28,7 @@
     <div>
       <gq-add-entry [isCaseView]="true"> </gq-add-entry>
     </div>
-    <div class="h-full" *ngIf="rowData$ | ngrxPush as rowData">
+    <div class="h-full min-h-[20rem]" *ngIf="rowData$ | ngrxPush as rowData">
       <gq-material-input-table
         [rowData]="rowData"
         [isCaseView]="true"
