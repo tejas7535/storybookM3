@@ -12,11 +12,11 @@ import { HeaderInfoIconComponent } from '../column-headers/header-info-icon/head
 import { ColumnFields } from '../constants/column-fields.enum';
 import {
   FILTER_PARAMS,
+  MULTI_COLUMN_FILTER,
+  MULTI_COLUMN_FILTER_PARAMS,
   NUMBER_COLUMN_FILTER,
   TEXT_COLUMN_FILTER,
 } from '../constants/filters';
-import { CustomDateFilterComponent } from '../custom-date-filter/custom-date-filter.component';
-import { CustomDateFloatingFilterComponent } from '../custom-date-floating-filter/custom-date-floating-filter.component';
 import { ColumnUtilityService } from './column-utility.service';
 @Injectable({
   providedIn: 'root',
@@ -415,11 +415,12 @@ export class ColumnDefService {
         'shared.quotationDetailsTable.lastCustomerPriceDate'
       ),
       field: ColumnFields.LAST_CUSTOMER_PRICE_DATE,
-      filter: CustomDateFilterComponent,
-      floatingFilterComponent: CustomDateFloatingFilterComponent,
-      valueFormatter: (params) =>
-        this.columnUtilityService.dateFormatter(params.value),
-      floatingFilterComponentParams: ColumnUtilityService.dateFilterParams,
+      valueGetter: (data) =>
+        this.columnUtilityService.dateFormatter(
+          data.data[ColumnFields.LAST_CUSTOMER_PRICE_DATE]
+        ),
+      filter: MULTI_COLUMN_FILTER,
+      filterParams: MULTI_COLUMN_FILTER_PARAMS,
       headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
@@ -486,11 +487,12 @@ export class ColumnDefService {
     {
       headerName: translate('shared.quotationDetailsTable.lastOfferDate'),
       field: ColumnFields.LAST_OFFER_PRICE_DATE,
-      filter: CustomDateFilterComponent,
-      floatingFilterComponent: CustomDateFloatingFilterComponent,
-      valueFormatter: (params) =>
-        this.columnUtilityService.dateFormatter(params.value),
-      floatingFilterComponentParams: ColumnUtilityService.dateFilterParams,
+      valueGetter: (data) =>
+        this.columnUtilityService.dateFormatter(
+          data.data[ColumnFields.LAST_OFFER_PRICE_DATE]
+        ),
+      filter: MULTI_COLUMN_FILTER,
+      filterParams: MULTI_COLUMN_FILTER_PARAMS,
       headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
@@ -540,11 +542,12 @@ export class ColumnDefService {
     {
       headerName: translate('shared.quotationDetailsTable.dateNextFreeAtp'),
       field: ColumnFields.DATE_NEXT_FREE_ATP,
-      valueFormatter: (params) =>
-        this.columnUtilityService.dateFormatter(params.value),
-      filter: CustomDateFilterComponent,
-      floatingFilterComponent: CustomDateFloatingFilterComponent,
-      floatingFilterComponentParams: ColumnUtilityService.dateFilterParams,
+      valueGetter: (data) =>
+        this.columnUtilityService.dateFormatter(
+          data.data[ColumnFields.DATE_NEXT_FREE_ATP]
+        ),
+      filter: MULTI_COLUMN_FILTER,
+      filterParams: MULTI_COLUMN_FILTER_PARAMS,
       headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(

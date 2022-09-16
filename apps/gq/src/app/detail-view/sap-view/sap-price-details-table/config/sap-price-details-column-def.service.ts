@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 
 import { translate } from '@ngneat/transloco';
 import { ColDef } from 'ag-grid-enterprise';
-import { CustomDateFilterComponent } from 'apps/gq/src/app/shared/ag-grid/custom-date-filter/custom-date-filter.component';
-import { CustomDateFloatingFilterComponent } from 'apps/gq/src/app/shared/ag-grid/custom-date-floating-filter/custom-date-floating-filter.component';
 
 import { SapPriceDetailsColumnFields } from '../../../../shared/ag-grid/constants/column-fields.enum';
 import {
   FILTER_PARAMS,
+  MULTI_COLUMN_FILTER,
+  MULTI_COLUMN_FILTER_PARAMS,
   NUMBER_COLUMN_FILTER,
 } from '../../../../shared/ag-grid/constants/filters';
 import { ColumnUtilityService } from '../../../../shared/ag-grid/services/column-utility.service';
@@ -66,11 +66,12 @@ export class SapPriceDetailsColumnDefService {
     {
       headerName: translate('sapView.sapConditionsTable.validTo'),
       field: SapPriceDetailsColumnFields.SAP_VALID_TO,
-      filter: CustomDateFilterComponent,
-      floatingFilterComponent: CustomDateFloatingFilterComponent,
-      valueFormatter: (data) =>
-        this.columnUtilityService.dateFormatter(data.value),
-      floatingFilterComponentParams: ColumnUtilityService.dateFilterParams,
+      valueGetter: (data) =>
+        this.columnUtilityService.dateFormatter(
+          data.data[SapPriceDetailsColumnFields.SAP_VALID_TO]
+        ),
+      filter: MULTI_COLUMN_FILTER,
+      filterParams: MULTI_COLUMN_FILTER_PARAMS,
     },
   ];
 }
