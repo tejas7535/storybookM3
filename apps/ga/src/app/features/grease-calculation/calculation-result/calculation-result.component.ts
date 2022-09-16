@@ -13,12 +13,14 @@ import { getPreferredGreaseSelection } from '@ga/core/store/selectors/calculatio
 import { getReportUrls } from '@ga/core/store/selectors/calculation-result/calculation-result.selector';
 import { GreaseCalculationPath } from '@ga/features/grease-calculation/grease-calculation-path.enum';
 import { ReportUrls } from '@ga/shared/models';
+import { environment } from 'apps/ga/src/environments/environment';
 
 @Component({
   selector: 'ga-calculation-result',
   templateUrl: './calculation-result.component.html',
 })
 export class CalculationResultComponent implements OnInit, OnDestroy {
+  public isProduction = environment.production;
   public reportUrls: ReportUrls;
   public reportSelector = '.content';
   public showCompactView = true;

@@ -20,7 +20,7 @@
       </ng-container>
     </schaeffler-subheader>
     <div *ngIf="reportUrls; else loading_spinner">
-      <div class="mb-4 flex w-full justify-end">
+      <div *ngIf="!isProduction" class="mb-4 flex w-full justify-end">
         <mat-slide-toggle
           color="primary"
           labelPosition="before"
