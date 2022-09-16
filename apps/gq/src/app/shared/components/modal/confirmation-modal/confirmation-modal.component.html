@@ -1,7 +1,7 @@
 <div class="flex h-full flex-col">
-  <div class="h-full overflow-y-auto">
+  <div class="h-full">
     <span> {{ data.displayText }}</span>
-    <div class="mt-2" *ngIf="data.list">
+    <div class="mt-2 max-h-[300px] overflow-y-auto" *ngIf="data.list">
       <li *ngFor="let item of data.list; trackBy: trackByFn">
         {{ item.id }} | {{ item.value }}
       </li>
