@@ -86,7 +86,8 @@ export class OrgChartComponent implements AfterViewInit {
               'organizational-view'
             )
           ),
-          orgUnit.directLeafChildren,
+          orgUnit.directLeafChildren as any[], // FIXME
+          false, // FIXME
           true // TODO
         );
         this.dialog.open(EmployeeListDialogComponent, {

@@ -7,6 +7,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../shared.module';
@@ -24,6 +25,7 @@ import { EmployeeListDialogComponent } from './employee-list-dialog.component';
     MatTooltipModule,
     SharedTranslocoModule,
     ScrollingModule,
+    LoadingSpinnerModule,
   ],
   exports: [EmployeeListDialogComponent],
 })

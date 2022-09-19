@@ -7,23 +7,12 @@ import {
   DoughnutSeriesConfig,
 } from '../../../shared/charts/models';
 import { COMPANY_NAME } from '../../../shared/constants';
-import { Color, Employee } from '../../../shared/models';
+import { Color } from '../../../shared/models';
 import {
   FluctuationKpi,
   FluctuationRate,
-  LeavingType,
   PercentageFluctuationRate,
 } from '../../models';
-
-export function getExternalLeavers(employees: Employee[]): Employee[] {
-  return employees.filter((employee) => employee.exitDate);
-}
-
-export function getUnforcedLeavers(employees: Employee[]): Employee[] {
-  return getExternalLeavers(employees).filter(
-    (employee) => employee.reasonForLeaving === LeavingType.UNFORCED
-  );
-}
 
 export function createFluctuationKpi(
   company: number,

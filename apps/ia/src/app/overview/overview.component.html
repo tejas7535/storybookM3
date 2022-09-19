@@ -18,13 +18,15 @@
               <ia-kpi
                 [title]="(fluctuationKpi$ | ngrxPush)?.orgUnitName"
                 [value]="(fluctuationKpi$ | ngrxPush)?.kpiRates.orgUnit"
-                [employees]="[]"
+                [employees]="externalExitEmployees$ | ngrxPush"
+                [employeesLoading]="exitEmployeesLoading$ | ngrxPush"
                 [employeeListDialogMetaHeadings]="
                   employeeListDialogMetaHeadings$ | ngrxPush
                 "
-                [realEmployeesCount]="
+                [employeesCount]="
                   (fluctuationKpi$ | ngrxPush)?.realEmployeesCount
                 "
+                (openTeamMembers)="triggerLoadExitEmployees()"
               ></ia-kpi>
             </div>
           </div>
@@ -56,13 +58,15 @@
               <ia-kpi
                 [title]="(unforcedFluctuationKpi$ | ngrxPush)?.orgUnitName"
                 [value]="(unforcedFluctuationKpi$ | ngrxPush)?.kpiRates.orgUnit"
-                [employees]="[]"
+                [employees]="externalUnforcedExitEmployees$ | ngrxPush"
+                [employeesLoading]="exitEmployeesLoading$ | ngrxPush"
                 [employeeListDialogMetaHeadings]="
                   employeeListDialogMetaHeadings$ | ngrxPush
                 "
-                [realEmployeesCount]="
+                [employeesCount]="
                   (unforcedFluctuationKpi$ | ngrxPush)?.realEmployeesCount
                 "
+                (openTeamMembers)="triggerLoadExitEmployees()"
               ></ia-kpi>
             </div>
           </div>
@@ -84,12 +88,16 @@
           [entriesCount]="entriesCount$ | ngrxPush"
           [exitsCount]="exitsCount$ | ngrxPush"
           [exitEmployees]="exitEmployees$ | ngrxPush"
+          [exitEmployeesLoading]="exitEmployeesLoading$ | ngrxPush"
           [entryEmployees]="entryEmployees$ | ngrxPush"
+          [entryEmployeesLoading]="entryEmployeesLoading$ | ngrxPush"
           [employeeListDialogMetaHeadings]="
             employeeListDialogMetaHeadings$ | ngrxPush
           "
           [totalEmployeesCount]="totalEmployeesCount$ | ngrxPush"
           [dimensionHint]="dimensionHint$ | ngrxPush"
+          (loadExitEmployees)="triggerLoadExitEmployees()"
+          (loadEntryEmployees)="triggerLoadEntryEmployees()"
         ></ia-entries-exits>
       </div>
     </div>

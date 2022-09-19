@@ -139,6 +139,7 @@ describe('OrgChartComponent', () => {
           contentTitle: 'organizationalView.employeeListDialog.contentTitle',
         } as EmployeeListDialogMetaHeadings,
         employees: [] as any[],
+        employeesLoading: false,
         enoughRightsToShowAllEmployees: true,
       };
 

@@ -17,6 +17,7 @@ import {
 import {
   FluctuationRatesChartData,
   OpenApplication,
+  OverviewExitEntryEmployeesResponse,
   OverviewFluctuationRates,
   ResignedEmployeesResponse,
 } from '../../models';
@@ -29,10 +30,17 @@ import {
   loadFluctuationRatesChartDataFailure,
   loadFluctuationRatesChartDataSuccess,
   loadFluctuationRatesOverview,
+  loadFluctuationRatesOverviewFailure,
   loadFluctuationRatesOverviewSuccess,
   loadOpenApplications,
   loadOpenApplicationsFailure,
   loadOpenApplicationsSuccess,
+  loadOverviewEntryEmployees,
+  loadOverviewEntryEmployeesFailure,
+  loadOverviewEntryEmployeesSuccess,
+  loadOverviewExitEmployees,
+  loadOverviewExitEmployeesFailure,
+  loadOverviewExitEmployeesSuccess,
   loadResignedEmployees,
   loadResignedEmployeesFailure,
   loadResignedEmployeesSuccess,
@@ -185,7 +193,7 @@ describe('Overview Effects', () => {
     });
 
     test(
-      'should return loadOverviewFluctuationRatesSuccess action when REST call is successful',
+      'should return loadFluctuationRatesOverviewSuccess action when REST call is successful',
       marbles((m) => {
         const data: OverviewFluctuationRates = {
           totalEmployeesCount: 0,
@@ -196,7 +204,6 @@ describe('Overview Effects', () => {
           externalUnforcedExitCount: 0,
           internalEntryCount: 0,
           externalEntryCount: 0,
-          responseModified: true,
         };
         const result = loadFluctuationRatesOverviewSuccess({
           data,
@@ -209,6 +216,31 @@ describe('Overview Effects', () => {
         const expected = m.cold('--b', { b: result });
 
         overviewService.getOverviewFluctuationRates = jest.fn(() => response);
+
+        m.expect(effects.loadOverviewFluctuationRates$).toBeObservable(
+          expected
+        );
+        m.flush();
+        expect(
+          overviewService.getOverviewFluctuationRates
+        ).toHaveBeenCalledWith(request);
+      })
+    );
+
+    test(
+      'should return loadFluctuationRatesOverviewFailure on REST error',
+      marbles((m) => {
+        const result = loadFluctuationRatesOverviewFailure({
+          errorMessage: error.message,
+        }) as any;
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+
+        overviewService.getOverviewFluctuationRates = jest
+          .fn()
+          .mockImplementation(() => response);
 
         m.expect(effects.loadOverviewFluctuationRates$).toBeObservable(
           expected
@@ -396,6 +428,124 @@ describe('Overview Effects', () => {
         m.flush();
         expect(overviewService.getOpenApplications).toHaveBeenCalledWith(
           orgUnit
+        );
+      })
+    );
+  });
+
+  describe('loadOverviewExitEmployees$', () => {
+    let request: EmployeesRequest;
+
+    beforeEach(() => {
+      request = {} as unknown as EmployeesRequest;
+      action = loadOverviewExitEmployees();
+    });
+
+    test(
+      'should return loadOverviewExitEmployeesSuccess action when REST call is successful',
+      marbles((m) => {
+        const data: OverviewExitEntryEmployeesResponse = {
+          employees: [],
+          responseModified: true,
+        };
+        const result = loadOverviewExitEmployeesSuccess({
+          data,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|', {
+          a: data,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        overviewService.getOverviewExitEmployees = jest.fn(() => response);
+
+        m.expect(effects.loadOverviewExitEmployees$).toBeObservable(expected);
+        m.flush();
+        expect(overviewService.getOverviewExitEmployees).toHaveBeenCalledWith(
+          request
+        );
+      })
+    );
+
+    test(
+      'should return loadOverviewExitEmployeesFailure on REST error',
+      marbles((m) => {
+        const result = loadOverviewExitEmployeesFailure({
+          errorMessage: error.message,
+        }) as any;
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+
+        overviewService.getOverviewExitEmployees = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadOverviewExitEmployees$).toBeObservable(expected);
+        m.flush();
+        expect(overviewService.getOverviewExitEmployees).toHaveBeenCalledWith(
+          request
+        );
+      })
+    );
+  });
+
+  describe('loadOverviewEntryEmployees$', () => {
+    let request: EmployeesRequest;
+
+    beforeEach(() => {
+      request = {} as unknown as EmployeesRequest;
+      action = loadOverviewEntryEmployees();
+    });
+
+    test(
+      'should return loadOverviewEntryEmployeesSuccess action when REST call is successful',
+      marbles((m) => {
+        const data: OverviewExitEntryEmployeesResponse = {
+          employees: [],
+          responseModified: true,
+        };
+        const result = loadOverviewEntryEmployeesSuccess({
+          data,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|', {
+          a: data,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        overviewService.getOverviewEntryEmployees = jest.fn(() => response);
+
+        m.expect(effects.loadOverviewEntryEmployees$).toBeObservable(expected);
+        m.flush();
+        expect(overviewService.getOverviewEntryEmployees).toHaveBeenCalledWith(
+          request
+        );
+      })
+    );
+
+    test(
+      'should return loadOverviewEntryEmployeesFailure on REST error',
+      marbles((m) => {
+        const result = loadOverviewEntryEmployeesFailure({
+          errorMessage: error.message,
+        }) as any;
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+
+        overviewService.getOverviewEntryEmployees = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadOverviewEntryEmployees$).toBeObservable(expected);
+        m.flush();
+        expect(overviewService.getOverviewEntryEmployees).toHaveBeenCalledWith(
+          request
         );
       })
     );

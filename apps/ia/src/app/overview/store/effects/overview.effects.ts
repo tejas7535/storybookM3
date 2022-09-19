@@ -23,6 +23,7 @@ import {
 import {
   FluctuationRatesChartData,
   OpenApplication,
+  OverviewExitEntryEmployeesResponse,
   OverviewFluctuationRates,
   ResignedEmployeesResponse,
 } from '../../models';
@@ -40,6 +41,12 @@ import {
   loadOpenApplications,
   loadOpenApplicationsFailure,
   loadOpenApplicationsSuccess,
+  loadOverviewEntryEmployees,
+  loadOverviewEntryEmployeesFailure,
+  loadOverviewEntryEmployeesSuccess,
+  loadOverviewExitEmployees,
+  loadOverviewExitEmployeesFailure,
+  loadOverviewExitEmployeesSuccess,
   loadResignedEmployees,
   loadResignedEmployeesFailure,
   loadResignedEmployeesSuccess,
@@ -171,6 +178,50 @@ export class OverviewEffects implements OnInitEffects {
           catchError((error) =>
             of(
               loadOpenApplicationsFailure({
+                errorMessage: error.message,
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
+  loadOverviewExitEmployees$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadOverviewExitEmployees),
+      concatLatestFrom(() => this.store.select(getCurrentFilters)),
+      map(([_action, request]) => request),
+      switchMap((request: EmployeesRequest) =>
+        this.overviewService.getOverviewExitEmployees(request).pipe(
+          map((data: OverviewExitEntryEmployeesResponse) =>
+            loadOverviewExitEmployeesSuccess({ data })
+          ),
+          catchError((error) =>
+            of(
+              loadOverviewExitEmployeesFailure({
+                errorMessage: error.message,
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
+  loadOverviewEntryEmployees$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadOverviewEntryEmployees),
+      concatLatestFrom(() => this.store.select(getCurrentFilters)),
+      map(([_action, request]) => request),
+      switchMap((request: EmployeesRequest) =>
+        this.overviewService.getOverviewEntryEmployees(request).pipe(
+          map((data: OverviewExitEntryEmployeesResponse) =>
+            loadOverviewEntryEmployeesSuccess({ data })
+          ),
+          catchError((error) =>
+            of(
+              loadOverviewEntryEmployeesFailure({
                 errorMessage: error.message,
               })
             )

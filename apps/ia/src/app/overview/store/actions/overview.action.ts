@@ -4,6 +4,7 @@ import { AttritionOverTime, EmployeesRequest } from '../../../shared/models';
 import {
   FluctuationRatesChartData,
   OpenApplication,
+  OverviewExitEntryEmployeesResponse,
   OverviewFluctuationRates,
   ResignedEmployeesResponse,
 } from '../../models';
@@ -24,17 +25,45 @@ export const loadAttritionOverTimeOverviewFailure = createAction(
 );
 
 export const loadFluctuationRatesOverview = createAction(
-  '[Overview] Load FluctuationRates with entries and exits',
+  '[Overview] Load FluctuationRates meta data',
   props<{ request: EmployeesRequest }>()
 );
 
 export const loadFluctuationRatesOverviewSuccess = createAction(
-  '[Overview] Load FluctuationRates with entries and exits Success',
+  '[Overview] Load FluctuationRates meta data Success',
   props<{ data: OverviewFluctuationRates }>()
 );
 
 export const loadFluctuationRatesOverviewFailure = createAction(
-  '[Overview] Load FluctuationRates with entries and exits Failure',
+  '[Overview] Load FluctuationRates meta data Failure',
+  props<{ errorMessage: string }>()
+);
+
+export const loadOverviewExitEmployees = createAction(
+  '[Overview] Load overview exit employees'
+);
+
+export const loadOverviewExitEmployeesSuccess = createAction(
+  '[Overview] Load overview exit employees Success',
+  props<{ data: OverviewExitEntryEmployeesResponse }>()
+);
+
+export const loadOverviewExitEmployeesFailure = createAction(
+  '[Overview] Load overview exit employees Failure',
+  props<{ errorMessage: string }>()
+);
+
+export const loadOverviewEntryEmployees = createAction(
+  '[Overview] Load overview entry employees'
+);
+
+export const loadOverviewEntryEmployeesSuccess = createAction(
+  '[Overview] Load overview entry employees Success',
+  props<{ data: OverviewExitEntryEmployeesResponse }>()
+);
+
+export const loadOverviewEntryEmployeesFailure = createAction(
+  '[Overview] Load overview entry employees Failure',
   props<{ errorMessage: string }>()
 );
 
@@ -96,6 +125,15 @@ const all = union({
   loadResignedEmployees,
   loadResignedEmployeesSuccess,
   loadResignedEmployeesFailure,
+  loadOverviewExitEmployees,
+  loadOverviewExitEmployeesSuccess,
+  loadOverviewExitEmployeesFailure,
+  loadOverviewEntryEmployees,
+  loadOverviewEntryEmployeesSuccess,
+  loadOverviewEntryEmployeesFailure,
+  loadOpenApplications,
+  loadOpenApplicationsSuccess,
+  loadOpenApplicationsFailure,
 });
 
 export type OverviewActions = typeof all;

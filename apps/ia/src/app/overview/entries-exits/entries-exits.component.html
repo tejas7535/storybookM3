@@ -14,10 +14,11 @@
       [title]="t('entries')"
       [value]="entriesCount"
       [employees]="entryEmployees"
+      [employeesLoading]="entryEmployeesLoading"
       [employeeListDialogMetaHeadings]="employeeListDialogMetaHeadings"
       [showFluctuationType]="true"
-      [employeeListType]="entryType"
-      [realEmployeesCount]="entriesCount"
+      [employeesCount]="entriesCount"
+      (openTeamMembers)="triggerEntryEmployeesAction()"
     ></ia-kpi>
 
     <div class="col-span-2 mt-4 text-center">
@@ -30,10 +31,11 @@
       [title]="t('exits')"
       [value]="exitsCount"
       [employees]="exitEmployees"
+      [employeesLoading]="exitEmployeesLoading"
       [employeeListDialogMetaHeadings]="employeeListDialogMetaHeadings"
       [showFluctuationType]="true"
-      [employeeListType]="exitType"
-      [realEmployeesCount]="exitsCount"
+      [employeesCount]="exitsCount"
+      (openTeamMembers)="triggerExitEmployeesAction()"
     ></ia-kpi>
 
     <ia-loose-doughnut-chart

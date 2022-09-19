@@ -9,12 +9,18 @@ import { EChartsOption } from 'echarts';
 import { getSelectedDimension } from '../core/store/selectors/filter/filter.selector';
 import { DoughnutConfig } from '../shared/charts/models/doughnut-config.model';
 import { EmployeeListDialogMetaHeadings } from '../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
-import { AttritionSeries, Employee } from '../shared/models';
+import {
+  AttritionSeries,
+  Employee,
+  EmployeeWithAction,
+} from '../shared/models';
 import { FluctuationKpi, OpenApplication } from './models';
 import {
+  loadOverviewEntryEmployees,
+  loadOverviewExitEmployees,
+} from './store/actions/overview.action';
+import {
   getAttritionOverTimeOverviewData,
-  getEntryEmployees,
-  getExitEmployees,
   getFluctuationRatesForChart,
   getIsLoadingAttritionOverTimeOverview,
   getIsLoadingDoughnutsConfig,
@@ -22,6 +28,12 @@ import {
   getIsLoadingOpenApplications,
   getIsLoadingResignedEmployees,
   getOpenApplications,
+  getOverviewEntryEmployees,
+  getOverviewEntryEmployeesLoading,
+  getOverviewExitEmployees,
+  getOverviewExitEmployeesLoading,
+  getOverviewExternalExitEmployees,
+  getOverviewExternalUnforcedExitEmployees,
   getOverviewFluctuationEntriesCount,
   getOverviewFluctuationEntriesDoughnutConfig,
   getOverviewFluctuationExitsCount,
@@ -44,6 +56,8 @@ export class OverviewComponent implements OnInit {
   isFluctuationChartLoading$: Observable<boolean>;
   fluctuationKpi$: Observable<FluctuationKpi>;
   unforcedFluctuationKpi$: Observable<FluctuationKpi>;
+  externalExitEmployees$: Observable<EmployeeWithAction[]>;
+  externalUnforcedExitEmployees$: Observable<EmployeeWithAction[]>;
 
   employeeListDialogMetaHeadings$: Observable<EmployeeListDialogMetaHeadings>;
 
@@ -59,8 +73,12 @@ export class OverviewComponent implements OnInit {
   isLoadingDoughnutsConfig$: Observable<boolean>;
   entriesCount$: Observable<number>;
   exitsCount$: Observable<number>;
-  exitEmployees$: Observable<Employee[]>;
-  entryEmployees$: Observable<Employee[]>;
+  realEntriesCount$: Observable<number>;
+  realExitsCount$: Observable<number>;
+  exitEmployees$: Observable<EmployeeWithAction[]>;
+  entryEmployees$: Observable<EmployeeWithAction[]>;
+  exitEmployeesLoading$: Observable<boolean>;
+  entryEmployeesLoading$: Observable<boolean>;
   totalEmployeesCount$: Observable<number>;
 
   resignedEmployees$: Observable<Employee[]>;
@@ -101,8 +119,14 @@ export class OverviewComponent implements OnInit {
       getIsLoadingFluctuationRatesForChart
     );
     this.fluctuationKpi$ = this.store.select(getOverviewFluctuationKpi);
+    this.externalExitEmployees$ = this.store.select(
+      getOverviewExternalExitEmployees
+    );
     this.unforcedFluctuationKpi$ = this.store.select(
       getOverviewUnforcedFluctuationKpi
+    );
+    this.externalUnforcedExitEmployees$ = this.store.select(
+      getOverviewExternalUnforcedExitEmployees
     );
   }
 
@@ -125,8 +149,14 @@ export class OverviewComponent implements OnInit {
 
     this.entriesCount$ = this.store.select(getOverviewFluctuationEntriesCount);
     this.exitsCount$ = this.store.select(getOverviewFluctuationExitsCount);
-    this.exitEmployees$ = this.store.select(getExitEmployees);
-    this.entryEmployees$ = this.store.select(getEntryEmployees);
+    this.exitEmployees$ = this.store.select(getOverviewExitEmployees);
+    this.exitEmployeesLoading$ = this.store.select(
+      getOverviewExitEmployeesLoading
+    );
+    this.entryEmployees$ = this.store.select(getOverviewEntryEmployees);
+    this.entryEmployeesLoading$ = this.store.select(
+      getOverviewEntryEmployeesLoading
+    );
     this.totalEmployeesCount$ = this.store.select(
       getOverviewFluctuationTotalEmployeesCount
     );
@@ -166,5 +196,13 @@ export class OverviewComponent implements OnInit {
       getIsLoadingAttritionOverTimeOverview
     );
     this.attritionData$ = this.store.select(getAttritionOverTimeOverviewData);
+  }
+
+  triggerLoadExitEmployees() {
+    this.store.dispatch(loadOverviewExitEmployees());
+  }
+
+  triggerLoadEntryEmployees() {
+    this.store.dispatch(loadOverviewEntryEmployees());
   }
 }

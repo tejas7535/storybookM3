@@ -11,12 +11,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import {
-  ActionType,
-  Employee,
-  EmployeeAction,
-  EmployeeListDialogType,
-} from '../models';
+import { EmployeeWithAction } from '../models';
 import { EmployeeListDialogComponent } from './employee-list-dialog.component';
 
 describe('EmployeeListDialogComponent', () => {
@@ -53,112 +48,10 @@ describe('EmployeeListDialogComponent', () => {
 
   describe('trackByFn', () => {
     test('should return index', () => {
-      const employee = { employeeId: '3' } as unknown as Employee;
+      const employee = { employeeId: '3' } as unknown as EmployeeWithAction;
       const result = component.trackByFn(3, employee);
 
-      expect(result).toEqual(employee.employeeId);
-    });
-  });
-
-  describe('hasExternalAction', () => {
-    test('should return true when user has external entry action in entry dialog', () => {
-      component.employeeListType = EmployeeListDialogType.ENTRY;
-      const employee = {
-        actions: [
-          {
-            actionType: ActionType.EXTERNAL,
-            entryDate: '123',
-          } as EmployeeAction,
-        ],
-      } as undefined as Employee;
-
-      const result = component.hasExternalAction(employee);
-
-      expect(result).toBeTruthy();
-    });
-
-    test('should return false when user has external entry action in exit dialog', () => {
-      component.employeeListType = EmployeeListDialogType.EXIT;
-      const employee = {
-        actions: [
-          {
-            actionType: ActionType.EXTERNAL,
-            entryDate: '123',
-          } as EmployeeAction,
-        ],
-      } as undefined as Employee;
-
-      const result = component.hasExternalAction(employee);
-
-      expect(result).toBeFalsy();
-    });
-
-    test('should return false when user has only internal action', () => {
-      component.employeeListType = EmployeeListDialogType.EXIT;
-      const employee = {
-        actions: [
-          {
-            actionType: ActionType.INTERNAL,
-            exitDate: '123',
-          } as EmployeeAction,
-        ],
-      } as undefined as Employee;
-
-      const result = component.hasExternalAction(employee);
-
-      expect(result).toBeFalsy();
-    });
-
-    test('should return false when user has no actions', () => {
-      component.employeeListType = EmployeeListDialogType.ENTRY;
-      const employee = {} as undefined as Employee;
-
-      const result = component.hasExternalAction(employee);
-
-      expect(result).toBeFalsy();
-    });
-  });
-
-  describe('hasInternalAction', () => {
-    test('should return true when user has internal entry action in entry dialog', () => {
-      component.employeeListType = EmployeeListDialogType.ENTRY;
-      const employee = {
-        actions: [
-          {
-            actionType: ActionType.INTERNAL,
-            entryDate: '123',
-          } as EmployeeAction,
-        ],
-      } as undefined as Employee;
-
-      const result = component.hasInternalAction(employee);
-
-      expect(result).toBeTruthy();
-    });
-
-    test('should return false when user has only external action', () => {
-      component.employeeListType = EmployeeListDialogType.ENTRY;
-      const employee = {
-        actions: [
-          {
-            actionType: ActionType.EXTERNAL,
-            entryDate: '123',
-          } as EmployeeAction,
-        ],
-      } as undefined as Employee;
-
-      const result = component.hasInternalAction(employee);
-
-      expect(result).toBeFalsy();
-    });
-
-    test('should return false when user has no actions', () => {
-      component.employeeListType = EmployeeListDialogType.ENTRY;
-      const employee = {} as undefined as Employee;
-
-      const result = component.hasInternalAction(employee);
-
-      expect(result).toBeFalsy();
+      expect(result).toEqual(3);
     });
   });
 });

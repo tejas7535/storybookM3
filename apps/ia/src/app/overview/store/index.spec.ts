@@ -4,6 +4,7 @@ import { AttritionOverTime, EmployeesRequest } from '../../shared/models';
 import {
   FluctuationRatesChartData,
   OpenApplication,
+  OverviewExitEntryEmployeesResponse,
   OverviewFluctuationRates,
   ResignedEmployeesResponse,
 } from '../models';
@@ -21,6 +22,12 @@ import {
   loadOpenApplications,
   loadOpenApplicationsFailure,
   loadOpenApplicationsSuccess,
+  loadOverviewEntryEmployees,
+  loadOverviewEntryEmployeesFailure,
+  loadOverviewEntryEmployeesSuccess,
+  loadOverviewExitEmployees,
+  loadOverviewExitEmployeesFailure,
+  loadOverviewExitEmployeesSuccess,
   loadResignedEmployees,
   loadResignedEmployeesFailure,
   loadResignedEmployeesSuccess,
@@ -114,7 +121,7 @@ describe('Overview Reducer', () => {
     });
   });
 
-  describe('loadOverviewFluctuationRates', () => {
+  describe('loadFluctuationRatesOverview', () => {
     test('should set loading', () => {
       const action = loadFluctuationRatesOverview({
         request: {} as unknown as EmployeesRequest,
@@ -125,7 +132,7 @@ describe('Overview Reducer', () => {
     });
   });
 
-  describe('loadOverviewFluctuationRatesSuccess', () => {
+  describe('loadFluctuationRatesOverviewSuccess', () => {
     test('should unset loading and set fluctuation data', () => {
       const data: OverviewFluctuationRates =
         {} as unknown as OverviewFluctuationRates;
@@ -139,7 +146,7 @@ describe('Overview Reducer', () => {
     });
   });
 
-  describe('loadOverviewFluctuationRatesSuccessFailure', () => {
+  describe('loadFluctuationRatesOverviewFailure', () => {
     test('should unset loading / set error message', () => {
       const action = loadFluctuationRatesOverviewFailure({ errorMessage });
       const fakeState: OverviewState = {
@@ -242,6 +249,88 @@ describe('Overview Reducer', () => {
 
       expect(state.openApplications.loading).toBeFalsy();
       expect(state.openApplications.errorMessage).toEqual(errorMessage);
+    });
+  });
+
+  describe('loadOverviewExitEmployees', () => {
+    test('should set loading', () => {
+      const action = loadOverviewExitEmployees();
+      const state = overviewReducer(initialState, action);
+
+      expect(state.exitEmployees.loading).toBeTruthy();
+    });
+  });
+
+  describe('loadOverviewExitEmployeesSuccess', () => {
+    test('should unset loading and set exit employees', () => {
+      const data: OverviewExitEntryEmployeesResponse =
+        {} as unknown as OverviewExitEntryEmployeesResponse;
+
+      const action = loadOverviewExitEmployeesSuccess({ data });
+
+      const state = overviewReducer(initialState, action);
+
+      expect(state.exitEmployees.loading).toBeFalsy();
+      expect(state.exitEmployees.data).toEqual(data);
+    });
+  });
+
+  describe('loadOverviewExitEmployeesFailure', () => {
+    test('should unset loading / set error message', () => {
+      const action = loadOverviewExitEmployeesFailure({ errorMessage });
+      const fakeState: OverviewState = {
+        ...initialState,
+        exitEmployees: {
+          ...initialState.exitEmployees,
+          loading: true,
+        },
+      };
+
+      const state = overviewReducer(fakeState, action);
+
+      expect(state.exitEmployees.loading).toBeFalsy();
+      expect(state.exitEmployees.errorMessage).toEqual(errorMessage);
+    });
+  });
+
+  describe('loadOverviewEntryEmployees', () => {
+    test('should set loading', () => {
+      const action = loadOverviewEntryEmployees();
+      const state = overviewReducer(initialState, action);
+
+      expect(state.entryEmployees.loading).toBeTruthy();
+    });
+  });
+
+  describe('loadOverviewEntryEmployeesSuccess', () => {
+    test('should unset loading and set entry employees', () => {
+      const data: OverviewExitEntryEmployeesResponse =
+        {} as unknown as OverviewExitEntryEmployeesResponse;
+
+      const action = loadOverviewEntryEmployeesSuccess({ data });
+
+      const state = overviewReducer(initialState, action);
+
+      expect(state.entryEmployees.loading).toBeFalsy();
+      expect(state.entryEmployees.data).toEqual(data);
+    });
+  });
+
+  describe('loadOverviewEntryEmployeesFailure', () => {
+    test('should unset loading / set error message', () => {
+      const action = loadOverviewEntryEmployeesFailure({ errorMessage });
+      const fakeState: OverviewState = {
+        ...initialState,
+        entryEmployees: {
+          ...initialState.entryEmployees,
+          loading: true,
+        },
+      };
+
+      const state = overviewReducer(fakeState, action);
+
+      expect(state.entryEmployees.loading).toBeFalsy();
+      expect(state.entryEmployees.errorMessage).toEqual(errorMessage);
     });
   });
 

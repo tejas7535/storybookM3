@@ -1,6 +1,8 @@
 import { AttritionOverTime, EmployeesRequest } from '../../../shared/models';
 import {
   FluctuationRatesChartData,
+  OpenApplication,
+  OverviewExitEntryEmployeesResponse,
   OverviewFluctuationRates,
   ResignedEmployeesResponse,
 } from '../../models';
@@ -14,6 +16,15 @@ import {
   loadFluctuationRatesOverview,
   loadFluctuationRatesOverviewFailure,
   loadFluctuationRatesOverviewSuccess,
+  loadOpenApplications,
+  loadOpenApplicationsFailure,
+  loadOpenApplicationsSuccess,
+  loadOverviewEntryEmployees,
+  loadOverviewEntryEmployeesFailure,
+  loadOverviewEntryEmployeesSuccess,
+  loadOverviewExitEmployees,
+  loadOverviewExitEmployeesFailure,
+  loadOverviewExitEmployeesSuccess,
   loadResignedEmployees,
   loadResignedEmployeesFailure,
   loadResignedEmployeesSuccess,
@@ -62,7 +73,7 @@ describe('Overview Actions', () => {
 
     expect(action).toEqual({
       request,
-      type: '[Overview] Load FluctuationRates with entries and exits',
+      type: '[Overview] Load FluctuationRates meta data',
     });
   });
 
@@ -74,7 +85,7 @@ describe('Overview Actions', () => {
 
     expect(action).toEqual({
       data,
-      type: '[Overview] Load FluctuationRates with entries and exits Success',
+      type: '[Overview] Load FluctuationRates meta data Success',
     });
   });
 
@@ -83,7 +94,7 @@ describe('Overview Actions', () => {
 
     expect(action).toEqual({
       errorMessage,
-      type: '[Overview] Load FluctuationRates with entries and exits Failure',
+      type: '[Overview] Load FluctuationRates meta data Failure',
     });
   });
 
@@ -148,6 +159,108 @@ describe('Overview Actions', () => {
     expect(action).toEqual({
       errorMessage,
       type: '[Overview] Load Resigned Employees Failure',
+    });
+  });
+
+  test('loadOpenApplications', () => {
+    const orgUnit = { orgUnit: 'Schaeffler IT' };
+    const action = loadOpenApplications(orgUnit);
+
+    expect(action).toEqual({
+      ...orgUnit,
+      type: '[Overview] Load Open Applications',
+    });
+  });
+
+  test('loadOpenApplicationsSuccess', () => {
+    const data: OpenApplication[] = [
+      {
+        isExternal: true,
+        isInternal: true,
+        approvalDate: '123',
+        count: 4,
+        name: 'Best Job',
+      },
+    ];
+    const action = loadOpenApplicationsSuccess({ data });
+
+    expect(action).toEqual({
+      data,
+      type: '[Overview] Load Open Applications Success',
+    });
+  });
+
+  test('loadOpenApplicationsFailure', () => {
+    const action = loadOpenApplicationsFailure({
+      errorMessage,
+    });
+
+    expect(action).toEqual({
+      errorMessage,
+      type: '[Overview] Load Open Applications Failure',
+    });
+  });
+
+  test('loadOverviewEntryEmployees', () => {
+    const action = loadOverviewEntryEmployees();
+
+    expect(action).toEqual({
+      type: '[Overview] Load overview entry employees',
+    });
+  });
+
+  test('loadOverviewEntryEmployeesSuccess', () => {
+    const data: OverviewExitEntryEmployeesResponse = {
+      employees: [],
+      responseModified: true,
+    };
+    const action = loadOverviewEntryEmployeesSuccess({ data });
+
+    expect(action).toEqual({
+      data,
+      type: '[Overview] Load overview entry employees Success',
+    });
+  });
+
+  test('loadOverviewEntryEmployeesFailure', () => {
+    const action = loadOverviewEntryEmployeesFailure({
+      errorMessage,
+    });
+
+    expect(action).toEqual({
+      errorMessage,
+      type: '[Overview] Load overview entry employees Failure',
+    });
+  });
+  test('loadOverviewExitEmployees', () => {
+    const action = loadOverviewExitEmployees();
+
+    expect(action).toEqual({
+      type: '[Overview] Load overview exit employees',
+    });
+  });
+
+  test('loadOverviewExitEmployeesSuccess', () => {
+    const data: OverviewExitEntryEmployeesResponse = {
+      employees: [],
+      responseModified: true,
+    };
+    const action = loadOverviewExitEmployeesSuccess({ data });
+
+    expect(action).toEqual({
+      data,
+      type: '[Overview] Load overview exit employees Success',
+    });
+  });
+
+  test('loadOverviewExitEmployeesFailure', () => {
+    const action = loadOverviewExitEmployeesFailure({
+      errorMessage,
+    });
+
+    expect(action).toEqual({
+      errorMessage,
+      type: '[Overview] Load overview exit employees Failure',
     });
   });
 });

@@ -1,35 +1,23 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { mockProvider } from '@ngneat/spectator/jest';
-import { TranslocoService } from '@ngneat/transloco';
 
 import { EmployeeListDialogComponent } from '../employee-list-dialog/employee-list-dialog.component';
 import { EmployeeListDialogModule } from '../employee-list-dialog/employee-list-dialog.module';
-import { Employee } from '../models';
+import { EmployeeWithAction } from '../models';
 import { SharedModule } from '../shared.module';
 import { KpiComponent } from './kpi.component';
 
 describe('KpiComponent', () => {
   let component: KpiComponent;
   let spectator: Spectator<KpiComponent>;
-  const translate = jest.fn();
 
   const createComponent = createComponentFactory({
     component: KpiComponent,
     detectChanges: false,
-    providers: [
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
-      mockProvider(TranslocoService, { translate }),
-    ],
-    imports: [
-      SharedModule,
-      MatIconModule,
-      MatTooltipModule,
-      EmployeeListDialogModule,
-    ],
+    providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
+    imports: [SharedModule, MatIconModule, EmployeeListDialogModule],
   });
 
   beforeEach(() => {
@@ -38,26 +26,26 @@ describe('KpiComponent', () => {
   });
 
   describe('set employees', () => {
-    test('should set employees and call tooltip', () => {
-      const employees = [{} as any as Employee];
+    test('should set employees and call updateDialogData', () => {
+      const employees = [{} as any as EmployeeWithAction];
 
-      component.setTooltip = jest.fn();
+      component.updateDialogData = jest.fn();
       component.employees = employees;
 
       expect(component.employees).toEqual(employees);
-      expect(component.setTooltip).toHaveBeenCalledTimes(1);
+      expect(component.updateDialogData).toHaveBeenCalledTimes(1);
     });
   });
 
-  describe('set realEmployeesCount', () => {
-    test('should set realEmployeesCount and call tooltip', () => {
-      const realEmployeesCount = 5;
+  describe('set employeesLoading', () => {
+    test('should set employeesLoading and call updateDialogData', () => {
+      const employeesLoading = true;
 
-      component.setTooltip = jest.fn();
-      component.realEmployeesCount = realEmployeesCount;
+      component.updateDialogData = jest.fn();
+      component.employeesLoading = employeesLoading;
 
-      expect(component.realEmployeesCount).toEqual(realEmployeesCount);
-      expect(component.setTooltip).toHaveBeenCalledTimes(1);
+      expect(component.employeesLoading).toEqual(employeesLoading);
+      expect(component.updateDialogData).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -83,33 +71,67 @@ describe('KpiComponent', () => {
     });
   });
 
-  describe('setTooltip', () => {
-    const mockTranslation = 'mock';
+  describe('updateDialogData', () => {
+    test('should update data if dialog instance available', () => {
+      const dialogRef = {
+        componentInstance: {},
+        data: {},
+      } as any;
+      const testData = {};
 
-    beforeEach(() => {
-      translate.mockReturnValue(mockTranslation);
+      component.createEmployeeListDialogMeta = jest.fn(() => testData as any);
+
+      component['_dialogRef'] = dialogRef;
+
+      component.updateDialogData();
+
+      expect(dialogRef.data).toEqual(testData);
+      expect(component.createEmployeeListDialogMeta).toHaveBeenCalledTimes(1);
     });
 
-    test('should set default tooltip if user has enough rights', () => {
-      component.employees = [];
-      component.realEmployeesCount = 0;
+    test('should do nothing when instance not available', () => {
+      const dialogRef = {
+        componentInstance: undefined,
+        data: undefined,
+      } as any;
+      const testData = {};
 
-      component.setTooltip();
+      component.createEmployeeListDialogMeta = jest.fn(() => testData as any);
 
-      expect(component.tooltip).toEqual(mockTranslation);
-      expect(translate).toHaveBeenCalledWith('accessRights.showTeamMembers');
+      component['_dialogRef'] = dialogRef;
+
+      component.updateDialogData();
+
+      expect(dialogRef.data).toBeUndefined();
+      expect(component.createEmployeeListDialogMeta).not.toHaveBeenCalled();
     });
 
-    test('should set rights hint tooltip if user has not enough rights', () => {
-      component.employees = [];
-      component.realEmployeesCount = 5;
+    test('should do nothing when dialog ref not available', () => {
+      const testData = {};
 
-      component.setTooltip();
+      component.createEmployeeListDialogMeta = jest.fn(() => testData as any);
 
-      expect(component.tooltip).toEqual(mockTranslation);
-      expect(translate).toHaveBeenCalledWith(
-        'accessRights.showTeamMembersPartially'
-      );
+      component.updateDialogData();
+
+      expect(component.createEmployeeListDialogMeta).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('createEmployeeListDialogMeta', () => {
+    test('should return dialog data', () => {
+      const employees = [{} as any];
+      component.employees = employees;
+      component.employeesLoading = true;
+      component.employeesCount = 10;
+
+      const result = component.createEmployeeListDialogMeta();
+
+      expect(result).toEqual({
+        headings: undefined,
+        employees,
+        employeesLoading: true,
+        enoughRightsToShowAllEmployees: false,
+      });
     });
   });
 });

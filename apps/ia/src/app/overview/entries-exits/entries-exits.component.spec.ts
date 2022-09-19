@@ -1,5 +1,7 @@
 import { ComponentFixture } from '@angular/core/testing';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { By } from '@angular/platform-browser';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
@@ -63,6 +65,8 @@ describe('EntriesExitsComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
       KpiModule,
       SharedPipesModule,
+      MatIconModule,
+      MatTooltipModule,
     ],
     declarations: [
       MockComponent(LooseDoughnutChartComponent),
@@ -157,6 +161,26 @@ describe('EntriesExitsComponent', () => {
           true
         ),
       ]);
+    });
+  });
+
+  describe('triggerExitEmployeesAction', () => {
+    test('should emit loadExitEmployees', () => {
+      component.loadExitEmployees.emit = jest.fn();
+
+      component.triggerExitEmployeesAction();
+
+      expect(component.loadExitEmployees.emit).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('triggerEntryEmployeesAction', () => {
+    test('should emit loadEntryEmployees', () => {
+      component.loadEntryEmployees.emit = jest.fn();
+
+      component.triggerEntryEmployeesAction();
+
+      expect(component.loadEntryEmployees.emit).toHaveBeenCalledTimes(1);
     });
   });
 });

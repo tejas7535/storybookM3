@@ -1,21 +1,15 @@
 <div class="mt-4">
   <span class="text-body-2">{{ title }}</span>
   <h4 class="mb-4">{{ value }}</h4>
-  <div
-    [matTooltip]="tooltip"
-    [ngClass]="{
-      'text-warning': employees?.length !== realEmployeesCount,
-      'text-high-emphasis': employees?.length === realEmployeesCount
-    }"
-  >
+  <div class="'text-high-emphasis'">
     <button
       mat-fab
       color="primary"
       class="mt-2"
       *ngIf="showTeamMemberDialog"
-      [disabled]="realEmployeesCount === 0"
+      [disabled]="employeesCount === 0"
       (click)="openTeamMemberDialog()"
-      [ngClass]="{ 'cursor-not-allowed': realEmployeesCount === 0 }"
+      [ngClass]="{ 'cursor-not-allowed': employeesCount === 0 }"
     >
       <mat-icon>people</mat-icon>
     </button>

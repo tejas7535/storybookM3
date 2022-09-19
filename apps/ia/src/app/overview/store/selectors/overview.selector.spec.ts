@@ -8,6 +8,7 @@ import {
   ActionType,
   Color,
   Employee,
+  EmployeeWithAction,
   FilterDimension,
   FilterKey,
 } from '../../../shared/models';
@@ -15,14 +16,23 @@ import { FluctuationKpi, LeavingType, OpenApplication } from '../../models';
 import { initialState, OverviewState } from '..';
 import {
   getAttritionOverTimeOverviewData,
-  getEntryEmployees,
-  getExitEmployees,
+  getExternalEntryCount,
+  getExternalExitCount,
   getFluctuationRatesForChart,
+  getInternalEntryCount,
+  getInternalExitCount,
   getIsLoadingAttritionOverTimeOverview,
   getIsLoadingDoughnutsConfig,
   getIsLoadingFluctuationRatesForChart,
+  getIsLoadingOpenApplications,
   getIsLoadingResignedEmployees,
   getOpenApplications,
+  getOverviewEntryEmployees,
+  getOverviewEntryEmployeesLoading,
+  getOverviewExitEmployees,
+  getOverviewExitEmployeesLoading,
+  getOverviewExternalExitEmployees,
+  getOverviewExternalUnforcedExitEmployees,
   getOverviewFluctuationEntriesCount,
   getOverviewFluctuationEntriesDoughnutConfig,
   getOverviewFluctuationExitsCount,
@@ -32,6 +42,7 @@ import {
   getOverviewFluctuationTotalEmployeesCount,
   getOverviewUnforcedFluctuationKpi,
   getResignedEmployees,
+  getResignedEmployeesCount,
   getUnforcedFluctuationRatesForChart,
 } from './overview.selector';
 
@@ -49,6 +60,12 @@ describe('Overview Selector', () => {
   );
   const internalLeaver1 = createInternalLeaver(
     '4',
+    selectedOrgUnit,
+    moment({ year: 2020, month: 4, date: 30 }).valueOf().toString()
+  );
+
+  const leaverITUnforced = createExternalUnforcedLeaver(
+    '11',
     selectedOrgUnit,
     moment({ year: 2020, month: 4, date: 30 }).valueOf().toString()
   );
@@ -93,9 +110,17 @@ describe('Overview Selector', () => {
         loading: true,
         errorMessage: undefined,
       },
-      entriesExits: {
+      exitEmployees: {
         data: {
-          entryEmployees: [
+          employees: [leaverIT1, leaverIT2, internalLeaver1, leaverITUnforced],
+          responseModified: false,
+        },
+        loading: true,
+        errorMessage: undefined,
+      },
+      entryEmployees: {
+        data: {
+          employees: [
             entryEmployee2,
             entryEmployeeAfterTimeRange,
             internalEntryEmployeeBeforeTimeRange,
@@ -103,7 +128,7 @@ describe('Overview Selector', () => {
             entryEmployeeBeforeTimeRange,
             entryEmployee1,
           ],
-          exitEmployees: [leaverIT1, leaverIT2, internalLeaver1],
+          responseModified: false,
         },
         loading: true,
         errorMessage: undefined,
@@ -124,7 +149,6 @@ describe('Overview Selector', () => {
           externalUnforcedExitCount: 0,
           internalEntryCount: 2,
           externalEntryCount: 5,
-          responseModified: true,
         },
         loading: true,
         errorMessage: undefined,
@@ -216,7 +240,6 @@ describe('Overview Selector', () => {
         externalUnforcedExitCount: 0,
         internalEntryCount: 2,
         externalEntryCount: 5,
-        responseModified: true,
       });
     });
   });
@@ -276,25 +299,61 @@ describe('Overview Selector', () => {
     });
   });
 
-  describe('getExitEmployees', () => {
-    it('should return external and internal leavers', () => {
-      const leavers = getExitEmployees(fakeState);
+  describe('getOverviewExitEmployees', () => {
+    it('should return overview exit employees', () => {
+      const employees = getOverviewExitEmployees.projector(fakeState.overview);
 
-      expect(leavers.length).toEqual(3);
-      expect(leavers).toContain(leaverIT1);
-      expect(leavers).toContain(leaverIT2);
-      expect(leavers).toContain(internalLeaver1);
+      expect(employees).toEqual(
+        fakeState.overview.exitEmployees.data.employees
+      );
     });
   });
 
-  describe('getEntryEmployees', () => {
-    it('should return entry employees only in selected time range', () => {
-      const entryEmployees = getEntryEmployees(fakeState);
+  describe('getOverviewExternalExitEmployees', () => {
+    it('should return overview external exit employees', () => {
+      const employees = getOverviewExternalExitEmployees.projector(
+        fakeState.overview.exitEmployees.data.employees
+      );
 
-      expect(entryEmployees.length).toEqual(3);
-      expect(entryEmployees).toContain(entryEmployee1);
-      expect(entryEmployees).toContain(entryEmployee2);
-      expect(entryEmployees).toContain(internalEntryEmployee1);
+      expect(employees).toEqual([leaverIT1, leaverIT2, leaverITUnforced]);
+    });
+  });
+
+  describe('getOverviewExternalUnforcedExitEmployees', () => {
+    it('should return overview unforced external exit employees', () => {
+      const employees = getOverviewExternalUnforcedExitEmployees.projector(
+        fakeState.overview.exitEmployees.data.employees
+      );
+
+      expect(employees).toEqual([leaverITUnforced]);
+    });
+  });
+
+  describe('getOverviewExitEmployeesLoading', () => {
+    it('should return loading state', () => {
+      expect(
+        getOverviewExitEmployeesLoading.projector(fakeState.overview)
+      ).toBeTruthy();
+    });
+  });
+
+  describe('getOverviewEntryEmployees', () => {
+    it('should return external entry employees only in selected time range', () => {
+      const entryEmployees = getOverviewEntryEmployees.projector(
+        fakeState.overview
+      );
+
+      expect(entryEmployees).toEqual(
+        fakeState.overview.entryEmployees.data.employees
+      );
+    });
+  });
+
+  describe('getOverviewEntryEmployeesLoading', () => {
+    it('should return loading state', () => {
+      expect(
+        getOverviewEntryEmployeesLoading.projector(fakeState.overview)
+      ).toBeTruthy();
     });
   });
 
@@ -428,11 +487,67 @@ describe('Overview Selector', () => {
     });
   });
 
+  describe('getResignedEmployeesCount', () => {
+    it('should return resigned employees count', () => {
+      expect(getResignedEmployeesCount.projector(fakeState.overview)).toEqual(
+        fakeState.overview.resignedEmployees.data?.resignedEmployeesCount
+      );
+    });
+  });
+
   describe('getOpenApplications', () => {
     it('should return open applications', () => {
       expect(getOpenApplications.projector(fakeState.overview)).toEqual([
         { name: 'UI Designer' },
       ]);
+    });
+  });
+
+  describe('getIsLoadingOpenApplications', () => {
+    it('should return open applications count', () => {
+      expect(
+        getIsLoadingOpenApplications.projector(fakeState.overview)
+      ).toEqual(fakeState.overview.openApplications.loading);
+    });
+  });
+
+  describe('getInternalExitCount', () => {
+    test('should return internal exit count', () => {
+      const count = getInternalExitCount.projector(fakeState.overview);
+
+      expect(count).toEqual(
+        fakeState.overview.entriesExitsMeta.data.internalExitCount
+      );
+    });
+  });
+
+  describe('getExternalExitCount', () => {
+    test('should return external exit count', () => {
+      const count = getExternalExitCount.projector(fakeState.overview);
+
+      expect(count).toEqual(
+        fakeState.overview.entriesExitsMeta.data.externalExitCount
+      );
+    });
+  });
+
+  describe('getInternalEntryCount', () => {
+    test('should return internal entry count', () => {
+      const count = getInternalEntryCount.projector(fakeState.overview);
+
+      expect(count).toEqual(
+        fakeState.overview.entriesExitsMeta.data.internalEntryCount
+      );
+    });
+  });
+
+  describe('getExternalEntryCount', () => {
+    test('should return external entry count', () => {
+      const count = getExternalEntryCount.projector(fakeState.overview);
+
+      expect(count).toEqual(
+        fakeState.overview.entriesExitsMeta.data.externalEntryCount
+      );
     });
   });
 });
@@ -464,65 +579,93 @@ function getStateForFluctuationKpiTesting() {
   };
 }
 
-function createExternalEntryEmployee(id: string, entryDate: string): Employee {
-  return createEmployee(id, 'Schaeffler_IT', entryDate);
+function createExternalEntryEmployee(
+  name: string,
+  entryDate: string
+): EmployeeWithAction {
+  return createEmployee(
+    name,
+    'Schaeffler_IT',
+    ActionType.EXTERNAL,
+    undefined,
+    entryDate
+  );
 }
 
 function createInternalEntryEmployee(
-  id: string,
+  name: string,
   internalEntryDate: string
-): Employee {
-  const employee = createEmployee(id, 'Schaeffler_IT');
-  employee.actions = [
-    { actionType: ActionType.INTERNAL, entryDate: internalEntryDate } as any,
-  ];
-
-  return employee;
+): EmployeeWithAction {
+  return createEmployee(
+    name,
+    'Schaeffler IT',
+    ActionType.INTERNAL,
+    undefined,
+    internalEntryDate
+  );
 }
 
 function createExternalLeaver(
-  id: string,
+  name: string,
   orgUnit: string,
   exitDate: string
-): Employee {
-  return createEmployee(id, orgUnit, undefined, exitDate);
+): EmployeeWithAction {
+  return createEmployee(
+    name,
+    orgUnit,
+    ActionType.EXTERNAL,
+    undefined,
+    undefined,
+    exitDate
+  );
+}
+
+function createExternalUnforcedLeaver(
+  name: string,
+  orgUnit: string,
+  exitDate: string
+): EmployeeWithAction {
+  return createEmployee(
+    name,
+    orgUnit,
+    ActionType.EXTERNAL,
+    LeavingType.UNFORCED,
+    undefined,
+    exitDate
+  );
 }
 
 function createInternalLeaver(
-  id: string,
+  name: string,
   orgUnit: string,
   internalExitDate: string
 ) {
-  const employee = createEmployee(id, orgUnit);
-
-  employee.actions = [
-    { actionType: ActionType.INTERNAL, exitDate: internalExitDate } as any,
-  ];
-
-  return employee;
+  return createEmployee(
+    name,
+    orgUnit,
+    ActionType.INTERNAL,
+    undefined,
+    undefined,
+    internalExitDate
+  );
 }
 
 function createEmployee(
-  id: string,
+  employeeName: string,
   orgUnit: string,
+  actionType: ActionType,
+  reasonForLeaving?: LeavingType,
   entryDate?: string,
-  exitDate?: string
-): Employee {
+  exitDate?: string,
+  positionDescription?: string
+): EmployeeWithAction {
   return {
-    employeeId: id,
-    reportDate: '123',
-    employeeName: 'John Walker',
-    orgUnit,
-    parentEmployeeId: '10',
+    employeeName,
     exitDate,
-    entryDate: entryDate ?? new Date(2021, 5, 1).valueOf().toString(),
-    reasonForLeaving: LeavingType.UNFORCED,
-    level: 4,
-    directSubordinates: 2,
-    totalSubordinates: 1,
-    directAttrition: 0,
-    totalAttrition: 1,
-    attritionMeta: undefined,
-    directLeafChildren: [],
-  } as Employee;
+    entryDate,
+    orgUnit,
+    actionType,
+    reasonForLeaving,
+    positionDescription,
+  } as EmployeeWithAction;
 }

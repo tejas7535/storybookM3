@@ -7,13 +7,21 @@ import { marbles } from 'rxjs-marbles/jest';
 import { DoughnutConfig } from '../shared/charts/models/doughnut-config.model';
 import { OverviewComponent } from './overview.component';
 import {
+  loadOverviewEntryEmployees,
+  loadOverviewExitEmployees,
+} from './store/actions/overview.action';
+import {
   getAttritionOverTimeOverviewData,
-  getEntryEmployees,
-  getExitEmployees,
   getFluctuationRatesForChart,
   getIsLoadingAttritionOverTimeOverview,
   getIsLoadingDoughnutsConfig,
   getIsLoadingFluctuationRatesForChart,
+  getOverviewEntryEmployees,
+  getOverviewEntryEmployeesLoading,
+  getOverviewExitEmployees,
+  getOverviewExitEmployeesLoading,
+  getOverviewExternalExitEmployees,
+  getOverviewExternalUnforcedExitEmployees,
   getOverviewFluctuationEntriesCount,
   getOverviewFluctuationEntriesDoughnutConfig,
   getOverviewFluctuationExitsCount,
@@ -180,7 +188,7 @@ describe('OverviewComponent', () => {
       'should set exitEmployees$',
       marbles((m) => {
         const result = [] as any;
-        store.overrideSelector(getExitEmployees, result);
+        store.overrideSelector(getOverviewExitEmployees, result);
         component.ngOnInit();
         m.expect(component.exitEmployees$).toBeObservable(
           m.cold('a', {
@@ -194,7 +202,7 @@ describe('OverviewComponent', () => {
       'should set entryEmployees$',
       marbles((m) => {
         const result = [] as any;
-        store.overrideSelector(getEntryEmployees, result);
+        store.overrideSelector(getOverviewEntryEmployees, result);
         component.ngOnInit();
         m.expect(component.entryEmployees$).toBeObservable(
           m.cold('a', {
@@ -203,47 +211,118 @@ describe('OverviewComponent', () => {
         );
       })
     );
+    test(
+      'should set exitEmployeesLoading$',
+      marbles((m) => {
+        const result = true;
+        store.overrideSelector(getOverviewExitEmployeesLoading, result);
+        component.ngOnInit();
+        m.expect(component.exitEmployeesLoading$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+      })
+    );
+    test(
+      'should set entryEmployeesLoading$',
+      marbles((m) => {
+        const result = false;
+        store.overrideSelector(getOverviewEntryEmployeesLoading, result);
+        component.ngOnInit();
+        m.expect(component.entryEmployeesLoading$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+      })
+    );
+    test(
+      'should set externalUnforcedExitEmployees$',
+      marbles((m) => {
+        const result = [] as any;
+        store.overrideSelector(
+          getOverviewExternalUnforcedExitEmployees,
+          result
+        );
+        component.ngOnInit();
+        m.expect(component.externalUnforcedExitEmployees$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+      })
+    );
+    test(
+      'should set externalExitEmployees$',
+      marbles((m) => {
+        const result = [] as any;
+        store.overrideSelector(getOverviewExternalExitEmployees, result);
+        component.ngOnInit();
+        m.expect(component.externalExitEmployees$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+      })
+    );
+
+    test(
+      'should set fluctuationChartData$',
+      marbles((m) => {
+        const result = [] as any;
+        store.overrideSelector(getFluctuationRatesForChart, result);
+        component.ngOnInit();
+        m.expect(component.fluctuationChartData$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+      })
+    );
+
+    test(
+      'should set unforcedFluctuationChartData$',
+      marbles((m) => {
+        const result = [] as any;
+        store.overrideSelector(getUnforcedFluctuationRatesForChart, result);
+        component.ngOnInit();
+        m.expect(component.unforcedFluctuationChartData$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+      })
+    );
+
+    test(
+      'should set isFluctuationChartLoading$',
+      marbles((m) => {
+        const result = false as any;
+        store.overrideSelector(getIsLoadingFluctuationRatesForChart, result);
+        component.ngOnInit();
+        m.expect(component.isFluctuationChartLoading$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+      })
+    );
   });
 
-  test(
-    'should set fluctuationChartData$',
-    marbles((m) => {
-      const result = [] as any;
-      store.overrideSelector(getFluctuationRatesForChart, result);
-      component.ngOnInit();
-      m.expect(component.fluctuationChartData$).toBeObservable(
-        m.cold('a', {
-          a: result,
-        })
-      );
-    })
-  );
+  describe('triggerLoadExitEmployees', () => {
+    test('should dispatch loadOverviewExitEmployees', () => {
+      component.triggerLoadExitEmployees();
 
-  test(
-    'should set unforcedFluctuationChartData$',
-    marbles((m) => {
-      const result = [] as any;
-      store.overrideSelector(getUnforcedFluctuationRatesForChart, result);
-      component.ngOnInit();
-      m.expect(component.unforcedFluctuationChartData$).toBeObservable(
-        m.cold('a', {
-          a: result,
-        })
-      );
-    })
-  );
+      expect(store.dispatch).toHaveBeenCalledWith(loadOverviewExitEmployees());
+    });
+  });
 
-  test(
-    'should set isFluctuationChartLoading$',
-    marbles((m) => {
-      const result = false as any;
-      store.overrideSelector(getIsLoadingFluctuationRatesForChart, result);
-      component.ngOnInit();
-      m.expect(component.isFluctuationChartLoading$).toBeObservable(
-        m.cold('a', {
-          a: result,
-        })
-      );
-    })
-  );
+  describe('triggerLoadEntryEmployees', () => {
+    test('should dispatch loadOverviewEntryEmployees', () => {
+      component.triggerLoadEntryEmployees();
+
+      expect(store.dispatch).toHaveBeenCalledWith(loadOverviewEntryEmployees());
+    });
+  });
 });

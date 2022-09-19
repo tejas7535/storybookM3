@@ -1,12 +1,16 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-
-import { TranslocoService } from '@ngneat/transloco';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { EmployeeListDialogComponent } from '../employee-list-dialog/employee-list-dialog.component';
 import { EmployeeListDialogMeta } from '../employee-list-dialog/employee-list-dialog-meta.model';
 import { EmployeeListDialogMetaHeadings } from '../employee-list-dialog/employee-list-dialog-meta-headings.model';
-import { Employee, EmployeeListDialogType } from '../models';
+import { EmployeeWithAction } from '../models';
 
 @Component({
   selector: 'ia-kpi',
@@ -14,65 +18,64 @@ import { Employee, EmployeeListDialogType } from '../models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class KpiComponent {
-  private _realEmployeesCount = 0;
-  private _employees: Employee[] = [];
+  private _dialogRef: MatDialogRef<EmployeeListDialogComponent>;
+  private _employees: EmployeeWithAction[];
+  private _employeesLoading: boolean;
 
-  tooltip = '';
   btnColor = 'primary';
 
   @Input() title: string;
   @Input() value: string | number;
-  @Input() set employees(employees: Employee[]) {
+  @Input() employeesCount: number;
+  @Input() employeeListDialogMetaHeadings: EmployeeListDialogMetaHeadings;
+  @Input() showFluctuationType: boolean;
+  @Input() showTeamMemberDialog = true;
+
+  @Output()
+  readonly openTeamMembers: EventEmitter<void> = new EventEmitter();
+
+  @Input() set employees(employees: EmployeeWithAction[]) {
     this._employees = employees;
-    this.setTooltip();
+    this.updateDialogData();
   }
 
-  get employees(): Employee[] {
+  get employees(): EmployeeWithAction[] {
     return this._employees;
   }
 
-  // employees might be less due to missing rights
-  @Input() set realEmployeesCount(realEmployeesCount: number) {
-    this._realEmployeesCount = realEmployeesCount;
-    this.setTooltip();
+  @Input() set employeesLoading(employeesLoading: boolean) {
+    this._employeesLoading = employeesLoading;
+    this.updateDialogData();
   }
 
-  get realEmployeesCount(): number {
-    return this._realEmployeesCount;
+  get employeesLoading(): boolean {
+    return this._employeesLoading;
   }
 
-  @Input() employeeListDialogMetaHeadings: EmployeeListDialogMetaHeadings;
-  @Input() showFluctuationType: boolean;
-  @Input() employeeListType: EmployeeListDialogType;
-  @Input() showTeamMemberDialog = true;
-
-  constructor(
-    private readonly dialog: MatDialog,
-    private readonly translocoService: TranslocoService
-  ) {}
+  constructor(private readonly dialog: MatDialog) {}
 
   openTeamMemberDialog(): void {
-    const data = new EmployeeListDialogMeta(
-      this.employeeListDialogMetaHeadings,
-      this.employees,
-      this.employees?.length === this.realEmployeesCount,
-      this.showFluctuationType,
-      this.employeeListType
-    );
-    this.dialog.open(EmployeeListDialogComponent, {
+    this.openTeamMembers.emit();
+    const data = this.createEmployeeListDialogMeta();
+    this._dialogRef = this.dialog.open(EmployeeListDialogComponent, {
       data,
     });
   }
 
-  setTooltip(): void {
-    if (this.employees?.length === this.realEmployeesCount) {
-      this.tooltip = this.translocoService.translate(
-        'accessRights.showTeamMembers'
-      );
-    } else if (this.employees?.length < this.realEmployeesCount) {
-      this.tooltip = this.translocoService.translate(
-        'accessRights.showTeamMembersPartially'
-      );
+  updateDialogData(): void {
+    if (this._dialogRef && this._dialogRef.componentInstance) {
+      this._dialogRef.componentInstance.data =
+        this.createEmployeeListDialogMeta();
     }
+  }
+
+  createEmployeeListDialogMeta(): EmployeeListDialogMeta {
+    return new EmployeeListDialogMeta(
+      this.employeeListDialogMetaHeadings,
+      this.employees,
+      this.employeesLoading,
+      this.employeesCount === this.employees?.length,
+      this.showFluctuationType
+    );
   }
 }

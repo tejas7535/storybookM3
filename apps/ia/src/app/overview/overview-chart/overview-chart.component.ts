@@ -109,7 +109,8 @@ export class OverviewChartComponent {
           `${event.seriesName} - ${event.name}:`,
           undefined
         ),
-        employees,
+        employees as any[], // FIXME
+        false, // FIXME
         enoughRights
       );
 

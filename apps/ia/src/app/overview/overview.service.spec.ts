@@ -9,6 +9,8 @@ import { EmployeesRequest, FilterDimension } from '../shared/models';
 import {
   FluctuationRatesChartData,
   OpenApplication,
+  OverviewExitEntryEmployeesResponse,
+  OverviewFluctuationRates,
   ResignedEmployeesResponse,
 } from './models';
 import { OverviewService } from './overview.service';
@@ -31,6 +33,30 @@ describe('OverviewService', () => {
 
   afterEach(() => {
     httpMock.verify();
+  });
+
+  describe('getOverviewFluctuationRates', () => {
+    test('should call rest service', () => {
+      const orgUnit = 'Schaeffler12';
+      const timeRange = '123|456';
+      const request = {
+        filterDimension: FilterDimension.ORG_UNIT,
+        value: orgUnit,
+        timeRange,
+      } as EmployeesRequest;
+
+      const response = {} as OverviewFluctuationRates;
+
+      service.getOverviewFluctuationRates(request).subscribe((result) => {
+        expect(result).toEqual(response);
+      });
+
+      const req = httpMock.expectOne(
+        `api/v1/overview-fluctuation-rates?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}&time_range=123%7C456`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(request);
+    });
   });
 
   describe('getFluctuationRateChartData', () => {
@@ -100,6 +126,54 @@ describe('OverviewService', () => {
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);
+    });
+  });
+
+  describe('getOverviewExitEmployees', () => {
+    test('should call rest service', () => {
+      const orgUnit = 'Schaeffler12';
+      const timeRange = '123|456';
+      const request = {
+        filterDimension: FilterDimension.ORG_UNIT,
+        value: orgUnit,
+        timeRange,
+      } as EmployeesRequest;
+
+      const response = {} as OverviewExitEntryEmployeesResponse;
+
+      service.getOverviewExitEmployees(request).subscribe((result) => {
+        expect(result).toEqual(response);
+      });
+
+      const req = httpMock.expectOne(
+        `api/v1/overview-exit-employees?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}&time_range=123%7C456`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(request);
+    });
+  });
+
+  describe('getOverviewEntryEmployees', () => {
+    test('should call rest service', () => {
+      const orgUnit = 'Schaeffler12';
+      const timeRange = '123|456';
+      const request = {
+        filterDimension: FilterDimension.ORG_UNIT,
+        value: orgUnit,
+        timeRange,
+      } as EmployeesRequest;
+
+      const response = {} as OverviewExitEntryEmployeesResponse;
+
+      service.getOverviewEntryEmployees(request).subscribe((result) => {
+        expect(result).toEqual(response);
+      });
+
+      const req = httpMock.expectOne(
+        `api/v1/overview-entry-employees?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}&time_range=123%7C456`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(request);
     });
   });
 });

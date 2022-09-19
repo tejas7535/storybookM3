@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 
 import { translate } from '@ngneat/transloco';
 
@@ -8,7 +14,7 @@ import { DoughnutChartData } from '../../shared/charts/models/doughnut-chart-dat
 import { DoughnutConfig } from '../../shared/charts/models/doughnut-config.model';
 import { DoughnutSeriesConfig } from '../../shared/charts/models/doughnut-series-config.model';
 import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
-import { Color, Employee, EmployeeListDialogType } from '../../shared/models';
+import { Color, EmployeeWithAction } from '../../shared/models';
 
 @Component({
   selector: 'ia-entries-exits',
@@ -35,16 +41,16 @@ export class EntriesExitsComponent {
   entriesDoughnutConfig: DoughnutConfig;
   exitsDoughnutConfig: DoughnutConfig;
 
-  exitType = EmployeeListDialogType.EXIT;
-  entryType = EmployeeListDialogType.ENTRY;
   legend: ChartLegendItem[] = [];
 
   @Input() isDataLoading: boolean;
   @Input() entriesCount: number;
   @Input() exitsCount: number;
   @Input() totalEmployeesCount: number;
-  @Input() exitEmployees: Employee[] = [];
-  @Input() entryEmployees: Employee[] = [];
+  @Input() exitEmployees: EmployeeWithAction[];
+  @Input() exitEmployeesLoading: boolean;
+  @Input() entryEmployees: EmployeeWithAction[];
+  @Input() entryEmployeesLoading: boolean;
   @Input() employeeListDialogMetaHeadings: EmployeeListDialogMetaHeadings;
 
   @Input() set dimensionHint(dimensionHint: string) {
@@ -61,6 +67,11 @@ export class EntriesExitsComponent {
     this.entriesDoughnutConfig = data[0];
     this.exitsDoughnutConfig = data[1];
   }
+
+  @Output()
+  readonly loadExitEmployees: EventEmitter<void> = new EventEmitter();
+  @Output()
+  readonly loadEntryEmployees: EventEmitter<void> = new EventEmitter();
 
   onSelectedLegendItem(action: LegendSelectAction): void {
     this.legendSelectAction = action;
@@ -83,5 +94,13 @@ export class EntriesExitsComponent {
         true
       ),
     ];
+  }
+
+  triggerExitEmployeesAction(): void {
+    this.loadExitEmployees.emit();
+  }
+
+  triggerEntryEmployeesAction(): void {
+    this.loadEntryEmployees.emit();
   }
 }

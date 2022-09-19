@@ -1,12 +1,12 @@
-import { Employee, EmployeeListDialogType } from '../models';
+import { EmployeeWithAction } from '../models';
 import { EmployeeListDialogMetaHeadings } from './employee-list-dialog-meta-headings.model';
 
 export class EmployeeListDialogMeta {
   public constructor(
     public headings: EmployeeListDialogMetaHeadings,
-    public employees: Employee[],
+    public employees: EmployeeWithAction[],
+    public employeesLoading: boolean,
     public enoughRightsToShowAllEmployees: boolean,
-    public showFluctuationType?: boolean,
-    public employeeListType?: EmployeeListDialogType
+    public showFluctuationType?: boolean
   ) {}
 }

@@ -105,8 +105,8 @@ describe('OverviewChartComponent', () => {
 
   describe('onChartClick', () => {
     const employee: any = {
-      employeeName: 'Donald Trump',
-      positionDescription: 'Depp',
+      employeeName: 'Tronald Dump',
+      positionDescription: 'COO',
       orgUnit: 'Zirkus',
     };
 
@@ -141,6 +141,7 @@ describe('OverviewChartComponent', () => {
             employees: [employee],
             enoughRightsToShowAllEmployees: false,
             showFluctuationType: undefined,
+            employeesLoading: false,
           },
         }
       );

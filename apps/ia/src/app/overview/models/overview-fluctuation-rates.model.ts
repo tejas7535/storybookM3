@@ -1,7 +1,6 @@
-import { RestResponse } from '../../shared/models';
 import { FluctuationRate } from './fluctuation-rate.model';
 
-export class OverviewFluctuationRates extends RestResponse {
+export class OverviewFluctuationRates {
   totalEmployeesCount: number;
   fluctuationRate: FluctuationRate;
   unforcedFluctuationRate: FluctuationRate;

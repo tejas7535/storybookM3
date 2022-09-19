@@ -10,7 +10,10 @@
   class="!overflow-hidden"
   *transloco="let t; read: 'employeeListDialog'"
 >
-  <span *ngIf="!enoughRightsToShowAllEmployees" class="italic text-warning">
+  <span
+    *ngIf="!data.enoughRightsToShowAllEmployees && !data.employeesLoading"
+    class="italic text-warning"
+  >
     {{ t('enoughRightsToShowAllEmployees') }}
   </span>
   <h6
@@ -20,7 +23,7 @@
     {{ data?.headings?.contentTitle }}
   </h6>
   <cdk-virtual-scroll-viewport itemSize="56" class="h-[400px] w-[500px]">
-    <mat-list>
+    <mat-list *ngIf="!data.employeesLoading; else loading">
       <ng-container
         *cdkVirtualFor="
           let employee of data.employees;
@@ -55,12 +58,9 @@
               </div>
             </div>
           </div>
-          <mat-chip-list
-            [attr.aria-label]="t('globalFilters')"
-            *ngIf="showFluctuationType"
-          >
+          <mat-chip-list *ngIf="showFluctuationType">
             <mat-chip
-              *ngIf="hasInternalAction(employee)"
+              *ngIf="employee.actionType === actionType.INTERNAL"
               disableRipple="true"
               selectable="false"
               class="w-[40px] !bg-lime text-caption !text-high-emphasis-dark-bg after:!bg-transparent"
@@ -70,7 +70,7 @@
               {{ t('fluctuationType.internal.shortLabel') }}
             </mat-chip>
             <mat-chip
-              *ngIf="hasExternalAction(employee)"
+              *ngIf="employee.actionType === actionType.EXTERNAL"
               disableRipple="true"
               selectable="false"
               class="!bg-light-blue w-[40px] text-caption !text-high-emphasis-dark-bg after:!bg-transparent"
@@ -84,15 +84,24 @@
         <mat-divider *ngIf="!last"></mat-divider>
       </ng-container>
     </mat-list>
+    <ng-template #loading>
+      <schaeffler-loading-spinner
+        class="ml-2"
+        [relative]="true"
+        [diameter]="20"
+        [strokeWidth]="2"
+      ></schaeffler-loading-spinner>
+    </ng-template>
   </cdk-virtual-scroll-viewport>
 </mat-dialog-content>
 <mat-dialog-actions align="end" *transloco="let t; read: 'employeeListDialog'">
   <p
     class="mr-auto text-caption"
     [ngClass]="{
-      'text-low-emphasis': enoughRightsToShowAllEmployees,
-      'text-warning': !enoughRightsToShowAllEmployees
+      'text-low-emphasis': data.enoughRightsToShowAllEmployees,
+      'text-warning': !data.enoughRightsToShowAllEmployees
     }"
+    *ngIf="!data.employeesLoading"
   >
     {{
       t('total', {

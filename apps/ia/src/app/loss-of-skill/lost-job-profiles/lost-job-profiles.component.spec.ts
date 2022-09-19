@@ -12,7 +12,7 @@ import { EmployeeListDialogComponent } from '../../shared/employee-list-dialog/e
 import { EmployeeListDialogModule } from '../../shared/employee-list-dialog/employee-list-dialog.module';
 import { EmployeeListDialogMeta } from '../../shared/employee-list-dialog/employee-list-dialog-meta.model';
 import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
-import { Employee } from '../../shared/models';
+import { Employee, EmployeeWithAction } from '../../shared/models';
 import { LostJobProfilesComponent } from './lost-job-profiles.component';
 
 describe('LostJobProfilesComponent', () => {
@@ -86,7 +86,8 @@ describe('LostJobProfilesComponent', () => {
           title,
           translate('lossOfSkill.employeeListDialog.contentTitle')
         ),
-        [{ employeeName: 'Donald' } as unknown as Employee],
+        [{ employeeName: 'Donald' } as unknown as EmployeeWithAction],
+        false,
         true
       );
 

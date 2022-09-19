@@ -14,6 +14,7 @@ import {
 import {
   FluctuationRatesChartData,
   OpenApplication,
+  OverviewExitEntryEmployeesResponse,
   OverviewFluctuationRates,
   ResignedEmployeesResponse,
 } from './models';
@@ -28,6 +29,8 @@ export class OverviewService {
     'unforced-fluctuation-rates-chart';
   readonly RESIGNED_EMPLOYEES = 'resigned-employees';
   readonly OPEN_APPLICATIONS = 'open-applications';
+  readonly OVERVIEW_EXIT_EMPLOYEES = 'overview-exit-employees';
+  readonly OVERVIEW_ENTRY_EMPLOYEES = 'overview-entry-employees';
 
   constructor(
     private readonly http: HttpClient,
@@ -93,6 +96,36 @@ export class OverviewService {
         params,
         context: withCache(),
       }
+    );
+  }
+
+  getOverviewExitEmployees(
+    employeesRequest: EmployeesRequest
+  ): Observable<OverviewExitEntryEmployeesResponse> {
+    const params = this.paramsCreator.createHttpParamsForOrgUnitAndTimeRange(
+      employeesRequest.filterDimension,
+      employeesRequest.value,
+      employeesRequest.timeRange
+    );
+
+    return this.http.get<OverviewExitEntryEmployeesResponse>(
+      `${ApiVersion.V1}/${this.OVERVIEW_EXIT_EMPLOYEES}`,
+      { params, context: withCache() }
+    );
+  }
+
+  getOverviewEntryEmployees(
+    employeesRequest: EmployeesRequest
+  ): Observable<OverviewExitEntryEmployeesResponse> {
+    const params = this.paramsCreator.createHttpParamsForOrgUnitAndTimeRange(
+      employeesRequest.filterDimension,
+      employeesRequest.value,
+      employeesRequest.timeRange
+    );
+
+    return this.http.get<OverviewExitEntryEmployeesResponse>(
+      `${ApiVersion.V1}/${this.OVERVIEW_ENTRY_EMPLOYEES}`,
+      { params, context: withCache() }
     );
   }
 }

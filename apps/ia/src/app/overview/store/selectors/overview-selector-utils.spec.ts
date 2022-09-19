@@ -6,59 +6,17 @@ import {
   DoughnutConfig,
   DoughnutSeriesConfig,
 } from '../../../shared/charts/models';
-import { ActionType, Color, Employee } from '../../../shared/models';
+import { Color } from '../../../shared/models';
 import {
   FluctuationKpi,
   FluctuationRate,
   FluctuationRatesChartData,
-  LeavingType,
   PercentageFluctuationRate,
 } from '../../models';
 import * as utils from './overview-selector-utils';
 
 describe('OverviewSelectorUtils', () => {
   const selectedOrgUnit = 'Schaeffler_IT';
-  const employees = [
-    {
-      employeeId: '1',
-      orgUnit: 'Schaeffler_IT',
-      actions: [
-        {
-          exitDate: new Date(2020, 5, 1).valueOf().toString(),
-          actionType: ActionType.INTERNAL,
-        },
-      ],
-    },
-    { employeeId: '2', orgUnit: 'Schaeffler_HR' },
-    {
-      employeeId: '3',
-      orgUnit: 'Schaeffler_IT_1',
-      reasonForLeaving: LeavingType.REMAINING,
-      exitDate: '123',
-    },
-    {
-      employeeId: '4',
-      orgUnit: 'Schaeffler_IT_1_1',
-      reasonForLeaving: LeavingType.UNFORCED,
-      exitDate: '123',
-    },
-  ] as Employee[];
-
-  describe('getExternalLeavers', () => {
-    test('should get external leavers', () => {
-      const result = utils.getExternalLeavers(employees);
-
-      expect(result).toEqual([employees[2], employees[3]]);
-    });
-  });
-
-  describe('getUnforcedLeavers', () => {
-    test('should get only unforced leavers', () => {
-      const result = utils.getUnforcedLeavers(employees);
-
-      expect(result).toEqual([employees[3]]);
-    });
-  });
 
   describe('createFluctuationKpi', () => {
     const companyKpi = 0.045;

@@ -4,6 +4,7 @@ import { AttritionOverTime } from '../../shared/models';
 import {
   FluctuationRatesChartData,
   OpenApplication,
+  OverviewExitEntryEmployeesResponse,
   OverviewFluctuationRates,
   ResignedEmployeesResponse,
 } from '../models';
@@ -20,6 +21,12 @@ import {
   loadOpenApplications,
   loadOpenApplicationsFailure,
   loadOpenApplicationsSuccess,
+  loadOverviewEntryEmployees,
+  loadOverviewEntryEmployeesFailure,
+  loadOverviewEntryEmployeesSuccess,
+  loadOverviewExitEmployees,
+  loadOverviewExitEmployeesFailure,
+  loadOverviewExitEmployeesSuccess,
   loadResignedEmployees,
   loadResignedEmployeesFailure,
   loadResignedEmployeesSuccess,
@@ -33,8 +40,13 @@ export interface OverviewState {
     loading: boolean;
     errorMessage: string;
   };
-  entriesExits: {
-    data: any;
+  exitEmployees: {
+    data: OverviewExitEntryEmployeesResponse;
+    loading: boolean;
+    errorMessage: string;
+  };
+  entryEmployees: {
+    data: OverviewExitEntryEmployeesResponse;
     loading: boolean;
     errorMessage: string;
   };
@@ -66,7 +78,12 @@ export const initialState: OverviewState = {
     loading: false,
     errorMessage: undefined,
   },
-  entriesExits: {
+  exitEmployees: {
+    data: undefined,
+    loading: false,
+    errorMessage: undefined,
+  },
+  entryEmployees: {
     data: undefined,
     loading: false,
     errorMessage: undefined,
@@ -155,6 +172,72 @@ export const overviewReducer = createReducer(
       ...state,
       entriesExitsMeta: {
         ...state.entriesExitsMeta,
+        errorMessage,
+        data: undefined,
+        loading: false,
+      },
+    })
+  ),
+  on(
+    loadOverviewExitEmployees,
+    (state: OverviewState): OverviewState => ({
+      ...state,
+      exitEmployees: {
+        ...state.exitEmployees,
+        loading: true,
+      },
+    })
+  ),
+  on(
+    loadOverviewExitEmployeesSuccess,
+    (state: OverviewState, { data }): OverviewState => ({
+      ...state,
+      exitEmployees: {
+        ...state.exitEmployees,
+        data,
+        loading: false,
+      },
+    })
+  ),
+  on(
+    loadOverviewExitEmployeesFailure,
+    (state: OverviewState, { errorMessage }): OverviewState => ({
+      ...state,
+      exitEmployees: {
+        ...state.exitEmployees,
+        errorMessage,
+        data: undefined,
+        loading: false,
+      },
+    })
+  ),
+  on(
+    loadOverviewEntryEmployees,
+    (state: OverviewState): OverviewState => ({
+      ...state,
+      entryEmployees: {
+        ...state.entryEmployees,
+        loading: true,
+      },
+    })
+  ),
+  on(
+    loadOverviewEntryEmployeesSuccess,
+    (state: OverviewState, { data }): OverviewState => ({
+      ...state,
+      entryEmployees: {
+        ...state.entryEmployees,
+        data,
+        loading: false,
+      },
+    })
+  ),
+  on(
+    loadOverviewEntryEmployeesFailure,
+    (state: OverviewState, { errorMessage }): OverviewState => ({
+      ...state,
+      entryEmployees: {
+        ...state.entryEmployees,
         errorMessage,
         data: undefined,
         loading: false,

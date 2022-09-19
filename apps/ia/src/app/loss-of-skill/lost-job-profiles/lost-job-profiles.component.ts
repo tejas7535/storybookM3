@@ -125,7 +125,8 @@ export class LostJobProfilesComponent implements OnChanges {
         title,
         translate('lossOfSkill.employeeListDialog.contentTitle')
       ),
-      employees,
+      employees as any, // FIXME
+      false, // FIXME
       enoughRights
     );
 
