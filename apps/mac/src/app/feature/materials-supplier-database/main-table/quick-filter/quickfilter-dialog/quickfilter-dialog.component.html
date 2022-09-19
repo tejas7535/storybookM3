@@ -4,43 +4,68 @@
     read: 'materialsSupplierDatabase.mainTable.quickfilter.dialog'
   "
 >
+  <div mat-dialog-title class="!-mx-6 !-mt-2">
+    <div class="flex flex-row content-around justify-between pl-4 pb-2 pr-2">
+      <div class="text-h6 my-auto text-high-emphasis" *ngIf="add">
+        {{ t('title_add') }}
+      </div>
+      <div class="text-h6 my-auto text-high-emphasis" *ngIf="edit">
+        {{ t('title_edit') }}
+      </div>
+      <div class="text-h6 my-auto text-high-emphasis" *ngIf="delete">
+        {{ t('title_delete') }}
+      </div>
+      <div class="flex flex-row">
+        <button mat-icon-button (click)="closeDialog()">
+          <mat-icon class="text-medium-emphasis">close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <mat-dialog-content class="!px-4">
     <div>
-      <div class="text-subtitle-2 pb-4 text-high-emphasis">
-        {{ t(edit ? 'title_edit' : 'title_add') }}
-      </div>
-
-      <div>
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>{{ t('name') }}</mat-label>
-          <input matInput name="title" [formControl]="titleControl" />
-        </mat-form-field>
-      </div>
-      <div *ngIf="!edit">
-        <mat-radio-group [formControl]="radioControl">
-          <mat-radio-button class="w-full pb-4" color="primary" value="true">
-            {{ t('radio_current') }}
-          </mat-radio-button>
-          <mat-radio-button class="w-full pb-4" color="primary" value="false">
-            {{ t('radio_default') }}
-          </mat-radio-button>
-        </mat-radio-group>
+      <form [form]="formGroup" (ngSubmit)="onSubmit()" *ngIf="add || edit">
+        <div>
+          <mat-form-field appearance="outline" class="w-full pb-6">
+            <mat-label>{{ t('name') }}</mat-label>
+            <mat-hint>{{ t('name_hint') }}</mat-hint>
+            <input matInput name="title" [formControl]="titleControl" />
+          </mat-form-field>
+        </div>
+        <div *ngIf="add">
+          <mat-radio-group
+            [formControl]="radioControl"
+            class="text-body-1 text-medium-emphasis"
+          >
+            <mat-radio-button class="w-full pb-2" color="primary" value="true">
+              {{ t('radio_current') }}
+            </mat-radio-button>
+            <mat-radio-button class="w-full pb-4" color="primary" value="false">
+              {{ t('radio_default') }}
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </form>
+      <div *ngIf="delete">
+        {{ t('text_delete') }}
       </div>
     </div>
   </mat-dialog-content>
 
   <mat-dialog-actions align="end" class="-mx-6">
     <div class="px-4 pb-2">
-      <button mat-stroked-button (click)="closeDialog()">
+      <button mat-stroked-button (click)="closeDialog()" color="primary">
         {{ t('cancel') }}
       </button>
       <button
-        mat-stroked-button
-        class="!ml-4 text-link"
+        mat-raised-button
+        color="primary"
+        class="!ml-4"
         (click)="applyDialog()"
         [disabled]="!formGroup.valid"
       >
-        {{ t('save') }}
+        {{ t(edit ? 'confirm_edit' : add ? 'confirm_add' : 'confirm_delete') }}
       </button>
     </div>
   </mat-dialog-actions>

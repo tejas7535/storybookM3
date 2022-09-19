@@ -7,11 +7,11 @@
     class="!rounded-b-none !border-b-0"
   >
     <mat-button-toggle
-      class="bg-[#fafafa] px-1 !text-caption text-medium-emphasis hover:!font-medium hover:text-high-emphasis [&>button>span]:!leading-8 [&>.mat-button-toggle-focus-overlay]:hidden"
+      class="bg-[#fafafa] px-1 !text-caption !font-medium text-medium-emphasis hover:text-high-emphasis [&>button>span]:!text-caption [&>button>span]:!leading-8 [&>.mat-button-toggle-focus-overlay]:hidden"
       *ngFor="let item of staticFilters; let i = index"
       [value]="item"
       [ngClass]="{
-        '!bg-secondary font-medium text-high-emphasis': item === active
+        '!bg-secondary text-high-emphasis': item === active
       }"
     >
       {{ t('defaultfilters.' + item.title) }}
@@ -21,11 +21,11 @@
     </mat-button-toggle>
 
     <mat-button-toggle
-      class="bg-[#fafafa] px-1 !text-caption text-medium-emphasis hover:!font-medium hover:text-high-emphasis [&>button>span]:!leading-8 [&>.mat-button-toggle-focus-overlay]:hidden"
+      class="bg-[#fafafa] px-1 !text-caption !font-medium text-medium-emphasis hover:text-high-emphasis [&>button>span]:!text-caption [&>button>span]:!leading-8 [&>.mat-button-toggle-focus-overlay]:hidden"
       *ngFor="let item of customFilters$ | ngrxPush"
       [value]="item"
       [ngClass]="{
-        '!bg-secondary font-medium text-high-emphasis': item === active
+        '!bg-secondary text-high-emphasis': item === active
       }"
     >
       {{ item.title }}
@@ -41,7 +41,7 @@
       >
     </mat-button-toggle>
     <mat-button-toggle
-      class="!bg-[#fafafa] px-1 !text-caption text-medium-emphasis hover:text-high-emphasis [&>button>span]:!leading-8 [&>.mat-button-toggle-focus-overlay]:hidden [&>button]:!cursor-pointer"
+      class="!bg-[#fafafa] px-1 !text-caption !font-medium text-medium-emphasis hover:text-high-emphasis [&>button>span]:!leading-8 [&>.mat-button-toggle-focus-overlay]:hidden [&>button]:!cursor-pointer"
       disabled="true"
       (click)="add()"
     >

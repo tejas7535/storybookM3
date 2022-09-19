@@ -22,7 +22,11 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from '../../../../../assets/i18n/en.json';
 import { QuickFilter } from '../../models';
-import { addCustomQuickfilter, updateCustomQuickfilter } from '../../store';
+import {
+  addCustomQuickfilter,
+  removeCustomQuickfilter,
+  updateCustomQuickfilter,
+} from '../../store';
 import { initialState as qfInitialState } from '../../store/reducers/quickfilter/quickfilter.reducer';
 import { StaticQuickFilters } from './config/quickfilter-definitions';
 import { QuickFilterComponent } from './quick-filter.component';
@@ -318,7 +322,9 @@ describe('QuickFilterComponent', () => {
       component.dialog.open = jest.fn(() => ref);
       ref.afterClosed = jest.fn(() => sub);
       component['onDialogClose'] = jest.fn();
-      const result = { data: { title: filter.title, edit: true } };
+      const result = {
+        data: { title: filter.title, edit: true, delete: false },
+      };
 
       component.openDialog(filter);
       sub.next(result);
@@ -338,7 +344,7 @@ describe('QuickFilterComponent', () => {
       component.dialog.open = jest.fn(() => ref);
       ref.afterClosed = jest.fn(() => sub);
       component['onDialogClose'] = jest.fn();
-      const result = { data: { edit: false } };
+      const result = { data: { edit: false, delete: false } };
 
       component.openDialog();
       sub.next(result);
@@ -354,6 +360,43 @@ describe('QuickFilterComponent', () => {
   });
 
   describe('onDialogClose', () => {
+    it('should remove a quickfilter after confirmation', () => {
+      const result = {
+        title: '',
+        fromCurrent: '',
+        edit: false,
+        delete: true,
+      };
+      component['reset'] = jest.fn();
+      const filter = {} as QuickFilter;
+      component.active = undefined;
+      component['activeEdit'] = filter;
+
+      component['onDialogClose'](result);
+      expect(store.dispatch).toBeCalledWith(
+        removeCustomQuickfilter({ filter })
+      );
+      expect(component['reset']).not.toBeCalled();
+    });
+    it('remove should dipatch event and reset', () => {
+      const result = {
+        title: '',
+        fromCurrent: '',
+        edit: false,
+        delete: true,
+      };
+      component['reset'] = jest.fn();
+      const filter = {} as QuickFilter;
+      component.active = filter;
+      component['activeEdit'] = filter;
+
+      component['onDialogClose'](result);
+      expect(store.dispatch).toBeCalledWith(
+        removeCustomQuickfilter({ filter })
+      );
+      expect(component['reset']).toBeCalled();
+    });
+
     it('should update quickfilter after edit', () => {
       const oldFilter: QuickFilter = {
         title: 'oldTitle',
@@ -367,6 +410,7 @@ describe('QuickFilterComponent', () => {
         title: newFilter.title,
         fromCurrent: 'true',
         edit: true,
+        delete: false,
       };
       component['activeEdit'] = oldFilter;
       component['applyQuickFilter'] = jest.fn();
@@ -386,6 +430,7 @@ describe('QuickFilterComponent', () => {
         title: 'title',
         fromCurrent: 'true',
         edit: false,
+        delete: false,
       };
       const quickFilter = {} as QuickFilter;
       component['applyQuickFilter'] = jest.fn();
@@ -405,6 +450,7 @@ describe('QuickFilterComponent', () => {
         title: 'title',
         fromCurrent: 'false',
         edit: false,
+        delete: false,
       };
       const quickFilter = {} as QuickFilter;
       component['applyQuickFilter'] = jest.fn();
@@ -469,25 +515,12 @@ describe('QuickFilterComponent', () => {
   });
 
   describe('remove', () => {
-    it('remove should dipatch event', () => {
-      component['reset'] = jest.fn();
-      component['qfFacade'].dispatch = jest.fn();
+    it('remove should open a dialog', () => {
+      component['openDialog'] = jest.fn();
       const filter = {} as QuickFilter;
-      component.active = undefined;
 
       component.remove(filter);
-      expect(component['qfFacade'].dispatch).toBeCalled();
-      expect(component['reset']).not.toBeCalled();
-    });
-    it('remove should dipatch event and reset', () => {
-      component['reset'] = jest.fn();
-      component['qfFacade'].dispatch = jest.fn();
-      const filter = {} as QuickFilter;
-      component.active = filter;
-
-      component.remove(filter);
-      expect(component['qfFacade'].dispatch).toBeCalled();
-      expect(component['reset']).toBeCalled();
+      expect(component['openDialog']).toBeCalledWith(filter, true);
     });
   });
 });

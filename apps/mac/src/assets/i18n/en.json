@@ -426,13 +426,18 @@
           "rating": "SupplierRating"
         },
         "dialog": {
-          "title_add": "Set View name",
-          "title_edit": "Edit View name",
+          "title_add": "Create new view",
+          "title_edit": "Edit view name",
+          "title_delete": "Confirm deletion",
           "name": "View name:",
-          "save": "Apply",
+          "name_hint": "Please give your view a name",
+          "confirm_add": "Add view",
+          "confirm_edit": "Update view",
+          "confirm_delete": "Confirm deletion",
           "cancel": "Cancel",
-          "radio_current": "Create from current view",
-          "radio_default": "Create from standard view"
+          "radio_current": "Save current view as",
+          "radio_default": "Create new view from standard",
+          "text_delete": "Are you sure you want to delete this custom view with all applied filters?"
         }
       }
     },

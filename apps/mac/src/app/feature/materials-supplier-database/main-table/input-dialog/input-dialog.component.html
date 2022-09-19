@@ -21,8 +21,8 @@
 
   <mat-dialog-content class="!px-4">
     <div *ngIf="!(dialogLoading$ | ngrxPush); else dialogLoadingTemplate">
-      <div class="flex flex-col">
-        <div class="text-subtitle-2 pb-4 text-high-emphasis">
+      <div class="flex flex-col gap-y-3">
+        <div class="text-subtitle-2 text-high-emphasis">
           {{ t('materialStandardTitle') }}
         </div>
         <div class="flex flex-row gap-x-6">
@@ -108,8 +108,8 @@
         </div>
       </div>
 
-      <div class="flex flex-col">
-        <div class="text-subtitle-2 pb-4 text-high-emphasis">
+      <div class="flex flex-col gap-y-3">
+        <div class="text-subtitle-2 text-high-emphasis">
           {{ t('supplierInformationTitle') }}
         </div>
         <div class="flex flex-row gap-x-6">
@@ -236,8 +236,8 @@
         </mat-form-field>
       </div>
 
-      <div class="flex flex-col">
-        <div class="text-subtitle-2 pb-4 text-high-emphasis">
+      <div class="flex flex-col gap-y-3">
+        <div class="text-subtitle-2 text-high-emphasis">
           {{ t('co2AndProductInformationTitle') }}
         </div>
         <div class="flex flex-row gap-x-6">
@@ -489,12 +489,13 @@
   <mat-dialog-actions align="end" class="-mx-6">
     <mat-divider class="w-full pb-4"></mat-divider>
     <div class="px-4 pb-2">
-      <button mat-stroked-button (click)="cancelDialog()">
+      <button mat-stroked-button (click)="cancelDialog()" color="primary">
         {{ t('cancel') }}
       </button>
       <button
-        mat-stroked-button
-        class="!ml-4 text-link"
+        mat-raised-button
+        color="primary"
+        class="!ml-4"
         [disabled]="!createMaterialForm.valid"
         (click)="confirmMaterial()"
       >

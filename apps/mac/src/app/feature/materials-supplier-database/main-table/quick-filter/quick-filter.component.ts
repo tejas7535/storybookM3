@@ -172,11 +172,12 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
       .map((state) => state.colId);
   }
 
-  openDialog(selected?: QuickFilter): void {
+  openDialog(selected?: QuickFilter, deleted: boolean = false): void {
     this.activeEdit = selected;
     const dialogRef = this.dialog.open(QuickfilterDialogComponent, {
       width: '500px',
-      data: { title: selected?.title, edit: !!selected },
+      autoFocus: false,
+      data: { title: selected?.title, edit: !!selected, delete: deleted },
     });
 
     // this version will still provide type inference with current component, otherwise "this" would be the event object.
@@ -184,17 +185,31 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
   }
 
   // triggered by close event of dialog
-  private onDialogClose(result?: { title: string; fromCurrent: string }) {
+  private onDialogClose(result?: {
+    title: string;
+    fromCurrent: string;
+    edit: boolean;
+    delete: boolean;
+  }) {
     // result will be undefined on "Cancel"
     if (result) {
-      const title = result.title;
-      if (this.activeEdit) {
+      if (result.delete) {
+        // delete filter
+        if (this.active === this.activeEdit) {
+          this.reset();
+        }
         const oldFilter = this.activeEdit;
-        const newFilter = { ...oldFilter, title };
+        this.qfFacade.dispatch(removeCustomQuickfilter({ filter: oldFilter }));
+      } else if (result.edit) {
+        // edit filter name
+        const oldFilter = this.activeEdit;
+        const newFilter = { ...oldFilter, title: result.title };
         this.qfFacade.dispatch(
           updateCustomQuickfilter({ oldFilter, newFilter })
         );
       } else {
+        const title = result.title;
+        // add new filter
         const fromCurrent: boolean = result.fromCurrent === 'true';
         const newFilter: QuickFilter = fromCurrent
           ? this.agGridToFilter(title)
@@ -236,10 +251,7 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
   }
 
   // remove custom quickfilter
-  public remove(qfilter: QuickFilter): void {
-    if (this.active === qfilter) {
-      this.reset();
-    }
-    this.qfFacade.dispatch(removeCustomQuickfilter({ filter: qfilter }));
+  public remove(quickFilter: QuickFilter): void {
+    this.openDialog(quickFilter, true);
   }
 }

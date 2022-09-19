@@ -3,6 +3,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
+  FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
@@ -28,6 +29,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
     CommonModule,
     MatDialogModule,
     MatIconModule,
+    FormsModule,
     MatInputModule,
     MatRadioModule,
     PushModule,
@@ -50,25 +52,33 @@ export class QuickfilterDialogComponent implements OnInit {
     title: FormControl<string>;
     fromCurrent: FormControl<string>;
   }>;
+  public add = false;
   public edit = false;
+  public delete = false;
 
   ngOnInit(): void {
     this.formGroup = new FormGroup({
       title: this.titleControl,
       fromCurrent: this.radioControl,
     });
-    if (this.data?.edit) {
-      this.edit = true;
-      this.titleControl.setValue(this.data.title);
-      this.radioControl.setValue('true');
+
+    this.titleControl.setValue(this.data.title);
+    this.radioControl.setValue('true');
+    if (this.data.delete) {
+      this.delete = true;
       this.radioControl.disable();
+    } else if (this.data.edit) {
+      this.edit = true;
+      this.radioControl.disable();
+    } else {
+      this.add = true;
     }
   }
 
   constructor(
     public dialogRef: MatDialogRef<QuickfilterDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: { title: string; edit: boolean }
+    public data: { title: string; edit: boolean; delete: boolean }
   ) {}
 
   // on cancel dialog
@@ -78,7 +88,17 @@ export class QuickfilterDialogComponent implements OnInit {
 
   // on apply / save dialog
   applyDialog(): void {
-    const result = { ...this.formGroup.value };
+    const result = {
+      ...this.formGroup.value,
+      edit: this.edit,
+      delete: this.delete,
+    };
     this.dialogRef.close(result);
+  }
+
+  public onSubmit() {
+    if (this.formGroup.valid) {
+      this.applyDialog();
+    }
   }
 }

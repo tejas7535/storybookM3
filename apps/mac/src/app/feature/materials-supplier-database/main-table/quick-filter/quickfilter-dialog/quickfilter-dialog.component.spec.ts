@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import {
   MAT_DIALOG_DATA,
@@ -32,6 +32,7 @@ describe('QuickfilterDialogComponent', () => {
       MatInputModule,
       MatRadioModule,
       PushModule,
+      FormsModule,
       MatButtonModule,
       MatFormFieldModule,
       ReactiveFormsModule,
@@ -63,21 +64,35 @@ describe('QuickfilterDialogComponent', () => {
   describe('ngOnInit', () => {
     it('should prefil input fields in edit mode', () => {
       const title = 'sth';
-      component.data = { title, edit: true };
+      component.data = { title, edit: true, delete: false };
       component.ngOnInit();
 
+      expect(component.edit).toBeTruthy();
+      expect(component.delete).toBeFalsy();
       expect(component.titleControl.value).toBe(title);
       expect(component.radioControl.disabled).toBe(true);
       expect(component.radioControl.value).toBe('true');
     });
 
-    it('should NOT prefil input fields in edit mode', () => {
+    it('should prefil input fields in add mode', () => {
       const title = 'sth';
-      component.data = { title, edit: false };
+      component.data = { title, edit: false, delete: false };
       component.ngOnInit();
 
-      expect(component.titleControl.value).toBeFalsy();
-      expect(component.radioControl.disabled).toBe(false);
+      expect(component.edit).toBeFalsy();
+      expect(component.delete).toBeFalsy();
+      expect(component.titleControl.value).toBe(title);
+    });
+
+    it('should prefil input fields in delete mode', () => {
+      const title = 'sth';
+      component.data = { title, edit: false, delete: true };
+      component.ngOnInit();
+
+      expect(component.edit).toBeFalsy();
+      expect(component.delete).toBeTruthy();
+      expect(component.titleControl.value).toBe(title);
+      expect(component.radioControl.disabled).toBe(true);
     });
   });
 
@@ -87,18 +102,75 @@ describe('QuickfilterDialogComponent', () => {
     expect(component.dialogRef.close).toBeCalled();
   });
 
-  it('applyDialog should close dialog and set data', () => {
-    component.dialogRef.close = jest.fn();
-    component.radioControl.setValue('false');
-    component.titleControl.setValue('sth');
-    component.data.edit = false;
-    component.applyDialog();
+  describe('applyDialog', () => {
+    it('should close dialog and set data for add', () => {
+      component.dialogRef.close = jest.fn();
+      component.radioControl.setValue('false');
+      component.titleControl.setValue('sth');
+      component.edit = false;
+      component.delete = false;
+      component.applyDialog();
 
-    const result = {
-      title: 'sth',
-      fromCurrent: 'false',
-    };
+      const result = {
+        title: 'sth',
+        fromCurrent: 'false',
+        edit: false,
+        delete: false,
+      };
 
-    expect(component.dialogRef.close).toBeCalledWith(result);
+      expect(component.dialogRef.close).toBeCalledWith(result);
+    });
+    it('should close dialog and set data for edit', () => {
+      component.dialogRef.close = jest.fn();
+      component.radioControl.setValue('false');
+      component.titleControl.setValue('edit');
+      component.edit = true;
+      component.delete = false;
+      component.applyDialog();
+
+      const result = {
+        title: 'edit',
+        fromCurrent: 'false',
+        edit: true,
+        delete: false,
+      };
+
+      expect(component.dialogRef.close).toBeCalledWith(result);
+    });
+    it('should close dialog and set data for delete', () => {
+      component.dialogRef.close = jest.fn();
+      component.radioControl.setValue('false');
+      component.titleControl.setValue('delete');
+      component.edit = false;
+      component.delete = true;
+      component.applyDialog();
+
+      const result = {
+        title: 'delete',
+        fromCurrent: 'false',
+        edit: false,
+        delete: true,
+      };
+
+      expect(component.dialogRef.close).toBeCalledWith(result);
+    });
+  });
+
+  describe('onSubmit', () => {
+    it('should close dialog if form is valid', () => {
+      component.applyDialog = jest.fn();
+      component.titleControl.setValue('test');
+      component.onSubmit();
+
+      expect(component.applyDialog).toBeCalled();
+    });
+
+    it('should do nothing if form is invalid', () => {
+      component.applyDialog = jest.fn();
+      component.titleControl.setValue(undefined, { emitEvent: false });
+      component.onSubmit();
+
+      expect(component.applyDialog).not.toBeCalled();
+    });
   });
 });
