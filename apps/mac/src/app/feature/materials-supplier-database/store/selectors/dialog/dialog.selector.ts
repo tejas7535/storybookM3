@@ -35,7 +35,9 @@ export const getUniqueStringOptions = (
       .filter(
         (option, index) =>
           stringOptions.findIndex(
-            (compareOption) => compareOption.title === option.title
+            (compareOption) =>
+              compareOption.title === option.title &&
+              compareOption.data === option.data
           ) === index
       )
       .sort(stringOptionsSortFn)
@@ -217,13 +219,17 @@ export const getSupplierPlantStringOptions = createSelector(
   getMaterialDialogSuppliers,
   (suppliers): StringOption[] =>
     suppliers
+      ?.filter(
+        (supplier) =>
+          !!supplier && !!supplier.plant && supplier.plant.trim() !== ''
+      )
       .map((supplier) => ({
         id: supplier.plant,
         title: supplier.plant,
         data: { supplierId: supplier.id, supplierName: supplier.name },
       }))
       .filter((option) => !!option)
-      .sort(stringOptionsSortFn)
+      .sort(stringOptionsSortFn) || []
 );
 
 export const getSupplierNameStringOptionsMerged = createSelector(

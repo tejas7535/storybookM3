@@ -947,6 +947,11 @@ describe('DialogSelectors', () => {
         id: 4,
         title: 'c1',
       },
+      {
+        id: 5,
+        title: 'c1',
+        data: { something: 'something' },
+      },
     ];
 
     const expected: StringOption[] = [
@@ -961,6 +966,11 @@ describe('DialogSelectors', () => {
       {
         id: 1,
         title: 'c1',
+      },
+      {
+        id: 5,
+        title: 'c1',
+        data: { something: 'something' },
       },
     ];
 
