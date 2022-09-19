@@ -1,15 +1,21 @@
-<div class="mt-4">
+<div class="mt-4" *transloco="let t; read: 'employeeListDialog'">
   <span class="text-body-2">{{ title }}</span>
   <h4 class="mb-4">{{ value }}</h4>
-  <div class="'text-high-emphasis'">
+  <div
+    class="'text-high-emphasis'"
+    [matTooltip]="t('tooManyEmployees')"
+    [matTooltipDisabled]="employeesCount <= MAX_EMPLOYEES"
+  >
     <button
       mat-fab
       color="primary"
       class="mt-2"
       *ngIf="showTeamMemberDialog"
-      [disabled]="employeesCount === 0"
+      [disabled]="employeeLoadingDisabled"
       (click)="openTeamMemberDialog()"
-      [ngClass]="{ 'cursor-not-allowed': employeesCount === 0 }"
+      [ngClass]="{
+        'cursor-not-allowed': employeeLoadingDisabled
+      }"
     >
       <mat-icon>people</mat-icon>
     </button>

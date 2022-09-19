@@ -1,7 +1,10 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { EmployeeListDialogComponent } from '../employee-list-dialog/employee-list-dialog.component';
 import { EmployeeListDialogModule } from '../employee-list-dialog/employee-list-dialog.module';
@@ -17,7 +20,13 @@ describe('KpiComponent', () => {
     component: KpiComponent,
     detectChanges: false,
     providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
-    imports: [SharedModule, MatIconModule, EmployeeListDialogModule],
+    imports: [
+      SharedModule,
+      MatIconModule,
+      EmployeeListDialogModule,
+      provideTranslocoTestingModule({ en: {} }),
+      MatTooltipModule,
+    ],
   });
 
   beforeEach(() => {
@@ -132,6 +141,40 @@ describe('KpiComponent', () => {
         employeesLoading: true,
         enoughRightsToShowAllEmployees: false,
       });
+    });
+  });
+
+  describe('handleEmployeeLoadingDisabledStatus', () => {
+    test('should return true if count zero', () => {
+      component.employeesCount = 0;
+
+      component.handleEmployeeLoadingDisabledStatus();
+
+      expect(component.employeeLoadingDisabled).toBeTruthy();
+    });
+
+    test('should return true if count undefined', () => {
+      component.employeesCount = undefined;
+
+      component.handleEmployeeLoadingDisabledStatus();
+
+      expect(component.employeeLoadingDisabled).toBeTruthy();
+    });
+
+    test('should return true if count > MAX_EMPLOYEES', () => {
+      component.employeesCount = component.MAX_EMPLOYEES + 1;
+
+      component.handleEmployeeLoadingDisabledStatus();
+
+      expect(component.employeeLoadingDisabled).toBeTruthy();
+    });
+
+    test('should return false if count <= MAX_EMPLOYEES', () => {
+      component.employeesCount = component.MAX_EMPLOYEES;
+
+      component.handleEmployeeLoadingDisabledStatus();
+
+      expect(component.employeeLoadingDisabled).toBeFalsy();
     });
   });
 });

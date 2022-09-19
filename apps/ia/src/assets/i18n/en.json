@@ -63,7 +63,8 @@
         "shortLabel": "Ext."
       }
     },
-    "enoughRightsToShowAllEmployees": "This employee list is not complete due to insufficient user rights."
+    "enoughRightsToShowAllEmployees": "This employee list is not complete due to insufficient user rights.",
+    "tooManyEmployees": "Too many employees (>250) found - please select a smaller dimension to view employee details"
   },
   "legal": {
     "imprint": "Imprint",

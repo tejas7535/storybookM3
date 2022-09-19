@@ -21,12 +21,15 @@ export class KpiComponent {
   private _dialogRef: MatDialogRef<EmployeeListDialogComponent>;
   private _employees: EmployeeWithAction[];
   private _employeesLoading: boolean;
+  private _employeesCount: number;
 
+  MAX_EMPLOYEES = 250;
   btnColor = 'primary';
+  employeeLoadingDisabled = true;
+  tooltip = '';
 
   @Input() title: string;
   @Input() value: string | number;
-  @Input() employeesCount: number;
   @Input() employeeListDialogMetaHeadings: EmployeeListDialogMetaHeadings;
   @Input() showFluctuationType: boolean;
   @Input() showTeamMemberDialog = true;
@@ -34,9 +37,19 @@ export class KpiComponent {
   @Output()
   readonly openTeamMembers: EventEmitter<void> = new EventEmitter();
 
+  @Input() set employeesCount(employeesCount: number) {
+    this._employeesCount = employeesCount;
+    this.handleEmployeeLoadingDisabledStatus();
+  }
+
+  get employeesCount(): number {
+    return this._employeesCount;
+  }
+
   @Input() set employees(employees: EmployeeWithAction[]) {
     this._employees = employees;
     this.updateDialogData();
+    this.handleEmployeeLoadingDisabledStatus();
   }
 
   get employees(): EmployeeWithAction[] {
@@ -77,5 +90,12 @@ export class KpiComponent {
       this.employeesCount === this.employees?.length,
       this.showFluctuationType
     );
+  }
+
+  handleEmployeeLoadingDisabledStatus(): void {
+    this.employeeLoadingDisabled =
+      this.employeesCount === 0 ||
+      this.employeesCount > this.MAX_EMPLOYEES ||
+      this.employeesCount === undefined;
   }
 }
