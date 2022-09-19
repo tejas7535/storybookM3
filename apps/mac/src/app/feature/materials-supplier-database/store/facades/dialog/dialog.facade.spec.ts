@@ -63,6 +63,16 @@ describe('DialogFacade', () => {
                 referenceDocuments: ['reference'],
                 customReferenceDocuments: ['reference2'],
                 referenceDocumentsLoading: false,
+                steelMakingProcessesInUse: ['BF+BOF'],
+                co2Values: [
+                  {
+                    co2PerTon: 3,
+                    co2Scope1: 1,
+                    co2Scope2: 1,
+                    co2Scope3: 1,
+                    co2Classification: undefined,
+                  },
+                ],
               },
               createMaterial: {
                 createMaterialLoading: false,
@@ -204,7 +214,13 @@ describe('DialogFacade', () => {
       'should provide the co2 classifications',
       marbles((m) => {
         const expected = m.cold('a', {
-          a: [{ id: 'c1', title: 'classification' }],
+          a: [
+            { id: 'c1', title: 'classification' },
+            {
+              id: undefined,
+              title: 'materialsSupplierDatabase.mainTable.dialog.none',
+            },
+          ],
         });
 
         m.expect(facade.co2Classification$).toBeObservable(expected);
@@ -330,6 +346,46 @@ describe('DialogFacade', () => {
         });
 
         m.expect(facade.referenceDocumentsLoading$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('steelMakingProcessInUse$', () => {
+    it(
+      'should return the steel making processes in use',
+      marbles((m) => {
+        const expected = m.cold('a', {
+          a: ['BF+BOF'],
+        });
+
+        m.expect(facade.steelMakingProcessesInUse$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('co2ValuesForSupplierSteelMakingProcess$', () => {
+    it(
+      'should return co2 values',
+      marbles((m) => {
+        const expected = m.cold('a', {
+          a: {
+            co2Values: {
+              co2PerTon: 3,
+              co2Scope1: 1,
+              co2Scope2: 1,
+              co2Scope3: 1,
+              co2Classification: {
+                id: undefined,
+                title: 'materialsSupplierDatabase.mainTable.dialog.none',
+              },
+            },
+            otherValues: 0,
+          },
+        });
+
+        m.expect(facade.co2ValuesForSupplierSteelMakingProcess$).toBeObservable(
+          expected
+        );
       })
     );
   });

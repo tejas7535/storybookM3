@@ -45,13 +45,19 @@ import {
 
 import {
   editDialogLoadingComplete,
+  fetchCo2ValuesForSupplierSteelMakingProcessFailure,
+  fetchCo2ValuesForSupplierSteelMakingProcessSuccess,
   fetchEditMaterialNameDataFailure,
   fetchEditMaterialNameDataSuccess,
   fetchEditMaterialSuppliersFailure,
   fetchEditMaterialSuppliersSuccess,
   fetchEditStandardDocumentDataFailure,
   fetchEditStandardDocumentDataSuccess,
+  fetchSteelMakingProcessesInUseFailure,
+  fetchSteelMakingProcessesInUseSuccess,
   minimizeDialog,
+  resetCo2ValuesForSupplierSteelMakingProcess,
+  resetSteelMakingProcessInUse,
   setMaterialFormValue,
 } from './../../actions/dialog/dialog.actions';
 
@@ -88,6 +94,14 @@ export interface DialogState {
     castingDiameters: string[];
     castingDiametersLoading: boolean;
     customCastingDiameters: string[];
+    co2Values: {
+      co2PerTon: number;
+      co2Scope1: number;
+      co2Scope2: number;
+      co2Scope3: number;
+      co2Classification: string;
+    }[];
+    steelMakingProcessesInUse: string[];
     loading: boolean;
   };
   createMaterial: {
@@ -139,6 +153,8 @@ export const dialogReducer = createReducer(
         customCastingDiameters: undefined,
         referenceDocuments: undefined,
         customReferenceDocuments: undefined,
+        co2Values: undefined,
+        steelMakingProcessesInUse: [],
       },
       editMaterial: undefined,
       minimizedDialog: undefined,
@@ -381,6 +397,8 @@ export const dialogReducer = createReducer(
         castingDiameters: undefined,
         referenceDocuments: undefined,
         customReferenceDocuments: undefined,
+        co2Values: undefined,
+        steelMakingProcessesInUse: [],
       },
       editMaterial: undefined,
       minimizedDialog: undefined,
@@ -603,6 +621,68 @@ export const dialogReducer = createReducer(
       minimizedDialog: {
         id,
         value,
+      },
+    })
+  ),
+
+  on(
+    fetchSteelMakingProcessesInUseSuccess,
+    (state, { steelMakingProcessesInUse }): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        steelMakingProcessesInUse,
+      },
+    })
+  ),
+  on(
+    fetchSteelMakingProcessesInUseFailure,
+    (state): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        steelMakingProcessesInUse: [],
+      },
+    })
+  ),
+  on(
+    resetSteelMakingProcessInUse,
+    (state): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        steelMakingProcessesInUse: [],
+      },
+    })
+  ),
+
+  on(
+    fetchCo2ValuesForSupplierSteelMakingProcessSuccess,
+    (state, { co2Values }): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        co2Values,
+      },
+    })
+  ),
+  on(
+    fetchCo2ValuesForSupplierSteelMakingProcessFailure,
+    (state): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        co2Values: undefined,
+      },
+    })
+  ),
+  on(
+    resetCo2ValuesForSupplierSteelMakingProcess,
+    (state): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        co2Values: undefined,
       },
     })
   )

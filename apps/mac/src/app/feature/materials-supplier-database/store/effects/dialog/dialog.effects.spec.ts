@@ -30,6 +30,9 @@ import {
   fetchCo2Classifications,
   fetchCo2ClassificationsFailure,
   fetchCo2ClassificationsSuccess,
+  fetchCo2ValuesForSupplierSteelMakingProcess,
+  fetchCo2ValuesForSupplierSteelMakingProcessFailure,
+  fetchCo2ValuesForSupplierSteelMakingProcessSuccess,
   fetchEditMaterialNameData,
   fetchEditMaterialNameDataFailure,
   fetchEditMaterialNameDataSuccess,
@@ -53,6 +56,9 @@ import {
   fetchReferenceDocumentsSuccess,
   fetchSteelMakingProcesses,
   fetchSteelMakingProcessesFailure,
+  fetchSteelMakingProcessesInUse,
+  fetchSteelMakingProcessesInUseFailure,
+  fetchSteelMakingProcessesInUseSuccess,
   fetchSteelMakingProcessesSuccess,
   materialDialogConfirmed,
   materialDialogOpened,
@@ -1305,6 +1311,142 @@ describe('Data Effects', () => {
 
         m.expect(effects.setMaterialFormValue$).toBeObservable(expected);
         m.flush();
+      })
+    );
+  });
+
+  describe('fetchSteelMakingProcessInUse$', () => {
+    it(
+      'should fetch the steel making processes in use',
+      marbles((m) => {
+        action = fetchSteelMakingProcessesInUse({
+          supplierId: 1,
+          castingMode: 'ESR',
+          castingDiameter: '1x1',
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        const resultMock: string[] = ['BF+BOF'];
+        const response = m.cold('-a|', { a: resultMock });
+        msdDataService.fetchSteelMakingProcessesForSupplierPlantCastingModeCastingDiameter =
+          jest.fn(() => response);
+
+        const result = fetchSteelMakingProcessesInUseSuccess({
+          steelMakingProcessesInUse: ['BF+BOF'],
+        });
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.fetchSteelMakingProcessesInUse$).toBeObservable(
+          expected
+        );
+        m.flush();
+
+        expect(
+          msdDataService.fetchSteelMakingProcessesForSupplierPlantCastingModeCastingDiameter
+        ).toHaveBeenCalledWith(1, 'ESR', '1x1');
+      })
+    );
+
+    it(
+      'should fetch the steel making processes in use and return failure action on failure',
+      marbles((m) => {
+        action = fetchSteelMakingProcessesInUse({
+          supplierId: 1,
+          castingMode: 'ESR',
+          castingDiameter: '1x1',
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataService.fetchSteelMakingProcessesForSupplierPlantCastingModeCastingDiameter =
+          jest.fn().mockReturnValue(throwError(() => 'error'));
+
+        const result = fetchSteelMakingProcessesInUseFailure();
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.fetchSteelMakingProcessesInUse$).toBeObservable(
+          expected as any
+        );
+        m.flush();
+
+        expect(
+          msdDataService.fetchSteelMakingProcessesForSupplierPlantCastingModeCastingDiameter
+        ).toHaveBeenCalledWith(1, 'ESR', '1x1');
+      })
+    );
+  });
+
+  describe('fetchCo2ValuesForSupplierSteelMakingProcess$', () => {
+    it(
+      'should fetch the co2 values and return success action',
+      marbles((m) => {
+        action = fetchCo2ValuesForSupplierSteelMakingProcess({
+          supplierId: 1,
+          steelMakingProcess: 'BF+BOF',
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        const resultMock = [
+          {
+            co2PerTon: 3,
+            co2Scope1: 1,
+            co2Scope2: 1,
+            co2Scope3: 1,
+            co2Classification: 'c1',
+          },
+        ];
+        const response = m.cold('-a|', { a: resultMock });
+        msdDataService.fetchCo2ValuesForSupplierPlantProcess = jest.fn(
+          () => response
+        );
+
+        const result = fetchCo2ValuesForSupplierSteelMakingProcessSuccess({
+          co2Values: [
+            {
+              co2PerTon: 3,
+              co2Scope1: 1,
+              co2Scope2: 1,
+              co2Scope3: 1,
+              co2Classification: 'c1',
+            },
+          ],
+        });
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(
+          effects.fetchCo2ValuesForSupplierSteelMakingProcess$
+        ).toBeObservable(expected);
+        m.flush();
+
+        expect(
+          msdDataService.fetchCo2ValuesForSupplierPlantProcess
+        ).toHaveBeenCalledWith(1, 'BF+BOF');
+      })
+    );
+
+    it(
+      'should fetch the co2 values and return failure action on failure',
+      marbles((m) => {
+        action = fetchCo2ValuesForSupplierSteelMakingProcess({
+          supplierId: 1,
+          steelMakingProcess: 'BF+BOF',
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataService.fetchCo2ValuesForSupplierPlantProcess = jest
+          .fn()
+          .mockReturnValue(throwError(() => 'error'));
+
+        const result = fetchCo2ValuesForSupplierSteelMakingProcessFailure();
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(
+          effects.fetchCo2ValuesForSupplierSteelMakingProcess$
+        ).toBeObservable(expected as any);
+        m.flush();
+
+        expect(
+          msdDataService.fetchCo2ValuesForSupplierPlantProcess
+        ).toHaveBeenCalledWith(1, 'BF+BOF');
       })
     );
   });

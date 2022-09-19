@@ -589,4 +589,50 @@ export class DialogEffects {
       map(() => DialogActions.editDialogLoadingComplete())
     );
   });
+
+  public fetchSteelMakingProcessesInUse$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.fetchSteelMakingProcessesInUse),
+      switchMap(({ supplierId, castingMode, castingDiameter }) =>
+        this.msdDataService
+          .fetchSteelMakingProcessesForSupplierPlantCastingModeCastingDiameter(
+            supplierId,
+            castingMode,
+            castingDiameter
+          )
+          .pipe(
+            map((steelMakingProcessesInUse) =>
+              DialogActions.fetchSteelMakingProcessesInUseSuccess({
+                steelMakingProcessesInUse,
+              })
+            ),
+            catchError(() =>
+              of(DialogActions.fetchSteelMakingProcessesInUseFailure())
+            )
+          )
+      )
+    );
+  });
+
+  public fetchCo2ValuesForSupplierSteelMakingProcess$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.fetchCo2ValuesForSupplierSteelMakingProcess),
+      switchMap(({ supplierId, steelMakingProcess }) =>
+        this.msdDataService
+          .fetchCo2ValuesForSupplierPlantProcess(supplierId, steelMakingProcess)
+          .pipe(
+            map((co2Values) =>
+              DialogActions.fetchCo2ValuesForSupplierSteelMakingProcessSuccess({
+                co2Values,
+              })
+            ),
+            catchError(() =>
+              of(
+                DialogActions.fetchCo2ValuesForSupplierSteelMakingProcessFailure()
+              )
+            )
+          )
+      )
+    );
+  });
 }

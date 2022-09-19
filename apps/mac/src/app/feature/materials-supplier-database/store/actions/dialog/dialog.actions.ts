@@ -250,3 +250,47 @@ export const minimizeDialog = createAction(
   '[MSD - Dialog] Minimize Dialog',
   props<{ id?: number; value: Partial<MaterialFormValue> }>()
 );
+
+export const fetchSteelMakingProcessesInUse = createAction(
+  '[MSD - Dialog] Fetch Steel Making Processes In Use',
+  props<{ supplierId: number; castingMode: string; castingDiameter: string }>()
+);
+
+export const fetchSteelMakingProcessesInUseSuccess = createAction(
+  '[MSD - Dialog] Fetch Steel Making Processes In Use Success',
+  props<{ steelMakingProcessesInUse: string[] }>()
+);
+
+export const fetchSteelMakingProcessesInUseFailure = createAction(
+  '[MSD - Dialog] Fetch Steel Making Processes In Use Failure'
+);
+
+export const resetSteelMakingProcessInUse = createAction(
+  '[MSD - Dialog] Reset Steel Making Processes In Use'
+);
+
+export const fetchCo2ValuesForSupplierSteelMakingProcess = createAction(
+  '[MSD - Dialog] Fetch CO2 Values For Supplier Steel Making Process',
+  props<{ supplierId: number; steelMakingProcess: string }>()
+);
+
+export const fetchCo2ValuesForSupplierSteelMakingProcessSuccess = createAction(
+  '[MSD - Dialog] Fetch CO2 Values For Supplier Steel Making Process Success',
+  props<{
+    co2Values: {
+      co2PerTon: number;
+      co2Scope1: number;
+      co2Scope2: number;
+      co2Scope3: number;
+      co2Classification: string;
+    }[];
+  }>()
+);
+
+export const fetchCo2ValuesForSupplierSteelMakingProcessFailure = createAction(
+  '[MSD - Dialog] Fetch CO2 Values For Supplier Steel Making Process Failure'
+);
+
+export const resetCo2ValuesForSupplierSteelMakingProcess = createAction(
+  '[MSD - Dialog] Reset CO2 Values For Supplier Steel Making Process'
+);

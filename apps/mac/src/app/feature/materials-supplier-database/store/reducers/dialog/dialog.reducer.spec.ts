@@ -67,6 +67,8 @@ describe('dialogReducer', () => {
           castingModes: undefined,
           referenceDocuments: undefined,
           customReferenceDocuments: undefined,
+          co2Values: undefined,
+          steelMakingProcessesInUse: [],
         },
         editMaterial: undefined,
       });
@@ -513,6 +515,8 @@ describe('dialogReducer', () => {
           customCastingDiameters: undefined,
           referenceDocuments: undefined,
           customReferenceDocuments: undefined,
+          co2Values: undefined,
+          steelMakingProcessesInUse: [],
         },
       });
     });
@@ -1139,6 +1143,166 @@ describe('dialogReducer', () => {
         minimizedDialog: {
           id: 1,
           value: {} as MaterialFormValue,
+        },
+      });
+    });
+
+    it('should set the steel making processes in use', () => {
+      const action = DialogActions.fetchSteelMakingProcessesInUseSuccess({
+        steelMakingProcessesInUse: ['BF+BOF'],
+      });
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            steelMakingProcessesInUse: undefined,
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          steelMakingProcessesInUse: ['BF+BOF'],
+        },
+      });
+    });
+
+    it('should set the steel making processes in use on failure', () => {
+      const action = DialogActions.fetchSteelMakingProcessesInUseFailure();
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            steelMakingProcessesInUse: ['BF+BOF'],
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          steelMakingProcessesInUse: [],
+        },
+      });
+    });
+
+    it('should reset the steel making processes in use', () => {
+      const action = DialogActions.resetSteelMakingProcessInUse();
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            steelMakingProcessesInUse: ['BF+BOF'],
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          steelMakingProcessesInUse: [],
+        },
+      });
+    });
+
+    it('should set the co2 values', () => {
+      const mockCo2Values = {
+        co2PerTon: 3,
+        co2Scope1: 1,
+        co2Scope2: 1,
+        co2Scope3: 1,
+        co2Classification: 'c1',
+      };
+      const action =
+        DialogActions.fetchCo2ValuesForSupplierSteelMakingProcessSuccess({
+          co2Values: [mockCo2Values],
+        });
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            co2Values: undefined,
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          co2Values: [mockCo2Values],
+        },
+      });
+    });
+
+    it('should set the co2 values on failure', () => {
+      const mockCo2Values = {
+        co2PerTon: 3,
+        co2Scope1: 1,
+        co2Scope2: 1,
+        co2Scope3: 1,
+        co2Classification: 'c1',
+      };
+      const action =
+        DialogActions.fetchCo2ValuesForSupplierSteelMakingProcessFailure();
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            co2Values: [mockCo2Values],
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          co2Values: undefined,
+        },
+      });
+    });
+
+    it('should reset the co2 values', () => {
+      const mockCo2Values = {
+        co2PerTon: 3,
+        co2Scope1: 1,
+        co2Scope2: 1,
+        co2Scope3: 1,
+        co2Classification: 'c1',
+      };
+      const action =
+        DialogActions.resetCo2ValuesForSupplierSteelMakingProcess();
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            co2Values: [mockCo2Values],
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          co2Values: undefined,
         },
       });
     });

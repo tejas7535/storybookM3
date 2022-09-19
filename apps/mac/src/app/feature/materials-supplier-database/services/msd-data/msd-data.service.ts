@@ -280,6 +280,89 @@ export class MsdDataService {
     );
   }
 
+  public fetchSteelMakingProcessesForSupplierPlantCastingModeCastingDiameter(
+    supplierId: number,
+    castingMode: string,
+    castingDiameter: string
+  ) {
+    const body = {
+      select: ['steelMakingProcess'],
+      where: [
+        {
+          col: 'manufacturerSupplier.id',
+          op: 'IN',
+          values: [supplierId],
+        },
+        {
+          col: 'castingMode',
+          op: 'IN',
+          values: [castingMode],
+        },
+        {
+          col: 'castingDiameter',
+          op: 'IN',
+          values: [castingDiameter],
+        },
+      ],
+      distinct: true,
+    };
+
+    return this.httpClient
+      .post<string[]>(`${this.BASE_URL}/materials/query`, body)
+      .pipe(
+        map((steelMakingProcesses) =>
+          steelMakingProcesses.map((steelMakingProcess) =>
+            steelMakingProcess.replace(/\s/g, '')
+          )
+        )
+      );
+  }
+
+  public fetchCo2ValuesForSupplierPlantProcess(
+    supplierId: number,
+    steelMakingProcess: string
+  ) {
+    const body = {
+      select: [
+        'co2PerTon',
+        'co2Scope1',
+        'co2Scope2',
+        'co2Scope3',
+        'co2Classification',
+      ],
+      where: [
+        {
+          col: 'manufacturerSupplier.id',
+          op: 'IN',
+          values: [supplierId],
+        },
+        {
+          col: 'steelMakingProcess',
+          op: 'IN',
+          values: [steelMakingProcess],
+        },
+      ],
+      distinct: true,
+    };
+
+    return this.httpClient
+      .post<[number, number, number, number, string][]>(
+        `${this.BASE_URL}/materials/query`,
+        body
+      )
+      .pipe(
+        map((co2Values) =>
+          co2Values.map((co2Value) => ({
+            co2PerTon: co2Value[0],
+            co2Scope1: co2Value[1],
+            co2Scope2: co2Value[2],
+            co2Scope3: co2Value[3],
+            co2Classification: co2Value[4],
+          }))
+        )
+      );
+  }
+
   public createMaterialStandard(standard: MaterialStandard) {
     const modStd = {
       materialName: standard.materialName,

@@ -343,6 +343,8 @@
         },
         "co2PerTon": "kg CO₂e / t",
         "co2Total": "CO₂ Total",
+        "co2ValuesFilled": "The CO₂ values and the CO₂ classification have been filled automatically based on your selection.",
+        "co2ValuesFilledWithOtherValues": "The CO₂ values and the CO₂ classification have been filled automatically based on your selection. There were {{ otherValues }} other values found matching your selection. The highest one has been chosen.",
         "continuous": "Continuous",
         "createMaterialFailure": "Material creation failed",
         "createMaterialSuccess": "Material added successfully",

@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
+import { TranslocoModule } from '@ngneat/transloco';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
@@ -14,6 +15,11 @@ import {
 import { initialState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
 
 import * as DialogSelectors from './dialog.selector';
+
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+  translate: jest.fn((string) => string.split('.').pop()),
+}));
 
 describe('DialogSelectors', () => {
   it('should sort alphabetically', () => {
@@ -217,7 +223,7 @@ describe('DialogSelectors', () => {
       DialogSelectors.getMaterialDialogCo2Classifications.projector({
         co2Classifications: ['1', '2'],
       })
-    ).toEqual(['1', '2']);
+    ).toEqual(['1', '2', { id: undefined, title: 'none' }]);
   });
 
   it('should return the manufaturerSuppliers', () => {
@@ -1039,6 +1045,161 @@ describe('DialogSelectors', () => {
 
       expect(result).toEqual(0);
       expect(result2).toEqual(0);
+    });
+  });
+
+  describe('getSteelMakingProcessesInUse', () => {
+    it('should return the steel making processes in use', () => {
+      expect(
+        DialogSelectors.getSteelMakingProcessesInUse.projector({
+          steelMakingProcessesInUse: ['BF+BOF'],
+        })
+      ).toEqual(['BF+BOF']);
+    });
+  });
+
+  describe('getCo2ValuesForSupplierSteelMakingProcess', () => {
+    it('should return the co2 values', () => {
+      expect(
+        DialogSelectors.getCo2ValuesForSupplierSteelMakingProcess.projector({
+          co2Values: [],
+        })
+      ).toEqual([]);
+    });
+  });
+
+  describe('getHighestCo2Values', () => {
+    it('should return the highest value with other values count', () => {
+      expect(
+        DialogSelectors.getHighestCo2Values.projector([
+          {
+            co2PerTon: 3,
+            co2Scope1: 1,
+            co2Scope2: 1,
+            co2Scope3: 1,
+            co2Classification: 'c1',
+          },
+          {
+            co2PerTon: 1,
+            co2Scope1: undefined,
+            co2Scope2: undefined,
+            co2Scope3: undefined,
+            co2Classification: undefined,
+          },
+        ])
+      ).toEqual({
+        co2Values: {
+          co2PerTon: 3,
+          co2Scope1: 1,
+          co2Scope2: 1,
+          co2Scope3: 1,
+          co2Classification: {
+            id: 'c1',
+            title: 'c1',
+          },
+        },
+        otherValues: 1,
+      });
+    });
+
+    it('should return the highest value with other values count without classification', () => {
+      expect(
+        DialogSelectors.getHighestCo2Values.projector([
+          {
+            co2PerTon: 3,
+            co2Scope1: 1,
+            co2Scope2: 1,
+            co2Scope3: 1,
+            co2Classification: 'c1',
+          },
+          {
+            co2PerTon: 10,
+            co2Scope1: undefined,
+            co2Scope2: undefined,
+            co2Scope3: undefined,
+            co2Classification: undefined,
+          },
+        ])
+      ).toEqual({
+        co2Values: {
+          co2PerTon: 10,
+          co2Scope1: undefined,
+          co2Scope2: undefined,
+          co2Scope3: undefined,
+          co2Classification: {
+            id: undefined,
+            title: 'none',
+          },
+        },
+        otherValues: 1,
+      });
+    });
+
+    it('should return undefined values for undefined co2Values', () => {
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      expect(DialogSelectors.getHighestCo2Values.projector(undefined)).toEqual({
+        co2Values: undefined,
+        otherValues: undefined,
+      });
+    });
+
+    it('should return undefined values for empty co2Values', () => {
+      expect(DialogSelectors.getHighestCo2Values.projector([])).toEqual({
+        co2Values: undefined,
+        otherValues: undefined,
+      });
+    });
+
+    it('should return highest value if only one value', () => {
+      expect(
+        DialogSelectors.getHighestCo2Values.projector([
+          {
+            co2PerTon: 3,
+            co2Scope1: 1,
+            co2Scope2: 1,
+            co2Scope3: 1,
+            co2Classification: 'c1',
+          },
+        ])
+      ).toEqual({
+        co2Values: {
+          co2PerTon: 3,
+          co2Scope1: 1,
+          co2Scope2: 1,
+          co2Scope3: 1,
+          co2Classification: {
+            id: 'c1',
+            title: 'c1',
+          },
+        },
+        otherValues: 0,
+      });
+    });
+
+    it('should return highest value if only one value without classification', () => {
+      expect(
+        DialogSelectors.getHighestCo2Values.projector([
+          {
+            co2PerTon: 10,
+            co2Scope1: undefined,
+            co2Scope2: undefined,
+            co2Scope3: undefined,
+            co2Classification: undefined,
+          },
+        ])
+      ).toEqual({
+        co2Values: {
+          co2PerTon: 10,
+          co2Scope1: undefined,
+          co2Scope2: undefined,
+          co2Scope3: undefined,
+          co2Classification: {
+            id: undefined,
+            title: 'none',
+          },
+        },
+        otherValues: 0,
+      });
     });
   });
 

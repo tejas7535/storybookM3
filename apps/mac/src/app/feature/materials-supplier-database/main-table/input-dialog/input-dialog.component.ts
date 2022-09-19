@@ -19,11 +19,12 @@ import {
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { filter, Subject, take, takeUntil, tap } from 'rxjs';
+import { filter, map, Subject, take, takeUntil, tap } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
 
 import { StringOption } from '@schaeffler/inputs';
+import { SelectComponent } from '@schaeffler/inputs/select';
 
 import { DialogControlsService } from '@mac/msd/main-table/input-dialog/services';
 import {
@@ -42,8 +43,11 @@ import {
   addCustomSupplierPlant,
   DialogFacade,
   fetchCastingDiameters,
+  fetchCo2ValuesForSupplierSteelMakingProcess,
   fetchReferenceDocuments,
+  fetchSteelMakingProcessesInUse,
   materialDialogConfirmed,
+  resetSteelMakingProcessInUse,
 } from '@mac/msd/store';
 
 import * as util from './util';
@@ -53,6 +57,8 @@ import * as util from './util';
   templateUrl: './input-dialog.component.html',
 })
 export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
+  STEEL_MAKING_PROCESS_SEARCH_STRING = 'in use by supplier';
+
   // mocks
   //  observables
   public standardDocuments$ = this.dialogFacade.standardDocuments$;
@@ -71,6 +77,13 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
   public referenceDocuments$ = this.dialogFacade.referenceDocuments$;
   public referenceDocumentsLoading$ =
     this.dialogFacade.referenceDocumentsLoading$;
+
+  private readonly steelMakingProcessesInUse$ =
+    this.dialogFacade.steelMakingProcessesInUse$;
+  public steelMakingProcessesInUse: string[] = [];
+
+  private readonly co2ValuesForSupplierSteelMakingProcess$ =
+    this.dialogFacade.co2ValuesForSupplierSteelMakingProcess$;
 
   public destroy$ = new Subject<void>();
 
@@ -151,8 +164,6 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
     supplierPlant: FormControl<StringOption>;
   }>;
 
-  private scopesControls: FormArray;
-
   public filterFn = util.filterFn;
   public materialNameFilterFnFactory = util.materialNameFilterFnFactory;
   public standardDocumentFilterFnFactory = util.standardDocumentFilterFnFactory;
@@ -161,10 +172,16 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
   public valueOptionKeyToTitleFilterFnFactory =
     util.valueOptionKeyToTitleFilterFnFactory;
   public getErrorMessage = util.getErrorMessage;
-  suppliersDependencies: FormGroup<{
+
+  private suppliersDependencies: FormGroup<{
     supplierName: FormControl<StringOption>;
     supplierPlant: FormControl<StringOption>;
     castingMode: FormControl<string>;
+  }>;
+  private co2Controls: FormArray;
+  private co2Dependencies: FormGroup<{
+    manufacturerSupplierId: FormControl<number>;
+    steelMakingProcess: FormControl<StringOption>;
   }>;
 
   public defaultRating: string;
@@ -172,6 +189,9 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChildren('dialogControl', { read: ElementRef })
   dialogControlRefs: QueryList<ElementRef>;
+
+  @ViewChildren('steelMakingProcessSelect', { read: SelectComponent })
+  steelMakingProcessSelectQueryList: QueryList<SelectComponent>;
 
   public constructor(
     private readonly dialogFacade: DialogFacade,
@@ -218,17 +238,23 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
       supplierPlant: this.supplierPlantsControl,
     });
 
-    this.scopesControls = new FormArray([
-      this.co2Scope1Control,
-      this.co2Scope2Control,
-      this.co2Scope3Control,
-      this.co2TotalControl,
-    ]);
-
     this.suppliersDependencies = new FormGroup({
       supplierName: this.suppliersControl,
       supplierPlant: this.supplierPlantsControl,
       castingMode: this.castingModesControl,
+    });
+
+    this.co2Controls = new FormArray([
+      this.co2Scope1Control,
+      this.co2Scope2Control,
+      this.co2Scope3Control,
+      this.co2TotalControl,
+      this.co2ClassificationControl,
+    ]);
+
+    this.co2Dependencies = new FormGroup({
+      manufacturerSupplierId: this.manufacturerSupplierIdControl,
+      steelMakingProcess: this.steelMakingProcessControl,
     });
 
     this.months = util.getMonths();
@@ -327,7 +353,7 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
       });
 
     // detect changes of the co2Scope fields
-    this.scopesControls.valueChanges
+    this.co2Controls.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this.co2TotalControl.updateValueAndValidity({ onlySelf: true });
@@ -370,12 +396,20 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
               if (castingMode) {
                 // enable casting diameter selection
                 this.castingDiameterControl.enable({ emitEvent: false });
+                this.castingDiameterControl.reset(undefined, {
+                  emitEvent: false,
+                });
+                this.dialogFacade.dispatch(resetSteelMakingProcessInUse());
                 // pull list of available diameters for selected supplier
                 this.dialogFacade.dispatch(
                   fetchCastingDiameters({ supplierId, castingMode })
                 );
               } else {
                 this.disable([this.castingDiameterControl]);
+                this.castingDiameterControl.reset(undefined, {
+                  emitEvent: false,
+                });
+                this.dialogFacade.dispatch(resetSteelMakingProcessInUse());
               }
             }
           } else {
@@ -384,6 +418,8 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
               this.castingModesControl,
               this.castingDiameterControl,
             ]);
+            this.castingDiameterControl.reset(undefined, { emitEvent: false });
+            this.castingModesControl.reset(undefined, { emitEvent: false });
           }
         } else {
           this.disable([
@@ -392,8 +428,57 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
             this.castingModesControl,
             this.castingDiameterControl,
           ]);
+          this.supplierPlantsControl.reset(undefined, { emitEvent: false });
+          this.castingModesControl.reset(undefined, { emitEvent: false });
+          this.castingDiameterControl.reset(undefined, { emitEvent: false });
         }
       });
+
+    this.castingDiameterControl.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        map((castingDiameter) => ({
+          supplierId: this.manufacturerSupplierIdControl.value,
+          castingMode: this.castingModesControl.value,
+          castingDiameter: castingDiameter?.title,
+        })),
+        filter(
+          ({ supplierId, castingMode, castingDiameter }) =>
+            !!supplierId && !!castingMode && !!castingDiameter
+        )
+      )
+      .subscribe(({ supplierId, castingMode, castingDiameter }) =>
+        this.dialogFacade.dispatch(
+          supplierId && castingMode && castingDiameter
+            ? fetchSteelMakingProcessesInUse({
+                supplierId,
+                castingMode,
+                castingDiameter,
+              })
+            : resetSteelMakingProcessInUse()
+        )
+      );
+
+    this.co2Dependencies.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        filter(
+          ({ manufacturerSupplierId, steelMakingProcess }) =>
+            !!manufacturerSupplierId && !!steelMakingProcess
+        ),
+        map(({ manufacturerSupplierId, steelMakingProcess }) => ({
+          supplierId: manufacturerSupplierId,
+          steelMakingProcess: steelMakingProcess.title,
+        }))
+      )
+      .subscribe(({ supplierId, steelMakingProcess }) =>
+        this.dialogFacade.dispatch(
+          fetchCo2ValuesForSupplierSteelMakingProcess({
+            supplierId,
+            steelMakingProcess,
+          })
+        )
+      );
 
     this.materialStandardIdControl.valueChanges
       .pipe(
@@ -405,6 +490,60 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
           fetchReferenceDocuments({ materialStandardId: id })
         )
       );
+
+    this.steelMakingProcessesInUse$
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((steelMakingProcessesInUse) => {
+          this.steelMakingProcessesInUse = steelMakingProcessesInUse || [];
+          if (this.steelMakingProcessesInUse.length > 0) {
+            this.steelMakingProcessSelectQueryList?.first?.searchControl.setValue(
+              this.STEEL_MAKING_PROCESS_SEARCH_STRING,
+              { emitEvent: false }
+            );
+          } else {
+            this.steelMakingProcessSelectQueryList?.first?.searchControl.setValue(
+              '',
+              {
+                emitEvent: false,
+              }
+            );
+          }
+        })
+      )
+      .subscribe();
+
+    this.co2ValuesForSupplierSteelMakingProcess$
+      .pipe(
+        takeUntil(this.destroy$),
+        tap(({ co2Values, otherValues }) => {
+          let co2ValuesEmpty = true;
+
+          for (const control of this.co2Controls.controls) {
+            if (control.value) {
+              co2ValuesEmpty = false;
+            }
+          }
+
+          if (co2ValuesEmpty && co2Values) {
+            this.co2ClassificationControl.enable({ emitEvent: false });
+            this.createMaterialForm.patchValue(co2Values);
+            this.snackbar.open(
+              translate(
+                otherValues > 0
+                  ? 'materialsSupplierDatabase.mainTable.dialog.co2ValuesFilledWithOtherValues'
+                  : 'materialsSupplierDatabase.mainTable.dialog.co2ValuesFilled',
+                otherValues > 0 ? { otherValues } : undefined
+              ),
+              translate('materialsSupplierDatabase.mainTable.dialog.close'),
+              {
+                panelClass: '[&>div>div>simple-snack-bar]:!flex-nowrap',
+              }
+            );
+          }
+        })
+      )
+      .subscribe();
   }
 
   public ngOnDestroy(): void {
@@ -647,4 +786,15 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public compareWithId = (option: StringOption, selected: StringOption) =>
     option?.id === selected?.id;
+
+  public steelMakingProcessFilterFn = (
+    option?: StringOption,
+    value?: string
+  ) => {
+    if (value === this.STEEL_MAKING_PROCESS_SEARCH_STRING) {
+      return this.steelMakingProcessesInUse.includes(option?.title);
+    }
+
+    return util.filterFn(option, value);
+  };
 }

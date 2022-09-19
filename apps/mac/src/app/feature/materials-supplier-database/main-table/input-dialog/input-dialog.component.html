@@ -375,10 +375,11 @@
             class="w-auto"
             [stringOptions]="steelMakingProcess$ | ngrxPush"
             [control]="steelMakingProcessControl"
-            [filterFn]="filterFn"
+            [filterFn]="steelMakingProcessFilterFn"
             [label]="t('steelMakingProcess')"
             name="steelMakingProcess"
             #dialogControl
+            #steelMakingProcessSelect
           ></schaeffler-select>
           <div class="flex w-full flex-row">
             <schaeffler-select

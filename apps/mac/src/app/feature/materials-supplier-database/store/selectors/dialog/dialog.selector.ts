@@ -1,6 +1,7 @@
 /* eslint-disable max-lines */
 import { filter, map, pipe } from 'rxjs';
 
+import { translate } from '@ngneat/transloco';
 import { createSelector, MemoizedSelector, select } from '@ngrx/store';
 
 import { StringOption } from '@schaeffler/inputs';
@@ -106,7 +107,13 @@ export const getMaterialDialogCastingModes = createSelector(
 );
 export const getMaterialDialogCo2Classifications = createSelector(
   getMaterialDialogOptions,
-  (dialogOptions) => dialogOptions.co2Classifications
+  (dialogOptions) => [
+    ...dialogOptions.co2Classifications,
+    {
+      id: undefined,
+      title: translate('materialsSupplierDatabase.mainTable.dialog.none'),
+    },
+  ]
 );
 export const getMaterialDialogSuppliers = createSelector(
   getMaterialDialogOptions,
@@ -381,6 +388,75 @@ export const getResumeDialogData = createSelector(
   getEditMaterialData,
   getMinimizedDialog,
   (editMaterial, minimizedDialog) => ({ editMaterial, minimizedDialog })
+);
+
+export const getSteelMakingProcessesInUse = createSelector(
+  getMaterialDialogOptions,
+  (dialogOptions) => dialogOptions.steelMakingProcessesInUse
+);
+
+export const getCo2ValuesForSupplierSteelMakingProcess = createSelector(
+  getMaterialDialogOptions,
+  (dialogOptions) => dialogOptions.co2Values
+);
+
+export const getHighestCo2Values = createSelector(
+  getCo2ValuesForSupplierSteelMakingProcess,
+  (
+    co2Values
+  ): {
+    co2Values: {
+      co2PerTon: number;
+      co2Scope1: number;
+      co2Scope2: number;
+      co2Scope3: number;
+      co2Classification: StringOption;
+    };
+    otherValues: number;
+  } => {
+    if (!co2Values || co2Values.length === 0) {
+      return {
+        co2Values: undefined,
+        otherValues: undefined,
+      };
+    } else if (co2Values.length > 1) {
+      const sortedCo2Values = [...co2Values]
+        .filter((co2Value) => !!co2Value.co2PerTon)
+        .sort((a, b) => b.co2PerTon - a.co2PerTon);
+      const highestCo2Value = sortedCo2Values[0];
+
+      return {
+        co2Values: {
+          ...highestCo2Value,
+          co2Classification: {
+            id: highestCo2Value.co2Classification ?? undefined,
+            title: translate(
+              highestCo2Value.co2Classification
+                ? `materialsSupplierDatabase.mainTable.dialog.${highestCo2Value.co2Classification}`
+                : 'materialsSupplierDatabase.mainTable.dialog.none'
+            ),
+          },
+        },
+        otherValues: co2Values.length - 1,
+      };
+    }
+
+    const co2Value = co2Values[0];
+
+    return {
+      co2Values: {
+        ...co2Value,
+        co2Classification: {
+          id: co2Value.co2Classification ?? undefined,
+          title: translate(
+            co2Value.co2Classification ??
+              'materialsSupplierDatabase.mainTable.dialog.none'
+          ),
+        },
+      },
+      otherValues: 0,
+    };
+  }
 );
 
 export const getEditMaterialDataLoaded = pipe(

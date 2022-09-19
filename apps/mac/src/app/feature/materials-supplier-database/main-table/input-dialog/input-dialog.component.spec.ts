@@ -46,6 +46,7 @@ import {
   addCustomSupplierName,
   addCustomSupplierPlant,
   fetchCastingDiameters,
+  fetchCo2ValuesForSupplierSteelMakingProcess,
   fetchReferenceDocuments,
 } from '@mac/msd/store';
 import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
@@ -1066,6 +1067,26 @@ describe('InputDialogComponent', () => {
             );
           });
         });
+
+        describe('modify co2Dependencies', () => {
+          it('should dispatch the fetch action if both values are set', () => {
+            component['dialogFacade'].dispatch = jest.fn();
+            component.manufacturerSupplierIdControl.setValue(1, {
+              emitEvent: false,
+            });
+            component.steelMakingProcessControl.setValue({
+              id: 'BF+BOF',
+              title: 'BF+BOF',
+            });
+
+            expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+              fetchCo2ValuesForSupplierSteelMakingProcess({
+                supplierId: 1,
+                steelMakingProcess: 'BF+BOF',
+              })
+            );
+          });
+        });
       });
     });
   });
@@ -1429,6 +1450,36 @@ describe('InputDialogComponent', () => {
       const mockOption2 = { id: 2, title: 'b' };
 
       expect(component.compareWithId(mockOption1, mockOption2)).toBe(false);
+    });
+  });
+
+  describe('steelMakingProcessFilterFn', () => {
+    it('should return the false', () => {
+      const result = component.steelMakingProcessFilterFn(
+        { id: 'BF+BOF', title: 'BF+BOF' },
+        'a'
+      );
+
+      expect(result).toBe(false);
+    });
+
+    it('should return the true', () => {
+      const result = component.steelMakingProcessFilterFn(
+        { id: 'BF+BOF', title: 'BF+BOF' },
+        'bof'
+      );
+
+      expect(result).toBe(true);
+    });
+
+    it('should return true if the title is within the used processes', () => {
+      component['steelMakingProcessesInUse'] = ['BF+BOF'];
+      const result = component.steelMakingProcessFilterFn(
+        { id: 'BF+BOF', title: 'BF+BOF' },
+        'in use by supplier'
+      );
+
+      expect(result).toBe(true);
     });
   });
 });

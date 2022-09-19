@@ -26,6 +26,9 @@ import {
   fetchCo2Classifications,
   fetchCo2ClassificationsFailure,
   fetchCo2ClassificationsSuccess,
+  fetchCo2ValuesForSupplierSteelMakingProcess,
+  fetchCo2ValuesForSupplierSteelMakingProcessFailure,
+  fetchCo2ValuesForSupplierSteelMakingProcessSuccess,
   fetchEditMaterialNameData,
   fetchEditMaterialNameDataFailure,
   fetchEditMaterialNameDataSuccess,
@@ -49,6 +52,9 @@ import {
   fetchReferenceDocumentsSuccess,
   fetchSteelMakingProcesses,
   fetchSteelMakingProcessesFailure,
+  fetchSteelMakingProcessesInUse,
+  fetchSteelMakingProcessesInUseFailure,
+  fetchSteelMakingProcessesInUseSuccess,
   fetchSteelMakingProcessesSuccess,
   materialDialogCanceled,
   materialDialogConfirmed,
@@ -59,6 +65,8 @@ import {
   postManufacturerSupplier,
   postMaterial,
   postMaterialStandard,
+  resetCo2ValuesForSupplierSteelMakingProcess,
+  resetSteelMakingProcessInUse,
   setMaterialFormValue,
 } from './dialog.actions';
 
@@ -665,6 +673,119 @@ describe('Dialog Actions', () => {
         type: '[MSD - Dialog] Minimize Dialog',
         id: 1,
         value: {} as MaterialFormValue,
+      });
+    });
+  });
+
+  describe('Fetch Steel Making Processes In Use', () => {
+    it('fetchSteelMakingPcessesInUse', () => {
+      const action = fetchSteelMakingProcessesInUse({
+        supplierId: 1,
+        castingMode: 'ESR',
+        castingDiameter: '1x1',
+      });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch Steel Making Processes In Use',
+        supplierId: 1,
+        castingMode: 'ESR',
+        castingDiameter: '1x1',
+      });
+    });
+  });
+
+  describe('Fetch Steel Making Processes In Use Success', () => {
+    it('fetchSteelMakingPcessesInUseSuccess', () => {
+      const action = fetchSteelMakingProcessesInUseSuccess({
+        steelMakingProcessesInUse: ['BF+BOF'],
+      });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch Steel Making Processes In Use Success',
+        steelMakingProcessesInUse: ['BF+BOF'],
+      });
+    });
+  });
+
+  describe('Fetch Steel Making Processes In Use Failure', () => {
+    it('fetchSteelMakingPcessesInUseFailure', () => {
+      const action = fetchSteelMakingProcessesInUseFailure();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch Steel Making Processes In Use Failure',
+      });
+    });
+  });
+
+  describe('Reset Fetch Steel Making Processes In Use', () => {
+    it('resetSteelMakingPcessesInUse', () => {
+      const action = resetSteelMakingProcessInUse();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Reset Steel Making Processes In Use',
+      });
+    });
+  });
+
+  describe('Fetch CO2 Values For Supplier Steel Making Process', () => {
+    it('fetchCo2ValuesForSupplierSteelMakingProcess', () => {
+      const action = fetchCo2ValuesForSupplierSteelMakingProcess({
+        supplierId: 1,
+        steelMakingProcess: 'BF+BOF',
+      });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch CO2 Values For Supplier Steel Making Process',
+        supplierId: 1,
+        steelMakingProcess: 'BF+BOF',
+      });
+    });
+  });
+
+  describe('Fetch CO2 Values For Supplier Steel Making Process Success', () => {
+    it('fetchCo2ValuesForSupplierSteelMakingProcessSuccess', () => {
+      const action = fetchCo2ValuesForSupplierSteelMakingProcessSuccess({
+        co2Values: [
+          {
+            co2PerTon: 3,
+            co2Scope1: 1,
+            co2Scope2: 1,
+            co2Scope3: 1,
+            co2Classification: 'c1',
+          },
+        ],
+      });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch CO2 Values For Supplier Steel Making Process Success',
+        co2Values: [
+          {
+            co2PerTon: 3,
+            co2Scope1: 1,
+            co2Scope2: 1,
+            co2Scope3: 1,
+            co2Classification: 'c1',
+          },
+        ],
+      });
+    });
+  });
+
+  describe('Fetch CO2 Values For Supplier Steel Making Process Failure', () => {
+    it('fetchCo2ValuesForSupplierSteelMakingProcessFailure', () => {
+      const action = fetchCo2ValuesForSupplierSteelMakingProcessFailure();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch CO2 Values For Supplier Steel Making Process Failure',
+      });
+    });
+  });
+  describe('Reset CO2 Values For Supplier Steel Making Process', () => {
+    it('resetCo2ValuesForSupplierSteelMakingProcess', () => {
+      const action = resetCo2ValuesForSupplierSteelMakingProcess();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Reset CO2 Values For Supplier Steel Making Process',
       });
     });
   });
