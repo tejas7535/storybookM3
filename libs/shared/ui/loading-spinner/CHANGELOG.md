@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.7.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/loading-spinner-v0.7.2...loading-spinner-v0.7.3) (2022-09-20)
+
 ### [0.7.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/loading-spinner-v0.7.1...loading-spinner-v0.7.2) (2022-08-24)
 
 ### [0.7.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/loading-spinner-v0.7.0...loading-spinner-v0.7.1) (2022-07-20)
