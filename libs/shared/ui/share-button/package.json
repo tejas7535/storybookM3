@@ -1,6 +1,6 @@
 {
   "name": "@schaeffler/share-button",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "peerDependencies": {
     "@angular/common": ">=11.2.0 <15.0.0",
     "@angular/core": ">=11.2.0 <15.0.0"
