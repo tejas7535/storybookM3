@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [0.8.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v0.7.0...mac-v0.8.0) (2022-09-20)
+
+
+### 🎸 Features
+
+* **mac:** add a quickfilter element to MSD (UFTABI-5763) ([#4576](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4576)) ([31c2ccf](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/31c2ccf270d9c0c8b595a194531277d4870cdde6))
+* **mac:** add environmant Info in Application Header(UFTABI-5917) ([#4453](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4453)) ([8480e1d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8480e1dd07f5a7f1f8d867c8a259d3a4c8813d7d))
+* **mac:** add first learn more page for HC (UFTABI-5178) ([#4416](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4416)) ([e4a6347](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e4a6347b09e1c3a62c3a8cd14f291b5561109cc6))
+* **mac:** add learnmore link for LTP to mac overview page ([#4457](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4457)) ([44d5b4f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/44d5b4f87704f5185de93de7132b4169af5083a3))
+* **mac:** adding a new column to the msd UI (UFTABI-5917) ([#4448](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4448)) ([f34e385](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f34e385da40f1c64944bb7eb27a1816d9481c677))
+* **mac:** adding supplier and material standard to the msd (UFTABI-5775) ([#4489](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4489)) ([42c8199](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/42c819937fe239253ad1fae53d1e6186353b30fd))
+* **mac:** adding tooltip to specific columns of msd table ([#4452](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4452)) ([3e6e2c0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3e6e2c08542ea3f1e004857f9e5e0bb356111be8))
+* **mac:** autofill and prefilter co2 and process values (UFTABI-5960) ([#4617](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4617)) ([26d4e4f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/26d4e4fa50b08fecc2a693f3d22227b4d19faebd))
+* **mac:** collapse sidebar using button (UFTABI-5996) ([#4548](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4548)) ([02fecfc](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/02fecfc69126794a4a6300d50324dca4c3a8a316)), closes [#3](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3)
+* **mac:** edit materials in msd (UFTABI-5732) ([#4506](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4506)) ([4d210f8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4d210f81dca8862d2488ab7d9dce4ac759512f10))
+* **mac:** filter options by casting mode (UFTABI-5929) ([#4399](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4399)) ([52a7e11](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/52a7e11635b4d22a50726a501848290a63c08056))
+* **mac:** HardnessConverter - limit input range to positive values (UFTABI-5794) ([#4599](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4599)) ([c0dcfc6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c0dcfc6f997fa3c6ec027b15bb1c8c5e10664c43))
+* **mac:** migrate to api v2 (UFTABI-5883) ([#4370](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4370)) ([bed1aa1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bed1aa162b475b3c8c1255d1e8dc117954e2e70c))
+* **mac:** minimization of dialog (UFTABI-5961) ([#4578](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4578)) ([66c6fe1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/66c6fe1e02e12b041754346203afc351131e753e))
+* **mac:** rename columns for msd table ([#4438](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4438)) ([e8ded57](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e8ded571b38f6927f05f906822e79241ebfbdca3))
+* **mac:** rework Learn more page for HC (uftabi 6028) ([#4615](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4615)) ([bd1be19](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bd1be19b411a3547e2f46ae585436686256ee6df))
+* **mac:** show maintenance page if services are unavailable (UFTABI-5874) ([#4478](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4478)) ([dd88d26](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/dd88d2621cf83f4e9aaa54c52311190dfb058dd4))
+* **mac:** split input dialog component (UFTABI-5913) ([#4454](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4454)) ([a9bec54](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a9bec54fd37edf0a7474dd5747d380516897441f))
+* **mac:** split msd stores (UFTABI-5912) ([#4391](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4391)) ([8a34e93](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8a34e9352e240cbd3b19a55dfc9c1689947cd97c))
+* **mac:** suggest casting diameters based on supplier (UFTABI-5876) ([#4383](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4383)) ([b2a5fd5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b2a5fd54a4165276e160744df4a60a458937ecfc))
+* **workspace:** upgrade to ag-grid v28 ([#4427](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4427)) ([2c7c976](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2c7c97600c0646e238ce646f5e2adcc9d668b41c))
+
+
+### 🐛 Bug Fixes
+
+* **mac:** adact visibility classes for sidebar elements ([#4624](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4624)) ([98619f9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/98619f983533b980345e5b48a236d702d3a2390a))
+* **mac:** add missing translations ([#4482](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4482)) ([d14d149](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d14d1499612f0adb01e8e5438cabe5de9977c93a))
+* **mac:** fix removing of duplicate entries ([#4618](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4618)) ([0d4d75e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0d4d75ed2f3c7a15c940aae348ca533d94cdb588))
+* **mac:** Hardness Converter - fix unit naming and tooltip - UFTABI-5887 ([#4596](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4596)) ([1c75e50](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1c75e50dc57ea6cc7203e5d1a8cf48707ac1eae0))
+* **mac:** MSD - make sidebar fields unselectable when invisible (UFTABI-6030) ([#4595](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4595)) ([78cd688](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/78cd6880850c859fabfca8f6cb8ffa2fddf6b266))
+* **mac:** resolving findings from UI review ([#4621](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4621)) ([2365e24](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2365e248b7c9efceb7382a80fc463abf87367bfc))
+* **mac:** update SharedTranslocoModule import to fix issues with language persisting ([2794371](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/279437156264e342d44636b15f1ddda669b568be))
+
 ## [0.7.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v0.6.0...mac-v0.7.0) (2022-07-18)
 
 
