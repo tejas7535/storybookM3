@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.0.11](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/app-shell-v0.0.10...app-shell-v0.0.11) (2022-09-20)
+
 ### [0.0.10](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/app-shell-v0.0.9...app-shell-v0.0.10) (2022-08-24)
 
 
