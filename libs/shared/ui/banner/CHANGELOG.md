@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [3.3.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/banner-v3.3.2...banner-v3.3.3) (2022-09-20)
+
 ### [3.3.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/banner-v3.3.1...banner-v3.3.2) (2022-08-24)
 
 ### [3.3.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/banner-v3.3.0...banner-v3.3.1) (2022-07-20)
