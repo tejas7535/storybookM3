@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.2.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/legal-pages-v0.2.3...legal-pages-v0.2.4) (2022-09-20)
+
+
+### 🎸 Features
+
+* **legal-pages:** add build configuration ([c2dfc7f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c2dfc7ff6775405b290444037c35a213e82c6c77))
+
 ### [0.2.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/legal-pages-v0.2.2...legal-pages-v0.2.3) (2022-08-24)
 
 
