@@ -1,0 +1,55 @@
+import {
+  MatButtonToggleChange,
+  MatButtonToggleModule,
+} from '@angular/material/button-toggle';
+
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+
+import { ViewToggle } from '../../view-toggle.model';
+import { ViewToggleComponent } from './view-toggle.component';
+
+describe('ViewToggleComponent', () => {
+  let component: ViewToggleComponent;
+  let spectator: Spectator<ViewToggleComponent>;
+  const view: ViewToggle = { id: 0, title: 'test title' };
+
+  const createComponent = createComponentFactory({
+    component: ViewToggleComponent,
+    imports: [MatButtonToggleModule],
+  });
+  beforeEach(() => {
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
+  });
+  test('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  describe('set component vars according to input', () => {
+    test('should set vars', () => {
+      const views = [view];
+      spectator.setInput('views', views);
+
+      expect(component.active).toEqual(view);
+      expect(component.items).toEqual(views);
+    });
+    test('should not set vars', () => {
+      const views: any[] = [];
+      spectator.setInput('views', views);
+
+      expect(component.active).toBeUndefined();
+      expect(component.items).toEqual([]);
+    });
+  });
+  describe('onViewSelect', () => {
+    test('should emit selectionChange', () => {
+      const event = { value: view } as MatButtonToggleChange;
+
+      component.selectionChange.emit = jest.fn();
+
+      component.onViewSelect(event);
+
+      expect(component.selectionChange.emit).toHaveBeenCalledTimes(1);
+    });
+  });
+});

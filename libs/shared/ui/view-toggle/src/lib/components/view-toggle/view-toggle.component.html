@@ -1,0 +1,19 @@
+<mat-button-toggle-group
+  *ngIf="items.length > 0"
+  [value]="active"
+  (change)="onViewSelect($event)"
+  class="!rounded-b-none"
+  [ngClass]="{
+    '!border-b-0': !displayBorderBottom
+  }"
+>
+  <mat-button-toggle
+    class="bg-[#fafafa] px-1 !leading-8 text-medium-emphasis hover:!font-medium hover:text-high-emphasis [&>button>span]:!text-caption [&>.mat-view-toggle-focus-overlay]:hidden"
+    *ngFor="let item of items; let i = index"
+    [value]="item"
+    [ngClass]="{
+      '!bg-secondary font-medium text-high-emphasis': item.id === active.id
+    }"
+    >{{ item.title }}</mat-button-toggle
+  >
+</mat-button-toggle-group>

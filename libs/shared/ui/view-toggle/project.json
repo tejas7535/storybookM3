@@ -1,0 +1,67 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/shared/ui/view-toggle/src",
+  "prefix": "schaeffler",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/libs/shared/ui/view-toggle"],
+      "options": {
+        "project": "libs/shared/ui/view-toggle/ng-package.json",
+        "tailwindConfig": "libs/shared/ui/view-toggle/tailwind.config.js"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/shared/ui/view-toggle/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/shared/ui/view-toggle/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/shared/ui/view-toggle"],
+      "options": {
+        "jestConfig": "libs/shared/ui/view-toggle/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/shared/ui/view-toggle/**/*.ts",
+          "libs/shared/ui/view-toggle/**/*.html"
+        ]
+      },
+      "configurations": {
+        "ci": {
+          "format": "checkstyle",
+          "outputFile": "checkstyle/libs/shared/ui/view-toggle/checkstyle.xml",
+          "force": true
+        }
+      }
+    },
+    "standard-version": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx standard-version --no-verify {args.params}",
+        "cwd": "libs/shared/ui/view-toggle"
+      }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "npm publish dist/libs/shared/ui/view-toggle --tag latest"
+          }
+        ]
+      }
+    }
+  },
+  "tags": ["scope:shared", ""]
+}

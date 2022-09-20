@@ -21,6 +21,7 @@
     "shared-ui-app-shell": "libs/shared/ui/app-shell",
     "shared-ui-banner": "libs/shared/ui/banner",
     "shared-ui-breadcrumbs": "libs/shared/ui/breadcrumbs",
+    "shared-ui-view-toggle": "libs/shared/ui/view-toggle",
     "shared-ui-controls": "libs/shared/ui/controls",
     "shared-ui-empty-states": "libs/shared/ui/empty-states",
     "shared-ui-icons": "libs/shared/ui/icons",
