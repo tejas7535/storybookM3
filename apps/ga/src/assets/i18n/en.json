@@ -314,5 +314,9 @@
     "content": "Unfortunately an error occured. Please try again later.",
     "confirm": "Confirm",
     "retry": "Retry"
+  },
+  "banner": {
+    "bannerText": "Maintenance work is taking place in the Grease app. Under certain circumstances, no calculations are possible in the period between 26.09. and 07.10.",
+    "buttonText": "Okay"
   }
 }

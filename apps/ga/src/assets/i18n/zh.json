@@ -324,5 +324,9 @@
     "content": "很遗憾，出现错误。请稍后再试。",
     "confirm": "确认",
     "retry": "重试"
+  },
+  "banner": {
+    "bannerText": "目前正在对 Grease App 应用程序进行维护工作。在某些情况下，26.09.至07.10期间将无法进行计算。",
+    "buttonText": "好的"
   }
 }

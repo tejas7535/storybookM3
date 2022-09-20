@@ -4,8 +4,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { OneTrustModule } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoService } from '@ngneat/transloco';
+import { translate, TranslocoService } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
 import { AppShellModule } from '@schaeffler/app-shell';
@@ -13,6 +14,7 @@ import {
   ApplicationInsightsService,
   COOKIE_GROUPS,
 } from '@schaeffler/application-insights';
+import { BannerModule } from '@schaeffler/banner';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -27,6 +29,7 @@ describe('AppComponent', () => {
   let applicationInsightsService: ApplicationInsightsService;
   let metaService: Meta;
   let titleService: Title;
+  let store: MockStore;
 
   const createComponent = createComponentFactory({
     component: AppComponent,
@@ -37,6 +40,7 @@ describe('AppComponent', () => {
       MockModule(CoreModule),
       MockModule(AppShellModule),
       MockModule(UserSettingsModule),
+      MockModule(BannerModule),
       provideTranslocoTestingModule(
         { en: {} },
         { translocoConfig: { defaultLang: 'de' } }
@@ -47,6 +51,7 @@ describe('AppComponent', () => {
       }),
     ],
     providers: [
+      provideMockStore({}),
       {
         provide: ApplicationInsightsService,
         useValue: {
@@ -62,6 +67,8 @@ describe('AppComponent', () => {
     component = spectator.debugElement.componentInstance;
     translocoService = spectator.inject(TranslocoService);
     applicationInsightsService = spectator.inject(ApplicationInsightsService);
+    store = spectator.inject(MockStore);
+
     metaService = spectator.inject(Meta);
     titleService = spectator.inject(Title);
   });
@@ -79,6 +86,38 @@ describe('AppComponent', () => {
 
       expect(component.destroy$.next).toHaveBeenCalled();
       expect(component.destroy$.complete).toHaveBeenCalled();
+    });
+  });
+
+  describe('openBanner', () => {
+    it('should open the banner between 26.9 and 07.10.', () => {
+      jest.useFakeTimers();
+      jest.setSystemTime(new Date('2022-09-27'));
+      const banner = {
+        text: translate('banner.bannerText'),
+        icon: 'warning',
+        buttonText: translate('banner.buttonText'),
+        truncateSize: 0,
+        type: '[Banner] Open Banner',
+      };
+      store.dispatch = jest.fn();
+
+      component.openBanner();
+
+      expect(store.dispatch).toHaveBeenCalledWith(banner);
+      jest.useRealTimers();
+    });
+
+    it('should mot open the banner after the slot between 26.9 and 07.10.', () => {
+      jest.useFakeTimers();
+      jest.setSystemTime(new Date('2022-10-10'));
+
+      store.dispatch = jest.fn();
+
+      component.openBanner();
+
+      expect(store.dispatch).toBeCalledTimes(0);
+      jest.useRealTimers();
     });
   });
 
