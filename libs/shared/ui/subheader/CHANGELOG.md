@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.2.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/subheader-v0.2.3...subheader-v0.2.4) (2022-09-20)
+
+
+### 🐛 Bug Fixes
+
+* **subheader:** adjust bg color ([ee1bb0e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ee1bb0e32e7844548b0a8504396431eb3d9bc479))
+
 ### [0.2.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/subheader-v0.2.2...subheader-v0.2.3) (2022-08-24)
 
 ### [0.2.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/subheader-v0.2.1...subheader-v0.2.2) (2022-07-20)
