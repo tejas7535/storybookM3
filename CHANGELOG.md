@@ -3,6 +3,32 @@
 **Note:** old/deprecated changelog can be found [here](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/-/blob/184ca646a740a82b55eee4f43c56c076a0ca82e2/CHANGELOG.md)
 
 ## 9/20/2022
+* assets: [1.12.5](libs/shared/assets/CHANGELOG.md)
+* cypress-utils: [1.13.5](libs/shared/cypress-utils/CHANGELOG.md)
+* @schaeffler/app-shell: [0.0.11](libs/shared/ui/app-shell/CHANGELOG.md)
+* @schaeffler/banner: [3.3.3](libs/shared/ui/banner/CHANGELOG.md)
+* @schaeffler/breadcrumbs: [0.6.4](libs/shared/ui/breadcrumbs/CHANGELOG.md)
+* @schaeffler/controls: [0.0.3](libs/shared/ui/controls/CHANGELOG.md)
+* @schaeffler/empty-states: [2.4.1](libs/shared/ui/empty-states/CHANGELOG.md)
+* @schaeffler/icons: [2.1.5](libs/shared/ui/icons/CHANGELOG.md)
+* @schaeffler/inputs: [0.0.5](libs/shared/ui/inputs/CHANGELOG.md)
+* @schaeffler/label-value: [0.0.7](libs/shared/ui/label-value/CHANGELOG.md)
+* @schaeffler/legal-pages: [0.2.4](libs/shared/ui/legal-pages/CHANGELOG.md)
+* @schaeffler/loading-spinner: [0.7.3](libs/shared/ui/loading-spinner/CHANGELOG.md)
+* @schaeffler/picture-card: [0.7.3](libs/shared/ui/picture-card/CHANGELOG.md)
+* @schaeffler/report: [0.7.3](libs/shared/ui/report/CHANGELOG.md)
+* @schaeffler/roles-and-rights: [0.0.7](libs/shared/ui/roles-and-rights/CHANGELOG.md)
+* @schaeffler/share-button: [0.2.4](libs/shared/ui/share-button/CHANGELOG.md)
+* @schaeffler/stepper: [0.7.3](libs/shared/ui/stepper/CHANGELOG.md)
+* storybook: [1.13.0](libs/shared/ui/storybook/CHANGELOG.md)
+* @schaeffler/styles: [1.7.1](libs/shared/ui/styles/CHANGELOG.md)
+* @schaeffler/subheader: [0.2.4](libs/shared/ui/subheader/CHANGELOG.md)
+* @schaeffler/application-insights: [0.1.8](libs/shared/utils/application-insights/CHANGELOG.md)
+* @schaeffler/azure-auth: [1.0.1](libs/shared/utils/azure-auth/CHANGELOG.md)
+* @schaeffler/transloco: [4.0.1](libs/shared/utils/transloco/CHANGELOG.md)
+
+
+## 9/20/2022
 * mac: [0.8.0](./apps/mac/CHANGELOG.md)
 
 ## 9/7/2022
