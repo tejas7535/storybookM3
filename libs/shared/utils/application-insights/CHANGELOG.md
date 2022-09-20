@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.1.8](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/application-insights-v0.1.7...application-insights-v0.1.8) (2022-09-20)
+
+
+### ✏️ Documentation
+
+* **application-insights:** add cookie banner documentation ([#4541](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4541)) ([84df6a4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/84df6a40a587b83df6a8ec92b74411d1d3bdac48))
+
 ### [0.1.7](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/application-insights-v0.1.6...application-insights-v0.1.7) (2022-08-24)
 
 ### [0.1.6](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/application-insights-v0.1.5...application-insights-v0.1.6) (2022-07-20)
