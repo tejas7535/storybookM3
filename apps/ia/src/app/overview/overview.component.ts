@@ -9,12 +9,8 @@ import { EChartsOption } from 'echarts';
 import { getSelectedDimension } from '../core/store/selectors/filter/filter.selector';
 import { DoughnutConfig } from '../shared/charts/models/doughnut-config.model';
 import { EmployeeListDialogMetaHeadings } from '../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
-import {
-  AttritionSeries,
-  Employee,
-  EmployeeWithAction,
-} from '../shared/models';
-import { FluctuationKpi, OpenApplication } from './models';
+import { AttritionSeries, EmployeeWithAction } from '../shared/models';
+import { FluctuationKpi, OpenApplication, ResignedEmployee } from './models';
 import {
   loadOverviewEntryEmployees,
   loadOverviewExitEmployees,
@@ -81,7 +77,7 @@ export class OverviewComponent implements OnInit {
   entryEmployeesLoading$: Observable<boolean>;
   totalEmployeesCount$: Observable<number>;
 
-  resignedEmployees$: Observable<Employee[]>;
+  resignedEmployees$: Observable<ResignedEmployee[]>;
   resignedEmployeesCount$: Observable<number>;
   resignedEmployeesLoading$: Observable<boolean>;
 
