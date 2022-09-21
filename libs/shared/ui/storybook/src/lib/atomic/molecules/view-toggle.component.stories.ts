@@ -36,7 +36,7 @@ const Template: Story<ViewToggleComponent> = (args: ViewToggleComponent) => ({
 
 const views: ViewToggle[] = [
   { id: 0, title: 'view1' },
-  { id: 1, title: 'view2' },
+  { id: 1, title: 'view2', disabled: true },
   { id: 2, title: 'view3' },
 ];
 

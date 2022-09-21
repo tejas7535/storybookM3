@@ -77,6 +77,12 @@ public views: ViewToggle[] = [
     id: 1,
     title: 'title view2'
   },
+  {
+    id: 2,
+    title: 'title view3',
+    // disables click on view
+    disabled: true,
+  },
 ]
 
 public selectionChange(item: ViewToggle){
@@ -112,5 +118,6 @@ public selectionChange(item: ViewToggle){
 {
   id: number;
   title: string;
+  disabled: boolean;
 }
 ```

@@ -8,12 +8,16 @@
   }"
 >
   <mat-button-toggle
-    class="bg-[#fafafa] px-1 !leading-8 text-medium-emphasis hover:!font-medium hover:text-high-emphasis [&>button>span]:!text-caption [&>.mat-view-toggle-focus-overlay]:hidden"
+    class="bg-[#fafafa] px-1 !leading-8 text-medium-emphasis [&>button>span]:!text-caption [&>.mat-button-toggle-focus-overlay]:hidden"
     *ngFor="let item of items; let i = index"
     [value]="item"
     [ngClass]="{
-      '!bg-secondary font-medium text-high-emphasis': item.id === active.id
+      '!bg-secondary font-medium text-high-emphasis': item.id === active.id,
+      'hover:!font-medium hover:text-high-emphasis ': !item.disabled,
+      '!bg-[#fafafa] text-low-emphasis [&>button]:!cursor-not-allowed':
+        item.disabled
     }"
+    [disabled]="item.disabled"
     >{{ item.title }}</mat-button-toggle
   >
 </mat-button-toggle-group>
