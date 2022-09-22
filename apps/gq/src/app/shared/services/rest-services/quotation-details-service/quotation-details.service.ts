@@ -13,7 +13,7 @@ import {
   SapPriceConditionDetail,
 } from '../../../../core/store/reducers/sap-price-details/models/sap-price-condition-detail.model';
 import { ComparableLinkedTransaction } from '../../../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
-import { BYPASS_DEFAULT_ERROR_HANDLING } from '../../../http/base-http.interceptor';
+import { BYPASS_DEFAULT_ERROR_HANDLING } from '../../../http/http-error.interceptor';
 import { ApiVersion, Quotation } from '../../../models';
 import { QuotationDetail } from '../../../models/quotation-detail';
 import { MaterialComparableCost } from '../../../models/quotation-detail/material-comparable-cost.model';

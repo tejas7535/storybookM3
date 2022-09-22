@@ -35,7 +35,8 @@ import {
   FALLBACK_LANGUAGE,
   LANGUAGE_STORAGE_KEY,
 } from '../shared/constants/language';
-import { BaseHttpInterceptor } from '../shared/http/base-http.interceptor';
+import { HttpErrorInterceptor } from '../shared/http/http-error.interceptor';
+import { HttpHeaderInterceptor } from '../shared/http/http-header.interceptor';
 import { StoreModule } from './store';
 
 export function appInitializer(
@@ -114,7 +115,12 @@ export function appInitializer(
     },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: BaseHttpInterceptor,
+      useClass: HttpHeaderInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
       multi: true,
     },
   ],

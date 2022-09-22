@@ -24,6 +24,13 @@ describe('UomPipe', () => {
     expect(translate).toHaveBeenCalledTimes(1);
     expect(translate).toHaveBeenCalledWith('shared.quotationDetailsTable.ST');
   });
+  test("should translate 'PC' units", () => {
+    const pipe = new UomPipe();
+    pipe.transform('PC');
+
+    expect(translate).toHaveBeenCalledTimes(1);
+    expect(translate).toHaveBeenCalledWith('shared.quotationDetailsTable.ST');
+  });
 
   test('should NOT translate other units', () => {
     const pipe = new UomPipe();

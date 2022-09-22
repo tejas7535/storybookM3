@@ -26,9 +26,9 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { ApiVersion } from '../models';
 import { QuotationPaths } from '../services/rest-services/quotation-service/models/quotation-paths.enum';
 import {
-  BaseHttpInterceptor,
   BYPASS_DEFAULT_ERROR_HANDLING,
-} from './base-http.interceptor';
+  HttpErrorInterceptor,
+} from './http-error.interceptor';
 
 const environment = {
   baseUrl: 'localhost:8000/api/v1',
@@ -69,7 +69,7 @@ class MatSnackBarStub {
   }
 }
 
-describe(`BaseHttpInterceptor`, () => {
+describe(`HttpHeaderInterceptor`, () => {
   let service: ExampleService;
   let spectator: SpectatorService<ExampleService>;
   let httpMock: HttpTestingController;
@@ -87,7 +87,7 @@ describe(`BaseHttpInterceptor`, () => {
     providers: [
       {
         provide: HTTP_INTERCEPTORS,
-        useClass: BaseHttpInterceptor,
+        useClass: HttpErrorInterceptor,
         multi: true,
       },
       {

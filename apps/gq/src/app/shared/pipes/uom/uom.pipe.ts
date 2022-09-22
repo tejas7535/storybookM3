@@ -7,7 +7,7 @@ import { translate } from '@ngneat/transloco';
 })
 export class UomPipe implements PipeTransform {
   transform(value: string): string {
-    return value === 'ST'
+    return value === 'ST' || value === 'PC'
       ? translate('shared.quotationDetailsTable.ST')
       : value;
   }

@@ -27,7 +27,7 @@ import { AUTH_URLS, URL_SUPPORT } from './constants/urls';
 export const BYPASS_DEFAULT_ERROR_HANDLING = new HttpContextToken(() => false);
 
 @Injectable()
-export class BaseHttpInterceptor implements HttpInterceptor {
+export class HttpErrorInterceptor implements HttpInterceptor {
   public constructor(
     private readonly snackbar: MatSnackBar,
     private readonly translocoService: TranslocoService,
