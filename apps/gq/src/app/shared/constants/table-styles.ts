@@ -38,6 +38,9 @@ export const disableTableHorizontalScrollbar = `
     .ag-body-viewport {
     overflow-x: hidden;
   }
+  .ag-center-cols-viewport {
+    overflow-x:hidden;
+  }
 }
 `;
 

@@ -28,7 +28,10 @@
     <div>
       <gq-add-entry [isCaseView]="true"> </gq-add-entry>
     </div>
-    <div class="h-full min-h-[20rem]" *ngIf="rowData$ | ngrxPush as rowData">
+    <div
+      class="h-full min-h-[20rem] pb-4 lg:pb-0"
+      *ngIf="rowData$ | ngrxPush as rowData"
+    >
       <gq-material-input-table
         [rowData]="rowData"
         [isCaseView]="true"
