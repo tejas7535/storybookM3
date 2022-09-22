@@ -2,11 +2,14 @@ import { Spectator } from '@ngneat/spectator';
 import { createComponentFactory } from '@ngneat/spectator/jest';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { PushModule } from '@ngrx/component';
+import { provideMockStore } from '@ngrx/store/testing';
 import { AgGridModule } from 'ag-grid-angular';
 import { MockProvider } from 'ng-mocks';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { ColumnHeadersModule } from '../../../shared/ag-grid/column-headers/column-headers.module';
 import { HelperService } from '../../../shared/services/helper-service/helper-service.service';
 import { SapPriceDetailsTableComponent } from './sap-price-details-table.component';
 
@@ -20,10 +23,13 @@ describe('SapConditionsTableComponent', () => {
       AgGridModule,
       provideTranslocoTestingModule({ en: {} }),
       PushModule,
+      ColumnHeadersModule,
     ],
     providers: [
       { provide: HelperService, useValue: {} },
       MockProvider(TranslocoLocaleService),
+      MockProvider(ApplicationInsightsService),
+      provideMockStore({}),
     ],
   });
 

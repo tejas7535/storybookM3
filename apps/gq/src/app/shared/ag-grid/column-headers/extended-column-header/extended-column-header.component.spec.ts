@@ -5,6 +5,7 @@ import {
 } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { mockProvider } from '@ngneat/spectator/jest';
@@ -15,18 +16,19 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 import { PROCESS_CASE_STATE_MOCK } from '../../../../../testing/mocks';
 import { InfoIconModule } from '../../../components/info-icon/info-icon.module';
+import { SharedDirectivesModule } from '../../../directives/shared-directives.module';
 import { EVENT_NAMES } from '../../../models';
 import { PriceSource, QuotationDetail } from '../../../models/quotation-detail';
 import { ColumnFields } from '../../constants/column-fields.enum';
 import {
-  EditableColumnHeaderComponent,
-  EditableColumnHeaderComponentParams,
-} from './editable-column-header.component';
+  ExtendedColumnHeaderComponent,
+  ExtendedColumnHeaderComponentParams,
+} from './extended-column-header.component';
 import { PriceSourceOptions } from './models/price-source-options.enum';
 
-describe('EditableColumnHeaderComponent', () => {
-  let component: EditableColumnHeaderComponent;
-  let spectator: Spectator<EditableColumnHeaderComponent>;
+describe('ExtendedColumnHeaderComponent', () => {
+  let component: ExtendedColumnHeaderComponent;
+  let spectator: Spectator<ExtendedColumnHeaderComponent>;
   let applicationInsightsService: ApplicationInsightsService;
 
   const DEFAULT_PARAMS = {
@@ -51,16 +53,19 @@ describe('EditableColumnHeaderComponent', () => {
     setSort: jest.fn(),
     progressSort: jest.fn(),
     tooltipText: '',
-  } as EditableColumnHeaderComponentParams;
+    editableColumn: true,
+  } as ExtendedColumnHeaderComponentParams;
 
   const createComponent = createComponentFactory({
-    component: EditableColumnHeaderComponent,
+    component: ExtendedColumnHeaderComponent,
     imports: [
       MatIconModule,
       MatInputModule,
       ReactiveFormsModule,
       FormsModule,
       InfoIconModule,
+      SharedDirectivesModule,
+      MatTooltipModule,
     ],
     providers: [
       mockProvider(TranslocoLocaleService),
@@ -235,7 +240,7 @@ describe('EditableColumnHeaderComponent', () => {
           ...DEFAULT_PARAMS.column,
           getId: () => ColumnFields.PRICE_SOURCE,
         },
-      } as EditableColumnHeaderComponentParams);
+      } as ExtendedColumnHeaderComponentParams);
       component.enableEditMode({
         stopPropagation: jest.fn(),
         preventDefault: jest.fn(),
@@ -475,7 +480,7 @@ describe('EditableColumnHeaderComponent', () => {
           ...DEFAULT_PARAMS.column,
           getId: () => ColumnFields.PRICE_SOURCE,
         },
-      } as EditableColumnHeaderComponentParams);
+      } as ExtendedColumnHeaderComponentParams);
 
       expect(component.isPriceSource).toBeTruthy();
     });
@@ -560,7 +565,7 @@ describe('EditableColumnHeaderComponent', () => {
       component.params = {
         displayName: 'text',
         tooltipText: 'tooltip-text',
-      } as EditableColumnHeaderComponentParams;
+      } as ExtendedColumnHeaderComponentParams;
       component.editMode = false;
       component.showEditIcon = false;
 
@@ -575,7 +580,7 @@ describe('EditableColumnHeaderComponent', () => {
     test('should NOT show tooltip if not provided', () => {
       component.params = {
         displayName: 'text',
-      } as EditableColumnHeaderComponentParams;
+      } as ExtendedColumnHeaderComponentParams;
 
       spectator.detectChanges();
 

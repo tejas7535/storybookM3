@@ -15,6 +15,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { VIEW_CASE_STATE_MOCK } from '../../../testing/mocks';
 import { AppRoutePath } from '../../app-route-path.enum';
 import { getSelectedCaseIds } from '../../core/store';
+import { ColumnHeadersModule } from '../../shared/ag-grid/column-headers/column-headers.module';
 import { CustomStatusBarModule } from '../../shared/ag-grid/custom-status-bar/custom-status-bar.module';
 import { HelperService } from '../../shared/services/helper-service/helper-service.service';
 import { CaseTableComponent } from './case-table.component';
@@ -39,6 +40,7 @@ describe('CaseTableComponent', () => {
       MatDialogModule,
       provideTranslocoTestingModule({ en: {} }),
       PushModule,
+      ColumnHeadersModule,
     ],
     providers: [
       provideMockStore({

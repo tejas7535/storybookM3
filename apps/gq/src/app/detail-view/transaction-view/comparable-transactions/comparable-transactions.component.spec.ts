@@ -6,9 +6,12 @@ import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AgGridModule } from 'ag-grid-angular';
 import { FilterChangedEvent } from 'ag-grid-community';
+import { MockProvider } from 'ng-mocks';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { ColumnHeadersModule } from '../../../shared/ag-grid/column-headers/column-headers.module';
 import { ColumnUtilityService } from '../../../shared/ag-grid/services/column-utility.service';
 import { InfoIconModule } from '../../../shared/components/info-icon/info-icon.module';
 import { UserRoles } from '../../../shared/constants';
@@ -35,6 +38,7 @@ describe('ComparableTransactionsComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
       PushModule,
       InfoIconModule,
+      ColumnHeadersModule,
     ],
     providers: [
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
@@ -44,6 +48,7 @@ describe('ComparableTransactionsComponent', () => {
         useValue: {},
       },
       provideMockStore(),
+      MockProvider(ApplicationInsightsService),
     ],
     detectChanges: false,
   });

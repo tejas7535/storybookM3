@@ -2,6 +2,7 @@ import { EditCellComponent } from '../../../shared/ag-grid/cell-renderer/edit-ce
 import { EditCommentComponent } from '../../../shared/ag-grid/cell-renderer/edit-cells/edit-comment/edit-comment.component';
 import { GqRatingComponent } from '../../../shared/ag-grid/cell-renderer/gq-rating/gq-rating.component';
 import { PositionIdComponent } from '../../../shared/ag-grid/cell-renderer/position-id/position-id.component';
+import { ExtendedColumnHeaderComponent } from '../../../shared/ag-grid/column-headers/extended-column-header/extended-column-header.component';
 import { AddItemsButtonComponent } from '../../../shared/ag-grid/custom-status-bar/add-items-button/add-items-button.component';
 import { ConfirmSimulationButtonComponent } from '../../../shared/ag-grid/custom-status-bar/confirm-simulation-button/confirm-simulation-button.component';
 import { DeleteItemsButtonComponent } from '../../../shared/ag-grid/custom-status-bar/delete-items-button/delete-items-button.component';
@@ -26,4 +27,5 @@ export const COMPONENTS = {
   RefreshSapPriceComponent,
   ConfirmSimulationButtonComponent,
   DiscardSimulationButtonComponent,
+  agColumnHeader: ExtendedColumnHeaderComponent,
 };

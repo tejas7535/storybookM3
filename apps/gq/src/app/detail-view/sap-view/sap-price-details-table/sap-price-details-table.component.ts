@@ -18,6 +18,7 @@ import {
 } from '../../../shared/constants/table-styles';
 import { AgGridStateService } from '../../../shared/services/ag-grid-state.service/ag-grid-state.service';
 import {
+  COMPONENTS,
   SAP_PRICE_DETAILS_DEFAULT_COLUMN_DEFS,
   SapPriceDetailsColumnDefService,
 } from './config';
@@ -36,6 +37,8 @@ export class SapPriceDetailsTableComponent implements OnInit {
 
   @Input() rowData: SapPriceConditionDetail[];
   @Input() tableContext: TableContext;
+
+  public components = COMPONENTS;
 
   private readonly TABLE_KEY = 'sap-price-details';
   public rowData$: Observable<SapPriceConditionDetail[]>;

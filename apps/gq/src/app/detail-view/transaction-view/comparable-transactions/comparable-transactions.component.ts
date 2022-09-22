@@ -22,6 +22,7 @@ import { Quotation } from '../../../shared/models';
 import { AgGridStateService } from '../../../shared/services/ag-grid-state.service/ag-grid-state.service';
 import { DEFAULT_COLUMN_DEFS } from './config';
 import { ColumnDefService } from './config/column-def.service';
+import { COMPONENTS } from './config/components';
 
 @Component({
   selector: 'gq-comparable-transactions',
@@ -45,6 +46,8 @@ export class ComparableTransactionsComponent implements OnInit {
   tableContext: TableContext = {
     quotation: { customer: {} } as unknown as Quotation,
   };
+
+  components = COMPONENTS;
 
   constructor(
     private readonly columnDefService: ColumnDefService,

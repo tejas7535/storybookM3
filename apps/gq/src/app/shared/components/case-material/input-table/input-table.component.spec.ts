@@ -6,10 +6,13 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { AgGridModule } from 'ag-grid-angular';
+import { MockProvider } from 'ng-mocks';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CellRendererModule } from '../../../ag-grid/cell-renderer/cell-renderer.module';
+import { ColumnHeadersModule } from '../../../ag-grid/column-headers/column-headers.module';
 import { CustomStatusBarModule } from '../../../ag-grid/custom-status-bar/custom-status-bar.module';
 import { HelperService } from '../../../services/helper-service/helper-service.service';
 import { InputTableComponent } from './input-table.component';
@@ -31,6 +34,7 @@ describe('InputTableComponent', () => {
       CustomStatusBarModule,
       PushModule,
       provideTranslocoTestingModule({ en: {} }),
+      ColumnHeadersModule,
     ],
     providers: [
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
@@ -40,6 +44,7 @@ describe('InputTableComponent', () => {
         useValue: {},
       },
       { provide: HelperService, useValue: {} },
+      MockProvider(ApplicationInsightsService),
     ],
   });
   beforeEach(() => {

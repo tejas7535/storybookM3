@@ -7,8 +7,6 @@ import { ColDef, ValueGetterParams } from 'ag-grid-enterprise';
 import { EditCellData } from '../../ag-grid/cell-renderer/models/edit-cell-class-params.model';
 import { GqPriceCellComponent } from '../cell-renderer/gq-price-cell/gq-price-cell.component';
 import { SapPriceCellComponent } from '../cell-renderer/sap-price-cell/sap-price-cell.component';
-import { EditableColumnHeaderComponent } from '../column-headers/editable-column-header/editable-column-header.component';
-import { HeaderInfoIconComponent } from '../column-headers/header-info-icon/header-info-icon.component';
 import { ColumnFields } from '../constants/column-fields.enum';
 import {
   FILTER_PARAMS,
@@ -76,12 +74,11 @@ export class ColumnDefService {
       } as EditCellData,
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
-      headerComponentFramework: EditableColumnHeaderComponent,
-      headerComponent: EditableColumnHeaderComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.priceInfoText'
         ),
+        editableColumn: true,
       },
     },
     {
@@ -94,12 +91,11 @@ export class ColumnDefService {
         condition: { enabled: false },
         field: ColumnFields.PRICE_SOURCE,
       },
-      headerComponentFramework: EditableColumnHeaderComponent,
-      headerComponent: EditableColumnHeaderComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.priceSourceInfoText'
         ),
+        editableColumn: true,
       },
     },
     {
@@ -108,7 +104,6 @@ export class ColumnDefService {
       valueFormatter: (params) =>
         this.columnUtilityService.numberDashFormatter(params),
       filterParams: FILTER_PARAMS,
-      headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.priceUnitInfoText'
@@ -120,7 +115,6 @@ export class ColumnDefService {
       field: ColumnFields.UOM,
       filterParams: FILTER_PARAMS,
       valueFormatter: ColumnUtilityService.transformConditionUnit,
-      headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.uomInfoText'
@@ -139,7 +133,6 @@ export class ColumnDefService {
         condition: { enabled: false },
         field: ColumnFields.NET_VALUE,
       } as EditCellData,
-      headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.netValueInfoText'
@@ -154,7 +147,6 @@ export class ColumnDefService {
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       cellRenderer: GqPriceCellComponent,
-      headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.gqPriceInfoText'
@@ -167,7 +159,6 @@ export class ColumnDefService {
       cellRenderer: 'GqRatingComponent',
       field: 'gqRating',
       filterParams: FILTER_PARAMS,
-      headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.gqRatingInfoText'
@@ -182,7 +173,6 @@ export class ColumnDefService {
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       cellRenderer: SapPriceCellComponent,
-      headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.sapPriceInfoText'
@@ -197,7 +187,6 @@ export class ColumnDefService {
         this.columnUtilityService.numberCurrencyFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
-      headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.rspInfoText'
@@ -211,7 +200,6 @@ export class ColumnDefService {
         this.columnUtilityService.numberCurrencyFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
-      headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.mspInfoText'
@@ -239,12 +227,11 @@ export class ColumnDefService {
       } as EditCellData,
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
-      headerComponentFramework: EditableColumnHeaderComponent,
-      headerComponent: EditableColumnHeaderComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.discountInfoText'
         ),
+        editableColumn: true,
       },
     },
     {
@@ -254,7 +241,6 @@ export class ColumnDefService {
         this.columnUtilityService.numberCurrencyFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
-      headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.gpcInfoText'
@@ -268,7 +254,6 @@ export class ColumnDefService {
         this.columnUtilityService.numberCurrencyFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
-      headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.sqvInfoText'
@@ -282,7 +267,6 @@ export class ColumnDefService {
         this.columnUtilityService.numberCurrencyFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
-      headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.relocCostInfoText'
@@ -301,12 +285,11 @@ export class ColumnDefService {
       } as EditCellData,
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
-      headerComponentFramework: EditableColumnHeaderComponent,
-      headerComponent: EditableColumnHeaderComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.gpiInfoText'
         ),
+        editableColumn: true,
       },
     },
     {
@@ -321,12 +304,11 @@ export class ColumnDefService {
       } as EditCellData,
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
-      headerComponentFramework: EditableColumnHeaderComponent,
-      headerComponent: EditableColumnHeaderComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.gpmInfoText'
         ),
+        editableColumn: true,
       },
     },
     {
@@ -341,7 +323,6 @@ export class ColumnDefService {
         condition: { enabled: false },
         field: ColumnFields.RLM,
       } as EditCellData,
-      headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.rlmInfoText'
@@ -355,7 +336,6 @@ export class ColumnDefService {
         this.columnUtilityService.numberCurrencyFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
-      headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.lastCustomerPriceInfoText'
@@ -371,7 +351,6 @@ export class ColumnDefService {
         this.columnUtilityService.numberDashFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: ColumnUtilityService.integerFilterParams,
-      headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.lastCustomerPriceQuantityInfoText'
@@ -387,7 +366,6 @@ export class ColumnDefService {
         this.columnUtilityService.percentageFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
-      headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.lastCustomerPriceGpiInfoText'
@@ -403,7 +381,6 @@ export class ColumnDefService {
         this.columnUtilityService.percentageFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
-      headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.lastCustomerPriceGpmInfoText'
@@ -421,7 +398,6 @@ export class ColumnDefService {
         ),
       filter: MULTI_COLUMN_FILTER,
       filterParams: MULTI_COLUMN_FILTER_PARAMS,
-      headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.lastCustomerPriceDateInfoText'
@@ -439,7 +415,6 @@ export class ColumnDefService {
     {
       headerName: translate('shared.quotationDetailsTable.priceDiff'),
       field: ColumnFields.PRICE_DIFF,
-      headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.priceDiffInfoText'
@@ -463,7 +438,6 @@ export class ColumnDefService {
       valueFormatter: (params) =>
         this.columnUtilityService.numberCurrencyFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
-      headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.lastOfferPriceInfoText'
@@ -477,7 +451,6 @@ export class ColumnDefService {
         this.columnUtilityService.numberDashFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: ColumnUtilityService.integerFilterParams,
-      headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.lastOfferQuantityInfoText'
@@ -493,7 +466,6 @@ export class ColumnDefService {
         ),
       filter: MULTI_COLUMN_FILTER,
       filterParams: MULTI_COLUMN_FILTER_PARAMS,
-      headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.lastOfferDateInfoText'
@@ -505,7 +477,6 @@ export class ColumnDefService {
       field: 'lastOfferDetail.reasonForRejection',
       valueFormatter: ColumnUtilityService.basicTransform,
       filterParams: FILTER_PARAMS,
-      headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.reasonForRejectionInfoText'
@@ -519,7 +490,6 @@ export class ColumnDefService {
       field: 'lastOfferDetail.detailReasonForRejection',
       valueFormatter: ColumnUtilityService.basicTransform,
       filterParams: FILTER_PARAMS,
-      headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.detailReasonForRejectionInfoText'
@@ -532,7 +502,6 @@ export class ColumnDefService {
       valueFormatter: (params) =>
         this.columnUtilityService.numberDashFormatter(params),
       filterParams: NUMBER_COLUMN_FILTER,
-      headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.freeStockInfoText'
@@ -548,7 +517,6 @@ export class ColumnDefService {
         ),
       filter: MULTI_COLUMN_FILTER,
       filterParams: MULTI_COLUMN_FILTER_PARAMS,
-      headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.dateNextFreeAtpInfoText'
@@ -565,7 +533,6 @@ export class ColumnDefService {
           params.data.materialClassificationSOP
         ),
       filterParams: FILTER_PARAMS,
-      headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.materialClassificationSOPInfoText'
@@ -577,7 +544,6 @@ export class ColumnDefService {
       field: 'rlt',
       valueFormatter: ColumnUtilityService.basicTransform,
       filterParams: FILTER_PARAMS,
-      headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.rltInfoText'
@@ -608,7 +574,6 @@ export class ColumnDefService {
       field: 'relocatedProductionPlant.plantNumber',
       valueFormatter: ColumnUtilityService.basicTransform,
       filterParams: FILTER_PARAMS,
-      headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.relocPlantInfoText'
@@ -620,7 +585,6 @@ export class ColumnDefService {
       field: 'relocatedProductionPlant.city',
       valueFormatter: ColumnUtilityService.basicTransform,
       filterParams: FILTER_PARAMS,
-      headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.relocCityInfoText'
@@ -632,7 +596,6 @@ export class ColumnDefService {
       field: 'relocatedProductionPlant.country',
       valueFormatter: ColumnUtilityService.basicTransform,
       filterParams: FILTER_PARAMS,
-      headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.relocCountryInfoText'
@@ -651,7 +614,6 @@ export class ColumnDefService {
       valueFormatter: ColumnUtilityService.basicTransform,
       cellClass: 'keepLeadingZero',
       filterParams: FILTER_PARAMS,
-      headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.productLineInfoText'
@@ -663,7 +625,6 @@ export class ColumnDefService {
       field: 'material.gpsdGroupId',
       valueFormatter: ColumnUtilityService.basicTransform,
       filterParams: FILTER_PARAMS,
-      headerComponent: HeaderInfoIconComponent,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.gpsdInfoText'

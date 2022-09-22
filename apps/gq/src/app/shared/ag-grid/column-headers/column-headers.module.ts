@@ -3,11 +3,13 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { InfoIconModule } from '../../components/info-icon/info-icon.module';
-import { EditableColumnHeaderComponent } from './editable-column-header/editable-column-header.component';
+import { SharedDirectivesModule } from '../../directives/shared-directives.module';
+import { ExtendedColumnHeaderComponent } from './extended-column-header/extended-column-header.component';
 
 @NgModule({
   imports: [
@@ -18,8 +20,10 @@ import { EditableColumnHeaderComponent } from './editable-column-header/editable
     FormsModule,
     SharedTranslocoModule,
     InfoIconModule,
+    SharedDirectivesModule,
+    MatTooltipModule,
   ],
-  declarations: [EditableColumnHeaderComponent],
-  exports: [EditableColumnHeaderComponent],
+  declarations: [ExtendedColumnHeaderComponent],
+  exports: [ExtendedColumnHeaderComponent],
 })
 export class ColumnHeadersModule {}

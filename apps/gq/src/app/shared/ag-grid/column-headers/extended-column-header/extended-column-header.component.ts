@@ -24,21 +24,22 @@ import { HelperService } from '../../../services/helper-service/helper-service.s
 import { ColumnFields } from '../../constants/column-fields.enum';
 import { PriceSourceOptions } from './models/price-source-options.enum';
 
-export type EditableColumnHeaderComponentParams = IHeaderParams & {
+export type ExtendedColumnHeaderComponentParams = IHeaderParams & {
   tooltipText: string;
+  editableColumn: boolean;
 };
 
 @Component({
-  selector: 'gq-editable-column-header',
-  templateUrl: './editable-column-header.component.html',
-  styleUrls: ['./editable-column-header.component.scss'],
+  selector: 'gq-extended-column-header',
+  templateUrl: './extended-column-header.component.html',
+  styleUrls: ['./extended-column-header.component.scss'],
 })
-export class EditableColumnHeaderComponent
+export class ExtendedColumnHeaderComponent
   implements IHeaderAngularComp, OnInit, OnDestroy
 {
   private readonly subscription: Subscription = new Subscription();
 
-  public params!: EditableColumnHeaderComponentParams;
+  public params!: ExtendedColumnHeaderComponentParams;
 
   public sort: 'asc' | 'desc';
 
@@ -63,9 +64,13 @@ export class EditableColumnHeaderComponent
   ) {}
 
   ngOnInit(): void {
-    this.addSubscriptions();
-    this.editFormControl.markAllAsTouched();
+    // Non-editable columns are not part of the simulation so we shouldn't add the subscriptions
+    if (this.params.editableColumn) {
+      this.addSubscriptions();
+      this.editFormControl.markAllAsTouched();
+    }
   }
+
   addSubscriptions(): void {
     const simulationReset$ = this.store.select(getSimulatedQuotation).pipe(
       pairwise(),
@@ -98,10 +103,10 @@ export class EditableColumnHeaderComponent
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subscription?.unsubscribe();
   }
 
-  agInit(params: EditableColumnHeaderComponentParams): void {
+  agInit(params: ExtendedColumnHeaderComponentParams): void {
     this.value = 0;
 
     this.editFormControl = new UntypedFormControl('', [
@@ -129,6 +134,10 @@ export class EditableColumnHeaderComponent
   }
 
   updateShowEditIcon() {
+    if (!this.params.editableColumn) {
+      return;
+    }
+
     this.showEditIcon =
       this.params.api.getSelectedRows()?.length > 0 &&
       this.isDataAvailable(this.params.column.getId()) &&

@@ -9,25 +9,43 @@
     role="presentation"
     *ngIf="!(editMode || value)"
   >
-    <span ref="eText" class="ag-header-cell-text w-full truncate">
+    <span
+      ref="eText"
+      class="ag-header-cell-text w-full truncate"
+      matTooltipClass="whitespace-pre-line !bg-[#646464] !text-caption !text-high-emphasis-dark-bg !px-3 !py-1"
+      [matTooltip]="params.displayName"
+      [matTooltipDisabled]="!text.isTruncated"
+      isTextTruncated
+      #text="isTextTruncated"
+    >
       {{ params.displayName }}
     </span>
 
-    <div class="flex w-10 items-center justify-between">
-      <div class="w-4">
+    <div
+      class="flex items-center justify-end"
+      *ngIf="sort || showEditIcon || params.tooltipText"
+    >
+      <div class="flex w-4 items-center justify-center" *ngIf="sort">
         <span class="ag-icon ag-icon-asc" *ngIf="sort === 'asc'"></span>
         <span class="ag-icon ag-icon-desc" *ngIf="sort === 'desc'"></span>
-        <span class="ag-icon ag-sort-none-icon" *ngIf="!sort"></span>
       </div>
 
-      <div class="ml-2 w-4">
+      <div
+        class="w-2"
+        *ngIf="sort && (showEditIcon || params.tooltipText)"
+      ></div>
+
+      <div
+        class="flex w-4 items-start justify-start pb-[2px]"
+        *ngIf="showEditIcon || params.tooltipText"
+      >
         <ng-container *ngIf="showEditIcon">
           <mat-icon (click)="enableEditMode($event)" class="edit-icon">
             mode_edit
           </mat-icon>
         </ng-container>
 
-        <ng-container *ngIf="!showEditIcon && params?.tooltipText">
+        <ng-container *ngIf="!showEditIcon && params.tooltipText">
           <gq-info-icon
             [displaySmall]="true"
             [text]="params?.tooltipText"
