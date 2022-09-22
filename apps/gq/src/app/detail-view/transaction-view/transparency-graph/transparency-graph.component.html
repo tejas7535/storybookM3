@@ -3,7 +3,10 @@
     <span class="text-h6 block w-full text-medium-emphasis">
       {{ t('title') }}
     </span>
-    <span class="block w-full text-caption text-low-emphasis">
+    <span
+      class="block w-full text-caption text-low-emphasis"
+      *ngIf="!hideRolesHint"
+    >
       {{ t('hint') }}
     </span>
   </div>

@@ -32,6 +32,7 @@ export class TransparencyGraphComponent implements OnInit {
   @Input() currency: string;
   @Input() customer: Customer;
   @Input() userHasGpcRole: boolean;
+  @Input() hideRolesHint: boolean;
 
   transactionValues: ComparableLinkedTransaction[] = [];
 
