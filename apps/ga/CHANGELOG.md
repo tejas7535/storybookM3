@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.2.12](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.11...ga-v1.2.12) (2022-09-23)
+
+
+### 🎸 Features
+
+* **ga:** add automatic lubrication toggle (UFTABI-6032) ([#4589](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4589)) ([ca4063f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ca4063f32bcfd84d4653ea8703b4078170092829))
+* **ga:** add maintenance banner (UFTABI-6060) ([eac6322](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/eac6322d8be097ee63b9ab2499673c034a0abf4b))
+* **ga:** hide legacy report in production (UFTABI-6023) ([e924e84](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e924e845d773c3e7b17d63bda975e8a24b4d1370))
+
 ### [1.2.11](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.9...ga-v1.2.11) (2022-09-07)
 
 
