@@ -70,7 +70,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
               request.url.includes(path)
             )
           ) {
-            this.router.navigate([AppRoutePath.ForbiddenPath]);
+            this.router.navigate([AppRoutePath.ForbiddenCustomerPath]);
           }
 
           errorMessage += translate('errorInterceptorForbidden');

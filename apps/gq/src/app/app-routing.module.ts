@@ -29,6 +29,15 @@ export const appRoutePaths: Routes = [
     },
   },
   {
+    path: AppRoutePath.ForbiddenCustomerPath,
+    loadChildren: () =>
+      import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),
+    data: {
+      action: encodeURI(FORBIDDEN_ACTION),
+      messageText: 'errorInterceptorForbidden',
+    },
+  },
+  {
     path: AppRoutePath.CaseViewPath,
     loadChildren: () =>
       import('./case-view/case-view.module').then((m) => m.CaseViewModule),
