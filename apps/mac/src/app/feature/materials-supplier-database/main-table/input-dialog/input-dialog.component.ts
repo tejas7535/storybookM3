@@ -99,15 +99,17 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
     this.controlsService.getRequiredControl<StringOption>();
   public supplierPlantsControl =
     this.controlsService.getRequiredControl<StringOption>(undefined, true);
-  public castingModesControl = this.controlsService.getRequiredControl<string>(
+  public castingModesControl = this.controlsService.getControl<string>(
     undefined,
     true
   );
-  public castingDiameterControl =
-    this.controlsService.getRequiredControl<StringOption>(undefined, true);
+  public castingDiameterControl = this.controlsService.getControl<StringOption>(
+    undefined,
+    true
+  );
   public ratingsControl =
     this.controlsService.getRequiredControl<StringOption>();
-  public maxDimControl = this.controlsService.getRequiredNumberControl();
+  public maxDimControl = this.controlsService.getNumberControl();
   public minDimControl = this.controlsService.getNumberControl();
   public categoriesControl =
     this.controlsService.getRequiredControl<StringOption>();

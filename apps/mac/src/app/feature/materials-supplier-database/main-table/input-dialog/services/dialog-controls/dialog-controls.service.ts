@@ -9,7 +9,7 @@ import {
 
 @Injectable()
 export class DialogControlsService {
-  private readonly MATERIAL_NUMBER_PATTERN = '1\\.[0-9]{4}(, 1\\.[0-9]{4})*';
+  private readonly MATERIAL_NUMBER_PATTERN = '1\\.[0-9]{4}(, ?1\\.[0-9]{4})*';
 
   private readonly MATERIAL_NUMBER_VALIDATOR = Validators.pattern(
     this.MATERIAL_NUMBER_PATTERN
