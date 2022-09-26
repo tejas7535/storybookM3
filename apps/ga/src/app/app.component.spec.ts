@@ -127,6 +127,7 @@ describe('AppComponent', () => {
       translocoService.translate = jest.fn();
       metaService.updateTag = jest.fn();
       titleService.setTitle = jest.fn();
+      component.openBanner = jest.fn();
 
       component.ngOnInit();
 
@@ -137,7 +138,7 @@ describe('AppComponent', () => {
           { value: 'de' }
         );
 
-        expect(translocoService.translate).toHaveBeenCalledTimes(15); // called two times more with the banner
+        expect(translocoService.translate).toHaveBeenCalledTimes(13);
         expect(metaService.updateTag).toHaveBeenCalledTimes(12);
         expect(titleService.setTitle).toHaveBeenCalledTimes(2);
 
