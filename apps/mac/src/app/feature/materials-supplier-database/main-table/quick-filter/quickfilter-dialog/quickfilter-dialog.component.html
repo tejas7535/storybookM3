@@ -25,7 +25,7 @@
 
   <mat-dialog-content class="!px-4">
     <div>
-      <form [form]="formGroup" (ngSubmit)="onSubmit()" *ngIf="add || edit">
+      <form (ngSubmit)="onSubmit()" *ngIf="add || edit">
         <div>
           <mat-form-field appearance="outline" class="w-full pb-6">
             <mat-label>{{ t('name') }}</mat-label>

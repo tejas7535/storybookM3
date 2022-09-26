@@ -1090,6 +1090,7 @@ describe('Data Effects', () => {
           manufacturerSupplierId: 1,
           manufacturerSupplierName: 'supplier',
           manufacturerSupplierPlant: 'plant',
+          manufacturerSupplierSelfCertified: true,
           productCategory: 'brightBar',
           productCategoryText: 'Bright Bar',
           referenceDoc: '["reference"]',
@@ -1143,6 +1144,7 @@ describe('Data Effects', () => {
           },
           rating: { id: 'rating', title: 'rating' },
           ratingRemark: 'remark',
+          selfCertified: true,
           standardDocument: {
             id: 1,
             title: 'document',
@@ -1204,6 +1206,7 @@ describe('Data Effects', () => {
           manufacturerSupplierId: 1,
           manufacturerSupplierName: 'supplier',
           manufacturerSupplierPlant: 'plant',
+          manufacturerSupplierSelfCertified: false,
           productCategory: 'brightBar',
           productCategoryText: 'Bright Bar',
           referenceDoc: 'reference',
@@ -1248,6 +1251,7 @@ describe('Data Effects', () => {
           rating: { id: undefined, title: 'none' },
           ratingRemark: 'remark',
           materialNumber: '1, 2',
+          selfCertified: false,
           standardDocument: {
             data: undefined,
             id: 1,

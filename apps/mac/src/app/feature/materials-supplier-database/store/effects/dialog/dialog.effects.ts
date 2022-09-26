@@ -576,6 +576,7 @@ export class DialogEffects {
               supplierName: material.manufacturerSupplierName,
             },
           },
+          selfCertified: material.manufacturerSupplierSelfCertified,
         };
 
         return DialogActions.setMaterialFormValue({ parsedMaterial });

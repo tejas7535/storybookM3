@@ -75,11 +75,10 @@
               *ngIf="steelNumberControl.invalid"
               [matTooltip]="t('error.steelNumber')"
               class="cursor-help"
-              ><div class="flex flex-row gap-1">
-                <span>{{ getErrorMessage(steelNumberControl.errors) }}</span>
-                <mat-icon inline="true" class="">info_outline</mat-icon>
-              </div></mat-error
             >
+              {{ getErrorMessage(steelNumberControl.errors) }}
+              <mat-icon inline="true" class="!leading-3">info_outline</mat-icon>
+            </mat-error>
           </mat-form-field>
           <div class="flex w-full flex-row">
             <schaeffler-select
@@ -106,9 +105,7 @@
             </span>
           </div>
         </div>
-      </div>
 
-      <div class="flex flex-col gap-y-3">
         <div class="text-subtitle-2 text-high-emphasis">
           {{ t('supplierInformationTitle') }}
         </div>
@@ -221,22 +218,39 @@
             />
           </mat-form-field>
         </div>
-      </div>
 
-      <div class="flex flex-row gap-x-6">
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>{{ t('ratingChangeComment') }}</mat-label>
-          <textarea
-            matInput
-            [formControl]="ratingChangeCommentControl"
-            required
-            name="ratingChangeComment"
+        <div class="flex flex-row gap-x-6">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>{{ t('ratingChangeComment') }}</mat-label>
+            <textarea
+              matInput
+              [formControl]="ratingChangeCommentControl"
+              required
+              name="ratingChangeComment"
+              #dialogControl
+            ></textarea>
+          </mat-form-field>
+        </div>
+
+        <div class="flex flex-row gap-x-6">
+          <mat-checkbox
+            class="text-caption text-high-emphasis"
+            color="primary"
+            [formControl]="selfCertifiedControl"
+            name="manufacturerSupplierSelfCertified"
             #dialogControl
-          ></textarea>
-        </mat-form-field>
-      </div>
+          >
+            {{ t('selfCertified') }}
+            <mat-icon
+              [matTooltip]="t('selfCertified_tooltip')"
+              matTooltipPosition="after"
+              class="cursor-help !leading-3 text-link"
+              inline="true"
+              >info_outline</mat-icon
+            >
+          </mat-checkbox>
+        </div>
 
-      <div class="flex flex-col gap-y-3">
         <div class="text-subtitle-2 text-high-emphasis">
           {{ t('co2AndProductInformationTitle') }}
         </div>
@@ -361,11 +375,9 @@
                   : ''
               "
             >
-              <div class="flex flex-row gap-1">
-                <span>{{ getErrorMessage(co2TotalControl.errors) }}</span>
-                <mat-icon inline="true" class="">info_outline</mat-icon>
-              </div></mat-error
-            >
+              {{ getErrorMessage(co2TotalControl.errors) }}
+              <mat-icon inline="true" class="!leading-3">info_outline</mat-icon>
+            </mat-error>
           </mat-form-field>
         </div>
 
@@ -456,25 +468,20 @@
 
         <div class="flex flex-row gap-x-6">
           <mat-checkbox
+            class="text-caption text-high-emphasis"
             color="primary"
             [formControl]="isBlockedControl"
             name="blocked"
             #dialogControl
           >
-            <div
-              class="flex flex-row justify-center gap-x-2 text-caption text-high-emphasis"
+            {{ t('blocked') }}
+            <mat-icon
+              [matTooltip]="t('tooltip.blocked')"
+              matTooltipPosition="after"
+              class="cursor-help !leading-3 text-link"
+              inline="true"
+              >info_outline</mat-icon
             >
-              <span class="my-auto">{{ t('blocked') }}</span>
-              <span mat-icon class="mt-2 text-body-1">
-                <mat-icon
-                  [matTooltip]="t('tooltip.blocked')"
-                  matTooltipPosition="after"
-                  class="cursor-help text-link"
-                  inline="true"
-                  >info_outline</mat-icon
-                >
-              </span>
-            </div>
           </mat-checkbox>
         </div>
       </div>

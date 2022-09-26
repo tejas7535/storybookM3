@@ -232,11 +232,13 @@ describe('DialogSelectors', () => {
         id: 1,
         name: '1',
         plant: '1',
+        selfCertified: true,
       },
       {
         id: 2,
         name: '2',
         plant: '2',
+        selfCertified: true,
       },
     ];
     expect(
@@ -422,11 +424,13 @@ describe('DialogSelectors', () => {
         id: 1,
         name: 'supplier1',
         plant: 'plant1',
+        selfCertified: true,
       },
       {
         id: 2,
         name: 'supplier2',
         plant: 'plant2',
+        selfCertified: false,
       },
     ];
 
@@ -459,11 +463,13 @@ describe('DialogSelectors', () => {
         id: 1,
         name: 'supplier1',
         plant: 'plant1',
+        selfCertified: true,
       },
       {
         id: 2,
         name: 'supplier2',
         plant: 'plant2',
+        selfCertified: false,
       },
     ];
 
@@ -474,6 +480,7 @@ describe('DialogSelectors', () => {
         data: {
           supplierId: 1,
           supplierName: 'supplier1',
+          selfCertified: true,
         },
       },
       {
@@ -482,6 +489,7 @@ describe('DialogSelectors', () => {
         data: {
           supplierId: 2,
           supplierName: 'supplier2',
+          selfCertified: false,
         },
       },
     ];

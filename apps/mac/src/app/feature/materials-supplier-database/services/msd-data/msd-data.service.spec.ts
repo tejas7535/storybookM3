@@ -117,6 +117,7 @@ describe('MsdDataService', () => {
           id: 442,
           name: 'ArcelorMittal Tubarao',
           plant: 'Tubarao',
+          selfCertified: false,
           sapData: [
             {
               sapSupplierId: '0000000000000',
@@ -151,6 +152,7 @@ describe('MsdDataService', () => {
           id: 442,
           name: 'ArcelorMittal Tubarao',
           plant: 'Tubarao',
+          selfCertified: false,
         },
         materialStandard: {
           id: 57,
@@ -164,9 +166,11 @@ describe('MsdDataService', () => {
     const mockResult: DataResult[] = [
       {
         id: 127,
+        blocked: undefined,
         manufacturerSupplierId: 442,
         manufacturerSupplierName: 'ArcelorMittal Tubarao',
         manufacturerSupplierPlant: 'Tubarao',
+        manufacturerSupplierSelfCertified: false,
         sapSupplierIds: ['0000000000000', '0000000000001'],
         materialStandardId: 57,
         materialStandardMaterialName: 'C80M',
@@ -190,15 +194,18 @@ describe('MsdDataService', () => {
         co2Scope1: undefined,
         co2Scope2: undefined,
         co2Scope3: undefined,
+        co2Classification: undefined,
         ratingRemark: undefined,
         ratingChangeComment: undefined,
         referenceDoc: undefined,
       } as DataResult,
       {
         id: 128,
+        blocked: undefined,
         manufacturerSupplierId: 442,
         manufacturerSupplierName: 'ArcelorMittal Tubarao',
         manufacturerSupplierPlant: 'Tubarao',
+        manufacturerSupplierSelfCertified: false,
         sapSupplierIds: [],
         materialStandardId: 57,
         materialStandardMaterialName: 'C45',
@@ -220,6 +227,8 @@ describe('MsdDataService', () => {
         co2Scope1: undefined,
         co2Scope2: undefined,
         co2Scope3: undefined,
+        co2Classification: undefined,
+        rating: undefined,
         ratingRemark: undefined,
         ratingChangeComment: undefined,
         referenceDoc: undefined,
@@ -262,12 +271,14 @@ describe('MsdDataService', () => {
           id: 0,
           name: 'supplier1',
           plant: 'plant1',
+          selfCertified: false,
           sapData: [{ sapSupplierId: '123456' }, { sapSupplierId: '1234567' }],
         },
         {
           id: 1,
           name: 'supplier2',
           plant: 'plant2',
+          selfCertified: false,
         },
       ];
       service.fetchManufacturerSuppliers().subscribe((result) => {

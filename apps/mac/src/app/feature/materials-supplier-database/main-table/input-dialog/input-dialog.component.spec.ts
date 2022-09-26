@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { ElementRef, QueryList } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -84,11 +85,13 @@ describe('InputDialogComponent', () => {
       id: 1,
       name: 'supplier1',
       plant: 'plant1',
+      selfCertified: true,
     },
     {
       id: 2,
       name: 'supplier2',
       plant: 'plant2',
+      selfCertified: false,
     },
   ];
 
@@ -717,6 +720,44 @@ describe('InputDialogComponent', () => {
           });
         });
 
+        describe('modify supplierPlants', () => {
+          it('should set and disable selfCertified on true SC', () => {
+            const option: StringOption = {
+              id: 1,
+              title: 'title',
+              data: {
+                selfCertified: true,
+              },
+            };
+            component['supplierPlantsControl'].patchValue(option);
+            expect(component.selfCertifiedControl.enabled).not.toBeTruthy();
+            expect(component.selfCertifiedControl.value).toBeTruthy();
+          });
+
+          it('should set and disable selfCertified on false SC', () => {
+            const option: StringOption = {
+              id: 1,
+              title: 'title',
+              data: {
+                selfCertified: false,
+              },
+            };
+            component['supplierPlantsControl'].patchValue(option);
+            expect(component.selfCertifiedControl.enabled).not.toBeTruthy();
+            expect(component.selfCertifiedControl.value).not.toBeTruthy();
+          });
+          it('should enable selfCertified on new supplier', () => {
+            // new supplier do not have an id or data element
+            const option: StringOption = {
+              id: undefined,
+              title: 'title',
+            };
+            component['supplierPlantsControl'].patchValue(option);
+            expect(component.selfCertifiedControl.enabled).toBeTruthy();
+            expect(component.selfCertifiedControl.value).not.toBeTruthy();
+          });
+        });
+
         describe('modify casting supplier dependencies', () => {
           it('should disable castingDiameter if supplierId is not defined', () => {
             component.castingDiameterControl.disable = jest.fn();
@@ -1151,6 +1192,119 @@ describe('InputDialogComponent', () => {
       });
     });
 
+    describe('focusSelectedElement', () => {
+      const editMaterial = {
+        row: undefined as DataResult,
+        parsedMaterial: undefined as Partial<MaterialFormValue>,
+        materialNames: [{ id: 1, materialName: 'name' }],
+        standardDocuments: [{ id: 1, standardDocument: 'doc' }],
+        column: 'lookup',
+      };
+      const nameMatch = {
+        name: 'lookup',
+        focus: jest.fn(),
+      };
+      const htmlMatch = {
+        outerHTML: 'name="lookup"',
+        focus: jest.fn(),
+        querySelector: jest.fn(),
+        scrollIntoView: jest.fn(),
+      };
+      it('should focus matching by name', () => {
+        component['dialogData'].editMaterial = editMaterial;
+        component['cdRef'].markForCheck = jest.fn();
+        component['cdRef'].detectChanges = jest.fn();
+
+        const changes = new Array<ElementRef>(
+          new ElementRef({ name: 'nomatch' }),
+          new ElementRef(nameMatch)
+        );
+
+        component['focusSelectedElement'](
+          changes as unknown as QueryList<ElementRef>
+        );
+
+        expect(nameMatch.focus).toBeCalled();
+        expect(component['cdRef'].markForCheck).toBeCalled();
+        expect(component['cdRef'].detectChanges).toBeCalled();
+      });
+      it('should focus matching html element', () => {
+        component['dialogData'].editMaterial = editMaterial;
+        component['cdRef'].markForCheck = jest.fn();
+        component['cdRef'].detectChanges = jest.fn();
+
+        const changes = new Array<ElementRef>(
+          new ElementRef({ outerHTML: 'nomatch' }),
+          new ElementRef(htmlMatch)
+        );
+
+        component['focusSelectedElement'](
+          changes as unknown as QueryList<ElementRef>
+        );
+
+        expect(htmlMatch.focus).toBeCalled();
+        expect(htmlMatch.scrollIntoView).toBeCalled();
+        expect(htmlMatch.querySelector).toHaveBeenCalledWith('mat-select');
+        expect(htmlMatch.querySelector).toHaveBeenCalledWith('input');
+        expect(component['cdRef'].markForCheck).toBeCalled();
+        expect(component['cdRef'].detectChanges).toBeCalled();
+      });
+
+      it('should focus html child element mat-select', () => {
+        component['dialogData'].editMaterial = editMaterial;
+        component['cdRef'].markForCheck = jest.fn();
+        component['cdRef'].detectChanges = jest.fn();
+        const result = { focus: jest.fn() };
+        htmlMatch.querySelector = jest.fn((s: string) =>
+          s === 'mat-select' ? result : undefined
+        );
+
+        const changes = new Array<ElementRef>(
+          new ElementRef({ outerHTML: 'nomatch' }),
+          new ElementRef(htmlMatch)
+        );
+
+        component['focusSelectedElement'](
+          changes as unknown as QueryList<ElementRef>
+        );
+
+        expect(result.focus).toBeCalled();
+        expect(htmlMatch.scrollIntoView).toBeCalled();
+        expect(htmlMatch.querySelector).toHaveBeenCalledWith('mat-select');
+        expect(htmlMatch.querySelector).toHaveBeenCalledWith('input');
+        expect(htmlMatch.focus).not.toBeCalled();
+        expect(component['cdRef'].markForCheck).toBeCalled();
+        expect(component['cdRef'].detectChanges).toBeCalled();
+      });
+
+      it('should focus html child element input', () => {
+        component['dialogData'].editMaterial = editMaterial;
+        component['cdRef'].markForCheck = jest.fn();
+        component['cdRef'].detectChanges = jest.fn();
+        const result = { focus: jest.fn() };
+        htmlMatch.querySelector = jest.fn((s: string) =>
+          s === 'input' ? result : undefined
+        );
+
+        const changes = new Array<ElementRef>(
+          new ElementRef({ outerHTML: 'nomatch' }),
+          new ElementRef(htmlMatch)
+        );
+
+        component['focusSelectedElement'](
+          changes as unknown as QueryList<ElementRef>
+        );
+
+        expect(result.focus).toBeCalled();
+        expect(htmlMatch.scrollIntoView).toBeCalled();
+        expect(htmlMatch.querySelector).toHaveBeenCalledWith('mat-select');
+        expect(htmlMatch.querySelector).toHaveBeenCalledWith('input');
+        expect(htmlMatch.focus).not.toBeCalled();
+        expect(component['cdRef'].markForCheck).toBeCalled();
+        expect(component['cdRef'].detectChanges).toBeCalled();
+      });
+    });
+
     describe('without co2 value and parsable reference document', () => {
       beforeEach(() => {
         component['dialogData'].editMaterial =
@@ -1262,6 +1416,7 @@ describe('InputDialogComponent', () => {
 
     const material = {
       manufacturerSupplierId: 1,
+      selfCertified: false,
       materialStandardId: 1,
       blocked: false,
       castingDiameter: option,

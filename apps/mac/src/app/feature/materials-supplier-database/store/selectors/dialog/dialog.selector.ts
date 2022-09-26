@@ -226,7 +226,11 @@ export const getSupplierPlantStringOptions = createSelector(
       .map((supplier) => ({
         id: supplier.plant,
         title: supplier.plant,
-        data: { supplierId: supplier.id, supplierName: supplier.name },
+        data: {
+          supplierId: supplier.id,
+          supplierName: supplier.name,
+          selfCertified: supplier.selfCertified,
+        },
       }))
       .filter((option) => !!option)
       .sort(stringOptionsSortFn) || []

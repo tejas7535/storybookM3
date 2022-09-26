@@ -11,6 +11,7 @@ export interface MaterialResponseEntry {
     id: number;
     name: string;
     plant: string;
+    selfCertified: boolean;
     sapData?: {
       sapSupplierId: string;
     }[];

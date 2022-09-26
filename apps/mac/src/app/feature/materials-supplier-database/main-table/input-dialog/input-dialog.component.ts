@@ -99,6 +99,10 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
     this.controlsService.getRequiredControl<StringOption>();
   public supplierPlantsControl =
     this.controlsService.getRequiredControl<StringOption>(undefined, true);
+  public selfCertifiedControl = this.controlsService.getControl<boolean>(
+    false,
+    true
+  );
   public castingModesControl = this.controlsService.getControl<string>(
     undefined,
     true
@@ -164,6 +168,7 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
     materialName: FormControl<StringOption>;
     supplier: FormControl<StringOption>;
     supplierPlant: FormControl<StringOption>;
+    selfCertified: FormControl<boolean>;
   }>;
 
   public filterFn = util.filterFn;
@@ -238,6 +243,7 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
       materialName: this.materialNamesControl,
       supplier: this.suppliersControl,
       supplierPlant: this.supplierPlantsControl,
+      selfCertified: this.selfCertifiedControl,
     });
 
     this.suppliersDependencies = new FormGroup({
@@ -375,6 +381,24 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
           ? this.ratingChangeCommentControl.enable({ emitEvent: false })
           : this.ratingChangeCommentControl.disable({ emitEvent: false })
       );
+
+    // selfCertified only available for new suppliers. For old suppliers value will be prefilled
+    this.supplierPlantsControl.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((supplierPlant) => {
+        // enable only for new suppliers
+        const isEnabled = supplierPlant?.data === undefined;
+        if (isEnabled) {
+          this.selfCertifiedControl.enable();
+          this.selfCertifiedControl.setValue(false);
+        } else {
+          // get current value for selected supplier
+          const isSelfCertified =
+            supplierPlant.data?.['selfCertified'] || false;
+          this.selfCertifiedControl.setValue(isSelfCertified);
+          this.selfCertifiedControl.disable();
+        }
+      });
 
     this.suppliersDependencies.valueChanges
       .pipe(takeUntil(this.destroy$))
@@ -609,32 +633,38 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
       if (!this.dialogData.minimizedDialog && this.dialogData.editMaterial) {
         this.dialogControlRefs.changes
           .pipe(takeUntil(this.destroy$))
-          .subscribe((changes: QueryList<ElementRef>) => {
-            const selectedItem: ElementRef = changes.find((item: ElementRef) =>
-              item.nativeElement.name
-                ? item.nativeElement.name ===
-                  this.dialogData.editMaterial.column
-                : item.nativeElement.outerHTML.includes(
-                    `name="${this.dialogData.editMaterial.column}`
-                  )
-            );
-
-            if (selectedItem.nativeElement.name) {
-              selectedItem.nativeElement.focus();
-            } else {
-              const matSelect =
-                selectedItem.nativeElement.querySelector('mat-select');
-              if (matSelect) {
-                matSelect.focus();
-              } else {
-                selectedItem.nativeElement.focus();
-              }
-            }
-            this.cdRef.markForCheck();
-            this.cdRef.detectChanges();
-          });
+          .subscribe((changes: QueryList<ElementRef>) =>
+            this.focusSelectedElement(changes)
+          );
       }
     }
+  }
+
+  private focusSelectedElement(changes: QueryList<ElementRef>) {
+    const selectedItem: ElementRef = changes.find((item: ElementRef) =>
+      item.nativeElement.name
+        ? item.nativeElement.name === this.dialogData.editMaterial.column
+        : item.nativeElement.outerHTML.includes(
+            `name="${this.dialogData.editMaterial.column}`
+          )
+    );
+
+    if (selectedItem.nativeElement.name) {
+      selectedItem.nativeElement.focus();
+    } else {
+      selectedItem.nativeElement.scrollIntoView();
+      const matSelect = selectedItem.nativeElement.querySelector('mat-select');
+      const input = selectedItem.nativeElement.querySelector('input');
+      if (matSelect) {
+        matSelect.focus();
+      } else if (input) {
+        input.focus();
+      } else {
+        selectedItem.nativeElement.focus();
+      }
+    }
+    this.cdRef.markForCheck();
+    this.cdRef.detectChanges();
   }
 
   private disable(controls: AbstractControl[]): void {
@@ -679,6 +709,7 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
       id: baseMaterial.manufacturerSupplierId,
       name: baseMaterial.supplier.title,
       plant: baseMaterial.supplierPlant.title,
+      selfCertified: baseMaterial.selfCertified,
     };
 
     const material: Material = {
