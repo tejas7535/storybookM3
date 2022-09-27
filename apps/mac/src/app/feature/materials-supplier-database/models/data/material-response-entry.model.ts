@@ -35,4 +35,6 @@ export interface MaterialResponseEntry {
   rating?: string;
   ratingRemark?: string;
   ratingChangeComment?: string;
+  modifiedBy?: string;
+  timestamp?: number;
 }

@@ -130,6 +130,9 @@ export class MsdDataService {
                 rating: materialResponse.rating,
                 ratingRemark: materialResponse.ratingRemark,
                 ratingChangeComment: materialResponse.ratingChangeComment,
+                lastModified: materialResponse.timestamp
+                  ? new Date(materialResponse.timestamp)
+                  : undefined,
               } as DataResult)
           )
         )

@@ -35,6 +35,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
   BOOLEAN_VALUE_GETTER,
+  CUSTOM_DATE_FORMATTER,
   EMPTY_VALUE_FORMATTER,
 } from '@mac/msd/main-table/table-config';
 import {
@@ -1575,6 +1576,18 @@ describe('MainTableComponent', () => {
       const result = EMPTY_VALUE_FORMATTER(mockParams);
 
       expect(result).toBe('some value');
+    });
+  });
+
+  describe('CUSTOM_DATE_FORMATTER', () => {
+    it('should return a localized date string', () => {
+      const mockParams = {
+        value: new Date(1_663_632_000),
+      } as ValueFormatterParams;
+
+      const result = CUSTOM_DATE_FORMATTER(mockParams);
+
+      expect(result).toEqual('20/01/1970');
     });
   });
 

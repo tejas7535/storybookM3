@@ -1,6 +1,7 @@
 import { ColDef } from 'ag-grid-enterprise';
 
 import { EditCellRendererComponent } from '../edit-cell-renderer/edit-cell-renderer.component';
+import { CUSTOM_DATE_FORMATTER } from './custom-date-formatter';
 import { FILTER_PARAMS } from './filter-params';
 
 export const MATERIAL_STANDARD_MATERIAL_NAME = 'materialStandardMaterialName';
@@ -28,6 +29,7 @@ export const MAX_DIMENSION = 'maxDimension';
 export const STEEL_MAKING_PROCESS = 'steelMakingProcess';
 export const RATING = 'rating';
 export const RATING_REMARK = 'ratingRemark';
+export const LAST_MODIFIED = 'lastModified';
 
 export const COLUMN_DEFINITIONS: ColDef[] = [
   {
@@ -164,5 +166,12 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     headerName: 'Self Certified',
     hide: true,
     tooltipField: MANUFACTURER_SUPPLIER_SELFCERTIFIED,
+  },
+  {
+    field: LAST_MODIFIED,
+    headerName: 'Last Modified',
+    filter: 'agDateColumnFilter',
+    valueFormatter: CUSTOM_DATE_FORMATTER,
+    sort: 'desc',
   },
 ];

@@ -31,4 +31,5 @@ export interface DataResult {
   rating?: string;
   ratingRemark?: string;
   ratingChangeComment?: string;
+  lastModified?: Date;
 }

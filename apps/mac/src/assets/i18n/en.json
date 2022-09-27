@@ -22,28 +22,6 @@
     "qaSystem": "Test System (Quality)"
   },
   "hardnessConverter": {
-    "unit": {
-      "HRa": "HRA",
-      "HRA": "HRA",
-      "HRb": "HRB",
-      "HRB": "HRB",
-      "HRc": "HRC",
-      "HRC": "HRC",
-      "MPa": "MPa (UTS)",
-      "HV": "HV",
-      "HB": "HB"
-    },
-    "resultunit": {
-      "HRa": "HRA",
-      "HRA": "HRA",
-      "HRb": "HRB",
-      "HRB": "HRB",
-      "HRc": "HRC",
-      "HRC": "HRC",
-      "MPa": "MPa",
-      "HV": "HV",
-      "HB": "HB"
-    },
     "averageValue": "Average value",
     "close": "Close",
     "convertedAfter": "Converted after {{norm}}",
@@ -51,17 +29,39 @@
     "deviationWarning": "At least one measured value is not in agreement with the permissible deviation after S 285018. Please check the values.",
     "from": "From",
     "hcNorm": "ISO 18265-A.1",
+    "negativeValueError": "Hardness and strength values must be positive!",
     "previousTitle": "Materials App Center",
     "reset": "RESET",
+    "resultunit": {
+      "HB": "HB",
+      "HRA": "HRA",
+      "HRB": "HRB",
+      "HRC": "HRC",
+      "HRa": "HRA",
+      "HRb": "HRB",
+      "HRc": "HRC",
+      "HV": "HV",
+      "MPa": "MPa"
+    },
     "share": "Share",
     "shareCopiedToClipboard": "Url copied to clipboard",
     "standardDeviation": "Standard deviation",
     "statisticalEvaluation": "Statistical evaluation",
     "title": "Hardness Converter",
+    "unit": {
+      "HB": "HB",
+      "HRA": "HRA",
+      "HRB": "HRB",
+      "HRC": "HRC",
+      "HRa": "HRA",
+      "HRb": "HRB",
+      "HRc": "HRC",
+      "HV": "HV",
+      "MPa": "MPa (UTS)"
+    },
     "utsTooltip": "Ultimate tensile strength",
     "value": "Value",
-    "valuesCalculatedWith": "Values calculated with Backend v.{{version}}",
-    "negativeValueError": "Hardness and strength values must be positive!"
+    "valuesCalculatedWith": "Values calculated with Backend v.{{version}}"
   },
   "learnmore": {
     "default": {
@@ -306,6 +306,7 @@
         "co2Scope2": "Scope 2",
         "co2Scope3": "Scope 3",
         "isBlocked": "Blocked",
+        "lastModified": "Last modified",
         "manufacturerSupplierName": "Supplier Name",
         "manufacturerSupplierPlant": "Supplier Plant",
         "manufacturerSupplierSelfCertified": "Self-certification supplier",
@@ -389,14 +390,14 @@
         "scope1": "Scope 1",
         "scope2": "Scope 2",
         "scope3": "Scope 3",
+        "selfCertified": "Self-certification supplier",
+        "selfCertified_tooltip": "Supplier is testing its deliveries itself.",
         "standardDocument": "Standard Document",
         "steelMakingProcess": "Steel Making Process",
         "steelNumber": "Steel number (EN 10027-2)",
         "supplierInformationTitle": "Supplier Information",
         "supplierName": "Supplier Name",
         "supplierPlant": "Supplier Plant",
-        "selfCertified": "Self-certification supplier",
-        "selfCertified_tooltip": "Supplier is testing its deliveries itself.",
         "supplierRating": "Supplier Rating",
         "supplierRatingRemark": "Supplier Rating Remark",
         "tooltip": {
@@ -414,35 +415,35 @@
         "sheetName": "MSD-Export"
       },
       "productCategories": "Product Categories",
-      "tooltip": {
-        "manufacturerSupplierSelfCertified": "Supplier is testing its deliveries itself.",
-        "castingDiameter": "Detail on final steel-manufacturing step, e.g., casting dimension, ingot name, dimension, or weight",
-        "castingMode": "Final steel-manufacturing step; either a casting (continuous or ingot) or remelting process (VAR: vacuum arc remelting, ESR: electro slag remelting)",
-        "co2PerTon": "Scope 3.1 upstream green-house gas emissions of product (cradle-to-gate)",
-        "maxDimension": "Maximum dimension (diameter, thickness) allowed to be delivered by supplier",
-        "rating": "Quality level of steel supplier according to S 266042 (if available); from RSI (highest quality) to RSIII (lowest quality)",
-        "steelMakingProcess": "Details on steelmaking process; BF: blast furnace, DRI: direct reduced iron, BOF: basic oxygen furnace, EAF: electric arc furnace, EOF: energy optimizing furnace, VIM: vacuum induction melting, VAR: vacuum arc remelting, ESR: electro slag remelting"
-      },
       "quickfilter": {
         "defaultfilters": {
-          "default": "All view",
           "co2": "CO2e emissions",
+          "default": "All view",
           "rating": "SupplierRating"
         },
         "dialog": {
-          "title_add": "Create new view",
-          "title_edit": "Edit view name",
-          "title_delete": "Confirm deletion",
+          "cancel": "Cancel",
+          "confirm_add": "Add view",
+          "confirm_delete": "Confirm deletion",
+          "confirm_edit": "Update view",
           "name": "View name:",
           "name_hint": "Please give your view a name",
-          "confirm_add": "Add view",
-          "confirm_edit": "Update view",
-          "confirm_delete": "Confirm deletion",
-          "cancel": "Cancel",
           "radio_current": "Save current view as",
           "radio_default": "Create new view from standard",
-          "text_delete": "Are you sure you want to delete this custom view with all applied filters?"
+          "text_delete": "Are you sure you want to delete this custom view with all applied filters?",
+          "title_add": "Create new view",
+          "title_delete": "Confirm deletion",
+          "title_edit": "Edit view name"
         }
+      },
+      "tooltip": {
+        "castingDiameter": "Detail on final steel-manufacturing step, e.g., casting dimension, ingot name, dimension, or weight",
+        "castingMode": "Final steel-manufacturing step; either a casting (continuous or ingot) or remelting process (VAR: vacuum arc remelting, ESR: electro slag remelting)",
+        "co2PerTon": "Scope 3.1 upstream green-house gas emissions of product (cradle-to-gate)",
+        "manufacturerSupplierSelfCertified": "Supplier is testing its deliveries itself.",
+        "maxDimension": "Maximum dimension (diameter, thickness) allowed to be delivered by supplier",
+        "rating": "Quality level of steel supplier according to S 266042 (if available); from RSI (highest quality) to RSIII (lowest quality)",
+        "steelMakingProcess": "Details on steelmaking process; BF: blast furnace, DRI: direct reduced iron, BOF: basic oxygen furnace, EAF: electric arc furnace, EOF: energy optimizing furnace, VIM: vacuum induction melting, VAR: vacuum arc remelting, ESR: electro slag remelting"
       }
     },
     "materialClass": "Material Class",
