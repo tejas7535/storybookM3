@@ -4,7 +4,12 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
-import { ManufacturerSupplier, MaterialStandard } from '@mac/msd/models';
+import {
+  DataResult,
+  ManufacturerSupplier,
+  MaterialFormValue,
+  MaterialStandard,
+} from '@mac/msd/models';
 import { initialState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
 
 import { DialogFacade } from '.';
@@ -78,6 +83,22 @@ describe('DialogFacade', () => {
               createMaterial: {
                 createMaterialLoading: false,
                 createMaterialSuccess: false,
+              },
+              editMaterial: {
+                row: {} as DataResult,
+                parsedMaterial: {} as MaterialFormValue,
+                column: 'column',
+                materialNames: [],
+                materialNamesLoading: false,
+                standardDocuments: [],
+                standardDocumentsLoading: false,
+                supplierIds: [],
+                supplierIdsLoading: false,
+                loadingComplete: true,
+              },
+              minimizedDialog: {
+                id: undefined,
+                value: {} as MaterialFormValue,
               },
             },
           },
@@ -391,6 +412,92 @@ describe('DialogFacade', () => {
         m.expect(facade.co2ValuesForSupplierSteelMakingProcess$).toBeObservable(
           expected
         );
+      })
+    );
+  });
+
+  describe('editMaterialInformation', () => {
+    it(
+      'should provide the editMaterialInformation',
+      marbles((m) => {
+        const expected = m.cold('a', {
+          a: {
+            row: {} as DataResult,
+            parsedMaterial: {} as MaterialFormValue,
+            column: 'column',
+            materialNames: [],
+            materialNamesLoading: false,
+            standardDocuments: [],
+            standardDocumentsLoading: false,
+            supplierIds: [],
+            supplierIdsLoading: false,
+            loadingComplete: true,
+          },
+        });
+
+        m.expect(facade.editMaterialInformation$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('editMaterial', () => {
+    it(
+      'should provide the editMaterial',
+      marbles((m) => {
+        const expected = m.cold('a', {
+          a: {
+            row: {} as DataResult,
+            parsedMaterial: {} as MaterialFormValue,
+            column: 'column',
+            materialNames: [],
+            materialNamesLoading: false,
+            standardDocuments: [],
+            standardDocumentsLoading: false,
+            supplierIds: [],
+            supplierIdsLoading: false,
+            loadingComplete: true,
+          },
+        });
+
+        m.expect(facade.editMaterial$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('resumeDialogData$', () => {
+    it(
+      'should return the resume dialog data',
+      marbles((m) => {
+        const expected = m.cold('a', {
+          a: {
+            editMaterial: {
+              row: {} as DataResult,
+              parsedMaterial: {} as MaterialFormValue,
+              column: 'column',
+              materialNames: [],
+              materialNamesLoading: false,
+              standardDocuments: [],
+              standardDocumentsLoading: false,
+              supplierIds: [],
+              supplierIdsLoading: false,
+              loadingComplete: true,
+            },
+            minimizedDialog: { id: undefined, value: {} as MaterialFormValue },
+          },
+        });
+
+        m.expect(facade.resumeDialogData$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('dialogError$', () => {
+    it(
+      'should return the error state',
+      marbles((m) => {
+        const expected = m.cold('a', { a: undefined });
+
+        m.expect(facade.dialogError$).toBeObservable(expected);
       })
     );
   });

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -14,6 +15,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { InputDialogModule } from '@mac/msd/main-table/input-dialog/input-dialog.module';
+import { MsdDialogService } from '@mac/msd/services';
 
 import { EditCellRendererComponent } from './edit-cell-renderer/edit-cell-renderer.component';
 import { MainTableComponent } from './main-table.component';
@@ -37,7 +39,8 @@ import { QuickFilterComponent } from './quick-filter/quick-filter.component';
     SharedTranslocoModule,
     InputDialogModule,
     QuickFilterComponent,
+    MatDialogModule,
   ],
-  providers: [DatePipe],
+  providers: [DatePipe, MsdDialogService],
 })
 export class MainTableModule {}

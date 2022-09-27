@@ -364,7 +364,6 @@ describe('InputDialogComponent', () => {
     releaseDateMonth: 1,
     releaseRestrictions: 'restriction',
     blocked: false,
-    castingMode: 'mode',
     maxDimension: 1,
     minDimension: 1,
     steelMakingProcess: {
@@ -384,14 +383,6 @@ describe('InputDialogComponent', () => {
     supplier: {
       id: 1,
       title: 'supplier',
-    },
-    supplierPlant: {
-      id: 'plant',
-      title: 'plant',
-      data: {
-        supplierId: 1,
-        supplierName: 'supplier',
-      },
     },
   };
 
@@ -515,6 +506,22 @@ describe('InputDialogComponent', () => {
         );
       });
     });
+
+    describe('dialogError', () => {
+      it('should call the handle function on error', () => {
+        component.handleDialogError = jest.fn();
+
+        const mockSubject = new Subject<boolean>();
+        component.dialogError$ = mockSubject;
+
+        component.ngOnInit();
+
+        mockSubject.next(true);
+
+        expect(component.handleDialogError).toHaveBeenCalled();
+      });
+    });
+
     describe('formControls', () => {
       // prepared values
       const matNameOption: StringOption = {
@@ -1146,8 +1153,14 @@ describe('InputDialogComponent', () => {
 
   describe('ngAfterViewInit', () => {
     describe('with full material', () => {
+      let mockSubject: Subject<any>;
       beforeEach(() => {
-        component['dialogData'].editMaterial = mockDialogData.editMaterial;
+        component['dialogData'].editDialogInformation = {
+          row: mockDialogData.editMaterial.row,
+          column: mockDialogData.editMaterial.column,
+        };
+        mockSubject = new Subject<any>();
+        component['dialogFacade'].resumeDialogData$ = mockSubject;
       });
 
       it('should prepare the form', () => {
@@ -1168,6 +1181,7 @@ describe('InputDialogComponent', () => {
         component['cdRef'].detectChanges = jest.fn();
 
         component.ngAfterViewInit();
+        mockSubject.next({ editMaterial: mockDialogData.editMaterial });
 
         expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
           fetchReferenceDocuments({ materialStandardId: 1 })
@@ -1193,13 +1207,6 @@ describe('InputDialogComponent', () => {
     });
 
     describe('focusSelectedElement', () => {
-      const editMaterial = {
-        row: undefined as DataResult,
-        parsedMaterial: undefined as Partial<MaterialFormValue>,
-        materialNames: [{ id: 1, materialName: 'name' }],
-        standardDocuments: [{ id: 1, standardDocument: 'doc' }],
-        column: 'lookup',
-      };
       const nameMatch = {
         name: 'lookup',
         focus: jest.fn(),
@@ -1211,17 +1218,17 @@ describe('InputDialogComponent', () => {
         scrollIntoView: jest.fn(),
       };
       it('should focus matching by name', () => {
-        component['dialogData'].editMaterial = editMaterial;
         component['cdRef'].markForCheck = jest.fn();
         component['cdRef'].detectChanges = jest.fn();
 
-        const changes = new Array<ElementRef>(
+        const changes: ElementRef[] = [
           new ElementRef({ name: 'nomatch' }),
-          new ElementRef(nameMatch)
-        );
+          new ElementRef(nameMatch),
+        ];
 
         component['focusSelectedElement'](
-          changes as unknown as QueryList<ElementRef>
+          changes as unknown as QueryList<ElementRef>,
+          'lookup'
         );
 
         expect(nameMatch.focus).toBeCalled();
@@ -1229,17 +1236,17 @@ describe('InputDialogComponent', () => {
         expect(component['cdRef'].detectChanges).toBeCalled();
       });
       it('should focus matching html element', () => {
-        component['dialogData'].editMaterial = editMaterial;
         component['cdRef'].markForCheck = jest.fn();
         component['cdRef'].detectChanges = jest.fn();
 
-        const changes = new Array<ElementRef>(
+        const changes: ElementRef[] = [
           new ElementRef({ outerHTML: 'nomatch' }),
-          new ElementRef(htmlMatch)
-        );
+          new ElementRef(htmlMatch),
+        ];
 
         component['focusSelectedElement'](
-          changes as unknown as QueryList<ElementRef>
+          changes as unknown as QueryList<ElementRef>,
+          'lookup'
         );
 
         expect(htmlMatch.focus).toBeCalled();
@@ -1251,7 +1258,6 @@ describe('InputDialogComponent', () => {
       });
 
       it('should focus html child element mat-select', () => {
-        component['dialogData'].editMaterial = editMaterial;
         component['cdRef'].markForCheck = jest.fn();
         component['cdRef'].detectChanges = jest.fn();
         const result = { focus: jest.fn() };
@@ -1259,13 +1265,14 @@ describe('InputDialogComponent', () => {
           s === 'mat-select' ? result : undefined
         );
 
-        const changes = new Array<ElementRef>(
+        const changes: ElementRef[] = [
           new ElementRef({ outerHTML: 'nomatch' }),
-          new ElementRef(htmlMatch)
-        );
+          new ElementRef(htmlMatch),
+        ];
 
         component['focusSelectedElement'](
-          changes as unknown as QueryList<ElementRef>
+          changes as unknown as QueryList<ElementRef>,
+          'lookup'
         );
 
         expect(result.focus).toBeCalled();
@@ -1278,7 +1285,6 @@ describe('InputDialogComponent', () => {
       });
 
       it('should focus html child element input', () => {
-        component['dialogData'].editMaterial = editMaterial;
         component['cdRef'].markForCheck = jest.fn();
         component['cdRef'].detectChanges = jest.fn();
         const result = { focus: jest.fn() };
@@ -1286,13 +1292,14 @@ describe('InputDialogComponent', () => {
           s === 'input' ? result : undefined
         );
 
-        const changes = new Array<ElementRef>(
+        const changes: ElementRef[] = [
           new ElementRef({ outerHTML: 'nomatch' }),
-          new ElementRef(htmlMatch)
-        );
+          new ElementRef(htmlMatch),
+        ];
 
         component['focusSelectedElement'](
-          changes as unknown as QueryList<ElementRef>
+          changes as unknown as QueryList<ElementRef>,
+          'lookup'
         );
 
         expect(result.focus).toBeCalled();
@@ -1306,9 +1313,14 @@ describe('InputDialogComponent', () => {
     });
 
     describe('without co2 value and parsable reference document', () => {
+      let mockSubject: Subject<any>;
       beforeEach(() => {
-        component['dialogData'].editMaterial =
-          mockDialogDataPartial.editMaterial;
+        component['dialogData'].editDialogInformation = {
+          row: mockDialogDataPartial.editMaterial.row,
+          column: mockDialogDataPartial.editMaterial.column,
+        };
+        mockSubject = new Subject<any>();
+        component['dialogFacade'].resumeDialogData$ = mockSubject;
       });
 
       it('should prepare the form', () => {
@@ -1329,6 +1341,7 @@ describe('InputDialogComponent', () => {
         component['cdRef'].detectChanges = jest.fn();
 
         component.ngAfterViewInit();
+        mockSubject.next({ editMaterial: mockDialogDataPartial.editMaterial });
 
         expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
           fetchReferenceDocuments({ materialStandardId: 1 })
@@ -1356,9 +1369,11 @@ describe('InputDialogComponent', () => {
     });
 
     describe('with minimized dialog', () => {
+      let mockSubject: Subject<any>;
       beforeEach(() => {
-        component['dialogData'].minimizedDialog =
-          mockDialogDataMinimized.minimizedDialog;
+        component['dialogData'].isResumeDialog = true;
+        mockSubject = new Subject<any>();
+        component['dialogFacade'].resumeDialogData$ = mockSubject;
       });
 
       it('should prepare the form', () => {
@@ -1379,6 +1394,9 @@ describe('InputDialogComponent', () => {
         component['cdRef'].detectChanges = jest.fn();
 
         component.ngAfterViewInit();
+        mockSubject.next({
+          minimizedDialog: mockDialogDataMinimized.minimizedDialog,
+        });
 
         expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
           fetchReferenceDocuments({ materialStandardId: 1 })
@@ -1487,6 +1505,18 @@ describe('InputDialogComponent', () => {
 
       expect(component['snackbar'].open).toBeCalled();
       expect(component.closeDialog).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('handleDialogError', () => {
+    it('should open a snackbar and cancel the dialog', () => {
+      component['snackbar'].open = jest.fn();
+      component.cancelDialog = jest.fn();
+
+      component.handleDialogError();
+
+      expect(component['snackbar'].open).toHaveBeenCalled();
+      expect(component.cancelDialog).toHaveBeenCalled();
     });
   });
 

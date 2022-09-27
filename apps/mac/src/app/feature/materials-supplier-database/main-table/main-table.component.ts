@@ -12,8 +12,6 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatOption } from '@angular/material/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Subject, withLatestFrom } from 'rxjs';
@@ -32,17 +30,17 @@ import { ColDef, ExcelCell, GridApi, SideBarDef } from 'ag-grid-enterprise';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { StringOption } from '@schaeffler/inputs';
 
-import { InputDialogComponent } from '@mac/msd/main-table/input-dialog/input-dialog.component';
 import {
   COLUMN_DEFINITIONS,
   DEFAULT_COLUMN_DEFINITION,
   SAP_SUPPLIER_IDS,
   SIDE_BAR_CONFIG,
 } from '@mac/msd/main-table/table-config';
-import { DataResult, DialogData, MaterialFormValue } from '@mac/msd/models';
+import { DataResult } from '@mac/msd/models';
 import {
   MsdAgGridReadyService,
   MsdAgGridStateService,
+  MsdDialogService,
 } from '@mac/msd/services';
 import {
   DataFacade,
@@ -51,6 +49,7 @@ import {
   materialDialogCanceled,
   materialDialogOpened,
   minimizeDialog,
+  openDialog,
   setAgGridColumns,
   setAgGridFilter,
   setFilter,
@@ -130,8 +129,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly datePipe: DatePipe,
     private readonly applicationInsightsService: ApplicationInsightsService,
-    private readonly dialog: MatDialog,
-    private readonly snackbar: MatSnackBar
+    private readonly dialogService: MsdDialogService
   ) {}
 
   public ngOnInit(): void {
@@ -201,20 +199,6 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe((filterModel: { [key: string]: any }) => {
         if (this.agGridApi && !filterModel) {
           this.agGridApi.setFilterModel(filterModel);
-        }
-      });
-
-    this.dataFacade.editMaterialInformation
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((editMaterial) => {
-        if (editMaterial) {
-          this.openDialog({ editMaterial });
-        } else {
-          this.snackbar.open(
-            translate('materialsSupplierDatabase.somethingWentWrong'),
-            translate('materialsSupplierDatabase.close'),
-            { duration: 5000 }
-          );
         }
       });
   }
@@ -569,28 +553,23 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     }));
 
   public resumeDialog(): void {
-    this.dataFacade.resumeDialogData$
-      .pipe(take(1))
-      .subscribe((resumeDialogData) => this.openDialog(resumeDialogData));
+    this.openDialog(true);
   }
 
-  public openDialog(dialogData: DialogData): void {
-    const dialogRef: MatDialogRef<
-      InputDialogComponent,
-      { reload?: boolean; minimize?: { id: number; value: MaterialFormValue } }
-    > = this.dialog.open(InputDialogComponent, {
-      width: '863px',
-      autoFocus: false,
-      enterAnimationDuration: '100ms',
-      restoreFocus: false,
-      disableClose: true,
-      data: dialogData,
-    });
-    this.dataFacade.dispatch(materialDialogOpened());
+  public openDialog(isResumeDialog?: boolean): void {
+    this.dataFacade.dispatch(openDialog());
+    const dialogRef = this.dialogService.openDialog(isResumeDialog);
+
+    dialogRef
+      .afterOpened()
+      .pipe(takeUntil(this.destroy$), take(1))
+      .subscribe(() => {
+        this.dataFacade.dispatch(materialDialogOpened());
+      });
 
     dialogRef
       .afterClosed()
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntil(this.destroy$), take(1))
       .subscribe(({ reload, minimize }) => {
         if (reload) {
           this.fetchMaterials();

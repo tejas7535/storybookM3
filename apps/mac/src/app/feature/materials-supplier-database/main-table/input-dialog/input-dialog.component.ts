@@ -19,7 +19,15 @@ import {
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { filter, map, Subject, take, takeUntil, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  filter,
+  map,
+  Subject,
+  take,
+  takeUntil,
+  tap,
+} from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
 
@@ -28,7 +36,7 @@ import { SelectComponent } from '@schaeffler/inputs/select';
 
 import { DialogControlsService } from '@mac/msd/main-table/input-dialog/services';
 import {
-  DialogData,
+  DataResult,
   ManufacturerSupplier,
   Material,
   MaterialFormValue,
@@ -47,6 +55,7 @@ import {
   fetchReferenceDocuments,
   fetchSteelMakingProcessesInUse,
   materialDialogConfirmed,
+  materialDialogOpened,
   resetSteelMakingProcessInUse,
 } from '@mac/msd/store';
 
@@ -81,6 +90,10 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
   private readonly steelMakingProcessesInUse$ =
     this.dialogFacade.steelMakingProcessesInUse$;
   public steelMakingProcessesInUse: string[] = [];
+
+  public editLoading$: BehaviorSubject<boolean>;
+
+  public dialogError$ = this.dialogFacade.dialogError$;
 
   private readonly co2ValuesForSupplierSteelMakingProcess$ =
     this.dialogFacade.co2ValuesForSupplierSteelMakingProcess$;
@@ -207,8 +220,13 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly controlsService: DialogControlsService,
     private readonly cdRef: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA)
-    private readonly dialogData: DialogData
-  ) {}
+    private readonly dialogData: {
+      editDialogInformation?: { row: DataResult; column: string };
+      isResumeDialog: boolean;
+    }
+  ) {
+    this.editLoading$ = new BehaviorSubject(!!dialogData.editDialogInformation);
+  }
 
   public years: number[];
   public months: number[];
@@ -267,6 +285,14 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.months = util.getMonths();
     this.years = util.getYears();
+
+    this.dialogError$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((error) => error !== undefined),
+        take(1)
+      )
+      .subscribe(() => this.handleDialogError());
 
     this.standardDocumentsControl.valueChanges
       .pipe(
@@ -578,75 +604,98 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    if (this.dialogData) {
-      const materialFormValue: Partial<MaterialFormValue> =
-        this.dialogData.minimizedDialog?.value ??
-        this.dialogData.editMaterial?.parsedMaterial;
-      this.materialId =
-        this.dialogData.minimizedDialog?.id ??
-        this.dialogData.editMaterial?.row?.id;
-      this.defaultRating = this.dialogData.editMaterial?.row?.rating;
+    if (
+      this.dialogData.editDialogInformation ||
+      this.dialogData.isResumeDialog
+    ) {
+      this.dialogFacade.resumeDialogData$
+        .pipe(
+          filter(
+            (dialogData) =>
+              (!!dialogData.editMaterial &&
+                !!dialogData.editMaterial.parsedMaterial) ||
+              !!dialogData.minimizedDialog
+          ),
+          take(1)
+        )
+        .subscribe((dialogData) => {
+          const materialFormValue: Partial<MaterialFormValue> =
+            dialogData.minimizedDialog?.value ??
+            dialogData.editMaterial?.parsedMaterial;
+          this.materialId =
+            dialogData.minimizedDialog?.id ?? dialogData.editMaterial?.row?.id;
+          this.defaultRating = dialogData.editMaterial?.row?.rating;
 
-      if (materialFormValue) {
-        this.dialogFacade.dispatch(
-          fetchReferenceDocuments({
-            materialStandardId: materialFormValue.materialStandardId,
-          })
-        );
+          if (materialFormValue) {
+            this.dialogFacade.dispatch(
+              fetchReferenceDocuments({
+                materialStandardId: materialFormValue.materialStandardId,
+              })
+            );
 
-        if (materialFormValue.supplier) {
-          this.supplierPlantsControl.enable({ emitEvent: false });
-        }
+            if (materialFormValue.supplier) {
+              this.supplierPlantsControl.enable({ emitEvent: false });
+            }
 
-        if (materialFormValue.supplierPlant) {
-          this.castingModesControl.enable({ emitEvent: false });
-        }
+            if (materialFormValue.supplierPlant) {
+              this.castingModesControl.enable({ emitEvent: false });
+            }
 
-        if (materialFormValue.castingMode) {
-          this.dialogFacade.dispatch(
-            fetchCastingDiameters({
-              supplierId: materialFormValue.manufacturerSupplierId,
-              castingMode: materialFormValue.castingMode,
-            })
-          );
-          this.castingDiameterControl.enable({ emitEvent: false });
-        }
+            if (materialFormValue.castingMode) {
+              this.dialogFacade.dispatch(
+                fetchCastingDiameters({
+                  supplierId: materialFormValue.manufacturerSupplierId,
+                  castingMode: materialFormValue.castingMode,
+                })
+              );
+              this.castingDiameterControl.enable({ emitEvent: false });
+            }
 
-        this.ratingChangeCommentControl.disable({ emitEvent: false });
+            this.ratingChangeCommentControl.disable({ emitEvent: false });
 
-        if (materialFormValue.co2PerTon) {
-          this.co2ClassificationControl.enable({ emitEvent: false });
-        }
+            if (materialFormValue.co2PerTon) {
+              this.co2ClassificationControl.enable({ emitEvent: false });
+            }
 
-        this.createMaterialForm.patchValue(materialFormValue);
+            this.createMaterialForm.patchValue(materialFormValue);
 
-        if (this.dialogData.minimizedDialog || this.materialId) {
-          this.createMaterialForm.markAllAsTouched();
-        }
+            if (this.dialogData.isResumeDialog || this.materialId) {
+              this.createMaterialForm.markAllAsTouched();
+            }
 
-        this.createMaterialForm.updateValueAndValidity();
+            this.createMaterialForm.updateValueAndValidity();
 
-        this.cdRef.markForCheck();
-        this.cdRef.detectChanges();
-      }
+            this.cdRef.markForCheck();
+            this.cdRef.detectChanges();
+          }
 
-      if (!this.dialogData.minimizedDialog && this.dialogData.editMaterial) {
-        this.dialogControlRefs.changes
-          .pipe(takeUntil(this.destroy$))
-          .subscribe((changes: QueryList<ElementRef>) =>
-            this.focusSelectedElement(changes)
-          );
-      }
+          if (
+            !this.dialogData.isResumeDialog &&
+            this.dialogData.editDialogInformation
+          ) {
+            this.dialogControlRefs.changes
+              .pipe(takeUntil(this.destroy$))
+              .subscribe((changes: QueryList<ElementRef>) =>
+                this.focusSelectedElement(
+                  changes,
+                  this.dialogData.editDialogInformation.column
+                )
+              );
+          }
+          this.editLoading$.next(false);
+        });
     }
+
+    setTimeout(() => {
+      this.dialogFacade.dispatch(materialDialogOpened());
+    });
   }
 
-  private focusSelectedElement(changes: QueryList<ElementRef>) {
+  private focusSelectedElement(changes: QueryList<ElementRef>, column: string) {
     const selectedItem: ElementRef = changes.find((item: ElementRef) =>
       item.nativeElement.name
-        ? item.nativeElement.name === this.dialogData.editMaterial.column
-        : item.nativeElement.outerHTML.includes(
-            `name="${this.dialogData.editMaterial.column}`
-          )
+        ? item.nativeElement.name === column
+        : item.nativeElement.outerHTML.includes(`name="${column}`)
     );
 
     if (selectedItem.nativeElement.name) {
@@ -773,6 +822,14 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
           );
         }
       });
+  }
+
+  public handleDialogError(): void {
+    this.snackbar.open(
+      translate('materialsSupplierDatabase.somethingWentWrong'),
+      translate('materialsSupplierDatabase.close')
+    );
+    this.cancelDialog();
   }
 
   public cancelDialog(): void {

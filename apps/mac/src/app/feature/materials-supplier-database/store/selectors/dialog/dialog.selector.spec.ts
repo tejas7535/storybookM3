@@ -1221,6 +1221,40 @@ describe('DialogSelectors', () => {
     });
   });
 
+  describe('getDialogError', () => {
+    let store: MockStore;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [provideMockStore()],
+      });
+
+      store = TestBed.inject(MockStore);
+    });
+
+    it(
+      'should return the error state',
+      marbles((m) => {
+        store.setState({
+          msd: {
+            dialog: {
+              ...initialState,
+              dialogOptions: {
+                ...initialState.dialogOptions,
+                error: true,
+              },
+            },
+          },
+        });
+
+        const expected = m.cold('a', { a: true });
+        const result = store.pipe(DialogSelectors.getDialogError);
+
+        m.expect(result).toBeObservable(expected);
+      })
+    );
+  });
+
   describe('getEditMaterialDataLoaded', () => {
     let store: MockStore;
 

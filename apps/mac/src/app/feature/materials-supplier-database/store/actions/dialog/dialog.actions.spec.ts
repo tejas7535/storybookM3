@@ -60,6 +60,7 @@ import {
   materialDialogConfirmed,
   materialDialogOpened,
   minimizeDialog,
+  openDialog,
   openEditDialog,
   parseMaterialFormValue,
   postManufacturerSupplier,
@@ -786,6 +787,16 @@ describe('Dialog Actions', () => {
 
       expect(action).toEqual({
         type: '[MSD - Dialog] Reset CO2 Values For Supplier Steel Making Process',
+      });
+    });
+  });
+
+  describe('Open Dialog', () => {
+    it('openDialog', () => {
+      const action = openDialog();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Open Dialog',
       });
     });
   });

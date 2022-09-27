@@ -6,6 +6,9 @@ import { Action, Store } from '@ngrx/store';
 import {
   getCreateMaterialLoading,
   getCreateMaterialRecord,
+  getDialogError,
+  getEditMaterialData,
+  getEditMaterialDataLoaded,
   getHighestCo2Values,
   getMaterialDialogCastingDiametersLoading,
   getMaterialDialogCastingDiameterStringOptions,
@@ -19,6 +22,7 @@ import {
   getMaterialNameStringOptionsMerged,
   getMaterialStandardDocumentStringOptionsMerged,
   getProductCategoryOptions,
+  getResumeDialogData,
   getSteelMakingProcessesInUse,
   getStringOptions,
   getSupplierNameStringOptionsMerged,
@@ -74,7 +78,14 @@ export class DialogFacade {
   co2ValuesForSupplierSteelMakingProcess$ =
     this.store.select(getHighestCo2Values);
 
+  editMaterialInformation$ = this.store.pipe(getEditMaterialDataLoaded);
+  editMaterial$ = this.store.select(getEditMaterialData);
+
+  resumeDialogData$ = this.store.select(getResumeDialogData);
+
   createMaterialRecord$ = this.store.select(getCreateMaterialRecord);
+
+  dialogError$ = this.store.pipe(getDialogError);
 
   constructor(private readonly store: Store) {}
 

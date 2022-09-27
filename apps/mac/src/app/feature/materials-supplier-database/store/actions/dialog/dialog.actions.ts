@@ -294,3 +294,5 @@ export const fetchCo2ValuesForSupplierSteelMakingProcessFailure = createAction(
 export const resetCo2ValuesForSupplierSteelMakingProcess = createAction(
   '[MSD - Dialog] Reset CO2 Values For Supplier Steel Making Process'
 );
+
+export const openDialog = createAction('[MSD - Dialog] Open Dialog');

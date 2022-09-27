@@ -7,11 +7,10 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { Observable, of, Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { translate, TranslocoModule } from '@ngneat/transloco';
@@ -34,7 +33,6 @@ import { StringOption } from '@schaeffler/inputs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { InputDialogComponent } from '@mac/msd/main-table/input-dialog/input-dialog.component';
 import {
   BOOLEAN_VALUE_GETTER,
   EMPTY_VALUE_FORMATTER,
@@ -44,10 +42,13 @@ import {
   SAP_SUPPLIER_IDS,
 } from '@mac/msd/main-table/table-config/column-definitions';
 import { DataResult, MaterialFormValue } from '@mac/msd/models';
+import { MsdDialogService } from '@mac/msd/services';
 import {
   fetchMaterials,
+  materialDialogCanceled,
   materialDialogOpened,
   minimizeDialog,
+  openDialog,
   setAgGridColumns,
   setAgGridFilter,
   setFilter,
@@ -57,7 +58,6 @@ import { initialState as initialDialogState } from '@mac/msd/store/reducers/dial
 import { initialState as initialQuickfilterState } from '@mac/msd/store/reducers/quickfilter/quickfilter.reducer';
 
 import * as en from '../../../../assets/i18n/en.json';
-import { DialogData } from '../models/data/dialog-data.model';
 import { MainTableComponent } from './main-table.component';
 import { MainTableRoutingModule } from './main-table-routing.module';
 import { QuickFilterComponent } from './quick-filter/quick-filter.component';
@@ -73,6 +73,19 @@ describe('MainTableComponent', () => {
   let store: MockStore;
   let route: ActivatedRoute;
   let router: Router;
+
+  let afterOpened: () => Subject<void>;
+  let afterClosed: () => Subject<{
+    reload?: boolean;
+    minimize?: { id?: number; value: MaterialFormValue };
+  }>;
+  let mockDialogRef: MatDialogRef<any>;
+
+  let mockSubjectOpen: Subject<void>;
+  let mockSubjectClose: Subject<{
+    reload?: boolean;
+    minimize?: { id?: number; value: MaterialFormValue };
+  }>;
 
   const initialState = {
     msd: {
@@ -134,9 +147,9 @@ describe('MainTableComponent', () => {
         },
       },
       {
-        provide: MatSnackBar,
+        provide: MsdDialogService,
         useValue: {
-          open: jest.fn(),
+          openDialog: jest.fn(() => mockDialogRef),
         },
       },
     ],
@@ -144,6 +157,18 @@ describe('MainTableComponent', () => {
   });
 
   beforeEach(() => {
+    mockSubjectOpen = new Subject<void>();
+    mockSubjectClose = new Subject<{
+      reload?: boolean;
+      minimize?: { id?: number; value: MaterialFormValue };
+    }>();
+    afterOpened = () => mockSubjectOpen;
+    afterClosed = () => mockSubjectClose;
+    mockDialogRef = {
+      afterOpened,
+      afterClosed,
+    } as unknown as MatDialogRef<any>;
+
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     store = spectator.inject(MockStore);
@@ -204,29 +229,6 @@ describe('MainTableComponent', () => {
         await new Promise((resolve) => setTimeout(resolve, 100));
 
         expect(store.dispatch).toHaveBeenCalledWith(setFilter(mockValue));
-      });
-
-      it('should call open dialog', () => {
-        const mockSubject = new Subject<any>();
-        component['dataFacade'].editMaterialInformation = mockSubject;
-        component.openDialog = jest.fn();
-
-        component.ngOnInit();
-
-        mockSubject.next({});
-        expect(component.openDialog).toHaveBeenCalledWith({ editMaterial: {} });
-      });
-
-      it('should open snackbar', () => {
-        const mockSubject = new Subject<any>();
-        component['dataFacade'].editMaterialInformation = mockSubject;
-        component.openDialog = jest.fn();
-
-        component.ngOnInit();
-
-        // eslint-disable-next-line unicorn/no-useless-undefined
-        mockSubject.next(undefined);
-        expect(component['snackbar'].open).toHaveBeenCalled();
       });
     });
   });
@@ -1578,166 +1580,88 @@ describe('MainTableComponent', () => {
 
   describe('resumeDialog', () => {
     it('should call open dialog', () => {
-      const mockSubject = new Subject<any>();
-      component['dataFacade'].resumeDialogData$ = mockSubject;
       component.openDialog = jest.fn();
-
       component.resumeDialog();
-
-      mockSubject.next({} as DialogData);
-      expect(component.openDialog).toHaveBeenCalledWith({} as DialogData);
+      expect(component.openDialog).toHaveBeenCalledWith(true);
     });
   });
 
   describe('openDialog', () => {
-    it('should open the dialog', () => {
-      component['dialog'].open = jest.fn(
-        () =>
-          ({
-            afterClosed: jest.fn(() => new Observable()),
-          } as unknown as MatDialogRef<
-            InputDialogComponent,
-            {
-              reload?: boolean;
-              minimize?: { id: number; value: MaterialFormValue };
-            }
-          >)
+    it('should dispatch the edit dialog actions and cancel on close', (done) => {
+      component['dataFacade'].dispatch = jest.fn();
+
+      let otherDone = false;
+      component.openDialog();
+
+      expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
+        openDialog()
       );
 
-      component.openDialog({} as DialogData);
-
-      expect(component['dialog'].open).toHaveBeenCalledWith(
-        InputDialogComponent,
-        {
-          width: '863px',
-          autoFocus: false,
-          enterAnimationDuration: '100ms',
-          disableClose: true,
-          restoreFocus: false,
-          data: {} as DialogData,
+      mockDialogRef.afterOpened().subscribe(() => {
+        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
+          materialDialogOpened()
+        );
+        if (otherDone) {
+          done();
+        } else {
+          otherDone = true;
         }
-      );
-      expect(store.dispatch).toHaveBeenCalledWith(materialDialogOpened());
-    });
-
-    it('should do nothing on close if reload is not set', () => {
-      const mockObservable = new Subject<{
-        reload?: boolean;
-        minimize?: { id: number; value: MaterialFormValue };
-      }>();
-      component['dialog'].open = jest.fn(
-        () =>
-          ({
-            afterClosed: jest.fn(() => mockObservable),
-          } as unknown as MatDialogRef<
-            InputDialogComponent,
-            {
-              reload?: boolean;
-              minimize?: { id: number; value: MaterialFormValue };
-            }
-          >)
-      );
-      component.fetchMaterials = jest.fn();
-
-      component.openDialog({} as DialogData);
-      mockObservable.next({});
-
-      expect(component['dialog'].open).toHaveBeenCalledWith(
-        InputDialogComponent,
-        {
-          width: '863px',
-          autoFocus: false,
-          enterAnimationDuration: '100ms',
-          disableClose: true,
-          restoreFocus: false,
-          data: {} as DialogData,
-        }
-      );
-      expect(store.dispatch).toHaveBeenCalledWith(materialDialogOpened());
-      expect(component.fetchMaterials).not.toHaveBeenCalled();
-    });
-
-    it('should call fetchMaterials on close if reload is true', () => {
-      const mockObservable = new Subject<{
-        reload?: boolean;
-        minimize?: { id: number; value: MaterialFormValue };
-      }>();
-      component['dialog'].open = jest.fn(
-        () =>
-          ({
-            afterClosed: jest.fn(() => mockObservable),
-          } as unknown as MatDialogRef<
-            InputDialogComponent,
-            {
-              reload?: boolean;
-              minimize?: { id: number; value: MaterialFormValue };
-            }
-          >)
-      );
-      component.fetchMaterials = jest.fn();
-
-      component.openDialog({} as DialogData);
-      mockObservable.next({ reload: true });
-
-      expect(component['dialog'].open).toHaveBeenCalledWith(
-        InputDialogComponent,
-        {
-          width: '863px',
-          autoFocus: false,
-          enterAnimationDuration: '100ms',
-          disableClose: true,
-          restoreFocus: false,
-          data: {} as DialogData,
-        }
-      );
-      expect(store.dispatch).toHaveBeenCalledWith(materialDialogOpened());
-      expect(component.fetchMaterials).toHaveBeenCalled();
-    });
-
-    it('should call minimizeDialog on close if minimized information is provided', () => {
-      const mockObservable = new Subject<{
-        reload?: boolean;
-        minimize?: { id: number; value: MaterialFormValue };
-      }>();
-      component['dialog'].open = jest.fn(
-        () =>
-          ({
-            afterClosed: jest.fn(() => mockObservable),
-          } as unknown as MatDialogRef<
-            InputDialogComponent,
-            {
-              reload?: boolean;
-              minimize?: { id: number; value: MaterialFormValue };
-            }
-          >)
-      );
-      component.fetchMaterials = jest.fn();
-
-      component.openDialog({} as DialogData);
-      mockObservable.next({
-        minimize: {
-          id: 1,
-          value: { manufacturerSupplierId: 1 } as MaterialFormValue,
-        },
       });
 
-      expect(component['dialog'].open).toHaveBeenCalledWith(
-        InputDialogComponent,
-        {
-          width: '863px',
-          autoFocus: false,
-          enterAnimationDuration: '100ms',
-          disableClose: true,
-          restoreFocus: false,
-          data: {} as DialogData,
+      mockDialogRef.afterClosed().subscribe((_value) => {
+        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
+          materialDialogCanceled()
+        );
+        if (otherDone) {
+          done();
+        } else {
+          otherDone = true;
         }
+      });
+
+      mockSubjectOpen.next();
+      mockSubjectClose.next({ reload: false, minimize: undefined });
+    });
+    it('should dispatch the edit dialog actions and dispatch fetch and minimize', (done) => {
+      component['dataFacade'].dispatch = jest.fn();
+      component.fetchMaterials = jest.fn();
+
+      let otherDone = false;
+
+      component.openDialog(true);
+
+      expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
+        openDialog()
       );
-      expect(store.dispatch).toHaveBeenCalledWith(
-        minimizeDialog({
-          id: 1,
-          value: { manufacturerSupplierId: 1 } as MaterialFormValue,
-        })
-      );
+
+      mockDialogRef.afterOpened().subscribe(() => {
+        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
+          materialDialogOpened()
+        );
+        if (otherDone) {
+          done();
+        } else {
+          otherDone = true;
+        }
+      });
+
+      mockDialogRef.afterClosed().subscribe(() => {
+        expect(component.fetchMaterials).toHaveBeenCalled();
+        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
+          minimizeDialog({ value: {} as MaterialFormValue })
+        );
+        if (otherDone) {
+          done();
+        } else {
+          otherDone = true;
+        }
+      });
+
+      mockSubjectOpen.next();
+      mockSubjectClose.next({
+        reload: true,
+        minimize: { value: {} as MaterialFormValue },
+      });
     });
   });
 

@@ -19,6 +19,7 @@ import {
   addCustomSupplierName,
   addCustomSupplierPlant,
   createMaterialComplete,
+  editDialogLoadingComplete,
   fetchCastingDiameters,
   fetchCastingDiametersFailure,
   fetchCastingDiametersSuccess,
@@ -26,6 +27,14 @@ import {
   fetchCastingModesSuccess,
   fetchCo2ClassificationsFailure,
   fetchCo2ClassificationsSuccess,
+  fetchCo2ValuesForSupplierSteelMakingProcessFailure,
+  fetchCo2ValuesForSupplierSteelMakingProcessSuccess,
+  fetchEditMaterialNameDataFailure,
+  fetchEditMaterialNameDataSuccess,
+  fetchEditMaterialSuppliersFailure,
+  fetchEditMaterialSuppliersSuccess,
+  fetchEditStandardDocumentDataFailure,
+  fetchEditStandardDocumentDataSuccess,
   fetchManufacturerSuppliersFailure,
   fetchManufacturerSuppliersSuccess,
   fetchMaterialStandardsFailure,
@@ -36,30 +45,18 @@ import {
   fetchReferenceDocumentsFailure,
   fetchReferenceDocumentsSuccess,
   fetchSteelMakingProcessesFailure,
+  fetchSteelMakingProcessesInUseFailure,
+  fetchSteelMakingProcessesInUseSuccess,
   fetchSteelMakingProcessesSuccess,
   materialDialogCanceled,
   materialDialogConfirmed,
-  materialDialogOpened,
-  openEditDialog,
-} from '@mac/msd/store/actions/dialog';
-
-import {
-  editDialogLoadingComplete,
-  fetchCo2ValuesForSupplierSteelMakingProcessFailure,
-  fetchCo2ValuesForSupplierSteelMakingProcessSuccess,
-  fetchEditMaterialNameDataFailure,
-  fetchEditMaterialNameDataSuccess,
-  fetchEditMaterialSuppliersFailure,
-  fetchEditMaterialSuppliersSuccess,
-  fetchEditStandardDocumentDataFailure,
-  fetchEditStandardDocumentDataSuccess,
-  fetchSteelMakingProcessesInUseFailure,
-  fetchSteelMakingProcessesInUseSuccess,
   minimizeDialog,
+  openDialog,
+  openEditDialog,
   resetCo2ValuesForSupplierSteelMakingProcess,
   resetSteelMakingProcessInUse,
   setMaterialFormValue,
-} from './../../actions/dialog/dialog.actions';
+} from '@mac/msd/store/actions/dialog';
 
 export interface DialogState {
   manufacturerSupplier: {
@@ -103,12 +100,13 @@ export interface DialogState {
     }[];
     steelMakingProcessesInUse: string[];
     loading: boolean;
+    error: boolean;
   };
   createMaterial: {
     createMaterialLoading: boolean;
     createMaterialRecord: CreateMaterialRecord;
   };
-  editMaterial: {
+  editMaterial?: {
     row: DataResult;
     parsedMaterial: Partial<MaterialFormValue>;
     column: string;
@@ -120,8 +118,8 @@ export interface DialogState {
     supplierIdsLoading: boolean;
     loadingComplete: boolean;
   };
-  minimizedDialog: {
-    id: number;
+  minimizedDialog?: {
+    id?: number;
     value: Partial<MaterialFormValue>;
   };
 }
@@ -155,13 +153,14 @@ export const dialogReducer = createReducer(
         customReferenceDocuments: undefined,
         co2Values: undefined,
         steelMakingProcessesInUse: [],
+        error: undefined,
       },
       editMaterial: undefined,
       minimizedDialog: undefined,
     })
   ),
   on(
-    materialDialogOpened,
+    openDialog,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -172,6 +171,7 @@ export const dialogReducer = createReducer(
         steelMakingProcessesLoading: true,
         co2ClassificationsLoading: true,
         castingModesLoading: true,
+        error: undefined,
       },
     })
   ),
@@ -194,6 +194,7 @@ export const dialogReducer = createReducer(
         ...state.dialogOptions,
         materialStandards: undefined,
         materialStandardsLoading: undefined,
+        error: true,
       },
     })
   ),
@@ -216,6 +217,7 @@ export const dialogReducer = createReducer(
         ...state.dialogOptions,
         manufacturerSuppliers: undefined,
         manufacturerSuppliersLoading: undefined,
+        error: true,
       },
     })
   ),
@@ -249,6 +251,7 @@ export const dialogReducer = createReducer(
         ...state.dialogOptions,
         castingDiameters: [],
         castingDiametersLoading: undefined,
+        error: true,
       },
     })
   ),
@@ -282,6 +285,7 @@ export const dialogReducer = createReducer(
         ...state.dialogOptions,
         referenceDocuments: [],
         referenceDocumentsLoading: undefined,
+        error: true,
       },
     })
   ),
@@ -304,6 +308,7 @@ export const dialogReducer = createReducer(
         ...state.dialogOptions,
         ratings: undefined,
         ratingsLoading: undefined,
+        error: true,
       },
     })
   ),
@@ -326,6 +331,7 @@ export const dialogReducer = createReducer(
         ...state.dialogOptions,
         steelMakingProcesses: undefined,
         steelMakingProcessesLoading: undefined,
+        error: true,
       },
     })
   ),
@@ -348,6 +354,7 @@ export const dialogReducer = createReducer(
         ...state.dialogOptions,
         co2Classifications: undefined,
         co2ClassificationsLoading: undefined,
+        error: true,
       },
     })
   ),
@@ -370,6 +377,7 @@ export const dialogReducer = createReducer(
         ...state.dialogOptions,
         castingModes: undefined,
         castingModesLoading: undefined,
+        error: true,
       },
     })
   ),
@@ -399,6 +407,7 @@ export const dialogReducer = createReducer(
         customReferenceDocuments: undefined,
         co2Values: undefined,
         steelMakingProcessesInUse: [],
+        error: undefined,
       },
       editMaterial: undefined,
       minimizedDialog: undefined,
@@ -547,6 +556,10 @@ export const dialogReducer = createReducer(
     fetchEditMaterialNameDataFailure,
     (state): DialogState => ({
       ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        error: true,
+      },
       editMaterial: {
         ...state.editMaterial,
         standardDocuments: undefined,
@@ -571,6 +584,10 @@ export const dialogReducer = createReducer(
     fetchEditStandardDocumentDataFailure,
     (state): DialogState => ({
       ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        error: true,
+      },
       editMaterial: {
         ...state.editMaterial,
         materialNames: undefined,
@@ -595,6 +612,10 @@ export const dialogReducer = createReducer(
     fetchEditMaterialSuppliersFailure,
     (state): DialogState => ({
       ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        error: true,
+      },
       editMaterial: {
         ...state.editMaterial,
         supplierIds: undefined,
@@ -642,6 +663,7 @@ export const dialogReducer = createReducer(
       dialogOptions: {
         ...state.dialogOptions,
         steelMakingProcessesInUse: [],
+        error: true,
       },
     })
   ),
@@ -673,6 +695,7 @@ export const dialogReducer = createReducer(
       dialogOptions: {
         ...state.dialogOptions,
         co2Values: undefined,
+        error: true,
       },
     })
   ),

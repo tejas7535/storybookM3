@@ -69,13 +69,14 @@ describe('dialogReducer', () => {
           customReferenceDocuments: undefined,
           co2Values: undefined,
           steelMakingProcessesInUse: [],
+          error: undefined,
         },
         editMaterial: undefined,
       });
     });
 
     it('should set the loading state for the dialog to true', () => {
-      const action = DialogActions.materialDialogOpened();
+      const action = DialogActions.openDialog();
       const newState = dialogReducer(state, action);
 
       expect(newState).toEqual({
@@ -88,6 +89,7 @@ describe('dialogReducer', () => {
           steelMakingProcessesLoading: true,
           co2ClassificationsLoading: true,
           castingModesLoading: true,
+          error: undefined,
         },
       });
     });
@@ -130,6 +132,7 @@ describe('dialogReducer', () => {
           ...state.dialogOptions,
           materialStandards: undefined,
           materialStandardsLoading: undefined,
+          error: true,
         },
       });
     });
@@ -172,6 +175,7 @@ describe('dialogReducer', () => {
           ...state.dialogOptions,
           manufacturerSuppliers: undefined,
           manufacturerSuppliersLoading: undefined,
+          error: true,
         },
       });
     });
@@ -222,6 +226,7 @@ describe('dialogReducer', () => {
           ...state.dialogOptions,
           castingDiameters: [],
           castingDiametersLoading: undefined,
+          error: true,
         },
       });
     });
@@ -262,6 +267,7 @@ describe('dialogReducer', () => {
           ...state.dialogOptions,
           ratings: undefined,
           ratingsLoading: undefined,
+          error: true,
         },
       });
     });
@@ -331,6 +337,7 @@ describe('dialogReducer', () => {
           ...state.dialogOptions,
           referenceDocuments: [],
           referenceDocumentsLoading: undefined,
+          error: true,
         },
       });
     });
@@ -373,6 +380,7 @@ describe('dialogReducer', () => {
           ...state.dialogOptions,
           steelMakingProcesses: undefined,
           steelMakingProcessesLoading: undefined,
+          error: true,
         },
       });
     });
@@ -421,6 +429,7 @@ describe('dialogReducer', () => {
           ...state.dialogOptions,
           co2Classifications: undefined,
           co2ClassificationsLoading: undefined,
+          error: true,
         },
       });
     });
@@ -461,6 +470,7 @@ describe('dialogReducer', () => {
           ...state.dialogOptions,
           castingModes: undefined,
           castingModesLoading: undefined,
+          error: true,
         },
       });
     });
@@ -892,6 +902,10 @@ describe('dialogReducer', () => {
 
       expect(newState).toEqual({
         ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          error: true,
+        },
         editMaterial: {
           row: {} as DataResult,
           parsedMaterial: {} as MaterialFormValue,
@@ -970,6 +984,10 @@ describe('dialogReducer', () => {
 
       expect(newState).toEqual({
         ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          error: true,
+        },
         editMaterial: {
           row: {} as DataResult,
           parsedMaterial: {} as MaterialFormValue,
@@ -1048,6 +1066,10 @@ describe('dialogReducer', () => {
 
       expect(newState).toEqual({
         ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          error: true,
+        },
         editMaterial: {
           row: {} as DataResult,
           parsedMaterial: {} as MaterialFormValue,
@@ -1189,6 +1211,7 @@ describe('dialogReducer', () => {
         dialogOptions: {
           ...state.dialogOptions,
           steelMakingProcessesInUse: [],
+          error: true,
         },
       });
     });
@@ -1273,6 +1296,7 @@ describe('dialogReducer', () => {
         dialogOptions: {
           ...state.dialogOptions,
           co2Values: undefined,
+          error: true,
         },
       });
     });

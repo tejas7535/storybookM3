@@ -1,8 +1,21 @@
+import { MatDialogRef } from '@angular/material/dialog';
+
+import { Subject } from 'rxjs';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { Column } from 'ag-grid-community';
 
-import { DataResult } from '@mac/msd/models';
-import { DialogFacade, openEditDialog } from '@mac/msd/store';
+import { DataResult, MaterialFormValue } from '@mac/msd/models';
+import { MsdDialogService } from '@mac/msd/services';
+import {
+  DialogFacade,
+  fetchMaterials,
+  materialDialogCanceled,
+  materialDialogOpened,
+  minimizeDialog,
+  openDialog,
+  openEditDialog,
+} from '@mac/msd/store';
 
 import { EditCellRendererComponent } from './edit-cell-renderer.component';
 import { EditCellRendererParams } from './edit-cell-renderer-params.model';
@@ -11,6 +24,19 @@ describe('EditCellRendererComponent', () => {
   let component: EditCellRendererComponent;
   let spectator: Spectator<EditCellRendererComponent>;
 
+  let afterOpened: () => Subject<void>;
+  let afterClosed: () => Subject<{
+    reload: boolean;
+    minimize: { id: number; value: MaterialFormValue };
+  }>;
+  let mockDialogRef: MatDialogRef<any>;
+
+  let mockSubjectOpen: Subject<void>;
+  let mockSubjectClose: Subject<{
+    reload: boolean;
+    minimize: { id: number; value: MaterialFormValue };
+  }>;
+
   const createComponent = createComponentFactory({
     component: EditCellRendererComponent,
     providers: [
@@ -18,6 +44,12 @@ describe('EditCellRendererComponent', () => {
         provide: DialogFacade,
         useValue: {
           dispatch: jest.fn(),
+        },
+      },
+      {
+        provide: MsdDialogService,
+        useValue: {
+          openDialog: jest.fn(() => mockDialogRef),
         },
       },
     ],
@@ -35,6 +67,17 @@ describe('EditCellRendererComponent', () => {
   } as EditCellRendererParams;
 
   beforeEach(() => {
+    mockSubjectOpen = new Subject<void>();
+    mockSubjectClose = new Subject<{
+      reload: boolean;
+      minimize: { id: number; value: MaterialFormValue };
+    }>();
+    afterOpened = () => mockSubjectOpen;
+    afterClosed = () => mockSubjectClose;
+    mockDialogRef = {
+      afterOpened,
+      afterClosed,
+    } as unknown as MatDialogRef<any>;
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     component.params = mockparams;
@@ -65,7 +108,8 @@ describe('EditCellRendererComponent', () => {
   });
 
   describe('onEditClick', () => {
-    it('should dispatch the edit dialog action', () => {
+    it('should dispatch the edit dialog actions and cancel on close', (done) => {
+      let otherDone = false;
       component.params = {
         data: mockData,
         column: mockColumn,
@@ -74,8 +118,89 @@ describe('EditCellRendererComponent', () => {
       component.onEditClick();
 
       expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
-        openEditDialog({ row: mockData, column: 'column' })
+        openDialog()
       );
+
+      mockDialogRef.afterOpened().subscribe(() => {
+        expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+          materialDialogOpened()
+        );
+        expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+          openEditDialog({
+            row: mockData,
+            column: 'column',
+          })
+        );
+        if (otherDone) {
+          done();
+        } else {
+          otherDone = true;
+        }
+      });
+
+      mockDialogRef.afterClosed().subscribe((_value) => {
+        expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+          materialDialogCanceled()
+        );
+        if (otherDone) {
+          done();
+        } else {
+          otherDone = true;
+        }
+      });
+
+      mockSubjectOpen.next();
+      mockSubjectClose.next({ reload: false, minimize: undefined });
+    });
+    it('should dispatch the edit dialog actions and dispatch fetch and minimize', (done) => {
+      let otherDone = false;
+      component.params = {
+        data: mockData,
+        column: mockColumn,
+      } as EditCellRendererParams;
+
+      component.onEditClick();
+
+      expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+        openDialog()
+      );
+
+      mockDialogRef.afterOpened().subscribe(() => {
+        expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+          materialDialogOpened()
+        );
+        expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+          openEditDialog({
+            row: mockData,
+            column: 'column',
+          })
+        );
+        if (otherDone) {
+          done();
+        } else {
+          otherDone = true;
+        }
+      });
+
+      mockDialogRef.afterClosed().subscribe((_value) => {
+        expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+          fetchMaterials()
+        );
+        expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+          minimizeDialog({ id: 1, value: {} as MaterialFormValue })
+        );
+        if (otherDone) {
+          done();
+        } else {
+          otherDone = true;
+        }
+      });
+
+      mockSubjectOpen.next();
+      mockSubjectClose.next({
+        reload: true,
+        minimize: { id: 1, value: {} as MaterialFormValue },
+      });
     });
   });
 });

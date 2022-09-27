@@ -469,6 +469,11 @@ export const getHighestCo2Values = createSelector(
   }
 );
 
+export const getDialogError = pipe(
+  select(getDialogState),
+  map((state) => state.dialogOptions?.error)
+);
+
 export const getEditMaterialDataLoaded = pipe(
   select(getEditMaterialData),
   filter((editMaterial) => !!editMaterial),
