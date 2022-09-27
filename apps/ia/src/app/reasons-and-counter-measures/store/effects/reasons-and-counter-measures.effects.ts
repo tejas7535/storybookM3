@@ -2,15 +2,12 @@ import { Injectable } from '@angular/core';
 
 import { catchError, filter, map, mergeMap, of, switchMap } from 'rxjs';
 
-import {
-  Actions,
-  concatLatestFrom,
-  createEffect,
-  ofType,
-  OnInitEffects,
-} from '@ngrx/effects';
-import { Action, Store } from '@ngrx/store';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { routerNavigationAction } from '@ngrx/router-store';
+import { Store } from '@ngrx/store';
 
+import { AppRoutePath } from '../../../app-route-path.enum';
+import { selectRouterState } from '../../../core/store';
 import { filterSelected, triggerLoad } from '../../../core/store/actions';
 import { getCurrentFilters } from '../../../core/store/selectors';
 import { FilterService } from '../../../filter-section/filter.service';
@@ -25,6 +22,7 @@ import {
   loadComparedReasonsWhyPeopleLeft,
   loadComparedReasonsWhyPeopleLeftFailure,
   loadComparedReasonsWhyPeopleLeftSuccess,
+  loadReasonsAndCounterMeasuresData,
   loadReasonsWhyPeopleLeft,
   loadReasonsWhyPeopleLeftFailure,
   loadReasonsWhyPeopleLeftSuccess,
@@ -36,8 +34,22 @@ import {
 
 /* eslint-disable ngrx/prefer-effect-callback-in-block-statement */
 @Injectable()
-export class ReasonsAndCounterMeasuresEffects implements OnInitEffects {
+export class ReasonsAndCounterMeasuresEffects {
+  readonly REASONS_AND_COUNTER_MEASURES_URL = `/${AppRoutePath.ReasonsAndCounterMeasuresPath}`;
+
   filterChange$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(filterSelected, routerNavigationAction),
+      concatLatestFrom(() => this.store.select(selectRouterState)),
+      filter(
+        ([_action, router]) =>
+          router.state.url === this.REASONS_AND_COUNTER_MEASURES_URL
+      ),
+      map(() => loadReasonsAndCounterMeasuresData())
+    )
+  );
+
+  loadReasonsAndCounterMeasuresData$ = createEffect(() =>
     this.actions$.pipe(
       ofType(filterSelected, triggerLoad),
       concatLatestFrom(() => this.store.select(getCurrentFilters)),
@@ -128,8 +140,4 @@ export class ReasonsAndCounterMeasuresEffects implements OnInitEffects {
     private readonly store: Store,
     private readonly filterService: FilterService
   ) {}
-
-  ngrxOnInitEffects(): Action {
-    return triggerLoad();
-  }
 }

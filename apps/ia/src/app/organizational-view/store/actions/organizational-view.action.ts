@@ -9,6 +9,10 @@ import {
 } from '../../org-chart/models';
 import { CountryData } from '../../world-map/models/country-data.model';
 
+export const loadOrganizationalViewData = createAction(
+  '[Organizational View] Load Organizational View Data'
+);
+
 export const chartTypeSelected = createAction(
   '[Organizational View] Chart type selected',
   props<{ chartType: ChartType }>()

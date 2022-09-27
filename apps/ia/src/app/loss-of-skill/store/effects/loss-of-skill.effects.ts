@@ -3,16 +3,13 @@ import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { catchError, filter, map, mergeMap, switchMap } from 'rxjs/operators';
 
-import {
-  Actions,
-  concatLatestFrom,
-  createEffect,
-  ofType,
-  OnInitEffects,
-} from '@ngrx/effects';
-import { Action, Store } from '@ngrx/store';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { routerNavigationAction } from '@ngrx/router-store';
+import { Store } from '@ngrx/store';
 
-import { filterSelected, triggerLoad } from '../../../core/store/actions';
+import { AppRoutePath } from '../../../app-route-path.enum';
+import { selectRouterState } from '../../../core/store';
+import { filterSelected } from '../../../core/store/actions';
 import { getCurrentFilters } from '../../../core/store/selectors';
 import { EmployeesRequest } from '../../../shared/models';
 import { LossOfSkillService } from '../../loss-of-skill.service';
@@ -21,22 +18,37 @@ import {
   loadJobProfiles,
   loadJobProfilesFailure,
   loadJobProfilesSuccess,
+  loadLossOfSkillData,
   loadOpenPositions,
   loadOpenPositionsFailure,
   loadOpenPositionsSuccess,
 } from '../actions/loss-of-skill.actions';
 
+/* eslint-disable ngrx/prefer-effect-callback-in-block-statement */
 @Injectable()
-export class LossOfSkillEffects implements OnInitEffects {
+export class LossOfSkillEffects {
+  readonly LOSS_OF_SKILL_URL = `/${AppRoutePath.LossOfSkillPath}`;
+
   constructor(
     private readonly actions$: Actions,
     private readonly lossOfSkillService: LossOfSkillService,
     private readonly store: Store
   ) {}
 
-  filterChange$ = createEffect(() => {
+  filterChange$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(filterSelected, routerNavigationAction),
+      concatLatestFrom(() => this.store.select(selectRouterState)),
+      filter(
+        ([_action, router]) => router.state.url === this.LOSS_OF_SKILL_URL
+      ),
+      map(() => loadLossOfSkillData())
+    )
+  );
+
+  loadLossOfSkillData$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(filterSelected, triggerLoad),
+      ofType(loadLossOfSkillData),
       concatLatestFrom(() => this.store.select(getCurrentFilters)),
       map(([_action, request]) => request),
       filter((request) => !!(request.timeRange && request.value)),
@@ -80,8 +92,4 @@ export class LossOfSkillEffects implements OnInitEffects {
       )
     );
   });
-
-  ngrxOnInitEffects(): Action {
-    return triggerLoad();
-  }
 }

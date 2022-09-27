@@ -1,9 +1,14 @@
+import { EMPTY } from 'rxjs';
+
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { RouterReducerState } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/marbles';
 
+import { AppRoutePath } from '../../../app-route-path.enum';
+import { RouterStateUrl, selectRouterState } from '../../../core/store';
 import { filterSelected, triggerLoad } from '../../../core/store/actions';
 import { getCurrentFilters } from '../../../core/store/selectors';
 import { FilterService } from '../../../filter-section/filter.service';
@@ -23,6 +28,7 @@ import {
   loadComparedReasonsWhyPeopleLeft,
   loadComparedReasonsWhyPeopleLeftFailure,
   loadComparedReasonsWhyPeopleLeftSuccess,
+  loadReasonsAndCounterMeasuresData,
   loadReasonsWhyPeopleLeft,
   loadReasonsWhyPeopleLeftFailure,
   loadReasonsWhyPeopleLeftSuccess,
@@ -79,6 +85,39 @@ describe('ReasonsAndCounterMeasures Effects', () => {
 
   describe('filterChange$', () => {
     test(
+      'should return loadReasonsAndCounterMeasuresData when url /reasons-and-counter-measures',
+      marbles((m) => {
+        store.overrideSelector(selectRouterState, {
+          state: {
+            url: `/${AppRoutePath.ReasonsAndCounterMeasuresPath}`,
+          },
+        } as RouterReducerState<RouterStateUrl>);
+        action = loadReasonsAndCounterMeasuresData();
+        actions$ = m.hot('-', { a: action });
+        const expected = m.cold('-');
+
+        m.expect(effects.filterChange$).toBeObservable(expected);
+      })
+    );
+
+    test(
+      'should not return loadReasonsAndCounterMeasuresData when url different than /reasons-and-counter-measures',
+      marbles((m) => {
+        store.overrideSelector(selectRouterState, {
+          state: {
+            url: `/different-path`,
+          },
+        } as RouterReducerState<RouterStateUrl>);
+        actions$ = m.hot('-', { a: EMPTY });
+        const expected = m.cold('-');
+
+        m.expect(effects.filterChange$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('loadReasonsAndCounterMeasuresData$', () => {
+    test(
       'filterSelected - should do nothing when organization is not set',
       marbles((m) => {
         const filter = new SelectedFilter('nice', {
@@ -94,7 +133,9 @@ describe('ReasonsAndCounterMeasures Effects', () => {
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('--');
 
-        m.expect(effects.filterChange$).toBeObservable(expected);
+        m.expect(effects.loadReasonsAndCounterMeasuresData$).toBeObservable(
+          expected
+        );
       })
     );
 

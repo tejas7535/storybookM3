@@ -3,6 +3,10 @@ import { createAction, props, union } from '@ngrx/store';
 import { EmployeesRequest } from '../../../shared/models';
 import { LostJobProfilesResponse, OpenPosition } from '../../models';
 
+export const loadLossOfSkillData = createAction(
+  '[Loss of Skill] Load Loss of Skill Data'
+);
+
 export const loadJobProfiles = createAction(
   '[Loss of Skill] Load Job Profiles',
   props<{ request: EmployeesRequest }>()

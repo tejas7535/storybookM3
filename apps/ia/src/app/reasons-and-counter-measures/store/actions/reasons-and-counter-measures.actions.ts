@@ -8,6 +8,10 @@ import {
 } from '../../../shared/models';
 import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
 
+export const loadReasonsAndCounterMeasuresData = createAction(
+  '[ReasonsAndCounterMeasures] Load Reasons and Counter Measures Data'
+);
+
 export const loadReasonsWhyPeopleLeft = createAction(
   '[ReasonsAndCounterMeasures] Load ReasonsWhyPeopleLeft',
   props<{ request: EmployeesRequest }>()

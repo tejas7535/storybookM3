@@ -1,10 +1,15 @@
+import { EMPTY } from 'rxjs';
+
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { RouterReducerState } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/jest';
 
-import { filterSelected, triggerLoad } from '../../../core/store/actions';
+import { AppRoutePath } from '../../../app-route-path.enum';
+import { RouterStateUrl, selectRouterState } from '../../../core/store';
+import { filterSelected } from '../../../core/store/actions';
 import { getCurrentFilters } from '../../../core/store/selectors';
 import {
   EmployeesRequest,
@@ -17,6 +22,7 @@ import {
   loadJobProfiles,
   loadJobProfilesFailure,
   loadJobProfilesSuccess,
+  loadLossOfSkillData,
   loadOpenPositions,
   loadOpenPositionsFailure,
   loadOpenPositionsSuccess,
@@ -59,18 +65,47 @@ describe('LossOfSkill Effects', () => {
 
   describe('filterChange$', () => {
     test(
-      'filterSelected - should trigger loadLostJobProfiles if orgUnit is set',
+      'should return loadLossOfSkillData when url /loss-of-skill',
       marbles((m) => {
-        const filter = new SelectedFilter('orgUnit', {
-          id: 'best',
-          value: 'best',
-        });
+        store.overrideSelector(selectRouterState, {
+          state: {
+            url: `/${AppRoutePath.LossOfSkillPath}`,
+          },
+        } as RouterReducerState<RouterStateUrl>);
+        action = loadLossOfSkillData();
+        actions$ = m.hot('-', { a: action });
+        const expected = m.cold('-');
+
+        m.expect(effects.filterChange$).toBeObservable(expected);
+      })
+    );
+
+    test(
+      'should not return loadLossOfSkillData when url different than /loss-of-skill',
+      marbles((m) => {
+        store.overrideSelector(selectRouterState, {
+          state: {
+            url: `/different-path`,
+          },
+        } as RouterReducerState<RouterStateUrl>);
+        actions$ = m.hot('-', { a: EMPTY });
+        const expected = m.cold('-');
+
+        m.expect(effects.filterChange$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('loadLossOfSkillData$', () => {
+    test(
+      'loadLossOfSkillData - should trigger loadLostJobProfiles if orgUnit is set',
+      marbles((m) => {
         const request = {
           filterDimension: FilterDimension.ORG_UNIT,
           value: 'AVC',
           timeRange: '12',
         } as EmployeesRequest;
-        action = filterSelected({ filter });
+        action = loadLossOfSkillData();
         store.overrideSelector(getCurrentFilters, request);
         const resultJobProfiles = loadJobProfiles({ request });
         const resultOpenPositions = loadOpenPositions({ request });
@@ -81,7 +116,7 @@ describe('LossOfSkill Effects', () => {
           c: resultOpenPositions,
         });
 
-        m.expect(effects.filterChange$).toBeObservable(expected);
+        m.expect(effects.loadLossOfSkillData$).toBeObservable(expected);
       })
     );
 
@@ -241,11 +276,5 @@ describe('LossOfSkill Effects', () => {
         );
       })
     );
-  });
-
-  describe('ngrxOnInitEffects', () => {
-    it('should return triggerLoad Action', () => {
-      expect(effects.ngrxOnInitEffects()).toEqual(triggerLoad());
-    });
   });
 });

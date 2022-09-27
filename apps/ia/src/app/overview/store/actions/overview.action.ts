@@ -9,6 +9,8 @@ import {
   ResignedEmployeesResponse,
 } from '../../models';
 
+export const loadOverviewData = createAction('[Overview] Load Overview data');
+
 export const loadAttritionOverTimeOverview = createAction(
   '[Overview] Load AttritionOverTime for last three years',
   props<{ request: EmployeesRequest }>()

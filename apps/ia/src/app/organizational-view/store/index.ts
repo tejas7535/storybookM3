@@ -101,6 +101,7 @@ export const organizationalViewReducer = createReducer(
       ...state,
       orgChart: {
         ...state.orgChart,
+        data: [],
         loading: true,
       },
     })

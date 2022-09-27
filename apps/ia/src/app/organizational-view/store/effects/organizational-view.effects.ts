@@ -3,19 +3,15 @@ import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { catchError, filter, map, mergeMap, switchMap } from 'rxjs/operators';
 
-import {
-  Actions,
-  concatLatestFrom,
-  createEffect,
-  ofType,
-  OnInitEffects,
-} from '@ngrx/effects';
-import { Action, Store } from '@ngrx/store';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { routerNavigationAction } from '@ngrx/router-store';
+import { Store } from '@ngrx/store';
 
+import { AppRoutePath } from '../../../app-route-path.enum';
+import { selectRouterState } from '../../../core/store';
 import {
   filterDimensionSelected,
   filterSelected,
-  triggerLoad,
 } from '../../../core/store/actions';
 import {
   getCurrentFilters,
@@ -38,6 +34,7 @@ import {
   loadAttritionOverTimeOrgChart,
   loadAttritionOverTimeOrgChartFailure,
   loadAttritionOverTimeOrgChartSuccess,
+  loadOrganizationalViewData,
   loadOrgChart,
   loadOrgChartFailure,
   loadOrgChartSuccess,
@@ -53,11 +50,25 @@ import {
   loadWorldMapSuccess,
 } from '../actions/organizational-view.action';
 
+/* eslint-disable ngrx/prefer-effect-callback-in-block-statement */
 @Injectable()
-export class OrganizationalViewEffects implements OnInitEffects {
-  filterChange$ = createEffect(() => {
+export class OrganizationalViewEffects {
+  readonly ORGANIZATIONAL_VIEW_URL = `/${AppRoutePath.OrganizationalViewPath}`;
+
+  filterChange$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(filterSelected, routerNavigationAction),
+      concatLatestFrom(() => this.store.select(selectRouterState)),
+      filter(
+        ([_action, router]) => router.state.url === this.ORGANIZATIONAL_VIEW_URL
+      ),
+      map(() => loadOrganizationalViewData())
+    )
+  );
+
+  loadOrganizationalViewData$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(filterSelected, triggerLoad),
+      ofType(loadOrganizationalViewData),
       concatLatestFrom(() => this.store.select(getCurrentFilters)),
       map(([_action, request]) => request),
       filter((request) => !!request.timeRange),
@@ -205,8 +216,4 @@ export class OrganizationalViewEffects implements OnInitEffects {
     private readonly organizationalViewService: OrganizationalViewService,
     private readonly store: Store
   ) {}
-
-  ngrxOnInitEffects(): Action {
-    return triggerLoad();
-  }
 }

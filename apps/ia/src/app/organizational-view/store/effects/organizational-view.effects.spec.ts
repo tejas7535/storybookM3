@@ -1,14 +1,15 @@
+import { EMPTY } from 'rxjs';
+
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { RouterReducerState } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/jest';
 
-import {
-  filterDimensionSelected,
-  filterSelected,
-  triggerLoad,
-} from '../../../core/store/actions';
+import { AppRoutePath } from '../../../app-route-path.enum';
+import { RouterStateUrl, selectRouterState } from '../../../core/store';
+import { filterDimensionSelected } from '../../../core/store/actions';
 import {
   getCurrentFilters,
   getSelectedDimension,
@@ -30,6 +31,7 @@ import {
   loadAttritionOverTimeOrgChart,
   loadAttritionOverTimeOrgChartFailure,
   loadAttritionOverTimeOrgChartSuccess,
+  loadOrganizationalViewData,
   loadOrgChart,
   loadOrgChartFailure,
   loadOrgChartSuccess,
@@ -82,7 +84,40 @@ describe('Organizational View Effects', () => {
 
   describe('filterChange$', () => {
     test(
-      'filterSelected - should trigger loadAtrritionOverTime + loadOrgChart + loadWorldMap if orgUnit is set',
+      'should return loadOrganizationalViewData when url /organizational-view',
+      marbles((m) => {
+        store.overrideSelector(selectRouterState, {
+          state: {
+            url: `/${AppRoutePath.OrganizationalViewPath}`,
+          },
+        } as RouterReducerState<RouterStateUrl>);
+        action = loadOrganizationalViewData();
+        actions$ = m.hot('-', { a: action });
+        const expected = m.cold('-');
+
+        m.expect(effects.filterChange$).toBeObservable(expected);
+      })
+    );
+
+    test(
+      'should not return loadOverviewData when url different than /organizational-view',
+      marbles((m) => {
+        store.overrideSelector(selectRouterState, {
+          state: {
+            url: `/different-path`,
+          },
+        } as RouterReducerState<RouterStateUrl>);
+        actions$ = m.hot('-', { a: EMPTY });
+        const expected = m.cold('-');
+
+        m.expect(effects.filterChange$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('loadOrganitzationalViewData$', () => {
+    test(
+      'loadOrganizationalViewData - should trigger loadAtrritionOverTime + loadOrgChart + loadWorldMap if orgUnit is set',
       marbles((m) => {
         const filter = new SelectedFilter('orgUnit', {
           id: 'best',
@@ -93,7 +128,7 @@ describe('Organizational View Effects', () => {
           value: filter.idValue.id,
           timeRange: '123',
         } as EmployeesRequest;
-        action = filterSelected({ filter });
+        action = loadOrganizationalViewData();
         store.overrideSelector(getCurrentFilters, request);
         const resultOrg = loadOrgChart({ request });
         const resultWorld = loadWorldMap({ request });
@@ -106,24 +141,20 @@ describe('Organizational View Effects', () => {
           d: resultAttrition,
         });
 
-        m.expect(effects.filterChange$).toBeObservable(expected);
+        m.expect(effects.loadOrganizationalViewData$).toBeObservable(expected);
       })
     );
 
     test(
-      'filterSelected - should do nothing when organization is not set',
+      'loadOrganizationalViewData - should do nothing when organization is not set',
       marbles((m) => {
-        const filter = new SelectedFilter('nice', {
-          id: 'best',
-          value: 'best',
-        });
-        action = filterSelected({ filter });
+        action = loadOrganizationalViewData();
         store.overrideSelector(getCurrentFilters, {} as EmployeesRequest);
 
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('--');
 
-        m.expect(effects.filterChange$).toBeObservable(expected);
+        m.expect(effects.loadOrganizationalViewData$).toBeObservable(expected);
       })
     );
   });
@@ -539,11 +570,5 @@ describe('Organizational View Effects', () => {
         );
       })
     );
-  });
-
-  describe('ngrxOnInitEffects', () => {
-    it('should return triggerLoad Action', () => {
-      expect(effects.ngrxOnInitEffects()).toEqual(triggerLoad());
-    });
   });
 });

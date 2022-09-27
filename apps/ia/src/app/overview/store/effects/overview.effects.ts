@@ -3,16 +3,13 @@ import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { catchError, filter, map, mergeMap, switchMap } from 'rxjs/operators';
 
-import {
-  Actions,
-  concatLatestFrom,
-  createEffect,
-  ofType,
-  OnInitEffects,
-} from '@ngrx/effects';
-import { Action, Store } from '@ngrx/store';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { routerNavigationAction } from '@ngrx/router-store';
+import { Store } from '@ngrx/store';
 
-import { filterSelected, triggerLoad } from '../../../core/store/actions';
+import { AppRoutePath } from '../../../app-route-path.enum';
+import { selectRouterState } from '../../../core/store';
+import { filterSelected } from '../../../core/store/actions';
 import { getCurrentFilters } from '../../../core/store/selectors';
 import { OrganizationalViewService } from '../../../organizational-view/organizational-view.service';
 import {
@@ -41,6 +38,7 @@ import {
   loadOpenApplications,
   loadOpenApplicationsFailure,
   loadOpenApplicationsSuccess,
+  loadOverviewData,
   loadOverviewEntryEmployees,
   loadOverviewEntryEmployeesFailure,
   loadOverviewEntryEmployeesSuccess,
@@ -54,10 +52,21 @@ import {
 
 /* eslint-disable ngrx/prefer-effect-callback-in-block-statement */
 @Injectable()
-export class OverviewEffects implements OnInitEffects {
+export class OverviewEffects {
+  readonly OVERVIEW_URL = `/${AppRoutePath.OverviewPath}`;
+
   filterChange$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(filterSelected, triggerLoad),
+      ofType(filterSelected, routerNavigationAction),
+      concatLatestFrom(() => this.store.select(selectRouterState)),
+      filter(([_action, router]) => router.state.url === this.OVERVIEW_URL),
+      map(() => loadOverviewData())
+    )
+  );
+
+  loadOverviewData$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadOverviewData),
       concatLatestFrom(() => this.store.select(getCurrentFilters)),
       map(([_action, request]) => request),
       filter(
@@ -237,8 +246,4 @@ export class OverviewEffects implements OnInitEffects {
     private readonly organizationalViewService: OrganizationalViewService,
     private readonly store: Store
   ) {}
-
-  ngrxOnInitEffects(): Action {
-    return triggerLoad();
-  }
 }

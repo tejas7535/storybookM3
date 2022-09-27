@@ -1,17 +1,20 @@
+import { EMPTY } from 'rxjs';
+
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { RouterReducerState } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/jest';
 
-import { filterSelected, triggerLoad } from '../../../core/store/actions';
+import { AppRoutePath } from '../../../app-route-path.enum';
+import { RouterStateUrl, selectRouterState } from '../../../core/store';
 import { getCurrentFilters } from '../../../core/store/selectors';
 import { OrganizationalViewService } from '../../../organizational-view/organizational-view.service';
 import {
   AttritionOverTime,
   EmployeesRequest,
   FilterDimension,
-  SelectedFilter,
   TimePeriod,
 } from '../../../shared/models';
 import {
@@ -35,6 +38,7 @@ import {
   loadOpenApplications,
   loadOpenApplicationsFailure,
   loadOpenApplicationsSuccess,
+  loadOverviewData,
   loadOverviewEntryEmployees,
   loadOverviewEntryEmployeesFailure,
   loadOverviewEntryEmployeesSuccess,
@@ -89,21 +93,50 @@ describe('Overview Effects', () => {
     store = spectator.inject(MockStore);
   });
 
-  describe('filterChange$', () => {
+  describe('filterChange', () => {
     test(
-      'filterSelected - should do nothing when organization is not set',
+      'should return loadOverviewData when url /overview',
       marbles((m) => {
-        const filter = new SelectedFilter('nice', {
-          id: 'best',
-          value: 'best',
-        });
-        action = filterSelected({ filter });
+        store.overrideSelector(selectRouterState, {
+          state: {
+            url: `/${AppRoutePath.OverviewPath}`,
+          },
+        } as RouterReducerState<RouterStateUrl>);
+        action = loadOverviewData();
+        actions$ = m.hot('-', { a: action });
+        const expected = m.cold('-');
+
+        m.expect(effects.filterChange$).toBeObservable(expected);
+      })
+    );
+
+    test(
+      'should not return loadOverviewData when url different than /overview',
+      marbles((m) => {
+        store.overrideSelector(selectRouterState, {
+          state: {
+            url: `/different-path`,
+          },
+        } as RouterReducerState<RouterStateUrl>);
+        actions$ = m.hot('-', { a: EMPTY });
+        const expected = m.cold('-');
+
+        m.expect(effects.filterChange$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('loadOverviewData$', () => {
+    test(
+      'loadOverviewData - should do nothing when organization is not set',
+      marbles((m) => {
+        action = loadOverviewData();
         store.overrideSelector(getCurrentFilters, {} as EmployeesRequest);
 
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('--');
 
-        m.expect(effects.filterChange$).toBeObservable(expected);
+        m.expect(effects.loadOverviewData$).toBeObservable(expected);
       })
     );
   });
@@ -549,11 +582,5 @@ describe('Overview Effects', () => {
         );
       })
     );
-  });
-
-  describe('ngrxOnInitEffects', () => {
-    it('should return triggerLoad Action', () => {
-      expect(effects.ngrxOnInitEffects()).toEqual(triggerLoad());
-    });
   });
 });
