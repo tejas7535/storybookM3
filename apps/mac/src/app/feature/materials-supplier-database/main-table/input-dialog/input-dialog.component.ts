@@ -695,7 +695,7 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
     const selectedItem: ElementRef = changes.find((item: ElementRef) =>
       item.nativeElement.name
         ? item.nativeElement.name === column
-        : item.nativeElement.outerHTML.includes(`name="${column}`)
+        : item.nativeElement.outerHTML.includes(`name="${column}"`)
     );
 
     if (selectedItem.nativeElement.name) {

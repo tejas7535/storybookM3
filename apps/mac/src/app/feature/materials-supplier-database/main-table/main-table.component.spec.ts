@@ -1582,7 +1582,7 @@ describe('MainTableComponent', () => {
   describe('CUSTOM_DATE_FORMATTER', () => {
     it('should return a localized date string', () => {
       const mockParams = {
-        value: new Date(1_663_632_000),
+        value: 1_663_632_000,
       } as ValueFormatterParams;
 
       const result = CUSTOM_DATE_FORMATTER(mockParams);
