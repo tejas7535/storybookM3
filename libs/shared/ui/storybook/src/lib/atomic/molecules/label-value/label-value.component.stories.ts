@@ -1,11 +1,7 @@
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
-import {
-  LabelValue,
-  LabelValueModule,
-  LabelValueComponent,
-} from '@schaeffler/label-value';
+import { LabelValue, LabelValueModule } from '@schaeffler/label-value';
 
 import READMEMd from '../../../../../../label-value/README.md';
 import { Badges } from '../../../../../.storybook/storybook-badges.constants';
@@ -13,6 +9,8 @@ import {
   NavigationAtomic,
   NavigationMain,
 } from '../../../../../.storybook/storybook-navigation.constants';
+import { Component } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 
 const mockLabelValuesSingle: LabelValue[] = [
   {
@@ -73,22 +71,58 @@ const mockLabelValuesMultiple: LabelValue[] = [
   },
 ];
 
+const mockLabelValuesHtml: LabelValue[] = [
+  {
+    label: 'Data Label',
+    value: 'This is the data value',
+  },
+  {
+    label: 'This is a HTML row',
+    custom: {
+      selector: 'htmlrow',
+      data: {
+        text: "Click me, I'm *****!",
+      },
+    },
+  },
+];
+
+@Component({
+  selector: 'tabs-component-example',
+  template: `
+    <schaeffler-label-value
+      [labelValues]="labelValues"
+      [labelMinWidth]="labelMinWidth"
+      [LabelMaxWidth]="LabelMaxWidth"
+    >
+      <ng-template #custom let-row="row" let-data="data">
+        <div *ngIf="row === 'htmlrow'">
+          <button mat-raised-button color="primary">{{ data.text }}</button>
+        </div>
+      </ng-template>
+    </schaeffler-label-value>
+  `,
+})
+class LabelValueExampleComponent {}
+
 export default {
   title: `${NavigationMain.Atomic}/${NavigationAtomic.Molecules}/Label Value`,
-  component: LabelValueComponent,
+  component: LabelValueExampleComponent,
   parameters: {
     notes: { markdown: READMEMd },
     badges: [Badges.NeedsRevision],
   },
   decorators: [
     moduleMetadata({
-      imports: [NoopAnimationsModule, LabelValueModule],
+      imports: [NoopAnimationsModule, LabelValueModule, MatButtonModule],
     }),
   ],
-} as Meta<LabelValueModule>;
+} as Meta<LabelValueExampleComponent>;
 
-const Template: Story<LabelValueComponent> = (args: LabelValueComponent) => ({
-  component: LabelValueComponent,
+const Template: Story<LabelValueExampleComponent> = (
+  args: LabelValueExampleComponent
+) => ({
+  component: LabelValueExampleComponent,
   props: args,
 });
 
@@ -112,4 +146,9 @@ LabelMaxWidth.args = {
 export const MultipleValues = Template.bind({});
 MultipleValues.args = {
   labelValues: mockLabelValuesMultiple,
+};
+
+export const HtmlValues = Template.bind({});
+HtmlValues.args = {
+  labelValues: mockLabelValuesHtml,
 };

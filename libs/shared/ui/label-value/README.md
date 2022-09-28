@@ -116,6 +116,30 @@ export class MyComponent {
       ],
     },
   ];
+
+  // or
+
+  // for a custom html and components in row
+  public labelValuesSingle: LabelValue[] = [
+    {
+      label: 'This one ist custom',
+      custom: {
+        selector: `htmlrow`, // Later used to identify row
+        data: {
+          any: `thing` // data of structure as needed
+        }
+      }
+    },
+    {
+      label: 'Even longer data label',
+      value: 'This is another and even longer data value string.',
+    },
+    {
+      label: 'Erroneous Data',
+      value: 'There is something wrong with this data',
+      valueAdditionalClass: 'text-error'
+    },
+  ];
 }
 ```
 
@@ -138,6 +162,18 @@ export class MyComponent {
 <!--  for multiple values per row  -->
 <schaeffler-label-value [labelValues]="labelValuesMultiple"></schaeffler-label-value>
 
+<!--  or  -->
+
+<!--  for a single value per row  -->
+<schaeffler-label-value [labelValues]="labelValuesSingle">
+  <ng-template #custom let-row="row" let-data="data">
+    custom.selector must be the same string as custom.selector in `labelValue`
+    <div *ngIf="row === 'custom'">
+      <!-- Custom HTML and Components -->
+      <!-- {{ data | json }} can be accessed -->
+    </div>
+  </ng-template>
+</schaeffler-label-value>
 ```
 
 ### API

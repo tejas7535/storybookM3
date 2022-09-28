@@ -25,4 +25,12 @@ export interface LabelValue {
    * Set an optional additional classes for the value area
    */
   valueAdditionalClass?: string;
+
+  /**
+   * Set an optional row where html can be shown
+   */
+  custom?: {
+    selector: string;
+    data?: any;
+  };
 }

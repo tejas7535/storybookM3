@@ -54,10 +54,21 @@
         </div>
       </ng-container>
       <ng-template #singleValue>
-        <div class="px-6 pt-3 pb-6">
+        <div *ngIf="labelValue.value" class="px-6 pt-3 pb-6">
           <span [innerHTML]="labelValue.value"></span>
         </div>
       </ng-template>
+      <div *ngIf="labelValue.custom" class="px-6 py-3">
+        <ng-container
+          *ngTemplateOutlet="
+            custom;
+            context: {
+              row: labelValue.custom.selector,
+              data: labelValue.custom.data
+            }
+          "
+        ></ng-container>
+      </div>
     </div>
   </ng-container>
 </div>
