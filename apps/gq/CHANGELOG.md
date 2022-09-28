@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.11.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.10.0...gq-v2.11.0) (2022-09-28)
+
+
+### 🎸 Features
+
+* **gq:** add language as http header on every network request (GQUOTE-1658) ([#4633](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4633)) ([e599320](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e5993207c382cf6455ebff09c5b0a053d2971f64))
+* **gq:** add more info icons and description texts (GQUOTE-1624) ([#4581](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4581)) ([ec6b129](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ec6b12939f499d50d543233eb6530a11feb734bc))
+* **gq:** add multi-select-filter to date columns (GQUOTE-1713) ([#4614](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4614)) ([d591b72](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d591b725b37473b385248a899d727a32ba86ff9c))
+* **gq:** add strategic material to workarea (GQUOTE-1593) ([#4567](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4567)) ([6fef060](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6fef06009bbdb6d69371a527b94fea2a089baa4d))
+* **gq:** add tooltip to truncated text (GQUOTE-1712) ([#4619](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4619)) ([c0bbb74](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c0bbb7404efb473939c007371c3be5b431c764ab))
+* **gq:** added hints to transaction view (GQUOTE-1540) ([#4577](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4577)) ([e8b2432](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e8b24326247c8005d4203d7164b334caac9ade2d))
+* **gq:** added length check to case name modal (GQUOTE-1542) ([#4573](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4573)) ([5b9fd5c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5b9fd5c7412b533b0df70203e529b4d1f4fdeafe))
+* **gq:** fixed styling of create manual case modal (GQUOTE-1604) ([#4564](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4564)) ([d205c50](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d205c508a1d615a78404948722701d481f5a0d44))
+* **gq:** make "Create Manual Case" Modal responsive (GQUOTE-1668) ([#4613](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4613)) ([c8408c4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c8408c4e13bfd7e46d7ae86adcac3360d47df01e))
+* **gq:** only enable strategic material for region china and world (GQUOTE-1667) ([#4611](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4611)) ([3053cf8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3053cf8e1c72d675ed34722909cc30b957098ea1))
+* **gq:** removed target price column (GQUOTE-1542) ([#4568](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4568)) ([de9305e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/de9305e45665cdda2dd77028f85ab3052e49c772))
+
+
+### 🐛 Bug Fixes
+
+* **gq:** disable enableRowGroup option (GQUOTE-1672) ([#4607](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4607)) ([5cdb1b5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5cdb1b5aecbb77d400afe9b29c69e04655391201))
+* **gq:** fix column width for custom cell renderer header ([#4566](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4566)) ([26e10c3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/26e10c39f1ae522dd2932a2110e65876db445f04))
+* **gq:** fix horizontal scrollbar (GQUOTE-1668) ([#4631](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4631)) ([e51312f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e51312f1834981729b48aec0ecc8b46de2bf60f3))
+* **gq:** fixed bug when calculating net value (GQUOTE-1673) ([#4601](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4601)) ([d0070c9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d0070c9c59f64de99c2ee7adb2c13ce57cb020f4))
+* **gq:** hide roles hint if user has every role (GQUOTE-1540) ([#4632](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4632)) ([ac1d1fb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ac1d1fb20639b01faf82f9b7fde6815e2398c01c))
+* **gq:** increase column-header width to also display icon on sorting ([#4571](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4571)) ([42f4838](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/42f48388fd604d268efaf027d92241deaa9041cd))
+* **gq:** set max width for confirm data list (GQUOTE-1675) ([#4612](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4612)) ([a5e9bde](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a5e9bded250a0b9626071a80d83bbfa1d454de66))
+* **gq:** updated forbidden page text (GQUOTE-1719) ([#4636](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4636)) ([272b061](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/272b061cfbda944f9c8fd76c58ca2cdc17da193f))
+
 ## [2.10.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.9.1...gq-v2.10.0) (2022-09-01)
 
 
