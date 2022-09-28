@@ -37,6 +37,7 @@
             *ngFor="let option of filteredOptions; trackBy: trackByFn"
             [value]="option"
             [innerHTML]="option.title"
+            [disabled]="option.disabled"
             class="!h-10 !text-caption"
           ></mat-option>
         </div>

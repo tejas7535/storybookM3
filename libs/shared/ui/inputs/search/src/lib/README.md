@@ -160,6 +160,7 @@ export class ExampleComponent implements OnInit {
     {
       id: 2,
       title: 'second option',
+      disabled: true, // options can be disabled
     }
   ];
 

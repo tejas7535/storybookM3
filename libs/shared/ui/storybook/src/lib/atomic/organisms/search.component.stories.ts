@@ -100,7 +100,7 @@ Primary.args = {
     },
     { id: 1, title: 'option1' },
     { id: 2, title: 'option2' },
-    { id: 3, title: 'option3' },
+    { id: 3, title: 'option3 (disabled)', disabled: true },
     { id: 4, title: 'option4' },
     { id: 5, title: 'option5' },
     { id: 6, title: 'option6' },

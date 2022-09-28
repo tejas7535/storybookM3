@@ -5,4 +5,5 @@ export interface StringOption {
   tooltip?: string;
   tooltipDelay?: number;
   data?: any;
+  disabled?: boolean;
 }
