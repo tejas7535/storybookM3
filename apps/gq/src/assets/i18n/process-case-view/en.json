@@ -4,6 +4,10 @@
     "sapHeader": "\n\nCreated in SAP by:\n{{sapCreationName}}\non {{sapCreationDate}}\n\nLast Updated in SAP on:\n{{sapUpdatedDate}}",
     "caseNamePlaceholder": "Enter a case name (max. 20 characters)"
   },
+  "tabs": {
+    "quotations": "Single Quotes",
+    "customer": "Customer View"
+  },
   "confirmDeletePositions": {
     "text": "Do you really want to delete these entries ({{variable}}) from this case?",
     "deleteButton": "delete",

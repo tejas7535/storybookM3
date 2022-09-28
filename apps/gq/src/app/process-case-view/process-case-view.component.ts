@@ -20,6 +20,7 @@ import { UpdateQuotationRequest } from '../shared/services/rest-services/quotati
 @Component({
   selector: 'gq-case-view',
   templateUrl: './process-case-view.component.html',
+  styleUrls: ['./process-case-view.component.scss'],
 })
 export class ProcessCaseViewComponent implements OnInit {
   public quotation$: Observable<Quotation>;

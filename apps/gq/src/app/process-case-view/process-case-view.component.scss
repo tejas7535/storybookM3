@@ -1,0 +1,14 @@
+:host {
+  @apply block;
+  @apply h-full;
+
+  ::ng-deep {
+    .mat-tab-group {
+      @apply h-full;
+
+      .mat-tab-body-wrapper {
+        @apply h-full;
+      }
+    }
+  }
+}

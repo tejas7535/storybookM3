@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
@@ -48,6 +49,7 @@ import { QuotationDetailsTableModule } from './quotation-details-table/quotation
     MatCardModule,
     ShareButtonModule,
     ExportExcelModalModule,
+    MatTabsModule,
   ],
   providers: [
     {
