@@ -8,10 +8,13 @@ import { translate } from '@ngneat/transloco';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
+import { environment } from '@ga/environments/environment';
+
 import { WARNINGSOPENED } from '../constants';
 import { itemValue } from '../helpers/grease-helpers';
 import {
   GreaseReport,
+  GreaseReportConcept1Subordinate,
   GreaseReportSubordinate,
   GreaseReportSubordinateDataItem,
   GreaseReportSubordinateHint,
@@ -19,6 +22,7 @@ import {
   GreaseResult,
   PreferredGreaseResult,
   SubordinateDataItemField,
+  SUITABILITY_LABEL,
 } from '../models';
 import { GreaseResultDataSourceService } from './grease-result-data-source.service';
 
@@ -29,6 +33,8 @@ export class GreaseReportService {
     private readonly applicationInsightsService: ApplicationInsightsService,
     private readonly greaseResultDataSourceService: GreaseResultDataSourceService
   ) {}
+
+  public isProduction = environment.production; // TODO: remove once Bearinx 2022.1 is released
 
   public async getGreaseReport(greaseReportUrl: string) {
     return lastValueFrom(this.http.get<GreaseReport>(greaseReportUrl));
@@ -75,9 +81,15 @@ export class GreaseReportService {
         GreaseReportSubordinateTitle.STRING_OUTP_OVERVIEW_OF_CALCULATION_DATA_FOR_GREASES
     );
 
+    // get concept1
+    const concept1 = resultSection?.subordinates?.find(
+      ({ titleID }: GreaseReportSubordinate) =>
+        titleID === GreaseReportSubordinateTitle.STRING_OUTP_CONCEPT1
+    )?.subordinates;
+
     // compose compact grease table
     if (resultSection) {
-      const formattedSubordinates: GreaseReportSubordinate[] = [
+      let formattedSubordinates: GreaseReportSubordinate[] = [
         ...(table2?.data?.items.map(
           (dataItems: GreaseReportSubordinateDataItem[], index: number) => {
             const mainTitle = `${itemValue(dataItems, undefined, 0)}`;
@@ -86,18 +98,28 @@ export class GreaseReportService {
 
             const greaseResult: GreaseResult = {
               mainTitle,
-              subTitle: `${itemValue(
-                dataItems,
-                SubordinateDataItemField.BASEOIL
-              )}, NLGI${itemValue(
-                dataItems,
-                SubordinateDataItemField.NLGI
-              )}, ${itemValue(dataItems, SubordinateDataItemField.THICKENER)}`,
+              ...(rho && {
+                subTitle: `${itemValue(
+                  dataItems,
+                  SubordinateDataItemField.BASEOIL
+                )}, NLGI${itemValue(
+                  dataItems,
+                  SubordinateDataItemField.NLGI
+                )}, ${itemValue(
+                  dataItems,
+                  SubordinateDataItemField.THICKENER
+                )}`,
+              }),
               isSufficient: this.greaseResultDataSourceService.isSufficient(
                 table1Items || []
               ),
               isPreferred: mainTitle === preferredGreaseResult?.text,
               dataSource: [
+                !this.isProduction &&
+                  this.greaseResultDataSourceService.automaticLubrication(
+                    concept1 as GreaseReportConcept1Subordinate[],
+                    index
+                  ),
                 this.greaseResultDataSourceService.initialGreaseQuantity(
                   table1Items || [],
                   rho
@@ -161,6 +183,21 @@ export class GreaseReportService {
           }
         ) as GreaseReportSubordinate[]),
       ];
+
+      // reorder for automatic lubrication
+      const suitabilityOrder = [
+        SUITABILITY_LABEL.SUITED,
+        SUITABILITY_LABEL.CONDITIONAL,
+        SUITABILITY_LABEL.UNKNOWN,
+        SUITABILITY_LABEL.NOT_SUITED,
+        SUITABILITY_LABEL.UNSUITED,
+      ];
+
+      formattedSubordinates = formattedSubordinates.sort(
+        ({ greaseResult: first }, { greaseResult: next }) =>
+          suitabilityOrder.indexOf(first.dataSource[0].custom.data.label) -
+          suitabilityOrder.indexOf(next.dataSource[0].custom.data.label)
+      );
 
       // move preferred grease to the top
       const preferredIndex = formattedSubordinates.findIndex(

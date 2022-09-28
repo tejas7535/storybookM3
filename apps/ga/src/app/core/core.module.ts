@@ -16,7 +16,7 @@ import {
 } from '@schaeffler/application-insights';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { environment } from '@ga/../environments/environment';
+import { environment } from '@ga/environments/environment';
 import {
   AVAILABLE_LANGUAGES,
   FALLBACK_LANGUAGE,

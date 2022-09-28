@@ -18,13 +18,19 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { LabelValue, LabelValueModule } from '@schaeffler/label-value';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { environment } from '@ga/environments/environment';
+
 import { MEDIASGREASE } from '../../constants';
 import { adaptLabelValuesFromGreaseResultData } from '../../helpers/grease-helpers';
 import {
+  CONCEPT1,
   GreaseResult,
   GreaseResultDataItem,
   GreaseResultDataSourceItem,
+  SUITABILITY_LABEL,
 } from '../../models';
+import { AutomaticLubricationPipe } from '../../pipes';
+import { GreaseReportConcept1Component } from '../grease-report-concept1';
 
 export enum LabelWidth {
   Default = 200,
@@ -44,6 +50,8 @@ export const shopSearchPathBase = 'search/searchpage?text=';
     MatIconModule,
     MatTooltipModule,
     LabelValueModule,
+    GreaseReportConcept1Component,
+    AutomaticLubricationPipe,
   ],
   templateUrl: './grease-report-result.component.html',
   styleUrls: ['./grease-report-result.component.scss'],
@@ -53,10 +61,14 @@ export class GreaseReportResultComponent implements OnInit, OnDestroy {
   @Input() public greaseResult!: GreaseResult;
   @Input() public valuesLimit = 3;
   @Input() public indicateGreasePreference = false;
+  @Input() public automaticLubrication = false;
+
+  public isProduction = environment.production; // TODO: remove once Bearinx 2022.1 is released
 
   public labelValues: LabelValue[] = [];
   public labelWidth: number = LabelWidth.Default;
   public small = false;
+  public concep1 = CONCEPT1;
 
   public showAllValues = false;
   private readonly htmlElement!: HTMLElement;
@@ -104,6 +116,24 @@ export class GreaseReportResultComponent implements OnInit, OnDestroy {
     this.applicationInsightsService.logEvent(MEDIASGREASE, {
       grease: this.greaseResult?.mainTitle,
     });
+  }
+
+  public getLabel(): SUITABILITY_LABEL {
+    return this.greaseResult.dataSource[0].custom.data.label;
+  }
+
+  public isSuited(): boolean {
+    return (
+      this.greaseResult.dataSource[0].custom.data.label ==
+      SUITABILITY_LABEL.SUITED
+    );
+  }
+
+  public isUnSuited(): boolean {
+    return (
+      this.greaseResult.dataSource[0].custom.data.label ==
+      SUITABILITY_LABEL.UNSUITED
+    );
   }
 
   private assignGreaseResultData(): void {

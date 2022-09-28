@@ -10,7 +10,10 @@ import { environment } from '@ga/../environments/environment';
 import { AppRoutePath } from '@ga/app-route-path.enum';
 import { getSelectedBearing } from '@ga/core/store';
 import { getCalculation } from '@ga/core/store/actions/calculation-result/calculation-result.actions';
-import { getPreferredGreaseSelection } from '@ga/core/store/selectors/calculation-parameters/calculation-parameters.selector';
+import {
+  getAutomaticLubrication,
+  getPreferredGreaseSelection,
+} from '@ga/core/store/selectors/calculation-parameters/calculation-parameters.selector';
 import { getReportUrls } from '@ga/core/store/selectors/calculation-result/calculation-result.selector';
 import { GreaseCalculationPath } from '@ga/features/grease-calculation/grease-calculation-path.enum';
 import { ReportUrls } from '@ga/shared/models';
@@ -28,6 +31,7 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
   public preferredGreaseSelection$ = this.store.select(
     getPreferredGreaseSelection
   );
+  public automaticLubrication$ = this.store.select(getAutomaticLubrication);
 
   private currentLanguage!: string;
   private reportUrlsSubscription!: Subscription;

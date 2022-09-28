@@ -21,6 +21,7 @@ import {
   GreaseReportSubordinate,
   GreaseReportSubordinateTitle,
   PreferredGreaseResult,
+  SUITABILITY_LABEL,
 } from '../../models';
 import { UndefinedValuePipe } from '../../pipes';
 import {
@@ -53,6 +54,7 @@ import { GreaseReportResultComponent } from '../grease-report-result';
 export class GreaseReportComponent implements OnInit, OnDestroy {
   @Input() public greaseReportUrl = '';
   @Input() public preferredGreaseResult?: PreferredGreaseResult;
+  @Input() public automaticLubrication = false;
 
   public resultsLimit = 3;
   public limitResults = true;
@@ -133,6 +135,19 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
 
   public typedSubordinate = (subordinate: GreaseReportSubordinate) =>
     subordinate;
+
+  public concept1Impossible(): boolean {
+    return (
+      this.automaticLubrication &&
+      this.subordinates
+        .find(({ titleID }) => this.isGreaseResultSection(titleID))
+        ?.subordinates.filter(
+          ({ greaseResult }) =>
+            greaseResult.dataSource[0].custom.data.label ===
+            SUITABILITY_LABEL.SUITED
+        ).length === 0
+    );
+  }
 
   private assignReportData(): void {
     this.subordinates = this.greaseReportService.formatGreaseReport(

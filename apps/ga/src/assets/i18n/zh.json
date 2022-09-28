@@ -184,7 +184,7 @@
         "tooltip": "在计算报告中，所选油脂将被优先考虑。\n如果所选的油脂不合适，将显示替代方案。"
       },
       "concept1": {
-        "label": "计算自动润滑 (CONCEPT1)",
+        "label": "计算气体释放设置 (CONCEPT1)",
         "tooltip": "计算自动润滑a如果自动润滑被激活，如果可能的话，CONCEPT1的自动润滑被额外计算和显示。停用后只显示手动值"
       }
     },
@@ -263,6 +263,19 @@
     "resultsWithPreferred": "按再润滑间隔时间排序的选定和替代润滑脂的结果",
     "guideValues": "* 参考值",
     "errorsWarningsNotes": "错误、警告和说明",
+    "concept1": "CONCEPT1 气体释放设置",
+    "concept1Impossible": "用CONCEPT1自动润滑是不可能的。在某些情况下，再润滑量过高或过低。如果改变操作参数，可能会使用",
+    "concept1settings": {
+      "duration": "{{ months }} 几个月 ({{size}} ml)",
+      "details": "详细内容",
+      "why": "为什么？",
+      "adjustConditions": "这种润滑脂适用于CONCEPT1和一般的应用，但操作条件导致润滑计算对CONCEPT1来说过高或过低。",
+      "SUITED": "适合",
+      "NOT_SUITED": "不适合",
+      "UNSUITED": "不合适的",
+      "CONDITIONAL": "有条件的",
+      "UNKNOWN": "适用性未知"
+    },
     "initialGreaseQuantity": "初始加脂量 *",
     "manualRelubricationQuantityInterval": "手动润滑加脂量 * / 间隔 *",
     "manualRelubricationQuantityIntervalTooltip": "出于操作安全的考虑，不建议采用 > 1 年的润滑周期。\n\n建议在润滑周期内，利用多个润滑过程来分配润滑加脂量，特别是对于手动加注大量润滑脂的情形。",

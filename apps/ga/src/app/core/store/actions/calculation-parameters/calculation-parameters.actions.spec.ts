@@ -1,6 +1,5 @@
 import { CalculationParametersState } from '@ga/core/store/models';
-import { PROPERTIES_MOCK } from '@ga/testing/mocks';
-import { AUTOMATIC_LUBRICATON_MOCK } from '@ga/testing/mocks/models/automatic-lubrication.mock';
+import { AUTOMATIC_LUBRICATON_MOCK, PROPERTIES_MOCK } from '@ga/testing/mocks';
 
 import {
   getProperties,

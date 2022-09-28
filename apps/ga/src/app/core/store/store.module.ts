@@ -6,7 +6,7 @@ import { RouterState, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule as NgrxStoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { environment } from '@ga/../environments/environment';
+import { environment } from '@ga/environments/environment';
 
 import { BearingSelectionEffects } from './effects/bearing-selection/bearing-selection.effects';
 import { SettingsEffects } from './effects/settings/settings.effects';

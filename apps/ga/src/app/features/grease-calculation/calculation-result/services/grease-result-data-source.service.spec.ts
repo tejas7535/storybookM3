@@ -5,11 +5,17 @@ import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { greaseResultDataMock } from '@ga/testing/mocks';
+import {
+  greaseResultConcept1Mock,
+  greaseResultDataMock,
+} from '@ga/testing/mocks';
 import * as subordinateDataMock from '@ga/testing/mocks/models/grease-report-subordinate-data.mock';
 
 import { CalculationParametersService } from '../../calculation-parameters/services';
-import { SubordinateDataItemField } from '../models';
+import {
+  GreaseReportConcept1Subordinate,
+  SubordinateDataItemField,
+} from '../models';
 import { UndefinedValuePipe } from '../pipes/undefined-value.pipe';
 import { GreaseResultDataSourceService } from './grease-result-data-source.service';
 
@@ -74,6 +80,17 @@ describe('GreaseResultDataSourceService', () => {
       ]);
 
       expect(sufficient).toBe(true);
+    });
+  });
+
+  describe('automaticLubrication', () => {
+    it('should return the data source item', () => {
+      const item = service.automaticLubrication(
+        subordinateDataMock.greaseReportSubordinateConcept1Mock as GreaseReportConcept1Subordinate[],
+        0
+      );
+
+      expect(item).toStrictEqual(greaseResultConcept1Mock);
     });
   });
 

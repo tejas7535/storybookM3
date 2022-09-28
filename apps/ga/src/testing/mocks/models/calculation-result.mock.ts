@@ -1,4 +1,4 @@
-import { environment } from '@ga/../environments/environment';
+import { environment } from '@ga/environments/environment';
 import { ReportUrls, Result } from '@ga/shared/models';
 
 export const MODEL_MOCK_ID = `7721e0d0-0dc6-4198-9ba4-cbeaef76cc2f`;

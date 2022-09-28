@@ -5,7 +5,7 @@ import { map, Observable } from 'rxjs';
 
 import { withCache } from '@ngneat/cashew';
 
-import { environment } from '@ga/../environments/environment';
+import { environment } from '@ga/environments/environment';
 import {
   AdvancedBearingSelectionFilters,
   CalculationParameters,

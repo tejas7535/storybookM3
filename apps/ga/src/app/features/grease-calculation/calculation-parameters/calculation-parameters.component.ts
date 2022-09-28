@@ -12,7 +12,6 @@ import { debounceTime, filter, Subject, take, takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { isEqual } from 'lodash';
 
-import { environment } from '@ga/../environments/environment';
 import { AppRoutePath } from '@ga/app-route-path.enum';
 import { getCalculationParametersState, SettingsFacade } from '@ga/core/store';
 import {
@@ -39,6 +38,7 @@ import {
   getSelectedMovementType,
   radialLoadPossible,
 } from '@ga/core/store/selectors/calculation-parameters/calculation-parameters.selector';
+import { environment } from '@ga/environments/environment';
 import { GreaseCalculationPath } from '@ga/features/grease-calculation/grease-calculation-path.enum';
 import { EnvironmentImpact, Load, Movement } from '@ga/shared/models';
 

@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 
-import { environment } from '@ga/../environments/environment';
+import { environment } from '@ga/environments/environment';
 import { ReportUrls } from '@ga/shared/models';
 
 import { getCalculationResultState } from '../../reducers';

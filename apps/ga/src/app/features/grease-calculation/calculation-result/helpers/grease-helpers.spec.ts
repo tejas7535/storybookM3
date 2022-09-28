@@ -5,7 +5,12 @@ import { LabelValue } from '@schaeffler/label-value';
 import * as subordinateDataMock from '@ga/testing/mocks/models/grease-report-subordinate-data.mock';
 import * as resultMock from '@ga/testing/mocks/models/grease-result.mock';
 
-import { SubordinateDataItemField } from '../models';
+import {
+  GreaseReportSubordinateDataItem,
+  SubordinateDataItemField,
+  SUITABILITY,
+  SUITABILITY_LABEL,
+} from '../models';
 import * as helpers from './grease-helpers';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -373,6 +378,82 @@ describe('Grease helpers', () => {
 
       expect(valueItemsUndefined).toBeUndefined();
       expect(valueFieldUnknown).toBeUndefined();
+    });
+  });
+
+  describe('getConcept1Setting', () => {
+    it('should return a number', () => {
+      const mockItems: GreaseReportSubordinateDataItem[] =
+        subordinateDataMock.GreaseReportConcept1ItemsMock;
+      const value = helpers.getConcept1Setting(
+        mockItems,
+        SubordinateDataItemField.C1_125
+      );
+
+      expect(value).toBe(subordinateDataMock.GreaseReportConcept1125ValueMock);
+    });
+
+    it('should return undefined, if there is eg. "- "', () => {
+      const mockValue = '- ';
+      const mockItems: GreaseReportSubordinateDataItem[] = [
+        { field: SubordinateDataItemField.C1_125, value: mockValue },
+      ];
+      const value = helpers.getConcept1Setting(
+        mockItems,
+        SubordinateDataItemField.C1_125
+      );
+
+      expect(value).toBe(undefined);
+    });
+  });
+
+  describe('getLabel', () => {
+    it('should return suited label if the suitability is yes and there is a value', () => {
+      expect(helpers.getLabel(SUITABILITY.YES, true)).toBe(
+        SUITABILITY_LABEL.SUITED
+      );
+    });
+
+    it('should return not suited label if the suitability is yes and there is no value', () => {
+      expect(helpers.getLabel(SUITABILITY.YES, undefined)).toBe(
+        SUITABILITY_LABEL.NOT_SUITED
+      );
+    });
+
+    it('should return unsuited label if the suitability is no and there is no value', () => {
+      expect(helpers.getLabel(SUITABILITY.NO, undefined)).toBe(
+        SUITABILITY_LABEL.UNSUITED
+      );
+    });
+
+    it('should return not suited label if the suitability is no and there is a value', () => {
+      expect(helpers.getLabel(SUITABILITY.NO, true)).toBe(
+        SUITABILITY_LABEL.NOT_SUITED
+      );
+    });
+
+    it('should return conditional label if the suitability is condition and there is a value', () => {
+      expect(helpers.getLabel(SUITABILITY.CONDITION, true)).toBe(
+        SUITABILITY_LABEL.CONDITIONAL
+      );
+    });
+
+    it('should return not suited label if the suitability is condition and there is no value', () => {
+      expect(helpers.getLabel(SUITABILITY.CONDITION, false)).toBe(
+        SUITABILITY_LABEL.NOT_SUITED
+      );
+    });
+
+    it('should return unknown label if the suitability is unknown and there is a value', () => {
+      expect(helpers.getLabel(SUITABILITY.UNKNOWN, true)).toBe(
+        SUITABILITY_LABEL.UNKNOWN
+      );
+    });
+
+    it('should return not suited label if the suitability is unknown an there is no value', () => {
+      expect(helpers.getLabel(SUITABILITY.UNKNOWN, false)).toBe(
+        SUITABILITY_LABEL.NOT_SUITED
+      );
     });
   });
 });

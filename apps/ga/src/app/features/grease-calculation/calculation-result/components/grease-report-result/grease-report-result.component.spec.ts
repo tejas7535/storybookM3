@@ -5,7 +5,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { OneTrustModule } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
 import resize_observer_polyfill from 'resize-observer-polyfill';
 
 import { COOKIE_GROUPS } from '@schaeffler/application-insights';
@@ -14,6 +13,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { greaseResultMock } from '@ga/testing/mocks';
 
 import { MEDIASGREASE } from '../../constants';
+import { CONCEPT1, SUITABILITY_LABEL } from '../../models';
 import { GreaseReportResultComponent } from './grease-report-result.component';
 
 window.ResizeObserver = resize_observer_polyfill;
@@ -38,7 +38,6 @@ describe('GreaseReportResultComponent', () => {
         cookiesGroups: COOKIE_GROUPS,
         domainScript: 'mockOneTrustId',
       }),
-      PushModule,
     ],
   });
 
@@ -47,7 +46,19 @@ describe('GreaseReportResultComponent', () => {
     component = spectator.component;
     component.greaseResult = {
       ...greaseResultMock,
-      dataSource: [...greaseResultMock.dataSource, undefined],
+      dataSource: [
+        {
+          title: CONCEPT1,
+          custom: {
+            selector: CONCEPT1,
+            data: {
+              label: SUITABILITY_LABEL.SUITED,
+            },
+          },
+        },
+        ...greaseResultMock.dataSource,
+        undefined,
+      ],
     };
   });
 
@@ -71,10 +82,44 @@ describe('GreaseReportResultComponent', () => {
     });
   });
 
+  describe('getLabel', () => {
+    it('should return a legit suitabilty label', () => {
+      expect(component.getLabel()).toBe(SUITABILITY_LABEL.SUITED);
+    });
+  });
+
+  describe('isSuited', () => {
+    it('should return true when the label is "SUITED"', () => {
+      component.greaseResult.dataSource[0].custom.data.label =
+        SUITABILITY_LABEL.SUITED;
+      expect(component.isSuited()).toBe(true);
+    });
+
+    it('should return false when the label is not "SUITED"', () => {
+      component.greaseResult.dataSource[0].custom.data.label =
+        SUITABILITY_LABEL.CONDITIONAL;
+      expect(component.isSuited()).toBe(false);
+    });
+  });
+
+  describe('isUnSuited', () => {
+    it('should return true when the label is "UNSUITED"', () => {
+      component.greaseResult.dataSource[0].custom.data.label =
+        SUITABILITY_LABEL.UNSUITED;
+      expect(component.isUnSuited()).toBe(true);
+    });
+
+    it('should return false when the label is not "UNSUITED"', () => {
+      component.greaseResult.dataSource[0].custom.data.label =
+        SUITABILITY_LABEL.CONDITIONAL;
+      expect(component.isUnSuited()).toBe(false);
+    });
+  });
+
   describe('toggleShowValues', () => {
     it('should switch data amount', () => {
       component.toggleShowValues();
-      expect(component.labelValues).toHaveLength(18);
+      expect(component.labelValues).toHaveLength(19);
 
       component.toggleShowValues();
       expect(component.labelValues).toHaveLength(3);

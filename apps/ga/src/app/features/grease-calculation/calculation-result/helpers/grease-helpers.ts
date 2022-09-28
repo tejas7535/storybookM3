@@ -8,6 +8,8 @@ import {
   GreaseResultData,
   GreaseSuitabilityLevels,
   SubordinateDataItemField,
+  SUITABILITY,
+  SUITABILITY_LABEL,
 } from '../models';
 
 /**
@@ -28,6 +30,7 @@ export const adaptLabelValuesFromGreaseResultData = (
           ? translate(`calculationResult.${greaseResultData.tooltip}`)
           : undefined,
         value: greaseResultData?.values,
+        ...(greaseResultData?.custom && { custom: greaseResultData.custom }),
       }))
     : [];
 
@@ -148,4 +151,33 @@ export const automaticRelubricationPerYear = (
   const quantity = automaticRelubricationQuantityPerDay(dataItems);
 
   return quantity ? quantity * 365 : undefined;
+};
+
+export const getConcept1Setting = (
+  item: GreaseReportSubordinateDataItem[],
+  c1size: SubordinateDataItemField
+) => {
+  const result = item.find(({ field }) => field === c1size)?.value;
+
+  return `${result}`.trim() !== '-' ? +result : undefined;
+};
+
+export const getLabel = (
+  suitability: SUITABILITY,
+  anySetting: boolean
+): SUITABILITY_LABEL => {
+  let label: SUITABILITY_LABEL;
+  if (suitability === SUITABILITY.NO && !anySetting) {
+    label = SUITABILITY_LABEL.UNSUITED;
+  } else if (!anySetting || (suitability === SUITABILITY.NO && anySetting)) {
+    label = SUITABILITY_LABEL.NOT_SUITED;
+  } else if (suitability === SUITABILITY.YES && anySetting) {
+    label = SUITABILITY_LABEL.SUITED;
+  } else if (suitability === SUITABILITY.CONDITION && anySetting) {
+    label = SUITABILITY_LABEL.CONDITIONAL;
+  } else if (suitability === SUITABILITY.UNKNOWN && anySetting) {
+    label = SUITABILITY_LABEL.UNKNOWN;
+  }
+
+  return label;
 };

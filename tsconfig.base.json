@@ -29,6 +29,7 @@
       "@cdba/environments/*": ["apps/cdba/src/environments/*"],
       "@cdba/testing/*": ["apps/cdba/src/testing/*"],
       "@ga/*": ["apps/ga/src/app/*"],
+      "@ga/environments/*": ["apps/ga/src/environments/*"],
       "@ga/testing/*": ["apps/ga/src/testing/*"],
       "@mac/*": ["apps/mac/src/app/*"],
       "@mac/environments/*": ["apps/mac/src/environments/*"],

@@ -18,11 +18,16 @@ import { COOKIE_GROUPS } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CalculationParametersService } from '@ga/features/grease-calculation/calculation-parameters/services';
-import { GREASE_RESULT_SUBORDINATES_MOCK } from '@ga/testing/mocks';
+import {
+  GREASE_RESULT_SUBORDINATES_MOCK,
+  greaseResultMock,
+} from '@ga/testing/mocks';
 
 import {
+  CONCEPT1,
   GreaseReportSubordinate,
   GreaseReportSubordinateTitle,
+  SUITABILITY_LABEL,
 } from '../../models';
 import { GreaseReportService } from '../../services/grease-report.service';
 import { GreaseReportInputComponent } from '../grease-report-input/grease-report-input.component';
@@ -164,6 +169,45 @@ describe('GreaseReportComponent', () => {
       component.getResultAmount();
 
       expect(getResultAmountSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('concept1Impossible', () => {
+    it('should return if all greases are unsuited', () => {
+      component.automaticLubrication = true;
+      component.subordinates = GREASE_RESULT_SUBORDINATES_MOCK.map(
+        (subordinate) =>
+          subordinate.titleID ===
+          GreaseReportSubordinateTitle.STRING_OUTP_RESULTS
+            ? {
+                ...subordinate,
+                subordinates: [
+                  {
+                    greaseResult: {
+                      ...greaseResultMock,
+                      dataSource: [
+                        {
+                          title: CONCEPT1,
+                          custom: {
+                            selector: CONCEPT1,
+                            data: {
+                              label: SUITABILITY_LABEL.UNSUITED,
+                            },
+                          },
+                        },
+                        ...greaseResultMock.dataSource,
+                      ],
+                    },
+                    identifier: 'greaseResult',
+                  },
+                ],
+              }
+            : subordinate
+      );
+
+      component.getResultAmount();
+
+      expect(component.concept1Impossible()).toBe(true);
     });
   });
 });

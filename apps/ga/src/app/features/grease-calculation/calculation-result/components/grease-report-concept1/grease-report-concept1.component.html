@@ -1,0 +1,58 @@
+<ng-container *ngIf="settings">
+  <div
+    *transloco="let t; read: 'calculationResult.concept1settings'"
+    class="flex w-full flex-col items-center"
+  >
+    <!-- TODO: add magnify icon in follow up-->
+
+    <div
+      [ngClass]="{ 'opacity-25': !getDurationMonths() }"
+      class="h-[162px] w-[162px] origin-top-left scale-[45%] transform-gpu"
+    >
+      <schaeffler-rotary-control
+        [controlValue]="getDurationMonths()"
+        [controlItems]="availableMonths"
+        [offsetAngle]="45"
+      ></schaeffler-rotary-control>
+    </div>
+    <p
+      *ngIf="getDurationMonths()"
+      class="flex items-center gap-1 pt-2 text-body-2 text-low-emphasis"
+    >
+      {{
+        t('duration', {
+          months: getDurationMonths(),
+          size: getDurationSize()
+        })
+      }}
+      <mat-icon
+        class="!h-[18px] !w-[18px] cursor-help !text-[18px]"
+        #tooltipDetail="matTooltip"
+        (click)="tooltipDetail.toggle()"
+        [matTooltip]="settings.hint"
+        >info_outline</mat-icon
+      >
+    </p>
+    <!-- <button
+      *ngIf="getDurationMonths(); else whyButton"
+      mat-button
+      color="primary"
+      disabled
+    >
+      {{ t('details') }}
+    </button> -->
+    <!-- <ng-template #whyButton> -->
+    <!-- TODO remove ngIf in button -->
+    <button
+      *ngIf="!getDurationMonths()"
+      mat-button
+      color="primary"
+      #tooltipWhy="matTooltip"
+      (click)="tooltipWhy.toggle()"
+      [matTooltip]="settings.hint"
+    >
+      {{ t('why') }}
+    </button>
+    <!-- </ng-template> -->
+  </div>
+</ng-container>

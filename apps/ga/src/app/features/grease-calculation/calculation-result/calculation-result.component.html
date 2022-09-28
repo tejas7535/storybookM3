@@ -33,6 +33,7 @@
         *ngIf="showCompactView"
         [greaseReportUrl]="reportUrls.jsonReportUrl"
         [preferredGreaseResult]="preferredGreaseSelection$ | ngrxPush"
+        [automaticLubrication]="automaticLubrication$ | ngrxPush"
       ></ga-grease-report>
 
       <schaeffler-html-report

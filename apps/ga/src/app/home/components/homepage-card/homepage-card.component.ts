@@ -5,7 +5,7 @@ import { translate } from '@ngneat/transloco';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
-import { environment } from '@ga/../environments/environment';
+import { environment } from '@ga/environments/environment';
 import { HomepageCard } from '@ga/home/models';
 import { TRACKING_NAME_HOMECARD } from '@ga/shared/constants';
 

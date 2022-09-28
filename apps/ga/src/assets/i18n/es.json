@@ -174,7 +174,7 @@
         "tooltip": "La grasa seleccionada tendrá prioridad en el informe de cálculo.\nSi la grasa seleccionada no es adecuada, se mostrarán alternativas."
       },
       "concept1": {
-        "label": "Calcular la lubricación automática (CONCEPT1)",
+        "label": "Calcular el ajuste de liberación de gas (CONCEPT1)",
         "tooltip": "Si la lubricación automática está activada, se calcula y muestra adicionalmente la lubricación automática con CONCEPT1, si es posible. Desactivar muestra sólo los valores manuales"
       }
     },
@@ -253,6 +253,19 @@
     "resultsWithPreferred": "Resultados de las grasas seleccionadas y alternativas clasificadas por intervalo de reengrase",
     "guideValues": "* Valores orientativos",
     "errorsWarningsNotes": "Errores, advertencias y notas",
+    "concept1": "CONCEPT1  ajuste de liberación de gas",
+    "concept1Impossible": "La lubricación automática con CONCEPT1 no es posible. En determinadas circunstancias, la cantidad de lubricación es demasiado alta o demasiado baja. Si se modifican los parámetros de funcionamiento, puede ser posible el uso",
+    "concept1settings": {
+      "duration": "{{ months }} meses ({{size}} ml)",
+      "details": "Detalles",
+      "why": "¿Por qué?",
+      "adjustConditions": "Esta grasa es adecuada para el CONCEPT1 y la aplicación en general, pero las condiciones de funcionamiento conducen a un cálculo de lubricación demasiado alto o bajo para el CONCEPT1",
+      "SUITED": "adecuado",
+      "NOT_SUITED": "no apto",
+      "UNSUITED": "inadecuado",
+      "CONDITIONAL": "condicional",
+      "UNKNOWN": "idoneidad desconocida"
+    },
     "initialGreaseQuantity": "Cantidad inicial de grasa *",
     "manualRelubricationQuantityInterval": "Cantidad*/Intervalo* de relubricación manual",
     "manualRelubricationQuantityIntervalTooltip": "Por motivos de seguridad operativa, no se recomiendan los periodos de relubricación superiores a 1 año.\n\nSe recomienda distribuir la cantidad de relubricación en varios procesos a lo largo del periodo de relubricación, especialmente si se trata de grandes cantidades de relubricación manual.",

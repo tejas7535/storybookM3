@@ -174,7 +174,7 @@
         "tooltip": "Das ausgewählte Fett wird im Berechnungsbericht vorrangig berücksichtigt.\nWenn das ausgewählte Fett nicht geeignet ist, werden Alternativen angezeigt."
       },
       "concept1": {
-        "label": "Automatische Schmierung berechnen (CONCEPT1)",
+        "label": "Kartuscheneinstellung berechnen (CONCEPT1)",
         "tooltip": "Bei aktivierter automatischer Schmierung wird zusätzlich die automatische Schmierung mit CONCEPT1 berechnet und dargestellt, wenn möglich. Deaktivieren zeigt nur manuelle Werte"
       }
     },
@@ -253,6 +253,19 @@
     "resultsWithPreferred": "Ergebnisse für ausgewählte und alternative Fette sortiert nach Nachschmierintervall",
     "guideValues": "* Zahlen sind Richtwerte",
     "errorsWarningsNotes": "Fehler, Warnungen & Hinweise",
+    "concept1": "CONCEPT1 Kartuscheneinstellung",
+    "concept1Impossible": "Automatische Schmierung mit CONCEPT1 ist nicht möglich. Unter Umständen ist die Schmiermenge zu hoch oder zu niedrig. Bei Veränderung der Betriebsparameter kann eine Nutzung möglich sein",
+    "concept1settings": {
+      "duration": "{{ months }} Monate ({{size}} ml)",
+      "details": "Details",
+      "why": "Warum?",
+      "adjustConditions": "Dieses Fett ist grundsätzlich für eine Verwendung mit CONCEPT1 und die Anwendung geeignet aber die Betriebsparameter führen zu einer Schmierberechnung die entweder zu hoch oder zu gering für CONCEPT1 aus",
+      "SUITED": "geeignet",
+      "NOT_SUITED": "nicht geeignet",
+      "UNSUITED": "ungeeignet",
+      "CONDITIONAL": "bedingt",
+      "UNKNOWN": "Eignung unbekannt"
+    },
     "initialGreaseQuantity": "Erstbefettungsmenge *",
     "manualRelubricationQuantityInterval": "Manuelle Nachschmiermenge * / Interval *",
     "manualRelubricationQuantityIntervalTooltip": "Aus Gründen der Betriebssicherheit sind Nachschmierfristen > 1 Jahr nicht zu empfehlen.\n\nEs empfiehlt sich - gerade bei großen Nachschmiermengen - die errechnete Nachschmiermenge verteilt auf mehrere Nachschmiervorgänge über der Nachschmierfrist zuzuführen.",

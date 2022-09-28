@@ -7,7 +7,6 @@ import {
   MetaReducer,
 } from '@ngrx/store';
 
-import { environment } from '@ga/../environments/environment';
 import {
   BearingSelectionState,
   CalculationParametersState,
@@ -15,6 +14,7 @@ import {
   RouterStateUrl,
   SettingsState,
 } from '@ga/core/store/models';
+import { environment } from '@ga/environments/environment';
 
 import { bearingSelectionReducer } from './bearing-selection/bearing-selection.reducer';
 import { calculationParametersReducer } from './calculation-parameters/calculation-parameters.reducer';

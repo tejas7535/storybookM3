@@ -5,7 +5,7 @@ import {
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
-import { environment } from '@ga/../environments/environment';
+import { environment } from '@ga/environments/environment';
 import {
   ADVANCED_BEARING_SELECTION_FILTERS_MOCK,
   BEARING_SEARCH_RESULT_MOCK,

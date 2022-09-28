@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { environment } from '@ga/../environments/environment';
+import { environment } from '@ga/environments/environment';
 import {
   AVAILABLE_LOCALES,
   DEFAULT_LOCALE,

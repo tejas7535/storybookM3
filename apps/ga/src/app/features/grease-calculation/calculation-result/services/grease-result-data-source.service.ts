@@ -7,9 +7,14 @@ import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { CalculationParametersService } from '../../calculation-parameters/services';
 import * as helpers from '../helpers/grease-helpers';
 import {
+  CONCEPT1,
+  GreaseConcep1Suitablity,
+  GreaseReportConcept1Subordinate,
   GreaseReportSubordinateDataItem,
+  GreaseReportSubordinateTitle,
   GreaseResultDataSourceItem,
   SubordinateDataItemField,
+  SUITABILITY,
 } from '../models';
 import { UndefinedValuePipe } from '../pipes/undefined-value.pipe';
 
@@ -32,6 +37,59 @@ export class GreaseResultDataSourceService {
     );
 
     return !!initialGreaseQuantityValue;
+  }
+
+  public automaticLubrication(
+    subordinates: GreaseReportConcept1Subordinate[],
+    index: number
+  ): GreaseResultDataSourceItem {
+    const item = subordinates?.find(
+      ({ titleID }) =>
+        titleID === GreaseReportSubordinateTitle.STRING_OUTP_CONCEPT1
+    )?.data.items[index];
+
+    const suitability = subordinates?.find(
+      ({ title }) =>
+        title ===
+        `${
+          item.find(({ field }) => field === SubordinateDataItemField.C1)?.value
+        }:`
+    )?.titleID;
+
+    const autohint = subordinates?.find(
+      ({ titleID }) => titleID === suitability
+    )?.subordinates[0].text[0];
+
+    const c1_60 =
+      suitability !== SUITABILITY.NO &&
+      helpers.getConcept1Setting(item, SubordinateDataItemField.C1_60);
+    const c1_125 =
+      suitability !== SUITABILITY.NO &&
+      helpers.getConcept1Setting(item, SubordinateDataItemField.C1_125);
+
+    const anySetting = !!(c1_60 || c1_125);
+
+    const hint =
+      suitability === SUITABILITY.YES && !anySetting
+        ? translate('calculationResult.concept1settings.adjustConditions')
+        : autohint;
+
+    const label = helpers.getLabel(suitability as SUITABILITY, anySetting);
+
+    const data: GreaseConcep1Suitablity = {
+      hint,
+      label,
+      c1_60,
+      c1_125,
+    };
+
+    return {
+      title: CONCEPT1,
+      custom: {
+        selector: CONCEPT1,
+        data,
+      },
+    };
   }
 
   public initialGreaseQuantity(

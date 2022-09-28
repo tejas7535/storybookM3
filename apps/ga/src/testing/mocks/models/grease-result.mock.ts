@@ -1,9 +1,14 @@
+import { LabelValue } from '@schaeffler/label-value';
+
 import {
+  CONCEPT1,
   GreaseResult,
   GreaseResultData,
   GreaseResultDataItem,
+  GreaseResultDataSourceItem,
 } from '@ga/features/grease-calculation/calculation-result/models';
 
+import { GREASE_CONCEPT1_SUITABILITY } from './grease-concept1-suitability.mock';
 import {
   dataItemUnitMock,
   dataItemValueNumberMock,
@@ -131,3 +136,25 @@ export const greaseResultMock: GreaseResult = {
   isSufficient: true,
   dataSource: greaseResultDataMock(dataItemValueNumberMock, dataItemUnitMock),
 };
+
+export const greaseResultConcept1Mock: GreaseResultDataSourceItem = {
+  title: CONCEPT1,
+  custom: {
+    selector: CONCEPT1,
+    data: GREASE_CONCEPT1_SUITABILITY,
+  },
+};
+
+export const CONCEPT1_LABEL_VALUE_MOCK: LabelValue[] = [
+  {
+    label: 'mockLabel',
+    value: 'mockValue',
+  },
+  {
+    label: CONCEPT1,
+    custom: {
+      selector: CONCEPT1,
+      data: GREASE_CONCEPT1_SUITABILITY,
+    },
+  },
+];

@@ -4,12 +4,12 @@ import * as parametersActions from '@ga/core/store/actions/calculation-parameter
 import { CalculationParametersState } from '@ga/core/store/models';
 import { EnvironmentImpact, LoadLevels, Movement } from '@ga/shared/models';
 import {
+  AUTOMATIC_LUBRICATON_MOCK,
   DIALOG_RESPONSE_MOCK,
   PREFERRED_GREASE_MOCK,
   PREFERRED_GREASE_OPTION_MOCK,
   PROPERTIES_MOCK,
 } from '@ga/testing/mocks';
-import { AUTOMATIC_LUBRICATON_MOCK } from '@ga/testing/mocks/models/automatic-lubrication.mock';
 
 import {
   calculationParametersReducer,

@@ -2,14 +2,16 @@ import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { translate, TranslocoService } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
+import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppRoutePath } from '@ga/app-route-path.enum';
@@ -29,6 +31,7 @@ describe('CalculationResultComponent', () => {
     imports: [
       RouterTestingModule,
       PushModule,
+      LetModule,
       FormsModule,
       provideTranslocoTestingModule(
         { en: {} },
@@ -36,9 +39,11 @@ describe('CalculationResultComponent', () => {
       ),
 
       // UI Modules
+      MockModule(SubheaderModule),
       MockModule(MatIconModule),
       MockModule(MatProgressSpinnerModule),
       MockModule(MatSlideToggleModule),
+      MockModule(MatTooltipModule),
     ],
     providers: [
       provideMockStore(),

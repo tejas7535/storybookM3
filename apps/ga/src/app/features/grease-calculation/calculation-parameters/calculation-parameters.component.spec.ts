@@ -12,12 +12,13 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { translate } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { MaintenanceModule } from '@schaeffler/empty-states';
+import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppRoutePath } from '@ga/app-route-path.enum';
@@ -31,13 +32,13 @@ import { initialState } from '@ga/core/store/reducers/calculation-parameters/cal
 import { PreferredGreaseSelectionComponent } from '@ga/shared/components/preferred-grease-selection';
 import { EnvironmentImpact, LoadLevels, Movement } from '@ga/shared/models';
 import {
+  AUTOMATIC_LUBRICATON_MOCK,
   BEARING_SELECTION_STATE_MOCK,
   CALCULATION_PARAMETERS_STATE_MOCK,
   PREFERRED_GREASE_MOCK,
   PROPERTIES_MOCK,
   SETTINGS_STATE_MOCK,
 } from '@ga/testing/mocks';
-import { AUTOMATIC_LUBRICATON_MOCK } from '@ga/testing/mocks/models/automatic-lubrication.mock';
 
 import { GreaseCalculationPath } from '../grease-calculation-path.enum';
 import { CalculationParametersComponent } from './calculation-parameters.component';
@@ -60,11 +61,13 @@ describe('CalculationParametersComponent', () => {
     imports: [
       RouterTestingModule,
       PushModule,
+      LetModule,
       provideTranslocoTestingModule({ en: {} }),
 
       // UI
       BreadcrumbsModule,
       PreferredGreaseSelectionComponent,
+      MockModule(SubheaderModule),
       MockModule(MaintenanceModule),
 
       // Material Modules
