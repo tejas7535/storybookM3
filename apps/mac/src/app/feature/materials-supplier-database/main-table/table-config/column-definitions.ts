@@ -3,6 +3,8 @@ import { ColDef } from 'ag-grid-enterprise';
 import { EditCellRendererComponent } from '../edit-cell-renderer/edit-cell-renderer.component';
 import { CUSTOM_DATE_FORMATTER } from './custom-date-formatter';
 import { FILTER_PARAMS } from './filter-params';
+import { RELEASE_DATE_FORMATTER } from './release-date-formatter';
+import { RELEASE_DATE_VALUE_GETTER } from './release-date-value-getter';
 
 export const MATERIAL_STANDARD_MATERIAL_NAME = 'materialStandardMaterialName';
 export const MATERIAL_STANDARD_STANDARD_DOCUMENT =
@@ -19,8 +21,6 @@ export const CO2_SCOPE_2 = 'co2Scope2';
 export const CO2_SCOPE_3 = 'co2Scope3';
 export const CO2_PER_TON = 'co2PerTon';
 export const CO2_CLASSIFICATION = 'co2Classification';
-export const RELEASE_DATE_YEAR = 'releaseDateYear';
-export const RELEASE_DATE_MONTH = 'releaseDateMonth';
 export const RELEASE_RESTRICTIONS = 'releaseRestrictions';
 export const CASTING_MODE = 'castingMode';
 export const CASTING_DIAMETER = 'castingDiameter';
@@ -30,6 +30,7 @@ export const STEEL_MAKING_PROCESS = 'steelMakingProcess';
 export const RATING = 'rating';
 export const RATING_REMARK = 'ratingRemark';
 export const LAST_MODIFIED = 'lastModified';
+export const RELEASE_DATE = 'releaseDate';
 
 export const COLUMN_DEFINITIONS: ColDef[] = [
   {
@@ -141,18 +142,12 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     cellRenderer: EditCellRendererComponent,
   },
   {
-    field: RELEASE_DATE_YEAR,
-    headerName: 'Release Date Year',
-    filterParams: FILTER_PARAMS,
-    hide: true,
+    field: RELEASE_DATE,
+    headerName: 'Release Date',
     cellRenderer: EditCellRendererComponent,
-  },
-  {
-    field: RELEASE_DATE_MONTH,
-    headerName: 'Release Date Month',
-    filterParams: FILTER_PARAMS,
-    hide: true,
-    cellRenderer: EditCellRendererComponent,
+    valueFormatter: RELEASE_DATE_FORMATTER,
+    valueGetter: RELEASE_DATE_VALUE_GETTER,
+    filter: 'agDateColumnFilter',
   },
   {
     field: RELEASE_RESTRICTIONS,

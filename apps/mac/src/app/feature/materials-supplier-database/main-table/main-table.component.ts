@@ -394,7 +394,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public applyAgGridFilter(column: string, fullValues: string[]): void {
-    const values: string[] = fullValues.filter((value: string) => !!value);
+    const values: string[] = fullValues.filter(Boolean);
     if (this.agGridApi) {
       const filterInstance = this.agGridApi.getFilterInstance(column);
       // eslint-disable-next-line unicorn/no-null

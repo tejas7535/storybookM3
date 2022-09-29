@@ -68,7 +68,7 @@ export class MsdDataService {
       params.materialClass = materialClass;
     }
     if (category) {
-      params.category = category.filter((id) => !!id);
+      params.category = category.filter(Boolean);
     }
 
     return this.httpClient
@@ -354,7 +354,7 @@ export class MsdDataService {
         body
       )
       .pipe(
-        map((co2Values) => co2Values.filter((co2Value) => !!co2Value)),
+        map((co2Values) => co2Values.filter(Boolean)),
         map((co2Values) =>
           co2Values.map((co2Value) => ({
             co2PerTon: co2Value[0],

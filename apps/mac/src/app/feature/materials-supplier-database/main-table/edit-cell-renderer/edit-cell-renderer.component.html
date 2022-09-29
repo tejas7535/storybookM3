@@ -3,7 +3,9 @@
   (mouseover)="setHovered(true)"
   (mouseout)="setHovered(false)"
 >
-  <span class="flex-1 truncate">{{ params?.value }}</span>
+  <span class="flex-1 truncate">{{
+    params?.valueFormatted ?? params?.value
+  }}</span>
   <div class="h-full" *ngIf="params?.hasEditorRole">
     <button
       class="my-auto"

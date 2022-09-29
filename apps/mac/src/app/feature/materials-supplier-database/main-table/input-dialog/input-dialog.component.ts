@@ -312,7 +312,7 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
               .reset(undefined, { emitEvent: false });
           }
         }),
-        filter((standardDocument) => !!standardDocument)
+        filter(Boolean)
       )
       /* Detect changes of stdDoc and reset material name if value from matName does
          not fit to selected value */
@@ -358,7 +358,7 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
               .reset(undefined, { emitEvent: false });
           }
         }),
-        filter((materialName) => !!materialName)
+        filter(Boolean)
       )
       /* Detect changes of field and reset stdDoc if value from stdDoc does
          not fit to selected value */
@@ -537,10 +537,7 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
       );
 
     this.materialStandardIdControl.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        filter((id) => !!id)
-      )
+      .pipe(takeUntil(this.destroy$), filter(Boolean))
       .subscribe((id) =>
         this.dialogFacade.dispatch(
           fetchReferenceDocuments({ materialStandardId: id })
@@ -785,7 +782,7 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
       releaseRestrictions: baseMaterial.releaseRestrictions,
       blocked: baseMaterial.blocked,
       castingMode: baseMaterial.castingMode,
-      castingDiameter: baseMaterial.castingDiameter.title,
+      castingDiameter: baseMaterial.castingDiameter?.title,
       maxDimension: baseMaterial.maxDimension,
       minDimension: baseMaterial.minDimension,
       steelMakingProcess: baseMaterial.steelMakingProcess?.id as string,
@@ -802,10 +799,7 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
 
     // rename to createMaterialComplete, return object instead of
     this.dialogFacade.createMaterialRecord$
-      .pipe(
-        filter((record) => !!record),
-        take(1)
-      )
+      .pipe(filter(Boolean), take(1))
       .subscribe((record) => {
         if (!record.error) {
           this.snackbar.open(

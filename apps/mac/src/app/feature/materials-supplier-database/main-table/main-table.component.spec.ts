@@ -37,6 +37,7 @@ import {
   BOOLEAN_VALUE_GETTER,
   CUSTOM_DATE_FORMATTER,
   EMPTY_VALUE_FORMATTER,
+  RELEASE_DATE_FORMATTER,
 } from '@mac/msd/main-table/table-config';
 import {
   COLUMN_DEFINITIONS,
@@ -62,6 +63,7 @@ import * as en from '../../../../assets/i18n/en.json';
 import { MainTableComponent } from './main-table.component';
 import { MainTableRoutingModule } from './main-table-routing.module';
 import { QuickFilterComponent } from './quick-filter/quick-filter.component';
+import { RELEASE_DATE_VALUE_GETTER } from './table-config/release-date-value-getter';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
@@ -1588,6 +1590,63 @@ describe('MainTableComponent', () => {
       const result = CUSTOM_DATE_FORMATTER(mockParams);
 
       expect(result).toEqual('20/01/1970');
+    });
+  });
+
+  describe('RELEASE_DATE_VALUE_GETTER', () => {
+    it('should return undefined if the releaseDateYear is undefined', () => {
+      const mockParams = {
+        data: { releaseDateMonth: 1 } as DataResult,
+      } as ValueGetterParams<DataResult>;
+
+      const result = RELEASE_DATE_VALUE_GETTER(mockParams);
+
+      expect(result).toEqual(undefined);
+    });
+
+    it('should return undefined if the releaseDateMonth is undefined', () => {
+      const mockParams = {
+        data: { releaseDateYear: 2000 } as DataResult,
+      } as ValueGetterParams<DataResult>;
+
+      const result = RELEASE_DATE_VALUE_GETTER(mockParams);
+
+      expect(result).toEqual(undefined);
+    });
+
+    it('should return a date', () => {
+      const mockParams = {
+        data: {
+          releaseDateYear: 2000,
+          releaseDateMonth: 1,
+        } as DataResult,
+      } as ValueGetterParams<DataResult>;
+
+      const result = RELEASE_DATE_VALUE_GETTER(mockParams);
+
+      expect(result).toEqual(new Date(2000, 0));
+    });
+  });
+
+  describe('RELEASE_DATE_FORMATTER', () => {
+    it('should return undefined if the value is undefined', () => {
+      const mockParams = {
+        value: undefined,
+      } as ValueFormatterParams<any, Date>;
+
+      const result = RELEASE_DATE_FORMATTER(mockParams);
+
+      expect(result).toEqual(undefined);
+    });
+
+    it('should return the date as string formatted to MM/YY', () => {
+      const mockParams = {
+        value: new Date(2000, 0),
+      } as ValueFormatterParams<any, Date>;
+
+      const result = RELEASE_DATE_FORMATTER(mockParams);
+
+      expect(result).toEqual('01/00');
     });
   });
 

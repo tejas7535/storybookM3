@@ -171,7 +171,7 @@ export const getMaterialDialogCastingDiameterStringOptions = createSelector(
   getMaterialDialogCustomCastingDiameters,
   (castingDiameters, customCastingDiameters) => {
     const options: StringOption[] = (castingDiameters || [])
-      .filter((diameter) => !!diameter)
+      .filter(Boolean)
       .map((diameter) => ({ id: diameter, title: diameter }))
       .sort(stringOptionsSortFn);
     const customOptions: StringOption[] = (customCastingDiameters || []).map(
@@ -203,7 +203,7 @@ export const getMaterialDialogReferenceDocumentsStringOptions = createSelector(
   getMaterialDialogCustomReferenceDocuments,
   (referenceDocuments, customReferenceDocuments) => {
     const options: StringOption[] = (referenceDocuments || [])
-      .filter((document) => !!document)
+      .filter(Boolean)
       .map((document) => ({ id: document, title: document }));
     const customOptions: StringOption[] = (customReferenceDocuments || []).map(
       (document) => ({ id: document, title: document })
@@ -246,7 +246,7 @@ export const getSupplierPlantStringOptions = createSelector(
           selfCertified: supplier.selfCertified,
         },
       }))
-      .filter((option) => !!option)
+      .filter(Boolean)
       .sort(stringOptionsSortFn) || []
 );
 
@@ -504,7 +504,7 @@ export const getDialogError = pipe(
 
 export const getEditMaterialDataLoaded = pipe(
   select(getEditMaterialData),
-  filter((editMaterial) => !!editMaterial),
+  filter(Boolean),
   filter(
     (editMaterial) =>
       !editMaterial.standardDocumentsLoading &&

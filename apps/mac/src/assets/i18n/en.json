@@ -319,6 +319,7 @@
         "rating": "Supplier Rating",
         "ratingRemark": "Supplier Rating remark",
         "referenceDocument": "Referenced in Document (TODO)",
+        "releaseDate": "Release Date",
         "releaseDateMonth": "Release Date Month",
         "releaseDateYear": "Release Date Year",
         "releaseRestrictions": "Release Restrictions",
