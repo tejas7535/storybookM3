@@ -479,6 +479,41 @@ describe('InputDialogComponent', () => {
     jest.resetAllMocks();
   });
 
+  describe('check initial form values', () => {
+    it('should have the expected values', () => {
+      expect(component.manufacturerSupplierIdControl.value).toEqual(undefined);
+      expect(component.materialStandardIdControl.value).toEqual(undefined);
+      expect(component.standardDocumentsControl.value).toEqual(undefined);
+      expect(component.materialNamesControl.value).toEqual(undefined);
+      expect(component.steelNumberControl.value).toEqual(undefined);
+      expect(component.suppliersControl.value).toEqual(undefined);
+      expect(component.supplierPlantsControl.value).toEqual(undefined);
+      expect(component.selfCertifiedControl.value).toEqual(false);
+      expect(component.castingModesControl.value).toEqual(undefined);
+      expect(component.castingDiameterControl.value).toEqual(undefined);
+      expect(component.ratingsControl.value).toEqual({
+        id: undefined,
+        title: 'materialsSupplierDatabase.mainTable.dialog.none',
+      });
+      expect(component.maxDimControl.value).toEqual(undefined);
+      expect(component.minDimControl.value).toEqual(undefined);
+      expect(component.categoriesControl.value).toEqual(undefined);
+      expect(component.co2Scope1Control.value).toEqual(undefined);
+      expect(component.co2Scope2Control.value).toEqual(undefined);
+      expect(component.co2Scope3Control.value).toEqual(undefined);
+      expect(component.co2TotalControl.value).toEqual(undefined);
+      expect(component.co2ClassificationControl.value).toEqual(undefined);
+      expect(component.releaseMonthControl.value).toEqual(undefined);
+      expect(component.releaseYearControl.value).toEqual(undefined);
+      expect(component.referenceDocumentControl.value).toEqual(undefined);
+      expect(component.ratingRemarkControl.value).toEqual(undefined);
+      expect(component.ratingChangeCommentControl.value).toEqual(undefined);
+      expect(component.releaseRestrictionsControl.value).toEqual(undefined);
+      expect(component.isBlockedControl.value).toEqual(false);
+      expect(component.steelMakingProcessControl.value).toEqual(undefined);
+    });
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });

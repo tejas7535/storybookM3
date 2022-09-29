@@ -124,8 +124,12 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
     undefined,
     true
   );
-  public ratingsControl =
-    this.controlsService.getRequiredControl<StringOption>();
+  public ratingsControl = this.controlsService.getRequiredControl<StringOption>(
+    {
+      id: undefined,
+      title: translate('materialsSupplierDatabase.mainTable.dialog.none'),
+    }
+  );
   public maxDimControl = this.controlsService.getNumberControl();
   public minDimControl = this.controlsService.getNumberControl();
   public categoriesControl =
