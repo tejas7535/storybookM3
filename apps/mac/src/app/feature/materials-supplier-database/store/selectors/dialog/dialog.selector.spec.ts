@@ -550,17 +550,17 @@ describe('DialogSelectors', () => {
         },
       },
       {
-        id: 2,
-        title: '1',
-        data: {
-          standardDocument: 'std2',
-        },
-      },
-      {
         id: 3,
         title: '3',
         data: {
           standardDocument: 'std3',
+        },
+      },
+      {
+        id: 2,
+        title: '1',
+        data: {
+          standardDocument: 'std2',
         },
       },
     ];
@@ -698,17 +698,17 @@ describe('DialogSelectors', () => {
         },
       },
       {
-        id: 2,
-        title: '1',
-        data: {
-          materialName: 'material2',
-        },
-      },
-      {
         id: 3,
         title: '3',
         data: {
           materialName: 'material3',
+        },
+      },
+      {
+        id: 2,
+        title: '1',
+        data: {
+          materialName: 'material2',
         },
       },
     ];
@@ -937,7 +937,7 @@ describe('DialogSelectors', () => {
     });
   });
 
-  it('should remove duplicate string options and sort', () => {
+  it('should remove duplicate string options compared by title and sort', () => {
     const mockOptions: StringOption[] = [
       {
         id: 1,
@@ -975,6 +975,58 @@ describe('DialogSelectors', () => {
         id: 1,
         title: 'c1',
       },
+    ];
+
+    const result = DialogSelectors.getUniqueStringOptions(
+      DialogSelectors.getMaterialStandardDocumentStringOptions
+    ).projector(mockOptions);
+
+    expect(result).toEqual(expected);
+    expect(result[0]).toEqual({ id: 3, title: 'a3' });
+  });
+  it('should remove duplicate string options compared with title and data and sort', () => {
+    const mockOptions: StringOption[] = [
+      {
+        id: 1,
+        title: 'c1',
+      },
+      {
+        id: 2,
+        title: 'b2',
+      },
+      {
+        id: 3,
+        title: 'a3',
+      },
+      {
+        id: 4,
+        title: 'c1',
+      },
+      {
+        id: 5,
+        title: 'c1',
+        data: { something: 'something' },
+      },
+      {
+        id: 6,
+        title: 'c1',
+        data: { something: 'something' },
+      },
+    ];
+
+    const expected: StringOption[] = [
+      {
+        id: 3,
+        title: 'a3',
+      },
+      {
+        id: 2,
+        title: 'b2',
+      },
+      {
+        id: 1,
+        title: 'c1',
+      },
       {
         id: 5,
         title: 'c1',
@@ -982,9 +1034,10 @@ describe('DialogSelectors', () => {
       },
     ];
 
-    const result = DialogSelectors.getUniqueStringOptions(
-      DialogSelectors.getMaterialStandardDocumentStringOptions
-    ).projector(mockOptions);
+    const result =
+      DialogSelectors.getUniqueStringOptionsWithCompareDataStringified(
+        DialogSelectors.getMaterialStandardDocumentStringOptions
+      ).projector(mockOptions);
 
     expect(result).toEqual(expected);
     expect(result[0]).toEqual({ id: 3, title: 'a3' });

@@ -35,9 +35,23 @@ export const getUniqueStringOptions = (
       .filter(
         (option, index) =>
           stringOptions.findIndex(
+            (compareOption) => compareOption.title === option.title
+          ) === index
+      )
+      .sort(stringOptionsSortFn)
+  );
+
+export const getUniqueStringOptionsWithCompareDataStringified = (
+  selector: MemoizedSelector<object, StringOption[]>
+) =>
+  createSelector(selector, (stringOptions): StringOption[] =>
+    stringOptions
+      .filter(
+        (option, index) =>
+          stringOptions.findIndex(
             (compareOption) =>
               compareOption.title === option.title &&
-              compareOption.data === option.data
+              JSON.stringify(compareOption.data) === JSON.stringify(option.data)
           ) === index
       )
       .sort(stringOptionsSortFn)
@@ -250,7 +264,9 @@ export const getSupplierNameStringOptionsMerged = createSelector(
 );
 
 export const getSupplierPlantsStringOptionsMerged = createSelector(
-  getUniqueStringOptions(getSupplierPlantStringOptions),
+  getUniqueStringOptionsWithCompareDataStringified(
+    getSupplierPlantStringOptions
+  ),
   getCustomSupplierPlants,
   (supplierOptions, customSupplierPlants): StringOption[] => {
     const customOptions: StringOption[] = (customSupplierPlants || []).map(
@@ -275,9 +291,12 @@ export const getMaterialNameStringOptions = createSelector(
 export const getMaterialNameStringOptionsExtended = createSelector(
   getMaterialNameStringOptions,
   (materialNameOptions): StringOption[] =>
-    materialNameOptions.map((materialName) => {
-      const extraStandardDocuments: { id: number; standardDocument: string }[] =
-        materialNameOptions
+    materialNameOptions
+      .map((materialName) => {
+        const extraStandardDocuments: {
+          id: number;
+          standardDocument: string;
+        }[] = materialNameOptions
           .filter((option) => option.title === materialName.title)
           .map((option) => ({
             id: option.id as number,
@@ -290,19 +309,23 @@ export const getMaterialNameStringOptionsExtended = createSelector(
                   option.id === compareOption.id &&
                   compareOption.standardDocument === option.standardDocument
               ) === index && !!option
-          );
+          )
+          .sort((a, b) => a.id - b.id);
 
-      return {
-        ...materialName,
-        data: {
-          standardDocuments: extraStandardDocuments,
-        },
-      };
-    })
+        return {
+          ...materialName,
+          data: {
+            standardDocuments: extraStandardDocuments,
+          },
+        };
+      })
+      .sort((a, b) => (a.id as number) - (b.id as number))
 );
 
 export const getMaterialNameStringOptionsMerged = createSelector(
-  getUniqueStringOptions(getMaterialNameStringOptionsExtended),
+  getUniqueStringOptionsWithCompareDataStringified(
+    getMaterialNameStringOptionsExtended
+  ),
   getCustomMaterialStandardNames,
   (materialNameOptions, customMaterialNames): StringOption[] => {
     const customOptions: StringOption[] = (customMaterialNames || []).map(
@@ -327,34 +350,39 @@ export const getMaterialStandardDocumentStringOptions = createSelector(
 export const getMaterialStandardDocumentStringOptionsExtended = createSelector(
   getMaterialStandardDocumentStringOptions,
   (standardDocumentOptions): StringOption[] =>
-    standardDocumentOptions.map((standardDocument) => {
-      const extraMaterialNames: { id: number; materialName: string }[] =
-        standardDocumentOptions
-          .filter((option) => option.title === standardDocument.title)
-          .map((option) => ({
-            id: option.id as number,
-            materialName: option.data.materialName,
-          }))
-          .filter(
-            (option, index, options) =>
-              options.findIndex(
-                (compareOption) =>
-                  compareOption.id === option.id &&
-                  compareOption.materialName === option.materialName
-              ) === index
-          );
+    standardDocumentOptions
+      .map((standardDocument) => {
+        const extraMaterialNames: { id: number; materialName: string }[] =
+          standardDocumentOptions
+            .filter((option) => option.title === standardDocument.title)
+            .map((option) => ({
+              id: option.id as number,
+              materialName: option.data.materialName,
+            }))
+            .filter(
+              (option, index, options) =>
+                options.findIndex(
+                  (compareOption) =>
+                    compareOption.id === option.id &&
+                    compareOption.materialName === option.materialName
+                ) === index
+            )
+            .sort((a, b) => a.id - b.id);
 
-      return {
-        ...standardDocument,
-        data: {
-          materialNames: extraMaterialNames,
-        },
-      };
-    })
+        return {
+          ...standardDocument,
+          data: {
+            materialNames: extraMaterialNames,
+          },
+        };
+      })
+      .sort((a, b) => (a.id as number) - (b.id as number))
 );
 
 export const getMaterialStandardDocumentStringOptionsMerged = createSelector(
-  getUniqueStringOptions(getMaterialStandardDocumentStringOptionsExtended),
+  getUniqueStringOptionsWithCompareDataStringified(
+    getMaterialStandardDocumentStringOptionsExtended
+  ),
   getCustomMaterialStandardDocuments,
   (
     standardDocumentOptions,

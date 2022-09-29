@@ -609,7 +609,8 @@ describe('MsdDataService', () => {
 
   describe('fetchSteelMakingProcessForSupplierPlantCastingModesCastingDiameter', () => {
     it('should return the steel making processes for the selected arguments', (done) => {
-      const mockResponse = ['BF + BOF', 'Scrap+EAF'];
+      // eslint-disable-next-line unicorn/no-null
+      const mockResponse = [null, 'BF+BOF', 'Scrap+EAF'];
       const mockResult = ['BF+BOF', 'Scrap+EAF'];
       const expectedBody = {
         select: ['steelMakingProcess'],
@@ -654,6 +655,8 @@ describe('MsdDataService', () => {
   describe('fetchCo2ValuesForSupplierPlantProcess', () => {
     it('should return the co2 values', (done) => {
       const mockResponse = [
+        // eslint-disable-next-line unicorn/no-null
+        null,
         [1, undefined, undefined, undefined, undefined],
         [3, 1, 1, 1, 'c1'],
       ];

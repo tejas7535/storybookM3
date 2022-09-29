@@ -314,8 +314,8 @@ export class MsdDataService {
       .post<string[]>(`${this.BASE_URL}/materials/query`, body)
       .pipe(
         map((steelMakingProcesses) =>
-          steelMakingProcesses.map((steelMakingProcess) =>
-            steelMakingProcess.replace(/\s/g, '')
+          steelMakingProcesses.filter(
+            (steelMakingProcess) => !!steelMakingProcess
           )
         )
       );
@@ -354,6 +354,7 @@ export class MsdDataService {
         body
       )
       .pipe(
+        map((co2Values) => co2Values.filter((co2Value) => !!co2Value)),
         map((co2Values) =>
           co2Values.map((co2Value) => ({
             co2PerTon: co2Value[0],
