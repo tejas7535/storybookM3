@@ -3,6 +3,7 @@ import { createSelector } from '@ngrx/store';
 
 import { StringOption } from '@schaeffler/inputs';
 
+import { bearings } from '@ga/shared/constants';
 import {
   AdvancedBearingSelectionFilters,
   BearingSelectionTypeUnion,
@@ -49,21 +50,41 @@ export const getAdvancedBearingSelectionFilters = createSelector(
 export const getQuickBearingSelectionResultList = createSelector(
   getBearingSelectionState,
   (state): StringOption[] =>
-    state?.quickBearingSelection?.resultList.map((bearing) => ({
-      id: bearing,
-      title: translate('bearing.bearingSelection.quickSelection.selectOption', {
-        bearing,
-      }),
-    }))
+    state?.quickBearingSelection?.resultList
+      .map((bearing) => {
+        const disabled = !bearings.includes(bearing);
+
+        return {
+          id: bearing,
+          disabled,
+          title: disabled
+            ? translate(
+                'bearing.bearingSelection.quickSelection.disabledOption',
+                {
+                  bearing,
+                }
+              )
+            : translate(
+                'bearing.bearingSelection.quickSelection.selectOption',
+                {
+                  bearing,
+                }
+              ),
+        };
+      })
+      .sort(({ disabled: a }, { disabled: b }) => +a - +b)
 );
 
 export const getAdvancedBearingSelectionResultList = createSelector(
   getBearingSelectionState,
   (state): StringOption[] =>
-    state?.advancedBearingSelection?.resultList?.map((bearing) => ({
-      id: bearing,
-      title: bearing,
-    }))
+    state?.advancedBearingSelection?.resultList
+      ?.map((bearing) => ({
+        id: bearing,
+        title: bearing,
+        disabled: !bearings.includes(bearing),
+      }))
+      .sort(({ disabled: a }, { disabled: b }) => +a - +b)
 );
 
 export const getAdvancedBearingSelectionResultsCount = createSelector(

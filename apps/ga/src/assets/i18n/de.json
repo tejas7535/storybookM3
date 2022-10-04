@@ -116,6 +116,7 @@
         "searchPlaceholder": "Eingabe Lagerbezeichnung, z.B. 6215",
         "selectButton": "Lager auswählen",
         "selectOption": "<span class=\"text-medium-emphasis\">Fettberechnung zu Lager</span> &nbsp;<strong>{{bearing}}</strong>",
+        "disabledOption": "<span class=\"text-medium-emphasis\">Keine Fettberechnung möglich für</span> &nbsp;<strong>{{bearing}}</strong>",
         "noResults": "Keine Ergebnisse gefunden"
       },
       "advancedSelection": {
@@ -130,6 +131,7 @@
           "heading": "Lagerauswahl",
           "intro": "Bitte ein Lager auswählen",
           "selectOption": "Fettberechnung zu Lager",
+          "disabledOption": "Keine Berechnung möglich zu Lager",
           "action": {
             "previousStep": "Filterkriterien anpassen"
           }

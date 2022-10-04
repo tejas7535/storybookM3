@@ -116,6 +116,7 @@
         "searchPlaceholder": "Introduzca una designación de rodamiento, p. ej.: 6215",
         "selectButton": "Seleccione el rodamiento",
         "selectOption": "<span class=\"text-medium-emphasis\">Cálculo de la lubricación del rodamiento</span> &nbsp;<strong>{{bearing}}</strong>",
+        "disabledOption": "<span class=\"text-medium-emphasis\">No es posible el cálculo de la lubricación para</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
         "noResults": "No se han encontrado resultados"
       },
       "advancedSelection": {
@@ -130,6 +131,7 @@
           "heading": "Selección de rodamiento",
           "intro": "Seleccione el rodamiento haciendo clic",
           "selectOption": "Cálculo de la grasa para el rodamiento",
+          "disabledOption": "Cálculo de la grasa para el rodamiento",
           "action": {
             "previousStep": "Ajustar criterios de filtro"
           }

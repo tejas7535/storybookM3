@@ -115,7 +115,8 @@
       "quickSelection": {
         "searchPlaceholder": "Enter a bearing designation, e.g. 6215",
         "selectButton": "Select bearing",
-        "selectOption": "<span class=\"text-medium-emphasis\">Lubrication calculation for bearing</span> &nbsp;<strong>{{bearing}}</strong>",
+        "selectOption": "<span class=\"text-medium-emphasis\">Lubrication calculation for bearing</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
+        "disabledOption": "<span class=\"text-medium-emphasis\">No lubrication calculation possible for</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
         "noResults": "No results found"
       },
       "advancedSelection": {
@@ -130,6 +131,7 @@
           "heading": "Bearing Selection",
           "intro": "Please select a bearing",
           "selectOption": "Grease calculation for bearing",
+          "disabledOption": "No es posible calcular el rodamiento",
           "action": {
             "previousStep": "Adjust filter criteria"
           }

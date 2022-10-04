@@ -21,6 +21,10 @@ jest.mock('@ngneat/transloco', () => ({
   translate: jest.fn((string) => string),
 }));
 
+jest.mock('@ga/shared/constants', () => ({
+  bearings: ['mockValidBearing', 'mockValidAdvancedBearing'],
+}));
+
 describe('Bearing Selection Selector', () => {
   const mockState = {
     ...APP_STATE_MOCK,
@@ -28,11 +32,11 @@ describe('Bearing Selection Selector', () => {
       ...initialState,
       quickBearingSelection: {
         ...initialState.quickBearingSelection,
-        resultList: ['greatBearing', 'evenGreaterBearing'],
+        resultList: ['mockValidBearing', 'mockInvalidBearing'],
       },
       advancedBearingSelection: {
         ...initialState.advancedBearingSelection,
-        resultList: ['advancedgreatBearing', 'evenMoreAdvancedgreatBearing'],
+        resultList: ['mockValidAdvancedBearing', 'mockInvalidAdvancedBearing'],
         resultsCount: 3,
       },
       bearingSelectionType: 'QUICK_SELECTION',
@@ -97,12 +101,14 @@ describe('Bearing Selection Selector', () => {
     it('should return the result list', () => {
       expect(getQuickBearingSelectionResultList(mockState)).toEqual([
         {
-          id: 'greatBearing',
+          id: 'mockValidBearing',
           title: 'bearing.bearingSelection.quickSelection.selectOption',
+          disabled: false,
         },
         {
-          id: 'evenGreaterBearing',
-          title: 'bearing.bearingSelection.quickSelection.selectOption',
+          id: 'mockInvalidBearing',
+          title: 'bearing.bearingSelection.quickSelection.disabledOption',
+          disabled: true,
         },
       ]);
     });
@@ -112,12 +118,14 @@ describe('Bearing Selection Selector', () => {
     it('should return the Advanced Bearing Selection results list', () => {
       expect(getAdvancedBearingSelectionResultList(mockState)).toEqual([
         {
-          id: 'advancedgreatBearing',
-          title: 'advancedgreatBearing',
+          id: 'mockValidAdvancedBearing',
+          title: 'mockValidAdvancedBearing',
+          disabled: false,
         },
         {
-          id: 'evenMoreAdvancedgreatBearing',
-          title: 'evenMoreAdvancedgreatBearing',
+          id: 'mockInvalidAdvancedBearing',
+          title: 'mockInvalidAdvancedBearing',
+          disabled: true,
         },
       ]);
     });
