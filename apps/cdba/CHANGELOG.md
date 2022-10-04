@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [2.18.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.18.0...cdba-v2.18.1) (2022-10-04)
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** fixed behaviour of expanding rows in bom view ([#4642](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4642)) ([d85d17b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d85d17b8d4b2a270f012b9d11ea9e2eecf9e0c73))
+
 ## [2.18.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.17.0...cdba-v2.18.0) (2022-09-02)
 
 
