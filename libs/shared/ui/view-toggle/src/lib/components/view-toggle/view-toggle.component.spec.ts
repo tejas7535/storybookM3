@@ -26,11 +26,20 @@ describe('ViewToggleComponent', () => {
   });
 
   describe('set component vars according to input', () => {
-    test('should set vars', () => {
+    test('should set vars on inital input', () => {
       const views = [view];
       spectator.setInput('views', views);
 
       expect(component.active).toEqual(view);
+      expect(component.items).toEqual(views);
+    });
+    test('should set vars on input change', () => {
+      component.items = [view];
+      const updatedView = { ...view, title: 'title changed' };
+      const views = [updatedView];
+      spectator.setInput('views', views);
+
+      expect(component.active).toEqual(views[0]);
       expect(component.items).toEqual(views);
     });
     test('should not set vars', () => {

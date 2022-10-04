@@ -14,7 +14,7 @@ export class ViewToggleComponent {
 
   @Input() public set views(value: ViewToggle[]) {
     if (value.length > 0) {
-      this.active = value[0];
+      this.active = value.find((el) => el.id === this.active?.id) || value[0];
       this.items = value;
     }
   }
