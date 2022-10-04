@@ -74,7 +74,7 @@
     "@caeonline/dynamic-forms": "0.5.0",
     "@fontsource/material-icons": "4.5.4",
     "@fontsource/roboto": "4.5.8",
-    "@microsoft/applicationinsights-web": "2.8.7",
+    "@microsoft/applicationinsights-web": "2.8.8",
     "@ng-web-apis/common": "2.0.1",
     "@ngneat/cashew": "3.0.0",
     "@ngneat/transloco": "4.1.1",
