@@ -17,6 +17,9 @@ import {
   loadFluctuationRatesOverviewFailure,
   loadFluctuationRatesOverviewSuccess,
   loadOpenApplications,
+  loadOpenApplicationsCount,
+  loadOpenApplicationsCountFailure,
+  loadOpenApplicationsCountSuccess,
   loadOpenApplicationsFailure,
   loadOpenApplicationsSuccess,
   loadOverviewEntryEmployees,
@@ -163,11 +166,9 @@ describe('Overview Actions', () => {
   });
 
   test('loadOpenApplications', () => {
-    const orgUnit = { orgUnit: 'Schaeffler IT' };
-    const action = loadOpenApplications(orgUnit);
+    const action = loadOpenApplications();
 
     expect(action).toEqual({
-      ...orgUnit,
       type: '[Overview] Load Open Applications',
     });
   });
@@ -261,6 +262,36 @@ describe('Overview Actions', () => {
     expect(action).toEqual({
       errorMessage,
       type: '[Overview] Load overview exit employees Failure',
+    });
+  });
+
+  test('loadOpenApplicationsCount', () => {
+    const request = {} as unknown as EmployeesRequest;
+    const action = loadOpenApplicationsCount({ request });
+
+    expect(action).toEqual({
+      request,
+      type: '[Overview] Load Open Applications Count',
+    });
+  });
+
+  test('loadOpenApplicationsCountSuccess', () => {
+    const openApplicationsCount = 5;
+
+    const action = loadOpenApplicationsCountSuccess({ openApplicationsCount });
+
+    expect(action).toEqual({
+      openApplicationsCount,
+      type: '[Overview] Load Open Applications Count Success',
+    });
+  });
+
+  test('loadOpenApplicationsCountFailure', () => {
+    const action = loadOpenApplicationsCountFailure({ errorMessage });
+
+    expect(action).toEqual({
+      errorMessage,
+      type: '[Overview] Load Open Applications Count Failure',
     });
   });
 });

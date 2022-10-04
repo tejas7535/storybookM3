@@ -36,6 +36,9 @@ import {
   loadFluctuationRatesOverviewFailure,
   loadFluctuationRatesOverviewSuccess,
   loadOpenApplications,
+  loadOpenApplicationsCount,
+  loadOpenApplicationsCountFailure,
+  loadOpenApplicationsCountSuccess,
   loadOpenApplicationsFailure,
   loadOpenApplicationsSuccess,
   loadOverviewData,
@@ -412,11 +415,16 @@ describe('Overview Effects', () => {
   });
 
   describe('loadOpenApplications', () => {
-    let orgUnit: string;
+    let request: EmployeesRequest;
 
     beforeEach(() => {
-      orgUnit = 'ABC123';
-      action = loadOpenApplications({ orgUnit });
+      action = loadOpenApplications();
+      request = {
+        filterDimension: FilterDimension.ORG_UNIT,
+        value: 'ABC123',
+      } as EmployeesRequest;
+
+      store.overrideSelector(getCurrentFilters, request);
     });
     it(
       'should load data',
@@ -437,7 +445,7 @@ describe('Overview Effects', () => {
         m.expect(effects.loadOpenApplications$).toBeObservable(expected);
         m.flush();
         expect(overviewService.getOpenApplications).toHaveBeenCalledWith(
-          orgUnit
+          request
         );
       })
     );
@@ -460,7 +468,67 @@ describe('Overview Effects', () => {
         m.expect(effects.loadOpenApplications$).toBeObservable(expected);
         m.flush();
         expect(overviewService.getOpenApplications).toHaveBeenCalledWith(
-          orgUnit
+          request
+        );
+      })
+    );
+  });
+
+  describe('loadOpenApplicationsCount', () => {
+    let request: EmployeesRequest;
+
+    beforeEach(() => {
+      request = {
+        filterDimension: FilterDimension.ORG_UNIT,
+        value: 'ABC123',
+      } as EmployeesRequest;
+      action = loadOpenApplicationsCount({
+        request,
+      });
+    });
+    it(
+      'should load data',
+      marbles((m) => {
+        const openApplicationsCount = 32;
+        const result = loadOpenApplicationsCountSuccess({
+          openApplicationsCount,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|', {
+          a: openApplicationsCount,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        overviewService.getOpenApplicationsCount = jest.fn(() => response);
+
+        m.expect(effects.loadOpenApplicationsCount$).toBeObservable(expected);
+        m.flush();
+        expect(overviewService.getOpenApplicationsCount).toHaveBeenCalledWith(
+          request
+        );
+      })
+    );
+
+    test(
+      'should return loadOpenApplicationsCountFailure on REST error',
+      marbles((m) => {
+        const result = loadOpenApplicationsCountFailure({
+          errorMessage: error.message,
+        }) as any;
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+
+        overviewService.getOpenApplicationsCount = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadOpenApplicationsCount$).toBeObservable(expected);
+        m.flush();
+        expect(overviewService.getOpenApplicationsCount).toHaveBeenCalledWith(
+          request
         );
       })
     );
@@ -472,6 +540,7 @@ describe('Overview Effects', () => {
     beforeEach(() => {
       request = {} as unknown as EmployeesRequest;
       action = loadOverviewExitEmployees();
+      store.overrideSelector(getCurrentFilters, request);
     });
 
     test(
@@ -531,6 +600,7 @@ describe('Overview Effects', () => {
     beforeEach(() => {
       request = {} as unknown as EmployeesRequest;
       action = loadOverviewEntryEmployees();
+      store.overrideSelector(getCurrentFilters, request);
     });
 
     test(

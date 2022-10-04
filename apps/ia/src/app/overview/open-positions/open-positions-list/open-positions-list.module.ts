@@ -3,6 +3,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -20,6 +21,7 @@ import { OpenPositionsListComponent } from './open-positions-list.component';
     MatDividerModule,
     MatBadgeModule,
     MatIconModule,
+    LoadingSpinnerModule,
   ],
   exports: [OpenPositionsListComponent],
 })

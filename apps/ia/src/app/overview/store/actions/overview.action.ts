@@ -100,8 +100,7 @@ export const loadResignedEmployeesFailure = createAction(
 );
 
 export const loadOpenApplications = createAction(
-  '[Overview] Load Open Applications',
-  props<{ orgUnit: string }>()
+  '[Overview] Load Open Applications'
 );
 
 export const loadOpenApplicationsSuccess = createAction(
@@ -111,6 +110,21 @@ export const loadOpenApplicationsSuccess = createAction(
 
 export const loadOpenApplicationsFailure = createAction(
   '[Overview] Load Open Applications Failure',
+  props<{ errorMessage: string }>()
+);
+
+export const loadOpenApplicationsCount = createAction(
+  '[Overview] Load Open Applications Count',
+  props<{ request: EmployeesRequest }>()
+);
+
+export const loadOpenApplicationsCountSuccess = createAction(
+  '[Overview] Load Open Applications Count Success',
+  props<{ openApplicationsCount: number }>()
+);
+
+export const loadOpenApplicationsCountFailure = createAction(
+  '[Overview] Load Open Applications Count Failure',
   props<{ errorMessage: string }>()
 );
 
@@ -136,6 +150,8 @@ const all = union({
   loadOpenApplications,
   loadOpenApplicationsSuccess,
   loadOpenApplicationsFailure,
+  loadOpenApplicationsCount,
+  loadOpenApplicationsCountSuccess,
 });
 
 export type OverviewActions = typeof all;

@@ -21,12 +21,12 @@ describe('OpenPositionsComponent', () => {
     component = spectator.debugElement.componentInstance;
   });
 
-  it('should create', () => {
+  test('should create', () => {
     expect(component).toBeTruthy();
   });
 
   describe('trackByFn', () => {
-    it('should return index', () => {
+    test('should return index', () => {
       const index = 5;
 
       const result = component.trackByFn(index);
@@ -36,13 +36,13 @@ describe('OpenPositionsComponent', () => {
   });
 
   describe('countAllOpenApplications', () => {
-    it('should return undefined when no open applications set', () => {
+    test('should return undefined when no open applications set', () => {
       const result = component.countOpenPositions();
 
       expect(result).toBeUndefined();
     });
 
-    it('should return count of open positions', () => {
+    test('should return count of open positions', () => {
       component.openApplications = [
         { count: 2 },
         { count: 4 },
@@ -55,12 +55,22 @@ describe('OpenPositionsComponent', () => {
       expect(result).toEqual(7);
     });
 
-    it('should return 0 when open applications empty', () => {
+    test('should return 0 when open applications empty', () => {
       component.openApplications = [];
 
       const result = component.countOpenPositions();
 
       expect(result).toEqual(0);
+    });
+  });
+
+  describe('onButtonClick', () => {
+    test('should emit event', () => {
+      component.openApplicationsRequested.emit = jest.fn();
+
+      component.onButtonClick();
+
+      expect(component.openApplicationsRequested.emit).toHaveBeenCalled();
     });
   });
 });

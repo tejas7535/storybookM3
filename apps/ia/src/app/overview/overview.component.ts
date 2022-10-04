@@ -12,6 +12,7 @@ import { EmployeeListDialogMetaHeadings } from '../shared/employee-list-dialog/e
 import { AttritionSeries, EmployeeWithAction } from '../shared/models';
 import { FluctuationKpi, OpenApplication, ResignedEmployee } from './models';
 import {
+  loadOpenApplications,
   loadOverviewEntryEmployees,
   loadOverviewExitEmployees,
 } from './store/actions/overview.action';
@@ -22,8 +23,10 @@ import {
   getIsLoadingDoughnutsConfig,
   getIsLoadingFluctuationRatesForChart,
   getIsLoadingOpenApplications,
+  getIsLoadingOpenApplicationsCount,
   getIsLoadingResignedEmployees,
   getOpenApplications,
+  getOpenApplicationsCount,
   getOverviewEntryEmployees,
   getOverviewEntryEmployeesLoading,
   getOverviewExitEmployees,
@@ -83,6 +86,9 @@ export class OverviewComponent implements OnInit {
 
   openApplications$: Observable<OpenApplication[]>;
   openApplicationsLoading$: Observable<boolean>;
+
+  openApplicationsCount$: Observable<number>;
+  openApplicationsCountLoading$: Observable<boolean>;
 
   constructor(
     private readonly store: Store,
@@ -185,6 +191,10 @@ export class OverviewComponent implements OnInit {
     this.openApplicationsLoading$ = this.store.select(
       getIsLoadingOpenApplications
     );
+    this.openApplicationsCount$ = this.store.select(getOpenApplicationsCount);
+    this.openApplicationsCountLoading$ = this.store.select(
+      getIsLoadingOpenApplicationsCount
+    );
   }
 
   loadAttritionRateData() {
@@ -200,5 +210,9 @@ export class OverviewComponent implements OnInit {
 
   triggerLoadEntryEmployees() {
     this.store.dispatch(loadOverviewEntryEmployees());
+  }
+
+  triggerLoadOpenApplications() {
+    this.store.dispatch(loadOpenApplications());
   }
 }

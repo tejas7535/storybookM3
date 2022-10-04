@@ -17,6 +17,7 @@ import { OpenApplication } from '../../models/open-application.model';
 })
 export class OpenPositionsListComponent {
   @Input() openApplications: OpenApplication[];
+  @Input() isLoadingOpenApplications: boolean;
 
   colors = Color;
 

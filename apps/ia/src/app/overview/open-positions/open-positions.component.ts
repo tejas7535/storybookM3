@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 
 import { OpenApplication } from '../models/open-application.model';
 
@@ -8,8 +14,12 @@ import { OpenApplication } from '../models/open-application.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OpenPositionsComponent {
-  @Input() loading: boolean; // not used at the moment
   @Input() openApplications: OpenApplication[];
+  @Input() openApplicationsLoading: boolean;
+  @Input() openApplicationsCount: number;
+  @Input() openApplicationsCountLoading: boolean;
+
+  @Output() openApplicationsRequested = new EventEmitter<void>();
 
   countOpenPositions() {
     return (
@@ -18,6 +28,10 @@ export class OpenPositionsComponent {
         // eslint-disable-next-line unicorn/no-array-reduce
         .reduce((valuePrev, valueCurrent) => valuePrev + valueCurrent, 0)
     );
+  }
+
+  onButtonClick(): void {
+    this.openApplicationsRequested.emit();
   }
 
   trackByFn(index: number): number {

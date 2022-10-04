@@ -115,14 +115,17 @@ describe('OverviewService', () => {
           isInternal: false,
         } as OpenApplication,
       ];
-      const orgUnit = 'ABC123';
+      const request = {
+        filterDimension: FilterDimension.COUNTRY,
+        value: 'PL',
+      } as EmployeesRequest;
 
-      service.getOpenApplications(orgUnit).subscribe((response) => {
+      service.getOpenApplications(request).subscribe((response) => {
         expect(response).toEqual(mock);
       });
 
       const req = httpMock.expectOne(
-        `api/v1/open-applications?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}`
+        `api/v1/open-applications?dimension=${request.filterDimension}&value=${request.value}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);
@@ -174,6 +177,27 @@ describe('OverviewService', () => {
       );
       expect(req.request.method).toBe('GET');
       req.flush(request);
+    });
+  });
+
+  describe('getOpenPositionsCount', () => {
+    test('should get open positions count', () => {
+      const orgUnit = 'Schaeffler12';
+      const request = {
+        filterDimension: FilterDimension.ORG_UNIT,
+        value: orgUnit,
+      } as EmployeesRequest;
+      const mock = 31;
+
+      service.getOpenApplicationsCount(request).subscribe((response) => {
+        expect(response).toEqual(mock);
+      });
+
+      const req = httpMock.expectOne(
+        `api/v1/open-positions-count?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(mock);
     });
   });
 });

@@ -28,12 +28,12 @@ describe('OpenPositionsListComponent', () => {
     component = spectator.debugElement.componentInstance;
   });
 
-  it('should create', () => {
+  test('should create', () => {
     expect(component).toBeTruthy();
   });
 
   describe('trackByFn', () => {
-    it('should return index', () => {
+    test('should return index', () => {
       const index = 5;
 
       const result = component.trackByFn(index);

@@ -29,6 +29,7 @@ export class OverviewService {
     'unforced-fluctuation-rates-chart';
   readonly RESIGNED_EMPLOYEES = 'resigned-employees';
   readonly OPEN_APPLICATIONS = 'open-applications';
+  readonly OPEN_APPLICATIONS_COUNT = 'open-positions-count';
   readonly OVERVIEW_EXIT_EMPLOYEES = 'overview-exit-employees';
   readonly OVERVIEW_ENTRY_EMPLOYEES = 'overview-entry-employees';
 
@@ -84,14 +85,33 @@ export class OverviewService {
     );
   }
 
-  getOpenApplications(orgUnit: string): Observable<OpenApplication[]> {
+  getOpenApplications(
+    employeesRequest: EmployeesRequest
+  ): Observable<OpenApplication[]> {
     const params = this.paramsCreator.createHttpParamsForFilterDimension(
-      FilterDimension.ORG_UNIT,
-      orgUnit
+      employeesRequest.filterDimension,
+      employeesRequest.value
     );
 
     return this.http.get<OpenApplication[]>(
       `${ApiVersion.V1}/${this.OPEN_APPLICATIONS}`,
+      {
+        params,
+        context: withCache(),
+      }
+    );
+  }
+
+  getOpenApplicationsCount(
+    employeesRequest: EmployeesRequest
+  ): Observable<number> {
+    const params = this.paramsCreator.createHttpParamsForFilterDimension(
+      employeesRequest.filterDimension,
+      employeesRequest.value
+    );
+
+    return this.http.get<number>(
+      `${ApiVersion.V1}/${this.OPEN_APPLICATIONS_COUNT}`,
       {
         params,
         context: withCache(),

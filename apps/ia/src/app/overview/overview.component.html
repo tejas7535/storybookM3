@@ -98,7 +98,8 @@
           [dimensionHint]="dimensionHint$ | ngrxPush"
           (loadExitEmployees)="triggerLoadExitEmployees()"
           (loadEntryEmployees)="triggerLoadEntryEmployees()"
-        ></ia-entries-exits>
+        >
+        </ia-entries-exits>
       </div>
     </div>
 
@@ -106,9 +107,15 @@
       <div class="flex flex-1 flex-col gap-4">
         <div class="p-4 shadow">
           <ia-open-positions
+            [openApplicationsCount]="openApplicationsCount$ | ngrxPush"
+            [openApplicationsCountLoading]="
+              openApplicationsCountLoading$ | ngrxPush
+            "
             [openApplications]="openApplications$ | ngrxPush"
-            [loading]="openApplicationsLoading$ | ngrxPush"
-          ></ia-open-positions>
+            [openApplicationsLoading]="openApplicationsLoading$ | ngrxPush"
+            (openApplicationsRequested)="triggerLoadOpenApplications()"
+          >
+          </ia-open-positions>
         </div>
         <div class="grow p-4 shadow">
           <ia-resignations

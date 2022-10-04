@@ -25,8 +25,10 @@ import {
   getIsLoadingDoughnutsConfig,
   getIsLoadingFluctuationRatesForChart,
   getIsLoadingOpenApplications,
+  getIsLoadingOpenApplicationsCount,
   getIsLoadingResignedEmployees,
   getOpenApplications,
+  getOpenApplicationsCount,
   getOverviewEntryEmployees,
   getOverviewEntryEmployeesLoading,
   getOverviewExitEmployees,
@@ -178,6 +180,11 @@ describe('Overview Selector', () => {
       },
       openApplications: {
         data: [{ name: 'UI Designer' } as OpenApplication],
+        loading: false,
+        errorMessage: undefined,
+      },
+      openApplicationsCount: {
+        data: 50,
         loading: false,
         errorMessage: undefined,
       },
@@ -504,9 +511,25 @@ describe('Overview Selector', () => {
   });
 
   describe('getIsLoadingOpenApplications', () => {
-    it('should return open applications count', () => {
+    it('should return open applications loading', () => {
       expect(
         getIsLoadingOpenApplications.projector(fakeState.overview)
+      ).toEqual(fakeState.overview.openApplications.loading);
+    });
+  });
+
+  describe('getOpenApplicationsCount', () => {
+    it('should return open applications count', () => {
+      expect(getOpenApplicationsCount.projector(fakeState.overview)).toEqual(
+        50
+      );
+    });
+  });
+
+  describe('getIsLoadingOpenApplicationsCount', () => {
+    it('should return open applications count loading', () => {
+      expect(
+        getIsLoadingOpenApplicationsCount.projector(fakeState.overview)
       ).toEqual(fakeState.overview.openApplications.loading);
     });
   });

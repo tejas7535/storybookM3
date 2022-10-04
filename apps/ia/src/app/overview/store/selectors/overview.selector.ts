@@ -221,3 +221,13 @@ export const getIsLoadingOpenApplications = createSelector(
   selectOverviewState,
   (state: OverviewState) => state.openApplications.loading
 );
+
+export const getOpenApplicationsCount = createSelector(
+  selectOverviewState,
+  (state: OverviewState) => state.openApplicationsCount.data
+);
+
+export const getIsLoadingOpenApplicationsCount = createSelector(
+  selectOverviewState,
+  (state: OverviewState) => state.openApplicationsCount.loading
+);

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
@@ -18,6 +19,7 @@ import { OpenPositionsListModule } from './open-positions-list/open-positions-li
     MatIconModule,
     MatMenuModule,
     OpenPositionsListModule,
+    LoadingSpinnerModule,
   ],
   exports: [OpenPositionsComponent],
 })

@@ -20,6 +20,9 @@ import {
   loadFluctuationRatesOverviewFailure,
   loadFluctuationRatesOverviewSuccess,
   loadOpenApplications,
+  loadOpenApplicationsCount,
+  loadOpenApplicationsCountFailure,
+  loadOpenApplicationsCountSuccess,
   loadOpenApplicationsFailure,
   loadOpenApplicationsSuccess,
   loadOverviewEntryEmployees,
@@ -212,9 +215,7 @@ describe('Overview Reducer', () => {
 
   describe('loadOpenApplications', () => {
     test('should set loading', () => {
-      const action = loadOpenApplications({
-        orgUnit: 'ABC',
-      });
+      const action = loadOpenApplications();
       const state = overviewReducer(initialState, action);
 
       expect(state.openApplications.loading).toBeTruthy();
@@ -331,6 +332,52 @@ describe('Overview Reducer', () => {
 
       expect(state.entryEmployees.loading).toBeFalsy();
       expect(state.entryEmployees.errorMessage).toEqual(errorMessage);
+    });
+  });
+
+  describe('loadOpenApplicationsCount', () => {
+    test('should set loading', () => {
+      const action = loadOpenApplicationsCount({
+        request: {} as unknown as EmployeesRequest,
+      });
+      const state = overviewReducer(initialState, action);
+
+      expect(state.openApplicationsCount.loading).toBeTruthy();
+    });
+  });
+
+  describe('loadOpenApplicationsCountSuccess', () => {
+    test('should unset loading and set open applications count', () => {
+      const openApplicationsCount = 5;
+
+      const action = loadOpenApplicationsCountSuccess({
+        openApplicationsCount,
+      });
+
+      const state = overviewReducer(initialState, action);
+
+      expect(state.openApplicationsCount.loading).toBeFalsy();
+      expect(state.openApplicationsCount.data).toEqual(openApplicationsCount);
+    });
+  });
+
+  describe('loadOpenApplicationsCountFailure', () => {
+    test('should unset loading / set error message', () => {
+      const action = loadOpenApplicationsCountFailure({ errorMessage });
+      const fakeState = {
+        ...initialState,
+        openApplicationsCount: {
+          ...initialState.openApplicationsCount,
+          loading: true,
+          data: 80,
+        },
+      };
+
+      const state = overviewReducer(fakeState, action);
+
+      expect(state.openApplicationsCount.data).toBeUndefined();
+      expect(state.openApplicationsCount.loading).toBeFalsy();
+      expect(state.openApplicationsCount.errorMessage).toEqual(errorMessage);
     });
   });
 

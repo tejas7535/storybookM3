@@ -7,6 +7,7 @@ import { marbles } from 'rxjs-marbles/jest';
 import { DoughnutConfig } from '../shared/charts/models/doughnut-config.model';
 import { OverviewComponent } from './overview.component';
 import {
+  loadOpenApplications,
   loadOverviewEntryEmployees,
   loadOverviewExitEmployees,
 } from './store/actions/overview.action';
@@ -323,6 +324,14 @@ describe('OverviewComponent', () => {
       component.triggerLoadEntryEmployees();
 
       expect(store.dispatch).toHaveBeenCalledWith(loadOverviewEntryEmployees());
+    });
+  });
+
+  describe('triggerLoadOpenApplications', () => {
+    test('should dispatch loadOpenApplications', () => {
+      component.triggerLoadOpenApplications();
+
+      expect(store.dispatch).toHaveBeenCalledWith(loadOpenApplications());
     });
   });
 });

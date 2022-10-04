@@ -19,6 +19,9 @@ import {
   loadFluctuationRatesOverviewFailure,
   loadFluctuationRatesOverviewSuccess,
   loadOpenApplications,
+  loadOpenApplicationsCount,
+  loadOpenApplicationsCountFailure,
+  loadOpenApplicationsCountSuccess,
   loadOpenApplicationsFailure,
   loadOpenApplicationsSuccess,
   loadOverviewEntryEmployees,
@@ -70,6 +73,11 @@ export interface OverviewState {
     loading: boolean;
     errorMessage: string;
   };
+  openApplicationsCount: {
+    loading: boolean;
+    data: number;
+    errorMessage: string;
+  };
 }
 
 export const initialState: OverviewState = {
@@ -106,6 +114,11 @@ export const initialState: OverviewState = {
   openApplications: {
     data: undefined,
     loading: false,
+    errorMessage: undefined,
+  },
+  openApplicationsCount: {
+    loading: false,
+    data: undefined,
     errorMessage: undefined,
   },
 };
@@ -315,6 +328,7 @@ export const overviewReducer = createReducer(
       ...state,
       openApplications: {
         ...state.openApplications,
+        data: undefined,
         loading: true,
       },
     })
@@ -337,6 +351,38 @@ export const overviewReducer = createReducer(
       openApplications: {
         ...state.openApplications,
         errorMessage,
+        loading: false,
+      },
+    })
+  ),
+  on(
+    loadOpenApplicationsCount,
+    (state: OverviewState): OverviewState => ({
+      ...state,
+      openApplicationsCount: {
+        ...state.openApplicationsCount,
+        loading: true,
+      },
+    })
+  ),
+  on(
+    loadOpenApplicationsCountSuccess,
+    (state: OverviewState, { openApplicationsCount }): OverviewState => ({
+      ...state,
+      openApplicationsCount: {
+        data: openApplicationsCount,
+        loading: false,
+        errorMessage: undefined,
+      },
+    })
+  ),
+  on(
+    loadOpenApplicationsCountFailure,
+    (state: OverviewState, { errorMessage }): OverviewState => ({
+      ...state,
+      openApplicationsCount: {
+        errorMessage,
+        data: undefined,
         loading: false,
       },
     })

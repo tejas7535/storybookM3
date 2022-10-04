@@ -10,14 +10,17 @@
           {{ t('openForApplications') }}
         </span>
         <div class="flex flex-row items-center">
-          <h4 class="mr-8">{{ countOpenPositions() | defaultValue }}</h4>
+          <h4 *ngIf="!openApplicationsCountLoading; else loading" class="mr-8">
+            {{ openApplicationsCount }}
+          </h4>
           <button
             [matMenuTriggerFor]="openApplicationsMenu"
             mat-fab
             color="primary"
             class="mt-2 flex"
-            [disabled]="!openApplications || openApplications.length === 0"
-            [ngClass]="{ 'cursor-not-allowed': openApplications?.length === 0 }"
+            [disabled]="!openApplicationsCount || openApplicationsCount === 0"
+            [ngClass]="{ 'cursor-not-allowed': openApplicationsCount === 0 }"
+            (click)="onButtonClick()"
           >
             <mat-icon>group_add</mat-icon>
           </button>
@@ -28,6 +31,7 @@
           >
             <ia-open-positions-list
               [openApplications]="openApplications"
+              [isLoadingOpenApplications]="openApplicationsLoading"
             ></ia-open-positions-list>
           </mat-menu>
         </div>
@@ -40,3 +44,12 @@
     </div>
   </div>
 </div>
+<ng-template #loading>
+  <schaeffler-loading-spinner
+    class="mr-8"
+    [relative]="true"
+    [diameter]="20"
+    [strokeWidth]="2"
+  >
+  </schaeffler-loading-spinner>
+</ng-template>

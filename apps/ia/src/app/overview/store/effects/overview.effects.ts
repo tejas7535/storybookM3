@@ -36,6 +36,9 @@ import {
   loadFluctuationRatesOverviewFailure,
   loadFluctuationRatesOverviewSuccess,
   loadOpenApplications,
+  loadOpenApplicationsCount,
+  loadOpenApplicationsCountFailure,
+  loadOpenApplicationsCountSuccess,
   loadOpenApplicationsFailure,
   loadOpenApplicationsSuccess,
   loadOverviewData,
@@ -78,7 +81,7 @@ export class OverviewEffects {
         loadFluctuationRatesOverview({ request }),
         loadFluctuationRatesChartData({ request }),
         loadResignedEmployees({ request }),
-        loadOpenApplications({ orgUnit: request.value }),
+        loadOpenApplicationsCount({ request }),
       ])
     )
   );
@@ -178,9 +181,9 @@ export class OverviewEffects {
   loadOpenApplications$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadOpenApplications),
-      map((action) => action.orgUnit),
-      switchMap((orgUnit: string) =>
-        this.overviewService.getOpenApplications(orgUnit).pipe(
+      concatLatestFrom(() => this.store.select(getCurrentFilters)),
+      switchMap(([_action, request]) =>
+        this.overviewService.getOpenApplications(request).pipe(
           map((data: OpenApplication[]) =>
             loadOpenApplicationsSuccess({ data })
           ),
@@ -239,6 +242,25 @@ export class OverviewEffects {
       )
     )
   );
+
+  loadOpenApplicationsCount$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(loadOpenApplicationsCount),
+      map((action) => action.request),
+      switchMap((request: EmployeesRequest) =>
+        this.overviewService.getOpenApplicationsCount(request).pipe(
+          map((openApplicationsCount) =>
+            loadOpenApplicationsCountSuccess({ openApplicationsCount })
+          ),
+          catchError((error) =>
+            of(
+              loadOpenApplicationsCountFailure({ errorMessage: error.message })
+            )
+          )
+        )
+      )
+    );
+  });
 
   constructor(
     private readonly actions$: Actions,
