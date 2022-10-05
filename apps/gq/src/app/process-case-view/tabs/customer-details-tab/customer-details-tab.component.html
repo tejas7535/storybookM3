@@ -1,0 +1,76 @@
+<div
+  class="flex flex-col gap-4 p-4 md:flex-row lg:grid lg:grid-cols-4 lg:items-start"
+  *transloco="let t; read: 'processCaseView'"
+>
+  <div class="grid grid-cols-2 gap-4 md:w-1/2 lg:w-full">
+    <!--
+    TODO: Fetch correct values from BE and re-add these kpi cards
+    <gq-kpi-status-card title="Budget 2022" kpiValue="-"></gq-kpi-status-card>
+    <gq-kpi-status-card
+      title="Account Potential"
+      kpiValue="-"
+    ></gq-kpi-status-card>
+    -->
+
+    <div class="col-span-2 row-span-4">
+      <gq-kpi-status-card [title]="t('tabs.customerDetails.customerCardTitle')">
+        <gq-basic-customer
+          [customer]="customer$ | ngrxPush"
+          [currentYear]="currentYear"
+          [lastYear]="lastYear"
+        ></gq-basic-customer>
+      </gq-kpi-status-card>
+    </div>
+  </div>
+  <div class="flex flex-col gap-4 md:w-1/2 lg:grid lg:w-full lg:grid-cols-2">
+    <!--
+    TODO: Fetch correct values from BE and re-add these kpi cards
+    <div class="col-span-2">
+      <gq-kpi-status-card
+        title="Share of wallet"
+        [kpiValue]="'-'"
+      ></gq-kpi-status-card>
+    </div>
+    <gq-kpi-status-card
+      title="Check for improvements"
+      [kpiValue]="'-'"
+    ></gq-kpi-status-card>
+    <gq-kpi-status-card
+      title="Supply Concept"
+      [kpiValue]="'-'"
+    ></gq-kpi-status-card>
+    <gq-kpi-status-card
+      title="Demand Prio"
+      [kpiValue]="'-'"
+    ></gq-kpi-status-card>
+    <gq-kpi-status-card title="ROP" [kpiValue]="'-'"></gq-kpi-status-card>
+    -->
+    <div class="col-span-2">
+      <gq-kpi-status-card [title]="t('tabs.customerDetails.summaryCardTitle')">
+        <gq-keyaccount
+          [customer]="customer$ | ngrxPush"
+          [lastYear]="lastYear"
+          [currentYear]="currentYear"
+        ></gq-keyaccount>
+      </gq-kpi-status-card>
+    </div>
+    <div class="col-span-2">
+      <gq-kpi-status-card [title]="t('tabs.customerDetails.salesforce.title')">
+        <gq-salesforce
+          [accountPotential]="(customer$ | ngrxPush).accountPotential"
+          [currency]="(customer$ | ngrxPush).currency"
+        >
+        </gq-salesforce>
+      </gq-kpi-status-card>
+    </div>
+  </div>
+  <div class="col-span-2">
+    <!--
+    TODO: Fetch correct values from BE and re-add these kpi cards
+    <gq-kpi-status-card
+      title="Customer Analysis"
+      kpiValue="-"
+    ></gq-kpi-status-card>
+    -->
+  </div>
+</div>

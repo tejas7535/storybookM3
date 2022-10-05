@@ -169,7 +169,6 @@ export class ProcessCaseEffect {
       filter(
         (routerState) =>
           routerState.url.includes(AppRoutePath.ProcessCaseViewPath) ||
-          routerState.url.includes(AppRoutePath.CustomerViewPath) ||
           routerState.url.includes(AppRoutePath.DetailViewPath)
       ),
       mergeMap((routerState) => {

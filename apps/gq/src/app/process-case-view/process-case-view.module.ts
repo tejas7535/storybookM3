@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -16,27 +15,25 @@ import { ShareButtonModule } from '@schaeffler/share-button';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { TabsHeaderModule } from '../../app/shared/components/tabs-header/tabs-header.module';
 import { ProcessCaseEffect } from '../core/store/effects/process-case/process-case.effects';
 import { processCaseReducer } from '../core/store/reducers/process-case/process-case.reducer';
 import { CustomerHeaderModule } from '../shared/components/header/customer-header/customer-header.module';
 import { ExportExcelModalModule } from '../shared/components/modal/export-excel-modal/export-excel-modal.module';
 import { SharedPipesModule } from '../shared/pipes/shared-pipes.module';
 import { AddMaterialDialogModule } from './add-material-dialog/add-material-dialog.module';
-import { CalculationInProgressComponent } from './calculation-in-progress/calculation-in-progress.component';
 import { HeaderContentModule } from './header-content/header-content.module';
 import { ProcessCaseViewComponent } from './process-case-view.component';
 import { ProcessCaseViewRoutingModule } from './process-case-view-routing.module';
-import { QuotationDetailsTableModule } from './quotation-details-table/quotation-details-table.module';
 
 @NgModule({
-  declarations: [ProcessCaseViewComponent, CalculationInProgressComponent],
+  declarations: [ProcessCaseViewComponent],
   imports: [
     CommonModule,
     EffectsModule.forFeature([ProcessCaseEffect]),
     MatSidenavModule,
     HeaderContentModule,
     ProcessCaseViewRoutingModule,
-    QuotationDetailsTableModule,
     SharedPipesModule,
     StoreModule.forFeature('processCase', processCaseReducer),
     AddMaterialDialogModule,
@@ -46,10 +43,11 @@ import { QuotationDetailsTableModule } from './quotation-details-table/quotation
     SubheaderModule,
     BreadcrumbsModule,
     CustomerHeaderModule,
-    MatCardModule,
     ShareButtonModule,
     ExportExcelModalModule,
     MatTabsModule,
+    SubheaderModule,
+    TabsHeaderModule,
   ],
   providers: [
     {

@@ -1,0 +1,25 @@
+<mat-card
+  class="flex h-full"
+  *ngIf="
+    !(quotation$ | ngrxPush).calculationInProgress &&
+      !(quotation$ | ngrxPush).sapCallInProgress;
+    else taskInProgress
+  "
+>
+  <gq-quotation-details-table
+    *ngIf="!(updateLoading$ | ngrxPush); else updateLoading"
+    [quotation]="quotation$ | ngrxPush"
+  ></gq-quotation-details-table>
+</mat-card>
+
+<ng-template #taskInProgress>
+  <gq-calculation-in-progress
+    [amountDetails]="(quotation$ | ngrxPush).quotationDetails.length"
+    [isSapRefreshInProgress]="(quotation$ | ngrxPush).sapCallInProgress"
+  >
+  </gq-calculation-in-progress>
+</ng-template>
+
+<ng-template #updateLoading>
+  <schaeffler-loading-spinner></schaeffler-loading-spinner
+></ng-template>

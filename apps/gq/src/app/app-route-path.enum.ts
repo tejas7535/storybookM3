@@ -3,7 +3,6 @@ export enum AppRoutePath {
   ForbiddenPath = 'forbidden',
   ForbiddenCustomerPath = 'forbiddenCustomer',
   CaseViewPath = 'case-view',
-  CustomerViewPath = 'customer-view',
   DetailViewPath = 'detail-view',
   ProcessCaseViewPath = 'process-case',
 }

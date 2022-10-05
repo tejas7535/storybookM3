@@ -4,6 +4,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -32,18 +33,17 @@ import {
   getGqId,
   getQuotation,
   getQuotationLoading,
-  getUpdateLoading,
   updateQuotation,
 } from '../core/store';
 import { CustomStatusBarModule } from '../shared/ag-grid/custom-status-bar/custom-status-bar.module';
 import { AddEntryModule } from '../shared/components/case-material/add-entry/add-entry.module';
 import { InputTableModule } from '../shared/components/case-material/input-table/input-table.module';
 import { CustomerHeaderModule } from '../shared/components/header/customer-header/customer-header.module';
+import { TabsHeaderComponent } from '../shared/components/tabs-header/tabs-header.component';
 import { SharedPipesModule } from '../shared/pipes/shared-pipes.module';
 import { HelperService } from '../shared/services/helper-service/helper-service.service';
 import { UpdateQuotationRequest } from '../shared/services/rest-services/quotation-service/models/update-quotation-request.model';
 import { AddMaterialDialogComponent } from './add-material-dialog/add-material-dialog.component';
-import { CalculationInProgressComponent } from './calculation-in-progress/calculation-in-progress.component';
 import { HeaderContentModule } from './header-content/header-content.module';
 import { ProcessCaseViewComponent } from './process-case-view.component';
 import { ProcessCaseViewRoutingModule } from './process-case-view-routing.module';
@@ -85,8 +85,9 @@ describe('ProcessCaseViewComponent', () => {
       BreadcrumbsModule,
       SharedPipesModule,
       ShareButtonModule,
+      MatTabsModule,
     ],
-    declarations: [CalculationInProgressComponent],
+    declarations: [TabsHeaderComponent],
     providers: [
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       mockProvider(ApplicationInsightsService),
@@ -155,18 +156,7 @@ describe('ProcessCaseViewComponent', () => {
         );
       })
     );
-    test(
-      'should set updateLoading$',
-      marbles((m) => {
-        store.overrideSelector(getUpdateLoading, true);
 
-        component.ngOnInit();
-
-        m.expect(component.updateLoading$).toBeObservable(
-          m.cold('a', { a: true })
-        );
-      })
-    );
     test(
       'should set breadcrumbs$',
       marbles((m) => {

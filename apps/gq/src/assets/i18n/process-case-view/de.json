@@ -5,8 +5,47 @@
     "caseNamePlaceholder": "Geben Sie einen Case Namen ein (max. 20 Zeichen)"
   },
   "tabs": {
-    "quotations": "Einzelne Angebote",
-    "customer": "Kundeninformationen"
+    "singleQuotes": {
+      "title": "Einzelne Angebote"
+    },
+    "customerDetails": {
+      "title": "Kundeninformationen",
+      "customerCardTitle": "Kunde",
+      "summaryCardTitle": "Zusammenfassung",
+      "basicInformation": {
+        "country": "Land",
+        "customer": "Kunde",
+        "customerId": "Kundennummer",
+        "netSalesClassification": "Umsatzklassifizierung (A,B,C)",
+        "netSales": "Fakturierter Wert",
+        "gpi": "GPI",
+        "incoterms": "Incoterms",
+        "keyAccount": "Key-Account",
+        "paymentTerms": "Zahlungsbedingungen",
+        "region": "Region",
+        "salesOrg": "VkOrg",
+        "sectorManagement": "Sektormanagement",
+        "subKeyAccount": "Sub-Key-Account",
+        "subRegion": "Sub-Region",
+        "subSector": "Teilbranche",
+        "title": "Kunde"
+      },
+      "salesforce": {
+        "title": "Salesforce",
+        "accountPotential": "Account-Potential",
+        "keyAccountPotential": "Key-Account-Potential",
+        "subKeyAccountPotential": "Sub-Key-Account-Potential",
+        "accountOwner": "Account-Inhaber",
+        "accountOwnerContact": "Account-Inhaber Kontakt"
+      },
+      "keyaccount": {
+        "title": "Key Account",
+        "keyAccount": "Key Account",
+        "subKeyAccount": "Sub Key Account",
+        "netSales": "Fakturierter Wert",
+        "gpi": "GPI"
+      }
+    }
   },
   "confirmDeletePositions": {
     "text": "Möchten sie wirklich diese Einträge ({{variable}}) vom Case löschen?",

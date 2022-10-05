@@ -1,0 +1,71 @@
+<div
+  *transloco="let t; read: 'processCaseView.tabs.customerDetails.keyaccount'"
+>
+  <div *ngIf="customer">
+    <gq-label-text>
+      <span label>{{ t('keyAccount') }}</span>
+      <span text>{{ customer.keyAccountId }} | {{ customer.keyAccount }}</span>
+    </gq-label-text>
+    <gq-label-text>
+      <span label>{{ currentYear }} {{ t('netSales') }}</span>
+      <span text>{{
+        customer.marginDetail.keyAccountCurrentNetSales
+          | numberCurrency: customer.currency
+      }}</span>
+    </gq-label-text>
+    <gq-label-text>
+      <span label>{{ currentYear }} {{ t('gpi') }}</span>
+      <span text>{{
+        customer.marginDetail.keyAccountCurrentGpi | percentage
+      }}</span>
+    </gq-label-text>
+    <gq-label-text>
+      <span label>{{ lastYear }} {{ t('netSales') }}</span>
+      <span text>{{
+        customer.marginDetail.keyAccountNetSalesLastYear
+          | numberCurrency: customer.currency
+      }}</span>
+    </gq-label-text>
+    <gq-label-text>
+      <span label>{{ lastYear }} {{ t('gpi') }}</span>
+      <span text>{{
+        customer.marginDetail.keyAccountGpiLastYear | percentage
+      }}</span>
+    </gq-label-text>
+    <gq-horizontal-divider></gq-horizontal-divider>
+  </div>
+  <div>
+    <gq-label-text>
+      <span label>{{ t('subKeyAccount') }}</span>
+      <span text
+        >{{ customer.subKeyAccountId }} | {{ customer.subKeyAccount }}</span
+      >
+    </gq-label-text>
+    <gq-label-text>
+      <span label>{{ currentYear }} {{ t('netSales') }}</span>
+      <span text>{{
+        customer.marginDetail.subKeyAccountCurrentNetSales
+          | numberCurrency: customer.currency
+      }}</span>
+    </gq-label-text>
+    <gq-label-text>
+      <span label>{{ currentYear }} {{ t('gpi') }}</span>
+      <span text>{{
+        customer.marginDetail.subKeyAccountCurrentGpi | percentage
+      }}</span>
+    </gq-label-text>
+    <gq-label-text>
+      <span label>{{ lastYear }} {{ t('netSales') }}</span>
+      <span text>{{
+        customer.marginDetail.subKeyAccountNetSalesLastYear
+          | numberCurrency: customer.currency
+      }}</span>
+    </gq-label-text>
+    <gq-label-text [marginBottom]="false">
+      <span label>{{ lastYear }} {{ t('gpi') }}</span>
+      <span text>{{
+        customer.marginDetail.subKeyAccountGpiLastYear | percentage
+      }}</span>
+    </gq-label-text>
+  </div>
+</div>

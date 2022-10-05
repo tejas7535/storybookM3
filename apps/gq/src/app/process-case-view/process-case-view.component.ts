@@ -11,11 +11,12 @@ import {
   getCustomerLoading,
   getGqId,
   getQuotationLoading,
-  getUpdateLoading,
 } from '../core/store/selectors';
+import { Tab } from '../shared/components/tabs-header/tab.model';
 import { Quotation } from '../shared/models';
 import { BreadcrumbsService } from '../shared/services/breadcrumbs-service/breadcrumbs.service';
 import { UpdateQuotationRequest } from '../shared/services/rest-services/quotation-service/models/update-quotation-request.model';
+import { ProcessCaseRoutePath } from './process-case-route-path.enum';
 
 @Component({
   selector: 'gq-case-view',
@@ -26,8 +27,9 @@ export class ProcessCaseViewComponent implements OnInit {
   public quotation$: Observable<Quotation>;
   public customerLoading$: Observable<boolean>;
   public quotationLoading$: Observable<boolean>;
-  public updateLoading$: Observable<boolean>;
   public breadcrumbs$: Observable<Breadcrumb[]>;
+
+  public tabs: Tab[];
 
   constructor(
     private readonly store: Store,
@@ -38,7 +40,6 @@ export class ProcessCaseViewComponent implements OnInit {
     this.quotation$ = this.store.select(getQuotation);
     this.customerLoading$ = this.store.select(getCustomerLoading);
     this.quotationLoading$ = this.store.select(getQuotationLoading);
-    this.updateLoading$ = this.store.select(getUpdateLoading);
     this.breadcrumbs$ = this.store
       .select(getGqId)
       .pipe(
@@ -48,6 +49,17 @@ export class ProcessCaseViewComponent implements OnInit {
           )
         )
       );
+
+    this.tabs = [
+      {
+        label: 'processCaseView.tabs.singleQuotes.title',
+        link: ProcessCaseRoutePath.SingleQuotesPath,
+      },
+      {
+        label: 'processCaseView.tabs.customerDetails.title',
+        link: ProcessCaseRoutePath.CustomerDetailsPath,
+      },
+    ];
   }
 
   public updateQuotation(updateQuotationRequest: UpdateQuotationRequest) {

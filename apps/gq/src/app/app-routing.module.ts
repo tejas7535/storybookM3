@@ -61,14 +61,6 @@ export const appRoutePaths: Routes = [
     canActivateChild: [RoleGuard],
   },
   {
-    path: AppRoutePath.CustomerViewPath,
-    loadChildren: () =>
-      import('./customer-view/customer-view.module').then(
-        (m) => m.CustomerViewModule
-      ),
-    canActivateChild: [RoleGuard],
-  },
-  {
     path: '**',
     loadChildren: () =>
       import('@schaeffler/empty-states').then((m) => m.PageNotFoundModule),

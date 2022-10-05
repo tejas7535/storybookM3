@@ -1,0 +1,34 @@
+<div
+  *transloco="let t; read: 'processCaseView.tabs.customerDetails.salesforce'"
+>
+  <div>
+    <gq-label-text>
+      <span label>{{ t('accountPotential') }}</span>
+      <span text>{{
+        accountPotential.accountPotentialValue | numberCurrency: currency
+      }}</span>
+    </gq-label-text>
+    <gq-label-text>
+      <span label>{{ t('keyAccountPotential') }}</span>
+      <span text>{{
+        accountPotential.keyAccountPotentialValue | numberCurrency: currency
+      }}</span>
+    </gq-label-text>
+    <gq-label-text [marginBottom]="false">
+      <span label>{{ t('subKeyAccountPotential') }}</span>
+      <span text>{{
+        accountPotential.subkeyAccountPotentialValue | numberCurrency: currency
+      }}</span>
+    </gq-label-text>
+    <gq-horizontal-divider></gq-horizontal-divider>
+  </div>
+
+  <gq-label-text>
+    <span label>{{ t('accountOwner') }}</span>
+    <span text>{{ accountPotential.accountOwner }}</span>
+  </gq-label-text>
+  <gq-label-text>
+    <span label>{{ t('accountOwnerContact') }}</span>
+    <span text>{{ accountPotential.accountOwnerEmail }}</span>
+  </gq-label-text>
+</div>

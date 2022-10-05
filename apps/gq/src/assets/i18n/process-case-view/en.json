@@ -5,8 +5,47 @@
     "caseNamePlaceholder": "Enter a case name (max. 20 characters)"
   },
   "tabs": {
-    "quotations": "Single Quotes",
-    "customer": "Customer View"
+    "singleQuotes": {
+      "title": "Single Quotes"
+    },
+    "customerDetails": {
+      "title": "Customer View",
+      "customerCardTitle": "Customer",
+      "summaryCardTitle": "Summary",
+      "basicInformation": {
+        "title": "Customer",
+        "country": "Country",
+        "customer": "Customer",
+        "customerId": "Customer Number",
+        "netSalesClassification": "Invoice Value Classification (A,B,C)",
+        "netSales": "Invoiced Value",
+        "gpi": "GPI",
+        "incoterms": "Incoterms",
+        "keyAccount": "Key Account",
+        "paymentTerms": "Payment Terms",
+        "region": "Region",
+        "salesOrg": "Sales Org",
+        "sectorManagement": "Sector Management",
+        "subKeyAccount": "Sub Key Account",
+        "subRegion": "Sub-Region",
+        "subSector": "Subsector"
+      },
+      "salesforce": {
+        "title": "Salesforce",
+        "accountPotential": "Account Potential",
+        "keyAccountPotential": "Key Account Potential",
+        "subKeyAccountPotential": "Sub Key Account Potential",
+        "accountOwner": "Account Owner",
+        "accountOwnerContact": "Account Owner Contact"
+      },
+      "keyaccount": {
+        "title": "Key Account",
+        "keyAccount": "Key Account",
+        "subKeyAccount": "Sub Key Account",
+        "netSales": "Invoiced Value",
+        "gpi": "GPI"
+      }
+    }
   },
   "confirmDeletePositions": {
     "text": "Do you really want to delete these entries ({{variable}}) from this case?",

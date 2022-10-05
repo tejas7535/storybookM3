@@ -2,17 +2,17 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { HorizontalDividerModule } from '../../../shared/components/horizontal-divider/horizontal-divider.module';
-import { LabelTextModule } from '../../../shared/components/label-text/label-text.module';
-import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
-import { BasicCustomerComponent } from './basic-customer.component';
+import { HorizontalDividerModule } from '../../../../shared/components/horizontal-divider/horizontal-divider.module';
+import { LabelTextModule } from '../../../../shared/components/label-text/label-text.module';
+import { SharedPipesModule } from '../../../../shared/pipes/shared-pipes.module';
+import { SalesforceComponent } from './salesforce.component';
 
-describe('BasicCustomerComponent', () => {
-  let component: BasicCustomerComponent;
-  let spectator: Spectator<BasicCustomerComponent>;
+describe('SalesforceComponent', () => {
+  let component: SalesforceComponent;
+  let spectator: Spectator<SalesforceComponent>;
 
   const createComponent = createComponentFactory({
-    component: BasicCustomerComponent,
+    component: SalesforceComponent,
     imports: [
       HorizontalDividerModule,
       LabelTextModule,

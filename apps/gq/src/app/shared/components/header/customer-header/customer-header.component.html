@@ -88,7 +88,10 @@
         </div>
       </div>
     </div>
-    <div class="!absolute top-5 right-0 h-10 !bg-surface">
+    <div
+      class="!absolute top-5 right-0 h-10 !bg-surface"
+      *ngIf="showDetailsButton"
+    >
       <button
         color="primary"
         class="font-medium"

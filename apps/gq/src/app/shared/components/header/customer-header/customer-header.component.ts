@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
+import { ProcessCaseRoutePath } from '../../../../process-case-view/process-case-route-path.enum';
 import { Customer } from '../../../models/customer';
 import { HelperService } from '../../../services/helper-service/helper-service.service';
 
@@ -11,6 +12,8 @@ import { HelperService } from '../../../services/helper-service/helper-service.s
 })
 export class CustomerHeaderComponent implements OnInit {
   @Input() customer: Customer;
+  @Input() showDetailsButton = true;
+
   public lastYear: number;
   constructor(private readonly router: Router) {}
 
@@ -19,8 +22,13 @@ export class CustomerHeaderComponent implements OnInit {
   }
 
   openCustomer(): void {
-    this.router.navigate([AppRoutePath.CustomerViewPath], {
-      queryParamsHandling: 'preserve',
-    });
+    this.router.navigate(
+      [
+        `${AppRoutePath.ProcessCaseViewPath}/${ProcessCaseRoutePath.CustomerDetailsPath}`,
+      ],
+      {
+        queryParamsHandling: 'preserve',
+      }
+    );
   }
 }

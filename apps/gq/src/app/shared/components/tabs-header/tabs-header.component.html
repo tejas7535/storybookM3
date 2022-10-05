@@ -1,0 +1,18 @@
+<div class="flex h-full flex-col">
+  <nav class="bg-surface" mat-tab-nav-bar mat-stretch-tabs *transloco="let t">
+    <a
+      *ngFor="let tab of tabs"
+      mat-tab-link
+      queryParamsHandling="merge"
+      routerLinkActive
+      #rla="routerLinkActive"
+      [routerLink]="tab.link"
+      [active]="rla.isActive"
+      [disabled]="tab.disabled"
+      >{{ t(tab.label) | uppercase }}
+    </a>
+  </nav>
+  <div class="w-full grow">
+    <router-outlet></router-outlet>
+  </div>
+</div>

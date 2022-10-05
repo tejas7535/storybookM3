@@ -27,46 +27,17 @@
       <schaeffler-share-button></schaeffler-share-button>
     </ng-container>
     <ng-container subheaderBlockContent>
-      <gq-customer-header [customer]="quotation.customer"> </gq-customer-header>
+      <gq-customer-header
+        [customer]="quotation.customer"
+        [showDetailsButton]="false"
+      >
+      </gq-customer-header>
     </ng-container>
   </schaeffler-subheader>
 
-  <mat-tab-group
-    mat-stretch-tabs
-    class="flex-1"
-    *transloco="let t; read: 'processCaseView'"
-  >
-    <mat-tab [label]="t('tabs.quotations')" class="h-full">
-      <mat-card
-        class="flex h-full"
-        *ngIf="
-          !(quotation$ | ngrxPush).calculationInProgress &&
-            !(quotation$ | ngrxPush).sapCallInProgress;
-          else taskInProgress
-        "
-      >
-        <gq-quotation-details-table
-          *ngIf="!(updateLoading$ | ngrxPush); else updateLoading"
-          [quotation]="quotation$ | ngrxPush"
-        ></gq-quotation-details-table>
-        <ng-template #updateLoading>
-          <schaeffler-loading-spinner></schaeffler-loading-spinner>
-        </ng-template>
-      </mat-card>
-    </mat-tab>
-    <mat-tab [label]="t('tabs.customer')">
-      <div class="h-full"></div>
-    </mat-tab>
-  </mat-tab-group>
-
-  <ng-template #taskInProgress>
-    <gq-calculation-in-progress
-      [amountDetails]="(quotation$ | ngrxPush).quotationDetails.length"
-      [isSapRefreshInProgress]="(quotation$ | ngrxPush).sapCallInProgress"
-    >
-    </gq-calculation-in-progress>
-  </ng-template>
+  <gq-tabs-header class="grow" [tabs]="tabs"></gq-tabs-header>
 </div>
+
 <ng-template #loading>
   <schaeffler-loading-spinner></schaeffler-loading-spinner>
 </ng-template>
