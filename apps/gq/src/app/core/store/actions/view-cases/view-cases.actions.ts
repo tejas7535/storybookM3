@@ -1,13 +1,15 @@
 import { createAction, props, union } from '@ngrx/store';
 
-import { ViewQuotation } from '../../../../case-view/models/view-quotation.model';
+import { QuotationStatus } from '../../../../shared/models/quotation/quotation-status.enum';
+import { GetQuotationsResponse } from '../../../../shared/services/rest-services/quotation-service/models/get-quotations-response.interface';
 
 export const loadCases = createAction(
-  '[View Cases] Get Cases For Authenticated User'
+  '[View Cases] Get Cases For Authenticated User',
+  props<{ status: QuotationStatus }>()
 );
 export const loadCasesSuccess = createAction(
   '[View Cases] Get Cases for Authenticated User Success',
-  props<{ quotations: ViewQuotation[] }>()
+  props<{ response: GetQuotationsResponse }>()
 );
 export const loadCasesFailure = createAction(
   '[View Cases] Get Cases for Authenticated User Failure',

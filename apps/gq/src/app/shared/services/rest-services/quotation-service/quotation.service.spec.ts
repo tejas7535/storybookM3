@@ -12,7 +12,7 @@ import {
 import { CUSTOMER_MOCK } from '../../../../../testing/mocks';
 import { CreateCase } from '../../../../core/store/reducers/create-case/models';
 import { SalesIndication } from '../../../../core/store/reducers/transactions/models/sales-indication.enum';
-import { ApiVersion } from '../../../models';
+import { ApiVersion, QuotationStatus } from '../../../models';
 import { CreateCustomerCase } from '../search-service/models/create-customer-case.model';
 import { QuotationPaths } from './models/quotation-paths.enum';
 import { QuotationService } from './quotation.service';
@@ -100,10 +100,12 @@ describe('QuotationService', () => {
 
   describe('getCases', () => {
     test('should call DataService getAll', () => {
-      service.getCases().subscribe((res) => expect(res).toEqual([]));
+      service
+        .getCases(QuotationStatus.ACTIVE)
+        .subscribe((res) => expect(res).toEqual([]));
 
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}`
+        `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}?${service['PARAM_STATUS']}=${QuotationStatus.ACTIVE}`
       );
       expect(req.request.method).toBe(HttpMethod.GET);
     });

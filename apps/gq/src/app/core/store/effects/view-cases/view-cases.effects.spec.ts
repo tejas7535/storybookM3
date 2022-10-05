@@ -10,6 +10,8 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { marbles } from 'rxjs-marbles';
 
+import { QuotationStatus } from '../../../../shared/models/quotation/quotation-status.enum';
+import { GetQuotationsResponse } from '../../../../shared/services/rest-services/quotation-service/models/get-quotations-response.interface';
 import { QuotationService } from '../../../../shared/services/rest-services/quotation-service/quotation.service';
 import {
   deleteCase,
@@ -67,7 +69,7 @@ describe('View Cases Effects', () => {
     test(
       'should dispatch loadCases',
       marbles((m) => {
-        const result = loadCases();
+        const result = loadCases({ status: QuotationStatus.ACTIVE });
 
         actions$ = m.hot('-a', { a: action });
 
@@ -79,19 +81,24 @@ describe('View Cases Effects', () => {
   });
   describe('loadCases', () => {
     beforeEach(() => {
-      action = loadCases();
+      action = loadCases({ status: QuotationStatus.ACTIVE });
     });
 
     test(
       'should return loadCases Success',
       marbles((m) => {
-        const quotations: any = [];
+        const getQuotationsResponse: GetQuotationsResponse = {
+          activeCount: 0,
+          inactiveCount: 0,
+          quotations: [],
+          statusTypeOfListedQuotation: QuotationStatus[QuotationStatus.ACTIVE],
+        };
 
-        const result = loadCasesSuccess({ quotations });
+        const result = loadCasesSuccess({ response: getQuotationsResponse });
         actions$ = m.hot('-a', { a: action });
 
         const response = m.cold('-a|', {
-          a: quotations,
+          a: getQuotationsResponse,
         });
         quotationService.getCases = jest.fn(() => response);
         const expected = m.cold('--b', { b: result });

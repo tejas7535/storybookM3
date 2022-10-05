@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
-import { ViewQuotation } from '../../../../case-view/models/view-quotation.model';
+import { ViewQuotation } from '../../../models/quotation';
 
 @Component({
   selector: 'gq-gq-id',

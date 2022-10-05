@@ -1,5 +1,5 @@
-import { User } from '../../shared/models';
-import { CustomerIds } from '../../shared/models/customer';
+import { User } from '..';
+import { CustomerIds } from '../customer';
 
 export interface ViewQuotation {
   gqId: number;

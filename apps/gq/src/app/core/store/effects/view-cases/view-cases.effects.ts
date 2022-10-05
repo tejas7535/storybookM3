@@ -9,7 +9,8 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
-import { ViewQuotation } from '../../../../case-view/models/view-quotation.model';
+import { QuotationStatus } from '../../../../shared/models/quotation/quotation-status.enum';
+import { GetQuotationsResponse } from '../../../../shared/services/rest-services/quotation-service/models/get-quotations-response.interface';
 import { QuotationService } from '../../../../shared/services/rest-services/quotation-service/quotation.service';
 import {
   deleteCase,
@@ -35,7 +36,7 @@ export class ViewCasesEffect {
       filter((routerState) =>
         routerState.url.includes(AppRoutePath.CaseViewPath)
       ),
-      map(loadCases)
+      map(() => loadCases({ status: QuotationStatus.ACTIVE }))
     );
   });
 
@@ -45,13 +46,16 @@ export class ViewCasesEffect {
   loadCases$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadCases.type, deleteCasesSuccess.type),
-      mergeMap(() =>
-        this.quotationService.getCases().pipe(
-          map((quotations: ViewQuotation[]) =>
-            loadCasesSuccess({ quotations })
-          ),
-          catchError((errorMessage) => of(loadCasesFailure({ errorMessage })))
-        )
+      mergeMap((action: any) =>
+        this.quotationService
+          // or condition will be removed with the migration to updateStatus endpoint
+          .getCases(action.status || QuotationStatus.ACTIVE)
+          .pipe(
+            map((response: GetQuotationsResponse) =>
+              loadCasesSuccess({ response })
+            ),
+            catchError((errorMessage) => of(loadCasesFailure({ errorMessage })))
+          )
       )
     );
   });

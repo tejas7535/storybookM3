@@ -5,10 +5,10 @@ import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import { IStatusPanelParams } from 'ag-grid-community';
 
-import { ViewQuotation } from '../../../../case-view/models/view-quotation.model';
 import { deleteCase } from '../../../../core/store';
 import { ConfirmationModalComponent } from '../../../../shared/components/modal/confirmation-modal/confirmation-modal.component';
 import { ConfirmationModalData } from '../../../components/modal/confirmation-modal/models/confirmation-modal-data.model';
+import { ViewQuotation } from '../../../models/quotation';
 
 @Component({
   selector: 'gq-delete-case-button',

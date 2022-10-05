@@ -3,19 +3,33 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
-import { provideMockStore } from '@ngrx/store/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AgGridModule } from 'ag-grid-angular';
+import { marbles } from 'rxjs-marbles';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+import { ViewToggleModule } from '@schaeffler/view-toggle';
 
+import { VIEW_CASE_STATE_MOCK } from '../../testing/mocks';
+import {
+  getDeleteLoading,
+  getQuotationLoading,
+  getQuotations,
+  getStatusBarForQuotationStatus,
+  getViewToggles,
+  loadCases,
+} from '../core/store';
 import { CustomStatusBarModule } from '../shared/ag-grid/custom-status-bar/custom-status-bar.module';
+import { QuotationStatus } from '../shared/models/quotation/quotation-status.enum';
 import { CaseTableModule } from './case-table/case-table.module';
 import { CaseViewComponent } from './case-view.component';
 
 describe('CaseViewComponent', () => {
   let component: CaseViewComponent;
   let spectator: Spectator<CaseViewComponent>;
+  let store: MockStore;
 
   const createComponent = createComponentFactory({
     component: CaseViewComponent,
@@ -27,14 +41,14 @@ describe('CaseViewComponent', () => {
       LoadingSpinnerModule,
       PushModule,
       MatCardModule,
+      ViewToggleModule,
+      SubheaderModule,
     ],
     providers: [
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockStore({
         initialState: {
-          viewCases: {
-            quotations: [],
-          },
+          viewCases: { ...VIEW_CASE_STATE_MOCK, quotationsLoading: true },
         },
       }),
     ],
@@ -43,10 +57,90 @@ describe('CaseViewComponent', () => {
 
   beforeEach(() => {
     spectator = createComponent();
+    store = spectator.inject(MockStore);
     component = spectator.debugElement.componentInstance;
   });
 
   test('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('ngOnInit', () => {
+    beforeAll(() => {});
+
+    test(
+      'should set caseViews$',
+      marbles((m) => {
+        store.overrideSelector(getViewToggles, []);
+
+        component.ngOnInit();
+
+        m.expect(component.caseViews$).toBeObservable(m.cold('a', { a: [] }));
+      })
+    );
+    test(
+      'should set statusBar$',
+      marbles((m) => {
+        store.overrideSelector(getStatusBarForQuotationStatus, {
+          statusPanels: [],
+        });
+
+        component.ngOnInit();
+
+        m.expect(component.statusBar$).toBeObservable(
+          m.cold('a', { a: { statusPanels: [] } })
+        );
+      })
+    );
+    test(
+      'should set displayedQuotations$',
+      marbles((m) => {
+        store.overrideSelector(getQuotations, []);
+
+        component.ngOnInit();
+
+        m.expect(component.displayedQuotations$).toBeObservable(
+          m.cold('a', { a: [] })
+        );
+      })
+    );
+    test(
+      'should set quotationsLoading$',
+      marbles((m) => {
+        store.overrideSelector(getQuotationLoading, true);
+
+        component.ngOnInit();
+
+        m.expect(component.quotationsLoading$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
+    test(
+      'should set deleteLoading$',
+      marbles((m) => {
+        store.overrideSelector(getDeleteLoading, false);
+
+        component.ngOnInit();
+
+        m.expect(component.deleteLoading$).toBeObservable(
+          m.cold('a', { a: false })
+        );
+      })
+    );
+  });
+
+  describe('onViewToggle', () => {
+    test('should call setDisplayedQuotations', () => {
+      store.overrideSelector(getQuotationLoading, false);
+      store.dispatch = jest.fn();
+
+      component.onViewToggle({ id: QuotationStatus.ACTIVE, title: 'title' });
+
+      expect(store.dispatch).toHaveBeenCalledTimes(1);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        loadCases({ status: QuotationStatus.ACTIVE })
+      );
+    });
   });
 });

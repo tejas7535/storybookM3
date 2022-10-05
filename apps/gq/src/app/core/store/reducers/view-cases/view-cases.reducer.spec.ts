@@ -1,6 +1,11 @@
 import { Action } from '@ngrx/store';
 
-import { VIEW_CASE_STATE_MOCK } from '../../../../../testing/mocks';
+import {
+  GET_QUOTATIONS_RESPONSE_MOCK,
+  VIEW_CASE_STATE_MOCK,
+  VIEW_QUOTATION_MOCK,
+} from '../../../../../testing/mocks';
+import { QuotationStatus } from '../../../../shared/models/quotation/quotation-status.enum';
 import {
   deleteCase,
   deleteCasesFailure,
@@ -17,12 +22,16 @@ describe('View Cases Reducer', () => {
   const errorMessage = 'An error occured';
   describe('loadCases', () => {
     test('should set quotationsLoading true', () => {
-      const action = loadCases();
+      const action = loadCases({ status: QuotationStatus.INACTIVE });
       const state = viewCasesReducer(VIEW_CASE_STATE_MOCK, action);
 
       expect(state).toEqual({
         ...VIEW_CASE_STATE_MOCK,
         quotationsLoading: true,
+        quotations: {
+          ...VIEW_CASE_STATE_MOCK.quotations,
+          displayStatus: QuotationStatus.INACTIVE,
+        },
       });
     });
   });
@@ -39,14 +48,55 @@ describe('View Cases Reducer', () => {
     });
   });
   describe('loadCasesSuccess', () => {
-    test('should set quotations and set quotationsLoading false', () => {
-      const quotations: any[] = [];
-      const action = loadCasesSuccess({ quotations });
+    test('should set active quotations and set quotationsLoading false', () => {
+      const action = loadCasesSuccess({
+        response: {
+          ...GET_QUOTATIONS_RESPONSE_MOCK,
+          quotations: [VIEW_QUOTATION_MOCK],
+        },
+      });
       const state = viewCasesReducer(VIEW_CASE_STATE_MOCK, action);
 
       expect(state).toEqual({
         ...VIEW_CASE_STATE_MOCK,
-        quotations,
+        quotations: {
+          ...VIEW_CASE_STATE_MOCK.quotations,
+          inactive: {
+            count: GET_QUOTATIONS_RESPONSE_MOCK.inactiveCount,
+            quotations: [],
+          },
+          active: {
+            count: GET_QUOTATIONS_RESPONSE_MOCK.activeCount,
+            quotations: [VIEW_QUOTATION_MOCK],
+          },
+        },
+        quotationsLoading: false,
+      });
+    });
+    test('should set inactive quotations and set quotationsLoading false', () => {
+      const action = loadCasesSuccess({
+        response: {
+          ...GET_QUOTATIONS_RESPONSE_MOCK,
+          quotations: [VIEW_QUOTATION_MOCK],
+          statusTypeOfListedQuotation:
+            QuotationStatus[QuotationStatus.INACTIVE],
+        },
+      });
+      const state = viewCasesReducer(VIEW_CASE_STATE_MOCK, action);
+
+      expect(state).toEqual({
+        ...VIEW_CASE_STATE_MOCK,
+        quotations: {
+          ...VIEW_CASE_STATE_MOCK.quotations,
+          inactive: {
+            count: GET_QUOTATIONS_RESPONSE_MOCK.inactiveCount,
+            quotations: [VIEW_QUOTATION_MOCK],
+          },
+          active: {
+            count: GET_QUOTATIONS_RESPONSE_MOCK.activeCount,
+            quotations: [],
+          },
+        },
         quotationsLoading: false,
       });
     });
@@ -89,8 +139,7 @@ describe('View Cases Reducer', () => {
   });
   describe('Reducer function', () => {
     test('should return searchReducer', () => {
-      // prepare any action
-      const action: Action = loadCases();
+      const action: Action = loadCases({ status: QuotationStatus.ACTIVE });
       expect(reducer(VIEW_CASE_STATE_MOCK, action)).toEqual(
         viewCasesReducer(VIEW_CASE_STATE_MOCK, action)
       );

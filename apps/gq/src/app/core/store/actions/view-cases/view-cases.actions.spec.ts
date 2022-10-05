@@ -1,4 +1,5 @@
-import { ViewQuotation } from '../../../../case-view/models/view-quotation.model';
+import { QuotationStatus } from '../../../../shared/models/quotation/quotation-status.enum';
+import { GetQuotationsResponse } from '../../../../shared/services/rest-services/quotation-service/models/get-quotations-response.interface';
 import {
   deselectCase,
   loadCases,
@@ -10,16 +11,22 @@ import {
 describe('View Actions', () => {
   describe('loadCases Actions', () => {
     test('load Cases', () => {
-      const action = loadCases();
+      const action = loadCases({ status: QuotationStatus.ACTIVE });
       expect(action).toEqual({
+        status: QuotationStatus.ACTIVE,
         type: '[View Cases] Get Cases For Authenticated User',
       });
     });
     test('load Cases Success', () => {
-      const quotations: ViewQuotation[] = [];
-      const action = loadCasesSuccess({ quotations });
+      const response: GetQuotationsResponse = {
+        activeCount: 0,
+        inactiveCount: 0,
+        quotations: [],
+        statusTypeOfListedQuotation: QuotationStatus[QuotationStatus.ACTIVE],
+      };
+      const action = loadCasesSuccess({ response });
       expect(action).toEqual({
-        quotations,
+        response,
         type: '[View Cases] Get Cases for Authenticated User Success',
       });
     });

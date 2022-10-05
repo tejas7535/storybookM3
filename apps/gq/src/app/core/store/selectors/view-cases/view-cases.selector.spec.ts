@@ -1,5 +1,17 @@
-import { QUOTATION_MOCK } from '../../../../../testing/mocks';
-import { initialState } from '../../reducers/view-cases/view-cases.reducer';
+import { translate } from '@ngneat/transloco';
+
+import { ViewToggle } from '@schaeffler/view-toggle';
+
+import { STATUS_BAR_CONFIG } from '../../../../../app/case-view/case-table/config';
+import {
+  VIEW_CASE_STATE_MOCK,
+  VIEW_QUOTATION_MOCK,
+} from '../../../../../testing/mocks';
+import { QuotationStatus } from '../../../../shared/models';
+import {
+  initialState,
+  ViewCasesState,
+} from '../../reducers/view-cases/view-cases.reducer';
 import * as viewCasesSelectors from './view-cases.selector';
 
 describe('View Cases Selector', () => {
@@ -7,20 +19,129 @@ describe('View Cases Selector', () => {
     viewCases: {
       ...initialState,
       quotationsLoading: false,
-      quotations: [QUOTATION_MOCK],
+      quotations: {
+        displayStatus: QuotationStatus.ACTIVE,
+        active: {
+          quotations: [VIEW_QUOTATION_MOCK],
+          count: 1,
+        },
+        inactive: {
+          quotations: [] as any,
+          count: 0,
+        },
+      },
       deleteLoading: false,
       selectedCases: [] as number[],
     },
   };
 
   describe('getQuotations', () => {
-    test('should return quotations', () => {
+    test('should return active quotations', () => {
       expect(
         viewCasesSelectors.getQuotations.projector(fakeState.viewCases)
-      ).toEqual(fakeState.viewCases.quotations);
+      ).toEqual(fakeState.viewCases.quotations.active.quotations);
+    });
+    test('should return inactive quotations', () => {
+      const inactiveFakeState: ViewCasesState = {
+        ...VIEW_CASE_STATE_MOCK,
+        quotations: {
+          ...VIEW_CASE_STATE_MOCK.quotations,
+          displayStatus: QuotationStatus.INACTIVE,
+          inactive: {
+            quotations: [VIEW_QUOTATION_MOCK],
+            count: 1,
+          },
+        },
+      };
+      expect(
+        viewCasesSelectors.getQuotations.projector(inactiveFakeState)
+      ).toEqual(inactiveFakeState.quotations.inactive.quotations);
     });
   });
 
+  describe('getStatusBarForQuotationStatus', () => {
+    test('should return status panel for active quotations', () => {
+      expect(
+        viewCasesSelectors.getStatusBarForQuotationStatus.projector(
+          fakeState.viewCases
+        )
+      ).toEqual(STATUS_BAR_CONFIG);
+    });
+    test('should return status panel for inactive quotations', () => {
+      expect(
+        viewCasesSelectors.getStatusBarForQuotationStatus.projector({
+          quotations: { displayStatus: QuotationStatus.INACTIVE },
+        })
+      ).toEqual({ statusPanels: [] });
+    });
+  });
+
+  describe('getViewToggles', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+    test('should get view toggles', () => {
+      const expectedViewToggles: ViewToggle[] = [
+        {
+          id: QuotationStatus.ACTIVE,
+          title: 'translate it',
+        },
+        {
+          id: QuotationStatus.INACTIVE,
+          title: 'translate it',
+          disabled: false,
+        },
+      ];
+      expect(
+        viewCasesSelectors.getViewToggles.projector(VIEW_CASE_STATE_MOCK)
+      ).toEqual(expectedViewToggles);
+
+      expect(translate).toHaveBeenCalledTimes(2);
+      expect(translate).toHaveBeenCalledWith(
+        'caseView.caseTable.viewToggle.openCases',
+        { variable: 1 }
+      );
+      expect(translate).toHaveBeenCalledWith(
+        'caseView.caseTable.viewToggle.deletedDrafts',
+        { variable: 2 }
+      );
+    });
+    test('should get view toggles with disabled inactive view', () => {
+      const expectedViewToggles: ViewToggle[] = [
+        {
+          id: QuotationStatus.ACTIVE,
+          title: 'translate it',
+        },
+        {
+          id: QuotationStatus.INACTIVE,
+          title: 'translate it',
+          disabled: true,
+        },
+      ];
+      expect(
+        viewCasesSelectors.getViewToggles.projector({
+          ...VIEW_CASE_STATE_MOCK,
+          quotations: {
+            ...VIEW_CASE_STATE_MOCK.quotations,
+            inactive: {
+              count: 0,
+              quotations: [],
+            },
+          },
+        })
+      ).toEqual(expectedViewToggles);
+
+      expect(translate).toHaveBeenCalledTimes(2);
+      expect(translate).toHaveBeenCalledWith(
+        'caseView.caseTable.viewToggle.openCases',
+        { variable: 1 }
+      );
+      expect(translate).toHaveBeenCalledWith(
+        'caseView.caseTable.viewToggle.deletedDrafts',
+        { variable: 0 }
+      );
+    });
+  });
   describe('getQuotationsLoading', () => {
     test('should return false', () => {
       expect(

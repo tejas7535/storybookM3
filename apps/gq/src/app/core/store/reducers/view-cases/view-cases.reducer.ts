@@ -1,6 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
-import { ViewQuotation } from '../../../../case-view/models/view-quotation.model';
+import { QuotationStatus } from '../../../../shared/models/quotation/quotation-status.enum';
 import {
   deleteCase,
   deleteCasesFailure,
@@ -11,11 +11,12 @@ import {
   loadCasesSuccess,
   selectCase,
 } from '../../actions';
+import { ViewCasesStateQuotations } from './models/view-case-state-quotations.interface';
 
 export interface ViewCasesState {
   quotationsLoading: boolean;
   errorMessage: string;
-  quotations: ViewQuotation[];
+  quotations: ViewCasesStateQuotations;
   deleteLoading: boolean;
   selectedCases: number[];
 }
@@ -23,7 +24,17 @@ export interface ViewCasesState {
 export const initialState: ViewCasesState = {
   quotationsLoading: false,
   errorMessage: undefined,
-  quotations: undefined,
+  quotations: {
+    displayStatus: QuotationStatus.ACTIVE,
+    active: {
+      quotations: [],
+      count: undefined,
+    },
+    inactive: {
+      quotations: [],
+      count: undefined,
+    },
+  },
   deleteLoading: false,
   selectedCases: [],
 };
@@ -32,8 +43,12 @@ export const viewCasesReducer = createReducer(
   initialState,
   on(
     loadCases,
-    (state: ViewCasesState): ViewCasesState => ({
+    (state: ViewCasesState, { status }): ViewCasesState => ({
       ...state,
+      quotations: {
+        ...state.quotations,
+        displayStatus: status,
+      },
       quotationsLoading: true,
     })
   ),
@@ -47,9 +62,27 @@ export const viewCasesReducer = createReducer(
   ),
   on(
     loadCasesSuccess,
-    (state: ViewCasesState, { quotations }): ViewCasesState => ({
+    (state: ViewCasesState, { response }): ViewCasesState => ({
       ...state,
-      quotations,
+      quotations: {
+        ...state.quotations,
+        active: {
+          count: response.activeCount,
+          quotations:
+            response.statusTypeOfListedQuotation ===
+            QuotationStatus[QuotationStatus.ACTIVE]
+              ? response.quotations
+              : state.quotations.active.quotations,
+        },
+        inactive: {
+          count: response.inactiveCount,
+          quotations:
+            response.statusTypeOfListedQuotation ===
+            QuotationStatus[QuotationStatus.INACTIVE]
+              ? response.quotations
+              : state.quotations.inactive.quotations,
+        },
+      },
       quotationsLoading: false,
     })
   ),

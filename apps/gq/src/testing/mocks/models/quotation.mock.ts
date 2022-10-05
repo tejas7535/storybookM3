@@ -1,4 +1,5 @@
 import { Quotation } from '../../../app/shared/models';
+import { QuotationStatus } from '../../../app/shared/models/quotation/quotation-status.enum';
 import { CUSTOMER_MOCK } from './customer.mock';
 import { QUOTATION_DETAIL_MOCK } from './quotation-details.mock';
 
@@ -24,4 +25,7 @@ export const QUOTATION_MOCK: Quotation = {
   validTo: '2021-03-21T00:00:00',
   calculationInProgress: false,
   sapCallInProgress: false,
+  statusTypeOfListedQuotation: QuotationStatus[
+    QuotationStatus.ACTIVE
+  ] as keyof typeof QuotationStatus,
 };

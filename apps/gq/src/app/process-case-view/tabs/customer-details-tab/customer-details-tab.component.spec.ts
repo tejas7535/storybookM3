@@ -19,6 +19,7 @@ import { getCustomer } from '../../../core/store';
 import { CustomStatusBarModule } from '../../../shared/ag-grid/custom-status-bar/custom-status-bar.module';
 import { InputTableModule } from '../../../shared/components/case-material/input-table/input-table.module';
 import { HorizontalDividerModule } from '../../../shared/components/horizontal-divider/horizontal-divider.module';
+import { KpiStatusCardComponent } from '../../../shared/components/kpi-status-card/kpi-status-card.component';
 import { LabelTextModule } from '../../../shared/components/label-text/label-text.module';
 import { NumberCurrencyPipe } from '../../../shared/pipes/number-currency/number-currency.pipe';
 import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
@@ -48,6 +49,7 @@ describe('CustomerDetailsTabComponent', () => {
       LabelTextModule,
       HorizontalDividerModule,
       SharedPipesModule,
+      KpiStatusCardComponent,
     ],
     declarations: [
       SalesforceComponent,

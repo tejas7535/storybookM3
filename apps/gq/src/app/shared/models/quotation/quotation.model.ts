@@ -1,6 +1,7 @@
-import { Customer } from './customer';
-import { QuotationDetail } from './quotation-detail';
-import { User } from './user.model';
+import { Customer } from '../customer';
+import { QuotationDetail } from '../quotation-detail';
+import { User } from '../user.model';
+import { QuotationStatus } from './quotation-status.enum';
 
 export class Quotation {
   public gqId: number;
@@ -24,4 +25,5 @@ export class Quotation {
   public validTo: string;
   public calculationInProgress: boolean;
   public sapCallInProgress: boolean;
+  public statusTypeOfListedQuotation: keyof typeof QuotationStatus;
 }

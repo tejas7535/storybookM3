@@ -13,14 +13,15 @@ import {
 import { AppRoutePath } from '../../app-route-path.enum';
 import { deselectCase, getSelectedCaseIds, selectCase } from '../../core/store';
 import { AgGridLocale } from '../../shared/ag-grid/models/ag-grid-locale.interface';
+import { AgStatusBar } from '../../shared/ag-grid/models/ag-status-bar.model';
 import { LocalizationService } from '../../shared/ag-grid/services/localization.service';
 import {
   basicTableStyle,
   disableTableHorizontalScrollbar,
   statusBarStlye,
 } from '../../shared/constants';
-import { ViewQuotation } from '../models/view-quotation.model';
-import { COMPONENTS, DEFAULT_COLUMN_DEFS, STATUS_BAR_CONFIG } from './config';
+import { ViewQuotation } from '../../shared/models/quotation';
+import { COMPONENTS, DEFAULT_COLUMN_DEFS } from './config';
 import { ColumnDefService } from './config/column-def.service';
 @Component({
   selector: 'gq-case-table',
@@ -37,12 +38,12 @@ export class CaseTableComponent implements OnInit {
 
   public defaultColumnDefs = DEFAULT_COLUMN_DEFS;
   public columnDefs = this.columnDefService.COLUMN_DEFS;
-  public statusBar = STATUS_BAR_CONFIG;
   public components = COMPONENTS;
   public localeText$: Observable<AgGridLocale>;
   public selectedRows: number[] = [];
 
   @Input() rowData: ViewQuotation[];
+  @Input() statusBar: AgStatusBar;
 
   ngOnInit(): void {
     this.localeText$ = this.localizationService.locale$;

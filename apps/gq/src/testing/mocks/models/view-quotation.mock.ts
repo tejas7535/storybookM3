@@ -1,4 +1,4 @@
-import { ViewQuotation } from '../../../app/case-view/models/view-quotation.model';
+import { ViewQuotation } from '../../../app/shared/models/quotation';
 
 export const VIEW_QUOTATION_MOCK: ViewQuotation = {
   gqId: 1234,

@@ -2,6 +2,10 @@
   "title": "Case Übersicht",
   "buttonCreateCase": "Neuen Case erstellen",
   "caseTable": {
+    "viewToggle": {
+      "openCases": "Offene Angebote ({{variable}})",
+      "deletedDrafts": "Gelöschte Entwürfe ({{variable}})"
+    },
     "customerNumber": "Kundennummer",
     "customerName": "Kundenname",
     "createdBy": "SAP Angebot erstellt von",

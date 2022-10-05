@@ -1,16 +1,17 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { ViewQuotation } from '../../../../case-view/models/view-quotation.model';
 import {
   CreateCase,
   CreateCaseResponse,
 } from '../../../../core/store/reducers/create-case/models';
 import { ApiVersion, Quotation } from '../../../models';
+import { QuotationStatus } from '../../../models/quotation/quotation-status.enum';
 import { CreateCustomerCase } from '../search-service/models/create-customer-case.model';
+import { GetQuotationsResponse } from './models/get-quotations-response.interface';
 import { QuotationPaths } from './models/quotation-paths.enum';
 import { UpdateQuotationRequest } from './models/update-quotation-request.model';
 
@@ -18,6 +19,8 @@ import { UpdateQuotationRequest } from './models/update-quotation-request.model'
   providedIn: 'root',
 })
 export class QuotationService {
+  private readonly PARAM_STATUS = 'status';
+
   constructor(private readonly http: HttpClient) {}
 
   public uploadSelectionToSap(gqPositionIds: string[]): Observable<Quotation> {
@@ -49,9 +52,14 @@ export class QuotationService {
     );
   }
 
-  public getCases(): Observable<ViewQuotation[]> {
-    return this.http.get<ViewQuotation[]>(
-      `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}`
+  public getCases(status: QuotationStatus): Observable<GetQuotationsResponse> {
+    const httpParams = new HttpParams().set(this.PARAM_STATUS, status);
+
+    return this.http.get<GetQuotationsResponse>(
+      `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}`,
+      {
+        params: httpParams,
+      }
     );
   }
 
