@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.2.13](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.12...ga-v1.2.13) (2022-10-05)
+
+
+### 🐛 Bug Fixes
+
+* **ga:** adjust unit tests for banner ([ea994a0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ea994a085d6303b3f02f454204ab6ce2f63ee7db))
+* **ga:** use long living solution ([a8addf1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a8addf1b240abf894a071e9ef23fd2909ce35154))
+
+
+### 🎸 Features
+
+* **ga:** activate lube advisor succession feature on prod ([8b1852d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8b1852d0690421ee8d7da4e831f56c14c6bb97e2))
+* **ga:** add concept1 setting visualisation (UFTABI-6035, UFTABI-6052) ([4a38948](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4a38948022118fb82f412422c56d52435e86f5aa))
+* **ga:** adjust concept1 tooltip according review ([24a04c6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/24a04c6c1ac432ccd5c8c2e4bcd40612a0e0ea80))
+* **ga:** remove banner ([c4099cf](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c4099cfe3ee906b7abef35e2d56f966a8e53b466))
+* **ga:** restrict bearing selection to possible calculations (UFTABI-6009) ([fb3d3ae](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fb3d3aedfe164010b722a4d5e566950a9dab8643))
+
 ### [1.2.12](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.11...ga-v1.2.12) (2022-09-23)
 
 
