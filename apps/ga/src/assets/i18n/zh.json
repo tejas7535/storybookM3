@@ -187,7 +187,7 @@
       },
       "concept1": {
         "label": "计算气体释放设置 (CONCEPT1)",
-        "tooltip": "计算自动润滑a如果自动润滑被激活，如果可能的话，CONCEPT1的自动润滑被额外计算和显示。停用后只显示手动值"
+        "tooltip": "如果气体释放设置的计算被激活，如果可能的话，CONCEPT1设置会被额外计算和显示。停用显示没有CONCEPT1设置"
       }
     },
     "requiredInformation": "* 必填信息",
@@ -339,9 +339,5 @@
     "content": "很遗憾，出现错误。请稍后再试。",
     "confirm": "确认",
     "retry": "重试"
-  },
-  "banner": {
-    "bannerText": "目前正在对 Grease App 应用程序进行维护工作。在某些情况下，26.09.至07.10期间将无法进行计算。",
-    "buttonText": "好的"
   }
 }

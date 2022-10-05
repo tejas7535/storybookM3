@@ -177,7 +177,7 @@
       },
       "concept1": {
         "label": "Kartuscheneinstellung berechnen (CONCEPT1)",
-        "tooltip": "Bei aktivierter automatischer Schmierung wird zusätzlich die automatische Schmierung mit CONCEPT1 berechnet und dargestellt, wenn möglich. Deaktivieren zeigt nur manuelle Werte"
+        "tooltip": "Bei aktivierter Berechnung der Kartuscheneinstellung wird zusätzlich die CONCEPT1 Einstellung berechnet und dargestellt, wenn möglich. Deaktivieren zeigt keine CONCEPT1 Einstellung"
       }
     },
     "requiredInformation": "* Pflichtangabe",
@@ -329,9 +329,5 @@
     "content": "Leider ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.",
     "confirm": "Verstanden",
     "retry": "Erneut versuchen"
-  },
-  "banner": {
-    "bannerText": "An der Grease App finden Wartungsarbeiten statt. Unter Umständen sind im Zeitraum zwischen dem 26.09. und 07.10. keine Berechnungen möglich",
-    "buttonText": "Verstanden"
   }
 }

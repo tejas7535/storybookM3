@@ -177,7 +177,7 @@
       },
       "concept1": {
         "label": "Calcular el ajuste de liberación de gas (CONCEPT1)",
-        "tooltip": "Si la lubricación automática está activada, se calcula y muestra adicionalmente la lubricación automática con CONCEPT1, si es posible. Desactivar muestra sólo los valores manuales"
+        "tooltip": "Si se activa el cálculo del ajuste de liberación de gas, se calcula adicionalmente el ajuste de CONCEPT1 y se muestra, si es posible. Desactivar muestra que no hay ajuste de CONCEPT1"
       }
     },
     "requiredInformation": "* Información necesaria",
@@ -329,9 +329,5 @@
     "content": "Lo sentimos, se ha producido un error. Inténtelo de nuevo más tarde.",
     "confirm": "Confirmar",
     "retry": "Reintentar"
-  },
-  "banner": {
-    "bannerText": "Se están llevando a cabo trabajos de mantenimiento en la aplicación de grasa. En determinadas circunstancias, no será posible realizar cálculos entre el 26.09. y el 07.10.",
-    "buttonText": "Vale"
   }
 }
