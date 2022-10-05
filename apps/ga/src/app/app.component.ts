@@ -5,12 +5,10 @@ import { NavigationEnd, Router } from '@angular/router';
 import { filter, startWith, Subject, takeUntil } from 'rxjs';
 
 import { OneTrustService } from '@altack/ngx-onetrust';
-import { translate, TranslocoService } from '@ngneat/transloco';
-import { Store } from '@ngrx/store';
+import { TranslocoService } from '@ngneat/transloco';
 
 import { AppShellFooterLink } from '@schaeffler/app-shell';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
-import { openBanner } from '@schaeffler/banner';
 import { LegalPath } from '@schaeffler/legal-pages';
 
 import { getAppFooterLinks } from '@ga/core/helpers/app-config-helpers';
@@ -39,7 +37,6 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly titleService: Title,
     private readonly applicationInsightsService: ApplicationInsightsService,
     private readonly settingsFacade: SettingsFacade,
-    private readonly store: Store,
     @Optional() private readonly oneTrustService: OneTrustService
   ) {}
 
@@ -47,7 +44,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.currentLanguage = this.translocoService.getActiveLang();
     this.assignMetaTags();
     this.assignFooterLinks();
-    this.openBanner();
 
     this.translocoService.events$
       .pipe(
@@ -92,19 +88,6 @@ export class AppComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  public openBanner(): void {
-    if (Date.now() > 1_664_150_400_000 && Date.now() < 1_665_187_200_000) {
-      this.store.dispatch(
-        openBanner({
-          text: translate('banner.bannerText'),
-          buttonText: translate('banner.buttonText'),
-          icon: 'warning',
-          truncateSize: 0,
-        })
-      );
-    }
   }
 
   private trackLanguage(language: string): void {
