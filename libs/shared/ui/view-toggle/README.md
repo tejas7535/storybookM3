@@ -121,3 +121,13 @@ public selectionChange(item: ViewToggle){
   disabled: boolean;
 }
 ```
+
+###### `Integration Testing`
+
+Each  `mat-button-toggle` within the `schaeffler-view-toggle` has custom attributes for Integration Testing
+
+| Name                                            | Description                                                |
+| ------------------------------------------------| -----------------------------------------------------------|
+| cy-view-toggle-id: number                       | id of `ViewToggle`model to identify each toggle            |
+| cy-view-toggle-status: ViewToggleStatus         | status of the toggle                                       |
+

@@ -18,6 +18,14 @@
         item.disabled
     }"
     [disabled]="item.disabled"
+    [attr.cy-view-toggle-id]="item.id"
+    [attr.cy-view-toggle-status]="
+      item.id === active.id
+        ? viewToggleStatus.ACTIVE
+        : item.disabled
+        ? viewToggleStatus.DISABLED
+        : viewToggleStatus.INACTIVE
+    "
     >{{ item.title }}</mat-button-toggle
   >
 </mat-button-toggle-group>

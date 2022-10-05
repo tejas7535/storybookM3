@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 
 import { ViewToggle } from '../../view-toggle.model';
+import { ViewToggleStatus } from '../../view-toggle-status.enum';
 @Component({
   selector: 'schaeffler-view-toggle',
   templateUrl: './view-toggle.component.html',
@@ -9,6 +10,8 @@ import { ViewToggle } from '../../view-toggle.model';
 export class ViewToggleComponent {
   public active!: ViewToggle;
   public items: ViewToggle[] = [];
+
+  public viewToggleStatus = ViewToggleStatus;
 
   @Input() public displayBorderBottom = false;
 
