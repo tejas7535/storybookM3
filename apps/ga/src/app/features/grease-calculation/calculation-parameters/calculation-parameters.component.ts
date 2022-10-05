@@ -38,7 +38,6 @@ import {
   getSelectedMovementType,
   radialLoadPossible,
 } from '@ga/core/store/selectors/calculation-parameters/calculation-parameters.selector';
-import { environment } from '@ga/environments/environment';
 import { GreaseCalculationPath } from '@ga/features/grease-calculation/grease-calculation-path.enum';
 import { EnvironmentImpact, Load, Movement } from '@ga/shared/models';
 
@@ -61,7 +60,6 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
   public movement = Movement;
   public loadUnit = this.calculationParametersService.loadUnit();
   public loadRatioOptions = loadRatioOptions;
-  public isProduction = environment.production; // TODO: remove once Bearinx 2022.1 is released
 
   public radial = new UntypedFormControl(undefined, loadValidators);
   public axial = new UntypedFormControl(undefined, loadValidators);

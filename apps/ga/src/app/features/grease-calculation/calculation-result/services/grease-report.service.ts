@@ -8,8 +8,6 @@ import { translate } from '@ngneat/transloco';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
-import { environment } from '@ga/environments/environment';
-
 import { WARNINGSOPENED } from '../constants';
 import { itemValue } from '../helpers/grease-helpers';
 import {
@@ -33,8 +31,6 @@ export class GreaseReportService {
     private readonly applicationInsightsService: ApplicationInsightsService,
     private readonly greaseResultDataSourceService: GreaseResultDataSourceService
   ) {}
-
-  public isProduction = environment.production; // TODO: remove once Bearinx 2022.1 is released
 
   public async getGreaseReport(greaseReportUrl: string) {
     return lastValueFrom(this.http.get<GreaseReport>(greaseReportUrl));
@@ -115,11 +111,10 @@ export class GreaseReportService {
               ),
               isPreferred: mainTitle === preferredGreaseResult?.text,
               dataSource: [
-                !this.isProduction &&
-                  this.greaseResultDataSourceService.automaticLubrication(
-                    concept1 as GreaseReportConcept1Subordinate[],
-                    index
-                  ),
+                this.greaseResultDataSourceService.automaticLubrication(
+                  concept1 as GreaseReportConcept1Subordinate[],
+                  index
+                ),
                 this.greaseResultDataSourceService.initialGreaseQuantity(
                   table1Items || [],
                   rho

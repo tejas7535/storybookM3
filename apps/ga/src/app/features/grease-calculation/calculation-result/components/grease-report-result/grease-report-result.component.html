@@ -55,8 +55,7 @@
           *ngIf="
             automaticLubrication &&
             ((greaseResult.isSufficient && indicateGreasePreference) ||
-              (greaseResult.isSufficient && !indicateGreasePreference)) &&
-            !isProduction
+              (greaseResult.isSufficient && !indicateGreasePreference))
           "
           class="ml-3 inline-block rounded-full px-3 py-[1px] text-caption text-high-emphasis-dark-bg"
           [ngClass]="{

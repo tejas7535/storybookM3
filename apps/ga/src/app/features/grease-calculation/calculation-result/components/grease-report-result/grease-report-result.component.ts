@@ -18,8 +18,6 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { LabelValue, LabelValueModule } from '@schaeffler/label-value';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { environment } from '@ga/environments/environment';
-
 import { MEDIASGREASE } from '../../constants';
 import { adaptLabelValuesFromGreaseResultData } from '../../helpers/grease-helpers';
 import {
@@ -62,8 +60,6 @@ export class GreaseReportResultComponent implements OnInit, OnDestroy {
   @Input() public valuesLimit = 3;
   @Input() public indicateGreasePreference = false;
   @Input() public automaticLubrication = false;
-
-  public isProduction = environment.production; // TODO: remove once Bearinx 2022.1 is released
 
   public labelValues: LabelValue[] = [];
   public labelWidth: number = LabelWidth.Default;

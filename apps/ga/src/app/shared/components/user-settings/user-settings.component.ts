@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 
-import { environment } from '@ga/environments/environment';
 import {
   AVAILABLE_LOCALES,
   DEFAULT_LOCALE,
@@ -13,5 +12,4 @@ import {
 export class UserSettingsComponent {
   public availableLocales = AVAILABLE_LOCALES;
   public defaultLocale = DEFAULT_LOCALE;
-  public isProduction = environment.production; // TODO: remove once Bearinx 2022.1 is released
 }

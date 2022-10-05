@@ -7,14 +7,12 @@
     [availableLocales]="availableLocales"
     [defaultLocale]="defaultLocale"
   ></schaeffler-locale-select>
-  <ng-container *ngIf="!isProduction">
-    <mat-divider class="!my-4"></mat-divider>
-    <div class="mb-1 text-subtitle-1 text-medium-emphasis">
-      {{ t('measurementUnits.title.main') }}
-    </div>
-    <div class="mb-4 text-caption text-medium-emphasis">
-      {{ t('measurementUnits.title.sub') }}
-    </div>
-    <ga-measurement-units-select></ga-measurement-units-select>
-  </ng-container>
+  <mat-divider class="!my-4"></mat-divider>
+  <div class="mb-1 text-subtitle-1 text-medium-emphasis">
+    {{ t('measurementUnits.title.main') }}
+  </div>
+  <div class="mb-4 text-caption text-medium-emphasis">
+    {{ t('measurementUnits.title.sub') }}
+  </div>
+  <ga-measurement-units-select></ga-measurement-units-select>
 </div>
