@@ -4,7 +4,6 @@ import { EMPTY, of } from 'rxjs';
 import {
   catchError,
   concatMap,
-  filter,
   map,
   mergeMap,
   withLatestFrom,
@@ -13,11 +12,10 @@ import {
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
-import { Loads, PredictionResult, StatisticalPrediction } from '../../models';
+import { PredictionResult, StatisticalPrediction } from '../../models';
 import { RestService } from '../../services/rest.service';
 import * as PredictionActions from '../actions/prediction.actions';
 import {
-  getLoadsRequest,
   getPredictionRequest,
   getStatisticalRequest,
 } from '../selectors/prediction.selectors';
@@ -98,41 +96,6 @@ export class PredictionEffects {
             PredictionActions.setStatisticalResult({ statisticalResult })
           ),
           catchError(() => EMPTY)
-        )
-      )
-    );
-  });
-
-  public setLoadsRequest$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(PredictionActions.setLoadsRequest),
-      map(() => PredictionActions.postLoadsData())
-    );
-  });
-
-  public postLoadsData$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(PredictionActions.postLoadsData, PredictionActions.postPrediction),
-      withLatestFrom(this.store.select(getLoadsRequest)),
-      filter(([_action, loadsRequest]) => loadsRequest !== undefined),
-      mergeMap(([_action, loadsRequest]) =>
-        this.restService.postLoadsData(loadsRequest).pipe(
-          map((loadsResult: Loads) =>
-            PredictionActions.setLoadsResult({
-              loads: loadsResult,
-              status: 2,
-              error: undefined,
-            })
-          ),
-          catchError((error) =>
-            of(
-              PredictionActions.setLoadsResult({
-                loads: undefined,
-                status: 3,
-                error: `${error.statusText}`,
-              })
-            )
-          )
         )
       )
     );

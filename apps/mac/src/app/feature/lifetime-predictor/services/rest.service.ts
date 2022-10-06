@@ -7,8 +7,6 @@ import { map } from 'rxjs/operators';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 import {
-  Loads,
-  LoadsNetworkRequest,
   PredictionRequest,
   PredictionResult,
   StatisticalPrediction,
@@ -27,8 +25,6 @@ export class RestService {
   private readonly APPLICATION_INSIGHTS_ML_REQUEST = '[LTP - REQUEST - ML]';
   private readonly APPLICATION_INSIGHTS_STATISTICAL_REQUEST =
     '[LTP - REQUEST - STATISTICAL]';
-  private readonly APPLICATION_INSIGHTS_LOADS_REQUEST =
-    '[LTP - REQUEST - LOADS]';
 
   constructor(
     private readonly httpClient: HttpClient,
@@ -88,12 +84,8 @@ export class RestService {
             return {
               woehler: {
                 snCurve: result.woehler.sn_curve,
-                snCurveLow: result.woehler.sn_curve_low
-                  ? result.woehler.sn_curve_low
-                  : {},
-                snCurveHigh: result.woehler.sn_curve_up
-                  ? result.woehler.sn_curve_up
-                  : {},
+                snCurveLow: result.woehler.sn_curve_low ?? {},
+                snCurveHigh: result.woehler.sn_curve_up ?? {},
                 appliedStress: result.woehler.applied_stress,
                 percentile1: result.woehler.percentile_1,
                 percentile10: result.woehler.percentile_10,
@@ -120,50 +112,6 @@ export class RestService {
           this.applicationInsightsService.logEvent(
             this.APPLICATION_INSIGHTS_ML_REQUEST,
             { request: prediction, response: res }
-          );
-
-          return res;
-        })
-      );
-  }
-
-  /**
-   * posts prediction and load request and returns result of whole calculation
-   */
-  public postLoadsData(loadsRequest: LoadsNetworkRequest): Observable<Loads> {
-    const formData = new FormData();
-    formData.append('method', loadsRequest.method);
-    formData.append(
-      'conversion_factor',
-      loadsRequest.conversionFactor.toString()
-    );
-    formData.append(
-      'repetition_factor',
-      loadsRequest.repetitionFactor.toString()
-    );
-    formData.append(
-      'fatigue_strength0',
-      loadsRequest.fatigue_strength0.toString()
-    );
-    formData.append(
-      'fatigue_strength1',
-      loadsRequest.fatigue_strength1.toString()
-    );
-    formData.append(
-      'loads',
-      new File([JSON.stringify(loadsRequest.loads)], 'loadsCollective.json')
-    );
-
-    return this.httpClient
-      .post<any>(
-        `${environment.baseUrl}/${this.SERVER_URL_LOADS}/score`,
-        formData
-      )
-      .pipe(
-        map((res: any) => {
-          this.applicationInsightsService.logEvent(
-            this.APPLICATION_INSIGHTS_LOADS_REQUEST,
-            { request: loadsRequest, response: res }
           );
 
           return res;

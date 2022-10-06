@@ -157,7 +157,6 @@ export class HelpersService {
     predictionResult: PredictionResult,
     statisticalResult: StatisticalPrediction,
     display: Display,
-    loadsPoints: Point[],
     predictionRequest: PredictionRequest
   ): PredictionResultParsed {
     if (!predictionResult) {
@@ -266,8 +265,6 @@ export class HelpersService {
 
         return point;
       });
-
-      data = [...data, ...loadsPoints]; // add loaddata after limits are calculated
 
       lines = this.calculateLines(limits);
     }

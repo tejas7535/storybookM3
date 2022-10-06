@@ -122,8 +122,6 @@ const getDefaultConstants = {
       { x: 10_000, y2: 301.211_650_558_652_65 },
       { x: 1_158_691.416_562_977_7, y2: 129.603_510_582_840_22 },
       { x: 10_000_000, y2: 129.603_510_582_840_22 },
-      { x: 1, y: 2 },
-      { x: 3, y: 4 },
     ],
     kpi: undefined,
     limits: {
@@ -647,7 +645,6 @@ describe('HelpersService', () => {
       undefined,
       undefined,
       undefined,
-      undefined,
       undefined
     );
     expect(predictionResult).toEqual(undefined);
@@ -667,7 +664,6 @@ describe('HelpersService', () => {
       defaults.defaultPredictionResult,
       defaults.defaultStatisticalResult,
       display,
-      defaults.loads,
       mockedPredictionRequestWithKpi.predictionRequest
     );
     expect(result).toEqual(expectedResult);
@@ -687,7 +683,6 @@ describe('HelpersService', () => {
       defaults.defaultPredictionResult,
       defaults.defaultStatisticalResult,
       display,
-      defaults.loads,
       mockedPredictionRequestWithKpi.predictionRequest
     );
     expect(result).toEqual(expectedResult);
@@ -995,7 +990,6 @@ describe('HelpersService', () => {
         showStatistical: true,
         chartType: 1,
       },
-      [],
       mockedPredictionRequestWithKpi.predictionRequest
     );
 
@@ -1049,7 +1043,6 @@ describe('HelpersService', () => {
       mockedPredictionResult,
       mockedStatisticalResult,
       { showFKM: true, showMurakami: true, showStatistical: true },
-      [],
       mockedPredictionRequestWithKpi.predictionRequest
     );
 

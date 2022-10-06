@@ -112,36 +112,6 @@ describe('RestService', () => {
     });
   });
 
-  describe('postLoadsData', () => {
-    it('should return an Observable<any[]', () => {
-      const mockedLoadsRequest = {
-        conversionFactor: 1,
-        repetitionFactor: 100,
-        method: 'FKM',
-        loads: [] as number[],
-        fatigue_strength1: 1,
-        fatigue_strength0: 2,
-      };
-
-      const mockedLoadsPrediction = {
-        woehler: {},
-      };
-
-      myProvider
-        .postLoadsData(mockedLoadsRequest)
-        .subscribe((loadsResult: any) => {
-          expect(applicationInsightsService.logEvent).toHaveBeenCalled();
-          expect(loadsResult).toEqual(mockedLoadsPrediction);
-        });
-
-      const req = httpMock.expectOne(
-        `${environment.baseUrl}/${myProvider.SERVER_URL_LOADS}/score`
-      );
-      expect(req.request.method).toBe('POST');
-      req.flush(mockedLoadsPrediction);
-    });
-  });
-
   describe('postStatisticalService', () => {
     it('should return an Observable<StatisticalRequest>', () => {
       const mockedStatisticalRequest: StatisticalRequest = {

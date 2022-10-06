@@ -6,10 +6,7 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import {
-  mockedLoadsResult,
-  mockedStatisticalResult,
-} from '../../mock/mock.constants';
+import { mockedStatisticalResult } from '../../mock/mock.constants';
 import { MockService } from '../../mock/mock.service';
 import { RestService } from '../../services/rest.service';
 import { getPredictionRequest, getStatisticalRequest } from '..';
@@ -140,42 +137,6 @@ describe('PredictionEffects', () => {
       expect(action).toEqual({
         type: '[Prediction Component] Set Statistical Results',
         statisticalResult: mockedStatisticalResult,
-      });
-    });
-  });
-
-  it('should have a setLoadsRequest effect that calls the postLoadsData action', () => {
-    actions = of({
-      type: '[Ouput Wohler Chart Component] Set Loads Request',
-      loadsRequest: {
-        data: [0, 1, 2, 3],
-        status: 1,
-        error: undefined,
-        conversionFactor: 1,
-        repetitionFactor: 1,
-        method: 'FKM',
-      },
-    });
-
-    effects.setLoadsRequest$.subscribe((action: any) => {
-      expect(action).toEqual({
-        type: '[Ouput Wohler Chart Component] Get Load Data',
-      });
-    });
-  });
-
-  it('should have a postLoadsData effect effect that calls the setLoadsResult action', () => {
-    actions = of({
-      type: '[Ouput Wohler Chart Component] Get Load Data',
-      loadsRequest: { status: 1, data: [1, 2, 3, 4] },
-    });
-
-    effects.postLoadsData$.subscribe((action: any) => {
-      expect(action).toEqual({
-        type: '[Ouput Wohler Chart Component] Set Loads Result',
-        ...mockedLoadsResult,
-        status: 2,
-        error: undefined,
       });
     });
   });

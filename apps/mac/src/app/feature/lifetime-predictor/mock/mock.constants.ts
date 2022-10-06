@@ -365,15 +365,6 @@ export const mockedPredictionRequestWithKpi: PredictionState = {
       slope: 120,
     },
   },
-  loadsRequest: {
-    data: [0, 1, 2, 3],
-    status: 1,
-    error: undefined,
-    conversionFactor: 1,
-    repetitionFactor: 1,
-    method: 'FKM',
-  },
-  loads: undefined,
 };
 
 export const mockedPredictionRequestWithLimits: LTPState = {

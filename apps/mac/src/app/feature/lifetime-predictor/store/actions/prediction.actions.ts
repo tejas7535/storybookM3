@@ -2,8 +2,6 @@ import { createAction, props } from '@ngrx/store';
 
 import {
   HvLimits,
-  Loads,
-  LoadsRequest,
   PredictionRequest,
   PredictionResult,
   StatisticalPrediction,
@@ -61,24 +59,6 @@ export const setPredictionResult = createAction(
 export const setStatisticalResult = createAction(
   '[LTP - Prediction Component] Set Statistical Results',
   props<{ statisticalResult: StatisticalPrediction }>()
-);
-
-export const setLoadsRequest = createAction(
-  '[LTP - Ouput Wohler Chart Component] Set Loads Request [ai_ignore]',
-  props<{ loadsRequest: LoadsRequest }>()
-);
-
-export const postLoadsData = createAction(
-  '[LTP - Ouput Wohler Chart Component] Get Load Data'
-);
-
-export const setLoadsResult = createAction(
-  '[LTP - Ouput Wohler Chart Component] Set Loads Result',
-  props<{
-    loads: Loads;
-    status: number;
-    error: string;
-  }>()
 );
 
 export const setHardness = createAction(

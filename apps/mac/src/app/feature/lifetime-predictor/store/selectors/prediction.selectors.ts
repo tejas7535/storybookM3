@@ -20,42 +20,6 @@ export const getStatisticalRequest = createSelector(
   (prediction) => prediction.statisticalRequest
 );
 
-export const getLoads = createSelector(
-  getPredictionState,
-  (prediction) => prediction.loadsRequest
-);
-
-export const getLoadsResults = createSelector(
-  getPredictionState,
-  (prediction) => prediction.loads
-);
-
-// TODO: remove any
-export const getLoadsPoints = createSelector(
-  getLoadsResults,
-  (loadsResults) => {
-    const result: any[] = [];
-    if (loadsResults && loadsResults[Object.keys(loadsResults)[0]].length > 0) {
-      loadsResults[Object.keys(loadsResults)[0]].forEach(
-        (_entry: any, index: number) => {
-          result.push({ x: loadsResults.x[index], y: loadsResults.y[index] });
-        }
-      );
-    }
-
-    return result;
-  }
-);
-
-export const getLoadsStatus = createSelector(
-  getPredictionState,
-  (prediction) => {
-    const { status, error } = prediction.loadsRequest;
-
-    return { status, error };
-  }
-);
-
 export const getKpis = createSelector(
   getPredictionState,
   getDisplay,
@@ -75,15 +39,13 @@ export const getPredictionResult = createSelector(
   getPredictionState,
   getDisplay,
   getKpis,
-  getLoadsPoints,
   getPredictionRequest,
-  (prediction, display, kpi, loadsPoints, predictionRequest) => {
+  (prediction, display, kpi, predictionRequest) => {
     const helpersService = new HelpersService();
     const result = helpersService.preparePredictionResult(
       prediction.predictionResult,
       prediction.statisticalResult,
       display,
-      loadsPoints,
       predictionRequest
     );
 
@@ -147,28 +109,5 @@ export const getStatisticalResult = createSelector(
     );
 
     return { ...result };
-  }
-);
-
-export const getLoadsRequest = createSelector(
-  getLoads,
-  getPredictionState,
-  (loads, prediction) => {
-    if (!loads.data) {
-      // eslint-disable-next-line unicorn/no-useless-undefined
-      return undefined;
-    }
-    const { data, conversionFactor, repetitionFactor, method } = loads;
-    const { kpi } = prediction.predictionResult;
-    const request = {
-      conversionFactor,
-      repetitionFactor,
-      method,
-      loads: data,
-      fatigue_strength1: kpi.fatigue[1],
-      fatigue_strength0: kpi.fatigue[0],
-    };
-
-    return request;
   }
 );

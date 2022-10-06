@@ -1,9 +1,6 @@
 import { EChartsOption } from 'echarts';
 
-import {
-  mockedPredictionRequestWithKpi,
-  mockedPredictionRequestWithLimits,
-} from '../../mock/mock.constants';
+import { mockedPredictionRequestWithLimits } from '../../mock/mock.constants';
 import { PredictionState } from '../reducers/prediction.reducer';
 import * as PredictionSelectors from './prediction.selectors';
 
@@ -73,40 +70,10 @@ describe('PredictionSelectors', () => {
       },
     },
     predictionResult: undefined,
-    loadsRequest: {
-      data: [0, 1, 2, 3],
-      status: 1,
-      error: undefined,
-      conversionFactor: 1,
-      repetitionFactor: 1,
-      method: 'FKM',
-    },
-    loads: undefined,
   };
 
   beforeAll(() => {
     mockedPredictionRequest = mockedPredictionRequestConst;
-  });
-
-  it('should getLoadsRequest', () => {
-    const { data, conversionFactor, repetitionFactor, method } =
-      mockedPredictionRequestWithKpi.loadsRequest;
-    const { kpi } = mockedPredictionRequestWithKpi.predictionResult;
-    const expected = {
-      conversionFactor,
-      repetitionFactor,
-      method,
-      loads: data,
-      fatigue_strength1: kpi.fatigue[1],
-      fatigue_strength0: kpi.fatigue[0],
-    };
-
-    expect(
-      PredictionSelectors.getLoadsRequest.projector(
-        mockedPredictionRequestWithKpi.loadsRequest,
-        mockedPredictionRequestWithKpi
-      )
-    ).toEqual(expected);
   });
 
   it('should getPredictionRequest', () => {
@@ -148,65 +115,6 @@ describe('PredictionSelectors', () => {
       rArea: 5,
       v90: 1,
       loadingType: 0,
-    });
-  });
-
-  it('should getLoads', () => {
-    expect(
-      PredictionSelectors.getLoads.projector(mockedPredictionRequest)
-    ).toEqual({
-      data: [0, 1, 2, 3],
-      status: 1,
-      error: undefined,
-      conversionFactor: 1,
-      repetitionFactor: 1,
-      method: 'FKM',
-    });
-  });
-
-  it('should getLoadsRequest and return undefined if loads are not defined', () => {
-    const data: number[] = undefined;
-    const mockedRequest = {
-      ...mockedPredictionRequest,
-      loadsRequest: {
-        ...mockedPredictionRequest.loadsRequest,
-        data,
-      },
-    };
-
-    expect(
-      PredictionSelectors.getLoadsRequest.projector(
-        mockedRequest.loadsRequest,
-        mockedRequest.predictionRequest
-      )
-    ).toEqual(undefined);
-  });
-
-  it('should getLoadsPoints', () => {
-    const mockedLoads = {
-      x: [1, 2, 3],
-      y: [4, 5, 6],
-    };
-
-    expect(PredictionSelectors.getLoadsPoints.projector(mockedLoads)).toEqual([
-      { x: 1, y: 4 },
-      { x: 2, y: 5 },
-      { x: 3, y: 6 },
-    ]);
-  });
-
-  it('should getLoadsResults', () => {
-    expect(
-      PredictionSelectors.getLoadsResults.projector(mockedPredictionRequest)
-    ).toEqual(undefined);
-  });
-
-  it('should getLoadsStatus', () => {
-    expect(
-      PredictionSelectors.getLoadsStatus.projector(mockedPredictionRequest)
-    ).toEqual({
-      error: undefined,
-      status: 1,
     });
   });
 

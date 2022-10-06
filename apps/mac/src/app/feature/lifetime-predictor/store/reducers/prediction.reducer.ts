@@ -1,7 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
 import {
-  LoadsRequest,
   PredictionRequest,
   PredictionResult,
   StatisticalPrediction,
@@ -14,8 +13,6 @@ export interface PredictionState {
   predictionResult: PredictionResult;
   statisticalRequest: StatisticalRequest;
   statisticalResult: StatisticalPrediction;
-  loadsRequest: LoadsRequest;
-  loads: any;
 }
 
 export const initialState: PredictionState = {
@@ -49,15 +46,6 @@ export const initialState: PredictionState = {
   },
   predictionResult: undefined,
   statisticalResult: undefined,
-  loadsRequest: {
-    status: 0, // 0 initial, 1 pending, 2 success, 3 error
-    error: undefined,
-    data: undefined,
-    conversionFactor: 1,
-    repetitionFactor: 1,
-    method: 'FKM',
-  },
-  loads: undefined,
 };
 
 export const predictionReducer = createReducer(
@@ -118,25 +106,6 @@ export const predictionReducer = createReducer(
     (state, { statisticalResult }): PredictionState => ({
       ...state,
       statisticalResult,
-    })
-  ),
-  on(
-    PredictionActions.setLoadsRequest,
-    (state, { loadsRequest }): PredictionState => ({
-      ...state,
-      loadsRequest,
-    })
-  ),
-  on(
-    PredictionActions.setLoadsResult,
-    (state, { loads, status, error }): PredictionState => ({
-      ...state,
-      loads: loads.loads,
-      loadsRequest: {
-        ...state.loadsRequest,
-        status,
-        error,
-      },
     })
   ),
   on(

@@ -2,7 +2,6 @@ import {
   mockedPredictionResult,
   mockedStatisticalResult,
 } from '../../mock/mock.constants';
-import { LoadsRequest } from '../../models';
 import * as PredictionActions from '../actions/prediction.actions';
 import { predictionReducer } from './prediction.reducer';
 
@@ -40,15 +39,6 @@ describe('predictionReducer', () => {
           loadingType: 0,
         },
         predictionResult: undefined,
-        loadsRequest: {
-          data: undefined,
-          status: 0,
-          error: undefined,
-          conversionFactor: 1,
-          repetitionFactor: 1,
-          method: 'FKM',
-        },
-        loads: undefined,
       };
     });
 
@@ -174,45 +164,6 @@ describe('predictionReducer', () => {
         ...state.predictionRequest,
         ...mockedPredictionType,
       });
-    });
-
-    it('should set state on setLoadsData', () => {
-      const mockedLoadsRequest: LoadsRequest = {
-        data: [1, 2],
-        status: 1,
-        error: undefined,
-        conversionFactor: 1,
-        repetitionFactor: 1,
-        method: 'FKM',
-      };
-
-      const newState = predictionReducer(
-        state,
-        PredictionActions.setLoadsRequest({ loadsRequest: mockedLoadsRequest })
-      );
-      expect(newState.loadsRequest).toEqual(mockedLoadsRequest);
-    });
-
-    it('should set state on setLoadsResult', () => {
-      const mockedLoads = {
-        loads: {
-          x: [1, 2, 3],
-          y: [4, 5, 6],
-        },
-      };
-
-      const mockedStatus = 2;
-
-      const newState = predictionReducer(
-        state,
-        PredictionActions.setLoadsResult({
-          loads: mockedLoads,
-          status: mockedStatus,
-          error: undefined,
-        })
-      );
-      expect(newState.loadsRequest.status).toEqual(mockedStatus);
-      expect(newState.loads).toEqual(mockedLoads.loads);
     });
 
     it('should set state on setHardness', () => {

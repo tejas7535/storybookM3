@@ -4,11 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogModule,
-  MatDialogRef,
-} from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -18,16 +13,12 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
-
-import { of } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { ParseConfig, ParseResult } from 'ngx-papaparse';
 import resize_observer_polyfill from 'resize-observer-polyfill';
 
 import { BannerModule, BannerState } from '@schaeffler/banner';
@@ -40,11 +31,10 @@ import { TooltipModule } from './../../../shared/components/tooltip/tooltip.modu
 import { BreadcrumbsService } from './../../../shared/services/breadcrumbs/breadcrumbs.service';
 import { SharedModule } from './../../../shared/shared.module';
 import { ChartType } from './../enums/chart-type.enum';
-import { postPrediction, setChartType, setLoadsRequest } from './../store';
+import { postPrediction, setChartType } from './../store';
 import { ChartModule } from './chart/chart.module';
 import { KpiComponent } from './kpi/kpi.component';
 import { PredictionComponent } from './prediction.component';
-import { UploadModalComponent } from './upload-modal/upload-modal.component';
 window.ResizeObserver = resize_observer_polyfill;
 
 jest.mock('../../../shared/change-favicon.ts', () => ({
@@ -66,13 +56,12 @@ describe('PredictionComponent', () => {
 
   const createComponent = createComponentFactory({
     component: PredictionComponent,
-    declarations: [PredictionComponent, KpiComponent, UploadModalComponent],
+    declarations: [PredictionComponent, KpiComponent],
     imports: [
       NoopAnimationsModule,
       MatButtonModule,
       MatMenuModule,
       MatTabsModule,
-      MatDialogModule,
       MatCardModule,
       StoreModule.forRoot({}),
       provideTranslocoTestingModule({ en }),
@@ -99,8 +88,6 @@ describe('PredictionComponent', () => {
           banner: initialBannerState,
         },
       }),
-      { provide: MatDialogRef, useValue: {} },
-      { provide: MAT_DIALOG_DATA, useValue: [] },
       {
         provide: BreadcrumbsService,
         useValue: {
@@ -113,12 +100,6 @@ describe('PredictionComponent', () => {
         useValue: false,
       },
     ],
-    overrideModules: [
-      [
-        BrowserDynamicTestingModule,
-        { set: { entryComponents: [UploadModalComponent] } },
-      ],
-    ],
   });
 
   beforeEach(() => {
@@ -127,7 +108,6 @@ describe('PredictionComponent', () => {
     store = TestBed.inject(MockStore);
 
     store.dispatch = jest.fn();
-    // component.openBanner = jest.fn();
   });
 
   it('should create', () => {
@@ -156,148 +136,6 @@ describe('PredictionComponent', () => {
       component.openBanner();
       expect(store.dispatch).toHaveBeenCalledWith(banner);
     });
-  });
-
-  describe('#parseLoadFile', () => {
-    let file: File;
-    beforeEach(() => {
-      component.openDialog = jest.fn();
-    });
-
-    it('should call openDialog', async () => {
-      component['papa'].parse = jest.fn(
-        (_csv: string | Blob, config: ParseConfig): ParseResult => {
-          const result: ParseResult = {
-            data: [['input1', 'input2']],
-          } as unknown as ParseResult;
-          config.complete(result);
-
-          return result;
-        }
-      );
-      store.overrideSelector('getBannerOpen', true);
-      file = new File(['input1', ',', 'input2'], 'file');
-
-      component.parseLoadFile(file);
-
-      expect(component.openDialog).toHaveBeenCalledWith([['input1', 'input2']]);
-    });
-
-    it('should print the error to console in error case', async () => {
-      console.error = jest.fn();
-      component['papa'].parse = jest.fn(
-        (csv: string | Blob, config: ParseConfig): ParseResult => {
-          config.error('some error', csv);
-
-          return undefined;
-        }
-      );
-
-      // eslint-disable-next-line unicorn/no-useless-undefined
-      component.parseLoadFile(undefined);
-      expect(console.error).toHaveBeenCalledWith(
-        'An error occured: some error'
-      );
-    });
-  });
-
-  it('should call parseLoadFile when handleFileInput is called', () => {
-    const blobProps = {
-      lastModifiedDate: '',
-      name: 'filename',
-    };
-    const blob = new Blob([JSON.stringify(blobProps, undefined, 2)], {
-      type: 'text/csv',
-    });
-    const mockFile = blob as File;
-    const mockFileList = {
-      0: mockFile,
-      1: mockFile,
-      length: 2,
-      item: (_index: number) => mockFile,
-    };
-
-    component.parseLoadFile = jest.fn();
-    component.handleFileInput(mockFileList);
-    expect(component.parseLoadFile).toHaveBeenCalledWith(mockFile);
-  });
-
-  it('should call dispatchLoad when openedDialog afterClosed is called', () => {
-    const mockSettings = {
-      conversionFactor: 1,
-      repetitionFactor: 1,
-      method: 'FKM',
-    };
-
-    jest
-      .spyOn(component['dialog'], 'open')
-      .mockReturnValue({ afterClosed: () => of(mockSettings) } as MatDialogRef<
-        unknown,
-        unknown
-      >);
-
-    const mockArray = [['powerapps'], ['1'], [2, 4], [3]];
-
-    jest.spyOn(component, 'dispatchLoad');
-    component.openDialog(mockArray);
-    expect(component.dispatchLoad).toHaveBeenCalledWith(
-      mockArray,
-      mockSettings
-    );
-  });
-
-  it('should dispatch dispatchLoad action when parseLoadFile is called', () => {
-    const blobProps = {
-      lastModifiedDate: '',
-      name: 'filename',
-    };
-    const blob = new Blob([JSON.stringify(blobProps, undefined, 2)], {
-      type: 'text/csv',
-    });
-    const mockFile = blob as File;
-    const mockFileList = {
-      0: mockFile,
-      1: mockFile,
-      length: 2,
-      item: (_index: number) => mockFile,
-    };
-
-    component.parseLoadFile = jest.fn();
-    component.handleFileInput(mockFileList);
-    expect(component.parseLoadFile).toHaveBeenCalledWith(mockFile);
-  });
-
-  it('should call dispatchLoad method that dispatches a cleaned number array to store', () => {
-    const mockArray = [['powerapps'], ['1'], [2, 4], [3]];
-    const mockCleanedArray = {
-      data: [1, 2, 3],
-      status: 1,
-    };
-    const mockSettings = {
-      conversionFactor: 1,
-      repetitionFactor: 1,
-      method: 'FKM',
-    };
-    const action = setLoadsRequest({
-      loadsRequest: { ...mockCleanedArray, ...mockSettings },
-    });
-
-    component.dispatchLoad(mockArray, mockSettings);
-    expect(store.dispatch).toHaveBeenCalledWith(action);
-  });
-
-  it('should call dispatchLoad method that dispatches a cleaned number array to store and slice arrays longer than 50000', () => {
-    const mockArray = [['powerapps'], ['1'], [2, 4], [3]];
-    const mockSettings = {
-      conversionFactor: 1,
-      repetitionFactor: 1,
-      method: 'FKM',
-    };
-
-    mockArray.reduce = jest.fn(() => [50_001]);
-
-    component.dispatchLoad(mockArray, mockSettings);
-    expect(store.dispatch).toHaveBeenCalled();
   });
 
   it('customize tooltip should add text if 10000 <= x <= 10000000', () => {
@@ -337,17 +175,5 @@ describe('PredictionComponent', () => {
     const action = setChartType({ chartType: ChartType.Haigh });
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
-  });
-
-  describe('handleDummyLoad', () => {
-    it('should call parseLoadsFile', () => {
-      jest.spyOn(component, 'parseLoadFile');
-      component.handleDummyLoad();
-
-      expect(component.parseLoadFile).toHaveBeenCalledWith(
-        '/assets/loads/cca-sql-dump.txt',
-        true
-      );
-    });
   });
 });

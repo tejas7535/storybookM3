@@ -9,8 +9,6 @@ export * from './kpi-parsed-haigh.model';
 export * from './kpi-parsed-woehler.model';
 export * from './limits.model';
 export * from './line.model';
-export * from './loads.model';
-export * from './loads-request.model';
 export * from './material.model';
 export * from './model.model';
 export * from './point.model';

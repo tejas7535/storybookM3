@@ -41,15 +41,6 @@
                   </mat-tab-group>
                 </div>
                 <div class="flex flex-row items-stretch justify-end">
-                  <button mat-button [matMenuTriggerFor]="uploadMenu">
-                    <span
-                      class="flex flex-row items-center justify-between md:gap-1"
-                    >
-                      <mat-icon>publish</mat-icon>
-                      <span class="hidden sm:block">{{ t('upload') }}</span>
-                      <mat-icon class="hidden sm:block">expand_more</mat-icon>
-                    </span>
-                  </button>
                   <mat-menu #uploadMenu="matMenu">
                     <button
                       mat-menu-item

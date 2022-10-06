@@ -1,14 +1,12 @@
 import { DecimalPipe, registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 
 import { translate, TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import { EChartsOption } from 'echarts';
-import { Papa } from 'ngx-papaparse';
 
 import { getBannerOpen, openBanner } from '@schaeffler/banner';
 
@@ -22,16 +20,9 @@ import {
   GRAPH_DEFINITIONS_WOEHLER,
 } from '../constants';
 import { ChartType } from '../enums';
-import {
-  Display,
-  LegendSquare,
-  LoadOptions,
-  LoadsRequest,
-  PredictionResultParsed,
-} from '../models';
+import { Display, LegendSquare, PredictionResultParsed } from '../models';
 import * as fromStore from '../store';
 import { BreadcrumbsService } from './../../../shared/services/breadcrumbs/breadcrumbs.service';
-import { UploadModalComponent } from './upload-modal/upload-modal.component';
 
 @Component({
   selector: 'mac-ltp-prediction',
@@ -54,8 +45,6 @@ export class PredictionComponent implements OnInit {
   public breadcrumbs$ = this.breadcrumbsService.currentBreadcrumbs;
 
   public constructor(
-    private readonly dialog: MatDialog,
-    private readonly papa: Papa,
     private readonly store: Store,
     private readonly breadcrumbsService: BreadcrumbsService,
     private readonly decimalPipe: DecimalPipe,
@@ -152,67 +141,6 @@ export class PredictionComponent implements OnInit {
 
     return undefined;
   };
-
-  /**
-   * Gets FileList object, extracts single file and calls parseLoadFile method
-   */
-  public handleFileInput(files: FileList): void {
-    const loadCollective = files.item(0);
-    this.parseLoadFile(loadCollective);
-  }
-
-  public handleDummyLoad(): void {
-    const loadCollective = '/assets/loads/cca-sql-dump.txt';
-    this.parseLoadFile(loadCollective, true);
-  }
-
-  /**
-   * Parses load File and class dispatchLoad method
-   */
-  public parseLoadFile(loadCollective: File | string, download = false): void {
-    this.papa.parse(loadCollective, {
-      download,
-      complete: (result) => {
-        this.openDialog(result.data);
-      },
-      error: (err) => {
-        console.error(`An error occured: ${err}`);
-      },
-    });
-  }
-
-  public openDialog(parsedFile: any[]): void {
-    const dialogRef = this.dialog.open(UploadModalComponent, {
-      width: '600px',
-      restoreFocus: false,
-    });
-
-    dialogRef.afterClosed().subscribe((result: LoadOptions) => {
-      if (result) {
-        this.dispatchLoad(parsedFile, result);
-      }
-    });
-  }
-
-  /**
-   * handle first column and omit text values and dispatches load array to store
-   */
-  public dispatchLoad(parsedFile: any[], settings: LoadOptions): void {
-    const limit = 50_000;
-    const loadsRequest: LoadsRequest = {
-      status: 1,
-      data: undefined,
-      ...settings,
-    };
-    loadsRequest.data = parsedFile
-      .map((entry) => entry[0])
-      .filter((value) => !Number.isNaN(Number(value)))
-      .map((value) => Number(value));
-    if (loadsRequest.data.length > limit) {
-      loadsRequest.data.slice(0, loadsRequest.data.length);
-    }
-    this.store.dispatch(fromStore.setLoadsRequest({ loadsRequest }));
-  }
 
   /**
    * Returns true if the entered value is contained in the keys of a given Object array

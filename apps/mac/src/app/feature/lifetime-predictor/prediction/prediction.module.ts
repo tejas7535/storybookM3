@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -26,10 +25,9 @@ import { TooltipModule } from './../../../shared/components/tooltip/tooltip.modu
 import { ChartModule } from './chart/chart.module';
 import { KpiComponent } from './kpi/kpi.component';
 import { PredictionComponent } from './prediction.component';
-import { UploadModalComponent } from './upload-modal/upload-modal.component';
 
 @NgModule({
-  declarations: [PredictionComponent, KpiComponent, UploadModalComponent],
+  declarations: [PredictionComponent, KpiComponent],
   imports: [
     CommonModule,
     PushModule,
@@ -40,7 +38,6 @@ import { UploadModalComponent } from './upload-modal/upload-modal.component';
     MatExpansionModule,
     TooltipModule,
     MatDividerModule,
-    MatDialogModule,
     SharedTranslocoModule,
     ReactiveFormsModule,
     MatFormFieldModule,
