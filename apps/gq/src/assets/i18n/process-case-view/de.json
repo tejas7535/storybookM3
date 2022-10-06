@@ -50,17 +50,17 @@
   "confirmDeletePositions": {
     "text": "Möchten sie wirklich diese Einträge ({{variable}}) vom Case löschen?",
     "deleteButton": "löschen",
-    "cancelButton": "zurück"
+    "cancelButton": "Abbrechen"
   },
   "confirmUploadPositions": {
     "text": "Möchten sie wirklich diese Einträge ({{variable}}) nach SAP hochladen?",
     "uploadButton": "hochladen",
-    "cancelButton": "zurück"
+    "cancelButton": "Abbrechen"
   },
   "confirmRefreshSapPricing": {
     "text": "Möchten Sie wirklich die SAP-Daten für alle Positionen des Cases aktualisieren? Beachten Sie, dass dadurch die SAP-Daten dieses Cases überschrieben werden.",
     "refreshButton": "aktualisieren",
-    "cancelButton": "zurück"
+    "cancelButton": "Abbrechen"
   },
   "calcInProgress": {
     "header": "Wir sind dabei, Ihren Fall zu erstellen ({{variable}} Positionen)...",
@@ -77,7 +77,7 @@
   "editingCommentModal": {
     "title": "Kommentar bearbeiten für Position {{id}}",
     "confirm": "Bestätigen",
-    "cancel": "Zurück"
+    "cancel": "Abbrechen"
   },
   "exportExcelModal": {
     "title": "Wählen Sie Ihr Download-Format",
