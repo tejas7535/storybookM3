@@ -16,12 +16,12 @@ apps/cdba @kauppfbi_SGGIT @tgoetzcissolutionseu_SGGIT @herpisef_SGGIT @soehnpsc_
 apps/cdba-e2e @kauppfbi_SGGIT @tgoetzcissolutionseu_SGGIT @herpisef_SGGIT @soehnpsc_SGGIT @poltokzy_SGGIT
 
 # SEDO
-apps/sedo @soehnpsc_SGGIT @PELZESEN_SGGIT @kauppfbi_SGGIT
-apps/sedo-e2e @soehnpsc_SGGIT @PELZESEN_SGGIT @kauppfbi_SGGIT
+apps/sedo @soehnpsc_SGGIT @PELZESEN_SGGIT @kauppfbi_SGGIT @schlesni_SGGIT
+apps/sedo-e2e @soehnpsc_SGGIT @PELZESEN_SGGIT @kauppfbi_SGGIT @schlesni_SGGIT
 
 # GQ
-apps/gq @soehnpsc_SGGIT @herpisef_SGGIT @kauppfbi_SGGIT @schlunls_SGGIT @poltokzy_SGGIT
-apps/gq-e2e @soehnpsc_SGGIT @herpisef_SGGIT @kauppfbi_SGGIT @schlunls_SGGIT @poltokzy_SGGIT
+apps/gq @soehnpsc_SGGIT @herpisef_SGGIT @kauppfbi_SGGIT @schlunls_SGGIT @poltokzy_SGGIT @schlesni_SGGIT
+apps/gq-e2e @soehnpsc_SGGIT @herpisef_SGGIT @kauppfbi_SGGIT @schlunls_SGGIT @poltokzy_SGGIT @schlesni_SGGIT
 
 # MAC
 apps/mac @berndcri_SGGIT @PELZESEN_SGGIT @krausrbe_SGGIT @tgoetzcissolutionseu_SGGIT @konramic_SGGIT
