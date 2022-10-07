@@ -116,6 +116,8 @@
         "gpmOrGpiTooLow": "Aktueller Nettopreis führt zu einem Loss Maker (Marge < 25%). Bitte Preisstellung überprüfen."
       },
       "strategicMaterial": "Strateg. Material GC",
+      "sapVolumeScale": "SAP Volumen Staffel %",
+      "sapVolumeScaleInfoText": "SAP Volumen Staffel %",
       "headers": {
         "priceSource": {
           "gqPriceSource": "GQ Preis",

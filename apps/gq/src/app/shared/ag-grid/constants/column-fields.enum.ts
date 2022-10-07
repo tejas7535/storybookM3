@@ -33,6 +33,7 @@ export enum ColumnFields {
   PRICE_DIFF = 'priceDiff',
   DATE_NEXT_FREE_ATP = 'materialStockByPlant.dateNextFree',
   STRATEGIC_MATERIAL = 'strategicMaterial',
+  SAP_VOLUME_SCALE = 'sapVolumeScale',
 }
 
 export enum SapPriceDetailsColumnFields {
@@ -69,6 +70,7 @@ export const PercentColumns = [
   ColumnFields.PRICE_DIFF,
   ColumnFields.LAST_CUSTOMER_PRICE_GPI,
   ColumnFields.LAST_CUSTOMER_PRICE_GPM,
+  ColumnFields.SAP_VOLUME_SCALE,
 ];
 
 export const DateColumns = [SapPriceDetailsColumnFields.SAP_VALID_TO];

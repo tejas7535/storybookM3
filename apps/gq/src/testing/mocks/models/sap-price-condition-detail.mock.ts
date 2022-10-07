@@ -27,6 +27,17 @@ export const SAP_PRICE_DETAIL_ZRTU_MOCK: SapPriceConditionDetail = {
   pricingUnit: 1,
   sequenceId: 1,
 };
+export const SAP_PRICE_DETAIL_ZEVO_MOCK: SapPriceConditionDetail = {
+  sapConditionType: SapConditionType.ZEVO,
+  conditionTypeDescription: 'condition_type_description_mock',
+  amount: 0.5,
+  calculationType: CalculationType.PERCENTAGE,
+  conditionUnit: 'PC',
+  conditionValue: 1,
+  validTo: new Date(),
+  pricingUnit: 1,
+  sequenceId: 2,
+};
 export const EXTENDED_SAP_PRICE_DETAIL_MOCK: ExtendedSapPriceConditionDetail = {
   sapConditionType: SapConditionType.ZMIN,
   conditionTypeDescription: 'condition_type_description_mock',

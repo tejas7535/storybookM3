@@ -116,6 +116,8 @@
         "gpmOrGpiTooLow": "Current Net Price leads to a loss maker (margin < 25%). Please verify price setting."
       },
       "strategicMaterial": "Strategic Material (GC)",
+      "sapVolumeScale": "SAP Volume Scale %",
+      "sapVolumeScaleInfoText": "SAP Volume Scale %",
       "headers": {
         "priceSource": {
           "gqPriceSource": "GQ Price",

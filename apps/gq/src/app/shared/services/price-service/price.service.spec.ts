@@ -23,6 +23,7 @@ describe('PriceService', () => {
     test('should return detail', () => {
       const detail: QuotationDetail = {
         ...QUOTATION_DETAIL_MOCK,
+        sapVolumeScale: undefined,
       };
 
       PriceService.addCalculationsForDetail(detail);

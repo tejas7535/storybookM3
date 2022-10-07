@@ -10,6 +10,7 @@ import { LAST_OFFER_DETAIL_MOCK } from './last-offer-detail.mock';
 import { MATERIAL_STOCK_BY_PLANT_MOCK } from './material-stock-by-plant.mock';
 import { PLANT_MOCK } from './plant.mock';
 import {
+  SAP_PRICE_DETAIL_ZEVO_MOCK,
   SAP_PRICE_DETAIL_ZMIN_MOCK,
   SAP_PRICE_DETAIL_ZRTU_MOCK,
 } from './sap-price-condition-detail.mock';
@@ -69,11 +70,13 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   filteredSapConditionDetails: [
     SAP_PRICE_DETAIL_ZMIN_MOCK,
     SAP_PRICE_DETAIL_ZRTU_MOCK,
+    SAP_PRICE_DETAIL_ZEVO_MOCK,
   ],
   materialClassificationSOP: '1',
   msp: 0.99,
   rsp: 1,
   strategicMaterial: 'Y-PT',
+  sapVolumeScale: 0.5,
 };
 
 export const QUOTATION_DETAILS_MOCK = [

@@ -235,6 +235,19 @@ export class ColumnDefService {
       },
     },
     {
+      headerName: translate('shared.quotationDetailsTable.sapVolumeScale'),
+      field: ColumnFields.SAP_VOLUME_SCALE,
+      valueFormatter: (params) =>
+        this.columnUtilityService.percentageFormatter(params),
+      filter: NUMBER_COLUMN_FILTER,
+      filterParams: this.columnUtilityService.numberFilterParams,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.sapVolumeScaleInfoText'
+        ),
+      },
+    },
+    {
       headerName: translate('shared.quotationDetailsTable.gpc'),
       field: ColumnFields.GPC,
       valueFormatter: (params) =>
