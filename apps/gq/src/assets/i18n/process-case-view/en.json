@@ -11,7 +11,7 @@
     "customerDetails": {
       "title": "Customer View",
       "customerCardTitle": "Customer",
-      "summaryCardTitle": "Summary",
+      "keyAccountCardTitle": "Key Account",
       "basicInformation": {
         "title": "Customer",
         "country": "Country",

@@ -9,9 +9,9 @@
       "title": "Einzelne Angebote"
     },
     "customerDetails": {
-      "title": "Kundeninformationen",
+      "title": "Kundendetails",
       "customerCardTitle": "Kunde",
-      "summaryCardTitle": "Zusammenfassung",
+      "keyAccountCardTitle": "Key Account",
       "basicInformation": {
         "country": "Land",
         "customer": "Kunde",
@@ -20,23 +20,23 @@
         "netSales": "Fakturierter Wert",
         "gpi": "GPI",
         "incoterms": "Incoterms",
-        "keyAccount": "Key-Account",
+        "keyAccount": "Key Account",
         "paymentTerms": "Zahlungsbedingungen",
         "region": "Region",
         "salesOrg": "VkOrg",
         "sectorManagement": "Sektormanagement",
-        "subKeyAccount": "Sub-Key-Account",
-        "subRegion": "Sub-Region",
+        "subKeyAccount": "Sub Key Account",
+        "subRegion": "Sub Region",
         "subSector": "Teilbranche",
         "title": "Kunde"
       },
       "salesforce": {
         "title": "Salesforce",
-        "accountPotential": "Account-Potential",
-        "keyAccountPotential": "Key-Account-Potential",
-        "subKeyAccountPotential": "Sub-Key-Account-Potential",
-        "accountOwner": "Account-Inhaber",
-        "accountOwnerContact": "Account-Inhaber Kontakt"
+        "accountPotential": "Account Potential",
+        "keyAccountPotential": "Key Account Potential",
+        "subKeyAccountPotential": "Sub Key Account Potential",
+        "accountOwner": "Account Inhaber",
+        "accountOwnerContact": "Account Inhaber Kontakt"
       },
       "keyaccount": {
         "title": "Key Account",

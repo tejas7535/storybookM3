@@ -241,11 +241,6 @@ export class ColumnDefService {
         this.columnUtilityService.percentageFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
-      headerComponentParams: {
-        tooltipText: this.translocoService.translate(
-          'shared.quotationDetailsTable.sapVolumeScaleInfoText'
-        ),
-      },
     },
     {
       headerName: translate('shared.quotationDetailsTable.gpc'),
