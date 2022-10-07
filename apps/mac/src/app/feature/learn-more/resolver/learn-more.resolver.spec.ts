@@ -4,6 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
 import { RoutePath } from '../../../app-routing.enum';
+import { materialSupplierDbLearnMoreData } from '../config';
 import { hardnessConverterLearnMoreData } from '../config/hardness-converter';
 import { LearnMoreResolver } from './learn-more.resolver';
 
@@ -56,7 +57,7 @@ describe('LearnMoreResolverResolver', () => {
       .fn()
       .mockReturnValue(RoutePath.MaterialsSupplierDatabasePath);
     const ret = resolver.resolve(mockBaseRoute, mockRouterState);
-    expect(ret).toBeUndefined();
+    expect(ret).toBe(materialSupplierDbLearnMoreData);
   });
 
   it('should resolve AQM', () => {
