@@ -7,7 +7,10 @@ import {
 } from '@angular/router';
 
 import { RoutePath } from '../../../app-routing.enum';
-import { hardnessConverterLearnMoreData } from '../config/hardness-converter';
+import {
+  hardnessConverterLearnMoreData,
+  materialSupplierDbLearnMoreData,
+} from '../config/';
 import { LearnMoreData } from '../models';
 
 @Injectable({
@@ -29,7 +32,7 @@ export class LearnMoreResolver implements Resolve<LearnMoreData> {
       case RoutePath.LifetimePredictorPath:
         return undefined;
       case RoutePath.MaterialsSupplierDatabasePath:
-        return undefined;
+        return materialSupplierDbLearnMoreData;
       default:
         this.router.navigate(['/notfound']);
     }

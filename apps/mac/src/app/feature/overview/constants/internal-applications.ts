@@ -20,7 +20,7 @@ export const integratedApps: OverviewCard[] = [
     title: 'Materials Supplier Database',
     description: 'Find released materials suppliers and their CO₂ footprints',
     link: '/materials-supplier-database',
-    learnMoreLink: undefined,
+    learnMoreLink: '/learn-more/materials-supplier-database',
     disableImageHoverEffect: false,
     external: false,
     learnMoreExternal: false,
