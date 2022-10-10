@@ -275,11 +275,12 @@ export class PriceService {
           ? PriceService.calculateMsp(detail.rsp, zrtu)
           : undefined;
 
-      detail.sapVolumeScale = detail.filteredSapConditionDetails.find(
-        (el) =>
-          el.sapConditionType === SapConditionType.ZDVO ||
-          el.sapConditionType === SapConditionType.ZEVO
-      )?.amount;
+      detail.sapVolumeScale =
+        detail.filteredSapConditionDetails.find(
+          (el) =>
+            el.sapConditionType === SapConditionType.ZDVO ||
+            el.sapConditionType === SapConditionType.ZEVO
+        )?.amount || undefined;
     }
   }
 
