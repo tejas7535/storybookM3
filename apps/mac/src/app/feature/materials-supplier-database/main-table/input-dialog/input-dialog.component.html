@@ -34,7 +34,10 @@
         <div class="text-subtitle-2 text-high-emphasis">
           {{ t('materialStandardTitle') }}
         </div>
-        <div class="flex flex-row gap-x-6">
+        <div
+          class="flex flex-row gap-x-6"
+          *ngIf="!hasReadonlyOptions(); else matStdReadonly"
+        >
           <schaeffler-select
             appearance="outline"
             class="w-full"
@@ -69,6 +72,32 @@
             </div>
           </schaeffler-select>
         </div>
+        <ng-template #matStdReadonly>
+          <div class="flex flex-row gap-x-6">
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label
+                >{{ t('standardDocument') }} {{ t('readonly') }}</mat-label
+              >
+              <input
+                matInput
+                [value]="standardDocumentsControl.value.title"
+                name="materialStandardStandardDocument"
+                #dialogControl
+                readonly="true"
+              />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>{{ t('materialName') }} {{ t('readonly') }}</mat-label>
+              <input
+                matInput
+                [value]="materialNamesControl.value.title"
+                name="materialStandardMaterialName"
+                #dialogControl
+                readonly="true"
+              />
+            </mat-form-field>
+          </div>
+        </ng-template>
         <div class="flex flex-row gap-x-6">
           <mat-form-field appearance="outline" class="w-full">
             <mat-label>{{ t('steelNumber') }}</mat-label>
@@ -118,7 +147,10 @@
         <div class="text-subtitle-2 text-high-emphasis">
           {{ t('supplierInformationTitle') }}
         </div>
-        <div class="flex flex-row gap-x-6">
+        <div
+          class="flex flex-row gap-x-6"
+          *ngIf="!hasReadonlyOptions(); else supplierReadonly"
+        >
           <schaeffler-select
             appearance="outline"
             class="w-full"
@@ -157,6 +189,32 @@
             </div>
           </schaeffler-select>
         </div>
+        <ng-template #supplierReadonly>
+          <div class="flex flex-row gap-x-6">
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>{{ t('supplierName') }} {{ t('readonly') }}</mat-label>
+              <input
+                matInput
+                [value]="suppliersControl.value.title"
+                name="manufacturerSupplierName"
+                #dialogControl
+                readonly="true"
+              />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label
+                >{{ t('supplierPlant') }} {{ t('readonly') }}</mat-label
+              >
+              <input
+                matInput
+                [value]="supplierPlantsControl.value.title"
+                name="manufacturerSupplierPlant"
+                #dialogControl
+                readonly="true"
+              />
+            </mat-form-field>
+          </div>
+        </ng-template>
         <div class="flex flex-row gap-x-6">
           <mat-form-field appearance="outline" class="w-full">
             <mat-label>{{ t('castingMode') }}</mat-label>
@@ -429,7 +487,10 @@
           </div>
         </div>
 
-        <div class="flex flex-row gap-x-6">
+        <div
+          class="flex flex-row gap-x-6"
+          *ngIf="!hasReadonlyOptions(); else releaseDateReadonly"
+        >
           <mat-form-field appearance="outline" class="w-full">
             <mat-label>{{ t('releaseDateYear') }}</mat-label>
             <mat-select
@@ -462,7 +523,34 @@
             }}</mat-error>
           </mat-form-field>
         </div>
-
+        <ng-template #releaseDateReadonly>
+          <div class="flex flex-row gap-x-6">
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label
+                >{{ t('releaseDateYear') }} {{ t('readonly') }}</mat-label
+              >
+              <input
+                matInput
+                [value]="releaseDateYearFormatter(releaseYearControl.value)"
+                name="releaseDate"
+                #dialogControl
+                readonly="true"
+              />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label
+                >{{ t('releaseDateMonth') }} {{ t('readonly') }}</mat-label
+              >
+              <input
+                matInput
+                [value]="releaseDateMonthFormatter(releaseMonthControl.value)"
+                name="releaseDateMonth"
+                #dialogControl
+                readonly="true"
+              />
+            </mat-form-field>
+          </div>
+        </ng-template>
         <div class="flex flex-row gap-x-6">
           <mat-form-field appearance="outline" class="w-full">
             <mat-label>{{ t('releaseRestrictions') }}</mat-label>

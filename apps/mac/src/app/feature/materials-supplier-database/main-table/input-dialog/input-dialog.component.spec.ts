@@ -475,10 +475,6 @@ describe('InputDialogComponent', () => {
     component = spectator.debugElement.componentInstance;
   });
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
-
   describe('check initial form values', () => {
     it('should have the expected values', () => {
       expect(component.manufacturerSupplierIdControl.value).toEqual(undefined);
@@ -1187,6 +1183,11 @@ describe('InputDialogComponent', () => {
   });
 
   describe('ngAfterViewInit', () => {
+    afterEach(() => {
+      component['dialogData'].editDialogInformation = undefined;
+      component['dialogData'].isResumeDialog = undefined;
+      component['dialogFacade'].resumeDialogData$ = undefined;
+    });
     describe('with full material', () => {
       let mockSubject: Subject<any>;
       beforeEach(() => {
@@ -1296,13 +1297,18 @@ describe('InputDialogComponent', () => {
         component['cdRef'].markForCheck = jest.fn();
         component['cdRef'].detectChanges = jest.fn();
         const result = { focus: jest.fn() };
-        htmlMatch.querySelector = jest.fn((s: string) =>
-          s === 'mat-select' ? result : undefined
-        );
+        const htmlMatchMatSelect = {
+          outerHTML: 'name="lookup"',
+          focus: jest.fn(),
+          querySelector: jest.fn((s: string) =>
+            s === 'mat-select' ? result : undefined
+          ),
+          scrollIntoView: jest.fn(),
+        };
 
         const changes: ElementRef[] = [
           new ElementRef({ outerHTML: 'nomatch' }),
-          new ElementRef(htmlMatch),
+          new ElementRef(htmlMatchMatSelect),
         ];
 
         component['focusSelectedElement'](
@@ -1311,10 +1317,12 @@ describe('InputDialogComponent', () => {
         );
 
         expect(result.focus).toBeCalled();
-        expect(htmlMatch.scrollIntoView).toBeCalled();
-        expect(htmlMatch.querySelector).toHaveBeenCalledWith('mat-select');
-        expect(htmlMatch.querySelector).toHaveBeenCalledWith('input');
-        expect(htmlMatch.focus).not.toBeCalled();
+        expect(htmlMatchMatSelect.scrollIntoView).toBeCalled();
+        expect(htmlMatchMatSelect.querySelector).toHaveBeenCalledWith(
+          'mat-select'
+        );
+        expect(htmlMatchMatSelect.querySelector).toHaveBeenCalledWith('input');
+        expect(htmlMatchMatSelect.focus).not.toBeCalled();
         expect(component['cdRef'].markForCheck).toBeCalled();
         expect(component['cdRef'].detectChanges).toBeCalled();
       });
@@ -1323,13 +1331,18 @@ describe('InputDialogComponent', () => {
         component['cdRef'].markForCheck = jest.fn();
         component['cdRef'].detectChanges = jest.fn();
         const result = { focus: jest.fn() };
-        htmlMatch.querySelector = jest.fn((s: string) =>
-          s === 'input' ? result : undefined
-        );
+        const htmlMatchInput = {
+          outerHTML: 'name="lookup"',
+          focus: jest.fn(),
+          querySelector: jest.fn((s: string) =>
+            s === 'input' ? result : undefined
+          ),
+          scrollIntoView: jest.fn(),
+        };
 
         const changes: ElementRef[] = [
           new ElementRef({ outerHTML: 'nomatch' }),
-          new ElementRef(htmlMatch),
+          new ElementRef(htmlMatchInput),
         ];
 
         component['focusSelectedElement'](
@@ -1338,10 +1351,10 @@ describe('InputDialogComponent', () => {
         );
 
         expect(result.focus).toBeCalled();
-        expect(htmlMatch.scrollIntoView).toBeCalled();
-        expect(htmlMatch.querySelector).toHaveBeenCalledWith('mat-select');
-        expect(htmlMatch.querySelector).toHaveBeenCalledWith('input');
-        expect(htmlMatch.focus).not.toBeCalled();
+        expect(htmlMatchInput.scrollIntoView).toBeCalled();
+        expect(htmlMatchInput.querySelector).toHaveBeenCalledWith('mat-select');
+        expect(htmlMatchInput.querySelector).toHaveBeenCalledWith('input');
+        expect(htmlMatchInput.focus).not.toBeCalled();
         expect(component['cdRef'].markForCheck).toBeCalled();
         expect(component['cdRef'].detectChanges).toBeCalled();
       });
@@ -1700,6 +1713,75 @@ describe('InputDialogComponent', () => {
       );
 
       expect(result).toBe(true);
+    });
+  });
+
+  describe('hasReadOnlyOptions', () => {
+    describe('with editMaterialInformation', () => {
+      beforeEach(() => {
+        component['dialogData'].editDialogInformation = {
+          row: mockDialogData.editMaterial.row,
+          column: mockDialogData.editMaterial.column,
+        };
+      });
+
+      it('should return true if editDialogInformation is set', () => {
+        const result = component.hasReadonlyOptions();
+
+        expect(result).toBe(true);
+      });
+    });
+
+    it('should return true if materialId is set', () => {
+      component.materialId = 1;
+
+      const result = component.hasReadonlyOptions();
+
+      expect(result).toBe(true);
+    });
+
+    it('should return false if materialId and editMaterialInformation is not set', () => {
+      component['dialogData'].editDialogInformation = undefined;
+      component.materialId = undefined;
+      const result = component.hasReadonlyOptions();
+
+      expect(result).toBe(false);
+    });
+  });
+
+  describe('releaseDateYearFormatter', () => {
+    it('should return the given value', () => {
+      const result = component.releaseDateYearFormatter(2000);
+
+      expect(result).toEqual(2000);
+    });
+
+    it('should return the string translation for undefined values', () => {
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      const result = component.releaseDateYearFormatter(undefined);
+
+      expect(result).toEqual(
+        'materialsSupplierDatabase.mainTable.dialog.historicallyApproved'
+      );
+    });
+  });
+
+  describe('releaseDateMonthFormatter', () => {
+    it('should return the given value', () => {
+      const result = component.releaseDateMonthFormatter(1);
+
+      expect(result).toEqual(
+        'materialsSupplierDatabase.mainTable.dialog.month.1'
+      );
+    });
+
+    it('should return the string translation for undefined values', () => {
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      const result = component.releaseDateMonthFormatter(undefined);
+
+      expect(result).toEqual(
+        'materialsSupplierDatabase.mainTable.dialog.historicallyApproved'
+      );
     });
   });
 });

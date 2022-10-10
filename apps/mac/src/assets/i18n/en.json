@@ -337,6 +337,7 @@
         "close": "Close",
         "co2AndProductInformationTitle": "Product & CO₂ information",
         "co2Classification": "CO₂ data classification",
+        "readonly": "(readonly)",
         "co2ClassificationValues": {
           "c1": "ISO-conform calculation method, and third-party certified (product-specific)",
           "c2": "ISO-conform calculation method, and third-party certified (method-specific)",
@@ -408,7 +409,8 @@
         },
         "updateMaterial": "UPDATE MATERIAL",
         "updateTitle": "Update Material",
-        "var": "VAR"
+        "var": "VAR",
+        "historicallyApproved": "historically approved"
       },
       "excelExport": {
         "author": "MSD (Materials Supplier Database)",

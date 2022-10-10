@@ -885,4 +885,25 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
 
     return util.filterFn(option, value);
   };
+
+  public hasReadonlyOptions(): boolean {
+    return !!this.materialId || !!this.dialogData.editDialogInformation;
+  }
+
+  public releaseDateYearFormatter(year: number): number | string {
+    return (
+      year ??
+      translate(
+        'materialsSupplierDatabase.mainTable.dialog.historicallyApproved'
+      )
+    );
+  }
+
+  public releaseDateMonthFormatter(month: number): number | string {
+    return month
+      ? translate(`materialsSupplierDatabase.mainTable.dialog.month.${month}`)
+      : translate(
+          'materialsSupplierDatabase.mainTable.dialog.historicallyApproved'
+        );
+  }
 }
