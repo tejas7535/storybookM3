@@ -15,6 +15,7 @@ export class DialogControlsService {
     this.MATERIAL_NUMBER_PATTERN
   );
   private readonly MIN_0_VALIDATOR = Validators.min(0);
+  private readonly MIN_1_VALIDATOR = Validators.min(1);
 
   public getControl<T>(value?: T, disabled = false) {
     return new FormControl<T>({ value, disabled });
@@ -49,7 +50,7 @@ export class DialogControlsService {
     disabled = false
   ) {
     return new FormControl<number>({ value, disabled }, [
-      this.MIN_0_VALIDATOR,
+      this.MIN_1_VALIDATOR,
       this.scopeTotalValidatorFn(scope1Control, scope2Control, scope3Control),
     ]);
   }

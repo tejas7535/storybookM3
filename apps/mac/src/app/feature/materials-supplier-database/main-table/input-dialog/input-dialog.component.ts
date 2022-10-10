@@ -15,6 +15,7 @@ import {
   FormArray,
   FormControl,
   FormGroup,
+  Validators,
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -394,7 +395,17 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
     this.co2Controls.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
+        if (
+          this.co2Scope1Control.value ||
+          this.co2Scope2Control.value ||
+          this.co2Scope3Control.value
+        ) {
+          this.co2TotalControl.addValidators(Validators.required);
+        } else {
+          this.co2TotalControl.removeValidators(Validators.required);
+        }
         this.co2TotalControl.updateValueAndValidity({ onlySelf: true });
+        this.createMaterialForm.updateValueAndValidity();
       });
     this.co2TotalControl.valueChanges
       .pipe(takeUntil(this.destroy$))

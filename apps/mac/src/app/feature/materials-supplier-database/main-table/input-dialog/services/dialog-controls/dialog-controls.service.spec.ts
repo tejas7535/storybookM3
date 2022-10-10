@@ -130,7 +130,7 @@ describe('DialogControlsService', () => {
 
       expect(typeof control.value).toEqual('undefined');
       expect(control.disabled).toBe(false);
-      expect(control.hasValidator(service['MIN_0_VALIDATOR'])).toBe(true);
+      expect(control.hasValidator(service['MIN_1_VALIDATOR'])).toBe(true);
     });
 
     it('should create a required numberNumberControl with value and disabled set', () => {
@@ -148,7 +148,7 @@ describe('DialogControlsService', () => {
       expect(typeof control.value).toEqual('number');
       expect(control.value).toBe(1);
       expect(control.disabled).toBe(true);
-      expect(control.hasValidator(service['MIN_0_VALIDATOR'])).toBe(true);
+      expect(control.hasValidator(service['MIN_1_VALIDATOR'])).toBe(true);
     });
   });
 
