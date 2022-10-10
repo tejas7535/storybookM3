@@ -13,6 +13,8 @@ export const SIDE_BAR_CONFIG: SideBarDef = {
         suppressPivots: true,
         suppressPivotMode: true,
         suppressRowGroups: true,
+        suppressColumnMove: true,
+        suppressSyncLayoutWithGrid: true,
       },
     },
     {

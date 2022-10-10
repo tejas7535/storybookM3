@@ -1589,7 +1589,7 @@ describe('MainTableComponent', () => {
 
       const result = CUSTOM_DATE_FORMATTER(mockParams);
 
-      expect(result).toEqual('20/01/1970');
+      expect(result).toEqual('20/09/2022');
     });
   });
 
