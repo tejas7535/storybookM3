@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
 import { AttritionOverTime } from '../../shared/models';
@@ -9,6 +10,9 @@ import {
   ResignedEmployeesResponse,
 } from '../models';
 import {
+  loadAttritionOverTimeEmployees,
+  loadAttritionOverTimeEmployeesFailure,
+  loadAttritionOverTimeEmployeesSuccess,
   loadAttritionOverTimeOverview,
   loadAttritionOverTimeOverviewFailure,
   loadAttritionOverTimeOverviewSuccess,
@@ -40,6 +44,11 @@ export const overviewFeatureKey = 'overview';
 export interface OverviewState {
   attritionOverTime: {
     data: AttritionOverTime;
+    loading: boolean;
+    errorMessage: string;
+  };
+  attritionOverTimeEmployees: {
+    data: OverviewExitEntryEmployeesResponse;
     loading: boolean;
     errorMessage: string;
   };
@@ -82,6 +91,11 @@ export interface OverviewState {
 
 export const initialState: OverviewState = {
   attritionOverTime: {
+    data: undefined,
+    loading: false,
+    errorMessage: undefined,
+  },
+  attritionOverTimeEmployees: {
     data: undefined,
     loading: false,
     errorMessage: undefined,
@@ -152,6 +166,39 @@ export const overviewReducer = createReducer(
       ...state,
       attritionOverTime: {
         ...state.attritionOverTime,
+        errorMessage,
+        data: undefined,
+        loading: false,
+      },
+    })
+  ),
+  on(
+    loadAttritionOverTimeEmployees,
+    (state: OverviewState): OverviewState => ({
+      ...state,
+      attritionOverTimeEmployees: {
+        ...state.attritionOverTimeEmployees,
+        loading: true,
+      },
+    })
+  ),
+  on(
+    loadAttritionOverTimeEmployeesSuccess,
+    (state: OverviewState, { data }): OverviewState => ({
+      ...state,
+      attritionOverTimeEmployees: {
+        ...state.attritionOverTimeEmployees,
+        data,
+        loading: false,
+      },
+    })
+  ),
+  on(
+    loadAttritionOverTimeEmployeesFailure,
+    (state: OverviewState, { errorMessage }): OverviewState => ({
+      ...state,
+      attritionOverTimeEmployees: {
+        ...state.attritionOverTimeEmployees,
         errorMessage,
         data: undefined,
         loading: false,

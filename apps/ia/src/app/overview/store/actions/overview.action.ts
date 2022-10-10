@@ -128,6 +128,21 @@ export const loadOpenApplicationsCountFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
+export const loadAttritionOverTimeEmployees = createAction(
+  '[Overview] Load Attrition Over Time Employees',
+  props<{ timeRange: string }>()
+);
+
+export const loadAttritionOverTimeEmployeesSuccess = createAction(
+  '[Overview] Load Attrition Over Time Employees Success',
+  props<{ data: OverviewExitEntryEmployeesResponse }>()
+);
+
+export const loadAttritionOverTimeEmployeesFailure = createAction(
+  '[Overview] Load Attrition Over Time Employees Failure',
+  props<{ errorMessage: string }>()
+);
+
 const all = union({
   loadAttritionOverTimeOverview,
   loadAttritionOverTimeOverviewSuccess,

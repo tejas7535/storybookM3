@@ -24,7 +24,7 @@ export class LossOfSkillService {
   getJobProfiles(
     employeesRequest: EmployeesRequest
   ): Observable<LostJobProfilesResponse> {
-    const params = this.paramsCreator.createHttpParamsForOrgUnitAndTimeRange(
+    const params = this.paramsCreator.createHttpParamsForDimensionAndTimeRange(
       employeesRequest.filterDimension,
       employeesRequest.value,
       employeesRequest.timeRange

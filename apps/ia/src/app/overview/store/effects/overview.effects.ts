@@ -26,6 +26,9 @@ import {
 } from '../../models';
 import { OverviewService } from '../../overview.service';
 import {
+  loadAttritionOverTimeEmployees,
+  loadAttritionOverTimeEmployeesFailure,
+  loadAttritionOverTimeEmployeesSuccess,
   loadAttritionOverTimeOverview,
   loadAttritionOverTimeOverviewFailure,
   loadAttritionOverTimeOverviewSuccess,
@@ -255,6 +258,35 @@ export class OverviewEffects {
           catchError((error) =>
             of(
               loadOpenApplicationsCountFailure({ errorMessage: error.message })
+            )
+          )
+        )
+      )
+    );
+  });
+
+  loadAttritionOverTimeEmployees$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(loadAttritionOverTimeEmployees),
+      concatLatestFrom(() => this.store.select(getCurrentFilters)),
+      map(
+        ([action, request]) =>
+          new EmployeesRequest(
+            request.filterDimension,
+            request.value,
+            action.timeRange
+          )
+      ),
+      switchMap((request: EmployeesRequest) =>
+        this.overviewService.getAttritionOverTimeEmployees(request).pipe(
+          map((data: OverviewExitEntryEmployeesResponse) =>
+            loadAttritionOverTimeEmployeesSuccess({ data })
+          ),
+          catchError((error) =>
+            of(
+              loadAttritionOverTimeEmployeesFailure({
+                errorMessage: error.message,
+              })
             )
           )
         )

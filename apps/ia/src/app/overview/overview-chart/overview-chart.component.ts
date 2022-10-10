@@ -1,7 +1,14 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { EChartsOption } from 'echarts';
+import moment from 'moment';
 
 import {
   LINE_CHART_BASE_OPTIONS,
@@ -10,7 +17,8 @@ import {
 import { EmployeeListDialogComponent } from '../../shared/employee-list-dialog/employee-list-dialog.component';
 import { EmployeeListDialogMeta } from '../../shared/employee-list-dialog/employee-list-dialog-meta.model';
 import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
-import { Employee } from '../../shared/models';
+import { getTimeRangeFromDates } from '../../shared/utils/utilities';
+import { OverviewExitEntryEmployeesResponse } from '../models';
 import { ChartSeries } from '../models/chart-series.model';
 
 @Component({
@@ -21,15 +29,13 @@ import { ChartSeries } from '../models/chart-series.model';
 export class OverviewChartComponent {
   private _data: {
     [seriesName: string]: {
-      employees: Employee[][];
       attrition: number[];
     };
   };
 
-  @Input() public loading: boolean;
-  @Input() public set data(data: {
+  @Input() dataLoading: boolean;
+  @Input() set data(data: {
     [seriesName: string]: {
-      employees: Employee[][];
       attrition: number[];
     };
   }) {
@@ -85,37 +91,79 @@ export class OverviewChartComponent {
 
   public get data(): {
     [seriesName: string]: {
-      employees: Employee[][];
       attrition: number[];
     };
   } {
     return this._data;
   }
 
-  public options: EChartsOption;
+  _attritionEmployeesLoading: boolean;
 
-  public chartSeries: ChartSeries[];
+  @Input() set attritionEmployeesLoading(attritionEmployeesLoading: boolean) {
+    this._attritionEmployeesLoading = attritionEmployeesLoading;
+    this.dialogData.employeesLoading = attritionEmployeesLoading;
+  }
+
+  get attritionEmployeesLoading() {
+    return this._attritionEmployeesLoading;
+  }
+
+  _attritionEmployeesData: OverviewExitEntryEmployeesResponse;
+
+  @Input() set attritionEmployeesData(
+    attritionEmployeesData: OverviewExitEntryEmployeesResponse
+  ) {
+    this._attritionEmployeesData = attritionEmployeesData;
+    if (this.attritionEmployeesData) {
+      this.dialogData.employees = attritionEmployeesData.employees;
+      this.dialogData.enoughRightsToShowAllEmployees =
+        !attritionEmployeesData.responseModified;
+    }
+  }
+
+  get attritionEmployeesData() {
+    return this._attritionEmployeesData;
+  }
+
+  @Output() leaversForTimeRangeRequested = new EventEmitter<string>();
+
+  dialogData = new EmployeeListDialogMeta(
+    {} as EmployeeListDialogMetaHeadings,
+    [],
+    this.attritionEmployeesLoading,
+    true
+  );
+
+  options: EChartsOption;
+
+  chartSeries: ChartSeries[];
 
   constructor(private readonly dialog: MatDialog) {}
 
-  public onChartClick(event: any): void {
-    const employees = this.data[event.seriesName].employees[event.dataIndex];
+  onChartClick(event: any) {
+    const start = moment.utc({
+      year: event.seriesName,
+      month: event.dataIndex,
+      date: 1,
+    });
+    const end = start.clone().endOf('month');
+
+    const timeRange = getTimeRangeFromDates(start, end);
+    this.leaversForTimeRangeRequested.emit(timeRange);
+    this.showEmployees(event);
+  }
+
+  public showEmployees(event: any): void {
     const attrition = this.data[event.seriesName].attrition[event.dataIndex];
-    const enoughRights = employees?.length === attrition;
 
     if (attrition > 0) {
-      const data = new EmployeeListDialogMeta(
-        new EmployeeListDialogMetaHeadings(
-          `${event.seriesName} - ${event.name}:`,
-          undefined
-        ),
-        employees as any[], // FIXME
-        false, // FIXME
-        enoughRights
+      this.dialogData.headings = new EmployeeListDialogMetaHeadings(
+        `${event.seriesName} - ${event.name}:`,
+        undefined
       );
 
       this.dialog.open(EmployeeListDialogComponent, {
-        data,
+        data: this.dialogData,
       });
     }
   }

@@ -10,6 +10,9 @@ import {
 } from '../models';
 import { initialState, overviewReducer, OverviewState, reducer } from '.';
 import {
+  loadAttritionOverTimeEmployees,
+  loadAttritionOverTimeEmployeesFailure,
+  loadAttritionOverTimeEmployeesSuccess,
   loadAttritionOverTimeOverview,
   loadAttritionOverTimeOverviewFailure,
   loadAttritionOverTimeOverviewSuccess,
@@ -78,6 +81,52 @@ describe('Overview Reducer', () => {
 
       expect(state.attritionOverTime.loading).toBeFalsy();
       expect(state.attritionOverTime.errorMessage).toEqual(errorMessage);
+    });
+  });
+
+  describe('loadAttritionOverTimeEmployees', () => {
+    test('should set loading', () => {
+      const action = loadAttritionOverTimeEmployees({
+        timeRange: '1-1',
+      });
+      const state = overviewReducer(initialState, action);
+
+      expect(state.attritionOverTimeEmployees.loading).toBeTruthy();
+    });
+  });
+
+  describe('loadAttritionOverTimeEmployeesSuccess', () => {
+    test('should unset loading and set employees data', () => {
+      const data: OverviewExitEntryEmployeesResponse = {
+        employees: [],
+        responseModified: true,
+      };
+      const action = loadAttritionOverTimeEmployeesSuccess({ data });
+
+      const state = overviewReducer(initialState, action);
+
+      expect(state.attritionOverTimeEmployees.loading).toBeFalsy();
+      expect(state.attritionOverTimeEmployees.data).toEqual(data);
+    });
+  });
+
+  describe('loadAttritionOverTimeEmployeesFailure', () => {
+    test('should unset loading / set error message', () => {
+      const action = loadAttritionOverTimeEmployeesFailure({ errorMessage });
+      const fakeState: OverviewState = {
+        ...initialState,
+        attritionOverTime: {
+          ...initialState.attritionOverTime,
+          loading: true,
+        },
+      };
+
+      const state = overviewReducer(fakeState, action);
+
+      expect(state.attritionOverTimeEmployees.loading).toBeFalsy();
+      expect(state.attritionOverTimeEmployees.errorMessage).toEqual(
+        errorMessage
+      );
     });
   });
 

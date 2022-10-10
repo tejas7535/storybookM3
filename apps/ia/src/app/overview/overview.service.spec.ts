@@ -200,4 +200,28 @@ describe('OverviewService', () => {
       req.flush(mock);
     });
   });
+
+  describe('getAttritionOverTimeEmployees', () => {
+    test('should call rest service', () => {
+      const orgUnit = 'Schaeffler12';
+      const timeRange = '123|456';
+      const request = {
+        filterDimension: FilterDimension.ORG_UNIT,
+        value: orgUnit,
+        timeRange,
+      } as EmployeesRequest;
+
+      const response = {} as OverviewExitEntryEmployeesResponse;
+
+      service.getAttritionOverTimeEmployees(request).subscribe((result) => {
+        expect(result).toEqual(response);
+      });
+
+      const req = httpMock.expectOne(
+        `api/v1/overview-attrition-over-time-employees?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}&time_range=123%7C456`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(request);
+    });
+  });
 });

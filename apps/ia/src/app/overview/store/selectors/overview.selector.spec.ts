@@ -15,6 +15,8 @@ import {
 import { FluctuationKpi, LeavingType, OpenApplication } from '../../models';
 import { initialState, OverviewState } from '..';
 import {
+  getAttritionOverTimeEmployeesData,
+  getAttritionOverTimeEmployeesLoading,
   getAttritionOverTimeOverviewData,
   getExternalEntryCount,
   getExternalExitCount,
@@ -104,12 +106,16 @@ describe('Overview Selector', () => {
         data: {
           data: {
             2019: {
-              employees: [],
               attrition: [10, 20, 10, 20, 10],
             },
           },
         },
         loading: true,
+        errorMessage: undefined,
+      },
+      attritionOverTimeEmployees: {
+        data: { employees: [], responseModified: true },
+        loading: false,
         errorMessage: undefined,
       },
       exitEmployees: {
@@ -223,10 +229,24 @@ describe('Overview Selector', () => {
     it('should return actual attrition data', () => {
       expect(getAttritionOverTimeOverviewData(fakeState)).toEqual({
         2019: {
-          employees: [],
           attrition: [10, 20, 10, 20, 10],
         },
       });
+    });
+  });
+
+  describe('getAttritionOverTimeEmployeesData', () => {
+    test('should return data', () => {
+      expect(getAttritionOverTimeEmployeesData(fakeState)).toEqual({
+        employees: [],
+        responseModified: true,
+      });
+    });
+  });
+
+  describe('getAttritionOverTimeEmployeesLoading', () => {
+    test('should return loading', () => {
+      expect(getAttritionOverTimeEmployeesLoading(fakeState)).toBeFalsy();
     });
   });
 

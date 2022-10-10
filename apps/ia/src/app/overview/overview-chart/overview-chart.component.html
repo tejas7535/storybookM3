@@ -1,3 +1,17 @@
 <div class="h-[400px] w-full bg-surface">
-  <div echarts [options]="options" (chartClick)="onChartClick($event)"></div>
+  <div
+    *ngIf="!dataLoading; else loading"
+    echarts
+    [options]="options"
+    (chartClick)="onChartClick($event)"
+  ></div>
 </div>
+<ng-template #loading>
+  <schaeffler-loading-spinner
+    class="h-full w-full"
+    [relative]="true"
+    [diameter]="40"
+    [strokeWidth]="4"
+  >
+  </schaeffler-loading-spinner>
+</ng-template>

@@ -7,6 +7,9 @@ import {
   ResignedEmployeesResponse,
 } from '../../models';
 import {
+  loadAttritionOverTimeEmployees,
+  loadAttritionOverTimeEmployeesFailure,
+  loadAttritionOverTimeEmployeesSuccess,
   loadAttritionOverTimeOverview,
   loadAttritionOverTimeOverviewFailure,
   loadAttritionOverTimeOverviewSuccess,
@@ -292,6 +295,38 @@ describe('Overview Actions', () => {
     expect(action).toEqual({
       errorMessage,
       type: '[Overview] Load Open Applications Count Failure',
+    });
+  });
+
+  test('loadAttritionOverTimeEmployees', () => {
+    const timeRange = '1-1';
+    const action = loadAttritionOverTimeEmployees({ timeRange });
+
+    expect(action).toEqual({
+      type: '[Overview] Load Attrition Over Time Employees',
+      timeRange,
+    });
+  });
+
+  test('loadAttritionOverTimeEmployeesSuccess', () => {
+    const data: OverviewExitEntryEmployeesResponse = {
+      employees: [],
+      responseModified: true,
+    };
+    const action = loadAttritionOverTimeEmployeesSuccess({ data });
+
+    expect(action).toEqual({
+      type: '[Overview] Load Attrition Over Time Employees Success',
+      data,
+    });
+  });
+
+  test('loadAttritionOverTimeEmployeesFailure', () => {
+    const action = loadAttritionOverTimeEmployeesFailure({ errorMessage });
+
+    expect(action).toEqual({
+      type: '[Overview] Load Attrition Over Time Employees Failure',
+      errorMessage,
     });
   });
 });

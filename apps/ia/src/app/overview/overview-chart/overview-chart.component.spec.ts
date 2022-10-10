@@ -14,7 +14,7 @@ import {
 import { EmployeeListDialogComponent } from '../../shared/employee-list-dialog/employee-list-dialog.component';
 import { EmployeeListDialogModule } from '../../shared/employee-list-dialog/employee-list-dialog.module';
 import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
-import { Employee } from '../../shared/models';
+import { Employee, EmployeeWithAction } from '../../shared/models';
 import { SharedModule } from '../../shared/shared.module';
 import { OverviewChartComponent } from './overview-chart.component';
 
@@ -128,7 +128,7 @@ describe('OverviewChartComponent', () => {
       component['dialog'].open = jest.fn();
 
       component.data = data;
-      component.onChartClick(event);
+      component.showEmployees(event);
 
       expect(component['dialog'].open).toHaveBeenCalledWith(
         EmployeeListDialogComponent,
@@ -138,10 +138,10 @@ describe('OverviewChartComponent', () => {
               '2020 - Jan:',
               undefined
             ),
-            employees: [employee],
-            enoughRightsToShowAllEmployees: false,
+            employees: [],
+            enoughRightsToShowAllEmployees: true,
+            employeesLoading: component.attritionEmployeesData,
             showFluctuationType: undefined,
-            employeesLoading: false,
           },
         }
       );
@@ -151,13 +151,37 @@ describe('OverviewChartComponent', () => {
       const event = { dataIndex: 0, seriesName: '2020', name: 'Jan' };
 
       component['dialog'].open = jest.fn();
-      data['2020'].employees = [[], [], []];
       data['2020'].attrition = [0, 0, 0];
 
       component.data = data;
-      component.onChartClick(event);
+      component.showEmployees(event);
 
       expect(component['dialog'].open).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('attritionEmployeesData', () => {
+    test('should update dialog data', () => {
+      const employees: EmployeeWithAction[] = [];
+      const responseModified = false;
+      const data = { employees, responseModified };
+
+      component.attritionEmployeesData = data;
+
+      expect(component.dialogData.employees).toBe(employees);
+      expect(component.dialogData.enoughRightsToShowAllEmployees).toBeTruthy();
+      expect(component.attritionEmployeesData).toBe(data);
+    });
+  });
+
+  describe('attritionEmployeesLoading', () => {
+    test('should update dialog employeesLoading', () => {
+      component.dialogData.employeesLoading = true;
+
+      component.attritionEmployeesLoading = false;
+
+      expect(component.dialogData.employeesLoading).toBeFalsy();
+      expect(component.attritionEmployeesLoading).toBeFalsy();
     });
   });
 });

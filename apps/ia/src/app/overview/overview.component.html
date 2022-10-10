@@ -133,8 +133,11 @@
   </h5>
   <div class="bg-surface">
     <ia-overview-chart
-      [loading]="attritionRateLoading$ | ngrxPush"
+      [dataLoading]="attritionRateLoading$ | ngrxPush"
       [data]="attritionData$ | ngrxPush"
+      [attritionEmployeesData]="attritionEmployeesData$ | ngrxPush"
+      [attritionEmployeesLoading]="attritionEmployeesLoading$ | ngrxPush"
+      (leaversForTimeRangeRequested)="triggerAttritionOverTimeEmployees($event)"
     >
     </ia-overview-chart>
   </div>

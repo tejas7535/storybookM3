@@ -13,6 +13,7 @@ import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { NgxEchartsModule } from 'ngx-echarts';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { EmployeeListDialogModule } from '../../shared/employee-list-dialog/employee-list-dialog.module';
@@ -37,6 +38,7 @@ echarts.use([
     SharedTranslocoModule,
     MatDialogModule,
     EmployeeListDialogModule,
+    LoadingSpinnerModule,
   ],
   exports: [OverviewChartComponent],
 })

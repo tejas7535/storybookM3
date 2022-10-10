@@ -30,6 +30,16 @@ export const getAttritionOverTimeOverviewData = createSelector(
   (attritionOverTime: AttritionOverTime) => attritionOverTime?.data
 );
 
+export const getAttritionOverTimeEmployeesData = createSelector(
+  selectOverviewState,
+  (state: OverviewState) => state.attritionOverTimeEmployees.data
+);
+
+export const getAttritionOverTimeEmployeesLoading = createSelector(
+  selectOverviewState,
+  (state: OverviewState) => state.attritionOverTimeEmployees.loading
+);
+
 export const getOverviewFluctuationRates = createSelector(
   selectOverviewState,
   (state: OverviewState) => state.entriesExitsMeta?.data

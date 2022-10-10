@@ -10,13 +10,21 @@ import { getSelectedDimension } from '../core/store/selectors/filter/filter.sele
 import { DoughnutConfig } from '../shared/charts/models/doughnut-config.model';
 import { EmployeeListDialogMetaHeadings } from '../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
 import { AttritionSeries, EmployeeWithAction } from '../shared/models';
-import { FluctuationKpi, OpenApplication, ResignedEmployee } from './models';
 import {
+  FluctuationKpi,
+  OpenApplication,
+  OverviewExitEntryEmployeesResponse,
+  ResignedEmployee,
+} from './models';
+import {
+  loadAttritionOverTimeEmployees,
   loadOpenApplications,
   loadOverviewEntryEmployees,
   loadOverviewExitEmployees,
 } from './store/actions/overview.action';
 import {
+  getAttritionOverTimeEmployeesData,
+  getAttritionOverTimeEmployeesLoading,
   getAttritionOverTimeOverviewData,
   getFluctuationRatesForChart,
   getIsLoadingAttritionOverTimeOverview,
@@ -63,6 +71,8 @@ export class OverviewComponent implements OnInit {
   attritionRateLoading$: Observable<boolean>;
   events$: Observable<Event[]>;
   attritionData$: Observable<AttritionSeries>;
+  attritionEmployeesData$: Observable<OverviewExitEntryEmployeesResponse>;
+  attritionEmployeesLoading$: Observable<boolean>;
 
   dimensionHint$: Observable<string>;
   exitsDoughnutConfig$: Observable<DoughnutConfig>;
@@ -202,6 +212,12 @@ export class OverviewComponent implements OnInit {
       getIsLoadingAttritionOverTimeOverview
     );
     this.attritionData$ = this.store.select(getAttritionOverTimeOverviewData);
+    this.attritionEmployeesData$ = this.store.select(
+      getAttritionOverTimeEmployeesData
+    );
+    this.attritionEmployeesLoading$ = this.store.select(
+      getAttritionOverTimeEmployeesLoading
+    );
   }
 
   triggerLoadExitEmployees() {
@@ -214,5 +230,9 @@ export class OverviewComponent implements OnInit {
 
   triggerLoadOpenApplications() {
     this.store.dispatch(loadOpenApplications());
+  }
+
+  triggerAttritionOverTimeEmployees(timeRange: string) {
+    this.store.dispatch(loadAttritionOverTimeEmployees({ timeRange }));
   }
 }

@@ -32,6 +32,8 @@ export class OverviewService {
   readonly OPEN_APPLICATIONS_COUNT = 'open-positions-count';
   readonly OVERVIEW_EXIT_EMPLOYEES = 'overview-exit-employees';
   readonly OVERVIEW_ENTRY_EMPLOYEES = 'overview-entry-employees';
+  readonly OVERVIEW_ATTRITION_OVER_TIME_EMPLOYEES =
+    'overview-attrition-over-time-employees';
 
   constructor(
     private readonly http: HttpClient,
@@ -41,7 +43,7 @@ export class OverviewService {
   getOverviewFluctuationRates(
     employeesRequest: EmployeesRequest
   ): Observable<OverviewFluctuationRates> {
-    const params = this.paramsCreator.createHttpParamsForOrgUnitAndTimeRange(
+    const params = this.paramsCreator.createHttpParamsForDimensionAndTimeRange(
       employeesRequest.filterDimension,
       employeesRequest.value,
       employeesRequest.timeRange
@@ -122,7 +124,7 @@ export class OverviewService {
   getOverviewExitEmployees(
     employeesRequest: EmployeesRequest
   ): Observable<OverviewExitEntryEmployeesResponse> {
-    const params = this.paramsCreator.createHttpParamsForOrgUnitAndTimeRange(
+    const params = this.paramsCreator.createHttpParamsForDimensionAndTimeRange(
       employeesRequest.filterDimension,
       employeesRequest.value,
       employeesRequest.timeRange
@@ -137,7 +139,7 @@ export class OverviewService {
   getOverviewEntryEmployees(
     employeesRequest: EmployeesRequest
   ): Observable<OverviewExitEntryEmployeesResponse> {
-    const params = this.paramsCreator.createHttpParamsForOrgUnitAndTimeRange(
+    const params = this.paramsCreator.createHttpParamsForDimensionAndTimeRange(
       employeesRequest.filterDimension,
       employeesRequest.value,
       employeesRequest.timeRange
@@ -145,6 +147,21 @@ export class OverviewService {
 
     return this.http.get<OverviewExitEntryEmployeesResponse>(
       `${ApiVersion.V1}/${this.OVERVIEW_ENTRY_EMPLOYEES}`,
+      { params, context: withCache() }
+    );
+  }
+
+  getAttritionOverTimeEmployees(
+    employeesRequest: EmployeesRequest
+  ): Observable<OverviewExitEntryEmployeesResponse> {
+    const params = this.paramsCreator.createHttpParamsForDimensionAndTimeRange(
+      employeesRequest.filterDimension,
+      employeesRequest.value,
+      employeesRequest.timeRange
+    );
+
+    return this.http.get<OverviewExitEntryEmployeesResponse>(
+      `${ApiVersion.V1}/${this.OVERVIEW_ATTRITION_OVER_TIME_EMPLOYEES}`,
       { params, context: withCache() }
     );
   }

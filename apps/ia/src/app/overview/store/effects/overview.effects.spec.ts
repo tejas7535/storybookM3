@@ -26,6 +26,9 @@ import {
 } from '../../models';
 import { OverviewService } from '../../overview.service';
 import {
+  loadAttritionOverTimeEmployees,
+  loadAttritionOverTimeEmployeesFailure,
+  loadAttritionOverTimeEmployeesSuccess,
   loadAttritionOverTimeOverview,
   loadAttritionOverTimeOverviewFailure,
   loadAttritionOverTimeOverviewSuccess,
@@ -650,6 +653,70 @@ describe('Overview Effects', () => {
         expect(overviewService.getOverviewEntryEmployees).toHaveBeenCalledWith(
           request
         );
+      })
+    );
+  });
+
+  describe('loadAttritionOverTimeEmployees$', () => {
+    let request: EmployeesRequest;
+
+    beforeEach(() => {
+      request = {} as unknown as EmployeesRequest;
+      action = loadAttritionOverTimeEmployees(request);
+      store.overrideSelector(getCurrentFilters, request);
+    });
+
+    test(
+      'should return loadAttritionOverTimeEmployeesSuccess action when REST call is successful',
+      marbles((m) => {
+        const data: OverviewExitEntryEmployeesResponse = {
+          employees: [],
+          responseModified: true,
+        };
+        const result = loadAttritionOverTimeEmployeesSuccess({
+          data,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|', {
+          a: data,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        overviewService.getAttritionOverTimeEmployees = jest.fn(() => response);
+
+        m.expect(effects.loadAttritionOverTimeEmployees$).toBeObservable(
+          expected
+        );
+        m.flush();
+        expect(
+          overviewService.getAttritionOverTimeEmployees
+        ).toHaveBeenCalledWith(request);
+      })
+    );
+
+    test(
+      'should return loadAttritionOverTimeEmployeesFailure on REST error',
+      marbles((m) => {
+        const result = loadAttritionOverTimeEmployeesFailure({
+          errorMessage: error.message,
+        }) as any;
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+
+        overviewService.getAttritionOverTimeEmployees = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadAttritionOverTimeEmployees$).toBeObservable(
+          expected
+        );
+        m.flush();
+        expect(
+          overviewService.getAttritionOverTimeEmployees
+        ).toHaveBeenCalledWith(request);
       })
     );
   });

@@ -41,7 +41,7 @@ export class OrganizationalViewService {
   getOrgChart(
     employeesRequest: EmployeesRequest
   ): Observable<DimensionFluctuationData[]> {
-    const params = this.paramsCreator.createHttpParamsForOrgUnitAndTimeRange(
+    const params = this.paramsCreator.createHttpParamsForDimensionAndTimeRange(
       employeesRequest.filterDimension,
       employeesRequest.value,
       employeesRequest.timeRange
@@ -56,7 +56,7 @@ export class OrganizationalViewService {
   }
 
   getWorldMap(employeesRequest: EmployeesRequest): Observable<CountryData[]> {
-    const params = this.paramsCreator.createHttpParamsForOrgUnitAndTimeRange(
+    const params = this.paramsCreator.createHttpParamsForDimensionAndTimeRange(
       employeesRequest.filterDimension,
       employeesRequest.value,
       employeesRequest.timeRange
@@ -73,7 +73,7 @@ export class OrganizationalViewService {
   getOrgUnitFluctuationRate(
     employeesRequest: EmployeesRequest
   ): Observable<OrgUnitFluctuationRate> {
-    const params = this.paramsCreator.createHttpParamsForOrgUnitAndTimeRange(
+    const params = this.paramsCreator.createHttpParamsForDimensionAndTimeRange(
       employeesRequest.filterDimension,
       employeesRequest.value,
       employeesRequest.timeRange

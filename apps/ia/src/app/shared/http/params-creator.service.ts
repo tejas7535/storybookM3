@@ -31,7 +31,7 @@ export class ParamsCreatorService {
       .set(this.PARAM_FILTER_VALUE, value);
   }
 
-  createHttpParamsForOrgUnitAndTimeRange(
+  createHttpParamsForDimensionAndTimeRange(
     filterDimension: FilterDimension,
     value: string,
     timeRange: string
