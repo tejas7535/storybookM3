@@ -1084,7 +1084,7 @@ describe('Dialog Effects', () => {
           id: 1,
           materialClass: 'st',
           materialClassText: 'Steel',
-          materialStandardId: 1,
+          materialStandardId: 2,
           materialStandardMaterialName: 'material',
           materialStandardStandardDocument: 'document',
           manufacturerSupplierId: 1,
@@ -1116,7 +1116,7 @@ describe('Dialog Effects', () => {
 
         const expectedFormValue: Partial<MaterialFormValue> = {
           manufacturerSupplierId: 1,
-          materialStandardId: 1,
+          materialStandardId: 2,
           productCategory: {
             id: 'brightBar',
             title: 'brightBar',
@@ -1149,12 +1149,22 @@ describe('Dialog Effects', () => {
           standardDocument: {
             id: 1,
             title: 'document',
-            data: { materialNames: [] },
+            data: {
+              materialNames: [
+                { id: 1, materialName: '1' },
+                { id: 2, materialName: '2' },
+              ],
+            },
           },
           materialName: {
             id: 1,
             title: 'material',
-            data: { standardDocuments: [] },
+            data: {
+              standardDocuments: [
+                { id: 1, standardDocument: '1' },
+                { id: 2, standardDocument: '2' },
+              ],
+            },
           },
           supplier: {
             id: 1,
@@ -1175,8 +1185,14 @@ describe('Dialog Effects', () => {
           row,
           parsedMaterial: undefined,
           column: 'column',
-          materialNames: [],
-          standardDocuments: [],
+          materialNames: [
+            { id: 1, materialName: '1' },
+            { id: 2, materialName: '2' },
+          ],
+          standardDocuments: [
+            { id: 1, standardDocument: '1' },
+            { id: 2, standardDocument: '2' },
+          ],
           supplierIds: [1, 2],
         };
 

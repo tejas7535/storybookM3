@@ -541,7 +541,10 @@ export class DialogEffects {
             : undefined,
 
           standardDocument: {
-            id: material.materialStandardId,
+            id:
+              editMaterial.materialNames?.length > 1
+                ? editMaterial.materialNames[0].id
+                : material.materialStandardId,
             title: material.materialStandardStandardDocument,
             data: editMaterial.materialNames
               ? {
