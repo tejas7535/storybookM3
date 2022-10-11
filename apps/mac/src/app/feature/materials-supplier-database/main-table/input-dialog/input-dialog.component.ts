@@ -157,6 +157,7 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
   public isBlockedControl = this.controlsService.getControl<boolean>(false);
   public steelMakingProcessControl =
     this.controlsService.getControl<StringOption>();
+  public manufacturerControl = this.controlsService.getControl<boolean>(false);
 
   public createMaterialForm: FormGroup<{
     manufacturerSupplierId: FormControl<number>;
@@ -180,6 +181,7 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
     rating: FormControl<StringOption>;
     ratingRemark: FormControl<string>;
     ratingChangeComment: FormControl<string>;
+    manufacturer: FormControl<boolean>;
 
     standardDocument: FormControl<StringOption>;
     materialNumber: FormControl<string>;
@@ -259,6 +261,7 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
       rating: this.ratingsControl,
       ratingRemark: this.ratingRemarkControl,
       ratingChangeComment: this.ratingChangeCommentControl,
+      manufacturer: this.manufacturerControl,
 
       // these controls are not used for creating a material, only for materialStandards or manufacturerSuppliers
       standardDocument: this.standardDocumentsControl,
@@ -669,6 +672,15 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
               this.co2ClassificationControl.enable({ emitEvent: false });
             }
 
+            if (
+              !materialFormValue.releaseDateYear &&
+              !materialFormValue.releaseDateMonth &&
+              this.materialId
+            ) {
+              this.releaseYearControl.removeValidators(Validators.required);
+              this.releaseMonthControl.removeValidators(Validators.required);
+            }
+
             this.createMaterialForm.patchValue(materialFormValue);
 
             if (this.dialogData.isResumeDialog || this.materialId) {
@@ -778,6 +790,7 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
       id: this.materialId,
       materialClass: 'st',
       manufacturerSupplierId: baseMaterial.manufacturerSupplierId,
+      manufacturer: baseMaterial.manufacturer,
       materialStandardId: baseMaterial.materialStandardId,
       productCategory: baseMaterial.productCategory.id as string,
       referenceDoc: JSON.stringify(

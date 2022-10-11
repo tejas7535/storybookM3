@@ -16,6 +16,7 @@ export interface MaterialResponseEntry {
       sapSupplierId: string;
     }[];
   };
+  manufacturer: boolean;
   productCategory: string;
   referenceDoc?: string;
   co2Scope1?: number;

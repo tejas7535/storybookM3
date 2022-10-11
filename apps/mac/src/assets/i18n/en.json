@@ -325,7 +325,8 @@
         "releaseRestrictions": "Release Restrictions",
         "sapSupplierIds": "SAP Supplier ID(s)",
         "steelMakingProcess": "Steel Making Process",
-        "steelNumber": "Steel number (EN 10027)"
+        "steelNumber": "Steel number (EN 10027)",
+        "manufacturer": "Iron- & Steelmaking"
       },
       "dialog": {
         "addMaterial": "ADD MATERIAL",
@@ -362,6 +363,7 @@
         },
         "esr": "ESR",
         "ingot": "Ingot",
+        "manufacturer": "Iron- & Steelmaking",
         "materialName": "Material Name",
         "materialStandardTitle": "Material Standard Information",
         "maxDim": "Maximum Dimension",
@@ -417,6 +419,7 @@
         "fileNameSuffix": "-MSD-export.xlsx",
         "sheetName": "MSD-Export"
       },
+      "no": "No",
       "productCategories": "Product Categories",
       "quickfilter": {
         "defaultfilters": {
@@ -447,7 +450,8 @@
         "maxDimension": "Maximum dimension (diameter, thickness) allowed to be delivered by supplier",
         "rating": "Quality level of steel supplier according to S 266042 (if available); from RSI (highest quality) to RSIII (lowest quality)",
         "steelMakingProcess": "Details on steelmaking process; BF: blast furnace, DRI: direct reduced iron, BOF: basic oxygen furnace, EAF: electric arc furnace, EOF: energy optimizing furnace, VIM: vacuum induction melting, VAR: vacuum arc remelting, ESR: electro slag remelting"
-      }
+      },
+      "yes": "Yes"
     },
     "materialClass": "Material Class",
     "materialClassValues": {

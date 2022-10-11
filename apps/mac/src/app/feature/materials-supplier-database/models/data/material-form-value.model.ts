@@ -23,6 +23,7 @@ export interface MaterialFormValue {
   ratingRemark: string;
   ratingChangeComment: string;
   materialNumber: string;
+  manufacturer: boolean;
 
   standardDocument: StringOption;
   materialName: StringOption;

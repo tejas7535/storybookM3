@@ -6,6 +6,7 @@ export interface DataResult {
   materialStandardMaterialName: string;
   materialStandardStandardDocument: string;
   materialNumbers?: string[];
+  manufacturer: boolean;
   manufacturerSupplierId: number;
   manufacturerSupplierName: string;
   manufacturerSupplierPlant: string;

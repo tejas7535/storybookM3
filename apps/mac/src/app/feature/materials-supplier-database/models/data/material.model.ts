@@ -3,6 +3,7 @@ export interface Material {
   materialClass: string;
   materialStandardId: number;
   manufacturerSupplierId: number;
+  manufacturer: boolean;
   productCategory: string;
   referenceDoc?: string;
   co2Scope1?: number;

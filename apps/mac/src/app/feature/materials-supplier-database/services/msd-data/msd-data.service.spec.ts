@@ -133,6 +133,7 @@ describe('MsdDataService', () => {
           standardDocument: 'S 130002',
           materialNumber: '1.1234',
         },
+        manufacturer: false,
       },
       {
         id: 128,
@@ -160,6 +161,7 @@ describe('MsdDataService', () => {
           standardDocument: 'S 130001',
           materialNumber: '1.1234, 1.2345',
         },
+        manufacturer: true,
       },
     ];
 
@@ -198,6 +200,8 @@ describe('MsdDataService', () => {
         ratingRemark: undefined,
         ratingChangeComment: undefined,
         referenceDoc: undefined,
+        manufacturer: false,
+        lastModified: undefined,
       } as DataResult,
       {
         id: 128,
@@ -233,6 +237,8 @@ describe('MsdDataService', () => {
         ratingChangeComment: undefined,
         referenceDoc: undefined,
         materialNumbers: ['1.1234', '1.2345'],
+        manufacturer: true,
+        lastModified: undefined,
       } as DataResult,
     ];
 

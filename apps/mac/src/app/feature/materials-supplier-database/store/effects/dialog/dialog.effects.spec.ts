@@ -78,7 +78,7 @@ jest.mock('@ngneat/transloco', () => ({
   translate: jest.fn((string) => string.split('.').pop()),
 }));
 
-describe('Data Effects', () => {
+describe('Dialog Effects', () => {
   let action: any;
   let actions$: any;
   let effects: DialogEffects;
@@ -1111,6 +1111,7 @@ describe('Data Effects', () => {
           rating: 'rating',
           ratingRemark: 'remark',
           ratingChangeComment: 'comment',
+          manufacturer: false,
         } as DataResult;
 
         const expectedFormValue: Partial<MaterialFormValue> = {
@@ -1167,6 +1168,7 @@ describe('Data Effects', () => {
               supplierName: 'supplier',
             },
           },
+          manufacturer: false,
         };
 
         const editMaterial: any = {
@@ -1224,6 +1226,7 @@ describe('Data Effects', () => {
           ratingRemark: 'remark',
           ratingChangeComment: 'comment',
           materialNumbers: ['1', '2'],
+          manufacturer: false,
         } as DataResult;
 
         const expectedFormValue: Partial<MaterialFormValue> = {
@@ -1274,6 +1277,7 @@ describe('Data Effects', () => {
               supplierName: 'supplier',
             },
           },
+          manufacturer: false,
         };
 
         const editMaterial: any = {

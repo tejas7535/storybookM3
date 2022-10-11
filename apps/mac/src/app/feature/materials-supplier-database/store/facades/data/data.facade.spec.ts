@@ -38,6 +38,7 @@ describe('DataFacade', () => {
       castingMode: 'Ingot',
       castingDiameter: '200x300',
       maxDimension: 100,
+      manufacturer: false,
     },
   ];
   const mockFilters = {

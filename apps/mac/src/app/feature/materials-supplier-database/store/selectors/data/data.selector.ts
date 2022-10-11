@@ -1,5 +1,6 @@
-import * as fromStore from '@mac/msd/store/reducers';
 import { createSelector } from '@ngrx/store';
+
+import * as fromStore from '@mac/msd/store/reducers';
 
 export const getDataState = createSelector(
   fromStore.getMSDState,
@@ -28,10 +29,8 @@ export const getShareQueryParams = createSelector(
   getFilter,
   ({ materialClass, productCategory, agGridFilter }) => ({
     filterForm: JSON.stringify({
-      materialClass: materialClass
-        ? materialClass
-        : { id: undefined, name: undefined },
-      productCategory: productCategory ? productCategory : 'all',
+      materialClass: materialClass ?? { id: undefined, name: undefined },
+      productCategory: productCategory ?? 'all',
     }),
     agGridFilter,
   })

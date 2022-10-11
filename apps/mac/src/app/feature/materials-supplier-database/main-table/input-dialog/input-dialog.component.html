@@ -299,7 +299,7 @@
           </mat-form-field>
         </div>
 
-        <div class="flex flex-row gap-x-6">
+        <div class="mb-4 flex flex-row gap-x-6">
           <mat-checkbox
             class="text-caption text-high-emphasis"
             color="primary"
@@ -315,6 +315,18 @@
               inline="true"
               >info_outline</mat-icon
             >
+          </mat-checkbox>
+        </div>
+
+        <div class="mb-4 flex flex-row gap-x-6">
+          <mat-checkbox
+            class="text-caption text-high-emphasis"
+            color="primary"
+            [formControl]="manufacturerControl"
+            name="manufacturer"
+            #dialogControl
+          >
+            {{ t('manufacturer') }}
           </mat-checkbox>
         </div>
 

@@ -3,6 +3,7 @@ import { ColDef } from 'ag-grid-enterprise';
 import { EditCellRendererComponent } from '../edit-cell-renderer/edit-cell-renderer.component';
 import { CUSTOM_DATE_FORMATTER } from './custom-date-formatter';
 import { FILTER_PARAMS } from './filter-params';
+import { MANUFACTURER_VALUE_GETTER } from './manufacturer-value-getter';
 import { RELEASE_DATE_FORMATTER } from './release-date-formatter';
 import { RELEASE_DATE_VALUE_GETTER } from './release-date-value-getter';
 
@@ -31,6 +32,7 @@ export const RATING = 'rating';
 export const RATING_REMARK = 'ratingRemark';
 export const LAST_MODIFIED = 'lastModified';
 export const RELEASE_DATE = 'releaseDate';
+export const MANUFACTURER = 'manufacturer';
 
 export const COLUMN_DEFINITIONS: ColDef[] = [
   {
@@ -63,6 +65,13 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     headerName: 'Supplier Plant',
     filterParams: FILTER_PARAMS,
     cellRenderer: EditCellRendererComponent,
+  },
+  {
+    field: MANUFACTURER,
+    headerName: 'Iron- & Steelmaking',
+    hide: true,
+    cellRenderer: EditCellRendererComponent,
+    valueGetter: MANUFACTURER_VALUE_GETTER,
   },
   {
     field: SAP_SUPPLIER_IDS,

@@ -384,6 +384,7 @@ describe('InputDialogComponent', () => {
       id: 1,
       title: 'supplier',
     },
+    manufacturer: false,
   };
 
   const mockValue: Partial<MaterialFormValue> = {
@@ -1508,6 +1509,7 @@ describe('InputDialogComponent', () => {
       supplier: supplierOption,
       supplierPlant: supplierPlantOption,
       materialNumber: '1.1234',
+      manufacturer: false,
     };
     it('store material and open snackbar with success?', () => {
       const mockSubject = new Subject<CreateMaterialRecord>();

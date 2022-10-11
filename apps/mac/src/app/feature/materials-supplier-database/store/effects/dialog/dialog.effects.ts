@@ -576,6 +576,7 @@ export class DialogEffects {
               supplierName: material.manufacturerSupplierName,
             },
           },
+          manufacturer: material.manufacturer,
           selfCertified: material.manufacturerSupplierSelfCertified,
         };
 

@@ -37,6 +37,7 @@ import {
   BOOLEAN_VALUE_GETTER,
   CUSTOM_DATE_FORMATTER,
   EMPTY_VALUE_FORMATTER,
+  MANUFACTURER_VALUE_GETTER,
   RELEASE_DATE_FORMATTER,
 } from '@mac/msd/main-table/table-config';
 import {
@@ -1625,6 +1626,32 @@ describe('MainTableComponent', () => {
       const result = RELEASE_DATE_VALUE_GETTER(mockParams);
 
       expect(result).toEqual(new Date(2000, 0));
+    });
+  });
+
+  describe('MANUFACTURER_VALUE_GETTER', () => {
+    it('should return yes string if manufacturer is true', () => {
+      const mockParams = {
+        data: {
+          manufacturer: true,
+        } as DataResult,
+      } as ValueGetterParams<DataResult>;
+
+      const result = MANUFACTURER_VALUE_GETTER(mockParams);
+
+      expect(result).toEqual('materialsSupplierDatabase.mainTable.yes');
+    });
+
+    it('should return no string if manufacturer is false', () => {
+      const mockParams = {
+        data: {
+          manufacturer: false,
+        } as DataResult,
+      } as ValueGetterParams<DataResult>;
+
+      const result = MANUFACTURER_VALUE_GETTER(mockParams);
+
+      expect(result).toEqual('materialsSupplierDatabase.mainTable.no');
     });
   });
 
