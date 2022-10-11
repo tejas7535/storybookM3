@@ -503,14 +503,14 @@ export class DialogEffects {
           co2Scope2: material.co2Scope2,
           co2Scope3: material.co2Scope3,
           co2PerTon: material.co2PerTon,
-          co2Classification: material.co2Classification
-            ? {
-                id: material.co2Classification,
-                title: translate(
-                  `materialsSupplierDatabase.mainTable.dialog.co2ClassificationValues.${material.co2Classification.toLowerCase()}`
-                ),
-              }
-            : undefined,
+          co2Classification: {
+            id: material.co2Classification,
+            title: translate(
+              material.co2Classification
+                ? `materialsSupplierDatabase.mainTable.dialog.co2ClassificationValues.${material.co2Classification.toLowerCase()}`
+                : 'materialsSupplierDatabase.mainTable.dialog.none'
+            ),
+          },
           releaseDateYear: material.releaseDateYear,
           releaseDateMonth: material.releaseDateMonth,
           releaseRestrictions: material.releaseRestrictions,

@@ -1241,7 +1241,10 @@ describe('Dialog Effects', () => {
           co2Scope2: 1,
           co2Scope3: 1,
           co2PerTon: 3,
-          co2Classification: undefined,
+          co2Classification: {
+            id: undefined,
+            title: 'none',
+          },
           releaseDateYear: 1,
           releaseDateMonth: 1,
           releaseRestrictions: 'restriction',
