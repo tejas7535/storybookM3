@@ -40,6 +40,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  ul {
+    list-style: revert;
+    margin: revert;
+    padding: revert;
+  }
+}
+
 /***************************************************************************************************
   * OVERRIDES
   */

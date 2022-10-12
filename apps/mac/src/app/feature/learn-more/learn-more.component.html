@@ -61,9 +61,11 @@
               let last = last
             "
           >
-            <p class="text-justify" [ngClass]="{ inline: last }">
-              {{ content }}
-            </p>
+            <p
+              class="text-justify"
+              [ngClass]="{ inline: last }"
+              [innerHTML]="content"
+            ></p>
             <a
               *ngIf="last"
               class="text-link hover:cursor-pointer hover:underline"
@@ -88,9 +90,8 @@
               class="text-justify"
               [ngClass]="{ inline: last }"
               *ngIf="!isImage(part)"
-            >
-              {{ part }}
-            </p>
+              [innerHTML]="part"
+            ></p>
             <a
               *ngIf="last"
               class="text-link hover:cursor-pointer hover:underline"
