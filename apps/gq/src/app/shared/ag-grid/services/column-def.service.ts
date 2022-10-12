@@ -470,7 +470,7 @@ export class ColumnDefService {
       field: ColumnFields.LAST_OFFER_PRICE_DATE,
       valueGetter: (data) =>
         this.columnUtilityService.dateFormatter(
-          data.data[ColumnFields.LAST_OFFER_PRICE_DATE]
+          data.data.lastOfferDetail?.lastOfferDate
         ),
       filter: MULTI_COLUMN_FILTER,
       filterParams: MULTI_COLUMN_FILTER_PARAMS,
@@ -521,7 +521,7 @@ export class ColumnDefService {
       field: ColumnFields.DATE_NEXT_FREE_ATP,
       valueGetter: (params: ValueGetterParams) =>
         this.columnUtilityService.dateFormatter(
-          params.data.materialStockByPlant.dateNextFree
+          params.data.materialStockByPlant?.dateNextFree
         ),
       filter: MULTI_COLUMN_FILTER,
       filterParams: MULTI_COLUMN_FILTER_PARAMS,
