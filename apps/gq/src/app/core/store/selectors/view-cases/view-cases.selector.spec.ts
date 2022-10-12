@@ -2,7 +2,10 @@ import { translate } from '@ngneat/transloco';
 
 import { ViewToggle } from '@schaeffler/view-toggle';
 
-import { STATUS_BAR_CONFIG } from '../../../../../app/case-view/case-table/config';
+import {
+  ACTIVE_STATUS_BAR_CONFIG,
+  INACTIVE_STATUS_BAR_CONFIG,
+} from '../../../../../app/case-view/case-table/config';
 import {
   VIEW_CASE_STATE_MOCK,
   VIEW_QUOTATION_MOCK,
@@ -65,14 +68,14 @@ describe('View Cases Selector', () => {
         viewCasesSelectors.getStatusBarForQuotationStatus.projector(
           fakeState.viewCases
         )
-      ).toEqual(STATUS_BAR_CONFIG);
+      ).toEqual(ACTIVE_STATUS_BAR_CONFIG);
     });
     test('should return status panel for inactive quotations', () => {
       expect(
         viewCasesSelectors.getStatusBarForQuotationStatus.projector({
           quotations: { displayStatus: QuotationStatus.INACTIVE },
         })
-      ).toEqual({ statusPanels: [] });
+      ).toEqual(INACTIVE_STATUS_BAR_CONFIG);
     });
   });
 
@@ -142,6 +145,15 @@ describe('View Cases Selector', () => {
       );
     });
   });
+
+  describe('getDisplayStatus', () => {
+    test('should return QuotationStatus.ACTIVE 0', () => {
+      expect(
+        viewCasesSelectors.getDisplayStatus.projector(fakeState.viewCases)
+      ).toBe(0);
+    });
+  });
+
   describe('getQuotationsLoading', () => {
     test('should return false', () => {
       expect(

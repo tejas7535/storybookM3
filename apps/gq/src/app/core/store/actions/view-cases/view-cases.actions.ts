@@ -15,15 +15,16 @@ export const loadCasesFailure = createAction(
   '[View Cases] Get Cases for Authenticated User Failure',
   props<{ errorMessage: string }>()
 );
-export const deleteCase = createAction(
-  '[View Cases] Delete Selected Cases For Authenticated User',
+export const updateCaseStatus = createAction(
+  '[View Cases] Update Status of Selected Cases For Authenticated User',
+  props<{ gqIds: number[]; status: QuotationStatus }>()
+);
+export const updateCasesStatusSuccess = createAction(
+  '[View Cases] Update Status of Selected Cases for Authenticated User Success',
   props<{ gqIds: number[] }>()
 );
-export const deleteCasesSuccess = createAction(
-  '[View Cases] Delete Selected Cases for Authenticated User Success'
-);
-export const deleteCasesFailure = createAction(
-  '[View Cases] Delete Selected Cases for Authenticated User Failure',
+export const updateCasesStatusFailure = createAction(
+  '[View Cases] Update Status of Selected Cases for Authenticated User Failure',
   props<{ errorMessage: string }>()
 );
 export const selectCase = createAction(
@@ -39,9 +40,9 @@ const all = union({
   loadCases,
   loadCasesSuccess,
   loadCasesFailure,
-  deleteCase,
-  deleteCasesSuccess,
-  deleteCasesFailure,
+  updateStatusCase: updateCaseStatus,
+  updateStatusCasesSuccess: updateCasesStatusSuccess,
+  updateStatusCasesFailure: updateCasesStatusFailure,
   selectCase,
   deselectCase,
 });

@@ -49,14 +49,30 @@
       }
     }
   },
-  "confirmDeleteCases": {
-    "text": "Do you really want to delete these case(s) ({{variable}})?",
-    "deleteButton": "delete",
-    "cancelButton": "cancel"
+  "confirmDialog": {
+    "displayText": {
+      "inactive": "Do you really want to delete these case(s) ({{variable}})?",
+      "active": "",
+      "deleted": "Do you really want to delete these case(s) ({{variable}} permanently)?"
+    },
+    "confirmButton": {
+      "inactive": "delete",
+      "active": "",
+      "deleted": "delete"
+    },
+    "cancelButton": {
+      "inactive": "cancel",
+      "active": "",
+      "deleted": "cancel"
+    }
   },
   "snackBarMessages": {
     "createSuccess": "Case was created successfully",
-    "deleteSuccess": "Case was deleted successfully",
+    "updateStatus": {
+      "active": "Case was restored successfully",
+      "inactive": "Case was deleted successfully",
+      "delete": "Case was deleted irrevocably"
+    },
     "importSuccess": "Case was imported successfully",
     "reimportSucess": "This SAP Quotation has already been imported. It will be imported again for you."
   }

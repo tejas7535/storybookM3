@@ -19,7 +19,6 @@ import { CreateCustomerCaseButtonComponent } from './case-view/create-customer-c
 import { CreateManualCaseButtonComponent } from './case-view/create-manual-case-button/create-manual-case-button.component';
 import { ImportCaseButtonComponent } from './case-view/import-case-button/import-case-button.component';
 import { ConfirmSimulationButtonComponent } from './confirm-simulation-button/confirm-simulation-button.component';
-import { DeleteCaseButtonComponent } from './delete-case-button/delete-case-button.component';
 import { DeleteItemsButtonComponent } from './delete-items-button/delete-items-button.component';
 import { DiscardSimulationButtonComponent } from './discard-simulation-button/discard-simulation-button.component';
 import { ExportToExcelButtonComponent } from './export-to-excel-button/export-to-excel-button.component';
@@ -27,13 +26,14 @@ import { MaterialValidationStatusComponent } from './material-validation-status/
 import { QuotationDetailsStatusComponent } from './quotation-details-status/quotation-details-status.component';
 import { RefreshSapPriceComponent } from './refresh-sap-price/refresh-sap-price.component';
 import { TotalRowCountComponent } from './total-row-count/total-row-count.component';
+import { UpdateCaseStatusButtonComponent } from './update-case-status-button/update-case-status-button.component';
 import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-button/upload-selection-to-sap-button.component';
 
 @NgModule({
   declarations: [
     AddMaterialButtonComponent,
     CreateCaseButtonComponent,
-    DeleteCaseButtonComponent,
+    UpdateCaseStatusButtonComponent,
     ExportToExcelButtonComponent,
     QuotationDetailsStatusComponent,
     UploadSelectionToSapButtonComponent,
@@ -64,7 +64,8 @@ import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-b
   exports: [
     AddMaterialButtonComponent,
     CreateCaseButtonComponent,
-    DeleteCaseButtonComponent,
+    UpdateCaseStatusButtonComponent,
+
     ExportToExcelButtonComponent,
     QuotationDetailsStatusComponent,
     UploadSelectionToSapButtonComponent,

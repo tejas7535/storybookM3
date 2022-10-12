@@ -37,12 +37,18 @@ export class QuotationService {
     );
   }
 
-  public deleteCases(gqId: string[]): Observable<any> {
-    return this.http.delete(
-      `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}`,
-      {
-        body: gqId,
-      }
+  public updateCases(
+    gqIds: number[],
+    status: QuotationStatus
+  ): Observable<any> {
+    const requestBody: any = {
+      status,
+      gqIds,
+    };
+
+    return this.http.put(
+      `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS_STATUS}`,
+      requestBody
     );
   }
 

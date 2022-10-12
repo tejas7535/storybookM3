@@ -8,19 +8,21 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
 import { QuotationStatus } from '../../../../shared/models/quotation/quotation-status.enum';
 import { GetQuotationsResponse } from '../../../../shared/services/rest-services/quotation-service/models/get-quotations-response.interface';
 import { QuotationService } from '../../../../shared/services/rest-services/quotation-service/quotation.service';
 import {
-  deleteCase,
-  deleteCasesFailure,
-  deleteCasesSuccess,
   loadCases,
   loadCasesFailure,
   loadCasesSuccess,
+  updateCasesStatusFailure,
+  updateCasesStatusSuccess,
+  updateCaseStatus,
 } from '../../actions';
+import { getDisplayStatus } from '../../selectors';
 import { ViewCasesEffect } from './view-cases.effects';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -34,6 +36,7 @@ describe('View Cases Effects', () => {
   let effects: ViewCasesEffect;
   let quotationService: QuotationService;
   let snackBar: MatSnackBar;
+  let store: MockStore;
 
   const createService = createServiceFactory({
     service: ViewCasesEffect,
@@ -45,6 +48,7 @@ describe('View Cases Effects', () => {
     providers: [
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockActions(() => actions$),
+      provideMockStore(),
     ],
   });
   beforeEach(() => {
@@ -53,6 +57,7 @@ describe('View Cases Effects', () => {
     effects = spectator.inject(ViewCasesEffect);
     quotationService = spectator.inject(QuotationService);
     snackBar = spectator.inject(MatSnackBar);
+    store = spectator.inject(MockStore);
   });
 
   describe('getCases$', () => {
@@ -130,48 +135,134 @@ describe('View Cases Effects', () => {
       })
     );
   });
-  describe('deleteCase$', () => {
-    beforeEach(() => {
-      const gqIds = [1];
-      action = deleteCase({ gqIds });
+  describe('updateCaseStatus$', () => {
+    describe('update to Inactive', () => {
+      beforeEach(() => {
+        const gqIds = [1];
+        const status = QuotationStatus.INACTIVE;
+        action = updateCaseStatus({ gqIds, status });
+      });
+      test(
+        'should return deleteCaseSuccess (status inactive)',
+        marbles((m) => {
+          snackBar.open = jest.fn();
+          quotationService.updateCases = jest.fn(() => response);
+
+          actions$ = m.hot('-a', { a: action });
+
+          const response = m.cold('-a|');
+          const expected = m.cold('--b)', {
+            b: updateCasesStatusSuccess({ gqIds: action.gqIds }),
+          });
+
+          m.expect(effects.updateCasesStatus$).toBeObservable(expected);
+          m.flush();
+
+          expect(quotationService.updateCases).toHaveBeenCalledTimes(1);
+          expect(snackBar.open).toHaveBeenCalledTimes(1);
+        })
+      );
     });
-    test(
-      'should return deleteCaseSuccess',
-      marbles((m) => {
-        snackBar.open = jest.fn();
-        quotationService.deleteCases = jest.fn(() => response);
 
-        const result = deleteCasesSuccess();
-        actions$ = m.hot('-a', { a: action });
+    describe('update to active', () => {
+      beforeEach(() => {
+        const gqIds = [1];
+        const status = QuotationStatus.ACTIVE;
+        action = updateCaseStatus({ gqIds, status });
+      });
+      test(
+        'should return deleteCaseSuccess (status active)',
+        marbles((m) => {
+          snackBar.open = jest.fn();
+          quotationService.updateCases = jest.fn(() => response);
 
-        const response = m.cold('-a|');
-        const expected = m.cold('--b', { b: result });
+          actions$ = m.hot('-a', { a: action });
 
-        m.expect(effects.deleteCase$).toBeObservable(expected);
-        m.flush();
+          const response = m.cold('-a|');
+          const expected = m.cold('--b)', {
+            b: updateCasesStatusSuccess({ gqIds: action.gqIds }),
+          });
 
-        expect(quotationService.deleteCases).toHaveBeenCalledTimes(1);
-        expect(snackBar.open).toHaveBeenCalledTimes(1);
-      })
-    );
+          m.expect(effects.updateCasesStatus$).toBeObservable(expected);
+          m.flush();
 
+          expect(quotationService.updateCases).toHaveBeenCalledTimes(1);
+          expect(snackBar.open).toHaveBeenCalledTimes(1);
+        })
+      );
+    });
+
+    describe('update to deleted', () => {
+      beforeEach(() => {
+        const gqIds = [1];
+        const status = QuotationStatus.DELETED;
+        action = updateCaseStatus({ gqIds, status });
+      });
+      test(
+        'should return deleteCaseSuccess (status deleted)',
+        marbles((m) => {
+          snackBar.open = jest.fn();
+          quotationService.updateCases = jest.fn(() => response);
+
+          actions$ = m.hot('-a', { a: action });
+
+          const response = m.cold('-a|');
+          const expected = m.cold('--b)', {
+            b: updateCasesStatusSuccess({ gqIds: action.gqIds }),
+          });
+
+          m.expect(effects.updateCasesStatus$).toBeObservable(expected);
+          m.flush();
+
+          expect(quotationService.updateCases).toHaveBeenCalledTimes(1);
+          expect(snackBar.open).toHaveBeenCalledTimes(1);
+        })
+      );
+    });
     test(
       'should return deleteCaseFailure',
       marbles((m) => {
         const errorMessage = 'new Error';
         actions$ = m.hot('-a', { a: action });
 
-        const result = deleteCasesFailure({ errorMessage });
+        const result = updateCasesStatusFailure({ errorMessage });
 
         const response = m.cold('-#|', undefined, errorMessage);
         const expected = m.cold('--b', { b: result });
 
-        quotationService.deleteCases = jest.fn(() => response);
+        quotationService.updateCases = jest.fn(() => response);
 
-        m.expect(effects.deleteCase$).toBeObservable(expected);
+        m.expect(effects.updateCasesStatus$).toBeObservable(expected);
         m.flush();
 
-        expect(quotationService.deleteCases).toHaveBeenCalledTimes(1);
+        expect(quotationService.updateCases).toHaveBeenCalledTimes(1);
+      })
+    );
+  });
+
+  describe('loadCasesAfterUpdatingStatus', () => {
+    beforeEach(() => {
+      store.overrideSelector(getDisplayStatus, QuotationStatus.ACTIVE);
+      action = updateCasesStatusSuccess({ gqIds: [1] });
+    });
+    test(
+      'Should call loadCases$ Action',
+      marbles((m) => {
+        snackBar.open = jest.fn();
+        quotationService.updateCases = jest.fn(() => response);
+
+        actions$ = m.hot('-a', { a: action });
+
+        const result = loadCases({ status: QuotationStatus.ACTIVE });
+        const response = m.cold('-a|');
+        const expected = m.cold('-b', {
+          b: result,
+        });
+
+        m.expect(effects.loadCasesAfterUpdatingStatus$).toBeObservable(
+          expected
+        );
+        m.flush();
       })
     );
   });

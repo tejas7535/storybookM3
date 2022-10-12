@@ -49,14 +49,30 @@
       }
     }
   },
-  "confirmDeleteCases": {
-    "text": "Möchten Sie wirklich folgende Cases löschen ({{variable}})?",
-    "deleteButton": "löschen",
-    "cancelButton": "abbrechen"
+  "confirmDialog": {
+    "displayText": {
+      "inactive": "Möchten Sie wirklich folgende Cases löschen ({{variable}})?",
+      "active": "",
+      "deleted": "Möchten Sie folgende Cases wirklich unwiederruflich löschen ({{variable}})?"
+    },
+    "confirmButton": {
+      "inactive": "löschen",
+      "active": "",
+      "deleted": "löschen"
+    },
+    "cancelButton": {
+      "inactive": "abbrechen",
+      "active": "",
+      "deleted": "abbrechen"
+    }
   },
   "snackBarMessages": {
     "createSuccess": "Case wurde erfolgreich erstellt",
-    "deleteSuccess": "Case wurde erfolgreich gelöscht",
+    "updateStatus": {
+      "active": "Case wurde erfolgreich wiederhergestellt",
+      "inactive": "Case wurde erfolgreich gelöscht",
+      "delete": "Case wurde unwiderruflich gelöscht"
+    },
     "importSuccess": "Case wurde erfolgreich importiert",
     "reimportSucess": "Dieses SAP Angebot wurde bereits importiert. Das Angebot wird erneut importiert"
   }

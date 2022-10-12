@@ -208,7 +208,12 @@
         "uploadSelectionToSap": "SAP Preise aktualisieren",
         "uploadSelectionToSapInfoText": "Selektieren Sie bis zu 100 Positionen für den SAP Upload.",
         "confirmSimulation": "Bestätigen",
-        "discardSimulation": "Änderungen verwerfen"
+        "discardSimulation": "Änderungen verwerfen",
+        "panelButtons": {
+          "active": "Wiederherstellen",
+          "inactive": "Löschen",
+          "deleted": "Endgültig löschen"
+        }
       },
       "totalRowCount": {
         "total": "Anzahl",

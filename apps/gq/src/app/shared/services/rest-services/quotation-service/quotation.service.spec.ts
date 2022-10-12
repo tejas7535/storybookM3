@@ -66,16 +66,22 @@ describe('QuotationService', () => {
     });
   });
 
-  describe('deleteCase', () => {
-    test('should call DataService DELETE', () => {
-      const gqId = ['123'];
-      service.deleteCases(gqId).subscribe((res) => expect(res).toEqual([]));
+  describe('updateCase', () => {
+    test('should call DataService PUT', () => {
+      const mockBody = {
+        gqIds: [123],
+        status: QuotationStatus[QuotationStatus.INACTIVE],
+      };
+
+      service
+        .updateCases([123], QuotationStatus.INACTIVE)
+        .subscribe((res) => expect(res).toEqual([]));
 
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}`
+        `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS_STATUS}`
       );
-      expect(req.request.method).toBe(HttpMethod.DELETE);
-      req.flush(gqId);
+      expect(req.request.method).toBe(HttpMethod.PUT);
+      req.flush(mockBody);
     });
   });
 

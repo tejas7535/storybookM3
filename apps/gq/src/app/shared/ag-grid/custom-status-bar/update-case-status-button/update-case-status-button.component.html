@@ -1,0 +1,16 @@
+<div
+  [class]="classes"
+  *transloco="let t; read: 'shared.customStatusBar.buttons'"
+>
+  <button
+    *ngIf="isOnlyVisibleOnSelection ? selections.length > 0 : true"
+    [disabled]="selections.length === 0"
+    mat-button
+    [ngClass]="buttonType"
+    [color]="buttonColor"
+    (click)="updateStatus()"
+  >
+    <mat-icon *ngIf="panelIcon">{{ panelIcon }}</mat-icon>
+    <ng-container *ngIf="hasPanelCaption">{{ panelCaption }}</ng-container>
+  </button>
+</div>

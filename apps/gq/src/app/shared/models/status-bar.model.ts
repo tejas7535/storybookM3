@@ -1,3 +1,7 @@
+import { IStatusPanelParams } from 'ag-grid-community';
+
+import { QuotationStatus } from './quotation';
+
 export class StatusBar {
   constructor(
     public total = new StatusBarProperties(),
@@ -14,3 +18,15 @@ export class StatusBarProperties {
     public rows = 0
   ) {}
 }
+
+export type ExtendedStatusPanelComponentParams = IStatusPanelParams & {
+  quotationStatus: QuotationStatus;
+  hasPanelCaption?: boolean;
+  isOnlyVisibleOnSelection?: boolean;
+  buttonColor?: string;
+  buttonType?: string;
+  showDialog?: boolean;
+  panelIcon?: string;
+  classes?: string;
+  confirmDialogIcon?: string;
+};

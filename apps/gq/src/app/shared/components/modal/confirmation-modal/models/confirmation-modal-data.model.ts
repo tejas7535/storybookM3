@@ -1,7 +1,9 @@
+import { IdValue } from './id-value.model';
+
 export interface ConfirmationModalData {
   displayText: string;
   icon: string;
   confirmButton: string;
   cancelButton: string;
-  list?: { id: string; value: number }[];
+  list?: IdValue[];
 }

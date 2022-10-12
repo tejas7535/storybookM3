@@ -7,14 +7,14 @@ import {
 } from '../../../../../testing/mocks';
 import { QuotationStatus } from '../../../../shared/models/quotation/quotation-status.enum';
 import {
-  deleteCase,
-  deleteCasesFailure,
-  deleteCasesSuccess,
   deselectCase,
   loadCases,
   loadCasesFailure,
   loadCasesSuccess,
   selectCase,
+  updateCasesStatusFailure,
+  updateCasesStatusSuccess,
+  updateCaseStatus,
 } from '../../actions';
 import { reducer, viewCasesReducer } from './view-cases.reducer';
 
@@ -101,39 +101,52 @@ describe('View Cases Reducer', () => {
       });
     });
   });
-  describe('deleteCase', () => {
+  describe('updateCaseStatus', () => {
     test('should set deleteloading true', () => {
       const gqIds = [1];
-      const action = deleteCase({ gqIds });
-      const state = viewCasesReducer(VIEW_CASE_STATE_MOCK, action);
+      const status = QuotationStatus.INACTIVE;
+      const action = updateCaseStatus({ gqIds, status });
+
+      const state = viewCasesReducer(
+        { ...VIEW_CASE_STATE_MOCK, selectedCases: [1234, 5678] },
+        action
+      );
 
       expect(state).toEqual({
         ...VIEW_CASE_STATE_MOCK,
         deleteLoading: true,
+        selectedCases: [1234, 5678],
       });
     });
   });
-  describe('deleteCaseSuccess', () => {
+  describe('updateCaseStatusSuccess', () => {
     test('should set deleteloading false and quotationLoading true', () => {
-      const action = deleteCasesSuccess();
-      const state = viewCasesReducer(VIEW_CASE_STATE_MOCK, action);
-
+      const action = updateCasesStatusSuccess({ gqIds: [1234, 5678] });
+      const state = viewCasesReducer(
+        { ...VIEW_CASE_STATE_MOCK, selectedCases: [1234, 5678] },
+        action
+      );
       expect(state).toEqual({
         ...VIEW_CASE_STATE_MOCK,
         deleteLoading: false,
-        quotationsLoading: true,
+        quotationsLoading: false,
+        selectedCases: [],
       });
     });
   });
-  describe('deleteCaseFailure', () => {
+  describe('updateCaseStatusFailure', () => {
     test('should set errorMessage and deleteLoading false', () => {
-      const action = deleteCasesFailure({ errorMessage });
-      const state = viewCasesReducer(VIEW_CASE_STATE_MOCK, action);
+      const action = updateCasesStatusFailure({ errorMessage });
+      const state = viewCasesReducer(
+        { ...VIEW_CASE_STATE_MOCK, selectedCases: [1234, 5678] },
+        action
+      );
 
       expect(state).toEqual({
         ...VIEW_CASE_STATE_MOCK,
         errorMessage,
         deleteLoading: false,
+        selectedCases: [1234, 5678],
       });
     });
   });

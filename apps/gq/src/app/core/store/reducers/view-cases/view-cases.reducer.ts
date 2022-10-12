@@ -2,14 +2,14 @@ import { Action, createReducer, on } from '@ngrx/store';
 
 import { QuotationStatus } from '../../../../shared/models/quotation/quotation-status.enum';
 import {
-  deleteCase,
-  deleteCasesFailure,
-  deleteCasesSuccess,
   deselectCase,
   loadCases,
   loadCasesFailure,
   loadCasesSuccess,
   selectCase,
+  updateCasesStatusFailure,
+  updateCasesStatusSuccess,
+  updateCaseStatus,
 } from '../../actions';
 import { ViewCasesStateQuotations } from './models/view-case-state-quotations.interface';
 
@@ -87,22 +87,24 @@ export const viewCasesReducer = createReducer(
     })
   ),
   on(
-    deleteCase,
+    updateCaseStatus,
     (state: ViewCasesState): ViewCasesState => ({
       ...state,
       deleteLoading: true,
     })
   ),
   on(
-    deleteCasesSuccess,
-    (state: ViewCasesState): ViewCasesState => ({
+    updateCasesStatusSuccess,
+    (state: ViewCasesState, { gqIds }): ViewCasesState => ({
       ...state,
       deleteLoading: false,
-      quotationsLoading: true,
+      selectedCases: [
+        ...state.selectedCases.filter((id) => !gqIds.includes(id)),
+      ],
     })
   ),
   on(
-    deleteCasesFailure,
+    updateCasesStatusFailure,
     (state: ViewCasesState, { errorMessage }): ViewCasesState => ({
       ...state,
       errorMessage,
@@ -113,7 +115,7 @@ export const viewCasesReducer = createReducer(
     selectCase,
     (state: ViewCasesState, { gqId }): ViewCasesState => ({
       ...state,
-      selectedCases: [...state.selectedCases, gqId],
+      selectedCases: [...new Set([...state.selectedCases, gqId])],
     })
   ),
   on(

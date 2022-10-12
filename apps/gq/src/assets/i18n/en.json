@@ -208,7 +208,12 @@
         "uploadSelectionToSap": "Update prices to SAP",
         "uploadSelectionToSapInfoText": "Select up to 100 positions to upload to SAP.",
         "confirmSimulation": "Confirm",
-        "discardSimulation": "Discard Changes"
+        "discardSimulation": "Discard Changes",
+        "panelButtons": {
+          "active": "Restore",
+          "inactive": "Delete",
+          "deleted": "Delete Forever"
+        }
       },
       "totalRowCount": {
         "total": "Total",

@@ -5,21 +5,23 @@ import { of } from 'rxjs';
 import { catchError, filter, map, mergeMap, tap } from 'rxjs/operators';
 
 import { translate } from '@ngneat/transloco';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
+import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { QuotationStatus } from '../../../../shared/models/quotation/quotation-status.enum';
 import { GetQuotationsResponse } from '../../../../shared/services/rest-services/quotation-service/models/get-quotations-response.interface';
 import { QuotationService } from '../../../../shared/services/rest-services/quotation-service/quotation.service';
 import {
-  deleteCase,
-  deleteCasesFailure,
-  deleteCasesSuccess,
   loadCases,
   loadCasesFailure,
   loadCasesSuccess,
+  updateCasesStatusFailure,
+  updateCasesStatusSuccess,
+  updateCaseStatus,
 } from '../../actions';
+import { getDisplayStatus } from '../../selectors';
 
 /**
  * Effect class for all view case related actions
@@ -45,43 +47,62 @@ export class ViewCasesEffect {
    */
   loadCases$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(loadCases.type, deleteCasesSuccess.type),
-      mergeMap((action: any) =>
-        this.quotationService
-          // or condition will be removed with the migration to updateStatus endpoint
-          .getCases(action.status || QuotationStatus.ACTIVE)
-          .pipe(
-            map((response: GetQuotationsResponse) =>
-              loadCasesSuccess({ response })
-            ),
-            catchError((errorMessage) => of(loadCasesFailure({ errorMessage })))
-          )
-      )
-    );
-  });
-
-  /**
-   * Delete selected case for the authenticated user
-   */
-  deleteCase$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(deleteCase.type),
-      mergeMap((action: any) =>
-        this.quotationService.deleteCases(action.gqIds).pipe(
-          tap(() => {
-            const successMessage = translate(
-              'caseView.snackBarMessages.deleteSuccess'
-            );
-            this.snackBar.open(successMessage);
-          }),
-          map(deleteCasesSuccess),
-          catchError((errorMessage) => of(deleteCasesFailure({ errorMessage })))
+      ofType(loadCases),
+      mergeMap((action) =>
+        this.quotationService.getCases(action.status).pipe(
+          map((response: GetQuotationsResponse) =>
+            loadCasesSuccess({ response })
+          ),
+          catchError((errorMessage) => of(loadCasesFailure({ errorMessage })))
         )
       )
     );
   });
 
+  /**
+   * Update status of selected case for the authenticated user
+   */
+  updateCasesStatus$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(updateCaseStatus),
+      mergeMap((action) =>
+        this.quotationService.updateCases(action.gqIds, action.status).pipe(
+          tap(() => {
+            const successMessage = translate(
+              `caseView.snackBarMessages.updateStatus.${QuotationStatus[
+                action.status
+              ].toLowerCase()}`
+            );
+
+            this.snackBar.open(successMessage);
+          }),
+          map(() => updateCasesStatusSuccess({ gqIds: action.gqIds })),
+          catchError((errorMessage) =>
+            of(updateCasesStatusFailure({ errorMessage }))
+          )
+        )
+      )
+    );
+  });
+
+  /**
+   * After having the status of cases updated, load the cases depending on the view selected
+   */
+  loadCasesAfterUpdatingStatus$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(updateCasesStatusSuccess),
+      concatLatestFrom(() => this.store.select(getDisplayStatus)),
+      map(
+        ([_, status]: [
+          ReturnType<typeof updateCasesStatusSuccess>,
+          QuotationStatus
+        ]) => loadCases({ status })
+      )
+    );
+  });
+
   constructor(
+    private readonly store: Store,
     private readonly actions$: Actions,
     private readonly quotationService: QuotationService,
     private readonly snackBar: MatSnackBar

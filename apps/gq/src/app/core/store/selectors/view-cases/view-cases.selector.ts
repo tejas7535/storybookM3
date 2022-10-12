@@ -3,7 +3,10 @@ import { createSelector } from '@ngrx/store';
 
 import { ViewToggle } from '@schaeffler/view-toggle';
 
-import { STATUS_BAR_CONFIG } from '../../../../case-view/case-table/config';
+import {
+  ACTIVE_STATUS_BAR_CONFIG,
+  INACTIVE_STATUS_BAR_CONFIG,
+} from '../../../../case-view/case-table/config';
 import { AgStatusBar } from '../../../../shared/ag-grid/models/ag-status-bar.model';
 import { ViewQuotation } from '../../../../shared/models/quotation';
 import { QuotationStatus } from '../../../../shared/models/quotation/quotation-status.enum';
@@ -27,11 +30,14 @@ export const getQuotations = createSelector(
 export const getStatusBarForQuotationStatus = createSelector(
   getViewCasesState,
   (state: ViewCasesState): AgStatusBar => {
-    if (state.quotations.displayStatus === QuotationStatus.ACTIVE) {
-      return STATUS_BAR_CONFIG;
+    switch (state.quotations.displayStatus) {
+      case QuotationStatus.ACTIVE:
+        return ACTIVE_STATUS_BAR_CONFIG;
+      case QuotationStatus.INACTIVE:
+        return INACTIVE_STATUS_BAR_CONFIG;
+      default:
+        return { statusPanels: [] };
     }
-
-    return { statusPanels: [] };
   }
 );
 
@@ -52,6 +58,11 @@ export const getViewToggles = createSelector(
       disabled: state.quotations.inactive.count === 0,
     },
   ]
+);
+
+export const getDisplayStatus = createSelector(
+  getViewCasesState,
+  (state: ViewCasesState): QuotationStatus => state.quotations.displayStatus
 );
 
 export const getQuotationsLoading = createSelector(
