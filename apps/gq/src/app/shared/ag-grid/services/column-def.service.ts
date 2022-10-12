@@ -519,9 +519,9 @@ export class ColumnDefService {
     {
       headerName: translate('shared.quotationDetailsTable.dateNextFreeAtp'),
       field: ColumnFields.DATE_NEXT_FREE_ATP,
-      valueGetter: (data) =>
+      valueGetter: (params: ValueGetterParams) =>
         this.columnUtilityService.dateFormatter(
-          data.data[ColumnFields.DATE_NEXT_FREE_ATP]
+          params.data.materialStockByPlant.dateNextFree
         ),
       filter: MULTI_COLUMN_FILTER,
       filterParams: MULTI_COLUMN_FILTER_PARAMS,
