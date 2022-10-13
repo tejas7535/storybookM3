@@ -187,7 +187,7 @@ describe('GreaseReportComponent', () => {
                       ...greaseResultMock,
                       dataSource: [
                         {
-                          title: CONCEPT1,
+                          title: 'concept1',
                           custom: {
                             selector: CONCEPT1,
                             data: {

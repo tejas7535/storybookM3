@@ -257,6 +257,7 @@
     "errorsWarningsNotes": "Errores, advertencias y notas",
     "concept1": "CONCEPT1  ajuste de liberación de gas",
     "concept1Impossible": "La lubricación automática con CONCEPT1 no es posible. En determinadas circunstancias, la cantidad de lubricación es demasiado alta o demasiado baja. Si se modifican los parámetros de funcionamiento, puede ser posible el uso",
+    "concept1Link": "success-stories/0171",
     "concept1settings": {
       "duration": "{{ months }} meses ({{size}} ml)",
       "details": "Detalles",
@@ -266,7 +267,14 @@
       "NOT_SUITED": "no apto",
       "UNSUITED": "inadecuado",
       "CONDITIONAL": "condicional",
-      "UNKNOWN": "idoneidad desconocida"
+      "UNKNOWN": "idoneidad desconocida",
+      "detailsConcept1": "Detalles de CONCEPT1",
+      "concept1Size": "Cartucho de {{ size }}ml",
+      "emptyDuration": "para el alta en {{ duration }} meses",
+      "arrowSetting": "poner la flecha en {{ setting }}",
+      "ml": "{{ ml }}ml",
+      "sizeHint": "Para las condiciones de funcionamiento que ha seleccionado, el uso de CONCEPT1 con {{ size }}ml no es adecuado",
+      "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }}ml)"
     },
     "initialGreaseQuantity": "Cantidad inicial de grasa *",
     "manualRelubricationQuantityInterval": "Cantidad*/Intervalo* de relubricación manual",

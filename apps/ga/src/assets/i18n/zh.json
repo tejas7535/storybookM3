@@ -267,6 +267,7 @@
     "errorsWarningsNotes": "错误、警告和说明",
     "concept1": "CONCEPT1 气体释放设置",
     "concept1Impossible": "用CONCEPT1自动润滑是不可能的。在某些情况下，再润滑量过高或过低。如果改变操作参数，可能会使用",
+    "concept1Link": "success-stories/0171",
     "concept1settings": {
       "duration": "{{ months }} 几个月 ({{size}} ml)",
       "details": "详细内容",
@@ -276,7 +277,14 @@
       "NOT_SUITED": "不适合",
       "UNSUITED": "不合适的",
       "CONDITIONAL": "有条件的",
-      "UNKNOWN": "适用性未知"
+      "UNKNOWN": "适用性未知",
+      "detailsConcept1": "CONCEPT1的详细信息",
+      "concept1Size": "{{ size }}毫升筒状物",
+      "emptyDuration": "{{ duration }}个月内出院",
+      "arrowSetting": "将箭头设为{{ setting }}",
+      "ml": "{{ ml }}ml",
+      "sizeHint": "对于你选择的操作条件，使用{{ size }}毫升的CONCEPT1是不合适的。",
+      "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }}ml)"
     },
     "initialGreaseQuantity": "初始加脂量 *",
     "manualRelubricationQuantityInterval": "手动润滑加脂量 * / 间隔 *",

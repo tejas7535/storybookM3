@@ -10,6 +10,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { GREASE_CONCEPT1_SUITABILITY } from '@ga/testing/mocks/models/grease-concept1-suitability.mock';
 
+import { CONCEPT1_SIZES } from '../../models';
 import { GreaseReportConcept1Component } from './grease-report-concept1.component';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -76,7 +77,7 @@ describe('GreaseReportConcept1Component', () => {
     it('should return 125 if there is a 125ml CONCEPT1 setting value', () => {
       component.settings = GREASE_CONCEPT1_SUITABILITY;
 
-      expect(component.getDurationSize()).toBe('125');
+      expect(component.getDurationSize()).toBe(CONCEPT1_SIZES['125ML']);
     });
 
     it('should return 60 if there is only a 60ml CONCEPT1 setting value', () => {
@@ -85,7 +86,7 @@ describe('GreaseReportConcept1Component', () => {
         c1_125: undefined,
       };
 
-      expect(component.getDurationSize()).toBe('60');
+      expect(component.getDurationSize()).toBe(CONCEPT1_SIZES['60ML']);
     });
 
     it('should output undefined if there is no value', () => {
@@ -96,6 +97,16 @@ describe('GreaseReportConcept1Component', () => {
       };
 
       expect(component.getDurationSize()).toBe(undefined);
+    });
+  });
+
+  describe('onShowDetails', () => {
+    it('should emit hideDetails EventEmiiter', () => {
+      const showDetailsSpy = jest.spyOn(component.showDetails, 'emit');
+
+      component.onShowDetails();
+
+      expect(showDetailsSpy).toHaveBeenCalledTimes(1);
     });
   });
 });

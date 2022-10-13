@@ -3,7 +3,7 @@ import {
   GreaseReportSubordinateTitle,
 } from './grease-report-subordinate.model';
 
-export const CONCEPT1 = 'concept1';
+export const CONCEPT1 = 'CONCEPT1';
 
 export enum SUITABILITY {
   'YES' = 'LB_YES',
@@ -18,6 +18,11 @@ export enum SUITABILITY_LABEL {
   'UNSUITED' = 'UNSUITED',
   'CONDITIONAL' = 'CONDITIONAL',
   'UNKNOWN' = 'UNKNOWN',
+}
+
+export enum CONCEPT1_SIZES {
+  '60ML' = 60,
+  '125ML' = 125,
 }
 
 export type GreaseReportConcept1Subordinate = Omit<

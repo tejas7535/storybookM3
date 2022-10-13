@@ -1,9 +1,11 @@
 import { translate } from '@ngneat/transloco';
 
+import { RotaryControlItem } from '@schaeffler/controls';
 import { LabelValue } from '@schaeffler/label-value';
 
-import { suitabilityLevels } from '../constants/suitability.constants';
+import { concept1Queries, suitabilityLevels } from '../constants';
 import {
+  CONCEPT1_SIZES,
   GreaseReportSubordinateDataItem,
   GreaseResultData,
   GreaseSuitabilityLevels,
@@ -181,3 +183,26 @@ export const getLabel = (
 
   return label;
 };
+
+const monthsWithNumber = new Set([0, 1, 3, 6, 9, 12]);
+export const availableMonths: RotaryControlItem[] = Array.from(
+  { length: 13 },
+  (_, index) => ({
+    label: monthsWithNumber.has(index) ? index.toString() : '',
+    highlight: index === 0,
+  })
+);
+
+export const shortTitle = (title: string): string =>
+  title.replace('Arcanol ', '');
+
+export const concept1InShop = (title: string, size: CONCEPT1_SIZES): string => {
+  const search = `${size}-${shortTitle(title).replace(' ', '')}`;
+
+  return concept1Queries.find((query) => query.includes(search));
+};
+
+export const concept1ShopQuery = (
+  title: string,
+  size: CONCEPT1_SIZES
+): string => concept1InShop(title, size) ?? `ARCALUB-C1-${size}-REFILLABLE`;

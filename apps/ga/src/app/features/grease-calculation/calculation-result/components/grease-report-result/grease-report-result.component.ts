@@ -22,6 +22,7 @@ import { MEDIASGREASE } from '../../constants';
 import { adaptLabelValuesFromGreaseResultData } from '../../helpers/grease-helpers';
 import {
   CONCEPT1,
+  GreaseConcep1Suitablity,
   GreaseResult,
   GreaseResultDataItem,
   GreaseResultDataSourceItem,
@@ -29,6 +30,7 @@ import {
 } from '../../models';
 import { AutomaticLubricationPipe } from '../../pipes';
 import { GreaseReportConcept1Component } from '../grease-report-concept1';
+import { GreaseReportConcept1DetailComponent } from '../grease-report-concept1-detail';
 
 export enum LabelWidth {
   Default = 200,
@@ -49,6 +51,7 @@ export const shopSearchPathBase = 'search/searchpage?text=';
     MatTooltipModule,
     LabelValueModule,
     GreaseReportConcept1Component,
+    GreaseReportConcept1DetailComponent,
     AutomaticLubricationPipe,
   ],
   templateUrl: './grease-report-result.component.html',
@@ -64,9 +67,10 @@ export class GreaseReportResultComponent implements OnInit, OnDestroy {
   public labelValues: LabelValue[] = [];
   public labelWidth: number = LabelWidth.Default;
   public small = false;
-  public concep1 = CONCEPT1;
+  public concept1 = CONCEPT1;
 
   public showAllValues = false;
+  public showConcept1Details = false;
   private readonly htmlElement!: HTMLElement;
   private observer!: ResizeObserver;
 
@@ -120,16 +124,24 @@ export class GreaseReportResultComponent implements OnInit, OnDestroy {
 
   public isSuited(): boolean {
     return (
-      this.greaseResult.dataSource[0].custom.data.label ==
+      this.greaseResult.dataSource[0].custom.data.label ===
       SUITABILITY_LABEL.SUITED
     );
   }
 
   public isUnSuited(): boolean {
     return (
-      this.greaseResult.dataSource[0].custom.data.label ==
+      this.greaseResult.dataSource[0].custom.data.label ===
       SUITABILITY_LABEL.UNSUITED
     );
+  }
+
+  public toggleShowConcept1Details(): void {
+    this.showConcept1Details = !this.showConcept1Details;
+  }
+
+  public getSettings(labelValues: LabelValue[]): GreaseConcep1Suitablity {
+    return labelValues.find(({ custom }) => !!custom)?.custom.data;
   }
 
   private assignGreaseResultData(): void {

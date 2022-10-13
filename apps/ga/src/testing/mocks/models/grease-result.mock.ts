@@ -138,7 +138,7 @@ export const greaseResultMock: GreaseResult = {
 };
 
 export const greaseResultConcept1Mock: GreaseResultDataSourceItem = {
-  title: CONCEPT1,
+  title: 'concept1',
   custom: {
     selector: CONCEPT1,
     data: GREASE_CONCEPT1_SUITABILITY,

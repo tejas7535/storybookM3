@@ -72,41 +72,71 @@
       <div class="text-caption text-medium-emphasis">
         {{ greaseResult.subTitle }}
       </div>
-      <div
-        *ngIf="
-          greaseResult.isSufficient && greaseResult.subTitle && !isUnSuited()
-        "
-        class="pt-3"
-      >
-        <a
-          mat-raised-button
-          color="primary"
-          [attr.href]="getShopUrl()"
-          target="_blank"
-          (click)="trackGreaseSelection()"
-        >
-          <mat-icon>water_drop_outline</mat-icon>
-          {{ t('shopLinkText') }}
-        </a>
-      </div>
     </div>
-    <schaeffler-label-value
-      [labelValues]="labelValues | automaticLubrication: automaticLubrication"
-      [labelMaxWidth]="labelWidth"
-    >
-      <ng-template #custom let-row="row" let-settings="data">
-        <div *ngIf="row === 'concept1'">
-          <ga-grease-report-concept1
-            [settings]="settings"
-          ></ga-grease-report-concept1>
-        </div>
-      </ng-template>
-    </schaeffler-label-value>
     <div
-      class="cursor-pointer rounded px-3 py-4 hover:bg-hover-overlay focus:bg-focus-overlay"
-      (click)="toggleShowValues()"
+      class="overflow-hidden transition-[max-height] duration-300 ease-in-out"
+      [ngClass]="{
+        'max-h-[2000px]': showAllValues,
+        'max-h-[600px]': !showAllValues
+      }"
     >
-      {{ t(showAllValues ? 'hideValues' : 'allValues') }}
+      <schaeffler-label-value
+        *ngIf="!showConcept1Details; else concept1Details"
+        [labelValues]="labelValues | automaticLubrication: automaticLubrication"
+        [labelMaxWidth]="labelWidth"
+      >
+        <ng-template #custom let-row="row" let-settings="data">
+          <div *ngIf="row === concept1">
+            <ga-grease-report-concept1
+              [settings]="settings"
+              (showDetails)="toggleShowConcept1Details()"
+            ></ga-grease-report-concept1>
+          </div>
+        </ng-template>
+      </schaeffler-label-value>
+    </div>
+    <ng-template #concept1Details>
+      <ga-grease-report-concept1-detail
+        [title]="greaseResult.mainTitle"
+        [settings]="getSettings(labelValues)"
+        (hideDetails)="toggleShowConcept1Details()"
+      ></ga-grease-report-concept1-detail>
+    </ng-template>
+    <div *ngIf="!showConcept1Details" class="p-3">
+      <button
+        class="w-full"
+        mat-stroked-button
+        color="primary"
+        (click)="toggleShowValues()"
+      >
+        <mat-icon
+          class="transition-all duration-300 ease-out"
+          [ngClass]="{ 'rotate-180': showAllValues }"
+          >expand_more</mat-icon
+        >
+        {{ t(showAllValues ? 'hideValues' : 'allValues') }}
+      </button>
+    </div>
+    <div
+      *ngIf="
+        !showConcept1Details &&
+        greaseResult.isSufficient &&
+        greaseResult.subTitle &&
+        !isUnSuited()
+      "
+      class="px-3 pb-3"
+    >
+      <a
+        mat-raised-button
+        class="w-full"
+        color="primary"
+        [attr.href]="getShopUrl()"
+        target="_blank"
+        (click)="trackGreaseSelection()"
+      >
+        <mat-icon>water_drop_outline</mat-icon>
+        {{ t('shopLinkText') }}
+      </a>
     </div>
   </div>
 </ng-container>

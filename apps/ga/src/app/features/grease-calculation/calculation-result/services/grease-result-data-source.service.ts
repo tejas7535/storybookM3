@@ -84,7 +84,7 @@ export class GreaseResultDataSourceService {
     };
 
     return {
-      title: CONCEPT1,
+      title: 'concept1',
       custom: {
         selector: CONCEPT1,
         data,

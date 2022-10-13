@@ -2,9 +2,18 @@
   <div
     *transloco="let t; read: 'calculationResult.concept1settings'"
     class="flex w-full flex-col items-center"
+    [ngClass]="{ '!cursor-pointer': getDurationMonths() }"
+    (click)="onShowDetails()"
   >
-    <!-- TODO: add magnify icon in follow up-->
-
+    <div class="!-mt-2 !-mr-3 self-end">
+      <button
+        *ngIf="getDurationMonths()"
+        mat-icon-button
+        (click)="onShowDetails()"
+      >
+        <mat-icon>search</mat-icon>
+      </button>
+    </div>
     <div
       [ngClass]="{ 'opacity-25': !getDurationMonths() }"
       class="h-[162px] w-[162px] origin-top-left scale-[45%] transform-gpu"
@@ -33,26 +42,24 @@
         >info_outline</mat-icon
       >
     </p>
-    <!-- <button
+    <button
       *ngIf="getDurationMonths(); else whyButton"
       mat-button
       color="primary"
-      disabled
+      (click)="onShowDetails()"
     >
       {{ t('details') }}
-    </button> -->
-    <!-- <ng-template #whyButton> -->
-    <!-- TODO remove ngIf in button -->
-    <button
-      *ngIf="!getDurationMonths()"
-      mat-button
-      color="primary"
-      #tooltipWhy="matTooltip"
-      (click)="tooltipWhy.toggle()"
-      [matTooltip]="settings.hint"
-    >
-      {{ t('why') }}
     </button>
-    <!-- </ng-template> -->
+    <ng-template #whyButton>
+      <button
+        mat-button
+        color="primary"
+        #tooltipWhy="matTooltip"
+        (click)="tooltipWhy.toggle()"
+        [matTooltip]="settings.hint"
+      >
+        {{ t('why') }}
+      </button>
+    </ng-template>
   </div>
 </ng-container>

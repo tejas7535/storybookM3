@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -10,7 +16,8 @@ import {
 } from '@schaeffler/controls';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { GreaseConcep1Suitablity } from '../../models';
+import { availableMonths } from '../../helpers/grease-helpers';
+import { CONCEPT1_SIZES, GreaseConcep1Suitablity } from '../../models';
 
 @Component({
   selector: 'ga-grease-report-concept1',
@@ -29,21 +36,23 @@ import { GreaseConcep1Suitablity } from '../../models';
 export class GreaseReportConcept1Component {
   @Input() public settings: GreaseConcep1Suitablity;
 
-  private readonly monthsWithNumber = [0, 1, 3, 6, 9, 12];
-  public duration = 5;
-  public availableMonths: RotaryControlItem[] = Array.from(
-    { length: 13 },
-    (_, index) => ({
-      label: this.monthsWithNumber.includes(index) ? index.toString() : '',
-      highlight: index === 0,
-    })
-  );
+  @Output() readonly showDetails: EventEmitter<void> = new EventEmitter();
+
+  public availableMonths: RotaryControlItem[] = availableMonths;
 
   public getDurationMonths(): number {
     return this.settings?.c1_125 || this.settings?.c1_60;
   }
 
-  public getDurationSize(): string {
-    return this.settings?.c1_125 ? '125' : this.settings?.c1_60 && '60';
+  public getDurationSize(): CONCEPT1_SIZES {
+    return this.settings?.c1_125
+      ? CONCEPT1_SIZES['125ML']
+      : this.settings?.c1_60 && CONCEPT1_SIZES['60ML'];
+  }
+
+  public onShowDetails(): void {
+    if (this.getDurationMonths()) {
+      this.showDetails.emit();
+    }
   }
 }

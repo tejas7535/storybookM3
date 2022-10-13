@@ -10,7 +10,8 @@ import resize_observer_polyfill from 'resize-observer-polyfill';
 import { COOKIE_GROUPS } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { greaseResultMock } from '@ga/testing/mocks';
+import { CONCEPT1_LABEL_VALUE_MOCK, greaseResultMock } from '@ga/testing/mocks';
+import { GREASE_CONCEPT1_SUITABILITY } from '@ga/testing/mocks/models/grease-concept1-suitability.mock';
 
 import { MEDIASGREASE } from '../../constants';
 import { CONCEPT1, SUITABILITY_LABEL } from '../../models';
@@ -48,7 +49,7 @@ describe('GreaseReportResultComponent', () => {
       ...greaseResultMock,
       dataSource: [
         {
-          title: CONCEPT1,
+          title: 'concept1',
           custom: {
             selector: CONCEPT1,
             data: {
@@ -138,6 +139,23 @@ describe('GreaseReportResultComponent', () => {
       expect(trackingSpy).toHaveBeenCalledWith(MEDIASGREASE, {
         grease: 'Arcanol MULTI2',
       });
+    });
+  });
+
+  describe('toggleShowConcept1Details', () => {
+    it('should set', () => {
+      component.showConcept1Details = true;
+
+      component.toggleShowConcept1Details();
+      expect(component.showConcept1Details).toBeFalsy();
+    });
+  });
+
+  describe('getSettings', () => {
+    it('should return the concept1 settings form the labelvalue pairs', () => {
+      expect(component.getSettings(CONCEPT1_LABEL_VALUE_MOCK)).toBe(
+        GREASE_CONCEPT1_SUITABILITY
+      );
     });
   });
 });

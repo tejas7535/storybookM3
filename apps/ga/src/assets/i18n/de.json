@@ -257,6 +257,7 @@
     "errorsWarningsNotes": "Fehler, Warnungen & Hinweise",
     "concept1": "CONCEPT1 Kartuscheneinstellung",
     "concept1Impossible": "Automatische Schmierung mit CONCEPT1 ist nicht möglich. Unter Umständen ist die Schmiermenge zu hoch oder zu niedrig. Bei Veränderung der Betriebsparameter kann eine Nutzung möglich sein",
+    "concept1Link": "success-stories/0171",
     "concept1settings": {
       "duration": "{{ months }} Monate ({{size}} ml)",
       "details": "Details",
@@ -266,7 +267,14 @@
       "NOT_SUITED": "nicht geeignet",
       "UNSUITED": "ungeeignet",
       "CONDITIONAL": "bedingt",
-      "UNKNOWN": "Eignung unbekannt"
+      "UNKNOWN": "Eignung unbekannt",
+      "detailsConcept1": "Details zu CONCEPT1",
+      "concept1Size": "{{ size }}ml Kartusche",
+      "emptyDuration": "Für Entleerung in {{ duration }} Monaten",
+      "arrowSetting": "Pfeil auf {{ setting }} stellen",
+      "ml": "{{ ml }}ml",
+      "sizeHint": "Für ihre gewählten Betriebsbedingungen ist der CONCEPT1 mit {{ size }}ml nicht geeignet",
+      "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }}ml)"
     },
     "initialGreaseQuantity": "Erstbefettungsmenge *",
     "manualRelubricationQuantityInterval": "Manuelle Nachschmiermenge * / Interval *",

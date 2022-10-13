@@ -1,0 +1,89 @@
+<ng-container *ngIf="settings">
+  <div
+    *transloco="let t; read: 'calculationResult.concept1settings'"
+    class="flex w-full flex-col items-center px-3 py-1"
+  >
+    <div class="flex w-full flex-row items-center justify-between">
+      <span class="text-body-2" *transloco="let t; read: 'calculationResult'">
+        {{ t('concept1') }}
+      </span>
+      <button mat-icon-button (click)="onHideDetails()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div class="h-[252px] w-[252px] origin-top-left scale-[70%] transform-gpu">
+      <schaeffler-rotary-control
+        [controlValue]="getDurationMonths()"
+        [controlItems]="availableMonths"
+        [offsetAngle]="45"
+      ></schaeffler-rotary-control>
+    </div>
+    <p class="flex items-center gap-1 py-2 text-body-2">
+      {{ t('concept1Size', { size: concept1Selection }) }}
+      <mat-icon
+        class="!h-[18px] !w-[18px] !text-[18px]"
+        #tooltipDetail="matTooltip"
+        (click)="tooltipDetail.toggle()"
+        [matTooltip]="settings.hint"
+        >info_outline</mat-icon
+      >
+    </p>
+    <p class="text-body-2 text-low-emphasis">
+      {{ t('emptyDuration', { duration: getDurationMonths() }) }}
+    </p>
+    <p class="text-body-2 text-low-emphasis">
+      {{ t('arrowSetting', { setting: getDurationMonths() }) }}
+    </p>
+    <mat-radio-group class="py-3" [(ngModel)]="concept1Selection">
+      <mat-radio-button
+        *ngFor="let size of sizes"
+        color="primary"
+        class="ml-4"
+        [disabled]="disabledOption(size)"
+        [value]="size"
+      >
+        <div class="flex items-center gap-1">
+          {{ t('ml', { ml: size }) }}
+          <mat-icon
+            *ngIf="disabledOption(size)"
+            class="!h-[18px] !w-[18px] cursor-help !text-[18px]"
+            #tooltipSize="matTooltip"
+            (click)="tooltipSize.toggle()"
+            [matTooltip]="t('sizeHint', { size })"
+            >info_outline</mat-icon
+          >
+        </div>
+      </mat-radio-button>
+    </mat-radio-group>
+    <div class="w-full">
+      <a
+        mat-stroked-button
+        color="primary"
+        class="w-full"
+        [attr.href]="getConcept1InfoUrl()"
+        target="_blank"
+      >
+        {{ t('detailsConcept1') }}
+      </a>
+    </div>
+    <div class="w-full py-3">
+      <a
+        mat-raised-button
+        class="w-full"
+        color="primary"
+        [attr.href]="getConcept1ShopUrl()"
+        (click)="trackConcept1Selection()"
+        target="_blank"
+      >
+        <!-- TODO add logo -->
+        <!-- <mat-icon>delete</mat-icon> -->
+        {{
+          t('concept1ShopTitle', {
+            title: getConcept1InShop() ? getShortTitle() : 'refillable',
+            size: concept1Selection
+          })
+        }}
+      </a>
+    </div>
+  </div>
+</ng-container>

@@ -6,6 +6,7 @@ import * as subordinateDataMock from '@ga/testing/mocks/models/grease-report-sub
 import * as resultMock from '@ga/testing/mocks/models/grease-result.mock';
 
 import {
+  CONCEPT1_SIZES,
   GreaseReportSubordinateDataItem,
   SubordinateDataItemField,
   SUITABILITY,
@@ -453,6 +454,48 @@ describe('Grease helpers', () => {
     it('should return not suited label if the suitability is unknown an there is no value', () => {
       expect(helpers.getLabel(SUITABILITY.UNKNOWN, false)).toBe(
         SUITABILITY_LABEL.NOT_SUITED
+      );
+    });
+  });
+
+  describe('shortTitle', () => {
+    it('should return a title that excludes the "Arcanol" word', () => {
+      expect(helpers.shortTitle('Arcanol POMMESFETT 2')).toBe('POMMESFETT 2');
+    });
+  });
+
+  describe('concept1InShop', () => {
+    it('should return the existing concept1Queries entry', () => {
+      const mockTitle = 'Arcanol FOOD 2';
+
+      expect(helpers.concept1InShop(mockTitle, CONCEPT1_SIZES['60ML'])).toBe(
+        'ARCALUB-C1-60-FOOD2'
+      );
+    });
+
+    it('should return undefined if not in shop', () => {
+      const mockTitle = 'Arcanol POMMESFETT 2';
+
+      expect(helpers.concept1InShop(mockTitle, CONCEPT1_SIZES['60ML'])).toBe(
+        undefined
+      );
+    });
+  });
+
+  describe('concept1ShopQuery', () => {
+    it('should return the same thing that concept1InShop does', () => {
+      const mockTitle = 'Arcanol FOOD 2';
+
+      expect(helpers.concept1ShopQuery(mockTitle, CONCEPT1_SIZES['60ML'])).toBe(
+        'ARCALUB-C1-60-FOOD2'
+      );
+    });
+
+    it('should return undefined if not in shop', () => {
+      const mockTitle = 'Arcanol POMMESFETT 2';
+
+      expect(helpers.concept1ShopQuery(mockTitle, CONCEPT1_SIZES['60ML'])).toBe(
+        'ARCALUB-C1-60-REFILLABLE'
       );
     });
   });

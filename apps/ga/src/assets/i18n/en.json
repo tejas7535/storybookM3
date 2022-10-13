@@ -257,6 +257,7 @@
     "errorsWarningsNotes": "Errors, Warnings & Notes",
     "concept1": "CONCEPT1 gas release setting",
     "concept1Impossible": "Automatic lubrication with CONCEPT1 is not possible. Under certain circumstances, the lubrication quantity is too high or too low. If the operating parameters are changed, use may be possible",
+    "concept1Link": "success-stories/0171",
     "concept1settings": {
       "duration": "{{ months }} months ({{size}} ml)",
       "details": "Details",
@@ -266,7 +267,14 @@
       "NOT_SUITED": "not suitable",
       "UNSUITED": "unsuitable",
       "CONDITIONAL": "conditional",
-      "UNKNOWN": "suitability unknonwn"
+      "UNKNOWN": "suitability unknonwn",
+      "detailsConcept1": "Details for CONCEPT1",
+      "concept1Size": "{{ size }}ml cartridge",
+      "emptyDuration": "for discharge in {{ duration }} months",
+      "arrowSetting": "set arrow to {{ setting }}",
+      "ml": "{{ ml }}ml",
+      "sizeHint": "For the operating conditions you selected using CONCEPT1 with {{ size }}ml is unsuited",
+      "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }}ml)"
     },
     "initialGreaseQuantity": "Initial grease quantity *",
     "manualRelubricationQuantityInterval": "Manual relubrication quantity * / interval *",
