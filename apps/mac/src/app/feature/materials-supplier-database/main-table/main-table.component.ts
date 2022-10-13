@@ -542,11 +542,6 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       headerName: translate(
         `materialsSupplierDatabase.mainTable.columns.${columnDef.field}`
       ),
-      headerTooltip: columnDef.tooltipField
-        ? translate(
-            `materialsSupplierDatabase.mainTable.tooltip.${columnDef.tooltipField}`
-          )
-        : undefined,
       cellRendererParams: {
         hasEditorRole,
       },

@@ -324,7 +324,7 @@
         "releaseDateYear": "Release Date Year",
         "releaseRestrictions": "Release Restrictions",
         "sapSupplierIds": "SAP Supplier ID(s)",
-        "steelMakingProcess": "Steel Making Process",
+        "steelMakingProcess": "Iron- & Steel Making Process",
         "steelNumber": "Steel number (EN 10027)",
         "manufacturer": "Iron- & Steelmaking"
       },
@@ -397,7 +397,7 @@
         "selfCertified": "Self-certification supplier",
         "selfCertified_tooltip": "Supplier is testing its deliveries itself.",
         "standardDocument": "Standard Document",
-        "steelMakingProcess": "Steel Making Process",
+        "steelMakingProcess": "Iron- & Steel Making Process",
         "steelNumber": "Steel number (EN 10027-2)",
         "supplierInformationTitle": "Supplier Information",
         "supplierName": "Supplier Name",
@@ -444,12 +444,12 @@
       },
       "tooltip": {
         "castingDiameter": "Detail on final steel-manufacturing step, e.g., casting dimension, ingot name, dimension, or weight",
-        "castingMode": "Final steel-manufacturing step; either a casting (continuous or ingot) or remelting process (VAR: vacuum arc remelting, ESR: electro slag remelting)",
+        "castingMode": "<ul><li>• CC: continuous casting</li><li>• IC: ingot casting</li><li>• ESR: electro-slag remelting</li><li>• VAR: vacuum arc remelting</li><li>• PESR: pressure electro-slag remelting</li></ul>",
         "co2PerTon": "Scope 3.1 upstream green-house gas emissions of product (cradle-to-gate)",
         "manufacturerSupplierSelfCertified": "Supplier is testing its deliveries itself.",
         "maxDimension": "Maximum dimension (diameter, thickness) allowed to be delivered by supplier",
         "rating": "Quality level of steel supplier according to S 266042 (if available); from RSI (highest quality) to RSIII (lowest quality)",
-        "steelMakingProcess": "Details on steelmaking process; BF: blast furnace, DRI: direct reduced iron, BOF: basic oxygen furnace, EAF: electric arc furnace, EOF: energy optimizing furnace, VIM: vacuum induction melting, VAR: vacuum arc remelting, ESR: electro slag remelting"
+        "steelMakingProcess": "<ul><li>• BF: blast furnace</li><li>• DRI: direct reduced iron</li><li>• BOF: basic oxygen furnace</li><li>• EAF: electric arc furnace</li><li>• EOF: energy optimizing furnace</li><li>• VIM: vacuum induction melting</li><li>• ESR: electro-slag remelting</li><li>• VAR: vacuum arc remelting</li></ul>"
       },
       "yes": "Yes"
     },

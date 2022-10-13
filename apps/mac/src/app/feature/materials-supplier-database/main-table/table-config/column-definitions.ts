@@ -90,14 +90,14 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     field: MAX_DIMENSION,
     headerName: 'Max Dimension',
     filter: 'agNumberColumnFilter',
-    tooltipField: MAX_DIMENSION,
+    headerTooltip: MAX_DIMENSION,
     cellRenderer: EditCellRendererComponent,
   },
   {
     field: RATING,
     headerName: 'Supplier Rating',
     filterParams: FILTER_PARAMS,
-    tooltipField: RATING,
+    headerTooltip: RATING,
     cellRenderer: EditCellRendererComponent,
   },
   {
@@ -111,7 +111,7 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     field: CO2_PER_TON,
     headerName: 'kg CO₂e / t',
     filter: 'agNumberColumnFilter',
-    tooltipField: CO2_PER_TON,
+    headerTooltip: CO2_PER_TON,
     cellRenderer: EditCellRendererComponent,
   },
   {
@@ -131,7 +131,7 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     headerName: 'Casting Mode',
     filterParams: FILTER_PARAMS,
     hide: true,
-    tooltipField: CASTING_MODE,
+    headerTooltip: CASTING_MODE,
     cellRenderer: EditCellRendererComponent,
   },
   {
@@ -139,7 +139,7 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     headerName: 'Casting Diameter',
     filterParams: FILTER_PARAMS,
     hide: true,
-    tooltipField: CASTING_DIAMETER,
+    headerTooltip: CASTING_DIAMETER,
     cellRenderer: EditCellRendererComponent,
   },
   {
@@ -147,7 +147,7 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     headerName: 'Steel Making Process',
     filterParams: FILTER_PARAMS,
     hide: true,
-    tooltipField: STEEL_MAKING_PROCESS,
+    headerTooltip: STEEL_MAKING_PROCESS,
     cellRenderer: EditCellRendererComponent,
   },
   {
@@ -169,7 +169,7 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     field: MANUFACTURER_SUPPLIER_SELFCERTIFIED,
     headerName: 'Self Certified',
     hide: true,
-    tooltipField: MANUFACTURER_SUPPLIER_SELFCERTIFIED,
+    headerTooltip: MANUFACTURER_SUPPLIER_SELFCERTIFIED,
   },
   {
     field: LAST_MODIFIED,

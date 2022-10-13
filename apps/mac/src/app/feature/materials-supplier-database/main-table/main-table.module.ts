@@ -18,12 +18,17 @@ import { InputDialogModule } from '@mac/msd/main-table/input-dialog/input-dialog
 import { MsdDialogService } from '@mac/msd/services';
 
 import { EditCellRendererComponent } from './edit-cell-renderer/edit-cell-renderer.component';
+import { HeaderTooltipComponent } from './header-tooltip/header-tooltip.component';
 import { MainTableComponent } from './main-table.component';
 import { MainTableRoutingModule } from './main-table-routing.module';
 import { QuickFilterComponent } from './quick-filter/quick-filter.component';
 
 @NgModule({
-  declarations: [MainTableComponent, EditCellRendererComponent],
+  declarations: [
+    MainTableComponent,
+    EditCellRendererComponent,
+    HeaderTooltipComponent,
+  ],
   imports: [
     CommonModule,
     MainTableRoutingModule,
