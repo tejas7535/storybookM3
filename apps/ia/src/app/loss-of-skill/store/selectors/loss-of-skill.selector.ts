@@ -58,3 +58,23 @@ export const getLostJobProfilesData = createSelector(
         )
       : undefined
 );
+
+export const getLossOfSkillWorkforceData = createSelector(
+  selectLossOfSkillState,
+  (state: LossOfSkillState) => state.workforce.data
+);
+
+export const getLossOfSkillWorkforceLoading = createSelector(
+  selectLossOfSkillState,
+  (state: LossOfSkillState) => state.workforce.loading
+);
+
+export const getLossOfSkillLeaversData = createSelector(
+  selectLossOfSkillState,
+  (state: LossOfSkillState) => state.leavers.data
+);
+
+export const getLossOfSkillLeaversLoading = createSelector(
+  selectLossOfSkillState,
+  (state: LossOfSkillState) => state.leavers.loading
+);

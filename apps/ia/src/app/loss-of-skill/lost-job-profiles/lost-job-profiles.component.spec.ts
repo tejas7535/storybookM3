@@ -10,9 +10,6 @@ import { UnderConstructionModule } from '@schaeffler/empty-states';
 
 import { EmployeeListDialogComponent } from '../../shared/employee-list-dialog/employee-list-dialog.component';
 import { EmployeeListDialogModule } from '../../shared/employee-list-dialog/employee-list-dialog.module';
-import { EmployeeListDialogMeta } from '../../shared/employee-list-dialog/employee-list-dialog-meta.model';
-import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
-import { Employee, EmployeeWithAction } from '../../shared/models';
 import { LostJobProfilesComponent } from './lost-job-profiles.component';
 
 describe('LostJobProfilesComponent', () => {
@@ -49,14 +46,13 @@ describe('LostJobProfilesComponent', () => {
     beforeEach(() => {
       component['openEmployeeListDialog'] = jest.fn();
     });
+
     it('should collect correct data for cellType workforce', () => {
       component['handleCellClick'](params, 'workforce');
 
       expect(translate).toHaveBeenCalled();
       expect(component['openEmployeeListDialog']).toHaveBeenCalledWith(
-        'translate it',
-        ['Foo', 'Bar'],
-        false
+        'workforce'
       );
     });
 
@@ -65,35 +61,31 @@ describe('LostJobProfilesComponent', () => {
 
       expect(translate).toHaveBeenCalled();
       expect(component['openEmployeeListDialog']).toHaveBeenCalledWith(
-        'translate it',
-        ['Donald'],
-        false
+        'leavers'
       );
     });
   });
 
   describe('openEmployeeListDialog', () => {
-    it('should open the dialog with correct params', () => {
-      const title = 'FOO';
-      const employees = [{ employeeName: 'Donald' } as Employee];
-
+    it('should open leavers dialog with correct params', () => {
       component['dialog'].open = jest.fn();
 
-      component['openEmployeeListDialog'](title, employees, true);
-
-      const data = new EmployeeListDialogMeta(
-        new EmployeeListDialogMetaHeadings(
-          title,
-          translate('lossOfSkill.employeeListDialog.contentTitle')
-        ),
-        [{ employeeName: 'Donald' } as unknown as EmployeeWithAction],
-        false,
-        true
-      );
+      component['openEmployeeListDialog']('leavers');
 
       expect(component['dialog'].open).toHaveBeenCalledWith(
         EmployeeListDialogComponent,
-        { data }
+        { data: component.leaversDialogData }
+      );
+    });
+
+    it('should open workforce dialog with correct params', () => {
+      component['dialog'].open = jest.fn();
+
+      component['openEmployeeListDialog']('workforce');
+
+      expect(component['dialog'].open).toHaveBeenCalledWith(
+        EmployeeListDialogComponent,
+        { data: component.workforceDialogData }
       );
     });
   });

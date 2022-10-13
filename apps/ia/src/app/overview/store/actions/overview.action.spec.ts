@@ -1,8 +1,8 @@
 import { AttritionOverTime, EmployeesRequest } from '../../../shared/models';
 import {
+  ExitEntryEmployeesResponse,
   FluctuationRatesChartData,
   OpenApplication,
-  OverviewExitEntryEmployeesResponse,
   OverviewFluctuationRates,
   ResignedEmployeesResponse,
 } from '../../models';
@@ -214,7 +214,7 @@ describe('Overview Actions', () => {
   });
 
   test('loadOverviewEntryEmployeesSuccess', () => {
-    const data: OverviewExitEntryEmployeesResponse = {
+    const data: ExitEntryEmployeesResponse = {
       employees: [],
       responseModified: true,
     };
@@ -245,7 +245,7 @@ describe('Overview Actions', () => {
   });
 
   test('loadOverviewExitEmployeesSuccess', () => {
-    const data: OverviewExitEntryEmployeesResponse = {
+    const data: ExitEntryEmployeesResponse = {
       employees: [],
       responseModified: true,
     };
@@ -309,7 +309,7 @@ describe('Overview Actions', () => {
   });
 
   test('loadAttritionOverTimeEmployeesSuccess', () => {
-    const data: OverviewExitEntryEmployeesResponse = {
+    const data: ExitEntryEmployeesResponse = {
       employees: [],
       responseModified: true,
     };

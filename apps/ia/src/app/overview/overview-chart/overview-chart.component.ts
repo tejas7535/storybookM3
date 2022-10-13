@@ -18,7 +18,7 @@ import { EmployeeListDialogComponent } from '../../shared/employee-list-dialog/e
 import { EmployeeListDialogMeta } from '../../shared/employee-list-dialog/employee-list-dialog-meta.model';
 import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
 import { getTimeRangeFromDates } from '../../shared/utils/utilities';
-import { OverviewExitEntryEmployeesResponse } from '../models';
+import { ExitEntryEmployeesResponse } from '../models';
 import { ChartSeries } from '../models/chart-series.model';
 
 @Component({
@@ -108,10 +108,10 @@ export class OverviewChartComponent {
     return this._attritionEmployeesLoading;
   }
 
-  _attritionEmployeesData: OverviewExitEntryEmployeesResponse;
+  _attritionEmployeesData: ExitEntryEmployeesResponse;
 
   @Input() set attritionEmployeesData(
-    attritionEmployeesData: OverviewExitEntryEmployeesResponse
+    attritionEmployeesData: ExitEntryEmployeesResponse
   ) {
     this._attritionEmployeesData = attritionEmployeesData;
     if (this.attritionEmployeesData) {

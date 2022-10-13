@@ -1,9 +1,16 @@
+import { ExitEntryEmployeesResponse } from '../../../overview/models';
 import { EmployeesRequest } from '../../../shared/models';
 import { LostJobProfilesResponse, OpenPosition } from '../../models';
 import {
   loadJobProfiles,
   loadJobProfilesFailure,
   loadJobProfilesSuccess,
+  loadLossOfSkillLeavers,
+  loadLossOfSkillLeaversFailure,
+  loadLossOfSkillLeaversSuccess,
+  loadLossOfSkillWorkforce,
+  loadLossOfSkillWorkforceFailure,
+  loadLossOfSkillWorkforceSuccess,
   loadOpenPositions,
   loadOpenPositionsFailure,
   loadOpenPositionsSuccess,
@@ -69,6 +76,64 @@ describe('LossOfSkill Actions', () => {
     expect(action).toEqual({
       errorMessage,
       type: '[Loss of Skill] Load Open Positions Failure',
+    });
+  });
+
+  test('loadLossOfSkillWorkforce', () => {
+    const positionDescription = 'Developer';
+    const action = loadLossOfSkillWorkforce({ positionDescription });
+
+    expect(action).toEqual({
+      positionDescription,
+      type: '[Loss of Skill] Load Loss of Skill Workforce',
+    });
+  });
+
+  test('loadLossOfSkillWorkforceSuccess', () => {
+    const data = {} as ExitEntryEmployeesResponse;
+    const action = loadLossOfSkillWorkforceSuccess({ data });
+
+    expect(action).toEqual({
+      data,
+      type: '[Loss of Skill] Load Loss of Skill Workforce Success',
+    });
+  });
+
+  test('loadLossOfSkillWorkforceFailure', () => {
+    const action = loadLossOfSkillWorkforceFailure({ errorMessage });
+
+    expect(action).toEqual({
+      errorMessage,
+      type: '[Loss of Skill] Load Loss of Skill Workforce Failure',
+    });
+  });
+
+  test('loadLossOfSkillLeavers', () => {
+    const positionDescription = 'Developer';
+    const action = loadLossOfSkillLeavers({ positionDescription });
+
+    expect(action).toEqual({
+      positionDescription,
+      type: '[Loss of Skill] Load Loss of Skill Leavers',
+    });
+  });
+
+  test('loadLossOfSkillLeaversSuccess', () => {
+    const data = {} as ExitEntryEmployeesResponse;
+    const action = loadLossOfSkillLeaversSuccess({ data });
+
+    expect(action).toEqual({
+      data,
+      type: '[Loss of Skill] Load Loss of Skill Leavers Success',
+    });
+  });
+
+  test('loadLossOfSkillLeaversFailure', () => {
+    const action = loadLossOfSkillLeaversFailure({ errorMessage });
+
+    expect(action).toEqual({
+      errorMessage,
+      type: '[Loss of Skill] Load Loss of Skill Leavers Failure',
     });
   });
 });

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 
 import { withCache } from '@ngneat/cashew';
 
+import { ExitEntryEmployeesResponse } from '../overview/models';
 import { ParamsCreatorService } from '../shared/http/params-creator.service';
 import { ApiVersion, EmployeesRequest } from '../shared/models';
 import { LostJobProfilesResponse, OpenPosition } from './models';
@@ -15,6 +16,8 @@ import { LostJobProfilesResponse, OpenPosition } from './models';
 export class LossOfSkillService {
   readonly JOB_PROFILES = 'job-profiles';
   readonly OPEN_POSITIONS = 'open-positions';
+  readonly WORKFORCE = 'workforce';
+  readonly LEAVERS = 'leavers';
 
   constructor(
     private readonly http: HttpClient,
@@ -49,6 +52,44 @@ export class LossOfSkillService {
 
     return this.http.get<OpenPosition[]>(
       `${ApiVersion.V1}/${this.OPEN_POSITIONS}`,
+      {
+        params,
+        context: withCache(),
+      }
+    );
+  }
+
+  getWorkforce(
+    employeesRequest: EmployeesRequest
+  ): Observable<ExitEntryEmployeesResponse> {
+    const params = this.paramsCreator.createHttpParamsForPositionDescription(
+      employeesRequest.filterDimension,
+      employeesRequest.value,
+      employeesRequest.timeRange,
+      employeesRequest.positionDescription
+    );
+
+    return this.http.get<ExitEntryEmployeesResponse>(
+      `${ApiVersion.V1}/${this.WORKFORCE}`,
+      {
+        params,
+        context: withCache(),
+      }
+    );
+  }
+
+  getLeavers(
+    employeesRequest: EmployeesRequest
+  ): Observable<ExitEntryEmployeesResponse> {
+    const params = this.paramsCreator.createHttpParamsForPositionDescription(
+      employeesRequest.filterDimension,
+      employeesRequest.value,
+      employeesRequest.timeRange,
+      employeesRequest.positionDescription
+    );
+
+    return this.http.get<ExitEntryEmployeesResponse>(
+      `${ApiVersion.V1}/${this.LEAVERS}`,
       {
         params,
         context: withCache(),

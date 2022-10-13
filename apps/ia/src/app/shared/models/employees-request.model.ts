@@ -4,6 +4,7 @@ export class EmployeesRequest {
   public constructor(
     public filterDimension: FilterDimension,
     public value: string,
-    public timeRange: string
+    public timeRange: string,
+    public positionDescription?: string
   ) {}
 }

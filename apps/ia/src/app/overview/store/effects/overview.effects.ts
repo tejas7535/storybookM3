@@ -18,9 +18,9 @@ import {
   TimePeriod,
 } from '../../../shared/models';
 import {
+  ExitEntryEmployeesResponse,
   FluctuationRatesChartData,
   OpenApplication,
-  OverviewExitEntryEmployeesResponse,
   OverviewFluctuationRates,
   ResignedEmployeesResponse,
 } from '../../models';
@@ -209,7 +209,7 @@ export class OverviewEffects {
       map(([_action, request]) => request),
       switchMap((request: EmployeesRequest) =>
         this.overviewService.getOverviewExitEmployees(request).pipe(
-          map((data: OverviewExitEntryEmployeesResponse) =>
+          map((data: ExitEntryEmployeesResponse) =>
             loadOverviewExitEmployeesSuccess({ data })
           ),
           catchError((error) =>
@@ -231,7 +231,7 @@ export class OverviewEffects {
       map(([_action, request]) => request),
       switchMap((request: EmployeesRequest) =>
         this.overviewService.getOverviewEntryEmployees(request).pipe(
-          map((data: OverviewExitEntryEmployeesResponse) =>
+          map((data: ExitEntryEmployeesResponse) =>
             loadOverviewEntryEmployeesSuccess({ data })
           ),
           catchError((error) =>
@@ -279,7 +279,7 @@ export class OverviewEffects {
       ),
       switchMap((request: EmployeesRequest) =>
         this.overviewService.getAttritionOverTimeEmployees(request).pipe(
-          map((data: OverviewExitEntryEmployeesResponse) =>
+          map((data: ExitEntryEmployeesResponse) =>
             loadAttritionOverTimeEmployeesSuccess({ data })
           ),
           catchError((error) =>

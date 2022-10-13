@@ -12,9 +12,9 @@ import {
   FilterDimension,
 } from '../shared/models';
 import {
+  ExitEntryEmployeesResponse,
   FluctuationRatesChartData,
   OpenApplication,
-  OverviewExitEntryEmployeesResponse,
   OverviewFluctuationRates,
   ResignedEmployeesResponse,
 } from './models';
@@ -123,14 +123,14 @@ export class OverviewService {
 
   getOverviewExitEmployees(
     employeesRequest: EmployeesRequest
-  ): Observable<OverviewExitEntryEmployeesResponse> {
+  ): Observable<ExitEntryEmployeesResponse> {
     const params = this.paramsCreator.createHttpParamsForDimensionAndTimeRange(
       employeesRequest.filterDimension,
       employeesRequest.value,
       employeesRequest.timeRange
     );
 
-    return this.http.get<OverviewExitEntryEmployeesResponse>(
+    return this.http.get<ExitEntryEmployeesResponse>(
       `${ApiVersion.V1}/${this.OVERVIEW_EXIT_EMPLOYEES}`,
       { params, context: withCache() }
     );
@@ -138,14 +138,14 @@ export class OverviewService {
 
   getOverviewEntryEmployees(
     employeesRequest: EmployeesRequest
-  ): Observable<OverviewExitEntryEmployeesResponse> {
+  ): Observable<ExitEntryEmployeesResponse> {
     const params = this.paramsCreator.createHttpParamsForDimensionAndTimeRange(
       employeesRequest.filterDimension,
       employeesRequest.value,
       employeesRequest.timeRange
     );
 
-    return this.http.get<OverviewExitEntryEmployeesResponse>(
+    return this.http.get<ExitEntryEmployeesResponse>(
       `${ApiVersion.V1}/${this.OVERVIEW_ENTRY_EMPLOYEES}`,
       { params, context: withCache() }
     );
@@ -153,14 +153,14 @@ export class OverviewService {
 
   getAttritionOverTimeEmployees(
     employeesRequest: EmployeesRequest
-  ): Observable<OverviewExitEntryEmployeesResponse> {
+  ): Observable<ExitEntryEmployeesResponse> {
     const params = this.paramsCreator.createHttpParamsForDimensionAndTimeRange(
       employeesRequest.filterDimension,
       employeesRequest.value,
       employeesRequest.timeRange
     );
 
-    return this.http.get<OverviewExitEntryEmployeesResponse>(
+    return this.http.get<ExitEntryEmployeesResponse>(
       `${ApiVersion.V1}/${this.OVERVIEW_ATTRITION_OVER_TIME_EMPLOYEES}`,
       { params, context: withCache() }
     );

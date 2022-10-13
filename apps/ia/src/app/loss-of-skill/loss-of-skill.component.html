@@ -8,6 +8,12 @@
       class="h-[390px]"
       [loading]="lostJobProfilesLoading$ | ngrxPush"
       [data]="lostJobProfilesData$ | ngrxPush"
+      [workforceLoading]="lossOfSkillWorkforceLoading$ | ngrxPush"
+      [workforceData]="lossOfSkillWorkforceData$ | ngrxPush"
+      [leaversLoading]="lossOfSkillLeaversLoading$ | ngrxPush"
+      [leaversData]="lossOfSkillLeaversData$ | ngrxPush"
+      (workforceRequested)="triggerLoadWorkforce($event)"
+      (leaversRequested)="triggerLoadLeavers($event)"
     ></ia-lost-job-profiles>
   </mat-card>
   <mat-card class="pb-2">

@@ -1,7 +1,10 @@
-import { Employee } from '../../../shared/models';
 import { LostJobProfilesResponse, OpenPosition } from '../../models';
 import { LossOfSkillState } from '..';
 import {
+  getLossOfSkillLeaversData,
+  getLossOfSkillLeaversLoading,
+  getLossOfSkillWorkforceData,
+  getLossOfSkillWorkforceLoading,
   getLostJobProfilesData,
   getLostJobProfilesLoading,
 } from './loss-of-skill.selector';
@@ -24,8 +27,6 @@ describe('LossOfSkill Selector', () => {
           lostJobProfiles: [
             {
               positionDescription: 'Software Engineer',
-              employees: [],
-              leavers: [],
               employeesCount: 0,
               leaversCount: 0,
             },
@@ -33,6 +34,16 @@ describe('LossOfSkill Selector', () => {
           responseModified: false,
         },
         errorMessage: 'Fancy Error',
+      },
+      workforce: {
+        data: { employees: [], responseModified: false },
+        errorMesssage: undefined,
+        loading: false,
+      },
+      leavers: {
+        data: { employees: [], responseModified: false },
+        errorMesssage: undefined,
+        loading: false,
       },
       openPositions: {
         loading: false,
@@ -89,23 +100,13 @@ describe('LossOfSkill Selector', () => {
         lostJobProfiles: [
           {
             positionDescription: 'Developer',
-            leavers: [
-              { employeeName: 'Hans' } as Employee,
-              { employeeName: 'Peter' } as Employee,
-            ],
             leaversCount: 2,
             employeesCount: 1,
-            employees: [{ employeeName: 'Thorsten' } as Employee],
           },
           {
             positionDescription: 'PO',
-            leavers: [],
             leaversCount: 0,
             employeesCount: 2,
-            employees: [
-              { employeeName: 'Serge' } as Employee,
-              { employeeName: 'Maria' } as Employee,
-            ],
           },
         ],
         responseModified: false,
@@ -140,6 +141,38 @@ describe('LossOfSkill Selector', () => {
         jobProfiles.lostJobProfiles,
         openPositions
       );
+    });
+  });
+
+  describe('getLossOfSkillWorkforceData', () => {
+    test('should get data', () => {
+      const result = getLossOfSkillWorkforceData(fakeState);
+
+      expect(result).toBe(fakeState.lossOfSkill.workforce.data);
+    });
+  });
+
+  describe('getLossOfSkillWorkforceLoading', () => {
+    test('should get loading', () => {
+      const result = getLossOfSkillWorkforceLoading(fakeState);
+
+      expect(result).toBeFalsy();
+    });
+  });
+
+  describe('getLossOfSkillLeaversData', () => {
+    test('should get data', () => {
+      const result = getLossOfSkillLeaversData(fakeState);
+
+      expect(result).toBe(fakeState.lossOfSkill.leavers.data);
+    });
+  });
+
+  describe('getLossOfSkillLeaversLoading', () => {
+    test('should get loading', () => {
+      const result = getLossOfSkillLeaversLoading(fakeState);
+
+      expect(result).toBeFalsy();
     });
   });
 });

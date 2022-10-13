@@ -11,9 +11,9 @@ import { DoughnutConfig } from '../shared/charts/models/doughnut-config.model';
 import { EmployeeListDialogMetaHeadings } from '../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
 import { AttritionSeries, EmployeeWithAction } from '../shared/models';
 import {
+  ExitEntryEmployeesResponse,
   FluctuationKpi,
   OpenApplication,
-  OverviewExitEntryEmployeesResponse,
   ResignedEmployee,
 } from './models';
 import {
@@ -71,7 +71,7 @@ export class OverviewComponent implements OnInit {
   attritionRateLoading$: Observable<boolean>;
   events$: Observable<Event[]>;
   attritionData$: Observable<AttritionSeries>;
-  attritionEmployeesData$: Observable<OverviewExitEntryEmployeesResponse>;
+  attritionEmployeesData$: Observable<ExitEntryEmployeesResponse>;
   attritionEmployeesLoading$: Observable<boolean>;
 
   dimensionHint$: Observable<string>;

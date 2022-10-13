@@ -80,4 +80,64 @@ describe('LossOfSkillService', () => {
       req.flush(mock);
     });
   });
+
+  describe('getWorkforce', () => {
+    test('should get workforce', () => {
+      const orgUnit = 'Schaeffler12';
+      const timeRange = '1-1';
+      const positionDescription = 'Manager';
+      const request = {
+        filterDimension: FilterDimension.ORG_UNIT,
+        value: orgUnit,
+        timeRange,
+        positionDescription,
+      } as EmployeesRequest;
+      const mock = {
+        filterDimension: FilterDimension.ORG_UNIT,
+        value: orgUnit,
+        timeRange,
+        positionDescription,
+      };
+
+      service.getWorkforce(request).subscribe((response) => {
+        expect(response).toEqual(mock);
+      });
+
+      const req = httpMock.expectOne(
+        `api/v1/workforce?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}&time_range=${timeRange}&position_description=${positionDescription}`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(mock);
+    });
+  });
+
+  describe('getLeavers', () => {
+    test('should get leavers', () => {
+      const orgUnit = 'Schaeffler12';
+      const timeRange = '1-1';
+      const positionDescription = 'Manager';
+      const request = {
+        filterDimension: FilterDimension.ORG_UNIT,
+        value: orgUnit,
+        timeRange,
+        positionDescription,
+      } as EmployeesRequest;
+      const mock = {
+        filterDimension: FilterDimension.ORG_UNIT,
+        value: orgUnit,
+        timeRange,
+        positionDescription,
+      };
+
+      service.getLeavers(request).subscribe((response) => {
+        expect(response).toEqual(mock);
+      });
+
+      const req = httpMock.expectOne(
+        `api/v1/leavers?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}&time_range=${timeRange}&position_description=${positionDescription}`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(mock);
+    });
+  });
 });

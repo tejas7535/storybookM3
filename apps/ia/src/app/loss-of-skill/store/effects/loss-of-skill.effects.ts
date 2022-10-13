@@ -11,6 +11,7 @@ import { AppRoutePath } from '../../../app-route-path.enum';
 import { selectRouterState } from '../../../core/store';
 import { filterSelected } from '../../../core/store/actions';
 import { getCurrentFilters } from '../../../core/store/selectors';
+import { ExitEntryEmployeesResponse } from '../../../overview/models';
 import { EmployeesRequest } from '../../../shared/models';
 import { LossOfSkillService } from '../../loss-of-skill.service';
 import { LostJobProfilesResponse, OpenPosition } from '../../models';
@@ -19,6 +20,12 @@ import {
   loadJobProfilesFailure,
   loadJobProfilesSuccess,
   loadLossOfSkillData,
+  loadLossOfSkillLeavers,
+  loadLossOfSkillLeaversFailure,
+  loadLossOfSkillLeaversSuccess,
+  loadLossOfSkillWorkforce,
+  loadLossOfSkillWorkforceFailure,
+  loadLossOfSkillWorkforceSuccess,
   loadOpenPositions,
   loadOpenPositionsFailure,
   loadOpenPositionsSuccess,
@@ -92,4 +99,54 @@ export class LossOfSkillEffects {
       )
     );
   });
+
+  loadLossOfSkillWorkforce$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadLossOfSkillWorkforce),
+      concatLatestFrom(() => this.store.select(getCurrentFilters)),
+      map(([action, request]) => ({
+        ...request,
+        positionDescription: action.positionDescription,
+      })),
+      switchMap((request: EmployeesRequest) =>
+        this.lossOfSkillService.getWorkforce(request).pipe(
+          map((data: ExitEntryEmployeesResponse) =>
+            loadLossOfSkillWorkforceSuccess({ data })
+          ),
+          catchError((error) =>
+            of(
+              loadLossOfSkillWorkforceFailure({
+                errorMessage: error.message,
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
+  loadLossOfSkillLeavers$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadLossOfSkillLeavers),
+      concatLatestFrom(() => this.store.select(getCurrentFilters)),
+      map(([action, request]) => ({
+        ...request,
+        positionDescription: action.positionDescription,
+      })),
+      switchMap((request: EmployeesRequest) =>
+        this.lossOfSkillService.getLeavers(request).pipe(
+          map((data: ExitEntryEmployeesResponse) =>
+            loadLossOfSkillLeaversSuccess({ data })
+          ),
+          catchError((error) =>
+            of(
+              loadLossOfSkillLeaversFailure({
+                errorMessage: error.message,
+              })
+            )
+          )
+        )
+      )
+    )
+  );
 }

@@ -18,9 +18,9 @@ import {
   TimePeriod,
 } from '../../../shared/models';
 import {
+  ExitEntryEmployeesResponse,
   FluctuationRatesChartData,
   OpenApplication,
-  OverviewExitEntryEmployeesResponse,
   OverviewFluctuationRates,
   ResignedEmployeesResponse,
 } from '../../models';
@@ -549,7 +549,7 @@ describe('Overview Effects', () => {
     test(
       'should return loadOverviewExitEmployeesSuccess action when REST call is successful',
       marbles((m) => {
-        const data: OverviewExitEntryEmployeesResponse = {
+        const data: ExitEntryEmployeesResponse = {
           employees: [],
           responseModified: true,
         };
@@ -609,7 +609,7 @@ describe('Overview Effects', () => {
     test(
       'should return loadOverviewEntryEmployeesSuccess action when REST call is successful',
       marbles((m) => {
-        const data: OverviewExitEntryEmployeesResponse = {
+        const data: ExitEntryEmployeesResponse = {
           employees: [],
           responseModified: true,
         };
@@ -669,7 +669,7 @@ describe('Overview Effects', () => {
     test(
       'should return loadAttritionOverTimeEmployeesSuccess action when REST call is successful',
       marbles((m) => {
-        const data: OverviewExitEntryEmployeesResponse = {
+        const data: ExitEntryEmployeesResponse = {
           employees: [],
           responseModified: true,
         };

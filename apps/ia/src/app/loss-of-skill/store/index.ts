@@ -1,10 +1,17 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
+import { ExitEntryEmployeesResponse } from '../../overview/models';
 import { LostJobProfilesResponse, OpenPosition } from '../models';
 import {
   loadJobProfiles,
   loadJobProfilesFailure,
   loadJobProfilesSuccess,
+  loadLossOfSkillLeavers,
+  loadLossOfSkillLeaversFailure,
+  loadLossOfSkillLeaversSuccess,
+  loadLossOfSkillWorkforce,
+  loadLossOfSkillWorkforceFailure,
+  loadLossOfSkillWorkforceSuccess,
   loadOpenPositions,
   loadOpenPositionsFailure,
   loadOpenPositionsSuccess,
@@ -18,6 +25,16 @@ export interface LossOfSkillState {
     data: LostJobProfilesResponse;
     errorMessage: string;
   };
+  workforce: {
+    loading: boolean;
+    data: ExitEntryEmployeesResponse;
+    errorMesssage: string;
+  };
+  leavers: {
+    loading: boolean;
+    data: ExitEntryEmployeesResponse;
+    errorMesssage: string;
+  };
   openPositions: {
     loading: boolean;
     data: OpenPosition[];
@@ -30,6 +47,16 @@ export const initialState: LossOfSkillState = {
     loading: false,
     data: undefined,
     errorMessage: undefined,
+  },
+  workforce: {
+    loading: false,
+    data: undefined,
+    errorMesssage: undefined,
+  },
+  leavers: {
+    loading: false,
+    data: undefined,
+    errorMesssage: undefined,
   },
   openPositions: {
     loading: false,
@@ -104,6 +131,70 @@ export const lossOfSkillReducer = createReducer(
         errorMessage,
         data: undefined,
         loading: false,
+      },
+    })
+  ),
+  on(
+    loadLossOfSkillWorkforce,
+    (state: LossOfSkillState): LossOfSkillState => ({
+      ...state,
+      workforce: {
+        ...state.workforce,
+        loading: true,
+      },
+    })
+  ),
+  on(
+    loadLossOfSkillWorkforceSuccess,
+    (state: LossOfSkillState, { data }): LossOfSkillState => ({
+      ...state,
+      workforce: {
+        ...state.workforce,
+        data,
+        loading: false,
+      },
+    })
+  ),
+  on(
+    loadLossOfSkillWorkforceFailure,
+    (state: LossOfSkillState, { errorMessage }): LossOfSkillState => ({
+      ...state,
+      workforce: {
+        ...state.workforce,
+        loading: false,
+        errorMesssage: errorMessage,
+      },
+    })
+  ),
+  on(
+    loadLossOfSkillLeavers,
+    (state: LossOfSkillState): LossOfSkillState => ({
+      ...state,
+      leavers: {
+        ...state.leavers,
+        loading: true,
+      },
+    })
+  ),
+  on(
+    loadLossOfSkillLeaversSuccess,
+    (state: LossOfSkillState, { data }): LossOfSkillState => ({
+      ...state,
+      leavers: {
+        ...state.leavers,
+        data,
+        loading: false,
+      },
+    })
+  ),
+  on(
+    loadLossOfSkillLeaversFailure,
+    (state: LossOfSkillState, { errorMessage }): LossOfSkillState => ({
+      ...state,
+      leavers: {
+        ...state.leavers,
+        loading: false,
+        errorMesssage: errorMessage,
       },
     })
   )

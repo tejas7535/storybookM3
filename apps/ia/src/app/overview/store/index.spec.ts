@@ -2,9 +2,9 @@ import { Action } from '@ngrx/store';
 
 import { AttritionOverTime, EmployeesRequest } from '../../shared/models';
 import {
+  ExitEntryEmployeesResponse,
   FluctuationRatesChartData,
   OpenApplication,
-  OverviewExitEntryEmployeesResponse,
   OverviewFluctuationRates,
   ResignedEmployeesResponse,
 } from '../models';
@@ -97,7 +97,7 @@ describe('Overview Reducer', () => {
 
   describe('loadAttritionOverTimeEmployeesSuccess', () => {
     test('should unset loading and set employees data', () => {
-      const data: OverviewExitEntryEmployeesResponse = {
+      const data: ExitEntryEmployeesResponse = {
         employees: [],
         responseModified: true,
       };
@@ -313,8 +313,8 @@ describe('Overview Reducer', () => {
 
   describe('loadOverviewExitEmployeesSuccess', () => {
     test('should unset loading and set exit employees', () => {
-      const data: OverviewExitEntryEmployeesResponse =
-        {} as unknown as OverviewExitEntryEmployeesResponse;
+      const data: ExitEntryEmployeesResponse =
+        {} as unknown as ExitEntryEmployeesResponse;
 
       const action = loadOverviewExitEmployeesSuccess({ data });
 
@@ -354,8 +354,8 @@ describe('Overview Reducer', () => {
 
   describe('loadOverviewEntryEmployeesSuccess', () => {
     test('should unset loading and set entry employees', () => {
-      const data: OverviewExitEntryEmployeesResponse =
-        {} as unknown as OverviewExitEntryEmployeesResponse;
+      const data: ExitEntryEmployeesResponse =
+        {} as unknown as ExitEntryEmployeesResponse;
 
       const action = loadOverviewEntryEmployeesSuccess({ data });
 

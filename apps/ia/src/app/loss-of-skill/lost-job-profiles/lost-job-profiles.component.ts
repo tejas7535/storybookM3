@@ -1,14 +1,21 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { translate } from '@ngneat/transloco';
 import { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
 import moment from 'moment';
 
+import { ExitEntryEmployeesResponse } from '../../overview/models';
 import { EmployeeListDialogComponent } from '../../shared/employee-list-dialog/employee-list-dialog.component';
 import { EmployeeListDialogMeta } from '../../shared/employee-list-dialog/employee-list-dialog-meta.model';
 import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
-import { Employee } from '../../shared/models';
 import { JobProfile } from '../models';
 import { AmountCellRendererComponent } from './amount-cell-renderer/amount-cell-renderer.component';
 
@@ -21,6 +28,61 @@ type CellType = 'workforce' | 'leavers';
 export class LostJobProfilesComponent implements OnChanges {
   @Input() loading: boolean; // not used at the moment
   @Input() data: JobProfile[];
+
+  @Output() workforceRequested = new EventEmitter<string>();
+  @Output() leaversRequested = new EventEmitter<string>();
+
+  private _workforceLoading: boolean;
+
+  @Input() set workforceLoading(workforceLoading: boolean) {
+    this._workforceLoading = workforceLoading;
+    this.workforceDialogData.employeesLoading = workforceLoading;
+  }
+
+  get workforceLoading(): boolean {
+    return this._workforceLoading;
+  }
+
+  private _leaversLoading: boolean;
+
+  @Input() set leaversLoading(leaversLoading: boolean) {
+    this._leaversLoading = leaversLoading;
+    this.leaversDialogData.employeesLoading = leaversLoading;
+  }
+
+  get leaversLoading() {
+    return this._leaversLoading;
+  }
+
+  private _workforceData: ExitEntryEmployeesResponse;
+
+  @Input() set workforceData(workforceData: ExitEntryEmployeesResponse) {
+    this._workforceData = workforceData;
+    if (workforceData) {
+      this.workforceDialogData.employees = workforceData.employees;
+      this.workforceDialogData.enoughRightsToShowAllEmployees =
+        !workforceData.responseModified;
+    }
+  }
+
+  get workforceData() {
+    return this._workforceData;
+  }
+
+  private _leaversData: ExitEntryEmployeesResponse;
+
+  @Input() set leaversData(leaversData: ExitEntryEmployeesResponse) {
+    this._leaversData = leaversData;
+    if (leaversData) {
+      this.leaversDialogData.employees = leaversData.employees;
+      this.leaversDialogData.enoughRightsToShowAllEmployees =
+        !leaversData.responseModified;
+    }
+  }
+
+  get leaversData() {
+    return this._leaversData;
+  }
 
   gridApi: GridApi;
 
@@ -56,8 +118,7 @@ export class LostJobProfilesComponent implements OnChanges {
       onCellClicked: (params) => this.handleCellClick(params, 'workforce'),
       valueGetter: (params) => ({
         count: params.data.employeesCount,
-        restrictedAccess:
-          params.data.employeesCount !== params.data.employees?.length,
+        restrictedAccess: false,
       }),
     },
     {
@@ -71,8 +132,7 @@ export class LostJobProfilesComponent implements OnChanges {
       onCellClicked: (params) => this.handleCellClick(params, 'leavers'),
       valueGetter: (params) => ({
         count: params.data.leaversCount,
-        restrictedAccess:
-          params.data.leaversCount !== params.data.leavers?.length,
+        restrictedAccess: false,
       }),
     },
     {
@@ -84,6 +144,20 @@ export class LostJobProfilesComponent implements OnChanges {
       flex: 1,
     },
   ];
+
+  workforceDialogData = new EmployeeListDialogMeta(
+    {} as EmployeeListDialogMetaHeadings,
+    [],
+    this.workforceLoading,
+    true
+  );
+
+  leaversDialogData = new EmployeeListDialogMeta(
+    {} as EmployeeListDialogMetaHeadings,
+    [],
+    this.leaversLoading,
+    true
+  );
 
   constructor(private readonly dialog: MatDialog) {}
 
@@ -99,39 +173,37 @@ export class LostJobProfilesComponent implements OnChanges {
   }
 
   handleCellClick(params: any, key: CellType): void {
+    if (key === 'workforce' && params.data.employeesCount > 0) {
+      this.workforceRequested.emit(params.data.positionDescription);
+      this.openEmployeeListDialog(key);
+    } else if (key === 'leavers' && params.data.leaversCount > 0) {
+      this.leaversRequested.emit(params.data.positionDescription);
+      this.openEmployeeListDialog(key);
+    }
+  }
+
+  openEmployeeListDialog(key: CellType): void {
     const translationKey =
       key === 'workforce' ? 'titleWorkforce' : 'titleLeavers';
     const title = translate(
       `lossOfSkill.lostJobProfiles.popup.${translationKey}`
     );
 
-    const employees: Employee[] =
-      key === 'workforce' ? params.data.employees : params.data.leavers;
-    const enoughRights =
-      key === 'workforce'
-        ? params.data.employees?.length === params.data.employeesCount
-        : params.data.leavers?.length === params.data.leaversCount;
-
-    this.openEmployeeListDialog(title, employees, enoughRights);
-  }
-
-  openEmployeeListDialog(
-    title: string,
-    employees: Employee[],
-    enoughRights: boolean
-  ): void {
-    const data = new EmployeeListDialogMeta(
-      new EmployeeListDialogMetaHeadings(
-        title,
-        translate('lossOfSkill.employeeListDialog.contentTitle')
-      ),
-      employees as any, // FIXME
-      false, // FIXME
-      enoughRights
+    const headings = new EmployeeListDialogMetaHeadings(
+      title,
+      translate('lossOfSkill.employeeListDialog.contentTitle')
     );
 
-    this.dialog.open(EmployeeListDialogComponent, {
-      data,
-    });
+    if (key === 'workforce') {
+      this.workforceDialogData.headings = headings;
+      this.dialog.open(EmployeeListDialogComponent, {
+        data: this.workforceDialogData,
+      });
+    } else if (key === 'leavers') {
+      this.leaversDialogData.headings = headings;
+      this.dialog.open(EmployeeListDialogComponent, {
+        data: this.leaversDialogData,
+      });
+    }
   }
 }

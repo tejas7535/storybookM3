@@ -3,9 +3,9 @@ import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
 import { AttritionOverTime } from '../../shared/models';
 import {
+  ExitEntryEmployeesResponse,
   FluctuationRatesChartData,
   OpenApplication,
-  OverviewExitEntryEmployeesResponse,
   OverviewFluctuationRates,
   ResignedEmployeesResponse,
 } from '../models';
@@ -48,17 +48,17 @@ export interface OverviewState {
     errorMessage: string;
   };
   attritionOverTimeEmployees: {
-    data: OverviewExitEntryEmployeesResponse;
+    data: ExitEntryEmployeesResponse;
     loading: boolean;
     errorMessage: string;
   };
   exitEmployees: {
-    data: OverviewExitEntryEmployeesResponse;
+    data: ExitEntryEmployeesResponse;
     loading: boolean;
     errorMessage: string;
   };
   entryEmployees: {
-    data: OverviewExitEntryEmployeesResponse;
+    data: ExitEntryEmployeesResponse;
     loading: boolean;
     errorMessage: string;
   };

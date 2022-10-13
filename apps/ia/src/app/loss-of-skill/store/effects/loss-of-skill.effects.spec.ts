@@ -11,6 +11,7 @@ import { AppRoutePath } from '../../../app-route-path.enum';
 import { RouterStateUrl, selectRouterState } from '../../../core/store';
 import { filterSelected } from '../../../core/store/actions';
 import { getCurrentFilters } from '../../../core/store/selectors';
+import { ExitEntryEmployeesResponse } from '../../../overview/models';
 import {
   EmployeesRequest,
   FilterDimension,
@@ -23,6 +24,12 @@ import {
   loadJobProfilesFailure,
   loadJobProfilesSuccess,
   loadLossOfSkillData,
+  loadLossOfSkillLeavers,
+  loadLossOfSkillLeaversFailure,
+  loadLossOfSkillLeaversSuccess,
+  loadLossOfSkillWorkforce,
+  loadLossOfSkillWorkforceFailure,
+  loadLossOfSkillWorkforceSuccess,
   loadOpenPositions,
   loadOpenPositionsFailure,
   loadOpenPositionsSuccess,
@@ -153,15 +160,11 @@ describe('LossOfSkill Effects', () => {
           lostJobProfiles: [
             {
               positionDescription: 'Data Scientist',
-              employees: [],
-              leavers: [],
               employeesCount: 0,
               leaversCount: 0,
             },
             {
               positionDescription: 'Software Engineer',
-              employees: [],
-              leavers: [],
               employeesCount: 0,
               leaversCount: 0,
             },
@@ -274,6 +277,138 @@ describe('LossOfSkill Effects', () => {
         expect(lossOfSkillService.getOpenPositions).toHaveBeenCalledWith(
           request
         );
+      })
+    );
+  });
+
+  describe('loadLossOfSkillWorkforce$', () => {
+    let request: EmployeesRequest;
+    const positionDescription = 'Developer';
+
+    beforeEach(() => {
+      action = loadLossOfSkillWorkforce({ positionDescription });
+      request = {
+        filterDimension: FilterDimension.ORG_UNIT,
+        positionDescription,
+        value: 'AVC',
+        timeRange: '12',
+      } as EmployeesRequest;
+      store.overrideSelector(getCurrentFilters, request);
+    });
+
+    test(
+      'should return loadLossOfSkillWorkforceSuccess action when REST call is successful',
+      marbles((m) => {
+        const data: ExitEntryEmployeesResponse = {
+          employees: [],
+          responseModified: false,
+        };
+
+        const result = loadLossOfSkillWorkforceSuccess({
+          data,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|', {
+          a: data,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        lossOfSkillService.getWorkforce = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadLossOfSkillWorkforce$).toBeObservable(expected);
+        m.flush();
+        expect(lossOfSkillService.getWorkforce).toHaveBeenCalledWith(request);
+      })
+    );
+
+    test(
+      'should return loadLossOfSkillWorkforceFailure on REST error',
+      marbles((m) => {
+        const result = loadLossOfSkillWorkforceFailure({
+          errorMessage: error.message,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+
+        lossOfSkillService.getWorkforce = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadLossOfSkillWorkforce$).toBeObservable(expected);
+        m.flush();
+        expect(lossOfSkillService.getWorkforce).toHaveBeenCalledWith(request);
+      })
+    );
+  });
+
+  describe('loadLossOfSkillLeavers$', () => {
+    let request: EmployeesRequest;
+    const positionDescription = 'Developer';
+
+    beforeEach(() => {
+      action = loadLossOfSkillLeavers({ positionDescription });
+      request = {
+        filterDimension: FilterDimension.ORG_UNIT,
+        positionDescription,
+        value: 'AVC',
+        timeRange: '12',
+      } as EmployeesRequest;
+      store.overrideSelector(getCurrentFilters, request);
+    });
+
+    test(
+      'should return loadLossOfSkillLeaversSuccess action when REST call is successful',
+      marbles((m) => {
+        const data: ExitEntryEmployeesResponse = {
+          employees: [],
+          responseModified: false,
+        };
+
+        const result = loadLossOfSkillLeaversSuccess({
+          data,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|', {
+          a: data,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        lossOfSkillService.getLeavers = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadLossOfSkillLeavers$).toBeObservable(expected);
+        m.flush();
+        expect(lossOfSkillService.getLeavers).toHaveBeenCalledWith(request);
+      })
+    );
+
+    test(
+      'should return loadLossOfSkillLeaversFailure on REST error',
+      marbles((m) => {
+        const result = loadLossOfSkillLeaversFailure({
+          errorMessage: error.message,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+
+        lossOfSkillService.getLeavers = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadLossOfSkillLeavers$).toBeObservable(expected);
+        m.flush();
+        expect(lossOfSkillService.getLeavers).toHaveBeenCalledWith(request);
       })
     );
   });

@@ -7,9 +7,9 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
 import { EmployeesRequest, FilterDimension } from '../shared/models';
 import {
+  ExitEntryEmployeesResponse,
   FluctuationRatesChartData,
   OpenApplication,
-  OverviewExitEntryEmployeesResponse,
   OverviewFluctuationRates,
   ResignedEmployeesResponse,
 } from './models';
@@ -142,7 +142,7 @@ describe('OverviewService', () => {
         timeRange,
       } as EmployeesRequest;
 
-      const response = {} as OverviewExitEntryEmployeesResponse;
+      const response = {} as ExitEntryEmployeesResponse;
 
       service.getOverviewExitEmployees(request).subscribe((result) => {
         expect(result).toEqual(response);
@@ -166,7 +166,7 @@ describe('OverviewService', () => {
         timeRange,
       } as EmployeesRequest;
 
-      const response = {} as OverviewExitEntryEmployeesResponse;
+      const response = {} as ExitEntryEmployeesResponse;
 
       service.getOverviewEntryEmployees(request).subscribe((result) => {
         expect(result).toEqual(response);
@@ -211,7 +211,7 @@ describe('OverviewService', () => {
         timeRange,
       } as EmployeesRequest;
 
-      const response = {} as OverviewExitEntryEmployeesResponse;
+      const response = {} as ExitEntryEmployeesResponse;
 
       service.getAttritionOverTimeEmployees(request).subscribe((result) => {
         expect(result).toEqual(response);

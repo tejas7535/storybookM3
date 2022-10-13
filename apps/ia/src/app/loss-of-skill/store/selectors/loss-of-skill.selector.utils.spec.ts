@@ -1,5 +1,4 @@
 /* eslint-disable unicorn/no-useless-undefined */
-import { Employee } from '../../../shared/models';
 import { JobProfile, OpenPosition } from '../../models';
 import { enrichJobProfilesWithOpenPositions } from './loss-of-skill.selector.utils';
 
@@ -13,21 +12,11 @@ describe('loss of skill selector utils', () => {
         positionDescription: 'Developer',
         leaversCount: 2,
         employeesCount: 1,
-        leavers: [
-          { employeeName: 'Hans' } as Employee,
-          { employeeName: 'Peter' } as Employee,
-        ],
-        employees: [{ employeeName: 'Thorsten' } as Employee],
       },
       {
         positionDescription: 'PO',
-        leavers: [],
         employeesCount: 1,
         leaversCount: 0,
-        employees: [
-          { employeeName: 'Serge' } as Employee,
-          { employeeName: 'Maria' } as Employee,
-        ],
       },
     ];
     openPositions = [

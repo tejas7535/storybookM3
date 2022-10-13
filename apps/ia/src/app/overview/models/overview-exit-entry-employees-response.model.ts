@@ -1,5 +1,5 @@
 import { EmployeeWithAction, RestResponse } from '../../shared/models';
 
-export interface OverviewExitEntryEmployeesResponse extends RestResponse {
+export interface ExitEntryEmployeesResponse extends RestResponse {
   employees: EmployeeWithAction[];
 }

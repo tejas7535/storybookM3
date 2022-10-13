@@ -1,12 +1,19 @@
 import { Action } from '@ngrx/store';
 
+import { ExitEntryEmployeesResponse } from '../../overview/models';
 import { Employee, EmployeesRequest } from '../../shared/models';
 import { LostJobProfilesResponse, OpenPosition } from '../models';
-import { initialState, lossOfSkillReducer, reducer } from '.';
+import { initialState, lossOfSkillReducer, LossOfSkillState, reducer } from '.';
 import {
   loadJobProfiles,
   loadJobProfilesFailure,
   loadJobProfilesSuccess,
+  loadLossOfSkillLeavers,
+  loadLossOfSkillLeaversFailure,
+  loadLossOfSkillLeaversSuccess,
+  loadLossOfSkillWorkforce,
+  loadLossOfSkillWorkforceFailure,
+  loadLossOfSkillWorkforceSuccess,
   loadOpenPositions,
   loadOpenPositionsFailure,
   loadOpenPositionsSuccess,
@@ -32,8 +39,6 @@ describe('LossOfSkill Reducer', () => {
         lostJobProfiles: [
           {
             positionDescription: 'Foo Bar',
-            employees: [],
-            leavers: [],
             leaversCount: 0,
             employeesCount: 0,
           },
@@ -125,6 +130,138 @@ describe('LossOfSkill Reducer', () => {
       expect(state.openPositions.data).toBeUndefined();
       expect(state.openPositions.loading).toBeFalsy();
       expect(state.openPositions.errorMessage).toEqual(errorMessage);
+    });
+  });
+
+  describe('loadLossOfSkillWorkforce', () => {
+    test('should set loading as true', () => {
+      const action = loadLossOfSkillWorkforce({
+        positionDescription: 'Developer',
+      });
+      const fakeState: LossOfSkillState = {
+        ...initialState,
+        workforce: {
+          data: {} as ExitEntryEmployeesResponse,
+          errorMesssage: undefined,
+          loading: false,
+        },
+      };
+
+      const state = lossOfSkillReducer(fakeState, action);
+
+      expect(state.workforce.loading).toBeTruthy();
+    });
+  });
+
+  describe('loadLossOfSkillWorkforceSuccess', () => {
+    test('should set loading as false and set data', () => {
+      const data: ExitEntryEmployeesResponse = {
+        employees: [],
+        responseModified: true,
+      };
+      const action = loadLossOfSkillWorkforceSuccess({
+        data,
+      });
+      const fakeState: LossOfSkillState = {
+        ...initialState,
+        workforce: {
+          data: {} as ExitEntryEmployeesResponse,
+          errorMesssage: undefined,
+          loading: true,
+        },
+      };
+
+      const state = lossOfSkillReducer(fakeState, action);
+
+      expect(state.workforce.loading).toBeFalsy();
+      expect(state.workforce.data).toBe(data);
+    });
+  });
+
+  describe('loadLossOfSkillWorkforceFailure', () => {
+    test('should set loading as false and set error message', () => {
+      const action = loadLossOfSkillWorkforceFailure({
+        errorMessage,
+      });
+      const fakeState: LossOfSkillState = {
+        ...initialState,
+        workforce: {
+          data: {} as ExitEntryEmployeesResponse,
+          errorMesssage: undefined,
+          loading: true,
+        },
+      };
+
+      const state = lossOfSkillReducer(fakeState, action);
+
+      expect(state.workforce.loading).toBeFalsy();
+      expect(state.workforce.errorMesssage).toBe(errorMessage);
+    });
+  });
+
+  describe('loadLossOfSkillLeavers', () => {
+    test('should set loading as true', () => {
+      const action = loadLossOfSkillLeavers({
+        positionDescription: 'Developer',
+      });
+      const fakeState: LossOfSkillState = {
+        ...initialState,
+        leavers: {
+          data: {} as ExitEntryEmployeesResponse,
+          errorMesssage: undefined,
+          loading: false,
+        },
+      };
+
+      const state = lossOfSkillReducer(fakeState, action);
+
+      expect(state.leavers.loading).toBeTruthy();
+    });
+  });
+
+  describe('loadLossOfSkillLeaversSuccess', () => {
+    test('should set loading as false and set data', () => {
+      const data: ExitEntryEmployeesResponse = {
+        employees: [],
+        responseModified: true,
+      };
+      const action = loadLossOfSkillLeaversSuccess({
+        data,
+      });
+      const fakeState: LossOfSkillState = {
+        ...initialState,
+        leavers: {
+          data: {} as ExitEntryEmployeesResponse,
+          errorMesssage: undefined,
+          loading: true,
+        },
+      };
+
+      const state = lossOfSkillReducer(fakeState, action);
+
+      expect(state.leavers.loading).toBeFalsy();
+      expect(state.leavers.data).toBe(data);
+    });
+  });
+
+  describe('loadLossOfSkillLeaversFailure', () => {
+    test('should set loading as false and set error message', () => {
+      const action = loadLossOfSkillLeaversFailure({
+        errorMessage,
+      });
+      const fakeState: LossOfSkillState = {
+        ...initialState,
+        workforce: {
+          data: {} as ExitEntryEmployeesResponse,
+          errorMesssage: undefined,
+          loading: true,
+        },
+      };
+
+      const state = lossOfSkillReducer(fakeState, action);
+
+      expect(state.leavers.loading).toBeFalsy();
+      expect(state.leavers.errorMesssage).toBe(errorMessage);
     });
   });
 
