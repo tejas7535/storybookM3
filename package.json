@@ -168,7 +168,7 @@
     "npm-audit-html": "2.0.0beta.2",
     "npm-force-resolutions": "0.0.10",
     "nx": "14.6.5",
-    "postcss": "8.4.17",
+    "postcss": "8.4.18",
     "postcss-import": "15.0.0",
     "postcss-preset-env": "7.8.2",
     "postcss-url": "10.1.3",
