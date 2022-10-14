@@ -20,6 +20,7 @@ export const ACTIVE_STATUS_BAR_CONFIG: {
         isOnlyVisibleOnSelection: true,
         showDialog: true,
         hasPanelCaption: false,
+        confirmDialogIcon: 'delete',
         panelIcon: 'delete',
         classes: 'fixed bottom-36 right-8',
         buttonType: 'mat-fab',

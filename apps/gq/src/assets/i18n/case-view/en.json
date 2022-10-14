@@ -51,9 +51,9 @@
   },
   "confirmDialog": {
     "displayText": {
-      "inactive": "Do you really want to delete these case(s) ({{variable}})?",
+      "inactive": "{variable, plural, =1 {Do you really want to delete this case ({{variable}})?} other {Do you really want to delete these cases ({{variable}})?}}",
       "active": "",
-      "deleted": "Do you really want to delete these case(s) ({{variable}} permanently)?"
+      "deleted": "{variable, plural, =1 {Do you really want to permanently delete this case ({{variable}})?} other {Do you really want to permanently delete these cases ({{variable}})?}}"
     },
     "confirmButton": {
       "inactive": "delete",

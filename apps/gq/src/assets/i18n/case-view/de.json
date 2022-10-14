@@ -51,9 +51,9 @@
   },
   "confirmDialog": {
     "displayText": {
-      "inactive": "Möchten Sie wirklich folgende Cases löschen ({{variable}})?",
+      "inactive": "{variable, plural, =1 {Möchten Sie wirklich folgenden Case löschen ({{variable}})?} other {Möchten Sie wirklich folgende Cases löschen ({{variable}})?}}",
       "active": "",
-      "deleted": "Möchten Sie folgende Cases wirklich unwiederruflich löschen ({{variable}})?"
+      "deleted": "{variable, plural, =1 {Möchten Sie wirklich folgenden Case unwiderruflich löschen ({{variable}})?} other {Möchten Sie wirklich folgende Cases unwiderruflich löschen ({{variable}})?}}"
     },
     "confirmButton": {
       "inactive": "löschen",
