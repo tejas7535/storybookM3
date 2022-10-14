@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [0.9.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v0.8.0...mac-v0.9.0) (2022-10-14)
+
+
+### 🐛 Bug Fixes
+
+* **mac:** always fill co2Classification in dialog ([#4693](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4693)) ([4379b0d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4379b0ddc70218750006fe704e464be922bbe45e))
+* **mac:** correct validation of co2Values - UFTABI-6083 ([#4673](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4673)) ([b99ea12](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b99ea12ba2033e226c38d61c71c2c3b0dfcc420c))
+* **mac:** fix modified column and column reordering ([#4669](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4669)) ([4ad7da7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4ad7da76b76d8dc84372ea2eb3b2eae5a5390900))
+* **mac:** make specific fields optional - MSD (UFTABI-6048) ([#4634](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4634)) ([671bd03](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/671bd03e69271eaf757fd834c82f5f8a29076314))
+* **mac:** open dialog immediately (UFTABI-6044) ([#4635](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4635)) ([69c5854](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/69c585498f119498379334a9252a2fdf31f073e6))
+* **mac:** parse standard document correctly ([#4694](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4694)) ([f3dd2fc](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f3dd2fcf27d2c09b51ec2fd4851ea6aff0a4dc7b))
+* **mac:** remove duplicate entries in dropdowns (UFTABI-6065) ([#4646](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4646)) ([7edaaaf](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7edaaaf379ac88d17c84d0cd43d74f9f8984000b))
+* **mac:** set default value for rating ([#4653](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4653)) ([419681a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/419681ab43f8f0a7f7b7668539765c4ffeadf2a4))
+* **mac:** store date as number ([#4645](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4645)) ([91707ad](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/91707adc06fbe629b5c66738fab611731b94a076))
+
+
+### 🎸 Features
+
+* **mac:** add Column selfCertified to MSD (UFTABI-6046) ([#4630](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4630)) ([7a8059d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7a8059db20d2d6fb429173f6db3e5193ff33f751))
+* **mac:** add last modified column ([#4643](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4643)) ([f2e410f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f2e410fda471e8e0259c9eaf44e4d26ac1dc7ddf))
+* **mac:** add new column iron and steel making (UFTABI-6078) ([#4691](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4691)) ([4143e23](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4143e23ac6db95c69c6b8c4da66a72647ea5f2e2))
+* **mac:** add units to column headers ([#4692](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4692)) ([3d76dfc](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3d76dfcc63f9d4c25b85131a34189441548fefac))
+* **mac:** adding a learnmore page for MSD ([b2bf399](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b2bf39916905974e86836e93d86c1c54ef755f13))
+* **mac:** adjust header tooltips ([#4698](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4698)) ([436b62a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/436b62acc23de2904fb11448653b12c75cc3c589))
+* **mac:** apply review remarks ([62dc907](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/62dc907bb9168383bca1196e66342f0678c48dcd))
+* **mac:** combine release date into one column (UFTABI-6043) ([#4654](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4654)) ([8c0cd92](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8c0cd92d886c5abeadb7c9d0b9ebef98ae7fad54))
+* **mac:** disable some fields not allowed to edit (UFTABI-6095) ([#4680](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4680)) ([9edc0fa](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9edc0fabadec4e2d255bac32fde16ea4c217d568))
+* **mac:** fix learn more test ([d50a30c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d50a30c30a1bb93371fe9a9378acc76f842f36d9))
+* **mac:** fix subheader background ([50f5125](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/50f512508444adb1e5cf2ff2dd6fe19713354881))
+* **mac:** implement learn more feedback ([a5fb346](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a5fb34686022e92e6e16b201bda2f6ff350b2e3c))
+* **mac:** remove ltp loads calculation ([2bee1ac](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2bee1ac218456c210773e2ce313c72a3e08bd410))
+
 ## [0.8.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v0.7.0...mac-v0.8.0) (2022-09-20)
 
 
