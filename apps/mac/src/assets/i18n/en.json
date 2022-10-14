@@ -487,12 +487,12 @@
       },
       "tooltip": {
         "castingDiameter": "Detail on final steel-manufacturing step, e.g., casting dimension, ingot name, dimension, or weight",
-        "castingMode": "<ul><li>• CC: continuous casting</li><li>• IC: ingot casting</li><li>• ESR: electro-slag remelting</li><li>• VAR: vacuum arc remelting</li><li>• PESR: pressure electro-slag remelting</li></ul>",
+        "castingMode": "<ul><li>CC: continuous casting</li><li>IC: ingot casting</li><li>ESR: electro-slag remelting</li><li>VAR: vacuum arc remelting</li><li>PESR: pressure electro-slag remelting</li></ul>",
         "co2PerTon": "Scope 3.1 upstream green-house gas emissions of product (cradle-to-gate)",
         "manufacturerSupplierSelfCertified": "Supplier is testing its deliveries itself.",
         "maxDimension": "Maximum dimension (diameter, thickness) allowed to be delivered by supplier",
         "rating": "Quality level of steel supplier according to S 266042 (if available); from RSI (highest quality) to RSIII (lowest quality)",
-        "steelMakingProcess": "<ul><li>• BF: blast furnace</li><li>• DRI: direct reduced iron</li><li>• BOF: basic oxygen furnace</li><li>• EAF: electric arc furnace</li><li>• EOF: energy optimizing furnace</li><li>• VIM: vacuum induction melting</li><li>• ESR: electro-slag remelting</li><li>• VAR: vacuum arc remelting</li></ul>"
+        "steelMakingProcess": "<ul><li>BF: blast furnace</li><li>DRI: direct reduced iron</li><li>BOF: basic oxygen furnace</li><li>EAF: electric arc furnace</li><li>EOF: energy optimizing furnace</li><li>VIM: vacuum induction melting</li><li>ESR: electro-slag remelting</li><li>VAR: vacuum arc remelting</li></ul>"
       },
       "yes": "Yes"
     },
