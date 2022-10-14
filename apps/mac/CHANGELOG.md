@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.9.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v0.9.0...mac-v0.9.1) (2022-10-14)
+
+
+### 🐛 Bug Fixes
+
+* **mac:** remove extra bullet points from tooltips ([#4705](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4705)) ([f2845a3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f2845a3204750014289ac0c4cf7ddcbd77c73838))
+
 ## [0.9.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v0.8.0...mac-v0.9.0) (2022-10-14)
 
 
