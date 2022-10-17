@@ -9,9 +9,10 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import { translate } from '@ngneat/transloco';
 
@@ -64,8 +65,17 @@ export class GreaseReportConcept1DetailComponent implements OnInit {
   public sizes = [CONCEPT1_SIZES['60ML'], CONCEPT1_SIZES['125ML']];
 
   public constructor(
-    private readonly applicationInsightsService: ApplicationInsightsService
-  ) {}
+    private readonly applicationInsightsService: ApplicationInsightsService,
+    private readonly matIconRegistry: MatIconRegistry,
+    private readonly domSanitizer: DomSanitizer
+  ) {
+    this.matIconRegistry.addSvgIcon(
+      'concept1',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/images/concept1.svg'
+      )
+    );
+  }
 
   ngOnInit(): void {
     this.concept1Selection = this.settings?.c1_125
