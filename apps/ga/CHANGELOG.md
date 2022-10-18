@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.2.14](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.13...ga-v1.2.14) (2022-10-18)
+
+
+### 🎸 Features
+
+* **ga:** add concept1 icon ([00cc20a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/00cc20abc0b28b19554fa6b80a8e10d177fe5768))
+* **ga:** add CONCEPT1 settings detail visualisation (UFTABI-6031) ([faf64f3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/faf64f3d14bda2f111e7fa79343e192e9257bb80))
+* **ga:** rename app in china ([14fdc76](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/14fdc76ed9ce0be0654096dfb323f2ce5215343b))
+
 ### [1.2.13](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.12...ga-v1.2.13) (2022-10-05)
 
 
