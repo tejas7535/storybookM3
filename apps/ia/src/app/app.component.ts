@@ -27,6 +27,7 @@ interface TabElem {
 })
 export class AppComponent implements OnInit {
   title = 'Insight Attrition';
+  titleLink = '/';
 
   username$: Observable<string>;
   profileImage$: Observable<string>;

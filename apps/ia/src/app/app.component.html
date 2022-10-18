@@ -1,6 +1,7 @@
 <schaeffler-app-shell
   *ngIf="isLoggedIn$ | ngrxPush; else loading"
   [appTitle]="title"
+  [appTitleLink]="titleLink"
   [hasSidebarLeft]="true"
   [userName]="username$ | ngrxPush"
   [userImageUrl]="profileImage$ | ngrxPush"
