@@ -71,7 +71,7 @@
     "updateStatus": {
       "active": "Case was restored successfully",
       "inactive": "Case was deleted successfully",
-      "delete": "Case was deleted irrevocably"
+      "deleted": "Case was deleted irrevocably"
     },
     "importSuccess": "Case was imported successfully",
     "reimportSucess": "This SAP Quotation has already been imported. It will be imported again for you."

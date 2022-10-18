@@ -71,7 +71,7 @@
     "updateStatus": {
       "active": "Case wurde erfolgreich wiederhergestellt",
       "inactive": "Case wurde erfolgreich gelöscht",
-      "delete": "Case wurde unwiderruflich gelöscht"
+      "deleted": "Case wurde unwiderruflich gelöscht"
     },
     "importSuccess": "Case wurde erfolgreich importiert",
     "reimportSucess": "Dieses SAP Angebot wurde bereits importiert. Das Angebot wird erneut importiert"
