@@ -27,6 +27,7 @@ export class ColumnDefService {
       pinned: 'left',
       cellRenderer: 'gqIdComponent',
       filterParams: FILTER_PARAMS,
+      width: 175,
     },
     {
       headerName: translate('caseView.caseTable.creationDate'),
