@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.12.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.11.0...gq-v2.12.0) (2022-10-19)
+
+
+### 🎸 Features
+
+* **gq:** add sap volume scale data (GQUOTE-1616) ([#4678](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4678)) ([5f12a38](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5f12a3825392665527072536acd1fc5e1642111e))
+* **gq:** add views for open cases and deleted drafts (GQUOTE-1745) ([#4667](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4667)) ([c8f31aa](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c8f31aa339c15367e1d97cf8c23413850fda339e))
+* **gq:** added tabs to process case view (GQUOTE-1747) ([#4650](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4650)) ([2d6c513](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2d6c513070c69527a58ea0b5c20717a99ee35df3))
+* **gq:** enable user to restore cases and delete cases forever (GQUOTE-853) ([#4684](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4684)) ([1edaa08](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1edaa08ead24f8c621435306306a39ca1b3a9b71))
+* **gq:** replaced customer-view with customer details tab (GQUOTE-1716) ([#4656](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4656)) ([468c197](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/468c1971a9aa6d41858707331d67919f5cc679cf))
+
+
+### 🐛 Bug Fixes
+
+* **gq:** add button icon to delete button and adjust descriptions for delete confirm dialog (GQUOTE 1813) ([#4700](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4700)) ([565d654](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/565d654c353b6a319f720028a65b5c8ff98dfaa1))
+* **gq:** adjust snackbarMessages (GQUOTE-1825) ([#4707](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4707)) ([336f655](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/336f65531e95f3224f3f24728d94c0756b1c4755))
+* **gq:** fix filtering of sapVolumeScale (GQUOTE-1790) ([#4685](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4685)) ([2d9c016](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2d9c01603a194fe954aca5c3305d80de20a25a09))
+* **gq:** fix translations, salesforce error and bg color ([#4681](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4681)) ([d469e04](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d469e04aebfd35b7ddc28a84ea4934d688a7817d))
+* **gq:** fixed display of last offer date (GQUOTE-1773) ([#4699](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4699)) ([e8343a3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e8343a3f33d4649334ebccecceeb047997c493d6))
+* **gq:** fixed display of next free atp date (GQUOTE-1797) ([#4697](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4697)) ([2f13675](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2f136754ab756818b466b1b413645c92adbe00ca))
+
 ## [2.11.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.10.0...gq-v2.11.0) (2022-09-28)
 
 
