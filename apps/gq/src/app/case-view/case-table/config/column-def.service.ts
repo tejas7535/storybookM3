@@ -18,6 +18,8 @@ export class ColumnDefService {
 
   COLUMN_DEFS: ColDef[] = [
     {
+      headerCheckboxSelection: true,
+      headerCheckboxSelectionFilteredOnly: true,
       checkboxSelection: true,
       headerName: translate('caseView.caseTable.gqId'),
       field: 'gqId',
