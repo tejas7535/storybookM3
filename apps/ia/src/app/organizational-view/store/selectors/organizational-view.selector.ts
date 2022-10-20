@@ -65,7 +65,7 @@ const getWorldMapFluctuationDialogRegionMetaData = (
   let remainingFluctuation = 0;
   let forcedFluctuation = 0;
   let unforcedFluctuation = 0;
-  let terminationReceived = 0;
+  let resignationsReceived = 0;
   let employeesAdded = 0;
   let openPositions = 0;
 
@@ -74,7 +74,7 @@ const getWorldMapFluctuationDialogRegionMetaData = (
     remainingFluctuation += country.attritionMeta.remainingFluctuation;
     forcedFluctuation += country.attritionMeta.forcedFluctuation;
     unforcedFluctuation += country.attritionMeta.unforcedFluctuation;
-    terminationReceived += country.attritionMeta.terminationReceived;
+    resignationsReceived += country.attritionMeta.resignationsReceived;
     employeesAdded += country.attritionMeta.employeesAdded;
     openPositions += country.attritionMeta.openPositions;
   });
@@ -85,7 +85,7 @@ const getWorldMapFluctuationDialogRegionMetaData = (
     remainingFluctuation,
     forcedFluctuation,
     unforcedFluctuation,
-    terminationReceived,
+    resignationsReceived,
     employeesAdded,
     openPositions,
   } as AttritionDialogFluctuationMeta;

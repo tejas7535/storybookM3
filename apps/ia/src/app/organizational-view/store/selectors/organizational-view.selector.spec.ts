@@ -53,7 +53,7 @@ describe('Organizational View Selector', () => {
               remainingFluctuation: 1,
               forcedFluctuation: 0,
               unforcedFluctuation: 14,
-              terminationReceived: 99,
+              resignationsReceived: 99,
               employeesAdded: 0,
               openPositions: 400,
             },
@@ -66,7 +66,7 @@ describe('Organizational View Selector', () => {
               remainingFluctuation: 0,
               forcedFluctuation: 5,
               unforcedFluctuation: 4,
-              terminationReceived: 9,
+              resignationsReceived: 9,
               employeesAdded: 2,
               openPositions: 0,
             },
@@ -203,7 +203,7 @@ describe('Organizational View Selector', () => {
         forcedFluctuation: 5,
         remainingFluctuation: 1,
         openPositions: 400,
-        terminationReceived: 108,
+        resignationsReceived: 108,
         title: 'Europe',
         unforcedFluctuation: 18,
       });
@@ -227,7 +227,7 @@ describe('Organizational View Selector', () => {
         forcedFluctuation: 0,
         remainingFluctuation: 1,
         openPositions: 400,
-        terminationReceived: 99,
+        resignationsReceived: 99,
         unforcedFluctuation: 14,
       });
     });

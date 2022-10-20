@@ -4,7 +4,7 @@ export interface EmployeeAttritionMeta {
   remainingFluctuation: number;
   forcedFluctuation: number;
   unforcedFluctuation: number;
-  terminationReceived: number;
+  resignationsReceived: number;
   employeesAdded: number;
   openPositions: number;
 }

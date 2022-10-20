@@ -8,7 +8,7 @@ export interface AttritionDialogFluctuationMeta {
   remainingFluctuation: number;
   forcedFluctuation: number;
   unforcedFluctuation: number;
-  terminationReceived: number;
+  resignationsReceived: number;
   employeesAdded: number;
   openPositions: number;
   heatType: HeatType;
