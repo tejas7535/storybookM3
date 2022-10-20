@@ -90,3 +90,40 @@ Primary.args = {
   subheaderInlineContent: 'Inline Content',
   subheaderBlockContent: 'Subheader Block Content',
 };
+
+const TemplateWithStatus: Story<
+  SubheaderComponent | SubheaderStorybookTemplate
+> = (args) => ({
+  component: SubheaderComponent,
+  props: args,
+  template: `
+    <schaeffler-subheader
+    [showBackButton]="showBackButton"
+    [subheaderTitle]="subheaderTitle"
+    [breadcrumbs]="breadcrumbs"
+    [truncateBreadcrumbsAfter]="truncateBreadcrumbsAfter"
+    [hideLine]="hideLine"
+  >
+    <ng-container subheaderStatusIcon>
+      <div class="relative h-5 w-5 rounded-full bg-primary bg-opacity-20">
+        <div class="absolute top-1 left-1 h-3 w-3 rounded-full bg-primary"></div>
+      </div>
+    </ng-container>
+    <ng-container subheaderBlockContent>
+      <span *ngIf="subheaderBlockContent" class="pl-9 pt-2 text-caption text-link">
+        {{ subheaderBlockContent }}
+      </span>
+    </ng-container>
+  </schaeffler-subheader>
+  `,
+});
+
+export const WithStatusIndication = TemplateWithStatus.bind({});
+WithStatusIndication.args = {
+  showBackButton: true,
+  subheaderTitle: 'Title',
+  breadcrumbs,
+  truncateBreadcrumbsAfter: 0,
+  hideLine: false,
+  subheaderBlockContent: 'Synced with SAP',
+};

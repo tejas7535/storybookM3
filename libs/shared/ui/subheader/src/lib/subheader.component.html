@@ -12,6 +12,7 @@
       (click)="clickBackButton()"
       >arrow_back</mat-icon
     >
+    <ng-content select="[subheaderStatusIcon]"></ng-content>
     <h4 class="flex flex-auto flex-row truncate !text-[22px] sm:!text-h4">
       {{ subheaderTitle }}
       <ng-content select="[subheaderTitleContent]"></ng-content>
