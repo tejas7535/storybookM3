@@ -55,6 +55,9 @@ import { CalculationParametersService } from './services';
 @Component({
   selector: 'ga-calculation-parameters',
   templateUrl: './calculation-parameters.component.html',
+  styles: [
+    ':host ::ng-deep .mat-slide-toggle-label .mat-slide-toggle-content { @apply whitespace-normal }',
+  ],
 })
 export class CalculationParametersComponent implements OnInit, OnDestroy {
   public movement = Movement;

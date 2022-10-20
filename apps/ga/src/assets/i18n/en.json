@@ -247,7 +247,7 @@
     "shopBaseUrl": "https://medias.schaeffler.de/en",
     "snackbarError": "Unfortunately an error occurred. Please try again later.",
     "snackbarRetry": "Retry",
-    "allValues": "Show all values & timeframes",
+    "allValues": "Show all values",
     "hideValues": "Hide additional values",
     "allResults": "Show all Results",
     "limitResults": "Show first {{ resultsLimit }} Results",

@@ -179,9 +179,10 @@
           </div>
           <div class="p-4 pb-0">
             <ga-preferred-grease-selection></ga-preferred-grease-selection>
-            <div class="flex items-center justify-between pb-4">
+            <div class="flex items-center justify-between gap-2 pb-4">
               <mat-slide-toggle
                 color="primary"
+                class="h-auto"
                 labelPosition="before"
                 [checked]="automaticLubrication$ | ngrxPush"
                 (change)="toggleAutomaticLubrication($event)"
@@ -191,7 +192,7 @@
 
               <mat-icon
                 color="primary"
-                class="cursor-help"
+                class="min-w-[24px] cursor-help"
                 #tooltip="matTooltip"
                 [matTooltip]="t('productPreselection.concept1.tooltip')"
                 (click)="tooltip.toggle()"

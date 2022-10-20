@@ -247,7 +247,7 @@
     "shopBaseUrl": "https://medias.schaeffler.de/de",
     "snackbarError": "Leider ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.",
     "snackbarRetry": "Erneut versuchen",
-    "allValues": "Alle Werte und Zeitspannen anzeigen",
+    "allValues": "Alle Werte anzeigen",
     "hideValues": "Zusätzliche Werte verbergen",
     "allResults": "Zeige alle Ergebnisse",
     "limitResults": "Zeige die ersten {{ resultsLimit }} Ergebnisse",

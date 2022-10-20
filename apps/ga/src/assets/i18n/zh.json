@@ -269,7 +269,7 @@
     "concept1Impossible": "用CONCEPT1自动润滑是不可能的。在某些情况下，再润滑量过高或过低。如果改变操作参数，可能会使用",
     "concept1Link": "success-stories/0171",
     "concept1settings": {
-      "duration": "{{ months }} 几个月 ({{size}} ml)",
+      "duration": "{{ months }} 个月 ({{size}} ml)",
       "details": "详细内容",
       "why": "为什么？",
       "adjustConditions": "这种润滑脂适用于CONCEPT1和一般的应用，但操作条件导致润滑计算对CONCEPT1来说过高或过低。",
