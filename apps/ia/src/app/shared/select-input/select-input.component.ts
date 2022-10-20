@@ -17,6 +17,7 @@ import { IdValue } from '../models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectInputComponent {
+  LEVEL_MARGIN_PX = 8;
   @Input() label: string;
   @Input() hint: string;
   @Input() options: IdValue[];

@@ -9,7 +9,13 @@
       *ngFor="let option of options; trackBy: trackByFn"
       [value]="option.id"
     >
-      {{ option.value }}
+      <span
+        [style.marginLeft.px]="
+          option.level ? LEVEL_MARGIN_PX * option.level : ''
+        "
+      >
+        {{ option.value }}
+      </span>
     </mat-option>
   </mat-select>
   <mat-hint align="start">{{ hint }} </mat-hint>

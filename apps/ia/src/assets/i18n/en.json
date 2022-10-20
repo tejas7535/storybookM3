@@ -9,13 +9,13 @@
         "REGION": "Region",
         "SUB_REGION": "Sub Region",
         "COUNTRY": "Country",
+        "BOARD": "Board",
+        "SUB_BOARD": "Sub Board",
         "FUNCTION": "Function",
         "SUB_FUNCTION": "Sub Function",
         "SEGMENT": "Segment",
         "SUB_SEGMENT": "Sub Segment",
-        "SEGMENT_UNIT": "Segment Unit",
-        "BOARD": "Board",
-        "SUB_BOARD": "Sub Board"
+        "SEGMENT_UNIT": "Segment Unit"
       }
     },
     "businessArea": {

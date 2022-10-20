@@ -21,6 +21,7 @@ import {
   getSelectedTimeRange,
   getTimePeriods,
 } from '../core/store/selectors';
+import { FILTER_DIMENSIONS } from '../shared/constants';
 import { FilterLayout } from '../shared/filter/filter-layout.enum';
 import {
   Filter,
@@ -60,9 +61,7 @@ export class FilterSectionComponent implements OnInit {
       .selectTranslateObject('filters.dimension.availableDimensions')
       .pipe(
         map((translateObject) =>
-          Object.values(FilterDimension)
-            .sort()
-            .map((value) => new IdValue(value, translateObject[value]))
+          this.mapTranslationsToIdValues(translateObject)
         )
       );
     this.activeDimension$ = this.store.select(getSelectedDimension);
@@ -102,6 +101,19 @@ export class FilterSectionComponent implements OnInit {
         filterDimension: FilterDimension.ORG_UNIT,
         searchFor,
       })
+    );
+  }
+
+  mapTranslationsToIdValues(
+    translations: Record<FilterDimension, string>
+  ): IdValue[] {
+    return FILTER_DIMENSIONS.map(
+      (dimensionLevel) =>
+        new IdValue(
+          dimensionLevel.dimension,
+          translations[dimensionLevel.dimension],
+          dimensionLevel.level
+        )
     );
   }
 }

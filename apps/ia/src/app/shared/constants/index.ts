@@ -1,3 +1,21 @@
+import { FilterDimension } from '../models';
+
 export const LOCAL_STORAGE_APP_KEY = 'ia';
 export const COMPANY_NAME = 'Schaeffler';
 export const DATA_IMPORT_DAY = 9; // day of each month of data import from data provider
+export const FILTER_DIMENSIONS: {
+  dimension: FilterDimension;
+  level: number;
+}[] = [
+  { dimension: FilterDimension.ORG_UNIT, level: 0 },
+  { dimension: FilterDimension.REGION, level: 0 },
+  { dimension: FilterDimension.SUB_REGION, level: 1 },
+  { dimension: FilterDimension.COUNTRY, level: 2 },
+  { dimension: FilterDimension.BOARD, level: 0 },
+  { dimension: FilterDimension.SUB_BOARD, level: 1 },
+  { dimension: FilterDimension.FUNCTION, level: 2 },
+  { dimension: FilterDimension.SUB_FUNCTION, level: 3 },
+  { dimension: FilterDimension.SEGMENT, level: 0 },
+  { dimension: FilterDimension.SUB_SEGMENT, level: 1 },
+  { dimension: FilterDimension.SEGMENT_UNIT, level: 2 },
+];
