@@ -11,7 +11,7 @@ import { ChartType } from './models/chart-type.enum';
 import { DimensionFluctuationData } from './models/dimension-fluctuation-data.model';
 import {
   chartTypeSelected,
-  loadOrgUnitFluctuationMeta,
+  loadOrgChartFluctuationMeta,
   loadParent,
   loadWorldMapFluctuationCountryMeta,
   loadWorldMapFluctuationRegionMeta,
@@ -87,7 +87,7 @@ export class OrganizationalViewComponent implements OnInit {
   }
 
   loadFluctuationMeta(data: DimensionFluctuationData): void {
-    this.store.dispatch(loadOrgUnitFluctuationMeta({ data }));
+    this.store.dispatch(loadOrgChartFluctuationMeta({ data }));
   }
 
   loadRegionMeta(region: string): void {

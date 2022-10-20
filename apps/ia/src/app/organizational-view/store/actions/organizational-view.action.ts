@@ -33,23 +33,23 @@ export const loadOrgChartFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
-export const loadOrgUnitFluctuationMeta = createAction(
-  '[Organizational View] Load Org Unit Fluctuation Meta',
+export const loadOrgChartFluctuationMeta = createAction(
+  '[Organizational View] Load Org Chart Fluctuation Meta',
   props<{ data: DimensionFluctuationData }>()
 );
 
-export const loadOrgUnitFluctuationRate = createAction(
-  '[Organizational View] Load Org Unit Fluctuation Rate',
+export const loadOrgChartFluctuationRate = createAction(
+  '[Organizational View] Load Org Chart Fluctuation Rate',
   props<{ request: EmployeesRequest }>()
 );
 
-export const loadOrgUnitFluctuationRateSuccess = createAction(
-  '[Organizational View] Load Org Unit Fluctuation Rate Success',
+export const loadOrgChartFluctuationRateSuccess = createAction(
+  '[Organizational View] Load Org Chart Fluctuation Rate Success',
   props<{ rate: OrgUnitFluctuationRate }>()
 );
 
-export const loadOrgUnitFluctuationRateFailure = createAction(
-  '[Organizational View] Load Org Unit Fluctuation Rate Failure',
+export const loadOrgChartFluctuationRateFailure = createAction(
+  '[Organizational View] Load Org Chart Fluctuation Rate Failure',
   props<{ errorMessage: string }>()
 );
 
@@ -113,10 +113,10 @@ const all = union({
   loadOrgChart,
   loadOrgChartSuccess,
   loadOrgChartFailure,
-  loadOrgUnitFluctuationMeta,
-  loadOrgUnitFluctuationRate,
-  loadOrgUnitFluctuationRateSuccess,
-  loadOrgUnitFluctuationRateFailure,
+  loadOrgUnitFluctuationMeta: loadOrgChartFluctuationMeta,
+  loadOrgUnitFluctuationRate: loadOrgChartFluctuationRate,
+  loadOrgUnitFluctuationRateSuccess: loadOrgChartFluctuationRateSuccess,
+  loadOrgUnitFluctuationRateFailure: loadOrgChartFluctuationRateFailure,
   loadWorldMapFluctuationRegionMeta,
   loadWorldMapFluctuationCountryMeta,
   loadWorldMap,

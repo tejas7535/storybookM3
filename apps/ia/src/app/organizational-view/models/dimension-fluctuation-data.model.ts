@@ -1,3 +1,4 @@
+import { FilterDimension } from '../../shared/models';
 import { Employee, EmployeeAttritionMeta } from '../../shared/models/employee';
 
 export interface DimensionFluctuationData {
@@ -5,6 +6,7 @@ export interface DimensionFluctuationData {
   parentId: string;
   dimension: string;
   dimensionKey: string;
+  filterDimension: FilterDimension;
   managerOfOrgUnit: string;
   directEmployees: number;
   totalEmployees: number;

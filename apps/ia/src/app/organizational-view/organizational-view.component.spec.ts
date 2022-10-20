@@ -9,7 +9,7 @@ import { DimensionFluctuationData } from './models/dimension-fluctuation-data.mo
 import { OrganizationalViewComponent } from './organizational-view.component';
 import {
   chartTypeSelected,
-  loadOrgUnitFluctuationMeta,
+  loadOrgChartFluctuationMeta,
   loadParent,
   loadWorldMapFluctuationCountryMeta,
   loadWorldMapFluctuationRegionMeta,
@@ -86,7 +86,7 @@ describe('OrganizationalViewComponent', () => {
       component.loadFluctuationMeta(orgUnit);
 
       expect(component['store'].dispatch).toHaveBeenCalledWith(
-        loadOrgUnitFluctuationMeta({ data: orgUnit })
+        loadOrgChartFluctuationMeta({ data: orgUnit })
       );
     });
   });

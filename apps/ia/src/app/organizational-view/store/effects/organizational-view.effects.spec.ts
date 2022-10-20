@@ -13,7 +13,7 @@ import { filterDimensionSelected } from '../../../core/store/actions';
 import {
   getCurrentFilters,
   getSelectedDimension,
-  getSelectedTimeRangeWithDimension,
+  getSelectedTimeRange,
 } from '../../../core/store/selectors';
 import {
   AttritionOverTime,
@@ -34,11 +34,11 @@ import {
   loadOrganizationalViewData,
   loadOrgChart,
   loadOrgChartFailure,
+  loadOrgChartFluctuationMeta,
+  loadOrgChartFluctuationRate,
+  loadOrgChartFluctuationRateFailure,
+  loadOrgChartFluctuationRateSuccess,
   loadOrgChartSuccess,
-  loadOrgUnitFluctuationMeta,
-  loadOrgUnitFluctuationRate,
-  loadOrgUnitFluctuationRateFailure,
-  loadOrgUnitFluctuationRateSuccess,
   loadParent,
   loadParentFailure,
   loadParentSuccess,
@@ -159,14 +159,15 @@ describe('Organizational View Effects', () => {
     );
   });
 
-  describe('loadOrgUnitFluctuationMeta$', () => {
+  describe('loadOrgChartFluctuationMeta$', () => {
     test(
-      'should load org unit rates',
+      'should load org chart rates',
       marbles((m) => {
         const orgUnitFluctuationData = {
           dimensionKey: '123',
           id: '32',
           parentId: '23',
+          filterDimension: FilterDimension.ORG_UNIT,
         } as DimensionFluctuationData;
 
         const timeRange = {
@@ -179,19 +180,19 @@ describe('Organizational View Effects', () => {
           filterDimension: FilterDimension.ORG_UNIT,
         };
 
-        action = loadOrgUnitFluctuationMeta({ data: orgUnitFluctuationData });
-        store.overrideSelector(getSelectedTimeRangeWithDimension, {
-          timeRange,
-          dimension: FilterDimension.ORG_UNIT,
+        action = loadOrgChartFluctuationMeta({ data: orgUnitFluctuationData });
+        store.overrideSelector(getSelectedTimeRange, {
+          id: timeRange.id,
+          value: timeRange.value,
         });
-        const result = loadOrgUnitFluctuationRate({ request });
+        const result = loadOrgChartFluctuationRate({ request });
 
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('-b', {
           b: result,
         });
 
-        m.expect(effects.loadOrgUnitFluctuationMeta$).toBeObservable(expected);
+        m.expect(effects.loadOrgChartFluctuationMeta$).toBeObservable(expected);
       })
     );
   });
@@ -259,16 +260,16 @@ describe('Organizational View Effects', () => {
     );
   });
 
-  describe('loadOrgUnitFluctuationRate$', () => {
+  describe('loadOrgChartFluctuationRate$', () => {
     let request: EmployeesRequest;
 
     beforeEach(() => {
       request = {} as unknown as EmployeesRequest;
-      action = loadOrgUnitFluctuationRate({ request });
+      action = loadOrgChartFluctuationRate({ request });
     });
 
     test(
-      'should return loadOrgUnitFluctuationRateSuccess action when REST call is successful',
+      'should return loadOrgChartFluctuationRateSuccess action when REST call is successful',
       marbles((m) => {
         const rate = {
           value: '123',
@@ -276,7 +277,7 @@ describe('Organizational View Effects', () => {
           fluctuationRate: 0.1,
           unforcedFluctuationRate: 0.02,
         };
-        const result = loadOrgUnitFluctuationRateSuccess({
+        const result = loadOrgChartFluctuationRateSuccess({
           rate,
         });
 
@@ -291,7 +292,7 @@ describe('Organizational View Effects', () => {
           .fn()
           .mockImplementation(() => response);
 
-        m.expect(effects.loadOrgUnitFluctuationRate$).toBeObservable(expected);
+        m.expect(effects.loadOrgChartFluctuationRate$).toBeObservable(expected);
         m.flush();
         expect(
           organizationalViewService.getOrgUnitFluctuationRate
@@ -300,9 +301,9 @@ describe('Organizational View Effects', () => {
     );
 
     test(
-      'should return loadOrgUnitFluctuationRateFailure on REST error',
+      'should return loadOrgChartFluctuationRateFailure on REST error',
       marbles((m) => {
-        const result = loadOrgUnitFluctuationRateFailure({
+        const result = loadOrgChartFluctuationRateFailure({
           errorMessage: error.message,
         });
 
@@ -314,7 +315,7 @@ describe('Organizational View Effects', () => {
           .fn()
           .mockImplementation(() => response);
 
-        m.expect(effects.loadOrgUnitFluctuationRate$).toBeObservable(expected);
+        m.expect(effects.loadOrgChartFluctuationRate$).toBeObservable(expected);
         m.flush();
         expect(
           organizationalViewService.getOrgUnitFluctuationRate
@@ -472,10 +473,7 @@ describe('Organizational View Effects', () => {
 
         const filter = {
           name: FilterDimension.ORG_UNIT,
-          idValue: {
-            id: idValue.id,
-            value: idValue.value,
-          },
+          idValue,
         };
 
         actions$ = m.hot('-a', { a: action });

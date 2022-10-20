@@ -12,11 +12,11 @@ import {
   loadAttritionOverTimeOrgChartSuccess,
   loadOrgChart,
   loadOrgChartFailure,
+  loadOrgChartFluctuationMeta,
+  loadOrgChartFluctuationRate,
+  loadOrgChartFluctuationRateFailure,
+  loadOrgChartFluctuationRateSuccess,
   loadOrgChartSuccess,
-  loadOrgUnitFluctuationMeta,
-  loadOrgUnitFluctuationRate,
-  loadOrgUnitFluctuationRateFailure,
-  loadOrgUnitFluctuationRateSuccess,
   loadParent,
   loadParentFailure,
   loadParentSuccess,
@@ -133,7 +133,7 @@ export const organizationalViewReducer = createReducer(
     })
   ),
   on(
-    loadOrgUnitFluctuationMeta,
+    loadOrgChartFluctuationMeta,
     (state: OrganizationalViewState, { data }): OrganizationalViewState => ({
       ...state,
       orgChart: {
@@ -147,7 +147,7 @@ export const organizationalViewReducer = createReducer(
     })
   ),
   on(
-    loadOrgUnitFluctuationRate,
+    loadOrgChartFluctuationRate,
     (state: OrganizationalViewState): OrganizationalViewState => ({
       ...state,
       orgChart: {
@@ -160,7 +160,7 @@ export const organizationalViewReducer = createReducer(
     })
   ),
   on(
-    loadOrgUnitFluctuationRateSuccess,
+    loadOrgChartFluctuationRateSuccess,
     (state: OrganizationalViewState, { rate }): OrganizationalViewState => ({
       ...state,
       orgChart: {
@@ -174,7 +174,7 @@ export const organizationalViewReducer = createReducer(
     })
   ),
   on(
-    loadOrgUnitFluctuationRateFailure,
+    loadOrgChartFluctuationRateFailure,
     (
       state: OrganizationalViewState,
       { errorMessage }

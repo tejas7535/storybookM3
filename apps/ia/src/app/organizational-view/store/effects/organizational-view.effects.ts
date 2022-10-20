@@ -16,7 +16,7 @@ import {
 import {
   getCurrentFilters,
   getSelectedDimension,
-  getSelectedTimeRangeWithDimension,
+  getSelectedTimeRange,
 } from '../../../core/store/selectors';
 import {
   AttritionOverTime,
@@ -37,11 +37,11 @@ import {
   loadOrganizationalViewData,
   loadOrgChart,
   loadOrgChartFailure,
+  loadOrgChartFluctuationMeta,
+  loadOrgChartFluctuationRate,
+  loadOrgChartFluctuationRateFailure,
+  loadOrgChartFluctuationRateSuccess,
   loadOrgChartSuccess,
-  loadOrgUnitFluctuationMeta,
-  loadOrgUnitFluctuationRate,
-  loadOrgUnitFluctuationRateFailure,
-  loadOrgUnitFluctuationRateSuccess,
   loadParent,
   loadParentFailure,
   loadParentSuccess,
@@ -97,37 +97,37 @@ export class OrganizationalViewEffects {
     );
   });
 
-  loadOrgUnitFluctuationMeta$ = createEffect(() => {
+  loadOrgChartFluctuationMeta$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(loadOrgUnitFluctuationMeta),
-      concatLatestFrom(() =>
-        this.store.select(getSelectedTimeRangeWithDimension)
-      ),
-      map(([action, filterWithDimension]) => {
+      ofType(loadOrgChartFluctuationMeta),
+      concatLatestFrom(() => this.store.select(getSelectedTimeRange)),
+      map(([action, timeRange]) => {
         return {
-          filterDimension: filterWithDimension.dimension,
+          filterDimension: action.data.filterDimension,
           value: action.data.dimensionKey,
-          timeRange: filterWithDimension.timeRange.id,
+          timeRange: timeRange.id,
         };
       }),
       switchMap((request: EmployeesRequest) =>
-        of(loadOrgUnitFluctuationRate({ request }))
+        of(loadOrgChartFluctuationRate({ request }))
       )
     );
   });
 
-  loadOrgUnitFluctuationRate$ = createEffect(() => {
+  loadOrgChartFluctuationRate$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(loadOrgUnitFluctuationRate),
+      ofType(loadOrgChartFluctuationRate),
       map((action) => action.request),
       switchMap((request: EmployeesRequest) =>
         this.organizationalViewService.getOrgUnitFluctuationRate(request).pipe(
           map((rate: OrgUnitFluctuationRate) =>
-            loadOrgUnitFluctuationRateSuccess({ rate })
+            loadOrgChartFluctuationRateSuccess({ rate })
           ),
           catchError((error) =>
             of(
-              loadOrgUnitFluctuationRateFailure({ errorMessage: error.message })
+              loadOrgChartFluctuationRateFailure({
+                errorMessage: error.message,
+              })
             )
           )
         )

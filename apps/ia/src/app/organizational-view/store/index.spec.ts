@@ -16,11 +16,11 @@ import {
   loadAttritionOverTimeOrgChartSuccess,
   loadOrgChart,
   loadOrgChartFailure,
+  loadOrgChartFluctuationMeta,
+  loadOrgChartFluctuationRate,
+  loadOrgChartFluctuationRateFailure,
+  loadOrgChartFluctuationRateSuccess,
   loadOrgChartSuccess,
-  loadOrgUnitFluctuationMeta,
-  loadOrgUnitFluctuationRate,
-  loadOrgUnitFluctuationRateFailure,
-  loadOrgUnitFluctuationRateSuccess,
   loadParent,
   loadParentFailure,
   loadParentSuccess,
@@ -87,7 +87,7 @@ describe('Organization View Reducer', () => {
 
   describe('loadOrgUnitFluctuationRate', () => {
     test('should set loading', () => {
-      const action = loadOrgUnitFluctuationRate({
+      const action = loadOrgChartFluctuationRate({
         request: {} as unknown as EmployeesRequest,
       });
       const state = organizationalViewReducer(initialState, action);
@@ -100,7 +100,7 @@ describe('Organization View Reducer', () => {
     test('should unset loading and add rate', () => {
       const rate = {} as OrgUnitFluctuationRate;
 
-      const action = loadOrgUnitFluctuationRateSuccess({ rate });
+      const action = loadOrgChartFluctuationRateSuccess({ rate });
 
       const state = organizationalViewReducer(initialState, action);
 
@@ -111,7 +111,7 @@ describe('Organization View Reducer', () => {
 
   describe('loadOrgUnitFluctuationRateFailure', () => {
     test('should unset loading / set error message', () => {
-      const action = loadOrgUnitFluctuationRateFailure({ errorMessage });
+      const action = loadOrgChartFluctuationRateFailure({ errorMessage });
 
       const state = organizationalViewReducer(initialState, action);
 
@@ -146,10 +146,10 @@ describe('Organization View Reducer', () => {
     });
   });
 
-  describe('loadOrgUnitFluctuationMeta', () => {
+  describe('loadOrgChartFluctuationMeta', () => {
     test('should unset loading and set employee id', () => {
       const data = { id: '123' } as unknown as DimensionFluctuationData;
-      const action = loadOrgUnitFluctuationMeta({
+      const action = loadOrgChartFluctuationMeta({
         data,
       });
       const state = organizationalViewReducer(initialState, action);
