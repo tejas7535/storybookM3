@@ -3,6 +3,8 @@ import { translate, TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import {
   ColDef,
+  GetMainMenuItemsParams,
+  MenuItemDef,
   ValueFormatterParams,
   ValueGetterParams,
 } from 'ag-grid-community';
@@ -479,6 +481,28 @@ describe('CreateColumnService', () => {
       expect(
         ColumnUtilityService.materialClassificationSOPPipe.transform
       ).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('getResetAllFilteredColumnsMenuItem', () => {
+    let params: GetMainMenuItemsParams;
+    beforeEach(() => {
+      params = {
+        api: {
+          setFilterModel: jest.fn(),
+        },
+        defaultItems: ['item1', 'item2'],
+      } as unknown as GetMainMenuItemsParams;
+    });
+    test('Should return the menuItem', () => {
+      const expected: MenuItemDef | string = {
+        name: 'translate it',
+        action: () => params.api.setFilterModel(undefined as any),
+      };
+      const result =
+        ColumnUtilityService.getResetAllFilteredColumnsMenuItem(params);
+
+      expect(JSON.stringify(result)).toBe(JSON.stringify(expected));
     });
   });
 

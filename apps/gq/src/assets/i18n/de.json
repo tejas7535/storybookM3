@@ -389,6 +389,9 @@
       "update": "Speichern",
       "nameLabel": "Case Bezeichnung",
       "currencyLabel": "Individuelle Währung"
+    },
+    "customMainMenuItems": {
+      "resetAllFiltersOfAllColumns": "Sämtliche Filter aller Spalten zurücksetzen"
     }
   },
   "legal": {

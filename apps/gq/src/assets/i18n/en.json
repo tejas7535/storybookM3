@@ -389,6 +389,9 @@
       "update": "Update",
       "nameLabel": "Case Name",
       "currencyLabel": "Custom Currency"
+    },
+    "customMainMenuItems": {
+      "resetAllFiltersOfAllColumns": "Reset All Filtered Columns"
     }
   },
   "legal": {

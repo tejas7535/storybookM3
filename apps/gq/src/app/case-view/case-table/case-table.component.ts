@@ -5,7 +5,9 @@ import { Observable, take } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 import {
+  GetMainMenuItemsParams,
   GridReadyEvent,
+  MenuItemDef,
   RowDoubleClickedEvent,
   RowSelectedEvent,
 } from 'ag-grid-community';
@@ -14,6 +16,7 @@ import { AppRoutePath } from '../../app-route-path.enum';
 import { deselectCase, getSelectedCaseIds, selectCase } from '../../core/store';
 import { AgGridLocale } from '../../shared/ag-grid/models/ag-grid-locale.interface';
 import { AgStatusBar } from '../../shared/ag-grid/models/ag-status-bar.model';
+import { ColumnUtilityService } from '../../shared/ag-grid/services/column-utility.service';
 import { LocalizationService } from '../../shared/ag-grid/services/localization.service';
 import {
   basicTableStyle,
@@ -80,5 +83,14 @@ export class CaseTableComponent implements OnInit {
         sales_org: event.data.customerIdentifiers.salesOrg,
       },
     });
+  }
+
+  getMainMenuItems(params: GetMainMenuItemsParams): (string | MenuItemDef)[] {
+    const menuItems: (MenuItemDef | string)[] = [...params.defaultItems];
+    menuItems.push(
+      ColumnUtilityService.getResetAllFilteredColumnsMenuItem(params)
+    );
+
+    return menuItems;
   }
 }

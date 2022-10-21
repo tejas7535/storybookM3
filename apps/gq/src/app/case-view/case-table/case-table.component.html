@@ -10,6 +10,7 @@
   [animateRows]="true"
   [localeText]="localeText$ | ngrxPush"
   [rowMultiSelectWithClick]="true"
+  [getMainMenuItems]="getMainMenuItems"
   (rowSelected)="onRowSelected($event)"
   (gridReady)="onGridReady($event)"
   (rowDoubleClicked)="onRowDoubleClicked($event)"

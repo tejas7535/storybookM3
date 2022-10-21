@@ -10,7 +10,12 @@ import { TranslocoCurrencyPipe } from '@ngneat/transloco-locale';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AgGridModule } from 'ag-grid-angular';
-import { AgGridEvent, GridReadyEvent, RowNode } from 'ag-grid-community';
+import {
+  AgGridEvent,
+  GetMainMenuItemsParams,
+  GridReadyEvent,
+  RowNode,
+} from 'ag-grid-community';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -29,6 +34,7 @@ import {
 import { PriceSourceOptions } from '../../shared/ag-grid/column-headers/extended-column-header/models/price-source-options.enum';
 import { ColumnFields } from '../../shared/ag-grid/constants/column-fields.enum';
 import { CustomStatusBarModule } from '../../shared/ag-grid/custom-status-bar/custom-status-bar.module';
+import { ColumnUtilityService } from '../../shared/ag-grid/services/column-utility.service';
 import { Quotation } from '../../shared/models';
 import {
   PriceSource,
@@ -936,6 +942,25 @@ describe('QuotationDetailsTableComponent', () => {
           },
         }
       );
+    });
+  });
+  describe('getMainMenuItems', () => {
+    const params: GetMainMenuItemsParams = {
+      defaultItems: ['item1', 'item2'],
+    } as GetMainMenuItemsParams;
+
+    test('it should add one more menuItem at the end of that array', () => {
+      component.ngOnInit();
+      ColumnUtilityService.getResetAllFilteredColumnsMenuItem = jest.fn(
+        () => 'item3'
+      );
+
+      const result = component.getMainMenuItems(params);
+      expect(result.length).toBe(3);
+      expect(result[2]).toBe('item3');
+      expect(
+        ColumnUtilityService.getResetAllFilteredColumnsMenuItem
+      ).toHaveBeenCalledWith(params);
     });
   });
 });

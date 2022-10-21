@@ -4,6 +4,8 @@ import { translate } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import {
   ColDef,
+  GetMainMenuItemsParams,
+  MenuItemDef,
   ValueFormatterParams,
   ValueGetterParams,
 } from 'ag-grid-enterprise';
@@ -196,6 +198,15 @@ export class ColumnUtilityService {
     const uomPipe = new UomPipe();
 
     return uomPipe.transform(params.value);
+  }
+
+  static getResetAllFilteredColumnsMenuItem(
+    params: GetMainMenuItemsParams
+  ): MenuItemDef | string {
+    return {
+      name: translate('shared.customMainMenuItems.resetAllFiltersOfAllColumns'),
+      action: () => params.api.setFilterModel({}),
+    };
   }
 
   numberDashFormatter(data: ValueFormatterParams): string {

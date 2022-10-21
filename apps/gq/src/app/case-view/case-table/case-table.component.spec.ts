@@ -8,7 +8,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AgGridModule } from 'ag-grid-angular';
-import { RowNode } from 'ag-grid-community';
+import { GetMainMenuItemsParams, RowNode } from 'ag-grid-community';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -17,6 +17,7 @@ import { AppRoutePath } from '../../app-route-path.enum';
 import { getSelectedCaseIds } from '../../core/store';
 import { ColumnHeadersModule } from '../../shared/ag-grid/column-headers/column-headers.module';
 import { CustomStatusBarModule } from '../../shared/ag-grid/custom-status-bar/custom-status-bar.module';
+import { ColumnUtilityService } from '../../shared/ag-grid/services/column-utility.service';
 import { HelperService } from '../../shared/services/helper-service/helper-service.service';
 import { CaseTableComponent } from './case-table.component';
 
@@ -152,6 +153,27 @@ describe('CaseTableComponent', () => {
           },
         }
       );
+    });
+  });
+
+  describe('getMainMenuItems', () => {
+    const params: GetMainMenuItemsParams = {
+      defaultItems: ['item1', 'item2'],
+    } as GetMainMenuItemsParams;
+
+    test('it should add one more menuItem at the end of that array', () => {
+      component.ngOnInit();
+      ColumnUtilityService.getResetAllFilteredColumnsMenuItem = jest.fn(
+        () => 'item3'
+      );
+
+      const result = component.getMainMenuItems(params);
+
+      expect(result.length).toBe(3);
+      expect(result[2]).toBe('item3');
+      expect(
+        ColumnUtilityService.getResetAllFilteredColumnsMenuItem
+      ).toHaveBeenCalledWith(params);
     });
   });
 });

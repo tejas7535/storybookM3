@@ -10,7 +10,9 @@ import {
   ExcelStyle,
   FilterChangedEvent,
   FirstDataRenderedEvent,
+  GetMainMenuItemsParams,
   GridReadyEvent,
+  MenuItemDef,
   RowDataUpdatedEvent,
   RowDoubleClickedEvent,
   RowNode,
@@ -496,5 +498,14 @@ export class QuotationDetailsTableComponent implements OnInit {
         gqPositionId: event.data.gqPositionId,
       },
     });
+  }
+
+  getMainMenuItems(params: GetMainMenuItemsParams): (string | MenuItemDef)[] {
+    const menuItems: (MenuItemDef | string)[] = [...params.defaultItems];
+    menuItems.push(
+      ColumnUtilityService.getResetAllFilteredColumnsMenuItem(params)
+    );
+
+    return menuItems;
   }
 }
