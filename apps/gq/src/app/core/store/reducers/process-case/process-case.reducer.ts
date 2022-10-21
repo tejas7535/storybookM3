@@ -438,11 +438,32 @@ export const processCaseReducer = createReducer(
   ),
   on(
     uploadSelectionToSapSuccess,
-    (state: ProcessCaseState): ProcessCaseState => ({
+    (
+      state: ProcessCaseState,
+      { updatedQuotationDetails }
+    ): ProcessCaseState => ({
       ...state,
       quotation: {
         ...state.quotation,
         updateLoading: false,
+        item: {
+          ...state.quotation.item,
+          quotationDetails: state.quotation.item.quotationDetails.map(
+            (oldQuotationDetail: QuotationDetail) => {
+              const idx = updatedQuotationDetails.findIndex(
+                (updatedQuotationDetail: QuotationDetail) =>
+                  updatedQuotationDetail.gqPositionId ===
+                  oldQuotationDetail.gqPositionId
+              );
+
+              if (idx === -1) {
+                return oldQuotationDetail;
+              }
+
+              return updatedQuotationDetails[idx];
+            }
+          ),
+        },
       },
     })
   ),

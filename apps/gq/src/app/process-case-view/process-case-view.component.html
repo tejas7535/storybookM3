@@ -12,6 +12,28 @@
     "
     [breadcrumbs]="breadcrumbs$ | ngrxPush"
   >
+    <ng-container subheaderStatusIcon>
+      <div
+        class="relative h-5 w-5 rounded-full bg-opacity-20"
+        [ngClass]="{
+          'bg-primary': (sapStatus$ | ngrxPush) === SAP_STATUS.SYNCED,
+          'bg-error': (sapStatus$ | ngrxPush) === SAP_STATUS.NOT_SYNCED,
+          'bg-nordic-blue':
+            (sapStatus$ | ngrxPush) === SAP_STATUS.PARTIALLY_SYNCED
+        }"
+      >
+        <div
+          class="absolute top-1 left-1 h-3 w-3 rounded-full"
+          [ngClass]="{
+            'bg-primary': (sapStatus$ | ngrxPush) === SAP_STATUS.SYNCED,
+            'bg-error': (sapStatus$ | ngrxPush) === SAP_STATUS.NOT_SYNCED,
+            'bg-nordic-blue':
+              (sapStatus$ | ngrxPush) === SAP_STATUS.PARTIALLY_SYNCED
+          }"
+        ></div>
+      </div>
+    </ng-container>
+
     <ng-container subheaderTitleContent>
       <div class="flex flex-row">
         <span *ngIf="quotation.sapId" class="ml-4 text-low-emphasis">{{
@@ -27,6 +49,17 @@
       <schaeffler-share-button></schaeffler-share-button>
     </ng-container>
     <ng-container subheaderBlockContent>
+      <span
+        class="pl-9 pt-2 text-caption"
+        [ngClass]="{
+          'text-link': (sapStatus$ | ngrxPush) === SAP_STATUS.SYNCED,
+          'text-error': (sapStatus$ | ngrxPush) === SAP_STATUS.NOT_SYNCED,
+          'text-info': (sapStatus$ | ngrxPush) === SAP_STATUS.PARTIALLY_SYNCED
+        }"
+        *transloco="let t; read: 'shared.sapStatusLabels'"
+      >
+        {{ t(sapStatus$ | ngrxPush) }}
+      </span>
       <gq-customer-header
         [customer]="quotation.customer"
         [showDetailsButton]="false"

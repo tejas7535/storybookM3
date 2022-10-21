@@ -44,6 +44,7 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   lastCustomerPriceDate: '2020-12-17T09:29:34',
   lastCustomerPriceCondition: LastCustomerPriceCondition.CA,
   lastCustomerPriceQuantity: 50,
+  syncInSap: false,
 
   priceDiff: 17.65,
   gpc: 20,

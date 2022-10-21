@@ -11,9 +11,11 @@ import {
   getCustomerLoading,
   getGqId,
   getQuotationLoading,
+  getQuotationSapSyncStatus,
 } from '../core/store/selectors';
 import { Tab } from '../shared/components/tabs-header/tab.model';
 import { Quotation } from '../shared/models';
+import { SAP_SYNC_STATUS } from '../shared/models/quotation-detail/sap-sync-status.enum';
 import { BreadcrumbsService } from '../shared/services/breadcrumbs-service/breadcrumbs.service';
 import { UpdateQuotationRequest } from '../shared/services/rest-services/quotation-service/models/update-quotation-request.model';
 import { ProcessCaseRoutePath } from './process-case-route-path.enum';
@@ -28,6 +30,9 @@ export class ProcessCaseViewComponent implements OnInit {
   public customerLoading$: Observable<boolean>;
   public quotationLoading$: Observable<boolean>;
   public breadcrumbs$: Observable<Breadcrumb[]>;
+  public sapStatus$: Observable<string>;
+
+  SAP_STATUS = SAP_SYNC_STATUS;
 
   public tabs: Tab[];
 
@@ -40,6 +45,7 @@ export class ProcessCaseViewComponent implements OnInit {
     this.quotation$ = this.store.select(getQuotation);
     this.customerLoading$ = this.store.select(getCustomerLoading);
     this.quotationLoading$ = this.store.select(getQuotationLoading);
+    this.sapStatus$ = this.store.select(getQuotationSapSyncStatus);
     this.breadcrumbs$ = this.store
       .select(getGqId)
       .pipe(

@@ -33,6 +33,7 @@ import {
   getGqId,
   getQuotation,
   getQuotationLoading,
+  getQuotationSapSyncStatus,
   updateQuotation,
 } from '../core/store';
 import { CustomStatusBarModule } from '../shared/ag-grid/custom-status-bar/custom-status-bar.module';
@@ -40,6 +41,7 @@ import { AddEntryModule } from '../shared/components/case-material/add-entry/add
 import { InputTableModule } from '../shared/components/case-material/input-table/input-table.module';
 import { CustomerHeaderModule } from '../shared/components/header/customer-header/customer-header.module';
 import { TabsHeaderComponent } from '../shared/components/tabs-header/tabs-header.component';
+import { SAP_SYNC_STATUS } from '../shared/models/quotation-detail/sap-sync-status.enum';
 import { SharedPipesModule } from '../shared/pipes/shared-pipes.module';
 import { HelperService } from '../shared/services/helper-service/helper-service.service';
 import { UpdateQuotationRequest } from '../shared/services/rest-services/quotation-service/models/update-quotation-request.model';
@@ -153,6 +155,22 @@ describe('ProcessCaseViewComponent', () => {
 
         m.expect(component.quotationLoading$).toBeObservable(
           m.cold('a', { a: true })
+        );
+      })
+    );
+
+    test(
+      'should set sapStatus$',
+      marbles((m) => {
+        store.overrideSelector(
+          getQuotationSapSyncStatus,
+          SAP_SYNC_STATUS.NOT_SYNCED
+        );
+
+        component.ngOnInit();
+
+        m.expect(component.sapStatus$).toBeObservable(
+          m.cold('a', { a: SAP_SYNC_STATUS.NOT_SYNCED })
         );
       })
     );

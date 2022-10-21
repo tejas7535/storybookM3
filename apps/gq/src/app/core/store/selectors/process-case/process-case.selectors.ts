@@ -10,6 +10,7 @@ import {
   QuotationDetail,
 } from '../../../../shared/models/quotation-detail';
 import { PriceUnitForQuotationItemId } from '../../../../shared/models/quotation-detail/price-units-for-quotation-item-ids.model';
+import { SAP_SYNC_STATUS } from '../../../../shared/models/quotation-detail/sap-sync-status.enum';
 import {
   MaterialQuantities,
   MaterialTableItem,
@@ -73,6 +74,27 @@ export const getTableContextQuotationForCustomerCurrency = createSelector(
 export const getQuotationLoading = createSelector(
   getProcessCaseState,
   (state: ProcessCaseState): boolean => state.quotation.quotationLoading
+);
+
+export const getQuotationSapSyncStatus = createSelector(
+  getProcessCaseState,
+  (state: ProcessCaseState): string => {
+    if (
+      state.quotation.item.quotationDetails.every(
+        (quotationDetail: QuotationDetail) => quotationDetail.syncInSap
+      )
+    ) {
+      return SAP_SYNC_STATUS.SYNCED;
+    } else if (
+      state.quotation.item.quotationDetails.every(
+        (quotationDetail: QuotationDetail) => !quotationDetail.syncInSap
+      )
+    ) {
+      return SAP_SYNC_STATUS.NOT_SYNCED;
+    } else {
+      return SAP_SYNC_STATUS.PARTIALLY_SYNCED;
+    }
+  }
 );
 
 export const getSelectedQuotationIdentifier = createSelector(

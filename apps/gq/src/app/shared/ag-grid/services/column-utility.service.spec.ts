@@ -1,7 +1,11 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
-import { ValueFormatterParams, ValueGetterParams } from 'ag-grid-community';
+import {
+  ColDef,
+  ValueFormatterParams,
+  ValueGetterParams,
+} from 'ag-grid-community';
 import { MockProvider } from 'ng-mocks';
 
 import {
@@ -12,7 +16,7 @@ import {
 import { CalculationType } from '../../../core/store/reducers/sap-price-details/models/calculation-type.enum';
 import { LOCALE_DE, LOCALE_EN } from '../../constants';
 import { UserRoles } from '../../constants/user-roles.enum';
-import { Keyboard } from '../../models';
+import { Keyboard, Quotation } from '../../models';
 import {
   LastCustomerPriceCondition,
   PriceSource,
@@ -205,6 +209,31 @@ describe('CreateColumnService', () => {
       );
 
       expect(res).toBeTruthy();
+    });
+  });
+
+  describe('filterSAPColumns', () => {
+    const colDefs: ColDef[] = [
+      { field: ColumnFields.MATERIAL_NUMBER_15 },
+      { field: ColumnFields.SAP_STATUS },
+      { field: ColumnFields.STRATEGIC_MATERIAL },
+    ];
+
+    test('should remove SAP_STATUS Column if sapId is NOT set', () => {
+      const quotation = { ...QUOTATION_MOCK, sapId: undefined } as Quotation;
+      const res = ColumnUtilityService.filterSAPColumns(colDefs, quotation);
+
+      expect(res).toEqual([
+        { field: ColumnFields.MATERIAL_NUMBER_15 },
+        { field: ColumnFields.STRATEGIC_MATERIAL },
+      ]);
+    });
+
+    test('should keep SAP_STATUS Column if sapId is set', () => {
+      const quotation = QUOTATION_MOCK;
+      const res = ColumnUtilityService.filterSAPColumns(colDefs, quotation);
+
+      expect(res).toEqual(colDefs);
     });
   });
 

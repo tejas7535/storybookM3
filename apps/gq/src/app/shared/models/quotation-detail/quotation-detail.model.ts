@@ -48,6 +48,7 @@ export class QuotationDetail {
   public filteredSapConditionDetails: SapPriceConditionDetail[];
   public materialClassificationSOP: string;
   public strategicMaterial: string;
+  public syncInSap: boolean;
 
   // properties added in GQ application
   public priceDiff: number;

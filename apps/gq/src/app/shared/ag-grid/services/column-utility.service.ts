@@ -11,7 +11,7 @@ import {
 import { CalculationType } from '../../../core/store/reducers/sap-price-details/models/calculation-type.enum';
 import { getNumberFilterRegex, LOCALE_DE, LOCALE_EN } from '../../constants';
 import { UserRoles } from '../../constants/user-roles.enum';
-import { Keyboard } from '../../models';
+import { Keyboard, Quotation } from '../../models';
 import { PriceSource, QuotationDetail } from '../../models/quotation-detail';
 import { LastCustomerPriceCondition } from '../../models/quotation-detail/last-customer-price-condition.enum';
 import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
@@ -103,6 +103,19 @@ export class ColumnUtilityService {
           )
         )
       : true;
+  }
+
+  static filterSAPColumns(
+    columnDefs: ColDef[],
+    quotation: Quotation
+  ): ColDef[] {
+    if (!quotation.sapId) {
+      return columnDefs.filter(
+        (colDef: ColDef) => colDef.field !== ColumnFields.SAP_STATUS
+      );
+    }
+
+    return columnDefs;
   }
 
   static infoComparator(info1: any, info2: any): number {

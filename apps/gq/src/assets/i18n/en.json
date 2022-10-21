@@ -40,6 +40,7 @@
         "mp": "Manual Pricing",
         "se": "Sector Pricing"
       },
+      "sapStatus": "Status",
       "materialDescription": "Description",
       "materialNumber": "Material",
       "netValue": "Net Value",
@@ -190,6 +191,11 @@
         "materialNumber": "Material Number (15-digits)",
         "quantity": "Quantity"
       }
+    },
+    "sapStatusLabels": {
+      "notSynced": "Not synced with SAP",
+      "synced": "Synced with SAP",
+      "partiallySynced": "Partially synced with SAP"
     },
     "customStatusBar": {
       "buttons": {

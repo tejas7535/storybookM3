@@ -225,9 +225,10 @@ describe('CaseActions', () => {
       });
     });
     test('uploadSelectionToSapSuccess', () => {
-      action = uploadSelectionToSapSuccess();
+      action = uploadSelectionToSapSuccess({ updatedQuotationDetails: [] });
 
       expect(action).toEqual({
+        updatedQuotationDetails: [],
         type: '[Process Case] Upload selection to Sap Success',
       });
     });

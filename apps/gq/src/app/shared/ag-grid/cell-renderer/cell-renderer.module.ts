@@ -15,6 +15,7 @@ import { GqIdComponent } from './gq-id/gq-id.component';
 import { GqRatingComponent } from './gq-rating/gq-rating.component';
 import { InfoCellComponent } from './info-cell/info-cell.component';
 import { PositionIdComponent } from './position-id/position-id.component';
+import { SapStatusCellComponent } from './sap-sync-status-cell/sap-sync-status-cell.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { PositionIdComponent } from './position-id/position-id.component';
     GqIdComponent,
     EditCommentComponent,
     EditCellComponent,
+    SapStatusCellComponent,
   ],
   imports: [
     CommonModule,

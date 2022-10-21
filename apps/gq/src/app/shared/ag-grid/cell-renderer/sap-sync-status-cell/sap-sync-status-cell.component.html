@@ -1,0 +1,12 @@
+<span
+  class="rounded-full bg-opacity-10 px-2 py-1 text-caption"
+  [ngClass]="{
+    'text-link': syncedInSap,
+    'bg-primary': syncedInSap,
+    'text-error': !syncedInSap,
+    'bg-error': !syncedInSap
+  }"
+  *ngIf="params?.syncedText && params?.notSyncedText"
+>
+  {{ syncedInSap ? params.syncedText : params.notSyncedText }}
+</span>

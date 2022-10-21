@@ -45,6 +45,22 @@ export class ColumnDefService {
       filterParams: FILTER_PARAMS,
     },
     {
+      headerName: translate('shared.quotationDetailsTable.sapStatus'),
+      field: ColumnFields.SAP_STATUS,
+      filterParams: {
+        ...FILTER_PARAMS,
+        valueFormatter: (params: any) =>
+          params.value === 'true'
+            ? translate('shared.sapStatusLabels.synced')
+            : translate('shared.sapStatusLabels.notSynced'),
+      },
+      cellRenderer: 'SapStatusCellComponent',
+      cellRendererParams: {
+        syncedText: translate('shared.sapStatusLabels.synced'),
+        notSyncedText: translate('shared.sapStatusLabels.notSynced'),
+      },
+    },
+    {
       headerName: translate('shared.quotationDetailsTable.materialDescription'),
       field: 'material.materialDescription',
       filterParams: FILTER_PARAMS,

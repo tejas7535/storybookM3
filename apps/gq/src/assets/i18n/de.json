@@ -40,6 +40,7 @@
         "mp": "Manueller Preis",
         "se": "Sektor Preis"
       },
+      "sapStatus": "Status",
       "materialDescription": "Materialbezeichnung",
       "materialNumber": "Material",
       "netValue": "Nettowert",
@@ -190,6 +191,11 @@
         "materialNumber": "Material Nummer (15-stellig)",
         "quantity": "Menge"
       }
+    },
+    "sapStatusLabels": {
+      "notSynced": "Nicht mit SAP synchronisiert",
+      "synced": "Mit SAP synchronisiert",
+      "partiallySynced": "Teilweise mit SAP synchronisiert"
     },
     "customStatusBar": {
       "buttons": {

@@ -149,7 +149,8 @@ export const uploadSelectionToSapFailure = createAction(
 );
 
 export const uploadSelectionToSapSuccess = createAction(
-  '[Process Case] Upload selection to Sap Success'
+  '[Process Case] Upload selection to Sap Success',
+  props<{ updatedQuotationDetails: QuotationDetail[] }>()
 );
 
 export const refreshSapPricing = createAction(

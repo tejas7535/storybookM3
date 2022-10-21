@@ -381,7 +381,9 @@ export class ProcessCaseEffect {
             );
             this.snackBar.open(successMessage);
           }),
-          map(uploadSelectionToSapSuccess),
+          map((updatedQuotationDetails: QuotationDetail[]) =>
+            uploadSelectionToSapSuccess({ updatedQuotationDetails })
+          ),
           catchError((errorMessage) =>
             of(uploadSelectionToSapFailure({ errorMessage }))
           )

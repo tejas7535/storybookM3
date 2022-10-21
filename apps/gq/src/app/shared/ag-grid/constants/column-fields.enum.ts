@@ -1,5 +1,6 @@
 export enum ColumnFields {
   MATERIAL_NUMBER_15 = 'material.materialNumber15',
+  SAP_STATUS = 'syncInSap',
   UOM = 'material.baseUoM',
   GPI = 'gpi',
   PROFIT_MARGIN = 'profitMargin',

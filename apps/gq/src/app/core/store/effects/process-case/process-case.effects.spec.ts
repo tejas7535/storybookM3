@@ -723,11 +723,13 @@ describe('ProcessCaseEffect', () => {
         snackBar.open = jest.fn();
 
         action = uploadSelectionToSap({ gqPositionIds: ['1'] });
-        const result = uploadSelectionToSapSuccess();
+        const result = uploadSelectionToSapSuccess({
+          updatedQuotationDetails: [],
+        });
         quotationService.uploadSelectionToSap = jest.fn(() => response);
 
         actions$ = m.hot('-a', { a: action });
-        const response = m.cold('-a|');
+        const response = m.cold('-a|', { a: [] });
         const expected = m.cold('--b', { b: result });
 
         m.expect(effects.uploadSelectionToSap$).toBeObservable(expected);

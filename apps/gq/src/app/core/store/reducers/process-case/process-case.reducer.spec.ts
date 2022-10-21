@@ -547,9 +547,65 @@ describe('Quotation Reducer', () => {
     });
     describe('uploadSelectionToSapSuccess', () => {
       test('should set loading false', () => {
-        const action = uploadSelectionToSapSuccess();
+        const action = uploadSelectionToSapSuccess({
+          updatedQuotationDetails: [],
+        });
         const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
         expect(state.quotation.updateLoading).toBeFalsy();
+      });
+
+      test('should update only updatedQuoationDetails', () => {
+        const mockState = {
+          ...PROCESS_CASE_STATE_MOCK,
+          quotation: {
+            ...PROCESS_CASE_STATE_MOCK.quotation,
+            item: {
+              ...PROCESS_CASE_STATE_MOCK.quotation.item,
+              quotationDetails: [
+                {
+                  ...QUOTATION_DETAIL_MOCK,
+                  gqPositionId: '123',
+                  syncInSap: false,
+                },
+                {
+                  ...QUOTATION_DETAIL_MOCK,
+                  gqPositionId: '456',
+                  syncInSap: false,
+                },
+                {
+                  ...QUOTATION_DETAIL_MOCK,
+                  gqPositionId: '789',
+                  syncInSap: false,
+                },
+              ],
+            },
+          },
+        };
+
+        const action = uploadSelectionToSapSuccess({
+          updatedQuotationDetails: [
+            { ...QUOTATION_DETAIL_MOCK, gqPositionId: '456', syncInSap: true },
+          ],
+        });
+
+        const state = processCaseReducer(mockState, action);
+        expect(state.quotation.item.quotationDetails).toEqual([
+          {
+            ...QUOTATION_DETAIL_MOCK,
+            gqPositionId: '123',
+            syncInSap: false,
+          },
+          {
+            ...QUOTATION_DETAIL_MOCK,
+            gqPositionId: '456',
+            syncInSap: true,
+          },
+          {
+            ...QUOTATION_DETAIL_MOCK,
+            gqPositionId: '789',
+            syncInSap: false,
+          },
+        ]);
       });
     });
     describe('uploadSelectionToSapFailure', () => {
