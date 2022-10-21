@@ -11,7 +11,7 @@
 ![jest: 28.1.3](https://img.shields.io/badge/jest-28.1.3-brightgreen)
 ![cypress: 7.3.0](https://img.shields.io/badge/cypress-7.3.0-brightgreen)
 ![prettier: 2.7.1](https://img.shields.io/badge/prettier-2.7.1-brightgreen)
-![tailwindcss: 3.1.8](https://img.shields.io/badge/tailwindcss-3.1.8-brightgreen)
+![tailwindcss: 3.2.0](https://img.shields.io/badge/tailwindcss-3.2.0-brightgreen)
 
 Monorepository based on [Nx](https://nx.dev) to support and improve the development of modern web applications.
 
