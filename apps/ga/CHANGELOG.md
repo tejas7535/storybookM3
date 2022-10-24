@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.2.15](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.14...ga-v1.2.15) (2022-10-24)
+
+
+### 🎸 Features
+
+* **ga:** mobile optimizations ([#4720](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4720)) ([bc05ba1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bc05ba19f7fb7197dedc82ab77e95110a28702e7))
+
+
+### 🐛 Bug Fixes
+
+* **ga:** add missing bearings to calculate ([#4731](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4731)) ([c713b5f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c713b5fdb28afbf1e5a32f68d317bd0132e02bd8))
+
 ### [1.2.14](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.13...ga-v1.2.14) (2022-10-18)
 
 
