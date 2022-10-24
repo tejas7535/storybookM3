@@ -1,7 +1,7 @@
 import { Directive } from '@angular/core';
 import {
-  UntypedFormControl,
   NG_VALIDATORS,
+  UntypedFormControl,
   ValidationErrors,
   Validator,
 } from '@angular/forms';

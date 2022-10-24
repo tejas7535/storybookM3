@@ -8,5 +8,5 @@ export * from './overview-exit-entry-employees-response.model';
 export * from './overview-fluctuation-rates.model';
 export * from './overview-fluctuation-rates.model';
 export * from './percentage-fluctuation-rate.model';
-export * from './resigned-employees-response.model';
 export * from './resigned-employee.model';
+export * from './resigned-employees-response.model';

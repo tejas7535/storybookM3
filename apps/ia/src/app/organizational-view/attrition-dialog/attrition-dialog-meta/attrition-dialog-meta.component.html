@@ -1,6 +1,6 @@
 <div *transloco="let t; read: 'organizationalView.attritionDialog'">
   <h6
-    class="text-overline mt-0 mr-0 mb-2 ml-1 font-medium leading-4 text-medium-emphasis"
+    class="mt-0 mr-0 mb-2 ml-1 text-overline font-medium leading-4 text-medium-emphasis"
   >
     {{ t('metaTitle') }} ({{ meta.selectedTimeRange }})
   </h6>
@@ -22,7 +22,8 @@
           [relative]="true"
           [diameter]="20"
           [strokeWidth]="2"
-        ></schaeffler-loading-spinner>
+        >
+        </schaeffler-loading-spinner>
       </ng-template>
     </div>
     <div class="flex items-center text-body-1 leading-8">
@@ -45,7 +46,8 @@
           [diameter]="20"
           [strokeWidth]="2"
           [relative]="true"
-        ></schaeffler-loading-spinner>
+        >
+        </schaeffler-loading-spinner>
       </ng-template>
     </div>
   </ng-container>

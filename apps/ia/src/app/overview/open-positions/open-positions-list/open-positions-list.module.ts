@@ -3,8 +3,8 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';

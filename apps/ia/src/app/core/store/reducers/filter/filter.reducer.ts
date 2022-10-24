@@ -65,6 +65,7 @@ export const initialState: FilterState = {
           loading: false,
           items: [],
           errorMessage: undefined,
+          // eslint-disable-next-line no-sequences
         }),
         map
       ),
