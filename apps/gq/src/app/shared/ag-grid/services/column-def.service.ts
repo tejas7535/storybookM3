@@ -5,6 +5,10 @@ import { translate, TranslocoService } from '@ngneat/transloco';
 import { ColDef, ValueGetterParams } from 'ag-grid-enterprise';
 
 import { EditCellData } from '../../ag-grid/cell-renderer/models/edit-cell-class-params.model';
+import {
+  FreeStockCellComponent,
+  FreeStockCellParams,
+} from '../cell-renderer/free-stock/free-stock-cell/free-stock-cell.component';
 import { GqPriceCellComponent } from '../cell-renderer/gq-price-cell/gq-price-cell.component';
 import { SapPriceCellComponent } from '../cell-renderer/sap-price-cell/sap-price-cell.component';
 import { ColumnFields } from '../constants/column-fields.enum';
@@ -531,6 +535,10 @@ export class ColumnDefService {
           'shared.quotationDetailsTable.freeStockInfoText'
         ),
       },
+      cellRenderer: FreeStockCellComponent,
+      cellRendererParams: (params: FreeStockCellParams) => ({
+        uom: params.data.material.baseUoM,
+      }),
     },
     {
       headerName: translate('shared.quotationDetailsTable.dateNextFreeAtp'),

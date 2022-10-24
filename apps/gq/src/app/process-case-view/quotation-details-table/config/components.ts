@@ -1,5 +1,6 @@
 import { EditCellComponent } from '../../../shared/ag-grid/cell-renderer/edit-cells/edit-cell/edit-cell.component';
 import { EditCommentComponent } from '../../../shared/ag-grid/cell-renderer/edit-cells/edit-comment/edit-comment.component';
+import { FreeStockCellComponent } from '../../../shared/ag-grid/cell-renderer/free-stock/free-stock-cell/free-stock-cell.component';
 import { GqRatingComponent } from '../../../shared/ag-grid/cell-renderer/gq-rating/gq-rating.component';
 import { PositionIdComponent } from '../../../shared/ag-grid/cell-renderer/position-id/position-id.component';
 import { SapStatusCellComponent } from '../../../shared/ag-grid/cell-renderer/sap-sync-status-cell/sap-sync-status-cell.component';
@@ -25,6 +26,7 @@ export const COMPONENTS = {
   PositionIdComponent,
   EditCommentComponent,
   EditCellComponent,
+  FreeStockCellComponent,
   RefreshSapPriceComponent,
   ConfirmSimulationButtonComponent,
   DiscardSimulationButtonComponent,

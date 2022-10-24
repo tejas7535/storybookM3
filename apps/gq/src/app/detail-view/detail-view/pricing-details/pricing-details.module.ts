@@ -9,6 +9,7 @@ import { PushModule } from '@ngrx/component';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { FreeStockTrafficLightComponent } from '../../../shared/components/free-stock-traffic-light/free-stock-traffic-light.component';
 import { InfoIconModule } from '../../../shared/components/info-icon/info-icon.module';
 import { LabelTextModule } from '../../../shared/components/label-text/label-text.module';
 import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
@@ -40,6 +41,7 @@ import { SupplyChainDetailsComponent } from './supply-chain-details/supply-chain
     LoadingSpinnerModule,
     LabelTextModule,
     InfoIconModule,
+    FreeStockTrafficLightComponent,
   ],
   providers: [
     {
