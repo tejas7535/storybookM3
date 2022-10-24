@@ -257,10 +257,9 @@ void downloadArtifact(target, output) {
 }
 
 // 1. Only delete files -> do not delete whole folders (e.g. dont delete the whole cdba folder)
-// 2. Only delete files in the bugfix, feature, hotfix and renovate folders
-// Do not delete files in the release folder and in the root (e.g. latest.zip & next.zip)
+// 2. Only delete files which are not are release, latest or next
 boolean artifactoryFileCanBeRemoved(artifactoryFile) {
-    return !artifactoryFile.folder && (artifactoryFile.uri.contains('bugfix/') || artifactoryFile.uri.contains('feature/') || artifactoryFile.uri.contains('hotfix/') || artifactoryFile.uri.contains('renovate/'))
+    return !artifactoryFile.folder && !artifactoryFile.uri.contains('release/') && !artifactoryFile.uri.contains('latest.zip') && !artifactoryFile.uri.contains('next.zip')
 }
 
 // remove @ because frontend deployment pipelines add docker tags with BRANCH_NAME as value and '@' is not allowed in docker tags
