@@ -2,7 +2,11 @@
 import { Injectable } from '@angular/core';
 
 import { translate, TranslocoService } from '@ngneat/transloco';
-import { ColDef, ValueGetterParams } from 'ag-grid-enterprise';
+import {
+  ColDef,
+  ValueFormatterParams,
+  ValueGetterParams,
+} from 'ag-grid-enterprise';
 
 import { EditCellData } from '../../ag-grid/cell-renderer/models/edit-cell-class-params.model';
 import {
@@ -53,11 +57,15 @@ export class ColumnDefService {
       field: ColumnFields.SAP_STATUS,
       filterParams: {
         ...FILTER_PARAMS,
-        valueFormatter: (params: any) =>
+        valueFormatter: (params: ValueFormatterParams) =>
           params.value === 'true'
             ? translate('shared.sapStatusLabels.synced')
             : translate('shared.sapStatusLabels.notSynced'),
       },
+      valueFormatter: (params: ValueFormatterParams) =>
+        params.value
+          ? translate('shared.sapStatusLabels.synced')
+          : translate('shared.sapStatusLabels.notSynced'),
       cellRenderer: 'SapStatusCellComponent',
       cellRendererParams: {
         syncedText: translate('shared.sapStatusLabels.synced'),

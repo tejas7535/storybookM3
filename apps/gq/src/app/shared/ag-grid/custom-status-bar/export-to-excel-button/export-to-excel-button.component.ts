@@ -70,6 +70,7 @@ export class ExportToExcelButtonComponent implements OnInit {
     ColumnFields.LAST_CUSTOMER_PRICE_CONDITION,
     ColumnFields.UOM,
     ColumnFields.DATE_NEXT_FREE_ATP,
+    ColumnFields.SAP_STATUS,
   ];
 
   constructor(
