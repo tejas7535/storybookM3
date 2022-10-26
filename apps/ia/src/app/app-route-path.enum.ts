@@ -3,7 +3,7 @@ export enum AppRoutePath {
   OverviewPath = 'overview',
   OrganizationalViewPath = 'organizational-view',
   LossOfSkillPath = 'loss-of-skill',
-  ReasonsAndCounterMeasuresPath = 'reasons-and-counter-measures',
+  ReasonsAndCounterMeasuresPath = 'reasons-for-leaving',
   FluctuationAnalyticsPath = 'fluctuation-analytics',
   ForbiddenPath = 'forbidden',
   LegalPath = 'legal',
