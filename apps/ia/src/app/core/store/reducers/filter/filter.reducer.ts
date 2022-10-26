@@ -95,7 +95,7 @@ export const initialState: FilterState = {
     },
   }),
   selectedTimePeriod: TimePeriod.LAST_12_MONTHS,
-  selectedDimension: FilterDimension.ORG_UNIT,
+  selectedDimension: undefined,
 };
 
 export const filterReducer = createReducer(

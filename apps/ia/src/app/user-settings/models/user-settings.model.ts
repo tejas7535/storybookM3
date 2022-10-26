@@ -1,4 +1,7 @@
+import { FilterDimension } from '../../shared/models';
+
 export interface UserSettings {
-  orgUnitKey: string;
-  orgUnitDisplayName: string;
+  dimension: FilterDimension;
+  dimensionKey: string;
+  dimensionDisplayName: string;
 }

@@ -1,14 +1,15 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
 import {
+  loadFilterDimensionData,
   loadFilterDimensionDataFailure,
   loadFilterDimensionDataSuccess,
 } from '../../core/store/actions';
 import { UserSettings } from '../models/user-settings.model';
 import {
   loadUserSettings,
+  loadUserSettingsDimensionData,
   loadUserSettingsFailure,
-  loadUserSettingsOrgUnits,
   loadUserSettingsSuccess,
   updateUserSettings,
   updateUserSettingsFailure,
@@ -22,7 +23,7 @@ export interface UserSettingsState {
   loading: boolean;
   errorMessage: string;
   dialog: {
-    orgUnitsLoading: boolean;
+    businessAreaValuesLoading: boolean;
   };
 }
 
@@ -31,7 +32,7 @@ export const initialState: UserSettingsState = {
   loading: false,
   errorMessage: undefined,
   dialog: {
-    orgUnitsLoading: false,
+    businessAreaValuesLoading: false,
   },
 };
 
@@ -84,11 +85,20 @@ export const userSettingsReducer = createReducer(
     })
   ),
   on(
-    loadUserSettingsOrgUnits,
+    loadUserSettingsDimensionData,
     (state: UserSettingsState): UserSettingsState => ({
       ...state,
       dialog: {
-        orgUnitsLoading: true,
+        businessAreaValuesLoading: true,
+      },
+    })
+  ),
+  on(
+    loadFilterDimensionData,
+    (state: UserSettingsState): UserSettingsState => ({
+      ...state,
+      dialog: {
+        businessAreaValuesLoading: true,
       },
     })
   ),
@@ -97,7 +107,7 @@ export const userSettingsReducer = createReducer(
     (state: UserSettingsState): UserSettingsState => ({
       ...state,
       dialog: {
-        orgUnitsLoading: false,
+        businessAreaValuesLoading: false,
       },
     })
   ),
@@ -106,7 +116,7 @@ export const userSettingsReducer = createReducer(
     (state: UserSettingsState): UserSettingsState => ({
       ...state,
       dialog: {
-        orgUnitsLoading: false,
+        businessAreaValuesLoading: false,
       },
     })
   )

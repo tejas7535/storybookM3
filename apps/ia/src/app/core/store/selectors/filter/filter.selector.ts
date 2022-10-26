@@ -38,6 +38,18 @@ export const getBusinessAreaFilter = createSelector(
       : undefined
 );
 
+export const getSpecificBusinessAreaFilter = (dimension: FilterDimension) =>
+  createSelector(selectFilterState, (state: FilterState) =>
+    state.data[dimension]
+      ? new Filter(
+          Object.entries(FilterDimension).find(
+            ([_, value]) => value === dimension
+          )?.[1],
+          state.data[dimension].items
+        )
+      : undefined
+  );
+
 export const getOrgUnitsLoading = createSelector(
   selectFilterState,
   (state: FilterState) => state.data[FilterDimension.ORG_UNIT].loading

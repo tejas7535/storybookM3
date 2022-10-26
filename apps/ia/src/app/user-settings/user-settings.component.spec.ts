@@ -1,4 +1,7 @@
 import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { Spectator } from '@ngneat/spectator';
 import { createComponentFactory } from '@ngneat/spectator/jest';
@@ -12,9 +15,9 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { getUserRoles } from '../core/store/selectors';
 import { AutocompleteInputModule } from '../shared/autocomplete-input/autocomplete-input.module';
-import { FilterDimension, SelectedFilter } from '../shared/models';
-import { updateUserSettings } from './store/actions/user-settings.action';
-import { getUserOrgUnit } from './store/selectors/user-settings.selector';
+import { FilterDimension } from '../shared/models';
+import { showUserSettingsDialog } from './store/actions/user-settings.action';
+import { getFavoriteDimensionDisplayName } from './store/selectors/user-settings.selector';
 import { UserSettingsComponent } from './user-settings.component';
 
 describe('UserSettingsComponent', () => {
@@ -31,6 +34,9 @@ describe('UserSettingsComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
       MatDividerModule,
       RolesAndRightsModule,
+      MatIconModule,
+      MatInputModule,
+      MatTooltipModule,
     ],
     providers: [
       provideMockStore({
@@ -85,15 +91,15 @@ describe('UserSettingsComponent', () => {
 
   describe('ngOnInit', () => {
     test(
-      'should set selectedOrgUnit',
+      'should set favoriteDimension',
       marbles((m) => {
-        const orgUnit = 'Example org';
-        store.overrideSelector(getUserOrgUnit, orgUnit);
-        const expected = m.cold('a', { a: orgUnit });
+        const dim = 'Example org';
+        store.overrideSelector(getFavoriteDimensionDisplayName, dim);
+        const expected = m.cold('a', { a: dim });
 
         component.ngOnInit();
 
-        m.expect(component.selectedOrgUnit$).toBeObservable(expected);
+        m.expect(component.favoriteDimension$).toBeObservable(expected);
       })
     );
 
@@ -121,43 +127,13 @@ describe('UserSettingsComponent', () => {
     );
   });
 
-  describe('optionSelected', () => {
-    test('should save user`s resort', () => {
-      const selectedFilter: SelectedFilter = new SelectedFilter(
-        FilterDimension.ORG_UNIT,
-        {
-          id: 'Sales',
-          value: 'Sales',
-        }
-      );
-      component.saveOrgUnit = jest.fn();
+  describe('editUserSettings', () => {
+    test('should dispatch action', () => {
+      store.dispatch = jest.fn();
 
-      component.optionSelected(selectedFilter);
+      component.editUserSettings();
 
-      expect(component.saveOrgUnit).toHaveBeenCalledWith(selectedFilter);
-    });
-  });
-
-  describe('saveOrgUnit', () => {
-    test('should save user`s resort', () => {
-      const selectedFilter: SelectedFilter = new SelectedFilter(
-        FilterDimension.ORG_UNIT,
-        {
-          id: 'Sales',
-          value: 'Sales',
-        }
-      );
-
-      component.saveOrgUnit(selectedFilter);
-
-      expect(store.dispatch).toHaveBeenCalledWith(
-        updateUserSettings({
-          data: {
-            orgUnitKey: selectedFilter.idValue.id,
-            orgUnitDisplayName: selectedFilter.idValue.value,
-          },
-        })
-      );
+      expect(store.dispatch).toHaveBeenCalledWith(showUserSettingsDialog());
     });
   });
 });

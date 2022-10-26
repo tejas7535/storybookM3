@@ -1,28 +1,30 @@
-<div class="px-5">
+<div class="px-5" *transloco="let t; read: 'userSettings'">
   <div class="py-4">
-    <div
-      class="ng-star-inserted mb-4 text-subtitle-1 text-medium-emphasis"
-      *transloco="let t; read: 'userSettings'"
-    >
+    <div class="ng-star-inserted mb-4 text-subtitle-1 text-medium-emphasis">
       {{ t('title') }}
     </div>
 
-    <div class="py-4 px-5" *transloco="let t; read: 'userSettings'">
+    <div class="py-4 px-5">
       <schaeffler-language-select
         [reloadOnLanguageChange]="true"
         class="mb-3 block"
       ></schaeffler-language-select>
-      <ia-autocomplete-input
-        [filter]="orgUnitsFilter$ | ngrxPush"
-        [value]="selectedOrgUnit$ | ngrxPush"
-        [autoCompleteLoading]="orgUnitsLoading$ | ngrxPush"
-        [label]="t('orgUnitLabel')"
-        [hint]="t('orgUnitHint')"
-        [appearance]="'outline'"
-        [noResultMessage]="t('nothingFound')"
-        (selected)="optionSelected($event)"
-        (autoComplete)="autoCompleteOrgUnitsChange($event)"
-      ></ia-autocomplete-input>
+
+      <div class="flex gap-4">
+        <mat-form-field class="grow" appearance="outline">
+          <mat-label>{{ t('favoriteDimension') }}</mat-label>
+          <input matInput [value]="favoriteDimension$ | ngrxPush" disabled />
+          <button
+            mat-icon-button
+            [attr.aria-label]="t('editUserSettings')"
+            [matTooltip]="t('edit')"
+            (click)="editUserSettings()"
+            matSuffix
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
     </div>
   </div>
   <mat-divider></mat-divider>

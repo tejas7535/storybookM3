@@ -6,11 +6,11 @@ import { of } from 'rxjs';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { provideMockStore } from '@ngrx/store/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/marbles';
 
-import { filterSelected } from '../../../core/store/actions';
-import { FilterDimension } from '../../../shared/models';
+import { filterDimensionSelected } from '../../../core/store/actions';
+import { FilterDimension, IdValue } from '../../../shared/models';
 import { UserSettings } from '../../models/user-settings.model';
 import { UserSettingsService } from '../../user-settings.service';
 import { UserSettingsDialogComponent } from '../../user-settings-dialog/user-settings-dialog.component';
@@ -23,6 +23,10 @@ import {
   updateUserSettingsFailure,
   updateUserSettingsSuccess,
 } from '../actions/user-settings.action';
+import {
+  getFavoriteDimension,
+  getFavoriteDimensionIdValue,
+} from '../selectors/user-settings.selector';
 import { UserSettingsEffects } from './user-settings.effects';
 
 class MockDialog {
@@ -39,6 +43,7 @@ describe('User Settings Effects', () => {
   let dialog: MockDialog;
   let metadata: EffectsMetadata<UserSettingsEffects>;
   let snackbar: MatSnackBar;
+  let store: MockStore;
 
   const error = {
     message: 'An error message occured',
@@ -49,11 +54,7 @@ describe('User Settings Effects', () => {
     imports: [MatDialogModule, MatSnackBarModule],
     providers: [
       provideMockActions(() => actions$),
-      provideMockStore({
-        initialState: {
-          data: { orgUnit: 'Sales' },
-        },
-      }),
+      provideMockStore(),
       {
         provide: UserSettingsService,
         useValue: {
@@ -72,6 +73,7 @@ describe('User Settings Effects', () => {
     dialog = spectator.inject(MatDialog);
     metadata = getEffectsMetadata(effects);
     snackbar = spectator.inject(MatSnackBar);
+    store = spectator.inject(MockStore);
   });
 
   describe('loadUserSettings$', () => {
@@ -80,27 +82,33 @@ describe('User Settings Effects', () => {
     });
 
     test(
-      'should return loadUserSettingsSuccess and filterSelected on success and if org unit is set',
+      'should return loadUserSettingsSuccess and filterDimensionSelected on success and if org unit is set',
       marbles((m) => {
-        const orgUnitKey = '123';
-        const orgUnitDisplayName = 'SH/ZHZ-HR (Human resources reporting)';
+        const dimension = FilterDimension.BOARD;
+        const dimensionKey = '2';
+        const dimensionDisplayName = 'Two';
         const result = loadUserSettingsSuccess({
-          data: { orgUnitKey, orgUnitDisplayName },
+          data: {
+            dimension,
+            dimensionKey,
+            dimensionDisplayName,
+          },
         });
-        const resultFilter = filterSelected({
+        const resultFilter = filterDimensionSelected({
           filter: {
-            name: FilterDimension.ORG_UNIT,
+            name: dimension,
             idValue: {
-              id: orgUnitKey,
-              value: orgUnitDisplayName,
+              id: dimensionKey,
+              value: dimensionDisplayName,
             },
           },
+          filterDimension: dimension,
         });
 
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('--(bc)', { b: result, c: resultFilter });
         const response = m.cold('-c', {
-          c: { orgUnitKey, orgUnitDisplayName },
+          c: { dimension, dimensionKey, dimensionDisplayName },
         });
 
         userSettingsService.getUserSettings = jest
@@ -114,10 +122,14 @@ describe('User Settings Effects', () => {
     );
 
     test(
-      'should return loadUserSettingsSuccess and showUserSettingsDialog on success and if orgUnit not set',
+      'should return loadUserSettingsSuccess and showUserSettingsDialog on success and if dimensionKey not set',
       marbles((m) => {
         const resultSuccess = loadUserSettingsSuccess({
-          data: { orgUnitKey: undefined, orgUnitDisplayName: undefined },
+          data: {
+            dimensionKey: undefined,
+            dimension: FilterDimension.BOARD,
+            dimensionDisplayName: undefined,
+          },
         });
         const resultShowUpdate = showUserSettingsDialog();
 
@@ -127,7 +139,11 @@ describe('User Settings Effects', () => {
           c: resultShowUpdate,
         });
         const response = m.cold('-c', {
-          c: { orgUnitKey: undefined, orgUnitDisplayName: undefined },
+          c: {
+            dimensionKey: undefined,
+            dimension: FilterDimension.BOARD,
+            dimensionDisplayName: undefined,
+          },
         });
 
         userSettingsService.getUserSettings = jest
@@ -161,6 +177,17 @@ describe('User Settings Effects', () => {
   });
 
   describe('showUserSettingsDialog$', () => {
+    let dimension: FilterDimension;
+    let idValue: IdValue;
+
+    beforeEach(() => {
+      dimension = FilterDimension.BOARD;
+      idValue = new IdValue('1', 'test');
+
+      store.overrideSelector(getFavoriteDimension, dimension);
+      store.overrideSelector(getFavoriteDimensionIdValue, idValue);
+    });
+
     test('should have dispatch set to false', () => {
       expect(metadata.showUserSettingsDialog$).toEqual({
         dispatch: false,
@@ -178,6 +205,11 @@ describe('User Settings Effects', () => {
 
       expect(dialog.open).toHaveBeenCalledWith(UserSettingsDialogComponent, {
         disableClose: true,
+        data: {
+          dimension,
+          selectedBusinessArea: idValue,
+          initialLoad: false,
+        },
       });
     });
 
@@ -191,14 +223,20 @@ describe('User Settings Effects', () => {
 
       expect(dialog.open).toHaveBeenCalledWith(UserSettingsDialogComponent, {
         disableClose: true,
+        data: {
+          dimension,
+          selectedBusinessArea: idValue,
+          initialLoad: false,
+        },
       });
     });
   });
 
   describe('updateUserSettings$', () => {
     const data: UserSettings = {
-      orgUnitKey: '123',
-      orgUnitDisplayName: 'SH/ZHZ-HR (Human resources reporting)',
+      dimension: FilterDimension.BOARD,
+      dimensionKey: '123',
+      dimensionDisplayName: 'SH/ZHZ-HR (Human resources reporting)',
     };
 
     beforeEach(() => {
@@ -252,8 +290,9 @@ describe('User Settings Effects', () => {
     beforeEach(() => {
       action = updateUserSettingsSuccess({
         data: {
-          orgUnitKey: 'test',
-          orgUnitDisplayName: 'test-test',
+          dimension: FilterDimension.BOARD,
+          dimensionKey: '123',
+          dimensionDisplayName: 'SH/ZHZ-HR (Human resources reporting)',
         } as UserSettings,
       });
     });
@@ -284,18 +323,19 @@ describe('User Settings Effects', () => {
     });
 
     test(
-      'should return filterSelected',
+      'should return filterDimensionSelected',
       marbles((m) => {
         const filter = {
-          name: FilterDimension.ORG_UNIT,
+          name: FilterDimension.BOARD,
           idValue: {
-            id: 'test',
-            value: 'test-test',
+            id: '123',
+            value: 'SH/ZHZ-HR (Human resources reporting)',
           },
         };
 
-        const result = filterSelected({
+        const result = filterDimensionSelected({
           filter,
+          filterDimension: FilterDimension.BOARD,
         });
 
         actions$ = m.hot('-a', { a: action });

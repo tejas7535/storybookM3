@@ -1,14 +1,17 @@
+import { FilterDimension } from '../../../shared/models';
 import {
   loadUserSettings,
+  loadUserSettingsDimensionData,
   loadUserSettingsFailure,
   loadUserSettingsSuccess,
+  showUserSettingsDialog,
   updateUserSettings,
   updateUserSettingsFailure,
   updateUserSettingsSuccess,
 } from './user-settings.action';
 
 describe('User Settings Actions', () => {
-  describe('Load User`s Resort', () => {
+  describe('Load User Settings', () => {
     test('loadUserSettings', () => {
       const action = loadUserSettings();
 
@@ -18,15 +21,16 @@ describe('User Settings Actions', () => {
     });
 
     test('loadUserSettingsSuccess', () => {
-      const orgUnitKey = '123';
-      const orgUnitDisplayName = 'IT';
+      const dimension = FilterDimension.BOARD;
+      const dimensionKey = '123';
+      const dimensionDisplayName = 'IT';
       const action = loadUserSettingsSuccess({
-        data: { orgUnitKey, orgUnitDisplayName },
+        data: { dimension, dimensionKey, dimensionDisplayName },
       });
 
       expect(action).toEqual({
         type: '[User Settings] Load User`s Settings Success',
-        data: { orgUnitKey, orgUnitDisplayName },
+        data: { dimension, dimensionKey, dimensionDisplayName },
       });
     });
 
@@ -41,28 +45,29 @@ describe('User Settings Actions', () => {
   });
 
   describe('Update User Settings', () => {
-    const orgUnitKey = '123';
-    const orgUnitDisplayName = 'IT';
+    const dimension = FilterDimension.BOARD;
+    const dimensionKey = '123';
+    const dimensionDisplayName = 'IT';
 
     test('updateUserSettings', () => {
       const action = updateUserSettings({
-        data: { orgUnitKey, orgUnitDisplayName },
+        data: { dimensionKey, dimensionDisplayName },
       });
 
       expect(action).toEqual({
         type: '[User Settings] Update User`s Settings',
-        data: { orgUnitKey, orgUnitDisplayName },
+        data: { dimensionKey, dimensionDisplayName },
       });
     });
 
     test('updateUserSettingsSuccess', () => {
       const action = updateUserSettingsSuccess({
-        data: { orgUnitKey, orgUnitDisplayName },
+        data: { dimension, dimensionKey, dimensionDisplayName },
       });
 
       expect(action).toEqual({
         type: '[User Settings] Update User`s Settings Success',
-        data: { orgUnitKey, orgUnitDisplayName },
+        data: { dimension, dimensionKey, dimensionDisplayName },
       });
     });
 
@@ -73,6 +78,29 @@ describe('User Settings Actions', () => {
         type: '[User Settings] Update User`s Settings Failure',
         errorMessage: 'error',
       });
+    });
+  });
+
+  test('showUserSettingsDialog', () => {
+    const action = showUserSettingsDialog();
+
+    expect(action).toEqual({
+      type: '[User Settings] Show User Settings Dialog',
+    });
+  });
+
+  test('loadUserSettingsDimensionData', () => {
+    const searchFor = 'search';
+    const filterDimension = FilterDimension.BOARD;
+    const action = loadUserSettingsDimensionData({
+      searchFor,
+      filterDimension,
+    });
+
+    expect(action).toEqual({
+      type: '[Filter] Load User Settings Dimension Data',
+      searchFor,
+      filterDimension,
     });
   });
 });

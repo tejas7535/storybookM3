@@ -1,14 +1,19 @@
 {
   "title": "User Settings",
-  "orgUnitLabel": "Select organizational unit",
-  "orgUnitHint": "Please select the organizational unit for the application data",
-  "nothingFound": "Nothing found",
   "dialog": {
+    "dimensionLabel": "Select a dimension",
+    "dimensionHint": "Select a dimension",
+    "businessAreaHint": "Select {{dimension}}",
+    "nothingFound": "Nothing found",
     "confirm": "Confirm",
+    "cancel": "Cancel",
     "welcomeTitle": "Welcome to Insight Attrition!",
-    "instruction": "Please select the organizational unit for the application data.",
+    "instruction": "Please select your favorite dimension for the application data.",
     "hint": "You can change it later. By clicking on hamburger icon in the top left corner, in User Settings."
   },
   "saveSuccessful": "User settings successfully updated",
-  "saveFailed": "Failed to update user settings"
+  "saveFailed": "Failed to update user settings",
+  "editUserSettings": "Edit User Settings",
+  "edit": "edit",
+  "favoriteDimension": "Favorite Dimension"
 }

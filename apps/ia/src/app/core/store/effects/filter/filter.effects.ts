@@ -11,7 +11,7 @@ import {
   IdValue,
   SelectedFilter,
 } from '../../../../shared/models';
-import { loadUserSettingsOrgUnits } from '../../../../user-settings/store/actions/user-settings.action';
+import { loadUserSettingsDimensionData } from '../../../../user-settings/store/actions/user-settings.action';
 import {
   filterDimensionSelected,
   filterSelected,
@@ -25,7 +25,7 @@ import { getSelectedBusinessArea, getSelectedTimeRange } from '../../selectors';
 export class FilterEffects {
   loadFilterDimensionData$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(loadFilterDimensionData, loadUserSettingsOrgUnits),
+      ofType(loadFilterDimensionData, loadUserSettingsDimensionData),
       concatLatestFrom(() => this.store.select(getSelectedTimeRange)),
       mergeMap(([action, timeRange]) =>
         this.getDataForFilterDimension(
@@ -77,7 +77,6 @@ export class FilterEffects {
       map((filter) => filterSelected({ filter: filter.filter }))
     );
   });
-
   getDataForFilterDimension(
     filterDimension: string,
     searchFor?: string,

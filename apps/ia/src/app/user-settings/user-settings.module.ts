@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { EffectsModule } from '@ngrx/effects';
@@ -9,7 +12,6 @@ import { RolesAndRightsModule } from '@schaeffler/roles-and-rights';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { LanguageSelectModule } from '@schaeffler/transloco/components';
 
-import { AutocompleteInputModule } from '../shared/autocomplete-input/autocomplete-input.module';
 import { SharedModule } from '../shared/shared.module';
 import * as fromUserSettings from '../user-settings/store/index';
 import { UserSettingsEffects } from './store/effects/user-settings.effects';
@@ -28,9 +30,11 @@ import { UserSettingsDialogModule } from './user-settings-dialog/user-settings-d
     ),
     EffectsModule.forFeature([UserSettingsEffects]),
     UserSettingsDialogModule,
-    AutocompleteInputModule,
     MatDividerModule,
     RolesAndRightsModule,
+    MatIconModule,
+    MatInputModule,
+    MatTooltipModule,
   ],
   exports: [UserSettingsComponent],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'user-settings' }],

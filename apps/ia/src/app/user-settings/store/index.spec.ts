@@ -1,5 +1,12 @@
 import {
+  loadFilterDimensionData,
+  loadFilterDimensionDataFailure,
+  loadFilterDimensionDataSuccess,
+} from '../../core/store/actions';
+import { FilterDimension } from '../../shared/models';
+import {
   loadUserSettings,
+  loadUserSettingsDimensionData,
   loadUserSettingsFailure,
   loadUserSettingsSuccess,
   updateUserSettings,
@@ -18,19 +25,19 @@ describe('User Settings Reducer', () => {
   });
 
   test('loadUserSettingsSuccess', () => {
-    const orgUnitKey = '123';
-    const orgUnitDisplayName = 'SH/ZHZ-HR (Human resources reporting)';
     const action = loadUserSettingsSuccess({
       data: {
-        orgUnitKey,
-        orgUnitDisplayName,
+        dimension: FilterDimension.BOARD,
+        dimensionKey: '2',
+        dimensionDisplayName: 'Two',
       },
     });
     const state = userSettingsReducer(initialState, action);
 
     expect(state.loading).toBeFalsy();
-    expect(state.data.orgUnitKey).toEqual(orgUnitKey);
-    expect(state.data.orgUnitDisplayName).toEqual(orgUnitDisplayName);
+    expect(state.data.dimension).toEqual(FilterDimension.BOARD);
+    expect(state.data.dimensionKey).toEqual('2');
+    expect(state.data.dimensionDisplayName).toEqual('Two');
     expect(state.errorMessage).toBeUndefined();
   });
 
@@ -44,10 +51,11 @@ describe('User Settings Reducer', () => {
   });
 
   test('updateUserSettings', () => {
-    const orgUnitKey = '123';
-    const orgUnitDisplayName = 'SH/ZHZ-HR (Human resources reporting)';
+    const dimension = FilterDimension.ORG_UNIT;
+    const dimensionKey = '123';
+    const dimensionDisplayName = 'SH/ZHZ-HR (Human resources reporting)';
     const action = updateUserSettings({
-      data: { orgUnitKey, orgUnitDisplayName },
+      data: { dimension, dimensionKey, dimensionDisplayName },
     });
     const state = userSettingsReducer(initialState, action);
 
@@ -56,16 +64,17 @@ describe('User Settings Reducer', () => {
   });
 
   test('updateUserSettingsSuccess', () => {
-    const orgUnitKey = '123';
-    const orgUnitDisplayName = 'SH/ZHZ-HR (Human resources reporting)';
+    const dimension = FilterDimension.ORG_UNIT;
+    const dimensionKey = '123';
+    const dimensionDisplayName = 'SH/ZHZ-HR (Human resources reporting)';
     const action = updateUserSettingsSuccess({
-      data: { orgUnitKey, orgUnitDisplayName },
+      data: { dimension, dimensionKey, dimensionDisplayName },
     });
     const state = userSettingsReducer(initialState, action);
 
     expect(state.loading).toBeFalsy();
-    expect(state.data.orgUnitKey).toEqual(orgUnitKey);
-    expect(state.data.orgUnitDisplayName).toEqual(orgUnitDisplayName);
+    expect(state.data.dimensionKey).toEqual(dimensionKey);
+    expect(state.data.dimensionDisplayName).toEqual(dimensionDisplayName);
     expect(state.errorMessage).toBeUndefined();
   });
 
@@ -76,5 +85,49 @@ describe('User Settings Reducer', () => {
 
     expect(state.loading).toBeFalsy();
     expect(state.errorMessage).toEqual(errorMessage);
+  });
+
+  test('loadUserSettingsDimensionData', () => {
+    const action = loadUserSettingsDimensionData({
+      filterDimension: FilterDimension.COUNTRY,
+      searchFor: 'co',
+    });
+    const state = userSettingsReducer(initialState, action);
+
+    expect(state.dialog.businessAreaValuesLoading).toBeTruthy();
+  });
+
+  test('loadFilterDimensionDataSuccess', () => {
+    const filterDimension = FilterDimension.ORG_UNIT;
+
+    const action = loadFilterDimensionDataSuccess({
+      filterDimension,
+      items: [],
+    });
+    const state = userSettingsReducer(initialState, action);
+
+    expect(state.dialog.businessAreaValuesLoading).toBeFalsy();
+  });
+
+  test('loadFilterDimensionDataFailure', () => {
+    const filterDimension = FilterDimension.ORG_UNIT;
+    const errorMessage = 'error';
+    const action = loadFilterDimensionDataFailure({
+      filterDimension,
+      errorMessage,
+    });
+    const state = userSettingsReducer(initialState, action);
+
+    expect(state.dialog.businessAreaValuesLoading).toBeFalsy();
+  });
+
+  test('loadFilterDimensionData', () => {
+    const action = loadFilterDimensionData({
+      filterDimension: FilterDimension.COUNTRY,
+      searchFor: 'co',
+    });
+    const state = userSettingsReducer(initialState, action);
+
+    expect(state.dialog.businessAreaValuesLoading).toBeTruthy();
   });
 });

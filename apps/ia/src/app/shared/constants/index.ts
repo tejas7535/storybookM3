@@ -19,3 +19,7 @@ export const FILTER_DIMENSIONS: {
   { dimension: FilterDimension.SUB_SEGMENT, level: 1 },
   { dimension: FilterDimension.SEGMENT_UNIT, level: 2 },
 ];
+
+/** for autocomplete */
+export const ASYNC_SEARCH_MIN_CHAR_LENGTH = 2;
+export const LOCAL_SEARCH_MIN_CHAR_LENGTH = 0;

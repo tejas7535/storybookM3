@@ -36,8 +36,8 @@ export const updateUserSettingsFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
-export const loadUserSettingsOrgUnits = createAction(
-  '[Filter] Load User Settings Org Units',
+export const loadUserSettingsDimensionData = createAction(
+  '[Filter] Load User Settings Dimension Data',
   props<{ filterDimension: FilterDimension; searchFor: string }>()
 );
 
@@ -48,7 +48,7 @@ const all = union({
   updateUserSettings,
   updateUserSettingsSuccess,
   updateUserSettingsFailure,
-  loadUserSettingsOrgUnits,
+  loadUserSettingsDimensionData,
 });
 
 export type UserSettingsActions = typeof all;

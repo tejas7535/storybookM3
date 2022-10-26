@@ -1,59 +1,170 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { Observable } from 'rxjs';
+import { map, Observable, Subscription } from 'rxjs';
 
+import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
-import { getBusinessAreaFilter } from '../../core/store/selectors/filter/filter.selector';
-import { Filter, FilterDimension, SelectedFilter } from '../../shared/models';
+import { loadFilterDimensionData } from '../../core/store/actions';
+import { getSpecificBusinessAreaFilter } from '../../core/store/selectors/filter/filter.selector';
+import {
+  ASYNC_SEARCH_MIN_CHAR_LENGTH,
+  FILTER_DIMENSIONS,
+  LOCAL_SEARCH_MIN_CHAR_LENGTH,
+} from '../../shared/constants';
+import {
+  Filter,
+  FilterDimension,
+  IdValue,
+  SelectedFilter,
+} from '../../shared/models';
 import { UserSettings } from '../models/user-settings.model';
 import {
-  loadUserSettingsOrgUnits,
+  loadUserSettingsDimensionData,
   updateUserSettings,
 } from '../store/actions/user-settings.action';
-import { getDialogOrgUnitLoading } from '../store/selectors/user-settings.selector';
-
+import { getDialogBusinessAreaValuesLoading } from '../store/selectors/user-settings.selector';
+import { UserSettingsDialogData } from './user-settings-dialog-data.model';
 @Component({
   selector: 'ia-user-settings-dialog',
   templateUrl: './user-settings-dialog.component.html',
   styles: [],
 })
-export class UserSettingsDialogComponent implements OnInit {
+export class UserSettingsDialogComponent implements OnInit, OnDestroy {
   selected: SelectedFilter;
-  invalidOrgUnitInput: boolean;
+  invalidBusinessAreaInput: boolean;
 
-  orgUnitsFilter$: Observable<Filter>;
-  orgUnitsLoading$: Observable<boolean>;
+  activeDimension: FilterDimension;
+  businessAreaFilter$: Observable<Filter>;
+  selectedBusinessArea: IdValue;
+  businessAreaValuesLoading$: Observable<boolean>;
+  availableDimensions: IdValue[];
+  dimensionName: string;
 
-  constructor(private readonly store: Store) {}
+  minCharLength = 0;
 
-  ngOnInit(): void {
-    this.orgUnitsFilter$ = this.store.select(getBusinessAreaFilter);
-    this.orgUnitsLoading$ = this.store.select(getDialogOrgUnitLoading);
+  readonly subscription: Subscription = new Subscription();
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA) readonly data: UserSettingsDialogData,
+    private readonly store: Store,
+    private readonly translocoService: TranslocoService
+  ) {
+    this.updateDimension(this.data.dimension);
+    this.selectedBusinessArea = this.data.selectedBusinessArea;
   }
 
-  optionSelected(option: SelectedFilter): void {
+  ngOnInit(): void {
+    this.businessAreaValuesLoading$ = this.store.select(
+      getDialogBusinessAreaValuesLoading
+    );
+
+    this.subscription.add(
+      this.translocoService
+        .selectTranslateObject('filters.dimension.availableDimensions')
+        .pipe(
+          map((translateObject) =>
+            this.mapTranslationsToIdValues(translateObject)
+          )
+        )
+        .subscribe((dimensions) => {
+          this.availableDimensions = dimensions;
+          this.updateDimensionName();
+        })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  updateDimension(dimension: FilterDimension): void {
+    this.businessAreaFilter$ = this.store.select(
+      getSpecificBusinessAreaFilter(dimension)
+    );
+
+    this.activeDimension = dimension;
+    this.updateDimensionName();
+    this.minCharLength =
+      dimension === FilterDimension.ORG_UNIT
+        ? ASYNC_SEARCH_MIN_CHAR_LENGTH
+        : LOCAL_SEARCH_MIN_CHAR_LENGTH;
+
+    this.selectedBusinessArea = undefined;
+  }
+
+  updateDimensionName(): void {
+    this.dimensionName = this.availableDimensions?.find(
+      (dim) => dim.id === this.activeDimension
+    )?.value;
+  }
+
+  selectBusinessAreaOption(option: SelectedFilter): void {
     this.selected = option;
   }
 
-  orgUnitInvalid(invalid: boolean): void {
-    this.invalidOrgUnitInput = invalid;
+  invalidBusinessArea(invalid: boolean): void {
+    this.invalidBusinessAreaInput = invalid;
   }
 
-  updateUserSettings(): void {
+  saveUserSettings(): void {
     const data: Partial<UserSettings> = {
-      orgUnitKey: this.selected.idValue.id,
-      orgUnitDisplayName: this.selected.idValue.value,
+      dimension: this.activeDimension,
+      dimensionKey: this.selected.idValue.id,
+      dimensionDisplayName: this.selected.idValue.value,
     };
     this.store.dispatch(updateUserSettings({ data }));
   }
 
-  autoCompleteOrgUnitsChange(searchFor: string): void {
+  autoCompleteBusinessAreaChange(searchFor: string): void {
+    if (this.activeDimension === FilterDimension.ORG_UNIT) {
+      this.store.dispatch(
+        loadUserSettingsDimensionData({
+          filterDimension: this.activeDimension,
+          searchFor,
+        })
+      );
+    } else {
+      this.businessAreaFilter$ = this.store
+        .select(getSpecificBusinessAreaFilter(this.activeDimension))
+        .pipe(
+          // eslint-disable-next-line ngrx/avoid-mapping-selectors
+          map((filter: Filter) => {
+            const options =
+              searchFor.length > 0
+                ? filter.options.filter((option) =>
+                    option.value
+                      ?.toUpperCase()
+                      .startsWith(searchFor.toUpperCase())
+                  )
+                : filter.options;
+
+            return { ...filter, options };
+          })
+        );
+    }
+  }
+
+  selectDimension(selectedDimension: IdValue): void {
     this.store.dispatch(
-      loadUserSettingsOrgUnits({
-        filterDimension: FilterDimension.ORG_UNIT,
-        searchFor,
+      loadFilterDimensionData({
+        filterDimension: selectedDimension.id as FilterDimension,
       })
+    );
+    this.updateDimension(selectedDimension.id as FilterDimension);
+  }
+
+  mapTranslationsToIdValues(
+    translations: Record<FilterDimension, string>
+  ): IdValue[] {
+    return FILTER_DIMENSIONS.map(
+      (dimensionLevel) =>
+        new IdValue(
+          dimensionLevel.dimension,
+          translations[dimensionLevel.dimension],
+          dimensionLevel.level
+        )
     );
   }
 }

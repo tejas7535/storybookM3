@@ -5,11 +5,17 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
-import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
+import {
+  Actions,
+  concatLatestFrom,
+  createEffect,
+  ofType,
+  OnInitEffects,
+} from '@ngrx/effects';
+import { Action, Store } from '@ngrx/store';
 
-import { filterSelected } from '../../../core/store/actions';
-import { FilterDimension, SelectedFilter } from '../../../shared/models';
+import { filterDimensionSelected } from '../../../core/store/actions';
+import { SelectedFilter } from '../../../shared/models';
 import { UserSettingsService } from '../../user-settings.service';
 import { UserSettingsDialogComponent } from '../../user-settings-dialog/user-settings-dialog.component';
 import {
@@ -21,6 +27,10 @@ import {
   updateUserSettingsFailure,
   updateUserSettingsSuccess,
 } from '../actions/user-settings.action';
+import {
+  getFavoriteDimension,
+  getFavoriteDimensionIdValue,
+} from '../selectors/user-settings.selector';
 
 @Injectable()
 export class UserSettingsEffects implements OnInitEffects {
@@ -32,19 +42,24 @@ export class UserSettingsEffects implements OnInitEffects {
           switchMap((data) => {
             const result: Action[] = [loadUserSettingsSuccess({ data })];
 
-            if (data?.orgUnitKey === undefined) {
+            if (data?.dimensionKey === undefined) {
               result.push(showUserSettingsDialog());
             } else {
               // set global filter default value
               const filter: SelectedFilter = {
-                name: FilterDimension.ORG_UNIT,
+                name: data.dimension,
                 idValue: {
-                  id: data.orgUnitKey,
-                  value: data.orgUnitDisplayName,
+                  id: data.dimensionKey,
+                  value: data.dimensionDisplayName,
                 },
               };
 
-              result.push(filterSelected({ filter }));
+              result.push(
+                filterDimensionSelected({
+                  filter,
+                  filterDimension: data.dimension,
+                })
+              );
             }
 
             return result;
@@ -61,9 +76,19 @@ export class UserSettingsEffects implements OnInitEffects {
     () => {
       return this.actions$.pipe(
         ofType(showUserSettingsDialog, loadUserSettingsFailure),
-        tap(() => {
+        concatLatestFrom(() => [
+          this.store.select(getFavoriteDimension),
+          this.store.select(getFavoriteDimensionIdValue),
+        ]),
+        map(([_action, dimension, idValue]) => [dimension, idValue]),
+        tap((params: any[]) => {
           this.dialog.open(UserSettingsDialogComponent, {
             disableClose: true,
+            data: {
+              dimension: params[0],
+              selectedBusinessArea: params[1],
+              initialLoad: !params[0] && !params[1],
+            },
           });
         })
       );
@@ -101,14 +126,17 @@ export class UserSettingsEffects implements OnInitEffects {
       map((data) => {
         // set global filter default value
         const filter = {
-          name: FilterDimension.ORG_UNIT,
+          name: data.dimension,
           idValue: {
-            id: data.orgUnitKey,
-            value: data.orgUnitDisplayName,
+            id: data.dimensionKey,
+            value: data.dimensionDisplayName,
           },
         };
 
-        return filterSelected({ filter });
+        return filterDimensionSelected({
+          filter,
+          filterDimension: data.dimension,
+        });
       })
     );
   });
@@ -127,7 +155,8 @@ export class UserSettingsEffects implements OnInitEffects {
     private readonly actions$: Actions,
     private readonly userSettingsService: UserSettingsService,
     private readonly dialog: MatDialog,
-    private readonly snackbar: MatSnackBar
+    private readonly snackbar: MatSnackBar,
+    private readonly store: Store
   ) {}
 
   ngrxOnInitEffects(): Action {

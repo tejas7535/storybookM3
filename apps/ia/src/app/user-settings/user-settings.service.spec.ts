@@ -5,12 +5,14 @@ import {
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
+import { FilterDimension } from '../shared/models';
 import { UserSettings } from './models/user-settings.model';
 import { UserSettingsService } from './user-settings.service';
 
 describe('UserSettingsService', () => {
-  const orgUnitKey = '123';
-  const orgUnitDisplayName = 'SH/ZHZ-HR (Human resources reporting)';
+  const dimension = FilterDimension.BOARD;
+  const dimensionKey = '123';
+  const dimensionDisplayName = 'SH/ZHZ-HR (Human resources reporting)';
   let service: UserSettingsService;
   let httpMock: HttpTestingController;
   let spectator: SpectatorService<UserSettingsService>;
@@ -36,7 +38,11 @@ describe('UserSettingsService', () => {
 
   describe('getUserSettings', () => {
     test('should return user settings', () => {
-      const mock: UserSettings = { orgUnitKey, orgUnitDisplayName };
+      const mock: UserSettings = {
+        dimension,
+        dimensionKey,
+        dimensionDisplayName,
+      };
       service.getUserSettings().subscribe((response) => {
         expect(response).toEqual(mock);
       });
@@ -49,14 +55,22 @@ describe('UserSettingsService', () => {
 
   describe('saveUserSettings', () => {
     test('should save user settings', () => {
-      const userSettings: UserSettings = { orgUnitKey, orgUnitDisplayName };
+      const userSettings: UserSettings = {
+        dimension,
+        dimensionKey,
+        dimensionDisplayName,
+      };
       service.updateUserSettings(userSettings).subscribe((response) => {
         expect(response).toEqual(undefined);
       });
 
       const req = httpMock.expectOne('api/v1/user-settings');
       expect(req.request.method).toBe('PATCH');
-      expect(req.request.body).toEqual({ orgUnitKey, orgUnitDisplayName });
+      expect(req.request.body).toEqual({
+        dimension,
+        dimensionKey,
+        dimensionDisplayName,
+      });
     });
   });
 });

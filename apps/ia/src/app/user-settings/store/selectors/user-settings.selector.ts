@@ -1,5 +1,6 @@
 import { createSelector } from '@ngrx/store';
 
+import { FilterDimension, IdValue } from '../../../shared/models';
 import { selectUserSettingsState, UserSettingsState } from '..';
 
 export const getUserSettings = createSelector(
@@ -7,12 +8,26 @@ export const getUserSettings = createSelector(
   (state: UserSettingsState) => state.data
 );
 
-export const getUserOrgUnit = createSelector(
+export const getFavoriteDimension = createSelector(
   selectUserSettingsState,
-  (state: UserSettingsState) => state.data?.orgUnitDisplayName
+  (state: UserSettingsState) =>
+    state.data?.dimension ?? FilterDimension.ORG_UNIT
 );
 
-export const getDialogOrgUnitLoading = createSelector(
+export const getFavoriteDimensionDisplayName = createSelector(
   selectUserSettingsState,
-  (state: UserSettingsState) => state.dialog.orgUnitsLoading
+  (state: UserSettingsState) => state.data?.dimensionDisplayName
+);
+
+export const getDialogBusinessAreaValuesLoading = createSelector(
+  selectUserSettingsState,
+  (state: UserSettingsState) => state.dialog.businessAreaValuesLoading
+);
+
+export const getFavoriteDimensionIdValue = createSelector(
+  selectUserSettingsState,
+  (state: UserSettingsState) =>
+    state.data
+      ? new IdValue(state.data.dimensionKey, state.data.dimensionDisplayName)
+      : undefined
 );

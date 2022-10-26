@@ -7,6 +7,10 @@ import {
 } from '@angular/core';
 
 import {
+  ASYNC_SEARCH_MIN_CHAR_LENGTH,
+  LOCAL_SEARCH_MIN_CHAR_LENGTH,
+} from '../constants';
+import {
   Filter,
   FilterDimension,
   FilterKey,
@@ -23,9 +27,6 @@ import { FilterLayout } from './filter-layout.enum';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilterComponent {
-  private readonly ASYNC_SEARCH_MIN_CHAR_LENGTH = 2;
-  private readonly LOCAL_SEARCH_MIN_CHAR_LENGTH = 0;
-
   private _selectedBusinessArea: IdValue;
   private _selectedTimePeriod: TimePeriod;
   private _businessAreaFilter: Filter;
@@ -72,12 +73,12 @@ export class FilterComponent {
 
   @Input() set businessAreaFilter(businessAreaFilter: Filter) {
     this._businessAreaFilter = businessAreaFilter;
-    this._options = businessAreaFilter.options;
+    this._options = businessAreaFilter?.options;
     this._minCharLength =
-      businessAreaFilter.name === FilterDimension.ORG_UNIT
-        ? this.ASYNC_SEARCH_MIN_CHAR_LENGTH
-        : this.LOCAL_SEARCH_MIN_CHAR_LENGTH;
-    this._asyncMode = businessAreaFilter.name === FilterDimension.ORG_UNIT;
+      businessAreaFilter?.name === FilterDimension.ORG_UNIT
+        ? ASYNC_SEARCH_MIN_CHAR_LENGTH
+        : LOCAL_SEARCH_MIN_CHAR_LENGTH;
+    this._asyncMode = businessAreaFilter?.name === FilterDimension.ORG_UNIT;
   }
 
   get businessAreaFilter(): Filter {
