@@ -71,7 +71,10 @@ export class OrganizationalViewEffects {
       ofType(loadOrganizationalViewData),
       concatLatestFrom(() => this.store.select(getCurrentFilters)),
       map(([_action, request]) => request),
-      filter((request) => !!request.timeRange),
+      filter(
+        (request: EmployeesRequest) =>
+          !!(request.filterDimension && request.value && request.timeRange)
+      ),
       mergeMap((request: EmployeesRequest) => [
         loadOrgChart({ request }),
         loadWorldMap({ request }),
@@ -135,8 +138,8 @@ export class OrganizationalViewEffects {
     );
   });
 
-  loadWorldMap$ = createEffect(() => {
-    return this.actions$.pipe(
+  loadWorldMap$ = createEffect(() =>
+    this.actions$.pipe(
       ofType(loadWorldMap),
       map((action) => action.request),
       switchMap((request: EmployeesRequest) =>
@@ -147,8 +150,8 @@ export class OrganizationalViewEffects {
           )
         )
       )
-    );
-  });
+    )
+  );
 
   loadParent$ = createEffect(() => {
     return this.actions$.pipe(
