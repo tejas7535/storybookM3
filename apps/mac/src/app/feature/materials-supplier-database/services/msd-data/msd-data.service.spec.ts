@@ -117,7 +117,7 @@ describe('MsdDataService', () => {
           id: 442,
           name: 'ArcelorMittal Tubarao',
           plant: 'Tubarao',
-          selfCertified: false,
+          manufacturer: false,
           sapData: [
             {
               sapSupplierId: '0000000000000',
@@ -133,7 +133,7 @@ describe('MsdDataService', () => {
           standardDocument: 'S 130002',
           materialNumber: '1.1234',
         },
-        manufacturer: false,
+        selfCertified: false,
       },
       {
         id: 128,
@@ -153,7 +153,7 @@ describe('MsdDataService', () => {
           id: 442,
           name: 'ArcelorMittal Tubarao',
           plant: 'Tubarao',
-          selfCertified: false,
+          manufacturer: true,
         },
         materialStandard: {
           id: 57,
@@ -161,7 +161,7 @@ describe('MsdDataService', () => {
           standardDocument: 'S 130001',
           materialNumber: '1.1234, 1.2345',
         },
-        manufacturer: true,
+        selfCertified: false,
       },
     ];
 
@@ -172,7 +172,7 @@ describe('MsdDataService', () => {
         manufacturerSupplierId: 442,
         manufacturerSupplierName: 'ArcelorMittal Tubarao',
         manufacturerSupplierPlant: 'Tubarao',
-        manufacturerSupplierSelfCertified: false,
+        selfCertified: false,
         sapSupplierIds: ['0000000000000', '0000000000001'],
         materialStandardId: 57,
         materialStandardMaterialName: 'C80M',
@@ -209,7 +209,7 @@ describe('MsdDataService', () => {
         manufacturerSupplierId: 442,
         manufacturerSupplierName: 'ArcelorMittal Tubarao',
         manufacturerSupplierPlant: 'Tubarao',
-        manufacturerSupplierSelfCertified: false,
+        selfCertified: false,
         sapSupplierIds: [],
         materialStandardId: 57,
         materialStandardMaterialName: 'C45',
@@ -277,14 +277,12 @@ describe('MsdDataService', () => {
           id: 0,
           name: 'supplier1',
           plant: 'plant1',
-          selfCertified: false,
           sapData: [{ sapSupplierId: '123456' }, { sapSupplierId: '1234567' }],
         },
         {
           id: 1,
           name: 'supplier2',
           plant: 'plant2',
-          selfCertified: false,
         },
       ];
       service.fetchManufacturerSuppliers().subscribe((result) => {

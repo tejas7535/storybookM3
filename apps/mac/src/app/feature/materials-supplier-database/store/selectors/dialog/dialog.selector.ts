@@ -243,7 +243,7 @@ export const getSupplierPlantStringOptions = createSelector(
         data: {
           supplierId: supplier.id,
           supplierName: supplier.name,
-          selfCertified: supplier.selfCertified,
+          manufacturer: supplier.manufacturer,
         },
       }))
       .filter(Boolean)

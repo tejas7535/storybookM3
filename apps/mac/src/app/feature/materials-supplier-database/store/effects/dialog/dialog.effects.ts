@@ -580,7 +580,7 @@ export class DialogEffects {
             },
           },
           manufacturer: material.manufacturer,
-          selfCertified: material.manufacturerSupplierSelfCertified,
+          selfCertified: material.selfCertified,
         };
 
         return DialogActions.setMaterialFormValue({ parsedMaterial });

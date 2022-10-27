@@ -113,10 +113,7 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
     this.controlsService.getRequiredControl<StringOption>();
   public supplierPlantsControl =
     this.controlsService.getRequiredControl<StringOption>(undefined, true);
-  public selfCertifiedControl = this.controlsService.getControl<boolean>(
-    false,
-    true
-  );
+  public selfCertifiedControl = this.controlsService.getControl<boolean>(false);
   public castingModesControl = this.controlsService.getControl<string>(
     undefined,
     true
@@ -157,7 +154,10 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
   public isBlockedControl = this.controlsService.getControl<boolean>(false);
   public steelMakingProcessControl =
     this.controlsService.getControl<StringOption>();
-  public manufacturerControl = this.controlsService.getControl<boolean>(false);
+  public manufacturerControl = this.controlsService.getControl<boolean>(
+    false,
+    true
+  );
 
   public createMaterialForm: FormGroup<{
     manufacturerSupplierId: FormControl<number>;
@@ -426,21 +426,20 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
           : this.ratingChangeCommentControl.disable({ emitEvent: false })
       );
 
-    // selfCertified only available for new suppliers. For old suppliers value will be prefilled
+    // manufacturer only available for new suppliers. For old suppliers value will be prefilled
     this.supplierPlantsControl.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((supplierPlant) => {
         // enable only for new suppliers
         const isEnabled = supplierPlant?.data === undefined;
         if (isEnabled) {
-          this.selfCertifiedControl.enable();
-          this.selfCertifiedControl.setValue(false);
+          this.manufacturerControl.enable();
+          this.manufacturerControl.setValue(false);
         } else {
           // get current value for selected supplier
-          const isSelfCertified =
-            supplierPlant.data?.['selfCertified'] || false;
-          this.selfCertifiedControl.setValue(isSelfCertified);
-          this.selfCertifiedControl.disable();
+          const isManufacturer = supplierPlant.data?.['manufacturer'] || false;
+          this.manufacturerControl.setValue(isManufacturer);
+          this.manufacturerControl.disable();
         }
       });
 
@@ -782,7 +781,7 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
       id: baseMaterial.manufacturerSupplierId,
       name: baseMaterial.supplier.title,
       plant: baseMaterial.supplierPlant.title,
-      selfCertified: baseMaterial.selfCertified,
+      manufacturer: baseMaterial.manufacturer,
     };
 
     const material: Material = {
@@ -790,7 +789,6 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
       id: this.materialId,
       materialClass: 'st',
       manufacturerSupplierId: baseMaterial.manufacturerSupplierId,
-      manufacturer: baseMaterial.manufacturer,
       materialStandardId: baseMaterial.materialStandardId,
       productCategory: baseMaterial.productCategory.id as string,
       referenceDoc: JSON.stringify(
@@ -813,6 +811,7 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
       rating: baseMaterial.rating.id as string,
       ratingRemark: baseMaterial.ratingRemark,
       ratingChangeComment: baseMaterial.ratingChangeComment,
+      selfCertified: baseMaterial.selfCertified,
       // attachments: '',
     };
 

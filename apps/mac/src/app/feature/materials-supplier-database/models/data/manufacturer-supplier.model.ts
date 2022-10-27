@@ -2,6 +2,6 @@ export interface ManufacturerSupplier {
   id: number;
   name: string;
   plant: string;
-  selfCertified: boolean;
+  manufacturer?: boolean;
   sapData?: { sapSupplierId: string }[];
 }

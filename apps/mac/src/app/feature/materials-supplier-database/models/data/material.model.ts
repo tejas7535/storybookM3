@@ -3,7 +3,6 @@ export interface Material {
   materialClass: string;
   materialStandardId: number;
   manufacturerSupplierId: number;
-  manufacturer: boolean;
   productCategory: string;
   referenceDoc?: string;
   co2Scope1?: number;
@@ -24,4 +23,5 @@ export interface Material {
   rating: string;
   ratingRemark: string;
   ratingChangeComment?: string;
+  selfCertified: boolean;
 }

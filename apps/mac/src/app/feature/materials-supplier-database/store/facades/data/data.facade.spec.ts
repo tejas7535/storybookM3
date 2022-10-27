@@ -27,7 +27,7 @@ describe('DataFacade', () => {
       manufacturerSupplierId: 212,
       manufacturerSupplierName: 'ABS',
       manufacturerSupplierPlant: 'Udine',
-      manufacturerSupplierSelfCertified: false,
+      selfCertified: false,
       sapSupplierIds: [],
       productCategory: 'barBright',
       productCategoryText: 'Bright bar',

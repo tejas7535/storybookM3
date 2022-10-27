@@ -85,13 +85,13 @@ describe('InputDialogComponent', () => {
       id: 1,
       name: 'supplier1',
       plant: 'plant1',
-      selfCertified: true,
+      manufacturer: true,
     },
     {
       id: 2,
       name: 'supplier2',
       plant: 'plant2',
-      selfCertified: false,
+      manufacturer: false,
     },
   ];
 
@@ -384,7 +384,7 @@ describe('InputDialogComponent', () => {
       id: 1,
       title: 'supplier',
     },
-    manufacturer: false,
+    selfCertified: false,
   };
 
   const mockValue: Partial<MaterialFormValue> = {
@@ -760,17 +760,17 @@ describe('InputDialogComponent', () => {
         });
 
         describe('modify supplierPlants', () => {
-          it('should set and disable selfCertified on true SC', () => {
+          it('should set and disable manufacturer on true SC', () => {
             const option: StringOption = {
               id: 1,
               title: 'title',
               data: {
-                selfCertified: true,
+                manufacturer: true,
               },
             };
             component['supplierPlantsControl'].patchValue(option);
-            expect(component.selfCertifiedControl.enabled).not.toBeTruthy();
-            expect(component.selfCertifiedControl.value).toBeTruthy();
+            expect(component.manufacturerControl.enabled).not.toBeTruthy();
+            expect(component.manufacturerControl.value).toBeTruthy();
           });
 
           it('should set and disable selfCertified on false SC', () => {
@@ -778,13 +778,14 @@ describe('InputDialogComponent', () => {
               id: 1,
               title: 'title',
               data: {
-                selfCertified: false,
+                manufacturer: false,
               },
             };
             component['supplierPlantsControl'].patchValue(option);
-            expect(component.selfCertifiedControl.enabled).not.toBeTruthy();
-            expect(component.selfCertifiedControl.value).not.toBeTruthy();
+            expect(component.manufacturerControl.enabled).not.toBeTruthy();
+            expect(component.manufacturerControl.value).not.toBeTruthy();
           });
+
           it('should enable selfCertified on new supplier', () => {
             // new supplier do not have an id or data element
             const option: StringOption = {

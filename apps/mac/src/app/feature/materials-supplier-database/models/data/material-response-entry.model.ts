@@ -11,12 +11,11 @@ export interface MaterialResponseEntry {
     id: number;
     name: string;
     plant: string;
-    selfCertified: boolean;
+    manufacturer: boolean;
     sapData?: {
       sapSupplierId: string;
     }[];
   };
-  manufacturer: boolean;
   productCategory: string;
   referenceDoc?: string;
   co2Scope1?: number;
@@ -38,4 +37,5 @@ export interface MaterialResponseEntry {
   ratingChangeComment?: string;
   modifiedBy?: string;
   timestamp?: number;
+  selfCertified: boolean;
 }

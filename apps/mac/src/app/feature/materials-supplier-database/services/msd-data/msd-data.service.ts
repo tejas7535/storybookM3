@@ -102,9 +102,9 @@ export class MsdDataService {
                   materialResponse.manufacturerSupplier.name,
                 manufacturerSupplierPlant:
                   materialResponse.manufacturerSupplier.plant,
-                manufacturerSupplierSelfCertified:
-                  materialResponse.manufacturerSupplier.selfCertified,
-                manufacturer: materialResponse.manufacturer,
+                selfCertified: materialResponse.selfCertified,
+                manufacturer:
+                  materialResponse.manufacturerSupplier.manufacturer,
                 sapSupplierIds:
                   materialResponse.manufacturerSupplier.sapData?.map(
                     (sapData) => sapData.sapSupplierId

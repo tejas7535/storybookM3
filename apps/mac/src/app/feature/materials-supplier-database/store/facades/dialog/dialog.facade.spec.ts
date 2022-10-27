@@ -35,7 +35,7 @@ describe('DialogFacade', () => {
     id: 1,
     name: 'supplier',
     plant: 'plant',
-    selfCertified: false,
+    manufacturer: false,
   };
 
   const createService = createServiceFactory({
@@ -211,7 +211,7 @@ describe('DialogFacade', () => {
               data: {
                 supplierId: 1,
                 supplierName: 'supplier',
-                selfCertified: false,
+                manufacturer: false,
               },
             },
           ],
