@@ -123,14 +123,14 @@
     </div>
     <div class="flex h-32 w-full flex-col items-start justify-start p-4">
       <div
-        class="line-clamp-1 text-subtitle-2 overflow-hidden text-high-emphasis"
+        class="line-clamp-1 overflow-hidden text-subtitle-2 text-high-emphasis"
         *ngIf="translationKey; else noTranslationTitleTemplate"
       >
         {{ t(translationKey + '.title') }}
       </div>
       <ng-template #noTranslationTitleTemplate>
         <div
-          class="line-clamp-1 text-subtitle-2 overflow-hidden text-high-emphasis"
+          class="line-clamp-1 overflow-hidden text-subtitle-2 text-high-emphasis"
         >
           {{ title }}
         </div>

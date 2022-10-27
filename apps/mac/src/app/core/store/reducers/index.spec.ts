@@ -18,26 +18,24 @@ describe('NGRX Store Reducer Index', () => {
       let state: RouterStateSnapshot;
       const firstChildParams = { params: ['id', 'name', 'sortBy'] };
 
-      beforeEach(
-        waitForAsync(() => {
-          TestBed.configureTestingModule({
-            providers: [
-              {
-                provide: RouterStateSnapshot,
-                useValue: {
-                  url: 'nirvana',
-                  root: {
-                    queryParams: '',
-                    firstChild: firstChildParams,
-                  },
+      beforeEach(waitForAsync(() => {
+        TestBed.configureTestingModule({
+          providers: [
+            {
+              provide: RouterStateSnapshot,
+              useValue: {
+                url: 'nirvana',
+                root: {
+                  queryParams: '',
+                  firstChild: firstChildParams,
                 },
               },
-            ],
-          }).compileComponents();
+            },
+          ],
+        }).compileComponents();
 
-          state = TestBed.inject(RouterStateSnapshot);
-        })
-      );
+        state = TestBed.inject(RouterStateSnapshot);
+      }));
 
       it('should return object with certain attributes', () => {
         const serializer = new fromRoot.CustomSerializer();

@@ -40,20 +40,17 @@ describe('DataService', () => {
   });
 
   describe('getAllSales', () => {
-    it(
-      'should get all sales data',
-      waitForAsync(() => {
-        const url = `${environment.apiBaseUrl}/sales/all`;
+    it('should get all sales data', waitForAsync(() => {
+      const url = `${environment.apiBaseUrl}/sales/all`;
 
-        dataService.getAllSales().then((result) => {
-          expect(result).toEqual([salesSummaryMock]);
-        });
+      dataService.getAllSales().then((result) => {
+        expect(result).toEqual([salesSummaryMock]);
+      });
 
-        const req = httpMock.expectOne(url);
-        expect(req.request.method).toBe('GET');
-        req.flush([salesSummaryMock]);
-      })
-    );
+      const req = httpMock.expectOne(url);
+      expect(req.request.method).toBe('GET');
+      req.flush([salesSummaryMock]);
+    }));
   });
 
   describe('updateDates', () => {
