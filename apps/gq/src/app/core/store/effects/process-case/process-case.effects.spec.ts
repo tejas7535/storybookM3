@@ -52,6 +52,9 @@ import {
 } from '../../actions';
 import {
   confirmSimulatedQuotation,
+  createSapQuote,
+  createSapQuoteFailure,
+  createSapQuoteSuccess,
   loadQuotationFromUrl,
   loadQuotationInInterval,
   loadQuotationSuccessFullyCompleted,
@@ -1078,6 +1081,114 @@ describe('ProcessCaseEffect', () => {
 
         m.flush();
         expect(quotationService.getCurrencies).toHaveBeenCalledTimes(0);
+      })
+    );
+  });
+
+  describe('createSapQuote', () => {
+    const gqId = 123;
+    beforeEach(() => {
+      store.overrideSelector(getGqId, gqId);
+    });
+    test(
+      'shall call service, returns no sapCallInProgress',
+      marbles((m) => {
+        const item: Quotation = {
+          ...QUOTATION_MOCK,
+          sapCallInProgress: false,
+          sapId: '1',
+        };
+        snackBar.open = jest.fn();
+        quotationService.createSapQuotation = jest.fn(() => response);
+        actions$ = m.hot('-a', {
+          a: createSapQuote({ gqPositionIds: ['12-12-12-'] }),
+        });
+        const response = m.cold('-a|', {
+          a: item,
+        });
+        const expected = m.cold('--b', {
+          b: createSapQuoteSuccess({ quotation: item }),
+        });
+
+        m.expect(effects.createSapQuote$).toBeObservable(expected);
+        m.flush();
+        expect(snackBar.open).toHaveBeenCalledTimes(1);
+        expect(quotationService.createSapQuotation).toHaveBeenCalledTimes(1);
+      })
+    );
+
+    test(
+      'shall call service, returns a sapCallInProgress',
+      marbles((m) => {
+        const item: Quotation = {
+          ...QUOTATION_MOCK,
+          sapCallInProgress: true,
+          sapId: '1',
+        };
+        snackBar.open = jest.fn();
+        quotationService.createSapQuotation = jest.fn(() => response);
+        actions$ = m.hot('-a', {
+          a: createSapQuote({ gqPositionIds: ['12-12-12-'] }),
+        });
+        const response = m.cold('-a|', {
+          a: item,
+        });
+        const expected = m.cold('--(bc)', {
+          b: createSapQuoteSuccess({ quotation: item }),
+          c: loadQuotationInInterval(),
+        });
+
+        m.expect(effects.createSapQuote$).toBeObservable(expected);
+        m.flush();
+        expect(snackBar.open).toHaveBeenCalledTimes(1);
+        expect(quotationService.createSapQuotation).toHaveBeenCalledTimes(1);
+      })
+    );
+    test(
+      'shall call service, returns a calculationInProgress',
+      marbles((m) => {
+        const item: Quotation = {
+          ...QUOTATION_MOCK,
+          calculationInProgress: true,
+          sapId: '1',
+        };
+        snackBar.open = jest.fn();
+        quotationService.createSapQuotation = jest.fn(() => response);
+        actions$ = m.hot('-a', {
+          a: createSapQuote({ gqPositionIds: ['12-12-12-'] }),
+        });
+        const response = m.cold('-a|', {
+          a: item,
+        });
+        const expected = m.cold('--(bc)', {
+          b: createSapQuoteSuccess({ quotation: item }),
+          c: loadQuotationInInterval(),
+        });
+
+        m.expect(effects.createSapQuote$).toBeObservable(expected);
+        m.flush();
+        expect(snackBar.open).toHaveBeenCalledTimes(1);
+        expect(quotationService.createSapQuotation).toHaveBeenCalledTimes(1);
+      })
+    );
+    test(
+      'shall call service, returns error',
+      marbles((m) => {
+        snackBar.open = jest.fn();
+
+        actions$ = m.hot('-a', {
+          a: createSapQuote({ gqPositionIds: ['12-12-12-'] }),
+        });
+        const result = createSapQuoteFailure({ errorMessage });
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', {
+          b: result,
+        });
+        quotationService.createSapQuotation = jest.fn(() => response);
+        m.expect(effects.createSapQuote$).toBeObservable(expected);
+        m.flush();
+        expect(snackBar.open).toHaveBeenCalledTimes(0);
+        expect(quotationService.createSapQuotation).toHaveBeenCalledTimes(1);
       })
     );
   });

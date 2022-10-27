@@ -27,8 +27,8 @@ import { QuotationDetailsStatusComponent } from './quotation-details-status/quot
 import { RefreshSapPriceComponent } from './refresh-sap-price/refresh-sap-price.component';
 import { TotalRowCountComponent } from './total-row-count/total-row-count.component';
 import { UpdateCaseStatusButtonComponent } from './update-case-status-button/update-case-status-button.component';
+import { UploadQuoteToSapButtonComponent } from './upload-quote-to-sap-button/upload-quote-to-sap-button.component';
 import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-button/upload-selection-to-sap-button.component';
-
 @NgModule({
   declarations: [
     AddMaterialButtonComponent,
@@ -49,6 +49,7 @@ import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-b
     RefreshSapPriceComponent,
     ConfirmSimulationButtonComponent,
     DiscardSimulationButtonComponent,
+    UploadQuoteToSapButtonComponent,
   ],
   imports: [
     CommonModule,
@@ -65,7 +66,6 @@ import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-b
     AddMaterialButtonComponent,
     CreateCaseButtonComponent,
     UpdateCaseStatusButtonComponent,
-
     ExportToExcelButtonComponent,
     QuotationDetailsStatusComponent,
     UploadSelectionToSapButtonComponent,
@@ -81,6 +81,7 @@ import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-b
     RefreshSapPriceComponent,
     ConfirmSimulationButtonComponent,
     DiscardSimulationButtonComponent,
+    UploadQuoteToSapButtonComponent,
   ],
 })
 export class CustomStatusBarModule {}

@@ -213,13 +213,16 @@
         "resetAll": "Zurücksetzen",
         "uploadSelectionToSap": "SAP Preise aktualisieren",
         "uploadSelectionToSapInfoText": "Selektieren Sie bis zu 100 Positionen für den SAP Upload.",
+        "uploadQuoteToSapMaximumPositionsInfoText": "Selektieren Sie bis zu 50 Positionen für den SAP Upload des Cases.",
         "confirmSimulation": "Bestätigen",
         "discardSimulation": "Änderungen verwerfen",
         "panelButtons": {
           "active": "Wiederherstellen",
           "inactive": "Löschen",
           "deleted": "Endgültig löschen"
-        }
+        },
+        "uploadQuoteToSap": "SAP Quote erstellen",
+        "uploadQuoteToSapMobile": "Erstellen"
       },
       "totalRowCount": {
         "total": "Anzahl",
@@ -334,7 +337,8 @@
       "refreshSapPricingSuccess": "SAP Preise wurden aktualisiert",
       "wrongPriceEditInput": "Bitte geben sie einen numerischen Preis ein",
       "priceShouldBeHigherThanZero": "Der Preis muss höher als 0.00 sein",
-      "pasteDisabled": "GQ kann nicht auf Ihre Zwischenablage zugreifen. Bitte überprüfen Sie Ihre Browsereinstellungen."
+      "pasteDisabled": "GQ kann nicht auf Ihre Zwischenablage zugreifen. Bitte überprüfen Sie Ihre Browsereinstellungen.",
+      "sapQuoteCreated": "SAP Quote mit Id {{sapId}} erfolgreich erstellt"
     },
     "maintenance": {
       "title": "Guided Quoting ist derzeit wegen Wartungsarbeiten nicht verfügbar"

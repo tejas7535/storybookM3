@@ -17,6 +17,9 @@ import {
   addMaterialsSuccess,
   addSimulatedQuotation,
   clearProcessCaseRowData,
+  createSapQuote,
+  createSapQuoteFailure,
+  createSapQuoteSuccess,
   deleteAddMaterialRowDataItem,
   deselectQuotationDetail,
   loadCustomer,
@@ -609,6 +612,38 @@ export const processCaseReducer = createReducer(
             (id) => id !== gqPositionId
           ),
         ],
+      },
+    })
+  ),
+  on(
+    createSapQuote,
+    (state: ProcessCaseState): ProcessCaseState => ({
+      ...state,
+      quotation: {
+        ...state.quotation,
+        quotationLoading: true,
+      },
+    })
+  ),
+  on(
+    createSapQuoteSuccess,
+    (state: ProcessCaseState, { quotation }): ProcessCaseState => ({
+      ...state,
+      quotation: {
+        ...state.quotation,
+        item: quotation,
+        quotationLoading: false,
+      },
+    })
+  ),
+  on(
+    createSapQuoteFailure,
+    (state: ProcessCaseState, { errorMessage }): ProcessCaseState => ({
+      ...state,
+      quotation: {
+        ...state.quotation,
+        quotationLoading: false,
+        errorMessage,
       },
     })
   )

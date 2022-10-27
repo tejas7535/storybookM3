@@ -20,6 +20,9 @@ import {
   addMaterialsSuccess,
   addSimulatedQuotation,
   clearProcessCaseRowData,
+  createSapQuote,
+  createSapQuoteFailure,
+  createSapQuoteSuccess,
   deleteAddMaterialRowDataItem,
   deselectQuotationDetail,
   loadCustomer,
@@ -880,6 +883,34 @@ describe('Quotation Reducer', () => {
           selectedQuotationDetails: ['5678'],
         },
       });
+    });
+  });
+
+  describe('CreateSapQuote', () => {
+    test('handle CreateSapQuote and set quotationLoading true', () => {
+      const action = createSapQuote({ gqPositionIds: ['12-12-12'] });
+      const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
+      expect(state.quotation.quotationLoading).toBe(true);
+    });
+    test('Handle CreateSapQuoteSuccess and update the quotation received by service', () => {
+      const action = createSapQuoteSuccess({
+        quotation: { ...QUOTATION_MOCK, sapCallInProgress: true },
+      });
+      const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
+      expect(state.quotation.quotationLoading).toBe(false);
+      expect(state.quotation.item).toEqual({
+        ...QUOTATION_MOCK,
+        sapCallInProgress: true,
+      });
+    });
+    test('Handle CreateSapQuoteFailure and set errorMessage', () => {
+      const action = createSapQuoteFailure({ errorMessage });
+      const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
+      expect(state.quotation.quotationLoading).toBe(false);
+      expect(state.quotation.item).toEqual({
+        ...QUOTATION_MOCK,
+      });
+      expect(state.quotation.errorMessage).toBe(errorMessage);
     });
   });
 });

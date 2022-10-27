@@ -38,6 +38,9 @@ import {
   addMaterialsFailure,
   addMaterialsSuccess,
   confirmSimulatedQuotation,
+  createSapQuote,
+  createSapQuoteFailure,
+  createSapQuoteSuccess,
   loadAvailableCurrenciesFailure,
   loadAvailableCurrenciesSuccess,
   loadCustomer,
@@ -500,6 +503,47 @@ export class ProcessCaseEffect {
             return of(loadAvailableCurrenciesFailure(errorMessage));
           })
         )
+      )
+    );
+  });
+
+  createSapQuote$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(createSapQuote),
+      concatLatestFrom(() => this.store.select(getGqId)),
+      mergeMap(([action, gqId]: [ReturnType<typeof createSapQuote>, number]) =>
+        this.quotationService
+          .createSapQuotation(gqId, action.gqPositionIds)
+          .pipe(
+            tap((quotation: Quotation) => {
+              const successMessage = translate(
+                'shared.snackBarMessages.sapQuoteCreated',
+                {
+                  sapId: quotation.sapId,
+                }
+              );
+              this.snackBar.open(successMessage);
+            }),
+            tap((quotation) =>
+              PriceService.addCalculationsForDetails(quotation.quotationDetails)
+            ),
+            mergeMap((quotation: Quotation) => {
+              if (
+                quotation.sapCallInProgress ||
+                quotation.calculationInProgress
+              ) {
+                return [
+                  createSapQuoteSuccess({ quotation }),
+                  loadQuotationInInterval(),
+                ];
+              }
+
+              return [createSapQuoteSuccess({ quotation })];
+            }),
+            catchError((errorMessage) =>
+              of(createSapQuoteFailure({ errorMessage }))
+            )
+          )
       )
     );
   });

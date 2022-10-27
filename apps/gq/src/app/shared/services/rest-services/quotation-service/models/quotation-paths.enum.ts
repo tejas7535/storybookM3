@@ -5,4 +5,5 @@ export enum QuotationPaths {
   PATH_REFRESH_SAP_PRICING = 'reload-from-sap',
   PATH_CUSTOMER_QUOTATION = 'customers/quotations',
   PATH_CURRENCIES = 'currencies',
+  PATH_SAP_QUOTATION = 'quotation/create-sap-quotation',
 }

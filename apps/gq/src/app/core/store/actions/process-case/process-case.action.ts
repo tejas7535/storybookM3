@@ -209,6 +209,21 @@ export const deselectQuotationDetail = createAction(
   props<{ gqPositionId: string }>()
 );
 
+export const createSapQuote = createAction(
+  '[Process Cases] Create SAP Quote',
+  props<{ gqPositionIds: string[] }>()
+);
+
+export const createSapQuoteSuccess = createAction(
+  '[Process Cases] Create SAP Quote success',
+  props<{ quotation: Quotation }>()
+);
+
+export const createSapQuoteFailure = createAction(
+  '[Process Cases] Create SAP Quote Failure',
+  props<{ errorMessage: string }>()
+);
+
 const all = union({
   clearProcessCaseRowData,
   addMaterials,
@@ -248,6 +263,9 @@ const all = union({
   confirmSimulatedQuotation,
   selectQuotationDetail,
   deselectQuotationDetail,
+  createSapQuote,
+  createSapQuoteSuccess,
+  createSapQuoteFailure,
 });
 
 export type CaseActions = typeof all;

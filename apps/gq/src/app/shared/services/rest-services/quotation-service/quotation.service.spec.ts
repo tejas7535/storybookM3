@@ -221,4 +221,21 @@ describe('QuotationService', () => {
       expect(req.request.method).toBe(HttpMethod.GET);
     });
   });
+
+  describe('createSapQuotation', () => {
+    it('should call', () => {
+      const mockBody: { gqId: number; gqPositionIds: string[] } = {
+        gqId: 1,
+        gqPositionIds: ['12-12-12-12'],
+      };
+      service
+        .createSapQuotation(1, ['12-12-12-12'])
+        .subscribe((res) => expect(res).toBeTruthy());
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${QuotationPaths.PATH_SAP_QUOTATION}`
+      );
+      expect(req.request.method).toBe(HttpMethod.POST);
+      req.flush(mockBody);
+    });
+  });
 });

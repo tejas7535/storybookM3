@@ -213,13 +213,16 @@
         "resetAll": "Reset All",
         "uploadSelectionToSap": "Update prices to SAP",
         "uploadSelectionToSapInfoText": "Select up to 100 positions to upload to SAP.",
+        "uploadQuoteToSapMaximumPositionsInfoText": "Select up to 50 positions to upload the quote to SAP.",
         "confirmSimulation": "Confirm",
         "discardSimulation": "Discard Changes",
         "panelButtons": {
           "active": "Restore",
           "inactive": "Delete",
           "deleted": "Delete Forever"
-        }
+        },
+        "uploadQuoteToSap": "Create SAP Quote",
+        "uploadQuoteToSapMobile": "Create"
       },
       "totalRowCount": {
         "total": "Total",
@@ -334,7 +337,8 @@
       "refreshSapPricingSuccess": "SAP Pricing was refreshed",
       "wrongPriceEditInput": "Please enter a numeric price value",
       "priceShouldBeHigherThanZero": "Net Price needs to be higher than 0.00",
-      "pasteDisabled": "GQ is not allowed to access your clipboard, please check your browser setting"
+      "pasteDisabled": "GQ is not allowed to access your clipboard, please check your browser setting",
+      "sapQuoteCreated": "SAP Quote with id {{sapId}} created successfully"
     },
     "maintenance": {
       "title": "Guided Quoting is currently down for maintenance"

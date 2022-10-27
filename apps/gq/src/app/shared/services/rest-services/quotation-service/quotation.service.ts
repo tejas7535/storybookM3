@@ -142,4 +142,19 @@ export class QuotationService {
       `${ApiVersion.V1}/${QuotationPaths.PATH_CURRENCIES}/${fromCurrency}/exchangeRates/${toCurrency}`
     );
   }
+
+  public createSapQuotation(
+    gqId: number,
+    gqPositionIds: string[]
+  ): Observable<Quotation> {
+    const requestBody: { gqId: number; gqPositionIds: string[] } = {
+      gqId,
+      gqPositionIds,
+    };
+
+    return this.http.post<Quotation>(
+      `${ApiVersion.V1}/${QuotationPaths.PATH_SAP_QUOTATION}`,
+      requestBody
+    );
+  }
 }
