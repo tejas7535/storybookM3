@@ -6,10 +6,10 @@
   },
   "tabs": {
     "singleQuotes": {
-      "title": "Single Quotes"
+      "title": "Case Details"
     },
     "customerDetails": {
-      "title": "Customer View",
+      "title": "Customer Details",
       "customerCardTitle": "Customer",
       "keyAccountCardTitle": "Key Account",
       "basicInformation": {

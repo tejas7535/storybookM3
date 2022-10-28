@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 
+import { translate } from '@ngneat/transloco';
 import { CellClassParams } from 'ag-grid-enterprise';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
@@ -11,14 +12,14 @@ import { AppRoutePath } from '../../../../app-route-path.enum';
   styles: [],
 })
 export class PositionIdComponent {
-  itemId: number;
+  itemId: string;
   gqPositionId: string;
   url: string;
   navigationExtras: NavigationExtras;
 
   constructor(private readonly router: Router) {}
   agInit(params: CellClassParams): void {
-    this.itemId = params.value;
+    this.itemId = translate('shared.itemId', { id: params.value });
     this.gqPositionId = params.data.gqPositionId;
     this.navigationExtras = {
       queryParamsHandling: 'merge',

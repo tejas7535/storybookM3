@@ -2,6 +2,7 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { translate } from '@ngneat/transloco';
 import { CellClassParams } from 'ag-grid-community';
 
 import { AppRoutePath } from '../../../../../app/app-route-path.enum';
@@ -39,7 +40,9 @@ describe('PositionIdComponent', () => {
       component.agInit(params as any);
 
       expect(component.gqPositionId).toEqual(params.data.gqPositionId);
-      expect(component.itemId).toEqual(params.value);
+      expect(component.itemId).toEqual('translate it');
+      expect(translate).toHaveBeenCalledTimes(1);
+      expect(translate).toBeCalledWith('shared.itemId', { id: 10 });
     });
   });
 

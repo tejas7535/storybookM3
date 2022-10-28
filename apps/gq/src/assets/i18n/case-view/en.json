@@ -16,7 +16,7 @@
   },
   "caseCreation": {
     "importCase": {
-      "title": "Import new Case",
+      "title": "Import SAP Quotation",
       "importButton": "Import"
     },
     "createManualCase": {

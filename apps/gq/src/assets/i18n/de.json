@@ -192,6 +192,7 @@
         "quantity": "Menge"
       }
     },
+    "itemId": "Position {{id}}",
     "sapStatusLabels": {
       "notSynced": "Nicht mit SAP synchronisiert",
       "synced": "Mit SAP synchronisiert",
