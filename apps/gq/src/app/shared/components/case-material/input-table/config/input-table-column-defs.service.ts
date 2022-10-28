@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { ColDef } from 'ag-grid-enterprise';
 import { translate } from '@ngneat/transloco';
+import { ColDef } from 'ag-grid-enterprise';
 
 import { ColumnUtilityService } from '../../../../ag-grid/services/column-utility.service';
 
@@ -27,7 +27,7 @@ export class InputTableColumnDefService {
     {
       headerName: translate('shared.caseMaterial.table.quantity'),
       field: 'quantity',
-      flex: 0.2,
+      flex: 0.15,
       sortable: true,
       valueFormatter: (params) =>
         this.columnUtilityService.numberFormatter(params),
@@ -36,7 +36,7 @@ export class InputTableColumnDefService {
       headerName: translate('shared.caseMaterial.table.info.title'),
       field: 'info',
       cellRenderer: 'infoCellComponent',
-      flex: 0.1,
+      flex: 0.15,
       sortable: true,
       comparator: ColumnUtilityService.infoComparator,
     },

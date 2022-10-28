@@ -11,6 +11,14 @@ import { ColDef } from 'ag-grid-enterprise';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { PLsAndSeries } from '../../../core/store/reducers/create-case/models/pls-and-series.model';
+import { CreateCaseActionCellComponent } from '../../ag-grid/cell-renderer/action-cells/create-case-action-cell/create-case-action-cell.component';
+import { CreateCaseActionHeaderComponent } from '../../ag-grid/cell-renderer/action-cells/create-case-action-header/create-case-action-header.component';
+import { ProcessCaseActionCellComponent } from '../../ag-grid/cell-renderer/action-cells/process-case-action-cell/process-case-action-cell.component';
+import { ProcessCaseActionHeaderComponent } from '../../ag-grid/cell-renderer/action-cells/process-case-action-header/process-case-action-header.component';
+import { AddMaterialButtonComponent } from '../../ag-grid/custom-status-bar/case-material-table/add-material-button/add-material-button.component';
+import { CreateCaseButtonComponent } from '../../ag-grid/custom-status-bar/case-material-table/create-case-button/create-case-button.component';
+import { CreateCaseResetAllButtonComponent } from '../../ag-grid/custom-status-bar/case-material-table/create-case-reset-all-button/create-case-reset-all-button.component';
+import { ProcessCaseResetAllButtonComponent } from '../../ag-grid/custom-status-bar/case-material-table/process-case-reset-all-button/process-case-reset-all-button.component';
 import { BASE_STATUS_BAR_CONFIG } from '../../components/case-material/input-table/config';
 import { Keyboard } from '../../models';
 import { StatusBarConfig } from '../../models/table';
@@ -390,11 +398,11 @@ describe('HelperServiceService', () => {
         statusPanels: [
           ...BASE_STATUS_BAR_CONFIG.statusPanels,
           {
-            statusPanel: 'createCaseButtonComponent',
+            statusPanel: CreateCaseButtonComponent,
             align: 'left',
           },
           {
-            statusPanel: 'createCaseResetAllComponent',
+            statusPanel: CreateCaseResetAllButtonComponent,
             align: 'right',
           },
         ],
@@ -408,11 +416,11 @@ describe('HelperServiceService', () => {
         statusPanels: [
           ...BASE_STATUS_BAR_CONFIG.statusPanels,
           {
-            statusPanel: 'addMaterialButtonComponent',
+            statusPanel: AddMaterialButtonComponent,
             align: 'left',
           },
           {
-            statusPanel: 'processCaseResetAllComponent',
+            statusPanel: ProcessCaseResetAllButtonComponent,
             align: 'right',
           },
         ],
@@ -428,8 +436,9 @@ describe('HelperServiceService', () => {
       const expected: ColDef[] = [
         ...BASE_COLUMN_DEFS,
         {
-          cellRenderer: 'createCaseActionCellComponent',
-          flex: 0.1,
+          cellRenderer: CreateCaseActionCellComponent,
+          flex: 0.2,
+          headerComponent: CreateCaseActionHeaderComponent,
         },
       ];
 
@@ -441,8 +450,9 @@ describe('HelperServiceService', () => {
       const expected: ColDef[] = [
         ...BASE_COLUMN_DEFS,
         {
-          cellRenderer: 'processCaseActionCellComponent',
-          flex: 0.1,
+          cellRenderer: ProcessCaseActionCellComponent,
+          flex: 0.2,
+          headerComponent: ProcessCaseActionHeaderComponent,
         },
       ];
 

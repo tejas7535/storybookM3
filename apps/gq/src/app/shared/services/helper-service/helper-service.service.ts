@@ -10,6 +10,14 @@ import { StatusPanelDef } from 'ag-grid-community';
 import { ColDef } from 'ag-grid-enterprise';
 
 import { PLsAndSeries } from '../../../core/store/reducers/create-case/models/pls-and-series.model';
+import { CreateCaseActionCellComponent } from '../../ag-grid/cell-renderer/action-cells/create-case-action-cell/create-case-action-cell.component';
+import { CreateCaseActionHeaderComponent } from '../../ag-grid/cell-renderer/action-cells/create-case-action-header/create-case-action-header.component';
+import { ProcessCaseActionCellComponent } from '../../ag-grid/cell-renderer/action-cells/process-case-action-cell/process-case-action-cell.component';
+import { ProcessCaseActionHeaderComponent } from '../../ag-grid/cell-renderer/action-cells/process-case-action-header/process-case-action-header.component';
+import { AddMaterialButtonComponent } from '../../ag-grid/custom-status-bar/case-material-table/add-material-button/add-material-button.component';
+import { CreateCaseButtonComponent } from '../../ag-grid/custom-status-bar/case-material-table/create-case-button/create-case-button.component';
+import { CreateCaseResetAllButtonComponent } from '../../ag-grid/custom-status-bar/case-material-table/create-case-reset-all-button/create-case-reset-all-button.component';
+import { ProcessCaseResetAllButtonComponent } from '../../ag-grid/custom-status-bar/case-material-table/process-case-reset-all-button/process-case-reset-all-button.component';
 import { LOCALE_DE } from '../../constants';
 import { Keyboard } from '../../models';
 import { StatusBarConfig } from '../../models/table';
@@ -40,15 +48,15 @@ export class HelperService {
   ): StatusBarConfig {
     const addPanel: StatusPanelDef = {
       statusPanel: isCaseView
-        ? 'createCaseButtonComponent'
-        : 'addMaterialButtonComponent',
+        ? CreateCaseButtonComponent
+        : AddMaterialButtonComponent,
       align: 'left',
     };
 
     const resetPanel: StatusPanelDef = {
       statusPanel: isCaseView
-        ? 'createCaseResetAllComponent'
-        : 'processCaseResetAllComponent',
+        ? CreateCaseResetAllButtonComponent
+        : ProcessCaseResetAllButtonComponent,
       align: 'right',
     };
 
@@ -58,9 +66,12 @@ export class HelperService {
   static initColDef(isCaseView: boolean, colDef: ColDef[]): ColDef[] {
     const actionCell: ColDef = {
       cellRenderer: isCaseView
-        ? 'createCaseActionCellComponent'
-        : 'processCaseActionCellComponent',
-      flex: 0.1,
+        ? CreateCaseActionCellComponent
+        : ProcessCaseActionCellComponent,
+      flex: 0.2,
+      headerComponent: isCaseView
+        ? CreateCaseActionHeaderComponent
+        : ProcessCaseActionHeaderComponent,
     };
 
     return [...colDef, actionCell];

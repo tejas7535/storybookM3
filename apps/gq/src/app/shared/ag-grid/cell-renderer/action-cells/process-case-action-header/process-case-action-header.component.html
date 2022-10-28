@@ -1,0 +1,15 @@
+<div
+  class="flex items-center justify-start"
+  *transloco="let t; read: 'shared.caseMaterial.addEntry'"
+>
+  <button
+    mat-stroked-button
+    class="text-button"
+    color="primary"
+    (click)="deleteItems()"
+    [matTooltip]="t('deleteInvalid.tooltip')"
+    *ngIf="showDeleteButton$ | ngrxPush"
+  >
+    {{ t('deleteInvalid.button') }}
+  </button>
+</div>

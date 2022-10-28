@@ -173,7 +173,11 @@
           "nothingFound": "Keine Ergebnisse",
           "wrongInput": "Bitte geben Sie eine valide Angebotsnummer ein"
         },
-        "button": "Hinzufügen"
+        "button": "Hinzufügen",
+        "deleteInvalid": {
+          "button": "Validieren",
+          "tooltip": "Alle ungültigen Materialien löschen"
+        }
       },
       "table": {
         "info": {

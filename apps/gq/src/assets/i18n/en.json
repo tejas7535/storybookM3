@@ -173,7 +173,11 @@
           "nothingFound": "Nothing found",
           "wrongInput": "Please enter a valid quotation number"
         },
-        "button": "Add entry"
+        "button": "Add entry",
+        "deleteInvalid": {
+          "button": "Validate",
+          "tooltip": "Delete all invalid materials"
+        }
       },
       "table": {
         "info": {
