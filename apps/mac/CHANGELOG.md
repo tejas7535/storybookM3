@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v0.9.1...mac-v1.0.0) (2022-10-28)
+
+
+### 🐛 Bug Fixes
+
+* **workspace:** fix prettier formatting ([#4746](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4746)) ([6d09958](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6d099587562a9db04e311acb309235bc60e89ee4))
+
+
+### 🎸 Features
+
+* **mac:** add new material models (UFTABI-6134) ([#4747](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4747)) ([548df00](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/548df0012cc8e23405cd1ef7a2ac29377d37ac0c))
+
 ### [0.9.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v0.9.0...mac-v0.9.1) (2022-10-14)
 
 
