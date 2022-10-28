@@ -1,8 +1,4 @@
-<div
-  *ngIf="
-    (sapId$ | ngrxPush) === undefined && !(simulationModeEnabled$ | ngrxPush)
-  "
->
+<div *ngIf="!(simulationModeEnabled$ | ngrxPush)">
   <button
     class="!m-4 !ml-0"
     mat-raised-button

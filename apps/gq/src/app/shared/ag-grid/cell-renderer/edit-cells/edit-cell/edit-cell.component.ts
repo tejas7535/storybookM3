@@ -8,7 +8,6 @@ import { Store } from '@ngrx/store';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 
-import { TableContext } from '../../../../../../app/process-case-view/quotation-details-table/config/tablecontext.model';
 import { getSimulatedQuotationDetailByItemId } from '../../../../../core/store';
 import { EditingModalComponent } from '../../../../components/modal/editing-modal/editing-modal.component';
 import { QuotationDetail } from '../../../../models/quotation-detail';
@@ -44,11 +43,6 @@ export class EditCellComponent implements ICellRendererAngularComp {
       // editing is enabled
       (!params.condition.enabled ||
         params.data[params.condition.conditionField]) &&
-      // exception for quantity
-      !(
-        params.field === ColumnFields.ORDER_QUANTITY &&
-        !!(params.context as TableContext).quotation.sapId
-      ) &&
       params.field !== ColumnFields.PRICE_DIFF &&
       params.field !== ColumnFields.RLM &&
       params.field !== ColumnFields.NET_VALUE &&

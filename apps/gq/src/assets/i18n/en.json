@@ -216,7 +216,7 @@
         "refreshSapData": "Refresh SAP Data",
         "refreshSapDataMobile": "refresh",
         "resetAll": "Reset All",
-        "uploadSelectionToSap": "Update prices to SAP",
+        "uploadSelectionToSap": "Update SAP Quotation",
         "uploadSelectionToSapInfoText": "Select up to 100 positions to upload to SAP.",
         "uploadQuoteToSapMaximumPositionsInfoText": "Select up to 50 positions to upload the quote to SAP.",
         "confirmSimulation": "Confirm",
