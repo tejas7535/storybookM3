@@ -1,5 +1,12 @@
+import { translate } from '@ngneat/transloco';
 import { createSelector } from '@ngrx/store';
 
+import {
+  greaseCategories,
+  LB_NON_SCHAEFFLER_HTG,
+  LB_NON_SCHAEFFLER_MPG,
+  marketGreases,
+} from '@ga/shared/constants';
 import {
   CalculationParameters,
   InstallationMode,
@@ -147,6 +154,35 @@ export const getPreferredGrease = createSelector(
 export const getPreferredGreaseOptions = createSelector(
   getPreferredGrease,
   (preferredGrease) => preferredGrease?.greaseOptions
+);
+
+export const getAllGreases = createSelector(
+  getPreferredGreaseOptions,
+  (preferredGreaseOptions) =>
+    greaseCategories.map((greaseCategory) => ({
+      name: translate(greaseCategory.name),
+      entries: greaseCategory.types
+        ? [
+            {
+              text: 'General Multi-Purpose',
+              id: LB_NON_SCHAEFFLER_MPG,
+            },
+            {
+              text: 'General High-Temperature',
+              id: LB_NON_SCHAEFFLER_HTG,
+            },
+            ...marketGreases.flatMap((marketGreasesCategory) =>
+              marketGreasesCategory.entries.map((entry) => ({
+                text: entry,
+                id: marketGreasesCategory.category,
+              }))
+            ),
+          ]
+        : preferredGreaseOptions?.filter(
+            ({ id }) =>
+              !greaseCategories.find(({ types }) => !!types).types.includes(id)
+          ),
+    }))
 );
 
 export const getPreferredGreaseOptionsLoading = createSelector(

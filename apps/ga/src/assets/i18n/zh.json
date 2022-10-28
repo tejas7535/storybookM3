@@ -183,7 +183,9 @@
       "grease": {
         "label": "润滑脂",
         "defaultOption": "所有润滑脂",
-        "tooltip": "在计算报告中，所选油脂将被优先考虑。\n如果所选的油脂不合适，将显示替代方案。"
+        "tooltip": "在计算报告中，所选油脂将被优先考虑。\n如果所选的油脂不合适，将显示替代方案。",
+        "schaefflerGreases": "Schaeffler 润滑脂",
+        "nonSchaefflerGreases": "非 Schaeffler 润滑脂"
       },
       "concept1": {
         "label": "计算气体释放设置 (CONCEPT1)",
@@ -286,6 +288,7 @@
       "sizeHint": "对于你选择的操作条件，使用{{ size }}毫升的CONCEPT1是不合适的。",
       "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }}ml)"
     },
+    "previouslySelected": "(从步骤 \"操作参数 \"中选择油脂)",
     "initialGreaseQuantity": "初始加脂量 *",
     "manualRelubricationQuantityInterval": "手动润滑加脂量 * / 间隔 *",
     "manualRelubricationQuantityIntervalTooltip": "出于操作安全的考虑，不建议采用 > 1 年的润滑周期。\n\n建议在润滑周期内，利用多个润滑过程来分配润滑加脂量，特别是对于手动加注大量润滑脂的情形。",

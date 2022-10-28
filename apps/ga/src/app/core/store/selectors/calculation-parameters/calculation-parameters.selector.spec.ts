@@ -1,3 +1,6 @@
+import { TranslocoModule } from '@ngneat/transloco';
+
+import { highTemperaturGreases } from '@ga/shared/constants';
 import { Movement } from '@ga/shared/models';
 import {
   APP_STATE_MOCK,
@@ -7,6 +10,7 @@ import {
 
 import {
   axialLoadPossible,
+  getAllGreases,
   getAutomaticLubrication,
   getCalculationParameters,
   getEnvironmentTemperatures,
@@ -18,6 +22,11 @@ import {
   getSelectedMovementType,
   radialLoadPossible,
 } from './calculation-parameters.selector';
+
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+  translate: jest.fn((string) => string),
+}));
 
 describe('Calculation Parameters Selector', () => {
   const mockState = {
@@ -165,6 +174,30 @@ describe('Calculation Parameters Selector', () => {
   describe('getAutomaticLubrication', () => {
     it('should return the value of automaticLubrication', () => {
       expect(getAutomaticLubrication(mockState)).toEqual(true);
+    });
+  });
+
+  describe('getAllGreases', () => {
+    it('should return all greases sorted by category', () => {
+      const expectedResult = [
+        {
+          entries: [],
+          name: 'parameters.productPreselection.grease.schaefflerGreases',
+        },
+        {
+          entries: [
+            { id: 'LB_NON_SCHAEFFLER_MPG', text: 'General Multi-Purpose' },
+            { id: 'LB_NON_SCHAEFFLER_HTG', text: 'General High-Temperature' },
+            { id: 'LB_NON_SCHAEFFLER_HTG', text: highTemperaturGreases[0] },
+            { id: 'LB_NON_SCHAEFFLER_HTG', text: highTemperaturGreases[1] },
+            { id: 'LB_NON_SCHAEFFLER_HTG', text: highTemperaturGreases[2] },
+            { id: 'LB_NON_SCHAEFFLER_HTG', text: highTemperaturGreases[3] },
+            { id: 'LB_NON_SCHAEFFLER_HTG', text: highTemperaturGreases[4] },
+          ],
+          name: 'parameters.productPreselection.grease.nonSchaefflerGreases',
+        },
+      ];
+      expect(getAllGreases(mockState)).toEqual(expectedResult);
     });
   });
 });
