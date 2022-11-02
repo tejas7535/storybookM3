@@ -214,6 +214,7 @@
         "addNewItemMobile": "Hinzufügen",
         "deleteCase": "case löschen",
         "refreshSapData": "SAP Daten aktualisieren",
+        "refreshSapDataTooltip": "Aktualisierung der SAP-Preisstellungen und der Bestands- und Verfügbarkeitsinformationen",
         "refreshSapDataMobile": "Aktualisieren",
         "resetAll": "Zurücksetzen",
         "uploadSelectionToSap": "SAP Angebot aktualisieren",

@@ -214,6 +214,7 @@
         "addNewItemMobile": "add",
         "deleteCase": "delete case",
         "refreshSapData": "Refresh SAP Data",
+        "refreshSapDataTooltip": "Refresh SAP price settings and stock & availability information",
         "refreshSapDataMobile": "refresh",
         "resetAll": "Reset All",
         "uploadSelectionToSap": "Update SAP Quotation",

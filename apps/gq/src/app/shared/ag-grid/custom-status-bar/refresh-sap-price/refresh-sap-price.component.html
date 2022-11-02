@@ -4,6 +4,7 @@
     mat-flat-button
     *transloco="let t; read: 'shared.customStatusBar.buttons'"
     (click)="refreshSapPricing()"
+    [matTooltip]="t('refreshSapDataTooltip')"
   >
     <mat-icon>{{ icon }}</mat-icon>
     <span class="hidden lg:inline">
