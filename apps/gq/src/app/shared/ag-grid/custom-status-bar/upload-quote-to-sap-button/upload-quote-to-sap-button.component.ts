@@ -22,7 +22,6 @@ export class UploadQuoteToSapButtonComponent {
   public sapId$: Observable<string>;
   public simulationModeEnabled$: Observable<boolean>;
 
-  private readonly QUOTATION_POSITION_UPLOAD_LIMIT = 50;
   private params: IStatusPanelParams;
 
   constructor(private readonly store: Store) {}
@@ -39,9 +38,7 @@ export class UploadQuoteToSapButtonComponent {
 
   public onSelectionChange(): void {
     this.selections = this.params.api.getSelectedRows();
-    this.uploadDisabled =
-      this.selections.length === 0 ||
-      this.selections.length > this.QUOTATION_POSITION_UPLOAD_LIMIT;
+    this.uploadDisabled = this.selections.length === 0;
   }
 
   public uploadCaseToSap(): void {

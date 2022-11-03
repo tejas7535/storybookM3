@@ -219,7 +219,7 @@
         "resetAll": "Zurücksetzen",
         "uploadSelectionToSap": "SAP Angebot aktualisieren",
         "uploadSelectionToSapInfoText": "Selektieren Sie bis zu 100 Positionen für den SAP Upload.",
-        "uploadQuoteToSapMaximumPositionsInfoText": "Selektieren Sie bis zu 50 Positionen für den SAP Upload des Cases.",
+        "uploadQuoteToSapPositionsInfoText": "Selektieren Sie Positionen für den SAP Upload des Cases.",
         "confirmSimulation": "Bestätigen",
         "discardSimulation": "Änderungen verwerfen",
         "panelButtons": {
