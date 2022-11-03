@@ -7,6 +7,7 @@ import { ChartType } from '../../models/chart-type.enum';
 import { DimensionFluctuationData } from '../../models/dimension-fluctuation-data.model';
 import {
   DimensionParentResponse,
+  OrgChartEmployee,
   OrgUnitFluctuationRate,
 } from '../../org-chart/models';
 import { CountryData } from '../../world-map/models/country-data.model';
@@ -16,6 +17,9 @@ import {
   loadAttritionOverTimeOrgChartFailure,
   loadAttritionOverTimeOrgChartSuccess,
   loadOrgChart,
+  loadOrgChartEmployees,
+  loadOrgChartEmployeesFailure,
+  loadOrgChartEmployeesSuccess,
   loadOrgChartFailure,
   loadOrgChartFluctuationMeta,
   loadOrgChartFluctuationRate,
@@ -220,6 +224,39 @@ describe('Organizational View Actions', () => {
     expect(action).toEqual({
       errorMessage,
       type: '[Organizational View] Load AttritionOverTime for plus minus three months Failure',
+    });
+  });
+
+  test('loadOrgChartEmployees', () => {
+    const data = { id: '123' } as unknown as DimensionFluctuationData;
+
+    const action = loadOrgChartEmployees({
+      data,
+    });
+
+    expect(action).toEqual({
+      data,
+      type: '[Organizational View] Load Org Chart Employees',
+    });
+  });
+
+  test('loadOrgChartEmployeesSuccess', () => {
+    const employees = [] as OrgChartEmployee[];
+
+    const action = loadOrgChartEmployeesSuccess({ employees });
+
+    expect(action).toEqual({
+      employees,
+      type: '[Organizational View] Load Org Chart Employees Success',
+    });
+  });
+
+  test('loadOrgChartEmployeesFailure', () => {
+    const action = loadOrgChartEmployeesFailure({ errorMessage });
+
+    expect(action).toEqual({
+      errorMessage,
+      type: '[Organizational View] Load Org Chart Employees Failure',
     });
   });
 });

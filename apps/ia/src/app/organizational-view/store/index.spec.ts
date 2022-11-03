@@ -5,6 +5,7 @@ import { ChartType } from '../models/chart-type.enum';
 import { DimensionFluctuationData } from '../models/dimension-fluctuation-data.model';
 import {
   DimensionParentResponse,
+  OrgChartEmployee,
   OrgUnitFluctuationRate,
 } from '../org-chart/models';
 import { CountryData } from '../world-map/models/country-data.model';
@@ -15,6 +16,9 @@ import {
   loadAttritionOverTimeOrgChartFailure,
   loadAttritionOverTimeOrgChartSuccess,
   loadOrgChart,
+  loadOrgChartEmployees,
+  loadOrgChartEmployeesFailure,
+  loadOrgChartEmployeesSuccess,
   loadOrgChartFailure,
   loadOrgChartFluctuationMeta,
   loadOrgChartFluctuationRate,
@@ -278,6 +282,50 @@ describe('Organization View Reducer', () => {
 
       expect(state.orgChart.loading).toBeFalsy();
       expect(state.orgChart.errorMessage).toEqual(errorMessage);
+    });
+  });
+
+  describe('loadOrgChartEmployees', () => {
+    test('should set loading', () => {
+      const data = { id: '123' } as unknown as DimensionFluctuationData;
+      const action = loadOrgChartEmployees({ data });
+      const state = organizationalViewReducer(initialState, action);
+
+      expect(state.orgChart.employees.loading).toBeTruthy();
+    });
+  });
+
+  describe('loadOrgChartEmployeesSuccess', () => {
+    test('should unset loading and set data', () => {
+      const employees = [] as OrgChartEmployee[];
+      const action = loadOrgChartEmployeesSuccess({ employees });
+
+      const state = organizationalViewReducer(initialState, action);
+
+      expect(state.orgChart.employees.data).toEqual(employees);
+      expect(state.orgChart.employees.loading).toBeFalsy();
+    });
+  });
+
+  describe('loadOrgChartEmployeesFailure', () => {
+    test('should unset loading / set error message', () => {
+      const action = loadOrgChartEmployeesFailure({ errorMessage });
+      const fakeState = {
+        ...initialState,
+        orgChart: {
+          ...initialState.orgChart,
+          loading: true,
+          employees: {
+            ...initialState.orgChart.employees,
+            loading: true,
+          },
+        },
+      };
+
+      const state = organizationalViewReducer(fakeState, action);
+
+      expect(state.orgChart.employees.loading).toBeFalsy();
+      expect(state.orgChart.employees.errorMessage).toEqual(errorMessage);
     });
   });
 

@@ -13,6 +13,7 @@ import {
 } from '../shared/models';
 import {
   DimensionParentResponse,
+  OrgChartEmployeesResponse,
   OrgChartResponse,
   OrgUnitFluctuationRate,
 } from './org-chart/models';
@@ -60,6 +61,29 @@ describe('OrganizationalViewService', () => {
 
       const req = httpMock.expectOne(
         `api/v1/org-chart?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}&time_range=${timeRange}`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(mock);
+    });
+  });
+
+  describe('getOrgChartEmployeesForNode', () => {
+    test('should get employees for node in org chart', () => {
+      const orgUnit = 'Schaeffler12';
+      const timeRange = '123-321';
+      const mock: OrgChartEmployeesResponse = { employees: [] };
+      const request = {
+        filterDimension: FilterDimension.ORG_UNIT,
+        value: orgUnit,
+        timeRange,
+      } as EmployeesRequest;
+
+      service.getOrgChartEmployeesForNode(request).subscribe((response) => {
+        expect(response).toEqual(mock);
+      });
+
+      const req = httpMock.expectOne(
+        `api/v1/org-chart-employees?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}&time_range=${timeRange}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);

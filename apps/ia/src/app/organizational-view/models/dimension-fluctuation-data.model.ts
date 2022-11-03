@@ -1,5 +1,5 @@
 import { FilterDimension } from '../../shared/models';
-import { Employee, EmployeeAttritionMeta } from '../../shared/models/employee';
+import { EmployeeAttritionMeta } from '../../shared/models/employee';
 
 export interface DimensionFluctuationData {
   id: string;
@@ -13,5 +13,4 @@ export interface DimensionFluctuationData {
   directAttrition: number;
   totalAttrition: number;
   attritionMeta: EmployeeAttritionMeta;
-  directLeafChildren: Employee[];
 }

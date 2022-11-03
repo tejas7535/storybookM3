@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { ActionType, EmployeeWithAction } from '../models';
+import { ActionType } from '../models';
 import { EmployeeListDialogMeta } from './employee-list-dialog-meta.model';
 
 @Component({
@@ -16,7 +16,15 @@ export class EmployeeListDialogComponent {
     this.showFluctuationType = data.showFluctuationType;
   }
 
-  trackByFn(index: number, _item: EmployeeWithAction): number {
+  trackByFn(
+    index: number,
+    _item: {
+      employeeName: string;
+      positionDescription: string;
+      orgUnit: string;
+      actionType?: ActionType;
+    }
+  ): number {
     return index;
   }
 }

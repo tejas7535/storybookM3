@@ -11,6 +11,9 @@
       *ngIf="selectedChart === chartType.ORG_CHART"
       [data]="orgChart$ | ngrxPush"
       [isLoading]="isLoadingOrgChart$ | ngrxPush"
+      [selectedNodeEmployees]="orgChartEmployees$ | ngrxPush"
+      [selectedNodeEmployeesLoading]="orgChartEmployeesLoading$ | ngrxPush"
+      (showOrgChartEmployees)="loadOrgChartEmployees($event)"
       (showParent)="loadParent($event)"
       (loadMeta)="loadFluctuationMeta($event)"
     ></ia-org-chart>

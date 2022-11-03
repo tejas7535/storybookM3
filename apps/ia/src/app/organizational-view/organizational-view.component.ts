@@ -9,8 +9,10 @@ import { ChartLegendItem } from '../shared/charts/models/chart-legend-item.model
 import { IdValue, TailwindColor } from '../shared/models';
 import { ChartType } from './models/chart-type.enum';
 import { DimensionFluctuationData } from './models/dimension-fluctuation-data.model';
+import { OrgChartEmployee } from './org-chart/models';
 import {
   chartTypeSelected,
+  loadOrgChartEmployees,
   loadOrgChartFluctuationMeta,
   loadParent,
   loadWorldMapFluctuationCountryMeta,
@@ -20,6 +22,8 @@ import {
   getIsLoadingOrgChart,
   getIsLoadingWorldMap,
   getOrgChart,
+  getOrgChartEmployees,
+  getOrgChartEmployeesLoading,
   getRegions,
   getSelectedChartType,
   getWorldMap,
@@ -39,6 +43,8 @@ import { CountryData } from './world-map/models/country-data.model';
 })
 export class OrganizationalViewComponent implements OnInit {
   orgChart$: Observable<DimensionFluctuationData[]>;
+  orgChartEmployees$: Observable<OrgChartEmployee[]>;
+  orgChartEmployeesLoading$: Observable<boolean>;
   isLoadingOrgChart$: Observable<boolean>;
   isLoadingWorldMap$: Observable<boolean>;
   selectedChartType$: Observable<ChartType>;
@@ -70,6 +76,10 @@ export class OrganizationalViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.orgChart$ = this.store.select(getOrgChart);
+    this.orgChartEmployees$ = this.store.select(getOrgChartEmployees);
+    this.orgChartEmployeesLoading$ = this.store.select(
+      getOrgChartEmployeesLoading
+    );
     this.isLoadingOrgChart$ = this.store.select(getIsLoadingOrgChart);
     this.isLoadingWorldMap$ = this.store.select(getIsLoadingWorldMap);
     this.selectedChartType$ = this.store.select(getSelectedChartType);
@@ -96,5 +106,9 @@ export class OrganizationalViewComponent implements OnInit {
 
   loadCountryMeta(country: string): void {
     this.store.dispatch(loadWorldMapFluctuationCountryMeta({ country }));
+  }
+
+  loadOrgChartEmployees(data: DimensionFluctuationData): void {
+    this.store.dispatch(loadOrgChartEmployees({ data }));
   }
 }

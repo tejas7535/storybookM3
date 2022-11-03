@@ -24,7 +24,10 @@ import {
   TimePeriod,
 } from '../../../shared/models';
 import { DimensionFluctuationData } from '../../models/dimension-fluctuation-data.model';
-import { DimensionParentResponse } from '../../org-chart/models';
+import {
+  DimensionParentResponse,
+  OrgChartEmployee,
+} from '../../org-chart/models';
 import { OrganizationalViewService } from '../../organizational-view.service';
 import { CountryData } from '../../world-map/models/country-data.model';
 import {
@@ -33,6 +36,9 @@ import {
   loadAttritionOverTimeOrgChartSuccess,
   loadOrganizationalViewData,
   loadOrgChart,
+  loadOrgChartEmployees,
+  loadOrgChartEmployeesFailure,
+  loadOrgChartEmployeesSuccess,
   loadOrgChartFailure,
   loadOrgChartFluctuationMeta,
   loadOrgChartFluctuationRate,
@@ -382,6 +388,92 @@ describe('Organizational View Effects', () => {
         expect(organizationalViewService.getWorldMap).toHaveBeenCalledWith(
           request
         );
+      })
+    );
+  });
+
+  describe('loadOrgChartEmployees$', () => {
+    let data: DimensionFluctuationData;
+    let timeRange: IdValue;
+    let request: EmployeesRequest;
+
+    beforeEach(() => {
+      data = {
+        dimensionKey: '123',
+        id: '32',
+        parentId: '23',
+        filterDimension: FilterDimension.ORG_UNIT,
+      } as DimensionFluctuationData;
+      timeRange = {
+        id: '1234|4567',
+        value: '1.1.2020 - 31.1.2022',
+      } as IdValue;
+      request = {
+        value: data.dimensionKey,
+        timeRange: timeRange.id,
+        filterDimension: FilterDimension.ORG_UNIT,
+      };
+
+      action = loadOrgChartEmployees({ data });
+    });
+
+    test(
+      'should return loadOrgChartEmployeesSuccess action when REST call is successful',
+      marbles((m) => {
+        const employees = [
+          { employeeName: 'Hans' } as unknown as OrgChartEmployee,
+          { employeeName: 'Peter' } as unknown as OrgChartEmployee,
+        ];
+
+        store.overrideSelector(getSelectedTimeRange, {
+          id: timeRange.id,
+          value: timeRange.value,
+        });
+
+        const result = loadOrgChartEmployeesSuccess({
+          employees,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|', {
+          a: employees,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        organizationalViewService.getOrgChartEmployeesForNode = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadOrgChartEmployees$).toBeObservable(expected);
+        m.flush();
+        expect(
+          organizationalViewService.getOrgChartEmployeesForNode
+        ).toHaveBeenCalledWith({ ...request, timeRange: timeRange.id });
+      })
+    );
+
+    test(
+      'should return loadOrgChartEmployeesFailure on REST error',
+      marbles((m) => {
+        const result = loadOrgChartEmployeesFailure({
+          errorMessage: error.message,
+        });
+        store.overrideSelector(getCurrentFilters, request);
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+
+        organizationalViewService.getOrgChartEmployeesForNode = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadOrgChartEmployees$).toBeObservable(expected);
+        m.flush();
+        expect(
+          organizationalViewService.getOrgChartEmployeesForNode
+        ).toHaveBeenCalledWith({ ...request, timeRange: timeRange.id });
       })
     );
   });

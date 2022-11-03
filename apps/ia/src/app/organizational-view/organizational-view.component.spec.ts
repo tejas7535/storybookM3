@@ -9,6 +9,7 @@ import { DimensionFluctuationData } from './models/dimension-fluctuation-data.mo
 import { OrganizationalViewComponent } from './organizational-view.component';
 import {
   chartTypeSelected,
+  loadOrgChartEmployees,
   loadOrgChartFluctuationMeta,
   loadParent,
   loadWorldMapFluctuationCountryMeta,
@@ -112,6 +113,19 @@ describe('OrganizationalViewComponent', () => {
 
       expect(component['store'].dispatch).toHaveBeenCalledWith(
         loadWorldMapFluctuationCountryMeta({ country })
+      );
+    });
+  });
+
+  describe('loadOrgChartEmployees', () => {
+    test('should dispatch loadOrgChartEmployees', () => {
+      component['store'].dispatch = jest.fn();
+      const data = { id: '123' } as unknown as DimensionFluctuationData;
+
+      component.loadOrgChartEmployees(data);
+
+      expect(component['store'].dispatch).toHaveBeenCalledWith(
+        loadOrgChartEmployees({ data })
       );
     });
   });

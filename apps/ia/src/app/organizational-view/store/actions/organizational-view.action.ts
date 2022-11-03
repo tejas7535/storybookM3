@@ -5,6 +5,7 @@ import { ChartType } from '../../models/chart-type.enum';
 import { DimensionFluctuationData } from '../../models/dimension-fluctuation-data.model';
 import {
   DimensionParentResponse,
+  OrgChartEmployee,
   OrgUnitFluctuationRate,
 } from '../../org-chart/models';
 import { CountryData } from '../../world-map/models/country-data.model';
@@ -108,6 +109,21 @@ export const loadAttritionOverTimeOrgChartFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
+export const loadOrgChartEmployees = createAction(
+  '[Organizational View] Load Org Chart Employees',
+  props<{ data: DimensionFluctuationData }>()
+);
+
+export const loadOrgChartEmployeesSuccess = createAction(
+  '[Organizational View] Load Org Chart Employees Success',
+  props<{ employees: OrgChartEmployee[] }>()
+);
+
+export const loadOrgChartEmployeesFailure = createAction(
+  '[Organizational View] Load Org Chart Employees Failure',
+  props<{ errorMessage: string }>()
+);
+
 const all = union({
   chartTypeSelected,
   loadOrgChart,
@@ -125,6 +141,9 @@ const all = union({
   loadAttritionOverTimeOrgChart,
   loadAttritionOverTimeOrgChartSuccess,
   loadAttritionOverTimeOrgChartFailure,
+  loadOrgChartEmployees,
+  loadOrgChartEmployeesSuccess,
+  loadOrgChartEmployeesFailure,
 });
 
 export type OrganizationalViewActions = typeof all;

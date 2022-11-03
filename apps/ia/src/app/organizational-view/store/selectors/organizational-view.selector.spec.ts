@@ -11,6 +11,8 @@ import {
   getIsLoadingOrgUnitFluctuationRate,
   getIsLoadingWorldMap,
   getOrgChart,
+  getOrgChartEmployees,
+  getOrgChartEmployeesLoading,
   getOrgUnitFluctuationDialogEmployeeData,
   getOrgUnitFluctuationDialogMeta,
   getRegions,
@@ -37,6 +39,17 @@ describe('Organizational View Selector', () => {
         fluctuationRates: {
           selectedEmployeeId: '432433',
           data: [],
+          loading: false,
+          errorMessage: undefined,
+        },
+        employees: {
+          data: [
+            {
+              employeeName: ' Peter',
+              orgUnit: 'Space',
+              positionDescription: 'Spaceman',
+            },
+          ],
           loading: false,
           errorMessage: undefined,
         },
@@ -86,10 +99,26 @@ describe('Organizational View Selector', () => {
   };
 
   describe('getOrgChart', () => {
-    test('should return employees for org chart', () => {
+    test('should return org chart', () => {
       expect(getOrgChart(fakeState)).toEqual(
         fakeState.organizationalView.orgChart.data
       );
+    });
+  });
+
+  describe('getOrgChartEmployees', () => {
+    test('should return employees for org chart', () => {
+      expect(
+        getOrgChartEmployees.projector(fakeState.organizationalView)
+      ).toEqual(fakeState.organizationalView.orgChart.employees.data);
+    });
+  });
+
+  describe('getOrgChartEmployeesLoading', () => {
+    test('should return loading status', () => {
+      expect(
+        getOrgChartEmployeesLoading.projector(fakeState.organizationalView)
+      ).toEqual(fakeState.organizationalView.orgChart.employees.loading);
     });
   });
 

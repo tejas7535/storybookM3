@@ -16,6 +16,7 @@ import { EmployeeListDialogComponent } from '../../shared/employee-list-dialog/e
 import { EmployeeListDialogModule } from '../../shared/employee-list-dialog/employee-list-dialog.module';
 import { EmployeeListDialogMeta } from '../../shared/employee-list-dialog/employee-list-dialog-meta.model';
 import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
+import { FilterDimension } from '../../shared/models';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
 import { ChartType } from '../models/chart-type.enum';
 import { DimensionFluctuationData } from '../models/dimension-fluctuation-data.model';
@@ -105,7 +106,6 @@ describe('OrgChartComponent', () => {
         {
           id: '123',
           parentId: '321',
-          directLeafChildren: [],
           dimension: 'Schaeffler_IT',
           managerOfOrgUnit: 'Hans',
         } as DimensionFluctuationData,
@@ -143,6 +143,8 @@ describe('OrgChartComponent', () => {
         enoughRightsToShowAllEmployees: true,
       };
 
+      component.createEmployeeListDialogMeta = jest.fn(() => data);
+
       component.clickout({
         target: {
           id: 'employee-node-people',
@@ -158,6 +160,7 @@ describe('OrgChartComponent', () => {
           data,
         }
       );
+      expect(component.createEmployeeListDialogMeta).toHaveBeenCalled();
     });
     test('should emit showParent event if arrow up is clicked', () => {
       component.showParent.emit = jest.fn();
@@ -228,6 +231,77 @@ describe('OrgChartComponent', () => {
         expect(component.chart.fit).toHaveBeenCalled();
         done();
       }, 200);
+    });
+  });
+
+  describe('updateDialogData', () => {
+    test('should update data if dialog instance available', () => {
+      const dialogRef = {
+        componentInstance: {},
+        data: {},
+      } as any;
+      const testData = {};
+
+      component.createEmployeeListDialogMeta = jest.fn(() => testData as any);
+
+      component['_dialogRef'] = dialogRef;
+
+      component.updateDialogData();
+
+      expect(dialogRef.data).toEqual(testData);
+      expect(component.createEmployeeListDialogMeta).toHaveBeenCalledTimes(1);
+    });
+
+    test('should do nothing when instance not available', () => {
+      const dialogRef = {
+        componentInstance: undefined,
+        data: undefined,
+      } as any;
+      const testData = {};
+
+      component.createEmployeeListDialogMeta = jest.fn(() => testData as any);
+
+      component['_dialogRef'] = dialogRef;
+
+      component.updateDialogData();
+
+      expect(dialogRef.data).toBeUndefined();
+      expect(component.createEmployeeListDialogMeta).not.toHaveBeenCalled();
+    });
+
+    test('should do nothing when dialog ref not available', () => {
+      const testData = {};
+
+      component.createEmployeeListDialogMeta = jest.fn(() => testData as any);
+
+      component.updateDialogData();
+
+      expect(component.createEmployeeListDialogMeta).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('createEmployeeListDialogMeta', () => {
+    test('should return dialog data', () => {
+      const employees = [{} as any];
+      component.selectedNodeEmployees = employees;
+      component.selectedNodeEmployeesLoading = true;
+      component.selectedDataNode = {
+        directEmployees: 10,
+        dimension: FilterDimension.BOARD,
+      } as DimensionFluctuationData;
+
+      const result = component.createEmployeeListDialogMeta();
+
+      expect(result).toEqual({
+        headings: {
+          contentTitle: 'organizationalView.employeeListDialog.contentTitle',
+          header: FilterDimension.BOARD,
+        },
+        employees,
+        employeesLoading: true,
+        enoughRightsToShowAllEmployees: false,
+        showFluctuationType: false,
+      });
     });
   });
 });

@@ -23,6 +23,16 @@ export const getOrgChart = createSelector(
   (state: OrganizationalViewState) => state.orgChart.data
 );
 
+export const getOrgChartEmployees = createSelector(
+  selectOrganizationalViewState,
+  (state: OrganizationalViewState) => state.orgChart.employees.data
+);
+
+export const getOrgChartEmployeesLoading = createSelector(
+  selectOrganizationalViewState,
+  (state: OrganizationalViewState) => state.orgChart.employees.loading
+);
+
 export const getOrgUnitFluctuationDialogEmployeeData = createSelector(
   selectOrganizationalViewState,
   getSelectedTimeRange,

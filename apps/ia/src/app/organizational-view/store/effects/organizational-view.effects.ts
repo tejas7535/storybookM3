@@ -26,6 +26,7 @@ import {
 import { DimensionFluctuationData } from '../../models/dimension-fluctuation-data.model';
 import {
   DimensionParentResponse,
+  OrgChartEmployee,
   OrgUnitFluctuationRate,
 } from '../../org-chart/models';
 import { OrganizationalViewService } from '../../organizational-view.service';
@@ -36,6 +37,9 @@ import {
   loadAttritionOverTimeOrgChartSuccess,
   loadOrganizationalViewData,
   loadOrgChart,
+  loadOrgChartEmployees,
+  loadOrgChartEmployeesFailure,
+  loadOrgChartEmployeesSuccess,
   loadOrgChartFailure,
   loadOrgChartFluctuationMeta,
   loadOrgChartFluctuationRate,
@@ -152,6 +156,32 @@ export class OrganizationalViewEffects {
       )
     )
   );
+
+  loadOrgChartEmployees$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(loadOrgChartEmployees),
+      concatLatestFrom(() => this.store.select(getSelectedTimeRange)),
+      map(([action, timeRange]) => {
+        return {
+          filterDimension: action.data.filterDimension,
+          value: action.data.dimensionKey,
+          timeRange: timeRange.id,
+        };
+      }),
+      mergeMap((request: EmployeesRequest) =>
+        this.organizationalViewService
+          .getOrgChartEmployeesForNode(request)
+          .pipe(
+            map((employees: OrgChartEmployee[]) =>
+              loadOrgChartEmployeesSuccess({ employees })
+            ),
+            catchError((error) =>
+              of(loadOrgChartEmployeesFailure({ errorMessage: error.message }))
+            )
+          )
+      )
+    );
+  });
 
   loadParent$ = createEffect(() => {
     return this.actions$.pipe(

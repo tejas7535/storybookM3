@@ -3,7 +3,7 @@ import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 import { AttritionOverTime } from '../../shared/models';
 import { ChartType } from '../models/chart-type.enum';
 import { DimensionFluctuationData } from '../models/dimension-fluctuation-data.model';
-import { OrgUnitFluctuationRate } from '../org-chart/models';
+import { OrgChartEmployee, OrgUnitFluctuationRate } from '../org-chart/models';
 import { CountryData } from '../world-map/models/country-data.model';
 import {
   chartTypeSelected,
@@ -11,6 +11,9 @@ import {
   loadAttritionOverTimeOrgChartFailure,
   loadAttritionOverTimeOrgChartSuccess,
   loadOrgChart,
+  loadOrgChartEmployees,
+  loadOrgChartEmployeesFailure,
+  loadOrgChartEmployeesSuccess,
   loadOrgChartFailure,
   loadOrgChartFluctuationMeta,
   loadOrgChartFluctuationRate,
@@ -40,6 +43,11 @@ export interface OrganizationalViewState {
       loading: boolean;
       errorMessage: string;
     };
+    employees: {
+      data: OrgChartEmployee[];
+      loading: boolean;
+      errorMessage: string;
+    };
   };
   worldMap: {
     selectedRegion: string;
@@ -63,6 +71,11 @@ export const initialState: OrganizationalViewState = {
     errorMessage: undefined,
     fluctuationRates: {
       selectedEmployeeId: undefined,
+      data: [],
+      loading: false,
+      errorMessage: undefined,
+    },
+    employees: {
       data: [],
       loading: false,
       errorMessage: undefined,
@@ -314,6 +327,53 @@ export const organizationalViewReducer = createReducer(
         errorMessage,
         data: undefined,
         loading: false,
+      },
+    })
+  ),
+  on(
+    loadOrgChartEmployees,
+    (state: OrganizationalViewState): OrganizationalViewState => ({
+      ...state,
+      orgChart: {
+        ...state.orgChart,
+        employees: {
+          ...state.orgChart.employees,
+          loading: true,
+        },
+      },
+    })
+  ),
+  on(
+    loadOrgChartEmployeesSuccess,
+    (
+      state: OrganizationalViewState,
+      { employees }
+    ): OrganizationalViewState => ({
+      ...state,
+      orgChart: {
+        ...state.orgChart,
+        employees: {
+          ...state.orgChart.employees,
+          loading: false,
+          data: employees,
+        },
+      },
+    })
+  ),
+  on(
+    loadOrgChartEmployeesFailure,
+    (
+      state: OrganizationalViewState,
+      { errorMessage }
+    ): OrganizationalViewState => ({
+      ...state,
+      orgChart: {
+        ...state.orgChart,
+        employees: {
+          ...state.orgChart.employees,
+          loading: false,
+          errorMessage,
+        },
       },
     })
   )

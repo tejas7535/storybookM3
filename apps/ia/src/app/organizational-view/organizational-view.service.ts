@@ -17,6 +17,8 @@ import {
 import { DimensionFluctuationData } from './models/dimension-fluctuation-data.model';
 import {
   DimensionParentResponse,
+  OrgChartEmployee,
+  OrgChartEmployeesResponse,
   OrgChartResponse,
   OrgUnitFluctuationRate,
   OrgUnitFluctuationRateResponse,
@@ -28,6 +30,7 @@ import { CountryData, WorldMapResponse } from './world-map/models';
 })
 export class OrganizationalViewService {
   readonly ORG_CHART = 'org-chart';
+  readonly ORG_CHART_EMPLOYEES = 'org-chart-employees';
   readonly WORLD_MAP = 'world-map';
   readonly DIMENSION_PARENT = 'dimension-parent';
   readonly ATTRITION_OVER_TIME = 'attrition-over-time';
@@ -53,6 +56,26 @@ export class OrganizationalViewService {
         context: withCache(),
       })
       .pipe(map((response) => response.dimensions));
+  }
+
+  getOrgChartEmployeesForNode(
+    employeesRequest: EmployeesRequest
+  ): Observable<OrgChartEmployee[]> {
+    const params = this.paramsCreator.createHttpParamsForDimensionAndTimeRange(
+      employeesRequest.filterDimension,
+      employeesRequest.value,
+      employeesRequest.timeRange
+    );
+
+    return this.http
+      .get<OrgChartEmployeesResponse>(
+        `${ApiVersion.V1}/${this.ORG_CHART_EMPLOYEES}`,
+        {
+          params,
+          context: withCache(),
+        }
+      )
+      .pipe(map((response) => response.employees));
   }
 
   getWorldMap(employeesRequest: EmployeesRequest): Observable<CountryData[]> {
