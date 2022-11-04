@@ -124,7 +124,8 @@
           "sapPriceSource": "SAP Price"
         }
       },
-      "ST": "PC"
+      "ST": "PC",
+      "deliveryUnit": "Delivery Unit"
     },
     "breadcrumbs": {
       "caseView": "Quotation Cases",

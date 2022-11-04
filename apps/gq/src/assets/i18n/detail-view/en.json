@@ -41,6 +41,7 @@
     "materialDetails": {
       "materialNumber": "Material Nr. (15-Digit)",
       "baseUoM": "Base UoM",
+      "deliveryUnit": "Delivery Unit",
       "customerMaterial": "Customer Material",
       "dimensions": "Dimensions",
       "ean11": "EAN Code",

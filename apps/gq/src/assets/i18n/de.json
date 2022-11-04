@@ -124,7 +124,8 @@
           "sapPriceSource": "SAP Preis"
         }
       },
-      "ST": "ST"
+      "ST": "ST",
+      "deliveryUnit": "Liefereinheit"
     },
     "breadcrumbs": {
       "caseView": "Case Übersicht",

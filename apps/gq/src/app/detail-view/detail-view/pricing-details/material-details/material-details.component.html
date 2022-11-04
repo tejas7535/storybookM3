@@ -103,6 +103,10 @@
         <span text>{{ materialDetails.baseUoM | uom | nullableString }}</span>
       </gq-label-text>
       <gq-label-text>
+        <span label>{{ t('deliveryUnit') }}</span>
+        <span text>{{ deliveryUnit?.toString() | nullableString }}</span>
+      </gq-label-text>
+      <gq-label-text>
         <span label>{{ t('materialType') }}</span>
         <span text>{{ materialDetails.materialType | nullableString }}</span>
       </gq-label-text>

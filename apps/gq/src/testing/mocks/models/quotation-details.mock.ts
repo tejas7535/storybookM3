@@ -78,6 +78,7 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   rsp: 1,
   strategicMaterial: 'Y-PT',
   sapVolumeScale: 0.5,
+  deliveryUnit: 1,
 };
 
 export const QUOTATION_DETAILS_MOCK = [

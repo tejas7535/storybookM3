@@ -41,6 +41,7 @@
     "materialDetails": {
       "15digit": "Materialnummer (15-stellig)",
       "baseUoM": "Mengeneinheit",
+      "deliveryUnit": "Liefereinheit",
       "customerMaterial": "Kundenmaterialnummer",
       "dimension": "Abmessungen",
       "ean11": "EAN Code",

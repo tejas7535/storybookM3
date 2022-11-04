@@ -49,6 +49,7 @@ export class QuotationDetail {
   public materialClassificationSOP: string;
   public strategicMaterial: string;
   public syncInSap: boolean;
+  public deliveryUnit: number;
 
   // properties added in GQ application
   public priceDiff: number;

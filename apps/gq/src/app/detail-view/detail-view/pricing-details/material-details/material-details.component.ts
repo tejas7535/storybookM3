@@ -10,4 +10,5 @@ export class MaterialDetailsComponent {
   @Input() materialDetails: MaterialDetails;
   @Input() customerMaterial: string;
   @Input() materialClassificationSOP: string;
+  @Input() deliveryUnit: number;
 }

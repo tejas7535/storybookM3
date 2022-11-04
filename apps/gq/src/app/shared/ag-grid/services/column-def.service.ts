@@ -577,6 +577,11 @@ export class ColumnDefService {
       }),
     },
     {
+      headerName: translate('shared.quotationDetailsTable.deliveryUnit'),
+      field: ColumnFields.DELIVERY_UNIT,
+      filter: NUMBER_COLUMN_FILTER,
+    },
+    {
       headerName: translate('shared.quotationDetailsTable.dateNextFreeAtp'),
       field: ColumnFields.DATE_NEXT_FREE_ATP,
       valueFormatter: (params: ValueFormatterParams) =>
