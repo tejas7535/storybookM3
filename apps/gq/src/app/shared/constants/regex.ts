@@ -21,3 +21,5 @@ export const getCurrencyRegex = (locale: string): RegExp =>
 
 export const getNumberFilterRegex = (locale: string): RegExp =>
   locale === LOCALE_DE.id ? numberFilterRegexDE : numberFilterRegexEN;
+
+export const timestampRegex = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}Z/;

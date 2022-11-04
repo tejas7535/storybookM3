@@ -10,6 +10,7 @@
     "customerName": "Customer Name",
     "createdBy": "SAP Created By",
     "creationDate": "Case Created On",
+    "lastUpdatedDate": "Case last updated on",
     "gqId": "GQ Case",
     "sapId": "SAP Quotation",
     "caseName": "Case name"

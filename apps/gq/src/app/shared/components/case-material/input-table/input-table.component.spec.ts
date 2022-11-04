@@ -38,7 +38,15 @@ describe('InputTableComponent', () => {
     ],
     providers: [
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
-      provideMockStore({}),
+      provideMockStore({
+        initialState: {
+          processCase: {
+            addMaterials: {
+              addMaterialRowData: [],
+            },
+          },
+        },
+      }),
       {
         provide: MatDialogRef,
         useValue: {},

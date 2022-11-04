@@ -9,6 +9,7 @@ import {
 } from 'ag-grid-enterprise';
 
 import { EditCellData } from '../../ag-grid/cell-renderer/models/edit-cell-class-params.model';
+import { timestampRegex } from '../../constants';
 import {
   FreeStockCellComponent,
   FreeStockCellParams,
@@ -19,8 +20,8 @@ import { ColumnFields } from '../constants/column-fields.enum';
 import {
   FILTER_PARAMS,
   MULTI_COLUMN_FILTER,
-  MULTI_COLUMN_FILTER_PARAMS,
   NUMBER_COLUMN_FILTER,
+  SET_COLUMN_FILTER,
   TEXT_COLUMN_FILTER,
 } from '../constants/filters';
 import { ColumnUtilityService } from './column-utility.service';
@@ -32,6 +33,33 @@ export class ColumnDefService {
     private readonly columnUtilityService: ColumnUtilityService,
     private readonly translocoService: TranslocoService
   ) {}
+
+  DATE_FILTER_PARAMS = {
+    filters: [
+      {
+        filter: TEXT_COLUMN_FILTER,
+        filterParams: {
+          defaultOption: 'startsWith',
+          suppressAndOrCondition: true,
+          buttons: ['reset'],
+          textFormatter: (val: string) => {
+            if (timestampRegex.test(val)) {
+              return this.columnUtilityService.dateFormatter(val);
+            }
+
+            return val;
+          },
+        },
+      },
+      {
+        filter: SET_COLUMN_FILTER,
+        filterParams: {
+          valueFormatter: (params: any) =>
+            this.columnUtilityService.dateFormatter(params.value),
+        },
+      },
+    ],
+  };
 
   COLUMN_DEFS: ColDef[] = [
     {
@@ -428,12 +456,12 @@ export class ColumnDefService {
         'shared.quotationDetailsTable.lastCustomerPriceDate'
       ),
       field: ColumnFields.LAST_CUSTOMER_PRICE_DATE,
-      valueGetter: (data) =>
+      valueFormatter: (data) =>
         this.columnUtilityService.dateFormatter(
           data.data[ColumnFields.LAST_CUSTOMER_PRICE_DATE]
         ),
       filter: MULTI_COLUMN_FILTER,
-      filterParams: MULTI_COLUMN_FILTER_PARAMS,
+      filterParams: this.DATE_FILTER_PARAMS,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.lastCustomerPriceDateInfoText'
@@ -496,12 +524,12 @@ export class ColumnDefService {
     {
       headerName: translate('shared.quotationDetailsTable.lastOfferDate'),
       field: ColumnFields.LAST_OFFER_PRICE_DATE,
-      valueGetter: (data) =>
+      valueFormatter: (data) =>
         this.columnUtilityService.dateFormatter(
           data.data.lastOfferDetail?.lastOfferDate
         ),
       filter: MULTI_COLUMN_FILTER,
-      filterParams: MULTI_COLUMN_FILTER_PARAMS,
+      filterParams: this.DATE_FILTER_PARAMS,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.lastOfferDateInfoText'
@@ -551,12 +579,12 @@ export class ColumnDefService {
     {
       headerName: translate('shared.quotationDetailsTable.dateNextFreeAtp'),
       field: ColumnFields.DATE_NEXT_FREE_ATP,
-      valueGetter: (params: ValueGetterParams) =>
+      valueFormatter: (params: ValueFormatterParams) =>
         this.columnUtilityService.dateFormatter(
           params.data.materialStockByPlant?.dateNextFree
         ),
       filter: MULTI_COLUMN_FILTER,
-      filterParams: MULTI_COLUMN_FILTER_PARAMS,
+      filterParams: this.DATE_FILTER_PARAMS,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.dateNextFreeAtpInfoText'

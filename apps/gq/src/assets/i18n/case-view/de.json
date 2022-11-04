@@ -10,6 +10,7 @@
     "customerName": "Kundenname",
     "createdBy": "SAP Angebot erstellt von",
     "creationDate": "Case erstellt am",
+    "lastUpdatedDate": "Case zuletzt aktualisiert am",
     "gqId": "GQ Case",
     "sapId": "SAP Angebotsnummer",
     "caseName": "Case Bezeichnung"
