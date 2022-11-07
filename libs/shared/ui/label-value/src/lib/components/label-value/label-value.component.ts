@@ -17,6 +17,7 @@ export class LabelValueComponent {
   @Input() public labelValues?: LabelValue[];
   @Input() public labelMinWidth = 0;
   @Input() public labelMaxWidth = 0;
+  @Input() public showValue?: boolean = true;
   @ContentChild(TemplateRef) public custom!: TemplateRef<any>;
 
   public readonly valueIsArray = (value: string | Value[]): boolean =>

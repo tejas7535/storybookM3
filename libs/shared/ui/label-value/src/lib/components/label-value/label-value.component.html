@@ -1,6 +1,7 @@
 <div
   *ngIf="labelValues && labelValues.length"
-  class="grid grid-cols-[auto_1fr] gap-0 text-caption text-high-emphasis"
+  class="grid gap-0 text-caption text-high-emphasis"
+  [ngClass]="showValue ? 'grid-cols-[auto_1fr]' : 'grid-cols-1'"
 >
   <ng-container *ngFor="let labelValue of labelValues; let i = index">
     <div
@@ -27,6 +28,7 @@
     </div>
     <div
       class="bg-surface"
+      *ngIf="showValue"
       [ngClass]="[
         labelValue.valueAdditionalClass || '',
         i > 0 ? 'border-t border-border' : ''

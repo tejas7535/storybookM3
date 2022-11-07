@@ -13,4 +13,8 @@ export interface RolesGroup {
    * Insert a list of roles
    */
   roles: Role[];
+  /**
+   * Show only roles without rights
+   */
+  showOnlyRoles?: boolean;
 }

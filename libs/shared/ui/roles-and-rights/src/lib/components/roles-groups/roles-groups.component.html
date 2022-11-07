@@ -9,6 +9,7 @@
       <schaeffler-roles
         *ngIf="rolesGroup.roles && rolesGroup.roles.length; else noRoles"
         [roles]="rolesGroup.roles"
+        [showRights]="!rolesGroup.showOnlyRoles"
       >
         ></schaeffler-roles
       >

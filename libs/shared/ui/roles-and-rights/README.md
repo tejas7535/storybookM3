@@ -100,6 +100,20 @@ export class MyComponent {
       roles: this.roles,
     },
   ];
+
+  // or 
+  
+  public rolesGroupsMix: RolesGroup[] = [
+    {
+      title: 'Role Group Title 1',
+      roles: this.roles,
+    },
+    {
+      title: 'Role Group Title 2',
+      roles: this.roles,
+      showOnlyRoles: true // does only show the roles without rights
+    },
+  ];
 }
 ```
 

@@ -23,3 +23,7 @@ export const FILTER_DIMENSIONS: {
 /** for autocomplete */
 export const ASYNC_SEARCH_MIN_CHAR_LENGTH = 2;
 export const LOCAL_SEARCH_MIN_CHAR_LENGTH = 0;
+
+/** for roles handling */
+export const GENERAL_ROLES_PREFIXES = ['IA_ADMIN', 'BASIC_ACCCESS'];
+export const GEOGRAPHICAL_ROLES_PREFIXES = ['HR_PA'];

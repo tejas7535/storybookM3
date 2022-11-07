@@ -80,6 +80,18 @@ export class MyComponent {
       valueAdditionalClass: 'text-error'
     },
   ];
+
+  // or
+
+   // for only labels
+  public labelsOnly: LabelValue[] = [
+    {
+      label: 'Data Label',
+    },
+    {
+      label: 'Even longer data label',
+    },
+  ];
   
   // or
   
@@ -146,6 +158,11 @@ export class MyComponent {
 ```html
 <!--  for a single value per row  -->
 <schaeffler-label-value [labelValues]="labelValuesSingle"></schaeffler-label-value>
+
+<!--  or  -->
+
+<!--  only show labels  -->
+<schaeffler-label-value [labelValues]="labelsOnly" [showValue]="false"></schaeffler-label-value>
 
 <!--  or  -->
 

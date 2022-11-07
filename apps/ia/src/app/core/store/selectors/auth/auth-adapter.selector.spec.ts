@@ -5,12 +5,21 @@ import { getUserRoles } from '..';
 describe('Auth Adapter Selector', () => {
   describe('getUserRoles', () => {
     test('should get user roles', () => {
-      const result = getUserRoles.projector(['IA_ADMIN']);
+      const result = getUserRoles.projector([
+        'IA_ADMIN',
+        'HR_PA_TEST',
+        'IGNORE_ME',
+      ]);
 
       expect(result).toEqual([
         {
-          title: 'Insight Attrition',
-          roles: [{ title: 'IA_ADMIN' }],
+          title: 'translate it',
+          roles: [{ title: 'IA_ADMIN', rights: 'translate it' }],
+        } as RolesGroup,
+        {
+          title: 'translate it',
+          roles: [{ title: 'HR_PA_TEST' }],
+          showOnlyRoles: true,
         } as RolesGroup,
       ]);
     });

@@ -3,5 +3,8 @@
   class="max-h-[220px] overflow-hidden overflow-y-auto border-border"
   [ngClass]="{ 'rounded border': standalone, 'border-t': !standalone }"
 >
-  <schaeffler-label-value [labelValues]="labelValues"></schaeffler-label-value>
+  <schaeffler-label-value
+    [labelValues]="labelValues"
+    [showValue]="showRights"
+  ></schaeffler-label-value>
 </div>

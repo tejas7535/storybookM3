@@ -18,6 +18,7 @@ import { adaptLabelValuesFromRoles } from '../../utils/role-data.utils';
 export class RolesComponent implements OnInit {
   @Input() public roles?: Role[];
   @Input() public standalone?: boolean;
+  @Input() public showRights?: boolean = true;
 
   public labelValues: LabelValue[] | undefined;
 
