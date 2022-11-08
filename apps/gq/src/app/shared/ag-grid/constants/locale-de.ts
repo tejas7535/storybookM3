@@ -92,7 +92,7 @@ export const AG_GRID_LOCALE_DE: AgGridLocale = {
   copy: 'Kopieren',
   ctrlC: 'Strg+C',
   copyWithHeaders: 'Kopieren mit Kopfzeilen',
-  copyWithHeaderGroups: 'Kopieren mit Kopfzeilen Gruppierungen',
+  copyWithGroupHeaders: 'Kopieren mit Kopfzeilen Gruppierungen',
   paste: 'Einfügen',
   ctrlV: 'Strg+V',
   export: 'Exportieren',

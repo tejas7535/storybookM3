@@ -3,6 +3,7 @@ import { translate, TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import {
   ColDef,
+  GetContextMenuItemsParams,
   GetMainMenuItemsParams,
   MenuItemDef,
   ValueFormatterParams,
@@ -27,7 +28,10 @@ import { ValidationDescription } from '../../models/table';
 import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
 import { HelperService } from '../../services/helper-service/helper-service.service';
 import { ColumnFields } from '../constants/column-fields.enum';
-import { ColumnUtilityService } from './column-utility.service';
+import {
+  ColumnUtilityService,
+  getValueOfFocusedCell,
+} from './column-utility.service';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
@@ -506,6 +510,34 @@ describe('CreateColumnService', () => {
     });
   });
 
+  describe('getCopyCellContentContextMenuItem', () => {
+    let params: GetContextMenuItemsParams;
+    beforeEach(() => {
+      params = {
+        api: {
+          getFocusedCell: jest.fn(),
+          getDisplayedRowAtIndex: jest.fn(),
+          getValue: jest.fn(),
+        },
+        column: {
+          getColDef: jest.fn(),
+        },
+      } as unknown as GetContextMenuItemsParams;
+    });
+
+    test('Should return the contextMenuItem properly', () => {
+      const expected: MenuItemDef | string = {
+        name: 'translate it',
+        icon: '<span class="ag-icon ag-icon-copy"></span>',
+        action: () => {},
+      };
+
+      const result =
+        ColumnUtilityService.getCopyCellContentContextMenuItem(params);
+      expect(JSON.stringify(result)).toBe(JSON.stringify(expected));
+    });
+  });
+
   describe('transformConditionUnit', () => {
     beforeEach(() => {
       jest.resetAllMocks();
@@ -526,6 +558,56 @@ describe('CreateColumnService', () => {
       } as ValueFormatterParams);
 
       expect(translate).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('getValueOfFocusedCell', () => {
+    let params: GetContextMenuItemsParams;
+    Object.assign(window.navigator, {
+      clipboard: {
+        writeText: jest.fn().mockImplementation(() => Promise.resolve()),
+      },
+    });
+    beforeEach(() => {
+      params = {
+        api: {
+          getFocusedCell: jest.fn(() => ({ rowIndex: jest.fn() })),
+          getDisplayedRowAtIndex: jest.fn(),
+          getValue: jest.fn(),
+        },
+        column: {
+          getColDef: jest.fn(() => ({
+            valueFormatter: jest.fn(() => 'formattedValue'),
+          })),
+        },
+        node: {
+          data: jest.fn(),
+        },
+      } as unknown as GetContextMenuItemsParams;
+    });
+    test('should return Value ofValueFormatter', () => {
+      getValueOfFocusedCell(params);
+      expect(window.navigator.clipboard.writeText).toHaveBeenCalledWith(
+        'formattedValue'
+      );
+    });
+
+    test('should return Value, no Formatter', () => {
+      params = {
+        ...params,
+        api: {
+          getFocusedCell: jest.fn(() => ({ rowIndex: jest.fn() })),
+          getDisplayedRowAtIndex: jest.fn(),
+          getValue: jest.fn(() => 'Value'),
+        },
+        column: {
+          getColDef: jest.fn(() => ({})),
+        },
+      } as unknown as GetContextMenuItemsParams;
+      getValueOfFocusedCell(params);
+      expect(window.navigator.clipboard.writeText).toHaveBeenCalledWith(
+        'Value'
+      );
     });
   });
 });

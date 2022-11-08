@@ -92,7 +92,7 @@ export const AG_GRID_LOCALE_EN: AgGridLocale = {
   copy: 'Copy',
   ctrlC: 'Ctrl+C',
   copyWithHeaders: 'Copy With Headers',
-  copyWithHeaderGroups: 'Copy With Header Groups',
+  copyWithGroupHeaders: 'Copy With Header Groups',
   paste: 'Paste',
   ctrlV: 'Ctrl+V',
   export: 'Export',

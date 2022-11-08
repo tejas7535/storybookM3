@@ -8,7 +8,11 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AgGridModule } from 'ag-grid-angular';
-import { GetMainMenuItemsParams, RowNode } from 'ag-grid-community';
+import {
+  GetContextMenuItemsParams,
+  GetMainMenuItemsParams,
+  RowNode,
+} from 'ag-grid-community';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -174,6 +178,22 @@ describe('CaseTableComponent', () => {
       expect(
         ColumnUtilityService.getResetAllFilteredColumnsMenuItem
       ).toHaveBeenCalledWith(params);
+    });
+  });
+
+  describe('getContextMenuItems', () => {
+    const params: GetContextMenuItemsParams = {
+      defaultItems: ['item1', 'item2'],
+    } as GetContextMenuItemsParams;
+    test('should add item to context menu', () => {
+      component.ngOnInit();
+      ColumnUtilityService.getCopyCellContentContextMenuItem = jest.fn(
+        () => 'item3'
+      );
+      const result = component.getContextMenuItems(params);
+      expect(result).toBeDefined();
+      expect(result.length).toBe(1);
+      expect(result[0]).toBe('item3');
     });
   });
 });

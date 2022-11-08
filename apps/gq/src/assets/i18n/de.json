@@ -403,6 +403,9 @@
     },
     "customMainMenuItems": {
       "resetAllFiltersOfAllColumns": "Sämtliche Filter aller Spalten zurücksetzen"
+    },
+    "customContextMenuItems": {
+      "copyCellContent": "Zellinhalt kopieren"
     }
   },
   "legal": {

@@ -5,6 +5,7 @@ import { Observable, take } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 import {
+  GetContextMenuItemsParams,
   GetMainMenuItemsParams,
   GridReadyEvent,
   MenuItemDef,
@@ -92,5 +93,11 @@ export class CaseTableComponent implements OnInit {
     );
 
     return menuItems;
+  }
+
+  getContextMenuItems(
+    params: GetContextMenuItemsParams
+  ): (string | MenuItemDef)[] {
+    return [ColumnUtilityService.getCopyCellContentContextMenuItem(params)];
   }
 }

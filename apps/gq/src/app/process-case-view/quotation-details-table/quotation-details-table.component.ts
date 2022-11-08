@@ -10,6 +10,7 @@ import {
   ExcelStyle,
   FilterChangedEvent,
   FirstDataRenderedEvent,
+  GetContextMenuItemsParams,
   GetMainMenuItemsParams,
   GridReadyEvent,
   MenuItemDef,
@@ -507,5 +508,11 @@ export class QuotationDetailsTableComponent implements OnInit {
     );
 
     return menuItems;
+  }
+
+  getContextMenuItems(
+    params: GetContextMenuItemsParams
+  ): (string | MenuItemDef)[] {
+    return [ColumnUtilityService.getCopyCellContentContextMenuItem(params)];
   }
 }

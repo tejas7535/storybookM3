@@ -4,6 +4,7 @@ import { translate } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import {
   ColDef,
+  GetContextMenuItemsParams,
   GetMainMenuItemsParams,
   MenuItemDef,
   ValueFormatterParams,
@@ -209,6 +210,16 @@ export class ColumnUtilityService {
     };
   }
 
+  static getCopyCellContentContextMenuItem(
+    params: GetContextMenuItemsParams
+  ): MenuItemDef | string {
+    return {
+      name: translate('shared.customContextMenuItems.copyCellContent'),
+      icon: '<span class="ag-icon ag-icon-copy"></span>',
+      action: () => getValueOfFocusedCell(params),
+    };
+  }
+
   numberDashFormatter(data: ValueFormatterParams): string {
     if (!data?.value) {
       return Keyboard.DASH;
@@ -249,4 +260,24 @@ export class ColumnUtilityService {
       params.context.quotation.currency
     );
   }
+}
+
+export function getValueOfFocusedCell(params: GetContextMenuItemsParams): void {
+  const focusedCell = params.api.getFocusedCell();
+  const row = params.api.getDisplayedRowAtIndex(focusedCell.rowIndex);
+
+  const result = params.column.getColDef().valueFormatter
+    ? (
+        params.column.getColDef().valueFormatter as (
+          params: ValueFormatterParams
+        ) => string
+      )({
+        ...params,
+        data: params.node.data,
+        node: params.node,
+        colDef: params.column.getColDef(),
+      })
+    : params.api.getValue(focusedCell.column, row);
+
+  navigator.clipboard.writeText(result ?? '');
 }

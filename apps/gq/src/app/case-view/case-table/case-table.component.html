@@ -1,4 +1,5 @@
 <ag-grid-angular
+  oncontextmenu="return false;"
   class="ag-theme-material h-full rounded-[4px] rounded-tl-none border border-border"
   [columnDefs]="columnDefs"
   [defaultColDef]="defaultColumnDefs"
@@ -11,6 +12,7 @@
   [localeText]="localeText$ | ngrxPush"
   [rowMultiSelectWithClick]="true"
   [getMainMenuItems]="getMainMenuItems"
+  [getContextMenuItems]="getContextMenuItems"
   (rowSelected)="onRowSelected($event)"
   (gridReady)="onGridReady($event)"
   (rowDoubleClicked)="onRowDoubleClicked($event)"
