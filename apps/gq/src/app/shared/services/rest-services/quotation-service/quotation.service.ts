@@ -27,12 +27,14 @@ export class QuotationService {
   public uploadSelectionToSap(
     gqPositionIds: string[]
   ): Observable<QuotationDetail[]> {
-    return this.http.post<QuotationDetail[]>(
-      `${ApiVersion.V1}/${QuotationPaths.PATH_UPLOAD_SELECTION}`,
-      {
-        gqPositionIds,
-      }
-    );
+    return this.http
+      .post<Quotation[]>(
+        `${ApiVersion.V1}/${QuotationPaths.PATH_UPLOAD_SELECTION}`,
+        {
+          gqPositionIds,
+        }
+      )
+      .pipe(map((quotations: Quotation[]) => quotations[0].quotationDetails));
   }
   public refreshSapPricing(gqId: number): Observable<Quotation> {
     return this.http.get<Quotation>(
