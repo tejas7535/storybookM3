@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.0.0...mac-v1.1.0) (2022-11-09)
+
+
+### 🎸 Features
+
+* **mac:** add column "country" for suppliers (uftabi-6145) ([#4761](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4761)) ([5e1d484](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5e1d48404bb1730f019e8b50033b2fe956bfcb21))
+
+
+### 🐛 Bug Fixes
+
+* **mac:** cleanup of custom dialog options - uftabi-6163 ([#4772](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4772)) ([43a2a68](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/43a2a6880572b0c581338e68eaf8c76773b60ac7))
+
 ## [1.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v0.9.1...mac-v1.0.0) (2022-10-28)
 
 
