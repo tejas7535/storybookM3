@@ -196,6 +196,7 @@
             [control]="supplierCountriesControl"
             [label]="t('supplierCountry')"
             [addEntry]="true"
+            [filterFn]="filterFn"
             (entryAdded)="addSupplierCountry($event)"
             name="manufacturerSupplierCountry"
             #dialogControl

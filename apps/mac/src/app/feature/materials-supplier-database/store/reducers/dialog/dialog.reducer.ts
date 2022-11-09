@@ -1,4 +1,5 @@
 /* eslint-disable max-lines */
+
 import { Action, createReducer, on } from '@ngrx/store';
 
 import { StringOption } from '@schaeffler/inputs';
@@ -54,6 +55,8 @@ import {
   minimizeDialog,
   openDialog,
   openEditDialog,
+  postManufacturerSupplier,
+  postMaterial,
   resetCo2ValuesForSupplierSteelMakingProcess,
   resetSteelMakingProcessInUse,
   setMaterialFormValue,
@@ -151,9 +154,7 @@ export const dialogReducer = createReducer(
         co2Classifications: undefined,
         castingModes: undefined,
         castingDiameters: undefined,
-        customCastingDiameters: undefined,
         referenceDocuments: undefined,
-        customReferenceDocuments: undefined,
         co2Values: undefined,
         steelMakingProcessesInUse: [],
         error: undefined,
@@ -395,27 +396,62 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    createMaterialComplete,
-    (state, { record }): DialogState => ({
+    postManufacturerSupplier,
+    (state): DialogState => ({
+      // successfully create material Standard
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        customMaterialStandardNames: undefined,
+        customMaterialStandardDocuments: undefined,
+      },
+    })
+  ),
+  on(
+    postMaterial,
+    (state): DialogState => ({
+      // successfully create manufacturer Supplier
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        customManufacturerSupplierNames: undefined,
+        customManufacturerSupplierPlants: undefined,
+        customManufacturerSupplierCountries: undefined,
+      },
+    })
+  ),
+  // either error while creating or successfully created materiel record
+  on(createMaterialComplete, (state, { record }): DialogState => {
+    // reset loading state
+    let newState: DialogState = {
       ...state,
       createMaterial: {
         createMaterialLoading: false,
         createMaterialRecord: record,
       },
-      dialogOptions: {
-        ...state.dialogOptions,
-        customCastingDiameters: undefined,
-        castingDiameters: undefined,
-        referenceDocuments: undefined,
-        customReferenceDocuments: undefined,
-        co2Values: undefined,
-        steelMakingProcessesInUse: [],
-        error: undefined,
-      },
-      editMaterial: undefined,
-      minimizedDialog: undefined,
-    })
-  ),
+    };
+    // only reset properties if call was successful
+    if (!record.error) {
+      newState = {
+        ...newState,
+        dialogOptions: {
+          ...newState.dialogOptions,
+          co2Values: undefined,
+          steelMakingProcessesInUse: [],
+          castingDiameters: undefined,
+          customCastingDiameters: undefined,
+          referenceDocuments: undefined,
+          customReferenceDocuments: undefined,
+          error: undefined,
+        },
+        editMaterial: undefined,
+        minimizedDialog: undefined,
+      };
+    }
+
+    return newState;
+  }),
+
   on(addCustomCastingDiameter, (state, { castingDiameter }): DialogState => {
     const customCastingDiameters = state.dialogOptions.customCastingDiameters
       ? [...state.dialogOptions.customCastingDiameters]

@@ -116,9 +116,7 @@
       <button
         mat-raised-button
         color="primary"
-        (click)="
-          openDialog({ editMaterial: undefined, minimizedDialog: undefined })
-        "
+        (click)="openDialog(false)"
         [disabled]="!(hasEditorRole$ | ngrxPush)"
         *ngIf="!(hasMinimizedDialog$ | ngrxPush); else resumeButton"
       >
