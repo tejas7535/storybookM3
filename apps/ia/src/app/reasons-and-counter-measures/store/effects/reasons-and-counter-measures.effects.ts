@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { catchError, filter, map, mergeMap, of, switchMap } from 'rxjs';
+import { catchError, EMPTY, filter, map, mergeMap, of, switchMap } from 'rxjs';
 
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { routerNavigationAction } from '@ngrx/router-store';
@@ -9,13 +9,25 @@ import { Store } from '@ngrx/store';
 import { AppRoutePath } from '../../../app-route-path.enum';
 import { selectRouterState } from '../../../core/store';
 import { filterSelected, triggerLoad } from '../../../core/store/actions';
-import { getCurrentFilters } from '../../../core/store/selectors';
+import {
+  getCurrentFilters,
+  getSelectedTimeRange,
+} from '../../../core/store/selectors';
 import { FilterService } from '../../../filter-section/filter.service';
-import { EmployeesRequest, IdValue } from '../../../shared/models';
+import {
+  EmployeesRequest,
+  FilterDimension,
+  IdValue,
+  SelectedFilter,
+} from '../../../shared/models';
 import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
 import { ReasonsAndCounterMeasuresService } from '../../reasons-and-counter-measures.service';
 import {
+  comparedFilterDimensionSelected,
   comparedFilterSelected,
+  loadComparedFilterDimensionData,
+  loadComparedFilterDimensionDataFailure,
+  loadComparedFilterDimensionDataSuccess,
   loadComparedOrgUnits,
   loadComparedOrgUnitsFailure,
   loadComparedOrgUnitsSuccess,
@@ -28,6 +40,7 @@ import {
   loadReasonsWhyPeopleLeftSuccess,
 } from '../actions/reasons-and-counter-measures.actions';
 import {
+  getComparedSelectedBusinessArea,
   getComparedSelectedTimeRange,
   getCurrentComparedFilters,
 } from '../selectors/reasons-and-counter-measures.selector';
@@ -52,9 +65,9 @@ export class ReasonsAndCounterMeasuresEffects {
   loadReasonsAndCounterMeasuresData$ = createEffect(() =>
     this.actions$.pipe(
       ofType(filterSelected, triggerLoad),
-      concatLatestFrom(() => this.store.select(getCurrentFilters)),
-      map(([_action, selectedFilters]) => selectedFilters),
-      filter((request) => !!request.timeRange),
+      concatLatestFrom(() => [this.store.select(getCurrentFilters)]),
+      filter(([_action, b]) => !!(b.filterDimension && b.timeRange && b.value)),
+      map(([_action, request]): EmployeesRequest => request),
       mergeMap((request: EmployeesRequest) => [
         loadReasonsWhyPeopleLeft({ request }),
       ])
@@ -88,8 +101,21 @@ export class ReasonsAndCounterMeasuresEffects {
     this.actions$.pipe(
       ofType(comparedFilterSelected),
       concatLatestFrom(() => this.store.select(getCurrentComparedFilters)),
-      map(([_action, request]) => request),
-      filter((request) => request.orgUnit && request.timeRange),
+      filter(
+        ([action, request]) =>
+          action.filter.idValue.id &&
+          Object.values(FilterDimension).find(
+            (fd: string) => fd === action.filter.name
+          ) &&
+          request.timeRange
+      ),
+      map(
+        ([action, request]): EmployeesRequest => ({
+          filterDimension: action.filter.name as FilterDimension,
+          timeRange: request.timeRange,
+          value: action.filter.idValue.id,
+        })
+      ),
       mergeMap((request: EmployeesRequest) => [
         loadComparedReasonsWhyPeopleLeft({ request }),
       ])
@@ -125,11 +151,80 @@ export class ReasonsAndCounterMeasuresEffects {
       concatLatestFrom(() => this.store.select(getComparedSelectedTimeRange)),
       mergeMap(([action, timeRange]) =>
         this.filterService.getOrgUnits(action.searchFor, timeRange.id).pipe(
-          map((items: IdValue[]) => loadComparedOrgUnitsSuccess({ items })),
+          map((items: IdValue[]) =>
+            loadComparedOrgUnitsSuccess({
+              items,
+            })
+          ),
           catchError((error) =>
-            of(loadComparedOrgUnitsFailure({ errorMessage: error.message }))
+            of(
+              loadComparedOrgUnitsFailure({
+                errorMessage: error.message,
+              })
+            )
           )
         )
+      )
+    );
+  });
+
+  loadFilterDimensionData$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(loadComparedFilterDimensionData),
+      concatLatestFrom(() => this.store.select(getSelectedTimeRange)),
+      mergeMap(([action, timeRange]) =>
+        this.filterService
+          .getDataForFilterDimension(
+            action.filterDimension,
+            action.searchFor,
+            timeRange.id
+          )
+          .pipe(
+            map((items: IdValue[]) =>
+              loadComparedFilterDimensionDataSuccess({
+                filterDimension: action.filterDimension,
+                items,
+              })
+            ),
+            catchError((error) =>
+              of(
+                loadComparedFilterDimensionDataFailure({
+                  filterDimension: action.filterDimension,
+                  errorMessage: error.message,
+                })
+              )
+            )
+          )
+      )
+    );
+  });
+
+  loadComparedFilterDimensionDataSuccess$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(loadComparedFilterDimensionDataSuccess),
+      concatLatestFrom(() =>
+        this.store.select(getComparedSelectedBusinessArea)
+      ),
+      mergeMap(([action, selectedBusinessArea]) => {
+        return selectedBusinessArea
+          ? of(
+              comparedFilterSelected({
+                filter: {
+                  name: action.filterDimension,
+                  idValue: selectedBusinessArea,
+                } as SelectedFilter,
+              })
+            )
+          : EMPTY;
+      })
+    );
+  });
+
+  comparedFilterDimensionSelected$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(comparedFilterDimensionSelected),
+      map((selectedFilter) =>
+        comparedFilterSelected({ filter: selectedFilter.filter })
       )
     );
   });

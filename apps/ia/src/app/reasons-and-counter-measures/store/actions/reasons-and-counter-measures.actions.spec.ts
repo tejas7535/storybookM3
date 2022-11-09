@@ -1,13 +1,18 @@
 import {
   EmployeesRequest,
+  FilterDimension,
   IdValue,
   SelectedFilter,
   TimePeriod,
 } from '../../../shared/models';
 import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
 import {
+  comparedFilterDimensionSelected,
   comparedFilterSelected,
   comparedTimePeriodSelected,
+  loadComparedFilterDimensionData,
+  loadComparedFilterDimensionDataFailure,
+  loadComparedFilterDimensionDataSuccess,
   loadComparedOrgUnits,
   loadComparedOrgUnitsFailure,
   loadComparedOrgUnitsSuccess,
@@ -119,7 +124,9 @@ describe('Reasons and Counter Measures Actions', () => {
 
   test('loadComparedOrgUnits', () => {
     const searchFor = 'search';
-    const action = loadComparedOrgUnits({ searchFor });
+    const action = loadComparedOrgUnits({
+      searchFor,
+    });
 
     expect(action).toEqual({
       searchFor,
@@ -129,7 +136,9 @@ describe('Reasons and Counter Measures Actions', () => {
 
   test('loadComparedOrgUnitsSuccess', () => {
     const items = [new IdValue('Department1', 'Department1')];
-    const action = loadComparedOrgUnitsSuccess({ items });
+    const action = loadComparedOrgUnitsSuccess({
+      items,
+    });
 
     expect(action).toEqual({
       items,
@@ -138,11 +147,72 @@ describe('Reasons and Counter Measures Actions', () => {
   });
 
   test('loadComparedOrgUnitsFailure', () => {
-    const action = loadComparedOrgUnitsFailure({ errorMessage });
+    const action = loadComparedOrgUnitsFailure({
+      errorMessage,
+    });
 
     expect(action).toEqual({
       errorMessage,
       type: '[ReasonsAndCounterMeasures] Load Compared Org Units Failure',
+    });
+  });
+
+  test('comparedFilterDimensionSelected', () => {
+    const filter = new SelectedFilter('abc', new IdValue('abv', '123'));
+    const filterDimension = FilterDimension.FUNCTION;
+    const action = comparedFilterDimensionSelected({
+      filterDimension,
+      filter,
+    });
+
+    expect(action).toEqual({
+      filter,
+      filterDimension,
+      type: '[ReasonsAndCounterMeasures] Compared Filter Dimension Selected',
+    });
+  });
+
+  test('loadComparedFilterDimensionData', () => {
+    const searchFor = 'asd';
+    const filterDimension = FilterDimension.FUNCTION;
+    const action = loadComparedFilterDimensionData({
+      filterDimension,
+      searchFor,
+    });
+
+    expect(action).toEqual({
+      searchFor,
+      filterDimension,
+      type: '[ReasonsAndCounterMeasures] Load Compared Filter Dimension Data',
+    });
+  });
+
+  test('loadComparedFilterDimensionDataSuccess', () => {
+    const items: IdValue[] = [];
+    const filterDimension = FilterDimension.FUNCTION;
+    const action = loadComparedFilterDimensionDataSuccess({
+      filterDimension,
+      items,
+    });
+
+    expect(action).toEqual({
+      items,
+      filterDimension,
+      type: '[ReasonsAndCounterMeasures] Load Compared Filter Dimension Data Success',
+    });
+  });
+
+  test('loadComparedFilterDimensionDataFailure', () => {
+    const filterDimension = FilterDimension.FUNCTION;
+    const action = loadComparedFilterDimensionDataFailure({
+      filterDimension,
+      errorMessage,
+    });
+
+    expect(action).toEqual({
+      errorMessage,
+      filterDimension,
+      type: '[ReasonsAndCounterMeasures] Load Compared Filter Dimension Data Failure',
     });
   });
 });

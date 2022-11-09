@@ -1,5 +1,3 @@
-import { of } from 'rxjs';
-
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -24,7 +22,6 @@ describe('Filter Effects', () => {
   let action: any;
   let effects: FilterEffects;
   let store: MockStore;
-  let service: FilterEffects;
 
   const error = {
     message: 'An error message occured',
@@ -50,7 +47,6 @@ describe('Filter Effects', () => {
     effects = spectator.inject(FilterEffects);
     filterService = spectator.inject(FilterService);
     store = spectator.inject(MockStore);
-    service = spectator.service;
   });
 
   describe('loadFilterDimensionData$', () => {
@@ -83,13 +79,15 @@ describe('Filter Effects', () => {
 
         const expected = m.cold('--b', { b: result });
 
-        filterService.getOrgUnits = jest
+        filterService.getDataForFilterDimension = jest
           .fn()
           .mockImplementation(() => response);
 
         m.expect(effects.loadFilterDimensionData$).toBeObservable(expected);
         m.flush();
-        expect(filterService.getOrgUnits).toHaveBeenCalledTimes(1);
+        expect(filterService.getDataForFilterDimension).toHaveBeenCalledTimes(
+          1
+        );
       })
     );
 
@@ -105,13 +103,15 @@ describe('Filter Effects', () => {
         const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
 
-        filterService.getOrgUnits = jest
+        filterService.getDataForFilterDimension = jest
           .fn()
           .mockImplementation(() => response);
 
         m.expect(effects.loadFilterDimensionData$).toBeObservable(expected);
         m.flush();
-        expect(filterService.getOrgUnits).toHaveBeenCalledTimes(1);
+        expect(filterService.getDataForFilterDimension).toHaveBeenCalledTimes(
+          1
+        );
       })
     );
   });
@@ -163,70 +163,5 @@ describe('Filter Effects', () => {
         m.flush();
       })
     );
-  });
-
-  describe('getDataForFilterDimension', () => {
-    test('should return org units', () => {
-      const searchFor = 't1';
-      const timeRange = '123';
-      const expectedResult = of();
-      filterService.getOrgUnits = jest.fn().mockReturnValue(expectedResult);
-
-      const result = service.getDataForFilterDimension(
-        FilterDimension.ORG_UNIT,
-        searchFor,
-        timeRange
-      );
-
-      expect(result).toEqual(expectedResult);
-      expect(filterService.getOrgUnits).toHaveBeenCalledWith(
-        searchFor,
-        timeRange
-      );
-    });
-
-    test('should return regions', () => {
-      const expectedResult = of();
-      filterService.getRegions = jest.fn().mockReturnValue(expectedResult);
-
-      const result = service.getDataForFilterDimension(FilterDimension.REGION);
-
-      expect(result).toEqual(expectedResult);
-      expect(filterService.getRegions).toHaveBeenCalled();
-    });
-
-    test('should return sub-regions', () => {
-      const expectedResult = of();
-      filterService.getSubRegions = jest.fn().mockReturnValue(expectedResult);
-
-      const result = service.getDataForFilterDimension(
-        FilterDimension.SUB_REGION
-      );
-
-      expect(result).toEqual(expectedResult);
-      expect(filterService.getSubRegions).toHaveBeenCalled();
-    });
-
-    test('should return countries', () => {
-      const expectedResult = of();
-      filterService.getCountries = jest.fn().mockReturnValue(expectedResult);
-
-      const result = service.getDataForFilterDimension(FilterDimension.COUNTRY);
-
-      expect(result).toEqual(expectedResult);
-      expect(filterService.getCountries).toHaveBeenCalled();
-    });
-
-    test('should return sub-functions', () => {
-      const expectedResult = of();
-      filterService.getSubFunctions = jest.fn().mockReturnValue(expectedResult);
-
-      const result = service.getDataForFilterDimension(
-        FilterDimension.SUB_FUNCTION
-      );
-
-      expect(result).toEqual(expectedResult);
-      expect(filterService.getSubFunctions).toHaveBeenCalled();
-    });
   });
 });

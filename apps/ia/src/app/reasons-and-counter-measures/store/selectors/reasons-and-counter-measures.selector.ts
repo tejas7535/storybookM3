@@ -24,6 +24,12 @@ import {
 import * as utils from './reasons-and-counter-measures.selector.utils';
 import { getColorsForChart } from './reasons-and-counter-measures.selector.utils';
 
+export const getComparedSelectedDimension = createSelector(
+  selectReasonsAndCounterMeasuresState,
+  (state: ReasonsAndCounterMeasuresState) =>
+    state.reasonsForLeaving.comparedSelectedDimension
+);
+
 export const getComparedSelectedTimePeriod = createSelector(
   selectReasonsAndCounterMeasuresState,
   (state: ReasonsAndCounterMeasuresState) =>
@@ -85,12 +91,29 @@ const getAllComparedSelectedFilters = createSelector(
   selectAllComparedSelectedFilters
 );
 
+export const getComparedSelectedBusinessArea = createSelector(
+  getAllComparedSelectedFilters,
+  getComparedSelectedDimension,
+  (selectedFilters: SelectedFilter[], selectedDimension: FilterDimension) =>
+    selectedFilters.find((filter) => filter.name === selectedDimension)?.idValue
+);
+
 export const getComparedOrgUnitsFilter = createSelector(
   selectReasonsAndCounterMeasuresState,
   (state: ReasonsAndCounterMeasuresState) =>
     new Filter(
       FilterDimension.ORG_UNIT,
-      state.reasonsForLeaving.comparedOrgUnits.items
+      state.reasonsForLeaving.data[FilterDimension.ORG_UNIT]?.items
+    )
+);
+
+export const getComparedBusinessAreaFilter = createSelector(
+  selectReasonsAndCounterMeasuresState,
+  getComparedSelectedDimension,
+  (state: ReasonsAndCounterMeasuresState, selectedDimension: FilterDimension) =>
+    new Filter(
+      selectedDimension,
+      state.reasonsForLeaving.data[selectedDimension]?.items ?? []
     )
 );
 
@@ -100,16 +123,11 @@ export const getComparedSelectedTimeRange = createSelector(
     filters.find((filter) => filter.name === FilterKey.TIME_RANGE)?.idValue
 );
 
-export const getComparedSelectedOrgUnit = createSelector(
-  getAllComparedSelectedFilters,
-  (filters: SelectedFilter[]) =>
-    filters.find((filter) => filter.name === FilterDimension.ORG_UNIT)?.idValue
-);
-
 export const getComparedSelectedOrgUnitLoading = createSelector(
   selectReasonsAndCounterMeasuresState,
-  (state: ReasonsAndCounterMeasuresState) =>
-    state.reasonsForLeaving.comparedOrgUnits.loading
+  getComparedSelectedDimension,
+  (state: ReasonsAndCounterMeasuresState, selectedDimension: FilterDimension) =>
+    state.reasonsForLeaving.data[selectedDimension]?.loading
 );
 
 export const getCurrentComparedFilters = createSelector(

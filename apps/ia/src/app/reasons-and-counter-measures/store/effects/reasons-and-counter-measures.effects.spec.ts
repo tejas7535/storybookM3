@@ -10,18 +10,25 @@ import { marbles } from 'rxjs-marbles/marbles';
 import { AppRoutePath } from '../../../app-route-path.enum';
 import { RouterStateUrl, selectRouterState } from '../../../core/store';
 import { filterSelected, triggerLoad } from '../../../core/store/actions';
-import { getCurrentFilters } from '../../../core/store/selectors';
+import {
+  getCurrentFilters,
+  getSelectedTimeRange,
+} from '../../../core/store/selectors';
 import { FilterService } from '../../../filter-section/filter.service';
 import {
   EmployeesRequest,
-  FilterKey,
+  FilterDimension,
   IdValue,
   SelectedFilter,
 } from '../../../shared/models';
 import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
 import { ReasonsAndCounterMeasuresService } from '../../reasons-and-counter-measures.service';
 import {
+  comparedFilterDimensionSelected,
   comparedFilterSelected,
+  loadComparedFilterDimensionData,
+  loadComparedFilterDimensionDataFailure,
+  loadComparedFilterDimensionDataSuccess,
   loadComparedOrgUnits,
   loadComparedOrgUnitsFailure,
   loadComparedOrgUnitsSuccess,
@@ -217,19 +224,24 @@ describe('ReasonsAndCounterMeasures Effects', () => {
 
   describe('comparedFilterChange$', () => {
     test(
-      'comparedFilterSelected - should trigger load actions if orgUnit and time range are set',
+      'comparedFilterSelected - should trigger load actions if dimension, value and time range are set',
       marbles((m) => {
-        const filter = new SelectedFilter(FilterKey.TIME_RANGE, {
-          id: '123|456',
+        const filterDimension = FilterDimension.ORG_UNIT;
+        const filter = new SelectedFilter(filterDimension, {
+          id: '123',
           value: 'Awesome Date',
         });
+        const timeRange = '123-321';
         const request = {
-          orgUnit: 'orgUnit',
-          timeRange: filter.idValue.id,
-        } as unknown as EmployeesRequest;
+          filterDimension,
+          value: filter.idValue.id,
+          timeRange,
+        } as EmployeesRequest;
 
         action = comparedFilterSelected({ filter });
-        store.overrideSelector(getCurrentComparedFilters, request);
+        store.overrideSelector(getCurrentComparedFilters, {
+          timeRange,
+        });
 
         const resultComparedReasonsWhyPeopleLeft =
           loadComparedReasonsWhyPeopleLeft({
@@ -362,6 +374,100 @@ describe('ReasonsAndCounterMeasures Effects', () => {
         m.expect(effects.loadComparedOrgUnits$).toBeObservable(expected);
         m.flush();
         expect(filterService.getOrgUnits).toHaveBeenCalledTimes(1);
+      })
+    );
+  });
+
+  describe('loadFilterDimensionData', () => {
+    const searchFor = 'search';
+    const timeRange = '123|456';
+    const filterDimension = FilterDimension.BOARD;
+    const items = [new IdValue('Department1', 'Department1')];
+
+    beforeEach(() => {
+      action = loadComparedFilterDimensionData({ filterDimension, searchFor });
+      store.overrideSelector(getComparedSelectedTimeRange, {
+        id: timeRange,
+        value: timeRange,
+      });
+      action = loadComparedFilterDimensionData({ filterDimension, searchFor });
+    });
+
+    test(
+      'should return loadComparedFilterDimensionDataSuccess when REST call is successful',
+      marbles((m) => {
+        const result = loadComparedFilterDimensionDataSuccess({
+          filterDimension,
+          items,
+        });
+        store.overrideSelector(getSelectedTimeRange, {
+          id: '123',
+          value: 'avc',
+        });
+
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-c', { c: items });
+
+        const expected = m.cold('--b', { b: result });
+
+        filterService.getDataForFilterDimension = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadFilterDimensionData$).toBeObservable(expected);
+        m.flush();
+        expect(filterService.getDataForFilterDimension).toHaveBeenCalledTimes(
+          1
+        );
+      })
+    );
+
+    test(
+      'should return loadComparedFilterDimensionDataFailure on REST error',
+      marbles((m) => {
+        const result = loadComparedFilterDimensionDataFailure({
+          errorMessage: error.message,
+          filterDimension,
+        });
+        store.overrideSelector(getSelectedTimeRange, {
+          id: '123',
+          value: 'avc',
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+
+        filterService.getDataForFilterDimension = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadFilterDimensionData$).toBeObservable(expected);
+        m.flush();
+        expect(filterService.getDataForFilterDimension).toHaveBeenCalledTimes(
+          1
+        );
+      })
+    );
+  });
+
+  describe('comparedFilterDimensionSelected$', () => {
+    test(
+      'should return comparedFilterSelected action',
+      marbles((m) => {
+        const filterDimension = FilterDimension.BOARD;
+        const filter = new SelectedFilter('abcv', new IdValue('1', 'abc'));
+        const result = comparedFilterSelected({ filter });
+
+        action = comparedFilterDimensionSelected({ filterDimension, filter });
+
+        actions$ = m.cold('-a', { a: action });
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.comparedFilterDimensionSelected$).toBeObservable(
+          expected
+        );
       })
     );
   });

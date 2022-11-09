@@ -6,7 +6,8 @@
     <ia-filter
       class="order-1"
       [layout]="filterLayout.SLIM"
-      [businessAreaFilter]="orgUnitsFilter$ | ngrxPush"
+      [availableDimensions]="availableDimensions$ | ngrxPush"
+      [activeDimension]="activeDimension$ | ngrxPush"
       [selectedBusinessArea]="selectedOrgUnit$ | ngrxPush"
       [disableFilters]="true"
       [timePeriods]="timePeriods$ | ngrxPush"
@@ -37,12 +38,15 @@
       </button>
       <ia-filter
         [layout]="filterLayout.SLIM"
-        [businessAreaFilter]="comparedOrgUnitsFilter$ | ngrxPush"
+        [availableDimensions]="availableDimensions$ | ngrxPush"
+        [activeDimension]="comparedActiveDimension$ | ngrxPush"
+        [businessAreaFilter]="comparedBusinessAreaFilter$ | ngrxPush"
         [orgUnitsLoading]="comparedSelectedOrgUnitLoading$ | ngrxPush"
         [selectedBusinessArea]="comparedSelectedOrgUnit$ | ngrxPush"
         [timePeriods]="timePeriods$ | ngrxPush"
         [selectedTimePeriod]="comparedSelectedTimePeriod$ | ngrxPush"
         [selectedTime]="comparedSelectedTime$ | ngrxPush"
+        (selectDimension)="comparedDimensionSelected($event)"
         (selectFilter)="comparedFilterSelected($event)"
         (autoCompleteInput)="comparedAutoCompleteOrgUnitsChange($event)"
         (selectTimePeriod)="comparedTimePeriodSelected($event)"

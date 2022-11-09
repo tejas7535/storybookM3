@@ -2,6 +2,7 @@ import { createAction, props, union } from '@ngrx/store';
 
 import {
   EmployeesRequest,
+  FilterDimension,
   IdValue,
   SelectedFilter,
   TimePeriod,
@@ -25,6 +26,26 @@ export const loadReasonsWhyPeopleLeftSuccess = createAction(
 export const loadReasonsWhyPeopleLeftFailure = createAction(
   '[ReasonsAndCounterMeasures] Load ReasonsWhyPeopleLeft Failure',
   props<{ errorMessage: string }>()
+);
+
+export const comparedFilterDimensionSelected = createAction(
+  '[ReasonsAndCounterMeasures] Compared Filter Dimension Selected',
+  props<{ filterDimension: FilterDimension; filter: SelectedFilter }>()
+);
+
+export const loadComparedFilterDimensionData = createAction(
+  '[ReasonsAndCounterMeasures] Load Compared Filter Dimension Data',
+  props<{ filterDimension: FilterDimension; searchFor?: string }>()
+);
+
+export const loadComparedFilterDimensionDataSuccess = createAction(
+  '[ReasonsAndCounterMeasures] Load Compared Filter Dimension Data Success',
+  props<{ filterDimension: FilterDimension; items: IdValue[] }>()
+);
+
+export const loadComparedFilterDimensionDataFailure = createAction(
+  '[ReasonsAndCounterMeasures] Load Compared Filter Dimension Data Failure',
+  props<{ filterDimension: FilterDimension; errorMessage: string }>()
 );
 
 export const loadComparedReasonsWhyPeopleLeft = createAction(
@@ -75,6 +96,10 @@ const all = union({
   loadReasonsWhyPeopleLeft,
   loadReasonsWhyPeopleLeftSuccess,
   loadReasonsWhyPeopleLeftFailure,
+  comparedFilterDimensionSelected,
+  loadComparedFilterDimensionData,
+  loadComparedFilterDimensionDataSuccess,
+  loadComparedFilterDimensionDataFailure,
   loadComparedReasonsWhyPeopleLeft,
   loadComparedReasonsWhyPeopleLeftSuccess,
   loadComparedReasonsWhyPeopleLeftFailure,

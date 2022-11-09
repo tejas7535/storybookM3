@@ -1,22 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, map, Observable } from 'rxjs';
 
+import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import {
-  getBusinessAreaFilter,
   getSelectedBusinessArea,
+  getSelectedDimension,
   getSelectedTimePeriod,
   getSelectedTimeRange,
   getTimePeriods,
-} from '../../core/store/selectors/filter/filter.selector';
+} from '../../core/store/selectors';
 import { ChartLegendItem } from '../../shared/charts/models/chart-legend-item.model';
 import { DoughnutChartData } from '../../shared/charts/models/doughnut-chart-data.model';
 import { SolidDoughnutChartConfig } from '../../shared/charts/models/solid-doughnut-chart-config.model';
+import { FILTER_DIMENSIONS } from '../../shared/constants';
 import { FilterLayout } from '../../shared/filter/filter-layout.enum';
 import {
   Filter,
+  FilterDimension,
   IdValue,
   SelectedFilter,
   TimePeriod,
@@ -25,15 +28,18 @@ import { ReasonForLeavingRank } from '../models/reason-for-leaving-rank.model';
 import {
   comparedFilterSelected,
   comparedTimePeriodSelected,
+  loadComparedFilterDimensionData,
   loadComparedOrgUnits,
   resetCompareMode,
 } from '../store/actions/reasons-and-counter-measures.actions';
 import {
+  getComparedBusinessAreaFilter,
   getComparedOrgUnitsFilter,
   getComparedReasonsChartConfig,
   getComparedReasonsChartData,
   getComparedReasonsTableData,
-  getComparedSelectedOrgUnit,
+  getComparedSelectedBusinessArea,
+  getComparedSelectedDimension,
   getComparedSelectedOrgUnitLoading,
   getComparedSelectedTimePeriod,
   getComparedSelectedTimeRange,
@@ -49,7 +55,9 @@ import {
   templateUrl: './reasons-for-leaving.component.html',
 })
 export class ReasonsForLeavingComponent implements OnInit {
-  orgUnitsFilter$: Observable<Filter>;
+  availableDimensions$: Observable<IdValue[]>;
+  activeDimension$: Observable<FilterDimension>;
+
   selectedOrgUnit$: Observable<IdValue>;
   timePeriods$: Observable<IdValue[]>;
   selectedTimePeriod$: Observable<TimePeriod>;
@@ -64,6 +72,8 @@ export class ReasonsForLeavingComponent implements OnInit {
   reasonsTableData$: Observable<ReasonForLeavingRank[]>;
   reasonsLoading$: Observable<boolean>;
 
+  comparedActiveDimension$: Observable<FilterDimension>;
+  comparedBusinessAreaFilter$: Observable<Filter>;
   comparedReasonsChartConfig$: Observable<SolidDoughnutChartConfig>;
   comparedReasonsChartData$: Observable<DoughnutChartData[]>;
 
@@ -78,10 +88,20 @@ export class ReasonsForLeavingComponent implements OnInit {
   filterLayout = FilterLayout;
   comparedDisabledTimeRangeFilter: boolean;
 
-  constructor(private readonly store: Store) {}
+  constructor(
+    private readonly store: Store,
+    private readonly translocoService: TranslocoService
+  ) {}
 
   ngOnInit(): void {
-    this.orgUnitsFilter$ = this.store.select(getBusinessAreaFilter);
+    this.availableDimensions$ = this.translocoService
+      .selectTranslateObject('filters.dimension.availableDimensions')
+      .pipe(
+        map((translateObject) =>
+          this.mapTranslationsToIdValues(translateObject)
+        )
+      );
+    this.activeDimension$ = this.store.select(getSelectedDimension);
     this.selectedOrgUnit$ = this.store.select(getSelectedBusinessArea);
     this.timePeriods$ = this.store.select(getTimePeriods);
     this.selectedTimePeriod$ = this.store.select(getSelectedTimePeriod);
@@ -91,6 +111,7 @@ export class ReasonsForLeavingComponent implements OnInit {
     this.comparedReasonsChartData$ = this.store.select(
       getComparedReasonsChartData
     );
+    this.reasonsTableData$ = this.store.select(getReasonsTableData);
     this.chartData$ = combineLatest([
       this.reasonsChartData$,
       this.comparedReasonsChartData$,
@@ -99,16 +120,21 @@ export class ReasonsForLeavingComponent implements OnInit {
     this.reasonsChartLegend$ = this.store.select(getReasonsCombinedLegend);
 
     this.reasonsChartConfig$ = this.store.select(getReasonsChartConfig);
-    this.reasonsTableData$ = this.store.select(getReasonsTableData);
     this.reasonsLoading$ = this.store.select(getReasonsLoading);
 
     this.comparedReasonsChartConfig$ = this.store.select(
       getComparedReasonsChartConfig
     );
+    this.comparedActiveDimension$ = this.store.select(
+      getComparedSelectedDimension
+    );
+    this.comparedBusinessAreaFilter$ = this.store.select(
+      getComparedBusinessAreaFilter
+    );
 
     this.comparedOrgUnitsFilter$ = this.store.select(getComparedOrgUnitsFilter);
     this.comparedSelectedOrgUnit$ = this.store.select(
-      getComparedSelectedOrgUnit
+      getComparedSelectedBusinessArea
     );
     this.comparedSelectedOrgUnitLoading$ = this.store.select(
       getComparedSelectedOrgUnitLoading
@@ -136,8 +162,20 @@ export class ReasonsForLeavingComponent implements OnInit {
     );
   }
 
+  comparedDimensionSelected(dimension: IdValue): void {
+    const filterDimension = Object.entries(FilterDimension).find(
+      ([_, value]) => value === dimension.id
+    )?.[1];
+
+    this.store.dispatch(loadComparedFilterDimensionData({ filterDimension }));
+  }
+
   comparedAutoCompleteOrgUnitsChange(searchFor: string): void {
-    this.store.dispatch(loadComparedOrgUnits({ searchFor }));
+    this.store.dispatch(
+      loadComparedOrgUnits({
+        searchFor,
+      })
+    );
   }
 
   resetCompareMode(): void {
@@ -146,5 +184,18 @@ export class ReasonsForLeavingComponent implements OnInit {
 
   getOrgUnitShortName(name: string): string {
     return name?.split('(')[0].trim();
+  }
+
+  mapTranslationsToIdValues(
+    translations: Record<FilterDimension, string>
+  ): IdValue[] {
+    return FILTER_DIMENSIONS.map(
+      (dimensionLevel) =>
+        new IdValue(
+          dimensionLevel.dimension,
+          translations[dimensionLevel.dimension],
+          dimensionLevel.level
+        )
+    );
   }
 }

@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 
 import {
   EmployeesRequest,
+  FilterDimension,
   IdValue,
   SelectedFilter,
   TimePeriod,
@@ -176,7 +177,9 @@ describe('ReasonsAndCounterMeasures Reducer', () => {
       const action = loadComparedOrgUnits({ searchFor });
       const state = reasonsAndCounterMeasuresReducer(initialState, action);
 
-      expect(state.reasonsForLeaving.comparedOrgUnits.loading).toBeTruthy();
+      expect(
+        state.reasonsForLeaving.data[FilterDimension.ORG_UNIT].loading
+      ).toBeTruthy();
     });
   });
 
@@ -188,8 +191,12 @@ describe('ReasonsAndCounterMeasures Reducer', () => {
 
       const state = reasonsAndCounterMeasuresReducer(initialState, action);
 
-      expect(state.reasonsForLeaving.comparedOrgUnits.loading).toBeFalsy();
-      expect(state.reasonsForLeaving.comparedOrgUnits.items).toEqual(items);
+      expect(
+        state.reasonsForLeaving.data[FilterDimension.ORG_UNIT].loading
+      ).toBeFalsy();
+      expect(
+        state.reasonsForLeaving.data[FilterDimension.ORG_UNIT].items
+      ).toEqual(items);
     });
   });
 
@@ -200,20 +207,25 @@ describe('ReasonsAndCounterMeasures Reducer', () => {
         ...initialState,
         reasonsForLeaving: {
           ...initialState.reasonsForLeaving,
-          comparedOrgUnits: {
-            ...initialState.reasonsForLeaving.comparedOrgUnits,
-            loading: true,
-            errorMessage: '',
+          data: {
+            ...initialState.reasonsForLeaving.data,
+            [FilterDimension.ORG_UNIT]: {
+              ...initialState.reasonsForLeaving.data[FilterDimension.ORG_UNIT],
+              loading: true,
+              errorMessage: '',
+            },
           },
         },
       };
 
       const state = reasonsAndCounterMeasuresReducer(fakeState, action);
 
-      expect(state.reasonsForLeaving.comparedOrgUnits.loading).toBeFalsy();
-      expect(state.reasonsForLeaving.comparedOrgUnits.errorMessage).toEqual(
-        errorMessage
-      );
+      expect(
+        state.reasonsForLeaving.data[FilterDimension.ORG_UNIT].loading
+      ).toBeFalsy();
+      expect(
+        state.reasonsForLeaving.data[FilterDimension.ORG_UNIT].errorMessage
+      ).toEqual(errorMessage);
     });
   });
 

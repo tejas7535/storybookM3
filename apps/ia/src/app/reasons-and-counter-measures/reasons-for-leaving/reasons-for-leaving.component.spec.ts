@@ -15,10 +15,11 @@ import {
   getSelectedTimeRange,
   getTimePeriods,
 } from '../../core/store/selectors';
-import { TimePeriod } from '../../shared/models';
+import { FilterDimension, IdValue, TimePeriod } from '../../shared/models';
 import {
   comparedFilterSelected,
   comparedTimePeriodSelected,
+  loadComparedFilterDimensionData,
   loadComparedOrgUnits,
   resetCompareMode,
 } from '../store/actions/reasons-and-counter-measures.actions';
@@ -27,7 +28,8 @@ import {
   getComparedReasonsChartConfig,
   getComparedReasonsChartData,
   getComparedReasonsTableData,
-  getComparedSelectedOrgUnit,
+  getComparedSelectedBusinessArea,
+  getComparedSelectedDimension,
   getComparedSelectedOrgUnitLoading,
   getComparedSelectedTimePeriod,
   getComparedSelectedTimeRange,
@@ -75,20 +77,21 @@ describe('ReasonsForLeavingComponent', () => {
       'should initialize observables from store',
       marbles((m) => {
         const result = 'a' as any;
-        store.overrideSelector(getBusinessAreaFilter, result);
         store.overrideSelector(getSelectedBusinessArea, result);
         store.overrideSelector(getTimePeriods, result);
         store.overrideSelector(getSelectedTimePeriod, result);
         store.overrideSelector(getSelectedTimeRange, result);
         store.overrideSelector(getReasonsChartData, result);
-        store.overrideSelector(getReasonsTableData, result);
-        store.overrideSelector(getReasonsLoading, result);
         store.overrideSelector(getComparedReasonsChartData, result);
+        store.overrideSelector(getReasonsTableData, result);
         store.overrideSelector(getReasonsCombinedLegend, result);
         store.overrideSelector(getReasonsChartConfig, result);
+        store.overrideSelector(getReasonsLoading, result);
         store.overrideSelector(getComparedReasonsChartConfig, result);
+        store.overrideSelector(getComparedSelectedDimension, result);
+        store.overrideSelector(getBusinessAreaFilter, result);
         store.overrideSelector(getComparedOrgUnitsFilter, result);
-        store.overrideSelector(getComparedSelectedOrgUnit, result);
+        store.overrideSelector(getComparedSelectedBusinessArea, result);
         store.overrideSelector(getComparedSelectedOrgUnitLoading, result);
         store.overrideSelector(getComparedSelectedTimePeriod, result);
         store.overrideSelector(getComparedSelectedTimeRange, result);
@@ -96,11 +99,6 @@ describe('ReasonsForLeavingComponent', () => {
 
         component.ngOnInit();
 
-        m.expect(component.orgUnitsFilter$).toBeObservable(
-          m.cold('a', {
-            a: result,
-          })
-        );
         m.expect(component.selectedOrgUnit$).toBeObservable(
           m.cold('a', {
             a: result,
@@ -259,6 +257,119 @@ describe('ReasonsForLeavingComponent', () => {
       const result = component.getOrgUnitShortName(undefined as string);
 
       expect(result).toBeUndefined();
+    });
+  });
+
+  describe('comparedDimensionSelected', () => {
+    test('should dispatch loadComparedFilterDimensionData action', () => {
+      const filterDimension = FilterDimension.ORG_UNIT;
+      const idValue = new IdValue(filterDimension, '123');
+      store.dispatch = jest.fn();
+
+      component.comparedDimensionSelected(idValue);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        loadComparedFilterDimensionData({ filterDimension })
+      );
+    });
+  });
+
+  describe('mapTranslationsToIdValues', () => {
+    test('should map translations to id values', () => {
+      const translations = {
+        [FilterDimension.ORG_UNIT]: 'org unit',
+        [FilterDimension.REGION]: 'region',
+        [FilterDimension.SUB_REGION]: 'sub region',
+        [FilterDimension.COUNTRY]: 'country',
+        [FilterDimension.BOARD]: 'board',
+        [FilterDimension.SUB_BOARD]: 'sub board',
+        [FilterDimension.FUNCTION]: 'function',
+        [FilterDimension.SUB_FUNCTION]: 'sub function',
+        [FilterDimension.SEGMENT]: 'segment',
+        [FilterDimension.SUB_SEGMENT]: 'sub segment',
+        [FilterDimension.SEGMENT_UNIT]: 'segment unit',
+      };
+
+      const result = component.mapTranslationsToIdValues(translations);
+
+      expect(result.length).toBe(11);
+      expect(result[0]).toEqual(
+        new IdValue(
+          FilterDimension.ORG_UNIT,
+          translations[FilterDimension.ORG_UNIT],
+          0
+        )
+      );
+      expect(result[1]).toEqual(
+        new IdValue(
+          FilterDimension.REGION,
+          translations[FilterDimension.REGION],
+          0
+        )
+      );
+      expect(result[2]).toEqual(
+        new IdValue(
+          FilterDimension.SUB_REGION,
+          translations[FilterDimension.SUB_REGION],
+          1
+        )
+      );
+      expect(result[3]).toEqual(
+        new IdValue(
+          FilterDimension.COUNTRY,
+          translations[FilterDimension.COUNTRY],
+          2
+        )
+      );
+      expect(result[4]).toEqual(
+        new IdValue(
+          FilterDimension.BOARD,
+          translations[FilterDimension.BOARD],
+          0
+        )
+      );
+      expect(result[5]).toEqual(
+        new IdValue(
+          FilterDimension.SUB_BOARD,
+          translations[FilterDimension.SUB_BOARD],
+          1
+        )
+      );
+      expect(result[6]).toEqual(
+        new IdValue(
+          FilterDimension.FUNCTION,
+          translations[FilterDimension.FUNCTION],
+          2
+        )
+      );
+      expect(result[7]).toEqual(
+        new IdValue(
+          FilterDimension.SUB_FUNCTION,
+          translations[FilterDimension.SUB_FUNCTION],
+          3
+        )
+      );
+      expect(result[8]).toEqual(
+        new IdValue(
+          FilterDimension.SEGMENT,
+          translations[FilterDimension.SEGMENT],
+          0
+        )
+      );
+      expect(result[9]).toEqual(
+        new IdValue(
+          FilterDimension.SUB_SEGMENT,
+          translations[FilterDimension.SUB_SEGMENT],
+          1
+        )
+      );
+      expect(result[10]).toEqual(
+        new IdValue(
+          FilterDimension.SEGMENT_UNIT,
+          translations[FilterDimension.SEGMENT_UNIT],
+          2
+        )
+      );
     });
   });
 });

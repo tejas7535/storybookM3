@@ -1,22 +1,27 @@
 import { translate, TranslocoModule } from '@ngneat/transloco';
 
+import { FilterData } from '../../../core/store/reducers/filter/filter.reducer';
 import { DoughnutChartData } from '../../../shared/charts/models';
 import { ChartLegendItem } from '../../../shared/charts/models/chart-legend-item.model';
 import {
+  Filter,
   FilterDimension,
   FilterKey,
   IdValue,
+  SelectedFilter,
   TimePeriod,
 } from '../../../shared/models';
 import { ReasonsAndCounterMeasuresState } from '..';
 import {
+  getComparedBusinessAreaFilter,
   getComparedOrgUnitsFilter,
   getComparedReasonsChartConfig,
   getComparedReasonsChartData,
   getComparedReasonsData,
   getComparedReasonsLoading,
   getComparedReasonsTableData,
-  getComparedSelectedOrgUnit,
+  getComparedSelectedBusinessArea,
+  getComparedSelectedDimension,
   getComparedSelectedOrgUnitLoading,
   getComparedSelectedTimePeriod,
   getComparedSelectedTimeRange,
@@ -83,11 +88,14 @@ describe('ReasonsAndCounterMeasures Selector', () => {
   ];
   const fakeState: ReasonsAndCounterMeasuresState = {
     reasonsForLeaving: {
-      comparedOrgUnits: {
-        loading: true,
-        items: [new IdValue('Schaeffler_IT_1', 'Schaeffler_IT_1')],
-        errorMessage: '',
-      },
+      comparedSelectedDimension: FilterDimension.ORG_UNIT,
+      data: {
+        [FilterDimension.ORG_UNIT]: {
+          loading: true,
+          items: [new IdValue('Schaeffler_IT_1', 'Schaeffler_IT_1')],
+          errorMessage: '',
+        },
+      } as Record<FilterDimension, FilterData>,
       comparedSelectedFilters: {
         ids: [FilterDimension.ORG_UNIT, FilterKey.TIME_RANGE],
         entities: {
@@ -319,25 +327,21 @@ describe('ReasonsAndCounterMeasures Selector', () => {
     });
   });
 
-  describe('getComparedSelectedOrgUnit', () => {
-    test('should return compared selected org unit', () => {
-      expect(
-        getComparedSelectedOrgUnit.projector(
-          Object.values(
-            fakeState.reasonsForLeaving.comparedSelectedFilters.entities
-          )
-        )
-      ).toEqual({
-        id: 'Schaeffler_IT_1',
-        value: 'Schaeffler_IT_1',
-      });
+  describe('getComparedSelectedDimension', () => {
+    test('should return compared selected dimension', () => {
+      expect(getComparedSelectedDimension.projector(fakeState)).toEqual(
+        FilterDimension.ORG_UNIT
+      );
     });
   });
 
   describe('getComparedSelectedOrgUnitLoading', () => {
     test('should return compared org unit loading status', () => {
       expect(
-        getComparedSelectedOrgUnitLoading.projector(fakeState)
+        getComparedSelectedOrgUnitLoading.projector(
+          fakeState,
+          FilterDimension.ORG_UNIT
+        )
       ).toBeTruthy();
     });
   });
@@ -561,6 +565,47 @@ describe('ReasonsAndCounterMeasures Selector', () => {
       const result = getPercentageValue(part, total);
 
       expect(result).toEqual(0);
+    });
+  });
+
+  describe('getComparedSelectedBusinessArea', () => {
+    test('should return selected business area', () => {
+      const selectedDimension = FilterDimension.ORG_UNIT;
+      const filter = new SelectedFilter(
+        selectedDimension,
+        new IdValue('1', 'abc')
+      );
+      const selectedFilters: SelectedFilter[] = [filter];
+      const result = getComparedSelectedBusinessArea.projector(
+        selectedFilters,
+        selectedDimension
+      );
+      expect(result).toBe(filter.idValue);
+    });
+  });
+
+  describe('getComparedBusinessAreaFilter', () => {
+    test('should return selected business area filter', () => {
+      const selectedDimension = FilterDimension.ORG_UNIT;
+      const items = [new IdValue('Schaeffler_IT_1', 'Schaeffler_IT_1')];
+      const expected = new Filter(selectedDimension, items);
+      const result = getComparedBusinessAreaFilter.projector(
+        fakeState,
+        selectedDimension
+      );
+
+      expect(result).toEqual(expected);
+    });
+
+    test('should return empty array when items undefined', () => {
+      const selectedDimension = FilterDimension.SEGMENT;
+      const result = getComparedBusinessAreaFilter.projector(
+        fakeState,
+        selectedDimension
+      );
+      const expected = new Filter(selectedDimension, []);
+
+      expect(result).toEqual(expected);
     });
   });
 });

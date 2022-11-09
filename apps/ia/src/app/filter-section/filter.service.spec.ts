@@ -3,9 +3,11 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 
+import { of } from 'rxjs';
+
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
-import { IdValue, Slice } from '../shared/models';
+import { FilterDimension, IdValue, Slice } from '../shared/models';
 import { FilterService } from './filter.service';
 
 describe('FilterService', () => {
@@ -116,6 +118,68 @@ describe('FilterService', () => {
 
       expect(req.request.method).toBe('GET');
       req.flush(data);
+    });
+  });
+
+  describe('getDataForFilterDimension', () => {
+    test('should return org units', () => {
+      const searchFor = 't1';
+      const timeRange = '123';
+      const expectedResult = of();
+      service.getOrgUnits = jest.fn().mockReturnValue(expectedResult);
+
+      const result = service.getDataForFilterDimension(
+        FilterDimension.ORG_UNIT,
+        searchFor,
+        timeRange
+      );
+
+      expect(result).toEqual(expectedResult);
+      expect(service.getOrgUnits).toHaveBeenCalledWith(searchFor, timeRange);
+    });
+
+    test('should return regions', () => {
+      const expectedResult = of();
+      service.getRegions = jest.fn().mockReturnValue(expectedResult);
+
+      const result = service.getDataForFilterDimension(FilterDimension.REGION);
+
+      expect(result).toEqual(expectedResult);
+      expect(service.getRegions).toHaveBeenCalled();
+    });
+
+    test('should return sub-regions', () => {
+      const expectedResult = of();
+      service.getSubRegions = jest.fn().mockReturnValue(expectedResult);
+
+      const result = service.getDataForFilterDimension(
+        FilterDimension.SUB_REGION
+      );
+
+      expect(result).toEqual(expectedResult);
+      expect(service.getSubRegions).toHaveBeenCalled();
+    });
+
+    test('should return countries', () => {
+      const expectedResult = of();
+      service.getCountries = jest.fn().mockReturnValue(expectedResult);
+
+      const result = service.getDataForFilterDimension(FilterDimension.COUNTRY);
+
+      expect(result).toEqual(expectedResult);
+      expect(service.getCountries).toHaveBeenCalled();
+    });
+
+    test('should return sub-functions', () => {
+      const expectedResult = of();
+      service.getSubFunctions = jest.fn().mockReturnValue(expectedResult);
+
+      const result = service.getDataForFilterDimension(
+        FilterDimension.SUB_FUNCTION
+      );
+
+      expect(result).toEqual(expectedResult);
+      expect(service.getSubFunctions).toHaveBeenCalled();
     });
   });
 });

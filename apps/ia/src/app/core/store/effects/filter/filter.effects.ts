@@ -1,16 +1,12 @@
 import { Injectable } from '@angular/core';
 
-import { catchError, EMPTY, map, mergeMap, Observable, of } from 'rxjs';
+import { catchError, EMPTY, map, mergeMap, of } from 'rxjs';
 
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import { FilterService } from '../../../../filter-section/filter.service';
-import {
-  FilterDimension,
-  IdValue,
-  SelectedFilter,
-} from '../../../../shared/models';
+import { IdValue, SelectedFilter } from '../../../../shared/models';
 import { loadUserSettingsDimensionData } from '../../../../user-settings/store/actions/user-settings.action';
 import {
   filterDimensionSelected,
@@ -28,26 +24,28 @@ export class FilterEffects {
       ofType(loadFilterDimensionData, loadUserSettingsDimensionData),
       concatLatestFrom(() => this.store.select(getSelectedTimeRange)),
       mergeMap(([action, timeRange]) =>
-        this.getDataForFilterDimension(
-          action.filterDimension,
-          action.searchFor,
-          timeRange.id
-        ).pipe(
-          map((items: IdValue[]) =>
-            loadFilterDimensionDataSuccess({
-              filterDimension: action.filterDimension,
-              items,
-            })
-          ),
-          catchError((error) =>
-            of(
-              loadFilterDimensionDataFailure({
+        this.filterService
+          .getDataForFilterDimension(
+            action.filterDimension,
+            action.searchFor,
+            timeRange.id
+          )
+          .pipe(
+            map((items: IdValue[]) =>
+              loadFilterDimensionDataSuccess({
                 filterDimension: action.filterDimension,
-                errorMessage: error.message,
+                items,
               })
+            ),
+            catchError((error) =>
+              of(
+                loadFilterDimensionDataFailure({
+                  filterDimension: action.filterDimension,
+                  errorMessage: error.message,
+                })
+              )
             )
           )
-        )
       )
     );
   });
@@ -77,49 +75,6 @@ export class FilterEffects {
       map((filter) => filterSelected({ filter: filter.filter }))
     );
   });
-  getDataForFilterDimension(
-    filterDimension: string,
-    searchFor?: string,
-    timeRangeId?: string
-  ): Observable<IdValue[]> {
-    switch (filterDimension) {
-      case FilterDimension.ORG_UNIT:
-        return this.filterService.getOrgUnits(searchFor, timeRangeId);
-
-      case FilterDimension.REGION:
-        return this.filterService.getRegions();
-
-      case FilterDimension.SUB_REGION:
-        return this.filterService.getSubRegions();
-
-      case FilterDimension.COUNTRY:
-        return this.filterService.getCountries();
-
-      case FilterDimension.FUNCTION:
-        return this.filterService.getFunctions();
-
-      case FilterDimension.SUB_FUNCTION:
-        return this.filterService.getSubFunctions();
-
-      case FilterDimension.SEGMENT:
-        return this.filterService.getSegments();
-
-      case FilterDimension.SUB_SEGMENT:
-        return this.filterService.getSubSegments();
-
-      case FilterDimension.SEGMENT_UNIT:
-        return this.filterService.getSegmentUnits();
-
-      case FilterDimension.BOARD:
-        return this.filterService.getBoards();
-
-      case FilterDimension.SUB_BOARD:
-        return this.filterService.getSubBoards();
-
-      default:
-        return EMPTY;
-    }
-  }
 
   constructor(
     private readonly actions$: Actions,

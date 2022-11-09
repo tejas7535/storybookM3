@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { map, Observable } from 'rxjs';
+import { EMPTY, map, Observable } from 'rxjs';
 
 import { withCache } from '@ngneat/cashew';
 
 import { ParamsCreatorService } from '../shared/http/params-creator.service';
-import { ApiVersion, IdValue, Slice } from '../shared/models';
+import { ApiVersion, FilterDimension, IdValue, Slice } from '../shared/models';
 
 @Injectable({
   providedIn: 'root',
@@ -112,5 +112,49 @@ export class FilterService {
       `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.SUB_BOARDS}`,
       { context: withCache() }
     );
+  }
+
+  getDataForFilterDimension(
+    filterDimension: string,
+    searchFor?: string,
+    timeRangeId?: string
+  ): Observable<IdValue[]> {
+    switch (filterDimension) {
+      case FilterDimension.ORG_UNIT:
+        return this.getOrgUnits(searchFor, timeRangeId);
+
+      case FilterDimension.REGION:
+        return this.getRegions();
+
+      case FilterDimension.SUB_REGION:
+        return this.getSubRegions();
+
+      case FilterDimension.COUNTRY:
+        return this.getCountries();
+
+      case FilterDimension.FUNCTION:
+        return this.getFunctions();
+
+      case FilterDimension.SUB_FUNCTION:
+        return this.getSubFunctions();
+
+      case FilterDimension.SEGMENT:
+        return this.getSegments();
+
+      case FilterDimension.SUB_SEGMENT:
+        return this.getSubSegments();
+
+      case FilterDimension.SEGMENT_UNIT:
+        return this.getSegmentUnits();
+
+      case FilterDimension.BOARD:
+        return this.getBoards();
+
+      case FilterDimension.SUB_BOARD:
+        return this.getSubBoards();
+
+      default:
+        return EMPTY;
+    }
   }
 }

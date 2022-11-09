@@ -1,11 +1,14 @@
+/* eslint-disable max-lines */
 import { EntityState } from '@ngrx/entity';
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 
+import { FilterData } from '../../core/store/reducers/filter/filter.reducer';
+import { DATA_IMPORT_DAY } from '../../shared/constants';
 import {
   filterAdapter,
+  FilterDimension,
   FilterKey,
-  IdValue,
   SelectedFilter,
   TimePeriod,
 } from '../../shared/models';
@@ -16,8 +19,12 @@ import {
 } from '../../shared/utils/utilities';
 import { ReasonForLeavingStats } from '../models/reason-for-leaving-stats.model';
 import {
+  comparedFilterDimensionSelected,
   comparedFilterSelected,
   comparedTimePeriodSelected,
+  loadComparedFilterDimensionData,
+  loadComparedFilterDimensionDataFailure,
+  loadComparedFilterDimensionDataSuccess,
   loadComparedOrgUnits,
   loadComparedOrgUnitsFailure,
   loadComparedOrgUnitsSuccess,
@@ -32,14 +39,20 @@ import {
 
 export const reasonsAndCounterMeasuresFeatureKey = 'reasonsAndCounterMeasures';
 
-const getInitialSelectedTimeRange = () => {
-  const nowDate = moment.utc();
+export const getInitialSelectedTimeRange = (today: Moment) => {
+  // use month before to prevent wrong calculations for the future
+  const nowDate = today
+    .clone()
+    .utc()
+    .subtract(DATA_IMPORT_DAY, 'days') // use previous month if data is not imported yet
+    .subtract(1, 'month')
+    .endOf('month');
   const oldDate = getMonth12MonthsAgo(nowDate);
 
   return getTimeRangeFromDates(oldDate, nowDate);
 };
 
-const initialTimeRange = getInitialSelectedTimeRange();
+const initialTimeRange = getInitialSelectedTimeRange(moment.utc());
 
 const initialComparedSelectedFilters = filterAdapter.getInitialState({
   ids: [FilterKey.TIME_RANGE],
@@ -56,13 +69,10 @@ const initialComparedSelectedFilters = filterAdapter.getInitialState({
 
 export interface ReasonsAndCounterMeasuresState {
   reasonsForLeaving: {
-    comparedOrgUnits: {
-      loading: boolean;
-      items: IdValue[];
-      errorMessage: string;
-    };
+    data: Record<FilterDimension, FilterData>;
     comparedSelectedTimePeriod: TimePeriod;
     comparedSelectedFilters: EntityState<SelectedFilter>;
+    comparedSelectedDimension: FilterDimension;
     reasons: {
       data: ReasonForLeavingStats[];
       loading: boolean;
@@ -78,11 +88,22 @@ export interface ReasonsAndCounterMeasuresState {
 
 export const initialState: ReasonsAndCounterMeasuresState = {
   reasonsForLeaving: {
-    comparedOrgUnits: {
-      loading: false,
-      items: [],
-      errorMessage: undefined,
+    data: {
+      // eslint-disable-next-line unicorn/no-array-reduce
+      ...Object.values(FilterDimension).reduce(
+        (map, curr) => (
+          (map[curr] = {
+            loading: false,
+            items: [],
+            errorMessage: undefined,
+            // eslint-disable-next-line no-sequences
+          }),
+          map
+        ),
+        {} as any
+      ),
     },
+    comparedSelectedDimension: undefined,
     comparedSelectedTimePeriod: TimePeriod.LAST_12_MONTHS,
     comparedSelectedFilters: initialComparedSelectedFilters,
     reasons: {
@@ -163,6 +184,23 @@ export const reasonsAndCounterMeasuresReducer = createReducer(
           filter,
           state.reasonsForLeaving.comparedSelectedFilters
         ),
+      },
+    })
+  ),
+  on(
+    comparedFilterDimensionSelected,
+    (
+      state: ReasonsAndCounterMeasuresState,
+      { filterDimension, filter }
+    ): ReasonsAndCounterMeasuresState => ({
+      ...state,
+      reasonsForLeaving: {
+        ...state.reasonsForLeaving,
+        comparedSelectedFilters: filterAdapter.upsertOne(
+          filter,
+          state.reasonsForLeaving.comparedSelectedFilters
+        ),
+        comparedSelectedDimension: filterDimension,
       },
     })
   ),
@@ -255,9 +293,12 @@ export const reasonsAndCounterMeasuresReducer = createReducer(
       ...state,
       reasonsForLeaving: {
         ...state.reasonsForLeaving,
-        comparedOrgUnits: {
-          ...state.reasonsForLeaving.comparedOrgUnits,
-          loading: true,
+        data: {
+          ...state.reasonsForLeaving.data,
+          [FilterDimension.ORG_UNIT]: {
+            ...state.reasonsForLeaving.data[FilterDimension.ORG_UNIT],
+            loading: true,
+          },
         },
       },
     })
@@ -271,10 +312,13 @@ export const reasonsAndCounterMeasuresReducer = createReducer(
       ...state,
       reasonsForLeaving: {
         ...state.reasonsForLeaving,
-        comparedOrgUnits: {
-          ...state.reasonsForLeaving.comparedOrgUnits,
-          loading: false,
-          items,
+        data: {
+          ...state.reasonsForLeaving.data,
+          [FilterDimension.ORG_UNIT]: {
+            ...state.reasonsForLeaving.data[FilterDimension.ORG_UNIT],
+            loading: false,
+            items,
+          },
         },
       },
     })
@@ -288,10 +332,73 @@ export const reasonsAndCounterMeasuresReducer = createReducer(
       ...state,
       reasonsForLeaving: {
         ...state.reasonsForLeaving,
-        comparedOrgUnits: {
-          ...state.reasonsForLeaving.comparedOrgUnits,
-          errorMessage,
-          loading: false,
+        data: {
+          ...state.reasonsForLeaving.data,
+          [FilterDimension.ORG_UNIT]: {
+            ...state.reasonsForLeaving.data[FilterDimension.ORG_UNIT],
+            errorMessage,
+            loading: false,
+          },
+        },
+      },
+    })
+  ),
+  on(
+    loadComparedFilterDimensionData,
+    (
+      state: ReasonsAndCounterMeasuresState,
+      { filterDimension }
+    ): ReasonsAndCounterMeasuresState => ({
+      ...state,
+      reasonsForLeaving: {
+        ...state.reasonsForLeaving,
+        comparedSelectedDimension: filterDimension,
+        data: {
+          ...state.reasonsForLeaving.data,
+          [filterDimension]: {
+            ...state.reasonsForLeaving.data[filterDimension],
+            loading: true,
+          },
+        },
+      },
+    })
+  ),
+  on(
+    loadComparedFilterDimensionDataSuccess,
+    (
+      state: ReasonsAndCounterMeasuresState,
+      { filterDimension, items }
+    ): ReasonsAndCounterMeasuresState => ({
+      ...state,
+      reasonsForLeaving: {
+        ...state.reasonsForLeaving,
+        data: {
+          ...state.reasonsForLeaving.data,
+          [filterDimension]: {
+            ...state.reasonsForLeaving.data[filterDimension],
+            loading: false,
+            items,
+          },
+        },
+      },
+    })
+  ),
+  on(
+    loadComparedFilterDimensionDataFailure,
+    (
+      state: ReasonsAndCounterMeasuresState,
+      { filterDimension, errorMessage }
+    ): ReasonsAndCounterMeasuresState => ({
+      ...state,
+      reasonsForLeaving: {
+        ...state.reasonsForLeaving,
+        data: {
+          ...state.reasonsForLeaving.data,
+          [filterDimension]: {
+            ...state.reasonsForLeaving.data[filterDimension],
+            errorMessage,
+            loading: false,
+          },
         },
       },
     })

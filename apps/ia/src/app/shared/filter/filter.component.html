@@ -19,7 +19,7 @@
         [appearance]="'fill'"
         [label]="t('dimension.dimension')"
         [hint]="t('dimension.hint')"
-        [disabled]="false"
+        [disabled]="disableFilters"
         [options]="availableDimensions"
         [selectedOption]="activeDimension"
         (selected)="dimensionSelected($event)"
