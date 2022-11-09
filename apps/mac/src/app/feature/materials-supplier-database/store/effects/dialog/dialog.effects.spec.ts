@@ -1090,6 +1090,7 @@ describe('Dialog Effects', () => {
           manufacturerSupplierId: 1,
           manufacturerSupplierName: 'supplier',
           manufacturerSupplierPlant: 'plant',
+          manufacturerSupplierCountry: 'country',
           selfCertified: true,
           productCategory: 'brightBar',
           productCategoryText: 'Bright Bar',
@@ -1176,7 +1177,12 @@ describe('Dialog Effects', () => {
             data: {
               supplierId: 1,
               supplierName: 'supplier',
+              supplierCountry: 'country',
             },
+          },
+          supplierCountry: {
+            id: 'country',
+            title: 'country',
           },
           manufacturer: false,
         };
@@ -1224,6 +1230,7 @@ describe('Dialog Effects', () => {
           manufacturerSupplierId: 1,
           manufacturerSupplierName: 'supplier',
           manufacturerSupplierPlant: 'plant',
+          manufacturerSupplierCountry: 'country',
           selfCertified: false,
           productCategory: 'brightBar',
           productCategoryText: 'Bright Bar',
@@ -1294,7 +1301,12 @@ describe('Dialog Effects', () => {
             data: {
               supplierId: 1,
               supplierName: 'supplier',
+              supplierCountry: 'country',
             },
+          },
+          supplierCountry: {
+            id: 'country',
+            title: 'country',
           },
           manufacturer: false,
         };

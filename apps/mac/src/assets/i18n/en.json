@@ -352,6 +352,7 @@
         "lastModified": "Last modified",
         "manufacturerSupplierName": "Supplier Name",
         "manufacturerSupplierPlant": "Supplier Plant",
+        "manufacturerSupplierCountry": "Supplier Country",
         "selfCertified": "Self-certification supplier",
         "materialNumbers": "Material Numbers",
         "materialStandardMaterialName": "Material Name",
@@ -447,6 +448,7 @@
         "supplierInformationTitle": "Supplier Information",
         "supplierName": "Supplier Name",
         "supplierPlant": "Supplier Plant",
+        "supplierCountry": "Supplier Country",
         "supplierRating": "Supplier Rating",
         "supplierRatingRemark": "Supplier Rating Remark",
         "tooltip": {

@@ -44,6 +44,7 @@ import {
   addCustomMaterialStandardDocument,
   addCustomMaterialStandardName,
   addCustomReferenceDocument,
+  addCustomSupplierCountry,
   addCustomSupplierName,
   addCustomSupplierPlant,
   fetchCastingDiameters,
@@ -85,12 +86,14 @@ describe('InputDialogComponent', () => {
       id: 1,
       name: 'supplier1',
       plant: 'plant1',
+      country: 'country1',
       manufacturer: true,
     },
     {
       id: 2,
       name: 'supplier2',
       plant: 'plant2',
+      country: 'country2',
       manufacturer: false,
     },
   ];
@@ -963,6 +966,7 @@ describe('InputDialogComponent', () => {
             component.supplierPlantsControl.disable = jest.fn();
             component.supplierPlantsControl.enable = jest.fn();
             component.supplierPlantsControl.reset = jest.fn();
+            component.supplierCountriesControl.reset = jest.fn();
             // start patch
             component.suppliersControl.patchValue(
               createOption('other supplier')
@@ -973,6 +977,7 @@ describe('InputDialogComponent', () => {
             ).not.toHaveBeenCalled();
             expect(component.supplierPlantsControl.enable).toHaveBeenCalled();
             expect(component.supplierPlantsControl.reset).toHaveBeenCalled();
+            expect(component.supplierCountriesControl.reset).toHaveBeenCalled();
           });
 
           it('should patch createMaterialForm and NOT reset supplier plants with equal title', () => {
@@ -987,6 +992,7 @@ describe('InputDialogComponent', () => {
             component.supplierPlantsControl.disable = jest.fn();
             component.supplierPlantsControl.enable = jest.fn();
             component.supplierPlantsControl.reset = jest.fn();
+            component.supplierCountriesControl.reset = jest.fn();
             // start patch
             component.suppliersControl.patchValue(supplierOption);
 
@@ -996,6 +1002,9 @@ describe('InputDialogComponent', () => {
             expect(component.supplierPlantsControl.enable).toHaveBeenCalled();
             expect(
               component.supplierPlantsControl.reset
+            ).not.toHaveBeenCalled();
+            expect(
+              component.supplierCountriesControl.reset
             ).not.toHaveBeenCalled();
           });
         });
@@ -1476,6 +1485,10 @@ describe('InputDialogComponent', () => {
   describe('addMaterial', () => {
     const option: StringOption = { id: 1, title: 'title' };
     const supplierOption = { id: '89', title: 'supplier' } as StringOption;
+    const supplierCountryOption = {
+      id: 'DE',
+      title: 'country',
+    } as StringOption;
     const supplierPlantOption = {
       id: '32',
       title: 'supplierPlant',
@@ -1509,6 +1522,7 @@ describe('InputDialogComponent', () => {
       steelMakingProcess: option,
       supplier: supplierOption,
       supplierPlant: supplierPlantOption,
+      supplierCountry: supplierCountryOption,
       materialNumber: '1.1234',
       manufacturer: false,
     };
@@ -1669,6 +1683,17 @@ describe('InputDialogComponent', () => {
       component.addSupplierPlant(supplierPlant);
       expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
         addCustomSupplierPlant({ supplierPlant })
+      );
+    });
+  });
+
+  describe('addSupplierCountry', () => {
+    it('should add values to select', () => {
+      const supplierCountry = 'string';
+      component['dialogFacade'].dispatch = jest.fn();
+      component.addSupplierCountry(supplierCountry);
+      expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+        addCustomSupplierCountry({ supplierCountry })
       );
     });
   });

@@ -48,6 +48,7 @@ import {
   addCustomMaterialStandardDocument,
   addCustomMaterialStandardName,
   addCustomReferenceDocument,
+  addCustomSupplierCountry,
   addCustomSupplierName,
   addCustomSupplierPlant,
   DialogFacade,
@@ -75,6 +76,7 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
   public materialNames$ = this.dialogFacade.materialNames$;
   public suppliers$ = this.dialogFacade.suppliers$;
   public supplierPlants$ = this.dialogFacade.supplierPlants$;
+  public supplierCountries$ = this.dialogFacade.supplierCountries$;
   public castingModes$ = this.dialogFacade.castingModes$;
   public co2Classification$ = this.dialogFacade.co2Classification$;
   public ratings$ = this.dialogFacade.ratings$;
@@ -112,6 +114,8 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
   public suppliersControl =
     this.controlsService.getRequiredControl<StringOption>();
   public supplierPlantsControl =
+    this.controlsService.getRequiredControl<StringOption>(undefined, true);
+  public supplierCountriesControl =
     this.controlsService.getRequiredControl<StringOption>(undefined, true);
   public selfCertifiedControl = this.controlsService.getControl<boolean>(false);
   public castingModesControl = this.controlsService.getControl<string>(
@@ -188,6 +192,7 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
     materialName: FormControl<StringOption>;
     supplier: FormControl<StringOption>;
     supplierPlant: FormControl<StringOption>;
+    supplierCountry: FormControl<StringOption>;
     selfCertified: FormControl<boolean>;
   }>;
 
@@ -203,6 +208,7 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
   private suppliersDependencies: FormGroup<{
     supplierName: FormControl<StringOption>;
     supplierPlant: FormControl<StringOption>;
+    supplierCountry: FormControl<StringOption>;
     castingMode: FormControl<string>;
   }>;
   private co2Controls: FormArray;
@@ -269,12 +275,14 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
       materialName: this.materialNamesControl,
       supplier: this.suppliersControl,
       supplierPlant: this.supplierPlantsControl,
+      supplierCountry: this.supplierCountriesControl,
       selfCertified: this.selfCertifiedControl,
     });
 
     this.suppliersDependencies = new FormGroup({
       supplierName: this.suppliersControl,
       supplierPlant: this.supplierPlantsControl,
+      supplierCountry: this.supplierCountriesControl,
       castingMode: this.castingModesControl,
     });
 
@@ -435,11 +443,19 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
         if (isEnabled) {
           this.manufacturerControl.enable();
           this.manufacturerControl.setValue(false);
+          this.supplierCountriesControl.reset();
+          this.supplierCountriesControl.enable();
         } else {
           // get current value for selected supplier
           const isManufacturer = supplierPlant.data?.['manufacturer'] || false;
+          const country = supplierPlant.data?.['supplierCountry'];
           this.manufacturerControl.setValue(isManufacturer);
           this.manufacturerControl.disable();
+          this.supplierCountriesControl.setValue({
+            id: country,
+            title: country,
+          });
+          this.supplierCountriesControl.disable();
         }
       });
 
@@ -457,6 +473,7 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
               supplierPlant.data['supplierName'] !== supplierName.title
             ) {
               this.supplierPlantsControl.reset();
+              this.supplierCountriesControl.reset();
             } else {
               // enable casting mode and store supplier id (not available for created entries)
               const supplierId = supplierPlant?.data?.['supplierId'];
@@ -498,6 +515,7 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
             this.castingDiameterControl,
           ]);
           this.supplierPlantsControl.reset(undefined, { emitEvent: false });
+          this.supplierCountriesControl.reset(undefined, { emitEvent: false });
           this.castingModesControl.reset(undefined, { emitEvent: false });
           this.castingDiameterControl.reset(undefined, { emitEvent: false });
         }
@@ -639,7 +657,6 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
           this.materialId =
             dialogData.minimizedDialog?.id ?? dialogData.editMaterial?.row?.id;
           this.defaultRating = dialogData.editMaterial?.row?.rating;
-
           if (materialFormValue) {
             this.dialogFacade.dispatch(
               fetchReferenceDocuments({
@@ -691,7 +708,6 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
             this.cdRef.markForCheck();
             this.cdRef.detectChanges();
           }
-
           if (
             !this.dialogData.isResumeDialog &&
             this.dialogData.editDialogInformation
@@ -781,6 +797,7 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
       id: baseMaterial.manufacturerSupplierId,
       name: baseMaterial.supplier.title,
       plant: baseMaterial.supplierPlant.title,
+      country: baseMaterial.supplierCountry?.title,
       manufacturer: baseMaterial.manufacturer,
     };
 
@@ -893,6 +910,10 @@ export class InputDialogComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public addSupplierPlant(supplierPlant: string): void {
     this.dialogFacade.dispatch(addCustomSupplierPlant({ supplierPlant }));
+  }
+
+  public addSupplierCountry(supplierCountry: string): void {
+    this.dialogFacade.dispatch(addCustomSupplierCountry({ supplierCountry }));
   }
 
   public compareWithId = (option: StringOption, selected: StringOption) =>

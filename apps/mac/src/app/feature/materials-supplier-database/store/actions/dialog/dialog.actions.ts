@@ -167,6 +167,11 @@ export const addCustomSupplierPlant = createAction(
   props<{ supplierPlant: string }>()
 );
 
+export const addCustomSupplierCountry = createAction(
+  '[MSD - Dialog] Add Custom Supplier Country',
+  props<{ supplierCountry: string }>()
+);
+
 export const postMaterial = createAction(
   '[MSD - Dialog] Post Material',
   props<{ record: CreateMaterialRecord }>()

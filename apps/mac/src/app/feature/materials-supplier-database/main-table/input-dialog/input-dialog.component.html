@@ -188,6 +188,22 @@
               {{ getErrorMessage(supplierPlantsControl.errors) }}
             </div>
           </schaeffler-select>
+
+          <schaeffler-select
+            appearance="outline"
+            class="w-full"
+            [stringOptions]="supplierCountries$ | ngrxPush"
+            [control]="supplierCountriesControl"
+            [label]="t('supplierCountry')"
+            [addEntry]="true"
+            (entryAdded)="addSupplierCountry($event)"
+            name="manufacturerSupplierCountry"
+            #dialogControl
+          >
+            <div matErrorContent *ngIf="supplierCountriesControl.invalid">
+              {{ getErrorMessage(supplierCountriesControl.errors) }}
+            </div>
+          </schaeffler-select>
         </div>
         <ng-template #supplierReadonly>
           <div class="flex flex-row gap-x-6">
@@ -209,6 +225,18 @@
                 matInput
                 [value]="supplierPlantsControl.value.title"
                 name="manufacturerSupplierPlant"
+                #dialogControl
+                readonly="true"
+              />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label
+                >{{ t('supplierCountry') }} {{ t('readonly') }}</mat-label
+              >
+              <input
+                matInput
+                [value]="supplierCountriesControl.value.title"
+                name="manufacturerSupplierCountry"
                 #dialogControl
                 readonly="true"
               />

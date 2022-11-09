@@ -13,6 +13,7 @@ export const MATERIAL_STANDARD_STANDARD_DOCUMENT =
 export const MATERIAL_NUMBERS = 'materialNumbers';
 export const MANUFACTURER_SUPPLIER_NAME = 'manufacturerSupplierName';
 export const MANUFACTURER_SUPPLIER_PLANT = 'manufacturerSupplierPlant';
+export const MANUFACTURER_SUPPLIER_COUNTRY = 'manufacturerSupplierCountry';
 export const MANUFACTURER_SUPPLIER_SELFCERTIFIED = 'selfCertified';
 export const SAP_SUPPLIER_IDS = 'sapSupplierIds';
 export const PRODUCT_CATEGORY = 'productCategoryText';
@@ -62,6 +63,12 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
   {
     field: MANUFACTURER_SUPPLIER_PLANT,
     headerName: 'Supplier Plant',
+    filterParams: FILTER_PARAMS,
+    cellRenderer: EditCellRendererComponent,
+  },
+  {
+    field: MANUFACTURER_SUPPLIER_COUNTRY,
+    headerName: 'Supplier Country',
     filterParams: FILTER_PARAMS,
     cellRenderer: EditCellRendererComponent,
   },

@@ -16,6 +16,7 @@ import {
   addCustomMaterialStandardDocument,
   addCustomMaterialStandardName,
   addCustomReferenceDocument,
+  addCustomSupplierCountry,
   addCustomSupplierName,
   addCustomSupplierPlant,
   createMaterialComplete,
@@ -62,6 +63,7 @@ export interface DialogState {
   manufacturerSupplier: {
     name: string;
     plant: string;
+    country: string;
   };
   materialStandard: {
     materialName: string;
@@ -76,6 +78,7 @@ export interface DialogState {
     manufacturerSuppliers: ManufacturerSupplier[];
     customManufacturerSupplierNames: string[];
     customManufacturerSupplierPlants: string[];
+    customManufacturerSupplierCountries: string[];
     manufacturerSuppliersLoading: boolean;
     referenceDocuments: string[];
     referenceDocumentsLoading: boolean;
@@ -506,6 +509,22 @@ export const dialogReducer = createReducer(
       dialogOptions: {
         ...state.dialogOptions,
         customManufacturerSupplierPlants: manufPlants,
+      },
+    };
+  }),
+
+  on(addCustomSupplierCountry, (state, { supplierCountry }): DialogState => {
+    const manufCountries = state.dialogOptions
+      .customManufacturerSupplierCountries
+      ? [...state.dialogOptions.customManufacturerSupplierCountries]
+      : [];
+    manufCountries.unshift(supplierCountry);
+
+    return {
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        customManufacturerSupplierCountries: manufCountries,
       },
     };
   }),

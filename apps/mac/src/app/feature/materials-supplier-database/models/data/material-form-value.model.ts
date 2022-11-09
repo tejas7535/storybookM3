@@ -29,5 +29,6 @@ export interface MaterialFormValue {
   materialName: StringOption;
   supplier: StringOption;
   supplierPlant: StringOption;
+  supplierCountry: StringOption;
   selfCertified: boolean;
 }

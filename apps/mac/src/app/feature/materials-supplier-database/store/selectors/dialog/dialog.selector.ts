@@ -143,6 +143,10 @@ export const getCustomSupplierPlants = createSelector(
   getMaterialDialogOptions,
   (dialogOptions) => dialogOptions.customManufacturerSupplierPlants
 );
+export const getCustomSupplierCountries = createSelector(
+  getMaterialDialogOptions,
+  (dialogOptions) => dialogOptions.customManufacturerSupplierCountries
+);
 export const getMaterialDialogMaterialStandards = createSelector(
   getMaterialDialogOptions,
   (dialogOptions) => dialogOptions.materialStandards
@@ -222,11 +226,16 @@ export const getMaterialDialogReferenceDocumentsLoading = createSelector(
 export const getSupplierStringOptions = createSelector(
   getMaterialDialogSuppliers,
   (suppliers): StringOption[] =>
-    suppliers.map((supplier) => ({
-      id: supplier.id,
-      title: supplier.name,
-      data: { plant: supplier.plant },
-    }))
+    suppliers
+      ?.filter(
+        (supplier) =>
+          !!supplier && !!supplier.plant && supplier.plant.trim() !== ''
+      )
+      .map((supplier) => ({
+        id: supplier.id,
+        title: supplier.name,
+        data: { plant: supplier.plant },
+      }))
 );
 
 export const getSupplierPlantStringOptions = createSelector(
@@ -243,8 +252,25 @@ export const getSupplierPlantStringOptions = createSelector(
         data: {
           supplierId: supplier.id,
           supplierName: supplier.name,
+          supplierCountry: supplier.country,
           manufacturer: supplier.manufacturer,
         },
+      }))
+      .filter(Boolean)
+      .sort(stringOptionsSortFn) || []
+);
+
+export const getSupplierCountryStringOptions = createSelector(
+  getMaterialDialogSuppliers,
+  (suppliers): StringOption[] =>
+    suppliers
+      ?.filter(
+        (supplier) =>
+          !!supplier && !!supplier.country && supplier.country.trim() !== ''
+      )
+      .map((supplier) => ({
+        id: supplier.country,
+        title: supplier.country,
       }))
       .filter(Boolean)
       .sort(stringOptionsSortFn) || []
@@ -270,6 +296,21 @@ export const getSupplierPlantsStringOptionsMerged = createSelector(
   getCustomSupplierPlants,
   (supplierOptions, customSupplierPlants): StringOption[] => {
     const customOptions: StringOption[] = (customSupplierPlants || []).map(
+      (value) => ({ id: undefined, title: value } as StringOption)
+    );
+    customOptions.push(...supplierOptions);
+
+    return customOptions;
+  }
+);
+
+export const getSupplierCountriesStringOptionsMerged = createSelector(
+  getUniqueStringOptionsWithCompareDataStringified(
+    getSupplierCountryStringOptions
+  ),
+  getCustomSupplierCountries,
+  (supplierOptions, customSupplierCountries): StringOption[] => {
+    const customOptions: StringOption[] = (customSupplierCountries || []).map(
       (value) => ({ id: undefined, title: value } as StringOption)
     );
     customOptions.push(...supplierOptions);

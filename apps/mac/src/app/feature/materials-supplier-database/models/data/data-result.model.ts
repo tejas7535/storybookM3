@@ -10,6 +10,7 @@ export interface DataResult {
   manufacturerSupplierId: number;
   manufacturerSupplierName: string;
   manufacturerSupplierPlant: string;
+  manufacturerSupplierCountry: string;
   selfCertified: boolean;
   sapSupplierIds?: string[];
   productCategory: string;

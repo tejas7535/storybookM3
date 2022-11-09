@@ -35,6 +35,7 @@ describe('DialogFacade', () => {
     id: 1,
     name: 'supplier',
     plant: 'plant',
+    country: 'country',
     manufacturer: false,
   };
 
@@ -211,6 +212,7 @@ describe('DialogFacade', () => {
               data: {
                 supplierId: 1,
                 supplierName: 'supplier',
+                supplierCountry: 'country',
                 manufacturer: false,
               },
             },

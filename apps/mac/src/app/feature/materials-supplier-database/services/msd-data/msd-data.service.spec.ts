@@ -117,6 +117,7 @@ describe('MsdDataService', () => {
           id: 442,
           name: 'ArcelorMittal Tubarao',
           plant: 'Tubarao',
+          country: 'Brazil',
           manufacturer: false,
           sapData: [
             {
@@ -153,6 +154,7 @@ describe('MsdDataService', () => {
           id: 442,
           name: 'ArcelorMittal Tubarao',
           plant: 'Tubarao',
+          country: 'Brazil',
           manufacturer: true,
         },
         materialStandard: {
@@ -172,6 +174,7 @@ describe('MsdDataService', () => {
         manufacturerSupplierId: 442,
         manufacturerSupplierName: 'ArcelorMittal Tubarao',
         manufacturerSupplierPlant: 'Tubarao',
+        manufacturerSupplierCountry: 'Brazil',
         selfCertified: false,
         sapSupplierIds: ['0000000000000', '0000000000001'],
         materialStandardId: 57,
@@ -209,6 +212,7 @@ describe('MsdDataService', () => {
         manufacturerSupplierId: 442,
         manufacturerSupplierName: 'ArcelorMittal Tubarao',
         manufacturerSupplierPlant: 'Tubarao',
+        manufacturerSupplierCountry: 'Brazil',
         selfCertified: false,
         sapSupplierIds: [],
         materialStandardId: 57,
@@ -277,12 +281,14 @@ describe('MsdDataService', () => {
           id: 0,
           name: 'supplier1',
           plant: 'plant1',
+          country: 'country1',
           sapData: [{ sapSupplierId: '123456' }, { sapSupplierId: '1234567' }],
         },
         {
           id: 1,
           name: 'supplier2',
           plant: 'plant2',
+          country: 'country2',
         },
       ];
       service.fetchManufacturerSuppliers().subscribe((result) => {

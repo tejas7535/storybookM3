@@ -811,6 +811,52 @@ describe('dialogReducer', () => {
       });
     });
 
+    it('should set the custom supplier country if they are not defined', () => {
+      const action = DialogActions.addCustomSupplierCountry({
+        supplierCountry: 'new',
+      });
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            customManufacturerSupplierCountries: undefined,
+          },
+        },
+        action
+      );
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          customManufacturerSupplierCountries: ['new'],
+        },
+      });
+    });
+
+    it('should add a custom supplier country', () => {
+      const action = DialogActions.addCustomSupplierCountry({
+        supplierCountry: 'new',
+      });
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            customManufacturerSupplierCountries: ['old'],
+          },
+        },
+        action
+      );
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          customManufacturerSupplierCountries: ['new', 'old'],
+        },
+      });
+    });
+
     it('should set the editMaterial', () => {
       const action = DialogActions.openEditDialog({
         row: {} as DataResult,

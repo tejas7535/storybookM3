@@ -102,6 +102,8 @@ export class MsdDataService {
                   materialResponse.manufacturerSupplier.name,
                 manufacturerSupplierPlant:
                   materialResponse.manufacturerSupplier.plant,
+                manufacturerSupplierCountry:
+                  materialResponse.manufacturerSupplier.country,
                 selfCertified: materialResponse.selfCertified,
                 manufacturer:
                   materialResponse.manufacturerSupplier.manufacturer,

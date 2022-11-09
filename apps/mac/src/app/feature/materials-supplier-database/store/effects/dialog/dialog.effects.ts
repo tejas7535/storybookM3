@@ -577,7 +577,12 @@ export class DialogEffects {
             data: {
               supplierId: material.manufacturerSupplierId,
               supplierName: material.manufacturerSupplierName,
+              supplierCountry: material.manufacturerSupplierCountry,
             },
+          },
+          supplierCountry: {
+            id: material.manufacturerSupplierCountry,
+            title: material.manufacturerSupplierCountry,
           },
           manufacturer: material.manufacturer,
           selfCertified: material.selfCertified,

@@ -232,12 +232,14 @@ describe('DialogSelectors', () => {
         id: 1,
         name: '1',
         plant: '1',
+        country: '1',
         manufacturer: true,
       },
       {
         id: 2,
         name: '2',
         plant: '2',
+        country: '2',
         manufacturer: true,
       },
     ];
@@ -418,86 +420,198 @@ describe('DialogSelectors', () => {
     ).toBe(true);
   });
 
-  it('should return the suppliers as StringOptions', () => {
+  // unit tests for selecting values for suppliers
+  describe('supplier stringOptions', () => {
     const mockSuppliers: ManufacturerSupplier[] = [
       {
         id: 1,
         name: 'supplier1',
         plant: 'plant1',
+        country: 'country1',
         manufacturer: true,
       },
       {
         id: 2,
         name: 'supplier2',
         plant: 'plant2',
+        country: 'country2',
+        manufacturer: false,
+      },
+      undefined,
+      {
+        id: 3,
+        name: '   ',
+        plant: '   ',
+        country: '   ',
+        manufacturer: false,
+      },
+      {
+        id: 4,
+        name: undefined,
+        plant: undefined,
+        country: undefined,
         manufacturer: false,
       },
     ];
-
-    const expected: StringOption[] = [
+    const mockCustoms: string[] = ['custom1', 'custom2'];
+    const mockStringOptions: StringOption[] = [
       {
         id: 1,
-        title: 'supplier1',
-        data: {
-          plant: 'plant1',
-        },
+        title: 'opt1',
       },
       {
         id: 2,
-        title: 'supplier2',
-        data: {
-          plant: 'plant2',
-        },
+        title: 'opt2',
       },
     ];
-
-    const result =
-      DialogSelectors.getSupplierStringOptions.projector(mockSuppliers);
-
-    expect(result).toEqual(expected);
-  });
-
-  it('should return the supplier plants as StringOptions', () => {
-    const mockSuppliers: ManufacturerSupplier[] = [
+    const mockCustomStringOptions: StringOption[] = [
       {
-        id: 1,
-        name: 'supplier1',
-        plant: 'plant1',
-        manufacturer: true,
+        id: undefined,
+        title: 'custom1',
       },
       {
-        id: 2,
-        name: 'supplier2',
-        plant: 'plant2',
-        manufacturer: false,
+        id: undefined,
+        title: 'custom2',
       },
+      ...mockStringOptions,
     ];
 
-    const expected: StringOption[] = [
-      {
-        id: 'plant1',
-        title: 'plant1',
-        data: {
-          supplierId: 1,
-          supplierName: 'supplier1',
-          manufacturer: true,
+    it('should return the suppliers as StringOptions', () => {
+      const expected: StringOption[] = [
+        {
+          id: 1,
+          title: 'supplier1',
+          data: {
+            plant: 'plant1',
+          },
         },
-      },
-      {
-        id: 'plant2',
-        title: 'plant2',
-        data: {
-          supplierId: 2,
-          supplierName: 'supplier2',
-          manufacturer: false,
+        {
+          id: 2,
+          title: 'supplier2',
+          data: {
+            plant: 'plant2',
+          },
         },
-      },
-    ];
+      ];
 
-    const result =
-      DialogSelectors.getSupplierPlantStringOptions.projector(mockSuppliers);
+      const result =
+        DialogSelectors.getSupplierStringOptions.projector(mockSuppliers);
 
-    expect(result).toEqual(expected);
+      expect(result).toEqual(expected);
+    });
+
+    it('should return the suppliers including Customs as StringOptions', () => {
+      const result =
+        DialogSelectors.getSupplierNameStringOptionsMerged.projector(
+          mockStringOptions,
+          mockCustoms
+        );
+
+      expect(result).toEqual(mockCustomStringOptions);
+    });
+    it('should return the suppliers with undefined Customs as StringOptions', () => {
+      const mockCustom: string[] = undefined;
+      const result =
+        DialogSelectors.getSupplierNameStringOptionsMerged.projector(
+          mockStringOptions,
+          mockCustom
+        );
+
+      expect(result).toEqual(mockStringOptions);
+    });
+
+    it('should return the supplier plants as StringOptions', () => {
+      const expected: StringOption[] = [
+        {
+          id: 'plant1',
+          title: 'plant1',
+          data: {
+            supplierId: 1,
+            supplierName: 'supplier1',
+            supplierCountry: 'country1',
+            manufacturer: true,
+          },
+        },
+        {
+          id: 'plant2',
+          title: 'plant2',
+          data: {
+            supplierId: 2,
+            supplierName: 'supplier2',
+            supplierCountry: 'country2',
+            manufacturer: false,
+          },
+        },
+      ];
+
+      const result =
+        DialogSelectors.getSupplierPlantStringOptions.projector(mockSuppliers);
+
+      expect(result).toEqual(expected);
+    });
+
+    it('should return the supplier plants including Customs as StringOptions', () => {
+      const result =
+        DialogSelectors.getSupplierPlantsStringOptionsMerged.projector(
+          mockStringOptions,
+          mockCustoms
+        );
+
+      expect(result).toEqual(mockCustomStringOptions);
+    });
+
+    it('should return the supplier plants with undefined Customs as StringOptions', () => {
+      const mockCustom: string[] = undefined;
+
+      const result =
+        DialogSelectors.getSupplierPlantsStringOptionsMerged.projector(
+          mockStringOptions,
+          mockCustom
+        );
+
+      expect(result).toEqual(mockStringOptions);
+    });
+
+    it('should return the supplier countries as StringOptions', () => {
+      const expected: StringOption[] = [
+        {
+          id: 'country1',
+          title: 'country1',
+        },
+        {
+          id: 'country2',
+          title: 'country2',
+        },
+      ];
+
+      const result =
+        DialogSelectors.getSupplierCountryStringOptions.projector(
+          mockSuppliers
+        );
+
+      expect(result).toEqual(expected);
+    });
+
+    it('should return the supplier countries including Customs as StringOptions', () => {
+      const result =
+        DialogSelectors.getSupplierCountriesStringOptionsMerged.projector(
+          mockStringOptions,
+          mockCustoms
+        );
+
+      expect(result).toEqual(mockCustomStringOptions);
+    });
+    it('should return the supplier countries with undefined Customs as StringOptions', () => {
+      const mockCustom: string[] = undefined;
+
+      const result =
+        DialogSelectors.getSupplierCountriesStringOptionsMerged.projector(
+          mockStringOptions,
+          mockCustom
+        );
+
+      expect(result).toEqual(mockStringOptions);
+    });
   });
 
   it('should return the material names as StringOptions', () => {
