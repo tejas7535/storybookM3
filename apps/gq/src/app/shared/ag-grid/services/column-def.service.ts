@@ -563,8 +563,6 @@ export class ColumnDefService {
     {
       headerName: translate('shared.quotationDetailsTable.freeStock'),
       field: 'materialStockByPlant.freeStock',
-      valueFormatter: (params) =>
-        this.columnUtilityService.numberDashFormatter(params),
       filterParams: NUMBER_COLUMN_FILTER,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
