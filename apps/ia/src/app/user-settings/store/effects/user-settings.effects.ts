@@ -14,7 +14,10 @@ import {
 } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 
-import { filterDimensionSelected } from '../../../core/store/actions';
+import {
+  filterDimensionSelected,
+  loadFilterDimensionData,
+} from '../../../core/store/actions';
 import { SelectedFilter } from '../../../shared/models';
 import { UserSettingsService } from '../../user-settings.service';
 import { UserSettingsDialogComponent } from '../../user-settings-dialog/user-settings-dialog.component';
@@ -55,8 +58,13 @@ export class UserSettingsEffects implements OnInitEffects {
               };
 
               result.push(
+                // select favorite
                 filterDimensionSelected({
                   filter,
+                  filterDimension: data.dimension,
+                }),
+                // preload data for favorite dimension to allow autocomplete
+                loadFilterDimensionData({
                   filterDimension: data.dimension,
                 })
               );

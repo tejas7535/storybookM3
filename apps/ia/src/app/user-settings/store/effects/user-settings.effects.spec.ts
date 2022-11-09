@@ -9,7 +9,10 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/marbles';
 
-import { filterDimensionSelected } from '../../../core/store/actions';
+import {
+  filterDimensionSelected,
+  loadFilterDimensionData,
+} from '../../../core/store/actions';
 import { FilterDimension, IdValue } from '../../../shared/models';
 import { UserSettings } from '../../models/user-settings.model';
 import { UserSettingsService } from '../../user-settings.service';
@@ -82,7 +85,7 @@ describe('User Settings Effects', () => {
     });
 
     test(
-      'should return loadUserSettingsSuccess and filterDimensionSelected on success and if org unit is set',
+      'should return loadUserSettingsSuccess, filterDimensionSelected, and loadFilterDimensionData on success and if org unit is set',
       marbles((m) => {
         const dimension = FilterDimension.BOARD;
         const dimensionKey = '2';
@@ -105,8 +108,16 @@ describe('User Settings Effects', () => {
           filterDimension: dimension,
         });
 
+        const resultDimensionData = loadFilterDimensionData({
+          filterDimension: dimension,
+        });
+
         actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('--(bc)', { b: result, c: resultFilter });
+        const expected = m.cold('--(bcd)', {
+          b: result,
+          c: resultFilter,
+          d: resultDimensionData,
+        });
         const response = m.cold('-c', {
           c: { dimension, dimensionKey, dimensionDisplayName },
         });
