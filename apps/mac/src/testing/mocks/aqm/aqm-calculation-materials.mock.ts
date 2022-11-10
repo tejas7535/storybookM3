@@ -1,4 +1,4 @@
-import { AQMMaterialsResponse } from './../../app/feature/aqm-calculator/services/aqm-calulator-response.model';
+import { AQMMaterialsResponse } from '@mac/feature/aqm-calculator/services/aqm-calulator-response.model';
 
 export const AQM_CALCULATION_MATERIALS_MOCK: AQMMaterialsResponse = {
   compositionLimits: {

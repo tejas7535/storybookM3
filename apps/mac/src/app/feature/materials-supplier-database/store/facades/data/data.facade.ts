@@ -12,6 +12,7 @@ import {
   getFilters,
   getHasMinimizedDialog,
   getLoading,
+  getMaterialClass,
   getMaterialClassOptions,
   getOptionsLoading,
   getProductCategoryOptions,
@@ -19,7 +20,7 @@ import {
   getResultCount,
   getResumeDialogData,
   getShareQueryParams,
-} from '@mac/msd/store';
+} from '@mac/msd/store/selectors';
 
 @Injectable({
   providedIn: 'root',
@@ -37,6 +38,7 @@ export class DataFacade {
   hasEditorRole$ = this.store.pipe(hasIdTokenRole(this.EDITOR_ROLE));
 
   filters$ = this.store.select(getFilters);
+  materialClass$ = this.store.pipe(getMaterialClass);
   agGridFilter$ = this.store.select(getAgGridFilter);
   agGridColumns$ = this.store.select(getAgGridColumns);
 

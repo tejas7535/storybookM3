@@ -19,9 +19,6 @@
           [formControl]="materialClassSelectionControl"
           [compareWith]="compareStringOptions"
         >
-          <mat-option [value]="{ id: undefined, title: undefined }">
-            {{ t('all') }}
-          </mat-option>
           <mat-option
             *ngFor="let option of materialClassOptions$ | ngrxPush"
             [value]="option"

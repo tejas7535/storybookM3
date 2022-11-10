@@ -10,13 +10,13 @@ import { StringOption } from '@schaeffler/inputs';
 
 import {
   CreateMaterialState,
-  ManufacturerSupplier,
+  ManufacturerSupplierV2,
   MaterialFormValue,
-  MaterialStandard,
+  MaterialStandardV2,
 } from '@mac/msd/models';
 import { MsdDataService } from '@mac/msd/services';
-import { DataFacade } from '@mac/msd/store';
 import * as DialogActions from '@mac/msd/store/actions/dialog/dialog.actions';
+import { DataFacade } from '@mac/msd/store/facades';
 
 @Injectable()
 export class DialogEffects {
@@ -43,9 +43,10 @@ export class DialogEffects {
   public fetchMaterialStandards$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DialogActions.fetchMaterialStandards),
-      switchMap(() =>
-        this.msdDataService.fetchMaterialStandards().pipe(
-          map((materialStandards: MaterialStandard[]) =>
+      concatLatestFrom(() => this.dataFacade.materialClass$),
+      switchMap(([_action, materialClass]) =>
+        this.msdDataService.fetchMaterialStandards(materialClass).pipe(
+          map((materialStandards: MaterialStandardV2[]) =>
             DialogActions.fetchMaterialStandardsSuccess({ materialStandards })
           ),
           // TODO: implement proper error handling
@@ -58,8 +59,9 @@ export class DialogEffects {
   public fetchCo2Classifications$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DialogActions.fetchCo2Classifications),
-      switchMap(() =>
-        this.msdDataService.fetchCo2Classifications().pipe(
+      concatLatestFrom(() => this.dataFacade.materialClass$),
+      switchMap(([_action, materialClass]) =>
+        this.msdDataService.fetchCo2Classifications(materialClass).pipe(
           map((co2Classifications: StringOption[]) =>
             DialogActions.fetchCo2ClassificationsSuccess({ co2Classifications })
           ),
@@ -73,9 +75,10 @@ export class DialogEffects {
   public fetchManufacturerSuppliers$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DialogActions.fetchManufacturerSuppliers),
-      switchMap(() =>
-        this.msdDataService.fetchManufacturerSuppliers().pipe(
-          map((manufacturerSuppliers: ManufacturerSupplier[]) =>
+      concatLatestFrom(() => this.dataFacade.materialClass$),
+      switchMap(([_action, materialClass]) =>
+        this.msdDataService.fetchManufacturerSuppliers(materialClass).pipe(
+          map((manufacturerSuppliers: ManufacturerSupplierV2[]) =>
             DialogActions.fetchManufacturerSuppliersSuccess({
               manufacturerSuppliers,
             })
@@ -124,8 +127,9 @@ export class DialogEffects {
   public fetchCastingModes$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DialogActions.fetchCastingModes),
-      switchMap(() =>
-        this.msdDataService.fetchCastingModes().pipe(
+      concatLatestFrom(() => this.dataFacade.materialClass$),
+      switchMap(([_action, materialClass]) =>
+        this.msdDataService.fetchCastingModes(materialClass).pipe(
           map((castingModes: string[]) =>
             DialogActions.fetchCastingModesSuccess({ castingModes })
           ),
@@ -139,12 +143,14 @@ export class DialogEffects {
   public materialDialogConfirmed$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DialogActions.materialDialogConfirmed),
-      switchMap(({ standard, supplier, material }) => [
+      concatLatestFrom(() => this.dataFacade.materialClass$),
+      switchMap(([{ standard, supplier, material }, materialClass]) => [
         DialogActions.postMaterialStandard({
           record: {
             standard,
             supplier,
             material,
+            materialClass,
             state: CreateMaterialState.Initial,
             error: false,
           },
@@ -168,32 +174,35 @@ export class DialogEffects {
               })
             )
           : // create new material standard entry
-            this.msdDataService.createMaterialStandard(record.standard).pipe(
-              map((response) =>
-                DialogActions.postManufacturerSupplier({
-                  record: {
-                    ...record,
-                    material: {
-                      ...record.material,
-                      materialStandardId: response.id,
-                    },
-                    state: CreateMaterialState.MaterialStandardCreated,
-                  },
-                })
-              ),
-              // TODO: implement proper error handling
-              catchError(() =>
-                of(
-                  DialogActions.createMaterialComplete({
+            this.msdDataService
+              .createMaterialStandard(record.standard, record.materialClass)
+              .pipe(
+                map((response) =>
+                  DialogActions.postManufacturerSupplier({
                     record: {
                       ...record,
-                      state: CreateMaterialState.MaterialStandardCreationFailed,
-                      error: true,
+                      material: {
+                        ...record.material,
+                        materialStandardId: response.id,
+                      },
+                      state: CreateMaterialState.MaterialStandardCreated,
                     },
                   })
+                ),
+                // TODO: implement proper error handling
+                catchError(() =>
+                  of(
+                    DialogActions.createMaterialComplete({
+                      record: {
+                        ...record,
+                        state:
+                          CreateMaterialState.MaterialStandardCreationFailed,
+                        error: true,
+                      },
+                    })
+                  )
                 )
               )
-            )
       )
     );
   });
@@ -214,7 +223,7 @@ export class DialogEffects {
             )
           : // create new manufacturer
             this.msdDataService
-              .createManufacturerSupplier(record.supplier)
+              .createManufacturerSupplier(record.supplier, record.materialClass)
               .pipe(
                 map((response) =>
                   DialogActions.postMaterial({
@@ -250,29 +259,31 @@ export class DialogEffects {
     return this.actions$.pipe(
       ofType(DialogActions.postMaterial),
       switchMap(({ record }) =>
-        this.msdDataService.createMaterial(record.material).pipe(
-          map(() =>
-            DialogActions.createMaterialComplete({
-              record: {
-                ...record,
-                // there is currently no place in Material to store the ID...
-                state: CreateMaterialState.MaterialCreated,
-              },
-            })
-          ),
-          // TODO: implement proper error handling
-          catchError(() =>
-            of(
+        this.msdDataService
+          .createMaterial(record.material, record.materialClass)
+          .pipe(
+            map(() =>
               DialogActions.createMaterialComplete({
                 record: {
                   ...record,
-                  state: CreateMaterialState.MaterialCreationFailed,
-                  error: true,
+                  // there is currently no place in Material to store the ID...
+                  state: CreateMaterialState.MaterialCreated,
                 },
               })
+            ),
+            // TODO: implement proper error handling
+            catchError(() =>
+              of(
+                DialogActions.createMaterialComplete({
+                  record: {
+                    ...record,
+                    state: CreateMaterialState.MaterialCreationFailed,
+                    error: true,
+                  },
+                })
+              )
             )
           )
-        )
       )
     );
   });
@@ -280,7 +291,8 @@ export class DialogEffects {
   public fetchCastingDiameters$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DialogActions.fetchCastingDiameters),
-      switchMap(({ supplierId, castingMode }) => {
+      concatLatestFrom(() => this.dataFacade.materialClass$),
+      switchMap(([{ supplierId, castingMode }, materialClass]) => {
         if (!supplierId || !castingMode) {
           return of(
             DialogActions.fetchCastingDiametersSuccess({ castingDiameters: [] })
@@ -288,7 +300,7 @@ export class DialogEffects {
         }
 
         return this.msdDataService
-          .fetchCastingDiameters(supplierId, castingMode)
+          .fetchCastingDiameters(supplierId, castingMode, materialClass)
           .pipe(
             map((castingDiameters) =>
               DialogActions.fetchCastingDiametersSuccess({ castingDiameters })
@@ -302,7 +314,8 @@ export class DialogEffects {
   public fetchReferenceDocuments$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DialogActions.fetchReferenceDocuments),
-      switchMap(({ materialStandardId }) => {
+      concatLatestFrom(() => this.dataFacade.materialClass$),
+      switchMap(([{ materialStandardId }, materialClass]) => {
         if (!materialStandardId) {
           return of(
             DialogActions.fetchReferenceDocumentsSuccess({
@@ -312,7 +325,7 @@ export class DialogEffects {
         }
 
         return this.msdDataService
-          .fetchReferenceDocuments(materialStandardId)
+          .fetchReferenceDocuments(materialStandardId, materialClass)
           .pipe(
             map((referenceDocuments) => {
               const parsedDocuments: string[] = [];
@@ -365,9 +378,13 @@ export class DialogEffects {
   public fetchEditStandardDocumentData$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DialogActions.fetchEditStandardDocumentData),
-      switchMap(({ standardDocument }) =>
+      concatLatestFrom(() => this.dataFacade.materialClass$),
+      switchMap(([{ standardDocument }, materialClass]) =>
         this.msdDataService
-          .fetchMaterialNamesForStandardDocuments(standardDocument)
+          .fetchMaterialNamesForStandardDocuments(
+            standardDocument,
+            materialClass
+          )
           .pipe(
             map((materialNamesList) =>
               materialNamesList.sort((a, b) => a[0] - b[0])
@@ -396,9 +413,10 @@ export class DialogEffects {
   public fetchEditMaterialNameData$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DialogActions.fetchEditMaterialNameData),
-      switchMap(({ materialName }) =>
+      concatLatestFrom(() => this.dataFacade.materialClass$),
+      switchMap(([{ materialName }, materialClass]) =>
         this.msdDataService
-          .fetchStandardDocumentsForMaterialName(materialName)
+          .fetchStandardDocumentsForMaterialName(materialName, materialClass)
           .pipe(
             map((standardDocumentsList) =>
               standardDocumentsList.sort((a, b) => a[0] - b[0])
@@ -430,9 +448,13 @@ export class DialogEffects {
   public fetchEditMaterialSuppliers$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DialogActions.fetchEditMaterialSuppliers),
-      switchMap(({ supplierName }) =>
+      concatLatestFrom(() => this.dataFacade.materialClass$),
+      switchMap(([{ supplierName }, materialClass]) =>
         this.msdDataService
-          .fetchManufacturerSuppliersForSupplierName(supplierName)
+          .fetchManufacturerSuppliersForSupplierName(
+            supplierName,
+            materialClass
+          )
           .pipe(
             map((supplierIds) => supplierIds.sort((a, b) => a - b)),
             map((supplierIds) =>
@@ -627,9 +649,14 @@ export class DialogEffects {
   public fetchCo2ValuesForSupplierSteelMakingProcess$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DialogActions.fetchCo2ValuesForSupplierSteelMakingProcess),
-      switchMap(({ supplierId, steelMakingProcess }) =>
+      concatLatestFrom(() => this.dataFacade.materialClass$),
+      switchMap(([{ supplierId, steelMakingProcess }, materialClass]) =>
         this.msdDataService
-          .fetchCo2ValuesForSupplierPlantProcess(supplierId, steelMakingProcess)
+          .fetchCo2ValuesForSupplierPlantProcess(
+            supplierId,
+            materialClass,
+            steelMakingProcess
+          )
           .pipe(
             map((co2Values) =>
               DialogActions.fetchCo2ValuesForSupplierSteelMakingProcessSuccess({

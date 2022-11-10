@@ -6,9 +6,12 @@ import {
   CreateMaterialRecord,
   DataResult,
   ManufacturerSupplier,
+  ManufacturerSupplierV2,
   Material,
   MaterialFormValue,
   MaterialStandard,
+  MaterialStandardV2,
+  MaterialV2,
 } from '@mac/msd/models';
 
 export const materialDialogOpened = createAction(
@@ -22,9 +25,9 @@ export const materialDialogCanceled = createAction(
 export const materialDialogConfirmed = createAction(
   '[MSD - Dialog] Material Confirmed',
   props<{
-    standard: MaterialStandard;
-    supplier: ManufacturerSupplier;
-    material: Material;
+    standard: MaterialStandard | MaterialStandardV2;
+    supplier: ManufacturerSupplier | ManufacturerSupplierV2;
+    material: Material | MaterialV2;
   }>()
 );
 
@@ -34,7 +37,7 @@ export const fetchMaterialStandards = createAction(
 
 export const fetchMaterialStandardsSuccess = createAction(
   '[MSD - Dialog] Fetch Material Standards Success',
-  props<{ materialStandards: MaterialStandard[] }>()
+  props<{ materialStandards: MaterialStandardV2[] }>()
 );
 
 export const fetchMaterialStandardsFailure = createAction(
@@ -47,7 +50,7 @@ export const fetchManufacturerSuppliers = createAction(
 
 export const fetchManufacturerSuppliersSuccess = createAction(
   '[MSD - Dialog] Fetch Manufacturer Suppliers Success',
-  props<{ manufacturerSuppliers: ManufacturerSupplier[] }>()
+  props<{ manufacturerSuppliers: ManufacturerSupplierV2[] }>()
 );
 
 export const fetchManufacturerSuppliersFailure = createAction(

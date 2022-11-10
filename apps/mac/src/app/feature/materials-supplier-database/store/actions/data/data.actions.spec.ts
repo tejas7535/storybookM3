@@ -1,5 +1,6 @@
 import { StringOption } from '@schaeffler/inputs';
 
+import { MaterialClass } from '@mac/msd/constants';
 import { DataResult } from '@mac/msd/models';
 
 import {
@@ -49,6 +50,21 @@ describe('Data Actions', () => {
       const action = fetchMaterialsSuccess({ result });
 
       expect(action).toEqual({
+        materialClass: undefined,
+        result,
+        type: '[MSD - Data] Fetch Materials Success',
+      });
+    });
+
+    it('fetchMaterialsSuccess with materialClass', () => {
+      const result: DataResult[] = [{} as DataResult];
+      const action = fetchMaterialsSuccess({
+        materialClass: MaterialClass.ALUMINUM,
+        result,
+      });
+
+      expect(action).toEqual({
+        materialClass: MaterialClass.ALUMINUM,
         result,
         type: '[MSD - Data] Fetch Materials Success',
       });

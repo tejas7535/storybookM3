@@ -1,28 +1,30 @@
+/* eslint-disable max-lines */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
 
 import { StringOption } from '@schaeffler/inputs';
 
 import { environment } from '@mac/environments/environment';
+import { MaterialClass } from '@mac/msd/constants';
 import {
-  DataResult,
-  ManufacturerSupplier,
+  ManufacturerSupplierV2,
   Material,
-  MaterialResponseEntry,
-  MaterialStandard,
+  MaterialResponse,
+  MaterialStandardV2,
+  MaterialV2,
 } from '@mac/msd/models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MsdDataService {
-  private readonly MSD_URL = '/materials-supplier-database/api/v2';
+  private readonly MSD_URL = '/materials-supplier-database/api/';
 
-  private readonly BASE_URL = `${environment.baseUrl}${this.MSD_URL}`;
+  private readonly BASE_URL = `${environment.baseUrl}${this.MSD_URL}v3`;
 
   constructor(private readonly httpClient: HttpClient) {}
 
@@ -44,9 +46,11 @@ export class MsdDataService {
       );
   }
 
-  public getProductCategories() {
+  public getProductCategories(materialClass: MaterialClass) {
     return this.httpClient
-      .get<string[]>(`${this.BASE_URL}/materials/productCategories`)
+      .get<string[]>(
+        `${this.BASE_URL}/materials/${materialClass}/productCategories`
+      )
       .pipe(
         map((productCategories) =>
           productCategories.map(
@@ -62,38 +66,40 @@ export class MsdDataService {
       );
   }
 
-  public getMaterials(materialClass?: string, category?: string[]) {
-    const params: { materialClass?: string; category?: string[] } = {};
-    if (materialClass) {
-      params.materialClass = materialClass;
-    }
-    if (category) {
-      params.category = category.filter(Boolean);
-    }
+  public getMaterials<T extends MaterialV2 = MaterialV2>(
+    materialClass: string,
+    category?: string[]
+  ): Observable<MaterialV2[]> {
+    const params: { category?: string[] } = category
+      ? { category: category.filter(Boolean) }
+      : {};
 
     return this.httpClient
-      .get<MaterialResponseEntry[]>(`${this.BASE_URL}/materials`, { params })
+      .get<MaterialResponse[]>(`${this.BASE_URL}/materials/${materialClass}`, {
+        params,
+      })
       .pipe(
-        map((materialResponses: MaterialResponseEntry[]) =>
+        map((materialResponses: MaterialResponse[]) =>
+          // eslint-disable-next-line complexity
           materialResponses.map(
-            (materialResponse: MaterialResponseEntry) =>
+            // eslint-disable-next-line complexity
+            (materialResponse: MaterialResponse) =>
               ({
                 id: materialResponse.id,
-                materialClass: materialResponse.materialClass,
-                materialClassText: translate(
-                  `materialsSupplierDatabase.materialClassValues.${materialResponse.materialClass}`
-                ),
                 materialStandardId: materialResponse.materialStandard.id,
                 materialStandardMaterialName:
                   materialResponse.materialStandard.materialName,
                 materialNumbers:
-                  materialResponse.materialStandard.materialNumber?.includes(
-                    ','
-                  )
-                    ? materialResponse.materialStandard.materialNumber
-                        ?.split(',')
-                        .map((materialNumber) => materialNumber.trim())
-                    : [materialResponse.materialStandard.materialNumber],
+                  'materialNumber' in materialResponse.materialStandard
+                    ? // eslint-disable-next-line unicorn/no-nested-ternary
+                      materialResponse.materialStandard.materialNumber?.includes(
+                        ','
+                      )
+                      ? materialResponse.materialStandard.materialNumber
+                          ?.split(',')
+                          .map((materialNumber) => materialNumber.trim())
+                      : [materialResponse.materialStandard.materialNumber]
+                    : undefined,
                 materialStandardStandardDocument:
                   materialResponse.materialStandard.standardDocument,
                 manufacturerSupplierId:
@@ -104,67 +110,120 @@ export class MsdDataService {
                   materialResponse.manufacturerSupplier.plant,
                 manufacturerSupplierCountry:
                   materialResponse.manufacturerSupplier.country,
-                selfCertified: materialResponse.selfCertified,
+                selfCertified:
+                  'selfCertified' in materialResponse
+                    ? materialResponse.selfCertified
+                    : undefined,
                 manufacturer:
-                  materialResponse.manufacturerSupplier.manufacturer,
+                  'manufacturer' in materialResponse.manufacturerSupplier
+                    ? materialResponse.manufacturerSupplier.manufacturer
+                    : undefined,
                 sapSupplierIds:
-                  materialResponse.manufacturerSupplier.sapData?.map(
-                    (sapData) => sapData.sapSupplierId
-                  ) || [],
-                productCategory: materialResponse.productCategory,
-                productCategoryText: translate(
-                  `materialsSupplierDatabase.productCategoryValues.${materialResponse.productCategory}`
-                ),
-                referenceDoc: materialResponse.referenceDoc,
+                  'sapData' in materialResponse.manufacturerSupplier
+                    ? materialResponse.manufacturerSupplier.sapData?.map(
+                        (sapData) => sapData.sapSupplierId
+                      ) || []
+                    : undefined,
+                productCategory:
+                  'productCategory' in materialResponse
+                    ? materialResponse.productCategory
+                    : undefined,
+                productCategoryText:
+                  'productCategory' in materialResponse
+                    ? translate(
+                        `materialsSupplierDatabase.productCategoryValues.${materialResponse.productCategory}`
+                      )
+                    : undefined,
+                referenceDoc:
+                  'referenceDoc' in materialResponse
+                    ? materialResponse.referenceDoc
+                    : undefined,
                 co2Scope1: materialResponse.co2Scope1,
                 co2Scope2: materialResponse.co2Scope2,
                 co2Scope3: materialResponse.co2Scope3,
                 co2PerTon: materialResponse.co2PerTon,
                 co2Classification: materialResponse.co2Classification,
-                releaseDateYear: materialResponse.releaseDateYear,
-                releaseDateMonth: materialResponse.releaseDateMonth,
+                releaseDateYear:
+                  'releaseDateYear' in materialResponse
+                    ? materialResponse.releaseDateYear
+                    : undefined,
+                releaseDateMonth:
+                  'releaseDateMonth' in materialResponse
+                    ? materialResponse.releaseDateMonth
+                    : undefined,
                 releaseRestrictions: materialResponse.releaseRestrictions,
-                blocked: materialResponse.blocked,
-                castingMode: materialResponse.castingMode,
-                castingDiameter: materialResponse.castingDiameter,
-                minDimension: materialResponse.minDimension,
-                maxDimension: materialResponse.maxDimension,
-                steelMakingProcess: materialResponse.steelMakingProcess,
-                rating: materialResponse.rating,
-                ratingRemark: materialResponse.ratingRemark,
-                ratingChangeComment: materialResponse.ratingChangeComment,
+                blocked:
+                  'blocked' in materialResponse
+                    ? materialResponse.blocked
+                    : undefined,
+                castingMode:
+                  'castingMode' in materialResponse
+                    ? materialResponse.castingMode
+                    : undefined,
+                castingDiameter:
+                  'castingDiameter' in materialResponse
+                    ? materialResponse.castingDiameter
+                    : undefined,
+                minDimension:
+                  'minDimension' in materialResponse
+                    ? materialResponse.minDimension
+                    : undefined,
+                maxDimension:
+                  'maxDimension' in materialResponse
+                    ? materialResponse.maxDimension
+                    : undefined,
+                steelMakingProcess:
+                  'steelMakingProcess' in materialResponse
+                    ? materialResponse.steelMakingProcess
+                    : undefined,
+                rating:
+                  'rating' in materialResponse
+                    ? materialResponse.rating
+                    : undefined,
+                ratingRemark:
+                  'ratingRemark' in materialResponse
+                    ? materialResponse.ratingRemark
+                    : undefined,
+                ratingChangeComment:
+                  'ratingChangeComment' in materialResponse
+                    ? materialResponse.ratingChangeComment
+                    : undefined,
                 lastModified: materialResponse.timestamp,
-              } as DataResult)
+              } as unknown as T)
           )
         )
       );
   }
 
-  public fetchManufacturerSuppliers() {
-    return this.httpClient.get<ManufacturerSupplier[]>(
-      `${this.BASE_URL}/materials/manufacturerSuppliers`
+  public fetchManufacturerSuppliers(materialClass: MaterialClass) {
+    return this.httpClient.get<ManufacturerSupplierV2[]>(
+      `${this.BASE_URL}/materials/${materialClass}/manufacturerSuppliers`
     );
   }
 
-  public fetchMaterialStandards() {
-    return this.httpClient.get<MaterialStandard[]>(
-      `${this.BASE_URL}/materials/materialStandards`
+  public fetchMaterialStandards(materialClass: MaterialClass) {
+    return this.httpClient.get<MaterialStandardV2[]>(
+      `${this.BASE_URL}/materials/${materialClass}/materialStandards`
     );
   }
 
   public fetchRatings() {
-    return this.httpClient.get<string[]>(`${this.BASE_URL}/materials/ratings`);
+    return this.httpClient.get<string[]>(
+      `${this.BASE_URL}/materials/st/ratings`
+    );
   }
 
   public fetchSteelMakingProcesses() {
     return this.httpClient.get<string[]>(
-      `${this.BASE_URL}/materials/steelMakingProcesses`
+      `${this.BASE_URL}/materials/st/steelMakingProcesses`
     );
   }
 
-  public fetchCo2Classifications() {
+  public fetchCo2Classifications(materialClass: MaterialClass) {
     return this.httpClient
-      .get<string[]>(`${this.BASE_URL}/materials/co2Classifications`)
+      .get<string[]>(
+        `${this.BASE_URL}/materials/${materialClass}/co2Classifications`
+      )
       .pipe(
         map((co2Classifications) =>
           co2Classifications.map(
@@ -180,13 +239,17 @@ export class MsdDataService {
       );
   }
 
-  public fetchCastingModes() {
+  public fetchCastingModes(materialClass: MaterialClass) {
     return this.httpClient.get<string[]>(
-      `${this.BASE_URL}/materials/castingModes`
+      `${this.BASE_URL}/materials/${materialClass}/castingModes`
     );
   }
 
-  public fetchCastingDiameters(supplierId: number, castingMode: string) {
+  public fetchCastingDiameters(
+    supplierId: number,
+    castingMode: string,
+    materialClass: MaterialClass
+  ) {
     const body = {
       select: ['castingDiameter'],
       where: [
@@ -205,12 +268,15 @@ export class MsdDataService {
     };
 
     return this.httpClient.post<string[]>(
-      `${this.BASE_URL}/materials/query`,
+      `${this.BASE_URL}/materials/${materialClass}/query`,
       body
     );
   }
 
-  public fetchReferenceDocuments(materialStandardId: number) {
+  public fetchReferenceDocuments(
+    materialStandardId: number,
+    materialClass: MaterialClass
+  ) {
     const body = {
       select: ['referenceDoc'],
       where: [
@@ -224,12 +290,15 @@ export class MsdDataService {
     };
 
     return this.httpClient.post<string[]>(
-      `${this.BASE_URL}/materials/query`,
+      `${this.BASE_URL}/materials/${materialClass}/query`,
       body
     );
   }
 
-  public fetchStandardDocumentsForMaterialName(materialName: string) {
+  public fetchStandardDocumentsForMaterialName(
+    materialName: string,
+    materialClass: MaterialClass
+  ) {
     const body = {
       select: ['materialStandard.id', 'materialStandard.standardDocument'],
       where: [
@@ -243,12 +312,15 @@ export class MsdDataService {
     };
 
     return this.httpClient.post<[number, string][]>(
-      `${this.BASE_URL}/materials/query`,
+      `${this.BASE_URL}/materials/${materialClass}/query`,
       body
     );
   }
 
-  public fetchManufacturerSuppliersForSupplierName(supplierName: string) {
+  public fetchManufacturerSuppliersForSupplierName(
+    supplierName: string,
+    materialClass: MaterialClass
+  ) {
     const body = {
       select: ['manufacturerSupplier.id'],
       where: [
@@ -262,12 +334,15 @@ export class MsdDataService {
     };
 
     return this.httpClient.post<number[]>(
-      `${this.BASE_URL}/materials/query`,
+      `${this.BASE_URL}/materials/${materialClass}/query`,
       body
     );
   }
 
-  public fetchMaterialNamesForStandardDocuments(standardDocument: string) {
+  public fetchMaterialNamesForStandardDocuments(
+    standardDocument: string,
+    materialClass: MaterialClass
+  ) {
     const body = {
       select: ['materialStandard.id', 'materialStandard.materialName'],
       where: [
@@ -281,7 +356,7 @@ export class MsdDataService {
     };
 
     return this.httpClient.post<[number, string][]>(
-      `${this.BASE_URL}/materials/query`,
+      `${this.BASE_URL}/materials/${materialClass}/query`,
       body
     );
   }
@@ -314,7 +389,7 @@ export class MsdDataService {
     };
 
     return this.httpClient
-      .post<string[]>(`${this.BASE_URL}/materials/query`, body)
+      .post<string[]>(`${this.BASE_URL}/materials/st/query`, body)
       .pipe(
         map((steelMakingProcesses) =>
           steelMakingProcesses.filter(
@@ -326,8 +401,29 @@ export class MsdDataService {
 
   public fetchCo2ValuesForSupplierPlantProcess(
     supplierId: number,
-    steelMakingProcess: string
+    materialClass: MaterialClass,
+    steelMakingProcess?: string
   ) {
+    const where = steelMakingProcess
+      ? [
+          {
+            col: 'manufacturerSupplier.id',
+            op: 'IN',
+            values: [supplierId],
+          },
+          {
+            col: 'steelMakingProcess',
+            op: 'IN',
+            values: [steelMakingProcess],
+          },
+        ]
+      : [
+          {
+            col: 'manufacturerSupplier.id',
+            op: 'IN',
+            values: [supplierId],
+          },
+        ];
     const body = {
       select: [
         'co2PerTon',
@@ -336,24 +432,13 @@ export class MsdDataService {
         'co2Scope3',
         'co2Classification',
       ],
-      where: [
-        {
-          col: 'manufacturerSupplier.id',
-          op: 'IN',
-          values: [supplierId],
-        },
-        {
-          col: 'steelMakingProcess',
-          op: 'IN',
-          values: [steelMakingProcess],
-        },
-      ],
       distinct: true,
+      where,
     };
 
     return this.httpClient
       .post<[number, number, number, number, string][]>(
-        `${this.BASE_URL}/materials/query`,
+        `${this.BASE_URL}/materials/${materialClass}/query`,
         body
       )
       .pipe(
@@ -370,29 +455,46 @@ export class MsdDataService {
       );
   }
 
-  public createMaterialStandard(standard: MaterialStandard) {
-    const modStd = {
-      materialName: standard.materialName,
-      standardDocument: standard.standardDocument,
-      materialNumber: standard.materialNumber?.split(', '),
-    };
+  public createMaterialStandard(
+    standard: MaterialStandardV2,
+    materialClass: MaterialClass = MaterialClass.STEEL
+  ) {
+    let modStd: {
+      materialName: string;
+      standardDocument?: string;
+      materialNumber?: string | string[];
+    } = standard;
+
+    if ('materialNumber' in standard) {
+      modStd = {
+        materialName: standard.materialName,
+        standardDocument: standard.standardDocument,
+        materialNumber: standard.materialNumber?.split(', '),
+      };
+    }
 
     return this.httpClient.post<{ id: number }>(
-      `${this.BASE_URL}/materials/materialStandards`,
+      `${this.BASE_URL}/materials/${materialClass}/materialStandards`,
       modStd
     );
   }
 
-  public createManufacturerSupplier(supplier: ManufacturerSupplier) {
+  public createManufacturerSupplier(
+    supplier: ManufacturerSupplierV2,
+    materialClass: MaterialClass = MaterialClass.STEEL
+  ) {
     return this.httpClient.post<{ id: number }>(
-      `${this.BASE_URL}/materials/manufacturerSuppliers`,
+      `${this.BASE_URL}/materials/${materialClass}/manufacturerSuppliers`,
       supplier
     );
   }
 
-  public createMaterial(material: Material) {
+  public createMaterial(
+    material: Material | MaterialV2,
+    materialClass: MaterialClass = MaterialClass.STEEL
+  ) {
     return this.httpClient.post<{ id: number }>(
-      `${this.BASE_URL}/materials`,
+      `${this.BASE_URL}/materials/${materialClass}`,
       material
     );
   }

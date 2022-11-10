@@ -3,7 +3,8 @@ import { Action, createReducer, on } from '@ngrx/store';
 
 import { StringOption } from '@schaeffler/inputs';
 
-import { DataResult } from '@mac/msd/models';
+import { MaterialClass } from '@mac/msd/constants';
+import { AluminiumMaterial, DataResult, SteelMaterial } from '@mac/msd/models';
 import {
   fetchCategoryOptionsFailure,
   fetchCategoryOptionsSuccess,
@@ -32,6 +33,10 @@ export interface DataState {
   materialClassLoading: boolean;
   productCategoryLoading: boolean;
   result: DataResult[];
+  materials: {
+    aluminumMaterials: AluminiumMaterial[];
+    steelMaterials: SteelMaterial[];
+  };
 }
 
 export const initialState: DataState = {
@@ -47,6 +52,10 @@ export const initialState: DataState = {
   materialClassLoading: undefined,
   productCategoryLoading: undefined,
   result: undefined,
+  materials: {
+    aluminumMaterials: undefined,
+    steelMaterials: undefined,
+  },
 };
 
 export const dataReducer = createReducer(
@@ -72,17 +81,43 @@ export const dataReducer = createReducer(
       },
     })
   ),
-  on(
-    fetchMaterialsSuccess,
-    (state, { result }): DataState => ({
+  on(fetchMaterialsSuccess, (state, { materialClass, result }): DataState => {
+    const newState = {
       ...state,
       filter: {
         ...state.filter,
         loading: false,
       },
-      result,
-    })
-  ),
+    };
+    switch (true) {
+      case materialClass === MaterialClass.STEEL:
+        return {
+          ...newState,
+          result: result as DataResult[],
+          materials: {
+            ...state.materials,
+            steelMaterials: result as SteelMaterial[],
+          },
+        };
+      case materialClass === MaterialClass.ALUMINUM:
+        return {
+          ...newState,
+          materials: {
+            ...state.materials,
+            aluminumMaterials: result as AluminiumMaterial[],
+          },
+        };
+      default:
+        return {
+          ...newState,
+          result: result as DataResult[],
+          materials: {
+            ...state.materials,
+            steelMaterials: result as SteelMaterial[],
+          },
+        };
+    }
+  }),
   on(
     fetchMaterialsFailure,
     (state): DataState => ({
@@ -152,6 +187,10 @@ export const dataReducer = createReducer(
     (state): DataState => ({
       ...state,
       result: undefined,
+      materials: {
+        aluminumMaterials: undefined,
+        steelMaterials: undefined,
+      },
     })
   ),
   on(

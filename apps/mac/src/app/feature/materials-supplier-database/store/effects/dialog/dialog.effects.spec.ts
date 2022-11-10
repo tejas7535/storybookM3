@@ -8,14 +8,17 @@ import { marbles } from 'rxjs-marbles/jest';
 
 import { StringOption } from '@schaeffler/inputs';
 
+import { MaterialClass } from '@mac/msd/constants';
 import {
   CreateMaterialRecord,
   CreateMaterialState,
   DataResult,
   ManufacturerSupplier,
+  ManufacturerSupplierV2,
   Material,
   MaterialFormValue,
   MaterialStandard,
+  MaterialStandardV2,
 } from '@mac/msd/models';
 import { MsdDataService } from '@mac/msd/services';
 import {
@@ -69,8 +72,8 @@ import {
   postMaterialStandard,
   setMaterialFormValue,
 } from '@mac/msd/store/actions';
+import { DataFacade } from '@mac/msd/store/facades';
 
-import { DataFacade } from '../..';
 import { DialogEffects } from './dialog.effects';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -84,6 +87,7 @@ describe('Dialog Effects', () => {
   let effects: DialogEffects;
   let spectator: SpectatorService<DialogEffects>;
   let msdDataService: MsdDataService;
+  let msdDataFacade: DataFacade;
 
   const createService = createServiceFactory({
     service: DialogEffects,
@@ -99,6 +103,7 @@ describe('Dialog Effects', () => {
         provide: DataFacade,
         useValue: {
           editMaterial: undefined,
+          materialClass$: of(MaterialClass.STEEL),
         },
       },
     ],
@@ -109,6 +114,8 @@ describe('Dialog Effects', () => {
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(DialogEffects);
     msdDataService = spectator.inject(MsdDataService);
+    msdDataFacade = spectator.inject(DataFacade);
+    msdDataFacade.materialClass$ = of(MaterialClass.STEEL);
   });
 
   describe('materialDialogOpened$', () => {
@@ -140,7 +147,7 @@ describe('Dialog Effects', () => {
         action = fetchMaterialStandards();
         actions$ = m.hot('-a', { a: action });
 
-        const resultMock: MaterialStandard[] = [{} as MaterialStandard];
+        const resultMock: MaterialStandardV2[] = [{} as MaterialStandardV2];
         const response = m.cold('-a|', { a: resultMock });
         msdDataService.fetchMaterialStandards = jest.fn(() => response);
 
@@ -152,7 +159,9 @@ describe('Dialog Effects', () => {
         m.expect(effects.fetchMaterialStandards$).toBeObservable(expected);
         m.flush();
 
-        expect(msdDataService.fetchMaterialStandards).toHaveBeenCalled();
+        expect(msdDataService.fetchMaterialStandards).toHaveBeenCalledWith(
+          MaterialClass.STEEL
+        );
       })
     );
 
@@ -172,7 +181,9 @@ describe('Dialog Effects', () => {
         m.expect(effects.fetchMaterialStandards$).toBeObservable(expected);
         m.flush();
 
-        expect(msdDataService.fetchMaterialStandards).toHaveBeenCalled();
+        expect(msdDataService.fetchMaterialStandards).toHaveBeenCalledWith(
+          MaterialClass.STEEL
+        );
       })
     );
   });
@@ -184,7 +195,9 @@ describe('Dialog Effects', () => {
         action = fetchManufacturerSuppliers();
         actions$ = m.hot('-a', { a: action });
 
-        const resultMock: ManufacturerSupplier[] = [{} as ManufacturerSupplier];
+        const resultMock: ManufacturerSupplierV2[] = [
+          {} as ManufacturerSupplierV2,
+        ];
         const response = m.cold('-a|', { a: resultMock });
         msdDataService.fetchManufacturerSuppliers = jest.fn(() => response);
 
@@ -196,7 +209,9 @@ describe('Dialog Effects', () => {
         m.expect(effects.fetchManufacturerSuppliers$).toBeObservable(expected);
         m.flush();
 
-        expect(msdDataService.fetchManufacturerSuppliers).toHaveBeenCalled();
+        expect(msdDataService.fetchManufacturerSuppliers).toHaveBeenCalledWith(
+          MaterialClass.STEEL
+        );
       })
     );
 
@@ -216,7 +231,9 @@ describe('Dialog Effects', () => {
         m.expect(effects.fetchManufacturerSuppliers$).toBeObservable(expected);
         m.flush();
 
-        expect(msdDataService.fetchManufacturerSuppliers).toHaveBeenCalled();
+        expect(msdDataService.fetchManufacturerSuppliers).toHaveBeenCalledWith(
+          MaterialClass.STEEL
+        );
       })
     );
   });
@@ -243,7 +260,9 @@ describe('Dialog Effects', () => {
         m.expect(effects.fetchCo2Classifications$).toBeObservable(expected);
         m.flush();
 
-        expect(msdDataService.fetchCo2Classifications).toHaveBeenCalled();
+        expect(msdDataService.fetchCo2Classifications).toHaveBeenCalledWith(
+          MaterialClass.STEEL
+        );
       })
     );
 
@@ -263,7 +282,9 @@ describe('Dialog Effects', () => {
         m.expect(effects.fetchCo2Classifications$).toBeObservable(expected);
         m.flush();
 
-        expect(msdDataService.fetchCo2Classifications).toHaveBeenCalled();
+        expect(msdDataService.fetchCo2Classifications).toHaveBeenCalledWith(
+          MaterialClass.STEEL
+        );
       })
     );
   });
@@ -375,7 +396,9 @@ describe('Dialog Effects', () => {
         m.expect(effects.fetchCastingModes$).toBeObservable(expected);
         m.flush();
 
-        expect(msdDataService.fetchCastingModes).toHaveBeenCalled();
+        expect(msdDataService.fetchCastingModes).toHaveBeenCalledWith(
+          MaterialClass.STEEL
+        );
       })
     );
 
@@ -395,18 +418,25 @@ describe('Dialog Effects', () => {
         m.expect(effects.fetchCastingModes$).toBeObservable(expected);
         m.flush();
 
-        expect(msdDataService.fetchCastingModes).toHaveBeenCalled();
+        expect(msdDataService.fetchCastingModes).toHaveBeenCalledWith(
+          MaterialClass.STEEL
+        );
       })
     );
   });
 
   describe('materialDialogConfirmed$', () => {
     it(
-      'should call post material standard',
+      'should call post material standard (without materialClass)',
       marbles((m) => {
         const mockMaterial = {} as Material;
         const mockStandard = {} as MaterialStandard;
         const mockSupplier = {} as ManufacturerSupplier;
+        msdDataFacade.filters$ = of({
+          materialClass: undefined,
+          productCategory: undefined,
+        });
+
         action = materialDialogConfirmed({
           material: mockMaterial,
           standard: mockStandard,
@@ -419,6 +449,39 @@ describe('Dialog Effects', () => {
               material: mockMaterial,
               standard: mockStandard,
               supplier: mockSupplier,
+              materialClass: MaterialClass.STEEL,
+              error: false,
+              state: 0,
+            } as CreateMaterialRecord,
+          }),
+        });
+
+        m.expect(effects.materialDialogConfirmed$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+
+    it(
+      'should call post material standard (with materialClass)',
+      marbles((m) => {
+        const mockMaterial = {} as Material;
+        const mockStandard = {} as MaterialStandard;
+        const mockSupplier = {} as ManufacturerSupplier;
+        msdDataFacade.materialClass$ = of(MaterialClass.ALUMINUM);
+
+        action = materialDialogConfirmed({
+          material: mockMaterial,
+          standard: mockStandard,
+          supplier: mockSupplier,
+        });
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-(b)', {
+          b: postMaterialStandard({
+            record: {
+              material: mockMaterial,
+              standard: mockStandard,
+              supplier: mockSupplier,
+              materialClass: MaterialClass.ALUMINUM,
               error: false,
               state: 0,
             } as CreateMaterialRecord,
@@ -438,6 +501,7 @@ describe('Dialog Effects', () => {
         materialName: 'matName',
         standardDocument: 'S 123456',
       },
+      materialClass: MaterialClass.STEEL,
     } as CreateMaterialRecord;
     it(
       'should call skipp adding material standard',
@@ -492,6 +556,11 @@ describe('Dialog Effects', () => {
 
         m.expect(effects.postMaterialStandard$).toBeObservable(expected);
         m.flush();
+
+        expect(msdDataService.createMaterialStandard).toHaveBeenCalledWith(
+          record.standard,
+          record.materialClass
+        );
       })
     );
 
@@ -524,6 +593,11 @@ describe('Dialog Effects', () => {
 
         m.expect(effects.postMaterialStandard$).toBeObservable(expected);
         m.flush();
+
+        expect(msdDataService.createMaterialStandard).toHaveBeenCalledWith(
+          record.standard,
+          record.materialClass
+        );
       })
     );
   });
@@ -535,6 +609,7 @@ describe('Dialog Effects', () => {
         name: 'supName',
         plant: 'NUE',
       },
+      materialClass: MaterialClass.STEEL,
     } as CreateMaterialRecord;
     it(
       'should call skip adding supplier',
@@ -589,6 +664,11 @@ describe('Dialog Effects', () => {
 
         m.expect(effects.postManufacturerSupplier$).toBeObservable(expected);
         m.flush();
+
+        expect(msdDataService.createManufacturerSupplier).toHaveBeenCalledWith(
+          record.supplier,
+          record.materialClass
+        );
       })
     );
 
@@ -621,12 +701,19 @@ describe('Dialog Effects', () => {
 
         m.expect(effects.postManufacturerSupplier$).toBeObservable(expected);
         m.flush();
+
+        expect(msdDataService.createManufacturerSupplier).toHaveBeenCalledWith(
+          record.supplier,
+          record.materialClass
+        );
       })
     );
   });
 
   describe('postMaterial$', () => {
-    const recordMock = {} as CreateMaterialRecord;
+    const recordMock = {
+      materialClass: MaterialClass.STEEL,
+    } as CreateMaterialRecord;
     it(
       'should create a material',
       marbles((m) => {
@@ -651,6 +738,11 @@ describe('Dialog Effects', () => {
 
         m.expect(effects.postMaterial$).toBeObservable(expected);
         m.flush();
+
+        expect(msdDataService.createMaterial).toHaveBeenCalledWith(
+          record.material,
+          record.materialClass
+        );
       })
     );
 
@@ -683,6 +775,11 @@ describe('Dialog Effects', () => {
 
         m.expect(effects.postMaterial$).toBeObservable(expected);
         m.flush();
+
+        expect(msdDataService.createMaterial).toHaveBeenCalledWith(
+          record.material,
+          record.materialClass
+        );
       })
     );
   });
@@ -754,7 +851,8 @@ describe('Dialog Effects', () => {
 
         expect(msdDataService.fetchCastingDiameters).toHaveBeenCalledWith(
           1,
-          'ingot'
+          'ingot',
+          MaterialClass.STEEL
         );
       })
     );
@@ -777,7 +875,8 @@ describe('Dialog Effects', () => {
 
         expect(msdDataService.fetchCastingDiameters).toHaveBeenCalledWith(
           1,
-          'ingot'
+          'ingot',
+          MaterialClass.STEEL
         );
       })
     );
@@ -824,7 +923,10 @@ describe('Dialog Effects', () => {
         m.expect(effects.fetchReferenceDocuments$).toBeObservable(expected);
         m.flush();
 
-        expect(msdDataService.fetchReferenceDocuments).toHaveBeenCalledWith(1);
+        expect(msdDataService.fetchReferenceDocuments).toHaveBeenCalledWith(
+          1,
+          MaterialClass.STEEL
+        );
       })
     );
 
@@ -844,7 +946,10 @@ describe('Dialog Effects', () => {
         m.expect(effects.fetchReferenceDocuments$).toBeObservable(expected);
         m.flush();
 
-        expect(msdDataService.fetchReferenceDocuments).toHaveBeenCalledWith(1);
+        expect(msdDataService.fetchReferenceDocuments).toHaveBeenCalledWith(
+          1,
+          MaterialClass.STEEL
+        );
       })
     );
   });
@@ -908,7 +1013,7 @@ describe('Dialog Effects', () => {
 
         expect(
           msdDataService.fetchMaterialNamesForStandardDocuments
-        ).toHaveBeenCalledWith('document');
+        ).toHaveBeenCalledWith('document', MaterialClass.STEEL);
       })
     );
 
@@ -934,7 +1039,7 @@ describe('Dialog Effects', () => {
 
         expect(
           msdDataService.fetchMaterialNamesForStandardDocuments
-        ).toHaveBeenCalledWith('document');
+        ).toHaveBeenCalledWith('document', MaterialClass.STEEL);
       })
     );
   });
@@ -968,7 +1073,7 @@ describe('Dialog Effects', () => {
 
         expect(
           msdDataService.fetchStandardDocumentsForMaterialName
-        ).toHaveBeenCalledWith('material');
+        ).toHaveBeenCalledWith('material', MaterialClass.STEEL);
       })
     );
 
@@ -990,7 +1095,7 @@ describe('Dialog Effects', () => {
 
         expect(
           msdDataService.fetchStandardDocumentsForMaterialName
-        ).toHaveBeenCalledWith('document');
+        ).toHaveBeenCalledWith('document', MaterialClass.STEEL);
       })
     );
   });
@@ -1018,7 +1123,7 @@ describe('Dialog Effects', () => {
 
         expect(
           msdDataService.fetchManufacturerSuppliersForSupplierName
-        ).toHaveBeenCalledWith('supplier');
+        ).toHaveBeenCalledWith('supplier', MaterialClass.STEEL);
       })
     );
 
@@ -1042,7 +1147,7 @@ describe('Dialog Effects', () => {
 
         expect(
           msdDataService.fetchManufacturerSuppliersForSupplierName
-        ).toHaveBeenCalledWith('supplier');
+        ).toHaveBeenCalledWith('supplier', MaterialClass.STEEL);
       })
     );
   });
@@ -1458,7 +1563,7 @@ describe('Dialog Effects', () => {
 
         expect(
           msdDataService.fetchCo2ValuesForSupplierPlantProcess
-        ).toHaveBeenCalledWith(1, 'BF+BOF');
+        ).toHaveBeenCalledWith(1, MaterialClass.STEEL, 'BF+BOF');
       })
     );
 
@@ -1485,7 +1590,7 @@ describe('Dialog Effects', () => {
 
         expect(
           msdDataService.fetchCo2ValuesForSupplierPlantProcess
-        ).toHaveBeenCalledWith(1, 'BF+BOF');
+        ).toHaveBeenCalledWith(1, MaterialClass.STEEL, 'BF+BOF');
       })
     );
   });

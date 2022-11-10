@@ -1,3 +1,9 @@
+import { TestBed } from '@angular/core/testing';
+
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles';
+
+import { MaterialClass } from '@mac/msd/constants';
 import { DataResult } from '@mac/msd/models';
 import { initialState } from '@mac/msd/store/reducers/data/data.reducer';
 
@@ -21,6 +27,40 @@ describe('DataSelectors', () => {
       materialClass: undefined,
       productCategory: undefined,
     });
+  });
+
+  describe('getMaterialClass', () => {
+    let store: MockStore;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [provideMockStore()],
+      });
+
+      store = TestBed.inject(MockStore);
+    });
+
+    it(
+      'should return the error state',
+      marbles((m) => {
+        store.setState({
+          msd: {
+            data: {
+              ...initialState,
+              filter: {
+                ...initialState.filter,
+                materialClass: { id: 'st', title: 'Steel' },
+              },
+            },
+          },
+        });
+
+        const expected = m.cold('a', { a: MaterialClass.STEEL });
+        const result = store.pipe(DataSelectors.getMaterialClass);
+
+        m.expect(result).toBeObservable(expected);
+      })
+    );
   });
 
   it('should get data loading', () => {

@@ -8,14 +8,14 @@ import { Column } from 'ag-grid-community';
 import { DataResult, MaterialFormValue } from '@mac/msd/models';
 import { MsdDialogService } from '@mac/msd/services';
 import {
-  DialogFacade,
   fetchMaterials,
   materialDialogCanceled,
   materialDialogOpened,
   minimizeDialog,
   openDialog,
   openEditDialog,
-} from '@mac/msd/store';
+} from '@mac/msd/store/actions';
+import { DialogFacade } from '@mac/msd/store/facades';
 
 import { EditCellRendererComponent } from './edit-cell-renderer.component';
 import { EditCellRendererParams } from './edit-cell-renderer-params.model';

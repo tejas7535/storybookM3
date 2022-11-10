@@ -3,51 +3,45 @@ import { Injectable } from '@angular/core';
 import { catchError, map, of, switchMap } from 'rxjs';
 
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
 
 import { StringOption } from '@schaeffler/inputs';
 
-import { DataResult } from '@mac/msd/models';
+import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
+import { DataResult, MaterialV2 } from '@mac/msd/models';
 import { MsdDataService } from '@mac/msd/services';
 import * as DataActions from '@mac/msd/store/actions/data/data.actions';
-import { getFilters } from '@mac/msd/store/selectors';
+import { DataFacade } from '@mac/msd/store/facades';
 
 @Injectable()
 export class DataEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly msdDataService: MsdDataService,
-    private readonly store: Store
+    private readonly dataFacade: DataFacade
   ) {}
 
   public fetchMaterials$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DataActions.fetchMaterials),
-      concatLatestFrom(() => this.store.select(getFilters)),
-      switchMap(
-        ([_action, { materialClass, productCategory }]: [
-          any,
-          {
-            materialClass: StringOption;
-            productCategory: StringOption[];
-          }
-        ]) =>
-          this.msdDataService
-            .getMaterials(
-              materialClass?.id?.toString(),
-              productCategory?.map((category: StringOption) =>
-                category?.id?.toString()
-              )
+      concatLatestFrom(() => this.dataFacade.filters$),
+      switchMap(([_action, { materialClass, productCategory }]) =>
+        this.msdDataService
+          .getMaterials(
+            materialClass?.id as MaterialClass,
+            productCategory?.map((category) => category?.id?.toString())
+          )
+          .pipe(
+            map((result: DataResult[] | MaterialV2[]) =>
+              DataActions.fetchMaterialsSuccess({
+                materialClass: materialClass?.id as MaterialClass,
+                result,
+              })
+            ),
+            catchError(() =>
+              // TODO: implement proper error handling
+              of(DataActions.fetchMaterialsFailure())
             )
-            .pipe(
-              map((result: DataResult[]) =>
-                DataActions.fetchMaterialsSuccess({ result })
-              ),
-              catchError(() =>
-                // TODO: implement proper error handling
-                of(DataActions.fetchMaterialsFailure())
-              )
-            )
+          )
       )
     );
   });
@@ -82,8 +76,9 @@ export class DataEffects {
   public fetchCategoryOptions$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DataActions.fetchCategoryOptions),
-      switchMap(() =>
-        this.msdDataService.getProductCategories().pipe(
+      concatLatestFrom(() => this.dataFacade.materialClass$),
+      switchMap(([_action, materialClass]) =>
+        this.msdDataService.getProductCategories(materialClass).pipe(
           map((productCategoryOptions: StringOption[]) =>
             DataActions.fetchCategoryOptionsSuccess({ productCategoryOptions })
           ),

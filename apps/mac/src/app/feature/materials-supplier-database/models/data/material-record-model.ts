@@ -1,9 +1,19 @@
-import { ManufacturerSupplier, Material, MaterialStandard } from './index';
+import { MaterialClass } from '@mac/msd/constants';
+import {
+  ManufacturerSupplier,
+  ManufacturerSupplierV2,
+  Material,
+  MaterialStandard,
+  MaterialStandardV2,
+  MaterialV2,
+} from '@mac/msd/models';
 
 export interface CreateMaterialRecord {
-  standard: MaterialStandard;
-  supplier: ManufacturerSupplier;
-  material: Material;
+  standard: MaterialStandard | MaterialStandardV2;
+  supplier: ManufacturerSupplier | ManufacturerSupplierV2;
+  material: Material | MaterialV2;
+
+  materialClass: MaterialClass;
 
   state: CreateMaterialState;
   error: boolean;

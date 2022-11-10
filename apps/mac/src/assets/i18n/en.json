@@ -504,7 +504,8 @@
     },
     "materialClass": "Material Class",
     "materialClassValues": {
-      "st": "Steel"
+      "st": "Steel",
+      "al": "Aluminum"
     },
     "materials": "Materials",
     "productCategory": "Product Category",

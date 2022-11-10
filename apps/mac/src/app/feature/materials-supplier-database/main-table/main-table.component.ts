@@ -43,7 +43,6 @@ import {
   MsdDialogService,
 } from '@mac/msd/services';
 import {
-  DataFacade,
   fetchClassAndCategoryOptions,
   fetchMaterials,
   materialDialogCanceled,
@@ -54,6 +53,7 @@ import {
   setAgGridFilter,
   setFilter,
 } from '@mac/msd/store';
+import { DataFacade } from '@mac/msd/store/facades';
 
 /* eslint-disable max-lines */
 @Component({

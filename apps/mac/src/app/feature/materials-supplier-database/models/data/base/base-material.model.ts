@@ -7,6 +7,7 @@ export interface BaseMaterial {
   manufacturerSupplierId: number;
   manufacturerSupplierName?: string;
   manufacturerSupplierPlant?: string;
+  manufacturerSupplierCountry?: string;
   co2Scope1?: number;
   co2Scope2?: number;
   co2Scope3?: number;
@@ -15,5 +16,5 @@ export interface BaseMaterial {
   releaseRestrictions?: string;
   attachments?: string;
   modifiedBy?: string;
-  timestamp?: number;
+  lastModified?: number;
 }

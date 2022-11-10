@@ -2,9 +2,11 @@ import {
   CreateMaterialRecord,
   DataResult,
   ManufacturerSupplier,
+  ManufacturerSupplierV2,
   Material,
   MaterialFormValue,
   MaterialStandard,
+  MaterialStandardV2,
 } from '@mac/msd/models';
 
 import {
@@ -124,7 +126,7 @@ describe('Dialog Actions', () => {
 
   describe('Fetch Material Standards Success', () => {
     it('fetchMaterialStandardsSuccess', () => {
-      const mockMaterialStandards = [{} as MaterialStandard];
+      const mockMaterialStandards = [{} as MaterialStandardV2];
       const action = fetchMaterialStandardsSuccess({
         materialStandards: mockMaterialStandards,
       });
@@ -158,7 +160,7 @@ describe('Dialog Actions', () => {
 
   describe('Fetch Manufacturer Suppliers Success', () => {
     it('fetchManufacturerSuppliersSuccess', () => {
-      const mockManufacturerSuppliers = [{} as ManufacturerSupplier];
+      const mockManufacturerSuppliers = [{} as ManufacturerSupplierV2];
       const action = fetchManufacturerSuppliersSuccess({
         manufacturerSuppliers: mockManufacturerSuppliers,
       });

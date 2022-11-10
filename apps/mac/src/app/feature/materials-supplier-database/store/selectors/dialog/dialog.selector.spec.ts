@@ -8,9 +8,9 @@ import { StringOption } from '@schaeffler/inputs';
 
 import {
   DataResult,
-  ManufacturerSupplier,
+  ManufacturerSupplierV2,
   MaterialFormValue,
-  MaterialStandard,
+  MaterialStandardV2,
 } from '@mac/msd/models';
 import { initialState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
 
@@ -227,7 +227,7 @@ describe('DialogSelectors', () => {
   });
 
   it('should return the manufaturerSuppliers', () => {
-    const manufacturerSuppliers: ManufacturerSupplier[] = [
+    const manufacturerSuppliers: ManufacturerSupplierV2[] = [
       {
         id: 1,
         name: '1',
@@ -251,7 +251,7 @@ describe('DialogSelectors', () => {
   });
 
   it('should return the materialStandards', () => {
-    const materialStandards: MaterialStandard[] = [
+    const materialStandards: MaterialStandardV2[] = [
       {
         id: 1,
         materialName: '1',
@@ -422,7 +422,7 @@ describe('DialogSelectors', () => {
 
   // unit tests for selecting values for suppliers
   describe('supplier stringOptions', () => {
-    const mockSuppliers: ManufacturerSupplier[] = [
+    const mockSuppliers: ManufacturerSupplierV2[] = [
       {
         id: 1,
         name: 'supplier1',
@@ -475,7 +475,6 @@ describe('DialogSelectors', () => {
       },
       ...mockStringOptions,
     ];
-
     it('should return the suppliers as StringOptions', () => {
       const expected: StringOption[] = [
         {
@@ -615,7 +614,7 @@ describe('DialogSelectors', () => {
   });
 
   it('should return the material names as StringOptions', () => {
-    const mockMaterialStandards: MaterialStandard[] = [
+    const mockMaterialStandards: MaterialStandardV2[] = [
       {
         id: 1,
         materialName: 'material1',
@@ -762,7 +761,7 @@ describe('DialogSelectors', () => {
   });
 
   it('should return the material standard documents as StringOptions', () => {
-    const mockMaterialStandards: MaterialStandard[] = [
+    const mockMaterialStandards: MaterialStandardV2[] = [
       {
         id: 1,
         materialName: 'material1',

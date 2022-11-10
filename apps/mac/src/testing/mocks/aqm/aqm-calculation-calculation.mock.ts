@@ -1,4 +1,4 @@
-import { AQMCalculationResponse } from './../../app/feature/aqm-calculator/services/aqm-calulator-response.model';
+import { AQMCalculationResponse } from '@mac/feature/aqm-calculator/services/aqm-calulator-response.model';
 
 export const AQM_CALCULATION_CALCULATION_MOCK: AQMCalculationResponse = {
   // eslint-disable-next-line unicorn/no-null

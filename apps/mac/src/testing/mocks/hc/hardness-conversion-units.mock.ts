@@ -1,4 +1,4 @@
-import { HardnessUnitsResponse } from '../../app/feature/hardness-converter/models';
+import { HardnessUnitsResponse } from '@mac/feature/hardness-converter/models';
 
 export const HARDNESS_CONVERSION_UNITS_MOCK: HardnessUnitsResponse = {
   units: ['mPa', 'HB', 'HV', 'HRC'],

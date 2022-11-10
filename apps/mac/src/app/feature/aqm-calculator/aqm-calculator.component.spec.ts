@@ -17,14 +17,15 @@ import { PushModule } from '@ngrx/component';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import * as en from '../../../assets/i18n/en.json';
-import { BreadcrumbsService } from '../../shared/services/breadcrumbs/breadcrumbs.service';
-import { SharedModule } from '../../shared/shared.module';
 import {
   AQM_CALCULATION_CALCULATION_MOCK,
   AQM_CALCULATION_ERROR_MOCK,
-} from './../../../testing/mocks/aqm-calculation-calculation.mock';
-import { AQM_CALCULATION_MATERIALS_MOCK } from './../../../testing/mocks/aqm-calculation-materials.mock';
+  AQM_CALCULATION_MATERIALS_MOCK,
+} from '@mac/testing/mocks';
+
+import * as en from '../../../assets/i18n/en.json';
+import { BreadcrumbsService } from '../../shared/services/breadcrumbs/breadcrumbs.service';
+import { SharedModule } from '../../shared/shared.module';
 import { AqmCalculatorComponent } from './aqm-calculator.component';
 import { AqmCalculatorApiService } from './services/aqm-calculator-api.service';
 import {

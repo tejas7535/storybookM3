@@ -3,6 +3,7 @@ import { createServiceFactory } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/jest';
 
+import { MaterialClass } from '@mac/msd/constants';
 import { DataResult, MaterialFormValue } from '@mac/msd/models';
 import { initialState } from '@mac/msd/store/reducers/data/data.reducer';
 
@@ -204,6 +205,19 @@ describe('DataFacade', () => {
         });
 
         m.expect(facade.filters$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('materialClass$', () => {
+    it(
+      'should provide the materialClass',
+      marbles((m) => {
+        const expected = m.cold('a', {
+          a: MaterialClass.STEEL,
+        });
+
+        m.expect(facade.materialClass$).toBeObservable(expected);
       })
     );
   });

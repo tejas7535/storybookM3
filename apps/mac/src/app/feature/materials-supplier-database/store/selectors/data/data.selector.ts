@@ -1,5 +1,8 @@
-import { createSelector } from '@ngrx/store';
+import { map, pipe } from 'rxjs';
 
+import { createSelector, select } from '@ngrx/store';
+
+import { MaterialClass } from '@mac/msd/constants';
 import * as fromStore from '@mac/msd/store/reducers';
 
 export const getDataState = createSelector(
@@ -15,6 +18,16 @@ export const getFilter = createSelector(
 export const getFilters = createSelector(
   getFilter,
   ({ materialClass, productCategory }) => ({ materialClass, productCategory })
+);
+
+// TODO: investigate
+export const getMaterialClass = pipe(
+  select(getFilters),
+  // filter(({ materialClass }) => !!materialClass),
+  map(
+    ({ materialClass }) =>
+      (materialClass?.id as MaterialClass) || MaterialClass.STEEL
+  )
 );
 
 export const getAgGridFilter = createSelector(getFilter, ({ agGridFilter }) => {

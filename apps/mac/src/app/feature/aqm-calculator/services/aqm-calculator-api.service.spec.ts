@@ -7,9 +7,12 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
+import {
+  AQM_CALCULATION_CALCULATION_MOCK,
+  AQM_CALCULATION_MATERIALS_MOCK,
+} from '@mac/testing/mocks';
+
 import { environment } from './../../../../environments/environment';
-import { AQM_CALCULATION_CALCULATION_MOCK } from './../../../../testing/mocks/aqm-calculation-calculation.mock';
-import { AQM_CALCULATION_MATERIALS_MOCK } from './../../../../testing/mocks/aqm-calculation-materials.mock';
 import { AqmCalculatorApiService } from './aqm-calculator-api.service';
 import { AQMCalculationRequest } from './aqm-calulator-response.model';
 

@@ -21,12 +21,13 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import * as en from '../../../assets/i18n/en.json';
 import {
   HARDNESS_CONVERSION_ERROR_MOCK,
   HARDNESS_CONVERSION_MOCK,
-} from '../../../testing/mocks/hardness-conversion.mock';
-import { HARDNESS_CONVERSION_UNITS_MOCK } from '../../../testing/mocks/hardness-conversion-units.mock';
+  HARDNESS_CONVERSION_UNITS_MOCK,
+} from '@mac/testing/mocks';
+
+import * as en from '../../../assets/i18n/en.json';
 import { changeFavicon } from '../../shared/change-favicon';
 import { BreadcrumbsService } from '../../shared/services/breadcrumbs/breadcrumbs.service';
 import { SharedModule } from '../../shared/shared.module';

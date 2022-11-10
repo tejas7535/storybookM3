@@ -9,13 +9,24 @@ import { translate, TranslocoModule } from '@ngneat/transloco';
 import { StringOption } from '@schaeffler/inputs';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { MaterialClass } from '@mac/msd/constants';
 import {
-  DataResult,
+  AluminiumManufacturerSupplier,
+  AluminiumMaterial,
+  AluminiumMaterialStandard,
   ManufacturerSupplier,
+  ManufacturerSupplierV2,
   Material,
-  MaterialResponseEntry,
   MaterialStandard,
+  MaterialStandardV2,
+  SteelManufacturerSupplier,
+  SteelMaterial,
+  SteelMaterialStandard,
 } from '@mac/msd/models';
+import {
+  msdServiceAluminumMockResponse,
+  msdServiceAluminumMockResult,
+} from '@mac/testing/mocks';
 
 import * as en from '../../../../../assets/i18n/en.json';
 import { MsdDataService } from './msd-data.service';
@@ -82,192 +93,73 @@ describe('MsdDataService', () => {
           title: `${translatePrefix}productCategoryValues.strip`,
         },
       ];
-      service.getProductCategories().subscribe((result: any) => {
-        expect(result).toEqual(expected);
-        expect(translate).toHaveBeenCalledWith(
-          `${translatePrefix}productCategoryValues.strip`
-        );
-        done();
-      });
+      service
+        .getProductCategories(MaterialClass.STEEL)
+        .subscribe((result: any) => {
+          expect(result).toEqual(expected);
+          expect(translate).toHaveBeenCalledWith(
+            `${translatePrefix}productCategoryValues.strip`
+          );
+          done();
+        });
 
       const req = httpMock.expectOne(
-        `${service['BASE_URL']}/materials/productCategories`
+        `${service['BASE_URL']}/materials/st/productCategories`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mockResponse);
     });
   });
+
   describe('getMaterials', () => {
-    const mockResponse: MaterialResponseEntry[] = [
-      {
-        id: 127,
-        castingMode: undefined,
-        castingDiameter: undefined,
-        minDimension: 0,
-        maxDimension: 0,
-        co2PerTon: 2183,
-        rating: 'RSI',
-        steelMakingProcess: 'BF + BOF',
-        releaseDateYear: 2021,
-        releaseDateMonth: 10,
-        releaseRestrictions: '',
-        productCategory: 'strip',
-        materialClass: 'st',
-        manufacturerSupplier: {
-          id: 442,
-          name: 'ArcelorMittal Tubarao',
-          plant: 'Tubarao',
-          country: 'Brazil',
-          manufacturer: false,
-          sapData: [
-            {
-              sapSupplierId: '0000000000000',
-            },
-            {
-              sapSupplierId: '0000000000001',
-            },
-          ],
-        },
-        materialStandard: {
-          id: 57,
-          materialName: 'C80M',
-          standardDocument: 'S 130002',
-          materialNumber: '1.1234',
-        },
-        selfCertified: false,
-      },
-      {
-        id: 128,
-        castingMode: undefined,
-        castingDiameter: undefined,
-        minDimension: 0,
-        maxDimension: 0,
-        co2PerTon: 2183,
-        rating: undefined,
-        steelMakingProcess: 'BF + BOF',
-        releaseDateYear: 2004,
-        releaseDateMonth: 6,
-        releaseRestrictions: '',
-        productCategory: 'strip',
-        materialClass: 'st',
-        manufacturerSupplier: {
-          id: 442,
-          name: 'ArcelorMittal Tubarao',
-          plant: 'Tubarao',
-          country: 'Brazil',
-          manufacturer: true,
-        },
-        materialStandard: {
-          id: 57,
-          materialName: 'C45',
-          standardDocument: 'S 130001',
-          materialNumber: '1.1234, 1.2345',
-        },
-        selfCertified: false,
-      },
-    ];
+    it('should fetch the materials for the given materialClass (steel)', (done) => {
+      const mockResponse = msdServiceAluminumMockResponse;
+      const mockResult = msdServiceAluminumMockResult;
 
-    const mockResult: DataResult[] = [
-      {
-        id: 127,
-        blocked: undefined,
-        manufacturerSupplierId: 442,
-        manufacturerSupplierName: 'ArcelorMittal Tubarao',
-        manufacturerSupplierPlant: 'Tubarao',
-        manufacturerSupplierCountry: 'Brazil',
-        selfCertified: false,
-        sapSupplierIds: ['0000000000000', '0000000000001'],
-        materialStandardId: 57,
-        materialStandardMaterialName: 'C80M',
-        materialStandardStandardDocument: 'S 130002',
-        materialClass: 'st',
-        materialClassText: 'materialsSupplierDatabase.materialClassValues.st',
-        productCategory: 'strip',
-        productCategoryText:
-          'materialsSupplierDatabase.productCategoryValues.strip',
-        minDimension: 0,
-        maxDimension: 0,
-        co2PerTon: 2183,
-        castingMode: undefined,
-        castingDiameter: undefined,
-        rating: 'RSI',
-        steelMakingProcess: 'BF + BOF',
-        releaseDateYear: 2021,
-        releaseDateMonth: 10,
-        releaseRestrictions: '',
-        materialNumbers: ['1.1234'],
-        co2Scope1: undefined,
-        co2Scope2: undefined,
-        co2Scope3: undefined,
-        co2Classification: undefined,
-        ratingRemark: undefined,
-        ratingChangeComment: undefined,
-        referenceDoc: undefined,
-        manufacturer: false,
-        lastModified: undefined,
-      } as DataResult,
-      {
-        id: 128,
-        blocked: undefined,
-        manufacturerSupplierId: 442,
-        manufacturerSupplierName: 'ArcelorMittal Tubarao',
-        manufacturerSupplierPlant: 'Tubarao',
-        manufacturerSupplierCountry: 'Brazil',
-        selfCertified: false,
-        sapSupplierIds: [],
-        materialStandardId: 57,
-        materialStandardMaterialName: 'C45',
-        materialStandardStandardDocument: 'S 130001',
-        materialClass: 'st',
-        materialClassText: 'materialsSupplierDatabase.materialClassValues.st',
-        productCategory: 'strip',
-        productCategoryText:
-          'materialsSupplierDatabase.productCategoryValues.strip',
-        minDimension: 0,
-        maxDimension: 0,
-        co2PerTon: 2183,
-        steelMakingProcess: 'BF + BOF',
-        releaseDateYear: 2004,
-        releaseDateMonth: 6,
-        releaseRestrictions: '',
-        castingDiameter: undefined,
-        castingMode: undefined,
-        co2Scope1: undefined,
-        co2Scope2: undefined,
-        co2Scope3: undefined,
-        co2Classification: undefined,
-        rating: undefined,
-        ratingRemark: undefined,
-        ratingChangeComment: undefined,
-        referenceDoc: undefined,
-        materialNumbers: ['1.1234', '1.2345'],
-        manufacturer: true,
-        lastModified: undefined,
-      } as DataResult,
-    ];
+      service
+        .getMaterials<AluminiumMaterial>(MaterialClass.STEEL)
+        .subscribe((result: any) => {
+          expect(result).toEqual(mockResult);
+          done();
+        });
 
-    it('should request the full table if no input is defined', (done) => {
-      // eslint-disable-next-line unicorn/no-useless-undefined
-      service.getMaterials(undefined, undefined).subscribe((result: any) => {
-        expect(result).toEqual(mockResult);
-        done();
-      });
-
-      const req = httpMock.expectOne(`${service['BASE_URL']}/materials`);
+      const req = httpMock.expectOne(`${service['BASE_URL']}/materials/st`);
       expect(req.request.method).toBe('GET');
       req.flush(mockResponse);
     });
 
-    it('should request the given scope if inputs are defined', (done) => {
+    it('should fetch the materials for the given materialClass (alu)', (done) => {
+      const mockResponse = msdServiceAluminumMockResponse;
+      const mockResult = msdServiceAluminumMockResult;
+
       service
-        .getMaterials('st', [undefined, 'strip'])
+        .getMaterials<AluminiumMaterial>(MaterialClass.ALUMINUM)
+        .subscribe((result: any) => {
+          expect(result).toEqual(mockResult);
+          done();
+        });
+
+      const req = httpMock.expectOne(`${service['BASE_URL']}/materials/al`);
+      expect(req.request.method).toBe('GET');
+      req.flush(mockResponse);
+    });
+
+    it('should fetch the materials for the given materialClass with category (alu)', (done) => {
+      const mockResponse = msdServiceAluminumMockResponse;
+      const mockResult = msdServiceAluminumMockResult;
+
+      service
+        .getMaterials<AluminiumMaterial>(MaterialClass.ALUMINUM, [
+          'category',
+          undefined,
+        ])
         .subscribe((result: any) => {
           expect(result).toEqual(mockResult);
           done();
         });
 
       const req = httpMock.expectOne(
-        `${service['BASE_URL']}/materials?materialClass=st&category=strip`
+        `${service['BASE_URL']}/materials/al?category=category`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mockResponse);
@@ -276,7 +168,7 @@ describe('MsdDataService', () => {
 
   describe('fetchManufacturerSuppliers', () => {
     it('should return a list of manufacturer suppliers', (done) => {
-      const mockResponse: ManufacturerSupplier[] = [
+      const mockResponse: ManufacturerSupplierV2[] = [
         {
           id: 0,
           name: 'supplier1',
@@ -291,13 +183,15 @@ describe('MsdDataService', () => {
           country: 'country2',
         },
       ];
-      service.fetchManufacturerSuppliers().subscribe((result) => {
-        expect(result).toEqual(mockResponse);
-        done();
-      });
+      service
+        .fetchManufacturerSuppliers(MaterialClass.STEEL)
+        .subscribe((result) => {
+          expect(result).toEqual(mockResponse);
+          done();
+        });
 
       const req = httpMock.expectOne(
-        `${service['BASE_URL']}/materials/manufacturerSuppliers`
+        `${service['BASE_URL']}/materials/st/manufacturerSuppliers`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mockResponse);
@@ -306,7 +200,7 @@ describe('MsdDataService', () => {
 
   describe('fetchMaterialStandards', () => {
     it('should return a list of material standards', (done) => {
-      const mockResponse: MaterialStandard[] = [
+      const mockResponse: MaterialStandardV2[] = [
         {
           id: 0,
           materialName: 'material1',
@@ -320,13 +214,15 @@ describe('MsdDataService', () => {
           standardDocument: 'S 123456',
         },
       ];
-      service.fetchMaterialStandards().subscribe((result) => {
-        expect(result).toEqual(mockResponse);
-        done();
-      });
+      service
+        .fetchMaterialStandards(MaterialClass.STEEL)
+        .subscribe((result) => {
+          expect(result).toEqual(mockResponse);
+          done();
+        });
 
       const req = httpMock.expectOne(
-        `${service['BASE_URL']}/materials/materialStandards`
+        `${service['BASE_URL']}/materials/st/materialStandards`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mockResponse);
@@ -342,7 +238,7 @@ describe('MsdDataService', () => {
       });
 
       const req = httpMock.expectOne(
-        `${service['BASE_URL']}/materials/ratings`
+        `${service['BASE_URL']}/materials/st/ratings`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mockResponse);
@@ -361,7 +257,7 @@ describe('MsdDataService', () => {
       });
 
       const req = httpMock.expectOne(
-        `${service['BASE_URL']}/materials/steelMakingProcesses`
+        `${service['BASE_URL']}/materials/st/steelMakingProcesses`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mockResponse);
@@ -388,13 +284,15 @@ describe('MsdDataService', () => {
             'materialsSupplierDatabase.mainTable.dialog.co2ClassificationValues.dice roll',
         },
       ];
-      service.fetchCo2Classifications().subscribe((result) => {
-        expect(result).toEqual(expected);
-        done();
-      });
+      service
+        .fetchCo2Classifications(MaterialClass.STEEL)
+        .subscribe((result) => {
+          expect(result).toEqual(expected);
+          done();
+        });
 
       const req = httpMock.expectOne(
-        `${service['BASE_URL']}/materials/co2Classifications`
+        `${service['BASE_URL']}/materials/st/co2Classifications`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mockResponse);
@@ -404,13 +302,13 @@ describe('MsdDataService', () => {
   describe('fetchCastingModes', () => {
     it('should return a list of casting modes', (done) => {
       const mockResponse: string[] = ['dsds', 'popstars'];
-      service.fetchCastingModes().subscribe((result) => {
+      service.fetchCastingModes(MaterialClass.STEEL).subscribe((result) => {
         expect(result).toEqual(mockResponse);
         done();
       });
 
       const req = httpMock.expectOne(
-        `${service['BASE_URL']}/materials/castingModes`
+        `${service['BASE_URL']}/materials/st/castingModes`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mockResponse);
@@ -418,17 +316,70 @@ describe('MsdDataService', () => {
   });
 
   describe('createMaterialStandard', () => {
-    it('should post a material standard', (done) => {
+    it('should post a material standard (steel legacy)', (done) => {
       const mockResponse = { id: 1 };
       service
-        .createMaterialStandard({} as MaterialStandard)
+        .createMaterialStandard({
+          materialName: 'name',
+          standardDocument: 'S 123456',
+          materialNumber: '1.1234, 1.5678',
+        } as MaterialStandard)
         .subscribe((result) => {
           expect(result).toEqual(mockResponse);
           done();
         });
 
       const req = httpMock.expectOne(
-        `${service['BASE_URL']}/materials/materialStandards`
+        `${service['BASE_URL']}/materials/st/materialStandards`
+      );
+      expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual({
+        materialName: 'name',
+        standardDocument: 'S 123456',
+        materialNumber: ['1.1234', '1.5678'],
+      });
+      req.flush(mockResponse);
+    });
+
+    it('should post a material standard (steel)', (done) => {
+      const mockResponse = { id: 1 };
+      service
+        .createMaterialStandard({
+          materialName: 'name',
+          standardDocument: 'S 123456',
+          materialNumber: '1.1234, 1.5678',
+        } as SteelMaterialStandard)
+        .subscribe((result) => {
+          expect(result).toEqual(mockResponse);
+          done();
+        });
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/st/materialStandards`
+      );
+      expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual({
+        materialName: 'name',
+        standardDocument: 'S 123456',
+        materialNumber: ['1.1234', '1.5678'],
+      });
+      req.flush(mockResponse);
+    });
+
+    it('should post a material standard (alu)', (done) => {
+      const mockResponse = { id: 1 };
+      service
+        .createMaterialStandard(
+          {} as AluminiumMaterialStandard,
+          MaterialClass.ALUMINUM
+        )
+        .subscribe((result) => {
+          expect(result).toEqual(mockResponse);
+          done();
+        });
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/al/materialStandards`
       );
       expect(req.request.method).toBe('POST');
       req.flush(mockResponse);
@@ -436,7 +387,7 @@ describe('MsdDataService', () => {
   });
 
   describe('createManufacturerSupplier', () => {
-    it('should post a manufacturer supplier', (done) => {
+    it('should post a manufacturer supplier (steel legacy)', (done) => {
       const mockResponse = { id: 1 };
       service
         .createManufacturerSupplier({} as ManufacturerSupplier)
@@ -446,7 +397,42 @@ describe('MsdDataService', () => {
         });
 
       const req = httpMock.expectOne(
-        `${service['BASE_URL']}/materials/manufacturerSuppliers`
+        `${service['BASE_URL']}/materials/st/manufacturerSuppliers`
+      );
+      expect(req.request.method).toBe('POST');
+      req.flush(mockResponse);
+    });
+
+    it('should post a manufacturer supplier (steel)', (done) => {
+      const mockResponse = { id: 1 };
+      service
+        .createManufacturerSupplier({} as SteelManufacturerSupplier)
+        .subscribe((result) => {
+          expect(result).toEqual(mockResponse);
+          done();
+        });
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/st/manufacturerSuppliers`
+      );
+      expect(req.request.method).toBe('POST');
+      req.flush(mockResponse);
+    });
+
+    it('should post a manufacturer supplier (alu)', (done) => {
+      const mockResponse = { id: 1 };
+      service
+        .createManufacturerSupplier(
+          {} as AluminiumManufacturerSupplier,
+          MaterialClass.ALUMINUM
+        )
+        .subscribe((result) => {
+          expect(result).toEqual(mockResponse);
+          done();
+        });
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/al/manufacturerSuppliers`
       );
       expect(req.request.method).toBe('POST');
       req.flush(mockResponse);
@@ -454,14 +440,41 @@ describe('MsdDataService', () => {
   });
 
   describe('createMaterial', () => {
-    it('should post a material', (done) => {
+    it('should post a material (steel legacy)', (done) => {
       const mockResponse = { id: 1 };
+      // eslint-disable-next-line unicorn/no-useless-undefined
       service.createMaterial({} as Material).subscribe((result) => {
         expect(result).toEqual(mockResponse);
         done();
       });
 
-      const req = httpMock.expectOne(`${service['BASE_URL']}/materials`);
+      const req = httpMock.expectOne(`${service['BASE_URL']}/materials/st`);
+      expect(req.request.method).toBe('POST');
+      req.flush(mockResponse);
+    });
+
+    it('should post a material (steel)', (done) => {
+      const mockResponse = { id: 1 };
+      service.createMaterial({} as SteelMaterial).subscribe((result) => {
+        expect(result).toEqual(mockResponse);
+        done();
+      });
+
+      const req = httpMock.expectOne(`${service['BASE_URL']}/materials/st`);
+      expect(req.request.method).toBe('POST');
+      req.flush(mockResponse);
+    });
+
+    it('should post a material (alu)', (done) => {
+      const mockResponse = { id: 1 };
+      service
+        .createMaterial({} as AluminiumMaterial, MaterialClass.ALUMINUM)
+        .subscribe((result) => {
+          expect(result).toEqual(mockResponse);
+          done();
+        });
+
+      const req = httpMock.expectOne(`${service['BASE_URL']}/materials/al`);
       expect(req.request.method).toBe('POST');
       req.flush(mockResponse);
     });
@@ -486,12 +499,16 @@ describe('MsdDataService', () => {
         ],
         distinct: true,
       };
-      service.fetchCastingDiameters(1, 'ingot').subscribe((result) => {
-        expect(result).toEqual(mockResponse);
-        done();
-      });
+      service
+        .fetchCastingDiameters(1, 'ingot', MaterialClass.STEEL)
+        .subscribe((result) => {
+          expect(result).toEqual(mockResponse);
+          done();
+        });
 
-      const req = httpMock.expectOne(`${service['BASE_URL']}/materials/query`);
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/st/query`
+      );
       expect(req.request.method).toBe('POST');
       expect(req.request.body).toEqual(expectedBody);
       req.flush(mockResponse);
@@ -512,12 +529,16 @@ describe('MsdDataService', () => {
         ],
         distinct: true,
       };
-      service.fetchReferenceDocuments(1).subscribe((result) => {
-        expect(result).toEqual(mockResponse);
-        done();
-      });
+      service
+        .fetchReferenceDocuments(1, MaterialClass.STEEL)
+        .subscribe((result) => {
+          expect(result).toEqual(mockResponse);
+          done();
+        });
 
-      const req = httpMock.expectOne(`${service['BASE_URL']}/materials/query`);
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/st/query`
+      );
       expect(req.request.method).toBe('POST');
       expect(req.request.body).toEqual(expectedBody);
       req.flush(mockResponse);
@@ -543,13 +564,18 @@ describe('MsdDataService', () => {
       };
 
       service
-        .fetchStandardDocumentsForMaterialName('materialName')
+        .fetchStandardDocumentsForMaterialName(
+          'materialName',
+          MaterialClass.STEEL
+        )
         .subscribe((result) => {
           expect(result).toEqual(mockResponse);
           done();
         });
 
-      const req = httpMock.expectOne(`${service['BASE_URL']}/materials/query`);
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/st/query`
+      );
       expect(req.request.method).toEqual('POST');
       expect(req.request.body).toEqual(expectedBody);
       req.flush(mockResponse);
@@ -575,13 +601,18 @@ describe('MsdDataService', () => {
       };
 
       service
-        .fetchMaterialNamesForStandardDocuments('standardDocument')
+        .fetchMaterialNamesForStandardDocuments(
+          'standardDocument',
+          MaterialClass.STEEL
+        )
         .subscribe((result) => {
           expect(result).toEqual(mockResponse);
           done();
         });
 
-      const req = httpMock.expectOne(`${service['BASE_URL']}/materials/query`);
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/st/query`
+      );
       expect(req.request.method).toEqual('POST');
       expect(req.request.body).toEqual(expectedBody);
       req.flush(mockResponse);
@@ -604,13 +635,18 @@ describe('MsdDataService', () => {
       };
 
       service
-        .fetchManufacturerSuppliersForSupplierName('supplier')
+        .fetchManufacturerSuppliersForSupplierName(
+          'supplier',
+          MaterialClass.STEEL
+        )
         .subscribe((result) => {
           expect(result).toEqual(mockResponse);
           done();
         });
 
-      const req = httpMock.expectOne(`${service['BASE_URL']}/materials/query`);
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/st/query`
+      );
       expect(req.request.method).toEqual('POST');
       expect(req.request.body).toEqual(expectedBody);
       req.flush(mockResponse);
@@ -655,7 +691,9 @@ describe('MsdDataService', () => {
           done();
         });
 
-      const req = httpMock.expectOne(`${service['BASE_URL']}/materials/query`);
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/st/query`
+      );
       expect(req.request.method).toEqual('POST');
       expect(req.request.body).toEqual(expectedBody);
       req.flush(mockResponse);
@@ -710,13 +748,15 @@ describe('MsdDataService', () => {
       };
 
       service
-        .fetchCo2ValuesForSupplierPlantProcess(1, 'BF+BOF')
+        .fetchCo2ValuesForSupplierPlantProcess(1, MaterialClass.STEEL, 'BF+BOF')
         .subscribe((result) => {
           expect(result).toEqual(mockResult);
           done();
         });
 
-      const req = httpMock.expectOne(`${service['BASE_URL']}/materials/query`);
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/st/query`
+      );
       expect(req.request.method).toEqual('POST');
       expect(req.request.body).toEqual(expectedBody);
       req.flush(mockResponse);

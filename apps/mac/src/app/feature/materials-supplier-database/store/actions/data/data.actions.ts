@@ -2,7 +2,8 @@ import { createAction, props } from '@ngrx/store';
 
 import { StringOption } from '@schaeffler/inputs';
 
-import { DataResult } from '@mac/msd/models';
+import { MaterialClass } from '@mac/msd/constants';
+import { DataResult, MaterialV2 } from '@mac/msd/models';
 
 export const setFilter = createAction(
   '[MSD - Data] Set Filter',
@@ -43,7 +44,10 @@ export const fetchMaterials = createAction('[MSD - Data] Fetch Materials');
 
 export const fetchMaterialsSuccess = createAction(
   '[MSD - Data] Fetch Materials Success',
-  props<{ result: DataResult[] }>()
+  props<{
+    materialClass?: MaterialClass;
+    result: DataResult[] | MaterialV2[];
+  }>()
 );
 
 export const fetchMaterialsFailure = createAction(

@@ -253,7 +253,8 @@ export const getSupplierPlantStringOptions = createSelector(
           supplierId: supplier.id,
           supplierName: supplier.name,
           supplierCountry: supplier.country,
-          manufacturer: supplier.manufacturer,
+          manufacturer:
+            'manufacturer' in supplier ? supplier.manufacturer : undefined,
         },
       }))
       .filter(Boolean)
