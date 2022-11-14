@@ -1,0 +1,26 @@
+export const MATERIAL_STANDARD_MATERIAL_NAME = 'materialStandardMaterialName';
+export const MATERIAL_STANDARD_STANDARD_DOCUMENT =
+  'materialStandardStandardDocument';
+export const MATERIAL_NUMBERS = 'materialNumbers';
+export const MANUFACTURER_SUPPLIER_NAME = 'manufacturerSupplierName';
+export const MANUFACTURER_SUPPLIER_PLANT = 'manufacturerSupplierPlant';
+export const MANUFACTURER_SUPPLIER_COUNTRY = 'manufacturerSupplierCountry';
+export const MANUFACTURER_SUPPLIER_SELFCERTIFIED = 'selfCertified';
+export const SAP_SUPPLIER_IDS = 'sapSupplierIds';
+export const PRODUCT_CATEGORY = 'productCategoryText';
+export const CO2_SCOPE_1 = 'co2Scope1';
+export const CO2_SCOPE_2 = 'co2Scope2';
+export const CO2_SCOPE_3 = 'co2Scope3';
+export const CO2_PER_TON = 'co2PerTon';
+export const CO2_CLASSIFICATION = 'co2Classification';
+export const RELEASE_RESTRICTIONS = 'releaseRestrictions';
+export const CASTING_MODE = 'castingMode';
+export const CASTING_DIAMETER = 'castingDiameter';
+export const MIN_DIMENSION = 'minDimension';
+export const MAX_DIMENSION = 'maxDimension';
+export const STEEL_MAKING_PROCESS = 'steelMakingProcess';
+export const RATING = 'rating';
+export const RATING_REMARK = 'ratingRemark';
+export const LAST_MODIFIED = 'lastModified';
+export const RELEASE_DATE = 'releaseDate';
+export const MANUFACTURER = 'manufacturer';

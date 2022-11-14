@@ -66,7 +66,6 @@ describe('dataReducer', () => {
             ...initialState.filter,
             loading: false,
           },
-          result: [],
           materials: {
             aluminumMaterials: undefined,
             steelMaterials: [],
@@ -91,7 +90,6 @@ describe('dataReducer', () => {
             ...initialState.filter,
             loading: false,
           },
-          result: [],
           materials: {
             aluminumMaterials: undefined,
             steelMaterials: [],
@@ -116,7 +114,6 @@ describe('dataReducer', () => {
             ...initialState.filter,
             loading: false,
           },
-          result: undefined,
           materials: {
             aluminumMaterials: [],
             steelMaterials: undefined,
@@ -275,14 +272,20 @@ describe('dataReducer', () => {
       const newState = dataReducer(
         {
           ...state,
-          result: [],
+          materials: {
+            aluminumMaterials: undefined,
+            steelMaterials: undefined,
+          },
         },
         action
       );
 
       expect(newState).toEqual({
         ...state,
-        result: undefined,
+        materials: {
+          aluminumMaterials: undefined,
+          steelMaterials: undefined,
+        },
       });
     });
 

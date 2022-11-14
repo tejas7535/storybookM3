@@ -33,19 +33,19 @@ import { StringOption } from '@schaeffler/inputs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { SAP_SUPPLIER_IDS } from '@mac/msd/constants';
+import { QuickFilterComponent } from '@mac/msd/main-table/quick-filter/quick-filter.component';
 import {
   BOOLEAN_VALUE_GETTER,
   CUSTOM_DATE_FORMATTER,
   EMPTY_VALUE_FORMATTER,
   MANUFACTURER_VALUE_GETTER,
   RELEASE_DATE_FORMATTER,
+  RELEASE_DATE_VALUE_GETTER,
 } from '@mac/msd/main-table/table-config';
-import {
-  COLUMN_DEFINITIONS,
-  SAP_SUPPLIER_IDS,
-} from '@mac/msd/main-table/table-config/column-definitions';
+import { STEEL_COLUMN_DEFINITIONS } from '@mac/msd/main-table/table-config/materials';
 import { DataResult, MaterialFormValue } from '@mac/msd/models';
-import { MsdDialogService } from '@mac/msd/services';
+import { MsdAgGridStateService, MsdDialogService } from '@mac/msd/services';
 import {
   fetchMaterials,
   materialDialogCanceled,
@@ -63,8 +63,6 @@ import { initialState as initialQuickfilterState } from '@mac/msd/store/reducers
 import * as en from '../../../../assets/i18n/en.json';
 import { MainTableComponent } from './main-table.component';
 import { MainTableRoutingModule } from './main-table-routing.module';
-import { QuickFilterComponent } from './quick-filter/quick-filter.component';
-import { RELEASE_DATE_VALUE_GETTER } from './table-config/release-date-value-getter';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
@@ -156,6 +154,10 @@ describe('MainTableComponent', () => {
           openDialog: jest.fn(() => mockDialogRef),
         },
       },
+      {
+        provide: MsdAgGridStateService,
+        useValue: {},
+      },
     ],
     declarations: [MainTableComponent],
   });
@@ -228,11 +230,15 @@ describe('MainTableComponent', () => {
           materialClass: undefined,
           productCategory: undefined,
         };
+        component['agGridApi'] = {
+          getDisplayedRowCount: jest.fn(),
+        } as unknown as GridApi;
         component.filterForm.patchValue(mockValue);
 
         await new Promise((resolve) => setTimeout(resolve, 100));
 
         expect(store.dispatch).toHaveBeenCalledWith(setFilter(mockValue));
+        expect(component['agGridApi'].getDisplayedRowCount).toHaveBeenCalled();
       });
     });
   });
@@ -778,7 +784,7 @@ describe('MainTableComponent', () => {
 
       expect(
         component['agGridStateService'].setColumnState
-      ).toHaveBeenCalledWith(component['TABLE_KEY'], []);
+      ).toHaveBeenCalledWith([]);
       expect(store.dispatch).toHaveBeenCalledWith(
         setAgGridColumns({ agGridColumns: '[]' })
       );
@@ -819,7 +825,7 @@ describe('MainTableComponent', () => {
         applyColumnState: jest.fn(),
       };
 
-      const expectedState = COLUMN_DEFINITIONS.map(
+      const expectedState = STEEL_COLUMN_DEFINITIONS.map(
         (column: ColDef) =>
           ({
             colId: column.field,
@@ -940,8 +946,8 @@ describe('MainTableComponent', () => {
       component.resetAgGridFilter = jest.fn();
 
       const mockDefaultMaterialClass = {
-        id: 'id',
-        title: 'test',
+        id: 'st',
+        title: 'materialsSupplierDatabase.materialClassValues.st',
       };
       const mockDefaultFormValue: {
         materialClass: StringOption;
@@ -951,7 +957,6 @@ describe('MainTableComponent', () => {
         productCategory: [],
       };
 
-      component['defaultMaterialClass'] = mockDefaultMaterialClass;
       component.defaultFilterFormValue = mockDefaultFormValue;
 
       component.resetForm();

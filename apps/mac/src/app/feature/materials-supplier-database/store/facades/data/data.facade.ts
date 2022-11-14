@@ -38,7 +38,7 @@ export class DataFacade {
   hasEditorRole$ = this.store.pipe(hasIdTokenRole(this.EDITOR_ROLE));
 
   filters$ = this.store.select(getFilters);
-  materialClass$ = this.store.pipe(getMaterialClass);
+  materialClass$ = this.store.select(getMaterialClass);
   agGridFilter$ = this.store.select(getAgGridFilter);
   agGridColumns$ = this.store.select(getAgGridColumns);
 

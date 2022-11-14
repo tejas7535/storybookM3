@@ -64,6 +64,9 @@ describe('DataFacade', () => {
               productCategoryLoading: false,
               filter: mockFilters,
               agGridColumns: 'agGridColumns',
+              materials: {
+                steelMaterials: mockResult,
+              },
             },
             dialog: {
               editMaterial: {

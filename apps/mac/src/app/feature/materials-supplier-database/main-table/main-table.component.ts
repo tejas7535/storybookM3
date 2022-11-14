@@ -14,7 +14,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatOption } from '@angular/material/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Subject, withLatestFrom } from 'rxjs';
+import { Subject } from 'rxjs';
 import { debounceTime, take, takeUntil } from 'rxjs/operators';
 
 import { translate } from '@ngneat/transloco';
@@ -30,14 +30,14 @@ import { ColDef, ExcelCell, GridApi, SideBarDef } from 'ag-grid-enterprise';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { StringOption } from '@schaeffler/inputs';
 
+import { MaterialClass, SAP_SUPPLIER_IDS } from '@mac/msd/constants';
 import {
-  COLUMN_DEFINITIONS,
   DEFAULT_COLUMN_DEFINITION,
-  SAP_SUPPLIER_IDS,
   SIDE_BAR_CONFIG,
 } from '@mac/msd/main-table/table-config';
 import { DataResult } from '@mac/msd/models';
 import {
+  MsdAgGridConfigService,
   MsdAgGridReadyService,
   MsdAgGridStateService,
   MsdDialogService,
@@ -80,13 +80,17 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public destroy$ = new Subject<void>();
 
+  public hasEditorRole: boolean;
   public defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
-  public defaultColumnDefs: ColDef[] = COLUMN_DEFINITIONS;
+  public defaultColumnDefs: ColDef[];
   public columnDefs: ColDef[];
   public sidebar: SideBarDef = SIDE_BAR_CONFIG;
 
   public materialClassSelectionControl = new FormControl<StringOption>(
-    undefined,
+    {
+      id: MaterialClass.STEEL,
+      title: translate('materialsSupplierDatabase.materialClassValues.st'),
+    },
     [Validators.required]
   );
   public productCategorySelectionControl = new FormControl<StringOption[]>(
@@ -110,11 +114,13 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     productCategory: StringOption[];
   }>;
 
-  private defaultMaterialClass!: StringOption;
+  private readonly defaultMaterialClass: StringOption = {
+    id: MaterialClass.STEEL,
+    title: translate('materialsSupplierDatabase.materialClassValues.st'),
+  };
 
   private agGridApi!: GridApi;
   private agGridColumnApi!: ColumnApi;
-  private readonly TABLE_KEY = 'msdMainTable';
 
   private visibleColumns: string[];
   public agGridTooltipDelay = 500;
@@ -129,15 +135,14 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly datePipe: DatePipe,
     private readonly applicationInsightsService: ApplicationInsightsService,
-    private readonly dialogService: MsdDialogService
+    private readonly dialogService: MsdDialogService,
+    private readonly agGridConfigService: MsdAgGridConfigService
   ) {}
 
   public ngOnInit(): void {
     this.hasEditorRole$
       .pipe(take(1))
-      .subscribe(
-        (hasEditorRole) => (this.columnDefs = this.getColumnDefs(hasEditorRole))
-      );
+      .subscribe((hasEditorRole) => (this.hasEditorRole = hasEditorRole));
 
     this.dataFacade.dispatch(fetchClassAndCategoryOptions());
 
@@ -188,6 +193,9 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
             ? undefined
             : productCategory,
         };
+        if (this.agGridApi) {
+          this.displayCount = this.agGridApi.getDisplayedRowCount();
+        }
         this.dataFacade.dispatch(setFilter(filters));
         if (this.filterForm.valid) {
           this.fetchMaterials();
@@ -201,24 +209,24 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
           this.agGridApi.setFilterModel(filterModel);
         }
       });
+
+    this.agGridConfigService.columnDefinitions$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((columnDefs) => {
+        this.defaultColumnDefs = columnDefs;
+        this.columnDefs = this.getColumnDefs(this.hasEditorRole);
+      });
   }
 
   public ngAfterViewInit(): void {
     this.categoryOptionsQuery.changes
-      .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(50),
-        withLatestFrom(this.materialClassOptions$)
-      )
-      .subscribe(([options, materialClassOptions]) => {
+      .pipe(takeUntil(this.destroy$), debounceTime(50))
+      .subscribe((options) => {
         this.categoryOptions = options.toArray();
-        this.defaultMaterialClass = materialClassOptions.find(
-          (option) => option.id === 'st'
-        ) || { id: undefined, title: undefined };
-        this.materialClassSelectionControl.patchValue(
-          this.defaultMaterialClass
-        );
-        this.allCategoriesSelectedControl.patchValue(true);
+        if (!this.allCategoriesSelectedControl.value) {
+          this.allCategoriesSelectedControl.patchValue(true);
+        }
+        this.toggleAllCategories(true);
         this.defaultFilterFormValue = this.filterForm.value;
 
         this.parseQueryParams();
@@ -347,7 +355,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     api.forEachNodeAfterFilter((rowNode: RowNode) => {
       filteredResult.push(rowNode.data);
     });
-    const state = this.agGridStateService.getColumnState(this.TABLE_KEY);
+    const state = this.agGridStateService.getColumnState();
     if (state) {
       columnApi.applyColumnState({ state, applyOrder: true });
     }
@@ -363,7 +371,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public onColumnChange({ columnApi }: { columnApi: ColumnApi }): void {
     const agGridColumns = columnApi.getColumnState();
-    this.agGridStateService.setColumnState(this.TABLE_KEY, agGridColumns);
+    this.agGridStateService.setColumnState(agGridColumns);
     this.dataFacade.dispatch(
       setAgGridColumns({ agGridColumns: JSON.stringify(agGridColumns) })
     );
@@ -537,7 +545,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public getColumnDefs = (hasEditorRole: boolean): ColDef[] =>
-    this.defaultColumnDefs.map((columnDef) => ({
+    this.defaultColumnDefs?.map((columnDef) => ({
       ...columnDef,
       headerName: translate(
         `materialsSupplierDatabase.mainTable.columns.${columnDef.field}`
@@ -545,7 +553,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       cellRendererParams: {
         hasEditorRole,
       },
-    }));
+    })) ?? [];
 
   public resumeDialog(): void {
     this.openDialog(true);

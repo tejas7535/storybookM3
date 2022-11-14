@@ -56,7 +56,7 @@ describe('DataSelectors', () => {
         });
 
         const expected = m.cold('a', { a: MaterialClass.STEEL });
-        const result = store.pipe(DataSelectors.getMaterialClass);
+        const result = store.select(DataSelectors.getMaterialClass);
 
         m.expect(result).toBeObservable(expected);
       })
@@ -79,10 +79,23 @@ describe('DataSelectors', () => {
     ).toEqual(initialState.productCategoryOptions);
   });
 
-  it('should get result', () => {
-    expect(DataSelectors.getResult.projector(initialState)).toEqual(
-      initialState.result
-    );
+  it.each([
+    [MaterialClass.ALUMINUM, []],
+    [MaterialClass.STEEL, []],
+    [undefined, undefined],
+  ])('should get result', (materialClass, expected) => {
+    expect(
+      DataSelectors.getResult.projector(
+        {
+          ...initialState,
+          materials: {
+            steelMaterials: [],
+            aluminumMaterials: [],
+          },
+        },
+        materialClass
+      )
+    ).toEqual(expected);
   });
 
   it('should get agGridFilter as undefined if not defined', () => {
@@ -148,7 +161,8 @@ describe('DataSelectors', () => {
   });
 
   it('should get 0 if result is not defined', () => {
-    const result = DataSelectors.getResultCount.projector(initialState.result);
+    // eslint-disable-next-line unicorn/no-useless-undefined
+    const result = DataSelectors.getResultCount.projector(undefined);
 
     expect(result).toEqual(0);
   });

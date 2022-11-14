@@ -78,12 +78,7 @@
     </ng-container>
   </div>
   <div class="flex w-full flex-1 flex-col md:p-4 md:pb-0 md:pr-0">
-    <ng-container
-      *ngIf="
-        !(optionsLoading$ | ngrxPush) && !(resultLoading$ | ngrxPush);
-        else loading
-      "
-    >
+    <ng-container>
       <mac-quick-filter></mac-quick-filter>
 
       <div class="flex w-full flex-1" *ngIf="result$ | ngrxPush">
@@ -169,12 +164,12 @@
         <span>{{ t('reload') }}</span>
       </button>
     </div>
-    <ng-template #loading>
-      <div
-        class="flex w-full flex-1 flex-col place-items-center justify-center"
-      >
-        <mat-spinner></mat-spinner>
-      </div>
-    </ng-template>
   </div>
+  <ng-container
+    *ngIf="(optionsLoading$ | ngrxPush) || (resultLoading$ | ngrxPush)"
+  >
+    <div class="fixed flex h-full w-full flex-col items-center md:pt-[10%]">
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-container>
 </div>

@@ -20,18 +20,16 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { QuickFilter } from '@mac/msd/models';
 import {
+  MsdAgGridConfigService,
   MsdAgGridReadyService,
-  MsdQuickfilterStateService,
 } from '@mac/msd/services';
-
-import { DataFacade } from '../../store';
 import {
   addCustomQuickfilter,
   removeCustomQuickfilter,
   updateCustomQuickfilter,
-} from '../../store/actions/quickfilter/quickfilter.actions';
-import { QuickFilterFacade } from '../../store/facades/quickfilter/quickfilter.facade';
-import { StaticQuickFilters } from './config/quickfilter-definitions';
+} from '@mac/msd/store/actions/quickfilter/quickfilter.actions';
+import { DataFacade, QuickFilterFacade } from '@mac/msd/store/facades';
+
 import { QuickfilterDialogComponent } from './quickfilter-dialog/quickfilter-dialog.component';
 
 @Component({
@@ -68,8 +66,8 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
   constructor(
     private readonly qfFacade: QuickFilterFacade,
     private readonly dataFacade: DataFacade,
-    private readonly agGridStateService: MsdAgGridReadyService,
-    private readonly quickfilterStateService: MsdQuickfilterStateService,
+    private readonly msdAgGridReadyService: MsdAgGridReadyService,
+    private readonly msdAgGridConfigService: MsdAgGridConfigService,
     public dialog: MatDialog
   ) {}
 
@@ -79,13 +77,17 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit(): void {
-    this.quickfilterStateService.init();
     // create a copy of the static filters to modify first item
-    this.staticFilters = StaticQuickFilters;
-    this.customFilters$ = this.qfFacade.quickFilter$;
-    this.active = this.staticFilters[0];
+    this.dataFacade.materialClass$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((materialClass) => {
+        this.staticFilters =
+          this.msdAgGridConfigService.getStaticQuickFilters(materialClass);
+        this.customFilters$ = this.qfFacade.quickFilter$;
+        this.active = this.staticFilters[0];
+      });
 
-    this.agGridStateService.agGridApi
+    this.msdAgGridReadyService.agGridApi
       .pipe(takeUntil(this.destroy$))
       .subscribe(({ gridApi, columnApi }) =>
         this.onAgGridReady(gridApi, columnApi)

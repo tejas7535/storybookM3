@@ -1,6 +1,4 @@
-import { map, pipe } from 'rxjs';
-
-import { createSelector, select } from '@ngrx/store';
+import { createSelector } from '@ngrx/store';
 
 import { MaterialClass } from '@mac/msd/constants';
 import * as fromStore from '@mac/msd/store/reducers';
@@ -20,14 +18,10 @@ export const getFilters = createSelector(
   ({ materialClass, productCategory }) => ({ materialClass, productCategory })
 );
 
-// TODO: investigate
-export const getMaterialClass = pipe(
-  select(getFilters),
-  // filter(({ materialClass }) => !!materialClass),
-  map(
-    ({ materialClass }) =>
-      (materialClass?.id as MaterialClass) || MaterialClass.STEEL
-  )
+export const getMaterialClass = createSelector(
+  getFilters,
+  ({ materialClass }) =>
+    (materialClass?.id as MaterialClass) || MaterialClass.STEEL
 );
 
 export const getAgGridFilter = createSelector(getFilter, ({ agGridFilter }) => {
@@ -63,7 +57,18 @@ export const getProductCategoryOptions = createSelector(
 
 export const getResult = createSelector(
   getDataState,
-  (dataState) => dataState.result
+  getMaterialClass,
+  (dataState, materialClass) => {
+    switch (true) {
+      case materialClass === MaterialClass.ALUMINUM:
+        return dataState.materials.aluminumMaterials;
+      case materialClass === MaterialClass.STEEL:
+        return dataState.materials.steelMaterials;
+      default:
+        // eslint-disable-next-line unicorn/no-useless-undefined
+        return undefined;
+    }
+  }
 );
 
 export const getOptionsLoading = createSelector(

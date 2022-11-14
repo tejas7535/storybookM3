@@ -21,6 +21,7 @@ import { Column, ColumnApi, ColumnState, GridApi } from 'ag-grid-community';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from '../../../../../assets/i18n/en.json';
+import { MaterialClass } from '../../constants';
 import { QuickFilter } from '../../models';
 import {
   addCustomQuickfilter,
@@ -28,7 +29,7 @@ import {
   updateCustomQuickfilter,
 } from '../../store';
 import { initialState as qfInitialState } from '../../store/reducers/quickfilter/quickfilter.reducer';
-import { StaticQuickFilters } from './config/quickfilter-definitions';
+import { STEEL_STATIC_QUICKFILTERS } from './config';
 import { QuickFilterComponent } from './quick-filter.component';
 
 describe('QuickFilterComponent', () => {
@@ -94,6 +95,23 @@ describe('QuickFilterComponent', () => {
   });
 
   describe('ngOnInit', () => {
+    it('should init the quickfilters when a material class is selected', () => {
+      const mockQuickFilter = {} as QuickFilter;
+      const mockSubject = new Subject<MaterialClass>();
+      component['dataFacade'].materialClass$ = mockSubject;
+      component['msdAgGridConfigService'].getStaticQuickFilters = jest.fn(
+        () => [mockQuickFilter]
+      );
+
+      component.ngOnInit();
+      mockSubject.next(MaterialClass.STEEL);
+
+      expect(component.active).toEqual(mockQuickFilter);
+      expect(
+        component['msdAgGridConfigService'].getStaticQuickFilters
+      ).toHaveBeenCalledWith(MaterialClass.STEEL);
+    });
+
     it('should init localStoreage and subscribe to agGrid event', () => {
       const gridApi = {} as GridApi;
       const columnApi = {} as ColumnApi;
@@ -101,13 +119,11 @@ describe('QuickFilterComponent', () => {
         gridApi: GridApi;
         columnApi: ColumnApi;
       }>();
-      component['quickfilterStateService'].init = jest.fn();
-      component['agGridStateService'].agGridApi = sub;
+      component['msdAgGridReadyService'].agGridApi = sub;
       component['onAgGridReady'] = jest.fn();
 
       component.ngOnInit();
       sub.next({ gridApi, columnApi });
-      expect(component['quickfilterStateService'].init).toBeCalled();
       expect(component['onAgGridReady']).toBeCalledWith(gridApi, columnApi);
     });
   });
@@ -491,7 +507,7 @@ describe('QuickFilterComponent', () => {
 
   it('copyDefaultFilter should copy first predefined filter', () => {
     const title = 'abc';
-    const origin = StaticQuickFilters[0];
+    const origin = STEEL_STATIC_QUICKFILTERS[0];
     const result = component['copyDefaultFilter'](title);
     expect(result.title).toBe(title);
     expect(result.custom).toBeTruthy();
