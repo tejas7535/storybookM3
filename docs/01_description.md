@@ -1,6 +1,6 @@
 <!-- AUTO-GENERATED-CONTENT:START (VERSIONBADGE:link=false&prefix=version) -->
 
-![version](https://img.shields.io/badge/version-v136.0.0-green.svg)
+![version](https://img.shields.io/badge/version-v137.0.0-green.svg)
 
 <!-- AUTO-GENERATED-CONTENT:END -->
 <!-- AUTO-GENERATED-CONTENT:START (DEPSBADGES:deps=@nrwl/workspace+typescript+@angular/core+@angular/cli+@angular/cdk+@angular/material+@ngrx/store+jest+cypress+prettier+tailwindcss) -->
