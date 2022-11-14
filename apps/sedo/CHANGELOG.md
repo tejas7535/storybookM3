@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.15.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/sedo-v1.14.0...sedo-v1.15.0) (2022-11-14)
+
+
+### 🎸 Features
+
+* load material icons from npm module ([0ba3a13](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0ba3a138b9f07f56f2a4309a7b6954c45d7ead77))
+* **sedo:** extend root tailwind config ([4198c2d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4198c2d6fb787f586da732d7d78b0849e75ca63b))
+* **sedo:** remove deprecated styles ([#4480](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4480)) ([c1796ca](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c1796ca804809ab1cbb2ff6a611d95eeeb03a774))
+* **sedo:** remove flex-layout and legacy snackbar ([7b454ee](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7b454ee08c22ab473e84212900b8fcc00a2cafa1))
+* **shared-ui:** remove deprecated libs in favour of npm packages ([#3520](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3520)) ([a2bf36b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a2bf36bf950ba4d8bd1d27ed9754565f9e364b90))
+* **style:** add new color variables ([#3391](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3391)) ([072e93c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/072e93cc90858f751717e10e383f87ab2d4c61f6))
+* **styles:** add tailwind to styles lib ([#3573](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3573)) ([#4104](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4104)) ([d32b170](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d32b170c13de73f90b3a792d9f50f29cede37898)), closes [#3753](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3753)
+* **workspace:** update core dependencies ([#3381](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3381)) ([#3383](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3383)) ([3c7b0a3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3c7b0a37be3104fc216c3ee6506d5f8ce2cadb21))
+* **workspace:** upgrade to ag-grid v28 ([#4427](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4427)) ([2c7c976](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2c7c97600c0646e238ce646f5e2adcc9d668b41c))
+* **workspace:** use eslint for sorting of imports ([#3424](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3424)) ([546e884](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/546e8845a9250580ccdc982e3f5c1d818f8678bd))
+
+
+### 🐛 Bug Fixes
+
+* **azure-auth:** wait for login to complete before getting roles ([#3855](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3855)) ([d9e5470](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d9e5470eb2f9e0638fd0f28abc0bfcfc4ed41c98))
+* **sedo:** fix html format issues ([37c58d6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/37c58d64fd9fa9d5a74fd84450304eb0038a3d41))
+* **sedo:** fix unit tests ([9be66d1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9be66d191e0091b772b323a2853257854e3e3947))
+* **sedo:** properly configure tailwind content configuration ([4d60748](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4d607480deadf3e6d7d26334f9431a52f4d6bb02))
+* **sedo:** update SharedTranslocoModule import to fix issues with language persisting ([a52a0af](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a52a0af625b5087d9131dbb9abc7a17c64136757))
+* **workspace:** fix eslint configuration for local and ci execution ([#3598](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3598)) ([4a7dc1f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4a7dc1fe79d94b6d8ddfa7cf2644e3bbc11a3e80))
+* **workspace:** fix fake timers in tests after version bump ([2a33b62](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2a33b629a73bf6f7a9ab2b78391d0edf39af516e))
+* **workspace:** fix prettier formatting ([#4746](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4746)) ([6d09958](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6d099587562a9db04e311acb309235bc60e89ee4))
+
 ## [1.14.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/sedo-v1.13.0...sedo-v1.14.0) (2021-12-06)
 
 
