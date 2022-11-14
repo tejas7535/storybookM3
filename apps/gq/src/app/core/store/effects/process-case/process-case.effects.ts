@@ -516,13 +516,15 @@ export class ProcessCaseEffect {
           .createSapQuotation(gqId, action.gqPositionIds)
           .pipe(
             tap((quotation: Quotation) => {
-              const successMessage = translate(
-                'shared.snackBarMessages.sapQuoteCreated',
-                {
-                  sapId: quotation.sapId,
-                }
-              );
-              this.snackBar.open(successMessage);
+              if (quotation.sapId) {
+                const successMessage = translate(
+                  'shared.snackBarMessages.sapQuoteCreated',
+                  {
+                    sapId: quotation.sapId,
+                  }
+                );
+                this.snackBar.open(successMessage);
+              }
             }),
             tap((quotation) =>
               PriceService.addCalculationsForDetails(quotation.quotationDetails)

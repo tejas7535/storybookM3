@@ -1116,6 +1116,32 @@ describe('ProcessCaseEffect', () => {
         expect(quotationService.createSapQuotation).toHaveBeenCalledTimes(1);
       })
     );
+    test(
+      'shall call service, should not display snackbar due to missing sapId (asynchronous procedure)',
+      marbles((m) => {
+        const item: Quotation = {
+          ...QUOTATION_MOCK,
+          sapCallInProgress: false,
+          sapId: undefined,
+        };
+        snackBar.open = jest.fn();
+        quotationService.createSapQuotation = jest.fn(() => response);
+        actions$ = m.hot('-a', {
+          a: createSapQuote({ gqPositionIds: ['12-12-12-'] }),
+        });
+        const response = m.cold('-a|', {
+          a: item,
+        });
+        const expected = m.cold('--b', {
+          b: createSapQuoteSuccess({ quotation: item }),
+        });
+
+        m.expect(effects.createSapQuote$).toBeObservable(expected);
+        m.flush();
+        expect(snackBar.open).toHaveBeenCalledTimes(0);
+        expect(quotationService.createSapQuotation).toHaveBeenCalledTimes(1);
+      })
+    );
 
     test(
       'shall call service, returns a sapCallInProgress',
