@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.2.17](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.15...ga-v1.2.17) (2022-11-14)
+
+
+### 🎸 Features
+
+* **ga:** add market greases (UFTABI-6122) ([#4730](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4730)) ([1469788](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1469788519c45c48e14f859b918dcaebebb9c1fb))
+
+
+### 🐛 Bug Fixes
+
+* **ga:** retry grease report request ([#4779](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4779)) ([bf9ebae](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bf9ebae5dd07b434625ad4344ae1e7cc0013af39))
+* **workspace:** fix prettier formatting ([#4746](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4746)) ([6d09958](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6d099587562a9db04e311acb309235bc60e89ee4))
+
 ### [1.2.15](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.14...ga-v1.2.15) (2022-10-24)
 
 
