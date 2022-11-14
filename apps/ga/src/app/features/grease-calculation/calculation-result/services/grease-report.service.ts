@@ -2,7 +2,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { lastValueFrom } from 'rxjs';
+import { delay, lastValueFrom, map, retryWhen, take } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
 
@@ -33,7 +33,18 @@ export class GreaseReportService {
   ) {}
 
   public async getGreaseReport(greaseReportUrl: string) {
-    return lastValueFrom(this.http.get<GreaseReport>(greaseReportUrl));
+    return lastValueFrom(
+      this.http.get<GreaseReport>(greaseReportUrl).pipe(
+        map((val) => {
+          if (!val) {
+            throw new Error('Empty Result');
+          }
+
+          return val;
+        }),
+        retryWhen((error) => error.pipe(delay(1000), take(20)))
+      )
+    );
   }
 
   public formatGreaseReport(
