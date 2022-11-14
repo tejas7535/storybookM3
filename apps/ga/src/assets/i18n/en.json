@@ -173,9 +173,7 @@
       "grease": {
         "label": "Grease",
         "defaultOption": "All Greases",
-        "tooltip": "The selected grease will be given priority in the calculation report.\nIf the selected grease is not suitable, alternatives will be displayed.",
-        "schaefflerGreases": "Schaeffler Greases",
-        "nonSchaefflerGreases": "Non-Schaeffler Greases"
+        "tooltip": "The selected grease will be given priority in the calculation report.\nIf the selected grease is not suitable, alternatives will be displayed."
       },
       "concept1": {
         "label": "Calculate gas release setting (CONCEPT1)",
@@ -278,7 +276,6 @@
       "sizeHint": "For the operating conditions you selected using CONCEPT1 with {{ size }}ml is unsuited",
       "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }}ml)"
     },
-    "previouslySelected": "(grease selected in Step \"Operating Conditions\")",
     "initialGreaseQuantity": "Initial grease quantity *",
     "manualRelubricationQuantityInterval": "Manual relubrication quantity * / interval *",
     "manualRelubricationQuantityIntervalTooltip": "For reasons of operational safety, relubrication periods > 1 year are not recommended.\n\nIt is recommended – especially for large manual relubrication quantities – to distribute the relubrication quantity on several lubricating processes over the relubrication period.",

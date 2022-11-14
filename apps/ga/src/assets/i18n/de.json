@@ -173,9 +173,7 @@
       "grease": {
         "label": "Fett",
         "defaultOption": "Alle Fette",
-        "tooltip": "Das ausgewählte Fett wird im Berechnungsbericht vorrangig berücksichtigt.\nWenn das ausgewählte Fett nicht geeignet ist, werden Alternativen angezeigt.",
-        "schaefflerGreases": "Schaeffler Fette",
-        "nonSchaefflerGreases": "Nicht-Schaeffler Fette"
+        "tooltip": "Das ausgewählte Fett wird im Berechnungsbericht vorrangig berücksichtigt.\nWenn das ausgewählte Fett nicht geeignet ist, werden Alternativen angezeigt."
       },
       "concept1": {
         "label": "Kartuscheneinstellung berechnen (CONCEPT1)",
@@ -278,7 +276,6 @@
       "sizeHint": "Für ihre gewählten Betriebsbedingungen ist der CONCEPT1 mit {{ size }}ml nicht geeignet",
       "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }}ml)"
     },
-    "previouslySelected": "(gewähltes Fett aus Schritt \"Betriebsparameter\")",
     "initialGreaseQuantity": "Erstbefettungsmenge *",
     "manualRelubricationQuantityInterval": "Manuelle Nachschmiermenge * / Interval *",
     "manualRelubricationQuantityIntervalTooltip": "Aus Gründen der Betriebssicherheit sind Nachschmierfristen > 1 Jahr nicht zu empfehlen.\n\nEs empfiehlt sich - gerade bei großen Nachschmiermengen - die errechnete Nachschmiermenge verteilt auf mehrere Nachschmiervorgänge über der Nachschmierfrist zuzuführen.",

@@ -10,10 +10,7 @@ import { Store } from '@ngrx/store';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { setPreferredGreaseSelection } from '@ga/core/store/actions';
-import {
-  getAllGreases,
-  getPreferredGrease,
-} from '@ga/core/store/selectors/calculation-parameters/calculation-parameters.selector';
+import { getPreferredGrease } from '@ga/core/store/selectors/calculation-parameters/calculation-parameters.selector';
 import {
   defaultPreferredGreaseOption,
   emptyPreferredGreaseOptionId,
@@ -36,7 +33,6 @@ import { PreferredGreaseOption } from '@ga/shared/models';
 export class PreferredGreaseSelectionComponent implements AfterViewChecked {
   public defaultOption = defaultPreferredGreaseOption;
   public preferredGrease$ = this.store.select(getPreferredGrease);
-  public allGreases$ = this.store.select(getAllGreases);
 
   public constructor(
     private readonly store: Store,
@@ -56,8 +52,7 @@ export class PreferredGreaseSelectionComponent implements AfterViewChecked {
   public compareOptions = (
     a: PreferredGreaseOption,
     b: PreferredGreaseOption
-  ): boolean =>
-    (a?.id === undefined && b?.id === undefined) || a?.text === b?.text;
+  ): boolean => a?.id === b?.id;
 
   public removeEmptyOptions = (
     options: PreferredGreaseOption[]

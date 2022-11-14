@@ -173,9 +173,7 @@
       "grease": {
         "label": "Grasa",
         "defaultOption": "Todas las grasas",
-        "tooltip": "La grasa seleccionada tendrá prioridad en el informe de cálculo.\nSi la grasa seleccionada no es adecuada, se mostrarán alternativas.",
-        "schaefflerGreases": "Grasas Schaeffler",
-        "nonSchaefflerGreases": "Grasas que no son de Schaeffler"
+        "tooltip": "La grasa seleccionada tendrá prioridad en el informe de cálculo.\nSi la grasa seleccionada no es adecuada, se mostrarán alternativas."
       },
       "concept1": {
         "label": "Calcular el ajuste de liberación de gas (CONCEPT1)",
@@ -278,7 +276,6 @@
       "sizeHint": "Para las condiciones de funcionamiento que ha seleccionado, el uso de CONCEPT1 con {{ size }}ml no es adecuado",
       "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }}ml)"
     },
-    "previouslySelected": "(Grasa seleccionada del paso \"Parámetros de funcionamiento\")",
     "initialGreaseQuantity": "Cantidad inicial de grasa *",
     "manualRelubricationQuantityInterval": "Cantidad*/Intervalo* de relubricación manual",
     "manualRelubricationQuantityIntervalTooltip": "Por motivos de seguridad operativa, no se recomiendan los periodos de relubricación superiores a 1 año.\n\nSe recomienda distribuir la cantidad de relubricación en varios procesos a lo largo del periodo de relubricación, especialmente si se trata de grandes cantidades de relubricación manual.",

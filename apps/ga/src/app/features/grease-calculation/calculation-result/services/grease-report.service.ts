@@ -8,8 +8,6 @@ import { translate } from '@ngneat/transloco';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
-import { marketGreases } from '@ga/shared/constants';
-
 import { WARNINGSOPENED } from '../constants';
 import { itemValue } from '../helpers/grease-helpers';
 import {
@@ -111,13 +109,7 @@ export class GreaseReportService {
               isSufficient: this.greaseResultDataSourceService.isSufficient(
                 table1Items || []
               ),
-              isPreferred:
-                mainTitle === preferredGreaseResult?.text ||
-                marketGreases.filter(
-                  ({ title, category }) =>
-                    mainTitle === title &&
-                    category === preferredGreaseResult?.id
-                ).length === 1,
+              isPreferred: mainTitle === preferredGreaseResult?.text,
               dataSource: [
                 this.greaseResultDataSourceService.automaticLubrication(
                   concept1 as GreaseReportConcept1Subordinate[],
