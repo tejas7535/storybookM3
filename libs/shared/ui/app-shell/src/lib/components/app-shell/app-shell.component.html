@@ -22,8 +22,8 @@
     class="inline-block truncate pr-2 text-subtitle-1 text-medium-emphasis outline-none sm:pr-3 sm:text-h6"
     [class.ml-1]="hasSidebarLeft"
     [class.ml-2]="!hasSidebarLeft"
-    [class.cursor-pointer]="appTitleLink"
-    [routerLink]="appTitleLink ? appTitleLink : undefined"
+    [class.cursor-pointer]="appTitleLink && !sidenavOpen"
+    [routerLink]="appTitleLink && !sidenavOpen ? appTitleLink : undefined"
   >
     <span *ngIf="sidenavOpen; else appTitleTemplate">
       {{ t('shellSidenavHeading') }}
