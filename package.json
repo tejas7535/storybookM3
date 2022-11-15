@@ -108,7 +108,7 @@
     "@angular/compiler-cli": "14.2.1",
     "@angular/language-service": "14.2.1",
     "@babel/core": "7.19.6",
-    "@commitlint/cli": "17.1.2",
+    "@commitlint/cli": "17.2.0",
     "@commitlint/config-conventional": "17.1.0",
     "@commitlint/cz-commitlint": "17.1.2",
     "@geometricpanda/storybook-addon-badges": "0.2.2",
