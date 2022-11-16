@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/report-v0.7.3...report-v1.0.0) (2022-11-16)
+
+
+### 🐛 Bug Fixes
+
+* **workspace:** fix prettier formatting ([#4746](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4746)) ([6d09958](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6d099587562a9db04e311acb309235bc60e89ee4))
+
 ### [0.7.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/report-v0.7.2...report-v0.7.3) (2022-09-20)
 
 
