@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/roles-and-rights-v0.0.7...roles-and-rights-v1.0.0) (2022-11-16)
+
+
+### 🎸 Features
+
+* **ia:** categorize user roles in side menu (IA-917) ([#4765](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4765)) ([64bc4c5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/64bc4c5216c9f78ecb2acaa2ce530fd3b9e40341))
+
 ### [0.0.7](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/roles-and-rights-v0.0.6...roles-and-rights-v0.0.7) (2022-09-20)
 
 ### [0.0.6](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/roles-and-rights-v0.0.5...roles-and-rights-v0.0.6) (2022-08-24)
