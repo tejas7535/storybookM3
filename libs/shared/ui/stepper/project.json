@@ -53,7 +53,7 @@
       "options": {
         "commands": [
           {
-            "command": "npm publish dist/libs/shared/ui/stepper --tag latest"
+            "command": "pnpm publish dist/libs/shared/ui/stepper --tag latest"
           }
         ]
       }

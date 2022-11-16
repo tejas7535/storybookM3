@@ -1,13 +1,13 @@
 {
   "implicitDependencies": {
-    "angular.json": "*",
-    "package.json": "*",
-    "package-lock.json": "*",
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    "pnpm-lock.yaml": "*",
     ".eslintrc.json": "*",
-    "nx.json": "*",
     "Jenkinsfile": "*",
-    "deployments.json": "*",
-    "tsconfig.base.json": "*"
+    "deployments.json": "*"
   },
   "affected": {
     "defaultBase": "master"
@@ -65,7 +65,8 @@
     "cache": {
       "enabled": true,
       "environment": "all"
-    }
+    },
+    "packageManager": "pnpm"
   },
   "defaultProject": "helloworld-azure",
   "generators": {

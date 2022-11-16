@@ -58,7 +58,7 @@
       "options": {
         "commands": [
           {
-            "command": "npm publish dist/libs/shared/ui/share-button --tag latest"
+            "command": "pnpm publish dist/libs/shared/ui/share-button --tag latest"
           }
         ]
       }

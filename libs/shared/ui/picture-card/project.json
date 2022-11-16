@@ -54,7 +54,7 @@
       "options": {
         "commands": [
           {
-            "command": "npm publish dist/libs/shared/ui/picture-card --tag latest"
+            "command": "pnpm publish dist/libs/shared/ui/picture-card --tag latest"
           }
         ]
       }

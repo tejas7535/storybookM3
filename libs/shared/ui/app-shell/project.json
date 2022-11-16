@@ -55,7 +55,7 @@
       "options": {
         "commands": [
           {
-            "command": "npm publish dist/libs/shared/ui/app-shell --tag latest"
+            "command": "pnpm publish dist/libs/shared/ui/app-shell --tag latest"
           }
         ]
       }

@@ -44,7 +44,7 @@
       "options": {
         "commands": [
           {
-            "command": "npm publish dist/libs/shared/ui/styles --tag latest"
+            "command": "pnpm publish dist/libs/shared/ui/styles --tag latest"
           }
         ]
       }

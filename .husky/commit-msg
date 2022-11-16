@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 . "$(dirname "$0")/_/husky.sh"
 
-npx commitlint -e || (echo You can use 'npm run commit' for CLI support when creating conventional commits && exit 1)
+pnpm commitlint -e || (echo You can use 'pnpm run commit' for CLI support when creating conventional commits && exit 1)

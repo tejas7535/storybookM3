@@ -53,7 +53,7 @@
       "options": {
         "commands": [
           {
-            "command": "npm publish dist/libs/shared/utils/azure-auth --tag latest"
+            "command": "pnpm publish dist/libs/shared/utils/azure-auth --tag latest"
           }
         ]
       }

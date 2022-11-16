@@ -148,12 +148,12 @@ def mapAffectedStringToArray(String input) {
 
 def defineAffectedAppsAndLibs() {
     apps = sh (
-        script: "npm run --silent affected:apps -- --base=${buildBase} --plain",
+        script: "pnpm run --silent affected:apps --base=${buildBase} --plain",
         returnStdout: true
     )
 
     libs = sh (
-        script: "npm run --silent affected:libs -- --base=${buildBase} --plain",
+        script: "pnpm run --silent affected:libs --base=${buildBase} --plain",
         returnStdout: true
     )
 
@@ -314,16 +314,12 @@ pipeline {
         )
     }
 
-    tools {
-        nodejs 'NodeJS 16.13'
-    }
-
     stages {
         stage('Install') {
             steps {
                 echo 'Install NPM Dependencies'
 
-                sh 'npm ci'
+                sh 'pnpm install'
             }
         }
 
@@ -407,7 +403,7 @@ pipeline {
                         script {
                             withCredentials([string(credentialsId: 'GITLAB_API_TOKEN', variable: 'ACCESS_TOKEN')]) {
                                 withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_COM_TOKEN')]) {
-                                    sh "npx renovate --token=${ACCESS_TOKEN} --platform=gitlab --endpoint=https://gitlab.schaeffler.com/api/v4 frontend-schaeffler/schaeffler-frontend"
+                                    sh "pnpm renovate --token=${ACCESS_TOKEN} --platform=gitlab --endpoint=https://gitlab.schaeffler.com/api/v4 frontend-schaeffler/schaeffler-frontend"
                                 }
                             }
                         }
@@ -416,19 +412,18 @@ pipeline {
 
                 stage('Audit') {
                     steps {
-                        echo 'Run NPM Audit'
+                        echo 'Run PNPM Audit'
 						script {
                             def result = sh (returnStatus: true, script: '''
                                 mkdir -p reports
-                                npm audit --json | npx npm-audit-html --output reports/npm-audit.html
-                                npm audit --json | node ./tools/npm-scripts/transform-audit.js > reports/npm-audit.log
+                                pnpm audit --json > reports/pnpm-audit.json
                             ''') as int
 
-                            publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: './reports', reportFiles: 'npm-audit.html', reportName: 'npm vulnerability report', reportTitles: 'vulnerability report'])
-                            recordIssues(tool: groovyScript(parserId: 'npm-audit', pattern: 'reports/npm-audit.log'))
+                            recordIssues tool: analysisParser(pattern: 'reports/pnpm-audit.json', analysisModelId: 'pnpm-audit')
 
-                            if (result != 0)
-                                unstable 'NPM audit failed'
+                            if (result != 0) {
+                                unstable 'PNPM audit failed'
+                            }
                         }
                     }
                 }
@@ -501,7 +496,7 @@ pipeline {
                         echo 'Run Format Check with prettier'
 
                         script {
-                            sh "npm run format:check -- --base=${buildBase}"
+                            sh "pnpm run format:check --base=${buildBase}"
                         }
                     }
                 }
@@ -511,7 +506,7 @@ pipeline {
                         echo 'Run TS Lint'
 
                         script {
-                            sh "npm run affected:lint -- --base=${buildBase} --configuration=ci --parallel=2 ${getNxRunnerConfig()}"
+                            sh "pnpm run affected:lint --base=${buildBase} --configuration=ci --parallel=2 ${getNxRunnerConfig()}"
                         }
                     }
                     post {
@@ -527,7 +522,7 @@ pipeline {
 
                         // no checkstyle output
                         script {
-                            sh 'npm run lint:html'
+                            sh 'pnpm run lint:html'
                         }
                     }
                 }
@@ -537,7 +532,7 @@ pipeline {
                         echo 'Run Unit Tests'
 
                         script {
-                            sh "npm run affected:test -- --base=${buildBase} --parallel=2 ${getNxRunnerConfig()}"
+                            sh "pnpm run affected:test --base=${buildBase} --parallel=2 ${getNxRunnerConfig()}"
                         }
                     }
                     post {
@@ -563,7 +558,7 @@ pipeline {
                             echo 'Run E2E Tests'
 
                             script {
-                                sh "npm run affected:e2e:headless -- --base=${buildBase} ${getNxRunnerConfig()}"
+                                sh "pnpm run affected:e2e:headless --base=${buildBase} ${getNxRunnerConfig()}"
                             }
                         }
                     }
@@ -604,7 +599,7 @@ pipeline {
                     // generate project specific changelog
                     if (isAppRelease()) {
                         def exists = fileExists "apps/${env.RELEASE_SCOPE}/CHANGELOG.md"
-                        def standardVersionCommand = "npx nx run ${env.RELEASE_SCOPE}:standard-version"
+                        def standardVersionCommand = "pnpm nx run ${env.RELEASE_SCOPE}:standard-version"
 
                         if (!exists) {
                             //first version
@@ -615,17 +610,17 @@ pipeline {
 
                         sh standardVersionCommand
                     } else if (isLibsRelease()) {
-                        sh "npx nx run-many --target=standard-version --projects=${affectedLibs.join(',')}"
+                        sh "pnpm nx run-many --target=standard-version --projects=${affectedLibs.join(',')}"
                     }
 
-                    sh 'npm run release' // only bump the workspace version
-                    sh 'npm run generate-readme'
+                    sh 'pnpm run release' // only bump the workspace version
+                    sh 'pnpm run generate-readme'
 
                     // generate root changelog
                     if (isAppRelease()) {
-                        sh "npm run generate-changelog -- --app ${env.RELEASE_SCOPE}"
+                        sh "pnpm run generate-changelog --app ${env.RELEASE_SCOPE}"
                     } else if (isLibsRelease()) {
-                        sh 'npm run generate-changelog -- --libs'
+                        sh 'pnpm run generate-changelog --libs'
                     }
 
                     sh 'git add .'
@@ -651,7 +646,7 @@ pipeline {
                 echo 'Build Storybooks for Shared Libraries'
 
                 script {
-                    sh "npx nx affected --base=${buildBase} --target=build-storybook ${getNxRunnerConfig()}"
+                    sh "pnpm nx affected --base=${buildBase} --target=build-storybook ${getNxRunnerConfig()}"
 
                     publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'dist/storybook/shared-ui-storybook', reportFiles: 'index.html', reportName: 'Storybook Components', reportTitles: ''])
                 }
@@ -670,29 +665,29 @@ pipeline {
                 script {
                     lock(resource: "lock-build-${env.NODE_NAME}", quantity: 2) {
                         if (isAppRelease()) {
-                            sh "npx nx build ${env.RELEASE_SCOPE} --configuration=production"
+                            sh "pnpm nx build ${env.RELEASE_SCOPE} --configuration=production"
                             try {
-                                sh "npm run transloco:optimize -- dist/apps/${env.RELEASE_SCOPE}/assets/i18n"
+                                sh "pnpm run transloco:optimize dist/apps/${env.RELEASE_SCOPE}/assets/i18n"
                             } catch (error) {
                                 echo "No translations found to optimize in app ${env.RELEASE_SCOPE}"
                             }
                         } else if (isLibsRelease()) {
-                            sh "npx nx run-many --target=build --projects=${affectedLibs.join(',')} --prod"
+                            sh "pnpm nx run-many --target=build --projects=${affectedLibs.join(',')} --prod"
                         } else {
                             if (isMaster()) {
-                                sh "npx nx affected --base=${buildBase} --target=build --configuration=qa ${getNxRunnerConfig()} --parallel=3"
+                                sh "pnpm nx affected --base=${buildBase} --target=build --configuration=qa ${getNxRunnerConfig()} --parallel=3"
                             } else {
-                                sh "npx nx affected --base=${buildBase} --target=build --configuration=dev ${getNxRunnerConfig()} --parallel=3"
+                                sh "pnpm nx affected --base=${buildBase} --target=build --configuration=dev ${getNxRunnerConfig()} --parallel=3"
                             }
 
                             for (app in affectedApps) {
                                 try {
-                                    sh "npm run transloco:optimize -- dist/apps/${app}/assets/i18n"
+                                    sh "pnpm run transloco:optimize dist/apps/${app}/assets/i18n"
                                } catch (error) {
                                     echo "No translations found to optimize in app ${app}"
                                 }
 
-                                sh "npx webpack-bundle-analyzer dist/apps/${app}/stats.json --mode static --report dist/webpack/${app}-bundle-report.html --no-open || true"
+                                sh "pnpm webpack-bundle-analyzer dist/apps/${app}/stats.json --mode static --report dist/webpack/${app}-bundle-report.html --no-open || true"
                                 publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dist/webpack', reportFiles: "${app}-bundle-report.html", reportName: "${app} bundle-report", reportTitles: "${app} bundle-report"])
                             }
                         }
@@ -770,7 +765,7 @@ pipeline {
                                 sh "echo 'email=${USERNAME}' > ~/.npmrc"
                                 sh "echo '//artifactory.schaeffler.com/artifactory/api/npm/npm/:_authToken=${API_KEY}' > ~/.npmrc"
 
-                                sh "npx nx affected --base=${buildBase} --target=publish --registry=https://artifactory.schaeffler.com/artifactory/api/npm/npm/"
+                                sh "pnpm nx affected --base=${buildBase} --target=publish --registry=https://artifactory.schaeffler.com/artifactory/api/npm/npm/"
                             }
                         }
                     }

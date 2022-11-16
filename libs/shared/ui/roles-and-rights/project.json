@@ -55,7 +55,7 @@
       "options": {
         "commands": [
           {
-            "command": "npm publish dist/libs/shared/ui/roles-and-rights --tag latest"
+            "command": "pnpm publish dist/libs/shared/ui/roles-and-rights --tag latest"
           }
         ]
       }

@@ -40,7 +40,7 @@
       "options": {
         "commands": [
           {
-            "command": "npm publish dist/libs/shared/ui/inputs --tag latest"
+            "command": "pnpm publish dist/libs/shared/ui/inputs --tag latest"
           }
         ]
       }
