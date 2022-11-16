@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/app-shell-v0.0.11...app-shell-v1.0.0) (2022-11-16)
+
+
+### 🎸 Features
+
+* **app-shell:** remove explicit size to allow retina display ([0c0f9a2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0c0f9a281c70da86259177f15fdd1ac2f45e4b4b))
+
+
+### 🐛 Bug Fixes
+
+* **app-shell:** disable link on settings header ([#4780](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4780)) ([2206166](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/22061661d02c72ddeb2312e119ad3cea50aa1845))
+* **workspace:** fix prettier formatting ([#4746](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4746)) ([6d09958](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6d099587562a9db04e311acb309235bc60e89ee4))
+
 ### [0.0.11](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/app-shell-v0.0.10...app-shell-v0.0.11) (2022-09-20)
 
 ### [0.0.10](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/app-shell-v0.0.9...app-shell-v0.0.10) (2022-08-24)
