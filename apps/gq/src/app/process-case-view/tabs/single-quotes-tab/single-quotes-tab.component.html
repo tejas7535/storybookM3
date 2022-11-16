@@ -15,7 +15,7 @@
 <ng-template #taskInProgress>
   <gq-calculation-in-progress
     [amountDetails]="(quotation$ | ngrxPush).quotationDetails.length"
-    [isSapRefreshInProgress]="(quotation$ | ngrxPush).sapCallInProgress"
+    [sapCallInProgress]="(quotation$ | ngrxPush).sapCallInProgress"
   >
   </gq-calculation-in-progress>
 </ng-template>

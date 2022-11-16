@@ -63,16 +63,30 @@
     "cancelButton": "Abbrechen"
   },
   "calcInProgress": {
-    "header": "Wir sind dabei, Ihren Fall zu erstellen ({{variable}} Positionen)...",
+    "header": "Wir sind dabei, Ihren Fall zu erstellen ({{variable}} Positionen)",
     "subtitle1": "Es kann etwas länger dauern, bis alle Daten gezogen sind und der Case verfügbar wird.",
     "subtitle2": " Bitte beachten Sie, dass die Bearbeitungszeit variieren kann, je nachdem wie viele Positionen enthalten sind.",
     "refreshText": "Bitte aktualisieren Sie die Seite, um zu prüfen, ob Ihr Case verfügbar ist."
   },
-  "sapRefreshInProgress": {
-    "header": "Wir sind dabei, Ihre SAP Daten zu aktualisieren ({{variable}} Positionen)",
-    "subtitle1": "Es kann etwas länger dauern, bis alle Daten gezogen sind und der Case verfügbar wird.",
-    "subtitle2": " Bitte beachten Sie, dass die Bearbeitungszeit variieren kann, je nachdem wie viele Positionen enthalten sind.",
-    "refreshText": "Bitte aktualisieren Sie die Seite, um zu prüfen, ob Ihr Case verfügbar ist."
+  "sapCallInProgress": {
+    "FETCH_DATA_IN_PROGRESS": {
+      "header": "Wir sind dabei, Ihre SAP Daten zu aktualisieren ({{variable}} Positionen)",
+      "subtitle1": "Es kann etwas länger dauern, bis alle Daten gezogen sind und der Case verfügbar wird.",
+      "subtitle2": " Bitte beachten Sie, dass die Bearbeitungszeit variieren kann, je nachdem wie viele Positionen enthalten sind.",
+      "refreshText": "Bitte aktualisieren Sie die Seite, um zu prüfen, ob Ihr Case verfügbar ist."
+    },
+    "CREATE_QUOTATION_IN_PROGRESS": {
+      "header": "Wir sind dabei, Ihre SAP Daten zu synchronisieren ({{variable}} Positionen)",
+      "subtitle1": "Es kann etwas länger dauern, bis alle Daten gezogen sind und der Case verfügbar wird.",
+      "subtitle2": " Bitte beachten Sie, dass die Bearbeitungszeit variieren kann, je nachdem wie viele Positionen enthalten sind.",
+      "refreshText": "Bitte aktualisieren Sie die Seite, um zu prüfen, ob Ihr Case verfügbar ist."
+    },
+    "MAINTAIN_QUOTATION_IN_PROGRESS": {
+      "header": "Wir sind dabei, Ihre SAP Daten zu synchronisieren ({{variable}} Positionen)",
+      "subtitle1": "Es kann etwas länger dauern, bis alle Daten gezogen sind und der Case verfügbar wird.",
+      "subtitle2": " Bitte beachten Sie, dass die Bearbeitungszeit variieren kann, je nachdem wie viele Positionen enthalten sind.",
+      "refreshText": "Bitte aktualisieren Sie die Seite, um zu prüfen, ob Ihr Case verfügbar ist."
+    }
   },
   "editingCommentModal": {
     "title": "Kommentar bearbeiten für Position {{id}}",

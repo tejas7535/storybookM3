@@ -1,20 +1,15 @@
 <div
   class="flex flex-col items-center justify-center"
-  *transloco="
-    let t;
-    read: isSapRefreshInProgress
-      ? 'processCaseView.sapRefreshInProgress'
-      : 'processCaseView.calcInProgress'
-  "
+  *transloco="let t; read: translationSource"
 >
   <div class="cursor-pointer" (click)="reload()">
     <img [src]="imagePath" />
   </div>
-  <h4 class="mt-12">
+  <h4 class="mt-12 text-center">
     {{ t('header', { variable: amountDetails }) }}
   </h4>
   <div class="mt-6 text-center">
-    <span class="text-subtitle-1 font-semibold">{{ t('refreshText') }}</span>
+    <span class="text-subtitle-1">{{ t('refreshText') }}</span>
     <span class="block text-subtitle-1">{{ t('subtitle1') }}</span>
     <span class="block text-subtitle-1">{{ t('subtitle2') }}</span>
   </div>

@@ -2,6 +2,7 @@ import { Customer } from '../customer';
 import { QuotationDetail } from '../quotation-detail';
 import { User } from '../user.model';
 import { QuotationStatus } from './quotation-status.enum';
+import { SapCallInProgress } from './sap-call-in-progress.enum';
 
 export class Quotation {
   public gqId: number;
@@ -24,6 +25,6 @@ export class Quotation {
   public requestedDelDate: string;
   public validTo: string;
   public calculationInProgress: boolean;
-  public sapCallInProgress: boolean;
+  public sapCallInProgress: SapCallInProgress;
   public statusTypeOfListedQuotation: keyof typeof QuotationStatus;
 }

@@ -8,6 +8,7 @@ import {
   SIMULATED_QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
 import { Quotation } from '../../../../shared/models/';
+import { SapCallInProgress } from '../../../../shared/models/quotation';
 import { PriceSource } from '../../../../shared/models/quotation-detail';
 import {
   MaterialTableItem,
@@ -894,13 +895,16 @@ describe('Quotation Reducer', () => {
     });
     test('Handle CreateSapQuoteSuccess and update the quotation received by service', () => {
       const action = createSapQuoteSuccess({
-        quotation: { ...QUOTATION_MOCK, sapCallInProgress: true },
+        quotation: {
+          ...QUOTATION_MOCK,
+          sapCallInProgress: SapCallInProgress.FETCH_DATA_IN_PROGRESS,
+        },
       });
       const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
       expect(state.quotation.quotationLoading).toBe(false);
       expect(state.quotation.item).toEqual({
         ...QUOTATION_MOCK,
-        sapCallInProgress: true,
+        sapCallInProgress: SapCallInProgress.FETCH_DATA_IN_PROGRESS,
       });
     });
     test('Handle CreateSapQuoteFailure and set errorMessage', () => {

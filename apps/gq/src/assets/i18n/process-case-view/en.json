@@ -63,16 +63,30 @@
     "cancelButton": "cancel"
   },
   "calcInProgress": {
-    "header": "We are currently creating your case ({{variable}} positions)...",
+    "header": "We are currently creating your case ({{variable}} positions)",
     "subtitle1": "It might take a bit longer to pull all the data and make the case become available.",
     "subtitle2": "Please be aware that process time can vary depending on how many positions are included.",
     "refreshText": "Please refresh the page to check if your case is available"
   },
-  "sapRefreshInProgress": {
-    "header": "We are refreshing SAP data ({{variable}} positions)",
-    "subtitle1": "It might take a bit longer to pull all the data and make the case become available.",
-    "subtitle2": "Please be aware that process time can vary depending on how many positions are included.",
-    "refreshText": "Please refresh the page to check if your case is available"
+  "sapCallInProgress": {
+    "FETCH_DATA_IN_PROGRESS": {
+      "header": "We are refreshing SAP data ({{variable}} positions)",
+      "subtitle1": "It might take a bit longer to pull all the data and make the case become available.",
+      "subtitle2": "Please be aware that process time can vary depending on how many positions are included.",
+      "refreshText": "Please refresh the page to check if your case is available"
+    },
+    "CREATE_QUOTATION_IN_PROGRESS": {
+      "header": "We are syncing your Case with SAP ({{variable}} positions)",
+      "subtitle1": "It might take a bit longer to pull all the data and make the case become available.",
+      "subtitle2": "Please be aware that process time can vary depending on how many positions are included.",
+      "refreshText": "Please refresh the page to check if your case is available"
+    },
+    "MAINTAIN_QUOTATION_IN_PROGRESS": {
+      "header": "We are syncing your Case with SAP ({{variable}} positions)",
+      "subtitle1": "It might take a bit longer to pull all the data and make the case become available.",
+      "subtitle2": "Please be aware that process time can vary depending on how many positions are included.",
+      "refreshText": "Please refresh the page to check if your case is available"
+    }
   },
   "editingCommentModal": {
     "title": "Edit comment for Item {{id}}",

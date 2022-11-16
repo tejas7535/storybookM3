@@ -4,7 +4,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -21,6 +21,7 @@ import {
 } from '../../../../../testing/mocks';
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { Quotation } from '../../../../shared/models';
+import { SapCallInProgress } from '../../../../shared/models/quotation';
 import {
   MaterialTableItem,
   MaterialValidation,
@@ -252,7 +253,7 @@ describe('ProcessCaseEffect', () => {
         const serviceResponse = {
           ...QUOTATION_MOCK,
           calculationInProgress: false,
-          sapCallInProgress: true,
+          sapCallInProgress: SapCallInProgress.FETCH_DATA_IN_PROGRESS,
           quotationDetails: [
             { ...QUOTATION_DETAIL_MOCK, quotationItemId: 20 },
             { ...QUOTATION_DETAIL_MOCK, quotationItemId: 10 },
@@ -261,7 +262,7 @@ describe('ProcessCaseEffect', () => {
         const expectedItem = {
           ...QUOTATION_MOCK,
           calculationInProgress: false,
-          sapCallInProgress: true,
+          sapCallInProgress: SapCallInProgress.FETCH_DATA_IN_PROGRESS,
           quotationDetails: [
             { ...QUOTATION_DETAIL_MOCK, quotationItemId: 10 },
             { ...QUOTATION_DETAIL_MOCK, quotationItemId: 20 },
@@ -795,7 +796,7 @@ describe('ProcessCaseEffect', () => {
       marbles((m) => {
         const quotation: Quotation = {
           ...QUOTATION_MOCK,
-          sapCallInProgress: true,
+          sapCallInProgress: SapCallInProgress.FETCH_DATA_IN_PROGRESS,
         };
         snackBar.open = jest.fn();
 
@@ -1095,7 +1096,7 @@ describe('ProcessCaseEffect', () => {
       marbles((m) => {
         const item: Quotation = {
           ...QUOTATION_MOCK,
-          sapCallInProgress: false,
+          sapCallInProgress: SapCallInProgress.NONE_IN_PROGRESS,
           sapId: '1',
         };
         snackBar.open = jest.fn();
@@ -1121,7 +1122,7 @@ describe('ProcessCaseEffect', () => {
       marbles((m) => {
         const item: Quotation = {
           ...QUOTATION_MOCK,
-          sapCallInProgress: false,
+          sapCallInProgress: SapCallInProgress.NONE_IN_PROGRESS,
           sapId: undefined,
         };
         snackBar.open = jest.fn();
@@ -1148,7 +1149,7 @@ describe('ProcessCaseEffect', () => {
       marbles((m) => {
         const item: Quotation = {
           ...QUOTATION_MOCK,
-          sapCallInProgress: true,
+          sapCallInProgress: SapCallInProgress.FETCH_DATA_IN_PROGRESS,
           sapId: '1',
         };
         snackBar.open = jest.fn();

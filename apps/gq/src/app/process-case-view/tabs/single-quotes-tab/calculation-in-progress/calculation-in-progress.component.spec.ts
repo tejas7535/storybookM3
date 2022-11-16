@@ -2,6 +2,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { SapCallInProgress } from '../../../../shared/models/quotation';
 import { CalculationInProgressComponent } from './calculation-in-progress.component';
 
 describe('CalculationInProgressComponent', () => {
@@ -37,8 +38,8 @@ describe('CalculationInProgressComponent', () => {
   describe('imagePath', () => {
     it('should load the calc image as fallback', () => {
       spectator.setInput(
-        'isSapRefreshInProgress',
-        undefined as unknown as boolean
+        'sapCallInProgress',
+        undefined as unknown as SapCallInProgress
       );
       spectator.detectChanges();
 
@@ -47,8 +48,11 @@ describe('CalculationInProgressComponent', () => {
       );
     });
 
-    it('should load the calc image if there is NO SAP call in progress', () => {
-      spectator.setInput('isSapRefreshInProgress', false);
+    it('should load the calc image if there is NO FETCH_DATA_IN_PROGRESS call in progress', () => {
+      spectator.setInput(
+        'sapCallInProgress',
+        SapCallInProgress.CREATE_QUOTATION_IN_PROGRESS
+      );
       spectator.detectChanges();
 
       expect(spectator.debugElement.componentInstance.imagePath).toEqual(
@@ -57,7 +61,10 @@ describe('CalculationInProgressComponent', () => {
     });
 
     it('should load the sap image if there is a SAP call in progress', () => {
-      spectator.setInput('isSapRefreshInProgress', true);
+      spectator.setInput(
+        'sapCallInProgress',
+        SapCallInProgress.FETCH_DATA_IN_PROGRESS
+      );
       spectator.detectChanges();
 
       expect(spectator.debugElement.componentInstance.imagePath).toEqual(
