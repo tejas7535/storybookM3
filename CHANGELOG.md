@@ -2,6 +2,33 @@
 
 **Note:** old/deprecated changelog can be found [here](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/-/blob/184ca646a740a82b55eee4f43c56c076a0ca82e2/CHANGELOG.md)
 
+## 11/16/2022
+* assets: [1.12.6](libs/shared/assets/CHANGELOG.md)
+* cypress-utils: [1.13.6](libs/shared/cypress-utils/CHANGELOG.md)
+* @schaeffler/app-shell: [1.0.0](libs/shared/ui/app-shell/CHANGELOG.md)
+* @schaeffler/banner: [3.3.4](libs/shared/ui/banner/CHANGELOG.md)
+* @schaeffler/breadcrumbs: [1.0.0](libs/shared/ui/breadcrumbs/CHANGELOG.md)
+* @schaeffler/controls: [1.0.0](libs/shared/ui/controls/CHANGELOG.md)
+* @schaeffler/empty-states: [2.4.2](libs/shared/ui/empty-states/CHANGELOG.md)
+* @schaeffler/icons: [2.1.6](libs/shared/ui/icons/CHANGELOG.md)
+* @schaeffler/inputs: [1.0.0](libs/shared/ui/inputs/CHANGELOG.md)
+* @schaeffler/label-value: [1.0.0](libs/shared/ui/label-value/CHANGELOG.md)
+* @schaeffler/legal-pages: [1.0.0](libs/shared/ui/legal-pages/CHANGELOG.md)
+* @schaeffler/loading-spinner: [1.0.0](libs/shared/ui/loading-spinner/CHANGELOG.md)
+* @schaeffler/picture-card: [1.0.0](libs/shared/ui/picture-card/CHANGELOG.md)
+* @schaeffler/report: [1.0.0](libs/shared/ui/report/CHANGELOG.md)
+* @schaeffler/roles-and-rights: [1.0.0](libs/shared/ui/roles-and-rights/CHANGELOG.md)
+* @schaeffler/share-button: [1.0.0](libs/shared/ui/share-button/CHANGELOG.md)
+* @schaeffler/stepper: [1.0.0](libs/shared/ui/stepper/CHANGELOG.md)
+* storybook: [1.13.0](libs/shared/ui/storybook/CHANGELOG.md)
+* @schaeffler/styles: [1.7.2](libs/shared/ui/styles/CHANGELOG.md)
+* @schaeffler/subheader: [1.0.0](libs/shared/ui/subheader/CHANGELOG.md)
+* @schaeffler/view-toggle: [1.0.0](libs/shared/ui/view-toggle/CHANGELOG.md)
+* @schaeffler/application-insights: [1.0.0](libs/shared/utils/application-insights/CHANGELOG.md)
+* @schaeffler/azure-auth: [1.0.2](libs/shared/utils/azure-auth/CHANGELOG.md)
+* @schaeffler/transloco: [4.0.2](libs/shared/utils/transloco/CHANGELOG.md)
+
+
 ## 11/14/2022
 * sedo: [1.15.0](./apps/sedo/CHANGELOG.md)
 
