@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/label-value-v0.0.7...label-value-v1.0.0) (2022-11-16)
+
+
+### 🎸 Features
+
+* **ia:** categorize user roles in side menu (IA-917) ([#4765](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4765)) ([64bc4c5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/64bc4c5216c9f78ecb2acaa2ce530fd3b9e40341))
+* **label-value:** allow custom html and components ([78653b2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/78653b207faae0de25ef3df4529ef0d5a2cdac40))
+
 ### [0.0.7](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/label-value-v0.0.6...label-value-v0.0.7) (2022-09-20)
 
 ### [0.0.6](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/label-value-v0.0.5...label-value-v0.0.6) (2022-08-24)
