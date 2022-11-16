@@ -219,8 +219,10 @@
         "refreshSapDataMobile": "refresh",
         "resetAll": "Reset All",
         "uploadSelectionToSap": "Update SAP Quotation",
-        "uploadSelectionToSapInfoText": "Select up to 100 positions to upload to SAP.",
+        "uploadSelectionToSapInfoText": "Update the selected positions in the SAP quotation.",
+        "uploadSelectionToSapInfoTexttMaxPositions": "Select up to 1000 positions to upload to SAP.",
         "uploadQuoteToSapPositionsInfoText": "Select positions to upload the quote to SAP.",
+        "uploadQuoteToSapPositionsInfoTextMaxPositions": "Select up to 1000 positions to upload to SAP.",
         "confirmSimulation": "Confirm",
         "discardSimulation": "Discard Changes",
         "panelButtons": {

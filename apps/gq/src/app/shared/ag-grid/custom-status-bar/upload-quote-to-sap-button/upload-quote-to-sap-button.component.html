@@ -1,7 +1,11 @@
 <div *ngIf="!(sapId$ | ngrxPush) && !(simulationModeEnabled$ | ngrxPush)">
   <div
     *transloco="let t; read: 'shared.customStatusBar.buttons'"
-    [matTooltip]="t('uploadQuoteToSapPositionsInfoText')"
+    [matTooltip]="
+      selections?.length <= 1000
+        ? t('uploadQuoteToSapPositionsInfoText')
+        : t('uploadQuoteToSapPositionsInfoTextMaxPositions')
+    "
     [matTooltipDisabled]="!uploadDisabled"
     matTooltipPosition="above"
   >

@@ -5,7 +5,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { IStatusPanelParams } from 'ag-grid-community';
@@ -72,6 +72,20 @@ describe('UploadQuoteToSapButtonComponent', () => {
       component.onSelectionChange();
 
       expect(params.api.getSelectedRows).toHaveBeenCalled();
+    });
+    test('should set selections and disable upload for exceeding array max size', () => {
+      component['params'] = params;
+      component['params'].api.getSelectedRows = jest.fn().mockReturnValue(
+        Array.from({
+          length: component['QUOTATION_POSITION_UPLOAD_LIMIT'] + 1,
+        })
+      );
+      component.uploadDisabled = false;
+
+      component.onSelectionChange();
+
+      expect(params.api.getSelectedRows).toHaveBeenCalled();
+      expect(component.uploadDisabled).toBeTruthy();
     });
   });
 

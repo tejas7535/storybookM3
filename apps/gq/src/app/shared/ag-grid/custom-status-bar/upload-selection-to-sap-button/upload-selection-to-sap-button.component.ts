@@ -21,13 +21,14 @@ import { QuotationDetail } from '../../../models/quotation-detail';
   templateUrl: './upload-selection-to-sap-button.component.html',
 })
 export class UploadSelectionToSapButtonComponent {
-  private readonly QUOTATION_POSITION_UPLOAD_LIMIT = 100;
   public sapId$: Observable<string>;
   public selections: any[] = [];
   public uploadDisabled = true;
   private params: IStatusPanelParams;
   public icon = 'cloud_upload';
   public simulationModeEnabled$: Observable<boolean>;
+
+  private readonly QUOTATION_POSITION_UPLOAD_LIMIT = 1000;
 
   agInit(params: IStatusPanelParams): void {
     this.params = params;
