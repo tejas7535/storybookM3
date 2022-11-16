@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/application-insights-v0.1.8...application-insights-v1.0.0) (2022-11-16)
+
 ### [0.1.8](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/application-insights-v0.1.7...application-insights-v0.1.8) (2022-09-20)
 
 
