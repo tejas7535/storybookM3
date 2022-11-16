@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/subheader-v0.2.4...subheader-v1.0.0) (2022-11-16)
+
+
+### 🎸 Features
+
+* **gq:** add sap status column to workarea (GQUOTE-1777) ([#4728](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4728)) ([a999295](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a9992957dee081fd1c78c9e54e33de162c4a89ad))
+* **subheader:** adds possibility to add a status icon to the subheader ([#4713](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4713)) ([7e8a66f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7e8a66fdb6d12ab4d4cfe2a5fab3e208e703a245))
+
 ### [0.2.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/subheader-v0.2.3...subheader-v0.2.4) (2022-09-20)
 
 
