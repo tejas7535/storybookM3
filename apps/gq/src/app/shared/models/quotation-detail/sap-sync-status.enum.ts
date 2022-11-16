@@ -1,5 +1,5 @@
 export enum SAP_SYNC_STATUS {
-  NOT_SYNCED = 'notSynced',
-  PARTIALLY_SYNCED = 'partiallySynced',
-  SYNCED = 'synced',
+  NOT_SYNCED = 0,
+  SYNCED = 1,
+  PARTIALLY_SYNCED = 2,
 }

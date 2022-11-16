@@ -78,23 +78,7 @@ export const getQuotationLoading = createSelector(
 
 export const getQuotationSapSyncStatus = createSelector(
   getProcessCaseState,
-  (state: ProcessCaseState): string => {
-    if (
-      state.quotation.item.quotationDetails.every(
-        (quotationDetail: QuotationDetail) => quotationDetail.syncInSap
-      )
-    ) {
-      return SAP_SYNC_STATUS.SYNCED;
-    } else if (
-      state.quotation.item.quotationDetails.every(
-        (quotationDetail: QuotationDetail) => !quotationDetail.syncInSap
-      )
-    ) {
-      return SAP_SYNC_STATUS.NOT_SYNCED;
-    } else {
-      return SAP_SYNC_STATUS.PARTIALLY_SYNCED;
-    }
-  }
+  (state: ProcessCaseState): SAP_SYNC_STATUS => state.quotation.sapSyncStatus
 );
 
 export const getSelectedQuotationIdentifier = createSelector(

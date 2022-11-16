@@ -14,7 +14,7 @@ import {
 import { CalculationType } from '../../../core/store/reducers/sap-price-details/models/calculation-type.enum';
 import { getNumberFilterRegex, LOCALE_DE, LOCALE_EN } from '../../constants';
 import { UserRoles } from '../../constants/user-roles.enum';
-import { Keyboard, Quotation } from '../../models';
+import { Keyboard, Quotation, QuotationStatus } from '../../models';
 import { PriceSource, QuotationDetail } from '../../models/quotation-detail';
 import { LastCustomerPriceCondition } from '../../models/quotation-detail/last-customer-price-condition.enum';
 import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
@@ -24,6 +24,7 @@ import { UomPipe } from '../../pipes/uom/uom.pipe';
 import { HelperService } from '../../services/helper-service/helper-service.service';
 import { PriceService } from '../../services/price-service/price.service';
 import {
+  CaseTableColumnFields,
   ChinaSpecificColumns,
   ColumnFields,
   GpcColumns,
@@ -119,6 +120,20 @@ export class ColumnUtilityService {
     }
 
     return columnDefs;
+  }
+
+  static filterQuotationStatusColumns(
+    colDef: ColDef,
+    displayStatus: QuotationStatus
+  ) {
+    if (
+      displayStatus !== QuotationStatus.ACTIVE &&
+      colDef.field === CaseTableColumnFields.SAP_SYNC_STATUS
+    ) {
+      return false;
+    }
+
+    return true;
   }
 
   static infoComparator(info1: any, info2: any): number {

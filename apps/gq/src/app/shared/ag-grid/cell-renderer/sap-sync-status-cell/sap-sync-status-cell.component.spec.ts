@@ -1,5 +1,6 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
+import { SAP_SYNC_STATUS } from '../../../models/quotation-detail/sap-sync-status.enum';
 import {
   SapStatusCellComponent,
   SapStatusCellComponentParams,
@@ -24,15 +25,28 @@ describe('SapStatusCellComponent', () => {
 
   describe('agInit', () => {
     const cellParams = {
-      value: true,
+      valueFormatted: '0',
       syncedText: 'synced',
       notSyncedText: 'notSynced',
+      partiallySyncedText: 'partiallySynced',
     } as SapStatusCellComponentParams;
 
-    test('should set syncedInSap Status', () => {
+    test('should set NOT_SYNCED Status', () => {
       component.agInit(cellParams);
 
-      expect(component.syncedInSap).toBe(true);
+      expect(component.syncedStatus).toEqual(SAP_SYNC_STATUS.NOT_SYNCED);
+    });
+
+    test('should set SYNCED Status', () => {
+      component.agInit({ ...cellParams, valueFormatted: '1' });
+
+      expect(component.syncedStatus).toEqual(SAP_SYNC_STATUS.SYNCED);
+    });
+
+    test('should set PARTIALLY_SYNCED Status', () => {
+      component.agInit({ ...cellParams, valueFormatted: '2' });
+
+      expect(component.syncedStatus).toEqual(SAP_SYNC_STATUS.PARTIALLY_SYNCED);
     });
   });
 });

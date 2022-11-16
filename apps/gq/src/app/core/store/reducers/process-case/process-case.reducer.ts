@@ -4,6 +4,7 @@ import { Action, createReducer, on } from '@ngrx/store';
 import { Quotation, SimulatedQuotation } from '../../../../shared/models';
 import { Customer } from '../../../../shared/models/customer';
 import { QuotationDetail } from '../../../../shared/models/quotation-detail';
+import { SAP_SYNC_STATUS } from '../../../../shared/models/quotation-detail/sap-sync-status.enum';
 import {
   MaterialTableItem,
   ValidationDescription,
@@ -62,6 +63,7 @@ export interface ProcessCaseState {
     errorMessage: string;
   };
   quotation: {
+    sapSyncStatus: SAP_SYNC_STATUS;
     quotationLoading: boolean;
     item: Quotation;
     simulatedItem?: SimulatedQuotation;
@@ -86,6 +88,7 @@ export const initialState: ProcessCaseState = {
     errorMessage: undefined,
   },
   quotation: {
+    sapSyncStatus: SAP_SYNC_STATUS.NOT_SYNCED,
     quotationLoading: false,
     item: undefined,
     simulatedItem: undefined,
@@ -165,6 +168,7 @@ export const processCaseReducer = createReducer(
       quotation: {
         ...state.quotation,
         item,
+        sapSyncStatus: item.sapSyncStatus,
         quotationLoading: false,
         errorMessage: undefined,
       },

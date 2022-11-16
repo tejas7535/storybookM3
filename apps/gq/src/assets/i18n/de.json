@@ -199,9 +199,9 @@
     },
     "itemId": "Position {{id}}",
     "sapStatusLabels": {
-      "notSynced": "Nicht mit SAP synchronisiert",
+      "notSynced": "Nicht synchronisiert",
       "synced": "Mit SAP synchronisiert",
-      "partiallySynced": "Teilweise mit SAP synchronisiert"
+      "partiallySynced": "Teilweise synchronisiert"
     },
     "customStatusBar": {
       "buttons": {

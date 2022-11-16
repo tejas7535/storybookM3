@@ -5,6 +5,7 @@ import { Observable, take } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 import {
+  ColDef,
   GetContextMenuItemsParams,
   GetMainMenuItemsParams,
   GridReadyEvent,
@@ -41,13 +42,14 @@ export class CaseTableComponent implements OnInit {
   ) {}
 
   public defaultColumnDefs = DEFAULT_COLUMN_DEFS;
-  public columnDefs = this.columnDefService.COLUMN_DEFS;
+  public columnDefs: ColDef[];
   public components = COMPONENTS;
   public localeText$: Observable<AgGridLocale>;
   public selectedRows: number[] = [];
 
   @Input() rowData: ViewQuotation[];
   @Input() statusBar: AgStatusBar;
+  @Input() displayStatus: number;
 
   ngOnInit(): void {
     this.localeText$ = this.localizationService.locale$;
@@ -57,6 +59,12 @@ export class CaseTableComponent implements OnInit {
       .subscribe((val) => {
         this.selectedRows = val;
       });
+    this.columnDefs = this.columnDefService.COLUMN_DEFS.filter((colDef) =>
+      ColumnUtilityService.filterQuotationStatusColumns(
+        colDef,
+        this.displayStatus
+      )
+    );
   }
 
   onGridReady(event: GridReadyEvent): void {

@@ -433,34 +433,14 @@ describe('Process Case Selector', () => {
   });
 
   describe('getQuotationSapSyncStatus', () => {
-    test('should return SYNCED if every quotationDetail is synced', () => {
+    test('should return SYNCED', () => {
       const syncedState = {
         ...fakeState,
         processCase: {
           ...fakeState.processCase,
           quotation: {
             ...fakeState.processCase.quotation,
-            item: {
-              ...fakeState.processCase.quotation.item,
-              quotationDetails:
-                (fakeState.processCase.quotation.item.quotationDetails = [
-                  {
-                    ...QUOTATION_DETAIL_MOCK,
-                    gqPositionId: '123',
-                    syncInSap: true,
-                  },
-                  {
-                    ...QUOTATION_DETAIL_MOCK,
-                    gqPositionId: '456',
-                    syncInSap: true,
-                  },
-                  {
-                    ...QUOTATION_DETAIL_MOCK,
-                    gqPositionId: '789',
-                    syncInSap: true,
-                  },
-                ]),
-            },
+            sapSyncStatus: 1,
           },
         },
       };
@@ -469,77 +449,39 @@ describe('Process Case Selector', () => {
         SAP_SYNC_STATUS.SYNCED
       );
     });
-    test('should return NOT_SYNCED if every quotationDetail is NOT synced', () => {
-      const notSyncedState = {
+
+    test('should return PARTIALLY_SYNCED', () => {
+      const syncedState = {
         ...fakeState,
         processCase: {
           ...fakeState.processCase,
           quotation: {
             ...fakeState.processCase.quotation,
-            item: {
-              ...fakeState.processCase.quotation.item,
-              quotationDetails:
-                (fakeState.processCase.quotation.item.quotationDetails = [
-                  {
-                    ...QUOTATION_DETAIL_MOCK,
-                    gqPositionId: '123',
-                    syncInSap: false,
-                  },
-                  {
-                    ...QUOTATION_DETAIL_MOCK,
-                    gqPositionId: '456',
-                    syncInSap: false,
-                  },
-                  {
-                    ...QUOTATION_DETAIL_MOCK,
-                    gqPositionId: '789',
-                    syncInSap: false,
-                  },
-                ]),
-            },
+            sapSyncStatus: 2,
           },
         },
       };
 
-      expect(
-        quotationSelectors.getQuotationSapSyncStatus(notSyncedState)
-      ).toEqual(SAP_SYNC_STATUS.NOT_SYNCED);
+      expect(quotationSelectors.getQuotationSapSyncStatus(syncedState)).toEqual(
+        SAP_SYNC_STATUS.PARTIALLY_SYNCED
+      );
     });
-    test('should return PARTIALLY_SYNCED if there are synced and not synced quotationDetails', () => {
-      const partiallySyncedState = {
+
+    test('should return NOT_SYNCED', () => {
+      const syncedState = {
         ...fakeState,
         processCase: {
           ...fakeState.processCase,
           quotation: {
             ...fakeState.processCase.quotation,
-            item: {
-              ...fakeState.processCase.quotation.item,
-              quotationDetails:
-                (fakeState.processCase.quotation.item.quotationDetails = [
-                  {
-                    ...QUOTATION_DETAIL_MOCK,
-                    gqPositionId: '123',
-                    syncInSap: false,
-                  },
-                  {
-                    ...QUOTATION_DETAIL_MOCK,
-                    gqPositionId: '456',
-                    syncInSap: true,
-                  },
-                  {
-                    ...QUOTATION_DETAIL_MOCK,
-                    gqPositionId: '789',
-                    syncInSap: false,
-                  },
-                ]),
-            },
+            sapSyncStatus: 0,
           },
         },
       };
 
-      expect(
-        quotationSelectors.getQuotationSapSyncStatus(partiallySyncedState)
-      ).toEqual(SAP_SYNC_STATUS.PARTIALLY_SYNCED);
+      expect(quotationSelectors.getQuotationSapSyncStatus(syncedState)).toEqual(
+        SAP_SYNC_STATUS.NOT_SYNCED
+      );
     });
   });
 });

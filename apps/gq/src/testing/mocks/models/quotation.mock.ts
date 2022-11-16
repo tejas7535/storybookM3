@@ -2,6 +2,7 @@ import { SapCallInProgress } from 'apps/gq/src/app/shared/models/quotation';
 
 import { Quotation } from '../../../app/shared/models';
 import { QuotationStatus } from '../../../app/shared/models/quotation/quotation-status.enum';
+import { SAP_SYNC_STATUS } from '../../../app/shared/models/quotation-detail';
 import { CUSTOMER_MOCK } from './customer.mock';
 import { QUOTATION_DETAIL_MOCK } from './quotation-details.mock';
 
@@ -30,4 +31,5 @@ export const QUOTATION_MOCK: Quotation = {
   statusTypeOfListedQuotation: QuotationStatus[
     QuotationStatus.ACTIVE
   ] as keyof typeof QuotationStatus,
+  sapSyncStatus: SAP_SYNC_STATUS.NOT_SYNCED,
 };

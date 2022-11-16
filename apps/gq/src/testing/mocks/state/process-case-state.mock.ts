@@ -1,4 +1,5 @@
 import { ProcessCaseState } from '../../../app/core/store/reducers/process-case/process-case.reducer';
+import { SAP_SYNC_STATUS } from '../../../app/shared/models/quotation-detail';
 import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../models';
 
 export const PROCESS_CASE_STATE_MOCK: ProcessCaseState = {
@@ -9,6 +10,7 @@ export const PROCESS_CASE_STATE_MOCK: ProcessCaseState = {
     errorMessage: undefined,
   },
   quotation: {
+    sapSyncStatus: SAP_SYNC_STATUS.NOT_SYNCED,
     quotationLoading: false,
     item: QUOTATION_MOCK,
     selectedQuotationDetail: undefined,

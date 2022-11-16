@@ -13,7 +13,8 @@
     "lastUpdatedDate": "Case zuletzt aktualisiert am",
     "gqId": "GQ Case",
     "sapId": "SAP Angebotsnummer",
-    "caseName": "Case Bezeichnung"
+    "caseName": "Case Bezeichnung",
+    "syncStatus": "Sync Status"
   },
   "caseCreation": {
     "importCase": {

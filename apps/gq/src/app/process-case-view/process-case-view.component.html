@@ -16,19 +16,18 @@
       <div
         class="relative h-5 w-5 rounded-full bg-opacity-20"
         [ngClass]="{
-          'bg-primary': (sapStatus$ | ngrxPush) === SAP_STATUS.SYNCED,
-          'bg-error': (sapStatus$ | ngrxPush) === SAP_STATUS.NOT_SYNCED,
-          'bg-nordic-blue':
-            (sapStatus$ | ngrxPush) === SAP_STATUS.PARTIALLY_SYNCED
+          'bg-nordic-blue': (sapStatus$ | ngrxPush) === synced,
+          'bg-gray-300': (sapStatus$ | ngrxPush) === notSynced,
+          'bg-opacity-100': (sapStatus$ | ngrxPush) === notSynced,
+          'bg-orange': (sapStatus$ | ngrxPush) === partiallySynced
         }"
       >
         <div
           class="absolute top-1 left-1 h-3 w-3 rounded-full"
           [ngClass]="{
-            'bg-primary': (sapStatus$ | ngrxPush) === SAP_STATUS.SYNCED,
-            'bg-error': (sapStatus$ | ngrxPush) === SAP_STATUS.NOT_SYNCED,
-            'bg-nordic-blue':
-              (sapStatus$ | ngrxPush) === SAP_STATUS.PARTIALLY_SYNCED
+            'bg-nordic-blue': (sapStatus$ | ngrxPush) === synced,
+            'bg-low-emphasis': (sapStatus$ | ngrxPush) === notSynced,
+            'bg-orange': (sapStatus$ | ngrxPush) === partiallySynced
           }"
         ></div>
       </div>
@@ -52,13 +51,21 @@
       <span
         class="pl-9 pt-2 text-caption"
         [ngClass]="{
-          'text-link': (sapStatus$ | ngrxPush) === SAP_STATUS.SYNCED,
-          'text-error': (sapStatus$ | ngrxPush) === SAP_STATUS.NOT_SYNCED,
-          'text-info': (sapStatus$ | ngrxPush) === SAP_STATUS.PARTIALLY_SYNCED
+          'text-info': (sapStatus$ | ngrxPush) === synced,
+          'text-medium-emphasis': (sapStatus$ | ngrxPush) === notSynced,
+          'text-orange': (sapStatus$ | ngrxPush) === partiallySynced
         }"
         *transloco="let t; read: 'shared.sapStatusLabels'"
       >
-        {{ t(sapStatus$ | ngrxPush) }}
+        <ng-container *ngIf="(sapStatus$ | ngrxPush) === synced">
+          {{ t('synced') }}
+        </ng-container>
+        <ng-container *ngIf="(sapStatus$ | ngrxPush) === notSynced">
+          {{ t('notSynced') }}
+        </ng-container>
+        <ng-container *ngIf="(sapStatus$ | ngrxPush) === partiallySynced">
+          {{ t('partiallySynced') }}
+        </ng-container>
       </span>
       <gq-customer-header
         [customer]="quotation.customer"

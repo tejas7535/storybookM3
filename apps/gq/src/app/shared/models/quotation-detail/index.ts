@@ -9,4 +9,5 @@ export * from './plant-material-detail.model';
 export * from './price-source.enum';
 export * from './quotation-detail.model';
 export * from './sap-price-condition.enum';
+export * from './sap-sync-status.enum';
 export * from './update-price.model';

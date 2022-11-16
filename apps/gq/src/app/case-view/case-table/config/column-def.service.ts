@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 
 import { translate } from '@ngneat/transloco';
-import { ColDef } from 'ag-grid-enterprise';
+import { ColDef, ValueFormatterParams } from 'ag-grid-enterprise';
 
+import { CaseTableColumnFields } from '../../../shared/ag-grid/constants/column-fields.enum';
 import {
   FILTER_PARAMS,
   MULTI_COLUMN_FILTER,
@@ -11,6 +12,7 @@ import {
 } from '../../../shared/ag-grid/constants/filters';
 import { ColumnUtilityService } from '../../../shared/ag-grid/services/column-utility.service';
 import { timestampRegex } from '../../../shared/constants';
+import { SAP_SYNC_STATUS } from '../../../shared/models/quotation-detail/sap-sync-status.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -51,7 +53,7 @@ export class ColumnDefService {
       headerCheckboxSelectionFilteredOnly: true,
       checkboxSelection: true,
       headerName: translate('caseView.caseTable.gqId'),
-      field: 'gqId',
+      field: CaseTableColumnFields.GQ_ID,
       valueFormatter: ColumnUtilityService.idFormatter,
       pinned: 'left',
       cellRenderer: 'gqIdComponent',
@@ -60,40 +62,73 @@ export class ColumnDefService {
     },
     {
       headerName: translate('caseView.caseTable.creationDate'),
-      field: 'gqCreated',
+      field: CaseTableColumnFields.GQ_CREATED,
       valueFormatter: (data) =>
         this.columnUtilityService.dateFormatter(data.data.gqCreated),
       filter: MULTI_COLUMN_FILTER,
       filterParams: this.DATE_FILTER_PARAMS,
     },
     {
+      headerName: translate('caseView.caseTable.syncStatus'),
+      field: CaseTableColumnFields.SAP_SYNC_STATUS,
+      filterParams: {
+        ...FILTER_PARAMS,
+        valueFormatter: (params: ValueFormatterParams) => {
+          if (params.value === SAP_SYNC_STATUS.SYNCED.toString()) {
+            return translate('shared.sapStatusLabels.synced');
+          } else if (params.value === SAP_SYNC_STATUS.NOT_SYNCED.toString()) {
+            return translate('shared.sapStatusLabels.notSynced');
+          } else {
+            return translate('shared.sapStatusLabels.partiallySynced');
+          }
+        },
+      },
+      valueFormatter: (params: ValueFormatterParams) => {
+        if (params.value === SAP_SYNC_STATUS.NOT_SYNCED) {
+          return SAP_SYNC_STATUS.NOT_SYNCED.toString();
+        } else if (params.value === SAP_SYNC_STATUS.SYNCED) {
+          return SAP_SYNC_STATUS.SYNCED.toString();
+        } else {
+          return SAP_SYNC_STATUS.PARTIALLY_SYNCED.toString();
+        }
+      },
+      cellRenderer: 'SapStatusCellComponent',
+      cellRendererParams: {
+        syncedText: translate('shared.sapStatusLabels.synced'),
+        notSyncedText: translate('shared.sapStatusLabels.notSynced'),
+        partiallySyncedText: translate(
+          'shared.sapStatusLabels.partiallySynced'
+        ),
+      },
+    },
+    {
       headerName: translate('caseView.caseTable.caseName'),
-      field: 'caseName',
+      field: CaseTableColumnFields.CASE_NAME,
       filterParams: FILTER_PARAMS,
     },
     {
       headerName: translate('caseView.caseTable.sapId'),
-      field: 'sapId',
+      field: CaseTableColumnFields.SAP_ID,
       filterParams: FILTER_PARAMS,
     },
     {
       headerName: translate('caseView.caseTable.createdBy'),
-      field: 'sapCreatedByUser.name',
+      field: CaseTableColumnFields.SAP_CREATED_BY,
       filterParams: FILTER_PARAMS,
     },
     {
       headerName: translate('caseView.caseTable.customerNumber'),
-      field: 'customerIdentifiers.customerId',
+      field: CaseTableColumnFields.CUSTOMER_NUMBER,
       filterParams: FILTER_PARAMS,
     },
     {
       headerName: translate('caseView.caseTable.customerName'),
-      field: 'customerName',
+      field: CaseTableColumnFields.CUSTOMER_NAME,
       filterParams: FILTER_PARAMS,
     },
     {
       headerName: translate('caseView.caseTable.lastUpdatedDate'),
-      field: 'gqLastUpdated',
+      field: CaseTableColumnFields.LAST_UPDATED,
       valueFormatter: (data) =>
         this.columnUtilityService.dateFormatter(data.data.gqLastUpdated),
       sort: 'desc',

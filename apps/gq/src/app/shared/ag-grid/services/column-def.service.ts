@@ -10,6 +10,7 @@ import {
 
 import { EditCellData } from '../../ag-grid/cell-renderer/models/edit-cell-class-params.model';
 import { timestampRegex } from '../../constants';
+import { SAP_SYNC_STATUS } from '../../models/quotation-detail/sap-sync-status.enum';
 import {
   FreeStockCellComponent,
   FreeStockCellParams,
@@ -92,12 +93,15 @@ export class ColumnDefService {
       },
       valueFormatter: (params: ValueFormatterParams) =>
         params.value
-          ? translate('shared.sapStatusLabels.synced')
-          : translate('shared.sapStatusLabels.notSynced'),
+          ? SAP_SYNC_STATUS.SYNCED.toString()
+          : SAP_SYNC_STATUS.NOT_SYNCED.toString(),
       cellRenderer: 'SapStatusCellComponent',
       cellRendererParams: {
         syncedText: translate('shared.sapStatusLabels.synced'),
         notSyncedText: translate('shared.sapStatusLabels.notSynced'),
+        partiallySyncedText: translate(
+          'shared.sapStatusLabels.partiallySynced'
+        ),
       },
     },
     {

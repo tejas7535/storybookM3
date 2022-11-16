@@ -1,5 +1,6 @@
 import { Customer } from '../customer';
 import { QuotationDetail } from '../quotation-detail';
+import { SAP_SYNC_STATUS } from '../quotation-detail/sap-sync-status.enum';
 import { User } from '../user.model';
 import { QuotationStatus } from './quotation-status.enum';
 import { SapCallInProgress } from './sap-call-in-progress.enum';
@@ -27,4 +28,5 @@ export class Quotation {
   public calculationInProgress: boolean;
   public sapCallInProgress: SapCallInProgress;
   public statusTypeOfListedQuotation: keyof typeof QuotationStatus;
+  public sapSyncStatus: SAP_SYNC_STATUS;
 }

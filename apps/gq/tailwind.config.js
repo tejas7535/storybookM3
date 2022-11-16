@@ -1,4 +1,6 @@
 const { createGlobPatternsForDependencies } = require('@nrwl/angular/tailwind');
+const colors = require('../../libs/shared/ui/styles/src/lib/tailwind/colors');
+
 const { join } = require('path');
 const {
   schaefflerTailwindPreset,
@@ -18,6 +20,10 @@ module.exports = {
       colors: {
         'navy-blue': '#16223B',
         'navy-gray': '#444E61',
+        'gray-300': '#F0F0F0',
+      },
+      textColor: {
+        orange: colors.orange,
       },
     },
   },

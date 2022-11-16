@@ -1,12 +1,37 @@
-<span
-  class="rounded-full bg-opacity-10 px-2 py-1 text-caption"
-  [ngClass]="{
-    'text-link': syncedInSap,
-    'bg-primary': syncedInSap,
-    'text-error': !syncedInSap,
-    'bg-error': !syncedInSap
-  }"
-  *ngIf="params?.syncedText && params?.notSyncedText"
->
-  {{ syncedInSap ? params.syncedText : params.notSyncedText }}
-</span>
+<div class="flex h-full items-center overflow-hidden">
+  <div
+    class="flex items-center overflow-hidden rounded-full bg-opacity-10 px-2 py-1 text-caption uppercase"
+    [ngClass]="{
+      'text-info': syncedStatus === synced,
+      'bg-nordic-blue': syncedStatus === synced,
+      'text-low-emphasis': syncedStatus === notSynced,
+      'bg-gray-300': syncedStatus === notSynced,
+      'bg-opacity-100': syncedStatus === notSynced,
+      'text-orange': syncedStatus === partiallySynced,
+      'bg-orange': syncedStatus === partiallySynced
+    }"
+    *ngIf="
+      params?.syncedText && params?.notSyncedText && params?.partiallySyncedText
+    "
+  >
+    <span
+      class="mr-2 block h-2 w-2 min-w-[0.5rem] rounded-full"
+      [ngClass]="{
+        'bg-nordic-blue': syncedStatus === synced,
+        'bg-low-emphasis': syncedStatus === notSynced,
+        'bg-orange': syncedStatus === partiallySynced
+      }"
+    ></span>
+    <span class="truncate">
+      <ng-container *ngIf="syncedStatus === synced">
+        {{ params.syncedText }}
+      </ng-container>
+      <ng-container *ngIf="syncedStatus === notSynced">
+        {{ params.notSyncedText }}
+      </ng-container>
+      <ng-container *ngIf="syncedStatus === partiallySynced">
+        {{ params.partiallySyncedText }}
+      </ng-container>
+    </span>
+  </div>
+</div>

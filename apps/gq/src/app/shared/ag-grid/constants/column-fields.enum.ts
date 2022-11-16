@@ -49,6 +49,18 @@ export enum SapPriceDetailsColumnFields {
   SAP_VALID_TO = 'validTo',
 }
 
+export enum CaseTableColumnFields {
+  GQ_ID = 'gqId',
+  GQ_CREATED = 'gqCreated',
+  SAP_SYNC_STATUS = 'sapSyncStatus',
+  CASE_NAME = 'caseName',
+  SAP_ID = 'sapId',
+  SAP_CREATED_BY = 'sapCreatedByUser.name',
+  CUSTOMER_NUMBER = 'customerIdentifiers.customerId',
+  CUSTOMER_NAME = 'customerName',
+  LAST_UPDATED = 'gqLastUpdated',
+}
+
 export const PriceColumns = [
   ColumnFields.PRICE,
   ColumnFields.NET_VALUE,

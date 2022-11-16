@@ -8,6 +8,7 @@ import { ViewToggle } from '@schaeffler/view-toggle';
 
 import {
   getDeleteLoading,
+  getDisplayStatus,
   getQuotations,
   getQuotationsLoading,
   getStatusBarForQuotationStatus,
@@ -27,6 +28,7 @@ export class CaseViewComponent implements OnInit {
   public displayedQuotations$: Observable<ViewQuotation[]>;
   public quotationsLoading$: Observable<boolean>;
   public deleteLoading$: Observable<boolean>;
+  public displayStatus$: Observable<number>;
 
   constructor(private readonly store: Store) {}
 
@@ -36,6 +38,7 @@ export class CaseViewComponent implements OnInit {
     this.displayedQuotations$ = this.store.select(getQuotations);
     this.quotationsLoading$ = this.store.select(getQuotationsLoading);
     this.deleteLoading$ = this.store.select(getDeleteLoading);
+    this.displayStatus$ = this.store.select(getDisplayStatus);
   }
 
   onViewToggle(view: ViewToggle) {

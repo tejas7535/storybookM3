@@ -13,7 +13,8 @@
     "lastUpdatedDate": "Case last updated on",
     "gqId": "GQ Case",
     "sapId": "SAP Quotation",
-    "caseName": "Case name"
+    "caseName": "Case name",
+    "syncStatus": "Sync Status"
   },
   "caseCreation": {
     "importCase": {
