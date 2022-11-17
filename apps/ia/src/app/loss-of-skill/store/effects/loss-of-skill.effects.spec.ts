@@ -18,7 +18,11 @@ import {
   SelectedFilter,
 } from '../../../shared/models';
 import { LossOfSkillService } from '../../loss-of-skill.service';
-import { LostJobProfilesResponse, OpenPosition } from '../../models';
+import {
+  LostJobProfilesResponse,
+  OpenPosition,
+  WorkforceResponse,
+} from '../../models';
 import {
   loadJobProfiles,
   loadJobProfilesFailure,
@@ -299,7 +303,7 @@ describe('LossOfSkill Effects', () => {
     test(
       'should return loadLossOfSkillWorkforceSuccess action when REST call is successful',
       marbles((m) => {
-        const data: ExitEntryEmployeesResponse = {
+        const data: WorkforceResponse = {
           employees: [],
           responseModified: false,
         };

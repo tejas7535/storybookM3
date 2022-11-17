@@ -1,7 +1,11 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
 import { ExitEntryEmployeesResponse } from '../../overview/models';
-import { LostJobProfilesResponse, OpenPosition } from '../models';
+import {
+  LostJobProfilesResponse,
+  OpenPosition,
+  WorkforceResponse,
+} from '../models';
 import {
   loadJobProfiles,
   loadJobProfilesFailure,
@@ -27,7 +31,7 @@ export interface LossOfSkillState {
   };
   workforce: {
     loading: boolean;
-    data: ExitEntryEmployeesResponse;
+    data: WorkforceResponse;
     errorMesssage: string;
   };
   leavers: {

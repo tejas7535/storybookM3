@@ -8,7 +8,11 @@ import { withCache } from '@ngneat/cashew';
 import { ExitEntryEmployeesResponse } from '../overview/models';
 import { ParamsCreatorService } from '../shared/http/params-creator.service';
 import { ApiVersion, EmployeesRequest } from '../shared/models';
-import { LostJobProfilesResponse, OpenPosition } from './models';
+import {
+  LostJobProfilesResponse,
+  OpenPosition,
+  WorkforceResponse,
+} from './models';
 
 @Injectable({
   providedIn: 'root',
@@ -61,7 +65,7 @@ export class LossOfSkillService {
 
   getWorkforce(
     employeesRequest: EmployeesRequest
-  ): Observable<ExitEntryEmployeesResponse> {
+  ): Observable<WorkforceResponse> {
     const params = this.paramsCreator.createHttpParamsForPositionDescription(
       employeesRequest.filterDimension,
       employeesRequest.value,
@@ -69,7 +73,7 @@ export class LossOfSkillService {
       employeesRequest.positionDescription
     );
 
-    return this.http.get<ExitEntryEmployeesResponse>(
+    return this.http.get<WorkforceResponse>(
       `${ApiVersion.V1}/${this.WORKFORCE}`,
       {
         params,

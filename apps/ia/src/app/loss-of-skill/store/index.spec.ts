@@ -2,7 +2,11 @@ import { Action } from '@ngrx/store';
 
 import { ExitEntryEmployeesResponse } from '../../overview/models';
 import { Employee, EmployeesRequest } from '../../shared/models';
-import { LostJobProfilesResponse, OpenPosition } from '../models';
+import {
+  LostJobProfilesResponse,
+  OpenPosition,
+  WorkforceResponse,
+} from '../models';
 import { initialState, lossOfSkillReducer, LossOfSkillState, reducer } from '.';
 import {
   loadJobProfiles,
@@ -141,7 +145,7 @@ describe('LossOfSkill Reducer', () => {
       const fakeState: LossOfSkillState = {
         ...initialState,
         workforce: {
-          data: {} as ExitEntryEmployeesResponse,
+          data: {} as WorkforceResponse,
           errorMesssage: undefined,
           loading: false,
         },
@@ -155,7 +159,7 @@ describe('LossOfSkill Reducer', () => {
 
   describe('loadLossOfSkillWorkforceSuccess', () => {
     test('should set loading as false and set data', () => {
-      const data: ExitEntryEmployeesResponse = {
+      const data: WorkforceResponse = {
         employees: [],
         responseModified: true,
       };
@@ -165,7 +169,7 @@ describe('LossOfSkill Reducer', () => {
       const fakeState: LossOfSkillState = {
         ...initialState,
         workforce: {
-          data: {} as ExitEntryEmployeesResponse,
+          data: {} as WorkforceResponse,
           errorMesssage: undefined,
           loading: true,
         },
@@ -186,7 +190,7 @@ describe('LossOfSkill Reducer', () => {
       const fakeState: LossOfSkillState = {
         ...initialState,
         workforce: {
-          data: {} as ExitEntryEmployeesResponse,
+          data: {} as WorkforceResponse,
           errorMesssage: undefined,
           loading: true,
         },
@@ -252,7 +256,7 @@ describe('LossOfSkill Reducer', () => {
       const fakeState: LossOfSkillState = {
         ...initialState,
         workforce: {
-          data: {} as ExitEntryEmployeesResponse,
+          data: {} as WorkforceResponse,
           errorMesssage: undefined,
           loading: true,
         },

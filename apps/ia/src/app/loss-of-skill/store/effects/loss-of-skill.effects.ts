@@ -14,7 +14,11 @@ import { getCurrentFilters } from '../../../core/store/selectors';
 import { ExitEntryEmployeesResponse } from '../../../overview/models';
 import { EmployeesRequest } from '../../../shared/models';
 import { LossOfSkillService } from '../../loss-of-skill.service';
-import { LostJobProfilesResponse, OpenPosition } from '../../models';
+import {
+  LostJobProfilesResponse,
+  OpenPosition,
+  WorkforceResponse,
+} from '../../models';
 import {
   loadJobProfiles,
   loadJobProfilesFailure,
@@ -110,7 +114,7 @@ export class LossOfSkillEffects {
       })),
       switchMap((request: EmployeesRequest) =>
         this.lossOfSkillService.getWorkforce(request).pipe(
-          map((data: ExitEntryEmployeesResponse) =>
+          map((data: WorkforceResponse) =>
             loadLossOfSkillWorkforceSuccess({ data })
           ),
           catchError((error) =>

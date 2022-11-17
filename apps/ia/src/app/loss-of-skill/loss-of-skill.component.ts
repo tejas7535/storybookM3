@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { ExitEntryEmployeesResponse } from '../overview/models';
-import { JobProfile } from './models';
+import { JobProfile, WorkforceResponse } from './models';
 import {
   loadLossOfSkillLeavers,
   loadLossOfSkillWorkforce,
@@ -26,7 +26,7 @@ import {
 export class LossOfSkillComponent implements OnInit {
   lostJobProfilesLoading$: Observable<boolean>;
   lostJobProfilesData$: Observable<(JobProfile & { openPositions: number })[]>;
-  lossOfSkillWorkforceData$: Observable<ExitEntryEmployeesResponse>;
+  lossOfSkillWorkforceData$: Observable<WorkforceResponse>;
   lossOfSkillWorkforceLoading$: Observable<boolean>;
   lossOfSkillLeaversData$: Observable<ExitEntryEmployeesResponse>;
   lossOfSkillLeaversLoading$: Observable<boolean>;

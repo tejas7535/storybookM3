@@ -1,6 +1,10 @@
 import { ExitEntryEmployeesResponse } from '../../../overview/models';
 import { EmployeesRequest } from '../../../shared/models';
-import { LostJobProfilesResponse, OpenPosition } from '../../models';
+import {
+  LostJobProfilesResponse,
+  OpenPosition,
+  WorkforceResponse,
+} from '../../models';
 import {
   loadJobProfiles,
   loadJobProfilesFailure,
@@ -90,7 +94,7 @@ describe('LossOfSkill Actions', () => {
   });
 
   test('loadLossOfSkillWorkforceSuccess', () => {
-    const data = {} as ExitEntryEmployeesResponse;
+    const data = {} as WorkforceResponse;
     const action = loadLossOfSkillWorkforceSuccess({ data });
 
     expect(action).toEqual({

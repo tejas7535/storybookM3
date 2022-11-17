@@ -16,7 +16,7 @@ import { ExitEntryEmployeesResponse } from '../../overview/models';
 import { EmployeeListDialogComponent } from '../../shared/employee-list-dialog/employee-list-dialog.component';
 import { EmployeeListDialogMeta } from '../../shared/employee-list-dialog/employee-list-dialog-meta.model';
 import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
-import { JobProfile } from '../models';
+import { JobProfile, WorkforceResponse } from '../models';
 import { AmountCellRendererComponent } from './amount-cell-renderer/amount-cell-renderer.component';
 
 type CellType = 'workforce' | 'leavers';
@@ -54,9 +54,9 @@ export class LostJobProfilesComponent implements OnChanges {
     return this._leaversLoading;
   }
 
-  private _workforceData: ExitEntryEmployeesResponse;
+  private _workforceData: WorkforceResponse;
 
-  @Input() set workforceData(workforceData: ExitEntryEmployeesResponse) {
+  @Input() set workforceData(workforceData: WorkforceResponse) {
     this._workforceData = workforceData;
     if (workforceData) {
       this.workforceDialogData.employees = workforceData.employees;
