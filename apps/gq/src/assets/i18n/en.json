@@ -201,7 +201,14 @@
     "sapStatusLabels": {
       "notSynced": "Not synced",
       "synced": "Synced with SAP",
-      "partiallySynced": "Partially synced"
+      "partiallySynced": "Partially synced",
+      "syncFailed": "Sync failed",
+      "errorCodes": {
+        "SDG101": "Material is not available in Sales Org / Distr. Channel",
+        "SDG102": "Material has status T (dead) and is not available for sale",
+        "SDG103": "Material is blocked due to customer protection",
+        "SDG1000": "Error syncing with SAP"
+      }
     },
     "customStatusBar": {
       "buttons": {

@@ -5,6 +5,7 @@ import { MaterialDetails } from './material-details.model';
 import { MaterialStockByPlant } from './material-stock-by-plant.model';
 import { Plant } from './plant.model';
 import { PriceSource } from './price-source.enum';
+import { SAP_ERROR_MESSAGE_CODE } from './sap-error-message-code.enum';
 import { SapPriceCondition } from './sap-price-condition.enum';
 export class QuotationDetail {
   public quotationId: string;
@@ -50,6 +51,7 @@ export class QuotationDetail {
   public strategicMaterial: string;
   public syncInSap: boolean;
   public deliveryUnit: number;
+  public sapSyncErrorCode: SAP_ERROR_MESSAGE_CODE;
 
   // properties added in GQ application
   public priceDiff: number;

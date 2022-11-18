@@ -83,23 +83,7 @@ export class ColumnDefService {
           }
         },
       },
-      valueFormatter: (params: ValueFormatterParams) => {
-        if (params.value === SAP_SYNC_STATUS.NOT_SYNCED) {
-          return SAP_SYNC_STATUS.NOT_SYNCED.toString();
-        } else if (params.value === SAP_SYNC_STATUS.SYNCED) {
-          return SAP_SYNC_STATUS.SYNCED.toString();
-        } else {
-          return SAP_SYNC_STATUS.PARTIALLY_SYNCED.toString();
-        }
-      },
       cellRenderer: 'SapStatusCellComponent',
-      cellRendererParams: {
-        syncedText: translate('shared.sapStatusLabels.synced'),
-        notSyncedText: translate('shared.sapStatusLabels.notSynced'),
-        partiallySyncedText: translate(
-          'shared.sapStatusLabels.partiallySynced'
-        ),
-      },
     },
     {
       headerName: translate('caseView.caseTable.caseName'),

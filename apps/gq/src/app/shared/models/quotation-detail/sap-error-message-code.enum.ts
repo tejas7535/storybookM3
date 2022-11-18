@@ -1,0 +1,6 @@
+export enum SAP_ERROR_MESSAGE_CODE {
+  SDG101 = 'SDG101',
+  SDG102 = 'SDG102',
+  SDG103 = 'SDG103',
+  SDG1000 = 'SDG1000',
+}

@@ -4,6 +4,7 @@ import {
   MaterialDetails,
   PriceSource,
   QuotationDetail,
+  SAP_ERROR_MESSAGE_CODE,
   SapPriceCondition,
 } from '../../../app/shared/models/quotation-detail';
 import { LAST_OFFER_DETAIL_MOCK } from './last-offer-detail.mock';
@@ -79,6 +80,7 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   strategicMaterial: 'Y-PT',
   sapVolumeScale: 0.5,
   deliveryUnit: 1,
+  sapSyncErrorCode: SAP_ERROR_MESSAGE_CODE.SDG1000,
 };
 
 export const QUOTATION_DETAILS_MOCK = [

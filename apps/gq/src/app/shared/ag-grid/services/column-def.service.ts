@@ -10,7 +10,7 @@ import {
 
 import { EditCellData } from '../../ag-grid/cell-renderer/models/edit-cell-class-params.model';
 import { timestampRegex } from '../../constants';
-import { SAP_SYNC_STATUS } from '../../models/quotation-detail/sap-sync-status.enum';
+import { SAP_SYNC_STATUS } from '../../models/quotation-detail';
 import {
   FreeStockCellComponent,
   FreeStockCellParams,
@@ -86,23 +86,45 @@ export class ColumnDefService {
       field: ColumnFields.SAP_STATUS,
       filterParams: {
         ...FILTER_PARAMS,
-        valueFormatter: (params: ValueFormatterParams) =>
-          params.value === 'true'
-            ? translate('shared.sapStatusLabels.synced')
-            : translate('shared.sapStatusLabels.notSynced'),
+        valueFormatter: (params: ValueFormatterParams) => {
+          switch (params.value) {
+            case SAP_SYNC_STATUS.SYNCED.toString(): {
+              return translate('shared.sapStatusLabels.synced');
+            }
+            case SAP_SYNC_STATUS.NOT_SYNCED.toString(): {
+              return translate('shared.sapStatusLabels.notSynced');
+            }
+            case SAP_SYNC_STATUS.SYNC_FAILED.toString(): {
+              return translate('shared.sapStatusLabels.syncFailed');
+            }
+            default: {
+              return params.value;
+            }
+          }
+        },
       },
-      valueFormatter: (params: ValueFormatterParams) =>
-        params.value
+      valueFormatter: (params: ValueFormatterParams) => {
+        if (!params.data.syncInSap && params.data.sapSyncErrorCode) {
+          return translate('shared.sapStatusLabels.syncFailed');
+        }
+
+        return params.data.syncInSap
+          ? translate('shared.sapStatusLabels.synced')
+          : translate('shared.sapStatusLabels.notSynced');
+      },
+      valueGetter: (params: ValueGetterParams) => {
+        // We need to use valueGetter here to keep the correct value formatter for excel
+        // If the quotation detail is not synced and there is
+        // an error message available it means the sync failed (GQUOTE-1886)
+        if (!params.data.syncInSap && params.data.sapSyncErrorCode) {
+          return SAP_SYNC_STATUS.SYNC_FAILED.toString();
+        }
+
+        return params.data.syncInSap
           ? SAP_SYNC_STATUS.SYNCED.toString()
-          : SAP_SYNC_STATUS.NOT_SYNCED.toString(),
-      cellRenderer: 'SapStatusCellComponent',
-      cellRendererParams: {
-        syncedText: translate('shared.sapStatusLabels.synced'),
-        notSyncedText: translate('shared.sapStatusLabels.notSynced'),
-        partiallySyncedText: translate(
-          'shared.sapStatusLabels.partiallySynced'
-        ),
+          : SAP_SYNC_STATUS.NOT_SYNCED.toString();
       },
+      cellRenderer: 'SapStatusCellComponent',
     },
     {
       headerName: translate('shared.quotationDetailsTable.materialDescription'),

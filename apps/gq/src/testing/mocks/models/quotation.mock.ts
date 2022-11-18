@@ -1,6 +1,5 @@
-import { SapCallInProgress } from 'apps/gq/src/app/shared/models/quotation';
-
 import { Quotation } from '../../../app/shared/models';
+import { SapCallInProgress } from '../../../app/shared/models/quotation';
 import { QuotationStatus } from '../../../app/shared/models/quotation/quotation-status.enum';
 import { SAP_SYNC_STATUS } from '../../../app/shared/models/quotation-detail';
 import { CUSTOMER_MOCK } from './customer.mock';

@@ -1,36 +1,45 @@
-<div class="flex h-full items-center overflow-hidden">
+<div
+  class="flex h-full items-center overflow-hidden"
+  *transloco="let t; read: 'shared.sapStatusLabels'"
+>
   <div
-    class="flex items-center overflow-hidden rounded-full bg-opacity-10 px-2 py-1 text-caption uppercase"
+    class="flex items-center overflow-hidden rounded-full bg-opacity-10 px-3 py-1 text-caption uppercase"
     [ngClass]="{
       'text-info': syncedStatus === synced,
       'bg-nordic-blue': syncedStatus === synced,
       'text-low-emphasis': syncedStatus === notSynced,
       'bg-gray-300': syncedStatus === notSynced,
-      'bg-opacity-100': syncedStatus === notSynced,
+      '!bg-opacity-100': syncedStatus === notSynced,
       'text-orange': syncedStatus === partiallySynced,
-      'bg-orange': syncedStatus === partiallySynced
+      'bg-orange': syncedStatus === partiallySynced,
+      'bg-error': syncedStatus === syncFailed,
+      'text-error': syncedStatus === syncFailed
     }"
-    *ngIf="
-      params?.syncedText && params?.notSyncedText && params?.partiallySyncedText
-    "
   >
     <span
-      class="mr-2 block h-2 w-2 min-w-[0.5rem] rounded-full"
+      class="mr-1 block min-h-[6px] min-w-[6px] rounded-full"
       [ngClass]="{
         'bg-nordic-blue': syncedStatus === synced,
         'bg-low-emphasis': syncedStatus === notSynced,
-        'bg-orange': syncedStatus === partiallySynced
+        'bg-orange': syncedStatus === partiallySynced,
+        'bg-error': syncedStatus === syncFailed
       }"
     ></span>
-    <span class="truncate">
+    <span
+      class="truncate text-[8px] font-bold"
+      [matTooltip]="errorCode ? t('errorCodes.' + errorCode) : undefined"
+    >
       <ng-container *ngIf="syncedStatus === synced">
-        {{ params.syncedText }}
+        {{ t('synced') }}
       </ng-container>
       <ng-container *ngIf="syncedStatus === notSynced">
-        {{ params.notSyncedText }}
+        {{ t('notSynced') }}
       </ng-container>
       <ng-container *ngIf="syncedStatus === partiallySynced">
-        {{ params.partiallySyncedText }}
+        {{ t('partiallySynced') }}
+      </ng-container>
+      <ng-container *ngIf="syncedStatus === syncFailed">
+        {{ t('syncFailed') }}
       </ng-container>
     </span>
   </div>

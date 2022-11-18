@@ -201,7 +201,14 @@
     "sapStatusLabels": {
       "notSynced": "Nicht synchronisiert",
       "synced": "Mit SAP synchronisiert",
-      "partiallySynced": "Teilweise synchronisiert"
+      "partiallySynced": "Teilweise synchronisiert",
+      "syncFailed": "Synchronisierung fehlgeschlagen",
+      "errorCodes": {
+        "SDG101": "Das Material steht in Sales Org / Vertriebskanal nicht zur Verfügung",
+        "SDG102": "Material hat Status T (tot) und wird nicht mehr verkauft",
+        "SDG103": "Das Material ist aufgrund von Kundenschutz gesperrt",
+        "SDG1000": "Fehler bei der Synchronisierung mit SAP"
+      }
     },
     "customStatusBar": {
       "buttons": {
