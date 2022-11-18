@@ -10,7 +10,6 @@ import {
 } from '../../../../core/store/reducers/create-case/models';
 import { ApiVersion, Quotation } from '../../../models';
 import { QuotationStatus } from '../../../models/quotation/quotation-status.enum';
-import { QuotationDetail } from '../../../models/quotation-detail';
 import { CreateCustomerCase } from '../search-service/models/create-customer-case.model';
 import { GetQuotationsResponse } from './models/get-quotations-response.interface';
 import { QuotationPaths } from './models/quotation-paths.enum';
@@ -24,17 +23,13 @@ export class QuotationService {
 
   constructor(private readonly http: HttpClient) {}
 
-  public uploadSelectionToSap(
-    gqPositionIds: string[]
-  ): Observable<QuotationDetail[]> {
-    return this.http
-      .post<Quotation[]>(
-        `${ApiVersion.V1}/${QuotationPaths.PATH_UPLOAD_SELECTION}`,
-        {
-          gqPositionIds,
-        }
-      )
-      .pipe(map((quotations: Quotation[]) => quotations[0].quotationDetails));
+  public uploadSelectionToSap(gqPositionIds: string[]): Observable<Quotation> {
+    return this.http.post<Quotation>(
+      `${ApiVersion.V1}/${QuotationPaths.PATH_UPLOAD_SELECTION}`,
+      {
+        gqPositionIds,
+      }
+    );
   }
   public refreshSapPricing(gqId: number): Observable<Quotation> {
     return this.http.get<Quotation>(

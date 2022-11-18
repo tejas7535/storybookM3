@@ -445,19 +445,16 @@ export const processCaseReducer = createReducer(
   ),
   on(
     uploadSelectionToSapSuccess,
-    (
-      state: ProcessCaseState,
-      { updatedQuotationDetails }
-    ): ProcessCaseState => ({
+    (state: ProcessCaseState, { updatedQuotation }): ProcessCaseState => ({
       ...state,
       quotation: {
         ...state.quotation,
         updateLoading: false,
         item: {
-          ...state.quotation.item,
+          ...updatedQuotation,
           quotationDetails: state.quotation.item.quotationDetails.map(
             (oldQuotationDetail: QuotationDetail) => {
-              const idx = updatedQuotationDetails.findIndex(
+              const idx = updatedQuotation.quotationDetails.findIndex(
                 (updatedQuotationDetail: QuotationDetail) =>
                   updatedQuotationDetail.gqPositionId ===
                   oldQuotationDetail.gqPositionId
@@ -467,7 +464,7 @@ export const processCaseReducer = createReducer(
                 return oldQuotationDetail;
               }
 
-              return updatedQuotationDetails[idx];
+              return updatedQuotation.quotationDetails[idx];
             }
           ),
         },

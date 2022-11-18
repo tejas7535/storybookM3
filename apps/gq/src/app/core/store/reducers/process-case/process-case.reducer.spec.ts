@@ -552,7 +552,7 @@ describe('Quotation Reducer', () => {
     describe('uploadSelectionToSapSuccess', () => {
       test('should set loading false', () => {
         const action = uploadSelectionToSapSuccess({
-          updatedQuotationDetails: [],
+          updatedQuotation: QUOTATION_MOCK,
         });
         const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
         expect(state.quotation.updateLoading).toBeFalsy();
@@ -587,12 +587,25 @@ describe('Quotation Reducer', () => {
         };
 
         const action = uploadSelectionToSapSuccess({
-          updatedQuotationDetails: [
-            { ...QUOTATION_DETAIL_MOCK, gqPositionId: '456', syncInSap: true },
-          ],
+          updatedQuotation: {
+            ...QUOTATION_MOCK,
+            sapCallInProgress: SapCallInProgress.MAINTAIN_QUOTATION_IN_PROGRESS,
+            quotationDetails: [
+              {
+                ...QUOTATION_DETAIL_MOCK,
+                gqPositionId: '456',
+                syncInSap: true,
+              },
+            ],
+          },
         });
 
         const state = processCaseReducer(mockState, action);
+
+        expect(state.quotation.item.sapCallInProgress).toEqual(
+          SapCallInProgress.MAINTAIN_QUOTATION_IN_PROGRESS
+        );
+
         expect(state.quotation.item.quotationDetails).toEqual([
           {
             ...QUOTATION_DETAIL_MOCK,

@@ -728,12 +728,12 @@ describe('ProcessCaseEffect', () => {
 
         action = uploadSelectionToSap({ gqPositionIds: ['1'] });
         const result = uploadSelectionToSapSuccess({
-          updatedQuotationDetails: [],
+          updatedQuotation: QUOTATION_MOCK,
         });
         quotationService.uploadSelectionToSap = jest.fn(() => response);
 
         actions$ = m.hot('-a', { a: action });
-        const response = m.cold('-a|', { a: [] });
+        const response = m.cold('-a|', { a: QUOTATION_MOCK });
         const expected = m.cold('--b', { b: result });
 
         m.expect(effects.uploadSelectionToSap$).toBeObservable(expected);
