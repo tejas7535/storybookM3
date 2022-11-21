@@ -384,6 +384,9 @@ export class ProcessCaseEffect {
             );
             this.snackBar.open(successMessage);
           }),
+          tap((quotation) => {
+            PriceService.addCalculationsForDetails(quotation.quotationDetails);
+          }),
           map((updatedQuotation: Quotation) =>
             uploadSelectionToSapSuccess({ updatedQuotation })
           ),
