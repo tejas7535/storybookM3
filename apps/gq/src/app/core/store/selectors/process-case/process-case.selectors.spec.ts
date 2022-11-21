@@ -440,7 +440,7 @@ describe('Process Case Selector', () => {
           ...fakeState.processCase,
           quotation: {
             ...fakeState.processCase.quotation,
-            sapSyncStatus: 1,
+            item: { ...QUOTATION_MOCK, sapSyncStatus: 1 },
           },
         },
       };
@@ -457,7 +457,7 @@ describe('Process Case Selector', () => {
           ...fakeState.processCase,
           quotation: {
             ...fakeState.processCase.quotation,
-            sapSyncStatus: 2,
+            item: { ...QUOTATION_MOCK, sapSyncStatus: 2 },
           },
         },
       };
@@ -474,7 +474,10 @@ describe('Process Case Selector', () => {
           ...fakeState.processCase,
           quotation: {
             ...fakeState.processCase.quotation,
-            sapSyncStatus: 0,
+            item: {
+              ...QUOTATION_MOCK,
+              sapSyncStatus: 0,
+            },
           },
         },
       };

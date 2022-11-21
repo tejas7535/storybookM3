@@ -190,11 +190,11 @@ describe('CaseActions', () => {
     });
 
     test('updateQuotationDetailsSuccess', () => {
-      const quotationDetails = QUOTATION_MOCK.quotationDetails;
-      action = updateQuotationDetailsSuccess({ quotationDetails });
+      const updatedQuotation = QUOTATION_MOCK;
+      action = updateQuotationDetailsSuccess({ updatedQuotation });
 
       expect(action).toEqual({
-        quotationDetails,
+        updatedQuotation,
         type: '[Process Case] Update QuotationDetails Success',
       });
     });
@@ -265,11 +265,11 @@ describe('CaseActions', () => {
     });
     describe('removePositionsSuccess', () => {
       test('should removePositionsSuccess', () => {
-        const item = QUOTATION_MOCK;
-        action = removePositionsSuccess({ item });
+        const updatedQuotation = QUOTATION_MOCK;
+        action = removePositionsSuccess({ updatedQuotation });
 
         expect(action).toEqual({
-          item,
+          updatedQuotation,
           type: '[Process Case] Remove positions from Quotation Success',
         });
       });

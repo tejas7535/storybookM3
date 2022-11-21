@@ -9,7 +9,10 @@ import {
 } from '../../../../../testing/mocks';
 import { Quotation } from '../../../../shared/models/';
 import { SapCallInProgress } from '../../../../shared/models/quotation';
-import { PriceSource } from '../../../../shared/models/quotation-detail';
+import {
+  PriceSource,
+  QuotationDetail,
+} from '../../../../shared/models/quotation-detail';
 import {
   MaterialTableItem,
   MaterialValidation,
@@ -212,23 +215,29 @@ describe('Quotation Reducer', () => {
 
     describe('updateQuotationDetailsSuccess', () => {
       test('should update quotationDetails', () => {
-        const mockItem: Quotation = QUOTATION_MOCK;
-        const quotationDetails = mockItem.quotationDetails;
+        const newDetail: QuotationDetail = {
+          ...QUOTATION_DETAIL_MOCK,
+          price: 210,
+        };
+        const updatedQuotation = {
+          ...QUOTATION_MOCK,
+          quotationDetails: [newDetail],
+        };
 
-        const action = updateQuotationDetailsSuccess({ quotationDetails });
+        const action = updateQuotationDetailsSuccess({ updatedQuotation });
 
         const fakeState = {
           ...PROCESS_CASE_STATE_MOCK,
           quotation: {
             ...PROCESS_CASE_STATE_MOCK.quotation,
-            item: mockItem,
+            item: QUOTATION_MOCK,
           },
         };
 
         const state = processCaseReducer(fakeState, action);
 
         const stateItem = state.quotation;
-        expect(stateItem.item.quotationDetails[0]).toBeTruthy();
+        expect(stateItem.item.quotationDetails[0]).toEqual(newDetail);
       });
     });
 
@@ -269,7 +278,11 @@ describe('Quotation Reducer', () => {
 
     describe('addMaterialsSuccess', () => {
       test('should set dialog Shown to true', () => {
-        const item = QUOTATION_MOCK;
+        const newItem = { ...QUOTATION_DETAIL_MOCK, quotationItemId: 20 };
+        const updatedQuotation = {
+          ...QUOTATION_MOCK,
+          quotationDetails: [newItem],
+        };
 
         const fakeState = {
           ...PROCESS_CASE_STATE_MOCK,
@@ -278,11 +291,14 @@ describe('Quotation Reducer', () => {
             item: QUOTATION_MOCK,
           },
         };
-        const action = addMaterialsSuccess({ item });
+        const action = addMaterialsSuccess({ updatedQuotation });
         const state = processCaseReducer(fakeState, action);
 
         const stateItem = state.quotation;
-        expect(stateItem.item).toEqual(item);
+        expect(stateItem.item.quotationDetails).toEqual([
+          ...fakeState.quotation.item.quotationDetails,
+          newItem,
+        ]);
       });
     });
 
@@ -484,7 +500,7 @@ describe('Quotation Reducer', () => {
 
     describe('removePositionsSuccess', () => {
       test('should remove material', () => {
-        const item = QUOTATION_MOCK;
+        const updatedQuotation = QUOTATION_MOCK;
 
         const fakeState = {
           ...PROCESS_CASE_STATE_MOCK,
@@ -493,12 +509,12 @@ describe('Quotation Reducer', () => {
             item: QUOTATION_MOCK,
           },
         };
-        const action = removePositionsSuccess({ item });
+        const action = removePositionsSuccess({ updatedQuotation });
 
         const state = processCaseReducer(fakeState, action);
 
         const stateItem = state.quotation;
-        expect(stateItem.item).toEqual(item);
+        expect(stateItem.item.quotationDetails).toEqual([]);
       });
     });
 

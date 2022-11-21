@@ -57,7 +57,7 @@ describe('QuotationDetailsService', (): void => {
       const mock = {
         quotationDetails: [CUSTOMER_MOCK],
       };
-      service.addMaterial(tableData).subscribe((response) => {
+      service.addQuotationDetails(tableData).subscribe((response) => {
         expect(response).toEqual(mock.quotationDetails);
       });
 
@@ -76,7 +76,7 @@ describe('QuotationDetailsService', (): void => {
       const mock = {
         quotationDetails: [CUSTOMER_MOCK],
       };
-      service.removeMaterial(qgPositionIds).subscribe((response) => {
+      service.deleteQuotationDetail(qgPositionIds).subscribe((response) => {
         expect(response).toEqual(mock.quotationDetails);
       });
 
@@ -98,7 +98,7 @@ describe('QuotationDetailsService', (): void => {
         },
       ];
 
-      service.updateMaterial(quotationDetails).subscribe((response) => {
+      service.updateQuotationDetail(quotationDetails).subscribe((response) => {
         expect(response).toEqual([]);
       });
       const req = httpMock.expectOne(

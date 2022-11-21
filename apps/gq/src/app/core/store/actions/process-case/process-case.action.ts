@@ -57,7 +57,7 @@ export const updateQuotationDetails = createAction(
 
 export const updateQuotationDetailsSuccess = createAction(
   '[Process Case] Update QuotationDetails Success',
-  props<{ quotationDetails: QuotationDetail[] }>()
+  props<{ updatedQuotation: Quotation }>()
 );
 
 export const updateQuotationDetailsFailure = createAction(
@@ -75,7 +75,7 @@ export const addMaterials = createAction(
 
 export const addMaterialsSuccess = createAction(
   '[Process Case] Add material to Quotation Success',
-  props<{ item: Quotation }>()
+  props<{ updatedQuotation: Quotation }>()
 );
 
 export const addMaterialsFailure = createAction(
@@ -115,7 +115,7 @@ export const removePositions = createAction(
 
 export const removePositionsSuccess = createAction(
   '[Process Case] Remove positions from Quotation Success',
-  props<{ item: Quotation }>()
+  props<{ updatedQuotation: Quotation }>()
 );
 
 export const removePositionsFailure = createAction(

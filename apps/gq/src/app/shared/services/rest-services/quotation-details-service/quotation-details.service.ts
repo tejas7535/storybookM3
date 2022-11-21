@@ -15,7 +15,6 @@ import {
 import { ComparableLinkedTransaction } from '../../../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
 import { BYPASS_DEFAULT_ERROR_HANDLING } from '../../../http/http-error.interceptor';
 import { ApiVersion, Quotation } from '../../../models';
-import { QuotationDetail } from '../../../models/quotation-detail';
 import { MaterialComparableCost } from '../../../models/quotation-detail/material-comparable-cost.model';
 import { MaterialSalesOrg } from '../../../models/quotation-detail/material-sales-org.model';
 
@@ -35,7 +34,7 @@ export class QuotationDetailsService {
 
   constructor(private readonly http: HttpClient) {}
 
-  public addMaterial(
+  public addQuotationDetails(
     tableData: AddQuotationDetailsRequest
   ): Observable<Quotation> {
     return this.http.post<Quotation>(
@@ -44,7 +43,7 @@ export class QuotationDetailsService {
     );
   }
 
-  public removeMaterial(qgPositionIds: string[]): Observable<Quotation> {
+  public deleteQuotationDetail(qgPositionIds: string[]): Observable<Quotation> {
     return this.http.delete<Quotation>(
       `${ApiVersion.V1}/${this.PATH_QUOTATION_DETAILS}`,
       {
@@ -57,10 +56,10 @@ export class QuotationDetailsService {
     );
   }
 
-  public updateMaterial(
+  public updateQuotationDetail(
     quotationDetails: UpdateQuotationDetail[]
-  ): Observable<QuotationDetail[]> {
-    return this.http.put<QuotationDetail[]>(
+  ): Observable<Quotation> {
+    return this.http.put<Quotation>(
       `${ApiVersion.V1}/${this.PATH_QUOTATION_DETAILS}`,
       quotationDetails
     );

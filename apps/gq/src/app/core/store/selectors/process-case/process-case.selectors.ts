@@ -78,7 +78,8 @@ export const getQuotationLoading = createSelector(
 
 export const getQuotationSapSyncStatus = createSelector(
   getProcessCaseState,
-  (state: ProcessCaseState): SAP_SYNC_STATUS => state.quotation.sapSyncStatus
+  (state: ProcessCaseState): SAP_SYNC_STATUS =>
+    state.quotation.item.sapSyncStatus
 );
 
 export const getSelectedQuotationIdentifier = createSelector(

@@ -23,7 +23,6 @@ import { AppRoutePath } from '../../../../app-route-path.enum';
 import { URL_SUPPORT } from '../../../../shared/http/constants/urls';
 import { Quotation } from '../../../../shared/models';
 import { Customer } from '../../../../shared/models/customer';
-import { QuotationDetail } from '../../../../shared/models/quotation-detail';
 import {
   MaterialTableItem,
   MaterialValidation,
@@ -280,7 +279,7 @@ export class ProcessCaseEffect {
       ),
       mergeMap((addQuotationDetailsRequest: AddQuotationDetailsRequest) =>
         this.quotationDetailsService
-          .addMaterial(addQuotationDetailsRequest)
+          .addQuotationDetails(addQuotationDetailsRequest)
           .pipe(
             tap(() => {
               const successMessage = translate(
@@ -291,7 +290,9 @@ export class ProcessCaseEffect {
             tap((item) =>
               PriceService.addCalculationsForDetails(item.quotationDetails)
             ),
-            map((item) => addMaterialsSuccess({ item })),
+            map((updatedQuotation) =>
+              addMaterialsSuccess({ updatedQuotation })
+            ),
             catchError((errorMessage) =>
               of(addMaterialsFailure({ errorMessage }))
             )
@@ -308,17 +309,16 @@ export class ProcessCaseEffect {
       ),
       map(([_action, qgPositionIds]) => qgPositionIds),
       mergeMap((qgPositionIds: string[]) =>
-        this.quotationDetailsService.removeMaterial(qgPositionIds).pipe(
+        this.quotationDetailsService.deleteQuotationDetail(qgPositionIds).pipe(
           tap(() => {
             const successMessage = translate(
               'shared.snackBarMessages.materialDeleted'
             );
             this.snackBar.open(successMessage);
           }),
-          tap((item) =>
-            PriceService.addCalculationsForDetails(item.quotationDetails)
+          map((updatedQuotation) =>
+            removePositionsSuccess({ updatedQuotation })
           ),
-          map((item) => removePositionsSuccess({ item })),
           catchError((errorMessage: HttpErrorResponse) => {
             const messageText =
               errorMessage.status === 400
@@ -351,17 +351,19 @@ export class ProcessCaseEffect {
       map((action: any) => action.updateQuotationDetailList),
       mergeMap((updateQuotationDetailList: UpdateQuotationDetail[]) =>
         this.quotationDetailsService
-          .updateMaterial(updateQuotationDetailList)
+          .updateQuotationDetail(updateQuotationDetailList)
           .pipe(
             tap(() =>
               this.showUpdateQuotationDetailToast(updateQuotationDetailList[0])
             ),
-            tap((quotationDetails) => {
-              PriceService.addCalculationsForDetails(quotationDetails);
+            tap((quotation) => {
+              PriceService.addCalculationsForDetails(
+                quotation.quotationDetails
+              );
             }),
-            map((quotationDetails: QuotationDetail[]) =>
+            map((updatedQuotation) =>
               updateQuotationDetailsSuccess({
-                quotationDetails,
+                updatedQuotation,
               })
             ),
             catchError((errorMessage) =>

@@ -4,7 +4,6 @@ import { Action, createReducer, on } from '@ngrx/store';
 import { Quotation, SimulatedQuotation } from '../../../../shared/models';
 import { Customer } from '../../../../shared/models/customer';
 import { QuotationDetail } from '../../../../shared/models/quotation-detail';
-import { SAP_SYNC_STATUS } from '../../../../shared/models/quotation-detail/sap-sync-status.enum';
 import {
   MaterialTableItem,
   ValidationDescription,
@@ -63,7 +62,6 @@ export interface ProcessCaseState {
     errorMessage: string;
   };
   quotation: {
-    sapSyncStatus: SAP_SYNC_STATUS;
     quotationLoading: boolean;
     item: Quotation;
     simulatedItem?: SimulatedQuotation;
@@ -88,7 +86,6 @@ export const initialState: ProcessCaseState = {
     errorMessage: undefined,
   },
   quotation: {
-    sapSyncStatus: SAP_SYNC_STATUS.NOT_SYNCED,
     quotationLoading: false,
     item: undefined,
     simulatedItem: undefined,
@@ -168,7 +165,6 @@ export const processCaseReducer = createReducer(
       quotation: {
         ...state.quotation,
         item,
-        sapSyncStatus: item.sapSyncStatus,
         quotationLoading: false,
         errorMessage: undefined,
       },
@@ -197,15 +193,15 @@ export const processCaseReducer = createReducer(
   ),
   on(
     updateQuotationDetailsSuccess,
-    (state: ProcessCaseState, { quotationDetails }): ProcessCaseState => ({
+    (state: ProcessCaseState, { updatedQuotation }): ProcessCaseState => ({
       ...state,
       quotation: {
         ...state.quotation,
         item: {
-          ...state.quotation.item,
+          ...updatedQuotation,
           quotationDetails: [...state.quotation.item.quotationDetails].map(
             (el) => {
-              const update = quotationDetails.find(
+              const update = updatedQuotation.quotationDetails.find(
                 (detail) => detail.gqPositionId === el.gqPositionId
               );
 
@@ -255,11 +251,17 @@ export const processCaseReducer = createReducer(
   ),
   on(
     addMaterialsSuccess,
-    (state: ProcessCaseState, { item }): ProcessCaseState => ({
+    (state: ProcessCaseState, { updatedQuotation }): ProcessCaseState => ({
       ...state,
       quotation: {
         ...state.quotation,
-        item,
+        item: {
+          ...updatedQuotation,
+          quotationDetails: [
+            ...state.quotation.item.quotationDetails,
+            ...updatedQuotation.quotationDetails,
+          ],
+        },
         updateLoading: false,
         errorMessage: undefined,
       },
@@ -383,11 +385,17 @@ export const processCaseReducer = createReducer(
   ),
   on(
     removePositionsSuccess,
-    (state: ProcessCaseState, { item }): ProcessCaseState => ({
+    (state: ProcessCaseState, { updatedQuotation }): ProcessCaseState => ({
       ...state,
       quotation: {
         ...state.quotation,
-        item,
+        item: {
+          ...updatedQuotation,
+          quotationDetails: deleteQuotationDetails(
+            state.quotation.item.quotationDetails,
+            updatedQuotation.quotationDetails
+          ),
+        },
         updateLoading: false,
         errorMessage: undefined,
       },
@@ -657,6 +665,17 @@ export function reducer(
 ): ProcessCaseState {
   return processCaseReducer(state, action);
 }
+
+const deleteQuotationDetails = (
+  details: QuotationDetail[],
+  detailsToBeDeleted: QuotationDetail[]
+) => {
+  const removeItemIds = new Set(
+    detailsToBeDeleted.map((detail) => detail.quotationItemId)
+  );
+
+  return details.filter((el) => !removeItemIds.has(el.quotationItemId));
+};
 
 const buildSimulatedQuotation = (
   gqId: number,
