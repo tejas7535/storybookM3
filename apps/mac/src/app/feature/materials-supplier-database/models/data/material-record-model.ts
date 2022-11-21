@@ -3,6 +3,7 @@ import {
   ManufacturerSupplier,
   ManufacturerSupplierV2,
   Material,
+  MaterialRequest,
   MaterialStandard,
   MaterialStandardV2,
   MaterialV2,
@@ -11,7 +12,7 @@ import {
 export interface CreateMaterialRecord {
   standard: MaterialStandard | MaterialStandardV2;
   supplier: ManufacturerSupplier | ManufacturerSupplierV2;
-  material: Material | MaterialV2;
+  material: Material | MaterialV2 | MaterialRequest;
 
   materialClass: MaterialClass;
 

@@ -51,7 +51,6 @@ import {
   addCustomSupplierCountry,
   addCustomSupplierName,
   addCustomSupplierPlant,
-  DialogFacade,
   fetchCastingDiameters,
   fetchCo2ValuesForSupplierSteelMakingProcess,
   fetchReferenceDocuments,
@@ -60,6 +59,7 @@ import {
   materialDialogOpened,
   resetSteelMakingProcessInUse,
 } from '@mac/msd/store';
+import { DialogFacade } from '@mac/msd/store/facades/dialog';
 
 import * as util from './util';
 

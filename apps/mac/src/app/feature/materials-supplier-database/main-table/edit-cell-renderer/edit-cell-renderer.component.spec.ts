@@ -15,7 +15,7 @@ import {
   openDialog,
   openEditDialog,
 } from '@mac/msd/store/actions';
-import { DialogFacade } from '@mac/msd/store/facades';
+import { DialogFacade } from '@mac/msd/store/facades/dialog';
 
 import { EditCellRendererComponent } from './edit-cell-renderer.component';
 import { EditCellRendererParams } from './edit-cell-renderer-params.model';

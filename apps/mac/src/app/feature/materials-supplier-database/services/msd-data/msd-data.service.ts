@@ -13,6 +13,7 @@ import { MaterialClass } from '@mac/msd/constants';
 import {
   ManufacturerSupplierV2,
   Material,
+  MaterialRequest,
   MaterialResponse,
   MaterialStandardV2,
   MaterialV2,
@@ -110,6 +111,7 @@ export class MsdDataService {
                   materialResponse.manufacturerSupplier.plant,
                 manufacturerSupplierCountry:
                   materialResponse.manufacturerSupplier.country,
+                materialClass: materialResponse.materialClass as MaterialClass,
                 selfCertified:
                   'selfCertified' in materialResponse
                     ? materialResponse.selfCertified
@@ -219,11 +221,9 @@ export class MsdDataService {
     );
   }
 
-  public fetchCo2Classifications(materialClass: MaterialClass) {
+  public fetchCo2Classifications(_materialClass: MaterialClass) {
     return this.httpClient
-      .get<string[]>(
-        `${this.BASE_URL}/materials/${materialClass}/co2Classifications`
-      )
+      .get<string[]>(`${this.BASE_URL}/materials/st/co2Classifications`)
       .pipe(
         map((co2Classifications) =>
           co2Classifications.map(
@@ -490,7 +490,7 @@ export class MsdDataService {
   }
 
   public createMaterial(
-    material: Material | MaterialV2,
+    material: Material | MaterialV2 | MaterialRequest,
     materialClass: MaterialClass = MaterialClass.STEEL
   ) {
     return this.httpClient.post<{ id: number }>(

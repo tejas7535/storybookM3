@@ -5,6 +5,8 @@ export interface BaseMaterialResponse {
   id: number;
   materialStandard: BaseMaterialStandard;
   manufacturerSupplier: BaseManufacturerSupplier;
+  materialClass: string;
+  productCategory: string;
   co2Scope1?: number;
   co2Scope2?: number;
   co2Scope3?: number;

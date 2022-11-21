@@ -21,6 +21,7 @@ import { EditCellRendererComponent } from './edit-cell-renderer/edit-cell-render
 import { HeaderTooltipComponent } from './header-tooltip/header-tooltip.component';
 import { MainTableComponent } from './main-table.component';
 import { MainTableRoutingModule } from './main-table-routing.module';
+import { MaterialDialogsModule } from './material-input-dialog/materials/materials.module';
 import { QuickFilterComponent } from './quick-filter/quick-filter.component';
 
 @NgModule({
@@ -45,6 +46,7 @@ import { QuickFilterComponent } from './quick-filter/quick-filter.component';
     InputDialogModule,
     QuickFilterComponent,
     MatDialogModule,
+    MaterialDialogsModule,
   ],
   providers: [DatePipe, MsdDialogService],
 })

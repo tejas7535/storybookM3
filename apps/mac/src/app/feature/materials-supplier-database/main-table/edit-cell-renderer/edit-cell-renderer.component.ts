@@ -4,6 +4,7 @@ import { take } from 'rxjs';
 
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 
+import { MaterialClass } from '@mac/msd/constants';
 import { DataResult } from '@mac/msd/models';
 import { MsdDialogService } from '@mac/msd/services';
 import {
@@ -14,7 +15,7 @@ import {
   openDialog,
   openEditDialog,
 } from '@mac/msd/store/actions';
-import { DialogFacade } from '@mac/msd/store/facades';
+import { DialogFacade } from '@mac/msd/store/facades/dialog';
 
 import { EditCellRendererParams } from './edit-cell-renderer-params.model';
 
@@ -45,10 +46,14 @@ export class EditCellRendererComponent implements ICellRendererAngularComp {
 
   public onEditClick(): void {
     this.dialogFacade.dispatch(openDialog());
-    const dialogRef = this.dialogService.openDialog(false, {
-      row: this.params.data as DataResult,
-      column: this.params.column.getColId(),
-    });
+    const dialogRef = this.dialogService.openDialog(
+      false,
+      {
+        row: this.params.data as DataResult,
+        column: this.params.column.getColId(),
+      },
+      this.params.data.materialClass as MaterialClass
+    );
 
     dialogRef
       .afterOpened()

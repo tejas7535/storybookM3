@@ -1,0 +1,495 @@
+import { CommonModule } from '@angular/common';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
+import { Subject } from 'rxjs';
+
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { TranslocoModule } from '@ngneat/transloco';
+import { PushModule } from '@ngrx/component';
+import { provideMockStore } from '@ngrx/store/testing';
+
+import { SelectModule } from '@schaeffler/inputs/select';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
+import { DataResult, MaterialForm, MaterialFormValueV2 } from '@mac/msd/models';
+import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
+import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
+import {
+  mockDialogData,
+  mockDialogDataMinimized,
+  mockDialogDataPartial,
+  mockMaterialStandards,
+  mockSuppliers,
+  mockValue,
+} from '@mac/testing/mocks/msd';
+
+import * as en from '../../../../../assets/i18n/en.json';
+import { BaseDialogModule } from './base-dialog/base-dialog.module';
+import { MaterialInputDialogComponent } from './material-input-dialog.component';
+import { MaterialInputDialogModule } from './material-input-dialog.module';
+import { DialogControlsService } from './services';
+
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+  translate: jest.fn((string) => string),
+}));
+
+describe('MaterialInputDialogComponent', () => {
+  let component: MaterialInputDialogComponent;
+  let spectator: Spectator<MaterialInputDialogComponent>;
+
+  const initialState = {
+    msd: {
+      data: {
+        ...initialDataState,
+      },
+      dialog: {
+        ...initialDialogState,
+        dialogOptions: {
+          ...initialDialogState.dialogOptions,
+          materialStandards: mockMaterialStandards,
+          materialStandardsLoading: true,
+          manufacturerSuppliers: mockSuppliers,
+          manufacturerSuppliersLoading: true,
+          ratings: ['1'],
+          ratingsLoading: true,
+          steelMakingProcesses: ['1'],
+          steelMakingProcessesLoading: true,
+          co2Classifications: ['1'],
+          co2ClassificationsLoading: true,
+          castingModes: ['1'],
+          castingModesLoading: true,
+          loading: true,
+        },
+        createMaterial: {
+          ...initialDialogState.createMaterial,
+          createMaterialLoading: true,
+          createMaterialSuccess: true,
+        },
+      },
+    },
+  };
+
+  const createComponent = createComponentFactory({
+    component: MaterialInputDialogComponent,
+    imports: [
+      CommonModule,
+      MatProgressSpinnerModule,
+      PushModule,
+      MatIconModule,
+      MatButtonModule,
+      MatDividerModule,
+      MatInputModule,
+      MatCheckboxModule,
+      MatFormFieldModule,
+      SelectModule,
+      ReactiveFormsModule,
+      MatDialogModule,
+      MatGridListModule,
+      MatSelectModule,
+      MatTooltipModule,
+      SharedTranslocoModule,
+      MatSnackBarModule,
+      MaterialInputDialogModule,
+      BaseDialogModule,
+      provideTranslocoTestingModule({ en }),
+    ],
+    providers: [
+      provideMockStore({ initialState }),
+      {
+        provide: MatDialogRef,
+        useValue: {
+          close: jest.fn(),
+        },
+      },
+      DialogControlsService,
+      {
+        provide: MAT_DIALOG_DATA,
+        useValue: {},
+      },
+    ],
+  });
+
+  beforeEach(() => {
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
+  });
+
+  describe('check initial form values', () => {
+    it('should have the expected values', () => {
+      expect(component.manufacturerSupplierIdControl.value).toEqual(undefined);
+      expect(component.materialStandardIdControl.value).toEqual(undefined);
+      expect(component.standardDocumentsControl.value).toEqual(undefined);
+      expect(component.materialNamesControl.value).toEqual(undefined);
+      expect(component.categoriesControl.value).toEqual(undefined);
+      expect(component.co2Scope1Control.value).toEqual(undefined);
+      expect(component.co2Scope2Control.value).toEqual(undefined);
+      expect(component.co2Scope3Control.value).toEqual(undefined);
+      expect(component.co2TotalControl.value).toEqual(undefined);
+      expect(component.co2ClassificationControl.value).toEqual(undefined);
+      expect(component.releaseRestrictionsControl.value).toEqual(undefined);
+    });
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  describe('ngOnInit', () => {
+    describe('dialogError', () => {
+      it('should call the handle function on error', () => {
+        component.handleDialogError = jest.fn();
+
+        const mockSubject = new Subject<boolean>();
+        component.dialogError$ = mockSubject;
+
+        component.ngOnInit();
+
+        mockSubject.next(true);
+
+        expect(component.handleDialogError).toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('ngAfterViewInit', () => {
+    afterEach(() => {
+      component['dialogData'].editDialogInformation = undefined;
+      component['dialogData'].isResumeDialog = undefined;
+      component['dialogFacade'].resumeDialogData$ = undefined;
+    });
+    describe('with full material', () => {
+      let mockSubject: Subject<any>;
+      beforeEach(() => {
+        component['dialogData'].editDialogInformation = {
+          row: mockDialogData.editMaterial.row,
+          column: mockDialogData.editMaterial.column,
+        };
+        mockSubject = new Subject<any>();
+        component['dialogFacade'].resumeDialogData$ = mockSubject;
+        component.createMaterialForm = new FormGroup<MaterialForm>(
+          {} as MaterialForm
+        );
+      });
+
+      it('should prepare the form', () => {
+        component['dialogFacade'].dispatch = jest.fn();
+
+        component.supplierPlantControl.enable = jest.fn();
+        component.supplierCountryControl.enable = jest.fn();
+
+        component.co2ClassificationControl.enable = jest.fn();
+
+        component.createMaterialForm.patchValue = jest.fn();
+        component.createMaterialForm.markAllAsTouched = jest.fn();
+
+        component['cdRef'].markForCheck = jest.fn();
+        component['cdRef'].detectChanges = jest.fn();
+
+        component.ngAfterViewInit();
+        mockSubject.next({ editMaterial: mockDialogData.editMaterial });
+        expect(component.supplierPlantControl.enable).toHaveBeenCalled();
+        expect(component.supplierCountryControl.enable).not.toHaveBeenCalled();
+        expect(component.co2ClassificationControl.enable).toHaveBeenCalled();
+        expect(component.createMaterialForm.patchValue).toHaveBeenCalledWith(
+          mockDialogData.editMaterial.parsedMaterial
+        );
+        expect(
+          component.createMaterialForm.markAllAsTouched
+        ).toHaveBeenCalled();
+
+        expect(component['cdRef'].markForCheck).toHaveBeenCalled();
+        expect(component['cdRef'].detectChanges).toHaveBeenCalled();
+      });
+    });
+
+    describe('without co2 value and parsable reference document', () => {
+      let mockSubject: Subject<any>;
+      beforeEach(() => {
+        component['dialogData'].editDialogInformation = {
+          row: mockDialogDataPartial.editMaterial.row,
+          column: mockDialogDataPartial.editMaterial.column,
+        };
+        mockSubject = new Subject<any>();
+        component['dialogFacade'].resumeDialogData$ = mockSubject;
+        component.createMaterialForm = new FormGroup<MaterialForm>(
+          {} as MaterialForm
+        );
+      });
+
+      it('should prepare the form', () => {
+        component['dialogFacade'].dispatch = jest.fn();
+
+        component.supplierPlantControl.enable = jest.fn();
+        component.supplierCountryControl.enable = jest.fn();
+
+        component.co2ClassificationControl.enable = jest.fn();
+
+        component.createMaterialForm.patchValue = jest.fn();
+        component.createMaterialForm.markAllAsTouched = jest.fn();
+
+        component['cdRef'].markForCheck = jest.fn();
+        component['cdRef'].detectChanges = jest.fn();
+
+        component.ngAfterViewInit();
+        mockSubject.next({ editMaterial: mockDialogDataPartial.editMaterial });
+
+        expect(component.supplierPlantControl.enable).toHaveBeenCalled();
+        expect(component.supplierCountryControl.enable).not.toHaveBeenCalled();
+        expect(
+          component.co2ClassificationControl.enable
+        ).not.toHaveBeenCalled();
+        expect(component.createMaterialForm.patchValue).toHaveBeenCalledWith(
+          mockDialogDataPartial.editMaterial.parsedMaterial
+        );
+        expect(
+          component.createMaterialForm.markAllAsTouched
+        ).toHaveBeenCalled();
+
+        expect(component['cdRef'].markForCheck).toHaveBeenCalled();
+        expect(component['cdRef'].detectChanges).toHaveBeenCalled();
+      });
+    });
+
+    describe('with minimized dialog', () => {
+      let mockSubject: Subject<any>;
+      beforeEach(() => {
+        component['dialogData'].isResumeDialog = true;
+        mockSubject = new Subject<any>();
+        component['dialogFacade'].resumeDialogData$ = mockSubject;
+        component.createMaterialForm = new FormGroup<MaterialForm>(
+          {} as MaterialForm
+        );
+      });
+
+      it('should prepare the form', () => {
+        component['dialogFacade'].dispatch = jest.fn();
+
+        component.supplierPlantControl.enable = jest.fn();
+        component.supplierCountryControl.enable = jest.fn();
+
+        component.co2ClassificationControl.enable = jest.fn();
+
+        component.createMaterialForm.patchValue = jest.fn();
+        component.createMaterialForm.markAllAsTouched = jest.fn();
+
+        component['cdRef'].markForCheck = jest.fn();
+        component['cdRef'].detectChanges = jest.fn();
+
+        component.ngAfterViewInit();
+        mockSubject.next({
+          minimizedDialog: mockDialogDataMinimized.minimizedDialog,
+        });
+
+        expect(component.supplierPlantControl.enable).toHaveBeenCalled();
+        expect(component.supplierCountryControl.enable).not.toHaveBeenCalled();
+        expect(
+          component.co2ClassificationControl.enable
+        ).not.toHaveBeenCalled();
+        expect(component.createMaterialForm.patchValue).toHaveBeenCalledWith(
+          mockValue
+        );
+        expect(
+          component.createMaterialForm.markAllAsTouched
+        ).toHaveBeenCalled();
+
+        expect(component['cdRef'].markForCheck).toHaveBeenCalled();
+        expect(component['cdRef'].detectChanges).toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('ngOnDestory', () => {
+    it('should complete the observable', () => {
+      component.destroy$.next = jest.fn();
+      component.destroy$.complete = jest.fn();
+
+      component.ngOnDestroy();
+
+      expect(component.destroy$.next).toHaveBeenCalled();
+      expect(component.destroy$.complete).toHaveBeenCalled();
+    });
+  });
+
+  describe('handleDialogError', () => {
+    it('should call the showInSnackbar and cancelDialog', () => {
+      component.showInSnackbar = jest.fn();
+      component.cancelDialog = jest.fn();
+
+      component.handleDialogError();
+
+      expect(component.showInSnackbar).toHaveBeenCalled();
+      expect(component.cancelDialog).toHaveBeenCalled();
+    });
+  });
+
+  describe('cancelDialog', () => {
+    it('should call closeDialog', () => {
+      component.closeDialog = jest.fn();
+
+      component.cancelDialog();
+
+      expect(component.closeDialog).toHaveBeenCalledWith(false);
+    });
+  });
+
+  describe('closeDialog', () => {
+    it('should close the dialog ref with the reload value', () => {
+      component['dialogRef'].close = jest.fn();
+
+      component.closeDialog(true);
+
+      expect(component['dialogRef'].close).toHaveBeenCalledWith({
+        reload: true,
+      });
+    });
+  });
+
+  describe('minimizeDialog', () => {
+    it('should close the dialog ref with the minimize value', () => {
+      component['dialogRef'].close = jest.fn();
+      component.createMaterialForm = new FormGroup({} as MaterialForm);
+      component.createMaterialForm.getRawValue = jest.fn(
+        () => ({} as unknown as any)
+      );
+
+      component.minimizeDialog();
+
+      expect(component.createMaterialForm.getRawValue).toHaveBeenCalled();
+      expect(component['dialogRef'].close).toHaveBeenCalledWith({
+        minimize: {
+          id: undefined,
+          value: {},
+        },
+      });
+    });
+  });
+
+  describe('showInSnackbar', () => {
+    it('should call snackbar open', () => {
+      component['snackbar'].open = jest.fn();
+
+      component.showInSnackbar('hello');
+
+      expect(component['snackbar'].open).toHaveBeenCalledWith(
+        'hello',
+        undefined,
+        undefined
+      );
+    });
+
+    it('should call snackbar open with action and config', () => {
+      component['snackbar'].open = jest.fn();
+
+      component.showInSnackbar('hello', 'action', {});
+
+      expect(component['snackbar'].open).toHaveBeenCalledWith(
+        'hello',
+        'action',
+        {}
+      );
+    });
+  });
+
+  describe('enableEditFields', () => {
+    it('should enable nothing', () => {
+      component.supplierPlantControl.enable = jest.fn();
+      component.supplierCountryControl.enable = jest.fn();
+      component.co2ClassificationControl.enable = jest.fn();
+
+      component.enableEditFields({});
+
+      expect(component.co2ClassificationControl.enable).not.toHaveBeenCalled();
+      expect(component.supplierCountryControl.enable).not.toHaveBeenCalled();
+      expect(component.supplierPlantControl.enable).not.toHaveBeenCalled();
+    });
+
+    it('should enable supplier plant', () => {
+      const mockFormValue: Partial<MaterialFormValueV2> = {
+        supplier: { id: 1, title: 'supplier' },
+      };
+      component.supplierPlantControl.enable = jest.fn();
+
+      component.enableEditFields(mockFormValue);
+
+      expect(component.supplierPlantControl.enable).toHaveBeenCalled();
+    });
+
+    it('should enable supplier country', () => {
+      const mockFormValue: Partial<MaterialFormValueV2> = {
+        manufacturerSupplierId: undefined,
+        supplierPlant: { id: 1, title: 'plant' },
+      };
+      component.supplierCountryControl.enable = jest.fn();
+
+      component.enableEditFields(mockFormValue);
+
+      expect(component.supplierCountryControl.enable).toHaveBeenCalled();
+    });
+
+    it('should enable co2 classifications', () => {
+      const mockFormValue: Partial<MaterialFormValueV2> = {
+        co2PerTon: 1,
+      };
+      component.co2ClassificationControl.enable = jest.fn();
+
+      component.enableEditFields(mockFormValue);
+
+      expect(component.co2ClassificationControl.enable).toHaveBeenCalled();
+    });
+  });
+
+  describe('isEditDialog', () => {
+    it('should return false', () => {
+      expect(component.isEditDialog()).toBe(false);
+    });
+
+    it('should return true', () => {
+      component.materialId = 1;
+      component['dialogData'].editDialogInformation = {
+        row: {} as DataResult,
+        column: 'col',
+      };
+      expect(component.isEditDialog()).toBe(true);
+    });
+  });
+
+  describe('getTitle', () => {
+    it('should return the add title', () => {
+      component.isEditDialog = jest.fn(() => true);
+
+      const result = component.getTitle();
+
+      expect(result).toEqual(
+        'materialsSupplierDatabase.mainTable.dialog.updateTitle'
+      );
+    });
+
+    it('should return the update title', () => {
+      component.isEditDialog = jest.fn(() => false);
+
+      const result = component.getTitle();
+
+      expect(result).toEqual(
+        'materialsSupplierDatabase.mainTable.dialog.addTitle'
+      );
+    });
+  });
+});

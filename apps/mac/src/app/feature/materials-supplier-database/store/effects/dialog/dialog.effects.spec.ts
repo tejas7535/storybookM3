@@ -72,7 +72,7 @@ import {
   postMaterialStandard,
   setMaterialFormValue,
 } from '@mac/msd/store/actions';
-import { DataFacade } from '@mac/msd/store/facades';
+import { DataFacade } from '@mac/msd/store/facades/data';
 
 import { DialogEffects } from './dialog.effects';
 

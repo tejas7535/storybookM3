@@ -374,7 +374,7 @@
       },
       "dialog": {
         "addMaterial": "ADD MATERIAL",
-        "addTitle": "Add Material",
+        "addTitle": "Add {{class}} Material",
         "blocked": "Blocked",
         "cancel": "Cancel",
         "castingDiameter": "Cast / Remelt product information",
@@ -457,7 +457,7 @@
           "referencedInDocument": "Identifier(s) of document(s) that refer to this material/supplier, e.g., a product-specific standard"
         },
         "updateMaterial": "UPDATE MATERIAL",
-        "updateTitle": "Update Material",
+        "updateTitle": "Update {{class}} Material",
         "var": "VAR",
         "vim/esr": "VIM/ESR",
         "vim/var": "VIM/VAR",

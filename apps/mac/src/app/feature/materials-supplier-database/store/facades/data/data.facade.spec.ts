@@ -4,7 +4,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/jest';
 
 import { MaterialClass } from '@mac/msd/constants';
-import { DataResult, MaterialFormValue } from '@mac/msd/models';
+import { DataResult, MaterialFormValue, SteelMaterial } from '@mac/msd/models';
 import { initialState } from '@mac/msd/store/reducers/data/data.reducer';
 
 import { DataFacade } from '.';
@@ -16,11 +16,10 @@ describe('DataFacade', () => {
 
   const mockMaterialClassOptions = [{ id: 'st', title: 'Steel' }];
   const mockProductCategoryOptions = [{ id: 'tube', title: 'Tube' }];
-  const mockResult: DataResult[] = [
+  const mockResult: SteelMaterial[] = [
     {
       id: 6956,
-      materialClass: 'st',
-      materialClassText: 'Steel',
+      materialClass: MaterialClass.STEEL,
       materialStandardId: 61,
       materialStandardMaterialName: 'SAE1008mod.',
       materialNumbers: [],
@@ -41,6 +40,7 @@ describe('DataFacade', () => {
       castingDiameter: '200x300',
       maxDimension: 100,
       manufacturer: false,
+      blocked: false,
     },
   ];
   const mockFilters = {

@@ -25,6 +25,7 @@ import {
   fetchCastingDiameters,
   fetchCastingDiametersFailure,
   fetchCastingDiametersSuccess,
+  fetchCastingModes,
   fetchCastingModesFailure,
   fetchCastingModesSuccess,
   fetchCo2ClassificationsFailure,
@@ -41,11 +42,13 @@ import {
   fetchManufacturerSuppliersSuccess,
   fetchMaterialStandardsFailure,
   fetchMaterialStandardsSuccess,
+  fetchRatings,
   fetchRatingsFailure,
   fetchRatingsSuccess,
   fetchReferenceDocuments,
   fetchReferenceDocumentsFailure,
   fetchReferenceDocumentsSuccess,
+  fetchSteelMakingProcesses,
   fetchSteelMakingProcessesFailure,
   fetchSteelMakingProcessesInUseFailure,
   fetchSteelMakingProcessesInUseSuccess,
@@ -171,11 +174,38 @@ export const dialogReducer = createReducer(
         ...state.dialogOptions,
         materialStandardsLoading: true,
         manufacturerSuppliersLoading: true,
-        ratingsLoading: true,
-        steelMakingProcessesLoading: true,
         co2ClassificationsLoading: true,
-        castingModesLoading: true,
         error: undefined,
+      },
+    })
+  ),
+  on(
+    fetchRatings,
+    (state): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        ratingsLoading: true,
+      },
+    })
+  ),
+  on(
+    fetchSteelMakingProcesses,
+    (state): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        steelMakingProcessesLoading: true,
+      },
+    })
+  ),
+  on(
+    fetchCastingModes,
+    (state): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        castingModesLoading: true,
       },
     })
   ),

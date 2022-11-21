@@ -10,7 +10,7 @@ import {
   ALUMINUM_COLUMN_DEFINITIONS,
   STEEL_COLUMN_DEFINITIONS,
 } from '@mac/msd/main-table/table-config/materials';
-import { DataFacade } from '@mac/msd/store/facades';
+import { DataFacade } from '@mac/msd/store/facades/data';
 import { initialState } from '@mac/msd/store/reducers/data/data.reducer';
 
 import { MsdAgGridConfigService } from './msd-ag-grid-config.service';

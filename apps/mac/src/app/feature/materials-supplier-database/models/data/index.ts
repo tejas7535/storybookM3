@@ -1,4 +1,4 @@
-export * from './aluminium';
+export * from './aluminum';
 export * from './base';
 export * from './data-result.model';
 export * from './dialog-data.model';

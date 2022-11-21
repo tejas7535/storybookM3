@@ -15,7 +15,7 @@ import {
 } from '@mac/msd/main-table/table-config/materials';
 import { QuickFilter } from '@mac/msd/models';
 import { fetchCategoryOptions } from '@mac/msd/store/actions';
-import { DataFacade } from '@mac/msd/store/facades';
+import { DataFacade } from '@mac/msd/store/facades/data';
 
 @Injectable({
   providedIn: 'root',
@@ -45,10 +45,10 @@ export class MsdAgGridConfigService {
   }
 
   public getDefaultColumnDefinitions(materialClass: MaterialClass): ColDef[] {
-    switch (true) {
-      case materialClass === MaterialClass.ALUMINUM:
+    switch (materialClass) {
+      case MaterialClass.ALUMINUM:
         return this.ALUMINUM_COLUMN_DEFINITIONS;
-      case materialClass === MaterialClass.STEEL:
+      case MaterialClass.STEEL:
         return this.STEEL_COLUMN_DEFINITIONS;
       default:
         return undefined;
@@ -56,10 +56,10 @@ export class MsdAgGridConfigService {
   }
 
   public getStaticQuickFilters(materialClass: MaterialClass): QuickFilter[] {
-    switch (true) {
-      case materialClass === MaterialClass.ALUMINUM:
+    switch (materialClass) {
+      case MaterialClass.ALUMINUM:
         return this.ALUMINUM_STATIC_QUICKFILTERS;
-      case materialClass === MaterialClass.STEEL:
+      case MaterialClass.STEEL:
         return this.STEEL_STATIC_QUICKFILTERS;
       default:
         return undefined;

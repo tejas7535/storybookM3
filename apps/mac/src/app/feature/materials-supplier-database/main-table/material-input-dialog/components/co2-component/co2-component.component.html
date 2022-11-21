@@ -1,0 +1,123 @@
+<ng-container
+  *transloco="let t; read: 'materialsSupplierDatabase.mainTable.dialog'"
+>
+  <!-- gap-x-6 did not work out with 4 input fields so i used pr-6 3 times.-->
+  <div class="flex flex-row">
+    <mat-form-field appearance="outline" class="w-1/4 pr-6">
+      <mat-label>{{ t('scope1') }}</mat-label>
+      <input
+        matInput
+        [formControl]="co2Scope1Control"
+        type="number"
+        name="co2Scope1"
+        #dialogControl
+      />
+      <span matSuffix class="relative -top-1 pl-1 text-caption">{{
+        t('co2PerTon')
+      }}</span>
+      <mat-error *ngIf="co2Scope1Control.invalid">{{
+        getErrorMessage(co2Scope1Control.errors)
+      }}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="w-1/4 pr-6">
+      <mat-label>{{ t('scope2') }}</mat-label>
+      <input
+        matInput
+        [formControl]="co2Scope2Control"
+        type="number"
+        name="co2Scope2"
+        #dialogControl
+      />
+      <span matSuffix class="relative -top-1 pl-1 text-caption">{{
+        t('co2PerTon')
+      }}</span>
+      <mat-error *ngIf="co2Scope2Control.invalid">{{
+        getErrorMessage(co2Scope2Control.errors)
+      }}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="w-1/4 pr-6">
+      <mat-label>{{ t('scope3') }}</mat-label>
+      <input
+        matInput
+        [formControl]="co2Scope3Control"
+        type="number"
+        name="co2Scope3"
+        #dialogControl
+      />
+      <span matSuffix class="relative -top-1 pl-1 text-caption">{{
+        t('co2PerTon')
+      }}</span>
+      <mat-error *ngIf="co2Scope3Control.invalid">{{
+        getErrorMessage(co2Scope3Control.errors)
+      }}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="w-1/4">
+      <mat-label>{{ t('co2Total') }}</mat-label>
+      <input
+        matInput
+        [formControl]="co2TotalControl"
+        type="number"
+        name="co2PerTon"
+        #dialogControl
+      />
+      <span matSuffix class="relative -top-1 pl-1 text-caption">{{
+        t('co2PerTon')
+      }}</span>
+      <mat-error
+        class="cursor-help"
+        *ngIf="co2TotalControl.invalid"
+        [matTooltip]="
+          co2TotalControl.errors?.scopeTotalLowerThanSingleScopes
+            ? t('error.co2TooLow')
+            : ''
+        "
+      >
+        {{ getErrorMessage(co2TotalControl.errors) }}
+        <mat-icon inline="true" class="!leading-3">info_outline</mat-icon>
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="flex flex-row gap-x-6">
+    <ng-content select="[preCo2Classification]"></ng-content>
+    <div class="flex w-full flex-row">
+      <schaeffler-select
+        appearance="outline"
+        class="w-full"
+        [stringOptions]="co2Classification$ | ngrxPush"
+        [control]="co2ClassificationControl"
+        [filterFn]="filterFn"
+        [label]="t('co2Classification')"
+        [resetButton]="false"
+        name="co2Classification"
+        #dialogControl
+      >
+        <div matErrorContent *ngIf="co2ClassificationControl.invalid">
+          {{ getErrorMessage(co2ClassificationControl.errors) }}
+        </div>
+      </schaeffler-select>
+      <span mat-icon class="mb-4 self-center pl-4">
+        <mat-icon
+          matTooltipPosition="before"
+          [matTooltip]="t('tooltip.co2Classification')"
+          class="cursor-help text-link"
+          >info_outline</mat-icon
+        >
+      </span>
+    </div>
+  </div>
+
+  <ng-content select="[overReleaseRestrictions]"></ng-content>
+
+  <div class="flex flex-row gap-x-6">
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>{{ t('releaseRestrictions') }}</mat-label>
+      <textarea
+        matInput
+        [formControl]="releaseRestrictionsControl"
+        name="releaseRestrictions"
+        #dialogControl
+      ></textarea>
+    </mat-form-field>
+  </div>
+</ng-container>

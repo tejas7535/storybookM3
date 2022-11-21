@@ -6,7 +6,8 @@ import { ColumnState } from 'ag-grid-enterprise';
 import { MaterialClass } from '@mac/msd/constants';
 import { MsdAgGridState, QuickFilter } from '@mac/msd/models';
 import { setCustomQuickfilter } from '@mac/msd/store/actions';
-import { DataFacade, QuickFilterFacade } from '@mac/msd/store/facades';
+import { DataFacade } from '@mac/msd/store/facades/data';
+import { QuickFilterFacade } from '@mac/msd/store/facades/quickfilter';
 
 @Injectable({
   providedIn: 'root',

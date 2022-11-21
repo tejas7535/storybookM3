@@ -4,7 +4,7 @@ import { Action, createReducer, on } from '@ngrx/store';
 import { StringOption } from '@schaeffler/inputs';
 
 import { MaterialClass } from '@mac/msd/constants';
-import { AluminiumMaterial, SteelMaterial } from '@mac/msd/models';
+import { AluminumMaterial, SteelMaterial } from '@mac/msd/models';
 import {
   fetchCategoryOptionsFailure,
   fetchCategoryOptionsSuccess,
@@ -33,7 +33,7 @@ export interface DataState {
   materialClassLoading: boolean;
   productCategoryLoading: boolean;
   materials: {
-    aluminumMaterials: AluminiumMaterial[];
+    aluminumMaterials: AluminumMaterial[];
     steelMaterials: SteelMaterial[];
   };
 }
@@ -87,8 +87,8 @@ export const dataReducer = createReducer(
         loading: false,
       },
     };
-    switch (true) {
-      case materialClass === MaterialClass.STEEL:
+    switch (materialClass) {
+      case MaterialClass.STEEL:
         return {
           ...newState,
           materials: {
@@ -96,12 +96,12 @@ export const dataReducer = createReducer(
             steelMaterials: result as SteelMaterial[],
           },
         };
-      case materialClass === MaterialClass.ALUMINUM:
+      case MaterialClass.ALUMINUM:
         return {
           ...newState,
           materials: {
             ...state.materials,
-            aluminumMaterials: result as AluminiumMaterial[],
+            aluminumMaterials: result as AluminumMaterial[],
           },
         };
       default:

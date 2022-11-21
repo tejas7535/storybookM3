@@ -1,0 +1,52 @@
+<div mat-dialog-title class="!-mx-6 !-mt-4">
+  <div class="flex flex-row content-around justify-between pl-4 pb-2 pr-2">
+    <div class="my-auto text-h6 text-high-emphasis">{{ txtTitle }}</div>
+    <div class="flex flex-row">
+      <button mat-icon-button (click)="minimizeDialog()">
+        <mat-icon class="text-medium-emphasis">minimize</mat-icon>
+      </button>
+      <button mat-icon-button (click)="cancelDialog()">
+        <mat-icon class="text-medium-emphasis">close</mat-icon>
+      </button>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+</div>
+
+<mat-dialog-content class="!px-4">
+  <div *ngIf="!(isLoading$ | ngrxPush); else dialogLoadingTemplate">
+    <ng-content></ng-content>
+  </div>
+
+  <ng-template #dialogLoadingTemplate>
+    <div class="flex flex-1 flex-col place-items-center">
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-template>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="-mx-6">
+  <mat-divider class="w-full pb-4"></mat-divider>
+  <div class="px-4 pb-2">
+    <button mat-stroked-button (click)="cancelDialog()" color="primary">
+      {{ txtCancel }}
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      class="!ml-4"
+      [disabled]="!valid"
+      (click)="confirmDialog()"
+    >
+      <div class="flex flex-row gap-x-2">
+        {{ txtConfirm }}
+        <mat-spinner
+          *ngIf="processConfirm$ | ngrxPush"
+          class="my-auto"
+          color="accent"
+          diameter="14"
+        ></mat-spinner>
+      </div>
+    </button>
+  </div>
+</mat-dialog-actions>

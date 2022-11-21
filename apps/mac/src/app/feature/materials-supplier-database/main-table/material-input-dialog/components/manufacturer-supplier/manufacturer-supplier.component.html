@@ -1,0 +1,91 @@
+<ng-container
+  *transloco="let t; read: 'materialsSupplierDatabase.mainTable.dialog'"
+>
+  <div class="flex flex-row gap-x-6" *ngIf="!readonly; else supplierReadonly">
+    <schaeffler-select
+      appearance="outline"
+      class="w-full"
+      [stringOptions]="suppliers$ | ngrxPush"
+      [control]="supplierControl"
+      [filterFn]="filterFn"
+      [label]="t('supplierName')"
+      [addEntry]="true"
+      (entryAdded)="addSupplierName($event)"
+      name="manufacturerSupplierName"
+      #dialogControl
+    >
+      <div matErrorContent *ngIf="supplierControl.invalid">
+        {{ getErrorMessage(supplierControl.errors) }}
+      </div>
+    </schaeffler-select>
+    <schaeffler-select
+      appearance="outline"
+      class="w-full"
+      [stringOptions]="supplierPlants$ | ngrxPush"
+      [control]="supplierPlantControl"
+      [filterFn]="
+        valueTitleToOptionKeyFilterFnFactory(supplierControl, 'supplierName')
+      "
+      [label]="t('supplierPlant')"
+      [addEntry]="true"
+      (entryAdded)="addSupplierPlant($event)"
+      name="manufacturerSupplierPlant"
+      #dialogControl
+    >
+      <div matErrorContent *ngIf="supplierPlantControl.invalid">
+        {{ getErrorMessage(supplierPlantControl.errors) }}
+      </div>
+    </schaeffler-select>
+
+    <schaeffler-select
+      appearance="outline"
+      class="w-full"
+      [stringOptions]="supplierCountries$ | ngrxPush"
+      [control]="supplierCountryControl"
+      [label]="t('supplierCountry')"
+      [addEntry]="true"
+      [filterFn]="filterFn"
+      (entryAdded)="addSupplierCountry($event)"
+      name="manufacturerSupplierCountry"
+      #dialogControl
+    >
+      <div matErrorContent *ngIf="supplierCountryControl.invalid">
+        {{ getErrorMessage(supplierCountryControl.errors) }}
+      </div>
+    </schaeffler-select>
+  </div>
+  <ng-template #supplierReadonly>
+    <div class="flex flex-row gap-x-6">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>{{ t('supplierName') }} {{ t('readonly') }}</mat-label>
+        <input
+          matInput
+          [value]="supplierControl.value?.title"
+          name="manufacturerSupplierName"
+          #dialogControl
+          readonly="true"
+        />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>{{ t('supplierPlant') }} {{ t('readonly') }}</mat-label>
+        <input
+          matInput
+          [value]="supplierPlantControl.value?.title"
+          name="manufacturerSupplierPlant"
+          #dialogControl
+          readonly="true"
+        />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>{{ t('supplierCountry') }} {{ t('readonly') }}</mat-label>
+        <input
+          matInput
+          [value]="supplierCountryControl.value?.title"
+          name="manufacturerSupplierCountry"
+          #dialogControl
+          readonly="true"
+        />
+      </mat-form-field>
+    </div>
+  </ng-template>
+</ng-container>

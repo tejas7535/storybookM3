@@ -1,6 +1,7 @@
+import { MaterialClass } from '@mac/msd/constants';
 import {
-  AluminiumMaterial,
-  AluminiumMaterialResponse,
+  AluminumMaterial,
+  AluminumMaterialResponse,
   DataResult,
   MaterialResponseEntry,
   SteelMaterial,
@@ -190,6 +191,7 @@ export const msdServiceSteelMockResponse: SteelMaterialResponse[] = [
       standardDocument: 'S 130002',
       materialNumber: '1.1234',
     },
+    materialClass: 'st',
     selfCertified: false,
     blocked: false,
   },
@@ -219,6 +221,7 @@ export const msdServiceSteelMockResponse: SteelMaterialResponse[] = [
       standardDocument: 'S 130001',
       materialNumber: '1.1234, 1.2345',
     },
+    materialClass: 'st',
     selfCertified: false,
     blocked: false,
   },
@@ -232,12 +235,15 @@ export const msdServiceSteelMockResult: SteelMaterial[] = [
     manufacturerSupplierName: 'ArcelorMittal Tubarao',
     manufacturerSupplierPlant: 'Tubarao',
     manufacturerSupplierCountry: 'Brazil',
+    materialClass: MaterialClass.STEEL,
     selfCertified: false,
     sapSupplierIds: ['0000000000000', '0000000000001'],
     materialStandardId: 57,
     materialStandardMaterialName: 'C80M',
     materialStandardStandardDocument: 'S 130002',
     productCategory: 'strip',
+    productCategoryText:
+      'materialsSupplierDatabase.productCategoryValues.strip',
     minDimension: 0,
     maxDimension: 0,
     co2PerTon: 2183,
@@ -266,12 +272,15 @@ export const msdServiceSteelMockResult: SteelMaterial[] = [
     manufacturerSupplierName: 'ArcelorMittal Tubarao',
     manufacturerSupplierPlant: 'Tubarao',
     manufacturerSupplierCountry: 'Brazil',
+    materialClass: MaterialClass.STEEL,
     selfCertified: false,
-    sapSupplierIds: [],
+    sapSupplierIds: undefined,
     materialStandardId: 57,
     materialStandardMaterialName: 'C45',
     materialStandardStandardDocument: 'S 130001',
     productCategory: 'strip',
+    productCategoryText:
+      'materialsSupplierDatabase.productCategoryValues.strip',
     minDimension: 0,
     maxDimension: 0,
     co2PerTon: 2183,
@@ -295,7 +304,7 @@ export const msdServiceSteelMockResult: SteelMaterial[] = [
   },
 ];
 
-export const msdServiceAluminumMockResponse: AluminiumMaterialResponse[] = [
+export const msdServiceAluminumMockResponse: AluminumMaterialResponse[] = [
   {
     id: 127,
     co2PerTon: 2183,
@@ -311,6 +320,8 @@ export const msdServiceAluminumMockResponse: AluminiumMaterialResponse[] = [
       materialName: 'C80M',
       standardDocument: 'S 130002',
     },
+    materialClass: 'al',
+    productCategory: 'raw',
   },
   {
     id: 128,
@@ -327,10 +338,12 @@ export const msdServiceAluminumMockResponse: AluminiumMaterialResponse[] = [
       materialName: 'C45',
       standardDocument: 'S 130001',
     },
+    materialClass: 'al',
+    productCategory: 'raw',
   },
 ];
 
-export const msdServiceAluminumMockResult: AluminiumMaterial[] = [
+export const msdServiceAluminumMockResult: AluminumMaterial[] = [
   {
     id: 127,
     manufacturerSupplierId: 442,
@@ -340,6 +353,8 @@ export const msdServiceAluminumMockResult: AluminiumMaterial[] = [
     materialStandardId: 57,
     materialStandardMaterialName: 'C80M',
     materialStandardStandardDocument: 'S 130002',
+    materialClass: MaterialClass.ALUMINUM,
+    productCategory: 'raw',
     co2PerTon: 2183,
     releaseRestrictions: '',
     co2Scope1: undefined,
@@ -357,6 +372,8 @@ export const msdServiceAluminumMockResult: AluminiumMaterial[] = [
     materialStandardId: 57,
     materialStandardMaterialName: 'C45',
     materialStandardStandardDocument: 'S 130001',
+    materialClass: MaterialClass.ALUMINUM,
+    productCategory: 'raw',
     co2PerTon: 2183,
     releaseRestrictions: '',
     co2Scope1: undefined,

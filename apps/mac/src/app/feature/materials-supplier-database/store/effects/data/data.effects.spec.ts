@@ -23,7 +23,7 @@ import {
   fetchMaterialsFailure,
   fetchMaterialsSuccess,
 } from '@mac/msd/store/actions/data';
-import { DataFacade } from '@mac/msd/store/facades';
+import { DataFacade } from '@mac/msd/store/facades/data';
 import { getFilters } from '@mac/msd/store/selectors';
 
 import { DataEffects } from './data.effects';

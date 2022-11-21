@@ -28,7 +28,8 @@ import {
   removeCustomQuickfilter,
   updateCustomQuickfilter,
 } from '@mac/msd/store/actions/quickfilter/quickfilter.actions';
-import { DataFacade, QuickFilterFacade } from '@mac/msd/store/facades';
+import { DataFacade } from '@mac/msd/store/facades/data';
+import { QuickFilterFacade } from '@mac/msd/store/facades/quickfilter';
 
 import { QuickfilterDialogComponent } from './quickfilter-dialog/quickfilter-dialog.component';
 

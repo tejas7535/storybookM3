@@ -10,7 +10,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
-import { DataFacade } from '@mac/msd/store';
+import { DataFacade } from '@mac/msd/store/facades/data';
 import { changeFavicon } from '@mac/shared/change-favicon';
 
 @Component({

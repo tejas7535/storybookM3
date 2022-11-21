@@ -53,7 +53,7 @@ import {
   setAgGridFilter,
   setFilter,
 } from '@mac/msd/store';
-import { DataFacade } from '@mac/msd/store/facades';
+import { DataFacade } from '@mac/msd/store/facades/data';
 
 /* eslint-disable max-lines */
 @Component({
@@ -561,7 +561,11 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public openDialog(isResumeDialog?: boolean): void {
     this.dataFacade.dispatch(openDialog());
-    const dialogRef = this.dialogService.openDialog(isResumeDialog);
+    const dialogRef = this.dialogService.openDialog(
+      isResumeDialog,
+      undefined,
+      this.materialClassSelectionControl.value?.id as MaterialClass
+    );
 
     dialogRef
       .afterOpened()

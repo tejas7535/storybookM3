@@ -10,7 +10,7 @@ import { MaterialClass } from '@mac/feature/materials-supplier-database/constant
 import { DataResult, MaterialV2 } from '@mac/msd/models';
 import { MsdDataService } from '@mac/msd/services';
 import * as DataActions from '@mac/msd/store/actions/data/data.actions';
-import { DataFacade } from '@mac/msd/store/facades';
+import { DataFacade } from '@mac/msd/store/facades/data';
 
 @Injectable()
 export class DataEffects {

@@ -83,9 +83,48 @@ describe('dialogReducer', () => {
           ...state.dialogOptions,
           materialStandardsLoading: true,
           manufacturerSuppliersLoading: true,
-          ratingsLoading: true,
-          steelMakingProcessesLoading: true,
           co2ClassificationsLoading: true,
+          error: undefined,
+        },
+      });
+    });
+
+    it('should set the loading state for the ratings to true', () => {
+      const action = DialogActions.fetchRatings();
+      const newState = dialogReducer(state, action);
+
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          ratingsLoading: true,
+          error: undefined,
+        },
+      });
+    });
+
+    it('should set the loading state for the steelMakingProcesses to true', () => {
+      const action = DialogActions.fetchSteelMakingProcesses();
+      const newState = dialogReducer(state, action);
+
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          steelMakingProcessesLoading: true,
+          error: undefined,
+        },
+      });
+    });
+
+    it('should set the loading state for the castingModes to true', () => {
+      const action = DialogActions.fetchCastingModes();
+      const newState = dialogReducer(state, action);
+
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
           castingModesLoading: true,
           error: undefined,
         },

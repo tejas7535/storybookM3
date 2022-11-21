@@ -59,10 +59,10 @@ export const getResult = createSelector(
   getDataState,
   getMaterialClass,
   (dataState, materialClass) => {
-    switch (true) {
-      case materialClass === MaterialClass.ALUMINUM:
+    switch (materialClass) {
+      case MaterialClass.ALUMINUM:
         return dataState.materials.aluminumMaterials;
-      case materialClass === MaterialClass.STEEL:
+      case MaterialClass.STEEL:
         return dataState.materials.steelMaterials;
       default:
         // eslint-disable-next-line unicorn/no-useless-undefined

@@ -9,6 +9,7 @@ import {
   ManufacturerSupplierV2,
   Material,
   MaterialFormValue,
+  MaterialRequest,
   MaterialStandard,
   MaterialStandardV2,
   MaterialV2,
@@ -27,7 +28,7 @@ export const materialDialogConfirmed = createAction(
   props<{
     standard: MaterialStandard | MaterialStandardV2;
     supplier: ManufacturerSupplier | ManufacturerSupplierV2;
-    material: Material | MaterialV2;
+    material: Material | MaterialV2 | MaterialRequest;
   }>()
 );
 
