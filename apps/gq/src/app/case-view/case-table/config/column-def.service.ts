@@ -84,6 +84,15 @@ export class ColumnDefService {
         },
       },
       cellRenderer: 'SapStatusCellComponent',
+      valueFormatter: (params: ValueFormatterParams) => {
+        if (params.value === SAP_SYNC_STATUS.SYNCED) {
+          return translate('shared.sapStatusLabels.synced');
+        } else if (params.value === SAP_SYNC_STATUS.NOT_SYNCED) {
+          return translate('shared.sapStatusLabels.notSynced');
+        } else {
+          return translate('shared.sapStatusLabels.partiallySynced');
+        }
+      },
     },
     {
       headerName: translate('caseView.caseTable.caseName'),
