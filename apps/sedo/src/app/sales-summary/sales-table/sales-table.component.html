@@ -1,11 +1,21 @@
 <div class="m-7 flex h-[calc(100%-60px)] flex-col">
-  <button
-    class="filter-button !mb-2 w-[250px] text-button"
-    mat-raised-button
-    (click)="setLastModifierFilter()"
-  >
-    FILTER ASSIGNED TO ME
-  </button>
+  <div class="flex flex-row justify-between">
+    <button
+      class="filter-button !mb-2 w-[250px] text-button"
+      mat-raised-button
+      (click)="setLastModifierFilter()"
+    >
+      FILTER ASSIGNED TO ME
+    </button>
+    <a
+      mat-button
+      class="!mb-2 text-button text-link"
+      href="https://sconnect.schaeffler.com/docs/DOC-382363"
+      target="_blank"
+      >Support/Documentation</a
+    >
+  </div>
+
   <ag-grid-angular
     class="ag-theme-material h-full"
     [columnDefs]="columnDefs"
