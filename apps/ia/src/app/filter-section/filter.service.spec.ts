@@ -64,12 +64,15 @@ describe('FilterService', () => {
   describe('getRegions', () => {
     test('should get regions', () => {
       const data: IdValue[] = [];
+      const timeRange = '1-1';
 
-      service.getRegions().subscribe((response) => {
+      service.getRegions(timeRange).subscribe((response) => {
         expect(response).toEqual(data);
       });
 
-      const req = httpMock.expectOne(`api/v1/filters/regions`);
+      const req = httpMock.expectOne(
+        `api/v1/filters/regions?time_range=${encodeURIComponent(timeRange)}`
+      );
 
       expect(req.request.method).toBe('GET');
       req.flush(data);
@@ -79,12 +82,15 @@ describe('FilterService', () => {
   describe('getSubRegions', () => {
     test('should get sub-regions', () => {
       const data: IdValue[] = [];
+      const timeRange = '1-1';
 
-      service.getSubRegions().subscribe((response) => {
+      service.getSubRegions(timeRange).subscribe((response) => {
         expect(response).toEqual(data);
       });
 
-      const req = httpMock.expectOne(`api/v1/filters/sub-regions`);
+      const req = httpMock.expectOne(
+        `api/v1/filters/sub-regions?time_range=${encodeURIComponent(timeRange)}`
+      );
 
       expect(req.request.method).toBe('GET');
       req.flush(data);
@@ -94,12 +100,15 @@ describe('FilterService', () => {
   describe('getCountries', () => {
     test('should get countries', () => {
       const data: IdValue[] = [];
+      const timeRange = '1-1';
 
-      service.getCountries().subscribe((response) => {
+      service.getCountries(timeRange).subscribe((response) => {
         expect(response).toEqual(data);
       });
 
-      const req = httpMock.expectOne(`api/v1/filters/countries`);
+      const req = httpMock.expectOne(
+        `api/v1/filters/countries?time_range=${encodeURIComponent(timeRange)}`
+      );
 
       expect(req.request.method).toBe('GET');
       req.flush(data);
@@ -109,12 +118,15 @@ describe('FilterService', () => {
   describe('getSubFunctions', () => {
     test('should get sub-functions', () => {
       const data: IdValue[] = [];
+      const timeRange = '1-1';
 
-      service.getSubFunctions().subscribe((response) => {
+      service.getSubFunctions(timeRange).subscribe((response) => {
         expect(response).toEqual(data);
       });
 
-      const req = httpMock.expectOne(`api/v1/filters/sub-functions`);
+      const req = httpMock.expectOne(
+        `api/v1/filters/sub-functions?time_range=${timeRange}`
+      );
 
       expect(req.request.method).toBe('GET');
       req.flush(data);

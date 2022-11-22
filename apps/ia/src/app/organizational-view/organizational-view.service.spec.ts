@@ -119,15 +119,16 @@ describe('OrganizationalViewService', () => {
         {} as unknown as DimensionParentResponse;
       const parentEmployeeId = '123';
       const dimension = FilterDimension.ORG_UNIT;
+      const timeRange = '1-1';
 
       service
-        .getParentOrgUnit(dimension, parentEmployeeId)
+        .getParentOrgUnit(dimension, timeRange, parentEmployeeId)
         .subscribe((response) => {
           expect(response).toEqual(mock);
         });
 
       const req = httpMock.expectOne(
-        `api/v1/dimension-parent?dimension=${dimension}&value=123`
+        `api/v1/dimension-parent?dimension=${dimension}&value=${parentEmployeeId}&time_range=${timeRange}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);

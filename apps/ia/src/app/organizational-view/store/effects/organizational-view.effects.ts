@@ -186,10 +186,17 @@ export class OrganizationalViewEffects {
   loadParent$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadParent),
-      concatLatestFrom(() => this.store.select(getSelectedDimension)),
-      mergeMap(([action, selectedDimension]) =>
+      concatLatestFrom(() => [
+        this.store.select(getSelectedDimension),
+        this.store.select(getSelectedTimeRange),
+      ]),
+      mergeMap(([action, selectedDimension, selectedTimeRange]) =>
         this.organizationalViewService
-          .getParentOrgUnit(selectedDimension, action.data.parentId)
+          .getParentOrgUnit(
+            selectedDimension,
+            selectedTimeRange.id,
+            action.data.parentId
+          )
           .pipe(
             map((response: DimensionParentResponse) =>
               loadParentSuccess({ response })

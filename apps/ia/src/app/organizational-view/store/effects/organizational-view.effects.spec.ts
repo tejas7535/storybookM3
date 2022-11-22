@@ -516,6 +516,7 @@ describe('Organizational View Effects', () => {
         m.flush();
         expect(organizationalViewService.getParentOrgUnit).toHaveBeenCalledWith(
           FilterDimension.ORG_UNIT,
+          '1234|4567',
           parentId
         );
       })
@@ -531,6 +532,11 @@ describe('Organizational View Effects', () => {
         actions$ = m.hot('-a', { a: action });
         const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
+        const timeRange = '1-1';
+        store.overrideSelector(getSelectedTimeRange, {
+          id: timeRange,
+          value: timeRange,
+        });
 
         store.overrideSelector(getSelectedDimension, FilterDimension.ORG_UNIT);
 
@@ -542,6 +548,7 @@ describe('Organizational View Effects', () => {
         m.flush();
         expect(organizationalViewService.getParentOrgUnit).toHaveBeenCalledWith(
           FilterDimension.ORG_UNIT,
+          timeRange,
           parentId
         );
       })

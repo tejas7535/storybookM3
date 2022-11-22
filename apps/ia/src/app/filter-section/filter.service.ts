@@ -44,73 +44,93 @@ export class FilterService {
       .pipe(map((result) => result.content));
   }
 
-  getRegions(): Observable<IdValue[]> {
+  getRegions(timeRange: string): Observable<IdValue[]> {
+    const params = this.paramsCreator.createHttpParamsForTimeRange(timeRange);
+
     return this.http.get<IdValue[]>(
       `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.REGIONS}`,
-      { context: withCache() }
+      { params, context: withCache() }
     );
   }
 
-  getSubRegions(): Observable<IdValue[]> {
+  getSubRegions(timeRange: string): Observable<IdValue[]> {
+    const params = this.paramsCreator.createHttpParamsForTimeRange(timeRange);
+
     return this.http.get<IdValue[]>(
       `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.SUB_REGIONS}`,
-      { context: withCache() }
+      { params, context: withCache() }
     );
   }
 
-  getCountries(): Observable<IdValue[]> {
+  getCountries(timeRange: string): Observable<IdValue[]> {
+    const params = this.paramsCreator.createHttpParamsForTimeRange(timeRange);
+
     return this.http.get<IdValue[]>(
       `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.COUNTRIES}`,
-      { context: withCache() }
+      { params, context: withCache() }
     );
   }
 
-  getFunctions(): Observable<IdValue[]> {
+  getFunctions(timeRange: string): Observable<IdValue[]> {
+    const params = this.paramsCreator.createHttpParamsForTimeRange(timeRange);
+
     return this.http.get<IdValue[]>(
       `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.FUNCTIONS}`,
-      { context: withCache() }
+      { params, context: withCache() }
     );
   }
 
-  getSubFunctions(): Observable<IdValue[]> {
+  getSubFunctions(timeRange: string): Observable<IdValue[]> {
+    const params = this.paramsCreator.createHttpParamsForTimeRange(timeRange);
+
     return this.http.get<IdValue[]>(
       `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.SUB_FUNCTIONS}`,
-      { context: withCache() }
+      { params, context: withCache() }
     );
   }
 
-  getSegments(): Observable<IdValue[]> {
+  getSegments(timeRange: string): Observable<IdValue[]> {
+    const params = this.paramsCreator.createHttpParamsForTimeRange(timeRange);
+
     return this.http.get<IdValue[]>(
       `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.SEGMENTS}`,
-      { context: withCache() }
+      { params, context: withCache() }
     );
   }
 
-  getSubSegments(): Observable<IdValue[]> {
+  getSubSegments(timeRange: string): Observable<IdValue[]> {
+    const params = this.paramsCreator.createHttpParamsForTimeRange(timeRange);
+
     return this.http.get<IdValue[]>(
       `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.SUB_SEGMENTS}`,
-      { context: withCache() }
+      { params, context: withCache() }
     );
   }
 
-  getSegmentUnits(): Observable<IdValue[]> {
+  getSegmentUnits(timeRange: string): Observable<IdValue[]> {
+    const params = this.paramsCreator.createHttpParamsForTimeRange(timeRange);
+
     return this.http.get<IdValue[]>(
       `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.SEGMENT_UNITS}`,
-      { context: withCache() }
+      { params, context: withCache() }
     );
   }
 
-  getBoards(): Observable<IdValue[]> {
+  getBoards(timeRange: string): Observable<IdValue[]> {
+    const params = this.paramsCreator.createHttpParamsForTimeRange(timeRange);
+
     return this.http.get<IdValue[]>(
       `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.BOARDS}`,
-      { context: withCache() }
+      { params, context: withCache() }
     );
   }
 
-  getSubBoards(): Observable<IdValue[]> {
+  getSubBoards(timeRange: string): Observable<IdValue[]> {
+    const params = this.paramsCreator.createHttpParamsForTimeRange(timeRange);
+
     return this.http.get<IdValue[]>(
       `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.SUB_BOARDS}`,
-      { context: withCache() }
+      { params, context: withCache() }
     );
   }
 
@@ -124,34 +144,34 @@ export class FilterService {
         return this.getOrgUnits(searchFor, timeRangeId);
 
       case FilterDimension.REGION:
-        return this.getRegions();
+        return this.getRegions(timeRangeId);
 
       case FilterDimension.SUB_REGION:
-        return this.getSubRegions();
+        return this.getSubRegions(timeRangeId);
 
       case FilterDimension.COUNTRY:
-        return this.getCountries();
+        return this.getCountries(timeRangeId);
 
       case FilterDimension.FUNCTION:
-        return this.getFunctions();
+        return this.getFunctions(timeRangeId);
 
       case FilterDimension.SUB_FUNCTION:
-        return this.getSubFunctions();
+        return this.getSubFunctions(timeRangeId);
 
       case FilterDimension.SEGMENT:
-        return this.getSegments();
+        return this.getSegments(timeRangeId);
 
       case FilterDimension.SUB_SEGMENT:
-        return this.getSubSegments();
+        return this.getSubSegments(timeRangeId);
 
       case FilterDimension.SEGMENT_UNIT:
-        return this.getSegmentUnits();
+        return this.getSegmentUnits(timeRangeId);
 
       case FilterDimension.BOARD:
-        return this.getBoards();
+        return this.getBoards(timeRangeId);
 
       case FilterDimension.SUB_BOARD:
-        return this.getSubBoards();
+        return this.getSubBoards(timeRangeId);
 
       default:
         return EMPTY;

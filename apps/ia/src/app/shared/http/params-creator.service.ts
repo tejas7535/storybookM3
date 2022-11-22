@@ -23,6 +23,10 @@ export class ParamsCreatorService {
       .set(this.PARAM_SEARCH_FOR, searchFor);
   }
 
+  createHttpParamsForTimeRange(timeRange: string) {
+    return new HttpParams().set(this.PARAM_TIME_RANGE, timeRange);
+  }
+
   createHttpParamsForFilterDimension(
     filterDimension: FilterDimension,
     value: string

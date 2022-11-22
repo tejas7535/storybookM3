@@ -121,11 +121,13 @@ export class OrganizationalViewService {
 
   getParentOrgUnit(
     childDimension: FilterDimension,
+    timeRange: string,
     parentId: string
   ): Observable<DimensionParentResponse> {
-    const params = this.paramsCreator.createHttpParamsForFilterDimension(
+    const params = this.paramsCreator.createHttpParamsForDimensionAndTimeRange(
       childDimension,
-      parentId
+      parentId,
+      timeRange
     );
 
     return this.http.get<DimensionParentResponse>(

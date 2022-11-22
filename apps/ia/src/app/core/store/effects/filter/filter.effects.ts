@@ -72,7 +72,9 @@ export class FilterEffects {
   filterDimensionSelected$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(filterDimensionSelected),
-      map((filter) => filterSelected({ filter: filter.filter }))
+      map((filter) =>
+        loadFilterDimensionData({ filterDimension: filter.filterDimension })
+      )
     );
   });
 
