@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.16.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/sedo-v1.15.0...sedo-v1.16.0) (2022-11-22)
+
+
+### 🎸 Features
+
+* **sedo:** add link to users documentation page ([#4813](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4813)) ([9d9fdc4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9d9fdc4a641d4bf1c07707fe3082f79bd60278e1))
+
 ## [1.15.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/sedo-v1.14.0...sedo-v1.15.0) (2022-11-14)
 
 
