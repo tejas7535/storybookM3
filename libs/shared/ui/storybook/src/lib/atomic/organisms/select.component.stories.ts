@@ -63,6 +63,8 @@ const Template: Story<SelectComponent> = (args: SelectComponent) => ({
           [control]="control"
           [filterFn]="filterFn"
           [resetButton]="resetButton"
+          [showTriggerTooltip]="showTriggerTooltip"
+          [triggerTooltipDelay]="triggerTooltipDelay"
           (searchUpdated)="onSearchUpdated($event)"
           (entryAdded)="onEntryAdded($event)"
           (optionRemoved)="onOptionRemoved($event)"
@@ -118,6 +120,8 @@ Primary.args = {
   noResultsText: 'No Results',
   addEntry: false,
   resetButton: true,
+  showTriggerTooltip: false,
+  triggerTooltipDelay: 1500,
 };
 
 Primary.argTypes = {

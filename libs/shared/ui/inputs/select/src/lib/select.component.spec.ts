@@ -352,6 +352,48 @@ describe('SelectComponent', () => {
     });
   });
 
+  describe('get currentTooltipValue', () => {
+    it('should return the title of the selected option if single select', () => {
+      const mockOption = { id: 'mockId', title: 'mockTitle' };
+      component.multiple = false;
+      component.control.setValue(mockOption);
+
+      const currentValue = component.currentTooltipValue;
+
+      expect(currentValue).toBe('mockTitle');
+    });
+
+    it('should return undefined if the control value is undefined', () => {
+      component.multiple = false;
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      component.control.setValue(undefined);
+
+      const currentValue = component.currentTooltipValue;
+
+      expect(currentValue).toBe(undefined);
+    });
+
+    it('should return the selected titles joined with , if multi select', () => {
+      const mockOption = { id: 'mockId', title: 'mockTitle' };
+      component.multiple = true;
+      component.control.setValue([mockOption, mockOption]);
+
+      const currentValue = component.currentTooltipValue;
+
+      expect(currentValue).toEqual('mockTitle, mockTitle');
+    });
+
+    it('should return undefined if the control value is undefined in multi select', () => {
+      component.multiple = true;
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      component.control.setValue(undefined);
+
+      const currentValue = component.currentTooltipValue;
+
+      expect(currentValue).toBe(undefined);
+    });
+  });
+
   describe('get formControlRequired', () => {
     it('should check for the validator and return true', () => {
       component.control = new FormControl('', [Validators.required]);

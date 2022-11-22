@@ -38,6 +38,8 @@ export class SelectComponent
   @Input() public noResultsText = 'No Results';
   @Input() public addEntry?: boolean;
   @Input() public resetButton? = true;
+  @Input() public showTriggerTooltip?: boolean;
+  @Input() public triggerTooltipDelay?: number;
 
   @Output() public readonly searchUpdated = new EventEmitter<string>();
   @Output() public readonly entryAdded = new EventEmitter<string>();
@@ -151,6 +153,14 @@ export class SelectComponent
     }
 
     return this.control.value?.title;
+  }
+
+  public get currentTooltipValue(): string {
+    if (this.multiple) {
+      return (this.currentValue as string[])?.join(', ');
+    }
+
+    return this.currentValue as string;
   }
 
   public get formControlRequired(): boolean {

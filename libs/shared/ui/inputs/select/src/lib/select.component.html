@@ -12,7 +12,11 @@
     [required]="formControlRequired"
     [compareWith]="compareWith"
   >
-    <mat-select-trigger>{{ currentValue }} </mat-select-trigger>
+    <mat-select-trigger
+      [matTooltip]="showTriggerTooltip ? currentTooltipValue : ''"
+      [matTooltipShowDelay]="triggerTooltipDelay"
+      >{{ currentValue }}
+    </mat-select-trigger>
     <div (keydown)="$event.stopPropagation()">
       <mat-option #dummyOption class="!h-0"></mat-option>
       <div class="flex flex-col">

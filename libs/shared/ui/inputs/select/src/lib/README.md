@@ -123,6 +123,8 @@ In the parent component:
     [noResultsText]="noResultsText"
     [filterFn]="filterFn"
     [resetButton]="resetButton"
+    [showTriggerTooltip]="true"
+    [triggerTooltipDelay]="1500"
     (searchUpdated)="onSearchUpdated($event)"
     (entryAdded)="onEntryAdded($event)"
     (optionRemoved)="onOptionRemoved($event)"
@@ -270,6 +272,8 @@ For further information about the option type see [@schaeffler/inputs documentat
 | control               | (optional) a form control to manage the value of the control                                                     |
 | filterFn              | (optional) a custom function to implement filter logic used by the component                                     |
 | resetButton           | (optional) (default: true) whether to display a reset button below the options                                   |
+| showTriggerTooltip    | (optional) whether to display a tooltip on the trigger                                                           |
+| triggerTooltipDelay   | (optional) the delay in ms to display the trigger tooltip with                                                   |
 
 #### Events
 
