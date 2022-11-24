@@ -1,6 +1,7 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
+import { EnvironmentEnum } from '../app/shared/models';
 import { Environment } from './environment.model';
 
 export const environment: Environment = {
@@ -23,6 +24,7 @@ export const environment: Environment = {
     enableNgrxMetaReducer: true,
     ngrxIgnorePattern: ['@ngrx/*'],
   },
+  environment: EnvironmentEnum.dev,
 };
 
 /*

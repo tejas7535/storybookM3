@@ -1,3 +1,5 @@
+import { EnvironmentEnum } from '../app/shared/models';
+
 export interface Environment {
   production: boolean;
   localDev: boolean;
@@ -18,4 +20,5 @@ export interface Environment {
     enableNgrxMetaReducer: boolean;
     ngrxIgnorePattern: string[];
   };
+  environment: EnvironmentEnum;
 }

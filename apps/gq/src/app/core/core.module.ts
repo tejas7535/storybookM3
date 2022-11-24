@@ -27,6 +27,7 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
+import { ENV, getEnv } from '../../environments/environments.provider';
 import i18nChecksumsJson from '../../i18n-checksums.json';
 import { AppComponent } from '../app.component';
 import { UserSettingsModule } from '../shared/components/user-settings/user-settings.module';
@@ -122,6 +123,10 @@ export function appInitializer(
       provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptor,
       multi: true,
+    },
+    {
+      provide: ENV,
+      useValue: { ...getEnv() },
     },
   ],
   exports: [AppComponent],

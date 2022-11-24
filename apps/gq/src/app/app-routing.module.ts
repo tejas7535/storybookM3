@@ -6,7 +6,7 @@ import { MsalGuard } from '@azure/msal-angular';
 import { LegalRoute } from '@schaeffler/legal-pages';
 
 import { AppRoutePath } from './app-route-path.enum';
-import { RoleGuard } from './core/guards';
+import { ProdGuard, RoleGuard } from './core/guards';
 import { FORBIDDEN_ACTION } from './shared/constants';
 
 export const appRoutePaths: Routes = [
@@ -37,6 +37,7 @@ export const appRoutePaths: Routes = [
       messageText: 'errorInterceptorForbidden',
     },
   },
+
   {
     path: AppRoutePath.CaseViewPath,
     loadChildren: () =>
@@ -59,6 +60,14 @@ export const appRoutePaths: Routes = [
         (m) => m.DetailViewModule
       ),
     canActivateChild: [RoleGuard],
+  },
+  {
+    path: AppRoutePath.FeatureToggleConfig,
+    loadChildren: () =>
+      import('./feature-toggle-view/feature-toggle-view.module').then(
+        (m) => m.FeatureToggleViewModule
+      ),
+    canActivate: [ProdGuard],
   },
   {
     path: '**',
