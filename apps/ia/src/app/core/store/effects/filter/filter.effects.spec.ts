@@ -5,14 +5,18 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/jest';
 
 import { FilterService } from '../../../../filter-section/filter.service';
-import { FilterDimension, IdValue } from '../../../../shared/models';
+import { FilterDimension, FilterKey, IdValue } from '../../../../shared/models';
 import {
   filterSelected,
   loadFilterDimensionData,
   loadFilterDimensionDataFailure,
   loadFilterDimensionDataSuccess,
 } from '../../actions/filter/filter.action';
-import { getSelectedBusinessArea, getSelectedTimeRange } from '../../selectors';
+import {
+  getSelectedBusinessArea,
+  getSelectedDimension,
+  getSelectedTimeRange,
+} from '../../selectors';
 import { FilterEffects } from './filter.effects';
 
 describe('Filter Effects', () => {
@@ -160,6 +164,50 @@ describe('Filter Effects', () => {
         m.expect(effects.loadFilterDimensionDataSuccess$).toBeObservable(
           expected
         );
+        m.flush();
+      })
+    );
+  });
+
+  describe('timeRangeSelected$', () => {
+    test(
+      'should dispatch loadFilterDimensionData action when selected filter time range',
+      marbles((m) => {
+        const idValue = new IdValue('123-123', '2020-2022');
+        const filterDimension = FilterDimension.ORG_UNIT;
+        const selectedFilter = {
+          name: FilterKey.TIME_RANGE,
+          idValue,
+        };
+        action = filterSelected({ filter: selectedFilter });
+
+        store.overrideSelector(getSelectedDimension, filterDimension);
+        const result = loadFilterDimensionData({
+          filterDimension,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.timeRangeSelected$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+
+    test(
+      'should not dispatch loadFilterDimensionData action when selected filter not time range',
+      marbles((m) => {
+        const idValue = new IdValue('123-123', '2020-2022');
+        const selectedFilter = {
+          name: FilterDimension.COUNTRY,
+          idValue,
+        };
+        action = filterSelected({ filter: selectedFilter });
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-');
+
+        m.expect(effects.timeRangeSelected$).toBeObservable(expected);
         m.flush();
       })
     );

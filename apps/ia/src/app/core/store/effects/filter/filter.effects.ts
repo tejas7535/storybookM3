@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 
-import { catchError, EMPTY, map, mergeMap, of } from 'rxjs';
+import { catchError, EMPTY, filter, map, mergeMap, of } from 'rxjs';
 
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import { FilterService } from '../../../../filter-section/filter.service';
-import { IdValue, SelectedFilter } from '../../../../shared/models';
+import { FilterKey, IdValue, SelectedFilter } from '../../../../shared/models';
 import { loadUserSettingsDimensionData } from '../../../../user-settings/store/actions/user-settings.action';
 import {
   filterDimensionSelected,
@@ -15,7 +15,11 @@ import {
   loadFilterDimensionDataFailure,
   loadFilterDimensionDataSuccess,
 } from '../../actions';
-import { getSelectedBusinessArea, getSelectedTimeRange } from '../../selectors';
+import {
+  getSelectedBusinessArea,
+  getSelectedDimension,
+  getSelectedTimeRange,
+} from '../../selectors';
 
 @Injectable()
 export class FilterEffects {
@@ -72,8 +76,19 @@ export class FilterEffects {
   filterDimensionSelected$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(filterDimensionSelected),
-      map((filter) =>
-        loadFilterDimensionData({ filterDimension: filter.filterDimension })
+      map((action) =>
+        loadFilterDimensionData({ filterDimension: action.filterDimension })
+      )
+    );
+  });
+
+  timeRangeSelected$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(filterSelected),
+      filter((action) => action.filter.name === FilterKey.TIME_RANGE),
+      concatLatestFrom(() => this.store.select(getSelectedDimension)),
+      map(([_action, filterDimension]) =>
+        loadFilterDimensionData({ filterDimension })
       )
     );
   });
