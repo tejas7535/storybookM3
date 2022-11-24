@@ -19,17 +19,28 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
-import { provideMockStore } from '@ngrx/store/testing';
+import { DefaultProjectorFn, MemoizedSelector } from '@ngrx/store';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { SelectModule } from '@schaeffler/inputs/select';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
+import { CreateMaterialRecord } from '@mac/feature/materials-supplier-database/models';
+import {
+  getCreateMaterialRecord,
+  materialDialogConfirmed,
+} from '@mac/feature/materials-supplier-database/store';
 import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
 import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
 import {
   mockMaterialStandards,
   mockSuppliers,
 } from '@mac/testing/mocks/msd/input-dialog.mock';
+import {
+  createMaterialFormValue,
+  transformAsMaterialRequest,
+} from '@mac/testing/mocks/msd/material-generator.mock';
 
 import * as en from '../../../../../../../assets/i18n/en.json';
 import { BaseDialogModule } from '../../base-dialog/base-dialog.module';
@@ -72,6 +83,8 @@ describe('AluminumInputDialogComponent', () => {
       },
     },
   };
+  let store: MockStore;
+  let createMaterialSpy: MemoizedSelector<any, any, DefaultProjectorFn<any>>;
 
   const createComponent = createComponentFactory({
     component: AluminumInputDialogComponent,
@@ -115,6 +128,11 @@ describe('AluminumInputDialogComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+    const spy = spectator.inject(MockStore);
+    createMaterialSpy = spy.overrideSelector(getCreateMaterialRecord);
+    store = spy;
+    store.dispatch = jest.fn();
+    spectator.detectChanges();
   });
 
   it('should create', () => {
@@ -128,6 +146,52 @@ describe('AluminumInputDialogComponent', () => {
       component.ngOnInit();
 
       expect(component.createMaterialForm).toBeTruthy();
+    });
+  });
+
+  describe('confirmMaterial', () => {
+    beforeEach(() => {
+      component.supplierPlantControl.enable({ emitEvent: false });
+      component.supplierCountryControl.enable({ emitEvent: false });
+      component.co2ClassificationControl.enable({ emitEvent: false });
+    });
+    const update = (error: boolean) => {
+      createMaterialSpy.setResult({
+        error,
+      } as CreateMaterialRecord);
+      store.refreshState();
+    };
+    beforeEach(() => {
+      component.closeDialog = jest.fn();
+      component.showInSnackbar = jest.fn();
+    });
+    it('should close dialog on successful confirm', () => {
+      const values = createMaterialFormValue(MaterialClass.ALUMINUM);
+      component.createMaterialForm.patchValue(values, { emitEvent: false });
+
+      component.confirmMaterial();
+      expect(store.dispatch).toBeCalledWith(
+        materialDialogConfirmed(transformAsMaterialRequest(values))
+      );
+
+      // backend response
+      update(false);
+      expect(component.closeDialog).toBeCalledWith(true);
+      expect(component.showInSnackbar).toBeCalled();
+    });
+    it('should keep the dialog open on error', () => {
+      const values = createMaterialFormValue(MaterialClass.ALUMINUM);
+      component.createMaterialForm.patchValue(values, { emitEvent: false });
+
+      component.confirmMaterial();
+      expect(store.dispatch).toBeCalledWith(
+        materialDialogConfirmed(transformAsMaterialRequest(values))
+      );
+
+      // backend response
+      update(true);
+      expect(component.closeDialog).not.toBeCalled();
+      expect(component.showInSnackbar).toBeCalled();
     });
   });
 });

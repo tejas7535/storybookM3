@@ -27,12 +27,14 @@ import { focusSelectedElement } from '@mac/msd/main-table/material-input-dialog/
 import {
   DataResult,
   ManufacturerSupplierV2,
-  MaterialForm,
   MaterialFormValueV2,
   MaterialRequest,
   MaterialStandardV2,
 } from '@mac/msd/models';
-import { materialDialogConfirmed, materialDialogOpened } from '@mac/msd/store';
+import {
+  materialDialogConfirmed,
+  materialDialogOpened,
+} from '@mac/msd/store/actions';
 import { DialogFacade } from '@mac/msd/store/facades/dialog';
 
 @Component({
@@ -93,7 +95,7 @@ export class MaterialInputDialogComponent
     this.controlsService.getRequiredControl<StringOption>();
   public releaseRestrictionsControl = this.controlsService.getControl<string>();
 
-  public createMaterialForm: FormGroup<MaterialForm>;
+  public createMaterialForm: FormGroup;
 
   @ViewChildren('dialogControl', { read: ElementRef })
   dialogControlRefs: QueryList<ElementRef>;
@@ -215,11 +217,7 @@ export class MaterialInputDialogComponent
     action?: string,
     config?: MatSnackBarConfig
   ): void {
-    this.snackbar.open(
-      translate(msg),
-      action ? translate(action) : undefined,
-      config
-    );
+    this.snackbar.open(msg, action ?? undefined, config);
   }
 
   // extend this method in child classes for specific material classes
@@ -257,6 +255,9 @@ export class MaterialInputDialogComponent
           ),
         });
   }
+
+  public compareWithId = (option: StringOption, selected: StringOption) =>
+    option?.id === selected?.id;
 
   public getColumn(): string {
     return this.dialogData?.editDialogInformation?.column;
@@ -353,24 +354,20 @@ export class MaterialInputDialogComponent
     this.dialogFacade.createMaterialRecord$
       .pipe(filter(Boolean), take(1))
       .subscribe((record) => {
+        let msgKey;
         if (!record.error) {
-          this.snackbar.open(
-            translate(
-              'materialsSupplierDatabase.mainTable.dialog.createMaterialSuccess'
-            ),
-            translate('materialsSupplierDatabase.mainTable.dialog.close'),
-            { duration: 5000 }
-          );
           this.closeDialog(true);
+          msgKey =
+            'materialsSupplierDatabase.mainTable.dialog.createMaterialSuccess';
         } else {
-          this.snackbar.open(
-            translate(
-              'materialsSupplierDatabase.mainTable.dialog.createMaterialFailure'
-            ),
-            translate('materialsSupplierDatabase.mainTable.dialog.close'),
-            { duration: 5000 }
-          );
+          msgKey =
+            'materialsSupplierDatabase.mainTable.dialog.createMaterialFailure';
         }
+        this.showInSnackbar(
+          translate(msgKey),
+          translate('materialsSupplierDatabase.mainTable.dialog.close'),
+          { duration: 5000 }
+        );
       });
   }
 }

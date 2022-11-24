@@ -8,7 +8,7 @@ import { StringOption } from '@schaeffler/inputs';
 
 import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
 import { DataResult, MaterialV2 } from '@mac/msd/models';
-import { MsdDataService } from '@mac/msd/services';
+import { MsdDataService } from '@mac/msd/services/msd-data';
 import * as DataActions from '@mac/msd/store/actions/data/data.actions';
 import { DataFacade } from '@mac/msd/store/facades/data';
 

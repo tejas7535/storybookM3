@@ -24,9 +24,10 @@ import { MaterialInputDialogModule } from '@mac/msd/main-table/material-input-di
 import { DialogControlsService } from '@mac/msd/main-table/material-input-dialog/services';
 
 import { AluminumInputDialogComponent } from './aluminum/aluminum-input-dialog.component';
+import { SteelInputDialogComponent } from './steel/steel-input-dialog.component';
 
 @NgModule({
-  declarations: [AluminumInputDialogComponent],
+  declarations: [AluminumInputDialogComponent, SteelInputDialogComponent],
   imports: [
     CommonModule,
     MatProgressSpinnerModule,
@@ -48,7 +49,7 @@ import { AluminumInputDialogComponent } from './aluminum/aluminum-input-dialog.c
     BaseDialogModule,
     MaterialInputDialogModule,
   ],
-  exports: [AluminumInputDialogComponent],
+  exports: [AluminumInputDialogComponent, SteelInputDialogComponent],
   providers: [DialogControlsService],
 })
 export class MaterialDialogsModule {}

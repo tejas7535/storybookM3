@@ -14,7 +14,6 @@ import { AgGridModule } from 'ag-grid-angular';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { InputDialogModule } from '@mac/msd/main-table/input-dialog/input-dialog.module';
 import { MsdDialogService } from '@mac/msd/services';
 
 import { EditCellRendererComponent } from './edit-cell-renderer/edit-cell-renderer.component';
@@ -43,7 +42,6 @@ import { QuickFilterComponent } from './quick-filter/quick-filter.component';
     MatCheckboxModule,
     MatIconModule,
     SharedTranslocoModule,
-    InputDialogModule,
     QuickFilterComponent,
     MatDialogModule,
     MaterialDialogsModule,

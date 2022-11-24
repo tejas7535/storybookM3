@@ -3,8 +3,8 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
 import { MaterialClass } from '@mac/msd/constants';
-import { InputDialogComponent } from '@mac/msd/main-table/input-dialog/input-dialog.component';
 import { AluminumInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/materials/aluminum/aluminum-input-dialog.component';
+import { SteelInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/materials/steel/steel-input-dialog.component';
 import { DataResult } from '@mac/msd/models';
 
 import { MsdDialogService } from './msd-dialog.service';
@@ -40,11 +40,11 @@ describe('MsdDialogService', () => {
         row: {} as DataResult,
         column: 'column',
       });
-      service['getDialogClass'] = jest.fn(() => InputDialogComponent);
+      service['getDialogClass'] = jest.fn(() => SteelInputDialogComponent);
 
       expect(mockRef).toEqual({} as unknown as MatDialogRef<any>);
       expect(service['dialog'].open).toHaveBeenCalledWith(
-        InputDialogComponent,
+        SteelInputDialogComponent,
         {
           width: '863px',
           autoFocus: false,
@@ -62,7 +62,9 @@ describe('MsdDialogService', () => {
   describe('getDialogClass', () => {
     it('should return the dialog class for default', () => {
       // eslint-disable-next-line unicorn/no-useless-undefined
-      expect(service['getDialogClass'](undefined)).toBe(InputDialogComponent);
+      expect(JSON.stringify(service['getDialogClass'](undefined))).toEqual(
+        JSON.stringify(SteelInputDialogComponent)
+      );
     });
 
     it('should return the dialog class for aluminum', () => {
@@ -71,9 +73,9 @@ describe('MsdDialogService', () => {
       ).toEqual(JSON.stringify(AluminumInputDialogComponent));
     });
     it('should return the dialog class for steel', () => {
-      expect(service['getDialogClass'](MaterialClass.STEEL)).toEqual(
-        InputDialogComponent
-      );
+      expect(
+        JSON.stringify(service['getDialogClass'](MaterialClass.STEEL))
+      ).toEqual(JSON.stringify(SteelInputDialogComponent));
     });
   });
 });

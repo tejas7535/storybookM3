@@ -24,6 +24,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { StringOption } from '@schaeffler/inputs';
 import { SelectModule } from '@schaeffler/inputs/select';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -86,6 +87,9 @@ describe('MaterialInputDialogComponent', () => {
       },
     },
   };
+
+  const createOption = (title: string, id = 7, data?: any) =>
+    ({ id, title, data } as StringOption);
 
   const createComponent = createComponentFactory({
     component: MaterialInputDialogComponent,
@@ -457,16 +461,29 @@ describe('MaterialInputDialogComponent', () => {
   });
 
   describe('isEditDialog', () => {
-    it('should return false', () => {
-      expect(component.isEditDialog()).toBe(false);
+    describe('with editMaterialInformation', () => {
+      beforeEach(() => {
+        component.materialId = undefined;
+        component.dialogData.editDialogInformation = undefined;
+      });
+
+      it('should return true if editDialogInformation is set', () => {
+        expect(component.isEditDialog()).toBe(false);
+      });
     });
 
-    it('should return true', () => {
+    it('should return true if materialId is set', () => {
       component.materialId = 1;
-      component['dialogData'].editDialogInformation = {
+
+      expect(component.isEditDialog()).toBe(true);
+    });
+
+    it('should return false if materialId and editMaterialInformation is not set', () => {
+      component.dialogData.editDialogInformation = {
         row: {} as DataResult,
-        column: 'col',
+        column: 'x',
       };
+
       expect(component.isEditDialog()).toBe(true);
     });
   });
@@ -490,6 +507,22 @@ describe('MaterialInputDialogComponent', () => {
       expect(result).toEqual(
         'materialsSupplierDatabase.mainTable.dialog.addTitle'
       );
+    });
+  });
+
+  describe('compareWithId', () => {
+    it('should return true if the id is equal', () => {
+      const mockOption1 = createOption('a', 1);
+      const mockOption2 = createOption('b', 1);
+
+      expect(component.compareWithId(mockOption1, mockOption2)).toBe(true);
+    });
+
+    it('should return false if the id is not equal', () => {
+      const mockOption1 = createOption('a', 1);
+      const mockOption2 = createOption('a', 2);
+
+      expect(component.compareWithId(mockOption1, mockOption2)).toBe(false);
     });
   });
 });

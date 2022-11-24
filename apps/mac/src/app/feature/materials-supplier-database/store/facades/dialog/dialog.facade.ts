@@ -29,7 +29,7 @@ import {
   getSupplierNameStringOptionsMerged,
   getSupplierPlantsStringOptionsMerged,
   getUniqueStringOptions,
-} from '@mac/msd/store';
+} from '@mac/msd/store/selectors';
 
 @Injectable({
   providedIn: 'root',

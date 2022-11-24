@@ -6,6 +6,7 @@ export interface BaseMaterialRequest {
   co2Scope2?: number;
   co2Scope3?: number;
   co2PerTon?: number;
+  productCategory?: string;
   co2Classification?: string;
   releaseRestrictions?: string;
   attachments?: string;
