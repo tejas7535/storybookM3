@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { catchError, map, of, switchMap, tap } from 'rxjs';
+import { catchError, filter, map, of, switchMap, tap } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
 import {
@@ -13,6 +13,8 @@ import {
   OnInitEffects,
 } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
+
+import { getIsLoggedIn, loginSuccess } from '@schaeffler/azure-auth';
 
 import {
   filterDimensionSelected,
@@ -39,7 +41,10 @@ import {
 export class UserSettingsEffects implements OnInitEffects {
   loadUserSettings$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(loadUserSettings),
+      ofType(loadUserSettings, loginSuccess),
+      concatLatestFrom(() => [this.store.select(getIsLoggedIn)]),
+      map(([_action, isLoggedIn]) => isLoggedIn),
+      filter((isLoggedIn) => isLoggedIn),
       switchMap(() =>
         this.userSettingsService.getUserSettings().pipe(
           switchMap((data) => {
@@ -49,7 +54,7 @@ export class UserSettingsEffects implements OnInitEffects {
               result.push(showUserSettingsDialog());
             } else {
               // set global filter default value
-              const filter: SelectedFilter = {
+              const filterObj: SelectedFilter = {
                 name: data.dimension,
                 idValue: {
                   id: data.dimensionKey,
@@ -60,7 +65,7 @@ export class UserSettingsEffects implements OnInitEffects {
               result.push(
                 // select favorite
                 filterDimensionSelected({
-                  filter,
+                  filter: filterObj,
                   filterDimension: data.dimension,
                 }),
                 // preload data for favorite dimension to allow autocomplete
@@ -133,7 +138,7 @@ export class UserSettingsEffects implements OnInitEffects {
       }),
       map((data) => {
         // set global filter default value
-        const filter = {
+        const filterObj = {
           name: data.dimension,
           idValue: {
             id: data.dimensionKey,
@@ -142,7 +147,7 @@ export class UserSettingsEffects implements OnInitEffects {
         };
 
         return filterDimensionSelected({
-          filter,
+          filter: filterObj,
           filterDimension: data.dimension,
         });
       })

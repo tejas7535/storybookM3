@@ -9,6 +9,8 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/marbles';
 
+import { getIsLoggedIn, loginSuccess } from '@schaeffler/azure-auth';
+
 import {
   filterDimensionSelected,
   loadFilterDimensionData,
@@ -87,6 +89,7 @@ describe('User Settings Effects', () => {
     test(
       'should return loadUserSettingsSuccess, filterDimensionSelected, and loadFilterDimensionData on success and if org unit is set',
       marbles((m) => {
+        store.overrideSelector(getIsLoggedIn, true);
         const dimension = FilterDimension.BOARD;
         const dimensionKey = '2';
         const dimensionDisplayName = 'Two';
@@ -133,8 +136,58 @@ describe('User Settings Effects', () => {
     );
 
     test(
+      'should also work for loginSuccess',
+      marbles((m) => {
+        store.overrideSelector(getIsLoggedIn, true);
+        const dimension = FilterDimension.BOARD;
+        const dimensionKey = '2';
+        const dimensionDisplayName = 'Two';
+        const result = loadUserSettingsSuccess({
+          data: {
+            dimension,
+            dimensionKey,
+            dimensionDisplayName,
+          },
+        });
+        const resultFilter = filterDimensionSelected({
+          filter: {
+            name: dimension,
+            idValue: {
+              id: dimensionKey,
+              value: dimensionDisplayName,
+            },
+          },
+          filterDimension: dimension,
+        });
+
+        const resultDimensionData = loadFilterDimensionData({
+          filterDimension: dimension,
+        });
+
+        actions$ = m.hot('-a', { a: loginSuccess({} as any) });
+        const expected = m.cold('--(bcd)', {
+          b: result,
+          c: resultFilter,
+          d: resultDimensionData,
+        });
+        const response = m.cold('-c', {
+          c: { dimension, dimensionKey, dimensionDisplayName },
+        });
+
+        userSettingsService.getUserSettings = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadUserSettings$).toBeObservable(expected);
+        m.flush();
+        expect(userSettingsService.getUserSettings).toHaveBeenCalledTimes(1);
+      })
+    );
+
+    test(
       'should return loadUserSettingsSuccess and showUserSettingsDialog on success and if dimensionKey not set',
       marbles((m) => {
+        store.overrideSelector(getIsLoggedIn, true);
         const resultSuccess = loadUserSettingsSuccess({
           data: {
             dimensionKey: undefined,
@@ -170,6 +223,7 @@ describe('User Settings Effects', () => {
     test(
       'should return loadUserSettingsFailure on REST error',
       marbles((m) => {
+        store.overrideSelector(getIsLoggedIn, true);
         const result = loadUserSettingsFailure({ errorMessage: error.message });
 
         actions$ = m.hot('-a', { a: action });
@@ -183,6 +237,22 @@ describe('User Settings Effects', () => {
         m.expect(effects.loadUserSettings$).toBeObservable(expected);
         m.flush();
         expect(userSettingsService.getUserSettings).toHaveBeenCalledTimes(1);
+      })
+    );
+
+    test(
+      'should do nothing if not logged in',
+      marbles((m) => {
+        store.overrideSelector(getIsLoggedIn, false);
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('----');
+
+        userSettingsService.getUserSettings = jest.fn();
+
+        m.expect(effects.loadUserSettings$).toBeObservable(expected);
+        m.flush();
+        expect(userSettingsService.getUserSettings).not.toHaveBeenCalled();
       })
     );
   });
