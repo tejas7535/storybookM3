@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://unpkg.com/vue@3"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="iframeResizer.min.js"></script>
     <title>Embedded App</title>
     <link rel="icon" type="image/x-icon" href="favicon.png" />
     <style>
@@ -36,7 +37,7 @@
           />
         </div>
       </div>
-      <div class="mx-auto mb-4 flex max-w-md gap-4 px-4 pt-4">
+      <div class="mx-auto mb-4 flex max-w-lg gap-4 px-4 pt-4">
         <div class="text-gray-500 flex items-center rounded-md border">
           <label
             for="app-height"
@@ -45,11 +46,18 @@
             Height
           </label>
           <input
+            type="checkbox"
+            v-model="iFrameHeightEnabled"
+            id="app-height-checkbox"
+            class="ml-2 w-full bg-transparent p-2.5 outline-none"
+          />
+          <input
             type="text"
             placeholder="800"
             v-model="iFrameHeight"
             id="app-height"
             class="ml-2 w-full bg-transparent p-2.5 outline-none"
+            :disabled="!iFrameHeightEnabled"
           />
           <div
             class="text-gray-400 bg-gray-50 grow rounded-r-md border-l px-3 py-2.5"
@@ -65,11 +73,18 @@
             Width
           </label>
           <input
+            type="checkbox"
+            v-model="iFrameWidthEnabled"
+            id="app-width-checkbox"
+            class="ml-2 w-full bg-transparent p-2.5 outline-none"
+          />
+          <input
             type="text"
             placeholder="1280"
             v-model="iFrameWidth"
             id="app-width"
             class="ml-2 w-full bg-transparent p-2.5 outline-none"
+            :disabled="!iFrameWidthEnabled"
           />
           <div
             class="text-gray-400 bg-gray-50 grow rounded-r-md border-l px-3 py-2.5"
@@ -79,10 +94,12 @@
         </div>
       </div>
       <div
-        class="from-gray-200 to-gray-100 m-0 mx-auto flex resize overflow-hidden rounded bg-gradient-to-br p-5"
-        :style="{ 'height': iFrameHeight + 'px', width: iFrameWidth + 'px' }"
+        class="from-gray-200 to-gray-100 m-0 mx-auto mb-20 overflow-hidden rounded bg-gradient-to-br p-5"
+        :style="{ 'height': iFrameHeightEnabled ? (iFrameHeight + 'px') : 'unset', width: iFrameWidthEnabled ? (iFrameWidth + 'px') : 'unset' }"
       >
-        <iframe :src="iFrameSrc" class="m-0 grow border-none p-0"></iframe>
+        <!-- class="from-gray-200 to-gray-100 m-0 mx-auto mb-20 flex h-min resize overflow-hidden rounded bg-gradient-to-br p-5"
+      :style="{ 'height': iFrameHeightEnabled ? (iFrameHeight + 'px') : 'unset', width: iFrameWidthEnabled ? (iFrameWidth + 'px') : 'unset' }" -->
+        <iframe id="iFrame" :src="iFrameSrc" class="w-0.5 min-w-full"></iframe>
       </div>
     </div>
 
@@ -95,10 +112,15 @@
             wrapperAppTitle: 'Embedded App',
             iFrameSrc: 'http://localhost:4200',
             iFrameHeight: 800,
+            iFrameHeightEnabled: true,
             iFrameWidth: 1280,
+            iFrameWidthEnabled: true,
           };
         },
       }).mount('#app');
+    </script>
+    <script>
+      iFrameResize({ log: true }, '#iFrame');
     </script>
   </body>
 </html>

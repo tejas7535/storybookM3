@@ -1,7 +1,4 @@
-<div
-  class="min-h-screen bg-surface"
-  *ngIf="appIsEmbedded$ | ngrxPush; else standalone"
->
+<div class="bg-surface" *ngIf="appIsEmbedded$ | ngrxPush; else standalone">
   <router-outlet></router-outlet>
 </div>
 
