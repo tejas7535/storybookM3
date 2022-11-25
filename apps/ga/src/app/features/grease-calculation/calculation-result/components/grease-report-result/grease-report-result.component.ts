@@ -19,7 +19,11 @@ import { LabelValue, LabelValueModule } from '@schaeffler/label-value';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { MEDIASGREASE } from '../../constants';
-import { adaptLabelValuesFromGreaseResultData } from '../../helpers/grease-helpers';
+import {
+  adaptLabelValuesFromGreaseResultData,
+  greaseLinkText,
+  greaseShopQuery,
+} from '../../helpers/grease-helpers';
 import {
   CONCEPT1,
   GreaseConcep1Suitablity,
@@ -103,7 +107,11 @@ export class GreaseReportResultComponent implements OnInit, OnDestroy {
   public getShopUrl(): string {
     return `${translate(
       'calculationResult.shopBaseUrl'
-    )}/${shopSearchPathBase}${this.greaseResult?.mainTitle}`;
+    )}/${shopSearchPathBase}${greaseShopQuery(this.greaseResult?.mainTitle)}`;
+  }
+
+  public getLinkText(): string {
+    return greaseLinkText(this.greaseResult?.mainTitle);
   }
 
   public toggleShowValues(): void {

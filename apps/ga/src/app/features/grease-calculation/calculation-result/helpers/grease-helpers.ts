@@ -3,7 +3,11 @@ import { translate } from '@ngneat/transloco';
 import { RotaryControlItem } from '@schaeffler/controls';
 import { LabelValue } from '@schaeffler/label-value';
 
-import { concept1Queries, suitabilityLevels } from '../constants';
+import {
+  concept1Queries,
+  greaseSizeExceptions,
+  suitabilityLevels,
+} from '../constants';
 import {
   CONCEPT1_SIZES,
   GreaseReportSubordinateDataItem,
@@ -206,3 +210,13 @@ export const concept1ShopQuery = (
   title: string,
   size: CONCEPT1_SIZES
 ): string => concept1InShop(title, size) ?? `ARCALUB-C1-${size}-REFILLABLE`;
+
+export const greaseShopQuery = (title: string): string =>
+  `${title.replace(/ /g, '-')}-${
+    greaseSizeExceptions.find((grease) => grease.title === title)?.size ?? 1
+  }kg`;
+
+export const greaseLinkText = (title: string): string =>
+  `${title} ${
+    greaseSizeExceptions.find((grease) => grease.title === title)?.size ?? 1
+  }kg`;

@@ -78,8 +78,14 @@ describe('GreaseReportResultComponent', () => {
   describe('getShopUrl', () => {
     it('should return a valid url', () => {
       expect(component.getShopUrl()).toBe(
-        'calculationResult.shopBaseUrl/search/searchpage?text=Arcanol MULTI2'
+        'calculationResult.shopBaseUrl/search/searchpage?text=Arcanol-MULTI2-1kg'
       );
+    });
+  });
+
+  describe('getLinkText', () => {
+    it('should return the link text', () => {
+      expect(component.getLinkText()).toBe('Arcanol MULTI2 1kg');
     });
   });
 

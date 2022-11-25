@@ -499,4 +499,32 @@ describe('Grease helpers', () => {
       );
     });
   });
+
+  describe('greaseShopQuery', () => {
+    it('should return the shop query for 1kg if the grease is no exception', () => {
+      const mockTitle = 'Arcanol Olive Oil';
+
+      expect(helpers.greaseShopQuery(mockTitle)).toBe('Arcanol-Olive-Oil-1kg');
+    });
+
+    it('should return the shop query for the size defined in the exceptions', () => {
+      const mockTitle = 'Arcanol LOAD1000';
+
+      expect(helpers.greaseShopQuery(mockTitle)).toBe('Arcanol-LOAD1000-180kg');
+    });
+  });
+
+  describe('greaseLinkText', () => {
+    it('should return the link text for 1kg if the grease is no exception', () => {
+      const mockTitle = 'Arcanol Olive Oil';
+
+      expect(helpers.greaseLinkText(mockTitle)).toBe('Arcanol Olive Oil 1kg');
+    });
+
+    it('should return the link text for the size defined in the exceptions', () => {
+      const mockTitle = 'Arcanol LOAD1000';
+
+      expect(helpers.greaseLinkText(mockTitle)).toBe('Arcanol LOAD1000 180kg');
+    });
+  });
 });
