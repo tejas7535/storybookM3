@@ -40,6 +40,13 @@ export class SelectComponent
   @Input() public resetButton? = true;
   @Input() public showTriggerTooltip?: boolean;
   @Input() public triggerTooltipDelay?: number;
+  @Input() public tooltipPosition?:
+    | 'left'
+    | 'right'
+    | 'above'
+    | 'below'
+    | 'before'
+    | 'after';
 
   @Output() public readonly searchUpdated = new EventEmitter<string>();
   @Output() public readonly entryAdded = new EventEmitter<string>();

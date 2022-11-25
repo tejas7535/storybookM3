@@ -274,6 +274,7 @@ For further information about the option type see [@schaeffler/inputs documentat
 | resetButton           | (optional) (default: true) whether to display a reset button below the options                                   |
 | showTriggerTooltip    | (optional) whether to display a tooltip on the trigger                                                           |
 | triggerTooltipDelay   | (optional) the delay in ms to display the trigger tooltip with                                                   |
+| tooltipPosition       | (optional) the position to display option tooltips at                                                            |
 
 #### Events
 

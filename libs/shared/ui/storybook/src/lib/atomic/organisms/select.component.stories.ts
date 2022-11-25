@@ -65,6 +65,7 @@ const Template: Story<SelectComponent> = (args: SelectComponent) => ({
           [resetButton]="resetButton"
           [showTriggerTooltip]="showTriggerTooltip"
           [triggerTooltipDelay]="triggerTooltipDelay"
+          [tooltipPosition]="tooltipPosition"
           (searchUpdated)="onSearchUpdated($event)"
           (entryAdded)="onEntryAdded($event)"
           (optionRemoved)="onOptionRemoved($event)"
@@ -165,5 +166,10 @@ Primary.argTypes = {
       },
     },
     defaultValue: 'No Filter',
+  },
+  tooltipPosition: {
+    options: ['left', 'right', 'above', 'below', 'before', 'after'],
+    control: 'select',
+    defaultValue: 'below',
   },
 };
