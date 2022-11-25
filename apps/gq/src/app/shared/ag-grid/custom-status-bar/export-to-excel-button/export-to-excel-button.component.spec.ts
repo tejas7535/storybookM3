@@ -93,7 +93,7 @@ describe('ExportToExcelButtonComponent', () => {
         exportMultipleSheetsAsExcel: jest.fn(),
       },
       columnApi: {
-        getAllColumns: jest.fn(() => mockIds),
+        getAllDisplayedColumns: jest.fn(() => mockIds),
       },
       context: {
         quotation: QUOTATION_MOCK,

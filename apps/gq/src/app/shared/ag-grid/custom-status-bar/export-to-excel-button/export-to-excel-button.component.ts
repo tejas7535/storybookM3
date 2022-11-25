@@ -197,7 +197,7 @@ export class ExportToExcelButtonComponent implements OnInit {
 
   private getProcessCaseSheet(): string {
     const columnKeys = this.params.columnApi
-      .getAllColumns()
+      .getAllDisplayedColumns()
       .map((col) => col.getColId());
 
     const excelParams: ExcelExportParams = {
