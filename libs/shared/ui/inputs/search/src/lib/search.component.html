@@ -17,7 +17,6 @@
     (optionSelected)="onOptionSelected($event.option.value)"
   >
     <div>
-      <mat-option #dummyOption class="!h-0"></mat-option>
       <ng-content
         select="[loadingContent]"
         *ngIf="loading; else searchOptionsTemplate"
@@ -42,6 +41,7 @@
           ></mat-option>
         </div>
       </ng-template>
+      <mat-option #dummyOption class="!h-0"></mat-option>
     </div>
   </mat-autocomplete>
   <div matSuffix>
