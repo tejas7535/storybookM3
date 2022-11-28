@@ -53,6 +53,7 @@
     "total": "Total: {{total}}",
     "orgUnit": "Organizational Unit",
     "position": "Position",
+    "username": "Username",
     "fluctuationType": {
       "internal": {
         "label": "Internal",

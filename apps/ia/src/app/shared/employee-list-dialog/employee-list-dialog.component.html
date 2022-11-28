@@ -31,7 +31,7 @@
           trackBy: trackByFn
         "
       >
-        <mat-list-item class="!h-[100px]">
+        <mat-list-item class="!h-[120px]">
           <img
             matListAvatar
             src="assets/images/dummy.png"
@@ -55,6 +55,15 @@
               >
               <div class="text-[12px] leading-4 text-high-emphasis">
                 {{ employee.positionDescription }}
+              </div>
+            </div>
+            <div class="flex">
+              <label
+                class="h-4 text-[12px] uppercase leading-4 text-medium-emphasis"
+                >{{ t('username') }}:&nbsp;</label
+              >
+              <div class="text-[12px] leading-4 text-high-emphasis">
+                {{ employee.username }}
               </div>
             </div>
           </div>
