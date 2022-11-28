@@ -10,6 +10,9 @@
       [label]="t('standardDocument')"
       [filterFn]="standardDocumentFilterFnFactory(materialNamesControl)"
       [resetButton]="true"
+      [showTriggerTooltip]="true"
+      triggerTooltipDelay="1500"
+      tooltipPosition="right"
       addEntry="true"
       (entryAdded)="addStandardDocument($event)"
       name="materialStandardStandardDocument"
@@ -26,6 +29,9 @@
       [control]="materialNamesControl"
       [label]="t('materialName')"
       [filterFn]="materialNameFilterFnFactory(standardDocumentsControl)"
+      [showTriggerTooltip]="true"
+      triggerTooltipDelay="1500"
+      tooltipPosition="right"
       addEntry="true"
       (entryAdded)="addMaterialName($event)"
       name="materialStandardMaterialName"
@@ -44,6 +50,8 @@
           matInput
           [value]="standardDocumentsControl.value.title"
           name="materialStandardStandardDocument"
+          [matTooltip]="standardDocumentsControl.value.title"
+          [matTooltipShowDelay]="1500"
           #dialogControl
           readonly="true"
         />
@@ -54,6 +62,8 @@
           matInput
           [value]="materialNamesControl.value.title"
           name="materialStandardMaterialName"
+          [matTooltip]="materialNamesControl.value.title"
+          [matTooltipShowDelay]="1500"
           #dialogControl
           readonly="true"
         />

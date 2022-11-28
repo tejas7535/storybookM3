@@ -44,6 +44,8 @@ import { DialogFacade } from '@mac/msd/store/facades/dialog';
 export class MaterialInputDialogComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
+  public TOOLTIP_DELAY = 1500;
+
   public materialClass: MaterialClass;
 
   public dialogLoading$ = this.dialogFacade.dialogLoading$;

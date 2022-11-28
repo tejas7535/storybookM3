@@ -8,6 +8,8 @@ import { StringOption } from '@schaeffler/inputs';
 
 import * as fromStore from '@mac/msd/store/reducers';
 
+const TOOLTIP_DELAY = 1500;
+
 export const sortAlphabetically = (a: string, b: string): number =>
   a.localeCompare(b);
 
@@ -18,7 +20,12 @@ export const getStringOptions = (
   createSelector(selector, (values): StringOption[] => {
     const options: StringOption[] =
       values
-        ?.map((value) => ({ id: value, title: value }))
+        ?.map((value) => ({
+          id: value,
+          title: value,
+          tooltip: value,
+          tooltipDelay: TOOLTIP_DELAY,
+        }))
         .sort(stringOptionsSortFn) || [];
     if (addOptions && addOptions.length > 0) {
       options.push(...addOptions);
@@ -176,10 +183,20 @@ export const getMaterialDialogCastingDiameterStringOptions = createSelector(
   (castingDiameters, customCastingDiameters) => {
     const options: StringOption[] = (castingDiameters || [])
       .filter(Boolean)
-      .map((diameter) => ({ id: diameter, title: diameter }))
+      .map((diameter) => ({
+        id: diameter,
+        title: diameter,
+        tooltip: diameter,
+        tooltipDelay: TOOLTIP_DELAY,
+      }))
       .sort(stringOptionsSortFn);
     const customOptions: StringOption[] = (customCastingDiameters || []).map(
-      (diameter) => ({ id: diameter, title: diameter })
+      (diameter) => ({
+        id: diameter,
+        title: diameter,
+        tooltip: diameter,
+        tooltipDelay: TOOLTIP_DELAY,
+      })
     );
     options.unshift(...customOptions);
 
@@ -208,9 +225,19 @@ export const getMaterialDialogReferenceDocumentsStringOptions = createSelector(
   (referenceDocuments, customReferenceDocuments) => {
     const options: StringOption[] = (referenceDocuments || [])
       .filter(Boolean)
-      .map((document) => ({ id: document, title: document }));
+      .map((document) => ({
+        id: document,
+        title: document,
+        tooltip: document,
+        tooltipDelay: TOOLTIP_DELAY,
+      }));
     const customOptions: StringOption[] = (customReferenceDocuments || []).map(
-      (document) => ({ id: document, title: document })
+      (document) => ({
+        id: document,
+        title: document,
+        tooltip: document,
+        tooltipDelay: TOOLTIP_DELAY,
+      })
     );
     options.unshift(...customOptions);
 
@@ -234,6 +261,8 @@ export const getSupplierStringOptions = createSelector(
       .map((supplier) => ({
         id: supplier.id,
         title: supplier.name,
+        tooltip: supplier.name,
+        tooltipDelay: TOOLTIP_DELAY,
         data: { plant: supplier.plant },
       }))
 );
@@ -249,6 +278,8 @@ export const getSupplierPlantStringOptions = createSelector(
       .map((supplier) => ({
         id: supplier.plant,
         title: supplier.plant,
+        tooltip: supplier.plant,
+        tooltipDelay: TOOLTIP_DELAY,
         data: {
           supplierId: supplier.id,
           supplierName: supplier.name,
@@ -272,6 +303,8 @@ export const getSupplierCountryStringOptions = createSelector(
       .map((supplier) => ({
         id: supplier.country,
         title: supplier.country,
+        tooltip: supplier.country,
+        tooltipDelay: TOOLTIP_DELAY,
       }))
       .filter(Boolean)
       .sort(stringOptionsSortFn) || []
@@ -282,7 +315,13 @@ export const getSupplierNameStringOptionsMerged = createSelector(
   getCustomSupplierNames,
   (supplierOptions, customSupplierNames): StringOption[] => {
     const customOptions: StringOption[] = (customSupplierNames || []).map(
-      (value) => ({ id: undefined, title: value } as StringOption)
+      (value) =>
+        ({
+          id: undefined,
+          title: value,
+          tooltip: value,
+          tooltipDelay: TOOLTIP_DELAY,
+        } as StringOption)
     );
     customOptions.push(...supplierOptions);
 
@@ -297,7 +336,13 @@ export const getSupplierPlantsStringOptionsMerged = createSelector(
   getCustomSupplierPlants,
   (supplierOptions, customSupplierPlants): StringOption[] => {
     const customOptions: StringOption[] = (customSupplierPlants || []).map(
-      (value) => ({ id: undefined, title: value } as StringOption)
+      (value) =>
+        ({
+          id: undefined,
+          title: value,
+          tooltip: value,
+          tooltipDelay: TOOLTIP_DELAY,
+        } as StringOption)
     );
     customOptions.push(...supplierOptions);
 
@@ -312,7 +357,13 @@ export const getSupplierCountriesStringOptionsMerged = createSelector(
   getCustomSupplierCountries,
   (supplierOptions, customSupplierCountries): StringOption[] => {
     const customOptions: StringOption[] = (customSupplierCountries || []).map(
-      (value) => ({ id: undefined, title: value } as StringOption)
+      (value) =>
+        ({
+          id: undefined,
+          title: value,
+          tooltip: value,
+          tooltipDelay: TOOLTIP_DELAY,
+        } as StringOption)
     );
     customOptions.push(...supplierOptions);
 
@@ -326,6 +377,8 @@ export const getMaterialNameStringOptions = createSelector(
     materialStandards.map((materialStandard) => ({
       id: materialStandard.id,
       title: materialStandard.materialName,
+      tooltip: materialStandard.materialName,
+      tooltipDelay: TOOLTIP_DELAY,
       data: { standardDocument: materialStandard.standardDocument },
     }))
 );
@@ -371,7 +424,13 @@ export const getMaterialNameStringOptionsMerged = createSelector(
   getCustomMaterialStandardNames,
   (materialNameOptions, customMaterialNames): StringOption[] => {
     const customOptions: StringOption[] = (customMaterialNames || []).map(
-      (value) => ({ id: undefined, title: value } as StringOption)
+      (value) =>
+        ({
+          id: undefined,
+          title: value,
+          tooltip: value,
+          tooltipDelay: TOOLTIP_DELAY,
+        } as StringOption)
     );
     customOptions.push(...materialNameOptions);
 
@@ -385,6 +444,8 @@ export const getMaterialStandardDocumentStringOptions = createSelector(
     materialStandards.map((materialStandard) => ({
       id: materialStandard.id,
       title: materialStandard.standardDocument,
+      tooltip: materialStandard.standardDocument,
+      tooltipDelay: TOOLTIP_DELAY,
       data: { materialName: materialStandard.materialName },
     }))
 );
@@ -432,7 +493,15 @@ export const getMaterialStandardDocumentStringOptionsMerged = createSelector(
   ): StringOption[] => {
     const customOptions: StringOption[] = (
       customMaterialStandardDocuments || []
-    ).map((value) => ({ id: undefined, title: value } as StringOption));
+    ).map(
+      (value) =>
+        ({
+          id: undefined,
+          title: value,
+          tooltip: value,
+          tooltipDelay: TOOLTIP_DELAY,
+        } as StringOption)
+    );
     customOptions.push(...standardDocumentOptions);
 
     return customOptions;
@@ -504,17 +573,20 @@ export const getHighestCo2Values = createSelector(
         .filter((co2Value) => !!co2Value.co2PerTon)
         .sort((a, b) => b.co2PerTon - a.co2PerTon);
       const highestCo2Value = sortedCo2Values[0];
+      const title = translate(
+        highestCo2Value.co2Classification
+          ? `materialsSupplierDatabase.mainTable.dialog.${highestCo2Value.co2Classification}`
+          : 'materialsSupplierDatabase.mainTable.dialog.none'
+      );
 
       return {
         co2Values: {
           ...highestCo2Value,
           co2Classification: {
             id: highestCo2Value.co2Classification ?? undefined,
-            title: translate(
-              highestCo2Value.co2Classification
-                ? `materialsSupplierDatabase.mainTable.dialog.${highestCo2Value.co2Classification}`
-                : 'materialsSupplierDatabase.mainTable.dialog.none'
-            ),
+            tooltip: title,
+            tooltipDelay: TOOLTIP_DELAY,
+            title,
           },
         },
         otherValues: co2Values.length - 1,
@@ -522,16 +594,19 @@ export const getHighestCo2Values = createSelector(
     }
 
     const co2Value = co2Values[0];
+    const title = translate(
+      co2Value.co2Classification ??
+        'materialsSupplierDatabase.mainTable.dialog.none'
+    );
 
     return {
       co2Values: {
         ...co2Value,
         co2Classification: {
           id: co2Value.co2Classification ?? undefined,
-          title: translate(
-            co2Value.co2Classification ??
-              'materialsSupplierDatabase.mainTable.dialog.none'
-          ),
+          tooltip: title,
+          tooltipDelay: TOOLTIP_DELAY,
+          title,
         },
       },
       otherValues: 0,

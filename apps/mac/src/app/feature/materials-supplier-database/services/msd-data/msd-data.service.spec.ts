@@ -69,7 +69,12 @@ describe('MsdDataService', () => {
     it('should return a list of material classes', (done) => {
       const mockResponse = ['st'];
       const expected = [
-        { id: 'st', title: `${translatePrefix}materialClassValues.st` },
+        {
+          id: 'st',
+          title: `${translatePrefix}materialClassValues.st`,
+          tooltip: `${translatePrefix}materialClassValues.st`,
+          tooltipDelay: 1500,
+        },
       ];
       service.getMaterialClasses().subscribe((result: any) => {
         expect(result).toEqual(expected);
@@ -93,6 +98,8 @@ describe('MsdDataService', () => {
         {
           id: 'strip',
           title: `${translatePrefix}productCategoryValues.strip`,
+          tooltip: `${translatePrefix}productCategoryValues.strip`,
+          tooltipDelay: 1500,
         },
       ];
       service
@@ -276,16 +283,25 @@ describe('MsdDataService', () => {
           id: 'invented',
           title:
             'materialsSupplierDatabase.mainTable.dialog.co2ClassificationValues.invented',
+          tooltip:
+            'materialsSupplierDatabase.mainTable.dialog.co2ClassificationValues.invented',
+          tooltipDelay: 1500,
         },
         {
           id: 'guessed',
           title:
             'materialsSupplierDatabase.mainTable.dialog.co2ClassificationValues.guessed',
+          tooltip:
+            'materialsSupplierDatabase.mainTable.dialog.co2ClassificationValues.guessed',
+          tooltipDelay: 1500,
         },
         {
           id: 'dice roll',
           title:
             'materialsSupplierDatabase.mainTable.dialog.co2ClassificationValues.dice roll',
+          tooltip:
+            'materialsSupplierDatabase.mainTable.dialog.co2ClassificationValues.dice roll',
+          tooltipDelay: 1500,
         },
       ];
       service

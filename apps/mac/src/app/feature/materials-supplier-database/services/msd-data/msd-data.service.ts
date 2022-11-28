@@ -27,6 +27,8 @@ export class MsdDataService {
 
   private readonly BASE_URL = `${environment.baseUrl}${this.MSD_URL}v3`;
 
+  private readonly TOOLTIP_DELAY = 1500;
+
   constructor(private readonly httpClient: HttpClient) {}
 
   public getMaterialClasses() {
@@ -34,15 +36,18 @@ export class MsdDataService {
       .get<string[]>(`${this.BASE_URL}/materials/materialClasses`)
       .pipe(
         map((materialClasses) =>
-          materialClasses.map(
-            (materialClass) =>
-              ({
-                id: materialClass,
-                title: translate(
-                  `materialsSupplierDatabase.materialClassValues.${materialClass}`
-                ),
-              } as StringOption)
-          )
+          materialClasses.map((materialClass) => {
+            const title = translate(
+              `materialsSupplierDatabase.materialClassValues.${materialClass}`
+            );
+
+            return {
+              id: materialClass,
+              tooltipDelay: this.TOOLTIP_DELAY,
+              tooltip: title,
+              title,
+            } as StringOption;
+          })
         )
       );
   }
@@ -54,15 +59,18 @@ export class MsdDataService {
       )
       .pipe(
         map((productCategories) =>
-          productCategories.map(
-            (productCategory) =>
-              ({
-                id: productCategory,
-                title: translate(
-                  `materialsSupplierDatabase.productCategoryValues.${productCategory}`
-                ),
-              } as StringOption)
-          )
+          productCategories.map((productCategory) => {
+            const title = translate(
+              `materialsSupplierDatabase.productCategoryValues.${productCategory}`
+            );
+
+            return {
+              id: productCategory,
+              tooltipDelay: this.TOOLTIP_DELAY,
+              tooltip: title,
+              title,
+            } as StringOption;
+          })
         )
       );
   }
@@ -98,7 +106,9 @@ export class MsdDataService {
                       )
                       ? materialResponse.materialStandard.materialNumber
                           ?.split(',')
-                          .map((materialNumber) => materialNumber.trim())
+                          .map((materialNumber: string) =>
+                            materialNumber.trim()
+                          )
                       : [materialResponse.materialStandard.materialNumber]
                     : undefined,
                 materialStandardStandardDocument:
@@ -123,7 +133,8 @@ export class MsdDataService {
                 sapSupplierIds:
                   'sapData' in materialResponse.manufacturerSupplier
                     ? materialResponse.manufacturerSupplier.sapData?.map(
-                        (sapData) => sapData.sapSupplierId
+                        (sapData: { sapSupplierId: string }) =>
+                          sapData.sapSupplierId
                       ) || []
                     : undefined,
                 productCategory:
@@ -226,15 +237,18 @@ export class MsdDataService {
       .get<string[]>(`${this.BASE_URL}/materials/st/co2Classifications`)
       .pipe(
         map((co2Classifications) =>
-          co2Classifications.map(
-            (co2Classification) =>
-              ({
-                id: co2Classification,
-                title: translate(
-                  `materialsSupplierDatabase.mainTable.dialog.co2ClassificationValues.${co2Classification.toLowerCase()}`
-                ),
-              } as StringOption)
-          )
+          co2Classifications.map((co2Classification) => {
+            const title = translate(
+              `materialsSupplierDatabase.mainTable.dialog.co2ClassificationValues.${co2Classification.toLowerCase()}`
+            );
+
+            return {
+              id: co2Classification,
+              tooltipDelay: this.TOOLTIP_DELAY,
+              tooltip: title,
+              title,
+            } as StringOption;
+          })
         )
       );
   }

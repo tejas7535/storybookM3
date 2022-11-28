@@ -57,6 +57,9 @@
             [loading]="referenceDocumentsLoading$ | ngrxPush"
             [addEntry]="true"
             [multiple]="true"
+            [showTriggerTooltip]="true"
+            triggerTooltipDelay="1500"
+            tooltipPosition="right"
             (entryAdded)="addReferenceDocument($event)"
             name="referenceDoc"
             #dialogControl
@@ -116,6 +119,9 @@
           (entryAdded)="addCastingDiameter($event)"
           [resetButton]="false"
           [loading]="castingDiametersLoading$ | ngrxPush"
+          [showTriggerTooltip]="true"
+          triggerTooltipDelay="1500"
+          tooltipPosition="right"
           name="castingDiameter"
           #dialogControl
         >
@@ -245,6 +251,9 @@
           [filterFn]="filterFn"
           [label]="t('productCategory')"
           [resetButton]="false"
+          [showTriggerTooltip]="true"
+          triggerTooltipDelay="1500"
+          tooltipPosition="right"
           name="productCategoryText"
           #dialogControl
         >
@@ -271,6 +280,9 @@
           [control]="steelMakingProcessControl"
           [filterFn]="steelMakingProcessFilterFn"
           [label]="t('steelMakingProcess')"
+          [showTriggerTooltip]="true"
+          triggerTooltipDelay="1500"
+          tooltipPosition="right"
           name="steelMakingProcess"
           #dialogControl
           #steelMakingProcessSelect

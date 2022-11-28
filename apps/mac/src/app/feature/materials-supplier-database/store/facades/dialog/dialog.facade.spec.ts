@@ -59,7 +59,14 @@ describe('DialogFacade', () => {
                 co2ClassificationsLoading: false,
                 castingModesLoading: false,
                 ratings: ['rating'],
-                co2Classifications: [{ id: 'c1', title: 'classification' }],
+                co2Classifications: [
+                  {
+                    id: 'c1',
+                    title: 'classification',
+                    tooltip: 'classification',
+                    tooltipDelay: 1500,
+                  },
+                ],
                 castingModes: ['mode'],
                 steelMakingProcesses: ['process'],
                 materialStandards: [mockMaterialStandard],
@@ -156,6 +163,8 @@ describe('DialogFacade', () => {
             {
               id: 1,
               title: 'document',
+              tooltip: 'document',
+              tooltipDelay: 1500,
               data: { materialNames: [{ id: 1, materialName: 'material' }] },
             },
           ],
@@ -175,6 +184,8 @@ describe('DialogFacade', () => {
             {
               id: 1,
               title: 'material',
+              tooltip: 'material',
+              tooltipDelay: 1500,
               data: {
                 standardDocuments: [{ id: 1, standardDocument: 'document' }],
               },
@@ -192,7 +203,15 @@ describe('DialogFacade', () => {
       'should provide the suppliers',
       marbles((m) => {
         const expected = m.cold('a', {
-          a: [{ id: 1, title: 'supplier', data: { plant: 'plant' } }],
+          a: [
+            {
+              id: 1,
+              title: 'supplier',
+              tooltip: 'supplier',
+              tooltipDelay: 1500,
+              data: { plant: 'plant' },
+            },
+          ],
         });
 
         m.expect(facade.suppliers$).toBeObservable(expected);
@@ -209,6 +228,8 @@ describe('DialogFacade', () => {
             {
               id: 'plant',
               title: 'plant',
+              tooltip: 'plant',
+              tooltipDelay: 1500,
               data: {
                 supplierId: 1,
                 supplierName: 'supplier',
@@ -243,7 +264,12 @@ describe('DialogFacade', () => {
       marbles((m) => {
         const expected = m.cold('a', {
           a: [
-            { id: 'c1', title: 'classification' },
+            {
+              id: 'c1',
+              title: 'classification',
+              tooltip: 'classification',
+              tooltipDelay: 1500,
+            },
             {
               id: undefined,
               title: 'materialsSupplierDatabase.mainTable.dialog.none',
@@ -262,7 +288,12 @@ describe('DialogFacade', () => {
       marbles((m) => {
         const expected = m.cold('a', {
           a: [
-            { id: 'rating', title: 'rating' },
+            {
+              id: 'rating',
+              title: 'rating',
+              tooltip: 'rating',
+              tooltipDelay: 1500,
+            },
             {
               id: undefined,
               title: 'materialsSupplierDatabase.mainTable.dialog.none',
@@ -280,7 +311,14 @@ describe('DialogFacade', () => {
       'should provide the steel making processes',
       marbles((m) => {
         const expected = m.cold('a', {
-          a: [{ id: 'process', title: 'process' }],
+          a: [
+            {
+              id: 'process',
+              title: 'process',
+              tooltip: 'process',
+              tooltipDelay: 1500,
+            },
+          ],
         });
 
         m.expect(facade.steelMakingProcess$).toBeObservable(expected);
@@ -307,8 +345,18 @@ describe('DialogFacade', () => {
       marbles((m) => {
         const expected = m.cold('a', {
           a: [
-            { id: 'customDiameter', title: 'customDiameter' },
-            { id: 'diameter', title: 'diameter' },
+            {
+              id: 'customDiameter',
+              title: 'customDiameter',
+              tooltip: 'customDiameter',
+              tooltipDelay: 1500,
+            },
+            {
+              id: 'diameter',
+              title: 'diameter',
+              tooltip: 'diameter',
+              tooltipDelay: 1500,
+            },
           ],
         });
 
@@ -352,10 +400,14 @@ describe('DialogFacade', () => {
             {
               id: 'reference2',
               title: 'reference2',
+              tooltip: 'reference2',
+              tooltipDelay: 1500,
             },
             {
               id: 'reference',
               title: 'reference',
+              tooltip: 'reference',
+              tooltipDelay: 1500,
             },
           ],
         });
@@ -405,6 +457,8 @@ describe('DialogFacade', () => {
               co2Classification: {
                 id: undefined,
                 title: 'materialsSupplierDatabase.mainTable.dialog.none',
+                tooltip: 'materialsSupplierDatabase.mainTable.dialog.none',
+                tooltipDelay: 1500,
               },
             },
             otherValues: 0,

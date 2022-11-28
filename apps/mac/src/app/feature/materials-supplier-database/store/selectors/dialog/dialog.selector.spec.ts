@@ -322,10 +322,14 @@ describe('DialogSelectors', () => {
       {
         id: 'custom',
         title: 'custom',
+        tooltip: 'custom',
+        tooltipDelay: 1500,
       },
       {
         id: 'notCustom',
         title: 'notCustom',
+        tooltip: 'notCustom',
+        tooltipDelay: 1500,
       },
     ]);
   });
@@ -388,10 +392,14 @@ describe('DialogSelectors', () => {
       {
         id: 'custom',
         title: 'custom',
+        tooltip: 'custom',
+        tooltipDelay: 1500,
       },
       {
         id: 'notCustom',
         title: 'notCustom',
+        tooltip: 'notCustom',
+        tooltipDelay: 1500,
       },
     ]);
   });
@@ -458,20 +466,28 @@ describe('DialogSelectors', () => {
       {
         id: 1,
         title: 'opt1',
+        tooltip: 'opt1',
+        tooltipDelay: 1500,
       },
       {
         id: 2,
         title: 'opt2',
+        tooltip: 'opt2',
+        tooltipDelay: 1500,
       },
     ];
     const mockCustomStringOptions: StringOption[] = [
       {
         id: undefined,
+        tooltip: 'custom1',
         title: 'custom1',
+        tooltipDelay: 1500,
       },
       {
         id: undefined,
         title: 'custom2',
+        tooltip: 'custom2',
+        tooltipDelay: 1500,
       },
       ...mockStringOptions,
     ];
@@ -480,6 +496,8 @@ describe('DialogSelectors', () => {
         {
           id: 1,
           title: 'supplier1',
+          tooltip: 'supplier1',
+          tooltipDelay: 1500,
           data: {
             plant: 'plant1',
           },
@@ -487,6 +505,8 @@ describe('DialogSelectors', () => {
         {
           id: 2,
           title: 'supplier2',
+          tooltip: 'supplier2',
+          tooltipDelay: 1500,
           data: {
             plant: 'plant2',
           },
@@ -524,6 +544,8 @@ describe('DialogSelectors', () => {
         {
           id: 'plant1',
           title: 'plant1',
+          tooltip: 'plant1',
+          tooltipDelay: 1500,
           data: {
             supplierId: 1,
             supplierName: 'supplier1',
@@ -534,6 +556,8 @@ describe('DialogSelectors', () => {
         {
           id: 'plant2',
           title: 'plant2',
+          tooltip: 'plant2',
+          tooltipDelay: 1500,
           data: {
             supplierId: 2,
             supplierName: 'supplier2',
@@ -576,10 +600,14 @@ describe('DialogSelectors', () => {
         {
           id: 'country1',
           title: 'country1',
+          tooltip: 'country1',
+          tooltipDelay: 1500,
         },
         {
           id: 'country2',
           title: 'country2',
+          tooltip: 'country2',
+          tooltipDelay: 1500,
         },
       ];
 
@@ -633,6 +661,8 @@ describe('DialogSelectors', () => {
       {
         id: 1,
         title: 'material1',
+        tooltip: 'material1',
+        tooltipDelay: 1500,
         data: {
           standardDocument: 'S 1',
         },
@@ -640,6 +670,8 @@ describe('DialogSelectors', () => {
       {
         id: 2,
         title: 'material2',
+        tooltip: 'material2',
+        tooltipDelay: 1500,
         data: {
           standardDocument: 'S 2',
         },
@@ -745,6 +777,8 @@ describe('DialogSelectors', () => {
       {
         id: undefined,
         title: 'first',
+        tooltip: 'first',
+        tooltipDelay: 1500,
       },
       {
         id: 3,
@@ -780,6 +814,8 @@ describe('DialogSelectors', () => {
       {
         id: 1,
         title: 'S 1',
+        tooltip: 'S 1',
+        tooltipDelay: 1500,
         data: {
           materialName: 'material1',
         },
@@ -787,6 +823,8 @@ describe('DialogSelectors', () => {
       {
         id: 2,
         title: 'S 2',
+        tooltip: 'S 2',
+        tooltipDelay: 1500,
         data: {
           materialName: 'material2',
         },
@@ -892,6 +930,8 @@ describe('DialogSelectors', () => {
       {
         id: undefined,
         title: 'first',
+        tooltip: 'first',
+        tooltipDelay: 1500,
       },
       {
         id: 1,
@@ -914,10 +954,14 @@ describe('DialogSelectors', () => {
       {
         id: 'bad',
         title: 'bad',
+        tooltip: 'bad',
+        tooltipDelay: 1500,
       },
       {
         id: 'good',
         title: 'good',
+        tooltip: 'good',
+        tooltipDelay: 1500,
       },
     ];
 
@@ -941,10 +985,14 @@ describe('DialogSelectors', () => {
       {
         id: 'bad',
         title: 'bad',
+        tooltip: 'bad',
+        tooltipDelay: 1500,
       },
       {
         id: 'good',
         title: 'good',
+        tooltip: 'good',
+        tooltipDelay: 1500,
       },
       {
         id: undefined,
@@ -1280,6 +1328,8 @@ describe('DialogSelectors', () => {
           co2Classification: {
             id: 'c1',
             title: 'c1',
+            tooltip: 'c1',
+            tooltipDelay: 1500,
           },
         },
         otherValues: 1,
@@ -1313,6 +1363,8 @@ describe('DialogSelectors', () => {
           co2Classification: {
             id: undefined,
             title: 'none',
+            tooltip: 'none',
+            tooltipDelay: 1500,
           },
         },
         otherValues: 1,
@@ -1354,6 +1406,8 @@ describe('DialogSelectors', () => {
           co2Classification: {
             id: 'c1',
             title: 'c1',
+            tooltip: 'c1',
+            tooltipDelay: 1500,
           },
         },
         otherValues: 0,
@@ -1380,6 +1434,8 @@ describe('DialogSelectors', () => {
           co2Classification: {
             id: undefined,
             title: 'none',
+            tooltip: 'none',
+            tooltipDelay: 1500,
           },
         },
         otherValues: 0,
