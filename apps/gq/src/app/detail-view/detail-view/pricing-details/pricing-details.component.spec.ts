@@ -18,6 +18,7 @@ import {
   PROCESS_CASE_STATE_MOCK,
   QUOTATION_MOCK,
 } from '../../../../testing/mocks';
+import { MATERIAL_COST_DETAILS_STATE_MOCK } from '../../../../testing/mocks/state/material-cost-details-state.mock';
 import { LabelTextModule } from '../../../shared/components/label-text/label-text.module';
 import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
 import { HelperService } from '../../../shared/services/helper-service/helper-service.service';
@@ -54,6 +55,7 @@ describe('PricingDetailsComponent', () => {
           materialSalesOrg: MATERIAL_SALES_ORG_STATE_MOCK,
           materialComparableCosts: MATERIAL_COMPARABLE_COSTS_STATE_MOCK,
           plantMaterialDetails: PLANT_MATERIAL_DETAILS_STATE_MOCK,
+          materialCostDetails: MATERIAL_COST_DETAILS_STATE_MOCK,
         },
       }),
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },

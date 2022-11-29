@@ -53,4 +53,19 @@ export class MaterialService {
       })
       .pipe(mergeMap((result: any) => of([...result.plantMaterialDetailDtos])));
   }
+
+  public getMaterialCostDetails(
+    productionPlantId: string,
+    materialId: string
+  ): Observable<any> {
+    const params = new HttpParams().set(
+      this.PRODUCTION_PLANT_PARAM_KEY,
+      productionPlantId
+    );
+
+    return this.http.get(
+      `${ApiVersion.V1}/materials/${materialId}/material-cost-details`,
+      { params }
+    );
+  }
 }

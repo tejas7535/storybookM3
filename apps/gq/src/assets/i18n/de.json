@@ -346,7 +346,7 @@
       "updateSelectedPrice": "Der Preis wurde gespeichert",
       "updateQuantity": "Die Mengenänderung wurde gespeichert",
       "updateComment": "Die Kommentaränderung wurde gespeichert",
-      "uploadSelectionSuccess": "Die Angebotsauwahl wurde in SAP gespeichert",
+      "uploadSelectionSuccess": "Die ausgewählten Positionen wurden in SAP gespeichert",
       "refreshSapPricingSuccess": "SAP Preise wurden aktualisiert",
       "wrongPriceEditInput": "Bitte geben sie einen numerischen Preis ein",
       "priceShouldBeHigherThanZero": "Der Preis muss höher als 0.00 sein",

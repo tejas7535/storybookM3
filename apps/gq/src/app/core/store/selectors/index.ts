@@ -2,6 +2,7 @@ export * from './create-case/create-case.selector';
 export * from './currency/currency.selector';
 export * from './health-check/health-check.selector';
 export * from './material-comparable-costs/material-comparable-costs.selector';
+export * from './material-cost-details/material-cost-details.selectors';
 export * from './material-sales-org/material-sales-org.selector';
 export * from './material-stock/material-stock.selectors';
 export * from './plant-material-details/plant-material-details.selectors';

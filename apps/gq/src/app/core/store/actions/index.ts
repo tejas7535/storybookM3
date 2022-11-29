@@ -1,6 +1,7 @@
 export * from './create-case/create-case.actions';
 export * from './currency/currency.actions';
 export * from './material-comparable-costs/material-comparable-costs.actions';
+export * from './material-cost-details/material-cost-details.actions';
 export * from './material-sales-org/material-sales-org.actions';
 export * from './process-case/process-case.action';
 export * from './sap-price-details/sap-price-details.actions';

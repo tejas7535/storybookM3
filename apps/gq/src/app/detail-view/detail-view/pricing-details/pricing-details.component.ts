@@ -6,11 +6,14 @@ import { Store } from '@ngrx/store';
 
 import {
   getMaterialComparableCostsLoading,
+  getMaterialCostDetails,
+  getMaterialCostDetailsLoading,
   getMaterialSalesOrgLoading,
   getPlantMaterialDetailsLoading,
   getQuotationCurrency,
 } from '../../../core/store';
 import {
+  MaterialCostDetails,
   PlantMaterialDetail,
   QuotationDetail,
 } from '../../../shared/models/quotation-detail';
@@ -37,6 +40,8 @@ export class PricingDetailsComponent implements OnInit {
   }
 
   quotationCurrency$: Observable<string>;
+  materialCostDetails$: Observable<MaterialCostDetails>;
+  materialCostDetailsLoading$: Observable<boolean>;
   materialComparableCostsLoading$: Observable<boolean>;
   materialSalesOrgLoading$: Observable<boolean>;
   plantMaterialDetailsLoading$: Observable<boolean>;
@@ -56,5 +61,9 @@ export class PricingDetailsComponent implements OnInit {
     this.plantMaterialDetailsLoading$ = this.store.select(
       getPlantMaterialDetailsLoading
     );
+    this.materialCostDetailsLoading$ = this.store.select(
+      getMaterialCostDetailsLoading
+    );
+    this.materialCostDetails$ = this.store.select(getMaterialCostDetails);
   }
 }

@@ -1,6 +1,9 @@
 import { Component, Input } from '@angular/core';
 
-import { QuotationDetail } from '../../../../shared/models/quotation-detail';
+import {
+  MaterialCostDetails,
+  QuotationDetail,
+} from '../../../../shared/models/quotation-detail';
 
 @Component({
   selector: 'gq-production-cost-details',
@@ -9,4 +12,5 @@ import { QuotationDetail } from '../../../../shared/models/quotation-detail';
 export class ProductionCostDetailsComponent {
   @Input() quotationDetail: QuotationDetail;
   @Input() currency: string;
+  @Input() materialCostDetails: MaterialCostDetails;
 }

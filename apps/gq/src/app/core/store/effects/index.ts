@@ -2,6 +2,7 @@ import { CreateCaseEffects } from './create-case/create-case.effects';
 import { ExtendedComparableLinkedTransactionsEffect } from './extended-comparable-linked-transactions/extended-comparable-linked-transactions.effects';
 import { HealthCheckEffects } from './health-check/health-check.effects';
 import { MaterialComparableCostEffect } from './material-comparable-costs/material-comparable-costs.effects';
+import { MaterialCostDetailsEffects } from './material-cost-details/material-cost-details.effects';
 import { MaterialSalesOrgEffect } from './material-sales-org/material-sales-org.effects';
 import { MaterialStockEffects } from './material-stock/material-stock.effects';
 import { PlantMaterialDetailsEffects } from './plant-material-details/plant-material-details.effects';
@@ -22,4 +23,5 @@ export const effects = [
   SapPriceDetailsEffects,
   MaterialStockEffects,
   PlantMaterialDetailsEffects,
+  MaterialCostDetailsEffects,
 ];

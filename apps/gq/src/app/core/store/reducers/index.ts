@@ -13,6 +13,7 @@ import * as fromCurrencies from './currency/currency.reducer';
 import * as fromExtendedComparableLinkedTransactions from './extended-comparable-linked-transactions/extended-comparable-linked-transactions.reducer';
 import * as fromHealthCheck from './health-check/health-check.reducer';
 import * as fromMaterialComparableCosts from './material-comparable-costs/material-comparable-costs.reducer';
+import * as fromMaterialCostDetails from './material-cost-details/material-cost-details.reducer';
 import * as fromMaterialSalesOrg from './material-sales-org/material-sales-org.reducer';
 import * as fromMaterialStock from './material-stock/material-stock.reducer';
 import * as fromPlantMaterialDetails from './plant-material-details/plant-material-details.reducer';
@@ -41,6 +42,7 @@ export interface AppState {
   materialStock: fromMaterialStock.MaterialStockState;
   currency: fromCurrencies.CurrencyState;
   plantMaterialDetails: fromPlantMaterialDetails.PlantMaterialDetailsState;
+  materialCostDetails: fromMaterialCostDetails.MaterialCostDetailsState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
@@ -59,6 +61,7 @@ export const reducers: ActionReducerMap<AppState> = {
   materialStock: fromMaterialStock.materialStockReducer,
   currency: fromCurrencies.currencyReducer,
   plantMaterialDetails: fromPlantMaterialDetails.plantMaterialDetailsReducer,
+  materialCostDetails: fromMaterialCostDetails.materialCostDetailsReducer,
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production
@@ -111,6 +114,11 @@ export const getCurrenciesState =
 export const getPlantMaterialDetailsState =
   createFeatureSelector<fromPlantMaterialDetails.PlantMaterialDetailsState>(
     'plantMaterialDetails'
+  );
+
+export const getMaterialCostDetailsState =
+  createFeatureSelector<fromMaterialCostDetails.MaterialCostDetailsState>(
+    'materialCostDetails'
   );
 
 export class CustomSerializer
