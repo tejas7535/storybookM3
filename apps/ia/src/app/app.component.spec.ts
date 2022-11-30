@@ -6,11 +6,13 @@ import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 
 import { ReplaySubject } from 'rxjs';
 
+import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/marbles';
 
+import { COOKIE_GROUPS } from '@schaeffler/application-insights';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -29,6 +31,7 @@ describe('AppComponent', () => {
   let component: AppComponent;
   let spectator: Spectator<AppComponent>;
   let store: MockStore;
+  let oneTrustService: OneTrustService;
 
   const createComponent = createComponentFactory({
     component: AppComponent,
@@ -42,6 +45,10 @@ describe('AppComponent', () => {
       MatTabsModule,
       provideTranslocoTestingModule({ en: {} }),
       LoadingSpinnerModule,
+      OneTrustModule.forRoot({
+        cookiesGroups: COOKIE_GROUPS,
+        domainScript: 'mockOneTrustId',
+      }),
     ],
     providers: [
       provideMockStore(),
@@ -56,6 +63,7 @@ describe('AppComponent', () => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     store = spectator.inject(MockStore);
+    oneTrustService = spectator.inject(OneTrustService);
   });
 
   test('should create the app', () => {
@@ -81,6 +89,14 @@ describe('AppComponent', () => {
       component.ngOnInit();
 
       expect(component.handleCurrentRoute).toHaveBeenCalled();
+    });
+
+    test('should call handle lang changes and set banner lang', () => {
+      oneTrustService.translateBanner = jest.fn();
+
+      component.ngOnInit();
+
+      expect(oneTrustService.translateBanner).toHaveBeenCalled();
     });
   });
 

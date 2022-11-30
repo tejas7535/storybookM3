@@ -3,7 +3,8 @@ import { NavigationEnd, Router } from '@angular/router';
 
 import { filter, map, merge, Observable, of, take } from 'rxjs';
 
-import { translate } from '@ngneat/transloco';
+import { OneTrustService } from '@altack/ngx-onetrust';
+import { translate, TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { AppShellFooterLink } from '@schaeffler/app-shell';
@@ -91,7 +92,9 @@ export class AppComponent implements OnInit {
   ];
   public constructor(
     private readonly store: Store,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly translocoService: TranslocoService,
+    private readonly oneTrustService: OneTrustService
   ) {}
 
   ngOnInit(): void {
@@ -100,6 +103,11 @@ export class AppComponent implements OnInit {
     this.isLoggedIn$ = this.store.select(getIsLoggedIn);
 
     this.handleCurrentRoute();
+
+    // use transloco to set the translation of the banner
+    this.translocoService.langChanges$.subscribe((language) => {
+      this.oneTrustService.translateBanner(language, true);
+    });
   }
 
   trackByFn(index: number): number {
