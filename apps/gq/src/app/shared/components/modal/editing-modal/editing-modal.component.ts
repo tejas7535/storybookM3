@@ -34,7 +34,7 @@ import { ColumnFields } from '../../../ag-grid/constants/column-fields.enum';
 import {
   getCurrencyRegex,
   getPercentageRegex,
-  quantityRegex,
+  getQuantityRegex,
 } from '../../../constants';
 import { PriceSource, QuotationDetail } from '../../../models/quotation-detail';
 import { HelperService } from '../../../services/helper-service/helper-service.service';
@@ -168,7 +168,7 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
   validateInput(value: string): boolean {
     const locale = this.translocoLocaleService.getLocale();
     if (this.modalData.field === ColumnFields.ORDER_QUANTITY) {
-      return quantityRegex.test(value);
+      return getQuantityRegex(locale).test(value);
     }
 
     return !this.editingFormGroup.get('isRelativePriceChangeRadioGroup')

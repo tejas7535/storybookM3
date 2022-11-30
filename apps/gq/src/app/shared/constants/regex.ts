@@ -1,5 +1,8 @@
 import { LOCALE_DE } from './available-locales';
 export const quantityRegex = /^\d+$/;
+const quantityRegexDE = /^[1-9](\d{0,2})*(.\d{3})*$/;
+
+const quantityRegexEN = /^[1-9](\d{0,2})*(,\d{3})*$/;
 
 const currencyRegexEN =
   /\d{3,}\.\d{1,2}?$|^\d{1,3}(?:,\d{3})*(?:\.\d{1,2})?$|^\d+$/;
@@ -21,5 +24,8 @@ export const getCurrencyRegex = (locale: string): RegExp =>
 
 export const getNumberFilterRegex = (locale: string): RegExp =>
   locale === LOCALE_DE.id ? numberFilterRegexDE : numberFilterRegexEN;
+
+export const getQuantityRegex = (locale: string): RegExp =>
+  locale === LOCALE_DE.id ? quantityRegexDE : quantityRegexEN;
 
 export const timestampRegex = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}Z/;
