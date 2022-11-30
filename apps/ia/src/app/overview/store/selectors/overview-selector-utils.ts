@@ -49,7 +49,7 @@ export function isDateInTimeRange(
 }
 
 export function getPercentageValue(rate: number): number {
-  return Number((rate * 100).toFixed(1));
+  return Math.round(rate * 1000) / 10;
 }
 
 export function getPercentageValueSigned(value: number): string {
