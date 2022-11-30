@@ -1,3 +1,4 @@
+import { LeavingType } from '../../overview/models';
 import { ActionType } from '../models';
 import { EmployeeListDialogMetaHeadings } from './employee-list-dialog-meta-headings.model';
 
@@ -9,6 +10,7 @@ export class EmployeeListDialogMeta {
       positionDescription: string;
       orgUnit: string;
       actionType?: ActionType;
+      reasonForLeaving?: LeavingType;
     }[],
     public employeesLoading: boolean,
     public enoughRightsToShowAllEmployees: boolean,

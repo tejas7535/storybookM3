@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
+import { LeavingType } from '../../overview/models';
 import { ActionType } from '../models';
 import { EmployeeListDialogMeta } from './employee-list-dialog-meta.model';
 
@@ -11,6 +12,7 @@ import { EmployeeListDialogMeta } from './employee-list-dialog-meta.model';
 export class EmployeeListDialogComponent {
   showFluctuationType: boolean;
   actionType = ActionType;
+  leavingType = LeavingType;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: EmployeeListDialogMeta) {
     this.showFluctuationType = data.showFluctuationType;

@@ -26,6 +26,9 @@ module.exports = {
       colors: {
         lime: '#A1C861', // used in entries & exits
         'light-blue': '#78909C', // used in entries & exits
+        'gray-blue': '#8fb2ca', // used to show reason for leaving
+        'sea-blue': '#2f799e', // used to show reason for leaving
+        teal: '#41a9bc', // used to show reason for leaving
       },
     },
   },

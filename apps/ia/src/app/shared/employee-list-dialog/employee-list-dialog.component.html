@@ -67,26 +67,52 @@
               </div>
             </div>
           </div>
-          <mat-chip-list *ngIf="showFluctuationType">
+          <mat-chip-list
+            *ngIf="showFluctuationType || employee.reasonForLeaving"
+            class="mat-chip-list-stacked"
+          >
             <mat-chip
-              *ngIf="employee.actionType === actionType.INTERNAL"
+              *ngIf="
+                employee.actionType === actionType.INTERNAL &&
+                showFluctuationType
+              "
               disableRipple="true"
               selectable="false"
-              class="w-[40px] !bg-lime text-caption !text-high-emphasis-dark-bg after:!bg-transparent"
-              [matTooltip]="t('fluctuationType.internal.label')"
+              class="!w-[100px] justify-center !bg-lime text-caption !text-high-emphasis-dark-bg after:!bg-transparent"
+              [matTooltip]="t('fluctuationType.info')"
               (click)="$event.stopPropagation()"
             >
-              {{ t('fluctuationType.internal.shortLabel') }}
+              {{ t('fluctuationType.internal.label') }}
             </mat-chip>
             <mat-chip
-              *ngIf="employee.actionType === actionType.EXTERNAL"
+              *ngIf="
+                employee.actionType === actionType.EXTERNAL &&
+                showFluctuationType
+              "
               disableRipple="true"
               selectable="false"
-              class="!bg-light-blue w-[40px] text-caption !text-high-emphasis-dark-bg after:!bg-transparent"
-              [matTooltip]="t('fluctuationType.external.label')"
+              class="!bg-light-blue !w-[100px] justify-center text-caption !text-high-emphasis-dark-bg after:!bg-transparent"
+              [matTooltip]="t('fluctuationType.info')"
               (click)="$event.stopPropagation()"
             >
-              {{ t('fluctuationType.external.shortLabel') }}
+              {{ t('fluctuationType.external.label') }}
+            </mat-chip>
+            <mat-chip
+              *ngIf="employee.reasonForLeaving"
+              disableRipple="true"
+              selectable="false"
+              class="!w-[100px] justify-center text-caption !text-high-emphasis-dark-bg after:!bg-transparent"
+              [ngClass]="{
+                '!bg-gray-blue':
+                  employee.reasonForLeaving === leavingType.FORCED,
+                '!bg-sea-blue':
+                  employee.reasonForLeaving === leavingType.UNFORCED,
+                '!bg-teal': employee.reasonForLeaving === leavingType.REMAINING
+              }"
+              [matTooltip]="t('reasonForLeaving')"
+              (click)="$event.stopPropagation()"
+            >
+              {{ employee.reasonForLeaving }}
             </mat-chip>
           </mat-chip-list>
         </mat-list-item>

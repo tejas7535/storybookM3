@@ -55,15 +55,15 @@
     "position": "Position",
     "username": "Username",
     "fluctuationType": {
+      "info": "Fluctuation type",
       "internal": {
-        "label": "Internal",
-        "shortLabel": "Int."
+        "label": "Internal"
       },
       "external": {
-        "label": "External",
-        "shortLabel": "Ext."
+        "label": "External"
       }
     },
+    "reasonForLeaving": "Reason for leaving",
     "enoughRightsToShowAllEmployees": "This employee list is not complete due to insufficient user rights.",
     "tooManyEmployees": "Too many employees (>250) found - please select a smaller dimension to view employee details"
   },
