@@ -675,9 +675,9 @@ pipeline {
                             sh "pnpm nx run-many --target=build --projects=${affectedLibs.join(',')} --prod"
                         } else {
                             if (isMaster()) {
-                                sh "pnpm nx affected --base=${buildBase} --target=build --configuration=qa ${getNxRunnerConfig()} --parallel=3"
+                                sh "pnpm nx affected --base=${buildBase} --target=build --configuration=qa ${getNxRunnerConfig()} --parallel=1"
                             } else {
-                                sh "pnpm nx affected --base=${buildBase} --target=build --configuration=dev ${getNxRunnerConfig()} --parallel=3"
+                                sh "pnpm nx affected --base=${buildBase} --target=build --configuration=dev ${getNxRunnerConfig()} --parallel=1"
                             }
 
                             for (app in affectedApps) {
