@@ -28,6 +28,13 @@ describe('OrgChartService', () => {
   });
 
   describe('mapOrgUnitsToNodes', () => {
+    const translations = {
+      columnDirect: 'translate it',
+      rowEmployees: 'translate it',
+      rowAttrition: 'translate it',
+      columnOverall: 'translate it',
+    };
+
     test('should map org unit data', () => {
       const data: DimensionFluctuationData[] = [
         {
@@ -39,7 +46,7 @@ describe('OrgChartService', () => {
         } as unknown as DimensionFluctuationData,
       ];
 
-      const result = service.mapOrgUnitsToNodes(data);
+      const result = service.mapOrgUnitsToNodes(data, translations);
 
       expect(result.length).toEqual(1);
       expect(result[0]).toEqual({
@@ -84,7 +91,7 @@ describe('OrgChartService', () => {
         } as unknown as DimensionFluctuationData,
       ];
 
-      const result = service.mapOrgUnitsToNodes(data);
+      const result = service.mapOrgUnitsToNodes(data, translations);
 
       expect(result.length).toEqual(4);
       expect(result[0].organization).toEqual('Abel');
@@ -103,7 +110,7 @@ describe('OrgChartService', () => {
         } as unknown as DimensionFluctuationData,
       ];
 
-      const result = service.mapOrgUnitsToNodes(data);
+      const result = service.mapOrgUnitsToNodes(data, translations);
 
       expect(result[0].showUpperParentBtn).toBeFalsy();
     });
@@ -118,7 +125,7 @@ describe('OrgChartService', () => {
         } as unknown as DimensionFluctuationData,
       ];
 
-      const result = service.mapOrgUnitsToNodes(data);
+      const result = service.mapOrgUnitsToNodes(data, translations);
 
       expect(result[0].showUpperParentBtn).toBeTruthy();
       expect(result[0].parentNodeId).toBeUndefined();

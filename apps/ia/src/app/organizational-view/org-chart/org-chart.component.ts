@@ -39,7 +39,13 @@ export class OrgChartComponent implements AfterViewInit {
 
   @Input() set data(data: DimensionFluctuationData[]) {
     this._data = data;
-    this.chartData = this.orgChartService.mapOrgUnitsToNodes(data);
+    const orgChartTranslations = this.translocoService.translateObject(
+      'organizationalView.orgChart.table'
+    );
+    this.chartData = this.orgChartService.mapOrgUnitsToNodes(
+      data,
+      orgChartTranslations
+    );
     this.updateChart();
   }
 

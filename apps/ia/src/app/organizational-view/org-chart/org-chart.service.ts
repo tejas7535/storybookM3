@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 
-import { translate } from '@ngneat/transloco';
 import * as d3Selection from 'd3-selection';
 
 import { DimensionFluctuationData } from '../models/dimension-fluctuation-data.model';
@@ -12,7 +11,18 @@ import { OrgChartNode } from './models/org-chart-node.model';
 export class OrgChartService {
   public static readonly ROOT_ID = 'ROOT';
 
-  mapOrgUnitsToNodes(data: DimensionFluctuationData[]): OrgChartNode[] {
+  mapOrgUnitsToNodes(
+    data: DimensionFluctuationData[],
+    translations: any
+  ): OrgChartNode[] {
+    const textColumnDirect = translations.columnDirect;
+    const textRowEmployees = translations.rowEmployees;
+    const textRowAttrition = translations.rowAttrition;
+    const textColumnOverall = translations.columnOverall;
+
+    // TODO: calculate heat
+    const heatMapClass = 'bg-secondary-900';
+
     return data
       .map((elem: DimensionFluctuationData) => {
         let parentNodeId = elem.parentId;
@@ -34,35 +44,6 @@ export class OrgChartService {
         const totalSubordinates = elem.totalEmployees;
         const directAttrition = elem.directAttrition;
         const totalAttrition = elem.totalAttrition;
-        const textColumnDirect = translate(
-          'organizationalView.orgChart.table.columnDirect'
-        );
-        const textColumnOverall = translate(
-          'organizationalView.orgChart.table.columnOverall'
-        );
-        const textRowEmployees = translate(
-          'organizationalView.orgChart.table.rowEmployees'
-        );
-        const textRowAttrition = translate(
-          'organizationalView.orgChart.table.rowAttrition'
-        );
-
-        // TODO: calculate heat
-        const heatMapClass = 'bg-secondary-900';
-
-        // switch (elem.attritionMeta?.heatType) {
-        //   case HeatType.GREEN_HEAT:
-        //     heatMapClass = 'bg-primary';
-        //     break;
-        //   case HeatType.ORANGE_HEAT:
-        //     heatMapClass = 'bg-sunny-yellow';
-        //     break;
-        //   case HeatType.RED_HEAT:
-        //     heatMapClass = 'bg-error';
-        //     break;
-        //   default:
-        //     heatMapClass = 'bg-selected-overlay';
-        // }
 
         return {
           nodeId,

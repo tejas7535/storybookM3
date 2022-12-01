@@ -5,6 +5,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { TranslocoService } from '@ngneat/transloco';
 import { provideMockStore } from '@ngrx/store/testing';
 import { OrgChart } from 'd3-org-chart';
 
@@ -33,6 +34,7 @@ jest.mock('d3-selection', () => ({
 describe('OrgChartComponent', () => {
   let component: OrgChartComponent;
   let spectator: Spectator<OrgChartComponent>;
+  let transloco: TranslocoService;
 
   const createComponent = createComponentFactory({
     component: OrgChartComponent,
@@ -54,6 +56,7 @@ describe('OrgChartComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+    transloco = spectator.inject(TranslocoService);
   });
 
   it('should create', () => {
@@ -63,6 +66,8 @@ describe('OrgChartComponent', () => {
   describe('set data', () => {
     test('should set chart data and update chart', () => {
       component.updateChart = jest.fn();
+      const obj: any = {};
+      transloco.translateObject = jest.fn(() => obj);
       component['orgChartService'].mapOrgUnitsToNodes = jest.fn();
       const employees = [{ id: '123' } as unknown as DimensionFluctuationData];
 
@@ -71,7 +76,10 @@ describe('OrgChartComponent', () => {
       expect(component.updateChart).toHaveBeenCalled();
       expect(
         component['orgChartService'].mapOrgUnitsToNodes
-      ).toHaveBeenCalledWith(employees);
+      ).toHaveBeenCalledWith(employees, obj);
+      expect(transloco.translateObject).toHaveBeenCalledWith(
+        'organizationalView.orgChart.table'
+      );
     });
   });
 
