@@ -113,7 +113,7 @@
         "advancedSelection": "Erweiterte Lagerauswahl"
       },
       "quickSelection": {
-        "searchPlaceholder": "Eingabe Lagerbezeichnung, z.B. 6215",
+        "searchPlaceholder": "Eingabe Lagerbezeichnung, z.B. 6226",
         "selectButton": "Lager auswählen",
         "selectOption": "<span class=\"text-medium-emphasis\">Fettberechnung zu Lager</span> &nbsp;<strong>{{bearing}}</strong>",
         "disabledOption": "<span class=\"text-medium-emphasis\">Keine Fettberechnung möglich für</span> &nbsp;<strong>{{bearing}}</strong>",
@@ -173,7 +173,10 @@
       "grease": {
         "label": "Fett",
         "defaultOption": "Alle Fette",
-        "tooltip": "Das ausgewählte Fett wird im Berechnungsbericht vorrangig berücksichtigt.\nWenn das ausgewählte Fett nicht geeignet ist, werden Alternativen angezeigt."
+        "tooltip": "Das ausgewählte Fett wird im Berechnungsbericht vorrangig berücksichtigt.\nWenn das ausgewählte Fett nicht geeignet ist, werden Alternativen angezeigt.",
+        "schaefflerGreases": "Schaeffler Fette",
+        "nonSchaefflerMultiPurposeGreases": "Nicht-Schaeffler Mehrzweck Fette",
+        "nonSchaefflerHighTempGreases": "Nicht-Schaeffler Hochtemperatur Fette"
       },
       "concept1": {
         "label": "Kartuscheneinstellung berechnen (CONCEPT1)",
@@ -263,10 +266,10 @@
       "details": "Details",
       "why": "Warum?",
       "adjustConditions": "Dieses Fett ist grundsätzlich für eine Verwendung mit CONCEPT1 und die Anwendung geeignet aber die Betriebsparameter führen zu einer Schmierberechnung die entweder zu hoch oder zu gering für CONCEPT1 aus",
-      "SUITED": "geeignet",
-      "NOT_SUITED": "nicht geeignet",
-      "UNSUITED": "ungeeignet",
-      "CONDITIONAL": "bedingt",
+      "SUITED": "Geeignet",
+      "NOT_SUITED": "Nicht geeignet",
+      "UNSUITED": "Ungeeignet",
+      "CONDITIONAL": "Bedingt",
       "UNKNOWN": "Eignung unbekannt",
       "detailsConcept1": "Details zu CONCEPT1",
       "concept1Size": "{{ size }}ml Kartusche",
@@ -276,6 +279,8 @@
       "sizeHint": "Für ihre gewählten Betriebsbedingungen ist der CONCEPT1 mit {{ size }}ml nicht geeignet",
       "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }}ml)"
     },
+    "previouslySelected": "Die Berechnung wurde für ein {{ type }} wie z.B \"{{ grease }}\" ausgeführt. Wir sind nicht verantwortlich für die Schmierungsqualität",
+    "compatibilityCheck": "Verträglichkeit muss gecheckt werden",
     "initialGreaseQuantity": "Erstbefettungsmenge *",
     "manualRelubricationQuantityInterval": "Manuelle Nachschmiermenge * / Interval *",
     "manualRelubricationQuantityIntervalTooltip": "Aus Gründen der Betriebssicherheit sind Nachschmierfristen > 1 Jahr nicht zu empfehlen.\n\nEs empfiehlt sich - gerade bei großen Nachschmiermengen - die errechnete Nachschmiermenge verteilt auf mehrere Nachschmiervorgänge über der Nachschmierfrist zuzuführen.",
@@ -311,10 +316,11 @@
     "suitabilityLevelSuitable": "geeignet",
     "suitabilityLevelLessSuitable": "weniger geeignet",
     "suitabilityLevelNotSuitable": "nicht geeignet",
-    "insufficientGreaseResultHint": "ungeeignet",
+    "insufficientGreaseResultHint": "Ungeeignet",
     "insufficientGreaseResultTooltip": "Die Eignung des Fettes wurde durch die Grease App als ungeeignet bewertet.\n\nBitte kontaktieren Sie bei weiteren Fragen den Schaeffler Ingenieurdienst.",
-    "preferredGreaseHintSelected": "vorausgewählt",
-    "preferredGreaseHintAlternative": "alternativ"
+    "preferredGreaseHintSelected": "Vorausgewählt",
+    "preferredGreaseHintAlternative": "Alternativ",
+    "preferredGreaseHintAlternativeTooltip": "Dies ist ein alternatives Produkt aus dem Schaeffler Produktportfolio basierend auf ihren Eingaben aus Schritt 2."
   },
   "settings": {
     "stepper": {

@@ -113,7 +113,7 @@
         "advancedSelection": "Selección de rodamiento avanzada"
       },
       "quickSelection": {
-        "searchPlaceholder": "Introduzca una designación de rodamiento, p. ej.: 6215",
+        "searchPlaceholder": "Introduzca una designación de rodamiento, p. ej.: 6226",
         "selectButton": "Seleccione el rodamiento",
         "selectOption": "<span class=\"text-medium-emphasis\">Cálculo de la lubricación del rodamiento</span> &nbsp;<strong>{{bearing}}</strong>",
         "disabledOption": "<span class=\"text-medium-emphasis\">No es posible el cálculo de la lubricación para</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
@@ -173,7 +173,10 @@
       "grease": {
         "label": "Grasa",
         "defaultOption": "Todas las grasas",
-        "tooltip": "La grasa seleccionada tendrá prioridad en el informe de cálculo.\nSi la grasa seleccionada no es adecuada, se mostrarán alternativas."
+        "tooltip": "La grasa seleccionada tendrá prioridad en el informe de cálculo.\nSi la grasa seleccionada no es adecuada, se mostrarán alternativas.",
+        "schaefflerGreases": "Grasas Schaeffler",
+        "nonSchaefflerMultiPurposeGreases": "Grasa multiusos no-Schaeffler",
+        "nonSchaefflerHighTempGreases": "Grasa de alta temperatura que no es de Schaeffler"
       },
       "concept1": {
         "label": "Calcular el ajuste de liberación de gas (CONCEPT1)",
@@ -276,6 +279,8 @@
       "sizeHint": "Para las condiciones de funcionamiento que ha seleccionado, el uso de CONCEPT1 con {{ size }}ml no es adecuado",
       "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }}ml)"
     },
+    "previouslySelected": "El cálculo se ha realizado para {{ type }}, por ejemplo, \"{{ grease }}\". No somos responsables de la calidad de la grasa",
+    "compatibilityCheck": "Hay que comprobar la compatibilidad",
     "initialGreaseQuantity": "Cantidad inicial de grasa *",
     "manualRelubricationQuantityInterval": "Cantidad*/Intervalo* de relubricación manual",
     "manualRelubricationQuantityIntervalTooltip": "Por motivos de seguridad operativa, no se recomiendan los periodos de relubricación superiores a 1 año.\n\nSe recomienda distribuir la cantidad de relubricación en varios procesos a lo largo del periodo de relubricación, especialmente si se trata de grandes cantidades de relubricación manual.",
@@ -311,10 +316,11 @@
     "suitabilityLevelSuitable": "adecuada",
     "suitabilityLevelLessSuitable": "menos adecuada",
     "suitabilityLevelNotSuitable": "inadecuada",
-    "insufficientGreaseResultHint": "insuficiente",
+    "insufficientGreaseResultHint": "Insuficiente",
     "insufficientGreaseResultTooltip": "La idoneidad de la grasa lubricante ha sido calificada como insuficiente por la Grease App.\n\nSi tiene más dudas, póngase en contacto con el servicio técnico de Schaeffle.",
-    "preferredGreaseHintSelected": "preseleccionado",
-    "preferredGreaseHintAlternative": "alternativa"
+    "preferredGreaseHintSelected": "Preseleccionado",
+    "preferredGreaseHintAlternative": "Alternativa",
+    "preferredGreaseHintAlternativeTooltip": "Se trata de un producto alternativo de la cartera de productos de Schaeffler basado en su información del paso 2."
   },
   "settings": {
     "stepper": {

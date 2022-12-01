@@ -152,7 +152,8 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
   private assignReportData(): void {
     this.subordinates = this.greaseReportService.formatGreaseReport(
       this.reportRaw?.subordinates,
-      this.preferredGreaseResult
+      this.preferredGreaseResult,
+      this.automaticLubrication
     );
 
     this.greaseInput = this.subordinates.find(

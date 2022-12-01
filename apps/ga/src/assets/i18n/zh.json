@@ -113,7 +113,7 @@
         "advancedSelection": "高级轴承选择"
       },
       "quickSelection": {
-        "searchPlaceholder": "输入轴承名称，例如 6215",
+        "searchPlaceholder": "输入轴承名称，例如 6226",
         "selectButton": "选择轴承",
         "selectOption": "<span class=\"text-medium-emphasis\">轴承的润滑计算</span> &nbsp;<strong>{{bearing}}</strong>",
         "disabledOption": "<span class=\"text-medium-emphasis\">润滑计算不可能为</span> &nbsp;<strong>{{bearing}}</strong>",
@@ -183,7 +183,10 @@
       "grease": {
         "label": "润滑脂",
         "defaultOption": "所有润滑脂",
-        "tooltip": "在计算报告中，所选油脂将被优先考虑。\n如果所选的油脂不合适，将显示替代方案。"
+        "tooltip": "在计算报告中，所选油脂将被优先考虑。\n如果所选的油脂不合适，将显示替代方案。",
+        "schaefflerGreases": "Schaeffler 润滑脂",
+        "nonSchaefflerMultiPurposeGreases": "非Schaeffler多用途润滑脂",
+        "nonSchaefflerHighTempGreases": "非Schaeffler高温润滑脂"
       },
       "concept1": {
         "label": "计算气体释放设置 (CONCEPT1)",
@@ -286,6 +289,8 @@
       "sizeHint": "对于你选择的操作条件，使用{{ size }}毫升的CONCEPT1是不合适的。",
       "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }}ml)"
     },
+    "previouslySelected": "计算是针对{{ type }}进行的，例如：\"{{ grease }}\"。我们对油脂的质量不负责任。",
+    "compatibilityCheck": "必须检查兼容性",
     "initialGreaseQuantity": "初始加脂量 *",
     "manualRelubricationQuantityInterval": "手动润滑加脂量 * / 间隔 *",
     "manualRelubricationQuantityIntervalTooltip": "出于操作安全的考虑，不建议采用 > 1 年的润滑周期。\n\n建议在润滑周期内，利用多个润滑过程来分配润滑加脂量，特别是对于手动加注大量润滑脂的情形。",
@@ -324,7 +329,8 @@
     "insufficientGreaseResultHint": "被评为不足",
     "insufficientGreaseResultTooltip": "润滑脂的适用性被润滑脂计算器评为不足。\n\n如有问题，请联系舍弗勒工程服务。",
     "preferredGreaseHintSelected": "选定的",
-    "preferredGreaseHintAlternative": "另类的"
+    "preferredGreaseHintAlternative": "另类的",
+    "preferredGreaseHintAlternativeTooltip": "这是根据您在第2步中的输入，从舍弗勒的产品组合中选择的一种产品。"
   },
   "settings": {
     "stepper": {

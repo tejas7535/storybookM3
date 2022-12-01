@@ -1,6 +1,6 @@
 <div *transloco="let t" class="flex items-baseline gap-2">
   <mat-form-field
-    *ngrxLet="preferredGrease$; let preferredGrease"
+    *ngrxLet="preferredGrease$ as preferredGrease"
     appearance="outline"
     class="grow"
   >
@@ -18,13 +18,19 @@
       <mat-option *ngIf="defaultOption" [value]="defaultOption">
         {{ t(defaultOption.text) }}
       </mat-option>
-      <mat-option
-        *ngFor="
-          let option of removeEmptyOptions(preferredGrease?.greaseOptions)
-        "
-        [value]="option"
-        >{{ option.text }}</mat-option
-      >
+      <ng-container *ngrxLet="allGreases$ as allGreases">
+        <mat-optgroup
+          *ngFor="let optionGroup of allGreases"
+          [label]="optionGroup.name"
+        >
+          <mat-option
+            *ngFor="let option of removeEmptyOptions(optionGroup.entries)"
+            [value]="option"
+          >
+            {{ option.text }}
+          </mat-option>
+        </mat-optgroup>
+      </ng-container>
     </mat-select>
   </mat-form-field>
   <mat-icon

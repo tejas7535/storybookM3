@@ -8,6 +8,8 @@ import { translate } from '@ngneat/transloco';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
+import { alternativeTable, marketGreases } from '@ga/shared/constants';
+
 import { WARNINGSOPENED } from '../constants';
 import { itemValue } from '../helpers/grease-helpers';
 import {
@@ -49,7 +51,8 @@ export class GreaseReportService {
 
   public formatGreaseReport(
     subordinates: GreaseReportSubordinate[],
-    preferredGreaseResult?: PreferredGreaseResult
+    preferredGreaseResult?: PreferredGreaseResult,
+    automaticLubrication?: boolean
   ): GreaseReportSubordinate[] {
     let formattedResult = subordinates || [];
 
@@ -120,7 +123,13 @@ export class GreaseReportService {
               isSufficient: this.greaseResultDataSourceService.isSufficient(
                 table1Items || []
               ),
-              isPreferred: mainTitle === preferredGreaseResult?.text,
+              isPreferred:
+                mainTitle === preferredGreaseResult?.text ||
+                marketGreases.filter(
+                  ({ title, category }) =>
+                    mainTitle === title &&
+                    category === preferredGreaseResult?.id
+                ).length === 1,
               dataSource: [
                 this.greaseResultDataSourceService.automaticLubrication(
                   concept1 as GreaseReportConcept1Subordinate[],
@@ -190,20 +199,28 @@ export class GreaseReportService {
         ) as GreaseReportSubordinate[]),
       ];
 
-      // reorder for automatic lubrication
-      const suitabilityOrder = [
-        SUITABILITY_LABEL.SUITED,
-        SUITABILITY_LABEL.CONDITIONAL,
-        SUITABILITY_LABEL.UNKNOWN,
-        SUITABILITY_LABEL.NOT_SUITED,
-        SUITABILITY_LABEL.UNSUITED,
-      ];
-
-      formattedSubordinates = formattedSubordinates.sort(
-        ({ greaseResult: first }, { greaseResult: next }) =>
-          suitabilityOrder.indexOf(first.dataSource[0].custom.data.label) -
-          suitabilityOrder.indexOf(next.dataSource[0].custom.data.label)
+      // fix order by index just in case
+      formattedSubordinates = [...formattedSubordinates].sort(
+        (firstSubordinate, secondSubordinate) =>
+          +(firstSubordinate as any).index - +(secondSubordinate as any).index
       );
+
+      // reorder for automatic lubrication
+      if (automaticLubrication) {
+        const suitabilityOrder = [
+          SUITABILITY_LABEL.SUITED,
+          SUITABILITY_LABEL.CONDITIONAL,
+          SUITABILITY_LABEL.UNKNOWN,
+          SUITABILITY_LABEL.NOT_SUITED,
+          SUITABILITY_LABEL.UNSUITED,
+        ];
+
+        formattedSubordinates = [...formattedSubordinates].sort(
+          ({ greaseResult: first }, { greaseResult: next }) =>
+            suitabilityOrder.indexOf(first.dataSource[0].custom.data.label) -
+            suitabilityOrder.indexOf(next.dataSource[0].custom.data.label)
+        );
+      }
 
       // move preferred grease to the top
       const preferredIndex = formattedSubordinates.findIndex(
@@ -214,6 +231,36 @@ export class GreaseReportService {
         formattedSubordinates.unshift(
           formattedSubordinates.splice(preferredIndex, 1)[0]
         );
+      }
+
+      // display recommended alternatives only
+      if (preferredGreaseResult) {
+        const alternativeMatch = alternativeTable.find(
+          ({ name }) => name === preferredGreaseResult.text
+        );
+
+        if (alternativeMatch) {
+          const { alternatives, all } = alternativeMatch;
+
+          const [firstEntry, ...rest] = formattedSubordinates;
+
+          formattedSubordinates = [
+            firstEntry,
+            ...rest
+              .filter(
+                ({ greaseResult: { mainTitle } }) =>
+                  all || alternatives.includes(mainTitle) || !alternatives
+              )
+              .sort(
+                (
+                  { greaseResult: { mainTitle: title1 } },
+                  { greaseResult: { mainTitle: title2 } }
+                ) =>
+                  +alternatives.includes(title2) -
+                  +alternatives.includes(title1)
+              ),
+          ];
+        }
       }
 
       formattedResult = [

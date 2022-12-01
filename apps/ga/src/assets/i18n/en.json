@@ -113,7 +113,7 @@
         "advancedSelection": "Advanced bearing selection"
       },
       "quickSelection": {
-        "searchPlaceholder": "Enter a bearing designation, e.g. 6215",
+        "searchPlaceholder": "Enter a bearing designation, e.g. 6226",
         "selectButton": "Select bearing",
         "selectOption": "<span class=\"text-medium-emphasis\">Lubrication calculation for bearing</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
         "disabledOption": "<span class=\"text-medium-emphasis\">No lubrication calculation possible for</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
@@ -173,7 +173,10 @@
       "grease": {
         "label": "Grease",
         "defaultOption": "All Greases",
-        "tooltip": "The selected grease will be given priority in the calculation report.\nIf the selected grease is not suitable, alternatives will be displayed."
+        "tooltip": "The selected grease will be given priority in the calculation report.\nIf the selected grease is not suitable, alternatives will be displayed.",
+        "schaefflerGreases": "Schaeffler Greases",
+        "nonSchaefflerMultiPurposeGreases": "Non-Schaeffler Multi-Purpose Grease",
+        "nonSchaefflerHighTempGreases": "Non-Schaeffler High-Temperature Grease"
       },
       "concept1": {
         "label": "Calculate gas release setting (CONCEPT1)",
@@ -276,6 +279,8 @@
       "sizeHint": "For the operating conditions you selected using CONCEPT1 with {{ size }}ml is unsuited",
       "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }}ml)"
     },
+    "previouslySelected": "The calculation was done for {{ type }} e.g. \"{{ grease }}\". We are not responsible for the grease quality",
+    "compatibilityCheck": "Compatibility must be checked",
     "initialGreaseQuantity": "Initial grease quantity *",
     "manualRelubricationQuantityInterval": "Manual relubrication quantity * / interval *",
     "manualRelubricationQuantityIntervalTooltip": "For reasons of operational safety, relubrication periods > 1 year are not recommended.\n\nIt is recommended – especially for large manual relubrication quantities – to distribute the relubrication quantity on several lubricating processes over the relubrication period.",
@@ -311,10 +316,11 @@
     "suitabilityLevelSuitable": "suitable",
     "suitabilityLevelLessSuitable": "less suitable",
     "suitabilityLevelNotSuitable": "not suitable",
-    "insufficientGreaseResultHint": "insufficient",
+    "insufficientGreaseResultHint": "Insufficient",
     "insufficientGreaseResultTooltip": "The suitability of the lubricating grease was rated as insufficient by the Grease App.\n\nPlease contact the Schaeffler engineering service if you have any further questions.",
-    "preferredGreaseHintSelected": "preselected",
-    "preferredGreaseHintAlternative": "alternative"
+    "preferredGreaseHintSelected": "Preselected",
+    "preferredGreaseHintAlternative": "Alternative",
+    "preferredGreaseHintAlternativeTooltip": "This is an alternative product from the Schaeffler product portfolio based on their input from step 2."
   },
   "settings": {
     "stepper": {

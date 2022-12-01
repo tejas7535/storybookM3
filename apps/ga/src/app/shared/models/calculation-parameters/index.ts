@@ -2,6 +2,8 @@ export * from './calculation-parameters.model';
 export * from './dialog-response.model';
 export * from './dropdown-option.model';
 export * from './environment-impact.model';
+export * from './grease-alternative.model';
+export * from './grease-category.model';
 export * from './load.model';
 export * from './load-installation.model';
 export * from './load-levels.model';

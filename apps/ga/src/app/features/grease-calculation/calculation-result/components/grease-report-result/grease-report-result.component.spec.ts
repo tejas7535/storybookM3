@@ -10,6 +10,7 @@ import resize_observer_polyfill from 'resize-observer-polyfill';
 import { COOKIE_GROUPS } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { generalHighTemperature } from '@ga/shared/constants';
 import { CONCEPT1_LABEL_VALUE_MOCK, greaseResultMock } from '@ga/testing/mocks';
 import { GREASE_CONCEPT1_SUITABILITY } from '@ga/testing/mocks/models/grease-concept1-suitability.mock';
 
@@ -162,6 +163,45 @@ describe('GreaseReportResultComponent', () => {
       expect(component.getSettings(CONCEPT1_LABEL_VALUE_MOCK)).toBe(
         GREASE_CONCEPT1_SUITABILITY
       );
+    });
+  });
+
+  describe('showSubtitle', () => {
+    it('should return the grease result main subtitle by default', () => {
+      expect(component.showSubtitle()).toBe(component.greaseResult.subTitle);
+    });
+
+    it('should return the grease result main subtitle with a hint', () => {
+      component.preferredGreaseResult = {
+        ...component.preferredGreaseResult,
+        text: generalHighTemperature.name,
+      };
+
+      const expectedSubTitle = `${component.greaseResult.subTitle}<br/>(calculationResult.compatibilityCheck)`;
+      expect(component.showSubtitle()).toBe(expectedSubTitle);
+    });
+  });
+
+  describe('isAlternative', () => {
+    it('should return false if not part of the alternative array', () => {
+      component.preferredGreaseResult = {
+        ...component.preferredGreaseResult,
+        text: generalHighTemperature.name,
+      };
+      expect(component.isAlternative()).toBeFalsy();
+    });
+
+    it('should return true if part of the alternative array', () => {
+      component.greaseResult = {
+        ...component.greaseResult,
+        mainTitle: 'Arcanol TEMP90',
+      };
+
+      component.preferredGreaseResult = {
+        ...component.preferredGreaseResult,
+        text: generalHighTemperature.name,
+      };
+      expect(component.isAlternative()).toBeTruthy();
     });
   });
 });

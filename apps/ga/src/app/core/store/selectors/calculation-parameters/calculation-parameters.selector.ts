@@ -1,5 +1,7 @@
+import { translate } from '@ngneat/transloco';
 import { createSelector } from '@ngrx/store';
 
+import { greaseCategories, marketGreases } from '@ga/shared/constants';
 import {
   CalculationParameters,
   InstallationMode,
@@ -147,6 +149,32 @@ export const getPreferredGrease = createSelector(
 export const getPreferredGreaseOptions = createSelector(
   getPreferredGrease,
   (preferredGrease) => preferredGrease?.greaseOptions
+);
+
+export const getAllGreases = createSelector(
+  getPreferredGreaseOptions,
+  (preferredGreaseOptions) =>
+    greaseCategories.map((greaseCategory) => ({
+      name: translate(greaseCategory.name),
+      entries: greaseCategory.type
+        ? [
+            ...marketGreases
+              .filter(({ category }) => category === greaseCategory.type)
+              .flatMap((marketGreasesCategory) =>
+                marketGreasesCategory.entries.map((entry) => ({
+                  text: entry,
+                  id: marketGreasesCategory.category,
+                }))
+              ),
+          ]
+        : preferredGreaseOptions?.filter(
+            ({ id }) =>
+              !greaseCategories
+                .filter(({ type }) => !!type)
+                .map(({ type }) => type)
+                .includes(id)
+          ),
+    }))
 );
 
 export const getPreferredGreaseOptionsLoading = createSelector(

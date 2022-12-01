@@ -58,13 +58,17 @@
         <div
           *ngIf="concept1Impossible()"
           class="mx-3 flex min-w-0 flex-row gap-4 rounded border border-attention bg-sunny-yellow bg-opacity-10 p-3 lg:m-0"
+          [ngClass]="{ '!mb-6': getResultAmount() <= resultsLimit }"
         >
           <div class="text-caption font-normal text-high-emphasis">
             {{ t('concept1Impossible') }}
           </div>
         </div>
         <div
-          *ngIf="isGreaseResultSection(subordinate.titleID)"
+          *ngIf="
+            isGreaseResultSection(subordinate.titleID) &&
+            getResultAmount() > resultsLimit
+          "
           class="cursor-pointer rounded px-3 py-4 text-link hover:bg-hover-overlay focus:bg-focus-overlay"
           (click)="toggleLimitResults()"
         >
@@ -134,7 +138,7 @@
       <div class="grease-result__grid-item mb-6 inline-flex w-full lg:w-1/3">
         <ga-grease-report-result
           [greaseResult]="subordinate.greaseResult"
-          [indicateGreasePreference]="!!preferredGreaseResult?.id"
+          [preferredGreaseResult]="preferredGreaseResult"
           [automaticLubrication]="automaticLubrication"
         ></ga-grease-report-result>
       </div>

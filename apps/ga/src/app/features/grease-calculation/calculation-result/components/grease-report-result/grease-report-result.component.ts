@@ -18,6 +18,8 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { LabelValue, LabelValueModule } from '@schaeffler/label-value';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { alternativeTable, generalHighTemperature } from '@ga/shared/constants';
+
 import { MEDIASGREASE } from '../../constants';
 import {
   adaptLabelValuesFromGreaseResultData,
@@ -30,6 +32,7 @@ import {
   GreaseResult,
   GreaseResultDataItem,
   GreaseResultDataSourceItem,
+  PreferredGreaseResult,
   SUITABILITY_LABEL,
 } from '../../models';
 import { AutomaticLubricationPipe } from '../../pipes';
@@ -65,7 +68,7 @@ export const shopSearchPathBase = 'search/searchpage?text=';
 export class GreaseReportResultComponent implements OnInit, OnDestroy {
   @Input() public greaseResult!: GreaseResult;
   @Input() public valuesLimit = 3;
-  @Input() public indicateGreasePreference = false;
+  @Input() public preferredGreaseResult: PreferredGreaseResult;
   @Input() public automaticLubrication = false;
 
   public labelValues: LabelValue[] = [];
@@ -150,6 +153,26 @@ export class GreaseReportResultComponent implements OnInit, OnDestroy {
 
   public getSettings(labelValues: LabelValue[]): GreaseConcep1Suitablity {
     return labelValues.find(({ custom }) => !!custom)?.custom.data;
+  }
+
+  public showSubtitle(): string {
+    let subtitle = this.greaseResult.subTitle;
+    if (
+      this.preferredGreaseResult?.text === generalHighTemperature.name &&
+      !this.greaseResult.isPreferred
+    ) {
+      subtitle += `<br/>(${translate('calculationResult.compatibilityCheck')})`;
+    }
+
+    return subtitle;
+  }
+
+  public isAlternative(): boolean {
+    return (
+      alternativeTable
+        .find(({ name }) => name === this.preferredGreaseResult.text)
+        ?.alternatives.indexOf(this.greaseResult.mainTitle) > -1
+    );
   }
 
   private assignGreaseResultData(): void {

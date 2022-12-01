@@ -4,6 +4,8 @@ import { Injectable } from '@angular/core';
 import { translate } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
+import { NON_SCHAEFFLER_RHO } from '@ga/shared/constants';
+
 import { CalculationParametersService } from '../../calculation-parameters/services';
 import * as helpers from '../helpers/grease-helpers';
 import {
@@ -483,13 +485,14 @@ export class GreaseResultDataSourceService {
   });
 
   private readonly massTemplate = (
-    rho: number = 1,
+    rho: number,
     quantity: number,
     timespan?: string,
     tiny = false
   ): string => {
     const value = this.calculationParametersService.getWeightFromGram(
-      rho * quantity
+      (rho || NON_SCHAEFFLER_RHO) * // take 0.9 as rho for greases that don't have value => non schaeffler
+        quantity
     );
 
     return value
