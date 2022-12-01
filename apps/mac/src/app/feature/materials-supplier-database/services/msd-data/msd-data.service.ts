@@ -147,6 +147,18 @@ export class MsdDataService {
                         `materialsSupplierDatabase.productCategoryValues.${materialResponse.productCategory}`
                       )
                     : undefined,
+                ssid:
+                  'ssid' in materialResponse
+                    ? materialResponse.ssid
+                    : undefined,
+                generalDescription:
+                  'generalDescription' in materialResponse
+                    ? materialResponse.generalDescription
+                    : undefined,
+                sapMaterialNumber:
+                  'sapMaterialNumber' in materialResponse
+                    ? materialResponse.sapMaterialNumber
+                    : undefined,
                 referenceDoc:
                   'referenceDoc' in materialResponse
                     ? materialResponse.referenceDoc

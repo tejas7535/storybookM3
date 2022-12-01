@@ -1,9 +1,12 @@
+/* eslint-disable max-lines */
 import { MaterialClass } from '@mac/msd/constants';
 import {
   AluminumMaterial,
   AluminumMaterialResponse,
   DataResult,
   MaterialResponseEntry,
+  PolymerMaterial,
+  PolymerMaterialResponse,
   SteelMaterial,
   SteelMaterialResponse,
 } from '@mac/msd/models';
@@ -301,6 +304,118 @@ export const msdServiceSteelMockResult: SteelMaterial[] = [
     materialNumbers: ['1.1234', '1.2345'],
     manufacturer: true,
     lastModified: undefined,
+  },
+];
+
+export const msdServicePolymerMockResponse: PolymerMaterialResponse[] = [
+  {
+    id: 127,
+    co2PerTon: 2183,
+    releaseDateYear: 2021,
+    releaseDateMonth: 10,
+    releaseRestrictions: '',
+    productCategory: 'strip',
+    manufacturerSupplier: {
+      id: 442,
+      name: 'ArcelorMittal Tubarao',
+      plant: 'Tubarao',
+      country: 'Brazil',
+      sapData: [
+        {
+          sapSupplierId: '0000000000000',
+        },
+        {
+          sapSupplierId: '0000000000001',
+        },
+      ],
+    },
+    materialStandard: {
+      id: 57,
+      materialName: 'C80M',
+      standardDocument: 'S 130002',
+    },
+    materialClass: 'px',
+  },
+  {
+    id: 128,
+    co2PerTon: 2183,
+    releaseDateYear: 2004,
+    releaseDateMonth: 6,
+    releaseRestrictions: '',
+    productCategory: 'strip',
+    manufacturerSupplier: {
+      id: 442,
+      name: 'ArcelorMittal Tubarao',
+      plant: 'Tubarao',
+      country: 'Brazil',
+    },
+    materialStandard: {
+      id: 57,
+      materialName: 'C45',
+      standardDocument: 'S 130001',
+    },
+    materialClass: 'px',
+    ssid: 'ssid',
+    generalDescription: 'generalDescription',
+    sapMaterialNumber: 'sapMaterialNumber',
+  },
+];
+
+export const msdServicePolymerMockResult: PolymerMaterial[] = [
+  {
+    id: 127,
+    manufacturerSupplierId: 442,
+    manufacturerSupplierName: 'ArcelorMittal Tubarao',
+    manufacturerSupplierPlant: 'Tubarao',
+    manufacturerSupplierCountry: 'Brazil',
+    materialClass: MaterialClass.POLYMER,
+    sapSupplierIds: ['0000000000000', '0000000000001'],
+    materialStandardId: 57,
+    materialStandardMaterialName: 'C80M',
+    materialStandardStandardDocument: 'S 130002',
+    productCategory: 'strip',
+    productCategoryText:
+      'materialsSupplierDatabase.productCategoryValues.strip',
+    co2PerTon: 2183,
+    releaseDateYear: 2021,
+    releaseDateMonth: 10,
+    releaseRestrictions: '',
+    co2Scope1: undefined,
+    co2Scope2: undefined,
+    co2Scope3: undefined,
+    co2Classification: undefined,
+    referenceDoc: undefined,
+    ssid: undefined,
+    generalDescription: undefined,
+    sapMaterialNumber: undefined,
+  },
+  {
+    id: 128,
+    manufacturerSupplierId: 442,
+    manufacturerSupplierName: 'ArcelorMittal Tubarao',
+    manufacturerSupplierPlant: 'Tubarao',
+    manufacturerSupplierCountry: 'Brazil',
+    materialClass: MaterialClass.POLYMER,
+    sapSupplierIds: undefined,
+    materialStandardId: 57,
+    materialStandardMaterialName: 'C45',
+    materialStandardStandardDocument: 'S 130001',
+    productCategory: 'strip',
+    productCategoryText:
+      'materialsSupplierDatabase.productCategoryValues.strip',
+    co2PerTon: 2183,
+    releaseDateYear: 2004,
+    releaseDateMonth: 6,
+    releaseRestrictions: '',
+    co2Scope1: undefined,
+    co2Scope2: undefined,
+    co2Scope3: undefined,
+    co2Classification: undefined,
+    referenceDoc: undefined,
+    lastModified: undefined,
+    ssid: 'ssid',
+    generalDescription: 'generalDescription',
+    sapMaterialNumber: 'sapMaterialNumber',
   },
 ];
 

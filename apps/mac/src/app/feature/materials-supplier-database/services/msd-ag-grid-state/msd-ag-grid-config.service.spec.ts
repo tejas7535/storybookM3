@@ -4,10 +4,12 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { MaterialClass } from '@mac/msd/constants';
 import {
   ALUMINUM_STATIC_QUICKFILTERS,
+  POLYMER_STATIC_QUICKFILTERS,
   STEEL_STATIC_QUICKFILTERS,
 } from '@mac/msd/main-table/quick-filter/config';
 import {
   ALUMINUM_COLUMN_DEFINITIONS,
+  POLYMER_COLUMN_DEFINITIONS,
   STEEL_COLUMN_DEFINITIONS,
 } from '@mac/msd/main-table/table-config/materials';
 import { DataFacade } from '@mac/msd/store/facades/data';
@@ -49,6 +51,7 @@ describe('MsdAgGridConfigService', () => {
     it.each([
       [MaterialClass.ALUMINUM, ALUMINUM_COLUMN_DEFINITIONS],
       [MaterialClass.STEEL, STEEL_COLUMN_DEFINITIONS],
+      [MaterialClass.POLYMER, POLYMER_COLUMN_DEFINITIONS],
       [undefined, undefined],
     ])(
       'should return the default column definitions for %p',
@@ -64,6 +67,7 @@ describe('MsdAgGridConfigService', () => {
     it.each([
       [MaterialClass.ALUMINUM, ALUMINUM_STATIC_QUICKFILTERS],
       [MaterialClass.STEEL, STEEL_STATIC_QUICKFILTERS],
+      [MaterialClass.POLYMER, POLYMER_STATIC_QUICKFILTERS],
       [undefined, undefined],
     ])(
       'should return the static quick filters for %p',

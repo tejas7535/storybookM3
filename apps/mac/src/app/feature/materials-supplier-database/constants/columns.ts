@@ -24,3 +24,6 @@ export const RATING_REMARK = 'ratingRemark';
 export const LAST_MODIFIED = 'lastModified';
 export const RELEASE_DATE = 'releaseDate';
 export const MANUFACTURER = 'manufacturer';
+export const SSID = 'ssid';
+export const GENERAL_DESCRIPTION = 'generalDescription';
+export const SAP_MATERIAL_NUMBER = 'sapMaterialNumber';

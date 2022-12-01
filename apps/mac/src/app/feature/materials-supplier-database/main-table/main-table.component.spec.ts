@@ -1489,8 +1489,37 @@ describe('MainTableComponent', () => {
     });
   });
 
+  describe('editableClass', () => {
+    it('should return true if the class is editable', () => {
+      component.materialClassSelectionControl.setValue(
+        {
+          id: 'st',
+          title: 'Steel',
+        },
+        { emitEvent: false }
+      );
+      const result = component.editableClass();
+
+      expect(result).toBe(true);
+    });
+
+    it('should return false if the class is not editable', () => {
+      component.materialClassSelectionControl.setValue(
+        {
+          id: 'px',
+          title: 'Polymer',
+        },
+        { emitEvent: false }
+      );
+      const result = component.editableClass();
+
+      expect(result).toBe(false);
+    });
+  });
+
   describe('getColumnDefs', () => {
     it('should return translated column defs', () => {
+      component.editableClass = jest.fn(() => true);
       const columnDefs = component.columnDefs;
 
       const translatedColumnDefs = component.getColumnDefs(false);

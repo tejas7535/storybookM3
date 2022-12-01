@@ -370,7 +370,10 @@
         "sapSupplierIds": "SAP Supplier ID(s)",
         "steelMakingProcess": "Iron- & Steel Making Process",
         "steelNumber": "Steel number (EN 10027)",
-        "manufacturer": "Iron- & Steelmaking"
+        "manufacturer": "Iron- & Steelmaking",
+        "ssid": "SSID",
+        "generalDescription": "General Description",
+        "sapMaterialNumber": "SAP Material Number"
       },
       "dialog": {
         "addMaterial": "ADD MATERIAL",
@@ -505,7 +508,8 @@
     "materialClass": "Material Class",
     "materialClassValues": {
       "st": "Steel",
-      "al": "Aluminum"
+      "al": "Aluminum",
+      "px": "Polymer"
     },
     "materials": "Materials",
     "productCategory": "Product Category",
@@ -522,7 +526,9 @@
       "stripCold": "Strip (cold rolled)",
       "stripHot": "Strip (hot rolled)",
       "tube": "Tube",
-      "wire": "Wire"
+      "wire": "Wire",
+      "m310": "Injection-moulded parts (M310)",
+      "thermo": "Thermoplastics"
     },
     "reload": "Reload",
     "resetTable": "Reset Table",

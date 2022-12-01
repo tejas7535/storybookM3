@@ -6,7 +6,7 @@
   <span class="flex-1 truncate">{{
     params?.valueFormatted ?? params?.value
   }}</span>
-  <div class="h-full" *ngIf="params?.hasEditorRole">
+  <div class="h-full" *ngIf="params?.hasEditorRole && params?.editable">
     <button
       class="my-auto"
       mat-icon-button

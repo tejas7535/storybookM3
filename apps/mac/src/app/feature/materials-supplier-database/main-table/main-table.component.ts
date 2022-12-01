@@ -55,6 +55,8 @@ import {
 } from '@mac/msd/store';
 import { DataFacade } from '@mac/msd/store/facades/data';
 
+import { EDITABLE_MATERIAL_CLASSES } from '../constants/editable-material-classes';
+
 /* eslint-disable max-lines */
 @Component({
   selector: 'mac-main-table',
@@ -544,6 +546,11 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       : params.value?.toString() || '';
   }
 
+  public editableClass = (): boolean =>
+    EDITABLE_MATERIAL_CLASSES.includes(
+      this.materialClassSelectionControl.value?.id as MaterialClass
+    );
+
   public getColumnDefs = (hasEditorRole: boolean): ColDef[] =>
     this.defaultColumnDefs?.map((columnDef) => ({
       ...columnDef,
@@ -552,6 +559,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       ),
       cellRendererParams: {
         hasEditorRole,
+        editable: this.editableClass(),
       },
     })) ?? [];
 

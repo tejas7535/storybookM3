@@ -11,7 +11,7 @@ export interface BaseMaterial {
   manufacturerSupplierPlant?: string;
   manufacturerSupplierCountry?: string;
   materialClass: MaterialClass;
-  productCategory: string;
+  productCategory?: string;
   productCategoryText?: string;
   co2Scope1?: number;
   co2Scope2?: number;

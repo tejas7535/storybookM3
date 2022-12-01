@@ -82,7 +82,7 @@ describe('DataSelectors', () => {
   it.each([
     [MaterialClass.ALUMINUM, []],
     [MaterialClass.STEEL, []],
-    [undefined, undefined],
+    [MaterialClass.POLYMER, []],
   ])('should get result', (materialClass, expected) => {
     expect(
       DataSelectors.getResult.projector(
@@ -91,6 +91,7 @@ describe('DataSelectors', () => {
           materials: {
             steelMaterials: [],
             aluminumMaterials: [],
+            polymerMaterials: [],
           },
         },
         materialClass

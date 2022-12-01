@@ -8,6 +8,10 @@ import {
   AluminumMaterialResponse,
   AluminumMaterialStandard,
   AluminumMaterialStandardForm,
+  PolymerManufacturerSupplier,
+  PolymerMaterial,
+  PolymerMaterialResponse,
+  PolymerMaterialStandard,
   SteelManufacturerSupplier,
   SteelManufacturerSupplierForm,
   SteelMaterial,
@@ -20,16 +24,21 @@ import {
 } from '@mac/msd/models';
 
 // TODO: Rename to Material once the migration to API V3 is done
-export type MaterialV2 = AluminumMaterial | SteelMaterial;
-export type MaterialResponse = AluminumMaterialResponse | SteelMaterialResponse;
+export type MaterialV2 = AluminumMaterial | SteelMaterial | PolymerMaterial;
+export type MaterialResponse =
+  | AluminumMaterialResponse
+  | SteelMaterialResponse
+  | PolymerMaterialResponse;
 // TODO: Rename to ManufacturerSupplier once the migration to API V3 is done
 export type ManufacturerSupplierV2 =
   | AluminumManufacturerSupplier
-  | SteelManufacturerSupplier;
+  | SteelManufacturerSupplier
+  | PolymerManufacturerSupplier;
 // TODO: Rename to MaterialStandard once the migration to API V3 is done
 export type MaterialStandardV2 =
   | AluminumMaterialStandard
-  | SteelMaterialStandard;
+  | SteelMaterialStandard
+  | PolymerMaterialStandard;
 export type MaterialFormValueV2 =
   | AluminumMaterialFormValue
   | SteelMaterialFormValue;

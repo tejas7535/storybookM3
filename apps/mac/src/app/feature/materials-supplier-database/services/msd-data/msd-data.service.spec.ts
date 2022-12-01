@@ -19,6 +19,7 @@ import {
   Material,
   MaterialStandard,
   MaterialStandardV2,
+  PolymerMaterial,
   SteelManufacturerSupplier,
   SteelMaterial,
   SteelMaterialStandard,
@@ -26,6 +27,8 @@ import {
 import {
   msdServiceAluminumMockResponse,
   msdServiceAluminumMockResult,
+  msdServicePolymerMockResponse,
+  msdServicePolymerMockResult,
   msdServiceSteelMockResponse,
   msdServiceSteelMockResult,
 } from '@mac/testing/mocks';
@@ -150,6 +153,23 @@ describe('MsdDataService', () => {
         });
 
       const req = httpMock.expectOne(`${service['BASE_URL']}/materials/al`);
+      expect(req.request.method).toBe('GET');
+      req.flush(mockResponse);
+    });
+
+    it('should fetch the materials for the given materialClass (polymer)', (done) => {
+      const mockResponse = msdServicePolymerMockResponse;
+      const mockResult = msdServicePolymerMockResult;
+
+      service
+        .getMaterials<PolymerMaterial>(MaterialClass.POLYMER)
+        .subscribe((result: any) => {
+          // TODO: observe this
+          expect(result).toMatchObject(mockResult);
+          done();
+        });
+
+      const req = httpMock.expectOne(`${service['BASE_URL']}/materials/px`);
       expect(req.request.method).toBe('GET');
       req.flush(mockResponse);
     });

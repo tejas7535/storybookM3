@@ -64,6 +64,8 @@ export const getResult = createSelector(
         return dataState.materials.aluminumMaterials;
       case MaterialClass.STEEL:
         return dataState.materials.steelMaterials;
+      case MaterialClass.POLYMER:
+        return dataState.materials.polymerMaterials;
       default:
         // eslint-disable-next-line unicorn/no-useless-undefined
         return undefined;

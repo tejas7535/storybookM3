@@ -93,6 +93,7 @@ describe('dataReducer', () => {
           materials: {
             aluminumMaterials: undefined,
             steelMaterials: [],
+            polymerMaterials: undefined,
           },
         });
       });
@@ -117,6 +118,32 @@ describe('dataReducer', () => {
           materials: {
             aluminumMaterials: [],
             steelMaterials: undefined,
+            polymerMaterials: undefined,
+          },
+        });
+      });
+
+      it('should set result on fetchMaterialsSuccess for polymer', () => {
+        const result: DataResult[] = [];
+        const action = DataActions.fetchMaterialsSuccess({
+          materialClass: MaterialClass.POLYMER,
+          result,
+        });
+        const newState = dataReducer(
+          { ...state, filter: { ...state.filter, loading: true } },
+          action
+        );
+
+        expect(newState).toEqual({
+          ...initialState,
+          filter: {
+            ...initialState.filter,
+            loading: false,
+          },
+          materials: {
+            aluminumMaterials: undefined,
+            steelMaterials: undefined,
+            polymerMaterials: [],
           },
         });
       });
@@ -273,8 +300,9 @@ describe('dataReducer', () => {
         {
           ...state,
           materials: {
-            aluminumMaterials: undefined,
-            steelMaterials: undefined,
+            aluminumMaterials: [],
+            steelMaterials: [],
+            polymerMaterials: [],
           },
         },
         action
@@ -285,6 +313,7 @@ describe('dataReducer', () => {
         materials: {
           aluminumMaterials: undefined,
           steelMaterials: undefined,
+          polymerMaterials: undefined,
         },
       });
     });
