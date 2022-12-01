@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.2.18](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.17...ga-v1.2.18) (2022-12-01)
+
+
+### 🏭 Automation
+
+* **workspace:** use pnpm as package and node version manager ([35e04db](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/35e04dba206a3d579156300c68b2ede9206556ff))
+
+
+### 🎸 Features
+
+* **ga:** add iframe-resizer ([#4817](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4817)) ([80ed608](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/80ed608f4a216ccef8c9a9d1a060e352e2403c65))
+* **ga:** add inputmode attribute ([#4831](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4831)) ([6d5a956](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6d5a95663daae7f7a11eeaec411a822352492f11))
+* **ga:** direct link to product information page (UFTABI-6026) ([#4823](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4823)) ([8066e1f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8066e1ff1b436faf9f87809171e8db77f1e16b54))
+* **ga:** show market greases and alternatives ([#4808](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4808)) ([620b0b4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/620b0b41385c2e62452365055ad64cf2764a1d6e))
+
 ### [1.2.17](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.15...ga-v1.2.17) (2022-11-14)
 
 
