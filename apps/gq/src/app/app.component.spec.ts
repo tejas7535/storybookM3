@@ -19,8 +19,8 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AUTH_STATE_MOCK, HEALTH_CHECK_STATE_MOCK } from '../testing/mocks';
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
 import { UserSettingsModule } from './shared/components/user-settings/user-settings.module';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -42,6 +42,7 @@ describe('AppComponent', () => {
   let store: MockStore;
   let oneTrustService: OneTrustService;
 
+  // create component
   const createComponent = createComponentFactory({
     component: AppComponent,
     imports: [
