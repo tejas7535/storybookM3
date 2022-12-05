@@ -1,0 +1,40 @@
+<div class="flex flex-row">
+  <ng-container *ngIf="showSyncStatus">
+    <span
+      class="pl-9 pt-2 text-caption"
+      [ngClass]="{
+        'text-info': (sapStatus$ | ngrxPush) === sapSyncStatus.SYNCED,
+        'text-medium-emphasis':
+          (sapStatus$ | ngrxPush) === sapSyncStatus.NOT_SYNCED,
+        'text-orange':
+          (sapStatus$ | ngrxPush) === sapSyncStatus.PARTIALLY_SYNCED
+      }"
+      *transloco="let t; read: 'shared.sapStatusLabels'"
+    >
+      <ng-container *ngIf="(sapStatus$ | ngrxPush) === sapSyncStatus.SYNCED">
+        {{ t('synced') }}
+      </ng-container>
+      <ng-container
+        *ngIf="(sapStatus$ | ngrxPush) === sapSyncStatus.NOT_SYNCED"
+      >
+        {{ t('notSynced') }}
+      </ng-container>
+      <ng-container
+        *ngIf="(sapStatus$ | ngrxPush) === sapSyncStatus.PARTIALLY_SYNCED"
+      >
+        {{ t('partiallySynced') }}
+      </ng-container>
+    </span>
+    <span class="ml-[10px] mr-[10px] pt-2 text-caption opacity-[0.12]"
+      >|</span
+    ></ng-container
+  >
+
+  <span
+    class="pt-2 text-caption text-medium-emphasis"
+    [ngClass]="{ 'pl-9': !showSyncStatus }"
+  >
+    {{ customer.name }} | {{ customer.identifier.customerId }} |
+    {{ customer.country | nullableString }}</span
+  >
+</div>

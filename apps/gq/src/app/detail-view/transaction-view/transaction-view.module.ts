@@ -10,8 +10,8 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { ShareButtonModule } from '@schaeffler/share-button';
 import { SubheaderModule } from '@schaeffler/subheader';
 
-import { CustomerHeaderModule } from '../../shared/components/header/customer-header/customer-header.module';
 import { MaterialPriceHeaderContentModule } from '../../shared/components/header/material-price-header-content/material-price-header-content.module';
+import { SyncStatusCustomerInfoHeaderModule } from '../../shared/components/header/sync-status-customer-info-header/sync-status-customer-info-header.module';
 import { ComparableTransactionsModule } from './comparable-transactions/comparable-transactions.module';
 import { SavingInProgressComponent } from './saving-in-progress/saving-in-progress.component';
 import { TransactionViewComponent } from './transaction-view.component';
@@ -33,7 +33,7 @@ import { TransparencyGraphModule } from './transparency-graph/transparency-graph
     BreadcrumbsModule,
     ShareButtonModule,
     CommonModule,
-    CustomerHeaderModule,
+    SyncStatusCustomerInfoHeaderModule,
   ],
   providers: [
     {

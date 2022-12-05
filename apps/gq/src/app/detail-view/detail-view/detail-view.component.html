@@ -5,6 +5,34 @@
       [subheaderTitle]="material | materialInfo"
       [breadcrumbs]="breadcrumbs$ | ngrxPush"
     >
+      <ng-container subheaderStatusIcon>
+        <div
+          class="relative h-5 w-5 rounded-full bg-opacity-20"
+          [ngClass]="{
+            'bg-nordic-blue':
+              (sapStatusPosition$ | ngrxPush) === sapSyncStatus.SYNCED,
+            'bg-gray-300':
+              (sapStatusPosition$ | ngrxPush) === sapSyncStatus.NOT_SYNCED,
+            'bg-opacity-100':
+              (sapStatusPosition$ | ngrxPush) === sapSyncStatus.NOT_SYNCED,
+            'bg-orange':
+              (sapStatusPosition$ | ngrxPush) === sapSyncStatus.PARTIALLY_SYNCED
+          }"
+        >
+          <div
+            class="absolute top-1 left-1 h-3 w-3 rounded-full"
+            [ngClass]="{
+              'bg-nordic-blue':
+                (sapStatusPosition$ | ngrxPush) === sapSyncStatus.SYNCED,
+              'bg-low-emphasis':
+                (sapStatusPosition$ | ngrxPush) === sapSyncStatus.NOT_SYNCED,
+              'bg-orange':
+                (sapStatusPosition$ | ngrxPush) ===
+                sapSyncStatus.PARTIALLY_SYNCED
+            }"
+          ></div>
+        </div>
+      </ng-container>
       <ng-container subheaderTitleContent>
         <gq-detail-view-header-content
           [materialStock]="materialStock$ | ngrxPush"
@@ -15,8 +43,11 @@
         <schaeffler-share-button></schaeffler-share-button>
       </ng-container>
       <ng-container subheaderBlockContent>
-        <gq-customer-header [customer]="quotation.customer">
-        </gq-customer-header>
+        <gq-sync-status-customer-info-header
+          [customer]="quotation.customer"
+          [sapStatus$]="sapStatusPosition$"
+          [showSyncStatus]="true"
+        ></gq-sync-status-customer-info-header>
       </ng-container>
     </schaeffler-subheader>
   </div>

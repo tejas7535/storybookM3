@@ -39,7 +39,7 @@ import {
 import { CustomStatusBarModule } from '../shared/ag-grid/custom-status-bar/custom-status-bar.module';
 import { AddEntryModule } from '../shared/components/case-material/add-entry/add-entry.module';
 import { InputTableModule } from '../shared/components/case-material/input-table/input-table.module';
-import { CustomerHeaderModule } from '../shared/components/header/customer-header/customer-header.module';
+import { SyncStatusCustomerInfoHeaderModule } from '../shared/components/header/sync-status-customer-info-header/sync-status-customer-info-header.module';
 import { TabsHeaderComponent } from '../shared/components/tabs-header/tabs-header.component';
 import { SAP_SYNC_STATUS } from '../shared/models/quotation-detail/sap-sync-status.enum';
 import { SharedPipesModule } from '../shared/pipes/shared-pipes.module';
@@ -81,13 +81,13 @@ describe('ProcessCaseViewComponent', () => {
       LoadingSpinnerModule,
       PushModule,
       MatSnackBarModule,
-      CustomerHeaderModule,
       MatCardModule,
       SubheaderModule,
       BreadcrumbsModule,
       SharedPipesModule,
       ShareButtonModule,
       MatTabsModule,
+      SyncStatusCustomerInfoHeaderModule,
     ],
     declarations: [TabsHeaderComponent],
     providers: [

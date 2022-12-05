@@ -16,18 +16,22 @@
       <div
         class="relative h-5 w-5 rounded-full bg-opacity-20"
         [ngClass]="{
-          'bg-nordic-blue': (sapStatus$ | ngrxPush) === synced,
-          'bg-gray-300': (sapStatus$ | ngrxPush) === notSynced,
-          'bg-opacity-100': (sapStatus$ | ngrxPush) === notSynced,
-          'bg-orange': (sapStatus$ | ngrxPush) === partiallySynced
+          'bg-nordic-blue': (sapStatus$ | ngrxPush) === sapSyncStatus.SYNCED,
+          'bg-gray-300': (sapStatus$ | ngrxPush) === sapSyncStatus.NOT_SYNCED,
+          'bg-opacity-100':
+            (sapStatus$ | ngrxPush) === sapSyncStatus.NOT_SYNCED,
+          'bg-orange':
+            (sapStatus$ | ngrxPush) === sapSyncStatus.PARTIALLY_SYNCED
         }"
       >
         <div
           class="absolute top-1 left-1 h-3 w-3 rounded-full"
           [ngClass]="{
-            'bg-nordic-blue': (sapStatus$ | ngrxPush) === synced,
-            'bg-low-emphasis': (sapStatus$ | ngrxPush) === notSynced,
-            'bg-orange': (sapStatus$ | ngrxPush) === partiallySynced
+            'bg-nordic-blue': (sapStatus$ | ngrxPush) === sapSyncStatus.SYNCED,
+            'bg-low-emphasis':
+              (sapStatus$ | ngrxPush) === sapSyncStatus.NOT_SYNCED,
+            'bg-orange':
+              (sapStatus$ | ngrxPush) === sapSyncStatus.PARTIALLY_SYNCED
           }"
         ></div>
       </div>
@@ -48,30 +52,11 @@
       <schaeffler-share-button></schaeffler-share-button>
     </ng-container>
     <ng-container subheaderBlockContent>
-      <span
-        class="pl-9 pt-2 text-caption"
-        [ngClass]="{
-          'text-info': (sapStatus$ | ngrxPush) === synced,
-          'text-medium-emphasis': (sapStatus$ | ngrxPush) === notSynced,
-          'text-orange': (sapStatus$ | ngrxPush) === partiallySynced
-        }"
-        *transloco="let t; read: 'shared.sapStatusLabels'"
-      >
-        <ng-container *ngIf="(sapStatus$ | ngrxPush) === synced">
-          {{ t('synced') }}
-        </ng-container>
-        <ng-container *ngIf="(sapStatus$ | ngrxPush) === notSynced">
-          {{ t('notSynced') }}
-        </ng-container>
-        <ng-container *ngIf="(sapStatus$ | ngrxPush) === partiallySynced">
-          {{ t('partiallySynced') }}
-        </ng-container>
-      </span>
-      <gq-customer-header
+      <gq-sync-status-customer-info-header
         [customer]="quotation.customer"
-        [showDetailsButton]="false"
-      >
-      </gq-customer-header>
+        [sapStatus$]="sapStatus$"
+        [showSyncStatus]="true"
+      ></gq-sync-status-customer-info-header>
     </ng-container>
   </schaeffler-subheader>
 

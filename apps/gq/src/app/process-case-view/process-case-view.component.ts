@@ -32,11 +32,9 @@ export class ProcessCaseViewComponent implements OnInit {
   public breadcrumbs$: Observable<Breadcrumb[]>;
   public sapStatus$: Observable<SAP_SYNC_STATUS>;
 
-  synced = SAP_SYNC_STATUS.SYNCED;
-  notSynced = SAP_SYNC_STATUS.NOT_SYNCED;
-  partiallySynced = SAP_SYNC_STATUS.PARTIALLY_SYNCED;
-
   public tabs: Tab[];
+
+  public readonly sapSyncStatus: typeof SAP_SYNC_STATUS = SAP_SYNC_STATUS;
 
   constructor(
     private readonly store: Store,

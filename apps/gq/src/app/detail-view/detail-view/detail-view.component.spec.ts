@@ -30,7 +30,8 @@ import {
   QUOTATION_MOCK,
 } from '../../../testing/mocks';
 import { MATERIAL_STOCK_MOCK } from '../../../testing/mocks/models/material-stock.mock';
-import { CustomerHeaderModule } from '../../shared/components/header/customer-header/customer-header.module';
+import { SyncStatusCustomerInfoHeaderModule } from '../../shared/components/header/sync-status-customer-info-header/sync-status-customer-info-header.module';
+import { SAP_SYNC_STATUS } from '../../shared/models/quotation-detail';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { AgGridStateService } from '../../shared/services/ag-grid-state.service/ag-grid-state.service';
 import { DetailViewComponent } from './detail-view.component';
@@ -61,16 +62,22 @@ describe('DetailViewComponent', () => {
       SharedPipesModule,
       SubheaderModule,
       BreadcrumbsModule,
-      CustomerHeaderModule,
       ShareButtonModule,
       RouterTestingModule,
+      SyncStatusCustomerInfoHeaderModule,
     ],
     providers: [
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       mockProvider(ApplicationInsightsService),
       provideMockStore({
         initialState: {
-          processCase: PROCESS_CASE_STATE_MOCK,
+          processCase: {
+            ...PROCESS_CASE_STATE_MOCK,
+            quotation: {
+              ...PROCESS_CASE_STATE_MOCK.quotation,
+              selectedQuotationDetail: '5694232',
+            },
+          },
           materialStock: MATERIAL_STOCK_STATE_MOCK,
           plantMaterialDetails: PLANT_MATERIAL_DETAILS_STATE_MOCK,
         },
@@ -108,7 +115,7 @@ describe('DetailViewComponent', () => {
           m.cold('a', { a: false })
         );
         m.expect(component.quotationDetail$).toBeObservable(
-          m.cold('a', { a: undefined })
+          m.cold('a', { a: QUOTATION_DETAIL_MOCK })
         );
         m.expect(component.materialStock$).toBeObservable(
           m.cold('a', { a: MATERIAL_STOCK_MOCK })
@@ -122,6 +129,14 @@ describe('DetailViewComponent', () => {
         m.expect(component.plantMaterialDetails$).toBeObservable(
           m.cold('a', {
             a: PLANT_MATERIAL_DETAILS_STATE_MOCK.plantMaterialDetails,
+          })
+        );
+
+        m.expect(component.sapStatusPosition$).toBeObservable(
+          m.cold('a', {
+            a: QUOTATION_DETAIL_MOCK.syncInSap
+              ? SAP_SYNC_STATUS.SYNCED
+              : SAP_SYNC_STATUS.NOT_SYNCED,
           })
         );
       })

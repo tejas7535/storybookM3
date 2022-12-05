@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { map, Observable } from 'rxjs';
+import { filter, map, NEVER, Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
@@ -22,6 +22,7 @@ import { Quotation } from '../../shared/models';
 import {
   PlantMaterialDetail,
   QuotationDetail,
+  SAP_SYNC_STATUS,
 } from '../../shared/models/quotation-detail';
 import { AgGridStateService } from '../../shared/services/ag-grid-state.service/ag-grid-state.service';
 import { BreadcrumbsService } from '../../shared/services/breadcrumbs-service/breadcrumbs.service';
@@ -42,6 +43,8 @@ export class DetailViewComponent implements OnInit {
   public breadcrumbs$: Observable<Breadcrumb[]>;
   public quotations: QuotationDetail[];
 
+  public sapStatusPosition$: Observable<SAP_SYNC_STATUS> = NEVER;
+  public readonly sapSyncStatus: typeof SAP_SYNC_STATUS = SAP_SYNC_STATUS;
   public constructor(
     private readonly store: Store,
     private readonly breadCrumbsService: BreadcrumbsService,
@@ -54,6 +57,15 @@ export class DetailViewComponent implements OnInit {
     this.quotation$ = this.store.select(getQuotation);
     this.quotationLoading$ = this.store.select(getQuotationLoading);
     this.quotationDetail$ = this.store.select(getSelectedQuotationDetail);
+
+    this.sapStatusPosition$ = this.quotationDetail$.pipe(
+      filter((quotationDetail: QuotationDetail) => !!quotationDetail),
+      map((quotationDetail: QuotationDetail) =>
+        quotationDetail.syncInSap
+          ? SAP_SYNC_STATUS.SYNCED
+          : SAP_SYNC_STATUS.NOT_SYNCED
+      )
+    );
     this.plantMaterialDetails$ = this.store.select(getPlantMaterialDetails);
     this.materialStock$ = this.store.select(getMaterialStock);
     this.materialStockLoading$ = this.store.select(getMaterialStockLoading);

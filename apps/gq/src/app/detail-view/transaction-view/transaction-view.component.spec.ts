@@ -29,8 +29,8 @@ import {
   TRANSACTIONS_STATE_MOCK,
 } from '../../../testing/mocks/state';
 import { getSelectedQuotationDetail } from '../../core/store';
-import { CustomerHeaderModule } from '../../shared/components/header/customer-header/customer-header.module';
 import { MaterialPriceHeaderContentModule } from '../../shared/components/header/material-price-header-content/material-price-header-content.module';
+import { SyncStatusCustomerInfoHeaderModule } from '../../shared/components/header/sync-status-customer-info-header/sync-status-customer-info-header.module';
 import { HelperService } from '../../shared/services/helper-service/helper-service.service';
 import { ComparableTransactionsModule } from './comparable-transactions/comparable-transactions.module';
 import { SavingInProgressComponent } from './saving-in-progress/saving-in-progress.component';
@@ -63,7 +63,7 @@ describe('TransactionViewComponent', () => {
       BreadcrumbsModule,
       ShareButtonModule,
       MatSnackBarModule,
-      CustomerHeaderModule,
+      SyncStatusCustomerInfoHeaderModule,
     ],
     declarations: [SavingInProgressComponent],
     providers: [
