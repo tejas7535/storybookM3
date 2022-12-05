@@ -83,6 +83,7 @@
         },
         "production": {
           "outputHashing": "bundles",
+          "sourceMap": true,
           "fileReplacements": [
             {
               "replace": "apps/gq/src/environments/environment.ts",

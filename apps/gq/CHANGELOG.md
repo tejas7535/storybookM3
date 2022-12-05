@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
-## [](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.12.0...gq-v) (2022-12-05)
+## [3.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.12.0...gq-v3.0.0) (2022-12-05)
 
 
 ### 🎸 Features
