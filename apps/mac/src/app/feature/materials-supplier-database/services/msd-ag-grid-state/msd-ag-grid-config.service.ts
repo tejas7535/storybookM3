@@ -16,7 +16,6 @@ import {
   STEEL_COLUMN_DEFINITIONS,
 } from '@mac/msd/main-table/table-config/materials';
 import { QuickFilter } from '@mac/msd/models';
-import { fetchCategoryOptions } from '@mac/msd/store/actions';
 import { DataFacade } from '@mac/msd/store/facades/data';
 
 @Injectable({
@@ -41,7 +40,6 @@ export class MsdAgGridConfigService {
 
   private init(): void {
     this.dataFacade.materialClass$.subscribe((materialClass) => {
-      this.dataFacade.dispatch(fetchCategoryOptions());
       this.columnDefinitions$.next(
         this.getDefaultColumnDefinitions(materialClass)
       );

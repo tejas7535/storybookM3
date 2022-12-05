@@ -9,7 +9,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { of } from 'rxjs';
 
-import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
@@ -18,7 +17,10 @@ import { ShareButtonModule } from '@schaeffler/share-button';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
+
 import * as en from '../../../assets/i18n/en.json';
+import { MaterialClass, NavigationLevel } from './constants';
 import { MaterialsSupplierDatabaseComponent } from './materials-supplier-database.component';
 import { MaterialsSupplierDatabaseRoutingModule } from './materials-supplier-database-routing.module';
 
@@ -90,7 +92,8 @@ describe('MaterialsSupplierDatabaseComponent', () => {
   describe('shareButtonFn', () => {
     it('should share a link with query params', () => {
       const mockParams = {
-        filterForm: 'some filter',
+        materialClass: MaterialClass.STEEL,
+        navigationLevel: NavigationLevel.MATERIAL,
         agGridFilter: 'some ag grid filter',
       };
       component['dataFacade'].shareQueryParams$ = of(mockParams);
@@ -123,7 +126,8 @@ describe('MaterialsSupplierDatabaseComponent', () => {
 
     it('should display an error snackbar if the share link is too long', () => {
       const mockParams = {
-        filterForm: 'some filter',
+        materialClass: MaterialClass.STEEL,
+        navigationLevel: NavigationLevel.MATERIAL,
         agGridFilter: 'some ag grid filter',
       };
       component['dataFacade'].shareQueryParams$ = of(mockParams);

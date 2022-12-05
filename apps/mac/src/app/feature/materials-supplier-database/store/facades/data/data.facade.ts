@@ -9,13 +9,12 @@ import {
   getAgGridFilter,
   getEditMaterialData,
   getEditMaterialDataLoaded,
-  getFilters,
   getHasMinimizedDialog,
   getLoading,
   getMaterialClass,
   getMaterialClassOptions,
+  getNavigation,
   getOptionsLoading,
-  getProductCategoryOptions,
   getResult,
   getResultCount,
   getResumeDialogData,
@@ -29,7 +28,6 @@ export class DataFacade {
   private readonly EDITOR_ROLE = 'material-supplier-database-editor';
 
   materialClassOptions$ = this.store.select(getMaterialClassOptions);
-  productCategoryOptions$ = this.store.select(getProductCategoryOptions);
   optionsLoading$ = this.store.select(getOptionsLoading);
   resultLoading$ = this.store.select(getLoading);
   result$ = this.store.select(getResult);
@@ -37,7 +35,7 @@ export class DataFacade {
 
   hasEditorRole$ = this.store.pipe(hasIdTokenRole(this.EDITOR_ROLE));
 
-  filters$ = this.store.select(getFilters);
+  navigation$ = this.store.select(getNavigation);
   materialClass$ = this.store.select(getMaterialClass);
   agGridFilter$ = this.store.select(getAgGridFilter);
   agGridColumns$ = this.store.select(getAgGridColumns);

@@ -1,0 +1,66 @@
+<ng-container *transloco="let t; read: 'materialsSupplierDatabase'">
+  <div class="flex h-full flex-col items-start justify-start">
+    <mat-accordion
+      multi
+      [ngClass]="{
+        'max-w-0 opacity-0': minimized,
+        'max-w-xl opacity-100': !minimized
+      }"
+      class="transition-all duration-1000"
+      *ngrxLet="navigation$ as navigation"
+    >
+      <mat-expansion-panel
+        class="!m-0 !rounded-none border-none"
+        *ngFor="let materialClass of materialClasses$ | ngrxPush"
+        [expanded]="materialClass === expandMaterialClass"
+        hideToggle
+        #expansionPanel
+      >
+        <mat-expansion-panel-header
+          class="flex !h-12 flex-row justify-between !pl-4 !pr-2"
+        >
+          <mat-panel-title class="text-body-2 text-high-emphasis">
+            {{ t('materialClassValues.' + materialClass) }}
+          </mat-panel-title>
+          <mat-icon
+            class="text-medium-emphasis transition-all duration-200"
+            [ngClass]="{
+              '-rotate-90': expansionPanel.expanded,
+              'rotate-0': !expansionPanel.expanded
+            }"
+            >chevron_left</mat-icon
+          >
+        </mat-expansion-panel-header>
+        <mat-nav-list class="!pt-0">
+          <button
+            *ngFor="let navigationLevel of navigationLevels"
+            (click)="setActive(materialClass, navigationLevel)"
+            mat-list-item
+            class="!px-2 !pr-10 !text-body-2 !text-high-emphasis hover:bg-hover-overlay"
+            [disableRipple]="true"
+            [ngClass]="{
+              '!bg-selected-overlay':
+                navigation.materialClass === materialClass &&
+                navigation.navigationLevel === navigationLevel
+            }"
+          >
+            {{ t('materialClassValues.' + materialClass) }} -
+            {{ t(navigationLevel) }}
+          </button>
+        </mat-nav-list>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <div class="flex-auto"></div>
+    <button
+      mat-mini-fab
+      class="!m-4 place-self-end !rounded-xl !bg-secondary-variant !shadow-none"
+      (click)="toggleSideBar()"
+    >
+      <mat-icon
+        class="text-medium-emphasis"
+        [ngClass]="{ 'rotate-180': minimized }"
+        >chevron_left</mat-icon
+      >
+    </button>
+  </div>
+</ng-container>

@@ -9,7 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 
-import { PushModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { AgGridModule } from 'ag-grid-angular';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -21,6 +21,7 @@ import { HeaderTooltipComponent } from './header-tooltip/header-tooltip.componen
 import { MainTableComponent } from './main-table.component';
 import { MainTableRoutingModule } from './main-table-routing.module';
 import { MaterialDialogsModule } from './material-input-dialog/materials/materials.module';
+import { MsdNavigationModule } from './msd-navigation/msd-navigation.module';
 import { QuickFilterComponent } from './quick-filter/quick-filter.component';
 
 @NgModule({
@@ -45,6 +46,8 @@ import { QuickFilterComponent } from './quick-filter/quick-filter.component';
     QuickFilterComponent,
     MatDialogModule,
     MaterialDialogsModule,
+    MsdNavigationModule,
+    LetModule,
   ],
   providers: [DatePipe, MsdDialogService],
 })

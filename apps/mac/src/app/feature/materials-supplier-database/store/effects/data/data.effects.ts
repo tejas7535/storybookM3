@@ -4,8 +4,6 @@ import { catchError, map, of, switchMap } from 'rxjs';
 
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 
-import { StringOption } from '@schaeffler/inputs';
-
 import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
 import { DataResult, MaterialV2 } from '@mac/msd/models';
 import { MsdDataService } from '@mac/msd/services/msd-data';
@@ -23,36 +21,21 @@ export class DataEffects {
   public fetchMaterials$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DataActions.fetchMaterials),
-      concatLatestFrom(() => this.dataFacade.filters$),
-      switchMap(([_action, { materialClass, productCategory }]) =>
-        this.msdDataService
-          .getMaterials(
-            materialClass?.id as MaterialClass,
-            productCategory?.map((category) => category?.id?.toString())
+      concatLatestFrom(() => this.dataFacade.navigation$),
+      switchMap(([_action, { materialClass }]) =>
+        this.msdDataService.getMaterials(materialClass).pipe(
+          map((result: DataResult[] | MaterialV2[]) =>
+            DataActions.fetchMaterialsSuccess({
+              materialClass,
+              result,
+            })
+          ),
+          catchError(() =>
+            // TODO: implement proper error handling
+            of(DataActions.fetchMaterialsFailure())
           )
-          .pipe(
-            map((result: DataResult[] | MaterialV2[]) =>
-              DataActions.fetchMaterialsSuccess({
-                materialClass: materialClass?.id as MaterialClass,
-                result,
-              })
-            ),
-            catchError(() =>
-              // TODO: implement proper error handling
-              of(DataActions.fetchMaterialsFailure())
-            )
-          )
+        )
       )
-    );
-  });
-
-  public fetchClassAndCategoryOptions$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(DataActions.fetchClassAndCategoryOptions),
-      switchMap(() => [
-        DataActions.fetchClassOptions(),
-        DataActions.fetchCategoryOptions(),
-      ])
     );
   });
 
@@ -61,8 +44,8 @@ export class DataEffects {
       ofType(DataActions.fetchClassOptions),
       switchMap(() =>
         this.msdDataService.getMaterialClasses().pipe(
-          map((materialClassOptions: StringOption[]) =>
-            DataActions.fetchClassOptionsSuccess({ materialClassOptions })
+          map((materialClasses: MaterialClass[]) =>
+            DataActions.fetchClassOptionsSuccess({ materialClasses })
           ),
           catchError(() =>
             // TODO: implement proper error handling
@@ -73,21 +56,10 @@ export class DataEffects {
     );
   });
 
-  public fetchCategoryOptions$ = createEffect(() => {
+  public setNavigation$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(DataActions.fetchCategoryOptions),
-      concatLatestFrom(() => this.dataFacade.materialClass$),
-      switchMap(([_action, materialClass]) =>
-        this.msdDataService.getProductCategories(materialClass).pipe(
-          map((productCategoryOptions: StringOption[]) =>
-            DataActions.fetchCategoryOptionsSuccess({ productCategoryOptions })
-          ),
-          catchError(() =>
-            // TODO: implement proper error handling
-            of(DataActions.fetchCategoryOptionsFailure())
-          )
-        )
-      )
+      ofType(DataActions.setNavigation),
+      switchMap(() => [DataActions.fetchMaterials()])
     );
   });
 }

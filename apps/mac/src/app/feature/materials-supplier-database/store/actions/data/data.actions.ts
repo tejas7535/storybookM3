@@ -2,7 +2,7 @@ import { createAction, props } from '@ngrx/store';
 
 import { StringOption } from '@schaeffler/inputs';
 
-import { MaterialClass } from '@mac/msd/constants';
+import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import { DataResult, MaterialV2 } from '@mac/msd/models';
 
 export const setFilter = createAction(
@@ -10,34 +10,22 @@ export const setFilter = createAction(
   props<{ materialClass: StringOption; productCategory: StringOption[] }>()
 );
 
-export const fetchClassAndCategoryOptions = createAction(
-  '[MSD - Data] Fetch Material Class And Product Category Options'
+export const setNavigation = createAction(
+  '[MSD - Data] Set Navigation',
+  props<{ materialClass: MaterialClass; navigationLevel: NavigationLevel }>()
 );
 
 export const fetchClassOptions = createAction(
   '[MSD - Data] Fetch Material Classes'
 );
 
-export const fetchCategoryOptions = createAction(
-  '[MSD - Data] Fetch Product Category Options'
-);
-
 export const fetchClassOptionsSuccess = createAction(
   '[MSD - Data] Fetch Class Options Success',
-  props<{ materialClassOptions: StringOption[] }>()
+  props<{ materialClasses: MaterialClass[] }>()
 );
 
 export const fetchClassOptionsFailure = createAction(
   '[MSD - Data] Fetch Class Options Failure'
-);
-
-export const fetchCategoryOptionsSuccess = createAction(
-  '[MSD - Data] Fetch Category Options Success',
-  props<{ productCategoryOptions: StringOption[] }>()
-);
-
-export const fetchCategoryOptionsFailure = createAction(
-  '[MSD - Data] Fetch Category Options Failure'
 );
 
 export const fetchMaterials = createAction('[MSD - Data] Fetch Materials');

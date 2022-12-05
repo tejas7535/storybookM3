@@ -48,33 +48,31 @@ export class MaterialsSupplierDatabaseComponent implements OnInit {
   }
 
   public shareButtonFn(): void {
-    this.dataFacade.shareQueryParams$
-      .pipe(take(1))
-      .subscribe((params: { filterForm: string; agGridFilter: string }) => {
-        const tree = this.router.parseUrl(this.router.url);
-        tree.queryParams = params;
-        const url = this.urlSerializer.serialize(tree);
+    this.dataFacade.shareQueryParams$.pipe(take(1)).subscribe((params) => {
+      const tree = this.router.parseUrl(this.router.url);
+      tree.queryParams = params;
+      const url = this.urlSerializer.serialize(tree);
 
-        this.applicationInsightsService.logEvent(
-          '[MAC - MSD] Share link copied',
-          { tooLong: url.length > 2000 }
+      this.applicationInsightsService.logEvent(
+        '[MAC - MSD] Share link copied',
+        { tooLong: url.length > 2000 }
+      );
+      if (url.length > 2000) {
+        this.snackbar.open(
+          this.translocoService.translate(
+            'materialsSupplierDatabase.filterTooLong'
+          ),
+          this.translocoService.translate('materialsSupplierDatabase.close')
         );
-        if (url.length > 2000) {
-          this.snackbar.open(
-            this.translocoService.translate(
-              'materialsSupplierDatabase.filterTooLong'
-            ),
-            this.translocoService.translate('materialsSupplierDatabase.close')
-          );
-        } else {
-          this.clipboard.copy(`${window.location.origin}${url}`);
-          this.snackbar.open(
-            this.translocoService.translate(
-              'materialsSupplierDatabase.shareCopiedToClipboard'
-            ),
-            this.translocoService.translate('materialsSupplierDatabase.close')
-          );
-        }
-      });
+      } else {
+        this.clipboard.copy(`${window.location.origin}${url}`);
+        this.snackbar.open(
+          this.translocoService.translate(
+            'materialsSupplierDatabase.shareCopiedToClipboard'
+          ),
+          this.translocoService.translate('materialsSupplierDatabase.close')
+        );
+      }
+    });
   }
 }

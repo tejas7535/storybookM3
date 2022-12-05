@@ -113,6 +113,19 @@ export const createMaterialComplete = createAction(
   props<{ record: CreateMaterialRecord }>()
 );
 
+export const fetchProductCategories = createAction(
+  '[MSD - Dialog] Fetch Product Categories'
+);
+
+export const fetchProductCategoriesSuccess = createAction(
+  '[MSD - Dialog] Fetch Product Categories Success',
+  props<{ productCategories: StringOption[] }>()
+);
+
+export const fetchProductCategoriesFailure = createAction(
+  '[MSD - Dialog] Fetch Product Categories Failure'
+);
+
 export const fetchCastingDiameters = createAction(
   '[MSD - Dialog] Fetch Casting Diameters',
   props<{ supplierId: number; castingMode: string }>()

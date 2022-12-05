@@ -3,6 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { PushModule } from '@ngrx/component';
 import { Column } from 'ag-grid-community';
 
 import { DataResult, MaterialFormValue } from '@mac/msd/models';
@@ -15,8 +16,9 @@ import {
   openDialog,
   openEditDialog,
 } from '@mac/msd/store/actions';
-import { DialogFacade } from '@mac/msd/store/facades/dialog';
+import { DataFacade } from '@mac/msd/store/facades/data';
 
+import { MaterialClass } from '../../constants';
 import { EditCellRendererComponent } from './edit-cell-renderer.component';
 import { EditCellRendererParams } from './edit-cell-renderer-params.model';
 
@@ -39,9 +41,10 @@ describe('EditCellRendererComponent', () => {
 
   const createComponent = createComponentFactory({
     component: EditCellRendererComponent,
+    imports: [PushModule],
     providers: [
       {
-        provide: DialogFacade,
+        provide: DataFacade,
         useValue: {
           dispatch: jest.fn(),
         },
@@ -107,6 +110,20 @@ describe('EditCellRendererComponent', () => {
     });
   });
 
+  describe('editableClass', () => {
+    it('should return true for editable classes', () => {
+      const result = component.editableClass(MaterialClass.STEEL);
+
+      expect(result).toBe(true);
+    });
+
+    it('should return false for not editable classes', () => {
+      const result = component.editableClass(MaterialClass.POLYMER);
+
+      expect(result).toBe(false);
+    });
+  });
+
   describe('onEditClick', () => {
     it('should dispatch the edit dialog actions and cancel on close', (done) => {
       let otherDone = false;
@@ -117,15 +134,15 @@ describe('EditCellRendererComponent', () => {
 
       component.onEditClick();
 
-      expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+      expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
         openDialog()
       );
 
       mockDialogRef.afterOpened().subscribe(() => {
-        expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
           materialDialogOpened()
         );
-        expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
           openEditDialog({
             row: mockData,
             column: 'column',
@@ -139,7 +156,7 @@ describe('EditCellRendererComponent', () => {
       });
 
       mockDialogRef.afterClosed().subscribe((_value) => {
-        expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
           materialDialogCanceled()
         );
         if (otherDone) {
@@ -161,15 +178,15 @@ describe('EditCellRendererComponent', () => {
 
       component.onEditClick();
 
-      expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+      expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
         openDialog()
       );
 
       mockDialogRef.afterOpened().subscribe(() => {
-        expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
           materialDialogOpened()
         );
-        expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
           openEditDialog({
             row: mockData,
             column: 'column',
@@ -183,10 +200,10 @@ describe('EditCellRendererComponent', () => {
       });
 
       mockDialogRef.afterClosed().subscribe((_value) => {
-        expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
           fetchMaterials()
         );
-        expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
           minimizeDialog({ id: 1, value: {} as MaterialFormValue })
         );
         if (otherDone) {

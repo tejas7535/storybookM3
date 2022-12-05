@@ -28,6 +28,7 @@ import {
   removeCustomQuickfilter,
   updateCustomQuickfilter,
 } from '../../store';
+import { DataFacade } from '../../store/facades/data';
 import { initialState as qfInitialState } from '../../store/reducers/quickfilter/quickfilter.reducer';
 import { STEEL_STATIC_QUICKFILTERS } from './config';
 import { QuickFilterComponent } from './quick-filter.component';
@@ -66,6 +67,13 @@ describe('QuickFilterComponent', () => {
       {
         provide: MATERIAL_SANITY_CHECKS,
         useValue: false,
+      },
+      {
+        provide: DataFacade,
+        useValue: {
+          materialClass$: of(MaterialClass.STEEL),
+          dispatch: jest.fn(),
+        },
       },
     ],
   });
@@ -198,6 +206,7 @@ describe('QuickFilterComponent', () => {
         columns: ['a', 'b'],
         custom: false,
       };
+      component.staticFilters = [{ title: 'default' } as QuickFilter];
       component.active = quickfilter;
       component['onChange']();
 
@@ -282,6 +291,7 @@ describe('QuickFilterComponent', () => {
   });
 
   it('reset should reset active element', () => {
+    component.staticFilters = [{ title: 'default' } as QuickFilter];
     component.active = {} as QuickFilter;
     component['reset']();
     expect(component.active).toBe(component.staticFilters[0]);
@@ -506,6 +516,7 @@ describe('QuickFilterComponent', () => {
   });
 
   it('copyDefaultFilter should copy first predefined filter', () => {
+    component.staticFilters = [STEEL_STATIC_QUICKFILTERS[0]];
     const title = 'abc';
     const origin = STEEL_STATIC_QUICKFILTERS[0];
     const result = component['copyDefaultFilter'](title);

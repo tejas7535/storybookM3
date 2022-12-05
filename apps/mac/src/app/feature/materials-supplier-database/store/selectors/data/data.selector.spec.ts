@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
-import { MaterialClass } from '@mac/msd/constants';
+import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import { DataResult } from '@mac/msd/models';
 import { initialState } from '@mac/msd/store/reducers/data/data.reducer';
 
@@ -22,10 +22,19 @@ describe('DataSelectors', () => {
     );
   });
 
-  it('should get data filters', () => {
-    expect(DataSelectors.getFilters.projector(initialState)).toEqual({
-      materialClass: undefined,
-      productCategory: undefined,
+  it('should get the navigation', () => {
+    expect(
+      DataSelectors.getNavigation.projector({
+        ...initialState,
+        navigation: {
+          ...initialState.navigation,
+          materialClass: MaterialClass.ALUMINUM,
+          navigationLevel: NavigationLevel.SUPPLIER,
+        },
+      })
+    ).toEqual({
+      materialClass: MaterialClass.ALUMINUM,
+      navigationLevel: NavigationLevel.SUPPLIER,
     });
   });
 
@@ -41,15 +50,16 @@ describe('DataSelectors', () => {
     });
 
     it(
-      'should return the error state',
+      'should return the materialClass',
       marbles((m) => {
         store.setState({
           msd: {
             data: {
               ...initialState,
-              filter: {
-                ...initialState.filter,
-                materialClass: { id: 'st', title: 'Steel' },
+              navigation: {
+                ...initialState.navigation,
+                materialClass: MaterialClass.STEEL,
+                navigationLevel: NavigationLevel.MATERIAL,
               },
             },
           },
@@ -70,13 +80,7 @@ describe('DataSelectors', () => {
   it('should get material class options', () => {
     expect(
       DataSelectors.getMaterialClassOptions.projector(initialState)
-    ).toEqual(initialState.materialClassOptions);
-  });
-
-  it('should get product category options', () => {
-    expect(
-      DataSelectors.getProductCategoryOptions.projector(initialState)
-    ).toEqual(initialState.productCategoryOptions);
+    ).toEqual(initialState.materialClasses);
   });
 
   it.each([
@@ -125,19 +129,24 @@ describe('DataSelectors', () => {
   });
 
   it('should get query filter params', () => {
-    const materialClass = { id: 0, name: 'gibts net' };
-    const productCategory = { id: 0, name: 'gibts net' };
+    const materialClass = MaterialClass.STEEL;
+    const navigationLevel = NavigationLevel.MATERIAL;
     const agGridFilter = 'some filter';
 
     expect(
-      DataSelectors.getShareQueryParams.projector({
-        ...initialState.filter,
-        materialClass,
-        productCategory,
-        agGridFilter,
-      })
+      DataSelectors.getShareQueryParams.projector(
+        {
+          ...initialState.navigation,
+          materialClass,
+          navigationLevel,
+        },
+        {
+          agGridFilter,
+        }
+      )
     ).toEqual({
-      filterForm: JSON.stringify({ materialClass, productCategory }),
+      materialClass,
+      navigationLevel,
       agGridFilter,
     });
   });

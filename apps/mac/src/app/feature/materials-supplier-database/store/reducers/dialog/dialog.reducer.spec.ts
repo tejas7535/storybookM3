@@ -34,6 +34,7 @@ describe('dialogReducer', () => {
           manufacturerSuppliers: [{} as ManufacturerSupplierV2],
           ratings: ['1'],
           steelMakingProcesses: ['1'],
+          productCategories: [{ id: 'raw', title: 'raw' }],
           co2Classifications: [{ id: 'c1', title: '1' }],
           castingModes: ['1'],
           referenceDocuments: ['reference'],
@@ -62,6 +63,7 @@ describe('dialogReducer', () => {
           manufacturerSuppliers: undefined,
           ratings: undefined,
           steelMakingProcesses: undefined,
+          productCategories: undefined,
           co2Classifications: undefined,
           castingModes: undefined,
           referenceDocuments: undefined,
@@ -212,6 +214,52 @@ describe('dialogReducer', () => {
           ...state.dialogOptions,
           manufacturerSuppliers: undefined,
           manufacturerSuppliersLoading: undefined,
+          error: true,
+        },
+      });
+    });
+
+    it('should reset the productCategories and set the loading state to true', () => {
+      const action = DialogActions.fetchProductCategories();
+      const newState = dialogReducer(state, action);
+
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          productCategories: undefined,
+          productCategoriesLoading: true,
+        },
+      });
+    });
+
+    it('should set the productCategories', () => {
+      const productCategories = [{ id: 'raw', title: 'raw' }];
+      const action = DialogActions.fetchProductCategoriesSuccess({
+        productCategories,
+      });
+      const newState = dialogReducer(state, action);
+
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          productCategories,
+          productCategoriesLoading: false,
+        },
+      });
+    });
+
+    it('should set the productCategories and the loading state to undefined', () => {
+      const action = DialogActions.fetchProductCategoriesFailure();
+      const newState = dialogReducer(state, action);
+
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          productCategories: undefined,
+          productCategoriesLoading: undefined,
           error: true,
         },
       });

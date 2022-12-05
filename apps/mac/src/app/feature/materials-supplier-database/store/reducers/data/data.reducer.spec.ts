@@ -1,6 +1,4 @@
-import { StringOption } from '@schaeffler/inputs';
-
-import { MaterialClass } from '@mac/msd/constants';
+import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import { DataResult } from '@mac/msd/models';
 import * as DataActions from '@mac/msd/store/actions/data';
 
@@ -21,19 +19,22 @@ describe('dataReducer', () => {
       expect(newState).toEqual(initialState);
     });
 
-    it('should set filter on setFilter', () => {
-      const materialClass = { id: 'id', title: 'gibt net' };
-      const productCategory = [{ id: 'id', title: 'gibt net' }];
-      const action = DataActions.setFilter({ materialClass, productCategory });
+    it('should set Navigation on setNavigation', () => {
+      const materialClass = MaterialClass.ALUMINUM;
+      const navigationLevel = NavigationLevel.SUPPLIER;
+      const action = DataActions.setNavigation({
+        materialClass,
+        navigationLevel,
+      });
 
       const newState = dataReducer(state, action);
 
       expect(newState).toEqual({
         ...initialState,
-        filter: {
-          ...initialState.filter,
+        navigation: {
+          ...initialState.navigation,
           materialClass,
-          productCategory,
+          navigationLevel,
         },
       });
     });
@@ -195,14 +196,12 @@ describe('dataReducer', () => {
     });
 
     it('should set loading states and reset options', () => {
-      const action = DataActions.fetchClassAndCategoryOptions();
+      const action = DataActions.fetchClassOptions();
       const newState = dataReducer(
         {
           ...state,
           materialClassLoading: false,
-          productCategoryLoading: false,
-          materialClassOptions: [],
-          productCategoryOptions: [],
+          materialClasses: [],
         },
         action
       );
@@ -210,22 +209,20 @@ describe('dataReducer', () => {
       expect(newState).toEqual({
         ...state,
         materialClassLoading: true,
-        productCategoryLoading: true,
-        materialClassOptions: undefined,
-        productCategoryOptions: undefined,
+        materialClasses: undefined,
       });
     });
 
     it('should set materialClass loading state and options', () => {
-      const materialClassOptions: StringOption[] = [];
+      const materialClasses: MaterialClass[] = [MaterialClass.STEEL];
       const action = DataActions.fetchClassOptionsSuccess({
-        materialClassOptions,
+        materialClasses,
       });
       const newState = dataReducer(
         {
           ...state,
           materialClassLoading: true,
-          materialClassOptions: undefined,
+          materialClasses: undefined,
         },
         action
       );
@@ -233,7 +230,7 @@ describe('dataReducer', () => {
       expect(newState).toEqual({
         ...state,
         materialClassLoading: false,
-        materialClassOptions: [],
+        materialClasses: [MaterialClass.STEEL],
       });
     });
 
@@ -243,7 +240,7 @@ describe('dataReducer', () => {
         {
           ...state,
           materialClassLoading: true,
-          materialClassOptions: [],
+          materialClasses: [],
         },
         action
       );
@@ -251,46 +248,7 @@ describe('dataReducer', () => {
       expect(newState).toEqual({
         ...state,
         materialClassLoading: false,
-        materialClassOptions: undefined,
-      });
-    });
-
-    it('should set productCategory loading state and options', () => {
-      const productCategoryOptions: StringOption[] = [];
-      const action = DataActions.fetchCategoryOptionsSuccess({
-        productCategoryOptions,
-      });
-      const newState = dataReducer(
-        {
-          ...state,
-          productCategoryLoading: true,
-          productCategoryOptions: undefined,
-        },
-        action
-      );
-
-      expect(newState).toEqual({
-        ...state,
-        productCategoryLoading: false,
-        productCategoryOptions: [],
-      });
-    });
-
-    it('should set productCategory loading state and reset options', () => {
-      const action = DataActions.fetchCategoryOptionsFailure();
-      const newState = dataReducer(
-        {
-          ...state,
-          productCategoryLoading: true,
-          productCategoryOptions: [],
-        },
-        action
-      );
-
-      expect(newState).toEqual({
-        ...state,
-        productCategoryLoading: false,
-        productCategoryOptions: undefined,
+        materialClasses: undefined,
       });
     });
 

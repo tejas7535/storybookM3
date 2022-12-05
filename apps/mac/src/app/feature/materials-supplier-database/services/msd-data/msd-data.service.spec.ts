@@ -71,19 +71,9 @@ describe('MsdDataService', () => {
   describe('getMaterialClasses', () => {
     it('should return a list of material classes', (done) => {
       const mockResponse = ['st'];
-      const expected = [
-        {
-          id: 'st',
-          title: `${translatePrefix}materialClassValues.st`,
-          tooltip: `${translatePrefix}materialClassValues.st`,
-          tooltipDelay: 1500,
-        },
-      ];
+      const expected = [MaterialClass.STEEL];
       service.getMaterialClasses().subscribe((result: any) => {
         expect(result).toEqual(expected);
-        expect(translate).toHaveBeenCalledWith(
-          `${translatePrefix}materialClassValues.st`
-        );
         done();
       });
 

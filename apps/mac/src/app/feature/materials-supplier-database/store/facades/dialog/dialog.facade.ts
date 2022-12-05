@@ -21,7 +21,7 @@ import {
   getMaterialDialogSteelMakingProcesses,
   getMaterialNameStringOptionsMerged,
   getMaterialStandardDocumentStringOptionsMerged,
-  getProductCategoryOptions,
+  getProductCategories,
   getResumeDialogData,
   getSteelMakingProcessesInUse,
   getStringOptions,
@@ -61,9 +61,7 @@ export class DialogFacade {
   steelMakingProcess$ = this.store.select(
     getStringOptions(getMaterialDialogSteelMakingProcesses)
   );
-  categories$ = this.store.select(
-    getUniqueStringOptions(getProductCategoryOptions)
-  );
+  categories$ = this.store.select(getUniqueStringOptions(getProductCategories));
   castingDiameters$ = this.store.select(
     getMaterialDialogCastingDiameterStringOptions
   );

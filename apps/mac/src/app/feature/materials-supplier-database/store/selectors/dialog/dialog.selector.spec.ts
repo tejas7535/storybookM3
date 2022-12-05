@@ -48,72 +48,80 @@ describe('DialogSelectors', () => {
     });
   });
 
-  it('should return true if at least one part of the optionsLoading is undefined', () => {
-    const dialogOptionsBase: {
-      ratingsLoading: boolean;
-      castingModesLoading: boolean;
-      materialStandardsLoading: boolean;
-      co2ClassificationsLoading: boolean;
-      steelMakingProcessesLoading: boolean;
-      manufacturerSuppliersLoading: boolean;
-    } = {
-      ratingsLoading: undefined,
-      castingModesLoading: false,
-      materialStandardsLoading: false,
-      co2ClassificationsLoading: false,
-      steelMakingProcessesLoading: false,
-      manufacturerSuppliersLoading: false,
-    };
-
-    const results = [];
-
-    results.push(
-      DialogSelectors.getMaterialDialogOptionsLoadingError.projector({
-        ...dialogOptionsBase,
-      }),
-
-      DialogSelectors.getMaterialDialogOptionsLoadingError.projector({
-        ...dialogOptionsBase,
+  it.each([
+    [{}, false],
+    [
+      {
+        ratingsLoading: undefined,
+      },
+      true,
+    ],
+    [
+      {
         castingModesLoading: undefined,
-      }),
-
-      DialogSelectors.getMaterialDialogOptionsLoadingError.projector({
-        ...dialogOptionsBase,
-        castingModesLoading: undefined,
+      },
+      true,
+    ],
+    [
+      {
         materialStandardsLoading: undefined,
-      }),
-
-      DialogSelectors.getMaterialDialogOptionsLoadingError.projector({
-        ...dialogOptionsBase,
-        castingModesLoading: undefined,
-        materialStandardsLoading: undefined,
+      },
+      true,
+    ],
+    [
+      {
         co2ClassificationsLoading: undefined,
-      }),
-
-      DialogSelectors.getMaterialDialogOptionsLoadingError.projector({
-        ...dialogOptionsBase,
-        castingModesLoading: undefined,
-        materialStandardsLoading: undefined,
-        co2ClassificationsLoading: undefined,
+      },
+      true,
+    ],
+    [
+      {
         steelMakingProcessesLoading: undefined,
-      }),
-
-      DialogSelectors.getMaterialDialogOptionsLoadingError.projector({
-        ...dialogOptionsBase,
-        castingModesLoading: undefined,
-        materialStandardsLoading: undefined,
-        co2ClassificationsLoading: undefined,
-        steelMakingProcessesLoading: undefined,
+      },
+      true,
+    ],
+    [
+      {
         manufacturerSuppliersLoading: undefined,
-      })
-    );
+      },
+      true,
+    ],
+    [
+      {
+        productCategoriesLoading: undefined,
+      },
+      true,
+    ],
+  ])(
+    'should return true if at least one part of the optionsLoading is undefined',
+    (replaceOptions, expected) => {
+      const dialogOptionsBase: {
+        ratingsLoading: boolean;
+        castingModesLoading: boolean;
+        materialStandardsLoading: boolean;
+        co2ClassificationsLoading: boolean;
+        steelMakingProcessesLoading: boolean;
+        manufacturerSuppliersLoading: boolean;
+        productCategoriesLoading: boolean;
+      } = {
+        ratingsLoading: false,
+        castingModesLoading: false,
+        materialStandardsLoading: false,
+        co2ClassificationsLoading: false,
+        steelMakingProcessesLoading: false,
+        manufacturerSuppliersLoading: false,
+        productCategoriesLoading: false,
+      };
 
-    expect(results.length).toEqual(6);
+      const result =
+        DialogSelectors.getMaterialDialogOptionsLoadingError.projector({
+          ...dialogOptionsBase,
+          ...replaceOptions,
+        });
 
-    for (const result of results) {
-      expect(result).toBe(true);
+      expect(result).toEqual(expected);
     }
-  });
+  );
 
   it('should return false, if no part is loading', () => {
     const dialogOptionsBase = {
@@ -123,6 +131,7 @@ describe('DialogSelectors', () => {
       co2ClassificationsLoading: false,
       steelMakingProcessesLoading: false,
       manufacturerSuppliersLoading: false,
+      productCategoriesLoading: false,
     };
 
     const result = DialogSelectors.getMaterialDialogOptionsLoading.projector({
@@ -132,65 +141,71 @@ describe('DialogSelectors', () => {
     expect(result).toBe(false);
   });
 
-  it('should return true if at least one part of the options is loading', () => {
-    const dialogOptionsBase = {
-      ratingsLoading: true,
-      castingModesLoading: false,
-      materialStandardsLoading: false,
-      co2ClassificationsLoading: false,
-      steelMakingProcessesLoading: false,
-      manufacturerSuppliersLoading: false,
-    };
-
-    const results = [];
-
-    results.push(
-      DialogSelectors.getMaterialDialogOptionsLoading.projector({
-        ...dialogOptionsBase,
-      }),
-
-      DialogSelectors.getMaterialDialogOptionsLoading.projector({
-        ...dialogOptionsBase,
+  it.each([
+    [{}, false],
+    [
+      {
+        ratingsLoading: true,
+      },
+      true,
+    ],
+    [
+      {
         castingModesLoading: true,
-      }),
-
-      DialogSelectors.getMaterialDialogOptionsLoading.projector({
-        ...dialogOptionsBase,
-        castingModesLoading: true,
+      },
+      true,
+    ],
+    [
+      {
         materialStandardsLoading: true,
-      }),
-
-      DialogSelectors.getMaterialDialogOptionsLoading.projector({
-        ...dialogOptionsBase,
-        castingModesLoading: true,
-        materialStandardsLoading: true,
+      },
+      true,
+    ],
+    [
+      {
         co2ClassificationsLoading: true,
-      }),
-
-      DialogSelectors.getMaterialDialogOptionsLoading.projector({
-        ...dialogOptionsBase,
-        castingModesLoading: true,
-        materialStandardsLoading: true,
-        co2ClassificationsLoading: true,
+      },
+      true,
+    ],
+    [
+      {
         steelMakingProcessesLoading: true,
-      }),
-
-      DialogSelectors.getMaterialDialogOptionsLoading.projector({
-        ...dialogOptionsBase,
-        castingModesLoading: true,
-        materialStandardsLoading: true,
-        co2ClassificationsLoading: true,
-        steelMakingProcessesLoading: true,
+      },
+      true,
+    ],
+    [
+      {
         manufacturerSuppliersLoading: true,
-      })
-    );
+      },
+      true,
+    ],
+    [
+      {
+        productCategoriesLoading: true,
+      },
+      true,
+    ],
+  ])(
+    'should return true if at least one part of the options is loading',
+    (replaceOptions, expected) => {
+      const dialogOptionsBase = {
+        ratingsLoading: false,
+        castingModesLoading: false,
+        materialStandardsLoading: false,
+        co2ClassificationsLoading: false,
+        steelMakingProcessesLoading: false,
+        manufacturerSuppliersLoading: false,
+        productCategoriesLoading: false,
+      };
 
-    expect(results.length).toEqual(6);
+      const result = DialogSelectors.getMaterialDialogOptionsLoading.projector({
+        ...dialogOptionsBase,
+        ...replaceOptions,
+      });
 
-    for (const result of results) {
-      expect(result).toBe(true);
+      expect(result).toEqual(expected);
     }
-  });
+  );
 
   it('should return false, if no part is undefined', () => {
     const dialogOptionsBase = {
@@ -200,6 +215,7 @@ describe('DialogSelectors', () => {
       co2ClassificationsLoading: false,
       steelMakingProcessesLoading: false,
       manufacturerSuppliersLoading: false,
+      productCategoriesLoading: false,
     };
 
     const result =
@@ -354,6 +370,23 @@ describe('DialogSelectors', () => {
         castingDiametersLoading: true,
       })
     ).toBe(true);
+  });
+
+  it('should return the productCategories', () => {
+    const mockProductCategories = [{ id: 'raw', title: 'raw' }];
+    expect(
+      DialogSelectors.getProductCategories.projector({
+        productCategories: mockProductCategories,
+      })
+    ).toEqual(mockProductCategories);
+  });
+
+  it('should return the productCategories loading state', () => {
+    expect(
+      DialogSelectors.getProductCategoriesLoading.projector({
+        productCategoriesLoading: true,
+      })
+    ).toEqual(true);
   });
 
   it('should return the referenceDocuments', () => {

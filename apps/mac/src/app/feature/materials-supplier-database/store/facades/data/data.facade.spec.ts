@@ -3,7 +3,7 @@ import { createServiceFactory } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/jest';
 
-import { MaterialClass } from '@mac/msd/constants';
+import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import { DataResult, MaterialFormValue, SteelMaterial } from '@mac/msd/models';
 import { initialState } from '@mac/msd/store/reducers/data/data.reducer';
 
@@ -14,8 +14,7 @@ describe('DataFacade', () => {
   let facade: DataFacade;
   let store: MockStore;
 
-  const mockMaterialClassOptions = [{ id: 'st', title: 'Steel' }];
-  const mockProductCategoryOptions = [{ id: 'tube', title: 'Tube' }];
+  const mockMaterialClassOptions = [MaterialClass.STEEL];
   const mockResult: SteelMaterial[] = [
     {
       id: 6956,
@@ -44,9 +43,12 @@ describe('DataFacade', () => {
     },
   ];
   const mockFilters = {
-    materialClass: { id: 'st', title: 'Steel' },
     agGridFilter: '{}',
     loading: false,
+  };
+  const mockNavigation = {
+    materialClass: MaterialClass.STEEL,
+    navigationLevel: NavigationLevel.MATERIAL,
   };
 
   const createService = createServiceFactory({
@@ -57,12 +59,12 @@ describe('DataFacade', () => {
           msd: {
             data: {
               ...initialState,
-              materialClassOptions: mockMaterialClassOptions,
-              productCategoryOptions: mockProductCategoryOptions,
+              materialClasses: mockMaterialClassOptions,
               result: mockResult,
               materialClassLoading: false,
               productCategoryLoading: false,
               filter: mockFilters,
+              navigation: mockNavigation,
               agGridColumns: 'agGridColumns',
               materials: {
                 steelMaterials: mockResult,
@@ -114,19 +116,6 @@ describe('DataFacade', () => {
         });
 
         m.expect(facade.materialClassOptions$).toBeObservable(expected);
-      })
-    );
-  });
-
-  describe('productCategoryOptions$', () => {
-    it(
-      'should provide product category options',
-      marbles((m) => {
-        const expected = m.cold('a', {
-          a: mockProductCategoryOptions,
-        });
-
-        m.expect(facade.productCategoryOptions$).toBeObservable(expected);
       })
     );
   });
@@ -196,18 +185,13 @@ describe('DataFacade', () => {
     );
   });
 
-  describe('filters$', () => {
+  describe('navigation$', () => {
     it(
-      'should provide the filters',
+      'should return the navigation',
       marbles((m) => {
-        const expected = m.cold('a', {
-          a: {
-            materialClass: { id: 'st', title: 'Steel' },
-            productCategory: undefined,
-          },
-        });
+        const expected = m.cold('a', { a: mockNavigation });
 
-        m.expect(facade.filters$).toBeObservable(expected);
+        m.expect(facade.navigation$).toBeObservable(expected);
       })
     );
   });
@@ -257,10 +241,8 @@ describe('DataFacade', () => {
       marbles((m) => {
         const expected = m.cold('a', {
           a: {
-            filterForm: JSON.stringify({
-              materialClass: { id: 'st', title: 'Steel' },
-              productCategory: 'all',
-            }),
+            materialClass: MaterialClass.STEEL,
+            navigationLevel: NavigationLevel.MATERIAL,
             agGridFilter: '{}',
           },
         });

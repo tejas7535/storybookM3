@@ -1,8 +1,8 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MATERIAL_SANITY_CHECKS, MatOption } from '@angular/material/core';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -14,7 +14,7 @@ import { of, Subject } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { translate, TranslocoModule } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AgGridModule } from 'ag-grid-angular';
 import {
@@ -33,7 +33,11 @@ import { StringOption } from '@schaeffler/inputs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { SAP_SUPPLIER_IDS } from '@mac/msd/constants';
+import {
+  MaterialClass,
+  NavigationLevel,
+  SAP_SUPPLIER_IDS,
+} from '@mac/msd/constants';
 import { QuickFilterComponent } from '@mac/msd/main-table/quick-filter/quick-filter.component';
 import {
   BOOLEAN_VALUE_GETTER,
@@ -45,7 +49,11 @@ import {
 } from '@mac/msd/main-table/table-config';
 import { STEEL_COLUMN_DEFINITIONS } from '@mac/msd/main-table/table-config/materials';
 import { DataResult, MaterialFormValue } from '@mac/msd/models';
-import { MsdAgGridStateService, MsdDialogService } from '@mac/msd/services';
+import {
+  MsdAgGridConfigService,
+  MsdAgGridStateService,
+  MsdDialogService,
+} from '@mac/msd/services';
 import {
   fetchMaterials,
   materialDialogCanceled,
@@ -54,7 +62,7 @@ import {
   openDialog,
   setAgGridColumns,
   setAgGridFilter,
-  setFilter,
+  setNavigation,
 } from '@mac/msd/store/actions';
 import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
 import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
@@ -63,6 +71,8 @@ import { initialState as initialQuickfilterState } from '@mac/msd/store/reducers
 import * as en from '../../../../assets/i18n/en.json';
 import { MainTableComponent } from './main-table.component';
 import { MainTableRoutingModule } from './main-table-routing.module';
+import { MsdNavigationModule } from './msd-navigation/msd-navigation.module';
+import { STEEL_STATIC_QUICKFILTERS } from './quick-filter/config';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
@@ -127,12 +137,14 @@ describe('MainTableComponent', () => {
       ReactiveFormsModule,
       MatFormFieldModule,
       MatSelectModule,
+      LetModule,
       PushModule,
       MatButtonModule,
       LoadingSpinnerModule,
       MatCheckboxModule,
       MatIconModule,
       QuickFilterComponent,
+      MsdNavigationModule,
       provideTranslocoTestingModule({ en }),
     ],
     providers: [
@@ -157,6 +169,13 @@ describe('MainTableComponent', () => {
       {
         provide: MsdAgGridStateService,
         useValue: {},
+      },
+      {
+        provide: MsdAgGridConfigService,
+        useValue: {
+          getStaticQuickFilters: jest.fn(() => STEEL_STATIC_QUICKFILTERS),
+          columnDefinitions$: of(STEEL_COLUMN_DEFINITIONS),
+        },
       },
     ],
     declarations: [MainTableComponent],
@@ -187,61 +206,6 @@ describe('MainTableComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  describe('ngOnInit', () => {
-    describe('formControls', () => {
-      const options = { onlySelf: true, emitEvent: false };
-      it('should patch allSelected control to true on productCategory change if all values are selected', () => {
-        component.categoryOptions = [{ selected: true } as MatOption];
-
-        component.allCategoriesSelectedControl.patchValue = jest.fn();
-
-        component.productCategorySelectionControl.patchValue([]);
-
-        expect(
-          component.allCategoriesSelectedControl.patchValue
-        ).toHaveBeenCalledWith(true, options);
-      });
-      it('should patch allSelected control to false on productCategory change if not all values are selected', () => {
-        component.categoryOptions = [{ selected: false } as MatOption];
-
-        component.allCategoriesSelectedControl.patchValue = jest.fn();
-
-        component.productCategorySelectionControl.patchValue([]);
-
-        expect(
-          component.allCategoriesSelectedControl.patchValue
-        ).toHaveBeenCalledWith(false, options);
-      });
-
-      it('should call toggleAllCategories on allCategories control change', () => {
-        component.toggleAllCategories = jest.fn();
-
-        component.allCategoriesSelectedControl.patchValue(true);
-
-        expect(component.toggleAllCategories).toHaveBeenCalledWith(true);
-      });
-
-      it('should dispatch setFilterModel on filterForm change', async () => {
-        const mockValue: {
-          materialClass: StringOption;
-          productCategory: StringOption[];
-        } = {
-          materialClass: undefined,
-          productCategory: undefined,
-        };
-        component['agGridApi'] = {
-          getDisplayedRowCount: jest.fn(),
-        } as unknown as GridApi;
-        component.filterForm.patchValue(mockValue);
-
-        await new Promise((resolve) => setTimeout(resolve, 100));
-
-        expect(store.dispatch).toHaveBeenCalledWith(setFilter(mockValue));
-        expect(component['agGridApi'].getDisplayedRowCount).toHaveBeenCalled();
-      });
-    });
-  });
   describe('ngOnDestory', () => {
     it('should complete the observable', () => {
       component.destroy$.next = jest.fn();
@@ -255,7 +219,8 @@ describe('MainTableComponent', () => {
   });
   describe('parseQueryParams', () => {
     it('should do nothing if no filters are set in query params', () => {
-      component['setParamFilter'] = jest.fn();
+      component['changeDetectorRef'].markForCheck = jest.fn();
+      component['changeDetectorRef'].detectChanges = jest.fn();
       component['setParamAgGridFilter'] = jest.fn();
       router.navigate = jest.fn();
 
@@ -265,162 +230,74 @@ describe('MainTableComponent', () => {
       component['parseQueryParams']();
 
       expect(route.snapshot.queryParamMap.get).toHaveBeenCalledWith(
-        'filterForm'
+        'materialClass'
+      );
+      expect(route.snapshot.queryParamMap.get).toHaveBeenCalledWith(
+        'navigationLevel'
       );
       expect(route.snapshot.queryParamMap.get).toHaveBeenCalledWith(
         'agGridFilter'
       );
-      expect(component['setParamFilter']).not.toHaveBeenCalled();
       expect(component['setParamAgGridFilter']).not.toHaveBeenCalled();
 
       expect(router.navigate).toHaveBeenCalledWith([], {
         relativeTo: route,
         queryParams: {},
       });
+      expect(component['changeDetectorRef'].markForCheck).toHaveBeenCalled();
+      expect(component['changeDetectorRef'].detectChanges).toHaveBeenCalled();
     });
 
     it('should call the set filter functions if filters are defined in query params', () => {
-      component['setParamFilter'] = jest.fn();
+      component['dataFacade'].dispatch = jest.fn();
+      component['changeDetectorRef'].markForCheck = jest.fn();
+      component['changeDetectorRef'].detectChanges = jest.fn();
       component['setParamAgGridFilter'] = jest.fn();
       router.navigate = jest.fn();
 
       // eslint-disable-next-line unicorn/no-useless-undefined
-      route.snapshot.queryParamMap.get = jest.fn(() => 'some params');
+      route.snapshot.queryParamMap.get = jest.fn((str) => {
+        switch (str) {
+          case 'materialClass':
+            return 'st';
+          case 'navigationLevel':
+            return 'materials';
+          default:
+            return 'some params';
+        }
+      });
 
       component['parseQueryParams']();
 
       expect(route.snapshot.queryParamMap.get).toHaveBeenCalledWith(
-        'filterForm'
+        'materialClass'
+      );
+      expect(route.snapshot.queryParamMap.get).toHaveBeenCalledWith(
+        'navigationLevel'
       );
       expect(route.snapshot.queryParamMap.get).toHaveBeenCalledWith(
         'agGridFilter'
       );
-      expect(component['setParamFilter']).toHaveBeenCalledWith('some params');
       expect(component['setParamAgGridFilter']).toHaveBeenCalledWith(
         'some params'
+      );
+
+      expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
+        setNavigation({
+          materialClass: MaterialClass.STEEL,
+          navigationLevel: NavigationLevel.MATERIAL,
+        })
       );
 
       expect(router.navigate).toHaveBeenCalledWith([], {
         relativeTo: route,
         queryParams: {},
       });
+      expect(component['changeDetectorRef'].markForCheck).toHaveBeenCalled();
+      expect(component['changeDetectorRef'].detectChanges).toHaveBeenCalled();
     });
   });
-  describe('setParamFilter', () => {
-    it('should do nothing if filterParams is not defined', () => {
-      const mockFilterString = 'some params';
-      // eslint-disable-next-line unicorn/no-useless-undefined
-      JSON.parse = jest.fn(() => undefined);
-      component.materialClassSelectionControl.patchValue = jest.fn();
-      component.productCategorySelectionControl.patchValue = jest.fn();
-      component.filterForm = {
-        valid: false,
-        markAsDirty: jest.fn(),
-      } as unknown as FormGroup;
-      component.fetchMaterials = jest.fn();
 
-      component['setParamFilter'](mockFilterString);
-
-      expect(JSON.parse).toHaveBeenCalledWith(mockFilterString);
-      expect(
-        component.materialClassSelectionControl.patchValue
-      ).not.toHaveBeenCalled();
-      expect(
-        component.productCategorySelectionControl.patchValue
-      ).not.toHaveBeenCalled();
-      expect(component.fetchMaterials).not.toHaveBeenCalled();
-      expect(component.filterForm.markAsDirty).not.toHaveBeenCalled();
-    });
-    it('should do nothing if materialClass is not defined', () => {
-      const mockFilterString = 'some params';
-      const mockFilterParams: {
-        materialClass: StringOption;
-        productCategory: StringOption[];
-      } = {
-        materialClass: undefined,
-        productCategory: [{ id: 'id', title: 'gibts net' }],
-      };
-      JSON.parse = jest.fn(() => mockFilterParams);
-      component.materialClassSelectionControl.patchValue = jest.fn();
-      component.productCategorySelectionControl.patchValue = jest.fn();
-      component.filterForm = {
-        valid: false,
-        markAsDirty: jest.fn(),
-      } as unknown as FormGroup;
-      component.fetchMaterials = jest.fn();
-
-      component['setParamFilter'](mockFilterString);
-
-      expect(JSON.parse).toHaveBeenCalledWith(mockFilterString);
-      expect(
-        component.materialClassSelectionControl.patchValue
-      ).not.toHaveBeenCalled();
-      expect(
-        component.productCategorySelectionControl.patchValue
-      ).not.toHaveBeenCalled();
-      expect(component.fetchMaterials).not.toHaveBeenCalled();
-      expect(component.filterForm.markAsDirty).not.toHaveBeenCalled();
-    });
-    it('should do nothing if productCategory is not defined', () => {
-      const mockFilterString = 'some params';
-      const mockFilterParams: {
-        materialClass: StringOption;
-        productCategory: StringOption[];
-      } = {
-        materialClass: { id: 'id', title: 'gibts net' },
-        productCategory: undefined,
-      };
-      JSON.parse = jest.fn(() => mockFilterParams);
-      component.materialClassSelectionControl.patchValue = jest.fn();
-      component.productCategorySelectionControl.patchValue = jest.fn();
-      component.filterForm = {
-        valid: false,
-        markAsDirty: jest.fn(),
-      } as unknown as FormGroup;
-      component.fetchMaterials = jest.fn();
-
-      component['setParamFilter'](mockFilterString);
-
-      expect(JSON.parse).toHaveBeenCalledWith(mockFilterString);
-      expect(
-        component.materialClassSelectionControl.patchValue
-      ).not.toHaveBeenCalled();
-      expect(
-        component.productCategorySelectionControl.patchValue
-      ).not.toHaveBeenCalled();
-      expect(component.fetchMaterials).not.toHaveBeenCalled();
-      expect(component.filterForm.markAsDirty).not.toHaveBeenCalled();
-    });
-    it('should patch controls and fetch materials if params are defined', () => {
-      const mockFilterString = 'some params';
-      const mockFilterParams = {
-        materialClass: { id: 'id', title: 'gibts net' },
-        productCategory: [{ id: 'id', title: 'gibts net' }],
-      };
-      JSON.parse = jest.fn(() => mockFilterParams);
-      component.materialClassSelectionControl.patchValue = jest.fn();
-      component.productCategorySelectionControl.patchValue = jest.fn();
-      component.filterForm = {
-        valid: true,
-        markAsDirty: jest.fn(),
-      } as unknown as FormGroup;
-      component.fetchMaterials = jest.fn();
-
-      component['setParamFilter'](mockFilterString);
-
-      expect(JSON.parse).toHaveBeenCalledWith(mockFilterString);
-      expect(
-        component.materialClassSelectionControl.patchValue
-      ).toHaveBeenCalledWith(mockFilterParams.materialClass as StringOption);
-      expect(
-        component.productCategorySelectionControl.patchValue
-      ).toHaveBeenCalledWith(
-        mockFilterParams.productCategory as StringOption[]
-      );
-      expect(component.fetchMaterials).toHaveBeenCalled();
-      expect(component.filterForm.markAsDirty).toHaveBeenCalled();
-    });
-  });
   describe('setParamAgGridFilter', () => {
     it('should do nothing if filterModel is not defined', () => {
       const mockFilterString = 'some filter';
@@ -451,49 +328,7 @@ describe('MainTableComponent', () => {
       );
     });
   });
-  describe('toggleAllCategories', () => {
-    it('should do nothing if categoryOptions are not defined', () => {
-      const mockSelectFn = jest.fn();
-      const mockDeselectFn = jest.fn();
-      component.categoryOptions = undefined;
 
-      component.toggleAllCategories(true);
-
-      expect(mockSelectFn).not.toHaveBeenCalled();
-      expect(mockDeselectFn).not.toHaveBeenCalled();
-    });
-
-    it('should select all categoryOptions', () => {
-      const mockSelectFn = jest.fn();
-      const mockDeselectFn = jest.fn();
-      component.categoryOptions = [
-        {
-          select: mockSelectFn,
-          deselect: mockDeselectFn,
-        } as unknown as MatOption,
-      ];
-
-      component.toggleAllCategories(true);
-
-      expect(mockSelectFn).toHaveBeenCalled();
-      expect(mockDeselectFn).not.toHaveBeenCalled();
-    });
-    it('should deselect all categoryOptions', () => {
-      const mockSelectFn = jest.fn();
-      const mockDeselectFn = jest.fn();
-      component.categoryOptions = [
-        {
-          select: mockSelectFn,
-          deselect: mockDeselectFn,
-        } as unknown as MatOption,
-      ];
-
-      component.toggleAllCategories(false);
-
-      expect(mockSelectFn).not.toHaveBeenCalled();
-      expect(mockDeselectFn).toHaveBeenCalled();
-    });
-  });
   describe('onFilterChange', () => {
     it('should dispatch agGridFilter and filtered rows on defined filter', () => {
       const mockFilterModel = { 'some filter': 'some value' };
@@ -616,69 +451,13 @@ describe('MainTableComponent', () => {
     });
   });
   describe('fetchMaterials', () => {
-    it('should dispatch fetchMaterials and set headline all x all', () => {
-      component.materialClassSelectionControl.setValue(undefined, {
-        onlySelf: true,
-        emitEvent: false,
-      });
-      component.productCategorySelectionControl.setValue(undefined, {
-        onlySelf: true,
-        emitEvent: false,
-      });
-      component.allCategoriesSelectedControl.setValue(true, {
-        onlySelf: true,
-        emitEvent: false,
-      });
+    it('should dispatch fetchMaterials', () => {
+      component['dataFacade'].dispatch = jest.fn();
 
       component.fetchMaterials();
 
-      expect(store.dispatch).toHaveBeenCalledWith(fetchMaterials());
-      expect(component.selectedClass).toEqual(undefined);
-      expect(component.selectedCategory).toEqual(undefined);
-    });
-    it('should dispatch fetchMaterials and set headline cat x cat', () => {
-      component.materialClassSelectionControl.setValue(
-        { id: 'id1', title: 'gibts net' },
-        { onlySelf: true, emitEvent: false }
-      );
-      component.productCategorySelectionControl.setValue(
-        [{ id: 'id2', title: 'gibts net' }],
-        { onlySelf: true, emitEvent: false }
-      );
-      component.allCategoriesSelectedControl.setValue(false, {
-        onlySelf: true,
-        emitEvent: false,
-      });
-
-      component.fetchMaterials();
-
-      expect(store.dispatch).toHaveBeenCalledWith(fetchMaterials());
-      expect(component.selectedClass).toEqual('gibts net');
-      expect(component.selectedCategory).toEqual('gibts net');
-    });
-    it('should dispatch fetchMaterials and set headline cat x multiple', () => {
-      component.materialClassSelectionControl.setValue(
-        { id: 'id', title: 'gibts net' },
-        { onlySelf: true, emitEvent: false }
-      );
-      component.productCategorySelectionControl.setValue(
-        [
-          { id: 'id1', title: 'gibts net' },
-          { id: 'id2', title: 'gibts auch net' },
-        ],
-        { onlySelf: true, emitEvent: false }
-      );
-      component.allCategoriesSelectedControl.setValue(false, {
-        onlySelf: true,
-        emitEvent: false,
-      });
-
-      component.fetchMaterials();
-
-      expect(store.dispatch).toHaveBeenCalledWith(fetchMaterials());
-      expect(component.selectedClass).toEqual('gibts net');
-      expect(component.selectedCategory).toEqual(
-        '2 materialsSupplierDatabase.mainTable.productCategories'
+      expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
+        fetchMaterials()
       );
     });
   });
@@ -825,6 +604,8 @@ describe('MainTableComponent', () => {
         applyColumnState: jest.fn(),
       };
 
+      component.getColumnDefs = jest.fn(() => STEEL_COLUMN_DEFINITIONS);
+
       const expectedState = STEEL_COLUMN_DEFINITIONS.map(
         (column: ColDef) =>
           ({
@@ -933,90 +714,12 @@ describe('MainTableComponent', () => {
   });
   describe('resetForm', () => {
     it('should reset the filter form if it is not default', () => {
-      component.filterForm = {
-        reset: jest.fn(),
-        markAsUntouched: jest.fn(),
-        markAsPristine: jest.fn(),
-      } as unknown as FormGroup;
-      component.materialClassSelectionControl.patchValue = jest.fn();
-      component.toggleAllCategories = jest.fn();
-      component.isDefaultFilterForm = jest.fn(() => false);
-      component.isDefaultAgGridFilter = jest.fn(() => true);
-
-      component.resetAgGridFilter = jest.fn();
-
-      const mockDefaultMaterialClass = {
-        id: 'st',
-        title: 'materialsSupplierDatabase.materialClassValues.st',
-      };
-      const mockDefaultFormValue: {
-        materialClass: StringOption;
-        productCategory: StringOption[];
-      } = {
-        materialClass: mockDefaultMaterialClass,
-        productCategory: [],
-      };
-
-      component.defaultFilterFormValue = mockDefaultFormValue;
-
-      component.resetForm();
-
-      expect(component.filterForm.reset).toHaveBeenCalledWith(
-        mockDefaultFormValue
-      );
-      expect(
-        component.materialClassSelectionControl.patchValue
-      ).toHaveBeenCalledWith(mockDefaultMaterialClass, {
-        emitEvent: false,
-        onlySelf: true,
-      });
-      expect(component.toggleAllCategories).toHaveBeenCalledWith(true);
-      expect(component.resetAgGridFilter).not.toHaveBeenCalled();
-    });
-
-    it('should reset the agGrid filter if it is not default', () => {
-      component.filterForm = {
-        reset: jest.fn(),
-        markAsUntouched: jest.fn(),
-        markAsPristine: jest.fn(),
-      } as unknown as FormGroup;
-      component.materialClassSelectionControl.patchValue = jest.fn();
-      component.toggleAllCategories = jest.fn();
-      component.isDefaultFilterForm = jest.fn(() => true);
-      component.isDefaultAgGridFilter = jest.fn(() => false);
-
-      component.resetAgGridFilter = jest.fn();
-
-      component.resetForm();
-
-      expect(component.filterForm.reset).not.toHaveBeenCalled();
-      expect(
-        component.materialClassSelectionControl.patchValue
-      ).not.toHaveBeenCalledWith();
-      expect(component.toggleAllCategories).not.toHaveBeenCalledWith();
-      expect(component.resetAgGridFilter).toHaveBeenCalled();
-    });
-
-    it('should not reset anything if everything is default', () => {
-      component.filterForm = {
-        reset: jest.fn(),
-        markAsUntouched: jest.fn(),
-        markAsPristine: jest.fn(),
-      } as unknown as FormGroup;
-      component.materialClassSelectionControl.patchValue = jest.fn();
-      component.toggleAllCategories = jest.fn();
-      component.isDefaultFilterForm = jest.fn(() => true);
       component.isDefaultAgGridFilter = jest.fn(() => true);
 
       component.resetAgGridFilter = jest.fn();
 
       component.resetForm();
 
-      expect(component.filterForm.reset).not.toHaveBeenCalled();
-      expect(
-        component.materialClassSelectionControl.patchValue
-      ).not.toHaveBeenCalledWith();
-      expect(component.toggleAllCategories).not.toHaveBeenCalledWith();
       expect(component.resetAgGridFilter).not.toHaveBeenCalled();
     });
   });
@@ -1054,204 +757,6 @@ describe('MainTableComponent', () => {
       } as unknown as GridApi;
 
       const result = component.isDefaultAgGridFilter();
-
-      expect(result).toBe(false);
-    });
-  });
-
-  describe('isDefaultFilterForm', () => {
-    let mockDefaultValue: {
-      materialClass: StringOption;
-      productCategory: StringOption[];
-    };
-
-    beforeEach(() => {
-      mockDefaultValue = {
-        materialClass: {
-          id: 'id',
-          title: 'test',
-        },
-        productCategory: [
-          { id: 'id1', title: 'test' },
-          { id: 'id2', title: 'test2' },
-        ],
-      };
-    });
-    it('should return true if the form value and the default value are equal', () => {
-      component.defaultFilterFormValue = mockDefaultValue;
-      component.filterForm.setValue(mockDefaultValue);
-
-      const result = component.isDefaultFilterForm();
-
-      expect(result).toBe(true);
-    });
-
-    it('should return false if the form materialClass is not the defaultMaterialClass (id)', () => {
-      const mockValue: {
-        materialClass: StringOption;
-        productCategory: StringOption[];
-      } = {
-        materialClass: {
-          id: 'notid',
-          title: 'test',
-        },
-        productCategory: [
-          { id: 'id1', title: 'test' },
-          { id: 'id2', title: 'test2' },
-        ],
-      };
-
-      component.defaultFilterFormValue = mockDefaultValue;
-      component.filterForm.setValue(mockValue);
-
-      const result = component.isDefaultFilterForm();
-
-      expect(result).toBe(false);
-    });
-
-    it('should return false if the form materialClass is not the defaultMaterialClass (name)', () => {
-      const mockValue: {
-        materialClass: StringOption;
-        productCategory: StringOption[];
-      } = {
-        materialClass: {
-          id: 'id',
-          title: 'test2',
-        },
-        productCategory: [
-          { id: 'id1', title: 'test' },
-          { id: 'id2', title: 'test2' },
-        ],
-      };
-
-      component.defaultFilterFormValue = mockDefaultValue;
-      component.filterForm.setValue(mockValue);
-
-      const result = component.isDefaultFilterForm();
-
-      expect(result).toBe(false);
-    });
-
-    it('should return false if not all defaultProductCategories are currently selected (id)', () => {
-      const mockValue: {
-        materialClass: StringOption;
-        productCategory: StringOption[];
-      } = {
-        materialClass: {
-          id: 'id',
-          title: 'test',
-        },
-        productCategory: [
-          { id: 'id1', title: 'test' },
-          { id: 'notid2', title: 'test2' },
-        ],
-      };
-
-      component.defaultFilterFormValue = mockDefaultValue;
-      component.filterForm.setValue(mockValue);
-
-      const result = component.isDefaultFilterForm();
-
-      expect(result).toBe(false);
-    });
-
-    it('should return false if not all defaultProductCategories are currently selected (name)', () => {
-      const mockValue: {
-        materialClass: StringOption;
-        productCategory: StringOption[];
-      } = {
-        materialClass: {
-          id: 'id',
-          title: 'test',
-        },
-        productCategory: [
-          { id: 'id1', title: 'test' },
-          { id: 'id2', title: 'test3' },
-        ],
-      };
-
-      component.defaultFilterFormValue = mockDefaultValue;
-      component.filterForm.setValue(mockValue);
-
-      const result = component.isDefaultFilterForm();
-
-      expect(result).toBe(false);
-    });
-
-    it('should return false if not all defaultProductCategories are currently selected', () => {
-      const mockValue: {
-        materialClass: StringOption;
-        productCategory: StringOption[];
-      } = {
-        materialClass: {
-          id: 'id',
-          title: 'test',
-        },
-        productCategory: [{ id: 'id1', title: 'test' }],
-      };
-
-      component.defaultFilterFormValue = mockDefaultValue;
-      component.filterForm.setValue(mockValue);
-
-      const result = component.isDefaultFilterForm();
-
-      expect(result).toBe(false);
-    });
-    it('should return false if no materialClass is selected', () => {
-      const mockValue: {
-        materialClass: StringOption;
-        productCategory: StringOption[];
-      } = {
-        // eslint-disable-next-line unicorn/no-null
-        materialClass: null,
-        productCategory: [{ id: 'id1', title: 'test' }],
-      };
-
-      component.defaultFilterFormValue = mockDefaultValue;
-      component.filterForm.setValue(mockValue);
-
-      const result = component.isDefaultFilterForm();
-
-      expect(result).toBe(false);
-    });
-
-    it('should return false if no productCategory is selected', () => {
-      const mockValue: {
-        materialClass: StringOption;
-        productCategory: StringOption[];
-      } = {
-        materialClass: {
-          id: 'id',
-          title: 'test',
-        },
-        // eslint-disable-next-line unicorn/no-null
-        productCategory: null,
-      };
-
-      component.defaultFilterFormValue = mockDefaultValue;
-      component.filterForm.setValue(mockValue);
-
-      const result = component.isDefaultFilterForm();
-
-      expect(result).toBe(false);
-    });
-
-    it('should return false if no productCategory is selected (empty)', () => {
-      const mockValue: {
-        materialClass: StringOption;
-        productCategory: StringOption[];
-      } = {
-        materialClass: {
-          id: 'id',
-          title: 'test',
-        },
-        productCategory: [],
-      };
-
-      component.defaultFilterFormValue = mockDefaultValue;
-      component.filterForm.setValue(mockValue);
-
-      const result = component.isDefaultFilterForm();
 
       expect(result).toBe(false);
     });
@@ -1490,28 +995,14 @@ describe('MainTableComponent', () => {
   });
 
   describe('editableClass', () => {
-    it('should return true if the class is editable', () => {
-      component.materialClassSelectionControl.setValue(
-        {
-          id: 'st',
-          title: 'Steel',
-        },
-        { emitEvent: false }
-      );
-      const result = component.editableClass();
+    it('should return true for editable classes', () => {
+      const result = component.editableClass(MaterialClass.STEEL);
 
       expect(result).toBe(true);
     });
 
-    it('should return false if the class is not editable', () => {
-      component.materialClassSelectionControl.setValue(
-        {
-          id: 'px',
-          title: 'Polymer',
-        },
-        { emitEvent: false }
-      );
-      const result = component.editableClass();
+    it('should return false for not editable classes', () => {
+      const result = component.editableClass(MaterialClass.POLYMER);
 
       expect(result).toBe(false);
     });
@@ -1673,8 +1164,11 @@ describe('MainTableComponent', () => {
   describe('resumeDialog', () => {
     it('should call open dialog', () => {
       component.openDialog = jest.fn();
-      component.resumeDialog();
-      expect(component.openDialog).toHaveBeenCalledWith(true);
+      component.resumeDialog(MaterialClass.STEEL);
+      expect(component.openDialog).toHaveBeenCalledWith(
+        MaterialClass.STEEL,
+        true
+      );
     });
   });
 
@@ -1683,7 +1177,7 @@ describe('MainTableComponent', () => {
       component['dataFacade'].dispatch = jest.fn();
 
       let otherDone = false;
-      component.openDialog();
+      component.openDialog(MaterialClass.STEEL);
 
       expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
         openDialog()
@@ -1720,7 +1214,7 @@ describe('MainTableComponent', () => {
 
       let otherDone = false;
 
-      component.openDialog(true);
+      component.openDialog(MaterialClass.STEEL, true);
 
       expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
         openDialog()
@@ -1754,25 +1248,6 @@ describe('MainTableComponent', () => {
         reload: true,
         minimize: { value: {} as MaterialFormValue },
       });
-    });
-  });
-
-  describe('toggle sidebar', () => {
-    it('change value after toggle', () => {
-      expect(component.minimizeSideBar).toBeFalsy();
-      component.toggleSideBar();
-      expect(component.minimizeSideBar).toBeTruthy();
-      expect(component.productCategorySelectionControl.disabled).toBeTruthy();
-      expect(component.materialClassSelectionControl.disabled).toBeTruthy();
-    });
-
-    it('change back after second toggle', () => {
-      expect(component.minimizeSideBar).toBeFalsy();
-      component.toggleSideBar();
-      component.toggleSideBar();
-      expect(component.minimizeSideBar).toBeFalsy();
-      expect(component.productCategorySelectionControl.disabled).toBeFalsy();
-      expect(component.materialClassSelectionControl.disabled).toBeFalsy();
     });
   });
 });

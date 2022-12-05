@@ -2,82 +2,16 @@
   class="flex h-full w-full flex-col md:flex-row"
   *transloco="let t; read: 'materialsSupplierDatabase'"
 >
-  <div
-    class="flex flex-col items-start justify-start border-r border-border p-4"
-  >
-    <ng-container>
-      <mat-form-field
-        appearance="outline"
-        class="w-56 opacity-100 transition-all duration-1000"
-        [ngClass]="{
-          'w-0 opacity-0': minimizeSideBar,
-          'w-56 opacity-100': !minimizeSideBar
-        }"
-      >
-        <mat-label>{{ t('materialClass') }}</mat-label>
-        <mat-select
-          [formControl]="materialClassSelectionControl"
-          [compareWith]="compareStringOptions"
-        >
-          <mat-option
-            *ngFor="let option of materialClassOptions$ | ngrxPush"
-            [value]="option"
-          >
-            {{ option.title | titlecase }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field
-        appearance="outline"
-        class="transition-all duration-1000"
-        [ngClass]="{
-          'w-0 opacity-0': minimizeSideBar,
-          'w-56 opacity-100': !minimizeSideBar
-        }"
-      >
-        <mat-label>{{ t('productCategory') }}</mat-label>
-        <mat-select
-          [formControl]="productCategorySelectionControl"
-          [compareWith]="compareStringOptions"
-          multiple
-        >
-          <mat-select-trigger *ngIf="allCategoriesSelectedControl.value">{{
-            t('allSelected')
-          }}</mat-select-trigger>
-          <div class="flex h-12 flex-row place-items-center px-4">
-            <mat-checkbox
-              class="w-full"
-              [formControl]="allCategoriesSelectedControl"
-              color="primary"
-              #selectAllCheckbox
-              >{{ t('selectAll') }}</mat-checkbox
-            >
-          </div>
-          <mat-option
-            *ngFor="let option of productCategoryOptions$ | ngrxPush"
-            [value]="option"
-            #categoryOption
-          >
-            {{ option.title | titlecase }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <div class="flex-auto"></div>
-      <button
-        mat-mini-fab
-        class="place-self-end !rounded-xl !bg-secondary-variant !shadow-none"
-        (click)="toggleSideBar()"
-      >
-        <mat-icon
-          class="text-medium-emphasis"
-          [ngClass]="{ 'rotate-180': minimizeSideBar }"
-          >chevron_left</mat-icon
-        >
-      </button>
-    </ng-container>
+  <div class="border-r border-border">
+    <mac-msd-navigation
+      [expandMaterialClass]="expandedClass"
+      class="h-full w-full"
+    ></mac-msd-navigation>
   </div>
-  <div class="flex w-full flex-1 flex-col md:p-4 md:pb-0 md:pr-0">
+  <div
+    class="flex w-full flex-1 flex-col md:p-4 md:pb-0 md:pr-0"
+    *ngrxLet="navigation$ as navigation"
+  >
     <ng-container>
       <mac-quick-filter></mac-quick-filter>
 
@@ -108,8 +42,11 @@
       <button
         mat-raised-button
         color="primary"
-        (click)="openDialog(false)"
-        [disabled]="!(hasEditorRole$ | ngrxPush) || !editableClass()"
+        [disabled]="
+          !(hasEditorRole$ | ngrxPush) ||
+          !editableClass(navigation.materialClass)
+        "
+        (click)="openDialog(navigation.materialClass, false)"
         *ngIf="!(hasMinimizedDialog$ | ngrxPush); else resumeButton"
       >
         <mat-icon class="material-icons-outlined">add</mat-icon>
@@ -119,8 +56,11 @@
         <button
           mat-raised-button
           class="!bg-nordic-blue"
-          (click)="resumeDialog()"
-          [disabled]="!(hasEditorRole$ | ngrxPush) || !editableClass()"
+          [disabled]="
+            !(hasEditorRole$ | ngrxPush) ||
+            !editableClass(navigation.materialClass)
+          "
+          (click)="resumeDialog(navigation.materialClass)"
         >
           <mat-icon class="text-white">play_arrow</mat-icon>
           <span class="text-white">{{ t('resume') }}</span>
@@ -134,7 +74,7 @@
       <button
         mat-button
         color="primary"
-        [disabled]="isDefaultAgGridFilter() && isDefaultFilterForm()"
+        [disabled]="isDefaultAgGridFilter()"
         (click)="resetForm()"
       >
         <mat-icon class="material-icons-outlined">sync</mat-icon>
@@ -156,7 +96,7 @@
         <div class="flex flex-col">
           <div class="text-caption text-low-emphasis">{{ t('subtotal') }}</div>
           <div class="text-caption text-high-emphasis">
-            {{ displayCount }}
+            {{ agGridApi?.getDisplayedRowCount() || 0 }}
           </div>
         </div>
       </div>

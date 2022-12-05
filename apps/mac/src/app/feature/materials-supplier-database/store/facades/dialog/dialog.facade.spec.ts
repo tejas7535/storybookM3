@@ -45,15 +45,12 @@ describe('DialogFacade', () => {
       provideMockStore({
         initialState: {
           msd: {
-            data: {
-              productCategoryOptions: mockProductCategoryOptions,
-              producCategoriesLoading: false,
-            },
             dialog: {
               ...initialState,
               dialogOptions: {
                 materialStandardsLoading: false,
                 manufacturerSuppliersLoading: false,
+                productCategoriesLoading: false,
                 ratingsLoading: false,
                 steelMakingProcessesLoading: false,
                 co2ClassificationsLoading: false,
@@ -71,6 +68,7 @@ describe('DialogFacade', () => {
                 steelMakingProcesses: ['process'],
                 materialStandards: [mockMaterialStandard],
                 manufacturerSuppliers: [mockManufacturerSupplier],
+                productCategories: mockProductCategoryOptions,
                 castingDiameters: ['diameter'],
                 customCastingDiameters: ['customDiameter'],
                 castingDiametersLoading: false,

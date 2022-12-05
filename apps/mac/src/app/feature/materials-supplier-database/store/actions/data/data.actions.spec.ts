@@ -1,40 +1,66 @@
-import { StringOption } from '@schaeffler/inputs';
-
-import { MaterialClass } from '@mac/msd/constants';
+import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import { DataResult } from '@mac/msd/models';
 
 import {
+  fetchClassOptions,
+  fetchClassOptionsFailure,
+  fetchClassOptionsSuccess,
   fetchMaterials,
   fetchMaterialsFailure,
   fetchMaterialsSuccess,
   resetResult,
   setAgGridColumns,
   setAgGridFilter,
-  setFilter,
+  setNavigation,
 } from './data.actions';
 
 describe('Data Actions', () => {
-  describe('Set Filter', () => {
-    it('setFilter', () => {
-      const materialClass: StringOption = {
-        id: 'id',
-        title: 'very classy material',
-      };
-      const productCategory: StringOption[] = [
-        {
-          id: 'id',
-          title: 'category a',
-        },
-      ];
-      const action = setFilter({ materialClass, productCategory });
+  describe('Set Navigation', () => {
+    it('setNavigation', () => {
+      const action = setNavigation({
+        materialClass: MaterialClass.STEEL,
+        navigationLevel: NavigationLevel.MATERIAL,
+      });
 
       expect(action).toEqual({
-        materialClass,
-        productCategory,
-        type: '[MSD - Data] Set Filter',
+        type: '[MSD - Data] Set Navigation',
+        materialClass: MaterialClass.STEEL,
+        navigationLevel: NavigationLevel.MATERIAL,
       });
     });
   });
+
+  describe('Fetch Material Classes', () => {
+    it('fetchClassOptions', () => {
+      const action = fetchClassOptions();
+
+      expect(action).toEqual({
+        type: '[MSD - Data] Fetch Material Classes',
+      });
+    });
+  });
+
+  describe('Fetch Material Classes Success', () => {
+    it('fetchClassOptionsSuccess', () => {
+      const action = fetchClassOptionsSuccess({ materialClasses: [] });
+
+      expect(action).toEqual({
+        type: '[MSD - Data] Fetch Class Options Success',
+        materialClasses: [],
+      });
+    });
+  });
+
+  describe('Fetch Material Classes Failure', () => {
+    it('fetchClassOptionsFailure', () => {
+      const action = fetchClassOptionsFailure();
+
+      expect(action).toEqual({
+        type: '[MSD - Data] Fetch Class Options Failure',
+      });
+    });
+  });
+
   describe('Fetch Materials', () => {
     it('fetchMaterials', () => {
       const action = fetchMaterials();

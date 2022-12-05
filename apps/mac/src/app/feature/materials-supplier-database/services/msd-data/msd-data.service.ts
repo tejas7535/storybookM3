@@ -34,22 +34,7 @@ export class MsdDataService {
   public getMaterialClasses() {
     return this.httpClient
       .get<string[]>(`${this.BASE_URL}/materials/materialClasses`)
-      .pipe(
-        map((materialClasses) =>
-          materialClasses.map((materialClass) => {
-            const title = translate(
-              `materialsSupplierDatabase.materialClassValues.${materialClass}`
-            );
-
-            return {
-              id: materialClass,
-              tooltipDelay: this.TOOLTIP_DELAY,
-              tooltip: title,
-              title,
-            } as StringOption;
-          })
-        )
-      );
+      .pipe(map((materialClasses) => materialClasses as MaterialClass[]));
   }
 
   public getProductCategories(materialClass: MaterialClass) {

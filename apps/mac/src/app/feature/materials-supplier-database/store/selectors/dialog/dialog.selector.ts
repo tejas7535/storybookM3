@@ -110,7 +110,8 @@ export const getMaterialDialogOptionsLoading = createSelector(
     dialogOptions.materialStandardsLoading ||
     dialogOptions.co2ClassificationsLoading ||
     dialogOptions.steelMakingProcessesLoading ||
-    dialogOptions.manufacturerSuppliersLoading
+    dialogOptions.manufacturerSuppliersLoading ||
+    dialogOptions.productCategoriesLoading
 );
 
 export const getMaterialDialogOptionsLoadingError = createSelector(
@@ -121,7 +122,8 @@ export const getMaterialDialogOptionsLoadingError = createSelector(
     dialogOptions.materialStandardsLoading === undefined ||
     dialogOptions.co2ClassificationsLoading === undefined ||
     dialogOptions.steelMakingProcessesLoading === undefined ||
-    dialogOptions.manufacturerSuppliersLoading === undefined
+    dialogOptions.manufacturerSuppliersLoading === undefined ||
+    dialogOptions.productCategoriesLoading === undefined
 );
 
 export const getMaterialDialogCastingModes = createSelector(
@@ -207,6 +209,16 @@ export const getMaterialDialogCastingDiameterStringOptions = createSelector(
 export const getMaterialDialogCastingDiametersLoading = createSelector(
   getMaterialDialogOptions,
   (dialogOptions) => dialogOptions.castingDiametersLoading
+);
+
+export const getProductCategories = createSelector(
+  getMaterialDialogOptions,
+  (dialogOptions) => dialogOptions.productCategories
+);
+
+export const getProductCategoriesLoading = createSelector(
+  getMaterialDialogOptions,
+  (dialogOptions) => dialogOptions.productCategoriesLoading
 );
 
 export const getMaterialDialogReferenceDocuments = createSelector(

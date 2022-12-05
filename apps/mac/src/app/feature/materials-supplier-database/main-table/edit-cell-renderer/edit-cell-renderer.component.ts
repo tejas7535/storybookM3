@@ -15,8 +15,9 @@ import {
   openDialog,
   openEditDialog,
 } from '@mac/msd/store/actions';
-import { DialogFacade } from '@mac/msd/store/facades/dialog';
 
+import { EDITABLE_MATERIAL_CLASSES } from '../../constants/editable-material-classes';
+import { DataFacade } from '../../store/facades/data';
 import { EditCellRendererParams } from './edit-cell-renderer-params.model';
 
 @Component({
@@ -27,9 +28,11 @@ export class EditCellRendererComponent implements ICellRendererAngularComp {
   public params: EditCellRendererParams;
   public hovered = false;
 
+  public materialClass$ = this.dataFacade.materialClass$;
+
   constructor(
     private readonly dialogService: MsdDialogService,
-    private readonly dialogFacade: DialogFacade
+    private readonly dataFacade: DataFacade
   ) {}
 
   public agInit(params: EditCellRendererParams): void {
@@ -44,8 +47,11 @@ export class EditCellRendererComponent implements ICellRendererAngularComp {
     this.hovered = hovered;
   }
 
+  public editableClass = (materialClass: MaterialClass): boolean =>
+    EDITABLE_MATERIAL_CLASSES.includes(materialClass);
+
   public onEditClick(): void {
-    this.dialogFacade.dispatch(openDialog());
+    this.dataFacade.dispatch(openDialog());
     const dialogRef = this.dialogService.openDialog(
       false,
       {
@@ -59,8 +65,8 @@ export class EditCellRendererComponent implements ICellRendererAngularComp {
       .afterOpened()
       .pipe(take(1))
       .subscribe(() => {
-        this.dialogFacade.dispatch(materialDialogOpened());
-        this.dialogFacade.dispatch(
+        this.dataFacade.dispatch(materialDialogOpened());
+        this.dataFacade.dispatch(
           openEditDialog({
             row: this.params.data as DataResult,
             column: this.params.column.getColId(),
@@ -73,12 +79,12 @@ export class EditCellRendererComponent implements ICellRendererAngularComp {
       .pipe(take(1))
       .subscribe(({ reload, minimize }) => {
         if (reload) {
-          this.dialogFacade.dispatch(fetchMaterials());
+          this.dataFacade.dispatch(fetchMaterials());
         }
         if (minimize) {
-          this.dialogFacade.dispatch(minimizeDialog(minimize));
+          this.dataFacade.dispatch(minimizeDialog(minimize));
         } else if (!reload) {
-          this.dialogFacade.dispatch(materialDialogCanceled());
+          this.dataFacade.dispatch(materialDialogCanceled());
         }
       });
   }

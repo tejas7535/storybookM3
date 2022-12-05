@@ -46,6 +46,9 @@ import {
   fetchMaterialStandards,
   fetchMaterialStandardsFailure,
   fetchMaterialStandardsSuccess,
+  fetchProductCategories,
+  fetchProductCategoriesFailure,
+  fetchProductCategoriesSuccess,
   fetchRatings,
   fetchRatingsFailure,
   fetchRatingsSuccess,
@@ -327,6 +330,37 @@ describe('Dialog Actions', () => {
       expect(action).toEqual({
         type: '[MSD - Dialog] Create Material Complete',
         record: mockRecord,
+      });
+    });
+  });
+
+  describe('Fetch Product Categories', () => {
+    it('fetchProductCategories', () => {
+      const action = fetchProductCategories();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch Product Categories',
+      });
+    });
+  });
+
+  describe('Fetch Product Categories Success', () => {
+    it('fetchProductCategoriesSuccess', () => {
+      const action = fetchProductCategoriesSuccess({ productCategories: [] });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch Product Categories Success',
+        productCategories: [],
+      });
+    });
+  });
+
+  describe('Fetch Product Categories Failure', () => {
+    it('fetchProductCategories', () => {
+      const action = fetchProductCategoriesFailure();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch Product Categories Failure',
       });
     });
   });

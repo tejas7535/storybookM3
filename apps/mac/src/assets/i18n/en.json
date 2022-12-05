@@ -339,6 +339,8 @@
     "disclaimer": "Presented CO₂ values are for internal use only - data must not be used for communication with customers",
     "export": "Export",
     "filterTooLong": "The table filter is too long to be put into a link",
+    "suppliers": "Suppliers",
+    "materialStandards": "Material Standards",
     "mainTable": {
       "columns": {
         "castingDiameter": "Cast/Remelt Product Information",

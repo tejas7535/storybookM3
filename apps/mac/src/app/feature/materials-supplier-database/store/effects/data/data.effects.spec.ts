@@ -6,16 +6,10 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
-import { StringOption } from '@schaeffler/inputs';
-
-import { MaterialClass } from '@mac/msd/constants';
+import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import { MaterialV2 } from '@mac/msd/models';
 import { MsdDataService } from '@mac/msd/services';
 import {
-  fetchCategoryOptions,
-  fetchCategoryOptionsFailure,
-  fetchCategoryOptionsSuccess,
-  fetchClassAndCategoryOptions,
   fetchClassOptions,
   fetchClassOptionsFailure,
   fetchClassOptionsSuccess,
@@ -24,7 +18,7 @@ import {
   fetchMaterialsSuccess,
 } from '@mac/msd/store/actions/data';
 import { DataFacade } from '@mac/msd/store/facades/data';
-import { getFilters } from '@mac/msd/store/selectors';
+import { getNavigation } from '@mac/msd/store/selectors';
 
 import { DataEffects } from './data.effects';
 
@@ -67,9 +61,9 @@ describe('Data Effects', () => {
     store = spectator.inject(MockStore);
     msdDataService = spectator.inject(MsdDataService);
     msdDataFacade = spectator.inject(DataFacade);
-    msdDataFacade.filters$ = of({
-      materialClass: { id: 'st', title: 'Steel' },
-      productCategory: undefined,
+    msdDataFacade.navigation$ = of({
+      materialClass: MaterialClass.STEEL,
+      navigationLevel: NavigationLevel.MATERIAL,
     });
   });
 
@@ -98,45 +92,7 @@ describe('Data Effects', () => {
         m.flush();
 
         expect(msdDataService.getMaterials).toHaveBeenCalledWith(
-          MaterialClass.STEEL,
-          undefined
-        );
-      })
-    );
-
-    it(
-      'should fetch materials with category and return success action on success',
-      marbles((m) => {
-        msdDataFacade.filters$ = of({
-          materialClass: { id: 'st', title: 'Steel' },
-          productCategory: [
-            { id: 'cat', title: 'category' },
-            { id: undefined, title: undefined },
-          ],
-        });
-        action = fetchMaterials();
-        actions$ = m.hot('-a', { a: action });
-
-        const resultMock: MaterialV2[] = [
-          {
-            manufacturerSupplierName: 'some supplier',
-          } as MaterialV2,
-        ];
-        const response = m.cold('-a|', { a: resultMock });
-        msdDataService.getMaterials = jest.fn(() => response);
-
-        const result = fetchMaterialsSuccess({
-          materialClass: MaterialClass.STEEL,
-          result: resultMock,
-        });
-        const expected = m.cold('--b', { b: result });
-
-        m.expect(effects.fetchMaterials$).toBeObservable(expected);
-        m.flush();
-
-        expect(msdDataService.getMaterials).toHaveBeenCalledWith(
-          MaterialClass.STEEL,
-          ['cat', undefined]
+          MaterialClass.STEEL
         );
       })
     );
@@ -144,10 +100,12 @@ describe('Data Effects', () => {
     it(
       'should fetch materials and return failure action on failure',
       marbles((m) => {
-        const materialClass = { id: 'id', title: 'gibts net' };
-        const productCategory = [{ id: 'id', title: 'gibts net' }];
+        const materialClass = MaterialClass.STEEL;
 
-        store.overrideSelector(getFilters, { materialClass, productCategory });
+        store.overrideSelector(getNavigation, {
+          materialClass,
+          navigationLevel: NavigationLevel.MATERIAL,
+        });
 
         action = fetchMaterials();
         actions$ = m.hot('-a', { a: action });
@@ -163,29 +121,8 @@ describe('Data Effects', () => {
         m.flush();
 
         expect(msdDataService.getMaterials).toHaveBeenCalledWith(
-          MaterialClass.STEEL,
-          undefined
+          MaterialClass.STEEL
         );
-      })
-    );
-  });
-
-  describe('fetchClassAndCategoryOptions$', () => {
-    it(
-      'should dispatch the nested fetch actions',
-      marbles((m) => {
-        action = fetchClassAndCategoryOptions();
-        actions$ = m.hot('-a', { a: action });
-
-        const resultA = fetchClassOptions();
-        const resultB = fetchCategoryOptions();
-
-        const expected = m.cold('-(ab)', { a: resultA, b: resultB });
-
-        m.expect(effects.fetchClassAndCategoryOptions$).toBeObservable(
-          expected
-        );
-        m.flush();
       })
     );
   });
@@ -197,12 +134,12 @@ describe('Data Effects', () => {
         action = fetchClassOptions();
         actions$ = m.hot('-a', { a: action });
 
-        const resultMock: StringOption[] = [{ id: 'id', title: 'gibts net' }];
+        const resultMock = [MaterialClass.STEEL];
         const response = m.cold('-a|', { a: resultMock });
         msdDataService.getMaterialClasses = jest.fn(() => response);
 
         const result = fetchClassOptionsSuccess({
-          materialClassOptions: resultMock,
+          materialClasses: resultMock,
         });
         const expected = m.cold('--b', { b: result });
 
@@ -230,54 +167,6 @@ describe('Data Effects', () => {
         m.flush();
 
         expect(msdDataService.getMaterialClasses).toHaveBeenCalled();
-      })
-    );
-  });
-
-  describe('fetchCategoryOptions$', () => {
-    it(
-      'should fetch categories and return success action on success',
-      marbles((m) => {
-        action = fetchCategoryOptions();
-        actions$ = m.hot('-a', { a: action });
-
-        const resultMock: StringOption[] = [{ id: 'id', title: 'gibts net' }];
-        const response = m.cold('-a|', { a: resultMock });
-        msdDataService.getProductCategories = jest.fn(() => response);
-
-        const result = fetchCategoryOptionsSuccess({
-          productCategoryOptions: resultMock,
-        });
-        const expected = m.cold('--b', { b: result });
-
-        m.expect(effects.fetchCategoryOptions$).toBeObservable(expected);
-        m.flush();
-
-        expect(msdDataService.getProductCategories).toHaveBeenCalledWith(
-          MaterialClass.STEEL
-        );
-      })
-    );
-
-    it(
-      'should fetch categories and return failure action on failure',
-      marbles((m) => {
-        action = fetchCategoryOptions();
-        actions$ = m.hot('-a', { a: action });
-
-        msdDataService.getProductCategories = jest
-          .fn()
-          .mockReturnValue(throwError(() => new Error('error')));
-
-        const result = fetchCategoryOptionsFailure();
-        const expected = m.cold('-b', { b: result });
-
-        m.expect(effects.fetchCategoryOptions$).toBeObservable(expected);
-        m.flush();
-
-        expect(msdDataService.getProductCategories).toHaveBeenCalledWith(
-          MaterialClass.STEEL
-        );
       })
     );
   });

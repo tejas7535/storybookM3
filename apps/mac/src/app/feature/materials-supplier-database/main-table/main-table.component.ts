@@ -7,15 +7,11 @@ import {
   Component,
   OnDestroy,
   OnInit,
-  QueryList,
-  ViewChildren,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatOption } from '@angular/material/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Subject } from 'rxjs';
-import { debounceTime, take, takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 
 import { translate } from '@ngneat/transloco';
 import {
@@ -30,7 +26,11 @@ import { ColDef, ExcelCell, GridApi, SideBarDef } from 'ag-grid-enterprise';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { StringOption } from '@schaeffler/inputs';
 
-import { MaterialClass, SAP_SUPPLIER_IDS } from '@mac/msd/constants';
+import {
+  MaterialClass,
+  NavigationLevel,
+  SAP_SUPPLIER_IDS,
+} from '@mac/msd/constants';
 import {
   DEFAULT_COLUMN_DEFINITION,
   SIDE_BAR_CONFIG,
@@ -43,7 +43,7 @@ import {
   MsdDialogService,
 } from '@mac/msd/services';
 import {
-  fetchClassAndCategoryOptions,
+  fetchClassOptions,
   fetchMaterials,
   materialDialogCanceled,
   materialDialogOpened,
@@ -51,7 +51,7 @@ import {
   openDialog,
   setAgGridColumns,
   setAgGridFilter,
-  setFilter,
+  setNavigation,
 } from '@mac/msd/store';
 import { DataFacade } from '@mac/msd/store/facades/data';
 
@@ -64,21 +64,16 @@ import { EDITABLE_MATERIAL_CLASSES } from '../constants/editable-material-classe
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
-  public materialClassOptions$ = this.dataFacade.materialClassOptions$;
-  public productCategoryOptions$ = this.dataFacade.productCategoryOptions$;
   public optionsLoading$ = this.dataFacade.optionsLoading$;
   public resultLoading$ = this.dataFacade.resultLoading$;
   public result$ = this.dataFacade.result$;
   public resultCount$ = this.dataFacade.resultCount$;
-
-  public displayCount = 0;
 
   public hasEditorRole$ = this.dataFacade.hasEditorRole$;
 
   public hasMinimizedDialog$ = this.dataFacade.hasMinimizedDialog$;
 
   public selectedClass: string;
-  public selectedCategory: string;
 
   public destroy$ = new Subject<void>();
 
@@ -87,46 +82,14 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   public defaultColumnDefs: ColDef[];
   public columnDefs: ColDef[];
   public sidebar: SideBarDef = SIDE_BAR_CONFIG;
-
-  public materialClassSelectionControl = new FormControl<StringOption>(
-    {
-      id: MaterialClass.STEEL,
-      title: translate('materialsSupplierDatabase.materialClassValues.st'),
-    },
-    [Validators.required]
-  );
-  public productCategorySelectionControl = new FormControl<StringOption[]>(
-    undefined,
-    [Validators.required]
-  );
-  public allCategoriesSelectedControl = new FormControl<boolean>(false);
-  @ViewChildren('categoryOption')
-  public categoryOptionsQuery: QueryList<MatOption>;
-  public categoryOptions: MatOption[];
-
-  public filterForm = new FormGroup<{
-    materialClass: FormControl<StringOption>;
-    productCategory: FormControl<StringOption[]>;
-  }>({
-    materialClass: this.materialClassSelectionControl,
-    productCategory: this.productCategorySelectionControl,
-  });
-  public defaultFilterFormValue!: Partial<{
-    materialClass: StringOption;
-    productCategory: StringOption[];
-  }>;
-
-  private readonly defaultMaterialClass: StringOption = {
-    id: MaterialClass.STEEL,
-    title: translate('materialsSupplierDatabase.materialClassValues.st'),
-  };
+  public navigation$ = this.dataFacade.navigation$;
+  public expandedClass = MaterialClass.STEEL;
 
   private agGridApi!: GridApi;
   private agGridColumnApi!: ColumnApi;
 
   private visibleColumns: string[];
   public agGridTooltipDelay = 500;
-  public minimizeSideBar = false;
 
   public constructor(
     private readonly dataFacade: DataFacade,
@@ -134,8 +97,8 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly route: ActivatedRoute,
     private readonly agGridStateService: MsdAgGridStateService,
     private readonly agGridReadyService: MsdAgGridReadyService,
-    private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly datePipe: DatePipe,
+    private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly applicationInsightsService: ApplicationInsightsService,
     private readonly dialogService: MsdDialogService,
     private readonly agGridConfigService: MsdAgGridConfigService
@@ -146,63 +109,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(take(1))
       .subscribe((hasEditorRole) => (this.hasEditorRole = hasEditorRole));
 
-    this.dataFacade.dispatch(fetchClassAndCategoryOptions());
-
-    this.productCategorySelectionControl.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        const deselectedOptions =
-          this.categoryOptions?.filter(
-            (categoryOption) => !categoryOption.selected
-          ) || [];
-        this.allCategoriesSelectedControl.patchValue(
-          deselectedOptions.length === 0,
-          {
-            onlySelf: true,
-            emitEvent: false,
-          }
-        );
-      });
-
-    this.allCategoriesSelectedControl.valueChanges.subscribe((value: boolean) =>
-      this.toggleAllCategories(value)
-    );
-
-    this.dataFacade.filters$
-      .pipe(take(1))
-      .subscribe(
-        (filters: {
-          materialClass: StringOption | undefined;
-          productCategory: StringOption[] | undefined;
-        }) => {
-          if (filters.materialClass) {
-            this.materialClassSelectionControl.setValue(filters.materialClass);
-          }
-          if (filters.productCategory) {
-            this.productCategorySelectionControl.setValue(
-              filters.productCategory
-            );
-          }
-        }
-      );
-
-    this.filterForm.valueChanges
-      .pipe(takeUntil(this.destroy$), debounceTime(5))
-      .subscribe(({ materialClass, productCategory }) => {
-        const filters = {
-          materialClass,
-          productCategory: this.allCategoriesSelectedControl.value
-            ? undefined
-            : productCategory,
-        };
-        if (this.agGridApi) {
-          this.displayCount = this.agGridApi.getDisplayedRowCount();
-        }
-        this.dataFacade.dispatch(setFilter(filters));
-        if (this.filterForm.valid) {
-          this.fetchMaterials();
-        }
-      });
+    this.dataFacade.dispatch(fetchClassOptions());
 
     this.dataFacade.agGridFilter$
       .pipe(takeUntil(this.destroy$))
@@ -221,18 +128,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.categoryOptionsQuery.changes
-      .pipe(takeUntil(this.destroy$), debounceTime(50))
-      .subscribe((options) => {
-        this.categoryOptions = options.toArray();
-        if (!this.allCategoriesSelectedControl.value) {
-          this.allCategoriesSelectedControl.patchValue(true);
-        }
-        this.toggleAllCategories(true);
-        this.defaultFilterFormValue = this.filterForm.value;
-
-        this.parseQueryParams();
-      });
+    this.parseQueryParams();
   }
 
   public ngOnDestroy(): void {
@@ -241,43 +137,29 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private parseQueryParams(): void {
-    const filterParamsString =
-      this.route.snapshot.queryParamMap.get('filterForm');
+    const materialClass: MaterialClass = this.route.snapshot.queryParamMap.get(
+      'materialClass'
+    ) as MaterialClass;
+    const navigationLevel: NavigationLevel =
+      this.route.snapshot.queryParamMap.get(
+        'navigationLevel'
+      ) as NavigationLevel;
     const agGridFilterString =
       this.route.snapshot.queryParamMap.get('agGridFilter');
 
-    if (filterParamsString) {
-      this.setParamFilter(decodeURIComponent(filterParamsString));
+    if (materialClass && navigationLevel) {
+      this.expandedClass = materialClass;
+      this.dataFacade.dispatch(
+        setNavigation({ materialClass, navigationLevel })
+      );
     }
     if (agGridFilterString) {
       this.setParamAgGridFilter(decodeURIComponent(agGridFilterString));
     }
 
     this.router.navigate([], { relativeTo: this.route, queryParams: {} });
-  }
-
-  private setParamFilter(filterString: string): void {
-    const filterParams: {
-      materialClass: StringOption;
-      productCategory: StringOption[] | string;
-    } = JSON.parse(filterString);
-
-    if (filterParams?.materialClass && filterParams?.productCategory) {
-      this.materialClassSelectionControl.patchValue(filterParams.materialClass);
-      if (filterParams.productCategory === 'all') {
-        this.changeDetectorRef.detectChanges();
-        this.allCategoriesSelectedControl.patchValue(true);
-      } else {
-        this.productCategorySelectionControl.patchValue(
-          filterParams.productCategory as StringOption[]
-        );
-      }
-      this.filterForm.markAsDirty();
-    }
-
-    if (this.filterForm.valid) {
-      this.fetchMaterials();
-    }
+    this.changeDetectorRef.markForCheck();
+    this.changeDetectorRef.detectChanges();
   }
 
   private setParamAgGridFilter(filterModelString: string): void {
@@ -288,23 +170,10 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     this.dataFacade.dispatch(setAgGridFilter({ filterModel }));
   }
 
-  public toggleAllCategories(select: boolean): void {
-    if (!this.categoryOptions) {
-      return;
-    }
-
-    if (select) {
-      this.categoryOptions.map((categoryOption) => categoryOption.select());
-    } else {
-      this.categoryOptions.map((categoryOption) => categoryOption.deselect());
-    }
-  }
-
   public onFilterChange({ api }: { api: GridApi }): void {
     const filterModel = api.getFilterModel();
 
     this.dataFacade.dispatch(setAgGridFilter({ filterModel }));
-    this.displayCount = api.getDisplayedRowCount();
   }
 
   public setAgGridFilter({ api }: { api: GridApi }): void {
@@ -323,21 +192,6 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public fetchMaterials(): void {
-    this.selectedClass = this.materialClassSelectionControl.value?.id
-      ? this.materialClassSelectionControl.value.title
-      : undefined;
-
-    this.selectedCategory =
-      this.allCategoriesSelectedControl.value ||
-      this.productCategorySelectionControl.value?.length === 0
-        ? undefined
-        : // eslint-disable-next-line unicorn/no-nested-ternary
-        this.productCategorySelectionControl.value?.length === 1
-        ? this.productCategorySelectionControl.value[0].title
-        : `${this.productCategorySelectionControl.value.length} ${translate(
-            'materialsSupplierDatabase.mainTable.productCategories'
-          )}`;
-
     this.dataFacade.dispatch(fetchMaterials());
   }
 
@@ -362,7 +216,6 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       columnApi.applyColumnState({ state, applyOrder: true });
     }
 
-    this.displayCount = api.getDisplayedRowCount();
     this.setVisibleColumns();
 
     this.agGridReadyService.agGridApiready(
@@ -421,15 +274,6 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     if (!this.isDefaultAgGridFilter()) {
       this.resetAgGridFilter();
     }
-
-    if (!this.isDefaultFilterForm()) {
-      this.filterForm.reset(this.defaultFilterFormValue);
-      this.materialClassSelectionControl.patchValue(this.defaultMaterialClass, {
-        emitEvent: false,
-        onlySelf: true,
-      });
-      this.toggleAllCategories(true);
-    }
   }
 
   public isDefaultAgGridFilter(): boolean {
@@ -438,28 +282,6 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       this.agGridApi.getFilterModel() &&
       Object.keys(this.agGridApi.getFilterModel()).length > 0
     );
-  }
-
-  public isDefaultFilterForm(): boolean {
-    const value = this.filterForm.value;
-    if (value?.materialClass !== this.defaultFilterFormValue?.materialClass) {
-      return false;
-    }
-
-    let isDefault = true;
-    this.defaultFilterFormValue?.productCategory?.map((defaultCategory) => {
-      const found = value?.productCategory?.find(
-        (category) =>
-          defaultCategory.id === category.id &&
-          defaultCategory.title === category.title
-      );
-
-      if (!found) {
-        isDefault = false;
-      }
-    });
-
-    return isDefault;
   }
 
   public exportExcel(): void {
@@ -546,10 +368,8 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       : params.value?.toString() || '';
   }
 
-  public editableClass = (): boolean =>
-    EDITABLE_MATERIAL_CLASSES.includes(
-      this.materialClassSelectionControl.value?.id as MaterialClass
-    );
+  public editableClass = (materialClass: MaterialClass): boolean =>
+    EDITABLE_MATERIAL_CLASSES.includes(materialClass);
 
   public getColumnDefs = (hasEditorRole: boolean): ColDef[] =>
     this.defaultColumnDefs?.map((columnDef) => ({
@@ -559,20 +379,22 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       ),
       cellRendererParams: {
         hasEditorRole,
-        editable: this.editableClass(),
       },
     })) ?? [];
 
-  public resumeDialog(): void {
-    this.openDialog(true);
+  public resumeDialog(materialClass: MaterialClass): void {
+    this.openDialog(materialClass, true);
   }
 
-  public openDialog(isResumeDialog?: boolean): void {
+  public openDialog(
+    materialClass: MaterialClass,
+    isResumeDialog?: boolean
+  ): void {
     this.dataFacade.dispatch(openDialog());
     const dialogRef = this.dialogService.openDialog(
       isResumeDialog,
       undefined,
-      this.materialClassSelectionControl.value?.id as MaterialClass
+      materialClass
     );
 
     dialogRef
@@ -595,16 +417,5 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
           this.dataFacade.dispatch(materialDialogCanceled());
         }
       });
-  }
-
-  public toggleSideBar() {
-    this.minimizeSideBar = !this.minimizeSideBar;
-    if (this.minimizeSideBar) {
-      this.productCategorySelectionControl.disable({ emitEvent: false });
-      this.materialClassSelectionControl.disable({ emitEvent: false });
-    } else {
-      this.productCategorySelectionControl.enable({ emitEvent: false });
-      this.materialClassSelectionControl.enable({ emitEvent: false });
-    }
   }
 }

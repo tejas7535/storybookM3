@@ -13,15 +13,14 @@ export const getFilter = createSelector(
   (dataState) => dataState.filter
 );
 
-export const getFilters = createSelector(
-  getFilter,
-  ({ materialClass, productCategory }) => ({ materialClass, productCategory })
+export const getNavigation = createSelector(
+  getDataState,
+  (dataState) => dataState.navigation
 );
 
 export const getMaterialClass = createSelector(
-  getFilters,
-  ({ materialClass }) =>
-    (materialClass?.id as MaterialClass) || MaterialClass.STEEL
+  getNavigation,
+  ({ materialClass }) => materialClass
 );
 
 export const getAgGridFilter = createSelector(getFilter, ({ agGridFilter }) => {
@@ -33,12 +32,11 @@ export const getAgGridFilter = createSelector(getFilter, ({ agGridFilter }) => {
 });
 
 export const getShareQueryParams = createSelector(
+  getNavigation,
   getFilter,
-  ({ materialClass, productCategory, agGridFilter }) => ({
-    filterForm: JSON.stringify({
-      materialClass: materialClass ?? { id: undefined, name: undefined },
-      productCategory: productCategory ?? 'all',
-    }),
+  ({ materialClass, navigationLevel }, { agGridFilter }) => ({
+    materialClass,
+    navigationLevel,
     agGridFilter,
   })
 );
@@ -47,12 +45,7 @@ export const getLoading = createSelector(getFilter, ({ loading }) => loading);
 
 export const getMaterialClassOptions = createSelector(
   getDataState,
-  (dataState) => dataState.materialClassOptions
-);
-
-export const getProductCategoryOptions = createSelector(
-  getDataState,
-  (dataState) => dataState.productCategoryOptions
+  (dataState) => dataState.materialClasses
 );
 
 export const getResult = createSelector(
@@ -75,7 +68,7 @@ export const getResult = createSelector(
 
 export const getOptionsLoading = createSelector(
   getDataState,
-  (state) => state.materialClassLoading || state.productCategoryLoading
+  (state) => state.materialClassLoading
 );
 
 export const getAgGridColumns = createSelector(

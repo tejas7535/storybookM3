@@ -37,6 +37,7 @@ export class DialogEffects {
           DialogActions.fetchMaterialStandards(),
           DialogActions.fetchCo2Classifications(),
           DialogActions.fetchManufacturerSuppliers(),
+          DialogActions.fetchProductCategories(),
         ];
         switch (materialClass) {
           case MaterialClass.ALUMINUM:
@@ -151,6 +152,24 @@ export class DialogEffects {
           ),
           // TODO: implement proper error handling
           catchError(() => of(DialogActions.fetchCastingModesFailure()))
+        )
+      )
+    );
+  });
+
+  public fetchCategoryOptions$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.fetchProductCategories),
+      concatLatestFrom(() => this.dataFacade.materialClass$),
+      switchMap(([_action, materialClass]) =>
+        this.msdDataService.getProductCategories(materialClass).pipe(
+          map((productCategories: StringOption[]) =>
+            DialogActions.fetchProductCategoriesSuccess({ productCategories })
+          ),
+          catchError(() =>
+            // TODO: implement proper error handling
+            of(DialogActions.fetchProductCategoriesFailure())
+          )
         )
       )
     );

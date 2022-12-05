@@ -42,6 +42,9 @@ import {
   fetchManufacturerSuppliersSuccess,
   fetchMaterialStandardsFailure,
   fetchMaterialStandardsSuccess,
+  fetchProductCategories,
+  fetchProductCategoriesFailure,
+  fetchProductCategoriesSuccess,
   fetchRatings,
   fetchRatingsFailure,
   fetchRatingsSuccess,
@@ -86,6 +89,8 @@ export interface DialogState {
     customManufacturerSupplierPlants: string[];
     customManufacturerSupplierCountries: string[];
     manufacturerSuppliersLoading: boolean;
+    productCategories: StringOption[];
+    productCategoriesLoading: boolean;
     referenceDocuments: string[];
     referenceDocumentsLoading: boolean;
     customReferenceDocuments: string[];
@@ -154,6 +159,7 @@ export const dialogReducer = createReducer(
         manufacturerSuppliers: undefined,
         ratings: undefined,
         steelMakingProcesses: undefined,
+        productCategories: undefined,
         co2Classifications: undefined,
         castingModes: undefined,
         castingDiameters: undefined,
@@ -251,6 +257,40 @@ export const dialogReducer = createReducer(
         ...state.dialogOptions,
         manufacturerSuppliers: undefined,
         manufacturerSuppliersLoading: undefined,
+        error: true,
+      },
+    })
+  ),
+  on(
+    fetchProductCategories,
+    (state): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        productCategories: undefined,
+        productCategoriesLoading: true,
+      },
+    })
+  ),
+  on(
+    fetchProductCategoriesSuccess,
+    (state, { productCategories }): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        productCategories,
+        productCategoriesLoading: false,
+      },
+    })
+  ),
+  on(
+    fetchProductCategoriesFailure,
+    (state): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        productCategories: undefined,
+        productCategoriesLoading: undefined,
         error: true,
       },
     })

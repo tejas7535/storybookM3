@@ -51,6 +51,9 @@ import {
   fetchMaterialStandards,
   fetchMaterialStandardsFailure,
   fetchMaterialStandardsSuccess,
+  fetchProductCategories,
+  fetchProductCategoriesFailure,
+  fetchProductCategoriesSuccess,
   fetchRatings,
   fetchRatingsFailure,
   fetchRatingsSuccess,
@@ -125,13 +128,34 @@ describe('Dialog Effects', () => {
         action = materialDialogOpened();
         actions$ = m.hot('-a', { a: action });
 
-        const expected = m.cold('-(bcdefg)', {
+        const expected = m.cold('-(bcdefgh)', {
           b: fetchMaterialStandards(),
           c: fetchCo2Classifications(),
           d: fetchManufacturerSuppliers(),
-          e: fetchRatings(),
-          f: fetchSteelMakingProcesses(),
-          g: fetchCastingModes(),
+          e: fetchProductCategories(),
+          f: fetchRatings(),
+          g: fetchSteelMakingProcesses(),
+          h: fetchCastingModes(),
+        });
+
+        m.expect(effects.materialDialogOpened$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+
+    it(
+      'should dispatch the fetch actions for alu',
+      marbles((m) => {
+        action = materialDialogOpened();
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataFacade.materialClass$ = of(MaterialClass.ALUMINUM);
+
+        const expected = m.cold('-(bcde)', {
+          b: fetchMaterialStandards(),
+          c: fetchCo2Classifications(),
+          d: fetchManufacturerSuppliers(),
+          e: fetchProductCategories(),
         });
 
         m.expect(effects.materialDialogOpened$).toBeObservable(expected);
@@ -425,6 +449,54 @@ describe('Dialog Effects', () => {
     );
   });
 
+  describe('fetchCategoryOptions$', () => {
+    it(
+      'should fetch product categories and return success action on success',
+      marbles((m) => {
+        action = fetchProductCategories();
+        actions$ = m.hot('a', { a: action });
+
+        const mockResult = [{ id: 'raw', title: 'raw' }];
+        const mockResponse = m.cold('-a|', { a: mockResult });
+        msdDataService.getProductCategories = jest.fn(() => mockResponse);
+
+        const result = fetchProductCategoriesSuccess({
+          productCategories: mockResult,
+        });
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.fetchCategoryOptions$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.getProductCategories).toHaveBeenCalledWith(
+          MaterialClass.STEEL
+        );
+      })
+    );
+
+    it(
+      'should fetch product categories and return failure action on failure',
+      marbles((m) => {
+        action = fetchProductCategories();
+        actions$ = m.hot('a', { a: action });
+
+        msdDataService.getProductCategories = jest
+          .fn()
+          .mockReturnValue(throwError(() => 'error'));
+
+        const result = fetchProductCategoriesFailure();
+        const expected = m.cold('b', { b: result });
+
+        m.expect(effects.fetchCategoryOptions$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.getProductCategories).toHaveBeenCalledWith(
+          MaterialClass.STEEL
+        );
+      })
+    );
+  });
+
   describe('materialDialogConfirmed$', () => {
     it(
       'should call post material standard (without materialClass)',
@@ -432,10 +504,6 @@ describe('Dialog Effects', () => {
         const mockMaterial = {} as Material;
         const mockStandard = {} as MaterialStandard;
         const mockSupplier = {} as ManufacturerSupplier;
-        msdDataFacade.filters$ = of({
-          materialClass: undefined,
-          productCategory: undefined,
-        });
 
         action = materialDialogConfirmed({
           material: mockMaterial,

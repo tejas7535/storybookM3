@@ -1,18 +1,14 @@
 /* eslint-disable max-lines */
 import { Action, createReducer, on } from '@ngrx/store';
 
-import { StringOption } from '@schaeffler/inputs';
-
-import { MaterialClass } from '@mac/msd/constants';
+import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import {
   AluminumMaterial,
   PolymerMaterial,
   SteelMaterial,
 } from '@mac/msd/models';
 import {
-  fetchCategoryOptionsFailure,
-  fetchCategoryOptionsSuccess,
-  fetchClassAndCategoryOptions,
+  fetchClassOptions,
   fetchClassOptionsFailure,
   fetchClassOptionsSuccess,
   fetchMaterials,
@@ -21,21 +17,21 @@ import {
   resetResult,
   setAgGridColumns,
   setAgGridFilter,
-  setFilter,
+  setNavigation,
 } from '@mac/msd/store/actions';
 
 export interface DataState {
   filter: {
-    materialClass: StringOption;
-    productCategory: StringOption[];
     agGridFilter: string;
     loading: boolean;
   };
+  navigation: {
+    materialClass: MaterialClass;
+    navigationLevel: NavigationLevel;
+  };
   agGridColumns: string;
-  materialClassOptions: StringOption[];
-  productCategoryOptions: StringOption[];
+  materialClasses: MaterialClass[];
   materialClassLoading: boolean;
-  productCategoryLoading: boolean;
   materials: {
     aluminumMaterials: AluminumMaterial[];
     steelMaterials: SteelMaterial[];
@@ -45,16 +41,16 @@ export interface DataState {
 
 export const initialState: DataState = {
   filter: {
-    materialClass: undefined,
-    productCategory: undefined,
     agGridFilter: JSON.stringify({}),
     loading: undefined,
   },
+  navigation: {
+    materialClass: undefined,
+    navigationLevel: undefined,
+  },
   agGridColumns: undefined,
-  materialClassOptions: [],
-  productCategoryOptions: [],
+  materialClasses: [],
   materialClassLoading: undefined,
-  productCategoryLoading: undefined,
   materials: {
     aluminumMaterials: undefined,
     steelMaterials: undefined,
@@ -65,13 +61,13 @@ export const initialState: DataState = {
 export const dataReducer = createReducer(
   initialState,
   on(
-    setFilter,
-    (state, { materialClass, productCategory }): DataState => ({
+    setNavigation,
+    (state, { materialClass, navigationLevel }): DataState => ({
       ...state,
-      filter: {
-        ...state.filter,
+      navigation: {
+        ...state.navigation,
         materialClass,
-        productCategory,
+        navigationLevel,
       },
     })
   ),
@@ -151,20 +147,18 @@ export const dataReducer = createReducer(
     })
   ),
   on(
-    fetchClassAndCategoryOptions,
+    fetchClassOptions,
     (state): DataState => ({
       ...state,
       materialClassLoading: true,
-      productCategoryLoading: true,
-      materialClassOptions: undefined,
-      productCategoryOptions: undefined,
+      materialClasses: undefined,
     })
   ),
   on(
     fetchClassOptionsSuccess,
-    (state, { materialClassOptions }): DataState => ({
+    (state, { materialClasses }): DataState => ({
       ...state,
-      materialClassOptions,
+      materialClasses,
       materialClassLoading: false,
     })
   ),
@@ -172,24 +166,8 @@ export const dataReducer = createReducer(
     fetchClassOptionsFailure,
     (state): DataState => ({
       ...state,
-      materialClassOptions: undefined,
+      materialClasses: undefined,
       materialClassLoading: false,
-    })
-  ),
-  on(
-    fetchCategoryOptionsSuccess,
-    (state, { productCategoryOptions }): DataState => ({
-      ...state,
-      productCategoryOptions,
-      productCategoryLoading: false,
-    })
-  ),
-  on(
-    fetchCategoryOptionsFailure,
-    (state): DataState => ({
-      ...state,
-      productCategoryOptions: undefined,
-      productCategoryLoading: false,
     })
   ),
   on(
