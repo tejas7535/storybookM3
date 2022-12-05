@@ -3,6 +3,52 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.12.0...gq-v) (2022-12-05)
+
+
+### 🎸 Features
+
+* **gq:** add "delete all invalid" button to manual material dialog (GQUOTE-1801) ([#4744](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4744)) ([9da92d4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9da92d422564b4df5d83fec475fcd8f65896a5a8))
+* **gq:** add button to process view to create new SAP Quote(GQUOTE-1780) ([#4710](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4710)) ([5491349](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/549134962ccadc55f23b98a862b748d17833beda))
+* **gq:** add custom context menu to copy cell content (GQUOTE-1850) ([#4762](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4762)) ([8c0d490](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8c0d490219400b1414bf60ac7f2c5335335a4e54))
+* **gq:** add customColumnMenu reset all filtered columns (GQUOTE-1799) ([#4725](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4725)) ([c746bd5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c746bd5364fb501794c6c52967b242c0f0fe8834))
+* **gq:** add sap status column to workarea (GQUOTE-1777) ([#4728](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4728)) ([a999295](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a9992957dee081fd1c78c9e54e33de162c4a89ad))
+* **gq:** add underline to links (GQUOTE-1837) ([#4753](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4753)) ([9b45a35](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9b45a35f93ba14b16a5123cf1cc7977d6f500c14))
+* **gq:** added delivery unit (GQUOTE-1879) ([#4763](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4763)) ([21101a0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/21101a053142bced7dc0006812bd8cc534461dcf))
+* **gq:** added gpc and sqv pricing dates to detail (GQUOTE-1959) ([#4829](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4829)) ([001a36c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/001a36c332c66ef8565d5e9c0408a4f08d5ed68b))
+* **gq:** added gqLastUpdateOn Column (GQUOTE-1815) ([#4754](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4754)) ([55a6d32](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/55a6d3286676b185e23007c8a33978183b1bc852))
+* **gq:** added sap sync status to case table (GQUOTE-1895) ([#4784](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4784)) ([5864d83](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5864d8354de79a6a93ba1cb10fc28726588053f4))
+* **gq:** added sync failed status (GQUOTE-1899) ([#4796](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4796)) ([ab6de24](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ab6de24bea335cd1571ed5413c08eed88d68ca84))
+* **gq:** added tooltip to refresh sap button (GQUOTE-1818) ([#4755](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4755)) ([97d3edb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/97d3edb090b4ca76ee5b2842bd0a22b9f7111643))
+* **gq:** added traffic light to free stock coloumn (GQUOTE-1803) ([#4727](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4727)) ([d7af842](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d7af84274afafdda4cffb94bf0ad94a1015b6a2d))
+* **gq:** adjust background to be white (GQUOTE-1840) ([#4827](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4827)) ([e3a256e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e3a256e2a34fb9c49713477c0b4974344d8bd0cf))
+* **gq:** adjust translations, add text to ItemId ([#4750](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4750)) ([5623bc8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5623bc881f283c5921453057e84047515a4dc242))
+* **gq:** changed status bar buttons to icons (GQUOTE-1869) ([#4790](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4790)) ([63954e8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/63954e894421c7007c7850d511cf2d22da4e75b7))
+* **gq:** displaying different status messages depending on SAP Call … ([#4781](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4781)) ([63d3a5c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/63d3a5ce305fddf1006dcc8b7ebe529790fb93e7))
+* **gq:** enable maintaining for SAP quotations ([#4751](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4751)) ([3069d25](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3069d25714e4a35141dd16850a86dc94d91ac7dd))
+* **gq:** GQ Homepage tabs add checkbox in header to select all items ([#4719](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4719)) ([2e1c7f9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2e1c7f92b9252411341d54597eb0f77e993b123a))
+* **gq:** implement feature toggle ([#4797](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4797)) ([572610e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/572610e625747684e77aaecd3290fe4ab465eb00))
+* **gq:** only export displayed columns in Excel Export (GQUOTE-1802) ([#4826](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4826)) ([f9691a7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f9691a7803ed18ee3564effc2b0c39fd882b7e16))
+* **gq:** open-case-view and deleted-drafts add checkbox in header to select all items (GQUOTE-1810) ([#4714](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4714)) ([45cb5cd](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/45cb5cd76185c83137d02527a351e1439ff16a76))
+* **gq:** remove create quote limit (GQUOTE-1845) ([#4756](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4756)) ([4eacc05](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4eacc05a2157c7f39ee93b6b79c8b0d263bb8499))
+* **gq:** remove valueFormatter from freeStock Column(GQUOTE-1900) ([#4774](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4774)) ([2d381b4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2d381b4fa403851bfa4fcababa834f121c3a42a6))
+* **gq:** set a max of 1000 Positions for creating/updating Case (GQUOTE-1857) ([#4783](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4783)) ([fcfdb00](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fcfdb00dcff1a57c8b80c59707a47db97e1108b8))
+
+
+### 🐛 Bug Fixes
+
+* **gq:** add comment to app test ([#4850](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4850)) ([d6c3000](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d6c300055c8d88177a17ebd6903b998843b3e7be))
+* **gq:** add validation to quantity in editing modal (GQUOTE-1922) ([#4842](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4842)) ([8ce410a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8ce410a15529e52648e125169f802c443a6beda6))
+* **gq:** do not display toast on missing sapId (GQUOTE-1893) ([#4775](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4775)) ([091d595](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/091d59593fdc874ad709689240830e3ec7902501))
+* **gq:** fix http call response mapping (GQUOTE-1856) ([#4767](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4767)) ([4b68118](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4b68118977d2378af7376d995e11fd41102c13e6))
+* **gq:** fix missing data after saveQuotationToSap (GQUOTE-1902) ([#4807](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4807)) ([394ba19](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/394ba1956dcc7bb77ebcd8ba421257dc69955dc8))
+* **gq:** fix value copy of sync status ([#4810](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4810)) ([b138e93](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b138e93fa9ed85f38a93d609c845d81594a216a6))
+* **gq:** fixed icon alignment (GQUOTE-1801) ([#4764](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4764)) ([2a2ab32](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2a2ab328be7caaf2ee15b58c643c4f38e7d74b27))
+* **gq:** fixed sap sync status formatting in excel download (GQUOTE-1777) ([#4738](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4738)) ([b755a9c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b755a9cd9abdea837f736dea5590740e4e6b14fe))
+* **gq:** refactor update of be endpoints (GQUOTE-1933) ([#4809](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4809)) ([21bbd5b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/21bbd5b4559f248cbc077f413be59869e1f005c3))
+* **gq:** try to fix deployment ([#4851](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4851)) ([e06b575](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e06b575edb8fa1319a96a5aa8dc96d3a41f792ee))
+* **workspace:** fix prettier formatting ([#4746](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4746)) ([6d09958](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6d099587562a9db04e311acb309235bc60e89ee4))
+
 ## [2.12.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.11.0...gq-v2.12.0) (2022-10-19)
 
 
