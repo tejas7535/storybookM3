@@ -31,7 +31,7 @@
       </div>
     </div>
 
-    <div class="drag-list-wrapper">
+    <div class="drag-list-wrapper sticky top-0 self-start">
       <h6>{{ t('addAnalysis.featuresDialog.selectedFeatures') }}</h6>
 
       <div
@@ -40,7 +40,7 @@
         [cdkDropListData]="selected"
         [cdkDropListConnectedTo]="[unselectedList]"
         [cdkDropListEnterPredicate]="maxSelectedFeaturesPredicate"
-        class="drag-list"
+        class="drag-list !min-h-[230px]"
         (cdkDropListDropped)="drop($event)"
       >
         <div class="drag-list-item" *ngFor="let item of selected" cdkDrag>

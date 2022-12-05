@@ -43,6 +43,7 @@
     "challengeGroup": "Challenge Group",
     "childrenNumber": "Children Number",
     "classifiedEmployeeSubgroup": "Classified Employee Subgroup",
+    "collarType": "Collar Type",
     "commutingDistance": "Commuting Distance (in km)",
     "companyCodeEp1": "Company Code Ep1",
     "contractType": "Contract Type",
@@ -51,6 +52,8 @@
     "education": "Education",
     "educationEstablishment": "Education Establishment",
     "educationalEstablishment": "Educational Establishment",
+    "flagDirect": "Flag Direct",
+    "flagDirectIndirect": "Flag Direct Indirect",
     "function": "Function",
     "gender": "Gender",
     "job": "Job",
@@ -81,7 +84,6 @@
     "subRegion": "Sub Region",
     "subSegment": "Sub Segment",
     "weeklyWorkingHour": "Weekly Working Hour",
-    "workLocation": "Work Location",
-    "collarType": "Collar Type"
+    "workLocation": "Work Location"
   }
 }
