@@ -7,13 +7,17 @@ export class EmployeeListDialogMeta {
     public headings: EmployeeListDialogMetaHeadings,
     public employees: {
       employeeName: string;
+      username: string;
       positionDescription: string;
       orgUnit: string;
       actionType?: ActionType;
       reasonForLeaving?: LeavingType;
+      entryDate?: string;
+      exitDate?: string;
     }[],
     public employeesLoading: boolean,
     public enoughRightsToShowAllEmployees: boolean,
-    public showFluctuationType?: boolean
+    public showFluctuationTypeOnTeamMemberDialog?: boolean,
+    public listItemHeight?: number
   ) {}
 }

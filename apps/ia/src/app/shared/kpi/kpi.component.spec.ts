@@ -5,6 +5,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+import { EXTENDED_LIST_ITEM_HEIGHT } from '../constants';
 
 import { EmployeeListDialogComponent } from '../employee-list-dialog/employee-list-dialog.component';
 import { EmployeeListDialogModule } from '../employee-list-dialog/employee-list-dialog.module';
@@ -73,7 +74,8 @@ describe('KpiComponent', () => {
             employees: [employee],
             employeeListType: undefined,
             enoughRightsToShowAllEmployees: false,
-            showFluctuationType: undefined,
+            showFluctuationTypeOnTeamMemberDialog: undefined,
+            listItemHeight: EXTENDED_LIST_ITEM_HEIGHT,
           },
         }
       );
@@ -140,6 +142,7 @@ describe('KpiComponent', () => {
         employees,
         employeesLoading: true,
         enoughRightsToShowAllEmployees: false,
+        listItemHeight: EXTENDED_LIST_ITEM_HEIGHT,
       });
     });
   });

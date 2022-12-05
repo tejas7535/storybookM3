@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
+import { EXTENDED_LIST_ITEM_HEIGHT } from '../constants';
 import { EmployeeListDialogComponent } from '../employee-list-dialog/employee-list-dialog.component';
 import { EmployeeListDialogMeta } from '../employee-list-dialog/employee-list-dialog-meta.model';
 import { EmployeeListDialogMetaHeadings } from '../employee-list-dialog/employee-list-dialog-meta-headings.model';
@@ -88,7 +89,8 @@ export class KpiComponent {
       this.employees,
       this.employeesLoading,
       this.employeesCount === this.employees?.length,
-      this.showFluctuationType
+      this.showFluctuationType,
+      EXTENDED_LIST_ITEM_HEIGHT
     );
   }
 

@@ -13,6 +13,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { EmployeeWithAction } from '../models';
 import { EmployeeListDialogComponent } from './employee-list-dialog.component';
+import { EmployeeListDialogMeta } from './employee-list-dialog-meta.model';
 
 describe('EmployeeListDialogComponent', () => {
   let component: EmployeeListDialogComponent;
@@ -52,6 +53,39 @@ describe('EmployeeListDialogComponent', () => {
       const result = component.trackByFn(3, employee);
 
       expect(result).toEqual(3);
+    });
+  });
+
+  describe('getListItemHeight', () => {
+    test('should return height 120px when no property not set', () => {
+      const data = new EmployeeListDialogMeta(
+        undefined,
+        undefined,
+        false,
+        true,
+        false
+      );
+      const expected = '120px';
+
+      const result = component.getListItemHeight(data);
+
+      expect(result.height).toBe(expected);
+    });
+
+    test('should return height 140px when 140 height set', () => {
+      const data = new EmployeeListDialogMeta(
+        undefined,
+        undefined,
+        false,
+        true,
+        false,
+        140
+      );
+      const expected = '140px';
+
+      const result = component.getListItemHeight(data);
+
+      expect(result.height).toBe(expected);
     });
   });
 });

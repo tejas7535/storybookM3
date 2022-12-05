@@ -13,6 +13,7 @@ import { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
 import moment from 'moment';
 
 import { ExitEntryEmployeesResponse } from '../../overview/models';
+import { EXTENDED_LIST_ITEM_HEIGHT } from '../../shared/constants';
 import { EmployeeListDialogComponent } from '../../shared/employee-list-dialog/employee-list-dialog.component';
 import { EmployeeListDialogMeta } from '../../shared/employee-list-dialog/employee-list-dialog-meta.model';
 import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
@@ -156,7 +157,9 @@ export class LostJobProfilesComponent implements OnChanges {
     {} as EmployeeListDialogMetaHeadings,
     [],
     this.leaversLoading,
-    true
+    true,
+    false,
+    EXTENDED_LIST_ITEM_HEIGHT
   );
 
   constructor(private readonly dialog: MatDialog) {}

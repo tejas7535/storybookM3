@@ -308,7 +308,7 @@ describe('OrgChartComponent', () => {
         employees,
         employeesLoading: true,
         enoughRightsToShowAllEmployees: false,
-        showFluctuationType: false,
+        showFluctuationTypeOnTeamMemberDialog: false,
       });
     });
   });

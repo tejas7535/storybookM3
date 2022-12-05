@@ -11,6 +11,7 @@ import {
   LINE_CHART_BASE_OPTIONS,
   LINE_SERIES_BASE_OPTIONS,
 } from '../../shared/charts/line-chart/line-chart.config';
+import { EXTENDED_LIST_ITEM_HEIGHT } from '../../shared/constants';
 import { EmployeeListDialogComponent } from '../../shared/employee-list-dialog/employee-list-dialog.component';
 import { EmployeeListDialogModule } from '../../shared/employee-list-dialog/employee-list-dialog.module';
 import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
@@ -141,7 +142,8 @@ describe('OverviewChartComponent', () => {
             employees: [],
             enoughRightsToShowAllEmployees: true,
             employeesLoading: component.attritionEmployeesData,
-            showFluctuationType: undefined,
+            showFluctuationTypeOnTeamMemberDialog: false,
+            listItemHeight: EXTENDED_LIST_ITEM_HEIGHT,
           },
         }
       );

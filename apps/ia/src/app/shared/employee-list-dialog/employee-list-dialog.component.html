@@ -31,7 +31,7 @@
           trackBy: trackByFn
         "
       >
-        <mat-list-item class="!h-[120px]">
+        <mat-list-item [ngStyle]="listItemStyle">
           <img
             matListAvatar
             src="assets/images/dummy.png"
@@ -39,6 +39,15 @@
           />
           <div matLine class="!grid grid-cols-1 gap-2">
             <div>{{ employee.employeeName }}</div>
+            <div class="flex">
+              <label
+                class="h-4 text-[12px] uppercase leading-4 text-medium-emphasis"
+                >{{ t('username') }}:&nbsp;</label
+              >
+              <div class="text-[12px] leading-4 text-high-emphasis">
+                {{ employee.username }}
+              </div>
+            </div>
             <div class="flex">
               <label
                 class="h-4 text-[12px] uppercase leading-4 text-medium-emphasis"
@@ -57,24 +66,36 @@
                 {{ employee.positionDescription }}
               </div>
             </div>
-            <div class="flex">
+            <div class="flex" *ngIf="employee.entryDate">
               <label
                 class="h-4 text-[12px] uppercase leading-4 text-medium-emphasis"
-                >{{ t('username') }}:&nbsp;</label
+                >{{ t('entryDate') }}:&nbsp;</label
               >
               <div class="text-[12px] leading-4 text-high-emphasis">
-                {{ employee.username }}
+                {{ employee.entryDate | date: 'dd/MM/yyyy' }}
+              </div>
+            </div>
+            <div class="flex" *ngIf="employee.exitDate">
+              <label
+                class="h-4 text-[12px] uppercase leading-4 text-medium-emphasis"
+                >{{ t('exitDate') }}:&nbsp;</label
+              >
+              <div class="text-[12px] leading-4 text-high-emphasis">
+                {{ employee.exitDate | date: 'dd/MM/yyyy' }}
               </div>
             </div>
           </div>
           <mat-chip-list
-            *ngIf="showFluctuationType || employee.reasonForLeaving"
+            *ngIf="
+              data.showFluctuationTypeOnTeamMemberDialog ||
+              employee.reasonForLeaving
+            "
             class="mat-chip-list-stacked"
           >
             <mat-chip
               *ngIf="
-                employee.actionType === actionType.INTERNAL &&
-                showFluctuationType
+                employee.actionType === ACTION_TYPE.INTERNAL &&
+                data.showFluctuationTypeOnTeamMemberDialog
               "
               disableRipple="true"
               selectable="false"
@@ -86,8 +107,8 @@
             </mat-chip>
             <mat-chip
               *ngIf="
-                employee.actionType === actionType.EXTERNAL &&
-                showFluctuationType
+                employee.actionType === ACTION_TYPE.EXTERNAL &&
+                data.showFluctuationTypeOnTeamMemberDialog
               "
               disableRipple="true"
               selectable="false"
@@ -104,10 +125,10 @@
               class="!w-[100px] justify-center text-caption !text-high-emphasis-dark-bg after:!bg-transparent"
               [ngClass]="{
                 '!bg-gray-blue':
-                  employee.reasonForLeaving === leavingType.FORCED,
+                  employee.reasonForLeaving === LEAVING_TYPE.FORCED,
                 '!bg-sea-blue':
-                  employee.reasonForLeaving === leavingType.UNFORCED,
-                '!bg-teal': employee.reasonForLeaving === leavingType.REMAINING
+                  employee.reasonForLeaving === LEAVING_TYPE.UNFORCED,
+                '!bg-teal': employee.reasonForLeaving === LEAVING_TYPE.REMAINING
               }"
               [matTooltip]="t('reasonForLeaving')"
               (click)="$event.stopPropagation()"

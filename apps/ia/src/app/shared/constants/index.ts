@@ -27,3 +27,5 @@ export const LOCAL_SEARCH_MIN_CHAR_LENGTH = 0;
 /** for roles handling */
 export const GENERAL_ROLES_PREFIXES = ['IA_ADMIN', 'BASIC_ACCCESS'];
 export const GEOGRAPHICAL_ROLES_PREFIXES = ['HR_PA'];
+
+export const EXTENDED_LIST_ITEM_HEIGHT = 150;

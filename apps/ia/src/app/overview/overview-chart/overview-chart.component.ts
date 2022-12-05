@@ -14,6 +14,7 @@ import {
   LINE_CHART_BASE_OPTIONS,
   LINE_SERIES_BASE_OPTIONS,
 } from '../../shared/charts/line-chart/line-chart.config';
+import { EXTENDED_LIST_ITEM_HEIGHT } from '../../shared/constants';
 import { EmployeeListDialogComponent } from '../../shared/employee-list-dialog/employee-list-dialog.component';
 import { EmployeeListDialogMeta } from '../../shared/employee-list-dialog/employee-list-dialog-meta.model';
 import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
@@ -131,7 +132,9 @@ export class OverviewChartComponent {
     {} as EmployeeListDialogMetaHeadings,
     [],
     this.attritionEmployeesLoading,
-    true
+    true,
+    false,
+    EXTENDED_LIST_ITEM_HEIGHT
   );
 
   options: EChartsOption;
@@ -153,7 +156,7 @@ export class OverviewChartComponent {
     this.showEmployees(event);
   }
 
-  public showEmployees(event: any): void {
+  showEmployees(event: any): void {
     const attrition = this.data[event.seriesName].attrition[event.dataIndex];
 
     if (attrition > 0) {

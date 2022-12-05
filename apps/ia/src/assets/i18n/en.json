@@ -54,6 +54,8 @@
     "orgUnit": "Organizational Unit",
     "position": "Position",
     "username": "Username",
+    "entryDate": "Entry Date",
+    "exitDate": "Exit Date",
     "fluctuationType": {
       "info": "Fluctuation type",
       "internal": {
