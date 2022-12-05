@@ -33,9 +33,30 @@ export const getCustomerLoading = createSelector(
   (state: ProcessCaseState): boolean => state.customer.customerLoading
 );
 
+export const getQuotationDetails = createSelector(
+  getProcessCaseState,
+  (state: ProcessCaseState): QuotationDetail[] => {
+    if (!state.quotation?.item?.quotationDetails) {
+      return state.quotation?.item?.quotationDetails;
+    }
+
+    return [...state.quotation.item.quotationDetails].sort(
+      (a, b) => a.quotationItemId - b.quotationItemId
+    );
+  }
+);
+
 export const getQuotation = createSelector(
   getProcessCaseState,
-  (state: ProcessCaseState): Quotation => state.quotation.item
+  getQuotationDetails,
+  (state: ProcessCaseState, sortedDetails: QuotationDetail[]): Quotation =>
+    // if quotation is undefined quotation details can't exists
+    state.quotation?.item
+      ? {
+          ...state.quotation?.item,
+          quotationDetails: sortedDetails,
+        }
+      : state.quotation?.item
 );
 
 export const getQuotationCurrency = createSelector(
@@ -171,12 +192,6 @@ export const getSelectedQuotationDetail = createSelector(
       (detail: QuotationDetail) =>
         detail.gqPositionId === state.quotation.selectedQuotationDetail
     )
-);
-
-export const getQuotationDetails = createSelector(
-  getProcessCaseState,
-  (state: ProcessCaseState): QuotationDetail[] =>
-    state.quotation.item?.quotationDetails
 );
 
 export const getCustomerCurrency = createSelector(
