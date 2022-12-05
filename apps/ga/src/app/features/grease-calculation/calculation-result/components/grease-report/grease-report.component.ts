@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
 import {
   MatSnackBar,
   MatSnackBarModule,
@@ -39,6 +41,8 @@ import { GreaseReportResultComponent } from '../grease-report-result';
     MatExpansionModule,
     MatTooltipModule,
     MatSnackBarModule,
+    MatIconModule,
+    MatButtonModule,
     SharedTranslocoModule,
     GreaseReportInputComponent,
     GreaseReportResultComponent,
@@ -131,6 +135,10 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
 
   public getResultAmount(): number {
     return this.greaseReportService.getResultAmount(this.subordinates);
+  }
+
+  public getRemainingResultAmount(): number {
+    return this.getResultAmount() - 3;
   }
 
   public typedSubordinate = (subordinate: GreaseReportSubordinate) =>

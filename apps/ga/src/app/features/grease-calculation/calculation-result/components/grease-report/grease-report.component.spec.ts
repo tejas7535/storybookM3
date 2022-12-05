@@ -172,6 +172,16 @@ describe('GreaseReportComponent', () => {
     });
   });
 
+  describe('getRemainingResultAmount', () => {
+    it('should set the length of allResultAmount - 3', () => {
+      component.getResultAmount = jest.fn(() => 5);
+
+      const result = component.getRemainingResultAmount();
+
+      expect(result).toBe(2);
+    });
+  });
+
   describe('concept1Impossible', () => {
     it('should return if all greases are unsuited', () => {
       component.automaticLubrication = true;

@@ -64,18 +64,6 @@
             {{ t('concept1Impossible') }}
           </div>
         </div>
-        <div
-          *ngIf="
-            isGreaseResultSection(subordinate.titleID) &&
-            getResultAmount() > resultsLimit
-          "
-          class="cursor-pointer rounded px-3 py-4 text-link hover:bg-hover-overlay focus:bg-focus-overlay"
-          (click)="toggleLimitResults()"
-        >
-          {{
-            t(limitResults ? 'allResults' : 'limitResults', { resultsLimit })
-          }}
-        </div>
         <div>
           <ng-template
             [ngTemplateOutlet]="subordinateTemplate"
@@ -85,6 +73,32 @@
             }"
           >
           </ng-template>
+        </div>
+        <div
+          class="flex flex-row justify-center"
+          *ngIf="getResultAmount() > resultsLimit"
+        >
+          <button
+            class="w-full self-center !py-2 md:!w-auto"
+            mat-button
+            (click)="toggleLimitResults()"
+          >
+            <div class="flex flex-col items-center">
+              <mat-icon class="text-medium-emphasis" *ngIf="!limitResults"
+                >expand_less</mat-icon
+              >
+              <span class="leading-4 text-medium-emphasis">{{
+                t(limitResults ? 'remainingResults' : 'limitResults', {
+                  results: limitResults
+                    ? getRemainingResultAmount()
+                    : resultsLimit
+                })
+              }}</span>
+              <mat-icon class="text-medium-emphasis" *ngIf="limitResults"
+                >expand_more</mat-icon
+              >
+            </div>
+          </button>
         </div>
         <div *ngIf="isGreaseResultSection(subordinate.titleID)" class="p-3">
           <span class="text-caption">{{ t('guideValues') }}</span>
