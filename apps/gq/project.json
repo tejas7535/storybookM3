@@ -73,7 +73,6 @@
         "qa": {
           "outputHashing": "bundles",
           "statsJson": true,
-          "sourceMap": true,
           "fileReplacements": [
             {
               "replace": "apps/gq/src/environments/environment.ts",
