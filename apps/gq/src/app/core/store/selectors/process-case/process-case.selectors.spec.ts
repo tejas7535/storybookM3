@@ -4,16 +4,11 @@ import {
   QUOTATION_MOCK,
   SIMULATED_QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
-import { QuotationDetail } from '../../../../shared/models/quotation-detail';
 import { SAP_SYNC_STATUS } from '../../../../shared/models/quotation-detail/sap-sync-status.enum';
 import { initialState } from '../../reducers/process-case/process-case.reducer';
 import * as quotationSelectors from './process-case.selectors';
 
 describe('Process Case Selector', () => {
-  const sortedQuotationDetails = [
-    { ...QUOTATION_DETAIL_MOCK, quotationItemId: 10, gqPositionId: 1 },
-    { ...QUOTATION_DETAIL_MOCK, quotationItemId: 40, gqPositionId: 4 },
-  ];
   const fakeState = {
     processCase: {
       ...initialState,
@@ -43,28 +38,6 @@ describe('Process Case Selector', () => {
     },
   };
 
-  const fakeStateWithQuotationDetails = {
-    ...fakeState,
-    processCase: {
-      customer: {
-        ...initialState.customer,
-        item: CUSTOMER_MOCK,
-        customerLoading: true,
-      },
-      quotation: {
-        ...initialState.quotation,
-        item: {
-          ...QUOTATION_MOCK,
-          quotationDetails: [
-            { ...QUOTATION_DETAIL_MOCK, quotationItemId: 40, gqPositionId: 4 },
-            { ...QUOTATION_DETAIL_MOCK, quotationItemId: 10, gqPositionId: 1 },
-          ],
-        },
-        selectedQuotationDetail: sortedQuotationDetails[0].gqPositionId,
-      },
-    },
-  };
-
   describe('getCustomer', () => {
     test('should return the customer details', () => {
       expect(
@@ -84,48 +57,8 @@ describe('Process Case Selector', () => {
   describe('getQuotation', () => {
     test('should return all quotation details', () => {
       expect(
-        quotationSelectors.getQuotation.projector(
-          fakeStateWithQuotationDetails.processCase,
-          sortedQuotationDetails
-        )
-      ).toEqual({
-        ...fakeStateWithQuotationDetails.processCase.quotation.item,
-        quotationDetails: sortedQuotationDetails,
-      });
-    });
-
-    test('should return quotation details without quotationDetails', () => {
-      expect(
-        quotationSelectors.getQuotation.projector(
-          fakeStateWithQuotationDetails.processCase,
-          undefined as QuotationDetail[]
-        )
-      ).toEqual({
-        ...fakeStateWithQuotationDetails.processCase.quotation.item,
-        quotationDetails: undefined,
-      });
-    });
-    test('should return undefined if quotation.item is undefined', () => {
-      expect(
-        quotationSelectors.getQuotation.projector(
-          {
-            ...fakeStateWithQuotationDetails.processCase,
-            quotation: { item: undefined },
-          },
-          undefined as QuotationDetail[]
-        )
-      ).toBeUndefined();
-    });
-    test('should return undefined if quotation is undefined', () => {
-      expect(
-        quotationSelectors.getQuotation.projector(
-          {
-            ...fakeStateWithQuotationDetails.processCase,
-            quotation: undefined,
-          },
-          [{} as QuotationDetail]
-        )
-      ).toBeUndefined();
+        quotationSelectors.getQuotation.projector(fakeState.processCase)
+      ).toEqual(fakeState.processCase.quotation.item);
     });
   });
 
@@ -324,10 +257,8 @@ describe('Process Case Selector', () => {
   describe('getQuotationDetails', () => {
     test('should return quotation details', () => {
       expect(
-        quotationSelectors.getQuotationDetails.projector(
-          fakeStateWithQuotationDetails.processCase
-        )
-      ).toEqual(sortedQuotationDetails);
+        quotationSelectors.getQuotationDetails.projector(fakeState.processCase)
+      ).toEqual(fakeState.processCase.quotation.item.quotationDetails);
     });
 
     test('should return undefined', () => {
@@ -399,17 +330,11 @@ describe('Process Case Selector', () => {
   describe('getPriceUnitsForQuotationItemIds', () => {
     test('should return a list of PriceUnitsForQuotationItemId', () => {
       expect(
-        quotationSelectors.getPriceUnitsForQuotationItemIds(
-          fakeStateWithQuotationDetails
-        )
+        quotationSelectors.getPriceUnitsForQuotationItemIds(fakeState)
       ).toEqual([
         {
           priceUnit: QUOTATION_DETAIL_MOCK.material.priceUnit,
-          quotationItemId: sortedQuotationDetails[0].quotationItemId,
-        },
-        {
-          priceUnit: QUOTATION_DETAIL_MOCK.material.priceUnit,
-          quotationItemId: sortedQuotationDetails[1].quotationItemId,
+          quotationItemId: QUOTATION_DETAIL_MOCK.quotationItemId,
         },
       ]);
     });
@@ -426,17 +351,13 @@ describe('Process Case Selector', () => {
 
   describe('getDetailViewQueryParams', () => {
     test('should return queryParams and id', () => {
-      expect(
-        quotationSelectors.getDetailViewQueryParams(
-          fakeStateWithQuotationDetails
-        )
-      ).toEqual({
-        id: sortedQuotationDetails[0].quotationItemId,
+      expect(quotationSelectors.getDetailViewQueryParams(fakeState)).toEqual({
+        id: 1234,
         queryParams: {
           customer_number: CUSTOMER_MOCK.identifier.customerId,
           sales_org: CUSTOMER_MOCK.identifier.salesOrg,
           quotation_number: QUOTATION_MOCK.gqId,
-          gqPositionId: sortedQuotationDetails[0].gqPositionId,
+          gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
         },
       });
     });
@@ -444,10 +365,8 @@ describe('Process Case Selector', () => {
   describe('getSelectedQuotationDetailItemId', () => {
     test('should return item id', () => {
       expect(
-        quotationSelectors.getSelectedQuotationDetailItemId(
-          fakeStateWithQuotationDetails
-        )
-      ).toEqual(sortedQuotationDetails[0].quotationItemId);
+        quotationSelectors.getSelectedQuotationDetailItemId(fakeState)
+      ).toEqual(1234);
     });
   });
 
