@@ -10,14 +10,16 @@
     *transloco="let t; read: 'attritionAnalytics'"
   >
     <div class="drag-list-wrapper">
-      <h6>{{ t('addAnalysis.featuresDialog.availableFeatures') }}</h6>
+      <div class="sticky top-0 self-start w-[100%] pb-2 bg-secondary">
+        <h6>{{ t('addAnalysis.featuresDialog.availableFeatures') }}</h6>
+      </div>
 
       <div
         cdkDropList
         #unselectedList="cdkDropList"
         [cdkDropListData]="unselected"
         [cdkDropListConnectedTo]="[selectedList]"
-        class="drag-list"
+        class="drag-list !mt-0"
         (cdkDropListDropped)="drop($event)"
       >
         <div
@@ -32,7 +34,9 @@
     </div>
 
     <div class="drag-list-wrapper sticky top-0 self-start">
-      <h6>{{ t('addAnalysis.featuresDialog.selectedFeatures') }}</h6>
+      <div class="w-[100%] pb-2 bg-secondary">
+        <h6>{{ t('addAnalysis.featuresDialog.selectedFeatures') }}</h6>
+      </div>
 
       <div
         cdkDropList
@@ -40,7 +44,7 @@
         [cdkDropListData]="selected"
         [cdkDropListConnectedTo]="[unselectedList]"
         [cdkDropListEnterPredicate]="maxSelectedFeaturesPredicate"
-        class="drag-list !min-h-[230px]"
+        class="drag-list !mt-0 !min-h-[230px]"
         (cdkDropListDropped)="drop($event)"
       >
         <div class="drag-list-item" *ngFor="let item of selected" cdkDrag>
