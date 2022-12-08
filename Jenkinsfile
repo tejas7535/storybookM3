@@ -273,7 +273,7 @@ def getNxRunnerConfig() {
 }
 
 void cleanWorkspace() {
-    sh 'rm -rf checkstyle coverage dist node_modules reports'
+    sh 'rm -rf checkstyle coverage dist node_modules reports apps/**/node_modules'
 }
 
 /****************************************************************/
@@ -315,11 +315,18 @@ pipeline {
     }
 
     stages {
-        stage('Install') {
+         stage('Install') {
             steps {
-                echo 'Install NPM Dependencies'
-
-                sh 'pnpm install'
+                script {
+                    echo 'Install NPM Dependencies'
+                    
+                    try { 
+                        sh 'pnpm install'
+                    } catch (e) {
+                        sh 'chmod +x -R ./node_modules'
+                        sh 'pnpm install'
+                    }
+                }
             }
         }
 
@@ -675,9 +682,9 @@ pipeline {
                             sh "pnpm nx run-many --target=build --projects=${affectedLibs.join(',')} --prod"
                         } else {
                             if (isMaster()) {
-                                sh "pnpm nx affected --base=${buildBase} --target=build --configuration=qa ${getNxRunnerConfig()} --parallel=1"
+                                sh "pnpm nx affected --base=${buildBase} --target=build --configuration=qa ${getNxRunnerConfig()} --parallel=3"
                             } else {
-                                sh "pnpm nx affected --base=${buildBase} --target=build --configuration=dev ${getNxRunnerConfig()} --parallel=1"
+                                sh "pnpm nx affected --base=${buildBase} --target=build --configuration=dev ${getNxRunnerConfig()} --parallel=3"
                             }
 
                             for (app in affectedApps) {
