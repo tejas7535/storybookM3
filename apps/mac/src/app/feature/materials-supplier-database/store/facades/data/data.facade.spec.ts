@@ -60,7 +60,6 @@ describe('DataFacade', () => {
             data: {
               ...initialState,
               materialClasses: mockMaterialClassOptions,
-              result: mockResult,
               materialClassLoading: false,
               productCategoryLoading: false,
               filter: mockFilters,
@@ -68,6 +67,11 @@ describe('DataFacade', () => {
               agGridColumns: 'agGridColumns',
               materials: {
                 steelMaterials: mockResult,
+              },
+              result: {
+                st: {
+                  materials: mockResult,
+                },
               },
             },
             dialog: {

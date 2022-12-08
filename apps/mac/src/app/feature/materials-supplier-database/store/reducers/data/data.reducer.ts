@@ -4,6 +4,9 @@ import { Action, createReducer, on } from '@ngrx/store';
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import {
   AluminumMaterial,
+  ManufacturerSupplierTableValue,
+  MaterialStandardTableValue,
+  MaterialV2,
   PolymerMaterial,
   SteelMaterial,
 } from '@mac/msd/models';
@@ -11,14 +14,20 @@ import {
   fetchClassOptions,
   fetchClassOptionsFailure,
   fetchClassOptionsSuccess,
+  fetchManufacturerSuppliers,
+  fetchManufacturerSuppliersFailure,
+  fetchManufacturerSuppliersSuccess,
   fetchMaterials,
   fetchMaterialsFailure,
   fetchMaterialsSuccess,
+  fetchMaterialStandards,
+  fetchMaterialStandardsFailure,
+  fetchMaterialStandardsSuccess,
   resetResult,
   setAgGridColumns,
   setAgGridFilter,
   setNavigation,
-} from '@mac/msd/store/actions';
+} from '@mac/msd/store/actions/data';
 
 export interface DataState {
   filter: {
@@ -36,6 +45,13 @@ export interface DataState {
     aluminumMaterials: AluminumMaterial[];
     steelMaterials: SteelMaterial[];
     polymerMaterials: PolymerMaterial[];
+  };
+  result: {
+    [key in MaterialClass]?: {
+      [NavigationLevel.MATERIAL]?: MaterialV2[];
+      [NavigationLevel.SUPPLIER]?: ManufacturerSupplierTableValue[];
+      [NavigationLevel.STANDARD]?: MaterialStandardTableValue[];
+    };
   };
 }
 
@@ -56,6 +72,7 @@ export const initialState: DataState = {
     steelMaterials: undefined,
     polymerMaterials: undefined,
   },
+  result: {},
 };
 
 export const dataReducer = createReducer(
@@ -81,51 +98,99 @@ export const dataReducer = createReducer(
       },
     })
   ),
-  on(fetchMaterialsSuccess, (state, { materialClass, result }): DataState => {
-    const newState = {
+  on(
+    fetchMaterialsSuccess,
+    (state, { materialClass, result }): DataState => ({
       ...state,
       filter: {
         ...state.filter,
         loading: false,
       },
-    };
-    switch (materialClass) {
-      case MaterialClass.STEEL:
-        return {
-          ...newState,
-          materials: {
-            ...state.materials,
-            steelMaterials: result as SteelMaterial[],
-          },
-        };
-      case MaterialClass.ALUMINUM:
-        return {
-          ...newState,
-          materials: {
-            ...state.materials,
-            aluminumMaterials: result as AluminumMaterial[],
-          },
-        };
-      case MaterialClass.POLYMER:
-        return {
-          ...newState,
-          materials: {
-            ...state.materials,
-            polymerMaterials: result as PolymerMaterial[],
-          },
-        };
-      default:
-        return {
-          ...newState,
-          materials: {
-            ...state.materials,
-            steelMaterials: result as SteelMaterial[],
-          },
-        };
-    }
-  }),
+      result: {
+        ...state.result,
+        [materialClass]: {
+          ...state.result[materialClass],
+          materials: result,
+        },
+      },
+    })
+  ),
   on(
     fetchMaterialsFailure,
+    (state): DataState => ({
+      ...state,
+      filter: {
+        ...state.filter,
+        loading: false,
+      },
+    })
+  ),
+  on(
+    fetchManufacturerSuppliers,
+    (state): DataState => ({
+      ...state,
+      filter: {
+        ...state.filter,
+        loading: true,
+      },
+    })
+  ),
+  on(
+    fetchManufacturerSuppliersSuccess,
+    (state, { materialClass, manufacturerSuppliers }): DataState => ({
+      ...state,
+      filter: {
+        ...state.filter,
+        loading: false,
+      },
+      result: {
+        ...state.result,
+        [materialClass]: {
+          ...state.result[materialClass],
+          suppliers: manufacturerSuppliers,
+        },
+      },
+    })
+  ),
+  on(
+    fetchManufacturerSuppliersFailure,
+    (state): DataState => ({
+      ...state,
+      filter: {
+        ...state.filter,
+        loading: false,
+      },
+    })
+  ),
+  on(
+    fetchMaterialStandards,
+    (state): DataState => ({
+      ...state,
+      filter: {
+        ...state.filter,
+        loading: true,
+      },
+    })
+  ),
+  on(
+    fetchMaterialStandardsSuccess,
+    (state, { materialClass, materialStandards }): DataState => ({
+      ...state,
+      filter: {
+        ...state.filter,
+        loading: false,
+      },
+      result: {
+        ...state.result,
+        [materialClass]: {
+          ...state.result[materialClass],
+          materialStandards,
+        },
+      },
+    })
+  ),
+  on(
+    fetchMaterialStandardsFailure,
     (state): DataState => ({
       ...state,
       filter: {
@@ -179,6 +244,7 @@ export const dataReducer = createReducer(
         steelMaterials: undefined,
         polymerMaterials: undefined,
       },
+      result: {},
     })
   ),
   on(

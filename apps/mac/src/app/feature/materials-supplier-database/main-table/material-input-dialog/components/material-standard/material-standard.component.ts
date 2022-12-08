@@ -16,7 +16,7 @@ import { StringOption } from '@schaeffler/inputs';
 import {
   addCustomMaterialStandardDocument,
   addCustomMaterialStandardName,
-} from '@mac/msd/store';
+} from '@mac/msd/store/actions/dialog';
 import { DialogFacade } from '@mac/msd/store/facades/dialog';
 
 import * as util from '../../util';

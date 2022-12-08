@@ -11,7 +11,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
-import { setNavigation } from '@mac/msd/store';
+import { setNavigation } from '@mac/msd/store/actions/data';
 import { DataFacade } from '@mac/msd/store/facades/data';
 import { initialState } from '@mac/msd/store/reducers/data/data.reducer';
 

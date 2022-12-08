@@ -1,13 +1,24 @@
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
-import { DataResult } from '@mac/msd/models';
+import {
+  DataResult,
+  ManufacturerSupplierTableValue,
+  MaterialStandardTableValue,
+} from '@mac/msd/models';
 
 import {
   fetchClassOptions,
   fetchClassOptionsFailure,
   fetchClassOptionsSuccess,
+  fetchManufacturerSuppliers,
+  fetchManufacturerSuppliersFailure,
+  fetchManufacturerSuppliersSuccess,
   fetchMaterials,
   fetchMaterialsFailure,
   fetchMaterialsSuccess,
+  fetchMaterialStandards,
+  fetchMaterialStandardsFailure,
+  fetchMaterialStandardsSuccess,
+  fetchResult,
   resetResult,
   setAgGridColumns,
   setAgGridFilter,
@@ -57,6 +68,16 @@ describe('Data Actions', () => {
 
       expect(action).toEqual({
         type: '[MSD - Data] Fetch Class Options Failure',
+      });
+    });
+  });
+
+  describe('Fetch Result', () => {
+    it('fetchResult', () => {
+      const action = fetchResult();
+
+      expect(action).toEqual({
+        type: '[MSD - Data] Fetch Result',
       });
     });
   });
@@ -132,6 +153,78 @@ describe('Data Actions', () => {
       expect(action).toEqual({
         agGridColumns: 'columns',
         type: '[MSD - Data] Set Ag Grid Columns',
+      });
+    });
+  });
+
+  describe('Fetch Manufacturer Suppliers', () => {
+    it('fetchManufacturerSuppliers', () => {
+      const action = fetchManufacturerSuppliers();
+
+      expect(action).toEqual({
+        type: '[MSD - Data] Fetch Manufacturer Suppliers',
+      });
+    });
+  });
+
+  describe('Fetch Manufacturer Suppliers Success', () => {
+    it('fetchManufacturerSuppliersSuccess', () => {
+      const mockManufacturerSuppliers = [{} as ManufacturerSupplierTableValue];
+      const action = fetchManufacturerSuppliersSuccess({
+        materialClass: MaterialClass.STEEL,
+        manufacturerSuppliers: mockManufacturerSuppliers,
+      });
+
+      expect(action).toEqual({
+        materialClass: MaterialClass.STEEL,
+        manufacturerSuppliers: mockManufacturerSuppliers,
+        type: '[MSD - Data] Fetch Manufacturer Suppliers Success',
+      });
+    });
+  });
+
+  describe('Fetch Manufacturer Suppliers Failure', () => {
+    it('fetchManufacturerSuppliersFailure', () => {
+      const action = fetchManufacturerSuppliersFailure();
+
+      expect(action).toEqual({
+        type: '[MSD - Data] Fetch Manufacturer Suppliers Failure',
+      });
+    });
+  });
+
+  describe('Fetch Material Standards', () => {
+    it('fetchMaterialStandards', () => {
+      const action = fetchMaterialStandards();
+
+      expect(action).toEqual({
+        type: '[MSD - Data] Fetch Material Standards',
+      });
+    });
+  });
+
+  describe('Fetch Material Standards Success', () => {
+    it('fetchMaterialStandardsSuccess', () => {
+      const mockMaterialStandards = [{} as MaterialStandardTableValue];
+      const action = fetchMaterialStandardsSuccess({
+        materialClass: MaterialClass.STEEL,
+        materialStandards: mockMaterialStandards,
+      });
+
+      expect(action).toEqual({
+        materialClass: MaterialClass.STEEL,
+        materialStandards: mockMaterialStandards,
+        type: '[MSD - Data] Fetch Material Standards Success',
+      });
+    });
+  });
+
+  describe('Fetch Material Standards Failure', () => {
+    it('fetchMaterialStandardsFailure', () => {
+      const action = fetchMaterialStandardsFailure();
+
+      expect(action).toEqual({
+        type: '[MSD - Data] Fetch Material Standards Failure',
       });
     });
   });

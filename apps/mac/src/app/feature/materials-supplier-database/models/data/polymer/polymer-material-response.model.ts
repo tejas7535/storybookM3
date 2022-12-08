@@ -9,7 +9,6 @@ export interface PolymerMaterialResponse extends BaseMaterialResponse {
   manufacturerSupplier: PolymerManufacturerSupplier;
   ssid?: string;
   generalDescription?: string;
-  sapMaterialNumber?: string;
   referenceDoc?: string;
   releaseDateYear?: number;
   releaseDateMonth?: number;

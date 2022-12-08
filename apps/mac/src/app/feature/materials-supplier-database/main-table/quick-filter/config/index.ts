@@ -1,3 +1,1 @@
-export * from './aluminum';
-export * from './polymer';
-export * from './steel';
+export * from './static-quickfilters-mapping';

@@ -1,6 +1,5 @@
 import { createSelector } from '@ngrx/store';
 
-import { MaterialClass } from '@mac/msd/constants';
 import * as fromStore from '@mac/msd/store/reducers';
 
 export const getDataState = createSelector(
@@ -50,20 +49,9 @@ export const getMaterialClassOptions = createSelector(
 
 export const getResult = createSelector(
   getDataState,
-  getMaterialClass,
-  (dataState, materialClass) => {
-    switch (materialClass) {
-      case MaterialClass.ALUMINUM:
-        return dataState.materials.aluminumMaterials;
-      case MaterialClass.STEEL:
-        return dataState.materials.steelMaterials;
-      case MaterialClass.POLYMER:
-        return dataState.materials.polymerMaterials;
-      default:
-        // eslint-disable-next-line unicorn/no-useless-undefined
-        return undefined;
-    }
-  }
+  getNavigation,
+  (dataState, { materialClass, navigationLevel }) =>
+    dataState.result[materialClass]?.[navigationLevel] || []
 );
 
 export const getOptionsLoading = createSelector(

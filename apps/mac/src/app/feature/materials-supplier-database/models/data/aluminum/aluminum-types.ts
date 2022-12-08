@@ -1,6 +1,7 @@
 import {
   BaseManufacturerSupplier,
   BaseManufacturerSupplierForm,
+  BaseManufacturerSupplierTableValue,
   BaseMaterial,
   BaseMaterialForm,
   BaseMaterialFormValue,
@@ -8,6 +9,7 @@ import {
   BaseMaterialResponse,
   BaseMaterialStandard,
   BaseMaterialStandardForm,
+  BaseMaterialStandardTableValue,
 } from '@mac/msd/models';
 
 export type AluminumMaterialResponse = BaseMaterialResponse;
@@ -19,3 +21,6 @@ export type AluminumMaterialForm = BaseMaterialForm;
 export type AluminumMaterialStandardForm = BaseMaterialStandardForm;
 export type AluminumManufacturerSupplierForm = BaseManufacturerSupplierForm;
 export type AluminumMaterialRequest = BaseMaterialRequest;
+export type AluminumManufacturerSupplierTableValue =
+  BaseManufacturerSupplierTableValue;
+export type AluminumMaterialStandardTableValue = BaseMaterialStandardTableValue;

@@ -4,7 +4,7 @@ export interface PolymerMaterial extends BaseMaterial {
   sapSupplierIds?: string[];
   ssid?: string;
   generalDescription?: string;
-  sapMaterialNumber?: string;
+  materialNumbers?: string[];
   referenceDoc?: string;
   releaseDateYear?: number;
   releaseDateMonth?: number;

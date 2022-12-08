@@ -85,7 +85,7 @@
           <div class="text-caption text-low-emphasis">
             {{
               t('allClass', {
-                class: selectedClass ? selectedClass : t('materials')
+                class: t(navigation.navigationLevel)
               })
             }}
           </div>
@@ -100,7 +100,7 @@
           </div>
         </div>
       </div>
-      <button mat-button color="primary" (click)="fetchMaterials()">
+      <button mat-button color="primary" (click)="fetchResult()">
         <mat-icon class="material-icons-outlined">refresh</mat-icon>
         <span>{{ t('reload') }}</span>
       </button>

@@ -1,5 +1,6 @@
 export * from './base-manufacturer-supplier.model';
 export * from './base-manufacturer-supplier-form.model';
+export * from './base-manufacturer-supplier-table-value.model';
 export * from './base-material.model';
 export * from './base-material-form.model';
 export * from './base-material-form-value.model';
@@ -7,3 +8,4 @@ export * from './base-material-request.model';
 export * from './base-material-response.model';
 export * from './base-material-standard.model';
 export * from './base-material-standard-form.model';
+export * from './base-material-standard-table-value.model';

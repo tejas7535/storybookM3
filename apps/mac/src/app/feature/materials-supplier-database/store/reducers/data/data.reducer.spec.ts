@@ -1,5 +1,9 @@
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
-import { DataResult } from '@mac/msd/models';
+import {
+  DataResult,
+  ManufacturerSupplierTableValue,
+  MaterialStandardTableValue,
+} from '@mac/msd/models';
 import * as DataActions from '@mac/msd/store/actions/data';
 
 import { dataReducer, DataState, initialState } from './data.reducer';
@@ -53,105 +57,167 @@ describe('dataReducer', () => {
     });
 
     describe('fetchMaterialsSuccess', () => {
-      it('should set result on fetchMaterialsSuccess', () => {
-        const result: DataResult[] = [];
-        const action = DataActions.fetchMaterialsSuccess({ result });
-        const newState = dataReducer(
-          { ...state, filter: { ...state.filter, loading: true } },
-          action
-        );
+      it.each([
+        [MaterialClass.STEEL, [] as DataResult[]],
+        [MaterialClass.ALUMINUM, [] as DataResult[]],
+        [MaterialClass.POLYMER, [] as DataResult[]],
+      ])(
+        'should set result on fetchMaterialsSuccess for %s',
+        (materialClass, result) => {
+          const action = DataActions.fetchMaterialsSuccess({
+            materialClass,
+            result,
+          });
+          const newState = dataReducer(
+            { ...state, filter: { ...state.filter, loading: true } },
+            action
+          );
 
-        expect(newState).toEqual({
-          ...initialState,
-          filter: {
-            ...initialState.filter,
-            loading: false,
-          },
-          materials: {
-            aluminumMaterials: undefined,
-            steelMaterials: [],
-          },
-        });
-      });
-
-      it('should set result on fetchMaterialsSuccess for steel', () => {
-        const result: DataResult[] = [];
-        const action = DataActions.fetchMaterialsSuccess({
-          materialClass: MaterialClass.STEEL,
-          result,
-        });
-        const newState = dataReducer(
-          { ...state, filter: { ...state.filter, loading: true } },
-          action
-        );
-
-        expect(newState).toEqual({
-          ...initialState,
-          filter: {
-            ...initialState.filter,
-            loading: false,
-          },
-          materials: {
-            aluminumMaterials: undefined,
-            steelMaterials: [],
-            polymerMaterials: undefined,
-          },
-        });
-      });
-
-      it('should set result on fetchMaterialsSuccess for aluminum', () => {
-        const result: DataResult[] = [];
-        const action = DataActions.fetchMaterialsSuccess({
-          materialClass: MaterialClass.ALUMINUM,
-          result,
-        });
-        const newState = dataReducer(
-          { ...state, filter: { ...state.filter, loading: true } },
-          action
-        );
-
-        expect(newState).toEqual({
-          ...initialState,
-          filter: {
-            ...initialState.filter,
-            loading: false,
-          },
-          materials: {
-            aluminumMaterials: [],
-            steelMaterials: undefined,
-            polymerMaterials: undefined,
-          },
-        });
-      });
-
-      it('should set result on fetchMaterialsSuccess for polymer', () => {
-        const result: DataResult[] = [];
-        const action = DataActions.fetchMaterialsSuccess({
-          materialClass: MaterialClass.POLYMER,
-          result,
-        });
-        const newState = dataReducer(
-          { ...state, filter: { ...state.filter, loading: true } },
-          action
-        );
-
-        expect(newState).toEqual({
-          ...initialState,
-          filter: {
-            ...initialState.filter,
-            loading: false,
-          },
-          materials: {
-            aluminumMaterials: undefined,
-            steelMaterials: undefined,
-            polymerMaterials: [],
-          },
-        });
-      });
+          expect(newState).toEqual({
+            ...initialState,
+            filter: {
+              ...initialState.filter,
+              loading: false,
+            },
+            result: {
+              ...initialState.result,
+              [materialClass]: {
+                ...initialState.result[materialClass],
+                materials: result,
+              },
+            },
+          });
+        }
+      );
     });
 
     it('should set loading to false on fetchMaterialsFailure', () => {
       const action = DataActions.fetchMaterialsFailure();
+      const newState = dataReducer(
+        {
+          ...state,
+          filter: { ...state.filter, loading: true },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...initialState,
+        filter: { ...initialState.filter, loading: false },
+      });
+    });
+
+    it('should set loading on fetchManufacturerSuppliers', () => {
+      const action = DataActions.fetchManufacturerSuppliers();
+      const newState = dataReducer(state, action);
+
+      expect(newState).toEqual({
+        ...initialState,
+        filter: {
+          ...initialState.filter,
+          loading: true,
+        },
+      });
+    });
+    describe('fetchManufacturerSuppliersSuccess', () => {
+      it.each([
+        [MaterialClass.STEEL, [] as ManufacturerSupplierTableValue[]],
+        [MaterialClass.ALUMINUM, [] as ManufacturerSupplierTableValue[]],
+        [MaterialClass.POLYMER, [] as ManufacturerSupplierTableValue[]],
+      ])(
+        'should set result on fetchMaterialsSuccess for %s',
+        (materialClass, manufacturerSuppliers) => {
+          const action = DataActions.fetchManufacturerSuppliersSuccess({
+            materialClass,
+            manufacturerSuppliers,
+          });
+          const newState = dataReducer(
+            { ...state, filter: { ...state.filter, loading: true } },
+            action
+          );
+
+          expect(newState).toEqual({
+            ...initialState,
+            filter: {
+              ...initialState.filter,
+              loading: false,
+            },
+            result: {
+              ...initialState.result,
+              [materialClass]: {
+                ...initialState.result[materialClass],
+                suppliers: manufacturerSuppliers,
+              },
+            },
+          });
+        }
+      );
+    });
+
+    it('should set loading to false on fetchManufacturerSuppliersFailure', () => {
+      const action = DataActions.fetchManufacturerSuppliersFailure();
+      const newState = dataReducer(
+        {
+          ...state,
+          filter: { ...state.filter, loading: true },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...initialState,
+        filter: { ...initialState.filter, loading: false },
+      });
+    });
+    it('should set loading on fetchMaterialStandards', () => {
+      const action = DataActions.fetchMaterialStandards();
+      const newState = dataReducer(state, action);
+
+      expect(newState).toEqual({
+        ...initialState,
+        filter: {
+          ...initialState.filter,
+          loading: true,
+        },
+      });
+    });
+    describe('fetchMaterialStandardsSuccess', () => {
+      it.each([
+        [MaterialClass.STEEL, [] as MaterialStandardTableValue[]],
+        [MaterialClass.ALUMINUM, [] as MaterialStandardTableValue[]],
+        [MaterialClass.POLYMER, [] as MaterialStandardTableValue[]],
+      ])(
+        'should set result on fetchMaterialStandardsSuccess for %s',
+        (materialClass, materialStandards) => {
+          const action = DataActions.fetchMaterialStandardsSuccess({
+            materialClass,
+            materialStandards,
+          });
+          const newState = dataReducer(
+            { ...state, filter: { ...state.filter, loading: true } },
+            action
+          );
+
+          expect(newState).toEqual({
+            ...initialState,
+            filter: {
+              ...initialState.filter,
+              loading: false,
+            },
+            result: {
+              ...initialState.result,
+              [materialClass]: {
+                ...initialState.result[materialClass],
+                materialStandards,
+              },
+            },
+          });
+        }
+      );
+    });
+
+    it('should set loading to false on fetchMaterialStandardsFailure', () => {
+      const action = DataActions.fetchMaterialStandardsFailure();
       const newState = dataReducer(
         {
           ...state,
@@ -262,6 +328,11 @@ describe('dataReducer', () => {
             steelMaterials: [],
             polymerMaterials: [],
           },
+          result: {
+            st: {},
+            al: {},
+            px: {},
+          },
         },
         action
       );
@@ -273,6 +344,7 @@ describe('dataReducer', () => {
           steelMaterials: undefined,
           polymerMaterials: undefined,
         },
+        result: {},
       });
     });
 

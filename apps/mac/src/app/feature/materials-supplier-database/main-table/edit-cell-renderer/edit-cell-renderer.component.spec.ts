@@ -8,14 +8,14 @@ import { Column } from 'ag-grid-community';
 
 import { DataResult, MaterialFormValue } from '@mac/msd/models';
 import { MsdDialogService } from '@mac/msd/services';
+import { fetchResult } from '@mac/msd/store/actions/data';
 import {
-  fetchMaterials,
   materialDialogCanceled,
   materialDialogOpened,
   minimizeDialog,
   openDialog,
   openEditDialog,
-} from '@mac/msd/store/actions';
+} from '@mac/msd/store/actions/dialog';
 import { DataFacade } from '@mac/msd/store/facades/data';
 
 import { MaterialClass } from '../../constants';
@@ -201,7 +201,7 @@ describe('EditCellRendererComponent', () => {
 
       mockDialogRef.afterClosed().subscribe((_value) => {
         expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
-          fetchMaterials()
+          fetchResult()
         );
         expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
           minimizeDialog({ id: 1, value: {} as MaterialFormValue })

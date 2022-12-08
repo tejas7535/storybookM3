@@ -7,7 +7,6 @@ export const DEFAULT_COLUMN_DEFINITION: ColDef = {
   filter: true,
   floatingFilter: true,
   resizable: true,
-  enablePivot: false,
   headerClass: ['text-caption', 'leading-6', 'font-medium'],
   tooltipComponent: HeaderTooltipComponent,
 };

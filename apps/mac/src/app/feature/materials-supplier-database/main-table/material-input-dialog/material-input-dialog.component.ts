@@ -34,7 +34,7 @@ import {
 import {
   materialDialogConfirmed,
   materialDialogOpened,
-} from '@mac/msd/store/actions';
+} from '@mac/msd/store/actions/dialog';
 import { DialogFacade } from '@mac/msd/store/facades/dialog';
 
 @Component({
@@ -266,7 +266,10 @@ export class MaterialInputDialogComponent
   }
 
   public confirmMaterial(): void {
-    const baseMaterial = this.createMaterialForm.value as MaterialFormValueV2;
+    const baseMaterial = {
+      ...(this.createMaterialForm.value as MaterialFormValueV2),
+      materialNumber: this.createMaterialForm.value?.materialNumber?.split(','),
+    };
 
     const standard: MaterialStandardV2 = {
       id: baseMaterial.materialStandardId,

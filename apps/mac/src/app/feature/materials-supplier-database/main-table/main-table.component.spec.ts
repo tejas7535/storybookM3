@@ -47,7 +47,7 @@ import {
   RELEASE_DATE_FORMATTER,
   RELEASE_DATE_VALUE_GETTER,
 } from '@mac/msd/main-table/table-config';
-import { STEEL_COLUMN_DEFINITIONS } from '@mac/msd/main-table/table-config/materials';
+import { STEEL_COLUMN_DEFINITIONS } from '@mac/msd/main-table/table-config/materials/steel';
 import { DataResult, MaterialFormValue } from '@mac/msd/models';
 import {
   MsdAgGridConfigService,
@@ -55,15 +55,17 @@ import {
   MsdDialogService,
 } from '@mac/msd/services';
 import {
-  fetchMaterials,
+  fetchResult,
+  setAgGridColumns,
+  setAgGridFilter,
+  setNavigation,
+} from '@mac/msd/store/actions/data';
+import {
   materialDialogCanceled,
   materialDialogOpened,
   minimizeDialog,
   openDialog,
-  setAgGridColumns,
-  setAgGridFilter,
-  setNavigation,
-} from '@mac/msd/store/actions';
+} from '@mac/msd/store/actions/dialog';
 import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
 import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
 import { initialState as initialQuickfilterState } from '@mac/msd/store/reducers/quickfilter/quickfilter.reducer';
@@ -72,7 +74,7 @@ import * as en from '../../../../assets/i18n/en.json';
 import { MainTableComponent } from './main-table.component';
 import { MainTableRoutingModule } from './main-table-routing.module';
 import { MsdNavigationModule } from './msd-navigation/msd-navigation.module';
-import { STEEL_STATIC_QUICKFILTERS } from './quick-filter/config';
+import { STEEL_STATIC_QUICKFILTERS } from './quick-filter/config/steel';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
@@ -450,14 +452,14 @@ describe('MainTableComponent', () => {
       expect(result).toBe(true);
     });
   });
-  describe('fetchMaterials', () => {
-    it('should dispatch fetchMaterials', () => {
+  describe('fetchResult', () => {
+    it('should dispatch fetchResult', () => {
       component['dataFacade'].dispatch = jest.fn();
 
-      component.fetchMaterials();
+      component.fetchResult();
 
       expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
-        fetchMaterials()
+        fetchResult()
       );
     });
   });
@@ -1210,7 +1212,7 @@ describe('MainTableComponent', () => {
     });
     it('should dispatch the edit dialog actions and dispatch fetch and minimize', (done) => {
       component['dataFacade'].dispatch = jest.fn();
-      component.fetchMaterials = jest.fn();
+      component.fetchResult = jest.fn();
 
       let otherDone = false;
 
@@ -1232,7 +1234,7 @@ describe('MainTableComponent', () => {
       });
 
       mockDialogRef.afterClosed().subscribe(() => {
-        expect(component.fetchMaterials).toHaveBeenCalled();
+        expect(component.fetchResult).toHaveBeenCalled();
         expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
           minimizeDialog({ value: {} as MaterialFormValue })
         );

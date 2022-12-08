@@ -7,7 +7,7 @@ import {
   removeCustomQuickfilter,
   setCustomQuickfilter,
   updateCustomQuickfilter,
-} from '@mac/msd/store/actions';
+} from '@mac/msd/store/actions/quickfilter';
 
 export interface QuickFilterState {
   customFilters: QuickFilter[];

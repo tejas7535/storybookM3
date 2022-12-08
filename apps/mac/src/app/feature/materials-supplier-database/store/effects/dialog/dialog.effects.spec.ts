@@ -74,7 +74,7 @@ import {
   postMaterial,
   postMaterialStandard,
   setMaterialFormValue,
-} from '@mac/msd/store/actions';
+} from '@mac/msd/store/actions/dialog';
 import { DataFacade } from '@mac/msd/store/facades/data';
 
 import { DialogEffects } from './dialog.effects';

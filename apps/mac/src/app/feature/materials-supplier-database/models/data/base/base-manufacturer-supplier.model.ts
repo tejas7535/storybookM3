@@ -3,4 +3,5 @@ export interface BaseManufacturerSupplier {
   name: string;
   plant: string;
   country: string;
+  timestamp?: number;
 }

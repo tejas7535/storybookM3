@@ -84,7 +84,7 @@ export const transformAsMaterialRequest = (values: MaterialFormValue) => {
     materialName: values.materialName.title,
     standardDocument: values.standardDocument.title,
     // steel only
-    materialNumber: values.materialNumber,
+    materialNumber: values.materialNumber?.split(','),
   };
   const supplier: ManufacturerSupplierV2 = {
     id: values.manufacturerSupplierId,

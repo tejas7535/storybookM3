@@ -1,6 +1,7 @@
 import {
   AluminumManufacturerSupplier,
   AluminumManufacturerSupplierForm,
+  AluminumManufacturerSupplierTableValue,
   AluminumMaterial,
   AluminumMaterialForm,
   AluminumMaterialFormValue,
@@ -8,12 +9,16 @@ import {
   AluminumMaterialResponse,
   AluminumMaterialStandard,
   AluminumMaterialStandardForm,
+  AluminumMaterialStandardTableValue,
   PolymerManufacturerSupplier,
+  PolymerManufacturerSupplierTableValue,
   PolymerMaterial,
   PolymerMaterialResponse,
   PolymerMaterialStandard,
+  PolymerMaterialStandardTableValue,
   SteelManufacturerSupplier,
   SteelManufacturerSupplierForm,
+  SteelManufacturerSupplierTableValue,
   SteelMaterial,
   SteelMaterialForm,
   SteelMaterialFormValue,
@@ -21,6 +26,7 @@ import {
   SteelMaterialResponse,
   SteelMaterialStandard,
   SteelMaterialStandardForm,
+  SteelMaterialStandardTableValue,
 } from '@mac/msd/models';
 
 // TODO: Rename to Material once the migration to API V3 is done
@@ -50,3 +56,11 @@ export type ManufacturerSupplierForm =
   | AluminumManufacturerSupplierForm
   | SteelManufacturerSupplierForm;
 export type MaterialRequest = AluminumMaterialRequest | SteelMaterialRequest;
+export type ManufacturerSupplierTableValue =
+  | AluminumManufacturerSupplierTableValue
+  | PolymerManufacturerSupplierTableValue
+  | SteelManufacturerSupplierTableValue;
+export type MaterialStandardTableValue =
+  | AluminumMaterialStandardTableValue
+  | PolymerMaterialStandardTableValue
+  | SteelMaterialStandardTableValue;

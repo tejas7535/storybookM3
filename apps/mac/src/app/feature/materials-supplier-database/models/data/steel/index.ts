@@ -1,5 +1,6 @@
 export * from './steel-manufacturer-supplier.model';
 export * from './steel-manufacturer-supplier-form.model';
+export * from './steel-manufacturer-supplier-table-value.model';
 export * from './steel-material.model';
 export * from './steel-material-form.model';
 export * from './steel-material-form-value.model';
@@ -7,3 +8,4 @@ export * from './steel-material-request.model';
 export * from './steel-material-response.model';
 export * from './steel-material-standard.model';
 export * from './steel-material-standard-form.model';
+export * from './steel-material-standard-table-value.model';

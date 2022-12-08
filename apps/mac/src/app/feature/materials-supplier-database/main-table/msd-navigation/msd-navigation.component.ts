@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
-import { setNavigation } from '@mac/msd/store';
+import { setNavigation } from '@mac/msd/store/actions/data';
 import { DataFacade } from '@mac/msd/store/facades/data';
 
 /* eslint-disable max-lines */
@@ -19,11 +19,10 @@ import { DataFacade } from '@mac/msd/store/facades/data';
 export class MsdNavigationComponent implements OnInit {
   @Input() expandMaterialClass: MaterialClass;
 
-  // TODO: enable as needed
   public navigationLevels = [
     NavigationLevel.MATERIAL,
-    // NavigationLevel.SUPPLIER,
-    // NavigationLevel.STANDARD,
+    NavigationLevel.SUPPLIER,
+    NavigationLevel.STANDARD,
   ];
 
   public materialClasses$ = this.dataFacade.materialClassOptions$;

@@ -44,15 +44,17 @@ import {
 } from '@mac/msd/services';
 import {
   fetchClassOptions,
-  fetchMaterials,
+  fetchResult,
+  setAgGridColumns,
+  setAgGridFilter,
+  setNavigation,
+} from '@mac/msd/store/actions/data';
+import {
   materialDialogCanceled,
   materialDialogOpened,
   minimizeDialog,
   openDialog,
-  setAgGridColumns,
-  setAgGridFilter,
-  setNavigation,
-} from '@mac/msd/store';
+} from '@mac/msd/store/actions/dialog';
 import { DataFacade } from '@mac/msd/store/facades/data';
 
 import { EDITABLE_MATERIAL_CLASSES } from '../constants/editable-material-classes';
@@ -191,8 +193,8 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     return !!a && !!b && a.id === b.id && a.title === b.title;
   }
 
-  public fetchMaterials(): void {
-    this.dataFacade.dispatch(fetchMaterials());
+  public fetchResult(): void {
+    this.dataFacade.dispatch(fetchResult());
   }
 
   public onGridReady({
@@ -409,7 +411,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(takeUntil(this.destroy$), take(1))
       .subscribe(({ reload, minimize }) => {
         if (reload) {
-          this.fetchMaterials();
+          this.fetchResult();
         }
         if (minimize) {
           this.dataFacade.dispatch(minimizeDialog(minimize));

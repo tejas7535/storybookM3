@@ -17,7 +17,7 @@ import {
   addCustomSupplierCountry,
   addCustomSupplierName,
   addCustomSupplierPlant,
-} from '@mac/feature/materials-supplier-database/store';
+} from '@mac/msd/store/actions/dialog';
 import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
 import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
 

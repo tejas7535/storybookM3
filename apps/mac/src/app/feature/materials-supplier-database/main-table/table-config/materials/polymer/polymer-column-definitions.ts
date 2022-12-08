@@ -2,8 +2,8 @@ import { ColDef } from 'ag-grid-enterprise';
 
 import {
   GENERAL_DESCRIPTION,
+  MATERIAL_NUMBERS,
   RELEASE_DATE,
-  SAP_MATERIAL_NUMBER,
   SAP_SUPPLIER_IDS,
   SSID,
 } from '@mac/msd/constants';
@@ -35,8 +35,8 @@ export const POLYMER_COLUMN_DEFINITIONS: ColDef[] = [
     hide: true,
   },
   {
-    field: SAP_MATERIAL_NUMBER,
-    headerName: 'SAP Material Number',
+    field: MATERIAL_NUMBERS,
+    headerName: 'Material Numbers',
     filterParams: FILTER_PARAMS,
     hide: true,
   },

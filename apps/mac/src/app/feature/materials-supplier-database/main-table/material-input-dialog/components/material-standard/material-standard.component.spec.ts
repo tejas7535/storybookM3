@@ -12,11 +12,11 @@ import { StringOption } from '@schaeffler/inputs';
 import { SelectModule } from '@schaeffler/inputs/select';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { MaterialStandard } from '@mac/feature/materials-supplier-database/models';
+import { MaterialStandard } from '@mac/msd/models';
 import {
   addCustomMaterialStandardDocument,
   addCustomMaterialStandardName,
-} from '@mac/feature/materials-supplier-database/store';
+} from '@mac/msd/store/actions/dialog';
 import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
 import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
 

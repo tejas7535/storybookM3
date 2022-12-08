@@ -192,7 +192,7 @@ export const msdServiceSteelMockResponse: SteelMaterialResponse[] = [
       id: 57,
       materialName: 'C80M',
       standardDocument: 'S 130002',
-      materialNumber: '1.1234',
+      materialNumber: ['1.1234'],
     },
     materialClass: 'st',
     selfCertified: false,
@@ -222,7 +222,7 @@ export const msdServiceSteelMockResponse: SteelMaterialResponse[] = [
       id: 57,
       materialName: 'C45',
       standardDocument: 'S 130001',
-      materialNumber: '1.1234, 1.2345',
+      materialNumber: ['1.1234', '1.2345'],
     },
     materialClass: 'st',
     selfCertified: false,
@@ -353,11 +353,11 @@ export const msdServicePolymerMockResponse: PolymerMaterialResponse[] = [
       id: 57,
       materialName: 'C45',
       standardDocument: 'S 130001',
+      materialNumber: ['sapMaterialNumber'],
     },
     materialClass: 'px',
     ssid: 'ssid',
     generalDescription: 'generalDescription',
-    sapMaterialNumber: 'sapMaterialNumber',
   },
 ];
 
@@ -387,7 +387,7 @@ export const msdServicePolymerMockResult: PolymerMaterial[] = [
     referenceDoc: undefined,
     ssid: undefined,
     generalDescription: undefined,
-    sapMaterialNumber: undefined,
+    materialNumbers: undefined,
   },
   {
     id: 128,
@@ -415,7 +415,7 @@ export const msdServicePolymerMockResult: PolymerMaterial[] = [
     lastModified: undefined,
     ssid: 'ssid',
     generalDescription: 'generalDescription',
-    sapMaterialNumber: 'sapMaterialNumber',
+    materialNumbers: ['sapMaterialNumber'],
   },
 ];
 

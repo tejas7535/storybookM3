@@ -1,9 +1,17 @@
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { provideMockStore } from '@ngrx/store/testing';
+import { ColumnState } from 'ag-grid-community';
 
-import { MaterialClass } from '@mac/msd/constants';
-import { MsdAgGridState } from '@mac/msd/models';
+import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
+import {
+  MsdAgGridState,
+  MsdAgGridStateCurrent,
+  MsdAgGridStateV1,
+  MsdAgGridStateV2,
+  QuickFilter,
+  ViewState,
+} from '@mac/msd/models';
 import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
 import { initialState as initialQuickfilterState } from '@mac/msd/store/reducers/quickfilter/quickfilter.reducer';
 
@@ -69,7 +77,7 @@ describe('MsdAgGridStateService', () => {
 
   describe('init', () => {
     it('should initialize', () => {
-      service['migrateLegacyStates'] = jest.fn();
+      service['migrateLegacyStates'] = jest.fn(() => {});
       service['getMsdMainTableState'] = jest.fn();
       service['migrateLocalStorage'] = jest.fn();
 
@@ -96,7 +104,7 @@ describe('MsdAgGridStateService', () => {
     it('should set the given state', () => {
       localStorage.setItem = jest.fn();
 
-      service['setMsdMainTableState']({} as MsdAgGridState);
+      service['setMsdMainTableState']({} as MsdAgGridStateCurrent);
 
       expect(localStorage.setItem).toHaveBeenCalledWith(service['KEY'], '{}');
     });
@@ -104,17 +112,31 @@ describe('MsdAgGridStateService', () => {
 
   describe('migrateLocalStorage', () => {
     it('should run migration to v1', () => {
-      service['migrateToVersion1'] = jest.fn();
+      service['migrateToVersion1'] = jest.fn(
+        () => ({ version: 1 } as MsdAgGridStateV1)
+      );
+      service['migrateToVersion2'] = jest.fn();
 
-      service['migrateLocalStorage'](0);
+      service['migrateLocalStorage'](0, { version: 0 } as MsdAgGridState);
 
       expect(service['migrateToVersion1']).toHaveBeenCalled();
+      expect(service['migrateToVersion2']).toHaveBeenCalledWith({
+        version: 1,
+      } as MsdAgGridStateV1);
+    });
+
+    it('should run migration to v2', () => {
+      service['migrateToVersion2'] = jest.fn();
+
+      service['migrateLocalStorage'](1, {} as MsdAgGridState);
+
+      expect(service['migrateToVersion2']).toHaveBeenCalled();
     });
 
     it('should not migrate', () => {
       service['migrateToVersion1'] = jest.fn();
 
-      service['migrateLocalStorage'](999);
+      service['migrateLocalStorage'](999, {} as MsdAgGridState);
 
       expect(service['migrateToVersion1']).not.toHaveBeenCalled();
     });
@@ -125,12 +147,11 @@ describe('MsdAgGridStateService', () => {
       localStorage.store = {
         [service['LEGACY_MSD_QUICKFILTER_KEY']]: '{}',
       };
-      service['setMsdMainTableState'] = jest.fn();
       localStorage.removeItem = jest.fn();
 
-      service['migrateLegacyStates']();
+      const result = service['migrateLegacyStates']();
 
-      expect(service['setMsdMainTableState']).toHaveBeenCalledWith({
+      expect(result).toEqual({
         version: 1,
         materials: {
           st: {
@@ -151,12 +172,11 @@ describe('MsdAgGridStateService', () => {
       localStorage.store = {
         [service['LEGACY_MSD_KEY']]: '{}',
       };
-      service['setMsdMainTableState'] = jest.fn();
       localStorage.removeItem = jest.fn();
 
-      service['migrateLegacyStates']();
+      const result = service['migrateLegacyStates']();
 
-      expect(service['setMsdMainTableState']).toHaveBeenCalledWith({
+      expect(result).toEqual({
         version: 1,
         materials: {
           st: {
@@ -176,29 +196,118 @@ describe('MsdAgGridStateService', () => {
 
   describe('migrateToVersion1', () => {
     it('should migrate to version 1', () => {
-      service['setMsdMainTableState'] = jest.fn();
+      const result = service['migrateToVersion1']();
 
-      service['migrateToVersion1']();
-
-      expect(service['setMsdMainTableState']).toHaveBeenCalledWith({
+      expect(result).toEqual({
         version: 1,
         materials: {},
       });
     });
   });
 
-  describe('getColumnState', () => {
-    it('should return the column state for the current material class', () => {
-      service['getMsdMainTableState'] = jest.fn(() => ({
+  describe('migrateToVersion2', () => {
+    it('should migrate to version 2', () => {
+      const defaultViewState: ViewState = {
+        columnState: [],
+        quickFilters: [],
+      };
+      const mockViewState: ViewState = {
+        columnState: [{} as ColumnState],
+        quickFilters: [{} as QuickFilter],
+      };
+      const mockOldState: MsdAgGridStateV1 = {
         version: 1,
         materials: {
+          st: mockViewState,
+          al: mockViewState,
+          px: mockViewState,
+        },
+      };
+
+      const expected: MsdAgGridStateV2 = {
+        version: 2,
+        materials: {
           st: {
-            columnState: [],
-            quickFilters: undefined,
+            materials: mockViewState,
+            suppliers: defaultViewState,
+          },
+          al: {
+            materials: mockViewState,
+            suppliers: defaultViewState,
+          },
+          px: {
+            materials: mockViewState,
+            suppliers: defaultViewState,
           },
         },
-      }));
+      };
+
+      const result = service['migrateToVersion2'](mockOldState);
+
+      expect(result).toEqual(expected);
+    });
+
+    it('should migrate to version 2 with empty state', () => {
+      const defaultViewState: ViewState = {
+        columnState: [],
+        quickFilters: [],
+      };
+      const mockOldState: MsdAgGridStateV1 = {
+        version: 1,
+        materials: {},
+      };
+
+      const expected: MsdAgGridStateV2 = {
+        version: 2,
+        materials: {
+          st: {
+            materials: defaultViewState,
+            suppliers: defaultViewState,
+          },
+          al: {
+            materials: defaultViewState,
+            suppliers: defaultViewState,
+          },
+          px: {
+            materials: defaultViewState,
+            suppliers: defaultViewState,
+          },
+        },
+      };
+
+      const result = service['migrateToVersion2'](mockOldState);
+
+      expect(result).toEqual(expected);
+    });
+  });
+
+  describe('getColumnState', () => {
+    it('should return the column state for the current material class', () => {
+      const defaultViewState: ViewState = {
+        columnState: [],
+        quickFilters: [],
+      };
+      const mockFn = jest.fn();
+      service['getMsdMainTableState'] = mockFn;
+      mockFn.mockReturnValue({
+        version: 2,
+        materials: {
+          st: {
+            materials: defaultViewState,
+            suppliers: defaultViewState,
+          },
+          al: {
+            materials: defaultViewState,
+            suppliers: defaultViewState,
+          },
+          px: {
+            materials: defaultViewState,
+            suppliers: defaultViewState,
+          },
+        },
+      });
       service['materialClass'] = MaterialClass.STEEL;
+      service['navigationLevel'] = NavigationLevel.MATERIAL;
 
       const result = service.getColumnState();
 
@@ -208,20 +317,53 @@ describe('MsdAgGridStateService', () => {
 
   describe('setColumnState', () => {
     it('should set the column state for the current material class', () => {
-      service['getMsdMainTableState'] = jest.fn(() => ({
-        version: 1,
-        materials: {},
-      }));
+      const defaultViewState: ViewState = {
+        columnState: undefined,
+        quickFilters: undefined,
+      };
+      const mockFn = jest.fn();
+      service['getMsdMainTableState'] = mockFn;
+      mockFn.mockReturnValue({
+        version: 2,
+        materials: {
+          st: {
+            materials: defaultViewState,
+            suppliers: defaultViewState,
+          },
+          al: {
+            materials: defaultViewState,
+            suppliers: defaultViewState,
+          },
+          px: {
+            materials: defaultViewState,
+            suppliers: defaultViewState,
+          },
+        },
+      });
       service['materialClass'] = MaterialClass.STEEL;
+      service['navigationLevel'] = NavigationLevel.MATERIAL;
+
       service['setMsdMainTableState'] = jest.fn();
 
       service.setColumnState([]);
 
       expect(service['setMsdMainTableState']).toHaveBeenCalledWith({
-        version: 1,
+        version: 2,
         materials: {
           st: {
-            columnState: [],
+            materials: {
+              ...defaultViewState,
+              columnState: [],
+            },
+            suppliers: defaultViewState,
+          },
+          al: {
+            materials: defaultViewState,
+            suppliers: defaultViewState,
+          },
+          px: {
+            materials: defaultViewState,
+            suppliers: defaultViewState,
           },
         },
       });
@@ -230,16 +372,31 @@ describe('MsdAgGridStateService', () => {
 
   describe('getQuickFilterState', () => {
     it('should return the quick filter state for the current material class', () => {
-      service['getMsdMainTableState'] = jest.fn(() => ({
-        version: 1,
+      const defaultViewState: ViewState = {
+        columnState: [],
+        quickFilters: [],
+      };
+      const mockFn = jest.fn();
+      service['getMsdMainTableState'] = mockFn;
+      mockFn.mockReturnValue({
+        version: 2,
         materials: {
           st: {
-            columnState: undefined,
-            quickFilters: [],
+            materials: defaultViewState,
+            suppliers: defaultViewState,
+          },
+          al: {
+            materials: defaultViewState,
+            suppliers: defaultViewState,
+          },
+          px: {
+            materials: defaultViewState,
+            suppliers: defaultViewState,
           },
         },
-      }));
+      });
       service['materialClass'] = MaterialClass.STEEL;
+      service['navigationLevel'] = NavigationLevel.MATERIAL;
 
       const result = service.getQuickFilterState();
 
@@ -249,20 +406,53 @@ describe('MsdAgGridStateService', () => {
 
   describe('setQuickFilterState', () => {
     it('should set the quick filter state for the current material class', () => {
-      service['getMsdMainTableState'] = jest.fn(() => ({
-        version: 1,
-        materials: {},
-      }));
+      const defaultViewState: ViewState = {
+        columnState: undefined,
+        quickFilters: undefined,
+      };
+      const mockFn = jest.fn();
+      service['getMsdMainTableState'] = mockFn;
+      mockFn.mockReturnValue({
+        version: 2,
+        materials: {
+          st: {
+            materials: defaultViewState,
+            suppliers: defaultViewState,
+          },
+          al: {
+            materials: defaultViewState,
+            suppliers: defaultViewState,
+          },
+          px: {
+            materials: defaultViewState,
+            suppliers: defaultViewState,
+          },
+        },
+      });
       service['materialClass'] = MaterialClass.STEEL;
+      service['navigationLevel'] = NavigationLevel.MATERIAL;
+
       service['setMsdMainTableState'] = jest.fn();
 
       service.setQuickFilterState([]);
 
       expect(service['setMsdMainTableState']).toHaveBeenCalledWith({
-        version: 1,
+        version: 2,
         materials: {
           st: {
-            quickFilters: [],
+            materials: {
+              ...defaultViewState,
+              quickFilters: [],
+            },
+            suppliers: defaultViewState,
+          },
+          al: {
+            materials: defaultViewState,
+            suppliers: defaultViewState,
+          },
+          px: {
+            materials: defaultViewState,
+            suppliers: defaultViewState,
           },
         },
       });

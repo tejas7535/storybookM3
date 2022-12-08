@@ -27,7 +27,7 @@ import {
   fetchReferenceDocuments,
   fetchSteelMakingProcessesInUse,
   resetSteelMakingProcessInUse,
-} from '@mac/feature/materials-supplier-database/store';
+} from '@mac/feature/materials-supplier-database/store/actions/dialog';
 import { MaterialInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/material-input-dialog.component';
 import { DialogControlsService } from '@mac/msd/main-table/material-input-dialog/services';
 import { DataResult, SteelMaterialForm } from '@mac/msd/models';

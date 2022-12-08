@@ -17,7 +17,6 @@ import {
   ManufacturerSupplier,
   ManufacturerSupplierV2,
   Material,
-  MaterialStandard,
   MaterialStandardV2,
   PolymerMaterial,
   SteelManufacturerSupplier,
@@ -225,13 +224,13 @@ describe('MsdDataService', () => {
         {
           id: 0,
           materialName: 'material1',
-          materialNumber: '1234.1234',
+          materialNumber: ['1234.1234'],
           standardDocument: 'S 123456',
         },
         {
           id: 1,
           materialName: 'material1',
-          materialNumber: '1234.1234',
+          materialNumber: ['1234.1234'],
           standardDocument: 'S 123456',
         },
       ];
@@ -352,8 +351,8 @@ describe('MsdDataService', () => {
         .createMaterialStandard({
           materialName: 'name',
           standardDocument: 'S 123456',
-          materialNumber: '1.1234, 1.5678',
-        } as MaterialStandard)
+          materialNumber: ['1.1234', '1.5678'],
+        } as MaterialStandardV2)
         .subscribe((result) => {
           expect(result).toEqual(mockResponse);
           done();
@@ -377,7 +376,7 @@ describe('MsdDataService', () => {
         .createMaterialStandard({
           materialName: 'name',
           standardDocument: 'S 123456',
-          materialNumber: '1.1234, 1.5678',
+          materialNumber: ['1.1234', '1.5678'],
         } as SteelMaterialStandard)
         .subscribe((result) => {
           expect(result).toEqual(mockResponse);

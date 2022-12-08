@@ -20,17 +20,18 @@ import { Column, ColumnApi, ColumnState, GridApi } from 'ag-grid-community';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import * as en from '../../../../../assets/i18n/en.json';
-import { MaterialClass } from '../../constants';
-import { QuickFilter } from '../../models';
+import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
+import { QuickFilter } from '@mac/msd/models';
 import {
   addCustomQuickfilter,
   removeCustomQuickfilter,
   updateCustomQuickfilter,
-} from '../../store';
-import { DataFacade } from '../../store/facades/data';
-import { initialState as qfInitialState } from '../../store/reducers/quickfilter/quickfilter.reducer';
-import { STEEL_STATIC_QUICKFILTERS } from './config';
+} from '@mac/msd/store/actions/quickfilter';
+import { DataFacade } from '@mac/msd/store/facades/data';
+import { initialState as qfInitialState } from '@mac/msd/store/reducers/quickfilter/quickfilter.reducer';
+
+import * as en from '../../../../../assets/i18n/en.json';
+import { STEEL_STATIC_QUICKFILTERS } from './config/steel';
 import { QuickFilterComponent } from './quick-filter.component';
 
 describe('QuickFilterComponent', () => {
@@ -71,7 +72,10 @@ describe('QuickFilterComponent', () => {
       {
         provide: DataFacade,
         useValue: {
-          materialClass$: of(MaterialClass.STEEL),
+          navigation$: of({
+            materialClass: MaterialClass.STEEL,
+            navigationLevel: NavigationLevel.MATERIAL,
+          }),
           dispatch: jest.fn(),
         },
       },
@@ -103,21 +107,27 @@ describe('QuickFilterComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should init the quickfilters when a material class is selected', () => {
+    it('should init the quickfilters when a navigation takes place', () => {
       const mockQuickFilter = {} as QuickFilter;
-      const mockSubject = new Subject<MaterialClass>();
-      component['dataFacade'].materialClass$ = mockSubject;
+      const mockSubject = new Subject<{
+        materialClass: MaterialClass;
+        navigationLevel: NavigationLevel;
+      }>();
+      component['dataFacade'].navigation$ = mockSubject;
       component['msdAgGridConfigService'].getStaticQuickFilters = jest.fn(
         () => [mockQuickFilter]
       );
 
       component.ngOnInit();
-      mockSubject.next(MaterialClass.STEEL);
+      mockSubject.next({
+        materialClass: MaterialClass.STEEL,
+        navigationLevel: NavigationLevel.MATERIAL,
+      });
 
       expect(component.active).toEqual(mockQuickFilter);
       expect(
         component['msdAgGridConfigService'].getStaticQuickFilters
-      ).toHaveBeenCalledWith(MaterialClass.STEEL);
+      ).toHaveBeenCalledWith(MaterialClass.STEEL, NavigationLevel.MATERIAL);
     });
 
     it('should init localStoreage and subscribe to agGrid event', () => {

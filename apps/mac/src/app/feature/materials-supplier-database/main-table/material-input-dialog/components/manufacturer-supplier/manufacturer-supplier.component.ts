@@ -18,7 +18,7 @@ import {
   addCustomSupplierCountry,
   addCustomSupplierName,
   addCustomSupplierPlant,
-} from '@mac/msd/store';
+} from '@mac/msd/store/actions/dialog';
 import { DialogFacade } from '@mac/msd/store/facades/dialog';
 
 @Component({

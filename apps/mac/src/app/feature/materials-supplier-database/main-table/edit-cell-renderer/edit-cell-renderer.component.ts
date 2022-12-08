@@ -5,19 +5,19 @@ import { take } from 'rxjs';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 
 import { MaterialClass } from '@mac/msd/constants';
+import { EDITABLE_MATERIAL_CLASSES } from '@mac/msd/constants/editable-material-classes';
 import { DataResult } from '@mac/msd/models';
 import { MsdDialogService } from '@mac/msd/services';
+import { fetchResult } from '@mac/msd/store/actions/data';
 import {
-  fetchMaterials,
   materialDialogCanceled,
   materialDialogOpened,
   minimizeDialog,
   openDialog,
   openEditDialog,
-} from '@mac/msd/store/actions';
+} from '@mac/msd/store/actions/dialog';
+import { DataFacade } from '@mac/msd/store/facades/data';
 
-import { EDITABLE_MATERIAL_CLASSES } from '../../constants/editable-material-classes';
-import { DataFacade } from '../../store/facades/data';
 import { EditCellRendererParams } from './edit-cell-renderer-params.model';
 
 @Component({
@@ -79,7 +79,7 @@ export class EditCellRendererComponent implements ICellRendererAngularComp {
       .pipe(take(1))
       .subscribe(({ reload, minimize }) => {
         if (reload) {
-          this.dataFacade.dispatch(fetchMaterials());
+          this.dataFacade.dispatch(fetchResult());
         }
         if (minimize) {
           this.dataFacade.dispatch(minimizeDialog(minimize));

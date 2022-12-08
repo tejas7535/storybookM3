@@ -1,20 +1,12 @@
 import { Injectable } from '@angular/core';
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, filter } from 'rxjs';
 
 import { ColDef } from 'ag-grid-enterprise';
 
-import { MaterialClass } from '@mac/msd/constants';
-import {
-  ALUMINUM_STATIC_QUICKFILTERS,
-  POLYMER_STATIC_QUICKFILTERS,
-  STEEL_STATIC_QUICKFILTERS,
-} from '@mac/msd/main-table/quick-filter/config';
-import {
-  ALUMINUM_COLUMN_DEFINITIONS,
-  POLYMER_COLUMN_DEFINITIONS,
-  STEEL_COLUMN_DEFINITIONS,
-} from '@mac/msd/main-table/table-config/materials';
+import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
+import { STATIC_QUICKFILTERS_MAPPING } from '@mac/msd/main-table/quick-filter/config';
+import { COLUMN_DEFINITIONS_MAPPING } from '@mac/msd/main-table/table-config/materials';
 import { QuickFilter } from '@mac/msd/models';
 import { DataFacade } from '@mac/msd/store/facades/data';
 
@@ -22,16 +14,13 @@ import { DataFacade } from '@mac/msd/store/facades/data';
   providedIn: 'root',
 })
 export class MsdAgGridConfigService {
-  private readonly ALUMINUM_COLUMN_DEFINITIONS = ALUMINUM_COLUMN_DEFINITIONS;
-  private readonly STEEL_COLUMN_DEFINITIONS = STEEL_COLUMN_DEFINITIONS;
-  private readonly POLYMER_COLUMN_DEFINITIONS = POLYMER_COLUMN_DEFINITIONS;
-
-  private readonly ALUMINUM_STATIC_QUICKFILTERS = ALUMINUM_STATIC_QUICKFILTERS;
-  private readonly STEEL_STATIC_QUICKFILTERS = STEEL_STATIC_QUICKFILTERS;
-  private readonly POLYMER_STATIC_QUICKFILTERS = POLYMER_STATIC_QUICKFILTERS;
+  private readonly COLUMN_DEFINITIONS_MAPPING = COLUMN_DEFINITIONS_MAPPING;
+  private readonly STATIC_QUICKFILTERS_MAPPING = STATIC_QUICKFILTERS_MAPPING;
 
   public columnDefinitions$ = new BehaviorSubject<ColDef[]>(
-    this.STEEL_COLUMN_DEFINITIONS
+    this.COLUMN_DEFINITIONS_MAPPING.materials[MaterialClass.STEEL][
+      NavigationLevel.MATERIAL
+    ]
   );
 
   constructor(private readonly dataFacade: DataFacade) {
@@ -39,36 +28,34 @@ export class MsdAgGridConfigService {
   }
 
   private init(): void {
-    this.dataFacade.materialClass$.subscribe((materialClass) => {
-      this.columnDefinitions$.next(
-        this.getDefaultColumnDefinitions(materialClass)
-      );
-    });
+    this.dataFacade.navigation$
+      .pipe(
+        filter(({ materialClass, navigationLevel }) =>
+          Boolean(materialClass && navigationLevel)
+        )
+      )
+      .subscribe(({ materialClass, navigationLevel }) => {
+        this.columnDefinitions$.next(
+          this.getDefaultColumnDefinitions(materialClass, navigationLevel)
+        );
+      });
   }
 
-  public getDefaultColumnDefinitions(materialClass: MaterialClass): ColDef[] {
-    switch (materialClass) {
-      case MaterialClass.ALUMINUM:
-        return this.ALUMINUM_COLUMN_DEFINITIONS;
-      case MaterialClass.STEEL:
-        return this.STEEL_COLUMN_DEFINITIONS;
-      case MaterialClass.POLYMER:
-        return this.POLYMER_COLUMN_DEFINITIONS;
-      default:
-        return undefined;
-    }
+  public getDefaultColumnDefinitions(
+    materialClass: MaterialClass,
+    navigationLevel: NavigationLevel
+  ): ColDef[] {
+    return this.COLUMN_DEFINITIONS_MAPPING.materials[materialClass][
+      navigationLevel
+    ];
   }
 
-  public getStaticQuickFilters(materialClass: MaterialClass): QuickFilter[] {
-    switch (materialClass) {
-      case MaterialClass.ALUMINUM:
-        return this.ALUMINUM_STATIC_QUICKFILTERS;
-      case MaterialClass.STEEL:
-        return this.STEEL_STATIC_QUICKFILTERS;
-      case MaterialClass.POLYMER:
-        return this.POLYMER_STATIC_QUICKFILTERS;
-      default:
-        return undefined;
-    }
+  public getStaticQuickFilters(
+    materialClass: MaterialClass = MaterialClass.STEEL,
+    navigationLevel: NavigationLevel = NavigationLevel.MATERIAL
+  ): QuickFilter[] {
+    return this.STATIC_QUICKFILTERS_MAPPING.materials[materialClass][
+      navigationLevel
+    ];
   }
 }

@@ -27,12 +27,10 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
 import { CreateMaterialRecord } from '@mac/feature/materials-supplier-database/models';
-import {
-  getCreateMaterialRecord,
-  materialDialogConfirmed,
-} from '@mac/feature/materials-supplier-database/store';
+import { materialDialogConfirmed } from '@mac/feature/materials-supplier-database/store/actions/dialog';
 import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
 import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
+import { getCreateMaterialRecord } from '@mac/msd/store/selectors';
 import {
   mockMaterialStandards,
   mockSuppliers,

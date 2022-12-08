@@ -28,7 +28,7 @@ import { SelectComponent, SelectModule } from '@schaeffler/inputs/select';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
-import { CreateMaterialRecord } from '@mac/feature/materials-supplier-database/models';
+import { CreateMaterialRecord } from '@mac/msd/models';
 import {
   addCustomCastingDiameter,
   addCustomReferenceDocument,
@@ -36,14 +36,16 @@ import {
   fetchCo2ValuesForSupplierSteelMakingProcess,
   fetchReferenceDocuments,
   fetchSteelMakingProcessesInUse,
+  materialDialogConfirmed,
+  resetSteelMakingProcessInUse,
+} from '@mac/msd/store/actions/dialog';
+import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
+import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
+import {
   getCreateMaterialRecord,
   getHighestCo2Values,
   getSteelMakingProcessesInUse,
-  materialDialogConfirmed,
-  resetSteelMakingProcessInUse,
-} from '@mac/feature/materials-supplier-database/store';
-import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
-import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
+} from '@mac/msd/store/selectors';
 import {
   mockMaterialStandards,
   mockSuppliers,

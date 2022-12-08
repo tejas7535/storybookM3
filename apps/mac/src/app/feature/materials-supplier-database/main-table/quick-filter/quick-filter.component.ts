@@ -79,11 +79,19 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
 
   ngOnInit(): void {
     // create a copy of the static filters to modify first item
-    this.dataFacade.materialClass$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((materialClass) => {
-        this.staticFilters =
-          this.msdAgGridConfigService.getStaticQuickFilters(materialClass);
+    this.dataFacade.navigation$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter(
+          ({ materialClass, navigationLevel }) =>
+            !!materialClass && !!navigationLevel
+        )
+      )
+      .subscribe(({ materialClass, navigationLevel }) => {
+        this.staticFilters = this.msdAgGridConfigService.getStaticQuickFilters(
+          materialClass,
+          navigationLevel
+        );
         this.customFilters$ = this.qfFacade.quickFilter$;
         this.active = this.staticFilters[0];
       });

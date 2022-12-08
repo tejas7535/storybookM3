@@ -85,16 +85,7 @@ export class MsdDataService {
                   materialResponse.materialStandard.materialName,
                 materialNumbers:
                   'materialNumber' in materialResponse.materialStandard
-                    ? // eslint-disable-next-line unicorn/no-nested-ternary
-                      materialResponse.materialStandard.materialNumber?.includes(
-                        ','
-                      )
-                      ? materialResponse.materialStandard.materialNumber
-                          ?.split(',')
-                          .map((materialNumber: string) =>
-                            materialNumber.trim()
-                          )
-                      : [materialResponse.materialStandard.materialNumber]
+                    ? materialResponse.materialStandard.materialNumber
                     : undefined,
                 materialStandardStandardDocument:
                   materialResponse.materialStandard.standardDocument,
@@ -139,10 +130,6 @@ export class MsdDataService {
                 generalDescription:
                   'generalDescription' in materialResponse
                     ? materialResponse.generalDescription
-                    : undefined,
-                sapMaterialNumber:
-                  'sapMaterialNumber' in materialResponse
-                    ? materialResponse.sapMaterialNumber
                     : undefined,
                 referenceDoc:
                   'referenceDoc' in materialResponse
@@ -480,7 +467,7 @@ export class MsdDataService {
       modStd = {
         materialName: standard.materialName,
         standardDocument: standard.standardDocument,
-        materialNumber: standard.materialNumber?.split(', '),
+        materialNumber: standard.materialNumber,
       };
     }
 
