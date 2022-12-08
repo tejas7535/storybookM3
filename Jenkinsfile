@@ -827,83 +827,79 @@ pipeline {
             }
         }
 
-        stage('Deployments') {
-            parallel {
-                stage('Trigger App Deployments') {
-                    when {
-                        expression {
-                            return runTriggerAppDeploymentsStage()
-                        }
-                    }
-                    steps {
-                        script {
-                            def deployments = readJSON file: 'deployments.json'
-                            def appsToBuild = isAppRelease() ? [env.RELEASE_SCOPE] : affectedApps
+        stage('Trigger App Deployments') {
+            when {
+                expression {
+                    return runTriggerAppDeploymentsStage()
+                }
+            }
+            steps {
+                script {
+                    def deployments = readJSON file: 'deployments.json'
+                    def appsToBuild = isAppRelease() ? [env.RELEASE_SCOPE] : affectedApps
 
-                            for (app in appsToBuild) {
-                                def url = deployments[app]
+                    for (app in appsToBuild) {
+                        def url = deployments[app]
 
-                                def version = getPackageVersion(app)
-                                def configuration = isAppRelease() ? 'PROD' : (isMaster() ? 'QA' : 'DEV')
+                        def version = getPackageVersion(app)
+                        def configuration = isAppRelease() ? 'PROD' : (isMaster() ? 'QA' : 'DEV')
 
-                                // prod/release = latest, master = next, feature build = branch name
-                                def fileName = isAppRelease() ? 'latest' : isMaster() ? 'next' : getFilteredBranchName()
-                                def artifactoryTargetPath = "${artifactoryBasePath}/${app}/${fileName}.zip"
+                        // prod/release = latest, master = next, feature build = branch name
+                        def fileName = isAppRelease() ? 'latest' : isMaster() ? 'next' : getFilteredBranchName()
+                        def artifactoryTargetPath = "${artifactoryBasePath}/${app}/${fileName}.zip"
 
-                                try {
-                                    build job: "${url}",
-                                        parameters: [
-                                                string(name: 'VERSION', value: "${version}"),
-                                                string(name: 'CONFIGURATION', value: "${configuration}"),
-                                                string(name: 'ARTIFACTORY_TARGET_PATH', value: "${artifactoryTargetPath}")
-                                        ], wait: false
-                                } catch (error) {
-                                    println("WARNING: Some error occured while triggering deployment for ${app}, see stacktrace below:")
-                                    println(error)
-                                }
-                            }
+                        try {
+                            build job: "${url}",
+                                parameters: [
+                                        string(name: 'VERSION', value: "${version}"),
+                                        string(name: 'CONFIGURATION', value: "${configuration}"),
+                                        string(name: 'ARTIFACTORY_TARGET_PATH', value: "${artifactoryTargetPath}")
+                                ], wait: false
+                        } catch (error) {
+                            println("WARNING: Some error occured while triggering deployment for ${app}, see stacktrace below:")
+                            println(error)
                         }
                     }
                 }
+            }
+        }
 
-                stage ('Storybook Deployment') {
-                    when {
-                        expression {
-                            return publishStorybook()
-                        }
-                    }
-                    steps {
-                        echo 'Deploy Storybook to GH-Pages'
+        stage ('Storybook Deployment') {
+            when {
+                expression {
+                    return publishStorybook()
+                }
+            }
+            steps {
+                echo 'Deploy Storybook to GH-Pages'
 
-                        script {
-                            // Checkout gh-pages branch and clean folder
-                            github.executeAsGithubUser('github-jenkins-access-token', 'git fetch --all')
-                            sh 'git checkout -- .'
-                            sh 'git checkout gh-pages'
-                            sh "git reset --hard origin/gh-pages"
-                            sh 'rm -rf *'
+                script {
+                    // Checkout gh-pages branch and clean folder
+                    github.executeAsGithubUser('github-jenkins-access-token', 'git fetch --all')
+                    sh 'git checkout -- .'
+                    sh 'git checkout gh-pages'
+                    sh "git reset --hard origin/gh-pages"
+                    sh 'rm -rf *'
 
-                            // download latest storybook bundle
-                            String target = "${artifactoryBasePath}/storybook/next.zip"
-                            String output = 'storybook.zip'
-                            downloadArtifact(target, output)
+                    // download latest storybook bundle
+                    String target = "${artifactoryBasePath}/storybook/next.zip"
+                    String output = 'storybook.zip'
+                    downloadArtifact(target, output)
 
-                            // unzip bundle
-                            sh 'mkdir docs'
-                            fileOperations([fileUnZipOperation(filePath: 'storybook.zip', targetLocation: './docs')])
-                            writeFile(file: 'docs/CNAME', text: 'storybook.pages.dp.schaeffler')
-                            sh 'rm storybook.zip'
+                    // unzip bundle
+                    sh 'mkdir docs'
+                    fileOperations([fileUnZipOperation(filePath: 'storybook.zip', targetLocation: './docs')])
+                    writeFile(file: 'docs/CNAME', text: 'storybook.pages.dp.schaeffler')
+                    sh 'rm storybook.zip'
 
-                            try {
-                                // commit and push back to remote
-                                sh 'git add -A'
-                                sh "git commit -m 'chore(storybook): update storybook [$BUILD_NUMBER]' --no-verify"
-                                github.executeAsGithubUser('github-jenkins-access-token', 'git push')
-                            } catch (error) {
-                                echo 'No changes to commit for storybook deployment'
-                                println(error)
-                            }
-                        }
+                    try {
+                        // commit and push back to remote
+                        sh 'git add -A'
+                        sh "git commit -m 'chore(storybook): update storybook [$BUILD_NUMBER]' --no-verify"
+                        github.executeAsGithubUser('github-jenkins-access-token', 'git push')
+                    } catch (error) {
+                        echo 'No changes to commit for storybook deployment'
+                        println(error)
                     }
                 }
             }
