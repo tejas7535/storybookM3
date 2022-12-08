@@ -5,17 +5,22 @@
       [ngClass]="{
         'text-info': (sapStatus$ | ngrxPush) === sapSyncStatus.SYNCED,
         'text-medium-emphasis':
-          (sapStatus$ | ngrxPush) === sapSyncStatus.NOT_SYNCED,
+          (sapStatus$ | ngrxPush) === sapSyncStatus.NOT_SYNCED && !errorCode,
         'text-orange':
-          (sapStatus$ | ngrxPush) === sapSyncStatus.PARTIALLY_SYNCED
+          (sapStatus$ | ngrxPush) === sapSyncStatus.PARTIALLY_SYNCED,
+        'text-error':
+          (sapStatus$ | ngrxPush) === sapSyncStatus.NOT_SYNCED && errorCode
       }"
       *transloco="let t; read: 'shared.sapStatusLabels'"
+      [matTooltip]="errorCode ? t('errorCodes.' + errorCode) : undefined"
     >
       <ng-container *ngIf="(sapStatus$ | ngrxPush) === sapSyncStatus.SYNCED">
         {{ t('synced') }}
       </ng-container>
       <ng-container
-        *ngIf="(sapStatus$ | ngrxPush) === sapSyncStatus.NOT_SYNCED"
+        *ngIf="
+          (sapStatus$ | ngrxPush) === sapSyncStatus.NOT_SYNCED && !errorCode
+        "
       >
         {{ t('notSynced') }}
       </ng-container>
@@ -23,6 +28,13 @@
         *ngIf="(sapStatus$ | ngrxPush) === sapSyncStatus.PARTIALLY_SYNCED"
       >
         {{ t('partiallySynced') }}
+      </ng-container>
+      <ng-container
+        *ngIf="
+          (sapStatus$ | ngrxPush) === sapSyncStatus.NOT_SYNCED && errorCode
+        "
+      >
+        {{ t('syncFailed') }}
       </ng-container>
     </span>
     <span class="ml-[10px] mr-[10px] pt-2 text-caption opacity-[0.12]"

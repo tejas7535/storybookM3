@@ -12,6 +12,7 @@ import { SAP_SYNC_STATUS } from './../../../models/quotation-detail/sap-sync-sta
 export class SyncStatusCustomerInfoHeaderComponent {
   @Input() customer: Customer;
   @Input() sapStatus$: Observable<SAP_SYNC_STATUS>;
+  @Input() errorCode: string = '';
   @Input() showSyncStatus = false;
 
   public readonly sapSyncStatus: typeof SAP_SYNC_STATUS = SAP_SYNC_STATUS;
