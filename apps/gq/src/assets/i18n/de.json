@@ -348,6 +348,7 @@
       "updateComment": "Die Kommentaränderung wurde gespeichert",
       "uploadSelectionSuccess": "Die ausgewählten Positionen wurden in SAP gespeichert",
       "refreshSapPricingSuccess": "SAP Preise wurden aktualisiert",
+      "refreshSapPricingSuccessAsync": "Preise werden aus SAP aktualisiert",
       "wrongPriceEditInput": "Bitte geben sie einen numerischen Preis ein",
       "priceShouldBeHigherThanZero": "Der Preis muss höher als 0.00 sein",
       "pasteDisabled": "GQ kann nicht auf Ihre Zwischenablage zugreifen. Bitte überprüfen Sie Ihre Browsereinstellungen.",

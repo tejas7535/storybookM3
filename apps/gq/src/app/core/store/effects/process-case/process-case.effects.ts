@@ -23,6 +23,7 @@ import { AppRoutePath } from '../../../../app-route-path.enum';
 import { URL_SUPPORT } from '../../../../shared/http/constants/urls';
 import { Quotation } from '../../../../shared/models';
 import { Customer } from '../../../../shared/models/customer';
+import { SapCallInProgress } from '../../../../shared/models/quotation';
 import {
   MaterialTableItem,
   MaterialValidation,
@@ -407,10 +408,20 @@ export class ProcessCaseEffect {
       map(([_action, gqId]) => gqId),
       mergeMap((gqId: number) =>
         this.quotationService.refreshSapPricing(gqId).pipe(
-          tap(() => {
-            const successMessage = translate(
-              'shared.snackBarMessages.refreshSapPricingSuccess'
-            );
+          tap((resp) => {
+            let successMessage = '';
+
+            if (
+              resp.sapCallInProgress ===
+              SapCallInProgress.FETCH_DATA_IN_PROGRESS
+            ) {
+              successMessage = translate(
+                'shared.snackBarMessages.refreshSapPricingSuccessAsync'
+              );
+            } else {
+              translate('shared.snackBarMessages.refreshSapPricingSuccess');
+            }
+
             this.snackBar.open(successMessage);
           }),
           tap((item) =>
