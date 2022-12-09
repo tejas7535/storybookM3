@@ -164,7 +164,10 @@ export const processCaseReducer = createReducer(
       ...state,
       quotation: {
         ...state.quotation,
-        item,
+        item: {
+          ...item,
+          quotationDetails: sortQuotationDetails(item.quotationDetails),
+        },
         quotationLoading: false,
         errorMessage: undefined,
       },
@@ -199,15 +202,15 @@ export const processCaseReducer = createReducer(
         ...state.quotation,
         item: {
           ...updatedQuotation,
-          quotationDetails: [...state.quotation.item.quotationDetails].map(
-            (el) => {
-              const update = updatedQuotation.quotationDetails.find(
-                (detail) => detail.gqPositionId === el.gqPositionId
-              );
+          quotationDetails: [
+            ...sortQuotationDetails(state.quotation.item.quotationDetails),
+          ].map((el) => {
+            const update = updatedQuotation.quotationDetails.find(
+              (detail) => detail.gqPositionId === el.gqPositionId
+            );
 
-              return update ?? el;
-            }
-          ),
+            return update ?? el;
+          }),
         },
         updateLoading: false,
         errorMessage: undefined,
@@ -259,7 +262,7 @@ export const processCaseReducer = createReducer(
           ...updatedQuotation,
           quotationDetails: [
             ...state.quotation.item.quotationDetails,
-            ...updatedQuotation.quotationDetails,
+            ...sortQuotationDetails(updatedQuotation.quotationDetails),
           ],
         },
         updateLoading: false,
@@ -391,9 +394,11 @@ export const processCaseReducer = createReducer(
         ...state.quotation,
         item: {
           ...updatedQuotation,
-          quotationDetails: deleteQuotationDetails(
-            state.quotation.item.quotationDetails,
-            updatedQuotation.quotationDetails
+          quotationDetails: sortQuotationDetails(
+            deleteQuotationDetails(
+              state.quotation.item.quotationDetails,
+              updatedQuotation.quotationDetails
+            )
           ),
         },
         updateLoading: false,
@@ -460,20 +465,22 @@ export const processCaseReducer = createReducer(
         updateLoading: false,
         item: {
           ...updatedQuotation,
-          quotationDetails: state.quotation.item.quotationDetails.map(
-            (oldQuotationDetail: QuotationDetail) => {
-              const idx = updatedQuotation.quotationDetails.findIndex(
-                (updatedQuotationDetail: QuotationDetail) =>
-                  updatedQuotationDetail.gqPositionId ===
-                  oldQuotationDetail.gqPositionId
-              );
+          quotationDetails: sortQuotationDetails(
+            state.quotation.item.quotationDetails.map(
+              (oldQuotationDetail: QuotationDetail) => {
+                const idx = updatedQuotation.quotationDetails.findIndex(
+                  (updatedQuotationDetail: QuotationDetail) =>
+                    updatedQuotationDetail.gqPositionId ===
+                    oldQuotationDetail.gqPositionId
+                );
 
-              if (idx === -1) {
-                return oldQuotationDetail;
+                if (idx === -1) {
+                  return oldQuotationDetail;
+                }
+
+                return updatedQuotation.quotationDetails[idx];
               }
-
-              return updatedQuotation.quotationDetails[idx];
-            }
+            )
           ),
         },
       },
@@ -495,7 +502,10 @@ export const processCaseReducer = createReducer(
       ...state,
       quotation: {
         ...state.quotation,
-        item: quotation,
+        item: {
+          ...quotation,
+          quotationDetails: sortQuotationDetails(quotation.quotationDetails),
+        },
         updateLoading: false,
       },
     })
@@ -527,7 +537,10 @@ export const processCaseReducer = createReducer(
       ...state,
       quotation: {
         ...state.quotation,
-        item: quotation,
+        item: {
+          ...quotation,
+          quotationDetails: sortQuotationDetails(quotation.quotationDetails),
+        },
         quotationLoading: false,
       },
     })
@@ -640,7 +653,10 @@ export const processCaseReducer = createReducer(
       ...state,
       quotation: {
         ...state.quotation,
-        item: quotation,
+        item: {
+          ...quotation,
+          quotationDetails: sortQuotationDetails(quotation.quotationDetails),
+        },
         quotationLoading: false,
       },
     })
@@ -703,3 +719,8 @@ const getSimulatedDetails = (
           detail.quotationItemId === simulatedDetail.quotationItemId
       ) || detail
   );
+
+const sortQuotationDetails = (
+  quotationDetails: QuotationDetail[]
+): QuotationDetail[] =>
+  [...quotationDetails].sort((a, b) => a.quotationItemId - b.quotationItemId);
