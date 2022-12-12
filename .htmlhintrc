@@ -1,6 +1,6 @@
 {
-    "attr-lowercase": false,
-    "doctype-first": false,
-	"inline-style-disabled": true,
-    "tagname-lowercase": true
+  "attr-lowercase": false,
+  "doctype-first": false,
+  "inline-style-disabled": true,
+  "tagname-lowercase": true
 }
