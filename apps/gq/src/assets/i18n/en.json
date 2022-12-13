@@ -125,7 +125,8 @@
         }
       },
       "ST": "PC",
-      "deliveryUnit": "Delivery Unit"
+      "deliveryUnit": "Delivery Unit",
+      "defaultView": "Default"
     },
     "breadcrumbs": {
       "caseView": "Quotation Cases",

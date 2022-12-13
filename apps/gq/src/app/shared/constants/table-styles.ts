@@ -52,3 +52,13 @@ export const statusBarSimulation = `
   }
 }
 `;
+
+export const statusBarWithBorderStyle = `
+  :host::ng-deep ag-grid-angular {
+    .ag-status-bar {
+      border: none !important;
+      border-radius: 4px !important;
+      padding: 0 16px !important;
+    }
+  }
+`;

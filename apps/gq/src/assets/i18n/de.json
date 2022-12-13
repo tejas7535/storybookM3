@@ -125,7 +125,8 @@
         }
       },
       "ST": "ST",
-      "deliveryUnit": "Liefereinheit"
+      "deliveryUnit": "Liefereinheit",
+      "defaultView": "Standard"
     },
     "breadcrumbs": {
       "caseView": "Case Übersicht",

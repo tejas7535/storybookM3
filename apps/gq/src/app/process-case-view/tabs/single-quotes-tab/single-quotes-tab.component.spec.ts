@@ -18,6 +18,7 @@ import {
 import { getQuotation, getUpdateLoading } from '../../../core/store';
 import { CustomStatusBarModule } from '../../../shared/ag-grid/custom-status-bar/custom-status-bar.module';
 import { InputTableModule } from '../../../shared/components/case-material/input-table/input-table.module';
+import { SharedDirectivesModule } from '../../../shared/directives/shared-directives.module';
 import { QuotationDetailsTableModule } from '../../quotation-details-table/quotation-details-table.module';
 import { CalculationInProgressComponent } from './calculation-in-progress/calculation-in-progress.component';
 import { SingleQuotesTabComponent } from './single-quotes-tab.component';
@@ -38,6 +39,7 @@ describe('SingleQuotesTabComponent', () => {
       LoadingSpinnerModule,
       PushModule,
       MatCardModule,
+      SharedDirectivesModule,
     ],
     declarations: [CalculationInProgressComponent],
     providers: [

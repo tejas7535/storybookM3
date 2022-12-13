@@ -6,6 +6,12 @@
     else taskInProgress
   "
 >
+  <schaeffler-view-toggle
+    [views]="customViews"
+    (selectionChange)="onViewToggle($event)"
+    [displayBorderBottom]="false"
+    *featureToggle="'customViews'"
+  ></schaeffler-view-toggle>
   <gq-quotation-details-table
     *ngIf="!(updateLoading$ | ngrxPush); else updateLoading"
     [quotation]="quotation$ | ngrxPush"
