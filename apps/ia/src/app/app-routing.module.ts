@@ -31,13 +31,15 @@ export const appRoutePaths: Routes = [
             (m) => m.LossOfSkillModule
           ),
       },
-      {
-        path: AppRoutePath.ReasonsAndCounterMeasuresPath,
-        loadChildren: () =>
-          import(
-            './reasons-and-counter-measures/reasons-and-counter-measures.module'
-          ).then((m) => m.ReasonsAndCounterMeasuresModule),
-      },
+      // Feature not used now because of lack of the data.
+      // Replace by Toggle Feature when available in shared libs.
+      // {
+      //   path: AppRoutePath.ReasonsAndCounterMeasuresPath,
+      //   loadChildren: () =>
+      //     import(
+      //       './reasons-and-counter-measures/reasons-and-counter-measures.module'
+      //     ).then((m) => m.ReasonsAndCounterMeasuresModule),
+      // },
       {
         path: AppRoutePath.FluctuationAnalyticsPath,
         loadChildren: () =>

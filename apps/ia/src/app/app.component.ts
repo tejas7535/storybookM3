@@ -56,11 +56,13 @@ export class AppComponent implements OnInit {
       path: AppRoutePath.LossOfSkillPath,
       disabled: false,
     },
-    {
-      label: 'reasonsAndCounterMeasures',
-      path: AppRoutePath.ReasonsAndCounterMeasuresPath,
-      disabled: false,
-    },
+    // Feature not used now because of lack of the data.
+    // Replace by Toggle Feature when available in shared libs.
+    // {
+    //   label: 'reasonsAndCounterMeasures',
+    //   path: AppRoutePath.ReasonsAndCounterMeasuresPath,
+    //   disabled: false,
+    // },
     {
       label: 'fluctuationAnalytics',
       path: AppRoutePath.FluctuationAnalyticsPath,
