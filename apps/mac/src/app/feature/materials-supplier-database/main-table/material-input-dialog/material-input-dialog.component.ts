@@ -34,8 +34,12 @@ import {
 import {
   materialDialogConfirmed,
   materialDialogOpened,
+  resetDialogOptions,
+  resetMaterialRecord,
 } from '@mac/msd/store/actions/dialog';
 import { DialogFacade } from '@mac/msd/store/facades/dialog';
+
+import { DataFacade } from '../../store/facades/data';
 
 @Component({
   selector: 'mac-base-input-dialog',
@@ -105,6 +109,7 @@ export class MaterialInputDialogComponent
   public constructor(
     readonly controlsService: DialogControlsService,
     readonly dialogFacade: DialogFacade,
+    readonly dataFacade: DataFacade,
     readonly dialogRef: MatDialogRef<MaterialInputDialogComponent>,
     readonly snackbar: MatSnackBar,
     readonly cdRef: ChangeDetectorRef,
@@ -115,6 +120,9 @@ export class MaterialInputDialogComponent
     }
   ) {
     this.editLoading$ = new BehaviorSubject(!!dialogData.editDialogInformation);
+    this.dataFacade.materialClass$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((mc) => (this.materialClass = mc));
   }
 
   public ngOnInit(): void {
@@ -150,7 +158,7 @@ export class MaterialInputDialogComponent
             dialogData.minimizedDialog?.id ?? dialogData.editMaterial?.row?.id;
           if (materialFormValue) {
             this.enableEditFields(materialFormValue);
-            this.createMaterialForm.patchValue(materialFormValue);
+            this.patchFields(materialFormValue);
 
             if (this.dialogData.isResumeDialog || this.materialId) {
               this.createMaterialForm.markAllAsTouched();
@@ -178,10 +186,19 @@ export class MaterialInputDialogComponent
           this.editLoading$.next(false);
         });
     }
-
     setTimeout(() => {
-      this.dialogFacade.dispatch(materialDialogOpened());
+      this.dispatchDialogOpenEvent();
     });
+  }
+
+  // allow overload in sup-class
+  patchFields(materialFormValue: Partial<MaterialFormValueV2>): void {
+    this.createMaterialForm.patchValue(materialFormValue);
+  }
+
+  // allow overload in sup-class
+  dispatchDialogOpenEvent(): void {
+    this.dialogFacade.dispatch(materialDialogOpened());
   }
 
   public ngOnDestroy(): void {
@@ -199,6 +216,7 @@ export class MaterialInputDialogComponent
 
   public cancelDialog(): void {
     this.closeDialog(false);
+    this.dialogFacade.dispatch(resetDialogOptions());
   }
 
   public closeDialog(reload: boolean): void {
@@ -335,7 +353,7 @@ export class MaterialInputDialogComponent
           : undefined,
       rating:
         'rating' in baseMaterial
-          ? (baseMaterial.rating.id as string)
+          ? (baseMaterial.rating?.id as string)
           : undefined,
       ratingRemark:
         'ratingRemark' in baseMaterial ? baseMaterial.ratingRemark : undefined,
@@ -372,6 +390,9 @@ export class MaterialInputDialogComponent
           translate(msgKey),
           translate('materialsSupplierDatabase.mainTable.dialog.close'),
           { duration: 5000 }
+        );
+        this.dialogFacade.dispatch(
+          resetMaterialRecord({ closeDialog: !record.error })
         );
       });
   }

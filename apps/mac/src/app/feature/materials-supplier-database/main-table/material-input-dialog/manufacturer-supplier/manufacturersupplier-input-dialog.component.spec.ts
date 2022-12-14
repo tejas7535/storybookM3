@@ -1,0 +1,247 @@
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { PushModule } from '@ngrx/component';
+import { DefaultProjectorFn, MemoizedSelector } from '@ngrx/store';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+
+import { SelectModule } from '@schaeffler/inputs/select';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
+import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
+import {
+  CreateMaterialRecord,
+  ManufacturerSupplierV2,
+} from '@mac/feature/materials-supplier-database/models';
+import { getCreateMaterialRecord } from '@mac/feature/materials-supplier-database/store';
+import { manufacturerSupplierDialogConfirmed } from '@mac/feature/materials-supplier-database/store/actions/dialog';
+import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
+import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
+import {
+  mockMaterialStandards,
+  mockSuppliers,
+} from '@mac/testing/mocks/msd/input-dialog.mock';
+import { createMaterialFormValue } from '@mac/testing/mocks/msd/material-generator.mock';
+
+import * as en from '../../../../../../assets/i18n/en.json';
+import { BaseDialogModule } from '../base-dialog/base-dialog.module';
+import { MaterialInputDialogModule } from '../material-input-dialog.module';
+import { DialogControlsService } from '../services';
+import { ManufacturerSupplierInputDialogComponent } from './manufacturersupplier-input-dialog.component';
+
+describe('ManufacturerSupplierInputDialogComponent', () => {
+  let component: ManufacturerSupplierInputDialogComponent;
+  let spectator: Spectator<ManufacturerSupplierInputDialogComponent>;
+
+  const initialState = {
+    msd: {
+      data: {
+        ...initialDataState,
+      },
+      dialog: {
+        ...initialDialogState,
+        dialogOptions: {
+          ...initialDialogState.dialogOptions,
+          materialStandards: mockMaterialStandards,
+          materialStandardsLoading: true,
+          manufacturerSuppliers: mockSuppliers,
+          manufacturerSuppliersLoading: true,
+          ratings: ['1'],
+          ratingsLoading: true,
+          steelMakingProcesses: ['1'],
+          steelMakingProcessesLoading: true,
+          co2Classifications: ['1'],
+          co2ClassificationsLoading: true,
+          castingModes: ['1'],
+          castingModesLoading: true,
+          loading: true,
+        },
+        createMaterial: {
+          ...initialDialogState.createMaterial,
+          createMaterialLoading: true,
+          createMaterialSuccess: true,
+        },
+      },
+    },
+  };
+  const matDialogData = { materialClass: MaterialClass.STEEL };
+  let store: MockStore;
+  let createMaterialSpy: MemoizedSelector<any, any, DefaultProjectorFn<any>>;
+
+  const createComponent = createComponentFactory({
+    component: ManufacturerSupplierInputDialogComponent,
+    imports: [
+      CommonModule,
+      MatProgressSpinnerModule,
+      PushModule,
+      MatIconModule,
+      MatButtonModule,
+      MatDividerModule,
+      MatInputModule,
+      MatCheckboxModule,
+      MatFormFieldModule,
+      SelectModule,
+      ReactiveFormsModule,
+      MatDialogModule,
+      MatGridListModule,
+      MatSelectModule,
+      MatTooltipModule,
+      provideTranslocoTestingModule({ en }),
+      MatSnackBarModule,
+      BaseDialogModule,
+      MaterialInputDialogModule,
+    ],
+    providers: [
+      provideMockStore({ initialState }),
+      DialogControlsService,
+      {
+        provide: MatDialogRef,
+        useValue: {
+          close: jest.fn(),
+        },
+      },
+      {
+        provide: MAT_DIALOG_DATA,
+        useValue: matDialogData,
+      },
+    ],
+  });
+
+  beforeEach(() => {
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
+    const spy = spectator.inject(MockStore);
+    createMaterialSpy = spy.overrideSelector(getCreateMaterialRecord);
+    store = spy;
+    store.dispatch = jest.fn();
+    spectator.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  describe('ngOnInit', () => {
+    it('should assign the material form', () => {
+      component.createMaterialForm = undefined;
+
+      component.ngOnInit();
+      component.enableEditFields();
+      expect(component.createMaterialForm).toBeTruthy();
+    });
+    it('should enable manufacturer controlsfor steel', () => {
+      component.materialClass = MaterialClass.STEEL;
+      component.ngOnInit();
+      component.enableEditFields();
+
+      expect(component.isManufacturerControl.enabled).toBe(true);
+      expect(component.supplierControl.enabled).toBe(true);
+      expect(component.supplierPlantControl.enabled).toBe(true);
+      expect(component.supplierCountryControl.enabled).toBe(true);
+    });
+    it('should disable manufacturer controls for aluminum', () => {
+      component.materialClass = MaterialClass.ALUMINUM;
+      component.ngOnInit();
+      component.enableEditFields();
+
+      expect(component.isManufacturerControl.disabled).toBe(true);
+      expect(component.supplierControl.enabled).toBe(true);
+      expect(component.supplierPlantControl.enabled).toBe(true);
+      expect(component.supplierCountryControl.enabled).toBe(true);
+    });
+  });
+
+  describe('confirmMaterial', () => {
+    const update = (error: boolean) => {
+      createMaterialSpy.setResult({
+        error,
+      } as CreateMaterialRecord);
+      store.refreshState();
+    };
+    beforeEach(() => {
+      component.materialClass = MaterialClass.STEEL;
+      component.ngOnInit();
+      component.closeDialog = jest.fn();
+      component.showInSnackbar = jest.fn();
+
+      component.enableEditFields();
+    });
+    it('should close dialog on successful confirm', () => {
+      const values = createMaterialFormValue(MaterialClass.STEEL);
+      component.materialId = values.manufacturerSupplierId;
+      component.patchFields(values);
+      const expected: ManufacturerSupplierV2 = {
+        id: values.manufacturerSupplierId,
+        name: values.supplier.title,
+        plant: values.supplierPlant.title,
+        country: values.supplierCountry.title,
+        manufacturer: values.manufacturer,
+        sapData: undefined,
+      };
+
+      component.confirmMaterial();
+      expect(store.dispatch).toBeCalledWith(
+        manufacturerSupplierDialogConfirmed({ supplier: expected })
+      );
+
+      // backend response
+      update(false);
+      expect(component.closeDialog).toBeCalledWith(true);
+      expect(component.showInSnackbar).toBeCalled();
+    });
+    it('should keep the dialog open on error', () => {
+      const values = createMaterialFormValue(MaterialClass.STEEL);
+      component.materialId = values.manufacturerSupplierId;
+      component.patchFields(values);
+      const supplier: ManufacturerSupplierV2 = {
+        id: values.manufacturerSupplierId,
+        name: values.supplier.title,
+        plant: values.supplierPlant.title,
+        country: values.supplierCountry.title,
+        manufacturer: values.manufacturer,
+        sapData: undefined,
+      };
+
+      component.confirmMaterial();
+      expect(store.dispatch).toBeCalledWith(
+        manufacturerSupplierDialogConfirmed({ supplier })
+      );
+
+      // backend response
+      update(true);
+      expect(component.closeDialog).not.toBeCalled();
+      expect(component.showInSnackbar).toBeCalled();
+    });
+  });
+
+  describe('show is manufacturer', () => {
+    beforeEach(() => {
+      component.materialClass = MaterialClass.STEEL;
+      component.ngOnInit();
+    });
+    it('should be true', () => {
+      expect(component.showIsManufacturer()).toBe(true);
+    });
+    it('should be false', () => {
+      component.isManufacturerControl.disable();
+      expect(component.showIsManufacturer()).toBe(false);
+    });
+  });
+});

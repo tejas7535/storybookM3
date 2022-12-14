@@ -1,49 +1,9 @@
 <ng-container
   *transloco="let t; read: 'materialsSupplierDatabase.mainTable.dialog'"
 >
-  <div class="flex flex-row gap-x-6" *ngIf="!readonly; else matStdReadonly">
-    <schaeffler-select
-      appearance="outline"
-      class="w-full"
-      [stringOptions]="standardDocuments$ | ngrxPush"
-      [control]="standardDocumentsControl"
-      [label]="t('standardDocument')"
-      [filterFn]="standardDocumentFilterFnFactory(materialNamesControl)"
-      [resetButton]="true"
-      [showTriggerTooltip]="true"
-      triggerTooltipDelay="1500"
-      tooltipPosition="right"
-      addEntry="true"
-      (entryAdded)="addStandardDocument($event)"
-      name="materialStandardStandardDocument"
-      #dialogControl
-    >
-      <div matErrorContent *ngIf="standardDocumentsControl.invalid">
-        {{ getErrorMessage(standardDocumentsControl.errors) }}
-      </div>
-    </schaeffler-select>
-    <schaeffler-select
-      appearance="outline"
-      class="w-full"
-      [stringOptions]="materialNames$ | ngrxPush"
-      [control]="materialNamesControl"
-      [label]="t('materialName')"
-      [filterFn]="materialNameFilterFnFactory(standardDocumentsControl)"
-      [showTriggerTooltip]="true"
-      triggerTooltipDelay="1500"
-      tooltipPosition="right"
-      addEntry="true"
-      (entryAdded)="addMaterialName($event)"
-      name="materialStandardMaterialName"
-      #dialogControl
-    >
-      <div matErrorContent *ngIf="materialNamesControl.invalid">
-        {{ getErrorMessage(materialNamesControl.errors) }}
-      </div>
-    </schaeffler-select>
-  </div>
-  <ng-template #matStdReadonly>
-    <div class="flex flex-row gap-x-6">
+  <div class="flex flex-row gap-x-6" [ngSwitch]="viewMode">
+    <ng-container *ngSwitchCase="'readonly'">
+      <!-- readonly fields -->
       <mat-form-field appearance="outline" class="w-full">
         <mat-label>{{ t('standardDocument') }} {{ t('readonly') }}</mat-label>
         <input
@@ -68,6 +28,69 @@
           readonly="true"
         />
       </mat-form-field>
-    </div>
-  </ng-template>
+    </ng-container>
+    <ng-container *ngSwitchCase="'editable'">
+      <!-- edit fields-->
+      <mat-form-field appearance="outline" class="w-full" floatLabel="always">
+        <mat-label>{{ t('standardDocument') }}</mat-label>
+        <input
+          matInput
+          [formControl]="standardDocumentsEditControl"
+          name="materialStandardStandardDocument"
+          #dialogControl
+        />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="w-full" floatLabel="always">
+        <mat-label>{{ t('materialName') }}</mat-label>
+        <input
+          matInput
+          [formControl]="materialNamesEditControl"
+          name="materialStandardMaterialName"
+          #dialogControl
+        />
+      </mat-form-field>
+    </ng-container>
+    <ng-container *ngSwitchDefault>
+      <!-- select fields -->
+      <schaeffler-select
+        appearance="outline"
+        class="w-full"
+        [stringOptions]="standardDocuments$ | ngrxPush"
+        [control]="standardDocumentsControl"
+        [label]="t('standardDocument')"
+        [filterFn]="standardDocumentFilterFnFactory(materialNamesControl)"
+        [resetButton]="true"
+        [showTriggerTooltip]="true"
+        triggerTooltipDelay="1500"
+        tooltipPosition="right"
+        addEntry="true"
+        (entryAdded)="addStandardDocument($event)"
+        name="materialStandardStandardDocument"
+        #dialogControl
+      >
+        <div matErrorContent *ngIf="standardDocumentsControl.invalid">
+          {{ getErrorMessage(standardDocumentsControl.errors) }}
+        </div>
+      </schaeffler-select>
+      <schaeffler-select
+        appearance="outline"
+        class="w-full"
+        [stringOptions]="materialNames$ | ngrxPush"
+        [control]="materialNamesControl"
+        [label]="t('materialName')"
+        [filterFn]="materialNameFilterFnFactory(standardDocumentsControl)"
+        [showTriggerTooltip]="true"
+        triggerTooltipDelay="1500"
+        tooltipPosition="right"
+        addEntry="true"
+        (entryAdded)="addMaterialName($event)"
+        name="materialStandardMaterialName"
+        #dialogControl
+      >
+        <div matErrorContent *ngIf="materialNamesControl.invalid">
+          {{ getErrorMessage(materialNamesControl.errors) }}
+        </div>
+      </schaeffler-select>
+    </ng-container>
+  </div>
 </ng-container>

@@ -1,8 +1,7 @@
 import { FormControl } from '@angular/forms';
 
-import { BaseManufacturerSupplierForm } from '../base';
+import { BaseMaterialStandardForm } from '../base';
 
-export interface SteelMaterialStandardForm
-  extends BaseManufacturerSupplierForm {
+export interface SteelMaterialStandardForm extends BaseMaterialStandardForm {
   materialNumber: FormControl<string>;
 }

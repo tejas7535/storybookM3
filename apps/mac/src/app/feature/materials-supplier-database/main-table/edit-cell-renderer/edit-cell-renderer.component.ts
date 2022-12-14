@@ -52,14 +52,10 @@ export class EditCellRendererComponent implements ICellRendererAngularComp {
 
   public onEditClick(): void {
     this.dataFacade.dispatch(openDialog());
-    const dialogRef = this.dialogService.openDialog(
-      false,
-      {
-        row: this.params.data as DataResult,
-        column: this.params.column.getColId(),
-      },
-      this.params.data.materialClass as MaterialClass
-    );
+    const dialogRef = this.dialogService.openDialog(false, {
+      row: this.params.data as DataResult,
+      column: this.params.column.getColId(),
+    });
 
     dialogRef
       .afterOpened()

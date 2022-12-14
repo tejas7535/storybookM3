@@ -6,6 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject } from 'rxjs';
 
 import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
+import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
 import { MaterialInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/material-input-dialog.component';
 import { DialogControlsService } from '@mac/msd/main-table/material-input-dialog/services';
 import { AluminumMaterialForm, DataResult } from '@mac/msd/models';
@@ -27,6 +28,7 @@ export class AluminumInputDialogComponent
   public constructor(
     readonly controlsService: DialogControlsService,
     readonly dialogFacade: DialogFacade,
+    readonly dataFacade: DataFacade,
     readonly dialogRef: MatDialogRef<MaterialInputDialogComponent>,
     readonly snackbar: MatSnackBar,
     readonly cdRef: ChangeDetectorRef,
@@ -39,6 +41,7 @@ export class AluminumInputDialogComponent
     super(
       controlsService,
       dialogFacade,
+      dataFacade,
       dialogRef,
       snackbar,
       cdRef,

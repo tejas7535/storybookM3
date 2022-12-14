@@ -7,7 +7,7 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -28,9 +28,14 @@ import {
   fetchSteelMakingProcessesInUse,
   resetSteelMakingProcessInUse,
 } from '@mac/feature/materials-supplier-database/store/actions/dialog';
+import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
 import { MaterialInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/material-input-dialog.component';
 import { DialogControlsService } from '@mac/msd/main-table/material-input-dialog/services';
-import { DataResult, SteelMaterialForm } from '@mac/msd/models';
+import {
+  DataResult,
+  SteelMaterialForm,
+  SteelMaterialFormValue,
+} from '@mac/msd/models';
 import { DialogFacade } from '@mac/msd/store/facades/dialog';
 
 import * as util from '../../util';
@@ -110,6 +115,7 @@ export class SteelInputDialogComponent
   public constructor(
     readonly controlsService: DialogControlsService,
     readonly dialogFacade: DialogFacade,
+    readonly dataFacade: DataFacade,
     readonly dialogRef: MatDialogRef<MaterialInputDialogComponent>,
     readonly snackbar: MatSnackBar,
     readonly cdRef: ChangeDetectorRef,
@@ -122,6 +128,7 @@ export class SteelInputDialogComponent
     super(
       controlsService,
       dialogFacade,
+      dataFacade,
       dialogRef,
       snackbar,
       cdRef,
@@ -254,29 +261,28 @@ export class SteelInputDialogComponent
       );
 
     // setup co2Dependencies
-    new FormGroup({
-      manufacturerSupplierId: this.manufacturerSupplierIdControl,
-      steelMakingProcess: this.steelMakingProcessControl,
-    }).valueChanges
+    this.steelMakingProcessControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
         filter(
-          ({ manufacturerSupplierId, steelMakingProcess }) =>
-            !!manufacturerSupplierId && !!steelMakingProcess
+          (steelMakingProcess) =>
+            !!this.manufacturerSupplierIdControl.value && !!steelMakingProcess
         ),
-        map(({ manufacturerSupplierId, steelMakingProcess }) => ({
-          supplierId: manufacturerSupplierId,
+        map((steelMakingProcess) => ({
+          supplierId: this.manufacturerSupplierIdControl.value,
           steelMakingProcess: steelMakingProcess.title,
         }))
       )
-      .subscribe(({ supplierId, steelMakingProcess }) =>
+      .subscribe(({ supplierId, steelMakingProcess }) => {
+        // TODO: remove workaround asap
+        this.createMaterialForm.updateValueAndValidity();
         this.dialogFacade.dispatch(
           fetchCo2ValuesForSupplierSteelMakingProcess({
             supplierId,
             steelMakingProcess,
           })
-        )
-      );
+        );
+      });
 
     this.materialStandardIdControl.valueChanges
       .pipe(takeUntil(this.destroy$), filter(Boolean))
@@ -369,4 +375,16 @@ export class SteelInputDialogComponent
 
     return util.filterFn(option, value);
   };
+
+  enableEditFields(materialFormValue: Partial<SteelMaterialFormValue>): void {
+    super.enableEditFields(materialFormValue);
+
+    if (
+      !materialFormValue.releaseDateMonth ||
+      !materialFormValue.releaseDateYear
+    ) {
+      this.releaseMonthControl.removeValidators(Validators.required);
+      this.releaseYearControl.removeValidators(Validators.required);
+    }
+  }
 }

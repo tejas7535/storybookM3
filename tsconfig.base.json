@@ -31,9 +31,9 @@
       "@ga/*": ["apps/ga/src/app/*"],
       "@ga/environments/*": ["apps/ga/src/environments/*"],
       "@ga/testing/*": ["apps/ga/src/testing/*"],
+      "@mac/msd/*": ["apps/mac/src/app/feature/materials-supplier-database/*"],
       "@mac/*": ["apps/mac/src/app/*"],
       "@mac/environments/*": ["apps/mac/src/environments/*"],
-      "@mac/msd/*": ["apps/mac/src/app/feature/materials-supplier-database/*"],
       "@mac/testing/*": ["apps/mac/src/testing/*"],
       "@schaeffler/app-shell": ["libs/shared/ui/app-shell/src/index.ts"],
       "@schaeffler/application-insights": [

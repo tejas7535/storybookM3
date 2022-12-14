@@ -3,6 +3,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
@@ -48,6 +49,8 @@ describe('ManufacturerSupplierComponent', () => {
   let supplierControl: FormControl<StringOption>;
   let supplierPlantControl: FormControl<StringOption>;
   let supplierCountryControl: FormControl<StringOption>;
+  let readonly = false;
+  let editable = false;
 
   const createComponent = createComponentFactory({
     component: ManufacturerSupplierComponent,
@@ -57,6 +60,7 @@ describe('ManufacturerSupplierComponent', () => {
       CommonModule,
       MatButtonModule,
       MatFormFieldModule,
+      MatInputModule,
       MatIconModule,
       PushModule,
       ReactiveFormsModule,
@@ -79,11 +83,13 @@ describe('ManufacturerSupplierComponent', () => {
       supplierControl,
       supplierPlantControl,
       supplierCountryControl,
+      readonly,
+      editable,
     });
     // run ngOnInit
     spectator.detectChanges();
-
     component = spectator.debugElement.componentInstance;
+
     store = spectator.inject(MockStore);
     store.dispatch = jest.fn();
   });
@@ -93,7 +99,7 @@ describe('ManufacturerSupplierComponent', () => {
   });
 
   describe('formControls', () => {
-    describe('supplierPlantControl valueChanges', () => {
+    describe('ADD - supplierPlantControl valueChanges', () => {
       const mockSupplierPlantBase: StringOption = {
         id: 1,
         title: 'plant',
@@ -130,7 +136,7 @@ describe('ManufacturerSupplierComponent', () => {
       });
     });
 
-    describe('supplierDependencies valueChanges', () => {
+    describe('ADD - supplierDependencies valueChanges', () => {
       const mockSupplierOptionBase: StringOption = {
         id: 1,
         title: 'supplier',
@@ -211,6 +217,76 @@ describe('ManufacturerSupplierComponent', () => {
         expect(supplierPlantControl.reset).toHaveBeenCalled();
         expect(supplierCountryControl.reset).toHaveBeenCalled();
       });
+    });
+
+    describe('EDIT', () => {
+      beforeAll(() => {
+        editable = true;
+        readonly = false;
+      });
+      it('should update supplier name', () => {
+        const val = 'sth';
+        const so = { title: val } as StringOption;
+
+        component.supplierEditControl.setValue(val);
+        expect(component.supplierControl.value).toEqual(so);
+      });
+      it('should update supplier Plant', () => {
+        const val = 'sth';
+        const so = { title: val } as StringOption;
+
+        component.supplierPlantEditControl.setValue(val);
+        expect(component.supplierPlantControl.value).toEqual(so);
+      });
+      it('should update supplier country', () => {
+        const val = 'sth';
+        const so = { title: val } as StringOption;
+
+        component.supplierCountryEditControl.setValue(val);
+        expect(component.supplierCountryControl.value).toEqual(so);
+      });
+    });
+    describe('readonly', () => {
+      beforeEach(() => {
+        readonly = true;
+        editable = false;
+        component.supplierControl.setValue({
+          title: 'some value',
+        } as StringOption);
+      });
+      // cleanup
+      afterAll(() => {
+        readonly = false;
+        editable = false;
+      });
+      it('should not have any subscriptions', () => {
+        expect(component.supplierEditControl.value).toBe(undefined);
+      });
+    });
+  });
+
+  describe('ngAfterViewInit', () => {
+    afterEach(() => {
+      editable = false;
+      component.editable = false;
+      readonly = false;
+    });
+    it('should prefill edit fields', () => {
+      component.editable = true;
+      readonly = false;
+      // set
+      component.supplierControl.setValue({ title: 'name' } as StringOption);
+      component.supplierPlantControl.setValue({
+        title: 'plant',
+      } as StringOption);
+      component.supplierCountryControl.setValue({
+        title: 'country',
+      } as StringOption);
+      component.ngAfterViewInit();
+
+      expect(component.supplierEditControl.value).toBe('name');
+      expect(component.supplierPlantEditControl.value).toBe('plant');
+      expect(component.supplierCountryEditControl.value).toBe('country');
     });
   });
 

@@ -635,7 +635,7 @@ describe('dialogReducer', () => {
       });
     });
 
-    it('should set the createMaterialLoading and createMaterialSuccess state after creation', () => {
+    it('should set the createMaterialLoading and createMaterialRecord state', () => {
       const mockRecord = {} as CreateMaterialRecord;
       const action = DialogActions.createMaterialComplete({
         record: mockRecord,
@@ -647,11 +647,6 @@ describe('dialogReducer', () => {
             createMaterialLoading: true,
             createMaterialRecord: undefined,
           },
-          dialogOptions: {
-            ...state.dialogOptions,
-            customCastingDiameters: ['1'],
-            customReferenceDocuments: ['1'],
-          },
         },
         action
       );
@@ -662,15 +657,78 @@ describe('dialogReducer', () => {
           createMaterialLoading: false,
           createMaterialRecord: mockRecord,
         },
+      });
+    });
+    it('should reset materialRecord state', () => {
+      const action = DialogActions.resetMaterialRecord({ closeDialog: true });
+      const newState = dialogReducer(
+        {
+          ...state,
+          createMaterial: {
+            createMaterialLoading: true,
+            createMaterialRecord: {} as CreateMaterialRecord,
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        createMaterial: undefined,
+      });
+    });
+
+    it('should reset dialog options', () => {
+      const action = DialogActions.resetDialogOptions();
+      const preState: DialogState = {
+        ...state,
         dialogOptions: {
-          castingDiameters: undefined,
-          referenceDocuments: undefined,
-          co2Values: undefined,
-          steelMakingProcessesInUse: [],
-          // reset custom options
+          ...state.dialogOptions,
+          customCastingDiameters: ['1'],
+          customReferenceDocuments: ['1'],
+          customManufacturerSupplierCountries: ['1'],
+          customMaterialStandardDocuments: ['1'],
+          customManufacturerSupplierNames: ['1'],
+          customManufacturerSupplierPlants: ['1'],
+          customMaterialStandardNames: ['1'],
+          // reset loading fields
+          co2Values: [
+            {
+              co2Scope1: 1,
+              co2Scope2: 2,
+              co2Scope3: 3,
+              co2PerTon: 3,
+              co2Classification: 's',
+            },
+          ],
+          steelMakingProcessesInUse: ['1'],
+          castingDiameters: ['1'],
+          referenceDocuments: ['1'],
+          error: true,
+        },
+      };
+      const newState = dialogReducer(preState, action);
+
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
           customCastingDiameters: undefined,
           customReferenceDocuments: undefined,
+          customManufacturerSupplierCountries: undefined,
+          customMaterialStandardDocuments: undefined,
+          customManufacturerSupplierNames: undefined,
+          customManufacturerSupplierPlants: undefined,
+          customMaterialStandardNames: undefined,
+          // reset loading fields
+          co2Values: undefined,
+          steelMakingProcessesInUse: [],
+          castingDiameters: undefined,
+          referenceDocuments: undefined,
+          error: undefined,
         },
+        // other fields
+        editMaterial: undefined,
+        minimizedDialog: undefined,
       });
     });
 
@@ -1355,6 +1413,22 @@ describe('dialogReducer', () => {
           id: 1,
           value: {} as MaterialFormValue,
         },
+      });
+    });
+
+    it('should clean minimize dialog data', () => {
+      const action = DialogActions.cleanMinimizeDialog();
+      const preState = {
+        ...state,
+        minimizedDialog: {
+          id: 1,
+          value: {} as MaterialFormValue,
+        },
+      };
+      const newState = dialogReducer(preState, action);
+      expect(newState).toEqual({
+        ...state,
+        minimizedDialog: undefined,
       });
     });
 

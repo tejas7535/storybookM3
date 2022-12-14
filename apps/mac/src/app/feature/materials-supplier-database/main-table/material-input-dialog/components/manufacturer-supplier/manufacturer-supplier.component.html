@@ -1,70 +1,9 @@
 <ng-container
   *transloco="let t; read: 'materialsSupplierDatabase.mainTable.dialog'"
 >
-  <div class="flex flex-row gap-x-6" *ngIf="!readonly; else supplierReadonly">
-    <schaeffler-select
-      appearance="outline"
-      class="w-full"
-      [stringOptions]="suppliers$ | ngrxPush"
-      [control]="supplierControl"
-      [filterFn]="filterFn"
-      [label]="t('supplierName')"
-      [addEntry]="true"
-      [showTriggerTooltip]="true"
-      triggerTooltipDelay="1500"
-      tooltipPosition="right"
-      (entryAdded)="addSupplierName($event)"
-      name="manufacturerSupplierName"
-      #dialogControl
-    >
-      <div matErrorContent *ngIf="supplierControl.invalid">
-        {{ getErrorMessage(supplierControl.errors) }}
-      </div>
-    </schaeffler-select>
-    <schaeffler-select
-      appearance="outline"
-      class="w-full"
-      [stringOptions]="supplierPlants$ | ngrxPush"
-      [control]="supplierPlantControl"
-      [filterFn]="
-        valueTitleToOptionKeyFilterFnFactory(supplierControl, 'supplierName')
-      "
-      [label]="t('supplierPlant')"
-      [addEntry]="true"
-      [showTriggerTooltip]="true"
-      triggerTooltipDelay="1500"
-      tooltipPosition="right"
-      (entryAdded)="addSupplierPlant($event)"
-      name="manufacturerSupplierPlant"
-      #dialogControl
-    >
-      <div matErrorContent *ngIf="supplierPlantControl.invalid">
-        {{ getErrorMessage(supplierPlantControl.errors) }}
-      </div>
-    </schaeffler-select>
-
-    <schaeffler-select
-      appearance="outline"
-      class="w-full"
-      [stringOptions]="supplierCountries$ | ngrxPush"
-      [control]="supplierCountryControl"
-      [label]="t('supplierCountry')"
-      [addEntry]="true"
-      [filterFn]="filterFn"
-      [showTriggerTooltip]="true"
-      triggerTooltipDelay="1500"
-      tooltipPosition="right"
-      (entryAdded)="addSupplierCountry($event)"
-      name="manufacturerSupplierCountry"
-      #dialogControl
-    >
-      <div matErrorContent *ngIf="supplierCountryControl.invalid">
-        {{ getErrorMessage(supplierCountryControl.errors) }}
-      </div>
-    </schaeffler-select>
-  </div>
-  <ng-template #supplierReadonly>
-    <div class="flex flex-row gap-x-6">
+  <div class="flex flex-row gap-x-6" [ngSwitch]="viewMode">
+    <!-- readonly fields -->
+    <ng-container *ngSwitchCase="'readonly'">
       <mat-form-field appearance="outline" class="w-full">
         <mat-label>{{ t('supplierName') }} {{ t('readonly') }}</mat-label>
         <input
@@ -101,6 +40,98 @@
           readonly="true"
         />
       </mat-form-field>
-    </div>
-  </ng-template>
+    </ng-container>
+    <!-- editable fields -->
+    <ng-container *ngSwitchCase="'editable'">
+      <mat-form-field appearance="outline" class="w-full" floatLabel="always">
+        <mat-label>{{ t('supplierName') }}</mat-label>
+        <input
+          matInput
+          [formControl]="supplierEditControl"
+          name="manufacturerSupplierName"
+          #dialogControl
+        />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="w-full" floatLabel="always">
+        <mat-label>{{ t('supplierPlant') }}</mat-label>
+        <input
+          matInput
+          [formControl]="supplierPlantEditControl"
+          name="manufacturerSupplierPlant"
+          #dialogControl
+        />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="w-full" floatLabel="always">
+        <mat-label>{{ t('supplierCountry') }}</mat-label>
+        <input
+          matInput
+          [formControl]="supplierCountryEditControl"
+          name="manufacturerSupplierCountry"
+          #dialogControl
+        />
+      </mat-form-field>
+    </ng-container>
+    <!-- default (SELECT) -->
+    <ng-container *ngSwitchDefault>
+      <schaeffler-select
+        appearance="outline"
+        class="w-full"
+        [stringOptions]="suppliers$ | ngrxPush"
+        [control]="supplierControl"
+        [filterFn]="filterFn"
+        [label]="t('supplierName')"
+        [addEntry]="true"
+        [showTriggerTooltip]="true"
+        triggerTooltipDelay="1500"
+        tooltipPosition="right"
+        (entryAdded)="addSupplierName($event)"
+        name="manufacturerSupplierName"
+        #dialogControl
+      >
+        <div matErrorContent *ngIf="supplierControl.invalid">
+          {{ getErrorMessage(supplierControl.errors) }}
+        </div>
+      </schaeffler-select>
+      <schaeffler-select
+        appearance="outline"
+        class="w-full"
+        [stringOptions]="supplierPlants$ | ngrxPush"
+        [control]="supplierPlantControl"
+        [filterFn]="
+          valueTitleToOptionKeyFilterFnFactory(supplierControl, 'supplierName')
+        "
+        [label]="t('supplierPlant')"
+        [addEntry]="true"
+        [showTriggerTooltip]="true"
+        triggerTooltipDelay="1500"
+        tooltipPosition="right"
+        (entryAdded)="addSupplierPlant($event)"
+        name="manufacturerSupplierPlant"
+        #dialogControl
+      >
+        <div matErrorContent *ngIf="supplierPlantControl.invalid">
+          {{ getErrorMessage(supplierPlantControl.errors) }}
+        </div>
+      </schaeffler-select>
+      <schaeffler-select
+        appearance="outline"
+        class="w-full"
+        [stringOptions]="supplierCountries$ | ngrxPush"
+        [control]="supplierCountryControl"
+        [label]="t('supplierCountry')"
+        [addEntry]="true"
+        [filterFn]="filterFn"
+        [showTriggerTooltip]="true"
+        triggerTooltipDelay="1500"
+        tooltipPosition="right"
+        (entryAdded)="addSupplierCountry($event)"
+        name="manufacturerSupplierCountry"
+        #dialogControl
+      >
+        <div matErrorContent *ngIf="supplierCountryControl.invalid">
+          {{ getErrorMessage(supplierCountryControl.errors) }}
+        </div>
+      </schaeffler-select>
+    </ng-container>
+  </div>
 </ng-container>

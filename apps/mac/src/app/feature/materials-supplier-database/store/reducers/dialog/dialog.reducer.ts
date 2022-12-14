@@ -20,6 +20,7 @@ import {
   addCustomSupplierCountry,
   addCustomSupplierName,
   addCustomSupplierPlant,
+  cleanMinimizeDialog,
   createMaterialComplete,
   editDialogLoadingComplete,
   fetchCastingDiameters,
@@ -64,6 +65,8 @@ import {
   postManufacturerSupplier,
   postMaterial,
   resetCo2ValuesForSupplierSteelMakingProcess,
+  resetDialogOptions,
+  resetMaterialRecord,
   resetSteelMakingProcessInUse,
   setMaterialFormValue,
 } from '@mac/msd/store/actions/dialog';
@@ -491,36 +494,52 @@ export const dialogReducer = createReducer(
     })
   ),
   // either error while creating or successfully created materiel record
-  on(createMaterialComplete, (state, { record }): DialogState => {
-    // reset loading state
-    let newState: DialogState = {
+  on(
+    createMaterialComplete,
+    (state, { record }): DialogState => ({
+      // reset loading state
       ...state,
       createMaterial: {
         createMaterialLoading: false,
         createMaterialRecord: record,
       },
-    };
-    // only reset properties if call was successful
-    if (!record.error) {
-      newState = {
-        ...newState,
-        dialogOptions: {
-          ...newState.dialogOptions,
-          co2Values: undefined,
-          steelMakingProcessesInUse: [],
-          castingDiameters: undefined,
-          customCastingDiameters: undefined,
-          referenceDocuments: undefined,
-          customReferenceDocuments: undefined,
-          error: undefined,
-        },
-        editMaterial: undefined,
-        minimizedDialog: undefined,
-      };
-    }
+    })
+  ),
 
-    return newState;
-  }),
+  on(
+    resetMaterialRecord,
+    (state): DialogState => ({
+      ...state,
+      createMaterial: undefined,
+    })
+  ),
+
+  on(
+    resetDialogOptions,
+    (state): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        // reset custom fields
+        customCastingDiameters: undefined,
+        customReferenceDocuments: undefined,
+        customManufacturerSupplierCountries: undefined,
+        customMaterialStandardDocuments: undefined,
+        customManufacturerSupplierNames: undefined,
+        customManufacturerSupplierPlants: undefined,
+        customMaterialStandardNames: undefined,
+        // reset loading fields
+        co2Values: undefined,
+        steelMakingProcessesInUse: [],
+        castingDiameters: undefined,
+        referenceDocuments: undefined,
+        error: undefined,
+      },
+      // other fields
+      editMaterial: undefined,
+      minimizedDialog: undefined,
+    })
+  ),
 
   on(addCustomCastingDiameter, (state, { castingDiameter }): DialogState => {
     const customCastingDiameters = state.dialogOptions.customCastingDiameters
@@ -768,6 +787,14 @@ export const dialogReducer = createReducer(
         id,
         value,
       },
+    })
+  ),
+
+  on(
+    cleanMinimizeDialog,
+    (state): DialogState => ({
+      ...state,
+      minimizedDialog: undefined,
     })
   ),
 

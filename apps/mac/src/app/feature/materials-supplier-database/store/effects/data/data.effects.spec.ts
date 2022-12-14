@@ -3,7 +3,6 @@ import { of, throwError } from 'rxjs';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { TypedAction } from '@ngrx/store/src/models';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
@@ -35,6 +34,7 @@ import {
 import { DataFacade } from '@mac/msd/store/facades/data';
 import { getNavigation } from '@mac/msd/store/selectors';
 
+import { cleanMinimizeDialog } from '../../actions/dialog';
 import { DataEffects } from './data.effects';
 
 describe('Data Effects', () => {
@@ -84,22 +84,13 @@ describe('Data Effects', () => {
 
   describe('fetchResult$', () => {
     it.each([
-      [
-        NavigationLevel.MATERIAL,
-        {
-          type: '[MSD - Data] Fetch Materials',
-        } as TypedAction<'[MSD - Data] Fetch Materials'>,
-      ],
-      [
-        NavigationLevel.SUPPLIER,
-        {
-          type: '[MSD - Data] Fetch Manufacturer Suppliers',
-        } as TypedAction<'[MSD - Data] Fetch Manufacturer Suppliers'>,
-      ],
+      [NavigationLevel.MATERIAL, fetchMaterials],
+      [NavigationLevel.SUPPLIER, fetchManufacturerSuppliers],
+      [NavigationLevel.STANDARD, fetchMaterialStandards],
       [undefined, undefined],
     ])(
       'should dispatch the correct action for the navigationLevel',
-      (navigationLevel, result) => {
+      (navigationLevel, result) =>
         marbles((m) => {
           msdDataFacade.navigation$ = of({
             materialClass: MaterialClass.STEEL,
@@ -109,12 +100,14 @@ describe('Data Effects', () => {
           action = fetchResult();
           actions$ = m.hot('-a', { a: action });
 
-          const expected = m.cold('-b', { b: result });
+          const expected =
+            result === undefined
+              ? m.cold('---')
+              : m.cold('-b', { b: result() });
 
           m.expect(effects.fetchResult$).toBeObservable(expected);
           m.flush();
-        });
-      }
+        })()
     );
   });
 
@@ -233,7 +226,8 @@ describe('Data Effects', () => {
         actions$ = m.hot('-a', { a: action });
 
         const result = fetchResult();
-        const expected = m.cold('-b', { b: result });
+        const result2 = cleanMinimizeDialog();
+        const expected = m.cold('-(bc)', { b: result, c: result2 });
 
         m.expect(effects.setNavigation$).toBeObservable(expected);
         m.flush();

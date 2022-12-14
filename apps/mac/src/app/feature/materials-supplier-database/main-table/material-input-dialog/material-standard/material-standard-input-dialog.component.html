@@ -1,0 +1,50 @@
+<mac-base-dialog
+  *transloco="let t; read: 'materialsSupplierDatabase.mainTable.dialog'"
+  [txtTitle]="getTitle()"
+  [txtCancel]="t('cancel')"
+  [txtConfirm]="
+    isEditDialog() ? t('updateMaterialStandard') : t('addMaterialStandard')
+  "
+  [valid]="createMaterialForm.valid"
+  (accept)="confirmMaterial()"
+  (minimize)="minimizeDialog()"
+  (cancel)="cancelDialog()"
+>
+  <div class="flex flex-col gap-y-3">
+    <ng-container
+      *ngIf="!(dialogLoading$ | ngrxPush) && !(editLoading$ | ngrxPush)"
+    >
+      <div class="flex flex-row gap-x-6">
+        <mac-material-standard
+          class="w-full"
+          [editable]="isEditDialog()"
+          [materialStandardIdControl]="materialStandardIdControl"
+          [standardDocumentsControl]="standardDocumentsControl"
+          [materialNamesControl]="materialNamesControl"
+          macMaterialDialogBasePart
+        ></mac-material-standard>
+      </div>
+      <div class="flex flex-row gap-x-6" *ngIf="showMaterialNumber()">
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>{{ t('steelNumber') }}</mat-label>
+          <input
+            matInput
+            placeholder="1.1234"
+            value=""
+            [formControl]="materialNumberControl"
+            name="materialNumbers"
+            #dialogControl
+          />
+          <mat-error
+            *ngIf="materialNumberControl.invalid"
+            [matTooltip]="t('error.steelNumber')"
+            class="cursor-help"
+          >
+            {{ getErrorMessage(materialNumberControl.errors) }}
+            <mat-icon inline="true" class="!leading-3">info_outline</mat-icon>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </ng-container>
+  </div>
+</mac-base-dialog>

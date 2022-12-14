@@ -1166,11 +1166,8 @@ describe('MainTableComponent', () => {
   describe('resumeDialog', () => {
     it('should call open dialog', () => {
       component.openDialog = jest.fn();
-      component.resumeDialog(MaterialClass.STEEL);
-      expect(component.openDialog).toHaveBeenCalledWith(
-        MaterialClass.STEEL,
-        true
-      );
+      component.resumeDialog();
+      expect(component.openDialog).toHaveBeenCalledWith(true);
     });
   });
 
@@ -1179,7 +1176,7 @@ describe('MainTableComponent', () => {
       component['dataFacade'].dispatch = jest.fn();
 
       let otherDone = false;
-      component.openDialog(MaterialClass.STEEL);
+      component.openDialog();
 
       expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
         openDialog()
@@ -1216,7 +1213,7 @@ describe('MainTableComponent', () => {
 
       let otherDone = false;
 
-      component.openDialog(MaterialClass.STEEL, true);
+      component.openDialog(true);
 
       expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
         openDialog()

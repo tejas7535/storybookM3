@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   Input,
@@ -25,12 +26,18 @@ import * as util from '../../util';
   selector: 'mac-material-standard',
   templateUrl: './material-standard.component.html',
 })
-export class MaterialStandardComponent implements OnInit, OnDestroy {
+export class MaterialStandardComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   private readonly destroy$ = new Subject<void>();
 
   @Input()
   // property defining if entries should be "readonly" or dropdown menues
-  public readonly: boolean;
+  public readonly = false;
+
+  @Input()
+  // property defining if entries should be "readonly" or dropdown menues
+  public editable = false;
 
   @Input()
   // form control for ID
@@ -43,6 +50,13 @@ export class MaterialStandardComponent implements OnInit, OnDestroy {
   @Input()
   // form control for material name
   public materialNamesControl: FormControl<StringOption>;
+
+  // form control for standard document editing
+  public standardDocumentsEditControl = new FormControl<string>(undefined);
+  // form control for material name editing
+  public materialNamesEditControl = new FormControl<string>(undefined);
+  // switch expression to identify what view to use
+  public viewMode = '';
 
   // list of standard documents for dropdown list
   public readonly standardDocuments$ = this.dialogFacade.standardDocuments$;
@@ -65,13 +79,56 @@ export class MaterialStandardComponent implements OnInit, OnDestroy {
 
   // on init
   ngOnInit(): void {
-    this.standardDocumentsControl.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((stdDoc) => this.onUpdateStandardDocument(stdDoc));
+    if (this.editable) {
+      this.viewMode = 'editable';
+    } else if (this.readonly) {
+      this.viewMode = 'readonly';
+    } else {
+      this.viewMode = '';
+    }
 
-    this.materialNamesControl.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((matName) => this.onUpdateMaterialName(matName));
+    // no logic to apply, if in edit-mode or readonly
+    if (!this.editable && !this.readonly) {
+      this.standardDocumentsControl.valueChanges
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((stdDoc) => this.onUpdateStandardDocument(stdDoc));
+
+      this.materialNamesControl.valueChanges
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((matName) => this.onUpdateMaterialName(matName));
+    } else if (this.editable) {
+      this.materialNamesEditControl.valueChanges
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((matName) =>
+          this.mapToControl(this.materialNamesControl, matName)
+        );
+      this.standardDocumentsEditControl.valueChanges
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((stdDoc) =>
+          this.mapToControl(this.standardDocumentsControl, stdDoc)
+        );
+    }
+  }
+
+  private mapToControl(
+    control: FormControl<StringOption>,
+    value: string
+  ): void {
+    const newValue = {
+      title: value,
+    } as StringOption;
+    control.setValue(newValue);
+  }
+
+  ngAfterViewInit(): void {
+    this.materialNamesEditControl.setValue(
+      this.materialNamesControl.value?.title,
+      { emitEvent: false }
+    );
+    this.standardDocumentsEditControl.setValue(
+      this.standardDocumentsControl.value?.title,
+      { emitEvent: false }
+    );
   }
 
   /* Detect changes of stdDoc and reset material name if value from matName does

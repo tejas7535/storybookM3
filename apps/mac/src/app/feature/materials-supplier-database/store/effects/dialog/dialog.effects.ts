@@ -8,7 +8,10 @@ import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 
 import { StringOption } from '@schaeffler/inputs';
 
-import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
+import {
+  MaterialClass,
+  NavigationLevel,
+} from '@mac/feature/materials-supplier-database/constants';
 import {
   CreateMaterialState,
   ManufacturerSupplierV2,
@@ -54,6 +57,19 @@ export class DialogEffects {
         }
       }),
       switchMap((actions) => actions)
+    );
+  });
+
+  public materialstandardDialogOpened$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.materialstandardDialogOpened),
+      switchMap(() => [DialogActions.fetchMaterialStandards()])
+    );
+  });
+  public manufacturersupplierDialogOpened$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.manufacturerSupplierDialogOpened),
+      switchMap(() => [DialogActions.fetchManufacturerSuppliers()])
     );
   });
 
@@ -194,6 +210,94 @@ export class DialogEffects {
     );
   });
 
+  public materialstandardDialogConfirmed$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.materialstandardDialogConfirmed),
+      concatLatestFrom(() => this.dataFacade.materialClass$),
+      switchMap(([{ standard }, materialClass]) =>
+        this.msdDataService
+          .createMaterialStandard(standard, materialClass)
+          .pipe(
+            map((response) =>
+              DialogActions.createMaterialComplete({
+                record: {
+                  standard: {
+                    ...standard,
+                    id: response.id,
+                  },
+                  materialClass,
+                  material: undefined,
+                  supplier: undefined,
+                  state: CreateMaterialState.MaterialCreated,
+                  error: false,
+                },
+              })
+            ),
+            // TODO: implement proper error handling
+            catchError(() =>
+              of(
+                DialogActions.createMaterialComplete({
+                  record: {
+                    standard,
+                    materialClass,
+                    material: undefined,
+                    supplier: undefined,
+                    state: CreateMaterialState.MaterialStandardCreationFailed,
+                    error: true,
+                  },
+                })
+              )
+            )
+          )
+      )
+    );
+  });
+
+  public manufacturersupplierDialogConfirmed$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.manufacturerSupplierDialogConfirmed),
+      concatLatestFrom(() => this.dataFacade.materialClass$),
+      switchMap(([{ supplier }, materialClass]) =>
+        this.msdDataService
+          .createManufacturerSupplier(supplier, materialClass)
+          .pipe(
+            map((response) =>
+              DialogActions.createMaterialComplete({
+                record: {
+                  standard: undefined,
+                  materialClass,
+                  material: undefined,
+                  supplier: {
+                    ...supplier,
+                    id: response.id,
+                  },
+                  state: CreateMaterialState.MaterialCreated,
+                  error: false,
+                },
+              })
+            ),
+            // TODO: implement proper error handling
+            catchError(() =>
+              of(
+                DialogActions.createMaterialComplete({
+                  record: {
+                    standard: undefined,
+                    materialClass,
+                    material: undefined,
+                    supplier: {
+                      ...supplier,
+                    },
+                    state: CreateMaterialState.MaterialStandardCreationFailed,
+                    error: true,
+                  },
+                })
+              )
+            )
+          )
+      )
+    );
+  });
+
   public postMaterialStandard$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DialogActions.postMaterialStandard),
@@ -323,6 +427,19 @@ export class DialogEffects {
     );
   });
 
+  public resetMaterialDialog$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.resetMaterialRecord),
+      switchMap(({ closeDialog }) => {
+        if (closeDialog) {
+          return of(DialogActions.resetDialogOptions());
+        }
+
+        return [];
+      })
+    );
+  });
+
   public fetchCastingDiameters$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DialogActions.fetchCastingDiameters),
@@ -396,17 +513,56 @@ export class DialogEffects {
   public openEditDialog$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DialogActions.openEditDialog),
-      switchMap(({ row }) => [
-        DialogActions.fetchEditStandardDocumentData({
-          standardDocument: row.materialStandardStandardDocument,
-        }),
-        DialogActions.fetchEditMaterialNameData({
-          materialName: row.materialStandardMaterialName,
-        }),
-        DialogActions.fetchEditMaterialSuppliers({
-          supplierName: row.manufacturerSupplierName,
-        }),
-      ])
+      concatLatestFrom(() => this.dataFacade.navigation$),
+      switchMap(([{ row }, { navigationLevel }]) => {
+        switch (navigationLevel) {
+          case NavigationLevel.STANDARD:
+            return [
+              DialogActions.setMaterialFormValue({
+                parsedMaterial: {
+                  materialName: {
+                    title: row.materialStandardMaterialName,
+                  } as StringOption,
+                  standardDocument: {
+                    title: row.materialStandardStandardDocument,
+                  } as StringOption,
+                  materialNumber: row.materialNumbers?.join(', '),
+                } as Partial<MaterialFormValueV2>,
+              }),
+            ];
+          case NavigationLevel.SUPPLIER:
+            return [
+              DialogActions.setMaterialFormValue({
+                parsedMaterial: {
+                  supplier: {
+                    title: row.manufacturerSupplierName,
+                  } as StringOption,
+                  supplierCountry: {
+                    title: row.manufacturerSupplierCountry,
+                  } as StringOption,
+                  supplierPlant: {
+                    title: row.manufacturerSupplierPlant,
+                  } as StringOption,
+                  manufacturer: row.manufacturer,
+                } as Partial<MaterialFormValueV2>,
+              }),
+            ];
+          case NavigationLevel.MATERIAL:
+            return [
+              DialogActions.fetchEditStandardDocumentData({
+                standardDocument: row.materialStandardStandardDocument,
+              }),
+              DialogActions.fetchEditMaterialNameData({
+                materialName: row.materialStandardMaterialName,
+              }),
+              DialogActions.fetchEditMaterialSuppliers({
+                supplierName: row.manufacturerSupplierName,
+              }),
+            ];
+          default:
+            return [];
+        }
+      })
     );
   });
 

@@ -32,6 +32,36 @@ export const materialDialogConfirmed = createAction(
   }>()
 );
 
+export const materialstandardDialogOpened = createAction(
+  '[MSD - Dialog] MaterialStandard Dialog Opened'
+);
+
+export const materialstandardDialogCanceled = createAction(
+  '[MSD - Dialog] MaterialStandard Dialog Canceled'
+);
+
+export const materialstandardDialogConfirmed = createAction(
+  '[MSD - Dialog] MaterialStandard Confirmed',
+  props<{
+    standard: MaterialStandardV2;
+  }>()
+);
+
+export const manufacturerSupplierDialogOpened = createAction(
+  '[MSD - Dialog] ManufacturerSupplier Dialog Opened'
+);
+
+export const manufacturerSupplierDialogCanceled = createAction(
+  '[MSD - Dialog] ManufacturerSupplier Dialog Canceled'
+);
+
+export const manufacturerSupplierDialogConfirmed = createAction(
+  '[MSD - Dialog] ManufacturerSupplier Confirmed',
+  props<{
+    supplier: ManufacturerSupplierV2;
+  }>()
+);
+
 export const fetchMaterialStandards = createAction(
   '[MSD - Dialog] Fetch Material Standards'
 );
@@ -111,6 +141,15 @@ export const fetchCastingModesFailure = createAction(
 export const createMaterialComplete = createAction(
   '[MSD - Dialog] Create Material Complete',
   props<{ record: CreateMaterialRecord }>()
+);
+
+export const resetMaterialRecord = createAction(
+  '[MSD - Dialog] Reset Material Record',
+  props<{ closeDialog: boolean }>()
+);
+
+export const resetDialogOptions = createAction(
+  '[MSD - Dialog] Reset Dialog Options'
 );
 
 export const fetchProductCategories = createAction(
@@ -266,6 +305,10 @@ export const parseMaterialFormValue = createAction(
 export const setMaterialFormValue = createAction(
   '[MSD - Dialog] Set Material Form Value',
   props<{ parsedMaterial: Partial<MaterialFormValue> }>()
+);
+
+export const cleanMinimizeDialog = createAction(
+  '[MSD - Dialog] clean Minimize Dialog'
 );
 
 export const minimizeDialog = createAction(

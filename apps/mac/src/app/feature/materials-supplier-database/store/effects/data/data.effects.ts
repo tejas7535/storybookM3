@@ -18,6 +18,7 @@ import {
 } from '@mac/msd/models';
 import { MsdDataService } from '@mac/msd/services/msd-data';
 import * as DataActions from '@mac/msd/store/actions/data/data.actions';
+import * as DialogActions from '@mac/msd/store/actions/dialog/dialog.actions';
 import { DataFacade } from '@mac/msd/store/facades/data';
 
 @Injectable()
@@ -88,7 +89,10 @@ export class DataEffects {
   public setNavigation$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DataActions.setNavigation),
-      switchMap(() => [DataActions.fetchResult()])
+      switchMap(() => [
+        DataActions.fetchResult(),
+        DialogActions.cleanMinimizeDialog(),
+      ])
     );
   });
 

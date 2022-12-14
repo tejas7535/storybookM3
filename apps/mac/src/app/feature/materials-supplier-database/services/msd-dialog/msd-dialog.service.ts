@@ -1,20 +1,35 @@
 import { Injectable, Type } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-import { MaterialClass } from '@mac/msd/constants';
+import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
+import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
+import { ManufacturerSupplierInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/manufacturer-supplier/manufacturersupplier-input-dialog.component';
 import { MaterialInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/material-input-dialog.component';
+import { MaterialStandardInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/material-standard/material-standard-input-dialog.component';
 import { AluminumInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/materials/aluminum/aluminum-input-dialog.component';
 import { SteelInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/materials/steel/steel-input-dialog.component';
 import { DataResult, MaterialFormValue } from '@mac/msd/models';
 
 @Injectable()
 export class MsdDialogService {
-  constructor(private readonly dialog: MatDialog) {}
+  private dialogType: Type<MaterialInputDialogComponent>;
+
+  constructor(
+    private readonly dialog: MatDialog,
+    private readonly dataFacade: DataFacade
+  ) {
+    this.dataFacade.navigation$.subscribe(
+      (nav) =>
+        (this.dialogType = this.getDialogClass(
+          nav.materialClass,
+          nav.navigationLevel
+        ))
+    );
+  }
 
   public openDialog(
     isResumeDialog?: boolean,
-    editDialogInformation?: { row: DataResult; column: string },
-    materialClass: MaterialClass = MaterialClass.STEEL
+    editDialogInformation?: { row: DataResult; column: string }
   ): MatDialogRef<
     MaterialInputDialogComponent,
     {
@@ -22,23 +37,36 @@ export class MsdDialogService {
       minimize?: { id?: number; value: MaterialFormValue };
     }
   > {
-    return this.dialog.open(this.getDialogClass(materialClass), {
+    return this.dialog.open(this.dialogType, {
       width: '863px',
       autoFocus: false,
       restoreFocus: false,
       disableClose: true,
-      data: { editDialogInformation, isResumeDialog },
+      data: {
+        editDialogInformation,
+        isResumeDialog,
+      },
     });
   }
 
   private getDialogClass(
-    materialClass: MaterialClass
+    materialClass?: MaterialClass,
+    navigationLevel?: NavigationLevel
   ): Type<MaterialInputDialogComponent> {
-    switch (materialClass) {
-      case MaterialClass.ALUMINUM:
-        return AluminumInputDialogComponent;
-      case MaterialClass.STEEL:
-        return SteelInputDialogComponent;
+    switch (navigationLevel) {
+      case NavigationLevel.MATERIAL:
+        switch (materialClass) {
+          case MaterialClass.ALUMINUM:
+            return AluminumInputDialogComponent;
+          case MaterialClass.STEEL:
+            return SteelInputDialogComponent;
+          default:
+            return SteelInputDialogComponent;
+        }
+      case NavigationLevel.STANDARD:
+        return MaterialStandardInputDialogComponent;
+      case NavigationLevel.SUPPLIER:
+        return ManufacturerSupplierInputDialogComponent;
       default:
         return SteelInputDialogComponent;
     }

@@ -61,9 +61,15 @@ import {
   fetchSteelMakingProcessesInUseFailure,
   fetchSteelMakingProcessesInUseSuccess,
   fetchSteelMakingProcessesSuccess,
+  manufacturerSupplierDialogCanceled,
+  manufacturerSupplierDialogConfirmed,
+  manufacturerSupplierDialogOpened,
   materialDialogCanceled,
   materialDialogConfirmed,
   materialDialogOpened,
+  materialstandardDialogCanceled,
+  materialstandardDialogConfirmed,
+  materialstandardDialogOpened,
   minimizeDialog,
   openDialog,
   openEditDialog,
@@ -72,6 +78,8 @@ import {
   postMaterial,
   postMaterialStandard,
   resetCo2ValuesForSupplierSteelMakingProcess,
+  resetDialogOptions,
+  resetMaterialRecord,
   resetSteelMakingProcessInUse,
   setMaterialFormValue,
 } from './dialog.actions';
@@ -85,14 +93,42 @@ describe('Dialog Actions', () => {
         type: '[MSD - Dialog] Material Dialog Opened',
       });
     });
+    it('materialstandardDialogOpened', () => {
+      const action = materialstandardDialogOpened();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] MaterialStandard Dialog Opened',
+      });
+    });
+    it('manufacturerSupplierDialogOpened', () => {
+      const action = manufacturerSupplierDialogOpened();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] ManufacturerSupplier Dialog Opened',
+      });
+    });
   });
 
   describe('Add Material Dialog Canceled', () => {
-    it('materialDialogOpened', () => {
+    it('materialDialogCanceled', () => {
       const action = materialDialogCanceled();
 
       expect(action).toEqual({
         type: '[MSD - Dialog] Material Dialog Canceled',
+      });
+    });
+    it('materialstandardDialogCanceled', () => {
+      const action = materialstandardDialogCanceled();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] MaterialStandard Dialog Canceled',
+      });
+    });
+    it('manufacturerSupplierDialogCanceled', () => {
+      const action = manufacturerSupplierDialogCanceled();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] ManufacturerSupplier Dialog Canceled',
       });
     });
   });
@@ -113,6 +149,28 @@ describe('Dialog Actions', () => {
         standard: mockStandard,
         supplier: mockSupplier,
         type: '[MSD - Dialog] Material Confirmed',
+      });
+    });
+    it('materialstandardDialogConfirmed', () => {
+      const mockStandard = {} as MaterialStandard;
+      const action = materialstandardDialogConfirmed({
+        standard: mockStandard,
+      });
+
+      expect(action).toEqual({
+        standard: mockStandard,
+        type: '[MSD - Dialog] MaterialStandard Confirmed',
+      });
+    });
+    it('manufacturerSupplierDialogConfirmed', () => {
+      const mockSupplier = {} as ManufacturerSupplier;
+      const action = manufacturerSupplierDialogConfirmed({
+        supplier: mockSupplier,
+      });
+
+      expect(action).toEqual({
+        supplier: mockSupplier,
+        type: '[MSD - Dialog] ManufacturerSupplier Confirmed',
       });
     });
   });
@@ -330,6 +388,24 @@ describe('Dialog Actions', () => {
       expect(action).toEqual({
         type: '[MSD - Dialog] Create Material Complete',
         record: mockRecord,
+      });
+    });
+  });
+
+  describe('reset Material Dialog', () => {
+    it('reset material record', () => {
+      const action = resetMaterialRecord({ closeDialog: true });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Reset Material Record',
+        closeDialog: true,
+      });
+    });
+    it('reset dialog options', () => {
+      const action = resetDialogOptions();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Reset Dialog Options',
       });
     });
   });

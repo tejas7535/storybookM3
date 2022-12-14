@@ -8,7 +8,7 @@ import { marbles } from 'rxjs-marbles/jest';
 
 import { StringOption } from '@schaeffler/inputs';
 
-import { MaterialClass } from '@mac/msd/constants';
+import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import {
   CreateMaterialRecord,
   CreateMaterialState,
@@ -66,13 +66,19 @@ import {
   fetchSteelMakingProcessesInUseFailure,
   fetchSteelMakingProcessesInUseSuccess,
   fetchSteelMakingProcessesSuccess,
+  manufacturerSupplierDialogConfirmed,
+  manufacturerSupplierDialogOpened,
   materialDialogConfirmed,
   materialDialogOpened,
+  materialstandardDialogConfirmed,
+  materialstandardDialogOpened,
   openEditDialog,
   parseMaterialFormValue,
   postManufacturerSupplier,
   postMaterial,
   postMaterialStandard,
+  resetDialogOptions,
+  resetMaterialRecord,
   setMaterialFormValue,
 } from '@mac/msd/store/actions/dialog';
 import { DataFacade } from '@mac/msd/store/facades/data';
@@ -119,6 +125,10 @@ describe('Dialog Effects', () => {
     msdDataService = spectator.inject(MsdDataService);
     msdDataFacade = spectator.inject(DataFacade);
     msdDataFacade.materialClass$ = of(MaterialClass.STEEL);
+    msdDataFacade.navigation$ = of({
+      materialClass: MaterialClass.STEEL,
+      navigationLevel: NavigationLevel.MATERIAL,
+    });
   });
 
   describe('materialDialogOpened$', () => {
@@ -139,6 +149,38 @@ describe('Dialog Effects', () => {
         });
 
         m.expect(effects.materialDialogOpened$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+    it(
+      'should dispatch the fetch actions for MaterialStandard',
+      marbles((m) => {
+        action = materialstandardDialogOpened();
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-(b)', {
+          b: fetchMaterialStandards(),
+        });
+
+        m.expect(effects.materialstandardDialogOpened$).toBeObservable(
+          expected
+        );
+        m.flush();
+      })
+    );
+    it(
+      'should dispatch the fetch actions for Manufacturer Supplier',
+      marbles((m) => {
+        action = manufacturerSupplierDialogOpened();
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-(b)', {
+          b: fetchManufacturerSuppliers(),
+        });
+
+        m.expect(effects.manufacturersupplierDialogOpened$).toBeObservable(
+          expected
+        );
         m.flush();
       })
     );
@@ -562,6 +604,174 @@ describe('Dialog Effects', () => {
     );
   });
 
+  describe('materialstandardDialogConfirmed$', () => {
+    it(
+      'should create material standard',
+      marbles((m) => {
+        const mockStandard = {
+          materialName: 'sthName',
+          standardDocument: 'stdDoc',
+        } as MaterialStandard;
+
+        action = materialstandardDialogConfirmed({
+          standard: mockStandard,
+        });
+
+        const resultMock = { id: 42 };
+        const response = m.cold('-a|', { a: resultMock });
+        msdDataService.createMaterialStandard = jest.fn(() => response);
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('--(b)', {
+          b: createMaterialComplete({
+            record: {
+              standard: {
+                ...mockStandard,
+                id: 42,
+              },
+              material: undefined,
+              supplier: undefined,
+              materialClass: MaterialClass.STEEL,
+              error: false,
+              state: CreateMaterialState.MaterialCreated,
+            } as CreateMaterialRecord,
+          }),
+        });
+
+        m.expect(effects.materialstandardDialogConfirmed$).toBeObservable(
+          expected
+        );
+        m.flush();
+      })
+    );
+    it(
+      'should call error directive',
+      marbles((m) => {
+        const mockStandard = {
+          materialName: 'sthName',
+          standardDocument: 'stdDoc',
+        } as MaterialStandard;
+
+        action = materialstandardDialogConfirmed({
+          standard: mockStandard,
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataService.createMaterialStandard = jest
+          .fn()
+          .mockReturnValue(throwError(() => 'error'));
+
+        const expected = m.cold('-b', {
+          b: createMaterialComplete({
+            record: {
+              standard: mockStandard,
+              material: undefined,
+              supplier: undefined,
+              materialClass: MaterialClass.STEEL,
+              error: true,
+              state: CreateMaterialState.MaterialStandardCreationFailed,
+            } as CreateMaterialRecord,
+          }),
+        });
+
+        m.expect(effects.materialstandardDialogConfirmed$).toBeObservable(
+          expected
+        );
+        m.flush();
+
+        expect(msdDataService.createMaterialStandard).toHaveBeenCalledWith(
+          mockStandard,
+          MaterialClass.STEEL
+        );
+      })
+    );
+  });
+
+  describe('manufacturersupplierDialogConfirmed$', () => {
+    it(
+      'should create manufacturer supplier',
+      marbles((m) => {
+        const mockSupplier = {
+          name: 'sthName',
+          plant: 'sthPlant',
+          country: 'sthCountry',
+        } as ManufacturerSupplierV2;
+
+        action = manufacturerSupplierDialogConfirmed({
+          supplier: mockSupplier,
+        });
+
+        const resultMock = { id: 42 };
+        const response = m.cold('-a|', { a: resultMock });
+        msdDataService.createManufacturerSupplier = jest.fn(() => response);
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('--(b)', {
+          b: createMaterialComplete({
+            record: {
+              supplier: {
+                ...mockSupplier,
+                id: 42,
+              },
+              material: undefined,
+              standard: undefined,
+              materialClass: MaterialClass.STEEL,
+              error: false,
+              state: CreateMaterialState.MaterialCreated,
+            } as CreateMaterialRecord,
+          }),
+        });
+
+        m.expect(effects.manufacturersupplierDialogConfirmed$).toBeObservable(
+          expected
+        );
+        m.flush();
+      })
+    );
+    it(
+      'should call error directive',
+      marbles((m) => {
+        const mockSupplier = {
+          name: 'sthName',
+          plant: 'sthPlant',
+          country: 'sthCountry',
+        } as ManufacturerSupplierV2;
+
+        action = manufacturerSupplierDialogConfirmed({
+          supplier: mockSupplier,
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataService.createManufacturerSupplier = jest
+          .fn()
+          .mockReturnValue(throwError(() => 'error'));
+
+        const expected = m.cold('-b', {
+          b: createMaterialComplete({
+            record: {
+              standard: undefined,
+              material: undefined,
+              supplier: mockSupplier,
+              materialClass: MaterialClass.STEEL,
+              error: true,
+              state: CreateMaterialState.MaterialStandardCreationFailed,
+            } as CreateMaterialRecord,
+          }),
+        });
+
+        m.expect(effects.manufacturersupplierDialogConfirmed$).toBeObservable(
+          expected
+        );
+        m.flush();
+
+        expect(msdDataService.createManufacturerSupplier).toHaveBeenCalledWith(
+          mockSupplier,
+          MaterialClass.STEEL
+        );
+      })
+    );
+  });
+
   describe('postMaterialStandard$', () => {
     const recordMock = {
       standard: {
@@ -848,6 +1058,37 @@ describe('Dialog Effects', () => {
           record.material,
           record.materialClass
         );
+      })
+    );
+  });
+
+  describe('resetMaterialRecord$', () => {
+    it(
+      'should call to reset dialog options',
+      marbles((m) => {
+        action = resetMaterialRecord({
+          closeDialog: true,
+        });
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-(b)', {
+          b: resetDialogOptions(),
+        });
+
+        m.expect(effects.resetMaterialDialog$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+    it(
+      'should d nothing',
+      marbles((m) => {
+        action = resetMaterialRecord({
+          closeDialog: false,
+        });
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('---');
+
+        m.expect(effects.resetMaterialDialog$).toBeObservable(expected);
+        m.flush();
       })
     );
   });

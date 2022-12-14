@@ -1,6 +1,7 @@
 import {
   AluminumManufacturerSupplier,
   AluminumManufacturerSupplierForm,
+  AluminumManufacturerSupplierFormValue,
   AluminumManufacturerSupplierTableValue,
   AluminumMaterial,
   AluminumMaterialForm,
@@ -9,6 +10,7 @@ import {
   AluminumMaterialResponse,
   AluminumMaterialStandard,
   AluminumMaterialStandardForm,
+  AluminumMaterialStandardFormValue,
   AluminumMaterialStandardTableValue,
   PolymerManufacturerSupplier,
   PolymerManufacturerSupplierTableValue,
@@ -18,6 +20,7 @@ import {
   PolymerMaterialStandardTableValue,
   SteelManufacturerSupplier,
   SteelManufacturerSupplierForm,
+  SteelManufacturerSupplierFormValue,
   SteelManufacturerSupplierTableValue,
   SteelMaterial,
   SteelMaterialForm,
@@ -26,6 +29,7 @@ import {
   SteelMaterialResponse,
   SteelMaterialStandard,
   SteelMaterialStandardForm,
+  SteelMaterialStandardFormValue,
   SteelMaterialStandardTableValue,
 } from '@mac/msd/models';
 
@@ -52,9 +56,15 @@ export type MaterialForm = AluminumMaterialForm | SteelMaterialForm;
 export type MaterialStandardForm =
   | AluminumMaterialStandardForm
   | SteelMaterialStandardForm;
+export type MaterialStandardFormValue =
+  | AluminumMaterialStandardFormValue
+  | SteelMaterialStandardFormValue;
 export type ManufacturerSupplierForm =
   | AluminumManufacturerSupplierForm
   | SteelManufacturerSupplierForm;
+export type ManufacturerSupplierFormValue =
+  | AluminumManufacturerSupplierFormValue
+  | SteelManufacturerSupplierFormValue;
 export type MaterialRequest = AluminumMaterialRequest | SteelMaterialRequest;
 export type ManufacturerSupplierTableValue =
   | AluminumManufacturerSupplierTableValue

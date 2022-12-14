@@ -46,7 +46,7 @@
           !(hasEditorRole$ | ngrxPush) ||
           !editableClass(navigation.materialClass)
         "
-        (click)="openDialog(navigation.materialClass, false)"
+        (click)="openDialog(false)"
         *ngIf="!(hasMinimizedDialog$ | ngrxPush); else resumeButton"
       >
         <mat-icon class="material-icons-outlined">add</mat-icon>
@@ -60,7 +60,7 @@
             !(hasEditorRole$ | ngrxPush) ||
             !editableClass(navigation.materialClass)
           "
-          (click)="resumeDialog(navigation.materialClass)"
+          (click)="resumeDialog()"
         >
           <mat-icon class="text-white">play_arrow</mat-icon>
           <span class="text-white">{{ t('resume') }}</span>

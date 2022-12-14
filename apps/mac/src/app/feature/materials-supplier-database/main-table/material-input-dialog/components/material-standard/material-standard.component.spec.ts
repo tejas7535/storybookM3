@@ -100,11 +100,12 @@ describe('MaterialStandardComponent', () => {
         materialNames: [{ id: 1, materialName: 'materialName value' }],
       },
     } as StringOption;
-    describe('StandardDocumentsControl valueChanges', () => {
+    describe('ADD - StandardDocumentsControl valueChanges', () => {
       beforeEach(() => {
         matNameControl.reset(undefined, { emitEvent: false });
         stdDocControl.reset(undefined, { emitEvent: false });
         // prepare mocks
+        component.viewMode = '';
         component['reset'] = jest.fn();
         idControl.setValue = jest.fn();
       });
@@ -183,12 +184,14 @@ describe('MaterialStandardComponent', () => {
         expect(idControl.setValue).not.toHaveBeenCalled();
       });
     });
-    describe('materialNamesControl valueChanges', () => {
+    describe('ADD - materialNamesControl valueChanges', () => {
       beforeEach(() => {
         // prepare
         matNameControl.setValue(undefined, { emitEvent: false });
         stdDocControl.setValue(undefined, { emitEvent: false });
         // prepare mocks
+        component.readonly = false;
+        component.editable = false;
         component['reset'] = jest.fn();
         idControl.setValue = jest.fn();
       });
@@ -268,6 +271,29 @@ describe('MaterialStandardComponent', () => {
         expect(component['reset']).not.toHaveBeenCalledWith(stdDocControl);
         expect(component['reset']).not.toHaveBeenCalledWith(idControl);
         expect(idControl.setValue).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('EDIT - update select on edit change', () => {
+      beforeEach(() => {
+        component.editable = true;
+        component.readonly = false;
+        component.ngOnInit();
+        component.ngAfterViewInit();
+      });
+      it('should update materialName', () => {
+        const val = 'sth';
+        const so = { title: val } as StringOption;
+
+        component.materialNamesEditControl.setValue(val);
+        expect(component.materialNamesControl.value).toEqual(so);
+      });
+      it('should update standardDocument', () => {
+        const val = 'sth';
+        const so = { title: val } as StringOption;
+
+        component.standardDocumentsEditControl.setValue(val);
+        expect(component.standardDocumentsControl.value).toEqual(so);
       });
     });
   });

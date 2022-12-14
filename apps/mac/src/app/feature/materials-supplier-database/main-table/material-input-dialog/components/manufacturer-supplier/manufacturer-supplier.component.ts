@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   Input,
@@ -25,9 +26,13 @@ import { DialogFacade } from '@mac/msd/store/facades/dialog';
   selector: 'mac-manufacturer-supplier',
   templateUrl: './manufacturer-supplier.component.html',
 })
-export class ManufacturerSupplierComponent implements OnInit, OnDestroy {
+export class ManufacturerSupplierComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   @Input()
   public readonly: boolean;
+  @Input()
+  public editable: boolean;
 
   @Input() public manufacturerSupplierIdControl: FormControl<number>;
   @Input() public supplierControl: FormControl<StringOption>;
@@ -37,6 +42,11 @@ export class ManufacturerSupplierComponent implements OnInit, OnDestroy {
   public suppliers$ = this.dialogFacade.suppliers$;
   public supplierPlants$ = this.dialogFacade.supplierPlants$;
   public supplierCountries$ = this.dialogFacade.supplierCountries$;
+
+  public supplierEditControl = new FormControl<string>(undefined);
+  public supplierPlantEditControl = new FormControl<string>(undefined);
+  public supplierCountryEditControl = new FormControl<string>(undefined);
+  public viewMode = '';
 
   public getErrorMessage = util.getErrorMessage;
   public filterFn = util.filterFn;
@@ -58,59 +68,111 @@ export class ManufacturerSupplierComponent implements OnInit, OnDestroy {
   constructor(private readonly dialogFacade: DialogFacade) {}
 
   ngOnInit(): void {
-    this.supplierDependencies = new FormGroup({
-      supplierName: this.supplierControl,
-      supplierPlant: this.supplierPlantControl,
-      supplierCountry: this.supplierCountryControl,
-    });
-    // manufacturer only available for new suppliers. For old suppliers value will be prefilled
-    this.supplierPlantControl.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((supplierPlant) => {
-        // enable only for new suppliers
-        const isEnabled = supplierPlant?.data === undefined;
-        if (isEnabled) {
-          this.supplierCountryControl.reset();
-          this.supplierCountryControl.enable();
-        } else {
-          const country = supplierPlant.data?.['supplierCountry'];
-          this.supplierCountryControl.setValue({
-            id: country,
-            title: country,
-          });
-          this.supplierCountryControl.disable();
-        }
-      });
+    if (this.editable) {
+      this.viewMode = 'editable';
+    } else if (this.readonly) {
+      this.viewMode = 'readonly';
+    } else {
+      this.viewMode = '';
+    }
 
-    this.supplierDependencies.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(({ supplierName, supplierPlant }) => {
-        // all supplier fields depend on the selection of a supplier
-        if (supplierName) {
-          this.supplierPlantControl.enable({ emitEvent: false });
-          if (supplierPlant) {
-            // verify selected plant is available for selected supplier name (special case for created items)
-            if (
-              supplierName.id && // new custom supplier has been selected
-              supplierPlant.id && // new custom plant has been selected
-              supplierPlant.data['supplierName'] !== supplierName.title
-            ) {
-              this.supplierPlantControl.reset();
-              this.supplierCountryControl.reset();
+    // no logic to apply, if in edit-mode or readonly
+    if (!this.editable && !this.readonly) {
+      this.supplierDependencies = new FormGroup({
+        supplierName: this.supplierControl,
+        supplierPlant: this.supplierPlantControl,
+        supplierCountry: this.supplierCountryControl,
+      });
+      // manufacturer only available for new suppliers. For old suppliers value will be prefilled
+      this.supplierPlantControl.valueChanges
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((supplierPlant) => {
+          // enable only for new suppliers
+          const isEnabled = supplierPlant?.data === undefined;
+          if (isEnabled) {
+            this.supplierCountryControl.reset();
+            this.supplierCountryControl.enable();
+          } else {
+            const country = supplierPlant.data?.['supplierCountry'];
+            this.supplierCountryControl.setValue({
+              id: country,
+              title: country,
+            });
+            this.supplierCountryControl.disable();
+          }
+        });
+
+      this.supplierDependencies.valueChanges
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(({ supplierName, supplierPlant }) => {
+          // all supplier fields depend on the selection of a supplier
+          if (supplierName) {
+            this.supplierPlantControl.enable({ emitEvent: false });
+            if (supplierPlant) {
+              // verify selected plant is available for selected supplier name (special case for created items)
+              if (
+                supplierName.id && // new custom supplier has been selected
+                supplierPlant.id && // new custom plant has been selected
+                supplierPlant.data['supplierName'] !== supplierName.title
+              ) {
+                this.supplierPlantControl.reset();
+                this.supplierCountryControl.reset();
+              } else {
+                // store supplier id (not available for created entries)
+                const supplierId = supplierPlant?.data?.['supplierId'];
+                this.manufacturerSupplierIdControl.patchValue(supplierId);
+              }
             } else {
-              // store supplier id (not available for created entries)
-              const supplierId = supplierPlant?.data?.['supplierId'];
-              this.manufacturerSupplierIdControl.patchValue(supplierId);
+              this.manufacturerSupplierIdControl.reset();
             }
           } else {
             this.manufacturerSupplierIdControl.reset();
+            this.supplierPlantControl.reset(undefined, { emitEvent: false });
+            this.supplierCountryControl.reset(undefined, { emitEvent: false });
           }
-        } else {
-          this.manufacturerSupplierIdControl.reset();
-          this.supplierPlantControl.reset(undefined, { emitEvent: false });
-          this.supplierCountryControl.reset(undefined, { emitEvent: false });
-        }
+        });
+    } else if (this.editable) {
+      // only needed in edit mode
+      this.supplierEditControl.valueChanges
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((name) => this.mapToControl(this.supplierControl, name));
+      this.supplierPlantEditControl.valueChanges
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((plant) =>
+          this.mapToControl(this.supplierPlantControl, plant)
+        );
+      this.supplierCountryEditControl.valueChanges
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((country) =>
+          this.mapToControl(this.supplierCountryControl, country)
+        );
+    }
+  }
+
+  private mapToControl(
+    control: FormControl<StringOption>,
+    value: string
+  ): void {
+    const newValue = {
+      title: value,
+    } as StringOption;
+    control.setValue(newValue);
+  }
+
+  ngAfterViewInit(): void {
+    if (this.editable) {
+      this.supplierEditControl.setValue(this.supplierControl.value?.title, {
+        emitEvent: false,
       });
+      this.supplierPlantEditControl.setValue(
+        this.supplierPlantControl.value?.title,
+        { emitEvent: false }
+      );
+      this.supplierCountryEditControl.setValue(
+        this.supplierCountryControl.value?.title,
+        { emitEvent: false }
+      );
+    }
   }
 
   public ngOnDestroy(): void {

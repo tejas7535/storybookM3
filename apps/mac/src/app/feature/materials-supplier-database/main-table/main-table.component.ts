@@ -384,20 +384,13 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       },
     })) ?? [];
 
-  public resumeDialog(materialClass: MaterialClass): void {
-    this.openDialog(materialClass, true);
+  public resumeDialog(): void {
+    this.openDialog(true);
   }
 
-  public openDialog(
-    materialClass: MaterialClass,
-    isResumeDialog?: boolean
-  ): void {
+  public openDialog(isResumeDialog?: boolean): void {
     this.dataFacade.dispatch(openDialog());
-    const dialogRef = this.dialogService.openDialog(
-      isResumeDialog,
-      undefined,
-      materialClass
-    );
+    const dialogRef = this.dialogService.openDialog(isResumeDialog);
 
     dialogRef
       .afterOpened()

@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { QueryList } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import {
@@ -28,7 +33,7 @@ import { SelectComponent, SelectModule } from '@schaeffler/inputs/select';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
-import { CreateMaterialRecord } from '@mac/msd/models';
+import { CreateMaterialRecord, SteelMaterialFormValue } from '@mac/msd/models';
 import {
   addCustomCastingDiameter,
   addCustomReferenceDocument,
@@ -378,7 +383,7 @@ describe('SteelInputDialogComponent', () => {
       expect(store.dispatch).not.toBeCalled();
     });
     it('should not fetch processes with empty id', () => {
-      component.manufacturerSupplierIdControl.reset();
+      setSilent(component.manufacturerSupplierIdControl);
       component.castingDiameterControl.setValue(createOption('test'));
       expect(store.dispatch).not.toBeCalled();
     });
@@ -391,6 +396,8 @@ describe('SteelInputDialogComponent', () => {
       setSilent(component.steelMakingProcessControl, createOption('initial'));
     });
     it('should dispatch the fetch action on update of SMP', () => {
+      component.createMaterialForm.updateValueAndValidity = jest.fn();
+
       component.steelMakingProcessControl.setValue(createOption('BF+BOF'));
 
       expect(store.dispatch).toHaveBeenCalledWith(
@@ -399,9 +406,15 @@ describe('SteelInputDialogComponent', () => {
           steelMakingProcess: 'BF+BOF',
         })
       );
+      expect(
+        component.createMaterialForm.updateValueAndValidity
+      ).toHaveBeenCalled();
     });
     it('should dispatch the fetch action on update of SupplierId', () => {
+      component.createMaterialForm.updateValueAndValidity = jest.fn();
+
       component.manufacturerSupplierIdControl.setValue(7);
+      component.steelMakingProcessControl.setValue(createOption('initial'));
 
       expect(store.dispatch).toHaveBeenCalledWith(
         fetchCo2ValuesForSupplierSteelMakingProcess({
@@ -409,6 +422,9 @@ describe('SteelInputDialogComponent', () => {
           steelMakingProcess: 'initial',
         })
       );
+      expect(
+        component.createMaterialForm.updateValueAndValidity
+      ).toHaveBeenCalled();
     });
     it('should not dispatch the fetch action with no SMP', () => {
       component.steelMakingProcessControl.reset();
@@ -416,7 +432,8 @@ describe('SteelInputDialogComponent', () => {
       expect(store.dispatch).not.toHaveBeenCalled();
     });
     it('should not dispatch the fetch action with no supplierId', () => {
-      component.manufacturerSupplierIdControl.reset();
+      setSilent(component.manufacturerSupplierIdControl);
+      component.steelMakingProcessControl.setValue({ id: 0, title: 'process' });
 
       expect(store.dispatch).not.toHaveBeenCalled();
     });
@@ -679,6 +696,63 @@ describe('SteelInputDialogComponent', () => {
       update(true);
       expect(component.closeDialog).not.toBeCalled();
       expect(component.showInSnackbar).toBeCalled();
+    });
+  });
+
+  describe('enableEditFields', () => {
+    beforeEach(() => {
+      component.releaseMonthControl.removeValidators = jest.fn();
+      component.releaseYearControl.removeValidators = jest.fn();
+    });
+    it('should call the parent function and do nothing if a release date is present', () => {
+      const mockFormValue = {
+        releaseDateMonth: 1,
+        releaseDateYear: 1,
+      } as SteelMaterialFormValue;
+
+      component.enableEditFields(mockFormValue);
+
+      // expect(mockSuperEnableEditFields).toHaveBeenCalledWith(mockFormValue);
+      expect(
+        component.releaseMonthControl.removeValidators
+      ).not.toHaveBeenCalled();
+      expect(
+        component.releaseYearControl.removeValidators
+      ).not.toHaveBeenCalled();
+    });
+
+    it('should call the parent function and remove the required validators if no release date month is present', () => {
+      const mockFormValue = {
+        releaseDateMonth: undefined,
+        releaseDateYear: 1,
+      } as SteelMaterialFormValue;
+
+      component.enableEditFields(mockFormValue);
+
+      // expect(mockSuperEnableEditFields).toHaveBeenCalledWith(mockFormValue);
+      expect(
+        component.releaseMonthControl.removeValidators
+      ).toHaveBeenCalledWith(Validators.required);
+      expect(
+        component.releaseYearControl.removeValidators
+      ).toHaveBeenCalledWith(Validators.required);
+    });
+
+    it('should call the parent function and remove the required validators if no release date year is present', () => {
+      const mockFormValue = {
+        releaseDateMonth: 1,
+        releaseDateYear: undefined,
+      } as SteelMaterialFormValue;
+
+      component.enableEditFields(mockFormValue);
+
+      // expect(mockSuperEnableEditFields).toHaveBeenCalledWith(mockFormValue);
+      expect(
+        component.releaseMonthControl.removeValidators
+      ).toHaveBeenCalledWith(Validators.required);
+      expect(
+        component.releaseYearControl.removeValidators
+      ).toHaveBeenCalledWith(Validators.required);
     });
   });
 });

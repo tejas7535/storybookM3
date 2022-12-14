@@ -1,3 +1,5 @@
+import { BehaviorSubject } from 'rxjs';
+
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -15,6 +17,8 @@ import {
 import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
 import { initialState as initialQuickfilterState } from '@mac/msd/store/reducers/quickfilter/quickfilter.reducer';
 
+import { STEEL_STATIC_QUICKFILTERS } from '../../main-table/quick-filter/config/steel';
+import { setCustomQuickfilter } from '../../store/actions/quickfilter';
 import { MsdAgGridStateService } from './msd-ag-grid-state.service';
 
 class LocalStorageMock {
@@ -86,6 +90,36 @@ describe('MsdAgGridStateService', () => {
       expect(service['migrateLegacyStates']).toHaveBeenCalled();
       expect(service['getMsdMainTableState']).toHaveBeenCalled();
       expect(service['migrateLocalStorage']).toHaveBeenCalled();
+    });
+    it('should react to navigation changes', () => {
+      service['getQuickFilterState'] = jest.fn(() => STEEL_STATIC_QUICKFILTERS);
+
+      const subject = new BehaviorSubject({
+        materialClass: MaterialClass.STEEL,
+        navigationLevel: NavigationLevel.MATERIAL,
+      });
+
+      service['quickFilterFacade'].dispatch = jest.fn();
+      service['dataFacade'].navigation$ = subject;
+      service['init']();
+
+      expect(service['quickFilterFacade'].dispatch).toBeCalledWith(
+        setCustomQuickfilter({ filters: STEEL_STATIC_QUICKFILTERS })
+      );
+    });
+    it('should ignore empty navigation', () => {
+      service['getQuickFilterState'] = jest.fn(() => STEEL_STATIC_QUICKFILTERS);
+
+      const subject = new BehaviorSubject({
+        materialClass: undefined,
+        navigationLevel: undefined,
+      });
+
+      service['quickFilterFacade'].dispatch = jest.fn();
+      service['dataFacade'].navigation$ = subject;
+      service['init']();
+
+      expect(service['quickFilterFacade'].dispatch).not.toBeCalled();
     });
   });
 

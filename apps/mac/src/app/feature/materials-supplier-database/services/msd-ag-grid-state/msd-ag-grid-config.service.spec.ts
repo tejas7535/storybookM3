@@ -154,6 +154,13 @@ describe('MsdAgGridConfigService', () => {
   describe('getStaticQuickFilters', () => {
     it.each([
       [
+        undefined,
+        undefined,
+        STATIC_QUICKFILTERS_MAPPING.materials[MaterialClass.STEEL][
+          NavigationLevel.MATERIAL
+        ],
+      ],
+      [
         MaterialClass.ALUMINUM,
         NavigationLevel.MATERIAL,
         STATIC_QUICKFILTERS_MAPPING.materials[MaterialClass.ALUMINUM][

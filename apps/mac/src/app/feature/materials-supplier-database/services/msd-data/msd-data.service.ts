@@ -457,23 +457,9 @@ export class MsdDataService {
     standard: MaterialStandardV2,
     materialClass: MaterialClass = MaterialClass.STEEL
   ) {
-    let modStd: {
-      materialName: string;
-      standardDocument?: string;
-      materialNumber?: string | string[];
-    } = standard;
-
-    if ('materialNumber' in standard) {
-      modStd = {
-        materialName: standard.materialName,
-        standardDocument: standard.standardDocument,
-        materialNumber: standard.materialNumber,
-      };
-    }
-
     return this.httpClient.post<{ id: number }>(
       `${this.BASE_URL}/materials/${materialClass}/materialStandards`,
-      modStd
+      standard
     );
   }
 
