@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.1.0...mac-v1.2.0) (2022-12-14)
+
+
+### 🎸 Features
+
+* **mac:** add dialog for add edit Supplier & Material Standards - UFTABI-6211 ([#4875](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4875)) ([3b09e7c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3b09e7c6cff76ac8be75c64a0a411b24cebb4f65))
+* **mac:** add new navigation for msd (UFTABI-6207) ([#4852](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4852)) ([4fcf115](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4fcf1150c10c8ea431cda1216621989ad0136e6f))
+* **mac:** add status for msd (UFTABI-6049) ([#4873](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4873)) ([0074e8d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0074e8dbe826651ba84621abbdf740da3be6fab9))
+* **mac:** add supplier and material standard views ([#4861](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4861)) ([56c764b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/56c764b116922ff6964a40e43ba274a72b346c0e))
+* **mac:** add support for polymers ([#4844](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4844)) ([ca52970](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ca529708fb682160f0e68975c66b35dd46c2d2fd))
+* **mac:** add tooltips to msd selects (UFTABI-6199) ([#4821](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4821)) ([278a98c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/278a98c9333cb8d62ba78648d37def33221db087))
+* **mac:** adjust service and store for new material classes (UFTABI-6135) ([#4771](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4771)) ([5c04756](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5c0475694bc667b2d30d55e117d98a93cc99101d))
+* **mac:** create universal material dialog base component ([#4776](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4776)) ([c67c3c2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c67c3c225f331caf90ecc4fa14a6430552551247))
+* **mac:** display aluminum materials (UFTABI-6136) ([#4777](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4777)) ([eca1376](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/eca13769684d0e4def840c84599abffca356ddef))
+* **msd:** Use wrapper component for steel dialog - Feature/uftabi 6139-2 ([#4816](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4816)) ([a56e0e0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a56e0e07f14a66e690f38aa072b20ddbddf13572))
+
 ## [1.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.0.0...mac-v1.1.0) (2022-11-09)
 
 
