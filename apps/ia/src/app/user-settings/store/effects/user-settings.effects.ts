@@ -99,7 +99,7 @@ export class UserSettingsEffects implements OnInitEffects {
             disableClose: true,
             data: {
               dimension: params[0],
-              selectedBusinessArea: params[1],
+              selectedDimensionIdValue: params[1],
               initialLoad: !params[0] && !params[1],
             },
           });

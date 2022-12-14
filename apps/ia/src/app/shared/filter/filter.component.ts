@@ -27,9 +27,9 @@ import { FilterLayout } from './filter-layout.enum';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilterComponent {
-  private _selectedBusinessArea: IdValue;
+  private _selectedDimensionIdValue: IdValue;
   private _selectedTimePeriod: TimePeriod;
-  private _businessAreaFilter: Filter;
+  private _dimensionFilter: Filter;
   private _options: IdValue[];
   private _minCharLength = 0;
   private _asyncMode = false;
@@ -68,21 +68,21 @@ export class FilterComponent {
     return this._availableDimensions;
   }
 
-  @Input() businessAreaLoading: boolean;
+  @Input() dimensionDataLoading: boolean;
   @Input() orgUnitsLoading: boolean;
 
-  @Input() set businessAreaFilter(businessAreaFilter: Filter) {
-    this._businessAreaFilter = businessAreaFilter;
-    this._options = businessAreaFilter?.options;
+  @Input() set dimensionFilter(dimensionFilter: Filter) {
+    this._dimensionFilter = dimensionFilter;
+    this._options = dimensionFilter?.options;
     this._minCharLength =
-      businessAreaFilter?.name === FilterDimension.ORG_UNIT
+      dimensionFilter?.name === FilterDimension.ORG_UNIT
         ? ASYNC_SEARCH_MIN_CHAR_LENGTH
         : LOCAL_SEARCH_MIN_CHAR_LENGTH;
-    this._asyncMode = businessAreaFilter?.name === FilterDimension.ORG_UNIT;
+    this._asyncMode = dimensionFilter?.name === FilterDimension.ORG_UNIT;
   }
 
-  get businessAreaFilter(): Filter {
-    return this._businessAreaFilter;
+  get dimensionFilter(): Filter {
+    return this._dimensionFilter;
   }
 
   get options(): IdValue[] {
@@ -100,13 +100,13 @@ export class FilterComponent {
   @Input() layout: FilterLayout = FilterLayout.DEFAULT;
 
   @Input() disableFilters: boolean;
-  @Input() set selectedBusinessArea(selectedBusinessArea: IdValue) {
-    this._selectedBusinessArea = selectedBusinessArea;
-    this.disabledTimeRangeFilter = selectedBusinessArea === undefined;
+  @Input() set selectedDimensionIdValue(selectedDimensionIdValue: IdValue) {
+    this._selectedDimensionIdValue = selectedDimensionIdValue;
+    this.disabledTimeRangeFilter = selectedDimensionIdValue === undefined;
   }
 
-  get selectedBusinessArea(): IdValue {
-    return this._selectedBusinessArea;
+  get selectedDimensionIdValue(): IdValue {
+    return this._selectedDimensionIdValue;
   }
 
   @Input() selectedTime: IdValue;
@@ -149,15 +149,15 @@ export class FilterComponent {
     this.selectFilter.emit(filter);
   }
 
-  businessAreaInvalid(businessAreaIsInvalid: boolean): void {
-    this.disabledTimeRangeFilter = businessAreaIsInvalid;
+  selectedDimensionDataInvalid(selectedDimensionDataInvalid: boolean): void {
+    this.disabledTimeRangeFilter = selectedDimensionDataInvalid;
   }
 
   autoCompleteInputChange(searchFor: string): void {
     if (this.asyncMode) {
       this.autoCompleteInput.emit(searchFor);
     } else {
-      this.businessAreaFilter.options =
+      this.dimensionFilter.options =
         searchFor.length > 0
           ? this.options?.filter((option) =>
               option.value?.toUpperCase().startsWith(searchFor.toUpperCase())

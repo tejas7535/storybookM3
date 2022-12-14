@@ -1,11 +1,16 @@
 import { translate } from '@ngneat/transloco';
 import { createSelector } from '@ngrx/store';
 
-import { getSelectedTimeRange } from '../../../core/store/selectors';
+import {
+  getSelectedDimension,
+  getSelectedDimensionIdValue,
+  getSelectedTimeRange,
+} from '../../../core/store/selectors';
 import { LINE_SERIES_BASE_OPTIONS } from '../../../shared/charts/line-chart/line-chart.config';
 import {
   AttritionOverTime,
   AttritionSeries,
+  FilterDimension,
   HeatType,
   IdValue,
 } from '../../../shared/models';
@@ -20,7 +25,20 @@ export const getSelectedChartType = createSelector(
 
 export const getOrgChart = createSelector(
   selectOrganizationalViewState,
-  (state: OrganizationalViewState) => state.orgChart.data
+  getSelectedDimension,
+  getSelectedDimensionIdValue,
+  (
+    state: OrganizationalViewState,
+    dimension: FilterDimension,
+    selectedDimensionIdValue: IdValue
+  ) => {
+    const hideOrgChart = selectedDimensionIdValue === undefined;
+
+    return {
+      data: hideOrgChart ? [] : state.orgChart.data,
+      dimension,
+    };
+  }
 );
 
 export const getOrgChartEmployees = createSelector(

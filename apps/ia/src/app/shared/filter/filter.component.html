@@ -32,32 +32,32 @@
         class="mb-2 flex items-center"
         *ngIf="layout === filterLayout.DEFAULT"
       >
-        {{ t('businessArea.title', { dimension: dimensionName }) }}
+        {{ t('dimensionIdValue.title', { dimension: dimensionName }) }}
         <mat-icon
-          [matTooltip]="t('businessArea.organizationTooltip')"
+          [matTooltip]="t('dimensionIdValue.organizationTooltip')"
           class="ml-1 cursor-default text-high-emphasis"
         >
           info
         </mat-icon>
       </h6>
       <ia-autocomplete-input
-        [filter]="businessAreaFilter"
+        [filter]="dimensionFilter"
         [autoCompleteLoading]="orgUnitsLoading"
-        [autoCompleteLoading]="businessAreaLoading"
+        [autoCompleteLoading]="dimensionDataLoading"
         [label]="dimensionName"
         [hint]="
           disableFilters
             ? undefined
-            : t('businessArea.businessAreaHint', {
+            : t('dimensionIdValue.dimensionIdValueHint', {
                 dimension: dimensionName
               })
         "
-        [noResultMessage]="t('businessArea.nothingFound')"
-        [value]="selectedBusinessArea"
+        [noResultMessage]="t('dimensionIdValue.nothingFound')"
+        [value]="selectedDimensionIdValue"
         [disabled]="disableFilters"
         [minCharLength]="minCharLength"
         (selected)="optionSelected($event)"
-        (invalidFormControl)="businessAreaInvalid($event)"
+        (invalidFormControl)="selectedDimensionDataInvalid($event)"
         (autoComplete)="autoCompleteInputChange($event)"
       ></ia-autocomplete-input>
     </div>

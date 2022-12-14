@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store';
 
 import {
-  getSelectedBusinessArea,
+  getSelectedDimensionIdValue,
   getSelectOrgUnitValueShort,
 } from '../../../core/store/selectors';
 import {
@@ -79,7 +79,7 @@ export const getOverviewEntryEmployeesLoading = createSelector(
 
 export const getOverviewFluctuationKpi = createSelector(
   getOverviewFluctuationRates,
-  getSelectedBusinessArea,
+  getSelectedDimensionIdValue,
   (
     overviewFluctuationRates: OverviewFluctuationRates,
     selectedOrgUnit: IdValue
@@ -96,7 +96,7 @@ export const getOverviewFluctuationKpi = createSelector(
 
 export const getOverviewUnforcedFluctuationKpi = createSelector(
   getOverviewFluctuationRates,
-  getSelectedBusinessArea,
+  getSelectedDimensionIdValue,
   (
     overviewFluctuationRates: OverviewFluctuationRates,
     selectedOrgUnit: IdValue

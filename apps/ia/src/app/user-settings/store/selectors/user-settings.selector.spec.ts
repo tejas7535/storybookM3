@@ -1,7 +1,7 @@
 import { FilterDimension, IdValue } from '../../../shared/models';
 import { UserSettingsState } from '..';
 import {
-  getDialogBusinessAreaValuesLoading,
+  getDialogSelectedDimensionDataLoading,
   getFavoriteDimension,
   getFavoriteDimensionDisplayName,
   getFavoriteDimensionIdValue,
@@ -18,7 +18,7 @@ describe('User Settings Selector', () => {
     loading: false,
     errorMessage: undefined,
     dialog: {
-      businessAreaValuesLoading: false,
+      selectedDimensionDataLoading: false,
     },
   } as UserSettingsState;
 
@@ -42,10 +42,10 @@ describe('User Settings Selector', () => {
     });
   });
 
-  describe('getDialogBusinessAreaValuesLoading', () => {
+  describe('getDialogSelectedDimensionDataLoading', () => {
     test('should return loading info', () => {
-      expect(getDialogBusinessAreaValuesLoading.projector(state)).toEqual(
-        state.dialog.businessAreaValuesLoading
+      expect(getDialogSelectedDimensionDataLoading.projector(state)).toEqual(
+        state.dialog.selectedDimensionDataLoading
       );
     });
   });

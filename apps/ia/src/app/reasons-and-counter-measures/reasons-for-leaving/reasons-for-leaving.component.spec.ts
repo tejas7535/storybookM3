@@ -9,8 +9,8 @@ import { marbles } from 'rxjs-marbles/jest';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
-  getBusinessAreaFilter,
-  getSelectedBusinessArea,
+  getSelectedDimensionFilter,
+  getSelectedDimensionIdValue,
   getSelectedTimePeriod,
   getSelectedTimeRange,
   getTimePeriods,
@@ -28,8 +28,8 @@ import {
   getComparedReasonsChartConfig,
   getComparedReasonsChartData,
   getComparedReasonsTableData,
-  getComparedSelectedBusinessArea,
   getComparedSelectedDimension,
+  getComparedSelectedDimensionIdValue,
   getComparedSelectedOrgUnitLoading,
   getComparedSelectedTimePeriod,
   getComparedSelectedTimeRange,
@@ -77,7 +77,7 @@ describe('ReasonsForLeavingComponent', () => {
       'should initialize observables from store',
       marbles((m) => {
         const result = 'a' as any;
-        store.overrideSelector(getSelectedBusinessArea, result);
+        store.overrideSelector(getSelectedDimensionIdValue, result);
         store.overrideSelector(getTimePeriods, result);
         store.overrideSelector(getSelectedTimePeriod, result);
         store.overrideSelector(getSelectedTimeRange, result);
@@ -89,9 +89,9 @@ describe('ReasonsForLeavingComponent', () => {
         store.overrideSelector(getReasonsLoading, result);
         store.overrideSelector(getComparedReasonsChartConfig, result);
         store.overrideSelector(getComparedSelectedDimension, result);
-        store.overrideSelector(getBusinessAreaFilter, result);
+        store.overrideSelector(getSelectedDimensionFilter, result);
         store.overrideSelector(getComparedOrgUnitsFilter, result);
-        store.overrideSelector(getComparedSelectedBusinessArea, result);
+        store.overrideSelector(getComparedSelectedDimensionIdValue, result);
         store.overrideSelector(getComparedSelectedOrgUnitLoading, result);
         store.overrideSelector(getComparedSelectedTimePeriod, result);
         store.overrideSelector(getComparedSelectedTimeRange, result);

@@ -13,15 +13,15 @@ import {
 } from '../../../shared/models';
 import { ReasonsAndCounterMeasuresState } from '..';
 import {
-  getComparedBusinessAreaFilter,
   getComparedOrgUnitsFilter,
   getComparedReasonsChartConfig,
   getComparedReasonsChartData,
   getComparedReasonsData,
   getComparedReasonsLoading,
   getComparedReasonsTableData,
-  getComparedSelectedBusinessArea,
   getComparedSelectedDimension,
+  getComparedSelectedDimensionFilter,
+  getComparedSelectedDimensionIdValue,
   getComparedSelectedOrgUnitLoading,
   getComparedSelectedTimePeriod,
   getComparedSelectedTimeRange,
@@ -568,15 +568,15 @@ describe('ReasonsAndCounterMeasures Selector', () => {
     });
   });
 
-  describe('getComparedSelectedBusinessArea', () => {
-    test('should return selected business area', () => {
+  describe('getComparedSelectedDimensionIdValue', () => {
+    test('should return selected dimension id value', () => {
       const selectedDimension = FilterDimension.ORG_UNIT;
       const filter = new SelectedFilter(
         selectedDimension,
         new IdValue('1', 'abc')
       );
       const selectedFilters: SelectedFilter[] = [filter];
-      const result = getComparedSelectedBusinessArea.projector(
+      const result = getComparedSelectedDimensionIdValue.projector(
         selectedFilters,
         selectedDimension
       );
@@ -584,12 +584,12 @@ describe('ReasonsAndCounterMeasures Selector', () => {
     });
   });
 
-  describe('getComparedBusinessAreaFilter', () => {
-    test('should return selected business area filter', () => {
+  describe('getComparedSelectedDimensionFilter', () => {
+    test('should return selected dimension filter', () => {
       const selectedDimension = FilterDimension.ORG_UNIT;
       const items = [new IdValue('Schaeffler_IT_1', 'Schaeffler_IT_1')];
       const expected = new Filter(selectedDimension, items);
-      const result = getComparedBusinessAreaFilter.projector(
+      const result = getComparedSelectedDimensionFilter.projector(
         fakeState,
         selectedDimension
       );
@@ -599,7 +599,7 @@ describe('ReasonsAndCounterMeasures Selector', () => {
 
     test('should return empty array when items undefined', () => {
       const selectedDimension = FilterDimension.SEGMENT;
-      const result = getComparedBusinessAreaFilter.projector(
+      const result = getComparedSelectedDimensionFilter.projector(
         fakeState,
         selectedDimension
       );

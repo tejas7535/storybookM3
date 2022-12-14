@@ -3,7 +3,7 @@
   "dialog": {
     "dimensionLabel": "Select a dimension",
     "dimensionHint": "Select a dimension",
-    "businessAreaHint": "Select {{dimension}}",
+    "dimensionIdValueHint": "Select {{dimension}}",
     "nothingFound": "Nothing found",
     "confirm": "Confirm",
     "cancel": "Cancel",

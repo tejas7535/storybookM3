@@ -40,7 +40,7 @@ import {
   loadReasonsWhyPeopleLeftSuccess,
 } from '../actions/reasons-and-counter-measures.actions';
 import {
-  getComparedSelectedBusinessArea,
+  getComparedSelectedDimensionIdValue,
   getComparedSelectedTimeRange,
   getCurrentComparedFilters,
 } from '../selectors/reasons-and-counter-measures.selector';
@@ -203,15 +203,15 @@ export class ReasonsAndCounterMeasuresEffects {
     return this.actions$.pipe(
       ofType(loadComparedFilterDimensionDataSuccess),
       concatLatestFrom(() =>
-        this.store.select(getComparedSelectedBusinessArea)
+        this.store.select(getComparedSelectedDimensionIdValue)
       ),
-      mergeMap(([action, selectedBusinessArea]) => {
-        return selectedBusinessArea
+      mergeMap(([action, selectedDimensionIdValue]) => {
+        return selectedDimensionIdValue
           ? of(
               comparedFilterSelected({
                 filter: {
                   name: action.filterDimension,
-                  idValue: selectedBusinessArea,
+                  idValue: selectedDimensionIdValue,
                 } as SelectedFilter,
               })
             )

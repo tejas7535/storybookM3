@@ -63,19 +63,27 @@ describe('OrgChartComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('set data', () => {
-    test('should set chart data and update chart', () => {
+  describe('set orgChartData', () => {
+    test('should set org chart data and update chart if data changed', () => {
       component.updateChart = jest.fn();
       const obj: any = {};
       transloco.translateObject = jest.fn(() => obj);
-      component['orgChartService'].mapOrgUnitsToNodes = jest.fn();
+      component['orgChartService'].mapDimensionDataToNodes = jest.fn();
+      component.orgChartNodesChanged = jest.fn(() => true);
       const employees = [{ id: '123' } as unknown as DimensionFluctuationData];
 
-      component.data = employees;
+      const input = {
+        data: employees,
+        dimension: FilterDimension.ORG_UNIT,
+      };
+
+      component.orgChartData = input;
+      component.orgChartData = { ...input, dimension: FilterDimension.BOARD };
 
       expect(component.updateChart).toHaveBeenCalled();
+      expect(component.orgChartNodesChanged).toHaveBeenCalled();
       expect(
-        component['orgChartService'].mapOrgUnitsToNodes
+        component['orgChartService'].mapDimensionDataToNodes
       ).toHaveBeenCalledWith(employees, obj);
       expect(transloco.translateObject).toHaveBeenCalledWith(
         'organizationalView.orgChart.table'
@@ -110,14 +118,20 @@ describe('OrgChartComponent', () => {
   describe('clickout', () => {
     beforeEach(() => {
       component['dialog'].open = jest.fn();
-      component.data = [
-        {
-          id: '123',
-          parentId: '321',
-          dimension: 'Schaeffler_IT',
-          managerOfOrgUnit: 'Hans',
-        } as DimensionFluctuationData,
-      ];
+
+      const input = {
+        data: [
+          {
+            id: '123',
+            parentId: '321',
+            dimension: 'Schaeffler_IT',
+            managerOfOrgUnit: 'Hans',
+          } as DimensionFluctuationData,
+        ],
+        dimension: FilterDimension.ORG_UNIT,
+      };
+
+      component.orgChartData = input;
     });
     test('should open dialog with attrition data when attrition icon is clicked', () => {
       component.loadMeta.emit = jest.fn();
@@ -130,7 +144,9 @@ describe('OrgChartComponent', () => {
         },
       });
 
-      expect(component.loadMeta.emit).toHaveBeenCalledWith(component.data[0]);
+      expect(component.loadMeta.emit).toHaveBeenCalledWith(
+        component.orgChartData.data[0]
+      );
       expect(component['dialog'].open).toHaveBeenCalledWith(
         AttritionDialogComponent,
         {
@@ -182,7 +198,9 @@ describe('OrgChartComponent', () => {
         },
       });
 
-      expect(component.showParent.emit).toHaveBeenCalledWith(component.data[0]);
+      expect(component.showParent.emit).toHaveBeenCalledWith(
+        component.orgChartData.data[0]
+      );
     });
   });
 
@@ -224,6 +242,10 @@ describe('OrgChartComponent', () => {
     });
 
     test('should update org chart if chart is set', (done) => {
+      component.orgChartData = {
+        data: [],
+        dimension: FilterDimension.ORG_UNIT,
+      };
       component.chart = new OrgChart();
       component.chartData = [{}];
       component.chartContainer = {
@@ -310,6 +332,24 @@ describe('OrgChartComponent', () => {
         enoughRightsToShowAllEmployees: false,
         showFluctuationTypeOnTeamMemberDialog: false,
       });
+    });
+  });
+
+  describe('orgChartNodesChanged', () => {
+    test('should return true if data of org chart node has changed', () => {
+      const old = {
+        data: [] as any,
+        dimension: FilterDimension.BOARD,
+      };
+
+      const temp = {
+        data: [{}],
+        dimension: FilterDimension.BOARD,
+      };
+
+      const result = component.orgChartNodesChanged(old, temp);
+
+      expect(result).toBeTruthy();
     });
   });
 });

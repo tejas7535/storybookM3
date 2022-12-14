@@ -7,7 +7,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { loadFilterDimensionData } from '../../core/store/actions';
-import { getSpecificBusinessAreaFilter } from '../../core/store/selectors/filter/filter.selector';
+import { getSpecificDimensonFilter } from '../../core/store/selectors/filter/filter.selector';
 import {
   ASYNC_SEARCH_MIN_CHAR_LENGTH,
   FILTER_DIMENSIONS,
@@ -24,7 +24,7 @@ import {
   loadUserSettingsDimensionData,
   updateUserSettings,
 } from '../store/actions/user-settings.action';
-import { getDialogBusinessAreaValuesLoading } from '../store/selectors/user-settings.selector';
+import { getDialogSelectedDimensionDataLoading } from '../store/selectors/user-settings.selector';
 import { UserSettingsDialogData } from './user-settings-dialog-data.model';
 @Component({
   selector: 'ia-user-settings-dialog',
@@ -33,12 +33,12 @@ import { UserSettingsDialogData } from './user-settings-dialog-data.model';
 })
 export class UserSettingsDialogComponent implements OnInit, OnDestroy {
   selected: SelectedFilter;
-  invalidBusinessAreaInput: boolean;
+  invalidDimensionDataInput: boolean;
 
   activeDimension: FilterDimension;
-  businessAreaFilter$: Observable<Filter>;
-  selectedBusinessArea: IdValue;
-  businessAreaValuesLoading$: Observable<boolean>;
+  dimensionFilter$: Observable<Filter>;
+  selectedDimensionIdValue: IdValue;
+  selectedDimensionDataLoading$: Observable<boolean>;
   availableDimensions: IdValue[];
   dimensionName: string;
 
@@ -52,12 +52,12 @@ export class UserSettingsDialogComponent implements OnInit, OnDestroy {
     private readonly translocoService: TranslocoService
   ) {
     this.updateDimension(this.data.dimension);
-    this.selectedBusinessArea = this.data.selectedBusinessArea;
+    this.selectedDimensionIdValue = this.data.selectedDimensionIdValue;
   }
 
   ngOnInit(): void {
-    this.businessAreaValuesLoading$ = this.store.select(
-      getDialogBusinessAreaValuesLoading
+    this.selectedDimensionDataLoading$ = this.store.select(
+      getDialogSelectedDimensionDataLoading
     );
 
     this.subscription.add(
@@ -80,8 +80,8 @@ export class UserSettingsDialogComponent implements OnInit, OnDestroy {
   }
 
   updateDimension(dimension: FilterDimension): void {
-    this.businessAreaFilter$ = this.store.select(
-      getSpecificBusinessAreaFilter(dimension)
+    this.dimensionFilter$ = this.store.select(
+      getSpecificDimensonFilter(dimension)
     );
 
     this.activeDimension = dimension;
@@ -91,7 +91,7 @@ export class UserSettingsDialogComponent implements OnInit, OnDestroy {
         ? ASYNC_SEARCH_MIN_CHAR_LENGTH
         : LOCAL_SEARCH_MIN_CHAR_LENGTH;
 
-    this.selectedBusinessArea = undefined;
+    this.selectedDimensionIdValue = undefined;
   }
 
   updateDimensionName(): void {
@@ -100,12 +100,12 @@ export class UserSettingsDialogComponent implements OnInit, OnDestroy {
     )?.value;
   }
 
-  selectBusinessAreaOption(option: SelectedFilter): void {
+  selectDimensionDataOption(option: SelectedFilter): void {
     this.selected = option;
   }
 
-  invalidBusinessArea(invalid: boolean): void {
-    this.invalidBusinessAreaInput = invalid;
+  invalidDimensionData(invalid: boolean): void {
+    this.invalidDimensionDataInput = invalid;
   }
 
   saveUserSettings(): void {
@@ -117,7 +117,7 @@ export class UserSettingsDialogComponent implements OnInit, OnDestroy {
     this.store.dispatch(updateUserSettings({ data }));
   }
 
-  autoCompleteBusinessAreaChange(searchFor: string): void {
+  autoCompleteSelectedDimensionIdValueChange(searchFor: string): void {
     if (this.activeDimension === FilterDimension.ORG_UNIT) {
       this.store.dispatch(
         loadUserSettingsDimensionData({
@@ -126,8 +126,8 @@ export class UserSettingsDialogComponent implements OnInit, OnDestroy {
         })
       );
     } else {
-      this.businessAreaFilter$ = this.store
-        .select(getSpecificBusinessAreaFilter(this.activeDimension))
+      this.dimensionFilter$ = this.store
+        .select(getSpecificDimensonFilter(this.activeDimension))
         .pipe(
           // eslint-disable-next-line ngrx/avoid-mapping-selectors
           map((filter: Filter) => {

@@ -25,21 +25,21 @@
     ></ia-select-input>
 
     <ia-autocomplete-input
-      [filter]="businessAreaFilter$ | ngrxPush"
-      [autoCompleteLoading]="businessAreaValuesLoading$ | ngrxPush"
-      [value]="selectedBusinessArea"
+      [filter]="dimensionFilter$ | ngrxPush"
+      [autoCompleteLoading]="selectedDimensionDataLoading$ | ngrxPush"
+      [value]="selectedDimensionIdValue"
       [label]="dimensionName"
       [hint]="
-        t('businessAreaHint', {
+        t('dimensionIdValueHint', {
           dimension: dimensionName
         })
       "
       [minCharLength]="minCharLength"
       [appearance]="'outline'"
       [noResultMessage]="t('nothingFound')"
-      (selected)="selectBusinessAreaOption($event)"
-      (invalidFormControl)="invalidBusinessArea($event)"
-      (autoComplete)="autoCompleteBusinessAreaChange($event)"
+      (selected)="selectDimensionDataOption($event)"
+      (invalidFormControl)="invalidDimensionData($event)"
+      (autoComplete)="autoCompleteSelectedDimensionIdValueChange($event)"
     ></ia-autocomplete-input>
   </div>
 </mat-dialog-content>
@@ -52,7 +52,7 @@
     mat-dialog-close
     color="primary"
     (click)="saveUserSettings()"
-    [disabled]="invalidBusinessAreaInput || !selected"
+    [disabled]="invalidDimensionDataInput || !selected"
   >
     {{ t('confirm') }}
   </button>

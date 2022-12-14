@@ -288,7 +288,7 @@ describe('User Settings Effects', () => {
         disableClose: true,
         data: {
           dimension,
-          selectedBusinessArea: idValue,
+          selectedDimensionIdValue: idValue,
           initialLoad: false,
         },
       });
@@ -306,7 +306,7 @@ describe('User Settings Effects', () => {
         disableClose: true,
         data: {
           dimension,
-          selectedBusinessArea: idValue,
+          selectedDimensionIdValue: idValue,
           initialLoad: false,
         },
       });

@@ -16,8 +16,8 @@ import {
   loadFilterDimensionDataSuccess,
 } from '../../actions';
 import {
-  getSelectedBusinessArea,
   getSelectedDimension,
+  getSelectedDimensionIdValue,
   getSelectedTimeRange,
 } from '../../selectors';
 
@@ -57,14 +57,14 @@ export class FilterEffects {
   loadFilterDimensionDataSuccess$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadFilterDimensionDataSuccess),
-      concatLatestFrom(() => this.store.select(getSelectedBusinessArea)),
-      mergeMap(([action, selectedBusinessArea]) => {
-        return selectedBusinessArea
+      concatLatestFrom(() => this.store.select(getSelectedDimensionIdValue)),
+      mergeMap(([action, selectedDimensionIdValue]) => {
+        return selectedDimensionIdValue
           ? of(
               filterSelected({
                 filter: {
                   name: action.filterDimension,
-                  idValue: selectedBusinessArea,
+                  idValue: selectedDimensionIdValue,
                 } as SelectedFilter,
               })
             )

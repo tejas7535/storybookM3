@@ -6,7 +6,7 @@
     #chartContainer
     id="chartContainer"
     class="h-full w-full"
-    *ngIf="chartData?.length || isLoading"
+    [ngClass]="{ hidden: chartData?.length === 0 }"
   ></div>
 
   <schaeffler-loading-spinner
@@ -14,9 +14,10 @@
     [diameter]="40"
     [strokeWidth]="4"
   ></schaeffler-loading-spinner>
-  <div *ngIf="!chartData?.length" class="flex grow items-center justify-center">
-    <div *ngIf="!isLoading">
-      <span class="self-center">{{ t('noData') }}</span>
-    </div>
+  <div
+    *ngIf="!chartData?.length && !isLoading"
+    class="flex grow items-center justify-center"
+  >
+    <span class="self-center">{{ t('noData') }}</span>
   </div>
 </div>

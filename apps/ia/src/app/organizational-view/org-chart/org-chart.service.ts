@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import * as d3Selection from 'd3-selection';
 
+import { FilterDimension } from '../../shared/models';
 import { DimensionFluctuationData } from '../models/dimension-fluctuation-data.model';
 import { OrgChartNode } from './models/org-chart-node.model';
 
@@ -11,7 +12,7 @@ import { OrgChartNode } from './models/org-chart-node.model';
 export class OrgChartService {
   public static readonly ROOT_ID = 'ROOT';
 
-  mapOrgUnitsToNodes(
+  mapDimensionDataToNodes(
     data: DimensionFluctuationData[],
     translations: any
   ): OrgChartNode[] {
@@ -91,7 +92,7 @@ export class OrgChartService {
   `;
   }
 
-  getNodeContent(data: OrgChartNode): string {
+  getNodeContent(data: OrgChartNode, dimension: FilterDimension): string {
     const upwardsButton = `
       <div class="
           pointer-events-auto cursor-pointer bg-surface text-low-emphasis rounded-full
@@ -117,37 +118,12 @@ export class OrgChartService {
               data.name
             }</div>
 
-            <table class="table-fixed">
-              <thead>
-                <tr class="font-semibold uppercase text-low-emphasis divide-x divide-border">
-                  <th class="w-1/3">&nbsp;</th>
-                  <th class="w-1/3 tracking-widest">${
-                    data.textColumnDirect
-                  }</th>
-                  <th class="w-1/3 tracking-widest">${
-                    data.textColumnOverall
-                  }</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="text-center h-9 divide-x divide-border">
-                  <td class="flex text-body-2 text-low-emphasis gap-1 items-center h-full">
-                    <span class="text-[16px] before:font-materiaIcons before:content-['person'] before:block text-link"></span>
-                    <span>${data.textRowEmployees}</span>
-                  </td>
-                  <td class="text-body-2 h-9">${data.directSubordinates}</td>
-                  <td class="text-body-2">${data.totalSubordinates}</td>
-                </tr>
-                <tr class="text-center h-9 divide-x divide-border">
-                  <td class="flex text-body-2 text-low-emphasis gap-1 items-center h-full">
-                    <span class="text-[16px] before:font-materiaIcons before:content-['\\e26a'] before:block text-link"></span>
-                    <span>${data.textRowAttrition}</span>
-                  </td>
-                  <td class="text-body-2">${data.directAttrition}</td>
-                  <td class="text-body-2">${data.totalAttrition}</td>
-                </tr>
-              </tbody>
-            </table>
+           ${
+             dimension === FilterDimension.ORG_UNIT
+               ? this.getOrgUnitTable(data)
+               : this.getGeneralDimensionGrid(data)
+           }
+
             <div class="flex-1 flex justify-between items-center px-4">
                 <span id="employee-node-people" data-id="${
                   data.nodeId
@@ -158,5 +134,58 @@ export class OrgChartService {
             </div>
           </div>
         `;
+  }
+
+  private getGeneralDimensionGrid(data: OrgChartNode): string {
+    return `
+      <div class="grid grid-cols-2 gap-2 text-center flex-1">
+        <div class="flex flex-col gap-2 justify-center">
+          <div class="flex text-body-2 text-low-emphasis gap-1 items-center justify-center">
+            <span class="text-[16px] before:font-materiaIcons before:content-['person'] before:block text-link"></span>
+            <span>${data.textRowEmployees}</span>
+          </div>
+          <div class="text-body-2">${data.directSubordinates}</div>
+        </div>
+        <div class="flex flex-col gap-2 justify-center">
+          <div class="flex text-body-2 text-low-emphasis gap-1 items-center justify-center">
+            <span class="text-[16px] before:font-materiaIcons before:content-['\\e26a'] before:block text-link"></span>
+            <span>${data.textRowAttrition}</span>
+          </div>
+          <div class="text-body-2">${data.directAttrition}</div>
+        </div>
+      </div>
+    `;
+  }
+
+  private getOrgUnitTable(data: OrgChartNode): string {
+    return `
+      <table class="table-fixed">
+        <thead>
+          <tr class="font-semibold uppercase text-low-emphasis divide-x divide-border">
+            <th class="w-1/3">&nbsp;</th>
+            <th class="w-1/3 tracking-widest">${data.textColumnDirect}</th>
+            <th class="w-1/3 tracking-widest">${data.textColumnOverall}</th>
+          </tr>
+        </thead>
+      <tbody>
+        <tr class="text-center h-9 divide-x divide-border">
+          <td class="flex text-body-2 text-low-emphasis gap-1 items-center h-full">
+            <span class="text-[16px] before:font-materiaIcons before:content-['person'] before:block text-link"></span>
+            <span>${data.textRowEmployees}</span>
+          </td>
+          <td class="text-body-2 h-9">${data.directSubordinates}</td>
+          <td class="text-body-2">${data.totalSubordinates}</td>
+        </tr>
+        <tr class="text-center h-9 divide-x divide-border">
+          <td class="flex text-body-2 text-low-emphasis gap-1 items-center h-full">
+            <span class="text-[16px] before:font-materiaIcons before:content-['\\e26a'] before:block text-link"></span>
+            <span>${data.textRowAttrition}</span>
+          </td>
+          <td class="text-body-2">${data.directAttrition}</td> 
+          <td class="text-body-2">${data.totalAttrition}</td>
+        </tr>
+      </tbody>
+    </table>
+    `;
   }
 }

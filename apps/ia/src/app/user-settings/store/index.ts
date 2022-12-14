@@ -23,7 +23,7 @@ export interface UserSettingsState {
   loading: boolean;
   errorMessage: string;
   dialog: {
-    businessAreaValuesLoading: boolean;
+    selectedDimensionDataLoading: boolean;
   };
 }
 
@@ -32,7 +32,7 @@ export const initialState: UserSettingsState = {
   loading: false,
   errorMessage: undefined,
   dialog: {
-    businessAreaValuesLoading: false,
+    selectedDimensionDataLoading: false,
   },
 };
 
@@ -89,7 +89,7 @@ export const userSettingsReducer = createReducer(
     (state: UserSettingsState): UserSettingsState => ({
       ...state,
       dialog: {
-        businessAreaValuesLoading: true,
+        selectedDimensionDataLoading: true,
       },
     })
   ),
@@ -98,7 +98,7 @@ export const userSettingsReducer = createReducer(
     (state: UserSettingsState): UserSettingsState => ({
       ...state,
       dialog: {
-        businessAreaValuesLoading: true,
+        selectedDimensionDataLoading: true,
       },
     })
   ),
@@ -107,7 +107,7 @@ export const userSettingsReducer = createReducer(
     (state: UserSettingsState): UserSettingsState => ({
       ...state,
       dialog: {
-        businessAreaValuesLoading: false,
+        selectedDimensionDataLoading: false,
       },
     })
   ),
@@ -116,7 +116,7 @@ export const userSettingsReducer = createReducer(
     (state: UserSettingsState): UserSettingsState => ({
       ...state,
       dialog: {
-        businessAreaValuesLoading: false,
+        selectedDimensionDataLoading: false,
       },
     })
   )

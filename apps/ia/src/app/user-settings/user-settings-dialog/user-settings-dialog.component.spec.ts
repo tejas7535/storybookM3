@@ -46,7 +46,7 @@ describe('UserSettingsDialogComponent', () => {
         provide: MAT_DIALOG_DATA,
         useValue: {
           dimension: FilterDimension.SEGMENT,
-          selectedBusinessArea: new IdValue('3', 'Super Segement'),
+          selectedDimensionIdValue: new IdValue('3', 'Super Segement'),
           initialLoad: true,
         },
       },
@@ -72,8 +72,8 @@ describe('UserSettingsDialogComponent', () => {
       expect(component.activeDimension).toEqual(FilterDimension.COUNTRY);
       expect(component.updateDimensionName).toHaveBeenCalledTimes(1);
       expect(component.minCharLength).toEqual(LOCAL_SEARCH_MIN_CHAR_LENGTH);
-      expect(component.businessAreaFilter$).toBeDefined();
-      expect(component.selectedBusinessArea).toBeUndefined();
+      expect(component.dimensionFilter$).toBeDefined();
+      expect(component.selectedDimensionIdValue).toBeUndefined();
     });
 
     test('should set minCharLength to ASYNC if org unit', () => {
@@ -119,24 +119,24 @@ describe('UserSettingsDialogComponent', () => {
       expect(component.dimensionName).toBeUndefined();
     });
   });
-  describe('selectBusinessAreaOption', () => {
+  describe('selectDimensionDataOption', () => {
     test('should set option', () => {
       const option = new SelectedFilter('test', {
         id: 'Sales',
         value: 'Sales',
       });
 
-      component.selectBusinessAreaOption(option);
+      component.selectDimensionDataOption(option);
 
       expect(component.selected).toEqual(option);
     });
   });
 
-  describe('invalidBusinessArea', () => {
-    test('should set invalidBusinessAreaInput according input', () => {
-      component.invalidBusinessArea(true);
+  describe('invalidDimensionData', () => {
+    test('should set invalidDimensionDataInput according input', () => {
+      component.invalidDimensionData(true);
 
-      expect(component.invalidBusinessAreaInput).toBeTruthy();
+      expect(component.invalidDimensionDataInput).toBeTruthy();
     });
   });
 
@@ -164,12 +164,12 @@ describe('UserSettingsDialogComponent', () => {
     });
   });
 
-  describe('autoCompleteBusinessAreaChange', () => {
+  describe('autoCompleteSelectedDimensionIdValueChange', () => {
     test('should emit search string when asyncMode', () => {
       const searchFor = 'search';
       component.activeDimension = FilterDimension.ORG_UNIT;
 
-      component.autoCompleteBusinessAreaChange(searchFor);
+      component.autoCompleteSelectedDimensionIdValueChange(searchFor);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         loadUserSettingsDimensionData({
@@ -180,7 +180,7 @@ describe('UserSettingsDialogComponent', () => {
     });
 
     test(
-      'should set business area filter and not filter options if search too short',
+      'should set dimension filter and not filter options if search too short',
       marbles((m) => {
         const searchFor = '';
         const fakeFilter = {
@@ -188,20 +188,20 @@ describe('UserSettingsDialogComponent', () => {
           name: FilterDimension.BOARD,
         };
         jest
-          .spyOn(filterSelectors, 'getSpecificBusinessAreaFilter')
+          .spyOn(filterSelectors, 'getSpecificDimensonFilter')
           .mockImplementation(() => createSelector(() => fakeFilter));
         component.activeDimension = FilterDimension.BOARD;
 
-        component.autoCompleteBusinessAreaChange(searchFor);
+        component.autoCompleteSelectedDimensionIdValueChange(searchFor);
 
-        m.expect(component.businessAreaFilter$).toBeObservable(
+        m.expect(component.dimensionFilter$).toBeObservable(
           m.cold('a', { a: fakeFilter })
         );
       })
     );
 
     test(
-      'should set business area filter and filter options',
+      'should set dimension filter and filter options',
       marbles((m) => {
         const searchFor = 'te';
         const fakeFilter = {
@@ -214,7 +214,7 @@ describe('UserSettingsDialogComponent', () => {
           name: FilterDimension.BOARD,
         };
         jest
-          .spyOn(filterSelectors, 'getSpecificBusinessAreaFilter')
+          .spyOn(filterSelectors, 'getSpecificDimensonFilter')
           .mockImplementation(() => createSelector(() => fakeFilter));
         component.activeDimension = FilterDimension.BOARD;
 
@@ -223,9 +223,9 @@ describe('UserSettingsDialogComponent', () => {
           name: FilterDimension.BOARD,
         };
 
-        component.autoCompleteBusinessAreaChange(searchFor);
+        component.autoCompleteSelectedDimensionIdValueChange(searchFor);
 
-        m.expect(component.businessAreaFilter$).toBeObservable(
+        m.expect(component.dimensionFilter$).toBeObservable(
           m.cold('a', { a: expectedFilter })
         );
       })

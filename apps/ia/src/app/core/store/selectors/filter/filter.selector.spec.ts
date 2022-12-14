@@ -8,13 +8,13 @@ import {
 import { initialState } from '../../reducers/filter/filter.reducer';
 import {
   getAllSelectedFilters,
-  getBusinessAreaFilter,
-  getBusinessAreaLoading,
   getCurrentFilters,
   getCurrentRoute,
   getOrgUnitsLoading,
-  getSelectedBusinessArea,
   getSelectedDimension,
+  getSelectedDimensionDataLoading,
+  getSelectedDimensionFilter,
+  getSelectedDimensionIdValue,
   getSelectedFilters,
   getSelectedFilterValues,
   getSelectedTimePeriod,
@@ -68,15 +68,15 @@ describe('Filter Selector', () => {
     });
   });
 
-  describe('getBusinessAreaFilter', () => {
+  describe('getSelectedDimensionFilter', () => {
     test('should return organization units filter', () => {
-      expect(getBusinessAreaFilter(fakeState).options.length).toEqual(1);
+      expect(getSelectedDimensionFilter(fakeState).options.length).toEqual(1);
     });
   });
 
-  describe('getBusinessAreaLoading', () => {
+  describe('getSelectedDimensionDataLoading', () => {
     test('should return loading status', () => {
-      expect(getBusinessAreaLoading(fakeState)).toBeTruthy();
+      expect(getSelectedDimensionDataLoading(fakeState)).toBeTruthy();
     });
   });
 
@@ -154,9 +154,9 @@ describe('Filter Selector', () => {
     });
   });
 
-  describe('getSelectedBusinessArea', () => {
+  describe('getSelectedDimensionIdValue', () => {
     test('should return selected org unit', () => {
-      expect(getSelectedBusinessArea(fakeState)).toEqual({
+      expect(getSelectedDimensionIdValue(fakeState)).toEqual({
         id: 'Schaeffler_IT_1',
         value: 'Schaeffler_IT_1',
       });

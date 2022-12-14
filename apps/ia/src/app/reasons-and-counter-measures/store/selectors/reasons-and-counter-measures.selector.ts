@@ -91,7 +91,7 @@ const getAllComparedSelectedFilters = createSelector(
   selectAllComparedSelectedFilters
 );
 
-export const getComparedSelectedBusinessArea = createSelector(
+export const getComparedSelectedDimensionIdValue = createSelector(
   getAllComparedSelectedFilters,
   getComparedSelectedDimension,
   (selectedFilters: SelectedFilter[], selectedDimension: FilterDimension) =>
@@ -107,7 +107,7 @@ export const getComparedOrgUnitsFilter = createSelector(
     )
 );
 
-export const getComparedBusinessAreaFilter = createSelector(
+export const getComparedSelectedDimensionFilter = createSelector(
   selectReasonsAndCounterMeasuresState,
   getComparedSelectedDimension,
   (state: ReasonsAndCounterMeasuresState, selectedDimension: FilterDimension) =>

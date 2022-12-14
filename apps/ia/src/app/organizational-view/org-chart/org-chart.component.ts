@@ -21,7 +21,7 @@ import { FilterDimension } from '../../shared/models';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
 import { ChartType } from '../models/chart-type.enum';
 import { DimensionFluctuationData } from '../models/dimension-fluctuation-data.model';
-import { OrgChartEmployee } from './models';
+import { OrgChartData, OrgChartEmployee } from './models';
 import * as OrgChartConfig from './models/org-chart-config';
 import { OrgChartService } from './org-chart.service';
 
@@ -32,25 +32,33 @@ import { OrgChartService } from './org-chart.service';
 })
 export class OrgChartComponent implements AfterViewInit {
   private _dialogRef: MatDialogRef<EmployeeListDialogComponent>;
-  private _data: DimensionFluctuationData[] = [];
+  private _orgChartData: OrgChartData;
   private _chartContainer: ElementRef;
   private _selectedNodeEmployees: OrgChartEmployee[];
   private _selectedNodeEmployeesLoading: boolean;
 
-  @Input() set data(data: DimensionFluctuationData[]) {
-    this._data = data;
+  @Input() set orgChartData(orgChartData: OrgChartData) {
+    const old = this._orgChartData;
+    this._orgChartData = orgChartData;
     const orgChartTranslations = this.translocoService.translateObject(
       'organizationalView.orgChart.table'
     );
-    this.chartData = this.orgChartService.mapOrgUnitsToNodes(
-      data,
+    this.chartData = this.orgChartService.mapDimensionDataToNodes(
+      orgChartData.data,
       orgChartTranslations
     );
-    this.updateChart();
+
+    if (old !== undefined && orgChartData !== undefined) {
+      const shouldUpdateChart = this.orgChartNodesChanged(orgChartData, old);
+
+      if (shouldUpdateChart) {
+        this.updateChart();
+      }
+    }
   }
 
-  get data(): DimensionFluctuationData[] {
-    return this._data;
+  get orgChartData(): OrgChartData {
+    return this._orgChartData;
   }
 
   @Input() isLoading = false;
@@ -108,7 +116,9 @@ export class OrgChartComponent implements AfterViewInit {
   @HostListener('document:click', ['$event']) clickout(event: any): void {
     const node: HTMLElement = event.target;
     const id = node.dataset.id;
-    this.selectedDataNode = this.data.find((elem) => elem.id === id);
+    this.selectedDataNode = this.orgChartData.data.find(
+      (elem) => elem.id === id
+    );
 
     switch (node.id) {
       case OrgChartConfig.BUTTON_CSS.people: {
@@ -145,10 +155,8 @@ export class OrgChartComponent implements AfterViewInit {
       // eslint-disable-next-line new-cap
       this.chart = new OrgChart();
     }
-    // wait until view is initiated to get template from this tab instead of previous one
-    setTimeout(() => {
-      this.updateChart();
-    });
+
+    this.updateChart();
   }
 
   updateChart(): void {
@@ -161,25 +169,39 @@ export class OrgChartComponent implements AfterViewInit {
       return;
     }
 
-    this.chart
-      .container(this.chartContainer.nativeElement)
-      .data(this.chartData)
-      .svgHeight(
-        this.chartContainer.nativeElement.getBoundingClientRect().height || 376 // default height
-      )
-      .backgroundColor('white')
-      .initialZoom(0.8)
-      .nodeWidth(() => 320)
-      .nodeHeight(() => 207)
-      .compact(false)
-      .nodeContent((d: any) => this.orgChartService.getNodeContent(d.data))
-      .buttonContent(({ node }: any) =>
-        this.orgChartService.getButtonContent(node)
-      )
-      .linkUpdate(() => this.orgChartService.updateLinkStyles())
-      .render();
+    // wait until view is initiated
+    setTimeout(() => {
+      const nodeWidth =
+        this.orgChartData.dimension === FilterDimension.ORG_UNIT ? 320 : 250;
+      const nodeHeight =
+        this.orgChartData.dimension === FilterDimension.ORG_UNIT ? 207 : 170;
 
-    this.chart.fit();
+      this.chart
+        .container(this.chartContainer.nativeElement)
+        .data(this.chartData)
+        .svgHeight(
+          this.chartContainer.nativeElement.getBoundingClientRect().height ||
+            376 // default height
+        )
+        .backgroundColor('white')
+        .initialZoom(0.8)
+        .nodeWidth(() => nodeWidth)
+        .nodeHeight(() => nodeHeight)
+        .compact(false)
+        .nodeContent((d: any) =>
+          this.orgChartService.getNodeContent(
+            d.data,
+            this.orgChartData.dimension
+          )
+        )
+        .buttonContent(({ node }: any) =>
+          this.orgChartService.getButtonContent(node)
+        )
+        .linkUpdate(() => this.orgChartService.updateLinkStyles())
+        .render();
+
+      this.chart.fit();
+    });
   }
 
   updateDialogData(): void {
@@ -211,4 +233,13 @@ export class OrgChartComponent implements AfterViewInit {
       false
     );
   }
+
+  orgChartNodesChanged = (a: any, b: any) => {
+    const differences = Object.fromEntries(
+      Object.entries(b).filter(([key, val]) => key in a && a[key] !== val)
+    );
+
+    // org chart changed only when new data has been loaded
+    return differences.data !== undefined;
+  };
 }

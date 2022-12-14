@@ -94,7 +94,7 @@ describe('User Settings Reducer', () => {
     });
     const state = userSettingsReducer(initialState, action);
 
-    expect(state.dialog.businessAreaValuesLoading).toBeTruthy();
+    expect(state.dialog.selectedDimensionDataLoading).toBeTruthy();
   });
 
   test('loadFilterDimensionDataSuccess', () => {
@@ -106,7 +106,7 @@ describe('User Settings Reducer', () => {
     });
     const state = userSettingsReducer(initialState, action);
 
-    expect(state.dialog.businessAreaValuesLoading).toBeFalsy();
+    expect(state.dialog.selectedDimensionDataLoading).toBeFalsy();
   });
 
   test('loadFilterDimensionDataFailure', () => {
@@ -118,7 +118,7 @@ describe('User Settings Reducer', () => {
     });
     const state = userSettingsReducer(initialState, action);
 
-    expect(state.dialog.businessAreaValuesLoading).toBeFalsy();
+    expect(state.dialog.selectedDimensionDataLoading).toBeFalsy();
   });
 
   test('loadFilterDimensionData', () => {
@@ -128,6 +128,6 @@ describe('User Settings Reducer', () => {
     });
     const state = userSettingsReducer(initialState, action);
 
-    expect(state.dialog.businessAreaValuesLoading).toBeTruthy();
+    expect(state.dialog.selectedDimensionDataLoading).toBeTruthy();
   });
 });

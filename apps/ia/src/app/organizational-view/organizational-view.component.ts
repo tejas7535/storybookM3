@@ -9,7 +9,7 @@ import { ChartLegendItem } from '../shared/charts/models/chart-legend-item.model
 import { IdValue, TailwindColor } from '../shared/models';
 import { ChartType } from './models/chart-type.enum';
 import { DimensionFluctuationData } from './models/dimension-fluctuation-data.model';
-import { OrgChartEmployee } from './org-chart/models';
+import { OrgChartData, OrgChartEmployee } from './org-chart/models';
 import {
   chartTypeSelected,
   loadOrgChartEmployees,
@@ -42,7 +42,7 @@ import { CountryData } from './world-map/models/country-data.model';
   ],
 })
 export class OrganizationalViewComponent implements OnInit {
-  orgChart$: Observable<DimensionFluctuationData[]>;
+  orgChart$: Observable<OrgChartData>;
   orgChartEmployees$: Observable<OrgChartEmployee[]>;
   orgChartEmployeesLoading$: Observable<boolean>;
   isLoadingOrgChart$: Observable<boolean>;

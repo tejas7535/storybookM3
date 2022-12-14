@@ -6,8 +6,8 @@ import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import {
-  getSelectedBusinessArea,
   getSelectedDimension,
+  getSelectedDimensionIdValue,
   getSelectedTimePeriod,
   getSelectedTimeRange,
   getTimePeriods,
@@ -33,13 +33,13 @@ import {
   resetCompareMode,
 } from '../store/actions/reasons-and-counter-measures.actions';
 import {
-  getComparedBusinessAreaFilter,
   getComparedOrgUnitsFilter,
   getComparedReasonsChartConfig,
   getComparedReasonsChartData,
   getComparedReasonsTableData,
-  getComparedSelectedBusinessArea,
   getComparedSelectedDimension,
+  getComparedSelectedDimensionFilter,
+  getComparedSelectedDimensionIdValue,
   getComparedSelectedOrgUnitLoading,
   getComparedSelectedTimePeriod,
   getComparedSelectedTimeRange,
@@ -73,7 +73,7 @@ export class ReasonsForLeavingComponent implements OnInit {
   reasonsLoading$: Observable<boolean>;
 
   comparedActiveDimension$: Observable<FilterDimension>;
-  comparedBusinessAreaFilter$: Observable<Filter>;
+  comparedDimensionFilter$: Observable<Filter>;
   comparedReasonsChartConfig$: Observable<SolidDoughnutChartConfig>;
   comparedReasonsChartData$: Observable<DoughnutChartData[]>;
 
@@ -102,7 +102,7 @@ export class ReasonsForLeavingComponent implements OnInit {
         )
       );
     this.activeDimension$ = this.store.select(getSelectedDimension);
-    this.selectedOrgUnit$ = this.store.select(getSelectedBusinessArea);
+    this.selectedOrgUnit$ = this.store.select(getSelectedDimensionIdValue);
     this.timePeriods$ = this.store.select(getTimePeriods);
     this.selectedTimePeriod$ = this.store.select(getSelectedTimePeriod);
     this.selectedTime$ = this.store.select(getSelectedTimeRange);
@@ -128,13 +128,13 @@ export class ReasonsForLeavingComponent implements OnInit {
     this.comparedActiveDimension$ = this.store.select(
       getComparedSelectedDimension
     );
-    this.comparedBusinessAreaFilter$ = this.store.select(
-      getComparedBusinessAreaFilter
+    this.comparedDimensionFilter$ = this.store.select(
+      getComparedSelectedDimensionFilter
     );
 
     this.comparedOrgUnitsFilter$ = this.store.select(getComparedOrgUnitsFilter);
     this.comparedSelectedOrgUnit$ = this.store.select(
-      getComparedSelectedBusinessArea
+      getComparedSelectedDimensionIdValue
     );
     this.comparedSelectedOrgUnitLoading$ = this.store.select(
       getComparedSelectedOrgUnitLoading

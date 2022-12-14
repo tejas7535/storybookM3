@@ -11,11 +11,11 @@ import {
   timePeriodSelected,
 } from '../core/store/actions';
 import {
-  getBusinessAreaFilter,
-  getBusinessAreaLoading,
   getOrgUnitsLoading,
-  getSelectedBusinessArea,
   getSelectedDimension,
+  getSelectedDimensionDataLoading,
+  getSelectedDimensionFilter,
+  getSelectedDimensionIdValue,
   getSelectedFilterValues,
   getSelectedTimePeriod,
   getSelectedTimeRange,
@@ -40,10 +40,10 @@ export class FilterSectionComponent implements OnInit {
 
   availableDimensions$: Observable<IdValue[]>;
   activeDimension$: Observable<FilterDimension>;
-  businessAreaFilter$: Observable<Filter>;
+  selectedDimensionFilter$: Observable<Filter>;
   orgUnitsLoading$: Observable<boolean>;
-  businessAreaLoading$: Observable<boolean>;
-  selectedBusinessArea$: Observable<IdValue>;
+  selectedDimensionDataLoading$: Observable<boolean>;
+  selectedDimensionIdValue$: Observable<IdValue>;
   timePeriods$: Observable<IdValue[]>;
   selectedTimePeriod$: Observable<TimePeriod>;
   selectedTime$: Observable<IdValue>;
@@ -65,12 +65,18 @@ export class FilterSectionComponent implements OnInit {
         )
       );
     this.activeDimension$ = this.store.select(getSelectedDimension);
-    this.businessAreaLoading$ = this.store.select(getBusinessAreaLoading);
-    this.businessAreaFilter$ = this.store.select(getBusinessAreaFilter);
+    this.selectedDimensionDataLoading$ = this.store.select(
+      getSelectedDimensionDataLoading
+    );
+    this.selectedDimensionFilter$ = this.store.select(
+      getSelectedDimensionFilter
+    );
     this.orgUnitsLoading$ = this.store.select(getOrgUnitsLoading);
     this.timePeriods$ = this.store.select(getTimePeriods);
     this.selectedTimePeriod$ = this.store.select(getSelectedTimePeriod);
-    this.selectedBusinessArea$ = this.store.select(getSelectedBusinessArea);
+    this.selectedDimensionIdValue$ = this.store.select(
+      getSelectedDimensionIdValue
+    );
     this.selectedTime$ = this.store.select(getSelectedTimeRange);
     this.selectedFilterValues$ = this.store.select(getSelectedFilterValues);
   }

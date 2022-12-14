@@ -1,6 +1,7 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import d3Selection from 'd3-selection';
 
+import { FilterDimension } from '../../shared/models';
 import { DimensionFluctuationData } from '../models/dimension-fluctuation-data.model';
 import { OrgChartService } from './org-chart.service';
 
@@ -27,7 +28,7 @@ describe('OrgChartService', () => {
     service = spectator.service;
   });
 
-  describe('mapOrgUnitsToNodes', () => {
+  describe('mapDimensionDataToNodes', () => {
     const translations = {
       columnDirect: 'translate it',
       rowEmployees: 'translate it',
@@ -46,7 +47,7 @@ describe('OrgChartService', () => {
         } as unknown as DimensionFluctuationData,
       ];
 
-      const result = service.mapOrgUnitsToNodes(data, translations);
+      const result = service.mapDimensionDataToNodes(data, translations);
 
       expect(result.length).toEqual(1);
       expect(result[0]).toEqual({
@@ -91,7 +92,7 @@ describe('OrgChartService', () => {
         } as unknown as DimensionFluctuationData,
       ];
 
-      const result = service.mapOrgUnitsToNodes(data, translations);
+      const result = service.mapDimensionDataToNodes(data, translations);
 
       expect(result.length).toEqual(4);
       expect(result[0].organization).toEqual('Abel');
@@ -110,7 +111,7 @@ describe('OrgChartService', () => {
         } as unknown as DimensionFluctuationData,
       ];
 
-      const result = service.mapOrgUnitsToNodes(data, translations);
+      const result = service.mapDimensionDataToNodes(data, translations);
 
       expect(result[0].showUpperParentBtn).toBeFalsy();
     });
@@ -125,7 +126,7 @@ describe('OrgChartService', () => {
         } as unknown as DimensionFluctuationData,
       ];
 
-      const result = service.mapOrgUnitsToNodes(data, translations);
+      const result = service.mapDimensionDataToNodes(data, translations);
 
       expect(result[0].showUpperParentBtn).toBeTruthy();
       expect(result[0].parentNodeId).toBeUndefined();
@@ -184,11 +185,73 @@ describe('OrgChartService', () => {
         expanded: true,
       };
 
-      const result = service.getNodeContent(data);
+      const result = service.getNodeContent(data, FilterDimension.ORG_UNIT);
 
       expect(result).not.toContain('show-parent');
       expect(result).toContain(data.heatMapClass);
       expect(result).toContain(data.name);
+    });
+
+    test('should return node content with layout for dimension org unit', () => {
+      const data = {
+        showUpperParentBtn: false,
+        heatMapClass: 'bg-green',
+        organization: 'Schaeffler_IT',
+        name: 'Hans',
+        textColumnDirect: 'Test',
+        textColumnOverall: 'Test2',
+        textRowEmployees: 'Test3',
+        directSubordinates: 10,
+        totalSubordinates: 200,
+        textRowAttrition: 'Test4',
+        directAttrition: 10,
+        totalAttrition: 400,
+        nodeId: '1',
+        parentNodeId: '12',
+        expanded: true,
+      };
+
+      service['getOrgUnitTable'] = jest.fn();
+      service['getGeneralDimensionGrid'] = jest.fn();
+
+      const result = service.getNodeContent(data, FilterDimension.ORG_UNIT);
+
+      expect(result).not.toContain('show-parent');
+      expect(result).toContain(data.heatMapClass);
+      expect(result).toContain(data.name);
+      expect(service['getOrgUnitTable']).toHaveBeenCalledWith(data);
+      expect(service['getGeneralDimensionGrid']).not.toHaveBeenCalled();
+    });
+
+    test('should return node content with layout for general dimensions', () => {
+      const data = {
+        showUpperParentBtn: false,
+        heatMapClass: 'bg-green',
+        organization: 'Schaeffler_IT',
+        name: 'Hans',
+        textColumnDirect: 'Test',
+        textColumnOverall: 'Test2',
+        textRowEmployees: 'Test3',
+        directSubordinates: 10,
+        totalSubordinates: 200,
+        textRowAttrition: 'Test4',
+        directAttrition: 10,
+        totalAttrition: 400,
+        nodeId: '1',
+        parentNodeId: '12',
+        expanded: true,
+      };
+
+      service['getOrgUnitTable'] = jest.fn();
+      service['getGeneralDimensionGrid'] = jest.fn();
+
+      const result = service.getNodeContent(data, FilterDimension.SEGMENT);
+
+      expect(result).not.toContain('show-parent');
+      expect(result).toContain(data.heatMapClass);
+      expect(result).toContain(data.name);
+      expect(service['getGeneralDimensionGrid']).toHaveBeenCalledWith(data);
+      expect(service['getOrgUnitTable']).not.toHaveBeenCalled();
     });
 
     test('should return node content with upwards button', () => {
@@ -210,11 +273,59 @@ describe('OrgChartService', () => {
         expanded: true,
       };
 
-      const result = service.getNodeContent(data);
+      const result = service.getNodeContent(data, FilterDimension.ORG_UNIT);
 
       expect(result).toContain('show-parent');
       expect(result).toContain(data.heatMapClass);
       expect(result).toContain(data.name);
+    });
+  });
+
+  describe('getGeneralDimensionGrid', () => {
+    test('should correct data', () => {
+      const data = {
+        textRowEmployees: 'test row emp',
+        directSubordinates: 99,
+        textRowAttrition: 'text row attr',
+        directAttrition: 200,
+      } as any;
+
+      const result = service['getGeneralDimensionGrid'](data);
+
+      expect(result).toContain(data.textRowEmployees);
+      expect(result).toContain(`${data.directSubordinates}`);
+      expect(result).toContain(data.textRowAttrition);
+      expect(result).toContain(`${data.directAttrition}`);
+      expect(result).toContain("before:content-['person']");
+      expect(result).toContain("before:content-['\\e26a']");
+    });
+  });
+
+  describe('getOrgUnitTable', () => {
+    test('should correct data', () => {
+      const data = {
+        textColumnDirect: 'text column direct',
+        textColumnOverall: 'text column overall',
+        textRowEmployees: 'test row emp',
+        directSubordinates: 99,
+        totalSubordinates: 99,
+        textRowAttrition: 'text row attr',
+        directAttrition: 200,
+        totalAttrition: 250,
+      } as any;
+
+      const result = service['getOrgUnitTable'](data);
+
+      expect(result).toContain(data.textColumnDirect);
+      expect(result).toContain(data.textColumnOverall);
+      expect(result).toContain(data.textRowEmployees);
+      expect(result).toContain(`${data.directSubordinates}`);
+      expect(result).toContain(`${data.totalSubordinates}`);
+      expect(result).toContain(data.textRowAttrition);
+      expect(result).toContain(`${data.directAttrition}`);
+      expect(result).toContain(`${data.totalAttrition}`);
+      expect(result).toContain("before:content-['person']");
+      expect(result).toContain("before:content-['\\e26a']");
     });
   });
 });

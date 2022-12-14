@@ -1,5 +1,10 @@
 import { FilterState } from '../../../core/store/reducers/filter/filter.reducer';
-import { AttritionOverTime, HeatType } from '../../../shared/models';
+import {
+  AttritionOverTime,
+  FilterDimension,
+  HeatType,
+  IdValue,
+} from '../../../shared/models';
 import { ChartType } from '../../models/chart-type.enum';
 import { DimensionFluctuationData } from '../../models/dimension-fluctuation-data.model';
 import { CountryData } from '../../world-map/models/country-data.model';
@@ -100,10 +105,32 @@ describe('Organizational View Selector', () => {
   };
 
   describe('getOrgChart', () => {
-    test('should return org chart', () => {
-      expect(getOrgChart(fakeState)).toEqual(
-        fakeState.organizationalView.orgChart.data
-      );
+    test('should return org chart data with dimension information', () => {
+      const idValue = new IdValue('test', 'val');
+      expect(
+        getOrgChart.projector(
+          fakeState.organizationalView,
+          FilterDimension.BOARD,
+          idValue
+        )
+      ).toEqual({
+        data: fakeState.organizationalView.orgChart.data,
+        dimension: FilterDimension.BOARD,
+      });
+    });
+
+    test('should return empty org chart if no dimension value is set', () => {
+      expect(
+        getOrgChart.projector(
+          fakeState.organizationalView,
+          FilterDimension.BOARD,
+          // eslint-disable-next-line unicorn/no-useless-undefined
+          undefined
+        )
+      ).toEqual({
+        data: [],
+        dimension: FilterDimension.BOARD,
+      });
     });
   });
 

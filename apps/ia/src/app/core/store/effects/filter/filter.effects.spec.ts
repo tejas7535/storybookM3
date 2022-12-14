@@ -13,8 +13,8 @@ import {
   loadFilterDimensionDataSuccess,
 } from '../../actions/filter/filter.action';
 import {
-  getSelectedBusinessArea,
   getSelectedDimension,
+  getSelectedDimensionIdValue,
   getSelectedTimeRange,
 } from '../../selectors';
 import { FilterEffects } from './filter.effects';
@@ -138,7 +138,7 @@ describe('Filter Effects', () => {
     test(
       'should dispatch filterSelected action',
       marbles((m) => {
-        store.overrideSelector(getSelectedBusinessArea, idValue);
+        store.overrideSelector(getSelectedDimensionIdValue, idValue);
         const result = filterSelected({
           filter: selectedFilter,
         });
@@ -154,9 +154,12 @@ describe('Filter Effects', () => {
     );
 
     test(
-      'should return empty observable when selectedBusinessArea undefined',
+      'should return empty observable when selectedDimensionIdValue undefined',
       marbles((m) => {
-        store.overrideSelector(getSelectedBusinessArea, undefined as IdValue);
+        store.overrideSelector(
+          getSelectedDimensionIdValue,
+          undefined as IdValue
+        );
 
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('', {});

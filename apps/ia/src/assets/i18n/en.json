@@ -18,9 +18,9 @@
         "SEGMENT_UNIT": "Segment Unit"
       }
     },
-    "businessArea": {
+    "dimensionIdValue": {
       "title": "Select {{dimension}}",
-      "businessAreaHint": "Select {{dimension}}",
+      "dimensionIdValueHint": "Select {{dimension}}",
       "organizationTooltip": "The shown figures and KPIs are based on ALL org units below and including the selected one.",
       "nothingFound": "Nothing found"
     },

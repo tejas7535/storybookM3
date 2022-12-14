@@ -24,7 +24,7 @@ export const getSelectedDimension = createSelector(
   (state: FilterState) => state.selectedDimension
 );
 
-export const getBusinessAreaFilter = createSelector(
+export const getSelectedDimensionFilter = createSelector(
   selectFilterState,
   getSelectedDimension,
   (state: FilterState, selectedDimension: FilterDimension) =>
@@ -38,7 +38,7 @@ export const getBusinessAreaFilter = createSelector(
       : undefined
 );
 
-export const getSpecificBusinessAreaFilter = (dimension: FilterDimension) =>
+export const getSpecificDimensonFilter = (dimension: FilterDimension) =>
   createSelector(selectFilterState, (state: FilterState) =>
     state.data[dimension]
       ? new Filter(
@@ -55,7 +55,7 @@ export const getOrgUnitsLoading = createSelector(
   (state: FilterState) => state.data[FilterDimension.ORG_UNIT].loading
 );
 
-export const getBusinessAreaLoading = createSelector(
+export const getSelectedDimensionDataLoading = createSelector(
   selectFilterState,
   (state: FilterState) => state.data[state.selectedDimension]?.loading
 );
@@ -113,7 +113,7 @@ export const getCurrentFilters = createSelector(
   }
 );
 
-export const getSelectedBusinessArea = createSelector(
+export const getSelectedDimensionIdValue = createSelector(
   getAllSelectedFilters,
   getSelectedDimension,
   (filters: SelectedFilter[], selectedDimension: FilterDimension) =>
@@ -121,7 +121,7 @@ export const getSelectedBusinessArea = createSelector(
 );
 
 export const getSelectOrgUnitValueShort = createSelector(
-  getSelectedBusinessArea,
+  getSelectedDimensionIdValue,
   (val: IdValue) => val?.value?.split('(')[0].trim()
 );
 

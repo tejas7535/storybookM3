@@ -19,9 +19,9 @@ export const getFavoriteDimensionDisplayName = createSelector(
   (state: UserSettingsState) => state.data?.dimensionDisplayName
 );
 
-export const getDialogBusinessAreaValuesLoading = createSelector(
+export const getDialogSelectedDimensionDataLoading = createSelector(
   selectUserSettingsState,
-  (state: UserSettingsState) => state.dialog.businessAreaValuesLoading
+  (state: UserSettingsState) => state.dialog.selectedDimensionDataLoading
 );
 
 export const getFavoriteDimensionIdValue = createSelector(

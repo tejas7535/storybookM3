@@ -59,25 +59,25 @@ describe('FilterComponent', () => {
     });
   });
 
-  describe('businessAreaFilter', () => {
-    test('set businessAreaFilter should set properties and asyncMode false when not org unit', () => {
+  describe('dimensionFilter', () => {
+    test('set dimensionFilter should set properties and asyncMode false when not org unit', () => {
       const idValue = new IdValue('DE', 'Germany');
       const filter = new Filter(FilterDimension.COUNTRY, [idValue]);
 
-      component.businessAreaFilter = filter;
+      component.dimensionFilter = filter;
 
-      expect(component.businessAreaFilter).toBe(filter);
+      expect(component.dimensionFilter).toBe(filter);
       expect(component.options).toBe(filter.options);
       expect(component.asyncMode).toBeFalsy();
     });
 
-    test('set businessAreaFilter should set properties and asyncMode true when org unit', () => {
+    test('set dimensionFilter should set properties and asyncMode true when org unit', () => {
       const idValue = new IdValue('DE', 'Germany');
       const filter = new Filter(FilterDimension.ORG_UNIT, [idValue]);
 
-      component.businessAreaFilter = filter;
+      component.dimensionFilter = filter;
 
-      expect(component.businessAreaFilter).toBe(filter);
+      expect(component.dimensionFilter).toBe(filter);
       expect(component.options).toBe(filter.options);
       expect(component.asyncMode).toBeTruthy();
     });
@@ -125,11 +125,11 @@ describe('FilterComponent', () => {
     });
   });
 
-  describe('orgUnitInvalid', () => {
+  describe('selectedDimensionDataInvalid', () => {
     test('should set disabledTimeRangeFilter', () => {
       const invalid = true;
 
-      component.businessAreaInvalid(invalid);
+      component.selectedDimensionDataInvalid(invalid);
 
       expect(component.disabledTimeRangeFilter).toEqual(invalid);
     });
@@ -138,7 +138,7 @@ describe('FilterComponent', () => {
   describe('autoCompleteInputChange', () => {
     test('should emit search string when asyncMode', () => {
       const search = 'search';
-      component.businessAreaFilter = {
+      component.dimensionFilter = {
         name: FilterDimension.ORG_UNIT,
         options: [],
       };
@@ -155,24 +155,21 @@ describe('FilterComponent', () => {
       const option2 = new IdValue('GR', 'Greece');
       const option3 = new IdValue('PL', 'Poland');
       const options = [option1, option2, option3];
-      component.businessAreaFilter = new Filter(
-        FilterDimension.COUNTRY,
-        options
-      );
+      component.dimensionFilter = new Filter(FilterDimension.COUNTRY, options);
 
       component.autoCompleteInputChange(search);
 
-      expect(component.businessAreaFilter.options).toContain(option1);
-      expect(component.businessAreaFilter.options).toContain(option2);
-      expect(component.businessAreaFilter.options).not.toContain(option3);
+      expect(component.dimensionFilter.options).toContain(option1);
+      expect(component.dimensionFilter.options).toContain(option2);
+      expect(component.dimensionFilter.options).not.toContain(option3);
     });
   });
 
-  describe('set selectedBusinessArea', () => {
+  describe('set selectedDimensionIdValue', () => {
     test('should set org unit and disable range filter if undefined', () => {
-      component.selectedBusinessArea = undefined;
+      component.selectedDimensionIdValue = undefined;
 
-      expect(component.selectedBusinessArea).toBeUndefined();
+      expect(component.selectedDimensionIdValue).toBeUndefined();
       expect(component.disabledTimeRangeFilter).toBeTruthy();
     });
 
@@ -181,9 +178,9 @@ describe('FilterComponent', () => {
         id: '123',
         value: 'Test 1234',
       };
-      component.selectedBusinessArea = idVal;
+      component.selectedDimensionIdValue = idVal;
 
-      expect(component.selectedBusinessArea).toEqual(idVal);
+      expect(component.selectedDimensionIdValue).toEqual(idVal);
       expect(component.disabledTimeRangeFilter).toBeFalsy();
     });
   });
