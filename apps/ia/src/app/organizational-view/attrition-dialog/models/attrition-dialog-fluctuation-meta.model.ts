@@ -12,4 +12,5 @@ export interface AttritionDialogFluctuationMeta {
   employeesAdded: number;
   openPositions: number;
   heatType: HeatType;
+  hideDetailedLeaverStats: boolean;
 }

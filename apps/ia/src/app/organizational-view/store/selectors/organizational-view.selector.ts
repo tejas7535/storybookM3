@@ -50,6 +50,7 @@ export const getOrgUnitFluctuationDialogEmployeeData = createSelector(
       fluctuationRate: rates?.fluctuationRate,
       unforcedFluctuationRate: rates?.unforcedFluctuationRate,
       heatType: HeatType.NONE,
+      hideDetailedLeaverStats: employeeMeta.responseModified,
     };
   }
 );
@@ -78,8 +79,11 @@ const getWorldMapFluctuationDialogRegionMetaData = (
   let resignationsReceived = 0;
   let employeesAdded = 0;
   let openPositions = 0;
+  let hideDetailedLeaverStats = false;
 
   relevantCountries.forEach((country) => {
+    hideDetailedLeaverStats =
+      hideDetailedLeaverStats || country.attritionMeta.responseModified;
     employeesLost += country.attritionMeta.employeesLost;
     remainingFluctuation += country.attritionMeta.remainingFluctuation;
     forcedFluctuation += country.attritionMeta.forcedFluctuation;
@@ -98,7 +102,20 @@ const getWorldMapFluctuationDialogRegionMetaData = (
     resignationsReceived,
     employeesAdded,
     openPositions,
+    hideDetailedLeaverStats,
   } as AttritionDialogFluctuationMeta;
+};
+
+const getWorldMapFluctuationDialogCountryMetaData = (
+  state: OrganizationalViewState
+) => {
+  const temp = state.worldMap.data?.find(
+    (elem) => elem.name === state.worldMap.selectedCountry
+  )?.attritionMeta;
+
+  return temp
+    ? { ...temp, hideDetailedLeaverStats: temp?.responseModified }
+    : (undefined as any);
 };
 
 export const getWorldMapFluctuationDialogMetaData = createSelector(
@@ -109,9 +126,7 @@ export const getWorldMapFluctuationDialogMetaData = createSelector(
           state.worldMap.data,
           state.worldMap.selectedRegion
         )
-      : (state.worldMap.data?.find(
-          (elem) => elem.name === state.worldMap.selectedCountry
-        )?.attritionMeta as AttritionDialogFluctuationMeta)
+      : getWorldMapFluctuationDialogCountryMetaData(state)
 );
 
 export const getWorldMapFluctuationDialogMeta = createSelector(

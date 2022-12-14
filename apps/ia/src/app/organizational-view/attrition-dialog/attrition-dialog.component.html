@@ -2,18 +2,20 @@
   {{ (meta$ | ngrxPush)?.data?.title }}
 </h2>
 <mat-dialog-content>
-  <div class="flex grow flex-col gap-8 lg:flex-row">
-    <div class="relative flex flex-col lg:min-w-[280px]">
-      <ia-attrition-dialog-meta
-        [meta]="meta$ | ngrxPush"
-        [fluctuationLoading]="fluctuationLoading$ | ngrxPush"
-      ></ia-attrition-dialog-meta>
+  <div class="flex h-full flex-col gap-8 lg:flex-row">
+    <div class="flex flex-1 flex-col lg:min-w-[280px]">
+      <div class="flex-1">
+        <ia-attrition-dialog-meta
+          [meta]="meta$ | ngrxPush"
+          [fluctuationLoading]="fluctuationLoading$ | ngrxPush"
+        ></ia-attrition-dialog-meta>
+      </div>
     </div>
     <div class="invisible lg:visible">
       <mat-divider class="h-full" [vertical]="true"></mat-divider>
     </div>
     <div
-      class="relative grow"
+      class="grow"
       *transloco="let t; read: 'organizationalView.attritionDialog'"
     >
       <ia-line-chart

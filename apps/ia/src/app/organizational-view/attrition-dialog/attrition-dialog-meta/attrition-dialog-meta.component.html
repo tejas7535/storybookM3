@@ -1,4 +1,7 @@
-<div *transloco="let t; read: 'organizationalView.attritionDialog'">
+<div
+  *transloco="let t; read: 'organizationalView.attritionDialog'"
+  class="flex h-full flex-col"
+>
   <h6
     class="mt-0 mr-0 mb-2 ml-1 text-overline font-medium leading-4 text-medium-emphasis"
   >
@@ -58,7 +61,10 @@
     <div class="text-medium-emphasis">{{ t('employeesLost') }}:</div>
     <span class="ml-2 text-high-emphasis">{{ meta.data.employeesLost }}</span>
   </div>
-  <div class="flex text-body-1 leading-8">
+  <div
+    class="flex text-body-1 leading-8"
+    *ngIf="!meta.data.hideDetailedLeaverStats"
+  >
     <mat-divider
       class="!-mt-1 !mr-[calc(1rem+1px)] !mb-3 !ml-3 flex"
       [vertical]="true"
@@ -105,4 +111,10 @@
     <div class="text-medium-emphasis">{{ t('openPositions') }}:</div>
     <span class="ml-2 text-high-emphasis">{{ meta.data.openPositions }}</span>
   </div>
+  <p
+    *ngIf="meta.data.hideDetailedLeaverStats"
+    class="mt-auto italic text-warning"
+  >
+    {{ t('insufficientRights') }}
+  </p>
 </div>

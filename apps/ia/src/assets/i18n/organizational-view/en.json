@@ -41,7 +41,8 @@
     "unforcedFluctuation": "Unforced Fluctuation",
     "resignationsReceived": "Resignations received",
     "employeesAdded": "Employees Added",
-    "openPositions": "Open Positions"
+    "openPositions": "Open Positions",
+    "insufficientRights": "Fluctuation and Resignation Details are not displayed due to insufficient rights for the respective personnel areas."
   },
   "employeeListDialog": {
     "contentTitle": "Staff"

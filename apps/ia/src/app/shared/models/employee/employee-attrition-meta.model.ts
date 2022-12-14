@@ -1,4 +1,6 @@
-export interface EmployeeAttritionMeta {
+import { RestResponse } from '../rest-response.model';
+
+export interface EmployeeAttritionMeta extends RestResponse {
   title: string;
   employeesLost: number;
   remainingFluctuation: number;
