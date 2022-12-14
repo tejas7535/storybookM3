@@ -30,7 +30,7 @@ export class EmployeeListDialogComponent {
     index: number,
     _item: {
       employeeName: string;
-      username: string;
+      userId: string;
       positionDescription: string;
       orgUnit: string;
       actionType?: ActionType;

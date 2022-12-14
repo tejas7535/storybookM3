@@ -53,7 +53,7 @@
     "total": "Total: {{total}}",
     "orgUnit": "Organizational Unit",
     "position": "Position",
-    "username": "Username",
+    "userId": "User Id",
     "entryDate": "Entry Date",
     "exitDate": "Exit Date",
     "fluctuationType": {

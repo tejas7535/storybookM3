@@ -46,7 +46,7 @@ describe('Organizational View Selector', () => {
           data: [
             {
               employeeName: ' Peter',
-              username: 'SchmeichelPeter',
+              userId: 'SchmeichelPeter',
               orgUnit: 'Space',
               positionDescription: 'Spaceman',
             },

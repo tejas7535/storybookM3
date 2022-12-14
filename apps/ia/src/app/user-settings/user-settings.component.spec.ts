@@ -43,7 +43,7 @@ describe('UserSettingsComponent', () => {
         initialState: {
           auth: {
             user: {
-              username: 'Hans',
+              userId: 'Hans',
             },
           },
           filter: {

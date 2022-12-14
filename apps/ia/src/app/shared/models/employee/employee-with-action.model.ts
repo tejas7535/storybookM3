@@ -3,7 +3,7 @@ import { ActionType } from './action-type.enum';
 
 export interface EmployeeWithAction {
   employeeName: string;
-  username: string;
+  userId: string;
   exitDate: string;
   entryDate: string;
   reasonForLeaving: LeavingType;

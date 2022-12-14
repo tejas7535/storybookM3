@@ -7,7 +7,7 @@ export class EmployeeListDialogMeta {
     public headings: EmployeeListDialogMetaHeadings,
     public employees: {
       employeeName: string;
-      username: string;
+      userId: string;
       positionDescription: string;
       orgUnit: string;
       actionType?: ActionType;

@@ -1,6 +1,6 @@
 export interface OrgChartEmployee {
   employeeName: string;
-  username: string;
+  userId: string;
   positionDescription: string;
   orgUnit: string;
   entryDate?: string;
