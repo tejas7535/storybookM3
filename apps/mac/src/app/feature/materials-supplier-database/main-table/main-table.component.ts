@@ -19,6 +19,7 @@ import {
   ColumnApi,
   ColumnState,
   ExcelRow,
+  RowClassParams,
   RowNode,
 } from 'ag-grid-community';
 import { ColDef, ExcelCell, GridApi, SideBarDef } from 'ag-grid-enterprise';
@@ -30,6 +31,7 @@ import {
   MaterialClass,
   NavigationLevel,
   SAP_SUPPLIER_IDS,
+  Status,
 } from '@mac/msd/constants';
 import {
   DEFAULT_COLUMN_DEFINITION,
@@ -58,6 +60,7 @@ import {
 import { DataFacade } from '@mac/msd/store/facades/data';
 
 import { EDITABLE_MATERIAL_CLASSES } from '../constants/editable-material-classes';
+import { getStatus } from './util';
 
 /* eslint-disable max-lines */
 @Component({
@@ -383,6 +386,20 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
         hasEditorRole,
       },
     })) ?? [];
+
+  public isBlockedRow(params: RowClassParams): boolean {
+    return (
+      getStatus(params.data?.blocked, params.data?.lastModified) ===
+      Status.BLOCKED
+    );
+  }
+
+  public isRecentlyChangedRow(params: RowClassParams): boolean {
+    return (
+      getStatus(params.data?.blocked, params.data?.lastModified) ===
+      Status.CHANGED
+    );
+  }
 
   public resumeDialog(): void {
     this.openDialog(true);

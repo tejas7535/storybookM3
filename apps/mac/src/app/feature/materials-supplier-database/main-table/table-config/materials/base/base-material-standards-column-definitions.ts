@@ -4,12 +4,15 @@ import {
   LAST_MODIFIED,
   MATERIAL_STANDARD_MATERIAL_NAME,
   MATERIAL_STANDARD_STANDARD_DOCUMENT,
+  STATUS,
 } from '@mac/msd/constants';
 import { EditCellRendererComponent } from '@mac/msd/main-table/edit-cell-renderer/edit-cell-renderer.component';
 import {
   CUSTOM_DATE_FORMATTER,
   FILTER_PARAMS,
+  STATUS_VALUE_GETTER,
 } from '@mac/msd/main-table/table-config';
+import { StatusCellRendererComponent } from '@mac/msd/main-table/status-cell-renderer/status-cell-renderer.component';
 
 export const BASE_MATERIAL_STANDARDS_COLUMN_DEFINITIONS: ColDef[] = [
   {
@@ -23,6 +26,13 @@ export const BASE_MATERIAL_STANDARDS_COLUMN_DEFINITIONS: ColDef[] = [
     headerName: 'Standard Document',
     filterParams: FILTER_PARAMS,
     cellRenderer: EditCellRendererComponent,
+  },
+  {
+    field: STATUS,
+    headerName: 'Status',
+    filterParams: FILTER_PARAMS,
+    cellRenderer: StatusCellRendererComponent,
+    valueGetter: STATUS_VALUE_GETTER,
   },
   {
     field: LAST_MODIFIED,

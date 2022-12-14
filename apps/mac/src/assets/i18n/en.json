@@ -374,7 +374,8 @@
         "steelNumber": "Steel number (EN 10027)",
         "manufacturer": "Iron- & Steelmaking",
         "ssid": "SSID",
-        "generalDescription": "General Description"
+        "generalDescription": "General Description",
+        "status": "Status"
       },
       "dialog": {
         "addMaterial": "ADD MATERIAL",
@@ -523,6 +524,22 @@
       "st": "Steel",
       "al": "Aluminum",
       "px": "Polymer"
+    },
+    "status": {
+      "statusValues": {
+        "blocked": "Blocked",
+        "changed": "Recently changed",
+        "default": "Default"
+      },
+      "tooltip": {
+        "blocked": "This {{ instance }} is blocked and may not be requested.",
+        "changed": "This {{ instance }} has been changed recently."
+      },
+      "instance": {
+        "materials": "material",
+        "suppliers": "supplier",
+        "materialStandards": "material standard"
+      }
     },
     "materials": "Materials",
     "productCategory": "Product Category",

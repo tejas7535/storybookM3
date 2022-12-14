@@ -5,6 +5,7 @@ import {
   MANUFACTURER_SUPPLIER_NAME,
   MANUFACTURER_SUPPLIER_PLANT,
   SAP_SUPPLIER_IDS,
+  STATUS,
 } from '@mac/msd/constants';
 
 export const POLYMER_SUPPLIERS_STATIC_QUICKFILTERS: QuickFilter[] = [
@@ -16,6 +17,7 @@ export const POLYMER_SUPPLIERS_STATIC_QUICKFILTERS: QuickFilter[] = [
       MANUFACTURER_SUPPLIER_PLANT,
       MANUFACTURER_SUPPLIER_COUNTRY,
       SAP_SUPPLIER_IDS,
+      STATUS,
       LAST_MODIFIED,
     ],
     custom: false,

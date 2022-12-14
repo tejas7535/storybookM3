@@ -29,6 +29,10 @@
             (filterChanged)="onFilterChange($event)"
             (firstDataRendered)="setAgGridFilter($event)"
             [rowClass]="['!border-l-0', '!border-t-0']"
+            [rowClassRules]="{
+              '!bg-opacity-5 !bg-error': isBlockedRow,
+              '!bg-opacity-5 !bg-nordic-blue': isRecentlyChangedRow
+            }"
             (columnVisible)="onColumnChange($event)"
             (columnMoved)="onColumnChange($event)"
             (sortChanged)="onColumnChange($event)"

@@ -22,6 +22,7 @@ import {
   ColumnApi,
   ExcelRow,
   IFilterComp,
+  RowClassParams,
   RowNode,
   ValueFormatterParams,
   ValueGetterParams,
@@ -37,6 +38,7 @@ import {
   MaterialClass,
   NavigationLevel,
   SAP_SUPPLIER_IDS,
+  Status,
 } from '@mac/msd/constants';
 import { QuickFilterComponent } from '@mac/msd/main-table/quick-filter/quick-filter.component';
 import {
@@ -46,6 +48,7 @@ import {
   MANUFACTURER_VALUE_GETTER,
   RELEASE_DATE_FORMATTER,
   RELEASE_DATE_VALUE_GETTER,
+  STATUS_VALUE_GETTER,
 } from '@mac/msd/main-table/table-config';
 import { STEEL_COLUMN_DEFINITIONS } from '@mac/msd/main-table/table-config/materials/steel';
 import { DataResult, MaterialFormValue } from '@mac/msd/models';
@@ -75,10 +78,16 @@ import { MainTableComponent } from './main-table.component';
 import { MainTableRoutingModule } from './main-table-routing.module';
 import { MsdNavigationModule } from './msd-navigation/msd-navigation.module';
 import { STEEL_STATIC_QUICKFILTERS } from './quick-filter/config/steel';
+import { getStatus } from './util';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
   translate: jest.fn((string) => string),
+}));
+
+jest.mock('./util', () => ({
+  ...jest.requireActual('./util'),
+  getStatus: jest.fn(),
 }));
 
 describe('MainTableComponent', () => {
@@ -1026,6 +1035,52 @@ describe('MainTableComponent', () => {
     });
   });
 
+  describe('isBlockedRow', () => {
+    it('should return true if the status is blocked', () => {
+      (getStatus as jest.Mock).mockReturnValue(Status.BLOCKED);
+
+      const result = component.isBlockedRow({
+        data: { blocked: true, lastModified: 1 },
+      } as RowClassParams);
+
+      expect(result).toBe(true);
+      expect(getStatus).toHaveBeenCalledWith(true, 1);
+    });
+    it('should return false if the status is not blocked', () => {
+      (getStatus as jest.Mock).mockReturnValue(Status.DEFAULT);
+
+      const result = component.isBlockedRow({
+        data: { blocked: false, lastModified: 1 },
+      } as RowClassParams);
+
+      expect(result).toBe(false);
+      expect(getStatus).toHaveBeenCalledWith(false, 1);
+    });
+  });
+
+  describe('isRecentlyChangedRow', () => {
+    it('should return true if the status is changed', () => {
+      (getStatus as jest.Mock).mockReturnValue(Status.CHANGED);
+
+      const result = component.isRecentlyChangedRow({
+        data: { blocked: true, lastModified: 1 },
+      } as RowClassParams);
+
+      expect(result).toBe(true);
+      expect(getStatus).toHaveBeenCalledWith(true, 1);
+    });
+    it('should return false if the status is not changed', () => {
+      (getStatus as jest.Mock).mockReturnValue(Status.DEFAULT);
+
+      const result = component.isRecentlyChangedRow({
+        data: { blocked: false, lastModified: 1 },
+      } as RowClassParams);
+
+      expect(result).toBe(false);
+      expect(getStatus).toHaveBeenCalledWith(false, 1);
+    });
+  });
+
   describe('BOOLEAN_VALUE_GETTER', () => {
     it('should return a comparable string value of a boolean value', () => {
       const mockGetId = jest.fn(() => 'columnId');
@@ -1160,6 +1215,25 @@ describe('MainTableComponent', () => {
       const result = RELEASE_DATE_FORMATTER(mockParams);
 
       expect(result).toEqual('01/00');
+    });
+  });
+
+  describe('STATUS_VALUE_GETTER', () => {
+    it('should return the translated value from getStatus', () => {
+      const mockParams = {
+        data: {
+          blocked: false,
+          lastModified: 1,
+        },
+      } as unknown as ValueGetterParams;
+      (getStatus as jest.Mock).mockReturnValue(Status.CHANGED);
+
+      const result = STATUS_VALUE_GETTER(mockParams);
+
+      expect(getStatus).toHaveBeenCalledWith(false, 1);
+      expect(result).toEqual(
+        `materialsSupplierDatabase.status.statusValues.${Status.CHANGED}`
+      );
     });
   });
 

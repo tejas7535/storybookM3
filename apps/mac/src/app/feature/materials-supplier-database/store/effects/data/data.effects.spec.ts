@@ -242,10 +242,6 @@ describe('Data Effects', () => {
         action = fetchManufacturerSuppliers();
         actions$ = m.hot('-a', { a: action });
 
-        // const resultMock = [
-        // ] as ManufacturerSupplierV2[];
-        // const expectedSuppliers = [
-        // ] as ManufacturerSupplierTableValue[];
         const resultMock: ManufacturerSupplierV2[] = [
           {
             id: 1,
@@ -259,6 +255,7 @@ describe('Data Effects', () => {
             name: 'supplier2',
             plant: 'plant2',
             country: 'country2',
+            manufacturer: true,
             sapData: [
               { sapSupplierId: 'blabla' },
               { sapSupplierId: 'superSAP' },
@@ -280,6 +277,7 @@ describe('Data Effects', () => {
             manufacturerSupplierName: 'supplier2',
             manufacturerSupplierPlant: 'plant2',
             manufacturerSupplierCountry: 'country2',
+            manufacturer: true,
             sapSupplierIds: ['blabla', 'superSAP'],
             lastModified: 1,
           },

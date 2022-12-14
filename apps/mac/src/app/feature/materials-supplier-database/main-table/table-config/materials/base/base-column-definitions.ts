@@ -11,11 +11,14 @@ import {
   MATERIAL_STANDARD_STANDARD_DOCUMENT,
   PRODUCT_CATEGORY,
   RELEASE_RESTRICTIONS,
+  STATUS,
 } from '@mac/msd/constants';
 import { EditCellRendererComponent } from '@mac/msd/main-table/edit-cell-renderer/edit-cell-renderer.component';
+import { StatusCellRendererComponent } from '@mac/msd/main-table/status-cell-renderer/status-cell-renderer.component';
 import {
   CUSTOM_DATE_FORMATTER,
   FILTER_PARAMS,
+  STATUS_VALUE_GETTER,
 } from '@mac/msd/main-table/table-config';
 
 export const BASE_COLUMN_DEFINITIONS: ColDef[] = [
@@ -74,6 +77,13 @@ export const BASE_COLUMN_DEFINITIONS: ColDef[] = [
     filterParams: FILTER_PARAMS,
     hide: true,
     cellRenderer: EditCellRendererComponent,
+  },
+  {
+    field: STATUS,
+    headerName: 'Status',
+    filterParams: FILTER_PARAMS,
+    cellRenderer: StatusCellRendererComponent,
+    valueGetter: STATUS_VALUE_GETTER,
   },
   {
     field: LAST_MODIFIED,

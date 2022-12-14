@@ -5,12 +5,15 @@ import {
   MANUFACTURER_SUPPLIER_COUNTRY,
   MANUFACTURER_SUPPLIER_NAME,
   MANUFACTURER_SUPPLIER_PLANT,
+  STATUS,
 } from '@mac/msd/constants';
 import { EditCellRendererComponent } from '@mac/msd/main-table/edit-cell-renderer/edit-cell-renderer.component';
 import {
   CUSTOM_DATE_FORMATTER,
   FILTER_PARAMS,
+  STATUS_VALUE_GETTER,
 } from '@mac/msd/main-table/table-config';
+import { StatusCellRendererComponent } from '@mac/msd/main-table/status-cell-renderer/status-cell-renderer.component';
 
 export const BASE_SUPPLIERS_COLUMN_DEFINITIONS: ColDef[] = [
   {
@@ -30,6 +33,13 @@ export const BASE_SUPPLIERS_COLUMN_DEFINITIONS: ColDef[] = [
     headerName: 'Supplier Country',
     filterParams: FILTER_PARAMS,
     cellRenderer: EditCellRendererComponent,
+  },
+  {
+    field: STATUS,
+    headerName: 'Status',
+    filterParams: FILTER_PARAMS,
+    cellRenderer: StatusCellRendererComponent,
+    valueGetter: STATUS_VALUE_GETTER,
   },
   {
     field: LAST_MODIFIED,

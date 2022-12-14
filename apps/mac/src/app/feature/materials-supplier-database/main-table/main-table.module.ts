@@ -3,11 +3,13 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { LetModule, PushModule } from '@ngrx/component';
 import { AgGridModule } from 'ag-grid-angular';
@@ -23,11 +25,13 @@ import { MainTableRoutingModule } from './main-table-routing.module';
 import { MaterialDialogsModule } from './material-input-dialog/materials/materials.module';
 import { MsdNavigationModule } from './msd-navigation/msd-navigation.module';
 import { QuickFilterComponent } from './quick-filter/quick-filter.component';
+import { StatusCellRendererComponent } from './status-cell-renderer/status-cell-renderer.component';
 
 @NgModule({
   declarations: [
     MainTableComponent,
     EditCellRendererComponent,
+    StatusCellRendererComponent,
     HeaderTooltipComponent,
   ],
   imports: [
@@ -48,6 +52,8 @@ import { QuickFilterComponent } from './quick-filter/quick-filter.component';
     MaterialDialogsModule,
     MsdNavigationModule,
     LetModule,
+    MatChipsModule,
+    MatTooltipModule,
   ],
   providers: [DatePipe, MsdDialogService],
 })

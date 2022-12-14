@@ -113,6 +113,10 @@ export class DataEffects {
                     manufacturerSupplierName: manufacturerSupplier.name,
                     manufacturerSupplierPlant: manufacturerSupplier.plant,
                     manufacturerSupplierCountry: manufacturerSupplier.country,
+                    manufacturer:
+                      'manufacturer' in manufacturerSupplier
+                        ? manufacturerSupplier.manufacturer
+                        : undefined,
                     sapSupplierIds:
                       'sapData' in manufacturerSupplier
                         ? manufacturerSupplier.sapData?.map(
