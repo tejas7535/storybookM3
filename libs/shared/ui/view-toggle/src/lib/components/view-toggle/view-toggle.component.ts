@@ -21,10 +21,23 @@ export class ViewToggleComponent {
       this.items = value;
     }
   }
+
+  @Output() public iconClicked = new EventEmitter<{
+    viewId: number;
+    iconName: string;
+  }>();
+
   @Output() public selectionChange = new EventEmitter<ViewToggle>();
 
   public onViewSelect(event: MatButtonToggleChange) {
     this.active = event.value as ViewToggle;
     this.selectionChange.emit(this.active);
+  }
+
+  public onIconClicked(event: MouseEvent, viewId: number, iconName: string) {
+    event.stopPropagation();
+    event.preventDefault();
+
+    this.iconClicked.emit({ viewId, iconName });
   }
 }

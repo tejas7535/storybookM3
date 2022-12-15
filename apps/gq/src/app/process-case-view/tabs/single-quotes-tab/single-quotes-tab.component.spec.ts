@@ -10,6 +10,7 @@ import { marbles } from 'rxjs-marbles';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+import { ViewToggleModule } from '@schaeffler/view-toggle';
 
 import {
   PROCESS_CASE_STATE_MOCK,
@@ -40,6 +41,7 @@ describe('SingleQuotesTabComponent', () => {
       PushModule,
       MatCardModule,
       SharedDirectivesModule,
+      ViewToggleModule,
     ],
     declarations: [CalculationInProgressComponent],
     providers: [

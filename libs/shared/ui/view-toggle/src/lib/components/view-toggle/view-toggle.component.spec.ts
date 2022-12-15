@@ -61,4 +61,24 @@ describe('ViewToggleComponent', () => {
       expect(component.selectionChange.emit).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe('onIconClicked', () => {
+    test('should emit iconClicked', () => {
+      const event = {
+        stopPropagation: jest.fn(),
+        preventDefault: jest.fn(),
+      } as unknown as MouseEvent;
+      component.iconClicked.emit = jest.fn();
+
+      component.onIconClicked(event, 0, 'test-icon');
+
+      expect(component.iconClicked.emit).toHaveBeenCalledTimes(1);
+      expect(component.iconClicked.emit).toHaveBeenCalledWith({
+        iconName: 'test-icon',
+        viewId: 0,
+      });
+      expect(event.stopPropagation).toHaveBeenCalledTimes(1);
+      expect(event.preventDefault).toHaveBeenCalledTimes(1);
+    });
+  });
 });
