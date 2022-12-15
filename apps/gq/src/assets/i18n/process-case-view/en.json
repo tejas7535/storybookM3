@@ -6,7 +6,18 @@
   },
   "tabs": {
     "singleQuotes": {
-      "title": "Case Details"
+      "title": "Case Details",
+      "customViewModal": {
+        "createView": "Create new view",
+        "changeName": "Change name",
+        "inputFieldLabel": "Name",
+        "inputFieldHint": "Please give your view a name",
+        "createFromDefault": "Create new view from default",
+        "createFromCurrent": "Create new view from current",
+        "save": "Save",
+        "addView": "Add view",
+        "cancel": "Cancel"
+      }
     },
     "customerDetails": {
       "title": "Customer Details",

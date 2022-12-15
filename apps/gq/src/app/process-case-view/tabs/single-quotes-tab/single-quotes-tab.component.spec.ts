@@ -1,5 +1,6 @@
 import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
@@ -41,6 +42,7 @@ describe('SingleQuotesTabComponent', () => {
       PushModule,
       MatCardModule,
       SharedDirectivesModule,
+      MatDialogModule,
       ViewToggleModule,
     ],
     declarations: [CalculationInProgressComponent],

@@ -6,7 +6,18 @@
   },
   "tabs": {
     "singleQuotes": {
-      "title": "Angebotsdetails"
+      "title": "Angebotsdetails",
+      "customViewModal": {
+        "createView": "Neue Ansicht erstellen",
+        "changeName": "Namen ändern",
+        "inputFieldLabel": "Name",
+        "inputFieldHint": "Bitte gib der Ansicht einen Namen",
+        "createFromDefault": "Neue Ansicht auf Grundlage von der Standard Ansicht erstellen",
+        "createFromCurrent": "Neue Ansicht auf Grundlage der aktuellen Ansicht erstellen",
+        "save": "Speichern",
+        "addView": "Ansicht erstellen",
+        "cancel": "Abbrechen"
+      }
     },
     "customerDetails": {
       "title": "Kundendetails",
