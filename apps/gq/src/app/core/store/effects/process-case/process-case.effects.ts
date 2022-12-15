@@ -411,16 +411,13 @@ export class ProcessCaseEffect {
           tap((resp) => {
             let successMessage = '';
 
-            if (
+            successMessage =
               resp.sapCallInProgress ===
               SapCallInProgress.FETCH_DATA_IN_PROGRESS
-            ) {
-              successMessage = translate(
-                'shared.snackBarMessages.refreshSapPricingSuccessAsync'
-              );
-            } else {
-              translate('shared.snackBarMessages.refreshSapPricingSuccess');
-            }
+                ? translate(
+                    'shared.snackBarMessages.refreshSapPricingSuccessAsync'
+                  )
+                : translate('shared.snackBarMessages.refreshSapPricingSuccess');
 
             this.snackBar.open(successMessage);
           }),
