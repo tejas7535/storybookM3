@@ -1,6 +1,6 @@
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { ColumnState } from 'ag-grid-enterprise';
+import { ColumnState } from 'ag-grid-community';
 
 import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks';
 import { QuotationDetail } from '../../models/quotation-detail';
@@ -51,46 +51,210 @@ describe('AgGridStateService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('getColumnState', () => {
-    test('should return null if theres no entry in localstorage', () => {
-      expect(service.getColumnState('any')).toBeNull();
+  describe('init', () => {
+    test('should save to local storage if key does not already exist', () => {
+      service['localStorage'].getItem = jest.fn().mockReturnValue('');
+      service['localStorage'].setItem = jest.fn();
+      const expectedKey = 'GQ_PROCESS_CASE_STATE';
+
+      service.init('process_case');
+
+      expect(service['localStorage'].setItem).toHaveBeenCalledTimes(1);
+      expect(service['localStorage'].setItem).toHaveBeenCalledWith(
+        expectedKey,
+        JSON.stringify({
+          version: 1,
+          customViews: [
+            { id: 0, title: 'default', state: { columnState: [] } },
+          ],
+        })
+      );
     });
+    test('should NOT save to local storage if key already exists', () => {
+      service['localStorage'].getItem = jest.fn().mockReturnValue('{}');
+      service['localStorage'].setItem = jest.fn();
 
-    test('should return columns for given key', () => {
-      const columnState: ColumnState[] = [{ colId: 'width', pinned: 'left' }];
-      const fakeStore = { key: JSON.stringify(columnState) };
+      service.init('process_case');
 
-      localStorage.setStore(fakeStore);
-
-      const result = service.getColumnState('key');
-
-      expect(result).toEqual(columnState);
+      expect(service['localStorage'].setItem).not.toHaveBeenCalled();
     });
   });
 
-  describe('setColumnsState', () => {
+  describe('getColumnStateForCurrentView', () => {
+    test('should return columns for current table and view', () => {
+      const columnState: ColumnState[] = [{ colId: 'width', pinned: 'left' }];
+      const fakeStore = JSON.stringify({
+        version: 1,
+        customViews: [
+          {
+            id: 0,
+            title: 'default',
+            state: {
+              columnState,
+            },
+          },
+        ],
+      });
+
+      localStorage.setItem('GQ_PROCESS_CASE_STATE', fakeStore);
+
+      service.init('process_case');
+      const result = service.getColumnStateForCurrentView();
+
+      expect(result).toEqual(columnState);
+    });
+
+    test('should return columns for different views after switching', () => {
+      const columnState0: ColumnState[] = [
+        { colId: 'col0', pinned: 'left', sort: 'asc' },
+      ];
+      const columnState1: ColumnState[] = [
+        { colId: 'col0', pinned: 'right', sort: 'asc' },
+      ];
+      const columnState2: ColumnState[] = [
+        { colId: 'col0', pinned: 'left', sort: 'desc' },
+      ];
+
+      const fakeStore = JSON.stringify({
+        version: 1,
+        customViews: [
+          {
+            id: 0,
+            title: 'default',
+            state: {
+              columnState: columnState0,
+            },
+          },
+          {
+            id: 1,
+            title: 'test-view-1',
+            state: {
+              columnState: columnState1,
+            },
+          },
+          {
+            id: 2,
+            title: 'test-view-2',
+            state: {
+              columnState: columnState2,
+            },
+          },
+        ],
+      });
+
+      localStorage.setItem('GQ_PROCESS_CASE_STATE', fakeStore);
+
+      service.init('process_case');
+      const result0 = service.getColumnStateForCurrentView();
+
+      service.setActiveView(1);
+      const result1 = service.getColumnStateForCurrentView();
+
+      service.setActiveView(2);
+      const result2 = service.getColumnStateForCurrentView();
+
+      expect(result0).toEqual(columnState0);
+      expect(result1).toEqual(columnState1);
+      expect(result2).toEqual(columnState2);
+    });
+
+    test('should return empty array if key does not exist', () => {
+      const columnState: ColumnState[] = [{ colId: 'width', pinned: 'left' }];
+      const fakeStore = JSON.stringify({
+        version: 1,
+        customViews: [
+          {
+            id: 0,
+            title: 'default',
+            state: {
+              columnState,
+            },
+          },
+        ],
+      });
+
+      localStorage.setItem('GQ_PROCESS_CASE_STATE', fakeStore);
+
+      service.init('fake_key_does_not_exist');
+      const result = service.getColumnStateForCurrentView();
+
+      expect(result).toEqual([]);
+    });
+  });
+
+  describe('setColumnStateForCurrentView', () => {
     test('should set the given column state in localstorage', () => {
       service.localStorage.setStore({});
 
       const columnState: ColumnState[] = [{ colId: 'width', pinned: 'left' }];
-      const expected = '[{"colId":"width","pinned":"left"}]';
 
-      service.setColumnState('key', columnState);
+      service.init('process_case');
+      service.setColumnStateForCurrentView(columnState);
 
-      expect(localStorage.store.key).toEqual(expected);
+      expect(localStorage.store['GQ_PROCESS_CASE_STATE']).toEqual(
+        JSON.stringify({
+          version: 1,
+          customViews: [{ id: 0, title: 'default', state: { columnState } }],
+        })
+      );
     });
 
-    test('should extend localstorage if key is already present', () => {
-      const fakeStore = { key: JSON.stringify({ foo: 'bar' }) };
+    test('should set the given column state in localstorage and not overwrite other views', () => {
+      const columnState0: ColumnState[] = [
+        { colId: 'col0', pinned: 'left', sort: 'asc' },
+      ];
+      const columnState1: ColumnState[] = [
+        { colId: 'col0', pinned: 'right', sort: 'asc' },
+      ];
+      const columnState2: ColumnState[] = [
+        { colId: 'col0', pinned: 'left', sort: 'desc' },
+      ];
 
-      service.localStorage.setStore(fakeStore);
+      const fakeStore = {
+        version: 1,
+        customViews: [
+          {
+            id: 0,
+            title: 'default',
+            state: {
+              columnState: columnState0,
+            },
+          },
+          {
+            id: 1,
+            title: 'test-view-1',
+            state: {
+              columnState: columnState1,
+            },
+          },
+          {
+            id: 2,
+            title: 'test-view-2',
+            state: {
+              columnState: columnState2,
+            },
+          },
+        ],
+      };
+
+      localStorage.setItem('GQ_PROCESS_CASE_STATE', JSON.stringify(fakeStore));
 
       const columnState: ColumnState[] = [{ colId: 'width', pinned: 'left' }];
-      const expected = '[{"colId":"width","pinned":"left"}]';
 
-      service.setColumnState('key', columnState);
+      service.init('process_case');
+      service.setActiveView(1);
+      service.setColumnStateForCurrentView(columnState);
 
-      expect(localStorage.store.key).toEqual(expected);
+      expect(localStorage.store['GQ_PROCESS_CASE_STATE']).toEqual(
+        JSON.stringify({
+          ...fakeStore,
+          customViews: [
+            fakeStore.customViews[0],
+            { ...fakeStore.customViews[1], state: { columnState } },
+            fakeStore.customViews[2],
+          ],
+        })
+      );
     });
   });
 

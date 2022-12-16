@@ -78,11 +78,11 @@ describe('ComparableTransactionsComponent', () => {
           getColumnState: jest.fn(),
         },
       } as any;
-      component['agGridStateService'].setColumnState = jest.fn();
+      component['agGridStateService'].setColumnStateForCurrentView = jest.fn();
       component.onColumnChange(event);
 
       expect(
-        component['agGridStateService'].setColumnState
+        component['agGridStateService'].setColumnStateForCurrentView
       ).toHaveBeenCalledTimes(1);
     });
   });
@@ -90,31 +90,31 @@ describe('ComparableTransactionsComponent', () => {
     test('should set columnState', () => {
       const event = {
         columnApi: {
-          setColumnState: jest.fn(),
+          applyColumnState: jest.fn(),
         },
       } as any;
 
-      component['agGridStateService'].getColumnState = jest
+      component['agGridStateService'].getColumnStateForCurrentView = jest
         .fn()
         .mockReturnValue('state');
       component.onGridReady(event);
       expect(
-        component['agGridStateService'].getColumnState
+        component['agGridStateService'].getColumnStateForCurrentView
       ).toHaveBeenCalledTimes(1);
-      expect(event.columnApi.setColumnState).toHaveBeenCalledTimes(1);
+      expect(event.columnApi.applyColumnState).toHaveBeenCalledTimes(1);
     });
     test('should not set columnState', () => {
       const event = {
         columnApi: {
-          setColumnState: jest.fn(),
+          applyColumnState: jest.fn(),
         },
       } as any;
-      component['agGridStateService'].getColumnState = jest.fn();
+      component['agGridStateService'].getColumnStateForCurrentView = jest.fn();
       component.onGridReady(event);
       expect(
-        component['agGridStateService'].getColumnState
+        component['agGridStateService'].getColumnStateForCurrentView
       ).toHaveBeenCalledTimes(1);
-      expect(event.columnApi.setColumnState).toHaveBeenCalledTimes(0);
+      expect(event.columnApi.applyColumnState).toHaveBeenCalledTimes(0);
     });
   });
   describe('onFirstDataRendered', () => {

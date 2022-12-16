@@ -48,17 +48,19 @@ export class SapPriceDetailsTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.localeText$ = this.localizationService.locale$;
+    this.agGridStateService.init(this.TABLE_KEY);
+    this.agGridStateService.setActiveView(0);
   }
   public onColumnChange(event: SortChangedEvent): void {
     const columnState: ColumnState[] = event.columnApi.getColumnState();
 
-    this.agGridStateService.setColumnState(this.TABLE_KEY, columnState);
+    this.agGridStateService.setColumnStateForCurrentView(columnState);
   }
 
   public onGridReady(event: GridReadyEvent): void {
-    const state = this.agGridStateService.getColumnState(this.TABLE_KEY);
+    const state = this.agGridStateService.getColumnStateForCurrentView();
     if (state) {
-      event.columnApi.setColumnState(state);
+      event.columnApi.applyColumnState({ state, applyOrder: true });
     }
   }
 }

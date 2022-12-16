@@ -144,7 +144,7 @@ describe('QuotationDetailsTableComponent', () => {
       } as any;
 
       component['agGridStateService'].setColumnData = jest.fn();
-      component['agGridStateService'].setColumnState = jest.fn();
+      component['agGridStateService'].setColumnStateForCurrentView = jest.fn();
       component['agGridStateService'].setColumnFilters = jest.fn();
     });
 
@@ -152,7 +152,7 @@ describe('QuotationDetailsTableComponent', () => {
       component.onColumnChange(event);
 
       expect(
-        component['agGridStateService'].setColumnState
+        component['agGridStateService'].setColumnStateForCurrentView
       ).toHaveBeenCalledTimes(1);
       expect(event.api.getFilterModel).toHaveBeenCalledTimes(1);
       expect(
@@ -178,7 +178,8 @@ describe('QuotationDetailsTableComponent', () => {
     beforeEach(() => {
       mockEvent = {
         columnApi: {
-          setColumnState: jest.fn(),
+          resetColumnState: jest.fn(),
+          applyColumnState: jest.fn(),
         },
         api: {
           forEachNodeAfterFilterAndSort: jest.fn(),
@@ -187,7 +188,7 @@ describe('QuotationDetailsTableComponent', () => {
         },
       } as any;
 
-      component['agGridStateService'].getColumnState = jest.fn();
+      component['agGridStateService'].getColumnStateForCurrentView = jest.fn();
       component['agGridStateService'].getColumnData = jest.fn();
       component['agGridStateService'].setColumnData = jest.fn();
       component['agGridStateService'].setColumnFilters = jest.fn();
@@ -195,24 +196,24 @@ describe('QuotationDetailsTableComponent', () => {
     });
 
     test('should set columnState', () => {
-      component['agGridStateService'].getColumnState = jest
+      component['agGridStateService'].getColumnStateForCurrentView = jest
         .fn()
         .mockReturnValue('state');
       component.onGridReady(mockEvent);
 
       expect(
-        component['agGridStateService'].getColumnState
+        component['agGridStateService'].getColumnStateForCurrentView
       ).toHaveBeenCalledTimes(1);
-      expect(mockEvent.columnApi.setColumnState).toHaveBeenCalledTimes(1);
+      expect(mockEvent.columnApi.applyColumnState).toHaveBeenCalledTimes(1);
     });
 
     test('should not set columnState', () => {
       component.onGridReady(mockEvent);
 
       expect(
-        component['agGridStateService'].getColumnState
+        component['agGridStateService'].getColumnStateForCurrentView
       ).toHaveBeenCalledTimes(1);
-      expect(mockEvent.columnApi.setColumnState).toHaveBeenCalledTimes(0);
+      expect(mockEvent.columnApi.applyColumnState).toHaveBeenCalledTimes(0);
     });
 
     test("should set column data if it doesn't exist", () => {
@@ -289,6 +290,7 @@ describe('QuotationDetailsTableComponent', () => {
             { getColId: jest.fn(() => ColumnFields.NET_VALUE) },
             { getColId: jest.fn(() => ColumnFields.RECOMMENDED_PRICE) },
           ]),
+          resetColumnState: jest.fn(),
           autoSizeColumn: jest.fn(),
         },
       } as any;
@@ -305,9 +307,7 @@ describe('QuotationDetailsTableComponent', () => {
       component['agGridStateService'].setColumnData = jest.fn();
 
       component.updateColumnData({
-        columnApi: {
-          setColumnState: jest.fn(),
-        },
+        columnApi: { resetColumnState: jest.fn(), applyColumnState: jest.fn() },
         api: {
           forEachNodeAfterFilterAndSort: jest.fn(),
         },
@@ -319,11 +319,12 @@ describe('QuotationDetailsTableComponent', () => {
     });
 
     test('should be called onColumnChange', () => {
+      component['agGridStateService'].setColumnStateForCurrentView = jest.fn();
       component.updateColumnData = jest.fn();
 
       component.onColumnChange({
         columnApi: {
-          setColumnState: jest.fn(),
+          applyColumnState: jest.fn(),
           getColumnState: jest.fn(),
         },
         api: {

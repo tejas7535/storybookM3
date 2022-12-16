@@ -7,6 +7,7 @@ import { map, Observable, take } from 'rxjs';
 import { Store } from '@ngrx/store';
 import {
   ColDef,
+  ColumnState,
   ExcelStyle,
   FilterChangedEvent,
   FirstDataRenderedEvent,
@@ -74,8 +75,6 @@ export class QuotationDetailsTableComponent implements OnInit {
     this.tableContext.quotation = quotation;
   }
 
-  private readonly TABLE_KEY = 'processCase';
-
   public customViewsEnabled = false;
   public sideBar: SideBarDef = SIDE_BAR;
   public defaultColumnDefs: ColDef = DEFAULT_COLUMN_DEFS;
@@ -139,8 +138,7 @@ export class QuotationDetailsTableComponent implements OnInit {
   public onColumnChange(event: FilterChangedEvent | SortChangedEvent): void {
     this.updateColumnData(event);
 
-    this.agGridStateService.setColumnState(
-      this.TABLE_KEY,
+    this.agGridStateService.setColumnStateForCurrentView(
       event.columnApi.getColumnState()
     );
 
@@ -179,9 +177,9 @@ export class QuotationDetailsTableComponent implements OnInit {
       this.agGridStateService.setColumnData(quotationId, columnData);
     }
 
-    const state = this.agGridStateService.getColumnState(this.TABLE_KEY);
+    const state = this.agGridStateService.getColumnStateForCurrentView();
     if (state) {
-      event.columnApi.setColumnState(state);
+      event.columnApi.applyColumnState({ state });
     }
 
     const filterModel = this.agGridStateService.getColumnFilters(quotationId);
@@ -192,6 +190,17 @@ export class QuotationDetailsTableComponent implements OnInit {
     event.api.forEachNode((node) => {
       if (this.selectedQuotationIds.includes(node.data.gqPositionId)) {
         node.setSelected(true);
+      }
+    });
+
+    this.agGridStateService.columnState.subscribe((colState: ColumnState[]) => {
+      if (colState?.length === 0) {
+        event?.columnApi?.resetColumnState();
+      } else {
+        event?.columnApi?.applyColumnState({
+          state: colState,
+          applyOrder: true,
+        });
       }
     });
   }
