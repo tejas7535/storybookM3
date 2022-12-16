@@ -5,8 +5,8 @@
   <div
     class="mr-2 h-3 w-3 rounded-full bg-primary"
     [ngClass]="{
-      'bg-error': freeStock === 0,
-      'bg-sunny-yellow': freeStock <= 10 && freeStock > 0
+      '!bg-error': freeStock === 0,
+      '!bg-sunny-yellow': freeStock <= 10 && freeStock > 0
     }"
   ></div>
   <span>
