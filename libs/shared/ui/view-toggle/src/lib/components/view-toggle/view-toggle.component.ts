@@ -29,6 +29,8 @@ export class ViewToggleComponent {
 
   @Output() public selectionChange = new EventEmitter<ViewToggle>();
 
+  @Output() public viewToggleDoubleClicked = new EventEmitter<number>();
+
   public onViewSelect(event: MatButtonToggleChange) {
     this.active = event.value as ViewToggle;
     this.selectionChange.emit(this.active);
@@ -39,5 +41,12 @@ export class ViewToggleComponent {
     event.preventDefault();
 
     this.iconClicked.emit({ viewId, iconName });
+  }
+
+  public onDoubleClick(event: MouseEvent, viewId: number) {
+    event.stopPropagation();
+    event.preventDefault();
+
+    this.viewToggleDoubleClicked.emit(viewId);
   }
 }

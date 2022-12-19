@@ -1,11 +1,19 @@
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+import { TranslocoModule } from '@ngneat/transloco';
 import { ColumnState } from 'ag-grid-community';
 
 import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks';
+import { GridState } from '../../models/grid-state.model';
 import { QuotationDetail } from '../../models/quotation-detail';
 import { AgGridStateService } from './ag-grid-state.service';
 
+const translatedViewName = 'TRANSLATED_NAME';
+
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+  translate: jest.fn(() => translatedViewName),
+}));
 class LocalStorageMock {
   public store: { [key: string]: string } = {};
 
@@ -26,6 +34,16 @@ class LocalStorageMock {
     this.store[key] = value;
   }
 }
+
+const mockState = {
+  version: 1,
+  customViews: [
+    { id: 0, title: translatedViewName, state: { columnState: [] } },
+    { id: 3, title: 'test view 1', state: { columnState: [] } },
+    { id: 1, title: 'test view 2', state: { columnState: [] } },
+    { id: 2, title: 'test view 3', state: { columnState: [] } },
+  ],
+} as GridState;
 
 describe('AgGridStateService', () => {
   let spectator: SpectatorService<AgGridStateService>;
@@ -55,6 +73,8 @@ describe('AgGridStateService', () => {
     test('should save to local storage if key does not already exist', () => {
       service['localStorage'].getItem = jest.fn().mockReturnValue('');
       service['localStorage'].setItem = jest.fn();
+
+      service.getCustomViews = jest.fn();
       const expectedKey = 'GQ_PROCESS_CASE_STATE';
 
       service.init('process_case');
@@ -65,7 +85,11 @@ describe('AgGridStateService', () => {
         JSON.stringify({
           version: 1,
           customViews: [
-            { id: 0, title: 'default', state: { columnState: [] } },
+            {
+              id: 0,
+              title: translatedViewName,
+              state: { columnState: [] },
+            },
           ],
         })
       );
@@ -88,7 +112,7 @@ describe('AgGridStateService', () => {
         customViews: [
           {
             id: 0,
-            title: 'default',
+            title: translatedViewName,
             state: {
               columnState,
             },
@@ -120,7 +144,7 @@ describe('AgGridStateService', () => {
         customViews: [
           {
             id: 0,
-            title: 'default',
+            title: translatedViewName,
             state: {
               columnState: columnState0,
             },
@@ -165,7 +189,7 @@ describe('AgGridStateService', () => {
         customViews: [
           {
             id: 0,
-            title: 'default',
+            title: translatedViewName,
             state: {
               columnState,
             },
@@ -194,7 +218,9 @@ describe('AgGridStateService', () => {
       expect(localStorage.store['GQ_PROCESS_CASE_STATE']).toEqual(
         JSON.stringify({
           version: 1,
-          customViews: [{ id: 0, title: 'default', state: { columnState } }],
+          customViews: [
+            { id: 0, title: translatedViewName, state: { columnState } },
+          ],
         })
       );
     });
@@ -215,7 +241,7 @@ describe('AgGridStateService', () => {
         customViews: [
           {
             id: 0,
-            title: 'default',
+            title: translatedViewName,
             state: {
               columnState: columnState0,
             },
@@ -346,6 +372,139 @@ describe('AgGridStateService', () => {
       service.localStorage.setStore(fakeStore);
 
       expect(service.getColumnFilters('1234')).toEqual(filterModels);
+    });
+  });
+
+  describe('getCurrentViewId', () => {
+    test('should return activeViewId', () => {
+      service.getColumnStateForCurrentView = jest.fn();
+      const id = Math.round(Math.random() * 100);
+      service.setActiveView(id);
+
+      expect(service.getCurrentViewId()).toEqual(id);
+    });
+  });
+
+  describe('createNewView', () => {
+    test('should create new view from scratch', () => {
+      service['localStorage'].setItem = jest.fn();
+      service['localStorage'].getItem = jest
+        .fn()
+        .mockReturnValue(JSON.stringify(mockState));
+
+      service.init('process_case');
+      service.createViewFromScratch('test-view');
+
+      expect(service['localStorage'].setItem).toHaveBeenCalledTimes(1);
+      expect(service['localStorage'].setItem).toHaveBeenCalledWith(
+        'GQ_PROCESS_CASE_STATE',
+        JSON.stringify({
+          ...mockState,
+          customViews: [
+            ...mockState.customViews,
+            {
+              id: 4,
+              title: 'test-view',
+              state: {
+                columnState: [],
+              },
+            },
+          ],
+        })
+      );
+    });
+
+    test('should create new view from current view', () => {
+      const mockColumnState = [
+        {
+          colId: 'test',
+          sort: 'desc',
+        },
+        {
+          colId: 'test2',
+          sort: 'asc',
+        },
+      ];
+
+      service['getCurrentView'] = jest
+        .fn()
+        .mockReturnValue({ state: { columnState: mockColumnState } });
+      service['localStorage'].setItem = jest.fn();
+      service['localStorage'].getItem = jest
+        .fn()
+        .mockReturnValue(JSON.stringify(mockState));
+
+      service.init('process_case');
+      service.createViewFromCurrentView('test-view');
+
+      expect(service['localStorage'].setItem).toHaveBeenCalledTimes(1);
+      expect(service['localStorage'].setItem).toHaveBeenCalledWith(
+        'GQ_PROCESS_CASE_STATE',
+        JSON.stringify({
+          ...mockState,
+          customViews: [
+            ...mockState.customViews,
+            {
+              id: 4,
+              title: 'test-view',
+              state: {
+                columnState: mockColumnState,
+              },
+            },
+          ],
+        })
+      );
+    });
+  });
+
+  describe('deleteView', () => {
+    test('should delete view', () => {
+      service['localStorage'].setItem = jest.fn();
+      service['localStorage'].getItem = jest
+        .fn()
+        .mockReturnValue(JSON.stringify(mockState));
+
+      service.init('process_case');
+      service.deleteView(1);
+
+      expect(service['localStorage'].setItem).toHaveBeenCalledTimes(1);
+      expect(service['localStorage'].setItem).toHaveBeenCalledWith(
+        'GQ_PROCESS_CASE_STATE',
+        JSON.stringify({
+          ...mockState,
+          customViews: [
+            { id: 0, title: translatedViewName, state: { columnState: [] } },
+            { id: 3, title: 'test view 1', state: { columnState: [] } },
+            { id: 2, title: 'test view 3', state: { columnState: [] } },
+          ],
+        })
+      );
+    });
+  });
+
+  describe('udpateViewName', () => {
+    test('should update view name', () => {
+      service['localStorage'].setItem = jest.fn();
+      service['localStorage'].getItem = jest
+        .fn()
+        .mockReturnValue(JSON.stringify(mockState));
+
+      service.init('process_case');
+      service.updateViewName(1, 'new-name');
+
+      expect(service['localStorage'].setItem).toHaveBeenCalledTimes(1);
+      expect(service['localStorage'].setItem).toHaveBeenCalledWith(
+        'GQ_PROCESS_CASE_STATE',
+        JSON.stringify({
+          ...mockState,
+          customViews: [
+            { id: 0, title: translatedViewName, state: { columnState: [] } },
+            { id: 3, title: 'test view 1', state: { columnState: [] } },
+            { id: 1, title: 'new-name', state: { columnState: [] } },
+            { id: 2, title: 'test view 3', state: { columnState: [] } },
+          ],
+        })
+      );
     });
   });
 });

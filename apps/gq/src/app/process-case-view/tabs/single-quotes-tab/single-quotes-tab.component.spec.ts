@@ -93,4 +93,47 @@ describe('SingleQuotesTabComponent', () => {
       })
     );
   });
+
+  describe('onViewToggle', () => {
+    test('should open modal for add view', () => {
+      component['openCustomViewModal'] = jest.fn();
+
+      component.onViewToggle({ id: 9999 });
+
+      expect(component['openCustomViewModal']).toHaveBeenCalledTimes(1);
+      expect(component['openCustomViewModal']).toHaveBeenCalledWith(9999, true);
+    });
+
+    test('should update active view for other views', () => {
+      component['gridStateService'].setActiveView = jest.fn();
+
+      component.onViewToggle({ id: 2 });
+
+      expect(component['gridStateService'].setActiveView).toHaveBeenCalledTimes(
+        1
+      );
+      expect(component['gridStateService'].setActiveView).toHaveBeenCalledWith(
+        2
+      );
+    });
+  });
+
+  describe('onViewToggleDoubleClicked', () => {
+    test('should open modal on double click', () => {
+      component['openCustomViewModal'] = jest.fn();
+      component['gridStateService'].getViewNameById = jest
+        .fn()
+        .mockReturnValue('test-name');
+
+      component.onViewToggleDoubleClicked(2);
+
+      expect(component['openCustomViewModal']).toHaveBeenCalledTimes(1);
+      expect(component['openCustomViewModal']).toHaveBeenCalledWith(
+        2,
+        false,
+        false,
+        'test-name'
+      );
+    });
+  });
 });

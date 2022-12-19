@@ -81,4 +81,21 @@ describe('ViewToggleComponent', () => {
       expect(event.preventDefault).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe('onDoubleClick', () => {
+    test('should emit onDoubleClick', () => {
+      const event = {
+        stopPropagation: jest.fn(),
+        preventDefault: jest.fn(),
+      } as unknown as MouseEvent;
+      component.viewToggleDoubleClicked.emit = jest.fn();
+
+      component.onDoubleClick(event, 42);
+
+      expect(component.viewToggleDoubleClicked.emit).toHaveBeenCalledTimes(1);
+      expect(component.viewToggleDoubleClicked.emit).toHaveBeenCalledWith(42);
+      expect(event.stopPropagation).toHaveBeenCalledTimes(1);
+      expect(event.preventDefault).toHaveBeenCalledTimes(1);
+    });
+  });
 });

@@ -1,5 +1,5 @@
 export const DEFAULT_CONFIG: GqFeatureToggleConfig = {
-  customViews: false,
+  customViews: true,
 };
 
 export interface GqFeatureToggleConfig {

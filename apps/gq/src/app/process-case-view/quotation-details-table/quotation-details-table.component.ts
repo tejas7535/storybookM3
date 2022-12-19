@@ -138,9 +138,13 @@ export class QuotationDetailsTableComponent implements OnInit {
   public onColumnChange(event: FilterChangedEvent | SortChangedEvent): void {
     this.updateColumnData(event);
 
-    this.agGridStateService.setColumnStateForCurrentView(
-      event.columnApi.getColumnState()
-    );
+    const viewId = this.agGridStateService.getCurrentViewId();
+
+    if (viewId !== this.agGridStateService.DEFAULT_VIEW_ID) {
+      this.agGridStateService.setColumnStateForCurrentView(
+        event.columnApi.getColumnState()
+      );
+    }
 
     const filterModels = event.api.getFilterModel();
     this.agGridStateService.setColumnFilters(

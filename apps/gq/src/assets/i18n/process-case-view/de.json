@@ -17,6 +17,12 @@
         "save": "Speichern",
         "addView": "Ansicht erstellen",
         "cancel": "Abbrechen"
+      },
+      "deleteViewModal": {
+        "title": "Bestätigung der Löschung",
+        "text": "Sind Sie sicher, dass Sie diese benutzerdefinierte Ansicht mit allen angewandten Filtern löschen möchten?",
+        "confirm": "Bestätigen",
+        "cancel": "Abbrechen"
       }
     },
     "customerDetails": {

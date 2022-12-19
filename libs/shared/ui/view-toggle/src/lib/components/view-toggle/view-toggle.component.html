@@ -14,8 +14,7 @@
     [ngClass]="{
       '!bg-secondary font-medium text-high-emphasis': item.id === active.id,
       'hover:!font-medium hover:text-high-emphasis ': !item.disabled,
-      '!bg-[#fafafa] text-low-emphasis [&>button]:!cursor-not-allowed':
-        item.disabled
+      '!bg-[#fafafa] text-low-emphasis': item.disabled
     }"
     [disabled]="item.disabled"
     [attr.cy-view-toggle-id]="item.id"
@@ -30,8 +29,14 @@
     <div
       class="flex items-center justify-between"
       [ngClass]="{ 'mt-1': !item.title }"
+      (dblclick)="onDoubleClick($event, item.id)"
     >
-      <span *ngIf="item.title">
+      <span
+        *ngIf="item.title"
+        [ngClass]="{
+          '!cursor-not-allowed ': item.disabled
+        }"
+      >
         {{ item.title }}
       </span>
 

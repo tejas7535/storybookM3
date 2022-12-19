@@ -17,6 +17,12 @@
         "save": "Save",
         "addView": "Add view",
         "cancel": "Cancel"
+      },
+      "deleteViewModal": {
+        "title": "Confirm Deletion",
+        "text": "Are you sure you want to delete this custom view with all applied filters?",
+        "confirm": "Confirm",
+        "cancel": "Cancel"
       }
     },
     "customerDetails": {

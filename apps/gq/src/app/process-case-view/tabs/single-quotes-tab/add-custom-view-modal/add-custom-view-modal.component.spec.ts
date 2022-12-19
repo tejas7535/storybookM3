@@ -54,6 +54,7 @@ describe('AddCustomViewModalComponent', () => {
     test('should add createFromDefault formControl if createNewView is TRUE', () => {
       component.modalData = {
         createNewView: true,
+        showRadioButtons: true,
       };
 
       component.ngOnInit();
@@ -65,6 +66,7 @@ describe('AddCustomViewModalComponent', () => {
     test('should NOT add createFromDefault formControl if createNewView is FALSE', () => {
       component.modalData = {
         createNewView: false,
+        showRadioButtons: false,
       };
 
       component.ngOnInit();
@@ -86,7 +88,57 @@ describe('AddCustomViewModalComponent', () => {
   });
 
   describe('save', () => {
-    test('should close and emit form values', () => {
+    test('should close and emit form values for edit dialog', () => {
+      component.modalData = {
+        createNewView: false,
+        showRadioButtons: false,
+      };
+
+      component['dialogRef'].close = jest.fn();
+      component.ngOnInit();
+      component.formGroup.setValue({
+        name: 'test-name',
+      });
+
+      component.save();
+
+      expect(component['dialogRef'].close).toHaveBeenCalledTimes(1);
+      expect(component['dialogRef'].close).toHaveBeenCalledWith({
+        name: 'test-name',
+        createFromDefault: undefined,
+        createNewView: false,
+      });
+    });
+
+    test('should close and emit form values for create from scratch', () => {
+      component.modalData = {
+        createNewView: true,
+        showRadioButtons: true,
+      };
+
+      component['dialogRef'].close = jest.fn();
+      component.ngOnInit();
+      component.formGroup.setValue({
+        name: 'test-name',
+        createFromDefault: true,
+      });
+
+      component.save();
+
+      expect(component['dialogRef'].close).toHaveBeenCalledTimes(1);
+      expect(component['dialogRef'].close).toHaveBeenCalledWith({
+        name: 'test-name',
+        createFromDefault: true,
+        createNewView: true,
+      });
+    });
+
+    test('should close and emit form values for create from current view', () => {
+      component.modalData = {
+        createNewView: true,
+        showRadioButtons: true,
+      };
+
       component['dialogRef'].close = jest.fn();
       component.ngOnInit();
       component.formGroup.setValue({
@@ -100,6 +152,7 @@ describe('AddCustomViewModalComponent', () => {
       expect(component['dialogRef'].close).toHaveBeenCalledWith({
         name: 'test-name',
         createFromDefault: false,
+        createNewView: true,
       });
     });
   });

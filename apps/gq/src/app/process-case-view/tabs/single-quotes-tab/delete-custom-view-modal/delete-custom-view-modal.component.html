@@ -1,0 +1,27 @@
+<div
+  class="flex h-full flex-col"
+  *transloco="let t; read: 'processCaseView.tabs.singleQuotes.deleteViewModal'"
+>
+  <gq-dialog-header [title]="t('title')" (closeDialog)="closeDialog()">
+  </gq-dialog-header>
+
+  <div class="pt-4">
+    <span class="text-medium-emphasis">{{ t('text') }}</span>
+  </div>
+
+  <div class="flex pt-4">
+    <button color="primary" mat-raised-button (click)="confirm()">
+      <span>
+        {{ t('confirm') | uppercase }}
+      </span>
+    </button>
+    <button
+      color="primary"
+      mat-stroked-button
+      (click)="closeDialog()"
+      class="!ml-4"
+    >
+      <span> {{ t('cancel') | uppercase }} </span>
+    </button>
+  </div>
+</div>
