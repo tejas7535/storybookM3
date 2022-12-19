@@ -18,22 +18,25 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { ColumnHeadersModule } from '../../shared/ag-grid/column-headers/column-headers.module';
 import { CustomStatusBarModule } from '../../shared/ag-grid/custom-status-bar/custom-status-bar.module';
+import { AutocompleteInputModule } from '../../shared/components/autocomplete-input/autocomplete-input.module';
 import { DialogHeaderModule } from '../../shared/components/header/dialog-header/dialog-header.module';
 import { EditCaseModalComponent } from '../../shared/components/modal/edit-case-modal/edit-case-modal.component';
+import { EditingMaterialModalComponent } from '../../shared/components/modal/editing-material-modal/editing-material-modal.component';
 import { EditingModalComponent } from '../../shared/components/modal/editing-modal/editing-modal.component';
 import { StatusBarModalModule } from '../../shared/components/modal/status-bar-modal/status-bar-modal.module';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { EditingCommentModalComponent } from './editing-comment-modal/editing-comment-modal.component';
 import { QuotationDetailsTableComponent } from './quotation-details-table.component';
-
 @NgModule({
   declarations: [
     QuotationDetailsTableComponent,
     EditingCommentModalComponent,
     EditingModalComponent,
+    EditingMaterialModalComponent,
     EditCaseModalComponent,
   ],
   imports: [
+    AutocompleteInputModule,
     CommonModule,
     AgGridModule,
     LetModule,

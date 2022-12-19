@@ -228,6 +228,10 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
     this.searchFormControl.setValue('');
   }
 
+  public focus(): void {
+    this.valueInput.nativeElement.focus();
+  }
+
   public trackByFn(index: number): number {
     return index;
   }

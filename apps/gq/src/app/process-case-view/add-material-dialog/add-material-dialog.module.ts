@@ -9,13 +9,16 @@ import { PushModule } from '@ngrx/component';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { AutocompleteInputModule } from '../../shared/components/autocomplete-input/autocomplete-input.module';
 import { AddEntryModule } from '../../shared/components/case-material/add-entry/add-entry.module';
 import { InputTableModule } from '../../shared/components/case-material/input-table/input-table.module';
+import { SharedDirectivesModule } from '../../shared/directives/shared-directives.module';
 import { AddMaterialDialogComponent } from './add-material-dialog.component';
 
 @NgModule({
   declarations: [AddMaterialDialogComponent],
   imports: [
+    AutocompleteInputModule,
     AddEntryModule,
     InputTableModule,
     MatCardModule,
@@ -25,6 +28,7 @@ import { AddMaterialDialogComponent } from './add-material-dialog.component';
     PushModule,
     SharedTranslocoModule,
     CommonModule,
+    SharedDirectivesModule,
   ],
   exports: [AddMaterialDialogComponent],
 })

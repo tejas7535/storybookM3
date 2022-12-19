@@ -402,6 +402,16 @@
       },
       "warning": "Please be aware this change is permanent and cannot be undone"
     },
+    "editingMaterialModal": {
+      "title": "Edit Item",
+      "cancel": "Cancel",
+      "update": "Update",
+      "quantity": {
+        "error": "Invalid quantity",
+        "hint": "Enter a quantity",
+        "label": "Quantity"
+      }
+    },
     "caseModal": {
       "title": "Case settings",
       "cancel": "Cancel",

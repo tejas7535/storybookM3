@@ -1,3 +1,4 @@
+import { AutocompleteRequestDialog } from '../../../../shared/components/autocomplete-input/autocomplete-request-dialog.enum';
 import { FilterNames } from '../../../../shared/components/autocomplete-input/filter-names.enum';
 import { AutocompleteSearch, IdValue } from '../../../../shared/models/search';
 import { ValidationDescription } from '../../../../shared/models/table';
@@ -35,8 +36,10 @@ import {
   resetCustomerFilter,
   resetPLsAndSeries,
   resetProductLineAndSeries,
+  resetRequestingAutoCompleteDialog,
   selectAutocompleteOption,
   selectSalesOrg,
+  setRequestingAutoCompleteDialog,
   setSelectedAutocompleteOption,
   setSelectedGpsdGroups,
   setSelectedProductLines,
@@ -106,6 +109,22 @@ describe('Create Actions', () => {
       expect(action).toEqual({
         filter,
         type: '[Create Case] Unselect Options for selected Autocomplete Option',
+      });
+    });
+    test('setRequestingAutoCompleteDialog', () => {
+      const dialog = AutocompleteRequestDialog.ADD_ENTRY;
+      const action = setRequestingAutoCompleteDialog({ dialog });
+
+      expect(action).toEqual({
+        dialog,
+        type: '[Create Case] Set Requesting autocomplete Dialog',
+      });
+    });
+    test('resetRequestingAutoCompleteDialog', () => {
+      const action = resetRequestingAutoCompleteDialog();
+
+      expect(action).toEqual({
+        type: '[Create Case] Reset Requesting autocomplete Dialog',
       });
     });
   });

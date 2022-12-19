@@ -1,5 +1,6 @@
 import { createSelector } from '@ngrx/store';
 
+import { AutocompleteRequestDialog } from '../../../../shared/components/autocomplete-input/autocomplete-request-dialog.enum';
 import { FilterNames } from '../../../../shared/components/autocomplete-input/filter-names.enum';
 import { IdValue } from '../../../../shared/models/search';
 import {
@@ -47,27 +48,42 @@ export const getCaseCustomer = createSelector(
   (state: CreateCaseState): CaseFilterItem =>
     state.autocompleteItems.find((it) => it.filter === FilterNames.CUSTOMER)
 );
-export const getCaseMaterialNumber = createSelector(
-  getCaseState,
-  (state: CreateCaseState): CaseFilterItem =>
-    state.autocompleteItems.find(
-      (it) => it.filter === FilterNames.MATERIAL_NUMBER
-    )
-);
 
-export const getCaseMaterialDesc = createSelector(
-  getCaseState,
-  (state: CreateCaseState): CaseFilterItem =>
-    state.autocompleteItems.find(
-      (it) => it.filter === FilterNames.MATERIAL_DESCRIPTION
-    )
-);
+export const getCaseMaterialNumber = (dialog: AutocompleteRequestDialog) =>
+  createSelector(getCaseState, (state: CreateCaseState): CaseFilterItem => {
+    if (!dialog || dialog === AutocompleteRequestDialog.EMPTY) {
+      return state.autocompleteItems.find(
+        (it) => it.filter === FilterNames.MATERIAL_NUMBER
+      );
+    }
 
-export const getCaseAutocompleteLoading = createSelector(
-  getCaseState,
-  (state: CreateCaseState, autocompleteItem: string): boolean =>
-    state.autocompleteLoading === autocompleteItem
-);
+    return state.requestingDialog === dialog
+      ? state.autocompleteItems.find(
+          (it) => it.filter === FilterNames.MATERIAL_NUMBER
+        )
+      : { filter: FilterNames.MATERIAL_NUMBER, options: [] };
+  });
+
+export const getCaseMaterialDesc = (dialog: AutocompleteRequestDialog) =>
+  createSelector(getCaseState, (state: CreateCaseState): CaseFilterItem => {
+    if (!dialog || dialog === AutocompleteRequestDialog.EMPTY) {
+      return state.autocompleteItems.find(
+        (it) => it.filter === FilterNames.MATERIAL_DESCRIPTION
+      );
+    }
+
+    return state.requestingDialog === dialog
+      ? state.autocompleteItems.find(
+          (it) => it.filter === FilterNames.MATERIAL_DESCRIPTION
+        )
+      : { filter: FilterNames.MATERIAL_DESCRIPTION, options: [] };
+  });
+
+export const getCaseAutocompleteLoading = (filter: FilterNames) =>
+  createSelector(
+    getCaseState,
+    (state: CreateCaseState): boolean => state.autocompleteLoading === filter
+  );
 export const getCaseRowData = createSelector(
   getCaseState,
   (state: CreateCaseState): MaterialTableItem[] => state.rowData

@@ -1,5 +1,6 @@
 import { createAction, props, union } from '@ngrx/store';
 
+import { AutocompleteRequestDialog } from '../../../../shared/components/autocomplete-input/autocomplete-request-dialog.enum';
 import { AutocompleteSearch, IdValue } from '../../../../shared/models/search';
 import {
   MaterialTableItem,
@@ -38,6 +39,15 @@ export const setSelectedAutocompleteOption = createAction(
 export const unselectAutocompleteOptions = createAction(
   '[Create Case] Unselect Options for selected Autocomplete Option',
   props<{ filter: string }>()
+);
+
+export const setRequestingAutoCompleteDialog = createAction(
+  '[Create Case] Set Requesting autocomplete Dialog',
+  props<{ dialog: AutocompleteRequestDialog }>()
+);
+
+export const resetRequestingAutoCompleteDialog = createAction(
+  '[Create Case] Reset Requesting autocomplete Dialog'
 );
 
 export const addRowDataItem = createAction(

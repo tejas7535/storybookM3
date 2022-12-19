@@ -58,8 +58,7 @@ export class CreateManualCaseComponent implements OnInit {
     this.createCaseLoading$ = this.store.select(getCreateCaseLoading);
     this.customer$ = this.store.select(getCaseCustomer);
     this.customerAutocompleteLoading$ = this.store.select(
-      getCaseAutocompleteLoading,
-      FilterNames.CUSTOMER
+      getCaseAutocompleteLoading(FilterNames.CUSTOMER)
     );
     this.rowData$ = this.store.select(getCaseRowData);
 

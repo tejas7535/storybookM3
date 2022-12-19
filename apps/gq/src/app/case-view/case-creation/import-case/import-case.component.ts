@@ -62,8 +62,7 @@ export class ImportCaseComponent implements OnInit {
     this.quotation$ = this.store.select(getCaseQuotation);
     this.createCaseLoading$ = this.store.select(getCreateCaseLoading);
     this.quotationAutocompleteLoading$ = this.store.select(
-      getCaseAutocompleteLoading,
-      FilterNames.SAP_QUOTATION
+      getCaseAutocompleteLoading(FilterNames.SAP_QUOTATION)
     );
 
     this.insightsService.logEvent(EVENT_NAMES.CASE_CREATION_STARTED, {

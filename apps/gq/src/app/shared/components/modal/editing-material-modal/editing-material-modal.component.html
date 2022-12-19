@@ -1,0 +1,106 @@
+<div
+  class="flex h-full flex-col"
+  *transloco="let t; read: 'shared.editingMaterialModal'"
+>
+  <gq-dialog-header [title]="t('title')" (closeDialog)="closeDialog()">
+  </gq-dialog-header>
+  <form [formGroup]="editFromGroup" class="mt-6 flex h-full flex-col">
+    <div class="flex flex-col">
+      <div class="flex flex-row gap-6">
+        <div
+          *ngIf="autoCompleteFacade.materialDesc$ | ngrxPush as materialDesc"
+          class="flex-1"
+        >
+          <gq-autocomplete-input
+            #materialDescInput
+            [filterName]="materialDesc.filter"
+            [options]="materialDesc.options"
+            [autocompleteLoading]="
+              autoCompleteFacade.materialDescAutocompleteLoading$ | ngrxPush
+            "
+            (autocomplete)="autoCompleteFacade.autocomplete($event)"
+            (inputContent)="materialHasInput($event)"
+            (isValid)="materialInputValid($event)"
+            (unselected)="
+              autoCompleteFacade.unselectOptions(materialDesc.filter)
+            "
+            (added)="
+              autoCompleteFacade.selectOption($event, materialDesc.filter)
+            "
+          ></gq-autocomplete-input>
+        </div>
+        <div
+          *ngIf="
+            autoCompleteFacade.materialNumber$ | ngrxPush as materialNumber
+          "
+          class="flex-1"
+        >
+          <gq-autocomplete-input
+            focus="true"
+            #materialNumberInput
+            [filterName]="materialNumber.filter"
+            [options]="materialNumber.options"
+            [autocompleteLoading]="
+              autoCompleteFacade.materialNumberAutocompleteLoading$ | ngrxPush
+            "
+            (isValid)="materialInputValid($event)"
+            (autocomplete)="autoCompleteFacade.autocomplete($event)"
+            (inputContent)="materialHasInput($event)"
+            (unselected)="
+              autoCompleteFacade.unselectOptions(materialNumber.filter)
+            "
+            (added)="
+              autoCompleteFacade.selectOption($event, materialNumber.filter)
+            "
+          ></gq-autocomplete-input>
+        </div>
+      </div>
+      <div>
+        <div>
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>
+              {{ t('quantity.label') }}
+            </mat-label>
+
+            <input
+              (change)="rowInputValid()"
+              (keydown)="rowInputValid()"
+              class="text-overline"
+              autocomplete="off"
+              matInput
+              #valueInput
+              min="1"
+              type="number"
+              formControlName="quantity"
+            />
+            <mat-hint>{{ t('quantity.hint') }}</mat-hint>
+            <mat-error
+              *ngIf="editFromGroup.get('quantity')?.errors?.required"
+              >{{ t('quantity.error') }}</mat-error
+            >
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="pt-8">
+    <button
+      class="!pl-4 !pr-4"
+      color="primary"
+      mat-raised-button
+      (click)="update()"
+      [disabled]="!addRowEnabled"
+    >
+      <span> {{ t('update') | uppercase }} </span>
+    </button>
+    <button
+      class="!ml-4 !pl-4 !pr-4"
+      color="primary"
+      (click)="closeDialog()"
+      mat-stroked-button
+    >
+      <span> {{ t('cancel') | uppercase }} </span>
+    </button>
+  </div>
+</div>

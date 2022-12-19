@@ -402,6 +402,16 @@
       "cancel": "Abbrechen",
       "warning": "Bitte beachten Sie, dass diese Änderung dauerhaft ist und nicht rückgängig gemacht werden kann."
     },
+    "editingMaterialModal": {
+      "title": "Item bearbeiten",
+      "cancel": "Abbrechen",
+      "update": "Aktualisieren",
+      "quantity": {
+        "error": "Invalide Menge",
+        "label": "Menge",
+        "hint": "Geben Sie die Menge ein"
+      }
+    },
     "caseModal": {
       "title": "Case Einstellungen",
       "cancel": "Abbrechen",

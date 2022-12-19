@@ -61,6 +61,13 @@ export enum CaseTableColumnFields {
   LAST_UPDATED = 'gqLastUpdated',
 }
 
+export enum MaterialColumnFields {
+  MATERIAL = 'materialNumber',
+  MATERIAL_DESCRIPTION = 'materialDescription',
+  QUANTITY = 'quantity',
+  INFO = 'info',
+}
+
 export const PriceColumns = [
   ColumnFields.PRICE,
   ColumnFields.NET_VALUE,

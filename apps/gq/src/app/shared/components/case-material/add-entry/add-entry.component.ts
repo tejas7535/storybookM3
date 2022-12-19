@@ -18,6 +18,8 @@ import {
   getCaseAutocompleteLoading,
   getCaseMaterialDesc,
   getCaseMaterialNumber,
+  resetRequestingAutoCompleteDialog,
+  setRequestingAutoCompleteDialog,
   setSelectedAutocompleteOption,
   unselectAutocompleteOptions,
 } from '../../../../core/store';
@@ -29,6 +31,7 @@ import { ValidationDescription } from '../../../models/table/validation-descript
 import { HelperService } from '../../../services/helper-service/helper-service.service';
 import { PasteMaterialsService } from '../../../services/paste-materials-service/paste-materials.service';
 import { AutocompleteInputComponent } from '../../autocomplete-input/autocomplete-input.component';
+import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete-request-dialog.enum';
 import { FilterNames } from '../../autocomplete-input/filter-names.enum';
 
 @Component({
@@ -64,15 +67,22 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this.materialNumber$ = this.store.select(getCaseMaterialNumber);
-    this.materialDesc$ = this.store.select(getCaseMaterialDesc);
-    this.materialNumberAutocompleteLoading$ = this.store.select(
-      getCaseAutocompleteLoading,
-      FilterNames.MATERIAL_NUMBER
+    this.store.dispatch(
+      setRequestingAutoCompleteDialog({
+        dialog: AutocompleteRequestDialog.ADD_ENTRY,
+      })
+    );
+    this.materialNumber$ = this.store.select(
+      getCaseMaterialNumber(AutocompleteRequestDialog.ADD_ENTRY)
+    );
+    this.materialDesc$ = this.store.select(
+      getCaseMaterialDesc(AutocompleteRequestDialog.ADD_ENTRY)
     );
     this.materialNumberAutocompleteLoading$ = this.store.select(
-      getCaseAutocompleteLoading,
-      FilterNames.MATERIAL_DESCRIPTION
+      getCaseAutocompleteLoading(FilterNames.MATERIAL_NUMBER)
+    );
+    this.materialNumberAutocompleteLoading$ = this.store.select(
+      getCaseAutocompleteLoading(FilterNames.MATERIAL_DESCRIPTION)
     );
     this.addSubscriptions();
   }
@@ -95,6 +105,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    this.store.dispatch(resetRequestingAutoCompleteDialog());
   }
 
   autocomplete(autocompleteSearch: AutocompleteSearch): void {

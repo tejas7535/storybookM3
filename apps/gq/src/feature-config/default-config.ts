@@ -1,7 +1,9 @@
 export const DEFAULT_CONFIG: GqFeatureToggleConfig = {
-  customViews: true,
+  customViews: false,
+  showEditMaterialButton: false,
 };
 
 export interface GqFeatureToggleConfig {
   customViews: boolean;
+  showEditMaterialButton: boolean;
 }

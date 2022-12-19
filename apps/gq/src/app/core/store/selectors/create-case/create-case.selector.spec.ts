@@ -1,3 +1,4 @@
+import { AutocompleteRequestDialog } from '../../../../shared/components/autocomplete-input/autocomplete-request-dialog.enum';
 import { FilterNames } from '../../../../shared/components/autocomplete-input/filter-names.enum';
 import { IdValue } from '../../../../shared/models/search';
 import { ValidationDescription } from '../../../../shared/models/table';
@@ -57,12 +58,22 @@ describe('Create Case Selector', () => {
   describe('getCaseMaterialDesc', () => {
     test('should return materialdescription', () => {
       expect(
-        createSelectors.getCaseMaterialDesc.projector(fakeState.case)
+        createSelectors
+          .getCaseMaterialDesc(AutocompleteRequestDialog.EMPTY)
+          .projector(fakeState.case)
       ).toEqual(
         fakeState.case.autocompleteItems.find(
           (elm) => elm.filter === FilterNames.MATERIAL_DESCRIPTION
         )
       );
+    });
+
+    test('should return empty options', () => {
+      expect(
+        createSelectors
+          .getCaseMaterialDesc(AutocompleteRequestDialog.ADD_ENTRY)
+          .projector(fakeState.case)
+      ).toEqual({ filter: FilterNames.MATERIAL_DESCRIPTION, options: [] });
     });
   });
   describe('getSelectedQuotation', () => {
@@ -81,15 +92,25 @@ describe('Create Case Selector', () => {
       );
     });
   });
-  describe('getmaterialNumber', () => {
-    test('should return material number', () => {
+  describe('getMaterialNumber', () => {
+    test('should return material numbers', () => {
       expect(
-        createSelectors.getCaseMaterialNumber.projector(fakeState.case)
+        createSelectors
+          .getCaseMaterialNumber(AutocompleteRequestDialog.EMPTY)
+          .projector(fakeState.case)
       ).toEqual(
         fakeState.case.autocompleteItems.find(
           (elm) => elm.filter === FilterNames.MATERIAL_NUMBER
         )
       );
+    });
+
+    test('should return empty options', () => {
+      expect(
+        createSelectors
+          .getCaseMaterialNumber(AutocompleteRequestDialog.ADD_ENTRY)
+          .projector(fakeState.case)
+      ).toEqual({ filter: FilterNames.MATERIAL_NUMBER, options: [] });
     });
   });
 
@@ -104,10 +125,9 @@ describe('Create Case Selector', () => {
   describe('getAutocompleteLoading', () => {
     test('should return true if autocomplete is currently loading', () => {
       expect(
-        createSelectors.getCaseAutocompleteLoading.projector(
-          fakeState.case,
-          'customer'
-        )
+        createSelectors
+          .getCaseAutocompleteLoading(FilterNames.CUSTOMER)
+          .projector(fakeState.case)
       ).toBeTruthy();
     });
   });

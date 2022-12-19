@@ -314,6 +314,18 @@ describe('AutocompleteInputComponent', () => {
       expect(component.searchFormControl.setValue).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe('focus', () => {
+    test('should focus', () => {
+      component.valueInput = {
+        nativeElement: { value: 'test', focus: jest.fn() },
+      } as unknown as any;
+
+      jest.spyOn(component.valueInput.nativeElement, 'focus');
+      component.focus();
+      expect(component.valueInput.nativeElement.focus).toHaveBeenCalled();
+    });
+  });
   describe('trackByFn()', () => {
     test('should return the loop index to track usersArray', () => {
       const indexNum = 1337;

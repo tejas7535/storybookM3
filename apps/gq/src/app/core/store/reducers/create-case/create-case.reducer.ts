@@ -1,5 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
+import { AutocompleteRequestDialog } from '../../../../shared/components/autocomplete-input/autocomplete-request-dialog.enum';
 import { FilterNames } from '../../../../shared/components/autocomplete-input/filter-names.enum';
 import { IdValue } from '../../../../shared/models/search';
 import {
@@ -35,8 +36,10 @@ import {
   resetCustomerFilter,
   resetPLsAndSeries,
   resetProductLineAndSeries,
+  resetRequestingAutoCompleteDialog,
   selectAutocompleteOption,
   selectSalesOrg,
+  setRequestingAutoCompleteDialog,
   setSelectedAutocompleteOption,
   setSelectedGpsdGroups,
   setSelectedProductLines,
@@ -49,12 +52,13 @@ import { SalesIndication } from '../transactions/models/sales-indication.enum';
 import { CreateCaseResponse, SalesOrg } from './models';
 import { CaseFilterItem } from './models/case-filter-item.model';
 import { PLsAndSeries } from './models/pls-and-series.model';
-
+// TODO: select requestedDialog
 /* eslint-disable max-lines */
 export interface CreateCaseState {
   autocompleteLoading: string;
   autocompleteItems: CaseFilterItem[];
   autoSelectMaterial: CaseFilterItem;
+  requestingDialog: AutocompleteRequestDialog;
   customer: {
     customerId: string;
     salesOrgsLoading: boolean;
@@ -80,6 +84,7 @@ export interface CreateCaseState {
 export const initialState: CreateCaseState = {
   autocompleteLoading: undefined,
   autoSelectMaterial: undefined,
+  requestingDialog: AutocompleteRequestDialog.EMPTY,
   autocompleteItems: [
     {
       filter: FilterNames.SAP_QUOTATION,
@@ -147,6 +152,7 @@ export const createCaseReducer = createReducer(
     (state: CreateCaseState, { options, filter }): CreateCaseState => ({
       ...state,
       autocompleteLoading: initialState.autocompleteLoading,
+      // TODO: map the only option
       autoSelectMaterial: isOnlyOptionForMaterial(options, filter)
         ? { options, filter }
         : undefined,
@@ -275,6 +281,20 @@ export const createCaseReducer = createReducer(
     (state: CreateCaseState): CreateCaseState => ({
       ...state,
       autocompleteItems: initialState.autocompleteItems,
+    })
+  ),
+  on(
+    setRequestingAutoCompleteDialog,
+    (state: CreateCaseState, { dialog }): CreateCaseState => ({
+      ...state,
+      requestingDialog: dialog,
+    })
+  ),
+  on(
+    resetRequestingAutoCompleteDialog,
+    (state: CreateCaseState): CreateCaseState => ({
+      ...state,
+      requestingDialog: AutocompleteRequestDialog.EMPTY,
     })
   ),
   on(addRowDataItem, (state: CreateCaseState, { items }) => ({

@@ -79,8 +79,7 @@ export class CreateCustomerCaseComponent implements OnInit {
   ngOnInit(): void {
     this.customer$ = this.store.select(getCaseCustomer);
     this.customerAutocompleteLoading$ = this.store.select(
-      getCaseAutocompleteLoading,
-      FilterNames.CUSTOMER
+      getCaseAutocompleteLoading(FilterNames.CUSTOMER)
     );
     this.selectedSalesOrg$ = this.store.select(getSelectedSalesOrg);
     this.selectedCustomerId$ = this.store.select(getSelectedCustomerId);

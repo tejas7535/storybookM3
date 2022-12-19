@@ -12,6 +12,13 @@
     class="flex h-full flex-col"
     *ngIf="!(updateLoading$ | ngrxPush); else loading"
   >
+    <button
+      *featureToggle="'showEditMaterialButton'"
+      mat-flat-button
+      (click)="onOpenMaterialEditDialog()"
+    >
+      showDialogEditMat
+    </button>
     <gq-add-entry></gq-add-entry>
     <div class="h-full" *ngIf="rowData$ | ngrxPush as rowData">
       <gq-material-input-table [rowData]="rowData"></gq-material-input-table>

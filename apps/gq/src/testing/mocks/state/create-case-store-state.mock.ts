@@ -1,9 +1,11 @@
 import { CreateCaseState } from '../../../app/core/store/reducers/create-case/create-case.reducer';
+import { AutocompleteRequestDialog } from '../../../app/shared/components/autocomplete-input/autocomplete-request-dialog.enum';
 
 export const CREATE_CASE_STORE_STATE_MOCK: CreateCaseState = {
   autocompleteLoading: undefined,
   autoSelectMaterial: undefined,
   autocompleteItems: [],
+  requestingDialog: AutocompleteRequestDialog.ADD_ENTRY,
   customer: {
     customerId: undefined,
     salesOrgs: undefined,
