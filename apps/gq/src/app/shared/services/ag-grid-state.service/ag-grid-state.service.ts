@@ -169,8 +169,6 @@ export class AgGridStateService {
         },
       ],
     });
-
-    this.setActiveView(id);
   }
 
   public createViewFromScratch(title: string) {
