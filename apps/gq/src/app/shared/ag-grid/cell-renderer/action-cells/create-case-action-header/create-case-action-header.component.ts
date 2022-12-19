@@ -13,7 +13,7 @@ import { deleteRowDataItem } from '../../../../../core/store/actions';
 import { MaterialTableItem } from '../../../../models/table';
 
 @Component({
-  selector: 'gq-prcoess-case-action-header',
+  selector: 'gq-process-case-action-header',
   templateUrl: './create-case-action-header.component.html',
 })
 export class CreateCaseActionHeaderComponent {

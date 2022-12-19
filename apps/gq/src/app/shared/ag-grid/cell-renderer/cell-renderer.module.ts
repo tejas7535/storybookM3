@@ -15,6 +15,7 @@ import { CreateCaseActionCellComponent } from './action-cells/create-case-action
 import { CreateCaseActionHeaderComponent } from './action-cells/create-case-action-header/create-case-action-header.component';
 import { ProcessCaseActionCellComponent } from './action-cells/process-case-action-cell/process-case-action-cell.component';
 import { ProcessCaseActionHeaderComponent } from './action-cells/process-case-action-header/process-case-action-header.component';
+import { EditCaseMaterialComponent } from './edit-cells/edit-case-material/edit-case-material.component';
 import { EditCellComponent } from './edit-cells/edit-cell/edit-cell.component';
 import { EditCommentComponent } from './edit-cells/edit-comment/edit-comment.component';
 import { FreeStockCellComponent } from './free-stock/free-stock-cell/free-stock-cell.component';
@@ -50,6 +51,7 @@ import { SapStatusCellComponent } from './sap-sync-status-cell/sap-sync-status-c
     PushModule,
     FreeStockTrafficLightComponent,
     SharedTranslocoModule,
+    EditCaseMaterialComponent,
   ],
   exports: [
     ProcessCaseActionCellComponent,

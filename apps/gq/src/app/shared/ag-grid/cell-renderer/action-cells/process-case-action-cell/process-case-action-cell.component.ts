@@ -6,7 +6,7 @@ import { CellClassParams } from 'ag-grid-community';
 import { deleteAddMaterialRowDataItem } from '../../../../../core/store/actions';
 
 @Component({
-  selector: 'gq-prcoess-case-action-cell',
+  selector: 'gq-process-case-action-cell',
   templateUrl: './process-case-action-cell.component.html',
 })
 export class ProcessCaseActionCellComponent {

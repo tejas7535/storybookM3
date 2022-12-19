@@ -1,4 +1,4 @@
-<div class="flex h-full items-center justify-start">
+<div class="flex h-full items-center justify-start !text-[16px]">
   <mat-icon
     *ngIf="valid"
     class="!flex items-center justify-center !text-[16px] text-link"
@@ -7,14 +7,14 @@
   >
   <mat-icon
     *ngIf="isLoading && !valid"
-    class="text-low-emphasisPrimary"
+    class="!flex items-center justify-center !text-[16px] text-medium-emphasis"
     [matTooltip]="toolTipText"
-    >publish</mat-icon
+    >sync</mat-icon
   >
   <mat-icon
     *ngIf="!isLoading && !valid"
-    class="text-error"
+    class="!flex items-center justify-center !text-[16px] text-error"
     [matTooltip]="toolTipText"
-    >warning</mat-icon
+    >warning_amber</mat-icon
   >
 </div>

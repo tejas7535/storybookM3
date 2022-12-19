@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { translate } from '@ngneat/transloco';
 import { ColDef } from 'ag-grid-enterprise';
 
+import { EditCaseMaterialComponent } from '../../../../ag-grid/cell-renderer/edit-cells/edit-case-material/edit-case-material.component';
 import { ColumnUtilityService } from '../../../../ag-grid/services/column-utility.service';
 
 @Injectable({
@@ -12,33 +13,36 @@ export class InputTableColumnDefService {
   constructor(private readonly columnUtilityService: ColumnUtilityService) {}
   BASE_COLUMN_DEFS: ColDef[] = [
     {
+      headerName: translate('shared.caseMaterial.table.info.title'),
+      field: 'info',
+      cellRenderer: 'infoCellComponent',
+      flex: 0.1,
+      sortable: true,
+      comparator: ColumnUtilityService.infoComparator,
+    },
+    {
       headerName: translate('shared.caseMaterial.table.materialDescription'),
       field: 'materialDescription',
       flex: 0.3,
       sortable: true,
+      cellRenderer: EditCaseMaterialComponent,
     },
     {
       headerName: translate('shared.caseMaterial.table.materialNumber'),
       field: 'materialNumber',
       flex: 0.3,
       sortable: true,
+      cellRenderer: EditCaseMaterialComponent,
       valueFormatter: ColumnUtilityService.materialTransform,
     },
     {
       headerName: translate('shared.caseMaterial.table.quantity'),
       field: 'quantity',
-      flex: 0.15,
+      flex: 0.2,
       sortable: true,
+      cellRenderer: EditCaseMaterialComponent,
       valueFormatter: (params) =>
         this.columnUtilityService.numberFormatter(params),
-    },
-    {
-      headerName: translate('shared.caseMaterial.table.info.title'),
-      field: 'info',
-      cellRenderer: 'infoCellComponent',
-      flex: 0.15,
-      sortable: true,
-      comparator: ColumnUtilityService.infoComparator,
     },
   ];
 }
