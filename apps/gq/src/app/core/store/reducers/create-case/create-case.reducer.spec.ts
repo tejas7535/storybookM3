@@ -41,6 +41,7 @@ import {
   setSelectedProductLines,
   setSelectedSeries,
   unselectAutocompleteOptions,
+  updateRowDataItem,
   validateFailure,
   validateSuccess,
 } from '../../actions';
@@ -321,6 +322,7 @@ describe('Create Case Reducer', () => {
       test('should addItem to Row Data', () => {
         const fakeData = [
           {
+            id: 0,
             materialNumber: '123',
             quantity: 10,
             info: { valid: true, description: [ValidationDescription.Valid] },
@@ -328,6 +330,7 @@ describe('Create Case Reducer', () => {
         ];
         const items = [
           {
+            id: 1,
             materialNumber: '1234',
             quantity: 105,
             info: { valid: true, description: [ValidationDescription.Valid] },
@@ -349,6 +352,7 @@ describe('Create Case Reducer', () => {
       test('should paste items in table', () => {
         const fakeData: MaterialTableItem[] = [
           {
+            id: 0,
             materialNumber: '123',
             quantity: 10,
             info: {
@@ -359,6 +363,7 @@ describe('Create Case Reducer', () => {
         ];
         const items: MaterialTableItem[] = [
           {
+            id: 1,
             materialNumber: '1',
             quantity: 10,
             info: {
@@ -367,6 +372,7 @@ describe('Create Case Reducer', () => {
             },
           },
           {
+            id: 2,
             materialNumber: '12',
             quantity: 10,
             info: {
@@ -384,6 +390,47 @@ describe('Create Case Reducer', () => {
 
         const state = createCaseReducer(fakeState, action);
         expect(state.rowData).toEqual([...fakeData, ...items]);
+      });
+    });
+    describe('updateRowDataItem', () => {
+      test('should update item', () => {
+        const mockedRowData: MaterialTableItem[] = [
+          {
+            id: 0,
+            materialDescription: 'desc',
+            materialNumber: 'matNumber',
+            quantity: 1,
+            info: {
+              valid: false,
+              description: [ValidationDescription.QuantityInValid],
+            },
+          },
+          {
+            id: 1,
+            materialDescription: 'desc',
+            materialNumber: 'matNumber',
+            quantity: 1,
+            info: { valid: true, description: [ValidationDescription.Valid] },
+          },
+        ];
+
+        const item: MaterialTableItem = {
+          id: 0,
+          materialDescription: 'descUpdated',
+          materialNumber: 'matNumberUpdated',
+          quantity: 2,
+          info: { valid: true, description: [ValidationDescription.Valid] },
+        };
+
+        const fakeState: CreateCaseState = {
+          ...CREATE_CASE_STORE_STATE_MOCK,
+          rowData: mockedRowData,
+        };
+
+        const action = updateRowDataItem({ item });
+        const state = createCaseReducer(fakeState, action);
+
+        expect(state.rowData).toEqual([item, mockedRowData[1]]);
       });
     });
     describe('clearRowData', () => {

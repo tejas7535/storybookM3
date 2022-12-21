@@ -12,10 +12,12 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { AutoCompleteFacade } from '../../../../../app/core/store';
 import { MaterialColumnFields } from '../../../ag-grid/constants/column-fields.enum';
-import { MaterialTableItem } from '../../../models/table';
+import {
+  MaterialTableItem,
+  ValidationDescription,
+} from '../../../models/table';
 import { AutocompleteInputComponent } from '../../autocomplete-input/autocomplete-input.component';
 import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete-request-dialog.enum';
-import { FilterNames } from '../../autocomplete-input/filter-names.enum';
 
 @Component({
   selector: 'gq-editing-material-modal',
@@ -25,7 +27,7 @@ export class EditingMaterialModalComponent implements OnInit, AfterViewInit {
   public editFromGroup: FormGroup;
   public fields: MaterialColumnFields;
 
-  private materialToEdit: MaterialTableItem;
+  private readonly materialToEdit: MaterialTableItem;
   private readonly fieldToFocus: MaterialColumnFields;
 
   @ViewChild('materialNumberInput')
@@ -67,11 +69,15 @@ export class EditingMaterialModalComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.editFromGroup.get('quantity').setValue(this.materialToEdit.quantity);
-    this.autoCompleteFacade.autocomplete({
-      filter: FilterNames.MATERIAL_NUMBER,
-      searchFor: this.materialToEdit.materialNumber,
-    });
+    this.editFromGroup
+      .get(MaterialColumnFields.QUANTITY)
+      .setValue(this.materialToEdit.quantity);
+    this.matDescInput.searchFormControl.setValue(
+      this.materialToEdit.materialDescription
+    );
+    this.matNumberInput.searchFormControl.setValue(
+      this.materialToEdit.materialNumber
+    );
 
     if (!this.fieldToFocus) {
       return;
@@ -90,6 +96,7 @@ export class EditingMaterialModalComponent implements OnInit, AfterViewInit {
       default:
         break;
     }
+
     this.cdref.detectChanges();
   }
 
@@ -119,13 +126,16 @@ export class EditingMaterialModalComponent implements OnInit, AfterViewInit {
    * edit the material to update data and return MaterialTableItem as DialogResult
    */
   update(): void {
-    // get the data from controls
-    this.materialToEdit.materialDescription =
-      this.matDescInput.valueInput.nativeElement.value;
-    this.materialToEdit.materialNumber =
-      this.matNumberInput.valueInput.nativeElement.value;
-    this.materialToEdit.quantity = this.editFromGroup.get('quantity').value;
     this.autoCompleteFacade.resetView();
-    this.dialogRef.close(this.materialToEdit);
+
+    const updatedMaterial: MaterialTableItem = {
+      materialDescription: this.matDescInput.valueInput.nativeElement.value,
+      materialNumber: this.matNumberInput.valueInput.nativeElement.value,
+      quantity: this.editFromGroup.get('quantity')?.value,
+      id: this.modalData.material.id,
+      info: { valid: true, description: [ValidationDescription.Valid] },
+    };
+
+    this.dialogRef.close(updatedMaterial);
   }
 }

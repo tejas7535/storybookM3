@@ -60,6 +60,11 @@ export const pasteRowDataItems = createAction(
   props<{ items: MaterialTableItem[] }>()
 );
 
+export const updateRowDataItem = createAction(
+  '[Create Case] Update Item from Customer Table',
+  props<{ item: MaterialTableItem }>()
+);
+
 export const clearCreateCaseRowData = createAction(
   '[Create Case] Clear RowData'
 );

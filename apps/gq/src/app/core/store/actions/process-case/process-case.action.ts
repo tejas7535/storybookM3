@@ -88,6 +88,10 @@ export const addMaterialRowDataItem = createAction(
   props<{ items: MaterialTableItem[] }>()
 );
 
+export const updateMaterialRowDataItem = createAction(
+  '[Process Case] Update Item from Material Table',
+  props<{ item: MaterialTableItem }>()
+);
 export const deleteAddMaterialRowDataItem = createAction(
   '[Process Case] Delete Item from Material Table',
   props<{ materialNumber: string; quantity: number }>()

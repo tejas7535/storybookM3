@@ -40,6 +40,7 @@ import {
   selectQuotation,
   selectQuotationDetail,
   setSelectedQuotationDetail,
+  updateMaterialRowDataItem,
   updateQuotation,
   updateQuotationDetails,
   updateQuotationDetailsFailure,
@@ -311,6 +312,16 @@ export const processCaseReducer = createReducer(
       },
     })
   ),
+  on(updateMaterialRowDataItem, (state: ProcessCaseState, { item }) => ({
+    ...state,
+    addMaterials: {
+      ...state.addMaterials,
+      addMaterialRowData: TableService.updateItem(
+        item,
+        state.addMaterials.addMaterialRowData
+      ),
+    },
+  })),
   on(
     deleteAddMaterialRowDataItem,
     (

@@ -45,6 +45,7 @@ import {
   setSelectedProductLines,
   setSelectedSeries,
   unselectAutocompleteOptions,
+  updateRowDataItem,
   validateFailure,
   validateSuccess,
 } from '../../actions';
@@ -299,15 +300,16 @@ export const createCaseReducer = createReducer(
   ),
   on(addRowDataItem, (state: CreateCaseState, { items }) => ({
     ...state,
-    rowData: [
-      ...state.rowData,
-      ...TableService.removeDashesFromTableItems(items),
-    ],
+    rowData: TableService.pasteItems(items, state.rowData),
   })),
   on(pasteRowDataItems, (state: CreateCaseState, { items }) => ({
     ...state,
     rowData: TableService.pasteItems(items, [...state.rowData]),
     validationLoading: true,
+  })),
+  on(updateRowDataItem, (state: CreateCaseState, { item }) => ({
+    ...state,
+    rowData: TableService.updateItem(item, state.rowData),
   })),
   on(
     clearCreateCaseRowData,

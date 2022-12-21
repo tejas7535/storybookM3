@@ -15,31 +15,43 @@ export class TableService {
     items: MaterialTableItem[],
     currentRowData: MaterialTableItem[]
   ): MaterialTableItem[] {
-    let updatedRowData = [];
-
     // remove '-' from all items
     const transformedItems = items.map((item) => ({
       ...item,
-      materialNumber: item.materialNumber.replace(/-/g, ''),
+      materialNumber: TableService.removeDashes(
+        item.materialNumber.replace(/-/g, '')
+      ),
     }));
 
-    //
-    const index = currentRowData.length - 1;
+    const combinedData = [...currentRowData, ...transformedItems]
+      // remove duplicates
+      .filter(
+        (item, pos, self) =>
+          self.findIndex(
+            (of) =>
+              of.materialNumber === item.materialNumber &&
+              of.quantity === item.quantity
+          ) === pos
+      )
+      // add index
+      .map((el, i) => ({
+        ...el,
+        id: i,
+      }));
 
-    updatedRowData =
-      index >= 0 ? [...currentRowData, ...transformedItems] : transformedItems;
+    return combinedData;
+  }
+  static updateItem(
+    item: MaterialTableItem,
+    data: MaterialTableItem[]
+  ): MaterialTableItem[] {
+    return data.map((d) => {
+      if (d.id === item.id) {
+        return item;
+      }
 
-    // Remove duplicates
-    const res = updatedRowData.filter(
-      (item, pos, self) =>
-        self.findIndex(
-          (of) =>
-            of.materialNumber === item.materialNumber &&
-            of.quantity === item.quantity
-        ) === pos
-    );
-
-    return res;
+      return d;
+    });
   }
 
   static deleteItem(

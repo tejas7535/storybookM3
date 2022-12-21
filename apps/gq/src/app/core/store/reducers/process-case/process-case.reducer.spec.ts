@@ -16,6 +16,7 @@ import {
 import {
   MaterialTableItem,
   MaterialValidation,
+  ValidationDescription,
 } from '../../../../shared/models/table';
 import {
   addMaterialRowDataItem,
@@ -47,6 +48,7 @@ import {
   selectQuotation,
   selectQuotationDetail,
   setSelectedQuotationDetail,
+  updateMaterialRowDataItem,
   updateQuotation,
   updateQuotationDetails,
   updateQuotationDetailsFailure,
@@ -63,6 +65,7 @@ import { QuotationIdentifier } from './models';
 import {
   initialState,
   processCaseReducer,
+  ProcessCaseState,
   reducer,
 } from './process-case.reducer';
 
@@ -368,7 +371,52 @@ describe('Quotation Reducer', () => {
         });
       });
     });
+    describe('updateMaterialRowDataItem', () => {
+      test('should update item', () => {
+        const mockedRowData: MaterialTableItem[] = [
+          {
+            id: 0,
+            materialDescription: 'desc',
+            materialNumber: 'matNumber',
+            quantity: 1,
+            info: {
+              valid: false,
+              description: [ValidationDescription.QuantityInValid],
+            },
+          },
+          {
+            id: 1,
+            materialDescription: 'desc',
+            materialNumber: 'matNumber',
+            quantity: 1,
+            info: { valid: true, description: [ValidationDescription.Valid] },
+          },
+        ];
 
+        const item: MaterialTableItem = {
+          id: 0,
+          materialDescription: 'descUpdated',
+          materialNumber: 'matNumberUpdated',
+          quantity: 2,
+          info: { valid: true, description: [ValidationDescription.Valid] },
+        };
+
+        const fakeState: ProcessCaseState = {
+          ...PROCESS_CASE_STATE_MOCK,
+          addMaterials: {
+            ...PROCESS_CASE_STATE_MOCK.addMaterials,
+            addMaterialRowData: mockedRowData,
+          },
+        };
+        const action = updateMaterialRowDataItem({ item });
+        const state = processCaseReducer(fakeState, action);
+
+        expect(state.addMaterials.addMaterialRowData).toEqual([
+          item,
+          mockedRowData[1],
+        ]);
+      });
+    });
     describe('deleteAddMaterialRowDataItem', () => {
       test('should delete AddMaterialRowDataItem', () => {
         const materialNumber = '123465';

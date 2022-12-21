@@ -1,3 +1,4 @@
+import { MATERIAL_TABLE_ITEM_MOCK } from '../../../../testing/mocks';
 import {
   MaterialQuantities,
   MaterialTableItem,
@@ -24,9 +25,9 @@ describe('TableService', () => {
       const result = TableService.pasteItems(items, currentRowData);
 
       expect(result).toEqual([
-        { quantity: 100, materialNumber: '23457' },
-        { quantity: 10, materialNumber: '1234' },
-        { quantity: 120, materialNumber: '76543' },
+        { id: 0, quantity: 100, materialNumber: '23457' },
+        { id: 1, quantity: 10, materialNumber: '1234' },
+        { id: 2, quantity: 120, materialNumber: '76543' },
       ]);
     });
 
@@ -40,7 +41,22 @@ describe('TableService', () => {
 
       const result = TableService.pasteItems(items, currentRowData);
 
-      expect(result).toEqual([{ quantity: 100, materialNumber: '1234' }]);
+      expect(result).toEqual([
+        { id: 0, quantity: 100, materialNumber: '1234' },
+      ]);
+    });
+  });
+
+  describe('updateItem', () => {
+    test('should update matching item in data array', () => {
+      const data: MaterialTableItem[] = [
+        MATERIAL_TABLE_ITEM_MOCK,
+        { ...MATERIAL_TABLE_ITEM_MOCK, id: 2 },
+      ];
+      const newItem = { id: 1, materialDescription: 'new' };
+      const result = TableService.updateItem(newItem, data);
+
+      expect(result).toEqual([newItem, data[1]]);
     });
   });
 

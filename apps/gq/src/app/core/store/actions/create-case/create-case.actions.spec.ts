@@ -45,6 +45,7 @@ import {
   setSelectedProductLines,
   setSelectedSeries,
   unselectAutocompleteOptions,
+  updateRowDataItem,
 } from './create-case.actions';
 
 describe('Create Actions', () => {
@@ -161,7 +162,19 @@ describe('Create Actions', () => {
         type: '[Create Case] Paste new Items to Customer Table',
       });
     });
+    test('updateRowDataItem', () => {
+      const item = {
+        materialNumber: '1234',
+        quantity: 105,
+        info: { valid: true, description: [ValidationDescription.Valid] },
+      };
+      const action = updateRowDataItem({ item });
 
+      expect(action).toEqual({
+        item,
+        type: '[Create Case] Update Item from Customer Table',
+      });
+    });
     test('clearRowData', () => {
       const action = clearCreateCaseRowData();
 
