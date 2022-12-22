@@ -11,7 +11,7 @@ import { ViewToggleComponent } from './view-toggle.component';
 describe('ViewToggleComponent', () => {
   let component: ViewToggleComponent;
   let spectator: Spectator<ViewToggleComponent>;
-  const view: ViewToggle = { id: 0, title: 'test title' };
+  const view: ViewToggle = { id: 0, title: 'test title', active: true };
 
   const createComponent = createComponentFactory({
     component: ViewToggleComponent,

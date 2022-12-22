@@ -88,9 +88,11 @@ describe('View Cases Selector', () => {
         {
           id: QuotationStatus.ACTIVE,
           title: 'translate it',
+          active: true,
         },
         {
           id: QuotationStatus.INACTIVE,
+          active: false,
           title: 'translate it',
           disabled: false,
         },
@@ -113,10 +115,12 @@ describe('View Cases Selector', () => {
       const expectedViewToggles: ViewToggle[] = [
         {
           id: QuotationStatus.ACTIVE,
+          active: true,
           title: 'translate it',
         },
         {
           id: QuotationStatus.INACTIVE,
+          active: false,
           title: 'translate it',
           disabled: true,
         },

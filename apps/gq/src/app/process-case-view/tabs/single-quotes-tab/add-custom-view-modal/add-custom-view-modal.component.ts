@@ -1,4 +1,12 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -11,10 +19,13 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   selector: 'gq-add-view-modal',
   templateUrl: './add-custom-view-modal.component.html',
 })
-export class AddCustomViewModalComponent implements OnInit {
+export class AddCustomViewModalComponent implements OnInit, AfterViewInit {
   NAME_MAX_LENGTH = 30;
 
   formGroup: FormGroup;
+
+  @ViewChild('nameInput', { static: false, read: ElementRef })
+  nameInput: ElementRef;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -24,7 +35,8 @@ export class AddCustomViewModalComponent implements OnInit {
       name?: string;
     },
     private readonly dialogRef: MatDialogRef<AddCustomViewModalComponent>,
-    private readonly formBuilder: FormBuilder
+    private readonly formBuilder: FormBuilder,
+    private readonly cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -38,6 +50,11 @@ export class AddCustomViewModalComponent implements OnInit {
     if (this.modalData.createNewView) {
       this.formGroup.addControl('createFromDefault', new FormControl(true, []));
     }
+  }
+
+  ngAfterViewInit(): void {
+    this.nameInput.nativeElement.focus();
+    this.cdr.detectChanges();
   }
 
   closeDialog(): void {

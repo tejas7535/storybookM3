@@ -46,12 +46,14 @@ export const getViewToggles = createSelector(
   (state: ViewCasesState): ViewToggle[] => [
     {
       id: QuotationStatus.ACTIVE,
+      active: state.quotations.displayStatus === QuotationStatus.ACTIVE,
       title: translate('caseView.caseTable.viewToggle.openCases', {
         variable: state.quotations.active.count,
       }),
     },
     {
       id: QuotationStatus.INACTIVE,
+      active: state.quotations.displayStatus === QuotationStatus.INACTIVE,
       title: translate('caseView.caseTable.viewToggle.deletedDrafts', {
         variable: state.quotations.inactive.count,
       }),

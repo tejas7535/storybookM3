@@ -41,6 +41,7 @@ const views: ViewToggle[] = [
   {
     id: 0,
     title: 'view1',
+    active: true,
     icons: [
       {
         name: 'edit',
@@ -56,6 +57,7 @@ const views: ViewToggle[] = [
   {
     id: 1,
     title: 'view2',
+    active: false,
     disabled: true,
     icons: [
       {
@@ -71,6 +73,7 @@ const views: ViewToggle[] = [
   {
     id: 2,
     title: 'view3',
+    active: false,
     icons: [
       {
         name: 'lock',
@@ -84,9 +87,11 @@ const views: ViewToggle[] = [
   {
     id: 3,
     title: 'view4',
+    active: false,
   },
   {
     id: 4,
+    active: false,
     icons: [
       {
         name: 'lock',
@@ -98,6 +103,7 @@ const views: ViewToggle[] = [
   },
   {
     id: 5,
+    active: false,
     icons: [
       {
         name: 'add',

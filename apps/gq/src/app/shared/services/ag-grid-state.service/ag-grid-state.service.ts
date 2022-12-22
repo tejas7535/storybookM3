@@ -124,12 +124,14 @@ export class AgGridStateService {
   public setActiveView(customViewId: number) {
     this.activeViewId = customViewId;
     this.udpateColumnState();
+    this.updateViews();
   }
 
   public getCustomViews(): ViewToggle[] {
     const gridState = this.getGridState(this.activeTableKey);
     const views = gridState?.customViews?.map((view: CustomView) => ({
       id: view.id,
+      active: false,
       title: view.title,
     }));
 
@@ -169,6 +171,9 @@ export class AgGridStateService {
         },
       ],
     });
+
+    this.activeViewId = id;
+    this.updateViews();
   }
 
   public createViewFromScratch(title: string) {
@@ -244,7 +249,15 @@ export class AgGridStateService {
 
   private updateViews() {
     const views = this.getCustomViews();
-    this.views.next(views);
+    this.views.next(
+      views?.map((view: ViewToggle) => {
+        if (view.id === this.activeViewId) {
+          return { ...view, active: true };
+        }
+
+        return { ...view, active: false };
+      }) || []
+    );
   }
 
   private udpateColumnState() {

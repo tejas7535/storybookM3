@@ -62,6 +62,7 @@ export class SingleQuotesTabComponent implements OnInit {
           {
             id: this.ADD_VIEW_ID,
             disabled: true,
+            active: false,
             icons: [{ name: this.ADD_ICON }],
           },
         ];

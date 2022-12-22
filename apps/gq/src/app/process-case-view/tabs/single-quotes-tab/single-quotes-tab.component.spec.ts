@@ -98,7 +98,7 @@ describe('SingleQuotesTabComponent', () => {
     test('should open modal for add view', () => {
       component['openCustomViewModal'] = jest.fn();
 
-      component.onViewToggle({ id: 9999 });
+      component.onViewToggle({ id: 9999, active: false });
 
       expect(component['openCustomViewModal']).toHaveBeenCalledTimes(1);
       expect(component['openCustomViewModal']).toHaveBeenCalledWith(9999, true);
@@ -107,7 +107,7 @@ describe('SingleQuotesTabComponent', () => {
     test('should update active view for other views', () => {
       component['gridStateService'].setActiveView = jest.fn();
 
-      component.onViewToggle({ id: 2 });
+      component.onViewToggle({ id: 2, active: false });
 
       expect(component['gridStateService'].setActiveView).toHaveBeenCalledTimes(
         1

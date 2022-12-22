@@ -137,7 +137,11 @@ describe('CaseViewComponent', () => {
       store.overrideSelector(getQuotationLoading, false);
       store.dispatch = jest.fn();
 
-      component.onViewToggle({ id: QuotationStatus.ACTIVE, title: 'title' });
+      component.onViewToggle({
+        id: QuotationStatus.ACTIVE,
+        title: 'title',
+        active: false,
+      });
 
       expect(store.dispatch).toHaveBeenCalledTimes(1);
       expect(store.dispatch).toHaveBeenCalledWith(

@@ -17,7 +17,7 @@ export class ViewToggleComponent {
 
   @Input() public set views(value: ViewToggle[]) {
     if (value.length > 0) {
-      this.active = value.find((el) => el.id === this.active?.id) || value[0];
+      this.active = value.find((el) => el.active) || value[0];
       this.items = value;
     }
   }
@@ -32,8 +32,7 @@ export class ViewToggleComponent {
   @Output() public viewToggleDoubleClicked = new EventEmitter<number>();
 
   public onViewSelect(event: MatButtonToggleChange) {
-    this.active = event.value as ViewToggle;
-    this.selectionChange.emit(this.active);
+    this.selectionChange.emit(event.value);
   }
 
   public onIconClicked(event: MouseEvent, viewId: number, iconName: string) {
