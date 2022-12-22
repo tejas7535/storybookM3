@@ -32,6 +32,7 @@ import {
   importCaseSuccess,
   pasteRowDataItems,
   resetAllAutocompleteOptions,
+  resetAutocompleteMaterials,
   resetCustomerFilter,
   resetPLsAndSeries,
   resetProductLineAndSeries,
@@ -314,6 +315,50 @@ describe('Create Case Reducer', () => {
         const state = createCaseReducer(fakeState, action);
 
         expect(state.autocompleteItems).toEqual(initialState.autocompleteItems);
+      });
+    });
+    describe('resetAutocompleteMaterials reducer', () => {
+      it('should handle resetAutocompleteMaterials', () => {
+        const fakeOptions = [
+          new IdValue('mcd', 'mercedes', true),
+          new IdValue('aud', 'audi', false),
+        ];
+        const fakeState: CreateCaseState = {
+          ...CREATE_CASE_STORE_STATE_MOCK,
+          autocompleteItems: [
+            {
+              filter: FilterNames.SAP_QUOTATION,
+              options: fakeOptions,
+            },
+            {
+              filter: FilterNames.CUSTOMER,
+              options: fakeOptions,
+            },
+            { filter: FilterNames.MATERIAL_NUMBER, options: fakeOptions },
+            { filter: FilterNames.MATERIAL_DESCRIPTION, options: fakeOptions },
+          ],
+        };
+        const action = resetAutocompleteMaterials();
+        const state = createCaseReducer(fakeState, action);
+
+        expect(state).toEqual({
+          ...CREATE_CASE_STORE_STATE_MOCK,
+          autocompleteItems: [
+            {
+              filter: FilterNames.SAP_QUOTATION,
+              options: fakeOptions,
+            },
+            {
+              filter: FilterNames.CUSTOMER,
+              options: fakeOptions,
+            },
+            { filter: FilterNames.MATERIAL_NUMBER, options: [] },
+            {
+              filter: FilterNames.MATERIAL_DESCRIPTION,
+              options: [],
+            },
+          ],
+        });
       });
     });
   });

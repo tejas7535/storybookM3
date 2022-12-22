@@ -47,7 +47,10 @@ export class TableService {
   ): MaterialTableItem[] {
     return data.map((d) => {
       if (d.id === item.id) {
-        return item;
+        return {
+          ...item,
+          materialNumber: TableService.removeDashes(item.materialNumber),
+        };
       }
 
       return d;

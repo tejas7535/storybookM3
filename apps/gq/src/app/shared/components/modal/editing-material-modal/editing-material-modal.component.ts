@@ -153,7 +153,6 @@ export class EditingMaterialModalComponent implements OnInit, AfterViewInit {
       id: this.modalData.material.id,
       info: { valid: true, description: [ValidationDescription.Valid] },
     };
-
     this.dialogRef.close(updatedMaterial);
   }
 }

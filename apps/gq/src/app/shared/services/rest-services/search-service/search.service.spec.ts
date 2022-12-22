@@ -49,7 +49,7 @@ describe('SearchService', () => {
         'hallo'
       );
       const mock: CaseFilterItem = {
-        filter: 'house',
+        filter: FilterNames.CUSTOMER,
         options: [{ id: 'test', value: 'test', selected: false }],
       };
       service.autocomplete(search).subscribe((response) => {
@@ -68,7 +68,7 @@ describe('SearchService', () => {
         'test'
       );
       const mock: CaseFilterItem = {
-        filter: 'house',
+        filter: FilterNames.MATERIAL_DESCRIPTION,
         options: [{ id: 'test', value: 'test', selected: false }],
       };
       service.autocomplete(search).subscribe((response) => {

@@ -13,7 +13,7 @@ import {
   getCaseAutocompleteLoading,
   getCaseMaterialDesc,
   getCaseMaterialNumber,
-  resetAllAutocompleteOptions,
+  resetAutocompleteMaterials,
   resetRequestingAutoCompleteDialog,
   setRequestingAutoCompleteDialog,
   setSelectedAutocompleteOption,
@@ -59,8 +59,8 @@ export class AutoCompleteFacade {
     this.store.dispatch(setRequestingAutoCompleteDialog({ dialog }));
   }
 
-  public resetAllAutoCompleteOptions(): void {
-    this.store.dispatch(resetAllAutocompleteOptions());
+  public resetAutocompleteMaterials(): void {
+    this.store.dispatch(resetAutocompleteMaterials());
   }
 
   public autocomplete(autocompleteSearch: AutocompleteSearch): void {
@@ -86,7 +86,7 @@ export class AutoCompleteFacade {
   }
 
   public resetView(): void {
-    this.store.dispatch(resetAllAutocompleteOptions());
+    this.store.dispatch(resetAutocompleteMaterials());
     this.store.dispatch(resetRequestingAutoCompleteDialog());
   }
 

@@ -7,7 +7,7 @@ import { AutocompleteSearch, IdValue } from '../../../shared/models/search';
 import {
   autocomplete,
   clearProcessCaseRowData,
-  resetAllAutocompleteOptions,
+  resetAutocompleteMaterials,
   resetRequestingAutoCompleteDialog,
   setRequestingAutoCompleteDialog,
   setSelectedAutocompleteOption,
@@ -76,7 +76,7 @@ describe('autocompleteFacade', () => {
       service.resetView();
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        resetAllAutocompleteOptions()
+        resetAutocompleteMaterials()
       );
       expect(mockStore.dispatch).toHaveBeenCalledWith(
         resetRequestingAutoCompleteDialog()

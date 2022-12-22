@@ -12,7 +12,7 @@ import { ICellRendererParams } from 'ag-grid-community';
 
 import { MATERIAL_TABLE_ITEM_MOCK } from '../../../../../../testing/mocks';
 import {
-  resetAllAutocompleteOptions,
+  resetAutocompleteMaterials,
   setRequestingAutoCompleteDialog,
   updateMaterialRowDataItem,
   updateRowDataItem,
@@ -131,7 +131,7 @@ describe('EditCaseMaterialComponent', () => {
         updateMaterialRowDataItem({ item: MATERIAL_TABLE_ITEM_MOCK })
       );
       expect(component['store'].dispatch).toHaveBeenCalledWith(
-        resetAllAutocompleteOptions()
+        resetAutocompleteMaterials()
       );
       expect(component['store'].dispatch).toHaveBeenCalledWith(
         setRequestingAutoCompleteDialog({
@@ -148,7 +148,7 @@ describe('EditCaseMaterialComponent', () => {
         updateRowDataItem({ item: MATERIAL_TABLE_ITEM_MOCK })
       );
       expect(component['store'].dispatch).toHaveBeenCalledWith(
-        resetAllAutocompleteOptions()
+        resetAutocompleteMaterials()
       );
       expect(component['store'].dispatch).toHaveBeenCalledWith(
         setRequestingAutoCompleteDialog({

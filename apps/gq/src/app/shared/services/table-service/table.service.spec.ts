@@ -48,15 +48,18 @@ describe('TableService', () => {
   });
 
   describe('updateItem', () => {
-    test('should update matching item in data array', () => {
+    test('should update matching materialNumber in data array', () => {
       const data: MaterialTableItem[] = [
         MATERIAL_TABLE_ITEM_MOCK,
         { ...MATERIAL_TABLE_ITEM_MOCK, id: 2 },
       ];
-      const newItem = { id: 1, materialDescription: 'new' };
+      const newItem = { id: 1, materialNumber: '019014961-0000-02' };
       const result = TableService.updateItem(newItem, data);
 
-      expect(result).toEqual([newItem, data[1]]);
+      expect(result).toEqual([
+        { ...newItem, materialNumber: '019014961000002' },
+        data[1],
+      ]);
     });
   });
 

@@ -1,6 +1,7 @@
 import { createAction, props, union } from '@ngrx/store';
 
 import { AutocompleteRequestDialog } from '../../../../shared/components/autocomplete-input/autocomplete-request-dialog.enum';
+import { FilterNames } from '../../../../shared/components/autocomplete-input/filter-names.enum';
 import { AutocompleteSearch, IdValue } from '../../../../shared/models/search';
 import {
   MaterialTableItem,
@@ -24,7 +25,7 @@ export const autocompleteFailure = createAction(
 
 export const autocompleteSuccess = createAction(
   '[Create Case] Get Autocomplete Suggestions For selected Autocomplete Option',
-  props<{ options: IdValue[]; filter: string }>()
+  props<{ options: IdValue[]; filter: FilterNames }>()
 );
 
 export const selectAutocompleteOption = createAction(
@@ -181,6 +182,10 @@ export const resetPLsAndSeries = createAction(
 
 export const resetAllAutocompleteOptions = createAction(
   '[Create Case] Reset all autocomplete options'
+);
+
+export const resetAutocompleteMaterials = createAction(
+  '[Create Case] Reset all autocomplete material options'
 );
 
 const all = union({

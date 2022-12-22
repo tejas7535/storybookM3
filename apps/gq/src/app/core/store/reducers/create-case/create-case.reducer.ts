@@ -33,6 +33,7 @@ import {
   importCaseSuccess,
   pasteRowDataItems,
   resetAllAutocompleteOptions,
+  resetAutocompleteMaterials,
   resetCustomerFilter,
   resetPLsAndSeries,
   resetProductLineAndSeries,
@@ -282,6 +283,19 @@ export const createCaseReducer = createReducer(
     (state: CreateCaseState): CreateCaseState => ({
       ...state,
       autocompleteItems: initialState.autocompleteItems,
+    })
+  ),
+  on(
+    resetAutocompleteMaterials,
+    (state: CreateCaseState): CreateCaseState => ({
+      ...state,
+      autocompleteItems: state.autocompleteItems.map((autocompleteItem, i) =>
+        [FilterNames.CUSTOMER, FilterNames.SAP_QUOTATION].includes(
+          autocompleteItem.filter
+        )
+          ? state.autocompleteItems[i]
+          : initialState.autocompleteItems[i]
+      ),
     })
   ),
   on(

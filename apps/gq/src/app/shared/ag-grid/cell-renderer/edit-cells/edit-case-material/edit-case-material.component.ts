@@ -9,7 +9,7 @@ import { ICellRendererParams } from 'ag-grid-community';
 
 import { AppRoutePath } from '../../../../../app-route-path.enum';
 import {
-  resetAllAutocompleteOptions,
+  resetAutocompleteMaterials,
   setRequestingAutoCompleteDialog,
   updateMaterialRowDataItem,
   updateRowDataItem,
@@ -78,7 +78,7 @@ export class EditCaseMaterialComponent {
             : this.store.dispatch(updateMaterialRowDataItem({ item: result }));
         }
 
-        this.store.dispatch(resetAllAutocompleteOptions());
+        this.store.dispatch(resetAutocompleteMaterials());
 
         this.store.dispatch(
           setRequestingAutoCompleteDialog({
