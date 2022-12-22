@@ -28,30 +28,43 @@
   </div>
 
   <div class="mt-6 grid grid-cols-2 gap-x-6 gap-y-2 lg:grid-cols-4">
-    <div *ngIf="materialDesc$ | ngrxPush as materialDesc">
+    <div
+      *ngIf="
+        autoCompleteFacade.materialDescForAddEntry$ | ngrxPush as materialDesc
+      "
+    >
       <gq-autocomplete-input
         #materialDescInput
         [filterName]="materialDesc.filter"
         [options]="materialDesc.options"
         (inputContent)="materialHasInput($event)"
-        (unselected)="unselectOptions(materialDesc.filter)"
-        (added)="selectOption($event, materialDesc.filter)"
+        (unselected)="autoCompleteFacade.unselectOptions(materialDesc.filter)"
+        (added)="autoCompleteFacade.selectOption($event, materialDesc.filter)"
         (isValid)="materialInputValid($event)"
-        [autocompleteLoading]="materialDescAutocompleteLoading$ | ngrxPush"
-        (autocomplete)="autocomplete($event)"
+        [autocompleteLoading]="
+          autoCompleteFacade.materialDescAutocompleteLoading$ | ngrxPush
+        "
+        (autocomplete)="autoCompleteFacade.autocomplete($event)"
       ></gq-autocomplete-input>
     </div>
-    <div *ngIf="materialNumber$ | ngrxPush as materialNumber">
+    <div
+      *ngIf="
+        autoCompleteFacade.materialNumberForAddEntry$
+          | ngrxPush as materialNumber
+      "
+    >
       <gq-autocomplete-input
         #materialNumberInput
         [filterName]="materialNumber.filter"
         [options]="materialNumber.options"
         (inputContent)="materialHasInput($event)"
-        (unselected)="unselectOptions(materialNumber.filter)"
-        (added)="selectOption($event, materialNumber.filter)"
+        (unselected)="autoCompleteFacade.unselectOptions(materialNumber.filter)"
+        (added)="autoCompleteFacade.selectOption($event, materialNumber.filter)"
         (isValid)="materialInputValid($event)"
-        [autocompleteLoading]="materialNumberAutocompleteLoading$ | ngrxPush"
-        (autocomplete)="autocomplete($event)"
+        [autocompleteLoading]="
+          autoCompleteFacade.materialNumberAutocompleteLoading$ | ngrxPush
+        "
+        (autocomplete)="autoCompleteFacade.autocomplete($event)"
       ></gq-autocomplete-input>
     </div>
     <div>

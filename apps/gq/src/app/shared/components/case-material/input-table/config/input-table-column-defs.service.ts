@@ -16,21 +16,21 @@ export class InputTableColumnDefService {
       headerName: translate('shared.caseMaterial.table.info.title'),
       field: 'info',
       cellRenderer: 'infoCellComponent',
-      flex: 0.1,
+      flex: 0.15,
       sortable: true,
       comparator: ColumnUtilityService.infoComparator,
     },
     {
       headerName: translate('shared.caseMaterial.table.materialDescription'),
       field: 'materialDescription',
-      flex: 0.3,
+      flex: 0.25,
       sortable: true,
       cellRenderer: EditCaseMaterialComponent,
     },
     {
       headerName: translate('shared.caseMaterial.table.materialNumber'),
       field: 'materialNumber',
-      flex: 0.3,
+      flex: 0.25,
       sortable: true,
       cellRenderer: EditCaseMaterialComponent,
       valueFormatter: ColumnUtilityService.materialTransform,
@@ -38,7 +38,7 @@ export class InputTableColumnDefService {
     {
       headerName: translate('shared.caseMaterial.table.quantity'),
       field: 'quantity',
-      flex: 0.2,
+      flex: 0.15,
       sortable: true,
       cellRenderer: EditCaseMaterialComponent,
       valueFormatter: (params) =>

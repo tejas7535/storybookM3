@@ -25,16 +25,23 @@ import { CaseFilterItem } from '../reducers/create-case/models';
   providedIn: 'root',
 })
 export class AutoCompleteFacade {
-  public dialog: AutocompleteRequestDialog = AutocompleteRequestDialog.EMPTY;
-
   constructor(private readonly store: Store) {}
 
-  public materialDesc$: Observable<CaseFilterItem> = this.store.select(
-    getCaseMaterialDesc(this.dialog)
-  );
-  public materialNumber$: Observable<CaseFilterItem> = this.store.select(
-    getCaseMaterialNumber(this.dialog)
-  );
+  public materialDescForAddEntry$: Observable<CaseFilterItem> =
+    this.store.select(getCaseMaterialDesc(AutocompleteRequestDialog.ADD_ENTRY));
+  public materialDescForEditMaterial$: Observable<CaseFilterItem> =
+    this.store.select(
+      getCaseMaterialDesc(AutocompleteRequestDialog.EDIT_MATERIAL)
+    );
+  public materialNumberForAddEntry$: Observable<CaseFilterItem> =
+    this.store.select(
+      getCaseMaterialNumber(AutocompleteRequestDialog.ADD_ENTRY)
+    );
+  public materialNumberForEditMaterial$: Observable<CaseFilterItem> =
+    this.store.select(
+      getCaseMaterialNumber(AutocompleteRequestDialog.EDIT_MATERIAL)
+    );
+
   public materialNumberAutocompleteLoading$: Observable<boolean> =
     this.store.select(getCaseAutocompleteLoading(FilterNames.MATERIAL_NUMBER));
 
@@ -49,7 +56,6 @@ export class AutoCompleteFacade {
    * @param dialog dialog to display the auto-completes
    */
   public initFacade(dialog: AutocompleteRequestDialog): void {
-    this.dialog = dialog;
     this.store.dispatch(setRequestingAutoCompleteDialog({ dialog }));
   }
 

@@ -13,20 +13,13 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CREATE_CASE_STORE_STATE_MOCK } from '../../../../../testing/mocks';
-import {
-  addMaterialRowDataItem,
-  autocomplete,
-  setSelectedAutocompleteOption,
-  unselectAutocompleteOptions,
-} from '../../../../core/store';
-import { AutocompleteSearch, IdValue } from '../../../models/search';
+import { addMaterialRowDataItem } from '../../../../core/store';
 import {
   MaterialTableItem,
   ValidationDescription,
 } from '../../../models/table';
 import { HelperService } from '../../../services/helper-service/helper-service.service';
 import { AutocompleteInputModule } from '../../autocomplete-input/autocomplete-input.module';
-import { FilterNames } from '../../autocomplete-input/filter-names.enum';
 import { InfoIconModule } from '../../info-icon/info-icon.module';
 import { AddEntryComponent } from './add-entry.component';
 
@@ -82,41 +75,6 @@ describe('AddEntryComponent', () => {
       expect(component.quantityValid).toBeTruthy();
       expect(component.quantity).toEqual(10);
       expect(component.rowInputValid).toHaveBeenCalled();
-    });
-  });
-  describe('autocomplete', () => {
-    test('should dispatch autocomplete action', () => {
-      mockStore.dispatch = jest.fn();
-      const autocompleteSearch = new AutocompleteSearch('name', 'Hans');
-
-      component.autocomplete(autocompleteSearch);
-
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
-        autocomplete({ autocompleteSearch })
-      );
-    });
-  });
-  describe('unselectQuotationOptions', () => {
-    test('should dispatch unselectQuotationOptions action', () => {
-      mockStore.dispatch = jest.fn();
-
-      component.unselectOptions(FilterNames.CUSTOMER);
-
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
-        unselectAutocompleteOptions({ filter: FilterNames.CUSTOMER })
-      );
-    });
-  });
-  describe('selectAutocompleteOption', () => {
-    test('should dispatch selectAutocompleteOption action', () => {
-      mockStore.dispatch = jest.fn();
-      const option = new IdValue('aud', 'Audi', true);
-      const filter = FilterNames.CUSTOMER;
-      component.selectOption(option, filter);
-
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
-        setSelectedAutocompleteOption({ option, filter })
-      );
     });
   });
   describe('materialNumberValid', () => {

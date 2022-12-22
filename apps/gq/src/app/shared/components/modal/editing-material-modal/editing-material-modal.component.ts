@@ -82,7 +82,6 @@ export class EditingMaterialModalComponent implements OnInit, AfterViewInit {
     if (!this.fieldToFocus) {
       return;
     }
-
     switch (this.fieldToFocus) {
       case MaterialColumnFields.MATERIAL:
         this.matNumberInput.focus();
@@ -114,7 +113,26 @@ export class EditingMaterialModalComponent implements OnInit, AfterViewInit {
     this.addRowEnabled =
       this.materialInputIsValid &&
       this.materialNumberInput &&
-      this.editFromGroup.valid;
+      this.editFromGroup.valid &&
+      this.inputHasChanged();
+  }
+
+  inputHasChanged(): boolean {
+    const materialDescriptionChanged =
+      this.modalData.material.materialDescription !==
+      this.matDescInput.valueInput.nativeElement.value;
+
+    const materialNumberChanged =
+      this.modalData.material.materialNumber !==
+      this.matNumberInput.valueInput.nativeElement.value;
+
+    const quantityChanged =
+      this.modalData.material.quantity !==
+      this.editFromGroup.get('quantity').value;
+
+    return (
+      materialDescriptionChanged || materialNumberChanged || quantityChanged
+    );
   }
 
   closeDialog(): void {
@@ -131,7 +149,7 @@ export class EditingMaterialModalComponent implements OnInit, AfterViewInit {
     const updatedMaterial: MaterialTableItem = {
       materialDescription: this.matDescInput.valueInput.nativeElement.value,
       materialNumber: this.matNumberInput.valueInput.nativeElement.value,
-      quantity: this.editFromGroup.get('quantity')?.value,
+      quantity: this.editFromGroup.get('quantity').value,
       id: this.modalData.material.id,
       info: { valid: true, description: [ValidationDescription.Valid] },
     };

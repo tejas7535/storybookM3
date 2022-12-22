@@ -14,25 +14,16 @@ import { Store } from '@ngrx/store';
 import {
   addMaterialRowDataItem,
   addRowDataItem,
-  autocomplete,
-  getCaseAutocompleteLoading,
-  getCaseMaterialDesc,
-  getCaseMaterialNumber,
-  resetRequestingAutoCompleteDialog,
-  setRequestingAutoCompleteDialog,
-  setSelectedAutocompleteOption,
-  unselectAutocompleteOptions,
+  AutoCompleteFacade,
 } from '../../../../core/store';
 import { CaseFilterItem } from '../../../../core/store/reducers/create-case/models';
 import { Keyboard } from '../../../models';
-import { AutocompleteSearch, IdValue } from '../../../models/search';
 import { MaterialTableItem } from '../../../models/table/material-table-item-model';
 import { ValidationDescription } from '../../../models/table/validation-description.enum';
 import { HelperService } from '../../../services/helper-service/helper-service.service';
 import { PasteMaterialsService } from '../../../services/paste-materials-service/paste-materials.service';
 import { AutocompleteInputComponent } from '../../autocomplete-input/autocomplete-input.component';
 import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete-request-dialog.enum';
-import { FilterNames } from '../../autocomplete-input/filter-names.enum';
 
 @Component({
   selector: 'gq-add-entry',
@@ -63,27 +54,12 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   constructor(
     private readonly store: Store,
     private readonly pasteMaterialsService: PasteMaterialsService,
-    private readonly matSnackBar: MatSnackBar
+    private readonly matSnackBar: MatSnackBar,
+    public readonly autoCompleteFacade: AutoCompleteFacade
   ) {}
 
   public ngOnInit(): void {
-    this.store.dispatch(
-      setRequestingAutoCompleteDialog({
-        dialog: AutocompleteRequestDialog.ADD_ENTRY,
-      })
-    );
-    this.materialNumber$ = this.store.select(
-      getCaseMaterialNumber(AutocompleteRequestDialog.ADD_ENTRY)
-    );
-    this.materialDesc$ = this.store.select(
-      getCaseMaterialDesc(AutocompleteRequestDialog.ADD_ENTRY)
-    );
-    this.materialNumberAutocompleteLoading$ = this.store.select(
-      getCaseAutocompleteLoading(FilterNames.MATERIAL_NUMBER)
-    );
-    this.materialNumberAutocompleteLoading$ = this.store.select(
-      getCaseAutocompleteLoading(FilterNames.MATERIAL_DESCRIPTION)
-    );
+    this.autoCompleteFacade.initFacade(AutocompleteRequestDialog.ADD_ENTRY);
     this.addSubscriptions();
   }
 
@@ -105,29 +81,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-    this.store.dispatch(resetRequestingAutoCompleteDialog());
-  }
-
-  autocomplete(autocompleteSearch: AutocompleteSearch): void {
-    this.store.dispatch(autocomplete({ autocompleteSearch }));
-  }
-
-  selectOption(option: IdValue, filter: string): void {
-    this.store.dispatch(
-      setSelectedAutocompleteOption({
-        filter,
-        option,
-      })
-    );
-  }
-
-  unselectOptions(filter: string): void {
-    const filterName =
-      filter === FilterNames.MATERIAL_NUMBER
-        ? FilterNames.MATERIAL_DESCRIPTION
-        : FilterNames.MATERIAL_NUMBER;
-    this.store.dispatch(unselectAutocompleteOptions({ filter: filterName }));
-    this.store.dispatch(unselectAutocompleteOptions({ filter }));
+    this.autoCompleteFacade.resetView();
   }
 
   materialInputValid(isValid: boolean): void {
