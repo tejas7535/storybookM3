@@ -4,7 +4,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { ColumnState } from 'ag-grid-community';
 
 import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks';
-import { GridState } from '../../models/grid-state.model';
+import { FilterState, GridState } from '../../models/grid-state.model';
 import { QuotationDetail } from '../../models/quotation-detail';
 import { AgGridStateService } from './ag-grid-state.service';
 
@@ -352,32 +352,163 @@ describe('AgGridStateService', () => {
   });
   describe('setColumnFilters', () => {
     test('should set columnFilters', () => {
-      const filterModels = {
-        quotationItemId: { filterType: 'set', values: ['20'] },
-      };
-      service.setColumnFilters('123', filterModels);
+      service.localStorage.setStore({});
 
-      const expected =
-        '{"quotationItemId":{"filterType":"set","values":["20"]}}';
-      expect(localStorage.store['123_filterModels']).toEqual(expected);
+      const filterModels = [{ filterType: 'set', values: ['20'] }];
+      const filterState: FilterState[] = [
+        {
+          quotationId: '46425',
+          filterModels,
+        },
+      ];
+
+      service.init('process_case');
+      service.setColumnFilterForCurrentView('46425', filterModels);
+
+      expect(localStorage.store['GQ_PROCESS_CASE_STATE']).toEqual(
+        JSON.stringify({
+          version: 1,
+          customViews: [
+            {
+              id: 0,
+              title: translatedViewName,
+              state: { columnState: [], filterState },
+            },
+          ],
+        })
+      );
     });
   });
   describe('getColumnFilters', () => {
-    test('should get column filters', () => {
-      const filterModels = {
-        quotationItemId: { filterType: 'set', values: ['20'] },
-      };
-      const fakeStore = { '1234_filterModels': JSON.stringify(filterModels) };
+    test('should return columns for current table and view', () => {
+      const filterState: FilterState[] = [
+        {
+          quotationId: '46425',
+          filterModels: { colId: 'width', pinned: 'left' },
+        },
+      ];
+      const fakeStore = JSON.stringify({
+        version: 1,
+        customViews: [
+          {
+            id: 0,
+            title: translatedViewName,
+            state: {
+              columnState: [],
+              filterState,
+            },
+          },
+        ],
+      });
 
-      service.localStorage.setStore(fakeStore);
+      localStorage.setItem('GQ_PROCESS_CASE_STATE', fakeStore);
 
-      expect(service.getColumnFilters('1234')).toEqual(filterModels);
+      service.init('process_case');
+      const result = service.getColumnFiltersForCurrentView();
+
+      expect(result).toEqual(filterState);
+    });
+
+    test('should return columns for different views after switching', () => {
+      const filterState0: FilterState[] = [
+        {
+          quotationId: '46425',
+          filterModels: { colId: 'width', pinned: 'left' },
+        },
+      ];
+      const filterState1: FilterState[] = [
+        {
+          quotationId: '46425',
+          filterModels: { colId: 'width', pinned: 'right' },
+        },
+      ];
+      const filterState2: FilterState[] = [
+        {
+          quotationId: '46425',
+          filterModels: { colId: 'height', pinned: 'left' },
+        },
+      ];
+
+      const fakeStore = JSON.stringify({
+        version: 1,
+        customViews: [
+          {
+            id: 0,
+            title: translatedViewName,
+            state: {
+              columnState: [],
+              filterState: filterState0,
+            },
+          },
+          {
+            id: 1,
+            title: 'test-view-1',
+            state: {
+              columnState: [],
+              filterState: filterState1,
+            },
+          },
+          {
+            id: 2,
+            title: 'test-view-2',
+            state: {
+              columnState: [],
+              filterState: filterState2,
+            },
+          },
+        ],
+      });
+
+      localStorage.setItem('GQ_PROCESS_CASE_STATE', fakeStore);
+
+      service.init('process_case');
+      const result0 = service.getColumnFiltersForCurrentView();
+
+      service.setActiveView(1);
+      const result1 = service.getColumnFiltersForCurrentView();
+
+      service.setActiveView(2);
+      const result2 = service.getColumnFiltersForCurrentView();
+
+      expect(result0).toEqual(filterState0);
+      expect(result1).toEqual(filterState1);
+      expect(result2).toEqual(filterState2);
+    });
+
+    test('should return empty array if key does not exist', () => {
+      const filterState: FilterState[] = [
+        {
+          quotationId: '46425',
+          filterModels: { colId: 'width', pinned: 'left' },
+        },
+      ];
+      const fakeStore = JSON.stringify({
+        version: 1,
+        customViews: [
+          {
+            id: 0,
+            title: translatedViewName,
+            state: {
+              columnState: [],
+              filterState,
+            },
+          },
+        ],
+      });
+
+      localStorage.setItem('GQ_PROCESS_CASE_STATE', fakeStore);
+
+      service.init('fake_key_does_not_exist');
+      const result = service.getColumnStateForCurrentView();
+
+      expect(result).toEqual([]);
     });
   });
 
   describe('getCurrentViewId', () => {
     test('should return activeViewId', () => {
       service.getColumnStateForCurrentView = jest.fn();
+      service.getColumnFiltersForCurrentView = jest.fn();
       const id = Math.round(Math.random() * 100);
       service.setActiveView(id);
 
@@ -407,6 +538,7 @@ describe('AgGridStateService', () => {
               title: 'test-view',
               state: {
                 columnState: [],
+                filterState: [],
               },
             },
           ],
@@ -426,16 +558,24 @@ describe('AgGridStateService', () => {
         },
       ];
 
-      service['getCurrentView'] = jest
-        .fn()
-        .mockReturnValue({ state: { columnState: mockColumnState } });
+      const mockFilterState = [
+        {
+          quotationId: '46426',
+          filterModel: { colId: 'width', pinned: 'right' },
+        },
+      ];
+
+      service['getColumnFilters'] = jest.fn().mockReturnValue(mockFilterState);
+      service['getCurrentView'] = jest.fn().mockReturnValue({
+        state: { columnState: mockColumnState, filterState: mockFilterState },
+      });
       service['localStorage'].setItem = jest.fn();
       service['localStorage'].getItem = jest
         .fn()
         .mockReturnValue(JSON.stringify(mockState));
 
       service.init('process_case');
-      service.createViewFromCurrentView('test-view');
+      service.createViewFromCurrentView('test-view', '46426');
 
       expect(service['localStorage'].setItem).toHaveBeenCalledTimes(1);
       expect(service['localStorage'].setItem).toHaveBeenCalledWith(
@@ -449,6 +589,7 @@ describe('AgGridStateService', () => {
               title: 'test-view',
               state: {
                 columnState: mockColumnState,
+                filterState: mockFilterState,
               },
             },
           ],

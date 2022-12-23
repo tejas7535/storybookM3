@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { map, Observable } from 'rxjs';
+import { map, Observable, take } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
@@ -138,7 +138,12 @@ export class SingleQuotesTabComponent implements OnInit {
           result?.name &&
           !result?.createFromDefault
         ) {
-          this.gridStateService.createViewFromCurrentView(result.name);
+          this.quotation$.pipe(take(1)).subscribe((quotation: Quotation) => {
+            this.gridStateService.createViewFromCurrentView(
+              result.name,
+              quotation.gqId.toString()
+            );
+          });
         } else if (!result?.createView && result?.name) {
           this.gridStateService.updateViewName(viewId, result.name);
         }

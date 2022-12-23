@@ -1,8 +1,8 @@
 /* eslint-disable max-lines */
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { map, Observable, take } from 'rxjs';
+import { map, Observable, Subject, take, takeUntil } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 import {
@@ -48,6 +48,7 @@ import {
   statusBarWithBorderStyle,
 } from '../../shared/constants';
 import { Quotation } from '../../shared/models';
+import { FilterState } from '../../shared/models/grid-state.model';
 import {
   PriceSource,
   QuotationDetail,
@@ -69,7 +70,7 @@ import { TableContext } from './config/tablecontext.model';
   templateUrl: './quotation-details-table.component.html',
   styles: [basicTableStyle, statusBarSimulation, statusBarWithBorderStyle],
 })
-export class QuotationDetailsTableComponent implements OnInit {
+export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
   @Input() set quotation(quotation: Quotation) {
     this.rowData = quotation?.quotationDetails;
     this.tableContext.quotation = quotation;
@@ -99,6 +100,8 @@ export class QuotationDetailsTableComponent implements OnInit {
 
   selectedQuotationIds: string[] = [];
 
+  unsubscribe$: Subject<boolean> = new Subject<boolean>();
+
   constructor(
     private readonly store: Store,
     private readonly agGridStateService: AgGridStateService,
@@ -107,6 +110,13 @@ export class QuotationDetailsTableComponent implements OnInit {
     private readonly router: Router,
     private readonly featureToggleService: FeatureToggleConfigService
   ) {}
+
+  ngOnDestroy(): void {
+    if (this.unsubscribe$) {
+      this.unsubscribe$.next(true);
+      this.unsubscribe$.unsubscribe();
+    }
+  }
 
   ngOnInit(): void {
     this.customViewsEnabled =
@@ -147,7 +157,7 @@ export class QuotationDetailsTableComponent implements OnInit {
     }
 
     const filterModels = event.api.getFilterModel();
-    this.agGridStateService.setColumnFilters(
+    this.agGridStateService.setColumnFilterForCurrentView(
       this.tableContext.quotation.gqId.toString(),
       filterModels
     );
@@ -181,32 +191,33 @@ export class QuotationDetailsTableComponent implements OnInit {
       this.agGridStateService.setColumnData(quotationId, columnData);
     }
 
-    const state = this.agGridStateService.getColumnStateForCurrentView();
-    if (state) {
-      event.columnApi.applyColumnState({ state });
-    }
-
-    const filterModel = this.agGridStateService.getColumnFilters(quotationId);
-    if (filterModel) {
-      event.api.setFilterModel(filterModel);
-    }
-
     event.api.forEachNode((node) => {
       if (this.selectedQuotationIds.includes(node.data.gqPositionId)) {
         node.setSelected(true);
       }
     });
 
-    this.agGridStateService.columnState.subscribe((colState: ColumnState[]) => {
-      if (colState?.length === 0) {
-        event?.columnApi?.resetColumnState();
-      } else {
-        event?.columnApi?.applyColumnState({
-          state: colState,
-          applyOrder: true,
-        });
-      }
-    });
+    this.agGridStateService.columnState
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((colState: ColumnState[]) => {
+        if (colState?.length === 0) {
+          event?.columnApi?.resetColumnState();
+        } else {
+          event?.columnApi?.applyColumnState({
+            state: colState,
+            applyOrder: true,
+          });
+        }
+      });
+
+    this.agGridStateService.filterState
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((filterState: FilterState[]) => {
+        const curFilter = filterState.find(
+          (filter) => filter.quotationId === quotationId
+        );
+        event?.api?.setFilterModel?.(curFilter?.filterModels || {});
+      });
   }
 
   private readonly buildColumnData = (event: RowDataUpdatedEvent) => {

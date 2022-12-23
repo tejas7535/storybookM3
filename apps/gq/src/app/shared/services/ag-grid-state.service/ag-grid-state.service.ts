@@ -8,7 +8,11 @@ import { ColumnState } from 'ag-grid-enterprise';
 
 import { ViewToggle } from '@schaeffler/view-toggle';
 
-import { CustomView, GridState } from '../../../shared/models/grid-state.model';
+import {
+  CustomView,
+  FilterState,
+  GridState,
+} from '../../../shared/models/grid-state.model';
 import { QuotationDetail } from '../../models/quotation-detail';
 
 @Injectable({
@@ -23,6 +27,9 @@ export class AgGridStateService {
   views: BehaviorSubject<ViewToggle[]> = new BehaviorSubject<ViewToggle[]>([]);
   columnState: BehaviorSubject<ColumnState[]> = new BehaviorSubject<
     ColumnState[]
+  >([]);
+  filterState: BehaviorSubject<FilterState[]> = new BehaviorSubject<
+    FilterState[]
   >([]);
 
   constructor(@Inject(LOCAL_STORAGE) readonly localStorage: Storage) {}
@@ -68,27 +75,84 @@ export class AgGridStateService {
     );
   }
 
-  public getColumnFilters(quotationId: string) {
-    return JSON.parse(this.localStorage.getItem(`${quotationId}_filterModels`));
+  private getColumnFilters(key: string, viewId: number) {
+    const view = this.getViewById(key, viewId);
+
+    return view.state.filterState || [];
   }
 
-  public setColumnFilters(
+  public getColumnFiltersForCurrentView(): FilterState[] {
+    return this.getColumnFilters(this.activeTableKey, this.activeViewId);
+  }
+
+  private setColumnFilters(
+    key: string,
+    viewId: number,
     quotationId: string,
     filterModels: { [key: string]: any }
   ): void {
-    this.localStorage.setItem(
-      `${quotationId}_filterModels`,
-      JSON.stringify(filterModels)
+    const existingFilters = this.getColumnFilters(key, viewId);
+    const gridState = this.getGridState(key);
+
+    const filterState: FilterState[] =
+      existingFilters !== undefined &&
+      existingFilters.findIndex(
+        (filter: FilterState) => filter.quotationId === quotationId
+      ) > -1
+        ? [
+            ...existingFilters.map((curFilterState: FilterState) => {
+              if (curFilterState.quotationId === quotationId) {
+                return { quotationId, filterModels };
+              }
+
+              return curFilterState;
+            }),
+          ]
+        : [
+            ...existingFilters,
+            {
+              quotationId,
+              filterModels,
+            },
+          ];
+
+    this.saveGridState({
+      ...gridState,
+      customViews: [
+        ...gridState.customViews.map((view: CustomView) =>
+          view.id === viewId
+            ? {
+                ...view,
+                state: {
+                  ...view.state,
+                  filterState,
+                },
+              }
+            : view
+        ),
+      ],
+    });
+  }
+
+  public setColumnFilterForCurrentView(
+    quotationId: string,
+    filterModels: { [key: string]: any }
+  ) {
+    this.setColumnFilters(
+      this.activeTableKey,
+      this.activeViewId,
+      quotationId,
+      filterModels
     );
   }
 
-  private getColumnState(key: string, viewId: number): ColumnState[] {
+  private getColumnState(key: string, viewId: number) {
     const view = this.getViewById(key, viewId);
 
     return view?.state?.columnState || [];
   }
 
-  public getColumnStateForCurrentView(): ColumnState[] {
+  public getColumnStateForCurrentView() {
     return this.getColumnState(this.activeTableKey, this.activeViewId);
   }
 
@@ -125,6 +189,7 @@ export class AgGridStateService {
     this.activeViewId = customViewId;
     this.udpateColumnState();
     this.updateViews();
+    this.updateFilterState();
   }
 
   public getCustomViews(): ViewToggle[] {
@@ -154,8 +219,16 @@ export class AgGridStateService {
     );
   }
 
-  private createNewView(title: string, columnState: ColumnState[]) {
+  private createNewView(
+    title: string,
+    columnState: ColumnState[],
+    quotationId?: string
+  ) {
     const gridState = this.getGridState(this.activeTableKey);
+    const filterState = this.getColumnFilters(
+      this.activeTableKey,
+      this.activeViewId
+    ).find((state: FilterState) => state.quotationId === quotationId);
     const id = this.generateViewId();
 
     this.saveGridState({
@@ -167,6 +240,7 @@ export class AgGridStateService {
           title,
           state: {
             columnState,
+            filterState: filterState ? [filterState] : [],
           },
         },
       ],
@@ -180,10 +254,9 @@ export class AgGridStateService {
     this.createNewView(title, []);
   }
 
-  public createViewFromCurrentView(title: string) {
+  public createViewFromCurrentView(title: string, quotationId: string) {
     const currentView = this.getCurrentView();
-
-    this.createNewView(title, currentView.state.columnState);
+    this.createNewView(title, currentView.state.columnState, quotationId);
   }
 
   private generateViewId(): number {
@@ -263,5 +336,10 @@ export class AgGridStateService {
   private udpateColumnState() {
     const columnState = this.getColumnStateForCurrentView();
     this.columnState.next(columnState);
+  }
+
+  private updateFilterState() {
+    const filterState = this.getColumnFiltersForCurrentView();
+    this.filterState.next(filterState);
   }
 }
