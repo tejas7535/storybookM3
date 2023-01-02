@@ -195,7 +195,10 @@ export class ColumnDefService {
     {
       headerName: translate('shared.quotationDetailsTable.uom'),
       field: ColumnFields.UOM,
-      filterParams: FILTER_PARAMS,
+      filterParams: {
+        ...FILTER_PARAMS,
+        valueFormatter: ColumnUtilityService.transformConditionUnit,
+      },
       valueFormatter: ColumnUtilityService.transformConditionUnit,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
