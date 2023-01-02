@@ -4,11 +4,14 @@ import {
   Component,
   ElementRef,
   Inject,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+
+import { Subscription } from 'rxjs';
 
 import { AutoCompleteFacade } from '../../../../../app/core/store';
 import { MaterialColumnFields } from '../../../ag-grid/constants/column-fields.enum';
@@ -23,8 +26,10 @@ import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete
   selector: 'gq-editing-material-modal',
   templateUrl: './editing-material-modal.component.html',
 })
-export class EditingMaterialModalComponent implements OnInit, AfterViewInit {
-  public editFromGroup: FormGroup;
+export class EditingMaterialModalComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
+  public editFormGroup: FormGroup;
   public fields: MaterialColumnFields;
 
   private readonly materialToEdit: MaterialTableItem;
@@ -40,7 +45,8 @@ export class EditingMaterialModalComponent implements OnInit, AfterViewInit {
   public materialInputIsValid = false;
   public materialNumberInput: boolean;
 
-  public addRowEnabled = false;
+  public updateRowEnabled = false;
+  private readonly subscription: Subscription = new Subscription();
 
   constructor(
     public readonly autoCompleteFacade: AutoCompleteFacade,
@@ -60,16 +66,30 @@ export class EditingMaterialModalComponent implements OnInit, AfterViewInit {
     this.autoCompleteFacade.resetView();
     this.autoCompleteFacade.initFacade(AutocompleteRequestDialog.EDIT_MATERIAL);
 
-    this.editFromGroup = new FormGroup({
+    this.editFormGroup = new FormGroup({
       quantity: new FormControl(undefined, [
         Validators.required,
         Validators.minLength(1),
       ]),
     });
+    this.addSubscriptions();
+  }
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
+  addSubscriptions(): void {
+    this.subscription.add(
+      this.editFormGroup.get('quantity').valueChanges.subscribe(() => {
+        this.editFormGroup
+          .get('quantity')
+          .updateValueAndValidity({ emitEvent: false });
+        this.rowInputValid();
+      })
+    );
+  }
   ngAfterViewInit(): void {
-    this.editFromGroup
+    this.editFormGroup
       .get(MaterialColumnFields.QUANTITY)
       .setValue(this.materialToEdit.quantity);
     this.matDescInput.searchFormControl.setValue(
@@ -110,10 +130,10 @@ export class EditingMaterialModalComponent implements OnInit, AfterViewInit {
   }
 
   rowInputValid(): void {
-    this.addRowEnabled =
+    this.updateRowEnabled =
       this.materialInputIsValid &&
       this.materialNumberInput &&
-      this.editFromGroup.valid &&
+      this.editFormGroup.valid &&
       this.inputHasChanged();
   }
 
@@ -128,7 +148,7 @@ export class EditingMaterialModalComponent implements OnInit, AfterViewInit {
 
     const quantityChanged =
       this.modalData.material.quantity !==
-      this.editFromGroup.get('quantity').value;
+      this.editFormGroup.get('quantity').value;
 
     return (
       materialDescriptionChanged || materialNumberChanged || quantityChanged
@@ -149,7 +169,7 @@ export class EditingMaterialModalComponent implements OnInit, AfterViewInit {
     const updatedMaterial: MaterialTableItem = {
       materialDescription: this.matDescInput.valueInput.nativeElement.value,
       materialNumber: this.matNumberInput.valueInput.nativeElement.value,
-      quantity: this.editFromGroup.get('quantity').value,
+      quantity: this.editFormGroup.get('quantity').value,
       id: this.modalData.material.id,
       info: { valid: true, description: [ValidationDescription.Valid] },
     };

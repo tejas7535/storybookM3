@@ -116,14 +116,14 @@ describe('EditingMaterialModalComponent', () => {
       component.matNumberInput = materialNumberAutocomplete;
     });
     test('should set form values', () => {
-      component.editFromGroup.get = jest
+      component.editFormGroup.get = jest
         .fn()
         .mockReturnValue(editFormGroupQuantity);
 
       component.ngAfterViewInit();
 
-      expect(component.editFromGroup.get).toHaveBeenCalledTimes(2);
-      expect(component.editFromGroup.get).toHaveBeenCalledWith(
+      expect(component.editFormGroup.get).toHaveBeenCalledTimes(2);
+      expect(component.editFormGroup.get).toHaveBeenCalledWith(
         MaterialColumnFields.QUANTITY
       );
       expect(editFormGroupQuantity.setValue).toHaveBeenCalledTimes(1);
@@ -192,6 +192,15 @@ describe('EditingMaterialModalComponent', () => {
     });
   });
 
+  describe('ngOnDestroy', () => {
+    test('should unsubscribe', () => {
+      component['subscription'].unsubscribe = jest.fn();
+
+      component.ngOnDestroy();
+
+      expect(component['subscription'].unsubscribe).toHaveBeenCalledTimes(1);
+    });
+  });
   describe('inputValidation', () => {
     describe('materialInputValid', () => {
       test('should set materialNumberisValid true', () => {
@@ -224,23 +233,23 @@ describe('EditingMaterialModalComponent', () => {
       test('should set addRowEnabled to true', () => {
         component.materialInputIsValid = true;
         component.materialNumberInput = true;
-        component.editFromGroup = { valid: true } as any;
+        component.editFormGroup = { valid: true } as any;
         component.inputHasChanged = jest.fn().mockReturnValue(true);
 
         component.rowInputValid();
 
-        expect(component.addRowEnabled).toBeTruthy();
+        expect(component.updateRowEnabled).toBeTruthy();
       });
 
       test('should set addRowEnabled to false', () => {
         component.materialInputIsValid = true;
         component.materialNumberInput = true;
-        component.editFromGroup = { valid: true } as any;
+        component.editFormGroup = { valid: true } as any;
         component.inputHasChanged = jest.fn().mockReturnValue(false);
 
         component.rowInputValid();
 
-        expect(component.addRowEnabled).toBeFalsy();
+        expect(component.updateRowEnabled).toBeFalsy();
       });
     });
 
@@ -260,7 +269,7 @@ describe('EditingMaterialModalComponent', () => {
             },
           },
         } as any;
-        component.editFromGroup.get = jest
+        component.editFormGroup.get = jest
           .fn()
           .mockReturnValue({ value: MATERIAL_TABLE_ITEM_MOCK.quantity });
 
@@ -281,7 +290,7 @@ describe('EditingMaterialModalComponent', () => {
             },
           },
         } as any;
-        component.editFromGroup.get = jest
+        component.editFormGroup.get = jest
           .fn()
           .mockReturnValue({ value: MATERIAL_TABLE_ITEM_MOCK.quantity });
 
@@ -302,7 +311,7 @@ describe('EditingMaterialModalComponent', () => {
             },
           },
         } as any;
-        component.editFromGroup.get = jest
+        component.editFormGroup.get = jest
           .fn()
           .mockReturnValue({ value: MATERIAL_TABLE_ITEM_MOCK.quantity });
 
@@ -323,7 +332,7 @@ describe('EditingMaterialModalComponent', () => {
             },
           },
         } as any;
-        component.editFromGroup.get = jest
+        component.editFormGroup.get = jest
           .fn()
           .mockReturnValue({ value: 'newQuantity' });
 
@@ -362,7 +371,7 @@ describe('EditingMaterialModalComponent', () => {
           },
         },
       } as any;
-      component.editFromGroup.get = jest
+      component.editFormGroup.get = jest
         .fn()
         .mockReturnValue({ value: 'newQuantity' });
 
