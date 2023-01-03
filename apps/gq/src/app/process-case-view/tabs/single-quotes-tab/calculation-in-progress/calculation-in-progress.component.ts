@@ -1,5 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 
+import { map, Observable } from 'rxjs';
+
+import { TranslocoService } from '@ngneat/transloco';
+
 import { SapCallInProgress } from '../../../../shared/models/quotation';
 
 @Component({
@@ -9,15 +13,22 @@ import { SapCallInProgress } from '../../../../shared/models/quotation';
 export class CalculationInProgressComponent implements OnInit {
   public imagePath: string;
   public translationSource = '';
+  public translationsLoaded$: Observable<boolean>;
 
   @Input() amountDetails: number;
   @Input() sapCallInProgress: SapCallInProgress;
+
+  constructor(private readonly translocoService: TranslocoService) {}
 
   reload(): void {
     window.location.reload();
   }
 
   ngOnInit(): void {
+    this.translationsLoaded$ = this.translocoService
+      .selectTranslateObject('processCaseView', {}, '')
+      .pipe(map((res) => typeof res !== 'string'));
+
     this.translationSource = this.sapCallInProgress
       ? `processCaseView.sapCallInProgress.${
           SapCallInProgress[this.sapCallInProgress]

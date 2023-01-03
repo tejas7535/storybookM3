@@ -1,4 +1,5 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { PushModule } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -10,7 +11,7 @@ describe('CalculationInProgressComponent', () => {
 
   const createComponent = createComponentFactory({
     component: CalculationInProgressComponent,
-    imports: [provideTranslocoTestingModule({ en: {} })],
+    imports: [PushModule, provideTranslocoTestingModule({ en: {} })],
     detectChanges: false,
   });
 
