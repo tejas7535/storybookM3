@@ -3,5 +3,6 @@
   "dest": "../../../../dist/libs/shared/ui/app-shell",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "assets": ["**/i18n/*.json"]
 }
