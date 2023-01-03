@@ -1,20 +1,11 @@
-import { LostJobProfilesResponse, OpenPosition } from '../../models';
 import { LossOfSkillState } from '..';
 import {
+  getJobProfilesLoading,
   getLossOfSkillLeaversData,
   getLossOfSkillLeaversLoading,
   getLossOfSkillWorkforceData,
   getLossOfSkillWorkforceLoading,
-  getLostJobProfilesData,
-  getLostJobProfilesLoading,
 } from './loss-of-skill.selector';
-import * as utils from './loss-of-skill.selector.utils';
-
-jest.mock('./loss-of-skill.selector.utils', () => ({
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-arguments
-  ...jest.requireActual<any>('./loss-of-skill.selector.utils'),
-  enrichJobProfilesWithOpenPositions: jest.fn(() => []),
-}));
 
 describe('LossOfSkill Selector', () => {
   const fakeState: {
@@ -29,6 +20,7 @@ describe('LossOfSkill Selector', () => {
               positionDescription: 'Software Engineer',
               employeesCount: 0,
               leaversCount: 0,
+              openPositionsCount: 0,
             },
           ],
           responseModified: false,
@@ -45,19 +37,10 @@ describe('LossOfSkill Selector', () => {
         errorMesssage: undefined,
         loading: false,
       },
-      openPositions: {
-        loading: false,
-        data: [
-          {
-            positionDescription: 'Software Engineer',
-          } as OpenPosition,
-        ],
-        errorMessage: 'Fancy Error',
-      },
     },
   };
 
-  describe('getLostJobProfilesLoading', () => {
+  describe('getJobProfilesLoading', () => {
     it('should return true if job profiles loading', () => {
       const state = {
         ...fakeState,
@@ -69,80 +52,15 @@ describe('LossOfSkill Selector', () => {
           },
         },
       };
-      expect(getLostJobProfilesLoading(state)).toBeTruthy();
+      expect(getJobProfilesLoading(state)).toBeTruthy();
     });
 
-    it('should return true if open positions loading', () => {
-      const state = {
-        ...fakeState,
-        lossOfSkill: {
-          ...fakeState.lossOfSkill,
-          openPositions: {
-            ...fakeState.lossOfSkill.openPositions,
-            loading: true,
-          },
-        },
-      };
-      expect(getLostJobProfilesLoading(state)).toBeTruthy();
-    });
-
-    it('should return false if nothing loading', () => {
-      expect(getLostJobProfilesLoading(fakeState)).toBeFalsy();
+    it('should return false if job profiles loading', () => {
+      expect(getJobProfilesLoading(fakeState)).toBeFalsy();
     });
   });
 
-  describe('getLostJobProfilesData', () => {
-    let jobProfiles: LostJobProfilesResponse;
-    let openPositions: OpenPosition[];
-
-    beforeEach(() => {
-      jobProfiles = {
-        lostJobProfiles: [
-          {
-            positionDescription: 'Developer',
-            leaversCount: 2,
-            employeesCount: 1,
-          },
-          {
-            positionDescription: 'PO',
-            leaversCount: 0,
-            employeesCount: 2,
-          },
-        ],
-        responseModified: false,
-      };
-      openPositions = [
-        {
-          positionDescription: 'Developer',
-        } as unknown as OpenPosition,
-        {
-          positionDescription: 'PO',
-        } as unknown as OpenPosition,
-        {
-          positionDescription: 'PO',
-        } as unknown as OpenPosition,
-        {
-          positionDescription: 'Scrum Master',
-        } as unknown as OpenPosition,
-      ];
-    });
-
-    test('should return lost job profiles from merge job profiles and open positions', () => {
-      const result = getLostJobProfilesData.projector(
-        jobProfiles,
-        openPositions,
-        false,
-        false
-      );
-
-      expect(result).toBeDefined();
-      expect(result.length).toEqual(0);
-      expect(utils.enrichJobProfilesWithOpenPositions).toHaveBeenCalledWith(
-        jobProfiles.lostJobProfiles,
-        openPositions
-      );
-    });
-  });
+  describe('getLostJobProfilesData', () => {});
 
   describe('getLossOfSkillWorkforceData', () => {
     test('should get data', () => {

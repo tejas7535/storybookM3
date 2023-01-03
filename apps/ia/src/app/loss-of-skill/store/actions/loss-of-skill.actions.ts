@@ -2,11 +2,7 @@ import { createAction, props, union } from '@ngrx/store';
 
 import { ExitEntryEmployeesResponse } from '../../../overview/models';
 import { EmployeesRequest } from '../../../shared/models';
-import {
-  LostJobProfilesResponse,
-  OpenPosition,
-  WorkforceResponse,
-} from '../../models';
+import { LostJobProfilesResponse, WorkforceResponse } from '../../models';
 
 export const loadLossOfSkillData = createAction(
   '[Loss of Skill] Load Loss of Skill Data'
@@ -24,21 +20,6 @@ export const loadJobProfilesSuccess = createAction(
 
 export const loadJobProfilesFailure = createAction(
   '[Loss of Skill] Load Job Profiles Failure',
-  props<{ errorMessage: string }>()
-);
-
-export const loadOpenPositions = createAction(
-  '[Loss of Skill] Load Open Positions',
-  props<{ request: EmployeesRequest }>()
-);
-
-export const loadOpenPositionsSuccess = createAction(
-  '[Loss of Skill] Load Open Positions Success',
-  props<{ openPositions: OpenPosition[] }>()
-);
-
-export const loadOpenPositionsFailure = createAction(
-  '[Loss of Skill] Load Open Positions Failure',
   props<{ errorMessage: string }>()
 );
 
@@ -76,9 +57,6 @@ const all = union({
   loadJobProfiles,
   loadJobProfilesSuccess,
   loadJobProfilesFailure,
-  loadOpenPositions,
-  loadOpenPositionsSuccess,
-  loadOpenPositionsFailure,
 });
 
 export type LossOfSkillActions = typeof all;

@@ -1,11 +1,7 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
 import { ExitEntryEmployeesResponse } from '../../overview/models';
-import {
-  LostJobProfilesResponse,
-  OpenPosition,
-  WorkforceResponse,
-} from '../models';
+import { LostJobProfilesResponse, WorkforceResponse } from '../models';
 import {
   loadJobProfiles,
   loadJobProfilesFailure,
@@ -16,9 +12,6 @@ import {
   loadLossOfSkillWorkforce,
   loadLossOfSkillWorkforceFailure,
   loadLossOfSkillWorkforceSuccess,
-  loadOpenPositions,
-  loadOpenPositionsFailure,
-  loadOpenPositionsSuccess,
 } from './actions/loss-of-skill.actions';
 
 export const lossOfSkillFeatureKey = 'lossOfSkill';
@@ -39,11 +32,6 @@ export interface LossOfSkillState {
     data: ExitEntryEmployeesResponse;
     errorMesssage: string;
   };
-  openPositions: {
-    loading: boolean;
-    data: OpenPosition[];
-    errorMessage: string;
-  };
 }
 
 export const initialState: LossOfSkillState = {
@@ -61,11 +49,6 @@ export const initialState: LossOfSkillState = {
     loading: false,
     data: undefined,
     errorMesssage: undefined,
-  },
-  openPositions: {
-    loading: false,
-    data: undefined,
-    errorMessage: undefined,
   },
 };
 
@@ -100,38 +83,6 @@ export const lossOfSkillReducer = createReducer(
     (state: LossOfSkillState, { errorMessage }): LossOfSkillState => ({
       ...state,
       jobProfiles: {
-        errorMessage,
-        data: undefined,
-        loading: false,
-      },
-    })
-  ),
-  on(
-    loadOpenPositions,
-    (state: LossOfSkillState): LossOfSkillState => ({
-      ...state,
-      openPositions: {
-        ...state.openPositions,
-        loading: true,
-      },
-    })
-  ),
-  on(
-    loadOpenPositionsSuccess,
-    (state: LossOfSkillState, { openPositions }): LossOfSkillState => ({
-      ...state,
-      openPositions: {
-        data: openPositions,
-        loading: false,
-        errorMessage: undefined,
-      },
-    })
-  ),
-  on(
-    loadOpenPositionsFailure,
-    (state: LossOfSkillState, { errorMessage }): LossOfSkillState => ({
-      ...state,
-      openPositions: {
         errorMessage,
         data: undefined,
         loading: false,

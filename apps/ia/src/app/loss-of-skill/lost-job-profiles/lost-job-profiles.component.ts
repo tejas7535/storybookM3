@@ -1,10 +1,9 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
-  OnChanges,
   Output,
-  SimpleChanges,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -25,9 +24,21 @@ type CellType = 'workforce' | 'leavers';
 @Component({
   selector: 'ia-lost-job-profiles',
   templateUrl: './lost-job-profiles.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LostJobProfilesComponent implements OnChanges {
-  @Input() loading: boolean; // not used at the moment
+export class LostJobProfilesComponent {
+  private _loading: boolean;
+
+  @Input() set loading(loading: boolean) {
+    this._loading = loading;
+
+    this.displayOrHideLoadingOverlay(loading);
+  }
+
+  get loading() {
+    return this._loading;
+  }
+
   @Input() data: JobProfile[];
 
   @Output() workforceRequested = new EventEmitter<string>();
@@ -135,6 +146,7 @@ export class LostJobProfilesComponent implements OnChanges {
         count: params.data.leaversCount,
         restrictedAccess: false,
       }),
+      comparator: this.countComparator,
     },
     {
       field: 'openPositions',
@@ -143,6 +155,7 @@ export class LostJobProfilesComponent implements OnChanges {
       }),
       filter: 'agNumberColumnFilter',
       flex: 1,
+      valueFormatter: (params) => params.data.openPositionsCount,
     },
   ];
 
@@ -164,15 +177,25 @@ export class LostJobProfilesComponent implements OnChanges {
 
   constructor(private readonly dialog: MatDialog) {}
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.loading?.currentValue) {
-      this.gridApi?.showLoadingOverlay();
+  countComparator(a: { count: number }, b: { count: number }): number {
+    if (a.count === b.count) {
+      return 0;
     }
+
+    return a.count > b.count ? 1 : -1;
   }
 
   onGridReady(params: GridReadyEvent) {
     this.gridApi = params.api;
     params.columnApi.autoSizeColumn('openPositions');
+  }
+
+  displayOrHideLoadingOverlay(loading: boolean) {
+    if (loading) {
+      this.gridApi?.showLoadingOverlay();
+    } else {
+      this.gridApi?.hideOverlay();
+    }
   }
 
   handleCellClick(params: any, key: CellType): void {

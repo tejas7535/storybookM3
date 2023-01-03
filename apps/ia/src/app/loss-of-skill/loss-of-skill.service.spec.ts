@@ -7,7 +7,7 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
 import { EmployeesRequest, FilterDimension } from '../shared/models';
 import { LossOfSkillService } from './loss-of-skill.service';
-import { JobProfile, OpenPosition } from './models';
+import { JobProfile } from './models';
 
 describe('LossOfSkillService', () => {
   let httpMock: HttpTestingController;
@@ -52,29 +52,6 @@ describe('LossOfSkillService', () => {
 
       const req = httpMock.expectOne(
         `api/v1/job-profiles?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}&time_range=${timeRange}`
-      );
-      expect(req.request.method).toBe('GET');
-      req.flush(mock);
-    });
-  });
-
-  describe('getOpenPositions', () => {
-    test('should get open positions', () => {
-      const orgUnit = 'Schaeffler12';
-      const request = {
-        filterDimension: FilterDimension.ORG_UNIT,
-        value: orgUnit,
-      } as EmployeesRequest;
-      const mock: OpenPosition[] = [
-        { positionDescription: 'Manager' } as OpenPosition,
-      ];
-
-      service.getOpenPositions(request).subscribe((response) => {
-        expect(response).toEqual(mock);
-      });
-
-      const req = httpMock.expectOne(
-        `api/v1/open-positions?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);

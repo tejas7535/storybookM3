@@ -14,11 +14,7 @@ import { getCurrentFilters } from '../../../core/store/selectors';
 import { ExitEntryEmployeesResponse } from '../../../overview/models';
 import { EmployeesRequest } from '../../../shared/models';
 import { LossOfSkillService } from '../../loss-of-skill.service';
-import {
-  LostJobProfilesResponse,
-  OpenPosition,
-  WorkforceResponse,
-} from '../../models';
+import { LostJobProfilesResponse, WorkforceResponse } from '../../models';
 import {
   loadJobProfiles,
   loadJobProfilesFailure,
@@ -30,9 +26,6 @@ import {
   loadLossOfSkillWorkforce,
   loadLossOfSkillWorkforceFailure,
   loadLossOfSkillWorkforceSuccess,
-  loadOpenPositions,
-  loadOpenPositionsFailure,
-  loadOpenPositionsSuccess,
 } from '../actions/loss-of-skill.actions';
 
 /* eslint-disable ngrx/prefer-effect-callback-in-block-statement */
@@ -63,10 +56,7 @@ export class LossOfSkillEffects {
       concatLatestFrom(() => this.store.select(getCurrentFilters)),
       map(([_action, request]) => request),
       filter((request) => !!(request.timeRange && request.value)),
-      mergeMap((request: EmployeesRequest) => [
-        loadJobProfiles({ request }),
-        loadOpenPositions({ request }),
-      ])
+      mergeMap((request: EmployeesRequest) => [loadJobProfiles({ request })])
     );
   });
 
@@ -81,23 +71,6 @@ export class LossOfSkillEffects {
           ),
           catchError((error) =>
             of(loadJobProfilesFailure({ errorMessage: error.message }))
-          )
-        )
-      )
-    );
-  });
-
-  loadOpenPositions$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(loadOpenPositions),
-      map((action) => action.request),
-      switchMap((request: EmployeesRequest) =>
-        this.lossOfSkillService.getOpenPositions(request).pipe(
-          map((openPositions: OpenPosition[]) =>
-            loadOpenPositionsSuccess({ openPositions })
-          ),
-          catchError((error) =>
-            of(loadOpenPositionsFailure({ errorMessage: error.message }))
           )
         )
       )

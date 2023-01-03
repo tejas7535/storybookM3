@@ -1,4 +1,3 @@
-import { SimpleChange, SimpleChanges } from '@angular/core';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -90,41 +89,33 @@ describe('LostJobProfilesComponent', () => {
     });
   });
 
-  describe('ngOnChanges', () => {
-    test('should show loading overlay when loading true', () => {
-      component.gridApi = {} as GridApi;
-      component.gridApi.showLoadingOverlay = jest.fn();
-      const loadingChanges: SimpleChanges = {
-        loading: { currentValue: true } as SimpleChange,
-      };
+  describe('loading', () => {
+    test('should show or hide loading overlay', () => {
+      component.displayOrHideLoadingOverlay = jest.fn();
 
-      component.ngOnChanges(loadingChanges);
+      component.loading = true;
+
+      expect(component.displayOrHideLoadingOverlay).toHaveBeenCalled();
+    });
+  });
+
+  describe('displayOrHideLoadingOverlay', () => {
+    test('should show loading overlay when loading true', () => {
+      component.gridApi = { showLoadingOverlay: (): void => {} } as GridApi;
+      component.gridApi.showLoadingOverlay = jest.fn();
+
+      component.displayOrHideLoadingOverlay(true);
 
       expect(component.gridApi.showLoadingOverlay).toHaveBeenCalled();
     });
 
-    test('should not show loading overlay when loading false', () => {
-      component.gridApi = {} as GridApi;
-      component.gridApi.showLoadingOverlay = jest.fn();
-      const loadingChanges: SimpleChanges = {
-        loading: { currentValue: false } as SimpleChange,
-      };
+    test('should hide overlay when loading false', () => {
+      component.gridApi = { hideOverlay: (): void => {} } as GridApi;
+      component.gridApi.hideOverlay = jest.fn();
 
-      component.ngOnChanges(loadingChanges);
+      component.displayOrHideLoadingOverlay(false);
 
-      expect(component.gridApi.showLoadingOverlay).not.toHaveBeenCalled();
-    });
-
-    test('should not show loading overlay when loading not ready', () => {
-      component.gridApi = {} as GridApi;
-      component.gridApi.showLoadingOverlay = jest.fn();
-      const loadingChanges: SimpleChanges = {
-        loading: undefined as SimpleChange,
-      };
-
-      component.ngOnChanges(loadingChanges);
-
-      expect(component.gridApi.showLoadingOverlay).not.toHaveBeenCalled();
+      expect(component.gridApi.hideOverlay).toHaveBeenCalled();
     });
   });
 
@@ -141,6 +132,35 @@ describe('LostJobProfilesComponent', () => {
 
       expect(component.gridApi).toBeDefined();
       expect(params.columnApi.autoSizeColumn).toHaveBeenCalled();
+    });
+  });
+
+  describe('countComparator', () => {
+    test('should return 1 when previous value bigger than next', () => {
+      const previous = { count: 5 };
+      const next = { count: 3 };
+
+      const result = component.countComparator(previous, next);
+
+      expect(result).toBe(1);
+    });
+
+    test('should return -1 when previous value smaller than next', () => {
+      const previous = { count: 5 };
+      const next = { count: 8 };
+
+      const result = component.countComparator(previous, next);
+
+      expect(result).toBe(-1);
+    });
+
+    test('should return 0 when previous value equal next', () => {
+      const previous = { count: 8 };
+      const next = { count: 8 };
+
+      const result = component.countComparator(previous, next);
+
+      expect(result).toBe(0);
     });
   });
 });

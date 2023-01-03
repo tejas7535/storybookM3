@@ -11,12 +11,12 @@ import {
   loadLossOfSkillWorkforce,
 } from './store/actions/loss-of-skill.actions';
 import {
+  getJobProfilesData,
+  getJobProfilesLoading,
   getLossOfSkillLeaversData,
   getLossOfSkillLeaversLoading,
   getLossOfSkillWorkforceData,
   getLossOfSkillWorkforceLoading,
-  getLostJobProfilesData,
-  getLostJobProfilesLoading,
 } from './store/selectors/loss-of-skill.selector';
 
 @Component({
@@ -25,7 +25,7 @@ import {
 })
 export class LossOfSkillComponent implements OnInit {
   lostJobProfilesLoading$: Observable<boolean>;
-  lostJobProfilesData$: Observable<(JobProfile & { openPositions: number })[]>;
+  lostJobProfilesData$: Observable<JobProfile[]>;
   lossOfSkillWorkforceData$: Observable<WorkforceResponse>;
   lossOfSkillWorkforceLoading$: Observable<boolean>;
   lossOfSkillLeaversData$: Observable<ExitEntryEmployeesResponse>;
@@ -34,8 +34,8 @@ export class LossOfSkillComponent implements OnInit {
   constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
-    this.lostJobProfilesLoading$ = this.store.select(getLostJobProfilesLoading);
-    this.lostJobProfilesData$ = this.store.select(getLostJobProfilesData);
+    this.lostJobProfilesLoading$ = this.store.select(getJobProfilesLoading);
+    this.lostJobProfilesData$ = this.store.select(getJobProfilesData);
     this.lossOfSkillWorkforceData$ = this.store.select(
       getLossOfSkillWorkforceData
     );
