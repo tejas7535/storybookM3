@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/inputs-v1.0.0...inputs-v1.1.0) (2023-01-03)
+
+
+### 🎸 Features
+
+* **inputs:** add optional tooltip for select trigger ([#4812](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4812)) ([e7bedf3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e7bedf34d9c61cd7aed3fe00d323244173a646d3))
+* **inputs:** add tooltip position option ([#4822](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4822)) ([ee55a85](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ee55a855731f9bb20dbea4f2aac046e6bf4ae111))
+
+
+### 🐛 Bug Fixes
+
+* **inputs:** fix autoActiveFirstOption ([#4819](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4819)) ([0931197](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/09311970d7cb18d50de64c830a624ce919eb2979))
+
+
+### 🏭 Automation
+
+* **workspace:** use pnpm as package and node version manager ([35e04db](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/35e04dba206a3d579156300c68b2ede9206556ff))
+
 ## [1.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/inputs-v0.0.5...inputs-v1.0.0) (2022-11-16)
 
 
