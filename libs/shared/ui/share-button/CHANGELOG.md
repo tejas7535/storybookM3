@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.0.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/share-button-v1.0.0...share-button-v1.0.1) (2023-01-03)
+
+
+### 🏭 Automation
+
+* **workspace:** use pnpm as package and node version manager ([35e04db](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/35e04dba206a3d579156300c68b2ede9206556ff))
+
 ## [1.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/share-button-v0.2.4...share-button-v1.0.0) (2022-11-16)
 
 ### [0.2.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/share-button-v0.2.3...share-button-v0.2.4) (2022-09-20)
