@@ -145,7 +145,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
       });
   }
 
-  public onColumnChange(event: FilterChangedEvent | SortChangedEvent): void {
+  public onColumnChange(event: SortChangedEvent): void {
     this.updateColumnData(event);
 
     const viewId = this.agGridStateService.getCurrentViewId();
@@ -155,12 +155,19 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
         event.columnApi.getColumnState()
       );
     }
+  }
 
-    const filterModels = event.api.getFilterModel();
-    this.agGridStateService.setColumnFilterForCurrentView(
-      this.tableContext.quotation.gqId.toString(),
-      filterModels
-    );
+  public onFilterChanged(event: FilterChangedEvent): void {
+    const viewId = this.agGridStateService.getCurrentViewId();
+
+    if (viewId !== this.agGridStateService.DEFAULT_VIEW_ID) {
+      const filterModels = event.api.getFilterModel();
+
+      this.agGridStateService.setColumnFilterForCurrentView(
+        this.tableContext.quotation.gqId.toString(),
+        filterModels
+      );
+    }
   }
 
   public onRowDataUpdated(event: RowDataUpdatedEvent): void {

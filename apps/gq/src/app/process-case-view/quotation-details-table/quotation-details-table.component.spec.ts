@@ -148,7 +148,7 @@ describe('QuotationDetailsTableComponent', () => {
       component['agGridStateService'].setColumnFilterForCurrentView = jest.fn();
     });
 
-    test('should set column state and column filters', () => {
+    test('should set column state', () => {
       component['agGridStateService'].getCurrentViewId = jest
         .fn()
         .mockReturnValue(1);
@@ -158,6 +158,15 @@ describe('QuotationDetailsTableComponent', () => {
       expect(
         component['agGridStateService'].setColumnStateForCurrentView
       ).toHaveBeenCalledTimes(1);
+    });
+
+    test('should set column filters', () => {
+      component['agGridStateService'].getCurrentViewId = jest
+        .fn()
+        .mockReturnValue(1);
+
+      component.onFilterChanged(event);
+
       expect(event.api.getFilterModel).toHaveBeenCalledTimes(1);
       expect(
         component['agGridStateService'].setColumnFilterForCurrentView
@@ -177,7 +186,18 @@ describe('QuotationDetailsTableComponent', () => {
       expect(
         component['agGridStateService'].setColumnStateForCurrentView
       ).toHaveBeenCalledTimes(0);
-      expect(event.api.getFilterModel).toHaveBeenCalledTimes(1);
+    });
+
+    test('should NOT set column filters for default column', () => {
+      component['agGridStateService'].getCurrentViewId = jest
+        .fn()
+        .mockReturnValue(0);
+
+      component.onFilterChanged(event);
+
+      expect(
+        component['agGridStateService'].setColumnFilterForCurrentView
+      ).toHaveBeenCalledTimes(0);
     });
 
     test('should set column data', () => {

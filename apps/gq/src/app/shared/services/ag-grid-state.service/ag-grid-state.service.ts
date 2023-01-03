@@ -318,6 +318,7 @@ export class AgGridStateService {
     this.localStorage.setItem(this.activeTableKey, JSON.stringify(gridState));
     this.updateViews();
     this.udpateColumnState();
+    this.updateFilterState();
   }
 
   private updateViews() {
