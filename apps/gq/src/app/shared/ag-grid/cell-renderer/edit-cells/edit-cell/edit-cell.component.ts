@@ -81,7 +81,6 @@ export class EditCellComponent implements ICellRendererAngularComp {
         quotationDetail: this.params.data as QuotationDetail,
         field: this.params.field,
       },
-      disableClose: true,
     });
   }
 

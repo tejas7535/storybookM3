@@ -32,7 +32,6 @@ export class QuantityDisplayComponent implements OnInit {
         quotationDetail: this.quotationDetail,
         field: ColumnFields.ORDER_QUANTITY,
       },
-      disableClose: true,
     });
   }
 }

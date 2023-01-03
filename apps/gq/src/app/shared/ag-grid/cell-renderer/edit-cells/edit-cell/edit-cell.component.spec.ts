@@ -240,7 +240,6 @@ describe('EditCellComponent', () => {
             quotationDetail: QUOTATION_DETAIL_MOCK,
             field: ColumnFields.GPM,
           },
-          disableClose: true,
         }
       );
     });

@@ -22,7 +22,6 @@ export class EditCommentComponent {
       width: '684px',
       height: '300px',
       data: this.detail,
-      disableClose: true,
     });
   }
 }

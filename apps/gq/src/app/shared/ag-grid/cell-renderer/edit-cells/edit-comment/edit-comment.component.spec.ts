@@ -56,7 +56,6 @@ describe('EditCommentComponent', () => {
           width: '684px',
           height: '300px',
           data: QUOTATION_DETAIL_MOCK,
-          disableClose: true,
         }
       );
     });

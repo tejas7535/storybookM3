@@ -1,10 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import {
-  MAT_DIALOG_DEFAULT_OPTIONS,
-  MatDialogModule,
-} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
@@ -39,12 +36,6 @@ import { CaseViewRoutingModule } from './case-view-routing.module';
     ViewToggleModule,
     SubheaderModule,
   ],
-  providers: [
-    { provide: TRANSLOCO_SCOPE, useValue: 'case-view' },
-    {
-      provide: MAT_DIALOG_DEFAULT_OPTIONS,
-      useValue: { disableClose: true, hasBackdrop: true },
-    },
-  ],
+  providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'case-view' }],
 })
 export class CaseViewModule {}

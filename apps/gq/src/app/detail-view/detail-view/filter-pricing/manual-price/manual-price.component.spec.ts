@@ -143,7 +143,6 @@ describe('ManualPriceComponent', () => {
             quotationDetail: QUOTATION_DETAIL_MOCK,
             field: ColumnFields.GPI,
           },
-          disableClose: true,
           width: '684px',
         }
       );
@@ -158,7 +157,6 @@ describe('ManualPriceComponent', () => {
             quotationDetail: QUOTATION_DETAIL_MOCK,
             field: ColumnFields.GPM,
           },
-          disableClose: true,
           width: '684px',
         }
       );
@@ -173,7 +171,6 @@ describe('ManualPriceComponent', () => {
             quotationDetail: QUOTATION_DETAIL_MOCK,
             field: ColumnFields.PRICE,
           },
-          disableClose: true,
           width: '684px',
         }
       );

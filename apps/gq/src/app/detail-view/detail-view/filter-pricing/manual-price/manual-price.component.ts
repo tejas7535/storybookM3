@@ -74,7 +74,6 @@ export class ManualPriceComponent implements OnChanges, OnInit {
         quotationDetail: this.quotationDetail,
         field: columnField,
       },
-      disableClose: true,
     });
   }
 }

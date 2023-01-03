@@ -62,7 +62,6 @@ export class EditCaseMaterialComponent {
   onIconClick(): void {
     this.dialog
       .open(EditingMaterialModalComponent, {
-        disableClose: true,
         width: '660px',
         data: {
           material: this.params.data,

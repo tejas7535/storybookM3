@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
 
@@ -49,12 +48,6 @@ import { ProcessCaseViewRoutingModule } from './process-case-view-routing.module
     TabsHeaderModule,
     SyncStatusCustomerInfoHeaderModule,
   ],
-  providers: [
-    {
-      provide: MAT_DIALOG_DEFAULT_OPTIONS,
-      useValue: { hasBackdrop: true },
-    },
-    { provide: TRANSLOCO_SCOPE, useValue: 'process-case-view' },
-  ],
+  providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'process-case-view' }],
 })
 export class ProcessCaseViewModule {}

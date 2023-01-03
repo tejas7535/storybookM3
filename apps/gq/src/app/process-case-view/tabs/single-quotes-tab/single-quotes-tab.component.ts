@@ -91,7 +91,6 @@ export class SingleQuotesTabComponent implements OnInit {
     if (icon.iconName === this.DELETE_ICON) {
       this.dialog
         .open(DeleteCustomViewModalComponent, {
-          disableClose: true,
           width: '550px',
         })
         .afterClosed()
@@ -121,7 +120,6 @@ export class SingleQuotesTabComponent implements OnInit {
   ) {
     this.dialog
       .open(AddCustomViewModalComponent, {
-        disableClose: true,
         width: '550px',
         data: { createNewView, name, showRadioButtons },
       })
