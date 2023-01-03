@@ -124,13 +124,13 @@ export class OrgChartService {
                : this.getGeneralDimensionGrid(data)
            }
 
-            <div class="flex-1 flex justify-between items-center px-4">
+            <div class="grid grid-cols-2 gap-2 text-center flex-1">
                 <span id="employee-node-people" data-id="${
                   data.nodeId
-                }" class="before:content-['people'] before:font-materiaIcons cursor-pointer text-[24px] text-low-emphasis hover:text-medium-emphasis"></span>
+                }" class="before:content-['people'] before:font-materiaIcons self-center cursor-pointer text-[24px] text-low-emphasis hover:text-medium-emphasis"></span>
                 <span id="employee-node-attrition" data-id="${
                   data.nodeId
-                }" class="before:content-['\\e24b'] before:font-materiaIcons cursor-pointer text-[24px] text-low-emphasis hover:text-medium-emphasis"></span>
+                }" class="before:content-['\\e24b'] before:font-materiaIcons self-center cursor-pointer text-[24px] text-low-emphasis hover:text-medium-emphasis"></span>
             </div>
           </div>
         `;
