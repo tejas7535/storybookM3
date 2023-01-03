@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [2.4.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/empty-states-v2.4.2...empty-states-v2.4.3) (2023-01-03)
+
+
+### 🏭 Automation
+
+* **workspace:** use pnpm as package and node version manager ([35e04db](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/35e04dba206a3d579156300c68b2ede9206556ff))
+
 ### [2.4.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/empty-states-v2.4.1...empty-states-v2.4.2) (2022-11-16)
 
 ### [2.4.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/empty-states-v2.4.0...empty-states-v2.4.1) (2022-09-20)
