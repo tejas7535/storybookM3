@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.0.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/app-shell-v1.0.0...app-shell-v1.0.1) (2023-01-03)
+
+
+### 🏭 Automation
+
+* **workspace:** use pnpm as package and node version manager ([35e04db](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/35e04dba206a3d579156300c68b2ede9206556ff))
+
+
+### 🐛 Bug Fixes
+
+* **app-shell:** add translation files to npm package ([#4907](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4907)) ([2156792](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2156792162e6e056561b16c9427f787bb9da8878))
+
 ## [1.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/app-shell-v0.0.11...app-shell-v1.0.0) (2022-11-16)
 
 
