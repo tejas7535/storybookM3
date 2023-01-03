@@ -108,7 +108,7 @@ export class OrgChartService {
             ${data.showUpperParentBtn ? upwardsButton : ''}
             <div class="flex justify-center rounded-2xl py-2 -my-4
               ${data.heatMapClass}">
-                <span class="text-body-2 ${
+                <span class="text-body-2 text-center ${
                   data.heatMapClass !== undefined
                     ? 'text-high-emphasis-dark-bg'
                     : 'text-high-emphasis'
