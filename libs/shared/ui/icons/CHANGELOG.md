@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [2.1.7](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/icons-v2.1.6...icons-v2.1.7) (2023-01-03)
+
+
+### 🏭 Automation
+
+* **workspace:** use pnpm as package and node version manager ([35e04db](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/35e04dba206a3d579156300c68b2ede9206556ff))
+
 ### [2.1.6](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/icons-v2.1.5...icons-v2.1.6) (2022-11-16)
 
 ### [2.1.5](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/icons-v2.1.4...icons-v2.1.5) (2022-09-20)
