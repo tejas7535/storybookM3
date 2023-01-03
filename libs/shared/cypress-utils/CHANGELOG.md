@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.13.7](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cypress-utils-v1.13.6...cypress-utils-v1.13.7) (2023-01-03)
+
 ### [1.13.6](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cypress-utils-v1.13.5...cypress-utils-v1.13.6) (2022-11-16)
 
 ### [1.13.5](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cypress-utils-v1.13.4...cypress-utils-v1.13.5) (2022-09-20)
