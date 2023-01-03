@@ -44,4 +44,13 @@ describe('StatusBarComponent', () => {
       expect(component.resetAll.emit).toHaveBeenCalledTimes(1);
     });
   });
+  describe('emitCloseDialog', () => {
+    test('should emit output closeDialog', () => {
+      component.closeDialog.emit = jest.fn();
+
+      component.emitCloseDialog();
+
+      expect(component.closeDialog.emit).toHaveBeenCalledTimes(1);
+    });
+  });
 });

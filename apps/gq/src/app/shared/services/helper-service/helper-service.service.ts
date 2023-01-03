@@ -15,6 +15,7 @@ import { CreateCaseActionHeaderComponent } from '../../ag-grid/cell-renderer/act
 import { ProcessCaseActionCellComponent } from '../../ag-grid/cell-renderer/action-cells/process-case-action-cell/process-case-action-cell.component';
 import { ProcessCaseActionHeaderComponent } from '../../ag-grid/cell-renderer/action-cells/process-case-action-header/process-case-action-header.component';
 import { AddMaterialButtonComponent } from '../../ag-grid/custom-status-bar/case-material-table/add-material-button/add-material-button.component';
+import { CancelCaseButtonComponent } from '../../ag-grid/custom-status-bar/case-material-table/cancel-case-button/cancel-case-button.component';
 import { CreateCaseButtonComponent } from '../../ag-grid/custom-status-bar/case-material-table/create-case-button/create-case-button.component';
 import { CreateCaseResetAllButtonComponent } from '../../ag-grid/custom-status-bar/case-material-table/create-case-reset-all-button/create-case-reset-all-button.component';
 import { ProcessCaseResetAllButtonComponent } from '../../ag-grid/custom-status-bar/case-material-table/process-case-reset-all-button/process-case-reset-all-button.component';
@@ -52,7 +53,10 @@ export class HelperService {
         : AddMaterialButtonComponent,
       align: 'left',
     };
-
+    const cancelPanel: StatusPanelDef = {
+      statusPanel: CancelCaseButtonComponent,
+      align: 'left',
+    };
     const resetPanel: StatusPanelDef = {
       statusPanel: isCaseView
         ? CreateCaseResetAllButtonComponent
@@ -60,7 +64,14 @@ export class HelperService {
       align: 'right',
     };
 
-    return { statusPanels: [...statusBar.statusPanels, addPanel, resetPanel] };
+    return {
+      statusPanels: [
+        ...statusBar.statusPanels,
+        addPanel,
+        cancelPanel,
+        resetPanel,
+      ],
+    };
   }
 
   static initColDef(isCaseView: boolean, colDef: ColDef[]): ColDef[] {

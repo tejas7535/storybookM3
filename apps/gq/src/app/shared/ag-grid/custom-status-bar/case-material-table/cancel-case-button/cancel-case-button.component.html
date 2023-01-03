@@ -1,0 +1,9 @@
+<button
+  *transloco="let t; read: 'caseView.caseCreation.createManualCase'"
+  class="!mt-4 !ml-4"
+  mat-stroked-button
+  color="primary"
+  (click)="closeDialog()"
+>
+  {{ t('cancelButton') | uppercase }}
+</button>

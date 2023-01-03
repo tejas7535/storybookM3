@@ -9,11 +9,15 @@ export class StatusBarComponent {
 
   @Output() createCase = new EventEmitter();
   @Output() resetAll = new EventEmitter();
+  @Output() closeDialog = new EventEmitter();
 
   emitCreateCase(): void {
     this.createCase.emit();
   }
   emitResetAll(): void {
     this.resetAll.emit();
+  }
+  emitCloseDialog(): void {
+    this.closeDialog.emit();
   }
 }

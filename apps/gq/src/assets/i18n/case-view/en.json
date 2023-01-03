@@ -19,11 +19,13 @@
   "caseCreation": {
     "importCase": {
       "title": "Import SAP Quotation",
-      "importButton": "Import"
+      "importButton": "Import",
+      "cancelButton": "Cancel"
     },
     "createManualCase": {
       "title": "Create New Case",
-      "createButton": "Create Case"
+      "createButton": "Create Case",
+      "cancelButton": "Cancel"
     },
     "createCustomerCase": {
       "title": "Create case from Customer",
@@ -46,6 +48,7 @@
       },
       "statusBar": {
         "createCase": "Create Case",
+        "cancelButton": "Cancel",
         "resetAll": "Reset All",
         "total": "Total"
       }

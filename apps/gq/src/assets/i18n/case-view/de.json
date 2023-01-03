@@ -19,11 +19,13 @@
   "caseCreation": {
     "importCase": {
       "title": "SAP Angebot importieren",
-      "importButton": "Importieren"
+      "importButton": "Importieren",
+      "cancelButton": "Abbrechen"
     },
     "createManualCase": {
       "title": "Neuen Case erstellen",
-      "createButton": "Case erstellen"
+      "createButton": "Case erstellen",
+      "cancelButton": "Abbrechen"
     },
     "createCustomerCase": {
       "title": "Neuen Case auf Kundenbasis erstellen",
@@ -46,6 +48,7 @@
       },
       "statusBar": {
         "createCase": "Case erstellen",
+        "cancelButton": "Abbrechen",
         "resetAll": "Zurücksetzen",
         "total": "Gesamt"
       }

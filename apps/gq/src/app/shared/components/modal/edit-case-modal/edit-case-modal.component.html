@@ -36,19 +36,9 @@
       </mat-form-field>
     </div>
 
-    <div class="flex w-full items-end justify-end">
+    <div class="flex w-full">
       <button
         class="!pl-8 !pr-8"
-        color="primary"
-        mat-stroked-button
-        (click)="closeDialog()"
-        type="button"
-        data-cy="edit-case-modal_close-btn"
-      >
-        <span> {{ t('cancel') | uppercase }} </span>
-      </button>
-      <button
-        class="!ml-6 !pl-8 !pr-8"
         color="primary"
         mat-raised-button
         [disabled]="
@@ -59,7 +49,16 @@
         "
         data-cy="edit-case-modal_update-btn"
       >
-        <span> {{ t('update') | uppercase }} </span>
+        <span> {{ t('confirm') | uppercase }} </span></button
+      ><button
+        class="!ml-6 !pl-8 !pr-8"
+        color="primary"
+        mat-stroked-button
+        (click)="closeDialog()"
+        type="button"
+        data-cy="edit-case-modal_close-btn"
+      >
+        <span> {{ t('cancel') | uppercase }} </span>
       </button>
     </div>
   </form>

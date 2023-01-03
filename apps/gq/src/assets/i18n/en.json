@@ -216,7 +216,7 @@
         "importCase": "Import from sap",
         "createManualCase": "Create manual case",
         "createCustomerCase": "New case from customer",
-        "addMaterial": "add",
+        "addMaterial": "add items",
         "exportToExcelTooltip": "Export to Excel file",
         "addNewItem": "add new item",
         "addNewItemMobile": "add",
@@ -415,7 +415,7 @@
     "caseModal": {
       "title": "Case settings",
       "cancel": "Cancel",
-      "update": "Update",
+      "confirm": "Confirm",
       "nameLabel": "Case Name",
       "currencyLabel": "Custom Currency"
     },

@@ -216,7 +216,7 @@
         "importCase": "SAP Angebot importieren",
         "createManualCase": "Manuellen Case erstellen",
         "createCustomerCase": "Case auf Kundenbasis erstellen",
-        "addMaterial": "hinzufügen",
+        "addMaterial": "Positionen hinzufügen",
         "exportToExcelTooltip": "Als Excel-Datei exportieren",
         "addNewItem": "Neue Position hinzufügen",
         "addNewItemMobile": "Hinzufügen",
@@ -415,7 +415,7 @@
     "caseModal": {
       "title": "Case Einstellungen",
       "cancel": "Abbrechen",
-      "update": "Speichern",
+      "confirm": "Bestätigen",
       "nameLabel": "Case Bezeichnung",
       "currencyLabel": "Individuelle Währung"
     },
