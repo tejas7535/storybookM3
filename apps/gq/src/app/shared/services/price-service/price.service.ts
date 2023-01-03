@@ -20,23 +20,36 @@ export class PriceService {
     // First we need to round the price value to prevent wrong calculations down the line
     // See GQUOTE-1673
     if (typeof detail.price === 'number') {
-      detail.price = this.roundValue(detail.price);
+      detail.price = this.roundValue(detail.price, detail.material.priceUnit);
     }
 
     if (typeof detail.recommendedPrice === 'number') {
-      detail.recommendedPrice = this.roundValue(detail.recommendedPrice);
+      detail.recommendedPrice = this.roundValue(
+        detail.recommendedPrice,
+        detail.material.priceUnit
+      );
     }
 
     if (typeof detail.lastCustomerPrice === 'number') {
-      detail.lastCustomerPrice = this.roundValue(detail.lastCustomerPrice);
+      detail.lastCustomerPrice = this.roundValue(
+        detail.lastCustomerPrice,
+        detail.material.priceUnit
+      );
+    }
+
+    if (typeof detail.strategicPrice === 'number') {
+      detail.strategicPrice = this.roundValue(
+        detail.strategicPrice,
+        detail.material.priceUnit
+      );
     }
 
     if (typeof detail.gpc === 'number') {
-      detail.gpc = this.roundValue(detail.gpc);
+      detail.gpc = this.roundValue(detail.gpc, detail.material.priceUnit);
     }
 
     if (typeof detail.sqv === 'number') {
-      detail.sqv = this.roundValue(detail.sqv);
+      detail.sqv = this.roundValue(detail.sqv, detail.material.priceUnit);
     }
 
     detail.netValue = PriceService.calculateNetValue(
@@ -65,8 +78,11 @@ export class PriceService {
     PriceService.calculateSapPriceValues(detail);
   }
 
-  static roundValue = (val: number) =>
-    Math.round((val + Number.EPSILON) * 100) / 100;
+  static roundValue = (val: number, priceUnit: number) => {
+    const roundingFactor = priceUnit >= 1 ? priceUnit * 100 : 100;
+
+    return Math.round((val + Number.EPSILON) * roundingFactor) / roundingFactor;
+  };
 
   static calculatePriceUnitValues(detail: QuotationDetail): void {
     const { priceUnit } = detail.material;
