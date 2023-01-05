@@ -43,13 +43,6 @@
       },
       "outputs": ["coverage/libs/shared/ui/banner"]
     },
-    "standard-version": {
-      "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "command": "npx standard-version --no-verify {args.params}",
-        "cwd": "libs/shared/ui/banner"
-      }
-    },
     "publish": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
@@ -58,6 +51,18 @@
             "command": "pnpm publish dist/libs/shared/ui/banner --tag latest"
           }
         ]
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "conventional",
+        "baseBranch": "master",
+        "tagPrefix": "banner-v",
+        "changelogHeader": "# Release Notes of Library Shared UI Banner",
+        "commitMessageFormat": "chore(${projectName}): 🚀 release version ${version} [CI SKIP]",
+        "noVerify": true,
+        "postTargets": []
       }
     }
   },

@@ -45,13 +45,6 @@
         ]
       }
     },
-    "standard-version": {
-      "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "command": "npx standard-version --no-verify {args.params}",
-        "cwd": "libs/shared/ui/inputs"
-      }
-    },
     "test": {
       "executor": "@nrwl/jest:jest",
       "options": {
@@ -59,6 +52,18 @@
         "passWithNoTests": true
       },
       "outputs": ["coverage/libs/shared/ui/inputs"]
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "conventional",
+        "baseBranch": "master",
+        "tagPrefix": "inputs-v",
+        "changelogHeader": "# Release Notes of Library Shared UI Inputs",
+        "commitMessageFormat": "chore(${projectName}): 🚀 release version ${version} [CI SKIP]",
+        "noVerify": true,
+        "postTargets": []
+      }
     }
   }
 }

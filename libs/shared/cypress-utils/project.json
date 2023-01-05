@@ -21,11 +21,16 @@
         }
       }
     },
-    "standard-version": {
-      "executor": "@nrwl/workspace:run-commands",
+    "version": {
+      "executor": "@jscutlery/semver:version",
       "options": {
-        "command": "npx standard-version --no-verify {args.params}",
-        "cwd": "libs/shared/cypress-utils"
+        "preset": "conventional",
+        "baseBranch": "master",
+        "tagPrefix": "cypress-utils-v",
+        "changelogHeader": "# Release Notes of Library Shared Cypress Utils",
+        "commitMessageFormat": "chore(${projectName}): 🚀 release version ${version} [CI SKIP]",
+        "noVerify": true,
+        "postTargets": []
       }
     }
   },

@@ -43,13 +43,6 @@
       },
       "outputs": ["coverage/libs/shared/ui/empty-states"]
     },
-    "standard-version": {
-      "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "command": "npx standard-version --no-verify {args.params}",
-        "cwd": "libs/shared/ui/empty-states"
-      }
-    },
     "publish": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
@@ -58,6 +51,18 @@
             "command": "pnpm publish dist/libs/shared/ui/empty-states --tag latest"
           }
         ]
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "conventional",
+        "baseBranch": "master",
+        "tagPrefix": "empty-states-v",
+        "changelogHeader": "# Release Notes of Library Shared UI Empty States",
+        "commitMessageFormat": "chore(${projectName}): 🚀 release version ${version} [CI SKIP]",
+        "noVerify": true,
+        "postTargets": []
       }
     }
   },

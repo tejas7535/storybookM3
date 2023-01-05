@@ -4,11 +4,16 @@
   "sourceRoot": "libs/shared/assets/src",
   "prefix": "schaeffler",
   "targets": {
-    "standard-version": {
-      "executor": "@nrwl/workspace:run-commands",
+    "version": {
+      "executor": "@jscutlery/semver:version",
       "options": {
-        "command": "npx standard-version --no-verify {args.params}",
-        "cwd": "libs/shared/assets"
+        "preset": "conventional",
+        "baseBranch": "master",
+        "tagPrefix": "assets-v",
+        "changelogHeader": "# Release Notes of Library Shared Assets",
+        "commitMessageFormat": "chore(${projectName}): 🚀 release version ${version} [CI SKIP]",
+        "noVerify": true,
+        "postTargets": []
       }
     }
   },

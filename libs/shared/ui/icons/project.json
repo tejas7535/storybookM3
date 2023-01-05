@@ -42,13 +42,6 @@
       },
       "outputs": ["coverage/libs/shared/ui/icons"]
     },
-    "standard-version": {
-      "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "command": "npx standard-version --no-verify {args.params}",
-        "cwd": "libs/shared/ui/icons"
-      }
-    },
     "publish": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
@@ -57,6 +50,18 @@
             "command": "pnpm publish dist/libs/shared/ui/icons --tag latest"
           }
         ]
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "conventional",
+        "baseBranch": "master",
+        "tagPrefix": "icons-v",
+        "changelogHeader": "# Release Notes of Library Shared UI Icons",
+        "commitMessageFormat": "chore(${projectName}): 🚀 release version ${version} [CI SKIP]",
+        "noVerify": true,
+        "postTargets": []
       }
     }
   },

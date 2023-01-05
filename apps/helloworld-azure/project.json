@@ -135,11 +135,24 @@
       },
       "outputs": ["coverage/apps/helloworld-azure"]
     },
-    "standard-version": {
-      "executor": "@nrwl/workspace:run-commands",
+    "version": {
+      "executor": "@jscutlery/semver:version",
       "options": {
-        "command": "npx standard-version --no-verify {args.params}",
-        "cwd": "apps/helloworld-azure"
+        "push": true,
+        "preset": "conventional",
+        "baseBranch": "master",
+        "tagPrefix": "${target}-v",
+        "changelogHeader": "# Release Notes of Hello World Azure",
+        "commitMessageFormat": "chore(${projectName}): 🚀 release version ${version} [CI SKIP]",
+        "noVerify": true,
+        "postTargets": ["helloworld-azure:github"]
+      }
+    },
+    "github": {
+      "executor": "@jscutlery/semver:github",
+      "options": {
+        "tag": "${tag}",
+        "notes": "${notes}"
       }
     }
   },

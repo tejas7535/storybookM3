@@ -137,11 +137,24 @@
       },
       "outputs": ["coverage/apps/gq"]
     },
-    "standard-version": {
-      "executor": "@nrwl/workspace:run-commands",
+    "version": {
+      "executor": "@jscutlery/semver:version",
       "options": {
-        "command": "npx standard-version --no-verify {args.params}",
-        "cwd": "apps/gq"
+        "push": true,
+        "preset": "conventional",
+        "baseBranch": "master",
+        "tagPrefix": "${target}-v",
+        "changelogHeader": "# Release Notes of Guided Quoting",
+        "commitMessageFormat": "chore(${projectName}): 🚀 release version ${version} [CI SKIP]",
+        "noVerify": true,
+        "postTargets": ["gq:github"]
+      }
+    },
+    "github": {
+      "executor": "@jscutlery/semver:github",
+      "options": {
+        "tag": "${tag}",
+        "notes": "${notes}"
       }
     }
   },

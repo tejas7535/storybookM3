@@ -46,13 +46,6 @@
         }
       }
     },
-    "standard-version": {
-      "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "command": "npx standard-version --no-verify {args.params}",
-        "cwd": "libs/shared/ui/breadcrumbs"
-      }
-    },
     "publish": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
@@ -61,6 +54,18 @@
             "command": "pnpm publish dist/libs/shared/ui/breadcrumbs --tag latest"
           }
         ]
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "conventional",
+        "baseBranch": "master",
+        "tagPrefix": "breadcrumbs-v",
+        "changelogHeader": "# Release Notes of Library Shared UI Breadcrumbs",
+        "commitMessageFormat": "chore(${projectName}): 🚀 release version ${version} [CI SKIP]",
+        "noVerify": true,
+        "postTargets": []
       }
     }
   },

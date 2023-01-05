@@ -43,13 +43,6 @@
       },
       "outputs": ["coverage/libs/shared/utils/transloco"]
     },
-    "standard-version": {
-      "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "command": "npx standard-version --no-verify {args.params}",
-        "cwd": "libs/shared/utils/transloco"
-      }
-    },
     "publish": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
@@ -58,6 +51,18 @@
             "command": "pnpm publish dist/libs/shared/utils/transloco --tag latest"
           }
         ]
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "conventional",
+        "baseBranch": "master",
+        "tagPrefix": "transloco-v",
+        "changelogHeader": "# Release Notes of Library Shared Utils Transloco",
+        "commitMessageFormat": "chore(${projectName}): 🚀 release version ${version} [CI SKIP]",
+        "noVerify": true,
+        "postTargets": []
       }
     }
   },

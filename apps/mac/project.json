@@ -130,11 +130,24 @@
       },
       "outputs": ["coverage/apps/mac"]
     },
-    "standard-version": {
-      "executor": "@nrwl/workspace:run-commands",
+    "version": {
+      "executor": "@jscutlery/semver:version",
       "options": {
-        "command": "npx standard-version --no-verify {args.params}",
-        "cwd": "apps/mac"
+        "push": true,
+        "preset": "conventional",
+        "baseBranch": "master",
+        "tagPrefix": "${target}-v",
+        "changelogHeader": "# Release Notes of Material App Center",
+        "commitMessageFormat": "chore(${projectName}): 🚀 release version ${version} [CI SKIP]",
+        "noVerify": true,
+        "postTargets": ["mac:github"]
+      }
+    },
+    "github": {
+      "executor": "@jscutlery/semver:github",
+      "options": {
+        "tag": "${tag}",
+        "notes": "${notes}"
       }
     }
   },

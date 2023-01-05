@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat
 def github = new Github(this)
 def artifactoryBasePath = 'generic-local/schaeffler-frontend'
 
-def customVersionDefault = 'No custom version (e.g. 1.0.0)'
+def customVersionDefault = 'No custom version'
 @Field
 def buildBase
 
@@ -307,10 +307,10 @@ pipeline {
           choices: ['NOTHING', 'APP', 'LIBS'],
           description: 'Use to trigger a production release of either an single app or for all libs.'
         )
-        string(
-            name: 'CUSTOM_VERSION',
-            defaultValue: "${customVersionDefault}",
-            description: 'Set custom version for app release'
+        choice(
+          name: 'CUSTOM_VERSION',
+          choices: ["${customVersionDefault}", 'major', 'minor', 'patch'],
+          description: 'Define type of version (major = 1.X.X, minor = X.1.X, patch = X.X.1).'
         )
     }
 
@@ -603,24 +603,29 @@ pipeline {
                     github.executeAsGithubUser('github-jenkins-access-token', 'git fetch --all')
                     sh "git checkout ${targetBranch}"
 
+                    def releaseFailed = 0
+                    def standardVersionCommand = ""
+
                     // generate project specific changelog
                     if (isAppRelease()) {
-                        def exists = fileExists "apps/${env.RELEASE_SCOPE}/CHANGELOG.md"
-                        def standardVersionCommand = "pnpm nx run ${env.RELEASE_SCOPE}:standard-version"
+                        standardVersionCommand = "pnpm nx run ${env.RELEASE_SCOPE}:version"
 
-                        if (!exists) {
-                            //first version
-                            standardVersionCommand += " --params='--first-release'"
-                        } else if (params.CUSTOM_VERSION != "${customVersionDefault}") {
-                            standardVersionCommand += " --params='--release-as ${params.CUSTOM_VERSION}'"
+                        if (params.CUSTOM_VERSION != "${customVersionDefault}") {
+                            standardVersionCommand += " --releaseAs=${params.CUSTOM_VERSION}"
                         }
-
-                        sh standardVersionCommand
                     } else if (isLibsRelease()) {
-                        sh "pnpm nx run-many --target=standard-version --projects=${affectedLibs.join(',')}"
+                        standardVersionCommand = "pnpm nx run-many --target=version --projects=${affectedLibs.join(',')}"
                     }
 
-                    sh 'pnpm run release' // only bump the workspace version
+                    withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_TOKEN')]) {
+                        releaseFailed = github.executeAsGithubUser('github-jenkins-access-token', standardVersionCommand)
+                    }
+
+                    if (releaseFailed) {
+                        currentBuild.result = 'ABORTED'
+                        error('Creating the release failed')
+                    }
+
                     sh 'pnpm run generate-readme'
 
                     // generate root changelog
@@ -632,13 +637,6 @@ pipeline {
 
                     sh 'git add .'
                     sh 'git commit -m "chore(docs): update docs [ci skip]"'
-
-                    if (isLibsRelease()) {
-                        // add new Workspace Release Tag
-                        def version = getPackageVersion()
-
-                        sh "git tag -a ${version} -m 'Release of Version ${version}'"
-                    }
                 }
             }
         }

@@ -41,13 +41,6 @@
       },
       "outputs": ["coverage/libs/shared/utils/azure-auth"]
     },
-    "standard-version": {
-      "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "command": "npx standard-version --no-verify {args.params}",
-        "cwd": "libs/shared/utils/azure-auth"
-      }
-    },
     "publish": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
@@ -56,6 +49,18 @@
             "command": "pnpm publish dist/libs/shared/utils/azure-auth --tag latest"
           }
         ]
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "conventional",
+        "baseBranch": "master",
+        "tagPrefix": "azure-auth-v",
+        "changelogHeader": "# Release Notes of Library Shared Utils Azure Auth",
+        "commitMessageFormat": "chore(${projectName}): 🚀 release version ${version} [CI SKIP]",
+        "noVerify": true,
+        "postTargets": []
       }
     }
   },
