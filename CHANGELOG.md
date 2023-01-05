@@ -2,6 +2,9 @@
 
 **Note:** old/deprecated changelog can be found [here](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/-/blob/184ca646a740a82b55eee4f43c56c076a0ca82e2/CHANGELOG.md)
 
+## 1/5/2023
+* helloworld-azure: [2.0.0](./apps/helloworld-azure/CHANGELOG.md)
+
 ## 1/3/2023
 * assets: [1.12.7](libs/shared/assets/CHANGELOG.md)
 * cypress-utils: [1.13.7](libs/shared/cypress-utils/CHANGELOG.md)
