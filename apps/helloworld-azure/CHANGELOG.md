@@ -1,7 +1,58 @@
- Changelog
+# Release Notes of Hello World Azure
+## [2.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/helloworld-azure-v1.9.0...helloworld-azure-v2.0.0) (2023-01-05)
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
-**Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
+
+### ⚠ BREAKING CHANGES
+
+* **footer:** This lib now depends on tailwind. See `Readme` for more details.
+
+* refactor(footer): move footer-tailwind implementation to footer
+
+* refactor: use footer instead of footer tailwind
+
+* refactor: remove footer tailwind entirely
+
+* fix(footer): add missing logo
+
+* chore: dont pass lint in case of errors
+
+* test(footer): fix unit tests of footer
+
+Co-authored-by: Fabian Kaupp <kauppfbi@schaeffler.com>
+
+### Features
+
+* **app-shell:** extend app shell ([#3003](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3003)) ([781c13d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/781c13d61fac9aea94800e5e008cbfbd320de411))
+* **deps:** update to nx 11 and fix jest setup ([4df2df3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4df2df38f8a3fa29abae9b9f736e7d237344541b))
+* **footer:** reimplement footer based on tailwind (UFTABI-4632) ([#2700](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2700)) ([e54c88d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e54c88d08e472f2915bc0ce1770eac5b4e9cca07))
+* **helloworld-azure:** add azure function greeting ([d60b428](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d60b42836bcc940de1d9955338bc6e468c205c35))
+* **helloworld-azure:** add proxy config for local development against multiple backends ([#2880](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2880)) ([d3b996c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d3b996cc3e827547fcb81394dfb0e2759a3b8e3d))
+* **helloworld-azure:** get rid of flex-layout dep ([#3590](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3590)) ([f33b184](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f33b184b19ff34a5dec7d1b5258c8c4548ccfad7))
+* **helloworld-azure:** migrate to eslint ([d0d394a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d0d394a429cf10eafd34d5052d043000465f7fd9))
+* **helloworld-azure:** migrate to tailwind (UFTABI-4019) ([50378ff](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/50378ff1d349d4526d4d39480ce8b1e4e35d56d9))
+* **helloworld-azure:** use new azure auth (UFTABI-4029) ([846deb3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/846deb3eb15078fb3eaa9aba74dcee23af157244))
+* **helloworld:** add dotnet api to hello world greetings ([9b9dd55](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9b9dd55afb2635db7fd3dcf65fe5cdd52180e3a5))
+* **helloworld:** extend root tailwind config ([e373951](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e373951946094063ffa09909519f354261f7bb0c))
+* **helloworld:** integrate app-shell lib in helloworld ([dc1b06e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/dc1b06e41576429c7278625d79eac3b8dc6e6134))
+* load material icons from npm module ([0ba3a13](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0ba3a138b9f07f56f2a4309a7b6954c45d7ead77))
+* **mac:** use azure-auth package (UFTABI-3958) ([b143e75](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b143e755bd3693c96199ff9aafbd702d85f6c6b5))
+* reduce css bundle sizes ([#3348](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3348)) ([#3377](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3377)) ([1978d74](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1978d745d959d521f060f51e98ab85a2390612bf))
+* **style:** add new color variables ([#3391](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3391)) ([072e93c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/072e93cc90858f751717e10e383f87ab2d4c61f6))
+* **styles:** add tailwind to styles lib ([#3573](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3573)) ([#4104](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4104)) ([d32b170](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d32b170c13de73f90b3a792d9f50f29cede37898)), closes [#3753](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3753)
+* **workspace:** individual project configurations instead of one global ([#3248](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3248)) ([ba451ef](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ba451ef87c9c9cff99440b9739c9ebf4069a16dc))
+* **workspace:** update core dependencies ([#3381](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3381)) ([#3383](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3383)) ([3c7b0a3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3c7b0a37be3104fc216c3ee6506d5f8ce2cadb21))
+* **workspace:** update to angular 11 ([2701a47](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2701a47e42d4740cb0efd5671a1e3e5694d2f347))
+* **workspace:** use eslint for sorting of imports ([#3424](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3424)) ([546e884](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/546e8845a9250580ccdc982e3f5c1d818f8678bd))
+
+
+### Bug Fixes
+
+* **hello-world:** fix html format issues ([5cd28e3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5cd28e3d182952ce6439f617900bcdc624d5773c))
+* **helloworld-azure:** update SharedTranslocoModule import to fix issues with language persisting ([5781b2f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5781b2fa0a138021433e52bc6405678667cdce68))
+* **mm:** fix empty state styles ([de912f6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/de912f6b2a70e7863c94c868fd9191e4fc958d7f))
+* **storybook:** ensure existence of grid utility classes ([ea8a9b4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ea8a9b45832e3c6f31f9cf7d328fb7c25a9383ef))
+* **storybook:** widen tailwind content configuration to not break storybook ([05da849](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/05da849bd9fcc3fa10efb6946fdeb7d849500ad4))
+* **workspace:** fix eslint configuration for local and ci execution ([#3598](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3598)) ([4a7dc1f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4a7dc1fe79d94b6d8ddfa7cf2644e3bbc11a3e80))
 
 ### [3.3.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/hellworld-azure-v3.3.0...hellworld-azure-v3.3.1) (2022-09-07)
 
