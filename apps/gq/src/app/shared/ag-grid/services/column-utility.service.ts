@@ -210,12 +210,6 @@ export class ColumnUtilityService {
     );
   }
 
-  static transformConditionUnit(params: ValueFormatterParams): string {
-    const uomPipe = new UomPipe();
-
-    return uomPipe.transform(params.value);
-  }
-
   static getResetAllFilteredColumnsMenuItem(
     params: GetMainMenuItemsParams
   ): MenuItemDef | string {
@@ -233,6 +227,12 @@ export class ColumnUtilityService {
       icon: '<span class="ag-icon ag-icon-copy"></span>',
       action: () => getValueOfFocusedCell(params),
     };
+  }
+
+  transformConditionUnit(params: ValueFormatterParams): string {
+    const uomPipe = new UomPipe();
+
+    return uomPipe.transform(params.value);
   }
 
   numberDashFormatter(data: ValueFormatterParams): string {

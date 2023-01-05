@@ -197,9 +197,13 @@ export class ColumnDefService {
       field: ColumnFields.UOM,
       filterParams: {
         ...FILTER_PARAMS,
-        valueFormatter: ColumnUtilityService.transformConditionUnit,
+        valueGetter: (params: ValueGetterParams) =>
+          this.columnUtilityService.transformConditionUnit({
+            value: params.data.material.baseUoM,
+          } as ValueFormatterParams),
       },
-      valueFormatter: ColumnUtilityService.transformConditionUnit,
+      valueFormatter: (params: ValueFormatterParams) =>
+        this.columnUtilityService.transformConditionUnit(params),
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.uomInfoText'

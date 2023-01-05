@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { translate } from '@ngneat/transloco';
-import { ColDef } from 'ag-grid-enterprise';
+import { ColDef, ValueFormatterParams } from 'ag-grid-enterprise';
 
 import { SapPriceDetailsColumnFields } from '../../../../shared/ag-grid/constants/column-fields.enum';
 import {
@@ -52,7 +52,8 @@ export class SapPriceDetailsColumnDefService {
     {
       headerName: translate('sapView.sapConditionsTable.conditionUnit'),
       field: SapPriceDetailsColumnFields.SAP_CONDITION_UNIT,
-      valueFormatter: ColumnUtilityService.transformConditionUnit,
+      valueFormatter: (params: ValueFormatterParams) =>
+        this.columnUtilityService.transformConditionUnit(params),
       filterParams: FILTER_PARAMS,
     },
     {

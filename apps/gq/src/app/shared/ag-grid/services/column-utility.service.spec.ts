@@ -544,7 +544,7 @@ describe('CreateColumnService', () => {
     });
 
     test("should translate 'ST' units", () => {
-      ColumnUtilityService.transformConditionUnit({
+      service.transformConditionUnit({
         value: 'ST',
       } as ValueFormatterParams);
 
@@ -553,7 +553,7 @@ describe('CreateColumnService', () => {
     });
 
     test('should NOT translate other units', () => {
-      ColumnUtilityService.transformConditionUnit({
+      service.transformConditionUnit({
         value: 'kg',
       } as ValueFormatterParams);
 
