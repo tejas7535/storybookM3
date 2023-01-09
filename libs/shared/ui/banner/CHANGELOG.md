@@ -1,7 +1,5 @@
- Changelog
-
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
-**Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
+# Release Notes of Library Shared UI Banner
+## [3.3.6](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/banner-v3.3.5...banner-v3.3.6) (2023-01-09)
 
 ### [3.3.5](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/banner-v3.3.4...banner-v3.3.5) (2023-01-03)
 
