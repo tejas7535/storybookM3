@@ -94,7 +94,8 @@
       },
       "configurations": {
         "local": {
-          "browserTarget": "mac:build:local"
+          "browserTarget": "mac:build:local",
+          "proxyConfig": "apps/mac/proxy.conf.js"
         },
         "dev": {
           "browserTarget": "mac:build:dev"
@@ -106,7 +107,7 @@
           "browserTarget": "mac:build:production"
         }
       },
-      "defaultConfiguration": "local"
+      "defaultConfiguration": "dev"
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
