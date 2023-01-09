@@ -1,7 +1,10 @@
- Changelog
+# Release Notes of Library Shared UI Empty States
+## [2.4.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/empty-states-v2.4.3...empty-states-v2.4.4) (2023-01-09)
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
-**Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
+
+### Bug Fixes
+
+* **empty-states:** add @angular/router as peer dependency of empty states ([#4911](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4911)) ([f51a645](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f51a645c064e061f44c7256ef2177673039eabe5))
 
 ### [2.4.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/empty-states-v2.4.2...empty-states-v2.4.3) (2023-01-03)
 
