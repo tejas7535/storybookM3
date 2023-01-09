@@ -42,21 +42,6 @@ export const integratedApps: OverviewCard[] = [
     translationKey: 'internalApplications.aqmCalculator',
   },
   {
-    image: '../../../assets/img/app-preview/ltp.jpg',
-    icon: '../../../assets/img/lifetime_predictor.svg',
-    title: 'Lifetime Predictor',
-    description:
-      'Predict the conventional fatigue lifetime of metallic components',
-    link: '/lifetime-predictor',
-    learnMoreLink: 'https://sconnect.schaeffler.com/docs/DOC-277273',
-    disableImageHoverEffect: false,
-    external: false,
-    learnMoreExternal: true,
-    requiredRoles: ['lifetime-predictor-user'],
-    inverted: true,
-    translationKey: 'internalApplications.lifetimePredictor',
-  },
-  {
     image: '../../../assets/img/app-preview/ga.png',
     icon: '../../../assets/img/greaseapp.svg',
     title: 'Grease App',

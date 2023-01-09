@@ -13,14 +13,17 @@ describe('RoleGuard', () => {
   let guard: RoleGuard;
   let store: MockStore;
 
+  const path = RoutePath.MaterialsSupplierDatabasePath;
+  const role = 'material-supplier-database-read-user';
+
   const mockBaseRoute: ActivatedRouteSnapshot = {
-    path: RoutePath.LifetimePredictorPath,
+    path,
   } as unknown as ActivatedRouteSnapshot;
 
   const mockProtectedRoute: ActivatedRouteSnapshot = {
     ...mockBaseRoute,
     data: {
-      requiredRoles: ['lifetime-predictor-user'],
+      requiredRoles: [role],
     },
   } as unknown as ActivatedRouteSnapshot;
 
@@ -53,7 +56,7 @@ describe('RoleGuard', () => {
         'azure-auth': {
           accountInfo: {
             idTokenClaims: {
-              roles: ['lifetime-predictor-user'],
+              roles: [role],
             },
           },
         },
@@ -72,7 +75,7 @@ describe('RoleGuard', () => {
         'azure-auth': {
           accountInfo: {
             idTokenClaims: {
-              roles: ['not-lifetime-predictor-user'],
+              roles: [`not-${role}`],
             },
           },
         },

@@ -44,6 +44,20 @@ export const linkedApps: OverviewCard[] = [
   },
   {
     image: '',
+    icon: '../../../assets/img/lifetime_predictor.svg',
+    title: 'Lifetime Predictor',
+    description:
+      'Predict the conventional fatigue lifetime of metallic components',
+    link: 'https://sconnect.schaeffler.com/docs/DOC-277273',
+    learnMoreLink: 'https://sconnect.schaeffler.com/docs/DOC-277273',
+    disableImageHoverEffect: false,
+    external: true,
+    learnMoreExternal: true,
+    inverted: true,
+    translationKey: 'internalApplications.lifetimePredictor',
+  },
+  {
+    image: '',
     icon: '../../../assets/img/polyassist.svg',
     title: 'Polyassist',
     description: 'Perform a strength assessment for fiber reinforced polymers',

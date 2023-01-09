@@ -44,14 +44,6 @@ describe('LearnMoreResolverResolver', () => {
     expect(ret).toBe(hardnessConverterLearnMoreData);
   });
 
-  it('should resolve LTP', () => {
-    mockBaseRoute.paramMap.get = jest
-      .fn()
-      .mockReturnValue(RoutePath.LifetimePredictorPath);
-    const ret = resolver.resolve(mockBaseRoute, mockRouterState);
-    expect(ret).toBeUndefined();
-  });
-
   it('should resolve MSD', () => {
     mockBaseRoute.paramMap.get = jest
       .fn()

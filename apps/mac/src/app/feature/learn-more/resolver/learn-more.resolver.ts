@@ -29,8 +29,6 @@ export class LearnMoreResolver implements Resolve<LearnMoreData> {
         return hardnessConverterLearnMoreData;
       case RoutePath.AQMCalculatorPath:
         return undefined;
-      case RoutePath.LifetimePredictorPath:
-        return undefined;
       case RoutePath.MaterialsSupplierDatabasePath:
         return materialSupplierDbLearnMoreData;
       default:

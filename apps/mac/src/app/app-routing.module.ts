@@ -42,18 +42,6 @@ export const appRoutePaths: MACRoutes = [
   {
     canLoad: [MsalGuard],
     canActivateChild: [RoleGuard],
-    path: RoutePath.LifetimePredictorPath,
-    loadChildren: () =>
-      import('./feature/lifetime-predictor/lifetime-predictor.module').then(
-        (m) => m.LifetimePredictorModule
-      ),
-    data: {
-      requiredRoles: ['lifetime-predictor-user'],
-    },
-  },
-  {
-    canLoad: [MsalGuard],
-    canActivateChild: [RoleGuard],
     path: RoutePath.MaterialsSupplierDatabasePath,
     loadChildren: () =>
       import(
