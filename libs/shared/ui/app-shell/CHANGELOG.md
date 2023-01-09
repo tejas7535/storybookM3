@@ -1,7 +1,5 @@
- Changelog
-
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
-**Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
+# Release Notes of Library Shared UI App Shell
+## [1.0.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/app-shell-v1.0.1...app-shell-v1.0.2) (2023-01-09)
 
 ### [1.0.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/app-shell-v1.0.0...app-shell-v1.0.1) (2023-01-03)
 
