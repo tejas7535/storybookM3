@@ -1,7 +1,5 @@
- Changelog
-
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
-**Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
+# Release Notes of Library Shared UI Inputs
+## [1.1.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/inputs-v1.1.0...inputs-v1.1.1) (2023-01-09)
 
 ## [1.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/inputs-v1.0.0...inputs-v1.1.0) (2023-01-03)
 
