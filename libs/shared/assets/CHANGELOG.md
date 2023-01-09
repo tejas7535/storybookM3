@@ -1,7 +1,5 @@
- Changelog
-
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
-**Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
+# Release Notes of Library Shared Assets
+## [1.12.8](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/assets-v1.12.7...assets-v1.12.8) (2023-01-09)
 
 ### [1.12.7](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/assets-v1.12.6...assets-v1.12.7) (2023-01-03)
 
