@@ -323,11 +323,25 @@
         "co2ValuesFilled": "The CO₂ values and the CO₂ classification have been filled automatically based on your selection.",
         "co2ValuesFilledWithOtherValues": "The CO₂ values and the CO₂ classification have been filled automatically based on your selection. There were {{ otherValues }} other values found matching your selection. The highest one has been chosen.",
         "continuous": "Continuous",
-        "createMaterialFailure": "Material creation failed",
+        "createFailure": {
+          "matStandard": {
+            "400": "Material standard creation failed!",
+            "404": "Material standard creation failed!",
+            "409": "Material standard creation failed, an identical material standard already exists!"
+          },
+          "supplier": {
+            "400": "Manufacturer supplier creation failed",
+            "404": "Manufacturer supplier creation failed",
+            "409": "Manufacturer supplier creation failed, an identical manufacturer supplier already exists!"
+          },
+          "material": {
+            "400": "Material creation failed",
+            "404": "Material creation failed",
+            "409": "Material creation failed, an identical material already exists!"
+          }
+        },
         "createMaterialSuccess": "Material added successfully",
-        "createMaterialStandardFailure": "Material Standard creation failed",
         "createMaterialStandardSuccess": "Material Standard added successfully",
-        "createManufacturerSupplierFailure": "Manufacturer Supplier creation failed",
         "createManufacturerSupplierSuccess": "Manufacturer Supplier added successfully",
         "error": {
           "co2TooLow": "Total value must be higher than the sum of the single scopes",

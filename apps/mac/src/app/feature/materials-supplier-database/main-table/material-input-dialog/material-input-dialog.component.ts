@@ -383,8 +383,7 @@ export class MaterialInputDialogComponent
           msgKey =
             'materialsSupplierDatabase.mainTable.dialog.createMaterialSuccess';
         } else {
-          msgKey =
-            'materialsSupplierDatabase.mainTable.dialog.createMaterialFailure';
+          msgKey = `materialsSupplierDatabase.mainTable.dialog.createFailure.${record.error.state}.${record.error.code}`;
         }
         this.showInSnackbar(
           translate(msgKey),

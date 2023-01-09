@@ -125,8 +125,9 @@ export class ManufacturerSupplierInputDialogComponent
   }
 
   public confirmMaterial(): void {
-    const baseMaterial = this.createMaterialForm
-      .value as ManufacturerSupplierFormValue;
+    // needs getRawValue as country-field is sometimes disabled
+    const baseMaterial =
+      this.createMaterialForm.getRawValue() as ManufacturerSupplierFormValue;
 
     const supplier: ManufacturerSupplierV2 = {
       id: baseMaterial.id,
@@ -152,8 +153,7 @@ export class ManufacturerSupplierInputDialogComponent
           msgKey =
             'materialsSupplierDatabase.mainTable.dialog.createManufacturerSupplierSuccess';
         } else {
-          msgKey =
-            'materialsSupplierDatabase.mainTable.dialog.createManufacturerSupplierFailure';
+          msgKey = `materialsSupplierDatabase.mainTable.dialog.createFailure.${record.error.state}.${record.error.code}`;
         }
         this.showInSnackbar(
           translate(msgKey),

@@ -1,3 +1,5 @@
+import { HttpErrorResponse } from '@angular/common/http';
+
 import { of, throwError } from 'rxjs';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
@@ -10,8 +12,8 @@ import { StringOption } from '@schaeffler/inputs';
 
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import {
+  CreateMaterialErrorState,
   CreateMaterialRecord,
-  CreateMaterialState,
   DataResult,
   ManufacturerSupplier,
   ManufacturerSupplierV2,
@@ -560,8 +562,6 @@ describe('Dialog Effects', () => {
               standard: mockStandard,
               supplier: mockSupplier,
               materialClass: MaterialClass.STEEL,
-              error: false,
-              state: 0,
             } as CreateMaterialRecord,
           }),
         });
@@ -592,8 +592,6 @@ describe('Dialog Effects', () => {
               standard: mockStandard,
               supplier: mockSupplier,
               materialClass: MaterialClass.ALUMINUM,
-              error: false,
-              state: 0,
             } as CreateMaterialRecord,
           }),
         });
@@ -632,8 +630,6 @@ describe('Dialog Effects', () => {
               material: undefined,
               supplier: undefined,
               materialClass: MaterialClass.STEEL,
-              error: false,
-              state: CreateMaterialState.MaterialCreated,
             } as CreateMaterialRecord,
           }),
         });
@@ -659,7 +655,9 @@ describe('Dialog Effects', () => {
 
         msdDataService.createMaterialStandard = jest
           .fn()
-          .mockReturnValue(throwError(() => 'error'));
+          .mockReturnValue(
+            throwError(() => new HttpErrorResponse({ status: 407 }))
+          );
 
         const expected = m.cold('-b', {
           b: createMaterialComplete({
@@ -668,8 +666,10 @@ describe('Dialog Effects', () => {
               material: undefined,
               supplier: undefined,
               materialClass: MaterialClass.STEEL,
-              error: true,
-              state: CreateMaterialState.MaterialStandardCreationFailed,
+              error: {
+                code: 407,
+                state: CreateMaterialErrorState.MaterialStandardCreationFailed,
+              },
             } as CreateMaterialRecord,
           }),
         });
@@ -716,8 +716,6 @@ describe('Dialog Effects', () => {
               material: undefined,
               standard: undefined,
               materialClass: MaterialClass.STEEL,
-              error: false,
-              state: CreateMaterialState.MaterialCreated,
             } as CreateMaterialRecord,
           }),
         });
@@ -744,7 +742,9 @@ describe('Dialog Effects', () => {
 
         msdDataService.createManufacturerSupplier = jest
           .fn()
-          .mockReturnValue(throwError(() => 'error'));
+          .mockReturnValue(
+            throwError(() => new HttpErrorResponse({ status: 407 }))
+          );
 
         const expected = m.cold('-b', {
           b: createMaterialComplete({
@@ -753,8 +753,10 @@ describe('Dialog Effects', () => {
               material: undefined,
               supplier: mockSupplier,
               materialClass: MaterialClass.STEEL,
-              error: true,
-              state: CreateMaterialState.MaterialStandardCreationFailed,
+              error: {
+                code: 407,
+                state: CreateMaterialErrorState.MaterialStandardCreationFailed,
+              },
             } as CreateMaterialRecord,
           }),
         });
@@ -789,12 +791,7 @@ describe('Dialog Effects', () => {
         actions$ = m.hot('-a', { a: action });
 
         const expected = m.cold('-(b)', {
-          b: postManufacturerSupplier({
-            record: {
-              ...record,
-              state: CreateMaterialState.MaterialStandardSkipped,
-            },
-          }),
+          b: postManufacturerSupplier({ record }),
         });
 
         m.expect(effects.postMaterialStandard$).toBeObservable(expected);
@@ -827,7 +824,6 @@ describe('Dialog Effects', () => {
                 ...record.material,
                 materialStandardId: 42,
               },
-              state: CreateMaterialState.MaterialStandardCreated,
             },
           }),
         });
@@ -857,14 +853,18 @@ describe('Dialog Effects', () => {
 
         msdDataService.createMaterialStandard = jest
           .fn()
-          .mockReturnValue(throwError(() => 'error'));
+          .mockReturnValue(
+            throwError(() => new HttpErrorResponse({ status: 407 }))
+          );
 
         const expected = m.cold('-b', {
           b: createMaterialComplete({
             record: {
               ...record,
-              state: CreateMaterialState.MaterialStandardCreationFailed,
-              error: true,
+              error: {
+                code: 407,
+                state: CreateMaterialErrorState.MaterialStandardCreationFailed,
+              },
             },
           }),
         });
@@ -897,12 +897,7 @@ describe('Dialog Effects', () => {
         actions$ = m.hot('-a', { a: action });
 
         const expected = m.cold('-(b)', {
-          b: postMaterial({
-            record: {
-              ...record,
-              state: CreateMaterialState.ManufacturerSupplierSkipped,
-            },
-          }),
+          b: postMaterial({ record }),
         });
 
         m.expect(effects.postManufacturerSupplier$).toBeObservable(expected);
@@ -935,7 +930,6 @@ describe('Dialog Effects', () => {
                 ...record.material,
                 manufacturerSupplierId: 42,
               },
-              state: CreateMaterialState.ManufacturerSupplierCreated,
             },
           }),
         });
@@ -965,14 +959,19 @@ describe('Dialog Effects', () => {
 
         msdDataService.createManufacturerSupplier = jest
           .fn()
-          .mockReturnValue(throwError(() => 'error'));
+          .mockReturnValue(
+            throwError(() => new HttpErrorResponse({ status: 407 }))
+          );
 
         const expected = m.cold('-b', {
           b: createMaterialComplete({
             record: {
               ...record,
-              state: CreateMaterialState.ManufacturerSupplierCreationFailed,
-              error: true,
+              error: {
+                code: 407,
+                state:
+                  CreateMaterialErrorState.ManufacturerSupplierCreationFailed,
+              },
             },
           }),
         });
@@ -1006,12 +1005,7 @@ describe('Dialog Effects', () => {
         msdDataService.createMaterial = jest.fn(() => response);
 
         const expected = m.cold('--(c)', {
-          c: createMaterialComplete({
-            record: {
-              ...record,
-              state: CreateMaterialState.MaterialCreated,
-            },
-          }),
+          c: createMaterialComplete({ record }),
         });
 
         m.expect(effects.postMaterial$).toBeObservable(expected);
@@ -1039,14 +1033,18 @@ describe('Dialog Effects', () => {
 
         msdDataService.createMaterial = jest
           .fn()
-          .mockReturnValue(throwError(() => 'error'));
+          .mockReturnValue(
+            throwError(() => new HttpErrorResponse({ status: 407 }))
+          );
 
         const expected = m.cold('-b', {
           b: createMaterialComplete({
             record: {
               ...record,
-              state: CreateMaterialState.MaterialCreationFailed,
-              error: true,
+              error: {
+                code: 407,
+                state: CreateMaterialErrorState.MaterialCreationFailed,
+              },
             },
           }),
         });

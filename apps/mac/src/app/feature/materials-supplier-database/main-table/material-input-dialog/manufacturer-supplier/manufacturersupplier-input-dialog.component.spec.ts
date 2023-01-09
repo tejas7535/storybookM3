@@ -27,6 +27,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
 import {
+  CreateMaterialErrorState,
   CreateMaterialRecord,
   ManufacturerSupplierV2,
 } from '@mac/feature/materials-supplier-database/models';
@@ -170,11 +171,18 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
 
   describe('confirmMaterial', () => {
     const update = (error: boolean) => {
-      createMaterialSpy.setResult({
-        error,
-      } as CreateMaterialRecord);
+      const result = error
+        ? {
+            error: {
+              code: 400,
+              state: CreateMaterialErrorState.MaterialCreationFailed,
+            },
+          }
+        : {};
+      createMaterialSpy.setResult(result as CreateMaterialRecord);
       store.refreshState();
     };
+
     beforeEach(() => {
       component.materialClass = MaterialClass.STEEL;
       component.ngOnInit();

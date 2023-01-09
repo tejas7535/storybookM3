@@ -1,4 +1,5 @@
 /* eslint-disable max-lines */
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { catchError, filter, map, of, switchMap } from 'rxjs';
@@ -13,7 +14,7 @@ import {
   NavigationLevel,
 } from '@mac/feature/materials-supplier-database/constants';
 import {
-  CreateMaterialState,
+  CreateMaterialErrorState,
   ManufacturerSupplierV2,
   MaterialFormValue,
   MaterialFormValueV2,
@@ -202,8 +203,6 @@ export class DialogEffects {
             supplier,
             material,
             materialClass,
-            state: CreateMaterialState.Initial,
-            error: false,
           },
         }),
       ])
@@ -228,13 +227,10 @@ export class DialogEffects {
                   materialClass,
                   material: undefined,
                   supplier: undefined,
-                  state: CreateMaterialState.MaterialCreated,
-                  error: false,
                 },
               })
             ),
-            // TODO: implement proper error handling
-            catchError(() =>
+            catchError((e: HttpErrorResponse) =>
               of(
                 DialogActions.createMaterialComplete({
                   record: {
@@ -242,8 +238,11 @@ export class DialogEffects {
                     materialClass,
                     material: undefined,
                     supplier: undefined,
-                    state: CreateMaterialState.MaterialStandardCreationFailed,
-                    error: true,
+                    error: {
+                      code: e.status,
+                      state:
+                        CreateMaterialErrorState.MaterialStandardCreationFailed,
+                    },
                   },
                 })
               )
@@ -271,24 +270,22 @@ export class DialogEffects {
                     ...supplier,
                     id: response.id,
                   },
-                  state: CreateMaterialState.MaterialCreated,
-                  error: false,
                 },
               })
             ),
-            // TODO: implement proper error handling
-            catchError(() =>
+            catchError((e: HttpErrorResponse) =>
               of(
                 DialogActions.createMaterialComplete({
                   record: {
                     standard: undefined,
                     materialClass,
                     material: undefined,
-                    supplier: {
-                      ...supplier,
+                    supplier,
+                    error: {
+                      code: e.status,
+                      state:
+                        CreateMaterialErrorState.MaterialStandardCreationFailed,
                     },
-                    state: CreateMaterialState.MaterialStandardCreationFailed,
-                    error: true,
                   },
                 })
               )
@@ -304,14 +301,7 @@ export class DialogEffects {
       switchMap(({ record }) =>
         record.standard.id
           ? // material standard already exists
-            of(
-              DialogActions.postManufacturerSupplier({
-                record: {
-                  ...record,
-                  state: CreateMaterialState.MaterialStandardSkipped,
-                },
-              })
-            )
+            of(DialogActions.postManufacturerSupplier({ record }))
           : // create new material standard entry
             this.msdDataService
               .createMaterialStandard(record.standard, record.materialClass)
@@ -324,19 +314,19 @@ export class DialogEffects {
                         ...record.material,
                         materialStandardId: response.id,
                       },
-                      state: CreateMaterialState.MaterialStandardCreated,
                     },
                   })
                 ),
-                // TODO: implement proper error handling
-                catchError(() =>
+                catchError((e: HttpErrorResponse) =>
                   of(
                     DialogActions.createMaterialComplete({
                       record: {
                         ...record,
-                        state:
-                          CreateMaterialState.MaterialStandardCreationFailed,
-                        error: true,
+                        error: {
+                          code: e.status,
+                          state:
+                            CreateMaterialErrorState.MaterialStandardCreationFailed,
+                        },
                       },
                     })
                   )
@@ -352,14 +342,7 @@ export class DialogEffects {
       switchMap(({ record }) =>
         record.supplier.id
           ? // skip creating manufacturer
-            of(
-              DialogActions.postMaterial({
-                record: {
-                  ...record,
-                  state: CreateMaterialState.ManufacturerSupplierSkipped,
-                },
-              })
-            )
+            of(DialogActions.postMaterial({ record }))
           : // create new manufacturer
             this.msdDataService
               .createManufacturerSupplier(record.supplier, record.materialClass)
@@ -372,19 +355,19 @@ export class DialogEffects {
                         ...record.material,
                         manufacturerSupplierId: response.id,
                       },
-                      state: CreateMaterialState.ManufacturerSupplierCreated,
                     },
                   })
                 ),
-                // TODO: implement proper error handling
-                catchError(() =>
+                catchError((e: HttpErrorResponse) =>
                   of(
                     DialogActions.createMaterialComplete({
                       record: {
                         ...record,
-                        state:
-                          CreateMaterialState.ManufacturerSupplierCreationFailed,
-                        error: true,
+                        error: {
+                          code: e.status,
+                          state:
+                            CreateMaterialErrorState.ManufacturerSupplierCreationFailed,
+                        },
                       },
                     })
                   )
@@ -401,23 +384,16 @@ export class DialogEffects {
         this.msdDataService
           .createMaterial(record.material, record.materialClass)
           .pipe(
-            map(() =>
-              DialogActions.createMaterialComplete({
-                record: {
-                  ...record,
-                  // there is currently no place in Material to store the ID...
-                  state: CreateMaterialState.MaterialCreated,
-                },
-              })
-            ),
-            // TODO: implement proper error handling
-            catchError(() =>
+            map(() => DialogActions.createMaterialComplete({ record })),
+            catchError((e: HttpErrorResponse) =>
               of(
                 DialogActions.createMaterialComplete({
                   record: {
                     ...record,
-                    state: CreateMaterialState.MaterialCreationFailed,
-                    error: true,
+                    error: {
+                      code: e.status,
+                      state: CreateMaterialErrorState.MaterialCreationFailed,
+                    },
                   },
                 })
               )

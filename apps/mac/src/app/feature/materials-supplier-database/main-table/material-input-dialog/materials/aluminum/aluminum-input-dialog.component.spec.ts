@@ -26,7 +26,10 @@ import { SelectModule } from '@schaeffler/inputs/select';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
-import { CreateMaterialRecord } from '@mac/feature/materials-supplier-database/models';
+import {
+  CreateMaterialErrorState,
+  CreateMaterialRecord,
+} from '@mac/feature/materials-supplier-database/models';
 import { materialDialogConfirmed } from '@mac/feature/materials-supplier-database/store/actions/dialog';
 import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
 import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
@@ -154,11 +157,18 @@ describe('AluminumInputDialogComponent', () => {
       component.co2ClassificationControl.enable({ emitEvent: false });
     });
     const update = (error: boolean) => {
-      createMaterialSpy.setResult({
-        error,
-      } as CreateMaterialRecord);
+      const result = error
+        ? {
+            error: {
+              code: 400,
+              state: CreateMaterialErrorState.MaterialCreationFailed,
+            },
+          }
+        : {};
+      createMaterialSpy.setResult(result as CreateMaterialRecord);
       store.refreshState();
     };
+
     beforeEach(() => {
       component.closeDialog = jest.fn();
       component.showInSnackbar = jest.fn();

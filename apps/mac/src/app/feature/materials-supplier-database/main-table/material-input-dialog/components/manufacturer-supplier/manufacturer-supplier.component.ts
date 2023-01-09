@@ -76,8 +76,8 @@ export class ManufacturerSupplierComponent
       this.viewMode = '';
     }
 
-    // no logic to apply, if in edit-mode or readonly
     if (!this.editable && !this.readonly) {
+      // only apply with dropDown available
       this.supplierDependencies = new FormGroup({
         supplierName: this.supplierControl,
         supplierPlant: this.supplierPlantControl,

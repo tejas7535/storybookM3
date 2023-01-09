@@ -33,7 +33,11 @@ import { SelectComponent, SelectModule } from '@schaeffler/inputs/select';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
-import { CreateMaterialRecord, SteelMaterialFormValue } from '@mac/msd/models';
+import {
+  CreateMaterialErrorState,
+  CreateMaterialRecord,
+  SteelMaterialFormValue,
+} from '@mac/msd/models';
 import {
   addCustomCastingDiameter,
   addCustomReferenceDocument,
@@ -660,9 +664,15 @@ describe('SteelInputDialogComponent', () => {
       component.isManufacturerControl.enable({ emitEvent: false });
     });
     const update = (error: boolean) => {
-      createMaterialSpy.setResult({
-        error,
-      } as CreateMaterialRecord);
+      const result = error
+        ? {
+            error: {
+              code: 400,
+              state: CreateMaterialErrorState.MaterialCreationFailed,
+            },
+          }
+        : {};
+      createMaterialSpy.setResult(result as CreateMaterialRecord);
       store.refreshState();
     };
     beforeEach(() => {
