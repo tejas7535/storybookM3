@@ -1,7 +1,5 @@
- Changelog
-
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
-**Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
+# Release Notes of Library Shared UI Styles
+## [1.7.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/styles-v1.7.3...styles-v1.7.4) (2023-01-09)
 
 ### [1.7.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/styles-v1.7.2...styles-v1.7.3) (2023-01-03)
 
