@@ -293,7 +293,23 @@
         "manufacturer": "Iron- & Steelmaking",
         "ssid": "SSID",
         "generalDescription": "General Description",
-        "status": "Status"
+        "status": "Status",
+        "action": "Actions"
+      },
+      "confirmDialog": {
+        "cancel": "Cancel",
+        "confirm_delete": "Confirm deletion",
+
+        "title_delete_materials": "Confirm Material deletion",
+        "title_delete_suppliers": "Confirm Supplier deletion",
+        "title_delete_materialStandards": "Confirm Material Standard deletion",
+
+        "text_delete_materials": "Are you sure you want to delete this Material?",
+        "text_delete_suppliers": "Are you sure you want to delete this Supplier?",
+        "text_delete_materialStandards": "Are you sure you want to delete this Material Standard?",
+
+        "failureDeleteEntity": "Error while deleting entry, changes not applied!",
+        "successDeleteEntity": "Successfully deleted entry from database!"
       },
       "dialog": {
         "addMaterial": "ADD MATERIAL",

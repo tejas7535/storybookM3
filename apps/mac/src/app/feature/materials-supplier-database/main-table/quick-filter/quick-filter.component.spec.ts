@@ -72,6 +72,7 @@ describe('QuickFilterComponent', () => {
       {
         provide: DataFacade,
         useValue: {
+          hasEditorRole$: of(false),
           navigation$: of({
             materialClass: MaterialClass.STEEL,
             navigationLevel: NavigationLevel.MATERIAL,

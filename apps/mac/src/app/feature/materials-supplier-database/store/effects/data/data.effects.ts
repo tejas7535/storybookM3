@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { catchError, map, of, switchMap } from 'rxjs';
+import { catchError, map, of, switchMap, tap } from 'rxjs';
 
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 
@@ -17,6 +17,7 @@ import {
   MaterialV2,
 } from '@mac/msd/models';
 import { MsdDataService } from '@mac/msd/services/msd-data';
+import { MsdSnackbarService } from '@mac/msd/services/msd-snackbar';
 import * as DataActions from '@mac/msd/store/actions/data/data.actions';
 import * as DialogActions from '@mac/msd/store/actions/dialog/dialog.actions';
 import { DataFacade } from '@mac/msd/store/facades/data';
@@ -26,7 +27,9 @@ export class DataEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly msdDataService: MsdDataService,
-    private readonly dataFacade: DataFacade
+    private readonly dataFacade: DataFacade,
+    // private readonly matSnackBar: MatSnackBar
+    private readonly matSnackBar: MsdSnackbarService
   ) {}
 
   public fetchResult$ = createEffect(() => {
@@ -175,4 +178,96 @@ export class DataEffects {
       )
     );
   });
+
+  public deleteEntity$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DataActions.deleteEntity),
+      concatLatestFrom(() => this.dataFacade.navigation$),
+      switchMap(([{ id }, { navigationLevel, materialClass }]) => {
+        switch (navigationLevel) {
+          case NavigationLevel.MATERIAL:
+            return [DataActions.deleteMaterial({ id, materialClass })];
+          case NavigationLevel.STANDARD:
+            return [DataActions.deleteMaterialStandard({ id, materialClass })];
+          case NavigationLevel.SUPPLIER:
+            return [
+              DataActions.deleteManufacturerSupplier({ id, materialClass }),
+            ];
+          default:
+            return [];
+        }
+      })
+    );
+  });
+
+  public deleteMaterial$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DataActions.deleteMaterial),
+      switchMap(({ id, materialClass }) =>
+        this.msdDataService.deleteMaterial(id, materialClass).pipe(
+          map(() => DataActions.deleteEntitySuccess()),
+          catchError(() => of(DataActions.deleteEntityFailure()))
+        )
+      )
+    );
+  });
+
+  public deleteMaterialStandard$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DataActions.deleteMaterialStandard),
+      switchMap(({ id, materialClass }) =>
+        this.msdDataService.deleteMaterialStandard(id, materialClass).pipe(
+          map(() => DataActions.deleteEntitySuccess()),
+          catchError(() => of(DataActions.deleteEntityFailure()))
+        )
+      )
+    );
+  });
+
+  public deleteManufacturerSupplier$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DataActions.deleteManufacturerSupplier),
+      switchMap(({ id, materialClass }) =>
+        this.msdDataService.deleteManufacturerSupplier(id, materialClass).pipe(
+          map(() => DataActions.deleteEntitySuccess()),
+          catchError(() => of(DataActions.deleteEntityFailure()))
+        )
+      )
+    );
+  });
+
+  public deleteEntitySuccess$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DataActions.deleteEntitySuccess),
+      switchMap(() => [
+        DataActions.fetchResult(),
+        DataActions.openSnackBar({
+          msgKey:
+            'materialsSupplierDatabase.mainTable.confirmDialog.successDeleteEntity',
+        }),
+      ])
+    );
+  });
+
+  public deleteEntityFailure$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DataActions.deleteEntityFailure),
+      map(() =>
+        DataActions.openSnackBar({
+          msgKey:
+            'materialsSupplierDatabase.mainTable.confirmDialog.failureDeleteEntity',
+        })
+      )
+    );
+  });
+
+  public openSnackBar$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(DataActions.openSnackBar),
+        tap(({ msgKey }) => this.matSnackBar.open(msgKey))
+      );
+    },
+    { dispatch: false }
+  );
 }

@@ -1,0 +1,40 @@
+<ng-container
+  *transloco="let t; read: 'materialsSupplierDatabase.mainTable.confirmDialog'"
+>
+  <ng-container *ngrxLet="navigation$ as navigation">
+    <div mat-dialog-title class="!-mx-6 !-mt-2">
+      <div class="flex flex-row content-around justify-between pl-4 pb-2 pr-2">
+        <div class="my-auto text-h6 text-high-emphasis">
+          {{ t('title_delete_' + navigation.navigationLevel) }}
+        </div>
+        <div class="flex flex-row">
+          <button mat-icon-button (click)="closeDialog()">
+            <mat-icon class="text-medium-emphasis">close</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <mat-dialog-content class="!px-4 pb-4">
+      <div>
+        {{ t('text_delete_' + navigation.navigationLevel) }}
+      </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end" class="-mx-6">
+      <div class="px-4 pb-2">
+        <button mat-stroked-button (click)="closeDialog()" color="primary">
+          {{ t('cancel') }}
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          class="!ml-4"
+          (click)="applyDialog()"
+        >
+          {{ t('confirm_delete') }}
+        </button>
+      </div>
+    </mat-dialog-actions>
+  </ng-container>
+</ng-container>

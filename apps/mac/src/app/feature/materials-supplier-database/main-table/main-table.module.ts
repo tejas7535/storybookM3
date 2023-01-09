@@ -18,6 +18,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { MsdDialogService } from '@mac/msd/services';
 
+import { ActionCellRendererComponent } from './action-cell-renderer/action-cell-renderer.component';
 import { EditCellRendererComponent } from './edit-cell-renderer/edit-cell-renderer.component';
 import { HeaderTooltipComponent } from './header-tooltip/header-tooltip.component';
 import { MainTableComponent } from './main-table.component';
@@ -32,6 +33,7 @@ import { StatusCellRendererComponent } from './status-cell-renderer/status-cell-
     MainTableComponent,
     EditCellRendererComponent,
     StatusCellRendererComponent,
+    ActionCellRendererComponent,
     HeaderTooltipComponent,
   ],
   imports: [

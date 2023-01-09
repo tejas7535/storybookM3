@@ -19,6 +19,7 @@ import {
   fetchMaterialStandardsFailure,
   fetchMaterialStandardsSuccess,
   fetchResult,
+  openSnackBar,
   resetResult,
   setAgGridColumns,
   setAgGridFilter,
@@ -225,6 +226,17 @@ describe('Data Actions', () => {
 
       expect(action).toEqual({
         type: '[MSD - Data] Fetch Material Standards Failure',
+      });
+    });
+  });
+
+  describe('Open snack bar', () => {
+    it('openSnackBar', () => {
+      const action = openSnackBar({ msgKey: 'test' });
+
+      expect(action).toEqual({
+        msgKey: 'test',
+        type: '[MSD - Data] open snackbar',
       });
     });
   });

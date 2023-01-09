@@ -1,3 +1,5 @@
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 import { of, throwError } from 'rxjs';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
@@ -16,6 +18,12 @@ import {
 } from '@mac/msd/models';
 import { MsdDataService } from '@mac/msd/services';
 import {
+  deleteEntity,
+  deleteEntityFailure,
+  deleteEntitySuccess,
+  deleteManufacturerSupplier,
+  deleteMaterial,
+  deleteMaterialStandard,
   fetchClassOptions,
   fetchClassOptionsFailure,
   fetchClassOptionsSuccess,
@@ -29,6 +37,7 @@ import {
   fetchMaterialStandardsFailure,
   fetchMaterialStandardsSuccess,
   fetchResult,
+  openSnackBar,
   setNavigation,
 } from '@mac/msd/store/actions/data';
 import { DataFacade } from '@mac/msd/store/facades/data';
@@ -48,6 +57,7 @@ describe('Data Effects', () => {
 
   const createService = createServiceFactory({
     service: DataEffects,
+    imports: [MatSnackBarModule],
     providers: [
       provideMockActions(() => actions$),
       provideMockStore({}),
@@ -400,6 +410,230 @@ describe('Data Effects', () => {
         expect(msdDataService.fetchMaterialStandards).toHaveBeenCalledWith(
           MaterialClass.STEEL
         );
+      })
+    );
+  });
+
+  describe('deleteEntity$', () => {
+    it.each([
+      [NavigationLevel.MATERIAL, deleteMaterial],
+      [NavigationLevel.SUPPLIER, deleteManufacturerSupplier],
+      [NavigationLevel.STANDARD, deleteMaterialStandard],
+      [undefined, undefined],
+    ])(
+      'should dispatch the correct action for the navigationLevel',
+      (navigationLevel, result) =>
+        marbles((m) => {
+          msdDataFacade.navigation$ = of({
+            materialClass: MaterialClass.STEEL,
+            navigationLevel,
+          });
+
+          action = deleteEntity({ id: 3 });
+          actions$ = m.hot('-a', { a: action });
+
+          const expected =
+            result === undefined
+              ? m.cold('---')
+              : m.cold('-b', {
+                  b: result({ id: 3, materialClass: MaterialClass.STEEL }),
+                });
+
+          m.expect(effects.deleteEntity$).toBeObservable(expected);
+          m.flush();
+        })()
+    );
+  });
+
+  describe('deleteMaterial$', () => {
+    it(
+      'should delete material return success action on success',
+      marbles((m) => {
+        action = deleteMaterial({ id: 3, materialClass: MaterialClass.STEEL });
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|', { a: undefined });
+        msdDataService.deleteMaterial = jest.fn(() => response);
+        const expected = m.cold('--b', { b: deleteEntitySuccess() });
+
+        m.expect(effects.deleteMaterial$).toBeObservable(expected);
+        m.flush();
+        expect(msdDataService.deleteMaterial).toHaveBeenCalledWith(
+          3,
+          MaterialClass.STEEL
+        );
+      })
+    );
+
+    it(
+      'should try to delete material and return failure action on failure',
+      marbles((m) => {
+        action = deleteMaterial({ id: 3, materialClass: MaterialClass.STEEL });
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataService.deleteMaterial = jest
+          .fn()
+          .mockReturnValue(throwError(() => 'error'));
+        const expected = m.cold('-b', { b: deleteEntityFailure() });
+
+        m.expect(effects.deleteMaterial$).toBeObservable(expected);
+        m.flush();
+        expect(msdDataService.deleteMaterial).toHaveBeenCalledWith(
+          3,
+          MaterialClass.STEEL
+        );
+      })
+    );
+  });
+
+  describe('deleteMaterialStandard$', () => {
+    it(
+      'should delete material standard return success action on success',
+      marbles((m) => {
+        action = deleteMaterialStandard({
+          id: 3,
+          materialClass: MaterialClass.STEEL,
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|', { a: undefined });
+        msdDataService.deleteMaterialStandard = jest.fn(() => response);
+        const expected = m.cold('--b', { b: deleteEntitySuccess() });
+
+        m.expect(effects.deleteMaterialStandard$).toBeObservable(expected);
+        m.flush();
+        expect(msdDataService.deleteMaterialStandard).toHaveBeenCalledWith(
+          3,
+          MaterialClass.STEEL
+        );
+      })
+    );
+
+    it(
+      'should try to delete material standard and return failure action on failure',
+      marbles((m) => {
+        action = deleteMaterialStandard({
+          id: 3,
+          materialClass: MaterialClass.STEEL,
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataService.deleteMaterialStandard = jest
+          .fn()
+          .mockReturnValue(throwError(() => 'error'));
+        const expected = m.cold('-b', { b: deleteEntityFailure() });
+
+        m.expect(effects.deleteMaterialStandard$).toBeObservable(expected);
+        m.flush();
+        expect(msdDataService.deleteMaterialStandard).toHaveBeenCalledWith(
+          3,
+          MaterialClass.STEEL
+        );
+      })
+    );
+  });
+
+  describe('deleteManufacturerSupplier$', () => {
+    it(
+      'should delete supplier return success action on success',
+      marbles((m) => {
+        action = deleteManufacturerSupplier({
+          id: 3,
+          materialClass: MaterialClass.STEEL,
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|', { a: undefined });
+        msdDataService.deleteManufacturerSupplier = jest.fn(() => response);
+        const expected = m.cold('--b', { b: deleteEntitySuccess() });
+
+        m.expect(effects.deleteManufacturerSupplier$).toBeObservable(expected);
+        m.flush();
+        expect(msdDataService.deleteManufacturerSupplier).toHaveBeenCalledWith(
+          3,
+          MaterialClass.STEEL
+        );
+      })
+    );
+
+    it(
+      'should try to delete supplier and return failure action on failure',
+      marbles((m) => {
+        action = deleteManufacturerSupplier({
+          id: 3,
+          materialClass: MaterialClass.STEEL,
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataService.deleteManufacturerSupplier = jest
+          .fn()
+          .mockReturnValue(throwError(() => 'error'));
+        const expected = m.cold('-b', { b: deleteEntityFailure() });
+
+        m.expect(effects.deleteManufacturerSupplier$).toBeObservable(expected);
+        m.flush();
+        expect(msdDataService.deleteManufacturerSupplier).toHaveBeenCalledWith(
+          3,
+          MaterialClass.STEEL
+        );
+      })
+    );
+  });
+
+  describe('deleteEntitySuccess$', () => {
+    it(
+      'should dispatch the correct actions',
+      marbles((m) => {
+        action = deleteEntitySuccess();
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-(bc)', {
+          b: fetchResult(),
+          c: openSnackBar({
+            msgKey:
+              'materialsSupplierDatabase.mainTable.confirmDialog.successDeleteEntity',
+          }),
+        });
+
+        m.expect(effects.deleteEntitySuccess$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+  });
+
+  describe('deleteEntityFailure$', () => {
+    it(
+      'should dispatch the correct actions',
+      marbles((m) => {
+        action = deleteEntityFailure();
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-b-', {
+          b: openSnackBar({
+            msgKey:
+              'materialsSupplierDatabase.mainTable.confirmDialog.failureDeleteEntity',
+          }),
+        });
+
+        m.expect(effects.deleteEntityFailure$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+  });
+
+  describe('openSnackBar$', () => {
+    it(
+      'should dispatch the correct actions',
+      marbles((m) => {
+        effects['matSnackBar'].open = jest.fn();
+        action = openSnackBar({ msgKey: 'test' });
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-a-', { a: action });
+
+        m.expect(effects.openSnackBar$).toBeObservable(expected);
+        m.flush();
+        expect(effects['matSnackBar'].open).toHaveBeenCalledWith('test');
       })
     );
   });

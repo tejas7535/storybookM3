@@ -27,3 +27,4 @@ export const MANUFACTURER = 'manufacturer';
 export const SSID = 'ssid';
 export const GENERAL_DESCRIPTION = 'generalDescription';
 export const STATUS = 'status';
+export const ACTION = 'action';

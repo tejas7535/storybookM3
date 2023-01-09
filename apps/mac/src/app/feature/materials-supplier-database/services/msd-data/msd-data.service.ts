@@ -482,4 +482,31 @@ export class MsdDataService {
       material
     );
   }
+
+  public deleteMaterialStandard(
+    id: number,
+    materialClass: MaterialClass = MaterialClass.STEEL
+  ) {
+    return this.httpClient.delete<void>(
+      `${this.BASE_URL}/materials/${materialClass}/materialStandards/${id}`
+    );
+  }
+
+  public deleteManufacturerSupplier(
+    id: number,
+    materialClass: MaterialClass = MaterialClass.STEEL
+  ) {
+    return this.httpClient.delete<void>(
+      `${this.BASE_URL}/materials/${materialClass}/manufacturerSuppliers/${id}`
+    );
+  }
+
+  public deleteMaterial(
+    id: number,
+    materialClass: MaterialClass = MaterialClass.STEEL
+  ) {
+    return this.httpClient.delete<void>(
+      `${this.BASE_URL}/materials/${materialClass}/${id}`
+    );
+  }
 }

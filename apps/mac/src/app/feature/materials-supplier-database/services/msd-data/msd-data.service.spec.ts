@@ -791,4 +791,43 @@ describe('MsdDataService', () => {
       req.flush(mockResponse);
     });
   });
+
+  describe('delete Entity', () => {
+    it('should delete a material', (done) => {
+      const id = 79;
+      service.deleteMaterial(id, MaterialClass.STEEL).subscribe(() => done());
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/st/${id}`
+      );
+      expect(req.request.method).toBe('DELETE');
+      req.flush('');
+    });
+
+    it('should delete a deleteMaterialStandard', (done) => {
+      const id = 79;
+      service
+        .deleteMaterialStandard(id, MaterialClass.STEEL)
+        .subscribe(() => done());
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/st/materialStandards/${id}`
+      );
+      expect(req.request.method).toBe('DELETE');
+      req.flush('');
+    });
+
+    it('should delete a deleteManufacturerSupplier', (done) => {
+      const id = 79;
+      service
+        .deleteManufacturerSupplier(id, MaterialClass.STEEL)
+        .subscribe(() => done());
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/st/manufacturerSuppliers/${id}`
+      );
+      expect(req.request.method).toBe('DELETE');
+      req.flush('');
+    });
+  });
 });

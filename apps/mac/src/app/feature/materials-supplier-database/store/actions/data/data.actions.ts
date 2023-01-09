@@ -92,3 +92,36 @@ export const fetchMaterialStandardsSuccess = createAction(
 export const fetchMaterialStandardsFailure = createAction(
   '[MSD - Data] Fetch Material Standards Failure'
 );
+
+export const deleteEntity = createAction(
+  '[MSD - Data] Delete MSD Entity',
+  props<{ id: number }>()
+);
+
+export const deleteMaterial = createAction(
+  '[MSD - Data] Delete Material',
+  props<{ id: number; materialClass: MaterialClass }>()
+);
+
+export const deleteManufacturerSupplier = createAction(
+  '[MSD - Data] Delete ManufacturerSupplier',
+  props<{ id: number; materialClass: MaterialClass }>()
+);
+
+export const deleteMaterialStandard = createAction(
+  '[MSD - Data] Delete MaterialStandard',
+  props<{ id: number; materialClass: MaterialClass }>()
+);
+
+export const deleteEntitySuccess = createAction(
+  '[MSD - Data] Delete MSD Entity Success'
+);
+
+export const deleteEntityFailure = createAction(
+  '[MSD - Data] Delete MSD Entity Failure'
+);
+
+export const openSnackBar = createAction(
+  '[MSD - Data] open snackbar',
+  props<{ msgKey: string }>()
+);

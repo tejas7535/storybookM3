@@ -1,6 +1,7 @@
 import { ColDef } from 'ag-grid-community';
 
 import {
+  ACTION,
   CO2_CLASSIFICATION,
   CO2_PER_TON,
   LAST_MODIFIED,
@@ -13,6 +14,7 @@ import {
   RELEASE_RESTRICTIONS,
   STATUS,
 } from '@mac/msd/constants';
+import { ActionCellRendererComponent } from '@mac/msd/main-table/action-cell-renderer/action-cell-renderer.component';
 import { EditCellRendererComponent } from '@mac/msd/main-table/edit-cell-renderer/edit-cell-renderer.component';
 import { StatusCellRendererComponent } from '@mac/msd/main-table/status-cell-renderer/status-cell-renderer.component';
 import {
@@ -20,6 +22,23 @@ import {
   FILTER_PARAMS,
   STATUS_VALUE_GETTER,
 } from '@mac/msd/main-table/table-config';
+
+export const EDITOR_COLUMN_DEFINITIONS: ColDef[] = [
+  {
+    field: ACTION,
+    headerName: 'action',
+    filter: false,
+    cellRenderer: ActionCellRendererComponent,
+    width: 95, // 140 for 3 icons
+    pinned: 'right',
+    lockPinned: true,
+    resizable: false,
+    suppressMenu: true,
+    suppressMovable: true,
+    sortable: false,
+    lockVisible: true,
+  },
+];
 
 export const BASE_COLUMN_DEFINITIONS: ColDef[] = [
   {

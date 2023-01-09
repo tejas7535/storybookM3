@@ -6,6 +6,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import { STATIC_QUICKFILTERS_MAPPING } from '@mac/msd/main-table/quick-filter/config';
 import { COLUMN_DEFINITIONS_MAPPING } from '@mac/msd/main-table/table-config/materials';
+import { EDITOR_COLUMN_DEFINITIONS } from '@mac/msd/main-table/table-config/materials/base';
 import { DataFacade } from '@mac/msd/store/facades/data';
 import { initialState } from '@mac/msd/store/reducers/data/data.reducer';
 
@@ -33,6 +34,7 @@ describe('MsdAgGridConfigService', () => {
             materialClass: MaterialClass.STEEL,
             navigationLevel: NavigationLevel.MATERIAL,
           }),
+          hasEditorRole$: of(true),
           dispatch: jest.fn(),
         },
       },
@@ -74,6 +76,7 @@ describe('MsdAgGridConfigService', () => {
   });
 
   describe('getDefaultColumnDefinitions', () => {
+    beforeEach(() => (service['hasEditorRole'] = false));
     it.each([
       [
         MaterialClass.ALUMINUM,
@@ -147,6 +150,34 @@ describe('MsdAgGridConfigService', () => {
         );
 
         expect(result).toEqual(expected);
+      }
+    );
+
+    // special cases with editor columns
+    it('should return the default column definitions including editor rights', () => {
+      service['hasEditorRole'] = true;
+      const result = service.getDefaultColumnDefinitions(
+        MaterialClass.ALUMINUM,
+        NavigationLevel.MATERIAL
+      );
+      // const expected = COLUMN_DEFINITIONS_MAPPING.materials[MaterialClass.ALUMINUM][NavigationLevel.MATERIAL];
+      expect(result).toContain(EDITOR_COLUMN_DEFINITIONS[0]);
+    });
+  });
+
+  describe('isEditable', () => {
+    it.each([
+      [true, MaterialClass.STEEL, true],
+      [true, MaterialClass.ALUMINUM, true],
+      [true, MaterialClass.POLYMER, false],
+      [false, MaterialClass.STEEL, false],
+      [false, MaterialClass.ALUMINUM, false],
+      [false, MaterialClass.POLYMER, false],
+    ])(
+      'should be editable with editor[%p] and materialClass [%p] = %p',
+      (editorRole, materialClass, expected) => {
+        service['hasEditorRole'] = editorRole;
+        expect(service['isEditable'](materialClass)).toBe(expected);
       }
     );
   });

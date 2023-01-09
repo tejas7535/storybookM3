@@ -4,6 +4,7 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
+import { ConfirmDeleteDialogComponent } from '@mac/msd/main-table/confirm-delete-dialog/confirm-delete-dialog.component';
 import { AluminumInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/materials/aluminum/aluminum-input-dialog.component';
 import { SteelInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/materials/steel/steel-input-dialog.component';
 import { DataResult } from '@mac/msd/models';
@@ -190,6 +191,21 @@ describe('MsdDialogService', () => {
           )
         )
       ).toEqual(JSON.stringify(ManufacturerSupplierInputDialogComponent));
+    });
+  });
+
+  describe('openConfirmDeleteDialog', () => {
+    it('should open the dialog', () => {
+      const mockRef = service.openConfirmDeleteDialog();
+
+      expect(mockRef).toEqual({} as unknown as MatDialogRef<any>);
+      expect(service['dialog'].open).toHaveBeenCalledWith(
+        ConfirmDeleteDialogComponent,
+        {
+          width: '500px',
+          autoFocus: false,
+        }
+      );
     });
   });
 });
