@@ -1,7 +1,5 @@
- Changelog
-
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
-**Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
+# Release Notes of Library Shared Utils Azure Auth
+## [1.0.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/azure-auth-v1.0.3...azure-auth-v1.0.4) (2023-01-09)
 
 ### [1.0.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/azure-auth-v1.0.2...azure-auth-v1.0.3) (2023-01-03)
 
