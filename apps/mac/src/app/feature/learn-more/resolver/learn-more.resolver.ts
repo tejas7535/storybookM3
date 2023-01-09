@@ -8,7 +8,9 @@ import {
 
 import { RoutePath } from '../../../app-routing.enum';
 import {
+  aqmCalculatorLearnMoreData,
   hardnessConverterLearnMoreData,
+  insulationSolutionsLearnMoreData,
   materialSupplierDbLearnMoreData,
 } from '../config/';
 import { LearnMoreData } from '../models';
@@ -28,7 +30,9 @@ export class LearnMoreResolver implements Resolve<LearnMoreData> {
       case RoutePath.HardnessConverterPath:
         return hardnessConverterLearnMoreData;
       case RoutePath.AQMCalculatorPath:
-        return undefined;
+        return aqmCalculatorLearnMoreData;
+      case RoutePath.InsulationSolutionsPath:
+        return insulationSolutionsLearnMoreData;
       case RoutePath.MaterialsSupplierDatabasePath:
         return materialSupplierDbLearnMoreData;
       default:

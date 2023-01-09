@@ -104,9 +104,13 @@
         <!-- action buttons -->
         <div class="flex w-full justify-center pt-7 pb-5">
           <ng-container *ngIf="hasRequiredRoles() | ngrxPush; else reqAccess">
-            <a [href]="appLink" mat-button color="primary">{{
-              t('openApp')
-            }}</a>
+            <a
+              [href]="appLink"
+              mat-button
+              color="primary"
+              [disabled]="!appLink"
+              >{{ t('openApp') }}</a
+            >
           </ng-container>
           <ng-template #reqAccess>
             <a [href]="samsLink" target="_blank" mat-button color="primary">{{

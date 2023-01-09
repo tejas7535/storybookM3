@@ -70,6 +70,47 @@
     "feedback": "feedback",
     "getAccess": "Request Access",
     "guides": "Tutorials and Guidelines",
+    "insolationsolutions": {
+      "title": "Insulation solutions",
+      "subTitle": "Find the right insulation product for your application",
+      "content": [
+        "Current passage can occur in the use of rolling bearings in industrial and automotive applications. Under unfavorable conditions, this causes damage to raceways and rolling elements as well as degradation of the lubricant and thus to premature, unexpected failure of a motor or generator. In addition to the repair work required, this incurs additional costs due to machine downtime and lost production.",
+        "It is significantly more cost-effective to provide for the use an electrically insulating product at the planning stage. As a result, customer benefit is increased through reduced maintenance costs and higher machine availability. Normally, it is sufficient to interrupt the circuit between the housing and shaft in order, depending on the application, to insert a current insulating solution at one or both bearing positions.",
+        "<b>1 Initial situation</b>",
+        "In general, it is difficult to eliminate the causes of electrical voltage in the rolling bearing. Nevertheless, bearing damage can be prevented if it is possible to stop or significantly reduce the flow of current. Essentially, three relevant types of current flow must be considered: capacitive currents, high-frequency circular currents and rotor-earth currents. Especially with inverter-powered motors, so-called parasitic effects can occur, which lead to damage on the rolling bearing.",
+        "../../../assets/img/learnmore/is/is_1.png",
+        "<i><b>Fig. 1</b> Types of current flow</i><br><br>",
+        "The challenges for rolling bearings with current flow affects automotive and industrial applications equally. An Insutect A coating or a hybrid ball bearing offer protection. Until now, mainly bearings in industrial applications are protected against current flow. The following picture represents the different types of electricity according to the performance class for E-motors in industrial applications.",
+        "../../../assets/img/learnmore/is/is_2.png",
+        "<i><b>Fig. 2</b> Bearing current vers. Engine power</i><br><br>",
+        "Hybrid bearings are usually installed in small engines, where only EDM Current is present. With higher engine power, the Insutect A solution is preferred. An occurrence of all three types of current is possible. Circular currents with very large motors (operated without frequency converters) generally play a minor role.",
+        "<b>2 Solution</b>",
+        "<b>2.1 Insulation products</b>",
+        "../../../assets/img/learnmore/is/is_3.png",
+        "<i><b>Fig. 3</b> Schaeffler Insulation solutions</i><br><br>",
+        "<h>Ceramic Coating</b>",
+        "Bearings with oxide ceramic coating are identified by the suffix (J20). These layers are applied to the bearing surfaces using the plasma spray method. The oxide ceramic layer is very hard, resistant to wear and has good thermal conductivity.",
+        "Ceramic Rolling Elements",
+        "An alternative to Insutect A bearings is FAG hybrid bearings. The rings of the hybrid bearings are made from rolling bearing steel and the rolling elements are made from ceramic. The hybrid bearings are identified by the prefix HC. The rolling elements are extremely resistant to wear and perform the function of current insulation. Hybrid bearings are available as ball bearings and as cylindrical roller bearings.",
+        "<b>2.2 Insulation performance<b>",
+        "<b>2.2.1 DC conditions for J20XX-Variants<b>",
+        "The following picture shows the performance of the existing and the new Schaeffler insulation coatings. The resistance value reach for the 700 µm coating up to 1000 MΩ and the breakthrough voltage is 6000 V. For voltages up to 1000 V this leads to a current of 1 µA through the bearing, which is absolutely uncritical. Even with the existing coating types we reach for voltages up to 1000V a current of only 20 µA. With the different coating types, we are ideally positioned for standard and premium requirements, where high resistance and breakthrough voltage is necessary.",
+        "../../../assets/img/learnmore/is/is_4.png",
+        "<i><b>Fig. 4</b> Insulation performance DC conditions</i><br><br>",
+        "<b>2.2.2 Capacity of coating, AC conditions for J20XX-Variants</b>",
+        "The insulated unit represents a capacitance C, which can accumulate charges. Under the influence of an alternating current voltage, this leads to an alternating current due to direct contact between the rolling element and raceway. For the effective values of current and voltage under a harmonic time curve with a pulsatance Ꞷ, the formula is: I = U · Ꞷ· C. The goal is to build a capacitance with a low value, so that less charges can be applied. For the 700 µm thick J20GG coating we reach values of nearly 1.1 nF. (Measured on Bearing type 6315). Its capacitive resistance at a frequency of 50 Hz is thus in the range of 3 MΩ, for a frequency of 1000 Hz instead only 0.15 MΩ. In other words, significantly lower than its direct current voltage resistance. Nevertheless, it will in most cases be significantly higher than the resistance of the non-insulated bearing, which is only very low (1 Ω or less) at voltages above 1 V. ",
+        "../../../assets/img/learnmore/is/is_5.png",
+        "<i><b>Fig. 5</b> Insulation performance AC conditions</i><br><br>",
+        "<b>2.2.3 Ceramic Rolling Elements</b>",
+        "An alternative to Insutect A bearings is FAG hybrid bearings. Hybrid bearings offer very high resistance to current passage. Their direct current voltage resistance, even at high temperatures, is in the GΩ range. A typical value for capacitance is 40 pF and is thus, lower by a factor of 50-75, than Insutect A bearings with ceramic coating.",
+        "<b>3 Conclusion</b>",
+        "Within Schaeffler we can offer a wide range of Insutect A coating solutions. In most cases the insulation performance of the coating will be efficient enough, to prevent the bearing for harmful current flow damages. For extremely high electrical requirements and when the bearing size is not too large, hybrid ball bearings are the best solution."
+      ],
+
+      "linkgroup1": "Contact",
+      "linkgroup1_1_name": "Pfenning, Stefan  ST/SWE-CO",
+      "linkgroup1_1_uri": "https://sconnect.schaeffler.com/people/pfennsef"
+    },
     "materialsupplierdb": {
       "title": "Materials Supplier Database",
       "subTitle": "Find released materials suppliers and their CO₂ footprints",
@@ -167,6 +208,30 @@
       "linkgroup3_2_uri": "mailto:materials-app-center@schaeffler.com",
       "subTitle": "Hardness converting tool",
       "title": "HardnessConverter"
+    },
+    "aqmCalculator": {
+      "title": "AQM Calculator",
+      "subTitle": "Calculate analytical QM value and sum value",
+      "content": [
+        "When hardening steels, one must know, if a material can be fully hardened, i. e. the hardness on the surface as well as in the core of the material is the same. On many drawings the QM value (German for materialbezogener Querschnittswert, material-related cross-section value) can be found. In order to choose the right material for the part, a material must be chosen, where AQM > QM. The analytical QM value is a theoretical, calculated value, that gives something like the critical diameter of a part, but is actually not a measurable diameter. To calculate the AQM value, the chemical composition of a steel, i. e. the element contents of Carbon, Silicon, Manganese, Chromium, Molybdenum, and Nickel in weight percent, are consecutively entered in eight polynomial equations given in S130998. The final result is the AQM value, that can be compared to the QM values given on the drawings.",
+        "Using the AQM Calculator you have different ways to enter your data. You can either select one of the predefined steel compositions from the drop-down list or enter the specific values in the six given input boxes. If you change the values in the input boxes, the drop-down list will contain “Custom alloy”. The values must be given in mass percent, as usual with steel compositions.",
+        "The AQM value is then calculated together with the sum value of the contents of Cr, Mn and Si. This sum value is an indicator, how high the content of chemical elements are, that contribute when hardening the material. The technical delivery conditions for the respective materials have limit values for the sum value. Depending on the material, in the section Limits, below right, you can see if the limit for a certain material is reached or not. In the image you can see that the limit for 100Cr6 is reached, but not for the other materials.",
+        "../../../assets/img/learnmore/aqm/aqm_1.png",
+        "The calculation of the AQM value is primarily restricted to through-hardening steels (100Cr6, 100CrMnSi6-4, 100CrMo7-3, 100CrMnMoSi8-4-6, etc.), but also some other steel alloys (e. g. C80) might be correctly calculated as long as the element contents are in a certain range:",
+        "C: 0.6 - 1.1<br>Si: 0.0 - 1.5<br>Mn: 0.0 - 1.5<br>Cr: 0.0 -2.0<br>Mo: 0.0 - 1.0<br>Ni: 0.0 -1.6",
+        "Outside these ranges, the predictions are no longer valid and the tool will display a warning and not calculate or update the result.",
+        "<b>Example</b>",
+        "You have a material 100CrMnSi6-4 and the respective element content values, e. g. from a material certificate or a measurement. You enter the data in the input boxes (see image below). The chemical values are within the allowed limits of a 100CrMnSi6-4. The AQM value is calculated to be 62.7 and the sum value is 3.1. The sum value reaches the limits for 100Cr6, 100CrMo7 and 100CrMo7-3, indicated by a green check mark, but not for 100CrMnMoSi8-4-6 and 100CrMnSi6-4, indicated by a red exclamation mark. But as this material is 100CrMnSi6-4 the sum value is not reached for that material. The material might still be used for smaller parts, but one must think about it.",
+        "../../../assets/img/learnmore/aqm/aqm_1.png",
+        "<b>Information about how to get access</b>",
+        "The AQM calculator is free to use and free of charge. Just a Schaeffler user account is necessary."
+      ],
+
+      "linkgroup1": "Links for further information",
+      "linkgroup1_1_name": "S130998 - DE",
+      "linkgroup1_1_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASI&doknr=S130998&doktl=DE",
+      "linkgroup1_2_name": "S130998 - EN",
+      "linkgroup1_2_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASI&doknr=S130998&doktl=EN"
     },
     "openApp": "Open Application",
     "overview": "Overview",
@@ -454,6 +519,10 @@
         "aqmCalculator": {
           "description": "Calculate analytical QM value and sum value",
           "title": "AQM Calculator"
+        },
+        "insulation-solutions": {
+          "title": "Insulation solutions",
+          "description": "Find the right insulation product for your application"
         },
         "greaseApp": {
           "description": "Calculate the optimum amount of lubricant for your bearing",
