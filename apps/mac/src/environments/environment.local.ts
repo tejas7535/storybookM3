@@ -11,7 +11,7 @@ export const environment: Environment = {
   azureTenantId: '67416604-6509-4014-9859-45e709f53d3f',
   azureClientId: '3e187b5d-2c84-4287-8d6c-d6167c2a07d4', // SG_MAC_D
   appId: 'api://e3624a8e-5b1a-4135-83f3-e7c1fa1993ab/macapi', // SG_MAC_D_API
-  baseUrl: 'https://materials-app-center-d.dev.dp.schaeffler',
+  baseUrl: 'http://localhost:8080',
   envName: 'env.localDev',
   oneTrustId: 'e4d0cd79-e494-42f5-9e9e-c1d7f89782de-test',
   applicationInsights: {

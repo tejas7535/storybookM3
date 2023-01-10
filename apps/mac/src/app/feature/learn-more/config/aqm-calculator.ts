@@ -15,5 +15,12 @@ export const aqmCalculatorLearnMoreData: LearnMoreData = {
         { uri: 'linkgroup1_2_uri', name: 'linkgroup1_2_name' },
       ],
     },
+    {
+      title: 'linkgroup2',
+      links: [
+        { uri: 'linkgroup2_1_uri', name: 'linkgroup2_1_name' },
+        { uri: 'linkgroup2_2_uri', name: 'linkgroup2_2_name' },
+      ],
+    },
   ],
 };

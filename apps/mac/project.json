@@ -45,13 +45,27 @@
         ]
       },
       "configurations": {
-        "local": {
+        "default": {
           "buildOptimizer": false,
           "optimization": false,
           "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
+        },
+        "local": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/mac/src/environments/environment.ts",
+              "with": "apps/mac/src/environments/environment.local.ts"
+            }
+          ]
         },
         "dev": {
           "statsJson": true,
@@ -93,6 +107,10 @@
         "browserTarget": "mac:build"
       },
       "configurations": {
+        "default": {
+          "browserTarget": "mac:build:default",
+          "proxyConfig": "apps/mac/proxy.conf.js"
+        },
         "local": {
           "browserTarget": "mac:build:local",
           "proxyConfig": "apps/mac/proxy.conf.js"
@@ -107,7 +125,7 @@
           "browserTarget": "mac:build:production"
         }
       },
-      "defaultConfiguration": "dev"
+      "defaultConfiguration": "default"
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",

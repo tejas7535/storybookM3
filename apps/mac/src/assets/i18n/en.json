@@ -2,7 +2,7 @@
   "aqmCalculator": {
     "alloyConfiguration": "Alloy configuration",
     "aqmAccordingTo": "AQM value according to {{norm}}:",
-    "aqmNorm": "S130998",
+    "aqmNorm": "S 130998",
     "chooseAlloy": "Choose a specific alloy",
     "hintRequired": "Input is required",
     "hintTooHigh": "Value is too high",
@@ -213,7 +213,7 @@
       "title": "AQM Calculator",
       "subTitle": "Calculate analytical QM value and sum value",
       "content": [
-        "When hardening steels, one must know, if a material can be fully hardened, i. e. the hardness on the surface as well as in the core of the material is the same. On many drawings the QM value (German for materialbezogener Querschnittswert, material-related cross-section value) can be found. In order to choose the right material for the part, a material must be chosen, where AQM > QM. The analytical QM value is a theoretical, calculated value, that gives something like the critical diameter of a part, but is actually not a measurable diameter. To calculate the AQM value, the chemical composition of a steel, i. e. the element contents of Carbon, Silicon, Manganese, Chromium, Molybdenum, and Nickel in weight percent, are consecutively entered in eight polynomial equations given in S130998. The final result is the AQM value, that can be compared to the QM values given on the drawings.",
+        "When hardening steels, one must know, if a material can be fully hardened, i. e. the hardness on the surface as well as in the core of the material is the same. On many drawings the QM value (German for materialbezogener Querschnittswert, material-related cross-section value) can be found. In order to choose the right material for the part, a material must be chosen, where AQM > QM. The analytical QM value is a theoretical, calculated value, that gives something like the critical diameter of a part, but is actually not a measurable diameter. To calculate the AQM value, the chemical composition of a steel, i. e. the element contents of Carbon, Silicon, Manganese, Chromium, Molybdenum, and Nickel in weight percent, are consecutively entered in eight polynomial equations given in <a class=\"text-link hover:underline hover:cursor-pointer\" target=\"_blank\" href=\"http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASI&doknr=S130998&doktl=EN\">S 130998</a>. The final result is the AQM value, that can be compared to the QM values given on the drawings.",
         "Using the AQM Calculator you have different ways to enter your data. You can either select one of the predefined steel compositions from the drop-down list or enter the specific values in the six given input boxes. If you change the values in the input boxes, the drop-down list will contain “Custom alloy”. The values must be given in mass percent, as usual with steel compositions.",
         "The AQM value is then calculated together with the sum value of the contents of Cr, Mn and Si. This sum value is an indicator, how high the content of chemical elements are, that contribute when hardening the material. The technical delivery conditions for the respective materials have limit values for the sum value. Depending on the material, in the section Limits, below right, you can see if the limit for a certain material is reached or not. In the image you can see that the limit for 100Cr6 is reached, but not for the other materials.",
         "../../../assets/img/learnmore/aqm/aqm_1.png",
@@ -226,12 +226,16 @@
         "<b>Information about how to get access</b>",
         "The AQM calculator is free to use and free of charge. Just a Schaeffler user account is necessary."
       ],
-
       "linkgroup1": "Links for further information",
-      "linkgroup1_1_name": "S130998 - DE",
+      "linkgroup1_1_name": "S 130998 - DE",
       "linkgroup1_1_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASI&doknr=S130998&doktl=DE",
-      "linkgroup1_2_name": "S130998 - EN",
-      "linkgroup1_2_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASI&doknr=S130998&doktl=EN"
+      "linkgroup1_2_name": "S 130998 - EN",
+      "linkgroup1_2_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASI&doknr=S130998&doktl=EN",
+      "linkgroup2": "Contact",
+      "linkgroup2_1_name": "Hullin, Gregor",
+      "linkgroup2_1_uri": "https://sconnect.schaeffler.com/people/hulligeg",
+      "linkgroup2_2_name": "Nuetzel, Ralf",
+      "linkgroup2_2_uri": "https://sconnect.schaeffler.com/people/nuetzrlf"
     },
     "openApp": "Open Application",
     "overview": "Overview",
