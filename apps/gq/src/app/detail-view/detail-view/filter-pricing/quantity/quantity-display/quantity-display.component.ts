@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { isManualCase } from '../../../../../core/store';
 import { ColumnFields } from '../../../../../shared/ag-grid/constants/column-fields.enum';
 import { EditingModalComponent } from '../../../../../shared/components/modal/editing-modal/editing-modal.component';
+import { QuotationStatus } from '../../../../../shared/models';
 import { QuotationDetail } from '../../../../../shared/models/quotation-detail';
 
 @Component({
@@ -15,9 +16,12 @@ import { QuotationDetail } from '../../../../../shared/models/quotation-detail';
   templateUrl: './quantity-display.component.html',
 })
 export class QuantityDisplayComponent implements OnInit {
-  @Input() quotationDetail: QuotationDetail;
+  @Input()
+  readonly quotationDetail: QuotationDetail;
+  readonly quotationStatus = QuotationStatus;
 
   isManualCase$: Observable<boolean>;
+
   constructor(
     private readonly dialog: MatDialog,
     private readonly store: Store

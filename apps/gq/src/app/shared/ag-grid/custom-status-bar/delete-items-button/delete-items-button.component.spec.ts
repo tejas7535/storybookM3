@@ -8,6 +8,7 @@ import { of } from 'rxjs';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { IStatusPanelParams } from 'ag-grid-community';
+import { MockDirective } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -15,6 +16,7 @@ import {
   PROCESS_CASE_STATE_MOCK,
   QUOTATION_DETAIL_MOCK,
 } from '../../../../../testing/mocks';
+import { HideIfQuotationHasStatusDirective } from '../../../directives/hide-if-quotation-has-status/hide-if-quotation-has-status.directive';
 import { DeleteItemsButtonComponent } from './delete-items-button.component';
 
 describe('DeleteItemsButtonComponent', () => {
@@ -25,7 +27,10 @@ describe('DeleteItemsButtonComponent', () => {
 
   const createComponent = createComponentFactory({
     component: DeleteItemsButtonComponent,
-    declarations: [DeleteItemsButtonComponent],
+    declarations: [
+      DeleteItemsButtonComponent,
+      MockDirective(HideIfQuotationHasStatusDirective),
+    ],
     imports: [
       MatButtonModule,
       MatDialogModule,

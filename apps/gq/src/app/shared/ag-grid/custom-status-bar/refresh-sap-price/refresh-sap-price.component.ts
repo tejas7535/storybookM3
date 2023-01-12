@@ -13,7 +13,7 @@ import {
   refreshSapPricing,
 } from '../../../../core/store';
 import { ConfirmationModalComponent } from '../../../components/modal/confirmation-modal/confirmation-modal.component';
-import { EVENT_NAMES } from '../../../models';
+import { EVENT_NAMES, QuotationStatus } from '../../../models';
 
 @Component({
   selector: 'gq-refresh-sap-price',
@@ -22,6 +22,7 @@ import { EVENT_NAMES } from '../../../models';
 export class RefreshSapPriceComponent {
   icon = 'update';
   public simulationModeEnabled$: Observable<boolean>;
+  public quotationStatus = QuotationStatus;
 
   constructor(
     private readonly dialog: MatDialog,

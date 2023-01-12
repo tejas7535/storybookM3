@@ -2,16 +2,18 @@
   <div
     *transloco="let t; read: 'shared.customStatusBar.buttons'"
     [matTooltip]="
-      selections?.length <= 1000
+      !(quotationActive$ | ngrxPush)
+        ? t('uploadSelectionDisabledTooltip')
+        : selections?.length <= 1000
         ? t('uploadQuoteToSapPositionsInfoText')
         : t('uploadQuoteToSapPositionsInfoTextMaxPositions')
     "
-    [matTooltipDisabled]="!uploadDisabled"
+    [matTooltipDisabled]="(quotationActive$ | ngrxPush) && !uploadDisabled"
     matTooltipPosition="above"
   >
     <button
       class="!m-4 !ml-0"
-      [disabled]="uploadDisabled"
+      [disabled]="uploadDisabled || !(quotationActive$ | ngrxPush)"
       mat-raised-button
       color="primary"
       (click)="uploadCaseToSap()"

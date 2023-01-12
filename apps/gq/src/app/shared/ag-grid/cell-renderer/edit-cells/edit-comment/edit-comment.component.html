@@ -3,6 +3,10 @@
     {{ detail.comment || '-' }}
   </span>
   <mat-icon
+    *hideIfQuotationHasStatus="[
+      quotationStatus.DELETED,
+      quotationStatus.INACTIVE
+    ]"
     class="cursor-pointer align-text-top !text-[16px] text-medium-emphasis"
     (click)="onIconClick()"
     >mode_edit</mat-icon

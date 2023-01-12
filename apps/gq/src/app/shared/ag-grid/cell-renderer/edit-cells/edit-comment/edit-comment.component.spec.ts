@@ -5,9 +5,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { SpyObject } from '@ngneat/spectator/jest/lib/mock.js';
 import { provideMockStore } from '@ngrx/store/testing';
+import { MockDirective } from 'ng-mocks';
 
 import { QUOTATION_DETAIL_MOCK } from '../../../../../../testing/mocks';
 import { EditingCommentModalComponent } from '../../../../../process-case-view/quotation-details-table/editing-comment-modal/editing-comment-modal.component';
+import { HideIfQuotationHasStatusDirective } from '../../../../directives/hide-if-quotation-has-status/hide-if-quotation-has-status.directive';
 import { EditCommentComponent } from './edit-comment.component';
 
 describe('EditCommentComponent', () => {
@@ -19,6 +21,7 @@ describe('EditCommentComponent', () => {
     component: EditCommentComponent,
     imports: [MatIconModule, MatDialogModule],
     mocks: [MatDialog],
+    declarations: [MockDirective(HideIfQuotationHasStatusDirective)],
     providers: [
       provideMockStore(),
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },

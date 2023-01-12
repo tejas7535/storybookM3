@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { EditCaseModalComponent } from '../../shared/components/modal/edit-case-modal/edit-case-modal.component';
-import { Quotation } from '../../shared/models';
+import { Quotation, QuotationStatus } from '../../shared/models';
 import { HelperService } from '../../shared/services/helper-service/helper-service.service';
 import { UpdateQuotationRequest } from '../../shared/services/rest-services/quotation-service/models/update-quotation-request.model';
 
@@ -22,6 +22,8 @@ export class HeaderContentComponent {
   public caseName: string;
   public saveCaseNameEnabled = false;
   public currency: string;
+
+  public quotationStatus = QuotationStatus;
 
   @Output() updateQuotation = new EventEmitter<UpdateQuotationRequest>();
 

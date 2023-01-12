@@ -27,8 +27,6 @@ export const QUOTATION_MOCK: Quotation = {
   validTo: '2021-03-21T00:00:00',
   calculationInProgress: false,
   sapCallInProgress: SapCallInProgress.NONE_IN_PROGRESS,
-  statusTypeOfListedQuotation: QuotationStatus[
-    QuotationStatus.ACTIVE
-  ] as keyof typeof QuotationStatus,
+  status: QuotationStatus.ACTIVE,
   sapSyncStatus: SAP_SYNC_STATUS.NOT_SYNCED,
 };

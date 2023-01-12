@@ -1,11 +1,18 @@
-<div *ngIf="!(simulationModeEnabled$ | ngrxPush)">
-  <button
-    class="!my-4 truncate !text-link md:!mr-4"
-    mat-icon-button
-    *transloco="let t; read: 'shared.customStatusBar.buttons'"
-    (click)="refreshSapPricing()"
-    [matTooltip]="t('refreshSapDataTooltip')"
-  >
-    <mat-icon>{{ icon }}</mat-icon>
-  </button>
-</div>
+<ng-container
+  *hideIfQuotationHasStatus="[
+    quotationStatus.DELETED,
+    quotationStatus.INACTIVE
+  ]"
+>
+  <div *ngIf="!(simulationModeEnabled$ | ngrxPush)">
+    <button
+      class="!my-4 truncate !text-link"
+      mat-icon-button
+      *transloco="let t; read: 'shared.customStatusBar.buttons'"
+      (click)="refreshSapPricing()"
+      [matTooltip]="t('refreshSapDataTooltip')"
+    >
+      <mat-icon>{{ icon }}</mat-icon>
+    </button>
+  </div>
+</ng-container>

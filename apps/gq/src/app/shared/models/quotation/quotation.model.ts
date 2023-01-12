@@ -27,6 +27,6 @@ export class Quotation {
   public validTo: string;
   public calculationInProgress: boolean;
   public sapCallInProgress: SapCallInProgress;
-  public statusTypeOfListedQuotation: keyof typeof QuotationStatus;
+  public status: QuotationStatus;
   public sapSyncStatus: SAP_SYNC_STATUS;
 }

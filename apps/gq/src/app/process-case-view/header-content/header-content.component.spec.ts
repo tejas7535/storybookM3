@@ -8,6 +8,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { SpyObject } from '@ngneat/spectator/jest/lib/mock.js';
 import { TranslocoService } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
+import { MockDirective } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -15,6 +16,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { QUOTATION_MOCK } from '../../../testing/mocks/models/quotation.mock';
 import { InfoIconModule } from '../../shared/components/info-icon/info-icon.module';
 import { EditCaseModalComponent } from '../../shared/components/modal/edit-case-modal/edit-case-modal.component';
+import { HideIfQuotationHasStatusDirective } from '../../shared/directives/hide-if-quotation-has-status/hide-if-quotation-has-status.directive';
 import { Keyboard } from '../../shared/models';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { HelperService } from '../../shared/services/helper-service/helper-service.service';
@@ -29,6 +31,7 @@ describe('HeaderContentComponent', () => {
 
   const createComponent = createComponentFactory({
     component: HeaderContentComponent,
+    declarations: [MockDirective(HideIfQuotationHasStatusDirective)],
     imports: [
       MatIconModule,
       InfoIconModule,

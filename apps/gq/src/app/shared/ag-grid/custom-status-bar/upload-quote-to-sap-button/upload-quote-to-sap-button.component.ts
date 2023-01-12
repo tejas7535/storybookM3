@@ -7,6 +7,7 @@ import { IStatusPanelParams } from 'ag-grid-community';
 
 import {
   createSapQuote,
+  getIsQuotationActive,
   getSapId,
   getSimulationModeEnabled,
 } from '../../../../core/store';
@@ -21,6 +22,7 @@ export class UploadQuoteToSapButtonComponent {
   public uploadDisabled = true;
   public sapId$: Observable<string>;
   public simulationModeEnabled$: Observable<boolean>;
+  quotationActive$: Observable<boolean>;
 
   private params: IStatusPanelParams;
   private readonly QUOTATION_POSITION_UPLOAD_LIMIT = 1000;
@@ -35,6 +37,7 @@ export class UploadQuoteToSapButtonComponent {
     );
     this.sapId$ = this.store.select(getSapId);
     this.simulationModeEnabled$ = this.store.select(getSimulationModeEnabled);
+    this.quotationActive$ = this.store.select(getIsQuotationActive);
   }
 
   public onSelectionChange(): void {

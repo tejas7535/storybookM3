@@ -10,11 +10,13 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { translate } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockDirective } from 'ng-mocks';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { refreshSapPricing } from '../../../../core/store';
+import { HideIfQuotationHasStatusDirective } from '../../../directives/hide-if-quotation-has-status/hide-if-quotation-has-status.directive';
 import { EVENT_NAMES } from '../../../models';
 import { RefreshSapPriceComponent } from './refresh-sap-price.component';
 
@@ -26,6 +28,7 @@ describe('RefreshSapPriceComponent', () => {
 
   const createComponent = createComponentFactory({
     component: RefreshSapPriceComponent,
+    declarations: [MockDirective(HideIfQuotationHasStatusDirective)],
     imports: [
       MatButtonModule,
       MatIconModule,

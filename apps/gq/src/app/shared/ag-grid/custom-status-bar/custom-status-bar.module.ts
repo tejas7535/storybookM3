@@ -9,6 +9,7 @@ import { LetModule, PushModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { SharedDirectivesModule } from '../../directives/shared-directives.module';
 import { SharedPipesModule } from '../../pipes/shared-pipes.module';
 import { AddItemsButtonComponent } from './add-items-button/add-items-button.component';
 import { AddMaterialButtonComponent } from './case-material-table/add-material-button/add-material-button.component';
@@ -64,6 +65,7 @@ import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-b
     LetModule,
     PushModule,
     SharedPipesModule,
+    SharedDirectivesModule,
   ],
   exports: [
     AddMaterialButtonComponent,

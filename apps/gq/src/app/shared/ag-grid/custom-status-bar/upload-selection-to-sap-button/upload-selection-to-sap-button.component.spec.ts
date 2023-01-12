@@ -10,12 +10,14 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { IStatusPanelParams } from 'ag-grid-community';
+import { MockDirective } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { PROCESS_CASE_STATE_MOCK } from '../../../../../testing/mocks';
 import { uploadSelectionToSap } from '../../../../core/store';
 import { ConfirmationModalComponent } from '../../../../shared/components/modal/confirmation-modal/confirmation-modal.component';
+import { HideIfQuotationHasStatusDirective } from '../../../directives/hide-if-quotation-has-status/hide-if-quotation-has-status.directive';
 import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-button.component';
 
 describe('uploadSelectionToSapButtonComponent', () => {
@@ -26,6 +28,7 @@ describe('uploadSelectionToSapButtonComponent', () => {
 
   const createComponent = createComponentFactory({
     component: UploadSelectionToSapButtonComponent,
+    declarations: [MockDirective(HideIfQuotationHasStatusDirective)],
     imports: [
       MatButtonModule,
       MatIconModule,

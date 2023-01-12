@@ -10,6 +10,7 @@ import { ICellRendererParams } from 'ag-grid-community';
 
 import { getSimulatedQuotationDetailByItemId } from '../../../../../core/store';
 import { EditingModalComponent } from '../../../../components/modal/editing-modal/editing-modal.component';
+import { QuotationStatus } from '../../../../models';
 import { QuotationDetail } from '../../../../models/quotation-detail';
 import { ColumnFields } from '../../../constants/column-fields.enum';
 import { ExtendedEditCellClassParams } from '../../models/extended-cell-class-params.model';
@@ -30,6 +31,7 @@ export class EditCellComponent implements ICellRendererAngularComp {
     'shared.quotationDetailsTable.toolTip.gpmOrGpiTooLow'
   );
   public simulatedQuotation$: Observable<QuotationDetail>;
+  public quotationStatus = QuotationStatus;
 
   constructor(
     private readonly dialog: MatDialog,

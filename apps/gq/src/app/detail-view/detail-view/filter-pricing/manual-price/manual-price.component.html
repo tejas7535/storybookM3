@@ -14,12 +14,19 @@
         <div class="flex-1">
           <span class="font-bold">{{ price | numberCurrency: currency }}</span>
           <span *ngIf="!price" class="font-bold"> {{ currency }}</span>
-          <mat-icon
-            *ngIf="userHasManualPriceRole"
-            class="ml-1 cursor-pointer align-bottom !text-body-1 !leading-6 text-medium-emphasis"
-            (click)="openEditing(ColumnFields.PRICE)"
-            >mode_edit</mat-icon
+          <ng-container
+            *hideIfQuotationHasStatus="[
+              quotationStatus.DELETED,
+              quotationStatus.INACTIVE
+            ]"
           >
+            <mat-icon
+              *ngIf="userHasManualPriceRole"
+              class="ml-1 cursor-pointer align-bottom !text-body-1 !leading-6 text-medium-emphasis"
+              (click)="openEditing(ColumnFields.PRICE)"
+              >mode_edit</mat-icon
+            >
+          </ng-container>
         </div>
       </div>
     </div>
@@ -27,24 +34,38 @@
       <div class="mb-1 text-body-2 text-medium-emphasis">{{ t('gpi') }}:</div>
       <div>
         <span class="font-bold">{{ gpi | percentage }}</span>
-        <mat-icon
-          *ngIf="userHasManualPriceRole"
-          class="ml-1 cursor-pointer align-bottom !text-body-1 !leading-6 text-medium-emphasis"
-          (click)="openEditing(ColumnFields.GPI)"
-          >mode_edit</mat-icon
+        <ng-container
+          *hideIfQuotationHasStatus="[
+            quotationStatus.DELETED,
+            quotationStatus.INACTIVE
+          ]"
         >
+          <mat-icon
+            *ngIf="userHasManualPriceRole"
+            class="ml-1 cursor-pointer align-bottom !text-body-1 !leading-6 text-medium-emphasis"
+            (click)="openEditing(ColumnFields.GPI)"
+            >mode_edit</mat-icon
+          >
+        </ng-container>
       </div>
     </div>
     <div class="min-w-[8rem] pt-4" *ngIf="userHasSQVRole">
       <div class="mb-1 text-body-2 text-medium-emphasis">{{ t('gpm') }}:</div>
       <div>
         <span class="font-bold">{{ gpm | percentage }}</span>
-        <mat-icon
-          *ngIf="userHasManualPriceRole"
-          class="ml-1 cursor-pointer align-bottom !text-body-1 !leading-6 text-medium-emphasis"
-          (click)="openEditing(ColumnFields.GPM)"
-          >mode_edit</mat-icon
+        <ng-container
+          *hideIfQuotationHasStatus="[
+            quotationStatus.DELETED,
+            quotationStatus.INACTIVE
+          ]"
         >
+          <mat-icon
+            *ngIf="userHasManualPriceRole"
+            class="ml-1 cursor-pointer align-bottom !text-body-1 !leading-6 text-medium-emphasis"
+            (click)="openEditing(ColumnFields.GPM)"
+            >mode_edit</mat-icon
+          >
+        </ng-container>
       </div>
     </div>
     <div class="min-w-[8rem] pt-4">

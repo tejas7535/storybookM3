@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import {
+  getIsQuotationActive,
   getQuotationCurrency,
   getUpdateLoading,
   updateQuotationDetails,
@@ -28,6 +29,7 @@ export class FilterPricingComponent implements OnInit {
   public userHasGPCRole$: Observable<boolean>;
   public userHasSQVRole$: Observable<boolean>;
   public updateIsLoading$: Observable<boolean>;
+  public quotationIsActive$: Observable<boolean>;
 
   @Input() quotationDetail: QuotationDetail;
 
@@ -39,6 +41,7 @@ export class FilterPricingComponent implements OnInit {
     this.userHasGPCRole$ = this.store.pipe(userHasGPCRole);
     this.userHasSQVRole$ = this.store.pipe(userHasSQVRole);
     this.updateIsLoading$ = this.store.select(getUpdateLoading);
+    this.quotationIsActive$ = this.store.select(getIsQuotationActive);
   }
 
   selectPrice(updatePrice: UpdatePrice): void {

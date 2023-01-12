@@ -5,7 +5,10 @@ import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
-import { getSimulationModeEnabled } from '../../../../core/store';
+import {
+  getIsQuotationActive,
+  getSimulationModeEnabled,
+} from '../../../../core/store';
 import { AddMaterialDialogComponent } from '../../../../process-case-view/add-material-dialog/add-material-dialog.component';
 
 @Component({
@@ -15,6 +18,7 @@ import { AddMaterialDialogComponent } from '../../../../process-case-view/add-ma
 })
 export class AddItemsButtonComponent implements OnInit {
   simulationModeEnabled$: Observable<boolean>;
+  quotationActive$: Observable<boolean>;
 
   constructor(
     private readonly store: Store,
@@ -25,7 +29,9 @@ export class AddItemsButtonComponent implements OnInit {
 
   ngOnInit(): void {
     this.simulationModeEnabled$ = this.store.select(getSimulationModeEnabled);
+    this.quotationActive$ = this.store.select(getIsQuotationActive);
   }
+
   showAddDialog(): void {
     this.dialog.open(AddMaterialDialogComponent, {
       width: '70%',

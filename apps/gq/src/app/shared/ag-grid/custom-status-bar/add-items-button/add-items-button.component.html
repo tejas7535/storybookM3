@@ -1,17 +1,24 @@
 <div *ngIf="!(simulationModeEnabled$ | ngrxPush)">
-  <button
-    class="!m-4 !ml-0"
-    mat-raised-button
-    color="primary"
+  <div
     *transloco="let t; read: 'shared.customStatusBar.buttons'"
-    (click)="showAddDialog()"
+    [matTooltip]="t('addNewItemDisabledTooltip')"
+    matTooltipPosition="above"
+    [matTooltipDisabled]="quotationActive$ | ngrxPush"
   >
-    <mat-icon class="!align-text-bottom !text-[20px]">add</mat-icon>
-    <span class="hidden lg:inline">
-      {{ t('addNewItem') }}
-    </span>
-    <span class="lg:hidden">
-      {{ t('addNewItemMobile') }}
-    </span>
-  </button>
+    <button
+      class="!m-4 !ml-0"
+      mat-raised-button
+      color="primary"
+      (click)="showAddDialog()"
+      [disabled]="!(quotationActive$ | ngrxPush)"
+    >
+      <mat-icon class="!align-text-bottom !text-[20px]">add</mat-icon>
+      <span class="hidden lg:inline">
+        {{ t('addNewItem') }}
+      </span>
+      <span class="lg:hidden">
+        {{ t('addNewItemMobile') }}
+      </span>
+    </button>
+  </div>
 </div>

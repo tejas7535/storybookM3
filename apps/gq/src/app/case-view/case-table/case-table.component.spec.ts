@@ -16,7 +16,10 @@ import {
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { VIEW_CASE_STATE_MOCK } from '../../../testing/mocks';
+import {
+  PROCESS_CASE_STATE_MOCK,
+  VIEW_CASE_STATE_MOCK,
+} from '../../../testing/mocks';
 import { AppRoutePath } from '../../app-route-path.enum';
 import { getSelectedCaseIds } from '../../core/store';
 import { ColumnHeadersModule } from '../../shared/ag-grid/column-headers/column-headers.module';
@@ -49,7 +52,10 @@ describe('CaseTableComponent', () => {
     ],
     providers: [
       provideMockStore({
-        initialState: VIEW_CASE_STATE_MOCK,
+        initialState: {
+          case: VIEW_CASE_STATE_MOCK,
+          processCase: PROCESS_CASE_STATE_MOCK,
+        },
       }),
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       { provide: HelperService, useValue: {} },

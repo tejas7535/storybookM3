@@ -33,10 +33,15 @@
       }}
     </span>
   </span>
-  <mat-icon
-    *ngIf="isCellEditingAllowed"
-    class="cursor-pointer align-text-top !text-[16px] text-medium-emphasis"
-    (click)="onIconClick()"
-    >mode_edit</mat-icon
-  >
+  <ng-container *ngIf="isCellEditingAllowed">
+    <mat-icon
+      *hideIfQuotationHasStatus="[
+        quotationStatus.DELETED,
+        quotationStatus.INACTIVE
+      ]"
+      class="cursor-pointer align-text-top !text-[16px] text-medium-emphasis"
+      (click)="onIconClick()"
+      >mode_edit</mat-icon
+    >
+  </ng-container>
 </div>

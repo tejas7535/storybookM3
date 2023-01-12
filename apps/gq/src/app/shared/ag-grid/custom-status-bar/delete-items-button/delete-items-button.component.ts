@@ -9,6 +9,7 @@ import { removePositions } from '../../../../core/store/actions';
 import { getSapId } from '../../../../core/store/selectors';
 import { ConfirmationModalComponent } from '../../../../shared/components/modal/confirmation-modal/confirmation-modal.component';
 import { ConfirmationModalData } from '../../../components/modal/confirmation-modal/models/confirmation-modal-data.model';
+import { QuotationStatus } from '../../../models';
 import { QuotationDetail } from '../../../models/quotation-detail';
 
 @Component({
@@ -21,6 +22,8 @@ export class DeleteItemsButtonComponent implements OnInit {
   icon = 'delete';
   private params: IStatusPanelParams;
   sap: boolean;
+
+  quotationStatus = QuotationStatus;
 
   public constructor(
     private readonly store: Store,

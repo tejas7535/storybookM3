@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { ColumnFields } from '../../../../shared/ag-grid/constants/column-fields.enum';
 import { EditingModalComponent } from '../../../../shared/components/modal/editing-modal/editing-modal.component';
+import { QuotationStatus } from '../../../../shared/models';
 import {
   PriceSource,
   QuotationDetail,
@@ -27,6 +28,7 @@ export class ManualPriceComponent implements OnChanges, OnInit {
   _isLoading: boolean;
   PriceSource = PriceSource;
   ColumnFields = ColumnFields;
+  quotationStatus = QuotationStatus;
 
   @Input() userHasGPCRole: boolean;
   @Input() userHasSQVRole: boolean;

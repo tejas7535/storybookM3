@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { IStatusPanelParams } from 'ag-grid-community';
 
 import {
+  getIsQuotationActive,
   getSapId,
   getSimulationModeEnabled,
   uploadSelectionToSap,
@@ -27,6 +28,7 @@ export class UploadSelectionToSapButtonComponent {
   private params: IStatusPanelParams;
   public icon = 'cloud_upload';
   public simulationModeEnabled$: Observable<boolean>;
+  quotationActive$: Observable<boolean>;
 
   private readonly QUOTATION_POSITION_UPLOAD_LIMIT = 1000;
 
@@ -39,6 +41,8 @@ export class UploadSelectionToSapButtonComponent {
       'selectionChanged',
       this.onSelectionChange.bind(this)
     );
+
+    this.quotationActive$ = this.store.select(getIsQuotationActive);
   }
   onGridReady(): void {
     this.selections = this.params.api.getSelectedRows();

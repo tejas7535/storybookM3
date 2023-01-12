@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CellClassParams } from 'ag-grid-community';
 
 import { EditingCommentModalComponent } from '../../../../../process-case-view/quotation-details-table/editing-comment-modal/editing-comment-modal.component';
+import { QuotationStatus } from '../../../../models';
 import { QuotationDetail } from '../../../../models/quotation-detail';
 
 @Component({
@@ -12,6 +13,7 @@ import { QuotationDetail } from '../../../../models/quotation-detail';
 })
 export class EditCommentComponent {
   public detail: QuotationDetail;
+  quotationStatus = QuotationStatus;
 
   constructor(private readonly dialog: MatDialog) {}
   agInit(params: CellClassParams): void {

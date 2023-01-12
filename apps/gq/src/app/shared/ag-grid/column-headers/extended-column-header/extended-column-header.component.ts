@@ -18,7 +18,11 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 import { getSimulatedQuotation } from '../../../../core/store';
 import { getPercentageRegex } from '../../../constants';
-import { EVENT_NAMES, MassSimulationParams } from '../../../models';
+import {
+  EVENT_NAMES,
+  MassSimulationParams,
+  QuotationStatus,
+} from '../../../models';
 import { PriceSource, QuotationDetail } from '../../../models/quotation-detail';
 import { HelperService } from '../../../services/helper-service/helper-service.service';
 import { ColumnFields } from '../../constants/column-fields.enum';
@@ -53,6 +57,8 @@ export class ExtendedColumnHeaderComponent
   isPriceSource = false;
   priceSourceOptions = PriceSourceOptions;
   selectedPriceSource: PriceSourceOptions;
+
+  quotationStatus = QuotationStatus;
 
   @ViewChild('menuButton', { read: ElementRef }) public menuButton!: ElementRef;
   @ViewChild('inputField', { static: false }) public inputField!: ElementRef;

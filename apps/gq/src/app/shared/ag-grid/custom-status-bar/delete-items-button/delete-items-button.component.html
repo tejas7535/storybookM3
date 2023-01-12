@@ -1,14 +1,21 @@
-<div
-  class="fixed bottom-40"
-  [ngClass]="toolPanelOpened ? 'right-[250px]' : 'right-8'"
-  *transloco="let t; read: 'shared.customStatusBar.buttons'"
+<ng-container
+  *hideIfQuotationHasStatus="[
+    quotationStatus.DELETED,
+    quotationStatus.INACTIVE
+  ]"
 >
-  <button
-    *ngIf="selections.length && !sap"
-    mat-fab
-    color="primary"
-    (click)="deletePositions()"
+  <div
+    class="fixed bottom-40"
+    [ngClass]="toolPanelOpened ? 'right-[250px]' : 'right-8'"
+    *transloco="let t; read: 'shared.customStatusBar.buttons'"
   >
-    <mat-icon>{{ icon }}</mat-icon>
-  </button>
-</div>
+    <button
+      *ngIf="selections.length && !sap"
+      mat-fab
+      color="primary"
+      (click)="deletePositions()"
+    >
+      <mat-icon>{{ icon }}</mat-icon>
+    </button>
+  </div>
+</ng-container>

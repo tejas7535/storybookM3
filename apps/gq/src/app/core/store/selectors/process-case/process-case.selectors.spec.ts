@@ -4,6 +4,7 @@ import {
   QUOTATION_MOCK,
   SIMULATED_QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
+import { QuotationStatus } from '../../../../shared/models';
 import { SAP_SYNC_STATUS } from '../../../../shared/models/quotation-detail/sap-sync-status.enum';
 import { initialState } from '../../reducers/process-case/process-case.reducer';
 import * as quotationSelectors from './process-case.selectors';
@@ -485,6 +486,34 @@ describe('Process Case Selector', () => {
       expect(quotationSelectors.getQuotationSapSyncStatus(syncedState)).toEqual(
         SAP_SYNC_STATUS.NOT_SYNCED
       );
+    });
+  });
+
+  describe('getIsQuotationActive', () => {
+    [
+      { status: QuotationStatus.ACTIVE, expectedResult: true },
+      { status: QuotationStatus.INACTIVE, expectedResult: false },
+      { status: QuotationStatus.DELETED, expectedResult: false },
+    ].forEach((testCase) => {
+      test(`should return ${testCase.expectedResult} if Quotation has status ${testCase.status}`, () => {
+        const activeState = {
+          ...fakeState,
+          processCase: {
+            ...fakeState.processCase,
+            quotation: {
+              ...fakeState.processCase.quotation,
+              item: {
+                ...QUOTATION_MOCK,
+                status: testCase.status,
+              },
+            },
+          },
+        };
+
+        expect(quotationSelectors.getIsQuotationActive(activeState)).toEqual(
+          testCase.expectedResult
+        );
+      });
     });
   });
 });

@@ -1,6 +1,7 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
@@ -21,6 +22,7 @@ describe('AddItemsButtonComponent', () => {
       PushModule,
       MatIconModule,
       MatDialogModule,
+      MatTooltipModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [

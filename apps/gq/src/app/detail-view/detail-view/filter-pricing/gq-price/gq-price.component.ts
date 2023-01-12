@@ -23,6 +23,7 @@ export class GqPriceComponent implements OnInit {
   @Input() userHasSQVRole: boolean;
   @Input() currency: string;
   @Input() quotationDetail: QuotationDetail;
+  @Input() isDisabled: boolean;
 
   @Input() set isLoading(value: boolean) {
     this._isLoading = this.isLoading && value;

@@ -3,6 +3,10 @@
     <mat-icon
       class="ml-4 cursor-pointer text-medium-emphasis"
       (click)="openCaseEditingModal()"
+      *hideIfQuotationHasStatus="[
+        quotationStatus.INACTIVE,
+        quotationStatus.DELETED
+      ]"
     >
       mode_edit
     </mat-icon>

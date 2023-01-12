@@ -5,6 +5,13 @@
     (click)="openEditing()"
     *ngIf="isManualCase$ | ngrxPush"
   >
-    <mat-icon class="align-bottom !text-body-1 !leading-6">mode_edit</mat-icon>
+    <mat-icon
+      class="align-bottom !text-body-1 !leading-6"
+      *hideIfQuotationHasStatus="[
+        quotationStatus.INACTIVE,
+        quotationStatus.DELETED
+      ]"
+      >mode_edit</mat-icon
+    >
   </span>
 </div>

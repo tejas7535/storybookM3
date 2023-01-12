@@ -11,6 +11,7 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { DialogHeaderModule } from '../../../shared/components/header/dialog-header/dialog-header.module';
+import { SharedDirectivesModule } from '../../../shared/directives/shared-directives.module';
 import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
 import { DetailButtonComponent } from './detail-button/detail-button.component';
 import { FilterPricingComponent } from './filter-pricing.component';
@@ -40,6 +41,7 @@ import { SapPriceComponent } from './sap-price/sap-price.component';
     LoadingSpinnerModule,
     SharedTranslocoModule,
     CommonModule,
+    SharedDirectivesModule,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'detail-view' }],
   exports: [FilterPricingComponent],

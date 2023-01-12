@@ -11,6 +11,7 @@ import { PushModule } from '@ngrx/component';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { InfoIconModule } from '../../shared/components/info-icon/info-icon.module';
+import { SharedDirectivesModule } from '../../shared/directives/shared-directives.module';
 import { HeaderContentComponent } from './header-content.component';
 
 @NgModule({
@@ -24,6 +25,7 @@ import { HeaderContentComponent } from './header-content.component';
     ReactiveFormsModule,
     MatInputModule,
     SharedTranslocoModule,
+    SharedDirectivesModule,
     CommonModule,
   ],
   exports: [HeaderContentComponent],

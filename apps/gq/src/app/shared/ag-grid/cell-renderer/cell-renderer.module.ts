@@ -11,6 +11,7 @@ import { PushModule } from '@ngrx/component';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { FreeStockTrafficLightComponent } from '../../components/free-stock-traffic-light/free-stock-traffic-light.component';
+import { SharedDirectivesModule } from '../../directives/shared-directives.module';
 import { CreateCaseActionCellComponent } from './action-cells/create-case-action-cell/create-case-action-cell.component';
 import { CreateCaseActionHeaderComponent } from './action-cells/create-case-action-header/create-case-action-header.component';
 import { ProcessCaseActionCellComponent } from './action-cells/process-case-action-cell/process-case-action-cell.component';
@@ -52,6 +53,7 @@ import { SapStatusCellComponent } from './sap-sync-status-cell/sap-sync-status-c
     FreeStockTrafficLightComponent,
     SharedTranslocoModule,
     EditCaseMaterialComponent,
+    SharedDirectivesModule,
   ],
   exports: [
     ProcessCaseActionCellComponent,

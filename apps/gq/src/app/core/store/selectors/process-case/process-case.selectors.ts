@@ -2,7 +2,11 @@ import { createSelector } from '@ngrx/store';
 
 import { DetailViewQueryParams } from '../../../../app-routing.module';
 import { TableContext } from '../../../../process-case-view/quotation-details-table/config/tablecontext.model';
-import { Quotation, SimulatedQuotation } from '../../../../shared/models';
+import {
+  Quotation,
+  QuotationStatus,
+  SimulatedQuotation,
+} from '../../../../shared/models';
 import { Customer } from '../../../../shared/models/customer';
 import {
   Coefficients,
@@ -41,6 +45,12 @@ export const getQuotation = createSelector(
 export const getQuotationCurrency = createSelector(
   getProcessCaseState,
   (state: ProcessCaseState): string => state.quotation.item.currency
+);
+
+export const getIsQuotationActive = createSelector(
+  getProcessCaseState,
+  (state: ProcessCaseState): boolean =>
+    state.quotation.item.status === QuotationStatus.ACTIVE
 );
 
 export const getSimulatedQuotationDetailByItemId = (itemId: number) =>

@@ -33,6 +33,7 @@ export class SapPriceComponent implements OnInit, OnChanges {
   @Input() userHasSQVRole: boolean;
   @Input() currency: string;
   @Input() quotationDetail: QuotationDetail;
+  @Input() isDisabled: boolean;
 
   @Input() set isLoading(value: boolean) {
     this._isLoading = this.isLoading && value;
