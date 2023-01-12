@@ -313,7 +313,7 @@ export const cleanMinimizeDialog = createAction(
 
 export const minimizeDialog = createAction(
   '[MSD - Dialog] Minimize Dialog',
-  props<{ id?: number; value: Partial<MaterialFormValue> }>()
+  props<{ id?: number; value: Partial<MaterialFormValue>; isCopy?: boolean }>()
 );
 
 export const fetchSteelMakingProcessesInUse = createAction(

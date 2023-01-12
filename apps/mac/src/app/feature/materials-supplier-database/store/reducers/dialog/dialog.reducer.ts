@@ -138,6 +138,7 @@ export interface DialogState {
   minimizedDialog?: {
     id?: number;
     value: Partial<MaterialFormValue>;
+    isCopy?: boolean;
   };
 }
 
@@ -781,11 +782,12 @@ export const dialogReducer = createReducer(
 
   on(
     minimizeDialog,
-    (state, { id, value }): DialogState => ({
+    (state, { id, value, isCopy }): DialogState => ({
       ...state,
       minimizedDialog: {
         id,
         value,
+        isCopy,
       },
     })
   ),

@@ -2,7 +2,9 @@
   *transloco="let t; read: 'materialsSupplierDatabase.mainTable.dialog'"
   [txtTitle]="getTitle()"
   [txtCancel]="t('cancel')"
-  [txtConfirm]="isEditDialog() ? t('updateMaterial') : t('addMaterial')"
+  [txtConfirm]="
+    isEditDialog() && !isCopyDialog() ? t('updateMaterial') : t('addMaterial')
+  "
   [valid]="createMaterialForm.valid"
   (accept)="confirmMaterial()"
   (minimize)="minimizeDialog()"
@@ -18,7 +20,7 @@
       <div class="flex flex-row gap-x-6">
         <mac-material-standard
           class="w-full"
-          [readonly]="isEditDialog()"
+          [readonly]="isEditDialog() && !isCopyDialog()"
           [materialStandardIdControl]="materialStandardIdControl"
           [standardDocumentsControl]="standardDocumentsControl"
           [materialNamesControl]="materialNamesControl"
@@ -32,7 +34,7 @@
           {{ t('supplierInformationTitle') }}
         </div>
         <mac-manufacturer-supplier
-          [readonly]="isEditDialog()"
+          [readonly]="isEditDialog() && !isCopyDialog()"
           [manufacturerSupplierIdControl]="manufacturerSupplierIdControl"
           [supplierControl]="supplierControl"
           [supplierPlantControl]="supplierPlantControl"

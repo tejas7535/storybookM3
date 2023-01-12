@@ -18,6 +18,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { translate, TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { DefaultProjectorFn, MemoizedSelector } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -46,6 +47,11 @@ import * as en from '../../../../../../assets/i18n/en.json';
 import { BaseDialogModule } from '../base-dialog/base-dialog.module';
 import { MaterialInputDialogModule } from '../material-input-dialog.module';
 import { DialogControlsService } from '../services';
+
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+  translate: jest.fn((string) => string),
+}));
 
 describe('MaterialstandardInputDialogComponent', () => {
   let component: MaterialStandardInputDialogComponent;
@@ -225,6 +231,53 @@ describe('MaterialstandardInputDialogComponent', () => {
     it('should be false', () => {
       component.materialNumberControl.disable();
       expect(component.showMaterialNumber()).toBe(false);
+    });
+  });
+
+  describe('getTitle', () => {
+    it('should return the update title', () => {
+      component.isEditDialog = jest.fn(() => true);
+      component.isCopyDialog = jest.fn(() => false);
+
+      const result = component.getTitle();
+
+      expect(translate).toHaveBeenCalledWith(
+        'materialsSupplierDatabase.mainTable.dialog.updateMaterialStandardTitle',
+        { class: 'materialsSupplierDatabase.materialClassValues.st' }
+      );
+      expect(result).toEqual(
+        'materialsSupplierDatabase.mainTable.dialog.updateMaterialStandardTitle'
+      );
+    });
+
+    it('should return the add title', () => {
+      component.isEditDialog = jest.fn(() => false);
+      component.isCopyDialog = jest.fn(() => false);
+
+      const result = component.getTitle();
+
+      expect(translate).toHaveBeenCalledWith(
+        'materialsSupplierDatabase.mainTable.dialog.addMaterialStandardTitle',
+        { class: 'materialsSupplierDatabase.materialClassValues.st' }
+      );
+      expect(result).toEqual(
+        'materialsSupplierDatabase.mainTable.dialog.addMaterialStandardTitle'
+      );
+    });
+
+    it('should return the add title if dialog is a copy', () => {
+      component.isEditDialog = jest.fn(() => true);
+      component.isCopyDialog = jest.fn(() => true);
+
+      const result = component.getTitle();
+
+      expect(translate).toHaveBeenCalledWith(
+        'materialsSupplierDatabase.mainTable.dialog.addMaterialStandardTitle',
+        { class: 'materialsSupplierDatabase.materialClassValues.st' }
+      );
+      expect(result).toEqual(
+        'materialsSupplierDatabase.mainTable.dialog.addMaterialStandardTitle'
+      );
     });
   });
 });

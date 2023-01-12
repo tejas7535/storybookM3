@@ -30,7 +30,11 @@ export class MsdDialogService {
 
   public openDialog(
     isResumeDialog?: boolean,
-    editDialogInformation?: { row: DataResult; column: string }
+    editDialogInformation?: {
+      row: DataResult;
+      column: string;
+      isCopy?: boolean;
+    }
   ): MatDialogRef<
     MaterialInputDialogComponent,
     {

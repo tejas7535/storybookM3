@@ -5,11 +5,18 @@ import { Subject } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
-import { ICellRendererParams } from 'ag-grid-community';
+import { Column, ICellRendererParams } from 'ag-grid-community';
 
-import { DataResult } from '@mac/msd/models';
+import { DataResult, MaterialFormValue } from '@mac/msd/models';
 import { MsdDialogService } from '@mac/msd/services';
-import { deleteEntity } from '@mac/msd/store/actions/data';
+import { deleteEntity, fetchResult } from '@mac/msd/store/actions/data';
+import {
+  materialDialogCanceled,
+  materialDialogOpened,
+  minimizeDialog,
+  openDialog,
+  openEditDialog,
+} from '@mac/msd/store/actions/dialog';
 import { DataFacade } from '@mac/msd/store/facades/data';
 
 import { ActionCellRendererComponent } from './action-cell-renderer.component';
@@ -19,12 +26,18 @@ describe('ActionCellRendererComponent', () => {
   let spectator: Spectator<ActionCellRendererComponent>;
 
   let mockDialogRef: MatDialogRef<any>;
+  let mockSubjectOpen: Subject<void>;
   let mockSubjectClose: Subject<boolean>;
-  const mockParams = {
-    data: {
-      id: 876,
-    },
-  } as ICellRendererParams<any, DataResult>;
+  let mockSubjectCopyClose: Subject<{
+    reload: boolean;
+    minimize: { id: number; value: MaterialFormValue };
+  }>;
+
+  let mockParams: ICellRendererParams<any, DataResult>;
+  const mockData = {} as DataResult;
+  const mockColumn = {
+    getColId: jest.fn(() => 'column'),
+  } as unknown as Column;
 
   const createComponent = createComponentFactory({
     component: ActionCellRendererComponent,
@@ -40,15 +53,24 @@ describe('ActionCellRendererComponent', () => {
         provide: MsdDialogService,
         useValue: {
           openConfirmDeleteDialog: jest.fn(() => mockDialogRef),
+          openDialog: jest.fn(() => mockDialogRef),
         },
       },
     ],
   });
 
   beforeEach(() => {
+    mockSubjectOpen = new Subject<void>();
     mockSubjectClose = new Subject<boolean>();
+    mockParams = {
+      data: {
+        id: 876,
+      },
+    } as ICellRendererParams<any, DataResult>;
+    const afterOpened = () => mockSubjectOpen;
     const afterClosed = () => mockSubjectClose;
     mockDialogRef = {
+      afterOpened,
       afterClosed,
     } as unknown as MatDialogRef<any>;
     spectator = createComponent();
@@ -90,6 +112,127 @@ describe('ActionCellRendererComponent', () => {
 
       expect(component['dataFacade'].dispatch).toBeCalledWith(
         deleteEntity({ id })
+      );
+    });
+  });
+
+  describe('onCopyClick', () => {
+    beforeEach(() => {
+      mockSubjectCopyClose = new Subject<{
+        reload: boolean;
+        minimize: { id: number; value: MaterialFormValue };
+      }>();
+      const afterOpened = () => mockSubjectOpen;
+      const afterClosedCopy = () => mockSubjectCopyClose;
+      mockDialogRef.afterOpened = afterOpened;
+      mockDialogRef.afterClosed = afterClosedCopy;
+    });
+
+    it('should dispatch the edit dialog actions and cancel on close', (done) => {
+      let otherDone = false;
+      component.params = {
+        data: mockData,
+        column: mockColumn,
+      } as ICellRendererParams<any, DataResult>;
+
+      component.onCopyClick();
+
+      expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
+        openDialog()
+      );
+
+      mockDialogRef.afterOpened().subscribe(() => {
+        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
+          materialDialogOpened()
+        );
+        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
+          openEditDialog({
+            row: mockData,
+            column: 'column',
+          })
+        );
+        if (otherDone) {
+          done();
+        } else {
+          otherDone = true;
+        }
+      });
+
+      mockDialogRef.afterClosed().subscribe((_value) => {
+        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
+          materialDialogCanceled()
+        );
+        if (otherDone) {
+          done();
+        } else {
+          otherDone = true;
+        }
+      });
+
+      mockSubjectOpen.next();
+      mockSubjectCopyClose.next({ reload: false, minimize: undefined });
+    });
+    it('should dispatch the edit dialog actions and dispatch fetch and minimize', (done) => {
+      let otherDone = false;
+      component.params = {
+        data: mockData,
+        column: mockColumn,
+      } as ICellRendererParams<any, DataResult>;
+
+      component.onCopyClick();
+
+      expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
+        openDialog()
+      );
+
+      mockDialogRef.afterOpened().subscribe(() => {
+        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
+          materialDialogOpened()
+        );
+        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
+          openEditDialog({
+            row: mockData,
+            column: 'column',
+          })
+        );
+        if (otherDone) {
+          done();
+        } else {
+          otherDone = true;
+        }
+      });
+
+      mockDialogRef.afterClosed().subscribe((_value) => {
+        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
+          fetchResult()
+        );
+        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
+          minimizeDialog({ id: 1, value: {} as MaterialFormValue })
+        );
+        if (otherDone) {
+          done();
+        } else {
+          otherDone = true;
+        }
+      });
+
+      mockSubjectOpen.next();
+      mockSubjectCopyClose.next({
+        reload: true,
+        minimize: { id: 1, value: {} as MaterialFormValue },
+      });
+    });
+  });
+
+  describe('onConfirmDelete', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+    it('should dispatch the deleteEntity action', () => {
+      component['onConfirmDelete']();
+
+      expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
+        deleteEntity({ id: 876 })
       );
     });
   });

@@ -18,10 +18,12 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { translate, TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { DefaultProjectorFn, MemoizedSelector } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
+import { StringOption } from '@schaeffler/inputs';
 import { SelectModule } from '@schaeffler/inputs/select';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -29,6 +31,7 @@ import { MaterialClass } from '@mac/feature/materials-supplier-database/constant
 import {
   CreateMaterialErrorState,
   CreateMaterialRecord,
+  ManufacturerSupplierFormValue,
   ManufacturerSupplierV2,
 } from '@mac/feature/materials-supplier-database/models';
 import { getCreateMaterialRecord } from '@mac/feature/materials-supplier-database/store';
@@ -46,6 +49,11 @@ import { BaseDialogModule } from '../base-dialog/base-dialog.module';
 import { MaterialInputDialogModule } from '../material-input-dialog.module';
 import { DialogControlsService } from '../services';
 import { ManufacturerSupplierInputDialogComponent } from './manufacturersupplier-input-dialog.component';
+
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+  translate: jest.fn((string) => string),
+}));
 
 describe('ManufacturerSupplierInputDialogComponent', () => {
   let component: ManufacturerSupplierInputDialogComponent;
@@ -126,6 +134,7 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
   });
 
   beforeEach(() => {
+    jest.clearAllMocks();
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     const spy = spectator.inject(MockStore);
@@ -250,6 +259,80 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
     it('should be false', () => {
       component.isManufacturerControl.disable();
       expect(component.showIsManufacturer()).toBe(false);
+    });
+  });
+
+  describe('getTitle', () => {
+    it('should return the update title', () => {
+      component.isEditDialog = jest.fn(() => true);
+      component.isCopyDialog = jest.fn(() => false);
+
+      const result = component.getTitle();
+
+      expect(translate).toHaveBeenCalledWith(
+        'materialsSupplierDatabase.mainTable.dialog.updateManufacturerSupplierTitle',
+        { class: 'materialsSupplierDatabase.materialClassValues.undefined' }
+      );
+      expect(result).toEqual(
+        'materialsSupplierDatabase.mainTable.dialog.updateManufacturerSupplierTitle'
+      );
+    });
+
+    it('should return the add title', () => {
+      component.isEditDialog = jest.fn(() => false);
+      component.isCopyDialog = jest.fn(() => false);
+
+      const result = component.getTitle();
+
+      expect(translate).toHaveBeenCalledWith(
+        'materialsSupplierDatabase.mainTable.dialog.addManufacturerSupplierTitle',
+        { class: 'materialsSupplierDatabase.materialClassValues.undefined' }
+      );
+      expect(result).toEqual(
+        'materialsSupplierDatabase.mainTable.dialog.addManufacturerSupplierTitle'
+      );
+    });
+
+    it('should return the add title if dialog is a copy', () => {
+      component.isEditDialog = jest.fn(() => true);
+      component.isCopyDialog = jest.fn(() => true);
+
+      const result = component.getTitle();
+
+      expect(translate).toHaveBeenCalledWith(
+        'materialsSupplierDatabase.mainTable.dialog.addManufacturerSupplierTitle',
+        { class: 'materialsSupplierDatabase.materialClassValues.undefined' }
+      );
+      expect(result).toEqual(
+        'materialsSupplierDatabase.mainTable.dialog.addManufacturerSupplierTitle'
+      );
+    });
+  });
+
+  describe('minimizeDialog', () => {
+    it('should transform the form value', () => {
+      const mockValue: ManufacturerSupplierFormValue = {
+        name: { title: 'name' } as StringOption,
+        plant: { title: 'plant' } as StringOption,
+        country: { title: 'country' } as StringOption,
+        manufacturer: false,
+      };
+      component.createMaterialForm.patchValue(mockValue, { emitEvent: false });
+
+      component.minimizeDialog();
+
+      expect(component.dialogRef.close).toHaveBeenCalledWith({
+        minimize: {
+          id: undefined,
+          value: {
+            supplier: { title: 'name' } as StringOption,
+            supplierPlant: { title: 'plant' } as StringOption,
+            supplierCountry: { title: 'country' } as StringOption,
+            manufacturer: false,
+          },
+          isCopy: false,
+        },
+      });
     });
   });
 });

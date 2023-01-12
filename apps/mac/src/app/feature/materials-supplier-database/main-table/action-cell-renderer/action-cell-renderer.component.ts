@@ -7,7 +7,14 @@ import { ICellRendererParams } from 'ag-grid-community';
 
 import { DataResult } from '@mac/msd/models';
 import { MsdDialogService } from '@mac/msd/services';
-import { deleteEntity } from '@mac/msd/store/actions/data';
+import { deleteEntity, fetchResult } from '@mac/msd/store/actions/data';
+import {
+  materialDialogCanceled,
+  materialDialogOpened,
+  minimizeDialog,
+  openDialog,
+  openEditDialog,
+} from '@mac/msd/store/actions/dialog';
 import { DataFacade } from '@mac/msd/store/facades/data';
 
 @Component({
@@ -40,6 +47,42 @@ export class ActionCellRendererComponent implements ICellRendererAngularComp {
       });
 
     // TODO catch Error
+  }
+
+  public onCopyClick(): void {
+    this.dataFacade.dispatch(openDialog());
+    const dialogRef = this.dialogService.openDialog(false, {
+      row: this.params.data as DataResult,
+      column: this.params.column.getColId(),
+      isCopy: true,
+    });
+
+    dialogRef
+      .afterOpened()
+      .pipe(take(1))
+      .subscribe(() => {
+        this.dataFacade.dispatch(materialDialogOpened());
+        this.dataFacade.dispatch(
+          openEditDialog({
+            row: this.params.data as DataResult,
+            column: this.params.column.getColId(),
+          })
+        );
+      });
+
+    dialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe(({ reload, minimize }) => {
+        if (reload) {
+          this.dataFacade.dispatch(fetchResult());
+        }
+        if (minimize) {
+          this.dataFacade.dispatch(minimizeDialog(minimize));
+        } else if (!reload) {
+          this.dataFacade.dispatch(materialDialogCanceled());
+        }
+      });
   }
 
   private onConfirmDelete(): void {

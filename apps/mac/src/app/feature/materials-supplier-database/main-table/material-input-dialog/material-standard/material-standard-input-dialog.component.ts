@@ -94,7 +94,7 @@ export class MaterialStandardInputDialogComponent
   enableEditFields(): void {}
 
   public getTitle(): string {
-    return this.isEditDialog()
+    return this.isEditDialog() && !this.isCopyDialog()
       ? translate(
           'materialsSupplierDatabase.mainTable.dialog.updateMaterialStandardTitle',
           {

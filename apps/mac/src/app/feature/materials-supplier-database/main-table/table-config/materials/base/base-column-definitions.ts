@@ -37,6 +37,7 @@ export const EDITOR_COLUMN_DEFINITIONS: ColDef[] = [
     suppressMovable: true,
     sortable: false,
     lockVisible: true,
+    cellClass: 'px-0',
   },
 ];
 

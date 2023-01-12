@@ -20,7 +20,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { Subject } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { TranslocoModule } from '@ngneat/transloco';
+import { translate, TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
@@ -373,6 +373,7 @@ describe('MaterialInputDialogComponent', () => {
       component.createMaterialForm.getRawValue = jest.fn(
         () => ({} as unknown as any)
       );
+      component['isCopy'] = true;
 
       component.minimizeDialog();
 
@@ -381,6 +382,7 @@ describe('MaterialInputDialogComponent', () => {
         minimize: {
           id: undefined,
           value: {},
+          isCopy: true,
         },
       });
     });
@@ -488,22 +490,77 @@ describe('MaterialInputDialogComponent', () => {
     });
   });
 
+  describe('isCopyDialog', () => {
+    it('should return false if materialId is set', () => {
+      component.materialId = 1;
+      component['isCopy'] = true;
+
+      const result = component.isCopyDialog();
+
+      expect(result).toBe(false);
+    });
+
+    it('should return false if isCopy property is false', () => {
+      component.materialId = undefined;
+      component['isCopy'] = false;
+
+      const result = component.isCopyDialog();
+
+      expect(result).toBe(false);
+    });
+
+    it('should return true if materialId is not set and isCopy is true', () => {
+      component.materialId = undefined;
+      component['isCopy'] = true;
+
+      const result = component.isCopyDialog();
+
+      expect(result).toBe(true);
+    });
+  });
+
   describe('getTitle', () => {
-    it('should return the add title', () => {
+    it('should return the update title', () => {
       component.isEditDialog = jest.fn(() => true);
+      component.isCopyDialog = jest.fn(() => false);
 
       const result = component.getTitle();
+
+      expect(translate).toHaveBeenCalledWith(
+        'materialsSupplierDatabase.mainTable.dialog.updateTitle',
+        { class: 'materialsSupplierDatabase.materialClassValues.undefined' }
+      );
 
       expect(result).toEqual(
         'materialsSupplierDatabase.mainTable.dialog.updateTitle'
       );
     });
 
-    it('should return the update title', () => {
+    it('should return the add title', () => {
       component.isEditDialog = jest.fn(() => false);
+      component.isCopyDialog = jest.fn(() => false);
 
       const result = component.getTitle();
 
+      expect(translate).toHaveBeenCalledWith(
+        'materialsSupplierDatabase.mainTable.dialog.addTitle',
+        { class: 'materialsSupplierDatabase.materialClassValues.undefined' }
+      );
+      expect(result).toEqual(
+        'materialsSupplierDatabase.mainTable.dialog.addTitle'
+      );
+    });
+
+    it('should return the add title if dialog is a copy', () => {
+      component.isEditDialog = jest.fn(() => true);
+      component.isCopyDialog = jest.fn(() => true);
+
+      const result = component.getTitle();
+
+      expect(translate).toHaveBeenCalledWith(
+        'materialsSupplierDatabase.mainTable.dialog.addTitle',
+        { class: 'materialsSupplierDatabase.materialClassValues.undefined' }
+      );
       expect(result).toEqual(
         'materialsSupplierDatabase.mainTable.dialog.addTitle'
       );

@@ -105,7 +105,7 @@ export class ManufacturerSupplierInputDialogComponent
   }
 
   public getTitle(): string {
-    return this.isEditDialog()
+    return this.isEditDialog() && !this.isCopyDialog()
       ? translate(
           'materialsSupplierDatabase.mainTable.dialog.updateManufacturerSupplierTitle',
           {
@@ -122,6 +122,22 @@ export class ManufacturerSupplierInputDialogComponent
             ),
           }
         );
+  }
+
+  public minimizeDialog(): void {
+    const formValue = this.createMaterialForm.getRawValue();
+    this.dialogRef.close({
+      minimize: {
+        id: this.materialId,
+        value: {
+          supplier: formValue.name,
+          supplierPlant: formValue.plant,
+          supplierCountry: formValue.country,
+          manufacturer: formValue.manufacturer,
+        },
+        isCopy: this.isCopy,
+      },
+    });
   }
 
   public confirmMaterial(): void {

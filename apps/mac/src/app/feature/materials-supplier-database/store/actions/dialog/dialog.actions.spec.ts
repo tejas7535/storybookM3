@@ -780,12 +780,17 @@ describe('Dialog Actions', () => {
 
   describe('Minimize Dialog', () => {
     it('minimizeDialog', () => {
-      const action = minimizeDialog({ id: 1, value: {} as MaterialFormValue });
+      const action = minimizeDialog({
+        id: 1,
+        value: {} as MaterialFormValue,
+        isCopy: false,
+      });
 
       expect(action).toEqual({
         type: '[MSD - Dialog] Minimize Dialog',
         id: 1,
         value: {} as MaterialFormValue,
+        isCopy: false,
       });
     });
   });

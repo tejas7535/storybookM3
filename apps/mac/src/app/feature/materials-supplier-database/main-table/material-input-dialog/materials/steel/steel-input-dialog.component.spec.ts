@@ -764,5 +764,23 @@ describe('SteelInputDialogComponent', () => {
         component.releaseYearControl.removeValidators
       ).toHaveBeenCalledWith(Validators.required);
     });
+
+    it('should call the parent function and not remove the validators in copy dialog', () => {
+      const mockFormValue = {
+        releaseDateMonth: 1,
+        releaseDateYear: 1,
+      } as SteelMaterialFormValue;
+      component.isCopyDialog = jest.fn(() => true);
+
+      component.enableEditFields(mockFormValue);
+
+      // expect(mockSuperEnableEditFields).toHaveBeenCalledWith(mockFormValue);
+      expect(
+        component.releaseMonthControl.removeValidators
+      ).not.toHaveBeenCalled();
+      expect(
+        component.releaseYearControl.removeValidators
+      ).not.toHaveBeenCalled();
+    });
   });
 });

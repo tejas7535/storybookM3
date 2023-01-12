@@ -106,6 +106,8 @@ export class MaterialInputDialogComponent
   @ViewChildren('dialogControl', { read: ElementRef })
   dialogControlRefs: QueryList<ElementRef>;
 
+  protected isCopy = false;
+
   public constructor(
     readonly controlsService: DialogControlsService,
     readonly dialogFacade: DialogFacade,
@@ -115,7 +117,11 @@ export class MaterialInputDialogComponent
     readonly cdRef: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA)
     readonly dialogData: {
-      editDialogInformation?: { row: DataResult; column: string };
+      editDialogInformation?: {
+        row: DataResult;
+        column: string;
+        isCopy?: boolean;
+      };
       isResumeDialog: boolean;
     }
   ) {
@@ -154,13 +160,25 @@ export class MaterialInputDialogComponent
           const materialFormValue: Partial<MaterialFormValueV2> =
             dialogData.minimizedDialog?.value ??
             dialogData.editMaterial?.parsedMaterial;
+          this.isCopy =
+            this.dialogData.editDialogInformation?.isCopy ||
+            dialogData.minimizedDialog?.isCopy;
           this.materialId =
-            dialogData.minimizedDialog?.id ?? dialogData.editMaterial?.row?.id;
+            (dialogData.minimizedDialog ||
+              this.dialogData.editDialogInformation) &&
+            !this.isCopy
+              ? dialogData.minimizedDialog?.id ??
+                dialogData.editMaterial?.row?.id
+              : undefined;
           if (materialFormValue) {
             this.enableEditFields(materialFormValue);
             this.patchFields(materialFormValue);
 
-            if (this.dialogData.isResumeDialog || this.materialId) {
+            if (
+              this.dialogData.isResumeDialog ||
+              this.materialId ||
+              this.isCopy
+            ) {
               this.createMaterialForm.markAllAsTouched();
             }
 
@@ -228,6 +246,7 @@ export class MaterialInputDialogComponent
       minimize: {
         id: this.materialId,
         value: this.createMaterialForm.getRawValue(),
+        isCopy: this.isCopy,
       },
     });
   }
@@ -262,8 +281,12 @@ export class MaterialInputDialogComponent
     return !!this.materialId || !!this.dialogData?.editDialogInformation;
   }
 
+  public isCopyDialog(): boolean {
+    return !this.materialId && this.isCopy;
+  }
+
   public getTitle(): string {
-    return this.isEditDialog()
+    return this.isEditDialog() && !this.isCopyDialog()
       ? translate('materialsSupplierDatabase.mainTable.dialog.updateTitle', {
           class: translate(
             `materialsSupplierDatabase.materialClassValues.${this.materialClass}`

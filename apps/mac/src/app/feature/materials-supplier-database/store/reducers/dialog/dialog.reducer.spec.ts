@@ -1398,6 +1398,7 @@ describe('dialogReducer', () => {
       const action = DialogActions.minimizeDialog({
         id: 1,
         value: {} as MaterialFormValue,
+        isCopy: true,
       });
       const newState = dialogReducer(
         {
@@ -1412,6 +1413,7 @@ describe('dialogReducer', () => {
         minimizedDialog: {
           id: 1,
           value: {} as MaterialFormValue,
+          isCopy: true,
         },
       });
     });

@@ -380,8 +380,9 @@ export class SteelInputDialogComponent
     super.enableEditFields(materialFormValue);
 
     if (
-      !materialFormValue.releaseDateMonth ||
-      !materialFormValue.releaseDateYear
+      (!materialFormValue.releaseDateMonth ||
+        !materialFormValue.releaseDateYear) &&
+      !this.isCopyDialog()
     ) {
       this.releaseMonthControl.removeValidators(Validators.required);
       this.releaseYearControl.removeValidators(Validators.required);
