@@ -3,7 +3,7 @@
     *transloco="let t; read: 'shared.customStatusBar.buttons'"
     [matTooltip]="
       !(quotationActive$ | ngrxPush)
-        ? t('uploadSelectionDisabledTooltip')
+        ? t('disabledForDeletedCasesTooltip')
         : selections?.length <= 1000
         ? t('uploadQuoteToSapPositionsInfoText')
         : t('uploadQuoteToSapPositionsInfoTextMaxPositions')

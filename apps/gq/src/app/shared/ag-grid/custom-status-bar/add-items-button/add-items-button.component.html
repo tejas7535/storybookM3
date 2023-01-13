@@ -1,8 +1,8 @@
 <div *ngIf="!(simulationModeEnabled$ | ngrxPush)">
   <div
     *transloco="let t; read: 'shared.customStatusBar.buttons'"
-    [matTooltip]="t('addNewItemDisabledTooltip')"
     matTooltipPosition="above"
+    [matTooltip]="t('disabledForDeletedCasesTooltip')"
     [matTooltipDisabled]="quotationActive$ | ngrxPush"
   >
     <button
