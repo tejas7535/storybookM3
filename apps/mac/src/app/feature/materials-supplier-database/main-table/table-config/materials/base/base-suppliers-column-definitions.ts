@@ -8,14 +8,17 @@ import {
   STATUS,
 } from '@mac/msd/constants';
 import { EditCellRendererComponent } from '@mac/msd/main-table/edit-cell-renderer/edit-cell-renderer.component';
+import { StatusCellRendererComponent } from '@mac/msd/main-table/status-cell-renderer/status-cell-renderer.component';
 import {
   CUSTOM_DATE_FORMATTER,
   FILTER_PARAMS,
   STATUS_VALUE_GETTER,
 } from '@mac/msd/main-table/table-config';
-import { StatusCellRendererComponent } from '@mac/msd/main-table/status-cell-renderer/status-cell-renderer.component';
+
+import { HISTORY_COLUMN_DEFINITION } from './global-column-definitions';
 
 export const BASE_SUPPLIERS_COLUMN_DEFINITIONS: ColDef[] = [
+  HISTORY_COLUMN_DEFINITION,
   {
     field: MANUFACTURER_SUPPLIER_NAME,
     headerName: 'Supplier Name',

@@ -15,8 +15,10 @@ import {
   AluminumMaterial,
   AluminumMaterialStandard,
   ManufacturerSupplier,
+  ManufacturerSupplierTableValue,
   ManufacturerSupplierV2,
   Material,
+  MaterialStandardTableValue,
   MaterialStandardV2,
   PolymerMaterial,
   SteelManufacturerSupplier,
@@ -828,6 +830,134 @@ describe('MsdDataService', () => {
       );
       expect(req.request.method).toBe('DELETE');
       req.flush('');
+    });
+  });
+
+  describe('getHistoryForMaterial', () => {
+    it('should pull historical data', (done) => {
+      const id = 79;
+      service
+        .getHistoryForMaterial(MaterialClass.STEEL, id)
+        .subscribe((result: any) => {
+          expect(result).toEqual(msdServiceSteelMockResult);
+          done();
+        });
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/st/history/${id}?current=true`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(msdServiceSteelMockResponse);
+    });
+  });
+  describe('getHistoryForMaterialStandard', () => {
+    it('should pull historical data', (done) => {
+      const id = 79;
+      service
+        .getHistoryForMaterialStandard(MaterialClass.STEEL, id)
+        .subscribe(() => done());
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/st/history/materialStandards/${id}?current=true`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush('[]');
+    });
+  });
+
+  describe('mapSuppliersToTableView', () => {
+    it('should return expected', () => {
+      const srcArray: ManufacturerSupplierV2[] = [
+        {
+          id: 1,
+          name: 'one',
+          plant: 'pOne',
+          country: 'cOne',
+          manufacturer: true,
+          sapData: [{ sapSupplierId: '1' }, { sapSupplierId: '2' }],
+          timestamp: 1345,
+        },
+        {
+          id: 2,
+          name: 'two',
+          plant: 'pTwo',
+          country: 'cTwo',
+          timestamp: 1345,
+        },
+      ];
+      const expected: ManufacturerSupplierTableValue[] = [
+        {
+          id: 1,
+          manufacturerSupplierName: 'one',
+          manufacturerSupplierPlant: 'pOne',
+          manufacturerSupplierCountry: 'cOne',
+          manufacturer: true,
+          sapSupplierIds: ['1', '2'],
+          lastModified: 1345,
+        },
+        {
+          id: 2,
+          manufacturerSupplierName: 'two',
+          manufacturerSupplierPlant: 'pTwo',
+          manufacturerSupplierCountry: 'cTwo',
+          lastModified: 1345,
+          manufacturer: undefined,
+          sapSupplierIds: undefined,
+        },
+      ];
+      expect(service.mapSuppliersToTableView(srcArray)).toStrictEqual(expected);
+    });
+  });
+
+  describe('getHistoryForManufacturerSupplier', () => {
+    it('should pull historical data', (done) => {
+      const id = 79;
+      service
+        .getHistoryForManufacturerSupplier(MaterialClass.STEEL, id)
+        .subscribe(() => done());
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/st/history/manufacturerSuppliers/${id}?current=true`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush('[]');
+    });
+  });
+
+  describe('mapStandardsToTableView', () => {
+    it('should return expected', () => {
+      const srcArray: MaterialStandardV2[] = [
+        {
+          id: 1,
+          materialName: 'one',
+          standardDocument: 'sOne',
+          materialNumber: ['1', '2'],
+          timestamp: 1345,
+        },
+        {
+          id: 2,
+          materialName: 'two',
+          standardDocument: 'sTwo',
+          timestamp: 1345,
+        },
+      ];
+      const expected: MaterialStandardTableValue[] = [
+        {
+          id: 1,
+          materialStandardMaterialName: 'one',
+          materialStandardStandardDocument: 'sOne',
+          materialNumbers: ['1', '2'],
+          lastModified: 1345,
+        },
+        {
+          id: 2,
+          materialStandardMaterialName: 'two',
+          materialStandardStandardDocument: 'sTwo',
+          lastModified: 1345,
+          materialNumbers: undefined,
+        },
+      ];
+      expect(service.mapStandardsToTableView(srcArray)).toStrictEqual(expected);
     });
   });
 });

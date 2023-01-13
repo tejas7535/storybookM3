@@ -286,6 +286,7 @@
         "productCategoryText": "Product Category",
         "rating": "Supplier Rating",
         "ratingRemark": "Supplier Rating remark",
+        "ratingChangeComment": "Rating change comment",
         "referenceDocument": "Referenced in Document (TODO)",
         "releaseDate": "Release Date",
         "releaseDateMonth": "Release Date Month",
@@ -298,7 +299,8 @@
         "ssid": "SSID",
         "generalDescription": "General Description",
         "status": "Status",
-        "action": "Actions"
+        "action": "Actions",
+        "history": "-"
       },
       "confirmDialog": {
         "cancel": "Cancel",
@@ -314,6 +316,14 @@
 
         "failureDeleteEntity": "Error while deleting entry, changes not applied!",
         "successDeleteEntity": "Successfully deleted entry from database!"
+      },
+      "changeHistory": {
+        "created": "First created:",
+        "createdBy": "By {{name}} on {{date}}",
+        "changedBy": "Change by {{ name }} on {{ date }}:",
+        "UPDATE": "{{current}} (new), {{previous}} (old)",
+        "ADD": "{{current}} (added)",
+        "REMOVE": "{{previous}} (removed)"
       },
       "dialog": {
         "addMaterial": "ADD MATERIAL",
@@ -347,16 +357,19 @@
           "matStandard": {
             "400": "Material standard creation failed!",
             "404": "Material standard creation failed!",
+            "406": "Material standard creation failed, entry needs modification!",
             "409": "Material standard creation failed, an identical material standard already exists!"
           },
           "supplier": {
-            "400": "Manufacturer supplier creation failed",
-            "404": "Manufacturer supplier creation failed",
+            "400": "Manufacturer supplier creation failed!",
+            "404": "Manufacturer supplier creation failed!",
+            "406": "Manufacturer supplier creation failed, entry needs modification!",
             "409": "Manufacturer supplier creation failed, an identical manufacturer supplier already exists!"
           },
           "material": {
-            "400": "Material creation failed",
-            "404": "Material creation failed",
+            "400": "Material creation failed!",
+            "404": "Material creation failed!",
+            "406": "Material creation failed, entry needs modification!",
             "409": "Material creation failed, an identical material already exists!"
           }
         },

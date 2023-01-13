@@ -11,9 +11,7 @@ import {
 import {
   DataResult,
   ManufacturerSupplierTableValue,
-  ManufacturerSupplierV2,
   MaterialStandardTableValue,
-  MaterialStandardV2,
   MaterialV2,
 } from '@mac/msd/models';
 import { MsdDataService } from '@mac/msd/services/msd-data';
@@ -105,31 +103,8 @@ export class DataEffects {
       concatLatestFrom(() => this.dataFacade.materialClass$),
       switchMap(([_action, materialClass]) =>
         this.msdDataService.fetchManufacturerSuppliers(materialClass).pipe(
-          map(
-            (
-              manufacturerSuppliers: ManufacturerSupplierV2[]
-            ): ManufacturerSupplierTableValue[] =>
-              manufacturerSuppliers.map(
-                (manufacturerSupplier) =>
-                  ({
-                    id: manufacturerSupplier.id,
-                    manufacturerSupplierName: manufacturerSupplier.name,
-                    manufacturerSupplierPlant: manufacturerSupplier.plant,
-                    manufacturerSupplierCountry: manufacturerSupplier.country,
-                    manufacturer:
-                      'manufacturer' in manufacturerSupplier
-                        ? manufacturerSupplier.manufacturer
-                        : undefined,
-                    sapSupplierIds:
-                      'sapData' in manufacturerSupplier
-                        ? manufacturerSupplier.sapData?.map(
-                            (sapData: { sapSupplierId: string }) =>
-                              sapData.sapSupplierId
-                          ) || []
-                        : undefined,
-                    lastModified: manufacturerSupplier.timestamp,
-                  } as ManufacturerSupplierTableValue)
-              )
+          map((manufacturerSuppliers) =>
+            this.msdDataService.mapSuppliersToTableView(manufacturerSuppliers)
           ),
           map((manufacturerSuppliers: ManufacturerSupplierTableValue[]) =>
             DataActions.fetchManufacturerSuppliersSuccess({
@@ -150,21 +125,8 @@ export class DataEffects {
       concatLatestFrom(() => this.dataFacade.materialClass$),
       switchMap(([_action, materialClass]) =>
         this.msdDataService.fetchMaterialStandards(materialClass).pipe(
-          map((materialStandards: MaterialStandardV2[]) =>
-            materialStandards.map(
-              (materialStandard) =>
-                ({
-                  id: materialStandard.id,
-                  materialStandardMaterialName: materialStandard.materialName,
-                  materialStandardStandardDocument:
-                    materialStandard.standardDocument,
-                  materialNumbers:
-                    'materialNumber' in materialStandard
-                      ? materialStandard.materialNumber
-                      : undefined,
-                  lastModified: materialStandard.timestamp,
-                } as MaterialStandardTableValue)
-            )
+          map((materialStandards) =>
+            this.msdDataService.mapStandardsToTableView(materialStandards)
           ),
           map((materialStandards: MaterialStandardTableValue[]) =>
             DataActions.fetchMaterialStandardsSuccess({

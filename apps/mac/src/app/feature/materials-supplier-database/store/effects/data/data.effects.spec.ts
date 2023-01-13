@@ -294,6 +294,9 @@ describe('Data Effects', () => {
         ];
         const response = m.cold('-a|', { a: resultMock });
         msdDataService.fetchManufacturerSuppliers = jest.fn(() => response);
+        msdDataService.mapSuppliersToTableView = jest.fn(
+          () => expectedSuppliers
+        );
 
         const result = fetchManufacturerSuppliersSuccess({
           materialClass: MaterialClass.STEEL,
@@ -373,6 +376,9 @@ describe('Data Effects', () => {
         ];
         const response = m.cold('-a|', { a: resultMock });
         msdDataService.fetchMaterialStandards = jest.fn(() => response);
+        msdDataService.mapStandardsToTableView = jest.fn(
+          () => expectedSuppliers
+        );
 
         const result = fetchMaterialStandardsSuccess({
           materialClass: MaterialClass.STEEL,

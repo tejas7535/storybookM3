@@ -3,5 +3,6 @@ export interface BaseManufacturerSupplier {
   name: string;
   plant: string;
   country: string;
+  modifiedBy?: string;
   timestamp?: number;
 }

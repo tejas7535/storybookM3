@@ -60,6 +60,7 @@ import {
 import { DataFacade } from '@mac/msd/store/facades/data';
 
 import { EDITABLE_MATERIAL_CLASSES } from '../constants/editable-material-classes';
+import { DetailCellRendererComponent } from './detail-cell-renderer/detail-cell-renderer.component';
 import { getStatus } from './util';
 
 /* eslint-disable max-lines */
@@ -69,6 +70,9 @@ import { getStatus } from './util';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
+  // master detail cell renderer
+  public detailCellRenderer = DetailCellRendererComponent;
+
   public optionsLoading$ = this.dataFacade.optionsLoading$;
   public resultLoading$ = this.dataFacade.resultLoading$;
   public result$ = this.dataFacade.result$;

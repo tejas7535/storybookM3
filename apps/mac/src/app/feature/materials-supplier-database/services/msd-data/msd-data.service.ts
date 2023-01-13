@@ -11,10 +11,12 @@ import { StringOption } from '@schaeffler/inputs';
 import { environment } from '@mac/environments/environment';
 import { MaterialClass } from '@mac/msd/constants';
 import {
+  ManufacturerSupplierTableValue,
   ManufacturerSupplierV2,
   Material,
   MaterialRequest,
   MaterialResponse,
+  MaterialStandardTableValue,
   MaterialStandardV2,
   MaterialV2,
 } from '@mac/msd/models';
@@ -74,122 +76,136 @@ export class MsdDataService {
       })
       .pipe(
         map((materialResponses: MaterialResponse[]) =>
-          // eslint-disable-next-line complexity
-          materialResponses.map(
-            // eslint-disable-next-line complexity
-            (materialResponse: MaterialResponse) =>
-              ({
-                id: materialResponse.id,
-                materialStandardId: materialResponse.materialStandard.id,
-                materialStandardMaterialName:
-                  materialResponse.materialStandard.materialName,
-                materialNumbers:
-                  'materialNumber' in materialResponse.materialStandard
-                    ? materialResponse.materialStandard.materialNumber
-                    : undefined,
-                materialStandardStandardDocument:
-                  materialResponse.materialStandard.standardDocument,
-                manufacturerSupplierId:
-                  materialResponse.manufacturerSupplier.id,
-                manufacturerSupplierName:
-                  materialResponse.manufacturerSupplier.name,
-                manufacturerSupplierPlant:
-                  materialResponse.manufacturerSupplier.plant,
-                manufacturerSupplierCountry:
-                  materialResponse.manufacturerSupplier.country,
-                materialClass: materialResponse.materialClass as MaterialClass,
-                selfCertified:
-                  'selfCertified' in materialResponse
-                    ? materialResponse.selfCertified
-                    : undefined,
-                manufacturer:
-                  'manufacturer' in materialResponse.manufacturerSupplier
-                    ? materialResponse.manufacturerSupplier.manufacturer
-                    : undefined,
-                sapSupplierIds:
-                  'sapData' in materialResponse.manufacturerSupplier
-                    ? materialResponse.manufacturerSupplier.sapData?.map(
-                        (sapData: { sapSupplierId: string }) =>
-                          sapData.sapSupplierId
-                      ) || []
-                    : undefined,
-                productCategory:
-                  'productCategory' in materialResponse
-                    ? materialResponse.productCategory
-                    : undefined,
-                productCategoryText:
-                  'productCategory' in materialResponse
-                    ? translate(
-                        `materialsSupplierDatabase.productCategoryValues.${materialResponse.productCategory}`
-                      )
-                    : undefined,
-                ssid:
-                  'ssid' in materialResponse
-                    ? materialResponse.ssid
-                    : undefined,
-                generalDescription:
-                  'generalDescription' in materialResponse
-                    ? materialResponse.generalDescription
-                    : undefined,
-                referenceDoc:
-                  'referenceDoc' in materialResponse
-                    ? materialResponse.referenceDoc
-                    : undefined,
-                co2Scope1: materialResponse.co2Scope1,
-                co2Scope2: materialResponse.co2Scope2,
-                co2Scope3: materialResponse.co2Scope3,
-                co2PerTon: materialResponse.co2PerTon,
-                co2Classification: materialResponse.co2Classification,
-                releaseDateYear:
-                  'releaseDateYear' in materialResponse
-                    ? materialResponse.releaseDateYear
-                    : undefined,
-                releaseDateMonth:
-                  'releaseDateMonth' in materialResponse
-                    ? materialResponse.releaseDateMonth
-                    : undefined,
-                releaseRestrictions: materialResponse.releaseRestrictions,
-                blocked:
-                  'blocked' in materialResponse
-                    ? materialResponse.blocked
-                    : undefined,
-                castingMode:
-                  'castingMode' in materialResponse
-                    ? materialResponse.castingMode
-                    : undefined,
-                castingDiameter:
-                  'castingDiameter' in materialResponse
-                    ? materialResponse.castingDiameter
-                    : undefined,
-                minDimension:
-                  'minDimension' in materialResponse
-                    ? materialResponse.minDimension
-                    : undefined,
-                maxDimension:
-                  'maxDimension' in materialResponse
-                    ? materialResponse.maxDimension
-                    : undefined,
-                steelMakingProcess:
-                  'steelMakingProcess' in materialResponse
-                    ? materialResponse.steelMakingProcess
-                    : undefined,
-                rating:
-                  'rating' in materialResponse
-                    ? materialResponse.rating
-                    : undefined,
-                ratingRemark:
-                  'ratingRemark' in materialResponse
-                    ? materialResponse.ratingRemark
-                    : undefined,
-                ratingChangeComment:
-                  'ratingChangeComment' in materialResponse
-                    ? materialResponse.ratingChangeComment
-                    : undefined,
-                lastModified: materialResponse.timestamp,
-              } as unknown as T)
+          materialResponses.map((materialResponse: MaterialResponse) =>
+            this.mapMaterials<T>(materialResponse)
           )
         )
       );
+  }
+
+  public getHistoryForMaterial<T extends MaterialV2 = MaterialV2>(
+    materialClass: string,
+    id: number
+  ): Observable<MaterialV2[]> {
+    return this.httpClient
+      .get<MaterialResponse[]>(
+        `${this.BASE_URL}/materials/${materialClass}/history/${id}`,
+        {
+          params: { current: true },
+        }
+      )
+      .pipe(
+        map((materialResponses: MaterialResponse[]) =>
+          materialResponses.map((materialResponse: MaterialResponse) =>
+            this.mapMaterials<T>(materialResponse)
+          )
+        )
+      );
+  }
+
+  // eslint-disable-next-line complexity
+  private mapMaterials<T extends MaterialV2 = MaterialV2>(
+    materialResponse: MaterialResponse
+  ): T {
+    return {
+      id: materialResponse.id,
+      materialStandardId: materialResponse.materialStandard.id,
+      materialStandardMaterialName:
+        materialResponse.materialStandard.materialName,
+      materialNumbers:
+        'materialNumber' in materialResponse.materialStandard
+          ? materialResponse.materialStandard.materialNumber
+          : undefined,
+      materialStandardStandardDocument:
+        materialResponse.materialStandard.standardDocument,
+      manufacturerSupplierId: materialResponse.manufacturerSupplier.id,
+      manufacturerSupplierName: materialResponse.manufacturerSupplier.name,
+      manufacturerSupplierPlant: materialResponse.manufacturerSupplier.plant,
+      manufacturerSupplierCountry:
+        materialResponse.manufacturerSupplier.country,
+      materialClass: materialResponse.materialClass as MaterialClass,
+      selfCertified:
+        'selfCertified' in materialResponse
+          ? materialResponse.selfCertified
+          : undefined,
+      manufacturer:
+        'manufacturer' in materialResponse.manufacturerSupplier
+          ? materialResponse.manufacturerSupplier.manufacturer
+          : undefined,
+      sapSupplierIds:
+        'sapData' in materialResponse.manufacturerSupplier
+          ? materialResponse.manufacturerSupplier.sapData?.map(
+              (sapData: { sapSupplierId: string }) => sapData.sapSupplierId
+            ) || []
+          : undefined,
+      productCategory:
+        'productCategory' in materialResponse
+          ? materialResponse.productCategory
+          : undefined,
+      productCategoryText:
+        'productCategory' in materialResponse
+          ? translate(
+              `materialsSupplierDatabase.productCategoryValues.${materialResponse.productCategory}`
+            )
+          : undefined,
+      ssid: 'ssid' in materialResponse ? materialResponse.ssid : undefined,
+      generalDescription:
+        'generalDescription' in materialResponse
+          ? materialResponse.generalDescription
+          : undefined,
+      referenceDoc:
+        'referenceDoc' in materialResponse
+          ? materialResponse.referenceDoc
+          : undefined,
+      co2Scope1: materialResponse.co2Scope1,
+      co2Scope2: materialResponse.co2Scope2,
+      co2Scope3: materialResponse.co2Scope3,
+      co2PerTon: materialResponse.co2PerTon,
+      co2Classification: materialResponse.co2Classification,
+      releaseDateYear:
+        'releaseDateYear' in materialResponse
+          ? materialResponse.releaseDateYear
+          : undefined,
+      releaseDateMonth:
+        'releaseDateMonth' in materialResponse
+          ? materialResponse.releaseDateMonth
+          : undefined,
+      releaseRestrictions: materialResponse.releaseRestrictions,
+      blocked:
+        'blocked' in materialResponse ? materialResponse.blocked : undefined,
+      castingMode:
+        'castingMode' in materialResponse
+          ? materialResponse.castingMode
+          : undefined,
+      castingDiameter:
+        'castingDiameter' in materialResponse
+          ? materialResponse.castingDiameter
+          : undefined,
+      minDimension:
+        'minDimension' in materialResponse
+          ? materialResponse.minDimension
+          : undefined,
+      maxDimension:
+        'maxDimension' in materialResponse
+          ? materialResponse.maxDimension
+          : undefined,
+      steelMakingProcess:
+        'steelMakingProcess' in materialResponse
+          ? materialResponse.steelMakingProcess
+          : undefined,
+      rating:
+        'rating' in materialResponse ? materialResponse.rating : undefined,
+      ratingRemark:
+        'ratingRemark' in materialResponse
+          ? materialResponse.ratingRemark
+          : undefined,
+      ratingChangeComment:
+        'ratingChangeComment' in materialResponse
+          ? materialResponse.ratingChangeComment
+          : undefined,
+      lastModified: materialResponse.timestamp,
+      modifiedBy: materialResponse.modifiedBy,
+    } as unknown as T;
   }
 
   public fetchManufacturerSuppliers(materialClass: MaterialClass) {
@@ -198,10 +214,78 @@ export class MsdDataService {
     );
   }
 
+  public getHistoryForManufacturerSupplier(
+    materialClass: MaterialClass,
+    id: number
+  ) {
+    return this.httpClient.get<ManufacturerSupplierV2[]>(
+      `${this.BASE_URL}/materials/${materialClass}/history/manufacturerSuppliers/${id}`,
+      {
+        params: { current: true },
+      }
+    );
+  }
+
+  public mapSuppliersToTableView(
+    suppliers: ManufacturerSupplierV2[]
+  ): ManufacturerSupplierTableValue[] {
+    return suppliers.map((supplier) => this.mapSuppliers(supplier));
+  }
+
+  private mapSuppliers(
+    manufacturerSupplier: ManufacturerSupplierV2
+  ): ManufacturerSupplierTableValue {
+    return {
+      id: manufacturerSupplier.id,
+      manufacturerSupplierName: manufacturerSupplier.name,
+      manufacturerSupplierPlant: manufacturerSupplier.plant,
+      manufacturerSupplierCountry: manufacturerSupplier.country,
+      manufacturer:
+        'manufacturer' in manufacturerSupplier
+          ? manufacturerSupplier.manufacturer
+          : undefined,
+      sapSupplierIds:
+        'sapData' in manufacturerSupplier
+          ? manufacturerSupplier.sapData?.map(
+              (sapData: { sapSupplierId: string }) => sapData.sapSupplierId
+            ) || []
+          : undefined,
+      lastModified: manufacturerSupplier.timestamp,
+    } as ManufacturerSupplierTableValue;
+  }
+
   public fetchMaterialStandards(materialClass: MaterialClass) {
     return this.httpClient.get<MaterialStandardV2[]>(
       `${this.BASE_URL}/materials/${materialClass}/materialStandards`
     );
+  }
+
+  public getHistoryForMaterialStandard(
+    materialClass: MaterialClass,
+    id: number
+  ) {
+    return this.httpClient.get<MaterialStandardV2[]>(
+      `${this.BASE_URL}/materials/${materialClass}/history/materialStandards/${id}`,
+      {
+        params: { current: true },
+      }
+    );
+  }
+
+  public mapStandardsToTableView(
+    standards: MaterialStandardV2[]
+  ): MaterialStandardTableValue[] {
+    return standards.map((std) => this.mapStandards(std));
+  }
+
+  private mapStandards(std: MaterialStandardV2): MaterialStandardTableValue {
+    return {
+      id: std.id,
+      materialStandardMaterialName: std.materialName,
+      materialStandardStandardDocument: std.standardDocument,
+      materialNumbers: 'materialNumber' in std ? std.materialNumber : undefined,
+      lastModified: std.timestamp,
+    } as MaterialStandardTableValue;
   }
 
   public fetchRatings() {

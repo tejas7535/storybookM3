@@ -19,6 +19,10 @@
         <div class="h-full w-full">
           <ag-grid-angular
             class="ag-theme-material h-full border border-border"
+            [masterDetail]="true"
+            [detailCellRenderer]="detailCellRenderer"
+            [detailRowAutoHeight]="true"
+            [suppressCellSelection]="true"
             [columnDefs]="columnDefs"
             [defaultColDef]="defaultColDef"
             [sideBar]="sidebar"

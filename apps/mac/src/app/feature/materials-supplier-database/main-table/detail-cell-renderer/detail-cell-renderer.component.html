@@ -1,0 +1,47 @@
+<div
+  *transloco="let t; read: 'materialsSupplierDatabase.mainTable.changeHistory'"
+>
+  <ng-container
+    *transloco="let d; read: 'materialsSupplierDatabase.mainTable.columns'"
+  >
+    <div class="pt-3 pb-5 pl-14" *ngIf="done$ | ngrxPush">
+      <dl>
+        <ng-container *ngFor="let item of changes">
+          <dt class="pt-2 text-body-2 text-medium-emphasis">
+            {{
+              t('changedBy', {
+                name: item.modifiedBy,
+                date: item.timestamp | date: 'dd.MM.YYYY HH:mm'
+              })
+            }}
+          </dt>
+          <dd
+            class="px-4 text-body-2 text-high-emphasis"
+            *ngFor="let change of item.changes"
+          >
+            {{ d(change.property) }}:
+            {{
+              t(change.reason, {
+                current: change.current,
+                previous: change.previous
+              })
+            }}
+          </dd>
+        </ng-container>
+      </dl>
+      <div class="pt-2">
+        <span class="text-body-2 text-medium-emphasis">
+          {{ t('created') }}
+        </span>
+        <span class="text-body-2 text-high-emphasis">
+          {{
+            t('createdBy', {
+              name: initial.modifiedBy,
+              date: initial.timestamp | date: 'dd.MM.YYYY HH:mm'
+            })
+          }}
+        </span>
+      </div>
+    </div>
+  </ng-container>
+</div>
