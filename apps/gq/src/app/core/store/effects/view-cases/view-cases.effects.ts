@@ -17,6 +17,7 @@ import {
   loadCases,
   loadCasesFailure,
   loadCasesSuccess,
+  loadQuotation,
   updateCasesStatusFailure,
   updateCasesStatusSuccess,
   updateCaseStatus,
@@ -56,6 +57,17 @@ export class ViewCasesEffect {
           catchError((errorMessage) => of(loadCasesFailure({ errorMessage })))
         )
       )
+    );
+  });
+
+  /**
+   * After sucessfully changing the status of a quotation, we need to reload it
+   * to be up-to-date with the backend data
+   */
+  reloadQuotationAfterStatusChange$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(loadCasesSuccess),
+      mergeMap(async () => loadQuotation())
     );
   });
 
