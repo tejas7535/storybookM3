@@ -1,7 +1,22 @@
- Changelog
+# Release Notes of Material App Center
+## [1.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.2.0...mac-v1.3.0) (2023-01-13)
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
-**Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
+
+### Features
+
+* **mac:** add copy action to msd (UFTABI-6232) ([#4915](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4915)) ([76e3025](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/76e30257ab0f65403201fc64b1597d6e560bca30))
+* **mac:** add historical data view for msd - UFTABI-6212 ([#4916](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4916)) ([3731d05](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3731d05e63056907aaa623bc24d10f1c77817d38))
+* **mac:** add learnmore page for aqm and insulation solution (UFTABI-6213) ([#4888](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4888)) ([314098d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/314098da279962508852eb1d456f1929554c3696))
+* **mac:** adjust aqm learn more page ([#4912](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4912)) ([c517d83](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c517d8335322bf571c65bbf0751e6ae2d9ef1d8e))
+* **mac:** better reactions to errors from MSD backend - UFTABI-6231 ([#4897](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4897)) ([d6724cf](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d6724cff96dbad629b036504bdb67031511e11c0))
+* **mac:** delete for MSD entities - UFTABI-6230 ([#4909](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4909)) ([ee777da](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ee777dad798524454c28b8b0b8fe8a935ad5a71e))
+* **mac:** remove ltp including references ([#4886](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4886)) ([3f1c87b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3f1c87b10c65ce3e125c0499e00eb91e4cbb24e4))
+
+
+### Bug Fixes
+
+* **mac:** fix delete button ([#4917](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4917)) ([26e1712](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/26e17123c13e49b38c0ce9c221f21b14ddc76b8b))
+* **mac:** proxy configuration for local developmend ([#4898](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4898)) ([38250dc](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/38250dc6c9ae6b2dbf7ae7a4a3ea4c2ef91f5757))
 
 ## [1.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.1.0...mac-v1.2.0) (2022-12-14)
 
