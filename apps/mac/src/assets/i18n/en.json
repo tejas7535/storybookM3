@@ -288,6 +288,7 @@
         "ratingRemark": "Supplier Rating remark",
         "ratingChangeComment": "Rating change comment",
         "referenceDocument": "Referenced in Document (TODO)",
+        "referenceDoc": "Referenced in Document",
         "releaseDate": "Release Date",
         "releaseDateMonth": "Release Date Month",
         "releaseDateYear": "Release Date Year",

@@ -3,5 +3,6 @@ export interface BaseManufacturerSupplierTableValue {
   manufacturerSupplierName?: string;
   manufacturerSupplierPlant?: string;
   manufacturerSupplierCountry?: string;
+  modifiedBy?: string;
   lastModified?: number;
 }

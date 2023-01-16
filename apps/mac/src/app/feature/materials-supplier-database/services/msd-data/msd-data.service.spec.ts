@@ -876,6 +876,7 @@ describe('MsdDataService', () => {
           manufacturer: true,
           sapData: [{ sapSupplierId: '1' }, { sapSupplierId: '2' }],
           timestamp: 1345,
+          modifiedBy: 'me',
         },
         {
           id: 2,
@@ -883,6 +884,7 @@ describe('MsdDataService', () => {
           plant: 'pTwo',
           country: 'cTwo',
           timestamp: 1345,
+          modifiedBy: 'me',
         },
       ];
       const expected: ManufacturerSupplierTableValue[] = [
@@ -894,6 +896,7 @@ describe('MsdDataService', () => {
           manufacturer: true,
           sapSupplierIds: ['1', '2'],
           lastModified: 1345,
+          modifiedBy: 'me',
         },
         {
           id: 2,
@@ -901,6 +904,7 @@ describe('MsdDataService', () => {
           manufacturerSupplierPlant: 'pTwo',
           manufacturerSupplierCountry: 'cTwo',
           lastModified: 1345,
+          modifiedBy: 'me',
           manufacturer: undefined,
           sapSupplierIds: undefined,
         },
@@ -933,12 +937,14 @@ describe('MsdDataService', () => {
           standardDocument: 'sOne',
           materialNumber: ['1', '2'],
           timestamp: 1345,
+          modifiedBy: 'me',
         },
         {
           id: 2,
           materialName: 'two',
           standardDocument: 'sTwo',
           timestamp: 1345,
+          modifiedBy: 'me',
         },
       ];
       const expected: MaterialStandardTableValue[] = [
@@ -948,12 +954,14 @@ describe('MsdDataService', () => {
           materialStandardStandardDocument: 'sOne',
           materialNumbers: ['1', '2'],
           lastModified: 1345,
+          modifiedBy: 'me',
         },
         {
           id: 2,
           materialStandardMaterialName: 'two',
           materialStandardStandardDocument: 'sTwo',
           lastModified: 1345,
+          modifiedBy: 'me',
           materialNumbers: undefined,
         },
       ];

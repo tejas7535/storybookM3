@@ -251,6 +251,7 @@ export class MsdDataService {
             ) || []
           : undefined,
       lastModified: manufacturerSupplier.timestamp,
+      modifiedBy: manufacturerSupplier.modifiedBy,
     } as ManufacturerSupplierTableValue;
   }
 
@@ -285,6 +286,7 @@ export class MsdDataService {
       materialStandardStandardDocument: std.standardDocument,
       materialNumbers: 'materialNumber' in std ? std.materialNumber : undefined,
       lastModified: std.timestamp,
+      modifiedBy: std.modifiedBy,
     } as MaterialStandardTableValue;
   }
 
