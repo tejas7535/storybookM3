@@ -190,7 +190,7 @@ describe('MaterialstandardInputDialogComponent', () => {
         materialNumber: [values.materialNumber],
       };
 
-      component.confirmMaterial();
+      component.confirmMaterial(false);
       expect(store.dispatch).toBeCalledWith(
         materialstandardDialogConfirmed({ standard })
       );
@@ -198,6 +198,28 @@ describe('MaterialstandardInputDialogComponent', () => {
       // backend response
       update(false);
       expect(component.closeDialog).toBeCalledWith(true);
+      expect(component.showInSnackbar).toBeCalled();
+    });
+    it('should not close dialog on successful confirm with createAnother', () => {
+      const values = createMaterialFormValue(MaterialClass.STEEL);
+      component.materialId = values.materialStandardId;
+      component.patchFields(values);
+      const standard: MaterialStandardV2 = {
+        id: values.materialStandardId,
+        materialName: values.materialName.title,
+        standardDocument: values.standardDocument.title,
+        // steel only
+        materialNumber: [values.materialNumber],
+      };
+
+      component.confirmMaterial(true);
+      expect(store.dispatch).toBeCalledWith(
+        materialstandardDialogConfirmed({ standard })
+      );
+
+      // backend response
+      update(false);
+      expect(component.closeDialog).not.toHaveBeenCalled();
       expect(component.showInSnackbar).toBeCalled();
     });
     it('should keep the dialog open on error', () => {
@@ -212,7 +234,7 @@ describe('MaterialstandardInputDialogComponent', () => {
         materialNumber: [values.materialNumber],
       };
 
-      component.confirmMaterial();
+      component.confirmMaterial(false);
       expect(store.dispatch).toBeCalledWith(
         materialstandardDialogConfirmed({ standard })
       );

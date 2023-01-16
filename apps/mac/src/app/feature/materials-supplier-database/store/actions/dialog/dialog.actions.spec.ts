@@ -394,11 +394,12 @@ describe('Dialog Actions', () => {
 
   describe('reset Material Dialog', () => {
     it('reset material record', () => {
-      const action = resetMaterialRecord({ closeDialog: true });
+      const action = resetMaterialRecord({ error: true, createAnother: true });
 
       expect(action).toEqual({
         type: '[MSD - Dialog] Reset Material Record',
-        closeDialog: true,
+        error: true,
+        createAnother: true,
       });
     });
     it('reset dialog options', () => {

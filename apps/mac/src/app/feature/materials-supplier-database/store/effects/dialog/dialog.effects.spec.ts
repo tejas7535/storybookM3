@@ -23,6 +23,7 @@ import {
   MaterialStandardV2,
 } from '@mac/msd/models';
 import { MsdDataService } from '@mac/msd/services';
+import { fetchResult } from '@mac/msd/store/actions/data';
 import {
   createMaterialComplete,
   editDialogLoadingComplete,
@@ -1065,7 +1066,8 @@ describe('Dialog Effects', () => {
       'should call to reset dialog options',
       marbles((m) => {
         action = resetMaterialRecord({
-          closeDialog: true,
+          error: false,
+          createAnother: false,
         });
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('-(b)', {
@@ -1077,10 +1079,41 @@ describe('Dialog Effects', () => {
       })
     );
     it(
-      'should d nothing',
+      'should call to fetch results',
       marbles((m) => {
         action = resetMaterialRecord({
-          closeDialog: false,
+          error: false,
+          createAnother: true,
+        });
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-(b)', {
+          b: fetchResult(),
+        });
+
+        m.expect(effects.resetMaterialDialog$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+    it(
+      'should do nothing on error',
+      marbles((m) => {
+        action = resetMaterialRecord({
+          error: true,
+          createAnother: false,
+        });
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('---');
+
+        m.expect(effects.resetMaterialDialog$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+    it(
+      'should do nothing on error with createAnother',
+      marbles((m) => {
+        action = resetMaterialRecord({
+          error: true,
+          createAnother: true,
         });
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('---');

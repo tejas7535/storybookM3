@@ -660,7 +660,10 @@ describe('dialogReducer', () => {
       });
     });
     it('should reset materialRecord state', () => {
-      const action = DialogActions.resetMaterialRecord({ closeDialog: true });
+      const action = DialogActions.resetMaterialRecord({
+        error: true,
+        createAnother: false,
+      });
       const newState = dialogReducer(
         {
           ...state,

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -10,6 +11,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { PushModule } from '@ngrx/component';
+
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { MsdDialogService } from '@mac/feature/materials-supplier-database/services';
 
@@ -27,7 +30,9 @@ import { BaseDialogComponent } from './base-dialog.component';
     MatIconModule,
     MatDialogModule,
     MatDividerModule,
+    MatCheckboxModule,
     PushModule,
+    SharedTranslocoModule,
   ],
   exports: [BaseDialogComponent],
   providers: [MsdDialogService],

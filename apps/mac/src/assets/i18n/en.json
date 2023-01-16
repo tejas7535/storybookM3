@@ -341,6 +341,7 @@
         "close": "Close",
         "co2AndProductInformationTitle": "Product & CO₂ information",
         "co2Classification": "CO₂ data classification",
+        "createAnother": "create another",
         "readonly": "(readonly)",
         "co2ClassificationValues": {
           "c1": "ISO-conform calculation method, and third-party certified (product-specific)",

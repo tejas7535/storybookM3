@@ -145,7 +145,7 @@ export const createMaterialComplete = createAction(
 
 export const resetMaterialRecord = createAction(
   '[MSD - Dialog] Reset Material Record',
-  props<{ closeDialog: boolean }>()
+  props<{ error: boolean; createAnother: boolean }>()
 );
 
 export const resetDialogOptions = createAction(

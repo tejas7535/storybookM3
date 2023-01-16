@@ -113,7 +113,7 @@ export class MaterialStandardInputDialogComponent
         );
   }
 
-  public confirmMaterial(): void {
+  public confirmMaterial(createAnother: boolean): void {
     const baseMaterial = this.createMaterialForm
       .value as MaterialStandardFormValue;
 
@@ -135,7 +135,9 @@ export class MaterialStandardInputDialogComponent
       .subscribe((record) => {
         let msgKey;
         if (!record.error) {
-          this.closeDialog(true);
+          if (!createAnother) {
+            this.closeDialog(true);
+          }
           msgKey =
             'materialsSupplierDatabase.mainTable.dialog.createMaterialStandardSuccess';
         } else {
@@ -147,7 +149,7 @@ export class MaterialStandardInputDialogComponent
           { duration: 5000 }
         );
         this.dialogFacade.dispatch(
-          resetMaterialRecord({ closeDialog: !record.error })
+          resetMaterialRecord({ error: !!record.error, createAnother })
         );
       });
   }

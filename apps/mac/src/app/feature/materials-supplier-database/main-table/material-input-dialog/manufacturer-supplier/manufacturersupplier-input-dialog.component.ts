@@ -140,7 +140,7 @@ export class ManufacturerSupplierInputDialogComponent
     });
   }
 
-  public confirmMaterial(): void {
+  public confirmMaterial(createAnother: boolean): void {
     // needs getRawValue as country-field is sometimes disabled
     const baseMaterial =
       this.createMaterialForm.getRawValue() as ManufacturerSupplierFormValue;
@@ -165,7 +165,9 @@ export class ManufacturerSupplierInputDialogComponent
       .subscribe((record) => {
         let msgKey;
         if (!record.error) {
-          this.closeDialog(true);
+          if (!createAnother) {
+            this.closeDialog(true);
+          }
           msgKey =
             'materialsSupplierDatabase.mainTable.dialog.createManufacturerSupplierSuccess';
         } else {
@@ -177,7 +179,7 @@ export class ManufacturerSupplierInputDialogComponent
           { duration: 5000 }
         );
         this.dialogFacade.dispatch(
-          resetMaterialRecord({ closeDialog: !record.error })
+          resetMaterialRecord({ error: !!record.error, createAnother })
         );
       });
   }

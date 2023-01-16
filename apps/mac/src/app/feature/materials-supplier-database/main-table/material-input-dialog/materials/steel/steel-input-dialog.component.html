@@ -5,8 +5,9 @@
   [txtConfirm]="
     isEditDialog() && !isCopyDialog() ? t('updateMaterial') : t('addMaterial')
   "
+  [isAddDialog]="isCopyDialog() || !isEditDialog()"
   [valid]="createMaterialForm.valid"
-  (accept)="confirmMaterial()"
+  (accept)="confirmMaterial($event)"
   (minimize)="minimizeDialog()"
   (cancel)="cancelDialog()"
 >

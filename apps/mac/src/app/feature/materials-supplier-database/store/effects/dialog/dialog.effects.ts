@@ -21,6 +21,7 @@ import {
   MaterialStandardV2,
 } from '@mac/msd/models';
 import { MsdDataService } from '@mac/msd/services';
+import * as DataActions from '@mac/msd/store/actions/data/data.actions';
 import * as DialogActions from '@mac/msd/store/actions/dialog/dialog.actions';
 import { DataFacade } from '@mac/msd/store/facades/data';
 
@@ -406,9 +407,11 @@ export class DialogEffects {
   public resetMaterialDialog$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DialogActions.resetMaterialRecord),
-      switchMap(({ closeDialog }) => {
-        if (closeDialog) {
+      switchMap(({ error, createAnother }) => {
+        if (!error && !createAnother) {
           return of(DialogActions.resetDialogOptions());
+        } else if (!error && createAnother) {
+          return of(DataActions.fetchResult());
         }
 
         return [];

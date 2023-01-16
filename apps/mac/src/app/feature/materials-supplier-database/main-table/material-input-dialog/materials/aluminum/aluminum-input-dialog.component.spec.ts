@@ -177,7 +177,7 @@ describe('AluminumInputDialogComponent', () => {
       const values = createMaterialFormValue(MaterialClass.ALUMINUM);
       component.createMaterialForm.patchValue(values, { emitEvent: false });
 
-      component.confirmMaterial();
+      component.confirmMaterial(false);
       expect(store.dispatch).toBeCalledWith(
         materialDialogConfirmed(transformAsMaterialRequest(values))
       );
@@ -187,11 +187,39 @@ describe('AluminumInputDialogComponent', () => {
       expect(component.closeDialog).toBeCalledWith(true);
       expect(component.showInSnackbar).toBeCalled();
     });
+    it('should not close dialog on successful confirm with createAnother', () => {
+      const values = createMaterialFormValue(MaterialClass.ALUMINUM);
+      component.createMaterialForm.patchValue(values, { emitEvent: false });
+
+      component.confirmMaterial(true);
+      expect(store.dispatch).toBeCalledWith(
+        materialDialogConfirmed(transformAsMaterialRequest(values))
+      );
+
+      // backend response
+      update(false);
+      expect(component.closeDialog).not.toHaveBeenCalled();
+      expect(component.showInSnackbar).toBeCalled();
+    });
     it('should keep the dialog open on error', () => {
       const values = createMaterialFormValue(MaterialClass.ALUMINUM);
       component.createMaterialForm.patchValue(values, { emitEvent: false });
 
-      component.confirmMaterial();
+      component.confirmMaterial(false);
+      expect(store.dispatch).toBeCalledWith(
+        materialDialogConfirmed(transformAsMaterialRequest(values))
+      );
+
+      // backend response
+      update(true);
+      expect(component.closeDialog).not.toBeCalled();
+      expect(component.showInSnackbar).toBeCalled();
+    });
+    it('should keep the dialog open on error with createAnother', () => {
+      const values = createMaterialFormValue(MaterialClass.ALUMINUM);
+      component.createMaterialForm.patchValue(values, { emitEvent: false });
+
+      component.confirmMaterial(true);
       expect(store.dispatch).toBeCalledWith(
         materialDialogConfirmed(transformAsMaterialRequest(values))
       );

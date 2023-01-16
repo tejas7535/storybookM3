@@ -306,7 +306,7 @@ export class MaterialInputDialogComponent
     return this.dialogData?.editDialogInformation?.column;
   }
 
-  public confirmMaterial(): void {
+  public confirmMaterial(createAnother: boolean): void {
     const baseMaterial = {
       ...(this.createMaterialForm.value as MaterialFormValueV2),
       materialNumber: this.createMaterialForm.value?.materialNumber?.split(','),
@@ -402,7 +402,9 @@ export class MaterialInputDialogComponent
       .subscribe((record) => {
         let msgKey;
         if (!record.error) {
-          this.closeDialog(true);
+          if (!createAnother) {
+            this.closeDialog(true);
+          }
           msgKey =
             'materialsSupplierDatabase.mainTable.dialog.createMaterialSuccess';
         } else {
@@ -414,7 +416,7 @@ export class MaterialInputDialogComponent
           { duration: 5000 }
         );
         this.dialogFacade.dispatch(
-          resetMaterialRecord({ closeDialog: !record.error })
+          resetMaterialRecord({ error: !!record.error, createAnother })
         );
       });
   }

@@ -25,9 +25,21 @@
   </ng-template>
 </mat-dialog-content>
 
-<mat-dialog-actions align="end" class="-mx-6">
+<mat-dialog-actions
+  align="end"
+  class="-mx-6"
+  *transloco="let t; read: 'materialsSupplierDatabase.mainTable.dialog'"
+>
   <mat-divider class="w-full pb-4"></mat-divider>
   <div class="px-4 pb-2">
+    <mat-checkbox
+      class="pr-4 text-caption text-high-emphasis"
+      color="primary"
+      [formControl]="createAnotherControl"
+      *ngIf="isAddDialog"
+    >
+      {{ t('createAnother') }}</mat-checkbox
+    >
     <button mat-stroked-button (click)="cancelDialog()" color="primary">
       {{ txtCancel }}
     </button>

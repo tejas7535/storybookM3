@@ -7,8 +7,9 @@
       ? t('updateManufacturerSupplier')
       : t('addManufacturerSupplier')
   "
+  [isAddDialog]="isCopyDialog() || !isEditDialog()"
   [valid]="createMaterialForm.valid"
-  (accept)="confirmMaterial()"
+  (accept)="confirmMaterial($event)"
   (minimize)="minimizeDialog()"
   (cancel)="cancelDialog()"
 >

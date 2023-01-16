@@ -213,7 +213,7 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
         sapData: undefined,
       };
 
-      component.confirmMaterial();
+      component.confirmMaterial(false);
       expect(store.dispatch).toBeCalledWith(
         manufacturerSupplierDialogConfirmed({ supplier: expected })
       );
@@ -223,6 +223,31 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
       expect(component.closeDialog).toBeCalledWith(true);
       expect(component.showInSnackbar).toBeCalled();
     });
+
+    it('should not close dialog on successful confirm with createAnother', () => {
+      const values = createMaterialFormValue(MaterialClass.STEEL);
+      component.materialId = values.manufacturerSupplierId;
+      component.patchFields(values);
+      const expected: ManufacturerSupplierV2 = {
+        id: values.manufacturerSupplierId,
+        name: values.supplier.title,
+        plant: values.supplierPlant.title,
+        country: values.supplierCountry.title,
+        manufacturer: values.manufacturer,
+        sapData: undefined,
+      };
+
+      component.confirmMaterial(true);
+      expect(store.dispatch).toBeCalledWith(
+        manufacturerSupplierDialogConfirmed({ supplier: expected })
+      );
+
+      // backend response
+      update(false);
+      expect(component.closeDialog).not.toHaveBeenCalled();
+      expect(component.showInSnackbar).toBeCalled();
+    });
+
     it('should keep the dialog open on error', () => {
       const values = createMaterialFormValue(MaterialClass.STEEL);
       component.materialId = values.manufacturerSupplierId;
@@ -236,7 +261,31 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
         sapData: undefined,
       };
 
-      component.confirmMaterial();
+      component.confirmMaterial(false);
+      expect(store.dispatch).toBeCalledWith(
+        manufacturerSupplierDialogConfirmed({ supplier })
+      );
+
+      // backend response
+      update(true);
+      expect(component.closeDialog).not.toBeCalled();
+      expect(component.showInSnackbar).toBeCalled();
+    });
+
+    it('should keep the dialog open on error with createAnother', () => {
+      const values = createMaterialFormValue(MaterialClass.STEEL);
+      component.materialId = values.manufacturerSupplierId;
+      component.patchFields(values);
+      const supplier: ManufacturerSupplierV2 = {
+        id: values.manufacturerSupplierId,
+        name: values.supplier.title,
+        plant: values.supplierPlant.title,
+        country: values.supplierCountry.title,
+        manufacturer: values.manufacturer,
+        sapData: undefined,
+      };
+
+      component.confirmMaterial(true);
       expect(store.dispatch).toBeCalledWith(
         manufacturerSupplierDialogConfirmed({ supplier })
       );

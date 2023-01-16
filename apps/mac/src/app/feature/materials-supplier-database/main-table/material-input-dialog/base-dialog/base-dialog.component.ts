@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 import { Observable } from 'rxjs';
 
@@ -15,11 +16,15 @@ export class BaseDialogComponent {
   public txtCancel: string;
   @Input()
   public txtConfirm: string;
+  @Input()
+  public isAddDialog: boolean;
 
   @Input() public valid: boolean;
   @Output() public minimize = new EventEmitter<void>();
-  @Output() public accept = new EventEmitter<void>();
+  @Output() public accept = new EventEmitter<boolean>();
   @Output() public cancel = new EventEmitter<void>();
+
+  public createAnotherControl = new FormControl<boolean>(false);
 
   public processConfirm$: Observable<boolean>;
   public isLoading$: Observable<boolean>;
@@ -35,7 +40,7 @@ export class BaseDialogComponent {
   }
 
   public confirmDialog(): void {
-    this.accept.emit();
+    this.accept.emit(this.createAnotherControl.value);
   }
 
   public cancelDialog(): void {
