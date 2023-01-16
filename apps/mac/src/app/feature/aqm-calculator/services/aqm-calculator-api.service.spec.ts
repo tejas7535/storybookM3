@@ -10,11 +10,12 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import {
   AQM_CALCULATION_CALCULATION_MOCK,
   AQM_CALCULATION_MATERIALS_MOCK,
+  AQM_CALCULATION_MATERIALS_MOCK_PARSED,
 } from '@mac/testing/mocks';
 
+import { AQMCalculationRequest } from '../models';
 import { environment } from './../../../../environments/environment';
 import { AqmCalculatorApiService } from './aqm-calculator-api.service';
-import { AQMCalculationRequest } from './aqm-calulator-response.model';
 
 describe('AqmCalculatorApiService', () => {
   let spectator: SpectatorService<AqmCalculatorApiService>;
@@ -45,9 +46,9 @@ describe('AqmCalculatorApiService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return the materials data', () => {
+  it('should return the materials data as AQMMaterials', () => {
     service.getMaterialsData().subscribe((result: any) => {
-      expect(result).toEqual(AQM_CALCULATION_MATERIALS_MOCK);
+      expect(result).toEqual(AQM_CALCULATION_MATERIALS_MOCK_PARSED);
     });
 
     const req = httpMock.expectOne(

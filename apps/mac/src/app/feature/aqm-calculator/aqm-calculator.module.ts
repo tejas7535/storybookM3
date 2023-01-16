@@ -9,8 +9,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 
-import { PushModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 
+import { SelectModule } from '@schaeffler/inputs/select';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../shared/shared.module';
@@ -32,7 +33,9 @@ import { AqmCalculatorRoutingModule } from './aqm-calculator-routing.module';
     MatChipsModule,
     MatIconModule,
     PushModule,
+    LetModule,
     SharedTranslocoModule,
+    SelectModule,
   ],
 })
 export class AqmCalculatorModule {}

@@ -1,6 +1,7 @@
 {
   "aqmCalculator": {
     "alloyConfiguration": "Alloy configuration",
+    "customAlloy": "Custom Alloy",
     "aqmAccordingTo": "AQM value according to {{norm}}:",
     "aqmNorm": "S 130998",
     "chooseAlloy": "Choose a specific alloy",

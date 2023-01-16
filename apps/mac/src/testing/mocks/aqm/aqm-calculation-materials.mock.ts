@@ -1,6 +1,9 @@
-import { AQMMaterialsResponse } from '@mac/feature/aqm-calculator/services/aqm-calulator-response.model';
+import {
+  AQMMaterialsResponse,
+  AQMMaterialsResponseRaw,
+} from '@mac/feature/aqm-calculator/models';
 
-export const AQM_CALCULATION_MATERIALS_MOCK: AQMMaterialsResponse = {
+export const AQM_CALCULATION_MATERIALS_MOCK: AQMMaterialsResponseRaw = {
   compositionLimits: {
     c: { max: 1.1, min: 0.6 },
     cr: { max: 2, min: 0 },
@@ -144,6 +147,206 @@ export const AQM_CALCULATION_MATERIALS_MOCK: AQMMaterialsResponse = {
       name: '100CrMo7 Max',
       ni: 0.3,
       si: 0.45,
+    },
+  ],
+  sumLimits: {
+    '100Cr6': 2,
+    '100CrMnMoSi8-4-6': 3.3,
+    '100CrMnSi6-4': 3.2,
+    '100CrMo7': 2.35,
+    '100CrMo7-3': 2.8,
+  },
+};
+
+export const AQM_CALCULATION_MATERIALS_MOCK_PARSED: AQMMaterialsResponse = {
+  compositionLimits: {
+    c: { max: 1.1, min: 0.6 },
+    cr: { max: 2, min: 0 },
+    mn: { max: 1.5, min: 0 },
+    mo: { max: 1, min: 0 },
+    ni: { max: 1.6, min: 0 },
+    si: { max: 1.5, min: 0 },
+  },
+  materials: [
+    {
+      id: '100Cr6 Min',
+      title: '100Cr6 Min',
+      data: {
+        c: 0.93,
+        cr: 1.35,
+        mn: 0.25,
+        mo: 0,
+        ni: 0,
+        si: 0.15,
+      },
+    },
+    {
+      id: '100Cr6 Standard',
+      title: '100Cr6 Standard',
+      data: {
+        c: 0.98,
+        cr: 1.475,
+        mn: 0.35,
+        mo: 0.05,
+        ni: 0.15,
+        si: 0.25,
+      },
+    },
+    {
+      id: '100Cr6 Max',
+      title: '100Cr6 Max',
+      data: {
+        c: 1.05,
+        cr: 1.6,
+        mn: 0.45,
+        mo: 0.1,
+        ni: 0.3,
+        si: 0.35,
+      },
+    },
+    {
+      id: '100CrMnSi6-4 Min',
+      title: '100CrMnSi6-4 Min',
+      data: {
+        c: 0.93,
+        cr: 1.4,
+        mn: 1,
+        mo: 0,
+        ni: 0,
+        si: 0.5,
+      },
+    },
+    {
+      id: '100CrMnSi6-4 Standard',
+      title: '100CrMnSi6-4 Standard',
+      data: {
+        c: 0.98,
+        cr: 1.525,
+        mn: 1.1,
+        mo: 0.05,
+        ni: 0.15,
+        si: 0.6,
+      },
+    },
+    {
+      id: '100CrMnSi6-4 Max',
+      title: '100CrMnSi6-4 Max',
+      data: {
+        c: 1.05,
+        cr: 1.65,
+        mn: 1.2,
+        mo: 0.1,
+        ni: 0.3,
+        si: 0.7,
+      },
+    },
+    {
+      id: '100CrMo7-3 Min',
+      title: '100CrMo7-3 Min',
+      data: {
+        c: 0.93,
+        cr: 1.7,
+        mn: 0.6,
+        mo: 0.25,
+        ni: 0,
+        si: 0.2,
+      },
+    },
+    {
+      id: '100CrMo7-3 Standard',
+      title: '100CrMo7-3 Standard',
+      data: {
+        c: 0.955,
+        cr: 1.775,
+        mn: 0.7,
+        mo: 0.3,
+        ni: 0.15,
+        si: 0.275,
+      },
+    },
+    {
+      id: '100CrMo7-3 Max',
+      title: '100CrMo7-3 Max',
+      data: {
+        c: 0.98,
+        cr: 1.85,
+        mn: 0.8,
+        mo: 0.35,
+        ni: 0.3,
+        si: 0.35,
+      },
+    },
+    {
+      id: '100CrMnMoSi8-4-6 Min',
+      title: '100CrMnMoSi8-4-6 Min',
+      data: {
+        c: 0.93,
+        cr: 1.8,
+        mn: 0.8,
+        mo: 0.5,
+        ni: 0,
+        si: 0.4,
+      },
+    },
+    {
+      id: '100CrMnMoSi8-4-6 Standard',
+      title: '100CrMnMoSi8-4-6 Standard',
+      data: {
+        c: 0.945,
+        cr: 1.925,
+        mn: 0.95,
+        mo: 0.55,
+        ni: 0.15,
+        si: 0.5,
+      },
+    },
+    {
+      id: '100CrMnMoSi8-4-6 Max',
+      title: '100CrMnMoSi8-4-6 Max',
+      data: {
+        c: 0.96,
+        cr: 2.05,
+        mn: 1.1,
+        mo: 0.6,
+        ni: 0.3,
+        si: 0.6,
+      },
+    },
+    {
+      id: '100CrMo7 Min',
+      title: '100CrMo7 Min',
+      data: {
+        c: 0.93,
+        cr: 1.75,
+        mn: 0.25,
+        mo: 0.15,
+        ni: 0,
+        si: 0.25,
+      },
+    },
+    {
+      id: '100CrMo7 Standard',
+      title: '100CrMo7 Standard',
+      data: {
+        c: 0.98,
+        cr: 1.85,
+        mn: 0.35,
+        mo: 0.2,
+        ni: 0.15,
+        si: 0.35,
+      },
+    },
+    {
+      id: '100CrMo7 Max',
+      title: '100CrMo7 Max',
+      data: {
+        c: 1.05,
+        cr: 1.95,
+        mn: 0.45,
+        mo: 0.25,
+        ni: 0.3,
+        si: 0.45,
+      },
     },
   ],
   sumLimits: {

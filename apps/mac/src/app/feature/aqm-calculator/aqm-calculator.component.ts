@@ -1,11 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { debounceTime, ReplaySubject, Subscription } from 'rxjs';
+import { debounceTime, filter, map, ReplaySubject, Subscription } from 'rxjs';
 
 import { TranslocoService } from '@ngneat/transloco';
 
@@ -14,15 +10,15 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { RouteNames } from '../../app-routing.enum';
 import { changeFavicon } from '../../shared/change-favicon';
 import { BreadcrumbsService } from '../../shared/services/breadcrumbs/breadcrumbs.service';
-import { AqmCalculatorApiService } from './services/aqm-calculator-api.service';
 import {
   AQMCalculationRequest,
   AQMCalculationResponse,
+  AQMCompositionForm,
   AQMCompositionLimits,
   AQMLimit,
   AQMMaterial,
-  AQMSumLimits,
-} from './services/aqm-calulator-response.model';
+} from './models';
+import { AqmCalculatorApiService } from './services/aqm-calculator-api.service';
 
 @Component({
   selector: 'mac-aqm-calculator',
@@ -31,16 +27,15 @@ import {
 })
 export class AqmCalculatorComponent implements OnInit, OnDestroy {
   materials: AQMMaterial[];
-  sumLimits: AQMSumLimits;
 
   aqmCalculationResult = new ReplaySubject<AQMCalculationResponse>();
   fetchingCalculation: boolean;
 
   breadcrumbs$ = this.breadcrumbsService.currentBreadcrumbs;
 
-  materialInput: UntypedFormControl = new UntypedFormControl();
+  materialInput = new FormControl<AQMMaterial>(undefined);
 
-  compositionForm: UntypedFormGroup = new UntypedFormGroup({});
+  compositionForm: FormGroup<AQMCompositionForm>;
 
   subscription = new Subscription();
 
@@ -59,18 +54,20 @@ export class AqmCalculatorComponent implements OnInit, OnDestroy {
       this.translocoService.translate('aqmCalculator.title')
     );
     this.subscription.add(
-      this.aqmCalculationService.getMaterialsData().subscribe((result: any) => {
-        this.materials = result.materials;
-        this.sumLimits = result.sumLimits;
-        this.createForm(result.compositionLimits);
-        this.materialInput.setValue(this.materials[1]);
-      })
+      this.aqmCalculationService
+        .getMaterialsData()
+        .pipe(filter(Boolean))
+        .subscribe((result) => {
+          this.materials = result.materials;
+          this.createForm(result.compositionLimits);
+          this.materialInput.setValue(this.materials[1]);
+        })
     );
 
     this.subscription.add(
       this.materialInput.valueChanges.subscribe((v) => {
         if (v) {
-          this.compositionForm.patchValue(v as AQMCalculationRequest);
+          this.compositionForm.patchValue(v.data as AQMCalculationRequest);
           this.compositionForm.markAsDirty();
         }
       })
@@ -95,24 +92,23 @@ export class AqmCalculatorComponent implements OnInit, OnDestroy {
         limits: item[1] as AQMLimit,
       }))
       .map((item) => {
-        controls[item.key] = new UntypedFormControl('', [
+        controls[item.key] = new FormControl<number>(undefined, [
           Validators.required,
           Validators.min(item.limits.min),
           Validators.max(item.limits.max),
         ]);
       });
-    this.compositionForm = new UntypedFormGroup(controls);
+    this.compositionForm = new FormGroup<AQMCompositionForm>(controls);
 
     this.subscription.add(
       this.compositionForm.valueChanges
-        .pipe(debounceTime(100))
+        .pipe(
+          debounceTime(100),
+          map((value) => value as AQMCalculationRequest)
+        )
         .subscribe((value: AQMCalculationRequest) => {
-          const matIndex = this.findMaterialIndex(value);
-          if (matIndex > -1) {
-            this.patchSelect(this.materials[matIndex]);
-          } else {
-            this.patchSelect();
-          }
+          const material = this.findMaterial(value);
+          this.patchSelect(material);
 
           if (this.compositionForm.valid) {
             this.aqmCalculationService
@@ -123,23 +119,32 @@ export class AqmCalculatorComponent implements OnInit, OnDestroy {
     );
   }
 
-  private findMaterialIndex(composition: AQMCalculationRequest): number {
-    return this.materials
-      .map((material) => material as AQMCalculationRequest)
-      .findIndex((knownComposition) => {
-        if (
-          knownComposition.c === composition.c &&
-          knownComposition.si === composition.si &&
-          knownComposition.mn === composition.mn &&
-          knownComposition.cr === composition.cr &&
-          knownComposition.mo === composition.mo &&
-          knownComposition.ni === composition.ni
-        ) {
-          return true;
-        }
+  private findMaterial(composition: AQMCalculationRequest): AQMMaterial {
+    return this.materials.find((material) => {
+      if (
+        material.data.c === composition.c &&
+        material.data.si === composition.si &&
+        material.data.mn === composition.mn &&
+        material.data.cr === composition.cr &&
+        material.data.mo === composition.mo &&
+        material.data.ni === composition.ni
+      ) {
+        return true;
+      }
 
-        return false;
-      });
+      return false;
+    });
+  }
+
+  public filterFn(option?: AQMMaterial, value?: string): boolean {
+    if (!value) {
+      return true;
+    }
+
+    return option?.title
+      ?.toLowerCase()
+      .trim()
+      .includes(value.toLowerCase().trim());
   }
 
   public trackByFn(index: number): number {

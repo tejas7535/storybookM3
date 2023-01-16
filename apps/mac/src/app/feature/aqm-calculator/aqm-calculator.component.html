@@ -20,18 +20,17 @@
           <!-- select alloy -->
           <div class="flex flex-col items-center justify-center">
             <p>{{ t('chooseAlloy') }}</p>
-            <mat-form-field appearance="outline">
-              <mat-select
-                [formControl]="materialInput"
-                placeholder="Custom Alloy"
-              >
-                <mat-option
-                  *ngFor="let material of materials; trackBy: trackByFn"
-                  [value]="material"
-                  >{{ material.name }}</mat-option
-                >
-              </mat-select>
-            </mat-form-field>
+            <schaeffler-select
+              *ngIf="materials"
+              [initialValue]="materials[1]"
+              [stringOptions]="materials"
+              [control]="materialInput"
+              [filterFn]="filterFn"
+              [resetButton]="false"
+              appearance="outline"
+              [placeholder]="t('customAlloy')"
+            >
+            </schaeffler-select>
           </div>
           <!-- seperator horizontal -->
           <div

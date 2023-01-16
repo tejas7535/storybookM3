@@ -12,9 +12,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
+import { SelectModule } from '@schaeffler/inputs/select';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
@@ -27,12 +28,12 @@ import * as en from '../../../assets/i18n/en.json';
 import { BreadcrumbsService } from '../../shared/services/breadcrumbs/breadcrumbs.service';
 import { SharedModule } from '../../shared/shared.module';
 import { AqmCalculatorComponent } from './aqm-calculator.component';
-import { AqmCalculatorApiService } from './services/aqm-calculator-api.service';
 import {
   AQMCalculationRequest,
   AQMCalculationResponse,
   AQMMaterial,
-} from './services/aqm-calulator-response.model';
+} from './models';
+import { AqmCalculatorApiService } from './services/aqm-calculator-api.service';
 
 jest.mock('../../shared/change-favicon', () => ({
   changeFavicon: jest.fn(() => {}),
@@ -56,6 +57,8 @@ describe('AqmCalculatorComponent', () => {
       MatIconModule,
       SharedModule,
       PushModule,
+      LetModule,
+      SelectModule,
       provideTranslocoTestingModule({ en }),
     ],
     declarations: [AqmCalculatorComponent],
@@ -107,7 +110,6 @@ describe('AqmCalculatorComponent', () => {
       component.ngOnInit();
 
       expect(component.materials).toBeDefined();
-      expect(component.sumLimits).toBeDefined();
       expect(component['createForm']).toHaveBeenCalled();
       expect(component.materialInput.setValue).toHaveBeenCalled();
     });
@@ -118,7 +120,7 @@ describe('AqmCalculatorComponent', () => {
       component.compositionForm.markAsDirty = jest.fn();
 
       // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-      const testMaterial: AQMMaterial = { name: 'test' } as AQMMaterial;
+      const testMaterial: AQMMaterial = { title: 'test' } as AQMMaterial;
 
       component.materialInput.setValue(testMaterial);
 
@@ -129,7 +131,7 @@ describe('AqmCalculatorComponent', () => {
 
   describe('patchSelect', () => {
     it('should do nothing if material is already selected', () => {
-      const mockMaterial = { name: 'test' } as unknown as AQMMaterial;
+      const mockMaterial = { title: 'test' } as unknown as AQMMaterial;
       const mockPatch = jest.fn();
 
       component.materialInput = {
@@ -143,7 +145,7 @@ describe('AqmCalculatorComponent', () => {
     });
 
     it('should patch input if material is not already selected', () => {
-      const mockMaterial = { name: 'test' } as unknown as AQMMaterial;
+      const mockMaterial = { title: 'test' } as unknown as AQMMaterial;
       const otherMockMaterial = {
         name: 'test',
         c: 1,
@@ -190,6 +192,8 @@ describe('AqmCalculatorComponent', () => {
       const compositionLimits =
         AQM_CALCULATION_MATERIALS_MOCK.compositionLimits;
 
+      component.materials = [];
+
       component['createForm'](compositionLimits);
       component.compositionForm.patchValue(request);
 
@@ -225,16 +229,12 @@ describe('AqmCalculatorComponent', () => {
     });
   });
 
-  describe('findMaterialIndex', () => {
-    it('should return index of material with equal composition', () => {
+  describe('findMaterial', () => {
+    it('should return material with equal composition', () => {
       const mockMaterial: AQMMaterial = {
-        name: 'test',
-        c: 1,
-        si: 1,
-        mn: 1,
-        cr: 1,
-        mo: 1,
-        ni: 1,
+        id: 'test',
+        title: 'test',
+        data: { c: 1, si: 1, mn: 1, cr: 1, mo: 1, ni: 1 },
       };
       const mockComposition: AQMCalculationRequest = {
         c: 1,
@@ -245,20 +245,16 @@ describe('AqmCalculatorComponent', () => {
         ni: 1,
       };
       component.materials = [mockMaterial];
-      const result = component['findMaterialIndex'](mockComposition);
+      const result = component['findMaterial'](mockComposition);
 
-      expect(result).toEqual(0);
+      expect(result).toEqual(mockMaterial);
     });
 
-    it('should return -1 if no material with same composition can be found', () => {
+    it('should return undefined if no material with same composition can be found', () => {
       const mockMaterial: AQMMaterial = {
-        name: 'test',
-        c: 1,
-        si: 1,
-        mn: 1,
-        cr: 1,
-        mo: 1,
-        ni: 1,
+        id: 'test',
+        title: 'test',
+        data: { c: 1, si: 1, mn: 1, cr: 1, mo: 1, ni: 1 },
       };
       const mockComposition: AQMCalculationRequest = {
         c: 2,
@@ -269,9 +265,53 @@ describe('AqmCalculatorComponent', () => {
         ni: 1,
       };
       component.materials = [mockMaterial];
-      const result = component['findMaterialIndex'](mockComposition);
+      const result = component['findMaterial'](mockComposition);
 
-      expect(result).toEqual(-1);
+      expect(result).toEqual(undefined);
+    });
+  });
+
+  describe('filterFn', () => {
+    const option: AQMMaterial = {
+      id: '78',
+      title: 'aBcDeFgH ',
+      data: {} as AQMCalculationRequest,
+    };
+    it('should return true with matching string', () => {
+      expect(component.filterFn(option, option.title)).toBe(true);
+    });
+    it('should return true with undefined option', () => {
+      expect(component.filterFn(undefined, option.title)).toBe(undefined);
+    });
+    it('should return true with undefined option title', () => {
+      expect(
+        component.filterFn(
+          { id: '1', title: undefined, data: {} as AQMCalculationRequest },
+          option.title
+        )
+      ).toBe(undefined);
+    });
+    it('should Skip filter with undefined', () => {
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      expect(component.filterFn(option, undefined)).toBe(true);
+    });
+    it('should accept with lowercase match', () => {
+      expect(component.filterFn(option, option.title.toLowerCase())).toBe(true);
+    });
+    it('should accept with uppercase match', () => {
+      expect(component.filterFn(option, option.title.toUpperCase())).toBe(true);
+    });
+    it('should accept with partial match', () => {
+      expect(component.filterFn(option, option.title.slice(2, 7))).toBe(true);
+    });
+    it('should accept with empty string', () => {
+      expect(component.filterFn(option, '')).toBe(true);
+    });
+    it('should accept with trailing whitespace', () => {
+      expect(component.filterFn(option, `${option.title}    `)).toBe(true);
+    });
+    it('should accept with starting whitespace', () => {
+      expect(component.filterFn(option, `    ${option.title}`)).toBe(true);
     });
   });
 

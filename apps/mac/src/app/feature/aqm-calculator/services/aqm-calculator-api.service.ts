@@ -6,12 +6,14 @@ import { map } from 'rxjs/operators';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
-import { environment } from './../../../../environments/environment';
 import {
   AQMCalculationRequest,
   AQMCalculationResponse,
+  AQMMaterial,
   AQMMaterialsResponse,
-} from './aqm-calulator-response.model';
+  AQMMaterialsResponseRaw,
+} from '../models';
+import { environment } from './../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -25,10 +27,32 @@ export class AqmCalculatorApiService {
   ) {}
 
   public getMaterialsData(): Observable<AQMMaterialsResponse> {
-    return this.httpClient.post<AQMMaterialsResponse>(
-      `${environment.baseUrl}/${this.SCORE}`,
-      {}
-    );
+    return this.httpClient
+      .post<AQMMaterialsResponseRaw>(`${environment.baseUrl}/${this.SCORE}`, {})
+      .pipe(
+        map((response) => {
+          const materials = response.materials.map(
+            (material) =>
+              ({
+                id: material.name,
+                title: material.name,
+                data: {
+                  c: material.c,
+                  si: material.si,
+                  mn: material.mn,
+                  cr: material.cr,
+                  mo: material.mo,
+                  ni: material.ni,
+                },
+              } as AQMMaterial)
+          );
+
+          return {
+            ...response,
+            materials,
+          };
+        })
+      );
   }
 
   public getCalculationResult(
