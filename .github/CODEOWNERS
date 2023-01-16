@@ -1,43 +1,51 @@
 # Codeowners for schaeffler-frontend
 
 # Default codeowners for the whole monorepository
-* @kauppfbi_SGGIT @krausrbe_SGGIT @berndcri_SGGIT @herpisef_SGGIT @soehnpsc_SGGIT 
+
+- @kauppfbi_SGGIT @krausrbe_SGGIT @berndcri_SGGIT @herpisef_SGGIT @soehnpsc_SGGIT
 
 ############
-### Apps ###
+
+### Apps
+
 ############
 
 # helloworld-azure
+
 apps/helloworld-azure @kauppfbi_SGGIT @herpisef_SGGIT @PELZESEN_SGGIT @spieksef_SGGIT @meiswjn_SGGIT @kemmemha_SGGIT @bauerfla_SGGIT @fischaxe_SGGIT @leviptr_SGGIT
 apps/helloworld-azure-e2e @kauppfbi_SGGIT @herpisef_SGGIT @PELZESEN_SGGIT @spieksef_SGGIT @meiswjn_SGGIT @kemmemha_SGGIT @bauerfla_SGGIT @fischaxe_SGGIT @leviptr_SGGIT
 
 # CDBA
+
 apps/cdba @kauppfbi_SGGIT @herpisef_SGGIT @soehnpsc_SGGIT @poltokzy_SGGIT
 apps/cdba-e2e @kauppfbi_SGGIT @herpisef_SGGIT @soehnpsc_SGGIT @poltokzy_SGGIT
 
 # SEDO
-apps/sedo @soehnpsc_SGGIT @PELZESEN_SGGIT @schlesni_SGGIT
-apps/sedo-e2e @soehnpsc_SGGIT @PELZESEN_SGGIT @schlesni_SGGIT
+
+apps/sedo @soehnpsc_SGGIT @schlesni_SGGIT
+apps/sedo-e2e @soehnpsc_SGGIT @schlesni_SGGIT
 
 # GQ
+
 apps/gq @soehnpsc_SGGIT @herpisef_SGGIT @schlunls_SGGIT @poltokzy_SGGIT @schlesni_SGGIT
 apps/gq-e2e @soehnpsc_SGGIT @herpisef_SGGIT @schlunls_SGGIT @poltokzy_SGGIT @schlesni_SGGIT
 
 # MAC
-apps/mac @berndcri_SGGIT @PELZESEN_SGGIT @krausrbe_SGGIT @konramic_SGGIT
-apps/mac-e2e @berndcri_SGGIT @PELZESEN_SGGIT @krausrbe_SGGIT @konramic_SGGIT
+
+apps/mac @berndcri_SGGIT @krausrbe_SGGIT @konramic_SGGIT
+apps/mac-e2e @berndcri_SGGIT @krausrbe_SGGIT @konramic_SGGIT
 
 # IA
+
 apps/ia @herpisef_SGGIT @przybmci_SGGIT @krausrbe_SGGIT
 apps/ia-e2e @herpisef_SGGIT @przybmci_SGGIT @krausrbe_SGGIT
 
 # MM
+
 apps/mm @krausrbe_SGGIT @berndcri_SGGIT @konramic_SGGIT
 apps/mm-e2e @krausrbe_SGGIT @berndcri_SGGIT @konramic_SGGIT
 
 # GA
+
 apps/ga @krausrbe_SGGIT @berndcri_SGGIT @konramic_SGGIT
 apps/ga-e2e @krausrbe_SGGIT @berndcri_SGGIT @konramic_SGGIT
-
-
-
