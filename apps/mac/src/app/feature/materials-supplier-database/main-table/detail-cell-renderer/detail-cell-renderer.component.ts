@@ -20,6 +20,17 @@ import { PropertyChange } from './models/property-change';
   templateUrl: './detail-cell-renderer.component.html',
 })
 export class DetailCellRendererComponent implements ICellRendererAngularComp {
+  /*
+   * stell material specific: productCategory -> productCategoryText will be used
+   * supplier: sapSupplierIds -> only valid for most recent entry
+   */
+  private readonly IGNORE_COLUMNS = [
+    'lastModified',
+    'modifiedBy',
+    'productCategory',
+    'sapSupplierIds',
+  ];
+
   private materialClass: MaterialClass;
   private navigationLevel: NavigationLevel;
   public changes: ChangeHistoryItem[] = [];
@@ -103,7 +114,7 @@ export class DetailCellRendererComponent implements ICellRendererAngularComp {
    */
   private compare(previous: any, current: any): PropertyChange[] {
     const changes: PropertyChange[] = [];
-    const ignore = new Set(['lastModified', 'modifiedBy', 'productCategory']);
+    const ignore = new Set(this.IGNORE_COLUMNS);
     this.removeUndefined(previous);
     this.removeUndefined(current);
     for (const property in previous) {

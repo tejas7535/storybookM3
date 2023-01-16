@@ -267,17 +267,24 @@ describe('QuickFilterComponent', () => {
 
     describe('applicQuickFilter', () => {
       it('should set column state', () => {
-        const createCol = (name: string, visible: boolean) =>
-          new Column({ hide: !visible }, {}, name, true);
+        const createCol = (
+          name: string,
+          visible: boolean,
+          lockVisible = false
+        ) => new Column({ hide: !visible, lockVisible }, {}, name, true);
         const columns: Column[] = [
           createCol('col1', false),
           createCol('col2', true),
           createCol('col3', false),
           createCol('col4', true),
+          createCol('locked', true, true),
+          createCol('hid&Locked', false, true),
         ];
         const expState: ColumnState[] = [
           { colId: 'col2', hide: true },
           { colId: 'col3', hide: true },
+          { colId: 'locked', hide: false },
+          { colId: 'hid&Locked', hide: true },
           { colId: 'col1', hide: false },
           { colId: 'col4', hide: false },
         ];
