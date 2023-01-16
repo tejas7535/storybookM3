@@ -8,12 +8,11 @@
     "hintRequired": "Input is required",
     "hintTooHigh": "Value is too high",
     "hintTooLow": "Value is too low",
-    "limits": "Limits",
+    "sumValue": "Sum value",
     "or": "OR",
-    "results": "Results",
     "specifyManually": "Specify the composition manually",
-    "sumLimitsReachedFor": "Sum limits reached for",
-    "sumValue": "Sum value (Si + Mn + Cr):",
+    "sumLimitsReachedFor": "Limits reached for",
+    "sumValueComponents": "Si + Mn + Cr:",
     "title": "AQM Calculator"
   },
   "env": {

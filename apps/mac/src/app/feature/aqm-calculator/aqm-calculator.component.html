@@ -87,9 +87,14 @@
               <mat-spinner></mat-spinner>
             </div>
             <!-- results aqm -->
-            <div class="flex flex-col">
-              <h6>{{ t('results') }}</h6>
-              <div class="flex flex-row justify-between gap-24">
+            <div class="flex w-1/4 flex-col pt-14">
+              <div
+                class="flex flex-row justify-between"
+                *ngIf="
+                  (aqmCalculationResult | ngrxPush)?.aqm?.result;
+                  else aqmError
+                "
+              >
                 <p>{{ t('aqmAccordingTo', { norm: t('aqmNorm') }) }}</p>
                 <p
                   *ngIf="
@@ -103,12 +108,25 @@
                     )?.aqm?.result?.toLocaleString()
                   }}
                 </p>
-                <ng-template #aqmError>
-                  <p>{{ (aqmCalculationResult | ngrxPush)?.aqm?.error }}</p>
-                </ng-template>
               </div>
-              <div class="flex flex-row items-center justify-between">
-                <p>{{ t('sumValue') }}</p>
+              <ng-template #aqmError>
+                <div class="flex flex-col gap-4">
+                  <p>{{ t('aqmAccordingTo', { norm: t('aqmNorm') }) }}</p>
+                  <p>{{ (aqmCalculationResult | ngrxPush)?.aqm?.error }}</p>
+                </div>
+              </ng-template>
+            </div>
+            <!-- seperator vertical -->
+            <div
+              class="hidden flex-col items-center justify-center px-24 pt-6 md:flex"
+            >
+              <div class="flex flex-1 border-r border-solid"></div>
+            </div>
+            <!-- results limits -->
+            <div class="flex flex-1 flex-col gap-4 pt-4">
+              <h6>{{ t('sumValue') }}</h6>
+              <div class="flex flex-row items-center gap-24">
+                <p>{{ t('sumValueComponents') }}</p>
                 <p>
                   {{
                     (
@@ -117,34 +135,31 @@
                   }}
                 </p>
               </div>
-            </div>
-            <!-- seperator vertical -->
-            <div
-              class="hidden flex-col items-center justify-center pt-6 md:flex"
-            >
-              <div class="flex flex-1 border-r border-solid"></div>
-            </div>
-            <!-- results limits -->
-            <div class="flex flex-col">
-              <h6>{{ t('limits') }}</h6>
-              <p class="mt-0">{{ t('sumLimitsReachedFor') }}</p>
-              <mat-chip-list>
-                <mat-chip
-                  *ngFor="
-                    let item of (aqmCalculationResult | ngrxPush)?.limits
-                      | keyvalue;
-                    trackBy: trackByFn
-                  "
-                  class="flex flex-row items-center justify-between gap-1"
-                >
-                  <mat-icon [color]="item.value ? 'primary' : 'error'">{{
-                    item.value ? 'check_circle' : 'error'
-                  }}</mat-icon>
-                  <p>
-                    {{ item.key }}
-                  </p>
-                </mat-chip>
-              </mat-chip-list>
+              <ng-container
+                *ngIf="
+                  (aqmCalculationResult | ngrxPush) &&
+                  !(aqmCalculationResult | ngrxPush)?.aqm?.error
+                "
+              >
+                <p class="mt-0">{{ t('sumLimitsReachedFor') }}</p>
+                <mat-chip-list>
+                  <mat-chip
+                    *ngFor="
+                      let item of (aqmCalculationResult | ngrxPush)?.limits
+                        | keyvalue;
+                      trackBy: trackByFn
+                    "
+                    class="flex flex-row items-center justify-between gap-1"
+                  >
+                    <mat-icon [color]="item.value ? 'primary' : 'error'">{{
+                      item.value ? 'check_circle' : 'error'
+                    }}</mat-icon>
+                    <p>
+                      {{ item.key }}
+                    </p>
+                  </mat-chip>
+                </mat-chip-list>
+              </ng-container>
             </div>
           </div>
         </div>

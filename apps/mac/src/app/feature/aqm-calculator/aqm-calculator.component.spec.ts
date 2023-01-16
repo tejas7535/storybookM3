@@ -205,28 +205,6 @@ describe('AqmCalculatorComponent', () => {
 
       jest.useRealTimers();
     });
-
-    it('should not request a calculation on invalid form changes', () => {
-      component['aqmCalculationService'].getCalculationResult = jest.fn();
-      const request: AQMCalculationRequest = {
-        c: 0.93,
-        cr: 3,
-        mn: 0.25,
-        mo: 0,
-        ni: 0,
-        si: 0.15,
-      };
-
-      const compositionLimits =
-        AQM_CALCULATION_MATERIALS_MOCK.compositionLimits;
-
-      component['createForm'](compositionLimits);
-      component.compositionForm.patchValue(request);
-
-      expect(
-        component['aqmCalculationService'].getCalculationResult
-      ).not.toHaveBeenCalled();
-    });
   });
 
   describe('findMaterial', () => {

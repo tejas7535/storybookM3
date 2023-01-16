@@ -110,11 +110,9 @@ export class AqmCalculatorComponent implements OnInit, OnDestroy {
           const material = this.findMaterial(value);
           this.patchSelect(material);
 
-          if (this.compositionForm.valid) {
-            this.aqmCalculationService
-              .getCalculationResult(value)
-              .subscribe((result) => this.aqmCalculationResult.next(result));
-          }
+          this.aqmCalculationService
+            .getCalculationResult(value)
+            .subscribe((result) => this.aqmCalculationResult.next(result));
         })
     );
   }
