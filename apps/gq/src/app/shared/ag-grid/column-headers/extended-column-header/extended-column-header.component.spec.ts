@@ -10,6 +10,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { mockProvider } from '@ngneat/spectator/jest';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -66,6 +67,7 @@ describe('ExtendedColumnHeaderComponent', () => {
       InfoIconModule,
       SharedDirectivesModule,
       MatTooltipModule,
+      PushModule,
     ],
     providers: [
       mockProvider(TranslocoLocaleService),

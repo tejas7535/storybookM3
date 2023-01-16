@@ -36,30 +36,26 @@
         *ngIf="sort && (showEditIcon || params.tooltipText)"
       ></div>
 
-      <ng-container
-        *hideIfQuotationHasStatus="[
-          quotationStatus.INACTIVE,
-          quotationStatus.DELETED
-        ]"
+      <div
+        class="flex w-4 items-start justify-start pb-[2px]"
+        *ngIf="
+          (quotation$ | ngrxPush)?.status === quotationStatus.ACTIVE &&
+          (showEditIcon || params.tooltipText)
+        "
       >
-        <div
-          class="flex w-4 items-start justify-start pb-[2px]"
-          *ngIf="showEditIcon || params.tooltipText"
-        >
-          <ng-container *ngIf="showEditIcon">
-            <mat-icon (click)="enableEditMode($event)" class="edit-icon">
-              mode_edit
-            </mat-icon>
-          </ng-container>
+        <ng-container *ngIf="showEditIcon">
+          <mat-icon (click)="enableEditMode($event)" class="edit-icon">
+            mode_edit
+          </mat-icon>
+        </ng-container>
 
-          <ng-container *ngIf="!showEditIcon && params.tooltipText">
-            <gq-info-icon
-              [displaySmall]="true"
-              [text]="params?.tooltipText"
-            ></gq-info-icon>
-          </ng-container>
-        </div>
-      </ng-container>
+        <ng-container *ngIf="!showEditIcon && params.tooltipText">
+          <gq-info-icon
+            [displaySmall]="true"
+            [text]="params?.tooltipText"
+          ></gq-info-icon>
+        </ng-container>
+      </div>
     </div>
   </div>
 

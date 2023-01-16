@@ -5,6 +5,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { PushModule } from '@ngrx/component';
+
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { InfoIconModule } from '../../components/info-icon/info-icon.module';
@@ -22,6 +24,7 @@ import { ExtendedColumnHeaderComponent } from './extended-column-header/extended
     InfoIconModule,
     SharedDirectivesModule,
     MatTooltipModule,
+    PushModule,
   ],
   declarations: [ExtendedColumnHeaderComponent],
   exports: [ExtendedColumnHeaderComponent],

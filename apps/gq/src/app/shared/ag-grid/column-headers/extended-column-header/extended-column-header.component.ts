@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { UntypedFormControl, Validators } from '@angular/forms';
 
-import { filter, map, pairwise, Subscription } from 'rxjs';
+import { filter, map, Observable, pairwise, Subscription } from 'rxjs';
 
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
@@ -16,11 +16,12 @@ import { IHeaderParams } from 'ag-grid-community';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
-import { getSimulatedQuotation } from '../../../../core/store';
+import { getQuotation, getSimulatedQuotation } from '../../../../core/store';
 import { getPercentageRegex } from '../../../constants';
 import {
   EVENT_NAMES,
   MassSimulationParams,
+  Quotation,
   QuotationStatus,
 } from '../../../models';
 import { PriceSource, QuotationDetail } from '../../../models/quotation-detail';
@@ -63,6 +64,8 @@ export class ExtendedColumnHeaderComponent
   @ViewChild('menuButton', { read: ElementRef }) public menuButton!: ElementRef;
   @ViewChild('inputField', { static: false }) public inputField!: ElementRef;
 
+  quotation$: Observable<Quotation>;
+
   constructor(
     private readonly store: Store,
     private readonly insightsService: ApplicationInsightsService,
@@ -75,6 +78,8 @@ export class ExtendedColumnHeaderComponent
       this.addSubscriptions();
       this.editFormControl.markAllAsTouched();
     }
+
+    this.quotation$ = this.store.select(getQuotation);
   }
 
   addSubscriptions(): void {
