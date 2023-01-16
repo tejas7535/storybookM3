@@ -22,6 +22,8 @@ import {
   ColumnApi,
   ExcelRow,
   IFilterComp,
+  ProcessCellForExportParams,
+  ProcessRowGroupForExportParams,
   RowClassParams,
   RowNode,
   ValueFormatterParams,
@@ -35,9 +37,12 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
+  LAST_MODIFIED,
   MaterialClass,
   NavigationLevel,
+  RELEASE_DATE,
   SAP_SUPPLIER_IDS,
+  STATUS,
   Status,
 } from '@mac/msd/constants';
 import { QuickFilterComponent } from '@mac/msd/main-table/quick-filter/quick-filter.component';
@@ -779,6 +784,18 @@ describe('MainTableComponent', () => {
       component['agGridApi'] = {} as unknown as GridApi;
       component['agGridApi'].exportDataAsExcel = jest.fn();
 
+      const mockArrayFn = () => [] as ExcelRow[];
+      const mockStringFn = () => '';
+
+      component['splitRowsForMultipleSapIdsInExportFactory'] = jest.fn(
+        () => mockArrayFn
+      );
+      component['excelExportProcessCellCallbackFactory'] = jest.fn(
+        () => mockStringFn
+      );
+
+      component['visibleColumns'] = [];
+
       component.exportExcel();
 
       expect(component['datePipe'].transform).toHaveBeenCalledWith(
@@ -790,9 +807,9 @@ describe('MainTableComponent', () => {
         fileName:
           '1234-13-44materialsSupplierDatabase.mainTable.excelExport.fileNameSuffix',
         sheetName: 'materialsSupplierDatabase.mainTable.excelExport.sheetName',
-        getCustomContentBelowRow:
-          component['splitRowsForMultipleSapIdsInExport'],
-        processCellCallback: component['reduceSapIdsForFirstRowInExport'],
+        columnKeys: [],
+        getCustomContentBelowRow: mockArrayFn,
+        processCellCallback: mockStringFn,
       });
       expect(
         component['applicationInsightsService'].logEvent
@@ -840,7 +857,19 @@ describe('MainTableComponent', () => {
     });
   });
 
-  describe('splitRowsForMultipleSapIdsInExport', () => {
+  describe('splitRowsForMultipleSapIdsInExportFactory', () => {
+    let mockGetCellValue: () => string;
+    let mockSplitRowsForMultipleSapIdsInExport: (
+      params: ProcessRowGroupForExportParams
+    ) => ExcelRow[];
+
+    beforeEach(() => {
+      mockGetCellValue = jest.fn(() => 'test');
+      mockSplitRowsForMultipleSapIdsInExport =
+        component['splitRowsForMultipleSapIdsInExportFactory'](
+          mockGetCellValue
+        );
+    });
     it('should return empty result if no sap ids are present', () => {
       const mockParams = {
         node: {
@@ -850,10 +879,10 @@ describe('MainTableComponent', () => {
             [SAP_SUPPLIER_IDS]: [],
           },
         } as unknown as RowNode,
-      };
+      } as ProcessRowGroupForExportParams;
 
       const result: ExcelRow[] =
-        component['splitRowsForMultipleSapIdsInExport'](mockParams);
+        mockSplitRowsForMultipleSapIdsInExport(mockParams);
 
       expect(result).toEqual([]);
     });
@@ -867,10 +896,10 @@ describe('MainTableComponent', () => {
             [SAP_SUPPLIER_IDS]: ['onlyOneId'],
           },
         } as unknown as RowNode,
-      };
+      } as ProcessRowGroupForExportParams;
 
       const result: ExcelRow[] =
-        component['splitRowsForMultipleSapIdsInExport'](mockParams);
+        mockSplitRowsForMultipleSapIdsInExport(mockParams);
 
       expect(result).toEqual([]);
     });
@@ -882,13 +911,20 @@ describe('MainTableComponent', () => {
             col1: 'a',
             col2: 'b',
             [SAP_SUPPLIER_IDS]: ['id1', 'id2', 'id3'],
+            releaseDateYear: 2000,
+            releaseDateMonth: 1,
           },
         } as unknown as RowNode,
-      };
-      component['visibleColumns'] = ['col1', SAP_SUPPLIER_IDS];
+      } as ProcessRowGroupForExportParams;
+      component['visibleColumns'] = [
+        'col1',
+        SAP_SUPPLIER_IDS,
+        RELEASE_DATE,
+        STATUS,
+      ];
 
       const result: ExcelRow[] =
-        component['splitRowsForMultipleSapIdsInExport'](mockParams);
+        mockSplitRowsForMultipleSapIdsInExport(mockParams);
 
       expect(result).toEqual([
         {
@@ -896,13 +932,25 @@ describe('MainTableComponent', () => {
             {
               data: {
                 type: 'String',
-                value: 'a',
+                value: 'test',
               },
             },
             {
               data: {
                 type: 'String',
-                value: 'id2',
+                value: 'test',
+              },
+            },
+            {
+              data: {
+                type: 'String',
+                value: 'test',
+              },
+            },
+            {
+              data: {
+                type: 'String',
+                value: 'test',
               },
             },
           ],
@@ -912,22 +960,57 @@ describe('MainTableComponent', () => {
             {
               data: {
                 type: 'String',
-                value: 'a',
+                value: 'test',
               },
             },
             {
               data: {
                 type: 'String',
-                value: 'id3',
+                value: 'test',
+              },
+            },
+            {
+              data: {
+                type: 'String',
+                value: 'test',
+              },
+            },
+            {
+              data: {
+                type: 'String',
+                value: 'test',
               },
             },
           ],
         },
       ]);
+      expect(mockGetCellValue).toHaveBeenCalledWith('col1', 'a');
+      expect(mockGetCellValue).not.toHaveBeenCalledWith('col2', 'b');
+      expect(mockGetCellValue).toHaveBeenCalledWith(
+        RELEASE_DATE,
+        new Date(2000, 0)
+      );
+      expect(mockGetCellValue).toHaveBeenCalledWith(
+        STATUS,
+        'materialsSupplierDatabase.status.statusValues.undefined'
+      );
+      expect(mockGetCellValue).toHaveBeenCalledWith(SAP_SUPPLIER_IDS, 'id2');
+      expect(mockGetCellValue).toHaveBeenCalledWith(SAP_SUPPLIER_IDS, 'id3');
     });
   });
 
-  describe('reduceSapIdsForFirstRowInExport', () => {
+  describe('excelExportProcessCellCallback', () => {
+    let mockGetCellValue: () => string;
+    let mockExcelExportProcessCellCallback: (
+      params: ProcessCellForExportParams
+    ) => string;
+
+    beforeEach(() => {
+      mockGetCellValue = jest.fn(() => 'test');
+      mockExcelExportProcessCellCallback =
+        component['excelExportProcessCellCallbackFactory'](mockGetCellValue);
+    });
+
     it('should return the first sap id if multiple ids are present', () => {
       const mockParams = {
         column: {
@@ -939,12 +1022,12 @@ describe('MainTableComponent', () => {
           },
         },
         value: ['id1-value', 'id2', 'id3'],
-      };
+      } as ProcessCellForExportParams;
 
-      const result: string =
-        component['reduceSapIdsForFirstRowInExport'](mockParams);
+      const result: string = mockExcelExportProcessCellCallback(mockParams);
 
-      expect(result).toEqual('id1');
+      expect(result).toEqual('test');
+      expect(mockGetCellValue).toHaveBeenCalledWith(SAP_SUPPLIER_IDS, 'id1');
     });
 
     it('should return the value if only one sap id is present', () => {
@@ -958,12 +1041,15 @@ describe('MainTableComponent', () => {
           },
         },
         value: 'id1-value',
-      };
+      } as ProcessCellForExportParams;
 
-      const result: string =
-        component['reduceSapIdsForFirstRowInExport'](mockParams);
+      const result: string = mockExcelExportProcessCellCallback(mockParams);
 
-      expect(result).toEqual('id1-value');
+      expect(result).toEqual('test');
+      expect(mockGetCellValue).toHaveBeenCalledWith(
+        SAP_SUPPLIER_IDS,
+        'id1-value'
+      );
     });
 
     it('should return the value if no sap id is present', () => {
@@ -977,12 +1063,15 @@ describe('MainTableComponent', () => {
           },
         },
         value: 'id1-value',
-      };
+      } as ProcessCellForExportParams;
 
-      const result: string =
-        component['reduceSapIdsForFirstRowInExport'](mockParams);
+      const result: string = mockExcelExportProcessCellCallback(mockParams);
 
-      expect(result).toEqual('id1-value');
+      expect(result).toEqual('test');
+      expect(mockGetCellValue).toHaveBeenCalledWith(
+        SAP_SUPPLIER_IDS,
+        'id1-value'
+      );
     });
 
     it('should return the value if the processed cell is not the sap ids', () => {
@@ -996,13 +1085,36 @@ describe('MainTableComponent', () => {
           },
         },
         value: 'id1-value',
-      };
+      } as ProcessCellForExportParams;
 
-      const result: string =
-        component['reduceSapIdsForFirstRowInExport'](mockParams);
+      const result: string = mockExcelExportProcessCellCallback(mockParams);
 
-      expect(result).toEqual('id1-value');
+      expect(result).toEqual('test');
+      expect(mockGetCellValue).toHaveBeenCalledWith(
+        'some other field',
+        'id1-value'
+      );
     });
+  });
+
+  describe('getCellValue', () => {
+    it.each([
+      [Status.BLOCKED.toString(), STATUS, Status.BLOCKED],
+      [Status.DEFAULT.toString(), STATUS, undefined],
+      ['02/01/1970', LAST_MODIFIED, 150_000],
+      ['', LAST_MODIFIED, undefined],
+      ['02/02/2008', RELEASE_DATE, new Date(2008, 1, 2)],
+      ['', RELEASE_DATE, undefined],
+      ['1', 'some col', 1],
+      ['', 'some col', undefined],
+    ])(
+      'should return %p for column %p with value %p',
+      (expected, columnName, value) => {
+        const result = component['getCellValue'](columnName, value);
+
+        expect(result).toEqual(expected);
+      }
+    );
   });
 
   describe('editableClass', () => {

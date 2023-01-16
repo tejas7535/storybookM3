@@ -15,12 +15,14 @@ import { take, takeUntil } from 'rxjs/operators';
 
 import { translate } from '@ngneat/transloco';
 import {
-  Column,
   ColumnApi,
   ColumnState,
   ExcelRow,
+  ProcessCellForExportParams,
+  ProcessRowGroupForExportParams,
   RowClassParams,
   RowNode,
+  ValueGetterParams,
 } from 'ag-grid-community';
 import { ColDef, ExcelCell, GridApi, SideBarDef } from 'ag-grid-enterprise';
 
@@ -28,14 +30,21 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { StringOption } from '@schaeffler/inputs';
 
 import {
+  ACTION,
+  HISTORY,
+  LAST_MODIFIED,
   MaterialClass,
   NavigationLevel,
+  RELEASE_DATE,
   SAP_SUPPLIER_IDS,
+  STATUS,
   Status,
 } from '@mac/msd/constants';
 import {
   DEFAULT_COLUMN_DEFINITION,
+  RELEASE_DATE_VALUE_GETTER,
   SIDE_BAR_CONFIG,
+  STATUS_VALUE_GETTER,
 } from '@mac/msd/main-table/table-config';
 import { DataResult } from '@mac/msd/models';
 import {
@@ -98,6 +107,11 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   private agGridColumnApi!: ColumnApi;
 
   private visibleColumns: string[];
+
+  // collect columns which are not really in the dataset but rendered by ag grid
+  private readonly META_COLUMNS = [STATUS, HISTORY, ACTION];
+  private readonly NON_EXCEL_COLUMNS = new Set(['', HISTORY, ACTION]);
+
   public agGridTooltipDelay = 500;
 
   public constructor(
@@ -300,6 +314,9 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     this.applicationInsightsService.logEvent('[MAC - MSD] Export Excel');
 
     const dateString = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+    const columns = this.visibleColumns.filter(
+      (columnName) => !this.NON_EXCEL_COLUMNS.has(columnName)
+    );
 
     this.agGridApi.exportDataAsExcel({
       author: translate(
@@ -311,8 +328,13 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       sheetName: translate(
         'materialsSupplierDatabase.mainTable.excelExport.sheetName'
       ),
-      getCustomContentBelowRow: this.splitRowsForMultipleSapIdsInExport,
-      processCellCallback: this.reduceSapIdsForFirstRowInExport,
+      columnKeys: columns,
+      getCustomContentBelowRow: this.splitRowsForMultipleSapIdsInExportFactory(
+        this.getCellValue
+      ),
+      processCellCallback: this.excelExportProcessCellCallbackFactory(
+        this.getCellValue
+      ),
     });
   }
 
@@ -326,55 +348,114 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       .map((columnState: ColumnState) => columnState.colId);
   }
 
-  private readonly splitRowsForMultipleSapIdsInExport = (
-    params: any
-  ): ExcelRow[] => {
-    const rowNode: RowNode = params.node;
-    const data = rowNode.data;
+  private splitRowsForMultipleSapIdsInExportFactory(
+    getCellValueFn: (columnName: string, value?: any) => string
+  ) {
+    return (params: ProcessRowGroupForExportParams): ExcelRow[] => {
+      const rowNode: RowNode = params.node;
+      const data = rowNode.data;
 
-    const result: ExcelRow[] = [];
+      const result: ExcelRow[] = [];
 
-    if (data.sapSupplierIds?.length > 1) {
-      for (let i = 1; i < data.sapSupplierIds.length; i += 1) {
-        const cells: ExcelCell[] = [];
-        const keys = Object.keys(data)
-          .filter((key) => this.visibleColumns.includes(key))
-          .sort(
-            (a: string, b: string) =>
-              this.visibleColumns.indexOf(a) - this.visibleColumns.indexOf(b)
-          );
-        for (const key of keys) {
-          if (key === SAP_SUPPLIER_IDS) {
-            cells.push({
-              data: {
-                type: 'String',
-                value: data[key][i].toString(),
-              },
-            });
-          } else {
-            cells.push({
-              data: {
-                type: 'String',
-                value: data[key]?.toString() || '',
-              },
-            });
+      if (data.sapSupplierIds?.length > 1) {
+        for (let i = 1; i < data.sapSupplierIds.length; i += 1) {
+          const cells: ExcelCell[] = [];
+          const keys = [
+            ...this.META_COLUMNS.filter(
+              (column) => !this.NON_EXCEL_COLUMNS.has(column)
+            ),
+            ...Object.keys(data),
+          ]
+            // since the raw object does not have the RELEASE_DATE key we insert it in place of the year in case it is visible
+            .map((key) => (key === 'releaseDateYear' ? RELEASE_DATE : key))
+            .filter((key) => this.visibleColumns.includes(key))
+            .sort(
+              (a: string, b: string) =>
+                this.visibleColumns.indexOf(a) - this.visibleColumns.indexOf(b)
+            );
+          for (const key of keys) {
+            switch (key) {
+              case SAP_SUPPLIER_IDS:
+                cells.push({
+                  data: {
+                    type: 'String',
+                    value: getCellValueFn(key, data[key][i]),
+                  },
+                });
+                break;
+              case RELEASE_DATE:
+                cells.push({
+                  data: {
+                    type: 'String',
+                    value: getCellValueFn(
+                      key,
+                      RELEASE_DATE_VALUE_GETTER({
+                        data,
+                      } as ValueGetterParams<DataResult>)
+                    ),
+                  },
+                });
+                break;
+              case STATUS:
+                cells.push({
+                  data: {
+                    type: 'String',
+                    value: getCellValueFn(
+                      key,
+                      STATUS_VALUE_GETTER({
+                        data,
+                      } as ValueGetterParams<DataResult>)
+                    ),
+                  },
+                });
+                break;
+              default:
+                cells.push({
+                  data: {
+                    type: 'String',
+                    value: getCellValueFn(key, data[key]),
+                  },
+                });
+            }
           }
+          const row: ExcelRow = { cells };
+          result.push(row);
         }
-        const row: ExcelRow = { cells };
-        result.push(row);
       }
+
+      return result;
+    };
+  }
+
+  private excelExportProcessCellCallbackFactory(
+    getCellValueFn: (columnName: string, value?: any) => string
+  ) {
+    return (params: ProcessCellForExportParams) => {
+      const columnName = params.column.getColId();
+
+      const value =
+        columnName === SAP_SUPPLIER_IDS &&
+        params.node.data[SAP_SUPPLIER_IDS]?.length > 1
+          ? params.node.data[SAP_SUPPLIER_IDS][0]
+          : params.value;
+
+      return getCellValueFn(columnName, value);
+    };
+  }
+
+  private getCellValue(columnName: string, value?: any): string {
+    switch (columnName) {
+      case STATUS:
+        return value?.toString() || Status.DEFAULT.toString();
+      case LAST_MODIFIED:
+        return value
+          ? new Date(value * 1000).toLocaleDateString('en-GB').toString()
+          : '';
+      case RELEASE_DATE:
+        return value ? new Date(value)?.toLocaleDateString('en-GB') || '' : '';
+      default:
+        return value?.toString() || '';
     }
-
-    return result;
-  };
-
-  private reduceSapIdsForFirstRowInExport(params: any): string {
-    const column: Column = params.column;
-
-    return column.getColId() === SAP_SUPPLIER_IDS &&
-      params.node.data[SAP_SUPPLIER_IDS]?.length > 1
-      ? params.node.data[SAP_SUPPLIER_IDS][0].toString()
-      : params.value?.toString() || '';
   }
 
   public editableClass = (materialClass: MaterialClass): boolean =>
