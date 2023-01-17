@@ -1,7 +1,30 @@
- Changelog
+# Release Notes of Guided Quoting
+## [3.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v3.1.0...gq-v3.2.0) (2023-01-17)
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
-**Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
+
+### Features
+
+* **gq:** add cancel button to modals (GQUOTE-1736) ([#4902](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4902)) ([a7d483e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a7d483ec52c49292343136d9dbc6cf5985870b4d))
+* **gq:** added filter for custom views (GQUOTE-2024) ([#4896](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4896)) ([d87238b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d87238bbb979a550cd824b5f163b57abe792f7a9))
+* **gq:** disable editing of deleted drafts (GQUOTE-2038) ([#4910](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4910)) ([82b4c74](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/82b4c744a87c228041f3a8634502177129613872))
+* **gq:** disable mat dialog close on default (GQUOTE-1740) ([#4904](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4904)) ([aed0794](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/aed07944155e45ad63c6778f72eb59bd384cf908))
+* **gq:** enable edit materials featute toggle on default ([#4932](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4932)) ([3c40f1d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3c40f1d4a4d51b36f613d46d15e675b34f1c2e5a))
+* **view-toggle:** refactor view-toggle to get active view from parent component (GQUOTE-2026) ([#4894](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4894)) ([6e7a128](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6e7a1284287aa30183b4841ff272fa5137251f99))
+
+
+### Bug Fixes
+
+* **gq:** fix clearing customer and not cleaning material numbers ([#4895](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4895)) ([1ffd7aa](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1ffd7aa8bceab7b01ec4b75f496980d1da82c0e0))
+* **gq:** fix displaying translations before being loaded ([#4905](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4905)) ([8aea4f6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8aea4f6572e7ee68fe7ede62afc02d194c8ad8eb))
+* **gq:** fix quantity input for editing material ([#4900](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4900)) ([5fd2a83](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5fd2a83a3c7143ffecca704cdb7a657f742a50d7))
+* **gq:** fixed filters reset when switching view (GQUOTE-2024) ([#4901](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4901)) ([5087b58](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5087b584c51e85771ca74e97eb60e95ff25c819b))
+* **gq:** fixed formatting of unit of measurement in filter (GQUOTE-1852) ([#4899](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4899)) ([0491c5a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0491c5a49553f5dc90e39c42b445ec03b7f4efe4))
+* **gq:** fixed issue with extended column header not loading correctly (GQUOTE-2109) ([#4925](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4925)) ([81ebc19](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/81ebc195882cb313064686596e452a8d0c69d4cd))
+* **gq:** fixed issue with filter for UoM (GQUOTE-1852) ([#4908](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4908)) ([9101d71](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9101d71d63644a01defb81c2f30ce007e9dee675))
+* **gq:** fixed issues identified in testing (GQUOTE-1885) ([#4893](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4893)) ([c175bb0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c175bb020ce4620f423030b6708d086331121365))
+* **gq:** fixed quotation not updating after changing status (GQUOTE-2038) ([#4924](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4924)) ([923c081](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/923c081e26bb19d08c3eed5e4f3e39dd18eac59e))
+* **gq:** fixed rounding issues for gpc (GQUOTE-2003) ([#4903](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4903)) ([2abfd1e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2abfd1e5f74d8bb8043663ed6092992108ba305b))
+* **gq:** updated tooltip messages for deleted cases (GQUOTE-2038) ([#4920](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4920)) ([9c97fb0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9c97fb03399d3ee6dd521190e5d132678e73ac2b))
 
 ## [3.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.12.0...gq-v3.1.0) (2022-12-21)
 
