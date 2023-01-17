@@ -1,4 +1,21 @@
 # Release Notes of Material App Center
+## [1.3.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.3.0...mac-v1.3.1) (2023-01-17)
+
+
+### Features
+
+* **mac:** add create another button in dialog (UFTABI-6229)  ([#4918](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4918)) ([da0595e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/da0595e4049e0dab6cb5ab9fd52b7724c6643574))
+* **mac:** adjust aqm result view ([#4923](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4923)) ([d3cd290](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d3cd29020f753301cfccfb1103f869bb1b5abfd3))
+* **mac:** use schaeffler select in aqm ([#4921](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4921)) ([c43c70b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c43c70bab44f01b24ada88c1ab0b9f026f2867e1))
+
+
+### Bug Fixes
+
+* **mac:** always display locked columns in MSD - UFTABI-6277 ([#4936](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4936)) ([8aa619e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8aa619eaacb5dd7668103665d827f8d309270d81))
+* **mac:** fix msd excel export (UFTABI-6257) ([#4928](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4928)) ([aba23d0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/aba23d0cdd66c2f4f891219974025bd45f6714b1))
+* **mac:** fix Quickfilter messing up action / history column ([#4930](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4930)) ([d5ba9a5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d5ba9a55f161a4f67e43fa587b10ef33df679ff1))
+* **mac:** show 'modifiedBy' fields in change history - UFTABI-6265 ([#4927](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4927)) ([047036c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/047036cbde6009f8eb95eb49f2be7990cac3e829))
+
 ## [1.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.2.0...mac-v1.3.0) (2023-01-13)
 
 
