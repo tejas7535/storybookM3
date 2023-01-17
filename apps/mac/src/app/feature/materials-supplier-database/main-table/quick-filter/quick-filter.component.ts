@@ -163,7 +163,7 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
       .map((col) => ({
         colId: col.getColId(),
         // do not hide 'locked' columns like "Action" or history view
-        hide: col.isLockVisible()
+        hide: col.getColDef().lockVisible
           ? !col.isVisible()
           : !visible.includes(col.getColId()),
       }))

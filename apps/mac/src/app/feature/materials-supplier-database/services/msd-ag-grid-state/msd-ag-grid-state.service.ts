@@ -5,7 +5,12 @@ import { filter } from 'rxjs';
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { ColumnState } from 'ag-grid-enterprise';
 
-import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
+import {
+  ACTION,
+  HISTORY,
+  MaterialClass,
+  NavigationLevel,
+} from '@mac/msd/constants';
 import {
   MsdAgGridState,
   MsdAgGridStateCurrent,
@@ -22,7 +27,7 @@ import { QuickFilterFacade } from '@mac/msd/store/facades/quickfilter';
   providedIn: 'root',
 })
 export class MsdAgGridStateService {
-  private readonly MIN_STATE_VERSION = 2;
+  private readonly MIN_STATE_VERSION = 2.1;
   private readonly KEY = 'MSD_MAIN_TABLE_STATE';
   private readonly LEGACY_MSD_KEY = 'msdMainTable';
   private readonly LEGACY_MSD_QUICKFILTER_KEY = 'MSD_quickfilter';
@@ -87,6 +92,9 @@ export class MsdAgGridStateService {
     }
     if (version < 2) {
       state = this.migrateToVersion2(state as MsdAgGridStateV1);
+    }
+    if (version < 2.1) {
+      state = this.migrateToVersion2_1(state as MsdAgGridStateV2);
     }
     // add further migrations here
 
@@ -166,6 +174,117 @@ export class MsdAgGridStateService {
     };
 
     return newMsdState;
+  }
+
+  public migrateToVersion2_1(
+    currentStorage: MsdAgGridStateV2
+  ): MsdAgGridStateV2 {
+    // list of columns required to be visible
+    const requiredColumns = [ACTION, HISTORY];
+
+    return {
+      ...currentStorage,
+      version: 2.1,
+      materials: {
+        [MaterialClass.STEEL]: {
+          [NavigationLevel.MATERIAL]: {
+            ...currentStorage.materials[MaterialClass.STEEL][
+              NavigationLevel.MATERIAL
+            ],
+            columnState: this.combineColumnState(
+              currentStorage.materials[MaterialClass.STEEL][
+                NavigationLevel.MATERIAL
+              ]?.columnState,
+              requiredColumns
+            ),
+          },
+          [NavigationLevel.STANDARD]: {
+            ...currentStorage.materials[MaterialClass.STEEL][
+              NavigationLevel.STANDARD
+            ],
+            columnState: this.combineColumnState(
+              currentStorage.materials[MaterialClass.STEEL][
+                NavigationLevel.STANDARD
+              ]?.columnState,
+              requiredColumns
+            ),
+          },
+          [NavigationLevel.SUPPLIER]: {
+            ...currentStorage.materials[MaterialClass.STEEL][
+              NavigationLevel.SUPPLIER
+            ],
+            columnState: this.combineColumnState(
+              currentStorage.materials[MaterialClass.STEEL][
+                NavigationLevel.SUPPLIER
+              ]?.columnState,
+              requiredColumns
+            ),
+          },
+        },
+        [MaterialClass.ALUMINUM]: {
+          [NavigationLevel.MATERIAL]: {
+            ...currentStorage.materials[MaterialClass.ALUMINUM][
+              NavigationLevel.MATERIAL
+            ],
+            columnState: this.combineColumnState(
+              currentStorage.materials[MaterialClass.ALUMINUM][
+                NavigationLevel.MATERIAL
+              ]?.columnState,
+              requiredColumns
+            ),
+          },
+          [NavigationLevel.STANDARD]: {
+            ...currentStorage.materials[MaterialClass.ALUMINUM][
+              NavigationLevel.STANDARD
+            ],
+            columnState: this.combineColumnState(
+              currentStorage.materials[MaterialClass.ALUMINUM][
+                NavigationLevel.STANDARD
+              ]?.columnState,
+              requiredColumns
+            ),
+          },
+          [NavigationLevel.SUPPLIER]: {
+            ...currentStorage.materials[MaterialClass.ALUMINUM][
+              NavigationLevel.SUPPLIER
+            ],
+            columnState: this.combineColumnState(
+              currentStorage.materials[MaterialClass.ALUMINUM][
+                NavigationLevel.SUPPLIER
+              ]?.columnState,
+              requiredColumns
+            ),
+          },
+        },
+        [MaterialClass.POLYMER]: {
+          ...currentStorage.materials[MaterialClass.POLYMER],
+        },
+      },
+    };
+  }
+
+  private combineColumnState(
+    lastState: ColumnState[],
+    required: string[]
+  ): ColumnState[] {
+    if (!lastState) {
+      return [];
+    }
+    const existingColumns: Set<string> = new Set(lastState.map((s) => s.colId));
+    const requiredSet = new Set(required);
+
+    // check if columns are not yet added
+    // create a ColumnState object for each unfound column
+    const added = required
+      .filter((col) => !existingColumns.has(col))
+      .map((col) => ({ colId: col, hide: false } as ColumnState));
+
+    // update all existing lockVisible columns to be visible!
+    const newState = lastState.map((s) =>
+      requiredSet.has(s.colId) ? { ...s, hide: false } : s
+    );
+
+    return [...added, ...newState];
   }
 
   public getColumnState(): ColumnState[] {

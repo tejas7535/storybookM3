@@ -5,7 +5,12 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { provideMockStore } from '@ngrx/store/testing';
 import { ColumnState } from 'ag-grid-community';
 
-import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
+import {
+  ACTION,
+  HISTORY,
+  MaterialClass,
+  NavigationLevel,
+} from '@mac/msd/constants';
 import {
   MsdAgGridState,
   MsdAgGridStateCurrent,
@@ -150,6 +155,7 @@ describe('MsdAgGridStateService', () => {
         () => ({ version: 1 } as MsdAgGridStateV1)
       );
       service['migrateToVersion2'] = jest.fn();
+      service['migrateToVersion2_1'] = jest.fn();
 
       service['migrateLocalStorage'](0, { version: 0 } as MsdAgGridState);
 
@@ -161,10 +167,19 @@ describe('MsdAgGridStateService', () => {
 
     it('should run migration to v2', () => {
       service['migrateToVersion2'] = jest.fn();
+      service['migrateToVersion2_1'] = jest.fn();
 
       service['migrateLocalStorage'](1, {} as MsdAgGridState);
 
       expect(service['migrateToVersion2']).toHaveBeenCalled();
+    });
+
+    it('should run migration to v2_1', () => {
+      service['migrateToVersion2_1'] = jest.fn();
+
+      service['migrateLocalStorage'](2, {} as MsdAgGridState);
+
+      expect(service['migrateToVersion2_1']).toHaveBeenCalled();
     });
 
     it('should not migrate', () => {
@@ -312,6 +327,58 @@ describe('MsdAgGridStateService', () => {
       const result = service['migrateToVersion2'](mockOldState);
 
       expect(result).toEqual(expected);
+    });
+  });
+
+  describe('migrateToVersion2_1', () => {
+    it('should migrate to version 2_1', () => {
+      const defaultViewState: ViewState = {
+        columnState: [{ colId: 'id' } as ColumnState],
+        quickFilters: [],
+      };
+      const actionView: ViewState = {
+        columnState: [
+          { colId: ACTION, hide: true },
+          { colId: HISTORY, hide: false },
+          { colId: 'id' },
+        ],
+        quickFilters: [],
+      };
+      const resultView: ViewState = {
+        columnState: [
+          { colId: ACTION, hide: false },
+          { colId: HISTORY, hide: false },
+          { colId: 'id' },
+        ],
+        quickFilters: [],
+      };
+      const mockOldState: MsdAgGridStateV2 = {
+        version: 2,
+        materials: {
+          st: {
+            materials: defaultViewState,
+            suppliers: actionView,
+          },
+          al: {},
+          px: {},
+        },
+      };
+
+      const expected: MsdAgGridStateV2 = {
+        version: 2.1,
+        materials: {
+          st: {
+            materials: resultView,
+            suppliers: resultView,
+            materialStandards: { columnState: [] } as ViewState,
+          },
+        },
+      };
+
+      const result = service['migrateToVersion2_1'](mockOldState);
+
+      expect(result.version).toEqual(expected.version);
+      expect(result.materials.st).toEqual(expected.materials.st);
     });
   });
 
