@@ -131,7 +131,7 @@
           "heading": "Bearing Selection",
           "intro": "Please select a bearing",
           "selectOption": "Grease calculation for bearing",
-          "disabledOption": "No es posible calcular el rodamiento",
+          "disabledOption": "No calculation possible on bearing",
           "action": {
             "previousStep": "Adjust filter criteria"
           }
@@ -168,7 +168,7 @@
     },
     "productPreselection": {
       "title": {
-        "main": "NEU: Product Preselection (optional)"
+        "main": "NEW: Product Preselection (optional)"
       },
       "grease": {
         "label": "Grease",
@@ -179,8 +179,8 @@
         "nonSchaefflerHighTempGreases": "Non-Schaeffler High-Temperature Grease"
       },
       "concept1": {
-        "label": "Calculate gas release setting (CONCEPT1)",
-        "tooltip": "If calculation of the gas release setting is activated, the CONCEPT1 setting is additionally calculated and displayed, if possible. Deactivate shows no CONCEPT1 setting"
+        "label": "Calculate cartridge setting (CONCEPT1)",
+        "tooltip": "If calculation of the cartridge setting is activated, the CONCEPT1 setting is additionally calculated and displayed, if possible. Deactivate shows no CONCEPT1 setting"
       }
     },
     "requiredInformation": "* required information",
@@ -216,7 +216,7 @@
       "max": "The value is too high",
       "required": "This field is required",
       "lowerThanEnvironmentTemperature": "Cannot be less than ambient temperature",
-      "innerOuterInconsistent": "The bore diameter must be smaller that the outer diameter",
+      "innerOuterInconsistent": "The bore diameter must be smaller than the outer diameter",
       "minMaxInconsistent": "The minimum value must be smaller than than the maximum value",
       "anyLoad": "One load is required"
     },
@@ -258,7 +258,7 @@
     "resultsWithPreferred": "Results for selected and alternative greases sorted by relubrication interval",
     "guideValues": "* guide values",
     "errorsWarningsNotes": "Errors, Warnings & Notes",
-    "concept1": "CONCEPT1 gas release setting",
+    "concept1": "CONCEPT1 cartridge setting",
     "concept1Impossible": "Automatic lubrication with CONCEPT1 is not possible. Under certain circumstances, the lubrication quantity is too high or too low. If the operating parameters are changed, use may be possible",
     "concept1Link": "success-stories/0171",
     "concept1settings": {
@@ -273,7 +273,7 @@
       "UNKNOWN": "suitability unknonwn",
       "detailsConcept1": "Details for CONCEPT1",
       "concept1Size": "{{ size }}ml cartridge",
-      "emptyDuration": "for discharge in {{ duration }} months",
+      "emptyDuration": "for unloading in {{ duration }} months",
       "arrowSetting": "set arrow to {{ setting }}",
       "ml": "{{ ml }}ml",
       "sizeHint": "For the operating conditions you selected using CONCEPT1 with {{ size }}ml is unsuited",
@@ -286,9 +286,9 @@
     "manualRelubricationQuantityIntervalTooltip": "For reasons of operational safety, relubrication periods > 1 year are not recommended.\n\nIt is recommended – especially for large manual relubrication quantities – to distribute the relubrication quantity on several lubricating processes over the relubrication period.",
     "automaticRelubricationQuantityPerDay": "Relubrication quantity per day for automatic lubricators *",
     "automaticRelubricationQuantityPerDayTooltip": "Lubricating grease quantity per time for automatic relubrication.",
-    "automaticRelubricationPerWeek": "Automatic relubrication per week *",
-    "automaticRelubricationPerMonth": "Automatic relubrication per month *",
-    "automaticRelubricationPerYear": "Automatic relubrication per year *",
+    "automaticRelubricationPerWeek": "Quantity of relubrication per week *",
+    "automaticRelubricationPerMonth": "Quantity of relubrication per month *",
+    "automaticRelubricationPerYear": "Quantity of relubrication per year *",
     "greaseServiceLife": "Grease service life *",
     "additiveRequired": "Additive required",
     "additiveRequiredTooltip": "Assessment for the prevailing operating conditions (load and viscosity ratio kappa), see also FAQ.",
@@ -302,7 +302,7 @@
     "density": "Density",
     "lowFriction": "Low Friction",
     "suitableForVibrations": "Suitable for vibrations",
-    "supportForSeals": "Support for seals",
+    "supportForSeals": "Support for sealing",
     "h1Registration": "H1 registration (NSF-H1 kosher and halal certification)",
     "errors": "Errors",
     "warnings": "Warnings",
