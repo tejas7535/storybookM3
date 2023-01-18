@@ -209,11 +209,12 @@ describe('DetailCellRendererComponent', () => {
       ],
       [{ a: 1, modifiedBy: 'me' }, { a: 1, modifiedBy: 'you' }, []],
       [{ a: 1, productCategory: 'x' }, { a: 1, productCategory: 'Y' }, []],
+      [{ a: 1 }, { a: 1, sapSupplierIds: '1234' }, []],
       // ignore undefined
       [{ a: 1, b: undefined }, { a: 1 }, []],
       [{ a: 1 }, { a: 1, b: undefined }, []],
-    ])('should compare: %p ==? %p == %p', (a, b, expected) => {
-      expect(component['compare'](a, b)).toEqual(expected);
+    ])('should compare: %p ==? %p == %p', (previous, current, expected) => {
+      expect(component['compare'](previous, current)).toEqual(expected);
     });
   });
 });

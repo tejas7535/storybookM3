@@ -24,12 +24,12 @@ export class DetailCellRendererComponent implements ICellRendererAngularComp {
    * stell material specific: productCategory -> productCategoryText will be used
    * supplier: sapSupplierIds -> only valid for most recent entry
    */
-  private readonly IGNORE_COLUMNS = [
+  private readonly IGNORE_COLUMNS = new Set([
     'lastModified',
     'modifiedBy',
     'productCategory',
     'sapSupplierIds',
-  ];
+  ]);
 
   private materialClass: MaterialClass;
   private navigationLevel: NavigationLevel;
@@ -114,15 +114,14 @@ export class DetailCellRendererComponent implements ICellRendererAngularComp {
    */
   private compare(previous: any, current: any): PropertyChange[] {
     const changes: PropertyChange[] = [];
-    const ignore = new Set(this.IGNORE_COLUMNS);
     this.removeUndefined(previous);
     this.removeUndefined(current);
     for (const property in previous) {
-      // check for removed properties
-      if (ignore.has(property)) {
-        // ignore properties from the find list
+      // ignore properties from the ignore list
+      if (this.IGNORE_COLUMNS.has(property)) {
         continue;
       }
+      // check for removed properties
       // eslint-disable-next-line no-prototype-builtins
       if (!current.hasOwnProperty(property)) {
         changes.push({
@@ -145,8 +144,12 @@ export class DetailCellRendererComponent implements ICellRendererAngularComp {
     }
     for (const property in current) {
       // check for added properties
-      // eslint-disable-next-line no-prototype-builtins
-      if (!previous.hasOwnProperty(property)) {
+      if (
+        !this.IGNORE_COLUMNS.has(property) &&
+        // eslint-disable-next-line no-prototype-builtins
+        !previous.hasOwnProperty(property)
+      ) {
+        // check for added properties
         changes.push({
           property,
           current: current[property],
