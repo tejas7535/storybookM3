@@ -172,7 +172,14 @@ export const refreshSapPricingFailure = createAction(
 
 export const updateQuotation = createAction(
   '[Process Case] Update Quotation',
-  props<{ caseName?: string; currency?: string }>()
+  props<{
+    caseName?: string;
+    currency?: string;
+    quotationToDate?: string;
+    requestedDelDate?: string;
+    customerPurchaseOrderDate?: string;
+    validTo?: string;
+  }>()
 );
 
 export const updateQuotationSuccess = createAction(

@@ -1,11 +1,20 @@
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import {
+  FormControl,
+  FormsModule,
+  ReactiveFormsModule,
+  ValidationErrors,
+} from '@angular/forms';
+import { DateAdapter } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
 import { Spectator } from '@ngneat/spectator';
-import { createComponentFactory } from '@ngneat/spectator/jest';
+import { createComponentFactory, mockProvider } from '@ngneat/spectator/jest';
+import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockComponent } from 'ng-mocks';
@@ -14,7 +23,6 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { DialogHeaderComponent } from '../../header/dialog-header/dialog-header.component';
 import { EditCaseModalComponent } from './edit-case-modal.component';
-
 describe('EditCaseModalComponent', () => {
   let component: EditCaseModalComponent;
   let spectator: Spectator<EditCaseModalComponent>;
@@ -44,6 +52,10 @@ describe('EditCaseModalComponent', () => {
         useValue: {
           caseName: 'case-name',
           currency: 'EUR',
+          quotationToDate: '2022-12-31T00:00:00.000Z',
+          requestedDeliveryDate: '2022-12-31T00:00:00.000Z',
+          customerPurchaseOrderDate: '2022-12-31T00:00:00.000Z',
+          bindingPeriodValidityEndDate: '2022-12-31T00:00:00.000Z',
         },
       },
       provideMockStore({
@@ -53,8 +65,14 @@ describe('EditCaseModalComponent', () => {
           },
         },
       }),
+      mockProvider(TranslocoLocaleService),
+      {
+        provide: DateAdapter,
+        useClass: MomentDateAdapter,
+      },
     ],
     detectChanges: false,
+    schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(async () => {
@@ -74,6 +92,18 @@ describe('EditCaseModalComponent', () => {
 
       expect(component.caseModalForm.controls.caseName.value).toBe('case-name');
       expect(component.caseModalForm.controls.currency.value).toBe('EUR');
+      expect(
+        component.caseModalForm.controls.quotationToDate.value
+      ).toStrictEqual(new Date('2022-12-31T00:00:00.000Z'));
+      expect(
+        component.caseModalForm.controls.requestedDeliveryDate.value
+      ).toStrictEqual(new Date('2022-12-31T00:00:00.000Z'));
+      expect(
+        component.caseModalForm.controls.customerPurchaseOrderDate.value
+      ).toStrictEqual(new Date('2022-12-31T00:00:00.000Z'));
+      expect(
+        component.caseModalForm.controls.bindingPeriodValidityEndDate.value
+      ).toStrictEqual(new Date('2022-12-31T00:00:00.000Z'));
     });
   });
 
@@ -88,13 +118,25 @@ describe('EditCaseModalComponent', () => {
   });
 
   describe('submit dialog', () => {
-    test('sould submit caseName and currency', () => {
+    test('sould submit caseName and currency and all SAP Data Values', () => {
       component['dialogRef'].close = jest.fn();
 
       spectator.detectChanges();
 
       component.caseModalForm.controls.caseName.setValue('new-case-name');
       component.caseModalForm.controls.currency.setValue('USD');
+      component.caseModalForm.controls.quotationToDate.setValue(
+        '2022-12-31T00:00:00.000Z'
+      );
+      component.caseModalForm.controls.customerPurchaseOrderDate.setValue(
+        '2022-12-31T00:00:00.000Z'
+      );
+      component.caseModalForm.controls.requestedDeliveryDate.setValue(
+        '2022-12-31T00:00:00.000Z'
+      );
+      component.caseModalForm.controls.bindingPeriodValidityEndDate.setValue(
+        '2022-12-31T00:00:00.000Z'
+      );
 
       component.submitDialog();
 
@@ -102,6 +144,10 @@ describe('EditCaseModalComponent', () => {
       expect(component['dialogRef'].close).toHaveBeenCalledWith({
         caseName: 'new-case-name',
         currency: 'USD',
+        quotationToDate: '2022-12-31T00:00:00.000Z',
+        requestedDelDate: '2022-12-31T00:00:00.000Z',
+        customerPurchaseOrderDate: '2022-12-31T00:00:00.000Z',
+        validTo: '2022-12-31T00:00:00.000Z',
       });
     });
 
@@ -112,6 +158,18 @@ describe('EditCaseModalComponent', () => {
 
       component.caseModalForm.controls.caseName.setValue('   new whitespace ');
       component.caseModalForm.controls.currency.setValue('USD');
+      component.caseModalForm.controls.quotationToDate.setValue(
+        '2022-12-31T00:00:00.000Z'
+      );
+      component.caseModalForm.controls.customerPurchaseOrderDate.setValue(
+        '2022-12-31T00:00:00.000Z'
+      );
+      component.caseModalForm.controls.requestedDeliveryDate.setValue(
+        '2022-12-31T00:00:00.000Z'
+      );
+      component.caseModalForm.controls.bindingPeriodValidityEndDate.setValue(
+        '2022-12-31T00:00:00.000Z'
+      );
 
       component.submitDialog();
 
@@ -119,6 +177,10 @@ describe('EditCaseModalComponent', () => {
       expect(component['dialogRef'].close).toHaveBeenCalledWith({
         caseName: 'new whitespace',
         currency: 'USD',
+        quotationToDate: '2022-12-31T00:00:00.000Z',
+        requestedDelDate: '2022-12-31T00:00:00.000Z',
+        customerPurchaseOrderDate: '2022-12-31T00:00:00.000Z',
+        validTo: '2022-12-31T00:00:00.000Z',
       });
     });
   });
@@ -157,6 +219,62 @@ describe('EditCaseModalComponent', () => {
       const input = spectator.query('input') as HTMLInputElement;
 
       expect(input.maxLength).toEqual(10);
+    });
+  });
+
+  describe('checkValueGreaterOrEqualToday', () => {
+    beforeEach(() => {
+      component['today'] = new Date('01.01.2019');
+    });
+
+    it('Should return undefined as Error', () => {
+      const result = component.checkValueGreaterOrEqualToday(
+        new Date('02.01.2019')
+      );
+      expect(result).toBeUndefined();
+    });
+
+    it('Should return an error as Error', () => {
+      const result = component.checkValueGreaterOrEqualToday(
+        new Date('01.01.2018')
+      );
+      expect(result).toEqual(true);
+    });
+    it('should return undefined if control has no value', () => {
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      const result = component.checkValueGreaterOrEqualToday(undefined);
+      expect(result).toBeUndefined();
+    });
+  });
+
+  describe('validateDateGreaterOrEqualThanPurchaseOrderDate', () => {
+    beforeEach(() => {
+      component.ngOnInit();
+      component.caseModalForm
+        .get('customerPurchaseOrderDate')
+        .setValue(new Date('01.01.2019'));
+    });
+
+    it('Should return undefined as Error', () => {
+      const control: FormControl = new FormControl(new Date('02.01.2019'));
+      const result: ValidationErrors | null =
+        component.validateDateGreaterOrEqualThanPurchaseOrderDate(control);
+      expect(result).toBeUndefined();
+    });
+
+    it('Should return an error as Error', () => {
+      const control: FormControl = new FormControl(new Date('01.01.2018'));
+      const expectedError: ValidationErrors = { smallerThanPoDate: true };
+
+      const result: ValidationErrors | null =
+        component.validateDateGreaterOrEqualThanPurchaseOrderDate(control);
+      expect(result).toEqual(expectedError);
+    });
+    it('should return undefined if control has no value', () => {
+      const control: FormControl = new FormControl(undefined);
+      const result: ValidationErrors | null =
+        component.validateDateGreaterOrEqualThanPurchaseOrderDate(control);
+      expect(result).toBeUndefined();
     });
   });
 });

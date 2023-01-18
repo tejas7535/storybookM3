@@ -9,7 +9,6 @@ import { EditCaseModalComponent } from '../../shared/components/modal/edit-case-
 import { Quotation, QuotationStatus } from '../../shared/models';
 import { HelperService } from '../../shared/services/helper-service/helper-service.service';
 import { UpdateQuotationRequest } from '../../shared/services/rest-services/quotation-service/models/update-quotation-request.model';
-
 @Component({
   selector: 'gq-header-content',
   styleUrls: ['./header-content.component.scss'],
@@ -22,6 +21,15 @@ export class HeaderContentComponent {
   public caseName: string;
   public saveCaseNameEnabled = false;
   public currency: string;
+  public enableEditDates = false;
+  public poDateIsPreset = false;
+  public quotationToDate: string;
+  public requestedDeliveryDate: string;
+  public customerPurchaseOrderDate: string;
+  public bindingPeriodValidityEndDate: string;
+
+  private readonly now: Date = new Date(Date.now());
+  private readonly today: Date = new Date(this.now.setHours(0, 0, 0, 0));
 
   public quotationStatus = QuotationStatus;
 
@@ -52,6 +60,19 @@ export class HeaderContentComponent {
         'process-case-view'
       );
 
+      if (!value.sapId) {
+        this.enableEditDates = true;
+        this.quotationToDate = value.sapQuotationToDate ?? undefined;
+        this.requestedDeliveryDate = value.requestedDelDate ?? undefined;
+        if (!value.sapCustomerPurchaseOrderDate) {
+          this.customerPurchaseOrderDate = this.today.toUTCString();
+          this.poDateIsPreset = true;
+        }
+        this.customerPurchaseOrderDate =
+          value.sapCustomerPurchaseOrderDate ?? this.today.toUTCString();
+        this.bindingPeriodValidityEndDate = value.validTo ?? undefined;
+      }
+
       if (value.sapId) {
         this.sapHeader$ = this.translocoService.selectTranslate(
           'header.sapHeader',
@@ -68,6 +89,12 @@ export class HeaderContentComponent {
           },
           'process-case-view'
         );
+
+        this.enableEditDates = false;
+        this.quotationToDate = value.sapQuotationToDate;
+        this.requestedDeliveryDate = value.requestedDelDate;
+        this.customerPurchaseOrderDate = value.sapCustomerPurchaseOrderDate;
+        this.bindingPeriodValidityEndDate = value.validTo;
       }
     }
   }
@@ -85,6 +112,12 @@ export class HeaderContentComponent {
         data: {
           caseName: this.caseName,
           currency: this.currency,
+          enableEditDates: this.enableEditDates,
+          poDateIsPreset: this.poDateIsPreset,
+          quotationToDate: this.quotationToDate,
+          requestedDeliveryDate: this.requestedDeliveryDate,
+          customerPurchaseOrderDate: this.customerPurchaseOrderDate,
+          bindingPeriodValidityEndDate: this.bindingPeriodValidityEndDate,
         },
       })
       .afterClosed()
@@ -97,6 +130,10 @@ export class HeaderContentComponent {
           this.updateQuotation.emit({
             caseName: result.caseName,
             currency: result.currency,
+            quotationToDate: result.quotationToDate,
+            requestedDelDate: result.requestedDelDate,
+            customerPurchaseOrderDate: result.customerPurchaseOrderDate,
+            validTo: result.validTo,
           });
         }
       });

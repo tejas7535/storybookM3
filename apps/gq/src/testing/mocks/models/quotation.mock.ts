@@ -29,4 +29,6 @@ export const QUOTATION_MOCK: Quotation = {
   sapCallInProgress: SapCallInProgress.NONE_IN_PROGRESS,
   status: QuotationStatus.ACTIVE,
   sapSyncStatus: SAP_SYNC_STATUS.NOT_SYNCED,
+  sapQuotationToDate: '',
+  sapCustomerPurchaseOrderDate: '',
 };

@@ -215,6 +215,10 @@ describe('ProcessCaseViewComponent', () => {
       const updateQuotationRequest: UpdateQuotationRequest = {
         caseName: 'caseName',
         currency: 'USD',
+        quotationToDate: '',
+        validTo: '',
+        customerPurchaseOrderDate: '',
+        requestedDelDate: '',
       };
       component.updateQuotation(updateQuotationRequest);
 

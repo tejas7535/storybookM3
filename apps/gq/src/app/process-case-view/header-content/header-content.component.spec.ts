@@ -85,6 +85,12 @@ describe('HeaderContentComponent', () => {
           width: '480px',
           data: {
             caseName: 'case-name',
+            bindingPeriodValidityEndDate: undefined,
+            customerPurchaseOrderDate: undefined,
+            enableEditDates: false,
+            poDateIsPreset: false,
+            quotationToDate: undefined,
+            requestedDeliveryDate: undefined,
           },
         }
       );
@@ -207,6 +213,7 @@ describe('HeaderContentComponent', () => {
         spectator.setInput('quotation', {
           ...QUOTATION_MOCK,
           sapLastUpdated: undefined,
+          sapQuotationToDate: '2202-12-21)',
         });
 
         expect(fakeTranslocoService.selectTranslate).toHaveBeenCalledTimes(2);

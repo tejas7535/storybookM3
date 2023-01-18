@@ -3,37 +3,127 @@
   </gq-dialog-header>
 
   <form [formGroup]="caseModalForm" (ngSubmit)="submitDialog()">
-    <div class="flex w-full py-8">
-      <mat-form-field class="mr-4 w-2/3" appearance="outline">
-        <mat-label>{{ t('nameLabel') }}</mat-label>
-        <input
-          formControlName="caseName"
-          type="text"
-          autocomplete="off"
-          matInput
-          data-cy="edit-case-modal_custom-name-input"
-          [maxlength]="NAME_MAX_LENGTH"
-        />
-        <mat-hint align="end">{{
-          (caseModalForm.controls.caseName.value?.length.toString() || '0') +
-            ' / ' +
-            NAME_MAX_LENGTH.toString()
-        }}</mat-hint>
-      </mat-form-field>
-
-      <mat-form-field class="w-1/3" appearance="outline">
-        <mat-label>{{ t('currencyLabel') }}</mat-label>
-        <mat-select
-          formControlName="currency"
-          data-cy="edit-case-modal_custom-currency-input"
+    <div class="flex w-full flex-col py-8">
+      <div class="flex flex-col">
+        <span class="pb-2 text-[14px] text-medium-emphasis">
+          {{ t('generalInformation') }}</span
         >
-          <mat-option
-            *ngFor="let currency of currencies$ | ngrxPush"
-            [value]="currency"
-            >{{ currency }}</mat-option
-          >
-        </mat-select>
-      </mat-form-field>
+        <div class="flex">
+          <mat-form-field class="mr-4 w-2/3" appearance="outline">
+            <mat-label>{{ t('nameLabel') }}</mat-label>
+            <input
+              formControlName="caseName"
+              type="text"
+              autocomplete="off"
+              matInput
+              data-cy="edit-case-modal_custom-name-input"
+              [maxlength]="NAME_MAX_LENGTH"
+            />
+            <mat-hint align="end">{{
+              (caseModalForm.controls.caseName.value?.length.toString() ||
+                '0') +
+                ' / ' +
+                NAME_MAX_LENGTH.toString()
+            }}</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field class="w-1/3" appearance="outline">
+            <mat-label>{{ t('currencyLabel') }}</mat-label>
+            <mat-select
+              formControlName="currency"
+              data-cy="edit-case-modal_custom-currency-input"
+            >
+              <mat-option
+                *ngFor="let currency of currencies$ | ngrxPush"
+                [value]="currency"
+                >{{ currency }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <span class="pb-2 text-[14px] text-medium-emphasis">
+          {{ t('sapInformation') }}</span
+        >
+        <div class="flex flex-col">
+          <mat-form-field class="pb-2" appearance="outline">
+            <mat-label>{{ t('quotationToDateLabel') }}</mat-label>
+            <input
+              matInput
+              autocomplete="off"
+              formControlName="quotationToDate"
+              [matDatepicker]="quotationToDatePicker"
+            />
+            <mat-datepicker-toggle matSuffix [for]="quotationToDatePicker"
+              ><mat-icon matDatepickerToggleIcon> calendar_today </mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #quotationToDatePicker></mat-datepicker>
+            <mat-error
+              *ngIf="
+                caseModalForm.get('quotationToDate')?.errors?.smallerThanPoDate
+              "
+              >{{ t('smallerThanPoDateValidationMessage') }}</mat-error
+            >
+          </mat-form-field>
+          <mat-form-field class="pb-2" appearance="outline">
+            <mat-label>{{ t('requestedDeliveryDateLabel') }}</mat-label>
+            <input
+              matInput
+              autocomplete="off"
+              formControlName="requestedDeliveryDate"
+              [matDatepicker]="requestedDeliveryDatePicker"
+            />
+            <mat-datepicker-toggle matSuffix [for]="requestedDeliveryDatePicker"
+              ><mat-icon matDatepickerToggleIcon> calendar_today </mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #requestedDeliveryDatePicker></mat-datepicker>
+            <mat-hint class="text-info" *ngIf="poDateLessThanToday">{{
+              t('dateBeforeTodayValidationMessage')
+            }}</mat-hint>
+          </mat-form-field>
+          <mat-form-field class="pb-2" appearance="outline">
+            <mat-label>{{ t('customerPurchaseOrderDateLabel') }}</mat-label>
+            <input
+              matInput
+              autocomplete="off"
+              formControlName="customerPurchaseOrderDate"
+              [matDatepicker]="customerPurchaseOrderDatePicker"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="customerPurchaseOrderDatePicker"
+            >
+              <mat-icon matDatepickerToggleIcon> calendar_today </mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #customerPurchaseOrderDatePicker></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field class="pb-2" appearance="outline">
+            <mat-label>{{ t('bindingPeriodValidityEndDateLabel') }}</mat-label>
+            <input
+              matInput
+              autocomplete="off"
+              formControlName="bindingPeriodValidityEndDate"
+              [matDatepicker]="bindingPeriodValidityEndDatePicker"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="bindingPeriodValidityEndDatePicker"
+              ><mat-icon matDatepickerToggleIcon> calendar_today </mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker
+              #bindingPeriodValidityEndDatePicker
+            ></mat-datepicker>
+            <mat-error
+              *ngIf="
+                caseModalForm.get('bindingPeriodValidityEndDate')?.errors
+                  ?.smallerThanPoDate
+              "
+              >{{ t('smallerThanPoDateValidationMessage') }}</mat-error
+            >
+          </mat-form-field>
+        </div>
+      </div>
     </div>
 
     <div class="flex w-full">
@@ -45,7 +135,15 @@
           (caseModalForm.pristine && caseModalForm.untouched) ||
           caseModalForm.invalid ||
           (caseModalForm.controls.caseName.value === modalData.caseName &&
-            caseModalForm.controls.currency.value === modalData.currency)
+            caseModalForm.controls.currency.value === modalData.currency &&
+            caseModalForm.controls.quotationToDate.value ===
+              modalData.quotationToDate &&
+            caseModalForm.controls.requestedDeliveryDate.value ===
+              modalData.requestedDeliveryDate &&
+            caseModalForm.controls.customerPurchaseOrderDate.value ===
+              modalData.customerPurchaseOrderDate &&
+            caseModalForm.controls.bindingPeriodValidityEndDate.value ===
+              modalData.bindingPeriodValidityEndDate)
         "
         data-cy="edit-case-modal_update-btn"
       >

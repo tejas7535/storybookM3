@@ -945,7 +945,14 @@ describe('ProcessCaseEffect', () => {
     beforeEach(() => {
       const caseName = 'caseName';
       const currency = 'EUR';
-      action = updateQuotation({ caseName, currency });
+      action = updateQuotation({
+        caseName,
+        currency,
+        customerPurchaseOrderDate: '',
+        validTo: '',
+        quotationToDate: '',
+        requestedDelDate: '',
+      });
     });
     test(
       'should return updateQuotationSuccess',

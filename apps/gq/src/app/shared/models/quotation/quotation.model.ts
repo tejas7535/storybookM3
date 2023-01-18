@@ -29,4 +29,6 @@ export class Quotation {
   public sapCallInProgress: SapCallInProgress;
   public status: QuotationStatus;
   public sapSyncStatus: SAP_SYNC_STATUS;
+  public sapQuotationToDate: string;
+  public sapCustomerPurchaseOrderDate: string;
 }

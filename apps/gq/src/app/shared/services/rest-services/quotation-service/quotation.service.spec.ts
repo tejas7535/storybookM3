@@ -15,6 +15,7 @@ import { SalesIndication } from '../../../../core/store/reducers/transactions/mo
 import { ApiVersion, QuotationStatus } from '../../../models';
 import { CreateCustomerCase } from '../search-service/models/create-customer-case.model';
 import { QuotationPaths } from './models/quotation-paths.enum';
+import { UpdateQuotationRequest } from './models/update-quotation-request.model';
 import { QuotationService } from './quotation.service';
 
 describe('QuotationService', () => {
@@ -180,7 +181,14 @@ describe('QuotationService', () => {
 
   describe('updateQuotation', () => {
     test('should call', () => {
-      const updateQuotationRequest = { caseName: 'caseName', currency: 'EUR' };
+      const updateQuotationRequest: UpdateQuotationRequest = {
+        caseName: 'caseName',
+        currency: 'EUR',
+        quotationToDate: '',
+        validTo: '',
+        customerPurchaseOrderDate: '',
+        requestedDelDate: '',
+      };
       const gqId = 12_345;
       service
         .updateQuotation(updateQuotationRequest, gqId)

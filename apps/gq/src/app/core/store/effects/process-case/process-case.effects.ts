@@ -452,6 +452,10 @@ export class ProcessCaseEffect {
             {
               caseName: action.caseName,
               currency: action.currency,
+              quotationToDate: action.quotationToDate,
+              validTo: action.validTo,
+              customerPurchaseOrderDate: action.customerPurchaseOrderDate,
+              requestedDelDate: action.requestedDelDate,
             },
             gqId
           )
