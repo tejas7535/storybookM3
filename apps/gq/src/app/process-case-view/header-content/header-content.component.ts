@@ -27,6 +27,7 @@ export class HeaderContentComponent {
   public requestedDeliveryDate: string;
   public customerPurchaseOrderDate: string;
   public bindingPeriodValidityEndDate: string;
+  public showEditIcon: boolean;
 
   private readonly now: Date = new Date(Date.now());
   private readonly today: Date = new Date(this.now.setHours(0, 0, 0, 0));
@@ -42,6 +43,7 @@ export class HeaderContentComponent {
       }
 
       this.currency = value.currency;
+      this.showEditIcon = value.status === QuotationStatus.ACTIVE;
 
       this.gqHeader$ = this.translocoService.selectTranslate(
         'header.gqHeader',

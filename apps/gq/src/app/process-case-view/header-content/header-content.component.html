@@ -3,10 +3,7 @@
     <mat-icon
       class="ml-4 cursor-pointer text-medium-emphasis"
       (click)="openCaseEditingModal()"
-      *hideIfQuotationHasStatus="[
-        quotationStatus.INACTIVE,
-        quotationStatus.DELETED
-      ]"
+      *ngIf="showEditIcon"
     >
       mode_edit
     </mat-icon>
