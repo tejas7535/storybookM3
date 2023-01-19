@@ -9,11 +9,12 @@
     "customerNumber": "Customer Number",
     "customerName": "Customer Name",
     "createdBy": "SAP Created By",
-    "creationDate": "Case Created On",
-    "lastUpdatedDate": "Case last updated on",
+    "creationDate": "Case Created on",
+    "lastUpdatedDate": "Case Last Updated on",
+    "deletedOnDate": "Case Deleted On",
     "gqId": "GQ Case",
     "sapId": "SAP Quotation",
-    "caseName": "Case name",
+    "caseName": "Case Name",
     "syncStatus": "Sync Status"
   },
   "caseCreation": {
@@ -39,6 +40,7 @@
         "lostQuotes": "{numberOfYears, plural, =1 {Materials from Lost Quotes (Current year)} other {Materials from Lost Quotes (Last {{ numberOfYears }} years)}}"
       },
       "additionalMaterials": {
+        "selectAll": "Select All",
         "title": "Additional filters",
         "productLines": "Product Lines",
         "series": "Series",

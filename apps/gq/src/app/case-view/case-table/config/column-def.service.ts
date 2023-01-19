@@ -120,7 +120,7 @@ export class ColumnDefService {
       filterParams: FILTER_PARAMS,
     },
     {
-      headerName: translate('caseView.caseTable.lastUpdatedDate'),
+      // headerName depends on quotation status and will be set in column case-table.component
       field: CaseTableColumnFields.LAST_UPDATED,
       valueFormatter: (data) =>
         this.columnUtilityService.dateFormatter(data.data.gqLastUpdated),

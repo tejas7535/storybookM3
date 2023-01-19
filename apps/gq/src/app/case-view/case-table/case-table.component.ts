@@ -36,6 +36,7 @@ import { ColumnDefService } from './config/column-def.service';
 export class CaseTableComponent implements OnInit {
   constructor(
     private readonly columnDefService: ColumnDefService,
+    private readonly columnUtilityService: ColumnUtilityService,
     private readonly localizationService: LocalizationService,
     private readonly store: Store,
     private readonly router: Router
@@ -60,7 +61,12 @@ export class CaseTableComponent implements OnInit {
         this.selectedRows = val;
       });
     this.columnDefs = this.columnDefService.COLUMN_DEFS.filter((colDef) =>
-      ColumnUtilityService.filterQuotationStatusColumns(
+      this.columnUtilityService.filterQuotationStatusColumns(
+        colDef,
+        this.displayStatus
+      )
+    ).map((colDef) =>
+      this.columnUtilityService.mapLastUpdateDateOnColumn(
         colDef,
         this.displayStatus
       )

@@ -11,6 +11,7 @@
     "createdBy": "SAP Angebot erstellt von",
     "creationDate": "Case erstellt am",
     "lastUpdatedDate": "Case zuletzt aktualisiert am",
+    "deletedOnDate": "Case gelöscht am",
     "gqId": "GQ Case",
     "sapId": "SAP Angebotsnummer",
     "caseName": "Case Bezeichnung",
@@ -39,6 +40,7 @@
         "lostQuotes": "{numberOfYears, plural, =1 {Materialien aus der Angebotsverfolgung mit Absagegrund 'Preis zu hoch' (aktuelles Jahr)} other {Materialien aus der Angebotsverfolgung mit Absagegrund 'Preis zu hoch' (letzte {{ numberOfYears }} Jahre)}}"
       },
       "additionalMaterials": {
+        "selectAll": "Alle auswählen",
         "title": "Zusätzliche Filteroptionen",
         "productLines": "Produktlinien",
         "series": "Serien",

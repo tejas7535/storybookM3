@@ -122,20 +122,6 @@ export class ColumnUtilityService {
     return columnDefs;
   }
 
-  static filterQuotationStatusColumns(
-    colDef: ColDef,
-    displayStatus: QuotationStatus
-  ) {
-    if (
-      displayStatus !== QuotationStatus.ACTIVE &&
-      colDef.field === CaseTableColumnFields.SAP_SYNC_STATUS
-    ) {
-      return false;
-    }
-
-    return true;
-  }
-
   static infoComparator(info1: any, info2: any): number {
     const valid1 = info1.valid;
     const valid2 = info2.valid;
@@ -227,6 +213,31 @@ export class ColumnUtilityService {
       icon: '<span class="ag-icon ag-icon-copy"></span>',
       action: () => getValueOfFocusedCell(params),
     };
+  }
+
+  filterQuotationStatusColumns(colDef: ColDef, displayStatus: QuotationStatus) {
+    if (
+      displayStatus !== QuotationStatus.ACTIVE &&
+      colDef.field === CaseTableColumnFields.SAP_SYNC_STATUS
+    ) {
+      return false;
+    }
+
+    return true;
+  }
+
+  mapLastUpdateDateOnColumn(colDef: ColDef, displayStatus: QuotationStatus) {
+    if (colDef.field === CaseTableColumnFields.LAST_UPDATED) {
+      return {
+        ...colDef,
+        headerName:
+          displayStatus === QuotationStatus.INACTIVE
+            ? translate('caseView.caseTable.deletedOnDate')
+            : translate('caseView.caseTable.lastUpdatedDate'),
+      };
+    }
+
+    return colDef;
   }
 
   transformConditionUnit(params: ValueFormatterParams): string {
