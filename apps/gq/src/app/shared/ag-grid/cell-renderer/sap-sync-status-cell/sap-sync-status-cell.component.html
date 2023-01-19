@@ -3,17 +3,16 @@
   *transloco="let t; read: 'shared.sapStatusLabels'"
 >
   <div
-    class="flex items-center overflow-hidden rounded-full bg-opacity-10 px-3 py-1 text-caption uppercase"
+    class="flex items-center overflow-hidden rounded-full px-3 py-1 text-caption uppercase"
     [ngClass]="{
       'text-info': syncedStatus === synced,
-      'bg-nordic-blue': syncedStatus === synced,
+      'bg-[#E3F7FD]': syncedStatus === synced,
       'text-low-emphasis': syncedStatus === notSynced,
-      'bg-gray-300': syncedStatus === notSynced,
-      '!bg-opacity-100': syncedStatus === notSynced,
+      'bg-[#FAFAFA]': syncedStatus === notSynced,
       'text-orange': syncedStatus === partiallySynced,
-      'bg-orange': syncedStatus === partiallySynced,
-      'bg-error': syncedStatus === syncFailed,
-      'text-error': syncedStatus === syncFailed
+      'bg-[#FFF8E2]': syncedStatus === partiallySynced,
+      'text-error': syncedStatus === syncFailed,
+      'bg-[#FCE3E6]': syncedStatus === syncFailed
     }"
   >
     <span

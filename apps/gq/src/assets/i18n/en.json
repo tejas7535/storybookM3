@@ -131,7 +131,7 @@
     "breadcrumbs": {
       "caseView": "Quotation Cases",
       "transactionView": "GQ Pricing Details",
-      "position": "Pos.",
+      "position": "Item",
       "sapView": "SAP Price"
     },
     "caseMaterial": {

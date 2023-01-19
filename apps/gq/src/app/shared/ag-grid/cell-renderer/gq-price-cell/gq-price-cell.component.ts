@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 
 import { ICellRendererParams } from 'ag-grid-community';
-import { AppRoutePath } from 'apps/gq/src/app/app-route-path.enum';
 
+import { AppRoutePath } from '../../../../../app/app-route-path.enum';
 import { DetailRoutePath } from '../../../../detail-view/detail-route-path.enum';
 import { QuotationDetail } from '../../../models/quotation-detail';
 
