@@ -117,7 +117,7 @@ export function appInitializer(
     },
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
-      useValue: { disableClose: true, hasBackdrop: true },
+      useValue: { disableClose: true, hasBackdrop: true, autoFocus: true },
     },
     {
       provide: HTTP_INTERCEPTORS,
