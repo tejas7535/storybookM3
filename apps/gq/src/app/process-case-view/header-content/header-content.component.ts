@@ -22,15 +22,11 @@ export class HeaderContentComponent {
   public saveCaseNameEnabled = false;
   public currency: string;
   public enableEditDates = false;
-  public poDateIsPreset = false;
   public quotationToDate: string;
   public requestedDeliveryDate: string;
   public customerPurchaseOrderDate: string;
   public bindingPeriodValidityEndDate: string;
   public showEditIcon: boolean;
-
-  private readonly now: Date = new Date(Date.now());
-  private readonly today: Date = new Date(this.now.setHours(0, 0, 0, 0));
 
   public quotationStatus = QuotationStatus;
 
@@ -62,18 +58,12 @@ export class HeaderContentComponent {
         'process-case-view'
       );
 
-      if (!value.sapId) {
-        this.enableEditDates = true;
-        this.quotationToDate = value.sapQuotationToDate ?? undefined;
-        this.requestedDeliveryDate = value.requestedDelDate ?? undefined;
-        if (!value.sapCustomerPurchaseOrderDate) {
-          this.customerPurchaseOrderDate = this.today.toUTCString();
-          this.poDateIsPreset = true;
-        }
-        this.customerPurchaseOrderDate =
-          value.sapCustomerPurchaseOrderDate ?? this.today.toUTCString();
-        this.bindingPeriodValidityEndDate = value.validTo ?? undefined;
-      }
+      this.quotationToDate = value.sapQuotationToDate ?? undefined;
+      this.requestedDeliveryDate = value.requestedDelDate ?? undefined;
+      this.customerPurchaseOrderDate =
+        value.sapCustomerPurchaseOrderDate ?? undefined;
+      this.bindingPeriodValidityEndDate = value.validTo ?? undefined;
+      this.enableEditDates = true;
 
       if (value.sapId) {
         this.sapHeader$ = this.translocoService.selectTranslate(
@@ -93,10 +83,6 @@ export class HeaderContentComponent {
         );
 
         this.enableEditDates = false;
-        this.quotationToDate = value.sapQuotationToDate;
-        this.requestedDeliveryDate = value.requestedDelDate;
-        this.customerPurchaseOrderDate = value.sapCustomerPurchaseOrderDate;
-        this.bindingPeriodValidityEndDate = value.validTo;
       }
     }
   }
@@ -115,7 +101,6 @@ export class HeaderContentComponent {
           caseName: this.caseName,
           currency: this.currency,
           enableEditDates: this.enableEditDates,
-          poDateIsPreset: this.poDateIsPreset,
           quotationToDate: this.quotationToDate,
           requestedDeliveryDate: this.requestedDeliveryDate,
           customerPurchaseOrderDate: this.customerPurchaseOrderDate,

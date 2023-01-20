@@ -48,7 +48,6 @@ export class EditCaseModalComponent implements OnInit {
       caseName: string;
       currency: string;
       enableEditDates: boolean;
-      poDateIsPreset: boolean;
       quotationToDate?: string;
       requestedDeliveryDate?: string;
       customerPurchaseOrderDate?: string;
@@ -107,10 +106,6 @@ export class EditCaseModalComponent implements OnInit {
       ),
     });
 
-    if (this.modalData?.poDateIsPreset) {
-      this.caseModalForm.markAsTouched();
-    }
-
     this.subscribeToChanges();
   }
 
@@ -121,6 +116,17 @@ export class EditCaseModalComponent implements OnInit {
         (value) =>
           (this.poDateLessThanToday = this.checkValueGreaterOrEqualToday(value))
       );
+
+    this.caseModalForm
+      .get('customerPurchaseOrderDate')
+      .valueChanges.subscribe(() => {
+        Object.keys(this.caseModalForm.controls).forEach((field) => {
+          if (field !== 'customerPurchaseOrderDate') {
+            const control = this.caseModalForm.get(field);
+            control.updateValueAndValidity();
+          }
+        });
+      });
   }
 
   closeDialog(): void {

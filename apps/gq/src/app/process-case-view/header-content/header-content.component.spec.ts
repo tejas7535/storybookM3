@@ -88,7 +88,6 @@ describe('HeaderContentComponent', () => {
             bindingPeriodValidityEndDate: undefined,
             customerPurchaseOrderDate: undefined,
             enableEditDates: false,
-            poDateIsPreset: false,
             quotationToDate: undefined,
             requestedDeliveryDate: undefined,
           },
