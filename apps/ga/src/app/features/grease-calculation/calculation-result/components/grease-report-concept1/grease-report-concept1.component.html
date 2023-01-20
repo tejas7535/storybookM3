@@ -16,7 +16,7 @@
     </div>
     <div
       [ngClass]="{ 'opacity-25': !getDurationMonths() }"
-      class="h-[162px] w-[162px] origin-top-left scale-[45%] transform-gpu"
+      class="h-[144px] w-[144px] origin-top-left scale-[40%] transform-gpu"
     >
       <schaeffler-rotary-control
         [controlValue]="getDurationMonths()"
@@ -24,33 +24,43 @@
         [offsetAngle]="45"
       ></schaeffler-rotary-control>
     </div>
-    <p
-      *ngIf="getDurationMonths()"
-      class="flex items-center gap-1 pt-2 text-body-2 text-low-emphasis"
-    >
-      {{
-        t('duration', {
-          months: getDurationMonths(),
-          size: getDurationSize()
-        })
-      }}
-      <mat-icon
-        class="!h-[18px] !w-[18px] cursor-help !text-[18px]"
-        #tooltipDetail="matTooltip"
-        (click)="tooltipDetail.toggle()"
-        [matTooltip]="settings.hint"
-        >info_outline</mat-icon
+    <ng-container *ngIf="getDurationMonths(); else unsuited">
+      <p class="flex items-center gap-1 pt-2 text-body-2 text-low-emphasis">
+        <span
+          class="text-center [&>span]:whitespace-nowrap"
+          [innerHTML]="
+            t('duration', {
+              months: getDurationMonths(),
+              size: getDurationSize()
+            })
+          "
+        >
+        </span>
+        <mat-icon
+          class="!h-[18px] !w-[18px] cursor-help !text-[18px]"
+          #tooltipDetail="matTooltip"
+          (click)="tooltipDetail.toggle()"
+          [matTooltip]="settings.hint"
+          >info_outline</mat-icon
+        >
+      </p>
+      <button mat-button color="primary" (click)="onShowDetails()">
+        {{ t('details') }}
+      </button>
+    </ng-container>
+    <ng-template #unsuited>
+      <!-- Chip for CONCEPT1 -->
+      <div
+        *ngIf="isUnSuited || !isSuited"
+        class="mt-3 mb-2 inline-block rounded-full px-3 py-[1px] text-caption text-high-emphasis-dark-bg"
+        [ngClass]="{
+          '!bg-orange': isUnSuited(),
+          '!bg-background-dark !text-medium-emphasis':
+            !isSuited() && !isUnSuited()
+        }"
       >
-    </p>
-    <button
-      *ngIf="getDurationMonths(); else whyButton"
-      mat-button
-      color="primary"
-      (click)="onShowDetails()"
-    >
-      {{ t('details') }}
-    </button>
-    <ng-template #whyButton>
+        {{ t(settings.label) }}
+      </div>
       <button
         mat-button
         color="primary"

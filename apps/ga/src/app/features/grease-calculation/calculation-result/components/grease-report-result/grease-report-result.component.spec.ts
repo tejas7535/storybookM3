@@ -59,7 +59,6 @@ describe('GreaseReportResultComponent', () => {
           },
         },
         ...greaseResultMock.dataSource,
-        undefined,
       ],
     };
   });
@@ -87,40 +86,6 @@ describe('GreaseReportResultComponent', () => {
   describe('getLinkText', () => {
     it('should return the link text', () => {
       expect(component.getLinkText()).toBe('Arcanol MULTI2 1kg');
-    });
-  });
-
-  describe('getLabel', () => {
-    it('should return a legit suitabilty label', () => {
-      expect(component.getLabel()).toBe(SUITABILITY_LABEL.SUITED);
-    });
-  });
-
-  describe('isSuited', () => {
-    it('should return true when the label is "SUITED"', () => {
-      component.greaseResult.dataSource[0].custom.data.label =
-        SUITABILITY_LABEL.SUITED;
-      expect(component.isSuited()).toBe(true);
-    });
-
-    it('should return false when the label is not "SUITED"', () => {
-      component.greaseResult.dataSource[0].custom.data.label =
-        SUITABILITY_LABEL.CONDITIONAL;
-      expect(component.isSuited()).toBe(false);
-    });
-  });
-
-  describe('isUnSuited', () => {
-    it('should return true when the label is "UNSUITED"', () => {
-      component.greaseResult.dataSource[0].custom.data.label =
-        SUITABILITY_LABEL.UNSUITED;
-      expect(component.isUnSuited()).toBe(true);
-    });
-
-    it('should return false when the label is not "UNSUITED"', () => {
-      component.greaseResult.dataSource[0].custom.data.label =
-        SUITABILITY_LABEL.CONDITIONAL;
-      expect(component.isUnSuited()).toBe(false);
     });
   });
 

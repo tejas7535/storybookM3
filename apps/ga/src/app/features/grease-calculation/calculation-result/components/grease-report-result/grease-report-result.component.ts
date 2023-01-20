@@ -33,14 +33,13 @@ import {
   GreaseResultDataItem,
   GreaseResultDataSourceItem,
   PreferredGreaseResult,
-  SUITABILITY_LABEL,
 } from '../../models';
 import { AutomaticLubricationPipe } from '../../pipes';
 import { GreaseReportConcept1Component } from '../grease-report-concept1';
 import { GreaseReportConcept1DetailComponent } from '../grease-report-concept1-detail';
 
 export enum LabelWidth {
-  Default = 200,
+  Default = 180,
   Small = 120,
 }
 
@@ -127,24 +126,6 @@ export class GreaseReportResultComponent implements OnInit, OnDestroy {
     this.applicationInsightsService.logEvent(MEDIASGREASE, {
       grease: this.greaseResult?.mainTitle,
     });
-  }
-
-  public getLabel(): SUITABILITY_LABEL {
-    return this.greaseResult.dataSource[0].custom.data.label;
-  }
-
-  public isSuited(): boolean {
-    return (
-      this.greaseResult.dataSource[0].custom.data.label ===
-      SUITABILITY_LABEL.SUITED
-    );
-  }
-
-  public isUnSuited(): boolean {
-    return (
-      this.greaseResult.dataSource[0].custom.data.label ===
-      SUITABILITY_LABEL.UNSUITED
-    );
   }
 
   public toggleShowConcept1Details(): void {

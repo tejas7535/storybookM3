@@ -262,7 +262,7 @@
     "concept1Impossible": "La lubricación automática con CONCEPT1 no es posible. En determinadas circunstancias, la cantidad de lubricación es demasiado alta o demasiado baja. Si se modifican los parámetros de funcionamiento, puede ser posible el uso",
     "concept1Link": "success-stories/0171",
     "concept1settings": {
-      "duration": "{{ months }} meses ({{size}} ml)",
+      "duration": "{{ months }} meses <span>({{size}} ml)</span>",
       "details": "Detalles",
       "why": "¿Por qué?",
       "adjustConditions": "Esta grasa es adecuada para el CONCEPT1 y la aplicación en general, pero las condiciones de funcionamiento conducen a un cálculo de lubricación demasiado alto o bajo para el CONCEPT1",

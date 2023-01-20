@@ -262,7 +262,7 @@
     "concept1Impossible": "Automatische Schmierung mit CONCEPT1 ist nicht möglich. Unter Umständen ist die Schmiermenge zu hoch oder zu niedrig. Bei Veränderung der Betriebsparameter kann eine Nutzung möglich sein",
     "concept1Link": "success-stories/0171",
     "concept1settings": {
-      "duration": "{{ months }} Monate ({{size}} ml)",
+      "duration": "{{ months }} Monate <span>({{size}} ml)</span>",
       "details": "Details",
       "why": "Warum?",
       "adjustConditions": "Dieses Fett ist grundsätzlich für eine Verwendung mit CONCEPT1 und die Anwendung geeignet aber die Betriebsparameter führen zu einer Schmierberechnung die entweder zu hoch oder zu gering für CONCEPT1 aus",

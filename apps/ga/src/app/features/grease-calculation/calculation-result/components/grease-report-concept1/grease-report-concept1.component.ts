@@ -17,7 +17,11 @@ import {
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { availableMonths } from '../../helpers/grease-helpers';
-import { CONCEPT1_SIZES, GreaseConcep1Suitablity } from '../../models';
+import {
+  CONCEPT1_SIZES,
+  GreaseConcep1Suitablity,
+  SUITABILITY_LABEL,
+} from '../../models';
 
 @Component({
   selector: 'ga-grease-report-concept1',
@@ -54,5 +58,13 @@ export class GreaseReportConcept1Component {
     if (this.getDurationMonths()) {
       this.showDetails.emit();
     }
+  }
+
+  public isSuited(): boolean {
+    return this.settings.label === SUITABILITY_LABEL.SUITED;
+  }
+
+  public isUnSuited(): boolean {
+    return this.settings.label === SUITABILITY_LABEL.UNSUITED;
   }
 }

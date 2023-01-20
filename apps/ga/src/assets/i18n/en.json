@@ -262,7 +262,7 @@
     "concept1Impossible": "Automatic lubrication with CONCEPT1 is not possible. Under certain circumstances, the lubrication quantity is too high or too low. If the operating parameters are changed, use may be possible",
     "concept1Link": "success-stories/0171",
     "concept1settings": {
-      "duration": "{{ months }} months ({{size}} ml)",
+      "duration": "{{ months }} months <span>({{size}} ml)</span>",
       "details": "Details",
       "why": "Why?",
       "adjustConditions": "This grease is suitable for CONCEPT1 and the application in general but the operating conditions lead to a lubrication calculation that is either to high or low for CONCEPT1",

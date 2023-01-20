@@ -10,7 +10,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { GREASE_CONCEPT1_SUITABILITY } from '@ga/testing/mocks/models/grease-concept1-suitability.mock';
 
-import { CONCEPT1_SIZES } from '../../models';
+import { CONCEPT1_SIZES, SUITABILITY_LABEL } from '../../models';
 import { GreaseReportConcept1Component } from './grease-report-concept1.component';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -107,6 +107,30 @@ describe('GreaseReportConcept1Component', () => {
       component.onShowDetails();
 
       expect(showDetailsSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('isSuited', () => {
+    it('should return true when the label is "SUITED"', () => {
+      component.settings.label = SUITABILITY_LABEL.SUITED;
+      expect(component.isSuited()).toBe(true);
+    });
+
+    it('should return false when the label is not "SUITED"', () => {
+      component.settings.label = SUITABILITY_LABEL.CONDITIONAL;
+      expect(component.isSuited()).toBe(false);
+    });
+  });
+
+  describe('isUnSuited', () => {
+    it('should return true when the label is "UNSUITED"', () => {
+      component.settings.label = SUITABILITY_LABEL.UNSUITED;
+      expect(component.isUnSuited()).toBe(true);
+    });
+
+    it('should return false when the label is not "UNSUITED"', () => {
+      component.settings.label = SUITABILITY_LABEL.CONDITIONAL;
+      expect(component.isUnSuited()).toBe(false);
     });
   });
 });
