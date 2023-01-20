@@ -1,10 +1,16 @@
 <div *transloco="let t; read: 'detail.detailTab.quantities'">
   <cdba-details-label-value
-    [label]="t('netSales', { year: currentYear - 1 })"
+    *ngFor="
+      let netSale of quantitiesDetails?.netSales.slice().reverse();
+      index as i
+    "
+    [label]="
+      t('netSales', {
+        year: currentYear - (quantitiesDetails?.netSales.length - 1) + i
+      })
+    "
     [value]="
-      (quantitiesDetails?.netSales[0]
-        | translocoDecimal
-        | undefinedAttributeFallback) +
+      (netSale | translocoDecimal | undefinedAttributeFallback) +
       (quantitiesDetails?.currency ? ' ' + quantitiesDetails?.currency : '')
     "
   ></cdba-details-label-value>
@@ -37,7 +43,7 @@
     "
     [label]="
       t('actualQuantity', {
-        year: currentYear - (quantitiesDetails?.actualQuantities.length - i)
+        year: currentYear - (quantitiesDetails?.actualQuantities.length - 1) + i
       })
     "
     [value]="actualQuantity | translocoDecimal | undefinedAttributeFallback"
