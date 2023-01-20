@@ -14,10 +14,12 @@
     >
 
     <ng-content select="[subheaderStatusIcon]"></ng-content>
-    <h4 class="flex flex-auto flex-row truncate !text-[22px] sm:!text-h4">
+    <h5
+      class="flex flex-auto flex-row items-center truncate text-high-emphasis sm:!text-h5"
+    >
       {{ subheaderTitle }}
       <ng-content select="[subheaderTitleContent]"></ng-content>
-    </h4>
+    </h5>
     <ng-content select="[subheaderInlineContent]"></ng-content>
   </div>
   <ng-content select="[subheaderBlockContent]"></ng-content>
