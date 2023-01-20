@@ -144,9 +144,17 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.agGridConfigService.columnDefinitions$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((columnDefs) => {
-        this.defaultColumnDefs = columnDefs;
+      .subscribe(({ defaultColumnDefinitions, savedColumnState }) => {
+        this.defaultColumnDefs = defaultColumnDefinitions;
         this.columnDefs = this.getColumnDefs(this.hasEditorRole);
+        if (this.agGridColumnApi) {
+          setTimeout(() => {
+            this.agGridColumnApi.applyColumnState({
+              state: savedColumnState,
+              applyOrder: true,
+            });
+          });
+        }
       });
   }
 

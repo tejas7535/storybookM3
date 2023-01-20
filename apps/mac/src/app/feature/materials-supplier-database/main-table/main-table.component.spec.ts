@@ -10,7 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { of, Subject } from 'rxjs';
+import { BehaviorSubject, of, Subject } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { translate, TranslocoModule } from '@ngneat/transloco';
@@ -190,7 +190,10 @@ describe('MainTableComponent', () => {
         provide: MsdAgGridConfigService,
         useValue: {
           getStaticQuickFilters: jest.fn(() => STEEL_STATIC_QUICKFILTERS),
-          columnDefinitions$: of(STEEL_COLUMN_DEFINITIONS),
+          columnDefinitions$: new BehaviorSubject({
+            defaultColumnDefinitions: STEEL_COLUMN_DEFINITIONS,
+            savedColumnState: undefined,
+          }),
         },
       },
     ],
@@ -311,6 +314,32 @@ describe('MainTableComponent', () => {
       });
       expect(component['changeDetectorRef'].markForCheck).toHaveBeenCalled();
       expect(component['changeDetectorRef'].detectChanges).toHaveBeenCalled();
+    });
+
+    it('should subscribe to the columnDefinitions', () => {
+      component.getColumnDefs = jest.fn();
+      component['agGridColumnApi'] = {
+        applyColumnState: jest.fn(),
+      } as unknown as ColumnApi;
+
+      jest.useFakeTimers();
+
+      component['agGridConfigService'].columnDefinitions$.next({
+        defaultColumnDefinitions: STEEL_COLUMN_DEFINITIONS,
+        savedColumnState: [],
+      });
+
+      jest.advanceTimersByTime(1000);
+
+      expect(component.getColumnDefs).toHaveBeenCalled();
+      expect(
+        component['agGridColumnApi'].applyColumnState
+      ).toHaveBeenCalledWith({
+        state: [],
+        applyOrder: true,
+      });
+
+      jest.useRealTimers();
     });
   });
 

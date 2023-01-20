@@ -18,6 +18,7 @@ import {} from 'ag-grid-community/dist/lib/events';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { ACTION, HISTORY } from '@mac/msd/constants';
 import { QuickFilter } from '@mac/msd/models';
 import {
   MsdAgGridConfigService,
@@ -55,6 +56,8 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
   private agGridColumnApi: ColumnApi;
 
   private readonly destroy$ = new Subject<void>();
+
+  private readonly IGNORE_COLUMNS = new Set([HISTORY, ACTION]);
 
   // stores currently selected element (bound to ToggleComponent)
   public active: QuickFilter;
@@ -115,8 +118,16 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
         filter(
           () =>
             !!this.active &&
-            JSON.stringify(this.getCurrentColumns()) !==
-              JSON.stringify(this.active.columns)
+            JSON.stringify(
+              this.getCurrentColumns().filter(
+                (column) => !this.IGNORE_COLUMNS.has(column)
+              )
+            ) !==
+              JSON.stringify(
+                this.active.columns.filter(
+                  (column) => !this.IGNORE_COLUMNS.has(column)
+                )
+              )
         )
       )
       .subscribe(() => this.onChange());

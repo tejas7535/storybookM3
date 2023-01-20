@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { BehaviorSubject, filter } from 'rxjs';
 
-import { ColDef } from 'ag-grid-enterprise';
+import { ColDef, ColumnState } from 'ag-grid-enterprise';
 
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import { EDITABLE_MATERIAL_CLASSES } from '@mac/msd/constants/editable-material-classes';
@@ -11,6 +11,8 @@ import { COLUMN_DEFINITIONS_MAPPING } from '@mac/msd/main-table/table-config/mat
 import { EDITOR_COLUMN_DEFINITIONS } from '@mac/msd/main-table/table-config/materials/base';
 import { QuickFilter } from '@mac/msd/models';
 import { DataFacade } from '@mac/msd/store/facades/data';
+
+import { MsdAgGridStateService } from './msd-ag-grid-state.service';
 
 @Injectable({
   providedIn: 'root',
@@ -21,14 +23,21 @@ export class MsdAgGridConfigService {
 
   private hasEditorRole = false;
 
-  public columnDefinitions$ = new BehaviorSubject<ColDef[]>(
-    this.getDefaultColumnDefinitions(
+  public columnDefinitions$ = new BehaviorSubject<{
+    defaultColumnDefinitions: ColDef[];
+    savedColumnState: ColumnState[];
+  }>({
+    defaultColumnDefinitions: this.getDefaultColumnDefinitions(
       MaterialClass.STEEL,
       NavigationLevel.MATERIAL
-    )
-  );
+    ),
+    savedColumnState: this.agGridStateService.getColumnState(),
+  });
 
-  constructor(private readonly dataFacade: DataFacade) {
+  constructor(
+    private readonly dataFacade: DataFacade,
+    private readonly agGridStateService: MsdAgGridStateService
+  ) {
     this.init();
   }
 
@@ -43,9 +52,13 @@ export class MsdAgGridConfigService {
         )
       )
       .subscribe(({ materialClass, navigationLevel }) => {
-        this.columnDefinitions$.next(
-          this.getDefaultColumnDefinitions(materialClass, navigationLevel)
-        );
+        this.columnDefinitions$.next({
+          defaultColumnDefinitions: this.getDefaultColumnDefinitions(
+            materialClass,
+            navigationLevel
+          ),
+          savedColumnState: this.agGridStateService.getColumnState(),
+        });
       });
   }
 

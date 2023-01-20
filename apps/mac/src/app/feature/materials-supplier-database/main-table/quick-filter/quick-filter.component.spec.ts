@@ -11,7 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { of, Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
@@ -20,7 +20,12 @@ import { Column, ColumnApi, ColumnState, GridApi } from 'ag-grid-community';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
+import {
+  ACTION,
+  HISTORY,
+  MaterialClass,
+  NavigationLevel,
+} from '@mac/msd/constants';
 import { QuickFilter } from '@mac/msd/models';
 import {
   addCustomQuickfilter,
@@ -31,6 +36,7 @@ import { DataFacade } from '@mac/msd/store/facades/data';
 import { initialState as qfInitialState } from '@mac/msd/store/reducers/quickfilter/quickfilter.reducer';
 
 import * as en from '../../../../../assets/i18n/en.json';
+import { MsdAgGridConfigService } from '../../services/msd-ag-grid-state/msd-ag-grid-config.service';
 import { STEEL_STATIC_QUICKFILTERS } from './config/steel';
 import { QuickFilterComponent } from './quick-filter.component';
 
@@ -78,6 +84,12 @@ describe('QuickFilterComponent', () => {
             navigationLevel: NavigationLevel.MATERIAL,
           }),
           dispatch: jest.fn(),
+        },
+      },
+      {
+        provide: MsdAgGridConfigService,
+        useValue: {
+          getStaticQuickFilters: jest.fn(() => []),
         },
       },
     ],
@@ -166,6 +178,20 @@ describe('QuickFilterComponent', () => {
       component['onChange'] = jest.fn();
       component['dataFacade'].agGridColumns$ = of('');
       component['dataFacade'].agGridFilter$ = of(quickfilter.filter);
+
+      component['onAgGridReady'](gridApi, columnApi);
+
+      expect(component['onChange']).not.toBeCalled();
+    });
+
+    it('subscriptions should NOT react with changes only in ignored columns', () => {
+      component.active = {
+        columns: [ACTION],
+      } as QuickFilter;
+      component['getCurrentColumns'] = jest.fn(() => [HISTORY]);
+      component['onChange'] = jest.fn();
+      component['dataFacade'].agGridColumns$ = of('');
+      component['dataFacade'].agGridFilter$ = new Observable();
 
       component['onAgGridReady'](gridApi, columnApi);
 

@@ -11,6 +11,7 @@ import { DataFacade } from '@mac/msd/store/facades/data';
 import { initialState } from '@mac/msd/store/reducers/data/data.reducer';
 
 import { MsdAgGridConfigService } from './msd-ag-grid-config.service';
+import { MsdAgGridStateService } from './msd-ag-grid-state.service';
 
 describe('MsdAgGridConfigService', () => {
   let spectator: SpectatorService<MsdAgGridConfigService>;
@@ -36,6 +37,12 @@ describe('MsdAgGridConfigService', () => {
           }),
           hasEditorRole$: of(true),
           dispatch: jest.fn(),
+        },
+      },
+      {
+        provide: MsdAgGridStateService,
+        useValue: {
+          getColumnState: jest.fn(() => []),
         },
       },
     ],
@@ -71,7 +78,10 @@ describe('MsdAgGridConfigService', () => {
         MaterialClass.ALUMINUM,
         NavigationLevel.SUPPLIER
       );
-      expect(service.columnDefinitions$.next).toHaveBeenCalledWith([]);
+      expect(service.columnDefinitions$.next).toHaveBeenCalledWith({
+        defaultColumnDefinitions: [],
+        savedColumnState: [],
+      });
     });
   });
 
