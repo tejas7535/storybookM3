@@ -17,8 +17,8 @@ apps/helloworld-azure-e2e @kauppfbi_SGGIT @herpisef_SGGIT @PELZESEN_SGGIT @spiek
 
 # CDBA
 
-apps/cdba @kauppfbi_SGGIT @herpisef_SGGIT @soehnpsc_SGGIT @poltokzy_SGGIT
-apps/cdba-e2e @kauppfbi_SGGIT @herpisef_SGGIT @soehnpsc_SGGIT @poltokzy_SGGIT
+apps/cdba @herpisef_SGGIT @soehnpsc_SGGIT @poltokzy_SGGIT @przybmci_SGGIT
+apps/cdba-e2e @herpisef_SGGIT @soehnpsc_SGGIT @poltokzy_SGGIT @przybmci_SGGIT
 
 # SEDO
 
@@ -37,8 +37,8 @@ apps/mac-e2e @berndcri_SGGIT @krausrbe_SGGIT @konramic_SGGIT
 
 # IA
 
-apps/ia @herpisef_SGGIT @przybmci_SGGIT @krausrbe_SGGIT
-apps/ia-e2e @herpisef_SGGIT @przybmci_SGGIT @krausrbe_SGGIT
+apps/ia @herpisef_SGGIT @przybmci_SGGIT @krausrbe_SGGIT @poltokzy_SGGIT
+apps/ia-e2e @herpisef_SGGIT @przybmci_SGGIT @krausrbe_SGGIT @poltokzy_SGGIT
 
 # MM
 
