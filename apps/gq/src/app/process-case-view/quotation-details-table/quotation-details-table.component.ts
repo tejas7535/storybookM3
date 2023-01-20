@@ -544,6 +544,23 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
   getContextMenuItems(
     params: GetContextMenuItemsParams
   ): (string | MenuItemDef)[] {
-    return [ColumnUtilityService.getCopyCellContentContextMenuItem(params)];
+    let hyperlinkMenuItems: (string | MenuItemDef)[] = [];
+    const HYPERLINK_COLUMNS: string[] = [
+      ColumnFields.QUOTATION_ITEM_ID,
+      ColumnFields.RECOMMENDED_PRICE,
+      ColumnFields.SAP_PRICE,
+    ];
+
+    if (HYPERLINK_COLUMNS.includes(params.column.getColId())) {
+      hyperlinkMenuItems = [
+        ColumnUtilityService.getOpenInNewTabContextMenuItem(params),
+        ColumnUtilityService.getOpenInNewWindowContextMenuItem(params),
+      ];
+    }
+
+    return [
+      ColumnUtilityService.getCopyCellContentContextMenuItem(params),
+      ...hyperlinkMenuItems,
+    ];
   }
 }

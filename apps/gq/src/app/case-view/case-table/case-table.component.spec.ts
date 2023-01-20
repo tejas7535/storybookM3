@@ -23,6 +23,7 @@ import {
 import { AppRoutePath } from '../../app-route-path.enum';
 import { getSelectedCaseIds } from '../../core/store';
 import { ColumnHeadersModule } from '../../shared/ag-grid/column-headers/column-headers.module';
+import { CaseTableColumnFields } from '../../shared/ag-grid/constants/column-fields.enum';
 import { CustomStatusBarModule } from '../../shared/ag-grid/custom-status-bar/custom-status-bar.module';
 import { ColumnUtilityService } from '../../shared/ag-grid/services/column-utility.service';
 import { HelperService } from '../../shared/services/helper-service/helper-service.service';
@@ -188,18 +189,63 @@ describe('CaseTableComponent', () => {
   });
 
   describe('getContextMenuItems', () => {
-    const params: GetContextMenuItemsParams = {
+    let params: GetContextMenuItemsParams = {
+      column: { getColId: jest.fn(() => 'anyColId') },
       defaultItems: ['item1', 'item2'],
-    } as GetContextMenuItemsParams;
-    test('should add item to context menu', () => {
-      component.ngOnInit();
+    } as unknown as GetContextMenuItemsParams;
+
+    beforeEach(() => {
       ColumnUtilityService.getCopyCellContentContextMenuItem = jest.fn(
         () => 'item3'
       );
+      ColumnUtilityService.getOpenInNewTabContextMenuItem = jest.fn(
+        () => 'tab'
+      );
+      ColumnUtilityService.getOpenInNewWindowContextMenuItem = jest.fn(
+        () => 'window'
+      );
+    });
+
+    test('should add item to context menu', () => {
+      component.ngOnInit();
+
       const result = component.getContextMenuItems(params);
       expect(result).toBeDefined();
       expect(result.length).toBe(1);
       expect(result[0]).toBe('item3');
+    });
+
+    test('should NOT add hyperlink context MenuItems', () => {
+      component.getContextMenuItems(params);
+      expect(
+        ColumnUtilityService.getOpenInNewTabContextMenuItem
+      ).not.toHaveBeenCalled();
+      expect(
+        ColumnUtilityService.getOpenInNewWindowContextMenuItem
+      ).not.toHaveBeenCalled();
+    });
+
+    test('should request hyperlink contextMenuItems', () => {
+      params = {
+        ...params,
+        column: {
+          getColId: jest.fn(() => CaseTableColumnFields.GQ_ID),
+        },
+      } as unknown as GetContextMenuItemsParams;
+
+      const result = component.getContextMenuItems(params);
+      expect(
+        ColumnUtilityService.getOpenInNewTabContextMenuItem
+      ).toHaveBeenCalled();
+      expect(
+        ColumnUtilityService.getOpenInNewWindowContextMenuItem
+      ).toHaveBeenCalled();
+      expect(result).toBeDefined();
+      expect(result.length).toBe(3);
+
+      expect(result[0]).toBe('item3');
+      expect(result[1]).toBe('tab');
+      expect(result[2]).toBe('window');
     });
   });
 });

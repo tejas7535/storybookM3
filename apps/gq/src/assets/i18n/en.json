@@ -432,7 +432,9 @@
       "resetAllFiltersOfAllColumns": "Reset All Filtered Columns"
     },
     "customContextMenuItems": {
-      "copyCellContent": "Copy Cell Content"
+      "copyCellContent": "Copy Cell Content",
+      "openInNewTab": "Open in new Tab",
+      "openInNewWindow": "Open in new Window"
     }
   },
   "legal": {

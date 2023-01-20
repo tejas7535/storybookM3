@@ -31,6 +31,7 @@ import { ColumnFields } from '../constants/column-fields.enum';
 import {
   ColumnUtilityService,
   getValueOfFocusedCell,
+  openInNew,
 } from './column-utility.service';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -608,6 +609,69 @@ describe('CreateColumnService', () => {
       expect(window.navigator.clipboard.writeText).toHaveBeenCalledWith(
         'Value'
       );
+    });
+  });
+
+  describe('openInNew', () => {
+    let params: GetContextMenuItemsParams;
+
+    Object.assign(window, {
+      open: jest.fn().mockImplementation(() => Promise.resolve()),
+      location: {
+        origin: jest.fn(() => 'localhost'),
+      },
+    });
+    afterEach(() => jest.clearAllMocks());
+    describe('cellRenderer has url property', () => {
+      beforeEach(() => {
+        params = {
+          node: jest.fn(),
+          column: {
+            getColId: jest.fn(),
+          },
+          api: {
+            getCellRendererInstances: jest.fn(() => [{ url: '/anyUrl' }]), // do not return empty
+          },
+        } as unknown as GetContextMenuItemsParams;
+      });
+
+      test('should call window.open method with tab', () => {
+        openInNew(params, 'tab');
+        expect(window.open).toHaveBeenCalledWith('http://localhost/anyUrl');
+      });
+
+      test('should call window.open method with window', () => {
+        openInNew(params, 'window');
+        expect(window.open).toHaveBeenCalledWith(
+          'http://localhost/anyUrl',
+          '_blank',
+          'location=no,toolbar=yes'
+        );
+      });
+    });
+    describe('cellRenderer does not have url property', () => {
+      beforeEach(() => {
+        params = {
+          node: jest.fn(),
+          column: {
+            getColId: jest.fn(),
+          },
+          api: {
+            getCellRendererInstances: jest.fn(() => [
+              { anyProperty: 'anyString' },
+            ]),
+          },
+        } as unknown as GetContextMenuItemsParams;
+      });
+
+      test('should call NOT window.open method with tab', () => {
+        openInNew(params, 'tab');
+        expect(window.open).not.toHaveBeenCalled();
+      });
+      test('should call NOT window.open method with window', () => {
+        openInNew(params, 'window');
+        expect(window.open).not.toHaveBeenCalled();
+      });
     });
   });
 });

@@ -68,7 +68,7 @@ export class ColumnDefService {
       headerCheckboxSelectionFilteredOnly: true,
       checkboxSelection: true,
       headerName: translate('shared.quotationDetailsTable.item'),
-      field: 'quotationItemId',
+      field: ColumnFields.QUOTATION_ITEM_ID,
       cellRenderer: 'PositionIdComponent',
       sort: 'asc',
       pinned: 'left',

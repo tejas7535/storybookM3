@@ -432,7 +432,9 @@
       "resetAllFiltersOfAllColumns": "Sämtliche Filter aller Spalten zurücksetzen"
     },
     "customContextMenuItems": {
-      "copyCellContent": "Zellinhalt kopieren"
+      "copyCellContent": "Zellinhalt kopieren",
+      "openInNewTab": "In neuem Tab öffnen",
+      "openInNewWindow": "In neuem Fenster öffnen"
     }
   },
   "legal": {

@@ -1,4 +1,5 @@
 export enum ColumnFields {
+  QUOTATION_ITEM_ID = 'quotationItemId',
   MATERIAL_NUMBER_15 = 'material.materialNumber15',
   SAP_STATUS = 'syncInSap',
   UOM = 'material.baseUoM',

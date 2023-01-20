@@ -969,18 +969,58 @@ describe('QuotationDetailsTableComponent', () => {
   });
 
   describe('getContextMenuItems', () => {
-    const params: GetContextMenuItemsParams = {
+    let params: GetContextMenuItemsParams = {
+      column: { getColId: jest.fn(() => 'anyColId') },
       defaultItems: ['item1', 'item2'],
-    } as GetContextMenuItemsParams;
-    test('should add item to context menu', () => {
-      component.ngOnInit();
+    } as unknown as GetContextMenuItemsParams;
+
+    beforeEach(() => {
       ColumnUtilityService.getCopyCellContentContextMenuItem = jest.fn(
         () => 'item3'
       );
+      ColumnUtilityService.getOpenInNewTabContextMenuItem = jest.fn(
+        () => 'tab'
+      );
+      ColumnUtilityService.getOpenInNewWindowContextMenuItem = jest.fn(
+        () => 'window'
+      );
+    });
+    test('should add item to context menu', () => {
       const result = component.getContextMenuItems(params);
       expect(result).toBeDefined();
       expect(result.length).toBe(1);
       expect(result[0]).toBe('item3');
+    });
+    test('should NOT add hyperlink context MenuItems', () => {
+      component.getContextMenuItems(params);
+      expect(
+        ColumnUtilityService.getOpenInNewTabContextMenuItem
+      ).not.toHaveBeenCalled();
+      expect(
+        ColumnUtilityService.getOpenInNewWindowContextMenuItem
+      ).not.toHaveBeenCalled();
+    });
+    test('should request hyperlink contextMenuItems', () => {
+      params = {
+        ...params,
+        column: {
+          getColId: jest.fn(() => ColumnFields.SAP_PRICE),
+        },
+      } as unknown as GetContextMenuItemsParams;
+
+      const result = component.getContextMenuItems(params);
+      expect(
+        ColumnUtilityService.getOpenInNewTabContextMenuItem
+      ).toHaveBeenCalled();
+      expect(
+        ColumnUtilityService.getOpenInNewWindowContextMenuItem
+      ).toHaveBeenCalled();
+      expect(result).toBeDefined();
+      expect(result.length).toBe(3);
+
+      expect(result[0]).toBe('item3');
+      expect(result[1]).toBe('tab');
+      expect(result[2]).toBe('window');
     });
   });
 });

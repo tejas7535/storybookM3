@@ -16,6 +16,7 @@ import {
 
 import { AppRoutePath } from '../../app-route-path.enum';
 import { deselectCase, getSelectedCaseIds, selectCase } from '../../core/store';
+import { CaseTableColumnFields } from '../../shared/ag-grid/constants/column-fields.enum';
 import { AgGridLocale } from '../../shared/ag-grid/models/ag-grid-locale.interface';
 import { AgStatusBar } from '../../shared/ag-grid/models/ag-status-bar.model';
 import { ColumnUtilityService } from '../../shared/ag-grid/services/column-utility.service';
@@ -112,6 +113,19 @@ export class CaseTableComponent implements OnInit {
   getContextMenuItems(
     params: GetContextMenuItemsParams
   ): (string | MenuItemDef)[] {
-    return [ColumnUtilityService.getCopyCellContentContextMenuItem(params)];
+    let hyperlinkMenuItems: (string | MenuItemDef)[] = [];
+    const HYPERLINK_COLUMNS: string[] = [CaseTableColumnFields.GQ_ID];
+
+    if (HYPERLINK_COLUMNS.includes(params.column.getColId())) {
+      hyperlinkMenuItems = [
+        ColumnUtilityService.getOpenInNewTabContextMenuItem(params),
+        ColumnUtilityService.getOpenInNewWindowContextMenuItem(params),
+      ];
+    }
+
+    return [
+      ColumnUtilityService.getCopyCellContentContextMenuItem(params),
+      ...hyperlinkMenuItems,
+    ];
   }
 }

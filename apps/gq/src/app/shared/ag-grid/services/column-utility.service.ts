@@ -31,6 +31,8 @@ import {
   SqvColumns,
 } from '../constants/column-fields.enum';
 
+type openInTarget = 'window' | 'tab';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -215,6 +217,24 @@ export class ColumnUtilityService {
     };
   }
 
+  static getOpenInNewWindowContextMenuItem(
+    params: GetContextMenuItemsParams
+  ): MenuItemDef | string {
+    return {
+      name: translate('shared.customContextMenuItems.openInNewWindow'),
+      action: () => openInNew(params, 'window'),
+    };
+  }
+
+  static getOpenInNewTabContextMenuItem(
+    params: GetContextMenuItemsParams
+  ): MenuItemDef | string {
+    return {
+      name: translate('shared.customContextMenuItems.openInNewTab'),
+      action: () => openInNew(params, 'tab'),
+    };
+  }
+
   filterQuotationStatusColumns(colDef: ColDef, displayStatus: QuotationStatus) {
     if (
       displayStatus !== QuotationStatus.ACTIVE &&
@@ -306,4 +326,35 @@ export function getValueOfFocusedCell(params: GetContextMenuItemsParams): void {
     : params.api.getValue(focusedCell.column, row);
 
   navigator.clipboard.writeText(result ?? '');
+}
+
+export function openInNew(
+  params: GetContextMenuItemsParams,
+  target: openInTarget
+): void {
+  const cellRendererInstance: any[] = params.api.getCellRendererInstances({
+    rowNodes: [params.node],
+    columns: [params.column.getColId()],
+  });
+
+  if (cellRendererInstance.length === 0 || !cellRendererInstance[0]['url']) {
+    return;
+  }
+
+  switch (target) {
+    case 'window':
+      window.open(
+        `${window.location.origin}${cellRendererInstance[0].url}`,
+        '_blank',
+        'location=no,toolbar=yes'
+      );
+      break;
+
+    case 'tab':
+      window.open(`${window.location.origin}${cellRendererInstance[0].url}`);
+      break;
+
+    default:
+      break;
+  }
 }
