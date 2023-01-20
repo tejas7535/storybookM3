@@ -426,7 +426,7 @@
       "customerPurchaseOrderDateLabel": "Customer Purchase order",
       "bindingPeriodValidityEndDateLabel": "Binding period",
       "dateBeforeTodayValidationMessage": "Date is in the past, please check.",
-      "smallerThanPoDateValidationMessage": "Date must not be less than purchase order date."
+      "smallerThanPoDateValidationMessage": "Date must be greater than purchase order date."
     },
     "customMainMenuItems": {
       "resetAllFiltersOfAllColumns": "Reset All Filtered Columns"

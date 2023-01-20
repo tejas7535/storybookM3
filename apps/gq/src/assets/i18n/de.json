@@ -426,7 +426,7 @@
       "customerPurchaseOrderDateLabel": "Bestelldatum",
       "bindingPeriodValidityEndDateLabel": "Gültig bis",
       "dateBeforeTodayValidationMessage": "Datum in der Vergangenheit, bitte prüfen.",
-      "smallerThanPoDateValidationMessage": "Datum darf nicht kleiner als Bestelldatum sein."
+      "smallerThanPoDateValidationMessage": "Datum muss größer als Bestelldatum sein."
     },
     "customMainMenuItems": {
       "resetAllFiltersOfAllColumns": "Sämtliche Filter aller Spalten zurücksetzen"

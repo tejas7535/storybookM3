@@ -270,6 +270,14 @@ describe('EditCaseModalComponent', () => {
         component.validateDateGreaterOrEqualThanPurchaseOrderDate(control);
       expect(result).toEqual(expectedError);
     });
+    it('Should return an error as Error when values equal', () => {
+      const control: FormControl = new FormControl(new Date('01.01.2019'));
+      const expectedError: ValidationErrors = { smallerThanPoDate: true };
+
+      const result: ValidationErrors | null =
+        component.validateDateGreaterOrEqualThanPurchaseOrderDate(control);
+      expect(result).toEqual(expectedError);
+    });
     it('should return undefined if control has no value', () => {
       const control: FormControl = new FormControl(undefined);
       const result: ValidationErrors | null =
