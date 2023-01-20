@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { catchError, map, mergeMap, of } from 'rxjs';
+import { catchError, filter, map, mergeMap, of } from 'rxjs';
 
-import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
+import { MsalBroadcastService } from '@azure/msal-angular';
+import { InteractionStatus } from '@azure/msal-browser';
+import { createEffect, OnInitEffects } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 
 import { HealthCheckService } from '../../../../shared/services/rest-services/health-check-service/health-check.service';
@@ -15,8 +17,8 @@ import {
 @Injectable()
 export class HealthCheckEffects implements OnInitEffects {
   healthCheck$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(pingHealthCheck.type),
+    return this.msalBroadcastService.inProgress$.pipe(
+      filter((status: InteractionStatus) => status === InteractionStatus.None),
       mergeMap(() =>
         this.healthCheckService.pingHealthCheck().pipe(
           map(() => pingHealthCheckSuccess()),
@@ -27,7 +29,7 @@ export class HealthCheckEffects implements OnInitEffects {
   });
 
   constructor(
-    private readonly actions$: Actions,
+    private readonly msalBroadcastService: MsalBroadcastService,
     private readonly healthCheckService: HealthCheckService
   ) {}
 

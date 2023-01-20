@@ -1,8 +1,10 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
+import { defer, of } from 'rxjs';
+
+import { MsalBroadcastService } from '@azure/msal-angular';
+import { InteractionStatus } from '@azure/msal-browser';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
-import { Actions } from '@ngrx/effects';
-import { provideMockActions } from '@ngrx/effects/testing';
 import { marbles } from 'rxjs-marbles';
 
 import { HealthCheckService } from '../../../../shared/services/rest-services/health-check-service/health-check.service';
@@ -14,49 +16,79 @@ import {
 import { HealthCheckEffects } from './health-check.effects';
 
 describe('Health Check Effects', () => {
-  let action: any;
-  let actions$: any;
-
   let effects: HealthCheckEffects;
   let spectator: SpectatorService<HealthCheckEffects>;
   let healthCheckService: HealthCheckService;
+  let inProgressAction$: any;
 
   const createService = createServiceFactory({
     service: HealthCheckEffects,
     imports: [HttpClientTestingModule],
-    providers: [provideMockActions(() => actions$)],
+    providers: [
+      {
+        provide: MsalBroadcastService,
+        useValue: {
+          inProgress$: defer(() => inProgressAction$),
+        },
+      },
+    ],
   });
 
   beforeEach(() => {
     spectator = createService();
-    actions$ = spectator.inject(Actions);
     effects = spectator.inject(HealthCheckEffects);
     healthCheckService = spectator.inject(HealthCheckService);
   });
 
   describe('healthCheck$', () => {
-    test('should return pingHealthCheckSuccess', () => {
+    test(
+      'should not ping health check when event is LOGIN',
       marbles((m) => {
-        action = pingHealthCheck();
-        const result = pingHealthCheckSuccess();
-
-        actions$ = m.hot('-a', { a: action });
         healthCheckService.pingHealthCheck = jest.fn();
-        const expected$ = m.cold('--b', { b: result });
+        const action = m.hot('-a', {
+          a: InteractionStatus.Login,
+        });
+
+        inProgressAction$ = action;
+        const expected = m.cold('----');
+
+        m.expect(effects.healthCheck$).toBeObservable(expected);
+        m.flush();
+        expect(healthCheckService.pingHealthCheck).not.toHaveBeenCalled();
+      })
+    );
+
+    test(
+      'should return pingHealthCheckSuccess',
+      marbles((m) => {
+        const result = pingHealthCheckSuccess();
+        healthCheckService.pingHealthCheck = jest.fn().mockReturnValue(of([]));
+
+        const action = m.hot('-a', {
+          a: InteractionStatus.None,
+        });
+
+        inProgressAction$ = action;
+
+        const expected$ = m.cold('-b', { b: result });
 
         m.expect(effects.healthCheck$).toBeObservable(expected$);
         m.flush();
         expect(healthCheckService.pingHealthCheck).toHaveBeenCalledTimes(1);
-      });
-    });
+      })
+    );
+
     test('should return pingHealthCheckFailure', () => {
       marbles((m) => {
         const errorMessage = 'errorMessage';
         const result = pingHealthCheckFailure({ errorMessage });
 
-        actions$ = m.hot('-a', { a: action });
+        const action = m.hot('-a', {
+          a: InteractionStatus.None,
+        });
 
-        action = pingHealthCheck();
+        inProgressAction$ = action;
+
         const response = m.cold('-#|', undefined, errorMessage);
         const expected = m.cold('--b', { b: result });
         healthCheckService.pingHealthCheck = jest.fn(() => response);
