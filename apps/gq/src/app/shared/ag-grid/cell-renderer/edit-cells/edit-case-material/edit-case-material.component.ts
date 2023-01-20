@@ -17,7 +17,6 @@ import {
 import { AutocompleteRequestDialog } from '../../../../components/autocomplete-input/autocomplete-request-dialog.enum';
 import { EditingMaterialModalComponent } from '../../../../components/modal/editing-material-modal/editing-material-modal.component';
 import { MaterialTableItem } from '../../../../models/table';
-import { FeatureToggleConfigService } from '../../../../services/feature-toggle/feature-toggle-config.service';
 
 @Component({
   selector: 'gq-edit-case-material',
@@ -28,18 +27,13 @@ import { FeatureToggleConfigService } from '../../../../services/feature-toggle/
 export class EditCaseMaterialComponent {
   public params: ICellRendererParams;
   public cellValue: string;
-  public showEditMaterialButtonEnabled: boolean;
   public isCaseView: boolean;
 
   constructor(
-    private readonly featureToggleService: FeatureToggleConfigService,
     private readonly dialog: MatDialog,
     private readonly store: Store,
     private readonly router: Router
   ) {
-    this.showEditMaterialButtonEnabled = this.featureToggleService.isEnabled(
-      'showEditMaterialButton'
-    );
     this.isCaseView = this.router.url === `/${AppRoutePath.CaseViewPath}`;
   }
 

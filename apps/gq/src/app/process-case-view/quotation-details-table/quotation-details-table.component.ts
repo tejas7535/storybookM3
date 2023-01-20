@@ -55,7 +55,6 @@ import {
   SapPriceCondition,
 } from '../../shared/models/quotation-detail';
 import { AgGridStateService } from '../../shared/services/ag-grid-state.service/ag-grid-state.service';
-import { FeatureToggleConfigService } from '../../shared/services/feature-toggle/feature-toggle-config.service';
 import { PriceService } from '../../shared/services/price-service/price.service';
 import {
   COMPONENTS,
@@ -76,7 +75,6 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
     this.tableContext.quotation = quotation;
   }
 
-  public customViewsEnabled = false;
   public sideBar: SideBarDef = SIDE_BAR;
   public defaultColumnDefs: ColDef = DEFAULT_COLUMN_DEFS;
   public statusBar: { statusPanels: StatusPanelDef[] } = STATUS_BAR_CONFIG;
@@ -107,8 +105,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
     private readonly agGridStateService: AgGridStateService,
     private readonly columnDefinitionService: ColumnDefService,
     private readonly localizationService: LocalizationService,
-    private readonly router: Router,
-    private readonly featureToggleService: FeatureToggleConfigService
+    private readonly router: Router
   ) {}
 
   ngOnDestroy(): void {
@@ -119,8 +116,6 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.customViewsEnabled =
-      this.featureToggleService.isEnabled('customViews');
     this.columnDefs$ = this.store.pipe(
       getColumnDefsForRoles(this.columnDefinitionService.COLUMN_DEFS),
       map((columnDefs: ColDef[]) =>

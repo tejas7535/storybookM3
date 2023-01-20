@@ -1,9 +1,3 @@
-export const DEFAULT_CONFIG: GqFeatureToggleConfig = {
-  customViews: true,
-  showEditMaterialButton: true,
-};
-
-export interface GqFeatureToggleConfig {
-  customViews: boolean;
-  showEditMaterialButton: boolean;
-}
+export const DEFAULT_CONFIG: GqFeatureToggleConfig = {};
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface GqFeatureToggleConfig {}
