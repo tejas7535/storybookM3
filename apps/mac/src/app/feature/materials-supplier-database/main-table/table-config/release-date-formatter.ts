@@ -1,3 +1,4 @@
+import { translate } from '@ngneat/transloco';
 import { ValueFormatterParams } from 'ag-grid-community';
 import moment from 'moment';
 
@@ -5,8 +6,9 @@ export const RELEASE_DATE_FORMATTER = ({
   value,
 }: ValueFormatterParams<any, Date>) => {
   if (!value) {
-    // eslint-disable-next-line unicorn/no-useless-undefined
-    return undefined;
+    return translate(
+      'materialsSupplierDatabase.mainTable.columns.releaseDateHistoric'
+    );
   }
 
   return moment(value).format('MM/YY');

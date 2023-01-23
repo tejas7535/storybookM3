@@ -69,6 +69,7 @@ import * as en from '../../../../../../../assets/i18n/en.json';
 import { BaseDialogModule } from '../../base-dialog/base-dialog.module';
 import { MaterialInputDialogModule } from '../../material-input-dialog.module';
 import { DialogControlsService } from '../../services';
+import { ReleaseDateViewMode } from './constants/release-date-view-mode.enum';
 import { SteelInputDialogComponent } from './steel-input-dialog.component';
 
 describe('SteelInputDialogComponent', () => {
@@ -573,33 +574,53 @@ describe('SteelInputDialogComponent', () => {
     });
   });
 
-  describe('releaseDateYearFormatter', () => {
-    it('should return the given value', () => {
-      const result = component.releaseDateYearFormatter(2000);
-
-      expect(result).toEqual(2000);
+  describe('selectReleaseDateView', () => {
+    beforeEach(() => {
+      component.isEditDialog = jest.fn(() => false);
+      component.isCopyDialog = jest.fn(() => false);
+      component.releaseMonthControl.enable();
+      component.releaseYearControl.enable();
     });
-
-    it('should return the string translation for undefined values', () => {
-      // eslint-disable-next-line unicorn/no-useless-undefined
-      const result = component.releaseDateYearFormatter(undefined);
-
-      expect(result).toEqual('historical supplier');
+    it('should return NEW for ADD Dialog', () => {
+      component.isCopyDialog = jest.fn(() => false);
+      component.isEditDialog = jest.fn(() => false);
+      expect(component.selectReleaseDateView()).toBe(
+        ReleaseDateViewMode.DEFAULT
+      );
     });
-  });
-
-  describe('releaseDateMonthFormatter', () => {
-    it('should return the given value', () => {
-      const result = component.releaseDateMonthFormatter(1);
-
-      expect(result).toEqual('January');
+    it('should return NEW for COPY Dialog', () => {
+      component.isCopyDialog = jest.fn(() => true);
+      component.isEditDialog = jest.fn(() => true);
+      expect(component.selectReleaseDateView()).toBe(
+        ReleaseDateViewMode.DEFAULT
+      );
     });
-
-    it('should return the string translation for undefined values', () => {
-      // eslint-disable-next-line unicorn/no-useless-undefined
-      const result = component.releaseDateMonthFormatter(undefined);
-
-      expect(result).toEqual('historical supplier');
+    it('should return READONLY for EDIT Dialog', () => {
+      component.isCopyDialog = jest.fn(() => false);
+      component.isEditDialog = jest.fn(() => true);
+      component.releaseMonthControl.setValue(1);
+      component.releaseYearControl.setValue(33);
+      expect(component.selectReleaseDateView()).toBe(
+        ReleaseDateViewMode.READONLY
+      );
+    });
+    it('should return HISTORIC for EDIT Dialog without full release date (month)', () => {
+      component.isCopyDialog = jest.fn(() => false);
+      component.isEditDialog = jest.fn(() => true);
+      component.releaseMonthControl.reset();
+      component.releaseYearControl.setValue(33);
+      expect(component.selectReleaseDateView()).toBe(
+        ReleaseDateViewMode.HISTORIC
+      );
+    });
+    it('should return HISTORIC for EDIT Dialog without full release date (Year)', () => {
+      component.isCopyDialog = jest.fn(() => false);
+      component.isEditDialog = jest.fn(() => true);
+      component.releaseMonthControl.setValue(1);
+      component.releaseYearControl.reset();
+      expect(component.selectReleaseDateView()).toBe(
+        ReleaseDateViewMode.HISTORIC
+      );
     });
   });
 

@@ -103,6 +103,7 @@ export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
     cellRenderer: EditCellRendererComponent,
     valueFormatter: RELEASE_DATE_FORMATTER,
     valueGetter: RELEASE_DATE_VALUE_GETTER,
+    headerTooltip: RELEASE_DATE,
     filter: 'agDateColumnFilter',
   },
   {

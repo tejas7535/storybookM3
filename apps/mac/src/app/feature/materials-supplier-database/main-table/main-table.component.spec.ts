@@ -1338,14 +1338,16 @@ describe('MainTableComponent', () => {
   });
 
   describe('RELEASE_DATE_FORMATTER', () => {
-    it('should return undefined if the value is undefined', () => {
+    it('should return translation if the value is undefined', () => {
       const mockParams = {
         value: undefined,
       } as ValueFormatterParams<any, Date>;
 
       const result = RELEASE_DATE_FORMATTER(mockParams);
 
-      expect(result).toEqual(undefined);
+      expect(result).toEqual(
+        'materialsSupplierDatabase.mainTable.columns.releaseDateHistoric'
+      );
     });
 
     it('should return the date as string formatted to MM/YY', () => {

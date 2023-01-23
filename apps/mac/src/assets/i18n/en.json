@@ -290,6 +290,7 @@
         "referenceDocument": "Referenced in Document (TODO)",
         "referenceDoc": "Referenced in Document",
         "releaseDate": "Release Date",
+        "releaseDateHistoric": "Historical supplier",
         "releaseDateMonth": "Release Date Month",
         "releaseDateYear": "Release Date Year",
         "releaseRestrictions": "Release Restrictions",
@@ -416,6 +417,8 @@
         "referencedInDocument": "Referenced in document",
         "releaseDateMonth": "Release Month",
         "releaseDateYear": "Release Year",
+        "releaseDate": "Release Date ",
+        "historicallyApproved": "Historical supplier (P 174200 / P 174211)",
         "releaseRestrictions": "Release restrictions / Comment on CO₂ calculation",
         "scope1": "Scope 1",
         "scope2": "Scope 2",
@@ -444,8 +447,7 @@
         "updateManufacturerSupplierTitle": "Update {{class}} Manufacturer Supplier",
         "var": "VAR",
         "vim/esr": "VIM/ESR",
-        "vim/var": "VIM/VAR",
-        "historicallyApproved": "historical supplier"
+        "vim/var": "VIM/VAR"
       },
       "excelExport": {
         "author": "MSD (Materials Supplier Database)",
@@ -482,7 +484,8 @@
         "selfCertified": "Supplier is testing its deliveries itself.",
         "maxDimension": "Maximum dimension (diameter, thickness) allowed to be delivered by supplier",
         "rating": "Quality level of steel supplier according to S 266042 (if available); from RSI (highest quality) to RSIII (lowest quality)",
-        "steelMakingProcess": "<ul><li>BF: blast furnace</li><li>DRI: direct reduced iron</li><li>BOF: basic oxygen furnace</li><li>EAF: electric arc furnace</li><li>EOF: energy optimizing furnace</li><li>VIM: vacuum induction melting</li><li>ESR: electro-slag remelting</li><li>VAR: vacuum arc remelting</li></ul>"
+        "steelMakingProcess": "<ul><li>BF: blast furnace</li><li>DRI: direct reduced iron</li><li>BOF: basic oxygen furnace</li><li>EAF: electric arc furnace</li><li>EOF: energy optimizing furnace</li><li>VIM: vacuum induction melting</li><li>ESR: electro-slag remelting</li><li>VAR: vacuum arc remelting</li></ul>",
+        "releaseDate": "Date of initial release;<br>The term '<i>historical supplier</i>' is in accordance with P 174200 and P 174211"
       },
       "yes": "Yes"
     },

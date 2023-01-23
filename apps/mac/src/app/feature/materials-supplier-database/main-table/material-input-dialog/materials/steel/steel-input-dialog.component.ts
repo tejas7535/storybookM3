@@ -39,6 +39,7 @@ import {
 import { DialogFacade } from '@mac/msd/store/facades/dialog';
 
 import * as util from '../../util';
+import { ReleaseDateViewMode } from './constants/release-date-view-mode.enum';
 
 @Component({
   selector: 'mac-steel-input-dialog',
@@ -338,21 +339,17 @@ export class SteelInputDialogComponent
       });
   }
 
-  public releaseDateYearFormatter(year: number): number | string {
-    return (
-      year ??
-      translate(
-        'materialsSupplierDatabase.mainTable.dialog.historicallyApproved'
-      )
-    );
-  }
-
-  public releaseDateMonthFormatter(month: number): number | string {
-    return month
-      ? translate(`materialsSupplierDatabase.mainTable.dialog.month.${month}`)
-      : translate(
-          'materialsSupplierDatabase.mainTable.dialog.historicallyApproved'
-        );
+  public selectReleaseDateView() {
+    if (!this.isEditDialog() || this.isCopyDialog()) {
+      return ReleaseDateViewMode.DEFAULT;
+    } else if (
+      this.releaseMonthControl.value &&
+      this.releaseYearControl.value
+    ) {
+      return ReleaseDateViewMode.READONLY;
+    } else {
+      return ReleaseDateViewMode.HISTORIC;
+    }
   }
 
   public addReferenceDocument(referenceDocument: string): void {
