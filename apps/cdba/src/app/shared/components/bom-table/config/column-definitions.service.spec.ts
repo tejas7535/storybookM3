@@ -3,7 +3,12 @@ import {
   mockProvider,
   SpectatorService,
 } from '@ngneat/spectator/jest';
-import { ValueFormatterParams, ValueGetterParams } from 'ag-grid-community';
+import {
+  ColDef,
+  ColGroupDef,
+  ValueFormatterParams,
+  ValueGetterParams,
+} from 'ag-grid-community';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -54,7 +59,7 @@ describe('ColumnDefinitions', () => {
 
       // oData
       betaFeatureService.getBetaFeature = jest.fn(() => true);
-      expect(service.getColDef().length).toBe(73);
+      expect(service.getColDef().length).toBe(12);
     });
   });
 
@@ -92,15 +97,20 @@ describe('ColumnDefinitions', () => {
       );
 
       columnDefinitions.forEach((column) => {
-        if (column.valueGetter) {
-          const valueGetter = column.valueGetter as ValueGetterFunction;
-          valueGetter({ data: {} } as ValueGetterParams);
-        }
+        if ((column as ColGroupDef).children?.length > 0) {
+          (column as ColGroupDef).children.forEach((col) => {
+            if ((col as ColDef).valueGetter) {
+              const valueGetter = (col as ColDef)
+                .valueGetter as ValueGetterFunction;
+              valueGetter({ data: {} } as ValueGetterParams);
+            }
 
-        if (column.valueFormatter) {
-          const valueFormatter =
-            column.valueFormatter as ValueFormatterFunction;
-          valueFormatter({ data: {} } as ValueFormatterParams);
+            if ((col as ColDef).valueFormatter) {
+              const valueFormatter = (col as ColDef)
+                .valueFormatter as ValueFormatterFunction;
+              valueFormatter({ data: {} } as ValueFormatterParams);
+            }
+          });
         }
       });
 

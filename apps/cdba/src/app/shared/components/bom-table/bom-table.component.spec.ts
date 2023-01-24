@@ -7,6 +7,7 @@ import {
 } from '@ngneat/spectator/jest';
 import { AgGridModule } from 'ag-grid-angular';
 import {
+  ColumnMovedEvent,
   FirstDataRenderedEvent,
   GridReadyEvent,
   RowClickedEvent,
@@ -114,6 +115,8 @@ describe('BomTableComponent', () => {
   describe('onGridReady', () => {
     beforeEach(() => {
       component.gridReady.emit = jest.fn();
+      component['organizeColumns'] = jest.fn();
+      JSON.parse = jest.fn();
     });
 
     it('should set api and event listener', () => {
@@ -159,7 +162,7 @@ describe('BomTableComponent', () => {
 
       component.onFirstDataRendered(params);
 
-      expect(params.columnApi.autoSizeAllColumns).toHaveBeenCalledWith(false);
+      expect(params.columnApi.autoSizeAllColumns).toHaveBeenCalledWith(true);
     });
   });
 
@@ -320,6 +323,43 @@ describe('BomTableComponent', () => {
       const result = component.getRowClass(params);
 
       expect(result).toEqual('row-low-cost-share');
+    });
+  });
+
+  describe('customColumnsOrder', () => {
+    const columnsState = [
+      {
+        colId: 'foo',
+      },
+      {
+        colId: 'bar',
+      },
+    ];
+    const evt = {
+      columnApi: {
+        getColumnState: jest.fn().mockReturnValue(columnsState),
+      },
+    } as unknown as ColumnMovedEvent;
+
+    beforeEach(() => {
+      component.localStorage.clear();
+      component.localStorage.setItem = jest.fn();
+      JSON.stringify = jest.fn().mockReturnValue(columnsState.toString());
+    });
+
+    it('should have initially empty storage', () => {
+      const customColumnsOrder = component.localStorage.getItem(
+        component['customColumnsOrderKey']
+      );
+
+      expect(customColumnsOrder).toBeUndefined();
+    });
+    it('should save custom columns order', () => {
+      const onDragStoppedSpy = jest.spyOn(component, 'onColumnTouched');
+      component.onColumnTouched(evt);
+
+      expect(onDragStoppedSpy).toHaveBeenCalled();
+      expect(component.localStorage.setItem).toHaveBeenCalled();
     });
   });
 

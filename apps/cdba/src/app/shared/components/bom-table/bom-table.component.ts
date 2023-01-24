@@ -2,14 +2,18 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  Inject,
   Input,
   OnChanges,
   Output,
   SimpleChanges,
 } from '@angular/core';
 
+import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { translate } from '@ngneat/transloco';
 import {
+  ColumnMovedEvent,
+  ColumnVisibleEvent,
   FirstDataRenderedEvent,
   GridReadyEvent,
   RowClickedEvent,
@@ -41,7 +45,8 @@ export class BomTableComponent implements OnChanges {
     protected columnDefinitionService: ColumnDefinitionService,
     protected sidebarService: SidebarService,
     protected scrambleMaterialDesignationPipe: ScrambleMaterialDesignationPipe,
-    private readonly costShareService: CostShareService
+    private readonly costShareService: CostShareService,
+    @Inject(LOCAL_STORAGE) readonly localStorage: Storage
   ) {}
 
   @Input() index: number;
@@ -79,6 +84,8 @@ export class BomTableComponent implements OnChanges {
   private gridApi: GridApi;
   private gridColumnApi: ColumnApi;
 
+  private readonly customColumnsOrderKey = 'custom_columns_order';
+
   ngOnChanges(changes: SimpleChanges): void {
     if (!this.gridApi) {
       return;
@@ -108,11 +115,24 @@ export class BomTableComponent implements OnChanges {
       this.onRowGroupOpened.bind(this)
     );
 
+    const customColumnsState = this.loadCustomColumnsOrder(
+      this.customColumnsOrderKey
+    );
+
+    if (customColumnsState) {
+      params.columnApi.applyColumnState({
+        state: customColumnsState,
+        applyOrder: true,
+      });
+    } else {
+      this.organizeColumns();
+    }
+
     this.gridReady.emit(this.gridApi);
   }
 
   onFirstDataRendered(params: FirstDataRenderedEvent): void {
-    params.columnApi.autoSizeAllColumns(false);
+    params.columnApi.autoSizeAllColumns(true);
   }
 
   getDataPath = (data: BomItem): string[] => {
@@ -138,6 +158,10 @@ export class BomTableComponent implements OnChanges {
     this.currentSelectedRow = evt;
     this.updateNonLevel2Children(evt.node);
     this.gridApi.redrawRows();
+  }
+
+  onColumnTouched(evt: ColumnVisibleEvent | ColumnMovedEvent): void {
+    this.saveCustomColumnsOrder(evt);
   }
 
   updateNonLevel2Children(node: RowNode): void {
@@ -187,5 +211,18 @@ export class BomTableComponent implements OnChanges {
     };
     this.nonLevel2Children = [];
     this.gridApi.redrawRows();
+  }
+
+  private organizeColumns(): void {
+    this.gridColumnApi?.moveColumn('procurement.plant', 4);
+  }
+
+  private saveCustomColumnsOrder(evt: any): void {
+    const columnState = JSON.stringify(evt.columnApi.getColumnState());
+    this.localStorage.setItem(this.customColumnsOrderKey, columnState);
+  }
+
+  private loadCustomColumnsOrder(key: string): any {
+    return JSON.parse(this.localStorage.getItem(key));
   }
 }

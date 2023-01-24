@@ -12,11 +12,13 @@ export class SidebarService {
         labelDefault: translate('shared.table.sidebar.columns'),
         labelKey: 'columns',
         iconKey: 'columns',
+        width: 450,
         toolPanel: 'agColumnsToolPanel',
         toolPanelParams: {
           suppressValues: true,
           suppressPivots: true,
           suppressPivotMode: true,
+          suppressSyncLayoutWithGrid: true,
         },
       },
     ],

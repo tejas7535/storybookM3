@@ -111,7 +111,7 @@
         "level": "Level",
         "materialDesignation": "Material Designation",
         "totalPricePerPc": "Costs",
-        "fixedCost": "Fix Costs",
+        "fixedCost": "Fixed Costs",
         "variableCost": "Variable Costs (no selling price)",
         "currency": "Currency",
         "costObjectCurrency": "Costs Object Currency",
@@ -184,6 +184,19 @@
         "productCostingBomNumber": "BOM Number",
         "productCostingBomUsage": "BOM Usage",
         "productCostingBomAlternative": "BOM Alternative"
+      },
+      "groupHeaders": {
+        "materialInformation": "Material Information",
+        "controllingAreaCurrency": "Controlling area currency",
+        "companyCodeAndObjectCurrency": "Company code & Object currency",
+        "supplyChain": "Supply Chain",
+        "quantities": "Quantities",
+        "manufacturingCosts": "Manufacturing costs",
+        "scrap": "Scrap",
+        "informationMachine": "Information machine",
+        "purchase": "Purchase",
+        "generalCostInfos": "General Cost Infos",
+        "bomInformation": "BOM Information"
       },
       "noBom": {
         "text": "Unfortunately, we could not find any bill of material for the selected calculation."
