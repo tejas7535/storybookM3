@@ -7,7 +7,7 @@ import {
 import {
   AbstractControl,
   FormControl,
-  UntypedFormControl,
+  FormGroup,
   UntypedFormGroup,
   ValidationErrors,
   ValidatorFn,
@@ -65,15 +65,15 @@ export class EditCaseModalComponent implements OnInit {
     this.adapter.setLocale(locale || 'en-US');
 
     this.currencies$ = this.store.select(getAvailableCurrencies);
-
-    this.caseModalForm = new UntypedFormGroup({
-      caseName: new UntypedFormControl(this.modalData?.caseName || '', [
-        Validators.pattern('\\s*\\S.*'),
-        Validators.maxLength(this.NAME_MAX_LENGTH),
-      ]),
-      currency: new UntypedFormControl(this.modalData.currency, [
-        Validators.required,
-      ]),
+    this.caseModalForm = new FormGroup({
+      caseName: new FormControl(
+        { value: this.modalData?.caseName || undefined, disabled: false },
+        [
+          Validators.pattern('\\s*\\S.*'),
+          Validators.maxLength(this.NAME_MAX_LENGTH),
+        ]
+      ),
+      currency: new FormControl(this.modalData.currency, [Validators.required]),
       quotationToDate: new FormControl(
         {
           value: this.modalData?.quotationToDate
@@ -135,7 +135,9 @@ export class EditCaseModalComponent implements OnInit {
 
   submitDialog(): void {
     const returnUpdateQuotationRequest: UpdateQuotationRequest = {
-      caseName: this.caseModalForm.controls.caseName.value.trim(),
+      caseName: this.caseModalForm.controls.caseName.value
+        ? this.caseModalForm.controls.caseName.value.trim()
+        : undefined,
       currency: this.caseModalForm.controls.currency.value,
       quotationToDate: this.caseModalForm.controls.quotationToDate.value
         ? new Date(
