@@ -132,6 +132,7 @@ export class LostJobProfilesComponent {
         count: params.data.employeesCount,
         restrictedAccess: false,
       }),
+      comparator: this.countComparator,
     },
     {
       field: 'leavers',
@@ -155,7 +156,7 @@ export class LostJobProfilesComponent {
       }),
       filter: 'agNumberColumnFilter',
       flex: 1,
-      valueFormatter: (params) => params.data.openPositionsCount,
+      valueGetter: (params) => params.data.openPositionsCount,
     },
   ];
 
