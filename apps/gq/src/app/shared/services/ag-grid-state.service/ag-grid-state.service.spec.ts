@@ -546,6 +546,52 @@ describe('AgGridStateService', () => {
       );
     });
 
+    test('should create more then 10 views', () => {
+      const bigMockState = {
+        ...mockState,
+        customViews: [
+          { id: 0, title: translatedViewName, state: { columnState: [] } },
+          { id: 3, title: 'test view 1', state: { columnState: [] } },
+          { id: 1, title: 'test view 2', state: { columnState: [] } },
+          { id: 2, title: 'test view 3', state: { columnState: [] } },
+          { id: 4, title: 'test view 4', state: { columnState: [] } },
+          { id: 5, title: 'test view 5', state: { columnState: [] } },
+          { id: 6, title: 'test view 6', state: { columnState: [] } },
+          { id: 7, title: 'test view 7', state: { columnState: [] } },
+          { id: 8, title: 'test view 8', state: { columnState: [] } },
+          { id: 9, title: 'test view 9', state: { columnState: [] } },
+          { id: 10, title: 'test view 10', state: { columnState: [] } },
+        ],
+      } as any;
+
+      service['localStorage'].setItem = jest.fn();
+      service['localStorage'].getItem = jest
+        .fn()
+        .mockReturnValue(JSON.stringify(bigMockState));
+
+      service.init('process_case');
+      service.createViewFromScratch('test-view');
+
+      expect(service['localStorage'].setItem).toHaveBeenCalledTimes(1);
+      expect(service['localStorage'].setItem).toHaveBeenCalledWith(
+        'GQ_PROCESS_CASE_STATE',
+        JSON.stringify({
+          ...bigMockState,
+          customViews: [
+            ...bigMockState.customViews,
+            {
+              id: 11,
+              title: 'test-view',
+              state: {
+                columnState: [],
+                filterState: [],
+              },
+            },
+          ],
+        })
+      );
+    });
+
     test('should create new view from current view', () => {
       const mockColumnState = [
         {

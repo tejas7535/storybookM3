@@ -78,7 +78,7 @@ export class AgGridStateService {
   private getColumnFilters(key: string, viewId: number) {
     const view = this.getViewById(key, viewId);
 
-    return view.state.filterState || [];
+    return view?.state?.filterState || [];
   }
 
   public getColumnFiltersForCurrentView(): FilterState[] {
@@ -263,7 +263,7 @@ export class AgGridStateService {
     const ids: number[] = this.getCustomViews().map(
       (view: ViewToggle) => view.id
     );
-    ids.sort();
+    ids.sort((a: number, b: number) => a - b);
 
     return ids[ids.length - 1] + 1;
   }
