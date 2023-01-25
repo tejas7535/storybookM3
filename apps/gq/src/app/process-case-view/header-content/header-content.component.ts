@@ -112,7 +112,12 @@ export class HeaderContentComponent {
         if (
           result &&
           (result.caseName !== this.caseName ||
-            result.currency !== this.currency)
+            result.currency !== this.currency ||
+            result.quotationToDate !== this.quotationToDate ||
+            result.requestedDelDate !== this.requestedDeliveryDate ||
+            result.customerPurchaseOrderDate !==
+              this.customerPurchaseOrderDate ||
+            result.validTo !== this.bindingPeriodValidityEndDate)
         ) {
           this.updateQuotation.emit({
             caseName: result.caseName,

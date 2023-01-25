@@ -182,10 +182,8 @@ export class EditCaseModalComponent implements OnInit {
     }
 
     if (this.caseModalForm) {
-      console.log(new Date(control.value));
-
       const poDate = this.caseModalForm.get('customerPurchaseOrderDate');
-      console.log(poDate);
+
       if (poDate && new Date(control.value).valueOf() <= poDate.value) {
         return { smallerThanPoDate: true };
       }
