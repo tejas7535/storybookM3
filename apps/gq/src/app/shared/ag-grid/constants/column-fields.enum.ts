@@ -60,6 +60,7 @@ export enum CaseTableColumnFields {
   CUSTOMER_NUMBER = 'customerIdentifiers.customerId',
   CUSTOMER_NAME = 'customerName',
   LAST_UPDATED = 'gqLastUpdated',
+  CASE_ORIGIN = 'origin',
 }
 
 export enum MaterialColumnFields {

@@ -1,3 +1,4 @@
+import { CASE_ORIGIN } from '../../../app/shared/models';
 import { ViewQuotation } from '../../../app/shared/models/quotation';
 
 export const VIEW_QUOTATION_MOCK: ViewQuotation = {
@@ -13,4 +14,5 @@ export const VIEW_QUOTATION_MOCK: ViewQuotation = {
   gqCreatedByUser: { id: 'userid', name: 'username' },
   gqLastUpdatedByUser: { id: 'userid', name: 'username' },
   gqLastUpdated: '2022-02-21T09:14:17.2994738+01:00',
+  origin: CASE_ORIGIN.CREATED_MANUALLY,
 };

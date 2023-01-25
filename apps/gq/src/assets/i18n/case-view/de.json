@@ -15,7 +15,14 @@
     "gqId": "GQ Case",
     "sapId": "SAP Angebotsnummer",
     "caseName": "Case Bezeichnung",
-    "syncStatus": "Sync Status"
+    "syncStatus": "Sync Status",
+    "origin": {
+      "title": "Case Herkunft",
+      "unknown": "Unbekannt",
+      "sapImported": "SAP Import",
+      "createdManually": "Manuell erstellt",
+      "createdFromCustomer": "Auf Kundenbasis erstellt"
+    }
   },
   "caseCreation": {
     "importCase": {

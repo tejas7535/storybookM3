@@ -13,6 +13,7 @@ import { IStatusPanelParams } from 'ag-grid-community';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
+  CASE_ORIGIN,
   ExtendedStatusPanelComponentParams,
   QuotationStatus,
 } from '../../../models';
@@ -146,6 +147,7 @@ describe('UpdateCaseStatusButtonComponent', () => {
           sapCreated: '',
           sapCreatedByUser: undefined,
           sapId: '',
+          origin: CASE_ORIGIN.CREATED_MANUALLY,
         },
       ];
 
@@ -177,6 +179,7 @@ describe('UpdateCaseStatusButtonComponent', () => {
           sapCreated: '',
           sapCreatedByUser: undefined,
           sapId: '',
+          origin: CASE_ORIGIN.CREATED_MANUALLY,
         },
       ];
 

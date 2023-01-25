@@ -3,6 +3,7 @@ export * from './environment.enum';
 export * from './keyboard.enum';
 export * from './language.model';
 export * from './quotation/quotation.model';
+export * from './quotation/quotation-origin.enum';
 export * from './quotation/quotation-status.enum';
 export * from './role-group.model';
 export * from './simulated-quotation';

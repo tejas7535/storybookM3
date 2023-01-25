@@ -14,4 +14,5 @@ export interface ViewQuotation {
   gqLastUpdated: string;
   customerIdentifiers: CustomerIds;
   customerName: string;
+  origin: number;
 }

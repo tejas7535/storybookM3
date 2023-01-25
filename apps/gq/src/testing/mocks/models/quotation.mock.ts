@@ -1,4 +1,4 @@
-import { Quotation } from '../../../app/shared/models';
+import { CASE_ORIGIN, Quotation } from '../../../app/shared/models';
 import { SapCallInProgress } from '../../../app/shared/models/quotation';
 import { QuotationStatus } from '../../../app/shared/models/quotation/quotation-status.enum';
 import { SAP_SYNC_STATUS } from '../../../app/shared/models/quotation-detail';
@@ -31,4 +31,5 @@ export const QUOTATION_MOCK: Quotation = {
   sapSyncStatus: SAP_SYNC_STATUS.NOT_SYNCED,
   sapQuotationToDate: '',
   sapCustomerPurchaseOrderDate: '',
+  origin: CASE_ORIGIN.CREATED_MANUALLY,
 };

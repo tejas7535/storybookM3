@@ -14,7 +14,12 @@ import {
 import { CalculationType } from '../../../core/store/reducers/sap-price-details/models/calculation-type.enum';
 import { getNumberFilterRegex, LOCALE_DE, LOCALE_EN } from '../../constants';
 import { UserRoles } from '../../constants/user-roles.enum';
-import { Keyboard, Quotation, QuotationStatus } from '../../models';
+import {
+  CASE_ORIGIN,
+  Keyboard,
+  Quotation,
+  QuotationStatus,
+} from '../../models';
 import { PriceSource, QuotationDetail } from '../../models/quotation-detail';
 import { LastCustomerPriceCondition } from '../../models/quotation-detail/last-customer-price-condition.enum';
 import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
@@ -298,6 +303,23 @@ export class ColumnUtilityService {
     }
 
     return this.helperService.transformDate(date);
+  }
+
+  caseOriginFormatter(caseOrigin: string): string {
+    switch (caseOrigin) {
+      case CASE_ORIGIN.SAP_IMPORTED.toString(): {
+        return translate('caseView.caseTable.origin.sapImported');
+      }
+      case CASE_ORIGIN.CREATED_MANUALLY.toString(): {
+        return translate('caseView.caseTable.origin.createdManually');
+      }
+      case CASE_ORIGIN.CREATED_FROM_CUSTOMER.toString(): {
+        return translate('caseView.caseTable.origin.createdFromCustomer');
+      }
+      default: {
+        return translate('caseView.caseTable.origin.unknown');
+      }
+    }
   }
 
   numberCurrencyFormatter(params: ValueFormatterParams): string {

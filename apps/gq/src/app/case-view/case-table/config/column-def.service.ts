@@ -128,5 +128,16 @@ export class ColumnDefService {
       filter: MULTI_COLUMN_FILTER,
       filterParams: this.DATE_FILTER_PARAMS,
     },
+    {
+      headerName: translate('caseView.caseTable.origin.title'),
+      field: CaseTableColumnFields.CASE_ORIGIN,
+      filterParams: {
+        ...FILTER_PARAMS,
+        valueFormatter: (params: ValueFormatterParams) =>
+          this.columnUtilityService.caseOriginFormatter(params.value),
+      },
+      valueFormatter: (params: ValueFormatterParams) =>
+        this.columnUtilityService.caseOriginFormatter(params.value.toString()),
+    },
   ];
 }
