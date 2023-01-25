@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
@@ -10,6 +11,7 @@ import { PushModule } from '@ngrx/component';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { ContextMenuModule } from '../../../shared/components/contextMenu/context-menu.module';
 import { DialogHeaderModule } from '../../../shared/components/header/dialog-header/dialog-header.module';
 import { SharedDirectivesModule } from '../../../shared/directives/shared-directives.module';
 import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
@@ -42,6 +44,8 @@ import { SapPriceComponent } from './sap-price/sap-price.component';
     SharedTranslocoModule,
     CommonModule,
     SharedDirectivesModule,
+    MatMenuModule,
+    ContextMenuModule,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'detail-view' }],
   exports: [FilterPricingComponent],

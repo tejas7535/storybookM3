@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
+import { AppRoutePath } from '../app-route-path.enum';
 import { getQuotation, updateQuotation } from '../core/store';
 import {
   getCustomerLoading,
@@ -60,10 +61,12 @@ export class ProcessCaseViewComponent implements OnInit {
       {
         label: 'processCaseView.tabs.singleQuotes.title',
         link: ProcessCaseRoutePath.SingleQuotesPath,
+        parentPath: AppRoutePath.ProcessCaseViewPath,
       },
       {
         label: 'processCaseView.tabs.customerDetails.title',
         link: ProcessCaseRoutePath.CustomerDetailsPath,
+        parentPath: AppRoutePath.ProcessCaseViewPath,
       },
     ];
   }

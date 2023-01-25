@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
+import { MatMenuTrigger } from '@angular/material/menu';
 import { Router } from '@angular/router';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -14,6 +15,9 @@ export class DetailButtonComponent {
   @Input() text: string;
   @Input() path: string;
 
+  public contextMenuPosition: { x: number; y: number } = { x: 0, y: 0 };
+  @ViewChild(MatMenuTrigger) public contextMenu: MatMenuTrigger;
+
   constructor(
     private readonly router: Router,
     private readonly insightsService: ApplicationInsightsService
@@ -25,5 +29,17 @@ export class DetailButtonComponent {
     });
 
     this.insightsService.logEvent(EVENT_NAMES.GQ_PRICING_DETAILS_VIEWED);
+  }
+
+  public showContextMenu(event: MouseEvent): void {
+    event.preventDefault();
+    this.contextMenuPosition.x = event.clientX;
+    this.contextMenuPosition.y = event.clientY;
+
+    this.contextMenu.openMenu();
+  }
+
+  public getUrl(): string {
+    return `${window.location.origin}/${AppRoutePath.DetailViewPath}/${this.path}${window.location.search}`;
   }
 }

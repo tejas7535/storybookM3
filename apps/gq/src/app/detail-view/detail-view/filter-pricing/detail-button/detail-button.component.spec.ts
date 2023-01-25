@@ -1,9 +1,11 @@
 import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { createMouseEvent } from '@ngneat/spectator';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 
@@ -12,6 +14,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { SharedPipesModule } from '../../../../shared/pipes/shared-pipes.module';
 import { FilterPricingCardComponent } from '../filter-pricing-card/filter-pricing-card.component';
 import { QuantityDisplayComponent } from '../quantity/quantity-display/quantity-display.component';
+import { AppRoutePath } from './../../../../app-route-path.enum';
 import { DetailButtonComponent } from './detail-button.component';
 
 describe('DetailButtonComponent', () => {
@@ -28,6 +31,8 @@ describe('DetailButtonComponent', () => {
       PushModule,
       RouterTestingModule,
       SharedPipesModule,
+      MatMenuModule,
+
       provideTranslocoTestingModule({ en: {} }),
     ],
     declarations: [
@@ -58,6 +63,37 @@ describe('DetailButtonComponent', () => {
       expect(router.navigate).toHaveBeenCalledWith(['detail-view/path'], {
         queryParamsHandling: 'preserve',
       });
+    });
+  });
+
+  describe('contextMenu', () => {
+    delete global.window.location;
+    global.window = Object.create(window);
+    global.window.location = {
+      origin: 'http://localhost',
+      search: '?anyParams',
+    } as Location;
+
+    test('should call contextMenu', () => {
+      const mouseEvent: MouseEvent = createMouseEvent('click', 100, 200);
+      const mouseSpy = jest.spyOn(mouseEvent, 'preventDefault');
+
+      component.contextMenu = {
+        openMenu: jest.fn(),
+      } as unknown as MatMenuTrigger;
+
+      component.showContextMenu(mouseEvent);
+
+      expect(component.contextMenu.openMenu).toHaveBeenCalled();
+      expect(mouseSpy).toHaveBeenCalled();
+    });
+
+    test('should return correct url', () => {
+      component.path = 'path';
+      const result = component.getUrl();
+      expect(result).toEqual(
+        `http://localhost/${AppRoutePath.DetailViewPath}/${component.path}?anyParams`
+      );
     });
   });
 });

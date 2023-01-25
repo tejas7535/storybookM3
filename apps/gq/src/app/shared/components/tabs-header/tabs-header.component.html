@@ -9,6 +9,7 @@
       [routerLink]="tab.link"
       [active]="rla.isActive"
       [disabled]="tab.disabled"
+      (contextmenu)="showContextMenu($event, tab)"
       >{{ t(tab.label) | uppercase }}
     </a>
   </nav>
@@ -16,3 +17,18 @@
     <router-outlet></router-outlet>
   </div>
 </div>
+
+<div
+  class="mat-menu-width"
+  [style.visibility]="'hidden'"
+  [style.position]="'fixed'"
+  [style.left.px]="contextMenuPosition.x"
+  [style.top.px]="contextMenuPosition.y"
+  [matMenuTriggerFor]="contextMenu"
+></div>
+<mat-menu #contextMenu="matMenu">
+  <ng-template matMenuContent let-tab="tab">
+    <gq-open-in-tab [url]="getUrl(tab)"></gq-open-in-tab>
+    <gq-open-in-window [url]="getUrl(tab)"></gq-open-in-window>
+  </ng-template>
+</mat-menu>

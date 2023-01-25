@@ -327,7 +327,6 @@ export function getValueOfFocusedCell(params: GetContextMenuItemsParams): void {
 
   navigator.clipboard.writeText(result ?? '');
 }
-
 export function openInNew(
   params: GetContextMenuItemsParams,
   target: openInTarget

@@ -1,4 +1,25 @@
-<button color="primary" class="!mt-6" mat-button (click)="navigateClick()">
+<button
+  color="primary"
+  class="!mt-6"
+  mat-button
+  (click)="navigateClick()"
+  (contextmenu)="showContextMenu($event)"
+>
   <mat-icon class="align-arrow-forward mr-2 text-h6">arrow_forward</mat-icon>
   {{ text }}
 </button>
+
+<div
+  class="mat-menu-width"
+  [style.visibility]="'hidden'"
+  [style.position]="'fixed'"
+  [style.left.px]="contextMenuPosition.x"
+  [style.top.px]="contextMenuPosition.y"
+  [matMenuTriggerFor]="contextMenu"
+></div>
+<mat-menu #contextMenu="matMenu">
+  <ng-template matMenuContent let-tab="tab">
+    <gq-open-in-tab [url]="getUrl()"></gq-open-in-tab>
+    <gq-open-in-window [url]="getUrl()"></gq-open-in-window>
+  </ng-template>
+</mat-menu>
