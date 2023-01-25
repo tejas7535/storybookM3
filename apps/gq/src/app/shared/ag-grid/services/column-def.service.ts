@@ -72,7 +72,11 @@ export class ColumnDefService {
       cellRenderer: 'PositionIdComponent',
       sort: 'asc',
       pinned: 'left',
-      filterParams: FILTER_PARAMS,
+      filterParams: {
+        ...FILTER_PARAMS,
+        comparator: (a: string, b: string) =>
+          Number.parseInt(a, 10) - Number.parseInt(b, 10),
+      },
     },
     {
       headerName: translate('shared.quotationDetailsTable.materialNumber'),
