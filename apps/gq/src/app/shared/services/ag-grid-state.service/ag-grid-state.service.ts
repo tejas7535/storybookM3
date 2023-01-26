@@ -248,6 +248,8 @@ export class AgGridStateService {
 
     this.activeViewId = id;
     this.updateViews();
+    this.updateFilterState();
+    this.udpateColumnState();
   }
 
   public createViewFromScratch(title: string) {
