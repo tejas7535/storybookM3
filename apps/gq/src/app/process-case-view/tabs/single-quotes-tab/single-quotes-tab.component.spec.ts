@@ -22,7 +22,6 @@ import { CustomStatusBarModule } from '../../../shared/ag-grid/custom-status-bar
 import { InputTableModule } from '../../../shared/components/case-material/input-table/input-table.module';
 import { SharedDirectivesModule } from '../../../shared/directives/shared-directives.module';
 import { QuotationDetailsTableModule } from '../../quotation-details-table/quotation-details-table.module';
-import { CalculationInProgressComponent } from './calculation-in-progress/calculation-in-progress.component';
 import { SingleQuotesTabComponent } from './single-quotes-tab.component';
 
 describe('SingleQuotesTabComponent', () => {
@@ -45,7 +44,6 @@ describe('SingleQuotesTabComponent', () => {
       MatDialogModule,
       ViewToggleModule,
     ],
-    declarations: [CalculationInProgressComponent],
     providers: [
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockStore({

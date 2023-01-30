@@ -1,6 +1,6 @@
 <div *ngIf="translationsLoaded$ | ngrxPush" class="flex h-full justify-center">
   <div
-    class="flex flex-col items-center justify-center"
+    class="flex h-full flex-col items-center justify-center"
     *transloco="let t; read: translationSource"
   >
     <div class="cursor-pointer" (click)="reload()">

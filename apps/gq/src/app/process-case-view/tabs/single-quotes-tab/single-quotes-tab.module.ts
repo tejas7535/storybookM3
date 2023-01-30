@@ -21,7 +21,6 @@ import { DialogHeaderModule } from '../../../shared/components/header/dialog-hea
 import { SharedDirectivesModule } from '../../../shared/directives/shared-directives.module';
 import { QuotationDetailsTableModule } from '../../quotation-details-table/quotation-details-table.module';
 import { AddCustomViewModalComponent } from './add-custom-view-modal/add-custom-view-modal.component';
-import { CalculationInProgressComponent } from './calculation-in-progress/calculation-in-progress.component';
 import { DeleteCustomViewModalComponent } from './delete-custom-view-modal/delete-custom-view-modal.component';
 import { SingleQuotesTabComponent } from './single-quotes-tab.component';
 import { SingleQuotesTabRoutingModule } from './single-quotes-tab.routing.module';
@@ -29,7 +28,7 @@ import { SingleQuotesTabRoutingModule } from './single-quotes-tab.routing.module
 @NgModule({
   declarations: [
     SingleQuotesTabComponent,
-    CalculationInProgressComponent,
+
     AddCustomViewModalComponent,
     DeleteCustomViewModalComponent,
   ],

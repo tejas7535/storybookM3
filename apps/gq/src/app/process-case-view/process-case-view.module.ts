@@ -24,9 +24,10 @@ import { AddMaterialDialogModule } from './add-material-dialog/add-material-dial
 import { HeaderContentModule } from './header-content/header-content.module';
 import { ProcessCaseViewComponent } from './process-case-view.component';
 import { ProcessCaseViewRoutingModule } from './process-case-view-routing.module';
+import { CalculationInProgressComponent } from './tabs/single-quotes-tab/calculation-in-progress/calculation-in-progress.component';
 
 @NgModule({
-  declarations: [ProcessCaseViewComponent],
+  declarations: [ProcessCaseViewComponent, CalculationInProgressComponent],
   imports: [
     CommonModule,
     EffectsModule.forFeature([ProcessCaseEffect]),

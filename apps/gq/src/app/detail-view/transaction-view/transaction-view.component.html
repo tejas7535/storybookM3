@@ -26,6 +26,7 @@
     </schaeffler-subheader>
   </div>
   <gq-saving-in-progress
+    class="h-full"
     *ngIf="
       !(transactionsLoading$ | ngrxPush) &&
         (transactions$ | ngrxPush)?.length === 0;

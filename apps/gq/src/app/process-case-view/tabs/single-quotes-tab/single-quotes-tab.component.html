@@ -1,18 +1,10 @@
-<mat-card
-  class="flex h-full"
-  *ngIf="
-    !(quotation$ | ngrxPush).calculationInProgress &&
-      !(quotation$ | ngrxPush).sapCallInProgress;
-    else taskInProgress
-  "
->
+<mat-card class="flex h-full">
   <div class="w-full overflow-x-auto">
     <schaeffler-view-toggle
       [views]="customViews$ | ngrxPush"
       (selectionChange)="onViewToggle($event)"
       (iconClicked)="onViewToggleIconClicked($event)"
       (viewToggleDoubleClicked)="onViewToggleDoubleClicked($event)"
-      [displayBorderBottom]="false"
     ></schaeffler-view-toggle>
   </div>
   <gq-quotation-details-table
@@ -20,14 +12,6 @@
     [quotation]="quotation$ | ngrxPush"
   ></gq-quotation-details-table>
 </mat-card>
-
-<ng-template #taskInProgress>
-  <gq-calculation-in-progress
-    [amountDetails]="(quotation$ | ngrxPush).quotationDetails.length"
-    [sapCallInProgress]="(quotation$ | ngrxPush).sapCallInProgress"
-  >
-  </gq-calculation-in-progress>
-</ng-template>
 
 <ng-template #updateLoading>
   <schaeffler-loading-spinner></schaeffler-loading-spinner

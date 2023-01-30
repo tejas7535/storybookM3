@@ -60,9 +60,26 @@
     </ng-container>
   </schaeffler-subheader>
 
-  <gq-tabs-header class="grow" [tabs]="tabs"></gq-tabs-header>
+  <gq-tabs-header
+    *ngIf="
+      !(quotation$ | ngrxPush).calculationInProgress &&
+        !(quotation$ | ngrxPush).sapCallInProgress;
+      else taskInProgress
+    "
+    class="grow"
+    [tabs]="tabs"
+  ></gq-tabs-header>
 </div>
 
 <ng-template #loading>
   <schaeffler-loading-spinner></schaeffler-loading-spinner>
+</ng-template>
+
+<ng-template #taskInProgress>
+  <gq-calculation-in-progress
+    class="h-full"
+    [amountDetails]="(quotation$ | ngrxPush).quotationDetails.length"
+    [sapCallInProgress]="(quotation$ | ngrxPush).sapCallInProgress"
+  >
+  </gq-calculation-in-progress>
 </ng-template>
