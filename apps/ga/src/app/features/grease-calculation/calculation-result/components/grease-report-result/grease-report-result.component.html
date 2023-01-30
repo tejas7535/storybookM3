@@ -12,7 +12,7 @@
           <div
             class="text-caption text-medium-emphasis"
             [innerHTML]="
-              greaseResult.isPreferred
+              greaseResult.isPreferred && !greaseResult.subTitle
                 ? t('previouslySelected', {
                     type: greaseResult.mainTitle,
                     grease: preferredGreaseResult.text
