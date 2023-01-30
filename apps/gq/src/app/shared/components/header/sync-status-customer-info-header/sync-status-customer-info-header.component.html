@@ -9,7 +9,8 @@
         'text-orange':
           (sapStatus$ | ngrxPush) === sapSyncStatus.PARTIALLY_SYNCED,
         'text-error':
-          (sapStatus$ | ngrxPush) === sapSyncStatus.NOT_SYNCED && errorCode
+          (sapStatus$ | ngrxPush) ===
+          ((sapSyncStatus.NOT_SYNCED && errorCode) || sapSyncStatus.SYNC_FAILED)
       }"
       *transloco="let t; read: 'shared.sapStatusLabels'"
       [matTooltip]="errorCode ? t('errorCodes.' + errorCode) : undefined"
@@ -31,7 +32,8 @@
       </ng-container>
       <ng-container
         *ngIf="
-          (sapStatus$ | ngrxPush) === sapSyncStatus.NOT_SYNCED && errorCode
+          (sapStatus$ | ngrxPush) ===
+          ((sapSyncStatus.NOT_SYNCED && errorCode) || sapSyncStatus.SYNC_FAILED)
         "
       >
         {{ t('syncFailed') }}

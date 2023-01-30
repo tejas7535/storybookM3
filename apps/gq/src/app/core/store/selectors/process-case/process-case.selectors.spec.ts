@@ -487,6 +487,26 @@ describe('Process Case Selector', () => {
         SAP_SYNC_STATUS.NOT_SYNCED
       );
     });
+
+    test('should return NOT_SYNCED if status is undefined', () => {
+      const syncedState = {
+        ...fakeState,
+        processCase: {
+          ...fakeState.processCase,
+          quotation: {
+            ...fakeState.processCase.quotation,
+            item: {
+              ...QUOTATION_MOCK,
+              sapSyncStatus: undefined as unknown,
+            },
+          },
+        },
+      };
+
+      expect(quotationSelectors.getQuotationSapSyncStatus(syncedState)).toEqual(
+        SAP_SYNC_STATUS.NOT_SYNCED
+      );
+    });
   });
 
   describe('getIsQuotationActive', () => {

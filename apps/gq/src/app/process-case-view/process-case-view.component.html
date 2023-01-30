@@ -14,14 +14,13 @@
   >
     <ng-container subheaderStatusIcon>
       <div
-        class="relative h-5 w-5 rounded-full bg-opacity-20"
+        class="relative h-5 w-5 rounded-full"
         [ngClass]="{
-          'bg-nordic-blue': (sapStatus$ | ngrxPush) === sapSyncStatus.SYNCED,
+          'bg-[#E3F7FD]': (sapStatus$ | ngrxPush) === sapSyncStatus.SYNCED,
           'bg-gray-300': (sapStatus$ | ngrxPush) === sapSyncStatus.NOT_SYNCED,
-          'bg-opacity-100':
-            (sapStatus$ | ngrxPush) === sapSyncStatus.NOT_SYNCED,
-          'bg-orange':
-            (sapStatus$ | ngrxPush) === sapSyncStatus.PARTIALLY_SYNCED
+          'bg-[#FFF8E2]':
+            (sapStatus$ | ngrxPush) === sapSyncStatus.PARTIALLY_SYNCED,
+          'bg-[#FCE3E6]': (sapStatus$ | ngrxPush) === sapSyncStatus.SYNC_FAILED
         }"
       >
         <div
@@ -31,7 +30,8 @@
             'bg-low-emphasis':
               (sapStatus$ | ngrxPush) === sapSyncStatus.NOT_SYNCED,
             'bg-orange':
-              (sapStatus$ | ngrxPush) === sapSyncStatus.PARTIALLY_SYNCED
+              (sapStatus$ | ngrxPush) === sapSyncStatus.PARTIALLY_SYNCED,
+            'bg-error': (sapStatus$ | ngrxPush) === sapSyncStatus.SYNC_FAILED
           }"
         ></div>
       </div>

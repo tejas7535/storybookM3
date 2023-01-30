@@ -35,7 +35,7 @@ export class ProcessCaseViewComponent implements OnInit {
 
   public tabs: Tab[];
 
-  public readonly sapSyncStatus: typeof SAP_SYNC_STATUS = SAP_SYNC_STATUS;
+  public readonly sapSyncStatus = SAP_SYNC_STATUS;
 
   constructor(
     private readonly store: Store,

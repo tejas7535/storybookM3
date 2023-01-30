@@ -20,7 +20,11 @@ import {
   Quotation,
   QuotationStatus,
 } from '../../models';
-import { PriceSource, QuotationDetail } from '../../models/quotation-detail';
+import {
+  PriceSource,
+  QuotationDetail,
+  SAP_SYNC_STATUS,
+} from '../../models/quotation-detail';
 import { LastCustomerPriceCondition } from '../../models/quotation-detail/last-customer-price-condition.enum';
 import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
 import { MaterialClassificationSOPPipe } from '../../pipes/material-classification-sop/material-classification-sop.pipe';
@@ -120,7 +124,10 @@ export class ColumnUtilityService {
     columnDefs: ColDef[],
     quotation: Quotation
   ): ColDef[] {
-    if (!quotation.sapId) {
+    if (
+      !quotation.sapId &&
+      quotation.sapSyncStatus !== SAP_SYNC_STATUS.SYNC_FAILED
+    ) {
       return columnDefs.filter(
         (colDef: ColDef) => colDef.field !== ColumnFields.SAP_STATUS
       );
