@@ -3,6 +3,8 @@ import { MatButtonModule } from '@angular/material/button';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
 import * as contextFunctions from './../functions/context-menu-functions';
 import { OpenInTabComponent } from './open-in-tab.component';
 
@@ -12,7 +14,11 @@ describe('OpenInTabComponent', () => {
 
   const createComponent = createComponentFactory({
     component: OpenInTabComponent,
-    imports: [CommonModule, MatButtonModule],
+    imports: [
+      CommonModule,
+      MatButtonModule,
+      provideTranslocoTestingModule({ en: {} }),
+    ],
     declarations: [OpenInTabComponent],
   });
 
@@ -26,7 +32,12 @@ describe('OpenInTabComponent', () => {
   });
 
   test('should call function', () => {
+    Object.assign(window, {
+      open: jest.fn().mockImplementation(() => Promise.resolve()),
+    });
+
     const functionSpy = jest.spyOn(contextFunctions, 'openInNewTabByUrl');
+
     component.url = '123';
     component.openInTab();
     expect(functionSpy).toHaveBeenCalled();
