@@ -77,6 +77,10 @@
     }
   },
   "shared": {
+    "breadcrumbs": {
+      "landingPage": "Página de aterrizaje",
+      "greaseCalculator": "Calculadora de grasa"
+    },
     "button": {
       "close": "Cerrar"
     },

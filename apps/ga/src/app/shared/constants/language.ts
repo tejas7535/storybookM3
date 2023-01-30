@@ -22,11 +22,17 @@ export const AVAILABLE_LANGUAGE_ES: LangDefinition = {
   label: 'Español',
 };
 
+export const AVAILABLE_LANGUAGE_JA: LangDefinition = {
+  id: 'ja',
+  label: '日本語',
+};
+
 export const AVAILABLE_LANGUAGES: LangDefinition[] = [
   AVAILABLE_LANGUAGE_DE,
   AVAILABLE_LANGUAGE_EN,
   AVAILABLE_LANGUAGE_ZH,
   AVAILABLE_LANGUAGE_ES,
+  AVAILABLE_LANGUAGE_JA,
 ];
 
 export const FALLBACK_LANGUAGE: LangDefinition = AVAILABLE_LANGUAGE_EN;

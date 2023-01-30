@@ -77,6 +77,10 @@
     }
   },
   "shared": {
+    "breadcrumbs": {
+      "landingPage": "着陆页",
+      "greaseCalculator": "润滑脂计算器"
+    },
     "button": {
       "close": "关闭"
     },

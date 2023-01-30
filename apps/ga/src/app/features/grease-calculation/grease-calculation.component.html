@@ -2,7 +2,7 @@
   <schaeffler-breadcrumbs
     *ngIf="!(appIsEmbedded$ | ngrxPush)"
     class="mx-4 hidden sm:block"
-    [breadcrumbs]="breadcrumbs"
+    [breadcrumbs]="breadcrumbs$ | ngrxPush"
   ></schaeffler-breadcrumbs>
   <div class="container mx-auto flex max-w-screen-xl grow flex-col">
     <ga-grease-stepper></ga-grease-stepper>

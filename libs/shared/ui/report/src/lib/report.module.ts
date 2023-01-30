@@ -12,6 +12,7 @@ import deJson from './i18n/de.json';
 import enJson from './i18n/en.json';
 import esJson from './i18n/es.json';
 import frJson from './i18n/fr.json';
+import jaJson from './i18n/ja.json';
 import ruJson from './i18n/ru.json';
 import zhJson from './i18n/zh.json';
 import { SafeHtmlPipe } from './safe-html.pipe';
@@ -36,6 +37,7 @@ export class ReportModule {
     this.translocoService.setTranslation(deJson, 'de');
     this.translocoService.setTranslation(esJson, 'es');
     this.translocoService.setTranslation(frJson, 'fr');
+    this.translocoService.setTranslation(jaJson, 'ja');
     this.translocoService.setTranslation(ruJson, 'ru');
     this.translocoService.setTranslation(zhJson, 'zh');
   }

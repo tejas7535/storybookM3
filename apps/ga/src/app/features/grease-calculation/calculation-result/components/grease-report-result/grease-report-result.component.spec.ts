@@ -125,7 +125,7 @@ describe('GreaseReportResultComponent', () => {
 
   describe('getSettings', () => {
     it('should return the concept1 settings form the labelvalue pairs', () => {
-      expect(component.getSettings(CONCEPT1_LABEL_VALUE_MOCK)).toBe(
+      expect(component.getSettings(CONCEPT1_LABEL_VALUE_MOCK)).toStrictEqual(
         GREASE_CONCEPT1_SUITABILITY
       );
     });

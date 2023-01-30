@@ -1,0 +1,349 @@
+{
+  "appTitle": "Grease App",
+  "homepage": {
+    "cards": {
+      "calculator": {
+        "title": {
+          "main": "グリース計算機",
+          "sub": "Powered by Bearinx"
+        }
+      },
+      "greases": {
+        "title": {
+          "main": "アルカノールグリース",
+          "sub": "&nbsp;"
+        },
+        "externalLink": "https://medias.schaeffler.jp/ja/plp/ARCANOLRollingBearingGreases"
+      },
+      "lubricators": {
+        "title": {
+          "main": "ルブリケータ"
+        },
+        "externalLink": "https://medias.schaeffler.de/en/lubrication/lubricators"
+      },
+      "maintenance": {
+        "title": {
+          "main": "メンテナンスツール",
+          "sub": "&nbsp;"
+        },
+        "externalLink": "https://medias.schaeffler.jp/ja/%e5%95%86%e5%93%81/%e3%82%b5%e3%83%bc%e3%83%93%e3%82%b9/%e5%b7%a5%e5%85%b7%e3%80%81%e3%83%87%e3%82%b8%e3%82%bf%e3%83%ab%e3%82%b5%e3%83%bc%e3%83%93%e3%82%b9/c/DigitalServiceSolutions"
+      },
+      "optime": {
+        "title": {
+          "main": "オプタイム"
+        },
+        "externalLink": "https://medias.schaeffler.jp/ja/%e5%95%86%e5%93%81/%e3%82%b5%e3%83%bc%e3%83%93%e3%82%b9/%e5%b7%a5%e5%85%b7%e3%80%81%e3%83%87%e3%82%b8%e3%82%bf%e3%83%ab%e3%82%b5%e3%83%bc%e3%83%93%e3%82%b9/c/DigitalServiceSolutions?text=&sort=relevance&productGroup=%2FSERVICE%2FDigitalServiceSolutions%2FConditionMonitoringSolutions%2FOPTIME"
+      },
+      "catalog": {
+        "title": {
+          "main": "製品カタログ"
+        },
+        "externalLink": "https://medias.schaeffler.jp/ja/all-products"
+      },
+      "contact": {
+        "title": {
+          "main": "お問合せ"
+        },
+        "externalLink": "https://medias.schaeffler.jp/ja/stc"
+      },
+      "faq": {
+        "title": {
+          "main": "FAQ"
+        },
+        "externalLink": "https://medias.schaeffler.de/en/faq/grease-app"
+      }
+    }
+  },
+  "meta": {
+    "title": "Grease App",
+    "description": "Grease Appを用いると、初期及び再給脂時に最適なグリース量を簡単に計算できます。運転条件に応じた再給脂間隔や、グリースのサービス寿命の計算もできます。</br>再給脂は、シェフラーのルブリケータを使用して自動または手動で行うことができます。</br>また、アルカノールグリースの特性についての情報も得られます。再給脂間隔が長いグリースが強調表示されます。"
+  },
+  "userSettings": {
+    "language": {
+      "title": {
+        "main": "言語設定"
+      }
+    },
+    "measurementUnits": {
+      "title": {
+        "main": "単位系",
+        "sub": "重量および温度に関連"
+      },
+      "label": "単位系",
+      "options": {
+        "metric": "SI単位",
+        "imperial": "FPS単位"
+      }
+    }
+  },
+  "shared": {
+    "breadcrumbs": {
+      "landingPage": "ランディングページ",
+      "greaseCalculator": "グリース計算機"
+    },
+    "button": {
+      "close": "閉じる"
+    },
+    "label": {
+      "defaultSet": "{{label}}を設定",
+      "defaultSelect": "{{label}}を選択"
+    },
+    "hint": {
+      "applicationReload": "アプリケーションが再読込みされます"
+    },
+    "unit": {
+      "millimeterShort": "mm"
+    },
+    "min": "最小",
+    "max": "最大"
+  },
+  "bearing": {
+    "title": {
+      "main": "軸受選定",
+      "sub": "計算をする軸受を選んでください"
+    },
+    "label": {
+      "bearingType": "軸受形式",
+      "boreDiameter": "内径",
+      "boreDiameterShort": "d",
+      "outsideDiameter": "外径",
+      "outsideDiameterShort": "D",
+      "width": "幅",
+      "widthShort": "B"
+    },
+    "bearingSelection": {
+      "button": {
+        "quickSelection": "簡易軸受選定",
+        "advancedSelection": "詳細軸受選定"
+      },
+      "quickSelection": {
+        "searchPlaceholder": "軸受呼び番号を入力 （例）6226",
+        "selectButton": "軸受を選択",
+        "selectOption": "<span class=\"text-medium-emphasis\">軸受の潤滑計算</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
+        "disabledOption": "<span class=\"text-medium-emphasis\">次の潤滑計算はできません</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
+        "noResults": "結果がありません"
+      },
+      "advancedSelection": {
+        "filters": {
+          "heading": "フィルター条件",
+          "intro": "軸受の選択を{{tooManyResultsThreshold}}に絞り込みます",
+          "action": {
+            "nextStep": "軸受選定へ"
+          }
+        },
+        "bearingsList": {
+          "heading": "軸受選定",
+          "intro": "軸受を選択してください",
+          "selectOption": "軸受のグリース計算",
+          "disabledOption": "軸受の計算ができません",
+          "action": {
+            "previousStep": "フィルター条件を変更してください"
+          }
+        },
+        "error": {
+          "modelCreation": "現在、軸受{{bearing}}の計算はできません"
+        },
+        "tooManyResults": {
+          "message": "結果が多すぎます({{resultsCount}})",
+          "hint": "検索結果が多すぎます\nフィルターを使用して、結果の数を最大{{tooManyResultsThreshold}}に減らしてください"
+        },
+        "noResults": {
+          "message": "結果がありません",
+          "hint": "フィルタリングの結果、軸受が見つかりませんでした。\nフィルターの設定を調整してください。"
+        }
+      }
+    },
+    "bearingTypes": {
+      "IDO_RADIAL_ANGULAR_CONTACT_BALL_BEARING": "ラジアルアンギュラ玉軸受",
+      "IDO_RADIAL_BALL_BEARING": "ラジアル深溝玉軸受",
+      "IDO_RADIAL_ROLLER_BEARING": "ラジアルころ軸受",
+      "IDO_RADIAL_SELF_ALIGNING_BALL_BEARING": "自動調心玉軸受",
+      "IDO_RADIAL_SELF_ALIGNING_ROLLER_BEARING": "ラジアル自動調心ころ軸受",
+      "IDO_RADIAL_TAPERED_ROLLER_BEARING": "ラジアル円すいころ軸受",
+      "IDO_THRUST_ANGULAR_CONTACT_BALL_BEARING": "スラストアンギュラ玉軸受",
+      "IDO_THRUST_BALL_BEARING": "スラスト玉軸受",
+      "IDO_THRUST_ROLLER_BEARING": "スラストころ軸受"
+    }
+  },
+  "parameters": {
+    "title": {
+      "main": "運転条件",
+      "backButton": "軸受の選択を変更"
+    },
+    "productPreselection": {
+      "title": {
+        "main": "新規：製品事前選択（オプション）"
+      },
+      "grease": {
+        "label": "グリース",
+        "defaultOption": "すべてのグリース",
+        "tooltip": "選択されたグリースが計算レポートで優先されます。\nそれが適切でなかった場合、代替グリースが表示されます。",
+        "schaefflerGreases": "シェフラーグリース",
+        "nonSchaefflerMultiPurposeGreases": "社外汎用グリース",
+        "nonSchaefflerHighTempGreases": "社外耐熱グリース"
+      },
+      "concept1": {
+        "label": "カートリッジ設定の計算（コンセプト1）",
+        "tooltip": "カートリッジ設定の計算が有効になっているとき、可能な場合コンセプト1設定も計算されて表示されます。無効にするとコンセプト1設定は表示されません。"
+      }
+    },
+    "requiredInformation": "* 必要な情報",
+    "loads": "荷重",
+    "load": "想定荷重",
+    "radialLoad": "ラジアル荷重",
+    "axialLoad": "アキシアル荷重",
+    "loadsUnknown": "正確な荷重は不明ですか？",
+    "enterRadialAndAxialLoad": "ラジアル荷重とアキシアル荷重を入力してください",
+    "motionInfluences": "動作の影響",
+    "kindOfMotion": "動作の種類",
+    "rotating": "回転",
+    "oscillating": "揺動",
+    "relativeRotationalSpeed": "回転速度",
+    "onePerMinute": "rpm",
+    "shiftFrequency": "揺動周波数",
+    "shiftAngle": "揺動角度",
+    "degree": "°",
+    "otherInfluences": "環境係数",
+    "operatingTemperature": "運転温度",
+    "environmentTemperature": "雰囲気温度",
+    "environmentalImpactOnGreaseDuration": "運転条件",
+    "low": "低",
+    "moderate": "中",
+    "high": "高",
+    "greaseSelection": "グリース選択",
+    "selectGrease": "グリースを選択",
+    "showResults": "結果を表示",
+    "resetInputs": "入力をリセット",
+    "pleaseEnter": "{{label}}を入力",
+    "errors": {
+      "min": "値が低すぎます",
+      "max": "値が高すぎます",
+      "required": "このフィールドは必須です",
+      "lowerThanEnvironmentTemperature": "雰囲気温度より低くすることはできません",
+      "innerOuterInconsistent": "内径は外径より小さくしてください",
+      "minMaxInconsistent": "最小値は最大値より小さくしてください",
+      "anyLoad": "最小値は最大値より小さくしてください"
+    },
+    "loadLevel": {
+      "veryLow": "とても低（C0/P 30前後）",
+      "low": "低（C0/P 15前後）",
+      "moderate": "中（C0/P 10前後）",
+      "high": "高（C0/P 5前後）",
+      "veryHigh": "とても高（C0/P 2前後）"
+    },
+    "tooltip": {
+      "radialLoad": "ラジアル荷重（絶対値で指定）",
+      "axialLoad": "アキシアル荷重（絶対値で指定）",
+      "rotationSpeed": "内輪と外輪の相対回転速度（絶対値で指定）",
+      "operatingTemperature": "軸受の運転温度（必要に応じて推定してください）。グリース寿命への影響についてはFAQをご覧ください。",
+      "environmentTemperature": "機械の周辺温度",
+      "otherInfluences": "水分、振動ならびに衝撃荷重がグリース寿命に及ぼす影響の係数",
+      "shiftFrequency": "1分当たりの揺動回数（フルストローク、往復）",
+      "shiftAngle": "揺動運動の反転ポイント間の角度（FAQご参照）"
+    }
+  },
+  "calculationResult": {
+    "title": {
+      "main": "レポート：",
+      "backButton": "運転条件の変更",
+      "247hint": "すべて、24 時間 365 日の連続運転とした結果です"
+    },
+    "showCompactView": "コンパクトビューで表示",
+    "reportSectionInput": "入力",
+    "shopLinkText": "利用可能な製品",
+    "shopBaseUrl": "https://medias.schaeffler.jp/ja",
+    "snackbarError": "エラーが発生しました。後ほどお試しください。",
+    "snackbarRetry": "再試行",
+    "allValues": "すべての値を表示",
+    "hideValues": "追加の値を非表示",
+    "allResults": "すべての結果を表示",
+    "limitResults": "最初の {{ results }} 件の結果を表示",
+    "remainingResults": "その他 {{ results }}件 結果",
+    "resultsDefault": "再給脂間隔でソートされた結果（{{ amount }}/{{ complete }}グリース）",
+    "resultsWithPreferred": "選択グリース、その代替品ならびに再給脂間隔でソートされた結果",
+    "guideValues": "* 参考値",
+    "errorsWarningsNotes": "エラー、警告、注記",
+    "concept1": "コンセプト1カートリッジ設定",
+    "concept1Impossible": "コンセプト1による自動給脂はできません。潤滑剤の量が多すぎる、あるいは少なすぎる可能性があります。運転条件を変更すれば使用できる場合があります。",
+    "concept1Link": "success-stories/0171",
+    "concept1settings": {
+      "duration": "{{ months }}月 <span>({{size}}ml)</span>",
+      "details": "詳細",
+      "why": "理由",
+      "adjustConditions": "このグリースは、コンセプト1および用途に適していますが、運転条件によっては潤滑量がコンセプト1にとって多すぎる、あるいは少なすぎる計算結果になる可能性があります。",
+      "SUITED": "適している",
+      "NOT_SUITED": "適していない",
+      "UNSUITED": "まったく適していない",
+      "CONDITIONAL": "条件付き",
+      "UNKNOWN": "適性不明",
+      "detailsConcept1": "コンセプト1の詳細",
+      "concept1Size": "{{ size }}mlカートリッジ",
+      "emptyDuration": "{{ duration }}月で使い切り",
+      "arrowSetting": "矢印を{{ setting }}に設定",
+      "ml": "{{ ml }}ml",
+      "sizeHint": "{{ size }}mlのコンセプト1は、選択した運転条件には適していません",
+      "concept1ShopTitle": "コンセプト1（{{ title }} {{ size }}ml）"
+    },
+    "previouslySelected": "{{ grease }}などの{{ type }}に対して計算されました。潤滑剤の品質については責任を負いません。",
+    "compatibilityCheck": "互換性を確認する必要があります",
+    "initialGreaseQuantity": "初期グリース量 *",
+    "manualRelubricationQuantityInterval": "手動給脂量 * / 間隔 *",
+    "manualRelubricationQuantityIntervalTooltip": "安全な稼働のために、1年を超える再給脂間隔は推奨されません。\n\n特に給脂量が多い場合は、計算された再給脂量を、再給脂間隔の中で複数回に分配することをお勧めします。",
+    "automaticRelubricationQuantityPerDay": "1日当たりの自動給脂量 *",
+    "automaticRelubricationQuantityPerDayTooltip": "自動給脂時の1回当たりのグリース量",
+    "automaticRelubricationPerWeek": "週間自動給脂量 *",
+    "automaticRelubricationPerMonth": "月間自動給脂量 *",
+    "automaticRelubricationPerYear": "年間自動給脂量 *",
+    "greaseServiceLife": "グリース寿命 *",
+    "additiveRequired": "添加剤が必要",
+    "additiveRequiredTooltip": "運転条件（荷重および粘度比κ）の評価については、FAQも参照ください",
+    "effectiveEpAdditivation": "効果的なEP添加剤",
+    "baseOilViscosityAt40": "40℃における基油粘度",
+    "viscosityRatio": "粘度比",
+    "lowerTemperatureLimit": "下限温度t",
+    "lowerTemperatureLimitTooltip": "軸受起動時の温度の下限。FAQを参照ください。",
+    "upperTemperatureLimit": "上限温度",
+    "upperTemperatureLimitTooltip": "この温度を超えて使用すると、グリース寿命が極端に短くなります。FAQを参照ください。",
+    "density": "密度",
+    "lowFriction": "低摩擦",
+    "suitableForVibrations": "耐振動性",
+    "supportForSeals": "シールのサポート",
+    "h1Registration": "NSF H1認証（コーシャ、ハラル認証）",
+    "errors": "エラー",
+    "warnings": "警告",
+    "notes": "注記",
+    "day": "日",
+    "days": "日",
+    "grams": "グラム",
+    "undefinedValue": "NA",
+    "suitabilityLevelExtremelySuitable": "非常に適している",
+    "suitabilityLevelHighlySuitable": "よく適している",
+    "suitabilityLevelSuitable": "適している",
+    "suitabilityLevelLessSuitable": "あまり適していない",
+    "suitabilityLevelNotSuitable": "適していない",
+    "insufficientGreaseResultHint": "まったく適していない",
+    "insufficientGreaseResultTooltip": "グリースの適合性は、Grease Appによってまったく適していないと判定されました。\n\n詳細は当社技術部門にご相談ください。",
+    "preferredGreaseHintSelected": "事前選択",
+    "preferredGreaseHintAlternative": "代替",
+    "preferredGreaseHintAlternativeTooltip": "これは、ステップ2の入力に基づいた、シェフラー製品群からの代替品です。"
+  },
+  "settings": {
+    "stepper": {
+      "bearingSelection": "軸受選定",
+      "parameters": "運転条件",
+      "report": "レポート"
+    }
+  },
+  "legal": {
+    "imprint": "法的通知",
+    "dataPrivacy": "データ保護",
+    "termsOfUse": "利用規約",
+    "cookiePolicy": "クッキーポリシー",
+    "cookieSettings": "クッキーの設定"
+  },
+  "error": {
+    "content": "エラーが発生しました。後ほどお試しください。",
+    "confirm": "確認",
+    "retry": "再試行"
+  }
+}
