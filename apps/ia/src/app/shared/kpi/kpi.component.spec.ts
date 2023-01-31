@@ -5,8 +5,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
-import { EXTENDED_LIST_ITEM_HEIGHT } from '../constants';
 
+import { EXTENDED_LIST_ITEM_HEIGHT } from '../constants';
 import { EmployeeListDialogComponent } from '../employee-list-dialog/employee-list-dialog.component';
 import { EmployeeListDialogModule } from '../employee-list-dialog/employee-list-dialog.module';
 import { EmployeeWithAction } from '../models';

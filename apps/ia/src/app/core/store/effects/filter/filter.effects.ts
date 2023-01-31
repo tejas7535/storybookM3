@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 
 import { FilterService } from '../../../../filter-section/filter.service';
 import { FilterKey, IdValue, SelectedFilter } from '../../../../shared/models';
-import { loadUserSettingsDimensionData } from '../../../../user-settings/store/actions/user-settings.action';
+import { loadUserSettingsDimensionData } from '../../../../user/store/actions/user.action';
 import {
   filterDimensionSelected,
   filterSelected,

@@ -22,7 +22,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { FilterSectionModule } from './filter-section/filter-section.module';
 import { SharedModule } from './shared/shared.module';
-import { UserSettingsModule } from './user-settings/user-settings.module';
+import { UserModule } from './user/user.module';
 
 export function DynamicDataPrivacy(
   translocoService: TranslocoService
@@ -48,7 +48,7 @@ export function DynamicTermsOfUse(translocoService: TranslocoService) {
 
     LoadingSpinnerModule,
     AppShellModule,
-    UserSettingsModule,
+    UserModule,
     FilterSectionModule,
   ],
   providers: [

@@ -19,13 +19,13 @@ export const getUserRoles = createSelector(
 
     if (generalRoles.length > 0) {
       const generalRolesEntry = {
-        title: translate('userSettings.roles.generalRoles'),
+        title: translate('user.userSettings.roles.generalRoles'),
         roles: generalRoles.map((role) => {
           const title = getTranslationKeyFromRole(role, GENERAL_ROLES_PREFIXES);
 
           return {
             title,
-            rights: translate(`userSettings.roles.prefixes.${title}`),
+            rights: translate(`user.userSettings.roles.prefixes.${title}`),
           } as Role;
         }),
       };
@@ -35,7 +35,7 @@ export const getUserRoles = createSelector(
 
     if (geoRoles.length > 0) {
       const geoRolesEntry = {
-        title: translate('userSettings.roles.geographicalRoles'),
+        title: translate('user.userSettings.roles.geographicalRoles'),
         roles: geoRoles.map((role) => ({ title: role } as Role)),
         showOnlyRoles: true,
       };
