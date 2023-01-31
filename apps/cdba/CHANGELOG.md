@@ -1,7 +1,16 @@
- Changelog
+# Release Notes of Cost Database Analytics
+## [2.19.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.18.1...cdba-v2.19.0) (2023-01-31)
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
-**Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
+
+### Features
+
+* **cdba:** column groups ([#4752](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4752)) ([24b5c37](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/24b5c37e8ed71e41b69fdfa57ae54dcd1fb8aeb3))
+* **cdba:** current year net sales and quantities ([#4686](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4686)) ([c3db72a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c3db72adbed53fd2c302f2fd808f92eb4925ddce))
+
+
+### Bug Fixes
+
+* **workspace:** fix prettier formatting ([#4746](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4746)) ([6d09958](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6d099587562a9db04e311acb309235bc60e89ee4))
 
 ### [2.18.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.18.0...cdba-v2.18.1) (2022-10-04)
 
