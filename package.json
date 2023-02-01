@@ -11,7 +11,7 @@
     "affected:apps": "nx affected:apps",
     "affected:build": "nx affected:build --head=HEAD",
     "affected:dep-graph": "nx affected:dep-graph",
-    "affected:e2e": "nx affected:e2e --head=HEAD --exclude=cdba-e2e,helloworld-azure-e2e,sta-e2e,sedo-e2e,gq-e2e,mac-e2e,ia-e2e,mm-e2e,ga-e2e --configuration=e2e",
+    "affected:e2e": "nx affected:e2e --head=HEAD --exclude=cdba-e2e,helloworld-azure-e2e,sta-e2e,sedo-e2e,gq-e2e,mac-e2e,ia-e2e,mm-e2e,ga-e2e,ea-e2e --configuration=e2e",
     "affected:e2e:headless": "npm run affected:e2e -- --headless",
     "affected:libs": "nx affected:libs",
     "affected:lint": "nx affected:lint",

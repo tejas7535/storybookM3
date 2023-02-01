@@ -6,5 +6,6 @@
   "ia": "/insight-attrition/ia-fe-deployment/master",
   "mac": "/CDAI2/material_app_center/MAC-Frontend-Deployment/master",
   "mm": "/CDAI2/bearinx-frontend/mounting-manager/frontend-deployment/master",
-  "ga": "/CDAI2/bearinx-frontend/grease-app/frontend-deployment/master"
+  "ga": "/CDAI2/bearinx-frontend/grease-app/frontend-deployment/master",
+  "ea": "/CDAI2/bearinx-frontend/engineering-app/frontend-deployment/master"
 }

@@ -1,0 +1,31 @@
+/***************************************************************************************************
+* COMPONENTS AND THEMES
+*/
+
+/*
+* Angular Material, material design components
+* see https://material.angular.io
+
+*/
+
+@import 'libs/shared/ui/styles/src/lib/scss/material-theme';
+
+/***************************************************************************************************
+* UTILITIES
+*/
+
+/*
+* TailwindCSS, utility-first css framework
+* see https://tailwindcss.com/docs
+*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.mat-button-base.mat-button .mat-button-focus-overlay {
+  @apply hidden;
+}
+
+button {
+  outline: none !important;
+}

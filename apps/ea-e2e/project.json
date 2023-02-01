@@ -1,0 +1,39 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/ea-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/ea-e2e/cypress.json",
+        "tsConfig": "apps/ea-e2e/tsconfig.e2e.json",
+        "devServerTarget": "ea:serve:development"
+      },
+      "configurations": {
+        "local": {
+          "devServerTarget": "ea:serve:local"
+        },
+        "production": {
+          "devServerTarget": "ea:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/ea-e2e/**/*.{js,ts}"]
+      },
+      "configurations": {
+        "ci": {
+          "format": "checkstyle",
+          "outputFile": "checkstyle/apps/ea-e2e/checkstyle.xml",
+          "force": true
+        }
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["ea"]
+}

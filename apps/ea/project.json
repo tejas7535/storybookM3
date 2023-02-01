@@ -1,0 +1,195 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "generators": {
+    "@nrwl/angular:component": {
+      "style": "scss"
+    }
+  },
+  "sourceRoot": "apps/ea/src",
+  "prefix": "ea",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:webpack-browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/ea",
+        "index": "apps/ea/src/index.html",
+        "main": "apps/ea/src/main.ts",
+        "polyfills": "apps/ea/src/polyfills.ts",
+        "tsConfig": "apps/ea/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          "apps/ea/src/favicon.ico",
+          "apps/ea/src/assets",
+          "apps/ea/src/browserconfig.xml",
+          "apps/ea/src/robots.txt"
+        ],
+        "styles": [
+          "apps/ea/src/styles.scss",
+          "node_modules/@fontsource/material-icons/400.css",
+          "node_modules/@fontsource/roboto/300.css",
+          "node_modules/@fontsource/roboto/400.css",
+          "node_modules/@fontsource/roboto/500.css"
+        ],
+        "scripts": [],
+        "budgets": [
+          {
+            "type": "initial",
+            "maximumWarning": "2mb",
+            "maximumError": "6mb"
+          },
+          {
+            "type": "anyComponentStyle",
+            "maximumWarning": "6kb",
+            "maximumError": "10kb"
+          }
+        ],
+        "buildLibsFromSource": false
+      },
+      "configurations": {
+        "local": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "assets": [
+            "apps/ea/src/favicon.ico",
+            "apps/ea/src/assets",
+            "apps/ea/src/browserconfig.xml",
+            {
+              "input": "apps/ea/robots/dev",
+              "output": "/",
+              "glob": "robots.txt"
+            }
+          ]
+        },
+        "dev": {
+          "statsJson": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/ea/src/environments/environment.ts",
+              "with": "apps/ea/src/environments/environment.dev.ts"
+            }
+          ],
+          "assets": [
+            "apps/ea/src/favicon.ico",
+            "apps/ea/src/assets",
+            "apps/ea/src/browserconfig.xml",
+            {
+              "input": "apps/ea/robots/dev",
+              "output": "/",
+              "glob": "robots.txt"
+            }
+          ]
+        },
+        "qa": {
+          "outputHashing": "bundles",
+          "statsJson": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/ea/src/environments/environment.ts",
+              "with": "apps/ea/src/environments/environment.qa.ts"
+            }
+          ],
+          "assets": [
+            "apps/ea/src/favicon.ico",
+            "apps/ea/src/assets",
+            "apps/ea/src/browserconfig.xml",
+            {
+              "input": "apps/ea/robots/dev",
+              "output": "/",
+              "glob": "robots.txt"
+            }
+          ]
+        },
+        "production": {
+          "outputHashing": "bundles",
+          "fileReplacements": [
+            {
+              "replace": "apps/ea/src/environments/environment.ts",
+              "with": "apps/ea/src/environments/environment.prod.ts"
+            }
+          ],
+          "assets": [
+            "apps/ea/src/favicon.ico",
+            "apps/ea/src/assets",
+            "apps/ea/src/browserconfig.xml",
+            {
+              "input": "apps/ea/robots/prod",
+              "output": "/",
+              "glob": "robots.txt"
+            }
+          ]
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@nrwl/angular:webpack-server",
+      "configurations": {
+        "local": {
+          "browserTarget": "ea:build:local"
+        },
+        "dev": {
+          "browserTarget": "ea:build:dev"
+        },
+        "qa": {
+          "browserTarget": "ea:build:qa"
+        },
+        "production": {
+          "browserTarget": "ea:build:production"
+        }
+      },
+      "defaultConfiguration": "local"
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/ea/src/**/*.ts", "apps/ea/src/**/*.html"]
+      },
+      "configurations": {
+        "ci": {
+          "format": "checkstyle",
+          "outputFile": "checkstyle/apps/ea/checkstyle.xml",
+          "force": true
+        }
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/ea"],
+      "options": {
+        "jestConfig": "apps/ea/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "push": true,
+        "preset": "conventional",
+        "baseBranch": "master",
+        "tagPrefix": "${target}-v",
+        "changelogHeader": "# Release Notes of Engineering App",
+        "commitMessageFormat": "chore(${projectName}): 🧈 release version ${version} [CI SKIP]",
+        "noVerify": true,
+        "postTargets": ["ea:github"]
+      }
+    },
+    "github": {
+      "executor": "@jscutlery/semver:github",
+      "options": {
+        "tag": "${tag}",
+        "notes": "${notes}"
+      }
+    }
+  },
+  "tags": []
+}
