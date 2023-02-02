@@ -10,7 +10,10 @@ import {
   SET_COLUMN_FILTER,
   TEXT_COLUMN_FILTER,
 } from '../../../shared/ag-grid/constants/filters';
-import { ColumnUtilityService } from '../../../shared/ag-grid/services/column-utility.service';
+import {
+  ColumnUtilityService,
+  ComparatorService,
+} from '../../../shared/ag-grid/services';
 import { timestampRegex } from '../../../shared/constants';
 import { SAP_SYNC_STATUS } from '../../../shared/models/quotation-detail/sap-sync-status.enum';
 
@@ -38,14 +41,16 @@ export class ColumnDefService {
       {
         filter: SET_COLUMN_FILTER,
         filterParams: {
-          valueFormatter: (params: any) =>
-            this.columnUtilityService.dateFormatter(params.value),
+          comparator: this.comparatorService.compareTranslocoDateDesc,
         },
       },
     ],
   };
 
-  constructor(private readonly columnUtilityService: ColumnUtilityService) {}
+  constructor(
+    private readonly columnUtilityService: ColumnUtilityService,
+    private readonly comparatorService: ComparatorService
+  ) {}
 
   COLUMN_DEFS: ColDef[] = [
     {
@@ -63,8 +68,10 @@ export class ColumnDefService {
     {
       headerName: translate('caseView.caseTable.creationDate'),
       field: CaseTableColumnFields.GQ_CREATED,
-      valueFormatter: (data) =>
+      comparator: this.comparatorService.compareTranslocoDateAsc,
+      valueGetter: (data) =>
         this.columnUtilityService.dateFormatter(data.data.gqCreated),
+
       filter: MULTI_COLUMN_FILTER,
       filterParams: this.DATE_FILTER_PARAMS,
     },
@@ -133,7 +140,8 @@ export class ColumnDefService {
     {
       // headerName depends on quotation status and will be set in column case-table.component
       field: CaseTableColumnFields.LAST_UPDATED,
-      valueFormatter: (data) =>
+      comparator: this.comparatorService.compareTranslocoDateAsc,
+      valueGetter: (data) =>
         this.columnUtilityService.dateFormatter(data.data.gqLastUpdated),
       sort: 'desc',
       filter: MULTI_COLUMN_FILTER,

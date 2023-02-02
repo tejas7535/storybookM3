@@ -25,14 +25,16 @@ import {
   SET_COLUMN_FILTER,
   TEXT_COLUMN_FILTER,
 } from '../constants/filters';
-import { ColumnUtilityService } from './column-utility.service';
+import { ColumnUtilityService, ComparatorService } from '.';
+
 @Injectable({
   providedIn: 'root',
 })
 export class ColumnDefService {
   constructor(
     private readonly columnUtilityService: ColumnUtilityService,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly comparatorService: ComparatorService
   ) {}
 
   DATE_FILTER_PARAMS = {
@@ -55,8 +57,7 @@ export class ColumnDefService {
       {
         filter: SET_COLUMN_FILTER,
         filterParams: {
-          valueFormatter: (params: any) =>
-            this.columnUtilityService.dateFormatter(params.value),
+          comparator: this.comparatorService.compareTranslocoDateDesc,
         },
       },
     ],
@@ -493,7 +494,8 @@ export class ColumnDefService {
         'shared.quotationDetailsTable.lastCustomerPriceDate'
       ),
       field: ColumnFields.LAST_CUSTOMER_PRICE_DATE,
-      valueFormatter: (data) =>
+      comparator: this.comparatorService.compareTranslocoDateAsc,
+      valueGetter: (data) =>
         this.columnUtilityService.dateFormatter(
           data.data[ColumnFields.LAST_CUSTOMER_PRICE_DATE]
         ),
@@ -561,7 +563,8 @@ export class ColumnDefService {
     {
       headerName: translate('shared.quotationDetailsTable.lastOfferDate'),
       field: ColumnFields.LAST_OFFER_PRICE_DATE,
-      valueFormatter: (data) =>
+      comparator: this.comparatorService.compareTranslocoDateAsc,
+      valueGetter: (data) =>
         this.columnUtilityService.dateFormatter(
           data.data.lastOfferDetail?.lastOfferDate
         ),
@@ -621,7 +624,8 @@ export class ColumnDefService {
     {
       headerName: translate('shared.quotationDetailsTable.dateNextFreeAtp'),
       field: ColumnFields.DATE_NEXT_FREE_ATP,
-      valueFormatter: (params: ValueFormatterParams) =>
+      comparator: this.comparatorService.compareTranslocoDateAsc,
+      valueGetter: (params) =>
         this.columnUtilityService.dateFormatter(
           params.data.materialStockByPlant?.dateNextFree
         ),
