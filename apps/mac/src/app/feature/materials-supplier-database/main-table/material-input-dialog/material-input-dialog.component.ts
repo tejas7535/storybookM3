@@ -307,9 +307,13 @@ export class MaterialInputDialogComponent
   }
 
   public confirmMaterial(createAnother: boolean): void {
+    const materialNumberValue = this.createMaterialForm.value?.materialNumber;
     const baseMaterial = {
       ...(this.createMaterialForm.value as MaterialFormValueV2),
-      materialNumber: this.createMaterialForm.value?.materialNumber?.split(','),
+      materialNumber:
+        materialNumberValue && materialNumberValue.length > 0
+          ? materialNumberValue.split(',')
+          : undefined,
     };
 
     const standard: MaterialStandardV2 = {
@@ -373,6 +377,10 @@ export class MaterialInputDialogComponent
       steelMakingProcess:
         'steelMakingProcess' in baseMaterial
           ? (baseMaterial.steelMakingProcess?.id as string)
+          : undefined,
+      productionProcess:
+        'productionProcess' in baseMaterial
+          ? (baseMaterial.productionProcess?.id as string)
           : undefined,
       rating:
         'rating' in baseMaterial

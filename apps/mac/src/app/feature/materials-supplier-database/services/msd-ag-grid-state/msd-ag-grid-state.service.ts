@@ -27,7 +27,7 @@ import { QuickFilterFacade } from '@mac/msd/store/facades/quickfilter';
   providedIn: 'root',
 })
 export class MsdAgGridStateService {
-  private readonly MIN_STATE_VERSION = 2.1;
+  private readonly MIN_STATE_VERSION = 2.2;
   private readonly KEY = 'MSD_MAIN_TABLE_STATE';
   private readonly LEGACY_MSD_KEY = 'msdMainTable';
   private readonly LEGACY_MSD_QUICKFILTER_KEY = 'MSD_quickfilter';
@@ -95,6 +95,9 @@ export class MsdAgGridStateService {
     }
     if (version < 2.1) {
       state = this.migrateToVersion2_1(state as MsdAgGridStateV2);
+    }
+    if (version < 2.2) {
+      state = this.migrateToVersion2_2(state as MsdAgGridStateV2);
     }
     // add further migrations here
 
@@ -258,6 +261,28 @@ export class MsdAgGridStateService {
         },
         [MaterialClass.POLYMER]: {
           ...currentStorage.materials[MaterialClass.POLYMER],
+        },
+      },
+    };
+  }
+
+  private migrateToVersion2_2(
+    currentStorage: MsdAgGridStateV2
+  ): MsdAgGridStateV2 {
+    const baseViewState: ViewState = {
+      columnState: [],
+      quickFilters: [],
+    };
+
+    return {
+      ...currentStorage,
+      version: 2.2,
+      materials: {
+        ...currentStorage.materials,
+        [MaterialClass.COPPER]: {
+          [NavigationLevel.MATERIAL]: { ...baseViewState },
+          [NavigationLevel.SUPPLIER]: { ...baseViewState },
+          [NavigationLevel.STANDARD]: { ...baseViewState },
         },
       },
     };

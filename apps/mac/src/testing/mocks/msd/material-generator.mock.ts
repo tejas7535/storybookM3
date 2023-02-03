@@ -70,6 +70,18 @@ export const createMaterialFormValue = (
     };
   }
 
+  if (type === MaterialClass.COPPER) {
+    base = {
+      ...base,
+
+      productionProcess: rndOpt(),
+      referenceDoc: [rndOpt()],
+      castingMode: rndStr(),
+      castingDiameter: rndOpt(),
+      maxDimension: rndNum(),
+    };
+  }
+
   return base;
 };
 
@@ -84,7 +96,10 @@ export const transformAsMaterialRequest = (values: MaterialFormValue) => {
     materialName: values.materialName.title,
     standardDocument: values.standardDocument.title,
     // steel only
-    materialNumber: values.materialNumber?.split(','),
+    materialNumber:
+      values.materialNumber?.length > 0
+        ? values.materialNumber?.split(',')
+        : undefined,
   };
   const supplier: ManufacturerSupplierV2 = {
     id: values.manufacturerSupplierId,
@@ -113,6 +128,7 @@ export const transformAsMaterialRequest = (values: MaterialFormValue) => {
     maxDimension: values.maxDimension,
     castingDiameter: values.castingDiameter?.title,
     steelMakingProcess: values.steelMakingProcess?.id as string,
+    productionProcess: values.productionProcess?.id as string,
     rating: values.rating?.id as string,
     ratingChangeComment: values.ratingChangeComment,
     ratingRemark: values.ratingRemark,

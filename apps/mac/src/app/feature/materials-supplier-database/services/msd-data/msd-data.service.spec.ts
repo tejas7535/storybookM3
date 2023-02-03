@@ -28,6 +28,8 @@ import {
 import {
   msdServiceAluminumMockResponse,
   msdServiceAluminumMockResult,
+  msdServiceCopperMockResponse,
+  msdServiceCopperMockResult,
   msdServicePolymerMockResponse,
   msdServicePolymerMockResult,
   msdServiceSteelMockResponse,
@@ -186,6 +188,28 @@ describe('MsdDataService', () => {
       expect(req.request.method).toBe('GET');
       req.flush(mockResponse);
     });
+
+    it('should fetch the materials for the given materialClass with category (copper)', (done) => {
+      const mockResponse = msdServiceCopperMockResponse;
+      const mockResult = msdServiceCopperMockResult;
+
+      service
+        .getMaterials<AluminumMaterial>(MaterialClass.COPPER, [
+          'category',
+          undefined,
+        ])
+        .subscribe((result: any) => {
+          // TODO: observe this
+          expect(result).toMatchObject(mockResult);
+          done();
+        });
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/cu?category=category`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(mockResponse);
+    });
   });
 
   describe('fetchManufacturerSuppliers', () => {
@@ -280,6 +304,45 @@ describe('MsdDataService', () => {
 
       const req = httpMock.expectOne(
         `${service['BASE_URL']}/materials/st/steelMakingProcesses`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(mockResponse);
+    });
+  });
+
+  describe('fetchProductionProcesses', () => {
+    it('should return a list of production processes', (done) => {
+      const mockResponse: string[] = [
+        'hitting it with a hammer',
+        'bend it like bender',
+      ];
+      const mockResult: StringOption[] = [
+        {
+          id: 'hitting it with a hammer',
+          title:
+            'materialsSupplierDatabase.productionProcessValues.hitting it with a hammer',
+          tooltip:
+            'materialsSupplierDatabase.productionProcessValues.hitting it with a hammer',
+          tooltipDelay: 1500,
+        },
+        {
+          id: 'bend it like bender',
+          title:
+            'materialsSupplierDatabase.productionProcessValues.bend it like bender',
+          tooltip:
+            'materialsSupplierDatabase.productionProcessValues.bend it like bender',
+          tooltipDelay: 1500,
+        },
+      ];
+      service
+        .fetchProductionProcesses(MaterialClass.COPPER)
+        .subscribe((result) => {
+          expect(result).toEqual(mockResult);
+          done();
+        });
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/cu/productionProcesses`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mockResponse);

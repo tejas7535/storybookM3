@@ -3,12 +3,9 @@ import { Action, createReducer, on } from '@ngrx/store';
 
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import {
-  AluminumMaterial,
   ManufacturerSupplierTableValue,
   MaterialStandardTableValue,
   MaterialV2,
-  PolymerMaterial,
-  SteelMaterial,
 } from '@mac/msd/models';
 import {
   fetchClassOptions,
@@ -41,11 +38,6 @@ export interface DataState {
   agGridColumns: string;
   materialClasses: MaterialClass[];
   materialClassLoading: boolean;
-  materials: {
-    aluminumMaterials: AluminumMaterial[];
-    steelMaterials: SteelMaterial[];
-    polymerMaterials: PolymerMaterial[];
-  };
   result: {
     [key in MaterialClass]?: {
       [NavigationLevel.MATERIAL]?: MaterialV2[];
@@ -67,11 +59,6 @@ export const initialState: DataState = {
   agGridColumns: undefined,
   materialClasses: [],
   materialClassLoading: undefined,
-  materials: {
-    aluminumMaterials: undefined,
-    steelMaterials: undefined,
-    polymerMaterials: undefined,
-  },
   result: {},
 };
 
@@ -239,11 +226,6 @@ export const dataReducer = createReducer(
     resetResult,
     (state): DataState => ({
       ...state,
-      materials: {
-        aluminumMaterials: undefined,
-        steelMaterials: undefined,
-        polymerMaterials: undefined,
-      },
       result: {},
     })
   ),

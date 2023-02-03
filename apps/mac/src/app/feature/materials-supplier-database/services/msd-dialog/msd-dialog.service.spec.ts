@@ -11,6 +11,7 @@ import { DataResult } from '@mac/msd/models';
 
 import { ManufacturerSupplierInputDialogComponent } from '../../main-table/material-input-dialog/manufacturer-supplier/manufacturersupplier-input-dialog.component';
 import { MaterialStandardInputDialogComponent } from '../../main-table/material-input-dialog/material-standard/material-standard-input-dialog.component';
+import { CopperInputDialogComponent } from '../../main-table/material-input-dialog/materials/copper/copper-input-dialog.component';
 import { MsdDialogService } from './msd-dialog.service';
 
 describe('MsdDialogService', () => {
@@ -94,6 +95,11 @@ describe('MsdDialogService', () => {
       expect(
         JSON.stringify(service['getDialogClass'](MaterialClass.STEEL))
       ).toEqual(JSON.stringify(SteelInputDialogComponent));
+    });
+    it('should return the dialog class for copper', () => {
+      expect(
+        JSON.stringify(service['getDialogClass'](MaterialClass.COPPER))
+      ).toEqual(JSON.stringify(CopperInputDialogComponent));
     });
     it('should return the dialog class for polymer', () => {
       expect(

@@ -1,5 +1,6 @@
 export * from './aluminum';
 export * from './base';
+export * from './copper';
 export * from './data-result.model';
 export * from './dialog-data.model';
 export * from './manufacturer-supplier.model';

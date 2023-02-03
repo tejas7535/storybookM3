@@ -47,6 +47,12 @@ export class DialogEffects {
         switch (materialClass) {
           case MaterialClass.ALUMINUM:
             return baseActions;
+          case MaterialClass.COPPER:
+            return [
+              ...baseActions,
+              DialogActions.fetchCastingModes(),
+              DialogActions.fetchProductionProcesses(),
+            ];
           case MaterialClass.STEEL:
             return [
               ...baseActions,
@@ -154,6 +160,24 @@ export class DialogEffects {
           ),
           // TODO: implement proper error handling
           catchError(() => of(DialogActions.fetchSteelMakingProcessesFailure()))
+        )
+      )
+    );
+  });
+
+  public fetchProductionProcesses$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.fetchProductionProcesses),
+      concatLatestFrom(() => this.dataFacade.materialClass$),
+      switchMap(([_action, materialClass]) =>
+        this.msdDataService.fetchProductionProcesses(materialClass).pipe(
+          map((productionProcesses) =>
+            DialogActions.fetchProductionProcessesSuccess({
+              productionProcesses,
+            })
+          ),
+          // TODO: implement proper error handling
+          catchError(() => of(DialogActions.fetchProductionProcessesFailure()))
         )
       )
     );
@@ -721,6 +745,14 @@ export class DialogEffects {
               ? {
                   id: material.steelMakingProcess,
                   title: material.steelMakingProcess,
+                }
+              : undefined,
+            productionProcess: material.productionProcess
+              ? {
+                  id: material.productionProcess,
+                  title: translate(
+                    `materialsSupplierDatabase.productionProcessValues.${material.productionProcess}`
+                  ),
                 }
               : undefined,
             rating: material.rating

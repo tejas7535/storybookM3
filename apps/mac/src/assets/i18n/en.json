@@ -284,6 +284,7 @@
         "maxDimension": "Maximum Dimension (mm)",
         "minDimension": "Minimum Dimension (mm)",
         "productCategoryText": "Product Category",
+        "productionProcessText": "Production Process",
         "rating": "Supplier Rating",
         "ratingRemark": "Supplier Rating remark",
         "ratingChangeComment": "Rating change comment",
@@ -339,6 +340,7 @@
         "castingDiameter": "Cast / Remelt product information",
         "castingMode": "Casting / Remelting process",
         "cc": "CC",
+        "centrifugal": "Centrifugal",
         "close": "Close",
         "co2AndProductInformationTitle": "Product & CO₂ information",
         "co2Classification": "CO₂ data classification",
@@ -356,6 +358,7 @@
         "co2ValuesFilled": "The CO₂ values and the CO₂ classification have been filled automatically based on your selection.",
         "co2ValuesFilledWithOtherValues": "The CO₂ values and the CO₂ classification have been filled automatically based on your selection. There were {{ otherValues }} other values found matching your selection. The highest one has been chosen.",
         "continuous": "Continuous",
+        "copperNumber": "Copper based material number",
         "createFailure": {
           "matStandard": {
             "400": "Material standard creation failed!",
@@ -385,7 +388,8 @@
           "generic": "Value is not valid",
           "min": "Value lower than {{min}}",
           "required": "Input required",
-          "steelNumber": "Required format: 1.1234(, 1.3456, ...)"
+          "steelNumber": "Required format: 1.1234(, 1.3456, ...)",
+          "copperNumber": "Required format: 3.1234(, 3.3456, ...)"
         },
         "esr": "ESR",
         "ic": "IC",
@@ -411,8 +415,11 @@
           "12": "December"
         },
         "none": "None",
+        "other": "Other",
         "pesr": "PESR",
+        "powder": "Powder",
         "productCategory": "Product Category",
+        "productionProcess": "Production Process",
         "ratingChangeComment": "Reason for change of supplier rating",
         "referencedInDocument": "Referenced in document",
         "releaseDateMonth": "Release Month",
@@ -420,6 +427,7 @@
         "releaseDate": "Release Date ",
         "historicallyApproved": "Historical supplier (P 174200 / P 174211)",
         "releaseRestrictions": "Release restrictions / Comment on CO₂ calculation",
+        "rod": "Rod",
         "scope1": "Scope 1",
         "scope2": "Scope 2",
         "scope3": "Scope 3",
@@ -434,6 +442,7 @@
         "supplierCountry": "Supplier Country",
         "supplierRating": "Supplier Rating",
         "supplierRatingRemark": "Supplier Rating Remark",
+        "strip": "Strip",
         "tooltip": {
           "blocked": "Indication of whether the material/supplier is blocked (not displayed in the table)",
           "co2Classification": "Classification of the method used to calculate the CO₂ emissions",
@@ -493,7 +502,8 @@
     "materialClassValues": {
       "st": "Steel",
       "al": "Aluminum",
-      "px": "Polymer"
+      "px": "Polymer",
+      "cu": "Copper"
     },
     "status": {
       "statusValues": {
@@ -528,7 +538,31 @@
       "tube": "Tube",
       "wire": "Wire",
       "m310": "Injection-moulded parts (M310)",
-      "thermo": "Thermoplastics"
+      "thermo": "Thermoplastics",
+      "magnetwire": "Magnetwire / Enameled wire",
+      "extrudedBar": "Extrudet bar",
+      "drawnBar": "Drawn bar"
+    },
+    "productionProcessValues": {
+      "mining": "Mining",
+      "leaching": "Leaching",
+      "solventExtraction": "Solvent Extraction",
+      "scrap": "Scrap / Waste",
+      "smelting": "Smelting",
+      "anodeCasting": "Anode Casting",
+      "electrolysis": "Electrolysis",
+      "melting": "Melting",
+      "alloying": "Alloying",
+      "slabs": "Casting (slabs)",
+      "shapes": "Casting (shapes)",
+      "rod": "Casting (rod)",
+      "strip": "Casting (strip)",
+      "centrifugal": "Casting (cent.)",
+      "hotRolling": "Hot rolling",
+      "coldRolling": "Cold rolling",
+      "drawing": "Drawing",
+      "machining": "Machining",
+      "unknown": "Unknown"
     },
     "reload": "Reload",
     "resetTable": "Reset Table",

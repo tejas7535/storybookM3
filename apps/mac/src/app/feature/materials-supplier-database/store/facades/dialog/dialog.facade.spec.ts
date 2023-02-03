@@ -66,6 +66,14 @@ describe('DialogFacade', () => {
                 ],
                 castingModes: ['mode'],
                 steelMakingProcesses: ['process'],
+                productionProcesses: [
+                  {
+                    id: 'process',
+                    title: 'process',
+                    tooltip: 'process',
+                    tooltipDelay: 1500,
+                  },
+                ],
                 materialStandards: [mockMaterialStandard],
                 manufacturerSuppliers: [mockManufacturerSupplier],
                 productCategories: mockProductCategoryOptions,
@@ -320,6 +328,26 @@ describe('DialogFacade', () => {
         });
 
         m.expect(facade.steelMakingProcess$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('productionProcesses$', () => {
+    it(
+      'should provide the production processes',
+      marbles((m) => {
+        const expected = m.cold('a', {
+          a: [
+            {
+              id: 'process',
+              title: 'process',
+              tooltip: 'process',
+              tooltipDelay: 1500,
+            },
+          ],
+        });
+
+        m.expect(facade.productionProcesses$).toBeObservable(expected);
       })
     );
   });

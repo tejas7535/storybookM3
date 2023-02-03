@@ -193,6 +193,17 @@ export class MsdDataService {
         'steelMakingProcess' in materialResponse
           ? materialResponse.steelMakingProcess
           : undefined,
+      productionProcess:
+        'productionProcess' in materialResponse
+          ? materialResponse.productionProcess
+          : undefined,
+      productionProcessText:
+        'productionProcess' in materialResponse &&
+        materialResponse.productionProcess
+          ? translate(
+              `materialsSupplierDatabase.productionProcessValues.${materialResponse.productionProcess}`
+            )
+          : undefined,
       rating:
         'rating' in materialResponse ? materialResponse.rating : undefined,
       ratingRemark:
@@ -300,6 +311,29 @@ export class MsdDataService {
     return this.httpClient.get<string[]>(
       `${this.BASE_URL}/materials/st/steelMakingProcesses`
     );
+  }
+
+  public fetchProductionProcesses(materialClass: MaterialClass) {
+    return this.httpClient
+      .get<string[]>(
+        `${this.BASE_URL}/materials/${materialClass}/productionProcesses`
+      )
+      .pipe(
+        map((processes) =>
+          processes.map((process) => {
+            const title = translate(
+              `materialsSupplierDatabase.productionProcessValues.${process}`
+            );
+
+            return {
+              id: process,
+              tooltipDelay: this.TOOLTIP_DELAY,
+              tooltip: title,
+              title,
+            } as StringOption;
+          })
+        )
+      );
   }
 
   public fetchCo2Classifications(_materialClass: MaterialClass) {

@@ -60,9 +60,9 @@ describe('DialogControlsService', () => {
 
       expect(typeof control.value).toEqual('undefined');
       expect(control.disabled).toBe(false);
-      expect(control.hasValidator(service['MATERIAL_NUMBER_VALIDATOR'])).toBe(
-        true
-      );
+      expect(
+        control.hasValidator(service['STEEL_MATERIAL_NUMBER_VALIDATOR'])
+      ).toBe(true);
     });
 
     it('should create a steelNumberControl with value and disabled set', () => {
@@ -71,9 +71,32 @@ describe('DialogControlsService', () => {
       expect(typeof control.value).toEqual('string');
       expect(control.value).toEqual('1.1234');
       expect(control.disabled).toBe(true);
-      expect(control.hasValidator(service['MATERIAL_NUMBER_VALIDATOR'])).toBe(
-        true
-      );
+      expect(
+        control.hasValidator(service['STEEL_MATERIAL_NUMBER_VALIDATOR'])
+      ).toBe(true);
+    });
+  });
+
+  describe('getCopperNumberControl', () => {
+    it('should create a copperNumberControl', () => {
+      const control = service.getCopperNumberControl();
+
+      expect(typeof control.value).toEqual('undefined');
+      expect(control.disabled).toBe(false);
+      expect(
+        control.hasValidator(service['COPPER_MATERIAL_NUMBER_VALIDATOR'])
+      ).toBe(true);
+    });
+
+    it('should create a copperNumberControl with value and disabled set', () => {
+      const control = service.getCopperNumberControl('2.1234', true);
+
+      expect(typeof control.value).toEqual('string');
+      expect(control.value).toEqual('2.1234');
+      expect(control.disabled).toBe(true);
+      expect(
+        control.hasValidator(service['COPPER_MATERIAL_NUMBER_VALIDATOR'])
+      ).toBe(true);
     });
   });
 

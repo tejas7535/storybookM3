@@ -125,6 +125,19 @@ export const fetchSteelMakingProcessesFailure = createAction(
   '[MSD - Dialog] Fetch Steel Making Processes Failure'
 );
 
+export const fetchProductionProcesses = createAction(
+  '[MSD - Dialog] Fetch Production Processes'
+);
+
+export const fetchProductionProcessesSuccess = createAction(
+  '[MSD - Dialog] Fetch Production Processes Success',
+  props<{ productionProcesses: StringOption[] }>()
+);
+
+export const fetchProductionProcessesFailure = createAction(
+  '[MSD - Dialog] Fetch Production Processes Failure'
+);
+
 export const fetchCastingModes = createAction(
   '[MSD - Dialog] Fetch Casting Modes'
 );

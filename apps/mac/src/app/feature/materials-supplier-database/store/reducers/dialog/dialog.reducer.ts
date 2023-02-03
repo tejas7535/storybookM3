@@ -46,6 +46,9 @@ import {
   fetchProductCategories,
   fetchProductCategoriesFailure,
   fetchProductCategoriesSuccess,
+  fetchProductionProcesses,
+  fetchProductionProcessesFailure,
+  fetchProductionProcessesSuccess,
   fetchRatings,
   fetchRatingsFailure,
   fetchRatingsSuccess,
@@ -94,6 +97,8 @@ export interface DialogState {
     manufacturerSuppliersLoading: boolean;
     productCategories: StringOption[];
     productCategoriesLoading: boolean;
+    productionProcesses: StringOption[];
+    productionProcessesLoading: boolean;
     referenceDocuments: string[];
     referenceDocumentsLoading: boolean;
     customReferenceDocuments: string[];
@@ -163,6 +168,7 @@ export const dialogReducer = createReducer(
         manufacturerSuppliers: undefined,
         ratings: undefined,
         steelMakingProcesses: undefined,
+        productionProcesses: undefined,
         productCategories: undefined,
         co2Classifications: undefined,
         castingModes: undefined,
@@ -206,6 +212,16 @@ export const dialogReducer = createReducer(
       dialogOptions: {
         ...state.dialogOptions,
         steelMakingProcessesLoading: true,
+      },
+    })
+  ),
+  on(
+    fetchProductionProcesses,
+    (state): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        productionProcessesLoading: true,
       },
     })
   ),
@@ -409,6 +425,29 @@ export const dialogReducer = createReducer(
         ...state.dialogOptions,
         steelMakingProcesses: undefined,
         steelMakingProcessesLoading: undefined,
+        error: true,
+      },
+    })
+  ),
+  on(
+    fetchProductionProcessesSuccess,
+    (state, { productionProcesses }): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        productionProcesses,
+        productionProcessesLoading: false,
+      },
+    })
+  ),
+  on(
+    fetchProductionProcessesFailure,
+    (state): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        productionProcesses: undefined,
+        productionProcessesLoading: undefined,
         error: true,
       },
     })

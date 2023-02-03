@@ -62,16 +62,24 @@ export class MaterialStandardInputDialogComponent
 
   ngOnInit(): void {
     // enable numberControl only for specific material
-    this.materialNumberControl =
-      this.materialClass === MaterialClass.STEEL
-        ? this.controlsService.getSteelNumberControl()
-        : this.controlsService.getControl(undefined, true);
+    this.materialNumberControl = this.createMaterialNumberControl();
     this.createMaterialForm = new FormGroup<MaterialStandardForm>({
       id: this.materialStandardIdControl,
       materialName: this.materialNamesControl,
       standardDocument: this.standardDocumentsControl,
       materialNumber: this.materialNumberControl,
     });
+  }
+
+  private createMaterialNumberControl(): FormControl<string> {
+    switch (this.materialClass) {
+      case MaterialClass.STEEL:
+        return this.controlsService.getSteelNumberControl();
+      case MaterialClass.COPPER:
+        return this.controlsService.getCopperNumberControl();
+      default:
+        return this.controlsService.getControl(undefined, true);
+    }
   }
 
   public showMaterialNumber() {
@@ -113,6 +121,28 @@ export class MaterialStandardInputDialogComponent
         );
   }
 
+  public getMaterialNumberTranslationKey(): string {
+    switch (this.materialClass) {
+      case MaterialClass.STEEL:
+        return 'steelNumber';
+      case MaterialClass.COPPER:
+        return 'copperNumber';
+      default:
+        return '';
+    }
+  }
+
+  public getMaterialNumberPlaceholder(): string {
+    switch (this.materialClass) {
+      case MaterialClass.STEEL:
+        return '1.1234';
+      case MaterialClass.COPPER:
+        return '2.1234';
+      default:
+        return '';
+    }
+  }
+
   public confirmMaterial(createAnother: boolean): void {
     const baseMaterial = this.createMaterialForm
       .value as MaterialStandardFormValue;
@@ -121,7 +151,8 @@ export class MaterialStandardInputDialogComponent
       id: baseMaterial.id,
       materialName: baseMaterial.materialName.title,
       materialNumber:
-        'materialNumber' in baseMaterial
+        'materialNumber' in baseMaterial &&
+        baseMaterial.materialNumber?.length > 0
           ? baseMaterial.materialNumber?.split(',')
           : undefined,
       standardDocument: baseMaterial.standardDocument.title,

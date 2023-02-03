@@ -3,10 +3,16 @@ import { FormControl, Validators } from '@angular/forms';
 
 @Injectable()
 export class DialogControlsService {
-  private readonly MATERIAL_NUMBER_PATTERN = '1\\.[0-9]{4}(, ?1\\.[0-9]{4})*';
+  private readonly STEEL_MATERIAL_NUMBER_PATTERN =
+    '1\\.[0-9]{4}(, ?1\\.[0-9]{4})*';
+  private readonly COPPER_MATERIAL_NUMBER_PATTERN =
+    '2\\.[0-9]{4}(, ?1\\.[0-9]{4})*';
 
-  private readonly MATERIAL_NUMBER_VALIDATOR = Validators.pattern(
-    this.MATERIAL_NUMBER_PATTERN
+  private readonly STEEL_MATERIAL_NUMBER_VALIDATOR = Validators.pattern(
+    this.STEEL_MATERIAL_NUMBER_PATTERN
+  );
+  private readonly COPPER_MATERIAL_NUMBER_VALIDATOR = Validators.pattern(
+    this.COPPER_MATERIAL_NUMBER_PATTERN
   );
   public getControl<T>(value?: T, disabled = false) {
     return new FormControl<T>({ value, disabled });
@@ -18,7 +24,13 @@ export class DialogControlsService {
 
   public getSteelNumberControl(value?: string, disabled = false) {
     return new FormControl<string>({ value, disabled }, [
-      this.MATERIAL_NUMBER_VALIDATOR,
+      this.STEEL_MATERIAL_NUMBER_VALIDATOR,
+    ]);
+  }
+
+  public getCopperNumberControl(value?: string, disabled = false) {
+    return new FormControl<string>({ value, disabled }, [
+      this.COPPER_MATERIAL_NUMBER_VALIDATOR,
     ]);
   }
 

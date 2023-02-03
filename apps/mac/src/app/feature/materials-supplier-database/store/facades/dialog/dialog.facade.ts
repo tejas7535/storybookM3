@@ -15,6 +15,7 @@ import {
   getMaterialDialogCastingModes,
   getMaterialDialogCo2Classifications,
   getMaterialDialogOptionsLoading,
+  getMaterialDialogProductionProcesses,
   getMaterialDialogRatings,
   getMaterialDialogReferenceDocumentsLoading,
   getMaterialDialogReferenceDocumentsStringOptions,
@@ -60,6 +61,9 @@ export class DialogFacade {
   );
   steelMakingProcess$ = this.store.select(
     getStringOptions(getMaterialDialogSteelMakingProcesses)
+  );
+  productionProcesses$ = this.store.select(
+    getMaterialDialogProductionProcesses
   );
   categories$ = this.store.select(getUniqueStringOptions(getProductCategories));
   castingDiameters$ = this.store.select(

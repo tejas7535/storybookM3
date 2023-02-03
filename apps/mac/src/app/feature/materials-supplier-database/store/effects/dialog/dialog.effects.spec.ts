@@ -57,6 +57,9 @@ import {
   fetchProductCategories,
   fetchProductCategoriesFailure,
   fetchProductCategoriesSuccess,
+  fetchProductionProcesses,
+  fetchProductionProcessesFailure,
+  fetchProductionProcessesSuccess,
   fetchRatings,
   fetchRatingsFailure,
   fetchRatingsSuccess,
@@ -201,6 +204,28 @@ describe('Dialog Effects', () => {
           c: fetchCo2Classifications(),
           d: fetchManufacturerSuppliers(),
           e: fetchProductCategories(),
+        });
+
+        m.expect(effects.materialDialogOpened$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+
+    it(
+      'should dispatch the fetch actions for copper',
+      marbles((m) => {
+        action = materialDialogOpened();
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataFacade.materialClass$ = of(MaterialClass.COPPER);
+
+        const expected = m.cold('-(bcdefg)', {
+          b: fetchMaterialStandards(),
+          c: fetchCo2Classifications(),
+          d: fetchManufacturerSuppliers(),
+          e: fetchProductCategories(),
+          f: fetchCastingModes(),
+          g: fetchProductionProcesses(),
         });
 
         m.expect(effects.materialDialogOpened$).toBeObservable(expected);
@@ -442,6 +467,57 @@ describe('Dialog Effects', () => {
         m.flush();
 
         expect(msdDataService.fetchSteelMakingProcesses).toHaveBeenCalled();
+      })
+    );
+  });
+
+  describe('fetchProductionProcesses$', () => {
+    it(
+      'should fetch production processes and return success action on success',
+      marbles((m) => {
+        action = fetchProductionProcesses();
+        actions$ = m.hot('-a', { a: action });
+
+        const resultMock: StringOption[] = [
+          { id: '1', title: '1' },
+          { id: '2', title: '2' },
+        ];
+        const response = m.cold('-a|', { a: resultMock });
+        msdDataService.fetchProductionProcesses = jest.fn(() => response);
+
+        const result = fetchProductionProcessesSuccess({
+          productionProcesses: resultMock,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.fetchProductionProcesses$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.fetchProductionProcesses).toHaveBeenCalledWith(
+          MaterialClass.STEEL
+        );
+      })
+    );
+
+    it(
+      'should fetch production processes and return failure action on failure',
+      marbles((m) => {
+        action = fetchProductionProcesses();
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataService.fetchProductionProcesses = jest
+          .fn()
+          .mockReturnValue(throwError(() => 'error'));
+
+        const result = fetchProductionProcessesFailure();
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.fetchProductionProcesses$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.fetchProductionProcesses).toHaveBeenCalledWith(
+          MaterialClass.STEEL
+        );
       })
     );
   });
@@ -1589,6 +1665,7 @@ describe('Dialog Effects', () => {
             id: 'process',
             title: 'process',
           },
+          productionProcess: undefined,
           rating: { id: 'rating', title: 'rating' },
           ratingRemark: 'remark',
           selfCertified: true,
@@ -1679,6 +1756,7 @@ describe('Dialog Effects', () => {
           selfCertified: false,
           productCategory: 'brightBar',
           productCategoryText: 'Bright Bar',
+          productionProcess: 'something',
           referenceDoc: 'reference',
           co2Scope1: 1,
           co2Scope2: 1,
@@ -1722,6 +1800,7 @@ describe('Dialog Effects', () => {
           maxDimension: 1,
           minDimension: 1,
           steelMakingProcess: undefined,
+          productionProcess: { id: 'something', title: 'something' },
           rating: { id: undefined, title: 'none' },
           ratingRemark: 'remark',
           materialNumber: '1, 2',

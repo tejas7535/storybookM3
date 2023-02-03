@@ -323,11 +323,6 @@ describe('dataReducer', () => {
       const newState = dataReducer(
         {
           ...state,
-          materials: {
-            aluminumMaterials: [],
-            steelMaterials: [],
-            polymerMaterials: [],
-          },
           result: {
             st: {},
             al: {},
@@ -339,11 +334,6 @@ describe('dataReducer', () => {
 
       expect(newState).toEqual({
         ...state,
-        materials: {
-          aluminumMaterials: undefined,
-          steelMaterials: undefined,
-          polymerMaterials: undefined,
-        },
         result: {},
       });
     });

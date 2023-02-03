@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import {
@@ -158,6 +158,52 @@ describe('MaterialstandardInputDialogComponent', () => {
     });
   });
 
+  describe('createMaterialNumberControl', () => {
+    it('should get a steel number control', () => {
+      component.materialClass = MaterialClass.STEEL;
+      const mockControl = new FormControl<string>('');
+      component['controlsService'].getSteelNumberControl = jest.fn(
+        () => mockControl
+      );
+
+      const result = component['createMaterialNumberControl']();
+
+      expect(result).toEqual(mockControl);
+      expect(
+        component['controlsService'].getSteelNumberControl
+      ).toHaveBeenCalled();
+    });
+
+    it('should get a copper number control', () => {
+      component.materialClass = MaterialClass.COPPER;
+      const mockControl = new FormControl<string>('');
+      component['controlsService'].getCopperNumberControl = jest.fn(
+        () => mockControl
+      );
+
+      const result = component['createMaterialNumberControl']();
+
+      expect(result).toEqual(mockControl);
+      expect(
+        component['controlsService'].getCopperNumberControl
+      ).toHaveBeenCalled();
+    });
+
+    it('should get a default control', () => {
+      component.materialClass = MaterialClass.ALUMINUM;
+      const mockControl = new FormControl(undefined);
+      component['controlsService'].getControl = jest.fn(() => mockControl);
+
+      const result = component['createMaterialNumberControl']();
+
+      expect(result).toEqual(mockControl);
+      expect(component['controlsService'].getControl).toHaveBeenCalledWith(
+        undefined,
+        true
+      );
+    });
+  });
+
   describe('confirmMaterial', () => {
     const update = (error: boolean) => {
       const result = error
@@ -188,6 +234,32 @@ describe('MaterialstandardInputDialogComponent', () => {
         standardDocument: values.standardDocument.title,
         // steel only
         materialNumber: [values.materialNumber],
+      };
+
+      component.confirmMaterial(false);
+      expect(store.dispatch).toBeCalledWith(
+        materialstandardDialogConfirmed({ standard })
+      );
+
+      // backend response
+      update(false);
+      expect(component.closeDialog).toBeCalledWith(true);
+      expect(component.showInSnackbar).toBeCalled();
+    });
+    it('should close dialog on successful confirm with empty material number', () => {
+      const baseValues = createMaterialFormValue(MaterialClass.STEEL);
+      const values = {
+        ...baseValues,
+        materialNumber: '',
+      };
+      component.materialId = values.materialStandardId;
+      component.patchFields(values);
+      const standard: MaterialStandardV2 = {
+        id: values.materialStandardId,
+        materialName: values.materialName.title,
+        standardDocument: values.standardDocument.title,
+        // steel only
+        materialNumber: undefined,
       };
 
       component.confirmMaterial(false);
@@ -300,6 +372,52 @@ describe('MaterialstandardInputDialogComponent', () => {
       expect(result).toEqual(
         'materialsSupplierDatabase.mainTable.dialog.addMaterialStandardTitle'
       );
+    });
+  });
+
+  describe('getMaterialNumberTranslationKey', () => {
+    it('should return steel key', () => {
+      component.materialClass = MaterialClass.STEEL;
+      const result = component.getMaterialNumberTranslationKey();
+
+      expect(result).toEqual('steelNumber');
+    });
+
+    it('should return copper key', () => {
+      component.materialClass = MaterialClass.COPPER;
+      const result = component.getMaterialNumberTranslationKey();
+
+      expect(result).toEqual('copperNumber');
+    });
+
+    it('should return default key', () => {
+      component.materialClass = MaterialClass.ALUMINUM;
+      const result = component.getMaterialNumberTranslationKey();
+
+      expect(result).toEqual('');
+    });
+  });
+
+  describe('getMaterialNumberPlaceholder', () => {
+    it('should return steel placeholder', () => {
+      component.materialClass = MaterialClass.STEEL;
+      const result = component.getMaterialNumberPlaceholder();
+
+      expect(result).toEqual('1.1234');
+    });
+
+    it('should return copper placeholder', () => {
+      component.materialClass = MaterialClass.COPPER;
+      const result = component.getMaterialNumberPlaceholder();
+
+      expect(result).toEqual('2.1234');
+    });
+
+    it('should return default placeholder', () => {
+      component.materialClass = MaterialClass.ALUMINUM;
+      const result = component.getMaterialNumberPlaceholder();
+
+      expect(result).toEqual('');
     });
   });
 });

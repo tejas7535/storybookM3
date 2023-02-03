@@ -7,3 +7,4 @@ export * from './release-date-formatter';
 export * from './release-date-value-getter';
 export * from './sidebar-definition';
 export * from './status-value-getter';
+export * from './translate-value-formatter';

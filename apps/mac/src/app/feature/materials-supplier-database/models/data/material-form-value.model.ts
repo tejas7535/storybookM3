@@ -19,6 +19,7 @@ export interface MaterialFormValue {
   maxDimension: number;
   minDimension: number;
   steelMakingProcess: StringOption;
+  productionProcess: StringOption;
   rating: StringOption;
   ratingRemark: string;
   ratingChangeComment: string;

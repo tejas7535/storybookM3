@@ -20,6 +20,7 @@ import {
   MANUFACTURER_VALUE_GETTER,
   RELEASE_DATE_FORMATTER,
   RELEASE_DATE_VALUE_GETTER,
+  TRANSLATE_VALUE_FORMATTER_FACTORY,
 } from '@mac/msd/main-table/table-config';
 import { BASE_COLUMN_DEFINITIONS } from '@mac/msd/main-table/table-config/materials/base';
 
@@ -80,6 +81,10 @@ export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
     hide: true,
     headerTooltip: CASTING_MODE,
     cellRenderer: EditCellRendererComponent,
+    valueFormatter: TRANSLATE_VALUE_FORMATTER_FACTORY(
+      'materialsSupplierDatabase.mainTable.dialog',
+      true
+    ),
   },
   {
     field: CASTING_DIAMETER,

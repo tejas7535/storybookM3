@@ -49,6 +49,9 @@ import {
   fetchProductCategories,
   fetchProductCategoriesFailure,
   fetchProductCategoriesSuccess,
+  fetchProductionProcesses,
+  fetchProductionProcessesFailure,
+  fetchProductionProcessesSuccess,
   fetchRatings,
   fetchRatingsFailure,
   fetchRatingsSuccess,
@@ -337,11 +340,48 @@ describe('Dialog Actions', () => {
   });
 
   describe('Fetch Steel Making Processes Failure', () => {
-    it('fetchCo2ClassificationsFailure', () => {
+    it('fetchSteelMakingProcessesFailure', () => {
       const action = fetchSteelMakingProcessesFailure();
 
       expect(action).toEqual({
         type: '[MSD - Dialog] Fetch Steel Making Processes Failure',
+      });
+    });
+  });
+
+  describe('Fetch Production Processes', () => {
+    it('fetchProductionProcesses', () => {
+      const action = fetchProductionProcesses();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch Production Processes',
+      });
+    });
+  });
+
+  describe('Fetch Production Processes Success', () => {
+    it('fetchProductionProcessesSuccess', () => {
+      const mockProductionProcesses = [
+        { id: '1', title: '1' },
+        { id: '2', title: '1' },
+      ];
+      const action = fetchProductionProcessesSuccess({
+        productionProcesses: mockProductionProcesses,
+      });
+
+      expect(action).toEqual({
+        productionProcesses: mockProductionProcesses,
+        type: '[MSD - Dialog] Fetch Production Processes Success',
+      });
+    });
+  });
+
+  describe('Fetch Production Processes Failure', () => {
+    it('fetchProductionProcessesFailure', () => {
+      const action = fetchProductionProcessesFailure();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch Production Processes Failure',
       });
     });
   });

@@ -29,10 +29,10 @@
       </div>
       <div class="flex flex-row gap-x-6" *ngIf="showMaterialNumber()">
         <mat-form-field appearance="outline" class="w-full">
-          <mat-label>{{ t('steelNumber') }}</mat-label>
+          <mat-label>{{ t(getMaterialNumberTranslationKey()) }}</mat-label>
           <input
             matInput
-            placeholder="1.1234"
+            [placeholder]="getMaterialNumberPlaceholder()"
             value=""
             [formControl]="materialNumberControl"
             name="materialNumbers"
@@ -40,7 +40,7 @@
           />
           <mat-error
             *ngIf="materialNumberControl.invalid"
-            [matTooltip]="t('error.steelNumber')"
+            [matTooltip]="t('error.' + getMaterialNumberTranslationKey())"
             class="cursor-help"
           >
             {{ getErrorMessage(materialNumberControl.errors) }}

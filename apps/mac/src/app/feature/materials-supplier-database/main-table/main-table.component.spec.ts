@@ -54,6 +54,7 @@ import {
   RELEASE_DATE_FORMATTER,
   RELEASE_DATE_VALUE_GETTER,
   STATUS_VALUE_GETTER,
+  TRANSLATE_VALUE_FORMATTER_FACTORY,
 } from '@mac/msd/main-table/table-config';
 import { STEEL_COLUMN_DEFINITIONS } from '@mac/msd/main-table/table-config/materials/steel';
 import { DataResult, MaterialFormValue } from '@mac/msd/models';
@@ -1377,6 +1378,53 @@ describe('MainTableComponent', () => {
       expect(result).toEqual(
         `materialsSupplierDatabase.status.statusValues.${Status.CHANGED}`
       );
+    });
+  });
+
+  describe('TRANSLATE_VALUE_FORMATTER_FACTORY', () => {
+    it('should return undefined if the value is undefined', () => {
+      const formatter = TRANSLATE_VALUE_FORMATTER_FACTORY();
+      const params = { value: undefined } as ValueFormatterParams;
+
+      const result = formatter(params);
+
+      expect(result).toEqual(undefined);
+    });
+
+    it('should return the translated value', () => {
+      const formatter = TRANSLATE_VALUE_FORMATTER_FACTORY();
+      const params = { value: 'something' } as ValueFormatterParams;
+
+      const result = formatter(params);
+
+      expect(result).toEqual('something');
+    });
+
+    it('should return the translated value with empty prefix', () => {
+      const formatter = TRANSLATE_VALUE_FORMATTER_FACTORY('');
+      const params = { value: 'something' } as ValueFormatterParams;
+
+      const result = formatter(params);
+
+      expect(result).toEqual('something');
+    });
+
+    it('should return the translated value with prefix', () => {
+      const formatter = TRANSLATE_VALUE_FORMATTER_FACTORY('prefix');
+      const params = { value: 'something' } as ValueFormatterParams;
+
+      const result = formatter(params);
+
+      expect(result).toEqual('prefix.something');
+    });
+
+    it('should return the translated value with the input in lower case', () => {
+      const formatter = TRANSLATE_VALUE_FORMATTER_FACTORY('prefix', true);
+      const params = { value: 'SOMETHING' } as ValueFormatterParams;
+
+      const result = formatter(params);
+
+      expect(result).toEqual('prefix.something');
     });
   });
 

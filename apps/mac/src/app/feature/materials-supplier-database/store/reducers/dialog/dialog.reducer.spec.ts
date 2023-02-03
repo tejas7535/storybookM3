@@ -34,6 +34,7 @@ describe('dialogReducer', () => {
           manufacturerSuppliers: [{} as ManufacturerSupplierV2],
           ratings: ['1'],
           steelMakingProcesses: ['1'],
+          productionProcesses: [{ id: '1', title: '1' }],
           productCategories: [{ id: 'raw', title: 'raw' }],
           co2Classifications: [{ id: 'c1', title: '1' }],
           castingModes: ['1'],
@@ -63,6 +64,7 @@ describe('dialogReducer', () => {
           manufacturerSuppliers: undefined,
           ratings: undefined,
           steelMakingProcesses: undefined,
+          productionProcesses: undefined,
           productCategories: undefined,
           co2Classifications: undefined,
           castingModes: undefined,
@@ -114,6 +116,20 @@ describe('dialogReducer', () => {
         dialogOptions: {
           ...state.dialogOptions,
           steelMakingProcessesLoading: true,
+          error: undefined,
+        },
+      });
+    });
+
+    it('should set the loading state for the productionProcesses to true', () => {
+      const action = DialogActions.fetchProductionProcesses();
+      const newState = dialogReducer(state, action);
+
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          productionProcessesLoading: true,
           error: undefined,
         },
       });
@@ -454,6 +470,55 @@ describe('dialogReducer', () => {
             ...state.dialogOptions,
             steelMakingProcesses,
             steelMakingProcessesLoading: false,
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          steelMakingProcesses: undefined,
+          steelMakingProcessesLoading: undefined,
+          error: true,
+        },
+      });
+    });
+
+    it('should set the production processes', () => {
+      const productionProcesses = [
+        { id: '1', title: '1' },
+        { id: '2', title: '2' },
+      ];
+      const action = DialogActions.fetchProductionProcessesSuccess({
+        productionProcesses,
+      });
+      const newState = dialogReducer(state, action);
+
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          productionProcesses,
+          productionProcessesLoading: false,
+        },
+      });
+    });
+
+    it('should set the production processes and the loading state to undefined', () => {
+      const productionProcesses = [
+        { id: '1', title: '1' },
+        { id: '2', title: '2' },
+      ];
+      const action = DialogActions.fetchProductionProcessesFailure();
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            productionProcesses,
+            productionProcessesLoading: false,
           },
         },
         action

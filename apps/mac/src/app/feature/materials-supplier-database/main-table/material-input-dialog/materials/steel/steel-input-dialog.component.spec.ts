@@ -714,6 +714,26 @@ describe('SteelInputDialogComponent', () => {
       expect(component.closeDialog).toBeCalledWith(true);
       expect(component.showInSnackbar).toBeCalled();
     });
+
+    it('should close dialog on successful confirm with empty material number', () => {
+      const baseValues = createMaterialFormValue(MaterialClass.STEEL);
+      const values = {
+        ...baseValues,
+        materialNumber: '',
+      };
+
+      component.createMaterialForm.patchValue(values, { emitEvent: false });
+
+      component.confirmMaterial(false);
+      expect(store.dispatch).toBeCalledWith(
+        materialDialogConfirmed(transformAsMaterialRequest(values))
+      );
+
+      // backend response
+      update(false);
+      expect(component.closeDialog).toBeCalledWith(true);
+      expect(component.showInSnackbar).toBeCalled();
+    });
     it('should not close dialog on successful confirm with createAnother', () => {
       const values = createMaterialFormValue(MaterialClass.STEEL);
       component.createMaterialForm.patchValue(values, { emitEvent: false });

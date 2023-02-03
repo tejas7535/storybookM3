@@ -30,6 +30,7 @@ export interface DataResult {
   minDimension?: number;
   maxDimension: number;
   steelMakingProcess?: string;
+  productionProcess?: string;
   rating?: string;
   ratingRemark?: string;
   ratingChangeComment?: string;

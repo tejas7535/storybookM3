@@ -26,6 +26,7 @@ import { DialogControlsService } from '@mac/msd/main-table/material-input-dialog
 import { ManufacturerSupplierInputDialogComponent } from '../manufacturer-supplier/manufacturersupplier-input-dialog.component';
 import { MaterialStandardInputDialogComponent } from '../material-standard/material-standard-input-dialog.component';
 import { AluminumInputDialogComponent } from './aluminum/aluminum-input-dialog.component';
+import { CopperInputDialogComponent } from './copper/copper-input-dialog.component';
 import { SteelInputDialogComponent } from './steel/steel-input-dialog.component';
 
 @NgModule({
@@ -34,6 +35,7 @@ import { SteelInputDialogComponent } from './steel/steel-input-dialog.component'
     ManufacturerSupplierInputDialogComponent,
     AluminumInputDialogComponent,
     SteelInputDialogComponent,
+    CopperInputDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -61,6 +63,7 @@ import { SteelInputDialogComponent } from './steel/steel-input-dialog.component'
     ManufacturerSupplierInputDialogComponent,
     AluminumInputDialogComponent,
     SteelInputDialogComponent,
+    CopperInputDialogComponent,
   ],
   providers: [DialogControlsService],
 })

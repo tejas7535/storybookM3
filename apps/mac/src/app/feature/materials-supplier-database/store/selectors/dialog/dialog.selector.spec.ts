@@ -82,6 +82,12 @@ describe('DialogSelectors', () => {
     ],
     [
       {
+        productionProcessesLoading: undefined,
+      },
+      true,
+    ],
+    [
+      {
         manufacturerSuppliersLoading: undefined,
       },
       true,
@@ -101,6 +107,7 @@ describe('DialogSelectors', () => {
         materialStandardsLoading: boolean;
         co2ClassificationsLoading: boolean;
         steelMakingProcessesLoading: boolean;
+        productionProcessesLoading: boolean;
         manufacturerSuppliersLoading: boolean;
         productCategoriesLoading: boolean;
       } = {
@@ -109,6 +116,7 @@ describe('DialogSelectors', () => {
         materialStandardsLoading: false,
         co2ClassificationsLoading: false,
         steelMakingProcessesLoading: false,
+        productionProcessesLoading: false,
         manufacturerSuppliersLoading: false,
         productCategoriesLoading: false,
       };
@@ -130,6 +138,7 @@ describe('DialogSelectors', () => {
       materialStandardsLoading: false,
       co2ClassificationsLoading: false,
       steelMakingProcessesLoading: false,
+      productionProcessesLoading: false,
       manufacturerSuppliersLoading: false,
       productCategoriesLoading: false,
     };
@@ -175,6 +184,12 @@ describe('DialogSelectors', () => {
     ],
     [
       {
+        productionProcessesLoading: true,
+      },
+      true,
+    ],
+    [
+      {
         manufacturerSuppliersLoading: true,
       },
       true,
@@ -194,6 +209,7 @@ describe('DialogSelectors', () => {
         materialStandardsLoading: false,
         co2ClassificationsLoading: false,
         steelMakingProcessesLoading: false,
+        productionProcessesLoading: false,
         manufacturerSuppliersLoading: false,
         productCategoriesLoading: false,
       };
@@ -214,6 +230,7 @@ describe('DialogSelectors', () => {
       materialStandardsLoading: false,
       co2ClassificationsLoading: false,
       steelMakingProcessesLoading: false,
+      productionProcessesLoading: false,
       manufacturerSuppliersLoading: false,
       productCategoriesLoading: false,
     };
@@ -300,6 +317,14 @@ describe('DialogSelectors', () => {
     expect(
       DialogSelectors.getMaterialDialogSteelMakingProcesses.projector({
         steelMakingProcesses: ['1', '2'],
+      })
+    ).toEqual(['1', '2']);
+  });
+
+  it('should return the productionProcesses', () => {
+    expect(
+      DialogSelectors.getMaterialDialogProductionProcesses.projector({
+        productionProcesses: ['1', '2'],
       })
     ).toEqual(['1', '2']);
   });

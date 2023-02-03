@@ -19,6 +19,7 @@ import {
   CUSTOM_DATE_FORMATTER,
   FILTER_PARAMS,
   STATUS_VALUE_GETTER,
+  TRANSLATE_VALUE_FORMATTER_FACTORY,
 } from '@mac/msd/main-table/table-config';
 
 import { HISTORY_COLUMN_DEFINITION } from './global-column-definitions';
@@ -67,6 +68,10 @@ export const BASE_COLUMN_DEFINITIONS: ColDef[] = [
     headerName: 'CO₂ Data Classification',
     hide: true,
     cellRenderer: EditCellRendererComponent,
+    valueFormatter: TRANSLATE_VALUE_FORMATTER_FACTORY(
+      'materialsSupplierDatabase.mainTable.dialog.co2ClassificationValues',
+      true
+    ),
   },
   {
     field: PRODUCT_CATEGORY,

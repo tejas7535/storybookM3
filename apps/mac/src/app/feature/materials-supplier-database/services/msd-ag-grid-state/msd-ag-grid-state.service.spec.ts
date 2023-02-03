@@ -150,44 +150,43 @@ describe('MsdAgGridStateService', () => {
   });
 
   describe('migrateLocalStorage', () => {
+    let anyMigrationFn: jest.Mock;
+    beforeEach(() => {
+      // mock all migration functions here
+      anyMigrationFn = jest.fn();
+      service['migrateToVersion1'] = jest.fn(() => anyMigrationFn());
+      service['migrateToVersion2'] = jest.fn(() => anyMigrationFn());
+      service['migrateToVersion2_1'] = jest.fn(() => anyMigrationFn());
+      service['migrateToVersion2_2'] = jest.fn(() => anyMigrationFn());
+    });
     it('should run migration to v1', () => {
-      service['migrateToVersion1'] = jest.fn(
-        () => ({ version: 1 } as MsdAgGridStateV1)
-      );
-      service['migrateToVersion2'] = jest.fn();
-      service['migrateToVersion2_1'] = jest.fn();
-
       service['migrateLocalStorage'](0, { version: 0 } as MsdAgGridState);
 
       expect(service['migrateToVersion1']).toHaveBeenCalled();
-      expect(service['migrateToVersion2']).toHaveBeenCalledWith({
-        version: 1,
-      } as MsdAgGridStateV1);
     });
 
     it('should run migration to v2', () => {
-      service['migrateToVersion2'] = jest.fn();
-      service['migrateToVersion2_1'] = jest.fn();
-
       service['migrateLocalStorage'](1, {} as MsdAgGridState);
 
       expect(service['migrateToVersion2']).toHaveBeenCalled();
     });
 
     it('should run migration to v2_1', () => {
-      service['migrateToVersion2_1'] = jest.fn();
-
       service['migrateLocalStorage'](2, {} as MsdAgGridState);
 
       expect(service['migrateToVersion2_1']).toHaveBeenCalled();
     });
 
-    it('should not migrate', () => {
-      service['migrateToVersion1'] = jest.fn();
+    it('should run migration to v2_2', () => {
+      service['migrateLocalStorage'](2.1, {} as MsdAgGridState);
 
+      expect(service['migrateToVersion2_2']).toHaveBeenCalled();
+    });
+
+    it('should not migrate', () => {
       service['migrateLocalStorage'](999, {} as MsdAgGridState);
 
-      expect(service['migrateToVersion1']).not.toHaveBeenCalled();
+      expect(anyMigrationFn).not.toHaveBeenCalled();
     });
   });
 
@@ -379,6 +378,52 @@ describe('MsdAgGridStateService', () => {
 
       expect(result.version).toEqual(expected.version);
       expect(result.materials.st).toEqual(expected.materials.st);
+    });
+  });
+
+  describe('migrateToVersion2_2', () => {
+    it('should migrate to version 2_2', () => {
+      const defaultViewState: ViewState = {
+        columnState: [],
+        quickFilters: [],
+      };
+
+      const resultView: ViewState = {
+        columnState: [
+          { colId: ACTION, hide: false },
+          { colId: HISTORY, hide: false },
+          { colId: 'id' },
+        ],
+        quickFilters: [],
+      };
+
+      const oldStorage: MsdAgGridStateV2 = {
+        version: 2.1,
+        materials: {
+          st: {
+            materials: resultView,
+            suppliers: resultView,
+            materialStandards: { columnState: [] } as ViewState,
+          },
+        },
+      };
+
+      const expected: MsdAgGridStateV2 = {
+        ...oldStorage,
+        version: 2.2,
+        materials: {
+          ...oldStorage.materials,
+          cu: {
+            materials: defaultViewState,
+            suppliers: defaultViewState,
+            materialStandards: defaultViewState,
+          },
+        },
+      };
+
+      const result = service['migrateToVersion2_2'](oldStorage);
+
+      expect(result).toEqual(expected);
     });
   });
 
