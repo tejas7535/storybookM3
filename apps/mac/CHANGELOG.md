@@ -1,4 +1,20 @@
 # Release Notes of Material App Center
+## [1.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.3.1...mac-v1.4.0) (2023-02-03)
+
+
+### Features
+
+* **mac:** add copper (UFTABI-6288) ([#4981](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4981)) ([cb870c9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/cb870c973ff58884ed2c0322e1ebad7cb31438a4))
+* **mac:** add learnMore link to Grease App - UFTABI-6256 ([#4947](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4947)) ([fdbc649](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fdbc649cc60ff4e85589642f116420a1f2bad777))
+* **mac:** release date for historical supplier - UFTABI-6127 ([#4949](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4949)) ([1bdd7da](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1bdd7dae45006229287b4b4cee849b0068f4e40a))
+
+
+### Bug Fixes
+
+* **mac:** adjust to new subheader size ([a9f6786](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a9f6786228f9763dbbfefc307838921d0e66e1eb))
+* **mac:** ignore sapId in change history ([#4938](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4938)) ([6a30124](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6a30124ee7fcd3923886837506fda236b711a633))
+* **mac:** restore column configuration on navigation (UFTABI-6278) ([#4944](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4944)) ([2b68346](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2b68346ef89f4d51cfb1061226d619f32873c7e8))
+
 ## [1.3.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.3.0...mac-v1.3.1) (2023-01-17)
 
 
