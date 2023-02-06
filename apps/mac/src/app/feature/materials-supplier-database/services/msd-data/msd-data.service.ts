@@ -204,6 +204,10 @@ export class MsdDataService {
               `materialsSupplierDatabase.productionProcessValues.${materialResponse.productionProcess}`
             )
           : undefined,
+      recyclingRate:
+        'recyclingRate' in materialResponse
+          ? materialResponse.recyclingRate
+          : undefined,
       rating:
         'rating' in materialResponse ? materialResponse.rating : undefined,
       ratingRemark:

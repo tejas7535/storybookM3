@@ -34,9 +34,15 @@ export class DialogControlsService {
     ]);
   }
 
-  public getNumberControl(value?: number, disabled = false, start: number = 0) {
+  public getNumberControl(
+    value?: number,
+    disabled = false,
+    start: number = 0,
+    max: number = Number.MAX_VALUE
+  ) {
     return new FormControl<number>({ value, disabled }, [
       Validators.min(start),
+      Validators.max(max),
     ]);
   }
 

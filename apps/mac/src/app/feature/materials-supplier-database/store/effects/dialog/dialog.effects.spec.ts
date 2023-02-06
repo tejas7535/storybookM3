@@ -1634,6 +1634,7 @@ describe('Dialog Effects', () => {
           ratingRemark: 'remark',
           ratingChangeComment: 'comment',
           manufacturer: false,
+          recyclingRate: 44,
         } as DataResult;
 
         const expectedFormValue: Partial<MaterialFormValue> = {
@@ -1669,6 +1670,7 @@ describe('Dialog Effects', () => {
           rating: { id: 'rating', title: 'rating' },
           ratingRemark: 'remark',
           selfCertified: true,
+          recyclingRate: 44,
           standardDocument: {
             id: 1,
             title: 'document',
@@ -1772,6 +1774,7 @@ describe('Dialog Effects', () => {
           ratingRemark: 'remark',
           ratingChangeComment: 'comment',
           materialNumbers: ['1', '2'],
+          recyclingRate: 33,
           manufacturer: false,
         } as DataResult;
 
@@ -1805,6 +1808,7 @@ describe('Dialog Effects', () => {
           ratingRemark: 'remark',
           materialNumber: '1, 2',
           selfCertified: false,
+          recyclingRate: 33,
           standardDocument: {
             data: undefined,
             id: 1,

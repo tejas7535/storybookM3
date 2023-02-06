@@ -755,6 +755,7 @@ export class DialogEffects {
                   ),
                 }
               : undefined,
+            recyclingRate: material.recyclingRate,
             rating: material.rating
               ? { id: material.rating, title: material.rating }
               : {

@@ -85,6 +85,12 @@ export class SteelInputDialogComponent
   public isBlockedControl = this.controlsService.getControl<boolean>(false);
   public steelMakingProcessControl =
     this.controlsService.getControl<StringOption>();
+  public recyclingRateControl = this.controlsService.getNumberControl(
+    undefined,
+    false,
+    0,
+    100
+  );
   public isManufacturerControl = this.controlsService.getControl<boolean>(
     false,
     true
@@ -174,6 +180,7 @@ export class SteelInputDialogComponent
       releaseDateYear: this.releaseYearControl,
       selfCertified: this.selfCertifiedControl,
       steelMakingProcess: this.steelMakingProcessControl,
+      recyclingRate: this.recyclingRateControl,
     });
     // setup static months and year
     this.months = util.getMonths();

@@ -198,6 +198,7 @@ export const msdServiceSteelMockResponse: SteelMaterialResponse[] = [
     },
     materialClass: 'st',
     selfCertified: false,
+    recyclingRate: 55,
     blocked: false,
   },
   {
@@ -228,6 +229,7 @@ export const msdServiceSteelMockResponse: SteelMaterialResponse[] = [
     },
     materialClass: 'st',
     selfCertified: false,
+    recyclingRate: 22,
     blocked: false,
   },
 ];
@@ -269,6 +271,7 @@ export const msdServiceSteelMockResult: SteelMaterial[] = [
     referenceDoc: undefined,
     manufacturer: false,
     lastModified: undefined,
+    recyclingRate: 55,
   },
   {
     id: 128,
@@ -306,6 +309,7 @@ export const msdServiceSteelMockResult: SteelMaterial[] = [
     materialNumbers: ['1.1234', '1.2345'],
     manufacturer: true,
     lastModified: undefined,
+    recyclingRate: 22,
   },
 ];
 

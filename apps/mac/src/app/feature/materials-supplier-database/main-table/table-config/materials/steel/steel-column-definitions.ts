@@ -10,6 +10,7 @@ import {
   MIN_DIMENSION,
   RATING,
   RATING_REMARK,
+  RECYCLING_RATE,
   RELEASE_DATE,
   SAP_SUPPLIER_IDS,
   STEEL_MAKING_PROCESS,
@@ -100,6 +101,13 @@ export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
     filterParams: FILTER_PARAMS,
     hide: true,
     headerTooltip: STEEL_MAKING_PROCESS,
+    cellRenderer: EditCellRendererComponent,
+  },
+  {
+    field: RECYCLING_RATE,
+    headerName: 'Recycling Rate',
+    filterParams: 'agNumberColumnFilter',
+    hide: true,
     cellRenderer: EditCellRendererComponent,
   },
   {

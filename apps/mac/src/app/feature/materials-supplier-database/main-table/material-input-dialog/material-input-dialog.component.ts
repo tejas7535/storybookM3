@@ -396,6 +396,10 @@ export class MaterialInputDialogComponent
         'selfCertified' in baseMaterial
           ? baseMaterial.selfCertified
           : undefined,
+      recyclingRate:
+        'recyclingRate' in baseMaterial
+          ? baseMaterial.recyclingRate
+          : undefined,
       // attachments: '',
     };
 

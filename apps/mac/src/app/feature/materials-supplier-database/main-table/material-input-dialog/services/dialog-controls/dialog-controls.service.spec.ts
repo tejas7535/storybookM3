@@ -115,6 +115,20 @@ describe('DialogControlsService', () => {
       expect(control.value).toEqual(1);
       expect(control.disabled).toBe(true);
     });
+
+    it('should create a numberNumberControl with min and max validator', () => {
+      const control = service.getNumberControl(30, false, 5, 95);
+
+      expect(typeof control.value).toEqual('number');
+      expect(control.value).toEqual(30);
+      expect(control.valid).toBeTruthy();
+
+      control.setValue(1, { onlySelf: true });
+      expect(control.valid).toBeFalsy();
+
+      control.setValue(99, { onlySelf: true });
+      expect(control.valid).toBeFalsy();
+    });
   });
 
   describe('getRequiredNumberControl', () => {

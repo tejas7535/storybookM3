@@ -14,4 +14,5 @@ export interface SteelMaterialRequest extends BaseMaterialRequest {
   rating?: string;
   ratingRemark?: string;
   ratingChangeComment?: string;
+  recyclingRate?: number;
 }

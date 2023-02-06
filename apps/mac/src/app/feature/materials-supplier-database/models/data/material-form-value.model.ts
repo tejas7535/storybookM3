@@ -25,6 +25,7 @@ export interface MaterialFormValue {
   ratingChangeComment: string;
   materialNumber: string;
   manufacturer: boolean;
+  recyclingRate: number;
 
   standardDocument: StringOption;
   materialName: StringOption;

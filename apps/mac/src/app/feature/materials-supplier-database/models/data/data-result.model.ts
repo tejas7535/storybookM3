@@ -31,6 +31,7 @@ export interface DataResult {
   maxDimension: number;
   steelMakingProcess?: string;
   productionProcess?: string;
+  recyclingRate?: number;
   rating?: string;
   ratingRemark?: string;
   ratingChangeComment?: string;

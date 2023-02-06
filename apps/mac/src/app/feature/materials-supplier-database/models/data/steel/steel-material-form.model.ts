@@ -19,6 +19,7 @@ export interface SteelMaterialForm extends BaseMaterialForm {
   ratingChangeComment: FormControl<string>;
   materialNumber: FormControl<string>;
   manufacturer: FormControl<boolean>;
+  recyclingRate: FormControl<number>;
 
   selfCertified: FormControl<boolean>;
 }
