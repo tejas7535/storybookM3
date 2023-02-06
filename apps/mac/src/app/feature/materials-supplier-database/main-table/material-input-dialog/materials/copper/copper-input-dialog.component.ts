@@ -38,7 +38,7 @@ export class CopperInputDialogComponent
   public castingDiameters$ = this.dialogFacade.castingDiameters$;
   public referenceDocuments$ = this.dialogFacade.referenceDocuments$;
 
-  public materialNumberControl = this.controlsService.getSteelNumberControl();
+  public materialNumberControl = this.controlsService.getCopperNumberControl();
   public castingModesControl = this.controlsService.getRequiredControl<string>(
     undefined,
     true

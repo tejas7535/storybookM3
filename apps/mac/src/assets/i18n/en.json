@@ -390,7 +390,7 @@
           "min": "Value lower than {{min}}",
           "required": "Input required",
           "steelNumber": "Required format: 1.1234(, 1.3456, ...)",
-          "copperNumber": "Required format: 3.1234(, 3.3456, ...)"
+          "copperNumber": "Required format: 2.1234(, 2.3456, ...)"
         },
         "esr": "ESR",
         "ic": "IC",
