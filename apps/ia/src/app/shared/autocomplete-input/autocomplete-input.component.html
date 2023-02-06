@@ -1,17 +1,22 @@
-<mat-form-field [appearance]="appearance" class="w-full">
+<mat-form-field
+  [appearance]="appearance"
+  class="w-full"
+  (click)="clearInput()"
+  (focusout)="setLastSelection()"
+>
   <mat-label>{{ label }}</mat-label>
   <input
     type="text"
-    [attr.aria-label]="label"
     matInput
+    #matInput
+    iaValidInput
+    [attr.aria-label]="label"
     [formControl]="inputControl"
     [matAutocomplete]="auto"
     [errorStateMatcher]="errorStateMatcher"
-    iaValidInput
-    #matInput
   />
   <mat-spinner
-    [ngClass]="{ invisible: !autoCompleteLoading }"
+    *ngIf="autoCompleteLoading"
     matSuffix
     [diameter]="18"
   ></mat-spinner>
