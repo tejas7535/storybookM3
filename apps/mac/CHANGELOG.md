@@ -1,4 +1,17 @@
 # Release Notes of Material App Center
+## [1.5.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.4.0...mac-v1.5.0) (2023-02-06)
+
+
+### Features
+
+* **mac:** add recyclingRate for steel materials in MSD - UFTABI-6237 ([#4979](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4979)) ([ff46055](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ff460550db0459a563ef61871cfa0ff96e681cbc))
+
+
+### Bug Fixes
+
+* **mac:** adjust copper number in dialog ([#4987](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4987)) ([853739c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/853739c4b7d052416ed7fdb71ff1a4fda9843d7a))
+* **mac:** set materialNumber to readonly on edit dialog ([#4984](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4984)) ([b011914](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b011914fb5296deeebdd86c26be7ad0a36f56e7b))
+
 ## [1.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.3.1...mac-v1.4.0) (2023-02-03)
 
 
