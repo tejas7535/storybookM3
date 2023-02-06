@@ -31,6 +31,7 @@ import { environment } from '../../environments/environment';
 import { ENV, getEnv } from '../../environments/environments.provider';
 import i18nChecksumsJson from '../../i18n-checksums.json';
 import { AppComponent } from '../app.component';
+import { GlobalSearchBarModule } from '../shared/components/global-search-bar/global-search-bar.module';
 import { UserSettingsModule } from '../shared/components/user-settings/user-settings.module';
 import {
   AVAILABLE_LANGUAGES,
@@ -75,6 +76,7 @@ export function appInitializer(
     MatSnackBarModule,
     LoadingSpinnerModule,
     MaintenanceModule,
+    GlobalSearchBarModule,
 
     // Translation
     SharedTranslocoModule.forRoot(

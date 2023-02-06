@@ -19,8 +19,9 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AUTH_STATE_MOCK, HEALTH_CHECK_STATE_MOCK } from '../testing/mocks';
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
+import { GlobalSearchBarModule } from './shared/components/global-search-bar/global-search-bar.module';
 import { UserSettingsModule } from './shared/components/user-settings/user-settings.module';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -52,6 +53,7 @@ describe('AppComponent', () => {
       MockModule(UserSettingsModule),
       MaintenanceModule,
       AppRoutingModule,
+      GlobalSearchBarModule,
       OneTrustModule.forRoot({
         cookiesGroups: COOKIE_GROUPS,
         domainScript: 'mockOneTrustId',
