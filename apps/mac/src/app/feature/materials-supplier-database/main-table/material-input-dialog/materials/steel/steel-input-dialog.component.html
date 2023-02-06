@@ -33,11 +33,15 @@
       <div class="flex flex-row gap-x-6">
         <mat-form-field appearance="outline" class="w-full">
           <mat-label>{{ t('steelNumber') }}</mat-label>
+          <mat-label *ngIf="isEditDialog() && !isCopyDialog()"
+            >&nbsp;{{ t('readonly') }}</mat-label
+          >
           <input
             matInput
             placeholder="1.1234"
             value=""
             [formControl]="steelNumberControl"
+            [readonly]="isEditDialog() && !isCopyDialog()"
             name="materialNumbers"
             #dialogControl
           />
