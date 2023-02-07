@@ -56,8 +56,10 @@
         [ngClass]="isGreaseResultSection(subordinate.titleID) ? 'px-0' : 'px-4'"
       >
         <div
-          *ngIf="concept1Impossible()"
-          class="mx-3 flex min-w-0 flex-row gap-4 rounded border border-attention bg-sunny-yellow bg-opacity-10 p-3 lg:m-0"
+          *ngIf="
+            isGreaseResultSection(subordinate.titleID) && concept1Impossible()
+          "
+          class="mx-3 flex min-w-0 flex-row gap-4 rounded border border-attention bg-sunny-yellow bg-opacity-10 p-3 lg:m-0 lg:mb-3"
           [ngClass]="{ '!mb-6': getResultAmount() <= resultsLimit }"
         >
           <div class="text-caption font-normal text-high-emphasis">
@@ -76,7 +78,10 @@
         </div>
         <div
           class="flex flex-row justify-center"
-          *ngIf="getResultAmount() > resultsLimit"
+          *ngIf="
+            isGreaseResultSection(subordinate.titleID) &&
+            getResultAmount() > resultsLimit
+          "
         >
           <button
             class="w-full self-center !py-2 md:!w-auto"
