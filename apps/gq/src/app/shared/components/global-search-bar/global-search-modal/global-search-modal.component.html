@@ -1,0 +1,36 @@
+<div>
+  <div
+    class="flex justify-between px-3 py-2"
+    *transloco="let t; read: 'searchBar'"
+  >
+    <mat-icon matSuffix class="pr-4 text-medium-emphasis"> search </mat-icon>
+    <input
+      matInput
+      color="primary"
+      class="!mx-2 w-full leading-7 !outline-none"
+      type="text"
+      [placeholder]="t('searchHint')"
+      [formControl]="searchFormControl"
+    />
+    <div class="flex items-center">
+      <span
+        class="cursor-pointer text-caption text-medium-emphasis"
+        (click)="clearInputField()"
+      >
+        {{ t('clear') }}
+      </span>
+      <span class="px-2 text-medium-emphasis"> | </span>
+      <mat-icon
+        class="float-right h-5 w-5 cursor-pointer text-medium-emphasis"
+        (click)="closeDialog()"
+      >
+        close
+      </mat-icon>
+    </div>
+  </div>
+  <gq-global-search-results-preview-list
+    [materialNumbers]="materialNumbersToDisplay"
+    [searchVal]="searchVal"
+    (itemSelected)="onItemSelected($event)"
+  ></gq-global-search-results-preview-list>
+</div>

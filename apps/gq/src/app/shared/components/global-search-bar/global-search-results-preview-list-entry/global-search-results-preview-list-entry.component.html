@@ -1,0 +1,21 @@
+<div
+  class="group flex cursor-pointer items-center justify-between py-3 pl-4 text-body-2 hover:bg-hover-overlay"
+  (click)="itemClicked()"
+  *transloco="let t; read: 'searchBar'"
+>
+  <div class="flex items-center">
+    <p class="font-bold text-high-emphasis">
+      {{ searchVal }}
+    </p>
+    <p class="text-medium-emphasis">
+      {{ materialNr?.slice(searchVal.length, materialNr.length) }}
+    </p>
+    <p class="hidden pl-2 text-caption text-medium-emphasis group-hover:block">
+      - {{ t('searchMaterialHint') }}
+    </p>
+  </div>
+
+  <div class="hidden h-5 pr-4 group-hover:block">
+    <mat-icon class="h-5 w-5 text-link">chevron_right</mat-icon>
+  </div>
+</div>
