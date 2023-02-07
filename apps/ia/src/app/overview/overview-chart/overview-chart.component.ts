@@ -33,8 +33,10 @@ export class OverviewChartComponent {
       attrition: number[];
     };
   };
+  readonly SYMBOL_SIZE = 10;
 
   @Input() dataLoading: boolean;
+
   @Input() set data(data: {
     [seriesName: string]: {
       attrition: number[];
@@ -45,6 +47,7 @@ export class OverviewChartComponent {
     const series: any = data
       ? Object.keys(data).map((name) => ({
           ...LINE_SERIES_BASE_OPTIONS,
+          symbolSize: this.SYMBOL_SIZE,
           name,
           data: data[name].attrition,
         }))

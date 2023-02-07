@@ -86,7 +86,12 @@ describe('OverviewChartComponent', () => {
           },
         },
         series: [
-          { ...LINE_SERIES_BASE_OPTIONS, name: '2020', data: [10, 20, 10] },
+          {
+            ...LINE_SERIES_BASE_OPTIONS,
+            symbolSize: component.SYMBOL_SIZE,
+            name: '2020',
+            data: [10, 20, 10],
+          },
         ],
       };
 
