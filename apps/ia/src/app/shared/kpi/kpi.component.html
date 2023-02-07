@@ -1,8 +1,13 @@
 <div class="mt-4" *transloco="let t; read: 'employeeListDialog'">
-  <span class="text-body-2">{{ title }}</span>
-  <h4 class="mb-4">{{ value }}</h4>
+  <span
+    class="mb-[0.5rem] block h-[3.6em] overflow-hidden text-ellipsis break-words text-body-2 leading-[1.8em]"
+    [matTooltip]="title"
+    [matTooltipDisabled]="!showTooltip"
+    >{{ title }}</span
+  >
+  <h4 class="mb-2">{{ value }}</h4>
   <div
-    class="'text-high-emphasis'"
+    [class]="'text-high-emphasis'"
     [matTooltip]="t('tooManyEmployees')"
     [matTooltipDisabled]="employeesCount <= MAX_EMPLOYEES"
   >

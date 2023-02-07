@@ -8,7 +8,7 @@
       info
     </mat-icon>
   </h5>
-  <div class="grid grid-cols-6 gap-4">
+  <div class="grid grid-cols-6 gap-4 pb-5">
     <ia-kpi
       class="col-span-2 text-center"
       [title]="t('entries')"
@@ -39,7 +39,7 @@
     ></ia-kpi>
 
     <ia-loose-doughnut-chart
-      class="col-span-3 pt-6"
+      class="col-span-3"
       [data]="entriesDoughnutConfig"
       [initialConfig]="initialConfig"
       [isLoading]="isDataLoading"
@@ -47,14 +47,14 @@
     ></ia-loose-doughnut-chart>
 
     <ia-loose-doughnut-chart
-      class="col-span-3 pt-6"
+      class="col-span-3"
       [data]="exitsDoughnutConfig"
       [initialConfig]="initialConfig"
       [isLoading]="isDataLoading"
       [legendSelectAction]="legendSelectAction"
     ></ia-loose-doughnut-chart>
   </div>
-  <div class="flex justify-center pt-3">
+  <div class="flex justify-center">
     <ia-external-legend
       *ngIf="!isDataLoading && !!entriesDoughnutConfig && !!exitsDoughnutConfig"
       [legend]="legend"

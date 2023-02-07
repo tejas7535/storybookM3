@@ -26,6 +26,7 @@
                 [employeesCount]="
                   (fluctuationKpi$ | ngrxPush)?.realEmployeesCount
                 "
+                [showTooltip]="true"
                 (openTeamMembers)="triggerLoadExitEmployees()"
               ></ia-kpi>
             </div>
@@ -66,6 +67,7 @@
                 [employeesCount]="
                   (unforcedFluctuationKpi$ | ngrxPush)?.realEmployeesCount
                 "
+                [showTooltip]="true"
                 (openTeamMembers)="triggerLoadExitEmployees()"
               ></ia-kpi>
             </div>
@@ -80,7 +82,7 @@
         </div>
       </div>
     </div>
-    <div class="flex w-full flex-col p-4 shadow lg:max-w-[29%] lg:grow">
+    <div class="flex w-full flex-col p-4 shadow lg:w-[29%] lg:grow">
       <div class="flex-1">
         <ia-entries-exits
           [data]="chartData$ | ngrxPush"
@@ -103,7 +105,7 @@
       </div>
     </div>
 
-    <div class="flex w-full grow flex-col lg:w-auto">
+    <div class="flex w-full grow flex-col lg:w-[23%]">
       <div class="flex flex-1 flex-col gap-4">
         <div class="p-4 shadow">
           <ia-open-positions

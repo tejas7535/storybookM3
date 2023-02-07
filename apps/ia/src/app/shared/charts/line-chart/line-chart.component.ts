@@ -68,6 +68,10 @@ export class LineChartComponent implements OnInit {
         data: this.getXAxisData(),
       },
       ...this.config,
+      grid: {
+        top: 20,
+        left: '15%',
+      },
     };
   }
 }
