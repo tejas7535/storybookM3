@@ -11,7 +11,6 @@ import { MsdDialogService } from '@mac/msd/services';
 import { fetchResult } from '@mac/msd/store/actions/data';
 import {
   materialDialogCanceled,
-  materialDialogOpened,
   minimizeDialog,
   openDialog,
   openEditDialog,
@@ -61,7 +60,6 @@ export class EditCellRendererComponent implements ICellRendererAngularComp {
       .afterOpened()
       .pipe(take(1))
       .subscribe(() => {
-        this.dataFacade.dispatch(materialDialogOpened());
         this.dataFacade.dispatch(
           openEditDialog({
             row: this.params.data as DataResult,

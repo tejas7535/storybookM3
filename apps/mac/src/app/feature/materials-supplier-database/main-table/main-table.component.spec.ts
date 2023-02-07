@@ -71,7 +71,6 @@ import {
 } from '@mac/msd/store/actions/data';
 import {
   materialDialogCanceled,
-  materialDialogOpened,
   minimizeDialog,
   openDialog,
 } from '@mac/msd/store/actions/dialog';
@@ -1448,9 +1447,6 @@ describe('MainTableComponent', () => {
       );
 
       mockDialogRef.afterOpened().subscribe(() => {
-        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
-          materialDialogOpened()
-        );
         if (otherDone) {
           done();
         } else {
@@ -1485,9 +1481,6 @@ describe('MainTableComponent', () => {
       );
 
       mockDialogRef.afterOpened().subscribe(() => {
-        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
-          materialDialogOpened()
-        );
         if (otherDone) {
           done();
         } else {

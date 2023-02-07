@@ -62,7 +62,6 @@ import {
 } from '@mac/msd/store/actions/data';
 import {
   materialDialogCanceled,
-  materialDialogOpened,
   minimizeDialog,
   openDialog,
 } from '@mac/msd/store/actions/dialog';
@@ -501,13 +500,6 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   public openDialog(isResumeDialog?: boolean): void {
     this.dataFacade.dispatch(openDialog());
     const dialogRef = this.dialogService.openDialog(isResumeDialog);
-
-    dialogRef
-      .afterOpened()
-      .pipe(takeUntil(this.destroy$), take(1))
-      .subscribe(() => {
-        this.dataFacade.dispatch(materialDialogOpened());
-      });
 
     dialogRef
       .afterClosed()

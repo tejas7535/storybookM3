@@ -60,8 +60,10 @@ import {
   fetchSteelMakingProcessesInUseFailure,
   fetchSteelMakingProcessesInUseSuccess,
   fetchSteelMakingProcessesSuccess,
+  manufacturerSupplierDialogOpened,
   materialDialogCanceled,
   materialDialogConfirmed,
+  materialstandardDialogOpened,
   minimizeDialog,
   openDialog,
   openEditDialog,
@@ -182,6 +184,8 @@ export const dialogReducer = createReducer(
       minimizedDialog: undefined,
     })
   ),
+  // open dialog will be called for every dialog
+  // this is still required to set the loading spinner!
   on(
     openDialog,
     (state): DialogState => ({
@@ -195,6 +199,33 @@ export const dialogReducer = createReducer(
       },
     })
   ),
+  on(
+    materialstandardDialogOpened,
+    (state): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        materialStandardsLoading: true,
+        manufacturerSuppliersLoading: false,
+        co2ClassificationsLoading: false,
+        error: undefined,
+      },
+    })
+  ),
+  on(
+    manufacturerSupplierDialogOpened,
+    (state): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        materialStandardsLoading: false,
+        manufacturerSuppliersLoading: true,
+        co2ClassificationsLoading: false,
+        error: undefined,
+      },
+    })
+  ),
+
   on(
     fetchRatings,
     (state): DialogState => ({

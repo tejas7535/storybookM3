@@ -11,7 +11,6 @@ import { MsdDialogService } from '@mac/msd/services';
 import { fetchResult } from '@mac/msd/store/actions/data';
 import {
   materialDialogCanceled,
-  materialDialogOpened,
   minimizeDialog,
   openDialog,
   openEditDialog,
@@ -140,9 +139,6 @@ describe('EditCellRendererComponent', () => {
 
       mockDialogRef.afterOpened().subscribe(() => {
         expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
-          materialDialogOpened()
-        );
-        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
           openEditDialog({
             row: mockData,
             column: 'column',
@@ -183,9 +179,6 @@ describe('EditCellRendererComponent', () => {
       );
 
       mockDialogRef.afterOpened().subscribe(() => {
-        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
-          materialDialogOpened()
-        );
         expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
           openEditDialog({
             row: mockData,
