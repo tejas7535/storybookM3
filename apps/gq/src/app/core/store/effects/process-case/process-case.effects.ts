@@ -24,6 +24,7 @@ import { URL_SUPPORT } from '../../../../shared/http/constants/urls';
 import { Quotation } from '../../../../shared/models';
 import { Customer } from '../../../../shared/models/customer';
 import { SapCallInProgress } from '../../../../shared/models/quotation';
+import { SAP_SYNC_STATUS } from '../../../../shared/models/quotation-detail';
 import {
   MaterialTableItem,
   MaterialValidation,
@@ -381,11 +382,8 @@ export class ProcessCaseEffect {
       map((action) => action.gqPositionIds),
       mergeMap((gqPositionIds: string[]) =>
         this.quotationService.uploadSelectionToSap(gqPositionIds).pipe(
-          tap(() => {
-            const successMessage = translate(
-              'shared.snackBarMessages.uploadSelectionSuccess'
-            );
-            this.snackBar.open(successMessage);
+          tap((quotation) => {
+            this.showUploadSelectionToast(quotation, gqPositionIds);
           }),
           tap((quotation) => {
             PriceService.addCalculationsForDetails(quotation.quotationDetails);
@@ -533,15 +531,7 @@ export class ProcessCaseEffect {
           .createSapQuotation(gqId, action.gqPositionIds)
           .pipe(
             tap((quotation: Quotation) => {
-              if (quotation.sapId) {
-                const successMessage = translate(
-                  'shared.snackBarMessages.sapQuoteCreated',
-                  {
-                    sapId: quotation.sapId,
-                  }
-                );
-                this.snackBar.open(successMessage);
-              }
+              this.showCreateSapQuoteToast(quotation);
             }),
             tap((quotation) =>
               PriceService.addCalculationsForDetails(quotation.quotationDetails)
@@ -600,6 +590,56 @@ export class ProcessCaseEffect {
       fromRoute.gqId === current?.gqId &&
       fromRoute.salesOrg === current?.salesOrg
     );
+  }
+
+  private showUploadSelectionToast(
+    quotation: Quotation,
+    syncedPositionIds: string[]
+  ): void {
+    if (!(quotation.sapCallInProgress === SapCallInProgress.NONE_IN_PROGRESS)) {
+      return;
+    }
+
+    const updatedDetails = quotation.quotationDetails.filter((detail) =>
+      syncedPositionIds.includes(detail.gqPositionId)
+    );
+    const syncInSapStatus = updatedDetails.map((e) => e.syncInSap);
+    let translateKey;
+
+    if (syncInSapStatus.every(Boolean)) {
+      translateKey = 'full';
+    } else if (syncInSapStatus.some(Boolean)) {
+      translateKey = 'partially';
+    } else {
+      translateKey = 'failed';
+    }
+    const successMessage = translate(
+      `shared.snackBarMessages.uploadToSapSync.${translateKey}`
+    );
+    this.snackBar.open(successMessage);
+  }
+
+  private showCreateSapQuoteToast(quotation: Quotation) {
+    if (!(quotation.sapCallInProgress === SapCallInProgress.NONE_IN_PROGRESS)) {
+      return;
+    }
+
+    let translateKey;
+    if (quotation.sapSyncStatus === SAP_SYNC_STATUS.SYNCED) {
+      translateKey = 'full';
+    } else if (quotation.sapSyncStatus === SAP_SYNC_STATUS.PARTIALLY_SYNCED) {
+      translateKey = 'partially';
+    } else {
+      translateKey = 'failed';
+    }
+
+    const successMessage = translate(
+      `shared.snackBarMessages.createSapQuoteSync.${translateKey}`,
+      {
+        sapId: quotation.sapId,
+      }
+    );
+    this.snackBar.open(successMessage);
   }
 
   private showUpdateQuotationDetailToast(update: UpdateQuotationDetail): void {

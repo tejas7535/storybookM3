@@ -348,13 +348,21 @@
       "updateSelectedPrice": "Der Preis wurde gespeichert",
       "updateQuantity": "Die Mengenänderung wurde gespeichert",
       "updateComment": "Die Kommentaränderung wurde gespeichert",
-      "uploadSelectionSuccess": "Die ausgewählten Positionen wurden in SAP gespeichert",
       "refreshSapPricingSuccess": "SAP Preise wurden aktualisiert",
       "refreshSapPricingSuccessAsync": "Preise werden aus SAP aktualisiert",
       "wrongPriceEditInput": "Bitte geben sie einen numerischen Preis ein",
       "priceShouldBeHigherThanZero": "Der Preis muss höher als 0.00 sein",
       "pasteDisabled": "GQ kann nicht auf Ihre Zwischenablage zugreifen. Bitte überprüfen Sie Ihre Browsereinstellungen.",
-      "sapQuoteCreated": "SAP Quote mit Id {{sapId}} erfolgreich erstellt"
+      "createSapQuoteSync": {
+        "full": "SAP Angebot mit Id {{sapId}} erfolgreich angelegt",
+        "partially": "SAP Angebot mit Id {{sapId}} teilweise angelegt",
+        "failed": "Anlage des SAP Angebots fehlgeschlagen"
+      },
+      "uploadToSapSync": {
+        "sync": "Die ausgewählten Positionen wurden in SAP gespeichert",
+        "partially": "Die ausgewählten Positionen wurden terilweise in SAP gespeichert",
+        "failed": "Update in SAP fehlgeschlagen"
+      }
     },
     "maintenance": {
       "title": "Guided Quoting ist derzeit wegen Wartungsarbeiten nicht verfügbar"

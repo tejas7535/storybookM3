@@ -22,6 +22,7 @@ import {
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { Quotation } from '../../../../shared/models';
 import { SapCallInProgress } from '../../../../shared/models/quotation';
+import { SAP_SYNC_STATUS } from '../../../../shared/models/quotation-detail';
 import {
   MaterialTableItem,
   MaterialValidation,
@@ -743,6 +744,7 @@ describe('ProcessCaseEffect', () => {
           updatedQuotation: QUOTATION_MOCK,
         });
         quotationService.uploadSelectionToSap = jest.fn(() => response);
+        effects['showUploadSelectionToast'] = jest.fn();
 
         actions$ = m.hot('-a', { a: action });
         const response = m.cold('-a|', { a: QUOTATION_MOCK });
@@ -754,7 +756,11 @@ describe('ProcessCaseEffect', () => {
         expect(quotationService.uploadSelectionToSap).toHaveBeenCalledWith([
           '1',
         ]);
-        expect(snackBar.open).toHaveBeenCalledTimes(1);
+        expect(effects['showUploadSelectionToast']).toHaveBeenCalledTimes(1);
+        expect(effects['showUploadSelectionToast']).toHaveBeenCalledWith(
+          QUOTATION_MOCK,
+          ['1']
+        );
       })
     );
 
@@ -1120,6 +1126,7 @@ describe('ProcessCaseEffect', () => {
         };
         snackBar.open = jest.fn();
         quotationService.createSapQuotation = jest.fn(() => response);
+        effects['showCreateSapQuoteToast'] = jest.fn();
         actions$ = m.hot('-a', {
           a: createSapQuote({ gqPositionIds: ['12-12-12-'] }),
         });
@@ -1132,7 +1139,7 @@ describe('ProcessCaseEffect', () => {
 
         m.expect(effects.createSapQuote$).toBeObservable(expected);
         m.flush();
-        expect(snackBar.open).toHaveBeenCalledTimes(1);
+        expect(effects['showCreateSapQuoteToast']).toHaveBeenCalledTimes(1);
         expect(quotationService.createSapQuotation).toHaveBeenCalledTimes(1);
       })
     );
@@ -1146,6 +1153,7 @@ describe('ProcessCaseEffect', () => {
         };
         snackBar.open = jest.fn();
         quotationService.createSapQuotation = jest.fn(() => response);
+        effects['showCreateSapQuoteToast'] = jest.fn();
         actions$ = m.hot('-a', {
           a: createSapQuote({ gqPositionIds: ['12-12-12-'] }),
         });
@@ -1158,7 +1166,7 @@ describe('ProcessCaseEffect', () => {
 
         m.expect(effects.createSapQuote$).toBeObservable(expected);
         m.flush();
-        expect(snackBar.open).toHaveBeenCalledTimes(0);
+        expect(effects['showCreateSapQuoteToast']).toHaveBeenCalledTimes(1);
         expect(quotationService.createSapQuotation).toHaveBeenCalledTimes(1);
       })
     );
@@ -1173,6 +1181,7 @@ describe('ProcessCaseEffect', () => {
         };
         snackBar.open = jest.fn();
         quotationService.createSapQuotation = jest.fn(() => response);
+        effects['showCreateSapQuoteToast'] = jest.fn();
         actions$ = m.hot('-a', {
           a: createSapQuote({ gqPositionIds: ['12-12-12-'] }),
         });
@@ -1186,7 +1195,7 @@ describe('ProcessCaseEffect', () => {
 
         m.expect(effects.createSapQuote$).toBeObservable(expected);
         m.flush();
-        expect(snackBar.open).toHaveBeenCalledTimes(1);
+        expect(effects['showCreateSapQuoteToast']).toHaveBeenCalledTimes(1);
         expect(quotationService.createSapQuotation).toHaveBeenCalledTimes(1);
       })
     );
@@ -1200,12 +1209,14 @@ describe('ProcessCaseEffect', () => {
         };
         snackBar.open = jest.fn();
         quotationService.createSapQuotation = jest.fn(() => response);
+        effects['showCreateSapQuoteToast'] = jest.fn();
         actions$ = m.hot('-a', {
           a: createSapQuote({ gqPositionIds: ['12-12-12-'] }),
         });
         const response = m.cold('-a|', {
           a: item,
         });
+        quotationService.createSapQuotation = jest.fn(() => response);
         const expected = m.cold('--(bc)', {
           b: createSapQuoteSuccess({ quotation: item }),
           c: loadQuotationInInterval(),
@@ -1213,7 +1224,7 @@ describe('ProcessCaseEffect', () => {
 
         m.expect(effects.createSapQuote$).toBeObservable(expected);
         m.flush();
-        expect(snackBar.open).toHaveBeenCalledTimes(1);
+        expect(effects['showCreateSapQuoteToast']).toHaveBeenCalledTimes(1);
         expect(quotationService.createSapQuotation).toHaveBeenCalledTimes(1);
       })
     );
@@ -1231,13 +1242,165 @@ describe('ProcessCaseEffect', () => {
           b: result,
         });
         quotationService.createSapQuotation = jest.fn(() => response);
+        effects['showCreateSapQuoteToast'] = jest.fn();
+
         m.expect(effects.createSapQuote$).toBeObservable(expected);
         m.flush();
-        expect(snackBar.open).toHaveBeenCalledTimes(0);
+        expect(effects['showCreateSapQuoteToast']).toHaveBeenCalledTimes(0);
         expect(quotationService.createSapQuotation).toHaveBeenCalledTimes(1);
       })
     );
   });
 
+  describe('showCreateSapQuoteToast', () => {
+    test('should show nothing in async mode', () => {
+      effects['snackBar'].open = jest.fn();
+
+      const quotation = {
+        sapSyncStatus: SAP_SYNC_STATUS.SYNCED,
+        sapCallInProgress: SapCallInProgress.FETCH_DATA_IN_PROGRESS,
+      } as Quotation;
+      effects['showCreateSapQuoteToast'](quotation);
+
+      expect(effects['snackBar'].open).toHaveBeenCalledTimes(0);
+    });
+    test('should open snackbar with sync full', () => {
+      effects['snackBar'].open = jest.fn();
+
+      const quotation = {
+        sapSyncStatus: SAP_SYNC_STATUS.SYNCED,
+        sapCallInProgress: SapCallInProgress.NONE_IN_PROGRESS,
+        sapId: '123',
+      } as Quotation;
+      effects['showCreateSapQuoteToast'](quotation);
+
+      expect(effects['snackBar'].open).toHaveBeenCalledTimes(1);
+      expect(translate).toHaveBeenCalledWith(
+        'shared.snackBarMessages.createSapQuoteSync.full',
+        { sapId: quotation.sapId }
+      );
+    });
+    test('should open snackbar with sync partially', () => {
+      effects['snackBar'].open = jest.fn();
+
+      const quotation = {
+        sapSyncStatus: SAP_SYNC_STATUS.PARTIALLY_SYNCED,
+        sapCallInProgress: SapCallInProgress.NONE_IN_PROGRESS,
+        sapId: '123',
+      } as Quotation;
+      effects['showCreateSapQuoteToast'](quotation);
+
+      expect(effects['snackBar'].open).toHaveBeenCalledTimes(1);
+      expect(translate).toHaveBeenCalledWith(
+        'shared.snackBarMessages.createSapQuoteSync.partially',
+        { sapId: quotation.sapId }
+      );
+    });
+
+    test('should open snackbar with sync failed', () => {
+      effects['snackBar'].open = jest.fn();
+
+      const quotation = {
+        sapSyncStatus: SAP_SYNC_STATUS.SYNC_FAILED,
+        sapCallInProgress: SapCallInProgress.NONE_IN_PROGRESS,
+        sapId: '123',
+      } as Quotation;
+      effects['showCreateSapQuoteToast'](quotation);
+
+      expect(effects['snackBar'].open).toHaveBeenCalledTimes(1);
+      expect(translate).toHaveBeenCalledWith(
+        'shared.snackBarMessages.createSapQuoteSync.failed',
+        { sapId: quotation.sapId }
+      );
+    });
+  });
+
+  describe('showUploadSelectionToast', () => {
+    test('should show nothing in async mode', () => {
+      effects['snackBar'].open = jest.fn();
+
+      const syncedIds = ['1', '2'];
+      const allDetails = [
+        { gqPositionId: '1', syncInSap: true },
+        { gqPositionId: '2', syncInSap: true },
+        { gqPositionId: '3' },
+      ];
+
+      const quotation = {
+        quotationDetails: allDetails,
+        sapCallInProgress: SapCallInProgress.FETCH_DATA_IN_PROGRESS,
+      } as Quotation;
+
+      effects['showUploadSelectionToast'](quotation, syncedIds);
+
+      expect(effects['snackBar'].open).toHaveBeenCalledTimes(0);
+    });
+    test('should open snackbar with sync full', () => {
+      effects['snackBar'].open = jest.fn();
+
+      const syncedIds = ['1', '2'];
+      const allDetails = [
+        { gqPositionId: '1', syncInSap: true },
+        { gqPositionId: '2', syncInSap: true },
+        { gqPositionId: '3' },
+      ];
+
+      const quotation = {
+        quotationDetails: allDetails,
+        sapCallInProgress: SapCallInProgress.NONE_IN_PROGRESS,
+      } as Quotation;
+
+      effects['showUploadSelectionToast'](quotation, syncedIds);
+
+      expect(effects['snackBar'].open).toHaveBeenCalledTimes(1);
+      expect(translate).toHaveBeenLastCalledWith(
+        'shared.snackBarMessages.uploadToSapSync.full'
+      );
+    });
+    test('should open snackbar with sync partially', () => {
+      effects['snackBar'].open = jest.fn();
+
+      const syncedIds = ['1', '2'];
+      const allDetails = [
+        { gqPositionId: '1', syncInSap: false },
+        { gqPositionId: '2', syncInSap: true },
+        { gqPositionId: '3' },
+      ];
+
+      const quotation = {
+        quotationDetails: allDetails,
+        sapCallInProgress: SapCallInProgress.NONE_IN_PROGRESS,
+      } as Quotation;
+
+      effects['showUploadSelectionToast'](quotation, syncedIds);
+
+      expect(effects['snackBar'].open).toHaveBeenCalledTimes(1);
+      expect(translate).toHaveBeenLastCalledWith(
+        'shared.snackBarMessages.uploadToSapSync.partially'
+      );
+    });
+    test('should open snackbar with sync failed', () => {
+      effects['snackBar'].open = jest.fn();
+
+      const syncedIds = ['1', '2'];
+      const allDetails = [
+        { gqPositionId: '1', syncInSap: false },
+        { gqPositionId: '2', syncInSap: false },
+        { gqPositionId: '3' },
+      ];
+
+      const quotation = {
+        quotationDetails: allDetails,
+        sapCallInProgress: SapCallInProgress.NONE_IN_PROGRESS,
+      } as Quotation;
+
+      effects['showUploadSelectionToast'](quotation, syncedIds);
+
+      expect(effects['snackBar'].open).toHaveBeenCalledTimes(1);
+      expect(translate).toHaveBeenLastCalledWith(
+        'shared.snackBarMessages.uploadToSapSync.failed'
+      );
+    });
+  });
   // eslint-disable-next-line max-lines
 });
