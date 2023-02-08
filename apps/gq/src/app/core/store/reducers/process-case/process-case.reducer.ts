@@ -262,7 +262,6 @@ export const processCaseReducer = createReducer(
         item: {
           ...updatedQuotation,
           quotationDetails: [
-            ...state.quotation.item.quotationDetails,
             ...sortQuotationDetails(updatedQuotation.quotationDetails),
           ],
         },

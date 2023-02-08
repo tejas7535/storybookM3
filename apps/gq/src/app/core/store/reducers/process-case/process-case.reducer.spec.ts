@@ -284,7 +284,7 @@ describe('Quotation Reducer', () => {
         const newItem = { ...QUOTATION_DETAIL_MOCK, quotationItemId: 20 };
         const updatedQuotation = {
           ...QUOTATION_MOCK,
-          quotationDetails: [newItem],
+          quotationDetails: [...QUOTATION_MOCK.quotationDetails, newItem],
         };
 
         const fakeState = {
@@ -297,11 +297,10 @@ describe('Quotation Reducer', () => {
         const action = addMaterialsSuccess({ updatedQuotation });
         const state = processCaseReducer(fakeState, action);
 
-        const stateItem = state.quotation;
-        expect(stateItem.item.quotationDetails).toEqual([
-          ...fakeState.quotation.item.quotationDetails,
-          newItem,
-        ]);
+        expect(state.quotation.item).toEqual({
+          ...updatedQuotation,
+          quotationDetails: [newItem, ...QUOTATION_MOCK.quotationDetails],
+        });
       });
     });
 
