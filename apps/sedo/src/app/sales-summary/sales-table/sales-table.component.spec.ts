@@ -91,11 +91,15 @@ describe('SalesTableComponent', () => {
     it('should load the data', async () => {
       component['setSubscription'] = jest.fn();
       dataService.getAllSales = jest.fn().mockResolvedValue([salesSummaryMock]);
+      dataService.getSuperUser = jest.fn().mockResolvedValue('superUser');
 
       await component.ngOnInit();
 
       expect(dataService.getAllSales).toHaveBeenCalledTimes(1);
       expect(component.rowData).toEqual([salesSummaryMock]);
+      expect(component.detailCellRendererParams).toStrictEqual({
+        superUser: 'superUser',
+      });
 
       expect(component['setSubscription']).toHaveBeenCalledTimes(1);
     });
@@ -317,13 +321,58 @@ describe('SalesTableComponent', () => {
       });
     });
 
+    describe('setKeyUserFilter', () => {
+      it('should set lastModifier filter', () => {
+        const userId = 'userid';
+
+        const fakeApi = new GridApi();
+
+        const fakeFilterModel = {
+          setModel: jest.fn(),
+        };
+
+        fakeApi.getFilterInstance = jest.fn().mockReturnValue(fakeFilterModel);
+        fakeApi.onFilterChanged = jest.fn();
+
+        component['gridApi'] = fakeApi;
+        component['username'] = userId;
+
+        component.setKeyUserFilter();
+
+        expect(fakeApi.getFilterInstance).toHaveBeenCalledTimes(1);
+        expect(fakeApi.getFilterInstance).toHaveBeenCalledWith('keyUser');
+
+        expect(fakeFilterModel.setModel).toHaveBeenCalledTimes(1);
+        expect(fakeFilterModel.setModel).toHaveBeenCalledWith({
+          values: [userId],
+        });
+        expect(fakeApi.onFilterChanged).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    describe('reset', () => {
+      it('should set lastModifier filter', () => {
+        const fakeApi = new GridApi();
+
+        fakeApi.onFilterChanged = jest.fn();
+        fakeApi.setFilterModel = jest.fn();
+
+        component['gridApi'] = fakeApi;
+
+        component.resetAllFilter();
+
+        expect(fakeApi.setFilterModel).toHaveBeenCalledWith(undefined);
+        expect(fakeApi.onFilterChanged).toHaveBeenCalledTimes(1);
+      });
+    });
+
     describe('ngOnDestroy', () => {
       it('should unsubscribe', () => {
-        component['subscription'].unsubscribe = jest.fn();
+        component['shutDown$$'].next = jest.fn();
 
         component.ngOnDestroy();
 
-        expect(component['subscription'].unsubscribe).toHaveBeenCalled();
+        expect(component['shutDown$$'].next).toHaveBeenCalled();
       });
     });
   });

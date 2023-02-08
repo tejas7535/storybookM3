@@ -10,9 +10,8 @@ export const warningFormatter = (data: any): string =>
   data.value === 'true' ? 'Warning' : 'No Warning';
 
 export const ignoreFlagFormatter = (data: any): string =>
-  IGNORE_FLAG_DESCRIPTIONS[data.value]
-    ? IGNORE_FLAG_DESCRIPTIONS[data.value]
-    : `No ignore flag description for ${data.value}`;
+  IGNORE_FLAG_DESCRIPTIONS[data.value] ??
+  `No ignore flag description for ${data.value}`;
 
 export const dateComparator = (
   filterDate: Date,
@@ -177,5 +176,12 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     field: 'categoryNetSales',
     headerName: 'Net Sales Category',
     filterParams: FILTER_PARAMS,
+  },
+  // for Testing purposes
+  {
+    field: 'keyUser',
+    headerName: 'KeyUser',
+    filterParams: FILTER_PARAMS,
+    initialHide: true,
   },
 ];

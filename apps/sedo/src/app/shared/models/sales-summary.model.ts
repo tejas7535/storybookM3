@@ -31,6 +31,7 @@ export class SalesSummary {
     public lastEopCalculated: string,
     public eopDateVerified: string,
     public edoDate: string,
-    public lastModifier: string
+    public lastModifier: string,
+    public keyUser: string
   ) {}
 }

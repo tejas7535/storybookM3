@@ -41,7 +41,7 @@ describe('DataService', () => {
 
   describe('getAllSales', () => {
     it('should get all sales data', waitForAsync(() => {
-      const url = `${environment.apiBaseUrl}/sales/all`;
+      const url = `${environment.apiBaseUrl}/sales/all-with-key-users`;
 
       dataService.getAllSales().then((result) => {
         expect(result).toEqual([salesSummaryMock]);
@@ -50,6 +50,20 @@ describe('DataService', () => {
       const req = httpMock.expectOne(url);
       expect(req.request.method).toBe('GET');
       req.flush([salesSummaryMock]);
+    }));
+  });
+
+  describe('getSuperUser', () => {
+    it('should return the superuser', waitForAsync(() => {
+      const url = `${environment.apiBaseUrl}/sales/super-user`;
+
+      dataService.getSuperUser().then((result) => {
+        expect(result).toEqual('superUser');
+      });
+
+      const req = httpMock.expectOne(url);
+      expect(req.request.method).toBe('GET');
+      req.flush('superUser');
     }));
   });
 

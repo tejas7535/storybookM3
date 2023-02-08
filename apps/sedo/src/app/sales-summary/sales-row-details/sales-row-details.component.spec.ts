@@ -107,11 +107,11 @@ describe('SalesRowDetailsComponent', () => {
 
   describe('ngOnDestroy', () => {
     it('should unsubscribe', () => {
-      component.subscription.unsubscribe = jest.fn();
+      component['shutDown$$'].next = jest.fn();
 
       component.ngOnDestroy();
 
-      expect(component.subscription.unsubscribe).toHaveBeenCalled();
+      expect(component['shutDown$$'].next).toHaveBeenCalled();
     });
   });
 
@@ -169,6 +169,9 @@ describe('SalesRowDetailsComponent', () => {
   });
 
   describe('handleUserAccess', () => {
+    beforeEach(() => {
+      component['superUser'] = 'superUser';
+    });
     it('should disable the form group because missing rowData.lastModifier', () => {
       component.datesFormGroup.disable = jest.fn();
       component.rowData = {
@@ -191,12 +194,70 @@ describe('SalesRowDetailsComponent', () => {
       expect(component.datesFormGroup.disable).toHaveBeenCalledTimes(1);
     });
 
+    it('should disable the form group because missing rowData.lastModifier and missing rowData.keyUser', () => {
+      component.datesFormGroup.disable = jest.fn();
+      component.rowData = {
+        // Values are comming as null from API
+        // eslint-disable-next-line unicorn/no-null
+        lastModifier: null,
+        // eslint-disable-next-line unicorn/no-null
+        keyUser: null,
+      } as unknown as SalesSummary;
+      component['handleUserAccess']('userid');
+
+      expect(component.datesFormGroup.disable).toHaveBeenCalledTimes(1);
+    });
+
+    it('should disable the datesFormGroup because of wrong user and not keyUser', () => {
+      component.datesFormGroup.disable = jest.fn();
+      component.rowData = {
+        lastModifier: 'wrong user',
+        keyUser: 'keyUser',
+      } as unknown as SalesSummary;
+      component['handleUserAccess']('user');
+
+      expect(component.datesFormGroup.disable).toHaveBeenCalledTimes(1);
+    });
+
+    it('should disable the datesFormGroup because of wrong user and not keyUser and not superUser', () => {
+      component.datesFormGroup.disable = jest.fn();
+      component['superUser'] = 'mySuperUser';
+      component.rowData = {
+        lastModifier: 'wrong user',
+        keyUser: 'keyUser',
+      } as unknown as SalesSummary;
+      component['handleUserAccess']('user');
+
+      expect(component.datesFormGroup.disable).toHaveBeenCalledTimes(1);
+    });
+
     it('should not disable the form group', () => {
       component.datesFormGroup.disable = jest.fn();
       component.rowData = {
         lastModifier: 'USER',
       } as unknown as SalesSummary;
       component['handleUserAccess']('user');
+
+      expect(component.datesFormGroup.disable).toHaveBeenCalledTimes(0);
+    });
+    it('should not disable the form group when user is keyUser', () => {
+      component.datesFormGroup.disable = jest.fn();
+      component.rowData = {
+        lastModifier: 'USER',
+        keyUser: 'KEYUSER',
+      } as unknown as SalesSummary;
+      component['handleUserAccess']('keyUser');
+
+      expect(component.datesFormGroup.disable).toHaveBeenCalledTimes(0);
+    });
+
+    it('should not disable the form group when user is superUser', () => {
+      component.datesFormGroup.disable = jest.fn();
+      component.rowData = {
+        lastModifier: 'USER',
+        keyUser: 'KEYUSER',
+      } as unknown as SalesSummary;
+      component['handleUserAccess']('superUser');
 
       expect(component.datesFormGroup.disable).toHaveBeenCalledTimes(0);
     });

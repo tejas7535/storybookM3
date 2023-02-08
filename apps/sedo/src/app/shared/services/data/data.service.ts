@@ -12,9 +12,15 @@ import { SalesSummary } from '../../models/sales-summary.model';
 export class DataService {
   constructor(private readonly http: HttpClient) {}
 
-  public async getAllSales(): Promise<SalesSummary> {
+  public async getAllSales(): Promise<SalesSummary[]> {
     return this.http
-      .get<SalesSummary>(`${environment.apiBaseUrl}/sales/all`)
+      .get<SalesSummary[]>(`${environment.apiBaseUrl}/sales/all-with-key-users`)
+      .toPromise();
+  }
+
+  public async getSuperUser(): Promise<string> {
+    return this.http
+      .get<string>(`${environment.apiBaseUrl}/sales/super-user`)
       .toPromise();
   }
 

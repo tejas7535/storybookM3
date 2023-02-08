@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Subscription } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 import {
@@ -13,6 +13,7 @@ import { ColDef, GridApi, GridOptions, SideBarDef } from 'ag-grid-enterprise';
 
 import { getUserUniqueIdentifier } from '@schaeffler/azure-auth';
 
+import { SalesSummary } from '../../shared/models/sales-summary.model';
 import { AgGridStateService } from '../../shared/services/ag-grid-state/ag-grid-state.service';
 import { DataService } from '../../shared/services/data/data.service';
 import { SalesRowDetailsComponent } from '../sales-row-details/sales-row-details.component';
@@ -33,14 +34,16 @@ export class SalesTableComponent implements OnInit, OnDestroy {
   public gridOptions: GridOptions = GRID_OPTIONS;
 
   public detailCellRenderer: any;
+  public detailCellRendererParams: { superUser: string };
   public frameworkComponents: any;
 
-  public rowData: any;
+  public rowData: SalesSummary[];
+  public visibleFilterForKeyUser = false;
 
   private username: string;
   private gridApi: GridApi;
   private readonly TABLE_KEY = 'soco';
-  private readonly subscription: Subscription = new Subscription();
+  private readonly shutDown$$: Subject<void> = new Subject();
 
   public constructor(
     public dataService: DataService,
@@ -58,14 +61,20 @@ export class SalesTableComponent implements OnInit, OnDestroy {
   public async ngOnInit(): Promise<void> {
     this.setSubscription();
     this.rowData = await this.dataService.getAllSales();
+    this.detailCellRendererParams = {
+      superUser: await this.dataService.getSuperUser(),
+    };
+
+    this.visibleFilterForKeyUser = this.rowData.some(
+      (item: SalesSummary) => item.keyUser === this.username
+    );
   }
 
   private setSubscription(): void {
-    this.subscription.add(
-      this.store.select(getUserUniqueIdentifier).subscribe((userId: string) => {
-        this.username = userId;
-      })
-    );
+    this.store
+      .select(getUserUniqueIdentifier)
+      .pipe(takeUntil(this.shutDown$$))
+      .subscribe((userId: string) => (this.username = userId));
   }
 
   public onRowClicked(event: RowClickedEvent): void {
@@ -119,7 +128,20 @@ export class SalesTableComponent implements OnInit, OnDestroy {
     this.gridApi.onFilterChanged();
   }
 
+  public setKeyUserFilter(): void {
+    const filterModel = this.gridApi.getFilterInstance('keyUser');
+    filterModel.setModel({
+      values: [this.username],
+    });
+    this.gridApi.onFilterChanged();
+  }
+
+  public resetAllFilter(): void {
+    this.gridApi.setFilterModel(undefined);
+    this.gridApi.onFilterChanged();
+  }
+
   public ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.shutDown$$.next();
   }
 }

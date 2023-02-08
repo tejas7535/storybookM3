@@ -9,7 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { Subscription } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
@@ -39,8 +39,9 @@ export class SalesRowDetailsComponent
 
   private rowNode: RowNode;
   private timedOutCloser: number;
+  private superUser = '';
 
-  readonly subscription: Subscription = new Subscription();
+  private readonly shutDown$$: Subject<void> = new Subject();
 
   constructor(
     private readonly store: Store,
@@ -57,7 +58,8 @@ export class SalesRowDetailsComponent
       : date;
   }
 
-  public agInit(params: any): void {
+  public agInit(params: any & { superUser: string }): void {
+    this.superUser = params.superUser;
     this.rowData = params.data;
     this.rowNode = params.node;
     this.setSubscription();
@@ -65,7 +67,7 @@ export class SalesRowDetailsComponent
   }
 
   public ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.shutDown$$.next();
   }
 
   // Is currently not being called but needed to fulfill the ICellRendererAngularComp interface
@@ -164,14 +166,32 @@ export class SalesRowDetailsComponent
   }
 
   private setSubscription(): void {
-    this.subscription.add(
-      this.store.select(getUserUniqueIdentifier).subscribe((userId: string) => {
+    this.store
+      .select(getUserUniqueIdentifier)
+      .pipe(takeUntil(this.shutDown$$))
+      .subscribe((userId: string) => {
         this.handleUserAccess(userId);
-      })
-    );
+      });
   }
 
+  /**
+   * key users and last_modifiers can edit items
+   * @param userId userId of currently logIn user
+   */
   private handleUserAccess(userId: string): void {
+    // keep enabled if superUser
+    if (userId.toLowerCase() === this.superUser.toLowerCase()) {
+      return;
+    }
+
+    // keep enabled if keyUser
+    if (
+      this.rowData.keyUser &&
+      this.rowData.keyUser.toLowerCase() === userId.toLowerCase()
+    ) {
+      return;
+    }
+
     if (
       !this.rowData.lastModifier ||
       this.rowData.lastModifier.toLowerCase() !== userId.toLowerCase()
