@@ -163,20 +163,18 @@ export class OverviewEffects {
       ofType(loadResignedEmployees),
       map((action) => action.request),
       switchMap((request: EmployeesRequest) =>
-        this.overviewService
-          .getResignedEmployees(request.filterDimension, request.value)
-          .pipe(
-            map((data: ResignedEmployeesResponse) =>
-              loadResignedEmployeesSuccess({ data })
-            ),
-            catchError((error) =>
-              of(
-                loadResignedEmployeesFailure({
-                  errorMessage: error.message,
-                })
-              )
+        this.overviewService.getResignedEmployees(request).pipe(
+          map((data: ResignedEmployeesResponse) =>
+            loadResignedEmployeesSuccess({ data })
+          ),
+          catchError((error) =>
+            of(
+              loadResignedEmployeesFailure({
+                errorMessage: error.message,
+              })
             )
           )
+        )
       )
     )
   );

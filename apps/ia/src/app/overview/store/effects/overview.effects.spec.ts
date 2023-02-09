@@ -352,17 +352,17 @@ describe('Overview Effects', () => {
   });
 
   describe('loadResignedEmployees', () => {
-    let orgUnit: string;
+    let request: EmployeesRequest;
 
     beforeEach(() => {
-      orgUnit = 'ABC123';
-      action = loadResignedEmployees({
-        request: {
-          filterDimension: FilterDimension.ORG_UNIT,
-          value: orgUnit,
-        } as EmployeesRequest,
-      });
+      request = {
+        filterDimension: FilterDimension.ORG_UNIT,
+        value: 'ABC123',
+        timeRange: '123|456',
+      };
+      action = loadResignedEmployees({ request });
     });
+
     it(
       'should load data',
       marbles((m) => {
@@ -386,8 +386,7 @@ describe('Overview Effects', () => {
         m.expect(effects.loadResignedEmployees$).toBeObservable(expected);
         m.flush();
         expect(overviewService.getResignedEmployees).toHaveBeenCalledWith(
-          FilterDimension.ORG_UNIT,
-          orgUnit
+          request
         );
       })
     );
@@ -410,8 +409,7 @@ describe('Overview Effects', () => {
         m.expect(effects.loadResignedEmployees$).toBeObservable(expected);
         m.flush();
         expect(overviewService.getResignedEmployees).toHaveBeenCalledWith(
-          FilterDimension.ORG_UNIT,
-          orgUnit
+          request
         );
       })
     );

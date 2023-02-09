@@ -6,11 +6,7 @@ import { Observable } from 'rxjs';
 import { withCache } from '@ngneat/cashew';
 
 import { ParamsCreatorService } from '../shared/http/params-creator.service';
-import {
-  ApiVersion,
-  EmployeesRequest,
-  FilterDimension,
-} from '../shared/models';
+import { ApiVersion, EmployeesRequest } from '../shared/models';
 import {
   ExitEntryEmployeesResponse,
   FluctuationRatesChartData,
@@ -70,12 +66,12 @@ export class OverviewService {
   }
 
   getResignedEmployees(
-    filterDimension: FilterDimension,
-    orgUnit: string
+    employeesRequest: EmployeesRequest
   ): Observable<ResignedEmployeesResponse> {
-    const params = this.paramsCreator.createHttpParamsForFilterDimension(
-      filterDimension,
-      orgUnit
+    const params = this.paramsCreator.createHttpParamsForDimensionAndTimeRange(
+      employeesRequest.filterDimension,
+      employeesRequest.value,
+      employeesRequest.timeRange
     );
 
     return this.http.get<ResignedEmployeesResponse>(

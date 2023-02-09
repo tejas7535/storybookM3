@@ -88,16 +88,18 @@ describe('OverviewService', () => {
         resignedEmployeesCount: 5,
         responseModified: true,
       };
-      const orgUnit = 'ABC123';
+      const request: EmployeesRequest = {
+        filterDimension: FilterDimension.ORG_UNIT,
+        value: 'ABC123',
+        timeRange: '123|456',
+      };
 
-      service
-        .getResignedEmployees(FilterDimension.ORG_UNIT, orgUnit)
-        .subscribe((response) => {
-          expect(response).toEqual(mock.employees);
-        });
+      service.getResignedEmployees(request).subscribe((response) => {
+        expect(response).toEqual(mock.employees);
+      });
 
       const req = httpMock.expectOne(
-        `api/v1/resigned-employees?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}`
+        `api/v1/resigned-employees?dimension=${FilterDimension.ORG_UNIT}&value=${request.value}&time_range=123%7C456`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);

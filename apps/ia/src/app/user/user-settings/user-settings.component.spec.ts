@@ -64,7 +64,7 @@ describe('UserSettingsComponent', () => {
             selectedDimension: FilterDimension.ORG_UNIT,
           },
           user: {
-            userSettings: {
+            settings: {
               data: {
                 orgUnit: 'Sales',
               },
