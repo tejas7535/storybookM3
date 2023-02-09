@@ -1,4 +1,44 @@
 # Release Notes of Guided Quoting
+## [3.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v3.2.0...gq-v3.3.0) (2023-02-09)
+
+
+### Features
+
+* adjust reducer for add quotation detail (GQUOTE-2205) ([#4978](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4978)) ([b08cc99](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b08cc999531231882b7380a3fc1013f189204856))
+* **gq:** add 'openInTab' and 'openInWindow' to contextMenu (GQUOTE-1909) ([#4951](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4951)) ([de6c52b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/de6c52bbd9c4c32a7f908dc5a18050e8ea87de29))
+* **gq:** add contextMenu to Tabs and DetailButtons (GQUOTE-1909) ([#4956](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4956)) ([1527642](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1527642368b3a7285ffb3c68bc6b344aaf899a36))
+* **gq:** add search field button app shell header (GQUOTE-2191) ([#4977](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4977)) ([004fb14](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/004fb1459300fbc44eaed642af62b2b02abf6e4a))
+* **gq:** add search modal (GQUOTE-2192) ([#4985](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4985)) ([e93eb15](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e93eb1500b7273fed41c792e20237acc574e5600))
+* **gq:** added origin column to case overview (GQUOTE-2135) ([#4953](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4953)) ([d972851](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d972851d1a54655c462c40950c3352a5b2564aaf))
+* **gq:** adjust snackbar messages to sap quotation status (GQUOTE-2179) ([#4991](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4991)) ([023bd32](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/023bd325af79eaddf77310fe13657702dcf5ce82))
+* **gq:** adjust styling/layout (GQUOTE-1948) ([#4954](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4954)) ([c8078e1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c8078e10ba2cc0a11fbd84dc397b1bf2e3e0aff9))
+* **gq:** enable auto focus for all dialogs by default (GQUOTE-2049) ([#4940](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4940)) ([98176ce](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/98176ce2565ee500428f9519ca8ae9d33b97122a))
+* **gq:** remove FE preset for customer_purchase_date (GQUOTE-2146) ([#4943](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4943)) ([999d062](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/999d062d4f71e99079555df317ca30ffd38560b7))
+* **gq:** several ui improvements (GQUOTE-1874) ([#4941](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4941)) ([b79f5e0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b79f5e0cdb788f68e2e73771bc6300aca1aafb0d))
+* **gq:** show sync failed status on quotation level (GQUOTE-2158) ([#4972](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4972)) ([868a57b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/868a57b773d8a520c56f13edafbcb13a30ef3c51))
+* **gq:** update SAP Dates (GQUOTE-2015) ([#4926](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4926)) ([f987d1c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f987d1ced6f38a032041b483d20f1a2a40a9a50d))
+* **gq:** update validation (dates shall not equal) (GQUOTE-2146) ([#4950](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4950)) ([77d71eb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/77d71ebbe743100a09209dd6d8f58b97dd75c191))
+* **gq:** updated translations (GQUOTE-1877) ([#4942](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4942)) ([9be2fee](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9be2feece1531db0339d9d1a5a35828509648b5e))
+
+
+### Bug Fixes
+
+* **gq:** adjust layout of empty state pages (GQUOTE-1948) ([#4968](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4968)) ([74c3c2f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/74c3c2f43f8a9967b9dd3f2e002ff118f8365baa))
+* **gq:** check for disable button failed because of check undefined==… ([#4962](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4962)) ([3a982a6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3a982a685b453067ed619ba7ab65fcb43ac0ca68))
+* **gq:** fix alignment in subheader (GQUOTE-1874) ([4fba0a1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4fba0a1ba0656cbbdedd430b9c21021253733666))
+* **gq:** fix BE request not sent, when casename did NOT change (GQUOTE-2160) ([#4960](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4960)) ([9e60e66](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9e60e66f1ecdb5ce7dcdf0ea359945f0f4529e89))
+* **gq:** fix duplicated items in filter Set list (GQUOTE-2136) ([#4971](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4971)) ([29acaf6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/29acaf67bd536dff179d9576b91c058cfabdead1))
+* **gq:** fix tests displaying errorMessages ([#4969](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4969)) ([b91f5aa](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b91f5aa5e547282819237792e5fb651f64766773))
+* **gq:** fixed gq homepage stuck after login (GQUOTE-1911) ([#4945](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4945)) ([8d075c4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8d075c441d0f00a7869fcc7115e559d5aac5686e))
+* **gq:** fixed initial focus for dialogs (GQUOTE-2049) ([#4948](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4948)) ([9c8a5db](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9c8a5db64c1c252b252308b6e4d85d747383d670))
+* **gq:** fixed issue with custom view tabs (GQUOTE-2048) ([#4957](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4957)) ([7679b86](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7679b8676c5778158e0735e69245bb09009bb1b4))
+* **gq:** fixed issue with duplicating edit icon (GQUOTE-2124) ([#4939](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4939)) ([5b18306](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5b183068d1daa2159eadebec4a2bf88b53c2f7ad))
+* **gq:** fixed issued with view not upadting after creating a new custom view (GQUOTE-2048) ([#4963](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4963)) ([87c25a7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/87c25a7ba1418e67d36d646257c4871a78f80cfb))
+* **gq:** fixed order of case origin col (GQUOTE-2135) ([#4964](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4964)) ([9c75cf1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9c75cf16ae08f0cda7fac98ca5810bc45d98e8a7))
+* **gq:** fixed order of items in filter (GQUOTE-2151) ([#4961](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4961)) ([5577af2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5577af2b77f858fb00d6db9f5ef6a7351e68e029))
+* **gq:** force utc date in datepicker (GQUOTE-1793) ([#4967](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4967)) ([2dd3e80](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2dd3e80f28fdff2d5a7a0806ced9815d1d95222e))
+* **gq:** remove unused feature toggles (GQUOTE-1885) ([#4933](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4933)) ([f707b10](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f707b104cc9a2f788e7df84ab02c2303b1f4a369))
+
 ## [3.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v3.1.0...gq-v3.2.0) (2023-01-17)
 
 
