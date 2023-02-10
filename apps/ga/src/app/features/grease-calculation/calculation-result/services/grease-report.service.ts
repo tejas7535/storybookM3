@@ -285,7 +285,10 @@ export class GreaseReportService {
           (subordinate: GreaseReportSubordinate) =>
             subordinate.title &&
             Object.values(GreaseReportSubordinateHint)
-              .map((value) => translate(`calculationResult.${value}`))
+              .flatMap((value) => [
+                value && value[0].toUpperCase() + value.slice(1),
+                translate(`calculationResult.${value}`),
+              ])
               .includes(subordinate.title)
         ),
       },
