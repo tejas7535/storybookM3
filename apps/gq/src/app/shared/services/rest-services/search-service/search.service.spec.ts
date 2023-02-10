@@ -43,29 +43,10 @@ describe('SearchService', () => {
   });
 
   describe('autocomplete', () => {
-    test('should call', () => {
+    test('should call with default limit', () => {
       const search: AutocompleteSearch = new AutocompleteSearch(
-        'testParam',
+        'testparam',
         'hallo'
-      );
-      const mock: CaseFilterItem = {
-        filter: FilterNames.CUSTOMER,
-        options: [{ id: 'test', value: 'test', selected: false }],
-      };
-      service.autocomplete(search).subscribe((response) => {
-        expect(response).toEqual(mock.options);
-      });
-
-      const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${SearchPaths.PATH_AUTO_COMPLETE}/testparam?search_for=hallo`
-      );
-      expect(req.request.method).toBe(HttpMethod.GET);
-      req.flush(mock);
-    });
-    test('should call for sapquotation', () => {
-      const search: AutocompleteSearch = new AutocompleteSearch(
-        FilterNames.SAP_QUOTATION,
-        'test'
       );
       const mock: CaseFilterItem = {
         filter: FilterNames.MATERIAL_DESCRIPTION,
@@ -76,7 +57,27 @@ describe('SearchService', () => {
       });
 
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${SearchPaths.PATH_AUTO_COMPLETE}/sap-quotation?search_for=test`
+        `${ApiVersion.V1}/${SearchPaths.PATH_AUTO_COMPLETE}/testparam?search_for=hallo&limit=100`
+      );
+      expect(req.request.method).toBe(HttpMethod.GET);
+      req.flush(mock);
+    });
+    test('should call for sapquotation with custom limit', () => {
+      const search: AutocompleteSearch = new AutocompleteSearch(
+        FilterNames.SAP_QUOTATION,
+        'test',
+        5
+      );
+      const mock: CaseFilterItem = {
+        filter: FilterNames.MATERIAL_DESCRIPTION,
+        options: [{ id: 'test', value: 'test', selected: false }],
+      };
+      service.autocomplete(search).subscribe((response) => {
+        expect(response).toEqual(mock.options);
+      });
+
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${SearchPaths.PATH_AUTO_COMPLETE}/sap-quotation?search_for=test&limit=5`
       );
       expect(req.request.method).toBe(HttpMethod.GET);
       req.flush(mock);

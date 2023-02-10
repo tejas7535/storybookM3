@@ -2,10 +2,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
+import { of } from 'rxjs';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { PushModule } from '@ngrx/component';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { AutoCompleteFacade } from '../../../../core/store';
+import { FilterNames } from '../../autocomplete-input/filter-names.enum';
 import { GlobalSearchResultsPreviewListComponent } from '../global-search-results-preview-list/global-search-results-preview-list.component';
 import { GlobalSearchModalComponent } from './global-search-modal.component';
 
@@ -20,12 +26,25 @@ describe('GlobalSearchModalComponent', () => {
       MatIconModule,
       FormsModule,
       ReactiveFormsModule,
+      PushModule,
     ],
     providers: [
       {
         provide: MatDialogRef,
         useValue: {},
       },
+      {
+        provide: AutoCompleteFacade,
+        useValue: {
+          resetView: jest.fn(),
+          initFacade: jest.fn(),
+          materialNumberOrDescForGlobalSearch$: of({
+            filter: FilterNames.MATERIAL_NUMBER_OR_DESCRIPTION,
+            items: [],
+          }),
+        },
+      },
+      provideMockStore(),
     ],
     declarations: [
       GlobalSearchModalComponent,
@@ -53,13 +72,11 @@ describe('GlobalSearchModalComponent', () => {
   });
 
   describe('clearInputField', () => {
-    test('should clear input and reset displayed material numbers', () => {
-      component.materialNumbersToDisplay = ['00000000000', '111111111111'];
+    test('should clear input', () => {
       component.searchFormControl.patchValue('1234');
 
       component.clearInputField();
 
-      expect(component.materialNumbersToDisplay).toEqual([]);
       expect(component.searchFormControl.value).toEqual('');
     });
   });

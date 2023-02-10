@@ -20,6 +20,7 @@ import { SearchPaths } from './models/search-paths.enum';
 })
 export class SearchService {
   private readonly PARAM_SEARCH_FOR = 'search_for';
+  private readonly PARAM_LIMIT = 'limit';
   private readonly PARAM_CUSTOMER_ID = 'customer_id';
 
   constructor(private readonly http: HttpClient) {}
@@ -27,16 +28,13 @@ export class SearchService {
   public autocomplete(
     autocompleteSearch: AutocompleteSearch
   ): Observable<IdValue[]> {
-    const httpParams = new HttpParams().set(
-      this.PARAM_SEARCH_FOR,
-      autocompleteSearch.searchFor
-    );
-
-    const filter = autocompleteSearch.filter.toLowerCase();
+    const httpParams = new HttpParams()
+      .set(this.PARAM_SEARCH_FOR, autocompleteSearch.searchFor)
+      .append(this.PARAM_LIMIT, autocompleteSearch?.limit || 100);
 
     return this.http
       .get<AutocompleteResponse>(
-        `${ApiVersion.V1}/${SearchPaths.PATH_AUTO_COMPLETE}/${filter}`,
+        `${ApiVersion.V1}/${SearchPaths.PATH_AUTO_COMPLETE}/${autocompleteSearch.filter}`,
         {
           params: httpParams,
         }

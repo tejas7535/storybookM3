@@ -24,7 +24,7 @@ export const autocompleteFailure = createAction(
 );
 
 export const autocompleteSuccess = createAction(
-  '[Create Case] Get Autocomplete Suggestions For selected Autocomplete Option',
+  '[Create Case] Get Autocomplete Suggestions For selected Autocomplete Option Success',
   props<{ options: IdValue[]; filter: FilterNames }>()
 );
 

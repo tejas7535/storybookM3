@@ -1,11 +1,11 @@
 <ng-container *transloco="let t; read: 'searchBar'">
-  <div *ngIf="materialNumbers?.length > 0; else emptyState">
+  <div *ngIf="idValues?.length > 0; else emptyState">
     <p class="py-3 pl-4 text-overline uppercase text-medium-emphasis">
       {{ t('suggestions') }}
     </p>
     <gq-global-search-results-preview-list-entry
-      *ngFor="let materialNr of materialNumbers"
-      [materialNr]="materialNr"
+      *ngFor="let idValue of idValues"
+      [idValue]="idValue"
       [searchVal]="searchVal"
       (itemSelected)="onItemSelected($event)"
     ></gq-global-search-results-preview-list-entry>

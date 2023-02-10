@@ -26,6 +26,10 @@ describe('Create Case Selector', () => {
           filter: FilterNames.SAP_QUOTATION,
           options: [new IdValue('1', '1', true)],
         },
+        {
+          filter: FilterNames.MATERIAL_NUMBER_OR_DESCRIPTION,
+          options: [new IdValue('1', '1', true)],
+        },
       ],
       customer: {
         ...initialState.customer,
@@ -74,6 +78,30 @@ describe('Create Case Selector', () => {
           .getCaseMaterialDesc(AutocompleteRequestDialog.ADD_ENTRY)
           .projector(fakeState.case)
       ).toEqual({ filter: FilterNames.MATERIAL_DESCRIPTION, options: [] });
+    });
+  });
+  describe('getCaseMaterialNumberOrDesc', () => {
+    test('should return materialNumberOrDesc', () => {
+      expect(
+        createSelectors
+          .getCaseMaterialNumberOrDesc(AutocompleteRequestDialog.EMPTY)
+          .projector(fakeState.case)
+      ).toEqual(
+        fakeState.case.autocompleteItems.find(
+          (elm) => elm.filter === FilterNames.MATERIAL_NUMBER_OR_DESCRIPTION
+        )
+      );
+    });
+
+    test('should return empty options', () => {
+      expect(
+        createSelectors
+          .getCaseMaterialNumberOrDesc(AutocompleteRequestDialog.ADD_ENTRY)
+          .projector(fakeState.case)
+      ).toEqual({
+        filter: FilterNames.MATERIAL_NUMBER_OR_DESCRIPTION,
+        options: [],
+      });
     });
   });
   describe('getSelectedQuotation', () => {

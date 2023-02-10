@@ -79,6 +79,22 @@ export const getCaseMaterialDesc = (dialog: AutocompleteRequestDialog) =>
       : { filter: FilterNames.MATERIAL_DESCRIPTION, options: [] };
   });
 
+export const getCaseMaterialNumberOrDesc = (
+  dialog: AutocompleteRequestDialog
+) =>
+  createSelector(getCaseState, (state: CreateCaseState): CaseFilterItem => {
+    if (!dialog || dialog === AutocompleteRequestDialog.EMPTY) {
+      return state.autocompleteItems.find(
+        (it) => it.filter === FilterNames.MATERIAL_NUMBER_OR_DESCRIPTION
+      );
+    }
+
+    return state.requestingDialog === dialog
+      ? state.autocompleteItems.find(
+          (it) => it.filter === FilterNames.MATERIAL_NUMBER_OR_DESCRIPTION
+        )
+      : { filter: FilterNames.MATERIAL_NUMBER_OR_DESCRIPTION, options: [] };
+  });
 export const getCaseAutocompleteLoading = (filter: FilterNames) =>
   createSelector(
     getCaseState,

@@ -6,6 +6,8 @@ import {
   Output,
 } from '@angular/core';
 
+import { IdValue } from '../../../models/search';
+
 @Component({
   selector: 'gq-global-search-results-preview-list-entry',
   templateUrl: './global-search-results-preview-list-entry.component.html',
@@ -13,15 +15,15 @@ import {
 })
 export class GlobalSearchResultsPreviewListEntryComponent {
   @Input()
-  materialNr: string;
+  idValue: IdValue;
 
   @Input()
   searchVal: string;
 
   @Output()
-  itemSelected = new EventEmitter<string>();
+  itemSelected = new EventEmitter<IdValue>();
 
   itemClicked() {
-    this.itemSelected.emit(this.materialNr);
+    this.itemSelected.emit(this.idValue);
   }
 }

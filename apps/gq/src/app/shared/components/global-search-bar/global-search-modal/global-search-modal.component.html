@@ -1,6 +1,6 @@
 <div>
   <div
-    class="flex justify-between px-3 py-2"
+    class="flex items-center justify-between px-3 py-2"
     *transloco="let t; read: 'searchBar'"
   >
     <mat-icon matSuffix class="pr-4 text-medium-emphasis"> search </mat-icon>
@@ -11,7 +11,16 @@
       type="text"
       [placeholder]="t('searchHint')"
       [formControl]="searchFormControl"
+      cdkFocusInitial
     />
+    <div class="px-2">
+      <mat-spinner
+        *ngIf="autocomplete.materialNumberOrDescAutocompleteLoading$ | ngrxPush"
+        matSuffix
+        [diameter]="18"
+      ></mat-spinner>
+    </div>
+
     <div class="flex items-center">
       <span
         class="cursor-pointer text-caption text-medium-emphasis"
@@ -28,9 +37,19 @@
       </mat-icon>
     </div>
   </div>
-  <gq-global-search-results-preview-list
-    [materialNumbers]="materialNumbersToDisplay"
-    [searchVal]="searchVal"
-    (itemSelected)="onItemSelected($event)"
-  ></gq-global-search-results-preview-list>
+  <ng-container
+    *ngIf="
+      !(autocomplete.materialNumberOrDescAutocompleteLoading$ | ngrxPush) &&
+      searchVal !== '' &&
+      searchVal.length >= MIN_INPUT_STRING_LENGTH_FOR_AUTOCOMPLETE
+    "
+  >
+    <gq-global-search-results-preview-list
+      [idValues]="
+        (autocomplete.materialNumberOrDescForGlobalSearch$ | ngrxPush).options
+      "
+      [searchVal]="searchVal"
+      (itemSelected)="onItemSelected($event)"
+    ></gq-global-search-results-preview-list>
+  </ng-container>
 </div>

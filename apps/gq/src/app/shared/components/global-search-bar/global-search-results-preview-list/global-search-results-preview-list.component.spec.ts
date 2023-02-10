@@ -2,6 +2,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { IdValue } from '../../../models/search';
 import { GlobalSearchResultsPreviewListEntryComponent } from '../global-search-results-preview-list-entry/global-search-results-preview-list-entry.component';
 import { GlobalSearchResultsPreviewListComponent } from './global-search-results-preview-list.component';
 
@@ -30,11 +31,11 @@ describe('GlobalSearchResultsPreviewListComponent', () => {
   describe('onItemSelected', () => {
     test('should emit itemSelected', () => {
       component.itemSelected.emit = jest.fn();
-      const materialNr = '1234512345123';
+      const idValue = { id: '12345678', value: '12345678' } as IdValue;
 
-      component.onItemSelected(materialNr);
+      component.onItemSelected(idValue);
 
-      expect(component.itemSelected.emit).toHaveBeenCalledWith(materialNr);
+      expect(component.itemSelected.emit).toHaveBeenCalledWith(idValue);
       expect(component.itemSelected.emit).toHaveBeenCalledTimes(1);
     });
   });

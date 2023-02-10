@@ -13,6 +13,7 @@ import {
   getCaseAutocompleteLoading,
   getCaseMaterialDesc,
   getCaseMaterialNumber,
+  getCaseMaterialNumberOrDesc,
   resetAutocompleteMaterials,
   resetRequestingAutoCompleteDialog,
   setRequestingAutoCompleteDialog,
@@ -41,6 +42,10 @@ export class AutoCompleteFacade {
     this.store.select(
       getCaseMaterialNumber(AutocompleteRequestDialog.EDIT_MATERIAL)
     );
+  public materialNumberOrDescForGlobalSearch$: Observable<CaseFilterItem> =
+    this.store.select(
+      getCaseMaterialNumberOrDesc(AutocompleteRequestDialog.GLOBAL_SEARCH)
+    );
 
   public materialNumberAutocompleteLoading$: Observable<boolean> =
     this.store.select(getCaseAutocompleteLoading(FilterNames.MATERIAL_NUMBER));
@@ -48,6 +53,11 @@ export class AutoCompleteFacade {
   public materialDescAutocompleteLoading$: Observable<boolean> =
     this.store.select(
       getCaseAutocompleteLoading(FilterNames.MATERIAL_DESCRIPTION)
+    );
+
+  public materialNumberOrDescAutocompleteLoading$: Observable<boolean> =
+    this.store.select(
+      getCaseAutocompleteLoading(FilterNames.MATERIAL_NUMBER_OR_DESCRIPTION)
     );
 
   /**

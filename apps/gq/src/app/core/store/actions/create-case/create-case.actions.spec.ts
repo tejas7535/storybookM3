@@ -78,7 +78,7 @@ describe('Create Actions', () => {
       expect(action).toEqual({
         options,
         filter,
-        type: '[Create Case] Get Autocomplete Suggestions For selected Autocomplete Option',
+        type: '[Create Case] Get Autocomplete Suggestions For selected Autocomplete Option Success',
       });
     });
 
