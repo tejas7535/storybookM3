@@ -1,7 +1,5 @@
- Changelog
-
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
-**Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
+# Release Notes of Grease App
+## [1.3.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.3.1...ga-v1.3.2) (2023-02-13)
 
 ### [1.2.18](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.17...ga-v1.2.18) (2022-12-01)
 
