@@ -27,5 +27,8 @@ export const salesSummaryMock = new SalesSummary(
   '2020-10-15T08:43:01.412Z',
   '2020-10-15T08:43:01.412Z',
   'abc',
+  'c',
+  'p0145',
+  'IWS',
   'a keyuser'
 );

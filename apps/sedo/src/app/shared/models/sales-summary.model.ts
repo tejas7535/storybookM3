@@ -32,6 +32,9 @@ export class SalesSummary {
     public eopDateVerified: string,
     public edoDate: string,
     public lastModifier: string,
+    public categoryNetSales: string,
+    public plantKeysList: string,
+    public plantNamesList: string,
     public keyUser: string
   ) {}
 }
