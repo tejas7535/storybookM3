@@ -1,4 +1,20 @@
 # Release Notes of Insight Attrition
+## [1.0.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ia-v1.0.0...ia-v1.0.1) (2023-02-14)
+
+
+### Features
+
+* **ia:** add feedback feature (IA-1071) ([#4975](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4975)) ([14f0b55](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/14f0b5531c9a9bdeaaa0dc9b90f2418627a43225))
+* **ia:** align overview layout (IA-1095) ([#4982](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4982)) ([94ece3a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/94ece3a8a96a296219accc6c2ee8b28c73a19640))
+* **ia:** clear input on click (IA-830) ([#4980](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4980)) ([d83121d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d83121dcb9c3de789ccb11e3889ac4091b42421c))
+* **ia:** set bigger symbol size (IA-1096) ([#4986](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4986)) ([344a0e0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/344a0e00dfb0a7f3ced37221c4955229cd4e9843))
+
+
+### Bug Fixes
+
+* **ia:** fix headcount position ([#4998](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4998)) ([c5ab408](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c5ab408b5fcbe02257963426443f4d8ca1a8bc50))
+* **ia:** fix sorting on loss of skill (IA-1090) ([#4958](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4958)) ([1e0488b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1e0488b9e75798fbd34009d57f770e808fbc95e9))
+
 ## 1.0.0 (2023-01-18)
 
 
