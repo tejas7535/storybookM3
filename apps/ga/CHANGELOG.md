@@ -1,7 +1,20 @@
- Changelog
+# Release Notes of Grease App
+## [1.2.19](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.18...ga-v1.2.19) (2023-02-14)
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
-**Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
+
+### Features
+
+* **ga:** add japanese translations (UFTABI-6210) ([#4935](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4935)) ([f7a870b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f7a870bb9f5b52b194765cea6e3615aa9c0aeb29))
+* **ga:** adjust english translations (UFTABI-6243) ([#4934](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4934)) ([2652186](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/26521866477f855c6a68ada15d0c7dd4867b3757))
+* **ga:** adjust show more button to new design (UFTABI-6012) ([#4832](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4832)) ([a2d621d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a2d621d356e8d9d652687099463c28a326e31ba6))
+* **ga:** show concept1 suitability at dial (UFTABI-6154) ([#4914](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4914)) ([4162121](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4162121797de1ac9cd403abefdf07d6afe11b853))
+
+
+### Bug Fixes
+
+* **ga:** remove duplicate ui element in report (UFTABI-6280) ([#4989](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4989)) ([9b2ddb5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9b2ddb5b85f7b1e88430f9c69c886293ab031a52))
+* **ga:** show arcanol subline for preselection ([#4973](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4973)) ([a0d1e25](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a0d1e251790b53e24c0bdc689f1999c638c9e2d4))
+* **ga:** show errors,warnings,notes for remaining languages (UFTABI-6320) ([#4995](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4995)) ([cd8f0e0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/cd8f0e0a34dd436b82d69b1925ba8050309caed8))
 
 ### [1.2.18](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.17...ga-v1.2.18) (2022-12-01)
 
