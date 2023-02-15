@@ -7,12 +7,12 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 
-import { Subject, takeUntil } from 'rxjs';
+import { distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
-import { getQuotation } from '../../../core/store';
-import { Quotation, QuotationStatus } from '../../models';
+import { getQuotationStatus } from '../../../core/store';
+import { QuotationStatus } from '../../models';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
@@ -32,11 +32,9 @@ export class HideIfQuotationHasStatusDirective implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store
-      .select(getQuotation)
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((quotation: Quotation) => {
-        const status = quotation.status;
-
+      .select(getQuotationStatus)
+      .pipe(takeUntil(this.unsubscribe$), distinctUntilChanged())
+      .subscribe((status: QuotationStatus) => {
         if (this.hideIfQuotationHasStatus.includes(status)) {
           this.viewContainer.clear();
         } else {

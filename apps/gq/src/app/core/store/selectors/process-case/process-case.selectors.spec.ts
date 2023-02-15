@@ -71,6 +71,14 @@ describe('Process Case Selector', () => {
     });
   });
 
+  describe('getQuotationStatus', () => {
+    test('should return quotation status', () => {
+      expect(
+        quotationSelectors.getQuotationStatus.projector(fakeState.processCase)
+      ).toEqual(fakeState.processCase.quotation.item.status);
+    });
+  });
+
   describe('getTableContextQuotation', () => {
     test('should get table context', () => {
       expect(

@@ -42,6 +42,11 @@ export const getQuotation = createSelector(
   (state: ProcessCaseState): Quotation => state.quotation.item
 );
 
+export const getQuotationStatus = createSelector(
+  getProcessCaseState,
+  (state: ProcessCaseState): QuotationStatus => state.quotation.item.status
+);
+
 export const getQuotationCurrency = createSelector(
   getProcessCaseState,
   (state: ProcessCaseState): string => state.quotation.item.currency
