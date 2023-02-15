@@ -19,9 +19,12 @@ export class GlobalSearchResultsPreviewFormatterPipe implements PipeTransform {
       return this.sanitize(
         this.formatMaterialDescription(idValue.id, searchVal.length)
       );
-    } else if (idValue?.value?.startsWith(searchVal)) {
+    } else if (idValue?.value?.startsWith(searchVal.replace(/-/g, ''))) {
       return this.sanitize(
-        this.formatMaterialNumber(idValue.value, searchVal.length)
+        this.formatMaterialNumber(
+          idValue.value,
+          searchVal.replace(/-/g, '').length
+        )
       );
     } else {
       return Keyboard.DASH;
