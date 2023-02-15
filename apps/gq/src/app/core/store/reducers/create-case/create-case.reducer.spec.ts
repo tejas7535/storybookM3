@@ -99,43 +99,6 @@ describe('Create Case Reducer', () => {
         const stateItem = state.autocompleteItems[0].options;
         expect(stateItem).toEqual([fakeOptions[0]]);
       });
-      describe('should transform material numbers and material description, if only single option is available', () => {
-        const singleAutoCompleteOptions = [
-          new IdValue('000000167000010', '1234', false),
-        ];
-        const fakeState: CreateCaseState = {
-          ...CREATE_CASE_STORE_STATE_MOCK,
-          autocompleteLoading: FilterNames.MATERIAL_NUMBER,
-          autocompleteItems: [
-            { filter: FilterNames.MATERIAL_NUMBER, options: [] },
-          ],
-        };
-
-        test('should transform material numbers', () => {
-          const caseFilterItem = {
-            options: singleAutoCompleteOptions,
-            filter: FilterNames.MATERIAL_NUMBER,
-          };
-          const action = autocompleteSuccess(caseFilterItem);
-
-          const state = createCaseReducer(fakeState, action);
-          expect(state.autocompleteItems[0].options[0].id).toEqual(
-            '000000167-0000-10'
-          );
-          expect(state.autoSelectMaterial).toEqual(caseFilterItem);
-        });
-
-        test('should transform material description', () => {
-          const caseFilterItem = {
-            options: singleAutoCompleteOptions,
-            filter: FilterNames.MATERIAL_DESCRIPTION,
-          };
-          const action = autocompleteSuccess(caseFilterItem);
-
-          const state = createCaseReducer(fakeState, action);
-          expect(state.autoSelectMaterial).toEqual(caseFilterItem);
-        });
-      });
     });
     describe('autocompleteFailure', () => {
       test('should not manipulate state', () => {

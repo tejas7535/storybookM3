@@ -391,7 +391,7 @@ describe('CreateColumnService', () => {
   describe('materialTransform', () => {
     test('should call pipe transform', () => {
       const data = { value: 'any' } as any as ValueFormatterParams;
-      const result = ColumnUtilityService.materialTransform(data);
+      const result = service.materialTransform(data);
       expect(result).toEqual(data.value);
     });
   });
@@ -400,7 +400,7 @@ describe('CreateColumnService', () => {
       const params = {
         data: QUOTATION_DETAIL_MOCK,
       } as any as ValueGetterParams;
-      const result = ColumnUtilityService.materialGetter(params);
+      const result = service.materialGetter(params);
       expect(result).toEqual(QUOTATION_DETAIL_MOCK.material.materialNumber15);
     });
   });

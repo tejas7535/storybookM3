@@ -82,8 +82,9 @@ export class ColumnDefService {
     {
       headerName: translate('shared.quotationDetailsTable.materialNumber'),
       field: ColumnFields.MATERIAL_NUMBER_15,
-      valueFormatter: ColumnUtilityService.materialTransform,
-      valueGetter: (params) => ColumnUtilityService.materialGetter(params),
+      valueFormatter: (params) =>
+        this.columnUtilityService.materialTransform(params),
+      valueGetter: (params) => this.columnUtilityService.materialGetter(params),
       filterParams: FILTER_PARAMS,
     },
     {
@@ -760,7 +761,8 @@ export class ColumnDefService {
     {
       headerName: translate('shared.quotationDetailsTable.followingType'),
       field: ColumnFields.FOLLOWING_TYPE,
-      valueFormatter: ColumnUtilityService.materialTransform,
+      valueFormatter: (params) =>
+        this.columnUtilityService.materialTransform(params),
       filterParams: FILTER_PARAMS,
     },
     {

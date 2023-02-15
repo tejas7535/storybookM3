@@ -7,7 +7,6 @@ import {
   MaterialTableItem,
   ValidationDescription,
 } from '../../../../shared/models/table';
-import { MaterialTransformPipe } from '../../../../shared/pipes/material-transform/material-transform.pipe';
 import { TableService } from '../../../../shared/services/table-service/table.service';
 import {
   addRowDataItem,
@@ -168,16 +167,15 @@ export const createCaseReducer = createReducer(
         if (tmp.filter === filter) {
           const mergedOptions: IdValue[] = [];
 
-          const materialPipe = new MaterialTransformPipe();
           if (tmp.filter === FilterNames.MATERIAL_NUMBER) {
             itemOptions = itemOptions.map((opt) => ({
               ...opt,
-              id: materialPipe.transform(opt.id),
+              id: opt.id,
             }));
           } else if (tmp.filter === FilterNames.MATERIAL_DESCRIPTION) {
             itemOptions = itemOptions.map((opt) => ({
               ...opt,
-              value: materialPipe.transform(opt.value),
+              value: opt.value,
             }));
           }
 

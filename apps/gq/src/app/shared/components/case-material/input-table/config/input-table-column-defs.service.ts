@@ -33,7 +33,8 @@ export class InputTableColumnDefService {
       flex: 0.25,
       sortable: true,
       cellRenderer: EditCaseMaterialComponent,
-      valueFormatter: ColumnUtilityService.materialTransform,
+      valueFormatter: (params) =>
+        this.columnUtilityService.materialTransform(params),
     },
     {
       headerName: translate('shared.caseMaterial.table.quantity'),

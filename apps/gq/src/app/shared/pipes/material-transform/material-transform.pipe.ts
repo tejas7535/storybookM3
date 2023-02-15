@@ -1,18 +1,14 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { Keyboard } from '../../models';
+import { MaterialNumberService } from '../../services/material-number/material-number.service';
 
 @Pipe({
   name: 'materialTransform',
 })
 export class MaterialTransformPipe implements PipeTransform {
+  constructor(private readonly materialNumberService: MaterialNumberService) {}
+
   transform(value: string): string {
-    if (value?.length === 15) {
-      return `${value.slice(0, 9)}-${value.slice(9, 13)}-${value.slice(13)}`;
-    } else if (value?.length === 13) {
-      return `${value.slice(0, 9)}-${value.slice(9, 13)}`;
-    } else {
-      return value || Keyboard.DASH;
-    }
+    return this.materialNumberService.formatStringAsMaterialNumber(value);
   }
 }

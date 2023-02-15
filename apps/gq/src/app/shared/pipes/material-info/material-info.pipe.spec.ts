@@ -1,14 +1,25 @@
+import { createPipeFactory, SpectatorPipe } from '@ngneat/spectator';
+
 import { MaterialDetails } from '../../models/quotation-detail';
-import { MaterialTransformPipe } from '../material-transform/material-transform.pipe';
+import { MaterialNumberService } from '../../services/material-number/material-number.service';
 import { MaterialInfoPipe } from './material-info.pipe';
 
 describe('MaterialInfoPipe', () => {
+  let spectator: SpectatorPipe<MaterialNumberService>;
   let materialInfoPipe: MaterialInfoPipe;
-  let materialTransformPipe: MaterialTransformPipe;
-  beforeEach(() => {
-    materialTransformPipe = new MaterialTransformPipe();
-    materialInfoPipe = new MaterialInfoPipe(materialTransformPipe);
+  let materialNumberService: MaterialNumberService;
+
+  const createPipe = createPipeFactory({
+    pipe: MaterialInfoPipe,
+    providers: [MaterialNumberService],
   });
+
+  beforeEach(() => {
+    spectator = createPipe();
+    materialNumberService = spectator.inject(MaterialNumberService);
+    materialInfoPipe = new MaterialInfoPipe(materialNumberService);
+  });
+
   test('create an instance', () => {
     expect(materialInfoPipe).toBeTruthy();
   });

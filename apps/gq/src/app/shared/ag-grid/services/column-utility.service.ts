@@ -28,9 +28,9 @@ import {
 import { LastCustomerPriceCondition } from '../../models/quotation-detail/last-customer-price-condition.enum';
 import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
 import { MaterialClassificationSOPPipe } from '../../pipes/material-classification-sop/material-classification-sop.pipe';
-import { MaterialTransformPipe } from '../../pipes/material-transform/material-transform.pipe';
 import { UomPipe } from '../../pipes/uom/uom.pipe';
 import { HelperService } from '../../services/helper-service/helper-service.service';
+import { MaterialNumberService } from '../../services/material-number/material-number.service';
 import { PriceService } from '../../services/price-service/price.service';
 import {
   CaseTableColumnFields,
@@ -46,12 +46,12 @@ type openInTarget = 'window' | 'tab';
   providedIn: 'root',
 })
 export class ColumnUtilityService {
-  static materialPipe = new MaterialTransformPipe();
   static materialClassificationSOPPipe = new MaterialClassificationSOPPipe();
 
   constructor(
     private readonly helperService: HelperService,
-    private readonly translocoLocaleService: TranslocoLocaleService
+    private readonly translocoLocaleService: TranslocoLocaleService,
+    private readonly materialNumberService: MaterialNumberService
   ) {}
 
   static dateFilterParams = {
@@ -153,18 +153,6 @@ export class ColumnUtilityService {
     return 0;
   }
 
-  static materialTransform(data: ValueFormatterParams): string {
-    return ColumnUtilityService.materialPipe.transform(data.value);
-  }
-
-  static materialGetter(params: ValueGetterParams): string {
-    const detail = params.data as QuotationDetail;
-
-    return ColumnUtilityService.materialPipe.transform(
-      detail.material.materialNumber15
-    );
-  }
-
   static basicTransform(data: ValueFormatterParams): string {
     return data.value || Keyboard.DASH;
   }
@@ -245,6 +233,18 @@ export class ColumnUtilityService {
       name: translate('shared.customContextMenuItems.openInNewTab'),
       action: () => openInNew(params, 'tab'),
     };
+  }
+
+  public materialTransform(data: ValueFormatterParams): string {
+    return this.materialNumberService.formatStringAsMaterialNumber(data.value);
+  }
+
+  public materialGetter(params: ValueGetterParams): string {
+    const detail = params.data as QuotationDetail;
+
+    return this.materialNumberService.formatStringAsMaterialNumber(
+      detail?.material?.materialNumber15
+    );
   }
 
   filterQuotationStatusColumns(colDef: ColDef, displayStatus: QuotationStatus) {

@@ -1,17 +1,17 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 import { MaterialDetails } from '../../models/quotation-detail';
-import { MaterialTransformPipe } from '../material-transform/material-transform.pipe';
+import { MaterialNumberService } from '../../services/material-number/material-number.service';
 
 @Pipe({
   name: 'materialInfo',
 })
 export class MaterialInfoPipe implements PipeTransform {
-  constructor(private readonly materialTransformPipe: MaterialTransformPipe) {}
+  constructor(private readonly materialNumberService: MaterialNumberService) {}
 
   transform(value: MaterialDetails): string {
-    return `${this.materialTransformPipe.transform(value.materialNumber15)} | ${
-      value.materialDescription
-    }`;
+    return `${this.materialNumberService.formatStringAsMaterialNumber(
+      value.materialNumber15
+    )} | ${value.materialDescription}`;
   }
 }
