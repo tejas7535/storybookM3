@@ -459,6 +459,12 @@
     "suggestions": "Suggestions",
     "noResultsTitle": "No Results",
     "noResultsText": "Try a different item",
-    "searchMaterialHint": "Find material in cases"
+    "searchMaterialHint": "Find material in cases",
+    "openCaseHint": "Open Case",
+    "customerNameLabel": "Customer name",
+    "customerNumberLabel": "Customer number",
+    "priceLabel": "Price",
+    "quantityLabel": "Quantity",
+    "gpiLabel": "GPI"
   }
 }

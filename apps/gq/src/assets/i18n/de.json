@@ -458,7 +458,13 @@
     "clear": "Leeren",
     "suggestions": "Vorschläge",
     "noResultsTitle": "Keine Ergebnisse",
-    "noResultsText": "Bitte probieren Sie eine andere Materialnummer oder Materialbeschreibung",
-    "searchMaterialHint": "Material in Angeboten finden"
+    "noResultsText": "Bitte probieren Sie eine andere Teilnummer oder Materialbeschreibung",
+    "searchMaterialHint": "Material in Angeboten finden",
+    "openCaseHint": "Case öffnen",
+    "customerNameLabel": "Kundenname",
+    "customerNumberLabel": "Kundennummer",
+    "priceLabel": "Preis",
+    "quantityLabel": "Menge",
+    "gpiLabel": "GPI"
   }
 }

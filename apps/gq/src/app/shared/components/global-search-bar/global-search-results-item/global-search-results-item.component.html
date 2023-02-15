@@ -1,0 +1,45 @@
+<div
+  class="group flex cursor-pointer flex-col py-3 pl-4 pr-4 text-body-1 hover:bg-hover-overlay"
+  *transloco="let t; read: 'searchBar'"
+  (click)="gqIdSelected.emit(searchResult.gqId)"
+>
+  <div class="flex items-center">
+    <p class="text-body-1 font-normal text-high-emphasis">
+      GQ {{ searchResult.gqId }}
+    </p>
+    <p class="hidden pl-2 text-caption text-medium-emphasis group-hover:block">
+      - {{ t('openCaseHint') }}
+    </p>
+  </div>
+  <div class="flex flex-row justify-between gap-4">
+    <div class="flex w-1/4 gap-2 whitespace-nowrap text-body-2">
+      <p class="text-medium-emphasis">{{ t('customerNameLabel') }}:</p>
+      <p
+        class="truncate"
+        matTooltipClass="whitespace-pre-line !bg-[#646464] !text-caption !text-high-emphasis-dark-bg !px-3 !py-1"
+        [matTooltip]="searchResult.customerName"
+        [matTooltipDisabled]="!text.isTruncated"
+        isTextTruncated
+        #text="isTextTruncated"
+      >
+        {{ searchResult.customerName }}
+      </p>
+    </div>
+    <div class="flex gap-2 whitespace-nowrap text-body-2">
+      <p class="text-medium-emphasis">{{ t('customerNumberLabel') }}:</p>
+      <p>{{ searchResult.customerNumber }}</p>
+    </div>
+    <div class="flex gap-2 whitespace-nowrap text-body-2">
+      <p class="text-medium-emphasis">{{ t('priceLabel') }}:</p>
+      <p>{{ searchResult.price }}</p>
+    </div>
+    <div class="flex gap-2 whitespace-nowrap text-body-2">
+      <p class="text-medium-emphasis">{{ t('quantityLabel') }}:</p>
+      <p>{{ searchResult.quantity }}</p>
+    </div>
+    <div class="flex gap-2 whitespace-nowrap text-body-2">
+      <p class="text-medium-emphasis">{{ t('gpiLabel') }}:</p>
+      <p>{{ searchResult.gpi }}</p>
+    </div>
+  </div>
+</div>
