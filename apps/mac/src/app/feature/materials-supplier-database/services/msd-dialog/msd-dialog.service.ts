@@ -8,6 +8,7 @@ import { ManufacturerSupplierInputDialogComponent } from '@mac/msd/main-table/ma
 import { MaterialInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/material-input-dialog.component';
 import { MaterialStandardInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/material-standard/material-standard-input-dialog.component';
 import { AluminumInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/materials/aluminum/aluminum-input-dialog.component';
+import { CeramicInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/materials/ceramic/ceramic-input-dialog.component';
 import { CopperInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/materials/copper/copper-input-dialog.component';
 import { SteelInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/materials/steel/steel-input-dialog.component';
 import { DataResult, MaterialFormValue } from '@mac/msd/models';
@@ -68,6 +69,8 @@ export class MsdDialogService {
             return SteelInputDialogComponent;
           case MaterialClass.COPPER:
             return CopperInputDialogComponent;
+          case MaterialClass.CERAMIC:
+            return CeramicInputDialogComponent;
           default:
             return SteelInputDialogComponent;
         }

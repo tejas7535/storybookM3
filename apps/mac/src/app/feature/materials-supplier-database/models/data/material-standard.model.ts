@@ -3,4 +3,5 @@ export interface MaterialStandard {
   materialName: string;
   standardDocument: string;
   materialNumber: string;
+  grade?: string;
 }

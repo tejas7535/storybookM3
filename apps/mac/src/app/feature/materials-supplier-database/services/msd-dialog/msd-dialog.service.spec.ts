@@ -11,6 +11,7 @@ import { DataResult } from '@mac/msd/models';
 
 import { ManufacturerSupplierInputDialogComponent } from '../../main-table/material-input-dialog/manufacturer-supplier/manufacturersupplier-input-dialog.component';
 import { MaterialStandardInputDialogComponent } from '../../main-table/material-input-dialog/material-standard/material-standard-input-dialog.component';
+import { CeramicInputDialogComponent } from '../../main-table/material-input-dialog/materials/ceramic/ceramic-input-dialog.component';
 import { CopperInputDialogComponent } from '../../main-table/material-input-dialog/materials/copper/copper-input-dialog.component';
 import { MsdDialogService } from './msd-dialog.service';
 
@@ -78,126 +79,72 @@ describe('MsdDialogService', () => {
     });
   });
 
-  describe('getDialogClass', () => {
-    it('should return the dialog class for default', () => {
-      // eslint-disable-next-line unicorn/no-useless-undefined
-      expect(JSON.stringify(service['getDialogClass']())).toEqual(
-        JSON.stringify(SteelInputDialogComponent)
+  describe('getDialogClass Material', () => {
+    const getDialogClass = (mc?: MaterialClass) =>
+      service['getDialogClass'](mc, NavigationLevel.MATERIAL).name;
+
+    it('should return the default dialog without arguments', () => {
+      expect(service['getDialogClass']().name).toBe(
+        SteelInputDialogComponent.name
+      );
+    });
+
+    it('should return the default dialog without navigation level', () => {
+      expect(service['getDialogClass'](MaterialClass.ALUMINUM).name).toBe(
+        SteelInputDialogComponent.name
       );
     });
 
     it('should return the dialog class for aluminum', () => {
-      expect(
-        JSON.stringify(service['getDialogClass'](MaterialClass.ALUMINUM))
-      ).toEqual(JSON.stringify(AluminumInputDialogComponent));
+      expect(getDialogClass(MaterialClass.ALUMINUM)).toBe(
+        AluminumInputDialogComponent.name
+      );
     });
     it('should return the dialog class for steel', () => {
-      expect(
-        JSON.stringify(service['getDialogClass'](MaterialClass.STEEL))
-      ).toEqual(JSON.stringify(SteelInputDialogComponent));
+      expect(getDialogClass(MaterialClass.STEEL)).toBe(
+        SteelInputDialogComponent.name
+      );
     });
     it('should return the dialog class for copper', () => {
-      expect(
-        JSON.stringify(service['getDialogClass'](MaterialClass.COPPER))
-      ).toEqual(JSON.stringify(CopperInputDialogComponent));
+      expect(getDialogClass(MaterialClass.COPPER)).toBe(
+        CopperInputDialogComponent.name
+      );
     });
     it('should return the dialog class for polymer', () => {
-      expect(
-        JSON.stringify(service['getDialogClass'](MaterialClass.POLYMER))
-      ).toEqual(JSON.stringify(SteelInputDialogComponent));
+      expect(getDialogClass(MaterialClass.POLYMER)).toBe(
+        SteelInputDialogComponent.name
+      );
     });
-    it('should return the dialog class for steel material', () => {
-      expect(
-        JSON.stringify(
-          service['getDialogClass'](
-            MaterialClass.STEEL,
-            NavigationLevel.MATERIAL
-          )
-        )
-      ).toEqual(JSON.stringify(SteelInputDialogComponent));
+    it('should return the dialog class for ceramic', () => {
+      expect(getDialogClass(MaterialClass.CERAMIC)).toBe(
+        CeramicInputDialogComponent.name
+      );
     });
-    it('should return the dialog class for aluminum material', () => {
-      expect(
-        JSON.stringify(
-          service['getDialogClass'](
-            MaterialClass.ALUMINUM,
-            NavigationLevel.MATERIAL
-          )
-        )
-      ).toEqual(JSON.stringify(AluminumInputDialogComponent));
-    });
-    it('should return the dialog class for polymer material', () => {
-      expect(
-        JSON.stringify(
-          service['getDialogClass'](
-            MaterialClass.POLYMER,
-            NavigationLevel.MATERIAL
-          )
-        )
-      ).toEqual(JSON.stringify(SteelInputDialogComponent));
-    });
+  });
 
-    it('should return the dialog class for steel material standard', () => {
-      expect(
-        JSON.stringify(
-          service['getDialogClass'](
-            MaterialClass.STEEL,
-            NavigationLevel.STANDARD
-          )
-        )
-      ).toEqual(JSON.stringify(MaterialStandardInputDialogComponent));
-    });
-    it('should return the dialog class for aluminum material standard', () => {
-      expect(
-        JSON.stringify(
-          service['getDialogClass'](
-            MaterialClass.ALUMINUM,
-            NavigationLevel.STANDARD
-          )
-        )
-      ).toEqual(JSON.stringify(MaterialStandardInputDialogComponent));
-    });
-    it('should return the dialog class for polymer material standard', () => {
-      expect(
-        JSON.stringify(
-          service['getDialogClass'](
-            MaterialClass.POLYMER,
-            NavigationLevel.STANDARD
-          )
-        )
-      ).toEqual(JSON.stringify(MaterialStandardInputDialogComponent));
-    });
-
-    it('should return the dialog class for steel supplier', () => {
-      expect(
-        JSON.stringify(
-          service['getDialogClass'](
-            MaterialClass.STEEL,
-            NavigationLevel.SUPPLIER
-          )
-        )
-      ).toEqual(JSON.stringify(ManufacturerSupplierInputDialogComponent));
-    });
-    it('should return the dialog class for aluminum supplier', () => {
-      expect(
-        JSON.stringify(
-          service['getDialogClass'](
-            MaterialClass.ALUMINUM,
-            NavigationLevel.SUPPLIER
-          )
-        )
-      ).toEqual(JSON.stringify(ManufacturerSupplierInputDialogComponent));
-    });
-    it('should return the dialog class for polymer supplier', () => {
-      expect(
-        JSON.stringify(
-          service['getDialogClass'](
-            MaterialClass.POLYMER,
-            NavigationLevel.SUPPLIER
-          )
-        )
-      ).toEqual(JSON.stringify(ManufacturerSupplierInputDialogComponent));
-    });
+  describe('getDialogClass MaterialStandard', () => {
+    it.each(Object.values(MaterialClass))(
+      'should return matstd dialog for any material - %p',
+      (mc) => {
+        const result = service['getDialogClass'](
+          mc,
+          NavigationLevel.STANDARD
+        ).name;
+        expect(result).toEqual(MaterialStandardInputDialogComponent.name);
+      }
+    );
+  });
+  describe('getDialogClass Supplier', () => {
+    it.each(Object.values(MaterialClass))(
+      'should return matstd dialog for any material - %p',
+      (mc) => {
+        const result = service['getDialogClass'](
+          mc,
+          NavigationLevel.SUPPLIER
+        ).name;
+        expect(result).toEqual(ManufacturerSupplierInputDialogComponent.name);
+      }
+    );
   });
 
   describe('openConfirmDeleteDialog', () => {

@@ -286,6 +286,9 @@
         "productCategoryText": "Product Category",
         "productionProcessText": "Production Process",
         "rating": "Supplier Rating",
+        "grade": "Grade",
+        "condition": "Condition",
+        "conditionText": "Condition",
         "ratingRemark": "Supplier Rating remark",
         "ratingChangeComment": "Rating change comment",
         "referenceDocument": "Referenced in Document (TODO)",
@@ -359,6 +362,7 @@
         "co2ValuesFilled": "The CO₂ values and the CO₂ classification have been filled automatically based on your selection.",
         "co2ValuesFilledWithOtherValues": "The CO₂ values and the CO₂ classification have been filled automatically based on your selection. There were {{ otherValues }} other values found matching your selection. The highest one has been chosen.",
         "continuous": "Continuous",
+        "condition": "Condition",
         "copperNumber": "Copper based material number",
         "createFailure": {
           "matStandard": {
@@ -505,7 +509,8 @@
       "st": "Steel",
       "al": "Aluminum",
       "px": "Polymer",
-      "cu": "Copper"
+      "cu": "Copper",
+      "ce": "Ceramic"
     },
     "status": {
       "statusValues": {
@@ -543,28 +548,42 @@
       "thermo": "Thermoplastics",
       "magnetwire": "Magnetwire / Enameled wire",
       "extrudedBar": "Extrudet bar",
-      "drawnBar": "Drawn bar"
+      "drawnBar": "Drawn bar",
+      "ball": "Ball",
+      "roller": "Roller"
     },
     "productionProcessValues": {
-      "mining": "Mining",
-      "leaching": "Leaching",
-      "solventExtraction": "Solvent Extraction",
-      "scrap": "Scrap / Waste",
-      "smelting": "Smelting",
-      "anodeCasting": "Anode Casting",
-      "electrolysis": "Electrolysis",
-      "melting": "Melting",
-      "alloying": "Alloying",
-      "slabs": "Casting (slabs)",
-      "shapes": "Casting (shapes)",
-      "rod": "Casting (rod)",
-      "strip": "Casting (strip)",
-      "centrifugal": "Casting (cent.)",
-      "hotRolling": "Hot rolling",
-      "coldRolling": "Cold rolling",
-      "drawing": "Drawing",
-      "machining": "Machining",
-      "unknown": "Unknown"
+      "co": {
+        "mining": "Mining",
+        "leaching": "Leaching",
+        "solventExtraction": "Solvent Extraction",
+        "scrap": "Scrap / Waste",
+        "smelting": "Smelting",
+        "anodeCasting": "Anode Casting",
+        "electrolysis": "Electrolysis",
+        "melting": "Melting",
+        "alloying": "Alloying",
+        "slabs": "Casting (slabs)",
+        "shapes": "Casting (shapes)",
+        "rod": "Casting (rod)",
+        "strip": "Casting (strip)",
+        "centrifugal": "Casting (cent.)",
+        "hotRolling": "Hot rolling",
+        "coldRolling": "Cold rolling",
+        "drawing": "Drawing",
+        "machining": "Machining",
+        "unknown": "Unknown"
+      },
+      "ce": {
+        "spray": "Spray",
+        "other": "other"
+      }
+    },
+    "condition": {
+      "ce": {
+        "semiFin": "Semi Finished",
+        "fin": "Finished"
+      }
     },
     "reload": "Reload",
     "resetTable": "Reset Table",

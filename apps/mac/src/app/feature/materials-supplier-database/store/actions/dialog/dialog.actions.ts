@@ -151,6 +151,17 @@ export const fetchCastingModesFailure = createAction(
   '[MSD - Dialog] Fetch Casting Modes Failure'
 );
 
+export const fetchConditions = createAction('[MSD - Dialog] Fetch Conditions');
+
+export const fetchConditionsSuccess = createAction(
+  '[MSD - Dialog] Fetch Conditions Success',
+  props<{ conditions: StringOption[] }>()
+);
+
+export const fetchConditionsFailure = createAction(
+  '[MSD - Dialog] Fetch Conditions Failure'
+);
+
 export const createMaterialComplete = createAction(
   '[MSD - Dialog] Create Material Complete',
   props<{ record: CreateMaterialRecord }>()

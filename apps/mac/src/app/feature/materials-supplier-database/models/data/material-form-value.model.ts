@@ -26,9 +26,12 @@ export interface MaterialFormValue {
   materialNumber: string;
   manufacturer: boolean;
   recyclingRate: number;
+  coating: StringOption;
+  condition: StringOption;
 
   standardDocument: StringOption;
   materialName: StringOption;
+  grade: string;
   supplier: StringOption;
   supplierPlant: StringOption;
   supplierCountry: StringOption;

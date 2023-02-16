@@ -6,6 +6,9 @@ import {
   ALUMINUM_STATIC_QUICKFILTERS,
   ALUMINUM_SUPPLIERS_STATIC_QUICKFILTERS,
 } from './aluminum';
+import { CERAMIC_MATERIAL_STANDARDS_STATIC_QUICKFILTERS } from './ceramic/ceramic-material-standards-quickfilter-definitions';
+import { CERAMIC_STATIC_QUICKFILTERS } from './ceramic/ceramic-quickfilter-definitions';
+import { CERAMIC_SUPPLIERS_STATIC_QUICKFILTERS } from './ceramic/ceramic-suppliers-quickfilter-definitions';
 import {
   COPPER_MATERIAL_STANDARDS_STATIC_QUICKFILTERS,
   COPPER_STATIC_QUICKFILTERS,
@@ -53,6 +56,12 @@ export const STATIC_QUICKFILTERS_MAPPING: MsdStaticQuickFiltersMapping = {
       [NavigationLevel.MATERIAL]: COPPER_STATIC_QUICKFILTERS,
       [NavigationLevel.SUPPLIER]: COPPER_SUPPLIERS_STATIC_QUICKFILTERS,
       [NavigationLevel.STANDARD]: COPPER_MATERIAL_STANDARDS_STATIC_QUICKFILTERS,
+    },
+    [MaterialClass.CERAMIC]: {
+      [NavigationLevel.MATERIAL]: CERAMIC_STATIC_QUICKFILTERS,
+      [NavigationLevel.SUPPLIER]: CERAMIC_SUPPLIERS_STATIC_QUICKFILTERS,
+      [NavigationLevel.STANDARD]:
+        CERAMIC_MATERIAL_STANDARDS_STATIC_QUICKFILTERS,
     },
   },
 };

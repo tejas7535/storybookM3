@@ -26,6 +26,7 @@ import { DialogControlsService } from '@mac/msd/main-table/material-input-dialog
 import { ManufacturerSupplierInputDialogComponent } from '../manufacturer-supplier/manufacturersupplier-input-dialog.component';
 import { MaterialStandardInputDialogComponent } from '../material-standard/material-standard-input-dialog.component';
 import { AluminumInputDialogComponent } from './aluminum/aluminum-input-dialog.component';
+import { CeramicInputDialogComponent } from './ceramic/ceramic-input-dialog.component';
 import { CopperInputDialogComponent } from './copper/copper-input-dialog.component';
 import { SteelInputDialogComponent } from './steel/steel-input-dialog.component';
 
@@ -36,6 +37,7 @@ import { SteelInputDialogComponent } from './steel/steel-input-dialog.component'
     AluminumInputDialogComponent,
     SteelInputDialogComponent,
     CopperInputDialogComponent,
+    CeramicInputDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -64,6 +66,7 @@ import { SteelInputDialogComponent } from './steel/steel-input-dialog.component'
     AluminumInputDialogComponent,
     SteelInputDialogComponent,
     CopperInputDialogComponent,
+    CeramicInputDialogComponent,
   ],
   providers: [DialogControlsService],
 })

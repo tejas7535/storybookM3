@@ -30,4 +30,6 @@ export const GENERAL_DESCRIPTION = 'generalDescription';
 export const STATUS = 'status';
 export const ACTION = 'action';
 export const HISTORY = 'history';
+export const GRADE = 'grade';
+export const CONDITION = 'conditionText';
 export const PRODUCTION_PROCESS = 'productionProcessText';

@@ -60,6 +60,8 @@ export class DialogEffects {
               DialogActions.fetchSteelMakingProcesses(),
               DialogActions.fetchCastingModes(),
             ];
+          case MaterialClass.CERAMIC:
+            return [...baseActions, DialogActions.fetchConditions()];
           default:
             return baseActions;
         }
@@ -211,6 +213,24 @@ export class DialogEffects {
           catchError(() =>
             // TODO: implement proper error handling
             of(DialogActions.fetchProductCategoriesFailure())
+          )
+        )
+      )
+    );
+  });
+
+  public fetchConditions$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.fetchConditions),
+      concatLatestFrom(() => this.dataFacade.materialClass$),
+      switchMap(([_action, materialClass]) =>
+        this.msdDataService.fetchConditions(materialClass).pipe(
+          map((conditions: StringOption[]) =>
+            DialogActions.fetchConditionsSuccess({ conditions })
+          ),
+          catchError(() =>
+            // TODO: implement proper error handling
+            of(DialogActions.fetchConditionsFailure())
           )
         )
       )
@@ -815,6 +835,14 @@ export class DialogEffects {
             },
             manufacturer: material.manufacturer,
             selfCertified: material.selfCertified,
+            condition: material.condition
+              ? {
+                  id: material.condition,
+                  title: translate(
+                    `materialsSupplierDatabase.condition.${material.materialClass}.${material.condition}`
+                  ),
+                }
+              : undefined,
           };
 
         return DialogActions.setMaterialFormValue({ parsedMaterial });

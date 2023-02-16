@@ -82,6 +82,13 @@ export const createMaterialFormValue = (
     };
   }
 
+  if (type === MaterialClass.CERAMIC) {
+    return {
+      ...base,
+      condition: rndOpt(),
+    };
+  }
+
   return base;
 };
 
@@ -136,6 +143,8 @@ export const transformAsMaterialRequest = (values: MaterialFormValue) => {
     releaseDateMonth: values.releaseDateMonth,
     releaseDateYear: values.releaseDateYear,
     selfCertified: values.selfCertified,
+    recyclingRate: values.recyclingRate,
+    condition: values.condition?.id as string,
     blocked: values.blocked,
   };
 

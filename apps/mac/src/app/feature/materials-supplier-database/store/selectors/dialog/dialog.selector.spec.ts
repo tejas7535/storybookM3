@@ -110,6 +110,7 @@ describe('DialogSelectors', () => {
         productionProcessesLoading: boolean;
         manufacturerSuppliersLoading: boolean;
         productCategoriesLoading: boolean;
+        conditionsLoading: boolean;
       } = {
         ratingsLoading: false,
         castingModesLoading: false,
@@ -119,6 +120,7 @@ describe('DialogSelectors', () => {
         productionProcessesLoading: false,
         manufacturerSuppliersLoading: false,
         productCategoriesLoading: false,
+        conditionsLoading: false,
       };
 
       const result =
@@ -141,6 +143,7 @@ describe('DialogSelectors', () => {
       productionProcessesLoading: false,
       manufacturerSuppliersLoading: false,
       productCategoriesLoading: false,
+      conditionsLoading: false,
     };
 
     const result = DialogSelectors.getMaterialDialogOptionsLoading.projector({
@@ -200,6 +203,12 @@ describe('DialogSelectors', () => {
       },
       true,
     ],
+    [
+      {
+        conditionsLoading: true,
+      },
+      true,
+    ],
   ])(
     'should return true if at least one part of the options is loading',
     (replaceOptions, expected) => {
@@ -212,6 +221,7 @@ describe('DialogSelectors', () => {
         productionProcessesLoading: false,
         manufacturerSuppliersLoading: false,
         productCategoriesLoading: false,
+        conditionsLoading: false,
       };
 
       const result = DialogSelectors.getMaterialDialogOptionsLoading.projector({
@@ -233,6 +243,7 @@ describe('DialogSelectors', () => {
       productionProcessesLoading: false,
       manufacturerSuppliersLoading: false,
       productCategoriesLoading: false,
+      conditionsLoading: false,
     };
 
     const result =

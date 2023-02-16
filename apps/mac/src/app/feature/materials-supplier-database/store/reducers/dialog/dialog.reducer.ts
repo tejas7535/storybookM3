@@ -33,6 +33,9 @@ import {
   fetchCo2ClassificationsSuccess,
   fetchCo2ValuesForSupplierSteelMakingProcessFailure,
   fetchCo2ValuesForSupplierSteelMakingProcessSuccess,
+  fetchConditions,
+  fetchConditionsFailure,
+  fetchConditionsSuccess,
   fetchEditMaterialNameDataFailure,
   fetchEditMaterialNameDataSuccess,
   fetchEditMaterialSuppliersFailure,
@@ -97,6 +100,8 @@ export interface DialogState {
     customManufacturerSupplierPlants: string[];
     customManufacturerSupplierCountries: string[];
     manufacturerSuppliersLoading: boolean;
+    conditions: StringOption[];
+    conditionsLoading: boolean;
     productCategories: StringOption[];
     productCategoriesLoading: boolean;
     productionProcesses: StringOption[];
@@ -529,6 +534,42 @@ export const dialogReducer = createReducer(
       },
     })
   ),
+
+  on(
+    fetchConditions,
+    (state): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        conditions: undefined,
+        conditionsLoading: true,
+      },
+    })
+  ),
+  on(
+    fetchConditionsSuccess,
+    (state, { conditions }): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        conditions,
+        conditionsLoading: false,
+      },
+    })
+  ),
+  on(
+    fetchConditionsFailure,
+    (state): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        conditions: undefined,
+        conditionsLoading: undefined,
+        error: true,
+      },
+    })
+  ),
+
   on(
     materialDialogConfirmed,
     (state): DialogState => ({

@@ -12,6 +12,18 @@ import {
   AluminumMaterialStandardForm,
   AluminumMaterialStandardFormValue,
   AluminumMaterialStandardTableValue,
+  CeramicManufacturerSupplier,
+  CeramicManufacturerSupplierForm,
+  CeramicManufacturerSupplierFormValue,
+  CeramicManufacturerSupplierTableValue,
+  CeramicMaterialForm,
+  CeramicMaterialFormValue,
+  CeramicMaterialRequest,
+  CeramicMaterialResponse,
+  CeramicMaterialStandard,
+  CeramicMaterialStandardForm,
+  CeramicMaterialStandardFormValue,
+  CeramicMaterialStandardTableValue,
   CopperManufacturerSupplier,
   CopperManufacturerSupplierForm,
   CopperManufacturerSupplierFormValue,
@@ -46,64 +58,79 @@ import {
   SteelMaterialStandardTableValue,
 } from '@mac/msd/models';
 
+import { CeramicMaterial } from '../ceramic/ceramic-material.model';
+
 // TODO: Rename to Material once the migration to API V3 is done
 export type MaterialV2 =
   | AluminumMaterial
   | SteelMaterial
   | PolymerMaterial
-  | CopperMaterial;
+  | CopperMaterial
+  | CeramicMaterial;
 export type MaterialResponse =
   | AluminumMaterialResponse
   | SteelMaterialResponse
   | PolymerMaterialResponse
-  | CopperMaterialResponse;
+  | CopperMaterialResponse
+  | CeramicMaterialResponse;
 // TODO: Rename to ManufacturerSupplier once the migration to API V3 is done
 export type ManufacturerSupplierV2 =
   | AluminumManufacturerSupplier
   | SteelManufacturerSupplier
   | PolymerManufacturerSupplier
-  | CopperManufacturerSupplier;
+  | CopperManufacturerSupplier
+  | CeramicManufacturerSupplier;
 // TODO: Rename to MaterialStandard once the migration to API V3 is done
 export type MaterialStandardV2 =
   | AluminumMaterialStandard
   | SteelMaterialStandard
   | PolymerMaterialStandard
-  | CopperMaterialStandard;
+  | CopperMaterialStandard
+  | CeramicMaterialStandard;
 export type MaterialFormValueV2 =
   | AluminumMaterialFormValue
   | SteelMaterialFormValue
-  | CopperMaterialFormValue;
+  | CopperMaterialFormValue
+  | CeramicMaterialFormValue;
 export type MaterialForm =
   | AluminumMaterialForm
   | SteelMaterialForm
-  | CopperMaterialForm;
+  | CopperMaterialForm
+  | CeramicMaterialForm;
 export type MaterialStandardForm =
   | AluminumMaterialStandardForm
   | SteelMaterialStandardForm
-  | CopperMaterialStandardForm;
+  | CopperMaterialStandardForm
+  | CeramicMaterialStandardForm;
 export type MaterialStandardFormValue =
   | AluminumMaterialStandardFormValue
   | SteelMaterialStandardFormValue
-  | CopperMaterialStandardFormValue;
+  | CopperMaterialStandardFormValue
+  | CeramicMaterialStandardFormValue;
 export type ManufacturerSupplierForm =
   | AluminumManufacturerSupplierForm
   | SteelManufacturerSupplierForm
-  | CopperManufacturerSupplierForm;
+  | CopperManufacturerSupplierForm
+  | CeramicManufacturerSupplierForm;
 export type ManufacturerSupplierFormValue =
   | AluminumManufacturerSupplierFormValue
   | SteelManufacturerSupplierFormValue
-  | CopperManufacturerSupplierFormValue;
+  | CopperManufacturerSupplierFormValue
+  | CeramicManufacturerSupplierFormValue;
 export type MaterialRequest =
   | AluminumMaterialRequest
   | SteelMaterialRequest
-  | CopperMaterialRequest;
+  | CopperMaterialRequest
+  | CeramicMaterialRequest;
 export type ManufacturerSupplierTableValue =
   | AluminumManufacturerSupplierTableValue
   | PolymerManufacturerSupplierTableValue
   | SteelManufacturerSupplierTableValue
-  | CopperManufacturerSupplierTableValue;
+  | CopperManufacturerSupplierTableValue
+  | CeramicManufacturerSupplierTableValue;
 export type MaterialStandardTableValue =
   | AluminumMaterialStandardTableValue
   | PolymerMaterialStandardTableValue
   | SteelMaterialStandardTableValue
-  | CopperMaterialStandardTableValue;
+  | CopperMaterialStandardTableValue
+  | CeramicMaterialStandardTableValue;

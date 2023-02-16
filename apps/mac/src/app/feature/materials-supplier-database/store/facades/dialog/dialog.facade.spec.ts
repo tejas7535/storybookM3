@@ -55,6 +55,7 @@ describe('DialogFacade', () => {
                 steelMakingProcessesLoading: false,
                 co2ClassificationsLoading: false,
                 castingModesLoading: false,
+                conditionsLoading: false,
                 ratings: ['rating'],
                 co2Classifications: [
                   {
@@ -74,6 +75,7 @@ describe('DialogFacade', () => {
                     tooltipDelay: 1500,
                   },
                 ],
+                conditions: [],
                 materialStandards: [mockMaterialStandard],
                 manufacturerSuppliers: [mockManufacturerSupplier],
                 productCategories: mockProductCategoryOptions,

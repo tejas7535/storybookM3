@@ -22,7 +22,6 @@ import { PushModule } from '@ngrx/component';
 import { DefaultProjectorFn, MemoizedSelector } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { StringOption } from '@schaeffler/inputs';
 import { SelectModule } from '@schaeffler/inputs/select';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -31,13 +30,7 @@ import {
   CreateMaterialErrorState,
   CreateMaterialRecord,
 } from '@mac/msd/models';
-import {
-  addCustomCastingDiameter,
-  addCustomReferenceDocument,
-  fetchCastingDiameters,
-  fetchReferenceDocuments,
-  materialDialogConfirmed,
-} from '@mac/msd/store/actions/dialog';
+import { materialDialogConfirmed } from '@mac/msd/store/actions/dialog';
 import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
 import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
 import { getCreateMaterialRecord } from '@mac/msd/store/selectors';
@@ -54,11 +47,11 @@ import * as en from '../../../../../../../assets/i18n/en.json';
 import { BaseDialogModule } from '../../base-dialog/base-dialog.module';
 import { MaterialInputDialogModule } from '../../material-input-dialog.module';
 import { DialogControlsService } from '../../services';
-import { CopperInputDialogComponent } from './copper-input-dialog.component';
+import { CeramicInputDialogComponent } from './ceramic-input-dialog.component';
 
-describe('CopperInputDialogComponent', () => {
-  let component: CopperInputDialogComponent;
-  let spectator: Spectator<CopperInputDialogComponent>;
+describe('CeramicInputDialogComponent', () => {
+  let component: CeramicInputDialogComponent;
+  let spectator: Spectator<CeramicInputDialogComponent>;
 
   const initialState = {
     msd: {
@@ -96,7 +89,7 @@ describe('CopperInputDialogComponent', () => {
   let createMaterialSpy: MemoizedSelector<any, any, DefaultProjectorFn<any>>;
 
   const createComponent = createComponentFactory({
-    component: CopperInputDialogComponent,
+    component: CeramicInputDialogComponent,
     imports: [
       CommonModule,
       MatProgressSpinnerModule,
@@ -156,105 +149,12 @@ describe('CopperInputDialogComponent', () => {
 
       expect(component.createMaterialForm).toBeTruthy();
     });
-
-    it('should enable casting Mode', () => {
-      expect(component['castingModesControl'].enabled).toBeFalsy();
-      const val = {} as StringOption;
-      component['supplierCountryControl'].setValue(val);
-      expect(component['castingModesControl'].enabled).toBeTruthy();
-    });
-
-    it('should disable casting Mode', () => {
-      expect(component['castingModesControl'].enabled).toBeFalsy();
-      // enable
-      const val = {} as StringOption;
-      component['supplierCountryControl'].setValue(val);
-      expect(component['castingModesControl'].enabled).toBeTruthy();
-      // disable
-      component['supplierCountryControl'].reset();
-      expect(component['castingModesControl'].enabled).toBeFalsy();
-    });
-
-    it('should disable casting Diameter', () => {
-      component['castingDiameterControl'].reset = jest.fn();
-      component['castingDiameterControl'].disable = jest.fn();
-
-      component['castingModesControl'].enable();
-      component['castingModesControl'].setValue('X', { emitEvent: false });
-      component['castingModesControl'].reset();
-
-      expect(component['castingDiameterControl'].reset).toHaveBeenCalled();
-      expect(component['castingDiameterControl'].disable).toHaveBeenCalled();
-    });
-
-    it('should enable casting Diameter', () => {
-      expect(component['castingDiameterControl'].enabled).toBeFalsy();
-      component['castingModesControl'].enable();
-      component['castingModesControl'].setValue('mode');
-
-      expect(component['castingDiameterControl'].enabled).toBeTruthy();
-      expect(store.dispatch).not.toHaveBeenCalled();
-    });
-
-    it('should enable casting Diameter and fetch them', () => {
-      component['castingModesControl'].enable();
-      expect(component['castingDiameterControl'].enabled).toBeFalsy();
-      const castingMode = 'mode';
-      const supplierId = 1;
-
-      component['castingModesControl'].setValue(castingMode, {
-        emitEvent: false,
-      });
-      component['manufacturerSupplierIdControl'].setValue(supplierId);
-
-      expect(component['castingDiameterControl'].enabled).toBeTruthy();
-      expect(store.dispatch).toHaveBeenCalledWith(
-        fetchCastingDiameters({ supplierId, castingMode })
-      );
-    });
-  });
-
-  describe('modify material standard', () => {
-    it('should dispatch fetch action for reference documents on material standard id change', () => {
-      component.materialStandardIdControl.setValue(5);
-
-      expect(store.dispatch).toHaveBeenCalledWith(
-        fetchReferenceDocuments({ materialStandardId: 5 })
-      );
-    });
-    it('should not dispatch action with no id number', () => {
-      component.materialStandardIdControl.reset();
-
-      expect(store.dispatch).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('addReferenceDocument', () => {
-    it('should add values to select', () => {
-      const referenceDocument = 'string';
-      component.addReferenceDocument(referenceDocument);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        addCustomReferenceDocument({ referenceDocument })
-      );
-    });
-  });
-
-  describe('addCastingDiameter', () => {
-    it('should add values to select', () => {
-      const castingDiameter = 'string';
-      component.addCastingDiameter(castingDiameter);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        addCustomCastingDiameter({ castingDiameter })
-      );
-    });
   });
 
   describe('confirmMaterial', () => {
     beforeEach(() => {
       component.supplierPlantControl.enable({ emitEvent: false });
       component.supplierCountryControl.enable({ emitEvent: false });
-      component.castingDiameterControl.enable({ emitEvent: false });
-      component.castingModesControl.enable({ emitEvent: false });
       component.co2ClassificationControl.enable({ emitEvent: false });
     });
     const update = (error: boolean) => {
@@ -274,7 +174,7 @@ describe('CopperInputDialogComponent', () => {
       component.showInSnackbar = jest.fn();
     });
     it('should close dialog on successful confirm', () => {
-      const values = createMaterialFormValue(MaterialClass.COPPER);
+      const values = createMaterialFormValue(MaterialClass.CERAMIC);
       component.createMaterialForm.patchValue(values, { emitEvent: false });
 
       component.confirmMaterial(false);
@@ -289,7 +189,7 @@ describe('CopperInputDialogComponent', () => {
     });
 
     it('should close dialog on successful confirm with empty material number', () => {
-      const baseValues = createMaterialFormValue(MaterialClass.COPPER);
+      const baseValues = createMaterialFormValue(MaterialClass.CERAMIC);
       const values = {
         ...baseValues,
         materialNumber: '',
@@ -307,7 +207,7 @@ describe('CopperInputDialogComponent', () => {
       expect(component.showInSnackbar).toBeCalled();
     });
     it('should not close dialog on successful confirm with createAnother', () => {
-      const values = createMaterialFormValue(MaterialClass.COPPER);
+      const values = createMaterialFormValue(MaterialClass.CERAMIC);
       component.createMaterialForm.patchValue(values, { emitEvent: false });
 
       component.confirmMaterial(true);
@@ -321,7 +221,7 @@ describe('CopperInputDialogComponent', () => {
       expect(component.showInSnackbar).toBeCalled();
     });
     it('should keep the dialog open on error', () => {
-      const values = createMaterialFormValue(MaterialClass.COPPER);
+      const values = createMaterialFormValue(MaterialClass.CERAMIC);
       component.createMaterialForm.patchValue(values, { emitEvent: false });
 
       component.confirmMaterial(false);
@@ -335,7 +235,7 @@ describe('CopperInputDialogComponent', () => {
       expect(component.showInSnackbar).toBeCalled();
     });
     it('should keep the dialog open on error with createAnother', () => {
-      const values = createMaterialFormValue(MaterialClass.COPPER);
+      const values = createMaterialFormValue(MaterialClass.CERAMIC);
       component.createMaterialForm.patchValue(values, { emitEvent: false });
 
       component.confirmMaterial(true);

@@ -1598,6 +1598,7 @@ describe('Dialog Effects', () => {
   });
 
   describe('parseMaterialFormValue$', () => {
+    const toStrOpt = (id: string) => ({ id, title: id } as StringOption);
     it(
       'should return set material form value action',
       marbles((m) => {
@@ -1634,17 +1635,15 @@ describe('Dialog Effects', () => {
           ratingRemark: 'remark',
           ratingChangeComment: 'comment',
           manufacturer: false,
+          condition: 'condition',
           recyclingRate: 44,
         } as DataResult;
 
         const expectedFormValue: Partial<MaterialFormValue> = {
           manufacturerSupplierId: 1,
           materialStandardId: 2,
-          productCategory: {
-            id: 'brightBar',
-            title: 'brightBar',
-          },
-          referenceDoc: [{ id: 'reference', title: 'reference' }],
+          productCategory: toStrOpt('brightBar'),
+          referenceDoc: [toStrOpt('reference')],
           co2Scope1: 1,
           co2Scope2: 1,
           co2Scope3: 1,
@@ -1659,15 +1658,12 @@ describe('Dialog Effects', () => {
           releaseRestrictions: 'restriction',
           blocked: false,
           castingMode: 'mode',
-          castingDiameter: { id: 'diameter', title: 'diameter' },
+          castingDiameter: toStrOpt('diameter'),
           maxDimension: 1,
           minDimension: 1,
-          steelMakingProcess: {
-            id: 'process',
-            title: 'process',
-          },
+          steelMakingProcess: toStrOpt('process'),
           productionProcess: undefined,
-          rating: { id: 'rating', title: 'rating' },
+          rating: toStrOpt('rating'),
           ratingRemark: 'remark',
           selfCertified: true,
           recyclingRate: 44,
@@ -1704,11 +1700,9 @@ describe('Dialog Effects', () => {
               supplierCountry: 'country',
             },
           },
-          supplierCountry: {
-            id: 'country',
-            title: 'country',
-          },
+          supplierCountry: toStrOpt('country'),
           manufacturer: false,
+          condition: toStrOpt('condition'),
         };
 
         const editMaterial: any = {
@@ -1776,16 +1770,14 @@ describe('Dialog Effects', () => {
           materialNumbers: ['1', '2'],
           recyclingRate: 33,
           manufacturer: false,
+          condition: 'condition',
         } as DataResult;
 
         const expectedFormValue: Partial<MaterialFormValue> = {
           manufacturerSupplierId: 1,
           materialStandardId: 1,
-          productCategory: {
-            id: 'brightBar',
-            title: 'brightBar',
-          },
-          referenceDoc: [{ id: 'reference', title: 'reference' }],
+          productCategory: toStrOpt('brightBar'),
+          referenceDoc: [toStrOpt('reference')],
           co2Scope1: 1,
           co2Scope2: 1,
           co2Scope3: 1,
@@ -1803,7 +1795,7 @@ describe('Dialog Effects', () => {
           maxDimension: 1,
           minDimension: 1,
           steelMakingProcess: undefined,
-          productionProcess: { id: 'something', title: 'something' },
+          productionProcess: toStrOpt('something'),
           rating: { id: undefined, title: 'none' },
           ratingRemark: 'remark',
           materialNumber: '1, 2',
@@ -1832,11 +1824,9 @@ describe('Dialog Effects', () => {
               supplierCountry: 'country',
             },
           },
-          supplierCountry: {
-            id: 'country',
-            title: 'country',
-          },
+          supplierCountry: toStrOpt('country'),
           manufacturer: false,
+          condition: toStrOpt('condition'),
         };
 
         const editMaterial: any = {

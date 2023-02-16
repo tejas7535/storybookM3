@@ -1,0 +1,21 @@
+import { QuickFilter } from '@mac/feature/materials-supplier-database/models';
+import {
+  LAST_MODIFIED,
+  MATERIAL_STANDARD_MATERIAL_NAME,
+  MATERIAL_STANDARD_STANDARD_DOCUMENT,
+  STATUS,
+} from '@mac/msd/constants';
+
+export const CERAMIC_MATERIAL_STANDARDS_STATIC_QUICKFILTERS: QuickFilter[] = [
+  {
+    title: 'default',
+    filter: {},
+    columns: [
+      MATERIAL_STANDARD_MATERIAL_NAME,
+      MATERIAL_STANDARD_STANDARD_DOCUMENT,
+      STATUS,
+      LAST_MODIFIED,
+    ],
+    custom: false,
+  },
+];

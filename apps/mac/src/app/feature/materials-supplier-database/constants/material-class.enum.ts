@@ -3,4 +3,7 @@ export enum MaterialClass {
   ALUMINUM = 'al',
   POLYMER = 'px',
   COPPER = 'cu',
+  CERAMIC = 'ce',
 }
+
+export const SupportedMaterialClasses = Object.values(MaterialClass);

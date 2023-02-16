@@ -9,7 +9,7 @@ import { translate } from '@ngneat/transloco';
 import { StringOption } from '@schaeffler/inputs';
 
 import { environment } from '@mac/environments/environment';
-import { MaterialClass } from '@mac/msd/constants';
+import { MaterialClass, SupportedMaterialClasses } from '@mac/msd/constants';
 import {
   ManufacturerSupplierTableValue,
   ManufacturerSupplierV2,
@@ -36,7 +36,12 @@ export class MsdDataService {
   public getMaterialClasses() {
     return this.httpClient
       .get<string[]>(`${this.BASE_URL}/materials/materialClasses`)
-      .pipe(map((materialClasses) => materialClasses as MaterialClass[]));
+      .pipe(
+        map((materialClasses) => materialClasses as MaterialClass[]),
+        map((materialClasses) =>
+          materialClasses.filter((mc) => SupportedMaterialClasses.includes(mc))
+        )
+      );
   }
 
   public getProductCategories(materialClass: MaterialClass) {
@@ -201,7 +206,7 @@ export class MsdDataService {
         'productionProcess' in materialResponse &&
         materialResponse.productionProcess
           ? translate(
-              `materialsSupplierDatabase.productionProcessValues.${materialResponse.productionProcess}`
+              `materialsSupplierDatabase.productionProcessValues.${materialResponse.materialClass}.${materialResponse.productionProcess}`
             )
           : undefined,
       recyclingRate:
@@ -218,6 +223,17 @@ export class MsdDataService {
         'ratingChangeComment' in materialResponse
           ? materialResponse.ratingChangeComment
           : undefined,
+      condition:
+        'condition' in materialResponse
+          ? materialResponse.condition
+          : undefined,
+      conditionText:
+        'condition' in materialResponse && materialResponse.condition
+          ? translate(
+              `materialsSupplierDatabase.condition.${materialResponse.materialClass}.${materialResponse.condition}`
+            )
+          : undefined,
+
       lastModified: materialResponse.timestamp,
       modifiedBy: materialResponse.modifiedBy,
     } as unknown as T;
@@ -326,7 +342,7 @@ export class MsdDataService {
         map((processes) =>
           processes.map((process) => {
             const title = translate(
-              `materialsSupplierDatabase.productionProcessValues.${process}`
+              `materialsSupplierDatabase.productionProcessValues.${materialClass}.${process}`
             );
 
             return {
@@ -342,7 +358,7 @@ export class MsdDataService {
 
   public fetchCo2Classifications(_materialClass: MaterialClass) {
     return this.httpClient
-      .get<string[]>(`${this.BASE_URL}/materials/st/co2Classifications`)
+      .get<string[]>(`${this.BASE_URL}/materials/co2Classifications`)
       .pipe(
         map((co2Classifications) =>
           co2Classifications.map((co2Classification) => {
@@ -415,6 +431,27 @@ export class MsdDataService {
       `${this.BASE_URL}/materials/${materialClass}/query`,
       body
     );
+  }
+
+  public fetchConditions(materialClass: MaterialClass) {
+    return this.httpClient
+      .get<string[]>(`${this.BASE_URL}/materials/${materialClass}/conditions`)
+      .pipe(
+        map((conditions) =>
+          conditions.map((condition) => {
+            const title = translate(
+              `materialsSupplierDatabase.condition.${materialClass}.${condition}`
+            );
+
+            return {
+              id: condition,
+              tooltipDelay: this.TOOLTIP_DELAY,
+              tooltip: title,
+              title,
+            } as StringOption;
+          })
+        )
+      );
   }
 
   public fetchStandardDocumentsForMaterialName(

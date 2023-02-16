@@ -306,17 +306,8 @@ export class MaterialInputDialogComponent
     return this.dialogData?.editDialogInformation?.column;
   }
 
-  public confirmMaterial(createAnother: boolean): void {
-    const materialNumberValue = this.createMaterialForm.value?.materialNumber;
-    const baseMaterial = {
-      ...(this.createMaterialForm.value as MaterialFormValueV2),
-      materialNumber:
-        materialNumberValue && materialNumberValue.length > 0
-          ? materialNumberValue.split(',')
-          : undefined,
-    };
-
-    const standard: MaterialStandardV2 = {
+  protected buildMaterialStandard(baseMaterial: any): MaterialStandardV2 {
+    return {
       id: baseMaterial.materialStandardId,
       materialName: baseMaterial.materialName.title,
       materialNumber:
@@ -325,8 +316,12 @@ export class MaterialInputDialogComponent
           : undefined,
       standardDocument: baseMaterial.standardDocument.title,
     };
+  }
 
-    const supplier: ManufacturerSupplierV2 = {
+  protected buildManufacturerSupplier(
+    baseMaterial: MaterialFormValueV2
+  ): ManufacturerSupplierV2 {
+    return {
       id: baseMaterial.manufacturerSupplierId,
       name: baseMaterial.supplier.title,
       plant: baseMaterial.supplierPlant.title,
@@ -334,8 +329,10 @@ export class MaterialInputDialogComponent
       manufacturer:
         'manufacturer' in baseMaterial ? baseMaterial.manufacturer : undefined,
     };
+  }
 
-    const material: MaterialRequest = {
+  protected buildMaterial(baseMaterial: MaterialFormValueV2): MaterialRequest {
+    return {
       // TODO: should not be hardcoded later on
       id: this.materialId,
       manufacturerSupplierId: baseMaterial.manufacturerSupplierId,
@@ -400,8 +397,27 @@ export class MaterialInputDialogComponent
         'recyclingRate' in baseMaterial
           ? baseMaterial.recyclingRate
           : undefined,
+      condition:
+        'condition' in baseMaterial
+          ? (baseMaterial.condition.id as string)
+          : undefined,
       // attachments: '',
     };
+  }
+
+  public confirmMaterial(createAnother: boolean): void {
+    const materialNumberValue = this.createMaterialForm.value?.materialNumber;
+    const baseMaterial = {
+      ...(this.createMaterialForm.value as MaterialFormValueV2),
+      materialNumber:
+        materialNumberValue && materialNumberValue.length > 0
+          ? materialNumberValue.split(',')
+          : undefined,
+    };
+
+    const standard = this.buildMaterialStandard(baseMaterial);
+    const supplier = this.buildManufacturerSupplier(baseMaterial);
+    const material: MaterialRequest = this.buildMaterial(baseMaterial);
 
     // include material, stdDoc and supplier put logic in effect
     this.dialogFacade.dispatch(

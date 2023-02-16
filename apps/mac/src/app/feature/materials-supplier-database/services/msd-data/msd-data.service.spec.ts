@@ -86,7 +86,23 @@ describe('MsdDataService', () => {
       expect(req.request.method).toBe('GET');
       req.flush(mockResponse);
     });
+
+    it('should return only supported material classes', (done) => {
+      const mockResponse = ['st', 'unknown', 'al'];
+      const expected = [MaterialClass.STEEL, MaterialClass.ALUMINUM];
+      service.getMaterialClasses().subscribe((result: any) => {
+        expect(result).toEqual(expected);
+        done();
+      });
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/materialClasses`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(mockResponse);
+    });
   });
+
   describe('getProductCategories', () => {
     it('should return a list of product categories', (done) => {
       const mockResponse = ['strip'];
@@ -320,17 +336,17 @@ describe('MsdDataService', () => {
         {
           id: 'hitting it with a hammer',
           title:
-            'materialsSupplierDatabase.productionProcessValues.hitting it with a hammer',
+            'materialsSupplierDatabase.productionProcessValues.cu.hitting it with a hammer',
           tooltip:
-            'materialsSupplierDatabase.productionProcessValues.hitting it with a hammer',
+            'materialsSupplierDatabase.productionProcessValues.cu.hitting it with a hammer',
           tooltipDelay: 1500,
         },
         {
           id: 'bend it like bender',
           title:
-            'materialsSupplierDatabase.productionProcessValues.bend it like bender',
+            'materialsSupplierDatabase.productionProcessValues.cu.bend it like bender',
           tooltip:
-            'materialsSupplierDatabase.productionProcessValues.bend it like bender',
+            'materialsSupplierDatabase.productionProcessValues.cu.bend it like bender',
           tooltipDelay: 1500,
         },
       ];
@@ -386,7 +402,7 @@ describe('MsdDataService', () => {
         });
 
       const req = httpMock.expectOne(
-        `${service['BASE_URL']}/materials/st/co2Classifications`
+        `${service['BASE_URL']}/materials/co2Classifications`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mockResponse);

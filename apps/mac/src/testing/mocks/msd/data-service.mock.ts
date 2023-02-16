@@ -582,7 +582,7 @@ export const msdServiceCopperMockResult: CopperMaterial[] = [
     lastModified: undefined,
     productionProcess: 'mining',
     productionProcessText:
-      'materialsSupplierDatabase.productionProcessValues.mining',
+      'materialsSupplierDatabase.productionProcessValues.cu.mining',
   },
   {
     id: 128,
