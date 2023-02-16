@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { map, Observable, Subscription } from 'rxjs';
@@ -6,8 +6,8 @@ import { map, Observable, Subscription } from 'rxjs';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
-import { loadFilterDimensionData } from '../../../core/store/actions';
 import { getSpecificDimensonFilter } from '../../../core/store/selectors/filter/filter.selector';
+import { AutocompleteInputComponent } from '../../../shared/autocomplete-input/autocomplete-input.component';
 import {
   ASYNC_SEARCH_MIN_CHAR_LENGTH,
   FILTER_DIMENSIONS,
@@ -26,12 +26,16 @@ import {
 import { getDialogSelectedDimensionDataLoading } from '../../store/selectors/user.selector';
 import { UserSettings } from '../models/user-settings.model';
 import { UserSettingsDialogData } from './user-settings-dialog-data.model';
+
 @Component({
   selector: 'ia-user-settings-dialog',
   templateUrl: './user-settings-dialog.component.html',
   styles: [],
 })
 export class UserSettingsDialogComponent implements OnInit, OnDestroy {
+  @ViewChild(AutocompleteInputComponent)
+  autocompleteInput: AutocompleteInputComponent;
+
   selected: SelectedFilter;
   invalidDimensionDataInput: boolean;
 
@@ -102,6 +106,7 @@ export class UserSettingsDialogComponent implements OnInit, OnDestroy {
 
   selectDimensionDataOption(option: SelectedFilter): void {
     this.selected = option;
+    this.selectedDimensionIdValue = option.idValue;
   }
 
   invalidDimensionData(invalid: boolean): void {
@@ -148,11 +153,15 @@ export class UserSettingsDialogComponent implements OnInit, OnDestroy {
 
   selectDimension(selectedDimension: IdValue): void {
     this.store.dispatch(
-      loadFilterDimensionData({
+      loadUserSettingsDimensionData({
         filterDimension: selectedDimension.id as FilterDimension,
+        searchFor: '',
       })
     );
     this.updateDimension(selectedDimension.id as FilterDimension);
+    if (this.autocompleteInput) {
+      this.autocompleteInput.latestSelection = undefined;
+    }
   }
 
   mapTranslationsToIdValues(

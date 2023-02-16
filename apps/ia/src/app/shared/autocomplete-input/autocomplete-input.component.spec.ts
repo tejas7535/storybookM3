@@ -151,43 +151,26 @@ describe('AutocompleteInputComponent', () => {
       const option: IdValue = { id: '0', value: 'option' };
       component.inputControl.setValue(option);
       component.inputControl.reset = jest.fn();
-      component.matInputRef.nativeElement.focus = jest.fn();
 
       component.clearInput();
 
-      expect(component.lastSelection).toBe(option);
+      expect(component.latestSelection).toBe(option);
       expect(component.inputControl.reset).toHaveBeenCalled();
-      expect(component.matInputRef.nativeElement.focus).toHaveBeenCalled();
-    });
-
-    test('should not reset input if not empty', () => {
-      const option: any = undefined;
-      component.inputControl.setValue(option);
-      component.inputControl.reset = jest.fn();
-      component.matInputRef.nativeElement.focus = jest.fn();
-
-      component.clearInput();
-
-      expect(component.lastSelection).toBeUndefined();
-      expect(component.inputControl.reset).not.toHaveBeenCalled();
-      expect(component.matInputRef.nativeElement.focus).not.toHaveBeenCalled();
     });
   });
 
   describe('setLastSelection', () => {
     test('should set last selected option', () => {
       const lastSelection: IdValue = { id: '0', value: 'option' };
-      component.lastSelection = lastSelection;
+      component.latestSelection = lastSelection;
       component.inputControl.setValue = jest.fn();
-      component.matInputRef.nativeElement.blur = jest.fn();
 
-      component.setLastSelection();
+      component.setLatestSelection();
 
       expect(component.inputControl.setValue).toHaveBeenCalledWith(
         lastSelection,
         { emitEvent: false }
       );
-      expect(component.matInputRef.nativeElement.blur).toHaveBeenCalled();
     });
   });
 

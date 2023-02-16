@@ -4,8 +4,10 @@ import {
   EventEmitter,
   Input,
   Output,
+  ViewChild,
 } from '@angular/core';
 
+import { AutocompleteInputComponent } from '../autocomplete-input/autocomplete-input.component';
 import {
   ASYNC_SEARCH_MIN_CHAR_LENGTH,
   LOCAL_SEARCH_MIN_CHAR_LENGTH,
@@ -27,6 +29,9 @@ import { FilterLayout } from './filter-layout.enum';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilterComponent {
+  @ViewChild(AutocompleteInputComponent)
+  autocompleteInput: AutocompleteInputComponent;
+
   private _selectedDimensionIdValue: IdValue;
   private _selectedTimePeriod: TimePeriod;
   private _dimensionFilter: Filter;
@@ -50,6 +55,10 @@ export class FilterComponent {
     this._dimensionName = this.availableDimensions?.find(
       (dimension) => dimension.id === this.activeDimension
     )?.value;
+
+    if (this.autocompleteInput) {
+      this.autocompleteInput.latestSelection = undefined;
+    }
   }
 
   timeRangeHintValue = 'time range';

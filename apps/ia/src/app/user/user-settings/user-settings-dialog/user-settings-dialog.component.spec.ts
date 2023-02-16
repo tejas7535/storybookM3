@@ -9,7 +9,6 @@ import { marbles } from 'rxjs-marbles/marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { loadFilterDimensionData } from '../../../core/store/actions';
 import * as filterSelectors from '../../../core/store/selectors/filter/filter.selector';
 import { AutocompleteInputModule } from '../../../shared/autocomplete-input/autocomplete-input.module';
 import {
@@ -245,8 +244,9 @@ describe('UserSettingsDialogComponent', () => {
       component.selectDimension(idVal);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        loadFilterDimensionData({
+        loadUserSettingsDimensionData({
           filterDimension: idVal.id as FilterDimension,
+          searchFor: '',
         })
       );
       expect(component.updateDimension).toHaveBeenCalledWith(

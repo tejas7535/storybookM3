@@ -1,13 +1,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnDestroy,
   OnInit,
   Output,
-  ViewChild,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
@@ -24,8 +22,7 @@ import { InputErrorStateMatcher } from './validation/input-error-state-matcher';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AutocompleteInputComponent implements OnInit, OnDestroy {
-  lastSelection: IdValue;
-  @ViewChild('matInput') matInputRef: ElementRef;
+  latestSelection: IdValue;
   @Input() autoCompleteLoading = false;
   @Input() label: string;
   @Input() hint: string;
@@ -47,8 +44,7 @@ export class AutocompleteInputComponent implements OnInit, OnDestroy {
       const idValue = typeof value === 'string' ? { id: value, value } : value;
 
       this.inputControl.setValue(idValue, { emitEvent: false });
-      this.lastSelection = idValue;
-      this.matInputRef.nativeElement.blur();
+      this.latestSelection = idValue;
     }
   }
 
@@ -108,24 +104,19 @@ export class AutocompleteInputComponent implements OnInit, OnDestroy {
         this.invalidFormControl.emit(
           this.inputControl.hasError('invalidInput')
         );
-        setTimeout(() => {
-          this.matInputRef.nativeElement.blur();
-        });
       })
     );
   }
 
   clearInput(): void {
-    if (this.inputControl.value) {
-      this.lastSelection = this.inputControl.value;
-      this.inputControl.reset();
-      this.matInputRef.nativeElement.focus();
-    }
+    this.latestSelection = this.inputControl.value;
+    this.inputControl.reset();
   }
 
-  setLastSelection(): void {
-    this.inputControl.setValue(this.lastSelection, { emitEvent: false });
-    this.matInputRef.nativeElement.blur();
+  setLatestSelection(): void {
+    if (this.inputControl.invalid) {
+      this.inputControl.setValue(this.latestSelection, { emitEvent: false });
+    }
   }
 
   ngOnDestroy(): void {
