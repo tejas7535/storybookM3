@@ -11,7 +11,7 @@
   [footerLinks]="footerLinks"
   [appVersion]="appVersion"
 >
-  <ng-container headerInlineContent>
+  <ng-container headerInlineContent *ngIf="showGlobalSearch$ | ngrxPush">
     <gq-global-search-bar></gq-global-search-bar>
   </ng-container>
   <ng-container sidenavBody>

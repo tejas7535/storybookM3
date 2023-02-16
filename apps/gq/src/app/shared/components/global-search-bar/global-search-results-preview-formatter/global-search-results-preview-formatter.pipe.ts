@@ -1,7 +1,6 @@
 import { Pipe, PipeTransform, SecurityContext } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
-import { Keyboard } from '../../../models';
 import { IdValue } from '../../../models/search';
 import { MaterialNumberService } from '../../../services/material-number/material-number.service';
 
@@ -15,20 +14,18 @@ export class GlobalSearchResultsPreviewFormatterPipe implements PipeTransform {
   ) {}
 
   transform(idValue: IdValue, searchVal: string): string {
-    if (idValue?.id?.startsWith(searchVal)) {
-      return this.sanitize(
-        this.formatMaterialDescription(idValue.id, searchVal.length)
-      );
-    } else if (idValue?.value?.startsWith(searchVal.replace(/-/g, ''))) {
-      return this.sanitize(
-        this.formatMaterialNumber(
+    const result = this.isMaterialNumber(idValue, searchVal)
+      ? this.formatMaterialNumber(
           idValue.value,
           searchVal.replace(/-/g, '').length
         )
-      );
-    } else {
-      return Keyboard.DASH;
-    }
+      : this.formatMaterialDescription(idValue.id, searchVal.length);
+
+    return this.sanitize(result);
+  }
+
+  private isMaterialNumber(idValue: IdValue, searchVal: string): boolean {
+    return idValue?.value?.startsWith(searchVal.replace(/-/g, ''));
   }
 
   private formatMaterialNumber(

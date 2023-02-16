@@ -1,3 +1,4 @@
+/* eslint-disable ngrx/avoid-mapping-selectors */
 import { Component, OnInit, Optional } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 
@@ -73,6 +74,7 @@ export class AppComponent implements OnInit {
   healthCheckLoading$: Observable<boolean>;
   isHealthCheckAvailable$: Observable<boolean>;
   isCookieRouteActive$: Observable<boolean>;
+  showGlobalSearch$: Observable<boolean>;
 
   public constructor(
     private readonly store: Store,
@@ -88,6 +90,7 @@ export class AppComponent implements OnInit {
     this.isLoggedIn$ = this.store.select(getIsLoggedIn);
     this.healthCheckLoading$ = this.store.select(getHealthCheckLoading);
     this.isHealthCheckAvailable$ = this.store.select(getHealthCheckAvailable);
+
     this.handleCurrentRoute();
 
     this.translocoService.langChanges$.subscribe((language) => {
@@ -114,6 +117,10 @@ export class AppComponent implements OnInit {
     // check if current route is cookie page
     this.isCookieRouteActive$ = merge(initialLoad, routerEvents).pipe(
       map((url) => url.split('/').pop() === LegalPath.CookiePath)
+    );
+
+    this.showGlobalSearch$ = merge(initialLoad, routerEvents).pipe(
+      map((url) => url.startsWith(`/${AppRoutePath.CaseViewPath}`))
     );
   }
 }
