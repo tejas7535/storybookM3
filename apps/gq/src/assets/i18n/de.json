@@ -465,6 +465,8 @@
     "customerNumberLabel": "Kundennummer",
     "priceLabel": "Preis",
     "quantityLabel": "Menge",
-    "gpiLabel": "GPI"
+    "gpiLabel": "GPI",
+    "foundInOpenCases": "Gefunden in offene Angebote",
+    "showFiveMore": "Weitere 5 laden"
   }
 }

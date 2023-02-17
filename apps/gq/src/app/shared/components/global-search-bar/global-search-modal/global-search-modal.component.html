@@ -12,7 +12,10 @@
     />
     <div class="px-2">
       <mat-spinner
-        *ngIf="autocomplete.materialNumberOrDescAutocompleteLoading$ | ngrxPush"
+        *ngIf="
+          (autocomplete.materialNumberOrDescAutocompleteLoading$ | ngrxPush) ||
+          displayResultList === 'loading'
+        "
         matSuffix
         [diameter]="18"
       ></mat-spinner>
@@ -43,12 +46,22 @@
     "
   >
     <gq-global-search-results-preview-list
+      *ngIf="displayResultList === 'preview'"
       [idValues]="
         (autocomplete.materialNumberOrDescForGlobalSearch$ | ngrxPush).options
       "
       [searchVal]="searchVal"
       (itemSelected)="onItemSelected($event)"
     ></gq-global-search-results-preview-list>
+
+    <gq-global-search-results-list
+      [ngClass]="{ hidden: displayResultList === 'loading' }"
+      *ngIf="displayResultList === 'result' || displayResultList === 'loading'"
+      [gqCases]="searchResult$ | ngrxPush"
+      [searchVal]="searchVal"
+      (gqIdSelected)="openCase($event)"
+    >
+    </gq-global-search-results-list>
   </ng-container>
 
   <ng-template #loading>

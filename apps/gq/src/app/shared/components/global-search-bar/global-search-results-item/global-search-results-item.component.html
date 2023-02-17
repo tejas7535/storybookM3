@@ -1,7 +1,7 @@
 <div
   class="group flex cursor-pointer flex-col py-3 pl-4 pr-4 text-body-1 hover:bg-hover-overlay"
   *transloco="let t; read: 'searchBar'"
-  (click)="gqIdSelected.emit(searchResult.gqId)"
+  (click)="gqIdSelected.emit(searchResult)"
 >
   <div class="flex items-center">
     <p class="text-body-1 font-normal text-high-emphasis">
@@ -31,15 +31,20 @@
     </div>
     <div class="flex gap-2 whitespace-nowrap text-body-2">
       <p class="text-medium-emphasis">{{ t('priceLabel') }}:</p>
-      <p>{{ searchResult.price }}</p>
+      <p>
+        {{
+          searchResult.priceOfMaterial
+            | numberCurrency: searchResult.customerCurrency
+        }}
+      </p>
     </div>
     <div class="flex gap-2 whitespace-nowrap text-body-2">
       <p class="text-medium-emphasis">{{ t('quantityLabel') }}:</p>
-      <p>{{ searchResult.quantity }}</p>
+      <p>{{ searchResult.quantityOfMaterial }}</p>
     </div>
     <div class="flex gap-2 whitespace-nowrap text-body-2">
       <p class="text-medium-emphasis">{{ t('gpiLabel') }}:</p>
-      <p>{{ searchResult.gpi }}</p>
+      <p>{{ searchResult.gpi | percentage }}</p>
     </div>
   </div>
 </div>

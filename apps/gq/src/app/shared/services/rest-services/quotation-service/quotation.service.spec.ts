@@ -246,4 +246,8 @@ describe('QuotationService', () => {
       req.flush(mockBody);
     });
   });
+
+  describe('getCasesByMaterialNumber', () => {
+    // tbd
+  });
 });

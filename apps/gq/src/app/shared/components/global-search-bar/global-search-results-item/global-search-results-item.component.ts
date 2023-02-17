@@ -6,13 +6,13 @@ import {
   Output,
 } from '@angular/core';
 
-import { GlobalSearchResultsItem } from './model/global-search-results-item.model';
+import { QuotationSearchResult } from '../../../models/quotation';
 @Component({
   selector: 'gq-global-search-results-item',
   templateUrl: './global-search-results-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GlobalSearchResultsItemComponent {
-  @Input() searchResult: GlobalSearchResultsItem;
-  @Output() gqIdSelected = new EventEmitter<number>();
+  @Input() searchResult: QuotationSearchResult;
+  @Output() gqIdSelected = new EventEmitter<QuotationSearchResult>();
 }
