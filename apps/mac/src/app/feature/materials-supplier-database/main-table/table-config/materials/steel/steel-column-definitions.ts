@@ -106,7 +106,7 @@ export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
   {
     field: RECYCLING_RATE,
     headerName: 'Recycling Rate',
-    filterParams: 'agNumberColumnFilter',
+    filter: 'agNumberColumnFilter',
     hide: true,
     cellRenderer: EditCellRendererComponent,
   },

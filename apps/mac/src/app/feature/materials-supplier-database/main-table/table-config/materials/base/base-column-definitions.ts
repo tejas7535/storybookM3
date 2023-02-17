@@ -17,6 +17,7 @@ import { EditCellRendererComponent } from '@mac/msd/main-table/edit-cell-rendere
 import { StatusCellRendererComponent } from '@mac/msd/main-table/status-cell-renderer/status-cell-renderer.component';
 import {
   CUSTOM_DATE_FORMATTER,
+  DATE_COMPARATOR,
   FILTER_PARAMS,
   STATUS_VALUE_GETTER,
   TRANSLATE_VALUE_FORMATTER_FACTORY,
@@ -98,6 +99,7 @@ export const BASE_COLUMN_DEFINITIONS: ColDef[] = [
     headerName: 'Last Modified',
     filter: 'agDateColumnFilter',
     valueFormatter: CUSTOM_DATE_FORMATTER,
+    filterParams: { comparator: DATE_COMPARATOR },
     sort: 'desc',
   },
 ];

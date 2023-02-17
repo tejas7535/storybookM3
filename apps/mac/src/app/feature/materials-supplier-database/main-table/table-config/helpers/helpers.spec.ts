@@ -1,0 +1,262 @@
+import { TranslocoModule } from '@ngneat/transloco';
+import { ValueFormatterParams, ValueGetterParams } from 'ag-grid-community';
+
+import { Status } from '@mac/feature/materials-supplier-database/constants';
+import { DataResult } from '@mac/feature/materials-supplier-database/models';
+
+import { getStatus } from '../../util';
+import {
+  BOOLEAN_VALUE_GETTER,
+  CUSTOM_DATE_FORMATTER,
+  DATE_COMPARATOR,
+  EMPTY_VALUE_FORMATTER,
+  MANUFACTURER_VALUE_GETTER,
+  RELEASE_DATE_FORMATTER,
+  RELEASE_DATE_VALUE_GETTER,
+  STATUS_VALUE_GETTER,
+  TRANSLATE_VALUE_FORMATTER_FACTORY,
+} from './index';
+
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+  translate: jest.fn((string) => string),
+}));
+
+jest.mock('../../util', () => ({
+  ...jest.requireActual('../../util'),
+  getStatus: jest.fn(),
+}));
+
+describe('helpers', () => {
+  describe('BOOLEAN_VALUE_GETTER', () => {
+    it('should return a comparable string value of a boolean value', () => {
+      const mockGetId = jest.fn(() => 'columnId');
+      const mockGetValue = jest.fn(() => 1);
+      const mockValueGetterParams = {
+        column: {
+          getId: mockGetId,
+        },
+        getValue: mockGetValue,
+      } as unknown as ValueGetterParams;
+
+      const expected = '1';
+      const result = BOOLEAN_VALUE_GETTER(mockValueGetterParams);
+
+      expect(result).toEqual(expected);
+      expect(mockGetId).toHaveBeenCalled();
+      expect(mockGetValue).toHaveBeenCalledWith('columnId');
+    });
+  });
+
+  describe('EMPTY_VALUE_FORMATTER', () => {
+    it('should return (Empty) instead of (Blanks)', () => {
+      // eslint-disable-next-line unicorn/no-null
+      const mockNullParams = { value: null } as ValueFormatterParams;
+      const mockUndefinedParams = { value: undefined } as ValueFormatterParams;
+
+      const nullResult = EMPTY_VALUE_FORMATTER(mockNullParams);
+      const undefinedResult = EMPTY_VALUE_FORMATTER(mockUndefinedParams);
+
+      expect(nullResult).toBe('(Empty)');
+      expect(undefinedResult).toBe('(Empty)');
+    });
+
+    it('should return cell value if it is defined', () => {
+      const mockParams = { value: 'some value' } as ValueFormatterParams;
+
+      const result = EMPTY_VALUE_FORMATTER(mockParams);
+
+      expect(result).toBe('some value');
+    });
+  });
+
+  describe('CUSTOM_DATE_FORMATTER', () => {
+    it('should return a localized date string', () => {
+      const mockParams = {
+        value: 1_663_632_000,
+      } as ValueFormatterParams;
+
+      const result = CUSTOM_DATE_FORMATTER(mockParams);
+
+      expect(result).toEqual('20/09/2022');
+    });
+  });
+
+  describe('RELEASE_DATE_VALUE_GETTER', () => {
+    it('should return undefined if the releaseDateYear is undefined', () => {
+      const mockParams = {
+        data: { releaseDateMonth: 1 } as DataResult,
+      } as ValueGetterParams<DataResult>;
+
+      const result = RELEASE_DATE_VALUE_GETTER(mockParams);
+
+      expect(result).toEqual(undefined);
+    });
+
+    it('should return undefined if the releaseDateMonth is undefined', () => {
+      const mockParams = {
+        data: { releaseDateYear: 2000 } as DataResult,
+      } as ValueGetterParams<DataResult>;
+
+      const result = RELEASE_DATE_VALUE_GETTER(mockParams);
+
+      expect(result).toEqual(undefined);
+    });
+
+    it('should return a date', () => {
+      const mockParams = {
+        data: {
+          releaseDateYear: 2000,
+          releaseDateMonth: 1,
+        } as DataResult,
+      } as ValueGetterParams<DataResult>;
+
+      const result = RELEASE_DATE_VALUE_GETTER(mockParams);
+
+      expect(result).toEqual(new Date(2000, 0));
+    });
+  });
+
+  describe('MANUFACTURER_VALUE_GETTER', () => {
+    it('should return yes string if manufacturer is true', () => {
+      const mockParams = {
+        data: {
+          manufacturer: true,
+        } as DataResult,
+      } as ValueGetterParams<DataResult>;
+
+      const result = MANUFACTURER_VALUE_GETTER(mockParams);
+
+      expect(result).toEqual('materialsSupplierDatabase.mainTable.yes');
+    });
+
+    it('should return no string if manufacturer is false', () => {
+      const mockParams = {
+        data: {
+          manufacturer: false,
+        } as DataResult,
+      } as ValueGetterParams<DataResult>;
+
+      const result = MANUFACTURER_VALUE_GETTER(mockParams);
+
+      expect(result).toEqual('materialsSupplierDatabase.mainTable.no');
+    });
+  });
+
+  describe('RELEASE_DATE_FORMATTER', () => {
+    it('should return translation if the value is undefined', () => {
+      const mockParams = {
+        value: undefined,
+      } as ValueFormatterParams<any, Date>;
+
+      const result = RELEASE_DATE_FORMATTER(mockParams);
+
+      expect(result).toEqual(
+        'materialsSupplierDatabase.mainTable.columns.releaseDateHistoric'
+      );
+    });
+
+    it('should return the date as string formatted to MM/YY', () => {
+      const mockParams = {
+        value: new Date(2000, 0),
+      } as ValueFormatterParams<any, Date>;
+
+      const result = RELEASE_DATE_FORMATTER(mockParams);
+
+      expect(result).toEqual('01/00');
+    });
+  });
+
+  describe('STATUS_VALUE_GETTER', () => {
+    it('should return the translated value from getStatus', () => {
+      const mockParams = {
+        data: {
+          blocked: false,
+          lastModified: 1,
+        },
+      } as unknown as ValueGetterParams;
+      (getStatus as jest.Mock).mockReturnValue(Status.CHANGED);
+
+      const result = STATUS_VALUE_GETTER(mockParams);
+
+      expect(getStatus).toHaveBeenCalledWith(false, 1);
+      expect(result).toEqual(
+        `materialsSupplierDatabase.status.statusValues.${Status.CHANGED}`
+      );
+    });
+  });
+
+  describe('TRANSLATE_VALUE_FORMATTER_FACTORY', () => {
+    it('should return undefined if the value is undefined', () => {
+      const formatter = TRANSLATE_VALUE_FORMATTER_FACTORY();
+      const params = { value: undefined } as ValueFormatterParams;
+
+      const result = formatter(params);
+
+      expect(result).toEqual(undefined);
+    });
+
+    it('should return the translated value', () => {
+      const formatter = TRANSLATE_VALUE_FORMATTER_FACTORY();
+      const params = { value: 'something' } as ValueFormatterParams;
+
+      const result = formatter(params);
+
+      expect(result).toEqual('something');
+    });
+
+    it('should return the translated value with empty prefix', () => {
+      const formatter = TRANSLATE_VALUE_FORMATTER_FACTORY('');
+      const params = { value: 'something' } as ValueFormatterParams;
+
+      const result = formatter(params);
+
+      expect(result).toEqual('something');
+    });
+
+    it('should return the translated value with prefix', () => {
+      const formatter = TRANSLATE_VALUE_FORMATTER_FACTORY('prefix');
+      const params = { value: 'something' } as ValueFormatterParams;
+
+      const result = formatter(params);
+
+      expect(result).toEqual('prefix.something');
+    });
+
+    it('should return the translated value with the input in lower case', () => {
+      const formatter = TRANSLATE_VALUE_FORMATTER_FACTORY('prefix', true);
+      const params = { value: 'SOMETHING' } as ValueFormatterParams;
+
+      const result = formatter(params);
+
+      expect(result).toEqual('prefix.something');
+    });
+  });
+
+  describe('DATE_COMPARATOR', () => {
+    it('should be equal with same date and different time', () => {
+      // filterValue will always be at midnight
+      const filterValue = new Date(2000, 11, 31);
+      // cellValue will have all properties set
+      const cellValue = new Date(2000, 11, 31, 12, 30).getTime() / 1000;
+
+      expect(DATE_COMPARATOR(filterValue, cellValue)).toBe(0);
+    });
+    it('should compare according to difference in date, cell value before', () => {
+      // filterValue will always be at midnight
+      const filterValue = new Date(2000, 11, 31);
+      // cellValue will have all properties set
+      const cellValue = new Date(2000, 11, 30, 12, 30).getTime() / 1000;
+
+      expect(DATE_COMPARATOR(filterValue, cellValue)).toBeLessThan(0);
+    });
+    it('should compare according to difference in date, cell value after', () => {
+      // filterValue will always be at midnight
+      const filterValue = new Date(2000, 10, 15);
+      // cellValue will have all properties set
+      const cellValue = new Date(2000, 10, 16, 12, 30).getTime() / 1000;
+
+      expect(DATE_COMPARATOR(filterValue, cellValue)).toBeGreaterThan(0);
+    });
+  });
+});
