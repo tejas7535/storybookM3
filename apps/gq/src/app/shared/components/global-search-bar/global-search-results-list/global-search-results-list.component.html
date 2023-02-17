@@ -14,6 +14,7 @@
       color="primary"
       mat-button
       class="py-4 pl-4"
+      [disabled]="count >= gqCases?.length"
       (click)="increaseCount()"
     >
       {{ t('showFiveMore') }}

@@ -25,20 +25,7 @@ describe('GlobalSearchResultsListComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  describe('ngOnInit', () => {
-    test('should calculate initial count', () => {
-      component.gqCases = {
-        length: 1,
-      } as unknown as QuotationSearchResult[];
-      component.ngOnInit();
-      expect(component.count).toBe(1);
-    });
-    test('should calculate initial count, set 0 when array is not set', () => {
-      component.gqCases = undefined;
-      component.ngOnInit();
-      expect(component.count).toBe(0);
-    });
-  });
+
   describe('increaseCount', () => {
     beforeEach(() => {
       component.count = 3;

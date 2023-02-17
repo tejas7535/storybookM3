@@ -8,7 +8,6 @@ import { of } from 'rxjs';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
-import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -78,15 +77,10 @@ describe('GlobalSearchModalComponent', () => {
   });
 
   describe('onItemSelected', () => {
-    test(
-      'should call the service',
-      marbles((m) => {
-        component.onItemSelected({ value: '12345', id: '1' } as IdValue);
-        const expected = m.cold('(a|)', { a: [QUOTATION_SEARCH_RESULT_MOCK] });
-
-        m.expect(component.searchResult$).toBeObservable(expected);
-      })
-    );
+    test('should call the service', () => {
+      component.onItemSelected({ value: '12345', id: '1' } as IdValue);
+      expect(component.searchResult).toEqual([QUOTATION_SEARCH_RESULT_MOCK]);
+    });
   });
   describe('closeDialog', () => {
     test('should call dialogRef.close', () => {

@@ -1,19 +1,9 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
-import {
-  debounce,
-  EMPTY,
-  NEVER,
-  Observable,
-  Subject,
-  take,
-  takeUntil,
-  tap,
-  timer,
-} from 'rxjs';
+import { debounce, EMPTY, Subject, take, takeUntil, tap, timer } from 'rxjs';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { AutoCompleteFacade } from '../../../../core/store';
@@ -33,19 +23,17 @@ export class GlobalSearchModalComponent implements OnInit, OnDestroy {
   public readonly MIN_INPUT_STRING_LENGTH_FOR_AUTOCOMPLETE = 2;
 
   public displayResultList: ResultsList = 'preview';
-  public searchResult$: Observable<QuotationSearchResult[]> = NEVER;
+  public searchResult: QuotationSearchResult[] = [];
 
   private readonly unsubscribe$ = new Subject<boolean>();
 
   searchFormControl: FormControl;
-
   searchVal = '';
 
   constructor(
     private readonly dialogRef: MatDialogRef<GlobalSearchModalComponent>,
     private readonly quotationService: QuotationService,
     private readonly router: Router,
-    private readonly cdref: ChangeDetectorRef,
     public readonly autocomplete: AutoCompleteFacade
   ) {
     this.searchFormControl = new FormControl();
@@ -97,14 +85,16 @@ export class GlobalSearchModalComponent implements OnInit, OnDestroy {
   onItemSelected(idValue: IdValue) {
     this.displayResultList = 'loading';
 
-    this.searchResult$ = this.quotationService
+    this.quotationService
       .getCasesByMaterialNumber(idValue.value)
       .pipe(
         take(1),
         tap(() => {
           this.displayResultList = 'result';
-          this.cdref.detectChanges();
         })
+      )
+      .subscribe(
+        (values: QuotationSearchResult[]) => (this.searchResult = values)
       );
   }
 

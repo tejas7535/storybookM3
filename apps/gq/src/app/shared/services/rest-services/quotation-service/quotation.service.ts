@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { delay, map } from 'rxjs/operators';
 
 import {
   CreateCase,
@@ -296,6 +296,6 @@ export class QuotationService {
       },
     ];
 
-    return of(result);
+    return of(result).pipe(delay(2000));
   }
 }
