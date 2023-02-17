@@ -1,0 +1,1 @@
+export const BEARING_DESIGNATION_MOCK = '6226';
