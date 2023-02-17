@@ -66,6 +66,8 @@
   },
   "confirmDeletePositions": {
     "text": "Möchten sie wirklich diese Einträge ({{variable}}) vom Case löschen?",
+    "sapText": "Möchten sie wirklich diese Einträge ({{variable}}) vom Case sowie vom Sap Angebot löschen?",
+    "infoText": "Bitte beachten Sie, dass diese Änderung dauerhaft ist und nicht rückgängig gemacht werden kann",
     "deleteButton": "löschen",
     "cancelButton": "Abbrechen"
   },
@@ -99,6 +101,12 @@
       "refreshText": "Bitte aktualisieren Sie die Seite, um zu prüfen, ob Ihr Case verfügbar ist."
     },
     "MAINTAIN_QUOTATION_IN_PROGRESS": {
+      "header": "Wir sind dabei, Ihre SAP Daten zu synchronisieren ({{variable}} Positionen)",
+      "subtitle1": "Es kann etwas länger dauern, bis alle Daten gezogen sind und der Case verfügbar wird.",
+      "subtitle2": " Bitte beachten Sie, dass die Bearbeitungszeit variieren kann, je nachdem wie viele Positionen enthalten sind.",
+      "refreshText": "Bitte aktualisieren Sie die Seite, um zu prüfen, ob Ihr Case verfügbar ist."
+    },
+    "DELETE_QUOTATION_DETAILS_IN_PROGRESS": {
       "header": "Wir sind dabei, Ihre SAP Daten zu synchronisieren ({{variable}} Positionen)",
       "subtitle1": "Es kann etwas länger dauern, bis alle Daten gezogen sind und der Case verfügbar wird.",
       "subtitle2": " Bitte beachten Sie, dass die Bearbeitungszeit variieren kann, je nachdem wie viele Positionen enthalten sind.",

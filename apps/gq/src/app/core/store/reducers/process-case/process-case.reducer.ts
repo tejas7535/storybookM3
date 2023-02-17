@@ -405,10 +405,7 @@ export const processCaseReducer = createReducer(
         item: {
           ...updatedQuotation,
           quotationDetails: sortQuotationDetails(
-            deleteQuotationDetails(
-              state.quotation.item.quotationDetails,
-              updatedQuotation.quotationDetails
-            )
+            updatedQuotation.quotationDetails
           ),
         },
         updateLoading: false,
@@ -691,17 +688,6 @@ export function reducer(
 ): ProcessCaseState {
   return processCaseReducer(state, action);
 }
-
-const deleteQuotationDetails = (
-  details: QuotationDetail[],
-  detailsToBeDeleted: QuotationDetail[]
-) => {
-  const removeItemIds = new Set(
-    detailsToBeDeleted.map((detail) => detail.quotationItemId)
-  );
-
-  return details.filter((el) => !removeItemIds.has(el.quotationItemId));
-};
 
 const buildSimulatedQuotation = (
   gqId: number,

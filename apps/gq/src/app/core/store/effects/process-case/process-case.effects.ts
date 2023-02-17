@@ -318,6 +318,9 @@ export class ProcessCaseEffect {
             );
             this.snackBar.open(successMessage);
           }),
+          tap((item) =>
+            PriceService.addCalculationsForDetails(item.quotationDetails)
+          ),
           map((updatedQuotation) =>
             removePositionsSuccess({ updatedQuotation })
           ),

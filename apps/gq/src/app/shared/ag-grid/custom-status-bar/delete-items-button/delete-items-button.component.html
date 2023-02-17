@@ -10,7 +10,7 @@
     *transloco="let t; read: 'shared.customStatusBar.buttons'"
   >
     <button
-      *ngIf="selections.length && !sap"
+      *ngIf="selections.length"
       mat-fab
       color="primary"
       (click)="deletePositions()"

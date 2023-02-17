@@ -561,7 +561,10 @@ describe('Quotation Reducer', () => {
         const state = processCaseReducer(fakeState, action);
 
         const stateItem = state.quotation;
-        expect(stateItem.item.quotationDetails).toEqual([]);
+        expect(state.quotation.quotationLoading).toBeFalsy();
+        expect(stateItem.item.quotationDetails).toEqual(
+          QUOTATION_MOCK.quotationDetails
+        );
       });
     });
 

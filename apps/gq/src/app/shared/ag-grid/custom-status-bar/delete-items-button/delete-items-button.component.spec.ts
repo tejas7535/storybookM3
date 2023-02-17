@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { of } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { translate } from '@ngneat/transloco';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { IStatusPanelParams } from 'ag-grid-community';
 import { MockDirective } from 'ng-mocks';
@@ -15,6 +16,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import {
   PROCESS_CASE_STATE_MOCK,
   QUOTATION_DETAIL_MOCK,
+  QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
 import { HideIfQuotationHasStatusDirective } from '../../../directives/hide-if-quotation-has-status/hide-if-quotation-has-status.directive';
 import { DeleteItemsButtonComponent } from './delete-items-button.component';
@@ -72,6 +74,9 @@ describe('DeleteItemsButtonComponent', () => {
         api: {
           addEventListener: jest.fn(),
         },
+        context: {
+          quotation: QUOTATION_MOCK,
+        },
       } as any;
 
       component.agInit(statusPanelParams);
@@ -111,8 +116,8 @@ describe('DeleteItemsButtonComponent', () => {
     });
   });
 
-  describe('removePositions', () => {
-    test('should open dialog', () => {
+  describe('deletePositions', () => {
+    test('should open dialog for non sap Quote', () => {
       store.dispatch = jest.fn();
 
       component['dialog'].open = jest.fn(
@@ -125,6 +130,48 @@ describe('DeleteItemsButtonComponent', () => {
       component.selections = [QUOTATION_DETAIL_MOCK];
       component.deletePositions();
 
+      expect(translate).toHaveBeenCalledWith(
+        `processCaseView.confirmDeletePositions.text`,
+        { variable: 1 }
+      );
+      expect(translate).toHaveBeenCalledWith(
+        `processCaseView.confirmDeletePositions.infoText`
+      );
+      expect(translate).toHaveBeenCalledWith(
+        `processCaseView.confirmDeletePositions.deleteButton`
+      );
+      expect(translate).toHaveBeenCalledWith(
+        `processCaseView.confirmDeletePositions.cancelButton`
+      );
+      expect(component['dialog'].open).toHaveBeenCalledTimes(1);
+      expect(store.dispatch).toHaveBeenCalledTimes(1);
+    });
+    test('should open dialog for sap Quote', () => {
+      store.dispatch = jest.fn();
+
+      component['dialog'].open = jest.fn(
+        () =>
+          ({
+            afterClosed: () => of(true),
+          } as any)
+      );
+      component.isSapQuotation = true;
+      component.selections = [QUOTATION_DETAIL_MOCK];
+      component.deletePositions();
+
+      expect(translate).toHaveBeenCalledWith(
+        `processCaseView.confirmDeletePositions.sapText`,
+        { variable: 1 }
+      );
+      expect(translate).toHaveBeenCalledWith(
+        `processCaseView.confirmDeletePositions.infoText`
+      );
+      expect(translate).toHaveBeenCalledWith(
+        `processCaseView.confirmDeletePositions.deleteButton`
+      );
+      expect(translate).toHaveBeenCalledWith(
+        `processCaseView.confirmDeletePositions.cancelButton`
+      );
       expect(component['dialog'].open).toHaveBeenCalledTimes(1);
       expect(store.dispatch).toHaveBeenCalledTimes(1);
     });

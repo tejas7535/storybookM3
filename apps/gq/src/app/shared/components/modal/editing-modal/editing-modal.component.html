@@ -186,12 +186,7 @@
         </div>
       </div>
     </div>
-    <div
-      class="mt-6 flex w-fit flex-row items-center rounded-md border-[1px] border-info bg-nordic-blue bg-opacity-10 py-3 px-3"
-    >
-      <mat-icon class="mr-4 align-middle !text-info">warning_amber</mat-icon>
-      <div class="text-caption">{{ t('warning') }}</div>
-    </div>
+    <gq-info-banner [infoText]="t('warning')"> </gq-info-banner>
     <div class="pt-8">
       <button
         class="!pl-4 !pr-4"

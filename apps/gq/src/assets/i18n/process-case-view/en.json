@@ -66,6 +66,8 @@
   },
   "confirmDeletePositions": {
     "text": "Do you really want to delete these entries ({{variable}}) from this case?",
+    "sapText": "Do you really want to delete these entries ({{variable}}) from this case as well as from the SAP Quote?",
+    "infoText": "Please be aware this change is permanent and cannot be undone",
     "deleteButton": "delete",
     "cancelButton": "cancel"
   },
@@ -99,6 +101,12 @@
       "refreshText": "Please refresh the page to check if your case is available"
     },
     "MAINTAIN_QUOTATION_IN_PROGRESS": {
+      "header": "We are syncing your Case with SAP ({{variable}} positions)",
+      "subtitle1": "It might take a bit longer to pull all the data and make the case become available.",
+      "subtitle2": "Please be aware that process time can vary depending on how many positions are included.",
+      "refreshText": "Please refresh the page to check if your case is available"
+    },
+    "DELETE_QUOTATION_DETAILS_IN_PROGRESS": {
       "header": "We are syncing your Case with SAP ({{variable}} positions)",
       "subtitle1": "It might take a bit longer to pull all the data and make the case become available.",
       "subtitle2": "Please be aware that process time can vary depending on how many positions are included.",

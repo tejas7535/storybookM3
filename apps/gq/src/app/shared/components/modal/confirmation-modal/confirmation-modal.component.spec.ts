@@ -3,6 +3,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
+import { InfoBannerComponent } from '../../info-banner/info-banner.component';
 import { ConfirmationModalComponent } from './confirmation-modal.component';
 
 describe('ConfirmationModalComponent', () => {
@@ -14,7 +15,7 @@ describe('ConfirmationModalComponent', () => {
 
   const createComponent = createComponentFactory({
     component: ConfirmationModalComponent,
-    imports: [MatIconModule],
+    imports: [MatIconModule, InfoBannerComponent],
     providers: [
       {
         provide: MatDialogRef,
@@ -56,14 +57,6 @@ describe('ConfirmationModalComponent', () => {
       const result = component.trackByFn(3);
 
       expect(result).toEqual(3);
-    });
-  });
-
-  describe('ngOnInit should', () => {
-    test('set dialog size', () => {
-      component.ngOnInit();
-
-      expect(matDialogRefMock.updateSize).toHaveBeenCalled();
     });
   });
 });

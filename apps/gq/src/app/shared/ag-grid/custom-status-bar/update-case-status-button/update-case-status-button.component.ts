@@ -106,6 +106,7 @@ export class UpdateCaseStatusButtonComponent {
     };
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
       maxHeight: '80%',
+      width: '40%',
       data,
     });
 

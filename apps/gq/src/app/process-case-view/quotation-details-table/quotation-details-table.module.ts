@@ -21,6 +21,7 @@ import { ColumnHeadersModule } from '../../shared/ag-grid/column-headers/column-
 import { CustomStatusBarModule } from '../../shared/ag-grid/custom-status-bar/custom-status-bar.module';
 import { AutocompleteInputModule } from '../../shared/components/autocomplete-input/autocomplete-input.module';
 import { DialogHeaderModule } from '../../shared/components/header/dialog-header/dialog-header.module';
+import { InfoBannerComponent } from '../../shared/components/info-banner/info-banner.component';
 import { EditCaseModalComponent } from '../../shared/components/modal/edit-case-modal/edit-case-modal.component';
 import { EditingMaterialModalComponent } from '../../shared/components/modal/editing-material-modal/editing-material-modal.component';
 import { EditingModalComponent } from '../../shared/components/modal/editing-modal/editing-modal.component';
@@ -40,6 +41,7 @@ import { QuotationDetailsTableComponent } from './quotation-details-table.compon
     AutocompleteInputModule,
     CommonModule,
     AgGridModule,
+    InfoBannerComponent,
     LetModule,
     PushModule,
     SharedTranslocoModule,
