@@ -1,4 +1,12 @@
 # Release Notes of Grease App
+## [1.2.20](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.19...ga-v1.2.20) (2023-02-20)
+
+
+### Features
+
+* **ga:** add google tag (UFTABI-6255) ([#4913](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4913)) ([6c2cf16](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6c2cf1615492e0bf4cd59e2d25f4094801326768))
+* **ga:** track grease selection ([#5024](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5024)) ([2d25b05](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2d25b05aa2ea3b7de69e6e722185c761e3b3ca67))
+
 ## [1.2.19](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.18...ga-v1.2.19) (2023-02-14)
 
 

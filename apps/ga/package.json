@@ -1,6 +1,6 @@
 {
   "name": "ga",
-  "version": "1.2.19",
+  "version": "1.2.20",
   "dependencies": {
     "lodash": "4.17.21"
   },
