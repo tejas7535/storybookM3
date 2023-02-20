@@ -8,10 +8,8 @@ import {
   PRODUCTION_PROCESS,
 } from '@mac/msd/constants';
 import { EditCellRendererComponent } from '@mac/msd/main-table/edit-cell-renderer/edit-cell-renderer.component';
-import {
-  FILTER_PARAMS,
-  TRANSLATE_VALUE_FORMATTER_FACTORY,
-} from '@mac/msd/main-table/table-config';
+import { FILTER_PARAMS } from '@mac/msd/main-table/table-config/filter-params';
+import { TRANSLATE_VALUE_FORMATTER_FACTORY } from '@mac/msd/main-table/table-config/helpers';
 import { BASE_COLUMN_DEFINITIONS } from '@mac/msd/main-table/table-config/materials/base';
 
 export const COPPER_COLUMN_DEFINITIONS: ColDef[] = [

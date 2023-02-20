@@ -5,10 +5,8 @@ import {
   SAP_SUPPLIER_IDS,
 } from '@mac/feature/materials-supplier-database/constants';
 import { EditCellRendererComponent } from '@mac/msd/main-table/edit-cell-renderer/edit-cell-renderer.component';
-import {
-  FILTER_PARAMS,
-  MANUFACTURER_VALUE_GETTER,
-} from '@mac/msd/main-table/table-config';
+import { FILTER_PARAMS } from '@mac/msd/main-table/table-config/filter-params';
+import { MANUFACTURER_VALUE_GETTER } from '@mac/msd/main-table/table-config/helpers';
 import { BASE_SUPPLIERS_COLUMN_DEFINITIONS } from '@mac/msd/main-table/table-config/materials/base';
 
 export const STEEL_SUPPLIERS_COLUMN_DEFINITIONS: ColDef[] = [

@@ -16,13 +16,13 @@ import {
   STEEL_MAKING_PROCESS,
 } from '@mac/msd/constants';
 import { EditCellRendererComponent } from '@mac/msd/main-table/edit-cell-renderer/edit-cell-renderer.component';
+import { FILTER_PARAMS } from '@mac/msd/main-table/table-config/filter-params';
 import {
-  FILTER_PARAMS,
   MANUFACTURER_VALUE_GETTER,
   RELEASE_DATE_FORMATTER,
   RELEASE_DATE_VALUE_GETTER,
   TRANSLATE_VALUE_FORMATTER_FACTORY,
-} from '@mac/msd/main-table/table-config';
+} from '@mac/msd/main-table/table-config/helpers';
 import { BASE_COLUMN_DEFINITIONS } from '@mac/msd/main-table/table-config/materials/base';
 
 export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [

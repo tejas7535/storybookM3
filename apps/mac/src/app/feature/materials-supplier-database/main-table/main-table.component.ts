@@ -42,10 +42,12 @@ import {
 } from '@mac/msd/constants';
 import {
   DEFAULT_COLUMN_DEFINITION,
-  RELEASE_DATE_VALUE_GETTER,
   SIDE_BAR_CONFIG,
-  STATUS_VALUE_GETTER,
 } from '@mac/msd/main-table/table-config';
+import {
+  RELEASE_DATE_VALUE_GETTER,
+  STATUS_VALUE_GETTER,
+} from '@mac/msd/main-table/table-config/helpers';
 import { DataResult } from '@mac/msd/models';
 import {
   MsdAgGridConfigService,

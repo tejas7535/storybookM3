@@ -9,11 +9,11 @@ import {
 } from '@mac/msd/constants';
 import { EditCellRendererComponent } from '@mac/msd/main-table/edit-cell-renderer/edit-cell-renderer.component';
 import { StatusCellRendererComponent } from '@mac/msd/main-table/status-cell-renderer/status-cell-renderer.component';
+import { FILTER_PARAMS } from '@mac/msd/main-table/table-config/filter-params';
 import {
   CUSTOM_DATE_FORMATTER,
-  FILTER_PARAMS,
   STATUS_VALUE_GETTER,
-} from '@mac/msd/main-table/table-config';
+} from '@mac/msd/main-table/table-config/helpers';
 
 import { HISTORY_COLUMN_DEFINITION } from './global-column-definitions';
 
