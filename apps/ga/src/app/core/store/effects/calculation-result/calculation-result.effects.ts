@@ -13,10 +13,16 @@ import {
   calculationSuccess,
   getCalculation,
 } from '@ga/core/store/actions/calculation-result/calculation-result.actions';
-import { TRACKING_NAME_PROPERTIES } from '@ga/shared/constants';
+import {
+  GREASE_PRESELECTION,
+  TRACKING_NAME_PROPERTIES,
+} from '@ga/shared/constants';
 
 import { getModelId } from '../../selectors/bearing-selection/bearing-selection.selector';
-import { getCalculationParameters } from '../../selectors/calculation-parameters/calculation-parameters.selector';
+import {
+  getCalculationParameters,
+  getPreferredGreaseSelection,
+} from '../../selectors/calculation-parameters/calculation-parameters.selector';
 
 @Injectable()
 export class CalculationResultEffects {
@@ -48,14 +54,20 @@ export class CalculationResultEffects {
     () => {
       return this.actions$.pipe(
         ofType(calculationSuccess),
-        concatLatestFrom(() => this.store.select(getCalculationParameters)),
-        map(([_action, parameters]) => parameters),
-        map((properties) =>
+        concatLatestFrom(() => [
+          this.store.select(getCalculationParameters),
+          this.store.select(getPreferredGreaseSelection),
+        ]),
+        map(([_action, properties, preferedGrease]) => {
           this.applicationInsightsService.logEvent(
             TRACKING_NAME_PROPERTIES,
             properties.options
-          )
-        )
+          );
+          this.applicationInsightsService.logEvent(
+            GREASE_PRESELECTION,
+            preferedGrease
+          );
+        })
       );
     },
     { dispatch: false }

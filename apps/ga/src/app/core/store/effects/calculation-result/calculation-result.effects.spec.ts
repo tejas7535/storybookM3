@@ -12,10 +12,19 @@ import {
   calculationSuccess,
   getCalculation,
 } from '@ga/core/store/actions/calculation-result/calculation-result.actions';
-import { TRACKING_NAME_PROPERTIES } from '@ga/shared/constants';
-import { CALCULATION_RESULT_MOCK_ID } from '@ga/testing/mocks';
+import {
+  GREASE_PRESELECTION,
+  TRACKING_NAME_PROPERTIES,
+} from '@ga/shared/constants';
+import {
+  CALCULATION_RESULT_MOCK_ID,
+  PREFERRED_GREASE_OPTION_MOCK,
+} from '@ga/testing/mocks';
 
-import { getCalculationParameters } from '../../selectors/calculation-parameters/calculation-parameters.selector';
+import {
+  getCalculationParameters,
+  getPreferredGreaseSelection,
+} from '../../selectors/calculation-parameters/calculation-parameters.selector';
 import { CalculationResultEffects } from './calculation-result.effects';
 
 describe('CalculationResultEffects', () => {
@@ -63,6 +72,11 @@ describe('CalculationResultEffects', () => {
         mockParameters: 'confirmed',
       },
     } as any);
+
+    store.overrideSelector(
+      getPreferredGreaseSelection,
+      PREFERRED_GREASE_OPTION_MOCK
+    );
   });
 
   describe('calculation$', () => {
@@ -123,7 +137,7 @@ describe('CalculationResultEffects', () => {
     });
 
     it(
-      'trigger a app insights lov event call sending the params',
+      'trigger two app insights log event call sending the params',
       marbles((m) => {
         const trackingSpy = jest.spyOn(
           effects['applicationInsightsService'],
@@ -139,9 +153,16 @@ describe('CalculationResultEffects', () => {
         m.expect(effects.calculationSuccess$).toBeObservable(expected);
         m.flush();
 
+        expect(trackingSpy).toHaveBeenCalledTimes(2);
+
         expect(trackingSpy).toHaveBeenCalledWith(TRACKING_NAME_PROPERTIES, {
           mockParameters: 'confirmed',
         });
+
+        expect(trackingSpy).toHaveBeenLastCalledWith(
+          GREASE_PRESELECTION,
+          PREFERRED_GREASE_OPTION_MOCK
+        );
       })
     );
   });
