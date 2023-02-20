@@ -31,6 +31,7 @@
       "@ga/*": ["apps/ga/src/app/*"],
       "@ga/environments/*": ["apps/ga/src/environments/*"],
       "@ga/testing/*": ["apps/ga/src/testing/*"],
+      "@gq/*": ["apps/gq/src/app/*"],
       "@ea/*": ["apps/ea/src/app/*"],
       "@ea/environments/*": ["apps/ea/src/environments/*"],
       "@ea/testing/*": ["apps/ea/src/testing/*"],

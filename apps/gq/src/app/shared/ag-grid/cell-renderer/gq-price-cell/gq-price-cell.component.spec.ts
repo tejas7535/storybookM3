@@ -3,9 +3,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ICellRendererParams } from 'ag-grid-community';
-import { AppRoutePath } from 'apps/gq/src/app/app-route-path.enum';
-import { DetailRoutePath } from 'apps/gq/src/app/detail-view/detail-route-path.enum';
 
+import { AppRoutePath } from '../../../../../app/app-route-path.enum';
+import { DetailRoutePath } from '../../../../../app/detail-view/detail-route-path.enum';
 import { GqPriceCellComponent } from './gq-price-cell.component';
 
 describe('GqPriceCellComponent', () => {
