@@ -48,6 +48,22 @@
         >
         <div class="flex flex-col">
           <mat-form-field class="pb-2" appearance="outline">
+            <mat-label>{{ t('customerPurchaseOrderDateLabel') }}</mat-label>
+            <input
+              matInput
+              autocomplete="off"
+              formControlName="customerPurchaseOrderDate"
+              [matDatepicker]="customerPurchaseOrderDatePicker"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="customerPurchaseOrderDatePicker"
+            >
+              <mat-icon matDatepickerToggleIcon> calendar_today </mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #customerPurchaseOrderDatePicker></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field class="pb-2" appearance="outline">
             <mat-label>{{ t('quotationToDateLabel') }}</mat-label>
             <input
               matInput
@@ -81,22 +97,6 @@
             <mat-hint class="text-info" *ngIf="poDateLessThanToday">{{
               t('dateBeforeTodayValidationMessage')
             }}</mat-hint>
-          </mat-form-field>
-          <mat-form-field class="pb-2" appearance="outline">
-            <mat-label>{{ t('customerPurchaseOrderDateLabel') }}</mat-label>
-            <input
-              matInput
-              autocomplete="off"
-              formControlName="customerPurchaseOrderDate"
-              [matDatepicker]="customerPurchaseOrderDatePicker"
-            />
-            <mat-datepicker-toggle
-              matSuffix
-              [for]="customerPurchaseOrderDatePicker"
-            >
-              <mat-icon matDatepickerToggleIcon> calendar_today </mat-icon>
-            </mat-datepicker-toggle>
-            <mat-datepicker #customerPurchaseOrderDatePicker></mat-datepicker>
           </mat-form-field>
           <mat-form-field class="pb-2" appearance="outline">
             <mat-label>{{ t('bindingPeriodValidityEndDateLabel') }}</mat-label>
