@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 
 import { map, Observable, take } from 'rxjs';
 
@@ -9,6 +10,7 @@ import { Store } from '@ngrx/store';
 import { ViewToggle } from '@schaeffler/view-toggle';
 
 import { getQuotation, getUpdateLoading } from '../../../core/store';
+import { FILTER_PARAM_INDICATOR } from '../../../shared/constants';
 import { Quotation } from '../../../shared/models';
 import { AgGridStateService } from '../../../shared/services/ag-grid-state.service/ag-grid-state.service';
 import { AddCustomViewModalComponent } from './add-custom-view-modal/add-custom-view-modal.component';
@@ -25,7 +27,7 @@ export class SingleQuotesTabComponent implements OnInit {
   private readonly EDIT_ICON = 'edit';
   private readonly ADD_ICON = 'add';
   private readonly DELETE_ICON = 'delete';
-
+  private routeSnapShot: ActivatedRouteSnapshot;
   public quotation$: Observable<Quotation>;
   public updateLoading$: Observable<boolean>;
   public customViews$: Observable<ViewToggle[]>;
@@ -33,10 +35,13 @@ export class SingleQuotesTabComponent implements OnInit {
   constructor(
     private readonly store: Store,
     private readonly dialog: MatDialog,
-    private readonly gridStateService: AgGridStateService
+    private readonly gridStateService: AgGridStateService,
+    private readonly activatedRoute: ActivatedRoute
   ) {}
 
   public ngOnInit(): void {
+    this.routeSnapShot = this.activatedRoute.snapshot;
+
     this.quotation$ = this.store.select(getQuotation);
     this.updateLoading$ = this.store.select(getUpdateLoading);
     this.gridStateService.init('process_case');
@@ -68,6 +73,8 @@ export class SingleQuotesTabComponent implements OnInit {
         ];
       })
     );
+
+    this.applyFilterFromQueryParams();
   }
 
   onViewToggle(view: ViewToggle) {
@@ -146,5 +153,32 @@ export class SingleQuotesTabComponent implements OnInit {
           this.gridStateService.updateViewName(viewId, result.name);
         }
       });
+  }
+
+  /**
+   * checks in query Params if there are filterParams (start with 'filter_')
+   * if filter exists applies all filter for MatNumber and MatDescription
+   */
+  applyFilterFromQueryParams() {
+    const filterParams = this.routeSnapShot.queryParamMap.keys.filter(
+      (key: string) => key.startsWith(FILTER_PARAM_INDICATOR)
+    );
+    if (filterParams.length === 0) {
+      return;
+    }
+
+    this.gridStateService.setActiveView(this.gridStateService.DEFAULT_VIEW_ID);
+    filterParams.forEach((key: string) => {
+      const gqId = this.routeSnapShot.queryParamMap.get('quotation_number');
+      const filterKey = key.replace(FILTER_PARAM_INDICATOR, '');
+      const filterValue = this.routeSnapShot.queryParamMap.get(key);
+
+      this.gridStateService.setColumnFilterForCurrentView(gqId, {
+        [filterKey]: {
+          values: [filterValue],
+          filterType: 'set',
+        },
+      });
+    });
   }
 }

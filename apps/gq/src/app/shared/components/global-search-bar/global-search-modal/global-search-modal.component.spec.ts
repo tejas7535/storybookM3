@@ -43,6 +43,7 @@ describe('GlobalSearchModalComponent', () => {
         useValue: {
           resetView: jest.fn(),
           initFacade: jest.fn(),
+          autocomplete: jest.fn(),
           resetAutocompleteMaterials: jest.fn(),
           materialNumberOrDescForGlobalSearch$: of({
             filter: FilterNames.MATERIAL_NUMBER_OR_DESCRIPTION,
@@ -76,10 +77,44 @@ describe('GlobalSearchModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('ngOnOnInit', () => {
+    test('should init', () => {
+      component.ngOnInit();
+      component.searchFormControl.setValue('value');
+      expect(component.autocomplete.resetView).toHaveBeenCalled();
+      expect(component.autocomplete.initFacade).toHaveBeenCalled();
+      expect(component.displayResultList).toBe('preview');
+    });
+    test('should autocomplete', (done) => {
+      component.ngOnInit();
+      component.searchFormControl.setValue('value');
+
+      setTimeout(() => {
+        expect(component.autocomplete.autocomplete).toHaveBeenCalled();
+        done();
+      }, component['DEBOUNCE_TIME_DEFAULT']);
+    });
+  });
+
   describe('onItemSelected', () => {
     test('should call the service', () => {
       component.onItemSelected({ value: '12345', id: '1' } as IdValue);
       expect(component.searchResult).toEqual([QUOTATION_SEARCH_RESULT_MOCK]);
+    });
+    test('should set material number as filter', () => {
+      const selectedMaterial: IdValue = {
+        id: 'material description',
+        value: '123456789',
+        selected: false,
+      };
+      component.searchVal = '12345';
+      component['materialNumberService'].matNumberStartsWithSearchString = jest
+        .fn()
+        .mockReturnValue(true);
+
+      component.onItemSelected(selectedMaterial);
+
+      expect(true).toBeTruthy();
     });
   });
   describe('closeDialog', () => {
@@ -104,10 +139,12 @@ describe('GlobalSearchModalComponent', () => {
   });
 
   describe('openCase', () => {
-    test('should navigate and close dialog', () => {
+    test('should navigate with material description and close dialog', () => {
       component['router'].navigate = jest.fn().mockImplementation();
       component.closeDialog = jest.fn();
       component.clearInputField = jest.fn();
+      component['selectedMaterialDesc'] = 'matDesc';
+      component['selectedMaterialNumber'] = '';
 
       component.openCase(QUOTATION_SEARCH_RESULT_MOCK);
 
@@ -120,6 +157,31 @@ describe('GlobalSearchModalComponent', () => {
             quotation_number: QUOTATION_SEARCH_RESULT_MOCK.gqId,
             customer_number: QUOTATION_SEARCH_RESULT_MOCK.customerNumber,
             sales_org: QUOTATION_SEARCH_RESULT_MOCK.salesOrg,
+            'filter_material.materialDescription': 'matDesc',
+          },
+        }
+      );
+      expect(component.closeDialog).toHaveBeenCalled();
+      expect(component.clearInputField).toHaveBeenCalled();
+    });
+    test('should navigate with material number and close dialog', () => {
+      component['router'].navigate = jest.fn().mockImplementation();
+      component.closeDialog = jest.fn();
+      component.clearInputField = jest.fn();
+      component['selectedMaterialDesc'] = '';
+      component['selectedMaterialNumber'] = '12345678';
+      component.openCase(QUOTATION_SEARCH_RESULT_MOCK);
+
+      expect(component['router'].navigate).toHaveBeenCalled();
+      expect(component['router'].navigate).toHaveBeenCalledWith(
+        [AppRoutePath.ProcessCaseViewPath],
+        {
+          queryParamsHandling: 'merge',
+          queryParams: {
+            quotation_number: QUOTATION_SEARCH_RESULT_MOCK.gqId,
+            customer_number: QUOTATION_SEARCH_RESULT_MOCK.customerNumber,
+            sales_org: QUOTATION_SEARCH_RESULT_MOCK.salesOrg,
+            'filter_material.materialNumber15': '12345678',
           },
         }
       );

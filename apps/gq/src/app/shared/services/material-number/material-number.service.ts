@@ -21,4 +21,17 @@ export class MaterialNumberService {
       return value || Keyboard.DASH;
     }
   }
+
+  /**
+   * starts a 'startWith' comparison with  a no-dash materialNumber with a dashed or no-dashed materialNumber search string
+   * @param matNumber material number string without dashes
+   * @param searchVal the searchVal with or without '-'
+   * @returns true if the matNumber startsWith the searchString
+   * */
+  public matNumberStartsWithSearchString(
+    matNumber: string,
+    searchVal: string
+  ): boolean {
+    return matNumber?.startsWith(searchVal.replace(/-/g, ''));
+  }
 }

@@ -135,7 +135,7 @@ export class ColumnDefService {
     },
     {
       headerName: translate('shared.quotationDetailsTable.materialDescription'),
-      field: 'material.materialDescription',
+      field: ColumnFields.MATERIAL_DESCRIPTION,
       filterParams: FILTER_PARAMS,
     },
     {

@@ -1,6 +1,7 @@
 import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
@@ -52,6 +53,18 @@ describe('SingleQuotesTabComponent', () => {
           'azure-auth': {},
         },
       }),
+      {
+        provide: ActivatedRoute,
+        useValue: {
+          snapshot: {
+            queryParamMap: {
+              get: jest.fn().mockReturnValue('gq123'),
+
+              keys: { filter: jest.fn().mockReturnValue(['filter_key1']) },
+            },
+          },
+        },
+      },
     ],
   });
 
@@ -133,5 +146,80 @@ describe('SingleQuotesTabComponent', () => {
         'test-name'
       );
     });
+  });
+
+  describe('applyFilterFromQueryParams', () => {
+    test('should apply a filter', () => {
+      component['gridStateService'].setColumnFilterForCurrentView = jest.fn();
+      component['gridStateService'].setActiveView = jest.fn();
+
+      component.applyFilterFromQueryParams();
+
+      expect(component['gridStateService'].setActiveView).toHaveBeenCalled();
+      expect(
+        component['gridStateService'].setColumnFilterForCurrentView
+      ).toHaveBeenCalledWith('gq123', {
+        key1: { filterType: 'set', values: ['gq123'] },
+      });
+    });
+  });
+});
+
+describe('SingleQuotesTab Without Filter params', () => {
+  let component: SingleQuotesTabComponent;
+  let spectator: Spectator<SingleQuotesTabComponent>;
+
+  const createComponent = createComponentFactory({
+    component: SingleQuotesTabComponent,
+    imports: [
+      MockModule(InputTableModule),
+      MockModule(CustomStatusBarModule),
+      MockModule(QuotationDetailsTableModule),
+      RouterTestingModule,
+      provideTranslocoTestingModule({ en: {} }),
+      LoadingSpinnerModule,
+      PushModule,
+      MatCardModule,
+      SharedDirectivesModule,
+      MatDialogModule,
+      ViewToggleModule,
+    ],
+    providers: [
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+      provideMockStore({
+        initialState: {
+          processCase: PROCESS_CASE_STATE_MOCK,
+          'azure-auth': {},
+        },
+      }),
+      {
+        provide: ActivatedRoute,
+        useValue: {
+          snapshot: {
+            queryParamMap: {
+              get: jest.fn().mockReturnValue('gq123'),
+
+              keys: { filter: jest.fn().mockReturnValue([]) },
+            },
+          },
+        },
+      },
+    ],
+  });
+  beforeEach(() => {
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
+  });
+
+  test('should NOT apply a filter', () => {
+    component['gridStateService'].setColumnFilterForCurrentView = jest.fn();
+    component['gridStateService'].setActiveView = jest.fn();
+
+    component.applyFilterFromQueryParams();
+
+    expect(component['gridStateService'].setActiveView).not.toHaveBeenCalled();
+    expect(
+      component['gridStateService'].setColumnFilterForCurrentView
+    ).not.toHaveBeenCalled();
   });
 });

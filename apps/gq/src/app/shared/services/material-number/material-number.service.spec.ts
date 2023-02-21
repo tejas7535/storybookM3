@@ -80,4 +80,39 @@ describe('MaterialNumberService', () => {
       expect(result).toEqual('-');
     });
   });
+
+  describe('matNumberStartsWithSearchString', () => {
+    test('should return true, when no-dashed and searchString match the startsWith comparison', () => {
+      const result = service.matNumberStartsWithSearchString(
+        '0000190000000',
+        '0000190-0000-00'
+      );
+      expect(result).toBe(true);
+    });
+    test('should return true, when both string have no dashes', () => {
+      const result = service.matNumberStartsWithSearchString(
+        '0000190000000',
+        '0000190000000'
+      );
+      expect(result).toBe(true);
+    });
+    test('should return true, when matNumber and searchVal start with same string', () => {
+      const result = service.matNumberStartsWithSearchString(
+        '0000190000000',
+        '0-0-0-0-1-9-0-0-0-0-0-0-0'
+      );
+      expect(result).toBe(true);
+    });
+    test('should return false, when matNumber does not match the searchString', () => {
+      const result = service.matNumberStartsWithSearchString(
+        '0000190000000',
+        '1'
+      );
+      expect(result).toBe(false);
+    });
+    test('should return falsy value, when matNumber is not set', () => {
+      const result = service.matNumberStartsWithSearchString(undefined, '1');
+      expect(result).toBeFalsy();
+    });
+  });
 });
