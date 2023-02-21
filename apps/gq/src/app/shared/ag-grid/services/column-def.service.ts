@@ -10,6 +10,7 @@ import {
 
 import { EditCellData } from '../../ag-grid/cell-renderer/models/edit-cell-class-params.model';
 import { timestampRegex } from '../../constants';
+import { Keyboard } from '../../models';
 import { SAP_SYNC_STATUS } from '../../models/quotation-detail';
 import {
   FreeStockCellComponent,
@@ -413,6 +414,19 @@ export class ColumnDefService {
         ),
         editableColumn: true,
       },
+    },
+    {
+      headerName: translate(
+        `shared.quotationDetailsTable.abcxClassification.title`
+      ),
+      field: ColumnFields.ABCX_CLASSIFICATION,
+      filterParams: FILTER_PARAMS,
+      valueGetter: (params: ValueGetterParams) =>
+        params?.data?.abcxClassification
+          ? translate(
+              `shared.quotationDetailsTable.abcxClassification.${params.data.abcxClassification}`
+            )
+          : Keyboard.DASH,
     },
     {
       headerName: translate('shared.quotationDetailsTable.rlm'),

@@ -126,7 +126,14 @@
       },
       "ST": "PC",
       "deliveryUnit": "Delivery Unit",
-      "defaultView": "Default"
+      "defaultView": "Default",
+      "abcxClassification": {
+        "title": "ABCX Classification",
+        "UR3": "A - Preferred",
+        "UR1": "B - Unrestricted",
+        "UR4": "C - Restricted",
+        "UR2": "X - Not for new design"
+      }
     },
     "breadcrumbs": {
       "caseView": "Quotation Cases",

@@ -6,6 +6,7 @@ export enum ColumnFields {
   GPI = 'gpi',
   PROFIT_MARGIN = 'profitMargin',
   GPM = 'gpm',
+  ABCX_CLASSIFICATION = 'abcxClassification',
   RLM = 'rlm',
   PRICE_UNIT = 'priceUnit',
   PRICE = 'price',

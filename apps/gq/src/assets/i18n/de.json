@@ -126,7 +126,14 @@
       },
       "ST": "ST",
       "deliveryUnit": "Liefereinheit",
-      "defaultView": "Standard"
+      "defaultView": "Standard",
+      "abcxClassification": {
+        "title": "ABCX Klassifikation",
+        "UR3": "A - Bevorzugt",
+        "UR1": "B - Uneingeschränkt",
+        "UR4": "C - Eingeschränkt",
+        "UR2": "X - Geblockt"
+      }
     },
     "breadcrumbs": {
       "caseView": "Case Übersicht",

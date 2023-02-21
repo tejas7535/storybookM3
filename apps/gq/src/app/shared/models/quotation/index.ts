@@ -1,3 +1,4 @@
+export * from './abcxClassification.enum';
 export * from './quotation.model';
 export * from './quotation-search-result.model';
 export * from './quotation-status.enum';
