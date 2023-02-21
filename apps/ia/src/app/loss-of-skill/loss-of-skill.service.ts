@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { withCache } from '@ngneat/cashew';
 
 import { ExitEntryEmployeesResponse } from '../overview/models';
+import { CONTENT_TYPE_APPLICATION_JSON } from '../shared/constants';
 import { ParamsCreatorService } from '../shared/http/params-creator.service';
 import { ApiVersion, EmployeesRequest } from '../shared/models';
 import { LostJobProfilesResponse, WorkforceResponse } from './models';
@@ -38,6 +39,7 @@ export class LossOfSkillService {
       {
         params,
         context: withCache(),
+        headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
       }
     );
   }
@@ -57,6 +59,7 @@ export class LossOfSkillService {
       {
         params,
         context: withCache(),
+        headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
       }
     );
   }
@@ -76,6 +79,7 @@ export class LossOfSkillService {
       {
         params,
         context: withCache(),
+        headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
       }
     );
   }

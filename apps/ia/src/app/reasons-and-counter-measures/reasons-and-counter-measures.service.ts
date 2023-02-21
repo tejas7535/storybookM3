@@ -1,10 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
 import { withCache } from '@ngneat/cashew';
 
+import { CONTENT_TYPE_APPLICATION_JSON } from '../shared/constants';
 import { ParamsCreatorService } from '../shared/http/params-creator.service';
 import { ApiVersion, EmployeesRequest } from '../shared/models';
 import { ReasonForLeavingStats } from './models/reason-for-leaving-stats.model';
@@ -31,7 +32,11 @@ export class ReasonsAndCounterMeasuresService {
 
     return this.http.get<ReasonForLeavingStats[]>(
       `${ApiVersion.V1}/${this.REASONS_WHY_PEOPLE_LEFT}`,
-      { params, context: withCache() }
+      {
+        params,
+        context: withCache(),
+        headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
+      }
     );
   }
 }

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 
 import { withCache } from '@ngneat/cashew';
 
+import { CONTENT_TYPE_APPLICATION_JSON } from '../shared/constants';
 import { ParamsCreatorService } from '../shared/http/params-creator.service';
 import {
   ApiVersion,
@@ -54,6 +55,7 @@ export class OrganizationalViewService {
       .get<OrgChartResponse>(`${ApiVersion.V1}/${this.ORG_CHART}`, {
         params,
         context: withCache(),
+        headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
       })
       .pipe(map((response) => response.dimensions));
   }
@@ -73,6 +75,7 @@ export class OrganizationalViewService {
         {
           params,
           context: withCache(),
+          headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
         }
       )
       .pipe(map((response) => response.employees));
@@ -89,6 +92,7 @@ export class OrganizationalViewService {
       .get<WorldMapResponse>(`${ApiVersion.V1}/${this.WORLD_MAP}`, {
         params,
         context: withCache(),
+        headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
       })
       .pipe(map((response) => response.data));
   }
@@ -108,6 +112,7 @@ export class OrganizationalViewService {
         {
           params,
           context: withCache(),
+          headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
         }
       )
       .pipe(
@@ -135,6 +140,7 @@ export class OrganizationalViewService {
       {
         params,
         context: withCache(),
+        headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
       }
     );
   }
@@ -155,6 +161,7 @@ export class OrganizationalViewService {
       {
         params,
         context: withCache(),
+        headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
       }
     );
   }

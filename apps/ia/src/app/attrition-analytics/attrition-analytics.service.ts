@@ -1,10 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
 import { withCache } from '@ngneat/cashew';
 
+import { CONTENT_TYPE_APPLICATION_JSON } from '../shared/constants';
 import { ApiVersion, Slice, SortDirection } from '../shared/models';
 import { FeatureImportanceGroup } from './models';
 import { EmployeeAnalytics } from './models/employee-analytics.model';
@@ -25,6 +26,7 @@ export class AttritionAnalyticsService {
       `${ApiVersion.V1}/${this.AVAILABLE_FEATURES}`,
       {
         context: withCache(),
+        headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
       }
     );
   }
@@ -34,7 +36,10 @@ export class AttritionAnalyticsService {
   ): Observable<EmployeeAnalytics[]> {
     return this.http.post<EmployeeAnalytics[]>(
       `${ApiVersion.V1}/${this.EMPLOYEE_ANALYTICS}`,
-      requestedFeatures
+      requestedFeatures,
+      {
+        headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
+      }
     );
   }
 
@@ -61,6 +66,7 @@ export class AttritionAnalyticsService {
           sort: sortQueryParam,
         },
         context: withCache(),
+        headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
       }
     );
   }

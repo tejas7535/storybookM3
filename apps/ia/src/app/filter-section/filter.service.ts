@@ -1,10 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { EMPTY, map, Observable } from 'rxjs';
 
 import { withCache } from '@ngneat/cashew';
 
+import { CONTENT_TYPE_APPLICATION_JSON } from '../shared/constants';
 import { ParamsCreatorService } from '../shared/http/params-creator.service';
 import { ApiVersion, FilterDimension, IdValue, Slice } from '../shared/models';
 
@@ -39,7 +40,11 @@ export class FilterService {
     return this.http
       .get<Slice<IdValue>>(
         `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.AUTOCOMPLETE_ORG_UNITS}`,
-        { params, context: withCache() }
+        {
+          params,
+          context: withCache(),
+          headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
+        }
       )
       .pipe(map((result) => result.content));
   }
@@ -49,7 +54,11 @@ export class FilterService {
 
     return this.http.get<IdValue[]>(
       `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.REGIONS}`,
-      { params, context: withCache() }
+      {
+        params,
+        context: withCache(),
+        headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
+      }
     );
   }
 
@@ -58,7 +67,11 @@ export class FilterService {
 
     return this.http.get<IdValue[]>(
       `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.SUB_REGIONS}`,
-      { params, context: withCache() }
+      {
+        params,
+        context: withCache(),
+        headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
+      }
     );
   }
 
@@ -67,7 +80,11 @@ export class FilterService {
 
     return this.http.get<IdValue[]>(
       `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.COUNTRIES}`,
-      { params, context: withCache() }
+      {
+        params,
+        context: withCache(),
+        headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
+      }
     );
   }
 
@@ -76,7 +93,11 @@ export class FilterService {
 
     return this.http.get<IdValue[]>(
       `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.FUNCTIONS}`,
-      { params, context: withCache() }
+      {
+        params,
+        context: withCache(),
+        headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
+      }
     );
   }
 
@@ -85,7 +106,11 @@ export class FilterService {
 
     return this.http.get<IdValue[]>(
       `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.SUB_FUNCTIONS}`,
-      { params, context: withCache() }
+      {
+        params,
+        context: withCache(),
+        headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
+      }
     );
   }
 
@@ -94,7 +119,11 @@ export class FilterService {
 
     return this.http.get<IdValue[]>(
       `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.SEGMENTS}`,
-      { params, context: withCache() }
+      {
+        params,
+        context: withCache(),
+        headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
+      }
     );
   }
 
@@ -103,7 +132,11 @@ export class FilterService {
 
     return this.http.get<IdValue[]>(
       `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.SUB_SEGMENTS}`,
-      { params, context: withCache() }
+      {
+        params,
+        context: withCache(),
+        headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
+      }
     );
   }
 
@@ -112,7 +145,11 @@ export class FilterService {
 
     return this.http.get<IdValue[]>(
       `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.SEGMENT_UNITS}`,
-      { params, context: withCache() }
+      {
+        params,
+        context: withCache(),
+        headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
+      }
     );
   }
 
@@ -121,7 +158,11 @@ export class FilterService {
 
     return this.http.get<IdValue[]>(
       `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.BOARDS}`,
-      { params, context: withCache() }
+      {
+        params,
+        context: withCache(),
+        headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
+      }
     );
   }
 
@@ -130,7 +171,11 @@ export class FilterService {
 
     return this.http.get<IdValue[]>(
       `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.SUB_BOARDS}`,
-      { params, context: withCache() }
+      {
+        params,
+        context: withCache(),
+        headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
+      }
     );
   }
 
