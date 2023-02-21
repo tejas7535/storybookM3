@@ -4,6 +4,8 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
+import { of } from 'rxjs';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
@@ -59,7 +61,9 @@ describe('AddMaterialDialogComponent', () => {
       }),
       {
         provide: MatDialogRef,
-        useValue: {},
+        useValue: {
+          beforeClosed: jest.fn(() => of(true)),
+        },
       },
     ],
   });
@@ -80,7 +84,7 @@ describe('AddMaterialDialogComponent', () => {
       component.ngOnInit();
 
       expect(component.rowData$).toBeDefined();
-      expect(component['subscription'].add).toHaveBeenCalledTimes(1);
+      expect(component['subscription'].add).toHaveBeenCalledTimes(2);
     });
   });
 

@@ -54,6 +54,13 @@ export class AddMaterialDialogComponent implements OnInit, OnDestroy {
         }
       )
     );
+
+    // when dialog is closed by other components the actions need to be dispatched
+    this.subscription.add(
+      this.dialogRef.beforeClosed().subscribe(() => {
+        this.dispatchResetActions();
+      })
+    );
   }
 
   public ngOnDestroy(): void {
@@ -61,9 +68,13 @@ export class AddMaterialDialogComponent implements OnInit, OnDestroy {
   }
 
   closeDialog(): void {
+    this.dispatchResetActions();
+    this.dialogRef.close();
+  }
+
+  private dispatchResetActions(): void {
     this.store.dispatch(clearProcessCaseRowData());
     this.store.dispatch(resetAllAutocompleteOptions());
     this.store.dispatch(resetRequestingAutoCompleteDialog());
-    this.dialogRef.close();
   }
 }
