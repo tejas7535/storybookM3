@@ -512,6 +512,13 @@
       "cu": "Copper",
       "ce": "Ceramic"
     },
+    "materialClassValuesNavigation": {
+      "st": "Steel",
+      "al": "Aluminum alloys",
+      "px": "Polymers",
+      "cu": "Copper alloys",
+      "ce": "Ceramics"
+    },
     "status": {
       "statusValues": {
         "blocked": "Blocked",
