@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { DateDisplayPipe } from './date-display/date-display.pipe';
 import { GqQuotationPipe } from './gq-quotation/gq-quotation.pipe';
+import { IsDashOrEmptyStringPipe } from './is-dash-or-empty-string/is-dash-or-empty-string.pipe';
 import { MaterialClassificationSOPPipe } from './material-classification-sop/material-classification-sop.pipe';
 import { MaterialInfoPipe } from './material-info/material-info.pipe';
 import { MaterialTransformPipe } from './material-transform/material-transform.pipe';
@@ -29,6 +30,7 @@ import { UomPipe } from './uom/uom.pipe';
     DateDisplayPipe,
     MaterialClassificationSOPPipe,
     UomPipe,
+    IsDashOrEmptyStringPipe,
   ],
   imports: [],
   exports: [
@@ -45,6 +47,7 @@ import { UomPipe } from './uom/uom.pipe';
     UomPipe,
     DateDisplayPipe,
     MaterialClassificationSOPPipe,
+    IsDashOrEmptyStringPipe,
   ],
   providers: [MaterialTransformPipe],
 })
