@@ -560,7 +560,7 @@
       "roller": "Roller"
     },
     "productionProcessValues": {
-      "co": {
+      "cu": {
         "mining": "Mining",
         "leaching": "Leaching",
         "solventExtraction": "Solvent Extraction",

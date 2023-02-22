@@ -51,7 +51,7 @@ export class CopperInputDialogComponent
   public referenceDocumentControl =
     this.controlsService.getControl<StringOption[]>();
   public productionProcessControl =
-    this.controlsService.getControl<StringOption>();
+    this.controlsService.getRequiredControl<StringOption>();
 
   // casting diameter dependencies
   castingDiameterDep: FormGroup<{
