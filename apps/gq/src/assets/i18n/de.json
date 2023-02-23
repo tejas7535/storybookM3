@@ -41,8 +41,8 @@
         "se": "Sektor Preis"
       },
       "sapStatus": "Status",
-      "materialDescription": "Materialbezeichnung",
-      "materialNumber": "Material",
+      "materialDescription": "Materialbeschreibung",
+      "materialNumber": "Materialnummer (15-stellig)",
       "netValue": "Nettowert",
       "netValueInfoText": "Nettopreis x Menge",
       "price": "Nettopreis",
@@ -166,7 +166,7 @@
         },
         "materialNumber": {
           "hint": "Geben Sie eine 15-stellige Materialnummer ein",
-          "label": "Material Nummer",
+          "label": "Materialnummer",
           "nothingFound": "Keine Ergebnisse",
           "wrongInput": "Bitte geben Sie eine valide Materialnummer ein"
         },
@@ -174,7 +174,7 @@
           "hint": "Geben Sie eine Materialbeschreibung ein",
           "label": "Materialbeschreibung",
           "nothingFound": "Nichts gefunden",
-          "wrongInput": "Bitte geben sie eine valida Materialbeschreibung ein"
+          "wrongInput": "Bitte geben sie eine valide Materialbeschreibung ein"
         },
         "sap-quotation": {
           "hint": "Geben Sie eine SAP-Angebotsnummer ein",
@@ -201,7 +201,7 @@
           }
         },
         "materialDescription": "Materialbeschreibung",
-        "materialNumber": "Material Nummer (15-stellig)",
+        "materialNumber": "Materialnummer (15-stellig)",
         "quantity": "Menge"
       }
     },
@@ -292,9 +292,9 @@
         },
         "extendedComparableLinkedTransactions": {
           "itemId": "Position",
-          "materialDescription": "Material-Beschreibung",
-          "inputMaterialDescription": "Eingabe-Material-Beschreibung",
-          "inputMaterialNumber": "Eingabe-Material-Nummer",
+          "materialDescription": "Materialbeschreibung",
+          "inputMaterialDescription": "Eingabe-Materialbeschreibung",
+          "inputMaterialNumber": "Eingabe-Materialnummer",
           "inputQuantity": "Eingabe-Menge",
           "customerId": "Kundennummer",
           "customerName": "Kundenname",
