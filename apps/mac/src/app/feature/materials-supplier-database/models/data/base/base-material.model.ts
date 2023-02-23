@@ -6,17 +6,20 @@ export interface BaseMaterial {
   materialStandardMaterialName: string;
   materialStandardStandardDocument: string;
   materialStandardMaterialNumber?: string;
+
   manufacturerSupplierId: number;
   manufacturerSupplierName?: string;
   manufacturerSupplierPlant?: string;
   manufacturerSupplierCountry?: string;
+
   materialClass: MaterialClass;
-  productCategory?: string;
-  productCategoryText?: string;
+
   co2Scope1?: number;
   co2Scope2?: number;
   co2Scope3?: number;
   co2PerTon?: number;
+  productCategory?: string;
+  productCategoryText?: string;
   co2Classification?: string;
   releaseRestrictions?: string;
   attachments?: string;

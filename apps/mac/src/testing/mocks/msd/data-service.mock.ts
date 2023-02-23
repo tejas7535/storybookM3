@@ -6,81 +6,11 @@ import {
   CopperMaterial,
   CopperMaterialResponse,
   DataResult,
-  MaterialResponseEntry,
   PolymerMaterial,
   PolymerMaterialResponse,
   SteelMaterial,
   SteelMaterialResponse,
 } from '@mac/msd/models';
-
-export const msdServiceLegacyMockResponse: MaterialResponseEntry[] = [
-  {
-    id: 127,
-    castingMode: undefined,
-    castingDiameter: undefined,
-    minDimension: 0,
-    maxDimension: 0,
-    co2PerTon: 2183,
-    rating: 'RSI',
-    steelMakingProcess: 'BF + BOF',
-    releaseDateYear: 2021,
-    releaseDateMonth: 10,
-    releaseRestrictions: '',
-    productCategory: 'strip',
-    materialClass: 'st',
-    manufacturerSupplier: {
-      id: 442,
-      name: 'ArcelorMittal Tubarao',
-      plant: 'Tubarao',
-      manufacturer: false,
-      country: 'Brazil',
-      sapData: [
-        {
-          sapSupplierId: '0000000000000',
-        },
-        {
-          sapSupplierId: '0000000000001',
-        },
-      ],
-    },
-    materialStandard: {
-      id: 57,
-      materialName: 'C80M',
-      standardDocument: 'S 130002',
-      materialNumber: '1.1234',
-    },
-    selfCertified: false,
-  },
-  {
-    id: 128,
-    castingMode: undefined,
-    castingDiameter: undefined,
-    minDimension: 0,
-    maxDimension: 0,
-    co2PerTon: 2183,
-    rating: undefined,
-    steelMakingProcess: 'BF + BOF',
-    releaseDateYear: 2004,
-    releaseDateMonth: 6,
-    releaseRestrictions: '',
-    productCategory: 'strip',
-    materialClass: 'st',
-    manufacturerSupplier: {
-      id: 442,
-      name: 'ArcelorMittal Tubarao',
-      plant: 'Tubarao',
-      manufacturer: true,
-      country: 'Brazil',
-    },
-    materialStandard: {
-      id: 57,
-      materialName: 'C45',
-      standardDocument: 'S 130001',
-      materialNumber: '1.1234, 1.2345',
-    },
-    selfCertified: false,
-  },
-];
 
 export const msdServiceLegacyMockResult: DataResult[] = [
   {
@@ -271,6 +201,7 @@ export const msdServiceSteelMockResult: SteelMaterial[] = [
     referenceDoc: undefined,
     manufacturer: false,
     lastModified: undefined,
+    modifiedBy: undefined,
     recyclingRate: 55,
   },
   {
@@ -391,7 +322,6 @@ export const msdServicePolymerMockResult: PolymerMaterial[] = [
     co2Scope3: undefined,
     co2Classification: undefined,
     referenceDoc: undefined,
-    ssid: undefined,
     generalDescription: undefined,
     materialNumbers: undefined,
   },
@@ -419,7 +349,6 @@ export const msdServicePolymerMockResult: PolymerMaterial[] = [
     co2Classification: undefined,
     referenceDoc: undefined,
     lastModified: undefined,
-    ssid: 'ssid',
     generalDescription: 'generalDescription',
     materialNumbers: ['sapMaterialNumber'],
   },

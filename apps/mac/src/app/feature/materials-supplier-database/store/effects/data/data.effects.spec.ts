@@ -10,11 +10,11 @@ import { marbles } from 'rxjs-marbles';
 
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import {
+  ManufacturerSupplier,
   ManufacturerSupplierTableValue,
-  ManufacturerSupplierV2,
+  Material,
+  MaterialStandard,
   MaterialStandardTableValue,
-  MaterialStandardV2,
-  MaterialV2,
 } from '@mac/msd/models';
 import { MsdDataService } from '@mac/msd/services';
 import {
@@ -128,10 +128,10 @@ describe('Data Effects', () => {
         action = fetchMaterials();
         actions$ = m.hot('-a', { a: action });
 
-        const resultMock: MaterialV2[] = [
+        const resultMock: Material[] = [
           {
             manufacturerSupplierName: 'some supplier',
-          } as MaterialV2,
+          } as Material,
         ];
         const response = m.cold('-a|', { a: resultMock });
         msdDataService.getMaterials = jest.fn(() => response);
@@ -252,7 +252,7 @@ describe('Data Effects', () => {
         action = fetchManufacturerSuppliers();
         actions$ = m.hot('-a', { a: action });
 
-        const resultMock: ManufacturerSupplierV2[] = [
+        const resultMock: ManufacturerSupplier[] = [
           {
             id: 1,
             name: 'supplier',
@@ -345,7 +345,7 @@ describe('Data Effects', () => {
         action = fetchMaterialStandards();
         actions$ = m.hot('-a', { a: action });
 
-        const resultMock: MaterialStandardV2[] = [
+        const resultMock: MaterialStandard[] = [
           {
             id: 1,
             materialName: 'name',

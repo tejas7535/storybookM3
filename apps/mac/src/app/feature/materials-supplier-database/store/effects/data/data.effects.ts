@@ -11,8 +11,8 @@ import {
 import {
   DataResult,
   ManufacturerSupplierTableValue,
+  Material,
   MaterialStandardTableValue,
-  MaterialV2,
 } from '@mac/msd/models';
 import { MsdDataService } from '@mac/msd/services/msd-data';
 import { MsdSnackbarService } from '@mac/msd/services/msd-snackbar';
@@ -55,7 +55,7 @@ export class DataEffects {
       concatLatestFrom(() => this.dataFacade.navigation$),
       switchMap(([_action, { materialClass }]) =>
         this.msdDataService.getMaterials(materialClass).pipe(
-          map((result: DataResult[] | MaterialV2[]) =>
+          map((result: DataResult[] | Material[]) =>
             DataActions.fetchMaterialsSuccess({
               materialClass,
               result,

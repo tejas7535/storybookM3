@@ -61,7 +61,7 @@ import {
 import { CeramicMaterial } from '../ceramic/ceramic-material.model';
 
 // TODO: Rename to Material once the migration to API V3 is done
-export type MaterialV2 =
+export type Material =
   | AluminumMaterial
   | SteelMaterial
   | PolymerMaterial
@@ -73,21 +73,19 @@ export type MaterialResponse =
   | PolymerMaterialResponse
   | CopperMaterialResponse
   | CeramicMaterialResponse;
-// TODO: Rename to ManufacturerSupplier once the migration to API V3 is done
-export type ManufacturerSupplierV2 =
+export type ManufacturerSupplier =
   | AluminumManufacturerSupplier
   | SteelManufacturerSupplier
   | PolymerManufacturerSupplier
   | CopperManufacturerSupplier
   | CeramicManufacturerSupplier;
-// TODO: Rename to MaterialStandard once the migration to API V3 is done
-export type MaterialStandardV2 =
+export type MaterialStandard =
   | AluminumMaterialStandard
   | SteelMaterialStandard
   | PolymerMaterialStandard
   | CopperMaterialStandard
   | CeramicMaterialStandard;
-export type MaterialFormValueV2 =
+export type MaterialFormValue =
   | AluminumMaterialFormValue
   | SteelMaterialFormValue
   | CopperMaterialFormValue

@@ -26,10 +26,10 @@ import * as util from '@mac/msd/main-table/material-input-dialog/util';
 import { focusSelectedElement } from '@mac/msd/main-table/material-input-dialog/util';
 import {
   DataResult,
-  ManufacturerSupplierV2,
-  MaterialFormValueV2,
+  ManufacturerSupplier,
+  MaterialFormValue,
   MaterialRequest,
-  MaterialStandardV2,
+  MaterialStandard,
 } from '@mac/msd/models';
 import {
   materialDialogConfirmed,
@@ -40,6 +40,7 @@ import {
 import { DialogFacade } from '@mac/msd/store/facades/dialog';
 
 import { DataFacade } from '../../store/facades/data';
+import { findProperty, mapProperty } from './util/form-helpers';
 
 @Component({
   selector: 'mac-base-input-dialog',
@@ -157,7 +158,7 @@ export class MaterialInputDialogComponent
           take(1)
         )
         .subscribe((dialogData) => {
-          const materialFormValue: Partial<MaterialFormValueV2> =
+          const materialFormValue: Partial<MaterialFormValue> =
             dialogData.minimizedDialog?.value ??
             dialogData.editMaterial?.parsedMaterial;
           this.isCopy =
@@ -210,7 +211,7 @@ export class MaterialInputDialogComponent
   }
 
   // allow overload in sup-class
-  patchFields(materialFormValue: Partial<MaterialFormValueV2>): void {
+  patchFields(materialFormValue: Partial<MaterialFormValue>): void {
     this.createMaterialForm.patchValue(materialFormValue);
   }
 
@@ -260,7 +261,7 @@ export class MaterialInputDialogComponent
   }
 
   // extend this method in child classes for specific material classes
-  enableEditFields(materialFormValue: Partial<MaterialFormValueV2>): void {
+  enableEditFields(materialFormValue: Partial<MaterialFormValue>): void {
     if (materialFormValue.supplier) {
       this.supplierPlantControl.enable({ emitEvent: false });
     }
@@ -306,118 +307,88 @@ export class MaterialInputDialogComponent
     return this.dialogData?.editDialogInformation?.column;
   }
 
-  protected buildMaterialStandard(baseMaterial: any): MaterialStandardV2 {
+  protected buildMaterialStandard(
+    baseMaterial: MaterialFormValue
+  ): MaterialStandard {
     return {
       id: baseMaterial.materialStandardId,
       materialName: baseMaterial.materialName.title,
-      materialNumber:
-        'materialNumber' in baseMaterial
-          ? baseMaterial.materialNumber
-          : undefined,
+      materialNumber: mapProperty<string>(
+        baseMaterial,
+        'materialNumber',
+        (val) => (val.length > 0 ? val.split(/,\s?/) : undefined)
+      ),
       standardDocument: baseMaterial.standardDocument.title,
     };
   }
 
   protected buildManufacturerSupplier(
-    baseMaterial: MaterialFormValueV2
-  ): ManufacturerSupplierV2 {
+    baseMaterial: MaterialFormValue
+  ): ManufacturerSupplier {
     return {
       id: baseMaterial.manufacturerSupplierId,
       name: baseMaterial.supplier.title,
       plant: baseMaterial.supplierPlant.title,
       country: baseMaterial.supplierCountry?.title,
-      manufacturer:
-        'manufacturer' in baseMaterial ? baseMaterial.manufacturer : undefined,
+      manufacturer: findProperty(baseMaterial, 'manufacturer'),
     };
   }
 
-  protected buildMaterial(baseMaterial: MaterialFormValueV2): MaterialRequest {
+  protected buildMaterial(baseMaterial: MaterialFormValue): MaterialRequest {
     return {
       // TODO: should not be hardcoded later on
       id: this.materialId,
       manufacturerSupplierId: baseMaterial.manufacturerSupplierId,
       materialStandardId: baseMaterial.materialStandardId,
       productCategory: baseMaterial.productCategory.id as string,
-      referenceDoc:
-        'referenceDoc' in baseMaterial
-          ? JSON.stringify(
-              baseMaterial.referenceDoc?.map(
-                (option: StringOption) => option.title
-              ) || []
-            )
-          : undefined,
+      referenceDoc: JSON.stringify(
+        findProperty<StringOption[]>(baseMaterial, 'referenceDoc')?.map(
+          (val) => val.title
+        )
+      ),
       co2Scope1: baseMaterial.co2Scope1,
       co2Scope2: baseMaterial.co2Scope2,
       co2Scope3: baseMaterial.co2Scope3,
       co2PerTon: baseMaterial.co2PerTon,
       co2Classification: baseMaterial.co2Classification?.id as string,
-      releaseDateYear:
-        'releaseDateYear' in baseMaterial
-          ? baseMaterial.releaseDateYear
-          : undefined,
-      releaseDateMonth:
-        'releaseDateMonth' in baseMaterial
-          ? baseMaterial.releaseDateMonth
-          : undefined,
+      releaseDateYear: findProperty(baseMaterial, 'releaseDateYear'),
+      releaseDateMonth: findProperty(baseMaterial, 'releaseDateMonth'),
       releaseRestrictions: baseMaterial.releaseRestrictions,
-      blocked: 'blocked' in baseMaterial ? baseMaterial.blocked : undefined,
-      castingMode:
-        'castingMode' in baseMaterial ? baseMaterial.castingMode : undefined,
-      castingDiameter:
-        'castingDiameter' in baseMaterial
-          ? baseMaterial.castingDiameter?.title
-          : undefined,
-      maxDimension:
-        'maxDimension' in baseMaterial ? baseMaterial.maxDimension : undefined,
-      minDimension:
-        'minDimension' in baseMaterial ? baseMaterial.minDimension : undefined,
-      steelMakingProcess:
-        'steelMakingProcess' in baseMaterial
-          ? (baseMaterial.steelMakingProcess?.id as string)
-          : undefined,
-      productionProcess:
-        'productionProcess' in baseMaterial
-          ? (baseMaterial.productionProcess?.id as string)
-          : undefined,
-      rating:
-        'rating' in baseMaterial
-          ? (baseMaterial.rating?.id as string)
-          : undefined,
-      ratingRemark:
-        'ratingRemark' in baseMaterial ? baseMaterial.ratingRemark : undefined,
-      ratingChangeComment:
-        'ratingChangeComment' in baseMaterial
-          ? baseMaterial.ratingChangeComment
-          : undefined,
-      selfCertified:
-        'selfCertified' in baseMaterial
-          ? baseMaterial.selfCertified
-          : undefined,
-      recyclingRate:
-        'recyclingRate' in baseMaterial
-          ? baseMaterial.recyclingRate
-          : undefined,
-      condition:
-        'condition' in baseMaterial
-          ? (baseMaterial.condition.id as string)
-          : undefined,
+      blocked: findProperty(baseMaterial, 'blocked'),
+      castingMode: findProperty(baseMaterial, 'castingMode'),
+      castingDiameter: findProperty<StringOption>(
+        baseMaterial,
+        'castingDiameter'
+      )?.title,
+      maxDimension: findProperty(baseMaterial, 'maxDimension'),
+      minDimension: findProperty(baseMaterial, 'minDimension'),
+      steelMakingProcess: findProperty<StringOption>(
+        baseMaterial,
+        'steelMakingProcess'
+      )?.id as string,
+      productionProcess: findProperty<StringOption>(
+        baseMaterial,
+        'productionProcess'
+      )?.id as string,
+      rating: findProperty<StringOption>(baseMaterial, 'rating')?.id as string,
+      ratingRemark: findProperty(baseMaterial, 'ratingRemark'),
+      ratingChangeComment: findProperty(baseMaterial, 'ratingChangeComment'),
+      selfCertified: findProperty(baseMaterial, 'selfCertified'),
+      recyclingRate: findProperty(baseMaterial, 'recyclingRate'),
+      condition: findProperty<StringOption>(baseMaterial, 'condition')
+        ?.id as string,
       // attachments: '',
     };
   }
 
   public confirmMaterial(createAnother: boolean): void {
-    const materialNumberValue = this.createMaterialForm.value?.materialNumber;
     const baseMaterial = {
-      ...(this.createMaterialForm.value as MaterialFormValueV2),
-      materialNumber:
-        materialNumberValue && materialNumberValue.length > 0
-          ? materialNumberValue.split(',')
-          : undefined,
-    };
+      ...(this.createMaterialForm.value as MaterialFormValue),
+    } as MaterialFormValue;
 
     const standard = this.buildMaterialStandard(baseMaterial);
     const supplier = this.buildManufacturerSupplier(baseMaterial);
-    const material: MaterialRequest = this.buildMaterial(baseMaterial);
+    const material = this.buildMaterial(baseMaterial);
 
     // include material, stdDoc and supplier put logic in effect
     this.dialogFacade.dispatch(

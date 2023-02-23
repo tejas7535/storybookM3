@@ -31,8 +31,9 @@ import { MaterialClass } from '@mac/feature/materials-supplier-database/constant
 import {
   CreateMaterialErrorState,
   CreateMaterialRecord,
+  ManufacturerSupplier,
   ManufacturerSupplierFormValue,
-  ManufacturerSupplierV2,
+  SteelMaterialFormValue,
 } from '@mac/feature/materials-supplier-database/models';
 import { getCreateMaterialRecord } from '@mac/feature/materials-supplier-database/store';
 import { manufacturerSupplierDialogConfirmed } from '@mac/feature/materials-supplier-database/store/actions/dialog';
@@ -201,10 +202,12 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
       component.enableEditFields();
     });
     it('should close dialog on successful confirm', () => {
-      const values = createMaterialFormValue(MaterialClass.STEEL);
+      const values = createMaterialFormValue(
+        MaterialClass.STEEL
+      ) as SteelMaterialFormValue;
       component.materialId = values.manufacturerSupplierId;
       component.patchFields(values);
-      const expected: ManufacturerSupplierV2 = {
+      const expected: ManufacturerSupplier = {
         id: values.manufacturerSupplierId,
         name: values.supplier.title,
         plant: values.supplierPlant.title,
@@ -225,10 +228,12 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
     });
 
     it('should not close dialog on successful confirm with createAnother', () => {
-      const values = createMaterialFormValue(MaterialClass.STEEL);
+      const values = createMaterialFormValue(
+        MaterialClass.STEEL
+      ) as SteelMaterialFormValue;
       component.materialId = values.manufacturerSupplierId;
       component.patchFields(values);
-      const expected: ManufacturerSupplierV2 = {
+      const expected: ManufacturerSupplier = {
         id: values.manufacturerSupplierId,
         name: values.supplier.title,
         plant: values.supplierPlant.title,
@@ -249,10 +254,12 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
     });
 
     it('should keep the dialog open on error', () => {
-      const values = createMaterialFormValue(MaterialClass.STEEL);
+      const values = createMaterialFormValue(
+        MaterialClass.STEEL
+      ) as SteelMaterialFormValue;
       component.materialId = values.manufacturerSupplierId;
       component.patchFields(values);
-      const supplier: ManufacturerSupplierV2 = {
+      const supplier: ManufacturerSupplier = {
         id: values.manufacturerSupplierId,
         name: values.supplier.title,
         plant: values.supplierPlant.title,
@@ -273,10 +280,12 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
     });
 
     it('should keep the dialog open on error with createAnother', () => {
-      const values = createMaterialFormValue(MaterialClass.STEEL);
+      const values = createMaterialFormValue(
+        MaterialClass.STEEL
+      ) as SteelMaterialFormValue;
       component.materialId = values.manufacturerSupplierId;
       component.patchFields(values);
-      const supplier: ManufacturerSupplierV2 = {
+      const supplier: ManufacturerSupplier = {
         id: values.manufacturerSupplierId,
         name: values.supplier.title,
         plant: values.supplierPlant.title,

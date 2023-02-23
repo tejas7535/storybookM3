@@ -7,9 +7,9 @@ import { StringOption } from '@schaeffler/inputs';
 import {
   CreateMaterialRecord,
   DataResult,
-  ManufacturerSupplierV2,
+  ManufacturerSupplier,
   MaterialFormValue,
-  MaterialStandardV2,
+  MaterialStandard,
 } from '@mac/msd/models';
 // TODO: clean import
 import {
@@ -91,11 +91,11 @@ export interface DialogState {
     materialNumber: string[];
   };
   dialogOptions: {
-    materialStandards: MaterialStandardV2[];
+    materialStandards: MaterialStandard[];
     customMaterialStandardNames: string[];
     customMaterialStandardDocuments: string[];
     materialStandardsLoading: boolean;
-    manufacturerSuppliers: ManufacturerSupplierV2[];
+    manufacturerSuppliers: ManufacturerSupplier[];
     customManufacturerSupplierNames: string[];
     customManufacturerSupplierPlants: string[];
     customManufacturerSupplierCountries: string[];

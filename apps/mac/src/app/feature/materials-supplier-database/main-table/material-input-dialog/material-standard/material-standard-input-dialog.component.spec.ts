@@ -30,7 +30,8 @@ import { MaterialClass } from '@mac/feature/materials-supplier-database/constant
 import {
   CreateMaterialErrorState,
   CreateMaterialRecord,
-  MaterialStandardV2,
+  MaterialStandard,
+  SteelMaterialFormValue,
 } from '@mac/feature/materials-supplier-database/models';
 import { getCreateMaterialRecord } from '@mac/feature/materials-supplier-database/store';
 import { materialstandardDialogConfirmed } from '@mac/feature/materials-supplier-database/store/actions/dialog';
@@ -225,10 +226,12 @@ describe('MaterialstandardInputDialogComponent', () => {
       component.enableEditFields();
     });
     it('should close dialog on successful confirm', () => {
-      const values = createMaterialFormValue(MaterialClass.STEEL);
+      const values = createMaterialFormValue(
+        MaterialClass.STEEL
+      ) as SteelMaterialFormValue;
       component.materialId = values.materialStandardId;
       component.patchFields(values);
-      const standard: MaterialStandardV2 = {
+      const standard: MaterialStandard = {
         id: values.materialStandardId,
         materialName: values.materialName.title,
         standardDocument: values.standardDocument.title,
@@ -254,7 +257,7 @@ describe('MaterialstandardInputDialogComponent', () => {
       };
       component.materialId = values.materialStandardId;
       component.patchFields(values);
-      const standard: MaterialStandardV2 = {
+      const standard: MaterialStandard = {
         id: values.materialStandardId,
         materialName: values.materialName.title,
         standardDocument: values.standardDocument.title,
@@ -273,10 +276,12 @@ describe('MaterialstandardInputDialogComponent', () => {
       expect(component.showInSnackbar).toBeCalled();
     });
     it('should not close dialog on successful confirm with createAnother', () => {
-      const values = createMaterialFormValue(MaterialClass.STEEL);
+      const values = createMaterialFormValue(
+        MaterialClass.STEEL
+      ) as SteelMaterialFormValue;
       component.materialId = values.materialStandardId;
       component.patchFields(values);
-      const standard: MaterialStandardV2 = {
+      const standard: MaterialStandard = {
         id: values.materialStandardId,
         materialName: values.materialName.title,
         standardDocument: values.standardDocument.title,
@@ -295,10 +300,12 @@ describe('MaterialstandardInputDialogComponent', () => {
       expect(component.showInSnackbar).toBeCalled();
     });
     it('should keep the dialog open on error', () => {
-      const values = createMaterialFormValue(MaterialClass.STEEL);
+      const values = createMaterialFormValue(
+        MaterialClass.STEEL
+      ) as SteelMaterialFormValue;
       component.materialId = values.materialStandardId;
       component.patchFields(values);
-      const standard: MaterialStandardV2 = {
+      const standard: MaterialStandard = {
         id: values.materialStandardId,
         materialName: values.materialName.title,
         standardDocument: values.standardDocument.title,

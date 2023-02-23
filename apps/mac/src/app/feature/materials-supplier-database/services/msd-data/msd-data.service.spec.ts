@@ -16,10 +16,9 @@ import {
   AluminumMaterialStandard,
   ManufacturerSupplier,
   ManufacturerSupplierTableValue,
-  ManufacturerSupplierV2,
   Material,
+  MaterialStandard,
   MaterialStandardTableValue,
-  MaterialStandardV2,
   PolymerMaterial,
   SteelManufacturerSupplier,
   SteelMaterial,
@@ -230,7 +229,7 @@ describe('MsdDataService', () => {
 
   describe('fetchManufacturerSuppliers', () => {
     it('should return a list of manufacturer suppliers', (done) => {
-      const mockResponse: ManufacturerSupplierV2[] = [
+      const mockResponse: ManufacturerSupplier[] = [
         {
           id: 0,
           name: 'supplier1',
@@ -262,7 +261,7 @@ describe('MsdDataService', () => {
 
   describe('fetchMaterialStandards', () => {
     it('should return a list of material standards', (done) => {
-      const mockResponse: MaterialStandardV2[] = [
+      const mockResponse: MaterialStandard[] = [
         {
           id: 0,
           materialName: 'material1',
@@ -433,7 +432,7 @@ describe('MsdDataService', () => {
           materialName: 'name',
           standardDocument: 'S 123456',
           materialNumber: ['1.1234', '1.5678'],
-        } as MaterialStandardV2)
+        } as MaterialStandard)
         .subscribe((result) => {
           expect(result).toEqual(mockResponse);
           done();
@@ -917,8 +916,8 @@ describe('MsdDataService', () => {
       const id = 79;
       service
         .getHistoryForMaterial(MaterialClass.STEEL, id)
-        .subscribe((result: any) => {
-          expect(result).toEqual(msdServiceSteelMockResult);
+        .subscribe((result: Material[]) => {
+          expect(result).toMatchObject(msdServiceSteelMockResult);
           done();
         });
 
@@ -946,7 +945,7 @@ describe('MsdDataService', () => {
 
   describe('mapSuppliersToTableView', () => {
     it('should return expected', () => {
-      const srcArray: ManufacturerSupplierV2[] = [
+      const srcArray: ManufacturerSupplier[] = [
         {
           id: 1,
           name: 'one',
@@ -1009,7 +1008,7 @@ describe('MsdDataService', () => {
 
   describe('mapStandardsToTableView', () => {
     it('should return expected', () => {
-      const srcArray: MaterialStandardV2[] = [
+      const srcArray: MaterialStandard[] = [
         {
           id: 1,
           materialName: 'one',

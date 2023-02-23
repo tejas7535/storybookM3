@@ -6,13 +6,9 @@ import {
   CreateMaterialRecord,
   DataResult,
   ManufacturerSupplier,
-  ManufacturerSupplierV2,
-  Material,
   MaterialFormValue,
   MaterialRequest,
   MaterialStandard,
-  MaterialStandardV2,
-  MaterialV2,
 } from '@mac/msd/models';
 
 export const materialDialogOpened = createAction(
@@ -26,9 +22,9 @@ export const materialDialogCanceled = createAction(
 export const materialDialogConfirmed = createAction(
   '[MSD - Dialog] Material Confirmed',
   props<{
-    standard: MaterialStandard | MaterialStandardV2;
-    supplier: ManufacturerSupplier | ManufacturerSupplierV2;
-    material: Material | MaterialV2 | MaterialRequest;
+    standard: MaterialStandard;
+    supplier: ManufacturerSupplier;
+    material: MaterialRequest;
   }>()
 );
 
@@ -43,7 +39,7 @@ export const materialstandardDialogCanceled = createAction(
 export const materialstandardDialogConfirmed = createAction(
   '[MSD - Dialog] MaterialStandard Confirmed',
   props<{
-    standard: MaterialStandardV2;
+    standard: MaterialStandard;
   }>()
 );
 
@@ -58,7 +54,7 @@ export const manufacturerSupplierDialogCanceled = createAction(
 export const manufacturerSupplierDialogConfirmed = createAction(
   '[MSD - Dialog] ManufacturerSupplier Confirmed',
   props<{
-    supplier: ManufacturerSupplierV2;
+    supplier: ManufacturerSupplier;
   }>()
 );
 
@@ -68,7 +64,7 @@ export const fetchMaterialStandards = createAction(
 
 export const fetchMaterialStandardsSuccess = createAction(
   '[MSD - Dialog] Fetch Material Standards Success',
-  props<{ materialStandards: MaterialStandardV2[] }>()
+  props<{ materialStandards: MaterialStandard[] }>()
 );
 
 export const fetchMaterialStandardsFailure = createAction(
@@ -81,7 +77,7 @@ export const fetchManufacturerSuppliers = createAction(
 
 export const fetchManufacturerSuppliersSuccess = createAction(
   '[MSD - Dialog] Fetch Manufacturer Suppliers Success',
-  props<{ manufacturerSuppliers: ManufacturerSupplierV2[] }>()
+  props<{ manufacturerSuppliers: ManufacturerSupplier[] }>()
 );
 
 export const fetchManufacturerSuppliersFailure = createAction(

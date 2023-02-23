@@ -1,9 +1,9 @@
 import {
   CreateMaterialRecord,
   DataResult,
-  ManufacturerSupplierV2,
+  ManufacturerSupplier,
   MaterialFormValue,
-  MaterialStandardV2,
+  MaterialStandard,
 } from '@mac/msd/models';
 import * as DialogActions from '@mac/msd/store/actions/dialog';
 
@@ -30,8 +30,8 @@ describe('dialogReducer', () => {
         ...state,
         dialogOptions: {
           ...state.dialogOptions,
-          materialStandards: [{} as MaterialStandardV2],
-          manufacturerSuppliers: [{} as ManufacturerSupplierV2],
+          materialStandards: [{} as MaterialStandard],
+          manufacturerSuppliers: [{} as ManufacturerSupplier],
           ratings: ['1'],
           steelMakingProcesses: ['1'],
           productionProcesses: [{ id: '1', title: '1' }],
@@ -150,7 +150,7 @@ describe('dialogReducer', () => {
     });
 
     it('should set the material standards', () => {
-      const materialStandards = [{} as MaterialStandardV2];
+      const materialStandards = [{} as MaterialStandard];
       const action = DialogActions.fetchMaterialStandardsSuccess({
         materialStandards,
       });
@@ -167,7 +167,7 @@ describe('dialogReducer', () => {
     });
 
     it('should set the material standards and the loading state to undefined', () => {
-      const materialStandards = [{} as MaterialStandardV2];
+      const materialStandards = [{} as MaterialStandard];
       const action = DialogActions.fetchMaterialStandardsFailure();
       const newState = dialogReducer(
         {
@@ -193,7 +193,7 @@ describe('dialogReducer', () => {
     });
 
     it('should set the manufacturer suppliers', () => {
-      const manufacturerSuppliers = [{} as ManufacturerSupplierV2];
+      const manufacturerSuppliers = [{} as ManufacturerSupplier];
       const action = DialogActions.fetchManufacturerSuppliersSuccess({
         manufacturerSuppliers,
       });
@@ -210,7 +210,7 @@ describe('dialogReducer', () => {
     });
 
     it('should set the manufacturer suppliers and the loading state to undefined', () => {
-      const manufacturerSuppliers = [{} as ManufacturerSupplierV2];
+      const manufacturerSuppliers = [{} as ManufacturerSupplier];
       const action = DialogActions.fetchManufacturerSuppliersFailure();
       const newState = dialogReducer(
         {

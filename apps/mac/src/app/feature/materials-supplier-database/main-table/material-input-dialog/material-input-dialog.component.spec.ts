@@ -29,7 +29,7 @@ import { SelectModule } from '@schaeffler/inputs/select';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { DataResult, MaterialForm, MaterialFormValueV2 } from '@mac/msd/models';
+import { DataResult, MaterialForm, MaterialFormValue } from '@mac/msd/models';
 import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
 import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
 import {
@@ -428,7 +428,7 @@ describe('MaterialInputDialogComponent', () => {
     });
 
     it('should enable supplier plant', () => {
-      const mockFormValue: Partial<MaterialFormValueV2> = {
+      const mockFormValue: Partial<MaterialFormValue> = {
         supplier: { id: 1, title: 'supplier' },
       };
       component.supplierPlantControl.enable = jest.fn();
@@ -439,7 +439,7 @@ describe('MaterialInputDialogComponent', () => {
     });
 
     it('should enable supplier country', () => {
-      const mockFormValue: Partial<MaterialFormValueV2> = {
+      const mockFormValue: Partial<MaterialFormValue> = {
         manufacturerSupplierId: undefined,
         supplierPlant: { id: 1, title: 'plant' },
       };
@@ -451,7 +451,7 @@ describe('MaterialInputDialogComponent', () => {
     });
 
     it('should enable co2 classifications', () => {
-      const mockFormValue: Partial<MaterialFormValueV2> = {
+      const mockFormValue: Partial<MaterialFormValue> = {
         co2PerTon: 1,
       };
       component.co2ClassificationControl.enable = jest.fn();

@@ -18,12 +18,14 @@ import { MaterialInputDialogComponent } from '@mac/msd/main-table/material-input
 import { DialogControlsService } from '@mac/msd/main-table/material-input-dialog/services';
 import {
   DataResult,
-  MaterialFormValueV2,
+  MaterialFormValue,
+  MaterialStandard,
   MaterialStandardForm,
   MaterialStandardFormValue,
-  MaterialStandardV2,
 } from '@mac/msd/models';
 import { DialogFacade } from '@mac/msd/store/facades/dialog';
+
+import { mapProperty } from '../util/form-helpers';
 
 @Component({
   selector: 'mac-material-standard-input-dialog',
@@ -90,7 +92,7 @@ export class MaterialStandardInputDialogComponent
     this.dialogFacade.dispatch(materialstandardDialogOpened());
   }
 
-  patchFields(materialFormValue: Partial<MaterialFormValueV2>): void {
+  patchFields(materialFormValue: Partial<MaterialFormValue>): void {
     const formValue: Partial<MaterialStandardFormValue> = {
       ...materialFormValue,
       id: this.materialId,
@@ -147,14 +149,14 @@ export class MaterialStandardInputDialogComponent
     const baseMaterial = this.createMaterialForm
       .value as MaterialStandardFormValue;
 
-    const standard: MaterialStandardV2 = {
+    const standard: MaterialStandard = {
       id: baseMaterial.id,
       materialName: baseMaterial.materialName.title,
-      materialNumber:
-        'materialNumber' in baseMaterial &&
-        baseMaterial.materialNumber?.length > 0
-          ? baseMaterial.materialNumber?.split(',')
-          : undefined,
+      materialNumber: mapProperty<string>(
+        baseMaterial,
+        'materialNumber',
+        (val) => (val.length > 0 ? val.split(/,\s?/) : undefined)
+      ),
       standardDocument: baseMaterial.standardDocument.title,
     };
 

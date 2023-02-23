@@ -2,10 +2,14 @@ import { StringOption } from '@schaeffler/inputs';
 
 import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
 import {
-  ManufacturerSupplierV2,
+  findProperty,
+  mapProperty,
+} from '@mac/feature/materials-supplier-database/main-table/material-input-dialog/util/form-helpers';
+import {
+  ManufacturerSupplier,
   MaterialFormValue,
   MaterialRequest,
-  MaterialStandardV2,
+  MaterialStandard,
 } from '@mac/feature/materials-supplier-database/models';
 
 export const createOption = (title: string, id = 7, data?: any) =>
@@ -98,23 +102,22 @@ export const createMaterialRequest = (
 
 export const transformAsMaterialRequest = (values: MaterialFormValue) => {
   // confirmation
-  const standard: MaterialStandardV2 = {
+  const standard: MaterialStandard = {
     id: values.materialStandardId,
     materialName: values.materialName.title,
     standardDocument: values.standardDocument.title,
-    // steel only
-    materialNumber:
-      values.materialNumber?.length > 0
-        ? values.materialNumber?.split(',')
-        : undefined,
+    // steel |copper only
+    materialNumber: mapProperty<string>(values, 'materialNumber', (val) =>
+      val.length > 0 ? val.split(',') : undefined
+    ),
   };
-  const supplier: ManufacturerSupplierV2 = {
+  const supplier: ManufacturerSupplier = {
     id: values.manufacturerSupplierId,
     name: values.supplier.title,
     plant: values.supplierPlant.title,
     country: values.supplierCountry.title,
     // steel only
-    manufacturer: values.manufacturer,
+    manufacturer: findProperty(values, 'manufacturer'),
   };
   const material: MaterialRequest = {
     id: undefined,
@@ -127,25 +130,28 @@ export const transformAsMaterialRequest = (values: MaterialFormValue) => {
     co2Classification: values.co2Classification.id as string,
     productCategory: values.productCategory.id as string,
     // steel only
-    referenceDoc: values.referenceDoc
-      ? `["${values.referenceDoc[0].title}"]`
-      : undefined,
-    castingMode: values.castingMode,
-    minDimension: values.minDimension,
-    maxDimension: values.maxDimension,
-    castingDiameter: values.castingDiameter?.title,
-    steelMakingProcess: values.steelMakingProcess?.id as string,
-    productionProcess: values.productionProcess?.id as string,
-    rating: values.rating?.id as string,
-    ratingChangeComment: values.ratingChangeComment,
-    ratingRemark: values.ratingRemark,
     releaseRestrictions: values.releaseRestrictions,
-    releaseDateMonth: values.releaseDateMonth,
-    releaseDateYear: values.releaseDateYear,
-    selfCertified: values.selfCertified,
-    recyclingRate: values.recyclingRate,
-    condition: values.condition?.id as string,
-    blocked: values.blocked,
+    referenceDoc: findProperty<StringOption[]>(values, 'referenceDoc')
+      ? `["${findProperty<StringOption[]>(values, 'referenceDoc')[0].title}"]`
+      : undefined,
+    castingMode: findProperty(values, 'castingMode'),
+    minDimension: findProperty(values, 'minDimension'),
+    maxDimension: findProperty(values, 'maxDimension'),
+    castingDiameter: findProperty<StringOption>(values, 'castingDiameter')
+      ?.title,
+    steelMakingProcess: findProperty<StringOption>(values, 'steelMakingProcess')
+      ?.id as string,
+    productionProcess: findProperty<StringOption>(values, 'productionProcess')
+      ?.id as string,
+    rating: findProperty<StringOption>(values, 'rating')?.id as string,
+    ratingChangeComment: findProperty(values, 'ratingChangeComment'),
+    ratingRemark: findProperty(values, 'ratingRemark'),
+    releaseDateMonth: findProperty(values, 'releaseDateMonth'),
+    releaseDateYear: findProperty(values, 'releaseDateYear'),
+    selfCertified: findProperty(values, 'selfCertified'),
+    recyclingRate: findProperty(values, 'recyclingRate'),
+    condition: findProperty<StringOption>(values, 'condition')?.id as string,
+    blocked: findProperty(values, 'blocked'),
   };
 
   return { standard, supplier, material };

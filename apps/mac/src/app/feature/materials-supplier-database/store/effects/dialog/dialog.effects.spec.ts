@@ -16,11 +16,9 @@ import {
   CreateMaterialRecord,
   DataResult,
   ManufacturerSupplier,
-  ManufacturerSupplierV2,
-  Material,
   MaterialFormValue,
+  MaterialRequest,
   MaterialStandard,
-  MaterialStandardV2,
 } from '@mac/msd/models';
 import { MsdDataService } from '@mac/msd/services';
 import { fetchResult } from '@mac/msd/store/actions/data';
@@ -241,7 +239,7 @@ describe('Dialog Effects', () => {
         action = fetchMaterialStandards();
         actions$ = m.hot('-a', { a: action });
 
-        const resultMock: MaterialStandardV2[] = [{} as MaterialStandardV2];
+        const resultMock: MaterialStandard[] = [{} as MaterialStandard];
         const response = m.cold('-a|', { a: resultMock });
         msdDataService.fetchMaterialStandards = jest.fn(() => response);
 
@@ -289,9 +287,7 @@ describe('Dialog Effects', () => {
         action = fetchManufacturerSuppliers();
         actions$ = m.hot('-a', { a: action });
 
-        const resultMock: ManufacturerSupplierV2[] = [
-          {} as ManufacturerSupplierV2,
-        ];
+        const resultMock: ManufacturerSupplier[] = [{} as ManufacturerSupplier];
         const response = m.cold('-a|', { a: resultMock });
         msdDataService.fetchManufacturerSuppliers = jest.fn(() => response);
 
@@ -622,7 +618,7 @@ describe('Dialog Effects', () => {
     it(
       'should call post material standard (without materialClass)',
       marbles((m) => {
-        const mockMaterial = {} as Material;
+        const mockMaterial = {} as MaterialRequest;
         const mockStandard = {} as MaterialStandard;
         const mockSupplier = {} as ManufacturerSupplier;
 
@@ -651,7 +647,7 @@ describe('Dialog Effects', () => {
     it(
       'should call post material standard (with materialClass)',
       marbles((m) => {
-        const mockMaterial = {} as Material;
+        const mockMaterial = {} as MaterialRequest;
         const mockStandard = {} as MaterialStandard;
         const mockSupplier = {} as ManufacturerSupplier;
         msdDataFacade.materialClass$ = of(MaterialClass.ALUMINUM);
@@ -772,7 +768,7 @@ describe('Dialog Effects', () => {
           name: 'sthName',
           plant: 'sthPlant',
           country: 'sthCountry',
-        } as ManufacturerSupplierV2;
+        } as ManufacturerSupplier;
 
         action = manufacturerSupplierDialogConfirmed({
           supplier: mockSupplier,
@@ -810,7 +806,7 @@ describe('Dialog Effects', () => {
           name: 'sthName',
           plant: 'sthPlant',
           country: 'sthCountry',
-        } as ManufacturerSupplierV2;
+        } as ManufacturerSupplier;
 
         action = manufacturerSupplierDialogConfirmed({
           supplier: mockSupplier,

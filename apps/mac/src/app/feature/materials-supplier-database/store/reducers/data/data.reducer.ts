@@ -4,8 +4,8 @@ import { Action, createReducer, on } from '@ngrx/store';
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import {
   ManufacturerSupplierTableValue,
+  Material,
   MaterialStandardTableValue,
-  MaterialV2,
 } from '@mac/msd/models';
 import {
   fetchClassOptions,
@@ -40,7 +40,7 @@ export interface DataState {
   materialClassLoading: boolean;
   result: {
     [key in MaterialClass]?: {
-      [NavigationLevel.MATERIAL]?: MaterialV2[];
+      [NavigationLevel.MATERIAL]?: Material[];
       [NavigationLevel.SUPPLIER]?: ManufacturerSupplierTableValue[];
       [NavigationLevel.STANDARD]?: MaterialStandardTableValue[];
     };

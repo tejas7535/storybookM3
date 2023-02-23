@@ -6,8 +6,8 @@ import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import {
   DataResult,
   ManufacturerSupplierTableValue,
+  Material,
   MaterialStandardTableValue,
-  MaterialV2,
 } from '@mac/msd/models';
 
 export const setFilter = createAction(
@@ -41,7 +41,7 @@ export const fetchMaterialsSuccess = createAction(
   '[MSD - Data] Fetch Materials Success',
   props<{
     materialClass?: MaterialClass;
-    result: DataResult[] | MaterialV2[];
+    result: DataResult[] | Material[];
   }>()
 );
 

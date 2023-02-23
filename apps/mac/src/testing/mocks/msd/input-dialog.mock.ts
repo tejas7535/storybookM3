@@ -11,13 +11,13 @@ export const mockMaterialStandards: MaterialStandard[] = [
     id: 1,
     materialName: 'material1',
     standardDocument: 'S 1',
-    materialNumber: '1.1234',
+    materialNumber: ['1.1234'],
   },
   {
     id: 2,
     materialName: 'material2',
     standardDocument: 'S 2',
-    materialNumber: '1.1234',
+    materialNumber: ['1.1234'],
   },
 ];
 

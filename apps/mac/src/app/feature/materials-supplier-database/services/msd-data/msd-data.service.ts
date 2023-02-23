@@ -11,15 +11,19 @@ import { StringOption } from '@schaeffler/inputs';
 import { environment } from '@mac/environments/environment';
 import { MaterialClass, SupportedMaterialClasses } from '@mac/msd/constants';
 import {
+  ManufacturerSupplier,
   ManufacturerSupplierTableValue,
-  ManufacturerSupplierV2,
   Material,
   MaterialRequest,
   MaterialResponse,
+  MaterialStandard,
   MaterialStandardTableValue,
-  MaterialStandardV2,
-  MaterialV2,
 } from '@mac/msd/models';
+
+import {
+  findProperty,
+  mapProperty,
+} from '../../main-table/material-input-dialog/util/form-helpers';
 
 @Injectable({
   providedIn: 'root',
@@ -67,10 +71,10 @@ export class MsdDataService {
       );
   }
 
-  public getMaterials<T extends MaterialV2 = MaterialV2>(
+  public getMaterials<T extends Material = Material>(
     materialClass: string,
     category?: string[]
-  ): Observable<MaterialV2[]> {
+  ): Observable<Material[]> {
     const params: { category?: string[] } = category
       ? { category: category.filter(Boolean) }
       : {};
@@ -88,10 +92,10 @@ export class MsdDataService {
       );
   }
 
-  public getHistoryForMaterial<T extends MaterialV2 = MaterialV2>(
+  public getHistoryForMaterial<T extends Material = Material>(
     materialClass: string,
     id: number
-  ): Observable<MaterialV2[]> {
+  ): Observable<Material[]> {
     return this.httpClient
       .get<MaterialResponse[]>(
         `${this.BASE_URL}/materials/${materialClass}/history/${id}`,
@@ -109,7 +113,7 @@ export class MsdDataService {
   }
 
   // eslint-disable-next-line complexity
-  private mapMaterials<T extends MaterialV2 = MaterialV2>(
+  private mapMaterials<T extends Material = Material>(
     materialResponse: MaterialResponse
   ): T {
     return {
@@ -117,10 +121,10 @@ export class MsdDataService {
       materialStandardId: materialResponse.materialStandard.id,
       materialStandardMaterialName:
         materialResponse.materialStandard.materialName,
-      materialNumbers:
-        'materialNumber' in materialResponse.materialStandard
-          ? materialResponse.materialStandard.materialNumber
-          : undefined,
+      materialNumbers: findProperty(
+        materialResponse.materialStandard,
+        'materialNumber'
+      ),
       materialStandardStandardDocument:
         materialResponse.materialStandard.standardDocument,
       manufacturerSupplierId: materialResponse.manufacturerSupplier.id,
@@ -129,118 +133,66 @@ export class MsdDataService {
       manufacturerSupplierCountry:
         materialResponse.manufacturerSupplier.country,
       materialClass: materialResponse.materialClass as MaterialClass,
-      selfCertified:
-        'selfCertified' in materialResponse
-          ? materialResponse.selfCertified
-          : undefined,
-      manufacturer:
-        'manufacturer' in materialResponse.manufacturerSupplier
-          ? materialResponse.manufacturerSupplier.manufacturer
-          : undefined,
-      sapSupplierIds:
-        'sapData' in materialResponse.manufacturerSupplier
-          ? materialResponse.manufacturerSupplier.sapData?.map(
-              (sapData: { sapSupplierId: string }) => sapData.sapSupplierId
-            ) || []
-          : undefined,
-      productCategory:
-        'productCategory' in materialResponse
-          ? materialResponse.productCategory
-          : undefined,
-      productCategoryText:
-        'productCategory' in materialResponse
-          ? translate(
-              `materialsSupplierDatabase.productCategoryValues.${materialResponse.productCategory}`
-            )
-          : undefined,
-      ssid: 'ssid' in materialResponse ? materialResponse.ssid : undefined,
-      generalDescription:
-        'generalDescription' in materialResponse
-          ? materialResponse.generalDescription
-          : undefined,
-      referenceDoc:
-        'referenceDoc' in materialResponse
-          ? materialResponse.referenceDoc
-          : undefined,
+      selfCertified: findProperty(materialResponse, 'selfCertified'),
+      manufacturer: findProperty(
+        materialResponse.manufacturerSupplier,
+        'manufacturer'
+      ),
+      sapSupplierIds: findProperty<{ sapSupplierId: string }[]>(
+        materialResponse.manufacturerSupplier,
+        'sapData'
+      )?.map((val) => val.sapSupplierId),
+      productCategory: materialResponse.productCategory,
+      productCategoryText: materialResponse.productCategory
+        ? translate(
+            `materialsSupplierDatabase.productCategoryValues.${materialResponse.productCategory}`
+          )
+        : undefined,
+      generalDescription: findProperty(materialResponse, 'generalDescription'),
+      referenceDoc: findProperty(materialResponse, 'referenceDoc'),
       co2Scope1: materialResponse.co2Scope1,
       co2Scope2: materialResponse.co2Scope2,
       co2Scope3: materialResponse.co2Scope3,
       co2PerTon: materialResponse.co2PerTon,
       co2Classification: materialResponse.co2Classification,
-      releaseDateYear:
-        'releaseDateYear' in materialResponse
-          ? materialResponse.releaseDateYear
-          : undefined,
-      releaseDateMonth:
-        'releaseDateMonth' in materialResponse
-          ? materialResponse.releaseDateMonth
-          : undefined,
+      releaseDateYear: findProperty(materialResponse, 'releaseDateYear'),
+      releaseDateMonth: findProperty(materialResponse, 'releaseDateMonth'),
       releaseRestrictions: materialResponse.releaseRestrictions,
-      blocked:
-        'blocked' in materialResponse ? materialResponse.blocked : undefined,
-      castingMode:
-        'castingMode' in materialResponse
-          ? materialResponse.castingMode
-          : undefined,
-      castingDiameter:
-        'castingDiameter' in materialResponse
-          ? materialResponse.castingDiameter
-          : undefined,
-      minDimension:
-        'minDimension' in materialResponse
-          ? materialResponse.minDimension
-          : undefined,
-      maxDimension:
-        'maxDimension' in materialResponse
-          ? materialResponse.maxDimension
-          : undefined,
-      steelMakingProcess:
-        'steelMakingProcess' in materialResponse
-          ? materialResponse.steelMakingProcess
-          : undefined,
-      productionProcess:
-        'productionProcess' in materialResponse
-          ? materialResponse.productionProcess
-          : undefined,
-      productionProcessText:
-        'productionProcess' in materialResponse &&
-        materialResponse.productionProcess
-          ? translate(
-              `materialsSupplierDatabase.productionProcessValues.${materialResponse.materialClass}.${materialResponse.productionProcess}`
-            )
-          : undefined,
-      recyclingRate:
-        'recyclingRate' in materialResponse
-          ? materialResponse.recyclingRate
-          : undefined,
-      rating:
-        'rating' in materialResponse ? materialResponse.rating : undefined,
-      ratingRemark:
-        'ratingRemark' in materialResponse
-          ? materialResponse.ratingRemark
-          : undefined,
-      ratingChangeComment:
-        'ratingChangeComment' in materialResponse
-          ? materialResponse.ratingChangeComment
-          : undefined,
-      condition:
-        'condition' in materialResponse
-          ? materialResponse.condition
-          : undefined,
-      conditionText:
-        'condition' in materialResponse && materialResponse.condition
-          ? translate(
-              `materialsSupplierDatabase.condition.${materialResponse.materialClass}.${materialResponse.condition}`
-            )
-          : undefined,
-
+      blocked: findProperty(materialResponse, 'blocked'),
+      castingMode: findProperty(materialResponse, 'castingMode'),
+      castingDiameter: findProperty(materialResponse, 'castingDiameter'),
+      minDimension: findProperty(materialResponse, 'minDimension'),
+      maxDimension: findProperty(materialResponse, 'maxDimension'),
+      steelMakingProcess: findProperty(materialResponse, 'steelMakingProcess'),
+      productionProcess: findProperty(materialResponse, 'productionProcess'),
+      productionProcessText: mapProperty<string>(
+        materialResponse,
+        'productionProcess',
+        (val) =>
+          translate(
+            `materialsSupplierDatabase.productionProcessValues.${materialResponse.materialClass}.${val}`
+          )
+      ),
+      recyclingRate: findProperty(materialResponse, 'recyclingRate'),
+      rating: findProperty(materialResponse, 'rating'),
+      ratingRemark: findProperty(materialResponse, 'ratingRemark'),
+      ratingChangeComment: findProperty(
+        materialResponse,
+        'ratingChangeComment'
+      ),
+      condition: findProperty(materialResponse, 'condition'),
+      conditionText: mapProperty<string>(materialResponse, 'condition', (val) =>
+        translate(
+          `materialsSupplierDatabase.condition.${materialResponse.materialClass}.${val}`
+        )
+      ),
       lastModified: materialResponse.timestamp,
       modifiedBy: materialResponse.modifiedBy,
     } as unknown as T;
   }
 
   public fetchManufacturerSuppliers(materialClass: MaterialClass) {
-    return this.httpClient.get<ManufacturerSupplierV2[]>(
+    return this.httpClient.get<ManufacturerSupplier[]>(
       `${this.BASE_URL}/materials/${materialClass}/manufacturerSuppliers`
     );
   }
@@ -249,7 +201,7 @@ export class MsdDataService {
     materialClass: MaterialClass,
     id: number
   ) {
-    return this.httpClient.get<ManufacturerSupplierV2[]>(
+    return this.httpClient.get<ManufacturerSupplier[]>(
       `${this.BASE_URL}/materials/${materialClass}/history/manufacturerSuppliers/${id}`,
       {
         params: { current: true },
@@ -258,36 +210,31 @@ export class MsdDataService {
   }
 
   public mapSuppliersToTableView(
-    suppliers: ManufacturerSupplierV2[]
+    suppliers: ManufacturerSupplier[]
   ): ManufacturerSupplierTableValue[] {
     return suppliers.map((supplier) => this.mapSuppliers(supplier));
   }
 
   private mapSuppliers(
-    manufacturerSupplier: ManufacturerSupplierV2
+    manufacturerSupplier: ManufacturerSupplier
   ): ManufacturerSupplierTableValue {
     return {
       id: manufacturerSupplier.id,
       manufacturerSupplierName: manufacturerSupplier.name,
       manufacturerSupplierPlant: manufacturerSupplier.plant,
       manufacturerSupplierCountry: manufacturerSupplier.country,
-      manufacturer:
-        'manufacturer' in manufacturerSupplier
-          ? manufacturerSupplier.manufacturer
-          : undefined,
-      sapSupplierIds:
-        'sapData' in manufacturerSupplier
-          ? manufacturerSupplier.sapData?.map(
-              (sapData: { sapSupplierId: string }) => sapData.sapSupplierId
-            ) || []
-          : undefined,
+      manufacturer: findProperty(manufacturerSupplier, 'manufacturer'),
+      sapSupplierIds: findProperty<{ sapSupplierId: string }[]>(
+        manufacturerSupplier,
+        'sapData'
+      )?.map((val) => val.sapSupplierId),
       lastModified: manufacturerSupplier.timestamp,
       modifiedBy: manufacturerSupplier.modifiedBy,
     } as ManufacturerSupplierTableValue;
   }
 
   public fetchMaterialStandards(materialClass: MaterialClass) {
-    return this.httpClient.get<MaterialStandardV2[]>(
+    return this.httpClient.get<MaterialStandard[]>(
       `${this.BASE_URL}/materials/${materialClass}/materialStandards`
     );
   }
@@ -296,7 +243,7 @@ export class MsdDataService {
     materialClass: MaterialClass,
     id: number
   ) {
-    return this.httpClient.get<MaterialStandardV2[]>(
+    return this.httpClient.get<MaterialStandard[]>(
       `${this.BASE_URL}/materials/${materialClass}/history/materialStandards/${id}`,
       {
         params: { current: true },
@@ -305,17 +252,17 @@ export class MsdDataService {
   }
 
   public mapStandardsToTableView(
-    standards: MaterialStandardV2[]
+    standards: MaterialStandard[]
   ): MaterialStandardTableValue[] {
     return standards.map((std) => this.mapStandards(std));
   }
 
-  private mapStandards(std: MaterialStandardV2): MaterialStandardTableValue {
+  private mapStandards(std: MaterialStandard): MaterialStandardTableValue {
     return {
       id: std.id,
       materialStandardMaterialName: std.materialName,
       materialStandardStandardDocument: std.standardDocument,
-      materialNumbers: 'materialNumber' in std ? std.materialNumber : undefined,
+      materialNumbers: findProperty(std, 'materialNumber'),
       lastModified: std.timestamp,
       modifiedBy: std.modifiedBy,
     } as MaterialStandardTableValue;
@@ -615,7 +562,7 @@ export class MsdDataService {
   }
 
   public createMaterialStandard(
-    standard: MaterialStandardV2,
+    standard: MaterialStandard,
     materialClass: MaterialClass = MaterialClass.STEEL
   ) {
     return this.httpClient.post<{ id: number }>(
@@ -625,7 +572,7 @@ export class MsdDataService {
   }
 
   public createManufacturerSupplier(
-    supplier: ManufacturerSupplierV2,
+    supplier: ManufacturerSupplier,
     materialClass: MaterialClass = MaterialClass.STEEL
   ) {
     return this.httpClient.post<{ id: number }>(
@@ -635,7 +582,7 @@ export class MsdDataService {
   }
 
   public createMaterial(
-    material: Material | MaterialV2 | MaterialRequest,
+    material: Material | MaterialRequest,
     materialClass: MaterialClass = MaterialClass.STEEL
   ) {
     return this.httpClient.post<{ id: number }>(

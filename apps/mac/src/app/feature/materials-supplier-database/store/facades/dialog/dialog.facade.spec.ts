@@ -29,7 +29,7 @@ describe('DialogFacade', () => {
     id: 1,
     materialName: 'material',
     standardDocument: 'document',
-    materialNumber: 'number',
+    materialNumber: ['1'],
   };
   const mockManufacturerSupplier: ManufacturerSupplier = {
     id: 1,

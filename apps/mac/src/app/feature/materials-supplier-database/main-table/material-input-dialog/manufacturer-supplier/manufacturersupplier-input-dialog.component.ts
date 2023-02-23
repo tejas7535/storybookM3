@@ -18,12 +18,14 @@ import { MaterialInputDialogComponent } from '@mac/msd/main-table/material-input
 import { DialogControlsService } from '@mac/msd/main-table/material-input-dialog/services';
 import {
   DataResult,
+  ManufacturerSupplier,
   ManufacturerSupplierForm,
   ManufacturerSupplierFormValue,
-  ManufacturerSupplierV2,
-  MaterialFormValueV2,
+  MaterialFormValue,
 } from '@mac/msd/models';
 import { DialogFacade } from '@mac/msd/store/facades/dialog';
+
+import { findProperty } from '../util/form-helpers';
 
 @Component({
   selector: 'mac-manufacturersupplier-input-dialog',
@@ -80,16 +82,13 @@ export class ManufacturerSupplierInputDialogComponent
     this.dialogFacade.dispatch(manufacturerSupplierDialogOpened());
   }
 
-  patchFields(materialFormValue: Partial<MaterialFormValueV2>): void {
+  patchFields(materialFormValue: Partial<MaterialFormValue>): void {
     const formValue: Partial<ManufacturerSupplierFormValue> = {
       id: this.materialId,
       name: materialFormValue.supplier,
       plant: materialFormValue.supplierPlant,
       country: materialFormValue.supplierCountry,
-      manufacturer:
-        'manufacturer' in materialFormValue
-          ? materialFormValue.manufacturer
-          : undefined,
+      manufacturer: findProperty(materialFormValue, 'manufacturer'),
     };
 
     this.createMaterialForm.patchValue(formValue);
@@ -145,14 +144,13 @@ export class ManufacturerSupplierInputDialogComponent
     const baseMaterial =
       this.createMaterialForm.getRawValue() as ManufacturerSupplierFormValue;
 
-    const supplier: ManufacturerSupplierV2 = {
+    const supplier: ManufacturerSupplier = {
       id: baseMaterial.id,
       country: baseMaterial.country.title,
       name: baseMaterial.name.title,
       plant: baseMaterial.plant.title,
       sapData: undefined,
-      manufacturer:
-        'manufacturer' in baseMaterial ? baseMaterial.manufacturer : undefined,
+      manufacturer: findProperty(baseMaterial, 'manufacturer'),
     };
 
     // include supplier put logic in effect

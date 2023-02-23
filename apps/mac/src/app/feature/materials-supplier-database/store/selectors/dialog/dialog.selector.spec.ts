@@ -8,9 +8,9 @@ import { StringOption } from '@schaeffler/inputs';
 
 import {
   DataResult,
-  ManufacturerSupplierV2,
+  ManufacturerSupplier,
   MaterialFormValue,
-  MaterialStandardV2,
+  MaterialStandard,
 } from '@mac/msd/models';
 import { initialState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
 
@@ -271,7 +271,7 @@ describe('DialogSelectors', () => {
   });
 
   it('should return the manufaturerSuppliers', () => {
-    const manufacturerSuppliers: ManufacturerSupplierV2[] = [
+    const manufacturerSuppliers: ManufacturerSupplier[] = [
       {
         id: 1,
         name: '1',
@@ -295,7 +295,7 @@ describe('DialogSelectors', () => {
   });
 
   it('should return the materialStandards', () => {
-    const materialStandards: MaterialStandardV2[] = [
+    const materialStandards: MaterialStandard[] = [
       {
         id: 1,
         materialName: '1',
@@ -499,7 +499,7 @@ describe('DialogSelectors', () => {
 
   // unit tests for selecting values for suppliers
   describe('supplier stringOptions', () => {
-    const mockSuppliers: ManufacturerSupplierV2[] = [
+    const mockSuppliers: ManufacturerSupplier[] = [
       {
         id: 1,
         name: 'supplier1',
@@ -711,7 +711,7 @@ describe('DialogSelectors', () => {
   });
 
   it('should return the material names as StringOptions', () => {
-    const mockMaterialStandards: MaterialStandardV2[] = [
+    const mockMaterialStandards: MaterialStandard[] = [
       {
         id: 1,
         materialName: 'material1',
@@ -864,7 +864,7 @@ describe('DialogSelectors', () => {
   });
 
   it('should return the material standard documents as StringOptions', () => {
-    const mockMaterialStandards: MaterialStandardV2[] = [
+    const mockMaterialStandards: MaterialStandard[] = [
       {
         id: 1,
         materialName: 'material1',

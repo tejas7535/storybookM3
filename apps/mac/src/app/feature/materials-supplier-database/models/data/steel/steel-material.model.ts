@@ -4,6 +4,7 @@ export interface SteelMaterial extends BaseMaterial {
   materialNumbers?: string[];
   manufacturer: boolean;
   sapSupplierIds?: string[];
+
   selfCertified: boolean;
   blocked: boolean;
   referenceDoc?: string;

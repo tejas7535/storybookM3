@@ -15,10 +15,9 @@ import {
 } from '@mac/feature/materials-supplier-database/constants';
 import {
   CreateMaterialErrorState,
-  ManufacturerSupplierV2,
+  ManufacturerSupplier,
   MaterialFormValue,
-  MaterialFormValueV2,
-  MaterialStandardV2,
+  MaterialStandard,
 } from '@mac/msd/models';
 import { MsdDataService } from '@mac/msd/services';
 import * as DataActions from '@mac/msd/store/actions/data/data.actions';
@@ -89,7 +88,7 @@ export class DialogEffects {
       concatLatestFrom(() => this.dataFacade.materialClass$),
       switchMap(([_action, materialClass]) =>
         this.msdDataService.fetchMaterialStandards(materialClass).pipe(
-          map((materialStandards: MaterialStandardV2[]) =>
+          map((materialStandards: MaterialStandard[]) =>
             DialogActions.fetchMaterialStandardsSuccess({ materialStandards })
           ),
           // TODO: implement proper error handling
@@ -121,7 +120,7 @@ export class DialogEffects {
       concatLatestFrom(() => this.dataFacade.materialClass$),
       switchMap(([_action, materialClass]) =>
         this.msdDataService.fetchManufacturerSuppliers(materialClass).pipe(
-          map((manufacturerSuppliers: ManufacturerSupplierV2[]) =>
+          map((manufacturerSuppliers: ManufacturerSupplier[]) =>
             DialogActions.fetchManufacturerSuppliersSuccess({
               manufacturerSuppliers,
             })
@@ -550,7 +549,7 @@ export class DialogEffects {
                     title: row.materialStandardStandardDocument,
                   } as StringOption,
                   materialNumber: row.materialNumbers?.join(', '),
-                } as Partial<MaterialFormValueV2>,
+                } as Partial<MaterialFormValue>,
               }),
             ];
           case NavigationLevel.SUPPLIER:
@@ -567,7 +566,7 @@ export class DialogEffects {
                     title: row.manufacturerSupplierPlant,
                   } as StringOption,
                   manufacturer: row.manufacturer,
-                } as Partial<MaterialFormValueV2>,
+                } as Partial<MaterialFormValue>,
               }),
             ];
           case NavigationLevel.MATERIAL:
@@ -725,125 +724,124 @@ export class DialogEffects {
           ];
         }
 
-        const parsedMaterial: Partial<MaterialFormValue | MaterialFormValueV2> =
-          {
-            manufacturerSupplierId: material.manufacturerSupplierId,
-            materialStandardId: material.materialStandardId,
-            productCategory: {
-              id: material.productCategory,
-              title: translate(
-                `materialsSupplierDatabase.productCategoryValues.${material.productCategory}`
-              ),
-            },
-            referenceDoc: referenceDocValue,
-            co2Scope1: material.co2Scope1,
-            co2Scope2: material.co2Scope2,
-            co2Scope3: material.co2Scope3,
-            co2PerTon: material.co2PerTon,
-            co2Classification: {
-              id: material.co2Classification,
-              title: translate(
-                material.co2Classification
-                  ? `materialsSupplierDatabase.mainTable.dialog.co2ClassificationValues.${material.co2Classification.toLowerCase()}`
-                  : 'materialsSupplierDatabase.mainTable.dialog.none'
-              ),
-            },
-            releaseDateYear: material.releaseDateYear,
-            releaseDateMonth: material.releaseDateMonth,
-            releaseRestrictions: material.releaseRestrictions,
-            blocked: material.blocked,
-            castingMode: material.castingMode,
-            castingDiameter: material.castingDiameter
-              ? {
-                  id: material.castingDiameter,
-                  title: material.castingDiameter,
-                }
-              : undefined,
-            maxDimension: material.maxDimension,
-            minDimension: material.minDimension,
-            steelMakingProcess: material.steelMakingProcess
-              ? {
-                  id: material.steelMakingProcess,
-                  title: material.steelMakingProcess,
-                }
-              : undefined,
-            productionProcess: material.productionProcess
-              ? {
-                  id: material.productionProcess,
-                  title: translate(
-                    `materialsSupplierDatabase.productionProcessValues.${material.productionProcess}`
-                  ),
-                }
-              : undefined,
-            recyclingRate: material.recyclingRate,
-            rating: material.rating
-              ? { id: material.rating, title: material.rating }
-              : {
-                  id: undefined,
-                  title: translate(
-                    'materialsSupplierDatabase.mainTable.dialog.none'
-                  ),
-                },
-            ratingRemark: material.ratingRemark,
-            materialNumber: material.materialNumbers
-              ? material.materialNumbers.join(', ')
-              : undefined,
-
-            standardDocument: {
-              id:
-                editMaterial.materialNames?.length > 1
-                  ? editMaterial.materialNames[0].id
-                  : material.materialStandardId,
-              title: material.materialStandardStandardDocument,
-              data: editMaterial.materialNames
-                ? {
-                    materialNames: editMaterial.materialNames,
-                  }
-                : undefined,
-            },
-            materialName: {
-              id:
-                editMaterial.standardDocuments?.length > 1
-                  ? editMaterial.standardDocuments[0].id
-                  : material.materialStandardId,
-              title: material.materialStandardMaterialName,
-              data: editMaterial.standardDocuments
-                ? {
-                    standardDocuments: editMaterial.standardDocuments,
-                  }
-                : undefined,
-            },
-            supplier: {
-              id:
-                editMaterial.supplierIds?.length > 0
-                  ? editMaterial.supplierIds[0]
-                  : material.manufacturerSupplierId,
-              title: material.manufacturerSupplierName,
-            },
-            supplierPlant: {
-              id: material.manufacturerSupplierPlant,
-              title: material.manufacturerSupplierPlant,
-              data: {
-                supplierId: material.manufacturerSupplierId,
-                supplierName: material.manufacturerSupplierName,
-                supplierCountry: material.manufacturerSupplierCountry,
+        const parsedMaterial: Partial<MaterialFormValue> = {
+          manufacturerSupplierId: material.manufacturerSupplierId,
+          materialStandardId: material.materialStandardId,
+          productCategory: {
+            id: material.productCategory,
+            title: translate(
+              `materialsSupplierDatabase.productCategoryValues.${material.productCategory}`
+            ),
+          },
+          referenceDoc: referenceDocValue,
+          co2Scope1: material.co2Scope1,
+          co2Scope2: material.co2Scope2,
+          co2Scope3: material.co2Scope3,
+          co2PerTon: material.co2PerTon,
+          co2Classification: {
+            id: material.co2Classification,
+            title: translate(
+              material.co2Classification
+                ? `materialsSupplierDatabase.mainTable.dialog.co2ClassificationValues.${material.co2Classification.toLowerCase()}`
+                : 'materialsSupplierDatabase.mainTable.dialog.none'
+            ),
+          },
+          releaseDateYear: material.releaseDateYear,
+          releaseDateMonth: material.releaseDateMonth,
+          releaseRestrictions: material.releaseRestrictions,
+          blocked: material.blocked,
+          castingMode: material.castingMode,
+          castingDiameter: material.castingDiameter
+            ? {
+                id: material.castingDiameter,
+                title: material.castingDiameter,
+              }
+            : undefined,
+          maxDimension: material.maxDimension,
+          minDimension: material.minDimension,
+          steelMakingProcess: material.steelMakingProcess
+            ? {
+                id: material.steelMakingProcess,
+                title: material.steelMakingProcess,
+              }
+            : undefined,
+          productionProcess: material.productionProcess
+            ? {
+                id: material.productionProcess,
+                title: translate(
+                  `materialsSupplierDatabase.productionProcessValues.${material.productionProcess}`
+                ),
+              }
+            : undefined,
+          recyclingRate: material.recyclingRate,
+          rating: material.rating
+            ? { id: material.rating, title: material.rating }
+            : {
+                id: undefined,
+                title: translate(
+                  'materialsSupplierDatabase.mainTable.dialog.none'
+                ),
               },
-            },
-            supplierCountry: {
-              id: material.manufacturerSupplierCountry,
-              title: material.manufacturerSupplierCountry,
-            },
-            manufacturer: material.manufacturer,
-            selfCertified: material.selfCertified,
-            condition: material.condition
+          ratingRemark: material.ratingRemark,
+          materialNumber: material.materialNumbers
+            ? material.materialNumbers.join(', ')
+            : undefined,
+
+          standardDocument: {
+            id:
+              editMaterial.materialNames?.length > 1
+                ? editMaterial.materialNames[0].id
+                : material.materialStandardId,
+            title: material.materialStandardStandardDocument,
+            data: editMaterial.materialNames
               ? {
-                  id: material.condition,
-                  title: translate(
-                    `materialsSupplierDatabase.condition.${material.materialClass}.${material.condition}`
-                  ),
+                  materialNames: editMaterial.materialNames,
                 }
               : undefined,
-          };
+          },
+          materialName: {
+            id:
+              editMaterial.standardDocuments?.length > 1
+                ? editMaterial.standardDocuments[0].id
+                : material.materialStandardId,
+            title: material.materialStandardMaterialName,
+            data: editMaterial.standardDocuments
+              ? {
+                  standardDocuments: editMaterial.standardDocuments,
+                }
+              : undefined,
+          },
+          supplier: {
+            id:
+              editMaterial.supplierIds?.length > 0
+                ? editMaterial.supplierIds[0]
+                : material.manufacturerSupplierId,
+            title: material.manufacturerSupplierName,
+          },
+          supplierPlant: {
+            id: material.manufacturerSupplierPlant,
+            title: material.manufacturerSupplierPlant,
+            data: {
+              supplierId: material.manufacturerSupplierId,
+              supplierName: material.manufacturerSupplierName,
+              supplierCountry: material.manufacturerSupplierCountry,
+            },
+          },
+          supplierCountry: {
+            id: material.manufacturerSupplierCountry,
+            title: material.manufacturerSupplierCountry,
+          },
+          manufacturer: material.manufacturer,
+          selfCertified: material.selfCertified,
+          condition: material.condition
+            ? {
+                id: material.condition,
+                title: translate(
+                  `materialsSupplierDatabase.condition.${material.materialClass}.${material.condition}`
+                ),
+              }
+            : undefined,
+        };
 
         return DialogActions.setMaterialFormValue({ parsedMaterial });
       })
