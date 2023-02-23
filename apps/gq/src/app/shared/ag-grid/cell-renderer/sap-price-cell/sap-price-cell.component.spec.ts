@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ICellRendererParams } from 'ag-grid-community';
 
@@ -15,7 +16,7 @@ describe('SapPriceCellComponent', () => {
 
   const createComponent = createComponentFactory({
     component: SapPriceCellComponent,
-    imports: [RouterTestingModule],
+    imports: [RouterTestingModule, SharedPipesModule],
   });
 
   beforeEach(() => {

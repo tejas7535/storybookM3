@@ -1003,6 +1003,7 @@ describe('QuotationDetailsTableComponent', () => {
     test('should request hyperlink contextMenuItems', () => {
       params = {
         ...params,
+        value: '12',
         column: {
           getColId: jest.fn(() => ColumnFields.SAP_PRICE),
         },
@@ -1021,6 +1022,22 @@ describe('QuotationDetailsTableComponent', () => {
       expect(result[0]).toBe('item3');
       expect(result[1]).toBe('tab');
       expect(result[2]).toBe('window');
+    });
+
+    test('should not add contextMenu when value of cell is undefined', () => {
+      params = {
+        ...params,
+        column: {
+          getColId: jest.fn(() => ColumnFields.SAP_PRICE),
+        },
+        value: undefined,
+      } as unknown as GetContextMenuItemsParams;
+
+      const result = component.getContextMenuItems(params);
+      expect(result).toBeDefined();
+      expect(result.length).toBe(1);
+
+      expect(result[0]).toBe('item3');
     });
   });
 });

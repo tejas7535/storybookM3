@@ -1,3 +1,7 @@
-<a [href]="url" (click)="navigate($event)" class="text-link hover:underline">{{
-  value
-}}</a>
+<a
+  [href]="url"
+  (click)="navigate($event)"
+  class="text-link hover:underline"
+  [ngClass]="{ 'pointer-events-none': value | isDashOrEmptyString }"
+  >{{ value }}</a
+>

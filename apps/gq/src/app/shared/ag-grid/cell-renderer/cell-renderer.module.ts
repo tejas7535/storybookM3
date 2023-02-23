@@ -26,6 +26,7 @@ import { GqPriceCellComponent } from './gq-price-cell/gq-price-cell.component';
 import { GqRatingComponent } from './gq-rating/gq-rating.component';
 import { InfoCellComponent } from './info-cell/info-cell.component';
 import { PositionIdComponent } from './position-id/position-id.component';
+import { SapPriceCellComponent } from './sap-price-cell/sap-price-cell.component';
 import { SapStatusCellComponent } from './sap-sync-status-cell/sap-sync-status-cell.component';
 
 @NgModule({
@@ -43,6 +44,7 @@ import { SapStatusCellComponent } from './sap-sync-status-cell/sap-sync-status-c
     EditCellComponent,
     SapStatusCellComponent,
     FreeStockCellComponent,
+    SapPriceCellComponent,
   ],
   imports: [
     CommonModule,

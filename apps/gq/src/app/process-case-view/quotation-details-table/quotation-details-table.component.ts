@@ -551,7 +551,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
       ColumnFields.SAP_PRICE,
     ];
 
-    if (HYPERLINK_COLUMNS.includes(params.column.getColId())) {
+    if (HYPERLINK_COLUMNS.includes(params.column.getColId()) && params.value) {
       hyperlinkMenuItems = [
         ColumnUtilityService.getOpenInNewTabContextMenuItem(params),
         ColumnUtilityService.getOpenInNewWindowContextMenuItem(params),
