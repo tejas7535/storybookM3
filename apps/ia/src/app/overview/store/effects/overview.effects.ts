@@ -10,6 +10,7 @@ import { Store } from '@ngrx/store';
 import { AppRoutePath } from '../../../app-route-path.enum';
 import { selectRouterState } from '../../../core/store';
 import { filterSelected } from '../../../core/store/actions';
+import { initialTimeRange } from '../../../core/store/reducers/filter/filter.reducer';
 import { getCurrentFilters } from '../../../core/store/selectors';
 import { OrganizationalViewService } from '../../../organizational-view/organizational-view.service';
 import {
@@ -83,7 +84,7 @@ export class OverviewEffects {
         loadAttritionOverTimeOverview({ request }),
         loadFluctuationRatesOverview({ request }),
         loadFluctuationRatesChartData({ request }),
-        loadResignedEmployees({ request }),
+        loadResignedEmployees(),
         loadOpenApplicationsCount({ request }),
       ])
     )
@@ -161,8 +162,16 @@ export class OverviewEffects {
   loadResignedEmployees$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadResignedEmployees),
-      map((action) => action.request),
-      switchMap((request: EmployeesRequest) =>
+      concatLatestFrom(() => this.store.select(getCurrentFilters)),
+      map(
+        ([_action, request]) =>
+          ({
+            filterDimension: request.filterDimension,
+            value: request.value,
+            timeRange: initialTimeRange,
+          } as EmployeesRequest)
+      ),
+      mergeMap((request: EmployeesRequest) =>
         this.overviewService.getResignedEmployees(request).pipe(
           map((data: ResignedEmployeesResponse) =>
             loadResignedEmployeesSuccess({ data })

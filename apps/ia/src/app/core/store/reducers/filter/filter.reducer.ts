@@ -54,7 +54,7 @@ export const getInitialSelectedTimeRange = (today: Moment) => {
   return getTimeRangeFromDates(oldDate, nowDate);
 };
 
-const initialTimeRange = getInitialSelectedTimeRange(moment.utc());
+export const initialTimeRange = getInitialSelectedTimeRange(moment.utc());
 
 export const initialState: FilterState = {
   data: {

@@ -85,8 +85,7 @@ export const loadFluctuationRatesChartDataFailure = createAction(
 );
 
 export const loadResignedEmployees = createAction(
-  '[Overview] Load Resigned Employees',
-  props<{ request: EmployeesRequest }>()
+  '[Overview] Load Resigned Employees'
 );
 
 export const loadResignedEmployeesSuccess = createAction(

@@ -218,9 +218,7 @@ describe('Overview Reducer', () => {
 
   describe('loadResignedEmployees', () => {
     test('should set loading', () => {
-      const action = loadResignedEmployees({
-        request: { value: 'abc' } as EmployeesRequest,
-      });
+      const action = loadResignedEmployees();
       const state = overviewReducer(initialState, action);
 
       expect(state.resignedEmployees.loading).toBeTruthy();

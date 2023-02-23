@@ -134,11 +134,9 @@ describe('Overview Actions', () => {
   });
 
   test('loadResignedEmployees', () => {
-    const request = { request: { value: 'AVC' } as EmployeesRequest };
-    const action = loadResignedEmployees(request);
+    const action = loadResignedEmployees();
 
     expect(action).toEqual({
-      ...request,
       type: '[Overview] Load Resigned Employees',
     });
   });

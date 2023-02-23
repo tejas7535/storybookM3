@@ -57,6 +57,14 @@ import {
 } from '../actions/overview.action';
 import { OverviewEffects } from './overview.effects';
 
+jest.mock('../../../core/store/reducers/filter/filter.reducer', () => ({
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-arguments
+  ...jest.requireActual<any>(
+    '../../../core/store/reducers/filter/filter.reducer'
+  ),
+  initialTimeRange: '654-321',
+}));
+
 describe('Overview Effects', () => {
   let spectator: SpectatorService<OverviewEffects>;
   let actions$: any;
@@ -353,6 +361,7 @@ describe('Overview Effects', () => {
 
   describe('loadResignedEmployees', () => {
     let request: EmployeesRequest;
+    let expectedTimeRange = '';
 
     beforeEach(() => {
       request = {
@@ -360,7 +369,8 @@ describe('Overview Effects', () => {
         value: 'ABC123',
         timeRange: '123|456',
       };
-      action = loadResignedEmployees({ request });
+      action = loadResignedEmployees();
+      expectedTimeRange = '654-321';
     });
 
     it(
@@ -371,6 +381,8 @@ describe('Overview Effects', () => {
           resignedEmployeesCount: 0,
           responseModified: true,
         };
+        store.overrideSelector(getCurrentFilters, request);
+
         const result = loadResignedEmployeesSuccess({
           data,
         });
@@ -385,9 +397,11 @@ describe('Overview Effects', () => {
 
         m.expect(effects.loadResignedEmployees$).toBeObservable(expected);
         m.flush();
-        expect(overviewService.getResignedEmployees).toHaveBeenCalledWith(
-          request
-        );
+        expect(overviewService.getResignedEmployees).toHaveBeenCalledWith({
+          filterDimension: request.filterDimension,
+          value: request.value,
+          timeRange: expectedTimeRange,
+        } as EmployeesRequest);
       })
     );
 
@@ -408,9 +422,11 @@ describe('Overview Effects', () => {
 
         m.expect(effects.loadResignedEmployees$).toBeObservable(expected);
         m.flush();
-        expect(overviewService.getResignedEmployees).toHaveBeenCalledWith(
-          request
-        );
+        expect(overviewService.getResignedEmployees).toHaveBeenCalledWith({
+          filterDimension: request.filterDimension,
+          value: request.value,
+          timeRange: expectedTimeRange,
+        } as EmployeesRequest);
       })
     );
   });
