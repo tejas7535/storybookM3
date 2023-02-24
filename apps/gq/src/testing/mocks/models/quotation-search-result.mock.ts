@@ -12,6 +12,7 @@ export const QUOTATION_SEARCH_RESULT_MOCK: QuotationSearchResult = {
   materialGpc: 24.5,
   materialPrice: 13.4,
   materialQuantity: 10,
+  materialPriceUnit: 1,
   status: QuotationStatus.ACTIVE,
   currency: 'EUR',
 };

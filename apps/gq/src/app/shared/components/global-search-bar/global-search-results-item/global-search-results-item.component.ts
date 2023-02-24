@@ -19,8 +19,14 @@ export class GlobalSearchResultsItemComponent {
     this.quotationSummary = searchResult;
 
     this.materialGpi = PriceService.calculateMargin(
-      searchResult.materialPrice,
-      searchResult.materialGpc
+      PriceService.roundValue(
+        searchResult.materialPrice,
+        searchResult.materialQuantity
+      ),
+      PriceService.roundValue(
+        searchResult.materialGpc,
+        searchResult.materialQuantity
+      )
     );
   }
   @Output() gqIdSelected = new EventEmitter<QuotationSearchResult>();

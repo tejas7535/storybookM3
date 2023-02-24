@@ -10,5 +10,6 @@ export class QuotationSearchResult {
   materialPrice: number;
   materialQuantity: number;
   materialGpc: number;
+  materialPriceUnit: number;
   status: QuotationStatus;
 }
