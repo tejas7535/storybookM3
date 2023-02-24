@@ -1,8 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Observable, of } from 'rxjs';
-import { delay, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import {
   CreateCase,
@@ -21,6 +21,7 @@ import { UpdateQuotationRequest } from './models/update-quotation-request.model'
 })
 export class QuotationService {
   private readonly PARAM_STATUS = 'status';
+  private readonly PARAM_MATERIAL_NUMBER = 'material-number';
 
   constructor(private readonly http: HttpClient) {}
 
@@ -156,146 +157,19 @@ export class QuotationService {
     );
   }
 
-  // TODO: remove underscore when calling the BE service
   public getCasesByMaterialNumber(
-    _materialNumber: string
+    materialNumber: string
   ): Observable<QuotationSearchResult[]> {
-    const result: QuotationSearchResult[] = [
-      {
-        gqId: 46_406,
-        customerName:
-          'namejdlajsd ajldajsld jalskdjiowe roijdmdalsjdoi ajdlasj do ijwoeijoi ',
-        customerNumber: '2005',
-        salesOrg: '0615',
-        customerCurrency: 'EUR',
-        priceOfMaterial: 24.3,
-        quantityOfMaterial: 4,
-        gpi: 24.3,
-        status: QuotationStatus.ACTIVE,
-      },
-      {
-        gqId: 46_406,
-        customerName: 'name',
-        customerNumber: '2005',
-        customerCurrency: 'EUR',
-        salesOrg: '0615',
-        priceOfMaterial: 24.3,
-        quantityOfMaterial: 4,
-        gpi: 24.3,
-        status: QuotationStatus.ACTIVE,
-      },
-      {
-        gqId: 46_406,
-        customerName: 'name',
-        customerNumber: '2005',
-        customerCurrency: 'EUR',
-        salesOrg: '0615',
-        priceOfMaterial: 24.3,
-        quantityOfMaterial: 4,
-        gpi: 24.3,
-        status: QuotationStatus.ACTIVE,
-      },
-      {
-        gqId: 46_406,
-        customerName: 'name',
-        customerNumber: '2005',
-        customerCurrency: 'AMD',
-        salesOrg: '0615',
-        priceOfMaterial: 24.3,
-        quantityOfMaterial: 4,
-        gpi: 24.3,
-        status: QuotationStatus.ACTIVE,
-      },
-      {
-        gqId: 46_406,
-        customerName: 'name',
-        customerNumber: '2005',
-        customerCurrency: 'BYN',
-        salesOrg: '0615',
-        priceOfMaterial: 24.3,
-        quantityOfMaterial: 4,
-        gpi: 24.3,
-        status: QuotationStatus.ACTIVE,
-      },
-      {
-        gqId: 46_406,
-        customerName: 'name',
-        customerNumber: '2005',
-        customerCurrency: 'BYN',
-        salesOrg: '0615',
-        priceOfMaterial: 24.3,
-        quantityOfMaterial: 4,
-        gpi: 24.3,
-        status: QuotationStatus.ACTIVE,
-      },
-      {
-        gqId: 46_406,
-        customerName: 'name',
-        customerNumber: '2005',
-        customerCurrency: 'BYN',
-        salesOrg: '0615',
-        priceOfMaterial: 24.3,
-        quantityOfMaterial: 4,
-        gpi: 24.3,
-        status: QuotationStatus.ACTIVE,
-      },
-      {
-        gqId: 46_406,
-        customerName: 'name',
-        customerNumber: '2005',
-        customerCurrency: 'USD',
-        salesOrg: '0615',
-        priceOfMaterial: 24.3,
-        quantityOfMaterial: 4,
-        gpi: 24.3,
-        status: QuotationStatus.ACTIVE,
-      },
-      {
-        gqId: 46_406,
-        customerName: 'name',
-        customerNumber: '2005',
-        customerCurrency: 'USD',
-        salesOrg: '0615',
-        priceOfMaterial: 24.3,
-        quantityOfMaterial: 4,
-        gpi: 24.3,
-        status: QuotationStatus.ACTIVE,
-      },
-      {
-        gqId: 46_406,
-        customerName: 'name',
-        customerNumber: '2005',
-        customerCurrency: 'USD',
-        salesOrg: '0615',
-        priceOfMaterial: 24.3,
-        quantityOfMaterial: 4,
-        gpi: 24.3,
-        status: QuotationStatus.ACTIVE,
-      },
-      {
-        gqId: 46_406,
-        customerName: 'name',
-        customerNumber: '2005',
-        customerCurrency: 'PLN',
-        salesOrg: '0615',
-        priceOfMaterial: 24.3,
-        quantityOfMaterial: 4,
-        gpi: 24.3,
-        status: QuotationStatus.ACTIVE,
-      },
-      {
-        gqId: 46_406,
-        customerName: 'name',
-        customerNumber: '2005',
-        customerCurrency: 'PLN',
-        salesOrg: '0615',
-        priceOfMaterial: 24.3,
-        quantityOfMaterial: 4,
-        gpi: 24.3,
-        status: QuotationStatus.ACTIVE,
-      },
-    ];
+    const httpParams = new HttpParams().set(
+      this.PARAM_MATERIAL_NUMBER,
+      materialNumber
+    );
 
-    return of(result).pipe(delay(2000));
+    return this.http.get<QuotationSearchResult[]>(
+      `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS_SUMMARY}`,
+      {
+        params: httpParams,
+      }
+    );
   }
 }

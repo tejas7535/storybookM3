@@ -3,11 +3,12 @@ import { QuotationStatus } from './quotation-status.enum';
 export class QuotationSearchResult {
   gqId: number;
   customerName: string;
-  customerNumber: string;
-  salesOrg: string;
-  customerCurrency: string;
-  priceOfMaterial: number;
-  quantityOfMaterial: number;
-  gpi: number;
+  customerId: string;
+  customerSalesOrg: string;
+  currency: string;
+  materialNumber: string;
+  materialPrice: number;
+  materialQuantity: number;
+  materialGpc: number;
   status: QuotationStatus;
 }

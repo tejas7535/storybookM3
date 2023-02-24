@@ -110,8 +110,8 @@ export class GlobalSearchModalComponent implements OnInit, OnDestroy {
   openCase(gqCase: QuotationSearchResult): void {
     const queryParams: Params = {
       quotation_number: gqCase.gqId,
-      customer_number: gqCase.customerNumber,
-      sales_org: gqCase.salesOrg,
+      customer_number: gqCase.customerId,
+      sales_org: gqCase.customerSalesOrg,
     };
 
     if (this.selectedMaterialDesc) {

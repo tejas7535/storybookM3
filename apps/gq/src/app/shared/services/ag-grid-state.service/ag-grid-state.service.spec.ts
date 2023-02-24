@@ -694,4 +694,13 @@ describe('AgGridStateService', () => {
       );
     });
   });
+
+  describe('resetFilterModelsOfDefaultView', () => {
+    test('should reset the filterModel of defaultView', () => {
+      service['setColumnFilters'] = jest.fn();
+
+      service.resetFilterModelsOfDefaultView('46426');
+      expect(service['setColumnFilters']).toHaveBeenCalledTimes(1);
+    });
+  });
 });

@@ -1,50 +1,50 @@
 <div
   class="group flex cursor-pointer flex-col py-3 pl-4 pr-4 text-body-1 hover:bg-hover-overlay"
   *transloco="let t; read: 'searchBar'"
-  (click)="gqIdSelected.emit(searchResult)"
+  (click)="gqIdSelected.emit(quotationSummary)"
 >
   <div class="flex items-center">
     <p class="text-body-1 font-normal text-high-emphasis">
-      GQ {{ searchResult.gqId }}
+      GQ {{ quotationSummary.gqId }}
     </p>
-    <p class="hidden pl-2 text-caption text-medium-emphasis group-hover:block">
+    <p class="hidden text-caption text-medium-emphasis group-hover:block">
       - {{ t('openCaseHint') }}
     </p>
   </div>
-  <div class="flex flex-row justify-between gap-4">
-    <div class="flex w-1/4 gap-2 whitespace-nowrap text-body-2">
+  <div class="grid w-full grid-cols-10 gap-2">
+    <div class="col-span-3 flex whitespace-nowrap text-body-2">
       <p class="text-medium-emphasis">{{ t('customerNameLabel') }}:</p>
       <p
-        class="truncate"
+        class="ml-1 truncate"
         matTooltipClass="whitespace-pre-line !bg-[#646464] !text-caption !text-high-emphasis-dark-bg !px-3 !py-1"
-        [matTooltip]="searchResult.customerName"
+        [matTooltip]="quotationSummary.customerName"
         [matTooltipDisabled]="!text.isTruncated"
         isTextTruncated
         #text="isTextTruncated"
       >
-        {{ searchResult.customerName }}
+        {{ quotationSummary.customerName }}
       </p>
     </div>
-    <div class="flex gap-2 whitespace-nowrap text-body-2">
+    <div class="col-span-2 flex whitespace-nowrap text-body-2">
       <p class="text-medium-emphasis">{{ t('customerNumberLabel') }}:</p>
-      <p>{{ searchResult.customerNumber }}</p>
+      <p class="ml-1">{{ quotationSummary.customerId }}</p>
     </div>
-    <div class="flex gap-2 whitespace-nowrap text-body-2">
+    <div class="col-span-2 flex whitespace-nowrap text-body-2">
       <p class="text-medium-emphasis">{{ t('priceLabel') }}:</p>
-      <p>
+      <p class="ml-1">
         {{
-          searchResult.priceOfMaterial
-            | numberCurrency: searchResult.customerCurrency
+          quotationSummary.materialPrice
+            | numberCurrency: quotationSummary.currency
         }}
       </p>
     </div>
-    <div class="flex gap-2 whitespace-nowrap text-body-2">
+    <div class="col-span-2 flex whitespace-nowrap text-body-2">
       <p class="text-medium-emphasis">{{ t('quantityLabel') }}:</p>
-      <p>{{ searchResult.quantityOfMaterial }}</p>
+      <p class="ml-1">{{ quotationSummary.materialQuantity }}</p>
     </div>
-    <div class="flex gap-2 whitespace-nowrap text-body-2">
+    <div class="col-span-1 flex whitespace-nowrap text-body-2">
       <p class="text-medium-emphasis">{{ t('gpiLabel') }}:</p>
-      <p>{{ searchResult.gpi | percentage }}</p>
+      <p class="ml-1">{{ materialGpi | percentage }}</p>
     </div>
   </div>
 </div>

@@ -155,8 +155,8 @@ describe('GlobalSearchModalComponent', () => {
           queryParamsHandling: 'merge',
           queryParams: {
             quotation_number: QUOTATION_SEARCH_RESULT_MOCK.gqId,
-            customer_number: QUOTATION_SEARCH_RESULT_MOCK.customerNumber,
-            sales_org: QUOTATION_SEARCH_RESULT_MOCK.salesOrg,
+            customer_number: QUOTATION_SEARCH_RESULT_MOCK.customerId,
+            sales_org: QUOTATION_SEARCH_RESULT_MOCK.customerSalesOrg,
             'filter_material.materialDescription': 'matDesc',
           },
         }
@@ -179,8 +179,8 @@ describe('GlobalSearchModalComponent', () => {
           queryParamsHandling: 'merge',
           queryParams: {
             quotation_number: QUOTATION_SEARCH_RESULT_MOCK.gqId,
-            customer_number: QUOTATION_SEARCH_RESULT_MOCK.customerNumber,
-            sales_org: QUOTATION_SEARCH_RESULT_MOCK.salesOrg,
+            customer_number: QUOTATION_SEARCH_RESULT_MOCK.customerId,
+            sales_org: QUOTATION_SEARCH_RESULT_MOCK.customerSalesOrg,
             'filter_material.materialNumber15': '12345678',
           },
         }

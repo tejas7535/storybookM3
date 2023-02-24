@@ -160,16 +160,19 @@ export class SingleQuotesTabComponent implements OnInit {
    * if filter exists applies all filter for MatNumber and MatDescription
    */
   applyFilterFromQueryParams() {
+    const gqId = this.routeSnapShot.queryParamMap.get('quotation_number');
     const filterParams = this.routeSnapShot.queryParamMap.keys.filter(
       (key: string) => key.startsWith(FILTER_PARAM_INDICATOR)
     );
+
     if (filterParams.length === 0) {
+      this.gridStateService.resetFilterModelsOfDefaultView(gqId);
+
       return;
     }
 
     this.gridStateService.setActiveView(this.gridStateService.DEFAULT_VIEW_ID);
     filterParams.forEach((key: string) => {
-      const gqId = this.routeSnapShot.queryParamMap.get('quotation_number');
       const filterKey = key.replace(FILTER_PARAM_INDICATOR, '');
       const filterValue = this.routeSnapShot.queryParamMap.get(key);
 

@@ -248,6 +248,15 @@ describe('QuotationService', () => {
   });
 
   describe('getCasesByMaterialNumber', () => {
-    // tbd
+    test('should call the service', () => {
+      service
+        .getCasesByMaterialNumber('123456')
+        .subscribe((res) => expect(res).toEqual([]));
+
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS_SUMMARY}?${service['PARAM_MATERIAL_NUMBER']}=123456`
+      );
+      expect(req.request.method).toBe(HttpMethod.GET);
+    });
   });
 });

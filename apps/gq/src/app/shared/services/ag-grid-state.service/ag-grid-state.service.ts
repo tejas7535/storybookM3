@@ -316,6 +316,20 @@ export class AgGridStateService {
     });
   }
 
+  /**
+   * resets any filter for default view
+   *
+   * @param quotationId number of quotation to reset the filterModel
+   */
+  public resetFilterModelsOfDefaultView(quotationId: string): void {
+    this.setColumnFilters(
+      this.activeTableKey,
+      this.DEFAULT_VIEW_ID,
+      quotationId,
+      {}
+    );
+  }
+
   private saveGridState(gridState: GridState) {
     this.localStorage.setItem(this.activeTableKey, JSON.stringify(gridState));
     this.updateViews();

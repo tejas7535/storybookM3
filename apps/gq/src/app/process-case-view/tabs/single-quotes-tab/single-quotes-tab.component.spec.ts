@@ -211,9 +211,10 @@ describe('SingleQuotesTab Without Filter params', () => {
     component = spectator.debugElement.componentInstance;
   });
 
-  test('should NOT apply a filter', () => {
+  test('should NOT apply a filter but reset defaultViews filter', () => {
     component['gridStateService'].setColumnFilterForCurrentView = jest.fn();
     component['gridStateService'].setActiveView = jest.fn();
+    component['gridStateService'].resetFilterModelsOfDefaultView = jest.fn();
 
     component.applyFilterFromQueryParams();
 
@@ -221,5 +222,8 @@ describe('SingleQuotesTab Without Filter params', () => {
     expect(
       component['gridStateService'].setColumnFilterForCurrentView
     ).not.toHaveBeenCalled();
+    expect(
+      component['gridStateService'].resetFilterModelsOfDefaultView
+    ).toHaveBeenCalled();
   });
 });
