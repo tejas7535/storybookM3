@@ -25,6 +25,7 @@ describe('OpenInWindowComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.component;
+    jest.resetAllMocks();
   });
 
   test('should create', () => {
@@ -39,5 +40,12 @@ describe('OpenInWindowComponent', () => {
     component.url = '123';
     component.openInWindow();
     expect(functionSpy).toHaveBeenCalled();
+  });
+  test('should not call function', () => {
+    const functionSpy = jest.spyOn(contextFunctions, 'openInNewWindowByUrl');
+
+    component.url = '';
+    component.openInWindow();
+    expect(functionSpy).not.toHaveBeenCalled();
   });
 });

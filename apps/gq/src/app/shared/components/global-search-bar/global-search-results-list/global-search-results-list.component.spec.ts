@@ -1,6 +1,11 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import {
+  createComponentFactory,
+  createMouseEvent,
+  Spectator,
+} from '@ngneat/spectator';
 
 import { QuotationSearchResult } from '../../../models/quotation';
 import { GlobalSearchResultsListComponent } from './global-search-results-list.component';
@@ -11,7 +16,7 @@ describe('GlobalSearchResultsListComponent', () => {
 
   const createComponent = createComponentFactory({
     component: GlobalSearchResultsListComponent,
-    imports: [],
+    imports: [MatMenuModule],
     declarations: [],
     detectChanges: true,
     schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
@@ -64,6 +69,22 @@ describe('GlobalSearchResultsListComponent', () => {
       component.gqCases = undefined;
       component.increaseCount();
       expect(component.count).toBe(0);
+    });
+  });
+
+  describe('showContextMenu', () => {
+    test('should call contextMenu', () => {
+      const mouseEvent: MouseEvent = createMouseEvent('click', 100, 200);
+      const mouseSpy = jest.spyOn(mouseEvent, 'preventDefault');
+
+      component.contextMenu = {
+        openMenu: jest.fn(),
+      } as unknown as MatMenuTrigger;
+
+      component.showContextMenu(mouseEvent, {} as QuotationSearchResult);
+
+      expect(component.contextMenu.openMenu).toHaveBeenCalled();
+      expect(mouseSpy).toHaveBeenCalled();
     });
   });
 });

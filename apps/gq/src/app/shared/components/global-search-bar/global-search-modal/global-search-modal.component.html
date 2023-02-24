@@ -60,6 +60,8 @@
       [gqCases]="searchResult"
       [searchVal]="searchVal"
       (gqIdSelected)="openCase($event)"
+      (openInTabClicked)="openCase($event, 'tab')"
+      (openInWindowClicked)="openCase($event, 'window')"
     >
     </gq-global-search-results-list>
   </ng-container>

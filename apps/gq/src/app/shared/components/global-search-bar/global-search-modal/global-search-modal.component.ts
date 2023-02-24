@@ -15,8 +15,13 @@ import { MaterialNumberService } from '../../../services/material-number/materia
 import { QuotationService } from '../../../services/rest-services/quotation-service/quotation.service';
 import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete-request-dialog.enum';
 import { FilterNames } from '../../autocomplete-input/filter-names.enum';
+import {
+  openInNewTabByUrl,
+  openInNewWindowByUrl,
+} from '../../contextMenu/functions/context-menu-functions';
 
 type ResultsList = 'preview' | 'result' | 'loading';
+type OpenIn = 'window' | 'tab';
 
 @Component({
   selector: 'gq-global-search-modal',
@@ -107,7 +112,7 @@ export class GlobalSearchModalComponent implements OnInit, OnDestroy {
       );
   }
 
-  openCase(gqCase: QuotationSearchResult): void {
+  openCase(gqCase: QuotationSearchResult, openIn?: OpenIn): void {
     const queryParams: Params = {
       quotation_number: gqCase.gqId,
       customer_number: gqCase.customerId,
@@ -124,13 +129,25 @@ export class GlobalSearchModalComponent implements OnInit, OnDestroy {
       ] = this.selectedMaterialNumber;
     }
 
-    this.clearInputField();
-    this.closeDialog();
-
-    this.router.navigate([AppRoutePath.ProcessCaseViewPath], {
+    const url = this.router.createUrlTree([AppRoutePath.ProcessCaseViewPath], {
       queryParamsHandling: 'merge',
       queryParams,
     });
+
+    switch (openIn) {
+      case 'window':
+        openInNewWindowByUrl(`${window.location.origin}${url.toString()}`);
+        break;
+      case 'tab':
+        openInNewTabByUrl(`${window.location.origin}${url.toString()}`);
+        break;
+      default:
+        this.router.navigateByUrl(url);
+        this.clearInputField();
+        this.closeDialog();
+
+        break;
+    }
   }
 
   closeDialog() {

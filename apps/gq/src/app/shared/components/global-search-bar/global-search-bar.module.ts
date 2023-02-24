@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -13,6 +14,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedDirectivesModule } from '../../directives/shared-directives.module';
 import { SharedPipesModule } from '../../pipes/shared-pipes.module';
+import { ContextMenuModule } from '../contextMenu/context-menu.module';
 import { GlobalSearchBarComponent } from './global-search-bar.component';
 import { GlobalSearchModalComponent } from './global-search-modal/global-search-modal.component';
 import { GlobalSearchResultsItemComponent } from './global-search-results-item/global-search-results-item.component';
@@ -44,6 +46,8 @@ import { GlobalSearchResultsPreviewListEntryComponent } from './global-search-re
     MatTooltipModule,
     MatButtonModule,
     SharedPipesModule,
+    ContextMenuModule,
+    MatMenuModule,
   ],
   exports: [GlobalSearchBarComponent],
 })

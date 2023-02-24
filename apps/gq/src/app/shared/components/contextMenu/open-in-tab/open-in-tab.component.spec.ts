@@ -25,6 +25,7 @@ describe('OpenInTabComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.component;
+    jest.resetAllMocks();
   });
 
   test('should create', () => {
@@ -41,5 +42,13 @@ describe('OpenInTabComponent', () => {
     component.url = '123';
     component.openInTab();
     expect(functionSpy).toHaveBeenCalled();
+  });
+
+  test('should not call the funktion', () => {
+    const functionSpy = jest.spyOn(contextFunctions, 'openInNewTabByUrl');
+
+    component.url = '';
+    component.openInTab();
+    expect(functionSpy).not.toHaveBeenCalled();
   });
 });

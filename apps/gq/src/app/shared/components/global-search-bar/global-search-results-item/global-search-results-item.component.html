@@ -1,7 +1,8 @@
 <div
   class="group flex cursor-pointer flex-col py-3 pl-4 pr-4 text-body-1 hover:bg-hover-overlay"
   *transloco="let t; read: 'searchBar'"
-  (click)="gqIdSelected.emit(quotationSummary)"
+  (click)="gqIdSelected.emit(searchResult)"
+  (contextmenu)="contextMenu.emit($event)"
 >
   <div class="flex items-center">
     <p class="text-body-1 font-normal text-high-emphasis">

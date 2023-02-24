@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { of } from 'rxjs';
 
+import { AppRoutePath } from '@gq/app-route-path.enum';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -12,12 +13,12 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { QUOTATION_SEARCH_RESULT_MOCK } from '../../../../../testing/mocks/models';
-import { AppRoutePath } from '../../../../app-route-path.enum';
 import { AutoCompleteFacade } from '../../../../core/store';
 import { IdValue } from '../../../models/search';
 import { QuotationService } from '../../../services/rest-services/quotation-service/quotation.service';
 import { FilterNames } from '../../autocomplete-input/filter-names.enum';
 import { GlobalSearchResultsPreviewListComponent } from '../global-search-results-preview-list/global-search-results-preview-list.component';
+import * as contextFunctions from './../../contextMenu/functions/context-menu-functions';
 import { GlobalSearchModalComponent } from './global-search-modal.component';
 describe('GlobalSearchModalComponent', () => {
   let component: GlobalSearchModalComponent;
@@ -140,16 +141,7 @@ describe('GlobalSearchModalComponent', () => {
 
   describe('openCase', () => {
     test('should navigate with material description and close dialog', () => {
-      component['router'].navigate = jest.fn().mockImplementation();
-      component.closeDialog = jest.fn();
-      component.clearInputField = jest.fn();
-      component['selectedMaterialDesc'] = 'matDesc';
-      component['selectedMaterialNumber'] = '';
-
-      component.openCase(QUOTATION_SEARCH_RESULT_MOCK);
-
-      expect(component['router'].navigate).toHaveBeenCalled();
-      expect(component['router'].navigate).toHaveBeenCalledWith(
+      const url = component['router'].createUrlTree(
         [AppRoutePath.ProcessCaseViewPath],
         {
           queryParamsHandling: 'merge',
@@ -161,19 +153,22 @@ describe('GlobalSearchModalComponent', () => {
           },
         }
       );
+
+      component['router'].navigateByUrl = jest.fn().mockImplementation();
+      component.closeDialog = jest.fn();
+      component.clearInputField = jest.fn();
+      component['selectedMaterialDesc'] = 'matDesc';
+      component['selectedMaterialNumber'] = '';
+
+      component.openCase(QUOTATION_SEARCH_RESULT_MOCK);
+
+      expect(component['router'].navigateByUrl).toHaveBeenCalled();
+      expect(component['router'].navigateByUrl).toHaveBeenCalledWith(url);
       expect(component.closeDialog).toHaveBeenCalled();
       expect(component.clearInputField).toHaveBeenCalled();
     });
     test('should navigate with material number and close dialog', () => {
-      component['router'].navigate = jest.fn().mockImplementation();
-      component.closeDialog = jest.fn();
-      component.clearInputField = jest.fn();
-      component['selectedMaterialDesc'] = '';
-      component['selectedMaterialNumber'] = '12345678';
-      component.openCase(QUOTATION_SEARCH_RESULT_MOCK);
-
-      expect(component['router'].navigate).toHaveBeenCalled();
-      expect(component['router'].navigate).toHaveBeenCalledWith(
+      const url = component['router'].createUrlTree(
         [AppRoutePath.ProcessCaseViewPath],
         {
           queryParamsHandling: 'merge',
@@ -185,8 +180,79 @@ describe('GlobalSearchModalComponent', () => {
           },
         }
       );
+      component['router'].navigateByUrl = jest.fn().mockImplementation();
+      component.closeDialog = jest.fn();
+      component.clearInputField = jest.fn();
+      component['selectedMaterialDesc'] = '';
+      component['selectedMaterialNumber'] = '12345678';
+      component.openCase(QUOTATION_SEARCH_RESULT_MOCK);
+
+      expect(component['router'].navigateByUrl).toHaveBeenCalled();
+      expect(component['router'].navigateByUrl).toHaveBeenCalledWith(url);
       expect(component.closeDialog).toHaveBeenCalled();
       expect(component.clearInputField).toHaveBeenCalled();
+    });
+
+    test('should open in new Tab', () => {
+      const functionSpy = jest.spyOn(contextFunctions, 'openInNewTabByUrl');
+      const url = component['router'].createUrlTree(
+        [AppRoutePath.ProcessCaseViewPath],
+        {
+          queryParamsHandling: 'merge',
+          queryParams: {
+            quotation_number: QUOTATION_SEARCH_RESULT_MOCK.gqId,
+            customer_number: QUOTATION_SEARCH_RESULT_MOCK.customerId,
+            sales_org: QUOTATION_SEARCH_RESULT_MOCK.customerSalesOrg,
+            'filter_material.materialDescription': 'matDesc',
+          },
+        }
+      );
+
+      component['router'].navigateByUrl = jest.fn();
+      component.closeDialog = jest.fn();
+      component.clearInputField = jest.fn();
+      component['selectedMaterialDesc'] = 'matDesc';
+      component['selectedMaterialNumber'] = '';
+
+      component.openCase(QUOTATION_SEARCH_RESULT_MOCK, 'tab');
+
+      expect(component['router'].navigateByUrl).not.toHaveBeenCalled();
+      expect(functionSpy).toHaveBeenCalledWith(
+        `${window.location.origin}${url}`
+      );
+      expect(component.closeDialog).not.toHaveBeenCalled();
+      expect(component.clearInputField).not.toHaveBeenCalled();
+    });
+
+    test('should open in new Window', () => {
+      const functionSpy = jest.spyOn(contextFunctions, 'openInNewWindowByUrl');
+      const url = component['router'].createUrlTree(
+        [AppRoutePath.ProcessCaseViewPath],
+        {
+          queryParamsHandling: 'merge',
+          queryParams: {
+            quotation_number: QUOTATION_SEARCH_RESULT_MOCK.gqId,
+            customer_number: QUOTATION_SEARCH_RESULT_MOCK.customerId,
+            sales_org: QUOTATION_SEARCH_RESULT_MOCK.customerSalesOrg,
+            'filter_material.materialDescription': 'matDesc',
+          },
+        }
+      );
+
+      component['router'].navigateByUrl = jest.fn();
+      component.closeDialog = jest.fn();
+      component.clearInputField = jest.fn();
+      component['selectedMaterialDesc'] = 'matDesc';
+      component['selectedMaterialNumber'] = '';
+
+      component.openCase(QUOTATION_SEARCH_RESULT_MOCK, 'window');
+
+      expect(component['router'].navigateByUrl).not.toHaveBeenCalled();
+      expect(functionSpy).toHaveBeenCalledWith(
+        `${window.location.origin}${url}`
+      );
+      expect(component.closeDialog).not.toHaveBeenCalled();
+      expect(component.clearInputField).not.toHaveBeenCalled();
     });
   });
 });

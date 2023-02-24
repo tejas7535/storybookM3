@@ -8,6 +8,7 @@
         *ngFor="let case of gqCases | slice: 0:count"
         [searchResult]="case"
         (gqIdSelected)="gqIdSelected.emit($event)"
+        (contextMenu)="showContextMenu($event, case)"
       ></gq-global-search-results-item>
     </div>
     <button
@@ -36,3 +37,20 @@
     </div>
   </ng-template>
 </ng-container>
+
+<div
+  class="mat-menu-width"
+  [style.visibility]="'hidden'"
+  [style.position]="'fixed'"
+  [style.left.px]="contextMenuPosition.x"
+  [style.top.px]="contextMenuPosition.y"
+  [matMenuTriggerFor]="contextMenu"
+></div>
+<mat-menu #contextMenu="matMenu">
+  <ng-template matMenuContent let-item="item">
+    <gq-open-in-tab (clicked)="openInTabClicked.emit(item)"></gq-open-in-tab>
+    <gq-open-in-window
+      (clicked)="openInWindowClicked.emit(item)"
+    ></gq-open-in-window>
+  </ng-template>
+</mat-menu>

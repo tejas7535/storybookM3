@@ -30,6 +30,7 @@ export class GlobalSearchResultsItemComponent {
     );
   }
   @Output() gqIdSelected = new EventEmitter<QuotationSearchResult>();
+  @Output() contextMenu = new EventEmitter<MouseEvent>();
 
   materialGpi: number;
   quotationSummary: QuotationSearchResult;
