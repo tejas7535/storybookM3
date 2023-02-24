@@ -293,7 +293,6 @@ export const msdServicePolymerMockResponse: PolymerMaterialResponse[] = [
       materialNumber: ['sapMaterialNumber'],
     },
     materialClass: 'px',
-    ssid: 'ssid',
     generalDescription: 'generalDescription',
   },
 ];

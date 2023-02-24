@@ -4,6 +4,7 @@ export enum MaterialClass {
   POLYMER = 'px',
   COPPER = 'cu',
   CERAMIC = 'ce',
+  HARDMAGNET = 'hm',
 }
 
 export const SupportedMaterialClasses = Object.values(MaterialClass);

@@ -1,6 +1,12 @@
 /* eslint-disable max-lines */
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  Inject,
+  OnInit,
+} from '@angular/core';
+import { FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -9,28 +15,35 @@ import { BehaviorSubject } from 'rxjs';
 import { StringOption } from '@schaeffler/inputs';
 
 import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
+import { HardmagnetMaterialForm } from '@mac/feature/materials-supplier-database/models/data/hardmagnet';
+import { addCustomMaterialStandardName } from '@mac/feature/materials-supplier-database/store/actions/dialog';
 import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
 import { MaterialInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/material-input-dialog.component';
 import { DialogControlsService } from '@mac/msd/main-table/material-input-dialog/services';
-import { CeramicMaterialForm, DataResult } from '@mac/msd/models';
+import { DataResult } from '@mac/msd/models';
 import { DialogFacade } from '@mac/msd/store/facades/dialog';
 
 @Component({
-  selector: 'mac-ceramic-input-dialog',
-  templateUrl: './ceramic-input-dialog.component.html',
+  selector: 'mac-hardmagnet-input-dialog',
+  templateUrl: './hardmagnet-input-dialog.component.html',
 })
-export class CeramicInputDialogComponent
+export class HardmagnetInputDialogComponent
   extends MaterialInputDialogComponent
-  implements OnInit
+  implements OnInit, AfterViewInit
 {
-  public materialClass = MaterialClass.CERAMIC;
+  public materialClass = MaterialClass.HARDMAGNET;
 
   public co2Classification$ = this.dialogFacade.co2Classification$;
   public categories$ = this.dialogFacade.categories$;
-  public conditions$ = this.dialogFacade.conditions$;
+  public coatings$ = this.dialogFacade.coatings$;
+  public productionProcesses$ = this.dialogFacade.productionProcesses$;
+  public readonly materialNames$ = this.dialogFacade.materialNames$;
 
-  public conditionControl =
+  public coatingControl =
     this.controlsService.getRequiredControl<StringOption>();
+  public productionProcessControl =
+    this.controlsService.getRequiredControl<StringOption>();
+  public materialGradeControl = this.controlsService.getControl<string>();
 
   public constructor(
     readonly controlsService: DialogControlsService,
@@ -55,12 +68,16 @@ export class CeramicInputDialogComponent
       dialogData
     );
     this.editLoading$ = new BehaviorSubject(!!dialogData.editDialogInformation);
+    this.standardDocumentsControl.removeValidators(Validators.required);
+    this.categoriesControl.removeValidators(Validators.required);
+    // after removing the validator the control needs to be reset / updated to lose 'invalid' state
+    this.categoriesControl.reset();
   }
 
   ngOnInit(): void {
     super.ngOnInit();
     // setup material formular values
-    this.createMaterialForm = new FormGroup<CeramicMaterialForm>({
+    this.createMaterialForm = new FormGroup<HardmagnetMaterialForm>({
       manufacturerSupplierId: this.manufacturerSupplierIdControl,
       materialStandardId: this.materialStandardIdControl,
       productCategory: this.categoriesControl,
@@ -78,8 +95,29 @@ export class CeramicInputDialogComponent
       supplierPlant: this.supplierPlantControl,
       supplierCountry: this.supplierCountryControl,
 
-      // Ceramic specific controls
-      condition: this.conditionControl,
+      // Hardmagnet specific controls
+      coating: this.coatingControl,
+      productionProcess: this.productionProcessControl,
+      grade: this.materialGradeControl,
     });
+  }
+
+  public ngAfterViewInit(): void {
+    super.ngAfterViewInit();
+
+    // as only materialname is available, generate a stdDoc name and set the ID on updates
+    this.materialNamesControl.valueChanges.subscribe((so) => {
+      const id = so?.id as number;
+      const title: string = so ? `stdDoc for ${so.title}` : undefined;
+      const stdDoc: StringOption = so ? { id, title } : undefined;
+
+      this.standardDocumentsControl.setValue(stdDoc);
+      this.materialStandardIdControl.setValue(id);
+    });
+  }
+
+  // callback function for schaeffler-select (material name)
+  public addMaterialName(materialName: string): void {
+    this.dialogFacade.dispatch(addCustomMaterialStandardName({ materialName }));
   }
 }

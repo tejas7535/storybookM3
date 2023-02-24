@@ -1,3 +1,5 @@
+import { StringOption } from '@schaeffler/inputs';
+
 import {
   CreateMaterialRecord,
   DataResult,
@@ -29,6 +31,12 @@ import {
   fetchCo2ValuesForSupplierSteelMakingProcess,
   fetchCo2ValuesForSupplierSteelMakingProcessFailure,
   fetchCo2ValuesForSupplierSteelMakingProcessSuccess,
+  fetchCoatings,
+  fetchCoatingsFailure,
+  fetchCoatingsSuccess,
+  fetchConditions,
+  fetchConditionsFailure,
+  fetchConditionsSuccess,
   fetchEditMaterialNameData,
   fetchEditMaterialNameDataFailure,
   fetchEditMaterialNameDataSuccess,
@@ -414,6 +422,74 @@ describe('Dialog Actions', () => {
 
       expect(action).toEqual({
         type: '[MSD - Dialog] Fetch Casting Modes Failure',
+      });
+    });
+  });
+
+  describe('Fetch Conditions', () => {
+    it('fetchConditions', () => {
+      const action = fetchConditions();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch Conditions',
+      });
+    });
+  });
+
+  describe('Fetch Conditions Success', () => {
+    it('fetchConditionsSuccess', () => {
+      const mockConditions = [{} as StringOption];
+      const action = fetchConditionsSuccess({
+        conditions: mockConditions,
+      });
+
+      expect(action).toEqual({
+        conditions: mockConditions,
+        type: '[MSD - Dialog] Fetch Conditions Success',
+      });
+    });
+  });
+
+  describe('Fetch Conditions Failure', () => {
+    it('fetchConditionsFailure', () => {
+      const action = fetchConditionsFailure();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch Conditions Failure',
+      });
+    });
+  });
+
+  describe('Fetch Coatings', () => {
+    it('fetchCoatings', () => {
+      const action = fetchCoatings();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch Coatings',
+      });
+    });
+  });
+
+  describe('Fetch Coatings Success', () => {
+    it('fetchCoatingsSuccess', () => {
+      const mockCoatings = [{} as StringOption];
+      const action = fetchCoatingsSuccess({
+        coatings: mockCoatings,
+      });
+
+      expect(action).toEqual({
+        coatings: mockCoatings,
+        type: '[MSD - Dialog] Fetch Coatings Success',
+      });
+    });
+  });
+
+  describe('Fetch Coatings Failure', () => {
+    it('fetchCoatingsFailure', () => {
+      const action = fetchCoatingsFailure();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch Coatings Failure',
       });
     });
   });

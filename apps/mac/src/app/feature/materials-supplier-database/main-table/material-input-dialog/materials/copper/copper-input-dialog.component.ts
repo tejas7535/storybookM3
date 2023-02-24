@@ -85,6 +85,7 @@ export class CopperInputDialogComponent
   }
 
   ngOnInit(): void {
+    super.ngOnInit();
     // setup material formular values
     this.createMaterialForm = new FormGroup<CopperMaterialForm>({
       manufacturerSupplierId: this.manufacturerSupplierIdControl,

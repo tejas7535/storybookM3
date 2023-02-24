@@ -20,6 +20,7 @@ import {
 } from '@mac/msd/store/actions/dialog';
 import { DialogFacade } from '@mac/msd/store/facades/dialog';
 
+import { DialogControlsService } from '../../services';
 import * as util from '../../util';
 
 @Component({
@@ -52,9 +53,9 @@ export class MaterialStandardComponent
   public materialNamesControl: FormControl<StringOption>;
 
   // form control for standard document editing
-  public standardDocumentsEditControl = new FormControl<string>(undefined);
+  public standardDocumentsEditControl: FormControl<string>;
   // form control for material name editing
-  public materialNamesEditControl = new FormControl<string>(undefined);
+  public materialNamesEditControl: FormControl<string>;
   // switch expression to identify what view to use
   public viewMode = '';
 
@@ -69,7 +70,13 @@ export class MaterialStandardComponent
   dialogControlRefs: QueryList<ElementRef>;
 
   // constructor
-  constructor(private readonly dialogFacade: DialogFacade) {}
+  constructor(
+    private readonly dialogFacade: DialogFacade,
+    private readonly dialogControl: DialogControlsService
+  ) {
+    this.standardDocumentsEditControl = this.dialogControl.getRequiredControl();
+    this.materialNamesEditControl = this.dialogControl.getRequiredControl();
+  }
 
   // on destroy
   public ngOnDestroy(): void {

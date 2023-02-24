@@ -1,5 +1,11 @@
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  Inject,
+  OnInit,
+} from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -7,7 +13,8 @@ import { BehaviorSubject, filter, take } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
 
-import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
+import { StringOption } from '@schaeffler/inputs';
+
 import {
   materialstandardDialogConfirmed,
   materialstandardDialogOpened,
@@ -25,17 +32,16 @@ import {
 } from '@mac/msd/models';
 import { DialogFacade } from '@mac/msd/store/facades/dialog';
 
-import { mapProperty } from '../util/form-helpers';
-
 @Component({
-  selector: 'mac-material-standard-input-dialog',
-  templateUrl: './material-standard-input-dialog.component.html',
+  selector: 'mac-hardmagnet-material-standard-input-dialog',
+  templateUrl: './hardmagnet-material-standard-input-dialog.component.html',
 })
-export class MaterialStandardInputDialogComponent
+export class HardmagnetMaterialStandardInputDialogComponent
   extends MaterialInputDialogComponent
-  implements OnInit
+  implements OnInit, AfterViewInit
 {
-  public materialNumberControl: FormControl<string>;
+  public materialNamesEditControl =
+    this.controlsService.getRequiredControl<string>();
 
   public constructor(
     readonly controlsService: DialogControlsService,
@@ -64,29 +70,26 @@ export class MaterialStandardInputDialogComponent
 
   ngOnInit(): void {
     super.ngOnInit();
-    // enable numberControl only for specific material
-    this.materialNumberControl = this.createMaterialNumberControl();
     this.createMaterialForm = new FormGroup<MaterialStandardForm>({
       id: this.materialStandardIdControl,
       materialName: this.materialNamesControl,
       standardDocument: this.standardDocumentsControl,
-      materialNumber: this.materialNumberControl,
     });
   }
 
-  private createMaterialNumberControl(): FormControl<string> {
-    switch (this.materialClass) {
-      case MaterialClass.STEEL:
-        return this.controlsService.getSteelNumberControl();
-      case MaterialClass.COPPER:
-        return this.controlsService.getCopperNumberControl();
-      default:
-        return this.controlsService.getControl(undefined, true);
-    }
-  }
+  public ngAfterViewInit(): void {
+    super.ngAfterViewInit();
 
-  public showMaterialNumber() {
-    return this.materialNumberControl.enabled;
+    // as only materialname is available, generate a stdDoc name and set the ID on updates
+    this.materialNamesEditControl.valueChanges.subscribe((val) => {
+      const id = this.materialStandardIdControl.value;
+      const title: string = val ? `stdDoc for ${val}` : undefined;
+      const stdDoc: StringOption = val ? { id, title } : undefined;
+      const matName: StringOption = val ? { id, title: val } : undefined;
+
+      this.standardDocumentsControl.setValue(stdDoc);
+      this.materialNamesControl.setValue(matName);
+    });
   }
 
   public dispatchDialogOpenEvent(): void {
@@ -100,6 +103,10 @@ export class MaterialStandardInputDialogComponent
     };
 
     this.createMaterialForm.patchValue(formValue);
+    this.materialNamesEditControl.setValue(
+      materialFormValue.materialName?.title,
+      { emitEvent: false }
+    );
   }
 
   enableEditFields(): void {}
@@ -124,39 +131,12 @@ export class MaterialStandardInputDialogComponent
         );
   }
 
-  public getMaterialNumberTranslationKey(): string {
-    switch (this.materialClass) {
-      case MaterialClass.STEEL:
-        return 'steelNumber';
-      case MaterialClass.COPPER:
-        return 'copperNumber';
-      default:
-        return '';
-    }
-  }
-
-  public getMaterialNumberPlaceholder(): string {
-    switch (this.materialClass) {
-      case MaterialClass.STEEL:
-        return '1.1234';
-      case MaterialClass.COPPER:
-        return '2.1234';
-      default:
-        return '';
-    }
-  }
-
   protected buildMaterialStandard(
     baseMaterial: MaterialStandardFormValue
   ): MaterialStandard {
     return {
       id: baseMaterial.id,
       materialName: baseMaterial.materialName.title,
-      materialNumber: mapProperty<string>(
-        baseMaterial,
-        'materialNumber',
-        (val) => (val.length > 0 ? val.split(/,\s?/) : undefined)
-      ),
       standardDocument: baseMaterial.standardDocument.title,
     };
   }

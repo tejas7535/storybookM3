@@ -125,6 +125,7 @@ export class MsdDataService {
         materialResponse.materialStandard,
         'materialNumber'
       ),
+
       materialStandardStandardDocument:
         materialResponse.materialStandard.standardDocument,
       manufacturerSupplierId: materialResponse.manufacturerSupplier.id,
@@ -186,9 +187,17 @@ export class MsdDataService {
           `materialsSupplierDatabase.condition.${materialResponse.materialClass}.${val}`
         )
       ),
+      coating: findProperty(materialResponse, 'coating'),
+      coatingText: mapProperty<string>(materialResponse, 'coating', (val) =>
+        translate(
+          `materialsSupplierDatabase.coating.${materialResponse.materialClass}.${val}`
+        )
+      ),
+      grade: findProperty(materialResponse, 'grade'),
+
       lastModified: materialResponse.timestamp,
       modifiedBy: materialResponse.modifiedBy,
-    } as unknown as T;
+    } as Material as T;
   }
 
   public fetchManufacturerSuppliers(materialClass: MaterialClass) {
@@ -380,7 +389,7 @@ export class MsdDataService {
     );
   }
 
-  public fetchConditions(materialClass: MaterialClass) {
+  public getConditions(materialClass: MaterialClass) {
     return this.httpClient
       .get<string[]>(`${this.BASE_URL}/materials/${materialClass}/conditions`)
       .pipe(
@@ -392,6 +401,27 @@ export class MsdDataService {
 
             return {
               id: condition,
+              tooltipDelay: this.TOOLTIP_DELAY,
+              tooltip: title,
+              title,
+            } as StringOption;
+          })
+        )
+      );
+  }
+
+  public getCoatings(materialClass: MaterialClass) {
+    return this.httpClient
+      .get<string[]>(`${this.BASE_URL}/materials/${materialClass}/coatings`)
+      .pipe(
+        map((coatings) =>
+          coatings.map((coating) => {
+            const title = translate(
+              `materialsSupplierDatabase.coating.${materialClass}.${coating}`
+            );
+
+            return {
+              id: coating,
               tooltipDelay: this.TOOLTIP_DELAY,
               tooltip: title,
               title,

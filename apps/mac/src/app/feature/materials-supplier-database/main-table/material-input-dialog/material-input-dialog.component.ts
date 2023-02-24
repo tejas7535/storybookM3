@@ -89,7 +89,7 @@ export class MaterialInputDialogComponent
   public co2Scope1Control = this.controlsService.getNumberControl();
   public co2Scope2Control = this.controlsService.getNumberControl();
   public co2Scope3Control = this.controlsService.getNumberControl();
-  public co2TotalControl = this.controlsService.getNumberControl(
+  public co2TotalControl = this.controlsService.getRequiredNumberControl(
     undefined,
     false,
     1
@@ -340,7 +340,7 @@ export class MaterialInputDialogComponent
       id: this.materialId,
       manufacturerSupplierId: baseMaterial.manufacturerSupplierId,
       materialStandardId: baseMaterial.materialStandardId,
-      productCategory: baseMaterial.productCategory.id as string,
+      productCategory: baseMaterial.productCategory?.id as string,
       referenceDoc: JSON.stringify(
         findProperty<StringOption[]>(baseMaterial, 'referenceDoc')?.map(
           (val) => val.title
@@ -377,6 +377,9 @@ export class MaterialInputDialogComponent
       recyclingRate: findProperty(baseMaterial, 'recyclingRate'),
       condition: findProperty<StringOption>(baseMaterial, 'condition')
         ?.id as string,
+      coating: findProperty<StringOption>(baseMaterial, 'coating')
+        ?.id as string,
+      grade: findProperty(baseMaterial, 'grade'),
       // attachments: '',
     };
   }

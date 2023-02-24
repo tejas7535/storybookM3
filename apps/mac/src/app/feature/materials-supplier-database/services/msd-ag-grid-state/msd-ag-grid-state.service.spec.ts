@@ -159,6 +159,7 @@ describe('MsdAgGridStateService', () => {
       service['migrateToVersion2_1'] = jest.fn(() => anyMigrationFn());
       service['migrateToVersion2_2'] = jest.fn(() => anyMigrationFn());
       service['migrateToVersion2_3'] = jest.fn(() => anyMigrationFn());
+      service['migrateToVersion2_4'] = jest.fn(() => anyMigrationFn());
     });
     it('should run migration to v1', () => {
       service['migrateLocalStorage'](0, { version: 0 } as MsdAgGridState);
@@ -188,6 +189,12 @@ describe('MsdAgGridStateService', () => {
       service['migrateLocalStorage'](2.2, {} as MsdAgGridState);
 
       expect(service['migrateToVersion2_3']).toHaveBeenCalled();
+    });
+
+    it('should run migration to v2_4', () => {
+      service['migrateLocalStorage'](2.3, {} as MsdAgGridState);
+
+      expect(service['migrateToVersion2_4']).toHaveBeenCalled();
     });
 
     it('should not migrate', () => {

@@ -142,9 +142,11 @@ export class SteelInputDialogComponent
       dialogData
     );
     this.editLoading$ = new BehaviorSubject(!!dialogData.editDialogInformation);
+    this.co2TotalControl.removeValidators(Validators.required);
   }
 
   ngOnInit(): void {
+    super.ngOnInit();
     // setup material formular values
     this.createMaterialForm = new FormGroup<SteelMaterialForm>({
       manufacturerSupplierId: this.manufacturerSupplierIdControl,

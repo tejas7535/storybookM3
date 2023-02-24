@@ -113,7 +113,8 @@ export const getMaterialDialogOptionsLoading = createSelector(
     dialogOptions.productionProcessesLoading ||
     dialogOptions.manufacturerSuppliersLoading ||
     dialogOptions.productCategoriesLoading ||
-    dialogOptions.conditionsLoading
+    dialogOptions.conditionsLoading ||
+    dialogOptions.coatingsLoading
 );
 
 export const getMaterialDialogOptionsLoadingError = createSelector(
@@ -127,7 +128,8 @@ export const getMaterialDialogOptionsLoadingError = createSelector(
     dialogOptions.productionProcessesLoading === undefined ||
     dialogOptions.manufacturerSuppliersLoading === undefined ||
     dialogOptions.productCategoriesLoading === undefined ||
-    dialogOptions.conditionsLoading === undefined
+    dialogOptions.conditionsLoading === undefined ||
+    dialogOptions.coatingsLoading === undefined
 );
 
 export const getMaterialDialogCastingModes = createSelector(
@@ -227,6 +229,11 @@ export const getProductCategories = createSelector(
 export const getConditions = createSelector(
   getMaterialDialogOptions,
   (dialogOptions) => dialogOptions.conditions
+);
+
+export const getCoatings = createSelector(
+  getMaterialDialogOptions,
+  (dialogOptions) => dialogOptions.coatings
 );
 
 export const getProductCategoriesLoading = createSelector(
@@ -600,7 +607,7 @@ export const getHighestCo2Values = createSelector(
       const highestCo2Value = sortedCo2Values[0];
       const title = translate(
         highestCo2Value.co2Classification
-          ? `materialsSupplierDatabase.mainTable.dialog.${highestCo2Value.co2Classification}`
+          ? `materialsSupplierDatabase.mainTable.dialog.co2ClassificationValues.${highestCo2Value.co2Classification.toLowerCase()}`
           : 'materialsSupplierDatabase.mainTable.dialog.none'
       );
 

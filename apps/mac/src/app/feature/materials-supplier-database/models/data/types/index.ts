@@ -25,8 +25,6 @@ import {
   CeramicMaterialStandardFormValue,
   CeramicMaterialStandardTableValue,
   CopperManufacturerSupplier,
-  CopperManufacturerSupplierForm,
-  CopperManufacturerSupplierFormValue,
   CopperManufacturerSupplierTableValue,
   CopperMaterial,
   CopperMaterialForm,
@@ -36,7 +34,6 @@ import {
   CopperMaterialStandard,
   CopperMaterialStandardForm,
   CopperMaterialStandardFormValue,
-  CopperMaterialStandardTableValue,
   PolymerManufacturerSupplier,
   PolymerManufacturerSupplierTableValue,
   PolymerMaterial,
@@ -59,6 +56,21 @@ import {
 } from '@mac/msd/models';
 
 import { CeramicMaterial } from '../ceramic/ceramic-material.model';
+import {
+  HardmagnetManufacturerSupplier,
+  HardmagnetManufacturerSupplierForm,
+  HardmagnetManufacturerSupplierFormValue,
+  HardmagnetManufacturerSupplierTableValue,
+  HardmagnetMaterialForm,
+  HardmagnetMaterialFormValue,
+  HardmagnetMaterialRequest,
+  HardmagnetMaterialResponse,
+  HardmagnetMaterialStandard,
+  HardmagnetMaterialStandardForm,
+  HardmagnetMaterialStandardFormValue,
+  HardmagnetMaterialStandardTableValue,
+} from '../hardmagnet';
+import { HardmagnetMaterial } from '../hardmagnet/hardmagnet-material.model';
 
 // TODO: Rename to Material once the migration to API V3 is done
 export type Material =
@@ -66,69 +78,79 @@ export type Material =
   | SteelMaterial
   | PolymerMaterial
   | CopperMaterial
+  | HardmagnetMaterial
   | CeramicMaterial;
 export type MaterialResponse =
   | AluminumMaterialResponse
   | SteelMaterialResponse
   | PolymerMaterialResponse
   | CopperMaterialResponse
+  | HardmagnetMaterialResponse
   | CeramicMaterialResponse;
 export type ManufacturerSupplier =
   | AluminumManufacturerSupplier
   | SteelManufacturerSupplier
   | PolymerManufacturerSupplier
   | CopperManufacturerSupplier
+  | HardmagnetManufacturerSupplier
   | CeramicManufacturerSupplier;
 export type MaterialStandard =
   | AluminumMaterialStandard
   | SteelMaterialStandard
   | PolymerMaterialStandard
   | CopperMaterialStandard
-  | CeramicMaterialStandard;
+  | CeramicMaterialStandard
+  | HardmagnetMaterialStandard;
 export type MaterialFormValue =
   | AluminumMaterialFormValue
   | SteelMaterialFormValue
   | CopperMaterialFormValue
+  | HardmagnetMaterialFormValue
   | CeramicMaterialFormValue;
 export type MaterialForm =
   | AluminumMaterialForm
   | SteelMaterialForm
   | CopperMaterialForm
+  | HardmagnetMaterialForm
   | CeramicMaterialForm;
 export type MaterialStandardForm =
   | AluminumMaterialStandardForm
   | SteelMaterialStandardForm
   | CopperMaterialStandardForm
+  | HardmagnetMaterialStandardForm
   | CeramicMaterialStandardForm;
 export type MaterialStandardFormValue =
   | AluminumMaterialStandardFormValue
   | SteelMaterialStandardFormValue
   | CopperMaterialStandardFormValue
+  | HardmagnetMaterialStandardFormValue
   | CeramicMaterialStandardFormValue;
 export type ManufacturerSupplierForm =
   | AluminumManufacturerSupplierForm
   | SteelManufacturerSupplierForm
-  | CopperManufacturerSupplierForm
+  | HardmagnetManufacturerSupplierForm
   | CeramicManufacturerSupplierForm;
 export type ManufacturerSupplierFormValue =
   | AluminumManufacturerSupplierFormValue
   | SteelManufacturerSupplierFormValue
-  | CopperManufacturerSupplierFormValue
+  | HardmagnetManufacturerSupplierFormValue
   | CeramicManufacturerSupplierFormValue;
 export type MaterialRequest =
   | AluminumMaterialRequest
   | SteelMaterialRequest
   | CopperMaterialRequest
+  | HardmagnetMaterialRequest
   | CeramicMaterialRequest;
 export type ManufacturerSupplierTableValue =
   | AluminumManufacturerSupplierTableValue
   | PolymerManufacturerSupplierTableValue
   | SteelManufacturerSupplierTableValue
   | CopperManufacturerSupplierTableValue
+  | HardmagnetManufacturerSupplierTableValue
   | CeramicManufacturerSupplierTableValue;
 export type MaterialStandardTableValue =
   | AluminumMaterialStandardTableValue
   | PolymerMaterialStandardTableValue
   | SteelMaterialStandardTableValue
-  | CopperMaterialStandardTableValue
+  | HardmagnetMaterialStandardTableValue
   | CeramicMaterialStandardTableValue;

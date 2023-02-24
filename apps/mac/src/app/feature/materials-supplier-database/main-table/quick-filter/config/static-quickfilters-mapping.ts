@@ -14,6 +14,9 @@ import {
   COPPER_STATIC_QUICKFILTERS,
   COPPER_SUPPLIERS_STATIC_QUICKFILTERS,
 } from './copper';
+import { HARDMAGNET_MATERIAL_STANDARDS_STATIC_QUICKFILTERS } from './hardmagnet/hardmagnet-material-standards-quickfilter-definitions';
+import { HARDMAGNET_STATIC_QUICKFILTERS } from './hardmagnet/hardmagnet-quickfilter-definitions';
+import { HARDMAGNET_SUPPLIERS_STATIC_QUICKFILTERS } from './hardmagnet/hardmagnet-suppliers-quickfilter-definitions';
 import {
   POLYMER_MATERIAL_STANDARDS_STATIC_QUICKFILTERS,
   POLYMER_STATIC_QUICKFILTERS,
@@ -62,6 +65,12 @@ export const STATIC_QUICKFILTERS_MAPPING: MsdStaticQuickFiltersMapping = {
       [NavigationLevel.SUPPLIER]: CERAMIC_SUPPLIERS_STATIC_QUICKFILTERS,
       [NavigationLevel.STANDARD]:
         CERAMIC_MATERIAL_STANDARDS_STATIC_QUICKFILTERS,
+    },
+    [MaterialClass.HARDMAGNET]: {
+      [NavigationLevel.MATERIAL]: HARDMAGNET_STATIC_QUICKFILTERS,
+      [NavigationLevel.SUPPLIER]: HARDMAGNET_SUPPLIERS_STATIC_QUICKFILTERS,
+      [NavigationLevel.STANDARD]:
+        HARDMAGNET_MATERIAL_STANDARDS_STATIC_QUICKFILTERS,
     },
   },
 };

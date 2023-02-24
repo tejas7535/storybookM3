@@ -63,6 +63,7 @@ export class ManufacturerSupplierInputDialogComponent
   }
 
   ngOnInit(): void {
+    super.ngOnInit();
     // enable numberControl only for specific material
     this.isManufacturerControl =
       this.materialClass === MaterialClass.STEEL

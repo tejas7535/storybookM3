@@ -1,3 +1,5 @@
+import { StringOption } from '@schaeffler/inputs';
+
 import {
   CreateMaterialRecord,
   DataResult,
@@ -1660,6 +1662,117 @@ describe('dialogReducer', () => {
         dialogOptions: {
           ...state.dialogOptions,
           co2Values: undefined,
+        },
+      });
+    });
+
+    it('should set the loading state for the conditions to true', () => {
+      const action = DialogActions.fetchConditions();
+      const newState = dialogReducer(state, action);
+
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          conditionsLoading: true,
+          error: undefined,
+        },
+      });
+    });
+
+    it('should set the conditions', () => {
+      const conditions = [{} as StringOption];
+      const action = DialogActions.fetchConditionsSuccess({ conditions });
+      const newState = dialogReducer(state, action);
+
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          conditions,
+          conditionsLoading: false,
+        },
+      });
+    });
+
+    it('should set the conditions modes and the loading state to undefined', () => {
+      const conditions = [{} as StringOption];
+      const action = DialogActions.fetchConditionsFailure();
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            conditions,
+            conditionsLoading: false,
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          conditions: undefined,
+          conditionsLoading: undefined,
+          error: true,
+        },
+      });
+    });
+
+    it('should set the loading state for the coatings to true', () => {
+      const action = DialogActions.fetchCoatings();
+      const newState = dialogReducer(state, action);
+
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          coatings: undefined,
+          coatingsLoading: true,
+          error: undefined,
+        },
+      });
+    });
+
+    it('should set the coatings', () => {
+      const coatings = [{} as StringOption];
+      const action = DialogActions.fetchCoatingsSuccess({ coatings });
+      const newState = dialogReducer(state, action);
+
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          coatings,
+          coatingsLoading: false,
+        },
+      });
+    });
+
+    it('should set the coatings and the loading state to undefined', () => {
+      const coatings = [{} as StringOption];
+      const action = DialogActions.fetchCoatingsFailure();
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            coatings,
+            coatingsLoading: false,
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          coatings: undefined,
+          coatingsLoading: undefined,
+          error: true,
         },
       });
     });

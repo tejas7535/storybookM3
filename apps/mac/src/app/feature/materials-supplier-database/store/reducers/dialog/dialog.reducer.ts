@@ -33,6 +33,9 @@ import {
   fetchCo2ClassificationsSuccess,
   fetchCo2ValuesForSupplierSteelMakingProcessFailure,
   fetchCo2ValuesForSupplierSteelMakingProcessSuccess,
+  fetchCoatings,
+  fetchCoatingsFailure,
+  fetchCoatingsSuccess,
   fetchConditions,
   fetchConditionsFailure,
   fetchConditionsSuccess,
@@ -102,6 +105,8 @@ export interface DialogState {
     manufacturerSuppliersLoading: boolean;
     conditions: StringOption[];
     conditionsLoading: boolean;
+    coatings: StringOption[];
+    coatingsLoading: boolean;
     productCategories: StringOption[];
     productCategoriesLoading: boolean;
     productionProcesses: StringOption[];
@@ -565,6 +570,41 @@ export const dialogReducer = createReducer(
         ...state.dialogOptions,
         conditions: undefined,
         conditionsLoading: undefined,
+        error: true,
+      },
+    })
+  ),
+
+  on(
+    fetchCoatings,
+    (state): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        coatings: undefined,
+        coatingsLoading: true,
+      },
+    })
+  ),
+  on(
+    fetchCoatingsSuccess,
+    (state, { coatings }): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        coatings,
+        coatingsLoading: false,
+      },
+    })
+  ),
+  on(
+    fetchCoatingsFailure,
+    (state): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        coatings: undefined,
+        coatingsLoading: undefined,
         error: true,
       },
     })

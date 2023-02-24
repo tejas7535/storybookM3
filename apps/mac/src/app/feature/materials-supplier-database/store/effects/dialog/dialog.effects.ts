@@ -15,6 +15,7 @@ import {
 } from '@mac/feature/materials-supplier-database/constants';
 import {
   CreateMaterialErrorState,
+  DataResult,
   ManufacturerSupplier,
   MaterialFormValue,
   MaterialStandard,
@@ -41,26 +42,37 @@ export class DialogEffects {
           DialogActions.fetchMaterialStandards(),
           DialogActions.fetchCo2Classifications(),
           DialogActions.fetchManufacturerSuppliers(),
-          DialogActions.fetchProductCategories(),
         ];
         switch (materialClass) {
           case MaterialClass.ALUMINUM:
-            return baseActions;
+            return [...baseActions, DialogActions.fetchProductCategories()];
           case MaterialClass.COPPER:
             return [
               ...baseActions,
+              DialogActions.fetchProductCategories(),
               DialogActions.fetchCastingModes(),
               DialogActions.fetchProductionProcesses(),
             ];
           case MaterialClass.STEEL:
             return [
               ...baseActions,
+              DialogActions.fetchProductCategories(),
               DialogActions.fetchRatings(),
               DialogActions.fetchSteelMakingProcesses(),
               DialogActions.fetchCastingModes(),
             ];
           case MaterialClass.CERAMIC:
-            return [...baseActions, DialogActions.fetchConditions()];
+            return [
+              ...baseActions,
+              DialogActions.fetchProductCategories(),
+              DialogActions.fetchConditions(),
+            ];
+          case MaterialClass.HARDMAGNET:
+            return [
+              ...baseActions,
+              DialogActions.fetchCoatings(),
+              DialogActions.fetchProductionProcesses(),
+            ];
           default:
             return baseActions;
         }
@@ -223,13 +235,31 @@ export class DialogEffects {
       ofType(DialogActions.fetchConditions),
       concatLatestFrom(() => this.dataFacade.materialClass$),
       switchMap(([_action, materialClass]) =>
-        this.msdDataService.fetchConditions(materialClass).pipe(
+        this.msdDataService.getConditions(materialClass).pipe(
           map((conditions: StringOption[]) =>
             DialogActions.fetchConditionsSuccess({ conditions })
           ),
           catchError(() =>
             // TODO: implement proper error handling
             of(DialogActions.fetchConditionsFailure())
+          )
+        )
+      )
+    );
+  });
+
+  public fetchCoatings$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.fetchCoatings),
+      concatLatestFrom(() => this.dataFacade.materialClass$),
+      switchMap(([_action, materialClass]) =>
+        this.msdDataService.getCoatings(materialClass).pipe(
+          map((coatings: StringOption[]) =>
+            DialogActions.fetchCoatingsSuccess({ coatings })
+          ),
+          catchError(() =>
+            // TODO: implement proper error handling
+            of(DialogActions.fetchCoatingsFailure())
           )
         )
       )
@@ -711,7 +741,7 @@ export class DialogEffects {
       ofType(DialogActions.parseMaterialFormValue),
       concatLatestFrom(() => this.dataFacade.editMaterial),
       map(([_nothing, editMaterial]) => {
-        const material = editMaterial.row;
+        const material: DataResult = editMaterial.row;
 
         let referenceDocValue;
         try {
@@ -727,12 +757,14 @@ export class DialogEffects {
         const parsedMaterial: Partial<MaterialFormValue> = {
           manufacturerSupplierId: material.manufacturerSupplierId,
           materialStandardId: material.materialStandardId,
-          productCategory: {
-            id: material.productCategory,
-            title: translate(
-              `materialsSupplierDatabase.productCategoryValues.${material.productCategory}`
-            ),
-          },
+          productCategory: material.productCategory
+            ? {
+                id: material.productCategory,
+                title: translate(
+                  `materialsSupplierDatabase.productCategoryValues.${material.productCategory}`
+                ),
+              }
+            : undefined,
           referenceDoc: referenceDocValue,
           co2Scope1: material.co2Scope1,
           co2Scope2: material.co2Scope2,
@@ -769,7 +801,7 @@ export class DialogEffects {
             ? {
                 id: material.productionProcess,
                 title: translate(
-                  `materialsSupplierDatabase.productionProcessValues.${material.productionProcess}`
+                  `materialsSupplierDatabase.productionProcessValues.${material.materialClass}.${material.productionProcess}`
                 ),
               }
             : undefined,
@@ -811,6 +843,7 @@ export class DialogEffects {
                 }
               : undefined,
           },
+          grade: material.grade,
           supplier: {
             id:
               editMaterial.supplierIds?.length > 0
@@ -838,6 +871,14 @@ export class DialogEffects {
                 id: material.condition,
                 title: translate(
                   `materialsSupplierDatabase.condition.${material.materialClass}.${material.condition}`
+                ),
+              }
+            : undefined,
+          coating: material.coating
+            ? {
+                id: material.coating,
+                title: translate(
+                  `materialsSupplierDatabase.coating.${material.materialClass}.${material.coating}`
                 ),
               }
             : undefined,

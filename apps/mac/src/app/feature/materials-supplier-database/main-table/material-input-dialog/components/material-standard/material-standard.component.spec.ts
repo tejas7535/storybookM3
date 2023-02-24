@@ -21,6 +21,7 @@ import { initialState as initialDataState } from '@mac/msd/store/reducers/data/d
 import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
 
 import * as en from '../../../../../../../assets/i18n/en.json';
+import { DialogControlsService } from '../../services';
 import { MaterialStandardComponent } from './material-standard.component';
 
 const initialState = {
@@ -61,7 +62,8 @@ describe('MaterialStandardComponent', () => {
       SelectModule,
       provideTranslocoTestingModule({ en }),
     ],
-    providers: [provideMockStore({ initialState })],
+
+    providers: [provideMockStore({ initialState }), DialogControlsService],
     declarations: [MaterialStandardComponent],
   });
 

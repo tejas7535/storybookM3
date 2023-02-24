@@ -1,0 +1,33 @@
+<mac-base-dialog
+  *transloco="let t; read: 'materialsSupplierDatabase.mainTable.dialog'"
+  [txtTitle]="getTitle()"
+  [txtCancel]="t('cancel')"
+  [txtConfirm]="
+    isEditDialog() && !isCopyDialog()
+      ? t('updateMaterialStandard')
+      : t('addMaterialStandard')
+  "
+  [isAddDialog]="isCopyDialog() || !isEditDialog()"
+  [valid]="createMaterialForm.valid"
+  (accept)="confirmMaterial($event)"
+  (minimize)="minimizeDialog()"
+  (cancel)="cancelDialog()"
+>
+  <div class="flex flex-col gap-y-3">
+    <ng-container
+      *ngIf="!(dialogLoading$ | ngrxPush) && !(editLoading$ | ngrxPush)"
+    >
+      <div class="flex flex-row gap-x-6">
+        <mat-form-field appearance="outline" class="w-full" floatLabel="always">
+          <mat-label>{{ t('materialName') }}</mat-label>
+          <input
+            matInput
+            [formControl]="materialNamesEditControl"
+            name="materialStandardMaterialName"
+            #dialogControl
+          />
+        </mat-form-field>
+      </div>
+    </ng-container>
+  </div>
+</mac-base-dialog>

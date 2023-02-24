@@ -265,6 +265,7 @@
     "materialStandards": "Material Standards",
     "mainTable": {
       "columns": {
+        "blocked": "blocked",
         "castingDiameter": "Cast/Remelt Product Information",
         "castingMode": "Casting / Remelting process",
         "co2Classification": "CO₂ data classification",
@@ -289,6 +290,8 @@
         "grade": "Grade",
         "condition": "Condition",
         "conditionText": "Condition",
+        "coating": "Coating",
+        "coatingText": "Coating",
         "ratingRemark": "Supplier Rating remark",
         "ratingChangeComment": "Rating change comment",
         "referenceDocument": "Referenced in Document (TODO)",
@@ -363,6 +366,9 @@
         "co2ValuesFilledWithOtherValues": "The CO₂ values and the CO₂ classification have been filled automatically based on your selection. There were {{ otherValues }} other values found matching your selection. The highest one has been chosen.",
         "continuous": "Continuous",
         "condition": "Condition",
+        "grade": "Grade",
+        "coating": "Coating",
+        "coatingText": "Coating",
         "copperNumber": "Copper based material number",
         "createFailure": {
           "matStandard": {
@@ -510,14 +516,16 @@
       "al": "Aluminum",
       "px": "Polymer",
       "cu": "Copper",
-      "ce": "Ceramic"
+      "ce": "Ceramic",
+      "hm": "Hardmagnet"
     },
     "materialClassValuesNavigation": {
       "st": "Steel",
       "al": "Aluminum alloys",
       "px": "Polymers",
       "cu": "Copper alloys",
-      "ce": "Ceramics"
+      "ce": "Ceramics",
+      "hm": "Hardmagnets"
     },
     "status": {
       "statusValues": {
@@ -581,15 +589,21 @@
         "machining": "Machining",
         "unknown": "Unknown"
       },
-      "ce": {
-        "spray": "Spray",
-        "other": "other"
+      "hm": {
+        "spray": "Spray cast",
+        "other": "Other"
       }
     },
     "condition": {
       "ce": {
         "semiFin": "Semi Finished",
         "fin": "Finished"
+      }
+    },
+    "coating": {
+      "hm": {
+        "galvanized": "Galvanized",
+        "other": "Other"
       }
     },
     "reload": "Reload",

@@ -13,6 +13,9 @@ import { CopperInputDialogComponent } from '@mac/msd/main-table/material-input-d
 import { SteelInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/materials/steel/steel-input-dialog.component';
 import { DataResult, MaterialFormValue } from '@mac/msd/models';
 
+import { HardmagnetInputDialogComponent } from '../../main-table/material-input-dialog/materials/hardmagnet/hardmagnet-input-dialog.component';
+import { HardmagnetMaterialStandardInputDialogComponent } from '../../main-table/material-input-dialog/materials/hardmagnet/hardmagnet-material-standard-input-dialog.component';
+
 @Injectable()
 export class MsdDialogService {
   private dialogType: Type<MaterialInputDialogComponent>;
@@ -71,11 +74,18 @@ export class MsdDialogService {
             return CopperInputDialogComponent;
           case MaterialClass.CERAMIC:
             return CeramicInputDialogComponent;
+          case MaterialClass.HARDMAGNET:
+            return HardmagnetInputDialogComponent;
           default:
             return SteelInputDialogComponent;
         }
       case NavigationLevel.STANDARD:
-        return MaterialStandardInputDialogComponent;
+        switch (materialClass) {
+          case MaterialClass.HARDMAGNET:
+            return HardmagnetMaterialStandardInputDialogComponent;
+          default:
+            return MaterialStandardInputDialogComponent;
+        }
       case NavigationLevel.SUPPLIER:
         return ManufacturerSupplierInputDialogComponent;
       default:

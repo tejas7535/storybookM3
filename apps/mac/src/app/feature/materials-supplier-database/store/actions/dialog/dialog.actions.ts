@@ -158,6 +158,17 @@ export const fetchConditionsFailure = createAction(
   '[MSD - Dialog] Fetch Conditions Failure'
 );
 
+export const fetchCoatings = createAction('[MSD - Dialog] Fetch Coatings');
+
+export const fetchCoatingsSuccess = createAction(
+  '[MSD - Dialog] Fetch Coatings Success',
+  props<{ coatings: StringOption[] }>()
+);
+
+export const fetchCoatingsFailure = createAction(
+  '[MSD - Dialog] Fetch Coatings Failure'
+);
+
 export const createMaterialComplete = createAction(
   '[MSD - Dialog] Create Material Complete',
   props<{ record: CreateMaterialRecord }>()

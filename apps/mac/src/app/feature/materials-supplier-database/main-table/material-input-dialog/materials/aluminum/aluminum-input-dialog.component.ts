@@ -51,6 +51,7 @@ export class AluminumInputDialogComponent
   }
 
   ngOnInit(): void {
+    super.ngOnInit();
     this.createMaterialForm = new FormGroup<AluminumMaterialForm>({
       manufacturerSupplierId: this.manufacturerSupplierIdControl,
       materialStandardId: this.materialStandardIdControl,

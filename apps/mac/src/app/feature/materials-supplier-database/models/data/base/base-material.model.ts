@@ -5,7 +5,6 @@ export interface BaseMaterial {
   materialStandardId: number;
   materialStandardMaterialName: string;
   materialStandardStandardDocument: string;
-  materialStandardMaterialNumber?: string;
 
   manufacturerSupplierId: number;
   manufacturerSupplierName?: string;
