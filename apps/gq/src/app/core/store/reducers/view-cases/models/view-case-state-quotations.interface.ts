@@ -5,4 +5,7 @@ export interface ViewCasesStateQuotations {
   displayStatus: QuotationStatus;
   active: ViewCasesStateQuotation;
   inactive: ViewCasesStateQuotation;
+  toBeApproved: ViewCasesStateQuotation;
+  inApproval: ViewCasesStateQuotation;
+  approved: ViewCasesStateQuotation;
 }

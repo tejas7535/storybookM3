@@ -52,6 +52,30 @@ export const getViewToggles = createSelector(
       }),
     },
     {
+      id: QuotationStatus.TO_BE_APPROVED,
+      active: state.quotations.displayStatus === QuotationStatus.TO_BE_APPROVED,
+      title: translate('caseView.caseTable.viewToggle.toBeApproved', {
+        variable: state.quotations.toBeApproved?.count || 0,
+      }),
+      disabled: state.quotations.toBeApproved?.count === 0,
+    },
+    {
+      id: QuotationStatus.IN_APPROVAL,
+      active: state.quotations.displayStatus === QuotationStatus.IN_APPROVAL,
+      title: translate('caseView.caseTable.viewToggle.inApproval', {
+        variable: state.quotations.inApproval?.count || 0,
+      }),
+      disabled: state.quotations.inApproval?.count === 0,
+    },
+    {
+      id: QuotationStatus.APPROVED,
+      active: state.quotations.displayStatus === QuotationStatus.APPROVED,
+      title: translate('caseView.caseTable.viewToggle.approved', {
+        variable: state.quotations.approved?.count || 0,
+      }),
+      disabled: state.quotations.approved?.count === 0,
+    },
+    {
       id: QuotationStatus.INACTIVE,
       active: state.quotations.displayStatus === QuotationStatus.INACTIVE,
       title: translate('caseView.caseTable.viewToggle.deletedDrafts', {

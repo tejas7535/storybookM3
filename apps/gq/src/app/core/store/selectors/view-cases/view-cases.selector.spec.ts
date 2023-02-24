@@ -90,6 +90,25 @@ describe('View Cases Selector', () => {
           title: 'translate it',
           active: true,
         },
+
+        {
+          id: QuotationStatus.TO_BE_APPROVED,
+          active: false,
+          title: 'translate it',
+          disabled: false,
+        },
+        {
+          id: QuotationStatus.IN_APPROVAL,
+          active: false,
+          title: 'translate it',
+          disabled: false,
+        },
+        {
+          id: QuotationStatus.APPROVED,
+          active: false,
+          title: 'translate it',
+          disabled: false,
+        },
         {
           id: QuotationStatus.INACTIVE,
           active: false,
@@ -101,7 +120,7 @@ describe('View Cases Selector', () => {
         viewCasesSelectors.getViewToggles.projector(VIEW_CASE_STATE_MOCK)
       ).toEqual(expectedViewToggles);
 
-      expect(translate).toHaveBeenCalledTimes(2);
+      expect(translate).toHaveBeenCalledTimes(5);
       expect(translate).toHaveBeenCalledWith(
         'caseView.caseTable.viewToggle.openCases',
         { variable: 1 }
@@ -117,6 +136,25 @@ describe('View Cases Selector', () => {
           id: QuotationStatus.ACTIVE,
           active: true,
           title: 'translate it',
+        },
+
+        {
+          id: QuotationStatus.TO_BE_APPROVED,
+          active: false,
+          title: 'translate it',
+          disabled: false,
+        },
+        {
+          id: QuotationStatus.IN_APPROVAL,
+          active: false,
+          title: 'translate it',
+          disabled: false,
+        },
+        {
+          id: QuotationStatus.APPROVED,
+          active: false,
+          title: 'translate it',
+          disabled: false,
         },
         {
           id: QuotationStatus.INACTIVE,
@@ -138,7 +176,7 @@ describe('View Cases Selector', () => {
         })
       ).toEqual(expectedViewToggles);
 
-      expect(translate).toHaveBeenCalledTimes(2);
+      expect(translate).toHaveBeenCalledTimes(5);
       expect(translate).toHaveBeenCalledWith(
         'caseView.caseTable.viewToggle.openCases',
         { variable: 1 }

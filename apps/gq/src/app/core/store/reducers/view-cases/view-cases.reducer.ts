@@ -34,6 +34,18 @@ export const initialState: ViewCasesState = {
       quotations: [],
       count: undefined,
     },
+    toBeApproved: {
+      quotations: [],
+      count: undefined,
+    },
+    inApproval: {
+      quotations: [],
+      count: undefined,
+    },
+    approved: {
+      quotations: [],
+      count: undefined,
+    },
   },
   deleteLoading: false,
   selectedCases: [],

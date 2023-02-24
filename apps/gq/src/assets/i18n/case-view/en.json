@@ -4,7 +4,10 @@
   "caseTable": {
     "viewToggle": {
       "openCases": "Open cases ({{variable}})",
-      "deletedDrafts": "Deleted drafts ({{variable}})"
+      "deletedDrafts": "Deleted drafts ({{variable}})",
+      "toBeApproved": "To be approved ({{variable}})",
+      "inApproval": "My cases in approval ({{variable}})",
+      "approved": "Approved cases ({{variable}})"
     },
     "customerNumber": "Customer Number",
     "customerName": "Customer Name",

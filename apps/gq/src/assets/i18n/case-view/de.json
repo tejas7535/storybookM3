@@ -4,7 +4,10 @@
   "caseTable": {
     "viewToggle": {
       "openCases": "Offene Angebote ({{variable}})",
-      "deletedDrafts": "Gelöschte Entwürfe ({{variable}})"
+      "deletedDrafts": "Gelöschte Entwürfe ({{variable}})",
+      "toBeApproved": "Zur Genehmigung ({{variable}})",
+      "inApproval": "Meine Angebote in Genehmigung ({{variable}})",
+      "approved": "Genehmigte Angebote ({{variable}})"
     },
     "customerNumber": "Kundennummer",
     "customerName": "Kundenname",
