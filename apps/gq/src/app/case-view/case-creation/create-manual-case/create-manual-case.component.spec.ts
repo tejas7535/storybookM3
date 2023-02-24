@@ -2,6 +2,8 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
+import { of, Subject } from 'rxjs';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -37,6 +39,8 @@ describe('CreateManualCaseComponent', () => {
   let spectator: Spectator<CreateManualCaseComponent>;
   let mockStore: MockStore;
   let applicationInsightsService: ApplicationInsightsService;
+  let beforeClosed: () => Subject<boolean>;
+  let mockSubjectClose: Subject<boolean>;
 
   const createComponent = createComponentFactory({
     component: CreateManualCaseComponent,
@@ -63,9 +67,12 @@ describe('CreateManualCaseComponent', () => {
           },
         },
       }),
+
       {
         provide: MatDialogRef,
-        useValue: {},
+        useValue: {
+          beforeClosed: jest.fn(() => of(beforeClosed)),
+        } as unknown as MatDialogRef<CreateManualCaseComponent>,
       },
       {
         provide: ApplicationInsightsService,
@@ -77,7 +84,11 @@ describe('CreateManualCaseComponent', () => {
   });
 
   beforeEach(() => {
+    jest.restoreAllMocks();
+    mockSubjectClose = new Subject<boolean>();
+    beforeClosed = () => mockSubjectClose;
     spectator = createComponent();
+
     component = spectator.debugElement.componentInstance;
     mockStore = spectator.inject(MockStore);
     applicationInsightsService = spectator.inject(ApplicationInsightsService);
@@ -93,21 +104,6 @@ describe('CreateManualCaseComponent', () => {
 
       expect(component.customer$).toBeDefined();
       expect(component.createCaseLoading$).toBeDefined();
-    });
-  });
-  describe('closeDialog', () => {
-    test('should close matDialog', () => {
-      mockStore.dispatch = jest.fn();
-      component['dialogRef'].close = jest.fn();
-
-      component.closeDialog();
-
-      expect(component['dialogRef'].close).toHaveBeenCalledTimes(1);
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
-        resetAllAutocompleteOptions()
-      );
-      expect(mockStore.dispatch).toHaveBeenCalledWith(clearCreateCaseRowData());
-      expect(mockStore.dispatch).toHaveBeenCalledWith(clearCustomer());
     });
   });
 
@@ -166,6 +162,35 @@ describe('CreateManualCaseComponent', () => {
         EVENT_NAMES.CASE_CREATION_CANCELLED,
         { type: CASE_CREATION_TYPES.MANUAL } as CaseCreationEventParams
       );
+    });
+  });
+
+  describe('closeDialog', () => {
+    test('should close matDialog', () => {
+      mockStore.dispatch = jest.fn();
+      component['dialogRef'].close = jest.fn();
+
+      component.closeDialog();
+
+      expect(component['dialogRef'].close).toHaveBeenCalledTimes(1);
+    });
+
+    test('should call resetActions when dialog closing', () => {
+      mockStore.dispatch = jest.fn();
+      component['dialogRef'].close = jest.fn();
+      component['dialogRef'].beforeClosed().subscribe((_value) => {
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          resetAllAutocompleteOptions()
+        );
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          clearCreateCaseRowData()
+        );
+        expect(mockStore.dispatch).toHaveBeenCalledWith(clearCustomer());
+      });
+
+      component.closeDialog();
+      mockSubjectClose.next(true);
+      component['shutdown$$'].next();
     });
   });
 });

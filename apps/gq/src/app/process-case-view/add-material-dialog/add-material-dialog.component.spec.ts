@@ -4,7 +4,7 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -35,6 +35,9 @@ describe('AddMaterialDialogComponent', () => {
   let spectator: Spectator<AddMaterialDialogComponent>;
   let store: MockStore;
 
+  let beforeClosed: () => Subject<boolean>;
+  let mockSubjectClose: Subject<boolean>;
+
   const createComponent = createComponentFactory({
     component: AddMaterialDialogComponent,
     declarations: [AddMaterialDialogComponent],
@@ -62,13 +65,16 @@ describe('AddMaterialDialogComponent', () => {
       {
         provide: MatDialogRef,
         useValue: {
-          beforeClosed: jest.fn(() => of(true)),
-        },
+          beforeClosed: jest.fn(() => of(beforeClosed)),
+        } as unknown as MatDialogRef<AddMaterialDialogComponent>,
       },
     ],
   });
 
   beforeEach(() => {
+    mockSubjectClose = new Subject<boolean>();
+    beforeClosed = () => mockSubjectClose;
+
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     store = spectator.inject(MockStore);
@@ -103,12 +109,20 @@ describe('AddMaterialDialogComponent', () => {
 
       component['dialogRef'].close = jest.fn();
       component.closeDialog();
-
-      expect(component['dialogRef'].close).toHaveBeenCalledTimes(1);
-      expect(store.dispatch).toHaveBeenCalledWith(clearProcessCaseRowData());
-      expect(store.dispatch).toHaveBeenCalledWith(
-        resetAllAutocompleteOptions()
-      );
+      expect(component['dialogRef'].close).toHaveBeenCalled();
+    });
+    test('should call dispatch reset actions', () => {
+      store.dispatch = jest.fn();
+      component['dialogRef'].close = jest.fn();
+      component['dialogRef'].beforeClosed().subscribe((_value) => {
+        expect(component['dialogRef'].close).toHaveBeenCalledTimes(1);
+        expect(store.dispatch).toHaveBeenCalledWith(clearProcessCaseRowData());
+        expect(store.dispatch).toHaveBeenCalledWith(
+          resetAllAutocompleteOptions()
+        );
+      });
+      component.closeDialog();
+      mockSubjectClose.next(true);
     });
   });
 });

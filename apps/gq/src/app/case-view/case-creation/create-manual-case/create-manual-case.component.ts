@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
-import { Observable } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
@@ -34,12 +34,13 @@ import { MaterialTableItem } from '../../../shared/models/table';
   selector: 'gq-create-manual-case',
   templateUrl: './create-manual-case.component.html',
 })
-export class CreateManualCaseComponent implements OnInit {
+export class CreateManualCaseComponent implements OnDestroy, OnInit {
   createCaseLoading$: Observable<boolean>;
   customer$: Observable<CaseFilterItem>;
   customerAutocompleteLoading$: Observable<boolean>;
   rowData$: Observable<MaterialTableItem[]>;
   title$: Observable<string>;
+  private readonly shutdown$$: Subject<void> = new Subject<void>();
 
   constructor(
     private readonly store: Store,
@@ -65,6 +66,18 @@ export class CreateManualCaseComponent implements OnInit {
     this.insightsService.logEvent(EVENT_NAMES.CASE_CREATION_STARTED, {
       type: CASE_CREATION_TYPES.MANUAL,
     } as CaseCreationEventParams);
+
+    this.dialogRef
+      .beforeClosed()
+      .pipe(takeUntil(this.shutdown$$))
+      .subscribe(() => {
+        this.dispatchResetActions();
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.shutdown$$.next();
+    this.shutdown$$.unsubscribe();
   }
 
   autocomplete(autocompleteSearch: AutocompleteSearch): void {
@@ -86,12 +99,14 @@ export class CreateManualCaseComponent implements OnInit {
 
   closeDialog(): void {
     this.dialogRef.close();
-    this.store.dispatch(resetAllAutocompleteOptions());
-    this.store.dispatch(clearCustomer());
-    this.store.dispatch(clearCreateCaseRowData());
-
     this.insightsService.logEvent(EVENT_NAMES.CASE_CREATION_CANCELLED, {
       type: CASE_CREATION_TYPES.MANUAL,
     } as CaseCreationEventParams);
+  }
+
+  private dispatchResetActions(): void {
+    this.store.dispatch(resetAllAutocompleteOptions());
+    this.store.dispatch(clearCustomer());
+    this.store.dispatch(clearCreateCaseRowData());
   }
 }

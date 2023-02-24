@@ -68,7 +68,6 @@ export class AddMaterialDialogComponent implements OnInit, OnDestroy {
   }
 
   closeDialog(): void {
-    this.dispatchResetActions();
     this.dialogRef.close();
   }
 
