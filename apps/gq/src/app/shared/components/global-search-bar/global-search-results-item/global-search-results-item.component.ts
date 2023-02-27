@@ -6,6 +6,7 @@ import {
   Output,
 } from '@angular/core';
 
+import { HelperService } from '@gq/shared/services/helper-service/helper-service.service';
 import { PriceService } from '@gq/shared/services/price-service/price.service';
 
 import { QuotationSearchResult } from '../../../models/quotation';
@@ -18,7 +19,7 @@ export class GlobalSearchResultsItemComponent {
   @Input() set searchResult(searchResult: QuotationSearchResult) {
     this.quotationSummary = searchResult;
 
-    this.materialGpi = PriceService.calculateMargin(
+    const gpi = PriceService.calculateMargin(
       PriceService.roundValue(
         searchResult.materialPrice,
         searchResult.materialQuantity
@@ -28,10 +29,16 @@ export class GlobalSearchResultsItemComponent {
         searchResult.materialQuantity
       )
     );
+
+    this.materialGpi = this.helperService.transformPercentage(
+      PriceService.roundToTwoDecimals(gpi)
+    );
   }
   @Output() gqIdSelected = new EventEmitter<QuotationSearchResult>();
   @Output() contextMenu = new EventEmitter<MouseEvent>();
 
-  materialGpi: number;
+  materialGpi: string;
   quotationSummary: QuotationSearchResult;
+
+  constructor(private readonly helperService: HelperService) {}
 }
