@@ -28,6 +28,18 @@
       >
         <div class="flex w-full flex-row">
           <div class="flex flex-1 flex-col">
+            <div class="flex flex-col">
+              <mat-form-field appearance="outline" class="max-w-[592px]">
+                <mat-label>{{ t('conversionTable') }}</mat-label>
+                <mat-select [formControl]="inputTable">
+                  <mat-option
+                    *ngFor="let table of tables$ | ngrxPush; trackBy: trackByFn"
+                    [value]="table"
+                    >{{ t('normLong.' + table) }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
             <div class="flex flex-col gap-4 md:flex-row">
               <mat-form-field appearance="outline" class="md:w-72">
                 <mat-label>{{ t('value') }}</mat-label>
@@ -50,8 +62,9 @@
                   <mat-option
                     *ngFor="let unit of units$ | ngrxPush; trackBy: trackByFn"
                     [value]="unit"
+                    [disabled]="!(enabled$ | ngrxPush)?.includes(unit)"
                     [matTooltip]="getTooltip(unit)"
-                    >{{ t('unit.' + unit) }}
+                    >{{ t('unit.' + unit, { hint: ' (' + t('uts') + ')' }) }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -104,7 +117,7 @@
                 <mac-copy-input
                   class="w-full"
                   [value]="average$ | ngrxPush"
-                  [unit]="t('resultunit.' + inputUnit.value)"
+                  [unit]="t('unit.' + inputUnit.value)"
                   [label]="t('averageValue')"
                   [tooltip]="getTooltip(inputUnit.value)"
                   [precision]="getPrecision(inputUnit.value)"
@@ -114,7 +127,7 @@
                 <mac-copy-input
                   class="w-full"
                   [value]="standardDeviation$ | ngrxPush"
-                  [unit]="t('resultunit.' + inputUnit.value)"
+                  [unit]="t('unit.' + inputUnit.value)"
                   [label]="t('standardDeviation')"
                   [tooltip]="getTooltip(inputUnit.value)"
                   [precision]="1"
@@ -129,7 +142,7 @@
               "
             >
               <div
-                class="flex min-w-0 flex-row gap-4 rounded border border-warning bg-sunny-yellow bg-opacity-10 p-3"
+                class="flex min-w-0 max-w-[648px] flex-row items-center gap-4 rounded border border-warning bg-sunny-yellow bg-opacity-10 p-3"
               >
                 <mat-icon class="text-warning">warning_amber</mat-icon>
                 <div
@@ -152,8 +165,10 @@
             >
               {{
                 (multipleValues$ | ngrxPush)
-                  ? t('convertedAfterMultiple', { norm: t('hcNorm') })
-                  : t('convertedAfter', { norm: t('hcNorm') })
+                  ? t('convertedAfterMultiple', {
+                      norm: t('norm.' + inputTable.value)
+                    })
+                  : t('convertedAfter', { norm: t('norm.' + inputTable.value) })
               }}
             </div>
             <div class="grid grid-cols-1 gap-x-8 md:grid-cols-2">
@@ -164,8 +179,12 @@
                 <mac-copy-input
                   class="w-full"
                   [value]="result.value"
-                  [warning]="result.warning"
-                  [unit]="t('resultunit.' + result.unit)"
+                  [warning]="
+                    (enabled$ | ngrxPush)?.includes(result.unit)
+                      ? result.warning
+                      : t('notInTable')
+                  "
+                  [unit]="t('unit.' + result.unit)"
                   [tooltip]="getTooltip(result.unit)"
                   [precision]="getPrecision(result.unit)"
                 ></mac-copy-input>

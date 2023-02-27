@@ -8,7 +8,6 @@ import {
 import {
   FormControl,
   UntypedFormArray,
-  UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
@@ -22,14 +21,16 @@ import { TranslocoService } from '@ngneat/transloco';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
-import { changeFavicon } from '../../shared/change-favicon';
-import { HV, MPA, ONE_DIGIT_UNITS } from './constants';
+import {
+  MPA,
+  ONE_DIGIT_UNITS,
+} from '@mac/feature/hardness-converter/constants';
 import {
   HardnessConversionFormValue,
   HardnessConversionResponse,
-  HardnessUnitsResponse,
-} from './models';
-import { HardnessConverterApiService } from './services/hardness-converter-api.service';
+} from '@mac/feature/hardness-converter/models';
+import { HardnessConverterApiService } from '@mac/feature/hardness-converter/services/hardness-converter-api.service';
+import { changeFavicon } from '@mac/shared/change-favicon';
 
 @Component({
   selector: 'mac-hardness-converter',
@@ -42,13 +43,17 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
   public MPA = MPA;
 
+  public tables$ = new ReplaySubject<string[]>();
   public units$ = new ReplaySubject<string[]>();
+  public enabled$ = new ReplaySubject<string[]>();
   public version$ = new ReplaySubject<string>();
 
+  public inputTable = new FormControl<string>(undefined);
+  public inputUnit = new FormControl<string>(undefined);
   public inputValue = this.createInputFormControl();
-  public inputUnit = new UntypedFormControl(HV);
 
   public initialInput = new UntypedFormGroup({
+    inputTable: this.inputTable,
     inputValue: this.inputValue,
     inputUnit: this.inputUnit,
   });
@@ -93,7 +98,14 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
       'assets/favicons/hardness-converter.ico',
       this.translocoService.translate('hardnessConverter.title')
     );
-    this.setupUnitList();
+    this.fetchInfo();
+
+    this.inputTable.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((conversionTable) => {
+        this.fetchAvailableUnits(conversionTable);
+      });
+
     this.conversionForm.valueChanges
       .pipe(
         debounceTime(250),
@@ -122,7 +134,7 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
           this.calculateValues(values);
         } else {
           this.multipleValues$.next(false);
-          this.convertValue(values[0], unit);
+          this.convertValue(this.inputTable.value, values[0], unit);
         }
       });
   }
@@ -132,12 +144,27 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  private setupUnitList(): void {
+  private fetchInfo(): void {
     this.hardnessService
-      .getUnits()
-      .subscribe((response: HardnessUnitsResponse) => {
-        this.units$.next(response.units);
-        this.version$.next(response.version);
+      .getInfo()
+      .pipe(take(1))
+      .subscribe((info) => {
+        this.tables$.next(info.conversionTables);
+        this.units$.next(info.units);
+        this.version$.next(info.version);
+        this.inputTable.setValue(info.conversionTables[0] ?? undefined);
+      });
+  }
+
+  private fetchAvailableUnits(conversionTable: string): void {
+    this.hardnessService
+      .getUnits({ conversionTable })
+      .pipe(take(1))
+      .subscribe(({ enabled }) => {
+        this.enabled$.next(enabled);
+        if (!enabled.includes(this.inputUnit.value)) {
+          this.inputUnit.setValue(enabled[0]);
+        }
       });
   }
 
@@ -153,13 +180,23 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
     this.multipleValues$.next(true);
     this.average$.next(average);
     this.standardDeviation$.next(standardDeviation);
-    this.convertValue(average, this.inputUnit.value, deviation);
+    this.convertValue(
+      this.inputTable.value,
+      average,
+      this.inputUnit.value,
+      deviation
+    );
   }
 
-  private convertValue(value: number, unit: string, deviation?: number): void {
+  private convertValue(
+    conversionTable: string,
+    value: number,
+    unit: string,
+    deviation?: number
+  ): void {
     this.resultLoading$.next(true);
     this.hardnessService
-      .getConversionResult(unit, value, deviation)
+      .getConversion({ conversionTable, unit, value, deviation })
       .pipe(take(1))
       .subscribe((result) => {
         this.resultLoading$.next(false);
@@ -189,11 +226,8 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
 
   public onResetButtonClick(): void {
     this.additionalInputs.clear();
-    this.conversionForm.reset({
-      initialInput: {
-        inputUnit: HV,
-      },
-    });
+    this.conversionForm.reset();
+    this.fetchInfo();
     this.average$ = new ReplaySubject<number>();
     this.standardDeviation$ = new ReplaySubject<number>();
     this.conversionResult$ = new ReplaySubject<HardnessConversionResponse>();

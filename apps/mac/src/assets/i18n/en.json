@@ -24,6 +24,7 @@
   "hardnessConverter": {
     "averageValue": "Average value",
     "close": "Close",
+    "conversionTable": "Conversion table",
     "convertedAfter": "Converted after {{norm}}",
     "convertedAfterMultiple": "Converted average value after {{norm}}",
     "deviationWarning": "At least one measured value is not in agreement with the permissible deviation after S 285018. Please check the values.",
@@ -32,36 +33,50 @@
     "negativeValueError": "Hardness and strength values must be positive!",
     "previousTitle": "Materials App Center",
     "reset": "RESET",
-    "resultunit": {
-      "HB": "HB",
-      "HRA": "HRA",
-      "HRB": "HRB",
-      "HRC": "HRC",
-      "HRa": "HRA",
-      "HRb": "HRB",
-      "HRc": "HRC",
-      "HV": "HV",
-      "MPa": "MPa"
+    "norm": {
+      "ISO18265_A1": "ISO 18265 A.1",
+      "ISO18265_B2": "ISO 18265 B.2",
+      "ISO18265_B3": "ISO 18265 B.3",
+      "ISO18265_B4": "ISO 18265 B.4",
+      "ISO18265_C2": "ISO 18265 C.2",
+      "ASTME140_1": "ASTM E140, 1",
+      "ISO18265_F1": "ISO 18265 F.1 — ASTM E140, 3",
+      "ISO18265_F2": "ISO 18265, F.2 — ASTM E140, 4",
+      "ISO18265_F4": "ISO 18265, F.4 — ASTM E140, 9",
+      "ISO18265_F5": "ISO 18265, F.5 — BS 860, 1",
+      "SCHAEFFLER_OILTEMPEREDSPRINGSTEEL": "Schaeffler, Internal conversion"
     },
+    "normLong": {
+      "ISO18265_A1": "ISO 18265 A.1 (unalloyed, low alloy and cast steel)",
+      "ISO18265_B2": "ISO 18265 B.2 (QT steel in QT condition)",
+      "ISO18265_B3": "ISO 18265 B.3 (QT steel in untreated, soft annealed or normalized condition)",
+      "ISO18265_B4": "ISO 18265 B.4 (QT steel in quenched condition)",
+      "ISO18265_C2": "ISO 18265 C.2 (cold working steel)",
+      "ASTME140_1": "ASTM E140, 1 (non-austenitic steel)",
+      "ISO18265_F1": "ISO 18265 F.1 — ASTM E140, 3 (Nickel and high-Nickel alloy)",
+      "ISO18265_F2": "ISO 18265, F.2 — ASTM E140, 4 (cartridge brass, 70 % Cu, 30 % Zn)",
+      "ISO18265_F4": "ISO 18265, F.4 — ASTM E140, 9 (wrought Aluminium)",
+      "ISO18265_F5": "ISO 18265, F.5 — BS 860, 1 (Aluminium and Aluminium alloy)",
+      "SCHAEFFLER_OILTEMPEREDSPRINGSTEEL": "Schaeffler, Internal conversion  (oil tempered spring steel)"
+    },
+    "unit": {
+      "hb": "HB",
+      "hra": "HRA",
+      "hrb": "HRB",
+      "hrc": "HRC",
+      "hv": "HV",
+      "mpa": "MPa{{ hint }}"
+    },
+    "uts": "UTS",
     "share": "Share",
     "shareCopiedToClipboard": "Url copied to clipboard",
     "standardDeviation": "Standard deviation",
     "statisticalEvaluation": "Statistical evaluation",
     "title": "Hardness Converter",
-    "unit": {
-      "HB": "HB",
-      "HRA": "HRA",
-      "HRB": "HRB",
-      "HRC": "HRC",
-      "HRa": "HRA",
-      "HRb": "HRB",
-      "HRc": "HRC",
-      "HV": "HV",
-      "MPa": "MPa (UTS)"
-    },
     "utsTooltip": "Ultimate tensile strength",
     "value": "Value",
-    "valuesCalculatedWith": "Values calculated with Backend v.{{version}}"
+    "valuesCalculatedWith": "Values calculated with Backend v.{{version}}",
+    "notInTable": "not-in-table"
   },
   "learnmore": {
     "default": {
@@ -157,10 +172,12 @@
     "hardnessConverter": {
       "content": [
         "Hardness measurements are a very important means to ensure the reliability of Schaeffler products. Most products have a certain method for the hardness measurement given on the drawing or in product specific standards. However, sometimes it is necessary to convert hardnesses from one measurement method to another, e.g. if the measurement method is not appropriate for the size or the material condition of the sample (see S266010 for details), or to estimate the ultimate tensile strength from hardness values. This is usually done using the conversion charts of ISO 18265, if not integrated in the measuring device.",
-        "The Hardness Converter in Materials App Center (MAC HC) allows the conversion of measured hardnesses according ISO 18265 Table A.1 from and to Vickers (HV), Brinell (HB), Rockwell A (HRA), Rockwell B (HRB), and Rockwell C (HRC) and the ultimate tensile strength (UTS) in MPa.",
-        "The conversion according ISO 18265 table A.1 is usually used for unalloyed and low alloyed steels, in soft and hardened states. The application to high alloyed and austenitic steels as well as thermo or thermo-chemically treated steels (induction or case hardening) can also work sufficiently. However, using the conversion for carbonitrided and nitrided or nitrocarburised parts might reasonably be possible, but must be used with greater care. Using the conversion for materials like multi-phase or self-hardening steels, cast iron or non-iron metals is not recommended.",
-        "The user interface has some features. Clicking the Reset button at the bottom, resets the full user interface to its initial state. The Share button on the upper right corner, allows to send the link to the hardness converter to other users, without preserving already entered or converted hardness values.",
-        "In case, the conversion cannot be performed, because the value is not in the range of table A.1, the value will be presented as “out-of-range”, as a valid conversion result cannot be given.",
+        "The Hardness Converter in Materials App Center (MAC HC) allows the conversion of measured hardnesses according to different hardness conversion tables from different standards. The following tables are implemented:",
+        "<ul><li>ISO 18265, Table A.1 — Conversion of hardness-to-hardness or hardness-to-tensile-strength values for unalloyed and low alloy steels and cast steel</li><li>ISO 18265, Table B.2 — Conversion of hardness-to-hardness and hardness-to-tensile-strength values for quenching and tempering steels in the quenched tempered conditions</li><li>ISO 18265, Table B.3 — Conversion of hardness-to-hardness or hardness-to-tensile-strength values for quenching and tempering steels in the untreated, soft annealed or normalized conditions</li><li>ISO 18265, Table B.4 — Conversion of hardness-to-hardness values for quenching and tempering steels in the quenched condition</li><li>ISO 18265, Table C.2 — Conversion of hardness-to-hardness values for cold working steels</li><li>ISO 18265, Table F.1 — Nickel and High-Nickel Alloys</li><li>ISO 18265, Table F.2 — Cartridge brass (70 % Copper, 30 % Zinc Alloy)</li><li>ISO 18265, Table F.4 — Wrought Aluminium Products</li><li>ISO 18265, Table F.5 — Aluminium and its Alloys</li><li>ASTM E140, Table 1 Approximate Hardness Conversion Numbers for Non-Austenitic Steels (Rockwell C Hardness Range)</li><li>ASTM E140, Table 3 Approximate Hardness Conversion Numbers for Nickel and High-Nickel Alloys</li><li>ASTM E140, Table 4 Approximate Hardness Conversion Numbers for Cartridge Brass (70 % Copper 30 % Zinc Alloy)</li><li>ASTM E140, Table 9 Approximate Hardness Conversion Numbers for Wrought Aluminum Products</li><li>Schaeffler, Internal conversion rule for oil tempered spring steel.</li><ul>",
+        "The standard conversion chart is set to ISO 18265 Table A.1 for low and unalloyed steels. Depending on the availability of the respective hardness methods in the respective tables, a conversion from and to Vickers (HV), Brinell (HB), Rockwell A (HRA), Rockwell B (HRB), and Rockwell C (HRC) and the ultimate tensile strength (UTS) in MPa is performed.",
+        "When perfoming a hardness conversion, the right conversion table must be chosen.  The most universal conversion table for steel is ISO 18265 table A.1, which is the default value. However, when having a different material (e. g. aluminium, brass, a highly alloyed steel) or a heat-treated or cold-worked material, make sure to select the right conversion table. When performing a conversion for thermo or thermo-chemically treated steels, for carbonitrided, nitrided or nitrocarburised parts, multi-phase or self-hardening steels, cast iron or alloyed non-iron metals, great care must be used in chosing the right table and interpreting the results. The standard conversion tables are usually not suited for these special cases.",
+        "The user interface has some features. You should select the right conversion table from the dropdown box, in case the default value \"ISO 18265 table A.1\" is not the right one for your problem. Clicking the Reset button at the bottom, resets the full user interface to its initial state. The Share button on the upper right corner, allows to send the link to the hardness converter to other users, without preserving already entered or converted hardness values.",
+        "In case, the conversion cannot be performed, because the value is not in the range of the selected conversion table, the value will be presented as \"out-of-range\", as a valid conversion result cannot be given. In case the chosen conversion table does not contain any data for converting your specific hardness values, because the hardness method is not not given, a \"not-in-table\" warning will be shown.",
         "It is possible to enter multiple hardness values. In that case the arithmetic mean and the standard deviation is calculated. The conversion then is done using the arithmetic mean value for all measurement methods in the MAC hardness converter.",
         "The resulting conversion value can be copied to the clipboard by clicking on the clipboard symbol to the right of the values and can then be pasted in any Office document, email, or wherever you like.",
         "In case multiple values are given, the hardness converter checks the values for plausibility. Therefore it considers the measurements as a series of measurements on one and the same part and performs a repeat precision check according S285018, as you would do with calibration plates. In case the multiple hardness values do not comply with the repeatability test, a short warning message appears. The warning is just a reminder for the user to check if the measurements are plausible, i. e. a measurement might result in a warning, but due to locally changing microstructure (e. g. Pearlite formation) the measurement might still be correct. As the repeat precision is dependent on some other factors too, and in order to keep the hardness converter simple, only some repeat precision values were chosen. In case some special rules apply (e. g. micro hardness testing), think about results and possible different repeat precision ranges.",

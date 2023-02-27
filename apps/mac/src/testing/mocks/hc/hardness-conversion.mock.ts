@@ -1,27 +1,28 @@
-import { HardnessConversionResponse } from '@mac/feature/hardness-converter/models';
+import { ConversionResponse } from '@mac/feature/hardness-converter/models';
 
-export const HARDNESS_CONVERSION_MOCK: HardnessConversionResponse = {
+export const HARDNESS_CONVERSION_MOCK: ConversionResponse = {
   converted: [
     {
-      unit: 'HRc',
+      unit: 'hrc',
       value: 42,
     },
     {
-      unit: 'HV',
+      unit: 'hv',
       value: 42,
     },
     {
-      unit: 'HB',
+      unit: 'hb',
       value: 42,
     },
     {
-      unit: 'MPa',
+      unit: 'mpa',
       value: 42,
     },
   ],
+  deviationWarning: false,
 };
 
-export const HARDNESS_CONVERSION_ERROR_MOCK: HardnessConversionResponse = {
+export const HARDNESS_CONVERSION_ERROR_MOCK: ConversionResponse = {
   converted: [],
   error: 'Conversion impossible',
 };

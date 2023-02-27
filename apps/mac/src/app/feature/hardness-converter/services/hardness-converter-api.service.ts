@@ -1,54 +1,51 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
-import { HardnessConversionResponse, HardnessUnitsResponse } from '../models';
-import { environment } from './../../../../environments/environment';
+import { environment } from '@mac/environments/environment';
+import {
+  ConversionRequest,
+  ConversionResponse,
+  Info,
+  UnitsRequest,
+  UnitsResponse,
+} from '@mac/feature/hardness-converter/models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HardnessConverterApiService {
-  private readonly SCORE = 'hardness-conversion/api/score';
+  private readonly BASE_URL = `${environment.baseUrl}/hardness-conversion/api`;
 
   public constructor(
     private readonly httpClient: HttpClient,
     private readonly applicationInsightService: ApplicationInsightsService
   ) {}
 
-  public getUnits(): Observable<HardnessUnitsResponse> {
-    return this.httpClient.post<HardnessUnitsResponse>(
-      `${environment.baseUrl}/${this.SCORE}`,
-      {
-        unitList: true,
-      }
+  public getInfo() {
+    return this.httpClient.get<Info>(`${this.BASE_URL}/info`);
+  }
+
+  public getUnits(unitsRequest: UnitsRequest) {
+    return this.httpClient.post<UnitsResponse>(
+      `${this.BASE_URL}/units`,
+      unitsRequest
     );
   }
 
-  public getConversionResult(
-    unit: string,
-    value: number,
-    deviation?: number
-  ): Observable<HardnessConversionResponse> {
-    const body = {
-      value,
-      deviation,
-      unit_in: unit,
-    };
-
+  public getConversion(conversionRequest: ConversionRequest) {
     return this.httpClient
-      .post<HardnessConversionResponse>(
-        `${environment.baseUrl}/${this.SCORE}`,
-        body
+      .post<ConversionResponse>(
+        `${this.BASE_URL}/conversion`,
+        conversionRequest
       )
       .pipe(
         map((response) => {
           this.applicationInsightService.logEvent('[MAC - HC - REQUEST]', {
-            request: body,
+            request: conversionRequest,
             response,
           });
 

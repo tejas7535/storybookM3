@@ -8,11 +8,16 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 import {
+  ConversionResponse,
+  Info,
+  UnitsResponse,
+} from '@mac/feature/hardness-converter/models';
+import {
+  HARDNESS_CONVERSION_INFO_MOCK,
   HARDNESS_CONVERSION_MOCK,
   HARDNESS_CONVERSION_UNITS_MOCK,
 } from '@mac/testing/mocks';
 
-import { environment } from './../../../../environments/environment';
 import { HardnessConverterApiService } from './hardness-converter-api.service';
 
 describe('HardnessConverterApiService', () => {
@@ -44,27 +49,49 @@ describe('HardnessConverterApiService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return a unit list', () => {
-    service.getUnits().subscribe((result: any) => {
-      expect(result).toEqual(HARDNESS_CONVERSION_UNITS_MOCK);
-    });
+  describe('getInfo', () => {
+    it('should fetch the info', (done) => {
+      service.getInfo().subscribe((result: Info) => {
+        expect(result).toEqual(HARDNESS_CONVERSION_INFO_MOCK);
+        done();
+      });
 
-    const req = httpMock.expectOne(
-      `${environment.baseUrl}/hardness-conversion/api/score`
-    );
-    expect(req.request.method).toBe('POST');
-    req.flush(HARDNESS_CONVERSION_UNITS_MOCK);
+      const req = httpMock.expectOne(`${service['BASE_URL']}/info`);
+      expect(req.request.method).toBe('GET');
+      req.flush(HARDNESS_CONVERSION_INFO_MOCK);
+    });
   });
 
-  it('should return a converted value', () => {
-    service.getConversionResult('mPa', 1234).subscribe((result: any) => {
-      expect(result).toEqual(HARDNESS_CONVERSION_MOCK);
-    });
+  describe('getUnits', () => {
+    it('should fetch the units', (done) => {
+      service
+        .getUnits({ conversionTable: 'table' })
+        .subscribe((result: UnitsResponse) => {
+          expect(result).toEqual(HARDNESS_CONVERSION_UNITS_MOCK);
+          done();
+        });
 
-    const req = httpMock.expectOne(
-      `${environment.baseUrl}/hardness-conversion/api/score`
-    );
-    expect(req.request.method).toBe('POST');
-    req.flush(HARDNESS_CONVERSION_MOCK);
+      const req = httpMock.expectOne(`${service['BASE_URL']}/units`);
+      expect(req.request.method).toBe('POST');
+      req.flush(HARDNESS_CONVERSION_UNITS_MOCK);
+    });
+  });
+
+  describe('getConversion', () => {
+    it('should fetch the conversion', (done) => {
+      service
+        .getConversion({ conversionTable: 'table', unit: 'hv', value: 500 })
+        .subscribe((result: ConversionResponse) => {
+          expect(
+            service['applicationInsightService'].logEvent
+          ).toHaveBeenCalled();
+          expect(result).toEqual(HARDNESS_CONVERSION_MOCK);
+          done();
+        });
+
+      const req = httpMock.expectOne(`${service['BASE_URL']}/conversion`);
+      expect(req.request.method).toBe('POST');
+      req.flush(HARDNESS_CONVERSION_MOCK);
+    });
   });
 });
