@@ -1,4 +1,13 @@
 # Release Notes of Insight Attrition
+## [1.0.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ia-v1.0.1...ia-v1.0.2) (2023-02-27)
+
+
+### Bug Fixes
+
+* **ia:** add content type headers (IA-1102) ([#5029](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5029)) ([697f263](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/697f2631d3244017b56343f07bb38b5e5dc8aba7))
+* **ia:** fix autocomplete inputs (IA-1124) ([#5012](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5012)) ([020f418](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/020f418245dc48ea787a74149b41c438c57b1bf9))
+* **ia:** get resignations for future only(IA-1115) ([#5006](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5006)) ([167e910](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/167e910a70728be28b6d21f07becb4a411158c0f))
+
 ## [1.0.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ia-v1.0.0...ia-v1.0.1) (2023-02-14)
 
 
