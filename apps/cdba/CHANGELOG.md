@@ -1,4 +1,11 @@
 # Release Notes of Cost Database Analytics
+## [2.20.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.19.0...cdba-v2.20.0) (2023-02-27)
+
+
+### Features
+
+* **cdba:** custom aggregation status bar ([#4988](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4988)) ([c70d19e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c70d19ed125ab20d25ed4ff3c77aca14ca21aec3))
+
 ## [2.19.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.18.1...cdba-v2.19.0) (2023-01-31)
 
 
