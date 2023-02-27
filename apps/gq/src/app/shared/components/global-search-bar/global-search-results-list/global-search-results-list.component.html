@@ -7,7 +7,7 @@
       <gq-global-search-results-item
         *ngFor="let case of gqCases | slice: 0:count"
         [searchResult]="case"
-        (gqIdSelected)="gqIdSelected.emit($event)"
+        (gqIdSelected)="gqIdSelected.emit(case)"
         (contextMenu)="showContextMenu($event, case)"
       ></gq-global-search-results-item>
     </div>
