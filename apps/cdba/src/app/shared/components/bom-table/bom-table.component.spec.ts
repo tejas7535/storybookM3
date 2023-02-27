@@ -22,7 +22,7 @@ import { MaterialNumberModule } from '@cdba/shared/pipes';
 import { BOM_ODATA_MOCK } from '@cdba/testing/mocks';
 
 import { BomTableComponent } from './bom-table.component';
-import { BomTableStatusBarComponentModule } from './bom-table-status-bar/bom-table-status-bar.component';
+import { TotalCostShareComponentModule } from './bom-table-status-bar/total-cost-share/total-cost-share.component';
 
 describe('BomTableComponent', () => {
   let component: BomTableComponent;
@@ -34,7 +34,7 @@ describe('BomTableComponent', () => {
       AgGridModule,
       MaterialNumberModule,
       MockModule(BomTableModule),
-      MockModule(BomTableStatusBarComponentModule),
+      MockModule(TotalCostShareComponentModule),
     ],
     providers: [
       { provide: ENV, useValue: { ...getEnv() } },

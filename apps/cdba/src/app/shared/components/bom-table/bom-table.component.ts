@@ -12,6 +12,7 @@ import {
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { translate } from '@ngneat/transloco';
 import {
+  CellRange,
   ColumnMovedEvent,
   ColumnVisibleEvent,
   FirstDataRenderedEvent,
@@ -64,6 +65,7 @@ export class BomTableComponent implements OnChanges {
     },
   };
   nonLevel2Children: any[] = [];
+  cellRanges: CellRange[];
 
   columnDefs = this.columnDefinitionService.getColDef();
   defaultColDef = this.columnDefinitionService.DEFAULT_COL_DEF;

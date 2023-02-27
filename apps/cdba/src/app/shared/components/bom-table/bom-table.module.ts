@@ -12,7 +12,8 @@ import { MaterialNumberModule } from '@cdba/shared/pipes';
 
 import { BomMaterialDesignationCellRenderComponent } from './bom-material-designation-cell-render/bom-material-designation-cell-render.component';
 import { BomTableComponent } from './bom-table.component';
-import { BomTableStatusBarComponentModule } from './bom-table-status-bar/bom-table-status-bar.component';
+import { AggregationComponentModule } from './bom-table-status-bar/aggregation/aggregation.component';
+import { TotalCostShareComponentModule } from './bom-table-status-bar/total-cost-share/total-cost-share.component';
 import { ColumnDefinitionService, SidebarService } from './config';
 
 @NgModule({
@@ -21,7 +22,8 @@ import { ColumnDefinitionService, SidebarService } from './config';
     CommonModule,
     AgGridModule,
     CustomOverlayModule,
-    BomTableStatusBarComponentModule,
+    TotalCostShareComponentModule,
+    AggregationComponentModule,
     MaterialNumberModule,
     MatTooltipModule,
     MatIconModule,

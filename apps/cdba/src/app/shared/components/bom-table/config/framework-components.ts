@@ -2,12 +2,14 @@ import { CustomLoadingOverlayComponent } from '@cdba/shared/components/table/cus
 import { CustomNoRowsOverlayComponent } from '@cdba/shared/components/table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
 
 import { BomMaterialDesignationCellRenderComponent } from '../bom-material-designation-cell-render/bom-material-designation-cell-render.component';
-import { BomTableStatusBarComponent } from '../bom-table-status-bar/bom-table-status-bar.component';
+import { AggregationComponent } from '../bom-table-status-bar/aggregation/aggregation.component';
+import { TotalCostShareComponent } from '../bom-table-status-bar/total-cost-share/total-cost-share.component';
 
 export const BOM_TABLE_COMPONENTS = {
   customLoadingOverlay: CustomLoadingOverlayComponent,
   customNoRowsOverlay: CustomNoRowsOverlayComponent,
-  bomTableStatusBar: BomTableStatusBarComponent,
+  bomTableTotalCostShareStatusBar: TotalCostShareComponent,
+  bomTableAggregationStatusBar: AggregationComponent,
   bomMaterialDesignationCellRenderComponent:
     BomMaterialDesignationCellRenderComponent,
 };

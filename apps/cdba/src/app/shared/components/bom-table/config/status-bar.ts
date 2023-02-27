@@ -4,12 +4,7 @@ export const BOM_TABLE_STATUS_BAR_CONFIG: {
   statusPanels: StatusPanelDef[];
 } = {
   statusPanels: [
-    { statusPanel: 'bomTableStatusBar', align: 'left' },
-    {
-      statusPanel: 'agAggregationComponent',
-      statusPanelParams: {
-        aggFuncs: ['count', 'sum', 'min', 'max', 'avg'],
-      },
-    },
+    { statusPanel: 'bomTableTotalCostShareStatusBar', align: 'left' },
+    { statusPanel: 'bomTableAggregationStatusBar', align: 'right' },
   ],
 };

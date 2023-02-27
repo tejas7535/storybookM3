@@ -2,14 +2,14 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { BomTableStatusBarComponent } from './bom-table-status-bar.component';
+import { TotalCostShareComponent } from './total-cost-share.component';
 
-describe('BomTableStatusBarComponent', () => {
-  let component: BomTableStatusBarComponent;
-  let spectator: Spectator<BomTableStatusBarComponent>;
+describe('BomTableTotalCostShareStatusBarComponent', () => {
+  let component: TotalCostShareComponent;
+  let spectator: Spectator<TotalCostShareComponent>;
 
   const createComponent = createComponentFactory({
-    component: BomTableStatusBarComponent,
+    component: TotalCostShareComponent,
     imports: [provideTranslocoTestingModule({ en: {} })],
   });
 

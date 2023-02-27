@@ -1,4 +1,5 @@
 export { AdditionalInformationDetails } from './additional-information-details.model';
+export { AggregationStatusBar } from './aggregation-status-bar.model';
 export { BomIdentifier } from './bom-identifier.model';
 export * from './bom-item.model';
 export { BomItemClassic } from './bom-item-classic.model';
