@@ -276,10 +276,12 @@ describe('CaseActions', () => {
     });
     describe('removePositionsFailure', () => {
       test('should removePositionsFailure', () => {
-        action = removePositionsFailure({ errorMessage });
+        const updatedQuotation = QUOTATION_MOCK;
+        action = removePositionsFailure({ errorMessage, updatedQuotation });
 
         expect(action).toEqual({
           errorMessage,
+          updatedQuotation,
           type: '[Process Case] Remove positions from Quotation Failure',
         });
       });

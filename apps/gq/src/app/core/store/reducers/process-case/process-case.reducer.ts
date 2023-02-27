@@ -419,11 +419,20 @@ export const processCaseReducer = createReducer(
   ),
   on(
     removePositionsFailure,
-    (state: ProcessCaseState, { errorMessage }): ProcessCaseState => ({
+    (
+      state: ProcessCaseState,
+      { errorMessage, updatedQuotation }
+    ): ProcessCaseState => ({
       ...state,
       quotation: {
         ...state.quotation,
         errorMessage,
+        item: {
+          ...updatedQuotation,
+          quotationDetails: sortQuotationDetails(
+            updatedQuotation.quotationDetails
+          ),
+        },
         updateLoading: false,
       },
       addMaterials: {

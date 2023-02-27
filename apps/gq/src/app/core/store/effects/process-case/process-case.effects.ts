@@ -24,7 +24,10 @@ import { URL_SUPPORT } from '../../../../shared/http/constants/urls';
 import { Quotation } from '../../../../shared/models';
 import { Customer } from '../../../../shared/models/customer';
 import { SapCallInProgress } from '../../../../shared/models/quotation';
-import { SAP_SYNC_STATUS } from '../../../../shared/models/quotation-detail';
+import {
+  QuotationDetail,
+  SAP_SYNC_STATUS,
+} from '../../../../shared/models/quotation-detail';
 import {
   MaterialTableItem,
   MaterialValidation,
@@ -325,10 +328,23 @@ export class ProcessCaseEffect {
             removePositionsSuccess({ updatedQuotation })
           ),
           catchError((errorMessage: HttpErrorResponse) => {
-            const messageText =
-              errorMessage.status === 400
-                ? 'errorInterceptorActionForbidden'
-                : 'errorInterceptorMessageDefault';
+            const errorCodes = (
+              errorMessage.error as Quotation
+            )?.quotationDetails
+              ?.map(
+                (quotationDetail: QuotationDetail) =>
+                  quotationDetail.sapSyncErrorCode
+              )
+              .filter((errorCode: string) => errorCode !== undefined);
+
+            let messageText = '';
+            if (errorCodes?.length > 0) {
+              messageText = `shared.sapStatusLabels.errorCodes.${errorCodes[0]}`;
+            } else if (errorMessage.status === 400) {
+              messageText = 'errorInterceptorActionForbidden';
+            } else {
+              messageText = 'errorInterceptorMessageDefault';
+            }
 
             this.snackBar
               .open(
@@ -342,7 +358,10 @@ export class ProcessCaseEffect {
               .subscribe(() => window.open(URL_SUPPORT, '_blank').focus());
 
             return of(
-              removePositionsFailure({ errorMessage: errorMessage.message })
+              removePositionsFailure({
+                errorMessage: errorMessage.message,
+                updatedQuotation: errorMessage.error,
+              })
             );
           })
         )

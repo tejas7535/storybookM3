@@ -570,7 +570,11 @@ describe('Quotation Reducer', () => {
 
     describe('removePositionsFailure', () => {
       test('should remove material', () => {
-        const action = removePositionsFailure({ errorMessage });
+        const updatedQuotation = QUOTATION_MOCK;
+        const action = removePositionsFailure({
+          errorMessage,
+          updatedQuotation,
+        });
 
         const fakeState = {
           ...PROCESS_CASE_STATE_MOCK,

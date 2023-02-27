@@ -124,7 +124,7 @@ export const removePositionsSuccess = createAction(
 
 export const removePositionsFailure = createAction(
   '[Process Case] Remove positions from Quotation Failure',
-  props<{ errorMessage: string }>()
+  props<{ errorMessage: string; updatedQuotation: Quotation }>()
 );
 
 export const setSelectedQuotationDetail = createAction(

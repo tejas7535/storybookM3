@@ -4,6 +4,8 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { of } from 'rxjs';
+
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 import { Actions } from '@ngrx/effects';
@@ -609,18 +611,18 @@ describe('ProcessCaseEffect', () => {
   });
 
   describe('removePositions$', () => {
-    const qgPositionIds = ['1234567'];
+    const gqPositionIds = ['1234567'];
 
     beforeEach(() => {
-      store.overrideSelector(getRemoveQuotationDetailsRequest, qgPositionIds);
+      store.overrideSelector(getRemoveQuotationDetailsRequest, gqPositionIds);
     });
 
     test(
       'should return removePositionsSuccess when REST call is successful',
       marbles((m) => {
         snackBar.open = jest.fn();
-        const gqPositionIds = ['1'];
-        action = removePositions({ gqPositionIds });
+        const singlePositionId = ['1'];
+        action = removePositions({ gqPositionIds: singlePositionId });
 
         quotationDetailsService.deleteQuotationDetail = jest.fn(() => response);
         const updatedQuotation = QUOTATION_MOCK;
@@ -639,7 +641,7 @@ describe('ProcessCaseEffect', () => {
         ).toHaveBeenCalledTimes(1);
         expect(
           quotationDetailsService.deleteQuotationDetail
-        ).toHaveBeenCalledWith(qgPositionIds);
+        ).toHaveBeenCalledWith(gqPositionIds);
         expect(snackBar.open).toHaveBeenCalledTimes(1);
       })
     );
@@ -647,15 +649,23 @@ describe('ProcessCaseEffect', () => {
     test(
       'should return removePositionsFailure on REST error',
       marbles((m) => {
+        snackBar.open = jest
+          .fn()
+          .mockReturnValue({ onAction: jest.fn().mockReturnValue(of([])) });
+        action = removePositions({ gqPositionIds });
+        window.open = jest.fn().mockReturnValue({ focus: jest.fn() });
+
         quotationDetailsService.deleteQuotationDetail = jest.fn(() => response);
-        const result = removePositionsFailure({ errorMessage });
+        const updatedQuotation = QUOTATION_MOCK;
+        const result = removePositionsFailure({
+          errorMessage,
+          updatedQuotation,
+        });
 
         actions$ = m.hot('-a', { a: action });
-
-        // removePositionsFailure is not handeled by base-http.interceptor anymore
-        // so the errorMessage is the default angular HttpErrorResponse instead of a string
         const response = m.cold('-#|', undefined, {
-          message: 'An error occured',
+          message: errorMessage,
+          error: updatedQuotation,
         });
         const expected = m.cold('--b', { b: result });
 
