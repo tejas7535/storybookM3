@@ -1,7 +1,15 @@
- Changelog
+# Release Notes of Series Delivery Obligation
+## [1.17.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/sedo-v1.16.0...sedo-v1.17.0) (2023-02-27)
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
-**Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
+
+### Features
+
+* **sedo:** keyUsers can edit data for their business unit (SEDO-2) ([#4992](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4992)) ([fa30b53](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fa30b532bcf466f1e28a13ad5f2f4605bd4d768f))
+
+
+### Bug Fixes
+
+* **sedo:** add plant info and NetSalesCat fields to SalesSummary (SEDO-6) ([#4999](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4999)) ([7f6ac65](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7f6ac6570ec1674503537c0bbcea220397c3fe00))
 
 ## [1.16.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/sedo-v1.15.0...sedo-v1.16.0) (2022-11-22)
 
