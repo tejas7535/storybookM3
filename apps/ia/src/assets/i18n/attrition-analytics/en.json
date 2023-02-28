@@ -61,6 +61,7 @@
     "jobFamily": "Job Family",
     "jobObject": "Job Object",
     "level": "Level",
+    "longtermSick": "Long-Term Sick",
     "marriage": "Marriage",
     "national": "National",
     "ohArea": "Oh Area",
@@ -81,7 +82,7 @@
     "subEntity": "Sub Entity",
     "subFunction": "Sub Function",
     "subJobFamily": "Sub Job Family",
-    "subRegion": "Sub Region",
+    "subregion": "Sub Region",
     "subSegment": "Sub Segment",
     "weeklyWorkingHour": "Weekly Working Hour",
     "workLocation": "Work Location"
