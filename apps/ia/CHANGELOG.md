@@ -1,4 +1,11 @@
 # Release Notes of Insight Attrition
+## [1.0.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ia-v1.0.3...ia-v1.0.4) (2023-03-01)
+
+
+### Features
+
+* **ia:** show feedback buttonon on all envs ([#5056](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5056)) ([976b7bf](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/976b7bfa588228898456f9429daffa5db79134ba))
+
 ## [1.0.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ia-v1.0.2...ia-v1.0.3) (2023-02-28)
 
 
