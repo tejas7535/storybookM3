@@ -1,4 +1,41 @@
 # Release Notes of Guided Quoting
+## [3.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v3.3.0...gq-v3.4.0) (2023-03-02)
+
+
+### Features
+
+* **gq:** add autocomplete endpoint to global search bar (GQUOTE-2194) ([#4994](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4994)) ([a2f6cfd](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a2f6cfd3c0275695915b07155add2ec028066d08))
+* **gq:** add case result list to global search modal (GQUOTE-2234) ([#5015](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5015)) ([829e195](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/829e195340e4ca433a709e06ecdd1516709da47c))
+* **gq:** add possibility to delete sap quotation details (GQUOTE-1928) ([#4993](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4993)) ([56e5491](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/56e549107673e81fe6fc5c02b7f9fd50cccc1845))
+* **gq:** added abcxClassification column (GQUOTE-2222) ([#5021](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5021)) ([0bd06ca](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0bd06cac764a56da8989c1ad89b4f4ef9659cc3f))
+* **gq:** added new tabs to overview (GQUOTE-2267) ([#5048](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5048)) ([d96c44f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d96c44f124e9724e4c307219770b25c781260b21))
+* **gq:** adjust labels for Material Number/Description and Quantity (GQUOTE-2229) ([#5037](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5037)) ([b880490](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b8804902a7cdea76317bb32be2f8c887e5cadbdb))
+* **gq:** apply material number or description filter to default view (GQUOTE-2245) ([#5022](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5022)) ([8e170cb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8e170cb0c7dbb2a79ff8e1f0d1477a8bf986e478))
+* **gq:** call BE service for global search Result (GQUOTE-2244) ([#5042](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5042)) ([0774fbe](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0774fbe957a743819b954d70acaf5fb48749b97d))
+* **gq:** change order and names of sap header fields (GQUOTE-2195) ([#5027](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5027)) ([d436552](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d43655230f573b3d6dbee28407b0ae210795e511))
+* **gq:** create component for global search Case result (GQUOTE-2237) ([#5010](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5010)) ([2c986cb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2c986cb1a5625cf891611200b7535f743a1dfb2b))
+* **gq:** open case from search-bar in new Tab/ Window (GQUOTE-2242) ([#5043](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5043)) ([457f12b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/457f12b0f69dfe760444de587be81d5adec9a393))
+* **gq:** removed feature toggle for global search (GQUOTE-2277) ([#5055](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5055)) ([f9d2463](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f9d246340f7f727f4ca81875bb5c5d4a6da0eeef))
+* **gq:** updated formatting in search results preview (GQUOTE-2033) ([#5007](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5007)) ([5e1dbd2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5e1dbd2b8d59a15fe3ba0f3a437d2dba75e62938))
+* **workspace:** add gq path ([#5032](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5032)) ([977b4af](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/977b4afd8891ff2498e17c83254b83ddbc596267))
+
+
+### Bug Fixes
+
+* **gq:** clear add-material-table on cancel button (GQUOTE-2197) ([#5034](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5034)) ([6b027a4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6b027a4e1caaf9b5f56649766e55b8daa48deab0))
+* **gq:** disable link for empty GQ-price (GQUOTE-2182) ([#5036](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5036)) ([007cf06](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/007cf067a02a27e2348dfaa28d9ad509b120d656))
+* **gq:** emit Case when click on globalSearchResult (GQUOTE-2242) ([#5049](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5049)) ([a8dd322](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a8dd322cc28c1b933327d9594cd3d23cb5ae517f))
+* **gq:** empty Values for GQ price and SAP price do not open price detail page (GQUOTE-2182) ([#5038](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5038)) ([b8798be](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b8798be35d4c518b59a33fea5db2a2f7ec6061eb))
+* **gq:** fix displaying the first 3 items in CaseResult List (GQUOTE-2234) ([#5020](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5020)) ([97e89eb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/97e89eb4e236e1026eaafb7ac6bd022afc799b9c))
+* **gq:** fixed duplication issue in directive (GQUOTE-2201) ([#5009](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5009)) ([33c32a7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/33c32a7dd38864fe6c81d1e388dc07ad8f586afe))
+* **gq:** fixed gpi calculation in global search (GQUOTE-2165) ([#5050](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5050)) ([fa4ecb5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fa4ecb577eac9b452c1a124a4af9d61ab3e81acd))
+* **gq:** fixed issue with deleting quotation details (GQUOTE-1848) ([#5052](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5052)) ([5c7721b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5c7721b8449d5e1eb7b0e18c997879d7c7a049a1))
+* **gq:** fixed issue with displaying the search results (GQUOTE-2033) ([#5011](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5011)) ([6bb6f96](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6bb6f96e34664d1bbf40d625cb20a31c024c0d8e))
+* **gq:** fixed issue with gpi rounding (GQUOTE-2165) ([#5047](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5047)) ([4c3840c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4c3840cc772ec572e564b2186b0fe6dfca78252d))
+* **gq:** fixed spelling for SAP (GQUOTE-1928) ([#5023](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5023)) ([da46e19](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/da46e19c212a69d8a99cc0e3e5e31f75712f8a4c))
+* **gq:** hide global search on all screen except for case overview (GQUOTE-2033) ([#5014](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5014)) ([874d2f9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/874d2f96744e0d514f4d3b8f5d4998e44687b909))
+* **gq:** reset material Table when canceled (GQUOTE-2187) ([#5045](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5045)) ([f19c898](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f19c89877ef21522c4a853f31d24d6f0787937d8))
+
 ## [3.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v3.2.0...gq-v3.3.0) (2023-02-09)
 
 
