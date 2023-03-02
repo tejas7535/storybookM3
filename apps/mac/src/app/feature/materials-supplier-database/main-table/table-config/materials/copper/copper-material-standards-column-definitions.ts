@@ -10,7 +10,7 @@ export const COPPER_MATERIAL_STANDARDS_COLUMN_DEFINITIONS: ColDef[] = [
   ...BASE_MATERIAL_STANDARDS_COLUMN_DEFINITIONS,
   {
     field: MATERIAL_NUMBERS,
-    headerName: 'Material Numbers',
+    headerName: 'copperNumber',
     filterParams: FILTER_PARAMS,
     hide: true,
     cellRenderer: EditCellRendererComponent,

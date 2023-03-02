@@ -4,42 +4,52 @@ import {
   LAST_MODIFIED,
   MATERIAL_STANDARD_MATERIAL_NAME,
   MATERIAL_STANDARD_STANDARD_DOCUMENT,
-  STATUS,
+  RECENT_STATUS,
 } from '@mac/msd/constants';
 import { EditCellRendererComponent } from '@mac/msd/main-table/edit-cell-renderer/edit-cell-renderer.component';
-import { StatusCellRendererComponent } from '@mac/msd/main-table/status-cell-renderer/status-cell-renderer.component';
 import { FILTER_PARAMS } from '@mac/msd/main-table/table-config/filter-params';
-import {
-  CUSTOM_DATE_FORMATTER,
-  STATUS_VALUE_GETTER,
-} from '@mac/msd/main-table/table-config/helpers';
+import { CUSTOM_DATE_FORMATTER } from '@mac/msd/main-table/table-config/helpers';
 
+import { RecentStatusCellRendererComponent } from '../../../recent-status-cell-renderer/recent-status-cell-renderer.component';
 import { HISTORY_COLUMN_DEFINITION } from './global-column-definitions';
 
 export const BASE_MATERIAL_STANDARDS_COLUMN_DEFINITIONS: ColDef[] = [
   HISTORY_COLUMN_DEFINITION,
   {
     field: MATERIAL_STANDARD_MATERIAL_NAME,
-    headerName: 'Material Name',
+    headerName: MATERIAL_STANDARD_MATERIAL_NAME,
     filterParams: FILTER_PARAMS,
     cellRenderer: EditCellRendererComponent,
   },
   {
     field: MATERIAL_STANDARD_STANDARD_DOCUMENT,
-    headerName: 'Standard Document',
+    headerName: MATERIAL_STANDARD_STANDARD_DOCUMENT,
     filterParams: FILTER_PARAMS,
     cellRenderer: EditCellRendererComponent,
   },
   {
-    field: STATUS,
-    headerName: 'Status',
+    field: RECENT_STATUS,
+    headerName: RECENT_STATUS,
     filterParams: FILTER_PARAMS,
-    cellRenderer: StatusCellRendererComponent,
-    valueGetter: STATUS_VALUE_GETTER,
+    cellRenderer: RecentStatusCellRendererComponent,
+    valueGetter: () => 1,
+    headerValueGetter: () => '',
+    cellClass: ['!pl-0', '!pr-2'],
+    width: 60,
+    pinned: 'left',
+    lockPinned: true,
+    lockVisible: true,
+    lockPosition: true,
+    resizable: true,
+    suppressMovable: true,
+    hide: false,
+    suppressMenu: true,
+    sortable: false,
+    filter: false,
   },
   {
     field: LAST_MODIFIED,
-    headerName: 'Last Modified',
+    headerName: LAST_MODIFIED,
     filter: 'agDateColumnFilter',
     valueFormatter: CUSTOM_DATE_FORMATTER,
     sort: 'desc',

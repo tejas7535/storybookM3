@@ -10,8 +10,10 @@ import {
   MIN_DIMENSION,
   RATING,
   RATING_REMARK,
+  RECENT_STATUS,
   RECYCLING_RATE,
   RELEASE_DATE,
+  RELEASED_STATUS,
   SAP_SUPPLIER_IDS,
   STEEL_MAKING_PROCESS,
 } from '@mac/msd/constants';
@@ -21,63 +23,89 @@ import {
   MANUFACTURER_VALUE_GETTER,
   RELEASE_DATE_FORMATTER,
   RELEASE_DATE_VALUE_GETTER,
+  STATUS_VALUE_GETTER,
   TRANSLATE_VALUE_FORMATTER_FACTORY,
 } from '@mac/msd/main-table/table-config/helpers';
 import { BASE_COLUMN_DEFINITIONS } from '@mac/msd/main-table/table-config/materials/base';
 
+import { ReleaseStatusCellRendererComponent } from '../../../release-status-cell-renderer/release-status-cell-renderer.component';
+
+const exclude = (columns: string[], colDef: ColDef[]): ColDef[] =>
+  colDef.filter((cd) => !columns.includes(cd.field));
+
 export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
-  ...BASE_COLUMN_DEFINITIONS,
+  // 'recentStatus' is replaced by 'releasedStatus'
+  ...exclude([RECENT_STATUS], BASE_COLUMN_DEFINITIONS),
+  {
+    field: RELEASED_STATUS,
+    headerName: RELEASED_STATUS,
+    filterParams: FILTER_PARAMS,
+    cellRenderer: ReleaseStatusCellRendererComponent,
+    valueGetter: STATUS_VALUE_GETTER,
+    cellClass: ['!pl-0', '!pr-2'],
+    headerClass: ['!-ml-12', '!w-[123px]'],
+    width: 75,
+    pinned: 'left',
+    lockPinned: true,
+    lockVisible: true,
+    lockPosition: true,
+    resizable: false,
+    suppressMovable: true,
+    hide: false,
+    suppressMenu: true,
+  },
   {
     field: MATERIAL_NUMBERS,
-    headerName: 'Material Numbers',
+    headerName: 'steelNumber',
+    headerTooltip: 'steelNumber',
     filterParams: FILTER_PARAMS,
     hide: true,
     cellRenderer: EditCellRendererComponent,
   },
   {
     field: MANUFACTURER,
-    headerName: 'Iron- & Steelmaking',
+    headerName: MANUFACTURER,
     hide: true,
     cellRenderer: EditCellRendererComponent,
     valueGetter: MANUFACTURER_VALUE_GETTER,
   },
   {
     field: SAP_SUPPLIER_IDS,
-    headerName: 'SAP Supplier ID(s)',
+    headerName: SAP_SUPPLIER_IDS,
     filterParams: FILTER_PARAMS,
     hide: true,
   },
   {
     field: MIN_DIMENSION,
-    headerName: 'Min Dimension',
+    headerName: MIN_DIMENSION,
     filter: 'agNumberColumnFilter',
     hide: true,
     cellRenderer: EditCellRendererComponent,
   },
   {
     field: MAX_DIMENSION,
-    headerName: 'Max Dimension',
+    headerName: MAX_DIMENSION,
     filter: 'agNumberColumnFilter',
     headerTooltip: MAX_DIMENSION,
     cellRenderer: EditCellRendererComponent,
   },
   {
     field: RATING,
-    headerName: 'Supplier Rating',
+    headerName: RATING,
     filterParams: FILTER_PARAMS,
     headerTooltip: RATING,
     cellRenderer: EditCellRendererComponent,
   },
   {
     field: RATING_REMARK,
-    headerName: 'Rating Remark',
+    headerName: RATING_REMARK,
     filterParams: FILTER_PARAMS,
     hide: true,
     cellRenderer: EditCellRendererComponent,
   },
   {
     field: CASTING_MODE,
-    headerName: 'Casting Mode',
+    headerName: CASTING_MODE,
     filterParams: FILTER_PARAMS,
     hide: true,
     headerTooltip: CASTING_MODE,
@@ -89,7 +117,7 @@ export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
   },
   {
     field: CASTING_DIAMETER,
-    headerName: 'Casting Diameter',
+    headerName: CASTING_DIAMETER,
     filterParams: FILTER_PARAMS,
     hide: true,
     headerTooltip: CASTING_DIAMETER,
@@ -97,7 +125,7 @@ export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
   },
   {
     field: STEEL_MAKING_PROCESS,
-    headerName: 'Steel Making Process',
+    headerName: STEEL_MAKING_PROCESS,
     filterParams: FILTER_PARAMS,
     hide: true,
     headerTooltip: STEEL_MAKING_PROCESS,
@@ -105,14 +133,14 @@ export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
   },
   {
     field: RECYCLING_RATE,
-    headerName: 'Recycling Rate',
+    headerName: RECYCLING_RATE,
     filter: 'agNumberColumnFilter',
     hide: true,
     cellRenderer: EditCellRendererComponent,
   },
   {
     field: RELEASE_DATE,
-    headerName: 'Release Date',
+    headerName: RELEASE_DATE,
     cellRenderer: EditCellRendererComponent,
     valueFormatter: RELEASE_DATE_FORMATTER,
     valueGetter: RELEASE_DATE_VALUE_GETTER,
@@ -121,7 +149,7 @@ export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
   },
   {
     field: MANUFACTURER_SUPPLIER_SELFCERTIFIED,
-    headerName: 'Self Certified',
+    headerName: MANUFACTURER_SUPPLIER_SELFCERTIFIED,
     hide: true,
     headerTooltip: MANUFACTURER_SUPPLIER_SELFCERTIFIED,
   },

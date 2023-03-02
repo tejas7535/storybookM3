@@ -27,6 +27,7 @@ export class MsdNavigationComponent implements OnInit {
 
   public materialClasses$ = this.dataFacade.materialClassOptions$;
   public navigation$ = this.dataFacade.navigation$;
+  public hasEditorRole$ = this.dataFacade.hasEditorRole$;
 
   public minimized = false;
 
@@ -43,7 +44,7 @@ export class MsdNavigationComponent implements OnInit {
 
   public setActive(
     materialClass: MaterialClass,
-    navigationLevel: NavigationLevel
+    navigationLevel = NavigationLevel.MATERIAL
   ): void {
     this.dataFacade.dispatch(setNavigation({ materialClass, navigationLevel }));
   }

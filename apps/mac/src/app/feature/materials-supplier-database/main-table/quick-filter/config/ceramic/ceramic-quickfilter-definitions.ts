@@ -11,7 +11,6 @@ import {
   PRODUCT_CATEGORY,
   RATING,
   RELEASE_RESTRICTIONS,
-  STATUS,
 } from '@mac/msd/constants';
 
 export const CERAMIC_STATIC_QUICKFILTERS: QuickFilter[] = [
@@ -29,7 +28,6 @@ export const CERAMIC_STATIC_QUICKFILTERS: QuickFilter[] = [
       RATING,
       RELEASE_RESTRICTIONS,
       PRODUCT_CATEGORY,
-      STATUS,
       LAST_MODIFIED,
     ],
     custom: false,

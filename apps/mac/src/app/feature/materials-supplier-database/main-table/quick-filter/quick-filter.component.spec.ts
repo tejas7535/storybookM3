@@ -309,8 +309,6 @@ describe('QuickFilterComponent', () => {
         const expState: ColumnState[] = [
           { colId: 'col2', hide: true },
           { colId: 'col3', hide: true },
-          { colId: 'locked', hide: false },
-          { colId: 'hid&Locked', hide: true },
           { colId: 'col1', hide: false },
           { colId: 'col4', hide: false },
         ];

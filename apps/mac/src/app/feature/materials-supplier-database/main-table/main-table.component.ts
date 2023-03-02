@@ -35,9 +35,10 @@ import {
   LAST_MODIFIED,
   MaterialClass,
   NavigationLevel,
+  RECENT_STATUS,
   RELEASE_DATE,
+  RELEASED_STATUS,
   SAP_SUPPLIER_IDS,
-  STATUS,
   Status,
 } from '@mac/msd/constants';
 import {
@@ -110,8 +111,13 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   private visibleColumns: string[];
 
   // collect columns which are not really in the dataset but rendered by ag grid
-  private readonly META_COLUMNS = [STATUS, HISTORY, ACTION];
-  private readonly NON_EXCEL_COLUMNS = new Set(['', HISTORY, ACTION]);
+  private readonly META_COLUMNS = [RELEASED_STATUS, HISTORY, ACTION];
+  private readonly NON_EXCEL_COLUMNS = new Set([
+    '',
+    RECENT_STATUS,
+    HISTORY,
+    ACTION,
+  ]);
 
   public agGridTooltipDelay = 500;
 
@@ -146,12 +152,23 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     this.agGridConfigService.columnDefinitions$
       .pipe(takeUntil(this.destroy$))
       .subscribe(({ defaultColumnDefinitions, savedColumnState }) => {
+        // restore state from last session
+        // ignore the previous state of all 'lockVisible' columns, those have a default!
+        const locked = new Set(
+          defaultColumnDefinitions
+            .filter((c) => c.lockVisible)
+            .map((c) => c.field)
+        );
+        const restoredColumnState = savedColumnState?.filter(
+          (s) => !locked.has(s.colId)
+        );
+
         this.defaultColumnDefs = defaultColumnDefinitions;
         this.columnDefs = this.getColumnDefs(this.hasEditorRole);
         if (this.agGridColumnApi) {
           setTimeout(() => {
             this.agGridColumnApi.applyColumnState({
-              state: savedColumnState,
+              state: restoredColumnState,
               applyOrder: true,
             });
           });
@@ -238,16 +255,6 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     this.agGridColumnApi = columnApi;
 
     this.setAgGridFilter({ api });
-
-    const filteredResult: DataResult[] = [];
-    api.forEachNodeAfterFilter((rowNode: RowNode) => {
-      filteredResult.push(rowNode.data);
-    });
-    const state = this.agGridStateService.getColumnState();
-    if (state) {
-      columnApi.applyColumnState({ state, applyOrder: true });
-    }
-
     this.setVisibleColumns();
 
     this.agGridReadyService.agGridApiready(
@@ -405,7 +412,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
                   },
                 });
                 break;
-              case STATUS:
+              case RELEASED_STATUS:
                 cells.push({
                   data: {
                     type: 'String',
@@ -454,7 +461,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private getCellValue(columnName: string, value?: any): string {
     switch (columnName) {
-      case STATUS:
+      case RELEASED_STATUS:
         return value?.toString() || Status.DEFAULT.toString();
       case LAST_MODIFIED:
         return value
@@ -474,7 +481,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     this.defaultColumnDefs?.map((columnDef) => ({
       ...columnDef,
       headerName: translate(
-        `materialsSupplierDatabase.mainTable.columns.${columnDef.field}`
+        `materialsSupplierDatabase.mainTable.columns.${columnDef.headerName}`
       ),
       cellRendererParams: {
         hasEditorRole,

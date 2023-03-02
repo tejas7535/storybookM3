@@ -9,7 +9,7 @@ export const CERAMIC_COLUMN_DEFINITIONS: ColDef[] = [
   ...BASE_COLUMN_DEFINITIONS,
   {
     field: CONDITION,
-    headerName: 'Condition',
+    headerName: CONDITION,
     filterParams: FILTER_PARAMS,
     hide: true,
     cellRenderer: EditCellRendererComponent,

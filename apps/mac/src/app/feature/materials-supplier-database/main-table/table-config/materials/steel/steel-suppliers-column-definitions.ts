@@ -13,14 +13,14 @@ export const STEEL_SUPPLIERS_COLUMN_DEFINITIONS: ColDef[] = [
   ...BASE_SUPPLIERS_COLUMN_DEFINITIONS,
   {
     field: MANUFACTURER,
-    headerName: 'Iron- & Steelmaking',
+    headerName: MANUFACTURER,
     hide: true,
     cellRenderer: EditCellRendererComponent,
     valueGetter: MANUFACTURER_VALUE_GETTER,
   },
   {
     field: SAP_SUPPLIER_IDS,
-    headerName: 'SAP Supplier ID(s)',
+    headerName: SAP_SUPPLIER_IDS,
     filterParams: FILTER_PARAMS,
     hide: true,
   },

@@ -1,0 +1,22 @@
+<div
+  class="flex h-full min-h-[46px] flex-row items-center justify-start"
+  *transloco="let t; read: 'materialsSupplierDatabase.status'"
+>
+  <ng-container *ngrxLet="navigation$ as navigation">
+    <div
+      class="!rotate-[0.03deg] text-subtitle-1 !text-info text-opacity-95"
+      *ngIf="isRecent"
+    >
+      <mat-icon
+        [inline]="true"
+        class="pb-[1px] align-middle"
+        [matTooltip]="
+          t('tooltip.changed', {
+            instance: t('instance.' + navigation.navigationLevel)
+          })
+        "
+        >update</mat-icon
+      >
+    </div>
+  </ng-container>
+</div>

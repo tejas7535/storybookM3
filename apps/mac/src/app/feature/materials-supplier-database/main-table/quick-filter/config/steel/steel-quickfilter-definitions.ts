@@ -12,7 +12,6 @@ import {
   PRODUCT_CATEGORY,
   RATING,
   RELEASE_RESTRICTIONS,
-  STATUS,
   STEEL_MAKING_PROCESS,
 } from '@mac/msd/constants';
 
@@ -31,7 +30,6 @@ export const STEEL_STATIC_QUICKFILTERS: QuickFilter[] = [
       RATING,
       RELEASE_RESTRICTIONS,
       PRODUCT_CATEGORY,
-      STATUS,
       LAST_MODIFIED,
     ],
     custom: false,
@@ -55,8 +53,6 @@ export const STEEL_STATIC_QUICKFILTERS: QuickFilter[] = [
       RATING,
       RELEASE_RESTRICTIONS,
       PRODUCT_CATEGORY,
-      STATUS,
-      LAST_MODIFIED,
     ],
     custom: false,
   },
@@ -79,8 +75,6 @@ export const STEEL_STATIC_QUICKFILTERS: QuickFilter[] = [
       STEEL_MAKING_PROCESS,
       CO2_PER_TON,
       PRODUCT_CATEGORY,
-      STATUS,
-      LAST_MODIFIED,
     ],
     custom: false,
   },

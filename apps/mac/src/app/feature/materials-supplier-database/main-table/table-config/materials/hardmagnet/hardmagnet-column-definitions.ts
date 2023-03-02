@@ -22,19 +22,19 @@ export const HARDMAGNET_COLUMN_DEFINITIONS: ColDef[] = [
   ),
   {
     field: GRADE,
-    headerName: 'Grade',
+    headerName: GRADE,
     filterParams: FILTER_PARAMS,
     cellRenderer: EditCellRendererComponent,
   },
   {
     field: COATING,
-    headerName: 'Coating',
+    headerName: COATING,
     filterParams: FILTER_PARAMS,
     cellRenderer: EditCellRendererComponent,
   },
   {
     field: PRODUCTION_PROCESS,
-    headerName: 'Production Process',
+    headerName: PRODUCTION_PROCESS,
     filterParams: FILTER_PARAMS,
     cellRenderer: EditCellRendererComponent,
   },

@@ -6,7 +6,7 @@ import { ActionCellRendererComponent } from '@mac/msd/main-table/action-cell-ren
 export const EDITOR_COLUMN_DEFINITIONS: ColDef[] = [
   {
     field: ACTION,
-    headerName: 'action',
+    headerName: ACTION,
     filter: false,
     cellRenderer: ActionCellRendererComponent,
     width: 95, // 140 for 3 icons
@@ -24,9 +24,10 @@ export const EDITOR_COLUMN_DEFINITIONS: ColDef[] = [
 
 export const HISTORY_COLUMN_DEFINITION: ColDef = {
   field: HISTORY,
-  headerName: 'history',
+  headerName: HISTORY,
   cellRenderer: 'agGroupCellRenderer',
   cellClass: '!px-4',
+  headerClass: ['!w-0', '!p-0'],
   width: 48,
   pinned: 'left',
   lockVisible: true,

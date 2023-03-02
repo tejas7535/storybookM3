@@ -8,7 +8,6 @@ import {
   MATERIAL_STANDARD_STANDARD_DOCUMENT,
   PRODUCT_CATEGORY,
   RELEASE_RESTRICTIONS,
-  STATUS,
 } from '@mac/msd/constants';
 
 export const POLYMER_STATIC_QUICKFILTERS: QuickFilter[] = [
@@ -22,7 +21,7 @@ export const POLYMER_STATIC_QUICKFILTERS: QuickFilter[] = [
       MANUFACTURER_SUPPLIER_PLANT,
       RELEASE_RESTRICTIONS,
       PRODUCT_CATEGORY,
-      STATUS,
+
       LAST_MODIFIED,
     ],
     custom: false,
@@ -43,8 +42,6 @@ export const POLYMER_STATIC_QUICKFILTERS: QuickFilter[] = [
       MANUFACTURER_SUPPLIER_PLANT,
       CO2_PER_TON,
       PRODUCT_CATEGORY,
-      STATUS,
-      LAST_MODIFIED,
     ],
     custom: false,
   },

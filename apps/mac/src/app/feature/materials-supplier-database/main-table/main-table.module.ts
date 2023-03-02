@@ -27,13 +27,15 @@ import { MainTableRoutingModule } from './main-table-routing.module';
 import { MaterialDialogsModule } from './material-input-dialog/materials/materials.module';
 import { MsdNavigationModule } from './msd-navigation/msd-navigation.module';
 import { QuickFilterComponent } from './quick-filter/quick-filter.component';
-import { StatusCellRendererComponent } from './status-cell-renderer/status-cell-renderer.component';
+import { RecentStatusCellRendererComponent } from './recent-status-cell-renderer/recent-status-cell-renderer.component';
+import { ReleaseStatusCellRendererComponent } from './release-status-cell-renderer/release-status-cell-renderer.component';
 
 @NgModule({
   declarations: [
     MainTableComponent,
     EditCellRendererComponent,
-    StatusCellRendererComponent,
+    RecentStatusCellRendererComponent,
+    ReleaseStatusCellRendererComponent,
     ActionCellRendererComponent,
     DetailCellRendererComponent,
     HeaderTooltipComponent,

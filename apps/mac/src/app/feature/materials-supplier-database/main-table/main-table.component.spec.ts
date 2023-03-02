@@ -39,8 +39,8 @@ import {
   MaterialClass,
   NavigationLevel,
   RELEASE_DATE,
+  RELEASED_STATUS,
   SAP_SUPPLIER_IDS,
-  STATUS,
   Status,
 } from '@mac/msd/constants';
 import { QuickFilterComponent } from '@mac/msd/main-table/quick-filter/quick-filter.component';
@@ -512,7 +512,6 @@ describe('MainTableComponent', () => {
       };
 
       // eslint-disable-next-line unicorn/no-useless-undefined
-      component['agGridStateService'].getColumnState = jest.fn(() => undefined);
       component['agGridReadyService'].agGridApiready = jest.fn(() => '');
 
       component.setAgGridFilter = jest.fn();
@@ -531,30 +530,15 @@ describe('MainTableComponent', () => {
         mockColumnApi as unknown as ColumnApi
       );
 
-      expect(mockColumnApi.applyColumnState).not.toHaveBeenCalled();
-      expect(component['agGridStateService'].getColumnState).toHaveBeenCalled();
       expect(component.setAgGridFilter).toHaveBeenCalledWith({ api: mockApi });
       expect(component['setVisibleColumns']).toHaveBeenCalled();
       expect(component['agGridReadyService'].agGridApiready).toHaveBeenCalled();
     });
     it('should dispatch setFilteredRows and set column count and apply column state if column state is defined', () => {
-      const mockDataResult: DataResult = {
-        id: 0,
-        manufacturerSupplierName: 'gibt net',
-      } as DataResult;
-      const mockRowNodes = [{ data: mockDataResult }];
-      const mockApi = {
-        forEachNodeAfterFilter: jest.fn((fn: (rowNode: RowNode) => any) =>
-          mockRowNodes.map((rowNode) => fn(rowNode as RowNode))
-        ),
-        getDisplayedRowCount: jest.fn(() => 0),
-      };
-      const mockColumnApi = {
-        applyColumnState: jest.fn(),
-      };
+      const mockApi = {};
+      const mockColumnApi = {};
 
       // eslint-disable-next-line unicorn/no-useless-undefined
-      component['agGridStateService'].getColumnState = jest.fn(() => []);
       component['agGridReadyService'].agGridApiready = jest.fn(() => '');
       component.setAgGridFilter = jest.fn();
 
@@ -571,12 +555,6 @@ describe('MainTableComponent', () => {
       expect(component['agGridColumnApi']).toEqual(
         mockColumnApi as unknown as ColumnApi
       );
-
-      expect(mockColumnApi.applyColumnState).toHaveBeenCalledWith({
-        state: [],
-        applyOrder: true,
-      });
-      expect(component['agGridStateService'].getColumnState).toHaveBeenCalled();
       expect(component.setAgGridFilter).toHaveBeenCalledWith({ api: mockApi });
       expect(component['setVisibleColumns']).toHaveBeenCalled();
       expect(component['agGridReadyService'].agGridApiready).toHaveBeenCalled();
@@ -937,9 +915,8 @@ describe('MainTableComponent', () => {
         'col1',
         SAP_SUPPLIER_IDS,
         RELEASE_DATE,
-        STATUS,
+        RELEASED_STATUS,
       ];
-
       const result: ExcelRow[] =
         mockSplitRowsForMultipleSapIdsInExport(mockParams);
 
@@ -1008,7 +985,7 @@ describe('MainTableComponent', () => {
         new Date(2000, 0)
       );
       expect(mockGetCellValue).toHaveBeenCalledWith(
-        STATUS,
+        RELEASED_STATUS,
         'materialsSupplierDatabase.status.statusValues.undefined'
       );
       expect(mockGetCellValue).toHaveBeenCalledWith(SAP_SUPPLIER_IDS, 'id2');
@@ -1116,8 +1093,8 @@ describe('MainTableComponent', () => {
 
   describe('getCellValue', () => {
     it.each([
-      [Status.BLOCKED.toString(), STATUS, Status.BLOCKED],
-      [Status.DEFAULT.toString(), STATUS, undefined],
+      [Status.BLOCKED.toString(), RELEASED_STATUS, Status.BLOCKED],
+      [Status.DEFAULT.toString(), RELEASED_STATUS, undefined],
       ['02/01/1970', LAST_MODIFIED, 150_000],
       ['', LAST_MODIFIED, undefined],
       ['02/02/2008', RELEASE_DATE, new Date(2008, 1, 2)],
@@ -1151,13 +1128,14 @@ describe('MainTableComponent', () => {
   describe('getColumnDefs', () => {
     it('should return translated column defs', () => {
       component.editableClass = jest.fn(() => true);
-      const columnDefs = component.columnDefs;
+
+      const columnDefs = component.defaultColumnDefs;
 
       const translatedColumnDefs = component.getColumnDefs(false);
 
       for (const columnDef of columnDefs) {
         expect(translate).toHaveBeenCalledWith(
-          `materialsSupplierDatabase.mainTable.columns.${columnDef.field}`
+          `materialsSupplierDatabase.mainTable.columns.${columnDef.headerName}`
         );
       }
       expect(columnDefs.length).toEqual(translatedColumnDefs.length);

@@ -10,63 +10,82 @@ import {
   MATERIAL_STANDARD_MATERIAL_NAME,
   MATERIAL_STANDARD_STANDARD_DOCUMENT,
   PRODUCT_CATEGORY,
+  RECENT_STATUS,
   RELEASE_RESTRICTIONS,
-  STATUS,
 } from '@mac/msd/constants';
 import { EditCellRendererComponent } from '@mac/msd/main-table/edit-cell-renderer/edit-cell-renderer.component';
-import { StatusCellRendererComponent } from '@mac/msd/main-table/status-cell-renderer/status-cell-renderer.component';
 import { FILTER_PARAMS } from '@mac/msd/main-table/table-config/filter-params';
 import {
   CUSTOM_DATE_FORMATTER,
   DATE_COMPARATOR,
-  STATUS_VALUE_GETTER,
   TRANSLATE_VALUE_FORMATTER_FACTORY,
 } from '@mac/msd/main-table/table-config/helpers';
 
+import { RecentStatusCellRendererComponent } from '../../../recent-status-cell-renderer/recent-status-cell-renderer.component';
 import { HISTORY_COLUMN_DEFINITION } from './global-column-definitions';
 
 export const BASE_COLUMN_DEFINITIONS: ColDef[] = [
   HISTORY_COLUMN_DEFINITION,
   {
+    field: RECENT_STATUS,
+    headerName: RECENT_STATUS,
+    filterParams: FILTER_PARAMS,
+    cellRenderer: RecentStatusCellRendererComponent,
+    valueGetter: () => 1,
+    headerValueGetter: () => '',
+    cellClass: ['!pl-0', '!pr-2'],
+    width: 50,
+    pinned: 'left',
+    lockPinned: true,
+    lockVisible: true,
+    lockPosition: true,
+    resizable: false,
+    suppressMovable: true,
+    hide: false,
+    suppressMenu: true,
+    sortable: false,
+    filter: false,
+  },
+  {
     field: MATERIAL_STANDARD_MATERIAL_NAME,
-    headerName: 'Material Name',
+    headerName: MATERIAL_STANDARD_MATERIAL_NAME,
     filterParams: FILTER_PARAMS,
     cellRenderer: EditCellRendererComponent,
   },
   {
     field: MATERIAL_STANDARD_STANDARD_DOCUMENT,
-    headerName: 'Standard Document',
+    headerName: MATERIAL_STANDARD_STANDARD_DOCUMENT,
     filterParams: FILTER_PARAMS,
     cellRenderer: EditCellRendererComponent,
   },
   {
     field: MANUFACTURER_SUPPLIER_NAME,
-    headerName: 'Supplier Name',
+    headerName: MANUFACTURER_SUPPLIER_NAME,
     filterParams: FILTER_PARAMS,
     cellRenderer: EditCellRendererComponent,
   },
   {
     field: MANUFACTURER_SUPPLIER_PLANT,
-    headerName: 'Supplier Plant',
+    headerName: MANUFACTURER_SUPPLIER_PLANT,
     filterParams: FILTER_PARAMS,
     cellRenderer: EditCellRendererComponent,
   },
   {
     field: MANUFACTURER_SUPPLIER_COUNTRY,
-    headerName: 'Supplier Country',
+    headerName: MANUFACTURER_SUPPLIER_COUNTRY,
     filterParams: FILTER_PARAMS,
     cellRenderer: EditCellRendererComponent,
   },
   {
     field: CO2_PER_TON,
-    headerName: 'kg CO₂e / t',
+    headerName: CO2_PER_TON,
     filter: 'agNumberColumnFilter',
     headerTooltip: CO2_PER_TON,
     cellRenderer: EditCellRendererComponent,
   },
   {
     field: CO2_CLASSIFICATION,
-    headerName: 'CO₂ Data Classification',
+    headerName: CO2_CLASSIFICATION,
     hide: true,
     cellRenderer: EditCellRendererComponent,
     valueFormatter: TRANSLATE_VALUE_FORMATTER_FACTORY(
@@ -76,27 +95,20 @@ export const BASE_COLUMN_DEFINITIONS: ColDef[] = [
   },
   {
     field: PRODUCT_CATEGORY,
-    headerName: 'Product Category',
+    headerName: PRODUCT_CATEGORY,
     filterParams: FILTER_PARAMS,
     cellRenderer: EditCellRendererComponent,
   },
   {
     field: RELEASE_RESTRICTIONS,
-    headerName: 'Release Restrictions',
+    headerName: RELEASE_RESTRICTIONS,
     filterParams: FILTER_PARAMS,
     hide: true,
     cellRenderer: EditCellRendererComponent,
   },
   {
-    field: STATUS,
-    headerName: 'Status',
-    filterParams: FILTER_PARAMS,
-    cellRenderer: StatusCellRendererComponent,
-    valueGetter: STATUS_VALUE_GETTER,
-  },
-  {
     field: LAST_MODIFIED,
-    headerName: 'Last Modified',
+    headerName: LAST_MODIFIED,
     filter: 'agDateColumnFilter',
     valueFormatter: CUSTOM_DATE_FORMATTER,
     filterParams: { comparator: DATE_COMPARATOR },

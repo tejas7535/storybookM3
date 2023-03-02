@@ -327,7 +327,7 @@ export class MsdAgGridStateService {
 
     return {
       ...currentStorage,
-      version: 2.3,
+      version: 2.4,
       materials: {
         ...currentStorage.materials,
         [MaterialClass.HARDMAGNET]: {

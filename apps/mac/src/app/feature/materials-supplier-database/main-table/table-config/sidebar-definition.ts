@@ -26,5 +26,5 @@ export const SIDE_BAR_CONFIG: SideBarDef = {
     },
   ],
   hiddenByDefault: false,
-  defaultToolPanel: 'columns',
+  defaultToolPanel: undefined,
 };

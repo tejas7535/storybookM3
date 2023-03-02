@@ -18,7 +18,12 @@ import {} from 'ag-grid-community/dist/lib/events';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { ACTION, HISTORY } from '@mac/msd/constants';
+import {
+  ACTION,
+  HISTORY,
+  RECENT_STATUS,
+  RELEASED_STATUS,
+} from '@mac/msd/constants';
 import { QuickFilter } from '@mac/msd/models';
 import {
   MsdAgGridConfigService,
@@ -57,7 +62,12 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
 
   private readonly destroy$ = new Subject<void>();
 
-  private readonly IGNORE_COLUMNS = new Set([HISTORY, ACTION]);
+  private readonly IGNORE_COLUMNS = new Set([
+    HISTORY,
+    ACTION,
+    RECENT_STATUS,
+    RELEASED_STATUS,
+  ]);
 
   // stores currently selected element (bound to ToggleComponent)
   public active: QuickFilter;
@@ -171,12 +181,11 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
     // setup visibility and order of columns based on selected elements
     const state: ColumnState[] = this.agGridColumnApi
       .getColumns()
+      // ignore 'locked' columns like "Action" or history view
+      .filter((col) => !col.getColDef().lockVisible)
       .map((col) => ({
         colId: col.getColId(),
-        // do not hide 'locked' columns like "Action" or history view
-        hide: col.getColDef().lockVisible
-          ? !col.isVisible()
-          : !visible.includes(col.getColId()),
+        hide: !visible.includes(col.getColId()),
       }))
       .sort((a, b) => visible.indexOf(a.colId) - visible.indexOf(b.colId));
     // set filter and columns in agGrid api

@@ -5,48 +5,58 @@ import {
   MANUFACTURER_SUPPLIER_COUNTRY,
   MANUFACTURER_SUPPLIER_NAME,
   MANUFACTURER_SUPPLIER_PLANT,
-  STATUS,
+  RECENT_STATUS,
 } from '@mac/msd/constants';
 import { EditCellRendererComponent } from '@mac/msd/main-table/edit-cell-renderer/edit-cell-renderer.component';
-import { StatusCellRendererComponent } from '@mac/msd/main-table/status-cell-renderer/status-cell-renderer.component';
 import { FILTER_PARAMS } from '@mac/msd/main-table/table-config/filter-params';
-import {
-  CUSTOM_DATE_FORMATTER,
-  STATUS_VALUE_GETTER,
-} from '@mac/msd/main-table/table-config/helpers';
+import { CUSTOM_DATE_FORMATTER } from '@mac/msd/main-table/table-config/helpers';
 
+import { RecentStatusCellRendererComponent } from '../../../recent-status-cell-renderer/recent-status-cell-renderer.component';
 import { HISTORY_COLUMN_DEFINITION } from './global-column-definitions';
 
 export const BASE_SUPPLIERS_COLUMN_DEFINITIONS: ColDef[] = [
   HISTORY_COLUMN_DEFINITION,
   {
     field: MANUFACTURER_SUPPLIER_NAME,
-    headerName: 'Supplier Name',
+    headerName: MANUFACTURER_SUPPLIER_NAME,
     filterParams: FILTER_PARAMS,
     cellRenderer: EditCellRendererComponent,
   },
   {
     field: MANUFACTURER_SUPPLIER_PLANT,
-    headerName: 'Supplier Plant',
+    headerName: MANUFACTURER_SUPPLIER_PLANT,
     filterParams: FILTER_PARAMS,
     cellRenderer: EditCellRendererComponent,
   },
   {
     field: MANUFACTURER_SUPPLIER_COUNTRY,
-    headerName: 'Supplier Country',
+    headerName: MANUFACTURER_SUPPLIER_COUNTRY,
     filterParams: FILTER_PARAMS,
     cellRenderer: EditCellRendererComponent,
   },
   {
-    field: STATUS,
-    headerName: 'Status',
+    field: RECENT_STATUS,
+    headerName: RECENT_STATUS,
     filterParams: FILTER_PARAMS,
-    cellRenderer: StatusCellRendererComponent,
-    valueGetter: STATUS_VALUE_GETTER,
+    cellRenderer: RecentStatusCellRendererComponent,
+    valueGetter: () => 1,
+    headerValueGetter: () => '',
+    cellClass: ['!pl-0', '!pr-2'],
+    width: 60,
+    pinned: 'left',
+    lockPinned: true,
+    lockVisible: true,
+    lockPosition: true,
+    resizable: true,
+    suppressMovable: true,
+    hide: false,
+    suppressMenu: true,
+    sortable: false,
+    filter: false,
   },
   {
     field: LAST_MODIFIED,
-    headerName: 'Last Modified',
+    headerName: LAST_MODIFIED,
     filter: 'agDateColumnFilter',
     valueFormatter: CUSTOM_DATE_FORMATTER,
     sort: 'desc',

@@ -8,7 +8,7 @@ export const POLYMER_SUPPLIERS_COLUMN_DEFINITIONS: ColDef[] = [
   ...BASE_SUPPLIERS_COLUMN_DEFINITIONS,
   {
     field: SAP_SUPPLIER_IDS,
-    headerName: 'SAP Supplier ID(s)',
+    headerName: SAP_SUPPLIER_IDS,
     filterParams: FILTER_PARAMS,
     hide: true,
   },

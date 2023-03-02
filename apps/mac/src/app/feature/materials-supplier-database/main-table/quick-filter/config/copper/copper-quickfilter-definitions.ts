@@ -13,7 +13,6 @@ import {
   PRODUCTION_PROCESS,
   RATING,
   RELEASE_RESTRICTIONS,
-  STATUS,
 } from '@mac/msd/constants';
 
 export const COPPER_STATIC_QUICKFILTERS: QuickFilter[] = [
@@ -31,7 +30,6 @@ export const COPPER_STATIC_QUICKFILTERS: QuickFilter[] = [
       RATING,
       RELEASE_RESTRICTIONS,
       PRODUCT_CATEGORY,
-      STATUS,
       LAST_MODIFIED,
     ],
     custom: false,
@@ -55,8 +53,6 @@ export const COPPER_STATIC_QUICKFILTERS: QuickFilter[] = [
       PRODUCTION_PROCESS,
       CO2_PER_TON,
       PRODUCT_CATEGORY,
-      STATUS,
-      LAST_MODIFIED,
     ],
     custom: false,
   },

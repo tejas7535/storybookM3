@@ -16,21 +16,21 @@ export const COPPER_COLUMN_DEFINITIONS: ColDef[] = [
   ...BASE_COLUMN_DEFINITIONS,
   {
     field: MATERIAL_NUMBERS,
-    headerName: 'Material Numbers',
+    headerName: 'copperNumber',
     filterParams: FILTER_PARAMS,
     hide: true,
     cellRenderer: EditCellRendererComponent,
   },
   {
     field: MAX_DIMENSION,
-    headerName: 'Max Dimension',
+    headerName: MAX_DIMENSION,
     filter: 'agNumberColumnFilter',
     headerTooltip: MAX_DIMENSION,
     cellRenderer: EditCellRendererComponent,
   },
   {
     field: CASTING_MODE,
-    headerName: 'Casting Mode',
+    headerName: CASTING_MODE,
     filterParams: FILTER_PARAMS,
     hide: true,
     headerTooltip: CASTING_MODE,
@@ -42,7 +42,7 @@ export const COPPER_COLUMN_DEFINITIONS: ColDef[] = [
   },
   {
     field: CASTING_DIAMETER,
-    headerName: 'Casting Diameter',
+    headerName: CASTING_DIAMETER,
     filterParams: FILTER_PARAMS,
     hide: true,
     headerTooltip: CASTING_DIAMETER,
@@ -50,7 +50,7 @@ export const COPPER_COLUMN_DEFINITIONS: ColDef[] = [
   },
   {
     field: PRODUCTION_PROCESS,
-    headerName: 'Production Process',
+    headerName: PRODUCTION_PROCESS,
     filterParams: FILTER_PARAMS,
     hide: true,
     cellRenderer: EditCellRendererComponent,
