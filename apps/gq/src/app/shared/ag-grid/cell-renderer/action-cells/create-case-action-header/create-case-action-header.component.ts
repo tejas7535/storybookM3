@@ -2,14 +2,14 @@ import { Component } from '@angular/core';
 
 import { combineLatest, map, Observable } from 'rxjs';
 
-import { Store } from '@ngrx/store';
-import { HeaderClassParams } from 'ag-grid-community';
-
+import { deleteRowDataItem } from '@gq/core/store/actions';
 import {
   getCaseRowData,
   getCustomerConditionsValid,
-} from '../../../../../core/store';
-import { deleteRowDataItem } from '../../../../../core/store/actions';
+} from '@gq/core/store/selectors';
+import { Store } from '@ngrx/store';
+import { HeaderClassParams } from 'ag-grid-community';
+
 import { MaterialTableItem } from '../../../../models/table';
 
 @Component({

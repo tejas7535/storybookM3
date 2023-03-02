@@ -5,7 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { of } from 'rxjs';
 
-import { AppRoutePath } from '@gq/app-route-path.enum';
+import { AutoCompleteFacade } from '@gq/core/store/facades';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -13,7 +13,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { QUOTATION_SEARCH_RESULT_MOCK } from '../../../../../testing/mocks/models';
-import { AutoCompleteFacade } from '../../../../core/store';
+import { AppRoutePath } from '../../../../app-route-path.enum';
 import { IdValue } from '../../../models/search';
 import { QuotationService } from '../../../services/rest-services/quotation-service/quotation.service';
 import { FilterNames } from '../../autocomplete-input/filter-names.enum';

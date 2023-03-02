@@ -1,4 +1,4 @@
-import { SalesIndication } from '../../../../../core/store/reducers/transactions/models/sales-indication.enum';
+import { SalesIndication } from '@gq/core/store/reducers/models';
 
 export class Selection {
   id: number;

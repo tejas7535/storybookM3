@@ -7,6 +7,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 
+import { ProcessCaseEffect } from '@gq/core/store/effects';
+import { processCaseReducer } from '@gq/core/store/reducers/process-case/process-case.reducer';
 import { PushModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -15,8 +17,6 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { ViewToggleModule } from '@schaeffler/view-toggle';
 
-import { ProcessCaseEffect } from '../../../core/store/effects/process-case/process-case.effects';
-import { processCaseReducer } from '../../../core/store/reducers/process-case/process-case.reducer';
 import { DialogHeaderModule } from '../../../shared/components/header/dialog-header/dialog-header.module';
 import { SharedDirectivesModule } from '../../../shared/directives/shared-directives.module';
 import { QuotationDetailsTableModule } from '../../quotation-details-table/quotation-details-table.module';

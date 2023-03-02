@@ -83,7 +83,7 @@ import {
   AddQuotationDetailsRequest,
   QuotationIdentifier,
   UpdateQuotationDetail,
-} from '../../reducers/process-case/models';
+} from '../../reducers/models';
 import {
   getAddMaterialRowData,
   getAddQuotationDetailsRequest,

@@ -4,18 +4,18 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, pairwise } from 'rxjs/operators';
 
-import { Store } from '@ngrx/store';
-
 import {
   clearProcessCaseRowData,
   resetAllAutocompleteOptions,
   resetRequestingAutoCompleteDialog,
-} from '../../core/store';
+} from '@gq/core/store/actions';
 import {
   getAddMaterialRowData,
   getQuotationErrorMessage,
   getUpdateLoading,
-} from '../../core/store/selectors';
+} from '@gq/core/store/selectors';
+import { Store } from '@ngrx/store';
+
 import { MaterialTableItem } from '../../shared/models/table';
 
 @Component({

@@ -2,10 +2,10 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSelectChange } from '@angular/material/select';
 
+import { getPLsAndSeries } from '@gq/core/store/actions';
+import { SalesIndication } from '@gq/core/store/reducers/models';
 import { Store } from '@ngrx/store';
 
-import { getPLsAndSeries } from '../../../../core/store';
-import { SalesIndication } from '../../../../core/store/reducers/transactions/models/sales-indication.enum';
 import { PLsSeriesRequest } from '../../../../shared/services/rest-services/search-service/models/pls-series-request.model';
 import { Selection } from './models/selection.model';
 

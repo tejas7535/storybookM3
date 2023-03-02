@@ -1,4 +1,5 @@
-import { SalesIndication } from '../../../../../core/store/reducers/transactions/models/sales-indication.enum';
+import { SalesIndication } from '@gq/core/store/reducers/models';
+
 import { CustomerIds } from '../../../../models/customer/customer-ids.model';
 
 export interface PLsSeriesRequest {

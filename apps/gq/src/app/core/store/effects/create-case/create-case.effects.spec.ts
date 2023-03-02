@@ -1,4 +1,5 @@
 /* eslint-disable max-lines */
+
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -10,7 +11,7 @@ import { translate, TranslocoModule } from '@ngneat/transloco';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { marbles } from 'rxjs-marbles/jest';
+import { marbles } from 'rxjs-marbles';
 
 import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../../../../testing/mocks';
 import { FilterNames } from '../../../../shared/components/autocomplete-input/filter-names.enum';
@@ -55,10 +56,10 @@ import {
   CaseFilterItem,
   CreateCase,
   CreateCaseResponse,
+  PLsAndSeries,
+  SalesIndication,
   SalesOrg,
-} from '../../reducers/create-case/models';
-import { PLsAndSeries } from '../../reducers/create-case/models/pls-and-series.model';
-import { SalesIndication } from '../../reducers/transactions/models/sales-indication.enum';
+} from '../../reducers/models';
 import {
   getAutoSelectMaterial,
   getCaseRowData,

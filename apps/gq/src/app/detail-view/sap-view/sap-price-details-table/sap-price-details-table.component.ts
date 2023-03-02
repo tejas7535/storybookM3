@@ -2,13 +2,13 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { SapPriceConditionDetail } from '@gq/core/store/reducers/models';
 import {
   ColumnState,
   GridReadyEvent,
   SortChangedEvent,
 } from 'ag-grid-community';
 
-import { SapPriceConditionDetail } from '../../../core/store/reducers/sap-price-details/models/sap-price-condition-detail.model';
 import { TableContext } from '../../../process-case-view/quotation-details-table/config/tablecontext.model';
 import { AgGridLocale } from '../../../shared/ag-grid/models/ag-grid-locale.interface';
 import { LocalizationService } from '../../../shared/ag-grid/services/localization.service';

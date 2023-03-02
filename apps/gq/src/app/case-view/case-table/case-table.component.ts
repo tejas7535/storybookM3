@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 
 import { Observable, take } from 'rxjs';
 
+import { deselectCase, selectCase } from '@gq/core/store/actions';
+import { getSelectedCaseIds } from '@gq/core/store/selectors';
 import { Store } from '@ngrx/store';
 import {
   ColDef,
@@ -15,7 +17,6 @@ import {
 } from 'ag-grid-community';
 
 import { AppRoutePath } from '../../app-route-path.enum';
-import { deselectCase, getSelectedCaseIds, selectCase } from '../../core/store';
 import { CaseTableColumnFields } from '../../shared/ag-grid/constants/column-fields.enum';
 import { AgGridLocale } from '../../shared/ag-grid/models/ag-grid-locale.interface';
 import { AgStatusBar } from '../../shared/ag-grid/models/ag-status-bar.model';

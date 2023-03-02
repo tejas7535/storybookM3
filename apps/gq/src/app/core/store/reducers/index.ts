@@ -1,3 +1,5 @@
+export * as models from './models';
+
 import { Params, RouterStateSnapshot } from '@angular/router';
 
 import * as fromRouter from '@ngrx/router-store';

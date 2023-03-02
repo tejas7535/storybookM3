@@ -3,9 +3,9 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 
+import { isManualCase } from '@gq/core/store/selectors';
 import { Store } from '@ngrx/store';
 
-import { isManualCase } from '../../../../../core/store';
 import { ColumnFields } from '../../../../../shared/ag-grid/constants/column-fields.enum';
 import { EditingModalComponent } from '../../../../../shared/components/modal/editing-modal/editing-modal.component';
 import { QuotationStatus } from '../../../../../shared/models';

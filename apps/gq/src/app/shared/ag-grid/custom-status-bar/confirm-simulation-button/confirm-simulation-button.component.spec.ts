@@ -1,10 +1,10 @@
+import { confirmSimulatedQuotation } from '@gq/core/store/actions';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
-import { confirmSimulatedQuotation } from '../../../../core/store';
 import { EVENT_NAMES } from '../../../models';
 import { ConfirmSimulationButtonComponent } from './confirm-simulation-button.component';
 

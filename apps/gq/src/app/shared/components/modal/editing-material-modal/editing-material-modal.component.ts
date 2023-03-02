@@ -13,7 +13,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { Subscription } from 'rxjs';
 
-import { AutoCompleteFacade } from '../../../../../app/core/store';
+import { AutoCompleteFacade } from '@gq/core/store/facades';
+
 import { MaterialColumnFields } from '../../../ag-grid/constants/column-fields.enum';
 import {
   MaterialTableItem,

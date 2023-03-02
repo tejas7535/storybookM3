@@ -3,16 +3,16 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 
-import { Store } from '@ngrx/store';
-import { IStatusPanelParams, RowNode } from 'ag-grid-community';
-
 import {
   getQuotationCurrency,
   getSimulatedQuotation,
   getSimulationModeEnabled,
   userHasGPCRole,
   userHasSQVRole,
-} from '../../../../core/store';
+} from '@gq/core/store/selectors';
+import { Store } from '@ngrx/store';
+import { IStatusPanelParams, RowNode } from 'ag-grid-community';
+
 import { StatusBarModalComponent } from '../../../../shared/components/modal/status-bar-modal/status-bar-modal.component';
 import { SimulatedQuotation, StatusBar } from '../../../models';
 import { QuotationDetail } from '../../../models/quotation-detail';

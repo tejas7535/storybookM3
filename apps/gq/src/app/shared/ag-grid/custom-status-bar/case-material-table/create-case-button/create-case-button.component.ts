@@ -2,14 +2,12 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { createCase } from '@gq/core/store/actions';
+import { getCustomerConditionsValid } from '@gq/core/store/selectors';
 import { Store } from '@ngrx/store';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
-import {
-  createCase,
-  getCustomerConditionsValid,
-} from '../../../../../core/store';
 import {
   CASE_CREATION_TYPES,
   CaseCreationEventParams,

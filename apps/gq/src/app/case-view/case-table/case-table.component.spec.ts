@@ -3,6 +3,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { getSelectedCaseIds } from '@gq/core/store/selectors';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
@@ -21,7 +22,6 @@ import {
   VIEW_CASE_STATE_MOCK,
 } from '../../../testing/mocks';
 import { AppRoutePath } from '../../app-route-path.enum';
-import { getSelectedCaseIds } from '../../core/store';
 import { ColumnHeadersModule } from '../../shared/ag-grid/column-headers/column-headers.module';
 import { CaseTableColumnFields } from '../../shared/ag-grid/constants/column-fields.enum';
 import { CustomStatusBarModule } from '../../shared/ag-grid/custom-status-bar/custom-status-bar.module';

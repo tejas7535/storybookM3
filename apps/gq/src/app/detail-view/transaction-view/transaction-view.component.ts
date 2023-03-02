@@ -3,13 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { TranslocoService } from '@ngneat/transloco';
-import { Store } from '@ngrx/store';
-import { FilterChangedEvent, RowNode } from 'ag-grid-community';
-
-import { hasIdTokenRoles } from '@schaeffler/azure-auth';
-import { Breadcrumb } from '@schaeffler/breadcrumbs';
-
+import { ComparableLinkedTransaction } from '@gq/core/store/reducers/models';
 import {
   getCoefficients,
   getCustomer,
@@ -21,8 +15,14 @@ import {
   getTransactions,
   getTransactionsLoading,
   userHasGPCRole,
-} from '../../core/store';
-import { ComparableLinkedTransaction } from '../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
+} from '@gq/core/store/selectors';
+import { TranslocoService } from '@ngneat/transloco';
+import { Store } from '@ngrx/store';
+import { FilterChangedEvent, RowNode } from 'ag-grid-community';
+
+import { hasIdTokenRoles } from '@schaeffler/azure-auth';
+import { Breadcrumb } from '@schaeffler/breadcrumbs';
+
 import { UserRoles } from '../../shared/constants';
 import { Customer } from '../../shared/models/customer';
 import {

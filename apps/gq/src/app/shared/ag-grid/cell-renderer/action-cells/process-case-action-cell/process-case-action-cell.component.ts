@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 
+import { deleteAddMaterialRowDataItem } from '@gq/core/store/actions';
 import { Store } from '@ngrx/store';
 import { CellClassParams } from 'ag-grid-community';
-
-import { deleteAddMaterialRowDataItem } from '../../../../../core/store/actions';
 
 @Component({
   selector: 'gq-process-case-action-cell',

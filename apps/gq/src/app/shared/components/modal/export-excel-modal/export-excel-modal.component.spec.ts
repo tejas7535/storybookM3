@@ -6,6 +6,7 @@ import { MatRadioModule } from '@angular/material/radio';
 
 import { from, of } from 'rxjs';
 
+import { loadExtendedComparableLinkedTransaction } from '@gq/core/store/actions';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -18,7 +19,6 @@ import {
   EXTENDED_COMPARABLE_LINKED_TRANSACTIONS_STATE_MOCK,
   PROCESS_CASE_STATE_MOCK,
 } from '../../../../../testing/mocks';
-import { loadExtendedComparableLinkedTransaction } from '../../../../core/store/actions/extended-comparable-linked-transactions/extended-comparable-linked-transactions.actions';
 import { DialogHeaderModule } from '../../../components/header/dialog-header/dialog-header.module';
 import { EVENT_NAMES } from '../../../models';
 import { ExportExcel } from './export-excel.enum';

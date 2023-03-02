@@ -22,7 +22,7 @@ import {
   loadSapPriceDetails,
   loadSapPriceDetailsFailure,
   loadSapPriceDetailsSuccess,
-} from '../..';
+} from '../../actions';
 import { SapPriceDetailsEffects } from './sap-price-details.effects';
 
 describe('SapPriceDetailsEffects', () => {

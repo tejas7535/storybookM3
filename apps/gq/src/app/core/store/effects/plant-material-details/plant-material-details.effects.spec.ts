@@ -13,16 +13,14 @@ import {
 } from '../../../../../testing/mocks';
 import { MaterialService } from '../../../../shared/services/rest-services/material-service/material.service';
 import {
-  getSelectedQuotationDetail,
-  loadQuotationSuccess,
-  setSelectedQuotationDetail,
-} from '../..';
-import {
   loadPlantMaterialDetails,
   loadPlantMaterialDetailsFailure,
   loadPlantMaterialDetailsSuccess,
+  loadQuotationSuccess,
   resetPlantMaterialDetails,
-} from '../../actions/plant-material-details/plant-material-details.actions';
+  setSelectedQuotationDetail,
+} from '../../actions';
+import { getSelectedQuotationDetail } from '../../selectors';
 import { PlantMaterialDetailsEffects } from './plant-material-details.effects';
 
 describe('PlantMaterialDetailsEffects', () => {

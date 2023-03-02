@@ -19,17 +19,17 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { combineLatest, map, Observable, pairwise, Subscription } from 'rxjs';
 
-import { translate } from '@ngneat/transloco';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
-import { Store } from '@ngrx/store';
-
+import { updateQuotationDetails } from '@gq/core/store/actions';
+import { UpdateQuotationDetail } from '@gq/core/store/reducers/models';
 import {
   getQuotationCurrency,
   getQuotationErrorMessage,
   getUpdateLoading,
-  updateQuotationDetails,
-} from '../../../../core/store';
-import { UpdateQuotationDetail } from '../../../../core/store/reducers/process-case/models';
+} from '@gq/core/store/selectors';
+import { translate } from '@ngneat/transloco';
+import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+import { Store } from '@ngrx/store';
+
 import { ColumnFields } from '../../../ag-grid/constants/column-fields.enum';
 import {
   getCurrencyRegex,

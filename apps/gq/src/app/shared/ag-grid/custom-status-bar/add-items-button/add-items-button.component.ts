@@ -3,12 +3,12 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 
-import { Store } from '@ngrx/store';
-
 import {
   getIsQuotationActive,
   getSimulationModeEnabled,
-} from '../../../../core/store';
+} from '@gq/core/store/selectors';
+import { Store } from '@ngrx/store';
+
 import { AddMaterialDialogComponent } from '../../../../process-case-view/add-material-dialog/add-material-dialog.component';
 
 @Component({

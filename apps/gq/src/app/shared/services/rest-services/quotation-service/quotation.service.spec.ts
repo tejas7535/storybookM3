@@ -3,6 +3,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 
+import { CreateCase, SalesIndication } from '@gq/core/store/reducers/models';
 import {
   createServiceFactory,
   HttpMethod,
@@ -10,8 +11,6 @@ import {
 } from '@ngneat/spectator/jest';
 
 import { CUSTOMER_MOCK } from '../../../../../testing/mocks';
-import { CreateCase } from '../../../../core/store/reducers/create-case/models';
-import { SalesIndication } from '../../../../core/store/reducers/transactions/models/sales-indication.enum';
 import { ApiVersion, QuotationStatus } from '../../../models';
 import { CreateCustomerCase } from '../search-service/models/create-customer-case.model';
 import { QuotationPaths } from './models/quotation-paths.enum';

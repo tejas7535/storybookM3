@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { MaterialStock } from '../../../core/store/reducers/material-stock/models/material-stock.model';
+import { MaterialStock } from '@gq/core/store/reducers/models';
 
 @Component({
   selector: 'gq-detail-view-header-content',

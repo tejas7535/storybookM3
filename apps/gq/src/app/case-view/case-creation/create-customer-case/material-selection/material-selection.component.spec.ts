@@ -2,13 +2,13 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 
+import { getPLsAndSeries } from '@gq/core/store/actions';
+import { SalesIndication } from '@gq/core/store/reducers/models';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { getPLsAndSeries } from '../../../../core/store';
-import { SalesIndication } from '../../../../core/store/reducers/transactions/models/sales-indication.enum';
 import { PLsSeriesRequest } from '../../../../shared/services/rest-services/search-service/models/pls-series-request.model';
 import { MaterialSelectionComponent } from './material-selection.component';
 

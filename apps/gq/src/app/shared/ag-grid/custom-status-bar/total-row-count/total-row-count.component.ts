@@ -2,10 +2,9 @@ import { Component } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { getSimulationModeEnabled } from '@gq/core/store/selectors';
 import { Store } from '@ngrx/store';
 import { IStatusPanelParams } from 'ag-grid-community';
-
-import { getSimulationModeEnabled } from '../../../../core/store';
 
 @Component({
   selector: 'gq-total-row-count',

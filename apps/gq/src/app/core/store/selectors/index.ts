@@ -1,5 +1,6 @@
 export * from './create-case/create-case.selector';
 export * from './currency/currency.selector';
+export * from './extended-comparable-linked-transactions/extended-comparable-linked-transactions.selector';
 export * from './health-check/health-check.selector';
 export * from './material-comparable-costs/material-comparable-costs.selector';
 export * from './material-cost-details/material-cost-details.selectors';

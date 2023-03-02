@@ -4,6 +4,17 @@ import { Router } from '@angular/router';
 
 import { map, Observable, Subject, take, takeUntil } from 'rxjs';
 
+import {
+  addSimulatedQuotation,
+  deselectQuotationDetail,
+  removeSimulatedQuotationDetail,
+  resetSimulatedQuotation,
+  selectQuotationDetail,
+} from '@gq/core/store/actions';
+import {
+  getColumnDefsForRoles,
+  getSelectedQuotationDetailIds,
+} from '@gq/core/store/selectors';
 import { Store } from '@ngrx/store';
 import {
   ColDef,
@@ -25,15 +36,6 @@ import {
 } from 'ag-grid-community';
 
 import { AppRoutePath } from '../../app-route-path.enum';
-import {
-  addSimulatedQuotation,
-  deselectQuotationDetail,
-  getColumnDefsForRoles,
-  getSelectedQuotationDetailIds,
-  removeSimulatedQuotationDetail,
-  resetSimulatedQuotation,
-  selectQuotationDetail,
-} from '../../core/store';
 import { PriceSourceOptions } from '../../shared/ag-grid/column-headers/extended-column-header/models/price-source-options.enum';
 import { ColumnFields } from '../../shared/ag-grid/constants/column-fields.enum';
 import { excelStyles } from '../../shared/ag-grid/custom-status-bar/export-to-excel-button/excel-styles.constants';

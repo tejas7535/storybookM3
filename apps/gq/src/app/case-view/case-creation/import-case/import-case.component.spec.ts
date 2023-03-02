@@ -2,6 +2,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
+import {
+  autocomplete,
+  importCase,
+  selectAutocompleteOption,
+  unselectAutocompleteOptions,
+} from '@gq/core/store/actions';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -11,12 +17,6 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CREATE_CASE_STORE_STATE_MOCK } from '../../../../testing/mocks';
-import {
-  autocomplete,
-  importCase,
-  selectAutocompleteOption,
-  unselectAutocompleteOptions,
-} from '../../../core/store';
 import { AutocompleteInputModule } from '../../../shared/components/autocomplete-input/autocomplete-input.module';
 import { FilterNames } from '../../../shared/components/autocomplete-input/filter-names.enum';
 import { DialogHeaderModule } from '../../../shared/components/header/dialog-header/dialog-header.module';

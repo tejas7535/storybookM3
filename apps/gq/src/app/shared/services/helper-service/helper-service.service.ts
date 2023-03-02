@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+import { PLsAndSeries } from '@gq/core/store/reducers/models';
 import {
   TranslocoCurrencyPipe,
   TranslocoDatePipe,
@@ -9,7 +10,6 @@ import {
 import { StatusPanelDef } from 'ag-grid-community';
 import { ColDef } from 'ag-grid-enterprise';
 
-import { PLsAndSeries } from '../../../core/store/reducers/create-case/models/pls-and-series.model';
 import { CreateCaseActionCellComponent } from '../../ag-grid/cell-renderer/action-cells/create-case-action-cell/create-case-action-cell.component';
 import { CreateCaseActionHeaderComponent } from '../../ag-grid/cell-renderer/action-cells/create-case-action-header/create-case-action-header.component';
 import { ProcessCaseActionCellComponent } from '../../ag-grid/cell-renderer/action-cells/process-case-action-cell/process-case-action-cell.component';

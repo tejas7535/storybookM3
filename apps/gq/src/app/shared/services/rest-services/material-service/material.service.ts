@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 
 import { mergeMap, Observable, of } from 'rxjs';
 
-import { MaterialStock } from '../../../../core/store/reducers/material-stock/models/material-stock.model';
+import { MaterialStock } from '@gq/core/store/reducers/models';
+
 import { ApiVersion } from '../../../models';
 import { PlantMaterialDetail } from '../../../models/quotation-detail';
 import { MaterialTableItem, MaterialValidation } from '../../../models/table';

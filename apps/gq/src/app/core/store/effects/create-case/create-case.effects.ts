@@ -49,7 +49,7 @@ import {
   CreateCase,
   CreateCaseResponse,
   SalesOrg,
-} from '../../reducers/create-case/models';
+} from '../../reducers/models';
 import {
   getAutoSelectMaterial,
   getCaseRowData,

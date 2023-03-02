@@ -2,11 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { map, Observable } from 'rxjs';
 
-import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
-import { Store } from '@ngrx/store';
-
-import { ViewToggle } from '@schaeffler/view-toggle';
-
+import { loadCases } from '@gq/core/store/actions';
 import {
   getDeleteLoading,
   getDisplayStatus,
@@ -14,10 +10,14 @@ import {
   getQuotationsLoading,
   getStatusBarForQuotationStatus,
   getViewToggles,
-  loadCases,
-} from '../core/store';
+} from '@gq/core/store/selectors';
+import { Store } from '@ngrx/store';
+
+import { ViewToggle } from '@schaeffler/view-toggle';
+
 import { AgStatusBar } from '../shared/ag-grid/models/ag-status-bar.model';
 import { QuotationStatus, ViewQuotation } from '../shared/models/quotation';
+import { FeatureToggleConfigService } from '../shared/services/feature-toggle/feature-toggle-config.service';
 
 @Component({
   selector: 'gq-case-view',

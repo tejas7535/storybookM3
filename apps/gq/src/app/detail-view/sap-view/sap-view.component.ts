@@ -2,11 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { map, Observable } from 'rxjs';
 
-import { TranslocoService } from '@ngneat/transloco';
-import { Store } from '@ngrx/store';
-
-import { Breadcrumb } from '@schaeffler/breadcrumbs';
-
+import { SapPriceConditionDetail } from '@gq/core/store/reducers/models';
 import {
   getCustomer,
   getDetailViewQueryParams,
@@ -16,8 +12,12 @@ import {
   getSapPriceDetailsLoading,
   getSelectedQuotationDetail,
   getTableContextQuotationForCustomerCurrency,
-} from '../../core/store';
-import { SapPriceConditionDetail } from '../../core/store/reducers/sap-price-details/models/sap-price-condition-detail.model';
+} from '@gq/core/store/selectors';
+import { TranslocoService } from '@ngneat/transloco';
+import { Store } from '@ngrx/store';
+
+import { Breadcrumb } from '@schaeffler/breadcrumbs';
+
 import { TableContext } from '../../process-case-view/quotation-details-table/config/tablecontext.model';
 import { Customer } from '../../shared/models/customer';
 import { QuotationDetail } from '../../shared/models/quotation-detail';

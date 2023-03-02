@@ -6,6 +6,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { of } from 'rxjs';
 
+import { refreshSapPricing } from '@gq/core/store/actions';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { translate } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
@@ -15,7 +16,6 @@ import { MockDirective } from 'ng-mocks';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { refreshSapPricing } from '../../../../core/store';
 import { HideIfQuotationHasStatusDirective } from '../../../directives/hide-if-quotation-has-status/hide-if-quotation-has-status.directive';
 import { EVENT_NAMES } from '../../../models';
 import { RefreshSapPriceComponent } from './refresh-sap-price.component';

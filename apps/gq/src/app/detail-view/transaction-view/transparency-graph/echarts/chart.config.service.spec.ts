@@ -1,3 +1,4 @@
+import { SalesIndication } from '@gq/core/store/reducers/models';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 import { SeriesOption } from 'echarts';
@@ -7,7 +8,6 @@ import {
   CUSTOMER_MOCK,
   DATA_POINT_MOCK,
 } from '../../../../../testing/mocks';
-import { SalesIndication } from '../../../../core/store/reducers/transactions/models/sales-indication.enum';
 import { HelperService } from '../../../../shared/services/helper-service/helper-service.service';
 import { PriceService } from '../../../../shared/services/price-service/price.service';
 import { DataPoint } from '../models/data-point.model';

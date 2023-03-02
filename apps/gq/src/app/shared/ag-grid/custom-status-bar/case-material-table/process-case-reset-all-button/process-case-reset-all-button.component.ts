@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 
+import { clearProcessCaseRowData } from '@gq/core/store/actions';
 import { Store } from '@ngrx/store';
-
-import { clearProcessCaseRowData } from '../../../../../core/store';
 
 @Component({
   selector: 'gq-process-case-reset-all-button',

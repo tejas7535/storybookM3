@@ -3,14 +3,21 @@ import { MatDialogRef } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 
-import { TranslocoService } from '@ngneat/transloco';
-import { Store } from '@ngrx/store';
-
-import { ApplicationInsightsService } from '@schaeffler/application-insights';
-
 import {
   autocomplete,
   createCustomerCase,
+  resetCustomerFilter,
+  resetPLsAndSeries,
+  resetProductLineAndSeries,
+  selectAutocompleteOption,
+  unselectAutocompleteOptions,
+} from '@gq/core/store/actions';
+import {
+  CaseFilterItem,
+  PLsAndSeries,
+  SalesOrg,
+} from '@gq/core/store/reducers/models';
+import {
   getCaseAutocompleteLoading,
   getCaseCustomer,
   getCreateCaseLoading,
@@ -19,17 +26,12 @@ import {
   getProductLinesAndSeriesLoading,
   getSelectedCustomerId,
   getSelectedSalesOrg,
-  resetCustomerFilter,
-  resetPLsAndSeries,
-  resetProductLineAndSeries,
-  selectAutocompleteOption,
-  unselectAutocompleteOptions,
-} from '../../../core/store';
-import {
-  CaseFilterItem,
-  SalesOrg,
-} from '../../../core/store/reducers/create-case/models';
-import { PLsAndSeries } from '../../../core/store/reducers/create-case/models/pls-and-series.model';
+} from '@gq/core/store/selectors';
+import { TranslocoService } from '@ngneat/transloco';
+import { Store } from '@ngrx/store';
+
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+
 import { AutocompleteInputComponent } from '../../../shared/components/autocomplete-input/autocomplete-input.component';
 import { FilterNames } from '../../../shared/components/autocomplete-input/filter-names.enum';
 import {

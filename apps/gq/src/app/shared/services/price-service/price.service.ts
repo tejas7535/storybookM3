@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 
-import { ExtendedComparableLinkedTransaction } from '../../../core/store/reducers/extended-comparable-linked-transactions/models/extended-comparable-linked-transaction';
-import { SapConditionType } from '../../../core/store/reducers/sap-price-details/models/';
-import { ComparableLinkedTransaction } from '../../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
+import {
+  ComparableLinkedTransaction,
+  ExtendedComparableLinkedTransaction,
+  SapConditionType,
+} from '@gq/core/store/reducers/models';
+
 import { ColumnFields } from '../../ag-grid/constants/column-fields.enum';
 import { KpiValue } from '../../components/modal/editing-modal/kpi-value.model';
 import { StatusBarProperties } from '../../models';

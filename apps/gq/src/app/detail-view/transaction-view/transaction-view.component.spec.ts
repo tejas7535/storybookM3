@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { BehaviorSubject } from 'rxjs';
 
+import { getSelectedQuotationDetail } from '@gq/core/store/selectors';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -28,7 +29,6 @@ import {
   PROCESS_CASE_STATE_MOCK,
   TRANSACTIONS_STATE_MOCK,
 } from '../../../testing/mocks/state';
-import { getSelectedQuotationDetail } from '../../core/store';
 import { MaterialPriceHeaderContentModule } from '../../shared/components/header/material-price-header-content/material-price-header-content.module';
 import { SyncStatusCustomerInfoHeaderModule } from '../../shared/components/header/sync-status-customer-info-header/sync-status-customer-info-header.module';
 import { HelperService } from '../../shared/services/helper-service/helper-service.service';

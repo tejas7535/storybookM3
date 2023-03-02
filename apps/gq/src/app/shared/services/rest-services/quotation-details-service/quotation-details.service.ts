@@ -3,16 +3,15 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { ExtendedComparableLinkedTransaction } from '../../../../core/store/reducers/extended-comparable-linked-transactions/models/extended-comparable-linked-transaction';
 import {
   AddQuotationDetailsRequest,
-  UpdateQuotationDetail,
-} from '../../../../core/store/reducers/process-case/models';
-import {
+  ComparableLinkedTransaction,
+  ExtendedComparableLinkedTransaction,
   ExtendedSapPriceConditionDetail,
   SapPriceConditionDetail,
-} from '../../../../core/store/reducers/sap-price-details/models/sap-price-condition-detail.model';
-import { ComparableLinkedTransaction } from '../../../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
+  UpdateQuotationDetail,
+} from '@gq/core/store/reducers/models';
+
 import { BYPASS_DEFAULT_ERROR_HANDLING } from '../../../http/http-error.interceptor';
 import { ApiVersion, Quotation } from '../../../models';
 import { MaterialComparableCost } from '../../../models/quotation-detail/material-comparable-cost.model';

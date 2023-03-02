@@ -13,16 +13,14 @@ import {
 import { MATERIAL_STOCK_MOCK } from '../../../../../testing/mocks/models/material-stock.mock';
 import { MaterialService } from '../../../../shared/services/rest-services/material-service/material.service';
 import {
-  getSelectedQuotationDetail,
-  loadQuotationSuccess,
-  setSelectedQuotationDetail,
-} from '../..';
-import {
   loadMaterialStock,
   loadMaterialStockFailure,
   loadMaterialStockSuccess,
+  loadQuotationSuccess,
   resetMaterialStock,
-} from '../../actions/material-stock/material-stock.actions';
+  setSelectedQuotationDetail,
+} from '../../actions';
+import { getSelectedQuotationDetail } from '../../selectors';
 import { MaterialStockEffects } from './material-stock.effects';
 
 describe('MaterialStockEffects', () => {

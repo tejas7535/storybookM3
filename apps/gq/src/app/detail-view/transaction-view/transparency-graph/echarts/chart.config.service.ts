@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
 
+import {
+  ComparableLinkedTransaction,
+  SalesIndication,
+} from '@gq/core/store/reducers/models';
 import { translate } from '@ngneat/transloco';
 import {
   LegendComponentOption,
@@ -9,8 +13,6 @@ import {
   YAXisComponentOption,
 } from 'echarts';
 
-import { ComparableLinkedTransaction } from '../../../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
-import { SalesIndication } from '../../../../core/store/reducers/transactions/models/sales-indication.enum';
 import { Customer } from '../../../../shared/models/customer';
 import { HelperService } from '../../../../shared/services/helper-service/helper-service.service';
 import { PriceService } from '../../../../shared/services/price-service/price.service';

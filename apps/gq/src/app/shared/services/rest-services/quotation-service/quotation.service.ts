@@ -4,10 +4,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import {
-  CreateCase,
-  CreateCaseResponse,
-} from '../../../../core/store/reducers/create-case/models';
+import { CreateCase, CreateCaseResponse } from '@gq/core/store/reducers/models';
+
 import { QuotationSearchResult } from '../../../../shared/models/quotation';
 import { ApiVersion, Quotation } from '../../../models';
 import { QuotationStatus } from '../../../models/quotation/quotation-status.enum';

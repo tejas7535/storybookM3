@@ -8,15 +8,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Observable, Subscription } from 'rxjs';
 
+import { addMaterialRowDataItem, addRowDataItem } from '@gq/core/store/actions';
+import { AutoCompleteFacade } from '@gq/core/store/facades';
+import { CaseFilterItem } from '@gq/core/store/reducers/models';
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
-import {
-  addMaterialRowDataItem,
-  addRowDataItem,
-  AutoCompleteFacade,
-} from '../../../../core/store';
-import { CaseFilterItem } from '../../../../core/store/reducers/create-case/models';
 import { Keyboard } from '../../../models';
 import { MaterialTableItem } from '../../../models/table/material-table-item-model';
 import { ValidationDescription } from '../../../models/table/validation-description.enum';

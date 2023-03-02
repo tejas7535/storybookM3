@@ -2,14 +2,14 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+import {
+  pasteRowDataItems,
+  pasteRowDataItemsToAddMaterial,
+} from '@gq/core/store/actions';
 import { translate } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
 
-import {
-  pasteRowDataItems,
-  pasteRowDataItemsToAddMaterial,
-} from '../../../core/store';
 import { LOCALE_DE } from '../../constants';
 import { Keyboard } from '../../models';
 import { MaterialTableItem, ValidationDescription } from '../../models/table';

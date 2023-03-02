@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { getCustomer } from '@gq/core/store/selectors';
 import { Store } from '@ngrx/store';
 
-import { getCustomer } from '../../../core/store';
 import { Customer } from '../../../shared/models/customer';
 import { HelperService } from '../../../shared/services/helper-service/helper-service.service';
 

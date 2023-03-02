@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
 
+import { ProcessCaseEffect } from '@gq/core/store/effects';
+import { processCaseReducer } from '@gq/core/store/reducers/process-case/process-case.reducer';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
@@ -16,8 +18,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SyncStatusCustomerInfoHeaderModule } from '../../app/shared/components/header/sync-status-customer-info-header/sync-status-customer-info-header.module';
 import { TabsHeaderModule } from '../../app/shared/components/tabs-header/tabs-header.module';
-import { ProcessCaseEffect } from '../core/store/effects/process-case/process-case.effects';
-import { processCaseReducer } from '../core/store/reducers/process-case/process-case.reducer';
 import { ExportExcelModalModule } from '../shared/components/modal/export-excel-modal/export-excel-modal.module';
 import { SharedPipesModule } from '../shared/pipes/shared-pipes.module';
 import { AddMaterialDialogModule } from './add-material-dialog/add-material-dialog.module';

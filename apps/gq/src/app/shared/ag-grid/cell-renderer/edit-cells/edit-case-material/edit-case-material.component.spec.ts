@@ -5,18 +5,18 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { of } from 'rxjs';
 
+import {
+  resetAutocompleteMaterials,
+  setRequestingAutoCompleteDialog,
+  updateMaterialRowDataItem,
+  updateRowDataItem,
+} from '@gq/core/store/actions';
 import { Spectator, SpyObject } from '@ngneat/spectator';
 import { createComponentFactory } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 import { ICellRendererParams } from 'ag-grid-community';
 
 import { MATERIAL_TABLE_ITEM_MOCK } from '../../../../../../testing/mocks';
-import {
-  resetAutocompleteMaterials,
-  setRequestingAutoCompleteDialog,
-  updateMaterialRowDataItem,
-  updateRowDataItem,
-} from '../../../../../core/store';
 import { AutocompleteRequestDialog } from '../../../../components/autocomplete-input/autocomplete-request-dialog.enum';
 import { EditingMaterialModalComponent } from '../../../../components/modal/editing-material-modal/editing-material-modal.component';
 import { MaterialColumnFields } from '../../../constants/column-fields.enum';

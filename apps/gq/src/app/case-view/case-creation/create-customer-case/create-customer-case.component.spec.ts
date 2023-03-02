@@ -6,6 +6,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 
+import {
+  autocomplete,
+  resetCustomerFilter,
+  resetPLsAndSeries,
+  resetProductLineAndSeries,
+  selectAutocompleteOption,
+  unselectAutocompleteOptions,
+} from '@gq/core/store/actions';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -15,14 +23,6 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { VIEW_CASE_STATE_MOCK } from '../../../../testing/mocks';
-import {
-  autocomplete,
-  resetCustomerFilter,
-  resetPLsAndSeries,
-  resetProductLineAndSeries,
-  selectAutocompleteOption,
-  unselectAutocompleteOptions,
-} from '../../../core/store';
 import { AutocompleteInputModule } from '../../../shared/components/autocomplete-input/autocomplete-input.module';
 import { FilterNames } from '../../../shared/components/autocomplete-input/filter-names.enum';
 import { DialogHeaderModule } from '../../../shared/components/header/dialog-header/dialog-header.module';

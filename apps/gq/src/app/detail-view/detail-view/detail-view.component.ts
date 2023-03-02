@@ -3,11 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { filter, map, NEVER, Observable } from 'rxjs';
 
-import { Store } from '@ngrx/store';
-
-import { Breadcrumb } from '@schaeffler/breadcrumbs';
-
-import { AppRoutePath } from '../../app-route-path.enum';
+import { MaterialStock } from '@gq/core/store/reducers/models';
 import {
   getDetailViewQueryParams,
   getMaterialStock,
@@ -16,8 +12,12 @@ import {
   getQuotation,
   getQuotationLoading,
   getSelectedQuotationDetail,
-} from '../../core/store';
-import { MaterialStock } from '../../core/store/reducers/material-stock/models/material-stock.model';
+} from '@gq/core/store/selectors';
+import { Store } from '@ngrx/store';
+
+import { Breadcrumb } from '@schaeffler/breadcrumbs';
+
+import { AppRoutePath } from '../../app-route-path.enum';
 import { Quotation } from '../../shared/models';
 import {
   PlantMaterialDetail,

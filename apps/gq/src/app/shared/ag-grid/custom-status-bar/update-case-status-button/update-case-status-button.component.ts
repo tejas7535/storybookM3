@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
+import { updateCaseStatus } from '@gq/core/store/actions';
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
-import { updateCaseStatus } from '../../../../core/store';
 import { ConfirmationModalComponent } from '../../../components/modal/confirmation-modal/confirmation-modal.component';
 import { ConfirmationModalData } from '../../../components/modal/confirmation-modal/models/confirmation-modal-data.model';
 import { IdValue } from '../../../components/modal/confirmation-modal/models/id-value.model';

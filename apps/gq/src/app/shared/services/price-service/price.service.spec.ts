@@ -1,13 +1,14 @@
 import {
+  SapConditionType,
+  SapPriceConditionDetail,
+} from '@gq/core/store/reducers/models';
+
+import {
   COMPARABLE_LINKED_TRANSACTION_MOCK,
   EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK,
   QUOTATION_DETAIL_MOCK,
   QUOTATION_DETAILS_MOCK,
 } from '../../../../testing/mocks';
-import {
-  SapConditionType,
-  SapPriceConditionDetail,
-} from '../../../core/store/reducers/sap-price-details/models';
 import { ColumnFields } from '../../ag-grid/constants/column-fields.enum';
 import { KpiValue } from '../../components/modal/editing-modal/kpi-value.model';
 import { StatusBarProperties } from '../../models';

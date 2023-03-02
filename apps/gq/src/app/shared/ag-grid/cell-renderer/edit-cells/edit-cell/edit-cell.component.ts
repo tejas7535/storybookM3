@@ -3,12 +3,12 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { distinctUntilChanged, Observable } from 'rxjs';
 
+import { getSimulatedQuotationDetailByItemId } from '@gq/core/store/selectors';
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 
-import { getSimulatedQuotationDetailByItemId } from '../../../../../core/store';
 import { EditingModalComponent } from '../../../../components/modal/editing-modal/editing-modal.component';
 import { QuotationStatus } from '../../../../models';
 import { QuotationDetail } from '../../../../models/quotation-detail';

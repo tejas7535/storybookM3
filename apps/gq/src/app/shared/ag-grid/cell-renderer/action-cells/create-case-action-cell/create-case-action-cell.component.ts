@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 
+import { deleteRowDataItem } from '@gq/core/store/actions';
 import { Store } from '@ngrx/store';
 import { CellClassParams } from 'ag-grid-community';
-
-import { deleteRowDataItem } from '../../../../../core/store/actions';
 
 @Component({
   selector: 'gq-create-case-action-cell',

@@ -4,6 +4,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { updateQuotationDetails } from '@gq/core/store/actions';
+import { UpdateQuotationDetail } from '@gq/core/store/reducers/models';
 import {
   createComponentFactory,
   mockProvider,
@@ -23,8 +25,6 @@ import {
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
-import { updateQuotationDetails } from '../../../../core/store';
-import { UpdateQuotationDetail } from '../../../../core/store/reducers/process-case/models';
 import { ColumnFields } from '../../../ag-grid/constants/column-fields.enum';
 import { LOCALE_DE, LOCALE_EN } from '../../../constants';
 import { PriceSource } from '../../../models/quotation-detail';

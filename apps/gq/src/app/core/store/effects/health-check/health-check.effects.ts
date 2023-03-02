@@ -12,7 +12,7 @@ import {
   pingHealthCheck,
   pingHealthCheckFailure,
   pingHealthCheckSuccess,
-} from '../../actions/health-check/health-check.actions';
+} from '../../actions';
 
 @Injectable()
 export class HealthCheckEffects implements OnInitEffects {

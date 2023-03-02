@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { getAllRoles } from '@gq/core/store/selectors';
 import { Store } from '@ngrx/store';
 
-import { getAllRoles } from '../../../../core/store';
 import { RoleGroup } from '../../../models/role-group.model';
 
 @Component({

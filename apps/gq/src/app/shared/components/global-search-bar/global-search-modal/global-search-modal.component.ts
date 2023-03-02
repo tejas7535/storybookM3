@@ -5,8 +5,9 @@ import { Params, Router } from '@angular/router';
 
 import { debounce, EMPTY, Subject, take, takeUntil, tap, timer } from 'rxjs';
 
+import { AutoCompleteFacade } from '@gq/core/store/facades';
+
 import { AppRoutePath } from '../../../../app-route-path.enum';
-import { AutoCompleteFacade } from '../../../../core/store';
 import { ColumnFields } from '../../../ag-grid/constants/column-fields.enum';
 import { FILTER_PARAM_INDICATOR } from '../../../constants';
 import { QuotationSearchResult } from '../../../models/quotation';

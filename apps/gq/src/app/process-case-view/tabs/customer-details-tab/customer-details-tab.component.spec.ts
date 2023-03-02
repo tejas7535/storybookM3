@@ -2,6 +2,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { getCustomer } from '@gq/core/store/selectors';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -15,7 +16,6 @@ import {
   CUSTOMER_MOCK,
   PROCESS_CASE_STATE_MOCK,
 } from '../../../../testing/mocks';
-import { getCustomer } from '../../../core/store';
 import { CustomStatusBarModule } from '../../../shared/ag-grid/custom-status-bar/custom-status-bar.module';
 import { InputTableModule } from '../../../shared/components/case-material/input-table/input-table.module';
 import { HorizontalDividerModule } from '../../../shared/components/horizontal-divider/horizontal-divider.module';

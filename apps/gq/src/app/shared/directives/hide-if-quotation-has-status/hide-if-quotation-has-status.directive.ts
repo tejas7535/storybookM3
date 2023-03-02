@@ -9,9 +9,9 @@ import {
 
 import { distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 
+import { getQuotationStatus } from '@gq/core/store/selectors';
 import { Store } from '@ngrx/store';
 
-import { getQuotationStatus } from '../../../core/store';
 import { QuotationStatus } from '../../models';
 
 @Directive({

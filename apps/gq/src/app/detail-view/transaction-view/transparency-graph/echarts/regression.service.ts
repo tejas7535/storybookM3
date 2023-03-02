@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { ComparableLinkedTransaction } from '../../../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
+import { ComparableLinkedTransaction } from '@gq/core/store/reducers/models';
+
 import { Coefficients } from '../../../../shared/models/quotation-detail';
 
 @Injectable({

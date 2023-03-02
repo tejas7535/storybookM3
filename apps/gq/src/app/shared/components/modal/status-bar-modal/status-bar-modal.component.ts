@@ -3,13 +3,13 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 
-import { Store } from '@ngrx/store';
-
 import {
   getQuotationCurrency,
   userHasGPCRole,
   userHasSQVRole,
-} from '../../../../core/store';
+} from '@gq/core/store/selectors';
+import { Store } from '@ngrx/store';
+
 import { StatusBar } from '../../../models';
 import { EditingModalComponent } from '../editing-modal/editing-modal.component';
 

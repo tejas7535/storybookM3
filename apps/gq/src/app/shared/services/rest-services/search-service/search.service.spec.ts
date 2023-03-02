@@ -4,15 +4,17 @@ import {
 } from '@angular/common/http/testing';
 
 import {
+  CaseFilterItem,
+  QuotationIdentifier,
+  SalesIndication,
+} from '@gq/core/store/reducers/models';
+import {
   createServiceFactory,
   HttpMethod,
   SpectatorService,
 } from '@ngneat/spectator/jest';
 
 import { CUSTOMER_MOCK } from '../../../../../testing/mocks';
-import { CaseFilterItem } from '../../../../core/store/reducers/create-case/models';
-import { QuotationIdentifier } from '../../../../core/store/reducers/process-case/models';
-import { SalesIndication } from '../../../../core/store/reducers/transactions/models/sales-indication.enum';
 import { FilterNames } from '../../../components/autocomplete-input/filter-names.enum';
 import { ApiVersion } from '../../../models';
 import { AutocompleteSearch } from '../../../models/search';

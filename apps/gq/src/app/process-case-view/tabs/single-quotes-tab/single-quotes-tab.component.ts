@@ -4,12 +4,12 @@ import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 
 import { map, Observable, take } from 'rxjs';
 
+import { getQuotation, getUpdateLoading } from '@gq/core/store/selectors';
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { ViewToggle } from '@schaeffler/view-toggle';
 
-import { getQuotation, getUpdateLoading } from '../../../core/store';
 import { FILTER_PARAM_INDICATOR } from '../../../shared/constants';
 import { Quotation } from '../../../shared/models';
 import { AgGridStateService } from '../../../shared/services/ag-grid-state.service/ag-grid-state.service';

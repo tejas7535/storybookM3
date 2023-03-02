@@ -2,15 +2,13 @@ import { Component } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { confirmSimulatedQuotation } from '@gq/core/store/actions';
+import { getSimulationModeEnabled } from '@gq/core/store/selectors';
 import { Store } from '@ngrx/store';
 import { IStatusPanelParams } from 'ag-grid-community';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
-import {
-  confirmSimulatedQuotation,
-  getSimulationModeEnabled,
-} from '../../../../core/store';
 import { EVENT_NAMES, MassSimulationParams } from '../../../models';
 
 @Component({

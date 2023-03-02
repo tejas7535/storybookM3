@@ -4,6 +4,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { getQuotation, getUpdateLoading } from '@gq/core/store/selectors';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -18,7 +19,6 @@ import {
   PROCESS_CASE_STATE_MOCK,
   QUOTATION_MOCK,
 } from '../../../../testing/mocks';
-import { getQuotation, getUpdateLoading } from '../../../core/store';
 import { CustomStatusBarModule } from '../../../shared/ag-grid/custom-status-bar/custom-status-bar.module';
 import { InputTableModule } from '../../../shared/components/case-material/input-table/input-table.module';
 import { SharedDirectivesModule } from '../../../shared/directives/shared-directives.module';

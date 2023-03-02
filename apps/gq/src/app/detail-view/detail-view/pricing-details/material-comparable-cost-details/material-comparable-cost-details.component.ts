@@ -2,9 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { getMaterialComparableCosts } from '@gq/core/store/selectors';
 import { Store } from '@ngrx/store';
 
-import { getMaterialComparableCosts } from '../../../../core/store';
 import { MaterialComparableCost } from '../../../../shared/models/quotation-detail/material-comparable-cost.model';
 
 @Component({

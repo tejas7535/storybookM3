@@ -4,19 +4,19 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, pairwise } from 'rxjs/operators';
 
+import {
+  loadExtendedComparableLinkedTransaction,
+  loadExtendedSapPriceConditionDetails,
+} from '@gq/core/store/actions';
+import {
+  getExtendedComparableLinkedTransactionsErrorMessage,
+  getExtendedComparableLinkedTransactionsLoading,
+  getGqId,
+} from '@gq/core/store/selectors';
 import { Store } from '@ngrx/store';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
-import {
-  getGqId,
-  loadExtendedSapPriceConditionDetails,
-} from '../../../../core/store';
-import { loadExtendedComparableLinkedTransaction } from '../../../../core/store/actions/extended-comparable-linked-transactions/extended-comparable-linked-transactions.actions';
-import {
-  getExtendedComparableLinkedTransactionsErrorMessage,
-  getExtendedComparableLinkedTransactionsLoading,
-} from '../../../../core/store/selectors/extended-comparable-linked-transactions/extended-comparable-linked-transactions.selector';
 import { EVENT_NAMES, ExcelDonwloadParams } from '../../../models';
 import { ExportExcel } from './export-excel.enum';
 

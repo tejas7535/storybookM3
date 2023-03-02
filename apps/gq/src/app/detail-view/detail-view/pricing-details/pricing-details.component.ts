@@ -2,8 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { Store } from '@ngrx/store';
-
 import {
   getMaterialComparableCostsLoading,
   getMaterialCostDetails,
@@ -11,12 +9,13 @@ import {
   getMaterialSalesOrgLoading,
   getPlantMaterialDetailsLoading,
   getQuotationCurrency,
-} from '../../../core/store';
+} from '@gq/core/store/selectors';
 import {
   MaterialCostDetails,
   PlantMaterialDetail,
   QuotationDetail,
-} from '../../../shared/models/quotation-detail';
+} from '@gq/shared/models/quotation-detail';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'gq-pricing-details',

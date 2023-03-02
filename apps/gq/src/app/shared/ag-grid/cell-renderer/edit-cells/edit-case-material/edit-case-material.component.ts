@@ -4,16 +4,16 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 
-import { Store } from '@ngrx/store';
-import { ICellRendererParams } from 'ag-grid-community';
-
-import { AppRoutePath } from '../../../../../app-route-path.enum';
 import {
   resetAutocompleteMaterials,
   setRequestingAutoCompleteDialog,
   updateMaterialRowDataItem,
   updateRowDataItem,
-} from '../../../../../core/store';
+} from '@gq/core/store/actions';
+import { Store } from '@ngrx/store';
+import { ICellRendererParams } from 'ag-grid-community';
+
+import { AppRoutePath } from '../../../../../app-route-path.enum';
 import { AutocompleteRequestDialog } from '../../../../components/autocomplete-input/autocomplete-request-dialog.enum';
 import { EditingMaterialModalComponent } from '../../../../components/modal/editing-material-modal/editing-material-modal.component';
 import { MaterialTableItem } from '../../../../models/table';

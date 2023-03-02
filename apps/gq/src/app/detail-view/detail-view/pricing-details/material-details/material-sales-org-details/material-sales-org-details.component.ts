@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { Store } from '@ngrx/store';
-
 import {
   getMaterialSalesOrg,
   getMaterialSalesOrgDataAvailable,
-} from '../../../../../core/store/selectors/material-sales-org/material-sales-org.selector';
+} from '@gq/core/store/selectors';
+import { Store } from '@ngrx/store';
+
 import { MaterialSalesOrg } from '../../../../../shared/models/quotation-detail/material-sales-org.model';
 
 @Component({

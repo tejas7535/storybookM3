@@ -10,17 +10,15 @@ import {
   QuotationDetail,
 } from '../../../../shared/models/quotation-detail';
 import { MaterialService } from '../../../../shared/services/rest-services/material-service/material.service';
-import { getSelectedQuotationDetail } from '../..';
-import {
-  loadQuotationSuccess,
-  setSelectedQuotationDetail,
-} from '../../actions';
 import {
   loadPlantMaterialDetails,
   loadPlantMaterialDetailsFailure,
   loadPlantMaterialDetailsSuccess,
+  loadQuotationSuccess,
   resetPlantMaterialDetails,
-} from '../../actions/plant-material-details/plant-material-details.actions';
+  setSelectedQuotationDetail,
+} from '../../actions';
+import { getSelectedQuotationDetail } from '../../selectors';
 
 @Injectable()
 export class PlantMaterialDetailsEffects {

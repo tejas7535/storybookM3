@@ -4,8 +4,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { SalesOrg } from '../../../../core/store/reducers/create-case/models';
-import { QuotationIdentifier } from '../../../../core/store/reducers/process-case/models';
+import { QuotationIdentifier, SalesOrg } from '@gq/core/store/reducers/models';
+
 import { ApiVersion } from '../../../models';
 import { Customer } from '../../../models/customer';
 import { AutocompleteSearch, IdValue } from '../../../models/search';

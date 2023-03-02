@@ -10,17 +10,19 @@ import { AutocompleteSearch, IdValue } from '../../../shared/models/search';
 import {
   autocomplete,
   clearProcessCaseRowData,
-  getCaseAutocompleteLoading,
-  getCaseMaterialDesc,
-  getCaseMaterialNumber,
-  getCaseMaterialNumberOrDesc,
   resetAutocompleteMaterials,
   resetRequestingAutoCompleteDialog,
   setRequestingAutoCompleteDialog,
   setSelectedAutocompleteOption,
   unselectAutocompleteOptions,
-} from '..';
+} from '../actions';
 import { CaseFilterItem } from '../reducers/create-case/models';
+import {
+  getCaseAutocompleteLoading,
+  getCaseMaterialDesc,
+  getCaseMaterialNumber,
+  getCaseMaterialNumberOrDesc,
+} from '../selectors';
 
 @Injectable({
   providedIn: 'root',

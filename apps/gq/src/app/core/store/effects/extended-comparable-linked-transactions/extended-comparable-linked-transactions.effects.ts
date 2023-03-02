@@ -13,8 +13,8 @@ import {
   loadExtendedComparableLinkedTransaction,
   loadExtendedComparableLinkedTransactionFailure,
   loadExtendedComparableLinkedTransactionSuccess,
-} from '../../actions/extended-comparable-linked-transactions/extended-comparable-linked-transactions.actions';
-import { ExtendedComparableLinkedTransaction } from '../../reducers/extended-comparable-linked-transactions/models/extended-comparable-linked-transaction';
+} from '../../actions';
+import { ExtendedComparableLinkedTransaction } from '../../reducers/models';
 import { getPriceUnitsForQuotationItemIds } from '../../selectors';
 
 @Injectable()

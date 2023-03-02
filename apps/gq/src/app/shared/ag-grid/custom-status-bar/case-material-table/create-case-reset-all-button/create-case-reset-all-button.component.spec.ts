@@ -3,6 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 
+import { clearCreateCaseRowData } from '@gq/core/store/actions';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -10,7 +11,6 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { clearCreateCaseRowData } from '../../../../../core/store';
 import { CreateCaseResetAllButtonComponent } from './create-case-reset-all-button.component';
 
 describe('ResetAllButtonComponent', () => {

@@ -13,14 +13,14 @@ import {
 } from '../../../../../testing/mocks/models';
 import { MaterialService } from '../../../../shared/services/rest-services/material-service/material.service';
 import {
-  getSelectedQuotationDetail,
   loadMaterialCostDetails,
   loadMaterialCostDetailsFailure,
   loadMaterialCostDetailsSuccess,
   loadQuotationSuccess,
   resetMaterialCostDetails,
   setSelectedQuotationDetail,
-} from '../..';
+} from '../../actions';
+import { getSelectedQuotationDetail } from '../../selectors';
 import { MaterialCostDetailsEffects } from './material-cost-details.effects';
 
 describe('MaterialCostDetails', () => {

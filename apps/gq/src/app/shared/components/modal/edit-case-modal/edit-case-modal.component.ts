@@ -18,10 +18,10 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 
+import { getAvailableCurrencies } from '@gq/core/store/selectors';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
 
-import { getAvailableCurrencies } from '../../../../core/store';
 import { UpdateQuotationRequest } from '../../../services/rest-services/quotation-service/models/update-quotation-request.model';
 
 @Component({

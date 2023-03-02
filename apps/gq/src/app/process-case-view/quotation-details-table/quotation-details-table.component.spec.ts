@@ -4,6 +4,12 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import {
+  addSimulatedQuotation,
+  removeSimulatedQuotationDetail,
+  resetSimulatedQuotation,
+} from '@gq/core/store/actions';
+import { getSelectedQuotationDetailIds } from '@gq/core/store/selectors';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoCurrencyPipe } from '@ngneat/transloco-locale';
@@ -26,12 +32,6 @@ import {
   QUOTATION_MOCK,
 } from '../../../testing/mocks';
 import { AppRoutePath } from '../../app-route-path.enum';
-import {
-  addSimulatedQuotation,
-  getSelectedQuotationDetailIds,
-  removeSimulatedQuotationDetail,
-  resetSimulatedQuotation,
-} from '../../core/store';
 import { PriceSourceOptions } from '../../shared/ag-grid/column-headers/extended-column-header/models/price-source-options.enum';
 import { ColumnFields } from '../../shared/ag-grid/constants/column-fields.enum';
 import { CustomStatusBarModule } from '../../shared/ag-grid/custom-status-bar/custom-status-bar.module';

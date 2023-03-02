@@ -17,4 +17,4 @@ const all = union({
   pingHealthCheckFailure,
 });
 
-export type createCaseActions = typeof all;
+export type createHealthCheckActions = typeof all;

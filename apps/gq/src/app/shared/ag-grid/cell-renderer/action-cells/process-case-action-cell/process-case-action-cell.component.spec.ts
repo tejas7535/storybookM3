@@ -1,10 +1,10 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 
+import { deleteAddMaterialRowDataItem } from '@gq/core/store/actions';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { deleteAddMaterialRowDataItem } from '../../../../../core/store/actions';
 import { ProcessCaseActionCellComponent } from './process-case-action-cell.component';
 
 describe('ActionCellComponent', () => {

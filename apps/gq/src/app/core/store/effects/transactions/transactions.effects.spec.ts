@@ -16,7 +16,7 @@ import {
   loadComparableTransactionsFailure,
   loadComparableTransactionsSuccess,
 } from '../../actions';
-import { ComparableLinkedTransaction } from '../../reducers/transactions/models/comparable-linked-transaction.model';
+import { ComparableLinkedTransaction } from '../../reducers/models';
 import { getPriceUnitOfSelectedQuotationDetail } from '../../selectors';
 import { TransactionsEffect } from './transactions.effects';
 

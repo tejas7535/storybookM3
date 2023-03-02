@@ -4,6 +4,10 @@ import {
 } from '@angular/common/http/testing';
 
 import {
+  AddQuotationDetailsRequest,
+  UpdateQuotationDetail,
+} from '@gq/core/store/reducers/models';
+import {
   createServiceFactory,
   HttpMethod,
   SpectatorService,
@@ -13,8 +17,6 @@ import {
   CUSTOMER_MOCK,
   QUOTATION_DETAIL_MOCK,
 } from '../../../../../testing/mocks';
-import { UpdateQuotationDetail } from '../../../../core/store/reducers/process-case/models';
-import { AddQuotationDetailsRequest } from '../../../../core/store/reducers/process-case/models/add-quotation-details-request.model';
 import { ApiVersion } from '../../../models';
 import { QuotationDetailsService } from './quotation-details.service';
 

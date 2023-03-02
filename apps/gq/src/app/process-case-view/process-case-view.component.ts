@@ -2,19 +2,20 @@ import { Component, OnInit } from '@angular/core';
 
 import { map, Observable } from 'rxjs';
 
+import { updateQuotation } from '@gq/core/store/actions';
+import {
+  getCustomerLoading,
+  getGqId,
+  getQuotation,
+  getQuotationLoading,
+  getQuotationSapSyncStatus,
+} from '@gq/core/store/selectors';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { Store } from '@ngrx/store';
 
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
 import { AppRoutePath } from '../app-route-path.enum';
-import { getQuotation, updateQuotation } from '../core/store';
-import {
-  getCustomerLoading,
-  getGqId,
-  getQuotationLoading,
-  getQuotationSapSyncStatus,
-} from '../core/store/selectors';
 import { Tab } from '../shared/components/tabs-header/tab.model';
 import { Quotation } from '../shared/models';
 import { SAP_SYNC_STATUS } from '../shared/models/quotation-detail/sap-sync-status.enum';

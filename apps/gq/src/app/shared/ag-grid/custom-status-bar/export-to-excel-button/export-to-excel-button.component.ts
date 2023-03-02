@@ -5,6 +5,16 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { combineLatest, Observable, Subscription } from 'rxjs';
 
+import {
+  CalculationType,
+  ExtendedComparableLinkedTransaction,
+  ExtendedSapPriceConditionDetail,
+} from '@gq/core/store/reducers/models';
+import {
+  getExtendedComparableLinkedTransactions,
+  getExtendedSapPriceConditionDetails,
+  getSimulationModeEnabled,
+} from '@gq/core/store/selectors';
 import { translate, TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import {
@@ -19,16 +29,6 @@ import {
   ValueFormatterParams,
 } from 'ag-grid-community';
 
-import {
-  getExtendedSapPriceConditionDetails,
-  getSimulationModeEnabled,
-} from '../../../../core/store';
-import { ExtendedComparableLinkedTransaction } from '../../../../core/store/reducers/extended-comparable-linked-transactions/models/extended-comparable-linked-transaction';
-import {
-  CalculationType,
-  ExtendedSapPriceConditionDetail,
-} from '../../../../core/store/reducers/sap-price-details/models';
-import { getExtendedComparableLinkedTransactions } from '../../../../core/store/selectors/extended-comparable-linked-transactions/extended-comparable-linked-transactions.selector';
 import { ExportExcel } from '../../../components/modal/export-excel-modal/export-excel.enum';
 import { ExportExcelModalComponent } from '../../../components/modal/export-excel-modal/export-excel-modal.component';
 import { Keyboard, Quotation } from '../../../models';

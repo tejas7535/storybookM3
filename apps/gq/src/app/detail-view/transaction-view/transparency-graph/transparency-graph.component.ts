@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 
+import { ComparableLinkedTransaction } from '@gq/core/store/reducers/models';
 import { EChartsOption } from 'echarts';
 
-import { ComparableLinkedTransaction } from '../../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
 import { Customer } from '../../../shared/models/customer';
 import { Coefficients } from '../../../shared/models/quotation-detail';
 import { DATA_ZOOM, GRID_CONFIG } from './echarts/chart.config';

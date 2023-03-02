@@ -3,21 +3,23 @@ import { MatDialogRef } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 
+import {
+  autocomplete,
+  importCase,
+  selectAutocompleteOption,
+  unselectAutocompleteOptions,
+} from '@gq/core/store/actions';
+import { CaseFilterItem } from '@gq/core/store/reducers/models';
+import {
+  getCaseAutocompleteLoading,
+  getCaseQuotation,
+  getCreateCaseLoading,
+} from '@gq/core/store/selectors';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
-import {
-  autocomplete,
-  getCaseAutocompleteLoading,
-  getCaseQuotation,
-  getCreateCaseLoading,
-  importCase,
-  selectAutocompleteOption,
-  unselectAutocompleteOptions,
-} from '../../../core/store';
-import { CaseFilterItem } from '../../../core/store/reducers/create-case/models';
 import { FilterNames } from '../../../shared/components/autocomplete-input/filter-names.enum';
 import {
   CASE_CREATION_TYPES,

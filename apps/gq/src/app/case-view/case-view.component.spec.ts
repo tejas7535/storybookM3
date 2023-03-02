@@ -2,6 +2,14 @@ import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { loadCases } from '@gq/core/store/actions';
+import {
+  getDeleteLoading,
+  getQuotationLoading,
+  getQuotations,
+  getStatusBarForQuotationStatus,
+  getViewToggles,
+} from '@gq/core/store/selectors';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -14,14 +22,6 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { ViewToggleModule } from '@schaeffler/view-toggle';
 
 import { VIEW_CASE_STATE_MOCK } from '../../testing/mocks';
-import {
-  getDeleteLoading,
-  getQuotationLoading,
-  getQuotations,
-  getStatusBarForQuotationStatus,
-  getViewToggles,
-  loadCases,
-} from '../core/store';
 import { CustomStatusBarModule } from '../shared/ag-grid/custom-status-bar/custom-status-bar.module';
 import { QuotationStatus } from '../shared/models/quotation/quotation-status.enum';
 import { CaseTableModule } from './case-table/case-table.module';

@@ -3,15 +3,13 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 
+import { refreshSapPricing } from '@gq/core/store/actions';
+import { getSimulationModeEnabled } from '@gq/core/store/selectors';
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
-import {
-  getSimulationModeEnabled,
-  refreshSapPricing,
-} from '../../../../core/store';
 import { ConfirmationModalComponent } from '../../../components/modal/confirmation-modal/confirmation-modal.component';
 import { EVENT_NAMES, QuotationStatus } from '../../../models';
 

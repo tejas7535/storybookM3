@@ -3,14 +3,10 @@ import { MatSelectChange } from '@angular/material/select';
 
 import { Observable } from 'rxjs';
 
+import { selectSalesOrg } from '@gq/core/store/actions';
+import { SalesOrg } from '@gq/core/store/reducers/models';
+import { getSalesOrgs, getSelectedSalesOrg } from '@gq/core/store/selectors';
 import { Store } from '@ngrx/store';
-
-import {
-  getSalesOrgs,
-  getSelectedSalesOrg,
-  selectSalesOrg,
-} from '../../../core/store';
-import { SalesOrg } from '../../../core/store/reducers/create-case/models';
 
 @Component({
   selector: 'gq-select-sales-org',

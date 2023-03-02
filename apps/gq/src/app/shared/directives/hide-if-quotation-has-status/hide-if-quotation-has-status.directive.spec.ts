@@ -1,7 +1,7 @@
+import { getQuotationStatus } from '@gq/core/store/selectors';
 import { createDirectiveFactory, SpectatorDirective } from '@ngneat/spectator';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { getQuotationStatus } from '../../../core/store';
 import { QuotationStatus } from '../../models';
 import { HideIfQuotationHasStatusDirective } from './hide-if-quotation-has-status.directive';
 

@@ -1,4 +1,5 @@
-import { SapPriceConditionDetail } from '../../../core/store/reducers/sap-price-details/models/sap-price-condition-detail.model';
+import { SapPriceConditionDetail } from '@gq/core/store/reducers/models';
+
 import { LastCustomerPriceCondition } from './last-customer-price-condition.enum';
 import { LastOfferDetail } from './last-offer-detail.model';
 import { MaterialDetails } from './material-details.model';

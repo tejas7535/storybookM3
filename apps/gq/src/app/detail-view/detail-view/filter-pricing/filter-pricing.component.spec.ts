@@ -6,6 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { updateQuotationDetails } from '@gq/core/store/actions';
+import { ProcessCaseState } from '@gq/core/store/reducers/process-case/process-case.reducer';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -20,8 +22,6 @@ import {
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
 } from '../../../../testing/mocks';
-import { updateQuotationDetails } from '../../../core/store';
-import { ProcessCaseState } from '../../../core/store/reducers/process-case/process-case.reducer';
 import {
   PriceSource,
   UpdatePrice,

@@ -2,12 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { addMaterials } from '@gq/core/store/actions';
+import { getAddMaterialRowDataValid } from '@gq/core/store/selectors';
 import { Store } from '@ngrx/store';
-
-import {
-  addMaterials,
-  getAddMaterialRowDataValid,
-} from '../../../../../core/store';
 
 @Component({
   selector: 'gq-create-case-button',

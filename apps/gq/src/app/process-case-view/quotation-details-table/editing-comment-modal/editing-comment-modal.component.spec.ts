@@ -4,6 +4,7 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
+import { updateQuotationDetails } from '@gq/core/store/actions';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -12,7 +13,6 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks';
-import { updateQuotationDetails } from '../../../core/store';
 import { DialogHeaderModule } from '../../../shared/components/header/dialog-header/dialog-header.module';
 import { EditingCommentModalComponent } from './editing-comment-modal.component';
 

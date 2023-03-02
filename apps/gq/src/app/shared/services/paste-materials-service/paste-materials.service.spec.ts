@@ -1,15 +1,15 @@
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
+import {
+  pasteRowDataItems,
+  pasteRowDataItemsToAddMaterial,
+} from '@gq/core/store/actions';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { mockProvider } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import {
-  pasteRowDataItems,
-  pasteRowDataItemsToAddMaterial,
-} from '../../../core/store';
 import { LOCALE_DE, LOCALE_EN } from '../../constants';
 import { MaterialTableItem, ValidationDescription } from '../../models/table';
 import { PasteMaterialsService } from './paste-materials.service';

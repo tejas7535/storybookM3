@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 
+import { clearCreateCaseRowData } from '@gq/core/store/actions';
 import { Store } from '@ngrx/store';
-
-import { clearCreateCaseRowData } from '../../../../../core/store';
 
 @Component({
   selector: 'gq-create-case-reset-all-button',

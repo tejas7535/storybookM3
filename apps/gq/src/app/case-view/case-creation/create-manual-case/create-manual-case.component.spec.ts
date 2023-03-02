@@ -4,6 +4,14 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { of, Subject } from 'rxjs';
 
+import {
+  autocomplete,
+  clearCreateCaseRowData,
+  clearCustomer,
+  resetAllAutocompleteOptions,
+  selectAutocompleteOption,
+  unselectAutocompleteOptions,
+} from '@gq/core/store/actions';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -12,14 +20,6 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import {
-  autocomplete,
-  clearCreateCaseRowData,
-  clearCustomer,
-  resetAllAutocompleteOptions,
-  selectAutocompleteOption,
-  unselectAutocompleteOptions,
-} from '../../../core/store';
 import { AutocompleteInputModule } from '../../../shared/components/autocomplete-input/autocomplete-input.module';
 import { FilterNames } from '../../../shared/components/autocomplete-input/filter-names.enum';
 import { AddEntryModule } from '../../../shared/components/case-material/add-entry/add-entry.module';

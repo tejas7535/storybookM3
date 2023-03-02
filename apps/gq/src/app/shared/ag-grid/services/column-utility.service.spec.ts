@@ -1,3 +1,4 @@
+import { CalculationType } from '@gq/core/store/reducers/models';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
@@ -16,7 +17,6 @@ import {
   QUOTATION_MOCK,
   SAP_PRICE_DETAIL_ZMIN_MOCK,
 } from '../../../../testing/mocks';
-import { CalculationType } from '../../../core/store/reducers/sap-price-details/models/calculation-type.enum';
 import { LOCALE_DE, LOCALE_EN } from '../../constants';
 import { UserRoles } from '../../constants/user-roles.enum';
 import { Keyboard, Quotation } from '../../models';

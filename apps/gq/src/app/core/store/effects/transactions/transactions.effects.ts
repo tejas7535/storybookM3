@@ -23,7 +23,7 @@ import {
   loadComparableTransactionsSuccess,
 } from '../../actions';
 import { RouterStateUrl } from '../../reducers';
-import { ComparableLinkedTransaction } from '../../reducers/transactions/models/comparable-linked-transaction.model';
+import { ComparableLinkedTransaction } from '../../reducers/models';
 import { getPriceUnitOfSelectedQuotationDetail } from '../../selectors';
 
 @Injectable()

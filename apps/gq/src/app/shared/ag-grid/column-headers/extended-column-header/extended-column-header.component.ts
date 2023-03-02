@@ -9,6 +9,7 @@ import { UntypedFormControl, Validators } from '@angular/forms';
 
 import { filter, map, Observable, pairwise, Subscription } from 'rxjs';
 
+import { getQuotation, getSimulatedQuotation } from '@gq/core/store/selectors';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
 import { IHeaderAngularComp } from 'ag-grid-angular';
@@ -16,7 +17,6 @@ import { IHeaderParams } from 'ag-grid-community';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
-import { getQuotation, getSimulatedQuotation } from '../../../../core/store';
 import { getPercentageRegex } from '../../../constants';
 import {
   EVENT_NAMES,

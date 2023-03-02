@@ -2,15 +2,15 @@ import { Component } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { Store } from '@ngrx/store';
-import { IStatusPanelParams } from 'ag-grid-community';
-
+import { createSapQuote } from '@gq/core/store/actions';
 import {
-  createSapQuote,
   getIsQuotationActive,
   getSapId,
   getSimulationModeEnabled,
-} from '../../../../core/store';
+} from '@gq/core/store/selectors';
+import { Store } from '@ngrx/store';
+import { IStatusPanelParams } from 'ag-grid-community';
+
 import { QuotationDetail } from '../../../models/quotation-detail';
 
 @Component({

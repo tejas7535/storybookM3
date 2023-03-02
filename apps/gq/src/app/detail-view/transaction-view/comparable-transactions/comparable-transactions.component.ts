@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { combineLatest, map, Observable, of } from 'rxjs';
 
+import { ComparableLinkedTransaction } from '@gq/core/store/reducers/models';
+import { userHasGPCRole } from '@gq/core/store/selectors';
 import { Store } from '@ngrx/store';
 import {
   ColDef,
@@ -12,8 +14,6 @@ import {
   SortChangedEvent,
 } from 'ag-grid-community';
 
-import { userHasGPCRole } from '../../../core/store';
-import { ComparableLinkedTransaction } from '../../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
 import { TableContext } from '../../../process-case-view/quotation-details-table/config/tablecontext.model';
 import { AgGridLocale } from '../../../shared/ag-grid/models/ag-grid-locale.interface';
 import { LocalizationService } from '../../../shared/ag-grid/services/localization.service';

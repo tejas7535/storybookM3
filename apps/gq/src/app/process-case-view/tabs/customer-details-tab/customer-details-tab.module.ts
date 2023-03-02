@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
+import { ProcessCaseEffect } from '@gq/core/store/effects';
+import { processCaseReducer } from '@gq/core/store/reducers/process-case/process-case.reducer';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
@@ -10,8 +12,6 @@ import { StoreModule } from '@ngrx/store';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { ProcessCaseEffect } from '../../../core/store/effects/process-case/process-case.effects';
-import { processCaseReducer } from '../../../core/store/reducers/process-case/process-case.reducer';
 import { HorizontalDividerModule } from '../../../shared/components/horizontal-divider/horizontal-divider.module';
 import { KpiStatusCardComponent } from '../../../shared/components/kpi-status-card/kpi-status-card.component';
 import { LabelTextModule } from '../../../shared/components/label-text/label-text.module';

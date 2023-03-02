@@ -9,6 +9,14 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { updateQuotation } from '@gq/core/store/actions';
+import {
+  getCustomerLoading,
+  getGqId,
+  getQuotation,
+  getQuotationLoading,
+  getQuotationSapSyncStatus,
+} from '@gq/core/store/selectors';
 import {
   createComponentFactory,
   mockProvider,
@@ -29,14 +37,6 @@ import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { PROCESS_CASE_STATE_MOCK, QUOTATION_MOCK } from '../../testing/mocks';
-import {
-  getCustomerLoading,
-  getGqId,
-  getQuotation,
-  getQuotationLoading,
-  getQuotationSapSyncStatus,
-  updateQuotation,
-} from '../core/store';
 import { CustomStatusBarModule } from '../shared/ag-grid/custom-status-bar/custom-status-bar.module';
 import { AddEntryModule } from '../shared/components/case-material/add-entry/add-entry.module';
 import { InputTableModule } from '../shared/components/case-material/input-table/input-table.module';

@@ -20,7 +20,7 @@ import { RouterStateUrl } from '../../reducers';
 import {
   ExtendedSapPriceConditionDetail,
   SapPriceConditionDetail,
-} from '../../reducers/sap-price-details/models/sap-price-condition-detail.model';
+} from '../../reducers/models';
 
 @Injectable()
 export class SapPriceDetailsEffects {

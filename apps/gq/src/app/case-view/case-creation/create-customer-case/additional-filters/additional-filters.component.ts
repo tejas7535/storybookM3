@@ -2,15 +2,14 @@ import { Component, Input } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { TranslocoService } from '@ngneat/transloco';
-import { Store } from '@ngrx/store';
-
 import {
   setSelectedGpsdGroups,
   setSelectedProductLines,
   setSelectedSeries,
-} from '../../../../core/store';
-import { PLsAndSeries } from '../../../../core/store/reducers/create-case/models/pls-and-series.model';
+} from '@gq/core/store/actions';
+import { PLsAndSeries } from '@gq/core/store/reducers/models';
+import { TranslocoService } from '@ngneat/transloco';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'gq-additional-filters',

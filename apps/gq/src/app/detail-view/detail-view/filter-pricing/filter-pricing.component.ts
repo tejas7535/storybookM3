@@ -2,18 +2,18 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { Store } from '@ngrx/store';
-
+import { updateQuotationDetails } from '@gq/core/store/actions';
+import { UpdateQuotationDetail } from '@gq/core/store/reducers/models';
 import {
   getIsQuotationActive,
   getQuotationCurrency,
   getUpdateLoading,
-  updateQuotationDetails,
   userHasGPCRole,
   userHasManualPriceRole,
   userHasSQVRole,
-} from '../../../core/store';
-import { UpdateQuotationDetail } from '../../../core/store/reducers/process-case/models';
+} from '@gq/core/store/selectors';
+import { Store } from '@ngrx/store';
+
 import {
   QuotationDetail,
   UpdatePrice,

@@ -1,6 +1,6 @@
 import {
-  loadAvailableCurrenciesSuccess,
   loadAvailableCurrenciesFailure,
+  loadAvailableCurrenciesSuccess,
 } from '../../actions';
 import { currencyReducer, CurrencyState } from './currency.reducer';
 

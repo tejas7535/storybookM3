@@ -7,11 +7,13 @@ import { marbles } from 'rxjs-marbles';
 import { ColumnUtilityService } from '../../../../shared/ag-grid/services/column-utility.service';
 import { UserRoles } from '../../../../shared/constants/user-roles.enum';
 import { RoleGroup } from '../../../../shared/models';
-import { userHasGPCRole, userHasManualPriceRole, userHasSQVRole } from '../..';
 import {
   filterRoles,
   getAllRoles,
   getColumnDefsForRoles,
+  userHasGPCRole,
+  userHasManualPriceRole,
+  userHasSQVRole,
 } from './roles.selector';
 
 describe('shared selector', () => {

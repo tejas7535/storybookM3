@@ -1,17 +1,17 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 
+import { deleteAddMaterialRowDataItem } from '@gq/core/store/actions';
+import {
+  getAddMaterialRowData,
+  getAddMaterialRowDataValid,
+} from '@gq/core/store/selectors';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { HeaderClassParams, RowNode } from 'ag-grid-community';
 import { marbles } from 'rxjs-marbles';
 
-import {
-  deleteAddMaterialRowDataItem,
-  getAddMaterialRowData,
-  getAddMaterialRowDataValid,
-} from '../../../../../core/store';
 import { MaterialTableItem } from '../../../../models/table';
 import { ProcessCaseActionHeaderComponent } from './process-case-action-header.component';
 
