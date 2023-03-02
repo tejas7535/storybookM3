@@ -24,6 +24,13 @@ const routes: Routes = [
           ).then((m) => m.CustomerDetailsTabModule),
       },
       {
+        path: ProcessCaseRoutePath.OverviewPath,
+        loadChildren: () =>
+          import('./tabs/overview-tab/overview-tab.module').then(
+            (m) => m.OverviewTabModule
+          ),
+      },
+      {
         path: ProcessCaseRoutePath.BasePath,
         redirectTo: 'single-quotes',
         pathMatch: 'full',

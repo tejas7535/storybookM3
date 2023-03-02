@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { map, Observable } from 'rxjs';
 
+import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { Store } from '@ngrx/store';
 
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
@@ -33,13 +34,14 @@ export class ProcessCaseViewComponent implements OnInit {
   public breadcrumbs$: Observable<Breadcrumb[]>;
   public sapStatus$: Observable<SAP_SYNC_STATUS>;
 
-  public tabs: Tab[];
+  public tabs: Tab[] = [];
 
   public readonly sapSyncStatus = SAP_SYNC_STATUS;
 
   constructor(
     private readonly store: Store,
-    private readonly breadCrumbsService: BreadcrumbsService
+    private readonly breadCrumbsService: BreadcrumbsService,
+    private readonly featureToggleService: FeatureToggleConfigService
   ) {}
 
   public ngOnInit(): void {
@@ -57,7 +59,14 @@ export class ProcessCaseViewComponent implements OnInit {
         )
       );
 
-    this.tabs = [
+    if (this.featureToggleService.isEnabled('approvalWorkflow')) {
+      this.tabs.push({
+        label: 'processCaseView.tabs.overview.title',
+        link: ProcessCaseRoutePath.OverviewPath,
+        parentPath: AppRoutePath.ProcessCaseViewPath,
+      });
+    }
+    this.tabs.push(
       {
         label: 'processCaseView.tabs.singleQuotes.title',
         link: ProcessCaseRoutePath.SingleQuotesPath,
@@ -67,8 +76,8 @@ export class ProcessCaseViewComponent implements OnInit {
         label: 'processCaseView.tabs.customerDetails.title',
         link: ProcessCaseRoutePath.CustomerDetailsPath,
         parentPath: AppRoutePath.ProcessCaseViewPath,
-      },
-    ];
+      }
+    );
   }
 
   public updateQuotation(updateQuotationRequest: UpdateQuotationRequest) {

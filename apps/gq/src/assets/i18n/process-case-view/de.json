@@ -62,6 +62,9 @@
         "netSales": "Fakturierter Wert",
         "gpi": "GPI"
       }
+    },
+    "overview": {
+      "title": "Übersicht"
     }
   },
   "confirmDeletePositions": {
