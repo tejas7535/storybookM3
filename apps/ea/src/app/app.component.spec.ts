@@ -27,10 +27,4 @@ describe('AppComponent', () => {
   it('should create the app', () => {
     expect(component).toBeTruthy();
   });
-
-  describe('title', () => {
-    it('should be Engineering App', () => {
-      expect(component.title).toBe('Engineering App');
-    });
-  });
 });
