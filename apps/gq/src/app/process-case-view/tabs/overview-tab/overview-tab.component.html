@@ -2,7 +2,13 @@
   class="flex flex-col gap-4 p-4 md:flex-row lg:grid lg:grid-cols-4 lg:items-start"
   *transloco="let t; read: 'processCaseView'"
 >
-  <div class="gap-4 border md:w-1/2 lg:w-full">a dummy text</div>
+  <div class="gap-4 md:w-1/2 lg:w-full">
+    <gq-kpi-status-card [title]="t('tabs.overview.overviewCardTitle')">
+      <gq-general-information
+        [info]="generalInformation$ | async"
+      ></gq-general-information>
+    </gq-kpi-status-card>
+  </div>
 
   <div class="col-span-2 gap-4 border md:w-1/2 lg:w-full">a dummy text</div>
   <div class="gap-4 border md:w-1/2 lg:w-full">a dummy text</div>

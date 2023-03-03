@@ -64,7 +64,19 @@
       }
     },
     "overview": {
-      "title": "Übersicht"
+      "title": "Übersicht",
+      "overviewCardTitle": "Allgemein",
+      "generalInformation": {
+        "approvalLevel": "Approval Level",
+        "validity": "Gültigkeit",
+        "duration": "Dauer",
+        "project": "Projekt",
+        "projectInformation": "Projektinformation",
+        "customer": "Kunde",
+        "customerClass": "Kundenklasse",
+        "requestedQuotationDate": "gewünschtes Quotation Datum",
+        "comment": "Kommentar"
+      }
     }
   },
   "confirmDeletePositions": {
