@@ -20,7 +20,7 @@ import { translate } from '@ngneat/transloco';
 
 import { StringOption } from '@schaeffler/inputs';
 
-import { MaterialClass } from '@mac/msd/constants';
+import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import { DialogControlsService } from '@mac/msd/main-table/material-input-dialog/services';
 import * as util from '@mac/msd/main-table/material-input-dialog/util';
 import { focusSelectedElement } from '@mac/msd/main-table/material-input-dialog/util';
@@ -397,7 +397,13 @@ export class MaterialInputDialogComponent
     this.dialogFacade.dispatch(
       materialDialogConfirmed({ standard, supplier, material })
     );
+    this.awaitMaterialComplete(createAnother, NavigationLevel.MATERIAL);
+  }
 
+  public awaitMaterialComplete(
+    createAnother: boolean,
+    navigationLevel: NavigationLevel
+  ) {
     // rename to createMaterialComplete, return object instead of
     this.dialogFacade.createMaterialRecord$
       .pipe(filter(Boolean), take(1))
@@ -407,13 +413,15 @@ export class MaterialInputDialogComponent
           if (!createAnother) {
             this.closeDialog(true);
           }
-          msgKey =
-            'materialsSupplierDatabase.mainTable.dialog.createMaterialSuccess';
+          msgKey = 'materialsSupplierDatabase.mainTable.dialog.createSuccess';
         } else {
-          msgKey = `materialsSupplierDatabase.mainTable.dialog.createFailure.${record.error.state}.${record.error.code}`;
+          msgKey = `materialsSupplierDatabase.mainTable.dialog.createFailure.${record.error.code}`;
         }
+        const level = translate(
+          `materialsSupplierDatabase.mainTable.dialog.level.${navigationLevel}`
+        );
         this.showInSnackbar(
-          translate(msgKey),
+          translate(msgKey, { level }),
           translate('materialsSupplierDatabase.mainTable.dialog.close'),
           { duration: 5000 }
         );

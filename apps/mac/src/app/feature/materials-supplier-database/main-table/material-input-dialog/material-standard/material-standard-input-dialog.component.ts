@@ -3,15 +3,17 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { BehaviorSubject, filter, take } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
 
-import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
+import {
+  MaterialClass,
+  NavigationLevel,
+} from '@mac/feature/materials-supplier-database/constants';
 import {
   materialstandardDialogConfirmed,
   materialstandardDialogOpened,
-  resetMaterialRecord,
 } from '@mac/feature/materials-supplier-database/store/actions/dialog';
 import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
 import { MaterialInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/material-input-dialog.component';
@@ -169,28 +171,6 @@ export class MaterialStandardInputDialogComponent
 
     // include stdDoc put logic in effect
     this.dialogFacade.dispatch(materialstandardDialogConfirmed({ standard }));
-
-    this.dialogFacade.createMaterialRecord$
-      .pipe(filter(Boolean), take(1))
-      .subscribe((record) => {
-        let msgKey;
-        if (!record.error) {
-          if (!createAnother) {
-            this.closeDialog(true);
-          }
-          msgKey =
-            'materialsSupplierDatabase.mainTable.dialog.createMaterialStandardSuccess';
-        } else {
-          msgKey = `materialsSupplierDatabase.mainTable.dialog.createFailure.${record.error.state}.${record.error.code}`;
-        }
-        this.showInSnackbar(
-          translate(msgKey),
-          translate('materialsSupplierDatabase.mainTable.dialog.close'),
-          { duration: 5000 }
-        );
-        this.dialogFacade.dispatch(
-          resetMaterialRecord({ error: !!record.error, createAnother })
-        );
-      });
+    this.awaitMaterialComplete(createAnother, NavigationLevel.STANDARD);
   }
 }

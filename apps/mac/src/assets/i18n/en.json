@@ -356,6 +356,11 @@
         "REMOVE": "{{previous}} (removed)"
       },
       "dialog": {
+        "level": {
+          "materials": "Material",
+          "suppliers": "Manufacturer Supplier",
+          "materialStandards": "Material Standard"
+        },
         "addMaterial": "ADD MATERIAL",
         "addMaterialStandard": "ADD MATERIAL STANDARD",
         "addManufacturerSupplier": "ADD MANUFACTURER SUPPLIER",
@@ -391,28 +396,13 @@
         "coatingText": "Coating",
         "copperNumber": "Copper based material number",
         "createFailure": {
-          "matStandard": {
-            "400": "Material standard creation failed!",
-            "404": "Material standard creation failed!",
-            "406": "Material standard creation failed, entry needs modification!",
-            "409": "Material standard creation failed, an identical material standard already exists!"
-          },
-          "supplier": {
-            "400": "Manufacturer supplier creation failed!",
-            "404": "Manufacturer supplier creation failed!",
-            "406": "Manufacturer supplier creation failed, entry needs modification!",
-            "409": "Manufacturer supplier creation failed, an identical manufacturer supplier already exists!"
-          },
-          "material": {
-            "400": "Material creation failed!",
-            "404": "Material creation failed!",
-            "406": "Material creation failed, entry needs modification!",
-            "409": "Material creation failed, an identical material already exists!"
-          }
+          "400": "{{level}} creation failed!",
+          "403": "{{level}} creation failed, Firewall rejected content. Avoid using '--' or '#'!",
+          "404": "{{level}} creation failed!",
+          "406": "{{level}} creation failed, entry needs modification!",
+          "409": "{{level}} creation failed, an identical entry already exists!"
         },
-        "createMaterialSuccess": "Material added successfully",
-        "createMaterialStandardSuccess": "Material Standard added successfully",
-        "createManufacturerSupplierSuccess": "Manufacturer Supplier added successfully",
+        "createSuccess": "{{level}} added successfully",
         "error": {
           "co2TooLow": "Total value must be higher than the sum of the single scopes",
           "co2TooLowShort": "Value lower than {{min}}",
