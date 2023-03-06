@@ -1,2 +1,7 @@
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface CalculationParametersState {}
+export interface CalculationParametersState {
+  operationConditions: {
+    rotation: number;
+    axial: number;
+    radial: number;
+  };
+}

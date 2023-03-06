@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 import { SettingsFacade } from '@ea/core/store';
 
 import { CalculationParamtersFacade } from './core/store/facades/calculation-parameters/calculation-parameters.facade';
-
 @Component({
   selector: 'ea-root',
   templateUrl: './app.component.html',
@@ -12,6 +11,7 @@ import { CalculationParamtersFacade } from './core/store/facades/calculation-par
 export class AppComponent {
   public title = 'Engineering App';
   public bearingDesignation$ = this.settingsFacade.bearingDesignation$;
+
   public calculationParameters$ =
     this.calculationParametersFacade.calculationParameters$;
 

@@ -1,9 +1,4 @@
-<div
-  class="flex h-screen w-screen flex-col items-center gap-10"
-  *transloco="let t"
->
-  <h1 id="title">{{ t('appTitle') }}</h1>
-
-  <h3>Calculate {{ bearingDesignation$ | ngrxPush }}</h3>
-  <pre>{{ calculationParameters$ | ngrxPush | json }}</pre>
+<div class="flex h-screen w-screen flex-col items-center">
+  <h4 id="title" class="py-10 text-medium-emphasis">Engineering App</h4>
+  <ea-calculation-parameters></ea-calculation-parameters>
 </div>

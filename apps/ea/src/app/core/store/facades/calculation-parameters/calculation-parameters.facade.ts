@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 
 import { Action, Store } from '@ngrx/store';
 
-import { getCalculationParameters } from '../../selectors/calculation-parameters/calculation-parameters.selector';
+import { getOperationConditions } from '../../selectors/calculation-parameters/calculation-parameters.selector';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CalculationParamtersFacade {
-  public calculationParameters$ = this.store.select(getCalculationParameters);
+  public calculationParameters$ = this.store.select(getOperationConditions);
 
   constructor(private readonly store: Store) {}
 

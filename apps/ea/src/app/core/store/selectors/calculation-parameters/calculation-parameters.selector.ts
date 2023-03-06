@@ -8,3 +8,8 @@ export const getCalculationParameters = createSelector(
   getCalculationParametersState,
   (_state): CalculationParameters => CALCULATION_PARAMETERS_MOCK
 );
+
+export const getOperationConditions = createSelector(
+  getCalculationParametersState,
+  (state): CalculationParameters => state
+);

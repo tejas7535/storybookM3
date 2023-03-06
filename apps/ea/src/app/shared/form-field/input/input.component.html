@@ -1,0 +1,55 @@
+<div
+  class="flex w-full flex-row items-baseline justify-between gap-2"
+  [ngClass]="{ 'gap-0': !tooltipText }"
+  *transloco="let t; read: 'operatingConditions.errors'"
+>
+  <mat-form-field appearance="outline" class="flex grow flex-row pb-3">
+    <mat-label *ngIf="label">{{ label }}</mat-label>
+    <input
+      *ngIf="onlyPositive; else casualInput"
+      matInput
+      type="number"
+      inputmode="decimal"
+      [formControl]="control"
+      [placeholder]="placeholder"
+    />
+    <ng-template #casualInput>
+      <input
+        matInput
+        type="number"
+        inputmode="decimal"
+        [formControl]="control"
+        [placeholder]="placeholder"
+      />
+    </ng-template>
+    <div *ngIf="unit" class="relative bottom-1" matSuffix>
+      {{ unit }}
+    </div>
+    <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
+    <mat-error *ngIf="control.hasError('max')">{{ t('max') }}</mat-error>
+    <mat-error *ngIf="control.hasError('min')">{{ t('min') }}</mat-error>
+    <mat-error *ngIf="control.hasError('anyLoad')">
+      {{ t('anyLoad') }}
+    </mat-error>
+    <mat-error *ngIf="control.hasError('required')">
+      {{ t('required') }}
+    </mat-error>
+    <ng-container *ngFor="let error of customErrors" ngProjectAs="mat-error">
+      <mat-error *ngIf="control.hasError(error.name)">
+        {{ t(error.message) }}
+      </mat-error>
+    </ng-container>
+  </mat-form-field>
+  <div *ngIf="tooltipText" class="w-6">
+    <mat-icon
+      *ngIf="tooltipText"
+      color="primary"
+      class="cursor-help"
+      #tooltip="matTooltip"
+      [matTooltip]="tooltipText"
+      (click)="tooltip.toggle()"
+    >
+      info_outline
+    </mat-icon>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
 import { environment } from '@ea/environments/environment';
@@ -15,8 +15,8 @@ import {
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import deJson from '../../assets/i18n/de.json';
 import enJson from '../../assets/i18n/en.json';
+// import deJson from '../../assets/i18n/de.json';
 import { HttpEaInterceptor } from './interceptor/http-ea.interceptor';
 import { StoreModule } from './store/store.module';
 
@@ -24,6 +24,7 @@ import { StoreModule } from './store/store.module';
   imports: [
     StoreModule,
 
+    HttpClientModule,
     SharedTranslocoModule.forRoot(
       environment.production,
       AVAILABLE_LANGUAGES,
@@ -56,6 +57,6 @@ import { StoreModule } from './store/store.module';
 export class CoreModule {
   public constructor(private readonly translocoService: TranslocoService) {
     this.translocoService.setTranslation(enJson, 'en');
-    this.translocoService.setTranslation(deJson, 'de');
+    // this.translocoService.setTranslation(deJson, 'de');
   }
 }
