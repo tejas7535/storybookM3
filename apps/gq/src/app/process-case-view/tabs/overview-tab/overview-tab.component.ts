@@ -2,8 +2,14 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { map, NEVER, Observable, Subject, takeUntil } from 'rxjs';
 
-import { getCustomer } from '@gq/core/store/selectors';
+import {
+  getCustomer,
+  getQuotationCurrency,
+  getQuotationOverviewInformation,
+} from '@gq/core/store/selectors';
+import { Rating } from '@gq/shared/components/kpi-status-card/models/rating.enum';
 import { Customer } from '@gq/shared/models/customer';
+import { QuotationPricingOverview } from '@gq/shared/models/quotation';
 import { Store } from '@ngrx/store';
 
 import { GeneralInformation } from './models';
@@ -14,6 +20,9 @@ import { GeneralInformation } from './models';
 })
 export class OverviewTabComponent implements OnInit, OnDestroy {
   public generalInformation$: Observable<GeneralInformation> = NEVER;
+  public pricingInformation$: Observable<QuotationPricingOverview> = NEVER;
+  public quotationCurrency$: Observable<string>;
+
   private readonly shutDown$$: Subject<void> = new Subject();
 
   constructor(private readonly store: Store) {}
@@ -49,5 +58,31 @@ export class OverviewTabComponent implements OnInit, OnDestroy {
         return info;
       })
     );
+
+    this.pricingInformation$ = this.store.select(
+      getQuotationOverviewInformation
+    );
+
+    this.quotationCurrency$ = this.store.select(getQuotationCurrency);
+  }
+
+  public getRating(value: number): Rating {
+    if (!value) {
+      return undefined;
+    }
+
+    if (value < 25) {
+      return Rating.LOW;
+    }
+
+    if (value < 40) {
+      return Rating.MEDIUM;
+    }
+
+    if (value >= 40) {
+      return Rating.GOOD;
+    }
+
+    return undefined;
   }
 }

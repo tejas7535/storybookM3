@@ -1,3 +1,5 @@
+import { QuotationPricingOverview } from '@gq/shared/models/quotation';
+import { PriceService } from '@gq/shared/services/price-service/price.service';
 import { createSelector } from '@ngrx/store';
 
 import { DetailViewQueryParams } from '../../../../app-routing.module';
@@ -277,4 +279,25 @@ export const getSelectedQuotationDetailIds = createSelector(
   getProcessCaseState,
   (state: ProcessCaseState): string[] =>
     state?.quotation.selectedQuotationDetails
+);
+
+export const getQuotationOverviewInformation = createSelector(
+  getQuotationDetails,
+  (details: QuotationDetail[]): QuotationPricingOverview => {
+    const priceInformation = PriceService.calculateStatusBarValues(details);
+    const avgRatingItems = details
+      .filter((item: QuotationDetail) => !!item && item.gqRating)
+      .map((item: QuotationDetail) => item.gqRating);
+    const avgRating = Math.round(
+      avgRatingItems.reduce((sum: number, x: number) => sum + x, 0) /
+        avgRatingItems.length
+    );
+
+    return {
+      gpi: priceInformation.gpi,
+      gpm: priceInformation.gpm,
+      netValue: priceInformation.netValue,
+      avgGqRating: avgRating,
+    };
+  }
 );

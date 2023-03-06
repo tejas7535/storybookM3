@@ -1,14 +1,47 @@
 <mat-card
   class="mat-elevation-z0 w-full grow rounded border-[1px] border-x-border border-y-border"
+  *transloco="let t; read: 'shared.kpiStatusCard'"
 >
-  <mat-card-title class="truncate text-h6 text-high-emphasis">
-    {{ title }}
-  </mat-card-title>
-
-  <mat-card-subtitle class="text-caption text-medium-emphasis" *ngIf="subtitle">
-    {{ subtitle }}
-  </mat-card-subtitle>
-
+  <div class="align-center flex flex-row gap-2">
+    <div
+      *ngIf="rating"
+      class="relative mt-[-2px] h-5 w-5 rounded-full bg-opacity-20"
+      [ngClass]="{
+        'bg-[#00893D]': rating === ratingStatus.GOOD,
+        'bg-error': rating === ratingStatus.LOW,
+        'bg-[#FFA026]': rating === ratingStatus.MEDIUM
+      }"
+    >
+      <div
+        class="absolute top-1 left-1 h-3 w-3 rounded-full"
+        [ngClass]="{
+          'bg-[#00893D]': rating === ratingStatus.GOOD,
+          'bg-error': rating === ratingStatus.LOW,
+          'bg-[#FFA026]': rating === ratingStatus.MEDIUM
+        }"
+      ></div>
+    </div>
+    <mat-card-title class="truncate text-h6 text-high-emphasis">
+      {{ title }}
+    </mat-card-title>
+  </div>
+  <div *ngIf="rating" class="flow-row flex gap-2">
+    <span
+      class="mat-card-subtitle mt-[-4px] text-caption"
+      [ngClass]="{
+        'text-[#00893D]': rating === ratingStatus.GOOD,
+        'text-error': rating === ratingStatus.LOW,
+        'text-[#FFA026]': rating === ratingStatus.MEDIUM
+      }"
+      >{{ t('status.' + ratingText) }}
+    </span>
+    <span class="mat-card-subtitle mt-[-4px] text-caption opacity-[0.12]"
+      >|</span
+    >
+    <mat-card-subtitle class="text-caption" *ngIf="subtitle">
+      {{ subtitle }}
+    </mat-card-subtitle>
+  </div>
   <ng-container *ngIf="kpiValue; else customContent">
     <mat-card-content class="pt-6 text-h4">
       {{ kpiValue }}

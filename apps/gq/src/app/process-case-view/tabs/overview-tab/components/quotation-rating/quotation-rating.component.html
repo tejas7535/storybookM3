@@ -1,0 +1,19 @@
+<div *ngIf="rating; else showdash" class="pt-6">
+  <ng-container *ngFor="let i of [].constructor(rating); trackBy: trackByFn">
+    <mat-icon
+      color="primary"
+      class="!w-auto !overflow-visible align-text-top !text-[34px]"
+      >star</mat-icon
+    >
+  </ng-container>
+  <ng-container
+    *ngFor="let i of [].constructor(3 - rating); trackBy: trackByFn"
+  >
+    <mat-icon
+      color="primary"
+      class="!w-auto !overflow-visible align-text-top !text-[34px]"
+      >star_border</mat-icon
+    >
+  </ng-container>
+</div>
+<ng-template #showdash>-</ng-template>

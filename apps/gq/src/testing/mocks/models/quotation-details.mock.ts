@@ -93,6 +93,7 @@ export const QUOTATION_DETAILS_MOCK = [
     material: {
       materialNumber15: '093328702000010',
     } as MaterialDetails,
+    gqRating: 2,
   } as QuotationDetail,
   {
     gpi: 24.75,
@@ -103,6 +104,7 @@ export const QUOTATION_DETAILS_MOCK = [
     material: {
       materialNumber15: '093328702000010',
     } as MaterialDetails,
+    gqRating: 2,
   } as QuotationDetail,
   {
     gpi: -19,
@@ -113,6 +115,7 @@ export const QUOTATION_DETAILS_MOCK = [
     material: {
       materialNumber15: '093328702000020',
     } as MaterialDetails,
+    gqRating: 2,
   } as QuotationDetail,
 ];
 

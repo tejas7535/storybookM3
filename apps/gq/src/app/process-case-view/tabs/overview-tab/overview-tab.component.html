@@ -10,6 +10,55 @@
     </gq-kpi-status-card>
   </div>
 
-  <div class="col-span-2 gap-4 border md:w-1/2 lg:w-full">a dummy text</div>
+  <div class="col-span-2 grid grid-cols-2 gap-4 md:w-1/2 lg:w-full">
+    <gq-kpi-status-card
+      class="col-span-2"
+      [title]="t('tabs.overview.netValueCardTitle')"
+      [subtitle]="
+        t('tabs.overview.netValueCardSubtitle', {
+          currency: (quotationCurrency$ | ngrxPush)
+        })
+      "
+      [kpiValue]="
+        (pricingInformation$ | ngrxPush)?.netValue
+          | numberCurrency: (quotationCurrency$ | ngrxPush)
+      "
+    >
+    </gq-kpi-status-card>
+    <!--TODO: add graph component here-->
+    <div class="col-span-2">this is a text, just as a placeholder</div>
+    <gq-kpi-status-card
+      class="col-span-1"
+      [title]="t('tabs.overview.gpmCardTitle')"
+      [subtitle]="t('tabs.overview.gpmCardSubtitle')"
+      [kpiValue]="(pricingInformation$ | ngrxPush)?.gpm | percentage"
+      [rating]="getRating((pricingInformation$ | ngrxPush)?.gpm)"
+    >
+    </gq-kpi-status-card>
+    <gq-kpi-status-card
+      class="col-span-1"
+      [title]="t('tabs.overview.gpiCardTitle')"
+      [subtitle]="t('tabs.overview.gpiCardSubtitle')"
+      [kpiValue]="(pricingInformation$ | ngrxPush)?.gpi | percentage"
+      [rating]="getRating((pricingInformation$ | async)?.gpm)"
+    >
+    </gq-kpi-status-card>
+    <gq-kpi-status-card
+      class="col-span-1 flex"
+      [title]="t('tabs.overview.ratingCardTitle')"
+      [subtitle]="t('tabs.overview.ratingCardSubtitle')"
+    >
+      <gq-quotation-rating
+        [rating]="(pricingInformation$ | ngrxPush)?.avgGqRating"
+      ></gq-quotation-rating>
+    </gq-kpi-status-card>
+    <gq-kpi-status-card
+      class="col-span-1"
+      [title]="t('tabs.overview.priceDeviationCardTitle')"
+      [subtitle]="t('tabs.overview.priceDeviationCardSubtitle')"
+      [kpiValue]="3.5 | percentage"
+    >
+    </gq-kpi-status-card>
+  </div>
   <div class="gap-4 border md:w-1/2 lg:w-full">a dummy text</div>
 </div>

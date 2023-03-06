@@ -1,3 +1,5 @@
+import { PriceService } from '@gq/shared/services/price-service/price.service';
+
 import {
   CUSTOMER_MOCK,
   QUOTATION_DETAIL_MOCK,
@@ -8,6 +10,14 @@ import { QuotationStatus } from '../../../../shared/models';
 import { SAP_SYNC_STATUS } from '../../../../shared/models/quotation-detail/sap-sync-status.enum';
 import { initialState } from '../../reducers/process-case/process-case.reducer';
 import * as quotationSelectors from './process-case.selectors';
+
+jest.mock('@gq/shared/services/price-service/price.service', () => ({
+  PriceService: {
+    calculateStatusBarValues: jest
+      .fn()
+      .mockReturnValue({ gpi: 10, gpm: 10, netValue: 100, avgGqRating: 2 }),
+  },
+}));
 
 describe('Process Case Selector', () => {
   const fakeState = {
@@ -542,6 +552,21 @@ describe('Process Case Selector', () => {
           testCase.expectedResult
         );
       });
+    });
+  });
+
+  describe('getQuotationOverviewInformation', () => {
+    test('should return the calculated pricing information of all quotation details', () => {
+      expect(PriceService).toBeDefined();
+      expect(
+        quotationSelectors.getQuotationOverviewInformation(fakeState)
+      ).toEqual({
+        gpi: 10,
+        gpm: 10,
+        netValue: 100,
+        avgGqRating: 2,
+      });
+      expect(true).toBeTruthy();
     });
   });
 });

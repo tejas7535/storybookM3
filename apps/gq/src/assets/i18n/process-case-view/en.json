@@ -76,7 +76,17 @@
         "customerClass": "Customer Class",
         "requestedQuotationDate": "Requested Quotation date",
         "comment": "Comment"
-      }
+      },
+      "netValueCardTitle": "Net Value",
+      "netValueCardSubtitle": "Total Net Value in {{currency}}",
+      "gpmCardTitle": "GPM %",
+      "gpmCardSubtitle": "Gross Profit Marge (SQV)",
+      "gpiCardTitle": "GPI %",
+      "gpiCardSubtitle": "Gross Profit (GPC)",
+      "ratingCardTitle": " GQ Rating",
+      "ratingCardSubtitle": "Rating from the system",
+      "priceDeviationCardTitle": "Price Deviation",
+      "priceDeviationCardSubtitle": "From last Customer Price"
     }
   },
   "confirmDeletePositions": {

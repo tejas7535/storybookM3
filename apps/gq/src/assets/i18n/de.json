@@ -451,6 +451,13 @@
       "copyCellContent": "Zellinhalt kopieren",
       "openInNewTab": "In neuem Tab öffnen",
       "openInNewWindow": "In neuem Fenster öffnen"
+    },
+    "kpiStatusCard": {
+      "status": {
+        "GOOD": "Gut",
+        "MEDIUM:": "Niedrig",
+        "LOW": "zu Niedrig"
+      }
     }
   },
   "legal": {
