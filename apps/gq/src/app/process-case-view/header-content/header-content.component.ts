@@ -27,6 +27,7 @@ export class HeaderContentComponent {
   public customerPurchaseOrderDate: string;
   public bindingPeriodValidityEndDate: string;
   public showEditIcon: boolean;
+  public shipToParty: string;
 
   public quotationStatus = QuotationStatus;
 
@@ -64,6 +65,7 @@ export class HeaderContentComponent {
         value.sapCustomerPurchaseOrderDate ?? undefined;
       this.bindingPeriodValidityEndDate = value.validTo ?? undefined;
       this.enableEditDates = true;
+      this.shipToParty = value.shipToParty ?? undefined;
 
       if (value.sapId) {
         this.sapHeader$ = this.translocoService.selectTranslate(
@@ -117,7 +119,8 @@ export class HeaderContentComponent {
             result.requestedDelDate !== this.requestedDeliveryDate ||
             result.customerPurchaseOrderDate !==
               this.customerPurchaseOrderDate ||
-            result.validTo !== this.bindingPeriodValidityEndDate)
+            result.validTo !== this.bindingPeriodValidityEndDate ||
+            result.shipToParty !== this.shipToParty)
         ) {
           this.updateQuotation.emit({
             caseName: result.caseName,
@@ -126,6 +129,7 @@ export class HeaderContentComponent {
             requestedDelDate: result.requestedDelDate,
             customerPurchaseOrderDate: result.customerPurchaseOrderDate,
             validTo: result.validTo,
+            shipToParty: result.shipToParty,
           });
         }
       });

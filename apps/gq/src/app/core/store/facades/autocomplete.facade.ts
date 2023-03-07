@@ -12,6 +12,7 @@ import {
   clearProcessCaseRowData,
   resetAutocompleteMaterials,
   resetRequestingAutoCompleteDialog,
+  selectAutocompleteOption,
   setRequestingAutoCompleteDialog,
   setSelectedAutocompleteOption,
   unselectAutocompleteOptions,
@@ -19,6 +20,7 @@ import {
 import { CaseFilterItem } from '../reducers/create-case/models';
 import {
   getCaseAutocompleteLoading,
+  getCaseCustomer,
   getCaseMaterialDesc,
   getCaseMaterialNumber,
   getCaseMaterialNumberOrDesc,
@@ -48,6 +50,12 @@ export class AutoCompleteFacade {
     this.store.select(
       getCaseMaterialNumberOrDesc(AutocompleteRequestDialog.GLOBAL_SEARCH)
     );
+  public shipToCustomer$: Observable<CaseFilterItem> = this.store.select(
+    getCaseCustomer(AutocompleteRequestDialog.EDIT_CASE)
+  );
+  public createCaseCustomer$: Observable<CaseFilterItem> = this.store.select(
+    getCaseCustomer(AutocompleteRequestDialog.ADD_ENTRY)
+  );
 
   public materialNumberAutocompleteLoading$: Observable<boolean> =
     this.store.select(getCaseAutocompleteLoading(FilterNames.MATERIAL_NUMBER));
@@ -61,6 +69,10 @@ export class AutoCompleteFacade {
     this.store.select(
       getCaseAutocompleteLoading(FilterNames.MATERIAL_NUMBER_OR_DESCRIPTION)
     );
+
+  public customerLoading$: Observable<boolean> = this.store.select(
+    getCaseAutocompleteLoading(FilterNames.CUSTOMER)
+  );
 
   /**
    * This Facades needs to be initialized
@@ -80,6 +92,7 @@ export class AutoCompleteFacade {
   }
 
   selectOption(option: IdValue, filter: string): void {
+    this.store.dispatch(selectAutocompleteOption({ filter, option }));
     this.store.dispatch(
       setSelectedAutocompleteOption({
         filter,

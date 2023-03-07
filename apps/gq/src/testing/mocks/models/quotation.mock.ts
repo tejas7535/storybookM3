@@ -36,4 +36,5 @@ export const QUOTATION_MOCK: Quotation = {
   sapCustomerPurchaseOrderDate: '',
   origin: CASE_ORIGIN.CREATED_MANUALLY,
   abcxClassification: AbcxClassification.UR1,
+  shipToParty: '123456',
 };

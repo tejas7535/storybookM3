@@ -5,12 +5,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { of, Subject } from 'rxjs';
 
 import {
-  autocomplete,
   clearCreateCaseRowData,
   clearCustomer,
   resetAllAutocompleteOptions,
-  selectAutocompleteOption,
-  unselectAutocompleteOptions,
 } from '@gq/core/store/actions';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
@@ -21,7 +18,6 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AutocompleteInputModule } from '../../../shared/components/autocomplete-input/autocomplete-input.module';
-import { FilterNames } from '../../../shared/components/autocomplete-input/filter-names.enum';
 import { AddEntryModule } from '../../../shared/components/case-material/add-entry/add-entry.module';
 import { InputTableModule } from '../../../shared/components/case-material/input-table/input-table.module';
 import { DialogHeaderModule } from '../../../shared/components/header/dialog-header/dialog-header.module';
@@ -31,7 +27,6 @@ import {
   CaseCreationEventParams,
   EVENT_NAMES,
 } from '../../../shared/models';
-import { AutocompleteSearch, IdValue } from '../../../shared/models/search';
 import { CreateManualCaseComponent } from './create-manual-case.component';
 
 describe('CreateManualCaseComponent', () => {
@@ -102,45 +97,7 @@ describe('CreateManualCaseComponent', () => {
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnInit();
 
-      expect(component.customer$).toBeDefined();
       expect(component.createCaseLoading$).toBeDefined();
-    });
-  });
-
-  describe('autocomplete', () => {
-    test('should dispatch autocomplete action', () => {
-      mockStore.dispatch = jest.fn();
-      const autocompleteSearch = new AutocompleteSearch('234', 'customer');
-
-      component.autocomplete(autocompleteSearch);
-
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
-        autocomplete({ autocompleteSearch })
-      );
-    });
-  });
-  describe('unselectQuotationOptions', () => {
-    test('should dispatch unselectQuotationOptions action', () => {
-      mockStore.dispatch = jest.fn();
-
-      component.unselectOptions(FilterNames.CUSTOMER);
-
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
-        unselectAutocompleteOptions({ filter: FilterNames.CUSTOMER })
-      );
-    });
-  });
-
-  describe('selectAutocompleteOption', () => {
-    test('should dispatch selectAutocompleteOption action', () => {
-      mockStore.dispatch = jest.fn();
-      const option = new IdValue('aud', 'Audi', true);
-      const filter = FilterNames.CUSTOMER;
-      component.selectOption(option, filter);
-
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
-        selectAutocompleteOption({ option, filter })
-      );
     });
   });
 

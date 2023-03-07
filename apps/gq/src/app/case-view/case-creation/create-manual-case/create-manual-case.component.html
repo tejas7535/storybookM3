@@ -11,14 +11,17 @@
     *ngIf="!(createCaseLoading$ | ngrxPush); else loading"
   >
     <div class="flex">
-      <div class="w-4/5" *ngIf="customer$ | ngrxPush as customer">
+      <div
+        class="w-4/5"
+        *ngIf="autocompleteFacade.createCaseCustomer$ | ngrxPush as customer"
+      >
         <gq-autocomplete-input
           [filterName]="customer.filter"
           [options]="customer.options"
-          (unselected)="unselectOptions(customer.filter)"
-          (added)="selectOption($event, customer.filter)"
-          [autocompleteLoading]="customerAutocompleteLoading$ | ngrxPush"
-          (autocomplete)="autocomplete($event)"
+          (unselected)="autocompleteFacade.unselectOptions(customer.filter)"
+          (added)="autocompleteFacade.selectOption($event, customer.filter)"
+          [autocompleteLoading]="autocompleteFacade.customerLoading$ | ngrxPush"
+          (autocomplete)="autocompleteFacade.autocomplete($event)"
         ></gq-autocomplete-input>
       </div>
       <div class="ml-3 mt-3 w-1/5">

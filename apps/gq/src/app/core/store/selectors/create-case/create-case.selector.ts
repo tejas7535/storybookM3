@@ -43,11 +43,18 @@ export const getSelectedQuotation = createSelector(
   }
 );
 
-export const getCaseCustomer = createSelector(
-  getCaseState,
-  (state: CreateCaseState): CaseFilterItem =>
-    state.autocompleteItems.find((it) => it.filter === FilterNames.CUSTOMER)
-);
+export const getCaseCustomer = (dialog: AutocompleteRequestDialog) =>
+  createSelector(getCaseState, (state: CreateCaseState): CaseFilterItem => {
+    if (!dialog || dialog === AutocompleteRequestDialog.EMPTY) {
+      return state.autocompleteItems.find(
+        (it) => it.filter === FilterNames.CUSTOMER
+      );
+    }
+
+    return state.requestingDialog === dialog
+      ? state.autocompleteItems.find((it) => it.filter === FilterNames.CUSTOMER)
+      : { filter: FilterNames.CUSTOMER, options: [] };
+  });
 
 export const getCaseMaterialNumber = (dialog: AutocompleteRequestDialog) =>
   createSelector(getCaseState, (state: CreateCaseState): CaseFilterItem => {

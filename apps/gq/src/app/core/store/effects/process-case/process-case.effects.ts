@@ -476,6 +476,7 @@ export class ProcessCaseEffect {
               validTo: action.validTo,
               customerPurchaseOrderDate: action.customerPurchaseOrderDate,
               requestedDelDate: action.requestedDelDate,
+              shipToParty: action.shipToParty,
             },
             gqId
           )

@@ -5,6 +5,7 @@ import {
   ReactiveFormsModule,
   ValidationErrors,
 } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { DateAdapter } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -12,6 +13,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
+import { of } from 'rxjs';
+
+import { AutoCompleteFacade } from '@gq/core/store/facades';
 import { Spectator } from '@ngneat/spectator';
 import { createComponentFactory, mockProvider } from '@ngneat/spectator/jest';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
@@ -21,6 +25,7 @@ import { MockComponent } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { FilterNames } from '../../autocomplete-input/filter-names.enum';
 import { DialogHeaderComponent } from '../../header/dialog-header/dialog-header.component';
 import { EditCaseModalComponent } from './edit-case-modal.component';
 describe('EditCaseModalComponent', () => {
@@ -36,6 +41,7 @@ describe('EditCaseModalComponent', () => {
       FormsModule,
       ReactiveFormsModule,
       PushModule,
+      MatAutocompleteModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
     declarations: [
@@ -45,7 +51,9 @@ describe('EditCaseModalComponent', () => {
     providers: [
       {
         provide: MatDialogRef,
-        useValue: {},
+        useValue: {
+          beforeClosed: jest.fn().mockReturnValue(of([])),
+        },
       },
       {
         provide: MAT_DIALOG_DATA,
@@ -69,6 +77,19 @@ describe('EditCaseModalComponent', () => {
       {
         provide: DateAdapter,
         useClass: MomentDateAdapter,
+      },
+      {
+        provide: AutoCompleteFacade,
+        useValue: {
+          resetView: jest.fn(),
+          initFacade: jest.fn(),
+          autocomplete: jest.fn(),
+          resetAutocompleteMaterials: jest.fn(),
+          materialNumberOrDescForGlobalSearch$: of({
+            filter: FilterNames.CUSTOMER,
+            items: [],
+          }),
+        },
       },
     ],
     detectChanges: false,

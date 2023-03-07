@@ -113,7 +113,11 @@ describe('Create Case Selector', () => {
   });
   describe('getCustomer', () => {
     test('should return customer', () => {
-      expect(createSelectors.getCaseCustomer.projector(fakeState.case)).toEqual(
+      expect(
+        createSelectors
+          .getCaseCustomer(AutocompleteRequestDialog.EMPTY)
+          .projector(fakeState.case)
+      ).toEqual(
         fakeState.case.autocompleteItems.find(
           (elm) => elm.filter === FilterNames.CUSTOMER
         )

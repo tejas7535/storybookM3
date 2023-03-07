@@ -4,22 +4,14 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import {
-  autocomplete,
   createCustomerCase,
   resetCustomerFilter,
   resetPLsAndSeries,
   resetProductLineAndSeries,
-  selectAutocompleteOption,
-  unselectAutocompleteOptions,
 } from '@gq/core/store/actions';
+import { AutoCompleteFacade } from '@gq/core/store/facades';
+import { PLsAndSeries, SalesOrg } from '@gq/core/store/reducers/models';
 import {
-  CaseFilterItem,
-  PLsAndSeries,
-  SalesOrg,
-} from '@gq/core/store/reducers/models';
-import {
-  getCaseAutocompleteLoading,
-  getCaseCustomer,
   getCreateCaseLoading,
   getCreateCustomerCaseDisabled,
   getProductLinesAndSeries,
@@ -27,19 +19,18 @@ import {
   getSelectedCustomerId,
   getSelectedSalesOrg,
 } from '@gq/core/store/selectors';
+import { AutocompleteRequestDialog } from '@gq/shared/components/autocomplete-input/autocomplete-request-dialog.enum';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 import { AutocompleteInputComponent } from '../../../shared/components/autocomplete-input/autocomplete-input.component';
-import { FilterNames } from '../../../shared/components/autocomplete-input/filter-names.enum';
 import {
   CASE_CREATION_TYPES,
   CaseCreationEventParams,
   EVENT_NAMES,
 } from '../../../shared/models';
-import { AutocompleteSearch, IdValue } from '../../../shared/models/search';
 import { MaterialSelectionComponent } from './material-selection/material-selection.component';
 
 @Component({
@@ -48,10 +39,8 @@ import { MaterialSelectionComponent } from './material-selection/material-select
 })
 export class CreateCustomerCaseComponent implements OnInit {
   title$: Observable<string>;
-  customer$: Observable<CaseFilterItem>;
   selectedSalesOrg$: Observable<SalesOrg>;
   selectedCustomerId$: Observable<string>;
-  customerAutocompleteLoading$: Observable<boolean>;
   plsAndSeries$: Observable<PLsAndSeries>;
   plsAndSeriesLoading$: Observable<boolean>;
   createCaseDisabled$: Observable<boolean>;
@@ -65,7 +54,8 @@ export class CreateCustomerCaseComponent implements OnInit {
     private readonly store: Store,
     private readonly dialogRef: MatDialogRef<CreateCustomerCaseComponent>,
     private readonly translocoService: TranslocoService,
-    private readonly insightsService: ApplicationInsightsService
+    private readonly insightsService: ApplicationInsightsService,
+    public readonly autocompleteFacade: AutoCompleteFacade
   ) {
     this.title$ = this.translocoService.selectTranslate(
       'caseCreation.createCustomerCase.title',
@@ -79,10 +69,9 @@ export class CreateCustomerCaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.customer$ = this.store.select(getCaseCustomer);
-    this.customerAutocompleteLoading$ = this.store.select(
-      getCaseAutocompleteLoading(FilterNames.CUSTOMER)
-    );
+    this.autocompleteFacade.resetView();
+    this.autocompleteFacade.initFacade(AutocompleteRequestDialog.ADD_ENTRY);
+
     this.selectedSalesOrg$ = this.store.select(getSelectedSalesOrg);
     this.selectedCustomerId$ = this.store.select(getSelectedCustomerId);
     this.plsAndSeries$ = this.store.select(getProductLinesAndSeries);
@@ -103,23 +92,6 @@ export class CreateCustomerCaseComponent implements OnInit {
     } as CaseCreationEventParams);
   }
 
-  autocomplete(autocompleteSearch: AutocompleteSearch): void {
-    this.store.dispatch(autocomplete({ autocompleteSearch }));
-  }
-
-  selectOption(option: IdValue, filter: string): void {
-    this.store.dispatch(
-      selectAutocompleteOption({
-        option,
-        filter,
-      })
-    );
-  }
-
-  unselectOptions(filter: string): void {
-    this.store.dispatch(unselectAutocompleteOptions({ filter }));
-  }
-
   createCase(): void {
     this.store.dispatch(createCustomerCase());
 
@@ -130,7 +102,6 @@ export class CreateCustomerCaseComponent implements OnInit {
 
   resetAll(): void {
     this.materialSelection.resetAll();
-    this.unselectOptions(FilterNames.CUSTOMER);
     this.autocompleteComponent.resetInputField();
     this.store.dispatch(resetProductLineAndSeries());
   }

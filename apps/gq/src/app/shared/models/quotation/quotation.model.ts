@@ -35,4 +35,5 @@ export class Quotation {
   public sapCustomerPurchaseOrderDate: string;
   public origin: CASE_ORIGIN;
   public abcxClassification: AbcxClassification;
+  public shipToParty: string;
 }

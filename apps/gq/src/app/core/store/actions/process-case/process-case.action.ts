@@ -179,6 +179,7 @@ export const updateQuotation = createAction(
     requestedDelDate?: string;
     customerPurchaseOrderDate?: string;
     validTo?: string;
+    shipToParty?: string;
   }>()
 );
 

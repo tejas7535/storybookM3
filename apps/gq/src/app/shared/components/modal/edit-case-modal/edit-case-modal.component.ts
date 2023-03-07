@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Inject,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import {
@@ -16,27 +17,49 @@ import {
 import { DateAdapter } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
-import { Observable } from 'rxjs';
+import {
+  debounce,
+  EMPTY,
+  Observable,
+  Subject,
+  takeUntil,
+  tap,
+  timer,
+} from 'rxjs';
 
+import {
+  clearCreateCaseRowData,
+  clearCustomer,
+  resetAllAutocompleteOptions,
+} from '@gq/core/store/actions';
+import { AutoCompleteFacade } from '@gq/core/store/facades';
 import { getAvailableCurrencies } from '@gq/core/store/selectors';
+import { Customer } from '@gq/shared/models/customer';
+import { IdValue } from '@gq/shared/models/search';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
 
 import { UpdateQuotationRequest } from '../../../services/rest-services/quotation-service/models/update-quotation-request.model';
+import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete-request-dialog.enum';
+import { FilterNames } from '../../autocomplete-input/filter-names.enum';
 
 @Component({
   selector: 'gq-edit-case-modal',
-
   templateUrl: './edit-case-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EditCaseModalComponent implements OnInit {
+export class EditCaseModalComponent implements OnInit, OnDestroy {
+  private readonly DEBOUNCE_TIME_DEFAULT = 500;
+  public readonly MIN_INPUT_STRING_LENGTH_FOR_AUTOCOMPLETE = 2;
   NAME_MAX_LENGTH = 20;
+
+  options: IdValue[] = [];
 
   public caseModalForm: UntypedFormGroup;
   public poDateLessThanToday: boolean;
 
   currencies$: Observable<string[]>;
+  unsubscribe$$: Subject<boolean> = new Subject<boolean>();
 
   private readonly now: Date = new Date(Date.now());
   // eslint-disable-next-line @typescript-eslint/prefer-readonly
@@ -48,6 +71,7 @@ export class EditCaseModalComponent implements OnInit {
       caseName: string;
       currency: string;
       enableEditDates: boolean;
+      shipToParty?: Customer;
       quotationToDate?: string;
       requestedDeliveryDate?: string;
       customerPurchaseOrderDate?: string;
@@ -56,15 +80,21 @@ export class EditCaseModalComponent implements OnInit {
     private readonly dialogRef: MatDialogRef<EditCaseModalComponent>,
     private readonly store: Store,
     private readonly adapter: DateAdapter<any>,
-    private readonly translocoLocaleService: TranslocoLocaleService
+    private readonly translocoLocaleService: TranslocoLocaleService,
+    public readonly autocomplete: AutoCompleteFacade
   ) {}
 
   ngOnInit(): void {
+    this.autocomplete.resetView();
+    this.autocomplete.initFacade(AutocompleteRequestDialog.EDIT_CASE);
+    this.dispatchResetActions();
+
     const locale = this.translocoLocaleService.getLocale();
 
     this.adapter.setLocale(locale || 'en-US');
 
     this.currencies$ = this.store.select(getAvailableCurrencies);
+
     this.caseModalForm = new FormGroup({
       caseName: new FormControl(
         { value: this.modalData?.caseName || undefined, disabled: false },
@@ -74,6 +104,7 @@ export class EditCaseModalComponent implements OnInit {
         ]
       ),
       currency: new FormControl(this.modalData.currency, [Validators.required]),
+      shipToParty: new FormControl(this.modalData.shipToParty, []),
       quotationToDate: new FormControl(
         {
           value: this.modalData?.quotationToDate
@@ -109,23 +140,66 @@ export class EditCaseModalComponent implements OnInit {
     this.subscribeToChanges();
   }
 
+  ngOnDestroy(): void {
+    this.unsubscribe$$.next(true);
+    this.unsubscribe$$.complete();
+  }
+
   public subscribeToChanges(): void {
     this.caseModalForm
       .get('requestedDeliveryDate')
-      .valueChanges.subscribe(
+      .valueChanges.pipe(takeUntil(this.unsubscribe$$))
+      .subscribe(
         (value) =>
           (this.poDateLessThanToday = this.checkValueGreaterOrEqualToday(value))
       );
 
     this.caseModalForm
       .get('customerPurchaseOrderDate')
-      .valueChanges.subscribe(() => {
+      .valueChanges.pipe(takeUntil(this.unsubscribe$$))
+      .subscribe(() => {
         Object.keys(this.caseModalForm.controls).forEach((field) => {
           if (field !== 'customerPurchaseOrderDate') {
             const control = this.caseModalForm.get(field);
             control.updateValueAndValidity();
           }
         });
+      });
+
+    this.caseModalForm
+      .get('shipToParty')
+      .valueChanges.pipe(
+        takeUntil(this.unsubscribe$$),
+        tap((value: string) => {
+          if (value?.length < this.MIN_INPUT_STRING_LENGTH_FOR_AUTOCOMPLETE) {
+            this.autocomplete.resetAutocompleteMaterials();
+          }
+        }),
+        debounce((value: string) =>
+          value?.length >= this.MIN_INPUT_STRING_LENGTH_FOR_AUTOCOMPLETE
+            ? timer(this.DEBOUNCE_TIME_DEFAULT)
+            : EMPTY
+        )
+      )
+      .subscribe((searchVal: string) => {
+        if (searchVal === '') {
+          this.autocomplete.resetAutocompleteMaterials();
+
+          return;
+        }
+
+        this.autocomplete.autocomplete({
+          filter: FilterNames.CUSTOMER,
+          searchFor: searchVal,
+          limit: 5,
+        });
+      });
+
+    this.dialogRef
+      .beforeClosed()
+      .pipe(takeUntil(this.unsubscribe$$))
+      .subscribe(() => {
+        this.dispatchResetActions();
       });
   }
 
@@ -160,6 +234,9 @@ export class EditCaseModalComponent implements OnInit {
             this.caseModalForm.controls.bindingPeriodValidityEndDate.value
           ).toISOString()
         : undefined,
+      shipToParty: this.caseModalForm.controls.shipToParty.value
+        ? this.caseModalForm.controls.shipToParty.value.id
+        : undefined,
     };
     this.dialogRef.close(returnUpdateQuotationRequest);
   }
@@ -193,4 +270,20 @@ export class EditCaseModalComponent implements OnInit {
 
     return undefined;
   };
+
+  public formatAutocompleteResult(value: IdValue) {
+    if (!value) {
+      return '';
+    }
+
+    return `${value.id} | ${value.value} ${
+      value.value2 ? `| ${value.value2}` : ''
+    }`;
+  }
+
+  private dispatchResetActions(): void {
+    this.store.dispatch(resetAllAutocompleteOptions());
+    this.store.dispatch(clearCustomer());
+    this.store.dispatch(clearCreateCaseRowData());
+  }
 }

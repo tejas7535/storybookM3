@@ -7,12 +7,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 
 import {
-  autocomplete,
   resetCustomerFilter,
   resetPLsAndSeries,
   resetProductLineAndSeries,
-  selectAutocompleteOption,
-  unselectAutocompleteOptions,
 } from '@gq/core/store/actions';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
@@ -24,7 +21,6 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { VIEW_CASE_STATE_MOCK } from '../../../../testing/mocks';
 import { AutocompleteInputModule } from '../../../shared/components/autocomplete-input/autocomplete-input.module';
-import { FilterNames } from '../../../shared/components/autocomplete-input/filter-names.enum';
 import { DialogHeaderModule } from '../../../shared/components/header/dialog-header/dialog-header.module';
 import { SelectSalesOrgModule } from '../../../shared/components/select-sales-org/select-sales-org.module';
 import {
@@ -32,7 +28,6 @@ import {
   CaseCreationEventParams,
   EVENT_NAMES,
 } from '../../../shared/models';
-import { AutocompleteSearch, IdValue } from '../../../shared/models/search';
 import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
 import { AdditionalFiltersComponent } from './additional-filters/additional-filters.component';
 import { FilterSelectionComponent } from './additional-filters/filter-selection/filter-selection.component';
@@ -108,42 +103,6 @@ describe('CreateCustomerCaseComponent', () => {
       expect(mockStore.dispatch).toHaveBeenCalledWith(resetPLsAndSeries());
     });
   });
-  describe('autocomplete', () => {
-    test('should dispatch autocomplete action', () => {
-      mockStore.dispatch = jest.fn();
-      const autocompleteSearch = new AutocompleteSearch('234', 'customer');
-
-      component.autocomplete(autocompleteSearch);
-
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
-        autocomplete({ autocompleteSearch })
-      );
-    });
-  });
-  describe('unselectQuotationOptions', () => {
-    test('should dispatch unselectQuotationOptions action', () => {
-      mockStore.dispatch = jest.fn();
-
-      component.unselectOptions(FilterNames.CUSTOMER);
-
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
-        unselectAutocompleteOptions({ filter: FilterNames.CUSTOMER })
-      );
-    });
-  });
-
-  describe('selectAutocompleteOption', () => {
-    test('should dispatch selectAutocompleteOption action', () => {
-      mockStore.dispatch = jest.fn();
-      const option = new IdValue('aud', 'Audi', true, 'germany');
-      const filter = FilterNames.CUSTOMER;
-      component.selectOption(option, filter);
-
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
-        selectAutocompleteOption({ option, filter })
-      );
-    });
-  });
 
   describe('createCase', () => {
     test('should dispatch store', () => {
@@ -158,12 +117,10 @@ describe('CreateCustomerCaseComponent', () => {
     test('should reset all', () => {
       mockStore.dispatch = jest.fn();
       component.materialSelection = { resetAll: jest.fn() } as any;
-      component.unselectOptions = jest.fn();
       component.autocompleteComponent = { resetInputField: jest.fn() } as any;
       component.resetAll();
 
       expect(component.materialSelection.resetAll).toHaveBeenCalledTimes(1);
-      expect(component.unselectOptions).toHaveBeenCalledTimes(1);
       component.autocompleteComponent.resetInputField();
       expect(mockStore.dispatch).toHaveBeenCalledWith(
         resetProductLineAndSeries()

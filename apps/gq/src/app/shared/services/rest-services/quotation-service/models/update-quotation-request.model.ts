@@ -5,4 +5,5 @@ export interface UpdateQuotationRequest {
   requestedDelDate: string;
   customerPurchaseOrderDate: string;
   validTo: string;
+  shipToParty: string;
 }

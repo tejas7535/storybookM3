@@ -221,6 +221,7 @@ describe('ProcessCaseViewComponent', () => {
         validTo: '',
         customerPurchaseOrderDate: '',
         requestedDelDate: '',
+        shipToParty: '',
       };
       component.updateQuotation(updateQuotationRequest);
 

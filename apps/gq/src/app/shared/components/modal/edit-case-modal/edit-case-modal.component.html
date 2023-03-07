@@ -48,6 +48,49 @@
         >
         <div class="flex flex-col">
           <mat-form-field class="pb-2" appearance="outline">
+            <mat-label>{{ t('shipToParty') }}</mat-label>
+            <input
+              matInput
+              color="primary"
+              class="!mx-2 w-full leading-7 !outline-none"
+              type="text"
+              formControlName="shipToParty"
+              [matAutocomplete]="auto"
+            />
+
+            <mat-icon
+              matSuffix
+              class="absolute right-2 bottom-1"
+              *ngIf="!(autocomplete.customerLoading$ | ngrxPush)"
+            >
+              edit
+            </mat-icon>
+
+            <mat-spinner
+              matSuffix
+              class="absolute right-2 bottom-1"
+              *ngIf="autocomplete.customerLoading$ | ngrxPush"
+              [diameter]="18"
+            ></mat-spinner>
+
+            <mat-autocomplete
+              #auto="matAutocomplete"
+              [displayWith]="formatAutocompleteResult"
+            >
+              <mat-option
+                *ngFor="
+                  let idValue of (autocomplete.shipToCustomer$ | ngrxPush)
+                    ?.options
+                "
+                [value]="idValue"
+              >
+                <span> {{ idValue.id }} | {{ idValue.value }}</span>
+                <span *ngIf="idValue.value2"> | {{ idValue.value2 }}</span>
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-form-field class="pb-2" appearance="outline">
             <mat-label>{{ t('customerPurchaseOrderDateLabel') }}</mat-label>
             <input
               matInput
@@ -143,7 +186,8 @@
             caseModalForm.controls.customerPurchaseOrderDate.value ===
               modalData.customerPurchaseOrderDate &&
             caseModalForm.controls.bindingPeriodValidityEndDate.value ===
-              modalData.bindingPeriodValidityEndDate)
+              modalData.bindingPeriodValidityEndDate &&
+            caseModalForm.controls.shipToParty.value === modalData.shipToParty)
         "
         data-cy="edit-case-modal_update-btn"
       >

@@ -187,6 +187,7 @@ describe('QuotationService', () => {
         validTo: '',
         customerPurchaseOrderDate: '',
         requestedDelDate: '',
+        shipToParty: '',
       };
       const gqId = 12_345;
       service

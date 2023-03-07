@@ -4,32 +4,23 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Observable, Subject, takeUntil } from 'rxjs';
 
 import {
-  autocomplete,
   clearCreateCaseRowData,
   clearCustomer,
   resetAllAutocompleteOptions,
-  selectAutocompleteOption,
-  unselectAutocompleteOptions,
 } from '@gq/core/store/actions';
-import { CaseFilterItem } from '@gq/core/store/reducers/models';
-import {
-  getCaseAutocompleteLoading,
-  getCaseCustomer,
-  getCaseRowData,
-  getCreateCaseLoading,
-} from '@gq/core/store/selectors';
+import { AutoCompleteFacade } from '@gq/core/store/facades';
+import { getCaseRowData, getCreateCaseLoading } from '@gq/core/store/selectors';
+import { AutocompleteRequestDialog } from '@gq/shared/components/autocomplete-input/autocomplete-request-dialog.enum';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
-import { FilterNames } from '../../../shared/components/autocomplete-input/filter-names.enum';
 import {
   CASE_CREATION_TYPES,
   CaseCreationEventParams,
   EVENT_NAMES,
 } from '../../../shared/models';
-import { AutocompleteSearch, IdValue } from '../../../shared/models/search';
 import { MaterialTableItem } from '../../../shared/models/table';
 
 @Component({
@@ -38,8 +29,6 @@ import { MaterialTableItem } from '../../../shared/models/table';
 })
 export class CreateManualCaseComponent implements OnDestroy, OnInit {
   createCaseLoading$: Observable<boolean>;
-  customer$: Observable<CaseFilterItem>;
-  customerAutocompleteLoading$: Observable<boolean>;
   rowData$: Observable<MaterialTableItem[]>;
   title$: Observable<string>;
   private readonly shutdown$$: Subject<void> = new Subject<void>();
@@ -48,7 +37,8 @@ export class CreateManualCaseComponent implements OnDestroy, OnInit {
     private readonly store: Store,
     private readonly dialogRef: MatDialogRef<CreateManualCaseComponent>,
     private readonly translocoService: TranslocoService,
-    private readonly insightsService: ApplicationInsightsService
+    private readonly insightsService: ApplicationInsightsService,
+    public readonly autocompleteFacade: AutoCompleteFacade
   ) {
     this.title$ = this.translocoService.selectTranslate(
       'caseCreation.createManualCase.title',
@@ -58,11 +48,10 @@ export class CreateManualCaseComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit(): void {
+    this.autocompleteFacade.resetView();
+    this.autocompleteFacade.initFacade(AutocompleteRequestDialog.ADD_ENTRY);
+
     this.createCaseLoading$ = this.store.select(getCreateCaseLoading);
-    this.customer$ = this.store.select(getCaseCustomer);
-    this.customerAutocompleteLoading$ = this.store.select(
-      getCaseAutocompleteLoading(FilterNames.CUSTOMER)
-    );
     this.rowData$ = this.store.select(getCaseRowData);
 
     this.insightsService.logEvent(EVENT_NAMES.CASE_CREATION_STARTED, {
@@ -80,23 +69,6 @@ export class CreateManualCaseComponent implements OnDestroy, OnInit {
   ngOnDestroy(): void {
     this.shutdown$$.next();
     this.shutdown$$.unsubscribe();
-  }
-
-  autocomplete(autocompleteSearch: AutocompleteSearch): void {
-    this.store.dispatch(autocomplete({ autocompleteSearch }));
-  }
-
-  selectOption(option: IdValue, filter: string): void {
-    this.store.dispatch(
-      selectAutocompleteOption({
-        option,
-        filter,
-      })
-    );
-  }
-
-  unselectOptions(filter: string): void {
-    this.store.dispatch(unselectAutocompleteOptions({ filter }));
   }
 
   closeDialog(): void {

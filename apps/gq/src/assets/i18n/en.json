@@ -436,6 +436,7 @@
       "nameLabel": "Case Name",
       "currencyLabel": "Custom Currency",
       "generalInformation": "General",
+      "shipToParty": "Ship-to Party",
       "sapInformation": "SAP Information",
       "quotationToDateLabel": "Quotation to",
       "requestedDeliveryDateLabel": "Requested delivery date",
