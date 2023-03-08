@@ -86,7 +86,13 @@
       "ratingCardTitle": " GQ Rating",
       "ratingCardSubtitle": "Rating from the system",
       "priceDeviationCardTitle": "Price Deviation",
-      "priceDeviationCardSubtitle": "From last Customer Price"
+      "priceDeviationCardSubtitle": "From last Customer Price",
+      "quotationByProductionLineOrGPSD": {
+        "tooltip": {
+          "gpmLabel": "GPM %",
+          "shareLabel": "Share"
+        }
+      }
     }
   },
   "confirmDeletePositions": {
