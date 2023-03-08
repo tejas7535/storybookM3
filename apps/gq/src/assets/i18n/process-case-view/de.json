@@ -2,7 +2,11 @@
   "header": {
     "gqHeader": "Erstellt in GQ am:\n{{gqCreationName}}\nvon {{gqCreationDate}}\n\nZuletzt aktualisiert in GQ von:\n{{gqUpdatedName}}\nam {{gqUpdatedDate}}",
     "sapHeader": "\n\nErstellt in SAP von:\n{{sapCreationName}}\nam {{sapCreationDate}}\n\nZuletzt aktualisiert in SAP am:\n{{sapUpdatedDate}}",
-    "caseNamePlaceholder": "Geben Sie einen Case Namen ein (max. 20 Zeichen)"
+    "caseNamePlaceholder": "Geben Sie einen Case Namen ein (max. 20 Zeichen)",
+    "release": "Veröffentlichen",
+    "releaseModal": {
+      "title": "Workflow zur Angebotsfreigabe"
+    }
   },
   "tabs": {
     "singleQuotes": {

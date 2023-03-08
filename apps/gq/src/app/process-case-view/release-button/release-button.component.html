@@ -1,0 +1,12 @@
+<ng-container *featureToggle="'approvalWorkflow'">
+  <ng-container *transloco="let t; read: 'processCaseView'">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="openDialog()"
+      *ngIf="quotation?.sapId"
+    >
+      {{ t('header.release') }}
+    </button>
+  </ng-container>
+</ng-container>

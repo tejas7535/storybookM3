@@ -1,10 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
 
 import { ProcessCaseEffect } from '@gq/core/store/effects';
 import { processCaseReducer } from '@gq/core/store/reducers/process-case/process-case.reducer';
+import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
+import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
@@ -24,14 +27,22 @@ import { AddMaterialDialogModule } from './add-material-dialog/add-material-dial
 import { HeaderContentModule } from './header-content/header-content.module';
 import { ProcessCaseViewComponent } from './process-case-view.component';
 import { ProcessCaseViewRoutingModule } from './process-case-view-routing.module';
+import { ReleaseButtonComponent } from './release-button/release-button.component';
+import { ReleaseModalComponent } from './release-button/release-modal/release-modal.component';
 import { CalculationInProgressComponent } from './tabs/single-quotes-tab/calculation-in-progress/calculation-in-progress.component';
 
 @NgModule({
-  declarations: [ProcessCaseViewComponent, CalculationInProgressComponent],
+  declarations: [
+    ProcessCaseViewComponent,
+    CalculationInProgressComponent,
+    ReleaseButtonComponent,
+    ReleaseModalComponent,
+  ],
   imports: [
     CommonModule,
     EffectsModule.forFeature([ProcessCaseEffect]),
     MatSidenavModule,
+    MatButtonModule,
     HeaderContentModule,
     ProcessCaseViewRoutingModule,
     SharedPipesModule,
@@ -48,6 +59,8 @@ import { CalculationInProgressComponent } from './tabs/single-quotes-tab/calcula
     SubheaderModule,
     TabsHeaderModule,
     SyncStatusCustomerInfoHeaderModule,
+    SharedDirectivesModule,
+    DialogHeaderModule,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'process-case-view' }],
 })

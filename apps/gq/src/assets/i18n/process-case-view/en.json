@@ -2,7 +2,11 @@
   "header": {
     "gqHeader": "Created in GQ by:\n{{gqCreationName}}\non {{gqCreationDate}}\n\nLast Updated in GQ by:\n{{gqUpdatedName}}\non {{gqUpdatedDate}}",
     "sapHeader": "\n\nCreated in SAP by:\n{{sapCreationName}}\non {{sapCreationDate}}\n\nLast Updated in SAP on:\n{{sapUpdatedDate}}",
-    "caseNamePlaceholder": "Enter a case name (max. 20 characters)"
+    "caseNamePlaceholder": "Enter a case name (max. 20 characters)",
+    "release": "Release",
+    "releaseModal": {
+      "title": "Quotation Release Workflow"
+    }
   },
   "tabs": {
     "singleQuotes": {
