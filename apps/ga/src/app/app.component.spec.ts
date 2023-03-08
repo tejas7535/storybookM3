@@ -6,6 +6,7 @@ import { OneTrustModule } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoService } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
 import { AppShellModule } from '@schaeffler/app-shell';
@@ -13,13 +14,13 @@ import {
   ApplicationInsightsService,
   COOKIE_GROUPS,
 } from '@schaeffler/application-insights';
+import { BannerModule } from '@schaeffler/banner';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { UserSettingsModule } from './shared/components/user-settings';
-
 describe('AppComponent', () => {
   let component: AppComponent;
   let spectator: Spectator<AppComponent>;
@@ -27,6 +28,7 @@ describe('AppComponent', () => {
   let applicationInsightsService: ApplicationInsightsService;
   let metaService: Meta;
   let titleService: Title;
+  let store: MockStore;
 
   const createComponent = createComponentFactory({
     component: AppComponent,
@@ -37,6 +39,7 @@ describe('AppComponent', () => {
       MockModule(CoreModule),
       MockModule(AppShellModule),
       MockModule(UserSettingsModule),
+      MockModule(BannerModule),
       provideTranslocoTestingModule(
         { en: {} },
         { translocoConfig: { defaultLang: 'de' } }
@@ -47,6 +50,7 @@ describe('AppComponent', () => {
       }),
     ],
     providers: [
+      provideMockStore({}),
       {
         provide: ApplicationInsightsService,
         useValue: {
@@ -62,6 +66,7 @@ describe('AppComponent', () => {
     component = spectator.debugElement.componentInstance;
     translocoService = spectator.inject(TranslocoService);
     applicationInsightsService = spectator.inject(ApplicationInsightsService);
+    store = spectator.inject(MockStore);
 
     metaService = spectator.inject(Meta);
     titleService = spectator.inject(Title);
@@ -89,6 +94,7 @@ describe('AppComponent', () => {
       translocoService.translate = jest.fn();
       metaService.updateTag = jest.fn();
       titleService.setTitle = jest.fn();
+      component.openBanner = jest.fn();
 
       component.ngOnInit();
 
@@ -184,6 +190,38 @@ describe('AppComponent', () => {
           external: false,
         },
       ]);
+    });
+  });
+
+  describe('openBanner', () => {
+    it('should open the banner between 07.3 and 15.03', () => {
+      jest.useFakeTimers();
+      jest.setSystemTime(new Date('2023-03-10'));
+      const banner = {
+        text: 'Maintenance work is taking place in the Grease app. Under certain circumstances, no calculations are possible in the period between 13.03. and 14.03.',
+        icon: 'warning',
+        buttonText: 'Okay',
+        truncateSize: 0,
+        type: '[Banner] Open Banner',
+      };
+      store.dispatch = jest.fn();
+
+      component.openBanner();
+
+      expect(store.dispatch).toHaveBeenCalledWith(banner);
+      jest.useRealTimers();
+    });
+
+    it('should not open the banner after the slot between 07.3 and 15.03.', () => {
+      jest.useFakeTimers();
+      jest.setSystemTime(new Date('2023-03-16'));
+
+      store.dispatch = jest.fn();
+
+      component.openBanner();
+
+      expect(store.dispatch).toBeCalledTimes(0);
+      jest.useRealTimers();
     });
   });
 });
