@@ -1,4 +1,11 @@
 # Release Notes of Grease App
+## [1.2.21](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.20...ga-v1.2.21) (2023-03-08)
+
+
+### Features
+
+* **ga:** add maintenance banner (UFTABI-6357) ([#5071](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5071)) ([4b8a5e1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4b8a5e1dedb9de1d5e9ed72aae0f191ffdba7fbc))
+
 ## [1.2.20](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.19...ga-v1.2.20) (2023-02-20)
 
 
