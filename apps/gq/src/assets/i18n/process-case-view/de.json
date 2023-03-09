@@ -69,37 +69,37 @@
     },
     "overview": {
       "title": "Übersicht",
-      "overviewCardTitle": "Allgemein",
+      "overviewCardTitle": "Allgemeine Informationen",
       "generalInformation": {
-        "approvalLevel": "Approval Level",
+        "approvalLevel": "Freigabelevel",
         "validity": "Gültigkeit",
-        "duration": "Dauer",
+        "duration": "Angebotsdauer",
         "project": "Projekt",
         "projectInformation": "Projektinformation",
         "customer": "Kunde",
-        "customerClass": "Kundenklasse",
-        "requestedQuotationDate": "gewünschtes Quotation Datum",
+        "customerClass": "Umsatzklassifizierung (A,B,C)",
+        "requestedQuotationDate": "Angebot bis",
         "comment": "Kommentar"
       },
       "netValueCardTitle": "Nettowert",
-      "netValueCardSubtitle": "ges. Nettowert  in {{currency}}",
+      "netValueCardSubtitle": "Nettowert gesamt  in {{currency}}",
       "gpmCardTitle": "GPM %",
-      "gpmCardSubtitle": "Gross Profit Marge (SQV)",
+      "gpmCardSubtitle": "Gross Profit Marge (SAW)",
       "gpiCardTitle": "GPI %",
-      "gpiCardSubtitle": "Gross Profit (GPC)",
+      "gpiCardSubtitle": "Gross Profit I (KHK)",
       "ratingCardTitle": " GQ Rating",
-      "ratingCardSubtitle": "Rating from the system",
-      "priceDeviationCardTitle": "Price Deviation",
-      "priceDeviationCardSubtitle": "From last Customer Price",
+      "ratingCardSubtitle": "auf Basis des GQ-Algorithmus",
+      "priceDeviationCardTitle": "Preisunterschied",
+      "priceDeviationCardSubtitle": "zum letzten Kundenpreis",
       "quotationByProductionLineOrGPSD": {
-        "titlePL": "Quotation by Product Line",
-        "titleGPSD": "Quotation by GPSD",
-        "dropDownPL": "By Product Line",
-        "dropDownGPSD": "By GPSD",
-        "numberOfItemsLabel": "Total Number of Items",
+        "titlePL": "Angebot nach Produktlinien",
+        "titleGPSD": "Angebot nach GPSD",
+        "dropDownPL": "nach Produktlinien",
+        "dropDownGPSD": "nach GPSD",
+        "numberOfItemsLabel": "Anzahl Positionen",
         "tooltip": {
           "gpmLabel": "GPM %",
-          "shareLabel": "Share"
+          "shareLabel": "Anteil"
         }
       }
     }

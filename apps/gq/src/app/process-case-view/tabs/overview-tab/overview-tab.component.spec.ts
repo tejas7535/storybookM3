@@ -82,10 +82,11 @@ describe('OverviewTabComponent', () => {
             duration: '10 months',
             project: 'GSIM Project',
             projectInformation:
-              'This is a longer text that contains some Project information',
+              'lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum.',
             customer: PROCESS_CASE_STATE_MOCK.customer.item,
             requestedQuotationDate: '01/01/2024',
-            comment: 'This is a longer comment text, that contains a comment.',
+            comment:
+              'lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum.',
           },
         });
 
