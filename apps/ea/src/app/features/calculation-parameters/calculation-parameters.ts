@@ -109,11 +109,9 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
       if (!anyLoadApplied) {
         this.setLoadErrors(group, 'radial');
         this.setLoadErrors(group, 'axial');
-        this.setLoadErrors(group, 'rotation');
       } else {
         this.removeLoadErrors(group, 'radial');
         this.removeLoadErrors(group, 'axial');
-        this.removeLoadErrors(group, 'rotation');
       }
     };
   }
