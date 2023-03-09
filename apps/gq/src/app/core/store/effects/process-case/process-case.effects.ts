@@ -335,7 +335,7 @@ export class ProcessCaseEffect {
                 (quotationDetail: QuotationDetail) =>
                   quotationDetail.sapSyncErrorCode
               )
-              .filter((errorCode: string) => errorCode !== undefined);
+              .filter((errorCode: string) => !!errorCode);
 
             let messageText = '';
             if (errorCodes?.length > 0) {
