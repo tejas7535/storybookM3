@@ -2,7 +2,7 @@ import { FilterDimension } from '../models';
 
 export const LOCAL_STORAGE_APP_KEY = 'ia';
 export const COMPANY_NAME = 'Schaeffler';
-export const DATA_IMPORT_DAY = 9; // day of each month of data import from data provider
+export const DATA_IMPORT_DAY = 13; // day of each month of data import from data provider
 export const CONTENT_TYPE_APPLICATION_JSON = {
   'Content-Type': 'application/json',
 };

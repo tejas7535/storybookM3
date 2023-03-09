@@ -141,16 +141,16 @@ describe('Filter Reducer', () => {
   });
 
   describe('getInitialSelectedTimeRange', () => {
-    test('should return one month earlier when 9th day of month', () => {
-      const today = moment.utc({ year: 2022, month: 5, day: 9 });
+    test('should return one month earlier when 13th day of month', () => {
+      const today = moment.utc({ year: 2022, month: 5, day: 13 });
 
       const result = getInitialSelectedTimeRange(today);
 
       expect(result).toBe('1619827200|1651363199'); // 01-05-2021|30-04-2022
     });
 
-    test('should return one month later when 10th day of month', () => {
-      const today = moment.utc({ year: 2022, month: 5, day: 10 });
+    test('should return one month later when 14th day of month', () => {
+      const today = moment.utc({ year: 2022, month: 5, day: 14 });
 
       const result = getInitialSelectedTimeRange(today);
 
