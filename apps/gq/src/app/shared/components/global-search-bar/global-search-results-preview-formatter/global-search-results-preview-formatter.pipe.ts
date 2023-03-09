@@ -25,7 +25,10 @@ export class GlobalSearchResultsPreviewFormatterPipe implements PipeTransform {
   }
 
   private isMaterialNumber(idValue: IdValue, searchVal: string): boolean {
-    return idValue?.value?.startsWith(searchVal.replace(/-/g, ''));
+    return (
+      idValue?.value?.startsWith(searchVal.replace(/-/g, '')) &&
+      !idValue?.id?.startsWith(searchVal)
+    );
   }
 
   private formatMaterialNumber(

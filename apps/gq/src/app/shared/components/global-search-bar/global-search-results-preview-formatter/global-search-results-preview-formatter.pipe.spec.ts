@@ -47,7 +47,7 @@ describe('GlobalSearchResultsPreviewFormatterPipe', () => {
   });
 
   describe('transform', () => {
-    test('should format id', () => {
+    test('should format search result as materialDescription if only idValue.id is matching the search string', () => {
       const idValue = {
         id: '234408-M-SP-#E',
         value: '019038763000002',
@@ -71,7 +71,7 @@ describe('GlobalSearchResultsPreviewFormatterPipe', () => {
       expect(htmlString).toEqual(mockSanitizerResult);
     });
 
-    test('should format partial material number', () => {
+    test('should format search result as material number if only idValue.value is matching the search string', () => {
       const idValue = {
         id: 'L-0G9E7-0009-00    Steuergeraet ZSB#S',
         value: '234408944000010',
@@ -93,6 +93,31 @@ describe('GlobalSearchResultsPreviewFormatterPipe', () => {
       expect(sanitizer.sanitize).toHaveBeenCalledWith(
         SecurityContext.HTML,
         '<span class="text-high-emphasis font-bold">2344089</span><span class="text-medium-emphasis">44-0000-10</span>'
+      );
+      expect(sanitizer.sanitize).toHaveBeenCalledTimes(1);
+      expect(htmlString).toEqual(mockSanitizerResult);
+    });
+
+    test('should format search result as materialDescription if idValue.id and idValue.value are both matching the search string', () => {
+      const idValue = {
+        id: '09521321#E',
+        value: '096191465000010',
+      } as IdValue;
+
+      const searchString = '09';
+      const pipe = new GlobalSearchResultsPreviewFormatterPipe(
+        sanitizer,
+        materialNumberService
+      );
+
+      const mockSanitizerResult = 'sanitizer-output';
+      sanitizer.sanitize = jest.fn().mockReturnValue(mockSanitizerResult);
+
+      const htmlString = pipe.transform(idValue, searchString);
+
+      expect(sanitizer.sanitize).toHaveBeenCalledWith(
+        SecurityContext.HTML,
+        '<span class="text-high-emphasis font-bold">09</span><span class="text-medium-emphasis">521321#E</span>'
       );
       expect(sanitizer.sanitize).toHaveBeenCalledTimes(1);
       expect(htmlString).toEqual(mockSanitizerResult);
