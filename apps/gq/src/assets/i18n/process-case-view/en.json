@@ -5,7 +5,16 @@
     "caseNamePlaceholder": "Enter a case name (max. 20 characters)",
     "release": "Release",
     "releaseModal": {
-      "title": "Quotation Release Workflow"
+      "title": "Quotation Release Workflow",
+      "summary": "Summary",
+      "approvalLevel": "Approval Level",
+      "problems": "Problems",
+      "approvers": "Approvers",
+      "additionalInformation": "Additional Information",
+      "comment": "Comment",
+      "projectInformation": "Project Information",
+      "startWorkflow": "Start Workflow",
+      "cancel": "Cancel"
     }
   },
   "tabs": {

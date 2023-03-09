@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
 
@@ -56,6 +59,10 @@ import { CalculationInProgressComponent } from './tabs/single-quotes-tab/calcula
     ShareButtonModule,
     ExportExcelModalModule,
     MatTabsModule,
+    MatFormFieldModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
     SubheaderModule,
     TabsHeaderModule,
     SyncStatusCustomerInfoHeaderModule,

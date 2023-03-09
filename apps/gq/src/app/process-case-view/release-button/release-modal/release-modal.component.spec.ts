@@ -1,3 +1,4 @@
+import { FormBuilder } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
@@ -14,7 +15,7 @@ describe('ReleaseModalComponent', () => {
   const createComponent = createComponentFactory({
     component: ReleaseModalComponent,
     imports: [DialogHeaderModule, provideTranslocoTestingModule({})],
-    providers: [{ provide: MatDialogRef, useValue: {} }],
+    providers: [{ provide: MatDialogRef, useValue: {} }, FormBuilder],
     detectChanges: false,
   });
 

@@ -16,6 +16,9 @@ export class ReleaseButtonComponent {
   constructor(private readonly dialog: MatDialog) {}
 
   openDialog() {
-    this.dialog.open(ReleaseModalComponent, { width: '634px' });
+    this.dialog.open(ReleaseModalComponent, {
+      width: '634px',
+      panelClass: 'release-modal',
+    });
   }
 }
