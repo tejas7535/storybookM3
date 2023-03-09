@@ -20,7 +20,7 @@
           [filterName]="customer.filter"
           [options]="customer.options"
           (unselected)="autocompleteFacade.unselectOptions(customer.filter)"
-          (added)="autocompleteFacade.selectOption($event, customer.filter)"
+          (added)="autocompleteFacade.selectCustomer($event, customer.filter)"
           [autocompleteLoading]="autocompleteFacade.customerLoading$ | ngrxPush"
           (autocomplete)="autocompleteFacade.autocomplete($event)"
         ></gq-autocomplete-input>

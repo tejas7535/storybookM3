@@ -1,3 +1,5 @@
+import { Customer } from '@gq/shared/models/customer';
+
 import { CASE_ORIGIN, Quotation } from '../../../app/shared/models';
 import {
   AbcxClassification,
@@ -36,5 +38,10 @@ export const QUOTATION_MOCK: Quotation = {
   sapCustomerPurchaseOrderDate: '',
   origin: CASE_ORIGIN.CREATED_MANUALLY,
   abcxClassification: AbcxClassification.UR1,
-  shipToParty: '123456',
+  shipToParty: {
+    identifier: {
+      customerId: '12345',
+      salesOrg: '67890',
+    },
+  } as Customer,
 };

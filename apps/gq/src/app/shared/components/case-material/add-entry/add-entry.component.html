@@ -39,7 +39,12 @@
         [options]="materialDesc.options"
         (inputContent)="materialHasInput($event)"
         (unselected)="autoCompleteFacade.unselectOptions(materialDesc.filter)"
-        (added)="autoCompleteFacade.selectOption($event, materialDesc.filter)"
+        (added)="
+          autoCompleteFacade.selectMaterialNumberOrDescription(
+            $event,
+            materialDesc.filter
+          )
+        "
         (isValid)="materialInputValid($event)"
         [autocompleteLoading]="
           autoCompleteFacade.materialDescAutocompleteLoading$ | ngrxPush
@@ -59,7 +64,12 @@
         [options]="materialNumber.options"
         (inputContent)="materialHasInput($event)"
         (unselected)="autoCompleteFacade.unselectOptions(materialNumber.filter)"
-        (added)="autoCompleteFacade.selectOption($event, materialNumber.filter)"
+        (added)="
+          autoCompleteFacade.selectMaterialNumberOrDescription(
+            $event,
+            materialNumber.filter
+          )
+        "
         (isValid)="materialInputValid($event)"
         [autocompleteLoading]="
           autoCompleteFacade.materialNumberAutocompleteLoading$ | ngrxPush

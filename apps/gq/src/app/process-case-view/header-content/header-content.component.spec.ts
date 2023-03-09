@@ -13,6 +13,7 @@ import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { CUSTOMER_MOCK } from '../../../testing/mocks';
 import { QUOTATION_MOCK } from '../../../testing/mocks/models/quotation.mock';
 import { InfoIconModule } from '../../shared/components/info-icon/info-icon.module';
 import { EditCaseModalComponent } from '../../shared/components/modal/edit-case-modal/edit-case-modal.component';
@@ -90,6 +91,42 @@ describe('HeaderContentComponent', () => {
             enableEditDates: false,
             quotationToDate: undefined,
             requestedDeliveryDate: undefined,
+            currency: undefined,
+            salesOrg: undefined,
+            shipToParty: {
+              id: undefined,
+              value: undefined,
+              value2: undefined,
+            },
+          },
+        }
+      );
+    });
+
+    test('should pass shipToParty and salesOrg to Modal', () => {
+      component.caseName = 'case-name';
+      component.shipToParty = CUSTOMER_MOCK;
+
+      component.openCaseEditingModal();
+
+      expect(matDialogSpyObject.open).toHaveBeenCalledWith(
+        EditCaseModalComponent,
+        {
+          width: '480px',
+          data: {
+            caseName: 'case-name',
+            bindingPeriodValidityEndDate: undefined,
+            customerPurchaseOrderDate: undefined,
+            enableEditDates: false,
+            quotationToDate: undefined,
+            requestedDeliveryDate: undefined,
+            currency: undefined,
+            salesOrg: CUSTOMER_MOCK.identifier.salesOrg,
+            shipToParty: {
+              id: CUSTOMER_MOCK.identifier.customerId,
+              value: CUSTOMER_MOCK.name,
+              value2: CUSTOMER_MOCK.country,
+            },
           },
         }
       );

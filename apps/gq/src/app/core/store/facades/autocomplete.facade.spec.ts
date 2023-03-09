@@ -9,6 +9,7 @@ import {
   clearProcessCaseRowData,
   resetAutocompleteMaterials,
   resetRequestingAutoCompleteDialog,
+  selectAutocompleteOption,
   setRequestingAutoCompleteDialog,
   setSelectedAutocompleteOption,
   unselectAutocompleteOptions,
@@ -62,7 +63,20 @@ describe('autocompleteFacade', () => {
       mockStore.dispatch = jest.fn();
       const option = new IdValue('aud', 'Audi', true);
       const filter = FilterNames.CUSTOMER;
-      service.selectOption(option, filter);
+      service.selectCustomer(option, filter);
+
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        selectAutocompleteOption({ option, filter })
+      );
+    });
+  });
+
+  describe('setSelectedAutocompleteOption', () => {
+    test('should dispatch setSelectedAutocompleteOption action', () => {
+      mockStore.dispatch = jest.fn();
+      const option = new IdValue('aud', 'Audi', true);
+      const filter = FilterNames.CUSTOMER;
+      service.selectMaterialNumberOrDescription(option, filter);
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(
         setSelectedAutocompleteOption({ option, filter })

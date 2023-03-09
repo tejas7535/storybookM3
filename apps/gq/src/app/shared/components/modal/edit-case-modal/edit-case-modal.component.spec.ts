@@ -16,21 +16,24 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { of } from 'rxjs';
 
 import { AutoCompleteFacade } from '@gq/core/store/facades';
+import { getSalesOrgs } from '@gq/core/store/selectors';
 import { Spectator } from '@ngneat/spectator';
 import { createComponentFactory, mockProvider } from '@ngneat/spectator/jest';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { PushModule } from '@ngrx/component';
-import { provideMockStore } from '@ngrx/store/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockComponent } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { CREATE_CASE_STORE_STATE_MOCK } from '../../../../../testing/mocks';
 import { FilterNames } from '../../autocomplete-input/filter-names.enum';
 import { DialogHeaderComponent } from '../../header/dialog-header/dialog-header.component';
 import { EditCaseModalComponent } from './edit-case-modal.component';
 describe('EditCaseModalComponent', () => {
   let component: EditCaseModalComponent;
   let spectator: Spectator<EditCaseModalComponent>;
+  let store: MockStore;
 
   const createComponent = createComponentFactory({
     component: EditCaseModalComponent,
@@ -71,6 +74,7 @@ describe('EditCaseModalComponent', () => {
           currency: {
             availableCurrencies: ['EUR', 'USD'],
           },
+          case: CREATE_CASE_STORE_STATE_MOCK,
         },
       }),
       mockProvider(TranslocoLocaleService),
@@ -99,6 +103,7 @@ describe('EditCaseModalComponent', () => {
   beforeEach(async () => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+    store = spectator.inject(MockStore);
   });
 
   it('should create', () => {
@@ -125,6 +130,29 @@ describe('EditCaseModalComponent', () => {
       expect(
         component.caseModalForm.controls.bindingPeriodValidityEndDate.value
       ).toStrictEqual(new Date('2022-12-31T00:00:00.000Z'));
+    });
+
+    test('should set salesOrg from array', () => {
+      expect(component.salesOrg).toBeUndefined();
+
+      store.overrideSelector(getSalesOrgs, [
+        { id: '0267', selected: false },
+        { id: '0268', selected: false },
+      ]);
+      spectator.detectChanges();
+
+      expect(component.salesOrg).toEqual('0267');
+    });
+
+    test('should set salesOrg from modalData if subscription is empty', () => {
+      component.modalData = {
+        salesOrg: '0269',
+      } as any;
+
+      store.overrideSelector(getSalesOrgs, []);
+      spectator.detectChanges();
+
+      expect(component.salesOrg).toEqual('0269');
     });
   });
 

@@ -14,6 +14,7 @@ import { CUSTOMER_MOCK } from '../../../../../testing/mocks';
 import { ApiVersion, QuotationStatus } from '../../../models';
 import { CreateCustomerCase } from '../search-service/models/create-customer-case.model';
 import { QuotationPaths } from './models/quotation-paths.enum';
+import { ShipToParty } from './models/ship-to-party';
 import { UpdateQuotationRequest } from './models/update-quotation-request.model';
 import { QuotationService } from './quotation.service';
 
@@ -187,7 +188,10 @@ describe('QuotationService', () => {
         validTo: '',
         customerPurchaseOrderDate: '',
         requestedDelDate: '',
-        shipToParty: '',
+        shipToParty: {
+          customerId: '1234',
+          salesOrg: '5678',
+        } as ShipToParty,
       };
       const gqId = 12_345;
       service

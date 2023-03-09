@@ -1,3 +1,5 @@
+import { ShipToParty } from './ship-to-party';
+
 export interface UpdateQuotationRequest {
   caseName: string;
   currency: string;
@@ -5,5 +7,5 @@ export interface UpdateQuotationRequest {
   requestedDelDate: string;
   customerPurchaseOrderDate: string;
   validTo: string;
-  shipToParty: string;
+  shipToParty: ShipToParty;
 }

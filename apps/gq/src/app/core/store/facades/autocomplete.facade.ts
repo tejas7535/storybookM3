@@ -91,8 +91,11 @@ export class AutoCompleteFacade {
     this.store.dispatch(autocomplete({ autocompleteSearch }));
   }
 
-  selectOption(option: IdValue, filter: string): void {
+  selectCustomer(option: IdValue, filter: string): void {
     this.store.dispatch(selectAutocompleteOption({ filter, option }));
+  }
+
+  selectMaterialNumberOrDescription(option: IdValue, filter: string): void {
     this.store.dispatch(
       setSelectedAutocompleteOption({
         filter,

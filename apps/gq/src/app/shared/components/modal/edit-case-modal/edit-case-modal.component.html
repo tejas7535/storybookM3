@@ -56,12 +56,14 @@
               type="text"
               formControlName="shipToParty"
               [matAutocomplete]="auto"
+              #shipToPartyInput
             />
 
             <mat-icon
               matSuffix
               class="absolute right-2 bottom-1"
               *ngIf="!(autocomplete.customerLoading$ | ngrxPush)"
+              (click)="shipToPartyInput.select()"
             >
               edit
             </mat-icon>
@@ -76,6 +78,9 @@
             <mat-autocomplete
               #auto="matAutocomplete"
               [displayWith]="formatAutocompleteResult"
+              (optionSelected)="
+                autocomplete.selectCustomer($event.option.value, filterName)
+              "
             >
               <mat-option
                 *ngFor="

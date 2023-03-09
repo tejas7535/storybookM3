@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 
+import { Customer } from '@gq/shared/models/customer';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { EditCaseModalComponent } from '../../shared/components/modal/edit-case-modal/edit-case-modal.component';
@@ -27,7 +28,7 @@ export class HeaderContentComponent {
   public customerPurchaseOrderDate: string;
   public bindingPeriodValidityEndDate: string;
   public showEditIcon: boolean;
-  public shipToParty: string;
+  public shipToParty: Customer;
 
   public quotationStatus = QuotationStatus;
 
@@ -107,6 +108,12 @@ export class HeaderContentComponent {
           requestedDeliveryDate: this.requestedDeliveryDate,
           customerPurchaseOrderDate: this.customerPurchaseOrderDate,
           bindingPeriodValidityEndDate: this.bindingPeriodValidityEndDate,
+          shipToParty: {
+            id: this.shipToParty?.identifier.customerId,
+            value: this.shipToParty?.name,
+            value2: this.shipToParty?.country,
+          },
+          salesOrg: this.shipToParty?.identifier?.salesOrg,
         },
       })
       .afterClosed()
@@ -120,7 +127,8 @@ export class HeaderContentComponent {
             result.customerPurchaseOrderDate !==
               this.customerPurchaseOrderDate ||
             result.validTo !== this.bindingPeriodValidityEndDate ||
-            result.shipToParty !== this.shipToParty)
+            result.shipToParty?.customerId !==
+              this.shipToParty?.identifier.customerId)
         ) {
           this.updateQuotation.emit({
             caseName: result.caseName,

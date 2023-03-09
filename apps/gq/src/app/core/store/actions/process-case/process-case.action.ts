@@ -7,6 +7,7 @@ import {
   MaterialTableItem,
   MaterialValidation,
 } from '../../../../shared/models/table';
+import { ShipToParty } from '../../../../shared/services/rest-services/quotation-service/models/ship-to-party';
 import {
   QuotationIdentifier,
   UpdateQuotationDetail,
@@ -179,7 +180,7 @@ export const updateQuotation = createAction(
     requestedDelDate?: string;
     customerPurchaseOrderDate?: string;
     validTo?: string;
-    shipToParty?: string;
+    shipToParty?: ShipToParty;
   }>()
 );
 

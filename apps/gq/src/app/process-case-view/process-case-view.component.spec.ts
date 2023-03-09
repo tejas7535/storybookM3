@@ -17,6 +17,7 @@ import {
   getQuotationLoading,
   getQuotationSapSyncStatus,
 } from '@gq/core/store/selectors';
+import { ShipToParty } from '@gq/shared/services/rest-services/quotation-service/models/ship-to-party';
 import {
   createComponentFactory,
   mockProvider,
@@ -221,7 +222,10 @@ describe('ProcessCaseViewComponent', () => {
         validTo: '',
         customerPurchaseOrderDate: '',
         requestedDelDate: '',
-        shipToParty: '',
+        shipToParty: {
+          customerId: '12345',
+          salesOrg: '67890',
+        } as ShipToParty,
       };
       component.updateQuotation(updateQuotationRequest);
 

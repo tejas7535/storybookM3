@@ -33,9 +33,10 @@ import {
   resetAllAutocompleteOptions,
 } from '@gq/core/store/actions';
 import { AutoCompleteFacade } from '@gq/core/store/facades';
-import { getAvailableCurrencies } from '@gq/core/store/selectors';
-import { Customer } from '@gq/shared/models/customer';
+import { SalesOrg } from '@gq/core/store/reducers/models';
+import { getAvailableCurrencies, getSalesOrgs } from '@gq/core/store/selectors';
 import { IdValue } from '@gq/shared/models/search';
+import { ShipToParty } from '@gq/shared/services/rest-services/quotation-service/models/ship-to-party';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
 
@@ -57,6 +58,8 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
 
   public caseModalForm: UntypedFormGroup;
   public poDateLessThanToday: boolean;
+  public salesOrg: string;
+  public filterName = FilterNames.CUSTOMER;
 
   currencies$: Observable<string[]>;
   unsubscribe$$: Subject<boolean> = new Subject<boolean>();
@@ -71,11 +74,12 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
       caseName: string;
       currency: string;
       enableEditDates: boolean;
-      shipToParty?: Customer;
+      shipToParty?: IdValue;
       quotationToDate?: string;
       requestedDeliveryDate?: string;
       customerPurchaseOrderDate?: string;
       bindingPeriodValidityEndDate?: string;
+      salesOrg?: string;
     },
     private readonly dialogRef: MatDialogRef<EditCaseModalComponent>,
     private readonly store: Store,
@@ -95,6 +99,7 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
 
     this.currencies$ = this.store.select(getAvailableCurrencies);
 
+    this.salesOrg = this.modalData.salesOrg;
     this.caseModalForm = new FormGroup({
       caseName: new FormControl(
         { value: this.modalData?.caseName || undefined, disabled: false },
@@ -195,6 +200,15 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
         });
       });
 
+    this.store
+      .select(getSalesOrgs)
+      .pipe(takeUntil(this.unsubscribe$$))
+      .subscribe((salesOrgs: SalesOrg[]) => {
+        if (salesOrgs && salesOrgs.length > 0) {
+          this.salesOrg = salesOrgs[0].id;
+        }
+      });
+
     this.dialogRef
       .beforeClosed()
       .pipe(takeUntil(this.unsubscribe$$))
@@ -235,7 +249,10 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
           ).toISOString()
         : undefined,
       shipToParty: this.caseModalForm.controls.shipToParty.value
-        ? this.caseModalForm.controls.shipToParty.value.id
+        ? ({
+            customerId: this.caseModalForm.controls.shipToParty.value.id,
+            salesOrg: this.salesOrg,
+          } as ShipToParty)
         : undefined,
     };
     this.dialogRef.close(returnUpdateQuotationRequest);
@@ -272,7 +289,7 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
   };
 
   public formatAutocompleteResult(value: IdValue) {
-    if (!value) {
+    if (!value?.id || !value?.value) {
       return '';
     }
 

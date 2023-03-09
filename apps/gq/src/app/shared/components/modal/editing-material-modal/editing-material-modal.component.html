@@ -28,7 +28,10 @@
               autoCompleteFacade.unselectOptions(materialDesc.filter)
             "
             (added)="
-              autoCompleteFacade.selectOption($event, materialDesc.filter)
+              autoCompleteFacade.selectMaterialNumberOrDescription(
+                $event,
+                materialDesc.filter
+              )
             "
           ></gq-autocomplete-input>
         </div>
@@ -54,7 +57,10 @@
               autoCompleteFacade.unselectOptions(materialNumber.filter)
             "
             (added)="
-              autoCompleteFacade.selectOption($event, materialNumber.filter)
+              autoCompleteFacade.selectMaterialNumberOrDescription(
+                $event,
+                materialNumber.filter
+              )
             "
           ></gq-autocomplete-input>
         </div>
