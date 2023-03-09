@@ -5,7 +5,7 @@
   <div class="gap-4 md:w-1/2 lg:w-full">
     <gq-kpi-status-card [title]="t('tabs.overview.overviewCardTitle')">
       <gq-general-information
-        [info]="generalInformation$ | async"
+        [info]="generalInformation$ | ngrxPush"
       ></gq-general-information>
     </gq-kpi-status-card>
   </div>
@@ -26,7 +26,7 @@
     >
     </gq-kpi-status-card>
     <div class="col-span-2">
-      <gq-quotation-by-product-line></gq-quotation-by-product-line>
+      <gq-quotation-by-product-line-or-gpsd></gq-quotation-by-product-line-or-gpsd>
     </div>
     <gq-kpi-status-card
       class="col-span-1"
@@ -41,7 +41,7 @@
       [title]="t('tabs.overview.gpiCardTitle')"
       [subtitle]="t('tabs.overview.gpiCardSubtitle')"
       [kpiValue]="(pricingInformation$ | ngrxPush)?.gpi | percentage"
-      [rating]="getRating((pricingInformation$ | async)?.gpm)"
+      [rating]="getRating((pricingInformation$ | ngrxPush)?.gpm)"
     >
     </gq-kpi-status-card>
     <gq-kpi-status-card
@@ -61,5 +61,11 @@
     >
     </gq-kpi-status-card>
   </div>
-  <div class="gap-4 border md:w-1/2 lg:w-full">a dummy text</div>
+  <div class="gap-4 md:w-1/2 lg:w-full">
+    <mat-card
+      class="mat-elevation-z0 w-full grow rounded border-[1px] border-x-border border-y-border"
+    >
+      lorem ipsum</mat-card
+    >
+  </div>
 </div>

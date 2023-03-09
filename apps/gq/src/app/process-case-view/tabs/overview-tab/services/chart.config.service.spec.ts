@@ -91,6 +91,22 @@ describe('ChartConfigService', () => {
       ];
       expect(result).toStrictEqual(expected);
     });
+
+    test('shall return the config when only one item', () => {
+      const result = service.getSeriesConfig([barChartData[0]]);
+      const expected: SeriesOption[] = [
+        {
+          type: 'bar',
+          stack: 'total',
+          name: barChartData[0].name,
+          data: [barChartData[0]],
+          itemStyle: {
+            borderRadius: 10,
+          },
+        },
+      ];
+      expect(result).toStrictEqual(expected);
+    });
   });
 
   describe('getLegend', () => {

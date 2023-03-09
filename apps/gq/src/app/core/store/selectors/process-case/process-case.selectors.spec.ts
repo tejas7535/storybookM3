@@ -1,3 +1,4 @@
+import { QuotationDetail } from '@gq/shared/models/quotation-detail';
 import { PriceService } from '@gq/shared/services/price-service/price.service';
 
 import {
@@ -567,6 +568,91 @@ describe('Process Case Selector', () => {
         avgGqRating: 2,
       });
       expect(true).toBeTruthy();
+    });
+  });
+
+  describe('Grouped QuotationDetails', () => {
+    const state = {
+      ...fakeState,
+      processCase: {
+        quotation: {
+          item: {
+            quotationDetails: [
+              {
+                material: {
+                  gpsdGroupId: 'f01',
+                  productLineId: '11',
+                },
+              },
+              {
+                material: {
+                  gpsdGroupId: 'f02',
+                  productLineId: '11',
+                },
+              },
+            ] as QuotationDetail[],
+          },
+        },
+      },
+    };
+
+    describe('getQuotationDetailsByGPSD', () => {
+      test('Should return the grouped quotationDetails', () => {
+        const expected = new Map([
+          [
+            'f01',
+            [
+              {
+                material: {
+                  gpsdGroupId: 'f01',
+                  productLineId: '11',
+                },
+              },
+            ],
+          ],
+          [
+            'f02',
+            [
+              {
+                material: {
+                  gpsdGroupId: 'f02',
+                  productLineId: '11',
+                },
+              },
+            ],
+          ],
+        ]);
+        expect(quotationSelectors.getQuotationDetailsByGPSD(state)).toEqual(
+          expected
+        );
+      });
+    });
+
+    describe('getQuotationDetailsByPL', () => {
+      test('Should return the grouped quotationDetails', () => {
+        const expected = new Map([
+          [
+            '11',
+            [
+              {
+                material: {
+                  gpsdGroupId: 'f01',
+                  productLineId: '11',
+                },
+              },
+              {
+                material: {
+                  gpsdGroupId: 'f02',
+                  productLineId: '11',
+                },
+              },
+            ],
+          ],
+        ]);
+        expect(quotationSelectors.getQuotationDetailsByPL(state)).toEqual(
+          expected
+        );
+      });
     });
   });
 });

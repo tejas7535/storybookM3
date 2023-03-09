@@ -8,13 +8,13 @@ import {
 import { MockDirective } from 'ng-mocks';
 import { NgxEchartsDirective } from 'ngx-echarts';
 
-import { BarChartData } from '../quotation-by-product-line/models/bar-chart-data.model';
-import { ChartConfigService } from '../quotation-by-product-line/services/chart.config.service';
-import { QuotationByProductLineBarChartComponent } from './quotation-by-product-line-bar-chart.component';
+import { BarChartData } from '../../models';
+import { ChartConfigService } from '../../services/chart.config.service';
+import { QuotationByProductLineOrGpsdBarChartComponent } from './quotation-by-product-line-or-gpsd-bar-chart.component';
 
 describe('QuotationByProductLineBarChartComponent', () => {
-  let component: QuotationByProductLineBarChartComponent;
-  let spectator: Spectator<QuotationByProductLineBarChartComponent>;
+  let component: QuotationByProductLineOrGpsdBarChartComponent;
+  let spectator: Spectator<QuotationByProductLineOrGpsdBarChartComponent>;
   const inputData: BarChartData[] = [
     {
       gpm: '10',
@@ -30,8 +30,7 @@ describe('QuotationByProductLineBarChartComponent', () => {
     },
   ];
   const createComponent = createComponentFactory({
-    component: QuotationByProductLineBarChartComponent,
-
+    component: QuotationByProductLineOrGpsdBarChartComponent,
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     declarations: [MockDirective(NgxEchartsDirective)],
     providers: [
@@ -42,6 +41,7 @@ describe('QuotationByProductLineBarChartComponent', () => {
         getTooltipConfig: jest.fn(),
       }),
     ],
+    detectChanges: false,
   });
 
   beforeEach(() => {
@@ -49,6 +49,7 @@ describe('QuotationByProductLineBarChartComponent', () => {
     component = spectator.debugElement.componentInstance;
 
     component.data = inputData;
+    jest.resetAllMocks();
   });
 
   it('should create', () => {
@@ -57,8 +58,24 @@ describe('QuotationByProductLineBarChartComponent', () => {
 
   describe('ngOnInit', () => {
     test('options shall be set', () => {
-      component.ngOnInit();
+      spectator.detectChanges();
       expect(component.options).toBeDefined();
+    });
+  });
+
+  describe('ngOnChanges', () => {
+    test('should recalculate the options', () => {
+      component['getOptions'] = jest.fn();
+      spectator.setInput('data', [
+        { gpm: '1', name: '!', share: '12', value: 15 },
+      ]);
+      spectator.detectChanges();
+      expect(component['getOptions']).toHaveBeenCalled();
+    });
+
+    test('should not recalculate the options when no changes', () => {
+      component['getOptions'] = jest.fn();
+      expect(component['getOptions']).not.toHaveBeenCalled();
     });
   });
 });

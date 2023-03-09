@@ -73,6 +73,7 @@ export class ChartConfigService {
   });
 
   getSeriesConfig = (data: BarChartData[]): SeriesOption[] => {
+    this.seriesConfig = [];
     data.forEach((item: BarChartData, i: number, array: BarChartData[]) => {
       const configItem: SeriesOption = {
         type: 'bar',
@@ -90,6 +91,12 @@ export class ChartConfigService {
       if (i === array.length - 1) {
         configItem.itemStyle = {
           borderRadius: [0, 10, 10, 0],
+        };
+      }
+
+      if (i === 0 && i === array.length - 1) {
+        configItem.itemStyle = {
+          borderRadius: 10,
         };
       }
 

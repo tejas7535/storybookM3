@@ -301,3 +301,40 @@ export const getQuotationOverviewInformation = createSelector(
     };
   }
 );
+
+export const getQuotationDetailsByGPSD = createSelector(
+  getQuotationDetails,
+  (details: QuotationDetail[]): Map<string, QuotationDetail[]> => {
+    const groupedBy: Map<string, QuotationDetail[]> = groupBy(
+      details,
+      (detail) => detail.material.gpsdGroupId
+    );
+
+    return groupedBy;
+  }
+);
+
+export const getQuotationDetailsByPL = createSelector(
+  getQuotationDetails,
+  (details: QuotationDetail[]): Map<string, QuotationDetail[]> => {
+    const groupedBy: Map<string, QuotationDetail[]> = groupBy(
+      details,
+      (detail) => detail.material.productLineId
+    );
+
+    return groupedBy;
+  }
+);
+
+function groupBy<T>(arr: T[], fn: (item: T) => any) {
+  const groupedBy = new Map();
+  for (const listItem of arr) {
+    if (!groupedBy.has(fn(listItem))) {
+      groupedBy.set(fn(listItem), [listItem]);
+    } else {
+      groupedBy.get(fn(listItem)).push(listItem);
+    }
+  }
+
+  return groupedBy;
+}

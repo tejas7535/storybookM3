@@ -92,6 +92,11 @@
       "priceDeviationCardTitle": "Price Deviation",
       "priceDeviationCardSubtitle": "From last Customer Price",
       "quotationByProductionLineOrGPSD": {
+        "titlePL": "Quotation by Product Line",
+        "titleGPSD": "Quotation by GPSD",
+        "dropDownPL": "By Product Line",
+        "dropDownGPSD": "By GPSD",
+        "numberOfItemsLabel": "Total Number of Items",
         "tooltip": {
           "gpmLabel": "GPM %",
           "shareLabel": "Share"

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
 
 import { HorizontalDividerModule } from '@gq/shared/components/horizontal-divider/horizontal-divider.module';
 import { KpiStatusCardComponent } from '@gq/shared/components/kpi-status-card/kpi-status-card.component';
@@ -15,10 +16,10 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import {
   GeneralInformationComponent,
+  QuotationByProductLineOrGpsdBarChartComponent,
+  QuotationByProductLineOrGpsdComponent,
   QuotationRatingComponent,
 } from './components';
-import { QuotationByProductLineComponent } from './components/quotation-by-product-line/quotation-by-product-line.component';
-import { QuotationByProductLineBarChartComponent } from './components/quotation-by-product-line-bar-chart/quotation-by-product-line-bar-chart.component';
 import { OverviewTabComponent } from './overview-tab.component';
 import { OverviewTabRoutingModule } from './overview-tab.routing.module';
 @NgModule({
@@ -36,14 +37,21 @@ import { OverviewTabRoutingModule } from './overview-tab.routing.module';
     SharedPipesModule,
     PushModule,
     MatCardModule,
+    MatSelectModule,
   ],
   declarations: [
     OverviewTabComponent,
     GeneralInformationComponent,
     QuotationRatingComponent,
-    QuotationByProductLineComponent,
-    QuotationByProductLineBarChartComponent,
+    QuotationByProductLineOrGpsdComponent,
+    QuotationByProductLineOrGpsdBarChartComponent,
   ],
-  exports: [GeneralInformationComponent, QuotationRatingComponent],
+  exports: [
+    OverviewTabComponent,
+    GeneralInformationComponent,
+    QuotationRatingComponent,
+    QuotationByProductLineOrGpsdComponent,
+    QuotationByProductLineOrGpsdBarChartComponent,
+  ],
 })
 export class OverviewTabModule {}
