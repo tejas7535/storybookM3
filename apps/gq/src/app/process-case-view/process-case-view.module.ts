@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
 
@@ -32,6 +33,7 @@ import { ProcessCaseViewComponent } from './process-case-view.component';
 import { ProcessCaseViewRoutingModule } from './process-case-view-routing.module';
 import { ReleaseButtonComponent } from './release-button/release-button.component';
 import { ReleaseModalComponent } from './release-button/release-modal/release-modal.component';
+import { ReleaseModalApproverSelectComponent } from './release-button/release-modal/release-modal-approver-select/release-modal-approver-select.component';
 import { CalculationInProgressComponent } from './tabs/single-quotes-tab/calculation-in-progress/calculation-in-progress.component';
 
 @NgModule({
@@ -40,6 +42,7 @@ import { CalculationInProgressComponent } from './tabs/single-quotes-tab/calcula
     CalculationInProgressComponent,
     ReleaseButtonComponent,
     ReleaseModalComponent,
+    ReleaseModalApproverSelectComponent,
   ],
   imports: [
     CommonModule,
@@ -60,6 +63,7 @@ import { CalculationInProgressComponent } from './tabs/single-quotes-tab/calcula
     ExportExcelModalModule,
     MatTabsModule,
     MatFormFieldModule,
+    MatSelectModule,
     FormsModule,
     ReactiveFormsModule,
     MatInputModule,

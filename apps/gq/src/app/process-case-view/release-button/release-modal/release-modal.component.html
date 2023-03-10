@@ -1,6 +1,6 @@
 <form
   [formGroup]="formGroup"
-  class="flex h-full flex-col"
+  class="flex h-full max-h-[90vh] flex-col overflow-y-scroll"
   *transloco="let t; read: 'processCaseView.header.releaseModal'"
 >
   <div class="px-4 pt-4">
@@ -26,7 +26,22 @@
     </div>
 
     <div>
-      <p class="pt-6 text-subtitle-2">{{ t('approvers') }}</p>
+      <p class="pt-6 pb-4 text-subtitle-2">{{ t('approvers') }}</p>
+      <gq-release-modal-approver-select
+        [approverSelectFormControl]="approver1FormControl"
+        [approvers]="approversLevel1"
+        [title]="t('approver1Title', { level: 'L1' })"
+      ></gq-release-modal-approver-select>
+      <gq-release-modal-approver-select
+        [approverSelectFormControl]="approver2FormControl"
+        [approvers]="approversLevel2"
+        [title]="t('approver2Title', { level: 'L2' })"
+      ></gq-release-modal-approver-select>
+      <gq-release-modal-approver-select
+        [approverSelectFormControl]="approverCCFormControl"
+        [approvers]="approversCC"
+        [title]="t('approverCCTitle')"
+      ></gq-release-modal-approver-select>
     </div>
 
     <div class="pb-10">
@@ -35,7 +50,7 @@
         <mat-label>{{ t('comment') }}</mat-label>
         <textarea
           matInput
-          class="h-24 max-h-32 !leading-6"
+          class="h-20 max-h-32 !leading-6"
           formControlName="comment"
           type="text"
           [maxlength]="INPUT_MAX_LENGTH"
@@ -49,7 +64,7 @@
         <mat-label>{{ t('projectInformation') }}</mat-label>
         <textarea
           matInput
-          class="h-24 max-h-32 !leading-6"
+          class="h-20 max-h-32 !leading-6"
           formControlName="projectInformation"
           type="text"
           [maxlength]="INPUT_MAX_LENGTH"
@@ -68,6 +83,7 @@
       mat-raised-button
       color="primary"
       [disabled]="formGroup.invalid || formGroup.pristine"
+      (click)="startWorkflow()"
     >
       {{ t('startWorkflow') }}
     </button>

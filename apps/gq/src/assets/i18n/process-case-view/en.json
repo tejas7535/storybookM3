@@ -14,7 +14,10 @@
       "comment": "Comment",
       "projectInformation": "Project Information",
       "startWorkflow": "Start Workflow",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "approver1Title": "Approver 1 ({{ level }})",
+      "approver2Title": "Approver 2 ({{ level }})",
+      "approverCCTitle": "Information (CC)"
     }
   },
   "tabs": {
