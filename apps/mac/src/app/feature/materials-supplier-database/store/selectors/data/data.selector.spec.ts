@@ -103,26 +103,56 @@ describe('DataSelectors', () => {
     ).toEqual(expected);
   });
 
-  it('should get agGridFilter as undefined if not defined', () => {
+  it('should get initial agGridFilter', () => {
     expect(
-      DataSelectors.getAgGridFilter.projector({ ...initialState.filter })
+      DataSelectors.getAgGridFilter.projector(
+        {
+          materialClass: MaterialClass.STEEL,
+          navigationLevel: NavigationLevel.MATERIAL,
+        },
+        { ...initialState.filter }
+      )
     ).toEqual({});
   });
 
   it('should get agGridFilter as undefined if unable to parse', () => {
     expect(
-      DataSelectors.getAgGridFilter.projector({
-        ...initialState.filter,
-        agGridFilter: 'some not parsable string',
-      })
+      DataSelectors.getAgGridFilter.projector(
+        {
+          materialClass: MaterialClass.STEEL,
+          navigationLevel: NavigationLevel.MATERIAL,
+        },
+        {
+          ...initialState.filter,
+          agGridFilter: {
+            ...initialState.filter.agGridFilter,
+            [MaterialClass.STEEL]: {
+              ...initialState.filter.agGridFilter[MaterialClass.STEEL],
+              [NavigationLevel.MATERIAL]: 'something not parseable',
+            },
+          },
+        }
+      )
     ).toEqual(undefined);
   });
   it('should get agGridFilter', () => {
     expect(
-      DataSelectors.getAgGridFilter.projector({
-        ...initialState.filter,
-        agGridFilter: '{"someKey":"someValue"}',
-      })
+      DataSelectors.getAgGridFilter.projector(
+        {
+          materialClass: MaterialClass.STEEL,
+          navigationLevel: NavigationLevel.MATERIAL,
+        },
+        {
+          ...initialState.filter,
+          agGridFilter: {
+            ...initialState.filter.agGridFilter,
+            [MaterialClass.STEEL]: {
+              ...initialState.filter.agGridFilter[MaterialClass.STEEL],
+              [NavigationLevel.MATERIAL]: '{"someKey":"someValue"}',
+            },
+          },
+        }
+      )
     ).toEqual({
       someKey: 'someValue',
     });
@@ -141,7 +171,13 @@ describe('DataSelectors', () => {
           navigationLevel,
         },
         {
-          agGridFilter,
+          agGridFilter: {
+            ...initialState.filter.agGridFilter,
+            [materialClass]: {
+              ...initialState.filter.agGridFilter[materialClass],
+              [navigationLevel]: agGridFilter,
+            },
+          },
         }
       )
     ).toEqual({

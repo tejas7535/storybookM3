@@ -513,6 +513,7 @@ describe('MainTableComponent', () => {
 
       // eslint-disable-next-line unicorn/no-useless-undefined
       component['agGridReadyService'].agGridApiready = jest.fn(() => '');
+      component['restoredColumnState'] = [];
 
       component.setAgGridFilter = jest.fn();
 
@@ -533,13 +534,18 @@ describe('MainTableComponent', () => {
       expect(component.setAgGridFilter).toHaveBeenCalledWith({ api: mockApi });
       expect(component['setVisibleColumns']).toHaveBeenCalled();
       expect(component['agGridReadyService'].agGridApiready).toHaveBeenCalled();
+      expect(mockColumnApi.applyColumnState).toHaveBeenCalled();
     });
     it('should dispatch setFilteredRows and set column count and apply column state if column state is defined', () => {
       const mockApi = {};
-      const mockColumnApi = {};
+      const mockColumnApi = {
+        applyColumnState: jest.fn(),
+      };
 
       // eslint-disable-next-line unicorn/no-useless-undefined
       component['agGridReadyService'].agGridApiready = jest.fn(() => '');
+      component['restoredColumnState'] = undefined;
+
       component.setAgGridFilter = jest.fn();
 
       component['agGridApi'] = undefined;
@@ -558,6 +564,7 @@ describe('MainTableComponent', () => {
       expect(component.setAgGridFilter).toHaveBeenCalledWith({ api: mockApi });
       expect(component['setVisibleColumns']).toHaveBeenCalled();
       expect(component['agGridReadyService'].agGridApiready).toHaveBeenCalled();
+      expect(mockColumnApi.applyColumnState).not.toHaveBeenCalled();
     });
   });
   describe('onColumnChange', () => {

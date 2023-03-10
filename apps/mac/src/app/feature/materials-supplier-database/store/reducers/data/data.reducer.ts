@@ -22,13 +22,20 @@ import {
   fetchMaterialStandardsSuccess,
   resetResult,
   setAgGridColumns,
-  setAgGridFilter,
+  setAgGridFilterForNavigation,
   setNavigation,
 } from '@mac/msd/store/actions/data';
+import { navigationLevelFactory } from '@mac/msd/util';
 
 export interface DataState {
   filter: {
-    agGridFilter: string;
+    agGridFilter: {
+      [key in MaterialClass]?: {
+        [NavigationLevel.MATERIAL]?: string;
+        [NavigationLevel.SUPPLIER]?: string;
+        [NavigationLevel.STANDARD]?: string;
+      };
+    };
     loading: boolean;
   };
   navigation: {
@@ -49,8 +56,8 @@ export interface DataState {
 
 export const initialState: DataState = {
   filter: {
-    agGridFilter: JSON.stringify({}),
-    loading: undefined,
+    agGridFilter: navigationLevelFactory(JSON.stringify({})),
+    loading: false,
   },
   navigation: {
     materialClass: undefined,
@@ -187,15 +194,25 @@ export const dataReducer = createReducer(
     })
   ),
   on(
-    setAgGridFilter,
-    (state, { filterModel }): DataState => ({
+    setAgGridFilterForNavigation,
+    (state, { filterModel, materialClass, navigationLevel }): DataState => ({
       ...state,
-      filter: {
-        ...state.filter,
-        agGridFilter: filterModel
-          ? JSON.stringify(filterModel)
-          : initialState.filter.agGridFilter,
-      },
+      filter: !state.filter.loading
+        ? {
+            ...state.filter,
+            agGridFilter: {
+              ...state.filter.agGridFilter,
+              [materialClass]: {
+                ...state.filter.agGridFilter[materialClass],
+                [navigationLevel]: filterModel
+                  ? JSON.stringify(filterModel)
+                  : initialState.filter.agGridFilter[materialClass][
+                      navigationLevel
+                    ],
+              },
+            },
+          }
+        : { ...state.filter },
     })
   ),
   on(

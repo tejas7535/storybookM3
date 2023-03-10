@@ -97,6 +97,20 @@ export class DataEffects {
     );
   });
 
+  public setAgGridFilter$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DataActions.setAgGridFilter),
+      concatLatestFrom(() => this.dataFacade.navigation$),
+      switchMap(([{ filterModel }, { materialClass, navigationLevel }]) => [
+        DataActions.setAgGridFilterForNavigation({
+          filterModel,
+          materialClass,
+          navigationLevel,
+        }),
+      ])
+    );
+  });
+
   public fetchManufacturerSuppliers$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DataActions.fetchManufacturerSuppliers),

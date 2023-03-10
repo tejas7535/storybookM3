@@ -232,31 +232,106 @@ describe('dataReducer', () => {
       });
     });
 
-    it('should set string value of ag grid filter if filterModel is defined', () => {
+    it('should set string value of ag grid filter for given navigation if filterModel is defined', () => {
       const filterModel = {
         someKey: 'someValue',
       };
-      const action = DataActions.setAgGridFilter({ filterModel });
+      const action = DataActions.setAgGridFilterForNavigation({
+        filterModel,
+        materialClass: MaterialClass.STEEL,
+        navigationLevel: NavigationLevel.MATERIAL,
+      });
       const newState = dataReducer(state, action);
 
       expect(newState).toEqual({
         ...initialState,
         filter: {
           ...initialState.filter,
-          agGridFilter: JSON.stringify(filterModel),
+          agGridFilter: {
+            ...initialState.filter.agGridFilter,
+            [MaterialClass.STEEL]: {
+              ...initialState.filter.agGridFilter[MaterialClass.STEEL],
+              [NavigationLevel.MATERIAL]: JSON.stringify(filterModel),
+            },
+          },
         },
       });
     });
 
-    it('should set string value of empty filterModel if it is not defined', () => {
-      const action = DataActions.setAgGridFilter({ filterModel: undefined });
-      const newState = dataReducer(state, action);
+    it('should set string value of empty filterModel for given navigation if it is not defined', () => {
+      const action = DataActions.setAgGridFilterForNavigation({
+        filterModel: undefined,
+        materialClass: MaterialClass.STEEL,
+        navigationLevel: NavigationLevel.MATERIAL,
+      });
+      const newState = dataReducer(
+        {
+          ...state,
+          filter: {
+            ...state.filter,
+            agGridFilter: {
+              ...state.filter.agGridFilter,
+              [MaterialClass.STEEL]: {
+                ...state.filter.agGridFilter[MaterialClass.STEEL],
+                [NavigationLevel.MATERIAL]: '{ "something": "something" }',
+              },
+            },
+          },
+        },
+        action
+      );
 
       expect(newState).toEqual({
         ...initialState,
         filter: {
           ...initialState.filter,
-          agGridFilter: JSON.stringify({}),
+          agGridFilter: {
+            ...initialState.filter.agGridFilter,
+            [MaterialClass.STEEL]: {
+              ...initialState.filter.agGridFilter[MaterialClass.STEEL],
+              [NavigationLevel.MATERIAL]: JSON.stringify({}),
+            },
+          },
+        },
+      });
+    });
+
+    it('should not set string value of empty filterModel for given navigation if loading is true', () => {
+      const action = DataActions.setAgGridFilterForNavigation({
+        filterModel: undefined,
+        materialClass: MaterialClass.STEEL,
+        navigationLevel: NavigationLevel.MATERIAL,
+      });
+      const newState = dataReducer(
+        {
+          ...state,
+          filter: {
+            ...state.filter,
+            agGridFilter: {
+              ...state.filter.agGridFilter,
+              [MaterialClass.STEEL]: {
+                ...state.filter.agGridFilter[MaterialClass.STEEL],
+                [NavigationLevel.MATERIAL]: '{ "something": "something" }',
+              },
+            },
+            loading: true,
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...initialState,
+        filter: {
+          ...initialState.filter,
+          agGridFilter: {
+            ...state.filter.agGridFilter,
+            [MaterialClass.STEEL]: {
+              ...state.filter.agGridFilter[MaterialClass.STEEL],
+              [NavigationLevel.MATERIAL]: '{ "something": "something" }',
+            },
+          },
+          loading: true,
         },
       });
     });

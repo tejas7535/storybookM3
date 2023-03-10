@@ -54,6 +54,17 @@ export const setAgGridFilter = createAction(
   props<{ filterModel: { [key: string]: any } }>()
 );
 
+export const setAgGridFilterForNavigation = createAction(
+  '[MSD - Data] Set AgGrid Filter For Navigation',
+  props<{
+    filterModel: {
+      [key: string]: any;
+    };
+    materialClass: MaterialClass;
+    navigationLevel: NavigationLevel;
+  }>()
+);
+
 export const resetResult = createAction('[MSD - Data] Reset Result');
 
 export const setAgGridColumns = createAction(

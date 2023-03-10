@@ -43,10 +43,6 @@ describe('DataFacade', () => {
       recyclingRate: 42,
     },
   ];
-  const mockFilters = {
-    agGridFilter: '{}',
-    loading: false,
-  };
   const mockNavigation = {
     materialClass: MaterialClass.STEEL,
     navigationLevel: NavigationLevel.MATERIAL,
@@ -63,7 +59,6 @@ describe('DataFacade', () => {
               materialClasses: mockMaterialClassOptions,
               materialClassLoading: false,
               productCategoryLoading: false,
-              filter: mockFilters,
               navigation: mockNavigation,
               agGridColumns: 'agGridColumns',
               materials: {

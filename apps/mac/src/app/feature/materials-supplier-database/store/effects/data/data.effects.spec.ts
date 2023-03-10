@@ -38,6 +38,8 @@ import {
   fetchMaterialStandardsSuccess,
   fetchResult,
   openSnackBar,
+  setAgGridFilter,
+  setAgGridFilterForNavigation,
   setNavigation,
 } from '@mac/msd/store/actions/data';
 import { DataFacade } from '@mac/msd/store/facades/data';
@@ -240,6 +242,28 @@ describe('Data Effects', () => {
         const expected = m.cold('-(bc)', { b: result, c: result2 });
 
         m.expect(effects.setNavigation$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+  });
+
+  describe('setAgGridFilter$', () => {
+    it(
+      'should return the set filter for navigation level action',
+      marbles((m) => {
+        action = setAgGridFilter({
+          filterModel: {},
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        const result = setAgGridFilterForNavigation({
+          filterModel: {},
+          materialClass: MaterialClass.STEEL,
+          navigationLevel: NavigationLevel.MATERIAL,
+        });
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.setAgGridFilter$).toBeObservable(expected);
         m.flush();
       })
     );

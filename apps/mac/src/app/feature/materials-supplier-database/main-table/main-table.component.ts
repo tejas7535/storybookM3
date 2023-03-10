@@ -108,6 +108,8 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   private agGridApi!: GridApi;
   private agGridColumnApi!: ColumnApi;
 
+  private restoredColumnState: ColumnState[];
+
   private visibleColumns: string[];
 
   // collect columns which are not really in the dataset but rendered by ag grid
@@ -144,7 +146,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     this.dataFacade.agGridFilter$
       .pipe(takeUntil(this.destroy$))
       .subscribe((filterModel: { [key: string]: any }) => {
-        if (this.agGridApi && !filterModel) {
+        if (this.agGridApi && filterModel) {
           this.agGridApi.setFilterModel(filterModel);
         }
       });
@@ -159,19 +161,19 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
             .filter((c) => c.lockVisible)
             .map((c) => c.field)
         );
-        const restoredColumnState = savedColumnState?.filter(
+        this.restoredColumnState = savedColumnState?.filter(
           (s) => !locked.has(s.colId)
         );
 
         this.defaultColumnDefs = defaultColumnDefinitions;
         this.columnDefs = this.getColumnDefs(this.hasEditorRole);
         if (this.agGridColumnApi) {
-          setTimeout(() => {
+          setTimeout(() =>
             this.agGridColumnApi.applyColumnState({
-              state: restoredColumnState,
+              state: this.restoredColumnState,
               applyOrder: true,
-            });
-          });
+            })
+          );
         }
       });
   }
@@ -261,6 +263,13 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       this.agGridApi,
       this.agGridColumnApi
     );
+
+    if (this.restoredColumnState) {
+      columnApi.applyColumnState({
+        state: this.restoredColumnState,
+        applyOrder: true,
+      });
+    }
   }
 
   public onColumnChange({ columnApi }: { columnApi: ColumnApi }): void {

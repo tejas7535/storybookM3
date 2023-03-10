@@ -22,13 +22,17 @@ export const getMaterialClass = createSelector(
   ({ materialClass }) => materialClass
 );
 
-export const getAgGridFilter = createSelector(getFilter, ({ agGridFilter }) => {
-  try {
-    return JSON.parse(agGridFilter);
-  } catch {
-    return;
+export const getAgGridFilter = createSelector(
+  getNavigation,
+  getFilter,
+  ({ materialClass, navigationLevel }, { agGridFilter }) => {
+    try {
+      return JSON.parse(agGridFilter[materialClass][navigationLevel]);
+    } catch {
+      return;
+    }
   }
-});
+);
 
 export const getShareQueryParams = createSelector(
   getNavigation,
@@ -36,7 +40,7 @@ export const getShareQueryParams = createSelector(
   ({ materialClass, navigationLevel }, { agGridFilter }) => ({
     materialClass,
     navigationLevel,
-    agGridFilter,
+    agGridFilter: agGridFilter[materialClass][navigationLevel],
   })
 );
 

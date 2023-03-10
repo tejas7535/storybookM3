@@ -23,6 +23,7 @@ import {
   resetResult,
   setAgGridColumns,
   setAgGridFilter,
+  setAgGridFilterForNavigation,
   setNavigation,
 } from './data.actions';
 
@@ -134,6 +135,22 @@ describe('Data Actions', () => {
       expect(action).toEqual({
         filterModel: {},
         type: '[MSD - Data] Set AgGrid Filter',
+      });
+    });
+  });
+  describe('Set AgGrid Filter For Navigation', () => {
+    it('setAgGridFilter', () => {
+      const action = setAgGridFilterForNavigation({
+        filterModel: {},
+        materialClass: MaterialClass.STEEL,
+        navigationLevel: NavigationLevel.MATERIAL,
+      });
+
+      expect(action).toEqual({
+        filterModel: {},
+        materialClass: MaterialClass.STEEL,
+        navigationLevel: NavigationLevel.MATERIAL,
+        type: '[MSD - Data] Set AgGrid Filter For Navigation',
       });
     });
   });
