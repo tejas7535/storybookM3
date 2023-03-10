@@ -1,4 +1,29 @@
 # Release Notes of Material App Center
+## [1.6.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.5.0...mac-v1.6.0) (2023-03-10)
+
+
+### Features
+
+* **mac:** add ceramic view and dialog to msd - feature/UFTABI-6316 ([#5000](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5000)) ([abbfefc](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/abbfefc0f236a85715c104541cb0e3a40ada68da))
+* **mac:** Add Hardmagnets to MSD - (UFTABI-6317) ([#5008](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5008)) ([c0b22d4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c0b22d4ad0ae77a16f013a6d220ea2680e675dc3))
+* **mac:** adjust hardness converter for new api version (UFTABI-6010) ([#5025](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5025)) ([12f1a3f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/12f1a3f5d2130ccd737b2242f973efd7c8c1f782))
+* **mac:** modify Steel Quickfilter (UFTABI-6347) ([#5064](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5064)) ([2bae3fa](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2bae3faf9494867abfdc80d6f13d07a64c2b3efa))
+* **mac:** rework msd frontend (UFTABI-6337) ([#5051](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5051)) ([cb7ccdc](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/cb7ccdcba4bb5ab76b214f768c7c63d445af3ba2))
+* **mac:** split recyclerate in two fields for msd - UFTABI- 6346 ([#5073](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5073)) ([72a3aac](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/72a3aac3c14a1993443e1f066e08ac4637912707))
+
+
+### Bug Fixes
+
+* **mac:** adjust navigation labels ([#5039](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5039)) ([740725f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/740725f09a0184accab2937316b00b78cbdb3382))
+* **mac:** filters for lastModified and recycle rate - UFTABI-6329 ([#5016](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5016)) ([85459cc](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/85459cca3091150069a2e5221511068658177746))
+* **mac:** fix production process ([#5031](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5031)) ([c2b71d1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c2b71d147f3d740705201de69253750be918ae1f))
+* **mac:** ignore hardmagnets view for msd ([#5075](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5075)) ([f191a21](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f191a21ea35a19255c83760fd62fa74a70cf3d33))
+* **mac:** msd cleanup remove legacy models ([#5030](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5030)) ([fa129f0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fa129f02c2c8c03a5837a5c02d0a1eae26990fb7))
+* **mac:** remove duplicated requests - UFTABI-6314 ([#4990](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4990)) ([7430855](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/743085595182d0c710c82fdbfaed68613e3f52b9))
+* **mac:** restructure imports ([#5028](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5028)) ([6723b91](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6723b91c5fdcdfe025f46ad4ce908641b11706ed))
+* **mac:** show error message on sql injection failure (UFTABI-6328) ([#5063](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5063)) ([2039b87](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2039b8723004709452ce69a99eb25e8ca3a665ff))
+* **mac:** split agGrid filter for navigation levels (UFTABI-6362) ([#5076](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5076)) ([cc763ad](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/cc763addb503fb5a8599ee3626fbe1d2523c2662))
+
 ## [1.5.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.4.0...mac-v1.5.0) (2023-02-06)
 
 
