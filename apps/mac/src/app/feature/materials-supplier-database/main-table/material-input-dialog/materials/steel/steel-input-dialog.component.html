@@ -288,17 +288,31 @@
           #steelMakingProcessSelect
         ></schaeffler-select>
         <mat-form-field appearance="outline" class="w-1/5">
-          <mat-label>{{ t('recyclingRate') }}</mat-label>
+          <mat-label>{{ t('minRecyclingRate') }}</mat-label>
           <input
             matInput
-            [formControl]="recyclingRateControl"
+            [formControl]="minRecyclingRateControl"
             type="number"
             name="recyclingRate"
             #dialogControl
           />
           <span matSuffix class="relative -top-1 pl-1 text-caption"> %</span>
-          <mat-error *ngIf="recyclingRateControl.invalid">{{
-            getErrorMessage(recyclingRateControl.errors)
+          <mat-error *ngIf="minRecyclingRateControl.invalid">{{
+            getErrorMessage(minRecyclingRateControl.errors)
+          }}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-1/5">
+          <mat-label>{{ t('maxRecyclingRate') }}</mat-label>
+          <input
+            matInput
+            [formControl]="maxRecyclingRateControl"
+            type="number"
+            name="recyclingRate"
+            #dialogControl
+          />
+          <span matSuffix class="relative -top-1 pl-1 text-caption"> %</span>
+          <mat-error *ngIf="maxRecyclingRateControl.invalid">{{
+            getErrorMessage(maxRecyclingRateControl.errors)
           }}</mat-error>
         </mat-form-field>
       </div>

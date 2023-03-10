@@ -582,4 +582,22 @@ describe('MaterialInputDialogComponent', () => {
       expect(component.compareWithId(mockOption1, mockOption2)).toBe(false);
     });
   });
+
+  describe('getColumn', () => {
+    it('should return column if available', () => {
+      const column = 'example';
+      component['dialogData'].editDialogInformation = {
+        row: undefined,
+        column,
+      };
+
+      expect(component.getColumn()).toBe(column);
+    });
+
+    it('should return undefined if not an edit dialog', () => {
+      component['dialogData'].editDialogInformation = undefined;
+
+      expect(component.getColumn()).toBeFalsy();
+    });
+  });
 });

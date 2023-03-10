@@ -3,6 +3,7 @@ export * from './custom-date-formatter';
 export * from './date-comparator';
 export * from './empty-value-formatter';
 export * from './manufacturer-value-getter';
+export * from './recycling-rate-value-getter';
 export * from './release-date-formatter';
 export * from './release-date-value-getter';
 export * from './status-value-getter';

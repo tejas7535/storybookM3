@@ -805,7 +805,8 @@ export class DialogEffects {
                 ),
               }
             : undefined,
-          recyclingRate: material.recyclingRate,
+          minRecyclingRate: material.minRecyclingRate,
+          maxRecyclingRate: material.maxRecyclingRate,
           rating: material.rating
             ? { id: material.rating, title: material.rating }
             : {

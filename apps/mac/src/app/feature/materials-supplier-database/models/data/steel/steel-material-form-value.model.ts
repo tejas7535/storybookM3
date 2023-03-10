@@ -18,7 +18,8 @@ export interface SteelMaterialFormValue extends BaseMaterialFormValue {
   ratingChangeComment: string;
   materialNumber: string;
   manufacturer: boolean;
-  recyclingRate: number;
+  minRecyclingRate: number;
+  maxRecyclingRate: number;
 
   selfCertified: boolean;
 }

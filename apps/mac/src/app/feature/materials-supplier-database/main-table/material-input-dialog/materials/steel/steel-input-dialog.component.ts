@@ -7,11 +7,19 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { BehaviorSubject, filter, map, takeUntil } from 'rxjs';
+import { BehaviorSubject, filter, map, takeUntil, tap } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
 
@@ -85,7 +93,13 @@ export class SteelInputDialogComponent
   public isBlockedControl = this.controlsService.getControl<boolean>(false);
   public steelMakingProcessControl =
     this.controlsService.getControl<StringOption>();
-  public recyclingRateControl = this.controlsService.getNumberControl(
+  public minRecyclingRateControl = this.controlsService.getNumberControl(
+    undefined,
+    false,
+    0,
+    100
+  );
+  public maxRecyclingRateControl = this.controlsService.getNumberControl(
     undefined,
     false,
     0,
@@ -182,7 +196,8 @@ export class SteelInputDialogComponent
       releaseDateYear: this.releaseYearControl,
       selfCertified: this.selfCertifiedControl,
       steelMakingProcess: this.steelMakingProcessControl,
-      recyclingRate: this.recyclingRateControl,
+      minRecyclingRate: this.minRecyclingRateControl,
+      maxRecyclingRate: this.maxRecyclingRateControl,
     });
     // setup static months and year
     this.months = util.getMonths();
@@ -346,6 +361,46 @@ export class SteelInputDialogComponent
           }
         );
       });
+
+    // recyclingRate validation
+    this.minRecyclingRateControl.addValidators(
+      this.minRecycleRateValidatorFn()
+    );
+    this.maxRecyclingRateControl.addValidators(
+      this.maxRecycleRateValidatorFn()
+    );
+    // set min rate to 0 if max rate is filled (and min rate is not set)
+    this.maxRecyclingRateControl.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        tap(() =>
+          this.minRecyclingRateControl.updateValueAndValidity({
+            emitEvent: false,
+          })
+        ),
+        filter(Boolean)
+      )
+      .subscribe(() => {
+        if (!this.minRecyclingRateControl.value) {
+          this.minRecyclingRateControl.setValue(0);
+        }
+      });
+    // set max rate to 100 if min rate is filled (and max rate is not set)
+    this.minRecyclingRateControl.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        tap(() =>
+          this.maxRecyclingRateControl.updateValueAndValidity({
+            emitEvent: false,
+          })
+        ),
+        filter(Boolean)
+      )
+      .subscribe(() => {
+        if (!this.maxRecyclingRateControl.value) {
+          this.maxRecyclingRateControl.setValue(100);
+        }
+      });
   }
 
   public selectReleaseDateView() {
@@ -393,5 +448,53 @@ export class SteelInputDialogComponent
       this.releaseMonthControl.removeValidators(Validators.required);
       this.releaseYearControl.removeValidators(Validators.required);
     }
+  }
+
+  // validator for both recycling rate input fields
+  private minRecycleRateValidatorFn(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      // get controls from formgroup
+      const minControl = control;
+      const maxControl = this.maxRecyclingRateControl;
+      // get values of controlls
+      const min = minControl.value;
+      const max = maxControl.value;
+      // check if input fields are filled
+      const minFilled = min || min === 0;
+      const maxFilled = max || max === 0;
+
+      // if only on field is filled, the other is required
+      if (maxFilled && !minFilled) {
+        return { required: true };
+      }
+
+      return undefined;
+    };
+  }
+
+  // validator for both recycling rate input fields
+  private maxRecycleRateValidatorFn(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      // get controls from formgroup
+      const minControl = this.minRecyclingRateControl;
+      const maxControl = control;
+      // get values of controlls
+      const min = minControl.value;
+      const max = maxControl.value;
+      // check if input fields are filled
+      const minFilled = min || min === 0;
+      const maxFilled = max || max === 0;
+
+      // if both fields are filled, verify min/max are valid
+      if (minFilled && maxFilled && min > max) {
+        return { scopeTotalLowerThanSingleScopes: { min, max } };
+      }
+      // if only on field is filled, the other is required
+      else if (minFilled && !maxFilled) {
+        return { required: true };
+      }
+
+      return undefined;
+    };
   }
 }

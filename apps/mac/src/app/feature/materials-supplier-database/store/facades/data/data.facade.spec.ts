@@ -40,7 +40,8 @@ describe('DataFacade', () => {
       maxDimension: 100,
       manufacturer: false,
       blocked: false,
-      recyclingRate: 42,
+      minRecyclingRate: 42,
+      maxRecyclingRate: 42,
     },
   ];
   const mockNavigation = {

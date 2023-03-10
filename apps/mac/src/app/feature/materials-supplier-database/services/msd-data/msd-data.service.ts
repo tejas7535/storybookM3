@@ -174,7 +174,8 @@ export class MsdDataService {
             `materialsSupplierDatabase.productionProcessValues.${materialResponse.materialClass}.${val}`
           )
       ),
-      recyclingRate: findProperty(materialResponse, 'recyclingRate'),
+      minRecyclingRate: findProperty(materialResponse, 'minRecyclingRate'),
+      maxRecyclingRate: findProperty(materialResponse, 'maxRecyclingRate'),
       rating: findProperty(materialResponse, 'rating'),
       ratingRemark: findProperty(materialResponse, 'ratingRemark'),
       ratingChangeComment: findProperty(

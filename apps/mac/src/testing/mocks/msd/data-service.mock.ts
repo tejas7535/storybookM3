@@ -128,7 +128,8 @@ export const msdServiceSteelMockResponse: SteelMaterialResponse[] = [
     },
     materialClass: 'st',
     selfCertified: false,
-    recyclingRate: 55,
+    minRecyclingRate: 55,
+    maxRecyclingRate: 55,
     blocked: false,
   },
   {
@@ -159,7 +160,8 @@ export const msdServiceSteelMockResponse: SteelMaterialResponse[] = [
     },
     materialClass: 'st',
     selfCertified: false,
-    recyclingRate: 22,
+    minRecyclingRate: 22,
+    maxRecyclingRate: 77,
     blocked: false,
   },
 ];
@@ -202,7 +204,8 @@ export const msdServiceSteelMockResult: SteelMaterial[] = [
     manufacturer: false,
     lastModified: undefined,
     modifiedBy: undefined,
-    recyclingRate: 55,
+    minRecyclingRate: 55,
+    maxRecyclingRate: 55,
   },
   {
     id: 128,
@@ -240,7 +243,8 @@ export const msdServiceSteelMockResult: SteelMaterial[] = [
     materialNumbers: ['1.1234', '1.2345'],
     manufacturer: true,
     lastModified: undefined,
-    recyclingRate: 22,
+    minRecyclingRate: 22,
+    maxRecyclingRate: 77,
   },
 ];
 

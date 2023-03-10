@@ -1775,7 +1775,8 @@ describe('Dialog Effects', () => {
           manufacturer: false,
           condition: 'condition',
           coating: 'coating',
-          recyclingRate: 44,
+          maxRecyclingRate: 44,
+          minRecyclingRate: 44,
           grade: 'grade',
         } as DataResult;
 
@@ -1806,7 +1807,8 @@ describe('Dialog Effects', () => {
           rating: toStrOpt('rating'),
           ratingRemark: 'remark',
           selfCertified: true,
-          recyclingRate: 44,
+          minRecyclingRate: 44,
+          maxRecyclingRate: 44,
           grade: 'grade',
           standardDocument: {
             id: 1,
@@ -1910,7 +1912,8 @@ describe('Dialog Effects', () => {
           ratingRemark: 'remark',
           ratingChangeComment: 'comment',
           materialNumbers: ['1', '2'],
-          recyclingRate: 33,
+          minRecyclingRate: 33,
+          maxRecyclingRate: 33,
           manufacturer: false,
           condition: 'condition',
           coating: 'coating',
@@ -1944,7 +1947,8 @@ describe('Dialog Effects', () => {
           ratingRemark: 'remark',
           materialNumber: '1, 2',
           selfCertified: false,
-          recyclingRate: 33,
+          minRecyclingRate: 33,
+          maxRecyclingRate: 33,
           grade: 'grade',
           standardDocument: {
             data: undefined,

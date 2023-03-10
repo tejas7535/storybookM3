@@ -374,7 +374,8 @@ export class MaterialInputDialogComponent
       ratingRemark: findProperty(baseMaterial, 'ratingRemark'),
       ratingChangeComment: findProperty(baseMaterial, 'ratingChangeComment'),
       selfCertified: findProperty(baseMaterial, 'selfCertified'),
-      recyclingRate: findProperty(baseMaterial, 'recyclingRate'),
+      minRecyclingRate: findProperty(baseMaterial, 'minRecyclingRate'),
+      maxRecyclingRate: findProperty(baseMaterial, 'maxRecyclingRate'),
       condition: findProperty<StringOption>(baseMaterial, 'condition')
         ?.id as string,
       coating: findProperty<StringOption>(baseMaterial, 'coating')
@@ -385,9 +386,7 @@ export class MaterialInputDialogComponent
   }
 
   public confirmMaterial(createAnother: boolean): void {
-    const baseMaterial = {
-      ...(this.createMaterialForm.value as MaterialFormValue),
-    } as MaterialFormValue;
+    const baseMaterial = this.createMaterialForm.value as MaterialFormValue;
 
     const standard = this.buildMaterialStandard(baseMaterial);
     const supplier = this.buildManufacturerSupplier(baseMaterial);

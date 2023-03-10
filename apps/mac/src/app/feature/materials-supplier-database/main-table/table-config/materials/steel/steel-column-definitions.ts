@@ -21,6 +21,8 @@ import { EditCellRendererComponent } from '@mac/msd/main-table/edit-cell-rendere
 import { FILTER_PARAMS } from '@mac/msd/main-table/table-config/filter-params';
 import {
   MANUFACTURER_VALUE_GETTER,
+  RECYCLING_RATE_FILTER_VALUE_GETTER,
+  RECYCLING_RATE_VALUE_GETTER,
   RELEASE_DATE_FORMATTER,
   RELEASE_DATE_VALUE_GETTER,
   STATUS_VALUE_GETTER,
@@ -135,6 +137,8 @@ export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
     field: RECYCLING_RATE,
     headerName: RECYCLING_RATE,
     filter: 'agNumberColumnFilter',
+    filterValueGetter: RECYCLING_RATE_FILTER_VALUE_GETTER,
+    valueGetter: RECYCLING_RATE_VALUE_GETTER,
     hide: true,
     cellRenderer: EditCellRendererComponent,
   },

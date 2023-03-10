@@ -11,6 +11,8 @@ import {
   DATE_COMPARATOR,
   EMPTY_VALUE_FORMATTER,
   MANUFACTURER_VALUE_GETTER,
+  RECYCLING_RATE_FILTER_VALUE_GETTER,
+  RECYCLING_RATE_VALUE_GETTER,
   RELEASE_DATE_FORMATTER,
   RELEASE_DATE_VALUE_GETTER,
   STATUS_VALUE_GETTER,
@@ -257,6 +259,52 @@ describe('helpers', () => {
       const cellValue = new Date(2000, 10, 16, 12, 30).getTime() / 1000;
 
       expect(DATE_COMPARATOR(filterValue, cellValue)).toBeGreaterThan(0);
+    });
+  });
+
+  describe('RECYCLING_RATE_VALUE_GETTER', () => {
+    it('should return undefined', () => {
+      const mockParams = {
+        data: {},
+      } as ValueGetterParams;
+      const result = RECYCLING_RATE_VALUE_GETTER(mockParams);
+
+      expect(result).toBeFalsy();
+    });
+    it('should return the value as range', () => {
+      const mockParams = {
+        data: {
+          minRecyclingRate: 55,
+          maxRecyclingRate: 77,
+        },
+      } as ValueGetterParams;
+      const result = RECYCLING_RATE_VALUE_GETTER(mockParams);
+
+      expect(result).toEqual('55-77 %');
+    });
+    it('should return the value as single value', () => {
+      const mockParams = {
+        data: {
+          minRecyclingRate: 66,
+          maxRecyclingRate: 66,
+        },
+      } as ValueGetterParams;
+      const result = RECYCLING_RATE_VALUE_GETTER(mockParams);
+
+      expect(result).toEqual('66 %');
+    });
+  });
+  describe('RECYCLING_RATE_FILTER_VALUE_GETTER', () => {
+    it('should return the minimum value', () => {
+      const mockParams = {
+        data: {
+          minRecyclingRate: 55,
+          maxRecyclingRate: 77,
+        },
+      } as ValueGetterParams;
+      const result = RECYCLING_RATE_FILTER_VALUE_GETTER(mockParams);
+
+      expect(result).toEqual(55);
     });
   });
 });

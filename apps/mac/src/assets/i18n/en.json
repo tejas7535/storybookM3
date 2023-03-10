@@ -456,7 +456,8 @@
         "selfCertified_tooltip": "Supplier is testing its deliveries itself.",
         "standardDocument": "Standard Document",
         "steelMakingProcess": "Iron- & Steel Making Process",
-        "recyclingRate": "Recycle Rate",
+        "minRecyclingRate": "Min. Recycle Rate",
+        "maxRecyclingRate": "Max. Recycle Rate",
         "steelNumber": "Steel number (EN 10027-2)",
         "supplierInformationTitle": "Supplier Information",
         "supplierName": "Supplier Name",
@@ -477,6 +478,8 @@
         "updateMaterialStandardTitle": "Update {{class}} Material Standard",
         "updateManufacturerSupplierTitle": "Update {{class}} Manufacturer Supplier",
         "var": "VAR",
+        "vim_esr": "VIM/ESR",
+        "vim_var": "VIM/VAR",
         "vim/esr": "VIM/ESR",
         "vim/var": "VIM/VAR"
       },

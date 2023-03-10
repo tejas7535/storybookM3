@@ -21,5 +21,6 @@ export interface SteelMaterialResponse extends BaseMaterialResponse {
   rating?: string;
   ratingRemark?: string;
   ratingChangeComment?: string;
-  recyclingRate?: number;
+  minRecyclingRate?: number;
+  maxRecyclingRate?: number;
 }
