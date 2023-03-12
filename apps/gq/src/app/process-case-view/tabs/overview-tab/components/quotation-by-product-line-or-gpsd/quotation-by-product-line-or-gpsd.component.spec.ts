@@ -31,13 +31,13 @@ describe('QuotationByProductLineOrGpsdComponent', () => {
 
   const quotationDetailsMock: QuotationDetail[] = [
     {
-      material: { gpsdGroupId: 'GPSD01', productLineId: 'PL01' },
+      material: { gpsdGroupId: 'GPSD01', productLineId: '01' },
     } as unknown as QuotationDetail,
     {
-      material: { gpsdGroupId: 'GPSD02', productLineId: 'PL01' },
+      material: { gpsdGroupId: 'GPSD02', productLineId: '01' },
     } as unknown as QuotationDetail,
   ];
-  const groupByPLMock = new Map([['PL01', [...quotationDetailsMock]]]);
+  const groupByPLMock = new Map([['01', [...quotationDetailsMock]]]);
 
   const groupByGPSDMock = new Map([
     ['GPSD01', [quotationDetailsMock[0]]],
@@ -104,7 +104,7 @@ describe('QuotationByProductLineOrGpsdComponent', () => {
           m.cold('a', {
             a: [
               {
-                name: 'PL01',
+                name: 'PL 01',
                 gpm: '17 %',
                 value: 100,
                 share: '20%',

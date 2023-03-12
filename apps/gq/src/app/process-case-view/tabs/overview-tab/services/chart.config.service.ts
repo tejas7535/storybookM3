@@ -15,7 +15,6 @@ import { BarChartData } from '../models/bar-chart-data.model';
 })
 export class ChartConfigService {
   COLORS: string[] = [
-    '#E7EFE6',
     '#B2CFB3',
     '#73B281',
     '#E2EDD0',
@@ -35,6 +34,7 @@ export class ChartConfigService {
     '#BDCDD1',
     '#7F9CA3',
     '#476E75',
+    '#E7EFE6',
   ];
 
   LEGEND: LegendComponentOption = {
@@ -145,7 +145,7 @@ export class ChartConfigService {
       </div>
       <span class="text-body-2 text-high-emphasis">${data.share}</span>
     </div>
-    
+
     <div class="flex flex-row justify-between">
     <div class="flex flex-row items-center">
     <span

@@ -456,7 +456,7 @@
     "kpiStatusCard": {
       "status": {
         "GOOD": "Good",
-        "MEDIUM:": "Low",
+        "MEDIUM": "Low",
         "LOW": "too Low"
       }
     }

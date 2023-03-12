@@ -78,7 +78,7 @@ export class QuotationByProductLineOrGpsdComponent
     ]).pipe(
       takeUntil(this.shutdown$$),
       map(([all, pl]: [QuotationDetail[], Map<string, QuotationDetail[]>]) =>
-        this.calculateBarChartData(pl, all)
+        this.calculateBarChartData(pl, all, 'PL')
       )
     );
   }
@@ -87,18 +87,20 @@ export class QuotationByProductLineOrGpsdComponent
    * calculate the BarChartData of grouped QuotationDetails
    * @param list all quotationDetails grouped by GPSD or product Line
    * @param all all quotationDetails
+   * @param labelPrefix optional label addition for the tooltip
    * @returns the calculated barChartData for displaying
    */
   private calculateBarChartData(
     list: Map<string, QuotationDetail[]>,
-    all: QuotationDetail[]
+    all: QuotationDetail[],
+    labelPrefix?: string
   ): BarChartData[] {
     const result: BarChartData[] = [];
     const totalValues = PriceService.calculateStatusBarValues(all);
     list.forEach((groupedDetails, key) => {
       const calc = PriceService.calculateStatusBarValues(groupedDetails);
       const barItem: BarChartData = {
-        name: key,
+        name: labelPrefix ? `${labelPrefix} ${key}` : key,
         gpm: this.helperService.transformPercentage(calc.gpm),
         value: calc.netValue,
         share: this.calculateShare(calc, totalValues),
