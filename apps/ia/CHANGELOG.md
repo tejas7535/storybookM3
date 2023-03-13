@@ -1,4 +1,11 @@
 # Release Notes of Insight Attrition
+## [1.0.6](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ia-v1.0.5...ia-v1.0.6) (2023-03-13)
+
+
+### Features
+
+* **ia:** revert import date ([#5087](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5087)) ([bd068ff](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bd068ffc857797e6cff2be5f2d0ca77a7239ce3c))
+
 ## [1.0.5](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ia-v1.0.4...ia-v1.0.5) (2023-03-10)
 
 
