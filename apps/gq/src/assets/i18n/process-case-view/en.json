@@ -11,7 +11,7 @@
       "problems": "Problems",
       "approvers": "Approvers",
       "additionalInformation": "Additional Information",
-      "comment": "Comment",
+      "commentLabel": "Comment",
       "projectInformation": "Project Information",
       "startWorkflow": "Start Workflow",
       "cancel": "Cancel",
@@ -91,7 +91,7 @@
         "customer": "Customer",
         "customerClass": "Customer Class",
         "requestedQuotationDate": "Requested Quotation Date",
-        "comment": "Comment"
+        "commentLabel": "Comment"
       },
       "netValueCardTitle": "Net Value",
       "netValueCardSubtitle": "Total Net Value in {{currency}}",

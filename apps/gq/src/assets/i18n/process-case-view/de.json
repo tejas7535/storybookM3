@@ -11,7 +11,7 @@
       "problems": "Probleme",
       "approvers": "Genehmiger",
       "additionalInformation": "Zusätzliche Informationen",
-      "comment": "Kommentar",
+      "commentLabel": "Kommentar",
       "projectInformation": "Projektinformation",
       "startWorkflow": "Workflow starten",
       "cancel": "Abbrechen",
@@ -91,7 +91,7 @@
         "customer": "Kunde",
         "customerClass": "Umsatzklassifizierung (A,B,C)",
         "requestedQuotationDate": "Angebot bis",
-        "comment": "Kommentar"
+        "commentLabel": "Kommentar"
       },
       "netValueCardTitle": "Nettowert",
       "netValueCardSubtitle": "Nettowert gesamt  in {{currency}}",
