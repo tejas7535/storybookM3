@@ -1,6 +1,6 @@
 <form
   [formGroup]="formGroup"
-  class="flex h-full max-h-[90vh] flex-col overflow-y-scroll"
+  class="flex h-full max-h-[90vh] flex-col overflow-y-auto"
   *transloco="let t; read: 'processCaseView.header.releaseModal'"
 >
   <div class="px-4 pt-4">
@@ -11,18 +11,8 @@
   <div class="px-4">
     <p class="pt-4 text-subtitle-2">{{ t('summary') }}</p>
     <div class="flex items-center pt-3">
-      <p class="text-caption text-medium-emphasis">{{ t('approvalLevel') }}:</p>
-      <span
-        class="ml-2 h-4 rounded-full bg-[#E3F7FD] px-3 py-1 text-[8px] font-bold leading-[9px] text-[#4398AF]"
-        >L1 + L2</span
-      >
-    </div>
-    <div class="flex items-center pt-6">
-      <p class="text-caption text-medium-emphasis">{{ t('problems') }}:</p>
-      <span
-        class="ml-2 h-4 rounded-full bg-[#FFF8E2] px-3 py-1 text-[8px] font-bold leading-[9px] text-[#FFA026]"
-        >GPI &lt; 35%</span
-      >
+      <p class="text-body-2 text-medium-emphasis">{{ t('approvalLevel') }}:</p>
+      <span class="pl-2 text-body-2 text-high-emphasis">L1 + L2</span>
     </div>
 
     <div>
@@ -87,7 +77,7 @@
     >
       {{ t('startWorkflow') }}
     </button>
-    <button mat-stroked-button (click)="closeDialog()">
+    <button mat-stroked-button (click)="closeDialog()" color="primary">
       {{ t('cancel') }}
     </button>
   </div>
