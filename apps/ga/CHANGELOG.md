@@ -1,4 +1,11 @@
 # Release Notes of Grease App
+## [1.2.22](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.21...ga-v1.2.22) (2023-03-13)
+
+
+### Features
+
+* **ga:** adjust bearing list for 2022.2 (UFTABI-6334) ([#5061](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5061)) ([d8c2b4e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d8c2b4ea4f41fd80066d969d896065c6066d38e6))
+
 ## [1.2.21](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.20...ga-v1.2.21) (2023-03-08)
 
 
