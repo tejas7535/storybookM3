@@ -6,11 +6,9 @@ import { filter, startWith, Subject, takeUntil } from 'rxjs';
 
 import { OneTrustService } from '@altack/ngx-onetrust';
 import { TranslocoService } from '@ngneat/transloco';
-import { Store } from '@ngrx/store';
 
 import { AppShellFooterLink } from '@schaeffler/app-shell';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
-import { openBanner } from '@schaeffler/banner';
 import { LegalPath } from '@schaeffler/legal-pages';
 
 import { getAppFooterLinks } from '@ga/core/helpers/app-config-helpers';
@@ -39,7 +37,6 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly titleService: Title,
     private readonly applicationInsightsService: ApplicationInsightsService,
     private readonly settingsFacade: SettingsFacade,
-    private readonly store: Store,
     @Optional() private readonly oneTrustService: OneTrustService
   ) {}
 
@@ -47,7 +44,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.currentLanguage = this.translocoService.getActiveLang();
     this.assignMetaTags();
     this.assignFooterLinks();
-    this.openBanner();
 
     this.translocoService.events$
       .pipe(
@@ -132,18 +128,5 @@ export class AppComponent implements OnInit, OnDestroy {
       name: 'twitter:description',
       content: translatedSDescription,
     });
-  }
-
-  public openBanner(): void {
-    if (Date.now() > 1_678_147_200_000 && Date.now() < 1_678_838_400_000) {
-      this.store.dispatch(
-        openBanner({
-          text: 'Maintenance work is taking place in the Grease app. Under certain circumstances, no calculations are possible in the period between 13.03. and 14.03.',
-          buttonText: 'Okay',
-          icon: 'warning',
-          truncateSize: 0,
-        })
-      );
-    }
   }
 }
