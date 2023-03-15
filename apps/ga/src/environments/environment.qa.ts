@@ -4,7 +4,7 @@ export const environment: Environment = {
   production: false,
   localDev: false,
   devToolsEnabled: true,
-  baseUrl: 'https://bearinx-q.schaeffler.com/grease_api/v1.2/greaseservice',
+  baseUrl: 'https://bearinx-q.schaeffler.com/grease_api/v1.3/greaseservice',
   tenantId: 'c6bd4298-997b-4600-a90a-1adb997581b7',
   groupId: '111ab140-8e82-4ac4-a424-81edf0167301',
   oneTrustId: 'dee97f13-442a-41ec-aea5-0dbd09b754bf',
