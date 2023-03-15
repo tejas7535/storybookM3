@@ -73,7 +73,7 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
     public modalData: {
       caseName: string;
       currency: string;
-      enableEditDates: boolean;
+      enableSapFieldEditing: boolean;
       shipToParty?: IdValue;
       quotationToDate?: string;
       requestedDeliveryDate?: string;
@@ -109,13 +109,19 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
         ]
       ),
       currency: new FormControl(this.modalData.currency, [Validators.required]),
-      shipToParty: new FormControl(this.modalData.shipToParty, []),
+      shipToParty: new FormControl(
+        {
+          value: this.modalData.shipToParty,
+          disabled: !this.modalData?.enableSapFieldEditing,
+        },
+        []
+      ),
       quotationToDate: new FormControl(
         {
           value: this.modalData?.quotationToDate
             ? new Date(this.modalData?.quotationToDate)
             : undefined,
-          disabled: !this.modalData?.enableEditDates,
+          disabled: !this.modalData?.enableSapFieldEditing,
         },
         [this.validateDateGreaterOrEqualThanPurchaseOrderDate]
       ),
@@ -123,20 +129,20 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
         value: this.modalData?.requestedDeliveryDate
           ? new Date(this.modalData?.requestedDeliveryDate)
           : undefined,
-        disabled: !this.modalData?.enableEditDates,
+        disabled: !this.modalData?.enableSapFieldEditing,
       }),
       customerPurchaseOrderDate: new FormControl({
         value: this.modalData?.customerPurchaseOrderDate
           ? new Date(this.modalData?.customerPurchaseOrderDate)
           : undefined,
-        disabled: !this.modalData?.enableEditDates,
+        disabled: !this.modalData?.enableSapFieldEditing,
       }),
       bindingPeriodValidityEndDate: new FormControl(
         {
           value: this.modalData?.bindingPeriodValidityEndDate
             ? new Date(this.modalData?.bindingPeriodValidityEndDate)
             : undefined,
-          disabled: !this.modalData?.enableEditDates,
+          disabled: !this.modalData?.enableSapFieldEditing,
         },
         [this.validateDateGreaterOrEqualThanPurchaseOrderDate]
       ),

@@ -22,7 +22,7 @@ export class HeaderContentComponent {
   public caseName: string;
   public saveCaseNameEnabled = false;
   public currency: string;
-  public enableEditDates = false;
+  public enableSapFieldEditing = false;
   public quotationToDate: string;
   public requestedDeliveryDate: string;
   public customerPurchaseOrderDate: string;
@@ -65,7 +65,7 @@ export class HeaderContentComponent {
       this.customerPurchaseOrderDate =
         value.sapCustomerPurchaseOrderDate ?? undefined;
       this.bindingPeriodValidityEndDate = value.validTo ?? undefined;
-      this.enableEditDates = true;
+      this.enableSapFieldEditing = true;
       this.shipToParty = value.shipToParty ?? undefined;
 
       if (value.sapId) {
@@ -85,7 +85,7 @@ export class HeaderContentComponent {
           'process-case-view'
         );
 
-        this.enableEditDates = false;
+        this.enableSapFieldEditing = false;
       }
     }
   }
@@ -103,7 +103,7 @@ export class HeaderContentComponent {
         data: {
           caseName: this.caseName,
           currency: this.currency,
-          enableEditDates: this.enableEditDates,
+          enableSapFieldEditing: this.enableSapFieldEditing,
           quotationToDate: this.quotationToDate,
           requestedDeliveryDate: this.requestedDeliveryDate,
           customerPurchaseOrderDate: this.customerPurchaseOrderDate,
