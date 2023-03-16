@@ -56,41 +56,12 @@ describe('ColumnDefinitions', () => {
   describe('getColDef', () => {
     it('should return the correct column definitions', () => {
       expect(service.getColDef().length).toBe(12);
-
-      // oData
-      betaFeatureService.getBetaFeature = jest.fn(() => true);
-      expect(service.getColDef().length).toBe(12);
     });
   });
 
-  describe('COLUMN_DEFINITIONS_CLASSIC', () => {
+  describe('COLUMN_DEFINITIONS', () => {
     it('should call value getter and format methods', () => {
-      const columnDefinitions = service.COLUMN_DEFINITIONS_CLASSIC;
-      const formatNumberSpy = jest.spyOn(
-        service['columnUtilsService'],
-        'formatNumber'
-      );
-
-      columnDefinitions.forEach((column) => {
-        if (column.valueGetter) {
-          const valueGetter = column.valueGetter as ValueGetterFunction;
-          valueGetter({ data: {} } as ValueGetterParams);
-        }
-
-        if (column.valueFormatter) {
-          const valueFormatter =
-            column.valueFormatter as ValueFormatterFunction;
-          valueFormatter({ data: {} } as ValueFormatterParams);
-        }
-      });
-
-      expect(formatNumberSpy).toHaveBeenCalledTimes(3);
-    });
-  });
-
-  describe('COLUMN_DEFINITIONS_ODATA', () => {
-    it('should call value getter and format methods', () => {
-      const columnDefinitions = service.COLUMN_DEFINITIONS_ODATA;
+      const columnDefinitions = service.COLUMN_DEFINITIONS;
       const formatNumberSpy = jest.spyOn(
         service['columnUtilsService'],
         'formatNumber'
@@ -114,7 +85,7 @@ describe('ColumnDefinitions', () => {
         }
       });
 
-      expect(formatNumberSpy).toHaveBeenCalledTimes(43);
+      expect(formatNumberSpy).toHaveBeenCalledTimes(40);
     });
   });
 });

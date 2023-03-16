@@ -1,9 +1,7 @@
 export { AdditionalInformationDetails } from './additional-information-details.model';
 export { AggregationStatusBar } from './aggregation-status-bar.model';
-export { BomIdentifier } from './bom-identifier.model';
 export * from './bom-item.model';
-export { BomItemClassic } from './bom-item-classic.model';
-export { BomItemOdata, OdataBomIdentifier } from './bom-item-odata.model';
+export { BomIdentifier, BomItem } from './bom-item.model';
 export { Calculation } from './calculation.model';
 export {
   CostComponentSplit,

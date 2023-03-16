@@ -10,7 +10,6 @@ import { GridReadyEvent } from 'ag-grid-community';
 import { ColDef, GridApi, StatusPanelDef } from 'ag-grid-enterprise';
 
 import { BomItem, Calculation, CostComponentSplit } from '@cdba/shared/models';
-import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
 
 import { getMainMenuItems } from '../table';
 import { NoRowsParams } from '../table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
@@ -60,13 +59,10 @@ export class CostElementsTableComponent implements OnInit, OnChanges {
   private gridApi: GridApi;
 
   constructor(
-    private readonly columnDefinitionService: ColumnDefinitionService,
-    private readonly betaFeatureService: BetaFeatureService
+    private readonly columnDefinitionService: ColumnDefinitionService
   ) {}
 
   ngOnInit(): void {
-    this.odataFeatureEnabled = this.betaFeatureService.getBetaFeature('oData');
-
     this.columnDefs = this.columnDefinitionService.getColDef();
     this.statusBar = STATUS_BAR_CONFIG;
     this.components = FRAMEWORK_COMPONENTS;

@@ -19,20 +19,17 @@ import {
 } from '@cdba/shared/models';
 import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
 import {
-  BOM_ODATA_MAPPED_MOCK,
-  BOM_ODATA_MOCK,
+  BOM_IDENTIFIER_MOCK,
+  BOM_MAPPED_MOCK,
+  BOM_MOCK,
   CALCULATIONS_MOCK,
   COST_COMPONENT_SPLIT_ITEMS_MOCK,
   DRAWINGS_MOCK,
   EXCLUDED_CALCULATIONS_MOCK,
-  ODATA_BOM_IDENTIFIER_MOCK,
   REFERENCE_TYPE_MOCK,
 } from '@cdba/testing/mocks';
 
-import {
-  BomResult,
-  CalculationsResponse,
-} from '../../core/store/reducers/detail/models';
+import { CalculationsResponse } from '../../core/store/reducers/detail/models';
 import { DetailService } from './detail.service';
 
 describe('DetailService', () => {
@@ -98,23 +95,23 @@ describe('DetailService', () => {
 
   describe('getBom', () => {
     test('should get bom entries', () => {
-      const mock = new BomResult(BOM_ODATA_MOCK);
-      const bomIdentifier = new BomIdentifier(
-        '20200604',
-        'number',
-        'type',
-        'version',
-        'yes',
-        'ref',
-        'var'
-      );
+      const mock = BOM_MOCK;
+      const bomIdentifier: BomIdentifier = {
+        costingDate: '20200604',
+        costingNumber: 'number',
+        costingType: 'type',
+        version: 'version',
+        enteredManually: false,
+        referenceObject: 'ref',
+        valuationVariant: 'var',
+      };
 
       service.getBom(bomIdentifier).subscribe((response) => {
-        expect(response).toEqual(BOM_ODATA_MAPPED_MOCK);
+        expect(response).toEqual(BOM_MAPPED_MOCK);
       });
 
       const req = httpMock.expectOne(
-        `api/v1/bom?bom_costing_date=${bomIdentifier.bomCostingDate}&bom_costing_number=${bomIdentifier.bomCostingNumber}&bom_costing_type=${bomIdentifier.bomCostingType}&bom_costing_version=${bomIdentifier.bomCostingVersion}&bom_entered_manually=${bomIdentifier.bomEnteredManually}&bom_reference_object=${bomIdentifier.bomReferenceObject}&bom_valuation_variant=${bomIdentifier.bomValuationVariant}`
+        `api/v2/bom?costing_date=${bomIdentifier.costingDate}&costing_number=${bomIdentifier.costingNumber}&costing_type=${bomIdentifier.costingType}&version=${bomIdentifier.version}&entered_manually=${bomIdentifier.enteredManually}&reference_object=${bomIdentifier.referenceObject}&valuation_variant=${bomIdentifier.valuationVariant}`
       );
       expect(req.request.method).toBe('GET');
       expect(req.request.context).toEqual(withCache());
@@ -142,7 +139,7 @@ describe('DetailService', () => {
   describe('getCostComponentSplit', () => {
     test('should get cost component split + summary', waitForAsync(() => {
       const mock = COST_COMPONENT_SPLIT_ITEMS_MOCK;
-      const bomIdentifier = ODATA_BOM_IDENTIFIER_MOCK;
+      const bomIdentifier = BOM_IDENTIFIER_MOCK;
 
       const expectedItems: CostComponentSplit[] = [
         ...mock,
@@ -164,6 +161,7 @@ describe('DetailService', () => {
       const req = httpMock.expectOne(
         `api/v1/cost-component-split?costing_date=${bomIdentifier.costingDate}&costing_number=${bomIdentifier.costingNumber}&costing_type=${bomIdentifier.costingType}&version=${bomIdentifier.version}&entered_manually=${bomIdentifier.enteredManually}&reference_object=${bomIdentifier.referenceObject}&valuation_variant=${bomIdentifier.valuationVariant}`
       );
+
       expect(req.request.method).toBe('GET');
       expect(req.request.context).toEqual(withCache());
       req.flush(mock);
@@ -172,7 +170,7 @@ describe('DetailService', () => {
 
   describe('defineBomTreeForAgGrid', () => {
     it('should build correct tree', () => {
-      const bomItems = BOM_ODATA_MOCK;
+      const bomItems = BOM_MOCK;
 
       const result = DetailService['defineBomTreeForAgGrid'](bomItems, 0);
 

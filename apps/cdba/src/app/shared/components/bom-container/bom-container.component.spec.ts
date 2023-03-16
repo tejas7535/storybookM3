@@ -26,7 +26,7 @@ import { ENV, getEnv } from '@cdba/environments/environment.provider';
 import { ResizeModule } from '@cdba/shared/directives/resize/index';
 import { MaterialNumberModule } from '@cdba/shared/pipes';
 import {
-  BOM_ODATA_MOCK,
+  BOM_MOCK,
   COMPARE_STATE_MOCK,
   COST_COMPONENT_SPLIT_ITEMS_MOCK,
   DETAIL_STATE_MOCK,
@@ -125,7 +125,7 @@ describe('BomContainerComponent', () => {
     test(
       'should use detail selectors to init observables',
       marbles((m) => {
-        const expectedChildrenOfSelectedBomItem = [BOM_ODATA_MOCK[1]];
+        const expectedChildrenOfSelectedBomItem = [BOM_MOCK[1]];
         const expectedCostComponentSplitSummary: CostComponentSplit[] = [
           {
             costComponent: undefined,
@@ -309,7 +309,7 @@ describe('BomContainerComponent', () => {
   });
 
   describe('selectBomItem', () => {
-    const item = BOM_ODATA_MOCK[0];
+    const item = BOM_MOCK[0];
 
     beforeEach(() => {
       store.dispatch = jest.fn();

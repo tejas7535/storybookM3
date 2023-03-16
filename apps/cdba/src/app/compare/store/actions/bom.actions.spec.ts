@@ -1,8 +1,7 @@
 import {
   BOM_IDENTIFIER_MOCK,
-  BOM_ODATA_MOCK,
+  BOM_MOCK,
   COST_COMPONENT_SPLIT_ITEMS_MOCK,
-  ODATA_BOM_IDENTIFIER_MOCK,
 } from '@cdba/testing/mocks';
 
 import {
@@ -24,8 +23,8 @@ describe('BoM Actions', () => {
   const index = 1;
   const errorMessage = 'Please Help';
   const statusCode = 418;
-  const bomItems = BOM_ODATA_MOCK;
-  const bomItem = BOM_ODATA_MOCK[3];
+  const bomItems = BOM_MOCK;
+  const bomItem = BOM_MOCK[3];
 
   afterEach(() => {
     action = undefined;
@@ -78,7 +77,7 @@ describe('BoM Actions', () => {
   });
   describe('Cost Component Split Actions', () => {
     test('loadCostComponentSplit', () => {
-      const bomIdentifier = ODATA_BOM_IDENTIFIER_MOCK;
+      const bomIdentifier = BOM_IDENTIFIER_MOCK;
       action = loadCostComponentSplit({ index, bomIdentifier });
 
       expect(action).toEqual({

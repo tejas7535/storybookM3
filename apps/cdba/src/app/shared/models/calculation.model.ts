@@ -15,7 +15,7 @@ export class Calculation {
     public bomCostingNumber: string,
     public bomCostingType: string,
     public bomCostingVersion: string,
-    public bomEnteredManually: string,
+    public bomEnteredManually: boolean,
     public bomReferenceObject: string,
     public bomValuationVariant: string
   ) {}

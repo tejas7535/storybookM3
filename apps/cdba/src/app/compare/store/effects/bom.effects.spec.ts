@@ -11,17 +11,16 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
 import { DetailService } from '@cdba/detail/service/detail.service';
-import { BomIdentifier, OdataBomIdentifier } from '@cdba/shared/models';
+import { BomIdentifier } from '@cdba/shared/models';
 import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
 import {
   AUTH_STATE_MOCK,
   BOM_IDENTIFIER_MOCK,
-  BOM_ODATA_MOCK,
+  BOM_MOCK,
   CALCULATIONS_MOCK,
   COMPARE_STATE_MOCK,
   COST_COMPONENT_SPLIT_ITEMS_MOCK,
   EXCLUDED_CALCULATIONS_MOCK,
-  ODATA_BOM_IDENTIFIER_MOCK,
 } from '@cdba/testing/mocks';
 
 import {
@@ -51,7 +50,7 @@ describe('BomEffects', () => {
     error: { detail: 'Error Message' },
   });
 
-  const bomIdentifier: BomIdentifier | OdataBomIdentifier = BOM_IDENTIFIER_MOCK;
+  const bomIdentifier: BomIdentifier | BomIdentifier = BOM_IDENTIFIER_MOCK;
 
   const createService = createServiceFactory({
     service: BomEffects,
@@ -90,7 +89,7 @@ describe('BomEffects', () => {
       marbles((m) => {
         actions$ = m.hot('-a', { a: action });
 
-        const items = BOM_ODATA_MOCK;
+        const items = BOM_MOCK;
 
         const response = m.cold('-a|', {
           a: items,
@@ -219,7 +218,7 @@ describe('BomEffects', () => {
     beforeEach(() => {
       const actionPayload = {
         index,
-        bomIdentifier: ODATA_BOM_IDENTIFIER_MOCK,
+        bomIdentifier: BOM_IDENTIFIER_MOCK,
       };
       action = loadCostComponentSplit(actionPayload);
     });
@@ -270,7 +269,7 @@ describe('BomEffects', () => {
 
   describe('triggerLoadOfCostComponentSplit$', () => {
     const result = loadCostComponentSplit({
-      bomIdentifier: BOM_ODATA_MOCK[0].bomIdentifier,
+      bomIdentifier: BOM_MOCK[0].bomIdentifier,
       index: 0,
     });
     test(
@@ -279,7 +278,7 @@ describe('BomEffects', () => {
         betaFeatureService.getBetaFeature = jest.fn(() => true);
 
         action = loadBomSuccess({
-          items: BOM_ODATA_MOCK,
+          items: BOM_MOCK,
           index: 0,
         });
 

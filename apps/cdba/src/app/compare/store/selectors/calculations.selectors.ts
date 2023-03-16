@@ -22,13 +22,13 @@ export const getBomIdentifierForSelectedCalculation = createSelector(
       } = calculation;
 
       return {
-        bomCostingDate,
-        bomCostingNumber,
-        bomCostingType,
-        bomCostingVersion,
-        bomEnteredManually,
-        bomReferenceObject,
-        bomValuationVariant,
+        costingDate: bomCostingDate,
+        costingNumber: bomCostingNumber,
+        costingType: bomCostingType,
+        version: bomCostingVersion,
+        enteredManually: bomEnteredManually,
+        referenceObject: bomReferenceObject,
+        valuationVariant: bomValuationVariant,
       };
     }
 

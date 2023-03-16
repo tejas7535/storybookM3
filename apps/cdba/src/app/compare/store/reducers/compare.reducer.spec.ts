@@ -5,12 +5,11 @@ import {
 } from '@cdba/shared/models';
 import {
   BOM_IDENTIFIER_MOCK,
-  BOM_ODATA_MOCK,
+  BOM_MOCK,
   CALCULATIONS_MOCK,
   COMPARE_STATE_MOCK,
   COST_COMPONENT_SPLIT_ITEMS_MOCK,
   EXCLUDED_CALCULATIONS_MOCK,
-  ODATA_BOM_IDENTIFIER_MOCK,
   REFERENCE_TYPE_IDENTIFIER_MOCK,
   REFERENCE_TYPE_MOCK,
 } from '@cdba/testing/mocks';
@@ -169,8 +168,8 @@ describe('Compare Reducer', () => {
     describe('loadBomSuccess', () => {
       it('should set items and switch off loading for correct material', () => {
         const index = 1;
-        action = loadBomSuccess({ index, items: BOM_ODATA_MOCK });
-        expected = BOM_ODATA_MOCK;
+        action = loadBomSuccess({ index, items: BOM_MOCK });
+        expected = BOM_MOCK;
 
         state = compareReducer(mockState, action);
 
@@ -214,7 +213,7 @@ describe('Compare Reducer', () => {
 
     describe('selectBomItem', () => {
       it('should set selected item for provided index', () => {
-        const item = BOM_ODATA_MOCK[3];
+        const item = BOM_MOCK[3];
         const index = 0;
         expected = item;
         action = selectBomItem({ item, index });
@@ -390,7 +389,7 @@ describe('Compare Reducer', () => {
     });
   });
   describe('Cost Component Split Actions', () => {
-    const bomIdentifier = ODATA_BOM_IDENTIFIER_MOCK;
+    const bomIdentifier = BOM_IDENTIFIER_MOCK;
     describe('loadCostComponentSplit', () => {
       test('should set loading', () => {
         const index = 0;

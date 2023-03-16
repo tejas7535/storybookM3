@@ -19,7 +19,7 @@ import { ENV, getEnv } from '@cdba/environments/environment.provider';
 import { BomTableModule } from '@cdba/shared/components';
 import { ColumnDefinitionService } from '@cdba/shared/components/bom-table/config';
 import { MaterialNumberModule } from '@cdba/shared/pipes';
-import { BOM_ODATA_MOCK } from '@cdba/testing/mocks';
+import { BOM_MOCK } from '@cdba/testing/mocks';
 
 import { BomTableComponent } from './bom-table.component';
 import { TotalCostShareComponentModule } from './bom-table-status-bar/total-cost-share/total-cost-share.component';
@@ -168,7 +168,7 @@ describe('BomTableComponent', () => {
 
   describe('getDataPath', () => {
     it('should return predecessors of item', () => {
-      const item = BOM_ODATA_MOCK[0];
+      const item = BOM_MOCK[0];
 
       const result = component.getDataPath(item);
 

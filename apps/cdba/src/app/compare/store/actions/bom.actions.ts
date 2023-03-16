@@ -6,7 +6,6 @@ import {
   BomIdentifier,
   BomItem,
   CostComponentSplit,
-  OdataBomIdentifier,
 } from '@cdba/shared/models';
 
 export const loadBom = createAction(
@@ -34,7 +33,7 @@ export const selectBomItem = createAction(
 
 export const loadCostComponentSplit = createAction(
   '[Compare] Load Cost Component Split',
-  props<{ bomIdentifier: OdataBomIdentifier; index: number }>()
+  props<{ bomIdentifier: BomIdentifier; index: number }>()
 );
 
 export const loadCostComponentSplitSuccess = createAction(

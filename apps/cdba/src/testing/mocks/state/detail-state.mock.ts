@@ -4,7 +4,7 @@ import {
 } from '@cdba/core/store/reducers/detail/detail.reducer';
 
 import {
-  BOM_ODATA_MOCK,
+  BOM_MOCK,
   CALCULATIONS_MOCK,
   DRAWINGS_MOCK,
   REFERENCE_TYPE_IDENTIFIER_MOCK,
@@ -33,8 +33,8 @@ export const DETAIL_STATE_MOCK: DetailState = {
   },
   bom: {
     loading: true,
-    items: BOM_ODATA_MOCK,
-    selectedItem: BOM_ODATA_MOCK[0],
+    items: BOM_MOCK,
+    selectedItem: BOM_MOCK[0],
     errorMessage: 'Error',
   },
   costComponentSplit: {
@@ -364,8 +364,8 @@ export const DETAIL_STATE_MISSING_SALES_INFORMATION_MOCK: DetailState = {
   },
   bom: {
     loading: true,
-    items: BOM_ODATA_MOCK,
-    selectedItem: BOM_ODATA_MOCK[0],
+    items: BOM_MOCK,
+    selectedItem: BOM_MOCK[0],
     errorMessage: 'Error',
   },
   costComponentSplit: {

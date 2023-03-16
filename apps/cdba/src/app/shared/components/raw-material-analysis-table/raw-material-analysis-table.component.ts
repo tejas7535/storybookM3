@@ -14,7 +14,6 @@ import {
 } from 'ag-grid-community';
 
 import { BomItem, Calculation, RawMaterialAnalysis } from '@cdba/shared/models';
-import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
 
 import { getMainMenuItems } from '../table/column-utils';
 import { NoRowsParams } from '../table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
@@ -63,13 +62,10 @@ export class RawMaterialAnalysisTableComponent implements OnInit, OnChanges {
   private gridApi: GridApi;
 
   constructor(
-    private readonly columnDefinitionService: ColumnDefinitionService,
-    private readonly betaFeatureService: BetaFeatureService
+    private readonly columnDefinitionService: ColumnDefinitionService
   ) {}
 
   ngOnInit(): void {
-    this.odataFeatureEnabled = this.betaFeatureService.getBetaFeature('oData');
-
     this.columnDefs = this.columnDefinitionService.getColDef();
     this.statusBar = STATUS_BAR_CONFIG;
     this.components = FRAMEWORK_COMPONENTS;

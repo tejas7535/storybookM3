@@ -21,7 +21,7 @@ export const CALCULATIONS_MOCK = [
     '145760472',
     'K1',
     '61',
-    '',
+    false,
     '0',
     'SQB'
   ),
@@ -41,7 +41,7 @@ export const CALCULATIONS_MOCK = [
     '145760472',
     'K1',
     '61',
-    '',
+    false,
     '0',
     'SQB'
   ),
@@ -61,7 +61,7 @@ export const CALCULATIONS_MOCK = [
     '145760472',
     'K1',
     '61',
-    '',
+    false,
     '0',
     'SQB'
   ),
@@ -81,7 +81,7 @@ export const CALCULATIONS_MOCK = [
     '145760472',
     'K1',
     '61',
-    '',
+    false,
     '0',
     'SQB'
   ),
@@ -101,7 +101,7 @@ export const CALCULATIONS_MOCK = [
     '145760472',
     'K1',
     '61',
-    '',
+    false,
     '0',
     'SQB'
   ),
@@ -122,7 +122,7 @@ export const CALCULATIONS_MOCK = [
     '145760472',
     'K1',
     '61',
-    '',
+    false,
     '0',
     'SQB'
   ),

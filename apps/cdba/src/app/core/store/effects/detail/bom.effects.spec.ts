@@ -16,11 +16,10 @@ import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feat
 import {
   AUTH_STATE_MOCK,
   BOM_IDENTIFIER_MOCK,
-  BOM_ODATA_MOCK,
+  BOM_MOCK,
   CALCULATIONS_MOCK,
   COST_COMPONENT_SPLIT_ITEMS_MOCK,
   EXCLUDED_CALCULATIONS_MOCK,
-  ODATA_BOM_IDENTIFIER_MOCK,
   REFERENCE_TYPE_IDENTIFIER_MOCK,
 } from '@cdba/testing/mocks';
 
@@ -130,7 +129,7 @@ describe('Bom Effects', () => {
       marbles((m) => {
         actions$ = m.hot('-a', { a: action });
 
-        const items = BOM_ODATA_MOCK;
+        const items = BOM_MOCK;
 
         const response = m.cold('-a|', {
           a: items,
@@ -214,7 +213,7 @@ describe('Bom Effects', () => {
 
   describe('loadCostComponentSplit$', () => {
     beforeEach(() => {
-      const bomIdentifier = ODATA_BOM_IDENTIFIER_MOCK;
+      const bomIdentifier = BOM_IDENTIFIER_MOCK;
       action = loadCostComponentSplit({ bomIdentifier });
     });
 
@@ -262,7 +261,7 @@ describe('Bom Effects', () => {
   });
 
   describe('triggerLoadOfCostComponentSplit$', () => {
-    const bomIdentifier = ODATA_BOM_IDENTIFIER_MOCK;
+    const bomIdentifier = BOM_IDENTIFIER_MOCK;
     const result = loadCostComponentSplit({ bomIdentifier });
     test(
       'should return loadCostComponentSplit Action when bom loaded successfully',
@@ -270,11 +269,11 @@ describe('Bom Effects', () => {
         betaFeatureService.getBetaFeature = jest.fn(() => true);
         store.overrideSelector(
           getBomIdentifierForSelectedBomItem,
-          ODATA_BOM_IDENTIFIER_MOCK
+          BOM_IDENTIFIER_MOCK
         );
 
         action = loadBomSuccess({
-          items: BOM_ODATA_MOCK,
+          items: BOM_MOCK,
         });
 
         actions$ = m.hot('-a', { a: action });

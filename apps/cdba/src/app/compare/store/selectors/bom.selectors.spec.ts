@@ -1,7 +1,7 @@
 import { BomItem } from '@cdba/shared/models';
 import {
-  BOM_ITEM_ODATA_MOCK,
-  BOM_ODATA_MOCK,
+  BOM_ITEM_MOCK,
+  BOM_MOCK,
   COMPARE_STATE_MOCK,
   COST_COMPONENT_SPLIT_ITEMS_MOCK,
   RAW_MATERIAL_ANALYSIS_MOCK,
@@ -52,7 +52,7 @@ describe('BoM Selectors', () => {
     });
 
     it('should return bom items for provided index', () => {
-      expected = BOM_ODATA_MOCK;
+      expected = BOM_MOCK;
       result = getBomItems(fakeState, 0);
 
       expect(result).toEqual(expected);
@@ -125,9 +125,9 @@ describe('BoM Selectors', () => {
     });
     it('should return only direct children of selected bom item', () => {
       const bomItems: BomItem[] = [
-        { ...BOM_ITEM_ODATA_MOCK },
+        { ...BOM_ITEM_MOCK },
         {
-          ...BOM_ITEM_ODATA_MOCK,
+          ...BOM_ITEM_MOCK,
           level: 2,
           rowId: 2,
           materialDesignation: 'FE-2313',
@@ -135,21 +135,21 @@ describe('BoM Selectors', () => {
           costShareOfParent: 1,
         },
         {
-          ...BOM_ITEM_ODATA_MOCK,
+          ...BOM_ITEM_MOCK,
           level: 3,
           rowId: 3,
           materialDesignation: 'FE-2315',
           predecessorsInTree: ['FE-2313', 'FE-2313', 'FE-2315'],
         },
         {
-          ...BOM_ITEM_ODATA_MOCK,
+          ...BOM_ITEM_MOCK,
           level: 3,
           rowId: 4,
           materialDesignation: 'FE-2314',
           predecessorsInTree: ['FE-2313', 'FE-2313', 'FE-2314'],
         },
         {
-          ...BOM_ITEM_ODATA_MOCK,
+          ...BOM_ITEM_MOCK,
           level: 3,
           rowId: 5,
           materialDesignation: 'FE-2311',
@@ -163,7 +163,7 @@ describe('BoM Selectors', () => {
           billOfMaterial: {
             ...fakeState.compare['0'].billOfMaterial,
             items: bomItems,
-            selected: BOM_ITEM_ODATA_MOCK,
+            selected: BOM_ITEM_MOCK,
           },
         },
       };
@@ -205,9 +205,9 @@ describe('BoM Selectors', () => {
 
     it('should return all children of selected bom item', () => {
       const bomItems: BomItem[] = [
-        BOM_ITEM_ODATA_MOCK,
+        BOM_ITEM_MOCK,
         {
-          ...BOM_ITEM_ODATA_MOCK,
+          ...BOM_ITEM_MOCK,
           level: 2,
           rowId: 2,
           materialDesignation: 'FE-2313',
@@ -215,21 +215,21 @@ describe('BoM Selectors', () => {
           costShareOfParent: 1,
         },
         {
-          ...BOM_ITEM_ODATA_MOCK,
+          ...BOM_ITEM_MOCK,
           level: 3,
           rowId: 3,
           materialDesignation: 'FE-2315',
           predecessorsInTree: ['FE-2313', 'FE-2313', 'FE-2315'],
         },
         {
-          ...BOM_ITEM_ODATA_MOCK,
+          ...BOM_ITEM_MOCK,
           level: 3,
           rowId: 4,
           materialDesignation: 'FE-2314',
           predecessorsInTree: ['FE-2313', 'FE-2313', 'FE-2314'],
         },
         {
-          ...BOM_ITEM_ODATA_MOCK,
+          ...BOM_ITEM_MOCK,
           level: 3,
           rowId: 5,
           materialDesignation: 'FE-2311',
@@ -243,7 +243,7 @@ describe('BoM Selectors', () => {
           billOfMaterial: {
             ...fakeState.compare['0'].billOfMaterial,
             items: bomItems,
-            selected: BOM_ITEM_ODATA_MOCK,
+            selected: BOM_ITEM_MOCK,
           },
         },
       };
@@ -279,9 +279,9 @@ describe('BoM Selectors', () => {
 
     it('should return raw material analysis of selected bom item', () => {
       const bomItems: BomItem[] = [
-        BOM_ITEM_ODATA_MOCK,
+        BOM_ITEM_MOCK,
         {
-          ...BOM_ITEM_ODATA_MOCK,
+          ...BOM_ITEM_MOCK,
           level: 2,
           rowId: 2,
           materialDesignation: 'FE-2313',
@@ -289,31 +289,31 @@ describe('BoM Selectors', () => {
           costShareOfParent: 1,
         },
         {
-          ...BOM_ITEM_ODATA_MOCK,
+          ...BOM_ITEM_MOCK,
           level: 3,
           rowId: 3,
           materialDesignation: 'FE-2315',
           predecessorsInTree: ['FE-2313', 'FE-2313', 'FE-2315'],
         },
         {
-          ...BOM_ITEM_ODATA_MOCK,
+          ...BOM_ITEM_MOCK,
           level: 3,
           rowId: 4,
           itemCategory: 'M',
           materialCharacteristics: {
-            ...BOM_ITEM_ODATA_MOCK.materialCharacteristics,
+            ...BOM_ITEM_MOCK.materialCharacteristics,
             type: 'ROH',
           },
           materialDesignation: 'FE-2314',
           predecessorsInTree: ['FE-2313', 'FE-2313', 'FE-2314'],
         },
         {
-          ...BOM_ITEM_ODATA_MOCK,
+          ...BOM_ITEM_MOCK,
           level: 3,
           rowId: 5,
           itemCategory: 'M',
           materialCharacteristics: {
-            ...BOM_ITEM_ODATA_MOCK.materialCharacteristics,
+            ...BOM_ITEM_MOCK.materialCharacteristics,
             type: 'ROH',
           },
           materialDesignation: 'FE-2311',
@@ -327,7 +327,7 @@ describe('BoM Selectors', () => {
           billOfMaterial: {
             ...fakeState.compare['0'].billOfMaterial,
             items: bomItems,
-            selected: BOM_ITEM_ODATA_MOCK,
+            selected: BOM_ITEM_MOCK,
           },
         },
       };

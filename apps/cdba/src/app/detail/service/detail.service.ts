@@ -7,25 +7,15 @@ import { map } from 'rxjs/operators';
 import { withCache } from '@ngneat/cashew';
 
 import { API, DetailPath } from '@cdba/shared/constants/api';
-import { BetaFeature } from '@cdba/shared/constants/beta-feature';
 import {
-  BomIdentifier,
-  BomItem,
   CostComponentSplit,
   Drawing,
   ReferenceType,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
-import {
-  BomItemOdata,
-  OdataBomIdentifier,
-} from '@cdba/shared/models/bom-item-odata.model';
-import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
+import { BomIdentifier, BomItem } from '@cdba/shared/models/bom-item.model';
 
-import {
-  BomResult,
-  CalculationsResponse,
-} from '../../core/store/reducers/detail/models';
+import { CalculationsResponse } from '../../core/store/reducers/detail/models';
 
 @Injectable({
   providedIn: 'root',
@@ -33,14 +23,6 @@ import {
 export class DetailService {
   private readonly PARAM_MATERIAL_NUMBER = 'material_number';
   private readonly PARAM_PLANT = 'plant';
-
-  private readonly PARAM_BOM_COSTING_DATE = 'bom_costing_date';
-  private readonly PARAM_BOM_COSTING_NUMBER = 'bom_costing_number';
-  private readonly PARAM_BOM_COSTING_TYPE = 'bom_costing_type';
-  private readonly PARAM_BOM_COSTING_VERSION = 'bom_costing_version';
-  private readonly PARAM_BOM_ENTERED_MANUALLY = 'bom_entered_manually';
-  private readonly PARAM_BOM_REFERENCE_OBJECT = 'bom_reference_object';
-  private readonly PARAM_BOM_VALUATION_VARIANT = 'bom_valuation_variant';
 
   private readonly PARAM_COSTING_DATE = 'costing_date';
   private readonly PARAM_COSTING_NUMBER = 'costing_number';
@@ -50,13 +32,10 @@ export class DetailService {
   private readonly PARAM_REFERENCE_OBJECT = 'reference_object';
   private readonly PARAM_VALUATION_VARIANT = 'valuation_variant';
 
-  public constructor(
-    private readonly httpClient: HttpClient,
-    private readonly betaFeatureService: BetaFeatureService
-  ) {}
+  public constructor(private readonly httpClient: HttpClient) {}
 
   private static defineBomTreeForAgGrid(
-    items: BomItem[] | BomItemOdata[],
+    items: BomItem[],
     idx: number
   ): BomItem[] {
     if (idx === items.length) {
@@ -151,63 +130,39 @@ export class DetailService {
     );
   }
 
-  public getBom(
-    bomIdentifier: BomIdentifier
-  ): Observable<BomItem[] | BomItemOdata[]> {
-    const odataEnabled = this.betaFeatureService.getBetaFeature(
-      BetaFeature.O_DATA
-    );
+  public getBom(bomIdentifier: BomIdentifier): Observable<BomItem[]> {
+    const path = `${API.v2}/${DetailPath.Bom}`;
 
-    const path = `${odataEnabled ? API.v2 : API.v1}/${DetailPath.Bom}`;
-
-    const params: HttpParams = odataEnabled
-      ? new HttpParams()
-          .set(this.PARAM_COSTING_DATE, bomIdentifier.bomCostingDate)
-          .set(this.PARAM_COSTING_NUMBER, bomIdentifier.bomCostingNumber)
-          .set(this.PARAM_COSTING_TYPE, bomIdentifier.bomCostingType)
-          .set(this.PARAM_VERSION, bomIdentifier.bomCostingVersion)
-          .set(this.PARAM_ENTERED_MANUALLY, false)
-          .set(this.PARAM_REFERENCE_OBJECT, bomIdentifier.bomReferenceObject)
-          .set(this.PARAM_VALUATION_VARIANT, bomIdentifier.bomValuationVariant)
-      : new HttpParams()
-          .set(this.PARAM_BOM_COSTING_DATE, bomIdentifier.bomCostingDate)
-          .set(this.PARAM_BOM_COSTING_NUMBER, bomIdentifier.bomCostingNumber)
-          .set(this.PARAM_BOM_COSTING_TYPE, bomIdentifier.bomCostingType)
-          .set(this.PARAM_BOM_COSTING_VERSION, bomIdentifier.bomCostingVersion)
-          .set(
-            this.PARAM_BOM_ENTERED_MANUALLY,
-            bomIdentifier.bomEnteredManually
-          )
-          .set(
-            this.PARAM_BOM_REFERENCE_OBJECT,
-            bomIdentifier.bomReferenceObject
-          )
-          .set(
-            this.PARAM_BOM_VALUATION_VARIANT,
-            bomIdentifier.bomValuationVariant
-          );
+    const params: HttpParams = new HttpParams()
+      .set(this.PARAM_COSTING_DATE, bomIdentifier.costingDate)
+      .set(this.PARAM_COSTING_NUMBER, bomIdentifier.costingNumber)
+      .set(this.PARAM_COSTING_TYPE, bomIdentifier.costingType)
+      .set(this.PARAM_VERSION, bomIdentifier.version)
+      .set(this.PARAM_ENTERED_MANUALLY, false)
+      .set(this.PARAM_REFERENCE_OBJECT, bomIdentifier.referenceObject)
+      .set(this.PARAM_VALUATION_VARIANT, bomIdentifier.valuationVariant);
 
     return this.httpClient
-      .get<BomResult | BomItemOdata[]>(path, {
+      .get<BomItem[]>(path, {
         params,
         context: withCache(),
       })
       .pipe(
-        map((response: any) => (odataEnabled ? response : response.items)),
+        map((response: any) => response),
         map((items) =>
           items.map((item: any) => ({
             ...item,
             predecessorsInTree: [],
           }))
         ),
-        map((items: BomItem[] | BomItemOdata[]) =>
+        map((items: BomItem[]) =>
           DetailService.defineBomTreeForAgGrid(items, 0)
         )
       );
   }
 
   public getCostComponentSplit(
-    bomIdentifier: OdataBomIdentifier
+    bomIdentifier: BomIdentifier
   ): Observable<CostComponentSplit[]> {
     const path = `${API.v1}/${DetailPath.CostComponentSplit}`;
 

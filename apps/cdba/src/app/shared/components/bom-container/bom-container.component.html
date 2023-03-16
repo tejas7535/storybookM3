@@ -24,26 +24,23 @@
           (selectionChange)="selectCalculation($event)"
         ></cdba-calculations-table>
       </ng-container>
-      <ng-container chart>
-        <ng-container *ngIf="childrenOfSelectedBomItem$ | ngrxPush as children">
-          <cdba-bom-chart
-            *ngIf="showSidenavContent"
-            [data]="children"
-            [materialDesignation]="materialDesignation"
-            [selectedBomItem]="selectedBomItem"
-            [selectedCalculation]="selectedCalculation"
-          ></cdba-bom-chart>
-          <cdba-bom-legend
-            *ngIf="children.length > 0"
-            [data]="children"
-          ></cdba-bom-legend>
-        </ng-container>
-        <cdba-loading-spinner
-          *ngIf="bomLoading$ | ngrxPush"
-          [show]="true"
-        ></cdba-loading-spinner>
+      <ng-container chart *ngIf="!(bomLoading$ | ngrxPush); else loading">
+        <cdba-bom-chart
+          *ngIf="showSidenavContent"
+          [data]="childrenOfSelectedBomItem$ | ngrxPush"
+          [materialDesignation]="materialDesignation"
+          [selectedBomItem]="selectedBomItem"
+          [selectedCalculation]="selectedCalculation"
+        ></cdba-bom-chart>
+        <cdba-bom-legend
+          *ngIf="(childrenOfSelectedBomItem$ | ngrxPush)?.length > 0"
+          [data]="childrenOfSelectedBomItem$ | ngrxPush"
+        ></cdba-bom-legend>
       </ng-container>
-      <ng-container costElements>
+      <ng-container
+        costElements
+        *ngIf="!(bomLoading$ | ngrxPush); else loading"
+      >
         <cdba-cost-elements-table
           *ngIf="showSidenavContent"
           [index]="index"
@@ -56,7 +53,10 @@
           [selectedCalculation]="selectedCalculation"
         ></cdba-cost-elements-table>
       </ng-container>
-      <ng-container rawMaterialAnalysis>
+      <ng-container
+        rawMaterialAnalysis
+        *ngIf="!(bomLoading$ | ngrxPush); else loading"
+      >
         <cdba-raw-material-analysis-table
           *ngIf="showSidenavContent"
           [isLoading]="bomLoading$ | ngrxPush"
@@ -160,3 +160,10 @@
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
+
+<ng-template #loading>
+  <cdba-loading-spinner
+    *ngIf="bomLoading$ | ngrxPush"
+    [show]="true"
+  ></cdba-loading-spinner>
+</ng-template>

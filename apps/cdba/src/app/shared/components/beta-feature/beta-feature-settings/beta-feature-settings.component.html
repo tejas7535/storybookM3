@@ -15,20 +15,3 @@
     <div class="animate-bounce text-h1">🙌 🙌 🙌</div>
   </div>
 </ng-template>
-
-<!--oData-->
-<ng-container *ngIf="showODataToggle">
-  <div class="mb-2 text-subtitle-1">OData API</div>
-  <div class="mb-2 text-caption">
-    Activate to get the CDBA data via new OData interface.<br />The application
-    will be refreshed.
-  </div>
-  <mat-slide-toggle
-    color="primary"
-    [checked]="oDataActivated"
-    [disabled]="disableToggles"
-    (change)="onODataFeatureToggleChange($event)"
-  >
-    Activate OData
-  </mat-slide-toggle>
-</ng-container>

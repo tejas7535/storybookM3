@@ -10,7 +10,6 @@ import { Store } from '@ngrx/store';
 
 import { RoleFacade } from '@cdba/core/auth/role.facade';
 import { DetailService } from '@cdba/detail/service/detail.service';
-import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
 
 import {
   loadBom,
@@ -53,7 +52,7 @@ export class BomEffects {
               catchError((error: HttpErrorResponse) =>
                 of(
                   loadBomFailure({
-                    errorMessage: error.error.detail || error.message,
+                    errorMessage: error.error?.detail || error.message,
                     statusCode: error.status,
                   })
                 )
@@ -93,7 +92,6 @@ export class BomEffects {
   triggerLoadOfCostComponentSplit$ = createEffect(() =>
     this.actions$.pipe(
       ofType(selectBomItem, loadBomSuccess),
-      filter(() => this.betaFeatureService.getBetaFeature('oData')),
       concatLatestFrom(() =>
         this.store.select(getBomIdentifierForSelectedBomItem)
       ),
@@ -108,7 +106,6 @@ export class BomEffects {
     private readonly actions$: Actions,
     private readonly detailService: DetailService,
     private readonly store: Store,
-    private readonly roleFacade: RoleFacade,
-    private readonly betaFeatureService: BetaFeatureService
+    private readonly roleFacade: RoleFacade
   ) {}
 }

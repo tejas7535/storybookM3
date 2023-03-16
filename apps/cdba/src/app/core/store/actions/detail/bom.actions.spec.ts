@@ -2,9 +2,8 @@ import { HttpStatusCode } from '@angular/common/http';
 
 import {
   BOM_IDENTIFIER_MOCK,
-  BOM_ODATA_MOCK,
+  BOM_MOCK,
   COST_COMPONENT_SPLIT_ITEMS_MOCK,
-  ODATA_BOM_IDENTIFIER_MOCK,
 } from '@cdba/testing/mocks';
 
 import {
@@ -40,7 +39,7 @@ describe('BoM Actions', () => {
     });
 
     test('loadBomSuccess', () => {
-      const items = BOM_ODATA_MOCK;
+      const items = BOM_MOCK;
       action = loadBomSuccess({ items });
 
       expect(action).toEqual({
@@ -62,7 +61,7 @@ describe('BoM Actions', () => {
 
   describe('loadCostComponentSplit Actions', () => {
     test('loadCostComponentSplit', () => {
-      const bomIdentifier = ODATA_BOM_IDENTIFIER_MOCK;
+      const bomIdentifier = BOM_IDENTIFIER_MOCK;
       action = loadCostComponentSplit({ bomIdentifier });
 
       expect(action).toEqual({
@@ -102,7 +101,7 @@ describe('BoM Actions', () => {
 
   describe('Select Bom Action', () => {
     test('selectBomItem', () => {
-      const item = BOM_ODATA_MOCK[0];
+      const item = BOM_MOCK[0];
 
       action = selectBomItem({ item });
 

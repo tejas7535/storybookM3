@@ -9,9 +9,7 @@ import {
   filterParamsForDecimalValues,
   formatMaterialNumberFromString,
 } from '@cdba/shared/components/table';
-import { BetaFeature } from '@cdba/shared/constants/beta-feature';
 import { ScrambleMaterialNumberPipe } from '@cdba/shared/pipes';
-import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
 
 @Injectable()
 export class ColumnDefinitionService {
@@ -19,8 +17,7 @@ export class ColumnDefinitionService {
 
   constructor(
     private readonly columnUtilsService: ColumnUtilsService,
-    protected scrambleMaterialNumberPipe: ScrambleMaterialNumberPipe,
-    private readonly betaFeatureService: BetaFeatureService
+    protected scrambleMaterialNumberPipe: ScrambleMaterialNumberPipe
   ) {}
 
   DEFAULT_COL_DEF: ColDef = {
@@ -40,75 +37,7 @@ export class ColumnDefinitionService {
     },
   };
 
-  // classic
-  COLUMN_DEFINITIONS_CLASSIC: ColDef[] = [
-    {
-      field: 'level',
-      headerName: translate('shared.bom.headers.level'),
-      hide: true,
-    },
-    {
-      field: 'totalPricePerPc',
-      headerName: translate('shared.bom.headers.totalPricePerPc'),
-      type: 'numericColumn',
-      valueFormatter: (params) =>
-        this.columnUtilsService.formatNumber(params, {
-          minimumFractionDigits: 4,
-          maximumFractionDigits: 4,
-        }),
-    },
-    {
-      field: 'currency',
-      headerName: translate('shared.bom.headers.currency'),
-    },
-    {
-      field: 'materialNumber',
-      headerName: translate('shared.bom.headers.materialNumber'),
-      valueGetter: (params) =>
-        formatMaterialNumberFromString(params.data.materialNumber),
-      valueFormatter: (params) =>
-        this.scrambleMaterialNumberPipe.transform(params.value),
-    },
-    {
-      field: 'plant',
-      headerName: translate('shared.bom.headers.plant'),
-    },
-    {
-      field: 'lotsize',
-      headerName: translate('shared.bom.headers.lotsize'),
-      type: 'numericColumn',
-      valueFormatter: this.columnUtilsService.formatNumber,
-    },
-    {
-      field: 'setupTime',
-      headerName: translate('shared.bom.headers.setupTime'),
-    },
-    {
-      field: 'cycleTime',
-      headerName: translate('shared.bom.headers.cycleTime'),
-    },
-    {
-      field: 'toolingFactor',
-      headerName: translate('shared.bom.headers.toolingFactor'),
-    },
-    {
-      field: 'quantityPerParent',
-      headerName: translate('shared.bom.headers.quantityPerParent'),
-      type: 'numericColumn',
-      valueFormatter: this.columnUtilsService.formatNumber,
-    },
-    {
-      field: 'unitOfMeasure',
-      headerName: translate('shared.bom.headers.unitOfMeasure'),
-    },
-    {
-      field: 'costCenter',
-      headerName: translate('shared.bom.headers.workCenter'),
-    },
-  ];
-
-  // oData
-  COLUMN_DEFINITIONS_ODATA: (ColDef | ColGroupDef)[] = [
+  COLUMN_DEFINITIONS: (ColDef | ColGroupDef)[] = [
     {
       field: 'level',
       headerName: translate('shared.bom.headers.level'),
@@ -737,8 +666,6 @@ export class ColumnDefinitionService {
   ];
 
   public getColDef(): (ColDef | ColGroupDef)[] {
-    return this.betaFeatureService.getBetaFeature(BetaFeature.O_DATA)
-      ? this.COLUMN_DEFINITIONS_ODATA
-      : this.COLUMN_DEFINITIONS_CLASSIC;
+    return this.COLUMN_DEFINITIONS;
   }
 }

@@ -5,12 +5,10 @@ import {
   BomItem,
   CostComponentSplit,
   CostComponentSplitType,
-  OdataBomIdentifier,
   RawMaterialAnalysis,
 } from '@cdba/shared/models';
 import {
   addCostShareAndPriceValuesToRawMaterialAnalyses,
-  addCostShareOfParent,
   extractRawMaterials,
   getRawMaterialAnalysisSummary,
   mapBomItemsToRawMaterialAnalyses,
@@ -38,14 +36,12 @@ export const getDirectChildrenOfSelectedBomItem = createSelector(
   getDetailState,
   (state: DetailState): BomItem[] =>
     state.bom.items
-      ? state.bom.items
-          .filter(
-            (item: BomItem) =>
-              item.predecessorsInTree[item.predecessorsInTree.length - 2] ===
-                state.bom.selectedItem.materialDesignation &&
-              item.level === state.bom.selectedItem.level + 1
-          )
-          .map((item) => addCostShareOfParent(item, state.bom.selectedItem))
+      ? state.bom.items.filter(
+          (item: BomItem) =>
+            item.predecessorsInTree[item.predecessorsInTree.length - 2] ===
+              state.bom.selectedItem.materialDesignation &&
+            item.level === state.bom.selectedItem.level + 1
+        )
       : undefined
 );
 
@@ -83,8 +79,7 @@ export const getAllChildrenOfSelectedBomItem = createSelector(
 
 export const getBomIdentifierForSelectedBomItem = createSelector(
   getSelectedBomItem,
-  (selectedBomItem: BomItem): OdataBomIdentifier =>
-    selectedBomItem?.bomIdentifier
+  (selectedBomItem: BomItem): BomIdentifier => selectedBomItem?.bomIdentifier
 );
 
 export const getRawMaterialAnalysisForSelectedBomItem = createSelector(
@@ -169,13 +164,13 @@ export const getBomIdentifierForSelectedCalculation = createSelector(
       } = calculation;
 
       return {
-        bomCostingDate,
-        bomCostingNumber,
-        bomCostingType,
-        bomCostingVersion,
-        bomEnteredManually,
-        bomReferenceObject,
-        bomValuationVariant,
+        costingDate: bomCostingDate,
+        costingNumber: bomCostingNumber,
+        costingType: bomCostingType,
+        version: bomCostingVersion,
+        enteredManually: bomEnteredManually,
+        referenceObject: bomReferenceObject,
+        valuationVariant: bomValuationVariant,
       };
     }
 

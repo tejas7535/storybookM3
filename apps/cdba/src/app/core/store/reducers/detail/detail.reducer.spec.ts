@@ -1,12 +1,11 @@
 import { ReferenceTypeIdentifier } from '@cdba/shared/models';
 import {
   BOM_IDENTIFIER_MOCK,
-  BOM_ODATA_MOCK,
+  BOM_MOCK,
   CALCULATIONS_MOCK,
   COST_COMPONENT_SPLIT_ITEMS_MOCK,
   DRAWINGS_MOCK,
   EXCLUDED_CALCULATIONS_MOCK,
-  ODATA_BOM_IDENTIFIER_MOCK,
   REFERENCE_TYPE_IDENTIFIER_MOCK,
   REFERENCE_TYPE_MOCK,
 } from '@cdba/testing/mocks';
@@ -290,7 +289,7 @@ describe('Detail Reducer', () => {
 
   describe('loadBomSuccess', () => {
     test('should unset loading and set bom items', () => {
-      const items = BOM_ODATA_MOCK;
+      const items = BOM_MOCK;
 
       const action = loadBomSuccess({ items });
 
@@ -314,12 +313,12 @@ describe('Detail Reducer', () => {
 
   describe('selectBomItem', () => {
     test('should set selected Bom Item', () => {
-      const item = BOM_ODATA_MOCK[0];
+      const item = BOM_MOCK[0];
       const action = selectBomItem({ item });
 
       const state = detailReducer(fakeState, action);
 
-      expect(state.bom.selectedItem).toEqual(BOM_ODATA_MOCK[0]);
+      expect(state.bom.selectedItem).toEqual(BOM_MOCK[0]);
     });
   });
 
@@ -335,7 +334,7 @@ describe('Detail Reducer', () => {
   });
 
   describe('loadCostComponentSplit', () => {
-    const bomIdentifier = ODATA_BOM_IDENTIFIER_MOCK;
+    const bomIdentifier = BOM_IDENTIFIER_MOCK;
     test('should set loading', () => {
       const action = loadCostComponentSplit({ bomIdentifier });
       const state = detailReducer(initialState, action);

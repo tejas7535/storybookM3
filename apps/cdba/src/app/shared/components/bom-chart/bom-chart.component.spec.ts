@@ -14,7 +14,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { ENV, getEnv } from '@cdba/environments/environment.provider';
 import { MaterialNumberModule } from '@cdba/shared/pipes';
-import { BOM_ODATA_MOCK } from '@cdba/testing/mocks';
+import { BOM_MOCK } from '@cdba/testing/mocks';
 
 import { BomChartComponent } from './bom-chart.component';
 import { TOOLTIP_CONFIG, Y_AXIS_CONFIG } from './bom-chart.constants';
@@ -26,7 +26,7 @@ describe('BomChartComponent', () => {
   let component: BomChartComponent;
   let configService: BomChartConfigService;
 
-  const data = BOM_ODATA_MOCK;
+  const data = BOM_MOCK;
 
   const createComponent = createComponentFactory({
     component: BomChartComponent,

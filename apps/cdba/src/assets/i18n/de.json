@@ -45,7 +45,6 @@
         "title": "Mehr Info",
         "calculations": "Kalkulationen",
         "chart": "Diagramm",
-        "featureToggleHint": "Dieses Feature kann nur nach Aktivierung des OData Service verwendet werden. Klicken Sie bitte hierzu auf die drei waagrechten Striche im linken oberen Bildschirmrand um die Einstellungen von CDBA zu öffnen. Im geöffneten Menü finden Sie am unteren Ende einen Schieberegler mit dem Sie die OData Service Funktion aktivieren können.",
         "costElements": {
           "tabName": "Kostenelemente",
           "showMore": "Mehr anzeigen",
@@ -98,7 +97,8 @@
             "totalCosts": "Gesamtkosten"
           }
         },
-        "selectionHint": "Bitte wählen Sie ein Element aus der Hierarchie auf der linken Seite aus, das mindestens ein darunter liegendes Unterelement hat, um diese Details anzuzeigen."
+        "selectionHintBomElement": "Bitte wählen Sie ein Element aus der Hierarchie auf der linken Seite aus, das mindestens ein darunter liegendes Unterelement hat, um diese Details anzuzeigen.",
+        "selectionHintCalculation": "Bitte wählen Sie eine Kalkulation (aus dem Kalkulationen tab) die eine Stückliste gehält, um diese Details anzuzeigen."
       },
       "additionalFunctionality": {
         "excelExport": "Excel Datei exportieren",

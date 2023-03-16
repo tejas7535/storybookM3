@@ -2,15 +2,14 @@ import { createSelector } from '@ngrx/store';
 
 import { getCompareState } from '@cdba/core/store/reducers';
 import {
+  BomIdentifier,
   BomItem,
   CostComponentSplit,
   CostComponentSplitType,
-  OdataBomIdentifier,
   RawMaterialAnalysis,
 } from '@cdba/shared/models';
 import {
   addCostShareAndPriceValuesToRawMaterialAnalyses,
-  addCostShareOfParent,
   extractRawMaterials,
   getRawMaterialAnalysisSummary,
   mapBomItemsToRawMaterialAnalyses,
@@ -37,16 +36,12 @@ export const getBomError = createSelector(
 export const getDirectChildrenOfSelectedBomItem = (index: number) =>
   createSelector(getCompareState, (state: CompareState): BomItem[] =>
     state[index]?.billOfMaterial?.selected
-      ? state[index].billOfMaterial.items
-          .filter(
-            (item) =>
-              item.predecessorsInTree[item.predecessorsInTree.length - 2] ===
-                state[index].billOfMaterial.selected.materialDesignation &&
-              item.level === state[index].billOfMaterial.selected.level + 1
-          )
-          .map((item) =>
-            addCostShareOfParent(item, state[index].billOfMaterial.selected)
-          )
+      ? state[index].billOfMaterial.items.filter(
+          (item) =>
+            item.predecessorsInTree[item.predecessorsInTree.length - 2] ===
+              state[index].billOfMaterial.selected.materialDesignation &&
+            item.level === state[index].billOfMaterial.selected.level + 1
+        )
       : undefined
   );
 
@@ -59,8 +54,7 @@ export const getSelectedBomItem = (index: number) =>
 export const getBomIdentifierForSelectedBomItem = (index: number) =>
   createSelector(
     getSelectedBomItem(index),
-    (selectedBomItem: BomItem): OdataBomIdentifier =>
-      selectedBomItem?.bomIdentifier
+    (selectedBomItem: BomItem): BomIdentifier => selectedBomItem?.bomIdentifier
   );
 
 export const getAllChildrenOfSelectedBomItem = (index: number) =>

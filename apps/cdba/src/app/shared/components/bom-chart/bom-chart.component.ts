@@ -40,12 +40,12 @@ export class BomChartComponent implements OnChanges {
     let totalCosts = 0;
     this.hasNegativeCostValues = false;
 
-    data.forEach((value) => {
+    data?.forEach((value) => {
       const totalValue = Object.prototype.hasOwnProperty.call(
         value,
         'totalPricePerPc'
       )
-        ? value.totalPricePerPc
+        ? value.costing.costAreaTotalPrice
         : value.costing.costAreaTotalValue;
 
       this.barChartData.push(this.createDataPoint(value));
@@ -74,8 +74,8 @@ export class BomChartComponent implements OnChanges {
         bomItem.materialDesignation
       ),
       // eslint-disable-next-line no-prototype-builtins
-      value: bomItem.hasOwnProperty('totalPricePerPc')
-        ? bomItem.totalPricePerPc
+      value: bomItem.hasOwnProperty('costAreaTotalPrice')
+        ? bomItem.costing.costAreaTotalPrice
         : bomItem.costing.costAreaTotalValue,
       itemStyle: {
         color: COST_SHARE_CATEGORY_COLORS.get(

@@ -95,16 +95,4 @@ describe('BetaFeatureSettingsComponent', () => {
       expect(window.location.reload).toHaveBeenCalled();
     });
   });
-
-  // oData
-  describe('onODataFeatureToggleChange', () => {
-    it('should call handle method', () => {
-      component.onODataFeatureToggleChange({
-        source: undefined,
-        checked: true,
-      });
-
-      expect(component.handleFeatureToggleChange).toHaveBeenCalled();
-    });
-  });
 });

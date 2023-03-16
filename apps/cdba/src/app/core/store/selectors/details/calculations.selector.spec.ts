@@ -68,13 +68,13 @@ describe('Calculations Selector', () => {
 
     test('should return the BomIdentifier of the selected calculation', () => {
       const expectedIdentifier = {
-        bomCostingDate: '20171101',
-        bomCostingNumber: '145760472',
-        bomCostingType: 'K1',
-        bomCostingVersion: '61',
-        bomEnteredManually: '',
-        bomReferenceObject: '0',
-        bomValuationVariant: 'SQB',
+        costingDate: '20171101',
+        costingNumber: '145760472',
+        costingType: 'K1',
+        version: '61',
+        enteredManually: false,
+        referenceObject: '0',
+        valuationVariant: 'SQB',
       };
       expect(getBomIdentifierForSelectedCalculation(fakeState)).toEqual(
         expectedIdentifier

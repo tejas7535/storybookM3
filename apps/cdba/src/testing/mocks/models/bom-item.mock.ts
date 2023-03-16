@@ -1,7 +1,6 @@
-import { BomItemOdata } from '@cdba/shared/models/bom-item-odata.model';
+import { BomItem } from '@cdba/shared/models/bom-item.model';
 
-// oData
-export const BOM_ITEM_ODATA_MOCK: BomItemOdata = {
+export const BOM_ITEM_MOCK: BomItem = {
   rowId: 1,
   level: 1,
   materialDesignation: 'FE-2313',

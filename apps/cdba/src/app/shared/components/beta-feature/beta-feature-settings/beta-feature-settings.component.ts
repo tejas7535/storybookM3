@@ -1,6 +1,5 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 import { BetaFeature } from '@cdba/shared/constants/beta-feature';
 import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
@@ -10,39 +9,17 @@ import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feat
   templateUrl: './beta-feature-settings.component.html',
   styleUrls: ['./beta-feature-settings.component.scss'],
 })
-export class BetaFeatureSettingsComponent implements OnInit {
+export class BetaFeatureSettingsComponent {
   public disableToggles = false;
   private highFiveTimeout: number;
   private reloadPage: boolean;
 
   @ViewChild('highFiveDialog') highFiveDialogTemplate: TemplateRef<any>;
 
-  // OData
-  public showODataToggle = true;
-  public oDataActivated = false;
-
   public constructor(
     private readonly dialog: MatDialog,
     private readonly betaFeatureService: BetaFeatureService
   ) {}
-
-  public ngOnInit(): void {
-    // OData
-    this.oDataActivated = this.betaFeatureService.getBetaFeature(
-      BetaFeature.O_DATA
-    );
-  }
-
-  // OData
-  public onODataFeatureToggleChange(
-    matSlideToggleChange: MatSlideToggleChange
-  ): void {
-    this.handleFeatureToggleChange(
-      BetaFeature.O_DATA,
-      matSlideToggleChange.checked,
-      true
-    );
-  }
 
   public handleFeatureToggleChange(
     betaFeature: `${BetaFeature}`,
