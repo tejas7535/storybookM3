@@ -109,7 +109,7 @@ export class HeaderContentComponent {
           customerPurchaseOrderDate: this.customerPurchaseOrderDate,
           bindingPeriodValidityEndDate: this.bindingPeriodValidityEndDate,
           shipToParty: {
-            id: this.shipToParty?.identifier.customerId,
+            id: this.shipToParty?.identifier?.customerId,
             value: this.shipToParty?.name,
             value2: this.shipToParty?.country,
           },
@@ -128,7 +128,7 @@ export class HeaderContentComponent {
               this.customerPurchaseOrderDate ||
             result.validTo !== this.bindingPeriodValidityEndDate ||
             result.shipToParty?.customerId !==
-              this.shipToParty?.identifier.customerId)
+              this.shipToParty?.identifier?.customerId)
         ) {
           this.updateQuotation.emit({
             caseName: result.caseName,
@@ -137,7 +137,9 @@ export class HeaderContentComponent {
             requestedDelDate: result.requestedDelDate,
             customerPurchaseOrderDate: result.customerPurchaseOrderDate,
             validTo: result.validTo,
-            shipToParty: result.shipToParty,
+            shipToParty: result.shipToParty?.customerId
+              ? result.shipToParty
+              : undefined,
           });
         }
       });

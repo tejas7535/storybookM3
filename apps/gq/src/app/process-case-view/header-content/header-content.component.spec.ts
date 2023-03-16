@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { of } from 'rxjs';
 
+import { Customer } from '@gq/shared/models/customer';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { SpyObject } from '@ngneat/spectator/jest/lib/mock.js';
 import { TranslocoService } from '@ngneat/transloco';
@@ -198,6 +199,56 @@ describe('HeaderContentComponent', () => {
       component.openCaseEditingModal();
 
       expect(component.updateQuotation.emit).toHaveBeenCalledTimes(0);
+    });
+
+    test('should set shipToParty', () => {
+      component.shipToParty = undefined;
+      matDialogSpyObject.open.andReturn({
+        afterClosed: jest.fn(() =>
+          of({
+            caseName: '12',
+            shipToParty: { customerId: '125', salesOrg: '0815' },
+          })
+        ),
+      });
+
+      component.openCaseEditingModal();
+
+      expect(component.updateQuotation.emit).toHaveBeenCalledWith({
+        caseName: '12',
+        shipToParty: { customerId: '125', salesOrg: '0815' },
+      });
+    });
+
+    test('should set undefined for empty ship to party object', () => {
+      component.shipToParty = {
+        identifier: { customerId: '15' },
+      } as unknown as Customer;
+      matDialogSpyObject.open.andReturn({
+        afterClosed: jest.fn(() =>
+          // eslint-disable-next-line unicorn/no-null
+          of({ caseName: '12', shipToParty: { customer: null } })
+        ),
+      });
+
+      component.openCaseEditingModal();
+
+      expect(component.updateQuotation.emit).toHaveBeenCalledWith({
+        caseName: '12',
+      });
+    });
+
+    test('should not emit on same shipToPartyCustomer', () => {
+      component.shipToParty = {
+        identifier: { customerId: '15' },
+      } as unknown as Customer;
+      matDialogSpyObject.open.andReturn({
+        afterClosed: jest.fn(() => of({ shipToParty: { customerId: '15' } })),
+      });
+
+      component.openCaseEditingModal();
+
+      expect(component.updateQuotation.emit).not.toHaveBeenCalled();
     });
   });
 
