@@ -101,5 +101,21 @@ describe(`HttpHeaderInterceptor`, () => {
         httpRequest.request.headers.keys().includes('language')
       ).toBeFalsy();
     });
+
+    test('should add content-type header', () => {
+      translocoService.getActiveLang = jest.fn(() => 'en');
+      service.getFromDifferentUrl().subscribe((res) => {
+        expect(res).toBeTruthy();
+      });
+      const httpRequest = httpMock.expectOne(`${differentUrl}/test`);
+      expect(httpRequest.request.method).toEqual('GET');
+
+      expect(
+        httpRequest.request.headers.keys().includes('Content-Type')
+      ).toBeTruthy();
+      expect(httpRequest.request.headers.get('Content-Type')).toEqual(
+        'application/json'
+      );
+    });
   });
 });
