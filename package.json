@@ -64,6 +64,7 @@
     "@angular/common": "14.2.1",
     "@angular/compiler": "14.2.1",
     "@angular/core": "14.2.1",
+    "@angular/elements": "14.2.1",
     "@angular/forms": "14.2.1",
     "@angular/material": "14.2.1",
     "@angular/material-moment-adapter": "14.2.1",

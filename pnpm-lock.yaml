@@ -16,6 +16,7 @@ importers:
       '@angular/compiler': 14.2.1
       '@angular/compiler-cli': 14.2.1
       '@angular/core': 14.2.1
+      '@angular/elements': 14.2.1
       '@angular/forms': 14.2.1
       '@angular/language-service': 14.2.1
       '@angular/material': 14.2.1
@@ -145,6 +146,7 @@ importers:
       '@angular/common': 14.2.1_cqtrhgbu36g7ybwvif55wvirvy
       '@angular/compiler': 14.2.1_@angular+core@14.2.1
       '@angular/core': 14.2.1_rxjs@7.5.7+zone.js@0.11.8
+      '@angular/elements': 14.2.1_cqtrhgbu36g7ybwvif55wvirvy
       '@angular/forms': 14.2.1_7itt3bnbsxx2psreqoytvqw6fu
       '@angular/material': 14.2.1_s5w67hwx6rhxufmxc2hvsbjp6i
       '@angular/material-moment-adapter': 14.2.1_ql5gx3oao2famdcswzkch5iddm
@@ -768,6 +770,18 @@ packages:
       rxjs: 7.5.7
       tslib: 2.4.0
       zone.js: 0.11.8
+
+  /@angular/elements/14.2.1_cqtrhgbu36g7ybwvif55wvirvy:
+    resolution: {integrity: sha512-4nGoaClzyu0M3KKvD/JulHXv1t5ciMkL8T3TWC30YmlJbcoy8/PM1XctsVfgc2W2brQshJR3Rswn94/gmbonlQ==}
+    engines: {node: ^14.15.0 || >=16.10.0}
+    peerDependencies:
+      '@angular/core': 14.2.1
+      rxjs: ^6.5.3 || ^7.4.0
+    dependencies:
+      '@angular/core': 14.2.1_rxjs@7.5.7+zone.js@0.11.8
+      rxjs: 7.5.7
+      tslib: 2.4.0
+    dev: false
 
   /@angular/forms/14.2.1_7itt3bnbsxx2psreqoytvqw6fu:
     resolution: {integrity: sha512-ZhWDKZtnQ2BmBPNbPS2E/KIn5beQlXDaEc7NplbXr8DfQt1HIt9zbWQS3s5tojG0wkp21WDZwafED7QJNrAAkw==}
@@ -3298,7 +3312,7 @@ packages:
     dev: true
 
   /@caeonline/dynamic-forms/0.5.0_c3thwp2tb74lxnyqq3nwyns2cu:
-    resolution: {integrity: sha1-DyPaIxB5KnmB6zQmuWcB/bxzMFA=, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@caeonline/dynamic-forms/-/@caeonline/dynamic-forms-0.5.0.tgz}
+    resolution: {integrity: sha1-DyPaIxB5KnmB6zQmuWcB/bxzMFA=, tarball: '@caeonline/dynamic-forms/-/@caeonline/dynamic-forms-0.5.0.tgz'}
     peerDependencies:
       '@angular/common': ^13.0.3
       '@angular/core': ^13.0.3
