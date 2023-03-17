@@ -1,0 +1,25 @@
+<mat-card
+  class="mat-elevation-z0 w-full grow rounded border-[1px] border-border"
+  *transloco="let t; read: 'processCaseView.tabs.overview.approvalCockpit'"
+>
+  <div class="flex flex-col">
+    <div>lorem ipsum</div>
+    <gq-horizontal-divider></gq-horizontal-divider>
+    <div>lorem ipsum</div>
+    <gq-horizontal-divider></gq-horizontal-divider>
+    <div class="flex flex-row justify-between">
+      <button mat-stroke-button class="flex flex-col items-center gap-2">
+        <mat-icon class="text-error">remove_circle_outline</mat-icon>
+        <span class="text-error">{{ t('rejectButton') }}</span>
+      </button>
+      <button mat-stroke-button class="flex flex-col items-center gap-2">
+        <mat-icon class="text-medium-emphasis">arrow_forward</mat-icon>
+        <span class="text-medium-emphasis">{{ t('forwardButton') }}</span>
+      </button>
+      <button mat-stroke-button class="flex flex-col items-center gap-2">
+        <mat-icon class="text-link">check</mat-icon
+        ><span class="text-link">{{ t('approveButton') }}</span>
+      </button>
+    </div>
+  </div>
+</mat-card>

@@ -113,6 +113,11 @@
           "gpmLabel": "GPM %",
           "shareLabel": "Share"
         }
+      },
+      "approvalCockpit": {
+        "rejectButton": "Reject",
+        "forwardButton": "Forward",
+        "approveButton": "Approve"
       }
     }
   },

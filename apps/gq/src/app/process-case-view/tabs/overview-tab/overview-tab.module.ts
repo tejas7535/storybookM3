@@ -15,6 +15,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import {
+  ApprovalCockpitComponent,
   GeneralInformationComponent,
   QuotationByProductLineOrGpsdBarChartComponent,
   QuotationByProductLineOrGpsdComponent,
@@ -45,6 +46,7 @@ import { OverviewTabRoutingModule } from './overview-tab.routing.module';
     QuotationRatingComponent,
     QuotationByProductLineOrGpsdComponent,
     QuotationByProductLineOrGpsdBarChartComponent,
+    ApprovalCockpitComponent,
   ],
   exports: [
     OverviewTabComponent,

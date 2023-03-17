@@ -113,6 +113,11 @@
           "gpmLabel": "GPM %",
           "shareLabel": "Anteil"
         }
+      },
+      "approvalCockpit": {
+        "rejectButton": "Ablehnen",
+        "forwardButton": "Weiterleiten",
+        "approveButton": "Genehmigen"
       }
     }
   },
