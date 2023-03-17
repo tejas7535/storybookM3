@@ -17,9 +17,12 @@ import { AppRoutePath } from '../../../../app-route-path.enum';
 import { IdValue } from '../../../models/search';
 import { QuotationService } from '../../../services/rest-services/quotation-service/quotation.service';
 import { FilterNames } from '../../autocomplete-input/filter-names.enum';
+import { GlobalSearchLastResultsService } from '../global-search-last-results-service/global-search-last-results.service';
 import { GlobalSearchResultsPreviewListComponent } from '../global-search-results-preview-list/global-search-results-preview-list.component';
 import * as contextFunctions from './../../contextMenu/functions/context-menu-functions';
 import { GlobalSearchModalComponent } from './global-search-modal.component';
+import { OpenIn } from './models/open-in.enum';
+import { ResultsListDisplay } from './models/results-list-display.enum';
 describe('GlobalSearchModalComponent', () => {
   let component: GlobalSearchModalComponent;
   let spectator: Spectator<GlobalSearchModalComponent>;
@@ -60,7 +63,7 @@ describe('GlobalSearchModalComponent', () => {
             .mockReturnValue(of([QUOTATION_SEARCH_RESULT_MOCK])),
         },
       },
-
+      GlobalSearchLastResultsService,
       provideMockStore(),
     ],
     declarations: [
@@ -72,6 +75,7 @@ describe('GlobalSearchModalComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+    window.open = jest.fn();
   });
 
   it('should create', () => {
@@ -84,7 +88,7 @@ describe('GlobalSearchModalComponent', () => {
       component.searchFormControl.setValue('value');
       expect(component.autocomplete.resetView).toHaveBeenCalled();
       expect(component.autocomplete.initFacade).toHaveBeenCalled();
-      expect(component.displayResultList).toBe('preview');
+      expect(component.displayResultList).toBe(ResultsListDisplay.lastResults);
     });
     test('should autocomplete', (done) => {
       component.ngOnInit();
@@ -117,6 +121,44 @@ describe('GlobalSearchModalComponent', () => {
 
       expect(true).toBeTruthy();
     });
+    test("should save in localStorage if the 'preview' list is displayed", () => {
+      component.lastSearchResultsService.addLastResult = jest.fn();
+      component.displayResultList = ResultsListDisplay.preview;
+      component.searchVal = '12345';
+
+      const selectedMaterial: IdValue = {
+        id: 'material description',
+        value: '123456789',
+        selected: false,
+      };
+
+      component.onItemSelected(selectedMaterial);
+
+      expect(
+        component.lastSearchResultsService.addLastResult
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        component.lastSearchResultsService.addLastResult
+      ).toHaveBeenCalledWith(selectedMaterial, '12345');
+    });
+
+    test("should NOT save in localStorage if the 'lastResults' list is displayed", () => {
+      component.lastSearchResultsService.addLastResult = jest.fn();
+      component.displayResultList = ResultsListDisplay.lastResults;
+      component.searchVal = '12345';
+
+      const selectedMaterial: IdValue = {
+        id: 'material description',
+        value: '123456789',
+        selected: false,
+      };
+
+      component.onItemSelected(selectedMaterial);
+
+      expect(
+        component.lastSearchResultsService.addLastResult
+      ).not.toHaveBeenCalled();
+    });
   });
   describe('closeDialog', () => {
     test('should call dialogRef.close', () => {
@@ -135,7 +177,9 @@ describe('GlobalSearchModalComponent', () => {
       component.clearInputField();
 
       expect(component.searchFormControl.value).toEqual('');
-      expect(component.displayResultList).toEqual('preview');
+      expect(component.displayResultList).toEqual(
+        ResultsListDisplay.lastResults
+      );
     });
   });
 
@@ -214,7 +258,7 @@ describe('GlobalSearchModalComponent', () => {
       component['selectedMaterialDesc'] = 'matDesc';
       component['selectedMaterialNumber'] = '';
 
-      component.openCase(QUOTATION_SEARCH_RESULT_MOCK, 'tab');
+      component.openCase(QUOTATION_SEARCH_RESULT_MOCK, OpenIn.tab);
 
       expect(component['router'].navigateByUrl).not.toHaveBeenCalled();
       expect(functionSpy).toHaveBeenCalledWith(
@@ -245,7 +289,7 @@ describe('GlobalSearchModalComponent', () => {
       component['selectedMaterialDesc'] = 'matDesc';
       component['selectedMaterialNumber'] = '';
 
-      component.openCase(QUOTATION_SEARCH_RESULT_MOCK, 'window');
+      component.openCase(QUOTATION_SEARCH_RESULT_MOCK, OpenIn.window);
 
       expect(component['router'].navigateByUrl).not.toHaveBeenCalled();
       expect(functionSpy).toHaveBeenCalledWith(

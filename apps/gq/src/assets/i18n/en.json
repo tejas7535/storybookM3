@@ -473,6 +473,7 @@
     "searchHint": "Search for Material Number or Material Description",
     "clear": "Clear",
     "suggestions": "Suggestions",
+    "lastResults": "Recent Searches",
     "noResultsTitle": "No Results",
     "noResultsText": "Try a different item",
     "searchMaterialHint": "Find Material in cases",

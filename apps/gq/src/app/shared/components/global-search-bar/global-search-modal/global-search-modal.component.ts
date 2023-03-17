@@ -20,9 +20,9 @@ import {
   openInNewTabByUrl,
   openInNewWindowByUrl,
 } from '../../contextMenu/functions/context-menu-functions';
-
-type ResultsList = 'preview' | 'result' | 'loading';
-type OpenIn = 'window' | 'tab';
+import { GlobalSearchLastResultsService } from '../global-search-last-results-service/global-search-last-results.service';
+import { OpenIn } from './models/open-in.enum';
+import { ResultsListDisplay } from './models/results-list-display.enum';
 
 @Component({
   selector: 'gq-global-search-modal',
@@ -32,8 +32,11 @@ export class GlobalSearchModalComponent implements OnInit, OnDestroy {
   private readonly DEBOUNCE_TIME_DEFAULT = 500;
   public readonly MIN_INPUT_STRING_LENGTH_FOR_AUTOCOMPLETE = 2;
 
-  public displayResultList: ResultsList = 'preview';
+  public displayResultList: ResultsListDisplay = ResultsListDisplay.lastResults;
   public searchResult: QuotationSearchResult[] = [];
+
+  public readonly resultsDisplayType = ResultsListDisplay;
+  public readonly openIn = OpenIn;
 
   private readonly unsubscribe$ = new Subject<boolean>();
 
@@ -47,6 +50,7 @@ export class GlobalSearchModalComponent implements OnInit, OnDestroy {
     private readonly quotationService: QuotationService,
     private readonly router: Router,
     private readonly materialNumberService: MaterialNumberService,
+    public readonly lastSearchResultsService: GlobalSearchLastResultsService,
     public readonly autocomplete: AutoCompleteFacade
   ) {
     this.searchFormControl = new FormControl();
@@ -63,6 +67,8 @@ export class GlobalSearchModalComponent implements OnInit, OnDestroy {
           if (value.length < this.MIN_INPUT_STRING_LENGTH_FOR_AUTOCOMPLETE) {
             this.searchVal = value;
             this.autocomplete.resetAutocompleteMaterials();
+
+            this.displayResultList = ResultsListDisplay.lastResults;
           }
         }),
         debounce((value: string) =>
@@ -86,7 +92,7 @@ export class GlobalSearchModalComponent implements OnInit, OnDestroy {
           limit: 5,
         });
 
-        this.displayResultList = 'preview';
+        this.displayResultList = ResultsListDisplay.preview;
       });
   }
 
@@ -96,7 +102,11 @@ export class GlobalSearchModalComponent implements OnInit, OnDestroy {
   }
 
   onItemSelected(idValue: IdValue) {
-    this.displayResultList = 'loading';
+    if (this.displayResultList === ResultsListDisplay.preview) {
+      this.lastSearchResultsService.addLastResult(idValue, this.searchVal);
+    }
+
+    this.displayResultList = ResultsListDisplay.loading;
 
     this.setFilter(idValue);
 
@@ -105,7 +115,7 @@ export class GlobalSearchModalComponent implements OnInit, OnDestroy {
       .pipe(
         take(1),
         tap(() => {
-          this.displayResultList = 'result';
+          this.displayResultList = ResultsListDisplay.result;
         })
       )
       .subscribe(
@@ -136,10 +146,10 @@ export class GlobalSearchModalComponent implements OnInit, OnDestroy {
     });
 
     switch (openIn) {
-      case 'window':
+      case OpenIn.window:
         openInNewWindowByUrl(`${window.location.origin}${url.toString()}`);
         break;
-      case 'tab':
+      case OpenIn.tab:
         openInNewTabByUrl(`${window.location.origin}${url.toString()}`);
         break;
       default:
@@ -157,7 +167,7 @@ export class GlobalSearchModalComponent implements OnInit, OnDestroy {
 
   clearInputField() {
     this.searchFormControl.patchValue('');
-    this.displayResultList = 'preview';
+    this.displayResultList = ResultsListDisplay.lastResults;
   }
 
   /**

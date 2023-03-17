@@ -473,6 +473,7 @@
     "searchHint": "Nach Materialnummer oder Materialbeschreibung suchen",
     "clear": "Leeren",
     "suggestions": "Vorschläge",
+    "lastResults": "Aktuelle Sucheingaben",
     "noResultsTitle": "Keine Ergebnisse",
     "noResultsText": "Bitte probieren Sie eine andere Teilnummer oder Materialbeschreibung",
     "searchMaterialHint": "Material in Angeboten finden",

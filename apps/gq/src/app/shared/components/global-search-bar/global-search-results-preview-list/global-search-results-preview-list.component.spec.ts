@@ -39,4 +39,22 @@ describe('GlobalSearchResultsPreviewListComponent', () => {
       expect(component.itemSelected.emit).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe('getSearchVal', () => {
+    test('should return the array element if searchVal is an array', () => {
+      component.searchVal = ['123', '456', '789'];
+
+      expect(component.getSearchVal(0)).toBe('123');
+      expect(component.getSearchVal(1)).toBe('456');
+      expect(component.getSearchVal(2)).toBe('789');
+      expect(component.getSearchVal(3)).toBe('');
+    });
+
+    test('should return the searchVal if searchVal is NOT an array', () => {
+      component.searchVal = '123';
+
+      expect(component.getSearchVal(0)).toBe('123');
+      expect(component.getSearchVal(1)).toBe('123');
+    });
+  });
 });

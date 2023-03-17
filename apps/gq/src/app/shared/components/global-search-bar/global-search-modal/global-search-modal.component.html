@@ -14,7 +14,7 @@
       <mat-spinner
         *ngIf="
           (autocomplete.materialNumberOrDescAutocompleteLoading$ | ngrxPush) ||
-          displayResultList === 'loading'
+          displayResultList === resultsDisplayType.loading
         "
         matSuffix
         [diameter]="18"
@@ -40,28 +40,37 @@
   <ng-container
     *ngIf="
       !(autocomplete.materialNumberOrDescAutocompleteLoading$ | ngrxPush) &&
-        searchVal !== '' &&
-        searchVal.length >= MIN_INPUT_STRING_LENGTH_FOR_AUTOCOMPLETE &&
-        displayResultList !== 'loading';
+        displayResultList !== resultsDisplayType.loading;
       else loading
     "
   >
     <gq-global-search-results-preview-list
-      *ngIf="displayResultList === 'preview'"
+      *ngIf="displayResultList === resultsDisplayType.preview"
+      [title]="'suggestions'"
       [idValues]="
         (autocomplete.materialNumberOrDescForGlobalSearch$ | ngrxPush).options
       "
       [searchVal]="searchVal"
+      [resultsAreFromLocalStorage]="false"
+      (itemSelected)="onItemSelected($event)"
+    ></gq-global-search-results-preview-list>
+
+    <gq-global-search-results-preview-list
+      *ngIf="displayResultList === resultsDisplayType.lastResults"
+      [title]="'lastResults'"
+      [idValues]="lastSearchResultsService.lastSearchResults$ | ngrxPush"
+      [searchVal]="lastSearchResultsService.lastSearchTerms$ | ngrxPush"
+      [resultsAreFromLocalStorage]="true"
       (itemSelected)="onItemSelected($event)"
     ></gq-global-search-results-preview-list>
 
     <gq-global-search-results-list
-      *ngIf="displayResultList === 'result'"
+      *ngIf="displayResultList === resultsDisplayType.result"
       [gqCases]="searchResult"
       [searchVal]="searchVal"
       (gqIdSelected)="openCase($event)"
-      (openInTabClicked)="openCase($event, 'tab')"
-      (openInWindowClicked)="openCase($event, 'window')"
+      (openInTabClicked)="openCase($event, openIn.tab)"
+      (openInWindowClicked)="openCase($event, openIn.window)"
     >
     </gq-global-search-results-list>
   </ng-container>
@@ -71,13 +80,13 @@
       *ngIf="searchVal.length >= MIN_INPUT_STRING_LENGTH_FOR_AUTOCOMPLETE"
     >
       <p
-        *ngIf="displayResultList === 'preview'"
+        *ngIf="displayResultList === resultsDisplayType.preview"
         class="py-3 pl-4 text-overline uppercase text-medium-emphasis"
       >
         {{ t('suggestions') }}
       </p>
       <p
-        *ngIf="displayResultList !== 'preview'"
+        *ngIf="displayResultList !== resultsDisplayType.preview"
         class="py-3 pl-4 text-overline uppercase text-medium-emphasis"
       >
         {{ t('foundInOpenCases') }}

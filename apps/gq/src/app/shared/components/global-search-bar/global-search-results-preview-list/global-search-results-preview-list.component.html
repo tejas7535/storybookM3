@@ -1,13 +1,23 @@
 <ng-container *transloco="let t; read: 'searchBar'">
-  <div *ngIf="idValues?.length > 0; else emptyState">
-    <p class="py-3 pl-4 text-overline uppercase text-medium-emphasis">
-      {{ t('suggestions') }}
+  <div
+    *ngIf="
+      idValues?.length > 0 ||
+        (resultsAreFromLocalStorage && idValues.length === 0);
+      else emptyState
+    "
+  >
+    <p
+      class="py-3 pl-4 text-overline uppercase text-medium-emphasis"
+      *ngIf="idValues?.length > 0"
+    >
+      {{ t(title) }}
     </p>
     <gq-global-search-results-preview-list-entry
-      *ngFor="let idValue of idValues"
+      *ngFor="let idValue of idValues; let i = index"
       [idValue]="idValue"
-      [searchVal]="searchVal"
+      [searchVal]="getSearchVal(i)"
       (itemSelected)="onItemSelected($event)"
+      [resultIsFromLocalStorage]="resultsAreFromLocalStorage"
     ></gq-global-search-results-preview-list-entry>
   </div>
 

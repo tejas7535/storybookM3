@@ -15,15 +15,27 @@ import { IdValue } from '../../../models/search';
 })
 export class GlobalSearchResultsPreviewListComponent {
   @Input()
+  title: string;
+
+  @Input()
   idValues: IdValue[];
 
   @Input()
-  searchVal: string;
+  searchVal: string | string[];
 
   @Output()
   itemSelected = new EventEmitter<IdValue>();
 
+  @Input()
+  resultsAreFromLocalStorage: boolean;
+
   onItemSelected(idValue: IdValue) {
     this.itemSelected.emit(idValue);
+  }
+
+  getSearchVal(index: number): string {
+    return Array.isArray(this.searchVal)
+      ? this.searchVal[index] || ''
+      : this.searchVal;
   }
 }
