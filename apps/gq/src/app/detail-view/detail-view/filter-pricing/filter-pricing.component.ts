@@ -12,6 +12,7 @@ import {
   userHasManualPriceRole,
   userHasSQVRole,
 } from '@gq/core/store/selectors';
+import { PriceService } from '@gq/shared/services/price-service/price.service';
 import { Store } from '@ngrx/store';
 
 import {
@@ -46,8 +47,8 @@ export class FilterPricingComponent implements OnInit {
 
   selectPrice(updatePrice: UpdatePrice): void {
     const { priceSource } = updatePrice;
-    const { priceUnit } = this.quotationDetail.material;
 
+    const priceUnit = PriceService.getPriceUnit(this.quotationDetail);
     const price = updatePrice.price / priceUnit;
 
     const updateQuotationDetailList: UpdateQuotationDetail[] = [

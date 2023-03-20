@@ -249,8 +249,10 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
       } else {
         newPrice = value;
       }
-      const price =
-        newPrice / this.modalData.quotationDetail.material.priceUnit;
+      const priceUnit = PriceService.getPriceUnit(
+        this.modalData.quotationDetail
+      );
+      const price = newPrice / priceUnit;
 
       const updateQuotationDetailList: UpdateQuotationDetail[] = [
         {

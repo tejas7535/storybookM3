@@ -124,15 +124,42 @@ describe('PriceService', () => {
   });
 
   describe('calculateNetValue', () => {
-    test('should return NetValue', () => {
+    test('should return NetValue for non-sap price units', () => {
       const price = 10;
-      const quantity = 5;
+      const detail = {
+        ...QUOTATION_DETAIL_MOCK,
+        orderQuantity: 500,
+        material: {
+          ...QUOTATION_DETAIL_MOCK.material,
+          priceUnit: 1,
+        },
+        sapPriceUnit: undefined as unknown,
+      } as QuotationDetail;
 
-      const result = PriceService.calculateNetValue(price, quantity);
-      expect(result).toEqual(50);
+      const result = PriceService.calculateNetValue(price, detail);
+      expect(result).toEqual(5000);
+    });
+
+    test('should return NetValue for sap price units', () => {
+      const price = 10;
+      const detail = {
+        ...QUOTATION_DETAIL_MOCK,
+        orderQuantity: 500,
+        material: {
+          ...QUOTATION_DETAIL_MOCK.material,
+          priceUnit: 1,
+        },
+        sapPriceUnit: 25,
+      } as QuotationDetail;
+
+      const result = PriceService.calculateNetValue(price, detail);
+      expect(result).toEqual(200);
     });
     test('should return undefined', () => {
-      const result = PriceService.calculateNetValue(undefined, 10);
+      const result = PriceService.calculateNetValue(
+        undefined,
+        QUOTATION_DETAIL_MOCK
+      );
       expect(result).toBeUndefined();
     });
   });
@@ -432,6 +459,28 @@ describe('PriceService', () => {
         { key: ColumnFields.DISCOUNT, value: 3 },
       ];
       expect(result).toEqual(expected);
+    });
+  });
+
+  describe('getPriceUnit', () => {
+    test('should return material price unit if sapPriceUnit doesnt exist', () => {
+      const mockDetail = {
+        ...QUOTATION_DETAIL_MOCK,
+        sapPriceUnit: undefined,
+      } as QuotationDetail;
+
+      const result = PriceService.getPriceUnit(mockDetail);
+      expect(result).toEqual(mockDetail.material.priceUnit);
+    });
+
+    test('should return sapPriceUnit if it exists', () => {
+      const mockDetail = {
+        ...QUOTATION_DETAIL_MOCK,
+        sapPriceUnit: 10,
+      } as QuotationDetail;
+
+      const result = PriceService.getPriceUnit(mockDetail);
+      expect(result).toEqual(mockDetail.sapPriceUnit);
     });
   });
 });

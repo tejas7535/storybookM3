@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { updateQuotationDetails } from '@gq/core/store/actions';
 import { ProcessCaseState } from '@gq/core/store/reducers/process-case/process-case.reducer';
+import { PriceService } from '@gq/shared/services/price-service/price.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -109,7 +110,9 @@ describe('FilterPricingComponent', () => {
 
   describe('selectManualPrice', () => {
     test('should dispatch action', () => {
+      const PRICE_UNIT = 100;
       component.quotationDetail = QUOTATION_DETAIL_MOCK;
+      PriceService.getPriceUnit = jest.fn().mockReturnValue(PRICE_UNIT);
       mockStore.dispatch = jest.fn();
       const updatePrice = new UpdatePrice(
         QUOTATION_DETAIL_MOCK.recommendedPrice,
@@ -117,12 +120,16 @@ describe('FilterPricingComponent', () => {
       );
       component.selectPrice(updatePrice);
 
+      expect(PriceService.getPriceUnit).toHaveBeenCalledTimes(1);
+      expect(PriceService.getPriceUnit).toHaveBeenCalledWith(
+        QUOTATION_DETAIL_MOCK
+      );
       expect(mockStore.dispatch).toHaveBeenLastCalledWith(
         updateQuotationDetails({
           updateQuotationDetailList: [
             {
               gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
-              price: QUOTATION_DETAIL_MOCK.recommendedPrice,
+              price: QUOTATION_DETAIL_MOCK.recommendedPrice / PRICE_UNIT,
               priceSource: PriceSource.GQ,
             },
           ],

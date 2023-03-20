@@ -20,45 +20,41 @@ export class PriceService {
   }
 
   static addCalculationsForDetail(detail: QuotationDetail): void {
+    const priceUnit = this.getPriceUnit(detail);
+
     // First we need to round the price value to prevent wrong calculations down the line
     // See GQUOTE-1673
     if (typeof detail.price === 'number') {
-      detail.price = this.roundValue(detail.price, detail.material.priceUnit);
+      detail.price = this.roundValue(detail.price, priceUnit);
     }
 
     if (typeof detail.recommendedPrice === 'number') {
       detail.recommendedPrice = this.roundValue(
         detail.recommendedPrice,
-        detail.material.priceUnit
+        priceUnit
       );
     }
 
     if (typeof detail.lastCustomerPrice === 'number') {
       detail.lastCustomerPrice = this.roundValue(
         detail.lastCustomerPrice,
-        detail.material.priceUnit
+        priceUnit
       );
     }
 
     if (typeof detail.strategicPrice === 'number') {
-      detail.strategicPrice = this.roundValue(
-        detail.strategicPrice,
-        detail.material.priceUnit
-      );
+      detail.strategicPrice = this.roundValue(detail.strategicPrice, priceUnit);
     }
 
     if (typeof detail.gpc === 'number') {
-      detail.gpc = this.roundValue(detail.gpc, detail.material.priceUnit);
+      detail.gpc = this.roundValue(detail.gpc, priceUnit);
     }
 
     if (typeof detail.sqv === 'number') {
-      detail.sqv = this.roundValue(detail.sqv, detail.material.priceUnit);
+      detail.sqv = this.roundValue(detail.sqv, priceUnit);
     }
 
-    detail.netValue = PriceService.calculateNetValue(
-      detail.price,
-      detail.orderQuantity
-    );
+    detail.netValue = this.calculateNetValue(detail.price, detail);
     detail.priceDiff = PriceService.calculatepriceDiff(detail);
     detail.discount = PriceService.calculateDiscount(detail.price, detail);
     // calculate priceUnit dependent values
@@ -88,7 +84,7 @@ export class PriceService {
   };
 
   static calculatePriceUnitValues(detail: QuotationDetail): void {
-    const { priceUnit } = detail.material;
+    const priceUnit = this.getPriceUnit(detail);
     // calculate priceUnit dependent values
     detail.gpc = PriceService.multiplyAndRoundValues(detail.gpc, priceUnit);
     detail.sqv = PriceService.multiplyAndRoundValues(detail.sqv, priceUnit);
@@ -124,13 +120,18 @@ export class PriceService {
       : undefined;
   }
 
-  static calculateNetValue(price: number, quantity: number): number {
-    if (price && quantity) {
-      return price * quantity;
+  static calculateNetValue(price: number, detail: QuotationDetail): number {
+    const priceUnit = this.getPriceUnit(detail);
+
+    if (price && detail.orderQuantity) {
+      return price * (detail.orderQuantity / priceUnit);
     }
 
     return undefined;
   }
+
+  static getPriceUnit = (detail: QuotationDetail) =>
+    detail.sapPriceUnit || detail.material?.priceUnit;
 
   static calculateMargin(price: number, costValue: number): number | undefined {
     if (price && costValue) {
@@ -143,9 +144,10 @@ export class PriceService {
   }
 
   static calculateDiscount(price: number, detail: QuotationDetail): number {
-    if (price && detail.sapGrossPrice) {
-      const discount =
-        1 - (price * detail.material.priceUnit) / detail.sapGrossPrice;
+    const priceUnit = this.getPriceUnit(detail);
+
+    if (priceUnit && price && detail.sapGrossPrice) {
+      const discount = 1 - (price * priceUnit) / detail.sapGrossPrice;
 
       return PriceService.roundPercentageToTwoDecimals(discount);
     }

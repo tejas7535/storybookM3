@@ -39,6 +39,7 @@ export enum ColumnFields {
   STRATEGIC_MATERIAL = 'strategicMaterial',
   SAP_VOLUME_SCALE = 'sapVolumeScale',
   DELIVERY_UNIT = 'deliveryUnit',
+  SAP_PRICE_UNIT = 'sapPriceUnit',
 }
 
 export enum SapPriceDetailsColumnFields {

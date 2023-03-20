@@ -53,6 +53,7 @@ export class QuotationDetail {
   public syncInSap: boolean;
   public deliveryUnit: number;
   public sapSyncErrorCode: SAP_ERROR_MESSAGE_CODE;
+  public sapPriceUnit: number;
 
   // properties added in GQ application
   public priceDiff: number;

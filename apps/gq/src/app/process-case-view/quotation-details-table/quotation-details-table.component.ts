@@ -351,10 +351,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
           ...row.data,
           price: simulatedPrice,
           priceSource: newPriceSource,
-          netValue: PriceService.calculateNetValue(
-            simulatedPrice,
-            row.data.orderQuantity
-          ),
+          netValue: PriceService.calculateNetValue(simulatedPrice, row.data),
           gpi: this.getAffectedKpi(affectedKpis, ColumnFields.GPI),
           gpm: this.getAffectedKpi(affectedKpis, ColumnFields.GPM),
           discount: this.getAffectedKpi(affectedKpis, ColumnFields.DISCOUNT),
@@ -451,10 +448,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
       ...row.data,
       price: simulatedPrice,
       priceSource: PriceSource.MANUAL,
-      netValue: PriceService.calculateNetValue(
-        simulatedPrice,
-        row.data.orderQuantity
-      ),
+      netValue: PriceService.calculateNetValue(simulatedPrice, row.data),
       gpi:
         field === ColumnFields.GPI
           ? value
