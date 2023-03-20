@@ -34,7 +34,7 @@ describe('GlobalSearchResultsPreviewListEntryComponent', () => {
   });
 
   describe('itemClicked', () => {
-    test('should emit materialNr', () => {
+    test('should emit materialNr and add searchTerm as value2', () => {
       component.itemSelected.emit = jest.fn();
       const idValue = { id: '12345678', value: '12345678' } as IdValue;
       component.searchVal = '1234';
@@ -44,7 +44,10 @@ describe('GlobalSearchResultsPreviewListEntryComponent', () => {
 
       component.itemClicked();
 
-      expect(component.itemSelected.emit).toHaveBeenCalledWith(idValue);
+      expect(component.itemSelected.emit).toHaveBeenCalledWith({
+        ...idValue,
+        value2: component.searchVal,
+      });
       expect(component.itemSelected.emit).toHaveBeenCalledTimes(1);
     });
   });

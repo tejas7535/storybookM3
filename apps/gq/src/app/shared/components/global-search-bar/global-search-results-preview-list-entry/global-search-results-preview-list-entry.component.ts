@@ -39,6 +39,6 @@ export class GlobalSearchResultsPreviewListEntryComponent {
   }
 
   itemClicked() {
-    this.itemSelected.emit(this.idValue);
+    this.itemSelected.emit({ ...this.idValue, value2: this.searchVal });
   }
 }

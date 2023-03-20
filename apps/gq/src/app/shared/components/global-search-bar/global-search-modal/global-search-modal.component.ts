@@ -104,6 +104,11 @@ export class GlobalSearchModalComponent implements OnInit, OnDestroy {
   onItemSelected(idValue: IdValue) {
     if (this.displayResultList === ResultsListDisplay.preview) {
       this.lastSearchResultsService.addLastResult(idValue, this.searchVal);
+    } else if (
+      this.displayResultList === ResultsListDisplay.lastResults &&
+      idValue.value2
+    ) {
+      this.searchVal = idValue.value2;
     }
 
     this.displayResultList = ResultsListDisplay.loading;
