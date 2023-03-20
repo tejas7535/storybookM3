@@ -61,7 +61,7 @@ export const getMsalInstanceConfig = (
       navigateToLoginRequestUrl: true,
     },
     cache: {
-      cacheLocation: BrowserCacheLocation.LocalStorage,
+      cacheLocation: BrowserCacheLocation.SessionStorage,
       storeAuthStateInCookie: isIE, // set to true for IE 11. Remove this line to use Angular Universal
     },
     system: {
