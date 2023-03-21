@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { EChartsOption } from 'echarts';
 import moment from 'moment';
@@ -16,9 +11,8 @@ import { LINE_CHART_BASE_OPTIONS } from './line-chart.config';
   templateUrl: './line-chart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LineChartComponent implements OnInit {
+export class LineChartComponent {
   options: EChartsOption;
-  currentDate: string;
 
   private _config: EChartsOption;
   readonly DATE_FORMAT = 'MM.YYYY';
@@ -33,10 +27,6 @@ export class LineChartComponent implements OnInit {
   set config(config: EChartsOption) {
     this._config = config;
     this.options = this.createEChartsOption();
-  }
-
-  ngOnInit(): void {
-    this.currentDate = moment.utc().format(this.DATE_FORMAT);
   }
 
   getXAxisData(): string[] {

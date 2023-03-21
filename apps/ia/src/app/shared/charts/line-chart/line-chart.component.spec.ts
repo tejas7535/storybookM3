@@ -1,7 +1,6 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
-import moment from 'moment';
 import { NgxEchartsModule } from 'ngx-echarts';
 import resize_observer_polyfill from 'resize-observer-polyfill';
 
@@ -28,18 +27,8 @@ describe('LineChartComponent', () => {
     component = spectator.debugElement.componentInstance;
   });
 
-  it('should create', () => {
+  test('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('ngOnInit', () => {
-    test('should set current year', () => {
-      const current = moment.utc().format(component.DATE_FORMAT);
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
-
-      expect(component.currentDate).toEqual(current);
-    });
   });
 
   describe('getXAxisData', () => {

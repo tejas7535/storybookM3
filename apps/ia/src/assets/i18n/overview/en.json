@@ -16,7 +16,8 @@
   "fluctuationRate": "Fluctuation Rate",
   "companyName": "SCHAEFFLER",
   "unforcedFluctuationRate": "Unforced Fluctuation Rate",
-  "chartTitle": "Current Fluctuation Rates",
+  "fluctuationChartTitle": "Current Fluctuation Rates",
+  "unforcedFluctuationChartTitle": "Current Unforced Fluctuation Rates",
   "workforceBalance": {
     "title": "Workforce Balance",
     "entries": "Entries",
