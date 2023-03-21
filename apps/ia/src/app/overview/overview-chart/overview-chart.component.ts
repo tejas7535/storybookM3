@@ -81,6 +81,7 @@ export class OverviewChartComponent {
         nameTextStyle: {
           fontFamily: 'Roboto',
         },
+        minInterval: 1,
       },
       series,
     };
