@@ -209,7 +209,7 @@ export class ColumnDefinitionService {
           headerName: translate('shared.bom.headers.materialShortDescription'),
         },
         {
-          field: 'materialCharacteristics.materialDescription',
+          field: 'materialCharacteristics.materialIndentNumberDescription',
           headerName: translate('shared.bom.headers.description'),
         },
         {
@@ -274,10 +274,6 @@ export class ColumnDefinitionService {
           field: 'materialCharacteristics.materialIndentNumber',
           headerName: translate('shared.bom.headers.materialIndentNumber'),
           hide: true,
-        },
-        {
-          field: 'materialCharacteristics.materialIndentNumberDescription',
-          headerName: translate('shared.bom.headers.description'),
         },
       ],
     },
