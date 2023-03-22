@@ -183,7 +183,9 @@
         "productCostingPlanCounter": "Group Counter",
         "productCostingBomNumber": "BOM Number",
         "productCostingBomUsage": "BOM Usage",
-        "productCostingBomAlternative": "BOM Alternative"
+        "productCostingBomAlternative": "BOM Alternative",
+        "materialGroup": "Material Group",
+        "materialGroupDescription": "Material Group Description"
       },
       "groupHeaders": {
         "materialInformation": "Material Information",

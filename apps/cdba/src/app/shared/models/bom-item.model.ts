@@ -33,6 +33,8 @@ export interface BomItem {
     materialIndentNumberDescription: string;
     valuationClass: string;
     type: string;
+    materialGroup: string;
+    materialGroupDescription: string;
   };
 
   procurement: {

@@ -43,6 +43,8 @@ export const BOM_ITEM_MOCK: BomItem = {
     materialIndentNumberDescription: 'mock-materialIndentNumberDescription',
     valuationClass: 'mock-materialValuationClass',
     type: 'mock-type',
+    materialGroup: 'mock-materialGroup',
+    materialGroupDescription: 'mock-materialGroupDescription',
   },
 
   procurement: {

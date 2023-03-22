@@ -183,7 +183,9 @@
         "productCostingPlanCounter": "Plangruppenzähler",
         "productCostingBomNumber": "Stücklistennummer",
         "productCostingBomUsage": "Stücklistenverwendung",
-        "productCostingBomAlternative": "Stücklistenalternative"
+        "productCostingBomAlternative": "Stücklistenalternative",
+        "materialGroup": "Warengruppe",
+        "materialGroupDescription": "Warengruppenbezeichnung"
       },
       "groupHeaders": {
         "materialInformation": "Material Information",

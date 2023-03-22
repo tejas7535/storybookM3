@@ -74,6 +74,8 @@ export const BOM_MAPPED_MOCK: BomItem[] = [
       materialIndentNumberDescription: 'mock-materialIndentNumberDescription',
       valuationClass: 'mock-materialValuationClass',
       type: 'mock-type',
+      materialGroup: 'mock-materialGroup',
+      materialGroupDescription: 'mock-materialGroupDescription',
     },
     procurement: {
       plant: 'mock-plant',
@@ -179,6 +181,8 @@ export const BOM_MAPPED_MOCK: BomItem[] = [
       materialIndentNumberDescription: 'mock-materialIndentNumberDescription',
       valuationClass: 'mock-materialValuationClass',
       type: 'mock-type',
+      materialGroup: 'mock-materialGroup',
+      materialGroupDescription: 'mock-materialGroupDescription',
     },
     procurement: {
       plant: 'mock-plant',
@@ -284,6 +288,8 @@ export const BOM_MAPPED_MOCK: BomItem[] = [
       materialIndentNumberDescription: 'mock-materialIndentNumberDescription',
       valuationClass: 'mock-materialValuationClass',
       type: 'mock-type',
+      materialGroup: 'mock-materialGroup',
+      materialGroupDescription: 'mock-materialGroupDescription',
     },
     procurement: {
       plant: 'mock-plant',
@@ -389,6 +395,8 @@ export const BOM_MAPPED_MOCK: BomItem[] = [
       materialIndentNumberDescription: 'mock-materialIndentNumberDescription',
       valuationClass: 'mock-materialValuationClass',
       type: 'mock-type',
+      materialGroup: 'mock-materialGroup',
+      materialGroupDescription: 'mock-materialGroupDescription',
     },
     procurement: {
       plant: 'mock-plant',
@@ -494,6 +502,8 @@ export const BOM_MAPPED_MOCK: BomItem[] = [
       materialIndentNumberDescription: 'mock-materialIndentNumberDescription',
       valuationClass: 'mock-materialValuationClass',
       type: 'mock-type',
+      materialGroup: 'mock-materialGroup',
+      materialGroupDescription: 'mock-materialGroupDescription',
     },
     procurement: {
       plant: 'mock-plant',
