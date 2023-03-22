@@ -117,7 +117,17 @@
       "approvalCockpit": {
         "rejectButton": "Reject",
         "forwardButton": "Forward",
-        "approveButton": "Approve"
+        "approveButton": "Approve",
+        "approvalModal": {
+          "rejectCase": "Reject case",
+          "approveCase": "Approve case",
+          "summary": "Summary",
+          "approvalLevel": "Approval Level",
+          "comment": "Comment",
+          "sendBack": "Send Back",
+          "confirmApproval": "Confirm Approval",
+          "cancel": "Cancel"
+        }
       }
     }
   },

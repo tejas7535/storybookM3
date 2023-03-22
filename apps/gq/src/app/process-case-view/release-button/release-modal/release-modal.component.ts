@@ -98,18 +98,7 @@ export class ReleaseModalComponent implements OnInit {
   }
 
   startWorkflow() {
-    console.log(
-      'Start Workflow with approver1:',
-      this.approver1FormControl.value,
-      'approver2:',
-      this.approver2FormControl.value,
-      'approverCC:',
-      this.approverCCFormControl.value,
-      'comment:',
-      this.formGroup.get('comment').value,
-      'projectInformation:',
-      this.formGroup.get('projectInformation').value
-    );
+    // Will be implemented in a later story
   }
 
   closeDialog() {

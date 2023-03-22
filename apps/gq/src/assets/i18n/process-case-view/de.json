@@ -117,7 +117,17 @@
       "approvalCockpit": {
         "rejectButton": "Ablehnen",
         "forwardButton": "Weiterleiten",
-        "approveButton": "Genehmigen"
+        "approveButton": "Genehmigen",
+        "approvalModal": {
+          "rejectCase": "Angebot ablehnen",
+          "approveCase": "Angebot annehmen",
+          "summary": "Zusammenfassung",
+          "approvalLevel": "Approval Level",
+          "comment": "Kommentar",
+          "sendBack": "Zurückschicken",
+          "confirmApproval": "Bestätigen",
+          "cancel": "Abbrechen"
+        }
       }
     }
   },

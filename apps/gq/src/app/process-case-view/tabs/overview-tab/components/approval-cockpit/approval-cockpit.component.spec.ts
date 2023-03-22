@@ -1,6 +1,5 @@
-/* tslint:disable:no-unused-variable */
-
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
@@ -12,6 +11,7 @@ describe('ApprovalCockpitComponent', () => {
 
   const createComponent = createComponentFactory({
     component: ApprovalCockpitComponent,
+    imports: [MatDialogModule],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
