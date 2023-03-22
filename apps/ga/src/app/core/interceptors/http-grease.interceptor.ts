@@ -33,6 +33,9 @@ export class HttpGreaseInterceptor implements HttpInterceptor {
       case 'en':
         bearinxLanguage = 'LANGUAGE_ENGLISH';
         break;
+      case 'zh':
+        bearinxLanguage = 'LANGUAGE_CHINESE';
+        break;
       default:
         bearinxLanguage = 'LANGUAGE_ENGLISH';
     }
