@@ -102,7 +102,7 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
     this.salesOrg = this.modalData.salesOrg;
     this.caseModalForm = new FormGroup({
       caseName: new FormControl(
-        { value: this.modalData?.caseName || undefined, disabled: false },
+        { value: this.modalData?.caseName, disabled: false },
         [
           Validators.pattern('\\s*\\S.*'),
           Validators.maxLength(this.NAME_MAX_LENGTH),
@@ -293,6 +293,14 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
 
     return undefined;
   };
+
+  public datesAreEqual(date1: Date | string, date2: string): boolean {
+    if (!date1 && !date2) {
+      return true;
+    }
+
+    return new Date(date1).getTime() === new Date(date2).getTime();
+  }
 
   public formatAutocompleteResult(value: IdValue) {
     if (!value?.id || !value?.value) {

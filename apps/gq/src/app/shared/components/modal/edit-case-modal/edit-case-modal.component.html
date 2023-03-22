@@ -52,7 +52,7 @@
             <input
               matInput
               color="primary"
-              class="!mx-2 w-full leading-7 !outline-none"
+              class="!mx-2 w-full !max-w-[90%] truncate leading-7 !outline-none"
               type="text"
               formControlName="shipToParty"
               [matAutocomplete]="auto"
@@ -64,6 +64,9 @@
               class="absolute right-2 bottom-1"
               *ngIf="!(autocomplete.customerLoading$ | ngrxPush)"
               (click)="shipToPartyInput.select()"
+              [ngClass]="{
+                'text-low-emphasis': caseModalForm.get('shipToParty').disabled
+              }"
             >
               edit
             </mat-icon>
@@ -184,15 +187,26 @@
           caseModalForm.invalid ||
           (caseModalForm.controls.caseName.value === modalData.caseName &&
             caseModalForm.controls.currency.value === modalData.currency &&
-            caseModalForm.controls.quotationToDate.value ===
-              modalData.quotationToDate &&
-            caseModalForm.controls.requestedDeliveryDate.value ===
-              modalData.requestedDeliveryDate &&
-            caseModalForm.controls.customerPurchaseOrderDate.value ===
-              modalData.customerPurchaseOrderDate &&
-            caseModalForm.controls.bindingPeriodValidityEndDate.value ===
-              modalData.bindingPeriodValidityEndDate &&
-            caseModalForm.controls.shipToParty.value === modalData.shipToParty)
+            (caseModalForm.controls.shipToParty.value ===
+              modalData.shipToParty ||
+              !caseModalForm.controls.shipToParty.value?.id ||
+              !caseModalForm.controls.shipToParty.value?.value) &&
+            datesAreEqual(
+              caseModalForm.controls.customerPurchaseOrderDate.value,
+              modalData.customerPurchaseOrderDate
+            ) &&
+            datesAreEqual(
+              caseModalForm.controls.quotationToDate.value,
+              modalData.quotationToDate
+            ) &&
+            datesAreEqual(
+              caseModalForm.controls.requestedDeliveryDate.value,
+              modalData.requestedDeliveryDate
+            ) &&
+            datesAreEqual(
+              caseModalForm.controls.bindingPeriodValidityEndDate.value,
+              modalData.bindingPeriodValidityEndDate
+            ))
         "
         data-cy="edit-case-modal_update-btn"
       >
