@@ -99,6 +99,7 @@ describe('RawMaterialAnalysisTableComponent', () => {
         } as unknown as GridApi,
         columnApi: {} as unknown as ColumnApi,
         type: '',
+        context: {},
       };
       component.isLoading = true;
 
