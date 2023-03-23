@@ -118,14 +118,16 @@
         "rejectButton": "Ablehnen",
         "forwardButton": "Weiterleiten",
         "approveButton": "Genehmigen",
+        "approvalOverview": "Genehmigungsübersicht",
+        "approver": "Genehmiger",
         "approvalModal": {
           "rejectCase": "Angebot ablehnen",
-          "approveCase": "Angebot annehmen",
+          "approveCase": "Angebot genehmigen",
           "summary": "Zusammenfassung",
           "approvalLevel": "Approval Level",
-          "comment": "Kommentar",
+          "commentLabel": "Kommentar",
           "sendBack": "Zurückschicken",
-          "confirmApproval": "Bestätigen",
+          "confirmApproval": "Genehmigung bestätigen",
           "cancel": "Abbrechen"
         }
       }

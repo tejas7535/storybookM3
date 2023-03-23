@@ -118,12 +118,14 @@
         "rejectButton": "Reject",
         "forwardButton": "Forward",
         "approveButton": "Approve",
+        "approvalOverview": "Approval Overview",
+        "approver": "Approver",
         "approvalModal": {
-          "rejectCase": "Reject case",
-          "approveCase": "Approve case",
+          "rejectCase": "Reject Case",
+          "approveCase": "Approve Case",
           "summary": "Summary",
           "approvalLevel": "Approval Level",
-          "comment": "Comment",
+          "commentLabel": "Comment",
           "sendBack": "Send Back",
           "confirmApproval": "Confirm Approval",
           "cancel": "Cancel"

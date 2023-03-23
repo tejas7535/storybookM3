@@ -29,11 +29,12 @@ export class ApprovalDecisionModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
-      comment: [
-        '',
-        [Validators.required, Validators.maxLength(this.INPUT_MAX_LENGTH)],
-      ],
+      comment: ['', [Validators.maxLength(this.INPUT_MAX_LENGTH)]],
     });
+
+    if (this.modalData.type === ApprovalModalType.REJECT_CASE) {
+      this.formGroup.controls.comment.addValidators([Validators.required]);
+    }
   }
 
   submitDialog(): void {

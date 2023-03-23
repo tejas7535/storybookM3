@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
+import { ApprovalModalType } from '../../models';
 import { ApprovalDecisionModalComponent } from '../approval-decision-modal/approval-decision-modal.component';
 
 @Component({
@@ -14,6 +15,9 @@ export class ApprovalCockpitComponent {
     this.matDialog
       .open(ApprovalDecisionModalComponent, {
         width: '634px',
+        data: {
+          type: ApprovalModalType.APPROVE_CASE,
+        },
       })
       .afterClosed()
       .subscribe(() => {
@@ -25,6 +29,9 @@ export class ApprovalCockpitComponent {
     this.matDialog
       .open(ApprovalDecisionModalComponent, {
         width: '634px',
+        data: {
+          type: ApprovalModalType.REJECT_CASE,
+        },
       })
       .afterClosed()
       .subscribe(() => {
