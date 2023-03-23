@@ -54,7 +54,10 @@ export class PriceService {
       detail.sqv = this.roundValue(detail.sqv, priceUnit);
     }
 
-    detail.netValue = this.calculateNetValue(detail.price, detail);
+    detail.netValue = this.calculateNetValue(
+      detail.price,
+      detail.orderQuantity
+    );
     detail.priceDiff = PriceService.calculatepriceDiff(detail);
     detail.discount = PriceService.calculateDiscount(detail.price, detail);
     // calculate priceUnit dependent values
@@ -120,14 +123,12 @@ export class PriceService {
       : undefined;
   }
 
-  static calculateNetValue(price: number, detail: QuotationDetail): number {
-    const priceUnit = this.getPriceUnit(detail);
-
-    if (price && detail.orderQuantity) {
-      return price * (detail.orderQuantity / priceUnit);
+  static calculateNetValue(price: number, orderQuantity: number): number {
+    if (!price || !orderQuantity) {
+      return undefined;
     }
 
-    return undefined;
+    return this.multiplyAndRoundValues(price, orderQuantity);
   }
 
   static getPriceUnit = (detail: QuotationDetail) =>

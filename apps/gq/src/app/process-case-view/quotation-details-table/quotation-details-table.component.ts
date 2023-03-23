@@ -345,13 +345,19 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
           row.data,
           false
         );
+
+        const priceUnit = PriceService.getPriceUnit(row.data);
         const simulatedPrice = this.getAffectedKpi(affectedKpis, 'price');
 
         const simulatedRow: QuotationDetail = {
           ...row.data,
           price: simulatedPrice,
           priceSource: newPriceSource,
-          netValue: PriceService.calculateNetValue(simulatedPrice, row.data),
+          // to correctly calculate the new netValue, the orderQuantity has to be divided by the old priceUnit, since the priceUnit might be > 1 but isn't part of the simulated data
+          netValue: PriceService.calculateNetValue(
+            simulatedPrice,
+            row.data.orderQuantity / priceUnit
+          ),
           gpi: this.getAffectedKpi(affectedKpis, ColumnFields.GPI),
           gpm: this.getAffectedKpi(affectedKpis, ColumnFields.GPM),
           discount: this.getAffectedKpi(affectedKpis, ColumnFields.DISCOUNT),
@@ -442,13 +448,18 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
       field,
       row.data
     );
+    const priceUnit = PriceService.getPriceUnit(row.data);
     const simulatedPrice = this.getAffectedKpi(affectedKpis, 'price');
 
     const simulatedRow: QuotationDetail = {
       ...row.data,
       price: simulatedPrice,
       priceSource: PriceSource.MANUAL,
-      netValue: PriceService.calculateNetValue(simulatedPrice, row.data),
+      // to correctly calculate the new netValue, the orderQuantity has to be divided by the old priceUnit, since the priceUnit might be > 1 but isn't part of the simulated data
+      netValue: PriceService.calculateNetValue(
+        simulatedPrice,
+        row.data.orderQuantity / priceUnit
+      ),
       gpi:
         field === ColumnFields.GPI
           ? value

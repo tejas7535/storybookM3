@@ -124,7 +124,7 @@ describe('PriceService', () => {
   });
 
   describe('calculateNetValue', () => {
-    test('should return NetValue for non-sap price units', () => {
+    test('should return NetValue', () => {
       const price = 10;
       const detail = {
         ...QUOTATION_DETAIL_MOCK,
@@ -136,29 +136,17 @@ describe('PriceService', () => {
         sapPriceUnit: undefined as unknown,
       } as QuotationDetail;
 
-      const result = PriceService.calculateNetValue(price, detail);
+      const result = PriceService.calculateNetValue(
+        price,
+        detail.orderQuantity
+      );
       expect(result).toEqual(5000);
     });
 
-    test('should return NetValue for sap price units', () => {
-      const price = 10;
-      const detail = {
-        ...QUOTATION_DETAIL_MOCK,
-        orderQuantity: 500,
-        material: {
-          ...QUOTATION_DETAIL_MOCK.material,
-          priceUnit: 1,
-        },
-        sapPriceUnit: 25,
-      } as QuotationDetail;
-
-      const result = PriceService.calculateNetValue(price, detail);
-      expect(result).toEqual(200);
-    });
     test('should return undefined', () => {
       const result = PriceService.calculateNetValue(
         undefined,
-        QUOTATION_DETAIL_MOCK
+        QUOTATION_DETAIL_MOCK.orderQuantity
       );
       expect(result).toBeUndefined();
     });
