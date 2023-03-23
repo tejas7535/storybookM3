@@ -4,6 +4,7 @@ import { ActionType } from './action-type.enum';
 export interface EmployeeWithAction {
   employeeName: string;
   userId: string;
+  employeeKey: string;
   exitDate: string;
   entryDate: string;
   reasonForLeaving: LeavingType;

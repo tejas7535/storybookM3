@@ -7,8 +7,8 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { EXTENDED_LIST_ITEM_HEIGHT } from '../constants';
-import { EmployeeListDialogComponent } from '../employee-list-dialog/employee-list-dialog.component';
-import { EmployeeListDialogModule } from '../employee-list-dialog/employee-list-dialog.module';
+import { EmployeeListDialogComponent } from '../dialogs/employee-list-dialog/employee-list-dialog.component';
+import { EmployeeListDialogModule } from '../dialogs/employee-list-dialog/employee-list-dialog.module';
 import { EmployeeWithAction } from '../models';
 import { SharedModule } from '../shared.module';
 import { KpiComponent } from './kpi.component';
@@ -162,22 +162,6 @@ describe('KpiComponent', () => {
       component.handleEmployeeLoadingDisabledStatus();
 
       expect(component.employeeLoadingDisabled).toBeTruthy();
-    });
-
-    test('should return true if count > MAX_EMPLOYEES', () => {
-      component.employeesCount = component.MAX_EMPLOYEES + 1;
-
-      component.handleEmployeeLoadingDisabledStatus();
-
-      expect(component.employeeLoadingDisabled).toBeTruthy();
-    });
-
-    test('should return false if count <= MAX_EMPLOYEES', () => {
-      component.employeesCount = component.MAX_EMPLOYEES;
-
-      component.handleEmployeeLoadingDisabledStatus();
-
-      expect(component.employeeLoadingDisabled).toBeFalsy();
     });
   });
 });

@@ -8,9 +8,9 @@ import {
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { EXTENDED_LIST_ITEM_HEIGHT } from '../constants';
-import { EmployeeListDialogComponent } from '../employee-list-dialog/employee-list-dialog.component';
-import { EmployeeListDialogMeta } from '../employee-list-dialog/employee-list-dialog-meta.model';
-import { EmployeeListDialogMetaHeadings } from '../employee-list-dialog/employee-list-dialog-meta-headings.model';
+import { EmployeeListDialogComponent } from '../dialogs/employee-list-dialog/employee-list-dialog.component';
+import { EmployeeListDialogMeta } from '../dialogs/employee-list-dialog/employee-list-dialog-meta.model';
+import { EmployeeListDialogMetaHeadings } from '../dialogs/employee-list-dialog/employee-list-dialog-meta-headings.model';
 import { EmployeeWithAction } from '../models';
 
 @Component({
@@ -24,7 +24,6 @@ export class KpiComponent {
   private _employeesLoading: boolean;
   private _employeesCount: number;
 
-  MAX_EMPLOYEES = 250;
   btnColor = 'primary';
   employeeLoadingDisabled = true;
   tooltip = '';
@@ -90,15 +89,13 @@ export class KpiComponent {
       this.employees,
       this.employeesLoading,
       this.employeesCount === this.employees?.length,
-      this.showFluctuationType,
-      EXTENDED_LIST_ITEM_HEIGHT
+      EXTENDED_LIST_ITEM_HEIGHT,
+      this.showFluctuationType
     );
   }
 
   handleEmployeeLoadingDisabledStatus(): void {
     this.employeeLoadingDisabled =
-      this.employeesCount === 0 ||
-      this.employeesCount > this.MAX_EMPLOYEES ||
-      this.employeesCount === undefined;
+      !this.employeesCount || this.employeesCount === 0;
   }
 }

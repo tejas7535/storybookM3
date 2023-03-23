@@ -5,7 +5,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { EmployeeListDialogModule } from '../employee-list-dialog/employee-list-dialog.module';
+import { EmployeeListDialogModule } from '../dialogs/employee-list-dialog/employee-list-dialog.module';
 import { KpiComponent } from './kpi.component';
 
 @NgModule({

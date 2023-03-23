@@ -8,7 +8,7 @@ import { EChartsOption } from 'echarts';
 
 import { getSelectedDimension } from '../core/store/selectors/filter/filter.selector';
 import { DoughnutConfig } from '../shared/charts/models/doughnut-config.model';
-import { EmployeeListDialogMetaHeadings } from '../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
+import { EmployeeListDialogMetaHeadings } from '../shared/dialogs/employee-list-dialog/employee-list-dialog-meta-headings.model';
 import { AttritionSeries, EmployeeWithAction } from '../shared/models';
 import {
   ExitEntryEmployeesResponse,

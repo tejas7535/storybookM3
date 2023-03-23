@@ -16,7 +16,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { EmployeeListDialogModule } from '../../shared/employee-list-dialog/employee-list-dialog.module';
+import { EmployeeListDialogModule } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog.module';
 import { SharedModule } from '../../shared/shared.module';
 import { OverviewChartComponent } from './overview-chart.component';
 

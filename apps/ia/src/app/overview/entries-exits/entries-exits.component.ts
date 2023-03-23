@@ -13,7 +13,7 @@ import { ChartLegendItem } from '../../shared/charts/models/chart-legend-item.mo
 import { DoughnutChartData } from '../../shared/charts/models/doughnut-chart-data.model';
 import { DoughnutConfig } from '../../shared/charts/models/doughnut-config.model';
 import { DoughnutSeriesConfig } from '../../shared/charts/models/doughnut-series-config.model';
-import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
+import { EmployeeListDialogMetaHeadings } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog-meta-headings.model';
 import { Color, EmployeeWithAction } from '../../shared/models';
 
 @Component({

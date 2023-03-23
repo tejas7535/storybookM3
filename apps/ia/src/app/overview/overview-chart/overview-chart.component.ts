@@ -15,9 +15,9 @@ import {
   LINE_SERIES_BASE_OPTIONS,
 } from '../../shared/charts/line-chart/line-chart.config';
 import { EXTENDED_LIST_ITEM_HEIGHT } from '../../shared/constants';
-import { EmployeeListDialogComponent } from '../../shared/employee-list-dialog/employee-list-dialog.component';
-import { EmployeeListDialogMeta } from '../../shared/employee-list-dialog/employee-list-dialog-meta.model';
-import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
+import { EmployeeListDialogComponent } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog.component';
+import { EmployeeListDialogMeta } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog-meta.model';
+import { EmployeeListDialogMetaHeadings } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog-meta-headings.model';
 import { getTimeRangeFromDates } from '../../shared/utils/utilities';
 import { ExitEntryEmployeesResponse } from '../models';
 import { ChartSeries } from '../models/chart-series.model';
@@ -137,8 +137,8 @@ export class OverviewChartComponent {
     [],
     this.attritionEmployeesLoading,
     true,
-    false,
-    EXTENDED_LIST_ITEM_HEIGHT
+    EXTENDED_LIST_ITEM_HEIGHT,
+    false
   );
 
   options: EChartsOption;

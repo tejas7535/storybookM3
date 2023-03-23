@@ -14,9 +14,10 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslocoService } from '@ngneat/transloco';
 import { OrgChart } from 'd3-org-chart';
 
-import { EmployeeListDialogComponent } from '../../shared/employee-list-dialog/employee-list-dialog.component';
-import { EmployeeListDialogMeta } from '../../shared/employee-list-dialog/employee-list-dialog-meta.model';
-import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
+import { BASIC_LIST_ITEM_HEIGHT } from '../../shared/constants';
+import { EmployeeListDialogComponent } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog.component';
+import { EmployeeListDialogMeta } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog-meta.model';
+import { EmployeeListDialogMetaHeadings } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog-meta-headings.model';
 import { FilterDimension } from '../../shared/models';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
 import { ChartType } from '../models/chart-type.enum';
@@ -230,6 +231,7 @@ export class OrgChartComponent implements AfterViewInit {
       this.selectedNodeEmployeesLoading,
       this.selectedDataNode.directEmployees ===
         this.selectedNodeEmployees.length,
+      BASIC_LIST_ITEM_HEIGHT,
       false
     );
   }

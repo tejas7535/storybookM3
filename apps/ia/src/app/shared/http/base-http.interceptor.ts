@@ -16,6 +16,8 @@ import { IGNORE_HTTP_CALLS } from './constants';
 
 @Injectable()
 export class BaseHttpInterceptor implements HttpInterceptor {
+  PARAM_TIMERANGE = 'time_range';
+
   public constructor(private readonly snackbar: MatSnackBar) {}
 
   private readonly constraintViolationTitle = 'Constraint Violation';
@@ -30,7 +32,7 @@ export class BaseHttpInterceptor implements HttpInterceptor {
     const req = timeRange
       ? request.clone({
           params: request.params.set(
-            'time_range',
+            this.PARAM_TIMERANGE,
             convertTimeRangeToUTC(timeRange)
           ),
         })

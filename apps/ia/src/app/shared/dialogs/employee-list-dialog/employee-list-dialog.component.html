@@ -22,8 +22,17 @@
   >
     {{ data?.headings?.contentTitle }}
   </h6>
-  <cdk-virtual-scroll-viewport itemSize="56" class="h-[400px] w-[500px]">
-    <mat-list *ngIf="!data.employeesLoading; else loading">
+  <cdk-virtual-scroll-viewport
+    [itemSize]="data.listItemHeight"
+    [minBufferPx]="bufferPx"
+    [maxBufferPx]="bufferPx"
+    class="h-[450px] w-[590px]"
+  >
+    <mat-list
+      *ngIf="!data.employeesLoading; else loading"
+      class="!pt-0"
+      [class]="data.employeesLoading ? '' : ''"
+    >
       <ng-container
         *cdkVirtualFor="
           let employee of data.employees;
@@ -45,7 +54,7 @@
                 >{{ t('userId') }}:&nbsp;</label
               >
               <div class="text-[12px] leading-4 text-high-emphasis">
-                {{ employee.userId }}
+                {{ employee.userId }} ({{ employee.employeeKey }})
               </div>
             </div>
             <div class="flex">

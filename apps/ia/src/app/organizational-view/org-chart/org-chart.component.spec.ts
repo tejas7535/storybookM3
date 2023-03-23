@@ -13,10 +13,11 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from '../../../assets/i18n/en.json';
-import { EmployeeListDialogComponent } from '../../shared/employee-list-dialog/employee-list-dialog.component';
-import { EmployeeListDialogModule } from '../../shared/employee-list-dialog/employee-list-dialog.module';
-import { EmployeeListDialogMeta } from '../../shared/employee-list-dialog/employee-list-dialog-meta.model';
-import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
+import { BASIC_LIST_ITEM_HEIGHT } from '../../shared/constants';
+import { EmployeeListDialogComponent } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog.component';
+import { EmployeeListDialogModule } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog.module';
+import { EmployeeListDialogMeta } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog-meta.model';
+import { EmployeeListDialogMetaHeadings } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog-meta-headings.model';
 import { FilterDimension } from '../../shared/models';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
 import { ChartType } from '../models/chart-type.enum';
@@ -164,6 +165,7 @@ describe('OrgChartComponent', () => {
         } as EmployeeListDialogMetaHeadings,
         employees: [] as any[],
         employeesLoading: false,
+        listItemHeight: 140,
         enoughRightsToShowAllEmployees: true,
       };
 
@@ -330,6 +332,7 @@ describe('OrgChartComponent', () => {
         employees,
         employeesLoading: true,
         enoughRightsToShowAllEmployees: false,
+        listItemHeight: BASIC_LIST_ITEM_HEIGHT,
         showFluctuationTypeOnTeamMemberDialog: false,
       });
     });

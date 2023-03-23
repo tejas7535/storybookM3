@@ -6,11 +6,7 @@
     >{{ title }}</span
   >
   <h4 class="mb-2">{{ value }}</h4>
-  <div
-    [class]="'text-high-emphasis'"
-    [matTooltip]="t('tooManyEmployees')"
-    [matTooltipDisabled]="employeesCount <= MAX_EMPLOYEES"
-  >
+  <div [class]="'text-high-emphasis'">
     <button
       mat-fab
       color="primary"

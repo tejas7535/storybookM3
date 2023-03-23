@@ -12,10 +12,13 @@ import { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
 import moment from 'moment';
 
 import { ExitEntryEmployeesResponse } from '../../overview/models';
-import { EXTENDED_LIST_ITEM_HEIGHT } from '../../shared/constants';
-import { EmployeeListDialogComponent } from '../../shared/employee-list-dialog/employee-list-dialog.component';
-import { EmployeeListDialogMeta } from '../../shared/employee-list-dialog/employee-list-dialog-meta.model';
-import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
+import {
+  BASIC_LIST_ITEM_HEIGHT,
+  EXTENDED_LIST_ITEM_HEIGHT,
+} from '../../shared/constants';
+import { EmployeeListDialogComponent } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog.component';
+import { EmployeeListDialogMeta } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog-meta.model';
+import { EmployeeListDialogMetaHeadings } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog-meta-headings.model';
 import { JobProfile, WorkforceResponse } from '../models';
 import { AmountCellRendererComponent } from './amount-cell-renderer/amount-cell-renderer.component';
 
@@ -164,7 +167,8 @@ export class LostJobProfilesComponent {
     {} as EmployeeListDialogMetaHeadings,
     [],
     this.workforceLoading,
-    true
+    true,
+    BASIC_LIST_ITEM_HEIGHT
   );
 
   leaversDialogData = new EmployeeListDialogMeta(
@@ -172,8 +176,8 @@ export class LostJobProfilesComponent {
     [],
     this.leaversLoading,
     true,
-    false,
-    EXTENDED_LIST_ITEM_HEIGHT
+    EXTENDED_LIST_ITEM_HEIGHT,
+    false
   );
 
   constructor(private readonly dialog: MatDialog) {}

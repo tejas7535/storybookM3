@@ -1,11 +1,10 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { EMPTY, map, Observable } from 'rxjs';
 
 import { withCache } from '@ngneat/cashew';
 
-import { CONTENT_TYPE_APPLICATION_JSON } from '../shared/constants';
 import { ParamsCreatorService } from '../shared/http/params-creator.service';
 import { ApiVersion, FilterDimension, IdValue, Slice } from '../shared/models';
 
@@ -43,7 +42,6 @@ export class FilterService {
         {
           params,
           context: withCache(),
-          headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
         }
       )
       .pipe(map((result) => result.content));
@@ -57,7 +55,6 @@ export class FilterService {
       {
         params,
         context: withCache(),
-        headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
       }
     );
   }
@@ -70,7 +67,6 @@ export class FilterService {
       {
         params,
         context: withCache(),
-        headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
       }
     );
   }
@@ -83,7 +79,6 @@ export class FilterService {
       {
         params,
         context: withCache(),
-        headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
       }
     );
   }
@@ -96,7 +91,6 @@ export class FilterService {
       {
         params,
         context: withCache(),
-        headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
       }
     );
   }
@@ -109,7 +103,6 @@ export class FilterService {
       {
         params,
         context: withCache(),
-        headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
       }
     );
   }
@@ -122,7 +115,6 @@ export class FilterService {
       {
         params,
         context: withCache(),
-        headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
       }
     );
   }
@@ -135,7 +127,6 @@ export class FilterService {
       {
         params,
         context: withCache(),
-        headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
       }
     );
   }
@@ -148,7 +139,6 @@ export class FilterService {
       {
         params,
         context: withCache(),
-        headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
       }
     );
   }
@@ -161,7 +151,6 @@ export class FilterService {
       {
         params,
         context: withCache(),
-        headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
       }
     );
   }
@@ -174,7 +163,6 @@ export class FilterService {
       {
         params,
         context: withCache(),
-        headers: new HttpHeaders(CONTENT_TYPE_APPLICATION_JSON),
       }
     );
   }

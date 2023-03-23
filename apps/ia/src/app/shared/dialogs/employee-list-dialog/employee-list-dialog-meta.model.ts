@@ -1,5 +1,5 @@
-import { LeavingType } from '../../overview/models';
-import { ActionType } from '../models';
+import { LeavingType } from '../../../overview/models';
+import { ActionType } from '../../models';
 import { EmployeeListDialogMetaHeadings } from './employee-list-dialog-meta-headings.model';
 
 export class EmployeeListDialogMeta {
@@ -8,6 +8,7 @@ export class EmployeeListDialogMeta {
     public employees: {
       employeeName: string;
       userId: string;
+      employeeKey: string;
       positionDescription: string;
       orgUnit: string;
       actionType?: ActionType;
@@ -17,7 +18,7 @@ export class EmployeeListDialogMeta {
     }[],
     public employeesLoading: boolean,
     public enoughRightsToShowAllEmployees: boolean,
-    public showFluctuationTypeOnTeamMemberDialog?: boolean,
-    public listItemHeight?: number
+    public listItemHeight: number,
+    public showFluctuationTypeOnTeamMemberDialog?: boolean
   ) {}
 }

@@ -7,8 +7,8 @@ import { GridApi, GridReadyEvent } from 'ag-grid-community';
 
 import { UnderConstructionModule } from '@schaeffler/empty-states';
 
-import { EmployeeListDialogComponent } from '../../shared/employee-list-dialog/employee-list-dialog.component';
-import { EmployeeListDialogModule } from '../../shared/employee-list-dialog/employee-list-dialog.module';
+import { EmployeeListDialogComponent } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog.component';
+import { EmployeeListDialogModule } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog.module';
 import { LostJobProfilesComponent } from './lost-job-profiles.component';
 
 describe('LostJobProfilesComponent', () => {

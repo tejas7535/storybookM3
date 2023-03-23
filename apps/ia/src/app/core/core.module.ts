@@ -32,6 +32,7 @@ import { environment } from '../../environments/environment';
 import * as i18nChecksumsJson from '../../i18n-checksums.json';
 import { AppRoutePath } from '../app-route-path.enum';
 import { BaseHttpInterceptor } from '../shared/http/base-http.interceptor';
+import { HttpHeaderInterceptor } from '../shared/http/http-header.interceptor';
 import { StoreModule } from './store';
 
 const azureConfig = new AzureConfig(
@@ -103,6 +104,11 @@ export function appInitializer(
     {
       provide: HTTP_INTERCEPTORS,
       useClass: BaseHttpInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpHeaderInterceptor,
       multi: true,
     },
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2000 } },

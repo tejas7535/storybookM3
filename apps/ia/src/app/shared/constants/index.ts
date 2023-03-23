@@ -3,9 +3,6 @@ import { FilterDimension } from '../models';
 export const LOCAL_STORAGE_APP_KEY = 'ia';
 export const COMPANY_NAME = 'Schaeffler';
 export const DATA_IMPORT_DAY = 9; // day of each month of data import from data provider
-export const CONTENT_TYPE_APPLICATION_JSON = {
-  'Content-Type': 'application/json',
-};
 export const FILTER_DIMENSIONS: {
   dimension: FilterDimension;
   level: number;
@@ -31,4 +28,5 @@ export const LOCAL_SEARCH_MIN_CHAR_LENGTH = 0;
 export const GENERAL_ROLES_PREFIXES = ['IA_ADMIN', 'BASIC_ACCCESS'];
 export const GEOGRAPHICAL_ROLES_PREFIXES = ['HR_PA'];
 
+export const BASIC_LIST_ITEM_HEIGHT = 120;
 export const EXTENDED_LIST_ITEM_HEIGHT = 150;
