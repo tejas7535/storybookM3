@@ -20,10 +20,19 @@
         <span label>{{ t('materialStatus') }}</span>
         <span text>{{ materialDetails.materialStatus | nullableString }}</span>
       </gq-label-text>
-      <gq-label-text [marginBottom]="false">
+      <gq-label-text>
         <span label>{{ t('materialClassificationSOP') }}</span>
         <span text>{{
           materialClassificationSOP | materialClassificationSOP
+        }}</span>
+      </gq-label-text>
+      <gq-label-text [marginBottom]="false">
+        <span label>{{ t('abcxClassification') }}</span>
+        <span text>{{
+          usageRestriction
+            ? ('shared.quotationDetailsTable.abcxClassification.' +
+                usageRestriction | transloco)
+            : '-'
         }}</span>
       </gq-label-text>
       <gq-horizontal-divider></gq-horizontal-divider>

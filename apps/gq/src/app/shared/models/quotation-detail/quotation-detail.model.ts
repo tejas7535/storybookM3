@@ -1,5 +1,6 @@
 import { SapPriceConditionDetail } from '@gq/core/store/reducers/models';
 
+import { AbcxClassification } from '../quotation/abcxClassification.enum';
 import { LastCustomerPriceCondition } from './last-customer-price-condition.enum';
 import { LastOfferDetail } from './last-offer-detail.model';
 import { MaterialDetails } from './material-details.model';
@@ -54,6 +55,7 @@ export class QuotationDetail {
   public deliveryUnit: number;
   public sapSyncErrorCode: SAP_ERROR_MESSAGE_CODE;
   public sapPriceUnit: number;
+  public abcxClassification: AbcxClassification;
 
   // properties added in GQ application
   public priceDiff: number;

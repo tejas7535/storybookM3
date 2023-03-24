@@ -2,7 +2,6 @@ import { Customer } from '../customer';
 import { QuotationDetail } from '../quotation-detail';
 import { SAP_SYNC_STATUS } from '../quotation-detail/sap-sync-status.enum';
 import { User } from '../user.model';
-import { AbcxClassification } from './abcxClassification.enum';
 import { CASE_ORIGIN } from './quotation-origin.enum';
 import { QuotationStatus } from './quotation-status.enum';
 import { SapCallInProgress } from './sap-call-in-progress.enum';
@@ -34,6 +33,5 @@ export class Quotation {
   public sapQuotationToDate: string;
   public sapCustomerPurchaseOrderDate: string;
   public origin: CASE_ORIGIN;
-  public abcxClassification: AbcxClassification;
   public shipToParty: Customer;
 }

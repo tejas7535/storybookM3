@@ -1,3 +1,5 @@
+import { AbcxClassification } from '@gq/shared/models/quotation';
+
 import { SimulatedQuotation } from '../../../app/shared/models';
 import {
   LastCustomerPriceCondition,
@@ -46,6 +48,7 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   lastCustomerPriceCondition: LastCustomerPriceCondition.CA,
   lastCustomerPriceQuantity: 50,
   syncInSap: false,
+  abcxClassification: AbcxClassification.UR1,
 
   priceDiff: 17.65,
   gpc: 20,
