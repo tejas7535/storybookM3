@@ -14,18 +14,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { translate } from '@ngneat/transloco';
 
-import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { LabelValue, LabelValueModule } from '@schaeffler/label-value';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { alternativeTable, generalHighTemperature } from '@ga/shared/constants';
 
-import { MEDIASGREASE } from '../../constants';
-import {
-  adaptLabelValuesFromGreaseResultData,
-  greaseLinkText,
-  greaseShopQuery,
-} from '../../helpers/grease-helpers';
+import { adaptLabelValuesFromGreaseResultData } from '../../helpers/grease-helpers';
 import {
   CONCEPT1,
   GreaseConcep1Suitablity,
@@ -37,6 +31,7 @@ import {
 import { AutomaticLubricationPipe } from '../../pipes';
 import { GreaseReportConcept1Component } from '../grease-report-concept1';
 import { GreaseReportConcept1DetailComponent } from '../grease-report-concept1-detail';
+import { GreaseReportShopButtonsComponent } from '../grease-report-shop-buttons/grease-report-shop-buttons.component';
 
 export enum LabelWidth {
   Default = 180,
@@ -58,6 +53,7 @@ export const shopSearchPathBase = 'search/searchpage?text=';
     LabelValueModule,
     GreaseReportConcept1Component,
     GreaseReportConcept1DetailComponent,
+    GreaseReportShopButtonsComponent,
     AutomaticLubricationPipe,
   ],
   templateUrl: './grease-report-result.component.html',
@@ -81,7 +77,6 @@ export class GreaseReportResultComponent implements OnInit, OnDestroy {
   private observer!: ResizeObserver;
 
   public constructor(
-    private readonly applicationInsightsService: ApplicationInsightsService,
     private readonly elementRef: ElementRef,
     private readonly changeDetector: ChangeDetectorRef
   ) {
@@ -106,26 +101,10 @@ export class GreaseReportResultComponent implements OnInit, OnDestroy {
     }
   }
 
-  public getShopUrl(): string {
-    return `${translate(
-      'calculationResult.shopBaseUrl'
-    )}/${shopSearchPathBase}${greaseShopQuery(this.greaseResult?.mainTitle)}`;
-  }
-
-  public getLinkText(): string {
-    return greaseLinkText(this.greaseResult?.mainTitle);
-  }
-
   public toggleShowValues(): void {
     this.showAllValues = !this.showAllValues;
 
     this.assignGreaseResultData();
-  }
-
-  public trackGreaseSelection(): void {
-    this.applicationInsightsService.logEvent(MEDIASGREASE, {
-      grease: this.greaseResult?.mainTitle,
-    });
   }
 
   public toggleShowConcept1Details(): void {

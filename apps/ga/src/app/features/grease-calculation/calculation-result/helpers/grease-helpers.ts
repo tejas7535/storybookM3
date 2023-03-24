@@ -220,3 +220,9 @@ export const greaseLinkText = (title: string): string =>
   `${title} ${
     greaseSizeExceptions.find((grease) => grease.title === title)?.size ?? 1
   }kg`;
+
+export const isGreaseSuited = (label: SUITABILITY_LABEL): boolean =>
+  label === SUITABILITY_LABEL.SUITED;
+
+export const isGreaseUnSuited = (label: SUITABILITY_LABEL): boolean =>
+  label === SUITABILITY_LABEL.UNSUITED;

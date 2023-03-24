@@ -9,33 +9,25 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { DomSanitizer } from '@angular/platform-browser';
 
 import { translate } from '@ngneat/transloco';
 
-import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import {
   RotaryControlComponent,
   RotaryControlItem,
 } from '@schaeffler/controls';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { MEDIASGREASE } from '../../constants';
+import { availableMonths } from '../../helpers/grease-helpers';
 import {
-  availableMonths,
-  concept1InShop,
-  concept1ShopQuery,
-  shortTitle,
-} from '../../helpers/grease-helpers';
-import {
-  CONCEPT1,
   CONCEPT1_SIZES,
   GreaseConcep1Suitablity,
+  GreaseResult,
 } from '../../models';
-import { shopSearchPathBase } from '../grease-report-result';
+import { GreaseReportShopButtonsComponent } from '../grease-report-shop-buttons/grease-report-shop-buttons.component';
 
 @Component({
   selector: 'ga-grease-report-concept1-detail',
@@ -49,13 +41,14 @@ import { shopSearchPathBase } from '../grease-report-result';
     MatIconModule,
     MatRadioModule,
     RotaryControlComponent,
+    GreaseReportShopButtonsComponent,
   ],
   templateUrl: './grease-report-concept1-detail.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GreaseReportConcept1DetailComponent implements OnInit {
+  @Input() public greaseResult: GreaseResult;
   @Input() public settings: GreaseConcep1Suitablity;
-  @Input() public title: string;
 
   @Output() readonly hideDetails: EventEmitter<void> = new EventEmitter();
 
@@ -63,19 +56,6 @@ export class GreaseReportConcept1DetailComponent implements OnInit {
   public concept1Selection: CONCEPT1_SIZES;
 
   public sizes = [CONCEPT1_SIZES['60ML'], CONCEPT1_SIZES['125ML']];
-
-  public constructor(
-    private readonly applicationInsightsService: ApplicationInsightsService,
-    private readonly matIconRegistry: MatIconRegistry,
-    private readonly domSanitizer: DomSanitizer
-  ) {
-    this.matIconRegistry.addSvgIcon(
-      'concept1',
-      this.domSanitizer.bypassSecurityTrustResourceUrl(
-        'assets/images/concept1.svg'
-      )
-    );
-  }
 
   ngOnInit(): void {
     this.concept1Selection = this.settings?.c1_125
@@ -97,32 +77,9 @@ export class GreaseReportConcept1DetailComponent implements OnInit {
     return !(this.settings as any)[`c1_${size}`];
   }
 
-  public getShortTitle(): string {
-    return shortTitle(this.title);
-  }
-
   public getConcept1InfoUrl(): string {
     return `${translate('calculationResult.shopBaseUrl')}/${translate(
       'calculationResult.concept1Link'
     )}`;
-  }
-
-  public getConcept1InShop(): string {
-    return concept1InShop(this.title, this.concept1Selection);
-  }
-
-  public getConcept1ShopUrl(): string {
-    return `${translate(
-      'calculationResult.shopBaseUrl'
-    )}/${shopSearchPathBase}${concept1ShopQuery(
-      this.title,
-      this.concept1Selection
-    )}`;
-  }
-
-  public trackConcept1Selection(): void {
-    this.applicationInsightsService.logEvent(MEDIASGREASE, {
-      grease: `${CONCEPT1} ${this.getShortTitle()} ${this.concept1Selection}`,
-    });
   }
 }

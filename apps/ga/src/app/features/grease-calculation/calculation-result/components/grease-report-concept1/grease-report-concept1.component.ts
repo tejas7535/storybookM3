@@ -16,12 +16,12 @@ import {
 } from '@schaeffler/controls';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { availableMonths } from '../../helpers/grease-helpers';
 import {
-  CONCEPT1_SIZES,
-  GreaseConcep1Suitablity,
-  SUITABILITY_LABEL,
-} from '../../models';
+  availableMonths,
+  isGreaseSuited,
+  isGreaseUnSuited,
+} from '../../helpers/grease-helpers';
+import { CONCEPT1_SIZES, GreaseConcep1Suitablity } from '../../models';
 
 @Component({
   selector: 'ga-grease-report-concept1',
@@ -61,10 +61,10 @@ export class GreaseReportConcept1Component {
   }
 
   public isSuited(): boolean {
-    return this.settings.label === SUITABILITY_LABEL.SUITED;
+    return isGreaseSuited(this.settings.label);
   }
 
   public isUnSuited(): boolean {
-    return this.settings.label === SUITABILITY_LABEL.UNSUITED;
+    return isGreaseUnSuited(this.settings.label);
   }
 }

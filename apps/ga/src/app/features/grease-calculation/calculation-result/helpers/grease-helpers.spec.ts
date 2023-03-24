@@ -527,4 +527,36 @@ describe('Grease helpers', () => {
       expect(helpers.greaseLinkText(mockTitle)).toBe('Arcanol LOAD1000 180kg');
     });
   });
+
+  describe('isGreaseSuited', () => {
+    it('Should return true if grease is suited', () => {
+      expect(helpers.isGreaseSuited(SUITABILITY_LABEL.SUITED)).toBe(true);
+    });
+
+    it('Should return false if grease is not suited', () => {
+      expect(helpers.isGreaseSuited(SUITABILITY_LABEL.UNKNOWN)).toBe(false);
+      expect(helpers.isGreaseSuited(SUITABILITY_LABEL.NOT_SUITED)).toBe(false);
+      expect(helpers.isGreaseSuited(SUITABILITY_LABEL.UNSUITED)).toBe(false);
+      expect(helpers.isGreaseSuited(SUITABILITY_LABEL.CONDITIONAL)).toBe(false);
+      expect(helpers.isGreaseSuited('abc' as SUITABILITY_LABEL)).toBe(false);
+    });
+  });
+
+  describe('isGreaseUnSuited', () => {
+    it('Should return true if grease is unsuited', () => {
+      expect(helpers.isGreaseUnSuited(SUITABILITY_LABEL.UNSUITED)).toBe(true);
+    });
+
+    it('Should return false if grease is not unsuited', () => {
+      expect(helpers.isGreaseUnSuited(SUITABILITY_LABEL.SUITED)).toBe(false);
+      expect(helpers.isGreaseUnSuited(SUITABILITY_LABEL.UNKNOWN)).toBe(false);
+      expect(helpers.isGreaseUnSuited(SUITABILITY_LABEL.NOT_SUITED)).toBe(
+        false
+      );
+      expect(helpers.isGreaseUnSuited(SUITABILITY_LABEL.CONDITIONAL)).toBe(
+        false
+      );
+      expect(helpers.isGreaseUnSuited('abc' as SUITABILITY_LABEL)).toBe(false);
+    });
+  });
 });

@@ -14,7 +14,6 @@ import { generalHighTemperature } from '@ga/shared/constants';
 import { CONCEPT1_LABEL_VALUE_MOCK, greaseResultMock } from '@ga/testing/mocks';
 import { GREASE_CONCEPT1_SUITABILITY } from '@ga/testing/mocks/models/grease-concept1-suitability.mock';
 
-import { MEDIASGREASE } from '../../constants';
 import { CONCEPT1, SUITABILITY_LABEL } from '../../models';
 import { GreaseReportResultComponent } from './grease-report-result.component';
 
@@ -75,20 +74,6 @@ describe('GreaseReportResultComponent', () => {
     });
   });
 
-  describe('getShopUrl', () => {
-    it('should return a valid url', () => {
-      expect(component.getShopUrl()).toBe(
-        'calculationResult.shopBaseUrl/search/searchpage?text=Arcanol-MULTI2-1kg'
-      );
-    });
-  });
-
-  describe('getLinkText', () => {
-    it('should return the link text', () => {
-      expect(component.getLinkText()).toBe('Arcanol MULTI2 1kg');
-    });
-  });
-
   describe('toggleShowValues', () => {
     it('should switch data amount', () => {
       component.toggleShowValues();
@@ -96,21 +81,6 @@ describe('GreaseReportResultComponent', () => {
 
       component.toggleShowValues();
       expect(component.labelValues).toHaveLength(3);
-    });
-  });
-
-  describe('#trackGreaseSelection', () => {
-    it('should call the logEvent method', () => {
-      const trackingSpy = jest.spyOn(
-        component['applicationInsightsService'],
-        'logEvent'
-      );
-
-      component.trackGreaseSelection();
-
-      expect(trackingSpy).toHaveBeenCalledWith(MEDIASGREASE, {
-        grease: 'Arcanol MULTI2',
-      });
     });
   });
 

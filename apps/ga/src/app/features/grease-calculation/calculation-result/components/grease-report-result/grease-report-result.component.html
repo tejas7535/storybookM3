@@ -92,12 +92,13 @@
     </div>
     <ng-template #concept1Details>
       <ga-grease-report-concept1-detail
-        [title]="greaseResult.mainTitle"
+        [greaseResult]="greaseResult"
         [settings]="getSettings(labelValues)"
         (hideDetails)="toggleShowConcept1Details()"
-      ></ga-grease-report-concept1-detail>
+      >
+      </ga-grease-report-concept1-detail>
     </ng-template>
-    <div *ngIf="!showConcept1Details" class="p-3">
+    <div *ngIf="!showConcept1Details" class="p-3 pb-4">
       <button
         class="w-full"
         mat-stroked-button
@@ -112,25 +113,12 @@
         {{ t(showAllValues ? 'hideValues' : 'allValues') }}
       </button>
     </div>
-    <div
-      *ngIf="
-        !showConcept1Details &&
-        greaseResult.isSufficient &&
-        greaseResult.subTitle
-      "
-      class="px-3 pb-3"
-    >
-      <a
-        mat-raised-button
-        class="w-full"
-        color="primary"
-        [attr.href]="getShopUrl()"
-        target="_blank"
-        (click)="trackGreaseSelection()"
-      >
-        <mat-icon>water_drop_outline</mat-icon>
-        {{ getLinkText() }}
-      </a>
+    <div *ngIf="!showConcept1Details" class="px-3 pb-4">
+      <ga-grease-report-shop-buttons
+        [greaseResult]="greaseResult"
+        [settings]="getSettings(labelValues)"
+        [showConcept1Button]="automaticLubrication"
+      ></ga-grease-report-shop-buttons>
     </div>
   </div>
 </ng-container>

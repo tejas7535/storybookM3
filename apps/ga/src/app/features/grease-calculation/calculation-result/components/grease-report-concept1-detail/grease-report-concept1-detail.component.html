@@ -1,4 +1,4 @@
-<ng-container *ngIf="settings">
+<ng-container *ngIf="settings && greaseResult">
   <div
     *transloco="let t; read: 'calculationResult.concept1settings'"
     class="flex w-full flex-col items-center px-3 py-1"
@@ -66,23 +66,12 @@
         {{ t('detailsConcept1') }}
       </a>
     </div>
-    <div class="w-full py-3">
-      <a
-        mat-raised-button
-        class="w-full"
-        color="primary"
-        [attr.href]="getConcept1ShopUrl()"
-        (click)="trackConcept1Selection()"
-        target="_blank"
-      >
-        <mat-icon svgIcon="concept1"></mat-icon>
-        {{
-          t('concept1ShopTitle', {
-            title: getConcept1InShop() ? getShortTitle() : 'refillable',
-            size: concept1Selection
-          })
-        }}
-      </a>
+    <div class="w-full py-3 pt-4">
+      <ga-grease-report-shop-buttons
+        [greaseResult]="greaseResult"
+        [settings]="settings"
+        [showConcept1Button]="true"
+      ></ga-grease-report-shop-buttons>
     </div>
   </div>
 </ng-container>

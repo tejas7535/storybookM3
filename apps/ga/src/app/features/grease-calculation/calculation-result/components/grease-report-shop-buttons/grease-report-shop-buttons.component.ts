@@ -1,0 +1,120 @@
+import { CommonModule } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { DomSanitizer } from '@angular/platform-browser';
+
+import { translate } from '@ngneat/transloco';
+
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+import { RotaryControlComponent } from '@schaeffler/controls';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
+
+import { MEDIASGREASE } from '../../constants';
+import {
+  concept1InShop,
+  concept1ShopQuery,
+  greaseLinkText,
+  greaseShopQuery,
+  isGreaseUnSuited,
+  shortTitle,
+} from '../../helpers/grease-helpers';
+import {
+  CONCEPT1,
+  CONCEPT1_SIZES,
+  GreaseConcep1Suitablity,
+  GreaseResult,
+} from '../../models';
+import { shopSearchPathBase } from '../grease-report-result';
+
+@Component({
+  selector: 'ga-grease-report-shop-buttons',
+  standalone: true,
+  imports: [
+    CommonModule,
+    SharedTranslocoModule,
+    FormsModule,
+    MatButtonModule,
+    MatTooltipModule,
+    MatIconModule,
+    MatRadioModule,
+    RotaryControlComponent,
+  ],
+  templateUrl: './grease-report-shop-buttons.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class GreaseReportShopButtonsComponent implements OnInit {
+  @Input() public greaseResult: GreaseResult;
+  @Input() public settings: GreaseConcep1Suitablity;
+  @Input() public showConcept1Button = false;
+
+  public concept1Selection: CONCEPT1_SIZES;
+  public concept1UnSuitable = false;
+
+  public constructor(
+    private readonly applicationInsightsService: ApplicationInsightsService,
+    private readonly matIconRegistry: MatIconRegistry,
+    private readonly domSanitizer: DomSanitizer
+  ) {
+    this.matIconRegistry.addSvgIcon(
+      'concept1',
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
+        'assets/images/concept1.svg'
+      )
+    );
+  }
+
+  ngOnInit(): void {
+    this.concept1UnSuitable = isGreaseUnSuited(this.settings?.label);
+    this.concept1Selection = this.settings?.c1_125
+      ? CONCEPT1_SIZES['125ML']
+      : CONCEPT1_SIZES['60ML'];
+  }
+
+  public getShortTitle(): string {
+    return shortTitle(this.greaseResult?.mainTitle);
+  }
+
+  public getConcept1InShop(): string {
+    return concept1InShop(this.greaseResult?.mainTitle, this.concept1Selection);
+  }
+
+  public getConcept1ShopUrl(): string {
+    return `${translate(
+      'calculationResult.shopBaseUrl'
+    )}/${shopSearchPathBase}${concept1ShopQuery(
+      this.greaseResult?.mainTitle,
+      this.concept1Selection
+    )}`;
+  }
+
+  public trackConcept1Selection(): void {
+    this.applicationInsightsService.logEvent(MEDIASGREASE, {
+      grease: `${CONCEPT1} ${this.getShortTitle()} ${this.concept1Selection}`,
+    });
+  }
+
+  public getShopUrl(): string {
+    return `${translate(
+      'calculationResult.shopBaseUrl'
+    )}/${shopSearchPathBase}${greaseShopQuery(this.greaseResult?.mainTitle)}`;
+  }
+
+  public getLinkText(): string {
+    return greaseLinkText(this.greaseResult?.mainTitle);
+  }
+
+  public trackGreaseSelection(): void {
+    this.applicationInsightsService.logEvent(MEDIASGREASE, {
+      grease: this.greaseResult?.mainTitle,
+    });
+  }
+}
