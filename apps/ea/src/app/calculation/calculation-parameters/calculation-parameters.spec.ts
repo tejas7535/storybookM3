@@ -4,7 +4,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { resetCalculationParams } from '@ea/core/store/actions/calculation-parameters/calculation-parameters.actions';
 import { FormFieldModule } from '@ea/shared/form-field';
-import { CALCULATION_PARAMETERS_STATE_MOCK } from '@ea/testing/mocks';
+import {
+  CALCULATION_PARAMETERS_STATE_MOCK,
+  CALCULATION_RESULT_STATE_MOCK,
+} from '@ea/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { translate } from '@ngneat/transloco';
 import { LetModule, PushModule } from '@ngrx/component';
@@ -37,7 +40,8 @@ describe('CalculationParametersComponent', () => {
     providers: [
       provideMockStore({
         initialState: {
-          ...CALCULATION_PARAMETERS_STATE_MOCK,
+          calculationParameters: { ...CALCULATION_PARAMETERS_STATE_MOCK },
+          calculationResult: { ...CALCULATION_RESULT_STATE_MOCK },
         },
       }),
       {
@@ -110,6 +114,12 @@ describe('CalculationParametersComponent', () => {
       expect(component.axial.errors).toEqual({
         anyLoad: true,
       });
+    });
+  });
+
+  describe('ResultOverlay', () => {
+    it('should show the result overlay', () => {
+      expect(spectator.query('ea-calculation-result-preview')).toBeTruthy();
     });
   });
 });

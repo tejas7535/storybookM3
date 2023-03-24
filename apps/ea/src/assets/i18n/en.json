@@ -24,5 +24,18 @@
       "minMaxInconsistent": "The minimum value must be smaller than than the maximum value",
       "anyLoad": "One load is required"
     }
-  }
+  },
+  "calculation": {
+    "showReport": "Show Report",
+    "calculationImpossible": "For the parameters you have specified no calculation is possible.",
+    "calculationMissingInput": "Please add the remaining conditions."
+  },
+  "calculationResult": {
+    "totalValueCO2": "Total value of CO₂",
+    "overrollingFrequency": "Overrolling frequency",
+    "overrollingFrequencySubtitle": "Frequency on inner ring (BPFI)",
+    "production": "Production",
+    "operation": "Operation"
+  },
+  "unit": {}
 }

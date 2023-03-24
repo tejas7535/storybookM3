@@ -3,20 +3,19 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
-import { CalculationParamtersFacade } from './calculation-parameters.facade';
+import { CalculationParametersFacade } from './calculation-parameters.facade';
 
-describe('SettingsFacade', () => {
-  let spectator: SpectatorService<CalculationParamtersFacade>;
-  let facade: CalculationParamtersFacade;
+describe('CalculationParametersFacade', () => {
+  let spectator: SpectatorService<CalculationParametersFacade>;
+  let facade: CalculationParametersFacade;
   let store: MockStore;
 
-  let mockParameters: any;
   const createService = createServiceFactory({
-    service: CalculationParamtersFacade,
+    service: CalculationParametersFacade,
     providers: [
       provideMockStore({
         initialState: {
-          calculationParamters: CALCULATION_PARAMETERS_MOCK,
+          calculationParameters: CALCULATION_PARAMETERS_MOCK,
         },
       }),
     ],
@@ -38,7 +37,7 @@ describe('SettingsFacade', () => {
       'should provide the calculation parameters',
       marbles((m) => {
         const expected = m.cold('a', {
-          a: mockParameters,
+          a: CALCULATION_PARAMETERS_MOCK,
         });
 
         m.expect(facade.calculationParameters$).toBeObservable(expected);

@@ -13,3 +13,11 @@ export const getOperationConditions = createSelector(
   getCalculationParametersState,
   (state): CalculationParameters => state
 );
+
+export const isCalculationMissingInput = createSelector(
+  getCalculationParametersState,
+  (state): boolean =>
+    !state.operationConditions?.axial ||
+    !state.operationConditions?.radial ||
+    !state.operationConditions?.rotation
+);

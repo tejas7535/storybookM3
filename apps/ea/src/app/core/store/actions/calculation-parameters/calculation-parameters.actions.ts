@@ -10,3 +10,7 @@ export const operatingParameters = createAction(
 export const resetCalculationParams = createAction(
   '[Calculation Parameters] Reset Operating Parameters'
 );
+
+export const runCalculation = createAction(
+  '[Calculation Parameters] Run Calculation'
+);

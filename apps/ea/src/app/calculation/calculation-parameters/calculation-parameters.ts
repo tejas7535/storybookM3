@@ -15,7 +15,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { debounceTime, Subject, takeUntil } from 'rxjs';
 
-import { CalculationParamtersFacade } from '@ea/core/store';
+import { CalculationParametersFacade } from '@ea/core/store';
 import {
   operatingParameters,
   resetCalculationParams,
@@ -29,8 +29,11 @@ import { Store } from '@ngrx/store';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { CalculationResultPreviewComponent } from '../calculation-result-preview/calculation-result-preview';
+
 @Component({
-  selector: 'ea-calculation-parameters',
+  templateUrl: './calculation-parameters.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
     FormFieldModule,
@@ -40,12 +43,11 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
     LetModule,
     PushModule,
     SharedTranslocoModule,
+    CalculationResultPreviewComponent,
   ],
-  templateUrl: './calculation-parameters.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CalculationParametersComponent implements OnInit, OnDestroy {
-  public DEBOUNCE_TIME_DEFAULT = 500;
+  public DEBOUNCE_TIME_DEFAULT = 200;
   private readonly destroy$ = new Subject<void>();
 
   public calculationParameters$ =
@@ -70,18 +72,18 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly store: Store,
-    private readonly calculationParametersFacade: CalculationParamtersFacade
+    private readonly calculationParametersFacade: CalculationParametersFacade
   ) {}
 
   ngOnInit() {
-    this.calculationParameters$.subscribe(
-      (parametersState: CalculationParameters) => {
+    this.calculationParameters$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((parametersState: CalculationParameters) => {
         this.form.patchValue(parametersState, {
           onlySelf: true,
           emitEvent: false,
         });
-      }
-    );
+      });
 
     this.form.valueChanges
       .pipe(takeUntil(this.destroy$), debounceTime(this.DEBOUNCE_TIME_DEFAULT))

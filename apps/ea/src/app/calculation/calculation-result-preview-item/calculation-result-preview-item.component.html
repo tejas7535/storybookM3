@@ -1,0 +1,40 @@
+<ng-container *transloco="let t; read: 'calculationResult'">
+  <div
+    class="flex flex-shrink-0 flex-col items-center justify-start"
+    *ngIf="_item"
+  >
+    <div
+      class="flex flex-shrink-0 flex-row items-center justify-center pt-2 pb-2"
+    >
+      <mat-icon color="primary" class="mr-1 flex-shrink-0">
+        {{ _item.icon }}
+      </mat-icon>
+      <div class="flex-shrink-0 text-caption font-medium text-medium-emphasis">
+        {{ t(_item.title) }}
+      </div>
+    </div>
+
+    <div class="flex flex-row">
+      <ng-container *ngFor="let value of _item.values; let last = last">
+        <div
+          class="flex flex-col p-2 pl-4 pr-4"
+          [class.items-center]="isSingleItem"
+        >
+          <div class="mb-2 flex flex-col text-caption text-medium-emphasis">
+            {{ value.title && t(value.title) }}
+          </div>
+
+          <div class="flex flex-row items-end justify-start">
+            <div class="text-body-2 text-high-emphasis">
+              {{ value.value | number: '1.0-2' }}
+            </div>
+            <div class="pl-1 text-body-2 text-high-emphasis">
+              {{ value.unit }}
+            </div>
+          </div>
+        </div>
+        <mat-divider [vertical]="true" *ngIf="!last"></mat-divider>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>
