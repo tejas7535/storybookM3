@@ -6,7 +6,7 @@ import {
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Translation } from '@ngneat/transloco';
 
-import { I18N_CACHE_CHECKSUM } from './injection-tokens';
+import { I18N_CACHE_CHECKSUM, LOADER_PATH } from './injection-tokens';
 import { SharedHttpLoader } from './shared-transloco.loader';
 
 describe('Transloco Loader', () => {
@@ -20,6 +20,7 @@ describe('Transloco Loader', () => {
     providers: [
       SharedHttpLoader,
       { provide: I18N_CACHE_CHECKSUM, useValue: undefined },
+      { provide: LOADER_PATH, useValue: '/assets/i18n/' },
     ],
   });
 
@@ -72,6 +73,25 @@ describe('Transloco Loader', () => {
       });
 
       http.expectOne('/assets/i18n/en.json').flush(mock);
+    });
+
+    it('should request translations from the specified path', () => {
+      spectator = createService({
+        providers: [
+          { provide: LOADER_PATH, useValue: 'custom-translation-path/' },
+        ],
+      });
+      loader = spectator.inject(SharedHttpLoader);
+      http = spectator.inject(HttpTestingController);
+
+      const lang = 'en';
+      const mock = { test: 'Test in English' };
+
+      loader.getTranslation(lang).subscribe((translation: Translation) => {
+        expect(translation).toEqual(mock);
+      });
+
+      http.expectOne('custom-translation-path/en.json').flush(mock);
     });
   });
 });

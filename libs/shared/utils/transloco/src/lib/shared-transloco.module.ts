@@ -18,6 +18,7 @@ import {
   FALLBACK_LANGUAGE,
   I18N_CACHE_CHECKSUM,
   LANGUAGE_STORAGE_KEY,
+  LOADER_PATH,
 } from './injection-tokens';
 import { sharedTranslocoLoader } from './shared-transloco.loader';
 
@@ -87,7 +88,8 @@ export class SharedTranslocoModule {
     localStorageKey: string,
     appHasTranslations: boolean = true,
     enableAotFlattening: boolean,
-    cacheChecksums?: { [p: string]: string }
+    cacheChecksums?: { [p: string]: string },
+    loaderPath: string = '/assets/i18n/'
   ): ModuleWithProviders<SharedTranslocoModule> {
     return {
       ngModule: SharedTranslocoModule,
@@ -120,6 +122,10 @@ export class SharedTranslocoModule {
         {
           provide: I18N_CACHE_CHECKSUM,
           useValue: cacheChecksums,
+        },
+        {
+          provide: LOADER_PATH,
+          useValue: loaderPath,
         },
       ],
     };

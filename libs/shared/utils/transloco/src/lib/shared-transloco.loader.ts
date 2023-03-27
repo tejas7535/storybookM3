@@ -9,18 +9,19 @@ import {
   TranslocoLoader,
 } from '@ngneat/transloco';
 
-import { I18N_CACHE_CHECKSUM } from './injection-tokens';
+import { I18N_CACHE_CHECKSUM, LOADER_PATH } from './injection-tokens';
 
 @Injectable({ providedIn: 'root' })
 export class SharedHttpLoader implements TranslocoLoader {
   public constructor(
     private readonly http: HttpClient,
     @Inject(I18N_CACHE_CHECKSUM)
-    private readonly cacheChecksum: any
+    private readonly cacheChecksum: any,
+    @Inject(LOADER_PATH) private readonly loaderPath: string
   ) {}
 
   public getTranslation(langPath: string): Observable<Translation> {
-    let path = `/assets/i18n/${langPath}.json`;
+    let path = `${this.loaderPath}${langPath}.json`;
     path += this.cacheChecksum?.[langPath]
       ? `?v=${this.cacheChecksum[langPath]}`
       : '';

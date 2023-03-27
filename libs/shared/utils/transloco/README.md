@@ -13,7 +13,7 @@ import { environment } from '../environments/environment';
 .
 .
 imports: [
-    SharedTranslocoModule.forRoot(environment.production, ['de', 'en'], undefined, 'en', 'language', true)
+    SharedTranslocoModule.forRoot(environment.production, ['de', 'en'], undefined, 'en', 'language', true, true)
 ]
 ```
 
@@ -22,7 +22,16 @@ The second parameter represents the available languages in your application.
 The third parameter defines the default language. If it is `undefined` the browser language is detected within the library itself and used for translation.
 The fourth parameter represents the fallback language that is used when loading a language (e.g. the browser language) failed to load.
 The fifth parameter defines the name of the local storage item where the selected language is persisted. This should be same value you pass as `TRANSLOCO_PERSIST_LANG_STORAGE` into the `TranslocoPersistLangModule`. Can be `undefined` if the language is not persisted.
-The last parameter defines whether the app itself has translation files or not.
+The sixth parameter defines whether the app itself has translation files or not.
+The seventh parameter defines whether aot flattening should be enabled.
+
+The eighth parameter is an optional mapping of languages to checksums, which will be added to the url when loading the translation files.
+```ts // example
+{
+  en: 123456
+}
+```
+The ninth parameter is an optional string to indicate from where translation files should be loaded. (default is `/assets/i18n/`)
 
 Whenever you actually need only to import `TranslocoModule` in your submodules import `SharedTranslocoModule` instead.
 
@@ -66,7 +75,7 @@ see [transloco testing](./testing/README.md)
 #### Lint
 
 ```shell
-nx lint shared-transloco
+nx lint shared-utils-transloco
 ```
 
 #### Unit Tests
@@ -78,5 +87,5 @@ nx test shared-utils-transloco
 ### Run build
 
 ```shell
-nx run shared-ui-transloco
+nx build shared-utils-transloco
 ```
