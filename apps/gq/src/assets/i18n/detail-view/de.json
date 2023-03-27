@@ -62,7 +62,7 @@
       "dchainMaterialStatus": "VkOrg. spez. Status",
       "minimumOrderQuantity": "Min. Auftragsmenge",
       "materialClassificationSOP": "S&OP Material Klassifizierung",
-      "abcxClassification": "ABCX Klassifikation"
+      "abcxClassification": "ABCX Klassifizierung"
     },
     "productionCostDetails": {
       "title": "Produktion und Kosten",
