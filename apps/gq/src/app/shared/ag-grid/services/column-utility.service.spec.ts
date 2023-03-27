@@ -1,3 +1,5 @@
+import { Clipboard } from '@angular/cdk/clipboard';
+
 import { CalculationType } from '@gq/core/store/reducers/models';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { translate, TranslocoModule } from '@ngneat/transloco';
@@ -564,11 +566,9 @@ describe('CreateColumnService', () => {
 
   describe('getValueOfFocusedCell', () => {
     let params: GetContextMenuItemsParams;
-    Object.assign(window.navigator, {
-      clipboard: {
-        writeText: jest.fn().mockImplementation(() => Promise.resolve()),
-      },
-    });
+    const clipboardSpy = jest.spyOn(Clipboard.prototype as any, 'copy');
+    clipboardSpy.mockImplementationOnce(() => {});
+
     beforeEach(() => {
       params = {
         api: {
@@ -588,9 +588,7 @@ describe('CreateColumnService', () => {
     });
     test('should return Value ofValueFormatter', () => {
       getValueOfFocusedCell(params);
-      expect(window.navigator.clipboard.writeText).toHaveBeenCalledWith(
-        'formattedValue'
-      );
+      expect(clipboardSpy).toHaveBeenCalledWith('formattedValue');
     });
 
     test('should return Value, no Formatter', () => {
@@ -606,9 +604,7 @@ describe('CreateColumnService', () => {
         },
       } as unknown as GetContextMenuItemsParams;
       getValueOfFocusedCell(params);
-      expect(window.navigator.clipboard.writeText).toHaveBeenCalledWith(
-        'Value'
-      );
+      expect(clipboardSpy).toHaveBeenCalledWith('Value');
     });
   });
 

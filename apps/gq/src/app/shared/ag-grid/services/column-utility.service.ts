@@ -1,3 +1,4 @@
+import { Clipboard } from '@angular/cdk/clipboard';
 import { Injectable } from '@angular/core';
 
 import { CalculationType } from '@gq/core/store/reducers/models';
@@ -354,8 +355,10 @@ export function getValueOfFocusedCell(params: GetContextMenuItemsParams): void {
       })
     : params.api.getValue(focusedCell.column, row);
 
-  navigator.clipboard.writeText(result ?? '');
+  const clipboard = new Clipboard(document);
+  clipboard.copy(result ?? '');
 }
+
 export function openInNew(
   params: GetContextMenuItemsParams,
   target: openInTarget
