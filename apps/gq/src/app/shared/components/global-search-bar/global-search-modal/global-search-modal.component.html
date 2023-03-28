@@ -8,13 +8,14 @@
       type="text"
       [placeholder]="t('searchHint')"
       [formControl]="searchFormControl"
+      (keydown.enter)="selectTopItem()"
       cdkFocusInitial
     />
     <div class="px-2">
       <mat-spinner
         *ngIf="
           (autocomplete.materialNumberOrDescAutocompleteLoading$ | ngrxPush) ||
-          displayResultList === resultsDisplayType.loading
+          displayResultList === resultsDisplayType.LOADING
         "
         matSuffix
         [diameter]="18"
@@ -23,7 +24,11 @@
 
     <div class="flex items-center">
       <span
-        class="cursor-pointer text-caption text-medium-emphasis"
+        class="text-caption"
+        [ngClass]="{
+          'cursor-pointer text-medium-emphasis ': searchVal.length > 0,
+          'text-low-emphasis': searchVal.length === 0
+        }"
         (click)="clearInputField()"
       >
         {{ t('clear') }}
@@ -40,12 +45,12 @@
   <ng-container
     *ngIf="
       !(autocomplete.materialNumberOrDescAutocompleteLoading$ | ngrxPush) &&
-        displayResultList !== resultsDisplayType.loading;
+        displayResultList !== resultsDisplayType.LOADING;
       else loading
     "
   >
     <gq-global-search-results-preview-list
-      *ngIf="displayResultList === resultsDisplayType.preview"
+      *ngIf="displayResultList === resultsDisplayType.PREVIEW"
       [title]="'suggestions'"
       [idValues]="
         (autocomplete.materialNumberOrDescForGlobalSearch$ | ngrxPush).options
@@ -56,7 +61,7 @@
     ></gq-global-search-results-preview-list>
 
     <gq-global-search-results-preview-list
-      *ngIf="displayResultList === resultsDisplayType.lastResults"
+      *ngIf="displayResultList === resultsDisplayType.LAST_RESULTS"
       [title]="'lastResults'"
       [idValues]="lastSearchResultsService.lastSearchResults$ | ngrxPush"
       [searchVal]="lastSearchResultsService.lastSearchTerms$ | ngrxPush"
@@ -65,7 +70,7 @@
     ></gq-global-search-results-preview-list>
 
     <gq-global-search-results-list
-      *ngIf="displayResultList === resultsDisplayType.result"
+      *ngIf="displayResultList === resultsDisplayType.RESULT"
       [gqCases]="searchResult"
       [searchVal]="searchVal"
       (gqIdSelected)="openCase($event)"
@@ -80,13 +85,13 @@
       *ngIf="searchVal.length >= MIN_INPUT_STRING_LENGTH_FOR_AUTOCOMPLETE"
     >
       <p
-        *ngIf="displayResultList === resultsDisplayType.preview"
+        *ngIf="displayResultList === resultsDisplayType.PREVIEW"
         class="py-3 pl-4 text-overline uppercase text-medium-emphasis"
       >
         {{ t('suggestions') }}
       </p>
       <p
-        *ngIf="displayResultList !== resultsDisplayType.preview"
+        *ngIf="displayResultList !== resultsDisplayType.PREVIEW"
         class="py-3 pl-4 text-overline uppercase text-medium-emphasis"
       >
         {{ t('foundInOpenCases') }}

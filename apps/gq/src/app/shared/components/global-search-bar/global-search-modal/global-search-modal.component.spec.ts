@@ -6,6 +6,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
 import { AutoCompleteFacade } from '@gq/core/store/facades';
+import { CaseFilterItem } from '@gq/core/store/reducers/models';
+import {
+  QuotationSearchResult,
+  QuotationStatus,
+} from '@gq/shared/models/quotation';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -18,7 +23,7 @@ import { IdValue } from '../../../models/search';
 import { QuotationService } from '../../../services/rest-services/quotation-service/quotation.service';
 import { FilterNames } from '../../autocomplete-input/filter-names.enum';
 import { GlobalSearchLastResultsService } from '../global-search-last-results-service/global-search-last-results.service';
-import { GlobalSearchResultsPreviewListComponent } from '../global-search-results-preview-list/global-search-results-preview-list.component';
+import { GlobalSearchResultsListComponent } from '../global-search-results-list/global-search-results-list.component';
 import * as contextFunctions from './../../contextMenu/functions/context-menu-functions';
 import { GlobalSearchModalComponent } from './global-search-modal.component';
 import { OpenIn } from './models/open-in.enum';
@@ -68,7 +73,7 @@ describe('GlobalSearchModalComponent', () => {
     ],
     declarations: [
       GlobalSearchModalComponent,
-      GlobalSearchResultsPreviewListComponent,
+      GlobalSearchResultsListComponent,
     ],
   });
 
@@ -88,7 +93,7 @@ describe('GlobalSearchModalComponent', () => {
       component.searchFormControl.setValue('value');
       expect(component.autocomplete.resetView).toHaveBeenCalled();
       expect(component.autocomplete.initFacade).toHaveBeenCalled();
-      expect(component.displayResultList).toBe(ResultsListDisplay.lastResults);
+      expect(component.displayResultList).toBe(ResultsListDisplay.LAST_RESULTS);
     });
     test('should autocomplete', (done) => {
       component.ngOnInit();
@@ -121,9 +126,9 @@ describe('GlobalSearchModalComponent', () => {
 
       expect(true).toBeTruthy();
     });
-    test("should save in localStorage if the 'preview' list is displayed", () => {
+    test("should save in localStorage if the 'PREVIEW' list is displayed", () => {
       component.lastSearchResultsService.addLastResult = jest.fn();
-      component.displayResultList = ResultsListDisplay.preview;
+      component.displayResultList = ResultsListDisplay.PREVIEW;
       component.searchVal = '12345';
 
       const selectedMaterial: IdValue = {
@@ -142,9 +147,9 @@ describe('GlobalSearchModalComponent', () => {
       ).toHaveBeenCalledWith(selectedMaterial, '12345');
     });
 
-    test("should NOT save in localStorage if the 'lastResults' list is displayed", () => {
+    test("should NOT save in localStorage if the 'LAST_RESULTS' list is displayed", () => {
       component.lastSearchResultsService.addLastResult = jest.fn();
-      component.displayResultList = ResultsListDisplay.lastResults;
+      component.displayResultList = ResultsListDisplay.LAST_RESULTS;
       component.searchVal = '12345';
 
       const selectedMaterial: IdValue = {
@@ -178,7 +183,7 @@ describe('GlobalSearchModalComponent', () => {
 
       expect(component.searchFormControl.value).toEqual('');
       expect(component.displayResultList).toEqual(
-        ResultsListDisplay.lastResults
+        ResultsListDisplay.LAST_RESULTS
       );
     });
   });
@@ -297,6 +302,141 @@ describe('GlobalSearchModalComponent', () => {
       );
       expect(component.closeDialog).not.toHaveBeenCalled();
       expect(component.clearInputField).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('selectTopItem', () => {
+    test('should automatically select from PREVIEW list', () => {
+      const idValues = [
+        {
+          id: 'material description',
+          value: '123456789',
+        },
+      ] as IdValue[];
+
+      component.onItemSelected = jest.fn();
+      component.displayResultList = ResultsListDisplay.PREVIEW;
+      component.autocomplete.materialNumberOrDescForGlobalSearch$ = of({
+        filter: undefined,
+        options: idValues,
+      } as CaseFilterItem);
+
+      component.selectTopItem();
+
+      expect(component.onItemSelected).toHaveBeenCalledTimes(1);
+      expect(component.onItemSelected).toHaveBeenCalledWith(idValues[0]);
+    });
+
+    test('should NOT automatically select from PREVIEW list for multiple entries', () => {
+      const idValues = [
+        {
+          id: 'material description',
+          value: '123456789',
+        },
+        {
+          id: 'material description 2',
+          value: '987654321',
+        },
+      ] as IdValue[];
+
+      component.onItemSelected = jest.fn();
+      component.displayResultList = ResultsListDisplay.PREVIEW;
+      component.autocomplete.materialNumberOrDescForGlobalSearch$ = of({
+        filter: undefined,
+        options: idValues,
+      } as CaseFilterItem);
+
+      component.selectTopItem();
+
+      expect(component.onItemSelected).not.toHaveBeenCalled();
+    });
+
+    test('should automatically select from LAST_RESULTS list', () => {
+      const idValues = [
+        {
+          id: 'material description',
+          value: '123456789',
+        },
+      ] as IdValue[];
+
+      component.onItemSelected = jest.fn();
+      component.displayResultList = ResultsListDisplay.LAST_RESULTS;
+      component.lastSearchResultsService.lastSearchResults$ = of(idValues);
+
+      component.selectTopItem();
+
+      expect(component.onItemSelected).toHaveBeenCalledTimes(1);
+      expect(component.onItemSelected).toHaveBeenCalledWith(idValues[0]);
+    });
+
+    test('should NOT automatically select from LAST_RESULTS list for multiple entries', () => {
+      const idValues = [
+        {
+          id: 'material description',
+          value: '123456789',
+        },
+        {
+          id: 'material description 2',
+          value: '987654321',
+        },
+      ] as IdValue[];
+
+      component.onItemSelected = jest.fn();
+      component.displayResultList = ResultsListDisplay.LAST_RESULTS;
+      component.lastSearchResultsService.lastSearchResults$ = of(idValues);
+
+      component.selectTopItem();
+
+      expect(component.onItemSelected).not.toHaveBeenCalled();
+    });
+
+    test('should automatically select from result list', () => {
+      const searchResult = {
+        gqId: 1,
+        customerName: 'customerName',
+        customerId: 'customerId',
+        customerSalesOrg: 'customerSalesOrg',
+        currency: 'EUR',
+        materialNumber: 'materialNumber',
+        materialPrice: 2,
+        materialQuantity: 10,
+        materialGpc: 0.5,
+        materialPriceUnit: 1,
+        status: QuotationStatus.ACTIVE,
+      } as QuotationSearchResult;
+
+      component.openCase = jest.fn();
+      component.displayResultList = ResultsListDisplay.RESULT;
+      component.searchResult = [searchResult];
+
+      component.selectTopItem();
+
+      expect(component.openCase).toHaveBeenCalledTimes(1);
+      expect(component.openCase).toHaveBeenCalledWith(searchResult);
+    });
+
+    test('should NOT automatically select from result list for multiple entries', () => {
+      const searchResult = {
+        gqId: 1,
+        customerName: 'customerName',
+        customerId: 'customerId',
+        customerSalesOrg: 'customerSalesOrg',
+        currency: 'EUR',
+        materialNumber: 'materialNumber',
+        materialPrice: 2,
+        materialQuantity: 10,
+        materialGpc: 0.5,
+        materialPriceUnit: 1,
+        status: QuotationStatus.ACTIVE,
+      } as QuotationSearchResult;
+
+      component.openCase = jest.fn();
+      component.displayResultList = ResultsListDisplay.RESULT;
+      component.searchResult = [searchResult, searchResult];
+
+      component.selectTopItem();
+
+      expect(component.openCase).not.toHaveBeenCalled();
     });
   });
 });

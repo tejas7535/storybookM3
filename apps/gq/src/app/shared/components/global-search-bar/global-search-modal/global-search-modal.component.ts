@@ -3,9 +3,20 @@ import { FormControl } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Params, Router } from '@angular/router';
 
-import { debounce, EMPTY, Subject, take, takeUntil, tap, timer } from 'rxjs';
+import {
+  debounce,
+  EMPTY,
+  map,
+  Observable,
+  Subject,
+  take,
+  takeUntil,
+  tap,
+  timer,
+} from 'rxjs';
 
 import { AutoCompleteFacade } from '@gq/core/store/facades';
+import { CaseFilterItem } from '@gq/core/store/reducers/models';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { ColumnFields } from '../../../ag-grid/constants/column-fields.enum';
@@ -32,7 +43,8 @@ export class GlobalSearchModalComponent implements OnInit, OnDestroy {
   private readonly DEBOUNCE_TIME_DEFAULT = 500;
   public readonly MIN_INPUT_STRING_LENGTH_FOR_AUTOCOMPLETE = 2;
 
-  public displayResultList: ResultsListDisplay = ResultsListDisplay.lastResults;
+  public displayResultList: ResultsListDisplay =
+    ResultsListDisplay.LAST_RESULTS;
   public searchResult: QuotationSearchResult[] = [];
 
   public readonly resultsDisplayType = ResultsListDisplay;
@@ -68,7 +80,7 @@ export class GlobalSearchModalComponent implements OnInit, OnDestroy {
             this.searchVal = value;
             this.autocomplete.resetAutocompleteMaterials();
 
-            this.displayResultList = ResultsListDisplay.lastResults;
+            this.displayResultList = ResultsListDisplay.LAST_RESULTS;
           }
         }),
         debounce((value: string) =>
@@ -92,7 +104,7 @@ export class GlobalSearchModalComponent implements OnInit, OnDestroy {
           limit: 5,
         });
 
-        this.displayResultList = ResultsListDisplay.preview;
+        this.displayResultList = ResultsListDisplay.PREVIEW;
       });
   }
 
@@ -101,17 +113,55 @@ export class GlobalSearchModalComponent implements OnInit, OnDestroy {
     this.unsubscribe$.unsubscribe();
   }
 
+  selectTopItem(): void {
+    switch (this.displayResultList) {
+      case ResultsListDisplay.PREVIEW: {
+        this.selectOnlySearchResult(
+          this.autocomplete.materialNumberOrDescForGlobalSearch$.pipe(
+            map((value: CaseFilterItem) => value.options)
+          )
+        );
+
+        break;
+      }
+      case ResultsListDisplay.LAST_RESULTS: {
+        this.selectOnlySearchResult(
+          this.lastSearchResultsService.lastSearchResults$
+        );
+
+        break;
+      }
+      case ResultsListDisplay.RESULT: {
+        if (this.searchResult.length === 1) {
+          this.openCase(this.searchResult[0]);
+        }
+
+        break;
+      }
+      default:
+        return;
+    }
+  }
+
+  private selectOnlySearchResult(results: Observable<IdValue[]>): void {
+    results.pipe(take(1)).subscribe((lastSearchResults: IdValue[]) => {
+      if (lastSearchResults.length === 1) {
+        this.onItemSelected(lastSearchResults[0]);
+      }
+    });
+  }
+
   onItemSelected(idValue: IdValue) {
-    if (this.displayResultList === ResultsListDisplay.preview) {
+    if (this.displayResultList === ResultsListDisplay.PREVIEW) {
       this.lastSearchResultsService.addLastResult(idValue, this.searchVal);
     } else if (
-      this.displayResultList === ResultsListDisplay.lastResults &&
+      this.displayResultList === ResultsListDisplay.LAST_RESULTS &&
       idValue.value2
     ) {
       this.searchVal = idValue.value2;
     }
 
-    this.displayResultList = ResultsListDisplay.loading;
+    this.displayResultList = ResultsListDisplay.LOADING;
 
     this.setFilter(idValue);
 
@@ -120,7 +170,7 @@ export class GlobalSearchModalComponent implements OnInit, OnDestroy {
       .pipe(
         take(1),
         tap(() => {
-          this.displayResultList = ResultsListDisplay.result;
+          this.displayResultList = ResultsListDisplay.RESULT;
         })
       )
       .subscribe(
@@ -172,7 +222,7 @@ export class GlobalSearchModalComponent implements OnInit, OnDestroy {
 
   clearInputField() {
     this.searchFormControl.patchValue('');
-    this.displayResultList = ResultsListDisplay.lastResults;
+    this.displayResultList = ResultsListDisplay.LAST_RESULTS;
   }
 
   /**

@@ -8,44 +8,48 @@
     <p class="text-body-1 font-normal text-high-emphasis">
       GQ {{ quotationSummary.gqId }}
     </p>
-    <p class="hidden text-caption text-medium-emphasis group-hover:block">
+    <p class="hidden pl-2 text-caption text-medium-emphasis group-hover:block">
       - {{ t('openCaseHint') }}
     </p>
   </div>
-  <div class="grid w-full grid-cols-10 gap-2">
-    <div class="col-span-3 flex whitespace-nowrap text-body-2">
-      <p class="text-medium-emphasis">{{ t('customerNameLabel') }}:</p>
-      <p
-        class="ml-1 truncate"
-        matTooltipClass="whitespace-pre-line !bg-[#646464] !text-caption !text-high-emphasis-dark-bg !px-3 !py-1"
-        [matTooltip]="quotationSummary.customerName"
-        [matTooltipDisabled]="!text.isTruncated"
-        isTextTruncated
-        #text="isTextTruncated"
-      >
-        {{ quotationSummary.customerName }}
-      </p>
+  <div class="grid w-full grid-cols-2">
+    <div class="grid grid-cols-12 gap-2">
+      <div class="col-span-7 flex whitespace-nowrap text-body-2">
+        <p class="text-medium-emphasis">{{ t('customerNameLabel') }}:</p>
+        <p
+          class="ml-1 truncate"
+          matTooltipClass="whitespace-pre-line !bg-[#646464] !text-caption !text-high-emphasis-dark-bg !px-3 !py-1"
+          [matTooltip]="quotationSummary.customerName"
+          [matTooltipDisabled]="!text.isTruncated"
+          isTextTruncated
+          #text="isTextTruncated"
+        >
+          {{ quotationSummary.customerName }}
+        </p>
+      </div>
+      <div class="flex whitespace-nowrap text-body-2">
+        <p class="text-medium-emphasis">{{ t('customerNumberLabel') }}:</p>
+        <p class="ml-1">{{ quotationSummary.customerId }}</p>
+      </div>
     </div>
-    <div class="col-span-2 flex whitespace-nowrap text-body-2">
-      <p class="text-medium-emphasis">{{ t('customerNumberLabel') }}:</p>
-      <p class="ml-1">{{ quotationSummary.customerId }}</p>
-    </div>
-    <div class="col-span-2 flex whitespace-nowrap text-body-2">
-      <p class="text-medium-emphasis">{{ t('priceLabel') }}:</p>
-      <p class="ml-1">
-        {{
-          quotationSummary.materialPrice
-            | numberCurrency: quotationSummary.currency
-        }}
-      </p>
-    </div>
-    <div class="col-span-2 flex whitespace-nowrap text-body-2">
-      <p class="text-medium-emphasis">{{ t('quantityLabel') }}:</p>
-      <p class="ml-1">{{ quotationSummary.materialQuantity }}</p>
-    </div>
-    <div class="col-span-1 flex whitespace-nowrap text-body-2">
-      <p class="text-medium-emphasis">{{ t('gpiLabel') }}:</p>
-      <p class="ml-1">{{ materialGpi }}</p>
+    <div class="grid grid-cols-11 gap-2">
+      <div class="col-span-4 flex whitespace-nowrap text-body-2">
+        <p class="text-medium-emphasis">{{ t('priceLabel') }}:</p>
+        <p class="ml-1">
+          {{
+            quotationSummary.materialPrice
+              | numberCurrency: quotationSummary.currency
+          }}
+        </p>
+      </div>
+      <div class="col-span-3 flex whitespace-nowrap text-body-2">
+        <p class="text-medium-emphasis">{{ t('quantityLabel') }}:</p>
+        <p class="ml-1">{{ quotationSummary.materialQuantity }}</p>
+      </div>
+      <div class="col-span-4 flex whitespace-nowrap text-body-2">
+        <p class="text-medium-emphasis">{{ t('gpiLabel') }}:</p>
+        <p class="ml-1">{{ materialGpi }}</p>
+      </div>
     </div>
   </div>
 </div>
