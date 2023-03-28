@@ -2,27 +2,12 @@
   class="mb-6 flex h-full w-full flex-col"
   *transloco="let t; read: 'shared.caseMaterial.addEntry'"
 >
-  <div>
+  <div *ngIf="isCaseView">
     <div class="mt-6 flex items-end justify-between">
       <span class="text-h6 text-medium-emphasis">
         {{ t('addItems') }}
       </span>
-      <div class="float-right">
-        <button
-          class="!pl-4 !pr-4"
-          mat-stroked-button
-          color="primary"
-          (click)="pasteFromClipboard()"
-        >
-          <mat-icon>content_paste</mat-icon>
-          <span class="ml-4 font-medium">
-            {{ t('pasteFromClipboard') }}
-          </span>
-        </button>
-        <button class="ml-2 align-bottom" (click)="displaySnackBar()">
-          <gq-info-icon [showHelpIcon]="true"> </gq-info-icon>
-        </button>
-      </div>
+      <gq-paste-button [isCaseView]="isCaseView"></gq-paste-button>
     </div>
     <hr class="mt-6 opacity-[12%]" />
   </div>

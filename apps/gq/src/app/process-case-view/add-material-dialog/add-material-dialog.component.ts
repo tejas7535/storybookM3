@@ -11,9 +11,11 @@ import {
 } from '@gq/core/store/actions';
 import {
   getAddMaterialRowData,
+  getCustomer,
   getQuotationErrorMessage,
   getUpdateLoading,
 } from '@gq/core/store/selectors';
+import { Customer } from '@gq/shared/models/customer';
 import { Store } from '@ngrx/store';
 
 import { MaterialTableItem } from '../../shared/models/table';
@@ -27,6 +29,7 @@ export class AddMaterialDialogComponent implements OnInit, OnDestroy {
 
   rowData$: Observable<MaterialTableItem[]>;
   updateLoading$: Observable<boolean>;
+  customer$: Observable<Customer>;
 
   constructor(
     private readonly store: Store,
@@ -36,6 +39,7 @@ export class AddMaterialDialogComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.rowData$ = this.store.select(getAddMaterialRowData);
     this.updateLoading$ = this.store.select(getUpdateLoading);
+    this.customer$ = this.store.select(getCustomer);
 
     const isErrorMessage$ = this.store.select(getQuotationErrorMessage);
 

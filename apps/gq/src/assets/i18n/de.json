@@ -145,7 +145,7 @@
       "salesOrg": "VkOrg",
       "addEntry": {
         "processCase": {
-          "dialogTitle": "Neue Position hinzufügen"
+          "dialogTitle": "Neue Positionen hinzufügen"
         },
         "addItems": "Positionen hinzufügen",
         "pasteFromClipboard": "Aus der Zwischenablage einfügen",

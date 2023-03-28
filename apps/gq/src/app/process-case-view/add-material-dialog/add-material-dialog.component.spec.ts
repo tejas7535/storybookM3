@@ -10,6 +10,7 @@ import {
   clearProcessCaseRowData,
   resetAllAutocompleteOptions,
 } from '@gq/core/store/actions';
+import { AddEntryModule } from '@gq/shared/components/case-material/add-entry/add-entry.module';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
@@ -21,7 +22,6 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CREATE_CASE_STORE_STATE_MOCK } from '../../../testing/mocks';
 import { AutocompleteInputModule } from '../../shared/components/autocomplete-input/autocomplete-input.module';
-import { AddEntryModule } from '../../shared/components/case-material/add-entry/add-entry.module';
 import { InputTableModule } from '../../shared/components/case-material/input-table/input-table.module';
 import { AddMaterialDialogComponent } from './add-material-dialog.component';
 
@@ -42,7 +42,6 @@ describe('AddMaterialDialogComponent', () => {
     component: AddMaterialDialogComponent,
     declarations: [AddMaterialDialogComponent],
     imports: [
-      AddEntryModule,
       InputTableModule,
       AgGridModule,
       AutocompleteInputModule,
@@ -53,6 +52,7 @@ describe('AddMaterialDialogComponent', () => {
       PushModule,
       provideTranslocoTestingModule({ en: {} }),
       MatSnackBarModule,
+      AddEntryModule,
     ],
     providers: [
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },

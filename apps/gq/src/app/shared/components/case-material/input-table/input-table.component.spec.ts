@@ -1,5 +1,6 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -35,6 +36,7 @@ describe('InputTableComponent', () => {
       PushModule,
       provideTranslocoTestingModule({ en: {} }),
       ColumnHeadersModule,
+      MatSnackBarModule,
     ],
     providers: [
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },

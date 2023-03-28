@@ -1,0 +1,19 @@
+<div
+  *transloco="let t; read: 'shared.caseMaterial.addEntry'"
+  [ngClass]="{ '!mt-4 !ml-4': !isCaseView }"
+>
+  <button
+    class="!pl-4 !pr-4"
+    mat-stroked-button
+    color="primary"
+    (click)="pasteFromClipboard()"
+  >
+    <mat-icon>content_paste</mat-icon>
+    <span class="ml-4 font-medium">
+      {{ t('pasteFromClipboard') }}
+    </span>
+  </button>
+  <button class="ml-2 align-middle" (click)="displaySnackBar()">
+    <gq-info-icon [showHelpIcon]="true"></gq-info-icon>
+  </button>
+</div>

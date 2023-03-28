@@ -1,13 +1,21 @@
 <div
   class="flex h-full flex-col"
-  *transloco="let t; read: 'shared.caseMaterial.addEntry.processCase'"
+  *transloco="let t; read: 'shared.caseMaterial'"
 >
-  <h2 mat-dialog-title>
-    {{ t('dialogTitle') }}
+  <h6 class="!mb-2">
+    {{ t('addEntry.processCase.dialogTitle') }}
     <mat-icon class="float-right cursor-pointer" (click)="closeDialog()"
       >close</mat-icon
     >
-  </h2>
+  </h6>
+  <div
+    class="text-caption text-medium-emphasis"
+    *ngIf="customer$ | ngrxPush as customer"
+  >
+    <span>{{ customer.name }}</span>
+    <span class="mx-2 opacity-[0.12]"> | </span>
+    <span>{{ t('salesOrg') }} {{ customer.identifier.salesOrg }}</span>
+  </div>
   <div
     class="flex h-full flex-col"
     *ngIf="!(updateLoading$ | ngrxPush); else loading"

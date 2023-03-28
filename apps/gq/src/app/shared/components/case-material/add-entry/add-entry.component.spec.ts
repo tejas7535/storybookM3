@@ -4,9 +4,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { addMaterialRowDataItem } from '@gq/core/store/actions';
+import { PasteButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/paste-button/paste-button.component';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -20,14 +21,12 @@ import {
 } from '../../../models/table';
 import { HelperService } from '../../../services/helper-service/helper-service.service';
 import { AutocompleteInputModule } from '../../autocomplete-input/autocomplete-input.module';
-import { InfoIconModule } from '../../info-icon/info-icon.module';
 import { AddEntryComponent } from './add-entry.component';
 
 describe('AddEntryComponent', () => {
   let component: AddEntryComponent;
   let mockStore: MockStore;
   let spectator: Spectator<AddEntryComponent>;
-  let matSnackBar: MatSnackBar;
 
   const createComponent = createComponentFactory({
     component: AddEntryComponent,
@@ -37,11 +36,11 @@ describe('AddEntryComponent', () => {
       MatButtonModule,
       MatCardModule,
       MatIconModule,
-      InfoIconModule,
       provideTranslocoTestingModule({ en: {} }),
       ReactiveFormsModule,
       PushModule,
       MatSnackBarModule,
+      PasteButtonComponent,
     ],
     providers: [
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
@@ -57,7 +56,6 @@ describe('AddEntryComponent', () => {
     spectator = createComponent();
     component = spectator.component;
     mockStore = spectator.inject(MockStore);
-    matSnackBar = spectator.inject(MatSnackBar);
   });
 
   test('should create', () => {
@@ -200,30 +198,6 @@ describe('AddEntryComponent', () => {
       component.materialNumberInput = false;
       component.materialHasInput(true);
       expect(component.materialNumberInput).toBeTruthy();
-    });
-  });
-  describe('pasteFromClipboard', () => {
-    test('should call paste from clipboard', () => {
-      component['pasteMaterialsService'].onPasteStart = jest.fn();
-
-      component.pasteFromClipboard();
-
-      expect(
-        component['pasteMaterialsService'].onPasteStart
-      ).toHaveBeenCalledWith(component.isCaseView);
-    });
-  });
-  describe('displaySnackBar', () => {
-    test('show info message with action link', () => {
-      matSnackBar.open = jest.fn();
-
-      component.displaySnackBar();
-
-      expect(matSnackBar.open).toHaveBeenCalledWith(
-        'translate it',
-        'translate it',
-        { duration: 5000 }
-      );
     });
   });
 });

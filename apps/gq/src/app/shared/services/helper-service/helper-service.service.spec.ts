@@ -1,4 +1,5 @@
 import { PLsAndSeries } from '@gq/core/store/reducers/models';
+import { PasteButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/paste-button/paste-button.component';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 import {
@@ -16,7 +17,6 @@ import { CreateCaseActionHeaderComponent } from '../../ag-grid/cell-renderer/act
 import { ProcessCaseActionCellComponent } from '../../ag-grid/cell-renderer/action-cells/process-case-action-cell/process-case-action-cell.component';
 import { ProcessCaseActionHeaderComponent } from '../../ag-grid/cell-renderer/action-cells/process-case-action-header/process-case-action-header.component';
 import { AddMaterialButtonComponent } from '../../ag-grid/custom-status-bar/case-material-table/add-material-button/add-material-button.component';
-import { CancelCaseButtonComponent } from '../../ag-grid/custom-status-bar/case-material-table/cancel-case-button/cancel-case-button.component';
 import { CreateCaseButtonComponent } from '../../ag-grid/custom-status-bar/case-material-table/create-case-button/create-case-button.component';
 import { CreateCaseResetAllButtonComponent } from '../../ag-grid/custom-status-bar/case-material-table/create-case-reset-all-button/create-case-reset-all-button.component';
 import { ProcessCaseResetAllButtonComponent } from '../../ag-grid/custom-status-bar/case-material-table/process-case-reset-all-button/process-case-reset-all-button.component';
@@ -403,10 +403,6 @@ describe('HelperServiceService', () => {
             align: 'left',
           },
           {
-            statusPanel: CancelCaseButtonComponent,
-            align: 'left',
-          },
-          {
             statusPanel: CreateCaseResetAllButtonComponent,
             align: 'right',
           },
@@ -425,12 +421,12 @@ describe('HelperServiceService', () => {
             align: 'left',
           },
           {
-            statusPanel: CancelCaseButtonComponent,
-            align: 'left',
-          },
-          {
             statusPanel: ProcessCaseResetAllButtonComponent,
             align: 'right',
+          },
+          {
+            statusPanel: PasteButtonComponent,
+            align: 'left',
           },
         ],
       };

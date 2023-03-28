@@ -13,7 +13,6 @@ import { SharedDirectivesModule } from '../../directives/shared-directives.modul
 import { SharedPipesModule } from '../../pipes/shared-pipes.module';
 import { AddItemsButtonComponent } from './add-items-button/add-items-button.component';
 import { AddMaterialButtonComponent } from './case-material-table/add-material-button/add-material-button.component';
-import { CancelCaseButtonComponent } from './case-material-table/cancel-case-button/cancel-case-button.component';
 import { CreateCaseButtonComponent } from './case-material-table/create-case-button/create-case-button.component';
 import { CreateCaseResetAllButtonComponent } from './case-material-table/create-case-reset-all-button/create-case-reset-all-button.component';
 import { ProcessCaseResetAllButtonComponent } from './case-material-table/process-case-reset-all-button/process-case-reset-all-button.component';
@@ -53,7 +52,6 @@ import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-b
     ConfirmSimulationButtonComponent,
     DiscardSimulationButtonComponent,
     UploadQuoteToSapButtonComponent,
-    CancelCaseButtonComponent,
   ],
   imports: [
     CommonModule,
