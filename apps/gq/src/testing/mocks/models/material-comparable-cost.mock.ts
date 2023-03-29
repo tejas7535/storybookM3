@@ -6,4 +6,6 @@ export const MATERIAL_COMPARABLE_COST_MOCK: MaterialComparableCost = {
   country: 'DE',
   sqv: 1,
   gpc: 2,
+  sqvPriceUnit: 1,
+  gpcPriceUnit: 1,
 };

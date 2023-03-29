@@ -14,6 +14,7 @@ import { MaterialComparableCost } from '../../../../shared/models/quotation-deta
 export class MaterialComparableCostDetailsComponent implements OnInit {
   materialComparableCosts$: Observable<MaterialComparableCost[]>;
   @Input() currency: string;
+  @Input() sapPriceUnit: number;
 
   trackByFn(index: number): number {
     return index;

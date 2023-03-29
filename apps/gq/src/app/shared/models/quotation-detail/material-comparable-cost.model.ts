@@ -4,4 +4,6 @@ export class MaterialComparableCost {
   country: string;
   sqv: number;
   gpc: number;
+  gpcPriceUnit: number;
+  sqvPriceUnit: number;
 }

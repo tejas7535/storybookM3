@@ -8,13 +8,13 @@ import { MaterialInfoPipe } from './material-info/material-info.pipe';
 import { MaterialTransformPipe } from './material-transform/material-transform.pipe';
 import { MillimeterUnitPipe } from './millimeter-unit/millimeter-unit.pipe';
 import { MultiSelectPipe } from './multi-select/multi-select.pipe';
+import { MultiplyComparableCostWithPriceUnitPipe } from './multiply-with-price-unit/multiply-comparable-cost-with-price-unit.pipe';
 import { NullableStringPipe } from './nullable-string/nullable-string.pipe';
 import { NumberCurrencyPipe } from './number-currency/number-currency.pipe';
 import { PercentagePipe } from './percentage/percentage.pipe';
 import { PlantDisplayPipe } from './plant-display/plant-display.pipe';
 import { SapQuotationPipe } from './sap-quotation/sap-quotation.pipe';
 import { UomPipe } from './uom/uom.pipe';
-
 @NgModule({
   declarations: [
     GqQuotationPipe,
@@ -31,6 +31,7 @@ import { UomPipe } from './uom/uom.pipe';
     MaterialClassificationSOPPipe,
     UomPipe,
     IsDashOrEmptyStringPipe,
+    MultiplyComparableCostWithPriceUnitPipe,
   ],
   imports: [],
   exports: [
@@ -48,6 +49,7 @@ import { UomPipe } from './uom/uom.pipe';
     DateDisplayPipe,
     MaterialClassificationSOPPipe,
     IsDashOrEmptyStringPipe,
+    MultiplyComparableCostWithPriceUnitPipe,
   ],
   providers: [MaterialTransformPipe],
 })
