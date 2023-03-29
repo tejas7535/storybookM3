@@ -65,6 +65,30 @@ describe('PriceService', () => {
     });
   });
 
+  describe('calculatePriceUnitValues', () => {
+    test('should convert sapPrice', () => {
+      const detail = QUOTATION_DETAIL_MOCK;
+      detail.sapPrice = 500;
+      detail.sapPriceUnit = 100;
+      detail.material.priceUnit = 10;
+
+      PriceService.calculatePriceUnitValues(detail);
+
+      expect(detail.sapPrice).toEqual(5000);
+    });
+
+    test('should convert sapGrossPrice', () => {
+      const detail = QUOTATION_DETAIL_MOCK;
+      detail.sapGrossPrice = 500;
+      detail.sapPriceUnit = 100;
+      detail.material.priceUnit = 10;
+
+      PriceService.calculatePriceUnitValues(detail);
+
+      expect(detail.sapGrossPrice).toEqual(5000);
+    });
+  });
+
   // eslint-disable-next-line unicorn/no-null
   ['asd', undefined, null].forEach((val) => {
     test(`should not round invalid value ${val}`, () => {

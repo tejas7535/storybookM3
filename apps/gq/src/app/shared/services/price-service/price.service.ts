@@ -59,9 +59,9 @@ export class PriceService {
       detail.orderQuantity
     );
     detail.priceDiff = PriceService.calculatepriceDiff(detail);
-    detail.discount = PriceService.calculateDiscount(detail.price, detail);
     // calculate priceUnit dependent values
     PriceService.calculatePriceUnitValues(detail);
+    detail.discount = PriceService.calculateDiscount(detail.price, detail);
 
     detail.gpi = PriceService.calculateMargin(detail.price, detail.gpc);
     detail.lastCustomerPriceGpi = PriceService.calculateMargin(
@@ -104,6 +104,16 @@ export class PriceService {
       detail.strategicPrice,
       priceUnit
     );
+    if (detail.sapPriceUnit) {
+      detail.sapPrice = PriceService.multiplyAndRoundValues(
+        detail.sapPrice / detail.material.priceUnit,
+        detail.sapPriceUnit
+      );
+      detail.sapGrossPrice = PriceService.multiplyAndRoundValues(
+        detail.sapGrossPrice / detail.material.priceUnit,
+        detail.sapPriceUnit
+      );
+    }
   }
 
   static multiplyAndRoundValues(value1: number, value2: number): number {
@@ -145,10 +155,8 @@ export class PriceService {
   }
 
   static calculateDiscount(price: number, detail: QuotationDetail): number {
-    const priceUnit = this.getPriceUnit(detail);
-
-    if (priceUnit && price && detail.sapGrossPrice) {
-      const discount = 1 - (price * priceUnit) / detail.sapGrossPrice;
+    if (price && detail.sapGrossPrice) {
+      const discount = 1 - price / detail.sapGrossPrice;
 
       return PriceService.roundPercentageToTwoDecimals(discount);
     }
