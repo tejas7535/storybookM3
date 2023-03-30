@@ -15,16 +15,21 @@ import { take, takeUntil } from 'rxjs/operators';
 
 import { translate } from '@ngneat/transloco';
 import {
+  ColDef,
   ColumnApi,
   ColumnState,
+  ExcelCell,
   ExcelRow,
+  GridApi,
+  IServerSideDatasource,
+  IServerSideGetRowsParams,
   ProcessCellForExportParams,
   ProcessRowGroupForExportParams,
   RowClassParams,
   RowNode,
+  SideBarDef,
   ValueGetterParams,
-} from 'ag-grid-community';
-import { ColDef, ExcelCell, GridApi, SideBarDef } from 'ag-grid-enterprise';
+} from 'ag-grid-enterprise';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { StringOption } from '@schaeffler/inputs';
@@ -49,7 +54,7 @@ import {
   RELEASE_DATE_VALUE_GETTER,
   STATUS_VALUE_GETTER,
 } from '@mac/msd/main-table/table-config/helpers';
-import { DataResult } from '@mac/msd/models';
+import { DataResult, SAPMaterial } from '@mac/msd/models';
 import {
   MsdAgGridConfigService,
   MsdAgGridReadyService,
@@ -88,6 +93,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   public resultLoading$ = this.dataFacade.resultLoading$;
   public result$ = this.dataFacade.result$;
   public resultCount$ = this.dataFacade.resultCount$;
+  public sapMaterialsRows$ = this.dataFacade.sapMaterialsRows$;
 
   public hasEditorRole$ = this.dataFacade.hasEditorRole$;
 
@@ -122,6 +128,8 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   ]);
 
   public agGridTooltipDelay = 500;
+
+  public serverSideRowData!: SAPMaterial[];
 
   public constructor(
     private readonly dataFacade: DataFacade,
@@ -205,7 +213,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       );
     }
     if (agGridFilterString) {
-      this.setParamAgGridFilter(decodeURIComponent(agGridFilterString));
+      this.setParamAgGridFilter(agGridFilterString);
     }
 
     this.router.navigate([], { relativeTo: this.route, queryParams: {} });
@@ -246,13 +254,16 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     this.dataFacade.dispatch(fetchResult());
   }
 
-  public onGridReady({
-    api,
-    columnApi,
-  }: {
-    api: GridApi;
-    columnApi: ColumnApi;
-  }): void {
+  public onGridReady(
+    {
+      api,
+      columnApi,
+    }: {
+      api: GridApi;
+      columnApi: ColumnApi;
+    },
+    serverSide = false
+  ): void {
     this.agGridApi = api;
     this.agGridColumnApi = columnApi;
 
@@ -269,6 +280,12 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
         state: this.restoredColumnState,
         applyOrder: true,
       });
+    }
+    if (serverSide) {
+      const datasource = this.createServerSideDataSource(
+        this.agGridReadyService
+      );
+      api.setServerSideDatasource(datasource);
     }
   }
 
@@ -532,5 +549,22 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
           this.dataFacade.dispatch(materialDialogCanceled());
         }
       });
+  }
+
+  public createServerSideDataSource(
+    service: MsdAgGridReadyService
+  ): IServerSideDatasource {
+    return {
+      getRows: (params: IServerSideGetRowsParams<SAPMaterial>): void => {
+        service.setParams(params);
+      },
+      destroy: () => {
+        service.unsetParams();
+      },
+    } as IServerSideDatasource;
+  }
+
+  public refreshServerSide(): void {
+    this.agGridApi?.refreshServerSide();
   }
 }

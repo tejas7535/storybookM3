@@ -1,6 +1,6 @@
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { of, throwError } from 'rxjs';
+import { delay, of, throwError } from 'rxjs';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions } from '@ngrx/effects';
@@ -15,6 +15,8 @@ import {
   Material,
   MaterialStandard,
   MaterialStandardTableValue,
+  SAPMaterialsRequest,
+  SAPMaterialsResponse,
 } from '@mac/msd/models';
 import { MsdDataService } from '@mac/msd/services';
 import {
@@ -37,6 +39,9 @@ import {
   fetchMaterialStandardsFailure,
   fetchMaterialStandardsSuccess,
   fetchResult,
+  fetchSAPMaterials,
+  fetchSAPMaterialsFailure,
+  fetchSAPMaterialsSuccess,
   openSnackBar,
   setAgGridFilter,
   setAgGridFilterForNavigation,
@@ -99,13 +104,18 @@ describe('Data Effects', () => {
       [NavigationLevel.MATERIAL, fetchMaterials],
       [NavigationLevel.SUPPLIER, fetchManufacturerSuppliers],
       [NavigationLevel.STANDARD, fetchMaterialStandards],
+      [NavigationLevel.MATERIAL, undefined, MaterialClass.SAP_MATERIAL],
       [undefined, undefined],
     ])(
       'should dispatch the correct action for the navigationLevel',
-      (navigationLevel, result) =>
+      (
+        navigationLevel,
+        result,
+        materialClass: MaterialClass = MaterialClass.STEEL
+      ) =>
         marbles((m) => {
           msdDataFacade.navigation$ = of({
-            materialClass: MaterialClass.STEEL,
+            materialClass,
             navigationLevel,
           });
 
@@ -179,6 +189,102 @@ describe('Data Effects', () => {
         expect(msdDataService.getMaterials).toHaveBeenCalledWith(
           MaterialClass.STEEL
         );
+      })
+    );
+    it(
+      'should fetch sap materials and return success action on success',
+      marbles((m) => {
+        msdDataFacade.navigation$ = of({
+          materialClass: MaterialClass.SAP_MATERIAL,
+          navigationLevel: NavigationLevel.MATERIAL,
+        });
+
+        action = fetchSAPMaterials({
+          request: { startRow: 0 } as SAPMaterialsRequest,
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        const resultMock: SAPMaterialsResponse = {
+          data: [],
+          lastRow: -1,
+          totalRows: 300,
+          subTotalRows: 100,
+        };
+        const response = m.cold('-a|', { a: resultMock });
+        msdDataService.fetchSAPMaterials = jest.fn(() => response);
+
+        const result = fetchSAPMaterialsSuccess({ ...resultMock, startRow: 0 });
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.fetchMaterials$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.fetchSAPMaterials).toHaveBeenCalledWith({
+          startRow: 0,
+        } as SAPMaterialsRequest);
+      })
+    );
+
+    it(
+      'should fetch sap materials and return failure action on failure',
+      marbles((m) => {
+        msdDataFacade.navigation$ = of({
+          materialClass: MaterialClass.SAP_MATERIAL,
+          navigationLevel: NavigationLevel.MATERIAL,
+        });
+
+        action = fetchSAPMaterials({
+          request: { startRow: 0 } as SAPMaterialsRequest,
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataService.fetchSAPMaterials = jest
+          .fn()
+          .mockReturnValue(throwError(() => new Error('error')));
+
+        const result = fetchSAPMaterialsFailure({ startRow: 0 });
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.fetchMaterials$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.fetchSAPMaterials).toHaveBeenCalledWith({
+          startRow: 0,
+        } as SAPMaterialsRequest);
+      })
+    );
+
+    it(
+      'should fetch sap materials and return failure action on timeout',
+      marbles((m) => {
+        msdDataFacade.navigation$ = of({
+          materialClass: MaterialClass.SAP_MATERIAL,
+          navigationLevel: NavigationLevel.MATERIAL,
+        });
+
+        action = fetchSAPMaterials({
+          request: { startRow: 0 } as SAPMaterialsRequest,
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        // jest.useFakeTimers();
+
+        msdDataService.fetchSAPMaterials = jest.fn(
+          // jest.advanceTimersByTime(5000);
+          () => of({} as SAPMaterialsResponse).pipe(delay(5000))
+        );
+
+        const result = fetchSAPMaterialsFailure({ startRow: 0 });
+        const expected = m.cold('3001ms (-b)', { b: result });
+
+        m.expect(effects.fetchMaterials$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.fetchSAPMaterials).toHaveBeenCalledWith({
+          startRow: 0,
+        } as SAPMaterialsRequest);
+
+        // jest.useRealTimers();
       })
     );
   });

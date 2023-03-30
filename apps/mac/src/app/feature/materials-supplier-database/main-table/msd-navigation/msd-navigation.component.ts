@@ -52,4 +52,8 @@ export class MsdNavigationComponent implements OnInit {
   public toggleSideBar() {
     this.minimized = !this.minimized;
   }
+
+  public hasNavigationLevels(materialClass: MaterialClass): boolean {
+    return materialClass !== MaterialClass.SAP_MATERIAL;
+  }
 }

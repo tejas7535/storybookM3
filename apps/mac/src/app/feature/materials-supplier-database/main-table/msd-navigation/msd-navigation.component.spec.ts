@@ -94,4 +94,17 @@ describe('MsdNavigationComponent', () => {
       expect(component.minimized).toBe(true);
     });
   });
+
+  describe('hasNavigationLevels', () => {
+    it('should return true if class is not sap', () => {
+      const result = component.hasNavigationLevels(MaterialClass.STEEL);
+
+      expect(result).toBe(true);
+    });
+    it('should return false if class is sap', () => {
+      const result = component.hasNavigationLevels(MaterialClass.SAP_MATERIAL);
+
+      expect(result).toBe(false);
+    });
+  });
 });

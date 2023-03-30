@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 
-import { catchError, map, of, switchMap, tap } from 'rxjs';
+import { catchError, map, of, switchMap, tap, timeout } from 'rxjs';
 
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { TypedAction } from '@ngrx/store/src/models';
 
 import {
   MaterialClass,
@@ -13,6 +14,8 @@ import {
   ManufacturerSupplierTableValue,
   Material,
   MaterialStandardTableValue,
+  SAPMaterialsRequest,
+  SAPMaterialsResponse,
 } from '@mac/msd/models';
 import { MsdDataService } from '@mac/msd/services/msd-data';
 import { MsdSnackbarService } from '@mac/msd/services/msd-snackbar';
@@ -34,7 +37,10 @@ export class DataEffects {
     return this.actions$.pipe(
       ofType(DataActions.fetchResult),
       concatLatestFrom(() => this.dataFacade.navigation$),
-      switchMap(([_action, { navigationLevel }]) => {
+      switchMap(([_action, { navigationLevel, materialClass }]) => {
+        if (materialClass === MaterialClass.SAP_MATERIAL) {
+          return [];
+        }
         switch (navigationLevel) {
           case NavigationLevel.MATERIAL:
             return [DataActions.fetchMaterials()];
@@ -51,22 +57,45 @@ export class DataEffects {
 
   public fetchMaterials$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(DataActions.fetchMaterials),
+      ofType(DataActions.fetchMaterials, DataActions.fetchSAPMaterials),
       concatLatestFrom(() => this.dataFacade.navigation$),
-      switchMap(([_action, { materialClass }]) =>
-        this.msdDataService.getMaterials(materialClass).pipe(
-          map((result: DataResult[] | Material[]) =>
-            DataActions.fetchMaterialsSuccess({
-              materialClass,
-              result,
+      switchMap(([action, { materialClass }]) => {
+        if (materialClass !== MaterialClass.SAP_MATERIAL) {
+          return this.msdDataService.getMaterials(materialClass).pipe(
+            map((result: DataResult[] | Material[]) =>
+              DataActions.fetchMaterialsSuccess({
+                materialClass,
+                result,
+              })
+            ),
+            catchError(() =>
+              // TODO: implement proper error handling
+              of(DataActions.fetchMaterialsFailure())
+            )
+          );
+        }
+
+        const sapAction = action as {
+          request: SAPMaterialsRequest;
+        } & TypedAction<'[MSD - Data] Fetch SAP Materials'>;
+
+        return this.msdDataService.fetchSAPMaterials(sapAction.request).pipe(
+          timeout(3000),
+          map((result: SAPMaterialsResponse) =>
+            DataActions.fetchSAPMaterialsSuccess({
+              ...result,
+              startRow: sapAction.request.startRow,
             })
           ),
           catchError(() =>
-            // TODO: implement proper error handling
-            of(DataActions.fetchMaterialsFailure())
+            of(
+              DataActions.fetchSAPMaterialsFailure({
+                startRow: sapAction.request.startRow,
+              })
+            )
           )
-        )
-      )
+        );
+      })
     );
   });
 

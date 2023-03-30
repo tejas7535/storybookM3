@@ -17,30 +17,64 @@
 
       <div class="flex w-full flex-1">
         <div class="h-full w-full">
-          <ag-grid-angular
-            class="ag-theme-material h-full border border-border"
-            [masterDetail]="true"
-            [detailCellRenderer]="detailCellRenderer"
-            [detailRowAutoHeight]="true"
-            [suppressCellFocus]="true"
-            [columnDefs]="columnDefs"
-            [defaultColDef]="defaultColDef"
-            [sideBar]="sidebar"
-            [enableCellTextSelection]="true"
-            [rowData]="result$ | ngrxPush"
-            [tooltipShowDelay]="agGridTooltipDelay"
-            (gridReady)="onGridReady($event)"
-            (filterChanged)="onFilterChange($event)"
-            (firstDataRendered)="setAgGridFilter($event)"
-            [rowClass]="['!border-l-0', '!border-t-0']"
-            [rowClassRules]="{
-              '!bg-opacity-5 !bg-error': isBlockedRow,
-              '!bg-opacity-5 !bg-nordic-blue': isRecentlyChangedRow
-            }"
-            (columnVisible)="onColumnChange($event)"
-            (columnMoved)="onColumnChange($event)"
-            (sortChanged)="onColumnChange($event)"
-          ></ag-grid-angular>
+          <ng-container
+            *ngIf="navigation.materialClass !== 'sap'; else serverSideGrid"
+          >
+            <ag-grid-angular
+              class="ag-theme-material h-full border border-border"
+              [masterDetail]="true"
+              [detailCellRenderer]="detailCellRenderer"
+              [detailRowAutoHeight]="true"
+              [suppressCellFocus]="true"
+              [columnDefs]="columnDefs"
+              [defaultColDef]="defaultColDef"
+              [sideBar]="sidebar"
+              [enableCellTextSelection]="true"
+              [rowData]="result$ | ngrxPush"
+              [tooltipShowDelay]="agGridTooltipDelay"
+              (gridReady)="onGridReady($event)"
+              (filterChanged)="onFilterChange($event)"
+              (firstDataRendered)="setAgGridFilter($event)"
+              [rowClass]="['!border-l-0', '!border-t-0']"
+              [rowClassRules]="{
+                '!bg-opacity-5 !bg-error': isBlockedRow,
+                '!bg-opacity-5 !bg-nordic-blue': isRecentlyChangedRow
+              }"
+              (columnVisible)="onColumnChange($event)"
+              (columnMoved)="onColumnChange($event)"
+              (sortChanged)="onColumnChange($event)"
+            ></ag-grid-angular>
+          </ng-container>
+          <ng-template #serverSideGrid>
+            <ag-grid-angular
+              class="ag-theme-material h-full border border-border"
+              rowModelType="serverSide"
+              [columnDefs]="columnDefs"
+              [defaultColDef]="defaultColDef"
+              [serverSideInfiniteScroll]="true"
+              [serverSideFilterOnServer]="true"
+              [serverSideSortOnServer]="true"
+              [suppressCellFocus]="true"
+              [sideBar]="sidebar"
+              [rowData]="serverSideRowData"
+              [enableCellTextSelection]="true"
+              [tooltipShowDelay]="agGridTooltipDelay"
+              [rowClass]="['!border-l-0', '!border-t-0']"
+              [rowClassRules]="{
+                '!bg-opacity-5 !bg-error': isBlockedRow,
+                '!bg-opacity-5 !bg-nordic-blue': isRecentlyChangedRow
+              }"
+              [cacheBlockSize]="100"
+              [maxBlocksInCache]="4"
+              [blockLoadDebounceMillis]="500"
+              [maxConcurrentDatasourceRequests]="1"
+              (gridReady)="onGridReady($event, true)"
+              (filterChanged)="onFilterChange($event)"
+              (columnVisible)="onColumnChange($event)"
+              (columnMoved)="onColumnChange($event)"
+              (sortChanged)="onColumnChange($event)"
+            ></ag-grid-angular>
+          </ng-template>
         </div>
       </div>
     </ng-container>
@@ -75,7 +109,12 @@
         </button>
       </ng-template>
 
-      <button mat-button color="primary" (click)="exportExcel()">
+      <button
+        mat-button
+        color="primary"
+        (click)="exportExcel()"
+        [disabled]="navigation.materialClass === 'sap'"
+      >
         <mat-icon class="material-icons-outlined">download</mat-icon>
         <span>{{ t('export') }}</span>
       </button>
@@ -88,7 +127,10 @@
         <mat-icon class="material-icons-outlined">sync</mat-icon>
         <span>{{ t('resetTable') }}</span>
       </button>
-      <div class="flex flex-grow flex-row items-center justify-start gap-4">
+      <div
+        class="flex flex-grow flex-row items-center justify-start gap-4"
+        *ngrxLet="sapMaterialsRows$ as sapMaterialsRows"
+      >
         <div class="flex flex-col">
           <div class="text-caption text-low-emphasis">
             {{
@@ -98,17 +140,33 @@
             }}
           </div>
           <div class="text-caption text-high-emphasis">
-            {{ resultCount$ | ngrxPush }}
+            {{
+              (navigation.materialClass !== 'sap'
+                ? (resultCount$ | ngrxPush)
+                : sapMaterialsRows?.totalRows) || 0
+            }}
           </div>
         </div>
         <div class="flex flex-col">
           <div class="text-caption text-low-emphasis">{{ t('subtotal') }}</div>
           <div class="text-caption text-high-emphasis">
-            {{ agGridApi?.getDisplayedRowCount() || 0 }}
+            {{
+              (navigation.materialClass !== 'sap'
+                ? agGridApi?.getDisplayedRowCount()
+                : sapMaterialsRows?.subTotalRows) || 0
+            }}
           </div>
         </div>
       </div>
-      <button mat-button color="primary" (click)="fetchResult()">
+      <button
+        mat-button
+        color="primary"
+        (click)="
+          navigation.materialClass !== 'sap'
+            ? fetchResult()
+            : refreshServerSide()
+        "
+      >
         <mat-icon class="material-icons-outlined">refresh</mat-icon>
         <span>{{ t('reload') }}</span>
       </button>

@@ -1,13 +1,116 @@
 <ng-container *transloco="let t; read: 'materialsSupplierDatabase'">
   <div class="flex h-full flex-col items-start justify-start">
-    <ng-container *ngIf="!(hasEditorRole$ | ngrxPush); else editorView">
-      <!-- default view for non-editors -->
+    <ng-container>
       <mat-nav-list class="!pt-0" *ngrxLet="navigation$ as navigation">
+        <ng-container
+          *ngTemplateOutlet="
+            (hasEditorRole$ | ngrxPush) ? editorView : consumerView;
+            context: { navigation: navigation }
+          "
+        ></ng-container>
+      </mat-nav-list>
+      <!-- EDITOR VIEW -->
+      <ng-template #editorView let-navigation="navigation">
+        <mat-accordion
+          multi
+          [ngClass]="{
+            'max-w-0 opacity-0': minimized,
+            'max-w-xl opacity-100': !minimized
+          }"
+          class="transition-all duration-1000"
+          *ngrxLet="navigation$ as navigation"
+        >
+          <ng-container
+            *ngFor="let materialClass of materialClasses$ | ngrxPush"
+          >
+            <ng-container *ngIf="hasNavigationLevels(materialClass)">
+              <mat-expansion-panel
+                class="!m-0 !rounded-none border-none"
+                [expanded]="materialClass === expandMaterialClass"
+                hideToggle
+                #expansionPanel
+              >
+                <mat-expansion-panel-header
+                  class="flex !h-12 flex-row justify-between !pl-4 !pr-2"
+                >
+                  <mat-panel-title class="text-body-2 text-high-emphasis">
+                    {{ t('materialClassValuesNavigation.' + materialClass) }}
+                  </mat-panel-title>
+                  <mat-icon
+                    class="text-medium-emphasis transition-all duration-200"
+                    [ngClass]="{
+                      '-rotate-90': expansionPanel.expanded,
+                      'rotate-0': !expansionPanel.expanded
+                    }"
+                    >chevron_left</mat-icon
+                  >
+                </mat-expansion-panel-header>
+                <ng-container *ngFor="let navigationLevel of navigationLevels"
+                  ><ng-container
+                    *ngTemplateOutlet="
+                      navigationLevelItem;
+                      context: {
+                        materialClass: materialClass,
+                        navigationLevel: navigationLevel,
+                        navigation: navigation
+                      }
+                    "
+                  >
+                  </ng-container
+                ></ng-container>
+              </mat-expansion-panel>
+            </ng-container>
+          </ng-container>
+        </mat-accordion>
+        <ng-container
+          *ngTemplateOutlet="
+            plainItem;
+            context: { materialClass: 'sap', navigation: navigation }
+          "
+        ></ng-container>
+      </ng-template>
+      <!-- CONSUMER VIEW -->
+      <ng-template #consumerView let-navigation="navigation">
+        <ng-container *ngFor="let materialClass of materialClasses$ | ngrxPush">
+          <ng-container
+            *ngTemplateOutlet="
+              plainItem;
+              context: { materialClass: materialClass, navigation: navigation }
+            "
+          ></ng-container>
+        </ng-container>
+      </ng-template>
+      <!-- NAVIGATION LEVEL ITEM -->
+      <ng-template
+        #navigationLevelItem
+        let-materialClass="materialClass"
+        let-navigationLevel="navigationLevel"
+        let-navigation="navigation"
+      >
         <button
-          *ngFor="let materialClass of materialClasses$ | ngrxPush"
-          (click)="setActive(materialClass)"
+          (click)="setActive(materialClass, navigationLevel)"
           mat-list-item
           class="!px-2 !pr-10 !text-body-2 !text-high-emphasis hover:bg-hover-overlay"
+          [disableRipple]="true"
+          [ngClass]="{
+            '!bg-selected-overlay':
+              navigation.materialClass === materialClass &&
+              navigation.navigationLevel === navigationLevel
+          }"
+        >
+          {{ t(navigationLevel) }}
+        </button>
+      </ng-template>
+      <!-- PLAIN ITEM -->
+      <ng-template
+        #plainItem
+        let-materialClass="materialClass"
+        let-navigation="navigation"
+      >
+        <button
+          (click)="setActive(materialClass)"
+          mat-list-item
+          class="!pr-10 !text-body-2 !text-high-emphasis hover:bg-hover-overlay"
           [disableRipple]="true"
           [ngClass]="{
             '!bg-selected-overlay': navigation.materialClass === materialClass
@@ -15,60 +118,8 @@
         >
           {{ t('materialClassValuesNavigation.' + materialClass) }}
         </button>
-      </mat-nav-list>
+      </ng-template>
     </ng-container>
-    <ng-template #editorView>
-      <!-- extendet view for editors -->
-      <mat-accordion
-        multi
-        [ngClass]="{
-          'max-w-0 opacity-0': minimized,
-          'max-w-xl opacity-100': !minimized
-        }"
-        class="transition-all duration-1000"
-        *ngrxLet="navigation$ as navigation"
-      >
-        <mat-expansion-panel
-          class="!m-0 !rounded-none border-none"
-          *ngFor="let materialClass of materialClasses$ | ngrxPush"
-          [expanded]="materialClass === expandMaterialClass"
-          hideToggle
-          #expansionPanel
-        >
-          <mat-expansion-panel-header
-            class="flex !h-12 flex-row justify-between !pl-4 !pr-2"
-          >
-            <mat-panel-title class="text-body-2 text-high-emphasis">
-              {{ t('materialClassValuesNavigation.' + materialClass) }}
-            </mat-panel-title>
-            <mat-icon
-              class="text-medium-emphasis transition-all duration-200"
-              [ngClass]="{
-                '-rotate-90': expansionPanel.expanded,
-                'rotate-0': !expansionPanel.expanded
-              }"
-              >chevron_left</mat-icon
-            >
-          </mat-expansion-panel-header>
-          <mat-nav-list class="!pt-0">
-            <button
-              *ngFor="let navigationLevel of navigationLevels"
-              (click)="setActive(materialClass, navigationLevel)"
-              mat-list-item
-              class="!px-2 !pr-10 !text-body-2 !text-high-emphasis hover:bg-hover-overlay"
-              [disableRipple]="true"
-              [ngClass]="{
-                '!bg-selected-overlay':
-                  navigation.materialClass === materialClass &&
-                  navigation.navigationLevel === navigationLevel
-              }"
-            >
-              {{ t(navigationLevel) }}
-            </button>
-          </mat-nav-list>
-        </mat-expansion-panel>
-      </mat-accordion>
-    </ng-template>
     <div class="flex-auto"></div>
     <button
       mat-mini-fab

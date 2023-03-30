@@ -35,3 +35,23 @@ export const GRADE = 'grade';
 export const CONDITION = 'conditionText';
 export const COATING = 'coatingText';
 export const PRODUCTION_PROCESS = 'productionProcessText';
+
+/* SAP columns */
+export const MATERIAL_NUMBER = 'materialNumber';
+export const MATERIAL_DESCRIPTION = 'materialDescription';
+export const MATERIAL_GROUP = 'materialGroup';
+export const CATEGORY = 'category';
+export const BUSINESS_PARTNER_ID = 'businessPartnerId';
+export const SUPPLIER_ID = 'supplierId';
+export const PLANT = 'plant';
+export const SUPPLIER_COUNTRY = 'supplierCountry';
+export const SUPPLIER_REGION = 'supplierRegion';
+export const EMISSION_FACTOR_KG = 'emissionFactorKg';
+export const EMISSION_FACTOR_PC = 'emissionFactorPc';
+export const TRANSPORT_PC = 'transportPc';
+export const TRANSPORT_INCOTERM = 'transportIncoterm';
+export const DATA_DATE = 'dataDate';
+export const DATA_COMMENT = 'dataComment';
+export const DATA_SOURCE_ID = 'dataSourceId';
+export const OWNER = 'owner';
+export const NAME = 'name';

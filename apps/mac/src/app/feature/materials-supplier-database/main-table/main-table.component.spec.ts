@@ -18,16 +18,20 @@ import { LetModule, PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AgGridModule } from 'ag-grid-angular';
 import {
+  ColDef,
   Column,
   ColumnApi,
+  ColumnState,
   ExcelRow,
+  GridApi,
   IFilterComp,
+  IServerSideDatasource,
+  IServerSideGetRowsParams,
   ProcessCellForExportParams,
   ProcessRowGroupForExportParams,
   RowClassParams,
   RowNode,
-} from 'ag-grid-community';
-import { ColDef, ColumnState, GridApi } from 'ag-grid-enterprise';
+} from 'ag-grid-enterprise';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { StringOption } from '@schaeffler/inputs';
@@ -45,9 +49,10 @@ import {
 } from '@mac/msd/constants';
 import { QuickFilterComponent } from '@mac/msd/main-table/quick-filter/quick-filter.component';
 import { STEEL_COLUMN_DEFINITIONS } from '@mac/msd/main-table/table-config/materials/steel';
-import { DataResult, MaterialFormValue } from '@mac/msd/models';
+import { DataResult, MaterialFormValue, SAPMaterial } from '@mac/msd/models';
 import {
   MsdAgGridConfigService,
+  MsdAgGridReadyService,
   MsdAgGridStateService,
   MsdDialogService,
 } from '@mac/msd/services';
@@ -535,6 +540,60 @@ describe('MainTableComponent', () => {
       expect(component['setVisibleColumns']).toHaveBeenCalled();
       expect(component['agGridReadyService'].agGridApiready).toHaveBeenCalled();
       expect(mockColumnApi.applyColumnState).toHaveBeenCalled();
+    });
+    it('should dispatch setFilteredRows and set column count and set serverSideDatasource if set', () => {
+      const mockDataResult: DataResult = {
+        id: 0,
+        manufacturerSupplierName: 'gibt net',
+      } as DataResult;
+      const mockRowNodes = [{ data: mockDataResult }];
+      const mockApi = {
+        forEachNodeAfterFilter: jest.fn((fn: (rowNode: RowNode) => any) =>
+          mockRowNodes.map((rowNode) => fn(rowNode as RowNode))
+        ),
+        getDisplayedRowCount: jest.fn(() => 0),
+        setServerSideDatasource: jest.fn(),
+      };
+      const mockColumnApi = {
+        applyColumnState: jest.fn(),
+      };
+
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      component['agGridReadyService'].agGridApiready = jest.fn(() => '');
+      component['restoredColumnState'] = [];
+
+      component.setAgGridFilter = jest.fn();
+
+      component['agGridApi'] = undefined;
+      component['agGridColumnApi'] = undefined;
+      component['setVisibleColumns'] = jest.fn();
+
+      component['createServerSideDataSource'] = jest.fn(
+        () => ({} as IServerSideDatasource)
+      );
+
+      component.onGridReady(
+        {
+          api: mockApi as unknown as GridApi,
+          columnApi: mockColumnApi as unknown as ColumnApi,
+        },
+        true
+      );
+
+      expect(component['agGridApi']).toEqual(mockApi as unknown as GridApi);
+      expect(component['agGridColumnApi']).toEqual(
+        mockColumnApi as unknown as ColumnApi
+      );
+
+      expect(component.setAgGridFilter).toHaveBeenCalledWith({ api: mockApi });
+      expect(component['setVisibleColumns']).toHaveBeenCalled();
+      expect(component['agGridReadyService'].agGridApiready).toHaveBeenCalled();
+      expect(mockColumnApi.applyColumnState).toHaveBeenCalled();
+
+      expect(component['createServerSideDataSource']).toHaveBeenCalled();
+      expect(mockApi.setServerSideDatasource).toHaveBeenCalledWith(
+        {} as IServerSideDatasource
+      );
     });
     it('should dispatch setFilteredRows and set column count and apply column state if column state is defined', () => {
       const mockApi = {};
@@ -1273,6 +1332,40 @@ describe('MainTableComponent', () => {
         reload: true,
         minimize: { value: {} as MaterialFormValue },
       });
+    });
+  });
+
+  describe('createServerSideDataSource', () => {
+    it('should return a serverSide dataSource with functions calling setParams and unsetParams of the service', () => {
+      const mockService = {
+        setParams: jest.fn(),
+        unsetParams: jest.fn(),
+      } as unknown as MsdAgGridReadyService;
+      const mockParams = {} as IServerSideGetRowsParams<SAPMaterial>;
+
+      const datasource = component['createServerSideDataSource'](mockService);
+
+      expect(datasource).toBeDefined();
+
+      datasource.getRows(mockParams);
+
+      expect(mockService.setParams).toHaveBeenCalledWith(mockParams);
+
+      datasource.destroy();
+
+      expect(mockService.unsetParams).toHaveBeenCalled();
+    });
+  });
+
+  describe('refreshServerSide', () => {
+    it('should call the refreshServerSide function of the grid api', () => {
+      component['agGridApi'] = {
+        refreshServerSide: jest.fn(),
+      } as unknown as GridApi;
+
+      component.refreshServerSide();
+
+      expect(component['agGridApi'].refreshServerSide).toHaveBeenCalled();
     });
   });
 });

@@ -40,6 +40,7 @@ import {
   PolymerMaterialResponse,
   PolymerMaterialStandard,
   PolymerMaterialStandardTableValue,
+  SAPMaterial,
   SteelManufacturerSupplier,
   SteelManufacturerSupplierForm,
   SteelManufacturerSupplierFormValue,
@@ -79,7 +80,8 @@ export type Material =
   | PolymerMaterial
   | CopperMaterial
   | HardmagnetMaterial
-  | CeramicMaterial;
+  | CeramicMaterial
+  | SAPMaterial;
 export type MaterialResponse =
   | AluminumMaterialResponse
   | SteelMaterialResponse

@@ -330,7 +330,26 @@
         "recentStatus": "Status",
         "status": "Status",
         "action": "Actions",
-        "history": "-"
+        "history": "-",
+
+        "materialNumber": "Material number",
+        "materialGroup": "Material group",
+        "supplierId": "Supplier ID",
+        "emissionFactorKg": "CO₂ [kg / kg]",
+        "emissionFactorPc": "CO₂ [kg / piece]",
+        "dataSourceId": "Data source",
+        "owner": "Data owner",
+        "name": "Data Source",
+        "materialDescription": "Description",
+        "category": "Category",
+        "plant": "Plant",
+        "businessPartnerId": "SAP Business Partner Id",
+        "supplierCountry": "Supplier Country",
+        "supplierRegion": "Supplier Region",
+        "transportPc": "Transport CO₂ [kg/piece]",
+        "transportIncoterm": "Transport CO₂ Incoterm",
+        "dataDate": "Date",
+        "dataComment": "Comment on source"
       },
       "confirmDialog": {
         "cancel": "Cancel",
@@ -511,6 +530,9 @@
           "title_edit": "Edit view name"
         }
       },
+      "dataSourceValues": {
+        "systain": "Secondary data from I/O model by Systain"
+      },
       "tooltip": {
         "castingDiameter": "Detail on final steel-manufacturing step, e.g., casting dimension, ingot name, dimension, or weight",
         "castingMode": "<ul><li>CC: continuous casting</li><li>IC: ingot casting</li><li>ESR: electro-slag remelting</li><li>VAR: vacuum arc remelting</li><li>PESR: pressure electro-slag remelting</li></ul>",
@@ -531,7 +553,8 @@
       "px": "Polymer",
       "cu": "Copper",
       "ce": "Ceramic",
-      "hm": "Hardmagnet"
+      "hm": "Hardmagnet",
+      "sap": "SAP Materials"
     },
     "materialClassValuesNavigation": {
       "st": "Steel",
@@ -539,7 +562,8 @@
       "px": "Polymers",
       "cu": "Copper alloys",
       "ce": "Ceramics",
-      "hm": "Hardmagnets"
+      "hm": "Hardmagnets",
+      "sap": "SAP material numbers"
     },
     "status": {
       "statusValues": {

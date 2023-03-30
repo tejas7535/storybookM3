@@ -4,7 +4,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
-import { DataResult } from '@mac/msd/models';
+import { DataResult, SAPMaterialsResponse } from '@mac/msd/models';
 import { initialState } from '@mac/msd/store/reducers/data/data.reducer';
 
 import * as DataSelectors from './data.selector';
@@ -77,10 +77,30 @@ describe('DataSelectors', () => {
     expect(DataSelectors.getLoading.projector(initialState)).toEqual(undefined);
   });
 
-  it('should get material class options', () => {
-    expect(
-      DataSelectors.getMaterialClassOptions.projector(initialState)
-    ).toEqual(initialState.materialClasses);
+  describe('getMaterialClassOptions', () => {
+    it('should get material class options for undefined classes', () => {
+      expect(
+        DataSelectors.getMaterialClassOptions.projector({
+          ...initialState,
+          materialClasses: undefined,
+        })
+      ).toEqual(undefined);
+    });
+
+    it('should get material class options for empty classes', () => {
+      expect(
+        DataSelectors.getMaterialClassOptions.projector(initialState)
+      ).toEqual(undefined);
+    });
+
+    it('should get material class options with sap materials', () => {
+      expect(
+        DataSelectors.getMaterialClassOptions.projector({
+          ...initialState,
+          materialClasses: [MaterialClass.STEEL],
+        })
+      ).toEqual([MaterialClass.STEEL, MaterialClass.SAP_MATERIAL]);
+    });
   });
 
   it.each([
@@ -211,5 +231,44 @@ describe('DataSelectors', () => {
     const result = DataSelectors.getResultCount.projector(undefined);
 
     expect(result).toEqual(0);
+  });
+
+  it('should get sap material rows', () => {
+    expect(DataSelectors.getSAPMaterialsRows.projector(initialState)).toEqual(
+      undefined
+    );
+  });
+
+  it('should get sap material rows and result', () => {
+    expect(
+      DataSelectors.getSAPResult.projector(
+        {
+          ...initialState,
+          result: {
+            [MaterialClass.SAP_MATERIAL]: {
+              materials: [],
+            },
+          },
+        },
+        {
+          lastRow: -1,
+          totalRows: 300,
+          subTotalRows: 100,
+          startRow: 0,
+        }
+      )
+    ).toEqual({
+      data: [],
+      lastRow: -1,
+      totalRows: 300,
+      subTotalRows: 100,
+      startRow: 0,
+    } as SAPMaterialsResponse);
+  });
+
+  it('should return undefined if sap material rows are undefined', () => {
+    expect(DataSelectors.getSAPResult.projector(undefined, [])).toEqual(
+      undefined
+    );
   });
 });

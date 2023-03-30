@@ -83,6 +83,7 @@ describe('QuickFilterComponent', () => {
             materialClass: MaterialClass.STEEL,
             navigationLevel: NavigationLevel.MATERIAL,
           }),
+          sapResult$: new Subject(),
           dispatch: jest.fn(),
         },
       },

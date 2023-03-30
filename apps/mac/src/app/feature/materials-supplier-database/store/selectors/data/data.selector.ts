@@ -1,5 +1,7 @@
 import { createSelector } from '@ngrx/store';
 
+import { Material } from '@mac/feature/materials-supplier-database/models';
+import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import * as fromStore from '@mac/msd/store/reducers';
 
 export const getDataState = createSelector(
@@ -48,7 +50,10 @@ export const getLoading = createSelector(getFilter, ({ loading }) => loading);
 
 export const getMaterialClassOptions = createSelector(
   getDataState,
-  (dataState) => dataState.materialClasses
+  (dataState) =>
+    dataState.materialClasses && dataState.materialClasses.length > 0
+      ? [...dataState.materialClasses, MaterialClass.SAP_MATERIAL]
+      : undefined
 );
 
 export const getResult = createSelector(
@@ -71,4 +76,34 @@ export const getAgGridColumns = createSelector(
 export const getResultCount = createSelector(
   getResult,
   (result) => result?.length || 0
+);
+
+export const getSAPMaterialsRows = createSelector(
+  getDataState,
+  (state) => state.sapMaterialsRows
+);
+
+export const getSAPResult = createSelector(
+  getDataState,
+  getSAPMaterialsRows,
+  (
+    state,
+    sapMaterialsRows
+  ):
+    | {
+        data?: Material[];
+        lastRow?: number;
+        totalRows?: number;
+        subTotalRows?: number;
+        startRow?: number;
+      }
+    | undefined =>
+    sapMaterialsRows?.startRow !== undefined
+      ? {
+          data: state.result?.[MaterialClass.SAP_MATERIAL]?.[
+            NavigationLevel.MATERIAL
+          ],
+          ...sapMaterialsRows,
+        }
+      : undefined
 );

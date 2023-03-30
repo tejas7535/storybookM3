@@ -22,6 +22,7 @@ import {
   POLYMER_STATIC_QUICKFILTERS,
   POLYMER_SUPPLIERS_STATIC_QUICKFILTERS,
 } from './polymer';
+import { SAP_MATERIALS_STATIC_QUICKFILTERS } from './sap-materials';
 import {
   STEEL_MATERIAL_STANDARDS_STATIC_QUICKFILTERS,
   STEEL_STATIC_QUICKFILTERS,
@@ -71,6 +72,11 @@ export const STATIC_QUICKFILTERS_MAPPING: MsdStaticQuickFiltersMapping = {
       [NavigationLevel.SUPPLIER]: HARDMAGNET_SUPPLIERS_STATIC_QUICKFILTERS,
       [NavigationLevel.STANDARD]:
         HARDMAGNET_MATERIAL_STANDARDS_STATIC_QUICKFILTERS,
+    },
+    [MaterialClass.SAP_MATERIAL]: {
+      [NavigationLevel.MATERIAL]: SAP_MATERIALS_STATIC_QUICKFILTERS,
+      [NavigationLevel.SUPPLIER]: [],
+      [NavigationLevel.STANDARD]: [],
     },
   },
 };

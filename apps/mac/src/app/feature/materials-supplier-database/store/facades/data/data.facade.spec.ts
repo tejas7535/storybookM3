@@ -7,6 +7,7 @@ import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import { DataResult, MaterialFormValue, SteelMaterial } from '@mac/msd/models';
 import { initialState } from '@mac/msd/store/reducers/data/data.reducer';
 
+import { getSAPResult } from '../../selectors';
 import { DataFacade } from '.';
 
 describe('DataFacade', () => {
@@ -65,9 +66,18 @@ describe('DataFacade', () => {
               materials: {
                 steelMaterials: mockResult,
               },
+              sapMaterialsRows: {
+                lastRow: -1,
+                totalRows: 300,
+                subTotalRows: 100,
+                startRow: 0,
+              },
               result: {
                 st: {
                   materials: mockResult,
+                },
+                sap: {
+                  materials: [],
                 },
               },
             },
@@ -113,7 +123,7 @@ describe('DataFacade', () => {
       'should provide material class options',
       marbles((m) => {
         const expected = m.cold('a', {
-          a: mockMaterialClassOptions,
+          a: [...mockMaterialClassOptions, MaterialClass.SAP_MATERIAL],
         });
 
         m.expect(facade.materialClassOptions$).toBeObservable(expected);
@@ -160,6 +170,35 @@ describe('DataFacade', () => {
     );
   });
 
+  describe('sapResult$', () => {
+    beforeAll(() => {
+      store.overrideSelector(getSAPResult, {
+        data: [],
+        lastRow: -1,
+        totalRows: 300,
+        subTotalRows: 100,
+      });
+    });
+    it(
+      'should provide the sap result',
+      marbles((m) => {
+        const expected = m.cold('a', {
+          a: {
+            data: [],
+            lastRow: -1,
+            totalRows: 300,
+            subTotalRows: 100,
+          },
+        });
+
+        m.expect(facade.sapResult$).toBeObservable(expected);
+      })
+    );
+    afterAll(() => {
+      store.resetSelectors();
+    });
+  });
+
   describe('resultCount$', () => {
     it(
       'should provide the result length',
@@ -169,6 +208,24 @@ describe('DataFacade', () => {
         });
 
         m.expect(facade.resultCount$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('sapMaterialsRows$', () => {
+    it(
+      'should provide the result length',
+      marbles((m) => {
+        const expected = m.cold('a', {
+          a: {
+            lastRow: -1,
+            totalRows: 300,
+            subTotalRows: 100,
+            startRow: 0,
+          },
+        });
+
+        m.expect(facade.sapMaterialsRows$).toBeObservable(expected);
       })
     );
   });

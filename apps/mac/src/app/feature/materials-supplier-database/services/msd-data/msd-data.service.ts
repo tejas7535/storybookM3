@@ -18,6 +18,8 @@ import {
   MaterialResponse,
   MaterialStandard,
   MaterialStandardTableValue,
+  SAPMaterialsRequest,
+  SAPMaterialsResponse,
 } from '@mac/msd/models';
 
 import {
@@ -32,6 +34,7 @@ export class MsdDataService {
   private readonly MSD_URL = '/materials-supplier-database/api/';
 
   private readonly BASE_URL = `${environment.baseUrl}${this.MSD_URL}v3`;
+  private readonly BASE_URL_SAP = `${environment.baseUrl}${this.MSD_URL}v1`;
 
   private readonly TOOLTIP_DELAY = 1500;
 
@@ -646,6 +649,13 @@ export class MsdDataService {
   ) {
     return this.httpClient.delete<void>(
       `${this.BASE_URL}/materials/${materialClass}/${id}`
+    );
+  }
+
+  public fetchSAPMaterials(request: SAPMaterialsRequest) {
+    return this.httpClient.post<SAPMaterialsResponse>(
+      `${this.BASE_URL_SAP}/emissionfactor/query`,
+      request
     );
   }
 }

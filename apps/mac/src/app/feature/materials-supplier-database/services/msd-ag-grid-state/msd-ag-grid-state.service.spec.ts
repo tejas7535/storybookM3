@@ -160,6 +160,7 @@ describe('MsdAgGridStateService', () => {
       service['migrateToVersion2_2'] = jest.fn(() => anyMigrationFn());
       service['migrateToVersion2_3'] = jest.fn(() => anyMigrationFn());
       service['migrateToVersion2_4'] = jest.fn(() => anyMigrationFn());
+      service['migrateToVersion2_5'] = jest.fn(() => anyMigrationFn());
     });
     it('should run migration to v1', () => {
       service['migrateLocalStorage'](0, { version: 0 } as MsdAgGridState);
@@ -195,6 +196,12 @@ describe('MsdAgGridStateService', () => {
       service['migrateLocalStorage'](2.3, {} as MsdAgGridState);
 
       expect(service['migrateToVersion2_4']).toHaveBeenCalled();
+    });
+
+    it('should run migration to v2_5', () => {
+      service['migrateLocalStorage'](2.4, {} as MsdAgGridState);
+
+      expect(service['migrateToVersion2_5']).toHaveBeenCalled();
     });
 
     it('should not migrate', () => {
@@ -436,6 +443,144 @@ describe('MsdAgGridStateService', () => {
       };
 
       const result = service['migrateToVersion2_2'](oldStorage);
+
+      expect(result).toEqual(expected);
+    });
+  });
+
+  describe('migrateToVersion2_3', () => {
+    it('should migrate to version 2_3', () => {
+      const defaultViewState: ViewState = {
+        columnState: [],
+        quickFilters: [],
+      };
+
+      const resultView: ViewState = {
+        columnState: [
+          { colId: ACTION, hide: false },
+          { colId: HISTORY, hide: false },
+          { colId: 'id' },
+        ],
+        quickFilters: [],
+      };
+
+      const oldStorage: MsdAgGridStateV2 = {
+        version: 2.2,
+        materials: {
+          st: {
+            materials: resultView,
+            suppliers: resultView,
+            materialStandards: { columnState: [] } as ViewState,
+          },
+        },
+      };
+
+      const expected: MsdAgGridStateV2 = {
+        ...oldStorage,
+        version: 2.3,
+        materials: {
+          ...oldStorage.materials,
+          ce: {
+            materials: defaultViewState,
+            suppliers: defaultViewState,
+            materialStandards: defaultViewState,
+          },
+        },
+      };
+
+      const result = service['migrateToVersion2_3'](oldStorage);
+
+      expect(result).toEqual(expected);
+    });
+  });
+
+  describe('migrateToVersion2_4', () => {
+    it('should migrate to version 2_4', () => {
+      const defaultViewState: ViewState = {
+        columnState: [],
+        quickFilters: [],
+      };
+
+      const resultView: ViewState = {
+        columnState: [
+          { colId: ACTION, hide: false },
+          { colId: HISTORY, hide: false },
+          { colId: 'id' },
+        ],
+        quickFilters: [],
+      };
+
+      const oldStorage: MsdAgGridStateV2 = {
+        version: 2.3,
+        materials: {
+          st: {
+            materials: resultView,
+            suppliers: resultView,
+            materialStandards: { columnState: [] } as ViewState,
+          },
+        },
+      };
+
+      const expected: MsdAgGridStateV2 = {
+        ...oldStorage,
+        version: 2.4,
+        materials: {
+          ...oldStorage.materials,
+          hm: {
+            materials: defaultViewState,
+            suppliers: defaultViewState,
+            materialStandards: defaultViewState,
+          },
+        },
+      };
+
+      const result = service['migrateToVersion2_4'](oldStorage);
+
+      expect(result).toEqual(expected);
+    });
+  });
+
+  describe('migrateToVersion2_5', () => {
+    it('should migrate to version 2_5', () => {
+      const defaultViewState: ViewState = {
+        columnState: [],
+        quickFilters: [],
+      };
+
+      const resultView: ViewState = {
+        columnState: [
+          { colId: ACTION, hide: false },
+          { colId: HISTORY, hide: false },
+          { colId: 'id' },
+        ],
+        quickFilters: [],
+      };
+
+      const oldStorage: MsdAgGridStateV2 = {
+        version: 2.4,
+        materials: {
+          st: {
+            materials: resultView,
+            suppliers: resultView,
+            materialStandards: { columnState: [] } as ViewState,
+          },
+        },
+      };
+
+      const expected: MsdAgGridStateV2 = {
+        ...oldStorage,
+        version: 2.5,
+        materials: {
+          ...oldStorage.materials,
+          sap: {
+            materials: defaultViewState,
+            suppliers: defaultViewState,
+            materialStandards: defaultViewState,
+          },
+        },
+      };
+
+      const result = service['migrateToVersion2_5'](oldStorage);
 
       expect(result).toEqual(expected);
     });

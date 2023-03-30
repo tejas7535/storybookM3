@@ -3,6 +3,7 @@ import {
   DataResult,
   ManufacturerSupplierTableValue,
   MaterialStandardTableValue,
+  SAPMaterialsRequest,
 } from '@mac/msd/models';
 import * as DataActions from '@mac/msd/store/actions/data';
 
@@ -56,6 +57,41 @@ describe('dataReducer', () => {
       });
     });
 
+    it('should reset result on fetchSAPMaterials', () => {
+      const action = DataActions.fetchSAPMaterials({
+        request: {} as SAPMaterialsRequest,
+      });
+      const newState = dataReducer(
+        {
+          ...state,
+          sapMaterialsRows: {
+            startRow: 0,
+          },
+          result: {
+            ...state.result,
+            [MaterialClass.SAP_MATERIAL]: {
+              materials: [],
+            },
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...initialState,
+        sapMaterialsRows: {
+          lastRow: undefined,
+          startRow: undefined,
+        },
+        result: {
+          ...initialState.result,
+          [MaterialClass.SAP_MATERIAL]: {
+            materials: undefined,
+          },
+        },
+      });
+    });
+
     describe('fetchMaterialsSuccess', () => {
       it.each([
         [MaterialClass.STEEL, [] as DataResult[]],
@@ -91,6 +127,34 @@ describe('dataReducer', () => {
       );
     });
 
+    it('should set sapMaterialRows and result', () => {
+      const action = DataActions.fetchSAPMaterialsSuccess({
+        data: [],
+        lastRow: -1,
+        totalRows: 300,
+        subTotalRows: 100,
+        startRow: 0,
+      });
+      const newState = dataReducer({ ...state }, action);
+
+      expect(newState).toEqual({
+        ...initialState,
+        sapMaterialsRows: {
+          lastRow: -1,
+          totalRows: 300,
+          subTotalRows: 100,
+          startRow: 0,
+        },
+        result: {
+          ...initialState.result,
+          [MaterialClass.SAP_MATERIAL]: {
+            ...initialState.result[MaterialClass.SAP_MATERIAL],
+            materials: [],
+          },
+        },
+      });
+    });
+
     it('should set loading to false on fetchMaterialsFailure', () => {
       const action = DataActions.fetchMaterialsFailure();
       const newState = dataReducer(
@@ -104,6 +168,40 @@ describe('dataReducer', () => {
       expect(newState).toEqual({
         ...initialState,
         filter: { ...initialState.filter, loading: false },
+      });
+    });
+
+    it('should set the startRow and unset the result', () => {
+      const action = DataActions.fetchSAPMaterialsFailure({ startRow: 0 });
+      const newState = dataReducer(
+        {
+          ...state,
+          sapMaterialsRows: {
+            startRow: 100,
+            lastRow: 100,
+            totalRows: 100,
+            subTotalRows: 100,
+          },
+          result: {
+            ...state.result,
+            [MaterialClass.SAP_MATERIAL]: {
+              materials: [],
+            },
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...initialState,
+        sapMaterialsRows: {
+          startRow: 0,
+        },
+        result: {
+          [MaterialClass.SAP_MATERIAL]: {
+            materials: undefined,
+          },
+        },
       });
     });
 
@@ -292,46 +390,6 @@ describe('dataReducer', () => {
               [NavigationLevel.MATERIAL]: JSON.stringify({}),
             },
           },
-        },
-      });
-    });
-
-    it('should not set string value of empty filterModel for given navigation if loading is true', () => {
-      const action = DataActions.setAgGridFilterForNavigation({
-        filterModel: undefined,
-        materialClass: MaterialClass.STEEL,
-        navigationLevel: NavigationLevel.MATERIAL,
-      });
-      const newState = dataReducer(
-        {
-          ...state,
-          filter: {
-            ...state.filter,
-            agGridFilter: {
-              ...state.filter.agGridFilter,
-              [MaterialClass.STEEL]: {
-                ...state.filter.agGridFilter[MaterialClass.STEEL],
-                [NavigationLevel.MATERIAL]: '{ "something": "something" }',
-              },
-            },
-            loading: true,
-          },
-        },
-        action
-      );
-
-      expect(newState).toEqual({
-        ...initialState,
-        filter: {
-          ...initialState.filter,
-          agGridFilter: {
-            ...state.filter.agGridFilter,
-            [MaterialClass.STEEL]: {
-              ...state.filter.agGridFilter[MaterialClass.STEEL],
-              [NavigationLevel.MATERIAL]: '{ "something": "something" }',
-            },
-          },
-          loading: true,
         },
       });
     });

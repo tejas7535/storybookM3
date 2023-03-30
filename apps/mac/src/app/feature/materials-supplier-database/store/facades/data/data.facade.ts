@@ -18,6 +18,8 @@ import {
   getResult,
   getResultCount,
   getResumeDialogData,
+  getSAPMaterialsRows,
+  getSAPResult,
   getShareQueryParams,
 } from '@mac/msd/store/selectors';
 
@@ -31,7 +33,9 @@ export class DataFacade {
   optionsLoading$ = this.store.select(getOptionsLoading);
   resultLoading$ = this.store.select(getLoading);
   result$ = this.store.select(getResult);
+  sapResult$ = this.store.select(getSAPResult);
   resultCount$ = this.store.select(getResultCount);
+  sapMaterialsRows$ = this.store.select(getSAPMaterialsRows);
 
   hasEditorRole$ = this.store.pipe(hasIdTokenRole(this.EDITOR_ROLE));
 

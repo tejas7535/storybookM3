@@ -62,4 +62,8 @@
   .ag-paging-panel {
     @apply text-caption;
   }
+
+  .ag-standard-button.ag-filter-apply-panel-button {
+    @apply px-2;
+  }
 }

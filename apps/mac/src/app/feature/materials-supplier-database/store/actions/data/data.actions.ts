@@ -8,6 +8,8 @@ import {
   ManufacturerSupplierTableValue,
   Material,
   MaterialStandardTableValue,
+  SAPMaterial,
+  SAPMaterialsRequest,
 } from '@mac/msd/models';
 
 export const setFilter = createAction(
@@ -37,6 +39,11 @@ export const fetchResult = createAction('[MSD - Data] Fetch Result');
 
 export const fetchMaterials = createAction('[MSD - Data] Fetch Materials');
 
+export const fetchSAPMaterials = createAction(
+  '[MSD - Data] Fetch SAP Materials',
+  props<{ request: SAPMaterialsRequest }>()
+);
+
 export const fetchMaterialsSuccess = createAction(
   '[MSD - Data] Fetch Materials Success',
   props<{
@@ -45,8 +52,24 @@ export const fetchMaterialsSuccess = createAction(
   }>()
 );
 
+export const fetchSAPMaterialsSuccess = createAction(
+  '[MSD - Data] Fetch SAP Materials Success',
+  props<{
+    data: SAPMaterial[];
+    lastRow: number;
+    totalRows: number;
+    subTotalRows: number;
+    startRow: number;
+  }>()
+);
+
 export const fetchMaterialsFailure = createAction(
   '[MSD - Data] Fetch Materials Failure'
+);
+
+export const fetchSAPMaterialsFailure = createAction(
+  '[MSD - Data] Fetch SAP Materials Failure',
+  props<{ startRow: number }>()
 );
 
 export const setAgGridFilter = createAction(

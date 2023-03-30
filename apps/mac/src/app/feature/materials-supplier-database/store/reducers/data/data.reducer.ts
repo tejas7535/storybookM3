@@ -20,6 +20,9 @@ import {
   fetchMaterialStandards,
   fetchMaterialStandardsFailure,
   fetchMaterialStandardsSuccess,
+  fetchSAPMaterials,
+  fetchSAPMaterialsFailure,
+  fetchSAPMaterialsSuccess,
   resetResult,
   setAgGridColumns,
   setAgGridFilterForNavigation,
@@ -45,6 +48,12 @@ export interface DataState {
   agGridColumns: string;
   materialClasses: MaterialClass[];
   materialClassLoading: boolean;
+  sapMaterialsRows: {
+    lastRow?: number;
+    totalRows?: number;
+    subTotalRows?: number;
+    startRow: number;
+  };
   result: {
     [key in MaterialClass]?: {
       [NavigationLevel.MATERIAL]?: Material[];
@@ -66,6 +75,7 @@ export const initialState: DataState = {
   agGridColumns: undefined,
   materialClasses: [],
   materialClassLoading: undefined,
+  sapMaterialsRows: undefined,
   result: {},
 };
 
@@ -93,6 +103,24 @@ export const dataReducer = createReducer(
     })
   ),
   on(
+    fetchSAPMaterials,
+    (state): DataState => ({
+      ...state,
+      sapMaterialsRows: {
+        ...state.sapMaterialsRows,
+        lastRow: undefined,
+        startRow: undefined,
+      },
+      result: {
+        ...state.result,
+        [MaterialClass.SAP_MATERIAL]: {
+          ...state.result[MaterialClass.SAP_MATERIAL],
+          materials: undefined,
+        },
+      },
+    })
+  ),
+  on(
     fetchMaterialsSuccess,
     (state, { materialClass, result }): DataState => ({
       ...state,
@@ -110,12 +138,50 @@ export const dataReducer = createReducer(
     })
   ),
   on(
+    fetchSAPMaterialsSuccess,
+    (
+      state,
+      { data, lastRow, totalRows, subTotalRows, startRow }
+    ): DataState => ({
+      ...state,
+      sapMaterialsRows: {
+        lastRow,
+        totalRows,
+        subTotalRows,
+        startRow,
+      },
+      result: {
+        ...state.result,
+        [MaterialClass.SAP_MATERIAL]: {
+          ...state.result[MaterialClass.SAP_MATERIAL],
+          materials: data,
+        },
+      },
+    })
+  ),
+  on(
     fetchMaterialsFailure,
     (state): DataState => ({
       ...state,
       filter: {
         ...state.filter,
         loading: false,
+      },
+    })
+  ),
+  on(
+    fetchSAPMaterialsFailure,
+    (state, { startRow }): DataState => ({
+      ...state,
+      sapMaterialsRows: {
+        startRow,
+      },
+      result: {
+        ...state.result,
+        [MaterialClass.SAP_MATERIAL]: {
+          ...state.result[MaterialClass.SAP_MATERIAL],
+          materials: undefined,
+        },
       },
     })
   ),
@@ -197,22 +263,20 @@ export const dataReducer = createReducer(
     setAgGridFilterForNavigation,
     (state, { filterModel, materialClass, navigationLevel }): DataState => ({
       ...state,
-      filter: !state.filter.loading
-        ? {
-            ...state.filter,
-            agGridFilter: {
-              ...state.filter.agGridFilter,
-              [materialClass]: {
-                ...state.filter.agGridFilter[materialClass],
-                [navigationLevel]: filterModel
-                  ? JSON.stringify(filterModel)
-                  : initialState.filter.agGridFilter[materialClass][
-                      navigationLevel
-                    ],
-              },
-            },
-          }
-        : { ...state.filter },
+      filter: {
+        ...state.filter,
+        agGridFilter: {
+          ...state.filter.agGridFilter,
+          [materialClass]: {
+            ...state.filter.agGridFilter[materialClass],
+            [navigationLevel]: filterModel
+              ? JSON.stringify(filterModel)
+              : initialState.filter.agGridFilter[materialClass][
+                  navigationLevel
+                ],
+          },
+        },
+      },
     })
   ),
   on(

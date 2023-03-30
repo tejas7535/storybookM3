@@ -3,6 +3,7 @@ import {
   DataResult,
   ManufacturerSupplierTableValue,
   MaterialStandardTableValue,
+  SAPMaterialsRequest,
 } from '@mac/msd/models';
 
 import {
@@ -19,6 +20,9 @@ import {
   fetchMaterialStandardsFailure,
   fetchMaterialStandardsSuccess,
   fetchResult,
+  fetchSAPMaterials,
+  fetchSAPMaterialsFailure,
+  fetchSAPMaterialsSuccess,
   openSnackBar,
   resetResult,
   setAgGridColumns,
@@ -93,6 +97,17 @@ describe('Data Actions', () => {
       });
     });
   });
+
+  describe('Fetch SAP Materials', () => {
+    it('fetchSAPMaterials', () => {
+      const action = fetchSAPMaterials({ request: {} as SAPMaterialsRequest });
+
+      expect(action).toEqual({
+        type: '[MSD - Data] Fetch SAP Materials',
+        request: {} as SAPMaterialsRequest,
+      });
+    });
+  });
   describe('Fetch Materials Success', () => {
     it('fetchMaterialsSuccess', () => {
       const result: DataResult[] = [{} as DataResult];
@@ -119,12 +134,43 @@ describe('Data Actions', () => {
       });
     });
   });
+
+  describe('Fetch SAP Materials Success', () => {
+    it('fetchSAPMaterials', () => {
+      const action = fetchSAPMaterialsSuccess({
+        data: [],
+        lastRow: -1,
+        totalRows: 300,
+        subTotalRows: 100,
+        startRow: 0,
+      });
+
+      expect(action).toEqual({
+        type: '[MSD - Data] Fetch SAP Materials Success',
+        data: [],
+        lastRow: -1,
+        totalRows: 300,
+        subTotalRows: 100,
+        startRow: 0,
+      });
+    });
+  });
   describe('Fetch Materials Failure', () => {
     it('fetchMaterialsSuccess', () => {
       const action = fetchMaterialsFailure();
 
       expect(action).toEqual({
         type: '[MSD - Data] Fetch Materials Failure',
+      });
+    });
+  });
+  describe('Fetch SAP Materials Failure', () => {
+    it('fetchSAPMaterialsSuccess', () => {
+      const action = fetchSAPMaterialsFailure({ startRow: 0 });
+
+      expect(action).toEqual({
+        type: '[MSD - Data] Fetch SAP Materials Failure',
+        startRow: 0,
       });
     });
   });

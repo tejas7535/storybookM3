@@ -20,6 +20,8 @@ import {
   MaterialStandard,
   MaterialStandardTableValue,
   PolymerMaterial,
+  SAPMaterialsRequest,
+  SAPMaterialsResponse,
   SteelManufacturerSupplier,
   SteelMaterial,
   SteelMaterialStandard,
@@ -1103,6 +1105,29 @@ describe('MsdDataService', () => {
         },
       ];
       expect(service.mapStandardsToTableView(srcArray)).toStrictEqual(expected);
+    });
+  });
+
+  describe('fetchSAPMaterials', () => {
+    it('should fetch sap materials', (done) => {
+      const mockRequest: SAPMaterialsRequest = {} as SAPMaterialsRequest;
+      const mockResponse: SAPMaterialsResponse = {
+        data: [],
+        lastRow: -1,
+        totalRows: 300,
+        subTotalRows: 100,
+      };
+
+      service.fetchSAPMaterials(mockRequest).subscribe((result: any) => {
+        expect(result).toEqual(mockResponse);
+        done();
+      });
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL_SAP']}/emissionfactor/query`
+      );
+      expect(req.request.method).toBe('POST');
+      req.flush(mockResponse);
     });
   });
 });
