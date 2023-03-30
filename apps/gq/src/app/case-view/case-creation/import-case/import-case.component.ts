@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import {
   autocomplete,
   importCase,
+  resetAllAutocompleteOptions,
   selectAutocompleteOption,
   unselectAutocompleteOptions,
 } from '@gq/core/store/actions';
@@ -54,6 +55,7 @@ export class ImportCaseComponent implements OnInit {
 
   closeDialog(): void {
     this.dialogRef.close();
+    this.store.dispatch(resetAllAutocompleteOptions());
 
     this.insightsService.logEvent(EVENT_NAMES.CASE_CREATION_CANCELLED, {
       type: CASE_CREATION_TYPES.SAP_IMPORT,

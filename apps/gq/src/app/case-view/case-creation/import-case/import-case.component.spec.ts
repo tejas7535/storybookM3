@@ -5,6 +5,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import {
   autocomplete,
   importCase,
+  resetAllAutocompleteOptions,
   selectAutocompleteOption,
   unselectAutocompleteOptions,
 } from '@gq/core/store/actions';
@@ -75,12 +76,16 @@ describe('ImportCaseComponent', () => {
     expect(component).toBeTruthy();
   });
   describe('closeDialog', () => {
-    test('should close matDialog', () => {
+    test('should close matDialog and reset autocomplete', () => {
       component['dialogRef'].close = jest.fn();
+      mockStore.dispatch = jest.fn();
 
       component.closeDialog();
 
       expect(component['dialogRef'].close).toHaveBeenCalledTimes(1);
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        resetAllAutocompleteOptions()
+      );
     });
   });
 
