@@ -9,7 +9,10 @@ import {
   resetAllAutocompleteOptions,
 } from '@gq/core/store/actions';
 import { AutoCompleteFacade } from '@gq/core/store/facades';
-import { getCaseRowData, getCreateCaseLoading } from '@gq/core/store/selectors';
+import {
+  getCaseRowData,
+  getCreateCaseLoading,
+} from '@gq/core/store/selectors/create-case/create-case.selector';
 import { AutocompleteRequestDialog } from '@gq/shared/components/autocomplete-input/autocomplete-request-dialog.enum';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';

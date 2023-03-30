@@ -1,27 +1,16 @@
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 
+import { LocalizationService } from '@gq/shared/ag-grid/services/localization.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
-import { AgGridModule } from 'ag-grid-angular';
 import { MockProvider } from 'ng-mocks';
 
-import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { CellRendererModule } from '../../../ag-grid/cell-renderer/cell-renderer.module';
-import { ColumnHeadersModule } from '../../../ag-grid/column-headers/column-headers.module';
-import { CustomStatusBarModule } from '../../../ag-grid/custom-status-bar/custom-status-bar.module';
-import { HelperService } from '../../../services/helper-service/helper-service.service';
+import { InputTableColumnDefService } from './config/input-table-column-defs.service';
 import { InputTableComponent } from './input-table.component';
-
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
 
 describe('InputTableComponent', () => {
   let component: InputTableComponent;
@@ -29,17 +18,8 @@ describe('InputTableComponent', () => {
 
   const createComponent = createComponentFactory({
     component: InputTableComponent,
-    imports: [
-      AgGridModule,
-      CellRendererModule,
-      CustomStatusBarModule,
-      PushModule,
-      provideTranslocoTestingModule({ en: {} }),
-      ColumnHeadersModule,
-      MatSnackBarModule,
-    ],
+    imports: [PushModule, provideTranslocoTestingModule({ en: {} })],
     providers: [
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockStore({
         initialState: {
           processCase: {
@@ -53,9 +33,12 @@ describe('InputTableComponent', () => {
         provide: MatDialogRef,
         useValue: {},
       },
-      { provide: HelperService, useValue: {} },
-      MockProvider(ApplicationInsightsService),
+      MockProvider(InputTableColumnDefService, {
+        BASE_COLUMN_DEFS: [],
+      }),
+      MockProvider(LocalizationService),
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
   beforeEach(() => {
     spectator = createComponent();

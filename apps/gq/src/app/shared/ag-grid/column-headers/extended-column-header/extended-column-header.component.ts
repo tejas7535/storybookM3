@@ -9,11 +9,13 @@ import { UntypedFormControl, Validators } from '@angular/forms';
 
 import { filter, map, Observable, pairwise, Subscription } from 'rxjs';
 
-import { getQuotation, getSimulatedQuotation } from '@gq/core/store/selectors';
+import {
+  getQuotation,
+  getSimulatedQuotation,
+} from '@gq/core/store/selectors/process-case/process-case.selectors';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
 import { IHeaderAngularComp } from 'ag-grid-angular';
-import { IHeaderParams } from 'ag-grid-community';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
@@ -27,12 +29,8 @@ import {
 import { PriceSource, QuotationDetail } from '../../../models/quotation-detail';
 import { HelperService } from '../../../services/helper-service/helper-service.service';
 import { ColumnFields } from '../../constants/column-fields.enum';
+import { ExtendedColumnHeaderComponentParams } from './models/extended-column-header-component-params.model';
 import { PriceSourceOptions } from './models/price-source-options.enum';
-
-export type ExtendedColumnHeaderComponentParams = IHeaderParams & {
-  tooltipText: string;
-  editableColumn: boolean;
-};
 
 @Component({
   selector: 'gq-extended-column-header',

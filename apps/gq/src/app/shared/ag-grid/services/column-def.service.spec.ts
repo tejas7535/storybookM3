@@ -1,6 +1,7 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
+import { HelperService } from '@gq/shared/services/helper-service/helper-service.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { mockProvider } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -9,7 +10,6 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { HelperService } from '../../services/helper-service/helper-service.service';
 import { ColumnDefService } from './column-def.service';
 
 jest.mock('@ngneat/transloco', () => ({

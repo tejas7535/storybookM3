@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { createCase } from '@gq/core/store/actions';
-import { getCustomerConditionsValid } from '@gq/core/store/selectors';
+import { getCustomerConditionsValid } from '@gq/core/store/selectors/create-case/create-case.selector';
 import { Store } from '@ngrx/store';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';

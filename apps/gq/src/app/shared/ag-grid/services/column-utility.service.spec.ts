@@ -1,6 +1,7 @@
 import { Clipboard } from '@angular/cdk/clipboard';
 
 import { CalculationType } from '@gq/core/store/reducers/models';
+import { HelperService } from '@gq/shared/services/helper-service/helper-service.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
@@ -28,14 +29,12 @@ import {
 } from '../../models/quotation-detail';
 import { ValidationDescription } from '../../models/table';
 import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
-import { HelperService } from '../../services/helper-service/helper-service.service';
 import { ColumnFields } from '../constants/column-fields.enum';
 import {
   ColumnUtilityService,
   getValueOfFocusedCell,
   openInNew,
 } from './column-utility.service';
-
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
   translate: jest.fn(() => 'translate it'),
@@ -49,30 +48,28 @@ describe('CreateColumnService', () => {
   const createService = createServiceFactory({
     service: ColumnUtilityService,
     providers: [
-      {
-        provide: HelperService,
-        useValue: {
-          transformPercentage: jest
-            .fn()
-            .mockImplementation((value) => `${value} %`),
-          transformNumberCurrency: jest.fn().mockImplementation(
-            (value, currency) =>
-              `${Intl.NumberFormat('en-US', {
-                minimumFractionDigits: 2,
-              }).format(value)} ${currency}`
+      MockProvider(HelperService, {
+        transformPercentage: jest
+          .fn()
+          .mockImplementation((value) => `${value} %`),
+        transformNumberCurrency: jest.fn().mockImplementation(
+          (value, currency) =>
+            `${Intl.NumberFormat('en-US', {
+              minimumFractionDigits: 2,
+            }).format(value)} ${currency}`
+        ),
+        transformNumber: jest
+          .fn()
+          .mockImplementation((value) =>
+            Intl.NumberFormat('en-US').format(value)
           ),
-          transformNumber: jest
-            .fn()
-            .mockImplementation((value) =>
-              Intl.NumberFormat('en-US').format(value)
-            ),
-          transformDate: jest
-            .fn()
-            .mockImplementation((value) =>
-              Intl.DateTimeFormat('en-US').format(new Date(value))
-            ),
-        },
-      },
+        transformDate: jest
+          .fn()
+          .mockImplementation((value) =>
+            Intl.DateTimeFormat('en-US').format(new Date(value))
+          ),
+      }),
+
       MockProvider(TranslocoLocaleService),
     ],
   });

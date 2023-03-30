@@ -2,6 +2,7 @@ export * from './api-version.enum';
 export * from './environment.enum';
 export * from './keyboard.enum';
 export * from './language.model';
+export * from './query-params.model';
 export * from './quotation/quotation.model';
 export * from './quotation/quotation-origin.enum';
 export * from './quotation/quotation-status.enum';

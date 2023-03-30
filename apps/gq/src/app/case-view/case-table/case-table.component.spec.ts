@@ -1,19 +1,19 @@
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatDialogModule } from '@angular/material/dialog';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { getSelectedCaseIds } from '@gq/core/store/selectors';
+import { LocalizationService } from '@gq/shared/ag-grid/services';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { AgGridModule } from 'ag-grid-angular';
 import {
   GetContextMenuItemsParams,
   GetMainMenuItemsParams,
   RowNode,
 } from 'ag-grid-community';
+import { MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -22,12 +22,10 @@ import {
   VIEW_CASE_STATE_MOCK,
 } from '../../../testing/mocks';
 import { AppRoutePath } from '../../app-route-path.enum';
-import { ColumnHeadersModule } from '../../shared/ag-grid/column-headers/column-headers.module';
 import { CaseTableColumnFields } from '../../shared/ag-grid/constants/column-fields.enum';
-import { CustomStatusBarModule } from '../../shared/ag-grid/custom-status-bar/custom-status-bar.module';
 import { ColumnUtilityService } from '../../shared/ag-grid/services/column-utility.service';
-import { HelperService } from '../../shared/services/helper-service/helper-service.service';
 import { CaseTableComponent } from './case-table.component';
+import { ColumnDefService } from './config/column-def.service';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
@@ -43,25 +41,24 @@ describe('CaseTableComponent', () => {
   const createComponent = createComponentFactory({
     component: CaseTableComponent,
     imports: [
-      AgGridModule,
-      CustomStatusBarModule,
       RouterTestingModule.withRoutes([]),
-      MatDialogModule,
       provideTranslocoTestingModule({ en: {} }),
       PushModule,
-      ColumnHeadersModule,
     ],
     providers: [
+      MockProvider(ColumnDefService, {
+        COLUMN_DEFS: [],
+      }),
+      MockProvider(LocalizationService),
+      MockProvider(ColumnUtilityService),
       provideMockStore({
         initialState: {
           case: VIEW_CASE_STATE_MOCK,
           processCase: PROCESS_CASE_STATE_MOCK,
         },
       }),
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
-      { provide: HelperService, useValue: {} },
     ],
-    declarations: [CaseTableComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {

@@ -6,7 +6,7 @@ import { deleteAddMaterialRowDataItem } from '@gq/core/store/actions';
 import {
   getAddMaterialRowData,
   getAddMaterialRowDataValid,
-} from '@gq/core/store/selectors';
+} from '@gq/core/store/selectors/process-case/process-case.selectors';
 import { Store } from '@ngrx/store';
 import { HeaderClassParams } from 'ag-grid-community';
 

@@ -1,8 +1,8 @@
+import { DetailViewQueryParams } from '@gq/shared/models';
 import { QuotationPricingOverview } from '@gq/shared/models/quotation';
 import { PriceService } from '@gq/shared/services/price-service/price.service';
 import { createSelector } from '@ngrx/store';
 
-import { DetailViewQueryParams } from '../../../../app-routing.module';
 import { TableContext } from '../../../../process-case-view/quotation-details-table/config/tablecontext.model';
 import {
   Quotation,

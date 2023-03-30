@@ -1,8 +1,5 @@
-import { MatCardModule } from '@angular/material/card';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { of, Subject } from 'rxjs';
 
@@ -10,25 +7,17 @@ import {
   clearProcessCaseRowData,
   resetAllAutocompleteOptions,
 } from '@gq/core/store/actions';
-import { AddEntryModule } from '@gq/shared/components/case-material/add-entry/add-entry.module';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { AgGridModule } from 'ag-grid-angular';
 
-import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { CREATE_CASE_STORE_STATE_MOCK } from '../../../testing/mocks';
-import { AutocompleteInputModule } from '../../shared/components/autocomplete-input/autocomplete-input.module';
-import { InputTableModule } from '../../shared/components/case-material/input-table/input-table.module';
+import {
+  CREATE_CASE_STORE_STATE_MOCK,
+  PROCESS_CASE_STATE_MOCK,
+} from '../../../testing/mocks';
 import { AddMaterialDialogComponent } from './add-material-dialog.component';
-
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
 
 describe('AddMaterialDialogComponent', () => {
   let component: AddMaterialDialogComponent;
@@ -41,25 +30,12 @@ describe('AddMaterialDialogComponent', () => {
   const createComponent = createComponentFactory({
     component: AddMaterialDialogComponent,
     declarations: [AddMaterialDialogComponent],
-    imports: [
-      InputTableModule,
-      AgGridModule,
-      AutocompleteInputModule,
-      LoadingSpinnerModule,
-      MatCardModule,
-      MatDialogModule,
-      MatIconModule,
-      PushModule,
-      provideTranslocoTestingModule({ en: {} }),
-      MatSnackBarModule,
-      AddEntryModule,
-    ],
+    imports: [PushModule, provideTranslocoTestingModule({ en: {} })],
     providers: [
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockStore({
         initialState: {
           case: CREATE_CASE_STORE_STATE_MOCK,
-          processCase: { quotation: {}, addMaterials: {} },
+          processCase: PROCESS_CASE_STATE_MOCK,
         },
       }),
       {
@@ -69,6 +45,7 @@ describe('AddMaterialDialogComponent', () => {
         } as unknown as MatDialogRef<AddMaterialDialogComponent>,
       },
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {

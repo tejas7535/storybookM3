@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 
+import {
+  DetailViewQueryParams,
+  ProcessCaseViewQueryParams,
+} from '@gq/shared/models';
 import { translate } from '@ngneat/transloco';
 
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
 import { AppRoutePath } from '../../../app-route-path.enum';
-import {
-  DetailViewQueryParams,
-  ProcessCaseViewQueryParams,
-} from '../../../app-routing.module';
 import { Customer } from '../../models/customer';
 
 @Injectable({

@@ -1,0 +1,5 @@
+import { IHeaderParams } from 'ag-grid-community';
+export type ExtendedColumnHeaderComponentParams = IHeaderParams & {
+  tooltipText: string;
+  editableColumn: boolean;
+};

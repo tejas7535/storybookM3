@@ -1,6 +1,6 @@
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { of } from 'rxjs';
@@ -23,11 +23,11 @@ import { IdValue } from '../../../models/search';
 import { QuotationService } from '../../../services/rest-services/quotation-service/quotation.service';
 import { FilterNames } from '../../autocomplete-input/filter-names.enum';
 import { GlobalSearchLastResultsService } from '../global-search-last-results-service/global-search-last-results.service';
-import { GlobalSearchResultsListComponent } from '../global-search-results-list/global-search-results-list.component';
 import * as contextFunctions from './../../contextMenu/functions/context-menu-functions';
 import { GlobalSearchModalComponent } from './global-search-modal.component';
 import { OpenIn } from './models/open-in.enum';
 import { ResultsListDisplay } from './models/results-list-display.enum';
+
 describe('GlobalSearchModalComponent', () => {
   let component: GlobalSearchModalComponent;
   let spectator: Spectator<GlobalSearchModalComponent>;
@@ -36,8 +36,6 @@ describe('GlobalSearchModalComponent', () => {
     component: GlobalSearchModalComponent,
     imports: [
       provideTranslocoTestingModule({ en: {} }),
-      MatIconModule,
-      FormsModule,
       ReactiveFormsModule,
       PushModule,
       RouterTestingModule,
@@ -71,10 +69,7 @@ describe('GlobalSearchModalComponent', () => {
       GlobalSearchLastResultsService,
       provideMockStore(),
     ],
-    declarations: [
-      GlobalSearchModalComponent,
-      GlobalSearchResultsListComponent,
-    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {

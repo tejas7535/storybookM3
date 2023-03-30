@@ -1,13 +1,12 @@
 import { pipe } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { ColumnUtilityService } from '@gq/shared/ag-grid/services';
+import { UserRoles } from '@gq/shared/constants';
 import { createSelector } from '@ngrx/store';
 import { ColDef } from 'ag-grid-enterprise';
 
 import { getRoles } from '@schaeffler/azure-auth';
-
-import { ColumnUtilityService } from '../../../../shared/ag-grid/services/column-utility.service';
-import { UserRoles } from '../../../../shared/constants/user-roles.enum';
 
 export const getAllRoles = pipe(
   getRoles,
@@ -30,6 +29,7 @@ export const getAllRoles = pipe(
     },
   ])
 );
+
 export const getColumnDefsForRoles = (colDef: ColDef[]) =>
   createSelector(
     getRoles,

@@ -3,10 +3,8 @@ import { Injectable } from '@angular/core';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import moment, { Moment } from 'moment';
 
-import { LOCALE_DE } from '../../constants';
+import { DE_FORMAT_STRING, EN_FORMAT_STRING, LOCALE_DE } from '../../constants';
 
-export const DE_FORMAT_STRING = 'DDMMYY';
-export const EN_FORMAT_STRING = 'MMDDYY';
 type sortOrder = 'desc' | 'asc';
 
 @Injectable({

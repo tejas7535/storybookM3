@@ -1,4 +1,4 @@
-export * from './column-def.service';
-export * from './column-utility.service';
-export * from './comparator.service';
-export * from './localization.service';
+export { ColumnDefService } from './column-def.service';
+export { ColumnUtilityService } from './column-utility.service';
+export { ComparatorService } from './comparator.service';
+export { LocalizationService } from './localization.service';

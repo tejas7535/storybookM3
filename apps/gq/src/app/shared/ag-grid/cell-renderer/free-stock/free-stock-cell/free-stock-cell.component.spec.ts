@@ -1,10 +1,8 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
 import { FreeStockTrafficLightComponent } from '../../../../components/free-stock-traffic-light/free-stock-traffic-light.component';
-import {
-  FreeStockCellComponent,
-  FreeStockCellParams,
-} from './free-stock-cell.component';
+import { FreeStockCellComponent } from './free-stock-cell.component';
+import { FreeStockCellParams } from './model/free-stock-cell-params.model';
 
 describe('FreeStockCellComponent', () => {
   let component: FreeStockCellComponent;

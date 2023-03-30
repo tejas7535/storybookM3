@@ -2,6 +2,9 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import { Injectable } from '@angular/core';
 
 import { CalculationType } from '@gq/core/store/reducers/models';
+import { HelperService } from '@gq/shared/services/helper-service/helper-service.service';
+import { MaterialNumberService } from '@gq/shared/services/material-number/material-number.service';
+import { PriceService } from '@gq/shared/services/price-service/price.service';
 import { translate } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import {
@@ -30,9 +33,6 @@ import { LastCustomerPriceCondition } from '../../models/quotation-detail/last-c
 import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
 import { MaterialClassificationSOPPipe } from '../../pipes/material-classification-sop/material-classification-sop.pipe';
 import { UomPipe } from '../../pipes/uom/uom.pipe';
-import { HelperService } from '../../services/helper-service/helper-service.service';
-import { MaterialNumberService } from '../../services/material-number/material-number.service';
-import { PriceService } from '../../services/price-service/price.service';
 import {
   CaseTableColumnFields,
   ChinaSpecificColumns,

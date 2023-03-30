@@ -5,7 +5,7 @@ import { deleteAddMaterialRowDataItem } from '@gq/core/store/actions';
 import {
   getAddMaterialRowData,
   getAddMaterialRowDataValid,
-} from '@gq/core/store/selectors';
+} from '@gq/core/store/selectors/process-case/process-case.selectors';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';

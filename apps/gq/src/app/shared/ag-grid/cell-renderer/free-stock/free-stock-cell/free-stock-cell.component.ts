@@ -1,10 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { ICellRendererParams } from 'ag-grid-community';
-
-export type FreeStockCellParams = ICellRendererParams & {
-  uom: string;
-};
+import { FreeStockCellParams } from './model/free-stock-cell-params.model';
 
 @Component({
   selector: 'gq-free-stock-cell',

@@ -1,11 +1,11 @@
+import {
+  DetailViewQueryParams,
+  ProcessCaseViewQueryParams,
+} from '@gq/shared/models';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { translate } from '@ngneat/transloco';
 
 import { AppRoutePath } from '../../../app-route-path.enum';
-import {
-  DetailViewQueryParams,
-  ProcessCaseViewQueryParams,
-} from '../../../app-routing.module';
 import { Customer } from '../../models/customer';
 import { BreadcrumbsService } from './breadcrumbs.service';
 

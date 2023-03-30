@@ -1,40 +1,33 @@
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatIconModule } from '@angular/material/icon';
-
 import { deleteRowDataItem } from '@gq/core/store/actions';
 import {
   getCaseRowData,
   getCustomerConditionsValid,
-} from '@gq/core/store/selectors';
+} from '@gq/core/store/selectors/create-case/create-case.selector';
+import { MaterialTableItem } from '@gq/shared/models/table';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { HeaderClassParams, RowNode } from 'ag-grid-community';
 import { marbles } from 'rxjs-marbles';
 
-import { MaterialTableItem } from '../../../../models/table';
 import { CreateCaseActionHeaderComponent } from './create-case-action-header.component';
 
 describe('CreateCaseActionHeaderComponent', () => {
   let component: CreateCaseActionHeaderComponent;
   let spectator: Spectator<CreateCaseActionHeaderComponent>;
-  let mockStore: MockStore;
+  let store: MockStore;
 
   const createComponent = createComponentFactory({
     component: CreateCaseActionHeaderComponent,
-    declarations: [CreateCaseActionHeaderComponent],
-    imports: [MatIconModule, PushModule],
-    providers: [
-      provideMockStore({}),
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
-    ],
+    imports: [PushModule],
+    providers: [provideMockStore()],
     detectChanges: false,
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    mockStore = spectator.inject(MockStore);
+    store = spectator.inject(MockStore);
   });
 
   test('should create', () => {
@@ -54,8 +47,8 @@ describe('CreateCaseActionHeaderComponent', () => {
     test(
       'should set to FALSE if addMaterials are valid',
       marbles((m) => {
-        mockStore.overrideSelector(getCaseRowData, [materialTableItem]);
-        mockStore.overrideSelector(getCustomerConditionsValid, true);
+        store.overrideSelector(getCaseRowData, [materialTableItem]);
+        store.overrideSelector(getCustomerConditionsValid, true);
 
         component.agInit({} as HeaderClassParams);
 
@@ -67,8 +60,8 @@ describe('CreateCaseActionHeaderComponent', () => {
     test(
       'should set to FALSE if addMaterials are empty',
       marbles((m) => {
-        mockStore.overrideSelector(getCaseRowData, []);
-        mockStore.overrideSelector(getCustomerConditionsValid, false);
+        store.overrideSelector(getCaseRowData, []);
+        store.overrideSelector(getCustomerConditionsValid, false);
 
         component.agInit({} as HeaderClassParams);
 
@@ -80,8 +73,8 @@ describe('CreateCaseActionHeaderComponent', () => {
     test(
       'should set to TRUE if addMaterials are not empty and invalid',
       marbles((m) => {
-        mockStore.overrideSelector(getCaseRowData, [materialTableItem]);
-        mockStore.overrideSelector(getCustomerConditionsValid, false);
+        store.overrideSelector(getCaseRowData, [materialTableItem]);
+        store.overrideSelector(getCustomerConditionsValid, false);
 
         component.agInit({} as HeaderClassParams);
 
@@ -94,7 +87,7 @@ describe('CreateCaseActionHeaderComponent', () => {
 
   describe('deleteItems', () => {
     test('should dispatch delete action for each invalid node', () => {
-      mockStore.dispatch = jest.fn();
+      store.dispatch = jest.fn();
 
       const nodes = [
         {
@@ -123,8 +116,8 @@ describe('CreateCaseActionHeaderComponent', () => {
       component.agInit(mockParams as HeaderClassParams);
       component.deleteItems();
 
-      expect(mockStore.dispatch).toHaveBeenCalledTimes(1);
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
+      expect(store.dispatch).toHaveBeenCalledTimes(1);
+      expect(store.dispatch).toHaveBeenCalledWith(
         deleteRowDataItem({
           materialNumber: '456',
           quantity: 10,

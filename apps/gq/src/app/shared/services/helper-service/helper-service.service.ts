@@ -1,7 +1,18 @@
 import { Injectable } from '@angular/core';
 
 import { PLsAndSeries } from '@gq/core/store/reducers/models';
+import { CreateCaseActionCellComponent } from '@gq/shared/ag-grid/cell-renderer/action-cells/create-case-action-cell/create-case-action-cell.component';
+import { CreateCaseActionHeaderComponent } from '@gq/shared/ag-grid/cell-renderer/action-cells/create-case-action-header/create-case-action-header.component';
+import { ProcessCaseActionCellComponent } from '@gq/shared/ag-grid/cell-renderer/action-cells/process-case-action-cell/process-case-action-cell.component';
+import { ProcessCaseActionHeaderComponent } from '@gq/shared/ag-grid/cell-renderer/action-cells/process-case-action-header/process-case-action-header.component';
+import { AddMaterialButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/case-material-table/add-material-button/add-material-button.component';
+import { CreateCaseButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/case-material-table/create-case-button/create-case-button.component';
+import { CreateCaseResetAllButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/case-material-table/create-case-reset-all-button/create-case-reset-all-button.component';
+import { ProcessCaseResetAllButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/case-material-table/process-case-reset-all-button/process-case-reset-all-button.component';
 import { PasteButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/paste-button/paste-button.component';
+import { LOCALE_DE } from '@gq/shared/constants';
+import { Keyboard } from '@gq/shared/models';
+import { StatusBarConfig } from '@gq/shared/models/table';
 import {
   TranslocoCurrencyPipe,
   TranslocoDatePipe,
@@ -11,17 +22,6 @@ import {
 import { StatusPanelDef } from 'ag-grid-community';
 import { ColDef } from 'ag-grid-enterprise';
 
-import { CreateCaseActionCellComponent } from '../../ag-grid/cell-renderer/action-cells/create-case-action-cell/create-case-action-cell.component';
-import { CreateCaseActionHeaderComponent } from '../../ag-grid/cell-renderer/action-cells/create-case-action-header/create-case-action-header.component';
-import { ProcessCaseActionCellComponent } from '../../ag-grid/cell-renderer/action-cells/process-case-action-cell/process-case-action-cell.component';
-import { ProcessCaseActionHeaderComponent } from '../../ag-grid/cell-renderer/action-cells/process-case-action-header/process-case-action-header.component';
-import { AddMaterialButtonComponent } from '../../ag-grid/custom-status-bar/case-material-table/add-material-button/add-material-button.component';
-import { CreateCaseButtonComponent } from '../../ag-grid/custom-status-bar/case-material-table/create-case-button/create-case-button.component';
-import { CreateCaseResetAllButtonComponent } from '../../ag-grid/custom-status-bar/case-material-table/create-case-reset-all-button/create-case-reset-all-button.component';
-import { ProcessCaseResetAllButtonComponent } from '../../ag-grid/custom-status-bar/case-material-table/process-case-reset-all-button/process-case-reset-all-button.component';
-import { LOCALE_DE } from '../../constants';
-import { Keyboard } from '../../models';
-import { StatusBarConfig } from '../../models/table';
 import { PLsSeriesResponse } from '../rest-services/search-service/models/pls-series-response.model';
 
 @Injectable({

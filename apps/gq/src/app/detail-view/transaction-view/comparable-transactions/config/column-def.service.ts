@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+import { ColumnUtilityService } from '@gq/shared/ag-grid/services';
 import { translate } from '@ngneat/transloco';
 import { ColDef } from 'ag-grid-enterprise';
 
@@ -7,7 +8,6 @@ import {
   FILTER_PARAMS,
   NUMBER_COLUMN_FILTER,
 } from '../../../../shared/ag-grid/constants/filters';
-import { ColumnUtilityService } from '../../../../shared/ag-grid/services/column-utility.service';
 
 @Injectable({
   providedIn: 'root',

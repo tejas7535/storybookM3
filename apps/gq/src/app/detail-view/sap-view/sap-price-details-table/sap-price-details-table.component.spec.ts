@@ -1,16 +1,15 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
+import { LocalizationService } from '@gq/shared/ag-grid/services';
 import { Spectator } from '@ngneat/spectator';
 import { createComponentFactory } from '@ngneat/spectator/jest';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
-import { AgGridModule } from 'ag-grid-angular';
 import { MockProvider } from 'ng-mocks';
 
-import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { ColumnHeadersModule } from '../../../shared/ag-grid/column-headers/column-headers.module';
-import { HelperService } from '../../../shared/services/helper-service/helper-service.service';
+import { SapPriceDetailsColumnDefService } from './config';
 import { SapPriceDetailsTableComponent } from './sap-price-details-table.component';
 
 describe('SapConditionsTableComponent', () => {
@@ -19,18 +18,13 @@ describe('SapConditionsTableComponent', () => {
 
   const createComponent = createComponentFactory({
     component: SapPriceDetailsTableComponent,
-    imports: [
-      AgGridModule,
-      provideTranslocoTestingModule({ en: {} }),
-      PushModule,
-      ColumnHeadersModule,
-    ],
+    imports: [provideTranslocoTestingModule({ en: {} }), PushModule],
     providers: [
-      { provide: HelperService, useValue: {} },
-      MockProvider(TranslocoLocaleService),
-      MockProvider(ApplicationInsightsService),
+      MockProvider(LocalizationService),
+      MockProvider(SapPriceDetailsColumnDefService),
       provideMockStore({}),
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {

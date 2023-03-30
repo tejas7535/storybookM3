@@ -1,6 +1,7 @@
 export * from './available-locales';
 export * from './filter-from-query-params.const';
 export * from './forbidden-action';
+export * from './format-string';
 export * from './language';
 export * from './legal-constants';
 export * from './regex';

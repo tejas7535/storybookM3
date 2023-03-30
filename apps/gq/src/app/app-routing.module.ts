@@ -75,14 +75,6 @@ export const appRoutePaths: Routes = [
       import('@schaeffler/empty-states').then((m) => m.PageNotFoundModule),
   },
 ];
-export class ProcessCaseViewQueryParams {
-  quotation_number: number;
-  customer_number: string;
-  sales_org: string;
-}
-export class DetailViewQueryParams extends ProcessCaseViewQueryParams {
-  gqPositionId: string;
-}
 
 @NgModule({
   imports: [RouterModule.forRoot(appRoutePaths)],

@@ -12,10 +12,8 @@ import { EditCellData } from '../../ag-grid/cell-renderer/models/edit-cell-class
 import { timestampRegex } from '../../constants';
 import { Keyboard } from '../../models';
 import { SAP_SYNC_STATUS } from '../../models/quotation-detail';
-import {
-  FreeStockCellComponent,
-  FreeStockCellParams,
-} from '../cell-renderer/free-stock/free-stock-cell/free-stock-cell.component';
+import { FreeStockCellComponent } from '../cell-renderer/free-stock/free-stock-cell/free-stock-cell.component';
+import { FreeStockCellParams } from '../cell-renderer/free-stock/free-stock-cell/model/free-stock-cell-params.model';
 import { GqPriceCellComponent } from '../cell-renderer/gq-price-cell/gq-price-cell.component';
 import { SapPriceCellComponent } from '../cell-renderer/sap-price-cell/sap-price-cell.component';
 import { ColumnFields } from '../constants/column-fields.enum';
@@ -26,7 +24,8 @@ import {
   SET_COLUMN_FILTER,
   TEXT_COLUMN_FILTER,
 } from '../constants/filters';
-import { ColumnUtilityService, ComparatorService } from '.';
+import { ColumnUtilityService } from './column-utility.service';
+import { ComparatorService } from './comparator.service';
 
 @Injectable({
   providedIn: 'root',

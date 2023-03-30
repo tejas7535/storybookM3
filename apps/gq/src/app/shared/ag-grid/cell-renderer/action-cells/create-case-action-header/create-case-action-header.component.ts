@@ -6,11 +6,10 @@ import { deleteRowDataItem } from '@gq/core/store/actions';
 import {
   getCaseRowData,
   getCustomerConditionsValid,
-} from '@gq/core/store/selectors';
+} from '@gq/core/store/selectors/create-case/create-case.selector';
+import { MaterialTableItem } from '@gq/shared/models/table';
 import { Store } from '@ngrx/store';
 import { HeaderClassParams } from 'ag-grid-community';
-
-import { MaterialTableItem } from '../../../../models/table';
 
 @Component({
   selector: 'gq-process-case-action-header',

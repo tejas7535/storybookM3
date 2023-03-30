@@ -21,10 +21,8 @@ import { SharedDirectivesModule } from '../../../directives/shared-directives.mo
 import { EVENT_NAMES } from '../../../models';
 import { PriceSource, QuotationDetail } from '../../../models/quotation-detail';
 import { ColumnFields } from '../../constants/column-fields.enum';
-import {
-  ExtendedColumnHeaderComponent,
-  ExtendedColumnHeaderComponentParams,
-} from './extended-column-header.component';
+import { ExtendedColumnHeaderComponent } from './extended-column-header.component';
+import { ExtendedColumnHeaderComponentParams } from './models/extended-column-header-component-params.model';
 import { PriceSourceOptions } from './models/price-source-options.enum';
 
 describe('ExtendedColumnHeaderComponent', () => {

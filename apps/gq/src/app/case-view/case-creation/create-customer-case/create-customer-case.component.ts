@@ -18,7 +18,7 @@ import {
   getProductLinesAndSeriesLoading,
   getSelectedCustomerId,
   getSelectedSalesOrg,
-} from '@gq/core/store/selectors';
+} from '@gq/core/store/selectors/create-case/create-case.selector';
 import { AutocompleteRequestDialog } from '@gq/shared/components/autocomplete-input/autocomplete-request-dialog.enum';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';

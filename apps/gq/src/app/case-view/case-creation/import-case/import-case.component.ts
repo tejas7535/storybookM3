@@ -14,7 +14,7 @@ import {
   getCaseAutocompleteLoading,
   getCaseQuotation,
   getCreateCaseLoading,
-} from '@gq/core/store/selectors';
+} from '@gq/core/store/selectors/create-case/create-case.selector';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 

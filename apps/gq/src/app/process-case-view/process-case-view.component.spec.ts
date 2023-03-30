@@ -1,14 +1,4 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatTabsModule } from '@angular/material/tabs';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
 
 import { updateQuotation } from '@gq/core/store/actions';
 import {
@@ -18,46 +8,23 @@ import {
   getQuotationLoading,
   getQuotationSapSyncStatus,
 } from '@gq/core/store/selectors';
+import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
+import { BreadcrumbsService } from '@gq/shared/services/breadcrumbs-service/breadcrumbs.service';
+import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { ShipToParty } from '@gq/shared/services/rest-services/quotation-service/models/ship-to-party';
-import {
-  createComponentFactory,
-  mockProvider,
-  Spectator,
-} from '@ngneat/spectator/jest';
-import { TranslocoModule } from '@ngneat/transloco';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { AgGridModule } from 'ag-grid-angular';
-import { MockModule } from 'ng-mocks';
+import { MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
-import { ApplicationInsightsService } from '@schaeffler/application-insights';
-import { Breadcrumb, BreadcrumbsModule } from '@schaeffler/breadcrumbs';
-import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
-import { ShareButtonModule } from '@schaeffler/share-button';
-import { SubheaderModule } from '@schaeffler/subheader';
+import { Breadcrumb } from '@schaeffler/breadcrumbs';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { PROCESS_CASE_STATE_MOCK, QUOTATION_MOCK } from '../../testing/mocks';
-import { CustomStatusBarModule } from '../shared/ag-grid/custom-status-bar/custom-status-bar.module';
-import { AddEntryModule } from '../shared/components/case-material/add-entry/add-entry.module';
-import { InputTableModule } from '../shared/components/case-material/input-table/input-table.module';
-import { SyncStatusCustomerInfoHeaderModule } from '../shared/components/header/sync-status-customer-info-header/sync-status-customer-info-header.module';
-import { TabsHeaderComponent } from '../shared/components/tabs-header/tabs-header.component';
 import { SAP_SYNC_STATUS } from '../shared/models/quotation-detail/sap-sync-status.enum';
-import { SharedPipesModule } from '../shared/pipes/shared-pipes.module';
-import { HelperService } from '../shared/services/helper-service/helper-service.service';
 import { UpdateQuotationRequest } from '../shared/services/rest-services/quotation-service/models/update-quotation-request.model';
-import { AddMaterialDialogComponent } from './add-material-dialog/add-material-dialog.component';
-import { HeaderContentModule } from './header-content/header-content.module';
 import { ProcessCaseViewComponent } from './process-case-view.component';
-import { ProcessCaseViewRoutingModule } from './process-case-view-routing.module';
-import { QuotationDetailsTableModule } from './quotation-details-table/quotation-details-table.module';
-
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
 
 describe('ProcessCaseViewComponent', () => {
   let component: ProcessCaseViewComponent;
@@ -67,52 +34,22 @@ describe('ProcessCaseViewComponent', () => {
   const createComponent = createComponentFactory({
     component: ProcessCaseViewComponent,
     imports: [
-      AddEntryModule,
-      MockModule(InputTableModule),
-      AgGridModule,
-      BrowserAnimationsModule,
-      MockModule(CustomStatusBarModule),
-      MatCardModule,
-      MatDialogModule,
-      MatIconModule,
-      MatSidenavModule,
-      ProcessCaseViewRoutingModule,
-      MockModule(QuotationDetailsTableModule),
-      RouterTestingModule,
-      HeaderContentModule,
       provideTranslocoTestingModule({ en: {} }),
-      LoadingSpinnerModule,
       PushModule,
-      MatSnackBarModule,
-      MatCardModule,
-      SubheaderModule,
-      BreadcrumbsModule,
       SharedPipesModule,
-      ShareButtonModule,
-      MatTabsModule,
-      MatMenuModule,
-      SyncStatusCustomerInfoHeaderModule,
     ],
-    declarations: [TabsHeaderComponent],
+
     providers: [
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
-      mockProvider(ApplicationInsightsService),
+      MockProvider(FeatureToggleConfigService),
+      MockProvider(BreadcrumbsService),
       provideMockStore({
         initialState: {
           processCase: PROCESS_CASE_STATE_MOCK,
           'azure-auth': {},
         },
       }),
-      {
-        provide: HelperService,
-        useValue: {
-          transformDate: jest.fn(),
-          transformMarginDetails: jest.fn(),
-          transformPercentage: jest.fn(),
-        },
-      },
     ],
-    entryComponents: [AddMaterialDialogComponent],
+
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 

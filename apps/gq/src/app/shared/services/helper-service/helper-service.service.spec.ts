@@ -408,7 +408,7 @@ describe('HelperServiceService', () => {
           },
         ],
       };
-      expect(result).toEqual(expected);
+      expect(JSON.stringify(result)).toEqual(JSON.stringify(expected));
     });
     test('should return StatusBarConfig for processCase', () => {
       const result = HelperService.initStatusBar(false, BASE_STATUS_BAR_CONFIG);
@@ -430,7 +430,7 @@ describe('HelperServiceService', () => {
           },
         ],
       };
-      expect(result).toEqual(expected);
+      expect(JSON.stringify(result)).toEqual(JSON.stringify(expected));
     });
   });
 
@@ -447,7 +447,7 @@ describe('HelperServiceService', () => {
         },
       ];
 
-      expect(result).toEqual(expected);
+      expect(JSON.stringify(result)).toEqual(JSON.stringify(expected));
     });
     test('should return ColDef for processCase', () => {
       const result = HelperService.initColDef(false, BASE_COLUMN_DEFS);
@@ -461,7 +461,7 @@ describe('HelperServiceService', () => {
         },
       ];
 
-      expect(result).toEqual(expected);
+      expect(JSON.stringify(result)).toEqual(JSON.stringify(expected));
     });
   });
 

@@ -1,6 +1,3 @@
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -10,9 +7,12 @@ import {
   resetSimulatedQuotation,
 } from '@gq/core/store/actions';
 import { getSelectedQuotationDetailIds } from '@gq/core/store/selectors';
+import {
+  ColumnDefService,
+  LocalizationService,
+} from '@gq/shared/ag-grid/services';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
-import { TranslocoCurrencyPipe } from '@ngneat/transloco-locale';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AgGridModule } from 'ag-grid-angular';
@@ -23,8 +23,7 @@ import {
   GridReadyEvent,
   RowNode,
 } from 'ag-grid-community';
-
-import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+import { MockProvider } from 'ng-mocks';
 
 import {
   PROCESS_CASE_STATE_MOCK,
@@ -34,7 +33,6 @@ import {
 import { AppRoutePath } from '../../app-route-path.enum';
 import { PriceSourceOptions } from '../../shared/ag-grid/column-headers/extended-column-header/models/price-source-options.enum';
 import { ColumnFields } from '../../shared/ag-grid/constants/column-fields.enum';
-import { CustomStatusBarModule } from '../../shared/ag-grid/custom-status-bar/custom-status-bar.module';
 import { ColumnUtilityService } from '../../shared/ag-grid/services/column-utility.service';
 import { Quotation } from '../../shared/models';
 import {
@@ -42,9 +40,7 @@ import {
   QuotationDetail,
   SapPriceCondition,
 } from '../../shared/models/quotation-detail';
-import { HelperService } from '../../shared/services/helper-service/helper-service.service';
 import { QuotationDetailsTableComponent } from './quotation-details-table.component';
-
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
   translate: jest.fn(() => 'translate it'),
@@ -62,24 +58,15 @@ describe('QuotationDetailsTableComponent', () => {
     component: QuotationDetailsTableComponent,
     declarations: [QuotationDetailsTableComponent],
     detectChanges: false,
-    imports: [
-      AgGridModule,
-      CustomStatusBarModule,
-      MatDialogModule,
-      PushModule,
-      RouterTestingModule,
-      MatSnackBarModule,
-      provideTranslocoTestingModule({ en: {} }),
-    ],
+    imports: [AgGridModule, PushModule, RouterTestingModule],
     providers: [
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+      MockProvider(ColumnDefService),
+      MockProvider(LocalizationService),
       provideMockStore({
         initialState: {
           processCase: PROCESS_CASE_STATE_MOCK,
         },
       }),
-      { provide: HelperService, useValue: {} },
-      { provide: TranslocoCurrencyPipe, useValue: {} },
     ],
   });
 

@@ -15,6 +15,7 @@ import {
   getColumnDefsForRoles,
   getSelectedQuotationDetailIds,
 } from '@gq/core/store/selectors';
+import { ColumnUtilityService } from '@gq/shared/ag-grid/services';
 import { Store } from '@ngrx/store';
 import {
   ColDef,
@@ -41,7 +42,6 @@ import { ColumnFields } from '../../shared/ag-grid/constants/column-fields.enum'
 import { excelStyles } from '../../shared/ag-grid/custom-status-bar/export-to-excel-button/excel-styles.constants';
 import { AgGridLocale } from '../../shared/ag-grid/models/ag-grid-locale.interface';
 import { ColumnDefService } from '../../shared/ag-grid/services/column-def.service';
-import { ColumnUtilityService } from '../../shared/ag-grid/services/column-utility.service';
 import { LocalizationService } from '../../shared/ag-grid/services/localization.service';
 import { KpiValue } from '../../shared/components/modal/editing-modal/kpi-value.model';
 import {

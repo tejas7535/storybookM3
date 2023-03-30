@@ -1,6 +1,5 @@
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { of, Subject } from 'rxjs';
 
@@ -9,19 +8,15 @@ import {
   clearCustomer,
   resetAllAutocompleteOptions,
 } from '@gq/core/store/actions';
+import { AutoCompleteFacade } from '@gq/core/store/facades';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockProvider } from 'ng-mocks';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
-import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { AutocompleteInputModule } from '../../../shared/components/autocomplete-input/autocomplete-input.module';
-import { AddEntryModule } from '../../../shared/components/case-material/add-entry/add-entry.module';
-import { InputTableModule } from '../../../shared/components/case-material/input-table/input-table.module';
-import { DialogHeaderModule } from '../../../shared/components/header/dialog-header/dialog-header.module';
-import { SelectSalesOrgModule } from '../../../shared/components/select-sales-org/select-sales-org.module';
 import {
   CASE_CREATION_TYPES,
   CaseCreationEventParams,
@@ -39,19 +34,9 @@ describe('CreateManualCaseComponent', () => {
 
   const createComponent = createComponentFactory({
     component: CreateManualCaseComponent,
-    imports: [
-      provideTranslocoTestingModule({}),
-      SelectSalesOrgModule,
-      InputTableModule,
-      AutocompleteInputModule,
-      AddEntryModule,
-      LoadingSpinnerModule,
-      PushModule,
-      DialogHeaderModule,
-      MatSnackBarModule,
-    ],
+    imports: [provideTranslocoTestingModule({}), PushModule],
     providers: [
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+      MockProvider(AutoCompleteFacade),
       provideMockStore({
         initialState: {
           case: {
@@ -62,7 +47,6 @@ describe('CreateManualCaseComponent', () => {
           },
         },
       }),
-
       {
         provide: MatDialogRef,
         useValue: {
@@ -76,6 +60,7 @@ describe('CreateManualCaseComponent', () => {
         },
       },
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {
