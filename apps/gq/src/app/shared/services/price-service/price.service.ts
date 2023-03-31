@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 
 import {
@@ -293,9 +294,7 @@ export class PriceService {
 
   static calculateSapPriceValues(detail: QuotationDetail): void {
     if (detail.filteredSapConditionDetails) {
-      detail.rsp = detail.filteredSapConditionDetails.find(
-        (el) => el.sapConditionType === SapConditionType.ZMIN
-      )?.amount;
+      detail.rsp = this.calculateRsp(detail);
 
       const zrtu = detail.filteredSapConditionDetails.find(
         (el) => el.sapConditionType === SapConditionType.ZRTU
@@ -312,6 +311,30 @@ export class PriceService {
             el.sapConditionType === SapConditionType.ZEVO
         )?.amount || undefined;
     }
+  }
+
+  private static calculateRsp(detail: QuotationDetail): number {
+    const rspCondition = detail.filteredSapConditionDetails.find(
+      (el) => el.sapConditionType === SapConditionType.ZMIN
+    );
+    if (!rspCondition) {
+      return undefined;
+    }
+
+    let rsp = rspCondition.amount;
+
+    if (
+      detail.sapPriceUnit &&
+      rspCondition.pricingUnit &&
+      detail.sapPriceUnit !== rspCondition.pricingUnit
+    ) {
+      rsp = PriceService.multiplyAndRoundValues(
+        rsp / rspCondition.pricingUnit,
+        detail.sapPriceUnit
+      );
+    }
+
+    return rsp;
   }
 
   static calculateMsp(rsp: number, zrtu: number): number {

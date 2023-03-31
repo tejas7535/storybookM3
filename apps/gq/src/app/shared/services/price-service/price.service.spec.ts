@@ -349,11 +349,47 @@ describe('PriceService', () => {
           } as SapPriceConditionDetail,
         ],
       } as QuotationDetail;
-      PriceService.calculateMsp = jest.fn(() => 85);
 
       PriceService.calculateSapPriceValues(detail);
       expect(detail.msp).toEqual(85);
       expect(detail.rsp).toEqual(100);
+    });
+
+    test('should set msp & rsp for existing sapPriceUnit', () => {
+      const detail = {
+        sapPriceUnit: 100,
+        filteredSapConditionDetails: [
+          {
+            sapConditionType: SapConditionType.ZMIN,
+            amount: 100,
+            pricingUnit: 1,
+          } as SapPriceConditionDetail,
+          {
+            sapConditionType: SapConditionType.ZRTU,
+            amount: 15,
+          } as SapPriceConditionDetail,
+        ],
+      } as QuotationDetail;
+
+      PriceService.calculateSapPriceValues(detail);
+      expect(detail.msp).toEqual(8500);
+      expect(detail.rsp).toEqual(10_000);
+    });
+
+    test('should not set msp & rsp when missing conditions', () => {
+      const detail = {
+        sapPriceUnit: 100,
+        filteredSapConditionDetails: [
+          {
+            sapConditionType: SapConditionType.ZRTU,
+            amount: 15,
+          } as SapPriceConditionDetail,
+        ],
+      } as QuotationDetail;
+
+      PriceService.calculateSapPriceValues(detail);
+      expect(detail.msp).toEqual(undefined);
+      expect(detail.rsp).toEqual(undefined);
     });
   });
   describe('calculateAffectedKPIs', () => {
