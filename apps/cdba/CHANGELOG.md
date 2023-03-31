@@ -1,4 +1,21 @@
 # Release Notes of Cost Database Analytics
+## [3.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.20.0...cdba-v3.0.0) (2023-03-31)
+
+
+### ⚠ BREAKING CHANGES
+
+* **cdba:** odata golive (#5058)
+
+### Features
+
+* **cdba:** new columns ([#5121](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5121)) ([7754e48](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7754e4868a13727681be6f0306afe3ea06679a22))
+* **cdba:** odata golive ([#5058](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5058)) ([683d008](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/683d008676d760d4e6cad9448f477578f3d9ba2e))
+
+
+### Bug Fixes
+
+* **cdba:** removed duplicated column ([#5119](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5119)) ([1255984](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/125598426c9e03a794f952a704fbe90f675f5515))
+
 ## [2.20.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.19.0...cdba-v2.20.0) (2023-02-27)
 
 
