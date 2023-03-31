@@ -39,6 +39,6 @@ export class AppModule {
   // eslint-disable-next-line @angular-eslint/use-lifecycle-interface
   ngDoBootstrap() {
     const el = createCustomElement(AppComponent, { injector: this.injector });
-    customElements.define('ea-root', el);
+    customElements.define('engineering-app', el);
   }
 }

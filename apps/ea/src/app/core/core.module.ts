@@ -17,7 +17,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import enJson from '../../assets/i18n/en.json';
 // import deJson from '../../assets/i18n/de.json';
-import { HttpEaInterceptor } from './interceptor/http-ea.interceptor';
+import { HttpBearinxInterceptor } from './interceptor/http-bearinx.interceptor';
 import { StoreModule } from './store/store.module';
 
 @NgModule({
@@ -32,7 +32,9 @@ import { StoreModule } from './store/store.module';
       FALLBACK_LANGUAGE.id,
       LANGUAGE_STORAGE_KEY,
       true,
-      !environment.localDev
+      !environment.localDev,
+      undefined,
+      environment.translationPath
     ),
 
     TranslocoPersistLangModule.forRoot({
@@ -47,7 +49,7 @@ import { StoreModule } from './store/store.module';
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: HttpEaInterceptor,
+      useClass: HttpBearinxInterceptor,
       multi: true,
     },
   ],

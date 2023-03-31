@@ -67,7 +67,7 @@ describe('CalculationResultPreviewComponent', () => {
   });
 
   it('should show info if calculation is missing inputs', () => {
-    const m = spectator.query('.fixed').textContent;
+    const m = spectator.query('.sticky').textContent;
     expect(m).toContain('calculation.calculationMissingInput');
   });
 

@@ -4,7 +4,8 @@ import { SettingsFacade } from '@ea/core/store';
 
 import { CalculationParametersFacade } from './core/store/facades/calculation-parameters/calculation-parameters.facade';
 @Component({
-  selector: 'ea-root',
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: 'engineering-app',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })

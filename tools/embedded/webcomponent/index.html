@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"
+      integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <title>Embedded App</title>
+    <link rel="icon" type="image/x-icon" href="favicon.png" />
+    <style>
+      :focus-visible {
+        outline: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app" class="p-3">
+      <div class="text-gray-600 flex items-center justify-center pb-6">
+        <img src="logo.png" alt="logo" />
+        <h1 class="font-mono text-xl pl-3">{{ wrapperAppTitle }}</h1>
+      </div>
+      <div
+        class="mx-auto flex flex-row items-center justify-center gap-x-4 px-4 pt-4"
+      >
+        <div class="text-gray-500 flex max-w-lg items-center rounded-md border">
+          <label
+            for="app-url"
+            class="text-gray-400 bg-gray-50 min-w-fit grow rounded-l-md border-r px-3 py-2.5"
+          >
+            Webcomponent URL
+          </label>
+          <input
+            type="text"
+            placeholder="www.example.com"
+            v-model="webComponentSrc"
+            id="app-url"
+            class="ml-2 w-full bg-transparent p-2.5 outline-none"
+          />
+        </div>
+        <div class="text-gray-500 flex max-w-md items-center rounded-md border">
+          <label
+            for="app-url"
+            class="text-gray-400 bg-gray-50 min-w-fit grow rounded-l-md border-r px-3 py-2.5"
+          >
+            Webcomponent TAG
+          </label>
+          <input
+            type="text"
+            placeholder="app-root"
+            v-model="webComponentTag"
+            id="app-url"
+            class="ml-2 w-full bg-transparent p-2.5 outline-none"
+          />
+        </div>
+      </div>
+      <div class="mx-auto mb-4 flex max-w-lg gap-4 px-4 pt-4">
+        <div class="text-gray-500 flex items-center rounded-md border">
+          <label
+            for="app-height"
+            class="text-gray-400 bg-gray-50 grow rounded-l-md border-r px-3 py-2.5"
+          >
+            Height
+          </label>
+          <input
+            type="text"
+            placeholder="800"
+            v-model="conatinerHeight"
+            id="app-height"
+            class="ml-2 w-full bg-transparent p-2.5 outline-none"
+          />
+          <div
+            class="text-gray-400 bg-gray-50 grow rounded-r-md border-l px-3 py-2.5"
+          >
+            px
+          </div>
+        </div>
+        <div class="text-gray-500 flex items-center rounded-md border">
+          <label
+            for="app-width"
+            class="text-gray-400 bg-gray-50 grow rounded-l-md border-r px-3 py-2.5"
+          >
+            Width
+          </label>
+          <input
+            type="text"
+            placeholder="1280"
+            v-model="containerWidth"
+            id="app-width"
+            class="ml-2 w-full bg-transparent p-2.5 outline-none"
+          />
+          <div
+            class="text-gray-400 bg-gray-50 grow rounded-r-md border-l px-3 py-2.5"
+          >
+            px
+          </div>
+        </div>
+      </div>
+      <div
+        class="from-gray-200 to-gray-100 m-0 mx-auto mb-20 overflow-hidden rounded bg-gradient-to-br p-5"
+        :style="{ 'height': containerHeight + 'px', width: containerWidth + 'px' }"
+      >
+        <div v-html="webComponentTag"></div>
+      </div>
+    </div>
+
+    <script>
+      const { createApp } = Vue;
+
+      createApp({
+        data() {
+          return {
+            wrapperAppTitle: 'Embedded App',
+            webComponentSrc: 'http://localhost:8000',
+            webComponentTag: '<app-root></app-root>',
+            containerHeight: 800,
+            containerWidth: 1280,
+          };
+        },
+        watch: {
+          webComponentSrc: _.debounce((val) => {
+            const oldWebcomponentScript =
+              document.getElementById('webcomponentScript');
+            document.head.removeChild(oldWebcomponentScript);
+            const webcomponentScript = document.createElement('script');
+            webcomponentScript.id = 'webcomponentScript';
+            webcomponentScript.src = val;
+            document.head.appendChild(webcomponentScript);
+          }, 500),
+        },
+        mounted() {
+          const webcomponentScript = document.createElement('script');
+          webcomponentScript.id = 'webcomponentScript';
+          webcomponentScript.src = 'http://localhost:8000/test';
+          document.head.appendChild(webcomponentScript);
+        },
+      }).mount('#app');
+    </script>
+  </body>
+</html>

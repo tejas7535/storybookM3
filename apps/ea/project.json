@@ -48,7 +48,7 @@
         "buildLibsFromSource": false
       },
       "configurations": {
-        "local": {
+        "default": {
           "buildOptimizer": false,
           "optimization": false,
           "vendorChunk": true,
@@ -66,11 +66,50 @@
             }
           ]
         },
+        "local": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "deployUrl": "http://localhost:8000/",
+          "fileReplacements": [
+            {
+              "replace": "apps/ea/src/environments/environment.ts",
+              "with": "apps/ea/src/environments/environment.local.ts"
+            }
+          ],
+          "assets": [
+            "apps/ea/src/favicon.ico",
+            "apps/ea/src/assets",
+            "apps/ea/src/browserconfig.xml",
+            {
+              "input": "apps/ea/robots/dev",
+              "output": "/",
+              "glob": "robots.txt"
+            },
+            {
+              "input": "apps/ea/webcomponent-bundle",
+              "output": "/",
+              "glob": "ea-webcomponent.js"
+            }
+          ]
+        },
         "dev": {
           "statsJson": true,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true,
+          "deployUrl": "https://engineeringapp-d.dev.dp.schaeffler/",
+          "optimization": {
+            "scripts": true,
+            "styles": {
+              "minify": true,
+              "inlineCritical": false
+            },
+            "fonts": false
+          },
           "fileReplacements": [
             {
               "replace": "apps/ea/src/environments/environment.ts",
@@ -91,6 +130,15 @@
         "qa": {
           "outputHashing": "bundles",
           "statsJson": true,
+          "deployUrl": "https://engineeringapp-q.dev.dp.schaeffler/",
+          "optimization": {
+            "scripts": true,
+            "styles": {
+              "minify": true,
+              "inlineCritical": false
+            },
+            "fonts": false
+          },
           "fileReplacements": [
             {
               "replace": "apps/ea/src/environments/environment.ts",
@@ -110,6 +158,15 @@
         },
         "production": {
           "outputHashing": "bundles",
+          "deployUrl": "https://engineeringapp.dp.schaeffler/",
+          "optimization": {
+            "scripts": true,
+            "styles": {
+              "minify": true,
+              "inlineCritical": false
+            },
+            "fonts": false
+          },
           "fileReplacements": [
             {
               "replace": "apps/ea/src/environments/environment.ts",
@@ -133,6 +190,9 @@
     "serve": {
       "executor": "@nrwl/angular:webpack-server",
       "configurations": {
+        "default": {
+          "browserTarget": "ea:build:default"
+        },
         "local": {
           "browserTarget": "ea:build:local"
         },
@@ -146,7 +206,7 @@
           "browserTarget": "ea:build:production"
         }
       },
-      "defaultConfiguration": "local"
+      "defaultConfiguration": "default"
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",

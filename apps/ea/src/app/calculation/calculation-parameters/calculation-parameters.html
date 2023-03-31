@@ -1,70 +1,74 @@
 <ng-container *transloco="let t; read: 'operatingConditions'">
-  <div class="flex flex-col items-center gap-10 pb-[200px]">
-    <div class="flex flex-col gap-0 sm:gap-5 lg:grid">
-      <h6 class="text-medium-emphasis">{{t('title')}}</h6>
-      <div class="flex flex-row">
-        <span class="flex-grow"></span>
-        <button mat-button color="primary" (click)="onResetButtonClick()">
-          {{ t('resetInputs') }}
-        </button>
-      </div>
-
-      <div
-        class="border-t border-border bg-surface sm:rounded sm:border-x sm:border-b"
-      >
-        <div class="flex flex-row items-center border-b border-border p-5">
-          <mat-icon class="mr-2 !text-medium-emphasis">compress</mat-icon>
-          <h5 class="mr-4 text-body-2">{{ t('loads') }}</h5>
+  <div class="flex h-full w-full flex-col">
+    <div class="flex flex-1 flex-col items-center gap-10 pb-[200px]">
+      <div class="flex flex-col gap-0 sm:gap-5 lg:grid">
+        <h6 class="text-medium-emphasis">{{t('title')}}</h6>
+        <div class="flex flex-row">
           <span class="flex-grow"></span>
-          <span class="text-caption font-medium tracking-wide text-low-emphasis"
-            >{{ t('requiredInformation') }}</span
-          >
+          <button mat-button color="primary" (click)="onResetButtonClick()">
+            {{ t('resetInputs') }}
+          </button>
         </div>
-        <div class="p-4 pb-0">
-          <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4">
+
+        <div
+          class="border-t border-border bg-surface sm:rounded sm:border-x sm:border-b"
+        >
+          <div class="flex flex-row items-center border-b border-border p-5">
+            <mat-icon class="mr-2 !text-medium-emphasis">compress</mat-icon>
+            <h5 class="mr-4 text-body-2">{{ t('loads') }}</h5>
+            <span class="flex-grow"></span>
+            <span
+              class="text-caption font-medium tracking-wide text-low-emphasis"
+              >{{ t('requiredInformation') }}</span
+            >
+          </div>
+          <div class="p-4 pb-0">
+            <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4">
+              <ea-input
+                [control]="radial"
+                [label]="t('radialLoad')"
+                [unit]="'N'"
+                [tooltipText]="t('tooltip.radialLoad')"
+                [placeholder]="t('pleaseEnter', { label: t('radialLoad') })"
+                [onlyPositive]="true"
+              ></ea-input>
+              <ea-input
+                [control]="axial"
+                [label]="t('axialLoad')"
+                [unit]="'N'"
+                [tooltipText]="t('tooltip.axialLoad')"
+                [placeholder]="t('pleaseEnter', { label: t('axialLoad') })"
+                [onlyPositive]="true"
+              ></ea-input>
+            </div>
+          </div>
+        </div>
+        <div
+          class="border-t border-border bg-surface sm:rounded sm:border-x sm:border-b"
+        >
+          <div class="flex flex-row items-center border-b border-border p-5">
+            <mat-icon class="mr-2 !text-medium-emphasis">animation</mat-icon>
+            <h5 class="mr-4 text-body-2">{{ t('relativeRotationalSpeed') }}</h5>
+            <span class="flex-grow"></span>
+            <span
+              class="text-caption font-medium tracking-wide text-low-emphasis"
+              >{{ t('requiredInformation') }}</span
+            >
+          </div>
+          <div class="grid grid-cols-1 gap-0 p-4 pb-0 md:grid-cols-2 md:gap-4">
             <ea-input
-              [control]="radial"
-              [label]="t('radialLoad')"
-              [unit]="'N'"
-              [tooltipText]="t('tooltip.radialLoad')"
-              [placeholder]="t('pleaseEnter', { label: t('radialLoad') })"
-              [onlyPositive]="true"
-            ></ea-input>
-            <ea-input
-              [control]="axial"
-              [label]="t('axialLoad')"
-              [unit]="'N'"
-              [tooltipText]="t('tooltip.axialLoad')"
-              [placeholder]="t('pleaseEnter', { label: t('axialLoad') })"
+              [control]="rotation"
+              [label]="t('relativeRotationalSpeed')"
+              [unit]="t('onePerMinute')"
+              [tooltipText]="t('tooltip.rotationSpeed')"
+              [placeholder]="t('pleaseEnter', { label: t('relativeRotationalSpeed') })"
               [onlyPositive]="true"
             ></ea-input>
           </div>
         </div>
       </div>
-      <div
-        class="border-t border-border bg-surface sm:rounded sm:border-x sm:border-b"
-      >
-        <div class="flex flex-row items-center border-b border-border p-5">
-          <mat-icon class="mr-2 !text-medium-emphasis">animation</mat-icon>
-          <h5 class="mr-4 text-body-2">{{ t('relativeRotationalSpeed') }}</h5>
-          <span class="flex-grow"></span>
-          <span class="text-caption font-medium tracking-wide text-low-emphasis"
-            >{{ t('requiredInformation') }}</span
-          >
-        </div>
-        <div class="grid grid-cols-1 gap-0 p-4 pb-0 md:grid-cols-2 md:gap-4">
-          <ea-input
-            [control]="rotation"
-            [label]="t('relativeRotationalSpeed')"
-            [unit]="t('onePerMinute')"
-            [tooltipText]="t('tooltip.rotationSpeed')"
-            [placeholder]="t('pleaseEnter', { label: t('relativeRotationalSpeed') })"
-            [onlyPositive]="true"
-          ></ea-input>
-        </div>
-      </div>
     </div>
-  </div>
 
-  <ea-calculation-result-preview></ea-calculation-result-preview>
+    <ea-calculation-result-preview></ea-calculation-result-preview>
+  </div>
 </ng-container>

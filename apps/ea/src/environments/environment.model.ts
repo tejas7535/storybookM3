@@ -5,4 +5,5 @@ export interface Environment {
   baseUrl: string;
   tenantId: string;
   groupId: string;
+  translationPath: string;
 }

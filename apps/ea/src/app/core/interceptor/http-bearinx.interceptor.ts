@@ -12,13 +12,17 @@ import { environment } from '@ea/environments/environment';
 import { TranslocoService } from '@ngneat/transloco';
 
 @Injectable()
-export class HttpEaInterceptor implements HttpInterceptor {
+export class HttpBearinxInterceptor implements HttpInterceptor {
   constructor(private readonly translocoService: TranslocoService) {}
 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    if (!req.url.startsWith(environment.baseUrl)) {
+      return next.handle(req);
+    }
+
     let bearinxLanguage: string;
 
     switch (this.translocoService.getActiveLang()) {

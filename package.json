@@ -22,6 +22,7 @@
     "dep-graph": "nx dep-graph",
     "e2e": "ng e2e",
     "embed-app:iframe": "http-server tools/embedded/iframe",
+    "embed-app:webcomponent": "http-server tools/embedded/webcomponent",
     "force-resolutions": "npx npm-force-resolutions && npx nx format:write --files=package-lock.json",
     "format:check": "nx format:check",
     "format:write": "nx format:write",
