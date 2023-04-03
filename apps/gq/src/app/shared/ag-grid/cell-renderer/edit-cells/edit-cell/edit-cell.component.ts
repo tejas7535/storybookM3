@@ -4,10 +4,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { distinctUntilChanged, Observable } from 'rxjs';
 
 import { getSimulatedQuotationDetailByItemId } from '@gq/core/store/selectors';
-import { translate } from '@ngneat/transloco';
+import { PRICE_VALIDITY_MARGIN_THRESHOLD } from '@gq/shared/constants';
 import { Store } from '@ngrx/store';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
-import { ICellRendererParams } from 'ag-grid-community';
 
 import { EditingModalComponent } from '../../../../components/modal/editing-modal/editing-modal.component';
 import { QuotationStatus } from '../../../../models';
@@ -20,42 +19,35 @@ import { ExtendedEditCellClassParams } from '../../models/extended-cell-class-pa
   templateUrl: './edit-cell.component.html',
 })
 export class EditCellComponent implements ICellRendererAngularComp {
-  public params: ICellRendererParams & ExtendedEditCellClassParams;
-  public isCellEditingAllowed: boolean;
-  public mspWarningEnabled = false;
-  public marginWarningEnabled = false;
-  public mspWarningTooltip = translate(
-    'shared.quotationDetailsTable.toolTip.priceLowerThanMsp'
-  );
-  public marginWarningTooltip = translate(
-    'shared.quotationDetailsTable.toolTip.gpmOrGpiTooLow'
-  );
-  public simulatedQuotation$: Observable<QuotationDetail>;
-  public quotationStatus = QuotationStatus;
+  params: ExtendedEditCellClassParams;
+  isCellEditingAllowed: boolean;
+
+  isWarningEnabled: boolean;
+  isInvalidPriceError: boolean;
+  warningTooltip = '';
+
+  simulatedQuotation$: Observable<QuotationDetail>;
+  quotationStatus = QuotationStatus;
 
   constructor(
     private readonly dialog: MatDialog,
     private readonly store: Store
   ) {}
 
-  agInit(params: ICellRendererParams & ExtendedEditCellClassParams): void {
+  agInit(params: ExtendedEditCellClassParams): void {
     this.params = params;
 
-    this.isCellEditingAllowed =
-      // editing is enabled
-      (!params.condition.enabled ||
-        params.data[params.condition.conditionField]) &&
-      params.field !== ColumnFields.PRICE_DIFF &&
-      params.field !== ColumnFields.RLM &&
-      params.field !== ColumnFields.NET_VALUE &&
-      params.field !== ColumnFields.PRICE_SOURCE;
+    // check if cell editing should be possible
+    this.handleCellEditing(params);
 
-    this.mspWarningEnabled =
-      params.field === ColumnFields.PRICE && params.value < params.data.msp;
-    this.marginWarningEnabled =
-      params.field === ColumnFields.PRICE &&
-      (params.data.gpi < 25 || params.data.gpm < 25);
+    // check if cell value is invalid and show info
+    this.handleInvalidStates(params);
 
+    // check if quotation simulation is possible
+    this.handleQuotationSimulation(params);
+  }
+
+  handleQuotationSimulation(params: ExtendedEditCellClassParams): void {
     if (
       [
         ColumnFields.PRICE,
@@ -73,6 +65,59 @@ export class EditCellComponent implements ICellRendererAngularComp {
           getSimulatedQuotationDetailByItemId(params.data.quotationItemId)
         )
         .pipe(distinctUntilChanged());
+    }
+  }
+
+  handleCellEditing(params: ExtendedEditCellClassParams): void {
+    this.isCellEditingAllowed =
+      // editing is enabled
+      (!params.condition.enabled ||
+        params.data[params.condition.conditionField]) &&
+      params.field !== ColumnFields.PRICE_DIFF &&
+      params.field !== ColumnFields.RLM &&
+      params.field !== ColumnFields.NET_VALUE &&
+      params.field !== ColumnFields.PRICE_SOURCE;
+  }
+
+  handleInvalidStates(params: ExtendedEditCellClassParams): void {
+    if (params.field === ColumnFields.PRICE) {
+      this.checkPriceValidity(
+        params.value,
+        params.data.msp,
+        params.data.gpi,
+        params.data.gpm
+      );
+    } else if (params.field === ColumnFields.ORDER_QUANTITY) {
+      this.checkQuantityValidity(params.value, params.data.deliveryUnit);
+    }
+  }
+
+  checkPriceValidity(
+    price: number,
+    msp: number,
+    gpi: number,
+    gpm: number
+  ): void {
+    this.isInvalidPriceError = price < msp;
+    const isInvalidMargin =
+      gpi < PRICE_VALIDITY_MARGIN_THRESHOLD ||
+      gpm < PRICE_VALIDITY_MARGIN_THRESHOLD;
+
+    if (this.isInvalidPriceError) {
+      this.warningTooltip = 'priceLowerThanMsp';
+    } else if (isInvalidMargin) {
+      this.warningTooltip = 'gpmOrGpiTooLow';
+    }
+
+    this.isWarningEnabled = this.isInvalidPriceError || isInvalidMargin;
+  }
+
+  checkQuantityValidity(quantity: number, deliveryUnit: number): void {
+    const isOrderQuantityInvalid = quantity < deliveryUnit;
+
+    if (isOrderQuantityInvalid) {
+      this.warningTooltip = 'orderQuantityTooLow';
+      this.isWarningEnabled = true;
     }
   }
 

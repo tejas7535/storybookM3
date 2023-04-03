@@ -4,6 +4,7 @@ export * from './forbidden-action';
 export * from './format-string';
 export * from './language';
 export * from './legal-constants';
+export * from './pricing.constant';
 export * from './regex';
 export * from './service-now.constant';
 export * from './table-styles';

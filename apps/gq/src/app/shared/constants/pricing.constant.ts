@@ -1,0 +1,1 @@
+export const PRICE_VALIDITY_MARGIN_THRESHOLD = 25;

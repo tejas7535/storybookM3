@@ -114,7 +114,8 @@
       "mspInfoText": "Minimum Selling Price (SAP)",
       "toolTip": {
         "priceLowerThanMsp": "Net Price is lower than MSP. Please request approval from Pricing.",
-        "gpmOrGpiTooLow": "Current Net Price leads to a loss maker (margin < 25%). Please verify price setting."
+        "gpmOrGpiTooLow": "Current Net Price leads to a loss maker (margin < 25%). Please verify price setting.",
+        "orderQuantityTooLow": "Please consider Delivery Unit {{deliveryUnit}} PC for this item."
       },
       "strategicMaterial": "Strategic Material (GC)",
       "sapVolumeScale": "SAP Volume Scale %",

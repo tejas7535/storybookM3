@@ -1,10 +1,11 @@
-import { CellClassParams } from 'ag-grid-community';
+import { CellClassParams, ICellRendererParams } from 'ag-grid-community';
 
 import { EditCellData } from './edit-cell-class-params.model';
 
-export type ExtendedCellClassParams = CellClassParams & {
+type ExtendedCellClassParams = CellClassParams & {
   valueFormatted: string;
 };
 
-export type ExtendedEditCellClassParams = ExtendedCellClassParams &
+export type ExtendedEditCellClassParams = ICellRendererParams &
+  ExtendedCellClassParams &
   EditCellData;

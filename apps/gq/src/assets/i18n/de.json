@@ -114,7 +114,8 @@
       "mspInfoText": "Minimaler Verkaufspreis (SAP)",
       "toolTip": {
         "priceLowerThanMsp": "Nettopreis ist niedriger als MSP. Bitte beantragen Sie die Genehmigung der Preisgestaltung.",
-        "gpmOrGpiTooLow": "Aktueller Nettopreis führt zu einem Loss Maker (Marge < 25%). Bitte Preisstellung überprüfen."
+        "gpmOrGpiTooLow": "Aktueller Nettopreis führt zu einem Loss Maker (Marge < 25%). Bitte Preisstellung überprüfen.",
+        "orderQuantityTooLow": "Bitte beachten Sie die Liefereinheit von {{deliveryUnit}} ST für diese Position."
       },
       "strategicMaterial": "Strateg. Material GC",
       "sapVolumeScale": "SAP Volumen Staffel %",
