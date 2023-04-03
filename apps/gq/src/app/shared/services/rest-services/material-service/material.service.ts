@@ -7,7 +7,11 @@ import { MaterialStock } from '@gq/core/store/reducers/models';
 
 import { ApiVersion } from '../../../models';
 import { PlantMaterialDetail } from '../../../models/quotation-detail';
-import { MaterialTableItem, MaterialValidation } from '../../../models/table';
+import {
+  MaterialValidationRequest,
+  MaterialValidationResponse,
+} from './models';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -20,13 +24,11 @@ export class MaterialService {
   constructor(private readonly http: HttpClient) {}
 
   public validateMaterials(
-    tableData: MaterialTableItem[]
-  ): Observable<MaterialValidation[]> {
-    const body = [...new Set(tableData.map((el) => el.materialNumber))];
-
-    return this.http.post<MaterialValidation[]>(
+    validateMaterialData: MaterialValidationRequest
+  ): Observable<MaterialValidationResponse> {
+    return this.http.post<MaterialValidationResponse>(
       `${ApiVersion.V1}/${this.PATH_VALIDATION}`,
-      body
+      validateMaterialData
     );
   }
 

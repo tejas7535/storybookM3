@@ -2,10 +2,8 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import {
-  pasteRowDataItems,
-  pasteRowDataItemsToAddMaterial,
-} from '@gq/core/store/actions';
+import { addRowDataItems } from '@gq/core/store/actions/create-case/create-case.actions';
+import { addMaterialRowDataItems } from '@gq/core/store/actions/process-case/process-case.action';
 import { translate } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
@@ -36,12 +34,12 @@ export class PasteMaterialsService {
       const tableArray = this.processInput(linesArray);
       isCaseView
         ? this.store.dispatch(
-            pasteRowDataItems({
+            addRowDataItems({
               items: tableArray,
             })
           )
         : this.store.dispatch(
-            pasteRowDataItemsToAddMaterial({
+            addMaterialRowDataItems({
               items: tableArray,
             })
           );

@@ -9,7 +9,7 @@ import {
 } from '../../../../shared/models/table';
 import { TableService } from '../../../../shared/services/table-service/table.service';
 import {
-  addRowDataItem,
+  addRowDataItems,
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
@@ -30,7 +30,6 @@ import {
   importCase,
   importCaseFailure,
   importCaseSuccess,
-  pasteRowDataItems,
   resetAllAutocompleteOptions,
   resetAutocompleteMaterials,
   resetCustomerFilter,
@@ -46,14 +45,14 @@ import {
   setSelectedSeries,
   unselectAutocompleteOptions,
   updateRowDataItem,
-  validateFailure,
-  validateSuccess,
+  validateMaterialsOnCustomerAndSalesOrg,
+  validateMaterialsOnCustomerAndSalesOrgFailure,
+  validateMaterialsOnCustomerAndSalesOrgSuccess,
 } from '../../actions';
 import { SalesIndication } from '../transactions/models/sales-indication.enum';
 import { CreateCaseResponse, SalesOrg } from './models';
 import { CaseFilterItem } from './models/case-filter-item.model';
 import { PLsAndSeries } from './models/pls-and-series.model';
-// TODO: select requestedDialog
 /* eslint-disable max-lines */
 export interface CreateCaseState {
   autocompleteLoading: string;
@@ -314,11 +313,7 @@ export const createCaseReducer = createReducer(
       requestingDialog: AutocompleteRequestDialog.EMPTY,
     })
   ),
-  on(addRowDataItem, (state: CreateCaseState, { items }) => ({
-    ...state,
-    rowData: TableService.pasteItems(items, state.rowData),
-  })),
-  on(pasteRowDataItems, (state: CreateCaseState, { items }) => ({
+  on(addRowDataItems, (state: CreateCaseState, { items }) => ({
     ...state,
     rowData: TableService.pasteItems(items, [...state.rowData]),
     validationLoading: true,
@@ -343,35 +338,48 @@ export const createCaseReducer = createReducer(
       ]),
     })
   ),
-  on(validateSuccess, (state: CreateCaseState, { materialValidations }) => ({
-    ...state,
-    rowData: [...state.rowData].map((el) =>
-      TableService.validateData(
-        { ...el },
-        materialValidations.find(
-          (item) => item.materialNumber15 === el.materialNumber
+  on(
+    validateMaterialsOnCustomerAndSalesOrg,
+    (state: CreateCaseState): CreateCaseState => ({
+      ...state,
+      validationLoading: true,
+    })
+  ),
+  on(
+    validateMaterialsOnCustomerAndSalesOrgSuccess,
+    (state: CreateCaseState, { materialValidations }) => ({
+      ...state,
+      rowData: [...state.rowData].map((el) =>
+        TableService.validateData(
+          { ...el },
+          materialValidations.find(
+            (item) => item.materialNumber15 === el.materialNumber
+          )
         )
-      )
-    ),
-    validationLoading: false,
-  })),
-  on(validateFailure, (state: CreateCaseState) => ({
-    ...state,
-    rowData: [...state.rowData].map((el) => {
-      if (el.info.description[0] === ValidationDescription.Valid) {
-        return el;
-      }
+      ),
+      validationLoading: false,
+    })
+  ),
+  on(
+    validateMaterialsOnCustomerAndSalesOrgFailure,
+    (state: CreateCaseState) => ({
+      ...state,
+      rowData: [...state.rowData].map((el) => {
+        if (el.info.description[0] === ValidationDescription.Valid) {
+          return el;
+        }
 
-      return {
-        ...el,
-        info: {
-          ...el.info,
-          description: [ValidationDescription.ValidationFailure],
-        },
-      };
-    }),
-    validationLoading: false,
-  })),
+        return {
+          ...el,
+          info: {
+            ...el.info,
+            description: [ValidationDescription.ValidationFailure],
+          },
+        };
+      }),
+      validationLoading: false,
+    })
+  ),
   on(
     createCase,
     (state: CreateCaseState): CreateCaseState => ({
@@ -431,6 +439,7 @@ export const createCaseReducer = createReducer(
         salesOrgs,
         salesOrgsLoading: false,
       },
+      rowData: TableService.updateStatusOnCustomerChanged([...state.rowData]),
     })
   ),
   on(
@@ -455,6 +464,7 @@ export const createCaseReducer = createReducer(
           selected: el.id === salesOrgId,
         })),
       },
+      rowData: TableService.updateStatusOnCustomerChanged([...state.rowData]),
     })
   ),
   on(

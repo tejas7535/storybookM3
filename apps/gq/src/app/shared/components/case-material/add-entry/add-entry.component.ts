@@ -8,7 +8,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Observable, Subscription } from 'rxjs';
 
-import { addMaterialRowDataItem, addRowDataItem } from '@gq/core/store/actions';
+import {
+  addMaterialRowDataItems,
+  addRowDataItems,
+} from '@gq/core/store/actions';
 import { AutoCompleteFacade } from '@gq/core/store/facades';
 import { CaseFilterItem } from '@gq/core/store/reducers/models';
 import { translate } from '@ngneat/transloco';
@@ -105,14 +108,17 @@ export class AddEntryComponent implements OnInit, OnDestroy {
         materialNumber: this.matNumberInput.searchFormControl.value,
         materialDescription: this.matDescInput.searchFormControl.value,
         quantity: this.quantity,
-        info: { valid: true, description: [ValidationDescription.Valid] },
+        info: {
+          valid: false,
+          description: [ValidationDescription.Not_Validated],
+        },
       },
     ];
     // dispatch action depending on page
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     this.isCaseView
-      ? this.store.dispatch(addRowDataItem({ items }))
-      : this.store.dispatch(addMaterialRowDataItem({ items }));
+      ? this.store.dispatch(addRowDataItems({ items }))
+      : this.store.dispatch(addMaterialRowDataItems({ items }));
 
     // clear fields after dispatching action
     this.matNumberInput.clearInput();

@@ -14,6 +14,11 @@ import {
   tap,
 } from 'rxjs/operators';
 
+import { MaterialTableItem } from '@gq/shared/models/table';
+import {
+  MaterialValidationRequest,
+  MaterialValidationResponse,
+} from '@gq/shared/services/rest-services/material-service/models';
 import { translate } from '@ngneat/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
@@ -28,16 +33,13 @@ import {
   QuotationDetail,
   SAP_SYNC_STATUS,
 } from '../../../../shared/models/quotation-detail';
-import {
-  MaterialTableItem,
-  MaterialValidation,
-} from '../../../../shared/models/table';
 import { PriceService } from '../../../../shared/services/price-service/price.service';
 import { MaterialService } from '../../../../shared/services/rest-services/material-service/material.service';
 import { QuotationDetailsService } from '../../../../shared/services/rest-services/quotation-details-service/quotation-details.service';
 import { QuotationService } from '../../../../shared/services/rest-services/quotation-service/quotation.service';
 import { SearchService } from '../../../../shared/services/rest-services/search-service/search.service';
 import {
+  addMaterialRowDataItems,
   addMaterials,
   addMaterialsFailure,
   addMaterialsSuccess,
@@ -57,7 +59,6 @@ import {
   loadQuotationSuccess,
   loadQuotationSuccessFullyCompleted,
   loadSelectedQuotationDetailFromUrl,
-  pasteRowDataItemsToAddMaterial,
   refreshSapPricing,
   refreshSapPricingFailure,
   refreshSapPricingSuccess,
@@ -76,8 +77,9 @@ import {
   uploadSelectionToSap,
   uploadSelectionToSapFailure,
   uploadSelectionToSapSuccess,
-  validateAddMaterialsFailure,
-  validateAddMaterialsSuccess,
+  validateAddMaterialsOnCustomerAndSalesOrg,
+  validateAddMaterialsOnCustomerAndSalesOrgFailure,
+  validateAddMaterialsOnCustomerAndSalesOrgSuccess,
 } from '../../actions';
 import {
   AddQuotationDetailsRequest,
@@ -88,6 +90,7 @@ import {
   getAddMaterialRowData,
   getAddQuotationDetailsRequest,
   getAvailableCurrencies,
+  getCustomer,
   getGqId,
   getRemoveQuotationDetailsRequest,
   getSelectedQuotationIdentifier,
@@ -254,23 +257,51 @@ export class ProcessCaseEffect {
     );
   });
 
-  /**
-   * Get Validation for materialNumbers
-   */
-  validate$ = createEffect(() => {
+  validateAfterItemAdded$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(pasteRowDataItemsToAddMaterial.type),
-      concatLatestFrom(() => this.store.select(getAddMaterialRowData)),
-      map(([_action, tableData]) => tableData),
-      mergeMap((tableData: MaterialTableItem[]) =>
-        this.materialService.validateMaterials(tableData).pipe(
-          map((materialValidations: MaterialValidation[]) =>
-            validateAddMaterialsSuccess({ materialValidations })
-          ),
-          catchError((errorMessage) =>
-            of(validateAddMaterialsFailure({ errorMessage }))
-          )
-        )
+      ofType(addMaterialRowDataItems.type),
+      map(() => validateAddMaterialsOnCustomerAndSalesOrg())
+    );
+  });
+
+  /**
+   * Get Validation for materialNumbers in combination with Customer and SalesOrg
+   */
+  validateMaterialsOnCustomerAndSalesOrg$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(validateAddMaterialsOnCustomerAndSalesOrg.type),
+      concatLatestFrom(() => [
+        this.store.select(getAddMaterialRowData),
+        this.store.select(getCustomer),
+      ]),
+      mergeMap(
+        ([_action, tableData, customer]: [
+          ReturnType<typeof validateAddMaterialsOnCustomerAndSalesOrg>,
+          MaterialTableItem[],
+          Customer
+        ]) => {
+          const request: MaterialValidationRequest = {
+            customerId: customer.identifier,
+            materialNumbers: [
+              ...new Set(tableData.map((el) => el.materialNumber)),
+            ],
+          };
+
+          return this.materialService.validateMaterials(request).pipe(
+            map((response: MaterialValidationResponse) =>
+              validateAddMaterialsOnCustomerAndSalesOrgSuccess({
+                materialValidations: response?.validatedMaterials,
+              })
+            ),
+            catchError((errorMessage) =>
+              of(
+                validateAddMaterialsOnCustomerAndSalesOrgFailure({
+                  errorMessage,
+                })
+              )
+            )
+          );
+        }
       )
     );
   });

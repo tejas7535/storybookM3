@@ -1,9 +1,9 @@
 import { SalesIndication } from '@gq/core/store/reducers/models';
 
-import { CustomerIds } from '../../../../models/customer/customer-ids.model';
+import { CustomerId } from '../../../../models/customer/customer-ids.model';
 
 export interface PLsSeriesRequest {
-  customer: CustomerIds;
+  customer: CustomerId;
   salesIndications: SalesIndication[];
   includeQuotationHistory: boolean;
   historicalDataLimitInYear: number;

@@ -12,6 +12,7 @@ import { ValidationDescription } from '../../../models/table';
 export class InfoCellComponent {
   public valid: string;
   public toolTipText: string;
+  public isErrorText: boolean;
   isLoading: boolean;
 
   agInit(params: CellClassParams): void {
@@ -19,13 +20,30 @@ export class InfoCellComponent {
       ValidationDescription.Not_Validated
     );
     this.valid = params.value.valid;
-    this.toolTipText = this.setToolTipText(params.data.info.description);
+    this.toolTipText = this.setToolTipText(
+      params.data.info.description,
+      params.data.info.errorCode
+    );
+    this.isErrorText = params?.data?.info?.errorCode ? true : false;
   }
-  setToolTipText(description: ValidationDescription[]): string {
-    let text = `Status:\n`;
-    description.forEach((item) => {
-      text += `${translate(`shared.caseMaterial.table.info.status.${item}`)}\n`;
-    });
+  setToolTipText(
+    description: ValidationDescription[],
+    errorCode?: string
+  ): string {
+    let text = '';
+
+    // show either errorCode Message or DescriptionMessages, No mixes
+    if (errorCode) {
+      text += `${translate(
+        `shared.sapStatusLabels.errorCodes.${errorCode}`
+      )}\n`;
+    } else {
+      description.forEach((item) => {
+        text += `${translate(
+          `shared.caseMaterial.table.info.status.${item}`
+        )}\n`;
+      });
+    }
 
     return text;
   }

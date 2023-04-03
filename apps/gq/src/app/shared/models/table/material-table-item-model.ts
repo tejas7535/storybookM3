@@ -1,3 +1,4 @@
+import { SAP_ERROR_MESSAGE_CODE } from '../quotation-detail';
 import { ValidationDescription } from './validation-description.enum';
 
 export class MaterialTableItem {
@@ -8,5 +9,6 @@ export class MaterialTableItem {
   info?: {
     valid: boolean;
     description: ValidationDescription[];
+    errorCode?: SAP_ERROR_MESSAGE_CODE;
   };
 }

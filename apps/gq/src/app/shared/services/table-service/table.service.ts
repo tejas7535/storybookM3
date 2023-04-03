@@ -57,6 +57,24 @@ export class TableService {
     });
   }
 
+  static updateStatusOnCustomerChanged(
+    currentRowData: MaterialTableItem[]
+  ): MaterialTableItem[] {
+    return [
+      ...currentRowData.map((item: MaterialTableItem) => {
+        const newItem: MaterialTableItem = {
+          ...item,
+          info: {
+            valid: false,
+            errorCode: undefined,
+            description: [ValidationDescription.Not_Validated],
+          },
+        };
+
+        return newItem;
+      }),
+    ];
+  }
   static deleteItem(
     materialNumber: string,
     quantity: number,
@@ -87,6 +105,10 @@ export class TableService {
             ValidationDescription.MaterialNumberInValid
           ),
     };
+
+    if (materialValidation?.errorCode) {
+      updatedRow.info.errorCode = materialValidation.errorCode;
+    }
 
     const quantity =
       typeof updatedRow.quantity === 'number'

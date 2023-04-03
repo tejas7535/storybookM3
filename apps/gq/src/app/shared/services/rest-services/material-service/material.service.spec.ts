@@ -8,11 +8,8 @@ import { of } from 'rxjs';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { ApiVersion } from '../../../models';
-import {
-  MaterialTableItem,
-  ValidationDescription,
-} from '../../../models/table';
 import { MaterialService } from './material.service';
+import { MaterialValidationRequest } from './models';
 
 describe('MaterialService', () => {
   let httpMock: HttpTestingController;
@@ -35,41 +32,31 @@ describe('MaterialService', () => {
 
   describe('validateMaterials', () => {
     test('should call', () => {
-      const mockTable: MaterialTableItem[] = [
-        {
-          materialNumber: '123',
-          quantity: 10,
-          info: {
-            valid: false,
-            description: [ValidationDescription.Not_Validated],
-          },
-        },
-      ];
-      service.validateMaterials(mockTable).subscribe((response) => {
+      const request: MaterialValidationRequest = {
+        customerId: { customerId: '12345', salesOrg: '0815' },
+        materialNumbers: ['1234'],
+      };
+
+      service.validateMaterials(request).subscribe((response) => {
         expect(response).toEqual([]);
       });
+
       const req = httpMock.expectOne(`${ApiVersion.V1}/materials/validation`);
       expect(req.request.method).toBe('POST');
-      req.flush(mockTable);
+      req.flush(request);
     });
     test('should extract materialNumbers', () => {
-      const mockTable: MaterialTableItem[] = [
-        {
-          materialNumber: '123',
-          quantity: 10,
-          info: {
-            valid: false,
-            description: [ValidationDescription.Not_Validated],
-          },
-        },
-      ];
+      const request: MaterialValidationRequest = {
+        customerId: { customerId: '12345', salesOrg: '0815' },
+        materialNumbers: ['1234'],
+      };
       service['http'].post = jest.fn();
 
-      service.validateMaterials(mockTable);
+      service.validateMaterials(request);
 
       expect(service['http'].post).toHaveBeenCalledWith(
         `${ApiVersion.V1}/${service['PATH_VALIDATION']}`,
-        [mockTable[0].materialNumber]
+        request
       );
     });
   });

@@ -19,7 +19,7 @@ import {
   ValidationDescription,
 } from '../../../../shared/models/table';
 import {
-  addMaterialRowDataItem,
+  addMaterialRowDataItems,
   addMaterials,
   addMaterialsFailure,
   addMaterialsSuccess,
@@ -36,7 +36,6 @@ import {
   loadQuotationFailure,
   loadQuotationInInterval,
   loadQuotationSuccess,
-  pasteRowDataItemsToAddMaterial,
   refreshSapPricing,
   refreshSapPricingFailure,
   refreshSapPricingSuccess,
@@ -58,8 +57,8 @@ import {
   uploadSelectionToSap,
   uploadSelectionToSapFailure,
   uploadSelectionToSapSuccess,
-  validateAddMaterialsFailure,
-  validateAddMaterialsSuccess,
+  validateAddMaterialsOnCustomerAndSalesOrgFailure,
+  validateAddMaterialsOnCustomerAndSalesOrgSuccess,
 } from '../../actions';
 import { QuotationIdentifier } from './models';
 import {
@@ -330,7 +329,7 @@ describe('Quotation Reducer', () => {
             quantity: 100,
           },
         ];
-        const action = addMaterialRowDataItem({ items });
+        const action = addMaterialRowDataItems({ items });
         const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
 
         expect(state).toEqual({
@@ -338,38 +337,12 @@ describe('Quotation Reducer', () => {
           addMaterials: {
             ...PROCESS_CASE_STATE_MOCK.addMaterials,
             addMaterialRowData: items,
-          },
-        });
-      });
-    });
-
-    describe('pasteRowDataItemsToAddMaterial', () => {
-      test('should paste RowDataItems to AddMaterial', () => {
-        const items: MaterialTableItem[] = [];
-        const action = pasteRowDataItemsToAddMaterial({
-          items,
-        });
-
-        const fakeState = {
-          ...PROCESS_CASE_STATE_MOCK,
-          addMaterials: {
-            ...PROCESS_CASE_STATE_MOCK.addMaterials,
-            addMaterialRowData: items,
-          },
-        };
-
-        const state = processCaseReducer(fakeState, action);
-
-        expect(state).toEqual({
-          ...PROCESS_CASE_STATE_MOCK,
-          addMaterials: {
-            ...PROCESS_CASE_STATE_MOCK.addMaterials,
-            addMaterialRowData: [],
             validationLoading: true,
           },
         });
       });
     });
+
     describe('updateMaterialRowDataItem', () => {
       test('should update item', () => {
         const mockedRowData: MaterialTableItem[] = [
@@ -467,7 +440,9 @@ describe('Quotation Reducer', () => {
             valid: true,
           },
         ];
-        const action = validateAddMaterialsSuccess({ materialValidations });
+        const action = validateAddMaterialsOnCustomerAndSalesOrgSuccess({
+          materialValidations,
+        });
 
         const fakeState = {
           ...PROCESS_CASE_STATE_MOCK,
@@ -507,7 +482,9 @@ describe('Quotation Reducer', () => {
 
     describe('validateAddMaterialsFailure', () => {
       test('should failed validation', () => {
-        const action = validateAddMaterialsFailure({ errorMessage });
+        const action = validateAddMaterialsOnCustomerAndSalesOrgFailure({
+          errorMessage,
+        });
 
         const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
 

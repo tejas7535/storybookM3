@@ -1,9 +1,7 @@
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
-import {
-  pasteRowDataItems,
-  pasteRowDataItemsToAddMaterial,
-} from '@gq/core/store/actions';
+import { addRowDataItems } from '@gq/core/store/actions/create-case/create-case.actions';
+import { addMaterialRowDataItems } from '@gq/core/store/actions/process-case/process-case.action';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { mockProvider } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
@@ -85,7 +83,7 @@ describe('PasteMaterialsService', () => {
       await service.onPasteStart(true);
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        pasteRowDataItems(combinedItem)
+        addRowDataItems(combinedItem)
       );
     });
     test('should dispatch action german locale', async () => {
@@ -114,7 +112,7 @@ describe('PasteMaterialsService', () => {
       await service.onPasteStart(true);
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        pasteRowDataItems(combinedItem)
+        addRowDataItems(combinedItem)
       );
     });
     test('should dispatch action english locale', async () => {
@@ -143,7 +141,7 @@ describe('PasteMaterialsService', () => {
       await service.onPasteStart(true);
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        pasteRowDataItems(combinedItem)
+        addRowDataItems(combinedItem)
       );
     });
     test('should dispatch action with transformed array for processCase view', async () => {
@@ -161,7 +159,7 @@ describe('PasteMaterialsService', () => {
       await service.onPasteStart(false);
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        pasteRowDataItemsToAddMaterial(combinedItem)
+        addMaterialRowDataItems(combinedItem)
       );
     });
     test('should dispatch action with transformed array for zero quantity', async () => {
@@ -181,7 +179,7 @@ describe('PasteMaterialsService', () => {
       await service.onPasteStart(false);
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        pasteRowDataItemsToAddMaterial(combinedItem)
+        addMaterialRowDataItems(combinedItem)
       );
     });
 

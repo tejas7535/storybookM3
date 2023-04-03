@@ -1,5 +1,5 @@
 import { User } from '..';
-import { CustomerIds } from '../customer';
+import { CustomerId } from '../customer';
 
 export interface ViewQuotation {
   gqId: number;
@@ -12,7 +12,7 @@ export interface ViewQuotation {
   gqCreatedByUser: User;
   gqLastUpdatedByUser: User;
   gqLastUpdated: string;
-  customerIdentifiers: CustomerIds;
+  customerIdentifiers: CustomerId;
   customerName: string;
   origin: number;
 }

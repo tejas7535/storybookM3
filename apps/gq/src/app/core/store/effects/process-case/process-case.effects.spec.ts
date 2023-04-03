@@ -6,8 +6,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { of } from 'rxjs';
 
+import { MaterialValidationRequest } from '@gq/shared/services/rest-services/material-service/models';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { translate, TranslocoModule } from '@ngneat/transloco';
+import { translate } from '@ngneat/transloco';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
@@ -23,6 +24,7 @@ import {
 } from '../../../../../testing/mocks';
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { Quotation } from '../../../../shared/models';
+import { Customer } from '../../../../shared/models/customer';
 import { SapCallInProgress } from '../../../../shared/models/quotation';
 import { SAP_SYNC_STATUS } from '../../../../shared/models/quotation-detail';
 import {
@@ -35,6 +37,7 @@ import { QuotationDetailsService } from '../../../../shared/services/rest-servic
 import { QuotationService } from '../../../../shared/services/rest-services/quotation-service/quotation.service';
 import { SearchService } from '../../../../shared/services/rest-services/search-service/search.service';
 import {
+  addMaterialRowDataItems,
   addMaterials,
   addMaterialsFailure,
   addMaterialsSuccess,
@@ -53,7 +56,6 @@ import {
   loadQuotationSuccess,
   loadQuotationSuccessFullyCompleted,
   loadSelectedQuotationDetailFromUrl,
-  pasteRowDataItemsToAddMaterial,
   refreshSapPricing,
   refreshSapPricingFailure,
   refreshSapPricingSuccess,
@@ -72,8 +74,9 @@ import {
   uploadSelectionToSap,
   uploadSelectionToSapFailure,
   uploadSelectionToSapSuccess,
-  validateAddMaterialsFailure,
-  validateAddMaterialsSuccess,
+  validateAddMaterialsOnCustomerAndSalesOrg,
+  validateAddMaterialsOnCustomerAndSalesOrgFailure,
+  validateAddMaterialsOnCustomerAndSalesOrgSuccess,
 } from '../../actions';
 import {
   QuotationIdentifier,
@@ -83,6 +86,7 @@ import {
   getAddMaterialRowData,
   getAddQuotationDetailsRequest,
   getAvailableCurrencies,
+  getCustomer,
   getGqId,
   getRemoveQuotationDetailsRequest,
   getSelectedQuotationIdentifier,
@@ -91,10 +95,6 @@ import {
 import { ProcessCaseEffect } from './process-case.effects';
 
 /* eslint-disable max-lines */
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
 describe('ProcessCaseEffect', () => {
   let spectator: SpectatorService<ProcessCaseEffect>;
   let action: any;
@@ -485,7 +485,24 @@ describe('ProcessCaseEffect', () => {
     );
   });
 
-  describe('validate$', () => {
+  describe('Validation of Materials', () => {
+    it(
+      'Should call action by add dataItems',
+      marbles((m) => {
+        action = addMaterialRowDataItems({ items: [] });
+        actions$ = m.hot('-a', { a: action });
+
+        const result = validateAddMaterialsOnCustomerAndSalesOrg();
+
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.validateAfterItemAdded$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+  });
+
+  describe('validateMaterialsOnCustomerAndSalesOrg$', () => {
     const tableData: MaterialTableItem[] = [
       {
         materialNumber: '1234',
@@ -496,39 +513,52 @@ describe('ProcessCaseEffect', () => {
         },
       },
     ];
+
+    const request: MaterialValidationRequest = {
+      customerId: { customerId: '12345', salesOrg: '0815' },
+      materialNumbers: ['1234'],
+    };
     beforeEach(() => {
       store.overrideSelector(getAddMaterialRowData, tableData);
+      store.overrideSelector(getCustomer, {
+        identifier: { customerId: '12345', salesOrg: '0815' },
+      } as Customer);
     });
 
     test(
-      'should return validateSuccess when REST call is successful',
+      'should return validateAddMaterialsOnCustomerAndSalesOrgSuccess when REST call is successful',
       marbles((m) => {
-        action = pasteRowDataItemsToAddMaterial({
-          items: [],
-        });
+        action = validateAddMaterialsOnCustomerAndSalesOrg();
 
         materialService.validateMaterials = jest.fn(() => response);
         const materialValidations: MaterialValidation[] = [];
-        const result = validateAddMaterialsSuccess({ materialValidations });
+        const result = validateAddMaterialsOnCustomerAndSalesOrgSuccess({
+          materialValidations,
+        });
 
         actions$ = m.hot('-a', { a: action });
         const response = m.cold('-a|', {
-          a: materialValidations,
+          a: {
+            customerId: { customerId: '1234', salesOrg: '0815' },
+            validatedMaterials: materialValidations,
+          },
         });
         const expected = m.cold('--b', { b: result });
-        m.expect(effects.validate$).toBeObservable(expected);
+        m.expect(
+          effects.validateMaterialsOnCustomerAndSalesOrg$
+        ).toBeObservable(expected);
         m.flush();
         expect(materialService.validateMaterials).toHaveBeenCalledTimes(1);
-        expect(materialService.validateMaterials).toHaveBeenCalledWith(
-          tableData
-        );
+        expect(materialService.validateMaterials).toHaveBeenCalledWith(request);
       })
     );
 
     test(
       'should return validateFailure on REST error',
       marbles((m) => {
-        const result = validateAddMaterialsFailure({ errorMessage });
+        const result = validateAddMaterialsOnCustomerAndSalesOrgFailure({
+          errorMessage,
+        });
 
         actions$ = m.hot('-a', { a: action });
         const response = m.cold('-#|', undefined, errorMessage);
@@ -536,7 +566,9 @@ describe('ProcessCaseEffect', () => {
 
         materialService.validateMaterials = jest.fn(() => response);
 
-        m.expect(effects.validate$).toBeObservable(expected);
+        m.expect(
+          effects.validateMaterialsOnCustomerAndSalesOrg$
+        ).toBeObservable(expected);
         m.flush();
         expect(materialService.validateMaterials).toHaveBeenCalledTimes(1);
       })

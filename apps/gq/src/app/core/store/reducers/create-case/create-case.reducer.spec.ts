@@ -1,3 +1,4 @@
+import { SAP_ERROR_MESSAGE_CODE } from '@gq/shared/models/quotation-detail';
 import { Action } from '@ngrx/store';
 
 import { CREATE_CASE_STORE_STATE_MOCK } from '../../../../../testing/mocks';
@@ -9,7 +10,7 @@ import {
   ValidationDescription,
 } from '../../../../shared/models/table';
 import {
-  addRowDataItem,
+  addRowDataItems,
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
@@ -30,21 +31,22 @@ import {
   importCase,
   importCaseFailure,
   importCaseSuccess,
-  pasteRowDataItems,
   resetAllAutocompleteOptions,
   resetAutocompleteMaterials,
   resetCustomerFilter,
   resetPLsAndSeries,
   resetProductLineAndSeries,
   selectAutocompleteOption,
+  selectSalesOrg,
   setSelectedAutocompleteOption,
   setSelectedGpsdGroups,
   setSelectedProductLines,
   setSelectedSeries,
   unselectAutocompleteOptions,
   updateRowDataItem,
-  validateFailure,
-  validateSuccess,
+  validateMaterialsOnCustomerAndSalesOrg,
+  validateMaterialsOnCustomerAndSalesOrgFailure,
+  validateMaterialsOnCustomerAndSalesOrgSuccess,
 } from '../../actions';
 import { SalesIndication } from '../transactions/models/sales-indication.enum';
 import {
@@ -349,57 +351,15 @@ describe('Create Case Reducer', () => {
           rowData: fakeData,
         };
 
-        const action = addRowDataItem({ items });
+        const action = addRowDataItems({ items });
 
         const state = createCaseReducer(fakeState, action);
 
         expect(state.rowData).toEqual([fakeData[0], ...items]);
+        expect(state.validationLoading).toBe(true);
       });
     });
-    describe('pasteRowDataItems', () => {
-      test('should paste items in table', () => {
-        const fakeData: MaterialTableItem[] = [
-          {
-            id: 0,
-            materialNumber: '123',
-            quantity: 10,
-            info: {
-              valid: false,
-              description: [ValidationDescription.MaterialNumberInValid],
-            },
-          },
-        ];
-        const items: MaterialTableItem[] = [
-          {
-            id: 1,
-            materialNumber: '1',
-            quantity: 10,
-            info: {
-              valid: false,
-              description: [ValidationDescription.MaterialNumberInValid],
-            },
-          },
-          {
-            id: 2,
-            materialNumber: '12',
-            quantity: 10,
-            info: {
-              valid: false,
-              description: [ValidationDescription.MaterialNumberInValid],
-            },
-          },
-        ];
-        const fakeState: CreateCaseState = {
-          ...CREATE_CASE_STORE_STATE_MOCK,
-          rowData: fakeData,
-        };
 
-        const action = pasteRowDataItems({ items });
-
-        const state = createCaseReducer(fakeState, action);
-        expect(state.rowData).toEqual([...fakeData, ...items]);
-      });
-    });
     describe('updateRowDataItem', () => {
       test('should update item', () => {
         const mockedRowData: MaterialTableItem[] = [
@@ -496,7 +456,16 @@ describe('Create Case Reducer', () => {
     });
   });
   describe('validate Actions', () => {
-    describe('validateSuccess', () => {
+    describe('validateMaterialsOnCustomerAndSalesOrg', () => {
+      test('should set validationLoading to true', () => {
+        const action = validateMaterialsOnCustomerAndSalesOrg();
+
+        const state = createCaseReducer(initialState, action);
+
+        expect(state.validationLoading).toEqual(true);
+      });
+    });
+    describe('validateMaterialsOnCustomerAndSalesOrgSuccess', () => {
       test('should validate rowData', () => {
         const materialValidations: MaterialValidation[] = [
           { materialNumber15: '20', materialDescription: 'desc', valid: true },
@@ -536,7 +505,9 @@ describe('Create Case Reducer', () => {
           ValidationDescription.MaterialNumberInValid,
           ValidationDescription.QuantityInValid,
         ];
-        const action = validateSuccess({ materialValidations });
+        const action = validateMaterialsOnCustomerAndSalesOrgSuccess({
+          materialValidations,
+        });
 
         const state = createCaseReducer(fakeState, action);
 
@@ -545,7 +516,7 @@ describe('Create Case Reducer', () => {
     });
     describe('validateFailure', () => {
       test('should not manipulate state', () => {
-        const action = validateFailure();
+        const action = validateMaterialsOnCustomerAndSalesOrgFailure();
         const mockState: CreateCaseState = {
           ...CREATE_CASE_STORE_STATE_MOCK,
           validationLoading: true,
@@ -651,6 +622,35 @@ describe('Create Case Reducer', () => {
 
         expect(state.customer.salesOrgs).toEqual(salesOrgs);
       });
+
+      test('should have reset validation statutes', () => {
+        const salesOrgs = [new SalesOrg('id', true)];
+        const action = getSalesOrgsSuccess({ salesOrgs });
+        const fakeState: CreateCaseState = {
+          ...CREATE_CASE_STORE_STATE_MOCK,
+          rowData: [
+            {
+              info: {
+                valid: true,
+                description: [ValidationDescription.Duplicate],
+                errorCode: SAP_ERROR_MESSAGE_CODE.SDG101,
+              },
+            },
+          ],
+        };
+
+        const expected = [
+          {
+            info: {
+              valid: false,
+              description: [ValidationDescription.Not_Validated],
+              errorCode: undefined as unknown,
+            },
+          },
+        ];
+        const state = createCaseReducer(fakeState, action);
+        expect(state.rowData).toStrictEqual(expected);
+      });
     });
     describe('getSalesOrgsFailure', () => {
       test('should set errorMessage', () => {
@@ -661,6 +661,64 @@ describe('Create Case Reducer', () => {
 
         expect(state.customer.errorMessage).toEqual(errorMessage);
       });
+    });
+  });
+
+  describe('select SalesOrg', () => {
+    test('should select SalesOrg', () => {
+      const salesOrgs = [new SalesOrg('id1', true), new SalesOrg('id2', false)];
+      const salesOrgsexpected = [
+        new SalesOrg('id1', false),
+        new SalesOrg('id2', true),
+      ];
+
+      const action = selectSalesOrg({ salesOrgId: 'id2' });
+      const fakeState: CreateCaseState = {
+        ...CREATE_CASE_STORE_STATE_MOCK,
+        customer: {
+          salesOrgs,
+          customerId: '12',
+          errorMessage: '',
+          salesOrgsLoading: false,
+        },
+      };
+      const state = createCaseReducer(fakeState, action);
+
+      expect(state.customer.salesOrgs).toEqual(salesOrgsexpected);
+    });
+    test('should reset validationStatus', () => {
+      const action = selectSalesOrg({ salesOrgId: 'id2' });
+
+      const rowDataExpected = [
+        {
+          info: {
+            valid: false,
+            description: [ValidationDescription.Not_Validated],
+            errorCode: undefined as unknown,
+          },
+        },
+      ];
+      const fakeState: CreateCaseState = {
+        ...CREATE_CASE_STORE_STATE_MOCK,
+        customer: {
+          salesOrgs: [],
+          customerId: '12',
+          errorMessage: '',
+          salesOrgsLoading: false,
+        },
+        rowData: [
+          {
+            info: {
+              valid: true,
+              description: [ValidationDescription.Duplicate],
+              errorCode: SAP_ERROR_MESSAGE_CODE.SDG101,
+            },
+          },
+        ],
+      };
+
+      const state = createCaseReducer(fakeState, action);
+      expect(state.rowData).toEqual(rowDataExpected);
     });
   });
   describe('clearCustomer', () => {

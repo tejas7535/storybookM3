@@ -1,10 +1,10 @@
 import { AccountPotential } from './account-potential.model';
-import { CustomerIds } from './customer-ids.model';
+import { CustomerId } from './customer-ids.model';
 import { MarginDetail } from './margin-detail.model';
 import { NetSalesClassification } from './net-sales-classification';
 
 export class Customer {
-  public identifier: CustomerIds;
+  public identifier: CustomerId;
   public name: string;
   public subSector: string;
   public subSectorId: string;

@@ -13,15 +13,17 @@ import { AppRoutePath } from '../../../../app-route-path.enum';
 import { FilterNames } from '../../../../shared/components/autocomplete-input/filter-names.enum';
 import { Quotation } from '../../../../shared/models';
 import { IdValue } from '../../../../shared/models/search';
-import {
-  MaterialTableItem,
-  MaterialValidation,
-} from '../../../../shared/models/table';
+import { MaterialTableItem } from '../../../../shared/models/table';
 import { HelperService } from '../../../../shared/services/helper-service/helper-service.service';
 import { MaterialService } from '../../../../shared/services/rest-services/material-service/material.service';
+import {
+  MaterialValidationRequest,
+  MaterialValidationResponse,
+} from '../../../../shared/services/rest-services/material-service/models';
 import { QuotationService } from '../../../../shared/services/rest-services/quotation-service/quotation.service';
 import { SearchService } from '../../../../shared/services/rest-services/search-service/search.service';
 import {
+  addRowDataItems,
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
@@ -39,11 +41,12 @@ import {
   importCase,
   importCaseFailure,
   importCaseSuccess,
-  pasteRowDataItems,
   selectAutocompleteOption,
+  selectSalesOrg,
   setSelectedAutocompleteOption,
-  validateFailure,
-  validateSuccess,
+  validateMaterialsOnCustomerAndSalesOrg,
+  validateMaterialsOnCustomerAndSalesOrgFailure,
+  validateMaterialsOnCustomerAndSalesOrgSuccess,
 } from '../../actions';
 import {
   CreateCase,
@@ -55,7 +58,9 @@ import {
   getCaseRowData,
   getCreateCaseData,
   getCreateCustomerCasePayload,
+  getSelectedCustomerId,
   getSelectedQuotation,
+  getSelectedSalesOrg,
 } from '../../selectors';
 import { CreationType } from './creation-type.enum';
 
@@ -84,21 +89,63 @@ export class CreateCaseEffects {
       )
     );
   });
-  /**
-   * Get Validation for materialnumbers
-   */
-  validate$ = createEffect(() => {
+
+  validateAfterSalesOrgsLoaded$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(pasteRowDataItems.type),
-      concatLatestFrom(() => this.store.select(getCaseRowData)),
-      map(([_action, tableData]) => tableData),
-      mergeMap((tableData: MaterialTableItem[]) =>
-        this.materialService.validateMaterials(tableData).pipe(
-          map((materialValidations: MaterialValidation[]) =>
-            validateSuccess({ materialValidations })
-          ),
-          catchError((_e) => of(validateFailure()))
-        )
+      ofType(getSalesOrgsSuccess.type),
+      map(() => validateMaterialsOnCustomerAndSalesOrg())
+    );
+  });
+
+  validateAfterSalesOrgSelected$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(selectSalesOrg.type),
+      map(() => validateMaterialsOnCustomerAndSalesOrg())
+    );
+  });
+
+  validateAfterItemAdded$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(addRowDataItems.type),
+      map(() => validateMaterialsOnCustomerAndSalesOrg())
+    );
+  });
+  /**
+   * Get Validation for materialNumbers in combination with Customer and SalesOrg
+   */
+  validateMaterialsOnCustomerAndSalesOrg$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(validateMaterialsOnCustomerAndSalesOrg),
+      concatLatestFrom(() => [
+        this.store.select(getCaseRowData),
+        this.store.select(getSelectedCustomerId),
+        this.store.select(getSelectedSalesOrg),
+      ]),
+      mergeMap(
+        ([_action, tableData, customerId, salesOrg]: [
+          ReturnType<typeof validateMaterialsOnCustomerAndSalesOrg>,
+          MaterialTableItem[],
+          string,
+          SalesOrg
+        ]) => {
+          const request: MaterialValidationRequest = {
+            customerId: { customerId, salesOrg: salesOrg?.id },
+            materialNumbers: [
+              ...new Set(tableData.map((el) => el.materialNumber)),
+            ],
+          };
+
+          return this.materialService.validateMaterials(request).pipe(
+            map((response: MaterialValidationResponse) =>
+              validateMaterialsOnCustomerAndSalesOrgSuccess({
+                materialValidations: response?.validatedMaterials,
+              })
+            ),
+            catchError((_e) =>
+              of(validateMaterialsOnCustomerAndSalesOrgFailure())
+            )
+          );
+        }
       )
     );
   });

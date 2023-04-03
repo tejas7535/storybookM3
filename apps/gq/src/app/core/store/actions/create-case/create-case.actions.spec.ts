@@ -10,7 +10,7 @@ import {
 import { PLsAndSeries } from '../../reducers/create-case/models/pls-and-series.model';
 import { SalesIndication } from '../../reducers/transactions/models/sales-indication.enum';
 import {
-  addRowDataItem,
+  addRowDataItems,
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
@@ -31,7 +31,6 @@ import {
   importCase,
   importCaseFailure,
   importCaseSuccess,
-  pasteRowDataItems,
   resetAllAutocompleteOptions,
   resetAutocompleteMaterials,
   resetCustomerFilter,
@@ -47,6 +46,9 @@ import {
   setSelectedSeries,
   unselectAutocompleteOptions,
   updateRowDataItem,
+  validateMaterialsOnCustomerAndSalesOrg,
+  validateMaterialsOnCustomerAndSalesOrgFailure,
+  validateMaterialsOnCustomerAndSalesOrgSuccess,
 } from './create-case.actions';
 
 describe('Create Actions', () => {
@@ -141,26 +143,11 @@ describe('Create Actions', () => {
         },
       ];
 
-      const action = addRowDataItem({ items });
+      const action = addRowDataItems({ items });
 
       expect(action).toEqual({
         items,
         type: '[Create Case] Add new Items to Customer Table',
-      });
-    });
-    test('pasteRowDataItems', () => {
-      const items = [
-        {
-          materialNumber: '1234',
-          quantity: 105,
-          info: { valid: true, description: [ValidationDescription.Valid] },
-        },
-      ];
-      const action = pasteRowDataItems({ items });
-
-      expect(action).toEqual({
-        items,
-        type: '[Create Case] Paste new Items to Customer Table',
       });
     });
     test('updateRowDataItem', () => {
@@ -457,6 +444,36 @@ describe('Create Actions', () => {
 
       expect(action).toEqual({
         type: '[Create Case] Reset all autocomplete material options',
+      });
+    });
+  });
+
+  describe('validateMaterials', () => {
+    test('should call validateMaterialsOnCustomerAndSalesOrg', () => {
+      const action = validateMaterialsOnCustomerAndSalesOrg();
+
+      expect(action).toEqual({
+        type: '[Create Case] Validate for RowData Materials on Customer and SalesOrg',
+      });
+    });
+
+    test('should call validateMaterialsOnCustomerAndSalesOrgSuccess', () => {
+      const materialValidations: any[] = [];
+      const action = validateMaterialsOnCustomerAndSalesOrgSuccess({
+        materialValidations,
+      });
+
+      expect(action).toEqual({
+        materialValidations,
+        type: '[Create Case] Get Validation for RowData on Customer and SalesOrg: Validation Success',
+      });
+    });
+
+    test('should call validateMaterialsOnCustomerAndSalesOrgFailure', () => {
+      const action = validateMaterialsOnCustomerAndSalesOrgFailure();
+
+      expect(action).toEqual({
+        type: '[Create Case] Get Validation for RowData on Customer and SalesOrg: Validation Failure',
       });
     });
   });

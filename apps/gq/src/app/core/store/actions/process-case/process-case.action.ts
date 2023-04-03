@@ -84,7 +84,7 @@ export const addMaterialsFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
-export const addMaterialRowDataItem = createAction(
+export const addMaterialRowDataItems = createAction(
   '[Process Case] Add new Items to Material Table',
   props<{ items: MaterialTableItem[] }>()
 );
@@ -98,18 +98,17 @@ export const deleteAddMaterialRowDataItem = createAction(
   props<{ materialNumber: string; quantity: number }>()
 );
 
-export const pasteRowDataItemsToAddMaterial = createAction(
-  '[Process Case] Paste new Items to Material Table',
-  props<{ items: MaterialTableItem[] }>()
+export const validateAddMaterialsOnCustomerAndSalesOrg = createAction(
+  '[Process Case] Get Validation for RowData Materials on Customer and SalesOrg'
 );
 
-export const validateAddMaterialsFailure = createAction(
-  '[Process Case] Get Validation for RowData Validation Failure',
+export const validateAddMaterialsOnCustomerAndSalesOrgFailure = createAction(
+  '[Process Case] Get Validation for RowData Materials on Customer and SalesOrg: Validation Failure',
   props<{ errorMessage: string }>()
 );
 
-export const validateAddMaterialsSuccess = createAction(
-  '[Process Case] Get Validation for RowData Validation Success',
+export const validateAddMaterialsOnCustomerAndSalesOrgSuccess = createAction(
+  '[Process Case] Get Validation for RowData Materials on Customer and SalesOrg: Validation Success',
   props<{ materialValidations: MaterialValidation[] }>()
 );
 
@@ -240,6 +239,7 @@ export const createSapQuoteFailure = createAction(
 const all = union({
   clearProcessCaseRowData,
   addMaterials,
+  addMaterialRowDataItems,
   deleteAddMaterialRowDataItem,
   loadCustomer,
   loadCustomerFailure,
@@ -256,8 +256,9 @@ const all = union({
   updateQuotationDetails,
   updateQuotationDetailsFailure,
   updateQuotationDetailsSuccess,
-  validateAddMaterialsFailure,
-  validateAddMaterialsSuccess,
+  validateAddMaterialsOnCustomerAndSalesOrg,
+  validateAddMaterialsOnCustomerAndSalesOrgFailure,
+  validateAddMaterialsOnCustomerAndSalesOrgSuccess,
   setSelectedQuotationDetail,
   loadSelectedQuotationDetailFromUrl,
   loadQuotationFromUrl,
@@ -281,4 +282,4 @@ const all = union({
   createSapQuoteFailure,
 });
 
-export type CaseActions = typeof all;
+export type processCaseActions = typeof all;

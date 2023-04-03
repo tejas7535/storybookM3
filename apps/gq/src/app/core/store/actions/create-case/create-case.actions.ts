@@ -51,13 +51,8 @@ export const resetRequestingAutoCompleteDialog = createAction(
   '[Create Case] Reset Requesting autocomplete Dialog'
 );
 
-export const addRowDataItem = createAction(
+export const addRowDataItems = createAction(
   '[Create Case] Add new Items to Customer Table',
-  props<{ items: MaterialTableItem[] }>()
-);
-
-export const pasteRowDataItems = createAction(
-  '[Create Case] Paste new Items to Customer Table',
   props<{ items: MaterialTableItem[] }>()
 );
 
@@ -75,12 +70,16 @@ export const deleteRowDataItem = createAction(
   props<{ materialNumber: string; quantity: number }>()
 );
 
-export const validateFailure = createAction(
-  '[Create Case] Get Validation for RowData Validation Failure'
+export const validateMaterialsOnCustomerAndSalesOrg = createAction(
+  '[Create Case] Validate for RowData Materials on Customer and SalesOrg'
 );
 
-export const validateSuccess = createAction(
-  '[Create Case] Get Validation for RowData Validation Sucess',
+export const validateMaterialsOnCustomerAndSalesOrgFailure = createAction(
+  '[Create Case] Get Validation for RowData on Customer and SalesOrg: Validation Failure'
+);
+
+export const validateMaterialsOnCustomerAndSalesOrgSuccess = createAction(
+  '[Create Case] Get Validation for RowData on Customer and SalesOrg: Validation Success',
   props<{ materialValidations: MaterialValidation[] }>()
 );
 
@@ -189,7 +188,7 @@ export const resetAutocompleteMaterials = createAction(
 );
 
 const all = union({
-  addRowDataItem,
+  addRowDataItems,
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
@@ -198,11 +197,11 @@ const all = union({
   createCaseFailure,
   createCaseSuccess,
   deleteRowDataItem,
-  pasteRowDataItems,
   selectAutocompleteOption,
   unselectAutocompleteOptions,
-  validateSuccess,
-  validateFailure,
+  validateMaterialsOnCustomerAndSalesOrg,
+  validateMaterialsOnCustomerAndSalesOrgSuccess,
+  validateMaterialsOnCustomerAndSalesOrgFailure,
   importCase,
   importCaseSuccess,
   importCaseFailure,

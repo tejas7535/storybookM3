@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { addMaterialRowDataItem } from '@gq/core/store/actions';
+import { addMaterialRowDataItems } from '@gq/core/store/actions';
 import { PasteButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/paste-button/paste-button.component';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
@@ -122,8 +122,8 @@ describe('AddEntryComponent', () => {
         materialDescription: 'desc',
         quantity: 10,
         info: {
-          description: [ValidationDescription.Valid],
-          valid: true,
+          description: [ValidationDescription.Not_Validated],
+          valid: false,
         },
       };
       component.quantity = item.quantity;
@@ -143,7 +143,7 @@ describe('AddEntryComponent', () => {
 
       component.addRow();
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        addMaterialRowDataItem({ items: [item] })
+        addMaterialRowDataItems({ items: [item] })
       );
       expect(component.matNumberInput.clearInput).toHaveBeenCalledTimes(1);
       expect(component.matDescInput.clearInput).toHaveBeenCalledTimes(1);

@@ -11,7 +11,7 @@ import {
 import { PriceService } from '../../../../shared/services/price-service/price.service';
 import { TableService } from '../../../../shared/services/table-service/table.service';
 import {
-  addMaterialRowDataItem,
+  addMaterialRowDataItems,
   addMaterials,
   addMaterialsFailure,
   addMaterialsSuccess,
@@ -28,7 +28,6 @@ import {
   loadQuotationFailure,
   loadQuotationInInterval,
   loadQuotationSuccess,
-  pasteRowDataItemsToAddMaterial,
   refreshSapPricing,
   refreshSapPricingFailure,
   refreshSapPricingSuccess,
@@ -50,8 +49,8 @@ import {
   uploadSelectionToSap,
   uploadSelectionToSapFailure,
   uploadSelectionToSapSuccess,
-  validateAddMaterialsFailure,
-  validateAddMaterialsSuccess,
+  validateAddMaterialsOnCustomerAndSalesOrgFailure,
+  validateAddMaterialsOnCustomerAndSalesOrgSuccess,
 } from '../../actions';
 import { QuotationIdentifier } from './models';
 
@@ -286,7 +285,7 @@ export const processCaseReducer = createReducer(
     })
   ),
   on(
-    addMaterialRowDataItem,
+    addMaterialRowDataItems,
     (state: ProcessCaseState, { items }): ProcessCaseState => ({
       ...state,
       addMaterials: {
@@ -295,18 +294,6 @@ export const processCaseReducer = createReducer(
           ...state.addMaterials.addMaterialRowData,
           ...TableService.removeDashesFromTableItems(items),
         ],
-      },
-    })
-  ),
-  on(
-    pasteRowDataItemsToAddMaterial,
-    (state: ProcessCaseState, { items }): ProcessCaseState => ({
-      ...state,
-      addMaterials: {
-        ...state.addMaterials,
-        addMaterialRowData: TableService.pasteItems(items, [
-          ...state.addMaterials.addMaterialRowData,
-        ]),
         validationLoading: true,
       },
     })
@@ -337,7 +324,7 @@ export const processCaseReducer = createReducer(
     })
   ),
   on(
-    validateAddMaterialsSuccess,
+    validateAddMaterialsOnCustomerAndSalesOrgSuccess,
     (state: ProcessCaseState, { materialValidations }): ProcessCaseState => ({
       ...state,
       addMaterials: {
@@ -357,7 +344,7 @@ export const processCaseReducer = createReducer(
     })
   ),
   on(
-    validateAddMaterialsFailure,
+    validateAddMaterialsOnCustomerAndSalesOrgFailure,
     (state: ProcessCaseState, { errorMessage }): ProcessCaseState => ({
       ...state,
       addMaterials: {

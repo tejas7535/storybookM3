@@ -12,7 +12,6 @@ import {
 import {
   addMaterials,
   addSimulatedQuotation,
-  CaseActions,
   clearProcessCaseRowData,
   confirmSimulatedQuotation,
   deleteAddMaterialRowDataItem,
@@ -27,6 +26,7 @@ import {
   loadQuotationSuccess,
   loadQuotationSuccessFullyCompleted,
   loadSelectedQuotationDetailFromUrl,
+  processCaseActions,
   removePositions,
   removePositionsFailure,
   removePositionsSuccess,
@@ -43,10 +43,13 @@ import {
   uploadSelectionToSap,
   uploadSelectionToSapFailure,
   uploadSelectionToSapSuccess,
+  validateAddMaterialsOnCustomerAndSalesOrg,
+  validateAddMaterialsOnCustomerAndSalesOrgFailure,
+  validateAddMaterialsOnCustomerAndSalesOrgSuccess,
 } from './process-case.action';
 
-describe('CaseActions', () => {
-  let action: CaseActions;
+describe('processCaseActions', () => {
+  let action: processCaseActions;
   let errorMessage: string;
 
   beforeEach(() => {
@@ -413,6 +416,39 @@ describe('CaseActions', () => {
       expect(action).toEqual({
         gqPositionId: '1234',
         type: '[Process Case] Deselect a Quotation Detail',
+      });
+    });
+  });
+
+  describe('validate Materials', () => {
+    test('should validateAddMaterialsOnCustomerAndSalesOrg', () => {
+      action = validateAddMaterialsOnCustomerAndSalesOrg();
+
+      expect(action).toEqual({
+        type: '[Process Case] Get Validation for RowData Materials on Customer and SalesOrg',
+      });
+    });
+
+    test('should validateAddMaterialsOnCustomerAndSalesOrgSuccess', () => {
+      const materialValidations: any[] = [];
+      action = validateAddMaterialsOnCustomerAndSalesOrgSuccess({
+        materialValidations,
+      });
+
+      expect(action).toEqual({
+        materialValidations,
+        type: '[Process Case] Get Validation for RowData Materials on Customer and SalesOrg: Validation Success',
+      });
+    });
+
+    test('should validateAddMaterialsOnCustomerAndSalesOrgFailure', () => {
+      action = validateAddMaterialsOnCustomerAndSalesOrgFailure({
+        errorMessage,
+      });
+
+      expect(action).toEqual({
+        errorMessage,
+        type: '[Process Case] Get Validation for RowData Materials on Customer and SalesOrg: Validation Failure',
       });
     });
   });

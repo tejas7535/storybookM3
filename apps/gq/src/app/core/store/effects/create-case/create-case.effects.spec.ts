@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { translate, TranslocoModule } from '@ngneat/transloco';
+import { translate } from '@ngneat/transloco';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -23,11 +23,13 @@ import {
 } from '../../../../shared/models/table';
 import { HelperService } from '../../../../shared/services/helper-service/helper-service.service';
 import { MaterialService } from '../../../../shared/services/rest-services/material-service/material.service';
+import { MaterialValidationRequest } from '../../../../shared/services/rest-services/material-service/models';
 import { QuotationService } from '../../../../shared/services/rest-services/quotation-service/quotation.service';
 import { PLsSeriesRequest } from '../../../../shared/services/rest-services/search-service/models/pls-series-request.model';
 import { PLsSeriesResponse } from '../../../../shared/services/rest-services/search-service/models/pls-series-response.model';
 import { SearchService } from '../../../../shared/services/rest-services/search-service/search.service';
 import {
+  addRowDataItems,
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
@@ -45,11 +47,12 @@ import {
   importCase,
   importCaseFailure,
   importCaseSuccess,
-  pasteRowDataItems,
   selectAutocompleteOption,
+  selectSalesOrg,
   setSelectedAutocompleteOption,
-  validateFailure,
-  validateSuccess,
+  validateMaterialsOnCustomerAndSalesOrg,
+  validateMaterialsOnCustomerAndSalesOrgFailure,
+  validateMaterialsOnCustomerAndSalesOrgSuccess,
 } from '../../actions';
 import { initialState } from '../../reducers/create-case/create-case.reducer';
 import {
@@ -65,15 +68,13 @@ import {
   getCaseRowData,
   getCreateCaseData,
   getCreateCustomerCasePayload,
+  getSelectedCustomerId,
   getSelectedQuotation,
+  getSelectedSalesOrg,
 } from '../../selectors';
 import { CreateCaseEffects } from './create-case.effects';
 import { CreationType } from './creation-type.enum';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
 describe('Create Case Effects', () => {
   let action: any;
   let actions$: any;
@@ -196,7 +197,59 @@ describe('Create Case Effects', () => {
       })
     );
   });
-  describe('validate', () => {
+
+  describe('Validation of Materials', () => {
+    it(
+      'Should call action by add Row Data Item',
+      marbles((m) => {
+        action = addRowDataItems({ items: [] });
+        actions$ = m.hot('-a', { a: action });
+
+        const result = validateMaterialsOnCustomerAndSalesOrg();
+
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.validateAfterItemAdded$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+
+    it(
+      'Should call action by getSalesOrgsSuccess',
+      marbles((m) => {
+        action = getSalesOrgsSuccess({ salesOrgs: [] });
+        actions$ = m.hot('-a', { a: action });
+
+        const result = validateMaterialsOnCustomerAndSalesOrg();
+
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.validateAfterSalesOrgsLoaded$).toBeObservable(
+          expected
+        );
+        m.flush();
+      })
+    );
+
+    it(
+      'Should call action by selectSalesOrg',
+      marbles((m) => {
+        action = selectSalesOrg({ salesOrgId: '1' });
+        actions$ = m.hot('-a', { a: action });
+
+        const result = validateMaterialsOnCustomerAndSalesOrg();
+
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.validateAfterSalesOrgSelected$).toBeObservable(
+          expected
+        );
+        m.flush();
+      })
+    );
+  });
+
+  describe('validateMaterialsOnCustomerAndSalesOrg$', () => {
     const tableData: MaterialTableItem[] = [
       {
         materialNumber: '1234',
@@ -207,31 +260,48 @@ describe('Create Case Effects', () => {
         },
       },
     ];
+
+    const request: MaterialValidationRequest = {
+      customerId: { customerId: '12345', salesOrg: '0615' },
+      materialNumbers: ['1234'],
+    };
     beforeEach(() => {
       store.overrideSelector(getCaseRowData, tableData);
+      store.overrideSelector(getSelectedCustomerId, '12345');
+      store.overrideSelector(getSelectedSalesOrg, {
+        id: '0615',
+        selected: true,
+      });
     });
 
     test(
-      'should return validateSuccess when REST call is successful',
+      'should return validateMaterialsOnCustomerAndSalesOrgSuccess when REST call is successful',
       marbles((m) => {
-        action = pasteRowDataItems({ items: [] });
+        action = validateMaterialsOnCustomerAndSalesOrg();
 
         const materialValidations: MaterialValidation[] = [];
-        const result = validateSuccess({ materialValidations });
+        const result = validateMaterialsOnCustomerAndSalesOrgSuccess({
+          materialValidations,
+        });
 
         actions$ = m.hot('-a', { a: action });
         const response = m.cold('-a|', {
-          a: materialValidations,
+          a: {
+            customerId: { customerId: '1234', salesOrg: '0815' },
+            validatedMaterials: materialValidations,
+          },
         });
 
         validationService.validateMaterials = jest.fn(() => response);
         const expected = m.cold('--b', { b: result });
-        m.expect(effects.validate$).toBeObservable(expected);
+        m.expect(
+          effects.validateMaterialsOnCustomerAndSalesOrg$
+        ).toBeObservable(expected);
         m.flush();
 
         expect(validationService.validateMaterials).toHaveBeenCalledTimes(1);
         expect(validationService.validateMaterials).toHaveBeenCalledWith(
-          tableData
+          request
         );
       })
     );
@@ -240,7 +310,7 @@ describe('Create Case Effects', () => {
       'should return validateFailure on REST error',
       marbles((m) => {
         const error = new Error('damn');
-        const result = validateFailure();
+        const result = validateMaterialsOnCustomerAndSalesOrgFailure();
 
         actions$ = m.hot('-a', { a: action });
         const response = m.cold('-#|', undefined, error);
@@ -248,7 +318,9 @@ describe('Create Case Effects', () => {
 
         validationService.validateMaterials = jest.fn(() => response);
 
-        m.expect(effects.validate$).toBeObservable(expected);
+        m.expect(
+          effects.validateMaterialsOnCustomerAndSalesOrg$
+        ).toBeObservable(expected);
         m.flush();
 
         expect(validationService.validateMaterials).toHaveBeenCalledTimes(1);
@@ -303,7 +375,7 @@ describe('Create Case Effects', () => {
     });
 
     test(
-      'should return validateSuccess when REST call is successful',
+      'should return validateMaterialsOnCustomerAndSalesOrgSuccess when REST call is successful',
       marbles((m) => {
         router.navigate = jest.fn();
         snackBar.open = jest.fn();

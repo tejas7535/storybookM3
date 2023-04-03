@@ -1,3 +1,5 @@
+import { SAP_ERROR_MESSAGE_CODE } from '@gq/shared/models/quotation-detail';
+
 import { MATERIAL_TABLE_ITEM_MOCK } from '../../../../testing/mocks';
 import {
   MaterialQuantities,
@@ -63,6 +65,48 @@ describe('TableService', () => {
     });
   });
 
+  describe('updateStatusOnCustomerChanged', () => {
+    test('should set the validation status of each item', () => {
+      const input: MaterialTableItem[] = [
+        {
+          id: 1,
+          info: {
+            description: [ValidationDescription.Duplicate],
+            errorCode: SAP_ERROR_MESSAGE_CODE.SDG1000,
+            valid: true,
+          },
+        },
+        {
+          id: 2,
+          info: {
+            description: [ValidationDescription.MaterialNumberInValid],
+            valid: true,
+          },
+        },
+      ];
+      const expected: MaterialTableItem[] = [
+        {
+          id: 1,
+          info: {
+            description: [ValidationDescription.Not_Validated],
+            errorCode: undefined,
+            valid: false,
+          },
+        },
+        {
+          id: 2,
+          info: {
+            description: [ValidationDescription.Not_Validated],
+            errorCode: undefined,
+            valid: false,
+          },
+        },
+      ];
+
+      const result = TableService.updateStatusOnCustomerChanged(input);
+      expect(result).toStrictEqual(expected);
+    });
+  });
   describe('deleteItem', () => {
     test('should delete an Item', () => {
       const materialNumber = '1234';
@@ -266,6 +310,30 @@ describe('TableService', () => {
         materialNumber: rowData.materialNumber15,
         quantity: undefined,
       });
+    });
+
+    test('should not set the errorCode if not present', () => {
+      const materialNumber: MaterialTableItem = {};
+      const rowData: MaterialValidation = {
+        materialNumber15: '23457',
+        materialDescription: 'desc',
+        valid: true,
+      } as unknown as MaterialValidation;
+
+      const result = TableService.validateData(materialNumber, rowData);
+      expect(result.info.errorCode).toBeUndefined();
+    });
+    test('should set the errorCode if present', () => {
+      const materialNumber: MaterialTableItem = {};
+      const rowData: MaterialValidation = {
+        materialNumber15: '23457',
+        materialDescription: 'desc',
+        valid: true,
+        errorCode: SAP_ERROR_MESSAGE_CODE.SDG1000,
+      } as unknown as MaterialValidation;
+
+      const result = TableService.validateData(materialNumber, rowData);
+      expect(result.info.errorCode).toEqual(SAP_ERROR_MESSAGE_CODE.SDG1000);
     });
   });
 
