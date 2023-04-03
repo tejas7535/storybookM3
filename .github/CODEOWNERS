@@ -27,8 +27,8 @@ apps/sedo-e2e @soehnpsc_SGGIT @schlesni_SGGIT
 
 # GQ
 
-apps/gq @soehnpsc_SGGIT @herpisef_SGGIT @schlunls_SGGIT @poltokzy_SGGIT @schlesni_SGGIT
-apps/gq-e2e @soehnpsc_SGGIT @herpisef_SGGIT @schlunls_SGGIT @poltokzy_SGGIT @schlesni_SGGIT
+apps/gq @soehnpsc_SGGIT @herpisef_SGGIT @poltokzy_SGGIT @schlesni_SGGIT
+apps/gq-e2e @soehnpsc_SGGIT @herpisef_SGGIT @poltokzy_SGGIT @schlesni_SGGIT
 
 # MAC
 
