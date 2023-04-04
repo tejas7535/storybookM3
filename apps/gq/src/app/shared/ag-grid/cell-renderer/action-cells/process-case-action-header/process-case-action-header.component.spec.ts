@@ -1,7 +1,7 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 
-import { deleteAddMaterialRowDataItem } from '@gq/core/store/actions';
+import { deleteMaterialRowDataItem } from '@gq/core/store/actions';
 import {
   getAddMaterialRowData,
   getAddMaterialRowDataValid,
@@ -98,15 +98,30 @@ describe('ProcessCaseActionHeaderComponent', () => {
 
       const nodes = [
         {
-          data: { info: { valid: true }, materialNumber: '123', quantity: 10 },
+          data: {
+            info: { valid: true },
+            id: 10,
+            materialNumber: '123',
+            quantity: 10,
+          },
           setSelected: jest.fn(),
         },
         {
-          data: { info: { valid: false }, materialNumber: '456', quantity: 10 },
+          data: {
+            info: { valid: false },
+            id: 20,
+            materialNumber: '456',
+            quantity: 10,
+          },
           setSelected: jest.fn(),
         },
         {
-          data: { info: { valid: true }, materialNumber: '789', quantity: 10 },
+          data: {
+            info: { valid: true },
+            id: 30,
+            materialNumber: '789',
+            quantity: 10,
+          },
           setSelected: jest.fn(),
         },
       ];
@@ -125,9 +140,8 @@ describe('ProcessCaseActionHeaderComponent', () => {
 
       expect(mockStore.dispatch).toHaveBeenCalledTimes(1);
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        deleteAddMaterialRowDataItem({
-          materialNumber: '456',
-          quantity: 10,
+        deleteMaterialRowDataItem({
+          id: 20,
         })
       );
     });

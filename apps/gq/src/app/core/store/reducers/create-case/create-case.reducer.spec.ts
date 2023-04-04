@@ -425,15 +425,16 @@ describe('Create Case Reducer', () => {
     });
     describe('deleteRowDataItem', () => {
       test('should delete Item from Rowdata', () => {
-        const materialNumberDelete = '1234';
         const fakeData = [
           {
+            id: 10,
             materialNumber: '123',
             quantity: 10,
             info: { valid: true, description: [ValidationDescription.Valid] },
           },
           {
-            materialNumber: materialNumberDelete,
+            id: 20,
+            materialNumber: '1234',
             quantity: 10,
             info: { valid: true, description: [ValidationDescription.Valid] },
           },
@@ -445,13 +446,12 @@ describe('Create Case Reducer', () => {
         };
 
         const action = deleteRowDataItem({
-          materialNumber: materialNumberDelete,
-          quantity: 10,
+          id: 10,
         });
 
         const state = createCaseReducer(fakeState, action);
 
-        expect(state.rowData).toEqual([fakeData[0]]);
+        expect(state.rowData).toEqual([fakeData[1]]);
       });
     });
   });

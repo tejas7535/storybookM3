@@ -93,9 +93,9 @@ export const updateMaterialRowDataItem = createAction(
   '[Process Case] Update Item from Material Table',
   props<{ item: MaterialTableItem }>()
 );
-export const deleteAddMaterialRowDataItem = createAction(
+export const deleteMaterialRowDataItem = createAction(
   '[Process Case] Delete Item from Material Table',
-  props<{ materialNumber: string; quantity: number }>()
+  props<{ id: number }>()
 );
 
 export const validateAddMaterialsOnCustomerAndSalesOrg = createAction(
@@ -240,7 +240,7 @@ const all = union({
   clearProcessCaseRowData,
   addMaterials,
   addMaterialRowDataItems,
-  deleteAddMaterialRowDataItem,
+  deleteMaterialRowDataItem,
   loadCustomer,
   loadCustomerFailure,
   loadCustomerSuccess,

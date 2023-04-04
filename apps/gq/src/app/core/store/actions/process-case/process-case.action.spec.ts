@@ -14,7 +14,7 @@ import {
   addSimulatedQuotation,
   clearProcessCaseRowData,
   confirmSimulatedQuotation,
-  deleteAddMaterialRowDataItem,
+  deleteMaterialRowDataItem,
   deselectQuotationDetail,
   loadCustomer,
   loadCustomerFailure,
@@ -240,15 +240,13 @@ describe('processCaseActions', () => {
   });
 
   describe('Row Data Actions', () => {
-    test('deleteAddMaterialRowDataItem', () => {
-      const materialNumber = '12345';
-      const quantity = 10;
+    test('deleteMaterialRowDataItem', () => {
+      const id = 10;
 
-      action = deleteAddMaterialRowDataItem({ materialNumber, quantity });
+      action = deleteMaterialRowDataItem({ id });
 
       expect(action).toEqual({
-        materialNumber,
-        quantity,
+        id,
         type: '[Process Case] Delete Item from Material Table',
       });
     });

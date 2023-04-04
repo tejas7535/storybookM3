@@ -91,15 +91,30 @@ describe('CreateCaseActionHeaderComponent', () => {
 
       const nodes = [
         {
-          data: { info: { valid: true }, materialNumber: '123', quantity: 10 },
+          data: {
+            info: { valid: true },
+            id: 10,
+            materialNumber: '123',
+            quantity: 10,
+          },
           setSelected: jest.fn(),
         },
         {
-          data: { info: { valid: false }, materialNumber: '456', quantity: 10 },
+          data: {
+            info: { valid: false },
+            id: 20,
+            materialNumber: '456',
+            quantity: 10,
+          },
           setSelected: jest.fn(),
         },
         {
-          data: { info: { valid: true }, materialNumber: '789', quantity: 10 },
+          data: {
+            info: { valid: true },
+            id: 30,
+            materialNumber: '789',
+            quantity: 10,
+          },
           setSelected: jest.fn(),
         },
       ];
@@ -119,8 +134,7 @@ describe('CreateCaseActionHeaderComponent', () => {
       expect(store.dispatch).toHaveBeenCalledTimes(1);
       expect(store.dispatch).toHaveBeenCalledWith(
         deleteRowDataItem({
-          materialNumber: '456',
-          quantity: 10,
+          id: 20,
         })
       );
     });

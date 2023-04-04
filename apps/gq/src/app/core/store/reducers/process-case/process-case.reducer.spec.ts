@@ -28,7 +28,7 @@ import {
   createSapQuote,
   createSapQuoteFailure,
   createSapQuoteSuccess,
-  deleteAddMaterialRowDataItem,
+  deleteMaterialRowDataItem,
   deselectQuotationDetail,
   loadCustomer,
   loadCustomerFailure,
@@ -325,6 +325,7 @@ describe('Quotation Reducer', () => {
       test('should add Material RowDataItem', () => {
         const items: MaterialTableItem[] = [
           {
+            id: 0,
             materialNumber: '123465',
             quantity: 100,
           },
@@ -389,12 +390,10 @@ describe('Quotation Reducer', () => {
         ]);
       });
     });
-    describe('deleteAddMaterialRowDataItem', () => {
+    describe('deleteMaterialRowDataItem', () => {
       test('should delete AddMaterialRowDataItem', () => {
-        const materialNumber = '123465';
-        const action = deleteAddMaterialRowDataItem({
-          materialNumber,
-          quantity: 100,
+        const action = deleteMaterialRowDataItem({
+          id: 10,
         });
 
         const fakeState = {
@@ -403,10 +402,12 @@ describe('Quotation Reducer', () => {
             ...PROCESS_CASE_STATE_MOCK.addMaterials,
             addMaterialRowData: [
               {
+                id: 10,
                 materialNumber: '123465',
                 quantity: 100,
               },
               {
+                id: 20,
                 materialNumber: '987654',
                 quantity: 100,
               },
@@ -422,6 +423,7 @@ describe('Quotation Reducer', () => {
             ...PROCESS_CASE_STATE_MOCK.addMaterials,
             addMaterialRowData: [
               {
+                id: 20,
                 materialNumber: '987654',
                 quantity: 100,
               },

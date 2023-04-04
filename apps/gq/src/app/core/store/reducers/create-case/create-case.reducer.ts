@@ -329,15 +329,10 @@ export const createCaseReducer = createReducer(
       rowData: initialState.rowData,
     })
   ),
-  on(
-    deleteRowDataItem,
-    (state: CreateCaseState, { materialNumber, quantity }) => ({
-      ...state,
-      rowData: TableService.deleteItem(materialNumber, quantity, [
-        ...state.rowData,
-      ]),
-    })
-  ),
+  on(deleteRowDataItem, (state: CreateCaseState, { id }) => ({
+    ...state,
+    rowData: TableService.deleteItem(id, [...state.rowData]),
+  })),
   on(
     validateMaterialsOnCustomerAndSalesOrg,
     (state: CreateCaseState): CreateCaseState => ({

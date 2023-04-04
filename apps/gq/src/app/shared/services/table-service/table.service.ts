@@ -22,17 +22,7 @@ export class TableService {
         item.materialNumber.replace(/-/g, '')
       ),
     }));
-
     const combinedData = [...currentRowData, ...transformedItems]
-      // remove duplicates
-      .filter(
-        (item, pos, self) =>
-          self.findIndex(
-            (of) =>
-              of.materialNumber === item.materialNumber &&
-              of.quantity === item.quantity
-          ) === pos
-      )
       // add index
       .map((el, i) => ({
         ...el,
@@ -76,14 +66,10 @@ export class TableService {
     ];
   }
   static deleteItem(
-    materialNumber: string,
-    quantity: number,
+    id: number,
     rowData: MaterialTableItem[]
   ): MaterialTableItem[] {
-    const filteredRowData = rowData.filter(
-      (it) =>
-        !(it.materialNumber === materialNumber && it.quantity === quantity)
-    );
+    const filteredRowData = rowData.filter((it) => !(it.id === id));
 
     return filteredRowData.length > 0 ? filteredRowData : [];
   }

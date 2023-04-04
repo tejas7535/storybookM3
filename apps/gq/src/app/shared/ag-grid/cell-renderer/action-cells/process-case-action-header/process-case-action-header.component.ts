@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 import { combineLatest, map, Observable } from 'rxjs';
 
-import { deleteAddMaterialRowDataItem } from '@gq/core/store/actions';
+import { deleteMaterialRowDataItem } from '@gq/core/store/actions';
 import {
   getAddMaterialRowData,
   getAddMaterialRowDataValid,
@@ -39,9 +39,8 @@ export class ProcessCaseActionHeaderComponent {
     this.params.api.forEachNode((rowNode) => {
       if (!rowNode.data.info.valid) {
         this.store.dispatch(
-          deleteAddMaterialRowDataItem({
-            materialNumber: rowNode.data.materialNumber,
-            quantity: rowNode.data.quantity,
+          deleteMaterialRowDataItem({
+            id: rowNode.data.id,
           })
         );
       }

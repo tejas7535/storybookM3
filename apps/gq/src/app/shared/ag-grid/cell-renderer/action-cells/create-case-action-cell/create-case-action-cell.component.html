@@ -1,7 +1,10 @@
 <div class="flex h-full items-center justify-start">
-  <mat-icon
-    class="!flex cursor-pointer items-center !text-[16px] text-medium-emphasis"
-    (click)="deleteItem()"
-    >delete</mat-icon
-  >
+  <button class="my-auto" mat-icon-button (click)="deleteItem()">
+    <mat-icon class="cursor-pointer !text-[16px] text-medium-emphasis"
+      >delete</mat-icon
+    >
+  </button>
+  <button (click)="copyItem()" class="my-auto" mat-icon-button>
+    <mat-icon class="!text-[16px] text-medium-emphasis">content_copy</mat-icon>
+  </button>
 </div>

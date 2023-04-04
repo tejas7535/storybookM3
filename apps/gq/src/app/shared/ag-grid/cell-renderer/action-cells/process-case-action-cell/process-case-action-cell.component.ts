@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 
-import { deleteAddMaterialRowDataItem } from '@gq/core/store/actions';
+import {
+  addMaterialRowDataItems,
+  deleteMaterialRowDataItem,
+} from '@gq/core/store/actions';
 import { Store } from '@ngrx/store';
 import { CellClassParams } from 'ag-grid-community';
 
@@ -18,9 +21,12 @@ export class ProcessCaseActionCellComponent {
   }
 
   deleteItem(): void {
-    const { materialNumber, quantity } = this.params.data;
-    this.store.dispatch(
-      deleteAddMaterialRowDataItem({ materialNumber, quantity })
-    );
+    const { id } = this.params.data;
+
+    this.store.dispatch(deleteMaterialRowDataItem({ id }));
+  }
+
+  copyItem(): void {
+    this.store.dispatch(addMaterialRowDataItems({ items: [this.params.data] }));
   }
 }

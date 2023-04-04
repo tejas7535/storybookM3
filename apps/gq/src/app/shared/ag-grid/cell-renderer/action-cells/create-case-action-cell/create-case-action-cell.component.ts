@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { deleteRowDataItem } from '@gq/core/store/actions';
+import { addRowDataItems, deleteRowDataItem } from '@gq/core/store/actions';
 import { Store } from '@ngrx/store';
 import { CellClassParams } from 'ag-grid-community';
 
@@ -18,8 +18,11 @@ export class CreateCaseActionCellComponent {
   }
 
   deleteItem(): void {
-    const { materialNumber, quantity } = this.params.data;
+    const { id } = this.params.data;
 
-    this.store.dispatch(deleteRowDataItem({ materialNumber, quantity }));
+    this.store.dispatch(deleteRowDataItem({ id }));
+  }
+  copyItem(): void {
+    this.store.dispatch(addRowDataItems({ items: [this.params.data] }));
   }
 }

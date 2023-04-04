@@ -11,40 +11,23 @@ import { TableService } from './table.service';
 
 describe('TableService', () => {
   describe('pasteItems', () => {
-    test('should add remove duplicated items', () => {
+    test('should add items', () => {
       const items: MaterialTableItem[] = [
         { quantity: 100, materialNumber: '23457' },
         { quantity: 10, materialNumber: '1234' },
         { quantity: 120, materialNumber: '76543' },
       ];
       const currentRowData: MaterialTableItem[] = [
-        { quantity: 100, materialNumber: '23457' },
-        { quantity: 10, materialNumber: '1234' },
-        { quantity: 120, materialNumber: '76543' },
-        { quantity: 120, materialNumber: '76543' },
+        { id: 0, quantity: 120, materialNumber: '76543' },
       ];
 
       const result = TableService.pasteItems(items, currentRowData);
 
       expect(result).toEqual([
-        { id: 0, quantity: 100, materialNumber: '23457' },
-        { id: 1, quantity: 10, materialNumber: '1234' },
-        { id: 2, quantity: 120, materialNumber: '76543' },
-      ]);
-    });
-
-    test('should do nothing', () => {
-      const items: MaterialTableItem[] = [
-        { quantity: 100, materialNumber: '1234' },
-      ];
-      const currentRowData: MaterialTableItem[] = [
-        { quantity: 100, materialNumber: '1234' },
-      ];
-
-      const result = TableService.pasteItems(items, currentRowData);
-
-      expect(result).toEqual([
-        { id: 0, quantity: 100, materialNumber: '1234' },
+        { id: 0, quantity: 120, materialNumber: '76543' },
+        { id: 1, quantity: 100, materialNumber: '23457' },
+        { id: 2, quantity: 10, materialNumber: '1234' },
+        { id: 3, quantity: 120, materialNumber: '76543' },
       ]);
     });
   });
@@ -109,29 +92,25 @@ describe('TableService', () => {
   });
   describe('deleteItem', () => {
     test('should delete an Item', () => {
-      const materialNumber = '1234';
-      const quantity = 10;
       const rowData: MaterialTableItem[] = [
-        { quantity: 100, materialNumber: '23457' },
-        { quantity: 10, materialNumber: '1234' },
-        { quantity: 120, materialNumber: '76543' },
+        { id: 10, quantity: 100, materialNumber: '23457' },
+        { id: 20, quantity: 10, materialNumber: '1234' },
+        { id: 30, quantity: 120, materialNumber: '76543' },
       ];
 
-      const result = TableService.deleteItem(materialNumber, quantity, rowData);
+      const result = TableService.deleteItem(30, rowData);
       expect(result).toEqual([
-        { quantity: 100, materialNumber: '23457' },
-        { quantity: 120, materialNumber: '76543' },
+        { id: 10, quantity: 100, materialNumber: '23457' },
+        { id: 20, quantity: 10, materialNumber: '1234' },
       ]);
     });
 
     test('should delete an Item and set empty array', () => {
-      const materialNumber = '1234';
-      const quantity = 10;
       const rowData: MaterialTableItem[] = [
-        { quantity: 10, materialNumber: '1234' },
+        { id: 10, quantity: 10, materialNumber: '1234' },
       ];
 
-      const result = TableService.deleteItem(materialNumber, quantity, rowData);
+      const result = TableService.deleteItem(10, rowData);
       expect(result).toEqual([]);
     });
   });

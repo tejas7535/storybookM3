@@ -20,7 +20,7 @@ import {
   createSapQuote,
   createSapQuoteFailure,
   createSapQuoteSuccess,
-  deleteAddMaterialRowDataItem,
+  deleteMaterialRowDataItem,
   deselectQuotationDetail,
   loadCustomer,
   loadCustomerFailure,
@@ -290,10 +290,9 @@ export const processCaseReducer = createReducer(
       ...state,
       addMaterials: {
         ...state.addMaterials,
-        addMaterialRowData: [
+        addMaterialRowData: TableService.pasteItems(items, [
           ...state.addMaterials.addMaterialRowData,
-          ...TableService.removeDashesFromTableItems(items),
-        ],
+        ]),
         validationLoading: true,
       },
     })
@@ -309,15 +308,12 @@ export const processCaseReducer = createReducer(
     },
   })),
   on(
-    deleteAddMaterialRowDataItem,
-    (
-      state: ProcessCaseState,
-      { materialNumber, quantity }
-    ): ProcessCaseState => ({
+    deleteMaterialRowDataItem,
+    (state: ProcessCaseState, { id }): ProcessCaseState => ({
       ...state,
       addMaterials: {
         ...state.addMaterials,
-        addMaterialRowData: TableService.deleteItem(materialNumber, quantity, [
+        addMaterialRowData: TableService.deleteItem(id, [
           ...state.addMaterials.addMaterialRowData,
         ]),
       },

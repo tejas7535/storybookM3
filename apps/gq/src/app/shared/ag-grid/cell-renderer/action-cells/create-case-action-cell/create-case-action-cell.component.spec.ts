@@ -49,8 +49,11 @@ describe('ActionCellComponent', () => {
     test('should dispatch deleteRowData action', () => {
       mockStore.dispatch = jest.fn();
 
+      const id = 10;
+
       component.params = {
         data: {
+          id: 10,
           materialNumber: '1234',
           quantity: 10,
         },
@@ -62,7 +65,7 @@ describe('ActionCellComponent', () => {
       component.deleteItem();
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        deleteRowDataItem({ materialNumber: '1234', quantity: 10 })
+        deleteRowDataItem({ id })
       );
     });
   });

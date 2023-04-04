@@ -39,8 +39,7 @@ export class CreateCaseActionHeaderComponent {
       if (!rowNode.data.info.valid) {
         this.store.dispatch(
           deleteRowDataItem({
-            materialNumber: rowNode.data.materialNumber,
-            quantity: rowNode.data.quantity,
+            id: rowNode.data.id,
           })
         );
       }
