@@ -1,4 +1,9 @@
-import { ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -27,6 +32,7 @@ import {
 } from '../../../../../testing/mocks';
 import { ColumnFields } from '../../../ag-grid/constants/column-fields.enum';
 import { LOCALE_DE, LOCALE_EN } from '../../../constants';
+import * as regex from '../../../constants/regex';
 import { PriceSource } from '../../../models/quotation-detail';
 import { HelperService } from '../../../services/helper-service/helper-service.service';
 import { PriceService } from '../../../services/price-service/price.service';
@@ -38,6 +44,7 @@ describe('EditingModalComponent', () => {
   let spectator: Spectator<EditingModalComponent>;
   let store: MockStore;
   let helperService: HelperService;
+  let translocoService: TranslocoLocaleService;
 
   const createComponent = createComponentFactory({
     component: EditingModalComponent,
@@ -93,6 +100,7 @@ describe('EditingModalComponent', () => {
     component = spectator.debugElement.componentInstance;
     store = spectator.inject(MockStore);
     helperService = spectator.inject(HelperService);
+    translocoService = spectator.inject(TranslocoLocaleService);
   });
 
   test('should create', () => {
@@ -132,7 +140,7 @@ describe('EditingModalComponent', () => {
       ).toEqual(false);
     });
 
-    test('should enabel relative price editing if there is a price', () => {
+    test('should enable relative price editing if there is a price', () => {
       component.modalData = {
         field: ColumnFields.PRICE,
         quotationDetail: {
@@ -143,7 +151,7 @@ describe('EditingModalComponent', () => {
 
       component.ngOnInit();
 
-      expect(component.isRelativePriceChangeDisabled).toEqual(false);
+      expect(component.isRelativePriceChangeDisabled).toBeUndefined();
       expect(
         component.editingFormGroup.get('isRelativePriceChangeRadioGroup').value
       ).toEqual(true);
@@ -182,6 +190,16 @@ describe('EditingModalComponent', () => {
       component.ngAfterViewInit();
 
       expect(component.value).toEqual(0);
+    });
+
+    test('should validate input directly', () => {
+      component.validateInput = jest.fn();
+      component.modalData.field = ColumnFields.ORDER_QUANTITY;
+      component.modalData.quotationDetail.orderQuantity = 10;
+
+      component.ngAfterViewInit();
+
+      expect(component.validateInput).toHaveBeenCalledWith('10');
     });
   });
   describe('ngOnDestroy', () => {
@@ -223,7 +241,10 @@ describe('EditingModalComponent', () => {
     });
 
     test('should disable editing for gpm because of too large number', () => {
-      component.modalData = { field: ColumnFields.GPM } as any;
+      component.modalData = {
+        field: ColumnFields.GPM,
+        quotationDetail: {},
+      } as any;
       updateFormValue('120');
 
       expect(component.editingFormGroup.get('valueInput').valid).toEqual(false);
@@ -231,7 +252,10 @@ describe('EditingModalComponent', () => {
     });
 
     test('should enable editing for order quantity', () => {
-      component.modalData = { field: ColumnFields.ORDER_QUANTITY } as any;
+      component.modalData = {
+        field: ColumnFields.ORDER_QUANTITY,
+        quotationDetail: {},
+      } as any;
       updateFormValue('120');
 
       expect(component.editingFormGroup.get('valueInput').valid).toEqual(true);
@@ -788,6 +812,130 @@ describe('EditingModalComponent', () => {
       component.onRadioButtonChange(false);
 
       expect(component.setAffectedKpis).toHaveBeenCalledWith(0);
+    });
+  });
+
+  describe('validateInput', () => {
+    let dummyRegExpOb: RegExp;
+    let locale: string;
+
+    beforeEach(() => {
+      dummyRegExpOb = {
+        test: jest.fn(() => true),
+      } as any as RegExp;
+      locale = 'de';
+      translocoService.getLocale = jest.fn(() => locale);
+    });
+
+    test('should validate ORDER_QUANTITY with invalid value', () => {
+      component.modalData.field = ColumnFields.ORDER_QUANTITY;
+      jest.spyOn(regex, 'getQuantityRegex').mockReturnValue(dummyRegExpOb);
+
+      const result = component.validateInput(undefined as any);
+
+      expect(translocoService.getLocale).toHaveBeenCalledTimes(1);
+      expect(regex.getQuantityRegex).toHaveBeenCalledWith(locale);
+      expect(dummyRegExpOb.test).toHaveBeenCalledWith(undefined);
+      expect(result).toBeTruthy();
+      expect(component.orderQuantityWarning).toBeTruthy();
+    });
+
+    test('should validate ORDER_QUANTITY with valid value', () => {
+      component.modalData.field = ColumnFields.ORDER_QUANTITY;
+      jest.spyOn(regex, 'getQuantityRegex').mockReturnValue(dummyRegExpOb);
+
+      const result = component.validateInput('44');
+
+      expect(translocoService.getLocale).toHaveBeenCalledTimes(1);
+      expect(regex.getQuantityRegex).toHaveBeenCalledWith(locale);
+      expect(dummyRegExpOb.test).toHaveBeenCalledWith('44');
+      expect(result).toBeTruthy();
+      expect(component.orderQuantityWarning).toBeFalsy();
+    });
+
+    test('should validate ORDER_QUANTITY with valid value but too low quantity', () => {
+      component.modalData.field = ColumnFields.ORDER_QUANTITY;
+      jest.spyOn(regex, 'getQuantityRegex').mockReturnValue(dummyRegExpOb);
+      component.modalData.quotationDetail.deliveryUnit = 10;
+
+      const result = component.validateInput('5');
+
+      expect(translocoService.getLocale).toHaveBeenCalledTimes(1);
+      expect(regex.getQuantityRegex).toHaveBeenCalledWith(locale);
+      expect(dummyRegExpOb.test).toHaveBeenCalledWith('5');
+      expect(result).toBeTruthy();
+      expect(component.orderQuantityWarning).toBeTruthy();
+    });
+
+    test('should validate ORDER_QUANTITY with valid value but no deliveryUnit set', () => {
+      component.modalData.field = ColumnFields.ORDER_QUANTITY;
+      jest.spyOn(regex, 'getQuantityRegex').mockReturnValue(dummyRegExpOb);
+      component.modalData.quotationDetail.deliveryUnit = undefined;
+
+      const result = component.validateInput('5');
+
+      expect(translocoService.getLocale).toHaveBeenCalledTimes(1);
+      expect(regex.getQuantityRegex).toHaveBeenCalledWith(locale);
+      expect(dummyRegExpOb.test).toHaveBeenCalledWith('5');
+      expect(result).toBeTruthy();
+      expect(component.orderQuantityWarning).toBeFalsy();
+    });
+
+    test('should use currency regex if field is price and relative price change is set to false', () => {
+      component.editingFormGroup = new FormGroup({
+        isRelativePriceChangeRadioGroup: new FormControl(
+          false,
+          Validators.required
+        ),
+        valueInput: new FormControl(undefined),
+      });
+      component.modalData.field = ColumnFields.PRICE;
+      jest.spyOn(regex, 'getCurrencyRegex').mockReturnValue(dummyRegExpOb);
+
+      const result = component.validateInput('5');
+
+      expect(translocoService.getLocale).toHaveBeenCalledTimes(1);
+      expect(regex.getCurrencyRegex).toHaveBeenCalledWith(locale);
+      expect(dummyRegExpOb.test).toHaveBeenCalledWith('5');
+      expect(result).toBeTruthy();
+    });
+
+    test('should use perecentage regex if field is price and relative price change is set to true', () => {
+      component.editingFormGroup = new FormGroup({
+        isRelativePriceChangeRadioGroup: new FormControl(
+          true,
+          Validators.required
+        ),
+        valueInput: new FormControl(undefined),
+      });
+      component.modalData.field = ColumnFields.PRICE;
+      jest.spyOn(regex, 'getPercentageRegex').mockReturnValue(dummyRegExpOb);
+
+      const result = component.validateInput('5');
+
+      expect(translocoService.getLocale).toHaveBeenCalledTimes(1);
+      expect(regex.getPercentageRegex).toHaveBeenCalledWith(locale);
+      expect(dummyRegExpOb.test).toHaveBeenCalledWith('5');
+      expect(result).toBeTruthy();
+    });
+
+    test('should use perecentage regex if field is other than price', () => {
+      component.editingFormGroup = new FormGroup({
+        isRelativePriceChangeRadioGroup: new FormControl(
+          false,
+          Validators.required
+        ),
+        valueInput: new FormControl(undefined),
+      });
+      component.modalData.field = ColumnFields.DISCOUNT;
+      jest.spyOn(regex, 'getPercentageRegex').mockReturnValue(dummyRegExpOb);
+
+      const result = component.validateInput('5');
+
+      expect(translocoService.getLocale).toHaveBeenCalledTimes(1);
+      expect(regex.getPercentageRegex).toHaveBeenCalledWith(locale);
+      expect(dummyRegExpOb.test).toHaveBeenCalledWith('5');
+      expect(result).toBeTruthy();
     });
   });
 });

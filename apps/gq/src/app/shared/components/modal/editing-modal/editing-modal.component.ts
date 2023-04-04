@@ -26,16 +26,12 @@ import {
   getQuotationErrorMessage,
   getUpdateLoading,
 } from '@gq/core/store/selectors';
-import { translate } from '@ngneat/transloco';
+import { QuotationDetailsTableValidationService } from '@gq/process-case-view/quotation-details-table/services/quotation-details-table-validation.service';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
 
 import { ColumnFields } from '../../../ag-grid/constants/column-fields.enum';
-import {
-  getCurrencyRegex,
-  getPercentageRegex,
-  getQuantityRegex,
-} from '../../../constants';
+import * as constants from '../../../constants';
 import { PriceSource, QuotationDetail } from '../../../models/quotation-detail';
 import { HelperService } from '../../../services/helper-service/helper-service.service';
 import { PriceService } from '../../../services/price-service/price.service';
@@ -47,7 +43,7 @@ import { KpiValue } from './kpi-value.model';
 })
 export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
   private readonly subscription: Subscription = new Subscription();
-  editingFormGroup: FormGroup;
+
   updateLoading$: Observable<boolean>;
   quotationCurrency$: Observable<string>;
   value: number;
@@ -55,17 +51,19 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
   affectedKpis: KpiValue[];
   fields = ColumnFields;
 
-  isRelativePriceChangeDisabled = false;
+  isRelativePriceChangeDisabled: boolean;
   showRadioGroup = this.modalData.field === ColumnFields.PRICE;
 
+  priceThreshold = constants.PRICE_VALIDITY_MARGIN_THRESHOLD;
+
   // variables needed for warning indication
-  mspWarningEnabled = false;
-  marginWarningTooltip = translate(
-    'shared.quotationDetailsTable.toolTip.gpmOrGpiTooLow'
-  );
-  mspWarningTooltip = translate(
-    'shared.quotationDetailsTable.toolTip.priceLowerThanMsp'
-  );
+  mspWarningEnabled: boolean;
+  orderQuantityWarning: boolean;
+
+  editingFormGroup: FormGroup = new FormGroup({
+    isRelativePriceChangeRadioGroup: new FormControl(true, Validators.required),
+    valueInput: new FormControl(undefined),
+  });
 
   @ViewChild('edit') editInputField: ElementRef;
 
@@ -83,13 +81,6 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    this.editingFormGroup = new FormGroup({
-      isRelativePriceChangeRadioGroup: new FormControl(
-        true,
-        Validators.required
-      ),
-      valueInput: new FormControl(undefined),
-    });
     this.editingFormGroup
       .get('valueInput')
       .setValidators([this.isInputValid.bind(this)]);
@@ -124,6 +115,9 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.editInputField?.nativeElement.focus();
     this.cdr.detectChanges();
+
+    // validate input initially
+    this.validateInput(`${this.value}`);
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
@@ -167,14 +161,23 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
 
   validateInput(value: string): boolean {
     const locale = this.translocoLocaleService.getLocale();
+
     if (this.modalData.field === ColumnFields.ORDER_QUANTITY) {
-      return getQuantityRegex(locale).test(value);
+      // order quantity needs to be a multiple of delivery unit, else warn
+      const deliveryUnit = this.modalData.quotationDetail.deliveryUnit;
+      this.orderQuantityWarning =
+        QuotationDetailsTableValidationService.isOrderQuantityInvalid(
+          +value,
+          deliveryUnit
+        );
+
+      return constants.getQuantityRegex(locale).test(value);
     }
 
     return !this.editingFormGroup.get('isRelativePriceChangeRadioGroup')
       .value && this.modalData.field === ColumnFields.PRICE
-      ? getCurrencyRegex(locale).test(value)
-      : getPercentageRegex(locale).test(value);
+      ? constants.getCurrencyRegex(locale).test(value)
+      : constants.getPercentageRegex(locale).test(value);
   }
 
   isInputValid(control: AbstractControl): ValidationErrors {

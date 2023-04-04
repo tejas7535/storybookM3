@@ -88,6 +88,15 @@
         >
       </div>
     </div>
+    <div class="mt-2" *ngIf="orderQuantityWarning">
+      <ng-container *transloco="let t; read: 'shared.validation'">
+        <gq-info-banner
+          [infoText]="t('orderQuantityMustBeMultipleOf')"
+          [isWarning]="true"
+        >
+        </gq-info-banner>
+      </ng-container>
+    </div>
     <div
       class="grid-col mt-2 grid grid-cols-2"
       *ngIf="affectedKpis?.length > 0"
@@ -109,12 +118,12 @@
             </div>
           </div>
           <div *ngrxLet="quotationCurrency$ as quotationCurrency">
-            <h6 class="truncate">
+            <h6 class="truncate" *transloco="let t; read: 'shared.validation'">
               <span
                 *ngIf="
                   kpi.value &&
                     (kpi.key === fields.GPI || kpi.key === fields.GPM) &&
-                    kpi.value <= 25;
+                    kpi.value <= priceThreshold;
                   else discount
                 "
                 [attr.data-cy]="
@@ -124,7 +133,7 @@
               >
                 {{ kpi.value | percentage }}
                 <mat-icon
-                  [matTooltip]="marginWarningTooltip"
+                  [matTooltip]="t('gpmOrGpiTooLow')"
                   matTooltipClass="whitespace-pre-line !text-caption"
                   class="ml-1 align-bottom"
                 >
@@ -152,7 +161,7 @@
                   <mat-icon
                     class="ml-1 align-bottom"
                     *ngIf="mspWarningEnabled"
-                    [matTooltip]="mspWarningTooltip"
+                    [matTooltip]="t('priceLowerThanMsp')"
                     matTooltipClass="whitespace-pre-line !text-caption"
                   >
                     warning_amber

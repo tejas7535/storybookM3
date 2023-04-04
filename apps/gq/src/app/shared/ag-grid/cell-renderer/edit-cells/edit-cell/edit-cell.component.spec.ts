@@ -425,14 +425,21 @@ describe('EditCellComponent', () => {
   });
 
   describe('checkQuantityValidity', () => {
-    test('should set invalid order quantity if quantity < delivery unit', () => {
+    test('should set invalid order quantity if quantity not multiple of delivery unit', () => {
       component.checkQuantityValidity(5, 10);
 
-      expect(component.warningTooltip).toEqual('orderQuantityTooLow');
+      expect(component.warningTooltip).toEqual('orderQuantityMustBeMultipleOf');
       expect(component.isWarningEnabled).toBeTruthy();
     });
     test('should do nothing if quantity is valid', () => {
-      component.checkQuantityValidity(15, 10);
+      component.checkQuantityValidity(20, 10);
+
+      expect(component.warningTooltip).toEqual('');
+      expect(component.isWarningEnabled).toBeFalsy();
+    });
+
+    test('should accept every quantity if delivery unit is not set', () => {
+      component.checkQuantityValidity(99, undefined as any);
 
       expect(component.warningTooltip).toEqual('');
       expect(component.isWarningEnabled).toBeFalsy();
