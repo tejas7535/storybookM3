@@ -192,7 +192,7 @@
             "materialNumberInValid": "Die Materialnummer ist invalide",
             "not_validated": "Item noch nicht validiert",
             "quantityInValid": "Die Menge ist invalide",
-            "valid": "Das Item ist valide",
+            "valid": "Das Material ist valide",
             "validationFailure": "Validierung fehlgeschlagen, versuche es erneut"
           }
         },
