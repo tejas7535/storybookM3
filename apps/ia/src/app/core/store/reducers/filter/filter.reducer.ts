@@ -78,6 +78,10 @@ export const initialState: FilterState = {
       value: TimePeriod.YEAR,
     },
     {
+      id: TimePeriod.MONTH,
+      value: TimePeriod.MONTH,
+    },
+    {
       id: TimePeriod.LAST_12_MONTHS,
       value: TimePeriod.LAST_12_MONTHS,
     },

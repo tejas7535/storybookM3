@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { map, Observable, take } from 'rxjs';
 
+import { TranslocoService } from '@ngneat/transloco';
+import { concatLatestFrom } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import { getSelectedTimeRange } from '../core/store/selectors';
@@ -72,10 +74,13 @@ export class OrganizationalViewComponent implements OnInit {
 
   chartType = ChartType;
 
-  constructor(private readonly store: Store) {}
+  constructor(
+    private readonly store: Store,
+    private readonly translocoService: TranslocoService
+  ) {}
 
   ngOnInit(): void {
-    this.orgChart$ = this.store.select(getOrgChart);
+    this.orgChart$ = this.selectOrgChartWithTranslation();
     this.orgChartEmployees$ = this.store.select(getOrgChartEmployees);
     this.orgChartEmployeesLoading$ = this.store.select(
       getOrgChartEmployeesLoading
@@ -86,6 +91,22 @@ export class OrganizationalViewComponent implements OnInit {
     this.worldMap$ = this.store.select(getWorldMap);
     this.regions$ = this.store.select(getRegions);
     this.selectedTimeRange$ = this.store.select(getSelectedTimeRange);
+  }
+
+  selectOrgChartWithTranslation(): Observable<OrgChartData> {
+    return this.store.select(getOrgChart).pipe(
+      concatLatestFrom(() => [
+        this.translocoService
+          .selectTranslateObject('orgChart.table', {}, 'organizational-view')
+          .pipe(take(1)),
+      ]),
+      // eslint-disable-next-line ngrx/avoid-mapping-selectors
+      map(([orgChartData, translation]) => ({
+        data: orgChartData.data,
+        dimension: orgChartData.dimension,
+        translation,
+      }))
+    );
   }
 
   chartTypeChanged(chartType: ChartType): void {

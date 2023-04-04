@@ -22,6 +22,7 @@ import { FilterDimension } from '../../shared/models';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
 import { ChartType } from '../models/chart-type.enum';
 import { DimensionFluctuationData } from '../models/dimension-fluctuation-data.model';
+import { OrgChartData, OrgChartTranslation } from './models';
 import { OrgChartComponent } from './org-chart.component';
 import { OrgChartService } from './org-chart.service';
 
@@ -36,6 +37,7 @@ describe('OrgChartComponent', () => {
   let component: OrgChartComponent;
   let spectator: Spectator<OrgChartComponent>;
   let transloco: TranslocoService;
+  let translation: OrgChartTranslation;
 
   const createComponent = createComponentFactory({
     component: OrgChartComponent,
@@ -58,6 +60,13 @@ describe('OrgChartComponent', () => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     transloco = spectator.inject(TranslocoService);
+
+    translation = {
+      columnDirect: 'Direct',
+      columnOverall: 'Overall',
+      rowAttrition: 'Attrition',
+      rowEmployees: 'Employees',
+    };
   });
 
   it('should create', () => {
@@ -73,22 +82,23 @@ describe('OrgChartComponent', () => {
       component.orgChartNodesChanged = jest.fn(() => true);
       const employees = [{ id: '123' } as unknown as DimensionFluctuationData];
 
-      const input = {
+      const input: OrgChartData = {
         data: employees,
         dimension: FilterDimension.ORG_UNIT,
+        translation,
       };
 
       component.orgChartData = input;
-      component.orgChartData = { ...input, dimension: FilterDimension.BOARD };
+      component.orgChartData = {
+        ...input,
+        dimension: FilterDimension.BOARD,
+      };
 
       expect(component.updateChart).toHaveBeenCalled();
       expect(component.orgChartNodesChanged).toHaveBeenCalled();
       expect(
         component['orgChartService'].mapDimensionDataToNodes
-      ).toHaveBeenCalledWith(employees, obj);
-      expect(transloco.translateObject).toHaveBeenCalledWith(
-        'organizationalView.orgChart.table'
-      );
+      ).toHaveBeenCalledWith(employees, translation);
     });
   });
 
@@ -130,6 +140,7 @@ describe('OrgChartComponent', () => {
           } as DimensionFluctuationData,
         ],
         dimension: FilterDimension.ORG_UNIT,
+        translation,
       };
 
       component.orgChartData = input;
@@ -247,6 +258,7 @@ describe('OrgChartComponent', () => {
       component.orgChartData = {
         data: [],
         dimension: FilterDimension.ORG_UNIT,
+        translation,
       };
       component.chart = new OrgChart();
       component.chartData = [{}];

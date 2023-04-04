@@ -17,6 +17,12 @@ describe('utilities', () => {
       expect(result).toEqual('translate it');
     });
 
+    test('set correct hint value - month', () => {
+      const result = getTimeRangeHint(TimePeriod.MONTH);
+
+      expect(result).toEqual('translate it');
+    });
+
     test('set correct hint value - last 12 month', () => {
       const result = getTimeRangeHint(TimePeriod.LAST_12_MONTHS);
 
@@ -58,6 +64,13 @@ describe('utilities', () => {
 
       const result = getBeautifiedTimeRange(timeRange);
       expect(result).toBeUndefined();
+    });
+
+    test('should return representation of year', () => {
+      const timeRange = '1577863715|1609372800';
+
+      const result = getBeautifiedTimeRange(timeRange);
+      expect(result).toEqual('2020');
     });
   });
 

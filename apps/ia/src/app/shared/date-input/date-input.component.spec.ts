@@ -1,7 +1,6 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import {
-  MatDatepickerInputEvent,
   MatDatepickerModule,
   MatDateRangePicker,
 } from '@angular/material/datepicker';
@@ -103,6 +102,26 @@ describe('DateInputComponent', () => {
       }, 50);
     });
 
+    test('should set complete month for MONTH', (done) => {
+      component.timePeriod = TimePeriod.MONTH;
+      component.updateStartEndDates(refDate);
+
+      expect(
+        moment('2015-10-01').isSame(component.rangeInput.controls.start.value)
+      ).toBeTruthy();
+      expect(
+        refDate
+          .clone()
+          .endOf('month')
+          .isSame(component.rangeInput.controls.end.value)
+      ).toBeTruthy();
+
+      setTimeout(() => {
+        expect(component.emitChange).toHaveBeenCalled();
+        done();
+      }, 50);
+    });
+
     test('should set complete year for LAST_12_MONTHS', (done) => {
       component.timePeriod = TimePeriod.LAST_12_MONTHS;
       component.updateStartEndDates(refDate);
@@ -118,12 +137,41 @@ describe('DateInputComponent', () => {
     });
   });
 
-  describe('setStartView', () => {
-    test('should set startView to multi-year on YEAR', () => {
-      component.timePeriod = TimePeriod.YEAR;
-      component.setStartView();
+  describe('setInitialStartEndDates', () => {
+    beforeEach(() => {
+      component.nowDate = moment('2017-01-15').utc();
+    });
 
-      expect(component.startView).toEqual('multi-year');
+    test('should set max and initial start and end dates as previous month for MONTH', () => {
+      component.timePeriod = TimePeriod.MONTH;
+
+      component.setInitialStartEndDates();
+
+      expect(component.maxDate).toEqual(
+        component.nowDate.clone().subtract(1, 'month').endOf('month')
+      );
+      expect(component.rangeInput.controls.start.value).toEqual(
+        component.nowDate.clone().subtract(1, 'month').startOf('month')
+      );
+      expect(component.rangeInput.controls.end.value).toEqual(
+        component.nowDate.clone().subtract(1, 'month').endOf('month')
+      );
+    });
+
+    test('should set max and initial start and end dates as previous year for YEAR', () => {
+      component.timePeriod = TimePeriod.YEAR;
+
+      component.setInitialStartEndDates();
+
+      expect(component.maxDate).toEqual(
+        component.nowDate.clone().subtract(1, 'year').endOf('year')
+      );
+      expect(component.rangeInput.controls.start.value).toEqual(
+        component.nowDate.clone().subtract(1, 'year').startOf('year')
+      );
+      expect(component.rangeInput.controls.end.value).toEqual(
+        component.nowDate.clone().subtract(1, 'year').endOf('year')
+      );
     });
   });
 
@@ -156,51 +204,32 @@ describe('DateInputComponent', () => {
     });
   });
 
-  describe('startDateChanged', () => {
-    let datepicker: MatDateRangePicker<any>;
-    let endDateInput: HTMLInputElement;
-    let evt: MatDatepickerInputEvent<any>;
-
-    beforeEach(() => {
+  describe('chosenMonthHandler', () => {
+    test('should update dates on MONTH', () => {
       component.updateStartEndDates = jest.fn();
-      datepicker = {
+      component.timePeriod = TimePeriod.MONTH;
+      const date = moment();
+      const datepicker = {
         close: jest.fn(),
       } as unknown as MatDateRangePicker<any>;
-      endDateInput = {
-        focus: jest.fn(),
-      } as unknown as HTMLInputElement;
-      evt = {
-        value: new Date(),
-      } as unknown as MatDatepickerInputEvent<any>;
-    });
 
-    test('should update dates on YEAR', () => {
-      component.timePeriod = TimePeriod.YEAR;
+      component.chosenMonthHandler(date, datepicker);
 
-      component.startDateChanged(evt, datepicker, endDateInput);
-
-      expect(component.updateStartEndDates).toHaveBeenCalledWith(evt.value);
       expect(datepicker.close).toHaveBeenCalled();
-      expect(endDateInput.focus).toHaveBeenCalled();
-    });
-
-    test('should update dates on LAST_12_MONTHS', () => {
-      component.timePeriod = TimePeriod.LAST_12_MONTHS;
-
-      component.startDateChanged(evt, datepicker, endDateInput);
-
-      expect(component.updateStartEndDates).toHaveBeenCalledWith(evt.value);
-      expect(datepicker.close).toHaveBeenCalled();
-      expect(endDateInput.focus).toHaveBeenCalled();
+      expect(component.updateStartEndDates).toHaveBeenCalledWith(date);
     });
 
     test('should do nothing on default', () => {
-      component.timePeriod = undefined;
+      component.updateStartEndDates = jest.fn();
+      component.timePeriod = TimePeriod.LAST_12_MONTHS;
+      const date = moment();
+      const datepicker = {
+        close: jest.fn(),
+      } as unknown as MatDateRangePicker<any>;
 
-      component.startDateChanged(evt, datepicker, endDateInput);
+      component.chosenMonthHandler(date, datepicker);
 
       expect(datepicker.close).not.toHaveBeenCalled();
-      expect(endDateInput.focus).not.toHaveBeenCalled();
     });
   });
 

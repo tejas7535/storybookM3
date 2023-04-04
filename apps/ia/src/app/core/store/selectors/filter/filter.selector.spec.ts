@@ -94,7 +94,7 @@ describe('Filter Selector', () => {
 
   describe('getTimePeriods', () => {
     test('should return time periods', () => {
-      expect(getTimePeriods(fakeState).length).toEqual(2);
+      expect(getTimePeriods(fakeState).length).toEqual(3);
     });
   });
 

@@ -41,19 +41,19 @@ export class OrgChartComponent implements AfterViewInit {
   @Input() set orgChartData(orgChartData: OrgChartData) {
     const old = this._orgChartData;
     this._orgChartData = orgChartData;
-    const orgChartTranslations = this.translocoService.translateObject(
-      'organizationalView.orgChart.table'
-    );
-    this.chartData = this.orgChartService.mapDimensionDataToNodes(
-      orgChartData.data,
-      orgChartTranslations
-    );
 
-    if (old !== undefined && orgChartData !== undefined) {
-      const shouldUpdateChart = this.orgChartNodesChanged(orgChartData, old);
+    if (orgChartData) {
+      this.chartData = this.orgChartService.mapDimensionDataToNodes(
+        orgChartData.data,
+        orgChartData.translation
+      );
 
-      if (shouldUpdateChart) {
-        this.updateChart();
+      if (old) {
+        const shouldUpdateChart = this.orgChartNodesChanged(orgChartData, old);
+
+        if (shouldUpdateChart) {
+          this.updateChart();
+        }
       }
     }
   }

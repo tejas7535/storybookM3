@@ -8,7 +8,6 @@ import {
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   MatDatepicker,
-  MatDatepickerInputEvent,
   MatDateRangePicker,
 } from '@angular/material/datepicker';
 
@@ -21,15 +20,32 @@ import { getMonth12MonthsAgo, getTimeRangeFromDates } from '../utils/utilities';
 @Component({
   selector: 'ia-date-input',
   templateUrl: './date-input.component.html',
+  styles: [
+    `
+      ::ng-deep .mat-calendar-period-button {
+        pointer-events: none;
+      }
+    `,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DateInputComponent {
+  readonly PREVIOUS_YEARS_AVAILABLE = 3;
+  readonly startView: 'year' | 'month' | 'multi-year' = 'multi-year';
+  readonly timePeriods = TimePeriod;
+
   private _timePeriod: TimePeriod;
 
-  timePeriods = TimePeriod;
+  dateInput = new UntypedFormControl({ value: '', disabled: true });
+
+  rangeInput = new UntypedFormGroup({
+    start: this.dateInput,
+    end: new UntypedFormControl({ value: '', disabled: true }),
+  });
+
   nowDate = moment()
     .utc()
-    .subtract(DATA_IMPORT_DAY - 1, 'days') // use previous month if data is not imported yet
+    .subtract(DATA_IMPORT_DAY - 1, 'day') // use previous month if data is not imported yet
     .endOf('month');
   minDate = this.nowDate.clone();
   maxDate = moment({ year: this.nowDate.year() - 1, month: 11, day: 31 }).utc(); // last day of last year
@@ -38,6 +54,7 @@ export class DateInputComponent {
   @Input() hint: string;
   @Input() placeholderStart: string;
   @Input() placeholderEnd: string;
+
   @Input() set timePeriod(timePeriod: TimePeriod) {
     this._timePeriod = timePeriod;
 
@@ -45,8 +62,9 @@ export class DateInputComponent {
     const refDate =
       timePeriod === TimePeriod.YEAR ? this.maxDate : this.nowDate;
     this.updateStartEndDates(refDate);
-    this.setStartView();
+    this.setInitialStartEndDates();
   }
+
   get timePeriod(): TimePeriod {
     return this._timePeriod;
   }
@@ -76,32 +94,56 @@ export class DateInputComponent {
 
   constructor() {
     this.minDate.set({
-      year: this.minDate.year() - 3,
+      year: this.minDate.year() - this.PREVIOUS_YEARS_AVAILABLE,
       month: 0,
       date: 1,
     });
   }
 
-  dateInput = new UntypedFormControl({ value: '', disabled: true });
+  setInitialStartEndDates() {
+    if (
+      this.timePeriod === TimePeriod.MONTH ||
+      this.timePeriod === TimePeriod.YEAR
+    ) {
+      const onePeriodBefore = this.nowDate
+        .clone()
+        .subtract(1, this.timePeriod)
+        .endOf(this.timePeriod)
+        .utc();
+      this.maxDate = onePeriodBefore;
 
-  rangeInput = new UntypedFormGroup({
-    start: this.dateInput,
-    end: new UntypedFormControl({ value: '', disabled: true }),
-  });
-  startView: 'multi-year' | 'month';
+      this.rangeInput.controls.end.setValue(onePeriodBefore);
+      this.rangeInput.controls.start.setValue(
+        onePeriodBefore.clone().startOf(this.timePeriod)
+      );
+    }
+  }
 
   updateStartEndDates(refDate: Moment): void {
     switch (this.timePeriod) {
       case TimePeriod.YEAR: {
         this.rangeInput.controls.start.setValue(
-          refDate.clone().startOf('year')
+          refDate.clone().startOf('year').utc()
         );
-        this.rangeInput.controls.end.setValue(refDate.clone().endOf('year'));
+        this.rangeInput.controls.end.setValue(
+          refDate.clone().endOf('year').utc()
+        );
+        break;
+      }
+      case TimePeriod.MONTH: {
+        const start = refDate.clone().startOf('month').utc();
+        const end = refDate.clone().endOf('month').utc();
+        this.rangeInput.controls.start.setValue(start);
+        this.rangeInput.controls.end.setValue(end);
         break;
       }
       case TimePeriod.LAST_12_MONTHS: {
         // use month before to prevent wrong calculations for the future
-        const tmp = this.nowDate.clone().subtract(1, 'month').endOf('month');
+        const tmp = this.nowDate
+          .clone()
+          .subtract(1, 'month')
+          .endOf('month')
+          .utc();
         const old = getMonth12MonthsAgo(tmp);
         this.rangeInput.controls.start.setValue(old);
         this.rangeInput.controls.end.setValue(tmp);
@@ -118,12 +160,7 @@ export class DateInputComponent {
     }, 50);
   }
 
-  setStartView(): void {
-    this.startView =
-      this.timePeriod === TimePeriod.YEAR ? 'multi-year' : 'month';
-  }
-
-  public chosenYearHandler(
+  chosenYearHandler(
     year: Moment,
     datepicker: MatDateRangePicker<any> | MatDatepicker<any>
   ): void {
@@ -133,20 +170,13 @@ export class DateInputComponent {
     }
   }
 
-  startDateChanged(
-    evt: MatDatepickerInputEvent<any>,
-    datepicker: MatDateRangePicker<any>,
-    endDateInput: HTMLInputElement
+  chosenMonthHandler(
+    month: Moment,
+    datepicker: MatDateRangePicker<any> | MatDatepicker<any>
   ): void {
-    if (
-      (this.timePeriod === TimePeriod.YEAR ||
-        this.timePeriod === TimePeriod.LAST_12_MONTHS) &&
-      evt.value
-    ) {
-      this.updateStartEndDates(evt.value);
-
+    if (this.timePeriod === TimePeriod.MONTH) {
+      this.updateStartEndDates(month);
       datepicker.close();
-      endDateInput.focus();
     }
   }
 

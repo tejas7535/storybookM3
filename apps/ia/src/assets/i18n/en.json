@@ -27,12 +27,14 @@
     "periodOfTime": {
       "title": "Select period of time",
       "last12Months": "Last 12 Months",
+      "month": "Month",
       "year": "Year",
       "timePeriodLabel": "Time period",
       "timePeriodHint": "Select a period",
       "timeRangeLabel": "Time range",
       "timeRangeHintYear": "Select a year",
       "timeRangeHintLast12Months": "Last 12 Months",
+      "timeRangeHintMonth": "Select a month",
       "timeRangePlaceholderStart": "Start date",
       "timeRangePlaceholderEnd": "End date"
     },

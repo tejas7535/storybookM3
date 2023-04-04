@@ -3,13 +3,25 @@ import moment, { Moment } from 'moment';
 
 import { TimePeriod } from '../models';
 
-export const getTimeRangeHint = (timePeriod: TimePeriod): string =>
-  timePeriod === TimePeriod.YEAR
-    ? translate('filters.periodOfTime.timeRangeHintYear')
-    : translate('filters.periodOfTime.timeRangeHintLast12Months');
+export const getTimeRangeHint = (timePeriod: TimePeriod): string => {
+  switch (timePeriod) {
+    case TimePeriod.YEAR: {
+      return translate('filters.periodOfTime.timeRangeHintYear');
+    }
+    case TimePeriod.MONTH: {
+      return translate('filters.periodOfTime.timeRangeHintMonth');
+    }
+    case TimePeriod.LAST_12_MONTHS: {
+      return translate('filters.periodOfTime.timeRangeHintLast12Months');
+    }
+    default: {
+      return '';
+    }
+  }
+};
 
 export const getMonth12MonthsAgo = (refDate: Moment): Moment => {
-  const old = refDate.clone().subtract(11, 'months').startOf('month');
+  const old = refDate.clone().subtract(11, 'months').startOf('month').utc();
 
   return old;
 };
@@ -20,17 +32,26 @@ export const getTimeRangeFromDates = (
 ): string => `${dateOne.unix()}|${dateTwo.unix()}`;
 
 export const getBeautifiedTimeRange = (timeRange: string): string => {
+  if (!timeRange) {
+    return undefined;
+  }
   const dates = timeRange?.split('|');
+  const start = moment.unix(+dates[0]).utc();
+  const end = moment.unix(+dates[1]).utc();
 
-  return timeRange
-    ? `${moment
-        .unix(+dates[0])
-        .utc()
-        .format('MMM YYYY')} - ${moment
-        .unix(+dates[1])
-        .utc()
-        .format('MMM YYYY')}`
-    : undefined;
+  const monthYearFormat = 'MMM YYYY';
+  const yearFormat = 'YYYY';
+
+  if (start.year() === end.year() && start.month() === end.month()) {
+    return start.format(monthYearFormat);
+  } else if (
+    start.year() === end.year() &&
+    end.month() - start.month() === 11
+  ) {
+    return start.format(yearFormat);
+  } else {
+    return `${start.format(monthYearFormat)} - ${end.format(monthYearFormat)}`;
+  }
 };
 
 export const convertTimeRangeToUTC = (timeRange: string) => {
