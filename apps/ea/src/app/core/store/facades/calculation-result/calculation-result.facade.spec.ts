@@ -37,7 +37,7 @@ describe('CalculationResult', () => {
       'should provide the calculation Result',
       marbles((m) => {
         const expected = m.cold('a', {
-          a: CALCULATION_RESULT_STATE_MOCK,
+          a: CALCULATION_RESULT_STATE_MOCK.calculationResult,
         });
 
         m.expect(facade.calculationResult$).toBeObservable(expected);
@@ -53,27 +53,32 @@ describe('CalculationResult', () => {
           a: [
             {
               title: 'totalValueCO2',
-              icon: 'airwave',
+              icon: 'co2',
               values: [
                 {
                   title: 'production',
-                  value: CALCULATION_RESULT_STATE_MOCK.co2.upstream,
+                  value:
+                    CALCULATION_RESULT_STATE_MOCK.calculationResult
+                      .co2_upstream,
                   unit: 'kg',
                 },
                 {
                   title: 'operation',
-                  value: CALCULATION_RESULT_STATE_MOCK.co2.downstream,
+                  value:
+                    CALCULATION_RESULT_STATE_MOCK.calculationResult
+                      .co2_downstream,
                   unit: 'kg',
                 },
               ],
             },
             {
               title: 'overrollingFrequency',
-              icon: 'airwave',
+              icon: 'airwaves',
               values: [
                 {
                   title: 'overrollingFrequencySubtitle',
-                  value: CALCULATION_RESULT_STATE_MOCK.ratingLife,
+                  value:
+                    CALCULATION_RESULT_STATE_MOCK.calculationResult.ratingLife,
                   unit: 'mm²/s',
                 },
               ],
@@ -93,7 +98,7 @@ describe('CalculationResult', () => {
       'should provide if the calculation result is available',
       marbles((m) => {
         const expected = m.cold('a', {
-          a: CALCULATION_RESULT_STATE_MOCK.isResultAvailable,
+          a: !!CALCULATION_RESULT_STATE_MOCK.calculationResult,
         });
 
         m.expect(facade.isCalculationResultAvailable$).toBeObservable(expected);
@@ -106,10 +111,49 @@ describe('CalculationResult', () => {
       'should provide if the calculation is impossible',
       marbles((m) => {
         const expected = m.cold('a', {
-          a: CALCULATION_RESULT_STATE_MOCK.isResultAvailable,
+          a: CALCULATION_RESULT_STATE_MOCK.isCalculationImpossible,
         });
 
         m.expect(facade.isCalculationImpossible$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('isCalculationLoading', () => {
+    it(
+      'should provide if the calculation result is loading',
+      marbles((m) => {
+        const expected = m.cold('a', {
+          a: CALCULATION_RESULT_STATE_MOCK.isLoading,
+        });
+
+        m.expect(facade.isCalculationLoading$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('modelId$', () => {
+    it(
+      'should provide the current modelId',
+      marbles((m) => {
+        const expected = m.cold('a', {
+          a: CALCULATION_RESULT_STATE_MOCK.modelId,
+        });
+
+        m.expect(facade.modelId$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('calculationId$', () => {
+    it(
+      'should provide the current calculationId',
+      marbles((m) => {
+        const expected = m.cold('a', {
+          a: CALCULATION_RESULT_STATE_MOCK.calculationId,
+        });
+
+        m.expect(facade.calculationId$).toBeObservable(expected);
       })
     );
   });

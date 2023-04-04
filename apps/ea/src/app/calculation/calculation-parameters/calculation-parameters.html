@@ -1,4 +1,4 @@
-<ng-container *transloco="let t; read: 'operatingConditions'">
+<ng-container *transloco="let t; read: 'operationConditions'">
   <div class="flex h-full w-full flex-col">
     <div class="flex flex-1 flex-col items-center gap-10 pb-[200px]">
       <div class="flex flex-col gap-0 sm:gap-5 lg:grid">
@@ -25,7 +25,7 @@
           <div class="p-4 pb-0">
             <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4">
               <ea-input
-                [control]="radial"
+                [control]="radialLoad"
                 [label]="t('radialLoad')"
                 [unit]="'N'"
                 [tooltipText]="t('tooltip.radialLoad')"
@@ -33,7 +33,7 @@
                 [onlyPositive]="true"
               ></ea-input>
               <ea-input
-                [control]="axial"
+                [control]="axialLoad"
                 [label]="t('axialLoad')"
                 [unit]="'N'"
                 [tooltipText]="t('tooltip.axialLoad')"
@@ -57,7 +57,7 @@
           </div>
           <div class="grid grid-cols-1 gap-0 p-4 pb-0 md:grid-cols-2 md:gap-4">
             <ea-input
-              [control]="rotation"
+              [control]="rotationalSpeed"
               [label]="t('relativeRotationalSpeed')"
               [unit]="t('onePerMinute')"
               [tooltipText]="t('tooltip.rotationSpeed')"

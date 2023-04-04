@@ -1,10 +1,9 @@
-import {
-  CALCULATION_PARAMETERS_MOCK,
-  CALCULATION_PARAMETERS_STATE_MOCK,
-} from '@ea/testing/mocks';
+import { CALCULATION_PARAMETERS_STATE_MOCK } from '@ea/testing/mocks';
 
 import {
-  getCalculationParameters,
+  getBearingDesignation,
+  getEnergySource,
+  getOperationConditions,
   isCalculationMissingInput,
 } from './calculation-parameters.selector';
 
@@ -15,24 +14,40 @@ describe('Calculation Result Selector', () => {
     },
   };
 
-  describe('getCalculationResult', () => {
-    it('should return the calculation parameters state', () => {
-      expect(getCalculationParameters(mockState)).toEqual(
-        CALCULATION_PARAMETERS_MOCK
+  describe('getOperationConditions', () => {
+    it('should return the operation conditions', () => {
+      expect(getOperationConditions(mockState)).toEqual(
+        CALCULATION_PARAMETERS_STATE_MOCK.operationConditions
+      );
+    });
+  });
+
+  describe('getEnergySource', () => {
+    it('should return the energy source', () => {
+      expect(getEnergySource(mockState)).toEqual(
+        CALCULATION_PARAMETERS_STATE_MOCK.energySource
+      );
+    });
+  });
+
+  describe('getBearingDesignation', () => {
+    it('should return the bearing designation', () => {
+      expect(getBearingDesignation(mockState)).toEqual(
+        CALCULATION_PARAMETERS_STATE_MOCK.bearingDesignation
       );
     });
   });
 
   describe('isCalculationMissingInput', () => {
-    it('should return true if any of the calculation parameters are falsely', () => {
+    it('should return true if any of the calculation parameters are undefined', () => {
       expect(
         isCalculationMissingInput({
           calculationParameters: {
             ...CALCULATION_PARAMETERS_STATE_MOCK,
             operationConditions: {
-              axial: 0,
-              radial: 1,
-              rotation: 1,
+              axialLoad: undefined,
+              radialLoad: 1,
+              rotationalSpeed: 1,
             },
           },
         })
@@ -43,9 +58,9 @@ describe('Calculation Result Selector', () => {
           calculationParameters: {
             ...CALCULATION_PARAMETERS_STATE_MOCK,
             operationConditions: {
-              axial: 1,
-              radial: 0,
-              rotation: 1,
+              axialLoad: 1,
+              radialLoad: undefined,
+              rotationalSpeed: 1,
             },
           },
         })
@@ -56,9 +71,9 @@ describe('Calculation Result Selector', () => {
           calculationParameters: {
             ...CALCULATION_PARAMETERS_STATE_MOCK,
             operationConditions: {
-              axial: 1,
-              radial: 1,
-              rotation: 0,
+              axialLoad: 1,
+              radialLoad: 1,
+              rotationalSpeed: undefined,
             },
           },
         })
@@ -69,9 +84,22 @@ describe('Calculation Result Selector', () => {
           calculationParameters: {
             ...CALCULATION_PARAMETERS_STATE_MOCK,
             operationConditions: {
-              axial: 1,
-              radial: 1,
-              rotation: 1,
+              axialLoad: 1,
+              radialLoad: 1,
+              rotationalSpeed: 1,
+            },
+          },
+        })
+      ).toEqual(false);
+
+      expect(
+        isCalculationMissingInput({
+          calculationParameters: {
+            ...CALCULATION_PARAMETERS_STATE_MOCK,
+            operationConditions: {
+              axialLoad: 1,
+              radialLoad: 0,
+              rotationalSpeed: 1,
             },
           },
         })

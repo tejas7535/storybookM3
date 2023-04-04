@@ -1,19 +1,16 @@
 import { createSelector } from '@ngrx/store';
 
-import {
-  CalculationResultPreviewData,
-  CalculationResultState,
-} from '../../models';
+import { CalculationResult, CalculationResultPreviewData } from '../../models';
 import { getCalculationResultState } from '../../reducers';
 
 export const getCalculationResult = createSelector(
   getCalculationResultState,
-  (state): CalculationResultState => state
+  (state): CalculationResult => state.calculationResult
 );
 
 export const isCalculationResultAvailable = createSelector(
-  getCalculationResultState,
-  (state): boolean => state.isResultAvailable
+  getCalculationResult,
+  (state): boolean => !!state
 );
 
 export const isCalculationImpossible = createSelector(
@@ -21,28 +18,43 @@ export const isCalculationImpossible = createSelector(
   (state): boolean => state.isCalculationImpossible
 );
 
-export const getCalculationResultPreviewData = createSelector(
+export const isCalculationLoading = createSelector(
   getCalculationResultState,
+  (state): boolean => !!state.isLoading
+);
+
+export const getModelId = createSelector(
+  getCalculationResultState,
+  (state): string | undefined => state.modelId
+);
+
+export const getCalculationId = createSelector(
+  getCalculationResultState,
+  (state): string | undefined => state.calculationId
+);
+
+export const getCalculationResultPreviewData = createSelector(
+  getCalculationResult,
   (state): CalculationResultPreviewData => [
     {
       title: 'totalValueCO2',
-      icon: 'airwave',
+      icon: 'co2',
       values: [
         {
           title: 'production',
-          value: state.co2.upstream,
+          value: state.co2_upstream,
           unit: 'kg',
         },
         {
           title: 'operation',
-          value: state.co2.downstream,
+          value: state.co2_downstream,
           unit: 'kg',
         },
-      ],
+      ].filter((item) => item.value !== undefined),
     },
     {
       title: 'overrollingFrequency',
-      icon: 'airwave',
+      icon: 'airwaves',
       values: [
         {
           title: 'overrollingFrequencySubtitle',

@@ -3,9 +3,12 @@ import { Injectable } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
 
 import {
+  getCalculationId,
   getCalculationResult,
   getCalculationResultPreviewData,
+  getModelId,
   isCalculationImpossible,
+  isCalculationLoading,
   isCalculationResultAvailable,
 } from '../../selectors/calculation-result/calculation-result.selector';
 
@@ -23,6 +26,11 @@ export class CalculationResultFacade {
   public readonly isCalculationImpossible$ = this.store.select(
     isCalculationImpossible
   );
+  public readonly isCalculationLoading$ =
+    this.store.select(isCalculationLoading);
+
+  public modelId$ = this.store.select(getModelId);
+  public calculationId$ = this.store.select(getCalculationId);
 
   constructor(private readonly store: Store) {}
 

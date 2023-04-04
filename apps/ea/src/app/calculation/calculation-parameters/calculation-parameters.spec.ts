@@ -2,7 +2,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { resetCalculationParams } from '@ea/core/store/actions/calculation-parameters/calculation-parameters.actions';
+import { resetCalculationParameters } from '@ea/core/store/actions/calculation-parameters/calculation-parameters.actions';
 import { FormFieldModule } from '@ea/shared/form-field';
 import {
   CALCULATION_PARAMETERS_STATE_MOCK,
@@ -81,37 +81,37 @@ describe('CalculationParametersComponent', () => {
 
       component.onResetButtonClick();
 
-      expect(store.dispatch).toHaveBeenCalledWith(resetCalculationParams());
+      expect(store.dispatch).toHaveBeenCalledWith(resetCalculationParameters());
     });
   });
 
   describe('loadValidator', () => {
     it('should unset the anyLoad error if one field is > 0', () => {
-      component.radial.setValue(0);
-      component.axial.setValue(0);
+      component.radialLoad.setValue(0);
+      component.axialLoad.setValue(0);
 
       component['loadValidator']();
-      expect(component.radial.errors).toEqual({
+      expect(component.radialLoad.errors).toEqual({
         anyLoad: true,
       });
 
-      component.radial.setValue(6);
+      component.radialLoad.setValue(6);
       component['loadValidator']();
 
       /* eslint-disable unicorn/no-null */
-      expect(component.radial.errors).toEqual(null);
+      expect(component.radialLoad.errors).toEqual(null);
     });
 
     it('should set the anyLoad error if both fields are less then 0', () => {
-      component.radial.setValue(0);
-      component.axial.setValue(0);
+      component.radialLoad.setValue(0);
+      component.axialLoad.setValue(0);
 
       component['loadValidator']();
 
-      expect(component.radial.errors).toEqual({
+      expect(component.radialLoad.errors).toEqual({
         anyLoad: true,
       });
-      expect(component.axial.errors).toEqual({
+      expect(component.axialLoad.errors).toEqual({
         anyLoad: true,
       });
     });

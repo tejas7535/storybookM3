@@ -2,24 +2,27 @@ import { CalculationParametersState } from '@ea/core/store/models';
 
 import {
   operatingParameters,
-  resetCalculationParams,
+  resetCalculationParameters,
 } from './calculation-parameters.actions';
 
 describe('Calculation Parameters Actions', () => {
   describe('Patch Parameters', () => {
     it('operatingParameters', () => {
-      const mockParameters = {} as CalculationParametersState;
-      const action = operatingParameters({ parameters: mockParameters });
+      const mockParameters =
+        {} as CalculationParametersState['operationConditions'];
+      const action = operatingParameters({
+        operationConditions: mockParameters,
+      });
 
       expect(action).toEqual({
-        parameters: mockParameters,
+        operationConditions: mockParameters,
         type: '[Calculation Parameters] Operating Parameters',
       });
     });
   });
   describe('Reset CalculationParams', () => {
-    it('resetCalculationParams', () => {
-      const action = resetCalculationParams();
+    it('resetCalculationParameters', () => {
+      const action = resetCalculationParameters();
 
       expect(action).toEqual({
         type: '[Calculation Parameters] Reset Operating Parameters',

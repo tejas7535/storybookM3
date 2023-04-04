@@ -1,10 +1,15 @@
 import { CalculationResultState } from '@ea/core/store/models';
 
 export const CALCULATION_RESULT_STATE_MOCK: CalculationResultState = {
-  co2: { upstream: 0, downstream: 0 },
-  ratingLife: 0,
-  isResultAvailable: false,
+  calculationResult: {
+    co2_upstream: 0,
+    co2_downstream: 0,
+    ratingLife: 0,
+  },
   isCalculationImpossible: false,
+  isLoading: false,
+  calculationError: undefined,
+  calculationId: undefined,
 };
 
 export const CALCULATION_RESULT_OVERLAY_DATA_MOCK = [

@@ -3,35 +3,50 @@ import { Action, createReducer, on } from '@ngrx/store';
 
 import {
   operatingParameters,
-  resetCalculationParams,
+  resetCalculationParameters,
 } from '../../actions/calculation-parameters/calculation-parameters.actions';
 
 export const initialState: CalculationParametersState = {
   operationConditions: {
-    rotation: undefined,
-    axial: undefined,
-    radial: undefined,
+    rotationalSpeed: undefined,
+    axialLoad: undefined,
+    radialLoad: undefined,
+    operatingTime: 8766,
+    typeOfMovement: 'LB_ROTATING',
+    oilTemp: 70,
+    viscosity: 110, // Arcanol Multi 2
+    movementFrequency: 0,
+    oscillationAngle: 0,
   },
+  energySource: {
+    type: 'LB_ELECTRIC_ENERGY',
+    electricityRegion: 'LB_EUROPEAN_UNION',
+  },
+  bearingDesignation: '6210-C-2HRS',
 };
 
 export const calculationParametersReducer = createReducer(
   initialState,
   on(
     operatingParameters,
-    (state, { parameters }): CalculationParametersState => ({
+    (state, { operationConditions }): CalculationParametersState => ({
       ...state,
-      ...parameters,
+      operationConditions: {
+        ...state.operationConditions,
+        ...operationConditions,
+      },
     })
   ),
 
   on(
-    resetCalculationParams,
+    resetCalculationParameters,
     (state): CalculationParametersState => ({
       ...state,
       operationConditions: {
-        rotation: undefined,
-        axial: undefined,
-        radial: undefined,
+        ...state.operationConditions,
+        rotationalSpeed: undefined,
+        axialLoad: undefined,
+        radialLoad: undefined,
       },
     })
   )

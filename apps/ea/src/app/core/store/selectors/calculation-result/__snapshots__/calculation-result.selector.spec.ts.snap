@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Calculation Result Selector getCalculationResultPreviewData should return the result preview data 1`] = `
+Array [
+  Object {
+    "icon": "co2",
+    "title": "totalValueCO2",
+    "values": Array [
+      Object {
+        "title": "production",
+        "unit": "kg",
+        "value": 0,
+      },
+      Object {
+        "title": "operation",
+        "unit": "kg",
+        "value": 0,
+      },
+    ],
+  },
+  Object {
+    "icon": "airwaves",
+    "title": "overrollingFrequency",
+    "values": Array [
+      Object {
+        "title": "overrollingFrequencySubtitle",
+        "unit": "mm²/s",
+        "value": 0,
+      },
+    ],
+  },
+]
+`;

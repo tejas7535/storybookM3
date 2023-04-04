@@ -1,5 +1,3 @@
 export * from './app-state.mock';
 export * from './calculation-parameters-state.mock';
 export * from './calculation-result-state.mock';
-export * from './product-selection-state.mock';
-export * from './settings-state.mock';

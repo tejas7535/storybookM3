@@ -1,11 +1,16 @@
 export interface CalculationResultState {
-  co2: {
-    upstream: number;
-    downstream: number;
-  };
-  ratingLife: number;
-  isResultAvailable: boolean;
-  isCalculationImpossible: boolean;
+  calculationResult?: CalculationResult;
+  modelId?: string;
+  calculationId?: string;
+  isLoading: boolean;
+  calculationError?: string;
+  isCalculationImpossible?: boolean;
+}
+
+export interface CalculationResult {
+  co2_upstream?: number;
+  co2_downstream?: number;
+  ratingLife?: number;
 }
 
 export interface CalculationResultPreviewItem {

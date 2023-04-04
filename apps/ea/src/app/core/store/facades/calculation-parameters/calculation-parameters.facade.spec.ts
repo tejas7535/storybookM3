@@ -1,4 +1,4 @@
-import { CALCULATION_PARAMETERS_MOCK } from '@ea/testing/mocks';
+import { CALCULATION_PARAMETERS_STATE_MOCK } from '@ea/testing/mocks';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
@@ -15,7 +15,7 @@ describe('CalculationParametersFacade', () => {
     providers: [
       provideMockStore({
         initialState: {
-          calculationParameters: CALCULATION_PARAMETERS_MOCK,
+          calculationParameters: CALCULATION_PARAMETERS_STATE_MOCK,
         },
       }),
     ],
@@ -32,15 +32,54 @@ describe('CalculationParametersFacade', () => {
     expect(spectator.service).toBeDefined();
   });
 
-  describe('calculationParameters$', () => {
+  describe('operationConditions$', () => {
     it(
-      'should provide the calculation parameters',
+      'should provide the operation conditions',
       marbles((m) => {
         const expected = m.cold('a', {
-          a: CALCULATION_PARAMETERS_MOCK,
+          a: CALCULATION_PARAMETERS_STATE_MOCK.operationConditions,
         });
 
-        m.expect(facade.calculationParameters$).toBeObservable(expected);
+        m.expect(facade.operationConditions$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('isCalculationMissingInput$', () => {
+    it(
+      'should provide if calculation is missing input',
+      marbles((m) => {
+        const expected = m.cold('a', {
+          a: true,
+        });
+
+        m.expect(facade.isCalculationMissingInput$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('bearingDesignation$', () => {
+    it(
+      'should provide the current bearing designation',
+      marbles((m) => {
+        const expected = m.cold('a', {
+          a: CALCULATION_PARAMETERS_STATE_MOCK.bearingDesignation,
+        });
+
+        m.expect(facade.bearingDesignation$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('energySource$', () => {
+    it(
+      'should provide the energy source',
+      marbles((m) => {
+        const expected = m.cold('a', {
+          a: CALCULATION_PARAMETERS_STATE_MOCK.energySource,
+        });
+
+        m.expect(facade.energySource$).toBeObservable(expected);
       })
     );
   });

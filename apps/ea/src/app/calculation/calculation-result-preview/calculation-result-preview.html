@@ -6,7 +6,7 @@
       class="flex flex-row items-center justify-center gap-8 rounded-t bg-background-dark pt-6 pb-6 pl-8 pr-8"
     >
       <div class="flex flex-grow flex-row gap-8">
-        <ng-container *ngIf="isCalculationMissingInput$ | async">
+        <ng-container *ngIf="isCalculationMissingInput$ | ngrxPush">
           <div class="flex flex-shrink-0 flex-row items-center justify-center">
             <div class="flex flex-shrink-0">
               <mat-icon color="primary">info</mat-icon>
@@ -18,7 +18,7 @@
           <mat-divider [vertical]="true"></mat-divider>
         </ng-container>
 
-        <ng-container *ngIf="isCalculationImpossible$ | async">
+        <ng-container *ngIf="isCalculationImpossible$ | ngrxPush">
           <div class="flex flex-shrink-0 flex-row items-center">
             <div class="flex flex-shrink-0">
               <mat-icon color="error">warning</mat-icon>
@@ -33,7 +33,7 @@
           <mat-divider [vertical]="true"></mat-divider>
         </ng-container>
 
-        <ng-container *ngIf="overlayData$ | async as overlayData">
+        <ng-container *ngIf="overlayData$ | ngrxPush as overlayData">
           <ng-container *ngFor="let item of overlayData">
             <ea-calculation-result-preview-item
               [item]="item"
@@ -47,10 +47,15 @@
         <button
           mat-raised-button
           color="primary"
-          [disabled]="(isResultAvailable$ | async) !== true"
-          (click)="calculate()"
+          [disabled]="isCalculationLoading$ | ngrxPush"
+          (click)="showReport()"
         >
-          {{ t('showReport') }}
+          <div class="flex items-center justify-center">
+            {{ t('showReport') }}
+            <div *ngIf="(isCalculationLoading$ | ngrxPush)" class="pl-2">
+              <mat-spinner diameter="20"></mat-spinner>
+            </div>
+          </div>
         </button>
       </div>
     </div>

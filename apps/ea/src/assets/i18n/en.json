@@ -1,6 +1,6 @@
 {
   "appTitle": "Engineering App",
-  "operatingConditions": {
+  "operationConditions": {
     "title": "Operating conditions",
     "requiredInformation": "* required information",
     "loads": "Loads",

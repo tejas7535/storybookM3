@@ -6,8 +6,11 @@
     <div
       class="flex flex-shrink-0 flex-row items-center justify-center pt-2 pb-2"
     >
-      <mat-icon color="primary" class="mr-1 flex-shrink-0">
-        {{ _item.icon }}
+      <mat-icon
+        color="primary"
+        [svgIcon]="_item.icon"
+        class="mr-1 flex-shrink-0"
+      >
       </mat-icon>
       <div class="flex-shrink-0 text-caption font-medium text-medium-emphasis">
         {{ t(_item.title) }}

@@ -5,7 +5,8 @@ import {
   OnInit,
 } from '@angular/core';
 import {
-  UntypedFormControl,
+  FormControl,
+  FormGroup,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
@@ -13,19 +14,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { debounceTime, Subject, takeUntil } from 'rxjs';
+import { debounceTime, filter, Subject, takeUntil } from 'rxjs';
 
 import { CalculationParametersFacade } from '@ea/core/store';
 import {
   operatingParameters,
-  resetCalculationParams,
+  resetCalculationParameters,
 } from '@ea/core/store/actions/calculation-parameters/calculation-parameters.actions';
-import { CalculationParametersState } from '@ea/core/store/models';
-import { initialState } from '@ea/core/store/reducers/calculation-parameters/calculation-parameters.reducer';
 import { FormFieldModule } from '@ea/shared/form-field';
-import { CalculationParameters } from '@ea/shared/models';
 import { LetModule, PushModule } from '@ngrx/component';
-import { Store } from '@ngrx/store';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -50,50 +47,62 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
   public DEBOUNCE_TIME_DEFAULT = 200;
   private readonly destroy$ = new Subject<void>();
 
-  public calculationParameters$ =
-    this.calculationParametersFacade.calculationParameters$;
+  public operationConditions$ =
+    this.calculationParametersFacade.operationConditions$;
 
-  public radial = new UntypedFormControl(undefined, Validators.required);
-  public axial = new UntypedFormControl(undefined, Validators.required);
-  public rotation = new UntypedFormControl(undefined, Validators.required);
+  public radialLoad = new FormControl<number>(undefined, Validators.required);
+  public axialLoad = new FormControl<number>(undefined, Validators.required);
+  public rotationalSpeed = new FormControl<number>(
+    undefined,
+    Validators.required
+  );
 
-  public loadsForm = new UntypedFormGroup(
+  public operationConditionsForm = new FormGroup(
     {
-      radial: this.radial,
-      axial: this.axial,
-      rotation: this.rotation,
+      radialLoad: this.radialLoad,
+      axialLoad: this.axialLoad,
+      rotationalSpeed: this.rotationalSpeed,
     },
     this.loadValidator()
   );
 
-  form = new UntypedFormGroup({
-    operationConditions: this.loadsForm,
+  form = new FormGroup({
+    operationConditions: this.operationConditionsForm,
   });
 
   constructor(
-    private readonly store: Store,
     private readonly calculationParametersFacade: CalculationParametersFacade
   ) {}
 
   ngOnInit() {
-    this.calculationParameters$
+    this.operationConditions$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((parametersState: CalculationParameters) => {
-        this.form.patchValue(parametersState, {
-          onlySelf: true,
-          emitEvent: false,
-        });
+      .subscribe((parametersState) => {
+        this.form.patchValue(
+          { operationConditions: parametersState },
+          {
+            onlySelf: true,
+            emitEvent: false,
+          }
+        );
       });
 
     this.form.valueChanges
-      .pipe(takeUntil(this.destroy$), debounceTime(this.DEBOUNCE_TIME_DEFAULT))
-      .subscribe((formValue: CalculationParametersState) => {
-        this.store.dispatch(
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(this.DEBOUNCE_TIME_DEFAULT),
+        filter(() => this.form.valid)
+      )
+      .subscribe((formValue) => {
+        this.calculationParametersFacade.dispatch(
           operatingParameters({
-            parameters: { ...formValue },
+            ...formValue,
+            operationConditions: formValue.operationConditions,
           })
         );
-        this.loadsForm.updateValueAndValidity({ emitEvent: false });
+        this.operationConditionsForm.updateValueAndValidity({
+          emitEvent: false,
+        });
       });
   }
 
@@ -104,16 +113,17 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
 
   private loadValidator(): any {
     return (group: UntypedFormGroup): void => {
-      const { radial, axial, rotation } = group.value;
+      const { radialLoad, axialLoad, rotationalSpeed } = group.value;
 
-      const anyLoadApplied = radial > 0 || axial > 0 || rotation > 1;
+      const anyLoadApplied =
+        radialLoad > 0 || axialLoad > 0 || rotationalSpeed > 1;
 
       if (!anyLoadApplied) {
-        this.setLoadErrors(group, 'radial');
-        this.setLoadErrors(group, 'axial');
+        this.setLoadErrors(group, 'radialLoad');
+        this.setLoadErrors(group, 'axialLoad');
       } else {
-        this.removeLoadErrors(group, 'radial');
-        this.removeLoadErrors(group, 'axial');
+        this.removeLoadErrors(group, 'radialLoad');
+        this.removeLoadErrors(group, 'axialLoad');
       }
     };
   }
@@ -134,7 +144,7 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
   }
 
   public onResetButtonClick(): void {
-    this.loadsForm.reset(initialState);
-    this.store.dispatch(resetCalculationParams());
+    this.operationConditionsForm.reset();
+    this.calculationParametersFacade.dispatch(resetCalculationParameters());
   }
 }

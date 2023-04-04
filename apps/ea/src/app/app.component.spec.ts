@@ -1,3 +1,4 @@
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { APP_STATE_MOCK } from '@ea/testing/mocks/store';
@@ -15,7 +16,12 @@ describe('AppComponent', () => {
 
   const createComponent = createComponentFactory({
     component: AppComponent,
-    imports: [PushModule, RouterTestingModule, MockModule(FormFieldModule)],
+    imports: [
+      PushModule,
+      RouterTestingModule,
+      MockModule(FormFieldModule),
+      MatIconTestingModule,
+    ],
     providers: [
       provideMockStore({
         initialState: { ...APP_STATE_MOCK },

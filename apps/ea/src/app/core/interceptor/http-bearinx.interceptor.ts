@@ -40,7 +40,8 @@ export class HttpBearinxInterceptor implements HttpInterceptor {
       headers: req.headers
         .set('x-bearinx-tenantid', environment.tenantId)
         .set('x-bearinx-groupId', environment.groupId)
-        .set('x-bearinx-language', bearinxLanguage),
+        .set('x-bearinx-language', bearinxLanguage)
+        .set('x-bearinx-unitset', 'ID_UNIT_SET_SI'),
     });
 
     return next.handle(modifiedReq);
