@@ -30,6 +30,7 @@ import {
   createSapQuoteSuccess,
   deleteMaterialRowDataItem,
   deselectQuotationDetail,
+  duplicateMaterialRowDataItem,
   loadCustomer,
   loadCustomerFailure,
   loadCustomerSuccess,
@@ -341,6 +342,31 @@ describe('Quotation Reducer', () => {
             validationLoading: true,
           },
         });
+      });
+    });
+    describe('duplicateMaterialRowDataItem', () => {
+      test('should call table service duplicate', () => {
+        const items: MaterialTableItem[] = [
+          {
+            id: 0,
+            materialNumber: '123465',
+            quantity: 100,
+          },
+        ];
+        const fakeState: ProcessCaseState = {
+          ...PROCESS_CASE_STATE_MOCK,
+          addMaterials: {
+            ...PROCESS_CASE_STATE_MOCK.addMaterials,
+            addMaterialRowData: items,
+          },
+        };
+
+        const action = duplicateMaterialRowDataItem({ itemId: 0 });
+        const state = processCaseReducer(fakeState, action);
+
+        const expectedItems = [items[0], { ...items[0], id: 1 }];
+
+        expect(state.addMaterials.addMaterialRowData).toEqual(expectedItems);
       });
     });
 

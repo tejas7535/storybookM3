@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 
-import { addRowDataItems, deleteRowDataItem } from '@gq/core/store/actions';
+import {
+  deleteRowDataItem,
+  duplicateRowDataItem,
+} from '@gq/core/store/actions';
 import { Store } from '@ngrx/store';
 import { CellClassParams } from 'ag-grid-community';
 
@@ -23,6 +26,6 @@ export class CreateCaseActionCellComponent {
     this.store.dispatch(deleteRowDataItem({ id }));
   }
   copyItem(): void {
-    this.store.dispatch(addRowDataItems({ items: [this.params.data] }));
+    this.store.dispatch(duplicateRowDataItem({ itemId: this.params.data.id }));
   }
 }

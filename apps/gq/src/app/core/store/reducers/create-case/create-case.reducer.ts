@@ -22,6 +22,7 @@ import {
   createCustomerCaseFailure,
   createCustomerCaseSuccess,
   deleteRowDataItem,
+  duplicateRowDataItem,
   getPLsAndSeries,
   getPLsAndSeriesFailure,
   getPLsAndSeriesSuccess,
@@ -315,8 +316,12 @@ export const createCaseReducer = createReducer(
   ),
   on(addRowDataItems, (state: CreateCaseState, { items }) => ({
     ...state,
-    rowData: TableService.pasteItems(items, [...state.rowData]),
+    rowData: TableService.addItems(items, [...state.rowData]),
     validationLoading: true,
+  })),
+  on(duplicateRowDataItem, (state: CreateCaseState, { itemId }) => ({
+    ...state,
+    rowData: TableService.duplicateItem(itemId, [...state.rowData]),
   })),
   on(updateRowDataItem, (state: CreateCaseState, { item }) => ({
     ...state,

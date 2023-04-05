@@ -22,6 +22,7 @@ import {
   createSapQuoteSuccess,
   deleteMaterialRowDataItem,
   deselectQuotationDetail,
+  duplicateMaterialRowDataItem,
   loadCustomer,
   loadCustomerFailure,
   loadCustomerSuccess,
@@ -290,7 +291,20 @@ export const processCaseReducer = createReducer(
       ...state,
       addMaterials: {
         ...state.addMaterials,
-        addMaterialRowData: TableService.pasteItems(items, [
+        addMaterialRowData: TableService.addItems(items, [
+          ...state.addMaterials.addMaterialRowData,
+        ]),
+        validationLoading: true,
+      },
+    })
+  ),
+  on(
+    duplicateMaterialRowDataItem,
+    (state: ProcessCaseState, { itemId }): ProcessCaseState => ({
+      ...state,
+      addMaterials: {
+        ...state.addMaterials,
+        addMaterialRowData: TableService.duplicateItem(itemId, [
           ...state.addMaterials.addMaterialRowData,
         ]),
         validationLoading: true,

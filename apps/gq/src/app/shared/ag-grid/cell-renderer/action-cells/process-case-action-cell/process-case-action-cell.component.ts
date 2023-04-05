@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 
 import {
-  addMaterialRowDataItems,
   deleteMaterialRowDataItem,
+  duplicateMaterialRowDataItem,
 } from '@gq/core/store/actions';
 import { Store } from '@ngrx/store';
 import { CellClassParams } from 'ag-grid-community';
@@ -27,6 +27,8 @@ export class ProcessCaseActionCellComponent {
   }
 
   copyItem(): void {
-    this.store.dispatch(addMaterialRowDataItems({ items: [this.params.data] }));
+    this.store.dispatch(
+      duplicateMaterialRowDataItem({ itemId: this.params.data.id })
+    );
   }
 }

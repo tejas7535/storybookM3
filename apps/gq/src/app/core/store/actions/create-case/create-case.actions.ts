@@ -56,6 +56,11 @@ export const addRowDataItems = createAction(
   props<{ items: MaterialTableItem[] }>()
 );
 
+export const duplicateRowDataItem = createAction(
+  '[Create Case] Duplicate Item by Id from Customer Table',
+  props<{ itemId: number }>()
+);
+
 export const updateRowDataItem = createAction(
   '[Create Case] Update Item from Customer Table',
   props<{ item: MaterialTableItem }>()
@@ -189,6 +194,7 @@ export const resetAutocompleteMaterials = createAction(
 
 const all = union({
   addRowDataItems,
+  duplicateRowDataItem,
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,

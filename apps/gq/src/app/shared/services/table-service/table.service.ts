@@ -11,25 +11,45 @@ import { MaterialTableItem } from '../../models/table/material-table-item-model'
   providedIn: 'root',
 })
 export class TableService {
-  static pasteItems(
+  static addItems(
     items: MaterialTableItem[],
     currentRowData: MaterialTableItem[]
   ): MaterialTableItem[] {
+    const newId = TableService.generateNewTableItemId(currentRowData);
+
     // remove '-' from all items
-    const transformedItems = items.map((item) => ({
+    const transformedItems = items.map((item, i) => ({
       ...item,
+      id: newId + i,
       materialNumber: TableService.removeDashes(
         item.materialNumber.replace(/-/g, '')
       ),
     }));
-    const combinedData = [...currentRowData, ...transformedItems]
-      // add index
-      .map((el, i) => ({
-        ...el,
-        id: i,
-      }));
 
-    return combinedData;
+    return [...currentRowData, ...transformedItems];
+  }
+
+  static duplicateItem(
+    itemId: number,
+    currentItems: MaterialTableItem[]
+  ): MaterialTableItem[] {
+    const newId = TableService.generateNewTableItemId(currentItems);
+    const itemIndex = currentItems.findIndex((e) => e.id === itemId);
+
+    if (itemIndex >= 0) {
+      currentItems.splice(itemIndex + 1, 0, {
+        ...currentItems[itemIndex],
+        id: newId,
+      });
+    }
+
+    return currentItems;
+  }
+
+  static generateNewTableItemId(currentItems: MaterialTableItem[]): number {
+    return currentItems.length > 0
+      ? Math.max(...currentItems.map((e) => e.id)) + 1
+      : 0;
   }
   static updateItem(
     item: MaterialTableItem,

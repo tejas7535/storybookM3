@@ -89,6 +89,11 @@ export const addMaterialRowDataItems = createAction(
   props<{ items: MaterialTableItem[] }>()
 );
 
+export const duplicateMaterialRowDataItem = createAction(
+  '[Process Case] Duplicate Item by Id from Material Table',
+  props<{ itemId: number }>()
+);
+
 export const updateMaterialRowDataItem = createAction(
   '[Process Case] Update Item from Material Table',
   props<{ item: MaterialTableItem }>()
@@ -240,6 +245,7 @@ const all = union({
   clearProcessCaseRowData,
   addMaterials,
   addMaterialRowDataItems,
+  duplicateMaterialRowDataItem,
   deleteMaterialRowDataItem,
   loadCustomer,
   loadCustomerFailure,

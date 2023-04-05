@@ -10,7 +10,17 @@ import {
 import { TableService } from './table.service';
 
 describe('TableService', () => {
-  describe('pasteItems', () => {
+  describe('addItems', () => {
+    test('should add initial item', () => {
+      const currentRowData: MaterialTableItem[] = [];
+
+      const newItems = [{ quantity: 100, materialNumber: '23457' }];
+
+      const result = TableService.addItems(newItems, currentRowData);
+      expect(result).toEqual([
+        { id: 0, quantity: 100, materialNumber: '23457' },
+      ]);
+    });
     test('should add items', () => {
       const items: MaterialTableItem[] = [
         { quantity: 100, materialNumber: '23457' },
@@ -21,7 +31,7 @@ describe('TableService', () => {
         { id: 0, quantity: 120, materialNumber: '76543' },
       ];
 
-      const result = TableService.pasteItems(items, currentRowData);
+      const result = TableService.addItems(items, currentRowData);
 
       expect(result).toEqual([
         { id: 0, quantity: 120, materialNumber: '76543' },
@@ -31,7 +41,18 @@ describe('TableService', () => {
       ]);
     });
   });
+  describe('duplicateItem', () => {
+    test('should duplicate item', () => {
+      const currentItems = [{ id: 0, quantity: 100, materialNumber: '23457' }];
+      const itemId = 0;
 
+      const result = TableService.duplicateItem(itemId, currentItems);
+      expect(result).toEqual([
+        { id: 0, quantity: 100, materialNumber: '23457' },
+        { id: 1, quantity: 100, materialNumber: '23457' },
+      ]);
+    });
+  });
   describe('updateItem', () => {
     test('should update matching materialNumber in data array', () => {
       const data: MaterialTableItem[] = [

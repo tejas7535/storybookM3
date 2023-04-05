@@ -23,6 +23,7 @@ import {
   createCustomerCaseFailure,
   createCustomerCaseSuccess,
   deleteRowDataItem,
+  duplicateRowDataItem,
   getPLsAndSeries,
   getPLsAndSeriesFailure,
   getPLsAndSeriesSuccess,
@@ -357,6 +358,27 @@ describe('Create Case Reducer', () => {
 
         expect(state.rowData).toEqual([fakeData[0], ...items]);
         expect(state.validationLoading).toBe(true);
+      });
+    });
+    describe('duplicateRowDataItem', () => {
+      test('should call table service duplicate', () => {
+        const fakeData = [
+          {
+            id: 0,
+            materialNumber: '123',
+            quantity: 10,
+            info: { valid: true, description: [ValidationDescription.Valid] },
+          },
+        ];
+
+        const fakeState: CreateCaseState = {
+          ...CREATE_CASE_STORE_STATE_MOCK,
+          rowData: fakeData,
+        };
+
+        const action = duplicateRowDataItem({ itemId: 0 });
+        const state = createCaseReducer(fakeState, action);
+        expect(state.rowData).toEqual([fakeData[0], { ...fakeData[0], id: 1 }]);
       });
     });
 
