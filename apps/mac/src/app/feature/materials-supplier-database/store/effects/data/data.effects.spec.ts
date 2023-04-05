@@ -396,10 +396,7 @@ describe('Data Effects', () => {
             plant: 'plant2',
             country: 'country2',
             manufacturer: true,
-            sapData: [
-              { sapSupplierId: 'blabla' },
-              { sapSupplierId: 'superSAP' },
-            ],
+            sapIds: ['blabla', 'superSAP'],
             timestamp: 1,
           },
         ];

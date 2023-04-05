@@ -162,6 +162,10 @@ export const getCustomSupplierCountries = createSelector(
   getMaterialDialogOptions,
   (dialogOptions) => dialogOptions.customManufacturerSupplierCountries
 );
+export const getCustomSupplierSapIds = createSelector(
+  getMaterialDialogOptions,
+  (dialogOptions) => dialogOptions.customManufacturerSupplierSapIds
+);
 export const getMaterialDialogMaterialStandards = createSelector(
   getMaterialDialogOptions,
   (dialogOptions) => dialogOptions.materialStandards
@@ -342,6 +346,24 @@ export const getSupplierCountryStringOptions = createSelector(
       .sort(stringOptionsSortFn) || []
 );
 
+export const getSupplierSapIdsStringOptions = createSelector(
+  getMaterialDialogSuppliers,
+  (suppliers): StringOption[] =>
+    suppliers
+      ?.filter(
+        (supplier) =>
+          !!supplier && !!supplier.sapIds && supplier.sapIds.length > 0
+      )
+      .flatMap((supplier) => supplier.sapIds)
+      // make list unique
+      .filter((val, index, array) => array.indexOf(val) === index)
+      .sort()
+      .map((supplierSapId) => ({
+        id: supplierSapId,
+        title: supplierSapId,
+      })) || []
+);
+
 export const getSupplierNameStringOptionsMerged = createSelector(
   getUniqueStringOptions(getSupplierStringOptions),
   getCustomSupplierNames,
@@ -398,6 +420,23 @@ export const getSupplierCountriesStringOptionsMerged = createSelector(
         } as StringOption)
     );
     customOptions.push(...supplierOptions);
+
+    return customOptions;
+  }
+);
+
+export const getSupplierSapIdsStringOptionsMerged = createSelector(
+  getSupplierSapIdsStringOptions,
+  getCustomSupplierSapIds,
+  (supplierSapIdOptions, customSupplierSapIds): StringOption[] => {
+    const customOptions: StringOption[] = (customSupplierSapIds || []).map(
+      (value) =>
+        ({
+          id: undefined,
+          title: value,
+        } as StringOption)
+    );
+    customOptions.push(...supplierSapIdOptions);
 
     return customOptions;
   }

@@ -12,6 +12,7 @@ import {
   PRODUCT_CATEGORY,
   RECENT_STATUS,
   RELEASE_RESTRICTIONS,
+  SAP_SUPPLIER_IDS,
 } from '@mac/msd/constants';
 import { EditCellRendererComponent } from '@mac/msd/main-table/edit-cell-renderer/edit-cell-renderer.component';
 import { FILTER_PARAMS } from '@mac/msd/main-table/table-config/filter-params';
@@ -105,6 +106,13 @@ export const BASE_COLUMN_DEFINITIONS: ColDef[] = [
     filterParams: FILTER_PARAMS,
     hide: true,
     cellRenderer: EditCellRendererComponent,
+  },
+  {
+    field: SAP_SUPPLIER_IDS,
+    headerName: SAP_SUPPLIER_IDS,
+    filterParams: FILTER_PARAMS,
+    cellRenderer: EditCellRendererComponent,
+    hide: true,
   },
   {
     field: LAST_MODIFIED,

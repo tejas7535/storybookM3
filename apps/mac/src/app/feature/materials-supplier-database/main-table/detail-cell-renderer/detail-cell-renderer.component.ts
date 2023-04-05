@@ -22,13 +22,11 @@ import { PropertyChange } from './models/property-change';
 export class DetailCellRendererComponent implements ICellRendererAngularComp {
   /*
    * stell material specific: productCategory -> productCategoryText will be used
-   * supplier: sapSupplierIds -> only valid for most recent entry
    */
   private readonly IGNORE_COLUMNS = new Set([
     'lastModified',
     'modifiedBy',
     'productCategory',
-    'sapSupplierIds',
   ]);
 
   private materialClass: MaterialClass;

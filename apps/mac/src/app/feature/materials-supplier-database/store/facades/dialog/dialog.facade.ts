@@ -31,6 +31,7 @@ import {
   getSupplierCountriesStringOptionsMerged,
   getSupplierNameStringOptionsMerged,
   getSupplierPlantsStringOptionsMerged,
+  getSupplierSapIdsStringOptionsMerged,
   getUniqueStringOptions,
 } from '@mac/msd/store/selectors';
 
@@ -51,6 +52,8 @@ export class DialogFacade {
   supplierCountries$ = this.store.select(
     getSupplierCountriesStringOptionsMerged
   );
+  supplierSapIds$ = this.store.select(getSupplierSapIdsStringOptionsMerged);
+
   castingModes$ = this.store.select(getMaterialDialogCastingModes);
   co2Classification$ = this.store.select(getMaterialDialogCo2Classifications);
   ratings$ = this.store.select(

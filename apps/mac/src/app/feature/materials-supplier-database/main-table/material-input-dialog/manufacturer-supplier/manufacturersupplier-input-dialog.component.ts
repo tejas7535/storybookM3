@@ -12,6 +12,7 @@ import {
   NavigationLevel,
 } from '@mac/feature/materials-supplier-database/constants';
 import {
+  addCustomSupplierSapId,
   manufacturerSupplierDialogConfirmed,
   manufacturerSupplierDialogOpened,
 } from '@mac/feature/materials-supplier-database/store/actions/dialog';
@@ -38,6 +39,8 @@ export class ManufacturerSupplierInputDialogComponent
   implements OnInit
 {
   public isManufacturerControl: FormControl<boolean>;
+  public supplierSapIdsControl = this.controlsService.getSapSupplierIdControl();
+  public supplierSapIds$ = this.dialogFacade.supplierSapIds$;
 
   public constructor(
     readonly controlsService: DialogControlsService,
@@ -66,7 +69,7 @@ export class ManufacturerSupplierInputDialogComponent
 
   ngOnInit(): void {
     super.ngOnInit();
-    // enable numberControl only for specific material
+    // enable manufacturerControl only for specific material
     this.isManufacturerControl =
       this.materialClass === MaterialClass.STEEL
         ? this.controlsService.getControl<boolean>()
@@ -78,6 +81,7 @@ export class ManufacturerSupplierInputDialogComponent
       plant: this.supplierPlantControl,
       country: this.supplierCountryControl,
       manufacturer: this.isManufacturerControl,
+      sapSupplierIds: this.supplierSapIdsControl,
     });
   }
 
@@ -86,12 +90,14 @@ export class ManufacturerSupplierInputDialogComponent
   }
 
   patchFields(materialFormValue: Partial<MaterialFormValue>): void {
+    super.patchFields(materialFormValue);
     const formValue: Partial<ManufacturerSupplierFormValue> = {
       id: this.materialId,
       name: materialFormValue.supplier,
       plant: materialFormValue.supplierPlant,
       country: materialFormValue.supplierCountry,
       manufacturer: findProperty(materialFormValue, 'manufacturer'),
+      sapSupplierIds: materialFormValue.sapSupplierIds,
     };
 
     this.createMaterialForm.patchValue(formValue);
@@ -136,6 +142,7 @@ export class ManufacturerSupplierInputDialogComponent
           supplierPlant: formValue.plant,
           supplierCountry: formValue.country,
           manufacturer: formValue.manufacturer,
+          sapSupplierIds: formValue.sapSupplierIds,
         },
         isCopy: this.isCopy,
       },
@@ -152,7 +159,7 @@ export class ManufacturerSupplierInputDialogComponent
       country: baseMaterial.country.title,
       name: baseMaterial.name.title,
       plant: baseMaterial.plant.title,
-      sapData: undefined,
+      sapIds: baseMaterial.sapSupplierIds?.map((so) => so.title as string),
       manufacturer: findProperty(baseMaterial, 'manufacturer'),
     };
 
@@ -161,5 +168,9 @@ export class ManufacturerSupplierInputDialogComponent
       manufacturerSupplierDialogConfirmed({ supplier })
     );
     this.awaitMaterialComplete(createAnother, NavigationLevel.SUPPLIER);
+  }
+
+  public addSupplierSapId(supplierSapId: string): void {
+    this.dialogFacade.dispatch(addCustomSupplierSapId({ supplierSapId }));
   }
 }

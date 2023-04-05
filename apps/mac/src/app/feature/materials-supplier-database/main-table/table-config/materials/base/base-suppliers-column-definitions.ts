@@ -6,6 +6,7 @@ import {
   MANUFACTURER_SUPPLIER_NAME,
   MANUFACTURER_SUPPLIER_PLANT,
   RECENT_STATUS,
+  SAP_SUPPLIER_IDS,
 } from '@mac/msd/constants';
 import { EditCellRendererComponent } from '@mac/msd/main-table/edit-cell-renderer/edit-cell-renderer.component';
 import { FILTER_PARAMS } from '@mac/msd/main-table/table-config/filter-params';
@@ -33,6 +34,13 @@ export const BASE_SUPPLIERS_COLUMN_DEFINITIONS: ColDef[] = [
     headerName: MANUFACTURER_SUPPLIER_COUNTRY,
     filterParams: FILTER_PARAMS,
     cellRenderer: EditCellRendererComponent,
+  },
+  {
+    field: SAP_SUPPLIER_IDS,
+    headerName: SAP_SUPPLIER_IDS,
+    filterParams: FILTER_PARAMS,
+    cellRenderer: EditCellRendererComponent,
+    hide: true,
   },
   {
     field: RECENT_STATUS,

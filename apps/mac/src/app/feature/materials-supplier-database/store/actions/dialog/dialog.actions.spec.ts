@@ -16,6 +16,7 @@ import {
   addCustomReferenceDocument,
   addCustomSupplierName,
   addCustomSupplierPlant,
+  addCustomSupplierSapId,
   createMaterialComplete,
   editDialogLoadingComplete,
   editDialogLoadingFailure,
@@ -696,6 +697,14 @@ describe('Dialog Actions', () => {
       expect(action).toEqual({
         type: '[MSD - Dialog] Add Custom Supplier Plant',
         supplierPlant: 'plant',
+      });
+    });
+
+    it('SapId', () => {
+      const action = addCustomSupplierSapId({ supplierSapId: 'id' });
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Add Custom Supplier Sap ID',
+        supplierSapId: 'id',
       });
     });
   });

@@ -149,4 +149,14 @@ describe('DialogControlsService', () => {
       expect(control.hasValidator(Validators.required)).toBe(true);
     });
   });
+
+  describe('getSapSupplierIdControl', () => {
+    it('should create a Validator for Sap Supplier Ids', () => {
+      const control = service.getSapSupplierIdControl();
+
+      expect(control.value).toBeFalsy();
+      expect(control.disabled).toBe(false);
+      expect(control.hasValidator(Validators.required)).toBe(false);
+    });
+  });
 });

@@ -595,6 +595,9 @@ export class DialogEffects {
                   supplierPlant: {
                     title: row.manufacturerSupplierPlant,
                   } as StringOption,
+                  sapSupplierIds: row.sapSupplierIds?.map(
+                    (s) => ({ id: s, title: s } as StringOption)
+                  ),
                   manufacturer: row.manufacturer,
                 } as Partial<MaterialFormValue>,
               }),

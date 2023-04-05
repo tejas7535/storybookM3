@@ -4,7 +4,6 @@ import {
   GENERAL_DESCRIPTION,
   MATERIAL_NUMBERS,
   RELEASE_DATE,
-  SAP_SUPPLIER_IDS,
   SSID,
 } from '@mac/msd/constants';
 import { FILTER_PARAMS } from '@mac/msd/main-table/table-config/filter-params';
@@ -16,12 +15,6 @@ import { BASE_COLUMN_DEFINITIONS } from '@mac/msd/main-table/table-config/materi
 
 export const POLYMER_COLUMN_DEFINITIONS: ColDef[] = [
   ...BASE_COLUMN_DEFINITIONS,
-  {
-    field: SAP_SUPPLIER_IDS,
-    headerName: SAP_SUPPLIER_IDS,
-    filterParams: FILTER_PARAMS,
-    hide: true,
-  },
   {
     field: SSID,
     headerName: SSID,

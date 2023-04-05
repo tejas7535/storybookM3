@@ -142,10 +142,10 @@ export class MsdDataService {
         materialResponse.manufacturerSupplier,
         'manufacturer'
       ),
-      sapSupplierIds: findProperty<{ sapSupplierId: string }[]>(
+      sapSupplierIds: findProperty<string[]>(
         materialResponse.manufacturerSupplier,
-        'sapData'
-      )?.map((val) => val.sapSupplierId),
+        'sapIds'
+      ),
       productCategory: materialResponse.productCategory,
       productCategoryText: materialResponse.productCategory
         ? translate(
@@ -237,10 +237,7 @@ export class MsdDataService {
       manufacturerSupplierPlant: manufacturerSupplier.plant,
       manufacturerSupplierCountry: manufacturerSupplier.country,
       manufacturer: findProperty(manufacturerSupplier, 'manufacturer'),
-      sapSupplierIds: findProperty<{ sapSupplierId: string }[]>(
-        manufacturerSupplier,
-        'sapData'
-      )?.map((val) => val.sapSupplierId),
+      sapSupplierIds: findProperty<string[]>(manufacturerSupplier, 'sapIds'),
       lastModified: manufacturerSupplier.timestamp,
       modifiedBy: manufacturerSupplier.modifiedBy,
     } as ManufacturerSupplierTableValue;

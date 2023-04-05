@@ -16,4 +16,5 @@ export interface BaseMaterialFormValue {
   supplier: StringOption;
   supplierPlant: StringOption;
   supplierCountry: StringOption;
+  sapSupplierIds?: StringOption[];
 }

@@ -213,7 +213,7 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
         plant: values.supplierPlant.title,
         country: values.supplierCountry.title,
         manufacturer: values.manufacturer,
-        sapData: undefined,
+        sapIds: undefined,
       };
 
       component.confirmMaterial(false);
@@ -239,7 +239,7 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
         plant: values.supplierPlant.title,
         country: values.supplierCountry.title,
         manufacturer: values.manufacturer,
-        sapData: undefined,
+        sapIds: undefined,
       };
 
       component.confirmMaterial(true);
@@ -265,7 +265,7 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
         plant: values.supplierPlant.title,
         country: values.supplierCountry.title,
         manufacturer: values.manufacturer,
-        sapData: undefined,
+        sapIds: undefined,
       };
 
       component.confirmMaterial(false);
@@ -291,7 +291,7 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
         plant: values.supplierPlant.title,
         country: values.supplierCountry.title,
         manufacturer: values.manufacturer,
-        sapData: undefined,
+        sapIds: undefined,
       };
 
       component.confirmMaterial(true);
@@ -374,6 +374,7 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
         plant: { title: 'plant' } as StringOption,
         country: { title: 'country' } as StringOption,
         manufacturer: false,
+        sapSupplierIds: [{ title: '#1' } as StringOption],
       };
       component.createMaterialForm.patchValue(mockValue, { emitEvent: false });
 
@@ -387,6 +388,7 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
             supplierPlant: { title: 'plant' } as StringOption,
             supplierCountry: { title: 'country' } as StringOption,
             manufacturer: false,
+            sapSupplierIds: [{ title: '#1' }],
           },
           isCopy: false,
         },

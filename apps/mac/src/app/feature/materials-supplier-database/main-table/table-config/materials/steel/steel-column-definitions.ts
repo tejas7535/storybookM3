@@ -14,7 +14,6 @@ import {
   RECYCLING_RATE,
   RELEASE_DATE,
   RELEASED_STATUS,
-  SAP_SUPPLIER_IDS,
   STEEL_MAKING_PROCESS,
 } from '@mac/msd/constants';
 import { EditCellRendererComponent } from '@mac/msd/main-table/edit-cell-renderer/edit-cell-renderer.component';
@@ -70,12 +69,6 @@ export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
     hide: true,
     cellRenderer: EditCellRendererComponent,
     valueGetter: MANUFACTURER_VALUE_GETTER,
-  },
-  {
-    field: SAP_SUPPLIER_IDS,
-    headerName: SAP_SUPPLIER_IDS,
-    filterParams: FILTER_PARAMS,
-    hide: true,
   },
   {
     field: MIN_DIMENSION,

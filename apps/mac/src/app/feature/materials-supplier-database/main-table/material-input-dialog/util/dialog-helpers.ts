@@ -1,5 +1,10 @@
 import { ChangeDetectorRef, ElementRef, QueryList } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  ValidationErrors,
+  ValidatorFn,
+} from '@angular/forms';
 
 import { translate } from '@ngneat/transloco';
 
@@ -65,6 +70,9 @@ export const getErrorMessage = (errors: { [key: string]: any }): string => {
       min: errors.scopeTotalLowerThanSingleScopes.min,
     });
   }
+  if (errors.invalidSapId) {
+    return getTranslatedError('invalidSapId');
+  }
 
   return getTranslatedError('generic');
 };
@@ -104,3 +112,17 @@ export const focusSelectedElement = (
   cdRef.markForCheck();
   cdRef.detectChanges();
 };
+
+export const createSapSupplierIDValidator =
+  (pattern: string): ValidatorFn =>
+  (control: AbstractControl<StringOption[]>): ValidationErrors | null => {
+    const value = control.value;
+    if (!value) {
+      return undefined;
+    }
+    const regexp = new RegExp(pattern);
+
+    return value.some((v) => !regexp.test(v.title))
+      ? { invalidSapId: true }
+      : undefined;
+  };

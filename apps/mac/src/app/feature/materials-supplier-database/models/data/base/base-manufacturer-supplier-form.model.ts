@@ -7,4 +7,5 @@ export interface BaseManufacturerSupplierForm {
   name: FormControl<StringOption>;
   plant: FormControl<StringOption>;
   country: FormControl<StringOption>;
+  sapSupplierIds?: FormControl<StringOption[]>;
 }

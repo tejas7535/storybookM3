@@ -1,3 +1,4 @@
+export * from './hardmagnet-material.model';
 export * from './hardmagnet-material-form.model';
 export * from './hardmagnet-material-form-value.model';
 export * from './hardmagnet-material-request.model';

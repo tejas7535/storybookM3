@@ -111,14 +111,7 @@ export const msdServiceSteelMockResponse: SteelMaterialResponse[] = [
       plant: 'Tubarao',
       manufacturer: false,
       country: 'Brazil',
-      sapData: [
-        {
-          sapSupplierId: '0000000000000',
-        },
-        {
-          sapSupplierId: '0000000000001',
-        },
-      ],
+      sapIds: ['0000000000000', '0000000000001'],
     },
     materialStandard: {
       id: 57,
@@ -261,14 +254,7 @@ export const msdServicePolymerMockResponse: PolymerMaterialResponse[] = [
       name: 'ArcelorMittal Tubarao',
       plant: 'Tubarao',
       country: 'Brazil',
-      sapData: [
-        {
-          sapSupplierId: '0000000000000',
-        },
-        {
-          sapSupplierId: '0000000000001',
-        },
-      ],
+      sapIds: ['0000000000000', '0000000000001'],
     },
     materialStandard: {
       id: 57,

@@ -5,4 +5,5 @@ export interface BaseManufacturerSupplier {
   country: string;
   modifiedBy?: string;
   timestamp?: number;
+  sapIds?: string[];
 }

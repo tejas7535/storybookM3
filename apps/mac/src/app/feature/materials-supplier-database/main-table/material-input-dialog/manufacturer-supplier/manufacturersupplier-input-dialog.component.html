@@ -40,6 +40,25 @@
           {{ t('manufacturer') }}
         </mat-checkbox>
       </div>
+      <div class="flex flex-row gap-x-6">
+        <schaeffler-select
+          appearance="outline"
+          class="w-1/2"
+          [multiple]="true"
+          [stringOptions]="supplierSapIds$ | ngrxPush"
+          [control]="supplierSapIdsControl"
+          [filterFn]="filterFn"
+          [label]="t('supplierSapIds')"
+          [addEntry]="true"
+          (entryAdded)="addSupplierSapId($event)"
+          name="supplierSapIds"
+          #dialogControl
+        >
+          <div matErrorContent *ngIf="supplierSapIdsControl.invalid">
+            {{ getErrorMessage(supplierSapIdsControl.errors) }}
+          </div>
+        </schaeffler-select>
+      </div>
     </ng-container>
   </div>
 </mac-base-dialog>

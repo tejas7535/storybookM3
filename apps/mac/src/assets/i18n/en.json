@@ -380,6 +380,7 @@
           "suppliers": "Manufacturer Supplier",
           "materialStandards": "Material Standard"
         },
+        "supplierSapIds": "SAP ID(s) for supplier",
         "addMaterial": "ADD MATERIAL",
         "addMaterialStandard": "ADD MATERIAL STANDARD",
         "addManufacturerSupplier": "ADD MANUFACTURER SUPPLIER",
@@ -428,6 +429,7 @@
           "generic": "Value is not valid",
           "min": "Value lower than {{min}}",
           "required": "Input required",
+          "invalidSapId": "Required format: S123456789",
           "steelNumber": "Required format: 1.1234(, 1.3456, ...)",
           "copperNumber": "Required format: 2.1234(, 2.3456, ...)"
         },

@@ -237,7 +237,7 @@ describe('MsdDataService', () => {
           name: 'supplier1',
           plant: 'plant1',
           country: 'country1',
-          sapData: [{ sapSupplierId: '123456' }, { sapSupplierId: '1234567' }],
+          sapIds: ['123456', '1234567'],
         },
         {
           id: 1,
@@ -1013,7 +1013,7 @@ describe('MsdDataService', () => {
           plant: 'pOne',
           country: 'cOne',
           manufacturer: true,
-          sapData: [{ sapSupplierId: '1' }, { sapSupplierId: '2' }],
+          sapIds: ['1', '2'],
           timestamp: 1345,
           modifiedBy: 'me',
         },

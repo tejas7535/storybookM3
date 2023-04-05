@@ -16,6 +16,7 @@ import {
   CeramicManufacturerSupplierForm,
   CeramicManufacturerSupplierFormValue,
   CeramicManufacturerSupplierTableValue,
+  CeramicMaterial,
   CeramicMaterialForm,
   CeramicMaterialFormValue,
   CeramicMaterialRequest,
@@ -25,6 +26,8 @@ import {
   CeramicMaterialStandardFormValue,
   CeramicMaterialStandardTableValue,
   CopperManufacturerSupplier,
+  CopperManufacturerSupplierForm,
+  CopperManufacturerSupplierFormValue,
   CopperManufacturerSupplierTableValue,
   CopperMaterial,
   CopperMaterialForm,
@@ -34,6 +37,20 @@ import {
   CopperMaterialStandard,
   CopperMaterialStandardForm,
   CopperMaterialStandardFormValue,
+  CopperMaterialStandardTableValue,
+  HardmagnetManufacturerSupplier,
+  HardmagnetManufacturerSupplierForm,
+  HardmagnetManufacturerSupplierFormValue,
+  HardmagnetManufacturerSupplierTableValue,
+  HardmagnetMaterial,
+  HardmagnetMaterialForm,
+  HardmagnetMaterialFormValue,
+  HardmagnetMaterialRequest,
+  HardmagnetMaterialResponse,
+  HardmagnetMaterialStandard,
+  HardmagnetMaterialStandardForm,
+  HardmagnetMaterialStandardFormValue,
+  HardmagnetMaterialStandardTableValue,
   PolymerManufacturerSupplier,
   PolymerManufacturerSupplierTableValue,
   PolymerMaterial,
@@ -56,24 +73,6 @@ import {
   SteelMaterialStandardTableValue,
 } from '@mac/msd/models';
 
-import { CeramicMaterial } from '../ceramic/ceramic-material.model';
-import {
-  HardmagnetManufacturerSupplier,
-  HardmagnetManufacturerSupplierForm,
-  HardmagnetManufacturerSupplierFormValue,
-  HardmagnetManufacturerSupplierTableValue,
-  HardmagnetMaterialForm,
-  HardmagnetMaterialFormValue,
-  HardmagnetMaterialRequest,
-  HardmagnetMaterialResponse,
-  HardmagnetMaterialStandard,
-  HardmagnetMaterialStandardForm,
-  HardmagnetMaterialStandardFormValue,
-  HardmagnetMaterialStandardTableValue,
-} from '../hardmagnet';
-import { HardmagnetMaterial } from '../hardmagnet/hardmagnet-material.model';
-
-// TODO: Rename to Material once the migration to API V3 is done
 export type Material =
   | AluminumMaterial
   | SteelMaterial
@@ -130,11 +129,13 @@ export type MaterialStandardFormValue =
 export type ManufacturerSupplierForm =
   | AluminumManufacturerSupplierForm
   | SteelManufacturerSupplierForm
+  | CopperManufacturerSupplierForm
   | HardmagnetManufacturerSupplierForm
   | CeramicManufacturerSupplierForm;
 export type ManufacturerSupplierFormValue =
   | AluminumManufacturerSupplierFormValue
   | SteelManufacturerSupplierFormValue
+  | CopperManufacturerSupplierFormValue
   | HardmagnetManufacturerSupplierFormValue
   | CeramicManufacturerSupplierFormValue;
 export type MaterialRequest =
@@ -154,5 +155,6 @@ export type MaterialStandardTableValue =
   | AluminumMaterialStandardTableValue
   | PolymerMaterialStandardTableValue
   | SteelMaterialStandardTableValue
+  | CopperMaterialStandardTableValue
   | HardmagnetMaterialStandardTableValue
   | CeramicMaterialStandardTableValue;

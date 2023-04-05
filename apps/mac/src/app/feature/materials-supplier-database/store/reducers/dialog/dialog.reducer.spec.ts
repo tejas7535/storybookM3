@@ -1128,6 +1128,29 @@ describe('dialogReducer', () => {
       });
     });
 
+    it('should add a custom supplier sapId', () => {
+      const action = DialogActions.addCustomSupplierSapId({
+        supplierSapId: 'new',
+      });
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            customManufacturerSupplierSapIds: ['old'],
+          },
+        },
+        action
+      );
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          customManufacturerSupplierSapIds: ['new', 'old'],
+        },
+      });
+    });
+
     it('should set the editMaterial', () => {
       const action = DialogActions.openEditDialog({
         row: {} as DataResult,

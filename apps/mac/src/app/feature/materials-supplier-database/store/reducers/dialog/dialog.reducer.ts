@@ -20,6 +20,7 @@ import {
   addCustomSupplierCountry,
   addCustomSupplierName,
   addCustomSupplierPlant,
+  addCustomSupplierSapId,
   cleanMinimizeDialog,
   createMaterialComplete,
   editDialogLoadingComplete,
@@ -102,6 +103,7 @@ export interface DialogState {
     customManufacturerSupplierNames: string[];
     customManufacturerSupplierPlants: string[];
     customManufacturerSupplierCountries: string[];
+    customManufacturerSupplierSapIds: string[];
     manufacturerSuppliersLoading: boolean;
     conditions: StringOption[];
     conditionsLoading: boolean;
@@ -642,6 +644,7 @@ export const dialogReducer = createReducer(
         customManufacturerSupplierNames: undefined,
         customManufacturerSupplierPlants: undefined,
         customManufacturerSupplierCountries: undefined,
+        customManufacturerSupplierSapIds: undefined,
       },
     })
   ),
@@ -675,10 +678,11 @@ export const dialogReducer = createReducer(
         // reset custom fields
         customCastingDiameters: undefined,
         customReferenceDocuments: undefined,
-        customManufacturerSupplierCountries: undefined,
         customMaterialStandardDocuments: undefined,
         customManufacturerSupplierNames: undefined,
         customManufacturerSupplierPlants: undefined,
+        customManufacturerSupplierCountries: undefined,
+        customManufacturerSupplierSapIds: undefined,
         customMaterialStandardNames: undefined,
         // reset loading fields
         co2Values: undefined,
@@ -802,6 +806,21 @@ export const dialogReducer = createReducer(
       dialogOptions: {
         ...state.dialogOptions,
         customManufacturerSupplierCountries: manufCountries,
+      },
+    };
+  }),
+
+  on(addCustomSupplierSapId, (state, { supplierSapId }): DialogState => {
+    const manufSapIds = state.dialogOptions.customManufacturerSupplierSapIds
+      ? [...state.dialogOptions.customManufacturerSupplierSapIds]
+      : [];
+    manufSapIds.unshift(supplierSapId);
+
+    return {
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        customManufacturerSupplierSapIds: manufSapIds,
       },
     };
   }),

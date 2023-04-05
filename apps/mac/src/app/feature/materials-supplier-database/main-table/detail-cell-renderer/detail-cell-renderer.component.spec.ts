@@ -209,7 +209,6 @@ describe('DetailCellRendererComponent', () => {
       ],
       [{ a: 1, modifiedBy: 'me' }, { a: 1, modifiedBy: 'you' }, []],
       [{ a: 1, productCategory: 'x' }, { a: 1, productCategory: 'Y' }, []],
-      [{ a: 1 }, { a: 1, sapSupplierIds: '1234' }, []],
       // ignore undefined
       [{ a: 1, b: undefined }, { a: 1 }, []],
       [{ a: 1 }, { a: 1, b: undefined }, []],

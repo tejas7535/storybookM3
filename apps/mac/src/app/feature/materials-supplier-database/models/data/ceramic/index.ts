@@ -1,3 +1,4 @@
+export * from './ceramic-material.model';
 export * from './ceramic-material-form.model';
 export * from './ceramic-material-form-value.model';
 export * from './ceramic-material-request.model';

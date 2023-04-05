@@ -5,4 +5,5 @@ export interface BaseManufacturerSupplierTableValue {
   manufacturerSupplierCountry?: string;
   modifiedBy?: string;
   lastModified?: number;
+  sapSupplierIds?: string[];
 }
