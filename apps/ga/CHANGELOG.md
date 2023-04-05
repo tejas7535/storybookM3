@@ -1,4 +1,13 @@
 # Release Notes of Grease App
+## [1.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.22...ga-v1.3.0) (2023-04-05)
+
+
+### Features
+
+* **ga:** add shop buttons to report result (UFTABI-6239) ([#5120](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5120)) ([222a518](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/222a5185ab3c6b3ccbf9264121a245dd8b2f2484))
+* **ga:** update api usage to 1.3 (UFTABI-6383) ([#5097](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5097)) ([effa014](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/effa014837e6e45f480961b050481c8a85cf5ee2))
+* **ga:** use chinese api version ([#5122](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5122)) ([50ef8b5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/50ef8b5b5c811a3b550a681f2ca082dbd3d395b7))
+
 ## [1.2.22](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.21...ga-v1.2.22) (2023-03-13)
 
 
