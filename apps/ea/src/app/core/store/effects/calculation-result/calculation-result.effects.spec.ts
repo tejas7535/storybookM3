@@ -1,4 +1,4 @@
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { of } from 'rxjs';
 
@@ -12,6 +12,7 @@ import { marbles } from 'rxjs-marbles';
 import { CalculationResultActions } from '../../actions';
 import { CalculationParametersFacade } from '../../facades';
 import { CalculationResultFacade } from '../../facades/calculation-result/calculation-result.facade';
+import { ProductSelectionFacade } from '../../facades/product-selection/product-selection.facade';
 import { CalculationResult } from '../../models';
 import { CalculationResultEffects } from './calculation-result.effects';
 
@@ -29,10 +30,11 @@ describe('Calculation Result Effects', () => {
   let spectator: SpectatorService<CalculationResultEffects>;
 
   let calculationResultFacade: CalculationResultFacade;
+  let calculationParametersFacade: CalculationParametersFacade;
 
   const createService = createServiceFactory({
     service: CalculationResultEffects,
-    imports: [MatSnackBarModule],
+    imports: [HttpClientTestingModule],
     providers: [
       provideMockActions(() => actions$),
       provideMockStore({}),
@@ -43,15 +45,21 @@ describe('Calculation Result Effects', () => {
       {
         provide: CalculationParametersFacade,
         useValue: {
-          bearingDesignation$: of('bearing-123'),
           energySource$: of('energy-123'),
           operationConditions$: of('conditions-123'),
+          isCalculationMissingInput$: of(false),
         },
       },
       {
         provide: CalculationResultFacade,
         useValue: {
           modelId$: of('modelId-123'),
+        },
+      },
+      {
+        provide: ProductSelectionFacade,
+        useValue: {
+          bearingDesignation$: of('bearing-123'),
         },
       },
     ],
@@ -62,6 +70,7 @@ describe('Calculation Result Effects', () => {
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(CalculationResultEffects);
     calculationResultFacade = spectator.inject(CalculationResultFacade);
+    calculationParametersFacade = spectator.inject(CalculationParametersFacade);
   });
 
   describe('createModel$', () => {
@@ -120,6 +129,10 @@ describe('Calculation Result Effects', () => {
   });
 
   describe('updateModel$', () => {
+    beforeEach(() => {
+      co2ServiceMock.updateModel.mockReset();
+    });
+
     it('should update the model', () => {
       const updateModelSpy = jest
         .spyOn(co2ServiceMock, 'updateModel')
@@ -137,6 +150,28 @@ describe('Calculation Result Effects', () => {
         m.flush();
 
         expect(updateModelSpy).toHaveBeenCalled();
+      })();
+    });
+
+    it('should not update the model if calculation input is invalid', () => {
+      calculationParametersFacade.isCalculationMissingInput$ = of(true);
+
+      const updateModelSpy = jest
+        .spyOn(co2ServiceMock, 'updateModel')
+        .mockImplementation(() => of('abc'));
+
+      return marbles((m) => {
+        action = CalculationResultActions.updateModel();
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-b', {
+          b: CalculationResultActions.setLoading({ isLoading: false }),
+        });
+
+        m.expect(effects.updateModel$).toBeObservable(expected);
+        m.flush();
+
+        expect(updateModelSpy).not.toHaveBeenCalled();
       })();
     });
   });

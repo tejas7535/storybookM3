@@ -1,5 +1,5 @@
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { FormFieldModule } from '@ea/shared/form-field';
@@ -20,7 +20,7 @@ describe('CalculationResultPreviewItemComponent', () => {
     imports: [
       // Material Modules
       MockModule(MatButtonModule),
-      MockModule(MatIconModule),
+      MatIconTestingModule,
       MockModule(MatTooltipModule),
       MockModule(FormFieldModule),
 

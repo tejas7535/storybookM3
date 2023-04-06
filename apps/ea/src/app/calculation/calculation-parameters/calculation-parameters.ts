@@ -11,6 +11,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -21,11 +22,13 @@ import {
   operatingParameters,
   resetCalculationParameters,
 } from '@ea/core/store/actions/calculation-parameters/calculation-parameters.actions';
+import { ProductSelectionFacade } from '@ea/core/store/facades/product-selection/product-selection.facade';
 import { FormFieldModule } from '@ea/shared/form-field';
 import { LetModule, PushModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { BasicFrequenciesComponent } from '../basic-frequencies/basic-frequencies.component';
 import { CalculationResultPreviewComponent } from '../calculation-result-preview/calculation-result-preview';
 
 @Component({
@@ -37,6 +40,7 @@ import { CalculationResultPreviewComponent } from '../calculation-result-preview
     MatIconModule,
     MatTooltipModule,
     MatButtonModule,
+    MatDialogModule,
     LetModule,
     PushModule,
     SharedTranslocoModule,
@@ -49,6 +53,9 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
 
   public operationConditions$ =
     this.calculationParametersFacade.operationConditions$;
+
+  public readonly bearingDesignation$ =
+    this.productSelectionFacade.bearingDesignation$;
 
   public radialLoad = new FormControl<number>(undefined, Validators.required);
   public axialLoad = new FormControl<number>(undefined, Validators.required);
@@ -71,7 +78,9 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
   });
 
   constructor(
-    private readonly calculationParametersFacade: CalculationParametersFacade
+    private readonly calculationParametersFacade: CalculationParametersFacade,
+    private readonly productSelectionFacade: ProductSelectionFacade,
+    private readonly matDialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -146,5 +155,9 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
   public onResetButtonClick(): void {
     this.operationConditionsForm.reset();
     this.calculationParametersFacade.dispatch(resetCalculationParameters());
+  }
+
+  public onShowBasicFrequenciesDialogClick(): void {
+    this.matDialog.open(BasicFrequenciesComponent);
   }
 }

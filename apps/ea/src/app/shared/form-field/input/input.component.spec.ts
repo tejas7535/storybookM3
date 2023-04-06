@@ -1,7 +1,7 @@
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatInputModule } from '@angular/material/input';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
@@ -21,7 +21,7 @@ describe('InputComponent', () => {
       ReactiveFormsModule,
       MockModule(MatFormFieldModule),
       MockModule(MatInputModule),
-      MockModule(MatIconModule),
+      MatIconTestingModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [

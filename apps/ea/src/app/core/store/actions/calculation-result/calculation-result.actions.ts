@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 
-import { CalculationResult } from '../../models';
+import { BasicFrequenciesResult, CalculationResult } from '../../models';
 
 export const createModel = createAction('[Calculation Result] Create Model');
 
@@ -12,6 +12,11 @@ export const setModelId = createAction(
 export const setCalculationId = createAction(
   '[Calculation Result] Set Calculation Id',
   props<{ calculationId: string }>()
+);
+
+export const setLoading = createAction(
+  '[Calculation Result] Set Loading',
+  props<{ isLoading: boolean }>()
 );
 
 export const updateModel = createAction('[Calculation Result] Update Model');
@@ -37,4 +42,17 @@ export const setCalculationFailure = createAction(
 export const setCalculationImpossible = createAction(
   '[Calculation Result] Set Calculation Impossible',
   props<{ isCalculationImpossible: boolean }>()
+);
+
+export const fetchBasicFrequencies = createAction(
+  '[Calculation Result] Fetch Basic Frequencies'
+);
+
+export const setBasicFrequenciesResult = createAction(
+  '[Calculation Result] Set Basic Frequencies Result',
+  props<{ basicFrequenciesResult: BasicFrequenciesResult }>()
+);
+
+export const downloadBasicFrequencies = createAction(
+  '[Product Selection] Download Basic Frequencies'
 );

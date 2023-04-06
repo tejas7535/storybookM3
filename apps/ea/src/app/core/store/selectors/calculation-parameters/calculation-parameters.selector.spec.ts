@@ -1,7 +1,6 @@
 import { CALCULATION_PARAMETERS_STATE_MOCK } from '@ea/testing/mocks';
 
 import {
-  getBearingDesignation,
   getEnergySource,
   getOperationConditions,
   isCalculationMissingInput,
@@ -26,14 +25,6 @@ describe('Calculation Result Selector', () => {
     it('should return the energy source', () => {
       expect(getEnergySource(mockState)).toEqual(
         CALCULATION_PARAMETERS_STATE_MOCK.energySource
-      );
-    });
-  });
-
-  describe('getBearingDesignation', () => {
-    it('should return the bearing designation', () => {
-      expect(getBearingDesignation(mockState)).toEqual(
-        CALCULATION_PARAMETERS_STATE_MOCK.bearingDesignation
       );
     });
   });

@@ -10,6 +10,7 @@ import {
   CalculationParametersEffects,
   CalculationResultEffects,
 } from './effects';
+import { ProductSelectionEffects } from './effects/product-selection';
 import { metaReducers, reducers } from './reducers';
 
 @NgModule({
@@ -23,6 +24,7 @@ import { metaReducers, reducers } from './reducers';
       },
     }),
     EffectsModule.forRoot([
+      ProductSelectionEffects,
       CalculationResultEffects,
       CalculationParametersEffects,
     ]),

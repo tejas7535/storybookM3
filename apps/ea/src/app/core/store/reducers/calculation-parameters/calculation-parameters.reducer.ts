@@ -22,7 +22,6 @@ export const initialState: CalculationParametersState = {
     type: 'LB_ELECTRIC_ENERGY',
     electricityRegion: 'LB_EUROPEAN_UNION',
   },
-  bearingDesignation: '6210-C-2HRS',
 };
 
 export const calculationParametersReducer = createReducer(

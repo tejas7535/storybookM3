@@ -2,7 +2,9 @@
   <div class="flex h-full w-full flex-col">
     <div class="flex flex-1 flex-col items-center gap-10 pb-[200px]">
       <div class="flex flex-col gap-0 sm:gap-5 lg:grid">
-        <h6 class="text-medium-emphasis">{{t('title')}}</h6>
+        <h6 class="text-medium-emphasis">
+          {{t('title', {bearingDesignation: bearingDesignation$ | ngrxPush } )}}
+        </h6>
         <div class="flex flex-row">
           <span class="flex-grow"></span>
           <button mat-button color="primary" (click)="onResetButtonClick()">
@@ -67,6 +69,14 @@
           </div>
         </div>
       </div>
+
+      <button
+        (click)="onShowBasicFrequenciesDialogClick()"
+        mat-button
+        color="primary"
+      >
+        {{ 'basicFrequencies.showBasicFrequencies' | transloco }}
+      </button>
     </div>
 
     <ea-calculation-result-preview></ea-calculation-result-preview>

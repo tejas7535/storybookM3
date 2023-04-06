@@ -75,6 +75,13 @@ export const calculationResultReducer = createReducer(
       calculationError: undefined,
       isCalculationImpossible: false,
     })
+  ),
+  on(
+    CalculationResultActions.setLoading,
+    (state, { isLoading }): CalculationResultState => ({
+      ...state,
+      isLoading,
+    })
   )
 );
 

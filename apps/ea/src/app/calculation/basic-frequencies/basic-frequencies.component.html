@@ -1,0 +1,63 @@
+<div *transloco="let t; read: 'basicFrequencies'">
+  <div class="mb-4 flex flex-row justify-between">
+    <h5>
+      {{
+        t('dialogTitle', { bearingDesignation: bearingDesignation$ | ngrxPush })
+      }}
+    </h5>
+    <button (click)="closeDialog()" class="justify-end">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div class="mt-12">
+    <mat-dialog-content
+      class="!m-0 flex flex-col rounded border-t border-border bg-surface !p-0 sm:border-x sm:border-b"
+    >
+      <ng-container
+        *ngIf="
+          basicFrequencies$ | ngrxPush as basicFrequencies;
+          else loadingTemplate
+        "
+      >
+        <div class="border-b border-border">
+          <div class="!m-2 text-subtitle-1">
+            {{ basicFrequencies.title }}
+          </div>
+        </div>
+        <div class="frequency-container flex flex-col pt-6 pb-6 pl-8 pr-8">
+          <div
+            *ngFor="let row of basicFrequencies.rows"
+            class="frequency-items flex grid h-8 flex-row items-center gap-4"
+          >
+            <div class="ml-4 flex-grow text-subtitle-1">
+              {{ row.title }}
+            </div>
+            <div class="flex-grow text-body-2">
+              {{ row.abbreviation }}
+            </div>
+            <div
+              *ngFor="let value of row.values"
+              class="mr-4 text-end text-body-2"
+            >
+              {{ value.content | number: '1.4' }} {{ value.unit }}
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-template #loadingTemplate>
+        <div class="item-center flex content-center p-8">
+          <div class="ml-auto mr-auto">
+            <mat-spinner diameter="20"></mat-spinner>
+          </div>
+        </div>
+      </ng-template>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-button color="primary" (click)="saveAsPdf()">
+        <mat-icon>download</mat-icon>
+        {{ t('saveAsPdf') }}
+      </button>
+    </mat-dialog-actions>
+  </div>
+</div>

@@ -5,12 +5,31 @@ export interface CalculationResultState {
   isLoading: boolean;
   calculationError?: string;
   isCalculationImpossible?: boolean;
+  basicFrequenciesResult?: BasicFrequenciesResult;
 }
 
 export interface CalculationResult {
   co2_upstream?: number;
   co2_downstream?: number;
   ratingLife?: number;
+}
+
+export interface BasicFrequenciesResult {
+  title: string;
+  rows: BasicFrequency[];
+}
+
+export interface BasicFrequency {
+  id: string;
+  title: string;
+  abbreviation: string;
+  values?: [
+    {
+      content: string;
+      index: number;
+      unit: string;
+    }
+  ];
 }
 
 export interface CalculationResultPreviewItem {

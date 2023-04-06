@@ -1,7 +1,7 @@
 {
   "appTitle": "Engineering App",
   "operationConditions": {
-    "title": "Operating conditions",
+    "title": "Operating conditions for bearing {{bearingDesignation}}",
     "requiredInformation": "* required information",
     "loads": "Loads",
     "radialLoad": "Radial load",
@@ -36,6 +36,11 @@
     "overrollingFrequencySubtitle": "Frequency on inner ring (BPFI)",
     "production": "Production",
     "operation": "Operation"
+  },
+  "basicFrequencies": {
+    "showBasicFrequencies": "Basic Frequencies",
+    "dialogTitle": "Basic frequencies for bearing {{bearingDesignation}}",
+    "saveAsPdf": "Save as PDF"
   },
   "unit": {}
 }

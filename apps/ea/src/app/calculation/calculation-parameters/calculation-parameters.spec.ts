@@ -1,5 +1,5 @@
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { resetCalculationParameters } from '@ea/core/store/actions/calculation-parameters/calculation-parameters.actions';
@@ -7,6 +7,7 @@ import { FormFieldModule } from '@ea/shared/form-field';
 import {
   CALCULATION_PARAMETERS_STATE_MOCK,
   CALCULATION_RESULT_STATE_MOCK,
+  PRODUCT_SELECTION_STATE_MOCK,
 } from '@ea/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { translate } from '@ngneat/transloco';
@@ -31,7 +32,7 @@ describe('CalculationParametersComponent', () => {
 
       // Material Modules
       MockModule(MatButtonModule),
-      MockModule(MatIconModule),
+      MatIconTestingModule,
       MockModule(MatTooltipModule),
       MockModule(FormFieldModule),
 
@@ -42,6 +43,7 @@ describe('CalculationParametersComponent', () => {
         initialState: {
           calculationParameters: { ...CALCULATION_PARAMETERS_STATE_MOCK },
           calculationResult: { ...CALCULATION_RESULT_STATE_MOCK },
+          productSelection: { ...PRODUCT_SELECTION_STATE_MOCK },
         },
       }),
       {

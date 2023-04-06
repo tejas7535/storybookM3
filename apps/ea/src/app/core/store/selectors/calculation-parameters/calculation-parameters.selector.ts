@@ -16,11 +16,6 @@ export const getEnergySource = createSelector(
   (state): CalculationParametersEnergySource => state.energySource
 );
 
-export const getBearingDesignation = createSelector(
-  getCalculationParametersState,
-  (state): string => state.bearingDesignation
-);
-
 export const isCalculationMissingInput = createSelector(
   getCalculationParametersState,
   (state): boolean =>

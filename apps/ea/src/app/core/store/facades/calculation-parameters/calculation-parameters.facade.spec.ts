@@ -58,19 +58,6 @@ describe('CalculationParametersFacade', () => {
     );
   });
 
-  describe('bearingDesignation$', () => {
-    it(
-      'should provide the current bearing designation',
-      marbles((m) => {
-        const expected = m.cold('a', {
-          a: CALCULATION_PARAMETERS_STATE_MOCK.bearingDesignation,
-        });
-
-        m.expect(facade.bearingDesignation$).toBeObservable(expected);
-      })
-    );
-  });
-
   describe('energySource$', () => {
     it(
       'should provide the energy source',

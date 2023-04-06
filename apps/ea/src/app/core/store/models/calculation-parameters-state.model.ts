@@ -1,7 +1,6 @@
 import { CO2ServiceBearingData } from '@ea/core/services/co2-service.interface';
 
 export interface CalculationParametersState {
-  bearingDesignation: string;
   operationConditions: CalculationParametersOperationConditions;
   energySource: CalculationParametersEnergySource;
 }

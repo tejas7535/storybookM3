@@ -1,6 +1,10 @@
 import { createSelector } from '@ngrx/store';
 
-import { CalculationResult, CalculationResultPreviewData } from '../../models';
+import {
+  BasicFrequenciesResult,
+  CalculationResult,
+  CalculationResultPreviewData,
+} from '../../models';
 import { getCalculationResultState } from '../../reducers';
 
 export const getCalculationResult = createSelector(
@@ -64,4 +68,9 @@ export const getCalculationResultPreviewData = createSelector(
       ],
     },
   ]
+);
+
+export const getBasicFrequencies = createSelector(
+  getCalculationResultState,
+  (state): BasicFrequenciesResult => state.basicFrequenciesResult
 );

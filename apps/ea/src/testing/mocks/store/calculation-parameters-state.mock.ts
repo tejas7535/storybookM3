@@ -12,7 +12,6 @@ export const CALCULATION_PARAMETERS_STATE_MOCK: CalculationParametersState = {
     typeOfMovement: 'LB_ROTATING',
     viscosity: 110,
   },
-  bearingDesignation: 'my-bearing',
   energySource: {
     type: 'LB_ELECTRIC_ENERGY',
     electricityRegion: 'LB_GERMANY',

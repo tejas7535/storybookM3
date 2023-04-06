@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
 
 import {
+  getBasicFrequencies,
   getCalculationId,
   getCalculationResult,
   getCalculationResultPreviewData,
@@ -31,6 +32,8 @@ export class CalculationResultFacade {
 
   public modelId$ = this.store.select(getModelId);
   public calculationId$ = this.store.select(getCalculationId);
+
+  public readonly basicFrequencies$ = this.store.select(getBasicFrequencies);
 
   constructor(private readonly store: Store) {}
 

@@ -3,27 +3,31 @@ import { Injectable } from '@angular/core';
 
 import { catchError, of, switchMap, takeUntil } from 'rxjs';
 
+import { CatalogService } from '@ea/core/services/catalog.service';
 import { CO2Service } from '@ea/core/services/co2.service';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 
 import { CalculationResultActions } from '../../actions';
 import { CalculationParametersFacade } from '../../facades';
 import { CalculationResultFacade } from '../../facades/calculation-result/calculation-result.facade';
+import { ProductSelectionFacade } from '../../facades/product-selection/product-selection.facade';
 
 @Injectable()
 export class CalculationResultEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly co2Service: CO2Service,
+    private readonly catalogService: CatalogService,
     private readonly calculationParametersFacade: CalculationParametersFacade,
-    private readonly calculationResultFacade: CalculationResultFacade
+    private readonly calculationResultFacade: CalculationResultFacade,
+    private readonly productSelectionFacade: ProductSelectionFacade
   ) {}
 
   public createModel$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(CalculationResultActions.createModel),
       concatLatestFrom(() => [
-        this.calculationParametersFacade.bearingDesignation$,
+        this.productSelectionFacade.bearingDesignation$,
         this.calculationResultFacade.modelId$,
       ]),
       switchMap(([_action, bearingDesignation, currentModelId]) => {
@@ -56,24 +60,36 @@ export class CalculationResultEffects {
         this.calculationResultFacade.modelId$,
         this.calculationParametersFacade.energySource$,
         this.calculationParametersFacade.operationConditions$,
+        this.calculationParametersFacade.isCalculationMissingInput$,
       ]),
-      switchMap(([_action, modelId, energySource, operationConditions]) =>
-        this.co2Service
-          .updateModel(modelId, operationConditions, energySource)
-          .pipe(
-            takeUntil(
-              // cancel request if action is called again
-              this.actions$.pipe(ofType(CalculationResultActions.updateModel))
-            ),
-            switchMap(() => [CalculationResultActions.calculateModel()]),
-            catchError((error: HttpErrorResponse) =>
-              of(
-                CalculationResultActions.setCalculationFailure({
-                  error: error.toString(),
-                })
-              )
-            )
-          )
+      switchMap(
+        ([
+          _action,
+          modelId,
+          energySource,
+          operationConditions,
+          isMissingInput,
+        ]) =>
+          isMissingInput
+            ? of(CalculationResultActions.setLoading({ isLoading: false }))
+            : this.co2Service
+                .updateModel(modelId, operationConditions, energySource)
+                .pipe(
+                  takeUntil(
+                    // cancel request if action is called again
+                    this.actions$.pipe(
+                      ofType(CalculationResultActions.updateModel)
+                    )
+                  ),
+                  switchMap(() => [CalculationResultActions.calculateModel()]),
+                  catchError((error: HttpErrorResponse) =>
+                    of(
+                      CalculationResultActions.setCalculationFailure({
+                        error: error.toString(),
+                      })
+                    )
+                  )
+                )
       )
     );
   });
@@ -142,6 +158,35 @@ export class CalculationResultEffects {
               })
             );
           })
+        )
+      )
+    );
+  });
+
+  public fetchBasicFrequencies$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CalculationResultActions.fetchBasicFrequencies),
+      concatLatestFrom(() => [this.productSelectionFacade.bearingId$]),
+      switchMap(([_action, bearingId]) =>
+        this.catalogService.getBasicFrequencies(bearingId).pipe(
+          takeUntil(
+            // cancel request if action is called again
+            this.actions$.pipe(
+              ofType(CalculationResultActions.fetchBasicFrequencies)
+            )
+          ),
+          switchMap((basicFrequenciesResult) => [
+            CalculationResultActions.setBasicFrequenciesResult({
+              basicFrequenciesResult,
+            }),
+          ]),
+          catchError((error: HttpErrorResponse) =>
+            of(
+              CalculationResultActions.setCalculationFailure({
+                error: error.toString(),
+              })
+            )
+          )
         )
       )
     );

@@ -2,6 +2,13 @@ import { Component } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 
+import { Store } from '@ngrx/store';
+
+import {
+  CalculationResultActions,
+  ProductSelectionActions,
+} from './core/store/actions';
+
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'engineering-app',
@@ -13,9 +20,15 @@ export class AppComponent {
 
   public constructor(
     private readonly matIconRegistry: MatIconRegistry,
-    private readonly sanitizer: DomSanitizer
+    private readonly sanitizer: DomSanitizer,
+    private readonly store: Store
   ) {
     this.registerEAIcons();
+
+    // fetch bearing id
+    this.store.dispatch(ProductSelectionActions.fetchBearingId());
+    // create model
+    this.store.dispatch(CalculationResultActions.createModel());
   }
 
   public registerEAIcons(): void {

@@ -18,7 +18,7 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class CO2Service {
-  readonly baseUrl = `${environment.baseUrl}co2calculator`;
+  readonly baseUrl = `${environment.baseUrl}/CO2Calculator.WebApi/v1.3/co2calculator`;
 
   constructor(private readonly http: HttpClient) {}
 

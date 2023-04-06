@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
 
 import {
-  getBearingDesignation,
   getEnergySource,
   getOperationConditions,
   isCalculationMissingInput,
@@ -17,12 +16,8 @@ export class CalculationParametersFacade {
     getOperationConditions
   );
 
-  public readonly isCalculationMissingInput$ = this.store.select(
+  public isCalculationMissingInput$ = this.store.select(
     isCalculationMissingInput
-  );
-
-  public readonly bearingDesignation$ = this.store.select(
-    getBearingDesignation
   );
 
   public readonly energySource$ = this.store.select(getEnergySource);

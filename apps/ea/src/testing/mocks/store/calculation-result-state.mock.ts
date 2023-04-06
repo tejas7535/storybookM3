@@ -10,6 +10,10 @@ export const CALCULATION_RESULT_STATE_MOCK: CalculationResultState = {
   isLoading: false,
   calculationError: undefined,
   calculationId: undefined,
+  basicFrequenciesResult: {
+    title: 'abc',
+    rows: [],
+  },
 };
 
 export const CALCULATION_RESULT_OVERLAY_DATA_MOCK = [

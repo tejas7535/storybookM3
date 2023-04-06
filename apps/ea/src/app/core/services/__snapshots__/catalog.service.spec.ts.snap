@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CatalogService getBasicFrequencies should call the service to get the basic frequencies 1`] = `
+Object {
+  "rows": Array [
+    Object {
+      "abbreviation": "abc",
+      "id": "2",
+      "title": "field-title",
+      "values": Array [
+        Object {
+          "content": "context",
+          "index": 3,
+          "unit": "cm",
+        },
+      ],
+    },
+  ],
+  "title": "my-title",
+}
+`;

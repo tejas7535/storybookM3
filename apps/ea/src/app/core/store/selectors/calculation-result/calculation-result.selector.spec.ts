@@ -1,6 +1,7 @@
 import { CALCULATION_RESULT_STATE_MOCK } from '@ea/testing/mocks';
 
 import {
+  getBasicFrequencies,
   getCalculationId,
   getCalculationResult,
   getCalculationResultPreviewData,
@@ -92,6 +93,20 @@ describe('Calculation Result Selector', () => {
   describe('getCalculationResultPreviewData', () => {
     it('should return the result preview data', () => {
       expect(getCalculationResultPreviewData(mockState)).toMatchSnapshot();
+    });
+  });
+
+  describe('getBasicFrequencies', () => {
+    it('should return the basic frequencies', () => {
+      expect(
+        getBasicFrequencies({
+          ...mockState,
+          calculationResult: {
+            ...mockState.calculationResult,
+            basicFrequenciesResult: 'my-result',
+          },
+        })
+      ).toEqual('my-result');
     });
   });
 });
