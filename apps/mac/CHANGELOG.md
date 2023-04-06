@@ -1,4 +1,12 @@
 # Release Notes of Material App Center
+## [1.7.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.6.0...mac-v1.7.0) (2023-04-06)
+
+
+### Features
+
+* **mac:** make Supplier SAP-ID editable in MSD - UFTABI-6367 ([#5157](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5157)) ([c6a2659](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c6a265951de2aa9958b9a1e40113c01088f936b9))
+* **mac:** MSD: add sap materials (UFTABI-6368) ([#5112](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5112)) ([b99a427](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b99a4276a3679805fcc1d67e5299839e343b598c))
+
 ## [1.6.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.5.0...mac-v1.6.0) (2023-03-10)
 
 
