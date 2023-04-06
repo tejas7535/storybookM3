@@ -1,4 +1,10 @@
 {
   "name": "gq",
-  "version": "3.4.0"
+  "version": "3.4.0",
+  "dependencies": {
+    "jest-when": "3.5.2"
+  },
+  "devDependencies": {
+    "@types/jest-when": "3.5.2"
+  }
 }
