@@ -25,7 +25,7 @@ import {
   getQuotationCurrency,
   getQuotationErrorMessage,
   getUpdateLoading,
-} from '@gq/core/store/selectors';
+} from '@gq/core/store/selectors/process-case/process-case.selectors';
 import { QuotationDetailsTableValidationService } from '@gq/process-case-view/quotation-details-table/services/quotation-details-table-validation.service';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';

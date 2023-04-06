@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 
+import { EditCaseMaterialComponent } from '@gq/shared/ag-grid/cell-renderer/edit-cells';
 import { translate } from '@ngneat/transloco';
 import { ColDef } from 'ag-grid-enterprise';
 
-import { EditCaseMaterialComponent } from '../../../../ag-grid/cell-renderer/edit-cells/edit-case-material/edit-case-material.component';
 import { ColumnUtilityService } from '../../../../ag-grid/services/column-utility.service';
 
 @Injectable({

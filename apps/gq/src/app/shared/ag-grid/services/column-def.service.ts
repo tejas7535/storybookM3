@@ -8,13 +8,13 @@ import {
   ValueGetterParams,
 } from 'ag-grid-enterprise';
 
-import { EditCellData } from '../../ag-grid/cell-renderer/models/edit-cell-class-params.model';
 import { timestampRegex } from '../../constants';
 import { Keyboard } from '../../models';
 import { SAP_SYNC_STATUS } from '../../models/quotation-detail';
 import { FreeStockCellComponent } from '../cell-renderer/free-stock/free-stock-cell/free-stock-cell.component';
 import { FreeStockCellParams } from '../cell-renderer/free-stock/free-stock-cell/model/free-stock-cell-params.model';
 import { GqPriceCellComponent } from '../cell-renderer/gq-price-cell/gq-price-cell.component';
+import { EditCellData } from '../cell-renderer/models/edit-cell-class-params.model';
 import { SapPriceCellComponent } from '../cell-renderer/sap-price-cell/sap-price-cell.component';
 import { ColumnFields } from '../constants/column-fields.enum';
 import {

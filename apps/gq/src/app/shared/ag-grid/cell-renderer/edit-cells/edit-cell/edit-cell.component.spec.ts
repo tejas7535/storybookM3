@@ -2,7 +2,7 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
-import * as coreSelectors from '@gq/core/store/selectors';
+import * as coreSelectors from '@gq/core/store/selectors/process-case/process-case.selectors';
 import { Spectator, SpyObject } from '@ngneat/spectator';
 import { createComponentFactory } from '@ngneat/spectator/jest';
 import { createSelector } from '@ngrx/store';

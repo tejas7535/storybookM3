@@ -1,3 +1,4 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -33,20 +34,11 @@ describe('SingleQuotesTabComponent', () => {
   const createComponent = createComponentFactory({
     component: SingleQuotesTabComponent,
     imports: [
-      MockModule(InputTableModule),
-      MockModule(CustomStatusBarModule),
-      MockModule(QuotationDetailsTableModule),
-      RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
-      LoadingSpinnerModule,
       PushModule,
-      MatCardModule,
-      SharedDirectivesModule,
       MatDialogModule,
-      ViewToggleModule,
     ],
     providers: [
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockStore({
         initialState: {
           processCase: PROCESS_CASE_STATE_MOCK,
@@ -66,6 +58,7 @@ describe('SingleQuotesTabComponent', () => {
         },
       },
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {

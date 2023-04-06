@@ -10,7 +10,7 @@ import { UpdateQuotationDetail } from '@gq/core/store/reducers/models';
 import {
   getQuotationErrorMessage,
   getUpdateLoading,
-} from '@gq/core/store/selectors';
+} from '@gq/core/store/selectors/process-case/process-case.selectors';
 import { Store } from '@ngrx/store';
 
 import { QuotationDetail } from '../../../shared/models/quotation-detail';

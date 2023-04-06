@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 
 import { PLsAndSeries } from '@gq/core/store/reducers/models';
-import { CreateCaseActionCellComponent } from '@gq/shared/ag-grid/cell-renderer/action-cells/create-case-action-cell/create-case-action-cell.component';
-import { CreateCaseActionHeaderComponent } from '@gq/shared/ag-grid/cell-renderer/action-cells/create-case-action-header/create-case-action-header.component';
-import { ProcessCaseActionCellComponent } from '@gq/shared/ag-grid/cell-renderer/action-cells/process-case-action-cell/process-case-action-cell.component';
-import { ProcessCaseActionHeaderComponent } from '@gq/shared/ag-grid/cell-renderer/action-cells/process-case-action-header/process-case-action-header.component';
+import {
+  CreateCaseActionCellComponent,
+  CreateCaseActionHeaderComponent,
+  ProcessCaseActionCellComponent,
+  ProcessCaseActionHeaderComponent,
+} from '@gq/shared/ag-grid/cell-renderer/action-cells';
 import { AddMaterialButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/case-material-table/add-material-button/add-material-button.component';
 import { CreateCaseButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/case-material-table/create-case-button/create-case-button.component';
 import { CreateCaseResetAllButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/case-material-table/create-case-reset-all-button/create-case-reset-all-button.component';

@@ -6,20 +6,24 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { FreeStockTrafficLightComponent } from '@gq/shared/components/free-stock-traffic-light/free-stock-traffic-light.component';
+import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
+import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { PushModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { FreeStockTrafficLightComponent } from '../../components/free-stock-traffic-light/free-stock-traffic-light.component';
-import { SharedDirectivesModule } from '../../directives/shared-directives.module';
-import { SharedPipesModule } from '../../pipes/shared-pipes.module';
-import { CreateCaseActionCellComponent } from './action-cells/create-case-action-cell/create-case-action-cell.component';
-import { CreateCaseActionHeaderComponent } from './action-cells/create-case-action-header/create-case-action-header.component';
-import { ProcessCaseActionCellComponent } from './action-cells/process-case-action-cell/process-case-action-cell.component';
-import { ProcessCaseActionHeaderComponent } from './action-cells/process-case-action-header/process-case-action-header.component';
-import { EditCaseMaterialComponent } from './edit-cells/edit-case-material/edit-case-material.component';
-import { EditCellComponent } from './edit-cells/edit-cell/edit-cell.component';
-import { EditCommentComponent } from './edit-cells/edit-comment/edit-comment.component';
+import {
+  CreateCaseActionCellComponent,
+  CreateCaseActionHeaderComponent,
+  ProcessCaseActionCellComponent,
+  ProcessCaseActionHeaderComponent,
+} from './action-cells';
+import {
+  EditCaseMaterialComponent,
+  EditCellComponent,
+  EditCommentComponent,
+} from './edit-cells';
 import { FreeStockCellComponent } from './free-stock/free-stock-cell/free-stock-cell.component';
 import { GqIdComponent } from './gq-id/gq-id.component';
 import { GqPriceCellComponent } from './gq-price-cell/gq-price-cell.component';
