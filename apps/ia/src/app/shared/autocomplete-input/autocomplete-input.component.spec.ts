@@ -111,6 +111,19 @@ describe('AutocompleteInputComponent', () => {
       }, component['DEBOUNCE_TIME_DEFAULT']);
     });
 
+    test('should trim searched value', (done) => {
+      component['autoComplete'].emit = jest.fn();
+      component['invalidFormControl'].emit = jest.fn();
+      component.ngOnInit();
+
+      component.inputControl.setValue('  1234  ');
+
+      setTimeout(() => {
+        expect(component['autoComplete'].emit).toHaveBeenCalledWith('1234');
+        done();
+      }, component['DEBOUNCE_TIME_DEFAULT']);
+    });
+
     test('should listen to selected input changes', () => {
       component['selected'].emit = jest.fn();
       component['invalidFormControl'].emit = jest.fn();

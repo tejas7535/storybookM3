@@ -87,7 +87,7 @@ export class AutocompleteInputComponent implements OnInit, OnDestroy {
           )
         )
         .subscribe((searchFor: string) => {
-          this.autoComplete.emit(searchFor);
+          this.autoComplete.emit(searchFor.trim());
           this.isTyping = false;
           this.invalidFormControl.emit(
             this.inputControl.hasError('invalidInput')
