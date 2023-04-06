@@ -243,9 +243,11 @@ export const seriesTooltipFormatter = (
   return tooltipText;
 };
 
+const MARGIN_X = 12;
+
 export const gridOption: GridComponentOption = {
-  left: 12,
-  right: 0,
+  left: MARGIN_X,
+  right: MARGIN_X,
   containLabel: true,
 };
 
