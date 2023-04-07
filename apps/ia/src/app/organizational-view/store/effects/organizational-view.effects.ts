@@ -14,6 +14,7 @@ import {
   filterSelected,
 } from '../../../core/store/actions';
 import {
+  getCurrentDimensionValue,
   getCurrentFilters,
   getSelectedDimension,
   getSelectedTimeRange,
@@ -30,11 +31,12 @@ import {
   OrgUnitFluctuationRate,
 } from '../../org-chart/models';
 import { OrganizationalViewService } from '../../organizational-view.service';
-import { CountryData } from '../../world-map/models/country-data.model';
+import { CountryDataAttrition } from '../../world-map/models/country-data-attrition.model';
 import {
-  loadAttritionOverTimeOrgChart,
-  loadAttritionOverTimeOrgChartFailure,
-  loadAttritionOverTimeOrgChartSuccess,
+  loadChildAttritionOverTimeForWorldMap,
+  loadChildAttritionOverTimeOrgChart,
+  loadChildAttritionOverTimeOrgChartFailure,
+  loadChildAttritionOverTimeOrgChartSuccess,
   loadOrganizationalViewData,
   loadOrgChart,
   loadOrgChartEmployees,
@@ -47,12 +49,16 @@ import {
   loadOrgChartFluctuationRateSuccess,
   loadOrgChartSuccess,
   loadParent,
+  loadParentAttritionOverTimeOrgChart,
+  loadParentAttritionOverTimeOrgChartFailure,
+  loadParentAttritionOverTimeOrgChartSuccess,
   loadParentFailure,
   loadParentSuccess,
   loadWorldMap,
   loadWorldMapFailure,
   loadWorldMapSuccess,
 } from '../actions/organizational-view.action';
+import { getDimensionKeyForWorldMap } from '../selectors/organizational-view.selector';
 
 /* eslint-disable ngrx/prefer-effect-callback-in-block-statement */
 @Injectable()
@@ -79,10 +85,20 @@ export class OrganizationalViewEffects {
         (request: EmployeesRequest) =>
           !!(request.filterDimension && request.value && request.timeRange)
       ),
-      mergeMap((request: EmployeesRequest) => [
-        loadOrgChart({ request }),
-        loadWorldMap({ request }),
-        loadAttritionOverTimeOrgChart({ request }),
+      concatLatestFrom(() => [this.store.select(getCurrentDimensionValue)]),
+      map(([request, dimensionName]) => ({
+        request,
+        dimensionName,
+      })),
+      mergeMap((requestWithDimensionName) => [
+        loadOrgChart({
+          request: requestWithDimensionName.request,
+        }),
+        loadWorldMap({ request: requestWithDimensionName.request }),
+        loadParentAttritionOverTimeOrgChart({
+          request: requestWithDimensionName.request,
+          dimensionName: requestWithDimensionName.dimensionName,
+        }),
       ])
     );
   });
@@ -148,7 +164,7 @@ export class OrganizationalViewEffects {
       map((action) => action.request),
       switchMap((request: EmployeesRequest) =>
         this.organizationalViewService.getWorldMap(request).pipe(
-          map((data: CountryData[]) => loadWorldMapSuccess({ data })),
+          map((data: CountryDataAttrition[]) => loadWorldMapSuccess({ data })),
           catchError((error) =>
             of(loadWorldMapFailure({ errorMessage: error.message }))
           )
@@ -224,9 +240,9 @@ export class OrganizationalViewEffects {
     );
   });
 
-  loadAttritionOverTimeOrgChart$ = createEffect(() => {
+  loadParentAttritionOverTimeOrgChart$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(loadAttritionOverTimeOrgChart),
+      ofType(loadParentAttritionOverTimeOrgChart),
       map((action) => action.request),
       switchMap((request: EmployeesRequest) =>
         this.organizationalViewService
@@ -237,16 +253,63 @@ export class OrganizationalViewEffects {
           )
           .pipe(
             map((data: AttritionOverTime) =>
-              loadAttritionOverTimeOrgChartSuccess({ data })
+              loadParentAttritionOverTimeOrgChartSuccess({ data })
             ),
             catchError((error) =>
               of(
-                loadAttritionOverTimeOrgChartFailure({
+                loadParentAttritionOverTimeOrgChartFailure({
                   errorMessage: error.message,
                 })
               )
             )
           )
+      )
+    );
+  });
+
+  loadChildAttritionOverTimeOrgChart$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(loadChildAttritionOverTimeOrgChart),
+      switchMap((action) =>
+        this.organizationalViewService
+          .getAttritionOverTime(
+            action.filterDimension,
+            action.dimensionKey,
+            TimePeriod.LAST_6_MONTHS
+          )
+          .pipe(
+            map((data: AttritionOverTime) =>
+              loadChildAttritionOverTimeOrgChartSuccess({ data })
+            ),
+            catchError((error) =>
+              of(
+                loadChildAttritionOverTimeOrgChartFailure({
+                  errorMessage: error.message,
+                })
+              )
+            )
+          )
+      )
+    );
+  });
+
+  loadChildAttritionOverTimeForWorldMap$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(loadChildAttritionOverTimeForWorldMap),
+      concatLatestFrom((action) =>
+        this.store.select(
+          getDimensionKeyForWorldMap(
+            action.filterDimension,
+            action.dimensionName
+          )
+        )
+      ),
+      map(([action, dimensionKey]) =>
+        loadChildAttritionOverTimeOrgChart({
+          dimensionKey,
+          dimensionName: action.dimensionName,
+          filterDimension: action.filterDimension,
+        })
       )
     );
   });

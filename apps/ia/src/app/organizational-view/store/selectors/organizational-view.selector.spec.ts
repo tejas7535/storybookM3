@@ -1,17 +1,20 @@
 import { FilterState } from '../../../core/store/reducers/filter/filter.reducer';
 import {
   AttritionOverTime,
+  EmployeeAttritionMeta,
   FilterDimension,
   HeatType,
   IdValue,
 } from '../../../shared/models';
 import { ChartType } from '../../models/chart-type.enum';
 import { DimensionFluctuationData } from '../../models/dimension-fluctuation-data.model';
-import { CountryData } from '../../world-map/models/country-data.model';
+import { CountryDataAttrition } from '../../world-map/models/country-data-attrition.model';
 import { initialState, OrganizationalViewState } from '..';
 import {
-  getAttritionOverTimeOrgChartData,
-  getIsLoadingAttritionOverTimeOrgChart,
+  getChildAttritionOverTimeOrgChartSeries,
+  getChildDimensionName,
+  getChildIsLoadingAttritionOverTimeOrgChart,
+  getDimensionKeyForWorldMap,
   getIsLoadingOrgChart,
   getIsLoadingOrgUnitFluctuationRate,
   getIsLoadingWorldMap,
@@ -20,6 +23,8 @@ import {
   getOrgChartEmployeesLoading,
   getOrgUnitFluctuationDialogEmployeeData,
   getOrgUnitFluctuationDialogMeta,
+  getParentAttritionOverTimeOrgChartData,
+  getParentIsLoadingAttritionOverTimeOrgChart,
   getRegions,
   getSelectedChartType,
   getWorldMap,
@@ -77,7 +82,7 @@ describe('Organizational View Selector', () => {
               employeesAdded: 0,
               openPositions: 400,
             },
-          } as unknown as CountryData,
+          } as unknown as CountryDataAttrition,
           {
             name: 'Poland',
             region: 'Europe',
@@ -90,14 +95,22 @@ describe('Organizational View Selector', () => {
               employeesAdded: 2,
               openPositions: 0,
             },
-          } as unknown as CountryData,
+          } as unknown as CountryDataAttrition,
         ],
         loading: true,
         errorMessage: undefined,
       },
       attritionOverTime: {
         ...initialState.attritionOverTime,
-        loading: true,
+        parent: {
+          ...initialState.attritionOverTime.parent,
+          loading: true,
+        },
+        child: {
+          ...initialState.attritionOverTime.child,
+          dimensionName: 'child',
+          loading: true,
+        },
       },
     },
     filter: {
@@ -184,9 +197,16 @@ describe('Organizational View Selector', () => {
           ],
         },
         attritionOverTime: {
-          data: {} as AttritionOverTime,
-          loading: false,
-          errorMessage: '',
+          parent: {
+            data: {} as AttritionOverTime,
+            loading: false,
+            errorMessage: '',
+          },
+          child: {
+            data: {} as AttritionOverTime,
+            loading: false,
+            errorMessage: '',
+          },
         },
       };
 
@@ -239,6 +259,103 @@ describe('Organizational View Selector', () => {
       ]);
 
       expect(result).toEqual(['Europe', 'Asia']);
+    });
+  });
+
+  describe('getDimensionKeyForWorldMap', () => {
+    const countryData: CountryDataAttrition[] = [
+      {
+        name: 'Poland',
+        countryKey: 'PL',
+        region: 'Europe',
+        regionKey: '2',
+        attritionMeta: {} as EmployeeAttritionMeta,
+      },
+      {
+        name: 'Germany',
+        countryKey: 'DE',
+        region: 'Europe',
+        regionKey: '2',
+        attritionMeta: {} as EmployeeAttritionMeta,
+      },
+      {
+        name: 'Japan',
+        countryKey: 'PL',
+        region: 'Asia Pacific',
+        regionKey: '5',
+        attritionMeta: {} as EmployeeAttritionMeta,
+      },
+    ];
+
+    test('should return country key for country dimension', () => {
+      const filterDimension = FilterDimension.COUNTRY;
+      const dimensionName = 'Germany';
+      const result = getDimensionKeyForWorldMap(
+        filterDimension,
+        dimensionName
+      ).projector(countryData);
+
+      expect(result).toEqual('DE');
+    });
+
+    test('should return region key for region dimension', () => {
+      const filterDimension = FilterDimension.REGION;
+      const dimensionName = 'Asia Pacific';
+      const result = getDimensionKeyForWorldMap(
+        filterDimension,
+        dimensionName
+      ).projector(countryData);
+
+      expect(result).toEqual('5');
+    });
+
+    test('should return undefined when country not found', () => {
+      const filterDimension = FilterDimension.COUNTRY;
+      const dimensionName = 'China';
+      const result = getDimensionKeyForWorldMap(
+        filterDimension,
+        dimensionName
+      ).projector(countryData);
+
+      expect(result).toBeUndefined();
+    });
+
+    test('should return undefined when region not found', () => {
+      const filterDimension = FilterDimension.REGION;
+      const dimensionName = 'Greater China';
+      const result = getDimensionKeyForWorldMap(
+        filterDimension,
+        dimensionName
+      ).projector(countryData);
+
+      expect(result).toBeUndefined();
+    });
+
+    test('should return undefined when dimension different than region or country', () => {
+      const filterDimension = FilterDimension.ORG_UNIT;
+      const dimensionName = 'Greater China';
+      const result = getDimensionKeyForWorldMap(
+        filterDimension,
+        dimensionName
+      ).projector(countryData);
+
+      expect(result).toBeUndefined();
+    });
+  });
+
+  describe('getChildDimensionName', () => {
+    test('should return child dimension name', () => {
+      const dimensionName = 'SLK';
+      const input = {
+        attritionOverTime: {
+          child: {
+            dimensionName,
+          },
+        },
+      };
+      const result = getChildDimensionName.projector(input);
+
+      expect(result).toEqual(dimensionName);
     });
   });
 
@@ -338,39 +455,107 @@ describe('Organizational View Selector', () => {
     });
   });
 
-  describe('getAttritionOverTimeOrgChartData', () => {
+  describe('getParentAttritionOverTimeOrgChartData', () => {
     test('should return data', () => {
-      const data = { data: {} } as unknown as AttritionOverTime;
+      const state = {
+        attritionOverTime: {
+          parent: {
+            dimensionName: 'SLK',
+            data: {
+              data: {
+                ['SLK']: {
+                  attrition: 0.2,
+                },
+              },
+            },
+            loading: false,
+            errorMessage: '',
+          },
+        },
+      };
 
-      const result = getAttritionOverTimeOrgChartData.projector(data);
+      const result = getParentAttritionOverTimeOrgChartData.projector(state);
 
       expect(result).toEqual({
-        series: [],
-        yAxis: {
-          type: 'value',
-          minInterval: 1,
-          axisPointer: {
-            label: {
-              precision: 0,
-            },
-            snap: true,
+        series: [
+          {
+            data: 0.2,
+            lineStyle: { width: 4 },
+            name: 'SLK',
+            showSymbol: false,
+            type: 'line',
           },
+        ],
+        yAxis: {
+          axisPointer: { label: { precision: 0 }, snap: true },
+          minInterval: 1,
+          type: 'value',
         },
       });
     });
 
     test('should return undefined if data not available', () => {
       const data = {};
-      const result = getAttritionOverTimeOrgChartData.projector(data);
+      const result = getParentAttritionOverTimeOrgChartData.projector(data);
 
       expect(result).toBeUndefined();
     });
   });
 
-  describe('getIsLoadingAttritionOverTimeOrgChart', () => {
+  describe('getParentIsLoadingAttritionOverTimeOrgChart', () => {
     test('should return loading State', () => {
       expect(
-        getIsLoadingAttritionOverTimeOrgChart.projector(
+        getParentIsLoadingAttritionOverTimeOrgChart.projector(
+          fakeState.organizationalView
+        )
+      ).toBeTruthy();
+    });
+  });
+
+  describe('getChildAttritionOverTimeOrgChartSeries', () => {
+    test('should return series', () => {
+      const state = {
+        attritionOverTime: {
+          child: {
+            dimensionName: 'SLK',
+            data: {
+              data: {
+                ['SLK']: {
+                  attrition: 0.2,
+                },
+              },
+            },
+            loading: false,
+            errorMessage: '',
+          },
+        },
+      };
+
+      const result = getChildAttritionOverTimeOrgChartSeries.projector(state);
+
+      expect(result).toEqual([
+        {
+          data: 0.2,
+          lineStyle: { width: 4 },
+          name: 'SLK',
+          showSymbol: false,
+          type: 'line',
+        },
+      ]);
+    });
+
+    test('should return undefined if data not available', () => {
+      const data = {};
+      const result = getChildAttritionOverTimeOrgChartSeries.projector(data);
+
+      expect(result).toBeUndefined();
+    });
+  });
+
+  describe('getChildIsLoadingAttritionOverTimeOrgChart', () => {
+    test('should return loading State', () => {
+      expect(
+        getChildIsLoadingAttritionOverTimeOrgChart.projector(
           fakeState.organizationalView
         )
       ).toBeTruthy();

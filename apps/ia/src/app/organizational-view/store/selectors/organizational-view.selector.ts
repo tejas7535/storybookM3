@@ -1,5 +1,5 @@
-import { translate } from '@ngneat/transloco';
 import { createSelector } from '@ngrx/store';
+import { EChartsOption } from 'echarts';
 
 import {
   getSelectedDimension,
@@ -8,14 +8,13 @@ import {
 } from '../../../core/store/selectors';
 import { LINE_SERIES_BASE_OPTIONS } from '../../../shared/charts/line-chart/line-chart.config';
 import {
-  AttritionOverTime,
   AttritionSeries,
   FilterDimension,
   HeatType,
   IdValue,
 } from '../../../shared/models';
 import { AttritionDialogFluctuationMeta } from '../../attrition-dialog/models/attrition-dialog-fluctuation-meta.model';
-import { CountryData } from '../../world-map/models';
+import { CountryDataAttrition } from '../../world-map/models';
 import { OrganizationalViewState, selectOrganizationalViewState } from '..';
 
 export const getSelectedChartType = createSelector(
@@ -84,7 +83,7 @@ export const getOrgUnitFluctuationDialogMeta = createSelector(
 );
 
 const getWorldMapFluctuationDialogRegionMetaData = (
-  data: CountryData[],
+  data: CountryDataAttrition[],
   region: string
 ) => {
   const relevantCountries = data.filter(
@@ -177,35 +176,73 @@ export const getWorldMap = createSelector(
   (state: OrganizationalViewState) => state.worldMap.data
 );
 
-const getAttritionOverTime = createSelector(
+export const getParentAttritionOverTimeOrgChartData = createSelector(
   selectOrganizationalViewState,
-  (state: OrganizationalViewState) => state.attritionOverTime?.data
+  (state: OrganizationalViewState) =>
+    mapDataToChartOption(
+      state.attritionOverTime?.parent?.data?.data,
+      state.attritionOverTime?.parent?.dimensionName
+    )
 );
 
-export const getAttritionOverTimeOrgChartData = createSelector(
-  getAttritionOverTime,
-  (attritionOverTime: AttritionOverTime) =>
-    mapDataToChartOption(attritionOverTime?.data)
+export const getParentIsLoadingAttritionOverTimeOrgChart = createSelector(
+  selectOrganizationalViewState,
+  (state: OrganizationalViewState) => state.attritionOverTime.parent?.loading
 );
 
-export const getIsLoadingAttritionOverTimeOrgChart = createSelector(
+export const getChildAttritionOverTimeOrgChartSeries = createSelector(
   selectOrganizationalViewState,
-  (state: OrganizationalViewState) => state.attritionOverTime?.loading
+  (state: OrganizationalViewState) =>
+    mapDataToChartOption(
+      state.attritionOverTime?.child?.data?.data,
+      state.attritionOverTime?.child?.dimensionName
+    )?.series
+);
+
+export const getChildIsLoadingAttritionOverTimeOrgChart = createSelector(
+  selectOrganizationalViewState,
+  (state: OrganizationalViewState) => state.attritionOverTime.child?.loading
+);
+
+export const getChildDimensionName = createSelector(
+  selectOrganizationalViewState,
+  (state: OrganizationalViewState) =>
+    state.attritionOverTime.child?.dimensionName
 );
 
 export const getRegions = createSelector(
   getWorldMap,
-  (countryData: CountryData[]) => [
+  (countryData: CountryDataAttrition[]) => [
     ...new Set(countryData.map((country) => country.region)),
   ]
 );
 
-export function mapDataToChartOption(data: AttritionSeries) {
+export const getDimensionKeyForWorldMap = (
+  filterDimension: FilterDimension,
+  dimensionName: string
+) =>
+  createSelector(getWorldMap, (countryData: CountryDataAttrition[]) => {
+    if (filterDimension === FilterDimension.COUNTRY) {
+      return countryData.find((data) => data.name === dimensionName)
+        ?.countryKey;
+    } else if (filterDimension === FilterDimension.REGION) {
+      return countryData.find((data) => data.region === dimensionName)
+        ?.regionKey;
+    } else {
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      return undefined;
+    }
+  });
+
+export function mapDataToChartOption(
+  data: AttritionSeries,
+  seriesName: string
+) {
   return data
-    ? {
+    ? ({
         series: Object.keys(data).map((name) => ({
           ...LINE_SERIES_BASE_OPTIONS,
-          name: translate(`attritionDialog.${name}`, {}, 'organizational-view'),
+          name: seriesName,
           data: data[name].attrition,
         })),
         yAxis: {
@@ -218,6 +255,6 @@ export function mapDataToChartOption(data: AttritionSeries) {
             snap: true,
           },
         },
-      }
+      } as EChartsOption)
     : undefined;
 }

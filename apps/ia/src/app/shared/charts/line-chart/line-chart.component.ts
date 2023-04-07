@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { EChartsOption } from 'echarts';
+import { EChartsOption, LineSeriesOption } from 'echarts';
 import moment from 'moment';
 
 import { DATA_IMPORT_DAY } from '../../constants';
+import { Color } from '../../models';
 import { LINE_CHART_BASE_OPTIONS } from './line-chart.config';
 
 @Component({
@@ -13,6 +14,7 @@ import { LINE_CHART_BASE_OPTIONS } from './line-chart.config';
 })
 export class LineChartComponent {
   options: EChartsOption;
+  mergeOptions: EChartsOption;
 
   private _config: EChartsOption;
   readonly DATE_FORMAT = 'MM.YYYY';
@@ -27,6 +29,16 @@ export class LineChartComponent {
   set config(config: EChartsOption) {
     this._config = config;
     this.options = this.createEChartsOption();
+  }
+
+  @Input() set series(series: LineSeriesOption[]) {
+    if (series) {
+      this.mergeOptions = {
+        series: this.options.series,
+        color: [Color.GREEN, Color.DARK_GREY],
+      };
+      (this.mergeOptions.series as LineSeriesOption[]).unshift(series[0]);
+    }
   }
 
   getXAxisData(): string[] {

@@ -7,10 +7,10 @@ import { TranslocoService } from '@ngneat/transloco';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/marbles';
 
+import { FilterDimension } from '../shared/models';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from '../../assets/i18n/en.json';
-import { FilterDimension } from '../shared/models';
 import { SharedModule } from '../shared/shared.module';
 import { ChartType } from './models/chart-type.enum';
 import { DimensionFluctuationData } from './models/dimension-fluctuation-data.model';
@@ -18,6 +18,8 @@ import { OrgChartTranslation } from './org-chart/models';
 import { OrganizationalViewComponent } from './organizational-view.component';
 import {
   chartTypeSelected,
+  loadChildAttritionOverTimeForWorldMap,
+  loadChildAttritionOverTimeOrgChart,
   loadOrgChartEmployees,
   loadOrgChartFluctuationMeta,
   loadParent,
@@ -120,7 +122,7 @@ describe('OrganizationalViewComponent', () => {
   describe('loadParent', () => {
     test('should dispatch loadParent', () => {
       component['store'].dispatch = jest.fn();
-      const orgUnit = { id: '123' } as unknown as DimensionFluctuationData;
+      const orgUnit = { id: '123' } as DimensionFluctuationData;
 
       component.loadParent(orgUnit);
 
@@ -131,19 +133,31 @@ describe('OrganizationalViewComponent', () => {
   });
 
   describe('loadFluctuationMeta', () => {
-    test('should dispatch loadOrgUnitFluctuationMeta', () => {
+    test('should dispatch loadOrgUnitFluctuationMeta and loadChildAttritionOverTimeOrgChart', () => {
       component['store'].dispatch = jest.fn();
-      const orgUnit = { id: '123' } as unknown as DimensionFluctuationData;
+      const dimension = '321';
+      const orgUnit = {
+        id: '123',
+        filterDimension: FilterDimension.ORG_UNIT,
+        dimension,
+      } as DimensionFluctuationData;
 
       component.loadFluctuationMeta(orgUnit);
 
       expect(component['store'].dispatch).toHaveBeenCalledWith(
         loadOrgChartFluctuationMeta({ data: orgUnit })
       );
+      expect(component['store'].dispatch).toHaveBeenCalledWith(
+        loadChildAttritionOverTimeOrgChart({
+          filterDimension: orgUnit.filterDimension,
+          dimensionKey: orgUnit.dimensionKey,
+          dimensionName: orgUnit.dimension,
+        })
+      );
     });
   });
   describe('loadRegionMeta', () => {
-    test('should dispatch loadWorldMapFluctuationRegionMeta', () => {
+    test('should dispatch loadWorldMapFluctuationRegionMeta and loadChildAttritionOverTimeForWorldMap', () => {
       component['store'].dispatch = jest.fn();
       const region = 'Europe';
 
@@ -151,6 +165,12 @@ describe('OrganizationalViewComponent', () => {
 
       expect(component['store'].dispatch).toHaveBeenCalledWith(
         loadWorldMapFluctuationRegionMeta({ region })
+      );
+      expect(component['store'].dispatch).toHaveBeenCalledWith(
+        loadChildAttritionOverTimeForWorldMap({
+          filterDimension: FilterDimension.REGION,
+          dimensionName: region,
+        })
       );
     });
   });
@@ -165,13 +185,19 @@ describe('OrganizationalViewComponent', () => {
       expect(component['store'].dispatch).toHaveBeenCalledWith(
         loadWorldMapFluctuationCountryMeta({ country })
       );
+      expect(component['store'].dispatch).toHaveBeenCalledWith(
+        loadChildAttritionOverTimeForWorldMap({
+          filterDimension: FilterDimension.COUNTRY,
+          dimensionName: country,
+        })
+      );
     });
   });
 
   describe('loadOrgChartEmployees', () => {
     test('should dispatch loadOrgChartEmployees', () => {
       component['store'].dispatch = jest.fn();
-      const data = { id: '123' } as unknown as DimensionFluctuationData;
+      const data = { id: '123' } as DimensionFluctuationData;
 
       component.loadOrgChartEmployees(data);
 

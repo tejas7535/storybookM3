@@ -11,12 +11,14 @@ import { AppRoutePath } from '../../../app-route-path.enum';
 import { RouterStateUrl, selectRouterState } from '../../../core/store';
 import { filterDimensionSelected } from '../../../core/store/actions';
 import {
+  getCurrentDimensionValue,
   getCurrentFilters,
   getSelectedDimension,
   getSelectedTimeRange,
 } from '../../../core/store/selectors';
 import {
   AttritionOverTime,
+  EmployeeAttritionMeta,
   EmployeesRequest,
   FilterDimension,
   IdValue,
@@ -29,11 +31,12 @@ import {
   OrgChartEmployee,
 } from '../../org-chart/models';
 import { OrganizationalViewService } from '../../organizational-view.service';
-import { CountryData } from '../../world-map/models/country-data.model';
+import { CountryDataAttrition } from '../../world-map/models/country-data-attrition.model';
 import {
-  loadAttritionOverTimeOrgChart,
-  loadAttritionOverTimeOrgChartFailure,
-  loadAttritionOverTimeOrgChartSuccess,
+  loadChildAttritionOverTimeForWorldMap,
+  loadChildAttritionOverTimeOrgChart,
+  loadChildAttritionOverTimeOrgChartFailure,
+  loadChildAttritionOverTimeOrgChartSuccess,
   loadOrganizationalViewData,
   loadOrgChart,
   loadOrgChartEmployees,
@@ -46,12 +49,16 @@ import {
   loadOrgChartFluctuationRateSuccess,
   loadOrgChartSuccess,
   loadParent,
+  loadParentAttritionOverTimeOrgChart,
+  loadParentAttritionOverTimeOrgChartFailure,
+  loadParentAttritionOverTimeOrgChartSuccess,
   loadParentFailure,
   loadParentSuccess,
   loadWorldMap,
   loadWorldMapFailure,
   loadWorldMapSuccess,
 } from '../actions/organizational-view.action';
+import { getWorldMap } from '../selectors/organizational-view.selector';
 import { OrganizationalViewEffects } from './organizational-view.effects';
 
 describe('Organizational View Effects', () => {
@@ -134,11 +141,32 @@ describe('Organizational View Effects', () => {
           value: filter.idValue.id,
           timeRange: '123',
         } as EmployeesRequest;
+        const dimensionName = 'SH/ZHZ';
         action = loadOrganizationalViewData();
-        store.overrideSelector(getCurrentFilters, request);
-        const resultOrg = loadOrgChart({ request });
-        const resultWorld = loadWorldMap({ request });
-        const resultAttrition = loadAttritionOverTimeOrgChart({ request });
+        store.overrideSelector(getCurrentFilters, {
+          filterDimension: request.filterDimension,
+          value: request.value,
+          timeRange: request.timeRange,
+        });
+        store.overrideSelector(getCurrentDimensionValue, dimensionName);
+        const resultOrg = loadOrgChart({
+          request: {
+            filterDimension: request.filterDimension,
+            value: request.value,
+            timeRange: request.timeRange,
+          },
+        });
+        const resultWorld = loadWorldMap({
+          request: {
+            filterDimension: request.filterDimension,
+            value: request.value,
+            timeRange: request.timeRange,
+          },
+        });
+        const resultAttrition = loadParentAttritionOverTimeOrgChart({
+          request,
+          dimensionName,
+        });
 
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('-(bcd)', {
@@ -342,8 +370,8 @@ describe('Organizational View Effects', () => {
       'should return loadWorldMapSuccess action when REST call is successful',
       marbles((m) => {
         const data = [
-          { name: 'Germany' } as unknown as CountryData,
-          { name: 'Poland' } as unknown as CountryData,
+          { name: 'Germany' } as unknown as CountryDataAttrition,
+          { name: 'Poland' } as unknown as CountryDataAttrition,
         ];
         const result = loadWorldMapSuccess({
           data,
@@ -396,6 +424,7 @@ describe('Organizational View Effects', () => {
     let data: DimensionFluctuationData;
     let timeRange: IdValue;
     let request: EmployeesRequest;
+    let dimensionName: string;
 
     beforeEach(() => {
       data = {
@@ -408,6 +437,7 @@ describe('Organizational View Effects', () => {
         id: '1234|4567',
         value: '1.1.2020 - 31.1.2022',
       } as IdValue;
+      dimensionName = 'SH/ZHZ';
       request = {
         value: data.dimensionKey,
         timeRange: timeRange.id,
@@ -449,7 +479,11 @@ describe('Organizational View Effects', () => {
         m.flush();
         expect(
           organizationalViewService.getOrgChartEmployeesForNode
-        ).toHaveBeenCalledWith({ ...request, timeRange: timeRange.id });
+        ).toHaveBeenCalledWith({
+          value: data.dimensionKey,
+          timeRange: timeRange.id,
+          filterDimension: FilterDimension.ORG_UNIT,
+        });
       })
     );
 
@@ -459,7 +493,10 @@ describe('Organizational View Effects', () => {
         const result = loadOrgChartEmployeesFailure({
           errorMessage: error.message,
         });
-        store.overrideSelector(getCurrentFilters, request);
+        store.overrideSelector(getCurrentFilters, {
+          ...request,
+          dimensionName,
+        });
 
         actions$ = m.hot('-a', { a: action });
         const response = m.cold('-#|', undefined, error);
@@ -588,29 +625,32 @@ describe('Organizational View Effects', () => {
     );
   });
 
-  describe('loadAttritionOverTimeOrgChart$', () => {
+  describe('loadParentAttritionOverTimeOrgChart$', () => {
     let value: string;
     let timeRange: string;
     let filterDimension: FilterDimension;
+    let dimensionName: string;
 
     beforeEach(() => {
       timeRange = '123';
       value = 'ACB';
       filterDimension = FilterDimension.ORG_UNIT;
-      action = loadAttritionOverTimeOrgChart({
+      dimensionName = 'SH/ZHZ';
+      action = loadParentAttritionOverTimeOrgChart({
         request: {
           filterDimension,
           value,
           timeRange,
         } as EmployeesRequest,
+        dimensionName,
       });
     });
 
     test(
-      'should return loadAttritionOverTimeOrgChartSuccess action when REST call is successful',
+      'should return loadParentAttritionOverTimeOrgChartSuccess action when REST call is successful',
       marbles((m) => {
         const data: AttritionOverTime = { data: {} };
-        const result = loadAttritionOverTimeOrgChartSuccess({
+        const result = loadParentAttritionOverTimeOrgChartSuccess({
           data,
         });
 
@@ -625,7 +665,7 @@ describe('Organizational View Effects', () => {
           .fn()
           .mockImplementation(() => response);
 
-        m.expect(effects.loadAttritionOverTimeOrgChart$).toBeObservable(
+        m.expect(effects.loadParentAttritionOverTimeOrgChart$).toBeObservable(
           expected
         );
         m.flush();
@@ -640,9 +680,9 @@ describe('Organizational View Effects', () => {
     );
 
     test(
-      'should return loadAttritionOverTimeOrgChartFailure on REST error',
+      'should return loadParentAttritionOverTimeOrgChartFailure on REST error',
       marbles((m) => {
-        const result = loadAttritionOverTimeOrgChartFailure({
+        const result = loadParentAttritionOverTimeOrgChartFailure({
           errorMessage: error.message,
         });
 
@@ -654,7 +694,7 @@ describe('Organizational View Effects', () => {
           .fn()
           .mockImplementation(() => response);
 
-        m.expect(effects.loadAttritionOverTimeOrgChart$).toBeObservable(
+        m.expect(effects.loadParentAttritionOverTimeOrgChart$).toBeObservable(
           expected
         );
         m.flush();
@@ -664,6 +704,122 @@ describe('Organizational View Effects', () => {
           filterDimension,
           value,
           TimePeriod.LAST_6_MONTHS
+        );
+      })
+    );
+  });
+
+  describe('loadChildAttritionOverTimeOrgChart$', () => {
+    let value: string;
+    let name: string;
+    let filterDimension: FilterDimension;
+
+    beforeEach(() => {
+      value = 'ACB';
+      name = 'SH/zhz';
+      filterDimension = FilterDimension.ORG_UNIT;
+      action = loadChildAttritionOverTimeOrgChart({
+        filterDimension,
+        dimensionKey: value,
+        dimensionName: name,
+      });
+    });
+
+    test(
+      'should return loadChildAttritionOverTimeOrgChartSuccess action when REST call is successful',
+      marbles((m) => {
+        const data: AttritionOverTime = { data: {} };
+        const result = loadChildAttritionOverTimeOrgChartSuccess({
+          data,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|', {
+          a: data,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        organizationalViewService.getAttritionOverTime = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadChildAttritionOverTimeOrgChart$).toBeObservable(
+          expected
+        );
+        m.flush();
+        expect(
+          organizationalViewService.getAttritionOverTime
+        ).toHaveBeenCalledWith(
+          filterDimension,
+          value,
+          TimePeriod.LAST_6_MONTHS
+        );
+      })
+    );
+
+    test(
+      'should return loadChildAttritionOverTimeOrgChartFailure on REST error',
+      marbles((m) => {
+        const result = loadChildAttritionOverTimeOrgChartFailure({
+          errorMessage: error.message,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+
+        organizationalViewService.getAttritionOverTime = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadChildAttritionOverTimeOrgChart$).toBeObservable(
+          expected
+        );
+        m.flush();
+        expect(
+          organizationalViewService.getAttritionOverTime
+        ).toHaveBeenCalledWith(
+          filterDimension,
+          value,
+          TimePeriod.LAST_6_MONTHS
+        );
+      })
+    );
+  });
+
+  describe('loadChildAttritionOverTimeForWorldMap$', () => {
+    test(
+      'should return loadChildAttritionOverTimeOrgChart',
+      marbles((m) => {
+        const filterDimension = FilterDimension.COUNTRY;
+        const dimensionName = 'Germany';
+        const dimensionKey = 'DE';
+        const worldMap: CountryDataAttrition[] = [
+          {
+            name: dimensionName,
+            countryKey: dimensionKey,
+            region: 'Europe',
+            regionKey: '2',
+            attritionMeta: {} as EmployeeAttritionMeta,
+          },
+        ];
+        store.overrideSelector(getWorldMap, worldMap);
+        const result = loadChildAttritionOverTimeOrgChart({
+          dimensionKey,
+          dimensionName,
+          filterDimension,
+        });
+        action = loadChildAttritionOverTimeForWorldMap({
+          filterDimension,
+          dimensionName,
+        });
+
+        actions$ = m.hot('a', { a: action });
+        const expected = m.cold('b', { b: result });
+
+        m.expect(effects.loadChildAttritionOverTimeForWorldMap$).toBeObservable(
+          expected
         );
       })
     );

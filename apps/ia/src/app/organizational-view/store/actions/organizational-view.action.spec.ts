@@ -10,12 +10,13 @@ import {
   OrgChartEmployee,
   OrgUnitFluctuationRate,
 } from '../../org-chart/models';
-import { CountryData } from '../../world-map/models/country-data.model';
+import { CountryDataAttrition } from '../../world-map/models/country-data-attrition.model';
 import {
   chartTypeSelected,
-  loadAttritionOverTimeOrgChart,
-  loadAttritionOverTimeOrgChartFailure,
-  loadAttritionOverTimeOrgChartSuccess,
+  loadChildAttritionOverTimeForWorldMap,
+  loadChildAttritionOverTimeOrgChart,
+  loadChildAttritionOverTimeOrgChartFailure,
+  loadChildAttritionOverTimeOrgChartSuccess,
   loadOrgChart,
   loadOrgChartEmployees,
   loadOrgChartEmployeesFailure,
@@ -27,6 +28,9 @@ import {
   loadOrgChartFluctuationRateSuccess,
   loadOrgChartSuccess,
   loadParent,
+  loadParentAttritionOverTimeOrgChart,
+  loadParentAttritionOverTimeOrgChartFailure,
+  loadParentAttritionOverTimeOrgChartSuccess,
   loadParentFailure,
   loadParentSuccess,
   loadWorldMap,
@@ -135,7 +139,7 @@ describe('Organizational View Actions', () => {
   });
 
   test('loadWorldMapSuccess', () => {
-    const data: CountryData[] = [];
+    const data: CountryDataAttrition[] = [];
 
     const action = loadWorldMapSuccess({ data });
 
@@ -194,36 +198,89 @@ describe('Organizational View Actions', () => {
     });
   });
 
-  test('loadAttritionOverTimeOrgChart', () => {
+  test('loadParentAttritionOverTimeOrgChart', () => {
     const orgUnit = 'ACB';
+    const dimensionName = 'SH/ZHZ';
 
-    const action = loadAttritionOverTimeOrgChart({
+    const action = loadParentAttritionOverTimeOrgChart({
       request: { value: orgUnit } as EmployeesRequest,
+      dimensionName,
     });
 
     expect(action).toEqual({
       request: { value: orgUnit },
-      type: '[Organizational View] Load AttritionOverTime for plus minus three months',
+      dimensionName,
+      type: '[Organizational View] Load Parent AttritionOverTime for plus minus three months',
     });
   });
 
-  test('loadAttritionOverTimeOrgChartSuccess', () => {
+  test('loadParentAttritionOverTimeOrgChartSuccess', () => {
     const data = {} as unknown as AttritionOverTime;
 
-    const action = loadAttritionOverTimeOrgChartSuccess({ data });
+    const action = loadParentAttritionOverTimeOrgChartSuccess({ data });
 
     expect(action).toEqual({
       data,
-      type: '[Organizational View] Load AttritionOverTime for plus minus three months Success',
+      type: '[Organizational View] Load Parent AttritionOverTime for plus minus three months Success',
     });
   });
 
-  test('loadAttritionOverTimeOrgChartFailure', () => {
-    const action = loadAttritionOverTimeOrgChartFailure({ errorMessage });
+  test('loadParentAttritionOverTimeOrgChartFailure', () => {
+    const action = loadParentAttritionOverTimeOrgChartFailure({ errorMessage });
 
     expect(action).toEqual({
       errorMessage,
-      type: '[Organizational View] Load AttritionOverTime for plus minus three months Failure',
+      type: '[Organizational View] Load Parent AttritionOverTime for plus minus three months Failure',
+    });
+  });
+
+  test('loadChildAttritionOverTimeOrgChart', () => {
+    const data = {
+      filterDimension: FilterDimension.COUNTRY,
+      dimensionKey: 'PL',
+      dimensionName: 'Poland',
+    };
+
+    const action = loadChildAttritionOverTimeOrgChart(data);
+
+    expect(action).toEqual({
+      ...data,
+      type: '[Organizational View] Load Child AttritionOverTime for plus minus three months',
+    });
+  });
+
+  test('loadChildAttritionOverTimeOrgChartSuccess', () => {
+    const data = {} as unknown as AttritionOverTime;
+
+    const action = loadChildAttritionOverTimeOrgChartSuccess({ data });
+
+    expect(action).toEqual({
+      data,
+      type: '[Organizational View] Load Child AttritionOverTime for plus minus three months Success',
+    });
+  });
+
+  test('loadChildAttritionOverTimeOrgChartFailure', () => {
+    const action = loadChildAttritionOverTimeOrgChartFailure({ errorMessage });
+
+    expect(action).toEqual({
+      errorMessage,
+      type: '[Organizational View] Load Child AttritionOverTime for plus minus three months Failure',
+    });
+  });
+
+  test('loadChildAttritionOverTimeForWorldMap', () => {
+    const filterDimension = FilterDimension.COUNTRY;
+    const dimensionName = 'Poland';
+    const action = loadChildAttritionOverTimeForWorldMap({
+      filterDimension,
+      dimensionName,
+    });
+
+    expect(action).toEqual({
+      type: '[Organizational View] Load Child AttritionOverTime for world map',
+      filterDimension,
+      dimensionName,
     });
   });
 

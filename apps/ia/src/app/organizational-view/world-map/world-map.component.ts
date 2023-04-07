@@ -14,7 +14,7 @@ import worldJson from '../../../assets/world.json';
 import { Color } from '../../shared/models/color.enum';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
 import { ChartType } from '../models/chart-type.enum';
-import { CountryData } from './models/country-data.model';
+import { CountryDataAttrition } from './models/country-data-attrition.model';
 
 @Component({
   selector: 'ia-world-map',
@@ -22,13 +22,13 @@ import { CountryData } from './models/country-data.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorldMapComponent implements OnInit {
-  private _data: CountryData[];
+  private _data: CountryDataAttrition[];
 
   @Input() isLoading: boolean;
 
   @Input() selectedTimeRange = '';
 
-  @Input() set data(countryData: CountryData[]) {
+  @Input() set data(countryData: CountryDataAttrition[]) {
     const selectedAreas = [];
     this._data = [...countryData];
 
@@ -44,7 +44,7 @@ export class WorldMapComponent implements OnInit {
     };
   }
 
-  get data(): CountryData[] {
+  get data(): CountryDataAttrition[] {
     return this._data;
   }
 

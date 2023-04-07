@@ -1,6 +1,10 @@
 import { createAction, props, union } from '@ngrx/store';
 
-import { AttritionOverTime, EmployeesRequest } from '../../../shared/models';
+import {
+  AttritionOverTime,
+  EmployeesRequest,
+  FilterDimension,
+} from '../../../shared/models';
 import { ChartType } from '../../models/chart-type.enum';
 import { DimensionFluctuationData } from '../../models/dimension-fluctuation-data.model';
 import {
@@ -8,7 +12,7 @@ import {
   OrgChartEmployee,
   OrgUnitFluctuationRate,
 } from '../../org-chart/models';
-import { CountryData } from '../../world-map/models/country-data.model';
+import { CountryDataAttrition } from '../../world-map/models/country-data-attrition.model';
 
 export const loadOrganizationalViewData = createAction(
   '[Organizational View] Load Organizational View Data'
@@ -71,7 +75,7 @@ export const loadWorldMap = createAction(
 
 export const loadWorldMapSuccess = createAction(
   '[Organizational View] Load World Map Success',
-  props<{ data: CountryData[] }>()
+  props<{ data: CountryDataAttrition[] }>()
 );
 
 export const loadWorldMapFailure = createAction(
@@ -94,19 +98,46 @@ export const loadParentFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
-export const loadAttritionOverTimeOrgChart = createAction(
-  '[Organizational View] Load AttritionOverTime for plus minus three months',
-  props<{ request: EmployeesRequest }>()
+export const loadParentAttritionOverTimeOrgChart = createAction(
+  '[Organizational View] Load Parent AttritionOverTime for plus minus three months',
+  props<{ request: EmployeesRequest; dimensionName: string }>()
 );
 
-export const loadAttritionOverTimeOrgChartSuccess = createAction(
-  '[Organizational View] Load AttritionOverTime for plus minus three months Success',
+export const loadParentAttritionOverTimeOrgChartSuccess = createAction(
+  '[Organizational View] Load Parent AttritionOverTime for plus minus three months Success',
   props<{ data: AttritionOverTime }>()
 );
 
-export const loadAttritionOverTimeOrgChartFailure = createAction(
-  '[Organizational View] Load AttritionOverTime for plus minus three months Failure',
+export const loadParentAttritionOverTimeOrgChartFailure = createAction(
+  '[Organizational View] Load Parent AttritionOverTime for plus minus three months Failure',
   props<{ errorMessage: string }>()
+);
+
+export const loadChildAttritionOverTimeOrgChart = createAction(
+  '[Organizational View] Load Child AttritionOverTime for plus minus three months',
+  props<{
+    filterDimension: FilterDimension;
+    dimensionKey: string;
+    dimensionName: string;
+  }>()
+);
+
+export const loadChildAttritionOverTimeOrgChartSuccess = createAction(
+  '[Organizational View] Load Child AttritionOverTime for plus minus three months Success',
+  props<{ data: AttritionOverTime }>()
+);
+
+export const loadChildAttritionOverTimeOrgChartFailure = createAction(
+  '[Organizational View] Load Child AttritionOverTime for plus minus three months Failure',
+  props<{ errorMessage: string }>()
+);
+
+export const loadChildAttritionOverTimeForWorldMap = createAction(
+  '[Organizational View] Load Child AttritionOverTime for world map',
+  props<{
+    filterDimension: FilterDimension;
+    dimensionName: string;
+  }>()
 );
 
 export const loadOrgChartEmployees = createAction(
@@ -129,18 +160,18 @@ const all = union({
   loadOrgChart,
   loadOrgChartSuccess,
   loadOrgChartFailure,
-  loadOrgUnitFluctuationMeta: loadOrgChartFluctuationMeta,
-  loadOrgUnitFluctuationRate: loadOrgChartFluctuationRate,
-  loadOrgUnitFluctuationRateSuccess: loadOrgChartFluctuationRateSuccess,
-  loadOrgUnitFluctuationRateFailure: loadOrgChartFluctuationRateFailure,
+  loadOrgChartFluctuationMeta,
+  loadOrgChartFluctuationRate,
+  loadOrgChartFluctuationRateSuccess,
+  loadOrgChartFluctuationRateFailure,
   loadWorldMapFluctuationRegionMeta,
   loadWorldMapFluctuationCountryMeta,
   loadWorldMap,
   loadWorldMapSuccess,
   loadWorldMapFailure,
-  loadAttritionOverTimeOrgChart,
-  loadAttritionOverTimeOrgChartSuccess,
-  loadAttritionOverTimeOrgChartFailure,
+  loadParentAttritionOverTimeOrgChart,
+  loadParentAttritionOverTimeOrgChartSuccess,
+  loadParentAttritionOverTimeOrgChartFailure,
   loadOrgChartEmployees,
   loadOrgChartEmployeesSuccess,
   loadOrgChartEmployeesFailure,

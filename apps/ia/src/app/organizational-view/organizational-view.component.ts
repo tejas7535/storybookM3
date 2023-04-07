@@ -8,12 +8,14 @@ import { Store } from '@ngrx/store';
 
 import { getSelectedTimeRange } from '../core/store/selectors';
 import { ChartLegendItem } from '../shared/charts/models/chart-legend-item.model';
-import { IdValue, TailwindColor } from '../shared/models';
+import { FilterDimension, IdValue, TailwindColor } from '../shared/models';
 import { ChartType } from './models/chart-type.enum';
 import { DimensionFluctuationData } from './models/dimension-fluctuation-data.model';
 import { OrgChartData, OrgChartEmployee } from './org-chart/models';
 import {
   chartTypeSelected,
+  loadChildAttritionOverTimeForWorldMap,
+  loadChildAttritionOverTimeOrgChart,
   loadOrgChartEmployees,
   loadOrgChartFluctuationMeta,
   loadParent,
@@ -30,7 +32,7 @@ import {
   getSelectedChartType,
   getWorldMap,
 } from './store/selectors/organizational-view.selector';
-import { CountryData } from './world-map/models/country-data.model';
+import { CountryDataAttrition } from './world-map/models/country-data-attrition.model';
 
 @Component({
   selector: 'ia-organizational-view',
@@ -50,7 +52,7 @@ export class OrganizationalViewComponent implements OnInit {
   isLoadingOrgChart$: Observable<boolean>;
   isLoadingWorldMap$: Observable<boolean>;
   selectedChartType$: Observable<ChartType>;
-  worldMap$: Observable<CountryData[]>;
+  worldMap$: Observable<CountryDataAttrition[]>;
   regions$: Observable<string[]>;
   selectedTimeRange$: Observable<IdValue>;
 
@@ -119,14 +121,33 @@ export class OrganizationalViewComponent implements OnInit {
 
   loadFluctuationMeta(data: DimensionFluctuationData): void {
     this.store.dispatch(loadOrgChartFluctuationMeta({ data }));
+    this.store.dispatch(
+      loadChildAttritionOverTimeOrgChart({
+        filterDimension: data.filterDimension,
+        dimensionKey: data.dimensionKey,
+        dimensionName: data.dimension,
+      })
+    );
   }
 
   loadRegionMeta(region: string): void {
     this.store.dispatch(loadWorldMapFluctuationRegionMeta({ region }));
+    this.store.dispatch(
+      loadChildAttritionOverTimeForWorldMap({
+        filterDimension: FilterDimension.REGION,
+        dimensionName: region,
+      })
+    );
   }
 
   loadCountryMeta(country: string): void {
     this.store.dispatch(loadWorldMapFluctuationCountryMeta({ country }));
+    this.store.dispatch(
+      loadChildAttritionOverTimeForWorldMap({
+        filterDimension: FilterDimension.COUNTRY,
+        dimensionName: country,
+      })
+    );
   }
 
   loadOrgChartEmployees(data: DimensionFluctuationData): void {

@@ -15,9 +15,10 @@ import { LineChartComponent } from '../../shared/charts/line-chart/line-chart.co
 import { SharedModule } from '../../shared/shared.module';
 import { ChartType } from '../models/chart-type.enum';
 import {
-  getAttritionOverTimeOrgChartData,
-  getIsLoadingAttritionOverTimeOrgChart,
+  getChildDimensionName,
   getOrgUnitFluctuationDialogMeta,
+  getParentAttritionOverTimeOrgChartData,
+  getParentIsLoadingAttritionOverTimeOrgChart,
   getWorldMapFluctuationDialogMeta,
 } from '../store/selectors/organizational-view.selector';
 import { AttritionDialogComponent } from './attrition-dialog.component';
@@ -57,20 +58,20 @@ describe('AttritionDialogComponent', () => {
     store = spectator.inject(MockStore);
   });
 
-  it('should create', () => {
+  test('should create', () => {
     expect(component).toBeTruthy();
   });
 
   describe('ngOnInit', () => {
-    it(
+    test(
       'should set fluctuation over time data',
       marbles((m) => {
         const result = 'a' as any;
-        store.overrideSelector(getAttritionOverTimeOrgChartData, result);
+        store.overrideSelector(getParentAttritionOverTimeOrgChartData, result);
 
         component.ngOnInit();
 
-        m.expect(component.fluctuationOverTimeData$).toBeObservable(
+        m.expect(component.parentFluctuationOverTimeData$).toBeObservable(
           m.cold('a', {
             a: result,
           })
@@ -78,15 +79,20 @@ describe('AttritionDialogComponent', () => {
       })
     );
 
-    it(
+    test(
       'should set fluctuationOverTimeDataLoading',
       marbles((m) => {
         const result = true as any;
-        store.overrideSelector(getIsLoadingAttritionOverTimeOrgChart, result);
+        store.overrideSelector(
+          getParentIsLoadingAttritionOverTimeOrgChart,
+          result
+        );
 
         component.ngOnInit();
 
-        m.expect(component.fluctuationOverTimeDataLoading$).toBeObservable(
+        m.expect(
+          component.parentFluctuationOverTimeDataLoading$
+        ).toBeObservable(
           m.cold('a', {
             a: result,
           })
@@ -94,7 +100,7 @@ describe('AttritionDialogComponent', () => {
       })
     );
 
-    it(
+    test(
       'should set meta to org unit if chart type org chart',
       marbles((m) => {
         component.data = ChartType.ORG_CHART;
@@ -111,7 +117,7 @@ describe('AttritionDialogComponent', () => {
       })
     );
 
-    it(
+    test(
       'should set meta to world map if chart type world map',
       marbles((m) => {
         component.data = ChartType.WORLD_MAP;
@@ -121,6 +127,22 @@ describe('AttritionDialogComponent', () => {
         component.ngOnInit();
 
         m.expect(component.meta$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+      })
+    );
+
+    test(
+      'should set child dimension name',
+      marbles((m) => {
+        const result = 'child';
+        store.overrideSelector(getChildDimensionName, result);
+
+        component.ngOnInit();
+
+        m.expect(component.childDimensionName$).toBeObservable(
           m.cold('a', {
             a: result,
           })

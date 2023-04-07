@@ -113,6 +113,22 @@ export const getCurrentFilters = createSelector(
   }
 );
 
+export const getCurrentDimensionValue = createSelector(
+  getAllSelectedFilters,
+  getSelectedDimension,
+  (filters: SelectedFilter[], selectedDimension: FilterDimension) => {
+    const selectedFilters = filters.filter(
+      (filter) => filter.name === selectedDimension
+    );
+
+    const selectedDimensionFilter = selectedFilters.find(
+      (filter) => filter.name === selectedDimension
+    );
+
+    return selectedDimensionFilter?.idValue.value.replace(/\s+\(.*?\)$/g, '');
+  }
+);
+
 export const getSelectedDimensionIdValue = createSelector(
   getAllSelectedFilters,
   getSelectedDimension,

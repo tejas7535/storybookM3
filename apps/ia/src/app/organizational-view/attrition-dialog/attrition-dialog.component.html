@@ -19,9 +19,10 @@
       *transloco="let t; read: 'organizationalView.attritionDialog'"
     >
       <ia-line-chart
-        [config]="fluctuationOverTimeData$ | ngrxPush"
-        [isDataLoading]="fluctuationOverTimeDataLoading$ | ngrxPush"
-        [title]="(referenceOrgUnit$ | ngrxPush) + ' - ' + t('chartTitle')"
+        [config]="parentFluctuationOverTimeData$ | ngrxPush"
+        [isDataLoading]="parentFluctuationOverTimeDataLoading$ | ngrxPush"
+        [title]="(childDimensionName$ | ngrxPush) + ' - ' + t('chartTitle')"
+        [series]="childFluctuationOverTimeData$ | ngrxPush"
       ></ia-line-chart>
     </div>
   </div>

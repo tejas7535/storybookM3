@@ -5,13 +5,15 @@ import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
-import { getSelectOrgUnitValueShort } from '../../core/store/selectors';
 import { ChartType } from '../models/chart-type.enum';
 import {
-  getAttritionOverTimeOrgChartData,
-  getIsLoadingAttritionOverTimeOrgChart,
+  getChildAttritionOverTimeOrgChartSeries,
+  getChildDimensionName,
+  getChildIsLoadingAttritionOverTimeOrgChart,
   getIsLoadingOrgUnitFluctuationRate,
   getOrgUnitFluctuationDialogMeta,
+  getParentAttritionOverTimeOrgChartData,
+  getParentIsLoadingAttritionOverTimeOrgChart,
   getWorldMapFluctuationDialogMeta,
 } from '../store/selectors/organizational-view.selector';
 import { AttritionDialogMeta } from './models/attrition-dialog-meta.model';
@@ -21,12 +23,15 @@ import { AttritionDialogMeta } from './models/attrition-dialog-meta.model';
   templateUrl: './attrition-dialog.component.html',
 })
 export class AttritionDialogComponent implements OnInit {
-  public fluctuationOverTimeData$: Observable<any>;
-  public fluctuationOverTimeDataLoading$: Observable<boolean>;
+  public parentFluctuationOverTimeData$: Observable<any>;
+  public parentFluctuationOverTimeDataLoading$: Observable<boolean>;
+
+  public childFluctuationOverTimeData$: Observable<any>;
+  public childFluctuationOverTimeDataLoading$: Observable<boolean>;
 
   public meta$: Observable<AttritionDialogMeta>;
   public fluctuationLoading$: Observable<boolean>;
-  public referenceOrgUnit$: Observable<string>;
+  public childDimensionName$: Observable<string>;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: ChartType,
@@ -34,13 +39,19 @@ export class AttritionDialogComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.fluctuationOverTimeData$ = this.store.select(
-      getAttritionOverTimeOrgChartData
+    this.parentFluctuationOverTimeData$ = this.store.select(
+      getParentAttritionOverTimeOrgChartData
     );
-    this.fluctuationOverTimeDataLoading$ = this.store.select(
-      getIsLoadingAttritionOverTimeOrgChart
+    this.parentFluctuationOverTimeDataLoading$ = this.store.select(
+      getParentIsLoadingAttritionOverTimeOrgChart
     );
-    this.referenceOrgUnit$ = this.store.select(getSelectOrgUnitValueShort);
+    this.childFluctuationOverTimeData$ = this.store.select(
+      getChildAttritionOverTimeOrgChartSeries
+    );
+    this.childFluctuationOverTimeDataLoading$ = this.store.select(
+      getChildIsLoadingAttritionOverTimeOrgChart
+    );
+    this.childDimensionName$ = this.store.select(getChildDimensionName);
 
     this.meta$ =
       this.data === ChartType.ORG_CHART

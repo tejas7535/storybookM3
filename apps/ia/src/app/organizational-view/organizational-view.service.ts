@@ -23,7 +23,7 @@ import {
   OrgUnitFluctuationRate,
   OrgUnitFluctuationRateResponse,
 } from './org-chart/models';
-import { CountryData, WorldMapResponse } from './world-map/models';
+import { CountryDataAttrition, WorldMapResponse } from './world-map/models';
 
 @Injectable({
   providedIn: 'root',
@@ -78,7 +78,9 @@ export class OrganizationalViewService {
       .pipe(map((response) => response.employees));
   }
 
-  getWorldMap(employeesRequest: EmployeesRequest): Observable<CountryData[]> {
+  getWorldMap(
+    employeesRequest: EmployeesRequest
+  ): Observable<CountryDataAttrition[]> {
     const params = this.paramsCreator.createHttpParamsForDimensionAndTimeRange(
       employeesRequest.filterDimension,
       employeesRequest.value,

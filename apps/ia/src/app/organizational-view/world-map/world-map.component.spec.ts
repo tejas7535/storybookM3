@@ -10,7 +10,7 @@ import { HeatType } from '../../shared/models';
 import { Color } from '../../shared/models/color.enum';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
 import { ChartType } from '../models/chart-type.enum';
-import { CountryData } from './models/country-data.model';
+import { CountryDataAttrition } from './models/country-data-attrition.model';
 import { WorldMapComponent } from './world-map.component';
 
 jest.mock('echarts', () => ({
@@ -51,25 +51,25 @@ describe('WorldMapComponent', () => {
           attritionMeta: {
             heatType: HeatType.GREEN_HEAT,
           },
-        } as unknown as CountryData,
+        } as unknown as CountryDataAttrition,
         {
           name: 'Poland',
           attritionMeta: {
             heatType: HeatType.ORANGE_HEAT,
           },
-        } as unknown as CountryData,
+        } as unknown as CountryDataAttrition,
         {
           name: 'Switzerland',
           attritionMeta: {
             heatType: HeatType.RED_HEAT,
           },
-        } as unknown as CountryData,
+        } as unknown as CountryDataAttrition,
         {
           name: 'Austria',
           attritionMeta: {
             heatType: HeatType.NONE,
           },
-        } as unknown as CountryData,
+        } as unknown as CountryDataAttrition,
       ];
 
       component.createAreaDataObj = jest.fn();

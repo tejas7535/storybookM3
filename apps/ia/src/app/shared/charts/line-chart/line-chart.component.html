@@ -9,6 +9,7 @@
     echarts
     class="h-[330px]"
     [options]="options"
+    [merge]="mergeOptions"
     *ngIf="!isDataLoading; else loading"
   ></div>
 

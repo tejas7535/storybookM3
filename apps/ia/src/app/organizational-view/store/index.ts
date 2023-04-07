@@ -1,15 +1,16 @@
+/* eslint-disable max-lines */
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
 import { AttritionOverTime } from '../../shared/models';
 import { ChartType } from '../models/chart-type.enum';
 import { DimensionFluctuationData } from '../models/dimension-fluctuation-data.model';
 import { OrgChartEmployee, OrgUnitFluctuationRate } from '../org-chart/models';
-import { CountryData } from '../world-map/models/country-data.model';
+import { CountryDataAttrition } from '../world-map/models/country-data-attrition.model';
 import {
   chartTypeSelected,
-  loadAttritionOverTimeOrgChart,
-  loadAttritionOverTimeOrgChartFailure,
-  loadAttritionOverTimeOrgChartSuccess,
+  loadChildAttritionOverTimeOrgChart,
+  loadChildAttritionOverTimeOrgChartFailure,
+  loadChildAttritionOverTimeOrgChartSuccess,
   loadOrgChart,
   loadOrgChartEmployees,
   loadOrgChartEmployeesFailure,
@@ -21,6 +22,9 @@ import {
   loadOrgChartFluctuationRateSuccess,
   loadOrgChartSuccess,
   loadParent,
+  loadParentAttritionOverTimeOrgChart,
+  loadParentAttritionOverTimeOrgChartFailure,
+  loadParentAttritionOverTimeOrgChartSuccess,
   loadParentFailure,
   loadParentSuccess,
   loadWorldMap,
@@ -52,15 +56,24 @@ export interface OrganizationalViewState {
   worldMap: {
     selectedRegion: string;
     selectedCountry: string;
-    data: CountryData[];
+    data: CountryDataAttrition[];
     loading: boolean;
     errorMessage: string;
   };
   selectedChart: ChartType;
   attritionOverTime: {
-    data: AttritionOverTime;
-    loading: boolean;
-    errorMessage: string;
+    parent: {
+      dimensionName: string;
+      data: AttritionOverTime;
+      loading: boolean;
+      errorMessage: string;
+    };
+    child: {
+      dimensionName: string;
+      data: AttritionOverTime;
+      loading: boolean;
+      errorMessage: string;
+    };
   };
 }
 
@@ -90,9 +103,18 @@ export const initialState: OrganizationalViewState = {
   },
   selectedChart: ChartType.ORG_CHART,
   attritionOverTime: {
-    data: undefined,
-    loading: false,
-    errorMessage: undefined,
+    parent: {
+      dimensionName: undefined,
+      data: undefined,
+      loading: false,
+      errorMessage: undefined,
+    },
+    child: {
+      dimensionName: undefined,
+      data: undefined,
+      loading: false,
+      errorMessage: undefined,
+    },
   },
 };
 
@@ -295,28 +317,39 @@ export const organizationalViewReducer = createReducer(
     })
   ),
   on(
-    loadAttritionOverTimeOrgChart,
-    (state: OrganizationalViewState): OrganizationalViewState => ({
+    loadParentAttritionOverTimeOrgChart,
+    (
+      state: OrganizationalViewState,
+      { dimensionName }
+    ): OrganizationalViewState => ({
       ...state,
       attritionOverTime: {
         ...state.attritionOverTime,
-        loading: true,
+        parent: {
+          ...state.attritionOverTime.parent,
+          data: undefined,
+          dimensionName,
+          loading: true,
+        },
       },
     })
   ),
   on(
-    loadAttritionOverTimeOrgChartSuccess,
+    loadParentAttritionOverTimeOrgChartSuccess,
     (state: OrganizationalViewState, { data }): OrganizationalViewState => ({
       ...state,
       attritionOverTime: {
         ...state.attritionOverTime,
-        data,
-        loading: false,
+        parent: {
+          ...state.attritionOverTime.parent,
+          data,
+          loading: false,
+        },
       },
     })
   ),
   on(
-    loadAttritionOverTimeOrgChartFailure,
+    loadParentAttritionOverTimeOrgChartFailure,
     (
       state: OrganizationalViewState,
       { errorMessage }
@@ -324,9 +357,62 @@ export const organizationalViewReducer = createReducer(
       ...state,
       attritionOverTime: {
         ...state.attritionOverTime,
-        errorMessage,
-        data: undefined,
-        loading: false,
+        parent: {
+          ...state.attritionOverTime.parent,
+          errorMessage,
+          data: undefined,
+          loading: false,
+        },
+      },
+    })
+  ),
+  on(
+    loadChildAttritionOverTimeOrgChart,
+    (
+      state: OrganizationalViewState,
+      { dimensionName }
+    ): OrganizationalViewState => ({
+      ...state,
+      attritionOverTime: {
+        ...state.attritionOverTime,
+        child: {
+          ...state.attritionOverTime.child,
+          data: undefined,
+          dimensionName,
+          loading: true,
+        },
+      },
+    })
+  ),
+  on(
+    loadChildAttritionOverTimeOrgChartSuccess,
+    (state: OrganizationalViewState, { data }): OrganizationalViewState => ({
+      ...state,
+      attritionOverTime: {
+        ...state.attritionOverTime,
+        child: {
+          ...state.attritionOverTime.child,
+          data,
+          loading: false,
+        },
+      },
+    })
+  ),
+  on(
+    loadChildAttritionOverTimeOrgChartFailure,
+    (
+      state: OrganizationalViewState,
+      { errorMessage }
+    ): OrganizationalViewState => ({
+      ...state,
+      attritionOverTime: {
+        ...state.attritionOverTime,
+        child: {
+          ...state.attritionOverTime.child,
+          errorMessage,
+          data: undefined,
+          loading: false,
+        },
       },
     })
   ),

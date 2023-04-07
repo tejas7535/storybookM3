@@ -1,5 +1,5 @@
-import { CountryData } from './country-data.model';
+import { CountryDataAttrition } from './country-data-attrition.model';
 
 export interface WorldMapResponse {
-  data: CountryData[];
+  data: CountryDataAttrition[];
 }

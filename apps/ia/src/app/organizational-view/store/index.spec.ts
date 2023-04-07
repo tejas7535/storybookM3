@@ -1,6 +1,10 @@
 import { Action } from '@ngrx/store';
 
-import { AttritionOverTime, EmployeesRequest } from '../../shared/models';
+import {
+  AttritionOverTime,
+  EmployeesRequest,
+  FilterDimension,
+} from '../../shared/models';
 import { ChartType } from '../models/chart-type.enum';
 import { DimensionFluctuationData } from '../models/dimension-fluctuation-data.model';
 import {
@@ -8,13 +12,12 @@ import {
   OrgChartEmployee,
   OrgUnitFluctuationRate,
 } from '../org-chart/models';
-import { CountryData } from '../world-map/models/country-data.model';
+import { CountryDataAttrition } from '../world-map/models/country-data-attrition.model';
 import { initialState, organizationalViewReducer, reducer } from '.';
 import {
   chartTypeSelected,
-  loadAttritionOverTimeOrgChart,
-  loadAttritionOverTimeOrgChartFailure,
-  loadAttritionOverTimeOrgChartSuccess,
+  loadChildAttritionOverTimeOrgChart,
+  loadChildAttritionOverTimeOrgChartSuccess,
   loadOrgChart,
   loadOrgChartEmployees,
   loadOrgChartEmployeesFailure,
@@ -26,6 +29,9 @@ import {
   loadOrgChartFluctuationRateSuccess,
   loadOrgChartSuccess,
   loadParent,
+  loadParentAttritionOverTimeOrgChart,
+  loadParentAttritionOverTimeOrgChartFailure,
+  loadParentAttritionOverTimeOrgChartSuccess,
   loadParentFailure,
   loadParentSuccess,
   loadWorldMap,
@@ -178,7 +184,9 @@ describe('Organization View Reducer', () => {
 
   describe('loadWorldMapSuccess', () => {
     test('should unset loading and set country data', () => {
-      const data: CountryData[] = [{} as unknown as CountryData];
+      const data: CountryDataAttrition[] = [
+        {} as unknown as CountryDataAttrition,
+      ];
 
       const action = loadWorldMapSuccess({ data });
 
@@ -204,33 +212,67 @@ describe('Organization View Reducer', () => {
     });
   });
 
-  describe('loadAttritionOverTimeOrgChart', () => {
+  describe('loadParentAttritionOverTimeOrgChart', () => {
     test('should set loading', () => {
-      const action = loadAttritionOverTimeOrgChart({
+      const dimensionName = 'SH/ZHZ';
+      const action = loadParentAttritionOverTimeOrgChart({
         request: { value: 'ACS' } as EmployeesRequest,
+        dimensionName,
       });
       const state = organizationalViewReducer(initialState, action);
 
-      expect(state.attritionOverTime.loading).toBeTruthy();
+      expect(state.attritionOverTime.parent.loading).toBeTruthy();
     });
   });
 
-  describe('loadAttritionOverTimeOrgChartSuccess', () => {
+  describe('loadParentAttritionOverTimeOrgChartSuccess', () => {
     test('should unset loading and set country data', () => {
       const data: AttritionOverTime = {} as unknown as AttritionOverTime;
 
-      const action = loadAttritionOverTimeOrgChartSuccess({ data });
+      const action = loadParentAttritionOverTimeOrgChartSuccess({ data });
 
       const state = organizationalViewReducer(initialState, action);
 
-      expect(state.attritionOverTime.loading).toBeFalsy();
-      expect(state.attritionOverTime.data).toEqual(data);
+      expect(state.attritionOverTime.parent.loading).toBeFalsy();
+      expect(state.attritionOverTime.parent.data).toEqual(data);
     });
   });
 
-  describe('loadAttritionOverTimeOrgChartFailure', () => {
+  describe('loadChildAttritionOverTimeOrgChart', () => {
+    test('should set loading', () => {
+      const dimensionName = 'SH/ZHZ';
+      const filterDimension = FilterDimension.COUNTRY;
+      const dimensionKey = 'SH/ZHZ';
+
+      const action = loadChildAttritionOverTimeOrgChart({
+        filterDimension,
+        dimensionKey,
+        dimensionName,
+      });
+      const state = organizationalViewReducer(initialState, action);
+
+      expect(state.attritionOverTime.child.loading).toBeTruthy();
+    });
+  });
+
+  describe('loadChildAttritionOverTimeOrgChartSuccess', () => {
+    test('should unset loading and set country data', () => {
+      const data: AttritionOverTime = {} as unknown as AttritionOverTime;
+
+      const action = loadChildAttritionOverTimeOrgChartSuccess({ data });
+
+      const state = organizationalViewReducer(initialState, action);
+
+      expect(state.attritionOverTime.child.loading).toBeFalsy();
+      expect(state.attritionOverTime.child.data).toEqual(data);
+    });
+  });
+
+  describe('loadParentAttritionOverTimeOrgChartFailure', () => {
     test('should unset loading / set error message', () => {
-      const action = loadAttritionOverTimeOrgChartFailure({ errorMessage });
+      const action = loadParentAttritionOverTimeOrgChartFailure({
+        errorMessage,
+      });
       const fakeState = {
         ...initialState,
         attritionOverTime: {
@@ -241,8 +283,8 @@ describe('Organization View Reducer', () => {
 
       const state = organizationalViewReducer(fakeState, action);
 
-      expect(state.attritionOverTime.loading).toBeFalsy();
-      expect(state.attritionOverTime.errorMessage).toEqual(errorMessage);
+      expect(state.attritionOverTime.parent.loading).toBeFalsy();
+      expect(state.attritionOverTime.parent.errorMessage).toEqual(errorMessage);
     });
   });
 
