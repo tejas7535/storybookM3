@@ -141,8 +141,8 @@ describe('Filter Reducer', () => {
   });
 
   describe('getInitialSelectedTimeRange', () => {
-    test('should return one month earlier when 9th day of month', () => {
-      const today = moment.utc({ year: 2022, month: 5, day: 9 });
+    test('should return one month earlier when 13th day of month', () => {
+      const today = moment.utc({ year: 2022, month: 5, day: 13 });
 
       const result = getInitialSelectedTimeRange(today);
 
