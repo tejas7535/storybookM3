@@ -23,13 +23,8 @@ export interface BasicFrequency {
   id: string;
   title: string;
   abbreviation: string;
-  values?: [
-    {
-      content: string;
-      index: number;
-      unit: string;
-    }
-  ];
+  value: number;
+  unit: string;
 }
 
 export interface CalculationResultPreviewItem {

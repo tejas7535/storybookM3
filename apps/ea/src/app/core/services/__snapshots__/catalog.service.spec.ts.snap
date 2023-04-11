@@ -7,9 +7,11 @@ Object {
       "abbreviation": "abc",
       "id": "2",
       "title": "field-title",
+      "unit": "cm",
+      "value": 1233.123,
       "values": Array [
         Object {
-          "content": "context",
+          "content": "1233.123",
           "index": 3,
           "unit": "cm",
         },

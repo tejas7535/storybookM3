@@ -191,4 +191,25 @@ export class CalculationResultEffects {
       )
     );
   });
+
+  public downloadBasicFrequenciesPdf$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(CalculationResultActions.downloadBasicFrequencies),
+        concatLatestFrom(() => [this.productSelectionFacade.bearingId$]),
+        switchMap(([_action, bearingId]) =>
+          this.catalogService.downloadBasicFrequenciesPdf(bearingId).pipe(
+            catchError((error: HttpErrorResponse) =>
+              of(
+                CalculationResultActions.setCalculationFailure({
+                  error: error.toString(),
+                })
+              )
+            )
+          )
+        )
+      );
+    },
+    { dispatch: false }
+  );
 }

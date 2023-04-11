@@ -10,7 +10,7 @@ import { CatalogServiceBasicFrequenciesResult } from './catalog.service.interfac
 
 @Injectable({ providedIn: 'root' })
 export class CatalogService {
-  readonly baseUrl = `${environment.baseUrl}/CatalogWebApi/v1/CatalogBearing`;
+  readonly baseUrl = `${environment.catalogBaseUrl}/v1/CatalogBearing`;
 
   constructor(private readonly httpClient: HttpClient) {}
 
@@ -44,7 +44,11 @@ export class CatalogService {
           const result = results.data.results[0];
           const basicFrequencies: BasicFrequenciesResult = {
             title: result.title,
-            rows: result.fields,
+            rows: result.fields.map((field) => ({
+              ...field,
+              value: Number.parseFloat(field.values?.[0].content),
+              unit: field.values?.[0].unit,
+            })),
           };
 
           return basicFrequencies;
@@ -66,6 +70,7 @@ export class CatalogService {
       map((data) => {
         // create download element and click on it
         const downloadLink = document.createElement('a');
+        downloadLink.target = '_blank';
         downloadLink.href = URL.createObjectURL(
           new Blob([data], { type: data.type })
         );

@@ -19,7 +19,7 @@ export class HttpBearinxInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (!req.url.startsWith(environment.baseUrl)) {
+    if (!req.url.startsWith(environment.co2BaseUrl)) {
       return next.handle(req);
     }
 

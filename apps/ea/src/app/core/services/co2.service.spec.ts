@@ -39,7 +39,7 @@ describe('CO2Service', () => {
 
   describe('createModel', () => {
     it('should call the service to create a model', waitForAsync(() => {
-      const url = `${environment.baseUrl}/CO2Calculator.WebApi/v1.3/co2calculator/create?designation=abc`;
+      const url = `${environment.co2BaseUrl}/v1.3/co2calculator/create?designation=abc`;
       const mockResult = 'my-result';
 
       firstValueFrom(co2Service.createModel('abc')).then((res) => {
@@ -54,7 +54,7 @@ describe('CO2Service', () => {
 
   describe('updateModel', () => {
     it('should call the service to update the model', waitForAsync(() => {
-      const url = `${environment.baseUrl}/CO2Calculator.WebApi/v1.3/co2calculator/my-id/update`;
+      const url = `${environment.co2BaseUrl}/v1.3/co2calculator/my-id/update`;
 
       firstValueFrom(
         co2Service.updateModel(
@@ -74,7 +74,7 @@ describe('CO2Service', () => {
 
   describe('calculateModel', () => {
     it('should call the service to calculate the model', waitForAsync(() => {
-      const url = `${environment.baseUrl}/CO2Calculator.WebApi/v1.3/co2calculator/my-id/calculate`;
+      const url = `${environment.co2BaseUrl}/v1.3/co2calculator/my-id/calculate`;
       const mockResult = 'my-calculationid';
 
       firstValueFrom(co2Service.calculateModel('my-id')).then((res) => {
@@ -89,7 +89,7 @@ describe('CO2Service', () => {
 
   describe('getCalculationResult', () => {
     it('should call the service to get the calculation result', waitForAsync(() => {
-      const url = `${environment.baseUrl}/CO2Calculator.WebApi/v1.3/co2calculator/my-id/output/my-calcid`;
+      const url = `${environment.co2BaseUrl}/v1.3/co2calculator/my-id/output/my-calcid`;
       const mockResult = 'my-result';
 
       firstValueFrom(
@@ -104,7 +104,7 @@ describe('CO2Service', () => {
     }));
 
     it('should handle retries gracefully', waitForAsync(() => {
-      const url = `${environment.baseUrl}/CO2Calculator.WebApi/v1.3/co2calculator/my-id/output/my-calcid`;
+      const url = `${environment.co2BaseUrl}/v1.3/co2calculator/my-id/output/my-calcid`;
       const mockResult = 'my-result';
 
       firstValueFrom(
@@ -119,7 +119,7 @@ describe('CO2Service', () => {
     }));
 
     it('should handle true errors gracefully', waitForAsync(() => {
-      const url = `${environment.baseUrl}/CO2Calculator.WebApi/v1.3/co2calculator/my-id/output/my-calcid`;
+      const url = `${environment.co2BaseUrl}/v1.3/co2calculator/my-id/output/my-calcid`;
       const mockResult = 'my-result';
 
       firstValueFrom(co2Service.getCalculationResult('my-id', 'my-calcid'))

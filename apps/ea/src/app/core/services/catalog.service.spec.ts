@@ -35,7 +35,7 @@ describe('CatalogService', () => {
 
   describe('getBearingIdFromDesignation', () => {
     it('should call the service to return a bearing id', waitForAsync(() => {
-      const url = `${environment.baseUrl}/CatalogWebApi/v1/CatalogBearing/product/id?designation=abc`;
+      const url = `${environment.catalogBaseUrl}/v1/CatalogBearing/product/id?designation=abc`;
       const mockResult = { id: 'my-id' };
 
       firstValueFrom(catalogService.getBearingIdFromDesignation('abc')).then(
@@ -68,7 +68,7 @@ describe('CatalogService', () => {
                   abbreviation: 'abc',
                   id: '2',
                   title: 'field-title',
-                  values: [{ content: 'context', index: 3, unit: 'cm' }],
+                  values: [{ index: 3, content: '1233.123', unit: 'cm' }],
                 },
               ],
               id: '1',
@@ -77,7 +77,7 @@ describe('CatalogService', () => {
           ],
         },
       };
-      const url = `${environment.baseUrl}/CatalogWebApi/v1/CatalogBearing/product/basicfrequencies/my-id`;
+      const url = `${environment.catalogBaseUrl}/v1/CatalogBearing/product/basicfrequencies/my-id`;
 
       firstValueFrom(catalogService.getBasicFrequencies('my-id')).then(
         (res) => {
@@ -108,7 +108,7 @@ describe('CatalogService', () => {
     });
 
     it('should call the service to get basic frequencies as PDF', waitForAsync(() => {
-      const url = `${environment.baseUrl}/CatalogWebApi/v1/CatalogBearing/product/basicfrequencies/pdf/my-id`;
+      const url = `${environment.catalogBaseUrl}/v1/CatalogBearing/product/basicfrequencies/pdf/my-id`;
       const mockResult = new Blob();
 
       firstValueFrom(catalogService.getBasicFrequenciesPdf('my-id')).then(

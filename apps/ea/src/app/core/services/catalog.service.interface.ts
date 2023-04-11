@@ -1,5 +1,5 @@
 export interface CatalogServiceBasicFrequenciesResult {
-  data?: {
+  data: {
     status: string;
     message: string;
     results: [

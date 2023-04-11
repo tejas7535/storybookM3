@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTableModule } from '@angular/material/table';
 
 import { Observable } from 'rxjs';
 
@@ -27,6 +28,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
     PushModule,
     SharedTranslocoModule,
     MatIconModule,
+    MatTableModule,
     MatButtonModule,
     MatDialogModule,
     MatProgressSpinnerModule,
@@ -36,6 +38,8 @@ export class BasicFrequenciesComponent implements OnInit {
   public readonly bearingDesignation$: Observable<string>;
   public readonly basicFrequencies$: Observable<BasicFrequenciesResult>;
   public readonly isLoading$: Observable<boolean>;
+
+  public readonly columnsToDisplay = ['name', 'abbreviation', 'value'];
 
   constructor(
     private readonly calculationResultFacade: CalculationResultFacade,

@@ -77,6 +77,13 @@ export const calculationResultReducer = createReducer(
     })
   ),
   on(
+    CalculationResultActions.setBasicFrequenciesResult,
+    (state, { basicFrequenciesResult }): CalculationResultState => ({
+      ...state,
+      basicFrequenciesResult,
+    })
+  ),
+  on(
     CalculationResultActions.setLoading,
     (state, { isLoading }): CalculationResultState => ({
       ...state,
