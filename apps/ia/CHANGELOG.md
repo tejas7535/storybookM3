@@ -1,4 +1,22 @@
 # Release Notes of Insight Attrition
+## [1.0.7](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ia-v1.0.6...ia-v1.0.7) (2023-04-11)
+
+
+### Features
+
+* **ia:** add chart series from selected org/geo node (IA-451) ([#5169](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5169)) ([a507934](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a50793410c820db98d7ca8f8d1b1c2d42834f427))
+* **ia:** add single month filter (IA-393) ([#5155](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5155)) ([2bcf80a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2bcf80a7ebae2594450f4d0e7a35921c10ab8fa2))
+* **ia:** change import date ([#5178](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5178)) ([db575da](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/db575da0275cf29307e02739e168881aa741997e))
+* **ia:** rename titles (IA-1129)(IA-1130) ([#5114](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5114)) ([b000ed8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b000ed85161698dfc73429ca26bad807d0e1d8a5))
+* **ia:** rework employee list dialog (IA-1134) ([#5111](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5111)) ([362d340](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/362d34038e603fe29cf4a5c282be0f591602a183))
+* **ia:** set mi interval for chart (IA-1097) ([#5116](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5116)) ([4dc2a72](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4dc2a72ca232c1f7bc448cce6428bc801c657137))
+* **ia:** trim global filter value (IA-1098) ([#5171](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5171)) ([d5f1b43](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d5f1b43d895ea6b59f7a97039c3b13f284abe16f))
+
+
+### Bug Fixes
+
+* **ia:** add right margin to shap chart (IA-1149) ([#5172](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5172)) ([75f38c7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/75f38c7e42f571dc5cde8fe7fa2df58767719429))
+
 ## [1.0.6](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ia-v1.0.5...ia-v1.0.6) (2023-03-13)
 
 
