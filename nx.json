@@ -7,7 +7,8 @@
     "pnpm-lock.yaml": "*",
     ".eslintrc.json": "*",
     "Jenkinsfile": "*",
-    "deployments.json": "*"
+    "deployments.json": "*",
+    ".npmrc": "*"
   },
   "affected": {
     "defaultBase": "master"
