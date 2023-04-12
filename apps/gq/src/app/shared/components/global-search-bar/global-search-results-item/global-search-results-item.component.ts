@@ -20,19 +20,11 @@ export class GlobalSearchResultsItemComponent {
     this.quotationSummary = searchResult;
 
     const gpi = PriceService.calculateMargin(
-      PriceService.roundValue(
-        searchResult.materialPrice,
-        searchResult.materialQuantity
-      ),
-      PriceService.roundValue(
-        searchResult.materialGpc,
-        searchResult.materialQuantity
-      )
+      searchResult.materialPrice,
+      searchResult.materialGpc
     );
 
-    this.materialGpi = this.helperService.transformPercentage(
-      PriceService.roundToTwoDecimals(gpi)
-    );
+    this.materialGpi = this.helperService.transformPercentage(gpi);
   }
   @Output() gqIdSelected = new EventEmitter<QuotationSearchResult>();
   @Output() contextMenu = new EventEmitter<MouseEvent>();

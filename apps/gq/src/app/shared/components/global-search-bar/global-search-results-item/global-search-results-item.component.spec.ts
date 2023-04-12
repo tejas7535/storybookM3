@@ -5,7 +5,7 @@ import {
   QuotationSearchResult,
   QuotationStatus,
 } from '@gq/shared/models/quotation';
-import { NumberCurrencyPipe } from '@gq/shared/pipes/number-currency/number-currency.pipe';
+import { MultiplyWithPriceUnitPipe } from '@gq/shared/pipes/multiply-with-price-unit/multiply-with-price-unit.pipe';
 import { HelperService } from '@gq/shared/services/helper/helper.service';
 import { PriceService } from '@gq/shared/services/price/price.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
@@ -34,7 +34,7 @@ describe('GlobalSearchResultsItemComponent', () => {
     declarations: [
       GlobalSearchResultsItemComponent,
       MockDirective(isTextTruncatedDirective),
-      MockPipe(NumberCurrencyPipe),
+      MockPipe(MultiplyWithPriceUnitPipe),
     ],
     detectChanges: false,
   });
@@ -72,13 +72,10 @@ describe('GlobalSearchResultsItemComponent', () => {
     });
 
     it('should set materialGpi', () => {
-      const MOCK_GPI = 0.078_91;
+      const MOCK_GPI = 7.89;
       const MOCK_GPI_PERCENTAGE = '7.89 %';
 
       PriceService.roundValue = jest.fn().mockImplementation((val) => val);
-      PriceService.roundToTwoDecimals = jest
-        .fn()
-        .mockImplementation((val) => val);
       PriceService.calculateMargin = jest.fn().mockReturnValue(MOCK_GPI);
       helperService.transformPercentage = jest
         .fn()
@@ -87,18 +84,11 @@ describe('GlobalSearchResultsItemComponent', () => {
       spectator.setInput('searchResult', searchResult);
       spectator.detectChanges();
 
-      expect(PriceService.roundValue).toHaveBeenCalledTimes(2);
-      expect(PriceService.roundValue).toHaveBeenCalledWith(
-        searchResult.materialPrice,
-        searchResult.materialQuantity
-      );
-      expect(PriceService.roundValue).toHaveBeenCalledWith(
-        searchResult.materialGpc,
-        searchResult.materialQuantity
-      );
       expect(PriceService.calculateMargin).toHaveBeenCalledTimes(1);
-      expect(PriceService.roundToTwoDecimals).toBeCalledTimes(1);
-      expect(PriceService.roundToTwoDecimals).toHaveBeenCalledWith(MOCK_GPI);
+      expect(PriceService.calculateMargin).toBeCalledWith(
+        searchResult.materialPrice,
+        searchResult.materialGpc
+      );
       expect(helperService.transformPercentage).toHaveBeenCalledTimes(1);
       expect(helperService.transformPercentage).toHaveBeenCalledWith(MOCK_GPI);
       expect(component.materialGpi).toEqual(MOCK_GPI_PERCENTAGE);

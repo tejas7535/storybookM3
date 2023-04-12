@@ -38,7 +38,10 @@
         <p class="ml-1">
           {{
             quotationSummary.materialPrice
-              | numberCurrency: quotationSummary.currency
+              | multiplyWithPriceUnit
+                : quotationSummary.currency
+                : quotationSummary.materialPriceUnit
+                : quotationSummary.sapPriceUnit
           }}
         </p>
       </div>

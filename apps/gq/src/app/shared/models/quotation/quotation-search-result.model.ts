@@ -11,5 +11,6 @@ export class QuotationSearchResult {
   materialQuantity: number;
   materialGpc: number;
   materialPriceUnit: number;
+  sapPriceUnit: number;
   status: QuotationStatus;
 }

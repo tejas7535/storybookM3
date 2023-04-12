@@ -28,7 +28,6 @@ import { SingleQuotesTabRoutingModule } from './single-quotes-tab.routing.module
 @NgModule({
   declarations: [
     SingleQuotesTabComponent,
-
     AddCustomViewModalComponent,
     DeleteCustomViewModalComponent,
   ],

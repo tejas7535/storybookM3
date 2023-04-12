@@ -31,7 +31,8 @@ export class MultiplyComparableCostWithPriceUnitPipe implements PipeTransform {
 
     const adjustedValue = sapPriceUnit
       ? (value / materialPriceUnit) * sapPriceUnit
-      : value;
+      : // value does not have to be multiplied with materialPriceUnit because it is already saved on that factor in the db
+        value;
 
     return this.helperService.transformMarginDetails(adjustedValue, currency);
   }

@@ -8,7 +8,8 @@ import { MaterialInfoPipe } from './material-info/material-info.pipe';
 import { MaterialTransformPipe } from './material-transform/material-transform.pipe';
 import { MillimeterUnitPipe } from './millimeter-unit/millimeter-unit.pipe';
 import { MultiSelectPipe } from './multi-select/multi-select.pipe';
-import { MultiplyComparableCostWithPriceUnitPipe } from './multiply-with-price-unit/multiply-comparable-cost-with-price-unit.pipe';
+import { MultiplyComparableCostWithPriceUnitPipe } from './multiply-comparable-cost-with-price-unit/multiply-comparable-cost-with-price-unit.pipe';
+import { MultiplyWithPriceUnitPipe } from './multiply-with-price-unit/multiply-with-price-unit.pipe';
 import { NullableStringPipe } from './nullable-string/nullable-string.pipe';
 import { NumberCurrencyPipe } from './number-currency/number-currency.pipe';
 import { PercentagePipe } from './percentage/percentage.pipe';
@@ -32,6 +33,7 @@ import { UomPipe } from './uom/uom.pipe';
     UomPipe,
     IsDashOrEmptyStringPipe,
     MultiplyComparableCostWithPriceUnitPipe,
+    MultiplyWithPriceUnitPipe,
   ],
   imports: [],
   exports: [
@@ -50,6 +52,7 @@ import { UomPipe } from './uom/uom.pipe';
     MaterialClassificationSOPPipe,
     IsDashOrEmptyStringPipe,
     MultiplyComparableCostWithPriceUnitPipe,
+    MultiplyWithPriceUnitPipe,
   ],
   providers: [MaterialTransformPipe],
 })
