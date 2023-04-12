@@ -36,11 +36,11 @@ import { AutoCompleteFacade } from '@gq/core/store/facades';
 import { SalesOrg } from '@gq/core/store/reducers/models';
 import { getAvailableCurrencies, getSalesOrgs } from '@gq/core/store/selectors';
 import { IdValue } from '@gq/shared/models/search';
-import { ShipToParty } from '@gq/shared/services/rest-services/quotation-service/models/ship-to-party';
+import { ShipToParty } from '@gq/shared/services/rest/quotation/models/ship-to-party';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
 
-import { UpdateQuotationRequest } from '../../../services/rest-services/quotation-service/models/update-quotation-request.model';
+import { UpdateQuotationRequest } from '../../../services/rest/quotation/models/update-quotation-request.model';
 import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete-request-dialog.enum';
 import { FilterNames } from '../../autocomplete-input/filter-names.enum';
 

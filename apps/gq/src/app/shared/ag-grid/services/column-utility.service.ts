@@ -2,9 +2,9 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import { Injectable } from '@angular/core';
 
 import { CalculationType } from '@gq/core/store/reducers/models';
-import { HelperService } from '@gq/shared/services/helper-service/helper-service.service';
+import { HelperService } from '@gq/shared/services/helper/helper.service';
 import { MaterialNumberService } from '@gq/shared/services/material-number/material-number.service';
-import { PriceService } from '@gq/shared/services/price-service/price.service';
+import { PriceService } from '@gq/shared/services/price/price.service';
 import { translate } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import {

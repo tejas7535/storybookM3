@@ -20,8 +20,8 @@ import { Store } from '@ngrx/store';
 import { Keyboard } from '../../../models';
 import { MaterialTableItem } from '../../../models/table/material-table-item-model';
 import { ValidationDescription } from '../../../models/table/validation-description.enum';
-import { HelperService } from '../../../services/helper-service/helper-service.service';
-import { PasteMaterialsService } from '../../../services/paste-materials-service/paste-materials.service';
+import { HelperService } from '../../../services/helper/helper.service';
+import { PasteMaterialsService } from '../../../services/paste-materials/paste-materials.service';
 import { AutocompleteInputComponent } from '../../autocomplete-input/autocomplete-input.component';
 import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete-request-dialog.enum';
 

@@ -1,5 +1,5 @@
 import { QuotationStatus } from '../../../../shared/models/quotation/quotation-status.enum';
-import { GetQuotationsResponse } from '../../../../shared/services/rest-services/quotation-service/models/get-quotations-response.interface';
+import { GetQuotationsResponse } from '../../../../shared/services/rest/quotation/models/get-quotations-response.interface';
 import {
   deselectCase,
   loadCases,

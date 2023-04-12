@@ -56,8 +56,8 @@ import {
   QuotationDetail,
   SapPriceCondition,
 } from '../../shared/models/quotation-detail';
-import { AgGridStateService } from '../../shared/services/ag-grid-state.service/ag-grid-state.service';
-import { PriceService } from '../../shared/services/price-service/price.service';
+import { AgGridStateService } from '../../shared/services/ag-grid-state/ag-grid-state.service';
+import { PriceService } from '../../shared/services/price/price.service';
 import {
   COMPONENTS,
   DEFAULT_COLUMN_DEFS,

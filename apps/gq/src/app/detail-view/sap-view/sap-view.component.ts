@@ -21,7 +21,7 @@ import { Breadcrumb } from '@schaeffler/breadcrumbs';
 import { TableContext } from '../../process-case-view/quotation-details-table/config/tablecontext.model';
 import { Customer } from '../../shared/models/customer';
 import { QuotationDetail } from '../../shared/models/quotation-detail';
-import { BreadcrumbsService } from '../../shared/services/breadcrumbs-service/breadcrumbs.service';
+import { BreadcrumbsService } from '../../shared/services/breadcrumbs/breadcrumbs.service';
 
 @Component({
   selector: 'gq-sap-view',

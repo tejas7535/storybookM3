@@ -14,8 +14,8 @@ import {
 } from 'echarts';
 
 import { Customer } from '../../../../shared/models/customer';
-import { HelperService } from '../../../../shared/services/helper-service/helper-service.service';
-import { PriceService } from '../../../../shared/services/price-service/price.service';
+import { HelperService } from '../../../../shared/services/helper/helper.service';
+import { PriceService } from '../../../../shared/services/price/price.service';
 import { DataPoint } from '../models/data-point.model';
 import { ToolTipItems } from '../models/tooltip-items.enum';
 import { LEGEND, TOOLTIP_CONFIG } from './chart.config';

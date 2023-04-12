@@ -23,8 +23,8 @@ import {
 import { StatusBarModalComponent } from '../../../components/modal/status-bar-modal/status-bar-modal.component';
 import { StatusBarProperties } from '../../../models';
 import { SharedPipesModule } from '../../../pipes/shared-pipes.module';
-import { HelperService } from '../../../services/helper-service/helper-service.service';
-import { PriceService } from '../../../services/price-service/price.service';
+import { HelperService } from '../../../services/helper/helper.service';
+import { PriceService } from '../../../services/price/price.service';
 import { QuotationDetailsStatusComponent } from './quotation-details-status.component';
 
 jest.mock('@ngneat/transloco', () => ({

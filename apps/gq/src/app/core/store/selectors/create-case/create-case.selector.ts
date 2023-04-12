@@ -7,8 +7,8 @@ import {
   MaterialQuantities,
   MaterialTableItem,
 } from '../../../../shared/models/table';
-import { CreateCustomerCase } from '../../../../shared/services/rest-services/search-service/models/create-customer-case.model';
-import { TableService } from '../../../../shared/services/table-service/table.service';
+import { CreateCustomerCase } from '../../../../shared/services/rest/search/models/create-customer-case.model';
+import { TableService } from '../../../../shared/services/table/table.service';
 import { getCaseState } from '../../reducers';
 import { CreateCaseState } from '../../reducers/create-case/create-case.reducer';
 import {

@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { updateQuotationDetails } from '@gq/core/store/actions';
 import { ProcessCaseState } from '@gq/core/store/reducers/process-case/process-case.reducer';
-import { PriceService } from '@gq/shared/services/price-service/price.service';
+import { PriceService } from '@gq/shared/services/price/price.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';

@@ -33,8 +33,8 @@ import { Store } from '@ngrx/store';
 import { ColumnFields } from '../../../ag-grid/constants/column-fields.enum';
 import * as constants from '../../../constants';
 import { PriceSource, QuotationDetail } from '../../../models/quotation-detail';
-import { HelperService } from '../../../services/helper-service/helper-service.service';
-import { PriceService } from '../../../services/price-service/price.service';
+import { HelperService } from '../../../services/helper/helper.service';
+import { PriceService } from '../../../services/price/price.service';
 import { KpiValue } from './kpi-value.model';
 
 @Component({

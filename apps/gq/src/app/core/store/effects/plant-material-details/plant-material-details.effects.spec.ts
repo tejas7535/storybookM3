@@ -11,7 +11,7 @@ import {
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
-import { MaterialService } from '../../../../shared/services/rest-services/material-service/material.service';
+import { MaterialService } from '../../../../shared/services/rest/material/material.service';
 import {
   loadPlantMaterialDetails,
   loadPlantMaterialDetailsFailure,

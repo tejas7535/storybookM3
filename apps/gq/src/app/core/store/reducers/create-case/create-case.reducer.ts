@@ -7,7 +7,7 @@ import {
   MaterialTableItem,
   ValidationDescription,
 } from '../../../../shared/models/table';
-import { TableService } from '../../../../shared/services/table-service/table.service';
+import { TableService } from '../../../../shared/services/table/table.service';
 import {
   addRowDataItems,
   autocomplete,

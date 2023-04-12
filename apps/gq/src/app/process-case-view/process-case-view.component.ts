@@ -19,8 +19,8 @@ import { AppRoutePath } from '../app-route-path.enum';
 import { Tab } from '../shared/components/tabs-header/tab.model';
 import { Quotation } from '../shared/models';
 import { SAP_SYNC_STATUS } from '../shared/models/quotation-detail/sap-sync-status.enum';
-import { BreadcrumbsService } from '../shared/services/breadcrumbs-service/breadcrumbs.service';
-import { UpdateQuotationRequest } from '../shared/services/rest-services/quotation-service/models/update-quotation-request.model';
+import { BreadcrumbsService } from '../shared/services/breadcrumbs/breadcrumbs.service';
+import { UpdateQuotationRequest } from '../shared/services/rest/quotation/models/update-quotation-request.model';
 import { ProcessCaseRoutePath } from './process-case-route-path.enum';
 
 @Component({

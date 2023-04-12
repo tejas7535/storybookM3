@@ -25,8 +25,8 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { BASE_STATUS_BAR_CONFIG } from '../../components/case-material/input-table/config';
 import { Keyboard } from '../../models';
 import { StatusBarConfig } from '../../models/table';
-import { PLsSeriesResponse } from '../rest-services/search-service/models/pls-series-response.model';
-import { HelperService } from './helper-service.service';
+import { PLsSeriesResponse } from '../rest/search/models/pls-series-response.model';
+import { HelperService } from './helper.service';
 
 const BASE_COLUMN_DEFS = [
   {
@@ -56,7 +56,7 @@ const BASE_COLUMN_DEFS = [
   },
 ];
 
-describe('HelperServiceService', () => {
+describe('HelperService', () => {
   let service: HelperService;
   let spectator: SpectatorService<HelperService>;
 

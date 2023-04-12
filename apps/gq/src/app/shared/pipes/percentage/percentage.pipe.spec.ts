@@ -1,6 +1,6 @@
 import { createPipeFactory, SpectatorPipe } from '@ngneat/spectator';
 
-import { HelperService } from '../../services/helper-service/helper-service.service';
+import { HelperService } from '../../services/helper/helper.service';
 import { PercentagePipe } from './percentage.pipe';
 
 describe('PercentagePipe', () => {

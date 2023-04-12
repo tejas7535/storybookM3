@@ -12,7 +12,7 @@ import { ViewToggle } from '@schaeffler/view-toggle';
 
 import { FILTER_PARAM_INDICATOR } from '../../../shared/constants';
 import { Quotation } from '../../../shared/models';
-import { AgGridStateService } from '../../../shared/services/ag-grid-state.service/ag-grid-state.service';
+import { AgGridStateService } from '../../../shared/services/ag-grid-state/ag-grid-state.service';
 import { AddCustomViewModalComponent } from './add-custom-view-modal/add-custom-view-modal.component';
 import { DeleteCustomViewModalComponent } from './delete-custom-view-modal/delete-custom-view-modal.component';
 

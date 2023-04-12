@@ -15,7 +15,7 @@ import {
 } from '../../../../../testing/mocks';
 import { StatusBar } from '../../../models';
 import { SharedPipesModule } from '../../../pipes/shared-pipes.module';
-import { HelperService } from '../../../services/helper-service/helper-service.service';
+import { HelperService } from '../../../services/helper/helper.service';
 import { DialogHeaderModule } from '../../header/dialog-header/dialog-header.module';
 import { HorizontalDividerModule } from '../../horizontal-divider/horizontal-divider.module';
 import { LabelTextModule } from '../../label-text/label-text.module';

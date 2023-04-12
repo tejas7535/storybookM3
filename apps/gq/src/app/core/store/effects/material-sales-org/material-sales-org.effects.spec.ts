@@ -10,7 +10,7 @@ import { marbles } from 'rxjs-marbles';
 import { MATERIAL_SALESORG_MOCK } from '../../../../../testing/mocks/models';
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { MaterialSalesOrg } from '../../../../shared/models/quotation-detail/material-sales-org.model';
-import { QuotationDetailsService } from '../../../../shared/services/rest-services/quotation-details-service/quotation-details.service';
+import { QuotationDetailsService } from '../../../../shared/services/rest/quotation-details/quotation-details.service';
 import {
   loadMaterialSalesOrg,
   loadMaterialSalesOrgFailure,

@@ -16,7 +16,7 @@ import {
   basicTableStyle,
   disableTableHorizontalScrollbar,
 } from '../../../shared/constants/table-styles';
-import { AgGridStateService } from '../../../shared/services/ag-grid-state.service/ag-grid-state.service';
+import { AgGridStateService } from '../../../shared/services/ag-grid-state/ag-grid-state.service';
 import {
   COMPONENTS,
   SAP_PRICE_DETAILS_DEFAULT_COLUMN_DEFS,

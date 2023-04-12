@@ -7,7 +7,7 @@ import { InteractionStatus } from '@azure/msal-browser';
 import { createEffect, OnInitEffects } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 
-import { HealthCheckService } from '../../../../shared/services/rest-services/health-check-service/health-check.service';
+import { HealthCheckService } from '../../../../shared/services/rest/health-check/health-check.service';
 import {
   pingHealthCheck,
   pingHealthCheckFailure,

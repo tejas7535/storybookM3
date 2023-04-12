@@ -24,7 +24,7 @@ import {
 import { StatusPanelDef } from 'ag-grid-community';
 import { ColDef } from 'ag-grid-enterprise';
 
-import { PLsSeriesResponse } from '../rest-services/search-service/models/pls-series-response.model';
+import { PLsSeriesResponse } from '../rest/search/models/pls-series-response.model';
 
 @Injectable({
   providedIn: 'root',

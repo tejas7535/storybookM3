@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 import { Keyboard } from '@gq/shared/models';
-import { HelperService } from '@gq/shared/services/helper-service/helper-service.service';
+import { HelperService } from '@gq/shared/services/helper/helper.service';
 
 @Pipe({
   name: 'multiplyComparableCostWithPriceUnit',

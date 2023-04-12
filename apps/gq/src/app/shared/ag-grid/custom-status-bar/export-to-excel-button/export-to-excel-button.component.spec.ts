@@ -32,7 +32,7 @@ import {
   PriceColumns,
 } from '../../../ag-grid/constants/column-fields.enum';
 import { ExportExcel } from '../../../components/modal/export-excel-modal/export-excel.enum';
-import { HelperService } from '../../../services/helper-service/helper-service.service';
+import { HelperService } from '../../../services/helper/helper.service';
 import { excelStyleObjects } from './excel-styles.constants';
 import { ExportToExcelButtonComponent } from './export-to-excel-button.component';
 

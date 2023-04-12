@@ -12,7 +12,7 @@ import {
   CustomView,
   FilterState,
   GridState,
-} from '../../../shared/models/grid-state.model';
+} from '../../models/grid-state.model';
 import { QuotationDetail } from '../../models/quotation-detail';
 
 @Injectable({

@@ -16,7 +16,7 @@ import { IStatusPanelParams, RowNode } from 'ag-grid-community';
 import { StatusBarModalComponent } from '../../../../shared/components/modal/status-bar-modal/status-bar-modal.component';
 import { SimulatedQuotation, StatusBar } from '../../../models';
 import { QuotationDetail } from '../../../models/quotation-detail';
-import { PriceService } from '../../../services/price-service/price.service';
+import { PriceService } from '../../../services/price/price.service';
 
 @Component({
   selector: 'gq-quotation-details-status',

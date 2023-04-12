@@ -1,5 +1,5 @@
 import { Keyboard } from '@gq/shared/models';
-import { HelperService } from '@gq/shared/services/helper-service/helper-service.service';
+import { HelperService } from '@gq/shared/services/helper/helper.service';
 import { createPipeFactory, SpectatorPipe } from '@ngneat/spectator';
 
 import { MultiplyComparableCostWithPriceUnitPipe } from './multiply-comparable-cost-with-price-unit.pipe';

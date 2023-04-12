@@ -8,8 +8,8 @@ import { TranslocoService } from '@ngneat/transloco';
 
 import { EditCaseModalComponent } from '../../shared/components/modal/edit-case-modal/edit-case-modal.component';
 import { Quotation, QuotationStatus } from '../../shared/models';
-import { HelperService } from '../../shared/services/helper-service/helper-service.service';
-import { UpdateQuotationRequest } from '../../shared/services/rest-services/quotation-service/models/update-quotation-request.model';
+import { HelperService } from '../../shared/services/helper/helper.service';
+import { UpdateQuotationRequest } from '../../shared/services/rest/quotation/models/update-quotation-request.model';
 @Component({
   selector: 'gq-header-content',
   styleUrls: ['./header-content.component.scss'],

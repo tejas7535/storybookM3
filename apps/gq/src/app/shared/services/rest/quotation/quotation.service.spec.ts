@@ -12,7 +12,7 @@ import {
 
 import { CUSTOMER_MOCK } from '../../../../../testing/mocks';
 import { ApiVersion, QuotationStatus } from '../../../models';
-import { CreateCustomerCase } from '../search-service/models/create-customer-case.model';
+import { CreateCustomerCase } from '../search/models/create-customer-case.model';
 import { QuotationPaths } from './models/quotation-paths.enum';
 import { ShipToParty } from './models/ship-to-party';
 import { UpdateQuotationRequest } from './models/update-quotation-request.model';

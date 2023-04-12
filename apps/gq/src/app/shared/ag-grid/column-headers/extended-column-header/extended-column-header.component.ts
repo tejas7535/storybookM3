@@ -27,7 +27,7 @@ import {
   QuotationStatus,
 } from '../../../models';
 import { PriceSource, QuotationDetail } from '../../../models/quotation-detail';
-import { HelperService } from '../../../services/helper-service/helper-service.service';
+import { HelperService } from '../../../services/helper/helper.service';
 import { ColumnFields } from '../../constants/column-fields.enum';
 import { ExtendedColumnHeaderComponentParams } from './models/extended-column-header-component-params.model';
 import { PriceSourceOptions } from './models/price-source-options.enum';

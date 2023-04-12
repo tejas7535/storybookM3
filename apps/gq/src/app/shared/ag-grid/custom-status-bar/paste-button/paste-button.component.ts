@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { InfoIconModule } from '@gq/shared/components/info-icon/info-icon.module';
-import { PasteMaterialsService } from '@gq/shared/services/paste-materials-service/paste-materials.service';
+import { PasteMaterialsService } from '@gq/shared/services/paste-materials/paste-materials.service';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 
 import { PasteButtonParams } from './paste-button-params.model';

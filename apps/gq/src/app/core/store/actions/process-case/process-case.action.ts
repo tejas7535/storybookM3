@@ -7,7 +7,7 @@ import {
   MaterialTableItem,
   MaterialValidation,
 } from '../../../../shared/models/table';
-import { ShipToParty } from '../../../../shared/services/rest-services/quotation-service/models/ship-to-party';
+import { ShipToParty } from '../../../../shared/services/rest/quotation/models/ship-to-party';
 import {
   QuotationIdentifier,
   UpdateQuotationDetail,

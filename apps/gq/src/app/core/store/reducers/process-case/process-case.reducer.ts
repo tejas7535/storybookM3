@@ -8,8 +8,8 @@ import {
   MaterialTableItem,
   ValidationDescription,
 } from '../../../../shared/models/table';
-import { PriceService } from '../../../../shared/services/price-service/price.service';
-import { TableService } from '../../../../shared/services/table-service/table.service';
+import { PriceService } from '../../../../shared/services/price/price.service';
+import { TableService } from '../../../../shared/services/table/table.service';
 import {
   addMaterialRowDataItems,
   addMaterials,

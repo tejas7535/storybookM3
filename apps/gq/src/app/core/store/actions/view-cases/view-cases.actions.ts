@@ -1,7 +1,7 @@
 import { createAction, props, union } from '@ngrx/store';
 
 import { QuotationStatus } from '../../../../shared/models/quotation/quotation-status.enum';
-import { GetQuotationsResponse } from '../../../../shared/services/rest-services/quotation-service/models/get-quotations-response.interface';
+import { GetQuotationsResponse } from '../../../../shared/services/rest/quotation/models/get-quotations-response.interface';
 
 export const loadCases = createAction(
   '[View Cases] Get Cases For Authenticated User',

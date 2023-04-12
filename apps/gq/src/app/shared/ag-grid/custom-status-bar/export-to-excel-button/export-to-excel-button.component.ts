@@ -33,8 +33,8 @@ import { ExportExcel } from '../../../components/modal/export-excel-modal/export
 import { ExportExcelModalComponent } from '../../../components/modal/export-excel-modal/export-excel-modal.component';
 import { Keyboard, Quotation } from '../../../models';
 import { UomPipe } from '../../../pipes/uom/uom.pipe';
-import { HelperService } from '../../../services/helper-service/helper-service.service';
-import { PriceService } from '../../../services/price-service/price.service';
+import { HelperService } from '../../../services/helper/helper.service';
+import { PriceService } from '../../../services/price/price.service';
 import {
   ColumnFields,
   DateColumns,

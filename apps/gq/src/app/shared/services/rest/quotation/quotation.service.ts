@@ -9,7 +9,7 @@ import { CreateCase, CreateCaseResponse } from '@gq/core/store/reducers/models';
 import { QuotationSearchResult } from '../../../../shared/models/quotation';
 import { ApiVersion, Quotation } from '../../../models';
 import { QuotationStatus } from '../../../models/quotation/quotation-status.enum';
-import { CreateCustomerCase } from '../search-service/models/create-customer-case.model';
+import { CreateCustomerCase } from '../search/models/create-customer-case.model';
 import { GetQuotationsResponse } from './models/get-quotations-response.interface';
 import { QuotationPaths } from './models/quotation-paths.enum';
 import { UpdateQuotationRequest } from './models/update-quotation-request.model';

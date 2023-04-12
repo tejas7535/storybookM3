@@ -29,7 +29,7 @@ import {
   Coefficients,
   QuotationDetail,
 } from '../../shared/models/quotation-detail';
-import { BreadcrumbsService } from '../../shared/services/breadcrumbs-service/breadcrumbs.service';
+import { BreadcrumbsService } from '../../shared/services/breadcrumbs/breadcrumbs.service';
 
 @Component({
   selector: 'gq-transaction-view',

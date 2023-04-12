@@ -6,7 +6,7 @@ import { getCustomer } from '@gq/core/store/selectors';
 import { Store } from '@ngrx/store';
 
 import { Customer } from '../../../shared/models/customer';
-import { HelperService } from '../../../shared/services/helper-service/helper-service.service';
+import { HelperService } from '../../../shared/services/helper/helper.service';
 
 @Component({
   selector: 'gq-customer-details-tab',

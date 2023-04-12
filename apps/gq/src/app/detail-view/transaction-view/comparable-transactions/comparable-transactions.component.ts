@@ -19,7 +19,7 @@ import { AgGridLocale } from '../../../shared/ag-grid/models/ag-grid-locale.inte
 import { LocalizationService } from '../../../shared/ag-grid/services/localization.service';
 import { basicTableStyle } from '../../../shared/constants';
 import { Quotation } from '../../../shared/models';
-import { AgGridStateService } from '../../../shared/services/ag-grid-state.service/ag-grid-state.service';
+import { AgGridStateService } from '../../../shared/services/ag-grid-state/ag-grid-state.service';
 import { DEFAULT_COLUMN_DEFS } from './config';
 import { ColumnDefService } from './config/column-def.service';
 import { COMPONENTS } from './config/components';

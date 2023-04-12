@@ -11,8 +11,8 @@ import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { QuotationStatus } from '../../../../shared/models/quotation/quotation-status.enum';
-import { GetQuotationsResponse } from '../../../../shared/services/rest-services/quotation-service/models/get-quotations-response.interface';
-import { QuotationService } from '../../../../shared/services/rest-services/quotation-service/quotation.service';
+import { GetQuotationsResponse } from '../../../../shared/services/rest/quotation/models/get-quotations-response.interface';
+import { QuotationService } from '../../../../shared/services/rest/quotation/quotation.service';
 import {
   loadCases,
   loadCasesFailure,

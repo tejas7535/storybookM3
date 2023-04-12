@@ -12,8 +12,8 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
 import { QuotationStatus } from '../../../../shared/models/quotation/quotation-status.enum';
-import { GetQuotationsResponse } from '../../../../shared/services/rest-services/quotation-service/models/get-quotations-response.interface';
-import { QuotationService } from '../../../../shared/services/rest-services/quotation-service/quotation.service';
+import { GetQuotationsResponse } from '../../../../shared/services/rest/quotation/models/get-quotations-response.interface';
+import { QuotationService } from '../../../../shared/services/rest/quotation/quotation.service';
 import {
   loadCases,
   loadCasesFailure,

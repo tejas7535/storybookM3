@@ -7,7 +7,7 @@ import {
   MaterialTableItem,
   MaterialValidation,
 } from '../../../../shared/models/table';
-import { PLsSeriesRequest } from '../../../../shared/services/rest-services/search-service/models/pls-series-request.model';
+import { PLsSeriesRequest } from '../../../../shared/services/rest/search/models/pls-series-request.model';
 import {
   CreateCaseResponse,
   SalesOrg,

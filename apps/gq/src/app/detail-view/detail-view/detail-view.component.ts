@@ -24,8 +24,8 @@ import {
   QuotationDetail,
   SAP_SYNC_STATUS,
 } from '../../shared/models/quotation-detail';
-import { AgGridStateService } from '../../shared/services/ag-grid-state.service/ag-grid-state.service';
-import { BreadcrumbsService } from '../../shared/services/breadcrumbs-service/breadcrumbs.service';
+import { AgGridStateService } from '../../shared/services/ag-grid-state/ag-grid-state.service';
+import { BreadcrumbsService } from '../../shared/services/breadcrumbs/breadcrumbs.service';
 
 @Component({
   selector: 'gq-detail-view',

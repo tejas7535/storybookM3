@@ -12,7 +12,7 @@ import {
   statusBarStlye,
 } from '../../../constants/table-styles';
 import { StatusBarConfig } from '../../../models/table';
-import { HelperService } from '../../../services/helper-service/helper-service.service';
+import { HelperService } from '../../../services/helper/helper.service';
 import {
   BASE_STATUS_BAR_CONFIG,
   COMPONENTS,

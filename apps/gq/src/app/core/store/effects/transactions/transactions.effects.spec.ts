@@ -9,8 +9,8 @@ import { marbles } from 'rxjs-marbles';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { DetailRoutePath } from '../../../../detail-view/detail-route-path.enum';
-import { PriceService } from '../../../../shared/services/price-service/price.service';
-import { QuotationDetailsService } from '../../../../shared/services/rest-services/quotation-details-service/quotation-details.service';
+import { PriceService } from '../../../../shared/services/price/price.service';
+import { QuotationDetailsService } from '../../../../shared/services/rest/quotation-details/quotation-details.service';
 import {
   loadComparableTransactions,
   loadComparableTransactionsFailure,

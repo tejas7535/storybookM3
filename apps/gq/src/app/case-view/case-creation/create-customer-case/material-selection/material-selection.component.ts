@@ -6,7 +6,7 @@ import { getPLsAndSeries } from '@gq/core/store/actions';
 import { SalesIndication } from '@gq/core/store/reducers/models';
 import { Store } from '@ngrx/store';
 
-import { PLsSeriesRequest } from '../../../../shared/services/rest-services/search-service/models/pls-series-request.model';
+import { PLsSeriesRequest } from '../../../../shared/services/rest/search/models/pls-series-request.model';
 import { Selection } from './models/selection.model';
 
 @Component({

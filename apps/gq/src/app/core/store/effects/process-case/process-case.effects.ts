@@ -18,7 +18,7 @@ import { MaterialTableItem } from '@gq/shared/models/table';
 import {
   MaterialValidationRequest,
   MaterialValidationResponse,
-} from '@gq/shared/services/rest-services/material-service/models';
+} from '@gq/shared/services/rest/material/models';
 import { translate } from '@ngneat/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
@@ -33,11 +33,11 @@ import {
   QuotationDetail,
   SAP_SYNC_STATUS,
 } from '../../../../shared/models/quotation-detail';
-import { PriceService } from '../../../../shared/services/price-service/price.service';
-import { MaterialService } from '../../../../shared/services/rest-services/material-service/material.service';
-import { QuotationDetailsService } from '../../../../shared/services/rest-services/quotation-details-service/quotation-details.service';
-import { QuotationService } from '../../../../shared/services/rest-services/quotation-service/quotation.service';
-import { SearchService } from '../../../../shared/services/rest-services/search-service/search.service';
+import { PriceService } from '../../../../shared/services/price/price.service';
+import { MaterialService } from '../../../../shared/services/rest/material/material.service';
+import { QuotationService } from '../../../../shared/services/rest/quotation/quotation.service';
+import { QuotationDetailsService } from '../../../../shared/services/rest/quotation-details/quotation-details.service';
+import { SearchService } from '../../../../shared/services/rest/search/search.service';
 import {
   addMaterialRowDataItems,
   addMaterials,

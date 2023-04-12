@@ -9,7 +9,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { PLsSeriesRequest } from '../../../../shared/services/rest-services/search-service/models/pls-series-request.model';
+import { PLsSeriesRequest } from '../../../../shared/services/rest/search/models/pls-series-request.model';
 import { MaterialSelectionComponent } from './material-selection.component';
 
 describe('MaterialSelectionComponent', () => {

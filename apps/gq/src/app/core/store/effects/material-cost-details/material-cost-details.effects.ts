@@ -6,7 +6,7 @@ import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import { QuotationDetail } from '../../../../shared/models/quotation-detail';
-import { MaterialService } from '../../../../shared/services/rest-services/material-service/material.service';
+import { MaterialService } from '../../../../shared/services/rest/material/material.service';
 import {
   loadMaterialCostDetails,
   loadMaterialCostDetailsFailure,

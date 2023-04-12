@@ -5,7 +5,7 @@ import {
   QuotationDetail,
   UpdatePrice,
 } from '../../../../shared/models/quotation-detail';
-import { PriceService } from '../../../../shared/services/price-service/price.service';
+import { PriceService } from '../../../../shared/services/price/price.service';
 import { DetailRoutePath } from '../../../detail-route-path.enum';
 
 @Component({

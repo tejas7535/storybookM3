@@ -6,7 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { of } from 'rxjs';
 
-import { MaterialValidationRequest } from '@gq/shared/services/rest-services/material-service/models';
+import { MaterialValidationRequest } from '@gq/shared/services/rest/material/models';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
 import { Actions } from '@ngrx/effects';
@@ -32,10 +32,10 @@ import {
   MaterialValidation,
   ValidationDescription,
 } from '../../../../shared/models/table';
-import { MaterialService } from '../../../../shared/services/rest-services/material-service/material.service';
-import { QuotationDetailsService } from '../../../../shared/services/rest-services/quotation-details-service/quotation-details.service';
-import { QuotationService } from '../../../../shared/services/rest-services/quotation-service/quotation.service';
-import { SearchService } from '../../../../shared/services/rest-services/search-service/search.service';
+import { MaterialService } from '../../../../shared/services/rest/material/material.service';
+import { QuotationService } from '../../../../shared/services/rest/quotation/quotation.service';
+import { QuotationDetailsService } from '../../../../shared/services/rest/quotation-details/quotation-details.service';
+import { SearchService } from '../../../../shared/services/rest/search/search.service';
 import {
   addMaterialRowDataItems,
   addMaterials,

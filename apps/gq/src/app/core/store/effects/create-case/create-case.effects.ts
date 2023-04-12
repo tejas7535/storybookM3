@@ -14,14 +14,14 @@ import { FilterNames } from '../../../../shared/components/autocomplete-input/fi
 import { Quotation } from '../../../../shared/models';
 import { IdValue } from '../../../../shared/models/search';
 import { MaterialTableItem } from '../../../../shared/models/table';
-import { HelperService } from '../../../../shared/services/helper-service/helper-service.service';
-import { MaterialService } from '../../../../shared/services/rest-services/material-service/material.service';
+import { HelperService } from '../../../../shared/services/helper/helper.service';
+import { MaterialService } from '../../../../shared/services/rest/material/material.service';
 import {
   MaterialValidationRequest,
   MaterialValidationResponse,
-} from '../../../../shared/services/rest-services/material-service/models';
-import { QuotationService } from '../../../../shared/services/rest-services/quotation-service/quotation.service';
-import { SearchService } from '../../../../shared/services/rest-services/search-service/search.service';
+} from '../../../../shared/services/rest/material/models';
+import { QuotationService } from '../../../../shared/services/rest/quotation/quotation.service';
+import { SearchService } from '../../../../shared/services/rest/search/search.service';
 import {
   addRowDataItems,
   autocomplete,

@@ -1,5 +1,5 @@
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
-import { PriceService } from '@gq/shared/services/price-service/price.service';
+import { PriceService } from '@gq/shared/services/price/price.service';
 
 import {
   CUSTOMER_MOCK,
@@ -12,7 +12,7 @@ import { SAP_SYNC_STATUS } from '../../../../shared/models/quotation-detail/sap-
 import { initialState } from '../../reducers/process-case/process-case.reducer';
 import * as quotationSelectors from './process-case.selectors';
 
-jest.mock('@gq/shared/services/price-service/price.service', () => ({
+jest.mock('@gq/shared/services/price/price.service', () => ({
   PriceService: {
     calculateStatusBarValues: jest
       .fn()

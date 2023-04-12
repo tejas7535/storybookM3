@@ -24,7 +24,7 @@ import { FILTER_PARAM_INDICATOR } from '../../../constants';
 import { QuotationSearchResult } from '../../../models/quotation';
 import { IdValue } from '../../../models/search';
 import { MaterialNumberService } from '../../../services/material-number/material-number.service';
-import { QuotationService } from '../../../services/rest-services/quotation-service/quotation.service';
+import { QuotationService } from '../../../services/rest/quotation/quotation.service';
 import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete-request-dialog.enum';
 import { FilterNames } from '../../autocomplete-input/filter-names.enum';
 import {

@@ -21,13 +21,13 @@ import {
   MaterialValidation,
   ValidationDescription,
 } from '../../../../shared/models/table';
-import { HelperService } from '../../../../shared/services/helper-service/helper-service.service';
-import { MaterialService } from '../../../../shared/services/rest-services/material-service/material.service';
-import { MaterialValidationRequest } from '../../../../shared/services/rest-services/material-service/models';
-import { QuotationService } from '../../../../shared/services/rest-services/quotation-service/quotation.service';
-import { PLsSeriesRequest } from '../../../../shared/services/rest-services/search-service/models/pls-series-request.model';
-import { PLsSeriesResponse } from '../../../../shared/services/rest-services/search-service/models/pls-series-response.model';
-import { SearchService } from '../../../../shared/services/rest-services/search-service/search.service';
+import { HelperService } from '../../../../shared/services/helper/helper.service';
+import { MaterialService } from '../../../../shared/services/rest/material/material.service';
+import { MaterialValidationRequest } from '../../../../shared/services/rest/material/models';
+import { QuotationService } from '../../../../shared/services/rest/quotation/quotation.service';
+import { PLsSeriesRequest } from '../../../../shared/services/rest/search/models/pls-series-request.model';
+import { PLsSeriesResponse } from '../../../../shared/services/rest/search/models/pls-series-response.model';
+import { SearchService } from '../../../../shared/services/rest/search/search.service';
 import {
   addRowDataItems,
   autocomplete,

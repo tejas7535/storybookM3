@@ -1,7 +1,7 @@
 import { Clipboard } from '@angular/cdk/clipboard';
 
 import { CalculationType } from '@gq/core/store/reducers/models';
-import { HelperService } from '@gq/shared/services/helper-service/helper-service.service';
+import { HelperService } from '@gq/shared/services/helper/helper.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';

@@ -16,8 +16,8 @@ import {
 } from '@gq/core/store/selectors';
 import { StatusBarProperties } from '@gq/shared/models';
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
-import { HelperService } from '@gq/shared/services/helper-service/helper-service.service';
-import { PriceService } from '@gq/shared/services/price-service/price.service';
+import { HelperService } from '@gq/shared/services/helper/helper.service';
+import { PriceService } from '@gq/shared/services/price/price.service';
 import { Store } from '@ngrx/store';
 
 import { BarChartData, ChartType } from '../../models';

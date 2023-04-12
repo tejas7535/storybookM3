@@ -20,8 +20,8 @@ import deJson from '../../../assets/i18n/http/de.json';
 import enJson from '../../../assets/i18n/http/en.json';
 import { AppRoutePath } from '../../app-route-path.enum';
 import { ApiVersion } from '../models';
-import { QuotationPaths } from '../services/rest-services/quotation-service/models/quotation-paths.enum';
-import { SearchPaths } from '../services/rest-services/search-service/models/search-paths.enum';
+import { QuotationPaths } from '../services/rest/quotation/models/quotation-paths.enum';
+import { SearchPaths } from '../services/rest/search/models/search-paths.enum';
 import { AUTH_URLS, URL_SUPPORT } from './constants/urls';
 
 export const BYPASS_DEFAULT_ERROR_HANDLING = new HttpContextToken(() => false);

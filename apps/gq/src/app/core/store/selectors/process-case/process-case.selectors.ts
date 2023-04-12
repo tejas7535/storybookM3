@@ -1,6 +1,6 @@
 import { DetailViewQueryParams } from '@gq/shared/models';
 import { QuotationPricingOverview } from '@gq/shared/models/quotation';
-import { PriceService } from '@gq/shared/services/price-service/price.service';
+import { PriceService } from '@gq/shared/services/price/price.service';
 import { createSelector } from '@ngrx/store';
 
 import { TableContext } from '../../../../process-case-view/quotation-details-table/config/tablecontext.model';
@@ -21,7 +21,7 @@ import {
   MaterialQuantities,
   MaterialTableItem,
 } from '../../../../shared/models/table';
-import { TableService } from '../../../../shared/services/table-service/table.service';
+import { TableService } from '../../../../shared/services/table/table.service';
 import { getProcessCaseState } from '../../reducers';
 import {
   AddQuotationDetailsRequest,

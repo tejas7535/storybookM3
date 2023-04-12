@@ -1,7 +1,7 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { HelperService } from '@gq/shared/services/helper-service/helper-service.service';
+import { HelperService } from '@gq/shared/services/helper/helper.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { mockProvider } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';

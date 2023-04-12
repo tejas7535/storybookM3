@@ -9,7 +9,7 @@ import { AppRoutePath } from '../../../app-route-path.enum';
 import { Customer } from '../../models/customer';
 import { BreadcrumbsService } from './breadcrumbs.service';
 
-describe('BreadcrumbsServiceService', () => {
+describe('BreadcrumbsService', () => {
   let service: BreadcrumbsService;
   let spectator: SpectatorService<BreadcrumbsService>;
   const customer = {

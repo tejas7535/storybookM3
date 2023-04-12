@@ -7,7 +7,7 @@ import {
 } from '@gq/core/store/selectors';
 import { StatusBarProperties } from '@gq/shared/models';
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
-import { HelperService } from '@gq/shared/services/helper-service/helper-service.service';
+import { HelperService } from '@gq/shared/services/helper/helper.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -17,7 +17,7 @@ import { marbles } from 'rxjs-marbles';
 import { PROCESS_CASE_STATE_MOCK } from '../../../../../../testing/mocks';
 import { BarChartData } from '../../models';
 import { QuotationByProductLineOrGpsdComponent } from './quotation-by-product-line-or-gpsd.component';
-jest.mock('@gq/shared/services/price-service/price.service', () => ({
+jest.mock('@gq/shared/services/price/price.service', () => ({
   PriceService: {
     calculateStatusBarValues: jest
       .fn()

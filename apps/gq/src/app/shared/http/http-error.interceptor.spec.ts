@@ -24,7 +24,7 @@ import { translate } from '@ngneat/transloco';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { ApiVersion } from '../models';
-import { QuotationPaths } from '../services/rest-services/quotation-service/models/quotation-paths.enum';
+import { QuotationPaths } from '../services/rest/quotation/models/quotation-paths.enum';
 import {
   BYPASS_DEFAULT_ERROR_HANDLING,
   HttpErrorInterceptor,

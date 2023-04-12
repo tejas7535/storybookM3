@@ -21,7 +21,7 @@ import { EditCaseModalComponent } from '../../shared/components/modal/edit-case-
 import { HideIfQuotationHasStatusDirective } from '../../shared/directives/hide-if-quotation-has-status/hide-if-quotation-has-status.directive';
 import { Keyboard } from '../../shared/models';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
-import { HelperService } from '../../shared/services/helper-service/helper-service.service';
+import { HelperService } from '../../shared/services/helper/helper.service';
 import { HeaderContentComponent } from './header-content.component';
 
 describe('HeaderContentComponent', () => {

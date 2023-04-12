@@ -19,7 +19,7 @@ import {
   MaterialTableItem,
   ValidationDescription,
 } from '../../../models/table';
-import { HelperService } from '../../../services/helper-service/helper-service.service';
+import { HelperService } from '../../../services/helper/helper.service';
 import { AutocompleteInputModule } from '../../autocomplete-input/autocomplete-input.module';
 import { AddEntryComponent } from './add-entry.component';
 

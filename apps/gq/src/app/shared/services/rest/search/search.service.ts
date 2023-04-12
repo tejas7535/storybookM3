@@ -9,7 +9,7 @@ import { QuotationIdentifier, SalesOrg } from '@gq/core/store/reducers/models';
 import { ApiVersion } from '../../../models';
 import { Customer } from '../../../models/customer';
 import { AutocompleteSearch, IdValue } from '../../../models/search';
-import { PriceService } from '../../price-service/price.service';
+import { PriceService } from '../../price/price.service';
 import { AutocompleteResponse } from './models/autocomplete-response.model';
 import { PLsSeriesRequest } from './models/pls-series-request.model';
 import { PLsSeriesResponse } from './models/pls-series-response.model';

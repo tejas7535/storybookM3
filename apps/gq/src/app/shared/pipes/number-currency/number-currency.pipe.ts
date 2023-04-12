@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { HelperService } from '../../services/helper-service/helper-service.service';
+import { HelperService } from '../../services/helper/helper.service';
 
 @Pipe({
   name: 'numberCurrency',

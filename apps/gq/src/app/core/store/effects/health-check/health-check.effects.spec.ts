@@ -7,7 +7,7 @@ import { InteractionStatus } from '@azure/msal-browser';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { marbles } from 'rxjs-marbles';
 
-import { HealthCheckService } from '../../../../shared/services/rest-services/health-check-service/health-check.service';
+import { HealthCheckService } from '../../../../shared/services/rest/health-check/health-check.service';
 import {
   pingHealthCheck,
   pingHealthCheckFailure,

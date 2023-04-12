@@ -12,7 +12,7 @@ import {
   userHasManualPriceRole,
   userHasSQVRole,
 } from '@gq/core/store/selectors';
-import { PriceService } from '@gq/shared/services/price-service/price.service';
+import { PriceService } from '@gq/shared/services/price/price.service';
 import { Store } from '@ngrx/store';
 
 import {

@@ -9,7 +9,7 @@ import { marbles } from 'rxjs-marbles';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { MaterialComparableCost } from '../../../../shared/models/quotation-detail/material-comparable-cost.model';
-import { QuotationDetailsService } from '../../../../shared/services/rest-services/quotation-details-service/quotation-details.service';
+import { QuotationDetailsService } from '../../../../shared/services/rest/quotation-details/quotation-details.service';
 import {
   loadMaterialComparableCosts,
   loadMaterialComparableCostsFailure,

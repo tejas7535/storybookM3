@@ -6,8 +6,8 @@ import {
   QuotationStatus,
 } from '@gq/shared/models/quotation';
 import { NumberCurrencyPipe } from '@gq/shared/pipes/number-currency/number-currency.pipe';
-import { HelperService } from '@gq/shared/services/helper-service/helper-service.service';
-import { PriceService } from '@gq/shared/services/price-service/price.service';
+import { HelperService } from '@gq/shared/services/helper/helper.service';
+import { PriceService } from '@gq/shared/services/price/price.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { MockDirective, MockPipe } from 'ng-mocks';
 
