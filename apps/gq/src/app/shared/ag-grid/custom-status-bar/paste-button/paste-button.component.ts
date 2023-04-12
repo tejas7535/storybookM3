@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -7,6 +7,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { InfoIconModule } from '@gq/shared/components/info-icon/info-icon.module';
 import { PasteMaterialsService } from '@gq/shared/services/paste-materials-service/paste-materials.service';
 import { translate, TranslocoModule } from '@ngneat/transloco';
+
+import { PasteButtonParams } from './paste-button-params.model';
 
 @Component({
   selector: 'gq-paste-button',
@@ -21,14 +23,16 @@ import { translate, TranslocoModule } from '@ngneat/transloco';
   standalone: true,
 })
 export class PasteButtonComponent {
-  @Input() public readonly isCaseView: boolean;
+  public isCaseView: boolean;
 
   constructor(
     private readonly pasteMaterialsService: PasteMaterialsService,
     private readonly matSnackBar: MatSnackBar
   ) {}
 
-  agInit(): void {}
+  agInit(params: PasteButtonParams): void {
+    this.isCaseView = params.isCaseView;
+  }
 
   pasteFromClipboard(): void {
     this.pasteMaterialsService.onPasteStart(this.isCaseView);

@@ -10,7 +10,6 @@ import { PushModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { PasteButtonComponent } from '../../../ag-grid/custom-status-bar/paste-button/paste-button.component';
 import { AutocompleteInputModule } from '../../autocomplete-input/autocomplete-input.module';
 import { InfoIconModule } from '../../info-icon/info-icon.module';
 import { AddEntryComponent } from './add-entry.component';
@@ -27,7 +26,6 @@ import { AddEntryComponent } from './add-entry.component';
     PushModule,
     InfoIconModule,
     CommonModule,
-    PasteButtonComponent,
   ],
   exports: [AddEntryComponent],
 })

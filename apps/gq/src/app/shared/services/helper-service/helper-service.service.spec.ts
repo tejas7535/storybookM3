@@ -400,6 +400,13 @@ describe('HelperServiceService', () => {
             align: 'left',
           },
           {
+            statusPanel: PasteButtonComponent,
+            align: 'left',
+            statusPanelParams: {
+              isCaseView: true,
+            },
+          },
+          {
             statusPanel: CreateCaseResetAllButtonComponent,
             align: 'right',
           },
@@ -418,12 +425,15 @@ describe('HelperServiceService', () => {
             align: 'left',
           },
           {
-            statusPanel: ProcessCaseResetAllButtonComponent,
-            align: 'right',
-          },
-          {
             statusPanel: PasteButtonComponent,
             align: 'left',
+            statusPanelParams: {
+              isCaseView: false,
+            },
+          },
+          {
+            statusPanel: ProcessCaseResetAllButtonComponent,
+            align: 'right',
           },
         ],
       };

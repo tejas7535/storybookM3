@@ -61,18 +61,22 @@ export class HelperService {
         : ProcessCaseResetAllButtonComponent,
       align: 'right',
     };
-
-    const adjustedStatusBar = {
-      statusPanels: [...statusBar.statusPanels, addPanel, resetPanel],
+    const pastePanel: StatusPanelDef = {
+      statusPanel: PasteButtonComponent,
+      align: 'left',
+      statusPanelParams: {
+        isCaseView,
+      },
     };
 
-    // only add paste button for adding new items to existing case
-    if (!isCaseView) {
-      adjustedStatusBar.statusPanels.push({
-        statusPanel: PasteButtonComponent,
-        align: 'left',
-      });
-    }
+    const adjustedStatusBar = {
+      statusPanels: [
+        ...statusBar.statusPanels,
+        addPanel,
+        pastePanel,
+        resetPanel,
+      ],
+    };
 
     return adjustedStatusBar;
   }

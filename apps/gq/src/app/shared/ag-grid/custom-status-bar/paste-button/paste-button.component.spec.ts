@@ -9,6 +9,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { PasteButtonComponent } from './paste-button.component';
+import { PasteButtonParams } from './paste-button-params.model';
 
 describe('PasteButtonComponent', () => {
   let component: PasteButtonComponent;
@@ -37,8 +38,22 @@ describe('PasteButtonComponent', () => {
     component = spectator.component;
     matSnackBar = spectator.inject(MatSnackBar);
   });
+
   test('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('agInit', () => {
+    test('should set isCaseView', () => {
+      const params = {
+        isCaseView: true,
+      } as PasteButtonParams;
+      component.isCaseView = false;
+
+      component.agInit(params);
+
+      expect(component.isCaseView).toBeTruthy();
+    });
   });
 
   describe('pasteFromClipboard', () => {
