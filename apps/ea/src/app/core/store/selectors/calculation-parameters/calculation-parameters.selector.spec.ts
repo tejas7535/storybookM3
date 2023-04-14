@@ -5,6 +5,7 @@ import {
   getOperationConditions,
   isCalculationMissingInput,
 } from './calculation-parameters.selector';
+import { getCalculationTypes } from './calculation-types.selector';
 
 describe('Calculation Result Selector', () => {
   const mockState = {
@@ -95,6 +96,18 @@ describe('Calculation Result Selector', () => {
           },
         })
       ).toEqual(false);
+    });
+  });
+
+  describe('getCalculationType', () => {
+    it('should return the calculation type state', () => {
+      expect(
+        getCalculationTypes({
+          calculationParameters: {
+            ...CALCULATION_PARAMETERS_STATE_MOCK,
+          },
+        })
+      ).toEqual(CALCULATION_PARAMETERS_STATE_MOCK.calculationTypes);
     });
   });
 });

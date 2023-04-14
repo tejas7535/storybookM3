@@ -1,0 +1,64 @@
+<div
+  *transloco="let t; read: 'calculationSelection'"
+  class="flex flex-col items-center"
+>
+  <div class="w-24 text-subtitle-1 text-medium-emphasis">{{ t('title')}}</div>
+  <section class="mt-8 flex w-48 flex-col">
+    <div
+      class="mb-2"
+      *ngIf="getCalculationTypesGlobalSelection$ | ngrxPush as selectionState"
+    >
+      <mat-checkbox
+        [disableRipple]="true"
+        color="primary"
+        class="hover:bg-secondary-100 hover:text-primary py-2 px-4 text-medium-emphasis hover:rounded"
+        (click)="selectAllChanged(!selectionState.selectAll || selectionState.indeterminate)"
+        [indeterminate]="selectionState.indeterminate"
+        [checked]="selectionState.selectAll"
+      >
+        <div class="flex">
+          <mat-icon class="mr-2 flex-shrink-0">calculate</mat-icon>
+          <div>{{ t('calculations') }}</div>
+        </div>
+      </mat-checkbox>
+    </div>
+    <mat-divider></mat-divider>
+    <div
+      class="flex pt-4"
+      *ngIf="calculationTypesConfig$ | ngrxPush as calculationTypesConfig"
+    >
+      <ul>
+        <li *ngFor="let config of calculationTypesConfig" class="mt-4">
+          <mat-checkbox
+            [disableRipple]="true"
+            class="hover:bg-secondary-100 hover:text-primary py-2 px-4 hover:rounded"
+            [ngClass]="{'text-low-emphasis': !config.selected, 'text-medium-emphasis': config.selected}"
+            color="primary"
+            [checked]="config.selected"
+            (click)="selectionChanged(!config.selected, config)"
+          >
+            <div class="flex flex-row items-center">
+              <mat-icon
+                class="mr-2 flex-shrink-0"
+                [svgIcon]="config.icon"
+              ></mat-icon>
+              <div class="whitespace-normal text-subtitle-2">
+                {{ t(config.label) }}
+              </div>
+            </div>
+          </mat-checkbox>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="mt-16">
+    <button
+      (click)="onShowBasicFrequenciesDialogClick()"
+      mat-button
+      color="primary"
+    >
+      {{ 'basicFrequencies.showBasicFrequencies' | transloco }}
+    </button>
+  </div>
+</div>

@@ -118,10 +118,4 @@ describe('CalculationParametersComponent', () => {
       });
     });
   });
-
-  describe('ResultOverlay', () => {
-    it('should show the result overlay', () => {
-      expect(spectator.query('ea-calculation-result-preview')).toBeTruthy();
-    });
-  });
 });

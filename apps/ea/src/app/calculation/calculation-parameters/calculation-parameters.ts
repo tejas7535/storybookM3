@@ -11,7 +11,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -28,11 +28,9 @@ import { LetModule, PushModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { BasicFrequenciesComponent } from '../basic-frequencies/basic-frequencies.component';
-import { CalculationResultPreviewComponent } from '../calculation-result-preview/calculation-result-preview';
-
 @Component({
   templateUrl: './calculation-parameters.html',
+  selector: 'ea-calculation-parameters',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
@@ -44,7 +42,6 @@ import { CalculationResultPreviewComponent } from '../calculation-result-preview
     LetModule,
     PushModule,
     SharedTranslocoModule,
-    CalculationResultPreviewComponent,
   ],
 })
 export class CalculationParametersComponent implements OnInit, OnDestroy {
@@ -79,8 +76,7 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly calculationParametersFacade: CalculationParametersFacade,
-    private readonly productSelectionFacade: ProductSelectionFacade,
-    private readonly matDialog: MatDialog
+    private readonly productSelectionFacade: ProductSelectionFacade
   ) {}
 
   ngOnInit() {
@@ -155,9 +151,5 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
   public onResetButtonClick(): void {
     this.operationConditionsForm.reset();
     this.calculationParametersFacade.dispatch(resetCalculationParameters());
-  }
-
-  public onShowBasicFrequenciesDialogClick(): void {
-    this.matDialog.open(BasicFrequenciesComponent);
   }
 }

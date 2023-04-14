@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 
+import { CalculationTypesActions } from '../../actions';
 import {
   operatingParameters,
   resetCalculationParameters,
@@ -30,6 +31,7 @@ describe('calculationParametersReducer', () => {
           axialLoad: 0,
           radialLoad: 0,
         },
+        calculationTypes: {},
       } as CalculationParametersState;
 
       const newState = calculationParametersReducer(
@@ -57,6 +59,123 @@ describe('calculationParametersReducer', () => {
       );
 
       expect(newState).toEqual(initialState);
+    });
+  });
+
+  describe('selectAll', () => {
+    it('should select all', () => {
+      const newState = calculationParametersReducer(
+        {
+          ...initialState,
+          calculationTypes: {
+            ...initialState.calculationTypes,
+            emission: {
+              ...initialState.calculationTypes.emission,
+              disabled: true,
+            },
+          },
+        },
+        CalculationTypesActions.selectAll({ selectAll: true })
+      );
+
+      expect(newState).toEqual(
+        expect.objectContaining({
+          calculationTypes: {
+            emission: expect.objectContaining({
+              selected: true,
+              disabled: true,
+            }),
+            friction: expect.objectContaining({
+              selected: true,
+              disabled: false,
+            }),
+          },
+        })
+      );
+    });
+
+    it('should unselect all if not disabled', () => {
+      const newState = calculationParametersReducer(
+        {
+          ...initialState,
+          calculationTypes: {
+            ...initialState.calculationTypes,
+            emission: {
+              ...initialState.calculationTypes.emission,
+              disabled: true,
+            },
+          },
+        },
+        CalculationTypesActions.selectAll({ selectAll: false })
+      );
+
+      expect(newState).toEqual(
+        expect.objectContaining({
+          calculationTypes: {
+            emission: expect.objectContaining({
+              selected: true,
+              disabled: true,
+            }),
+            friction: expect.objectContaining({
+              selected: false,
+              disabled: false,
+            }),
+          },
+        })
+      );
+    });
+  });
+
+  describe('selectType', () => {
+    it('should select type if unselected', () => {
+      const newState = calculationParametersReducer(
+        initialState,
+        CalculationTypesActions.selectType({
+          select: true,
+          calculationType: 'friction',
+        })
+      );
+
+      expect(newState).toEqual(
+        expect.objectContaining({
+          calculationTypes: expect.objectContaining({
+            friction: expect.objectContaining({
+              selected: true,
+              disabled: false,
+            }),
+          }),
+        })
+      );
+    });
+
+    it('should not change select type if disabled', () => {
+      const newState = calculationParametersReducer(
+        {
+          ...initialState,
+          calculationTypes: {
+            ...initialState.calculationTypes,
+            emission: {
+              ...initialState.calculationTypes.emission,
+              disabled: true,
+            },
+          },
+        },
+        CalculationTypesActions.selectType({
+          select: false,
+          calculationType: 'emission',
+        })
+      );
+
+      expect(newState).toEqual(
+        expect.objectContaining({
+          calculationTypes: expect.objectContaining({
+            emission: expect.objectContaining({
+              selected: true,
+              disabled: true,
+            }),
+          }),
+        })
+      );
     });
   });
 });

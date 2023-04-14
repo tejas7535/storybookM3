@@ -1,10 +1,15 @@
-import { CalculationParametersState } from '@ea/core/store/models';
+import {
+  CalculationParametersCalculationTypes,
+  CalculationParametersState,
+} from '@ea/core/store/models';
 import { Action, createReducer, on } from '@ngrx/store';
 
+import { CalculationTypesActions } from '../../actions';
 import {
   operatingParameters,
   resetCalculationParameters,
 } from '../../actions/calculation-parameters/calculation-parameters.actions';
+import { setCalculationTypes } from '../../actions/calculation-parameters/calculation-types.actions';
 
 export const initialState: CalculationParametersState = {
   operationConditions: {
@@ -21,6 +26,18 @@ export const initialState: CalculationParametersState = {
   energySource: {
     type: 'LB_ELECTRIC_ENERGY',
     electricityRegion: 'LB_EUROPEAN_UNION',
+  },
+  calculationTypes: {
+    emission: {
+      selected: true,
+      visible: true,
+      disabled: false,
+    },
+    friction: {
+      selected: false,
+      visible: true,
+      disabled: false,
+    },
   },
 };
 
@@ -46,6 +63,50 @@ export const calculationParametersReducer = createReducer(
         rotationalSpeed: undefined,
         axialLoad: undefined,
         radialLoad: undefined,
+      },
+    })
+  ),
+
+  on(
+    setCalculationTypes,
+    (state, { calculationTypes }): CalculationParametersState => ({
+      ...state,
+      calculationTypes,
+    })
+  ),
+
+  on(
+    CalculationTypesActions.selectAll,
+    (state, { selectAll }): CalculationParametersState => {
+      const calculationTypes = {} as CalculationParametersCalculationTypes;
+
+      for (const [name, item] of Object.entries(state.calculationTypes)) {
+        calculationTypes[name as keyof CalculationParametersCalculationTypes] =
+          {
+            ...item,
+            selected: item.disabled ? item.selected : selectAll,
+          };
+      }
+
+      return {
+        ...state,
+        calculationTypes,
+      };
+    }
+  ),
+
+  on(
+    CalculationTypesActions.selectType,
+    (state, { calculationType, select }): CalculationParametersState => ({
+      ...state,
+      calculationTypes: {
+        ...state.calculationTypes,
+        [calculationType]: {
+          ...state.calculationTypes[calculationType],
+          selected: state.calculationTypes[calculationType].disabled
+            ? state.calculationTypes[calculationType].selected
+            : select,
+        },
       },
     })
   )

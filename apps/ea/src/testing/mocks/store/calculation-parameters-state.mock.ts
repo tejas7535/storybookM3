@@ -16,4 +16,16 @@ export const CALCULATION_PARAMETERS_STATE_MOCK: CalculationParametersState = {
     type: 'LB_ELECTRIC_ENERGY',
     electricityRegion: 'LB_GERMANY',
   },
+  calculationTypes: {
+    emission: {
+      disabled: true,
+      selected: true,
+      visible: true,
+    },
+    friction: {
+      disabled: false,
+      selected: true,
+      visible: true,
+    },
+  },
 };

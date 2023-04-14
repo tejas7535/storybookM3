@@ -42,5 +42,15 @@
     "dialogTitle": "Basic frequencies for bearing {{bearingDesignation}}",
     "saveAsPdf": "Save as PDF"
   },
+  "calculationSelection": {
+    "title": "Choose your calculations",
+    "calculations": "Calculations",
+    "calculationTypes": {
+      "co2": "CO₂ emissions",
+      "overrollingFrequency": "Overrolling frequency"
+    },
+    "basicFrequency": "Basic Frequencies",
+    "saveAsPDF": "Save as pdf"
+  },
   "unit": {}
 }

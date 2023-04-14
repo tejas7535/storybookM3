@@ -22,8 +22,8 @@ import { CoreModule } from './core/core.module';
           path: '',
           loadComponent: () =>
             import(
-              './calculation/calculation-parameters/calculation-parameters'
-            ).then((m) => m.CalculationParametersComponent),
+              './calculation/calculation-container/calculation-container.component'
+            ).then((m) => m.CalculationContainerComponent),
         },
         { path: '**', redirectTo: '' },
       ],

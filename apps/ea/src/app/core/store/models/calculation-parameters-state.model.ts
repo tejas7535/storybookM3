@@ -3,6 +3,7 @@ import { CO2ServiceBearingData } from '@ea/core/services/co2-service.interface';
 export interface CalculationParametersState {
   operationConditions: CalculationParametersOperationConditions;
   energySource: CalculationParametersEnergySource;
+  calculationTypes: CalculationParametersCalculationTypes;
 }
 
 export interface CalculationParametersOperationConditions {
@@ -24,4 +25,16 @@ export interface CalculationParametersEnergySource {
   type: CO2ServiceBearingData['idscO_CO2_EMISSION_FACTOR_CALCULATION'];
   fossilOrigin?: CO2ServiceBearingData['idscO_CO2_EMISSION_FACTOR_FOSSIL_ORIGIN'];
   electricityRegion?: CO2ServiceBearingData['idscO_CO2_EMISSION_FACTOR_ELECTRICITY_REGIONAL'];
+}
+
+export type CalculationParametersCalculationTypes = Record<
+  'emission' | 'friction',
+  { selected: boolean; visible: boolean; disabled: boolean }
+>;
+
+export interface CalculationParametersCalculationTypeConfig {
+  name: keyof CalculationParametersCalculationTypes;
+  selected: boolean;
+  label: string;
+  icon: string;
 }
