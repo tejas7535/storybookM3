@@ -6,8 +6,11 @@ import {
   Validators,
 } from '@angular/forms';
 
+import {
+  NON_SCHAEFFLER_RHO_FPS,
+  NON_SCHAEFFLER_RHO_SI,
+} from '@ga/shared/constants';
 import { convertCelsiusToFahrenheit } from '@ga/shared/helpers/temperature-helpers';
-import { convertGramToOunces } from '@ga/shared/helpers/weight-helpers';
 import { MeasurementUnits } from '@ga/shared/models';
 import { MeasurementUnitsService } from '@ga/shared/services';
 
@@ -71,11 +74,11 @@ export class CalculationParametersService {
     };
   }
 
-  public getWeightFromGram = (gram: number): number =>
+  public getDensity = (): number =>
     this.measurementUnitsService.getMeasurementUnits() ===
     MeasurementUnits.Imperial
-      ? convertGramToOunces(gram)
-      : gram;
+      ? NON_SCHAEFFLER_RHO_FPS
+      : NON_SCHAEFFLER_RHO_SI;
 
   private readonly getTemperatureFromCelsius = (centigrade: number): number =>
     this.measurementUnitsService.getMeasurementUnits() ===

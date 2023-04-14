@@ -1,6 +1,7 @@
 import { GreaseAlternative, GreaseCategory } from '../models';
 
-export const NON_SCHAEFFLER_RHO = 0.9;
+export const NON_SCHAEFFLER_RHO_SI = 0.9;
+export const NON_SCHAEFFLER_RHO_FPS = 0.032_514_562_800_09;
 
 export const LB_NON_SCHAEFFLER_MPG = 'LB_NON_SCHAEFFLER_MPG';
 export const LB_NON_SCHAEFFLER_HTG = 'LB_NON_SCHAEFFLER_HTG';

@@ -4,6 +4,10 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import {
+  NON_SCHAEFFLER_RHO_FPS,
+  NON_SCHAEFFLER_RHO_SI,
+} from '@ga/shared/constants';
 import { MeasurementUnits } from '@ga/shared/models';
 
 import { CalculationParametersService } from './calculation-parameters.service';
@@ -77,6 +81,24 @@ describe('CalculationParametersService', () => {
       const result = service['operatingTemperatureValidator']()(mockControl);
 
       expect(result).toEqual(undefined);
+    });
+  });
+
+  describe('getDensity', () => {
+    it('should return a SI default density', () => {
+      service['measurementUnitsService'].getMeasurementUnits = jest.fn(
+        () => MeasurementUnits.Metric
+      );
+
+      expect(service.getDensity()).toBe(NON_SCHAEFFLER_RHO_SI);
+    });
+
+    it('should return a FPS default density', () => {
+      service['measurementUnitsService'].getMeasurementUnits = jest.fn(
+        () => MeasurementUnits.Imperial
+      );
+
+      expect(service.getDensity()).toBe(NON_SCHAEFFLER_RHO_FPS);
     });
   });
 });
