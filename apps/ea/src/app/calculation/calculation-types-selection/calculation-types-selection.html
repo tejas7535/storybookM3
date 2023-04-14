@@ -2,7 +2,7 @@
   *transloco="let t; read: 'calculationSelection'"
   class="flex flex-col items-center"
 >
-  <div class="w-24 text-subtitle-1 text-medium-emphasis">{{ t('title')}}</div>
+  <div class="text-subtitle-1 text-medium-emphasis w-24">{{ t('title')}}</div>
   <section class="mt-8 flex w-48 flex-col">
     <div
       class="mb-2"
@@ -11,7 +11,7 @@
       <mat-checkbox
         [disableRipple]="true"
         color="primary"
-        class="hover:bg-secondary-100 hover:text-primary py-2 px-4 text-medium-emphasis hover:rounded"
+        class="hover:bg-secondary-100 hover:text-primary text-medium-emphasis py-2 px-4 hover:rounded"
         (click)="selectAllChanged(!selectionState.selectAll || selectionState.indeterminate)"
         [indeterminate]="selectionState.indeterminate"
         [checked]="selectionState.selectAll"
@@ -42,7 +42,7 @@
                 class="mr-2 flex-shrink-0"
                 [svgIcon]="config.icon"
               ></mat-icon>
-              <div class="whitespace-normal text-subtitle-2">
+              <div class="text-subtitle-2 whitespace-normal">
                 {{ t(config.label) }}
               </div>
             </div>

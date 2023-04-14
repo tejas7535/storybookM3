@@ -21,17 +21,17 @@
   </head>
   <body>
     <div id="app" class="p-3">
-      <div class="text-gray-600 flex items-center justify-center pb-6">
+      <div class="flex items-center justify-center pb-6 text-gray-600">
         <img src="logo.png" alt="logo" />
-        <h1 class="font-mono text-xl pl-3">{{ wrapperAppTitle }}</h1>
+        <h1 class="pl-3 font-mono text-xl">{{ wrapperAppTitle }}</h1>
       </div>
       <div
         class="mx-auto flex flex-row items-center justify-center gap-x-4 px-4 pt-4"
       >
-        <div class="text-gray-500 flex max-w-lg items-center rounded-md border">
+        <div class="flex max-w-lg items-center rounded-md border text-gray-500">
           <label
             for="app-url"
-            class="text-gray-400 bg-gray-50 min-w-fit grow rounded-l-md border-r px-3 py-2.5"
+            class="min-w-fit grow rounded-l-md border-r bg-gray-50 px-3 py-2.5 text-gray-400"
           >
             Webcomponent URL
           </label>
@@ -43,10 +43,10 @@
             class="ml-2 w-full bg-transparent p-2.5 outline-none"
           />
         </div>
-        <div class="text-gray-500 flex max-w-md items-center rounded-md border">
+        <div class="flex max-w-md items-center rounded-md border text-gray-500">
           <label
             for="app-url"
-            class="text-gray-400 bg-gray-50 min-w-fit grow rounded-l-md border-r px-3 py-2.5"
+            class="min-w-fit grow rounded-l-md border-r bg-gray-50 px-3 py-2.5 text-gray-400"
           >
             Webcomponent TAG
           </label>
@@ -60,30 +60,30 @@
         </div>
       </div>
       <div class="mx-auto mb-4 flex max-w-lg gap-4 px-4 pt-4">
-        <div class="text-gray-500 flex items-center rounded-md border">
+        <div class="flex items-center rounded-md border text-gray-500">
           <label
             for="app-height"
-            class="text-gray-400 bg-gray-50 grow rounded-l-md border-r px-3 py-2.5"
+            class="grow rounded-l-md border-r bg-gray-50 px-3 py-2.5 text-gray-400"
           >
             Height
           </label>
           <input
             type="text"
             placeholder="800"
-            v-model="conatinerHeight"
+            v-model="containerHeight"
             id="app-height"
             class="ml-2 w-full bg-transparent p-2.5 outline-none"
           />
           <div
-            class="text-gray-400 bg-gray-50 grow rounded-r-md border-l px-3 py-2.5"
+            class="grow rounded-r-md border-l bg-gray-50 px-3 py-2.5 text-gray-400"
           >
             px
           </div>
         </div>
-        <div class="text-gray-500 flex items-center rounded-md border">
+        <div class="flex items-center rounded-md border text-gray-500">
           <label
             for="app-width"
-            class="text-gray-400 bg-gray-50 grow rounded-l-md border-r px-3 py-2.5"
+            class="grow rounded-l-md border-r bg-gray-50 px-3 py-2.5 text-gray-400"
           >
             Width
           </label>
@@ -95,14 +95,14 @@
             class="ml-2 w-full bg-transparent p-2.5 outline-none"
           />
           <div
-            class="text-gray-400 bg-gray-50 grow rounded-r-md border-l px-3 py-2.5"
+            class="grow rounded-r-md border-l bg-gray-50 px-3 py-2.5 text-gray-400"
           >
             px
           </div>
         </div>
       </div>
       <div
-        class="from-gray-200 to-gray-100 m-0 mx-auto mb-20 overflow-hidden rounded bg-gradient-to-br p-5"
+        class="m-0 mx-auto mb-20 overflow-hidden rounded bg-gradient-to-br from-gray-200 to-gray-100 p-5"
         :style="{ 'height': containerHeight + 'px', width: containerWidth + 'px' }"
       >
         <div v-html="webComponentTag"></div>

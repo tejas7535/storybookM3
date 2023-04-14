@@ -39,7 +39,7 @@ describe('Calculation Parameters Effects', () => {
         actions$ = m.hot('-a', { a: action });
 
         const expected = m.cold('- 250ms b', {
-          b: CalculationResultActions.createModel(),
+          b: CalculationResultActions.createModel({}),
         });
 
         m.expect(effects.operatingParameters$).toBeObservable(expected);

@@ -1,5 +1,5 @@
 export interface ProductSelectionState {
-  bearingDesignation: string;
+  bearingDesignation?: string;
   bearingId?: string;
   error?: string;
 }

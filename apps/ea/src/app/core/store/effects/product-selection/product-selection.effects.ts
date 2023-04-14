@@ -1,12 +1,15 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { catchError, of, switchMap } from 'rxjs';
+import { catchError, mergeMap, of, switchMap } from 'rxjs';
 
 import { CatalogService } from '@ea/core/services/catalog.service';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 
-import { ProductSelectionActions } from '../../actions';
+import {
+  CalculationResultActions,
+  ProductSelectionActions,
+} from '../../actions';
 import { ProductSelectionFacade } from '../../facades/product-selection/product-selection.facade';
 
 @Injectable()
@@ -16,6 +19,16 @@ export class ProductSelectionEffects {
     private readonly catalogService: CatalogService,
     private readonly productSelectionFacade: ProductSelectionFacade
   ) {}
+
+  public setBearingDesignation$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ProductSelectionActions.setBearingDesignation),
+      mergeMap(() => [
+        ProductSelectionActions.fetchBearingId(),
+        CalculationResultActions.createModel({ forceRecreate: true }),
+      ])
+    );
+  });
 
   public fetchBearingId$ = createEffect(() => {
     return this.actions$.pipe(

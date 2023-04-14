@@ -18,7 +18,7 @@ export class CalculationParametersEffects {
     return this.actions$.pipe(
       ofType(CalculationParametersActions.operatingParameters),
       debounceTime(250),
-      switchMap((_action) => of(CalculationResultActions.createModel()))
+      switchMap((_action) => of(CalculationResultActions.createModel({})))
     );
   });
 }

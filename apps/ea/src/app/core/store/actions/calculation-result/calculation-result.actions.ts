@@ -2,7 +2,10 @@ import { createAction, props } from '@ngrx/store';
 
 import { BasicFrequenciesResult, CalculationResult } from '../../models';
 
-export const createModel = createAction('[Calculation Result] Create Model');
+export const createModel = createAction(
+  '[Calculation Result] Create Model',
+  props<{ forceRecreate?: boolean }>()
+);
 
 export const setModelId = createAction(
   '[Calculation Result] Set Model Id',

@@ -3,9 +3,7 @@ import { createReducer, on } from '@ngrx/store';
 import { ProductSelectionActions } from '../../actions';
 import { ProductSelectionState } from '../../models';
 
-export const initialState: ProductSelectionState = {
-  bearingDesignation: '6210-C-2HRS',
-};
+export const initialState: ProductSelectionState = {};
 
 export const productSelectionReducer = createReducer(
   initialState,

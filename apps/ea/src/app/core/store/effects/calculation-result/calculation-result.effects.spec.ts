@@ -85,7 +85,7 @@ describe('Calculation Result Effects', () => {
         .mockImplementation(() => of('model-id-from-service'));
 
       return marbles((m) => {
-        action = CalculationResultActions.createModel();
+        action = CalculationResultActions.createModel({});
         actions$ = m.hot('-a', { a: action });
 
         const expected = m.cold('-(bc)', {
@@ -110,7 +110,7 @@ describe('Calculation Result Effects', () => {
         .mockImplementation(() => of('model-id-from-service'));
 
       return marbles((m) => {
-        action = CalculationResultActions.createModel();
+        action = CalculationResultActions.createModel({});
         actions$ = m.hot('-a', { a: action });
 
         const expected = m.cold('-(bc)', {

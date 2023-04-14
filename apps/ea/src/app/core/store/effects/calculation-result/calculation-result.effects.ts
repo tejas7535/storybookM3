@@ -30,11 +30,12 @@ export class CalculationResultEffects {
         this.productSelectionFacade.bearingDesignation$,
         this.calculationResultFacade.modelId$,
       ]),
-      switchMap(([_action, bearingDesignation, currentModelId]) => {
-        // don't recreate model if already created
-        const modelId$ = currentModelId
-          ? of(currentModelId)
-          : this.co2Service.createModel(bearingDesignation);
+      switchMap(([action, bearingDesignation, currentModelId]) => {
+        // don't recreate model if already created (unless forced)
+        const modelId$ =
+          currentModelId && !action.forceRecreate
+            ? of(currentModelId)
+            : this.co2Service.createModel(bearingDesignation);
 
         return modelId$.pipe(
           switchMap((modelId) => [

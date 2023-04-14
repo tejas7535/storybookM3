@@ -1,12 +1,12 @@
-import { Injector, isDevMode, NgModule } from '@angular/core';
+import { ApplicationRef, DoBootstrap, Injector, NgModule } from '@angular/core';
 import { createCustomElement } from '@angular/elements';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { PreloadAllModules, RouterModule } from '@angular/router';
 
 import { PushModule } from '@ngrx/component';
 
 import { AppComponent } from './app.component';
+import { CalculationContainerComponent } from './calculation/calculation-container/calculation-container.component';
 import { CoreModule } from './core/core.module';
 
 @NgModule({
@@ -16,29 +16,18 @@ import { CoreModule } from './core/core.module';
     CoreModule,
     PushModule,
     BrowserAnimationsModule,
-    RouterModule.forRoot(
-      [
-        {
-          path: '',
-          loadComponent: () =>
-            import(
-              './calculation/calculation-container/calculation-container.component'
-            ).then((m) => m.CalculationContainerComponent),
-        },
-        { path: '**', redirectTo: '' },
-      ],
-      { enableTracing: isDevMode(), preloadingStrategy: PreloadAllModules }
-    ),
+    CalculationContainerComponent,
   ],
   providers: [],
-  bootstrap: [AppComponent],
 })
-export class AppModule {
-  constructor(private readonly injector: Injector) {}
+export class AppModule implements DoBootstrap {
+  constructor(readonly injector: Injector) {
+    const webComponent = createCustomElement(AppComponent, { injector });
+    customElements.define('engineering-app', webComponent);
+  }
 
-  // eslint-disable-next-line @angular-eslint/use-lifecycle-interface
-  ngDoBootstrap() {
-    const el = createCustomElement(AppComponent, { injector: this.injector });
-    customElements.define('engineering-app', el);
+  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
+  ngDoBootstrap(_appRef: ApplicationRef) {
+    // this function is required by Angular but not actually necessary since we create a web component here
   }
 }

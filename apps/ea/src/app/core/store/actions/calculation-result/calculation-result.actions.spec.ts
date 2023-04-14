@@ -14,7 +14,7 @@ import {
 describe('Calculation Result Actions', () => {
   describe('Create Model', () => {
     it('createModel', () => {
-      const action = createModel();
+      const action = createModel({});
 
       expect(action).toEqual({
         type: '[Calculation Result] Create Model',
