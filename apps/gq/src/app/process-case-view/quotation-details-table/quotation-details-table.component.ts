@@ -16,6 +16,13 @@ import {
   getSelectedQuotationDetailIds,
 } from '@gq/core/store/selectors';
 import { ColumnUtilityService } from '@gq/shared/ag-grid/services';
+import {
+  calculateAffectedKPIs,
+  calculateMargin,
+  calculatePriceDiff,
+  getPriceUnit,
+  multiplyAndRoundValues,
+} from '@gq/shared/utils/pricing.utils';
 import { Store } from '@ngrx/store';
 import {
   ColDef,
@@ -57,7 +64,6 @@ import {
   SapPriceCondition,
 } from '../../shared/models/quotation-detail';
 import { AgGridStateService } from '../../shared/services/ag-grid-state/ag-grid-state.service';
-import { PriceService } from '../../shared/services/price/price.service';
 import {
   COMPONENTS,
   DEFAULT_COLUMN_DEFS,
@@ -339,14 +345,14 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
         );
         // set new price source according to targetPriceSource and available data of the position
         const newPriceSource = this.getPriceSource(targetPriceSource, detail);
-        const affectedKpis = PriceService.calculateAffectedKPIs(
+        const affectedKpis = calculateAffectedKPIs(
           newPrice,
           ColumnFields.PRICE,
           row.data,
           false
         );
 
-        const priceUnit = PriceService.getPriceUnit(row.data);
+        const priceUnit = getPriceUnit(row.data);
         const simulatedPrice = this.getAffectedKpi(affectedKpis, 'price');
 
         const simulatedRow: QuotationDetail = {
@@ -354,21 +360,18 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
           price: simulatedPrice,
           priceSource: newPriceSource,
           // to correctly calculate the new netValue, the orderQuantity has to be divided by the old priceUnit, since the priceUnit might be > 1 but isn't part of the simulated data
-          netValue: PriceService.calculateNetValue(
+          netValue: multiplyAndRoundValues(
             simulatedPrice,
             row.data.orderQuantity / priceUnit
           ),
           gpi: this.getAffectedKpi(affectedKpis, ColumnFields.GPI),
           gpm: this.getAffectedKpi(affectedKpis, ColumnFields.GPM),
           discount: this.getAffectedKpi(affectedKpis, ColumnFields.DISCOUNT),
-          priceDiff: PriceService.calculatepriceDiff({
-            ...row.data,
-            price: simulatedPrice,
-          }),
-          rlm: PriceService.calculateMargin(
-            simulatedPrice,
-            row.data.relocationCost
+          priceDiff: calculatePriceDiff(
+            row.data.lastCustomerPrice,
+            simulatedPrice
           ),
+          rlm: calculateMargin(simulatedPrice, row.data.relocationCost),
         };
 
         return simulatedRow;
@@ -443,12 +446,8 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
       return row.data;
     }
 
-    const affectedKpis = PriceService.calculateAffectedKPIs(
-      value,
-      field,
-      row.data
-    );
-    const priceUnit = PriceService.getPriceUnit(row.data);
+    const affectedKpis = calculateAffectedKPIs(value, field, row.data);
+    const priceUnit = getPriceUnit(row.data);
     const simulatedPrice = this.getAffectedKpi(affectedKpis, 'price');
 
     const simulatedRow: QuotationDetail = {
@@ -456,7 +455,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
       price: simulatedPrice,
       priceSource: PriceSource.MANUAL,
       // to correctly calculate the new netValue, the orderQuantity has to be divided by the old priceUnit, since the priceUnit might be > 1 but isn't part of the simulated data
-      netValue: PriceService.calculateNetValue(
+      netValue: multiplyAndRoundValues(
         simulatedPrice,
         row.data.orderQuantity / priceUnit
       ),
@@ -472,14 +471,8 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
         field === ColumnFields.DISCOUNT
           ? value
           : this.getAffectedKpi(affectedKpis, ColumnFields.DISCOUNT),
-      priceDiff: PriceService.calculatepriceDiff({
-        ...row.data,
-        price: simulatedPrice,
-      }),
-      rlm: PriceService.calculateMargin(
-        simulatedPrice,
-        row.data.relocationCost
-      ),
+      priceDiff: calculatePriceDiff(row.data.lastCustomerPrice, simulatedPrice),
+      rlm: calculateMargin(simulatedPrice, row.data.relocationCost),
     };
 
     return simulatedRow;

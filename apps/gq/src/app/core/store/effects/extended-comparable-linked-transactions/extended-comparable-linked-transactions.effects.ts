@@ -3,11 +3,11 @@ import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap, withLatestFrom } from 'rxjs/operators';
 
+import { multiplyAndRoundValues } from '@gq/shared/utils/pricing.utils';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import { PriceUnitForQuotationItemId } from '../../../../shared/models/quotation-detail/price-units-for-quotation-item-ids.model';
-import { PriceService } from '../../../../shared/services/price/price.service';
 import { QuotationDetailsService } from '../../../../shared/services/rest/quotation-details/quotation-details.service';
 import {
   loadExtendedComparableLinkedTransaction,
@@ -40,7 +40,7 @@ export class ExtendedComparableLinkedTransactionsEffect {
               transactions: ExtendedComparableLinkedTransaction[];
               priceUnitsForQuotationItemIds: PriceUnitForQuotationItemId[];
             }) =>
-              PriceService.multiplyExtendedComparableLinkedTransactionsWithPriceUnit(
+              this.multiplyExtendedComparableLinkedTransactionsWithPriceUnit(
                 object.transactions,
                 object.priceUnitsForQuotationItemIds
               )
@@ -66,4 +66,19 @@ export class ExtendedComparableLinkedTransactionsEffect {
     private readonly actions$: Actions,
     private readonly quotationDetailsService: QuotationDetailsService
   ) {}
+
+  private readonly multiplyExtendedComparableLinkedTransactionsWithPriceUnit = (
+    transactions: ExtendedComparableLinkedTransaction[],
+    priceUnitsForQuotationItemIds: PriceUnitForQuotationItemId[]
+  ): ExtendedComparableLinkedTransaction[] =>
+    transactions.map((transaction) => ({
+      ...transaction,
+      price: multiplyAndRoundValues(
+        transaction.price,
+        priceUnitsForQuotationItemIds.find(
+          (priceUnitsForQuotationItemId: PriceUnitForQuotationItemId) =>
+            transaction.itemId === priceUnitsForQuotationItemId.quotationItemId
+        ).priceUnit
+      ),
+    }));
 }

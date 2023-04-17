@@ -1,4 +1,5 @@
 /* eslint-disable max-lines */
+import { calculateStatusBarValues } from '@gq/shared/utils/pricing.utils';
 import { Action, createReducer, on } from '@ngrx/store';
 
 import { Quotation, SimulatedQuotation } from '../../../../shared/models';
@@ -8,7 +9,6 @@ import {
   MaterialTableItem,
   ValidationDescription,
 } from '../../../../shared/models/table';
-import { PriceService } from '../../../../shared/services/price/price.service';
 import { TableService } from '../../../../shared/services/table/table.service';
 import {
   addMaterialRowDataItems,
@@ -609,7 +609,7 @@ export const processCaseReducer = createReducer(
               (detail: QuotationDetail) => detail.gqPositionId !== gqPositionId
             ),
           simulatedStatusBar: {
-            ...PriceService.calculateStatusBarValues(
+            ...calculateStatusBarValues(
               getSimulatedDetails(
                 state.quotation.item.quotationDetails,
                 state.quotation.simulatedItem.quotationDetails.filter(
@@ -703,11 +703,9 @@ const buildSimulatedQuotation = (
   gqId,
   quotationDetails: simulatedDetails,
   simulatedStatusBar: {
-    ...PriceService.calculateStatusBarValues(
-      getSimulatedDetails(details, simulatedDetails)
-    ),
+    ...calculateStatusBarValues(getSimulatedDetails(details, simulatedDetails)),
   },
-  previousStatusBar: { ...PriceService.calculateStatusBarValues(details) },
+  previousStatusBar: { ...calculateStatusBarValues(details) },
 });
 
 const getSimulatedDetails = (

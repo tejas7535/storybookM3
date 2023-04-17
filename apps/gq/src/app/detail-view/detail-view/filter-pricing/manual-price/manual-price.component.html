@@ -2,12 +2,12 @@
   *transloco="let t; read: 'detailView.filterPricing.manualPrice'"
   [title]="t('title')"
   [isDisabled]="true"
-  [isSelected]="quotationDetail.priceSource === PriceSource.MANUAL"
+  [isSelected]="quotationDetail?.priceSource === PriceSource.MANUAL"
   [isLoading]="isLoading"
 >
   <div class="flex w-full flex-col flex-wrap sm:flex-row" content>
     <div class="min-w-[8rem] max-w-[25%] grow pt-4">
-      <div class="mb-1 text-body-2 text-medium-emphasis">
+      <div class="text-body-2 text-medium-emphasis mb-1">
         <span>{{ t('label') }}:</span>
       </div>
       <div>
@@ -22,7 +22,7 @@
           >
             <mat-icon
               *ngIf="userHasManualPriceRole"
-              class="ml-1 cursor-pointer align-bottom !text-body-1 !leading-6 text-medium-emphasis"
+              class="!text-body-1 text-medium-emphasis ml-1 cursor-pointer align-bottom !leading-6"
               (click)="openEditing(ColumnFields.PRICE)"
               >mode_edit</mat-icon
             >
@@ -31,7 +31,7 @@
       </div>
     </div>
     <div class="min-w-[8rem] pt-4" *ngIf="userHasGPCRole">
-      <div class="mb-1 text-body-2 text-medium-emphasis">{{ t('gpi') }}:</div>
+      <div class="text-body-2 text-medium-emphasis mb-1">{{ t('gpi') }}:</div>
       <div>
         <span class="font-bold">{{ gpi | percentage }}</span>
         <ng-container
@@ -42,7 +42,7 @@
         >
           <mat-icon
             *ngIf="userHasManualPriceRole"
-            class="ml-1 cursor-pointer align-bottom !text-body-1 !leading-6 text-medium-emphasis"
+            class="!text-body-1 text-medium-emphasis ml-1 cursor-pointer align-bottom !leading-6"
             (click)="openEditing(ColumnFields.GPI)"
             >mode_edit</mat-icon
           >
@@ -50,7 +50,7 @@
       </div>
     </div>
     <div class="min-w-[8rem] pt-4" *ngIf="userHasSQVRole">
-      <div class="mb-1 text-body-2 text-medium-emphasis">{{ t('gpm') }}:</div>
+      <div class="text-body-2 text-medium-emphasis mb-1">{{ t('gpm') }}:</div>
       <div>
         <span class="font-bold">{{ gpm | percentage }}</span>
         <ng-container
@@ -61,7 +61,7 @@
         >
           <mat-icon
             *ngIf="userHasManualPriceRole"
-            class="ml-1 cursor-pointer align-bottom !text-body-1 !leading-6 text-medium-emphasis"
+            class="!text-body-1 text-medium-emphasis ml-1 cursor-pointer align-bottom !leading-6"
             (click)="openEditing(ColumnFields.GPM)"
             >mode_edit</mat-icon
           >
@@ -69,7 +69,7 @@
       </div>
     </div>
     <div class="min-w-[8rem] pt-4">
-      <div class="mb-1 text-body-2 text-medium-emphasis">
+      <div class="text-body-2 text-medium-emphasis mb-1">
         {{ t('quantity') }}:
       </div>
       <gq-quantity-display
@@ -77,12 +77,12 @@
       ></gq-quantity-display>
     </div>
     <div class="min-w-[8rem] pt-4">
-      <div class="mb-1 text-body-2 text-medium-emphasis">
+      <div class="text-body-2 text-medium-emphasis mb-1">
         {{ t('priceUnit') }}:
       </div>
       <div>
         <span class="font-bold">{{
-          quotationDetail.material.priceUnit | number
+          quotationDetail?.material.priceUnit | number
         }}</span>
       </div>
     </div>

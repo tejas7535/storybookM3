@@ -11,6 +11,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { updateQuotationDetails } from '@gq/core/store/actions';
 import { UpdateQuotationDetail } from '@gq/core/store/reducers/models';
+import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 import {
   createComponentFactory,
   mockProvider,
@@ -35,7 +36,6 @@ import { LOCALE_DE, LOCALE_EN } from '../../../constants';
 import * as regex from '../../../constants/regex';
 import { PriceSource } from '../../../models/quotation-detail';
 import { HelperService } from '../../../services/helper/helper.service';
-import { PriceService } from '../../../services/price/price.service';
 import { DialogHeaderModule } from '../../header/dialog-header/dialog-header.module';
 import { EditingModalComponent } from './editing-modal.component';
 
@@ -296,16 +296,18 @@ describe('EditingModalComponent', () => {
 
   describe('setAffectedKpis', () => {
     test('should set affected kpis', () => {
-      PriceService.calculateAffectedKPIs = jest.fn(() => []);
+      jest
+        .spyOn(pricingUtils, 'calculateAffectedKPIs')
+        .mockImplementation(() => []);
       component.setAffectedKpis(1);
 
       expect(component.affectedKpis).toEqual([]);
       expect(component.mspWarningEnabled).toBeFalsy();
     });
     test('should pass isRelativePrice as false correctly', () => {
-      PriceService.calculateAffectedKPIs = jest.fn(() => [
-        { key: ColumnFields.PRICE, value: 1 },
-      ]);
+      jest
+        .spyOn(pricingUtils, 'calculateAffectedKPIs')
+        .mockImplementation(() => [{ key: ColumnFields.PRICE, value: 1 }]);
       component.modalData = {
         field: ColumnFields.PRICE,
         quotationDetail: QUOTATION_DETAIL_MOCK,
@@ -315,7 +317,7 @@ describe('EditingModalComponent', () => {
         .setValue(false);
       component.setAffectedKpis(1);
 
-      expect(PriceService.calculateAffectedKPIs).toHaveBeenCalledWith(
+      expect(pricingUtils.calculateAffectedKPIs).toHaveBeenCalledWith(
         1,
         ColumnFields.PRICE,
         QUOTATION_DETAIL_MOCK,
@@ -327,7 +329,9 @@ describe('EditingModalComponent', () => {
       expect(component.mspWarningEnabled).toBeFalsy();
     });
     test('should pass isRelativePrice as true correctly', () => {
-      PriceService.calculateAffectedKPIs = jest.fn(() => []);
+      jest
+        .spyOn(pricingUtils, 'calculateAffectedKPIs')
+        .mockImplementation(() => []);
       component.modalData = {
         field: ColumnFields.PRICE,
         quotationDetail: QUOTATION_DETAIL_MOCK,
@@ -337,7 +341,7 @@ describe('EditingModalComponent', () => {
         .setValue(true);
       component.setAffectedKpis(1);
 
-      expect(PriceService.calculateAffectedKPIs).toHaveBeenCalledWith(
+      expect(pricingUtils.calculateAffectedKPIs).toHaveBeenCalledWith(
         1,
         ColumnFields.PRICE,
         QUOTATION_DETAIL_MOCK,
@@ -347,9 +351,9 @@ describe('EditingModalComponent', () => {
       expect(component.mspWarningEnabled).toBeFalsy();
     });
     test('should set mspWarningEnabled to true', () => {
-      PriceService.calculateAffectedKPIs = jest.fn(() => [
-        { key: ColumnFields.PRICE, value: 0.1 },
-      ]);
+      jest
+        .spyOn(pricingUtils, 'calculateAffectedKPIs')
+        .mockImplementation(() => [{ key: ColumnFields.PRICE, value: 0.1 }]);
       component.modalData = {
         field: ColumnFields.PRICE,
         quotationDetail: QUOTATION_DETAIL_MOCK,
@@ -359,7 +363,7 @@ describe('EditingModalComponent', () => {
         .setValue(true);
       component.setAffectedKpis(1);
 
-      expect(PriceService.calculateAffectedKPIs).toHaveBeenCalledWith(
+      expect(pricingUtils.calculateAffectedKPIs).toHaveBeenCalledWith(
         1,
         ColumnFields.PRICE,
         QUOTATION_DETAIL_MOCK,

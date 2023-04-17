@@ -33,7 +33,6 @@ import {
   QuotationDetail,
   SAP_SYNC_STATUS,
 } from '../../../../shared/models/quotation-detail';
-import { PriceService } from '../../../../shared/services/price/price.service';
 import { MaterialService } from '../../../../shared/services/rest/material/material.service';
 import { QuotationService } from '../../../../shared/services/rest/quotation/quotation.service';
 import { QuotationDetailsService } from '../../../../shared/services/rest/quotation-details/quotation-details.service';
@@ -96,6 +95,11 @@ import {
   getSelectedQuotationIdentifier,
   getSimulatedQuotation,
 } from '../../selectors';
+import {
+  addCalculationsForDetails,
+  checkEqualityOfIdentifier,
+  mapQueryParamsToIdentifier,
+} from './process-case.utils';
 
 @Injectable()
 export class ProcessCaseEffect {
@@ -130,7 +134,7 @@ export class ProcessCaseEffect {
             item.quotationDetails.sort(
               (a, b) => a.quotationItemId - b.quotationItemId
             );
-            PriceService.addCalculationsForDetails(item.quotationDetails);
+            addCalculationsForDetails(item.quotationDetails);
           }),
           mergeMap((item: Quotation) => {
             if (item.calculationInProgress || item.sapCallInProgress) {
@@ -232,9 +236,7 @@ export class ProcessCaseEffect {
     return this.actions$.pipe(
       ofType(loadQuotationFromUrl),
       map((action: any) => action.queryParams),
-      map((queryParams) =>
-        ProcessCaseEffect.mapQueryParamsToIdentifier(queryParams)
-      ),
+      map((queryParams) => mapQueryParamsToIdentifier(queryParams)),
       filter((quotationIdentifier: QuotationIdentifier) => {
         if (quotationIdentifier === undefined) {
           this.router.navigate(['not-found']);
@@ -245,10 +247,7 @@ export class ProcessCaseEffect {
       concatLatestFrom(() => this.store.select(getSelectedQuotationIdentifier)),
       filter(
         ([identifierFromRoute, identifierCurrent]) =>
-          !ProcessCaseEffect.checkEqualityOfIdentifier(
-            identifierFromRoute,
-            identifierCurrent
-          )
+          !checkEqualityOfIdentifier(identifierFromRoute, identifierCurrent)
       ),
       map(([identifierFromRoute, _identifierCurrent]) => identifierFromRoute),
       map((quotationIdentifier: QuotationIdentifier) =>
@@ -323,9 +322,7 @@ export class ProcessCaseEffect {
               );
               this.snackBar.open(successMessage);
             }),
-            tap((item) =>
-              PriceService.addCalculationsForDetails(item.quotationDetails)
-            ),
+            tap((item) => addCalculationsForDetails(item.quotationDetails)),
             map((updatedQuotation) =>
               addMaterialsSuccess({ updatedQuotation })
             ),
@@ -352,9 +349,7 @@ export class ProcessCaseEffect {
             );
             this.snackBar.open(successMessage);
           }),
-          tap((item) =>
-            PriceService.addCalculationsForDetails(item.quotationDetails)
-          ),
+          tap((item) => addCalculationsForDetails(item.quotationDetails)),
           map((updatedQuotation) =>
             removePositionsSuccess({ updatedQuotation })
           ),
@@ -412,9 +407,7 @@ export class ProcessCaseEffect {
               this.showUpdateQuotationDetailToast(updateQuotationDetailList[0])
             ),
             tap((quotation) => {
-              PriceService.addCalculationsForDetails(
-                quotation.quotationDetails
-              );
+              addCalculationsForDetails(quotation.quotationDetails);
             }),
             map((updatedQuotation) =>
               updateQuotationDetailsSuccess({
@@ -439,7 +432,7 @@ export class ProcessCaseEffect {
             this.showUploadSelectionToast(quotation, gqPositionIds);
           }),
           tap((quotation) => {
-            PriceService.addCalculationsForDetails(quotation.quotationDetails);
+            addCalculationsForDetails(quotation.quotationDetails);
           }),
           map((updatedQuotation: Quotation) =>
             uploadSelectionToSapSuccess({ updatedQuotation })
@@ -472,9 +465,7 @@ export class ProcessCaseEffect {
 
             this.snackBar.open(successMessage);
           }),
-          tap((item) =>
-            PriceService.addCalculationsForDetails(item.quotationDetails)
-          ),
+          tap((item) => addCalculationsForDetails(item.quotationDetails)),
           mergeMap((quotation) => {
             if (quotation.sapCallInProgress) {
               return [
@@ -512,9 +503,7 @@ export class ProcessCaseEffect {
             gqId
           )
           .pipe(
-            tap((item) =>
-              PriceService.addCalculationsForDetails(item.quotationDetails)
-            ),
+            tap((item) => addCalculationsForDetails(item.quotationDetails)),
             map((quotation: Quotation) =>
               updateQuotationSuccess({ quotation })
             ),
@@ -588,7 +577,7 @@ export class ProcessCaseEffect {
               this.showCreateSapQuoteToast(quotation);
             }),
             tap((quotation) =>
-              PriceService.addCalculationsForDetails(quotation.quotationDetails)
+              addCalculationsForDetails(quotation.quotationDetails)
             ),
             mergeMap((quotation: Quotation) => {
               if (
@@ -621,30 +610,6 @@ export class ProcessCaseEffect {
     private readonly materialService: MaterialService,
     private readonly snackBar: MatSnackBar
   ) {}
-  private static mapQueryParamsToIdentifier(queryParams: any): {
-    gqId: number;
-    customerNumber: string;
-    salesOrg: string;
-  } {
-    const gqId: number = queryParams['quotation_number'];
-    const customerNumber: string = queryParams['customer_number'];
-    const salesOrg: string = queryParams['sales_org'];
-
-    return gqId && customerNumber && salesOrg
-      ? { gqId, customerNumber, salesOrg }
-      : undefined;
-  }
-
-  private static checkEqualityOfIdentifier(
-    fromRoute: QuotationIdentifier,
-    current: QuotationIdentifier
-  ): boolean {
-    return (
-      fromRoute.customerNumber === current?.customerNumber &&
-      fromRoute.gqId === current?.gqId &&
-      fromRoute.salesOrg === current?.salesOrg
-    );
-  }
 
   private showUploadSelectionToast(
     quotation: Quotation,

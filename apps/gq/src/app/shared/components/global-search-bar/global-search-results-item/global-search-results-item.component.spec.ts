@@ -7,7 +7,7 @@ import {
 } from '@gq/shared/models/quotation';
 import { MultiplyWithPriceUnitPipe } from '@gq/shared/pipes/multiply-with-price-unit/multiply-with-price-unit.pipe';
 import { HelperService } from '@gq/shared/services/helper/helper.service';
-import { PriceService } from '@gq/shared/services/price/price.service';
+import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { MockDirective, MockPipe } from 'ng-mocks';
 
@@ -75,8 +75,9 @@ describe('GlobalSearchResultsItemComponent', () => {
       const MOCK_GPI = 7.89;
       const MOCK_GPI_PERCENTAGE = '7.89 %';
 
-      PriceService.roundValue = jest.fn().mockImplementation((val) => val);
-      PriceService.calculateMargin = jest.fn().mockReturnValue(MOCK_GPI);
+      jest.spyOn(pricingUtils, 'roundValue').mockImplementation((val) => val);
+      jest.spyOn(pricingUtils, 'calculateMargin').mockReturnValue(MOCK_GPI);
+
       helperService.transformPercentage = jest
         .fn()
         .mockReturnValue(MOCK_GPI_PERCENTAGE);
@@ -84,8 +85,8 @@ describe('GlobalSearchResultsItemComponent', () => {
       spectator.setInput('searchResult', searchResult);
       spectator.detectChanges();
 
-      expect(PriceService.calculateMargin).toHaveBeenCalledTimes(1);
-      expect(PriceService.calculateMargin).toBeCalledWith(
+      expect(pricingUtils.calculateMargin).toHaveBeenCalledTimes(1);
+      expect(pricingUtils.calculateMargin).toBeCalledWith(
         searchResult.materialPrice,
         searchResult.materialGpc
       );

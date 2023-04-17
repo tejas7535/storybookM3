@@ -4,6 +4,7 @@ import {
   ComparableLinkedTransaction,
   SalesIndication,
 } from '@gq/core/store/reducers/models';
+import { roundToTwoDecimals } from '@gq/shared/utils/pricing.utils';
 import { translate } from '@ngneat/transloco';
 import {
   LegendComponentOption,
@@ -15,7 +16,6 @@ import {
 
 import { Customer } from '../../../../shared/models/customer';
 import { HelperService } from '../../../../shared/services/helper/helper.service';
-import { PriceService } from '../../../../shared/services/price/price.service';
 import { DataPoint } from '../models/data-point.model';
 import { ToolTipItems } from '../models/tooltip-items.enum';
 import { LEGEND, TOOLTIP_CONFIG } from './chart.config';
@@ -254,11 +254,11 @@ export class ChartConfigService {
         currency,
         value: [
           transaction.quantity,
-          PriceService.roundToTwoDecimals(transaction.profitMargin),
+          roundToTwoDecimals(transaction.profitMargin),
         ],
         salesIndication: transaction.salesIndication,
         year: transaction.year,
-        price: PriceService.roundToTwoDecimals(transaction.price),
+        price: roundToTwoDecimals(transaction.price),
         customerName: transaction.customerName,
         customerId: transaction.customerId,
       });

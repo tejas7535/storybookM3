@@ -1,4 +1,5 @@
 import { SalesIndication } from '@gq/core/store/reducers/models';
+import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 import { SeriesOption } from 'echarts';
@@ -9,7 +10,6 @@ import {
   DATA_POINT_MOCK,
 } from '../../../../../testing/mocks';
 import { HelperService } from '../../../../shared/services/helper/helper.service';
-import { PriceService } from '../../../../shared/services/price/price.service';
 import { DataPoint } from '../models/data-point.model';
 import { ToolTipItems } from '../models/tooltip-items.enum';
 import { LEGEND, TOOLTIP_CONFIG } from './chart.config';
@@ -302,7 +302,7 @@ describe('ChartConfigService', () => {
         year: COMPARABLE_LINKED_TRANSACTION_MOCK.year,
         value: [
           COMPARABLE_LINKED_TRANSACTION_MOCK.quantity,
-          PriceService.roundToTwoDecimals(
+          pricingUtils.roundToTwoDecimals(
             COMPARABLE_LINKED_TRANSACTION_MOCK.profitMargin
           ),
         ],

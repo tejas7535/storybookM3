@@ -1,12 +1,13 @@
-import { MatCardModule } from '@angular/material/card';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatIconModule } from '@angular/material/icon';
 
+import { NumberCurrencyPipe } from '@gq/shared/pipes/number-currency/number-currency.pipe';
+import { PercentagePipe } from '@gq/shared/pipes/percentage/percentage.pipe';
+import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
-import { MockComponent } from 'ng-mocks';
+import { MockPipe } from 'ng-mocks';
 
-import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { QUOTATION_DETAIL_MOCK } from '../../../../../testing/mocks';
@@ -15,11 +16,6 @@ import {
   SapPriceCondition,
   UpdatePrice,
 } from '../../../../shared/models/quotation-detail';
-import { SharedPipesModule } from '../../../../shared/pipes/shared-pipes.module';
-import { HelperService } from '../../../../shared/services/helper/helper.service';
-import { DetailButtonComponent } from '../detail-button/detail-button.component';
-import { FilterPricingCardComponent } from '../filter-pricing-card/filter-pricing-card.component';
-import { QuantityDisplayComponent } from '../quantity/quantity-display/quantity-display.component';
 import { SapPriceComponent } from './sap-price.component';
 
 describe('SapPriceComponent', () => {
@@ -29,57 +25,38 @@ describe('SapPriceComponent', () => {
   const createComponent = createComponentFactory({
     component: SapPriceComponent,
     detectChanges: false,
-    imports: [
-      MatCardModule,
-      MatIconModule,
-      PushModule,
-      LoadingSpinnerModule,
-      SharedPipesModule,
-      provideTranslocoTestingModule({ en: {} }),
-    ],
-    declarations: [
-      SapPriceComponent,
-      MockComponent(FilterPricingCardComponent),
-      MockComponent(QuantityDisplayComponent),
-      MockComponent(DetailButtonComponent),
-    ],
-    providers: [
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
-      {
-        provide: HelperService,
-        useValue: { transformMarginDetails: jest.fn() },
-      },
-    ],
+    imports: [PushModule, provideTranslocoTestingModule({ en: {} })],
+    declarations: [MockPipe(NumberCurrencyPipe), MockPipe(PercentagePipe)],
+    providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    component.quotationDetail = QUOTATION_DETAIL_MOCK;
   });
 
   test('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
-    test('should define observables', () => {
-      component.ngOnInit();
-
-      expect(component.gpi).toBeDefined();
-      expect(component.gpm).toBeDefined();
-    });
-    test('should not set gpi', () => {
+  describe('set quotationDetail', () => {
+    test('should not set gpi/gpm', () => {
       component.quotationDetail = undefined;
-
-      component.ngOnInit();
 
       expect(component.gpi).toBeUndefined();
       expect(component.gpm).toBeUndefined();
     });
-  });
 
-  describe('ngOnChanges', () => {
+    test('should set gpi/gpm', () => {
+      jest.spyOn(pricingUtils, 'calculateMargin').mockImplementation(() => 5);
+      component.quotationDetail = QUOTATION_DETAIL_MOCK;
+
+      expect(component.gpi).toEqual(5);
+      expect(component.gpm).toEqual(5);
+      expect(pricingUtils.calculateMargin).toBeCalledTimes(2);
+    });
+
     test('should set isSelected', () => {
       spectator.setInput('quotationDetail', {
         ...QUOTATION_DETAIL_MOCK,
@@ -121,24 +98,10 @@ describe('SapPriceComponent', () => {
       expect(component.isSelected).toBeTruthy();
     });
   });
-  describe('set isLoading', () => {
-    test('should set isLoading false', () => {
-      component._isLoading = false;
 
-      component.isLoading = true;
-
-      expect(component.isLoading).toEqual(false);
-    });
-    test('should set isLoading true', () => {
-      component._isLoading = true;
-
-      component.isLoading = true;
-
-      expect(component.isLoading).toEqual(true);
-    });
-  });
   describe('selectPrice', () => {
     test('should emit Output EventEmitter with sap price standard', () => {
+      component.quotationDetail = QUOTATION_DETAIL_MOCK;
       component.selectSapPrice.emit = jest.fn();
 
       component.selectPrice();
@@ -181,6 +144,24 @@ describe('SapPriceComponent', () => {
       const result = component.trackByFn(3);
 
       expect(result).toEqual(3);
+    });
+  });
+
+  describe('set isLoading', () => {
+    test('should set isLoading true', () => {
+      component.quotationDetail = QUOTATION_DETAIL_MOCK;
+      component['_isLoading'] = true;
+      spectator.setInput('isLoading', true);
+
+      expect(component.isLoading).toBeTruthy();
+    });
+
+    test('should set isLoading false', () => {
+      component.quotationDetail = QUOTATION_DETAIL_MOCK;
+      component['_isLoading'] = true;
+      spectator.setInput('isLoading', false);
+
+      expect(component.isLoading).toBeFalsy();
     });
   });
 });

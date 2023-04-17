@@ -1,6 +1,6 @@
 import { DetailViewQueryParams } from '@gq/shared/models';
 import { QuotationPricingOverview } from '@gq/shared/models/quotation';
-import { PriceService } from '@gq/shared/services/price/price.service';
+import { calculateStatusBarValues } from '@gq/shared/utils/pricing.utils';
 import { createSelector } from '@ngrx/store';
 
 import { TableContext } from '../../../../process-case-view/quotation-details-table/config/tablecontext.model';
@@ -284,7 +284,7 @@ export const getSelectedQuotationDetailIds = createSelector(
 export const getQuotationOverviewInformation = createSelector(
   getQuotationDetails,
   (details: QuotationDetail[]): QuotationPricingOverview => {
-    const priceInformation = PriceService.calculateStatusBarValues(details);
+    const priceInformation = calculateStatusBarValues(details);
     const avgRatingItems = details
       .filter((item: QuotationDetail) => !!item && item.gqRating)
       .map((item: QuotationDetail) => item.gqRating);

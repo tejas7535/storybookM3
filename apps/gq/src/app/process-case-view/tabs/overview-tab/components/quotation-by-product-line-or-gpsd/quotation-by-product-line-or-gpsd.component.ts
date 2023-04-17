@@ -17,7 +17,7 @@ import {
 import { StatusBarProperties } from '@gq/shared/models';
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
 import { HelperService } from '@gq/shared/services/helper/helper.service';
-import { PriceService } from '@gq/shared/services/price/price.service';
+import { calculateStatusBarValues } from '@gq/shared/utils/pricing.utils';
 import { Store } from '@ngrx/store';
 
 import { BarChartData, ChartType } from '../../models';
@@ -96,9 +96,9 @@ export class QuotationByProductLineOrGpsdComponent
     labelPrefix?: string
   ): BarChartData[] {
     const result: BarChartData[] = [];
-    const totalValues = PriceService.calculateStatusBarValues(all);
+    const totalValues = calculateStatusBarValues(all);
     list.forEach((groupedDetails, key) => {
-      const calc = PriceService.calculateStatusBarValues(groupedDetails);
+      const calc = calculateStatusBarValues(groupedDetails);
       const barItem: BarChartData = {
         name: labelPrefix ? `${labelPrefix} ${key}` : key,
         gpm: this.helperService.transformPercentage(calc.gpm),

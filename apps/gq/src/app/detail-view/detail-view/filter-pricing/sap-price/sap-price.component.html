@@ -9,27 +9,27 @@
   >
     <div content class="flex w-full flex-col flex-wrap sm:flex-row">
       <div class="min-w-[8rem] max-w-[25%] grow pt-4">
-        <div class="mb-1 text-body-2 text-medium-emphasis">
+        <div class="text-body-2 text-medium-emphasis mb-1">
           {{ t('priceLabel') }}:
         </div>
         <span class="font-bold">{{
-          quotationDetail.sapPrice | numberCurrency: currency
+          quotationDetail?.sapPrice | numberCurrency: currency
         }}</span>
       </div>
       <div class="min-w-[8rem] pt-4" *ngIf="userHasGPCRole">
-        <div class="mb-1 text-body-2 text-medium-emphasis">{{ t('gpi') }}:</div>
+        <div class="text-body-2 text-medium-emphasis mb-1">{{ t('gpi') }}:</div>
         <div>
           <span class="font-bold">{{ gpi | percentage }}</span>
         </div>
       </div>
       <div class="min-w-[8rem] pt-4" *ngIf="userHasSQVRole">
-        <div class="mb-1 text-body-2 text-medium-emphasis">{{ t('gpm') }}:</div>
+        <div class="text-body-2 text-medium-emphasis mb-1">{{ t('gpm') }}:</div>
         <div>
           <span class="font-bold">{{ gpm | percentage }}</span>
         </div>
       </div>
       <div class="min-w-[8rem] pt-4">
-        <div class="mb-1 text-body-2 text-medium-emphasis">
+        <div class="text-body-2 text-medium-emphasis mb-1">
           {{ t('quantity') }}:
         </div>
         <gq-quantity-display
@@ -37,7 +37,7 @@
         ></gq-quantity-display>
       </div>
       <div class="min-w-[8rem] pt-4" *ngIf="quotationDetail.sapPriceCondition">
-        <div class="mb-1 text-body-2 text-medium-emphasis">
+        <div class="text-body-2 text-medium-emphasis mb-1">
           {{ t('priceCondition') }}:
         </div>
         <span class="font-bold">{{ quotationDetail.sapPriceCondition }}</span>

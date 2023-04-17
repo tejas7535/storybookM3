@@ -1,29 +1,49 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import {
   PriceSource,
   QuotationDetail,
   UpdatePrice,
-} from '../../../../shared/models/quotation-detail';
-import { PriceService } from '../../../../shared/services/price/price.service';
+} from '@gq/shared/models/quotation-detail';
+import { calculateMargin } from '@gq/shared/utils/pricing.utils';
+
 import { DetailRoutePath } from '../../../detail-route-path.enum';
 
 @Component({
   selector: 'gq-price',
   templateUrl: './gq-price.component.html',
 })
-export class GqPriceComponent implements OnInit {
-  public gpi: number;
-  public gpm: number;
-  _isLoading: boolean;
+export class GqPriceComponent {
+  private _isLoading: boolean;
+  private _quotationDetail: QuotationDetail;
+
+  gpi: number;
+  gpm: number;
   PriceSource = PriceSource;
   DetailRoutePath = DetailRoutePath;
 
   @Input() userHasGPCRole: boolean;
   @Input() userHasSQVRole: boolean;
   @Input() currency: string;
-  @Input() quotationDetail: QuotationDetail;
   @Input() isDisabled: boolean;
+
+  @Input() set quotationDetail(quotationDetail: QuotationDetail) {
+    if (quotationDetail) {
+      this.gpi = calculateMargin(
+        quotationDetail.recommendedPrice,
+        quotationDetail.gpc
+      );
+      this.gpm = calculateMargin(
+        quotationDetail.recommendedPrice,
+        quotationDetail.sqv
+      );
+    }
+    this._quotationDetail = quotationDetail;
+  }
+
+  get quotationDetail(): QuotationDetail {
+    return this._quotationDetail;
+  }
 
   @Input() set isLoading(value: boolean) {
     this._isLoading = this.isLoading && value;
@@ -34,19 +54,6 @@ export class GqPriceComponent implements OnInit {
   }
 
   @Output() readonly selectGqPrice = new EventEmitter<UpdatePrice>();
-
-  ngOnInit(): void {
-    if (this.quotationDetail) {
-      this.gpi = PriceService.calculateMargin(
-        this.quotationDetail.recommendedPrice,
-        this.quotationDetail.gpc
-      );
-      this.gpm = PriceService.calculateMargin(
-        this.quotationDetail.recommendedPrice,
-        this.quotationDetail.sqv
-      );
-    }
-  }
 
   selectPrice(): void {
     this._isLoading = true;

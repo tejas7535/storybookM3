@@ -7,9 +7,9 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
+import { COMPARABLE_LINKED_TRANSACTION_MOCK } from '../../../../../testing/mocks';
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { DetailRoutePath } from '../../../../detail-view/detail-route-path.enum';
-import { PriceService } from '../../../../shared/services/price/price.service';
 import { QuotationDetailsService } from '../../../../shared/services/rest/quotation-details/quotation-details.service';
 import {
   loadComparableTransactions,
@@ -75,7 +75,9 @@ describe('TransactionsEffect', () => {
     const transactions: ComparableLinkedTransaction[] = [];
 
     beforeEach(() => {
-      PriceService.executeTransactionComputations = jest.fn(() => transactions);
+      (effects as any).executeTransactionComputations = jest.fn(
+        () => transactions
+      );
       store.overrideSelector(getPriceUnitOfSelectedQuotationDetail, 1);
       action = loadComparableTransactions({ gqPositionId });
     });
@@ -94,7 +96,7 @@ describe('TransactionsEffect', () => {
         m.flush();
 
         expect(
-          PriceService.executeTransactionComputations
+          (effects as any).executeTransactionComputations
         ).toHaveBeenCalledWith(transactions, 1);
         expect(quotationDetailsService.getTransactions).toHaveBeenCalledTimes(
           1
@@ -123,5 +125,26 @@ describe('TransactionsEffect', () => {
         );
       })
     );
+  });
+
+  describe('executeTransactionComputations', () => {
+    test('should return multipliedTransacitons', () => {
+      const transactions = [
+        { ...COMPARABLE_LINKED_TRANSACTION_MOCK, profitMargin: 0.511_11 },
+      ];
+
+      const result = effects['executeTransactionComputations'](
+        transactions,
+        100
+      );
+
+      expect(result).toEqual([
+        {
+          ...COMPARABLE_LINKED_TRANSACTION_MOCK,
+          price: 1000,
+          profitMargin: 0.51,
+        },
+      ]);
+    });
   });
 });

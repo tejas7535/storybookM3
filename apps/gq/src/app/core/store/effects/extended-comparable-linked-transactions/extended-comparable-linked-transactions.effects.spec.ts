@@ -6,7 +6,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
-import { PriceService } from '../../../../shared/services/price/price.service';
+import { EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK } from '../../../../../testing/mocks';
 import { QuotationDetailsService } from '../../../../shared/services/rest/quotation-details/quotation-details.service';
 import {
   loadExtendedComparableLinkedTransaction,
@@ -52,8 +52,12 @@ describe('ExtendedComparableLinkedTransactionsEffect', () => {
     ];
 
     beforeEach(() => {
-      PriceService.multiplyExtendedComparableLinkedTransactionsWithPriceUnit =
-        jest.fn(() => []);
+      jest
+        .spyOn(
+          effects as any,
+          'multiplyExtendedComparableLinkedTransactionsWithPriceUnit'
+        )
+        .mockImplementation(() => []);
       store.overrideSelector(
         getPriceUnitsForQuotationItemIds,
         priceUnitForQuotationItemIds
@@ -65,6 +69,7 @@ describe('ExtendedComparableLinkedTransactionsEffect', () => {
       'should return loadExtendedComparableLinkedTransactionsSuccess',
       marbles((m) => {
         action = loadExtendedComparableLinkedTransaction({ quotationNumber });
+
         const result = loadExtendedComparableLinkedTransactionSuccess({
           extendedComparableLinkedTransactions,
         });
@@ -82,7 +87,7 @@ describe('ExtendedComparableLinkedTransactionsEffect', () => {
         m.flush();
 
         expect(
-          PriceService.multiplyExtendedComparableLinkedTransactionsWithPriceUnit
+          effects['multiplyExtendedComparableLinkedTransactionsWithPriceUnit']
         ).toHaveBeenCalledWith([], priceUnitForQuotationItemIds);
         expect(quotationDetailsService.getAllTransactions).toHaveBeenCalledWith(
           quotationNumber
@@ -110,5 +115,26 @@ describe('ExtendedComparableLinkedTransactionsEffect', () => {
         expect(quotationDetailsService.getAllTransactions).toHaveBeenCalled();
       })
     );
+  });
+
+  describe('multiplyExtendedComparableLinkedTransactionsWithPriceUnit', () => {
+    test('should return multiplied ExtendedComparableLinkedTransactions', () => {
+      const transactions = [EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK];
+      const priceUnit = 100;
+      const priceUnitsForQuotationItemIds = [
+        { priceUnit, quotationItemId: 60 },
+      ];
+
+      const result = effects[
+        'multiplyExtendedComparableLinkedTransactionsWithPriceUnit'
+      ](transactions, priceUnitsForQuotationItemIds);
+
+      expect(result).toEqual([
+        {
+          ...EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK,
+          price: EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK.price * priceUnit,
+        },
+      ]);
+    });
   });
 });

@@ -4,6 +4,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
+import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 import { SpyObject } from '@ngneat/spectator';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -24,7 +25,6 @@ import { StatusBarModalComponent } from '../../../components/modal/status-bar-mo
 import { StatusBarProperties } from '../../../models';
 import { SharedPipesModule } from '../../../pipes/shared-pipes.module';
 import { HelperService } from '../../../services/helper/helper.service';
-import { PriceService } from '../../../services/price/price.service';
 import { QuotationDetailsStatusComponent } from './quotation-details-status.component';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -117,16 +117,19 @@ describe('QuotationDetailsStatusComponent', () => {
           gpi: QUOTATION_DETAIL_MOCK.gpi,
         },
       };
-      PriceService.calculateStatusBarValues = jest.fn(
-        () =>
-          new StatusBarProperties(
-            QUOTATION_DETAIL_MOCK.netValue,
-            QUOTATION_DETAIL_MOCK.gpi,
-            QUOTATION_DETAIL_MOCK.gpm,
-            QUOTATION_DETAIL_MOCK.priceDiff,
-            1
-          )
-      );
+      jest
+        .spyOn(pricingUtils, 'calculateStatusBarValues')
+        .mockImplementation(
+          () =>
+            new StatusBarProperties(
+              QUOTATION_DETAIL_MOCK.netValue,
+              QUOTATION_DETAIL_MOCK.gpi,
+              QUOTATION_DETAIL_MOCK.gpm,
+              QUOTATION_DETAIL_MOCK.priceDiff,
+              1
+            )
+        );
+
       component['params'].api.forEachNode = jest.fn((callback) =>
         callback(rowNode as any, 1)
       );
@@ -142,7 +145,7 @@ describe('QuotationDetailsStatusComponent', () => {
         QUOTATION_DETAIL_MOCK.priceDiff
       );
       expect(component.statusBar.total.rows).toEqual(1);
-      expect(PriceService.calculateStatusBarValues).toHaveBeenCalledTimes(1);
+      expect(pricingUtils.calculateStatusBarValues).toHaveBeenCalledTimes(1);
       expect(component.onSelectionChange).toHaveBeenCalledTimes(1);
     });
   });

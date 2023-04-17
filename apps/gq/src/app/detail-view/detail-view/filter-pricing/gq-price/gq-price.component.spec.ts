@@ -1,22 +1,22 @@
-import { MatCardModule } from '@angular/material/card';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterTestingModule } from '@angular/router/testing';
 
+import { NumberCurrencyPipe } from '@gq/shared/pipes/number-currency/number-currency.pipe';
+import { PercentagePipe } from '@gq/shared/pipes/percentage/percentage.pipe';
+import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
+import { MockPipe } from 'ng-mocks';
 
-import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { QUOTATION_DETAIL_MOCK } from '../../../../../testing/mocks/models';
 import {
   PriceSource,
+  QuotationDetail,
   UpdatePrice,
 } from '../../../../shared/models/quotation-detail';
-import { SharedPipesModule } from '../../../../shared/pipes/shared-pipes.module';
-import { FilterPricingCardComponent } from '../filter-pricing-card/filter-pricing-card.component';
-import { QuantityDisplayComponent } from '../quantity/quantity-display/quantity-display.component';
 import { GqPriceComponent } from './gq-price.component';
 
 describe('GqPriceComponent', () => {
@@ -27,20 +27,13 @@ describe('GqPriceComponent', () => {
     component: GqPriceComponent,
     detectChanges: false,
     imports: [
-      MatCardModule,
-      MatIconModule,
       PushModule,
-      LoadingSpinnerModule,
-      RouterTestingModule,
-      SharedPipesModule,
       provideTranslocoTestingModule({ en: {} }),
+      MatIconModule,
     ],
-    declarations: [
-      GqPriceComponent,
-      FilterPricingCardComponent,
-      QuantityDisplayComponent,
-    ],
+    declarations: [MockPipe(NumberCurrencyPipe), MockPipe(PercentagePipe)],
     providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {
@@ -53,39 +46,26 @@ describe('GqPriceComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
-    test('should define observables', () => {
-      component.ngOnInit();
+  describe('set quotationDetail', () => {
+    test('should set quotationDetail, gpi, and gpm', () => {
+      const detail = {
+        recommendedPrice: 10,
+        gpc: 12,
+        sqv: 20,
+      } as unknown as QuotationDetail;
 
-      expect(component.gpi).toBeDefined();
-      expect(component.gpm).toBeDefined();
-    });
-    test('should not set gpi', () => {
-      component.quotationDetail = undefined;
+      jest.spyOn(pricingUtils, 'calculateMargin');
 
-      component.ngOnInit();
+      component.quotationDetail = detail;
 
-      expect(component.gpi).toBeUndefined();
-      expect(component.gpm).toBeUndefined();
-    });
-  });
-
-  describe('set isLoading', () => {
-    test('should set isLoading false', () => {
-      component._isLoading = false;
-
-      component.isLoading = true;
-
-      expect(component.isLoading).toEqual(false);
-    });
-    test('should set isLoading true', () => {
-      component._isLoading = true;
-
-      component.isLoading = true;
-
-      expect(component.isLoading).toEqual(true);
+      expect(component.quotationDetail).toEqual(detail);
+      expect(pricingUtils.calculateMargin).toHaveBeenCalledWith(
+        detail.recommendedPrice,
+        detail.gpc
+      );
     });
   });
+
   describe('selectPrice', () => {
     test('should emit Output EventEmitter with GQ price', () => {
       component.selectGqPrice.emit = jest.fn();
@@ -114,6 +94,22 @@ describe('GqPriceComponent', () => {
       const result = component.trackByFn(3);
 
       expect(result).toEqual(3);
+    });
+  });
+
+  describe('set isLoading', () => {
+    test('should set isLoading true', () => {
+      component['_isLoading'] = true;
+      spectator.setInput('isLoading', true);
+
+      expect(component.isLoading).toBeTruthy();
+    });
+
+    test('should set isLoading false', () => {
+      component['_isLoading'] = true;
+      spectator.setInput('isLoading', false);
+
+      expect(component.isLoading).toBeFalsy();
     });
   });
 });

@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { ColumnFields } from '../../../../shared/ag-grid/constants/column-fields.enum';
@@ -21,20 +14,32 @@ import {
   selector: 'gq-manual-price',
   templateUrl: './manual-price.component.html',
 })
-export class ManualPriceComponent implements OnChanges, OnInit {
+export class ManualPriceComponent {
+  private _isLoading: boolean;
+  private _quotationDetail: QuotationDetail;
+
   price: number;
   gpi: number;
   gpm: number;
-  _isLoading: boolean;
   PriceSource = PriceSource;
   ColumnFields = ColumnFields;
   quotationStatus = QuotationStatus;
 
   @Input() userHasGPCRole: boolean;
   @Input() userHasSQVRole: boolean;
-  @Input() quotationDetail: QuotationDetail;
   @Input() currency: string;
   @Input() userHasManualPriceRole: boolean;
+
+  @Input() set quotationDetail(quotationDetail: QuotationDetail) {
+    this._quotationDetail = quotationDetail;
+
+    // check if price set equals GQ price
+    this.setPrice();
+  }
+
+  get quotationDetail(): QuotationDetail {
+    return this._quotationDetail;
+  }
 
   @Input() set isLoading(value: boolean) {
     this._isLoading = this.isLoading && value;
@@ -47,15 +52,6 @@ export class ManualPriceComponent implements OnChanges, OnInit {
   @Output() readonly selectManualPrice = new EventEmitter<UpdatePrice>();
 
   constructor(private readonly dialog: MatDialog) {}
-
-  ngOnInit(): void {
-    // check if price set equals GQ price
-    this.setPrice();
-  }
-
-  ngOnChanges(): void {
-    this.setPrice();
-  }
 
   setPrice(): void {
     if (this.quotationDetail.priceSource === PriceSource.MANUAL) {

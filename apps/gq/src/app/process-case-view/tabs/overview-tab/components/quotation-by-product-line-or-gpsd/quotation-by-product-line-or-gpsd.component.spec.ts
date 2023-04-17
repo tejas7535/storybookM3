@@ -8,6 +8,7 @@ import {
 import { StatusBarProperties } from '@gq/shared/models';
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
 import { HelperService } from '@gq/shared/services/helper/helper.service';
+import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -17,13 +18,7 @@ import { marbles } from 'rxjs-marbles';
 import { PROCESS_CASE_STATE_MOCK } from '../../../../../../testing/mocks';
 import { BarChartData } from '../../models';
 import { QuotationByProductLineOrGpsdComponent } from './quotation-by-product-line-or-gpsd.component';
-jest.mock('@gq/shared/services/price/price.service', () => ({
-  PriceService: {
-    calculateStatusBarValues: jest
-      .fn()
-      .mockReturnValue({ gpi: 10, gpm: 10, netValue: 100, avgGqRating: 2 }),
-  },
-}));
+
 describe('QuotationByProductLineOrGpsdComponent', () => {
   let component: QuotationByProductLineOrGpsdComponent;
   let spectator: Spectator<QuotationByProductLineOrGpsdComponent>;
@@ -80,6 +75,13 @@ describe('QuotationByProductLineOrGpsdComponent', () => {
     test(
       'should calculate bar chartData',
       marbles((m) => {
+        jest.spyOn(pricingUtils, 'calculateStatusBarValues').mockReturnValue({
+          gpi: 10,
+          gpm: 10,
+          netValue: 100,
+          priceDiff: 0,
+          rows: 0,
+        });
         component['calculateShare'] = jest.fn().mockReturnValue('20%');
         m.expect(component['gpsdBarChartData$']).toBeObservable(
           m.cold('a', {

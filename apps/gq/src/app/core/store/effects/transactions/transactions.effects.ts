@@ -9,13 +9,16 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 
+import {
+  multiplyAndRoundValues,
+  roundToTwoDecimals,
+} from '@gq/shared/utils/pricing.utils';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { DetailRoutePath } from '../../../../detail-view/detail-route-path.enum';
-import { PriceService } from '../../../../shared/services/price/price.service';
 import { QuotationDetailsService } from '../../../../shared/services/rest/quotation-details/quotation-details.service';
 import {
   loadComparableTransactions,
@@ -68,7 +71,7 @@ export class TransactionsEffect {
               transactions: ComparableLinkedTransaction[];
               priceUnit: number;
             }) =>
-              PriceService.executeTransactionComputations(
+              this.executeTransactionComputations(
                 object.transactions,
                 object.priceUnit
               )
@@ -89,4 +92,14 @@ export class TransactionsEffect {
     private readonly actions$: Actions,
     private readonly quotationDetailsService: QuotationDetailsService
   ) {}
+
+  private readonly executeTransactionComputations = (
+    transactions: ComparableLinkedTransaction[],
+    priceUnit: number
+  ): ComparableLinkedTransaction[] =>
+    transactions.map((transaction) => ({
+      ...transaction,
+      price: multiplyAndRoundValues(transaction.price, priceUnit),
+      profitMargin: roundToTwoDecimals(transaction.profitMargin),
+    }));
 }

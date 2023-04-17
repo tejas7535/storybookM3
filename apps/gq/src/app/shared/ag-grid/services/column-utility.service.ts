@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { CalculationType } from '@gq/core/store/reducers/models';
 import { HelperService } from '@gq/shared/services/helper/helper.service';
 import { MaterialNumberService } from '@gq/shared/services/material-number/material-number.service';
-import { PriceService } from '@gq/shared/services/price/price.service';
+import { roundToTwoDecimals } from '@gq/shared/utils/pricing.utils';
 import { translate } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import {
@@ -293,7 +293,7 @@ export class ColumnUtilityService {
 
   percentageFormatter(data: ValueFormatterParams): string {
     return this.helperService.transformPercentage(
-      PriceService.roundToTwoDecimals(data.value)
+      roundToTwoDecimals(data.value)
     );
   }
 

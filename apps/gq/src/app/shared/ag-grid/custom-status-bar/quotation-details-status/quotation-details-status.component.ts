@@ -10,13 +10,13 @@ import {
   userHasGPCRole,
   userHasSQVRole,
 } from '@gq/core/store/selectors';
+import { calculateStatusBarValues } from '@gq/shared/utils/pricing.utils';
 import { Store } from '@ngrx/store';
 import { IStatusPanelParams, RowNode } from 'ag-grid-community';
 
 import { StatusBarModalComponent } from '../../../../shared/components/modal/status-bar-modal/status-bar-modal.component';
 import { SimulatedQuotation, StatusBar } from '../../../models';
 import { QuotationDetail } from '../../../models/quotation-detail';
-import { PriceService } from '../../../services/price/price.service';
 
 @Component({
   selector: 'gq-quotation-details-status',
@@ -71,14 +71,12 @@ export class QuotationDetailsStatusComponent implements OnInit {
     const details: QuotationDetail[] = [];
     this.params.api.forEachNode((row: RowNode) => details.push(row.data));
 
-    this.statusBar.total = PriceService.calculateStatusBarValues(details);
+    this.statusBar.total = calculateStatusBarValues(details);
   }
 
   onSelectionChange(): void {
     this.selections = this.params.api.getSelectedRows();
-    this.statusBar.selected = PriceService.calculateStatusBarValues(
-      this.selections
-    );
+    this.statusBar.selected = calculateStatusBarValues(this.selections);
   }
 
   showAll(): void {

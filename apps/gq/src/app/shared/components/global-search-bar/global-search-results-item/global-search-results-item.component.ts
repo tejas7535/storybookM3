@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 
 import { HelperService } from '@gq/shared/services/helper/helper.service';
-import { PriceService } from '@gq/shared/services/price/price.service';
+import { calculateMargin } from '@gq/shared/utils/pricing.utils';
 
 import { QuotationSearchResult } from '../../../models/quotation';
 @Component({
@@ -19,7 +19,7 @@ export class GlobalSearchResultsItemComponent {
   @Input() set searchResult(searchResult: QuotationSearchResult) {
     this.quotationSummary = searchResult;
 
-    const gpi = PriceService.calculateMargin(
+    const gpi = calculateMargin(
       searchResult.materialPrice,
       searchResult.materialGpc
     );

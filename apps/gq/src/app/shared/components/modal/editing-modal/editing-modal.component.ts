@@ -27,6 +27,13 @@ import {
   getUpdateLoading,
 } from '@gq/core/store/selectors/process-case/process-case.selectors';
 import { QuotationDetailsTableValidationService } from '@gq/process-case-view/quotation-details-table/services/quotation-details-table-validation.service';
+import {
+  calculateAffectedKPIs,
+  getManualPriceByDiscount,
+  getManualPriceByMarginAndCost,
+  getPriceUnit,
+  multiplyAndRoundValues,
+} from '@gq/shared/utils/pricing.utils';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
 
@@ -34,7 +41,6 @@ import { ColumnFields } from '../../../ag-grid/constants/column-fields.enum';
 import * as constants from '../../../constants';
 import { PriceSource, QuotationDetail } from '../../../models/quotation-detail';
 import { HelperService } from '../../../services/helper/helper.service';
-import { PriceService } from '../../../services/price/price.service';
 import { KpiValue } from './kpi-value.model';
 
 @Component({
@@ -189,7 +195,7 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   setAffectedKpis(val: number): void {
-    this.affectedKpis = PriceService.calculateAffectedKPIs(
+    this.affectedKpis = calculateAffectedKPIs(
       val,
       this.modalData.field,
       this.modalData.quotationDetail,
@@ -230,21 +236,21 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
           this.modalData.field as ColumnFields
         )
       ) {
-        newPrice = PriceService.getManualPriceByMarginAndCost(
+        newPrice = getManualPriceByMarginAndCost(
           this.modalData.field === ColumnFields.GPM
             ? this.modalData.quotationDetail.sqv
             : this.modalData.quotationDetail.gpc,
           value
         );
       } else if (this.modalData.field === ColumnFields.DISCOUNT) {
-        newPrice = PriceService.getManualPriceByDiscount(
+        newPrice = getManualPriceByDiscount(
           this.modalData.quotationDetail.sapGrossPrice,
           value
         );
       } else if (this.modalData.field === ColumnFields.PRICE) {
         newPrice = this.editingFormGroup.get('isRelativePriceChangeRadioGroup')
           .value
-          ? PriceService.multiplyAndRoundValues(
+          ? multiplyAndRoundValues(
               this.modalData.quotationDetail.price,
               1 + value / 100
             )
@@ -252,9 +258,7 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
       } else {
         newPrice = value;
       }
-      const priceUnit = PriceService.getPriceUnit(
-        this.modalData.quotationDetail
-      );
+      const priceUnit = getPriceUnit(this.modalData.quotationDetail);
       const price = newPrice / priceUnit;
 
       const updateQuotationDetailList: UpdateQuotationDetail[] = [

@@ -1,9 +1,10 @@
-import { MatCardModule } from '@angular/material/card';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { NumberCurrencyPipe } from '@gq/shared/pipes/number-currency/number-currency.pipe';
+import { PercentagePipe } from '@gq/shared/pipes/percentage/percentage.pipe';
 import {
   createComponentFactory,
   Spectator,
@@ -11,17 +12,14 @@ import {
 } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
+import { MockPipe } from 'ng-mocks';
 
-import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { QUOTATION_DETAIL_MOCK } from '../../../../../testing/mocks';
 import { ColumnFields } from '../../../../shared/ag-grid/constants/column-fields.enum';
 import { EditingModalComponent } from '../../../../shared/components/modal/editing-modal/editing-modal.component';
 import { PriceSource } from '../../../../shared/models/quotation-detail';
-import { SharedPipesModule } from '../../../../shared/pipes/shared-pipes.module';
-import { FilterPricingCardComponent } from '../filter-pricing-card/filter-pricing-card.component';
-import { QuantityDisplayComponent } from '../quantity/quantity-display/quantity-display.component';
 import { ManualPriceComponent } from './manual-price.component';
 
 describe('ManualPriceComponent', () => {
@@ -33,21 +31,17 @@ describe('ManualPriceComponent', () => {
     component: ManualPriceComponent,
     detectChanges: false,
     imports: [
-      BrowserAnimationsModule,
-      LoadingSpinnerModule,
       MatIconModule,
-      MatCardModule,
       PushModule,
-      SharedPipesModule,
-      MatDialogModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
       provideMockStore({}),
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
     ],
-    declarations: [QuantityDisplayComponent, FilterPricingCardComponent],
+    declarations: [MockPipe(NumberCurrencyPipe), MockPipe(PercentagePipe)],
     mocks: [MatDialog],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {
@@ -60,39 +54,12 @@ describe('ManualPriceComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
-    test('should create manualPriceFormControl', () => {
+  describe('set quotationDetail', () => {
+    test('should call setPrice', () => {
       component.setPrice = jest.fn();
       // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
+      component.quotationDetail = QUOTATION_DETAIL_MOCK;
       expect(component.setPrice).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('ngOnChanges', () => {
-    test('should set prices', () => {
-      component.setPrice = jest.fn();
-
-      component.ngOnChanges();
-
-      expect(component.setPrice).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('set isLoading', () => {
-    test('should set isLoading false', () => {
-      component._isLoading = false;
-
-      component.isLoading = true;
-
-      expect(component.isLoading).toEqual(false);
-    });
-    test('should set isLoading true', () => {
-      component._isLoading = true;
-
-      component.isLoading = true;
-
-      expect(component.isLoading).toEqual(true);
     });
   });
 
@@ -174,6 +141,22 @@ describe('ManualPriceComponent', () => {
           width: '684px',
         }
       );
+    });
+  });
+
+  describe('set isLoading', () => {
+    test('should set isLoading true', () => {
+      component['_isLoading'] = true;
+      spectator.setInput('isLoading', true);
+
+      expect(component.isLoading).toBeTruthy();
+    });
+
+    test('should set isLoading false', () => {
+      component['_isLoading'] = true;
+      spectator.setInput('isLoading', false);
+
+      expect(component.isLoading).toBeFalsy();
     });
   });
 });

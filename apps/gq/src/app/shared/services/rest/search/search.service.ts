@@ -5,11 +5,11 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { QuotationIdentifier, SalesOrg } from '@gq/core/store/reducers/models';
+import { roundToTwoDecimals } from '@gq/shared/utils/pricing.utils';
 
 import { ApiVersion } from '../../../models';
 import { Customer } from '../../../models/customer';
 import { AutocompleteSearch, IdValue } from '../../../models/search';
-import { PriceService } from '../../price/price.service';
 import { AutocompleteResponse } from './models/autocomplete-response.model';
 import { PLsSeriesRequest } from './models/pls-series-request.model';
 import { PLsSeriesResponse } from './models/pls-series-response.model';
@@ -75,16 +75,12 @@ export class SearchService {
           ...customer,
           marginDetail: {
             ...customer.marginDetail,
-            currentGpi: PriceService.roundToTwoDecimals(
-              customer.marginDetail?.currentGpi
-            ),
-            currentNetSales: PriceService.roundToTwoDecimals(
+            currentGpi: roundToTwoDecimals(customer.marginDetail?.currentGpi),
+            currentNetSales: roundToTwoDecimals(
               customer.marginDetail?.currentNetSales
             ),
-            gpiLastYear: PriceService.roundToTwoDecimals(
-              customer.marginDetail?.gpiLastYear
-            ),
-            netSalesLastYear: PriceService.roundToTwoDecimals(
+            gpiLastYear: roundToTwoDecimals(customer.marginDetail?.gpiLastYear),
+            netSalesLastYear: roundToTwoDecimals(
               customer.marginDetail?.netSalesLastYear
             ),
           },

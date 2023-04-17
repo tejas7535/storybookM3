@@ -15,6 +15,7 @@ import {
   getExtendedSapPriceConditionDetails,
   getSimulationModeEnabled,
 } from '@gq/core/store/selectors';
+import { calculateStatusBarValues } from '@gq/shared/utils/pricing.utils';
 import { translate, TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import {
@@ -34,7 +35,6 @@ import { ExportExcelModalComponent } from '../../../components/modal/export-exce
 import { Keyboard, Quotation } from '../../../models';
 import { UomPipe } from '../../../pipes/uom/uom.pipe';
 import { HelperService } from '../../../services/helper/helper.service';
-import { PriceService } from '../../../services/price/price.service';
 import {
   ColumnFields,
   DateColumns,
@@ -337,7 +337,7 @@ export class ExportToExcelButtonComponent implements OnInit {
   }
 
   addQuotationSummary(quotation: Quotation): ExcelRow[] {
-    const statusBarProperties = PriceService.calculateStatusBarValues(
+    const statusBarProperties = calculateStatusBarValues(
       quotation.quotationDetails
     );
 

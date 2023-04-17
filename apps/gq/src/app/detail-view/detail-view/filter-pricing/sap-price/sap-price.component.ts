@@ -1,12 +1,6 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+
+import { calculateMargin } from '@gq/shared/utils/pricing.utils';
 
 import {
   PriceSource,
@@ -14,26 +8,44 @@ import {
   SapPriceCondition,
   UpdatePrice,
 } from '../../../../shared/models/quotation-detail';
-import { PriceService } from '../../../../shared/services/price/price.service';
 import { DetailRoutePath } from '../../../detail-route-path.enum';
 
 @Component({
   selector: 'gq-sap-price',
   templateUrl: './sap-price.component.html',
 })
-export class SapPriceComponent implements OnInit, OnChanges {
-  public gpi: number;
-  public gpm: number;
-  public isSelected: boolean;
-  _isLoading: boolean;
+export class SapPriceComponent {
+  private _isLoading: boolean;
+  private _quotationDetail: QuotationDetail;
+
+  gpi: number;
+  gpm: number;
+  isSelected: boolean;
+
   PriceSource = PriceSource;
   DetailRoutePath = DetailRoutePath;
 
   @Input() userHasGPCRole: boolean;
   @Input() userHasSQVRole: boolean;
   @Input() currency: string;
-  @Input() quotationDetail: QuotationDetail;
   @Input() isDisabled: boolean;
+
+  @Input() set quotationDetail(quotationDetail: QuotationDetail) {
+    if (quotationDetail) {
+      this.gpi = calculateMargin(quotationDetail.sapPrice, quotationDetail.gpc);
+      this.gpm = calculateMargin(quotationDetail.sapPrice, quotationDetail.sqv);
+      this.isSelected = [
+        PriceSource.SAP_STANDARD,
+        PriceSource.SAP_SPECIAL,
+        PriceSource.CAP_PRICE,
+      ].includes(quotationDetail.priceSource);
+    }
+    this._quotationDetail = quotationDetail;
+  }
+
+  get quotationDetail(): QuotationDetail {
+    return this._quotationDetail;
+  }
 
   @Input() set isLoading(value: boolean) {
     this._isLoading = this.isLoading && value;
@@ -45,27 +57,6 @@ export class SapPriceComponent implements OnInit, OnChanges {
 
   @Output() readonly selectSapPrice = new EventEmitter<UpdatePrice>();
 
-  ngOnInit(): void {
-    if (this.quotationDetail) {
-      this.gpi = PriceService.calculateMargin(
-        this.quotationDetail.sapPrice,
-        this.quotationDetail.gpc
-      );
-      this.gpm = PriceService.calculateMargin(
-        this.quotationDetail.sapPrice,
-        this.quotationDetail.sqv
-      );
-    }
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    if (Object.keys(changes).includes('quotationDetail')) {
-      this.isSelected = [
-        PriceSource.SAP_STANDARD,
-        PriceSource.SAP_SPECIAL,
-        PriceSource.CAP_PRICE,
-      ].includes(this.quotationDetail.priceSource);
-    }
-  }
   selectPrice(): void {
     this._isLoading = true;
     this.selectSapPrice.emit(
