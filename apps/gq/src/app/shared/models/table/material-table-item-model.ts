@@ -6,6 +6,7 @@ export class MaterialTableItem {
   materialDescription?: string;
   materialNumber?: string;
   quantity?: number;
+  targetPrice?: number;
   info?: {
     valid: boolean;
     description: ValidationDescription[];

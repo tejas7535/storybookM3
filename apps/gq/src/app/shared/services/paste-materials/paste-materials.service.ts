@@ -12,6 +12,10 @@ import { LOCALE_DE } from '../../constants';
 import { Keyboard } from '../../models';
 import { MaterialTableItem, ValidationDescription } from '../../models/table';
 
+const INDEX_MATERIAL_NUMBER = 0;
+const INDEX_QUANTITY = 1;
+const INDEX_TARGET_PRICE = 2;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -48,11 +52,15 @@ export class PasteMaterialsService {
 
   private processInput(linesArray: string[][]): MaterialTableItem[] {
     return linesArray.map((el) => {
-      const parsedQuantity = this.getParsedQuantity(el[1]);
+      const parsedQuantity = this.getParsedQuantity(el[INDEX_QUANTITY]);
+      const parsedTargetPrice = this.getParsedTargetPrice(
+        el[INDEX_TARGET_PRICE]
+      );
 
       return {
-        materialNumber: el[0].trim(),
+        materialNumber: el[INDEX_MATERIAL_NUMBER].trim(),
         quantity: parsedQuantity > 0 ? parsedQuantity : 0,
+        targetPrice: parsedTargetPrice > 0 ? parsedTargetPrice : undefined,
         info: {
           valid: false,
           description: [ValidationDescription.Not_Validated],
@@ -73,9 +81,31 @@ export class PasteMaterialsService {
     return Number.parseInt(localeQuantity.trim(), 10);
   }
 
+  /**
+   * parses the target price from string to floated number
+   *
+   * @param targetPrice target price expected without thousands separator
+   * @returns returns the target price parsed as floated number
+   */
+  private getParsedTargetPrice(targetPrice: string): number {
+    if (!targetPrice) {
+      return undefined;
+    }
+
+    // it is expected to paste a number in the format the localization is set within the app
+    const localeTargetPrice =
+      this.translocoLocaleService.getLocale() === LOCALE_DE.id
+        ? targetPrice.replace(/\./g, Keyboard.EMPTY).replace(/,/g, Keyboard.DOT)
+        : targetPrice.replace(/,/g, Keyboard.EMPTY);
+
+    return Number.parseFloat(localeTargetPrice);
+  }
+
   private removeEmptyLines(text: string): string[][] {
     return this.splitByTabs(text).filter(
-      (el) => (el[0] && el[0].length > 0) || (el[1] && el[1].length > 0)
+      (el) =>
+        (el[INDEX_MATERIAL_NUMBER] && el[INDEX_MATERIAL_NUMBER].length > 0) ||
+        (el[INDEX_QUANTITY] && el[INDEX_QUANTITY].length > 0)
     );
   }
 

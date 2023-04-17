@@ -17,6 +17,7 @@ describe('PasteMaterialsService', () => {
   let spectator: SpectatorService<PasteMaterialsService>;
   let mockStore: MockStore;
   let combinedArray: MaterialTableItem[];
+  let combinedArrayWithTargetPrice: MaterialTableItem[];
   let snackBar: MatSnackBar;
 
   const createService = createServiceFactory({
@@ -64,6 +65,36 @@ describe('PasteMaterialsService', () => {
           },
         },
       ];
+
+      combinedArrayWithTargetPrice = [
+        {
+          materialNumber: '20',
+          quantity: 10,
+          targetPrice: 10.05,
+          info: {
+            valid: false,
+            description: [ValidationDescription.Not_Validated],
+          },
+        },
+        {
+          materialNumber: '201',
+          quantity: 20,
+          targetPrice: 1000.05,
+          info: {
+            valid: false,
+            description: [ValidationDescription.Not_Validated],
+          },
+        },
+        {
+          materialNumber: '203',
+          quantity: 30,
+          targetPrice: 100_000.05,
+          info: {
+            valid: false,
+            description: [ValidationDescription.Not_Validated],
+          },
+        },
+      ];
     });
     test('should dispatch action with transformed array', async () => {
       service['translocoLocaleService'].getLocale = jest
@@ -86,6 +117,55 @@ describe('PasteMaterialsService', () => {
         addRowDataItems(combinedItem)
       );
     });
+
+    test('should dispatch action with transformed array with target price ger locale input used', async () => {
+      service['translocoLocaleService'].getLocale = jest
+        .fn()
+        .mockReturnValue(LOCALE_DE.id);
+
+      Object.assign(navigator, {
+        clipboard: {
+          readText: () =>
+            new Promise((resolve) =>
+              resolve(`20\t10\t10,05\n201\t20\t1000,05\n203\t30\t100.000,05`)
+            ),
+        },
+      });
+
+      const combinedItem = {
+        items: combinedArrayWithTargetPrice,
+      };
+      await service.onPasteStart(true);
+
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        addRowDataItems(combinedItem)
+      );
+    });
+
+    test('should dispatch action with transformed array with target price eng locale input used', async () => {
+      service['translocoLocaleService'].getLocale = jest
+        .fn()
+        .mockReturnValue(LOCALE_EN.id);
+
+      Object.assign(navigator, {
+        clipboard: {
+          readText: () =>
+            new Promise((resolve) =>
+              resolve(`20\t10\t10.05\n201\t20\t1000.05\n203\t30\t100,000.05`)
+            ),
+        },
+      });
+
+      const combinedItem = {
+        items: combinedArrayWithTargetPrice,
+      };
+      await service.onPasteStart(true);
+
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        addRowDataItems(combinedItem)
+      );
+    });
+
     test('should dispatch action german locale', async () => {
       service['translocoLocaleService'].getLocale = jest
         .fn()
