@@ -1,7 +1,7 @@
 <ng-container *transloco="let t; read: 'basicFrequencies'">
   <div mat-dialog-title class="!-mx-6 !-mt-4">
     <div class="flex flex-row content-around justify-between pl-4 pb-2 pr-2">
-      <div class="my-auto text-h6 text-high-emphasis">
+      <div class="text-h6 text-high-emphasis my-auto">
         {{
           t('dialogTitle', {
             bearingDesignation: bearingDesignation$ | ngrxPush
@@ -23,8 +23,8 @@
         else loadingTemplate
       "
     >
-      <div class="rounded border border-border">
-        <div class="border-b border-border px-4 py-2 text-subtitle-1">
+      <div class="border-border rounded border">
+        <div class="border-border text-subtitle-1 border-b px-4 py-2">
           {{ basicFrequencies.title }}
         </div>
         <div class="px-8 py-4">
@@ -44,7 +44,7 @@
             <ng-container matColumnDef="value">
               <th mat-header-cell *matHeaderCellDef></th>
               <td mat-cell *matCellDef="let item">
-                {{ item.value | number: '1.2' }}
+                {{ item.value | number: '1.2-2' }}
               </td>
             </ng-container>
 

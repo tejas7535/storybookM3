@@ -11,7 +11,7 @@ export const convertCO2ApiResult = (
     { titleID: 'STRING_OUTP_RESULTS', identifier: 'block' },
     { titleID: 'STRING_OUTP_CO2', identifier: 'block' },
     { titleID: 'STRING_OUTP_CO2_EMISSIONS', identifier: 'variableBlock' },
-    { identifier: 'variableLine', designation: 'CO2-emission' },
+    { identifier: 'variableLine' },
   ]);
 
   if (!co2Subordinate) {
