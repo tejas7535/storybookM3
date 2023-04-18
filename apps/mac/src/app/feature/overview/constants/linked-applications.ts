@@ -3,6 +3,20 @@ import { OverviewCard } from '../../../shared/components/overview-card/overview-
 export const linkedApps: OverviewCard[] = [
   {
     image: '',
+    icon: '../../../assets/img/matp.svg',
+    title: 'Material Properties Estimator',
+    description:
+      'Estimate static and cyclic materials properties according to S 130999',
+    link: 'https://matlab-web-app:9988/webapps/home/login.html?afterlogin=%2Fwebapps%2Fhome%2Fsession.html%3Fapp%3DSchaeffler%252FMaterialparameterestimation',
+    learnMoreLink: undefined,
+    disableImageHoverEffect: false,
+    external: true,
+    learnMoreExternal: true,
+    inverted: true,
+    translationKey: 'linkedApplications.matp',
+  },
+  {
+    image: '',
     icon: '../../../assets/img/specviewer.svg',
     title: 'SpecViewer',
     description: 'Overview of materials-related group standards',

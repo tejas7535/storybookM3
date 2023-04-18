@@ -729,6 +729,10 @@
           "description": "Find properties of specified materials",
           "title": "WIAM"
         },
+        "matp": {
+          "title": "Material Properties Estimator",
+          "description": "Estimate static and cyclic materials properties according to S 130999"
+        },
         "specviewer": {
           "title": "SpecViewer",
           "description": "Overview of materials-related group standards"
