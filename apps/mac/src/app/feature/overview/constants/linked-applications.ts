@@ -3,6 +3,20 @@ import { OverviewCard } from '../../../shared/components/overview-card/overview-
 export const linkedApps: OverviewCard[] = [
   {
     image: '',
+    icon: '../../../assets/img/specviewer.svg',
+    title: 'SpecViewer',
+    description: 'Overview of materials-related group standards',
+    link: 'https://confluence.schaeffler.com/display/SpecViewer/',
+    learnMoreLink:
+      'https://sconnect.schaeffler.com/community/global-technology/rd-competence-services/corporate-materials/blog/2022/12/22/new-overview-page-for-steel-group-standards-launched',
+    disableImageHoverEffect: false,
+    external: true,
+    learnMoreExternal: true,
+    inverted: true,
+    translationKey: 'linkedApplications.specviewer',
+  },
+  {
+    image: '',
     icon: '../../../assets/img/wiam.svg',
     title: 'WIAM',
     description: 'Find properties of specified materials',
@@ -61,7 +75,7 @@ export const linkedApps: OverviewCard[] = [
     icon: '../../../assets/img/polyassist.svg',
     title: 'Polyassist',
     description: 'Perform a strength assessment for fiber reinforced polymers',
-    link: 'https://sconnect.schaeffler.com/groups/polyassist/',
+    link: 'https://matlab-web-app:9988/webapps/home/login.html?afterlogin=%2Fwebapps%2Fhome%2Fsession.html%3Fapp%3DSchaeffler%252FPolyAssist_4',
     learnMoreLink: 'https://sconnect.schaeffler.com/groups/polyassist/',
     disableImageHoverEffect: false,
     external: true,

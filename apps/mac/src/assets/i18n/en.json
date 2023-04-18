@@ -728,6 +728,10 @@
         "wiam": {
           "description": "Find properties of specified materials",
           "title": "WIAM"
+        },
+        "specviewer": {
+          "title": "SpecViewer",
+          "description": "Overview of materials-related group standards"
         }
       },
       "noAccessText": "No Access",
