@@ -1,4 +1,7 @@
-<div class="flex flex-row">
+<div
+  class="mb-8 flex flex-row"
+  [ngClass]="{ 'pb-[148px]': isStandalone$ | ngrxPush }"
+>
   <div class="mr-8">
     <ea-calculation-parameters></ea-calculation-parameters>
   </div>
@@ -10,4 +13,6 @@
     </div>
   </div>
 </div>
-<ea-calculation-result-preview></ea-calculation-result-preview>
+<ea-calculation-result-preview
+  [sticky]="isStandalone$ | ngrxPush"
+></ea-calculation-result-preview>

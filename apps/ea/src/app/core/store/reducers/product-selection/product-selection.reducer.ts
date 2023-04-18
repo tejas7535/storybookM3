@@ -1,4 +1,4 @@
-import { createReducer, on } from '@ngrx/store';
+import { Action, createReducer, on } from '@ngrx/store';
 
 import { ProductSelectionActions } from '../../actions';
 import { ProductSelectionState } from '../../models';
@@ -32,3 +32,10 @@ export const productSelectionReducer = createReducer(
     })
   )
 );
+
+export function reducer(
+  state: ProductSelectionState,
+  action: Action
+): ProductSelectionState {
+  return productSelectionReducer(state, action);
+}

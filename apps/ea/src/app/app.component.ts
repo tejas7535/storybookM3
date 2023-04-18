@@ -10,7 +10,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 import { Store } from '@ngrx/store';
 
-import { ProductSelectionActions } from './core/store/actions';
+import { ProductSelectionActions, SettingsActions } from './core/store/actions';
 import { DEFAULT_BEARING_DESIGNATION } from './shared/constants/products';
 
 @Component({
@@ -23,6 +23,7 @@ export class AppComponent implements OnInit, OnChanges {
   public title = 'Engineering App';
 
   @Input() bearingDesignation: string | undefined;
+  @Input() standalone: string | undefined;
 
   public constructor(
     private readonly matIconRegistry: MatIconRegistry,
@@ -37,6 +38,14 @@ export class AppComponent implements OnInit, OnChanges {
       this.store.dispatch(
         ProductSelectionActions.setBearingDesignation({
           bearingDesignation: changes.bearingDesignation.currentValue,
+        })
+      );
+    }
+
+    if (changes.standalone) {
+      this.store.dispatch(
+        SettingsActions.setStandalone({
+          isStandalone: changes.standalone.currentValue === 'true',
         })
       );
     }

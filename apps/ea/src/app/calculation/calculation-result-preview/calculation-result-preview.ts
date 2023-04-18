@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
@@ -29,6 +29,8 @@ import { CalculationResultPreviewItemComponent } from '../calculation-result-pre
   ],
 })
 export class CalculationResultPreviewComponent {
+  @Input() sticky = true;
+
   public overlayData$ =
     this.calculationResultFacade.getCalculationResultPreviewData$;
   public isResultAvailable$ =

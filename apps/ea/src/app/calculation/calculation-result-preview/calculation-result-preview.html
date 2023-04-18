@@ -1,9 +1,10 @@
 <ng-container *transloco="let t; read: 'calculation'">
   <div
-    class="sticky bottom-0 left-0 flex w-full items-center justify-center overflow-hidden"
+    class="left-0 flex w-full items-center justify-center overflow-hidden"
+    [ngClass]="{'fixed bottom-0': sticky}"
   >
     <div
-      class="flex flex-row items-center justify-center gap-8 rounded-t bg-background-dark pt-6 pb-6 pl-8 pr-8"
+      class="bg-background-dark flex flex-row items-center justify-center gap-8 rounded-t pt-6 pb-6 pl-8 pr-8"
     >
       <div class="flex flex-grow flex-row gap-8">
         <ng-container *ngIf="isCalculationMissingInput$ | ngrxPush">
@@ -11,7 +12,7 @@
             <div class="flex flex-shrink-0">
               <mat-icon color="primary">info</mat-icon>
             </div>
-            <div class="ml-2 flex-shrink-0 text-caption">
+            <div class="text-caption ml-2 flex-shrink-0">
               {{ t('calculationMissingInput') }}
             </div>
           </div>
@@ -24,7 +25,7 @@
               <mat-icon color="error">warning</mat-icon>
             </div>
             <div
-              class="ml-2 flex-shrink-0 text-caption"
+              class="text-caption ml-2 flex-shrink-0"
               [style]="{'max-width': '220px'}"
             >
               {{ t('calculationImpossible') }}
