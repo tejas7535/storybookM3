@@ -185,7 +185,8 @@
         "productCostingBomUsage": "BOM Usage",
         "productCostingBomAlternative": "BOM Alternative",
         "materialGroup": "Material Group",
-        "materialGroupDescription": "Material Group Description"
+        "materialGroupDescription": "Material Group Description",
+        "itemCategory": "ITEM Category"
       },
       "groupHeaders": {
         "materialInformation": "Material Information",

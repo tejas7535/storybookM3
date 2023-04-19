@@ -633,6 +633,11 @@ export class ColumnDefinitionService {
           headerName: translate('shared.bom.headers.materialValuationClass'),
           hide: true,
         },
+        {
+          field: 'itemCategory',
+          headerName: translate('shared.bom.headers.itemCategory'),
+          hide: true,
+        },
       ],
     },
     {

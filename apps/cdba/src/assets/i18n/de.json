@@ -185,7 +185,8 @@
         "productCostingBomUsage": "Stücklistenverwendung",
         "productCostingBomAlternative": "Stücklistenalternative",
         "materialGroup": "Warengruppe",
-        "materialGroupDescription": "Warengruppenbezeichnung"
+        "materialGroupDescription": "Warengruppenbezeichnung",
+        "itemCategory": "ITEM Kategorie"
       },
       "groupHeaders": {
         "materialInformation": "Material Information",
