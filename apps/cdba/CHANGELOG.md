@@ -1,4 +1,11 @@
 # Release Notes of Cost Database Analytics
+## [3.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v3.0.0...cdba-v3.1.0) (2023-04-19)
+
+
+### Features
+
+* **cdba:** enabled new column ItemCategory in BOM view ([#5210](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5210)) ([a88495c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a88495c2bf4535bd82598ea76a88b0af79192f52))
+
 ## [3.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.20.0...cdba-v3.0.0) (2023-03-31)
 
 
