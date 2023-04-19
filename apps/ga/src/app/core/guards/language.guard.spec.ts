@@ -1,18 +1,11 @@
 import { ActivatedRouteSnapshot } from '@angular/router';
 
-import {
-  createServiceFactory,
-  mockProvider,
-  SpectatorService,
-} from '@ngneat/spectator/jest';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { TranslocoService } from '@ngneat/transloco';
-import { provideMockStore } from '@ngrx/store/testing';
-import { marbles } from 'rxjs-marbles/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { isLanguageAvailable } from '@ga/core/helpers/language-helpers';
-import { SettingsFacade } from '@ga/core/store';
 
 import { LanguageGuard } from './language.guard';
 
@@ -22,7 +15,6 @@ const mockedIsLanguageAvailable = jest.mocked(isLanguageAvailable, true);
 describe('LanguageGuard', () => {
   let spectator: SpectatorService<LanguageGuard>;
   let guard: LanguageGuard;
-  let settingsFacade: SettingsFacade;
   let translocoService: TranslocoService;
 
   const language = 'de';
@@ -38,13 +30,11 @@ describe('LanguageGuard', () => {
   const createService = createServiceFactory({
     service: LanguageGuard,
     imports: [provideTranslocoTestingModule({ en: {} })],
-    providers: [provideMockStore({}), mockProvider(SettingsFacade)],
   });
 
   beforeEach(() => {
     spectator = createService();
     guard = spectator.inject(LanguageGuard);
-    settingsFacade = spectator.inject(SettingsFacade);
     translocoService = spectator.inject(TranslocoService);
   });
 
@@ -53,45 +43,22 @@ describe('LanguageGuard', () => {
   });
 
   describe('canActivateChild', () => {
-    it(
-      'should grant access, if app is not embedded',
-      marbles((m) => {
-        settingsFacade.appIsEmbedded$ = m.cold('a', { a: true });
+    it('should set active language', () => {
+      mockedIsLanguageAvailable.mockImplementation(() => true);
+      translocoService.setActiveLang = jest.fn();
 
-        guard
-          .canActivate(mockRouteWithLanguageParam)
-          .subscribe((granted) => expect(granted).toBeTruthy());
-      })
-    );
+      guard.canActivate(mockRouteWithLanguageParam);
 
-    it(
-      'should set active language',
-      marbles((m) => {
-        mockedIsLanguageAvailable.mockImplementation(() => true);
-        settingsFacade.appIsEmbedded$ = m.cold('a', { a: true });
-        translocoService.setActiveLang = jest.fn();
+      expect(translocoService.setActiveLang).toHaveBeenCalledWith('de');
+    });
 
-        guard
-          .canActivate(mockRouteWithLanguageParam)
-          .subscribe(() =>
-            expect(translocoService.setActiveLang).toHaveBeenCalledWith('de')
-          );
-      })
-    );
+    it('should not set active language', () => {
+      mockedIsLanguageAvailable.mockImplementation(() => false);
+      translocoService.setActiveLang = jest.fn();
 
-    it(
-      'should not set active language',
-      marbles((m) => {
-        mockedIsLanguageAvailable.mockImplementation(() => false);
-        settingsFacade.appIsEmbedded$ = m.cold('a', { a: true });
-        translocoService.setActiveLang = jest.fn();
+      guard.canActivate(mockRouteWithoutParams);
 
-        guard
-          .canActivate(mockRouteWithoutParams)
-          .subscribe(() =>
-            expect(translocoService.setActiveLang).not.toHaveBeenCalled()
-          );
-      })
-    );
+      expect(translocoService.setActiveLang).not.toHaveBeenCalled();
+    });
   });
 });

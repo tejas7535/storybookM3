@@ -9,7 +9,7 @@ export const appRoutePaths: Routes = [
   {
     path: AppRoutePath.BasePath,
     loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
-    canActivate: [AppIsEmbeddedGuard],
+    canActivate: [AppIsEmbeddedGuard, LanguageGuard],
   },
   {
     path: AppRoutePath.GreaseCalculationPath,
