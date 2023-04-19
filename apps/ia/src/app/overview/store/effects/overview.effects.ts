@@ -10,7 +10,6 @@ import { Store } from '@ngrx/store';
 import { AppRoutePath } from '../../../app-route-path.enum';
 import { selectRouterState } from '../../../core/store';
 import { filterSelected } from '../../../core/store/actions';
-import { initialTimeRange } from '../../../core/store/reducers/filter/filter.reducer';
 import { getCurrentFilters } from '../../../core/store/selectors';
 import { OrganizationalViewService } from '../../../organizational-view/organizational-view.service';
 import {
@@ -168,7 +167,6 @@ export class OverviewEffects {
           ({
             filterDimension: request.filterDimension,
             value: request.value,
-            timeRange: initialTimeRange,
           } as EmployeesRequest)
       ),
       mergeMap((request: EmployeesRequest) =>

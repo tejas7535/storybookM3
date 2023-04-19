@@ -361,7 +361,6 @@ describe('Overview Effects', () => {
 
   describe('loadResignedEmployees', () => {
     let request: EmployeesRequest;
-    let expectedTimeRange = '';
 
     beforeEach(() => {
       request = {
@@ -370,7 +369,6 @@ describe('Overview Effects', () => {
         timeRange: '123|456',
       };
       action = loadResignedEmployees();
-      expectedTimeRange = '654-321';
     });
 
     it(
@@ -400,7 +398,6 @@ describe('Overview Effects', () => {
         expect(overviewService.getResignedEmployees).toHaveBeenCalledWith({
           filterDimension: request.filterDimension,
           value: request.value,
-          timeRange: expectedTimeRange,
         } as EmployeesRequest);
       })
     );
@@ -425,7 +422,6 @@ describe('Overview Effects', () => {
         expect(overviewService.getResignedEmployees).toHaveBeenCalledWith({
           filterDimension: request.filterDimension,
           value: request.value,
-          timeRange: expectedTimeRange,
         } as EmployeesRequest);
       })
     );

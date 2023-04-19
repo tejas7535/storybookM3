@@ -88,10 +88,9 @@ describe('OverviewService', () => {
         resignedEmployeesCount: 5,
         responseModified: true,
       };
-      const request: EmployeesRequest = {
+      const request: Partial<EmployeesRequest> = {
         filterDimension: FilterDimension.ORG_UNIT,
         value: 'ABC123',
-        timeRange: '123|456',
       };
 
       service.getResignedEmployees(request).subscribe((response) => {
@@ -99,7 +98,7 @@ describe('OverviewService', () => {
       });
 
       const req = httpMock.expectOne(
-        `api/v1/resigned-employees?dimension=${FilterDimension.ORG_UNIT}&value=${request.value}&time_range=123%7C456`
+        `api/v1/resigned-employees?dimension=${FilterDimension.ORG_UNIT}&value=${request.value}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);

@@ -72,12 +72,11 @@ export class OverviewService {
   }
 
   getResignedEmployees(
-    employeesRequest: EmployeesRequest
+    employeesRequest: Partial<EmployeesRequest>
   ): Observable<ResignedEmployeesResponse> {
-    const params = this.paramsCreator.createHttpParamsForDimensionAndTimeRange(
+    const params = this.paramsCreator.createHttpParamsForFilterDimension(
       employeesRequest.filterDimension,
-      employeesRequest.value,
-      employeesRequest.timeRange
+      employeesRequest.value
     );
 
     return this.http.get<ResignedEmployeesResponse>(
