@@ -61,6 +61,7 @@ export class EditCaseMaterialComponent {
           material: this.params.data,
           field: this.params.colDef.field,
         },
+        autoFocus: false,
       })
       .afterClosed()
       .subscribe((result: MaterialTableItem) => {
