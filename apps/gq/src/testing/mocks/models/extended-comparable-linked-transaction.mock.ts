@@ -12,7 +12,6 @@ export const EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK: ExtendedComparableLink
     sector: 'V260',
     subKeyAccount: 'subkey Other Customers',
     subSector: 'E-motors (</= 3kW)',
-
     identifier: 213,
     customerName: 'customerName',
     customerId: 'customerId',

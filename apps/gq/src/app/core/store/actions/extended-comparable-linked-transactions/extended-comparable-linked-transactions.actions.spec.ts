@@ -17,11 +17,9 @@ describe('ExtendedComparableLinkedTransactionsActions', () => {
 
   describe('loadComparableTransactions', () => {
     test('loadComparableTransactions', () => {
-      const quotationNumber = 123;
-      action = loadExtendedComparableLinkedTransaction({ quotationNumber });
+      action = loadExtendedComparableLinkedTransaction();
       expect(action).toEqual({
-        quotationNumber,
-        type: '[Extended Transactions] Load Extended Comparable Linked Transactions for QuotationDetail',
+        type: '[Extended Transactions] Load Extended Comparable Linked Transactions for Selected QuotationDetail',
       });
     });
   });

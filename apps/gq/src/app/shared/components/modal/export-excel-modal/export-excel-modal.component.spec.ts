@@ -92,7 +92,6 @@ describe('ExportExcelModalComponent', () => {
     beforeEach(() => {
       store.dispatch = jest.fn();
       component.closeDialog = jest.fn();
-      component.gQId = 45;
     });
 
     test('dispatch loadExtendedComparableLinkedTransaction', () => {
@@ -101,9 +100,7 @@ describe('ExportExcelModalComponent', () => {
       component.fetchTransactions();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        loadExtendedComparableLinkedTransaction({
-          quotationNumber: component.gQId,
-        })
+        loadExtendedComparableLinkedTransaction()
       );
     });
 

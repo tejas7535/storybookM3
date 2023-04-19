@@ -81,8 +81,7 @@ describe('SapPriceDetails Reducer', () => {
   });
   describe('loadExtendedSapPriceConditionDetails', () => {
     test('should set extendedSapPriceConditionDetails', () => {
-      const quotationNumber = 1234;
-      const action = loadExtendedSapPriceConditionDetails({ quotationNumber });
+      const action = loadExtendedSapPriceConditionDetails();
 
       const state = sapPriceDetailsReducer(
         SAP_PRICE_DETAILS_STATE_MOCK,

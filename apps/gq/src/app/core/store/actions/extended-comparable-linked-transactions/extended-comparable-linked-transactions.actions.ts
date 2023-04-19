@@ -3,8 +3,7 @@ import { createAction, props, union } from '@ngrx/store';
 import { ExtendedComparableLinkedTransaction } from '../../reducers/extended-comparable-linked-transactions/models/extended-comparable-linked-transaction';
 
 export const loadExtendedComparableLinkedTransaction = createAction(
-  '[Extended Transactions] Load Extended Comparable Linked Transactions for QuotationDetail',
-  props<{ quotationNumber: number }>()
+  '[Extended Transactions] Load Extended Comparable Linked Transactions for Selected QuotationDetail'
 );
 
 export const loadExtendedComparableLinkedTransactionSuccess = createAction(

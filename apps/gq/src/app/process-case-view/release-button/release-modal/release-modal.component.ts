@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 
-import { ApprovalLevel } from '@gq/shared/models/quotation/approvalLevel.enum';
+import { ApprovalLevel } from '@gq/shared/models/quotation/approval-level.enum';
 import { Approver } from '@gq/shared/models/quotation/approver';
 
 @Component({

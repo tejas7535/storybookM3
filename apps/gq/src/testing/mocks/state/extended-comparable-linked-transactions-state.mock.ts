@@ -2,7 +2,6 @@ import { ExtendedComparableLinkedTransactionsState } from '../../../app/core/sto
 
 export const EXTENDED_COMPARABLE_LINKED_TRANSACTIONS_STATE_MOCK: ExtendedComparableLinkedTransactionsState =
   {
-    quotationNumber: undefined,
     extendedComparableLinkedTransactions: [],
     errorMessage: undefined,
     extendedComparableLinkedTransactionsLoading: false,

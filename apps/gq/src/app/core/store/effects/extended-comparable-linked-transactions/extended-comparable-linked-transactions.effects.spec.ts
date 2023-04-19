@@ -1,5 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
+import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -7,14 +8,13 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
 import { EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK } from '../../../../../testing/mocks';
-import { QuotationDetailsService } from '../../../../shared/services/rest/quotation-details/quotation-details.service';
 import {
   loadExtendedComparableLinkedTransaction,
   loadExtendedComparableLinkedTransactionFailure,
   loadExtendedComparableLinkedTransactionSuccess,
 } from '../../actions';
 import { ExtendedComparableLinkedTransaction } from '../../reducers/models';
-import { getPriceUnitsForQuotationItemIds } from '../../selectors';
+import { getGqId, getPriceUnitsForQuotationItemIds } from '../../selectors';
 import { ExtendedComparableLinkedTransactionsEffect } from './extended-comparable-linked-transactions.effects';
 
 describe('ExtendedComparableLinkedTransactionsEffect', () => {
@@ -62,13 +62,14 @@ describe('ExtendedComparableLinkedTransactionsEffect', () => {
         getPriceUnitsForQuotationItemIds,
         priceUnitForQuotationItemIds
       );
-      action = loadExtendedComparableLinkedTransaction({ quotationNumber });
+      store.overrideSelector(getGqId, quotationNumber);
+      action = loadExtendedComparableLinkedTransaction();
     });
 
     test(
       'should return loadExtendedComparableLinkedTransactionsSuccess',
       marbles((m) => {
-        action = loadExtendedComparableLinkedTransaction({ quotationNumber });
+        action = loadExtendedComparableLinkedTransaction();
 
         const result = loadExtendedComparableLinkedTransactionSuccess({
           extendedComparableLinkedTransactions,
@@ -98,7 +99,7 @@ describe('ExtendedComparableLinkedTransactionsEffect', () => {
     test(
       'should return loadExtendedComparableLinkedTransactionsFailure',
       marbles((m) => {
-        action = loadExtendedComparableLinkedTransaction({ quotationNumber });
+        action = loadExtendedComparableLinkedTransaction();
         const result = loadExtendedComparableLinkedTransactionFailure({
           errorMessage,
         });

@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 
 import { catchError, filter, map, mergeMap, of } from 'rxjs';
 
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
+import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { DetailRoutePath } from '../../../../detail-view/detail-route-path.enum';
-import { QuotationDetailsService } from '../../../../shared/services/rest/quotation-details/quotation-details.service';
 import {
   loadExtendedSapPriceConditionDetails,
   loadExtendedSapPriceConditionDetailsFailure,
@@ -21,6 +22,7 @@ import {
   ExtendedSapPriceConditionDetail,
   SapPriceConditionDetail,
 } from '../../reducers/models';
+import { getGqId } from '../../selectors';
 
 @Injectable()
 export class SapPriceDetailsEffects {
@@ -61,7 +63,8 @@ export class SapPriceDetailsEffects {
   loadExtendedSapPriceConditionDetails$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadExtendedSapPriceConditionDetails),
-      map((action) => action.quotationNumber),
+      concatLatestFrom(() => this.store.select(getGqId)),
+      map(([_action, gqId]) => gqId),
       mergeMap((quotationNumber: number) =>
         this.quotationDetailsService
           .getExtendedSapPriceConditionDetails(quotationNumber)
@@ -87,6 +90,7 @@ export class SapPriceDetailsEffects {
   });
 
   constructor(
+    private readonly store: Store,
     private readonly actions$: Actions,
     private readonly quotationDetailsService: QuotationDetailsService
   ) {}

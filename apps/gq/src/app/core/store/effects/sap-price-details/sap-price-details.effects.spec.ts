@@ -2,10 +2,12 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { of } from 'rxjs';
 
+import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
 import {
@@ -14,7 +16,6 @@ import {
 } from '../../../../../testing/mocks';
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { DetailRoutePath } from '../../../../detail-view/detail-route-path.enum';
-import { QuotationDetailsService } from '../../../../shared/services/rest/quotation-details/quotation-details.service';
 import {
   loadExtendedSapPriceConditionDetails,
   loadExtendedSapPriceConditionDetailsFailure,
@@ -23,6 +24,7 @@ import {
   loadSapPriceDetailsFailure,
   loadSapPriceDetailsSuccess,
 } from '../../actions';
+import { getGqId } from '../../selectors';
 import { SapPriceDetailsEffects } from './sap-price-details.effects';
 
 describe('SapPriceDetailsEffects', () => {
@@ -31,17 +33,20 @@ describe('SapPriceDetailsEffects', () => {
   let actions$: any;
   let action: any;
   let quotationDetailsService: QuotationDetailsService;
+  let store: MockStore;
 
   const createService = createServiceFactory({
     service: SapPriceDetailsEffects,
     imports: [HttpClientTestingModule],
-    providers: [provideMockActions(() => actions$)],
+    providers: [provideMockActions(() => actions$), provideMockStore()],
   });
+
   beforeEach(() => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(SapPriceDetailsEffects);
     quotationDetailsService = spectator.inject(QuotationDetailsService);
+    store = spectator.inject(MockStore);
   });
 
   describe('triggerLoadSapPriceDetails', () => {
@@ -71,6 +76,7 @@ describe('SapPriceDetailsEffects', () => {
       })
     );
   });
+
   describe('loadSapPriceDetails$', () => {
     beforeEach(() => {
       action = loadSapPriceDetails({ gqPositionId: '1234' });
@@ -89,6 +95,7 @@ describe('SapPriceDetailsEffects', () => {
         const expected$ = m.cold('-b', { b: result });
 
         m.expect(effects.loadSapPriceDetails$).toBeObservable(expected$);
+        m.flush();
       })
     );
 
@@ -116,9 +123,8 @@ describe('SapPriceDetailsEffects', () => {
 
   describe('loadExtendedSapPriceConditionDetails$', () => {
     beforeEach(() => {
-      action = loadExtendedSapPriceConditionDetails({
-        quotationNumber: 1234,
-      });
+      store.overrideSelector(getGqId, 1234);
+      action = loadExtendedSapPriceConditionDetails();
     });
     test(
       'should return loadExtendedSapPriceConditionDetailsSuccess',

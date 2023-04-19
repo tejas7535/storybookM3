@@ -21,8 +21,7 @@ export const loadSapPriceDetailsFailure = createAction(
 );
 
 export const loadExtendedSapPriceConditionDetails = createAction(
-  '[SAP Price Details] Load ExtendedSapPriceConditionDetails for Quotation',
-  props<{ quotationNumber: number }>()
+  '[SAP Price Details] Load ExtendedSapPriceConditionDetails for Selected Quotation'
 );
 
 export const loadExtendedSapPriceConditionDetailsSuccess = createAction(

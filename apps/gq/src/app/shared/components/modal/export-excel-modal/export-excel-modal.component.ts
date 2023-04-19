@@ -11,7 +11,6 @@ import {
 import {
   getExtendedComparableLinkedTransactionsErrorMessage,
   getExtendedComparableLinkedTransactionsLoading,
-  getGqId,
 } from '@gq/core/store/selectors';
 import { Store } from '@ngrx/store';
 
@@ -29,7 +28,6 @@ export class ExportExcelModalComponent implements OnInit, OnDestroy {
   ExportExcel = ExportExcel;
   transactionsLoading$: Observable<boolean>;
   private readonly subscription: Subscription = new Subscription();
-  gQId: number;
 
   constructor(
     private readonly store: Store,
@@ -50,7 +48,6 @@ export class ExportExcelModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.store.select(getGqId).subscribe((gqId) => (this.gQId = gqId));
     this.transactionsLoading$ = this.store.select(
       getExtendedComparableLinkedTransactionsLoading
     );
@@ -87,17 +84,9 @@ export class ExportExcelModalComponent implements OnInit, OnDestroy {
 
   fetchTransactions(): void {
     if (this.exportExcelOption === ExportExcel.DETAILED_DOWNLOAD) {
-      this.store.dispatch(
-        loadExtendedComparableLinkedTransaction({
-          quotationNumber: this.gQId,
-        })
-      );
+      this.store.dispatch(loadExtendedComparableLinkedTransaction());
 
-      this.store.dispatch(
-        loadExtendedSapPriceConditionDetails({
-          quotationNumber: this.gQId,
-        })
-      );
+      this.store.dispatch(loadExtendedSapPriceConditionDetails());
     } else if (this.exportExcelOption === ExportExcel.BASIC_DOWNLOAD) {
       this.closeDialog();
     }

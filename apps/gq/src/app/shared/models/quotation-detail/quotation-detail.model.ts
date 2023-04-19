@@ -1,6 +1,6 @@
 import { SapPriceConditionDetail } from '@gq/core/store/reducers/models';
 
-import { AbcxClassification } from '../quotation/abcxClassification.enum';
+import { AbcxClassification } from '../quotation/abcx-classification.enum';
 import { LastCustomerPriceCondition } from './last-customer-price-condition.enum';
 import { LastOfferDetail } from './last-offer-detail.model';
 import { MaterialDetails } from './material-details.model';

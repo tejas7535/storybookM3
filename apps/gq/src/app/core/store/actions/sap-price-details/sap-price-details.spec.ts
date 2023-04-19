@@ -49,11 +49,9 @@ describe('SapPriceDetailActions', () => {
   });
   describe('loadExtendedSapPriceConditionDetails', () => {
     test('loadExtendedSapPriceConditionDetails', () => {
-      const quotationNumber = 123;
-      action = loadExtendedSapPriceConditionDetails({ quotationNumber });
+      action = loadExtendedSapPriceConditionDetails();
       expect(action).toEqual({
-        quotationNumber,
-        type: '[SAP Price Details] Load ExtendedSapPriceConditionDetails for Quotation',
+        type: '[SAP Price Details] Load ExtendedSapPriceConditionDetails for Selected Quotation',
       });
     });
   });

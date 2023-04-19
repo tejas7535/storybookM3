@@ -3,26 +3,27 @@ import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap, withLatestFrom } from 'rxjs/operators';
 
+import { PriceUnitForQuotationItemId } from '@gq/shared/models/quotation-detail/price-units-for-quotation-item-ids.model';
+import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
 import { multiplyAndRoundValues } from '@gq/shared/utils/pricing.utils';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
-import { PriceUnitForQuotationItemId } from '../../../../shared/models/quotation-detail/price-units-for-quotation-item-ids.model';
-import { QuotationDetailsService } from '../../../../shared/services/rest/quotation-details/quotation-details.service';
 import {
   loadExtendedComparableLinkedTransaction,
   loadExtendedComparableLinkedTransactionFailure,
   loadExtendedComparableLinkedTransactionSuccess,
 } from '../../actions';
 import { ExtendedComparableLinkedTransaction } from '../../reducers/models';
-import { getPriceUnitsForQuotationItemIds } from '../../selectors';
+import { getGqId, getPriceUnitsForQuotationItemIds } from '../../selectors';
 
 @Injectable()
 export class ExtendedComparableLinkedTransactionsEffect {
   loadExtendedComparableLinkedTransactions$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadExtendedComparableLinkedTransaction.type),
-      map((action: any) => action.quotationNumber),
+      concatLatestFrom(() => this.store.select(getGqId)),
+      map(([_action, gqId]) => gqId),
       mergeMap((quotationNumber: number) =>
         this.quotationDetailsService.getAllTransactions(quotationNumber).pipe(
           withLatestFrom(this.store.select(getPriceUnitsForQuotationItemIds)),

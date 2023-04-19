@@ -5,6 +5,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { SyncStatusCustomerInfoHeaderModule } from '@gq/shared/components/header/sync-status-customer-info-header/sync-status-customer-info-header.module';
+import { SAP_SYNC_STATUS } from '@gq/shared/models/quotation-detail';
+import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import {
   createComponentFactory,
   mockProvider,
@@ -30,10 +33,6 @@ import {
   QUOTATION_MOCK,
 } from '../../../testing/mocks';
 import { MATERIAL_STOCK_MOCK } from '../../../testing/mocks/models/material-stock.mock';
-import { SyncStatusCustomerInfoHeaderModule } from '../../shared/components/header/sync-status-customer-info-header/sync-status-customer-info-header.module';
-import { SAP_SYNC_STATUS } from '../../shared/models/quotation-detail';
-import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
-import { AgGridStateService } from '../../shared/services/ag-grid-state/ag-grid-state.service';
 import { DetailViewComponent } from './detail-view.component';
 import { FilterPricingModule } from './filter-pricing/filter-pricing.module';
 import { PricingDetailsModule } from './pricing-details/pricing-details.module';
@@ -59,7 +58,6 @@ describe('DetailViewComponent', () => {
       LoadingSpinnerModule,
       MockModule(LetModule),
       MockModule(PushModule),
-      SharedPipesModule,
       SubheaderModule,
       BreadcrumbsModule,
       ShareButtonModule,

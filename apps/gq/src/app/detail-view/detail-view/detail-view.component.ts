@@ -13,19 +13,19 @@ import {
   getQuotationLoading,
   getSelectedQuotationDetail,
 } from '@gq/core/store/selectors';
+import { Quotation } from '@gq/shared/models';
+import {
+  PlantMaterialDetail,
+  QuotationDetail,
+  SAP_SYNC_STATUS,
+} from '@gq/shared/models/quotation-detail';
+import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
+import { BreadcrumbsService } from '@gq/shared/services/breadcrumbs/breadcrumbs.service';
 import { Store } from '@ngrx/store';
 
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
 import { AppRoutePath } from '../../app-route-path.enum';
-import { Quotation } from '../../shared/models';
-import {
-  PlantMaterialDetail,
-  QuotationDetail,
-  SAP_SYNC_STATUS,
-} from '../../shared/models/quotation-detail';
-import { AgGridStateService } from '../../shared/services/ag-grid-state/ag-grid-state.service';
-import { BreadcrumbsService } from '../../shared/services/breadcrumbs/breadcrumbs.service';
 
 @Component({
   selector: 'gq-detail-view',

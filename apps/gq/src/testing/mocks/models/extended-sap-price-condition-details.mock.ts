@@ -1,6 +1,6 @@
 import { CalculationType } from '../../../app/core/store/reducers/sap-price-details/models/calculation-type.enum';
-import { ExtendedSapPriceConditionDetail } from '../../../app/core/store/reducers/sap-price-details/models/sap-price-condition-detail.model';
 import { SapConditionType } from '../../../app/core/store/reducers/sap-price-details/models/sap-condition-type.enum';
+import { ExtendedSapPriceConditionDetail } from '../../../app/core/store/reducers/sap-price-details/models/sap-price-condition-detail.model';
 
 export const EXTENDED_SAP_PRICE_DETAIL_MOCK: ExtendedSapPriceConditionDetail = {
   sapConditionType: SapConditionType.ZMIN,

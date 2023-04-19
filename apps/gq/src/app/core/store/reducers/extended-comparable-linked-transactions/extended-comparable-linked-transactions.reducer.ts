@@ -8,14 +8,12 @@ import {
 import { ExtendedComparableLinkedTransaction } from './models/extended-comparable-linked-transaction';
 
 export interface ExtendedComparableLinkedTransactionsState {
-  quotationNumber: number;
   extendedComparableLinkedTransactions: ExtendedComparableLinkedTransaction[];
   errorMessage: string;
   extendedComparableLinkedTransactionsLoading: boolean;
 }
 
 export const initialState: ExtendedComparableLinkedTransactionsState = {
-  quotationNumber: undefined,
   extendedComparableLinkedTransactions: [],
   errorMessage: undefined,
   extendedComparableLinkedTransactionsLoading: false,
@@ -26,11 +24,9 @@ export const extendedComparableLinkedTransactionsReducer = createReducer(
   on(
     loadExtendedComparableLinkedTransaction,
     (
-      state: ExtendedComparableLinkedTransactionsState,
-      { quotationNumber }
+      state: ExtendedComparableLinkedTransactionsState
     ): ExtendedComparableLinkedTransactionsState => ({
       ...state,
-      quotationNumber,
       extendedComparableLinkedTransactionsLoading: true,
     })
   ),

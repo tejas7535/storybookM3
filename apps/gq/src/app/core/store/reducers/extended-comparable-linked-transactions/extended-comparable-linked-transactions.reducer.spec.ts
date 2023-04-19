@@ -12,10 +12,7 @@ import { extendedComparableLinkedTransactionsReducer } from './extended-comparab
 describe('ExtendedComparableLinkedTransactions Reducer', () => {
   describe('loadExtendedComparableLinkedTransaction', () => {
     test('should set extendedComparableLinkedTransaction', () => {
-      const quotationNumber = 1234;
-      const action = loadExtendedComparableLinkedTransaction({
-        quotationNumber,
-      });
+      const action = loadExtendedComparableLinkedTransaction();
 
       const state = extendedComparableLinkedTransactionsReducer(
         EXTENDED_COMPARABLE_LINKED_TRANSACTIONS_STATE_MOCK,
@@ -24,7 +21,6 @@ describe('ExtendedComparableLinkedTransactions Reducer', () => {
 
       expect(state).toEqual({
         ...EXTENDED_COMPARABLE_LINKED_TRANSACTIONS_STATE_MOCK,
-        quotationNumber,
         extendedComparableLinkedTransactionsLoading: true,
       });
     });
