@@ -30,7 +30,7 @@ export const initialState: CalculationParametersState = {
     nlgiClass: undefined,
     loading: false,
   },
-  automaticLubrication: true,
+  automaticLubrication: false,
   valid: false,
   updating: false,
   properties: undefined,
