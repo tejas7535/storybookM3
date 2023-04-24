@@ -1,12 +1,12 @@
-import { CalculationResult } from '../store/models';
+import { FrictionCalculationResult } from '../store/models';
 import {
-  CO2ServiceCalculationResult,
+  FrictionServiceCalculationResult,
   ResultSubordinate,
-} from './co2-service.interface';
+} from './friction-service.interface';
 
-export const convertCO2ApiResult = (
-  originalResult: CO2ServiceCalculationResult
-): CalculationResult => {
+export const convertFrictionApiResult = (
+  originalResult: FrictionServiceCalculationResult
+): FrictionCalculationResult => {
   const co2Subordinate = extractSubordinatesFromPath(originalResult, [
     { titleID: 'STRING_OUTP_RESULTS', identifier: 'block' },
     { titleID: 'STRING_OUTP_CO2', identifier: 'block' },
@@ -18,13 +18,18 @@ export const convertCO2ApiResult = (
     return {};
   }
 
-  return {
-    co2_downstream: Number.parseFloat(co2Subordinate.value),
+  const result: FrictionCalculationResult = {
+    co2_downstream: {
+      unit: 'kg',
+      value: Number.parseFloat(co2Subordinate.value),
+    },
   };
+
+  return result;
 };
 
 export const extractSubordinatesFromPath = (
-  input: CO2ServiceCalculationResult,
+  input: FrictionServiceCalculationResult,
   path: Partial<ResultSubordinate>[]
 ): ResultSubordinate | undefined => {
   let result: ResultSubordinate = input;

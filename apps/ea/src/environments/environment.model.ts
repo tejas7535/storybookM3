@@ -2,8 +2,9 @@ export interface Environment {
   production: boolean;
   localDev: boolean;
   devToolsEnabled: boolean;
-  catalogBaseUrl: string;
-  co2BaseUrl: string;
+  catalogApiBaseUrl: string;
+  frictionApiBaseUrl: string;
+  co2UpstreamApiBaseUrl: string;
   tenantId: string;
   groupId: string;
   translationPath: string;

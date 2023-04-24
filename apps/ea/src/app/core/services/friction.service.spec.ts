@@ -14,35 +14,35 @@ import {
   CalculationParametersEnergySource,
   CalculationParametersOperationConditions,
 } from '../store/models';
-import { CO2Service } from './co2.service';
+import { FrictionService } from './friction.service';
 
-describe('CO2Service', () => {
-  let co2Service: CO2Service;
-  let spectator: SpectatorService<CO2Service>;
+describe('FrictionService', () => {
+  let frictionService: FrictionService;
+  let spectator: SpectatorService<FrictionService>;
   let httpMock: HttpTestingController;
 
   const createService = createServiceFactory({
-    service: CO2Service,
+    service: FrictionService,
     imports: [HttpClientTestingModule],
-    providers: [CO2Service],
+    providers: [FrictionService],
   });
 
   beforeEach(() => {
     spectator = createService();
-    co2Service = spectator.service;
+    frictionService = spectator.service;
     httpMock = spectator.inject(HttpTestingController);
   });
 
   it('should be created', () => {
-    expect(co2Service).toBeDefined();
+    expect(frictionService).toBeDefined();
   });
 
-  describe('createModel', () => {
+  describe('createFrictionModel', () => {
     it('should call the service to create a model', waitForAsync(() => {
-      const url = `${environment.co2BaseUrl}/v1.3/co2calculator/create?designation=abc`;
+      const url = `${environment.frictionApiBaseUrl}/v1.3/co2calculator/create?designation=abc`;
       const mockResult = 'my-result';
 
-      firstValueFrom(co2Service.createModel('abc')).then((res) => {
+      firstValueFrom(frictionService.createFrictionModel('abc')).then((res) => {
         expect(res).toEqual(mockResult);
       });
 
@@ -52,12 +52,12 @@ describe('CO2Service', () => {
     }));
   });
 
-  describe('updateModel', () => {
+  describe('updateFrictionModel', () => {
     it('should call the service to update the model', waitForAsync(() => {
-      const url = `${environment.co2BaseUrl}/v1.3/co2calculator/my-id/update`;
+      const url = `${environment.frictionApiBaseUrl}/v1.3/co2calculator/my-id/update`;
 
       firstValueFrom(
-        co2Service.updateModel(
+        frictionService.updateFrictionModel(
           'my-id',
           {} as CalculationParametersOperationConditions,
           {} as CalculationParametersEnergySource
@@ -72,14 +72,16 @@ describe('CO2Service', () => {
     }));
   });
 
-  describe('calculateModel', () => {
+  describe('calculateFrictionModel', () => {
     it('should call the service to calculate the model', waitForAsync(() => {
-      const url = `${environment.co2BaseUrl}/v1.3/co2calculator/my-id/calculate`;
+      const url = `${environment.frictionApiBaseUrl}/v1.3/co2calculator/my-id/calculate`;
       const mockResult = 'my-calculationid';
 
-      firstValueFrom(co2Service.calculateModel('my-id')).then((res) => {
-        expect(res).toEqual(mockResult);
-      });
+      firstValueFrom(frictionService.calculateFrictionModel('my-id')).then(
+        (res) => {
+          expect(res).toEqual(mockResult);
+        }
+      );
 
       const req = httpMock.expectOne(url);
       expect(req.request.method).toBe('GET');
@@ -89,11 +91,11 @@ describe('CO2Service', () => {
 
   describe('getCalculationResult', () => {
     it('should call the service to get the calculation result', waitForAsync(() => {
-      const url = `${environment.co2BaseUrl}/v1.3/co2calculator/my-id/output/my-calcid`;
+      const url = `${environment.frictionApiBaseUrl}/v1.3/co2calculator/my-id/output/my-calcid`;
       const mockResult = 'my-result';
 
       firstValueFrom(
-        co2Service.getCalculationResult('my-id', 'my-calcid')
+        frictionService.getCalculationResult('my-id', 'my-calcid')
       ).then((res) => {
         expect(res).toEqual(mockResult);
       });
@@ -104,11 +106,11 @@ describe('CO2Service', () => {
     }));
 
     it('should handle retries gracefully', waitForAsync(() => {
-      const url = `${environment.co2BaseUrl}/v1.3/co2calculator/my-id/output/my-calcid`;
+      const url = `${environment.frictionApiBaseUrl}/v1.3/co2calculator/my-id/output/my-calcid`;
       const mockResult = 'my-result';
 
       firstValueFrom(
-        co2Service.getCalculationResult('my-id', 'my-calcid')
+        frictionService.getCalculationResult('my-id', 'my-calcid')
       ).then((res) => {
         expect(res).toEqual(mockResult);
       });
@@ -119,10 +121,10 @@ describe('CO2Service', () => {
     }));
 
     it('should handle true errors gracefully', waitForAsync(() => {
-      const url = `${environment.co2BaseUrl}/v1.3/co2calculator/my-id/output/my-calcid`;
+      const url = `${environment.frictionApiBaseUrl}/v1.3/co2calculator/my-id/output/my-calcid`;
       const mockResult = 'my-result';
 
-      firstValueFrom(co2Service.getCalculationResult('my-id', 'my-calcid'))
+      firstValueFrom(frictionService.getCalculationResult('my-id', 'my-calcid'))
         .catch((error) => error)
         .then((res) => {
           expect(res).toBeInstanceOf(HttpErrorResponse);

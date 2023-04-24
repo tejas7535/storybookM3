@@ -1,27 +1,26 @@
-import { CALCULATION_RESULT_STATE_MOCK } from '@ea/testing/mocks';
+import {
+  APP_STATE_MOCK,
+  FRICTION_CALCULATION_RESULT_STATE_MOCK,
+} from '@ea/testing/mocks';
 
 import {
-  getBasicFrequencies,
   getCalculationId,
   getCalculationResult,
-  getCalculationResultPreviewData,
   getModelId,
   isCalculationImpossible,
-  isCalculationLoading,
   isCalculationResultAvailable,
-} from './calculation-result.selector';
+  isLoading,
+} from './friction-calculation-result.selector';
 
-describe('Calculation Result Selector', () => {
+describe('Friction Calculation Result Selector', () => {
   const mockState = {
-    calculationResult: {
-      ...CALCULATION_RESULT_STATE_MOCK,
-    },
+    ...APP_STATE_MOCK,
   };
 
   describe('getCalculationResult', () => {
     it('should return the calculation result state', () => {
       expect(getCalculationResult(mockState)).toEqual(
-        CALCULATION_RESULT_STATE_MOCK.calculationResult
+        FRICTION_CALCULATION_RESULT_STATE_MOCK.calculationResult
       );
     });
   });
@@ -29,7 +28,7 @@ describe('Calculation Result Selector', () => {
   describe('isCalculationResultAvailable', () => {
     it('should return true if we have a result', () => {
       expect(isCalculationResultAvailable(mockState)).toEqual(
-        !!CALCULATION_RESULT_STATE_MOCK.calculationResult
+        !!FRICTION_CALCULATION_RESULT_STATE_MOCK.calculationResult
       );
     });
   });
@@ -39,8 +38,8 @@ describe('Calculation Result Selector', () => {
       expect(
         isCalculationImpossible({
           ...mockState,
-          calculationResult: {
-            ...mockState.calculationResult,
+          frictionCalculationResult: {
+            ...mockState.frictionCalculationResult,
             isCalculationImpossible: true,
           },
         })
@@ -48,13 +47,13 @@ describe('Calculation Result Selector', () => {
     });
   });
 
-  describe('isCalculationLoading', () => {
+  describe('isLoading', () => {
     it('should return true if loading is in progress', () => {
       expect(
-        isCalculationLoading({
+        isLoading({
           ...mockState,
-          calculationResult: {
-            ...mockState.calculationResult,
+          frictionCalculationResult: {
+            ...mockState.frictionCalculationResult,
             isLoading: true,
           },
         })
@@ -67,8 +66,8 @@ describe('Calculation Result Selector', () => {
       expect(
         getModelId({
           ...mockState,
-          calculationResult: {
-            ...mockState.calculationResult,
+          frictionCalculationResult: {
+            ...mockState.frictionCalculationResult,
             modelId: 'model-id',
           },
         })
@@ -81,32 +80,12 @@ describe('Calculation Result Selector', () => {
       expect(
         getCalculationId({
           ...mockState,
-          calculationResult: {
-            ...mockState.calculationResult,
+          frictionCalculationResult: {
+            ...mockState.frictionCalculationResult,
             calculationId: 'calc-id',
           },
         })
       ).toEqual('calc-id');
-    });
-  });
-
-  describe('getCalculationResultPreviewData', () => {
-    it('should return the result preview data', () => {
-      expect(getCalculationResultPreviewData(mockState)).toMatchSnapshot();
-    });
-  });
-
-  describe('getBasicFrequencies', () => {
-    it('should return the basic frequencies', () => {
-      expect(
-        getBasicFrequencies({
-          ...mockState,
-          calculationResult: {
-            ...mockState.calculationResult,
-            basicFrequenciesResult: 'my-result',
-          },
-        })
-      ).toEqual('my-result');
     });
   });
 });

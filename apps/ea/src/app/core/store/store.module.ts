@@ -8,7 +8,9 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import {
   CalculationParametersEffects,
-  CalculationResultEffects,
+  CatalogCalculationResultEffects,
+  CO2UpstreamCalculationResultEffects,
+  FrictionCalculationResultEffects,
 } from './effects';
 import { ProductSelectionEffects } from './effects/product-selection';
 import { metaReducers, reducers } from './reducers';
@@ -25,8 +27,10 @@ import { metaReducers, reducers } from './reducers';
     }),
     EffectsModule.forRoot([
       ProductSelectionEffects,
-      CalculationResultEffects,
       CalculationParametersEffects,
+      FrictionCalculationResultEffects,
+      CO2UpstreamCalculationResultEffects,
+      CatalogCalculationResultEffects,
     ]),
     environment.devToolsEnabled
       ? StoreDevtoolsModule.instrument({

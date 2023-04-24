@@ -7,7 +7,8 @@ import { CatalogService } from '@ea/core/services/catalog.service';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 
 import {
-  CalculationResultActions,
+  CO2UpstreamCalculationResultActions,
+  FrictionCalculationResultActions,
   ProductSelectionActions,
 } from '../../actions';
 import { ProductSelectionFacade } from '../../facades/product-selection/product-selection.facade';
@@ -25,7 +26,8 @@ export class ProductSelectionEffects {
       ofType(ProductSelectionActions.setBearingDesignation),
       mergeMap(() => [
         ProductSelectionActions.fetchBearingId(),
-        CalculationResultActions.createModel({ forceRecreate: true }),
+        FrictionCalculationResultActions.createModel({ forceRecreate: true }),
+        CO2UpstreamCalculationResultActions.fetchResult(),
       ])
     );
   });

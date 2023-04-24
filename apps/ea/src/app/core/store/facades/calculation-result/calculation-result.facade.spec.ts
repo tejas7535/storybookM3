@@ -1,4 +1,4 @@
-import { CALCULATION_RESULT_STATE_MOCK } from '@ea/testing/mocks';
+import { APP_STATE_MOCK } from '@ea/testing/mocks';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
@@ -14,9 +14,7 @@ describe('CalculationResult', () => {
     service: CalculationResultFacade,
     providers: [
       provideMockStore({
-        initialState: {
-          calculationResult: CALCULATION_RESULT_STATE_MOCK,
-        },
+        initialState: { ...APP_STATE_MOCK },
       }),
     ],
   });
@@ -32,128 +30,15 @@ describe('CalculationResult', () => {
     expect(spectator.service).toBeDefined();
   });
 
-  describe('calculationResult$', () => {
-    it(
-      'should provide the calculation Result',
-      marbles((m) => {
-        const expected = m.cold('a', {
-          a: CALCULATION_RESULT_STATE_MOCK.calculationResult,
-        });
-
-        m.expect(facade.calculationResult$).toBeObservable(expected);
-      })
-    );
-  });
-
-  describe('getCalculationResultPreviewData', () => {
-    it(
-      'should provide the calculation Result Overlay Data',
-      marbles((m) => {
-        const expected = m.cold('a', {
-          a: [
-            {
-              title: 'totalValueCO2',
-              icon: 'co2',
-              values: [
-                {
-                  title: 'production',
-                  value:
-                    CALCULATION_RESULT_STATE_MOCK.calculationResult
-                      .co2_upstream,
-                  unit: 'kg',
-                },
-                {
-                  title: 'operation',
-                  value:
-                    CALCULATION_RESULT_STATE_MOCK.calculationResult
-                      .co2_downstream,
-                  unit: 'kg',
-                },
-              ],
-            },
-            {
-              title: 'overrollingFrequency',
-              icon: 'airwaves',
-              values: [
-                {
-                  title: 'overrollingFrequencySubtitle',
-                  value:
-                    CALCULATION_RESULT_STATE_MOCK.calculationResult.ratingLife,
-                  unit: 'mm²/s',
-                },
-              ],
-            },
-          ],
-        });
-
-        m.expect(facade.getCalculationResultPreviewData$).toBeObservable(
-          expected
-        );
-      })
-    );
-  });
-
   describe('isCalculationResultAvailable', () => {
     it(
       'should provide if the calculation result is available',
       marbles((m) => {
         const expected = m.cold('a', {
-          a: !!CALCULATION_RESULT_STATE_MOCK.calculationResult,
+          a: !!123,
         });
 
         m.expect(facade.isCalculationResultAvailable$).toBeObservable(expected);
-      })
-    );
-  });
-
-  describe('isCalculationImpossible', () => {
-    it(
-      'should provide if the calculation is impossible',
-      marbles((m) => {
-        const expected = m.cold('a', {
-          a: CALCULATION_RESULT_STATE_MOCK.isCalculationImpossible,
-        });
-
-        m.expect(facade.isCalculationImpossible$).toBeObservable(expected);
-      })
-    );
-  });
-
-  describe('isCalculationLoading', () => {
-    it(
-      'should provide if the calculation result is loading',
-      marbles((m) => {
-        const expected = m.cold('a', {
-          a: CALCULATION_RESULT_STATE_MOCK.isLoading,
-        });
-
-        m.expect(facade.isCalculationLoading$).toBeObservable(expected);
-      })
-    );
-  });
-
-  describe('modelId$', () => {
-    it(
-      'should provide the current modelId',
-      marbles((m) => {
-        const expected = m.cold('a', {
-          a: CALCULATION_RESULT_STATE_MOCK.modelId,
-        });
-
-        m.expect(facade.modelId$).toBeObservable(expected);
-      })
-    );
-  });
-
-  describe('calculationId$', () => {
-    it(
-      'should provide the current calculationId',
-      marbles((m) => {
-        const expected = m.cold('a', {
-          a: CALCULATION_RESULT_STATE_MOCK.calculationId,
-        });
-
-        m.expect(facade.calculationId$).toBeObservable(expected);
       })
     );
   });

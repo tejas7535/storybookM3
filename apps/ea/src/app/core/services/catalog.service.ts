@@ -10,7 +10,7 @@ import { CatalogServiceBasicFrequenciesResult } from './catalog.service.interfac
 
 @Injectable({ providedIn: 'root' })
 export class CatalogService {
-  readonly baseUrl = `${environment.catalogBaseUrl}/v1/CatalogBearing`;
+  readonly baseUrl = `${environment.catalogApiBaseUrl}/v1/CatalogBearing`;
 
   constructor(private readonly httpClient: HttpClient) {}
 

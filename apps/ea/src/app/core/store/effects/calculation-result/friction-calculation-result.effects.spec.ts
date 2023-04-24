@@ -2,45 +2,45 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { of } from 'rxjs';
 
-import { CO2Service } from '@ea/core/services/co2.service';
+import { FrictionService } from '@ea/core/services/friction.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
-import { CalculationResultActions } from '../../actions';
+import { FrictionCalculationResultActions } from '../../actions';
 import { CalculationParametersFacade } from '../../facades';
-import { CalculationResultFacade } from '../../facades/calculation-result/calculation-result.facade';
+import { FrictionCalculationResultFacade } from '../../facades/calculation-result/friction-calculation-result.facade';
 import { ProductSelectionFacade } from '../../facades/product-selection/product-selection.facade';
-import { CalculationResult } from '../../models';
-import { CalculationResultEffects } from './calculation-result.effects';
+import { FrictionCalculationResult } from '../../models';
+import { FrictionCalculationResultEffects } from './friction-calculation-result.effects';
 
-const co2ServiceMock = {
-  createModel: jest.fn(),
-  updateModel: jest.fn(),
-  calculateModel: jest.fn(),
+const frictionServiceMock = {
+  createFrictionModel: jest.fn(),
+  updateFrictionModel: jest.fn(),
+  calculateFrictionModel: jest.fn(),
   getCalculationResult: jest.fn(),
 };
 
-describe('Calculation Result Effects', () => {
+describe('Friction Calculation Result Effects', () => {
   let action: any;
   let actions$: any;
-  let effects: CalculationResultEffects;
-  let spectator: SpectatorService<CalculationResultEffects>;
+  let effects: FrictionCalculationResultEffects;
+  let spectator: SpectatorService<FrictionCalculationResultEffects>;
 
-  let calculationResultFacade: CalculationResultFacade;
+  let frictionCalculationResultFacade: FrictionCalculationResultFacade;
   let calculationParametersFacade: CalculationParametersFacade;
 
   const createService = createServiceFactory({
-    service: CalculationResultEffects,
+    service: FrictionCalculationResultEffects,
     imports: [HttpClientTestingModule],
     providers: [
       provideMockActions(() => actions$),
       provideMockStore({}),
       {
-        provide: CO2Service,
-        useValue: co2ServiceMock,
+        provide: FrictionService,
+        useValue: frictionServiceMock,
       },
       {
         provide: CalculationParametersFacade,
@@ -51,7 +51,7 @@ describe('Calculation Result Effects', () => {
         },
       },
       {
-        provide: CalculationResultFacade,
+        provide: FrictionCalculationResultFacade,
         useValue: {
           modelId$: of('modelId-123'),
         },
@@ -68,155 +68,158 @@ describe('Calculation Result Effects', () => {
   beforeEach(() => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
-    effects = spectator.inject(CalculationResultEffects);
-    calculationResultFacade = spectator.inject(CalculationResultFacade);
+    effects = spectator.inject(FrictionCalculationResultEffects);
+    frictionCalculationResultFacade = spectator.inject(
+      FrictionCalculationResultFacade
+    );
     calculationParametersFacade = spectator.inject(CalculationParametersFacade);
   });
 
-  describe('createModel$', () => {
+  describe('createFrictionModel$', () => {
     beforeEach(() => {
-      co2ServiceMock.createModel.mockReset();
+      frictionServiceMock.createFrictionModel.mockReset();
     });
     it('should create model by setting model id in store', () => {
-      calculationResultFacade.modelId$ = of(undefined);
+      frictionCalculationResultFacade.modelId$ = of(undefined);
 
-      const createModelSpy = jest
-        .spyOn(co2ServiceMock, 'createModel')
+      const createFrictionModelSpy = jest
+        .spyOn(frictionServiceMock, 'createFrictionModel')
         .mockImplementation(() => of('model-id-from-service'));
 
       return marbles((m) => {
-        action = CalculationResultActions.createModel({});
+        action = FrictionCalculationResultActions.createModel({});
         actions$ = m.hot('-a', { a: action });
 
         const expected = m.cold('-(bc)', {
-          b: CalculationResultActions.setModelId({
+          b: FrictionCalculationResultActions.setModelId({
             modelId: 'model-id-from-service',
           }),
-          c: CalculationResultActions.updateModel(),
+          c: FrictionCalculationResultActions.updateModel(),
         });
 
         m.expect(effects.createModel$).toBeObservable(expected);
         m.flush();
 
-        expect(createModelSpy).toHaveBeenCalled();
+        expect(createFrictionModelSpy).toHaveBeenCalled();
       })();
     });
 
     it('should use the same model id if already set in store', () => {
-      calculationResultFacade.modelId$ = of('existing-id');
+      frictionCalculationResultFacade.modelId$ = of('existing-id');
 
-      const createModelSpy = jest
-        .spyOn(co2ServiceMock, 'createModel')
+      const createFrictionModelSpy = jest
+        .spyOn(frictionServiceMock, 'createFrictionModel')
         .mockImplementation(() => of('model-id-from-service'));
 
       return marbles((m) => {
-        action = CalculationResultActions.createModel({});
+        action = FrictionCalculationResultActions.createModel({});
         actions$ = m.hot('-a', { a: action });
 
         const expected = m.cold('-(bc)', {
-          b: CalculationResultActions.setModelId({
+          b: FrictionCalculationResultActions.setModelId({
             modelId: 'existing-id',
           }),
-          c: CalculationResultActions.updateModel(),
+          c: FrictionCalculationResultActions.updateModel(),
         });
 
         m.expect(effects.createModel$).toBeObservable(expected);
         m.flush();
 
-        expect(createModelSpy).not.toHaveBeenCalled();
+        expect(createFrictionModelSpy).not.toHaveBeenCalled();
       })();
     });
   });
 
-  describe('updateModel$', () => {
+  describe('updateFrictionModel$', () => {
     beforeEach(() => {
-      co2ServiceMock.updateModel.mockReset();
+      frictionServiceMock.updateFrictionModel.mockReset();
     });
 
     it('should update the model', () => {
-      const updateModelSpy = jest
-        .spyOn(co2ServiceMock, 'updateModel')
+      const updateFrictionModelSpy = jest
+        .spyOn(frictionServiceMock, 'updateFrictionModel')
         .mockImplementation(() => of('abc'));
 
       return marbles((m) => {
-        action = CalculationResultActions.updateModel();
+        action = FrictionCalculationResultActions.updateModel();
         actions$ = m.hot('-a', { a: action });
 
         const expected = m.cold('-b', {
-          b: CalculationResultActions.calculateModel(),
+          b: FrictionCalculationResultActions.calculateModel(),
         });
 
         m.expect(effects.updateModel$).toBeObservable(expected);
         m.flush();
 
-        expect(updateModelSpy).toHaveBeenCalled();
+        expect(updateFrictionModelSpy).toHaveBeenCalled();
       })();
     });
 
     it('should not update the model if calculation input is invalid', () => {
       calculationParametersFacade.isCalculationMissingInput$ = of(true);
 
-      const updateModelSpy = jest
-        .spyOn(co2ServiceMock, 'updateModel')
+      const updateFrictionModelSpy = jest
+        .spyOn(frictionServiceMock, 'updateFrictionModel')
         .mockImplementation(() => of('abc'));
 
       return marbles((m) => {
-        action = CalculationResultActions.updateModel();
+        action = FrictionCalculationResultActions.updateModel();
         actions$ = m.hot('-a', { a: action });
 
         const expected = m.cold('-b', {
-          b: CalculationResultActions.setLoading({ isLoading: false }),
+          b: FrictionCalculationResultActions.setLoading({ isLoading: false }),
         });
 
         m.expect(effects.updateModel$).toBeObservable(expected);
         m.flush();
 
-        expect(updateModelSpy).not.toHaveBeenCalled();
+        expect(updateFrictionModelSpy).not.toHaveBeenCalled();
       })();
     });
   });
 
-  describe('calculateModel$', () => {
+  describe('calculateFrictionModel$', () => {
     it('should calculate the model', () => {
-      const calculateModelSpy = jest
-        .spyOn(co2ServiceMock, 'calculateModel')
+      const calculateFrictionModelSpy = jest
+        .spyOn(frictionServiceMock, 'calculateFrictionModel')
         .mockImplementation(() => of('abc'));
 
       return marbles((m) => {
-        action = CalculationResultActions.calculateModel();
+        action = FrictionCalculationResultActions.calculateModel();
         actions$ = m.hot('-a', { a: action });
 
         const expected = m.cold('-(bc)', {
-          b: CalculationResultActions.setCalculationId({
+          b: FrictionCalculationResultActions.setCalculationId({
             calculationId: 'abc',
           }),
-          c: CalculationResultActions.fetchCalculationResult(),
+          c: FrictionCalculationResultActions.fetchCalculationResult(),
         });
 
         m.expect(effects.calculateModel$).toBeObservable(expected);
         m.flush();
 
-        expect(calculateModelSpy).toHaveBeenCalled();
+        expect(calculateFrictionModelSpy).toHaveBeenCalled();
       })();
     });
   });
 
-  describe('fetchCalculationResult$', () => {
+  describe('fetchFrictionCalculationResult$', () => {
     it('should fetch the calculation result', () => {
-      calculationResultFacade.modelId$ = of('123');
-      calculationResultFacade.calculationId$ = of('123');
+      frictionCalculationResultFacade.modelId$ = of('123');
+      frictionCalculationResultFacade.calculationId$ = of('123');
 
       const getCalculationResultSpy = jest
-        .spyOn(co2ServiceMock, 'getCalculationResult')
+        .spyOn(frictionServiceMock, 'getCalculationResult')
         .mockImplementation(() => of('abc-result'));
 
       return marbles((m) => {
-        action = CalculationResultActions.fetchCalculationResult();
+        action = FrictionCalculationResultActions.fetchCalculationResult();
         actions$ = m.hot('-a', { a: action });
 
         const expected = m.cold('-b', {
-          b: CalculationResultActions.setCalculationResult({
-            calculationResult: 'abc-result' as unknown as CalculationResult,
+          b: FrictionCalculationResultActions.setCalculationResult({
+            calculationResult:
+              'abc-result' as unknown as FrictionCalculationResult,
           }),
         });
 

@@ -5,6 +5,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
+import { of } from 'rxjs';
+
 import { CalculationParametersFacade } from '@ea/core/store';
 import { CalculationResultFacade } from '@ea/core/store/facades/calculation-result/calculation-result.facade';
 import { PushModule } from '@ngrx/component';
@@ -35,12 +37,9 @@ export class CalculationResultPreviewComponent {
     this.calculationResultFacade.getCalculationResultPreviewData$;
   public isResultAvailable$ =
     this.calculationResultFacade.isCalculationResultAvailable$;
-  public isCalculationImpossible$ =
-    this.calculationResultFacade.isCalculationImpossible$;
+  public isCalculationImpossible$ = of(false);
   public isCalculationMissingInput$ =
     this.calculationParametersFacade.isCalculationMissingInput$;
-  public isCalculationLoading$ =
-    this.calculationResultFacade.isCalculationLoading$;
 
   constructor(
     private readonly calculationResultFacade: CalculationResultFacade,

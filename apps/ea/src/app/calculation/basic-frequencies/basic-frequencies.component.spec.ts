@@ -2,14 +2,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 
-import {
-  downloadBasicFrequencies,
-  fetchBasicFrequencies,
-} from '@ea/core/store/actions/calculation-result/calculation-result.actions';
-import {
-  CALCULATION_RESULT_STATE_MOCK,
-  PRODUCT_SELECTION_STATE_MOCK,
-} from '@ea/testing/mocks';
+import { CatalogCalculationResultActions } from '@ea/core/store/actions';
+import { APP_STATE_MOCK } from '@ea/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { translate } from '@ngneat/transloco';
 import { LetModule, PushModule } from '@ngrx/component';
@@ -40,10 +34,7 @@ describe('BasicFrequenciesComponent', () => {
     ],
     providers: [
       provideMockStore({
-        initialState: {
-          calculationResult: { ...CALCULATION_RESULT_STATE_MOCK },
-          productSelection: { ...PRODUCT_SELECTION_STATE_MOCK },
-        },
+        initialState: { ...APP_STATE_MOCK },
       }),
       {
         provide: translate,
@@ -69,7 +60,9 @@ describe('BasicFrequenciesComponent', () => {
     it('should dispatch load action', () => {
       component.ngOnInit();
 
-      expect(store.dispatch).toHaveBeenCalledWith(fetchBasicFrequencies());
+      expect(store.dispatch).toHaveBeenCalledWith(
+        CatalogCalculationResultActions.fetchBasicFrequencies()
+      );
     });
   });
 
@@ -77,7 +70,9 @@ describe('BasicFrequenciesComponent', () => {
     it('should dispatch download action', () => {
       component.saveAsPdf();
 
-      expect(store.dispatch).toHaveBeenCalledWith(downloadBasicFrequencies());
+      expect(store.dispatch).toHaveBeenCalledWith(
+        CatalogCalculationResultActions.downloadBasicFrequencies()
+      );
     });
   });
 });

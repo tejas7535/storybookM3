@@ -8,7 +8,7 @@ import { marbles } from 'rxjs-marbles';
 
 import {
   CalculationParametersActions,
-  CalculationResultActions,
+  FrictionCalculationResultActions,
 } from '../../actions';
 import { CalculationParametersEffects } from './calculation-parameters.effects';
 
@@ -39,7 +39,7 @@ describe('Calculation Parameters Effects', () => {
         actions$ = m.hot('-a', { a: action });
 
         const expected = m.cold('- 250ms b', {
-          b: CalculationResultActions.createModel({}),
+          b: FrictionCalculationResultActions.createModel({}),
         });
 
         m.expect(effects.operatingParameters$).toBeObservable(expected);

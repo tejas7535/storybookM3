@@ -1,4 +1,4 @@
-export interface CO2ServiceBearingData {
+export interface FrictionServiceBearingData {
   idscO_CO2_EMISSION_FACTOR_CALCULATION:
     | 'LB_FOSSIL_ENERGY'
     | 'LB_ELECTRIC_ENERGY';
@@ -41,7 +41,7 @@ export interface CO2ServiceBearingData {
   idL_OILTEMP: number;
 }
 
-export interface CO2ServiceLoadCaseData {
+export interface FrictionServiceLoadCaseData {
   idcO_DESIGNATION?: string; // "Loadcase 1",
   idslC_OPERATING_TIME_IN_HOURS: number; // 200,
   idlC_TYPE_OF_MOVEMENT: 'LB_ROTATING';
@@ -53,7 +53,7 @@ export interface CO2ServiceLoadCaseData {
   idlD_FZ: number; // 300
 }
 
-export type CO2ServiceCalculationResult = ResultSubordinate & {
+export type FrictionServiceCalculationResult = ResultSubordinate & {
   programName: string;
   programNameID: string;
   isBeta: boolean;

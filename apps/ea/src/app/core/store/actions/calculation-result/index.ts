@@ -1,1 +1,3 @@
-export * as CalculationResultActions from './calculation-result.actions';
+export * as CatalogCalculationResultActions from './catalog-calculation-result.actions';
+export * as CO2UpstreamCalculationResultActions from './co2-upstream-calculation-result.actions';
+export * as FrictionCalculationResultActions from './friction-calculation-result.actions';

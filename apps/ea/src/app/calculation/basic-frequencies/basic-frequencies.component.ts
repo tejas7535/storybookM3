@@ -8,11 +8,8 @@ import { MatTableModule } from '@angular/material/table';
 
 import { Observable } from 'rxjs';
 
-import {
-  downloadBasicFrequencies,
-  fetchBasicFrequencies,
-} from '@ea/core/store/actions/calculation-result/calculation-result.actions';
-import { CalculationResultFacade } from '@ea/core/store/facades/calculation-result/calculation-result.facade';
+import { CatalogCalculationResultActions } from '@ea/core/store/actions';
+import { CatalogCalculationResultFacade } from '@ea/core/store/facades/calculation-result/catalog-calculation-result.facade';
 import { ProductSelectionFacade } from '@ea/core/store/facades/product-selection/product-selection.facade';
 import { BasicFrequenciesResult } from '@ea/core/store/models';
 import { PushModule } from '@ngrx/component';
@@ -42,21 +39,26 @@ export class BasicFrequenciesComponent implements OnInit {
   public readonly columnsToDisplay = ['name', 'abbreviation', 'value'];
 
   constructor(
-    private readonly calculationResultFacade: CalculationResultFacade,
+    private readonly catalogCalculationResultFacade: CatalogCalculationResultFacade,
     public readonly dialogRef: MatDialogRef<BasicFrequenciesComponent>,
     productSelectionFacade: ProductSelectionFacade
   ) {
-    this.basicFrequencies$ = this.calculationResultFacade.basicFrequencies$;
+    this.basicFrequencies$ =
+      this.catalogCalculationResultFacade.basicFrequencies$;
     this.bearingDesignation$ = productSelectionFacade.bearingDesignation$;
-    this.isLoading$ = this.calculationResultFacade.isCalculationLoading$;
+    this.isLoading$ = this.catalogCalculationResultFacade.isLoading$;
   }
 
   ngOnInit(): void {
-    this.calculationResultFacade.dispatch(fetchBasicFrequencies());
+    this.catalogCalculationResultFacade.dispatch(
+      CatalogCalculationResultActions.fetchBasicFrequencies()
+    );
   }
 
   public saveAsPdf() {
-    this.calculationResultFacade.dispatch(downloadBasicFrequencies());
+    this.catalogCalculationResultFacade.dispatch(
+      CatalogCalculationResultActions.downloadBasicFrequencies()
+    );
   }
 
   public closeDialog(): void {

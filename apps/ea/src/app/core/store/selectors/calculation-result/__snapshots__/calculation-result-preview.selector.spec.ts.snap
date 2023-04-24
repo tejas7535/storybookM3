@@ -7,25 +7,18 @@ Array [
     "title": "totalValueCO2",
     "values": Array [
       Object {
+        "calculationError": undefined,
+        "isLoading": false,
         "title": "production",
         "unit": "kg",
-        "value": 0,
+        "value": 2,
       },
       Object {
+        "calculationError": undefined,
+        "isLoading": false,
         "title": "operation",
         "unit": "kg",
-        "value": 0,
-      },
-    ],
-  },
-  Object {
-    "icon": "airwaves",
-    "title": "overrollingFrequency",
-    "values": Array [
-      Object {
-        "title": "overrollingFrequencySubtitle",
-        "unit": "mm²/s",
-        "value": 0,
+        "value": 123,
       },
     ],
   },

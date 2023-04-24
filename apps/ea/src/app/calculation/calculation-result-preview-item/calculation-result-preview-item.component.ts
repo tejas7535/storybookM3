@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { CalculationResultPreviewItem } from '@ea/core/store/models';
 
@@ -16,6 +18,8 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
     CommonModule,
     SharedTranslocoModule,
     MatIconModule,
+    MatTooltipModule,
+    MatProgressSpinnerModule,
     MatDividerModule,
   ],
 })

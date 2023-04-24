@@ -12,7 +12,7 @@
         class="mr-1 flex-shrink-0"
       >
       </mat-icon>
-      <div class="flex-shrink-0 text-caption font-medium text-medium-emphasis">
+      <div class="text-caption text-medium-emphasis flex-shrink-0 font-medium">
         {{ t(_item.title) }}
       </div>
     </div>
@@ -23,17 +23,36 @@
           class="flex flex-col p-2 pl-4 pr-4"
           [class.items-center]="isSingleItem"
         >
-          <div class="mb-2 flex flex-col text-caption text-medium-emphasis">
+          <div class="text-caption text-medium-emphasis mb-2 flex flex-col">
             {{ value.title && t(value.title) }}
           </div>
 
-          <div class="flex flex-row items-end justify-start">
-            <div class="text-body-2 text-high-emphasis">
-              {{ value.value | number: '1.0-2' }}
-            </div>
-            <div class="pl-1 text-body-2 text-high-emphasis">
-              {{ value.unit }}
-            </div>
+          <div
+            class="flex flex-row items-end justify-start"
+            *ngIf="!value.isLoading; else loading"
+          >
+            <ng-container *ngIf="!value.calculationError; else error">
+              <div class="text-body-2 text-high-emphasis">
+                {{ (value.value | number: '1.0-2') || '-' }}
+              </div>
+              <div
+                *ngIf="value.unit"
+                class="text-body-2 text-high-emphasis pl-1"
+              >
+                {{ value.unit | lowercase }}
+              </div>
+            </ng-container>
+
+            <ng-template #error>
+              <div
+                class="flex flex-shrink-0 flex-grow"
+                [matTooltip]="value.calculationError"
+              >
+                <mat-icon color="error" class="!text-body-2 mx-auto"
+                  >warning</mat-icon
+                >
+              </div>
+            </ng-template>
           </div>
         </div>
         <mat-divider [vertical]="true" *ngIf="!last"></mat-divider>
@@ -41,3 +60,9 @@
     </div>
   </div>
 </ng-container>
+
+<ng-template #loading>
+  <div class="flex items-center justify-center">
+    <mat-spinner diameter="16"></mat-spinner>
+  </div>
+</ng-template>

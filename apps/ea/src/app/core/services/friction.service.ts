@@ -7,18 +7,18 @@ import { environment } from '../../../environments/environment';
 import {
   CalculationParametersEnergySource,
   CalculationParametersOperationConditions,
-  CalculationResult,
+  FrictionCalculationResult,
 } from '../store/models';
-import { convertCO2ApiResult } from './co2-helper';
+import { convertFrictionApiResult } from './friction-helper';
 import {
-  CO2ServiceBearingData,
-  CO2ServiceCalculationResult,
-  CO2ServiceLoadCaseData,
-} from './co2-service.interface';
+  FrictionServiceBearingData,
+  FrictionServiceCalculationResult,
+  FrictionServiceLoadCaseData,
+} from './friction-service.interface';
 
 @Injectable({ providedIn: 'root' })
-export class CO2Service {
-  readonly baseUrl = `${environment.co2BaseUrl}/v1.3/co2calculator`;
+export class FrictionService {
+  readonly baseUrl = `${environment.frictionApiBaseUrl}/v1.3/co2calculator`;
 
   constructor(private readonly http: HttpClient) {}
 
@@ -27,7 +27,7 @@ export class CO2Service {
    * @param bearingDesignation name of the bearing
    * @returns modelId
    */
-  createModel(bearingDesignation: string): Observable<string> {
+  createFrictionModel(bearingDesignation: string): Observable<string> {
     return this.http.put<string>(
       `${this.baseUrl}/create`,
       {},
@@ -42,12 +42,12 @@ export class CO2Service {
    * @param loadcaseData
    * @returns void
    */
-  updateModel(
+  updateFrictionModel(
     modelId: string,
     operationConditions: CalculationParametersOperationConditions,
     energySource: CalculationParametersEnergySource
   ): Observable<void> {
-    const bearingData: CO2ServiceBearingData = {
+    const bearingData: FrictionServiceBearingData = {
       idscO_CO2_EMISSION_FACTOR_CALCULATION: energySource.type,
       idscO_CO2_EMISSION_FACTOR_FOSSIL_ORIGIN:
         energySource.type === 'LB_FOSSIL_ENERGY'
@@ -61,7 +61,7 @@ export class CO2Service {
       idL_VG: operationConditions.viscosity,
     };
 
-    const loadcaseData: CO2ServiceLoadCaseData[] = [
+    const loadcaseData: FrictionServiceLoadCaseData[] = [
       {
         idslC_OPERATING_TIME_IN_HOURS: operationConditions.operatingTime,
         idlC_TYPE_OF_MOVEMENT: operationConditions.typeOfMovement,
@@ -85,16 +85,16 @@ export class CO2Service {
    * @param modelId
    * @returns calculationId
    */
-  calculateModel(modelId: string): Observable<string> {
+  calculateFrictionModel(modelId: string): Observable<string> {
     return this.http.get<string>(`${this.baseUrl}/${modelId}/calculate`);
   }
 
   getCalculationResult(
     modelId: string,
     calculationId: string
-  ): Observable<CalculationResult> {
+  ): Observable<FrictionCalculationResult> {
     return this.http
-      .get<CO2ServiceCalculationResult>(
+      .get<FrictionServiceCalculationResult>(
         `${this.baseUrl}/${modelId}/output/${calculationId}`,
         { observe: 'response', responseType: 'json' }
       )
@@ -102,7 +102,7 @@ export class CO2Service {
         map((response) => {
           if (response.status === 200) {
             // convert
-            return convertCO2ApiResult(response.body);
+            return convertFrictionApiResult(response.body);
           }
           // throw to retry
           throw new Error('Calculation result still pending');

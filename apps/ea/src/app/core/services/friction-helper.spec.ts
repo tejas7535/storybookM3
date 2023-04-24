@@ -1,12 +1,13 @@
+import { FrictionCalculationResult } from '../store/models';
 import {
-  convertCO2ApiResult,
+  convertFrictionApiResult,
   extractSubordinatesFromPath,
   matchItem,
-} from './co2-helper';
+} from './friction-helper';
 import {
-  CO2ServiceCalculationResult,
+  FrictionServiceCalculationResult,
   ResultSubordinate,
-} from './co2-service.interface';
+} from './friction-service.interface';
 
 describe('CO2 Helper', () => {
   describe('matchItem', () => {
@@ -53,11 +54,11 @@ describe('CO2 Helper', () => {
       subordinates: [],
       title: 'my-title',
     };
-    const input: CO2ServiceCalculationResult = {
+    const input: FrictionServiceCalculationResult = {
       subordinates: [
         { identifier: 'sub', subordinates: [needle], title: 'sub-title' },
       ],
-    } as CO2ServiceCalculationResult;
+    } as FrictionServiceCalculationResult;
 
     it('returns the correct subordinate', () => {
       expect(
@@ -84,9 +85,9 @@ describe('CO2 Helper', () => {
     });
   });
 
-  describe('convertCO2ApiResult', () => {
+  describe('convertFrictionApiResult', () => {
     it('Should convert a valid result', () => {
-      const resultMock: Partial<CO2ServiceCalculationResult> = {
+      const resultMock: Partial<FrictionServiceCalculationResult> = {
         subordinates: [
           {
             titleID: 'STRING_OUTP_RESULTS',
@@ -115,13 +116,17 @@ describe('CO2 Helper', () => {
         ],
       };
 
+      const expectedResult: FrictionCalculationResult = {
+        co2_downstream: { value: 123.45, unit: 'kg' },
+      };
+
       expect(
-        convertCO2ApiResult(resultMock as CO2ServiceCalculationResult)
-      ).toEqual({ co2_downstream: 123.45 });
+        convertFrictionApiResult(resultMock as FrictionServiceCalculationResult)
+      ).toEqual(expectedResult);
     });
 
     it('Should gracefully handle an invalid result', () => {
-      const resultMock: Partial<CO2ServiceCalculationResult> = {
+      const resultMock: Partial<FrictionServiceCalculationResult> = {
         subordinates: [
           {
             titleID: 'STRING_OUTP_RESULTS_INVALID',
@@ -132,7 +137,7 @@ describe('CO2 Helper', () => {
       };
 
       expect(
-        convertCO2ApiResult(resultMock as CO2ServiceCalculationResult)
+        convertFrictionApiResult(resultMock as FrictionServiceCalculationResult)
       ).toEqual({});
     });
   });

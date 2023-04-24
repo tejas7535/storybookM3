@@ -1,16 +1,16 @@
 import { Action, createAction, props } from '@ngrx/store';
 
-import { CalculationResultActions } from '../../actions';
-import { CalculationResult } from '../../models';
+import { FrictionCalculationResultActions } from '../../actions';
+import { FrictionCalculationResult } from '../../models';
 import {
-  calculationResultReducer,
+  frictionCalculationResultReducer,
   initialState,
   reducer,
-} from './calculation-result.reducer';
+} from './friction-calculation-result.reducer';
 
-describe('calculationResultReducer', () => {
+describe('frictionCalculationResultReducer', () => {
   describe('Reducer function', () => {
-    it('should return calculationResultReducer', () => {
+    it('should return frictionCalculationResultReducer', () => {
       // prepare any action
       const action: Action = createAction(
         '[Mock] Action',
@@ -18,19 +18,19 @@ describe('calculationResultReducer', () => {
       );
 
       expect(reducer(initialState, action)).toEqual(
-        calculationResultReducer(initialState, action)
+        frictionCalculationResultReducer(initialState, action)
       );
     });
   });
 
   describe('Request Actions (enable loading)', () => {
     it.each([
-      CalculationResultActions.calculateModel,
-      CalculationResultActions.createModel,
-      CalculationResultActions.fetchCalculationResult,
-      CalculationResultActions.updateModel,
+      FrictionCalculationResultActions.calculateModel,
+      FrictionCalculationResultActions.createModel,
+      FrictionCalculationResultActions.fetchCalculationResult,
+      FrictionCalculationResultActions.updateModel,
     ])('should enable loading with action', (action) => {
-      const newState = calculationResultReducer(initialState, action);
+      const newState = frictionCalculationResultReducer(initialState, action);
 
       expect(newState).toEqual({ ...initialState, isLoading: true });
     });
@@ -43,9 +43,11 @@ describe('calculationResultReducer', () => {
         isLoading: true,
       };
 
-      const newState = calculationResultReducer(
+      const newState = frictionCalculationResultReducer(
         loadingState,
-        CalculationResultActions.setCalculationFailure({ error: 'my-error' })
+        FrictionCalculationResultActions.setCalculationFailure({
+          error: 'my-error',
+        })
       );
 
       expect(newState).toEqual({
@@ -63,9 +65,9 @@ describe('calculationResultReducer', () => {
         isLoading: true,
       };
 
-      const newState = calculationResultReducer(
+      const newState = frictionCalculationResultReducer(
         loadingState,
-        CalculationResultActions.setCalculationImpossible({
+        FrictionCalculationResultActions.setCalculationImpossible({
           isCalculationImpossible: true,
         })
       );
@@ -85,9 +87,9 @@ describe('calculationResultReducer', () => {
         isLoading: true,
       };
 
-      const newState = calculationResultReducer(
+      const newState = frictionCalculationResultReducer(
         loadingState,
-        CalculationResultActions.setCalculationId({
+        FrictionCalculationResultActions.setCalculationId({
           calculationId: '123',
         })
       );
@@ -107,9 +109,9 @@ describe('calculationResultReducer', () => {
         isLoading: true,
       };
 
-      const newState = calculationResultReducer(
+      const newState = frictionCalculationResultReducer(
         loadingState,
-        CalculationResultActions.setModelId({
+        FrictionCalculationResultActions.setModelId({
           modelId: '123',
         })
       );
@@ -130,10 +132,12 @@ describe('calculationResultReducer', () => {
         calculationError: 'some error',
       };
 
-      const newState = calculationResultReducer(
+      const newState = frictionCalculationResultReducer(
         loadingState,
-        CalculationResultActions.setCalculationResult({
-          calculationResult: { abc: '123' } as unknown as CalculationResult,
+        FrictionCalculationResultActions.setCalculationResult({
+          calculationResult: {
+            abc: '123',
+          } as unknown as FrictionCalculationResult,
         })
       );
 

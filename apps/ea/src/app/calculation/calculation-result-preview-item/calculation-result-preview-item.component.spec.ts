@@ -50,8 +50,8 @@ describe('CalculationResultPreviewItemComponent', () => {
       icon: 'abc',
       title: 'abc',
       values: [
-        { unit: 'abc', title: 'abc', value: 1 },
-        { unit: 'abc', title: 'abc', value: 2 },
+        { unit: 'abc', title: 'abc', value: 1, isLoading: false },
+        { unit: 'abc', title: 'abc', value: 2, isLoading: false },
       ],
     };
 

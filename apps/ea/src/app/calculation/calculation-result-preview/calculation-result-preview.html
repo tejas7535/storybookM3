@@ -48,14 +48,11 @@
         <button
           mat-raised-button
           color="primary"
-          [disabled]="isCalculationLoading$ | ngrxPush"
+          [disabled]="(isResultAvailable$ | ngrxPush) === false"
           (click)="showReport()"
         >
           <div class="flex items-center justify-center">
             {{ t('showReport') }}
-            <div *ngIf="(isCalculationLoading$ | ngrxPush)" class="pl-2">
-              <mat-spinner diameter="20"></mat-spinner>
-            </div>
           </div>
         </button>
       </div>
