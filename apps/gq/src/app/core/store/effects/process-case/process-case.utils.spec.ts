@@ -34,6 +34,8 @@ describe('ProcessCaseUtils', () => {
           price: val as any,
           recommendedPrice: val as any,
           lastCustomerPrice: val as any,
+          strategicPrice: val as any,
+          targetPrice: val as any,
           gpc: val as any,
           sqv: val as any,
         };
@@ -62,6 +64,8 @@ describe('ProcessCaseUtils', () => {
           price: testCase.value,
           recommendedPrice: testCase.value,
           lastCustomerPrice: testCase.value,
+          strategicPrice: testCase.value,
+          targetPrice: testCase.value,
           gpc: testCase.value,
           sqv: testCase.value,
         };
@@ -71,6 +75,8 @@ describe('ProcessCaseUtils', () => {
         expect(detail.price).toEqual(testCase.roundedValue);
         expect(detail.recommendedPrice).toEqual(testCase.roundedValue);
         expect(detail.lastCustomerPrice).toEqual(testCase.roundedValue);
+        expect(detail.strategicPrice).toEqual(testCase.roundedValue);
+        expect(detail.targetPrice).toEqual(testCase.roundedValue);
         expect(detail.gpc).toEqual(testCase.roundedValue);
         expect(detail.sqv).toEqual(testCase.roundedValue);
       });

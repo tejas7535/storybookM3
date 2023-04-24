@@ -38,6 +38,7 @@ export enum ColumnFields {
   DATE_NEXT_FREE_ATP = 'materialStockByPlant.dateNextFree',
   STRATEGIC_MATERIAL = 'strategicMaterial',
   SAP_VOLUME_SCALE = 'sapVolumeScale',
+  TARGET_PRICE = 'targetPrice',
   DELIVERY_UNIT = 'deliveryUnit',
   SAP_PRICE_UNIT = 'sapPriceUnit',
 }

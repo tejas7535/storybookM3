@@ -56,6 +56,7 @@ export class QuotationDetail {
   public sapSyncErrorCode: SAP_ERROR_MESSAGE_CODE;
   public sapPriceUnit: number;
   public abcxClassification: AbcxClassification;
+  public targetPrice: number;
 
   // properties added in GQ application
   public priceDiff: number;

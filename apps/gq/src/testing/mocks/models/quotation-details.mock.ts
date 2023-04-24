@@ -49,6 +49,7 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   lastCustomerPriceQuantity: 50,
   syncInSap: false,
   abcxClassification: AbcxClassification.UR1,
+  targetPrice: 90.55,
 
   priceDiff: 17.65,
   gpc: 20,

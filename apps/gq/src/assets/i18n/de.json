@@ -114,6 +114,7 @@
       "mspInfoText": "Minimaler Verkaufspreis (SAP)",
       "strategicMaterial": "Strateg. Material GC",
       "sapVolumeScale": "SAP Volumen Staffel %",
+      "targetPrice": "Zielpreis",
       "headers": {
         "priceSource": {
           "gqPriceSource": "GQ Preis",

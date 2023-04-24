@@ -195,6 +195,10 @@ export const calculatePriceUnitValues = (detail: QuotationDetail): void => {
     );
   }
 
+  if (typeof detail.targetPrice === 'number') {
+    detail.targetPrice = multiplyAndRoundValues(detail.targetPrice, priceUnit);
+  }
+
   if (
     typeof detail.sapPriceUnit === 'number' &&
     typeof detail.material.priceUnit === 'number'
