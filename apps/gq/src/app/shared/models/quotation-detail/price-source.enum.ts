@@ -5,4 +5,5 @@ export enum PriceSource {
   CAP_PRICE = 'CAP_PRICE',
   STRATEGIC = 'STRATEGIC',
   MANUAL = 'MANUAL',
+  TARGET_PRICE = 'TARGET_PRICE',
 }

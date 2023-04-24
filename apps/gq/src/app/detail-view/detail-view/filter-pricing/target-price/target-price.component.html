@@ -1,0 +1,51 @@
+<div class="mt-4">
+  <gq-filter-pricing-card
+    *transloco="let t; read: 'detailView.filterPricing.targetPrice'"
+    [title]="t('title')"
+    [isSelected]="quotationDetail.priceSource === PriceSource.TARGET_PRICE"
+    [isLoading]="isLoading"
+    [isDisabled]="isDisabled"
+    (selectManualPrice)="selectTargetPrice()"
+  >
+    <div content class="flex w-full flex-col flex-wrap sm:flex-row">
+      <div class="min-w-[8rem] max-w-[25%] grow pt-4">
+        <div class="text-body-2 text-medium-emphasis mb-1">
+          {{ t('priceLabel') }}:
+        </div>
+        <span class="font-bold">{{
+          quotationDetail?.targetPrice | numberCurrency: currency
+        }}</span>
+      </div>
+      <div class="min-w-[8rem] pt-4">
+        <div class="text-body-2 text-medium-emphasis mb-1">{{ t('gpi') }}:</div>
+        <div>
+          <span class="font-bold">{{ gpi | percentage }}</span>
+        </div>
+      </div>
+      <div class="min-w-[8rem] pt-4">
+        <div class="text-body-2 text-medium-emphasis mb-1">{{ t('gpm') }}:</div>
+        <div>
+          <span class="font-bold">{{ gpm | percentage }}</span>
+        </div>
+      </div>
+      <div class="min-w-[8rem] pt-4">
+        <div class="text-body-2 text-medium-emphasis mb-1">
+          {{ t('quantity') }}:
+        </div>
+        <gq-quantity-display
+          [quotationDetail]="quotationDetail"
+        ></gq-quantity-display>
+      </div>
+      <div class="min-w-[8rem] pt-4">
+        <div class="text-body-2 text-medium-emphasis mb-1">
+          {{ t('priceUnit') }}:
+        </div>
+        <div>
+          <span class="font-bold">{{
+            quotationDetail?.material.priceUnit | number
+          }}</span>
+        </div>
+      </div>
+    </div>
+  </gq-filter-pricing-card>
+</div>

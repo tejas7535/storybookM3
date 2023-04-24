@@ -29,6 +29,14 @@
       "quantity": "Quantity",
       "details": "Details"
     },
+    "targetPrice": {
+      "title": "Target Pricing",
+      "priceLabel": "Net price",
+      "gpi": "GPI% (GPC)",
+      "gpm": "GPM% (SQV)",
+      "quantity": "Quantity",
+      "priceUnit": "Price Unit"
+    },
     "changeQuantity": {
       "title": "Change Quantity",
       "confirm": "Confirm",

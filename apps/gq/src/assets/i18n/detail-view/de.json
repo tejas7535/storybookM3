@@ -29,6 +29,14 @@
       "quantity": "Menge",
       "details": "Details"
     },
+    "targetPrice": {
+      "title": "Zielpreis",
+      "priceLabel": "Nettopreis",
+      "gpi": "GPI% (KHK)",
+      "gpm": "GPM% (SAW)",
+      "quantity": "Menge",
+      "priceUnit": "Preiseinheit"
+    },
     "changeQuantity": {
       "title": "Menge ändern",
       "confirm": "Bestätigen",

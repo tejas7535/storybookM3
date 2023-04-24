@@ -33,6 +33,7 @@ import { FilterPricingCardComponent } from './filter-pricing-card/filter-pricing
 import { GqPriceComponent } from './gq-price/gq-price.component';
 import { ManualPriceComponent } from './manual-price/manual-price.component';
 import { QuantityDisplayComponent } from './quantity/quantity-display/quantity-display.component';
+import { TargetPriceComponent } from './target-price/target-price.component';
 
 describe('FilterPricingComponent', () => {
   let component: FilterPricingComponent;
@@ -69,6 +70,7 @@ describe('FilterPricingComponent', () => {
       ManualPriceComponent,
       GqPriceComponent,
       QuantityDisplayComponent,
+      TargetPriceComponent,
     ],
   });
 

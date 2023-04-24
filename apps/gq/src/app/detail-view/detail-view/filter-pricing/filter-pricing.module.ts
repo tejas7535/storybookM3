@@ -22,6 +22,7 @@ import { GqPriceComponent } from './gq-price/gq-price.component';
 import { ManualPriceComponent } from './manual-price/manual-price.component';
 import { QuantityDisplayComponent } from './quantity/quantity-display/quantity-display.component';
 import { SapPriceComponent } from './sap-price/sap-price.component';
+import { TargetPriceComponent } from './target-price/target-price.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { SapPriceComponent } from './sap-price/sap-price.component';
     SapPriceComponent,
     QuantityDisplayComponent,
     DetailButtonComponent,
+    TargetPriceComponent,
   ],
   imports: [
     MatButtonModule,
