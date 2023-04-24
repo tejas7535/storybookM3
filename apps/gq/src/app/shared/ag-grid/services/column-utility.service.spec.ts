@@ -316,6 +316,39 @@ describe('CreateColumnService', () => {
     });
   });
 
+  describe('targetPriceFormatter', () => {
+    test('should render number when currency is present within data', () => {
+      const params = {
+        value: 1234,
+        column: {
+          colId: 'test',
+        },
+        data: {
+          currency: 'testcurrency',
+        },
+      };
+      const result = service.targetPriceFormatter(
+        params as unknown as ValueFormatterParams
+      );
+
+      expect(result).toEqual('1,234.00 testcurrency');
+    });
+
+    test('should transform number as Currency WITHOUT currency', () => {
+      const params = {
+        value: 1234.23,
+        column: {
+          colId: 'test',
+        },
+      };
+      const result = service.targetPriceFormatter(
+        params as unknown as ValueFormatterParams
+      );
+
+      expect(result).toEqual('1,234.23');
+    });
+  });
+
   describe('sapConditionAmountFormatter', () => {
     test('should return absolute transformation', () => {
       const params = {

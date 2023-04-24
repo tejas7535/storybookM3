@@ -33,10 +33,10 @@ import {
   QuotationDetail,
   SAP_SYNC_STATUS,
 } from '../../../../shared/models/quotation-detail';
+import { CustomerService } from '../../../../shared/services/rest/customer/customer.service';
 import { MaterialService } from '../../../../shared/services/rest/material/material.service';
 import { QuotationService } from '../../../../shared/services/rest/quotation/quotation.service';
 import { QuotationDetailsService } from '../../../../shared/services/rest/quotation-details/quotation-details.service';
-import { SearchService } from '../../../../shared/services/rest/search/search.service';
 import {
   addMaterialRowDataItems,
   addMaterials,
@@ -109,7 +109,7 @@ export class ProcessCaseEffect {
       concatLatestFrom(() => this.store.select(getSelectedQuotationIdentifier)),
       map(([_action, quotationIdentifier]) => quotationIdentifier),
       mergeMap((quotationIdentifier: QuotationIdentifier) =>
-        this.searchService.getCustomer(quotationIdentifier).pipe(
+        this.customerService.getCustomer(quotationIdentifier).pipe(
           map((item: Customer) =>
             loadCustomerSuccess({
               item,
@@ -602,7 +602,7 @@ export class ProcessCaseEffect {
 
   constructor(
     private readonly actions$: Actions,
-    private readonly searchService: SearchService,
+    private readonly customerService: CustomerService,
     private readonly quotationDetailsService: QuotationDetailsService,
     private readonly quotationService: QuotationService,
     private readonly store: Store,

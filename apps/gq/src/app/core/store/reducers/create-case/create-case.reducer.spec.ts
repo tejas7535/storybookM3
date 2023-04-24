@@ -349,6 +349,10 @@ describe('Create Case Reducer', () => {
         ];
         const fakeState: CreateCaseState = {
           ...CREATE_CASE_STORE_STATE_MOCK,
+          customer: {
+            ...CREATE_CASE_STORE_STATE_MOCK.customer,
+            salesOrgs: [{ currency: 'EUR' } as SalesOrg],
+          },
           rowData: fakeData,
         };
 
@@ -357,6 +361,52 @@ describe('Create Case Reducer', () => {
         const state = createCaseReducer(fakeState, action);
 
         expect(state.rowData).toEqual([fakeData[0], ...items]);
+        expect(state.validationLoading).toBe(true);
+      });
+      test('should addItem to Row Data and update currency', () => {
+        const fakeData = [
+          {
+            id: 0,
+            materialNumber: '123',
+            targetPrice: 100,
+            quantity: 10,
+            info: { valid: true, description: [ValidationDescription.Valid] },
+          },
+        ];
+        const items = [
+          {
+            id: 1,
+            materialNumber: '1234',
+            quantity: 105,
+            targetPrice: 100,
+            info: { valid: true, description: [ValidationDescription.Valid] },
+          },
+        ];
+
+        const expected = [
+          {
+            id: 1,
+            materialNumber: '1234',
+            quantity: 105,
+            targetPrice: 100,
+            currency: 'EUR',
+            info: { valid: true, description: [ValidationDescription.Valid] },
+          },
+        ];
+        const fakeState: CreateCaseState = {
+          ...CREATE_CASE_STORE_STATE_MOCK,
+          customer: {
+            ...CREATE_CASE_STORE_STATE_MOCK.customer,
+            salesOrgs: [{ currency: 'EUR', selected: true } as SalesOrg],
+          },
+          rowData: fakeData,
+        };
+
+        const action = addRowDataItems({ items });
+
+        const state = createCaseReducer(fakeState, action);
+
+        expect(state.rowData).toEqual([fakeData[0], ...expected]);
         expect(state.validationLoading).toBe(true);
       });
     });
@@ -645,7 +695,7 @@ describe('Create Case Reducer', () => {
         expect(state.customer.salesOrgs).toEqual(salesOrgs);
       });
 
-      test('should have reset validation statutes', () => {
+      test('should have reset validation statuses', () => {
         const salesOrgs = [new SalesOrg('id', true)];
         const action = getSalesOrgsSuccess({ salesOrgs });
         const fakeState: CreateCaseState = {
@@ -663,12 +713,13 @@ describe('Create Case Reducer', () => {
 
         const expected = [
           {
+            currency: undefined,
             info: {
               valid: false,
               description: [ValidationDescription.Not_Validated],
               errorCode: undefined as unknown,
             },
-          },
+          } as MaterialTableItem,
         ];
         const state = createCaseReducer(fakeState, action);
         expect(state.rowData).toStrictEqual(expected);
@@ -689,7 +740,7 @@ describe('Create Case Reducer', () => {
   describe('select SalesOrg', () => {
     test('should select SalesOrg', () => {
       const salesOrgs = [new SalesOrg('id1', true), new SalesOrg('id2', false)];
-      const salesOrgsexpected = [
+      const salesOrgsExpected = [
         new SalesOrg('id1', false),
         new SalesOrg('id2', true),
       ];
@@ -706,8 +757,9 @@ describe('Create Case Reducer', () => {
       };
       const state = createCaseReducer(fakeState, action);
 
-      expect(state.customer.salesOrgs).toEqual(salesOrgsexpected);
+      expect(state.customer.salesOrgs).toEqual(salesOrgsExpected);
     });
+
     test('should reset validationStatus', () => {
       const action = selectSalesOrg({ salesOrgId: 'id2' });
 
@@ -735,6 +787,46 @@ describe('Create Case Reducer', () => {
               description: [ValidationDescription.Duplicate],
               errorCode: SAP_ERROR_MESSAGE_CODE.SDG101,
             },
+          },
+        ],
+      };
+
+      const state = createCaseReducer(fakeState, action);
+      expect(state.rowData).toEqual(rowDataExpected);
+    });
+
+    test('should update the currency', () => {
+      const action = selectSalesOrg({ salesOrgId: 'id2' });
+
+      const rowDataExpected = [
+        {
+          info: {
+            valid: false,
+            description: [ValidationDescription.Not_Validated],
+            errorCode: undefined as unknown,
+          },
+          currency: 'USD',
+        },
+      ];
+      const fakeState: CreateCaseState = {
+        ...CREATE_CASE_STORE_STATE_MOCK,
+        customer: {
+          salesOrgs: [
+            { id: 'id1', selected: true, currency: 'EUR' } as SalesOrg,
+            { id: 'id2', selected: false, currency: 'USD' } as SalesOrg,
+          ],
+          customerId: '12',
+          errorMessage: '',
+          salesOrgsLoading: false,
+        },
+        rowData: [
+          {
+            info: {
+              valid: true,
+              description: [ValidationDescription.Duplicate],
+              errorCode: SAP_ERROR_MESSAGE_CODE.SDG101,
+            },
+            currency: undefined,
           },
         ],
       };

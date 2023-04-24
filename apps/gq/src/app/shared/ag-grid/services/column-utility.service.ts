@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Injectable } from '@angular/core';
 
@@ -335,6 +336,22 @@ export class ColumnUtilityService {
       params.value,
       params.context.quotation.currency
     );
+  }
+
+  /**
+   * transform a target price that is an optional field
+   */
+  targetPriceFormatter(params: ValueFormatterParams): string {
+    // check for tables where currency is within the data of the row
+    if (params.data?.currency) {
+      return this.helperService.transformNumberCurrency(
+        params.value,
+        params.data.currency
+      );
+    }
+
+    // currency is not present, but transform the number to locale settings
+    return this.helperService.transformNumber(params.value, true);
   }
 }
 

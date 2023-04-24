@@ -155,6 +155,11 @@
           "hint": "Enter a Quantity",
           "label": "Quantity"
         },
+        "targetPrice": {
+          "label": "Target Price",
+          "hint": "Enter a Target Price (optional)",
+          "error": "Invalid Target Price"
+        },
         "customer": {
           "hint": "Enter a Customer Number or a Customer Name",
           "label": "Customer",
@@ -199,7 +204,11 @@
         },
         "materialDescription": "Material Description",
         "materialNumber": "Material Number (15-digits)",
-        "quantity": "Quantity"
+        "quantity": "Quantity",
+        "targetPrice": "Target Price",
+        "targetPriceInfoText": "Please consider to convert the target price to the price unit, if needed.",
+        "priceUnitOfTargetPrice": "per",
+        "UoM": "UoM"
       }
     },
     "itemId": "Item {{id}}",

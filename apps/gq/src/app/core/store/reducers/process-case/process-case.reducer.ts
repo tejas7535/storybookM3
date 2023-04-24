@@ -291,9 +291,13 @@ export const processCaseReducer = createReducer(
       ...state,
       addMaterials: {
         ...state.addMaterials,
-        addMaterialRowData: TableService.addItems(items, [
-          ...state.addMaterials.addMaterialRowData,
-        ]),
+        addMaterialRowData: TableService.addItems(
+          TableService.addCurrencyToMaterialItems(
+            items,
+            state.customer?.item?.currency
+          ),
+          [...state.addMaterials.addMaterialRowData]
+        ),
         validationLoading: true,
       },
     })

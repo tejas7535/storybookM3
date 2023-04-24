@@ -6,7 +6,6 @@ import {
   ValidationDescription,
 } from '../../models/table';
 import { MaterialTableItem } from '../../models/table/material-table-item-model';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -67,13 +66,15 @@ export class TableService {
     });
   }
 
-  static updateStatusOnCustomerChanged(
-    currentRowData: MaterialTableItem[]
+  static updateStatusAndCurrencyOnCustomerOrSalesOrgChanged(
+    currentRowData: MaterialTableItem[],
+    currency?: string
   ): MaterialTableItem[] {
     return [
       ...currentRowData.map((item: MaterialTableItem) => {
         const newItem: MaterialTableItem = {
           ...item,
+          currency,
           info: {
             valid: false,
             errorCode: undefined,
@@ -115,6 +116,9 @@ export class TableService {
     if (materialValidation?.errorCode) {
       updatedRow.info.errorCode = materialValidation.errorCode;
     }
+
+    updatedRow.priceUnit = materialValidation?.materialPriceUnit;
+    updatedRow.UoM = materialValidation?.materialUoM;
 
     const quantity =
       typeof updatedRow.quantity === 'number'
@@ -187,6 +191,9 @@ export class TableService {
       return {
         quotationItemId: startItemId,
         materialId: el.materialNumber,
+        targetPrice: el.targetPrice
+          ? el.targetPrice / (el.priceUnit ?? 1)
+          : undefined,
         quantity:
           typeof el.quantity === 'string'
             ? Number.parseInt(el.quantity, 10)
@@ -194,4 +201,19 @@ export class TableService {
       };
     });
   }
+
+  /**
+   * add the customers currency to the material table items
+   *
+   * @param materialItems materialItems to be added
+   * @param customerCurrency the currency of the customer
+   * @returns the list with all materialItems including currency when target price is present
+   */
+  static addCurrencyToMaterialItems = (
+    materialItems: MaterialTableItem[],
+    customerCurrency: string
+  ): MaterialTableItem[] =>
+    materialItems.map((item: MaterialTableItem) =>
+      item.targetPrice ? { ...item, currency: customerCurrency } : item
+    );
 }

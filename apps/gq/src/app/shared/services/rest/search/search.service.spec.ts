@@ -5,7 +5,6 @@ import {
 
 import {
   CaseFilterItem,
-  QuotationIdentifier,
   SalesIndication,
 } from '@gq/core/store/reducers/models';
 import {
@@ -80,42 +79,6 @@ describe('SearchService', () => {
 
       const req = httpMock.expectOne(
         `${ApiVersion.V1}/${SearchPaths.PATH_AUTO_COMPLETE}/sap-quotation?search_for=test&limit=5`
-      );
-      expect(req.request.method).toBe(HttpMethod.GET);
-      req.flush(mock);
-    });
-  });
-
-  describe('getSalesOrgs', () => {
-    test('should call', () => {
-      const customerId = '123456';
-      service.getSalesOrgs(customerId).subscribe((response) => {
-        expect(response).toEqual([]);
-      });
-
-      const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${SearchPaths.PATH_GET_SALES_ORGS}?${service['PARAM_CUSTOMER_ID']}=${customerId}`
-      );
-      expect(req.request.method).toBe(HttpMethod.GET);
-      req.flush(customerId);
-    });
-  });
-  describe('getCustomer', () => {
-    test('should call', () => {
-      const quotationIdentifier: QuotationIdentifier = {
-        customerNumber: '1234',
-        gqId: 1_147_852,
-        salesOrg: '0267',
-      };
-      const mock = {
-        customerDetails: CUSTOMER_MOCK,
-      };
-      service.getCustomer(quotationIdentifier).subscribe((response) => {
-        expect(response).toEqual(mock.customerDetails);
-      });
-
-      const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${SearchPaths.PATH_CUSTOMERS}/1234/0267`
       );
       expect(req.request.method).toBe(HttpMethod.GET);
       req.flush(mock);

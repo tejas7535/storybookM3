@@ -15,6 +15,11 @@ import { Quotation } from '../../../../shared/models';
 import { IdValue } from '../../../../shared/models/search';
 import { MaterialTableItem } from '../../../../shared/models/table';
 import { HelperService } from '../../../../shared/services/helper/helper.service';
+import { CustomerService } from '../../../../shared/services/rest/customer/customer.service';
+import {
+  CustomerSalesOrgsCurrenciesResponse,
+  SalesOrgCurrency,
+} from '../../../../shared/services/rest/customer/models/customer-sales-orgs-currencies-response.model';
 import { MaterialService } from '../../../../shared/services/rest/material/material.service';
 import {
   MaterialValidationRequest,
@@ -226,12 +231,29 @@ export class CreateCaseEffects {
       ofType(selectAutocompleteOption.type),
       filter((action: any) => action.filter === FilterNames.CUSTOMER),
       mergeMap((action: any) =>
-        this.searchService.getSalesOrgs(action.option.id).pipe(
-          map((salesOrgs: SalesOrg[]) => getSalesOrgsSuccess({ salesOrgs })),
-          catchError((errorMessage) =>
-            of(getSalesOrgsFailure({ errorMessage }))
+        this.customerService
+          .getSalesOrgsAndCurrenciesByCustomer(action.option.id)
+          .pipe(
+            map(
+              (
+                salesOrgCurrenciesResponse: CustomerSalesOrgsCurrenciesResponse
+              ) => salesOrgCurrenciesResponse?.salesOrgCurrencyList
+            ),
+            map((salesOrgsCurrencies: SalesOrgCurrency[]) => {
+              const salesOrgs: SalesOrg[] = salesOrgsCurrencies.map(
+                (item: SalesOrgCurrency, index) => ({
+                  id: item.salesOrg,
+                  selected: index === 0, // select the first item of the returned list
+                  currency: item.currency,
+                })
+              );
+
+              return getSalesOrgsSuccess({ salesOrgs });
+            }),
+            catchError((errorMessage) =>
+              of(getSalesOrgsFailure({ errorMessage }))
+            )
           )
-        )
       )
     );
   });
@@ -287,6 +309,7 @@ export class CreateCaseEffects {
     private readonly actions$: Actions,
     private readonly searchService: SearchService,
     private readonly quotationService: QuotationService,
+    private readonly customerService: CustomerService,
     private readonly router: Router,
     private readonly store: Store,
     private readonly materialService: MaterialService,

@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { ColDef } from 'ag-grid-enterprise';
 
 import { AgGridLocale } from '../../../ag-grid/models/ag-grid-locale.interface';
@@ -28,7 +29,8 @@ import {
 export class InputTableComponent implements OnInit {
   constructor(
     private readonly columnDefinitionService: InputTableColumnDefService,
-    private readonly localizationService: LocalizationService
+    private readonly localizationService: LocalizationService,
+    private readonly featureToggleService: FeatureToggleConfigService
   ) {}
   public defaultColumnDefs = DEFAULT_COLUMN_DEFS;
   public columnDefs: ColDef[];
@@ -42,7 +44,9 @@ export class InputTableComponent implements OnInit {
   ngOnInit(): void {
     this.columnDefs = HelperService.initColDef(
       this.isCaseView,
-      this.columnDefinitionService.BASE_COLUMN_DEFS
+      this.featureToggleService.isEnabled('targetPrice')
+        ? this.columnDefinitionService.BASE_COLUMN_DEFS
+        : this.columnDefinitionService.BASE_COLUMNS_WITHOUT_TARGET_PRICE
     );
     this.statusBar = HelperService.initStatusBar(
       this.isCaseView,

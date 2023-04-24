@@ -4,11 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { QuotationIdentifier, SalesOrg } from '@gq/core/store/reducers/models';
-import { roundToTwoDecimals } from '@gq/shared/utils/pricing.utils';
-
 import { ApiVersion } from '../../../models';
-import { Customer } from '../../../models/customer';
 import { AutocompleteSearch, IdValue } from '../../../models/search';
 import { AutocompleteResponse } from './models/autocomplete-response.model';
 import { PLsSeriesRequest } from './models/pls-series-request.model';
@@ -21,7 +17,6 @@ import { SearchPaths } from './models/search-paths.enum';
 export class SearchService {
   private readonly PARAM_SEARCH_FOR = 'search_for';
   private readonly PARAM_LIMIT = 'limit';
-  private readonly PARAM_CUSTOMER_ID = 'customer_id';
 
   constructor(private readonly http: HttpClient) {}
 
@@ -46,45 +41,6 @@ export class SearchService {
             selected: false,
           }))
         )
-      );
-  }
-  public getSalesOrgs(customerId: string): Observable<SalesOrg[]> {
-    const httpParams = new HttpParams().set(this.PARAM_CUSTOMER_ID, customerId);
-
-    return this.http
-      .get<string[]>(`${ApiVersion.V1}/${SearchPaths.PATH_GET_SALES_ORGS}`, {
-        params: httpParams,
-      })
-      .pipe(
-        map((res: string[]) =>
-          res.map((el, index) => ({ id: el, selected: index === 0 }))
-        )
-      );
-  }
-  public getCustomer(
-    quotationIdentifier: QuotationIdentifier
-  ): Observable<Customer> {
-    const { customerNumber, salesOrg } = quotationIdentifier;
-
-    return this.http
-      .get<Customer>(
-        `${ApiVersion.V1}/${SearchPaths.PATH_CUSTOMERS}/${customerNumber}/${salesOrg}`
-      )
-      .pipe(
-        map((customer: Customer) => ({
-          ...customer,
-          marginDetail: {
-            ...customer.marginDetail,
-            currentGpi: roundToTwoDecimals(customer.marginDetail?.currentGpi),
-            currentNetSales: roundToTwoDecimals(
-              customer.marginDetail?.currentNetSales
-            ),
-            gpiLastYear: roundToTwoDecimals(customer.marginDetail?.gpiLastYear),
-            netSalesLastYear: roundToTwoDecimals(
-              customer.marginDetail?.netSalesLastYear
-            ),
-          },
-        }))
       );
   }
 

@@ -343,6 +343,36 @@ describe('Quotation Reducer', () => {
           },
         });
       });
+      test('should add Material RowDataItem with target price', () => {
+        const items: MaterialTableItem[] = [
+          {
+            id: 0,
+            materialNumber: '123465',
+            quantity: 100,
+            targetPrice: 100.05,
+          },
+        ];
+        const expectedItems: MaterialTableItem[] = [
+          {
+            id: 0,
+            materialNumber: '123465',
+            quantity: 100,
+            targetPrice: 100.05,
+            currency: 'USD',
+          },
+        ];
+        const action = addMaterialRowDataItems({ items });
+        const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
+
+        expect(state).toEqual({
+          ...PROCESS_CASE_STATE_MOCK,
+          addMaterials: {
+            ...PROCESS_CASE_STATE_MOCK.addMaterials,
+            addMaterialRowData: expectedItems,
+            validationLoading: true,
+          },
+        });
+      });
     });
     describe('duplicateMaterialRowDataItem', () => {
       test('should call table service duplicate', () => {

@@ -155,6 +155,11 @@
           "label": "Menge",
           "hint": "Geben Sie die Menge ein"
         },
+        "targetPrice": {
+          "label": "Zielpreis",
+          "hint": "Geben Sie einen Zielpreis ein (optional)",
+          "error": "Invalider Zielpreis"
+        },
         "customer": {
           "hint": "Geben Sie eine Kundennummer oder einen Kundennamen ein",
           "label": "Kunde",
@@ -199,7 +204,11 @@
         },
         "materialDescription": "Materialbeschreibung",
         "materialNumber": "Materialnummer (15-stellig)",
-        "quantity": "Menge"
+        "quantity": "Menge",
+        "targetPrice": "Zielpreis",
+        "targetPriceInfoText": "Bitte Zielpreis gegebenfalls an die Preiseinheit umrechnen.",
+        "priceUnitOfTargetPrice": "pro",
+        "UoM": "Mengeneinheit"
       }
     },
     "itemId": "Position {{id}}",

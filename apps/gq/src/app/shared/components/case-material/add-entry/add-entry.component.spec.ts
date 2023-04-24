@@ -1,26 +1,26 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { addMaterialRowDataItems } from '@gq/core/store/actions';
-import { PasteButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/paste-button/paste-button.component';
+import { AutoCompleteFacade } from '@gq/core/store/facades';
+import { LOCALE_DE } from '@gq/shared/constants';
+import { PasteMaterialsService } from '@gq/shared/services/paste-materials/paste-materials.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CREATE_CASE_STORE_STATE_MOCK } from '../../../../../testing/mocks';
+import { SharedDirectivesModule } from '../../../../shared/directives/shared-directives.module';
 import {
   MaterialTableItem,
   ValidationDescription,
 } from '../../../models/table';
 import { HelperService } from '../../../services/helper/helper.service';
-import { AutocompleteInputModule } from '../../autocomplete-input/autocomplete-input.module';
 import { AddEntryComponent } from './add-entry.component';
 
 describe('AddEntryComponent', () => {
@@ -31,25 +31,25 @@ describe('AddEntryComponent', () => {
   const createComponent = createComponentFactory({
     component: AddEntryComponent,
     imports: [
-      AutocompleteInputModule,
-      MatInputModule,
-      MatButtonModule,
-      MatCardModule,
-      MatIconModule,
       provideTranslocoTestingModule({ en: {} }),
       ReactiveFormsModule,
+      SharedDirectivesModule,
       PushModule,
-      MatSnackBarModule,
-      PasteButtonComponent,
     ],
     providers: [
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+      MockProvider(PasteMaterialsService),
+      MockProvider(MatSnackBar),
+      MockProvider(AutoCompleteFacade),
+      MockProvider(TranslocoLocaleService, {
+        getLocale: jest.fn(() => LOCALE_DE.id),
+      }),
       provideMockStore({
         initialState: {
           case: CREATE_CASE_STORE_STATE_MOCK,
         },
       }),
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {
@@ -72,6 +72,18 @@ describe('AddEntryComponent', () => {
 
       expect(component.quantityValid).toBeTruthy();
       expect(component.quantity).toEqual(10);
+      expect(component.rowInputValid).toHaveBeenCalled();
+    });
+
+    test('should set targetprice valid if when targetPriceFormControl valuechanges', () => {
+      component.rowInputValid = jest.fn();
+      component.targetPriceValid = false;
+      component.ngOnInit();
+      const testValue = 10;
+      component.targetPriceFormControl.setValue(testValue);
+
+      expect(component.targetPriceValid).toBeTruthy();
+      expect(component.targetPrice).toEqual(10);
       expect(component.rowInputValid).toHaveBeenCalled();
     });
   });
@@ -115,6 +127,35 @@ describe('AddEntryComponent', () => {
       expect(response).toBeUndefined();
     });
   });
+
+  describe('targetPriceValidator', () => {
+    test('should return invalid', () => {
+      component.rowInputValid = jest.fn();
+      const control = { value: '10,' } as unknown as any;
+
+      const result = component.targetPriceValidator(control);
+
+      expect(component.targetPriceValid).toBeFalsy();
+      expect(component.targetPrice).toEqual('10,');
+      expect(component.targetPriceValid).toBeFalsy();
+      expect(component.rowInputValid).toHaveBeenCalledTimes(1);
+      expect(result).toStrictEqual({ invalidInput: true });
+    });
+
+    test('should return undefined', () => {
+      component.rowInputValid = jest.fn();
+      const control = { value: '10,1' } as unknown as any;
+
+      const result = component.targetPriceValidator(control);
+
+      expect(component.targetPriceValid).toBeTruthy();
+      expect(component.targetPrice).toEqual('10,1');
+      expect(component.targetPriceValid).toBeTruthy();
+      expect(component.rowInputValid).toHaveBeenCalledTimes(1);
+      expect(result).toBeUndefined();
+    });
+  });
+
   describe('addRow', () => {
     test('should dispatch action', () => {
       const item: MaterialTableItem = {
@@ -141,6 +182,10 @@ describe('AddEntryComponent', () => {
         reset: jest.fn(),
       } as any;
 
+      component.targetPriceFormControl = {
+        reset: jest.fn(),
+      } as any;
+
       component.addRow();
       expect(mockStore.dispatch).toHaveBeenCalledWith(
         addMaterialRowDataItems({ items: [item] })
@@ -148,6 +193,7 @@ describe('AddEntryComponent', () => {
       expect(component.matNumberInput.clearInput).toHaveBeenCalledTimes(1);
       expect(component.matDescInput.clearInput).toHaveBeenCalledTimes(1);
       expect(component.quantityFormControl.reset).toHaveBeenCalledTimes(1);
+      expect(component.targetPriceFormControl.reset).toHaveBeenCalledTimes(1);
     });
   });
   describe('onQuantityKeyPress', () => {

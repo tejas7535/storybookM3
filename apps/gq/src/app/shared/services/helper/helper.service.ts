@@ -107,6 +107,20 @@ export class HelperService {
 
     return Number.parseFloat(value);
   }
+
+  static parseNullableLocalizedInputValue(val: string, locale: string): number {
+    if (!val) {
+      return undefined;
+    }
+    const isGermanLocale = locale === LOCALE_DE.id;
+
+    const value = isGermanLocale
+      ? val.replace(/\./g, Keyboard.EMPTY).replace(/,/g, Keyboard.DOT)
+      : val.replace(/,/g, Keyboard.EMPTY);
+
+    return Number.parseFloat(value);
+  }
+
   static transformPLsAndSeriesResponse(
     response: PLsSeriesResponse[]
   ): PLsAndSeries {

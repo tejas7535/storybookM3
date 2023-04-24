@@ -7,7 +7,7 @@ import { getAddMaterialRowDataValid } from '@gq/core/store/selectors/process-cas
 import { Store } from '@ngrx/store';
 
 @Component({
-  selector: 'gq-create-case-button',
+  selector: 'gq-add-material-button',
   templateUrl: './add-material-button.component.html',
 })
 export class AddMaterialButtonComponent implements OnInit {

@@ -69,7 +69,7 @@ describe('TableService', () => {
     });
   });
 
-  describe('updateStatusOnCustomerChanged', () => {
+  describe('updateStatusAndCurrencyOnCustomerOrSalesOrgChanged', () => {
     test('should set the validation status of each item', () => {
       const input: MaterialTableItem[] = [
         {
@@ -91,6 +91,7 @@ describe('TableService', () => {
       const expected: MaterialTableItem[] = [
         {
           id: 1,
+          currency: undefined,
           info: {
             description: [ValidationDescription.Not_Validated],
             errorCode: undefined,
@@ -99,6 +100,7 @@ describe('TableService', () => {
         },
         {
           id: 2,
+          currency: undefined,
           info: {
             description: [ValidationDescription.Not_Validated],
             errorCode: undefined,
@@ -107,7 +109,41 @@ describe('TableService', () => {
         },
       ];
 
-      const result = TableService.updateStatusOnCustomerChanged(input);
+      const result =
+        TableService.updateStatusAndCurrencyOnCustomerOrSalesOrgChanged(input);
+      expect(result).toStrictEqual(expected);
+    });
+
+    test('should set the currency to the material item', () => {
+      const input: MaterialTableItem[] = [
+        { id: 1 } as MaterialTableItem,
+        { id: 2 } as MaterialTableItem,
+      ];
+      const expected: MaterialTableItem[] = [
+        {
+          id: 1,
+          currency: 'EUR',
+          info: {
+            description: [ValidationDescription.Not_Validated],
+            errorCode: undefined,
+            valid: false,
+          },
+        } as MaterialTableItem,
+        {
+          id: 2,
+          currency: 'EUR',
+          info: {
+            description: [ValidationDescription.Not_Validated],
+            errorCode: undefined,
+            valid: false,
+          },
+        } as MaterialTableItem,
+      ];
+      const result =
+        TableService.updateStatusAndCurrencyOnCustomerOrSalesOrgChanged(
+          input,
+          'EUR'
+        );
       expect(result).toStrictEqual(expected);
     });
   });
@@ -335,6 +371,21 @@ describe('TableService', () => {
       const result = TableService.validateData(materialNumber, rowData);
       expect(result.info.errorCode).toEqual(SAP_ERROR_MESSAGE_CODE.SDG1000);
     });
+
+    test('should set priceUnit and UoM if target price present', () => {
+      const materialNumber: MaterialTableItem = { targetPrice: 1000 };
+      const rowData: MaterialValidation = {
+        materialNumber15: '23457',
+        materialDescription: 'desc',
+        valid: true,
+        materialPriceUnit: 10,
+        materialUnitOfMeasurement: 'PC',
+      } as unknown as MaterialValidation;
+
+      const result = TableService.validateData(materialNumber, rowData);
+      expect(result.priceUnit).toEqual(rowData.materialPriceUnit);
+      expect(result.UoM).toEqual(rowData.materialUoM);
+    });
   });
 
   describe('removeDashes', () => {
@@ -396,6 +447,85 @@ describe('TableService', () => {
         { materialId: '123', quantity: 10, quotationItemId: 10 },
       ];
       expect(result).toEqual(expected);
+    });
+
+    test('should return material quantities with targetPrice, priceUnit given', () => {
+      const rowData: MaterialTableItem[] = [
+        {
+          materialNumber: '123',
+          quantity: 10,
+          targetPrice: 100,
+          priceUnit: 10,
+          info: {
+            description: [ValidationDescription.Valid],
+            valid: true,
+          },
+        },
+      ];
+      const itemId = 0;
+      const result = TableService.createMaterialQuantitiesFromTableItems(
+        rowData,
+        itemId
+      );
+
+      const expected: MaterialQuantities[] = [
+        {
+          materialId: '123',
+          quantity: 10,
+          quotationItemId: 10,
+          targetPrice: 10,
+        },
+      ];
+      expect(result).toEqual(expected);
+      expect(true).toBeTruthy();
+    });
+    test('should return material quantities with targetPrice, priceUnit not given use 1', () => {
+      const rowData: MaterialTableItem[] = [
+        {
+          materialNumber: '123',
+          quantity: 10,
+          targetPrice: 100,
+          info: {
+            description: [ValidationDescription.Valid],
+            valid: true,
+          },
+        },
+      ];
+      const itemId = 0;
+      const result = TableService.createMaterialQuantitiesFromTableItems(
+        rowData,
+        itemId
+      );
+
+      const expected: MaterialQuantities[] = [
+        {
+          materialId: '123',
+          quantity: 10,
+          quotationItemId: 10,
+          targetPrice: 100,
+        },
+      ];
+      expect(result).toEqual(expected);
+      expect(true).toBeTruthy();
+    });
+  });
+
+  describe('addCurrencyToMaterialItems', () => {
+    test('should add currency', () => {
+      const input: MaterialTableItem[] = [
+        { targetPrice: 100 } as MaterialTableItem,
+      ];
+      const expected: MaterialTableItem[] = [
+        { targetPrice: 100, currency: 'EUR' },
+      ];
+      const result = TableService.addCurrencyToMaterialItems(input, 'EUR');
+      expect(result).toStrictEqual(expected);
+    });
+    test('should NOT add currency', () => {
+      const input: MaterialTableItem[] = [{} as MaterialTableItem];
+      const expected: MaterialTableItem[] = [{}];
+      const result = TableService.addCurrencyToMaterialItems(input, 'EUR');
+      expect(result).toStrictEqual(expected);
     });
   });
 });

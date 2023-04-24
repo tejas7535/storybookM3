@@ -11,7 +11,7 @@
     <hr class="mt-6 opacity-[12%]" />
   </div>
 
-  <div class="mt-6 grid grid-cols-2 gap-x-6 gap-y-2 lg:grid-cols-4">
+  <div class="mt-6 grid grid-cols-2 gap-x-6 gap-y-2 lg:grid-cols-5">
     <div
       *ngIf="
         autoCompleteFacade.materialDescForAddEntry$ | ngrxPush as materialDesc
@@ -79,6 +79,24 @@
         <mat-hint>{{ t('quantity.hint') }}</mat-hint>
         <mat-error *ngIf="quantityFormControl.hasError('invalidInput')">{{
           t('quantity.error')
+        }}</mat-error>
+      </mat-form-field>
+    </div>
+    <div *featureToggle="'targetPrice'">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>
+          {{ t('targetPrice.label') }}
+        </mat-label>
+        <input
+          class="text-overline"
+          autocomplete="off"
+          matInput
+          type="text"
+          [formControl]="targetPriceFormControl"
+        />
+        <mat-hint>{{ t('targetPrice.hint') }}</mat-hint>
+        <mat-error *ngIf="targetPriceFormControl.hasError('invalidInput')">{{
+          t('targetPrice.error')
         }}</mat-error>
       </mat-form-field>
     </div>

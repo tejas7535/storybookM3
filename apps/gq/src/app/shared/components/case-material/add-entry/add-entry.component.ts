@@ -1,12 +1,13 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   AbstractControl,
+  FormControl,
   UntypedFormControl,
   ValidationErrors,
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import {
   addMaterialRowDataItems,
@@ -15,8 +16,10 @@ import {
 import { AutoCompleteFacade } from '@gq/core/store/facades';
 import { CaseFilterItem } from '@gq/core/store/reducers/models';
 import { translate } from '@ngneat/transloco';
+import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
 
+import * as constants from '../../../constants';
 import { Keyboard } from '../../../models';
 import { MaterialTableItem } from '../../../models/table/material-table-item-model';
 import { ValidationDescription } from '../../../models/table/validation-description.enum';
@@ -38,11 +41,13 @@ export class AddEntryComponent implements OnInit, OnDestroy {
 
   public materialNumberInput: boolean;
   public quantity: number;
+  public targetPrice: number;
   public materialInputIsValid = false;
   public quantityValid = false;
+  public targetPriceValid = true;
   public addRowEnabled = false;
   public quantityFormControl: UntypedFormControl = new UntypedFormControl();
-  private readonly subscription: Subscription = new Subscription();
+  public targetPriceFormControl: FormControl = new FormControl();
 
   @Input() public readonly isCaseView: boolean;
 
@@ -52,10 +57,11 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   public matDescInput: AutocompleteInputComponent;
 
   constructor(
+    public readonly autoCompleteFacade: AutoCompleteFacade,
     private readonly store: Store,
     private readonly pasteMaterialsService: PasteMaterialsService,
     private readonly matSnackBar: MatSnackBar,
-    public readonly autoCompleteFacade: AutoCompleteFacade
+    private readonly translocoLocaleService: TranslocoLocaleService
   ) {}
 
   public ngOnInit(): void {
@@ -65,6 +71,10 @@ export class AddEntryComponent implements OnInit, OnDestroy {
 
   addSubscriptions(): void {
     this.quantityFormControl.setValidators([this.quantityValidator.bind(this)]);
+    this.targetPriceFormControl.setValidators([
+      this.targetPriceValidator.bind(this),
+    ]);
+    this.targetPriceFormControl.markAllAsTouched();
   }
 
   quantityValidator(control: AbstractControl): ValidationErrors {
@@ -79,8 +89,19 @@ export class AddEntryComponent implements OnInit, OnDestroy {
       : undefined;
   }
 
+  targetPriceValidator(control: AbstractControl): ValidationErrors {
+    const locale = this.translocoLocaleService.getLocale();
+    const { value } = control;
+
+    this.targetPriceValid =
+      !value || constants.getCurrencyRegex(locale).test(value);
+    this.targetPrice = value;
+    this.rowInputValid();
+
+    return !this.targetPriceValid ? { invalidInput: true } : undefined;
+  }
+
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
     this.autoCompleteFacade.resetView();
   }
 
@@ -99,7 +120,8 @@ export class AddEntryComponent implements OnInit, OnDestroy {
       this.materialInputIsValid &&
       this.materialNumberInput &&
       this.quantityValid &&
-      this.quantity > 0;
+      this.quantity > 0 &&
+      this.targetPriceValid;
   }
 
   addRow(): void {
@@ -108,6 +130,11 @@ export class AddEntryComponent implements OnInit, OnDestroy {
         materialNumber: this.matNumberInput.searchFormControl.value,
         materialDescription: this.matDescInput.searchFormControl.value,
         quantity: this.quantity,
+        targetPrice:
+          HelperService.parseNullableLocalizedInputValue(
+            this.targetPrice?.toString(),
+            this.translocoLocaleService.getLocale()
+          ) ?? undefined,
         info: {
           valid: false,
           description: [ValidationDescription.Not_Validated],
@@ -124,6 +151,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     this.matNumberInput.clearInput();
     this.matDescInput.clearInput();
     this.quantityFormControl.reset();
+    this.targetPriceFormControl.reset();
     this.materialInputIsValid = false;
   }
 

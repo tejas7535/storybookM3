@@ -10,6 +10,7 @@ import { PushModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { SharedDirectivesModule } from '../../../../shared/directives/shared-directives.module';
 import { AutocompleteInputModule } from '../../autocomplete-input/autocomplete-input.module';
 import { InfoIconModule } from '../../info-icon/info-icon.module';
 import { AddEntryComponent } from './add-entry.component';
@@ -22,6 +23,7 @@ import { AddEntryComponent } from './add-entry.component';
     MatCardModule,
     MatIconModule,
     SharedTranslocoModule,
+    SharedDirectivesModule,
     ReactiveFormsModule,
     PushModule,
     InfoIconModule,

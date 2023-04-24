@@ -593,4 +593,62 @@ describe('HelperService', () => {
       });
     });
   });
+
+  describe('parseNullableLocalizedInputValue', () => {
+    [
+      {
+        locale: 'de-DE',
+        inputs: [
+          undefined,
+          '100',
+          '1.000',
+          '1.000.000',
+          '1.000.000,45678',
+          '10,23',
+          '1,5',
+        ],
+        expectedOutputs: [
+          undefined,
+          100,
+          1000,
+          1_000_000,
+          1_000_000.456_78,
+          10.23,
+          1.5,
+        ],
+      },
+      {
+        locale: 'en-US',
+        inputs: [
+          undefined,
+          '100',
+          '1,000',
+          '1,000,000',
+          '1,000,000.45678',
+          '10.23',
+          '1.5',
+        ],
+        expectedOutputs: [
+          undefined,
+          100,
+          1000,
+          1_000_000,
+          1_000_000.456_78,
+          10.23,
+          1.5,
+        ],
+      },
+    ].forEach((testCase) => {
+      testCase.inputs.forEach((input, index) => {
+        test(`should return ${testCase.expectedOutputs[index]} for ${testCase.inputs[index]} for locale ${testCase.locale}`, () => {
+          const result = HelperService.parseNullableLocalizedInputValue(
+            input,
+            testCase.locale
+          );
+
+          expect(result).toEqual(testCase.expectedOutputs[index]);
+        });
+      });
+    });
+  });
 });

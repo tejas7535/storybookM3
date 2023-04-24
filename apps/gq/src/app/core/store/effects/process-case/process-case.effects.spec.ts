@@ -32,10 +32,10 @@ import {
   MaterialValidation,
   ValidationDescription,
 } from '../../../../shared/models/table';
+import { CustomerService } from '../../../../shared/services/rest/customer/customer.service';
 import { MaterialService } from '../../../../shared/services/rest/material/material.service';
 import { QuotationService } from '../../../../shared/services/rest/quotation/quotation.service';
 import { QuotationDetailsService } from '../../../../shared/services/rest/quotation-details/quotation-details.service';
-import { SearchService } from '../../../../shared/services/rest/search/search.service';
 import {
   addMaterialRowDataItems,
   addMaterials,
@@ -100,7 +100,7 @@ describe('ProcessCaseEffect', () => {
   let action: any;
   let actions$: any;
   let effects: ProcessCaseEffect;
-  let searchService: SearchService;
+  let customerService: CustomerService;
   let quotationDetailsService: QuotationDetailsService;
   let quotationService: QuotationService;
   let materialService: MaterialService;
@@ -125,7 +125,7 @@ describe('ProcessCaseEffect', () => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(ProcessCaseEffect);
-    searchService = spectator.inject(SearchService);
+    customerService = spectator.inject(CustomerService);
     quotationDetailsService = spectator.inject(QuotationDetailsService);
     quotationService = spectator.inject(QuotationService);
     materialService = spectator.inject(MaterialService);
@@ -147,7 +147,7 @@ describe('ProcessCaseEffect', () => {
     test(
       'should return customerDetailsSuccess action when REST call is successful',
       marbles((m) => {
-        searchService.getCustomer = jest.fn(() => response);
+        customerService.getCustomer = jest.fn(() => response);
         const item = CUSTOMER_MOCK;
         const result = loadCustomerSuccess({ item });
 
@@ -160,8 +160,8 @@ describe('ProcessCaseEffect', () => {
 
         m.expect(effects.customerDetails$).toBeObservable(expected);
         m.flush();
-        expect(searchService.getCustomer).toHaveBeenCalledTimes(1);
-        expect(searchService.getCustomer).toHaveBeenCalledWith(
+        expect(customerService.getCustomer).toHaveBeenCalledTimes(1);
+        expect(customerService.getCustomer).toHaveBeenCalledWith(
           QUOTATION_IDENTIFIER_MOCK
         );
       })
@@ -177,11 +177,11 @@ describe('ProcessCaseEffect', () => {
         const response = m.cold('-#|', undefined, errorMessage);
         const expected = m.cold('--b', { b: result });
 
-        searchService.getCustomer = jest.fn(() => response);
+        customerService.getCustomer = jest.fn(() => response);
 
         m.expect(effects.customerDetails$).toBeObservable(expected);
         m.flush();
-        expect(searchService.getCustomer).toHaveBeenCalledTimes(1);
+        expect(customerService.getCustomer).toHaveBeenCalledTimes(1);
       })
     );
   });

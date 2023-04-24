@@ -11,6 +11,8 @@ import { Store } from '@ngrx/store';
 import { LOCALE_DE } from '../../constants';
 import { Keyboard } from '../../models';
 import { MaterialTableItem, ValidationDescription } from '../../models/table';
+import { FeatureToggleConfigService } from '../feature-toggle/feature-toggle-config.service';
+import { HelperService } from '../helper/helper.service';
 
 const INDEX_MATERIAL_NUMBER = 0;
 const INDEX_QUANTITY = 1;
@@ -23,7 +25,8 @@ export class PasteMaterialsService {
   public constructor(
     private readonly store: Store,
     private readonly snackBar: MatSnackBar,
-    private readonly translocoLocaleService: TranslocoLocaleService
+    private readonly translocoLocaleService: TranslocoLocaleService,
+    private readonly featureToggleService: FeatureToggleConfigService
   ) {}
 
   public async onPasteStart(isCaseView: boolean): Promise<void> {
@@ -53,9 +56,14 @@ export class PasteMaterialsService {
   private processInput(linesArray: string[][]): MaterialTableItem[] {
     return linesArray.map((el) => {
       const parsedQuantity = this.getParsedQuantity(el[INDEX_QUANTITY]);
-      const parsedTargetPrice = this.getParsedTargetPrice(
-        el[INDEX_TARGET_PRICE]
-      );
+      const parsedTargetPrice = this.featureToggleService.isEnabled(
+        'targetPrice'
+      )
+        ? HelperService.parseNullableLocalizedInputValue(
+            el[INDEX_TARGET_PRICE],
+            this.translocoLocaleService.getLocale()
+          )
+        : undefined;
 
       return {
         materialNumber: el[INDEX_MATERIAL_NUMBER].trim(),
@@ -79,26 +87,6 @@ export class PasteMaterialsService {
         : quantity.replace(/,/g, Keyboard.EMPTY);
 
     return Number.parseInt(localeQuantity.trim(), 10);
-  }
-
-  /**
-   * parses the target price from string to floated number
-   *
-   * @param targetPrice target price expected without thousands separator
-   * @returns returns the target price parsed as floated number
-   */
-  private getParsedTargetPrice(targetPrice: string): number {
-    if (!targetPrice) {
-      return undefined;
-    }
-
-    // it is expected to paste a number in the format the localization is set within the app
-    const localeTargetPrice =
-      this.translocoLocaleService.getLocale() === LOCALE_DE.id
-        ? targetPrice.replace(/\./g, Keyboard.EMPTY).replace(/,/g, Keyboard.DOT)
-        : targetPrice.replace(/,/g, Keyboard.EMPTY);
-
-    return Number.parseFloat(localeTargetPrice);
   }
 
   private removeEmptyLines(text: string): string[][] {

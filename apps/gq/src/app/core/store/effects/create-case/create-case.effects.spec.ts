@@ -22,6 +22,8 @@ import {
   ValidationDescription,
 } from '../../../../shared/models/table';
 import { HelperService } from '../../../../shared/services/helper/helper.service';
+import { CustomerService } from '../../../../shared/services/rest/customer/customer.service';
+import { CustomerSalesOrgsCurrenciesResponse } from '../../../../shared/services/rest/customer/models/customer-sales-orgs-currencies-response.model';
 import { MaterialService } from '../../../../shared/services/rest/material/material.service';
 import { MaterialValidationRequest } from '../../../../shared/services/rest/material/models';
 import { QuotationService } from '../../../../shared/services/rest/quotation/quotation.service';
@@ -86,6 +88,7 @@ describe('Create Case Effects', () => {
   let quotationService: QuotationService;
   let searchService: SearchService;
   let validationService: MaterialService;
+  let customerService: CustomerService;
   let snackBar: MatSnackBar;
 
   const createService = createServiceFactory({
@@ -108,6 +111,7 @@ describe('Create Case Effects', () => {
     quotationService = spectator.inject(QuotationService);
     searchService = spectator.inject(SearchService);
     validationService = spectator.inject(MaterialService);
+    customerService = spectator.inject(CustomerService);
     snackBar = spectator.inject(MatSnackBar);
   });
 
@@ -495,22 +499,33 @@ describe('Create Case Effects', () => {
       marbles((m) => {
         const option = new IdValue('id', 'value', true);
         const filter = FilterNames.CUSTOMER;
+        const salesOrgsCurrencies: CustomerSalesOrgsCurrenciesResponse = {
+          customerId: 'id',
+          salesOrgCurrencyList: [{ salesOrg: 'id', currency: 'USD' }],
+        };
+        const response = m.cold('-a|', {
+          a: salesOrgsCurrencies,
+        });
+        customerService.getSalesOrgsAndCurrenciesByCustomer = jest.fn(
+          () => response
+        );
+
         action = selectAutocompleteOption({ option, filter });
-        const salesOrgs = [new SalesOrg('id', true)];
-        const result = getSalesOrgsSuccess({ salesOrgs });
+        const salesOrgsOfAction = [new SalesOrg('id', true, 'USD')];
+        const result = getSalesOrgsSuccess({ salesOrgs: salesOrgsOfAction });
 
         actions$ = m.hot('-a', { a: action });
-        const response = m.cold('-a|', {
-          a: salesOrgs,
-        });
-        searchService.getSalesOrgs = jest.fn(() => response);
 
         const expected = m.cold('--b', { b: result });
         m.expect(effects.getSalesOrgs$).toBeObservable(expected);
         m.flush();
 
-        expect(searchService.getSalesOrgs).toHaveBeenCalledTimes(1);
-        expect(searchService.getSalesOrgs).toHaveBeenCalledWith(option.id);
+        expect(
+          customerService.getSalesOrgsAndCurrenciesByCustomer
+        ).toHaveBeenCalledTimes(1);
+        expect(
+          customerService.getSalesOrgsAndCurrenciesByCustomer
+        ).toHaveBeenCalledWith(option.id);
       })
     );
 
@@ -524,11 +539,15 @@ describe('Create Case Effects', () => {
         const response = m.cold('-#|', undefined, errorMessage);
         const expected = m.cold('--b', { b: result });
 
-        searchService.getSalesOrgs = jest.fn(() => response);
+        customerService.getSalesOrgsAndCurrenciesByCustomer = jest.fn(
+          () => response
+        );
 
         m.expect(effects.getSalesOrgs$).toBeObservable(expected);
         m.flush();
-        expect(searchService.getSalesOrgs).toHaveBeenCalledTimes(1);
+        expect(
+          customerService.getSalesOrgsAndCurrenciesByCustomer
+        ).toHaveBeenCalledTimes(1);
       })
     );
   });

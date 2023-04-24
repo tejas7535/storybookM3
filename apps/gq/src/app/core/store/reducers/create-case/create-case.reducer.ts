@@ -316,7 +316,13 @@ export const createCaseReducer = createReducer(
   ),
   on(addRowDataItems, (state: CreateCaseState, { items }) => ({
     ...state,
-    rowData: TableService.addItems(items, [...state.rowData]),
+    rowData: TableService.addItems(
+      TableService.addCurrencyToMaterialItems(
+        items,
+        getCurrencyOfSelectedSalesOrg(state.customer.salesOrgs)
+      ),
+      [...state.rowData]
+    ),
     validationLoading: true,
   })),
   on(duplicateRowDataItem, (state: CreateCaseState, { itemId }) => ({
@@ -439,7 +445,10 @@ export const createCaseReducer = createReducer(
         salesOrgs,
         salesOrgsLoading: false,
       },
-      rowData: TableService.updateStatusOnCustomerChanged([...state.rowData]),
+      rowData: TableService.updateStatusAndCurrencyOnCustomerOrSalesOrgChanged(
+        [...state.rowData],
+        getCurrencyOfSelectedSalesOrg(salesOrgs)
+      ),
     })
   ),
   on(
@@ -455,17 +464,25 @@ export const createCaseReducer = createReducer(
   ),
   on(
     selectSalesOrg,
-    (state: CreateCaseState, { salesOrgId }): CreateCaseState => ({
-      ...state,
-      customer: {
-        ...state.customer,
-        salesOrgs: [...state.customer.salesOrgs].map((el) => ({
-          ...el,
-          selected: el.id === salesOrgId,
-        })),
-      },
-      rowData: TableService.updateStatusOnCustomerChanged([...state.rowData]),
-    })
+    (state: CreateCaseState, { salesOrgId }): CreateCaseState => {
+      const updatedSalesOrgs = [...state.customer.salesOrgs].map((el) => ({
+        ...el,
+        selected: el.id === salesOrgId,
+      }));
+
+      return {
+        ...state,
+        customer: {
+          ...state.customer,
+          salesOrgs: updatedSalesOrgs,
+        },
+        rowData:
+          TableService.updateStatusAndCurrencyOnCustomerOrSalesOrgChanged(
+            [...state.rowData],
+            getCurrencyOfSelectedSalesOrg(updatedSalesOrgs)
+          ),
+      };
+    }
   ),
   on(
     clearCustomer,
@@ -626,6 +643,20 @@ const selectOption = (options: IdValue[], option: IdValue): IdValue[] => {
 
   return itemOptions;
 };
+
+/**
+ * returns the currency of the selected SalesOrg or undefined if no salesOrg is selected
+ */
+const getCurrencyOfSelectedSalesOrg = (salesOrgs: SalesOrg[]): string => {
+  const foundIndex = salesOrgs.findIndex((item: SalesOrg) => item.selected);
+
+  if (foundIndex < 0) {
+    return undefined;
+  }
+
+  return salesOrgs[foundIndex]?.currency;
+};
+
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function reducer(
   state: CreateCaseState,
