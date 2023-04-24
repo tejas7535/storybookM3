@@ -16,6 +16,7 @@ import {
   getSelectedQuotationDetailIds,
 } from '@gq/core/store/selectors';
 import { ColumnUtilityService } from '@gq/shared/ag-grid/services';
+import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import {
   calculateAffectedKPIs,
   calculateMargin,
@@ -113,7 +114,8 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
     private readonly agGridStateService: AgGridStateService,
     private readonly columnDefinitionService: ColumnDefService,
     private readonly localizationService: LocalizationService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly featureToggleService: FeatureToggleConfigService
   ) {}
 
   ngOnDestroy(): void {
@@ -125,7 +127,11 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.columnDefs$ = this.store.pipe(
-      getColumnDefsForRoles(this.columnDefinitionService.COLUMN_DEFS),
+      getColumnDefsForRoles(
+        this.featureToggleService.isEnabled('targetPrice')
+          ? this.columnDefinitionService.COLUMN_DEFS
+          : this.columnDefinitionService.COLUMN_DEFS_WITHOUT_TARGET_PRICE
+      ),
       map((columnDefs: ColDef[]) =>
         ColumnUtilityService.filterSAPColumns(
           columnDefs,
