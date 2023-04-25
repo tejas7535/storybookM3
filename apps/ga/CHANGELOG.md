@@ -1,4 +1,17 @@
 # Release Notes of Grease App
+## [1.3.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.3.0...ga-v1.3.1) (2023-04-25)
+
+
+### Features
+
+* **ga:** adjust concept1 default to false ([#5219](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5219)) ([0801f81](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0801f81177633499a9a6f8ffdf7d7c9ffce37172))
+* **ga:** allow language param in standalone (UFTABI-6454) ([#5208](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5208)) ([595d9ba](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/595d9bab9aba1adc25509ad3b683762301083c67))
+
+
+### Bug Fixes
+
+* **ga:** calculate FPS weights correct (UFTABI-6415) ([#5186](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5186)) ([4aa3e61](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4aa3e61a62bfd24db6ee8d9b3b11f4a0cb1ff215))
+
 ## [1.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.22...ga-v1.3.0) (2023-04-05)
 
 
