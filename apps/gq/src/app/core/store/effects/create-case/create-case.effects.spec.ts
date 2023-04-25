@@ -52,6 +52,7 @@ import {
   selectAutocompleteOption,
   selectSalesOrg,
   setSelectedAutocompleteOption,
+  updateRowDataItem,
   validateMaterialsOnCustomerAndSalesOrg,
   validateMaterialsOnCustomerAndSalesOrgFailure,
   validateMaterialsOnCustomerAndSalesOrgSuccess,
@@ -218,6 +219,20 @@ describe('Create Case Effects', () => {
       })
     );
 
+    it(
+      'Should call action by update Row Data Item',
+      marbles((m) => {
+        action = updateRowDataItem({ item: {} });
+        actions$ = m.hot('-a', { a: action });
+
+        const result = validateMaterialsOnCustomerAndSalesOrg();
+
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.validateAfterItemUpdated$).toBeObservable(expected);
+        m.flush();
+      })
+    );
     it(
       'Should call action by getSalesOrgsSuccess',
       marbles((m) => {

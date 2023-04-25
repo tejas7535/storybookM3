@@ -72,6 +72,7 @@ export enum MaterialColumnFields {
   MATERIAL_DESCRIPTION = 'materialDescription',
   QUANTITY = 'quantity',
   INFO = 'info',
+  TARGET_PRICE = 'targetPrice',
 }
 
 export const PriceColumns = [

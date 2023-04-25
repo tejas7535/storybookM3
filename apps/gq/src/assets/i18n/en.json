@@ -433,6 +433,11 @@
         "error": "Invalid Quantity",
         "hint": "Enter a Quantity",
         "label": "Quantity"
+      },
+      "targetPrice": {
+        "label": "Target Price",
+        "hint": "Enter a Target Price",
+        "error": "Invalid Target Price"
       }
     },
     "caseModal": {

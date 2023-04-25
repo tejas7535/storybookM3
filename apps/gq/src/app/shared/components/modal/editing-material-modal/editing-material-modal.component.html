@@ -64,8 +64,8 @@
           ></gq-autocomplete-input>
         </div>
       </div>
-      <div>
-        <div>
+      <div class="flex flex-row gap-6">
+        <div class="flex-1">
           <mat-form-field appearance="outline" class="w-full">
             <mat-label>
               {{ t('quantity.label') }}
@@ -87,6 +87,29 @@
             >
           </mat-form-field>
         </div>
+        <ng-container *featureToggle="'targetPrice'"
+          ><div class="flex-1">
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>
+                {{ t('targetPrice.label') }}
+              </mat-label>
+
+              <input
+                class="text-overline"
+                autocomplete="off"
+                matInput
+                #targetPriceInput
+                type="text"
+                formControlName="targetPrice"
+              />
+              <mat-hint>{{ t('targetPrice.hint') }}</mat-hint>
+              <mat-error
+                *ngIf="editFormGroup.get('targetPrice')?.errors?.invalid"
+                >{{ t('targetPrice.error') }}</mat-error
+              >
+            </mat-form-field>
+          </div></ng-container
+        >
       </div>
     </div>
   </form>

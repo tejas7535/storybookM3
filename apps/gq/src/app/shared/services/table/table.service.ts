@@ -56,9 +56,14 @@ export class TableService {
   ): MaterialTableItem[] {
     return data.map((d) => {
       if (d.id === item.id) {
+        // validation needs to be triggered (--> will return UoM and priceUnit and ValidationStatus)
         return {
           ...item,
-          materialNumber: TableService.removeDashes(item.materialNumber),
+          info: {
+            valid: false,
+            description: [ValidationDescription.Not_Validated],
+            errorCode: undefined,
+          },
         };
       }
 

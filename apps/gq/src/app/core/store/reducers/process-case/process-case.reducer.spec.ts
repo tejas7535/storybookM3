@@ -441,7 +441,14 @@ describe('Quotation Reducer', () => {
         const state = processCaseReducer(fakeState, action);
 
         expect(state.addMaterials.addMaterialRowData).toEqual([
-          item,
+          {
+            ...item,
+            info: {
+              valid: false,
+              description: [ValidationDescription.Not_Validated],
+              errorCode: undefined,
+            },
+          },
           mockedRowData[1],
         ]);
       });

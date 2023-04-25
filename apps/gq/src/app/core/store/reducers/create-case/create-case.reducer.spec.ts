@@ -470,7 +470,17 @@ describe('Create Case Reducer', () => {
         const action = updateRowDataItem({ item });
         const state = createCaseReducer(fakeState, action);
 
-        expect(state.rowData).toEqual([item, mockedRowData[1]]);
+        expect(state.rowData).toEqual([
+          {
+            ...item,
+            info: {
+              valid: false,
+              description: [ValidationDescription.Not_Validated],
+              errorCode: undefined,
+            },
+          },
+          mockedRowData[1],
+        ]);
       });
     });
     describe('clearRowData', () => {

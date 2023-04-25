@@ -49,6 +49,7 @@ import {
   selectAutocompleteOption,
   selectSalesOrg,
   setSelectedAutocompleteOption,
+  updateRowDataItem,
   validateMaterialsOnCustomerAndSalesOrg,
   validateMaterialsOnCustomerAndSalesOrgFailure,
   validateMaterialsOnCustomerAndSalesOrgSuccess,
@@ -115,6 +116,14 @@ export class CreateCaseEffects {
       map(() => validateMaterialsOnCustomerAndSalesOrg())
     );
   });
+
+  validateAfterItemUpdated$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(updateRowDataItem.type),
+      map(() => validateMaterialsOnCustomerAndSalesOrg())
+    );
+  });
+
   /**
    * Get Validation for materialNumbers in combination with Customer and SalesOrg
    */

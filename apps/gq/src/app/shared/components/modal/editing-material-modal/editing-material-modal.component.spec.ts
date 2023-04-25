@@ -1,11 +1,15 @@
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 
+import { LOCALE_DE } from '@gq/shared/constants';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
+import { when } from 'jest-when';
+import { MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -14,14 +18,14 @@ import {
   MATERIAL_TABLE_ITEM_MOCK,
   PROCESS_CASE_STATE_MOCK,
 } from '../../../../../testing/mocks';
+import { FeatureToggleDirective } from '../../../../shared/directives/feature-toggle/feature-toggle.directive';
+import { HelperService } from '../../../../shared/services/helper/helper.service';
 import { MaterialColumnFields } from '../../../ag-grid/constants/column-fields.enum';
 import { ValidationDescription } from '../../../models/table';
 import { AutocompleteInputComponent } from '../../autocomplete-input/autocomplete-input.component';
 import { AutocompleteInputModule } from '../../autocomplete-input/autocomplete-input.module';
 import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete-request-dialog.enum';
-import { DialogHeaderModule } from '../../header/dialog-header/dialog-header.module';
 import { EditingMaterialModalComponent } from './editing-material-modal.component';
-
 describe('EditingMaterialModalComponent', () => {
   let component: EditingMaterialModalComponent;
   let spectator: Spectator<EditingMaterialModalComponent>;
@@ -29,21 +33,31 @@ describe('EditingMaterialModalComponent', () => {
   const createComponent = createComponentFactory({
     component: EditingMaterialModalComponent,
     imports: [
-      AutocompleteInputModule,
       MatInputModule,
-      DialogHeaderModule,
+      AutocompleteInputModule,
       PushModule,
       ReactiveFormsModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
+    // TODO:FeatureToggle 'targetPrice' remove declaration for FeatureToggleDirective when FeatureToggle is removed
+    declarations: [FeatureToggleDirective],
     providers: [
+      MockProvider(HelperService, {
+        transformNumber: jest
+          .fn()
+          .mockImplementation((value) =>
+            Intl.NumberFormat('en-US').format(value)
+          ),
+      }),
+      MockProvider(TranslocoLocaleService, {
+        getLocale: jest.fn(() => LOCALE_DE.id),
+      }),
       provideMockStore({
         initialState: {
           processCase: PROCESS_CASE_STATE_MOCK,
           case: CREATE_CASE_STORE_STATE_MOCK,
         },
       }),
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       {
         provide: MAT_DIALOG_DATA,
         useValue: {
@@ -56,11 +70,13 @@ describe('EditingMaterialModalComponent', () => {
         useValue: {},
       },
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.component;
+    jest.restoreAllMocks();
   });
   test('should create', () => {
     expect(component).toBeTruthy();
@@ -91,15 +107,20 @@ describe('EditingMaterialModalComponent', () => {
   });
 
   describe('ngAfterViewInit', () => {
-    let editFormGroupQuantity: FormGroup;
+    let editFormControlQuantity: FormControl;
+    let editFormControlTargetPrice: FormControl;
     let materialNumberAutocomplete: AutocompleteInputComponent;
     let materialDescriptionAutocomplete: AutocompleteInputComponent;
 
     beforeEach(() => {
-      editFormGroupQuantity = {
+      jest.restoreAllMocks();
+      editFormControlQuantity = {
         setValue: jest.fn(),
       } as any;
 
+      editFormControlTargetPrice = {
+        setValue: jest.fn(),
+      } as any;
       materialNumberAutocomplete = {
         searchFormControl: {
           setValue: jest.fn(),
@@ -116,19 +137,31 @@ describe('EditingMaterialModalComponent', () => {
       component.matNumberInput = materialNumberAutocomplete;
     });
     test('should set form values', () => {
-      component.editFormGroup.get = jest
-        .fn()
-        .mockReturnValue(editFormGroupQuantity);
+      component.editFormGroup.get = jest.fn();
+      const formGroupGetMock = (component.editFormGroup.get = jest.fn());
+      when(formGroupGetMock)
+        .calledWith(MaterialColumnFields.QUANTITY)
+        .mockReturnValue(editFormControlQuantity);
+      when(formGroupGetMock)
+        .calledWith(MaterialColumnFields.TARGET_PRICE)
+        .mockReturnValue(editFormControlTargetPrice);
 
       component.ngAfterViewInit();
 
-      expect(component.editFormGroup.get).toHaveBeenCalledTimes(2);
-      expect(component.editFormGroup.get).toHaveBeenCalledWith(
-        MaterialColumnFields.QUANTITY
+      expect(formGroupGetMock(MaterialColumnFields.QUANTITY)).toBe(
+        editFormControlQuantity
       );
-      expect(editFormGroupQuantity.setValue).toHaveBeenCalledTimes(1);
-      expect(editFormGroupQuantity.setValue).toHaveBeenCalledWith(
+      expect(formGroupGetMock(MaterialColumnFields.TARGET_PRICE)).toBe(
+        editFormControlTargetPrice
+      );
+
+      expect(editFormControlQuantity.setValue).toHaveBeenCalledTimes(1);
+      expect(editFormControlQuantity.setValue).toHaveBeenCalledWith(
         MATERIAL_TABLE_ITEM_MOCK.quantity
+      );
+      expect(editFormControlTargetPrice.setValue).toHaveBeenCalledTimes(1);
+      expect(editFormControlTargetPrice.setValue).toHaveBeenCalledWith(
+        MATERIAL_TABLE_ITEM_MOCK.targetPrice.toString()
       );
       expect(
         materialDescriptionAutocomplete.searchFormControl.setValue
@@ -153,6 +186,7 @@ describe('EditingMaterialModalComponent', () => {
     describe('should focus input fields', () => {
       beforeEach(() => {
         component.valueInput.nativeElement.focus = jest.fn();
+        component.targetPriceInput.nativeElement.focus = jest.fn();
       });
       test('should focus materialNumberInput', () => {
         component.ngAfterViewInit();
@@ -188,6 +222,22 @@ describe('EditingMaterialModalComponent', () => {
         expect(component.valueInput.nativeElement.focus).toHaveBeenCalledTimes(
           1
         );
+      });
+      test('should focus targetPrice', () => {
+        Object.defineProperty(component, 'fieldToFocus', {
+          value: MaterialColumnFields.TARGET_PRICE,
+        });
+
+        component.ngAfterViewInit();
+
+        expect(materialDescriptionAutocomplete.focus).toHaveBeenCalledTimes(0);
+        expect(materialNumberAutocomplete.focus).toHaveBeenCalledTimes(0);
+        expect(component.valueInput.nativeElement.focus).toHaveBeenCalledTimes(
+          0
+        );
+        expect(
+          component.targetPriceInput.nativeElement.focus
+        ).toHaveBeenCalledTimes(1);
       });
     });
   });
@@ -269,9 +319,14 @@ describe('EditingMaterialModalComponent', () => {
             },
           },
         } as any;
-        component.editFormGroup.get = jest
-          .fn()
+
+        const formGroupGetMock = (component.editFormGroup.get = jest.fn());
+        when(formGroupGetMock)
+          .calledWith(MaterialColumnFields.QUANTITY)
           .mockReturnValue({ value: MATERIAL_TABLE_ITEM_MOCK.quantity });
+        when(formGroupGetMock)
+          .calledWith(MaterialColumnFields.TARGET_PRICE)
+          .mockReturnValue({ value: MATERIAL_TABLE_ITEM_MOCK.targetPrice });
 
         expect(component.inputHasChanged()).toBeFalsy();
       });
@@ -371,9 +426,13 @@ describe('EditingMaterialModalComponent', () => {
           },
         },
       } as any;
-      component.editFormGroup.get = jest
-        .fn()
-        .mockReturnValue({ value: 'newQuantity' });
+      const formGroupGetMock = (component.editFormGroup.get = jest.fn());
+      when(formGroupGetMock)
+        .calledWith(MaterialColumnFields.QUANTITY)
+        .mockReturnValue({ value: MATERIAL_TABLE_ITEM_MOCK.quantity });
+      when(formGroupGetMock)
+        .calledWith(MaterialColumnFields.TARGET_PRICE)
+        .mockReturnValue({ value: MATERIAL_TABLE_ITEM_MOCK.targetPrice });
 
       component.update();
 
@@ -381,7 +440,8 @@ describe('EditingMaterialModalComponent', () => {
       expect(component['dialogRef'].close).toHaveBeenCalledWith({
         materialDescription: 'newDesc',
         materialNumber: 'newNumber',
-        quantity: 'newQuantity',
+        quantity: MATERIAL_TABLE_ITEM_MOCK.quantity,
+        targetPrice: MATERIAL_TABLE_ITEM_MOCK.targetPrice,
         id: MATERIAL_TABLE_ITEM_MOCK.id,
         info: { valid: true, description: [ValidationDescription.Valid] },
       });

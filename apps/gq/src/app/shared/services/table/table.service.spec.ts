@@ -63,7 +63,14 @@ describe('TableService', () => {
       const result = TableService.updateItem(newItem, data);
 
       expect(result).toEqual([
-        { ...newItem, materialNumber: '019014961000002' },
+        {
+          ...newItem,
+          info: {
+            valid: false,
+            description: [ValidationDescription.Not_Validated],
+            errorCode: undefined,
+          },
+        },
         data[1],
       ]);
     });

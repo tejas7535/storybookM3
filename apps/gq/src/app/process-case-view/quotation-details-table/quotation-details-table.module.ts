@@ -13,6 +13,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
 import { LetModule, PushModule } from '@ngrx/component';
 import { AgGridModule } from 'ag-grid-angular';
 
@@ -58,6 +59,7 @@ import { QuotationDetailsTableComponent } from './quotation-details-table.compon
     StatusBarModalModule,
     MatIconModule,
     ColumnHeadersModule,
+    SharedDirectivesModule,
     SharedPipesModule,
     MatRadioModule,
     FormsModule,

@@ -8,21 +8,29 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { Subscription } from 'rxjs';
 
 import { AutoCompleteFacade } from '@gq/core/store/facades';
+import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
+import { HelperService } from '../../../../shared/services/helper/helper.service';
 import { MaterialColumnFields } from '../../../ag-grid/constants/column-fields.enum';
+import * as constants from '../../../constants';
 import {
   MaterialTableItem,
   ValidationDescription,
 } from '../../../models/table';
 import { AutocompleteInputComponent } from '../../autocomplete-input/autocomplete-input.component';
 import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete-request-dialog.enum';
-
 @Component({
   selector: 'gq-editing-material-modal',
   templateUrl: './editing-material-modal.component.html',
@@ -42,6 +50,8 @@ export class EditingMaterialModalComponent
   public matDescInput: AutocompleteInputComponent;
   @ViewChild('valueInput')
   public valueInput: ElementRef<HTMLInputElement>;
+  @ViewChild('targetPriceInput')
+  public targetPriceInput: ElementRef<HTMLInputElement>;
 
   public materialInputIsValid = false;
   public materialNumberInput: boolean;
@@ -57,7 +67,9 @@ export class EditingMaterialModalComponent
       field: MaterialColumnFields;
     },
     private readonly dialogRef: MatDialogRef<EditingMaterialModalComponent>,
-    private readonly cdref: ChangeDetectorRef
+    private readonly cdref: ChangeDetectorRef,
+    private readonly translocoLocaleService: TranslocoLocaleService,
+    private readonly helperService: HelperService
   ) {
     this.materialToEdit = modalData.material;
     this.fieldToFocus = modalData.field;
@@ -72,11 +84,24 @@ export class EditingMaterialModalComponent
         Validators.required,
         Validators.minLength(1),
       ]),
+      targetPrice: new FormControl(undefined, [
+        this.targetPriceValidator.bind(this),
+      ]),
     });
     this.addSubscriptions();
+    this.editFormGroup.markAllAsTouched();
   }
   public ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  targetPriceValidator(control: AbstractControl): ValidationErrors {
+    const locale = this.translocoLocaleService.getLocale();
+    const { value } = control;
+
+    const valid = !value || constants.getCurrencyRegex(locale).test(value);
+
+    return !valid ? { invalid: true } : undefined;
   }
 
   addSubscriptions(): void {
@@ -88,11 +113,30 @@ export class EditingMaterialModalComponent
         this.rowInputValid();
       })
     );
+    this.subscription.add(
+      this.editFormGroup.get('targetPrice').valueChanges.subscribe(() => {
+        this.editFormGroup
+          .get('targetPrice')
+          .updateValueAndValidity({ emitEvent: false });
+        this.rowInputValid();
+      })
+    );
   }
   ngAfterViewInit(): void {
     this.editFormGroup
       .get(MaterialColumnFields.QUANTITY)
       .setValue(this.materialToEdit.quantity);
+
+    const targetPrice = this.materialToEdit.targetPrice
+      ? this.helperService.transformNumber(
+          this.materialToEdit.targetPrice,
+          true
+        )
+      : undefined;
+    this.editFormGroup
+      .get(MaterialColumnFields.TARGET_PRICE)
+      .setValue(targetPrice);
+
     this.matDescInput.searchFormControl.setValue(
       this.materialToEdit.materialDescription
     );
@@ -112,6 +156,9 @@ export class EditingMaterialModalComponent
         break;
       case MaterialColumnFields.QUANTITY:
         this.valueInput.nativeElement.focus();
+        break;
+      case MaterialColumnFields.TARGET_PRICE:
+        this.targetPriceInput.nativeElement.focus();
         break;
       default:
         break;
@@ -151,8 +198,15 @@ export class EditingMaterialModalComponent
       this.modalData.material.quantity !==
       this.editFormGroup.get('quantity').value;
 
+    const targetPriceChanged =
+      this.modalData.material.targetPrice !==
+      this.editFormGroup.get('targetPrice').value;
+
     return (
-      materialDescriptionChanged || materialNumberChanged || quantityChanged
+      materialDescriptionChanged ||
+      materialNumberChanged ||
+      quantityChanged ||
+      targetPriceChanged
     );
   }
 
@@ -166,11 +220,14 @@ export class EditingMaterialModalComponent
    */
   update(): void {
     this.autoCompleteFacade.resetView();
-
     const updatedMaterial: MaterialTableItem = {
       materialDescription: this.matDescInput.valueInput.nativeElement.value,
       materialNumber: this.matNumberInput.valueInput.nativeElement.value,
       quantity: this.editFormGroup.get('quantity').value,
+      targetPrice: HelperService.parseNullableLocalizedInputValue(
+        this.editFormGroup.get('targetPrice').value?.toString(),
+        this.translocoLocaleService.getLocale()
+      ),
       id: this.modalData.material.id,
       info: { valid: true, description: [ValidationDescription.Valid] },
     };

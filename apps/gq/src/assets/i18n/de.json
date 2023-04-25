@@ -433,6 +433,11 @@
         "error": "Invalide Menge",
         "label": "Menge",
         "hint": "Geben Sie die Menge ein"
+      },
+      "targetPrice": {
+        "label": "Zielpreis",
+        "hint": "Geben Sie einen Zielpreis ein",
+        "error": "Invalider Zielpreis"
       }
     },
     "caseModal": {
