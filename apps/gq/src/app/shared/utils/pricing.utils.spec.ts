@@ -68,13 +68,22 @@ describe('PricingUtils', () => {
   });
 
   describe('calculateMargin', () => {
-    test('should return margin', () => {
+    test('should return margin if cost value is greater than 0', () => {
       const price = 25;
       const margin = 20;
 
       const result = pricingUtils.calculateMargin(price, margin);
 
       expect(result).toEqual(20);
+    });
+
+    test('should return undefined if cost value is 0', () => {
+      const price = 25;
+      const costValue = 0;
+
+      const result = pricingUtils.calculateMargin(price, costValue);
+
+      expect(result).toBeUndefined();
     });
   });
 
