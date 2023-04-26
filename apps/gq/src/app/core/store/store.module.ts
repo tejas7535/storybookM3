@@ -7,7 +7,7 @@ import { StoreModule as NgrxStoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { environment } from '../../../environments/environment';
-import { effects } from './effects';
+import { ROOT_EFFECTS } from './effects';
 import { CustomSerializer, metaReducers, reducers } from './reducers';
 
 @NgModule({
@@ -29,7 +29,7 @@ import { CustomSerializer, metaReducers, reducers } from './reducers';
           maxAge: 50,
         })
       : /* istanbul ignore next: very difficult */ [],
-    EffectsModule.forRoot([...effects]),
+    EffectsModule.forRoot([...ROOT_EFFECTS]),
   ],
   exports: [],
 })

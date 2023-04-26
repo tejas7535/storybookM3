@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
-import { ProcessCaseEffect } from '@gq/core/store/effects';
+import { ProcessCaseEffects } from '@gq/core/store/effects';
 import { processCaseReducer } from '@gq/core/store/reducers/process-case/process-case.reducer';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
@@ -31,7 +31,7 @@ import { SalesforceComponent } from './salesforce/salesforce.component';
   ],
   imports: [
     CommonModule,
-    EffectsModule.forFeature([ProcessCaseEffect]),
+    EffectsModule.forFeature([ProcessCaseEffects]),
     StoreModule.forFeature('processCase', processCaseReducer),
     MatCardModule,
     PushModule,

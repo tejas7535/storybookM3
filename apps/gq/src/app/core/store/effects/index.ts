@@ -6,14 +6,12 @@ import { MaterialCostDetailsEffects } from './material-cost-details/material-cos
 import { MaterialSalesOrgEffect } from './material-sales-org/material-sales-org.effects';
 import { MaterialStockEffects } from './material-stock/material-stock.effects';
 import { PlantMaterialDetailsEffects } from './plant-material-details/plant-material-details.effects';
-import { ProcessCaseEffect } from './process-case/process-case.effects';
 import { SapPriceDetailsEffects } from './sap-price-details/sap-price-details.effects';
 import { TransactionsEffect } from './transactions/transactions.effects';
 import { ViewCasesEffect } from './view-cases/view-cases.effects';
 
-export const effects = [
+export const ROOT_EFFECTS = [
   CreateCaseEffects,
-  ProcessCaseEffect,
   ViewCasesEffect,
   TransactionsEffect,
   MaterialComparableCostEffect,
@@ -34,7 +32,7 @@ export { MaterialCostDetailsEffects } from './material-cost-details/material-cos
 export { MaterialSalesOrgEffect } from './material-sales-org/material-sales-org.effects';
 export { MaterialStockEffects } from './material-stock/material-stock.effects';
 export { PlantMaterialDetailsEffects } from './plant-material-details/plant-material-details.effects';
-export { ProcessCaseEffect } from './process-case/process-case.effects';
+export { ProcessCaseEffects } from './process-case/process-case.effects';
 export { SapPriceDetailsEffects } from './sap-price-details/sap-price-details.effects';
 export { TransactionsEffect } from './transactions/transactions.effects';
 export { ViewCasesEffect } from './view-cases/view-cases.effects';

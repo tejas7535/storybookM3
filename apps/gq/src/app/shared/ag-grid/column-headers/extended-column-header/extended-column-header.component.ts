@@ -10,7 +10,7 @@ import { UntypedFormControl, Validators } from '@angular/forms';
 import { filter, map, Observable, pairwise, Subscription } from 'rxjs';
 
 import {
-  getQuotation,
+  getIsQuotationStatusActive,
   getSimulatedQuotation,
 } from '@gq/core/store/selectors/process-case/process-case.selectors';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
@@ -20,12 +20,7 @@ import { IHeaderAngularComp } from 'ag-grid-angular';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 import { getPercentageRegex } from '../../../constants';
-import {
-  EVENT_NAMES,
-  MassSimulationParams,
-  Quotation,
-  QuotationStatus,
-} from '../../../models';
+import { EVENT_NAMES, MassSimulationParams } from '../../../models';
 import { PriceSource, QuotationDetail } from '../../../models/quotation-detail';
 import { HelperService } from '../../../services/helper/helper.service';
 import { ColumnFields } from '../../constants/column-fields.enum';
@@ -57,12 +52,10 @@ export class ExtendedColumnHeaderComponent
   priceSourceOptions = PriceSourceOptions;
   selectedPriceSource: PriceSourceOptions;
 
-  quotationStatus = QuotationStatus;
-
   @ViewChild('menuButton', { read: ElementRef }) public menuButton!: ElementRef;
   @ViewChild('inputField', { static: false }) public inputField!: ElementRef;
 
-  quotation$: Observable<Quotation>;
+  quotationStatus$: Observable<boolean>;
 
   constructor(
     private readonly store: Store,
@@ -77,7 +70,8 @@ export class ExtendedColumnHeaderComponent
       this.editFormControl.markAllAsTouched();
     }
 
-    this.quotation$ = this.store.select(getQuotation);
+    // quotation is not available in case-view
+    this.quotationStatus$ = this.store.select(getIsQuotationStatusActive);
   }
 
   addSubscriptions(): void {

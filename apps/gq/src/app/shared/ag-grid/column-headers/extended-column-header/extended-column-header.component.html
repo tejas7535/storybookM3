@@ -39,8 +39,7 @@
       <div
         class="flex w-4 items-start justify-start pb-[2px]"
         *ngIf="
-          (quotation$ | ngrxPush)?.status === quotationStatus.ACTIVE &&
-          (showEditIcon || params.tooltipText)
+          (quotationStatus$ | ngrxPush) && (showEditIcon || params.tooltipText)
         "
       >
         <ng-container *ngIf="showEditIcon">
@@ -112,10 +111,10 @@
           )
         "
         [readonly]="true"
-        class="p-3 !text-high-emphasis"
+        class="!text-high-emphasis p-3"
       />
       <span (click)="switchPriceSource()" matSuffix
-        ><mat-icon class="!h-4 !text-body-1 !leading-3">unfold_more</mat-icon>
+        ><mat-icon class="!text-body-1 !h-4 !leading-3">unfold_more</mat-icon>
       </span>
     </mat-form-field>
   </ng-template>

@@ -103,7 +103,7 @@ import {
 } from './process-case.utils';
 
 @Injectable()
-export class ProcessCaseEffect {
+export class ProcessCaseEffects {
   customerDetails$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadCustomer),

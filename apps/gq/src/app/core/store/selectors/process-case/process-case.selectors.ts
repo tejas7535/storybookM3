@@ -49,6 +49,12 @@ export const getQuotationStatus = createSelector(
   (state: ProcessCaseState): QuotationStatus => state.quotation.item.status
 );
 
+export const getIsQuotationStatusActive = createSelector(
+  getProcessCaseState,
+  (state: ProcessCaseState): boolean =>
+    state.quotation.item.status === QuotationStatus.ACTIVE
+);
+
 export const getQuotationCurrency = createSelector(
   getProcessCaseState,
   (state: ProcessCaseState): string => state.quotation.item.currency

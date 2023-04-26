@@ -7,11 +7,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { getIsQuotationStatusActive } from '@gq/core/store/selectors';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { mockProvider } from '@ngneat/spectator/jest';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { PushModule } from '@ngrx/component';
-import { provideMockStore } from '@ngrx/store/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
@@ -29,6 +31,7 @@ describe('ExtendedColumnHeaderComponent', () => {
   let component: ExtendedColumnHeaderComponent;
   let spectator: Spectator<ExtendedColumnHeaderComponent>;
   let applicationInsightsService: ApplicationInsightsService;
+  let store: MockStore;
 
   const DEFAULT_PARAMS = {
     template: '',
@@ -90,6 +93,7 @@ describe('ExtendedColumnHeaderComponent', () => {
     component.params = DEFAULT_PARAMS;
     component.editFormControl = new UntypedFormControl();
     applicationInsightsService = spectator.inject(ApplicationInsightsService);
+    store = spectator.inject(MockStore);
   });
 
   it('should create', () => {
@@ -98,6 +102,10 @@ describe('ExtendedColumnHeaderComponent', () => {
   });
 
   describe('ngOnInit', () => {
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
     test('should call addSubscriptions', () => {
       component.addSubscriptions = jest.fn();
 
@@ -105,8 +113,21 @@ describe('ExtendedColumnHeaderComponent', () => {
 
       expect(component.addSubscriptions).toHaveBeenCalledTimes(1);
     });
-    // TODO: Add Unit Test for addSubscription
+
+    test(
+      'should get quotation status',
+      marbles((m) => {
+        store.overrideSelector(getIsQuotationStatusActive, true);
+        component.ngOnInit();
+
+        const expected = m.cold('a', {
+          a: true,
+        });
+        m.expect(component.quotationStatus$).toBeObservable(expected);
+      })
+    );
   });
+
   describe('ngOnDestroy', () => {
     test('should unsubscribe subscriptions', () => {
       component['subscription'].unsubscribe = jest.fn();

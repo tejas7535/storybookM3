@@ -8,7 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
 
-import { ProcessCaseEffect } from '@gq/core/store/effects';
+import { ProcessCaseEffects } from '@gq/core/store/effects';
 import { processCaseReducer } from '@gq/core/store/reducers/process-case/process-case.reducer';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
@@ -46,13 +46,13 @@ import { CalculationInProgressComponent } from './tabs/single-quotes-tab/calcula
   ],
   imports: [
     CommonModule,
-    EffectsModule.forFeature([ProcessCaseEffect]),
     MatSidenavModule,
     MatButtonModule,
     HeaderContentModule,
     ProcessCaseViewRoutingModule,
     SharedPipesModule,
     StoreModule.forFeature('processCase', processCaseReducer),
+    EffectsModule.forFeature([ProcessCaseEffects]),
     AddMaterialDialogModule,
     LoadingSpinnerModule,
     PushModule,

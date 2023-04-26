@@ -93,14 +93,14 @@ import {
   getSelectedQuotationIdentifier,
   getSimulatedQuotation,
 } from '../../selectors';
-import { ProcessCaseEffect } from './process-case.effects';
+import { ProcessCaseEffects } from './process-case.effects';
 
 /* eslint-disable max-lines */
-describe('ProcessCaseEffect', () => {
-  let spectator: SpectatorService<ProcessCaseEffect>;
+describe('ProcessCaseEffectss', () => {
+  let spectator: SpectatorService<ProcessCaseEffects>;
   let action: any;
   let actions$: any;
-  let effects: ProcessCaseEffect;
+  let effects: ProcessCaseEffects;
   let customerService: CustomerService;
   let quotationDetailsService: QuotationDetailsService;
   let quotationService: QuotationService;
@@ -113,7 +113,7 @@ describe('ProcessCaseEffect', () => {
   const errorMessage = 'An error occured';
 
   const createService = createServiceFactory({
-    service: ProcessCaseEffect,
+    service: ProcessCaseEffects,
     imports: [MatSnackBarModule, RouterTestingModule, HttpClientTestingModule],
     providers: [
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
@@ -125,7 +125,7 @@ describe('ProcessCaseEffect', () => {
   beforeEach(() => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
-    effects = spectator.inject(ProcessCaseEffect);
+    effects = spectator.inject(ProcessCaseEffects);
     customerService = spectator.inject(CustomerService);
     quotationDetailsService = spectator.inject(QuotationDetailsService);
     quotationService = spectator.inject(QuotationService);

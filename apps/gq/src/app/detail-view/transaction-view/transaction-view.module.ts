@@ -2,8 +2,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
+import { ProcessCaseEffects } from '@gq/core/store/effects';
+import { processCaseReducer } from '@gq/core/store/reducers/process-case/process-case.reducer';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -34,6 +38,9 @@ import { TransparencyGraphModule } from './transparency-graph/transparency-graph
     ShareButtonModule,
     CommonModule,
     SyncStatusCustomerInfoHeaderModule,
+    // TODO: put shared state from processCase to its own feature store that gets shared
+    StoreModule.forFeature('processCase', processCaseReducer),
+    EffectsModule.forFeature([ProcessCaseEffects]),
   ],
   providers: [
     {

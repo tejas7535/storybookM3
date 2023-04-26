@@ -33,7 +33,6 @@ export interface RouterStateUrl {
 export interface AppState {
   router: fromRouter.RouterReducerState<RouterStateUrl>;
   case: fromCase.CreateCaseState;
-  processCase: fromProcessCase.ProcessCaseState;
   viewCases: fromViewCases.ViewCasesState;
   transactions: fromTransactions.TransactionsState;
   extendedComparableLinkedTransactions: fromExtendedComparableLinkedTransactions.ExtendedComparableLinkedTransactionsState;
@@ -50,7 +49,6 @@ export interface AppState {
 export const reducers: ActionReducerMap<AppState> = {
   router: fromRouter.routerReducer,
   case: fromCase.createCaseReducer,
-  processCase: fromProcessCase.processCaseReducer,
   viewCases: fromViewCases.viewCasesReducer,
   transactions: fromTransactions.transactionsReducer,
   extendedComparableLinkedTransactions:
@@ -70,13 +68,11 @@ export const metaReducers: MetaReducer<AppState>[] = !environment.production
   ? []
   : /* istanbul ignore next: very difficult */ [];
 
+/** Root Store */
 export const getRouterState =
   createFeatureSelector<fromRouter.RouterReducerState<RouterStateUrl>>(
     'router'
   );
-
-export const getProcessCaseState =
-  createFeatureSelector<fromProcessCase.ProcessCaseState>('processCase');
 
 export const getCaseState =
   createFeatureSelector<fromCase.CreateCaseState>('case');
@@ -122,6 +118,10 @@ export const getMaterialCostDetailsState =
   createFeatureSelector<fromMaterialCostDetails.MaterialCostDetailsState>(
     'materialCostDetails'
   );
+
+/** Feature Stores */
+export const getProcessCaseState =
+  createFeatureSelector<fromProcessCase.ProcessCaseState>('processCase');
 
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl>

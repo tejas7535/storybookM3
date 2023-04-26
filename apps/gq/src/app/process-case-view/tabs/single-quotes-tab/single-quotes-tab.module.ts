@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 
-import { ProcessCaseEffect } from '@gq/core/store/effects';
+import { ProcessCaseEffects } from '@gq/core/store/effects';
 import { processCaseReducer } from '@gq/core/store/reducers/process-case/process-case.reducer';
 import { PushModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
@@ -33,7 +33,7 @@ import { SingleQuotesTabRoutingModule } from './single-quotes-tab.routing.module
   ],
   imports: [
     CommonModule,
-    EffectsModule.forFeature([ProcessCaseEffect]),
+    EffectsModule.forFeature([ProcessCaseEffects]),
     StoreModule.forFeature('processCase', processCaseReducer),
     MatCardModule,
     MatInputModule,
