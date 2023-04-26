@@ -77,12 +77,12 @@
 
       <div class="ml-4 mt-3 flex flex-col gap-2">
         <mat-icon
-          class="cursor-pointer text-medium-emphasis"
+          class="text-medium-emphasis cursor-pointer"
           (click)="increment()"
           >add
         </mat-icon>
         <mat-icon
-          class="cursor-pointer text-medium-emphasis"
+          class="text-medium-emphasis cursor-pointer"
           (click)="decrement()"
           >remove</mat-icon
         >
@@ -91,7 +91,11 @@
     <div class="mt-2" *ngIf="orderQuantityWarning">
       <ng-container *transloco="let t; read: 'shared.validation'">
         <gq-info-banner
-          [infoText]="t('orderQuantityMustBeMultipleOf')"
+          [infoText]="
+            t('orderQuantityMustBeMultipleOf', {
+              deliveryUnit: modalData.quotationDetail.deliveryUnit
+            })
+          "
           [isWarning]="true"
         >
         </gq-info-banner>
@@ -169,7 +173,7 @@
                 </span>
               </ng-template>
             </h6>
-            <div class="text-caption leading-6 text-medium-emphasis">
+            <div class="text-caption text-medium-emphasis leading-6">
               <span
                 *ngIf="kpi.key !== fields.PRICE; else previousPriceFormatter"
                 [attr.data-cy]="
