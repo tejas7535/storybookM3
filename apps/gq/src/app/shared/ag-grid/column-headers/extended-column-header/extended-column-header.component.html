@@ -93,7 +93,7 @@
   <ng-template #editPriceSource>
     <mat-form-field
       appearance="outline"
-      class="w-3/5"
+      class="w-full"
       *transloco="
         let t;
         read: 'shared.quotationDetailsTable.headers.priceSource'
@@ -103,13 +103,7 @@
         #inputField
         matInput
         type="text"
-        [value]="
-          t(
-            selectedPriceSource === priceSourceOptions.GQ
-              ? 'gqPriceSource'
-              : 'sapPriceSource'
-          )
-        "
+        [value]="t(getSelectedPriceSourceTranslationKey())"
         [readonly]="true"
         class="!text-high-emphasis p-3"
       />

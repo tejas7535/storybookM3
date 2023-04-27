@@ -7,7 +7,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { of } from 'rxjs';
+
 import { getIsQuotationStatusActive } from '@gq/core/store/selectors';
+import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { mockProvider } from '@ngneat/spectator/jest';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
@@ -32,6 +35,7 @@ describe('ExtendedColumnHeaderComponent', () => {
   let spectator: Spectator<ExtendedColumnHeaderComponent>;
   let applicationInsightsService: ApplicationInsightsService;
   let store: MockStore;
+  let featureToggleConfigService: FeatureToggleConfigService;
 
   const DEFAULT_PARAMS = {
     template: '',
@@ -94,6 +98,8 @@ describe('ExtendedColumnHeaderComponent', () => {
     component.editFormControl = new UntypedFormControl();
     applicationInsightsService = spectator.inject(ApplicationInsightsService);
     store = spectator.inject(MockStore);
+    featureToggleConfigService = spectator.inject(FeatureToggleConfigService);
+    featureToggleConfigService.isEnabled = jest.fn().mockReturnValue(true);
   });
 
   it('should create', () => {
@@ -445,6 +451,35 @@ describe('ExtendedColumnHeaderComponent', () => {
         component.updateShowEditIcon();
         expect(component.showEditIcon).toBe(false);
       });
+      it('should not show edit icon if only target price available', () => {
+        component.isPriceSource = true;
+        spectator.detectChanges();
+
+        component.params.api.getSelectedRows = jest.fn().mockReturnValue([
+          {
+            price: 10,
+            priceSource: PriceSource.TARGET_PRICE,
+            targetPrice: 125,
+          } as QuotationDetail,
+        ]);
+
+        component.updateShowEditIcon();
+        expect(component.showEditIcon).toBe(false);
+      });
+      it('should show edit icon if target price is set but no price source is available', () => {
+        component.isPriceSource = true;
+        spectator.detectChanges();
+
+        component.params.api.getSelectedRows = jest.fn().mockReturnValue([
+          {
+            priceSource: undefined,
+            targetPrice: 10,
+          } as QuotationDetail,
+        ]);
+
+        component.updateShowEditIcon();
+        expect(component.showEditIcon).toBe(true);
+      });
     });
   });
 
@@ -494,6 +529,7 @@ describe('ExtendedColumnHeaderComponent', () => {
 
       expect(component.isPriceSource).toBeFalsy();
     });
+
     it('should set isPriceSource to true', () => {
       component.agInit({
         ...DEFAULT_PARAMS,
@@ -506,16 +542,27 @@ describe('ExtendedColumnHeaderComponent', () => {
       expect(component.isPriceSource).toBeTruthy();
     });
   });
+
   describe('switchPriceSource', () => {
     beforeEach(() => {
       component.params = {
+        ...DEFAULT_PARAMS,
         context: {
+          ...DEFAULT_PARAMS.context,
           onPriceSourceSimulation: jest.fn(),
         },
       } as any;
     });
+
     test('should set selectedPriceSource to GQ', () => {
+      component['userHasManualPriceRole$'] = of(true);
+      component.params.api.getSelectedRows = jest.fn().mockReturnValue([
+        {
+          strategicPrice: 50,
+        } as QuotationDetail,
+      ]);
       component.selectedPriceSource = undefined as any;
+
       component.switchPriceSource();
 
       expect(component.selectedPriceSource).toEqual(PriceSourceOptions.GQ);
@@ -526,7 +573,14 @@ describe('ExtendedColumnHeaderComponent', () => {
         component.params.context.onPriceSourceSimulation
       ).toHaveBeenCalledWith(PriceSourceOptions.GQ);
     });
+
     test('should set selectedPriceSource to SAP', () => {
+      component['userHasManualPriceRole$'] = of(true);
+      component.params.api.getSelectedRows = jest.fn().mockReturnValue([
+        {
+          sapPrice: 20,
+        } as QuotationDetail,
+      ]);
       component.selectedPriceSource = PriceSourceOptions.GQ;
 
       component.switchPriceSource();
@@ -538,6 +592,154 @@ describe('ExtendedColumnHeaderComponent', () => {
       expect(
         component.params.context.onPriceSourceSimulation
       ).toHaveBeenCalledWith(PriceSourceOptions.SAP);
+    });
+
+    test('should set selectedPriceSource to TARGET_PRICE', () => {
+      component['userHasManualPriceRole$'] = of(true);
+      component.params.api.getSelectedRows = jest.fn().mockReturnValue([
+        {
+          targetPrice: 20,
+        } as QuotationDetail,
+      ]);
+      component.selectedPriceSource = PriceSourceOptions.SAP;
+
+      component.switchPriceSource();
+
+      expect(component.selectedPriceSource).toEqual(
+        PriceSourceOptions.TARGET_PRICE
+      );
+      expect(
+        component.params.context.onPriceSourceSimulation
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        component.params.context.onPriceSourceSimulation
+      ).toHaveBeenCalledWith(PriceSourceOptions.TARGET_PRICE);
+    });
+
+    test('TARGET_PRICE should not be available as a price source if feature is disabled', () => {
+      jest
+        .spyOn(featureToggleConfigService, 'isEnabled')
+        .mockReturnValue(false);
+      component.params.api.getSelectedRows = jest.fn().mockReturnValue([
+        {
+          recommendedPrice: 50,
+          sapPrice: 90,
+          targetPrice: 20,
+        } as QuotationDetail,
+      ]);
+
+      component.selectedPriceSource = undefined as any;
+      component.switchPriceSource();
+      expect(component.selectedPriceSource).toEqual(PriceSourceOptions.GQ);
+      component.switchPriceSource();
+      expect(component.selectedPriceSource).toEqual(PriceSourceOptions.SAP);
+      component.switchPriceSource();
+      expect(component.selectedPriceSource).toEqual(PriceSourceOptions.GQ);
+    });
+
+    test('TARGET_PRICE should not be available as a price source if user does not have the role PRICE.MANUAL', () => {
+      component['userHasManualPriceRole$'] = of(false);
+      component.params.api.getSelectedRows = jest.fn().mockReturnValue([
+        {
+          recommendedPrice: 50,
+          sapPrice: 90,
+          targetPrice: 20,
+        } as QuotationDetail,
+      ]);
+
+      component.selectedPriceSource = undefined as any;
+      component.switchPriceSource();
+      expect(component.selectedPriceSource).toEqual(PriceSourceOptions.GQ);
+      component.switchPriceSource();
+      expect(component.selectedPriceSource).toEqual(PriceSourceOptions.SAP);
+      component.switchPriceSource();
+      expect(component.selectedPriceSource).toEqual(PriceSourceOptions.GQ);
+    });
+
+    test('TARGET_PRICE should not be available as a price source if target price is not set', () => {
+      component['userHasManualPriceRole$'] = of(true);
+      component.params.api.getSelectedRows = jest.fn().mockReturnValue([
+        {
+          sapPrice: 1,
+          strategicPrice: 20,
+          targetPrice: undefined,
+        } as QuotationDetail,
+      ]);
+
+      component.selectedPriceSource = undefined as any;
+      component.switchPriceSource();
+      expect(component.selectedPriceSource).toEqual(PriceSourceOptions.GQ);
+      component.switchPriceSource();
+      expect(component.selectedPriceSource).toEqual(PriceSourceOptions.SAP);
+      component.switchPriceSource();
+      expect(component.selectedPriceSource).toEqual(PriceSourceOptions.GQ);
+    });
+
+    test('GQ should not be available as a price source if recommended price and strategic price are not set', () => {
+      component['userHasManualPriceRole$'] = of(true);
+      component.params.api.getSelectedRows = jest.fn().mockReturnValue([
+        {
+          sapPrice: 1,
+          recommendedPrice: undefined,
+          strategicPrice: undefined,
+          targetPrice: 20,
+        } as QuotationDetail,
+      ]);
+
+      component.selectedPriceSource = undefined as any;
+      component.switchPriceSource();
+      expect(component.selectedPriceSource).toEqual(PriceSourceOptions.SAP);
+      component.switchPriceSource();
+      expect(component.selectedPriceSource).toEqual(
+        PriceSourceOptions.TARGET_PRICE
+      );
+      component.switchPriceSource();
+      expect(component.selectedPriceSource).toEqual(PriceSourceOptions.SAP);
+    });
+
+    test('SAP should not be available as a price source if SAP price is not set', () => {
+      component['userHasManualPriceRole$'] = of(true);
+      component.params.api.getSelectedRows = jest.fn().mockReturnValue([
+        {
+          sapPrice: undefined,
+          recommendedPrice: 1,
+          strategicPrice: 2,
+          targetPrice: 20,
+        } as QuotationDetail,
+      ]);
+
+      component.selectedPriceSource = undefined as any;
+      component.switchPriceSource();
+      expect(component.selectedPriceSource).toEqual(PriceSourceOptions.GQ);
+      component.switchPriceSource();
+      expect(component.selectedPriceSource).toEqual(
+        PriceSourceOptions.TARGET_PRICE
+      );
+      component.switchPriceSource();
+      expect(component.selectedPriceSource).toEqual(PriceSourceOptions.GQ);
+    });
+  });
+
+  describe('getSelectedPriceSourceTranslationKey', () => {
+    test('should return the correct translation key for GQ', () => {
+      component.selectedPriceSource = PriceSourceOptions.GQ;
+      expect(component.getSelectedPriceSourceTranslationKey()).toEqual(
+        'gqPriceSource'
+      );
+    });
+
+    test('should return the correct translation key for SAP', () => {
+      component.selectedPriceSource = PriceSourceOptions.SAP;
+      expect(component.getSelectedPriceSourceTranslationKey()).toEqual(
+        'sapPriceSource'
+      );
+    });
+
+    test('should return the correct translation key for TARGET_PRICE', () => {
+      component.selectedPriceSource = PriceSourceOptions.TARGET_PRICE;
+      expect(component.getSelectedPriceSourceTranslationKey()).toEqual(
+        'targetPriceSource'
+      );
     });
   });
 

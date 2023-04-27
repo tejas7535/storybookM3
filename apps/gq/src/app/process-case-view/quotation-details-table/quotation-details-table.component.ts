@@ -334,13 +334,18 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
          * 2. GQ Price is targetPriceSource but no GQ Price is available
          * 3. StrategicPrice is targetPriceSource but no strategic Price is available
          * 4. SAP Price is targetPriceSource but not SAP Price is available
+         * 5. Target Price is targetPriceSource but no Target Price is available
          */
         if (
           detail.priceSource === targetPriceSource ||
           (targetPriceSource === PriceSource.GQ && !detail.recommendedPrice) ||
           (targetPriceSource === PriceSource.STRATEGIC &&
             !detail.strategicPrice) ||
-          (targetPriceSource !== PriceSource.GQ && !detail.sapPriceCondition)
+          (targetPriceSource !== PriceSource.GQ &&
+            targetPriceSource !== PriceSource.TARGET_PRICE &&
+            !detail.sapPriceCondition) ||
+          (targetPriceSource === PriceSource.TARGET_PRICE &&
+            !detail.targetPrice)
         ) {
           return undefined as any;
         }
@@ -349,6 +354,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
           targetPriceSource,
           detail
         );
+
         // set new price source according to targetPriceSource and available data of the position
         const newPriceSource = this.getPriceSource(targetPriceSource, detail);
         const affectedKpis = calculateAffectedKPIs(
@@ -402,6 +408,9 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
     if (targetPriceSource === PriceSource.STRATEGIC) {
       return detail.strategicPrice;
     }
+    if (targetPriceSource === PriceSource.TARGET_PRICE) {
+      return detail.targetPrice;
+    }
 
     return detail.sapPrice;
   }
@@ -411,6 +420,10 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
   ) {
     if (priceSourceOption === PriceSourceOptions.GQ) {
       return detail.recommendedPrice ? PriceSource.GQ : PriceSource.STRATEGIC;
+    }
+
+    if (priceSourceOption === PriceSourceOptions.TARGET_PRICE) {
+      return PriceSource.TARGET_PRICE;
     }
 
     if (detail.sapPriceCondition === SapPriceCondition.STANDARD) {
@@ -428,7 +441,13 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
     targetPriceSource: PriceSource,
     detail: QuotationDetail
   ) {
-    if ([PriceSource.GQ, PriceSource.STRATEGIC].includes(targetPriceSource)) {
+    if (
+      [
+        PriceSource.GQ,
+        PriceSource.STRATEGIC,
+        PriceSource.TARGET_PRICE,
+      ].includes(targetPriceSource)
+    ) {
       return targetPriceSource;
     }
 

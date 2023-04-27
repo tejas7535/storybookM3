@@ -7,12 +7,14 @@ import {
 } from '@angular/core';
 import { UntypedFormControl, Validators } from '@angular/forms';
 
-import { filter, map, Observable, pairwise, Subscription } from 'rxjs';
+import { filter, map, Observable, pairwise, Subscription, take } from 'rxjs';
 
+import { userHasManualPriceRole } from '@gq/core/store/selectors';
 import {
   getIsQuotationStatusActive,
   getSimulatedQuotation,
 } from '@gq/core/store/selectors/process-case/process-case.selectors';
+import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
 import { IHeaderAngularComp } from 'ag-grid-angular';
@@ -49,7 +51,6 @@ export class ExtendedColumnHeaderComponent
   editFormControl: UntypedFormControl = new UntypedFormControl();
   // price source header dependent values
   isPriceSource = false;
-  priceSourceOptions = PriceSourceOptions;
   selectedPriceSource: PriceSourceOptions;
 
   @ViewChild('menuButton', { read: ElementRef }) public menuButton!: ElementRef;
@@ -57,10 +58,14 @@ export class ExtendedColumnHeaderComponent
 
   quotationStatus$: Observable<boolean>;
 
+  private userHasManualPriceRole$: Observable<boolean>;
+  private availablePriceSourceOptions: PriceSourceOptions[] = [];
+
   constructor(
     private readonly store: Store,
     private readonly insightsService: ApplicationInsightsService,
-    private readonly translocoLocaleService: TranslocoLocaleService
+    private readonly translocoLocaleService: TranslocoLocaleService,
+    private readonly featureToggleConfigService: FeatureToggleConfigService
   ) {}
 
   ngOnInit(): void {
@@ -72,6 +77,7 @@ export class ExtendedColumnHeaderComponent
 
     // quotation is not available in case-view
     this.quotationStatus$ = this.store.select(getIsQuotationStatusActive);
+    this.userHasManualPriceRole$ = this.store.pipe(userHasManualPriceRole);
   }
 
   addSubscriptions(): void {
@@ -143,7 +149,9 @@ export class ExtendedColumnHeaderComponent
 
     this.showEditIcon =
       this.params.api.getSelectedRows()?.length > 0 &&
-      this.isDataAvailable(this.params.column.getId()) &&
+      (this.isPriceSource // We do not need to check if there is data available in the column priceSource
+        ? true
+        : this.isDataAvailable(this.params.column.getId())) &&
       this.isPriceSourceEditingEnabled();
 
     if (!this.showEditIcon) {
@@ -167,7 +175,9 @@ export class ExtendedColumnHeaderComponent
                   PriceSource.SAP_SPECIAL,
                   PriceSource.SAP_STANDARD,
                   PriceSource.CAP_PRICE,
-                ].includes(detail.priceSource))
+                ].includes(detail.priceSource)) ||
+              (detail.targetPrice &&
+                detail.priceSource !== PriceSource.TARGET_PRICE)
           )
       : true;
   }
@@ -263,12 +273,69 @@ export class ExtendedColumnHeaderComponent
     }
   }
 
-  public switchPriceSource(): void {
+  getSelectedPriceSourceTranslationKey(): string {
+    switch (this.selectedPriceSource) {
+      case PriceSourceOptions.GQ:
+        return 'gqPriceSource';
+      case PriceSourceOptions.SAP:
+        return 'sapPriceSource';
+      case PriceSourceOptions.TARGET_PRICE:
+        return 'targetPriceSource';
+      default:
+        return undefined;
+    }
+  }
+
+  switchPriceSource(): void {
+    this.setAvailablePriceSourceOptions();
+    const selectedPriceSourceOptionIndex =
+      this.availablePriceSourceOptions.indexOf(this.selectedPriceSource);
+
+    const nextPriceSourceOptionIndex =
+      selectedPriceSourceOptionIndex <
+      this.availablePriceSourceOptions.length - 1
+        ? selectedPriceSourceOptionIndex + 1
+        : 0;
+
     this.selectedPriceSource =
-      this.selectedPriceSource === PriceSourceOptions.GQ
-        ? PriceSourceOptions.SAP
-        : PriceSourceOptions.GQ;
+      this.availablePriceSourceOptions[nextPriceSourceOptionIndex];
 
     this.params.context.onPriceSourceSimulation(this.selectedPriceSource);
+  }
+
+  private setAvailablePriceSourceOptions(): void {
+    this.availablePriceSourceOptions = [];
+    const selectedRows = this.params.api.getSelectedRows();
+
+    if (
+      selectedRows.some(
+        (detail: QuotationDetail) =>
+          detail.recommendedPrice || detail.strategicPrice
+      )
+    ) {
+      this.availablePriceSourceOptions.push(PriceSourceOptions.GQ);
+    }
+
+    if (selectedRows.some((detail: QuotationDetail) => detail.sapPrice)) {
+      this.availablePriceSourceOptions.push(PriceSourceOptions.SAP);
+    }
+
+    if (this.featureToggleConfigService.isEnabled('targetPrice')) {
+      this.userHasManualPriceRole$
+        .pipe(take(1))
+        .subscribe((manualPriceRoleAvailable: boolean) => {
+          if (manualPriceRoleAvailable) {
+            const isTargetPriceAvailable = selectedRows.some(
+              (detail: QuotationDetail) => !!detail.targetPrice
+            );
+
+            if (isTargetPriceAvailable) {
+              this.availablePriceSourceOptions.push(
+                PriceSourceOptions.TARGET_PRICE
+              );
+            }
+          }
+        });
+    }
   }
 }

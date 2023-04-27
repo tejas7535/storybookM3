@@ -760,6 +760,23 @@ describe('QuotationDetailsTableComponent', () => {
           type: addSimulatedQuotation.type,
         });
       });
+      test('should dispatch addSimulatedQuotationAction if target is TARGET_PRICE and no target price exists', () => {
+        const detail: QuotationDetail = {
+          ...QUOTATION_DETAIL_MOCK,
+          sapPriceCondition: undefined,
+          targetPrice: undefined,
+        };
+        component.selectedRows = [{ data: detail } as RowNode];
+
+        component.onPriceSourceSimulation(PriceSourceOptions.TARGET_PRICE);
+
+        expect(store.dispatch).toHaveBeenCalledTimes(1);
+        expect(store.dispatch).toHaveBeenCalledWith({
+          gqId: MOCK_QUOTATION_ID,
+          quotationDetails: [],
+          type: addSimulatedQuotation.type,
+        });
+      });
     });
     describe('should simulate with new price source', () => {
       test('should dispatch addSimulatedQuotationAction for new sap standard price', () => {
@@ -911,6 +928,30 @@ describe('QuotationDetailsTableComponent', () => {
           ],
           type: addSimulatedQuotation.type,
         });
+      });
+    });
+    test('should dispatch addSimulatedQuotationAction for target price', () => {
+      component.selectedRows = [{ data: QUOTATION_DETAIL_MOCK } as RowNode];
+
+      component.onPriceSourceSimulation(PriceSourceOptions.TARGET_PRICE);
+
+      expect(store.dispatch).toHaveBeenCalledTimes(1);
+      expect(store.dispatch).toHaveBeenCalledWith({
+        gqId: MOCK_QUOTATION_ID,
+        quotationDetails: [
+          {
+            ...QUOTATION_DETAIL_MOCK,
+            price: 90.55,
+            priceSource: PriceSource.TARGET_PRICE,
+            netValue: 905.5,
+            gpi: 77.91,
+            gpm: 66.87,
+            discount: 9.45,
+            priceDiff: -46.74,
+            rlm: 72.94,
+          },
+        ],
+        type: addSimulatedQuotation.type,
       });
     });
   });

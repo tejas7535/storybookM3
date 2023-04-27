@@ -119,7 +119,8 @@
       "headers": {
         "priceSource": {
           "gqPriceSource": "GQ Preis",
-          "sapPriceSource": "SAP Preis"
+          "sapPriceSource": "SAP Preis",
+          "targetPriceSource": "Zielpreis"
         }
       },
       "ST": "ST",
