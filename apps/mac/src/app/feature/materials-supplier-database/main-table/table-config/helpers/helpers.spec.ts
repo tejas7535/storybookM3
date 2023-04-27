@@ -1,5 +1,9 @@
 import { TranslocoModule } from '@ngneat/transloco';
-import { ValueFormatterParams, ValueGetterParams } from 'ag-grid-community';
+import {
+  ColDef,
+  ValueFormatterParams,
+  ValueGetterParams,
+} from 'ag-grid-community';
 
 import { Status } from '@mac/feature/materials-supplier-database/constants';
 import { DataResult } from '@mac/feature/materials-supplier-database/models';
@@ -10,6 +14,8 @@ import {
   CUSTOM_DATE_FORMATTER,
   DATE_COMPARATOR,
   EMPTY_VALUE_FORMATTER,
+  excludeColumn,
+  lockColumns,
   MANUFACTURER_VALUE_GETTER,
   RECYCLING_RATE_FILTER_VALUE_GETTER,
   RECYCLING_RATE_VALUE_GETTER,
@@ -305,6 +311,29 @@ describe('helpers', () => {
       const result = RECYCLING_RATE_FILTER_VALUE_GETTER(mockParams);
 
       expect(result).toEqual(55);
+    });
+  });
+
+  describe('excludeColumn', () => {
+    it('should return the only non excluded columns', () => {
+      const cd = (name: string) => ({ field: name } as ColDef);
+      const colDefs = [cd('1'), cd('2'), cd('3')];
+      const columns = ['1', '3'];
+      const expected = [cd('2')];
+
+      expect(excludeColumn(columns, colDefs)).toEqual(expected);
+    });
+  });
+
+  describe('lockColumns', () => {
+    it('should lock columns', () => {
+      const cd = (name: string, locked?: boolean) =>
+        ({ field: name, lockVisible: locked, hide: !locked } as ColDef);
+      const colDefs = [cd('1'), cd('2'), cd('3')];
+      const columns = ['1', '3'];
+      const expected = [cd('1', true), cd('2'), cd('3', true)];
+
+      expect(lockColumns(columns, colDefs)).toEqual(expected);
     });
   });
 });

@@ -1,4 +1,6 @@
 export * from './boolean-value-getter';
+export * from './column-def-exclude';
+export * from './column-def-lock-columns';
 export * from './custom-date-formatter';
 export * from './date-comparator';
 export * from './empty-value-formatter';

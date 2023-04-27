@@ -181,11 +181,12 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
     // setup visibility and order of columns based on selected elements
     const state: ColumnState[] = this.agGridColumnApi
       .getColumns()
-      // ignore 'locked' columns like "Action" or history view
-      .filter((col) => !col.getColDef().lockVisible)
       .map((col) => ({
         colId: col.getColId(),
-        hide: !visible.includes(col.getColId()),
+        // columns are either visible if they are part of the quickfilter columns or if they are "locked"
+        hide: !(
+          visible.includes(col.getColId()) || col.getColDef().lockVisible
+        ),
       }))
       .sort((a, b) => visible.indexOf(a.colId) - visible.indexOf(b.colId));
     // set filter and columns in agGrid api

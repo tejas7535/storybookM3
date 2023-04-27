@@ -41,6 +41,25 @@ describe('MsdNavigationComponent', () => {
           msd: {
             data: initialState,
           },
+          'azure-auth': {
+            accountInfo: {
+              idTokenClaims: {
+                roles: ['material-supplier-database-test-editor'],
+              },
+              department: 'mock_department',
+              homeAccountId: 'mock_id',
+              environment: 'mock_environment',
+              tenantId: 'mock_id',
+              username: 'mock_name',
+              localAccountId: 'mock_id',
+              name: 'mock_name',
+            },
+            profileImage: {
+              url: 'mock_url',
+              loading: false,
+              errorMessage: 'mock_message',
+            },
+          },
         },
       }),
       DataFacade,

@@ -5,15 +5,21 @@ import {
   CASTING_MODE,
   CO2_PER_TON,
   MANUFACTURER,
+  MANUFACTURER_SUPPLIER_NAME,
+  MANUFACTURER_SUPPLIER_PLANT,
   MANUFACTURER_SUPPLIER_SELFCERTIFIED,
   MATERIAL_NUMBERS,
+  MATERIAL_STANDARD_MATERIAL_NAME,
+  MATERIAL_STANDARD_STANDARD_DOCUMENT,
   MAX_DIMENSION,
   MIN_DIMENSION,
+  PRODUCT_CATEGORY,
   RATING,
   RATING_REMARK,
   RECENT_STATUS,
   RECYCLING_RATE,
   RELEASE_DATE,
+  RELEASE_RESTRICTIONS,
   RELEASED_STATUS,
   STEEL_MAKING_PROCESS,
 } from '@mac/msd/constants';
@@ -32,13 +38,21 @@ import { BASE_COLUMN_DEFINITIONS } from '@mac/msd/main-table/table-config/materi
 
 import { GreenSteelCellRendererComponent } from '../../../green-steel-cell-renderer/green-steel-cell-renderer.component';
 import { ReleaseStatusCellRendererComponent } from '../../../release-status-cell-renderer/release-status-cell-renderer.component';
-
-const exclude = (columns: string[], colDef: ColDef[]): ColDef[] =>
-  colDef.filter((cd) => !columns.includes(cd.field));
+import { excludeColumn, lockColumns } from '../../helpers';
 
 export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
-  // 'recentStatus' is replaced by 'releasedStatus'
-  ...exclude([RECENT_STATUS, CO2_PER_TON], BASE_COLUMN_DEFINITIONS),
+  ...lockColumns(
+    [
+      PRODUCT_CATEGORY,
+      MATERIAL_STANDARD_MATERIAL_NAME,
+      MATERIAL_STANDARD_STANDARD_DOCUMENT,
+      MANUFACTURER_SUPPLIER_NAME,
+      MANUFACTURER_SUPPLIER_PLANT,
+      RELEASE_RESTRICTIONS,
+    ],
+    // 'recentStatus' is replaced by 'releasedStatus'
+    excludeColumn([RECENT_STATUS], BASE_COLUMN_DEFINITIONS)
+  ),
   {
     field: RELEASED_STATUS,
     headerName: RELEASED_STATUS,
@@ -90,6 +104,8 @@ export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
   {
     field: MAX_DIMENSION,
     headerName: MAX_DIMENSION,
+    hide: false,
+    lockVisible: true,
     filter: 'agNumberColumnFilter',
     headerTooltip: MAX_DIMENSION,
     cellRenderer: EditCellRendererComponent,
@@ -112,7 +128,8 @@ export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
     field: CASTING_MODE,
     headerName: CASTING_MODE,
     filterParams: FILTER_PARAMS,
-    hide: true,
+    hide: false,
+    lockVisible: true,
     headerTooltip: CASTING_MODE,
     cellRenderer: EditCellRendererComponent,
     valueFormatter: TRANSLATE_VALUE_FORMATTER_FACTORY(
@@ -124,7 +141,8 @@ export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
     field: CASTING_DIAMETER,
     headerName: CASTING_DIAMETER,
     filterParams: FILTER_PARAMS,
-    hide: true,
+    hide: false,
+    lockVisible: true,
     headerTooltip: CASTING_DIAMETER,
     cellRenderer: EditCellRendererComponent,
   },
