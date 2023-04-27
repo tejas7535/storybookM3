@@ -115,6 +115,7 @@
       "strategicMaterial": "Strategic Material (GC)",
       "sapVolumeScale": "SAP Volume Scale %",
       "targetPrice": "Target Price",
+      "targetPriceInfoText": "Selected target price. When send to SAP the target price will be applied as ZMAN in the SAP Quotation.",
       "headers": {
         "priceSource": {
           "gqPriceSource": "GQ Price",

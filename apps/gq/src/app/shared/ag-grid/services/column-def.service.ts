@@ -346,6 +346,11 @@ export class ColumnDefService {
         this.columnUtilityService.numberCurrencyFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.targetPriceInfoText'
+        ),
+      },
     },
     {
       headerName: translate('shared.quotationDetailsTable.gpc'),
