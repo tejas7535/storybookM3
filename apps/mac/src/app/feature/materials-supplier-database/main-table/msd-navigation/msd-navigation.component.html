@@ -1,7 +1,14 @@
 <ng-container *transloco="let t; read: 'materialsSupplierDatabase'">
   <div class="flex h-full flex-col items-start justify-start">
     <ng-container>
-      <mat-nav-list class="!pt-0" *ngrxLet="navigation$ as navigation">
+      <mat-nav-list
+        *ngrxLet="navigation$ as navigation"
+        class="!pt-0 transition-all duration-1000"
+        [ngClass]="{
+          'max-w-0 opacity-0': minimized,
+          'max-w-xl opacity-100': !minimized
+        }"
+      >
         <ng-container
           *ngTemplateOutlet="
             (hasEditorRole$ | ngrxPush) ? editorView : consumerView;
@@ -11,15 +18,7 @@
       </mat-nav-list>
       <!-- EDITOR VIEW -->
       <ng-template #editorView let-navigation="navigation">
-        <mat-accordion
-          multi
-          [ngClass]="{
-            'max-w-0 opacity-0': minimized,
-            'max-w-xl opacity-100': !minimized
-          }"
-          class="transition-all duration-1000"
-          *ngrxLet="navigation$ as navigation"
-        >
+        <mat-accordion multi *ngrxLet="navigation$ as navigation">
           <ng-container
             *ngFor="let materialClass of materialClasses$ | ngrxPush"
           >
@@ -75,7 +74,10 @@
           <ng-container
             *ngTemplateOutlet="
               plainItem;
-              context: { materialClass: materialClass, navigation: navigation }
+              context: {
+                materialClass: materialClass,
+                navigation: navigation
+              }
             "
           ></ng-container>
         </ng-container>
@@ -90,7 +92,7 @@
         <button
           (click)="setActive(materialClass, navigationLevel)"
           mat-list-item
-          class="!px-2 !pr-10 !text-body-2 !text-high-emphasis hover:bg-hover-overlay"
+          class="!text-body-2 !text-high-emphasis hover:bg-hover-overlay !px-2 !pr-10"
           [disableRipple]="true"
           [ngClass]="{
             '!bg-selected-overlay':
@@ -110,7 +112,7 @@
         <button
           (click)="setActive(materialClass)"
           mat-list-item
-          class="!pr-10 !text-body-2 !text-high-emphasis hover:bg-hover-overlay"
+          class="!text-body-2 !text-high-emphasis hover:bg-hover-overlay !pr-10"
           [disableRipple]="true"
           [ngClass]="{
             '!bg-selected-overlay': navigation.materialClass === materialClass
@@ -123,7 +125,7 @@
     <div class="flex-auto"></div>
     <button
       mat-mini-fab
-      class="!m-4 place-self-end !rounded-xl !bg-secondary-variant !shadow-none"
+      class="!bg-secondary-variant !m-4 place-self-end !rounded-xl !shadow-none"
       (click)="toggleSideBar()"
     >
       <mat-icon
