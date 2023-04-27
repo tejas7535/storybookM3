@@ -3,6 +3,7 @@ import { ColDef } from 'ag-grid-enterprise';
 import {
   CASTING_DIAMETER,
   CASTING_MODE,
+  CO2_PER_TON,
   MANUFACTURER,
   MANUFACTURER_SUPPLIER_SELFCERTIFIED,
   MATERIAL_NUMBERS,
@@ -29,6 +30,7 @@ import {
 } from '@mac/msd/main-table/table-config/helpers';
 import { BASE_COLUMN_DEFINITIONS } from '@mac/msd/main-table/table-config/materials/base';
 
+import { GreenSteelCellRendererComponent } from '../../../green-steel-cell-renderer/green-steel-cell-renderer.component';
 import { ReleaseStatusCellRendererComponent } from '../../../release-status-cell-renderer/release-status-cell-renderer.component';
 
 const exclude = (columns: string[], colDef: ColDef[]): ColDef[] =>
@@ -36,7 +38,7 @@ const exclude = (columns: string[], colDef: ColDef[]): ColDef[] =>
 
 export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
   // 'recentStatus' is replaced by 'releasedStatus'
-  ...exclude([RECENT_STATUS], BASE_COLUMN_DEFINITIONS),
+  ...exclude([RECENT_STATUS, CO2_PER_TON], BASE_COLUMN_DEFINITIONS),
   {
     field: RELEASED_STATUS,
     headerName: RELEASED_STATUS,
@@ -54,6 +56,14 @@ export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
     suppressMovable: true,
     hide: false,
     suppressMenu: true,
+  },
+  {
+    field: CO2_PER_TON,
+    headerName: CO2_PER_TON,
+    filter: 'agNumberColumnFilter',
+    headerTooltip: CO2_PER_TON,
+    width: 140,
+    cellRenderer: GreenSteelCellRendererComponent,
   },
   {
     field: MATERIAL_NUMBERS,

@@ -1,0 +1,36 @@
+<div
+  class="flex h-full min-h-[46px] w-full flex-row"
+  *transloco="
+    let t;
+    read: 'materialsSupplierDatabase.mainTable.tooltip.greensteel'
+  "
+>
+  <div
+    class="mr-2 flex-1"
+    (mouseover)="setHovered(true)"
+    (mouseout)="setHovered(false)"
+  >
+    <span>{{ params?.valueFormatted ?? params?.value }}</span>
+    <button
+      class="my-auto"
+      mat-icon-button
+      [ngClass]="{ '!hidden': !hovered }"
+      (click)="onEditClick()"
+      *ngIf="params?.hasEditorRole && editableClass(materialClass$ | ngrxPush)"
+    >
+      <mat-icon class="text-medium-emphasis !text-[12px]">edit</mat-icon>
+    </button>
+  </div>
+
+  <div class="flex-1 align-baseline" *ngIf="isValid()">
+    <mac-indicator
+      icon="eco"
+      [val]="getRating()"
+      of="3"
+      class="text-low-emphasis text-[16px]"
+      activeClass="text-link"
+      [matTooltip]="t(getRating())"
+      matTooltipPosition="right"
+    ></mac-indicator>
+  </div>
+</div>

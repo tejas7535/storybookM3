@@ -17,10 +17,12 @@ import { AgGridModule } from 'ag-grid-angular';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { MsdDialogService } from '@mac/msd/services';
+import { IndicatorComponent } from '@mac/shared/components/indicator/indicator.component';
 
 import { ActionCellRendererComponent } from './action-cell-renderer/action-cell-renderer.component';
 import { DetailCellRendererComponent } from './detail-cell-renderer/detail-cell-renderer.component';
 import { EditCellRendererComponent } from './edit-cell-renderer/edit-cell-renderer.component';
+import { GreenSteelCellRendererComponent } from './green-steel-cell-renderer/green-steel-cell-renderer.component';
 import { HeaderTooltipComponent } from './header-tooltip/header-tooltip.component';
 import { MainTableComponent } from './main-table.component';
 import { MainTableRoutingModule } from './main-table-routing.module';
@@ -34,6 +36,7 @@ import { ReleaseStatusCellRendererComponent } from './release-status-cell-render
   declarations: [
     MainTableComponent,
     EditCellRendererComponent,
+    GreenSteelCellRendererComponent,
     RecentStatusCellRendererComponent,
     ReleaseStatusCellRendererComponent,
     ActionCellRendererComponent,
@@ -41,6 +44,7 @@ import { ReleaseStatusCellRendererComponent } from './release-status-cell-render
     HeaderTooltipComponent,
   ],
   imports: [
+    IndicatorComponent,
     CommonModule,
     MainTableRoutingModule,
     AgGridModule,

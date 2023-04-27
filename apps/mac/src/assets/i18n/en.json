@@ -544,7 +544,13 @@
         "rating": "Quality level of steel supplier according to S 266042 (if available); from RSI (highest quality) to RSIII (lowest quality)",
         "steelMakingProcess": "<ul><li>BF: blast furnace</li><li>DRI: direct reduced iron</li><li>BOF: basic oxygen furnace</li><li>EAF: electric arc furnace</li><li>EOF: energy optimizing furnace</li><li>VIM: vacuum induction melting</li><li>ESR: electro-slag remelting</li><li>VAR: vacuum arc remelting</li></ul>",
         "releaseDate": "Date of initial release;<br>The term '<i>historical supplier</i>' is in accordance with P 174200 and P 174211",
-        "steelNumber": "According to „Stahl-Eisen-Liste“ (Register of European Steels)"
+        "steelNumber": "According to „Stahl-Eisen-Liste“ (Register of European Steels)",
+        "greensteel": {
+          "0": "Green Steel classification: Gray",
+          "1": "Green Steel classification: Light Green",
+          "2": "Green Steel classification: Medium Green",
+          "3": "Green Steel classification: Green"
+        }
       },
       "yes": "Yes"
     },
