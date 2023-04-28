@@ -24,7 +24,7 @@ export const appRoutePaths: MACRoutes = [
       ),
   },
   {
-    canLoad: [MsalGuard],
+    canActivate: [MsalGuard],
     path: RoutePath.HardnessConverterPath,
     loadChildren: () =>
       import('./feature/hardness-converter/hardness-converter.module').then(
@@ -32,7 +32,7 @@ export const appRoutePaths: MACRoutes = [
       ),
   },
   {
-    canLoad: [MsalGuard],
+    canActivate: [MsalGuard],
     path: RoutePath.AQMCalculatorPath,
     loadChildren: () =>
       import('./feature/aqm-calculator/aqm-calculator.module').then(
@@ -40,7 +40,7 @@ export const appRoutePaths: MACRoutes = [
       ),
   },
   {
-    canLoad: [MsalGuard],
+    canActivate: [MsalGuard],
     canActivateChild: [RoleGuard],
     path: RoutePath.MaterialsSupplierDatabasePath,
     loadChildren: () =>
