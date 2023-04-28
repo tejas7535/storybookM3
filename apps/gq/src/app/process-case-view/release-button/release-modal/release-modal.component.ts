@@ -101,6 +101,10 @@ export class ReleaseModalComponent implements OnInit {
     // Will be implemented in a later story
   }
 
+  save() {
+    // Will be implemented in a later story
+  }
+
   closeDialog() {
     this.dialogRef.close();
   }

@@ -14,6 +14,7 @@
       "commentLabel": "Kommentar",
       "projectInformation": "Projektinformationen",
       "startWorkflow": "Workflow starten",
+      "save": "Speichern",
       "cancel": "Abbrechen",
       "approver1Title": "Genehmiger 1 ({{ level }})",
       "approver2Title": "Genehmiger 2 ({{ level }})",

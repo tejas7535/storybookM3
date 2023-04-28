@@ -14,6 +14,7 @@
       "commentLabel": "Comment",
       "projectInformation": "Project Information",
       "startWorkflow": "Start Workflow",
+      "save": "Save",
       "cancel": "Cancel",
       "approver1Title": "Approver 1 ({{ level }})",
       "approver2Title": "Approver 2 ({{ level }})",
