@@ -28,6 +28,12 @@
         [title]="t('approver2Title', { level: 'L2' })"
       ></gq-release-modal-approver-select>
       <gq-release-modal-approver-select
+        *ngIf="approver3Required"
+        [approverSelectFormControl]="approver3FormControl"
+        [approvers]="approversLevel2"
+        [title]="t('approver3Title', { level: 'L2' })"
+      ></gq-release-modal-approver-select>
+      <gq-release-modal-approver-select
         [approverSelectFormControl]="approverCCFormControl"
         [approvers]="approversCC"
         [title]="t('approverCCTitle')"

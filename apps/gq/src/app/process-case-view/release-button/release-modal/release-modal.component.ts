@@ -20,8 +20,15 @@ export class ReleaseModalComponent implements OnInit {
 
   INPUT_MAX_LENGTH = 1000;
 
+  // ToDo: adjust once we get the data from BE
+  approver3Required = true;
+
   approver1FormControl = new FormControl('', Validators.required);
   approver2FormControl = new FormControl('', Validators.required);
+  approver3FormControl = new FormControl(
+    '',
+    this.approver3Required ? Validators.required : undefined
+  );
   approverCCFormControl = new FormControl('');
 
   // Mock Data - to be deleted once we get the real data from BE
@@ -91,6 +98,7 @@ export class ReleaseModalComponent implements OnInit {
     this.formGroup = this.formBuilder.group({
       approver1: this.approver1FormControl,
       approver2: this.approver2FormControl,
+      approver3: this.approver3FormControl,
       approverCC: this.approverCCFormControl,
       comment: ['', Validators.maxLength(this.INPUT_MAX_LENGTH)],
       projectInformation: ['', Validators.maxLength(this.INPUT_MAX_LENGTH)],
