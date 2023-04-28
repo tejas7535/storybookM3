@@ -16,7 +16,7 @@ import { ApprovalModalType } from '../../models';
 export class ApprovalDecisionModalComponent implements OnInit {
   formGroup: FormGroup;
 
-  INPUT_MAX_LENGTH = 200;
+  INPUT_MAX_LENGTH = 1000;
 
   approvalModalType = ApprovalModalType;
 

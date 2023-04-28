@@ -18,7 +18,7 @@ import { Approver } from '@gq/shared/models/quotation/approver';
 export class ReleaseModalComponent implements OnInit {
   formGroup: FormGroup;
 
-  INPUT_MAX_LENGTH = 200;
+  INPUT_MAX_LENGTH = 1000;
 
   approver1FormControl = new FormControl('', Validators.required);
   approver2FormControl = new FormControl('', Validators.required);
