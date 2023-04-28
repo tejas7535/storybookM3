@@ -50,21 +50,39 @@ export class TableService {
       ? Math.max(...currentItems.map((e) => e.id)) + 1
       : 0;
   }
+  /**
+   * updates the item with given data
+   * @param item the updated item
+   * @param data the data within store
+   * @param resetValidation if true, info property is reset to not_validated because a validation will follow
+   * @returns list of all materials with updated items
+   */
   static updateItem(
     item: MaterialTableItem,
-    data: MaterialTableItem[]
+    data: MaterialTableItem[],
+    resetValidation: boolean
   ): MaterialTableItem[] {
     return data.map((d) => {
       if (d.id === item.id) {
-        // validation needs to be triggered (--> will return UoM and priceUnit and ValidationStatus)
-        return {
-          ...item,
-          info: {
-            valid: false,
-            description: [ValidationDescription.Not_Validated],
-            errorCode: undefined,
-          },
-        };
+        return resetValidation
+          ? {
+              // validation needs to be triggered (--> will return UoM and priceUnit and ValidationStatus)
+              // action for validation is to be triggered manually by the component that decides whether to validate or not
+              // matDesc or matNumber have been changed,validation is reset
+              ...item,
+              info: {
+                valid: false,
+                description: [ValidationDescription.Not_Validated],
+                errorCode: undefined,
+              },
+            }
+          : {
+              // matDesc || matNumber have NOT been changed, validation values will not change so use currency and UoM from existing item of store
+              ...item,
+              currency: d.currency,
+              priceUnit: d.priceUnit,
+              UoM: d.UoM,
+            };
       }
 
       return d;
@@ -221,4 +239,15 @@ export class TableService {
     materialItems.map((item: MaterialTableItem) =>
       item.targetPrice ? { ...item, currency: customerCurrency } : item
     );
+
+  /**
+   * add the customers currency to the material table item
+   */
+  static addCurrencyToMaterialItem = (
+    materialItem: MaterialTableItem,
+    customerCurrency: string
+  ): MaterialTableItem =>
+    materialItem.targetPrice
+      ? { ...materialItem, currency: customerCurrency }
+      : materialItem;
 }

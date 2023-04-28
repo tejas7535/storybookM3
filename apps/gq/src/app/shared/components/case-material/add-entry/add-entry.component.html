@@ -95,7 +95,7 @@
           [formControl]="targetPriceFormControl"
         />
         <mat-hint>{{ t('targetPrice.hint') }}</mat-hint>
-        <mat-error *ngIf="targetPriceFormControl.hasError('invalidInput')">{{
+        <mat-error *ngIf="targetPriceFormControl.hasError('invalidPrice')">{{
           t('targetPrice.error')
         }}</mat-error>
       </mat-form-field>

@@ -433,7 +433,7 @@ describe('Create Case Reducer', () => {
     });
 
     describe('updateRowDataItem', () => {
-      test('should update item', () => {
+      test('should update item with revalidation', () => {
         const mockedRowData: MaterialTableItem[] = [
           {
             id: 0,
@@ -464,10 +464,14 @@ describe('Create Case Reducer', () => {
 
         const fakeState: CreateCaseState = {
           ...CREATE_CASE_STORE_STATE_MOCK,
+          customer: {
+            ...CREATE_CASE_STORE_STATE_MOCK.customer,
+            salesOrgs: [{ currency: 'EUR', selected: true } as SalesOrg],
+          },
           rowData: mockedRowData,
         };
 
-        const action = updateRowDataItem({ item });
+        const action = updateRowDataItem({ item, revalidate: true });
         const state = createCaseReducer(fakeState, action);
 
         expect(state.rowData).toEqual([
@@ -478,6 +482,63 @@ describe('Create Case Reducer', () => {
               description: [ValidationDescription.Not_Validated],
               errorCode: undefined,
             },
+          },
+          mockedRowData[1],
+        ]);
+      });
+
+      test('should update item WITHOUT revalidation', () => {
+        const mockedRowData: MaterialTableItem[] = [
+          {
+            id: 0,
+            materialDescription: 'desc',
+            materialNumber: 'matNumber',
+            quantity: 1,
+            currency: 'EUR',
+            UoM: '1',
+            priceUnit: 100,
+            targetPrice: 150,
+            info: {
+              valid: false,
+              description: [ValidationDescription.QuantityInValid],
+            },
+          },
+          {
+            id: 1,
+            materialDescription: 'desc',
+            materialNumber: 'matNumber',
+            quantity: 1,
+            info: { valid: true, description: [ValidationDescription.Valid] },
+          },
+        ];
+
+        const item: MaterialTableItem = {
+          id: 0,
+          materialDescription: 'desc',
+          materialNumber: 'matNumber',
+          targetPrice: 150,
+          quantity: 2,
+          info: { valid: true, description: [ValidationDescription.Valid] },
+        };
+
+        const fakeState: CreateCaseState = {
+          ...CREATE_CASE_STORE_STATE_MOCK,
+          customer: {
+            ...CREATE_CASE_STORE_STATE_MOCK.customer,
+            salesOrgs: [{ currency: 'EUR', selected: true } as SalesOrg],
+          },
+          rowData: mockedRowData,
+        };
+
+        const action = updateRowDataItem({ item, revalidate: false });
+        const state = createCaseReducer(fakeState, action);
+
+        expect(state.rowData).toEqual([
+          {
+            ...item,
+            currency: 'EUR',
+            priceUnit: 100,
+            UoM: '1',
           },
           mockedRowData[1],
         ]);

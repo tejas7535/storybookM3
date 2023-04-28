@@ -315,16 +315,23 @@ export const processCaseReducer = createReducer(
       },
     })
   ),
-  on(updateMaterialRowDataItem, (state: ProcessCaseState, { item }) => ({
-    ...state,
-    addMaterials: {
-      ...state.addMaterials,
-      addMaterialRowData: TableService.updateItem(
-        item,
-        state.addMaterials.addMaterialRowData
-      ),
-    },
-  })),
+  on(
+    updateMaterialRowDataItem,
+    (state: ProcessCaseState, { item, revalidate }) => ({
+      ...state,
+      addMaterials: {
+        ...state.addMaterials,
+        addMaterialRowData: TableService.updateItem(
+          TableService.addCurrencyToMaterialItem(
+            item,
+            state.customer?.item?.currency
+          ),
+          state.addMaterials.addMaterialRowData,
+          revalidate
+        ),
+      },
+    })
+  ),
   on(
     deleteMaterialRowDataItem,
     (state: ProcessCaseState, { id }): ProcessCaseState => ({

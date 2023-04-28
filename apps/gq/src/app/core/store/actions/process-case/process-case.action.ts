@@ -96,7 +96,7 @@ export const duplicateMaterialRowDataItem = createAction(
 
 export const updateMaterialRowDataItem = createAction(
   '[Process Case] Update Item from Material Table',
-  props<{ item: MaterialTableItem }>()
+  props<{ item: MaterialTableItem; revalidate: boolean }>()
 );
 export const deleteMaterialRowDataItem = createAction(
   '[Process Case] Delete Item from Material Table',

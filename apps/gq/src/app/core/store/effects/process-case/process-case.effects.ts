@@ -67,7 +67,6 @@ import {
   resetSimulatedQuotation,
   selectQuotation,
   setSelectedQuotationDetail,
-  updateMaterialRowDataItem,
   updateQuotation,
   updateQuotationDetails,
   updateQuotationDetailsFailure,
@@ -260,13 +259,6 @@ export class ProcessCaseEffects {
   validateAfterItemAdded$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(addMaterialRowDataItems.type),
-      map(() => validateAddMaterialsOnCustomerAndSalesOrg())
-    );
-  });
-
-  validateAfterItemUpdated$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(updateMaterialRowDataItem.type),
       map(() => validateAddMaterialsOnCustomerAndSalesOrg())
     );
   });

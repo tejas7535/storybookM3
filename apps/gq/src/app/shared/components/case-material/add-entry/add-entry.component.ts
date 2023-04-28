@@ -19,15 +19,14 @@ import { translate } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
 
-import * as constants from '../../../constants';
 import { Keyboard } from '../../../models';
 import { MaterialTableItem } from '../../../models/table/material-table-item-model';
 import { ValidationDescription } from '../../../models/table/validation-description.enum';
 import { HelperService } from '../../../services/helper/helper.service';
 import { PasteMaterialsService } from '../../../services/paste-materials/paste-materials.service';
+import { priceValidator } from '../../../validators/price-validator';
 import { AutocompleteInputComponent } from '../../autocomplete-input/autocomplete-input.component';
 import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete-request-dialog.enum';
-
 @Component({
   selector: 'gq-add-entry',
   templateUrl: './add-entry.component.html',
@@ -41,10 +40,8 @@ export class AddEntryComponent implements OnInit, OnDestroy {
 
   public materialNumberInput: boolean;
   public quantity: number;
-  public targetPrice: number;
   public materialInputIsValid = false;
   public quantityValid = false;
-  public targetPriceValid = true;
   public addRowEnabled = false;
   public quantityFormControl: UntypedFormControl = new UntypedFormControl();
   public targetPriceFormControl: FormControl = new FormControl();
@@ -72,7 +69,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   addSubscriptions(): void {
     this.quantityFormControl.setValidators([this.quantityValidator.bind(this)]);
     this.targetPriceFormControl.setValidators([
-      this.targetPriceValidator.bind(this),
+      priceValidator(this.translocoLocaleService.getLocale()).bind(this),
     ]);
     this.targetPriceFormControl.markAllAsTouched();
   }
@@ -87,18 +84,6 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     return !this.quantityValid
       ? { invalidInput: !this.quantityValid }
       : undefined;
-  }
-
-  targetPriceValidator(control: AbstractControl): ValidationErrors {
-    const locale = this.translocoLocaleService.getLocale();
-    const { value } = control;
-
-    this.targetPriceValid =
-      !value || constants.getCurrencyRegex(locale).test(value);
-    this.targetPrice = value;
-    this.rowInputValid();
-
-    return !this.targetPriceValid ? { invalidInput: true } : undefined;
   }
 
   ngOnDestroy(): void {
@@ -121,7 +106,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
       this.materialNumberInput &&
       this.quantityValid &&
       this.quantity > 0 &&
-      this.targetPriceValid;
+      this.targetPriceFormControl.valid;
   }
 
   addRow(): void {
@@ -132,7 +117,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
         quantity: this.quantity,
         targetPrice:
           HelperService.parseNullableLocalizedInputValue(
-            this.targetPrice?.toString(),
+            this.targetPriceFormControl.value?.toString(),
             this.translocoLocaleService.getLocale()
           ) ?? undefined,
         info: {

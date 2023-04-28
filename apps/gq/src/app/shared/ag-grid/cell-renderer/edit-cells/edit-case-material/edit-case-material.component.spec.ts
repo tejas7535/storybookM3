@@ -10,6 +10,8 @@ import {
   setRequestingAutoCompleteDialog,
   updateMaterialRowDataItem,
   updateRowDataItem,
+  validateAddMaterialsOnCustomerAndSalesOrg,
+  validateMaterialsOnCustomerAndSalesOrg,
 } from '@gq/core/store/actions';
 import { Spectator, SpyObject } from '@ngneat/spectator';
 import { createComponentFactory } from '@ngneat/spectator/jest';
@@ -19,6 +21,7 @@ import { ICellRendererParams } from 'ag-grid-community';
 import { MATERIAL_TABLE_ITEM_MOCK } from '../../../../../../testing/mocks';
 import { AutocompleteRequestDialog } from '../../../../components/autocomplete-input/autocomplete-request-dialog.enum';
 import { EditingMaterialModalComponent } from '../../../../components/modal/editing-material-modal/editing-material-modal.component';
+import { MaterialTableItem } from '../../../../models/table';
 import { MaterialColumnFields } from '../../../constants/column-fields.enum';
 import { EditCaseMaterialComponent } from './edit-case-material.component';
 
@@ -123,13 +126,12 @@ describe('EditCaseMaterialComponent', () => {
         }
       );
     });
-    test('should dispatch actions afterClosed for processCaseView', () => {
+    test('should dispatch actions afterClosed', () => {
+      component.checkValidationNeeded = jest.fn();
+
       component.onIconClick();
 
-      expect(component['store'].dispatch).toHaveBeenCalledTimes(3);
-      expect(component['store'].dispatch).toHaveBeenCalledWith(
-        updateMaterialRowDataItem({ item: MATERIAL_TABLE_ITEM_MOCK })
-      );
+      expect(component.checkValidationNeeded).toHaveBeenCalled();
       expect(component['store'].dispatch).toHaveBeenCalledWith(
         resetAutocompleteMaterials()
       );
@@ -139,21 +141,175 @@ describe('EditCaseMaterialComponent', () => {
         })
       );
     });
-    test('should dispatch actions afterClosed for caseView', () => {
-      component.isCaseView = true;
-      component.onIconClick();
+  });
 
-      expect(component['store'].dispatch).toHaveBeenCalledTimes(3);
+  describe('checkValidationNeeded', () => {
+    test('should call method with validation', () => {
+      component.dispatchUpdateActionAndValidationAction = jest.fn();
+      component.dispatchUpdateAction = jest.fn();
+      const previousData: MaterialTableItem = {
+        id: 1,
+        materialDescription: 'desc',
+      } as MaterialTableItem;
+      const recentData: MaterialTableItem = {
+        id: 1,
+        materialDescription: 'descUpdated',
+      } as MaterialTableItem;
+      component.checkValidationNeeded(previousData, recentData);
+      expect(
+        component.dispatchUpdateActionAndValidationAction
+      ).toHaveBeenCalled();
+      expect(component.dispatchUpdateAction).not.toHaveBeenCalled();
+    });
+    test('should call method without validation', () => {
+      component.dispatchUpdateActionAndValidationAction = jest.fn();
+      component.dispatchUpdateAction = jest.fn();
+      const previousData: MaterialTableItem = {
+        id: 1,
+        quantity: 150,
+      } as MaterialTableItem;
+      const recentData: MaterialTableItem = {
+        id: 1,
+        quantity: 100,
+      } as MaterialTableItem;
+      component.checkValidationNeeded(previousData, recentData);
+      expect(
+        component.dispatchUpdateActionAndValidationAction
+      ).not.toHaveBeenCalled();
+      expect(component.dispatchUpdateAction).toHaveBeenCalled();
+    });
+  });
+  describe('dispatchUpdateAction', () => {
+    beforeEach(() => {
+      component['store'].dispatch = jest.fn();
+      jest.restoreAllMocks();
+    });
+    test('should dispatch updateAction for createCase', () => {
+      component.isCaseView = true;
+      const recentData: MaterialTableItem = {
+        id: 1,
+        quantity: 100,
+      } as MaterialTableItem;
+      component.dispatchUpdateAction(recentData);
+
       expect(component['store'].dispatch).toHaveBeenCalledWith(
-        updateRowDataItem({ item: MATERIAL_TABLE_ITEM_MOCK })
+        updateRowDataItem({ item: recentData, revalidate: false })
       );
-      expect(component['store'].dispatch).toHaveBeenCalledWith(
-        resetAutocompleteMaterials()
-      );
-      expect(component['store'].dispatch).toHaveBeenCalledWith(
-        setRequestingAutoCompleteDialog({
-          dialog: AutocompleteRequestDialog.ADD_ENTRY,
+      expect(component['store'].dispatch).not.toHaveBeenCalledWith(
+        updateMaterialRowDataItem({
+          item: expect.any(MaterialTableItem),
+          revalidate: expect.any(Boolean),
         })
+      );
+    });
+    test('should dispatch updateAction for createCase with revalidate true', () => {
+      component.isCaseView = true;
+      const recentData: MaterialTableItem = {
+        id: 1,
+        quantity: 100,
+      } as MaterialTableItem;
+      component.dispatchUpdateAction(recentData, true);
+
+      expect(component['store'].dispatch).toHaveBeenCalledWith(
+        updateRowDataItem({ item: recentData, revalidate: true })
+      );
+      expect(component['store'].dispatch).not.toHaveBeenCalledWith(
+        updateMaterialRowDataItem({
+          item: expect.any(MaterialTableItem),
+          revalidate: expect.any(Boolean),
+        })
+      );
+    });
+    test('should dispatch updateAction for processCase', () => {
+      component.isCaseView = false;
+      const recentData: MaterialTableItem = {
+        id: 1,
+        quantity: 100,
+      } as MaterialTableItem;
+      component.dispatchUpdateAction(recentData);
+
+      expect(component['store'].dispatch).not.toHaveBeenCalledWith(
+        updateRowDataItem({
+          item: expect.any(MaterialTableItem),
+          revalidate: expect.any(Boolean),
+        })
+      );
+      expect(component['store'].dispatch).toHaveBeenCalledWith(
+        updateMaterialRowDataItem({
+          item: recentData,
+          revalidate: false,
+        })
+      );
+    });
+
+    test('should dispatch updateAction for processCase and revalidate true', () => {
+      component.isCaseView = false;
+      const recentData: MaterialTableItem = {
+        id: 1,
+        quantity: 100,
+      } as MaterialTableItem;
+      component.dispatchUpdateAction(recentData, true);
+
+      expect(component['store'].dispatch).not.toHaveBeenCalledWith(
+        updateRowDataItem({
+          item: expect.any(MaterialTableItem),
+          revalidate: expect.any(Boolean),
+        })
+      );
+      expect(component['store'].dispatch).toHaveBeenCalledWith(
+        updateMaterialRowDataItem({
+          item: recentData,
+          revalidate: true,
+        })
+      );
+    });
+  });
+
+  describe('dispatchUpdateActionAndValidationAction', () => {
+    beforeEach(() => {
+      component['store'].dispatch = jest.fn();
+      jest.restoreAllMocks();
+    });
+    test('should dispatch the actions for createCase', () => {
+      component.isCaseView = true;
+      const recentData: MaterialTableItem = {
+        id: 1,
+        quantity: 100,
+      } as MaterialTableItem;
+      component.dispatchUpdateAction = jest.fn();
+
+      component.dispatchUpdateActionAndValidationAction(recentData);
+      expect(component.dispatchUpdateAction).toHaveBeenCalledWith(
+        recentData,
+        true
+      );
+
+      expect(component['store'].dispatch).toHaveBeenCalledWith(
+        validateMaterialsOnCustomerAndSalesOrg()
+      );
+      expect(component['store'].dispatch).not.toHaveBeenCalledWith(
+        validateAddMaterialsOnCustomerAndSalesOrg()
+      );
+    });
+    test('should dispatch the actions for processCase', () => {
+      component.isCaseView = false;
+      const recentData: MaterialTableItem = {
+        id: 1,
+        quantity: 100,
+      } as MaterialTableItem;
+      component.dispatchUpdateAction = jest.fn();
+
+      component.dispatchUpdateActionAndValidationAction(recentData);
+
+      expect(component.dispatchUpdateAction).toHaveBeenCalledWith(
+        recentData,
+        true
+      );
+      expect(component['store'].dispatch).not.toHaveBeenCalledWith(
+        validateMaterialsOnCustomerAndSalesOrg()
+      );
+      expect(component['store'].dispatch).toHaveBeenCalledWith(
+        validateAddMaterialsOnCustomerAndSalesOrg()
       );
     });
   });

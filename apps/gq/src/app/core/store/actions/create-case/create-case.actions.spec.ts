@@ -156,10 +156,11 @@ describe('Create Actions', () => {
         quantity: 105,
         info: { valid: true, description: [ValidationDescription.Valid] },
       };
-      const action = updateRowDataItem({ item });
+      const action = updateRowDataItem({ item, revalidate: false });
 
       expect(action).toEqual({
         item,
+        revalidate: false,
         type: '[Create Case] Update Item from Customer Table',
       });
     });

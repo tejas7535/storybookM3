@@ -49,7 +49,6 @@ import {
   selectAutocompleteOption,
   selectSalesOrg,
   setSelectedAutocompleteOption,
-  updateRowDataItem,
   validateMaterialsOnCustomerAndSalesOrg,
   validateMaterialsOnCustomerAndSalesOrgFailure,
   validateMaterialsOnCustomerAndSalesOrgSuccess,
@@ -113,13 +112,6 @@ export class CreateCaseEffects {
   validateAfterItemAdded$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(addRowDataItems.type),
-      map(() => validateMaterialsOnCustomerAndSalesOrg())
-    );
-  });
-
-  validateAfterItemUpdated$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(updateRowDataItem.type),
       map(() => validateMaterialsOnCustomerAndSalesOrg())
     );
   });

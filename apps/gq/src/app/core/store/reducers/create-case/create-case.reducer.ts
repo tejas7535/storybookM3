@@ -329,9 +329,16 @@ export const createCaseReducer = createReducer(
     ...state,
     rowData: TableService.duplicateItem(itemId, [...state.rowData]),
   })),
-  on(updateRowDataItem, (state: CreateCaseState, { item }) => ({
+  on(updateRowDataItem, (state: CreateCaseState, { item, revalidate }) => ({
     ...state,
-    rowData: TableService.updateItem(item, state.rowData),
+    rowData: TableService.updateItem(
+      TableService.addCurrencyToMaterialItem(
+        item,
+        getCurrencyOfSelectedSalesOrg(state.customer.salesOrgs)
+      ),
+      state.rowData,
+      revalidate
+    ),
   })),
   on(
     clearCreateCaseRowData,

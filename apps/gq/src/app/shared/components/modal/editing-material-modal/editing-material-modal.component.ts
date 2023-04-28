@@ -8,13 +8,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { Subscription } from 'rxjs';
@@ -24,13 +18,16 @@ import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
 import { HelperService } from '../../../../shared/services/helper/helper.service';
 import { MaterialColumnFields } from '../../../ag-grid/constants/column-fields.enum';
-import * as constants from '../../../constants';
 import {
   MaterialTableItem,
   ValidationDescription,
 } from '../../../models/table';
+import { priceValidator } from '../../../validators/price-validator';
 import { AutocompleteInputComponent } from '../../autocomplete-input/autocomplete-input.component';
 import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete-request-dialog.enum';
+
+const QUANTITY_FORM_CONTROL_NAME = 'quantity';
+const TARGET_PRICE_FORM_CONTROL_NAME = 'targetPrice';
 @Component({
   selector: 'gq-editing-material-modal',
   templateUrl: './editing-material-modal.component.html',
@@ -85,7 +82,7 @@ export class EditingMaterialModalComponent
         Validators.minLength(1),
       ]),
       targetPrice: new FormControl(undefined, [
-        this.targetPriceValidator.bind(this),
+        priceValidator(this.translocoLocaleService.getLocale()).bind(this),
       ]),
     });
     this.addSubscriptions();
@@ -94,32 +91,26 @@ export class EditingMaterialModalComponent
   public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-
-  targetPriceValidator(control: AbstractControl): ValidationErrors {
-    const locale = this.translocoLocaleService.getLocale();
-    const { value } = control;
-
-    const valid = !value || constants.getCurrencyRegex(locale).test(value);
-
-    return !valid ? { invalid: true } : undefined;
-  }
-
   addSubscriptions(): void {
     this.subscription.add(
-      this.editFormGroup.get('quantity').valueChanges.subscribe(() => {
-        this.editFormGroup
-          .get('quantity')
-          .updateValueAndValidity({ emitEvent: false });
-        this.rowInputValid();
-      })
+      this.editFormGroup
+        .get(QUANTITY_FORM_CONTROL_NAME)
+        .valueChanges.subscribe(() => {
+          this.editFormGroup
+            .get(QUANTITY_FORM_CONTROL_NAME)
+            .updateValueAndValidity({ emitEvent: false });
+          this.rowInputValid();
+        })
     );
     this.subscription.add(
-      this.editFormGroup.get('targetPrice').valueChanges.subscribe(() => {
-        this.editFormGroup
-          .get('targetPrice')
-          .updateValueAndValidity({ emitEvent: false });
-        this.rowInputValid();
-      })
+      this.editFormGroup
+        .get(TARGET_PRICE_FORM_CONTROL_NAME)
+        .valueChanges.subscribe(() => {
+          this.editFormGroup
+            .get(TARGET_PRICE_FORM_CONTROL_NAME)
+            .updateValueAndValidity({ emitEvent: false });
+          this.rowInputValid();
+        })
     );
   }
   ngAfterViewInit(): void {
@@ -196,11 +187,11 @@ export class EditingMaterialModalComponent
 
     const quantityChanged =
       this.modalData.material.quantity !==
-      this.editFormGroup.get('quantity').value;
+      this.editFormGroup.get(QUANTITY_FORM_CONTROL_NAME).value;
 
     const targetPriceChanged =
       this.modalData.material.targetPrice !==
-      this.editFormGroup.get('targetPrice').value;
+      this.editFormGroup.get(TARGET_PRICE_FORM_CONTROL_NAME).value;
 
     return (
       materialDescriptionChanged ||
@@ -223,9 +214,11 @@ export class EditingMaterialModalComponent
     const updatedMaterial: MaterialTableItem = {
       materialDescription: this.matDescInput.valueInput.nativeElement.value,
       materialNumber: this.matNumberInput.valueInput.nativeElement.value,
-      quantity: this.editFormGroup.get('quantity').value,
+      quantity: this.editFormGroup.get(QUANTITY_FORM_CONTROL_NAME).value,
       targetPrice: HelperService.parseNullableLocalizedInputValue(
-        this.editFormGroup.get('targetPrice').value?.toString(),
+        this.editFormGroup
+          .get(TARGET_PRICE_FORM_CONTROL_NAME)
+          .value?.toString(),
         this.translocoLocaleService.getLocale()
       ),
       id: this.modalData.material.id,

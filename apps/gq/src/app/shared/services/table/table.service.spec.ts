@@ -54,13 +54,13 @@ describe('TableService', () => {
     });
   });
   describe('updateItem', () => {
-    test('should update matching materialNumber in data array', () => {
+    test('should update matching materialNumber in data array with validation', () => {
       const data: MaterialTableItem[] = [
         MATERIAL_TABLE_ITEM_MOCK,
         { ...MATERIAL_TABLE_ITEM_MOCK, id: 2 },
       ];
       const newItem = { id: 1, materialNumber: '019014961-0000-02' };
-      const result = TableService.updateItem(newItem, data);
+      const result = TableService.updateItem(newItem, data, true);
 
       expect(result).toEqual([
         {
@@ -70,6 +70,30 @@ describe('TableService', () => {
             description: [ValidationDescription.Not_Validated],
             errorCode: undefined,
           },
+        },
+        data[1],
+      ]);
+    });
+    test('should update matching materialNumber in data array WITHOUT validation', () => {
+      const data: MaterialTableItem[] = [
+        {
+          ...MATERIAL_TABLE_ITEM_MOCK,
+          currency: 'EUR',
+          UoM: '1',
+          priceUnit: 100,
+          targetPrice: 150,
+        },
+        { ...MATERIAL_TABLE_ITEM_MOCK, id: 2 },
+      ];
+      const newItem = { ...MATERIAL_TABLE_ITEM_MOCK, quantity: 5 };
+      const result = TableService.updateItem(newItem, data, false);
+
+      expect(result).toEqual([
+        {
+          ...newItem,
+          currency: 'EUR',
+          UoM: '1',
+          priceUnit: 100,
         },
         data[1],
       ]);
@@ -532,6 +556,23 @@ describe('TableService', () => {
       const input: MaterialTableItem[] = [{} as MaterialTableItem];
       const expected: MaterialTableItem[] = [{}];
       const result = TableService.addCurrencyToMaterialItems(input, 'EUR');
+      expect(result).toStrictEqual(expected);
+    });
+  });
+
+  describe('addCurrencyToMaterialItem', () => {
+    test('should add currency', () => {
+      const input: MaterialTableItem = {
+        targetPrice: 100,
+      } as MaterialTableItem;
+      const expected: MaterialTableItem = { targetPrice: 100, currency: 'EUR' };
+      const result = TableService.addCurrencyToMaterialItem(input, 'EUR');
+      expect(result).toStrictEqual(expected);
+    });
+    test('should NOT add currency', () => {
+      const input: MaterialTableItem = {} as MaterialTableItem;
+      const expected: MaterialTableItem = {};
+      const result = TableService.addCurrencyToMaterialItem(input, 'EUR');
       expect(result).toStrictEqual(expected);
     });
   });

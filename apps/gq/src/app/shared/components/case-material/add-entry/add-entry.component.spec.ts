@@ -74,18 +74,6 @@ describe('AddEntryComponent', () => {
       expect(component.quantity).toEqual(10);
       expect(component.rowInputValid).toHaveBeenCalled();
     });
-
-    test('should set targetprice valid if when targetPriceFormControl valuechanges', () => {
-      component.rowInputValid = jest.fn();
-      component.targetPriceValid = false;
-      component.ngOnInit();
-      const testValue = 10;
-      component.targetPriceFormControl.setValue(testValue);
-
-      expect(component.targetPriceValid).toBeTruthy();
-      expect(component.targetPrice).toEqual(10);
-      expect(component.rowInputValid).toHaveBeenCalled();
-    });
   });
   describe('materialNumberValid', () => {
     test('should set materialNumberisValid', () => {
@@ -125,34 +113,6 @@ describe('AddEntryComponent', () => {
       expect(component.quantityValid).toBeTruthy();
       expect(component.rowInputValid).toHaveBeenCalledTimes(1);
       expect(response).toBeUndefined();
-    });
-  });
-
-  describe('targetPriceValidator', () => {
-    test('should return invalid', () => {
-      component.rowInputValid = jest.fn();
-      const control = { value: '10,' } as unknown as any;
-
-      const result = component.targetPriceValidator(control);
-
-      expect(component.targetPriceValid).toBeFalsy();
-      expect(component.targetPrice).toEqual('10,');
-      expect(component.targetPriceValid).toBeFalsy();
-      expect(component.rowInputValid).toHaveBeenCalledTimes(1);
-      expect(result).toStrictEqual({ invalidInput: true });
-    });
-
-    test('should return undefined', () => {
-      component.rowInputValid = jest.fn();
-      const control = { value: '10,1' } as unknown as any;
-
-      const result = component.targetPriceValidator(control);
-
-      expect(component.targetPriceValid).toBeTruthy();
-      expect(component.targetPrice).toEqual('10,1');
-      expect(component.targetPriceValid).toBeTruthy();
-      expect(component.rowInputValid).toHaveBeenCalledTimes(1);
-      expect(result).toBeUndefined();
     });
   });
 

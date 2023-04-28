@@ -64,7 +64,7 @@
           ></gq-autocomplete-input>
         </div>
       </div>
-      <div class="flex flex-row gap-6">
+      <div class="mt-4 flex flex-row gap-6">
         <div class="flex-1">
           <mat-form-field appearance="outline" class="w-full">
             <mat-label>
@@ -104,7 +104,7 @@
               />
               <mat-hint>{{ t('targetPrice.hint') }}</mat-hint>
               <mat-error
-                *ngIf="editFormGroup.get('targetPrice')?.errors?.invalid"
+                *ngIf="editFormGroup.get('targetPrice')?.errors?.invalidPrice"
                 >{{ t('targetPrice.error') }}</mat-error
               >
             </mat-form-field>

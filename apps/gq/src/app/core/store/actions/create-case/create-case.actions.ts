@@ -63,7 +63,7 @@ export const duplicateRowDataItem = createAction(
 
 export const updateRowDataItem = createAction(
   '[Create Case] Update Item from Customer Table',
-  props<{ item: MaterialTableItem }>()
+  props<{ item: MaterialTableItem; revalidate: boolean }>()
 );
 
 export const clearCreateCaseRowData = createAction(

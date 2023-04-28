@@ -65,7 +65,6 @@ import {
   resetSimulatedQuotation,
   selectQuotation,
   setSelectedQuotationDetail,
-  updateMaterialRowDataItem,
   updateQuotation,
   updateQuotationDetails,
   updateQuotationDetailsFailure,
@@ -498,21 +497,6 @@ describe('ProcessCaseEffectss', () => {
         const expected = m.cold('-b', { b: result });
 
         m.expect(effects.validateAfterItemAdded$).toBeObservable(expected);
-        m.flush();
-      })
-    );
-
-    it(
-      'Should call action by update item',
-      marbles((m) => {
-        action = updateMaterialRowDataItem({ item: {} });
-        actions$ = m.hot('-a', { a: action });
-
-        const result = validateAddMaterialsOnCustomerAndSalesOrg();
-
-        const expected = m.cold('-b', { b: result });
-
-        m.expect(effects.validateAfterItemUpdated$).toBeObservable(expected);
         m.flush();
       })
     );

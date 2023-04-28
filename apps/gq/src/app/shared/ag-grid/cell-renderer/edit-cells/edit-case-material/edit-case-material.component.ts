@@ -9,6 +9,8 @@ import {
   setRequestingAutoCompleteDialog,
   updateMaterialRowDataItem,
   updateRowDataItem,
+  validateAddMaterialsOnCustomerAndSalesOrg,
+  validateMaterialsOnCustomerAndSalesOrg,
 } from '@gq/core/store/actions';
 import { Store } from '@ngrx/store';
 import { ICellRendererParams } from 'ag-grid-community';
@@ -54,6 +56,7 @@ export class EditCaseMaterialComponent {
   }
 
   onIconClick(): void {
+    const previousData = this.params.data;
     this.dialog
       .open(EditingMaterialModalComponent, {
         width: '660px',
@@ -66,10 +69,7 @@ export class EditCaseMaterialComponent {
       .afterClosed()
       .subscribe((result: MaterialTableItem) => {
         if (result) {
-          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-          this.isCaseView
-            ? this.store.dispatch(updateRowDataItem({ item: result }))
-            : this.store.dispatch(updateMaterialRowDataItem({ item: result }));
+          this.checkValidationNeeded(result, previousData);
         }
 
         this.store.dispatch(resetAutocompleteMaterials());
@@ -80,5 +80,40 @@ export class EditCaseMaterialComponent {
           })
         );
       });
+  }
+
+  checkValidationNeeded(
+    recentData: MaterialTableItem,
+    previousData: MaterialTableItem
+  ): void {
+    const validationNeeded =
+      recentData.materialDescription !== previousData.materialDescription ||
+      recentData.materialNumber !== previousData.materialNumber;
+
+    return validationNeeded
+      ? this.dispatchUpdateActionAndValidationAction(recentData)
+      : this.dispatchUpdateAction(recentData);
+  }
+
+  dispatchUpdateAction(
+    recentData: MaterialTableItem,
+    revalidate: boolean = false
+  ): void {
+    return this.isCaseView
+      ? this.store.dispatch(updateRowDataItem({ item: recentData, revalidate }))
+      : this.store.dispatch(
+          updateMaterialRowDataItem({
+            item: recentData,
+            revalidate,
+          })
+        );
+  }
+
+  dispatchUpdateActionAndValidationAction(recentData: MaterialTableItem): void {
+    this.dispatchUpdateAction(recentData, true);
+
+    return this.isCaseView
+      ? this.store.dispatch(validateMaterialsOnCustomerAndSalesOrg())
+      : this.store.dispatch(validateAddMaterialsOnCustomerAndSalesOrg());
   }
 }
