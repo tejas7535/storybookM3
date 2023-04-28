@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -26,6 +26,8 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { AppComponent } from '@mac/app.component';
 import { StoreModule } from '@mac/core/store/store.module';
 import { environment } from '@mac/environments/environment';
+
+import { HttpMSDInterceptor } from './interceptors/http-msd.interceptor';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 const azureConfig = new AzureConfig(
@@ -94,6 +96,11 @@ export function appInitializer(
       provide: APP_INITIALIZER,
       useFactory: appInitializer,
       deps: [OneTrustService, ApplicationInsightsService],
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpMSDInterceptor,
       multi: true,
     },
   ],
