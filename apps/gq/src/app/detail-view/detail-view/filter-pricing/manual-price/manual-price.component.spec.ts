@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { NumberCurrencyPipe } from '@gq/shared/pipes/number-currency/number-currency.pipe';
 import { PercentagePipe } from '@gq/shared/pipes/percentage/percentage.pipe';
+import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 import {
   createComponentFactory,
   Spectator,
@@ -57,9 +58,13 @@ describe('ManualPriceComponent', () => {
   describe('set quotationDetail', () => {
     test('should call setPrice', () => {
       component.setPrice = jest.fn();
-      // tslint:disable-next-line: no-lifecycle-call
+      jest.spyOn(pricingUtils, 'getPriceUnit').mockReturnValue(1);
+
       component.quotationDetail = QUOTATION_DETAIL_MOCK;
+
       expect(component.setPrice).toHaveBeenCalledTimes(1);
+      expect(pricingUtils.getPriceUnit).toHaveBeenCalledTimes(1);
+      expect(component.priceUnit).toEqual(1);
     });
   });
 

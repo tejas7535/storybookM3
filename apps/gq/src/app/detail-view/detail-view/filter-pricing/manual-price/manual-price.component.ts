@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
+import { getPriceUnit } from '@gq/shared/utils/pricing.utils';
+
 import { ColumnFields } from '../../../../shared/ag-grid/constants/column-fields.enum';
 import { EditingModalComponent } from '../../../../shared/components/modal/editing-modal/editing-modal.component';
 import { QuotationStatus } from '../../../../shared/models';
@@ -19,6 +21,7 @@ export class ManualPriceComponent {
   private _quotationDetail: QuotationDetail;
 
   price: number;
+  priceUnit: number;
   gpi: number;
   gpm: number;
   PriceSource = PriceSource;
@@ -33,6 +36,7 @@ export class ManualPriceComponent {
   @Input() set quotationDetail(quotationDetail: QuotationDetail) {
     this._quotationDetail = quotationDetail;
 
+    this.priceUnit = getPriceUnit(quotationDetail);
     // check if price set equals GQ price
     this.setPrice();
   }
