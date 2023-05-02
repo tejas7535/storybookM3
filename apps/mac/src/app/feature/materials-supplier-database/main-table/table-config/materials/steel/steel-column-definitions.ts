@@ -51,7 +51,7 @@ export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
       RELEASE_RESTRICTIONS,
     ],
     // 'recentStatus' is replaced by 'releasedStatus'
-    excludeColumn([RECENT_STATUS], BASE_COLUMN_DEFINITIONS)
+    excludeColumn([RECENT_STATUS, CO2_PER_TON], BASE_COLUMN_DEFINITIONS)
   ),
   {
     field: RELEASED_STATUS,
