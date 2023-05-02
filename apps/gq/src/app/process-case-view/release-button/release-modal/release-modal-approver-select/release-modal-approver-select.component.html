@@ -3,7 +3,12 @@
   <mat-select [formControl]="approverSelectFormControl">
     <mat-option>-</mat-option>
     <mat-option *ngFor="let approver of approvers" [value]="approver">{{
-      approver.firstName + ' ' + approver.lastName + ' (' + approver.id + ')'
+      approver.firstName +
+        ' ' +
+        approver.lastName +
+        ' (' +
+        approver.userId +
+        ')'
     }}</mat-option>
   </mat-select>
 </mat-form-field>

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-import { Approver } from '../../../../shared/models/quotation/approver';
+import { Approver } from '../../../../shared/models/quotation/approver.model';
 
 @Component({
   selector: 'gq-release-modal-approver-select',

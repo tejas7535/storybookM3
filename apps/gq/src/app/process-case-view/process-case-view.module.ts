@@ -8,6 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
 
+import { ApprovalModule } from '@gq/core/store/approval/approval.module';
 import { ProcessCaseEffects } from '@gq/core/store/effects';
 import { processCaseReducer } from '@gq/core/store/reducers/process-case/process-case.reducer';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
@@ -53,6 +54,7 @@ import { CalculationInProgressComponent } from './tabs/single-quotes-tab/calcula
     SharedPipesModule,
     StoreModule.forFeature('processCase', processCaseReducer),
     EffectsModule.forFeature([ProcessCaseEffects]),
+    ApprovalModule,
     AddMaterialDialogModule,
     LoadingSpinnerModule,
     PushModule,

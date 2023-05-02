@@ -8,7 +8,7 @@ import {
 import { MatDialogRef } from '@angular/material/dialog';
 
 import { ApprovalLevel } from '@gq/shared/models/quotation/approval-level.enum';
-import { Approver } from '@gq/shared/models/quotation/approver';
+import { Approver } from '@gq/shared/models/quotation/approver.model';
 
 @Component({
   selector: 'gq-release-modal',
@@ -34,13 +34,13 @@ export class ReleaseModalComponent implements OnInit {
   // Mock Data - to be deleted once we get the real data from BE
   approversLevel1: Approver[] = [
     {
-      id: 'schmjan',
+      userId: 'schmjan',
       firstName: 'Schmitt',
       lastName: 'Jan',
       approvalLevel: ApprovalLevel.L1,
     },
     {
-      id: 'johndoe',
+      userId: 'johndoe',
       firstName: 'John',
       lastName: 'Doe',
       approvalLevel: ApprovalLevel.L1,
@@ -49,13 +49,13 @@ export class ReleaseModalComponent implements OnInit {
 
   approversLevel2: Approver[] = [
     {
-      id: 'kloedlrp',
+      userId: 'kloedlrp',
       firstName: 'Ralph',
       lastName: 'Kloeditz',
       approvalLevel: ApprovalLevel.L1,
     },
     {
-      id: 'foobar',
+      userId: 'foobar',
       firstName: 'Foo',
       lastName: 'Bar',
       approvalLevel: ApprovalLevel.L1,
@@ -64,25 +64,25 @@ export class ReleaseModalComponent implements OnInit {
 
   approversCC: Approver[] = [
     {
-      id: 'schmjan',
+      userId: 'schmjan',
       firstName: 'Schmitt',
       lastName: 'Jan',
       approvalLevel: ApprovalLevel.L1,
     },
     {
-      id: 'kloedlrp',
+      userId: 'kloedlrp',
       firstName: 'Ralph',
       lastName: 'Kloeditz',
       approvalLevel: ApprovalLevel.L1,
     },
     {
-      id: 'foobar',
+      userId: 'foobar',
       firstName: 'Foo',
       lastName: 'Bar',
       approvalLevel: ApprovalLevel.L1,
     },
     {
-      id: 'johndoe',
+      userId: 'johndoe',
       firstName: 'John',
       lastName: 'Doe',
       approvalLevel: ApprovalLevel.L1,

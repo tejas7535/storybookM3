@@ -1,7 +1,7 @@
 import { ApprovalLevel } from './approval-level.enum';
 
 export interface Approver {
-  id: string;
+  userId: string;
   firstName: string;
   lastName: string;
   approvalLevel: ApprovalLevel;
