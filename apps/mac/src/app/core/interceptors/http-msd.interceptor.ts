@@ -19,15 +19,11 @@ export class HttpMSDInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (
-      !req.url.includes(this.includePattern) ||
-      req.method !== 'POST' ||
-      !req.headers.has('Content-Type')
-    ) {
+    if (!req.url.includes(this.includePattern) || req.method !== 'POST') {
       return next.handle(req);
     }
 
-    const type = req.headers.get('Content-Type');
+    const type = req.headers.get('Content-Type') || 'application/json';
 
     const modifiedReq = req.clone({
       headers: req.headers
