@@ -142,6 +142,32 @@ describe('PasteMaterialsService', () => {
       );
     });
 
+    test('should dispatch action with transformed array with rounded target price', async () => {
+      service['translocoLocaleService'].getLocale = jest
+        .fn()
+        .mockReturnValue(LOCALE_DE.id);
+
+      Object.assign(navigator, {
+        clipboard: {
+          readText: () =>
+            new Promise((resolve) =>
+              resolve(
+                `20\t10\t10,05413333\n201\t20\t1000,04974555\n203\t30\t100.000,046123`
+              )
+            ),
+        },
+      });
+
+      const combinedItem = {
+        items: combinedArrayWithTargetPrice,
+      };
+      await service.onPasteStart(true);
+
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        addRowDataItems(combinedItem)
+      );
+    });
+
     test('should dispatch action with transformed array with target price eng locale input used', async () => {
       service['translocoLocaleService'].getLocale = jest
         .fn()

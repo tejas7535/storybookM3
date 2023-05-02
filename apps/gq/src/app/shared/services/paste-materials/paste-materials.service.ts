@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { addRowDataItems } from '@gq/core/store/actions/create-case/create-case.actions';
 import { addMaterialRowDataItems } from '@gq/core/store/actions/process-case/process-case.action';
+import { roundToTwoDecimals } from '@gq/shared/utils/pricing.utils';
 import { translate } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
@@ -56,19 +57,24 @@ export class PasteMaterialsService {
   private processInput(linesArray: string[][]): MaterialTableItem[] {
     return linesArray.map((el) => {
       const parsedQuantity = this.getParsedQuantity(el[INDEX_QUANTITY]);
-      const parsedTargetPrice = this.featureToggleService.isEnabled(
+      const parsedAndRoundedTargetPrice = this.featureToggleService.isEnabled(
         'targetPrice'
       )
-        ? HelperService.parseNullableLocalizedInputValue(
-            el[INDEX_TARGET_PRICE],
-            this.translocoLocaleService.getLocale()
+        ? roundToTwoDecimals(
+            HelperService.parseNullableLocalizedInputValue(
+              el[INDEX_TARGET_PRICE],
+              this.translocoLocaleService.getLocale()
+            )
           )
         : undefined;
 
       return {
         materialNumber: el[INDEX_MATERIAL_NUMBER].trim(),
         quantity: parsedQuantity > 0 ? parsedQuantity : 0,
-        targetPrice: parsedTargetPrice > 0 ? parsedTargetPrice : undefined,
+        targetPrice:
+          parsedAndRoundedTargetPrice > 0
+            ? parsedAndRoundedTargetPrice
+            : undefined,
         info: {
           valid: false,
           description: [ValidationDescription.Not_Validated],
