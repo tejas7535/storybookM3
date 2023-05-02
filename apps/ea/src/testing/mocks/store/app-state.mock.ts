@@ -7,7 +7,7 @@ import { FRICTION_CALCULATION_RESULT_STATE_MOCK } from './friction-calculation-r
 import { PRODUCT_SELECTION_STATE_MOCK } from './product-selection-state.mock';
 import { SETTINGS_STATE_MOCK } from './settings-state.mock';
 
-export const APP_STATE_MOCK: Partial<AppState> = {
+export const APP_STATE_MOCK: AppState = {
   calculationParameters: CALCULATION_PARAMETERS_STATE_MOCK,
   productSelection: PRODUCT_SELECTION_STATE_MOCK,
   settings: SETTINGS_STATE_MOCK,

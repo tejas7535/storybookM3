@@ -1,4 +1,5 @@
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -19,6 +20,10 @@ describe('CalculationResultPreviewComponent', () => {
   let spectator: Spectator<CalculationResultPreviewComponent>;
   let store: MockStore;
 
+  const dialogMock = {
+    open: jest.fn(),
+  };
+
   const createComponent = createComponentFactory({
     component: CalculationResultPreviewComponent,
     imports: [
@@ -31,6 +36,7 @@ describe('CalculationResultPreviewComponent', () => {
       MockModule(MatTooltipModule),
       MockModule(FormFieldModule),
       MockModule(MatDividerModule),
+      MockModule(MatDialogModule),
 
       provideTranslocoTestingModule({ en: {} }),
     ],
@@ -42,6 +48,7 @@ describe('CalculationResultPreviewComponent', () => {
         provide: translate,
         useValue: jest.fn(),
       },
+      { provide: MatDialog, useValue: dialogMock },
     ],
   });
 
@@ -65,9 +72,11 @@ describe('CalculationResultPreviewComponent', () => {
     expect(m).toContain('calculation.calculationMissingInput');
   });
 
-  // TODO: Skipped until calculation report modul is implemented
-  it.skip('should dispatch an action if showReport() is called', () => {
+  it('should open a dialog if showReport() is called', () => {
+    dialogMock.open.mockReset();
+
     spectator.component.showReport();
-    expect(store.dispatch).toHaveBeenCalled();
+
+    expect(dialogMock.open).toHaveBeenCalled();
   });
 });

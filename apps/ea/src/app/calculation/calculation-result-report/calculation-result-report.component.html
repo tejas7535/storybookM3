@@ -1,0 +1,220 @@
+<ng-container *transloco="let t; read: 'calculationResultReport'">
+  <div mat-dialog-title>
+    <div class="flex flex-row content-around justify-between pb-2 pr-2">
+      <div class="text-h6 text-high-emphasis my-auto">
+        {{
+          t('dialogTitle', {
+            bearingDesignation: bearingDesignation$ | ngrxPush
+          })
+        }}
+      </div>
+      <div class="flex flex-row">
+        <button mat-icon-button (click)="closeDialog()">
+          <mat-icon class="text-medium-emphasis">close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <mat-dialog-content class="h-full">
+    <div class="flex h-full flex-row">
+      <div>
+        <!-- CO2 Emissions -->
+        <mat-expansion-panel
+          *transloco="let t; read: 'calculationResultReport.co2Emissions'"
+          class="border-border w-full border !shadow-none"
+          [expanded]="
+            (selctedCalculationTypes$ | ngrxPush)?.emission?.selected === true
+          "
+        >
+          <mat-expansion-panel-header class="h-[64px]">
+            <mat-panel-title>
+              <div class="flex flex-row">
+                <div class="my-auto">
+                  <mat-icon color="primary" svgIcon="co2"></mat-icon>
+                </div>
+                <div class="my-auto ml-2">
+                  {{ t('title') }}
+                </div>
+              </div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <div
+            class="full-w full-h !-mx-6 !-mb-4"
+            *ngIf="co2Emissions$ | ngrxPush as co2Emissions"
+          >
+            <div
+              class="text-body-2 border-border flex w-full flex-row border-t"
+            >
+              <!-- Chart -->
+              <div
+                class="border-border flex flex-shrink-0 flex-col items-center border-r p-8"
+              >
+                <div class="text-high-emphasis mb-2">{{ t('chartTitle') }}</div>
+                <div
+                  *ngIf="co2EmissionOptions$ | async as co2EmissionOptions"
+                  echarts
+                  class="h-[200px] w-[200px]"
+                  [options]="co2EmissionOptions"
+                  [initOpts]="{
+                    width: 200,
+                    height: 200
+                  }"
+                ></div>
+
+                <div class="text-medium-emphasis mh-2">
+                  {{ t('chartDesc') }}
+                </div>
+              </div>
+              <div class="flex flex-grow flex-col">
+                <!-- Upstream -->
+                <div class="border-border w-full border-b px-8 py-4">
+                  <div
+                    class="text-high-emphasis flex flex-row items-center pb-4"
+                  >
+                    <mat-icon class="mr-2 flex-shrink-0 text-[#DDE86E]"
+                      >circle</mat-icon
+                    >
+                    {{ t('upstreamTitle') }}
+                  </div>
+                  <div class="flex w-full flex-row">
+                    <div
+                      class="flex flex-row items-center justify-center py-2 pr-4"
+                    >
+                      <div class="text-h6 text-high-emphasis">
+                        {{
+                          (co2Emissions?.co2_upstream | number: '1.2-2') || '-'
+                        }}
+                      </div>
+                      <div class="text-body-2 text-high-emphasis pl-1">kg</div>
+                    </div>
+                    <mat-divider [vertical]="true"></mat-divider>
+                    <div
+                      class="flex flex-row items-center justify-center py-2 pl-4"
+                    >
+                      <div class="text-h6 text-high-emphasis">
+                        {{
+                          (co2Emissions?.co2_upstream_percent * 100
+                            | number: '1.2-2') || '-'
+                        }}
+                      </div>
+                      <div class="text-body-2 text-high-emphasis pl-1">%</div>
+                    </div>
+                  </div>
+                  <div class="text-medium-emphasis pt-4">
+                    {{ t('upstreamHint') }} -
+                    <a
+                      class="text-primary"
+                      [href]="t('upstreamHintLink')"
+                      target="_blank"
+                      >{{ t('upstreamHintLinkText') }}</a
+                    >
+                  </div>
+                </div>
+
+                <!-- Downstream -->
+                <div class="w-full px-8 py-4">
+                  <div
+                    class="text-high-emphasis flex flex-row items-center pb-4"
+                  >
+                    <mat-icon class="mr-2 flex-shrink-0 text-[#7DC882]"
+                      >circle</mat-icon
+                    >
+                    {{ t('downstreamTitle') }}
+                  </div>
+                  <div class="flex w-full flex-row">
+                    <div
+                      class="flex flex-row items-center justify-center py-2 pr-4"
+                    >
+                      <div class="text-h6 text-high-emphasis">
+                        {{
+                          (co2Emissions?.co2_downstream | number: '1.2-2') ||
+                            '-'
+                        }}
+                      </div>
+                      <div class="text-body-2 text-high-emphasis pl-1">kg</div>
+                    </div>
+                    <mat-divider [vertical]="true"></mat-divider>
+                    <div
+                      class="flex flex-row items-center justify-center py-2 pl-4"
+                    >
+                      <div class="text-h6 text-high-emphasis">
+                        {{
+                          (co2Emissions?.co2_downstream_percent * 100
+                            | number: '1.2-2') || '-'
+                        }}
+                      </div>
+                      <div class="text-body-2 text-high-emphasis pl-1">%</div>
+                    </div>
+                  </div>
+                  <div class="text-medium-emphasis pt-4"></div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="border-border flex flex-row items-center border-t px-4 py-2"
+            >
+              <div class="mr-2 flex-shrink-0">
+                <mat-icon color="primary">info</mat-icon>
+              </div>
+              <div class="text-body-2 text-medium-emphasis">
+                {{ t('calculationHint') }} -
+                <a
+                  class="text-primary"
+                  [href]="t('calculationHintLink')"
+                  target="_blank"
+                  >{{ t('calculationHintLinkText') }}</a
+                >
+              </div>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </div>
+
+      <!-- Right Hand Navigation -->
+      <div
+        class="text-medium-emphasis ml-8 flex w-[250px] flex-grow flex-row"
+        *transloco="let t; read: 'calculationSelection'"
+      >
+        <mat-divider [vertical]="true"></mat-divider>
+        <div class="my-2 ml-8 mr-4 w-full">
+          <div class="mb-2">
+            <div class="flex items-center justify-center">
+              <mat-icon class="mr-2 flex-shrink-0">calculate</mat-icon>
+              <div>{{ t('calculations') }}</div>
+            </div>
+          </div>
+          <mat-divider></mat-divider>
+          <div
+            class="flex pt-4"
+            *ngIf="
+              getSelectedCalculations$ | ngrxPush as getSelectedCalculations
+            "
+          >
+            <div
+              *ngFor="let config of getSelectedCalculations"
+              class="hover:bg-secondary-100 hover:text-primary mt-4 flex w-full flex-row items-center px-4 py-2 hover:rounded"
+            >
+              <mat-icon
+                class="mr-2 flex-shrink-0"
+                [svgIcon]="config.icon"
+              ></mat-icon>
+              <div class="text-subtitle-2 whitespace-normal">
+                {{ t(config.label) }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+</ng-container>
+
+<ng-template #loadingTemplate>
+  <div class="item-center flex content-center p-8">
+    <div class="ml-auto mr-auto">
+      <mat-spinner diameter="20"></mat-spinner>
+    </div>
+  </div>
+</ng-template>

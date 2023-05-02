@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Calculation Result Selector getCO2EmissionReport should return the co2 emission report data 1`] = `
+Object {
+  "co2_downstream": 32.2,
+  "co2_downstream_percent": 0.8655913978494624,
+  "co2_upstream": 5,
+  "co2_upstream_percent": 0.13440860215053763,
+}
+`;
+
+exports[`Calculation Result Selector getSelectedCalculations should return the selected calculations 1`] = `
+Array [
+  Object {
+    "disabled": true,
+    "icon": "co2",
+    "label": "calculationTypes.co2",
+    "name": "emission",
+    "resultAvailable": true,
+    "selected": true,
+    "visible": true,
+  },
+]
+`;

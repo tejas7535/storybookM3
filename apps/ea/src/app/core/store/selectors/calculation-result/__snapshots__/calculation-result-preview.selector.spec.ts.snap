@@ -1,5 +1,41 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Calculation Result Selector co2Downstream should return the downstream co2 result 1`] = `
+Object {
+  "calculationError": undefined,
+  "isLoading": false,
+  "unit": "kg",
+  "value": 123,
+}
+`;
+
+exports[`Calculation Result Selector co2Downstream should return undefined if no downstream co2 result is available 1`] = `
+Object {
+  "calculationError": undefined,
+  "isLoading": undefined,
+  "unit": undefined,
+  "value": undefined,
+}
+`;
+
+exports[`Calculation Result Selector co2Upstream should return the upstream co2 result 1`] = `
+Object {
+  "calculationError": undefined,
+  "isLoading": false,
+  "unit": "kg",
+  "value": 2,
+}
+`;
+
+exports[`Calculation Result Selector co2Upstream should return undefined if no upstream co2 result is available 1`] = `
+Object {
+  "calculationError": undefined,
+  "isLoading": undefined,
+  "unit": undefined,
+  "value": undefined,
+}
+`;
+
 exports[`Calculation Result Selector getCalculationResultPreviewData should return the result preview data 1`] = `
 Array [
   Object {

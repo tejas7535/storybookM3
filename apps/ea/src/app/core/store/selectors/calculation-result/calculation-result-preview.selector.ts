@@ -16,7 +16,7 @@ import {
   isLoading as frictionIsLoading,
 } from './friction-calculation-result.selector';
 
-const co2Upstream = createSelector(
+export const co2Upstream = createSelector(
   co2UpstreamCalculationResult,
   co2UpstreamIsLoading,
   co2UpstreamError,
@@ -32,7 +32,7 @@ const co2Upstream = createSelector(
   })
 );
 
-const co2Downstream = createSelector(
+export const co2Downstream = createSelector(
   frictionCalculationResult,
   frictionIsLoading,
   frictionError,
@@ -92,4 +92,13 @@ export const getCalculationResultPreviewData = createSelector(
 
     return previewData;
   }
+);
+
+export const isCalculationResultReportAvailable = createSelector(
+  getCalculationResultPreviewData,
+  (previewData: CalculationResultPreviewData): boolean =>
+    previewData.some((data) =>
+      data.values.some((value) => value.value !== undefined)
+    ) &&
+    previewData.every((data) => data.values.every((value) => !value.isLoading))
 );

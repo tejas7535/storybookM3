@@ -30,7 +30,7 @@ describe('CalculationResult', () => {
     expect(spectator.service).toBeDefined();
   });
 
-  describe('isCalculationResultAvailable', () => {
+  describe('isCalculationResultReportAvailable', () => {
     it(
       'should provide if the calculation result is available',
       marbles((m) => {
@@ -38,7 +38,9 @@ describe('CalculationResult', () => {
           a: !!123,
         });
 
-        m.expect(facade.isCalculationResultAvailable$).toBeObservable(expected);
+        m.expect(facade.isCalculationResultReportAvailable$).toBeObservable(
+          expected
+        );
       })
     );
   });

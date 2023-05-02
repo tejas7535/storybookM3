@@ -34,6 +34,7 @@ module.exports = {
       },
       textColor: {
         primary: colors.primary,
+        secondary: secondaryColorPalette,
       },
     },
   },

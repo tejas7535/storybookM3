@@ -37,6 +37,24 @@
     "production": "Production",
     "operation": "Operation"
   },
+  "calculationResultReport": {
+    "dialogTitle": "Report for bearing {{bearingDesignation}}",
+    "co2Emissions": {
+      "title": "Estimation of CO₂ emissions per piece",
+      "chartTitle": "Total value of CO₂",
+      "chartUpstream": "Upstream",
+      "chartDownstream": "Downstream",
+      "chartDesc": "Value for 24/7 use for one year",
+      "upstreamTitle": "CO₂ emitted for production* (Upstream)",
+      "upstreamHint": "*Estimated value based on assumptions during production",
+      "upstreamHintLink": "https://schaeffler.com",
+      "upstreamHintLinkText": "More information.",
+      "downstreamTitle": "CO₂ caused by friction during operation (Downstream)",
+      "calculationHint": "This is how we calculate the CO₂ values",
+      "calculationHintLink": "https://schaeffler.com",
+      "calculationHintLinkText": "Click here"
+    }
+  },
   "basicFrequencies": {
     "showBasicFrequencies": "Basic Frequencies",
     "dialogTitle": "Basic frequencies for bearing {{bearingDesignation}}",

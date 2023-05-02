@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Calculation Types Selector getCalculationTypesConfig should return the operation conditions 1`] = `
+Array [
+  Object {
+    "disabled": true,
+    "icon": "co2",
+    "label": "calculationTypes.co2",
+    "name": "emission",
+    "selected": true,
+    "visible": true,
+  },
+  Object {
+    "disabled": false,
+    "icon": "airwaves",
+    "label": "calculationTypes.overrollingFrequency",
+    "name": "friction",
+    "selected": true,
+    "visible": true,
+  },
+]
+`;
+
+exports[`Calculation Types Selector getCalculationTypesGlobalSelectionState should return the operation conditions 1`] = `
+Object {
+  "indeterminate": false,
+  "selectAll": true,
+}
+`;

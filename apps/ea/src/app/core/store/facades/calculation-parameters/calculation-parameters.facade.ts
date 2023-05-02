@@ -8,6 +8,7 @@ import {
   isCalculationMissingInput,
 } from '../../selectors/calculation-parameters/calculation-parameters.selector';
 import {
+  getCalculationTypes,
   getCalculationTypesConfig,
   getCalculationTypesGlobalSelectionState,
 } from '../../selectors/calculation-parameters/calculation-types.selector';
@@ -27,6 +28,8 @@ export class CalculationParametersFacade {
   public getCalculationTypesConfig$ = this.store.select(
     getCalculationTypesConfig
   );
+
+  public getCalculationTypes$ = this.store.select(getCalculationTypes);
 
   public getCalculationTypesGlobalSelection$ = this.store.select(
     getCalculationTypesGlobalSelectionState

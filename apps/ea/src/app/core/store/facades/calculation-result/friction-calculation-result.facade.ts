@@ -23,6 +23,10 @@ export class FrictionCalculationResultFacade {
     FrictionCalculationResultSelector.isLoading
   );
 
+  public calculationResult$ = this.store.select(
+    FrictionCalculationResultSelector.getCalculationResult
+  );
+
   constructor(private readonly store: Store) {}
 
   dispatch(action: Action) {
