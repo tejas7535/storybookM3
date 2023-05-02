@@ -22,6 +22,9 @@ export class ReleaseModalComponent implements OnInit {
 
   // ToDo: adjust once we get the data from BE
   approver3Required = true;
+  approvalLevel: ApprovalLevel;
+
+  autoApprovalEnabled: boolean;
 
   approver1FormControl = new FormControl('', Validators.required);
   approver2FormControl = new FormControl('', Validators.required);
@@ -103,9 +106,13 @@ export class ReleaseModalComponent implements OnInit {
       comment: ['', Validators.maxLength(this.INPUT_MAX_LENGTH)],
       projectInformation: ['', Validators.maxLength(this.INPUT_MAX_LENGTH)],
     });
+    this.autoApprovalEnabled = this.approvalLevel === ApprovalLevel.L0;
   }
 
   startWorkflow() {
+    // Will be implemented in a later story
+  }
+  triggerAutoApproval() {
     // Will be implemented in a later story
   }
 

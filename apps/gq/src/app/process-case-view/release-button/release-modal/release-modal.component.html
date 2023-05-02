@@ -15,7 +15,7 @@
       <span class="text-body-2 text-high-emphasis pl-2">L1 + L2</span>
     </div>
 
-    <div>
+    <div *ngIf="!autoApprovalEnabled">
       <p class="text-subtitle-2 pb-4 pt-6">{{ t('approvers') }}</p>
       <gq-release-modal-approver-select
         [approverSelectFormControl]="approver1FormControl"
@@ -78,11 +78,22 @@
     <button
       mat-raised-button
       color="primary"
-      [disabled]="formGroup.invalid || formGroup.pristine"
-      (click)="startWorkflow()"
+      (click)="triggerAutoApproval()"
+      *ngIf="autoApprovalEnabled; else startWorkflowButton"
     >
-      {{ t('startWorkflow') }}
+      {{ t('autoApproval') }}
     </button>
+    <ng-template #startWorkflowButton>
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="formGroup.invalid || formGroup.pristine"
+        (click)="startWorkflow()"
+      >
+        {{ t('startWorkflow') }}
+      </button>
+    </ng-template>
+
     <button
       mat-raised-button
       color="primary"
