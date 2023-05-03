@@ -5,7 +5,7 @@
   <form [formGroup]="caseModalForm" (ngSubmit)="submitDialog()">
     <div class="flex w-full flex-col py-8">
       <div class="flex flex-col">
-        <span class="pb-2 text-[14px] text-medium-emphasis">
+        <span class="text-medium-emphasis pb-2 text-[14px]">
           {{ t('generalInformation') }}</span
         >
         <div class="flex">
@@ -43,7 +43,7 @@
         </div>
       </div>
       <div class="flex flex-col">
-        <span class="pb-2 text-[14px] text-medium-emphasis">
+        <span class="text-medium-emphasis pb-2 text-[14px]">
           {{ t('sapInformation') }}</span
         >
         <div class="flex flex-col">
@@ -61,8 +61,8 @@
 
             <mat-icon
               matSuffix
-              class="absolute right-2 bottom-1"
-              *ngIf="!(autocomplete.customerLoading$ | ngrxPush)"
+              class="absolute bottom-1 right-2"
+              *ngIf="!(autocomplete.customerAndShipToPartyLoading$ | ngrxPush)"
               (click)="shipToPartyInput.select()"
               [ngClass]="{
                 'text-low-emphasis': caseModalForm.get('shipToParty').disabled
@@ -73,8 +73,8 @@
 
             <mat-spinner
               matSuffix
-              class="absolute right-2 bottom-1"
-              *ngIf="autocomplete.customerLoading$ | ngrxPush"
+              class="absolute bottom-1 right-2"
+              *ngIf="autocomplete.customerAndShipToPartyLoading$ | ngrxPush"
               [diameter]="18"
             ></mat-spinner>
 

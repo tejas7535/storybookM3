@@ -300,6 +300,10 @@ describe('Create Case Reducer', () => {
               filter: FilterNames.CUSTOMER,
               options: fakeOptions,
             },
+            {
+              filter: FilterNames.CUSTOMER_AND_SHIP_TO_PARTY,
+              options: fakeOptions,
+            },
             { filter: FilterNames.MATERIAL_NUMBER, options: fakeOptions },
             { filter: FilterNames.MATERIAL_DESCRIPTION, options: fakeOptions },
           ],
@@ -316,6 +320,10 @@ describe('Create Case Reducer', () => {
             },
             {
               filter: FilterNames.CUSTOMER,
+              options: fakeOptions,
+            },
+            {
+              filter: FilterNames.CUSTOMER_AND_SHIP_TO_PARTY,
               options: fakeOptions,
             },
             { filter: FilterNames.MATERIAL_NUMBER, options: [] },

@@ -21,6 +21,7 @@ import { CaseFilterItem } from '../reducers/create-case/models';
 import {
   getCaseAutocompleteLoading,
   getCaseCustomer,
+  getCaseCustomerAndShipToParty,
   getCaseMaterialDesc,
   getCaseMaterialNumber,
   getCaseMaterialNumberOrDesc,
@@ -51,7 +52,7 @@ export class AutoCompleteFacade {
       getCaseMaterialNumberOrDesc(AutocompleteRequestDialog.GLOBAL_SEARCH)
     );
   public shipToCustomer$: Observable<CaseFilterItem> = this.store.select(
-    getCaseCustomer(AutocompleteRequestDialog.EDIT_CASE)
+    getCaseCustomerAndShipToParty(AutocompleteRequestDialog.EDIT_CASE)
   );
   public createCaseCustomer$: Observable<CaseFilterItem> = this.store.select(
     getCaseCustomer(AutocompleteRequestDialog.ADD_ENTRY)
@@ -73,6 +74,10 @@ export class AutoCompleteFacade {
   public customerLoading$: Observable<boolean> = this.store.select(
     getCaseAutocompleteLoading(FilterNames.CUSTOMER)
   );
+  public customerAndShipToPartyLoading$: Observable<boolean> =
+    this.store.select(
+      getCaseAutocompleteLoading(FilterNames.CUSTOMER_AND_SHIP_TO_PARTY)
+    );
 
   /**
    * This Facades needs to be initialized

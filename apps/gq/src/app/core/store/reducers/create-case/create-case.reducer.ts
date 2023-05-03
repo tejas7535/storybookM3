@@ -96,6 +96,10 @@ export const initialState: CreateCaseState = {
       options: [],
     },
     {
+      filter: FilterNames.CUSTOMER_AND_SHIP_TO_PARTY,
+      options: [],
+    },
+    {
       filter: FilterNames.MATERIAL_NUMBER,
       options: [],
     },
@@ -292,9 +296,11 @@ export const createCaseReducer = createReducer(
     (state: CreateCaseState): CreateCaseState => ({
       ...state,
       autocompleteItems: state.autocompleteItems.map((autocompleteItem, i) =>
-        [FilterNames.CUSTOMER, FilterNames.SAP_QUOTATION].includes(
-          autocompleteItem.filter
-        )
+        [
+          FilterNames.CUSTOMER,
+          FilterNames.CUSTOMER_AND_SHIP_TO_PARTY,
+          FilterNames.SAP_QUOTATION,
+        ].includes(autocompleteItem.filter)
           ? state.autocompleteItems[i]
           : initialState.autocompleteItems[i]
       ),

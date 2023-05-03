@@ -1,5 +1,6 @@
 export enum FilterNames {
   CUSTOMER = 'customer',
+  CUSTOMER_AND_SHIP_TO_PARTY = 'customerAndShipToParty',
   SAP_QUOTATION = 'sap-quotation',
   MATERIAL_NUMBER = 'materialNumber',
   MATERIAL_DESCRIPTION = 'materialDescription',

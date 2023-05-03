@@ -90,7 +90,7 @@ describe('EditCaseModalComponent', () => {
           autocomplete: jest.fn(),
           resetAutocompleteMaterials: jest.fn(),
           materialNumberOrDescForGlobalSearch$: of({
-            filter: FilterNames.CUSTOMER,
+            filter: FilterNames.CUSTOMER_AND_SHIP_TO_PARTY,
             items: [],
           }),
         },

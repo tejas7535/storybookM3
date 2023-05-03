@@ -59,7 +59,7 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
   public caseModalForm: UntypedFormGroup;
   public poDateLessThanToday: boolean;
   public salesOrg: string;
-  public filterName = FilterNames.CUSTOMER;
+  public filterName = FilterNames.CUSTOMER_AND_SHIP_TO_PARTY;
 
   currencies$: Observable<string[]>;
   unsubscribe$$: Subject<boolean> = new Subject<boolean>();
@@ -200,7 +200,7 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
         }
 
         this.autocomplete.autocomplete({
-          filter: FilterNames.CUSTOMER,
+          filter: FilterNames.CUSTOMER_AND_SHIP_TO_PARTY,
           searchFor: searchVal,
           limit: 5,
         });

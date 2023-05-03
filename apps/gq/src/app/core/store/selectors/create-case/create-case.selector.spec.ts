@@ -19,6 +19,10 @@ describe('Create Case Selector', () => {
           options: [new IdValue('1', '1', true)],
         },
         {
+          filter: FilterNames.CUSTOMER_AND_SHIP_TO_PARTY,
+          options: [new IdValue('1', '1', true)],
+        },
+        {
           filter: FilterNames.MATERIAL_DESCRIPTION,
           options: [new IdValue('1', '1', true)],
         },
@@ -100,6 +104,30 @@ describe('Create Case Selector', () => {
           .projector(fakeState.case)
       ).toEqual({
         filter: FilterNames.MATERIAL_NUMBER_OR_DESCRIPTION,
+        options: [],
+      });
+    });
+  });
+  describe('getCustomerAndShipToParty', () => {
+    test('should return customerAndShipToParty', () => {
+      expect(
+        createSelectors
+          .getCaseCustomerAndShipToParty(AutocompleteRequestDialog.EMPTY)
+          .projector(fakeState.case)
+      ).toEqual(
+        fakeState.case.autocompleteItems.find(
+          (elm) => elm.filter === FilterNames.CUSTOMER_AND_SHIP_TO_PARTY
+        )
+      );
+    });
+
+    test('should return empty options', () => {
+      expect(
+        createSelectors
+          .getCaseCustomerAndShipToParty(AutocompleteRequestDialog.ADD_ENTRY)
+          .projector(fakeState.case)
+      ).toEqual({
+        filter: FilterNames.CUSTOMER_AND_SHIP_TO_PARTY,
         options: [],
       });
     });
