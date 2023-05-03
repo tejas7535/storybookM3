@@ -222,7 +222,11 @@ export class EditingMaterialModalComponent
         this.translocoLocaleService.getLocale()
       ),
       id: this.modalData.material.id,
-      info: { valid: true, description: [ValidationDescription.Valid] },
+      info: {
+        valid: true,
+        description: [ValidationDescription.Valid],
+        errorCode: this.modalData.material.info?.errorCode,
+      },
     };
     this.dialogRef.close(updatedMaterial);
   }

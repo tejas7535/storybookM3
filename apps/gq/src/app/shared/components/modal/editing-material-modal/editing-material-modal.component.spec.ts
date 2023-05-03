@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 
 import { LOCALE_DE } from '@gq/shared/constants';
+import { SAP_ERROR_MESSAGE_CODE } from '@gq/shared/models/quotation-detail';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { PushModule } from '@ngrx/component';
@@ -411,6 +412,16 @@ describe('EditingMaterialModalComponent', () => {
 
   describe('update', () => {
     test('should close dialog with updated material', () => {
+      component.modalData = {
+        material: {
+          ...MATERIAL_TABLE_ITEM_MOCK,
+          info: {
+            ...MATERIAL_TABLE_ITEM_MOCK.info,
+            errorCode: SAP_ERROR_MESSAGE_CODE.SDG101,
+          },
+        },
+        field: MaterialColumnFields.MATERIAL,
+      };
       component['dialogRef'].close = jest.fn();
       component.matDescInput = {
         valueInput: {
@@ -443,7 +454,11 @@ describe('EditingMaterialModalComponent', () => {
         quantity: MATERIAL_TABLE_ITEM_MOCK.quantity,
         targetPrice: MATERIAL_TABLE_ITEM_MOCK.targetPrice,
         id: MATERIAL_TABLE_ITEM_MOCK.id,
-        info: { valid: true, description: [ValidationDescription.Valid] },
+        info: {
+          valid: true,
+          description: [ValidationDescription.Valid],
+          errorCode: SAP_ERROR_MESSAGE_CODE.SDG101,
+        },
       });
     });
   });

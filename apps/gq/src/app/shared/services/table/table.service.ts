@@ -62,8 +62,8 @@ export class TableService {
     data: MaterialTableItem[],
     resetValidation: boolean
   ): MaterialTableItem[] {
-    return data.map((d) => {
-      if (d.id === item.id) {
+    return data.map((dataItem: MaterialTableItem) => {
+      if (dataItem.id === item.id) {
         return resetValidation
           ? {
               // validation needs to be triggered (--> will return UoM and priceUnit and ValidationStatus)
@@ -77,15 +77,15 @@ export class TableService {
               },
             }
           : {
-              // matDesc || matNumber have NOT been changed, validation values will not change so use currency and UoM from existing item of store
+              // matDesc || matNumber have NOT been changed, validation values will not change so use currency, priceUnit and UoM from existing item of store
               ...item,
-              currency: d.currency,
-              priceUnit: d.priceUnit,
-              UoM: d.UoM,
+              currency: dataItem.currency,
+              priceUnit: dataItem.priceUnit,
+              UoM: dataItem.UoM,
             };
       }
 
-      return d;
+      return dataItem;
     });
   }
 
