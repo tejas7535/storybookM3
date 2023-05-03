@@ -1,4 +1,24 @@
 # Release Notes of Material App Center
+## [1.8.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.7.0...mac-v1.8.0) (2023-05-03)
+
+
+### Features
+
+* **mac:** add Green Steel Classification for steel materials in msd - UFTABI-6358 ([#5220](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5220)) ([c6ff164](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c6ff1645c5b80a196ebfb8cb9d07dbd0e538979c))
+* **mac:** add new linked application (MPE) - UFTABI-6171 ([#5203](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5203)) ([bc1add1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bc1add18fe4c8a2dbf8be5899d299e5a26ff5949))
+* **mac:** add new linked application (SpecViewer) - UFTABI-6363 ([#5202](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5202)) ([7aae873](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7aae873d068b991fc3792c8005b0cd79d2a16563))
+* **mac:** MSD - lock visible columns for steel materials - UFTABI-6367 ([#5214](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5214)) ([da4711a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/da4711aa447cf085b4a4bf7c8406934f0631d631))
+* **mac:** new link for linked application (polyassist) - UFTABI-6381 ([#5205](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5205)) ([a6babb1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a6babb1bf4e073cf78e041e79b6eae24db0ea0c9))
+
+
+### Bug Fixes
+
+* **mac:** correct column config ([#5250](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5250)) ([c616545](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c6165456f68b932f96a51e32203fd1a1ac675f19))
+* **mac:** encode msd requests ([#5236](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5236)) ([b237e8b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b237e8b5389ff6b0f5a531254afd36e43d75ca1d))
+* **mac:** fix authentication in deep links ([#5242](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5242)) ([2c75bcd](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2c75bcd4248a95cc4cc009c3d67e2e9f5d5bcc55))
+* **mac:** fix post encoding ([#5248](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5248)) ([00baa26](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/00baa269b2334a6053e0c4c56a570873a40d72eb))
+* **mac:** shrink navigation component on 'minimize' event ([#5173](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5173)) ([059f318](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/059f3185a6effc0d1b6f802433a454dc62f7de3e))
+
 ## [1.7.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.6.0...mac-v1.7.0) (2023-04-06)
 
 
