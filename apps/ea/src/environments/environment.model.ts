@@ -7,5 +7,5 @@ export interface Environment {
   co2UpstreamApiBaseUrl: string;
   tenantId: string;
   groupId: string;
-  translationPath: string;
+  assetsPath: string;
 }

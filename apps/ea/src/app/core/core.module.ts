@@ -1,5 +1,7 @@
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import { environment } from '@ea/environments/environment';
 import {
@@ -36,7 +38,7 @@ import { StoreModule } from './store/store.module';
       true,
       !environment.localDev,
       undefined,
-      environment.translationPath
+      `${environment.assetsPath}/i18n/`
     ),
 
     TranslocoPersistLangModule.forRoot({
@@ -63,8 +65,31 @@ import { StoreModule } from './store/store.module';
   exports: [StoreModule, SharedTranslocoModule],
 })
 export class CoreModule {
-  public constructor(private readonly translocoService: TranslocoService) {
+  public constructor(
+    private readonly translocoService: TranslocoService,
+    private readonly matIconRegistry: MatIconRegistry,
+    private readonly sanitizer: DomSanitizer
+  ) {
     this.translocoService.setTranslation(enJson, 'en');
     // this.translocoService.setTranslation(deJson, 'de');
+
+    this.registerEAIcons();
+  }
+
+  public registerEAIcons(): void {
+    const iconSet: Record<string, string> = {
+      co2: 'icon_CO2.svg',
+      airwaves: 'icon_airwaves.svg',
+      calculation: 'icon_calculations.svg',
+      friction_load: 'icon_load_frictional_powerloss.svg',
+      lubrication_parameters: 'icon_lubrication_parameters',
+      rating_life: 'icon_rpm_rating_life.svg',
+    };
+    for (const [name, url] of Object.entries(iconSet)) {
+      const setUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+        `${environment.assetsPath}/icons/${url}`
+      );
+      this.matIconRegistry.addSvgIcon(name, setUrl);
+    }
   }
 }
