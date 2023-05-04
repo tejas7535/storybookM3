@@ -1,3 +1,4 @@
+import { meaningfulRound } from '@ea/shared/helper';
 import { createSelector } from '@ngrx/store';
 
 import {
@@ -26,7 +27,7 @@ export const co2Upstream = createSelector(
     error
   ): BasicCalculationResultState & { value?: number; unit?: string } => ({
     unit: result?.unit,
-    value: result?.upstreamEmissionTotal,
+    value: meaningfulRound(result?.upstreamEmissionTotal),
     calculationError: error,
     isLoading,
   })
@@ -41,7 +42,7 @@ export const co2Downstream = createSelector(
     isLoading,
     error
   ): BasicCalculationResultState & { value?: number; unit?: string } => ({
-    value: result?.co2_downstream?.value,
+    value: meaningfulRound(result?.co2_downstream?.value),
     unit: result?.co2_downstream?.unit,
     calculationError: error,
     isLoading,

@@ -28,11 +28,21 @@ export class FrictionService {
    * @returns modelId
    */
   createFrictionModel(bearingDesignation: string): Observable<string> {
-    return this.http.put<string>(
-      `${this.baseUrl}/create`,
-      {},
-      { params: { designation: bearingDesignation } }
-    );
+    return this.http
+      .put<string>(
+        `${this.baseUrl}/create`,
+        {},
+        { params: { designation: bearingDesignation } }
+      )
+      .pipe(
+        map((response) => {
+          if (!response) {
+            throw new Error('No modelId returned');
+          }
+
+          return response;
+        })
+      );
   }
 
   /**
