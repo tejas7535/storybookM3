@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { ApprovalLevel } from '@gq/shared/models/quotation';
 import { Approver } from '@gq/shared/models/quotation/approver.model';
 import { Store } from '@ngrx/store';
 
 import { ApprovalActions } from './approval.actions';
-import { approvalFeature } from './approval.reducer';
 import * as fromApprovalSelectors from './approval.selectors';
 @Injectable({
   providedIn: 'root',
@@ -14,31 +14,27 @@ import * as fromApprovalSelectors from './approval.selectors';
 export class ApprovalFacade {
   constructor(private readonly store: Store) {}
 
-  public allApprovers$: Observable<Approver[]> = this.store.select(
-    approvalFeature.selectApprovers
-  );
-
   public levelOneApprovers$: Observable<Approver[]> = this.store.select(
-    fromApprovalSelectors.getAllLevelOneApprovers
+    fromApprovalSelectors.getApproversOfLevel(ApprovalLevel.L1)
   );
 
   public levelTwoApprovers$: Observable<Approver[]> = this.store.select(
-    fromApprovalSelectors.getAllLevelTwoApprovers
+    fromApprovalSelectors.getApproversOfLevel(ApprovalLevel.L2)
   );
 
   public levelThreeApprovers$: Observable<Approver[]> = this.store.select(
-    fromApprovalSelectors.getAllLevelThreeApprovers
+    fromApprovalSelectors.getApproversOfLevel(ApprovalLevel.L3)
   );
 
   public levelFourApprovers$: Observable<Approver[]> = this.store.select(
-    fromApprovalSelectors.getAllLevelFourApprovers
+    fromApprovalSelectors.getApproversOfLevel(ApprovalLevel.L4)
   );
 
   public levelFiveApprovers$: Observable<Approver[]> = this.store.select(
-    fromApprovalSelectors.getAllLevelFiveApprovers
+    fromApprovalSelectors.getApproversOfLevel(ApprovalLevel.L5)
   );
 
-  public getAllApprovers(): void {
+  public getApprovers(): void {
     this.store.dispatch(ApprovalActions.getAllApprovers());
   }
 }

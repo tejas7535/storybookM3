@@ -106,7 +106,7 @@ export class ReleaseModalComponent implements OnInit {
       comment: ['', Validators.maxLength(this.INPUT_MAX_LENGTH)],
       projectInformation: ['', Validators.maxLength(this.INPUT_MAX_LENGTH)],
     });
-    this.autoApprovalEnabled = this.approvalLevel === ApprovalLevel.L0;
+    this.autoApprovalEnabled = this.approvalLevel === ApprovalLevel.NONE;
   }
 
   startWorkflow() {

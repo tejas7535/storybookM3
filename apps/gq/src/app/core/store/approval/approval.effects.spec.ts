@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { Approver } from '@gq/shared/models/quotation/approver.model';
+import { ApprovalService } from '@gq/shared/services/rest/approval/approval.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -10,7 +11,6 @@ import { marbles } from 'rxjs-marbles';
 import { ApprovalActions } from './approval.actions';
 import { ApprovalEffects } from './approval.effects';
 import { initialState } from './approval.reducer';
-import { ApprovalService } from './approval-test.service';
 
 describe('ApprovalEffects', () => {
   let action: any;
@@ -18,7 +18,6 @@ describe('ApprovalEffects', () => {
   let effects: ApprovalEffects;
   let spectator: SpectatorService<ApprovalEffects>;
 
-  // TODO: change import to correct Path
   let approvalService: ApprovalService;
 
   const createService = createServiceFactory({

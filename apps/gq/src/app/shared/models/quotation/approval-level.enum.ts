@@ -1,9 +1,8 @@
 export enum ApprovalLevel {
-  NONE = 'NONE',
-  L0 = 'L0',
-  L1 = 'L1',
-  L2 = 'L2',
-  L3 = 'L3',
-  L4 = 'L4',
-  L5 = 'L5',
+  NONE = 0,
+  L1 = 1,
+  L2 = 2,
+  L3 = 3,
+  L4 = 4,
+  L5 = 5,
 }

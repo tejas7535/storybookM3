@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { catchError, map, mergeMap, of } from 'rxjs';
 
 import { Approver } from '@gq/shared/models/quotation/approver.model';
+import { ApprovalService } from '@gq/shared/services/rest/approval/approval.service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import { ApprovalActions } from './approval.actions';
-import { ApprovalService } from './approval-test.service';
 
 @Injectable()
 export class ApprovalEffects {
