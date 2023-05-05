@@ -5,9 +5,12 @@ import { MatIconModule } from '@angular/material/icon';
 import * as coreSelectors from '@gq/core/store/selectors/process-case/process-case.selectors';
 import { Spectator, SpyObject } from '@ngneat/spectator';
 import { createComponentFactory } from '@ngneat/spectator/jest';
+import { PushModule } from '@ngrx/component';
 import { createSelector } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/marbles';
+
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
   QUOTATION_DETAIL_MOCK,
@@ -25,7 +28,12 @@ describe('EditCellComponent', () => {
 
   const createComponent = createComponentFactory({
     component: EditCellComponent,
-    imports: [MatIconModule, MatDialogModule],
+    imports: [
+      MatIconModule,
+      MatDialogModule,
+      provideTranslocoTestingModule({ en: {} }),
+      PushModule,
+    ],
     mocks: [MatDialog],
     providers: [
       {
@@ -40,6 +48,7 @@ describe('EditCellComponent', () => {
         },
       }),
     ],
+    detectChanges: false,
   });
 
   beforeEach(() => {
