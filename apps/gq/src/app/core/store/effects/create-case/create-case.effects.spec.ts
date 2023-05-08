@@ -495,10 +495,44 @@ describe('Create Case Effects', () => {
 
   describe('getSalesOrgs', () => {
     test(
-      'should return getSalesOrgsSuccess when REST call is successful',
+      'should return getSalesOrgsSuccess when REST call is successful for customer',
       marbles((m) => {
         const option = new IdValue('id', 'value', true);
         const filter = FilterNames.CUSTOMER;
+        const salesOrgsCurrencies: CustomerSalesOrgsCurrenciesResponse = {
+          customerId: 'id',
+          salesOrgCurrencyList: [{ salesOrg: 'id', currency: 'USD' }],
+        };
+        const response = m.cold('-a|', {
+          a: salesOrgsCurrencies,
+        });
+        customerService.getSalesOrgsAndCurrenciesByCustomer = jest.fn(
+          () => response
+        );
+
+        action = selectAutocompleteOption({ option, filter });
+        const salesOrgsOfAction = [new SalesOrg('id', true, 'USD')];
+        const result = getSalesOrgsSuccess({ salesOrgs: salesOrgsOfAction });
+
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('--b', { b: result });
+        m.expect(effects.getSalesOrgs$).toBeObservable(expected);
+        m.flush();
+
+        expect(
+          customerService.getSalesOrgsAndCurrenciesByCustomer
+        ).toHaveBeenCalledTimes(1);
+        expect(
+          customerService.getSalesOrgsAndCurrenciesByCustomer
+        ).toHaveBeenCalledWith(option.id);
+      })
+    );
+    test(
+      'should return getSalesOrgsSuccess when REST call is successful for customer and shipToParty',
+      marbles((m) => {
+        const option = new IdValue('id', 'value', true);
+        const filter = FilterNames.CUSTOMER_AND_SHIP_TO_PARTY;
         const salesOrgsCurrencies: CustomerSalesOrgsCurrenciesResponse = {
           customerId: 'id',
           salesOrgCurrencyList: [{ salesOrg: 'id', currency: 'USD' }],

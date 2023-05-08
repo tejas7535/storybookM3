@@ -229,8 +229,12 @@ export class CreateCaseEffects {
    */
   getSalesOrgs$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(selectAutocompleteOption.type),
-      filter((action: any) => action.filter === FilterNames.CUSTOMER),
+      ofType(selectAutocompleteOption),
+      filter(
+        (action) =>
+          action.filter === FilterNames.CUSTOMER ||
+          action.filter === FilterNames.CUSTOMER_AND_SHIP_TO_PARTY
+      ),
       mergeMap((action: any) =>
         this.customerService
           .getSalesOrgsAndCurrenciesByCustomer(action.option.id)
