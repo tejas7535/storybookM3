@@ -118,7 +118,7 @@ export class FrictionService {
           throw new Error('Calculation result still pending');
         }),
         retry({
-          count: 20,
+          count: 3600,
           delay: (error: HttpErrorResponse | Error) => {
             if (error instanceof HttpErrorResponse) {
               // no need to retry true HTTP errors
