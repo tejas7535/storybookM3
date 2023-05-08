@@ -1,34 +1,42 @@
 <ng-container *transloco="let t; read: 'basicFrequencies'">
-  <div mat-dialog-title class="!-mx-6 !-mt-4">
-    <div class="flex flex-row content-around justify-between pl-4 pb-2 pr-2">
-      <div class="text-h6 text-high-emphasis my-auto">
+  <div mat-dialog-title class="!-ea-mx-6 !-ea-mt-4">
+    <div
+      class="ea-flex ea-flex-row ea-content-around ea-justify-between ea-pb-2 ea-pl-4 ea-pr-2"
+    >
+      <div class="ea-text-h6 ea-text-high-emphasis ea-my-auto">
         {{
           t('dialogTitle', {
             bearingDesignation: bearingDesignation$ | ngrxPush
           })
         }}
       </div>
-      <div class="flex flex-row">
+      <div class="ea-flex ea-flex-row">
         <button mat-icon-button (click)="closeDialog()">
-          <mat-icon class="text-medium-emphasis">close</mat-icon>
+          <mat-icon class="ea-text-medium-emphasis">close</mat-icon>
         </button>
       </div>
     </div>
   </div>
 
-  <mat-dialog-content class="!px-4 pb-4">
+  <mat-dialog-content class="!ea-px-4 ea-pb-4">
     <ng-container
       *ngIf="
         basicFrequencies$ | ngrxPush as basicFrequencies;
         else loadingTemplate
       "
     >
-      <div class="border-border rounded border">
-        <div class="border-border text-subtitle-1 border-b px-4 py-2">
+      <div class="ea-border-border ea-rounded ea-border">
+        <div
+          class="ea-border-border ea-text-subtitle-1 ea-border-b ea-px-4 ea-py-2"
+        >
           {{ basicFrequencies.title }}
         </div>
-        <div class="px-8 py-4">
-          <table mat-table [dataSource]="basicFrequencies.rows" class="w-full">
+        <div class="ea-px-8 ea-py-4">
+          <table
+            mat-table
+            [dataSource]="basicFrequencies.rows"
+            class="ea-w-full"
+          >
             <ng-container matColumnDef="name">
               <th mat-header-cell *matHeaderCellDef></th>
               <td mat-cell *matCellDef="let item">
@@ -37,7 +45,7 @@
             </ng-container>
             <ng-container matColumnDef="abbreviation">
               <th mat-header-cell *matHeaderCellDef></th>
-              <td mat-cell *matCellDef="let item" class="!px-4">
+              <td mat-cell *matCellDef="let item" class="!ea-px-4">
                 {{ item.abbreviation }}
               </td>
             </ng-container>
@@ -59,8 +67,8 @@
     </ng-container>
 
     <ng-template #loadingTemplate>
-      <div class="item-center flex content-center p-8">
-        <div class="ml-auto mr-auto">
+      <div class="ea-item-center ea-flex ea-content-center ea-p-8">
+        <div class="ea-ml-auto ea-mr-auto">
           <mat-spinner diameter="20"></mat-spinner>
         </div>
       </div>

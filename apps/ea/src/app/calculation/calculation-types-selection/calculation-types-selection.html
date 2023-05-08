@@ -1,58 +1,67 @@
 <div
   *transloco="let t; read: 'calculationSelection'"
-  class="flex flex-col items-center"
+  class="ea-flex ea-flex-col ea-items-center ea-justify-between ea-h-full"
 >
-  <div class="text-subtitle-1 text-medium-emphasis w-24">{{ t('title')}}</div>
-  <section class="mt-8 flex w-48 flex-col">
-    <div
-      class="mb-2"
-      *ngIf="getCalculationTypesGlobalSelection$ | ngrxPush as selectionState"
-    >
-      <mat-checkbox
-        [disableRipple]="true"
-        color="primary"
-        class="hover:bg-secondary-100 hover:text-primary text-medium-emphasis py-2 px-4 hover:rounded"
-        (click)="selectAllChanged(!selectionState.selectAll || selectionState.indeterminate)"
-        [indeterminate]="selectionState.indeterminate"
-        [checked]="selectionState.selectAll"
+  <div class="ea-flex ea-flex-col ea-items-center">
+    <div class="ea-text-subtitle-1 ea-text-medium-emphasis ea-w-24">
+      {{ t('title')}}
+    </div>
+    <section class="ea-mt-8 ea-flex ea-w-48 ea-flex-col">
+      <div
+        class="ea-mb-2"
+        *ngIf="getCalculationTypesGlobalSelection$ | ngrxPush as selectionState"
       >
-        <div class="flex">
-          <mat-icon class="mr-2 flex-shrink-0">calculate</mat-icon>
-          <div>{{ t('calculations') }}</div>
-        </div>
-      </mat-checkbox>
-    </div>
-    <mat-divider></mat-divider>
-    <div
-      class="flex pt-4"
-      *ngIf="calculationTypesConfig$ | ngrxPush as calculationTypesConfig"
-    >
-      <ul>
-        <li *ngFor="let config of calculationTypesConfig" class="mt-4">
-          <mat-checkbox
-            [disableRipple]="true"
-            class="hover:bg-secondary-100 hover:text-primary py-2 px-4 hover:rounded"
-            [ngClass]="{'text-low-emphasis': !config.selected, 'text-medium-emphasis': config.selected}"
-            color="primary"
-            [checked]="config.selected"
-            (click)="selectionChanged(!config.selected, config)"
-          >
-            <div class="flex flex-row items-center">
-              <mat-icon
-                class="mr-2 flex-shrink-0"
-                [svgIcon]="config.icon"
-              ></mat-icon>
-              <div class="text-subtitle-2 whitespace-normal">
-                {{ t(config.label) }}
-              </div>
+        <mat-checkbox
+          [disableRipple]="true"
+          color="primary"
+          class="hover:ea-bg-secondary-100 hover:ea-text-primary ea-text-medium-emphasis ea-px-4 ea-py-2 hover:ea-rounded"
+          (click)="selectAllChanged(!selectionState.selectAll || selectionState.indeterminate)"
+          [indeterminate]="selectionState.indeterminate"
+          [checked]="selectionState.selectAll"
+        >
+          <div class="ea-flex">
+            <mat-icon class="ea-mr-2 ea-flex-shrink-0">calculate</mat-icon>
+            <div class="ea-text-subtitle-1 ea-text-medium-emphasis">
+              {{ t('calculations') }}
             </div>
-          </mat-checkbox>
-        </li>
-      </ul>
-    </div>
-  </section>
+          </div>
+        </mat-checkbox>
+      </div>
+      <mat-divider></mat-divider>
+      <div
+        class="ea-flex ea-pt-6"
+        *ngIf="calculationTypesConfig$ | ngrxPush as calculationTypesConfig"
+      >
+        <ul>
+          <li *ngFor="let config of calculationTypesConfig" class="ea-mt-4">
+            <mat-checkbox
+              [disableRipple]="true"
+              class="hover:ea-bg-secondary-100 hover:ea-text-primary ea-px-4 ea-py-2 hover:ea-rounded"
+              [ngClass]="{'ea-text-low-emphasis': !config.selected, 'ea-text-medium-emphasis': config.selected}"
+              color="primary"
+              [checked]="config.selected"
+              (click)="selectionChanged(!config.selected, config)"
+            >
+              <div class="ea-flex ea-flex-row ea-items-center">
+                <mat-icon
+                  class="ea-mr-2 ea-flex-shrink-0"
+                  [svgIcon]="config.icon"
+                ></mat-icon>
+                <div
+                  class="ea-text-subtitle-2 ea-whitespace-normal"
+                  [ngClass]="{'ea-text-low-emphasis': !config.selected, 'ea-text-medium-emphasis': config.selected}"
+                >
+                  {{ t(config.label) }}
+                </div>
+              </div>
+            </mat-checkbox>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </div>
 
-  <div class="mt-16">
+  <div class="ea-mt-16">
     <button
       (click)="onShowBasicFrequenciesDialogClick()"
       mat-button

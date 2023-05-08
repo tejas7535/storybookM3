@@ -7,6 +7,7 @@
 * see https://material.angular.io
 
 */
+$prefix: 'ea-';
 
 @import 'libs/shared/ui/styles/src/lib/scss/material-theme';
 
@@ -22,11 +23,14 @@
 @tailwind components;
 @tailwind utilities;
 
-engineering-app {
-  font-family: Roboto, sans-serif !important;
+engineering-app,
+mat-dialog-container {
+  * {
+    font-family: Roboto, sans-serif !important;
+  }
 
   .mat-button-base.mat-button .mat-button-focus-overlay {
-    @apply hidden;
+    @apply ea-hidden;
   }
 
   button {

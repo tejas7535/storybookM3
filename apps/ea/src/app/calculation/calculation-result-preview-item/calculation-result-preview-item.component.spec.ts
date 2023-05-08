@@ -61,6 +61,6 @@ describe('CalculationResultPreviewItemComponent', () => {
     expect(spectator.queryAll('mat-icon').length).toBe(1);
 
     // two values + one title
-    expect(spectator.queryAll('.text-caption').length).toBe(3);
+    expect(spectator.queryAll('.ea-text-caption').length).toBe(3);
   });
 });

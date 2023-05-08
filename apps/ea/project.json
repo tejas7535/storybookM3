@@ -80,6 +80,18 @@
               "with": "apps/ea/src/environments/environment.local.ts"
             }
           ],
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "2mb",
+              "maximumError": "9000mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "6kb",
+              "maximumError": "10kb"
+            }
+          ],
           "assets": [
             "apps/ea/src/favicon.ico",
             "apps/ea/src/assets",

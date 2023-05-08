@@ -1,43 +1,47 @@
 <ng-container *transloco="let t; read: 'calculationResult'">
   <div
-    class="flex flex-shrink-0 flex-col items-center justify-start"
+    class="ea-flex ea-flex-shrink-0 ea-flex-col ea-items-center ea-justify-start"
     *ngIf="_item"
   >
     <div
-      class="flex flex-shrink-0 flex-row items-center justify-center pb-2 pt-2"
+      class="ea-flex ea-flex-shrink-0 ea-flex-row ea-items-center ea-justify-center ea-pb-2 ea-pt-2"
     >
       <mat-icon
         color="primary"
         [svgIcon]="_item.icon"
-        class="mr-1 flex-shrink-0"
+        class="ea-mr-1 ea-flex-shrink-0"
       >
       </mat-icon>
-      <div class="text-caption text-medium-emphasis flex-shrink-0 font-medium">
+      <div
+        class="ea-text-caption ea-text-medium-emphasis ea-flex-shrink-0 ea-font-medium"
+      >
         {{ t(_item.title) }}
       </div>
     </div>
 
-    <div class="flex flex-row">
+    <div class="ea-flex ea-flex-row">
       <ng-container *ngFor="let value of _item.values; let last = last">
         <div
-          class="flex flex-col p-2 pl-4 pr-4"
+          class="ea-flex ea-flex-col ea-p-2 ea-pl-4 ea-pr-4"
           [class.items-center]="isSingleItem"
         >
-          <div class="text-caption text-medium-emphasis mb-2 flex flex-col">
+          <div
+            class="ea-text-caption ea-text-medium-emphasis ea-mb-2 ea-flex ea-flex-col"
+          >
             {{ value.title && t(value.title) }}
           </div>
 
           <div
-            class="flex flex-row items-end justify-start"
+            class="ea-flex ea-flex-row ea-items-end ea-justify-start"
             *ngIf="!value.isLoading; else loading"
           >
             <ng-container *ngIf="!value.calculationError; else error">
-              <div class="text-body-2 text-high-emphasis">
+              <div class="ea-text-body-2 ea-text-high-emphasis">
                 {{ (value.value | number: '1.0-2') || '-' }}
               </div>
               <div
                 *ngIf="value.unit"
-                class="text-body-2 text-high-emphasis pl-1"
+                class="ea-text-body-2 ea-text-high-emphasis ea-pl-1"
               >
                 {{ value.unit | lowercase }}
               </div>
@@ -45,10 +49,10 @@
 
             <ng-template #error>
               <div
-                class="flex flex-shrink-0 flex-grow"
+                class="ea-flex ea-flex-shrink-0 ea-flex-grow"
                 [matTooltip]="value.calculationError"
               >
-                <mat-icon color="error" class="!text-body-2 mx-auto"
+                <mat-icon color="error" class="!ea-text-body-2 ea-mx-auto"
                   >warning</mat-icon
                 >
               </div>
@@ -62,7 +66,7 @@
 </ng-container>
 
 <ng-template #loading>
-  <div class="flex items-center justify-center">
+  <div class="ea-flex ea-items-center ea-justify-center">
     <mat-spinner diameter="16"></mat-spinner>
   </div>
 </ng-template>

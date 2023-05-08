@@ -1,9 +1,12 @@
 <div
-  class="flex w-full flex-row items-baseline justify-between gap-2"
-  [ngClass]="{ 'gap-0': !tooltipText }"
+  class="ea-flex ea-w-full ea-flex-row ea-items-baseline ea-justify-between ea-gap-2"
+  [ngClass]="{ 'ea-gap-0': !tooltipText }"
   *transloco="let t; read: 'operationConditions.errors'"
 >
-  <mat-form-field appearance="outline" class="flex grow flex-row pb-3">
+  <mat-form-field
+    appearance="outline"
+    class="ea-flex ea-grow ea-flex-row ea-pb-3"
+  >
     <mat-label *ngIf="label">{{ label }}</mat-label>
     <input
       *ngIf="onlyPositive; else casualInput"
@@ -22,7 +25,7 @@
         [placeholder]="placeholder"
       />
     </ng-template>
-    <div *ngIf="unit" class="relative bottom-1" matSuffix>
+    <div *ngIf="unit" class="ea-relative ea-bottom-1" matSuffix>
       {{ unit }}
     </div>
     <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
@@ -40,11 +43,11 @@
       </mat-error>
     </ng-container>
   </mat-form-field>
-  <div *ngIf="tooltipText" class="w-6">
+  <div *ngIf="tooltipText" class="ea-w-6">
     <mat-icon
       *ngIf="tooltipText"
       color="primary"
-      class="cursor-help"
+      class="ea-cursor-help"
       #tooltip="matTooltip"
       [matTooltip]="tooltipText"
       (click)="tooltip.toggle()"

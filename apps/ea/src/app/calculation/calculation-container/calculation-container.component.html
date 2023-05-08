@@ -1,15 +1,19 @@
 <div
-  class="mb-8 flex flex-row"
-  [ngClass]="{ 'pb-[148px]': isStandalone$ | ngrxPush }"
+  class="ea-mb-8 ea-flex ea-flex-row ea-justify-between ea-content-between"
+  [ngClass]="{ 'ea-pb-[148px]': isStandalone$ | ngrxPush }"
 >
-  <div class="mr-8">
+  <div class="ea-mr-8">
     <ea-calculation-parameters></ea-calculation-parameters>
   </div>
 
-  <div class="ml-auto flex h-[100%] flex-row">
-    <mat-divider [vertical]="true"></mat-divider>
-    <div class="my-8 ml-8">
-      <ea-calculation-types-selection></ea-calculation-types-selection>
+  <div class="ea-flex ea-flex-col">
+    <div class="ea-ml-auto ea-flex ea-h-full ea-flex-row">
+      <mat-divider [vertical]="true"></mat-divider>
+      <div class="ea-my-8 ea-ml-8">
+        <ea-calculation-types-selection
+          class="ea-block ea-h-full"
+        ></ea-calculation-types-selection>
+      </div>
     </div>
   </div>
 </div>

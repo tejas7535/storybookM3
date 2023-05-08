@@ -38,5 +38,7 @@ module.exports = {
       },
     },
   },
+  important: true,
+  prefix: 'ea-',
   plugins: [],
 };

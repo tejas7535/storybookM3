@@ -1,39 +1,41 @@
 <ng-container *transloco="let t; read: 'calculationResultReport'">
   <div mat-dialog-title>
-    <div class="flex flex-row content-around justify-between pb-2 pr-2">
-      <div class="text-h6 text-high-emphasis my-auto">
+    <div
+      class="ea-flex ea-flex-row ea-content-around ea-justify-between ea-pb-2 ea-pr-2"
+    >
+      <div class="ea-text-h6 ea-text-high-emphasis ea-my-auto">
         {{
           t('dialogTitle', {
             bearingDesignation: bearingDesignation$ | ngrxPush
           })
         }}
       </div>
-      <div class="flex flex-row">
+      <div class="ea-flex ea-flex-row">
         <button mat-icon-button (click)="closeDialog()">
-          <mat-icon class="text-medium-emphasis">close</mat-icon>
+          <mat-icon class="ea-text-medium-emphasis">close</mat-icon>
         </button>
       </div>
     </div>
   </div>
 
-  <mat-dialog-content class="h-full">
-    <div class="flex h-full flex-row">
+  <mat-dialog-content class="ea-h-full">
+    <div class="ea-flex ea-h-full ea-flex-row">
       <div>
         <!-- CO2 Emissions -->
         <mat-expansion-panel
           *transloco="let t; read: 'calculationResultReport.co2Emissions'"
-          class="border-border w-full border !shadow-none"
+          class="ea-border-border ea-w-full ea-border !ea-shadow-none"
           [expanded]="
             (selctedCalculationTypes$ | ngrxPush)?.emission?.selected === true
           "
         >
-          <mat-expansion-panel-header class="h-[64px]">
+          <mat-expansion-panel-header class="ea-h-[64px]">
             <mat-panel-title>
-              <div class="flex flex-row">
-                <div class="my-auto">
+              <div class="ea-flex ea-flex-row">
+                <div class="ea-my-auto">
                   <mat-icon color="primary" svgIcon="co2"></mat-icon>
                 </div>
-                <div class="my-auto ml-2">
+                <div class="ea-my-auto ea-ml-2">
                   {{ t('title') }}
                 </div>
               </div>
@@ -41,21 +43,23 @@
           </mat-expansion-panel-header>
 
           <div
-            class="full-w full-h !-mx-6 !-mb-4"
+            class="ea-full-w ea-full-h !ea--mx-6 !ea--mb-4"
             *ngIf="co2Emissions$ | ngrxPush as co2Emissions"
           >
             <div
-              class="text-body-2 border-border flex w-full flex-row border-t"
+              class="ea-text-body-2 ea-border-border ea-flex ea-w-full ea-flex-row ea-border-t"
             >
               <!-- Chart -->
               <div
-                class="border-border flex flex-shrink-0 flex-col items-center border-r p-8"
+                class="ea-border-border ea-flex ea-flex-shrink-0 ea-flex-col ea-items-center ea-border-r ea-p-8"
               >
-                <div class="text-high-emphasis mb-2">{{ t('chartTitle') }}</div>
+                <div class="ea-text-high-emphasis ea-mb-2">
+                  {{ t('chartTitle') }}
+                </div>
                 <div
                   *ngIf="co2EmissionOptions$ | async as co2EmissionOptions"
                   echarts
-                  class="h-[200px] w-[200px]"
+                  class="ea-h-[200px] ea-w-[200px]"
                   [options]="co2EmissionOptions"
                   [initOpts]="{
                     width: 200,
@@ -63,49 +67,55 @@
                   }"
                 ></div>
 
-                <div class="text-medium-emphasis mh-2">
+                <div class="ea-text-medium-emphasis ea-mh-2">
                   {{ t('chartDesc') }}
                 </div>
               </div>
-              <div class="flex flex-grow flex-col">
+              <div class="ea-flex ea-flex-grow ea-flex-col">
                 <!-- Upstream -->
-                <div class="border-border w-full border-b px-8 py-4">
+                <div
+                  class="ea-border-border ea-w-full ea-border-b ea-px-8 ea-py-4"
+                >
                   <div
-                    class="text-high-emphasis flex flex-row items-center pb-4"
+                    class="ea-text-high-emphasis ea-flex ea-flex-row ea-items-center ea-pb-4"
                   >
-                    <mat-icon class="mr-2 flex-shrink-0 text-[#DDE86E]"
+                    <mat-icon class="ea-mr-2 ea-flex-shrink-0 ea-text-[#DDE86E]"
                       >circle</mat-icon
                     >
                     {{ t('upstreamTitle') }}
                   </div>
-                  <div class="flex w-full flex-row">
+                  <div class="ea-flex ea-w-full ea-flex-row">
                     <div
-                      class="flex flex-row items-center justify-center py-2 pr-4"
+                      class="ea-flex ea-flex-row ea-items-center ea-justify-center ea-py-2 ea-pr-4"
                     >
-                      <div class="text-h6 text-high-emphasis">
+                      <div class="ea-text-h6 ea-text-high-emphasis">
                         {{
-                          (co2Emissions?.co2_upstream | number: '1.0-2') || '-'
+                          (co2Emissions?.co2_upstream | number: '1.2-2') || '-'
                         }}
                       </div>
-                      <div class="text-body-2 text-high-emphasis pl-1">kg</div>
+                      <div class="ea-text-body-2 ea-text-high-emphasis ea-pl-1">
+                        kg
+                      </div>
                     </div>
                     <mat-divider [vertical]="true"></mat-divider>
                     <div
-                      class="flex flex-row items-center justify-center py-2 pl-4"
+                      class="ea-flex ea-flex-row ea-items-center ea-justify-center ea-py-2 ea-pl-4"
                     >
-                      <div class="text-h6 text-high-emphasis">
+                      <div class="ea-text-h6 ea-text-high-emphasis">
                         {{
                           (co2Emissions?.co2_upstream_percent * 100
                             | number: '1.2-2') || '-'
                         }}
                       </div>
-                      <div class="text-body-2 text-high-emphasis pl-1">%</div>
+                      <div class="ea-text-body-2 ea-text-high-emphasis ea-pl-1">
+                        %
+                      </div>
                     </div>
                   </div>
-                  <div class="text-medium-emphasis pt-4">
+                  <div class="ea-text-medium-emphasis ea-pt-4">
                     {{ t('upstreamHint') }} -
                     <a
-                      class="text-primary"
+                      class="ea-text-primary"
                       [href]="t('upstreamHintLink')"
                       target="_blank"
                       >{{ t('upstreamHintLinkText') }}</a
@@ -114,54 +124,58 @@
                 </div>
 
                 <!-- Downstream -->
-                <div class="w-full px-8 py-4">
+                <div class="ea-w-full ea-px-8 ea-py-4">
                   <div
-                    class="text-high-emphasis flex flex-row items-center pb-4"
+                    class="ea-text-high-emphasis ea-flex ea-flex-row ea-items-center ea-pb-4"
                   >
-                    <mat-icon class="mr-2 flex-shrink-0 text-[#7DC882]"
+                    <mat-icon class="ea-mr-2 ea-flex-shrink-0 ea-text-[#7DC882]"
                       >circle</mat-icon
                     >
                     {{ t('downstreamTitle') }}
                   </div>
-                  <div class="flex w-full flex-row">
+                  <div class="ea-flex ea-w-full ea-flex-row">
                     <div
-                      class="flex flex-row items-center justify-center py-2 pr-4"
+                      class="ea-flex ea-flex-row ea-items-center ea-justify-center ea-py-2 ea-pr-4"
                     >
-                      <div class="text-h6 text-high-emphasis">
+                      <div class="ea-text-h6 ea-text-high-emphasis">
                         {{
-                          (co2Emissions?.co2_downstream | number: '1.0-2') ||
+                          (co2Emissions?.co2_downstream | number: '1.2-2') ||
                             '-'
                         }}
                       </div>
-                      <div class="text-body-2 text-high-emphasis pl-1">kg</div>
+                      <div class="ea-text-body-2 ea-text-high-emphasis ea-pl-1">
+                        kg
+                      </div>
                     </div>
                     <mat-divider [vertical]="true"></mat-divider>
                     <div
-                      class="flex flex-row items-center justify-center py-2 pl-4"
+                      class="ea-flex ea-flex-row ea-items-center ea-justify-center ea-py-2 ea-pl-4"
                     >
-                      <div class="text-h6 text-high-emphasis">
+                      <div class="ea-text-h6 ea-text-high-emphasis">
                         {{
                           (co2Emissions?.co2_downstream_percent * 100
                             | number: '1.2-2') || '-'
                         }}
                       </div>
-                      <div class="text-body-2 text-high-emphasis pl-1">%</div>
+                      <div class="ea-text-body-2 ea-text-high-emphasis ea-pl-1">
+                        %
+                      </div>
                     </div>
                   </div>
-                  <div class="text-medium-emphasis pt-4"></div>
+                  <div class="ea-text-medium-emphasis ea-pt-4"></div>
                 </div>
               </div>
             </div>
             <div
-              class="border-border flex flex-row items-center border-t px-4 py-2"
+              class="ea-border-border ea-flex ea-flex-row ea-items-center ea-border-t ea-px-4 ea-py-2"
             >
-              <div class="mr-2 flex-shrink-0">
-                <mat-icon color="primary">info</mat-icon>
+              <div class="ea-mr-2 ea-flex-shrink-0">
+                <mat-icon color="primary">info_outline</mat-icon>
               </div>
-              <div class="text-body-2 text-medium-emphasis">
+              <div class="ea-text-body-2 ea-text-medium-emphasis">
                 {{ t('calculationHint') }} -
                 <a
-                  class="text-primary"
+                  class="ea-text-primary"
                   [href]="t('calculationHintLink')"
                   target="_blank"
                   >{{ t('calculationHintLinkText') }}</a
@@ -174,33 +188,33 @@
 
       <!-- Right Hand Navigation -->
       <div
-        class="text-medium-emphasis ml-8 flex w-[250px] flex-grow flex-row"
+        class="ea-text-medium-emphasis ea-ml-8 ea-flex ea-w-[250px] ea-flex-grow ea-flex-row"
         *transloco="let t; read: 'calculationSelection'"
       >
         <mat-divider [vertical]="true"></mat-divider>
-        <div class="my-2 ml-8 mr-4 w-full">
-          <div class="mb-2">
-            <div class="flex items-center justify-center">
-              <mat-icon class="mr-2 flex-shrink-0">calculate</mat-icon>
+        <div class="ea-my-2 ea-ml-8 ea-mr-4 ea-w-full">
+          <div class="ea-mb-2">
+            <div class="ea-flex ea-items-center ea-justify-center">
+              <mat-icon class="ea-mr-2 ea-flex-shrink-0">calculate</mat-icon>
               <div>{{ t('calculations') }}</div>
             </div>
           </div>
           <mat-divider></mat-divider>
           <div
-            class="flex pt-4"
+            class="ea-flex ea-pt-4"
             *ngIf="
               getSelectedCalculations$ | ngrxPush as getSelectedCalculations
             "
           >
             <div
               *ngFor="let config of getSelectedCalculations"
-              class="hover:bg-secondary-100 hover:text-primary mt-4 flex w-full flex-row items-center px-4 py-2 hover:rounded"
+              class="hover:ea-bg-secondary-100 hover:ea-text-primary ea-mt-4 ea-flex ea-w-full ea-flex-row ea-items-center ea-px-4 ea-py-2 hover:ea-rounded"
             >
               <mat-icon
-                class="mr-2 flex-shrink-0"
+                class="ea-mr-2 ea-flex-shrink-0"
                 [svgIcon]="config.icon"
               ></mat-icon>
-              <div class="text-subtitle-2 whitespace-normal">
+              <div class="ea-text-subtitle-2 ea-whitespace-normal">
                 {{ t(config.label) }}
               </div>
             </div>
@@ -212,8 +226,8 @@
 </ng-container>
 
 <ng-template #loadingTemplate>
-  <div class="item-center flex content-center p-8">
-    <div class="ml-auto mr-auto">
+  <div class="ea-item-center ea-flex ea-content-center ea-p-8">
+    <div class="ea-ml-auto ea-mr-auto">
       <mat-spinner diameter="20"></mat-spinner>
     </div>
   </div>

@@ -1,31 +1,39 @@
 <ng-container *transloco="let t; read: 'operationConditions'">
-  <div class="flex w-full flex-col">
-    <div class="flex flex-1 flex-col items-center gap-10">
-      <div class="flex flex-col gap-0 sm:gap-6 lg:grid">
-        <h6 class="text-medium-emphasis">
+  <div class="ea-flex ea-w-full ea-flex-col">
+    <div class="ea-flex ea-flex-1 ea-flex-col ea-items-center ea-gap-10">
+      <div class="ea-flex ea-flex-col ea-gap-0 sm:ea-gap-6 lg:ea-grid">
+        <h6 class="ea-text-medium-emphasis">
           {{t('title', {bearingDesignation: bearingDesignation$ | ngrxPush } )}}
         </h6>
-        <div class="flex flex-row">
-          <span class="flex-grow"></span>
+        <div class="ea-flex ea-flex-row">
+          <span class="ea-flex-grow"></span>
           <button mat-button color="primary" (click)="onResetButtonClick()">
             {{ t('resetInputs') }}
           </button>
         </div>
 
         <div
-          class="border-border bg-surface border-t sm:rounded sm:border-x sm:border-b"
+          class="ea-border-border ea-bg-surface ea-border-t sm:ea-rounded sm:ea-border-x sm:ea-border-b"
         >
-          <div class="border-border flex flex-row items-center border-b p-5">
-            <mat-icon class="!text-medium-emphasis mr-2">compress</mat-icon>
-            <h5 class="text-body-2 mr-4">{{ t('loads') }}</h5>
-            <span class="flex-grow"></span>
+          <div
+            class="ea-border-border ea-flex ea-flex-row ea-items-center ea-border-b ea-px-6 ea-py-4"
+          >
+            <mat-icon class="!ea-text-medium-emphasis ea-mr-2"
+              >compress</mat-icon
+            >
+            <h5 class="ea-text-subtitle-2 ea-text-medium-emphasis ea-mr-4">
+              {{ t('loads') }}
+            </h5>
+            <span class="ea-flex-grow"></span>
             <span
-              class="text-caption text-low-emphasis font-medium tracking-wide"
+              class="ea-text-caption ea-text-low-emphasis ea-font-medium ea-tracking-wide"
               >{{ t('requiredInformation') }}</span
             >
           </div>
-          <div class="p-4 pb-0">
-            <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4">
+          <div class="ea-p-8 ea-pb-4">
+            <div
+              class="ea-grid ea-grid-cols-1 ea-gap-0 md:ea-grid-cols-2 md:ea-gap-4"
+            >
               <ea-input
                 [control]="radialLoad"
                 [label]="t('radialLoad')"
@@ -46,18 +54,26 @@
           </div>
         </div>
         <div
-          class="border-border bg-surface border-t sm:rounded sm:border-x sm:border-b"
+          class="ea-border-border ea-bg-surface ea-border-t sm:ea-rounded sm:ea-border-x sm:ea-border-b"
         >
-          <div class="border-border flex flex-row items-center border-b p-5">
-            <mat-icon class="!text-medium-emphasis mr-2">animation</mat-icon>
-            <h5 class="text-body-2 mr-4">{{ t('relativeRotationalSpeed') }}</h5>
-            <span class="flex-grow"></span>
+          <div
+            class="ea-border-border ea-flex ea-flex-row ea-items-center ea-border-b ea-px-6 ea-py-4"
+          >
+            <mat-icon class="!ea-text-medium-emphasis ea-mr-2"
+              >animation</mat-icon
+            >
+            <h5 class="ea-text-subtitle-2 ea-text-medium-emphasis ea-mr-4">
+              {{ t('relativeRotationalSpeed') }}
+            </h5>
+            <span class="ea-flex-grow"></span>
             <span
-              class="text-caption text-low-emphasis font-medium tracking-wide"
+              class="ea-text-caption ea-text-low-emphasis ea-font-medium ea-tracking-wide"
               >{{ t('requiredInformation') }}</span
             >
           </div>
-          <div class="grid grid-cols-1 gap-0 p-4 pb-0 md:grid-cols-2 md:gap-4">
+          <div
+            class="ea-grid ea-grid-cols-1 ea-gap-0 ea-p-8 ea-pb-4 md:ea-grid-cols-2 md:ea-gap-4"
+          >
             <ea-input
               [control]="rotationalSpeed"
               [label]="t('relativeRotationalSpeed')"
