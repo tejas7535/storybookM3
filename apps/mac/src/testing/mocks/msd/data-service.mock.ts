@@ -118,6 +118,8 @@ export const msdServiceSteelMockResponse: SteelMaterialResponse[] = [
       materialName: 'C80M',
       standardDocument: 'S 130002',
       materialNumber: ['1.1234'],
+      wiamId: 'WiamID',
+      stoffId: 'StoffID',
     },
     materialClass: 'st',
     selfCertified: false,
@@ -173,6 +175,8 @@ export const msdServiceSteelMockResult: SteelMaterial[] = [
     materialStandardId: 57,
     materialStandardMaterialName: 'C80M',
     materialStandardStandardDocument: 'S 130002',
+    materialStandardStoffId: 'StoffID',
+    materialStandardWiamId: 'WiamID',
     productCategory: 'strip',
     productCategoryText:
       'materialsSupplierDatabase.productCategoryValues.strip',

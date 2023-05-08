@@ -1,6 +1,8 @@
 export const MATERIAL_STANDARD_MATERIAL_NAME = 'materialStandardMaterialName';
 export const MATERIAL_STANDARD_STANDARD_DOCUMENT =
   'materialStandardStandardDocument';
+export const MATERIAL_STANDARD_WIAM_ID = 'materialStandardWiamId';
+export const MATERIAL_STANDARD_STOFF_ID = 'materialStandardStoffId';
 export const MATERIAL_NUMBERS = 'materialNumbers';
 export const MANUFACTURER_SUPPLIER_NAME = 'manufacturerSupplierName';
 export const MANUFACTURER_SUPPLIER_PLANT = 'manufacturerSupplierPlant';

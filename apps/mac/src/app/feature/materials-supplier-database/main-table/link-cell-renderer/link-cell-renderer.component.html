@@ -1,0 +1,25 @@
+<div
+  class="flex h-full min-h-[46px] w-full flex-row justify-center"
+  (mouseover)="setHovered(true)"
+  (mouseout)="setHovered(false)"
+>
+  <span class="flex-1 truncate" *ngIf="params?.value">
+    <a [href]="getHref()" target="_blank" [ngClass]="{ 'text-link': hovered }">
+      {{ getName() }}
+      <mat-icon class="!inline" inline="true">open_in_new</mat-icon>
+    </a>
+  </span>
+  <div
+    class="h-full"
+    *ngIf="params?.hasEditorRole && editableClass(materialClass$ | ngrxPush)"
+  >
+    <button
+      class="my-auto"
+      mat-icon-button
+      [ngClass]="{ '!hidden': !hovered }"
+      (click)="onEditClick()"
+    >
+      <mat-icon class="text-medium-emphasis !text-[12px]">edit</mat-icon>
+    </button>
+  </div>
+</div>

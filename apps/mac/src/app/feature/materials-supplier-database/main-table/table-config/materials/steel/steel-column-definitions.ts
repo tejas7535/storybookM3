@@ -11,6 +11,7 @@ import {
   MATERIAL_NUMBERS,
   MATERIAL_STANDARD_MATERIAL_NAME,
   MATERIAL_STANDARD_STANDARD_DOCUMENT,
+  MATERIAL_STANDARD_STOFF_ID,
   MAX_DIMENSION,
   MIN_DIMENSION,
   PRODUCT_CATEGORY,
@@ -37,6 +38,7 @@ import {
 import { BASE_COLUMN_DEFINITIONS } from '@mac/msd/main-table/table-config/materials/base';
 
 import { GreenSteelCellRendererComponent } from '../../../green-steel-cell-renderer/green-steel-cell-renderer.component';
+import { LinkCellRendererComponent } from '../../../link-cell-renderer/link-cell-renderer.component';
 import { ReleaseStatusCellRendererComponent } from '../../../release-status-cell-renderer/release-status-cell-renderer.component';
 import { excludeColumn, lockColumns } from '../../helpers';
 
@@ -177,5 +179,16 @@ export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
     headerName: MANUFACTURER_SUPPLIER_SELFCERTIFIED,
     hide: true,
     headerTooltip: MANUFACTURER_SUPPLIER_SELFCERTIFIED,
+  },
+  {
+    field: MATERIAL_STANDARD_STOFF_ID,
+    headerName: MATERIAL_STANDARD_STOFF_ID,
+    filterParams: FILTER_PARAMS,
+    hide: true,
+    headerTooltip: MATERIAL_STANDARD_STOFF_ID,
+    tooltipValueGetter: (params) => (params.value ? 'wiamLink' : undefined),
+    valueFormatter: (params) =>
+      `${params.value}|https://wiamp.schaeffler.com:8443/rdc/de.wiam.ext.schaeffler.rdc/sheets/raw?parameters=x[0,0,0[i1267680281-1673865505844-76_xEN3${params.data.materialStandardWiamId}-1011]`,
+    cellRenderer: LinkCellRendererComponent,
   },
 ];

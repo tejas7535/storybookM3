@@ -2,6 +2,9 @@ import { BaseMaterial } from '@mac/msd/models';
 
 export interface SteelMaterial extends BaseMaterial {
   materialNumbers?: string[];
+  materialStandardWiamId?: string;
+  materialStandardStoffId?: string;
+
   manufacturer: boolean;
   sapSupplierIds?: string[];
 

@@ -128,9 +128,17 @@ export class MsdDataService {
         materialResponse.materialStandard,
         'materialNumber'
       ),
-
       materialStandardStandardDocument:
         materialResponse.materialStandard.standardDocument,
+      materialStandardWiamId: findProperty(
+        materialResponse.materialStandard,
+        'wiamId'
+      ),
+      materialStandardStoffId: findProperty(
+        materialResponse.materialStandard,
+        'stoffId'
+      ),
+
       manufacturerSupplierId: materialResponse.manufacturerSupplier.id,
       manufacturerSupplierName: materialResponse.manufacturerSupplier.name,
       manufacturerSupplierPlant: materialResponse.manufacturerSupplier.plant,
@@ -272,6 +280,8 @@ export class MsdDataService {
       id: std.id,
       materialStandardMaterialName: std.materialName,
       materialStandardStandardDocument: std.standardDocument,
+      materialStandardWiamId: findProperty(std, 'wiamId'),
+      materialStandardStoffId: findProperty(std, 'stoffId'),
       materialNumbers: findProperty(std, 'materialNumber'),
       lastModified: std.timestamp,
       modifiedBy: std.modifiedBy,

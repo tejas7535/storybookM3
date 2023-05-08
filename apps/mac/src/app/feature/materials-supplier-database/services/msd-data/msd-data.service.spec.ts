@@ -1075,6 +1075,8 @@ describe('MsdDataService', () => {
           materialName: 'one',
           standardDocument: 'sOne',
           materialNumber: ['1', '2'],
+          wiamId: 'WiamId',
+          stoffId: 'StoffId',
           timestamp: 1345,
           modifiedBy: 'me',
         },
@@ -1091,6 +1093,8 @@ describe('MsdDataService', () => {
           id: 1,
           materialStandardMaterialName: 'one',
           materialStandardStandardDocument: 'sOne',
+          materialStandardWiamId: 'WiamId',
+          materialStandardStoffId: 'StoffId',
           materialNumbers: ['1', '2'],
           lastModified: 1345,
           modifiedBy: 'me',
@@ -1102,6 +1106,8 @@ describe('MsdDataService', () => {
           lastModified: 1345,
           modifiedBy: 'me',
           materialNumbers: undefined,
+          materialStandardWiamId: undefined,
+          materialStandardStoffId: undefined,
         },
       ];
       expect(service.mapStandardsToTableView(srcArray)).toStrictEqual(expected);

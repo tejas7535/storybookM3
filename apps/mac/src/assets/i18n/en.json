@@ -301,6 +301,7 @@
         "copperNumber": "Copper Number(s)",
         "materialStandardMaterialName": "Material Name",
         "materialStandardStandardDocument": "Standard Document",
+        "materialStandardStoffId": "Schaeffler Material ID",
         "maxDimension": "Maximum Dimension (mm)",
         "minDimension": "Minimum Dimension (mm)",
         "productCategoryText": "Product Category",
@@ -550,7 +551,9 @@
           "1": "Green Steel classification: Light Green",
           "2": "Green Steel classification: Medium Green",
           "3": "Green Steel classification: Green"
-        }
+        },
+        "materialStandardStoffId": "Schaeffler Material ID (SSID) used in WIAM and Windchill",
+        "wiamLink": "Show in Schaeffler Material Database WIAM"
       },
       "yes": "Yes"
     },

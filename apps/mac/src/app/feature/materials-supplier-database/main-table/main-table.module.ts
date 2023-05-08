@@ -24,6 +24,7 @@ import { DetailCellRendererComponent } from './detail-cell-renderer/detail-cell-
 import { EditCellRendererComponent } from './edit-cell-renderer/edit-cell-renderer.component';
 import { GreenSteelCellRendererComponent } from './green-steel-cell-renderer/green-steel-cell-renderer.component';
 import { HeaderTooltipComponent } from './header-tooltip/header-tooltip.component';
+import { LinkCellRendererComponent } from './link-cell-renderer/link-cell-renderer.component';
 import { MainTableComponent } from './main-table.component';
 import { MainTableRoutingModule } from './main-table-routing.module';
 import { MaterialDialogsModule } from './material-input-dialog/materials/materials.module';
@@ -36,6 +37,7 @@ import { ReleaseStatusCellRendererComponent } from './release-status-cell-render
   declarations: [
     MainTableComponent,
     EditCellRendererComponent,
+    LinkCellRendererComponent,
     GreenSteelCellRendererComponent,
     RecentStatusCellRendererComponent,
     ReleaseStatusCellRendererComponent,
