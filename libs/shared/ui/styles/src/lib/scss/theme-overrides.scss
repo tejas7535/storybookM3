@@ -1,81 +1,81 @@
 @use '@angular/material' as mat;
 
-@mixin schaeffler-theme-overrides($theme) {
+@mixin schaeffler-theme-overrides($theme, $prefix) {
   // button overrides
   .mat-button-base {
-    @apply text-button;
-    @apply uppercase;
+    @apply #{$prefix}text-button;
+    @apply #{$prefix}uppercase;
 
     &.mat-stroked-button.mat-button-disabled {
-      @apply border-border;
+      @apply #{$prefix}border-border;
     }
   }
 
   .mat-button-base:not(.mat-fab):not(.mat-mini-fab):not(.mat-icon-button) {
     mat-icon {
-      @apply -ml-1.5 mr-2 h-[18px] w-[18px] text-[18px];
+      @apply #{$prefix}-ml-1.5 #{$prefix}mr-2 #{$prefix}h-[18px] #{$prefix}w-[18px] #{$prefix}text-[18px];
     }
   }
 
   // snackbar overrides
   .mat-snack-bar-container {
-    @apply bg-high-emphasis;
-    @apply text-high-emphasis-dark-bg;
-    @apply py-0 #{!important};
+    @apply #{$prefix}bg-high-emphasis;
+    @apply #{$prefix}text-high-emphasis-dark-bg;
+    @apply #{$prefix}py-0 #{!important};
 
     .mat-simple-snackbar {
-      @apply flex-wrap;
+      @apply #{$prefix}flex-wrap;
 
       > span {
-        @apply pt-4;
-        @apply pb-4;
+        @apply #{$prefix}pt-4;
+        @apply #{$prefix}pb-4;
         min-width: 58%;
       }
 
       &-action {
-        @apply flex;
-        @apply grow;
-        @apply justify-end;
-        @apply mt-2;
-        @apply mb-2;
-        @apply text-high-emphasis-dark-bg;
+        @apply #{$prefix}flex;
+        @apply #{$prefix}grow;
+        @apply #{$prefix}justify-end;
+        @apply #{$prefix}mt-2;
+        @apply #{$prefix}mb-2;
+        @apply #{$prefix}text-high-emphasis-dark-bg;
       }
     }
   }
 
   // tooltip overrides
   mat-tooltip-component .mat-tooltip {
-    @apply whitespace-pre-line py-2 px-4 text-caption;
-    @apply bg-secondary-900;
+    @apply #{$prefix}text-caption #{$prefix}whitespace-pre-line #{$prefix}px-4 #{$prefix}py-2;
+    @apply #{$prefix}bg-secondary-900;
   }
 
   // expansion panel overrides
   mat-accordion.mat-accordion {
     mat-expansion-panel.mat-expansion-panel {
-      @apply shadow-none;
-      @apply border-l;
-      @apply border-r;
-      @apply border-b;
-      @apply border-border;
+      @apply #{$prefix}shadow-none;
+      @apply #{$prefix}border-l;
+      @apply #{$prefix}border-r;
+      @apply #{$prefix}border-b;
+      @apply #{$prefix}border-border;
 
       &:first-of-type {
-        @apply border-t;
+        @apply #{$prefix}border-t;
       }
 
       &.mat-expanded {
-        @apply border-t;
+        @apply #{$prefix}border-t;
 
         & + .mat-expansion-panel {
-          @apply border-t;
+          @apply #{$prefix}border-t;
         }
       }
 
       .mat-expansion-panel-header {
-        @apply rounded-none;
+        @apply #{$prefix}rounded-none;
       }
 
       .mat-expansion-panel-body {
-        @apply p-0;
+        @apply #{$prefix}p-0;
       }
     }
   }
@@ -83,47 +83,47 @@
   // tabs overrides
   .mat-tab-labels > .mat-tab-label,
   .mat-tab-links > .mat-tab-link {
-    @apply opacity-100;
-    @apply h-auto;
-    @apply min-h-[48px];
-    @apply pb-4;
-    @apply pt-3;
+    @apply #{$prefix}opacity-100;
+    @apply #{$prefix}h-auto;
+    @apply #{$prefix}min-h-[48px];
+    @apply #{$prefix}pb-4;
+    @apply #{$prefix}pt-3;
   }
 
   .mat-tab-labels > .mat-tab-label {
-    @apply items-end;
+    @apply #{$prefix}items-end;
   }
 
   .mat-tab-links > .mat-tab-link {
-    @apply justify-end;
+    @apply #{$prefix}justify-end;
   }
 
   .mat-tab-label-active > .mat-tab-label-content,
   .mat-tab-links > .mat-tab-label-active {
-    @apply text-link;
+    @apply #{$prefix}text-link;
   }
 
   .mat-tab-label-content,
   .mat-tab-link {
-    @apply text-button;
-    @apply uppercase;
-    @apply text-medium-emphasis;
-    @apply flex;
-    @apply flex-col;
+    @apply #{$prefix}text-button;
+    @apply #{$prefix}uppercase;
+    @apply #{$prefix}text-medium-emphasis;
+    @apply #{$prefix}flex;
+    @apply #{$prefix}flex-col;
   }
 
   // input overrides
   .mat-form-field-appearance-outline .mat-form-field-outline {
-    @apply bg-surface;
+    @apply #{$prefix}bg-surface;
     border-radius: 5px;
   }
 
   .mat-form-field-prefix,
   .mat-form-field-suffix {
-    @apply text-medium-emphasis;
+    @apply #{$prefix}text-medium-emphasis;
   }
 
   .mat-form-field-prefix {
-    @apply mr-2;
+    @apply #{$prefix}mr-2;
   }
 }

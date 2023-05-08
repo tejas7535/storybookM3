@@ -35,3 +35,28 @@ module.exports = {
 };
 
 ```
+
+### Using Tailwind Prefixes
+
+If your application is using a Tailwind prefix, you need to provide the prefix in the $prefix variable **before** the import of the lib styles in your `.scss` file.
+
+```js
+// tailwind.config.js
+
+module.exports = {
+  ...
+  prefix: 'my-tailwind-prefix-',
+  ...
+};
+
+```
+
+
+```scss
+// styles.scss
+
+$prefix: 'my-tailwind-prefix-';
+
+@import '@schaeffler/styles/src';
+
+```

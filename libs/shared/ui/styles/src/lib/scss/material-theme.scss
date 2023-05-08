@@ -27,4 +27,6 @@ $schaeffler-theme: mat.define-light-theme(
 @include mat.core();
 @include mat.all-component-themes($schaeffler-theme);
 
-@include overrides.schaeffler-theme-overrides($schaeffler-theme);
+$prefix: '' !default;
+
+@include overrides.schaeffler-theme-overrides($schaeffler-theme, $prefix);
