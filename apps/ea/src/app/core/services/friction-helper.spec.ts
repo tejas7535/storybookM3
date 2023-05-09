@@ -94,11 +94,11 @@ describe('CO2 Helper', () => {
             identifier: 'block',
             subordinates: [
               {
-                titleID: 'STRING_OUTP_CO2',
+                titleID: 'STRING_OUTP_CO2E',
                 identifier: 'block',
                 subordinates: [
                   {
-                    titleID: 'STRING_OUTP_CO2_EMISSIONS',
+                    titleID: 'STRING_OUTP_CO2E_CALCULATION',
                     identifier: 'variableBlock',
                     subordinates: [
                       {

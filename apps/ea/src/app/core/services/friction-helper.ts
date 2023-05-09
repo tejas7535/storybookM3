@@ -9,8 +9,8 @@ export const convertFrictionApiResult = (
 ): FrictionCalculationResult => {
   const co2Subordinate = extractSubordinatesFromPath(originalResult, [
     { titleID: 'STRING_OUTP_RESULTS', identifier: 'block' },
-    { titleID: 'STRING_OUTP_CO2', identifier: 'block' },
-    { titleID: 'STRING_OUTP_CO2_EMISSIONS', identifier: 'variableBlock' },
+    { titleID: 'STRING_OUTP_CO2E', identifier: 'block' },
+    { titleID: 'STRING_OUTP_CO2E_CALCULATION', identifier: 'variableBlock' },
     { identifier: 'variableLine' },
   ]);
 
