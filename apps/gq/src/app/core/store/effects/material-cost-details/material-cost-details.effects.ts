@@ -41,7 +41,10 @@ export class MaterialCostDetailsEffects {
 
   triggerLoadMaterialCostDetails$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(ActiveCaseActions.getQuotationSuccess),
+      ofType(
+        ActiveCaseActions.getQuotationSuccess,
+        ActiveCaseActions.setSelectedQuotationDetail
+      ),
       concatLatestFrom(() => this.store.select(getSelectedQuotationDetail)),
       map(([_action, quotationDetail]) => quotationDetail),
       filter((quotationDetail) => quotationDetail !== undefined),
