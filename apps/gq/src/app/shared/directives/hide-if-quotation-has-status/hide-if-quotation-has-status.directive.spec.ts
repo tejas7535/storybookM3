@@ -1,4 +1,4 @@
-import { getQuotationStatus } from '@gq/core/store/selectors';
+import { getQuotationStatus } from '@gq/core/store/active-case/active-case.selectors';
 import { createDirectiveFactory, SpectatorDirective } from '@ngneat/spectator';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 

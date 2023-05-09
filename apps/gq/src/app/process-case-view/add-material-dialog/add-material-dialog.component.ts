@@ -9,12 +9,8 @@ import {
   resetAllAutocompleteOptions,
   resetRequestingAutoCompleteDialog,
 } from '@gq/core/store/actions';
-import {
-  getAddMaterialRowData,
-  getCustomer,
-  getQuotationErrorMessage,
-  getUpdateLoading,
-} from '@gq/core/store/selectors';
+import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
+import { getAddMaterialRowData } from '@gq/core/store/selectors';
 import { Customer } from '@gq/shared/models/customer';
 import { Store } from '@ngrx/store';
 
@@ -38,16 +34,22 @@ export class AddMaterialDialogComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.rowData$ = this.store.select(getAddMaterialRowData);
-    this.updateLoading$ = this.store.select(getUpdateLoading);
-    this.customer$ = this.store.select(getCustomer);
-
-    const isErrorMessage$ = this.store.select(getQuotationErrorMessage);
-
-    const loadingStopped$ = this.store.select(getUpdateLoading).pipe(
-      pairwise(),
-      // eslint-disable-next-line ngrx/avoid-mapping-selectors
-      map(([preVal, curVal]) => preVal && !curVal)
+    this.updateLoading$ = this.store.select(
+      activeCaseFeature.selectUpdateLoading
     );
+    this.customer$ = this.store.select(activeCaseFeature.selectCustomer);
+
+    const isErrorMessage$ = this.store.select(
+      activeCaseFeature.selectQuotationLoadingErrorMessage
+    );
+
+    const loadingStopped$ = this.store
+      .select(activeCaseFeature.selectUpdateLoading)
+      .pipe(
+        pairwise(),
+        // eslint-disable-next-line ngrx/avoid-mapping-selectors
+        map(([preVal, curVal]) => preVal && !curVal)
+      );
 
     this.subscription.add(
       combineLatest([isErrorMessage$, loadingStopped$]).subscribe(

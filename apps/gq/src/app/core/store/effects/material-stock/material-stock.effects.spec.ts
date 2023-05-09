@@ -1,5 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 
+import { Quotation } from '@gq/shared/models';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -16,11 +17,10 @@ import {
   loadMaterialStock,
   loadMaterialStockFailure,
   loadMaterialStockSuccess,
-  loadQuotationSuccess,
   resetMaterialStock,
-  setSelectedQuotationDetail,
 } from '../../actions';
-import { getSelectedQuotationDetail } from '../../selectors';
+import { ActiveCaseActions } from '../../active-case/active-case.action';
+import { getSelectedQuotationDetail } from '../../active-case/active-case.selectors';
 import { MaterialStockEffects } from './material-stock.effects';
 
 describe('MaterialStockEffects', () => {
@@ -106,7 +106,9 @@ describe('MaterialStockEffects', () => {
     test(
       'should trigger loadMaterialStock',
       marbles((m) => {
-        action = loadQuotationSuccess({ item: QUOTATION_MOCK });
+        action = ActiveCaseActions.getQuotationSuccess({
+          item: QUOTATION_MOCK,
+        });
 
         actions$ = m.hot('-a', { a: action });
         const result = loadMaterialStock({
@@ -127,7 +129,9 @@ describe('MaterialStockEffects', () => {
           productionPlant: undefined,
         });
 
-        action = setSelectedQuotationDetail({ gqPositionId: '1234' });
+        action = ActiveCaseActions.getQuotationSuccess({
+          item: {} as unknown as Quotation,
+        });
 
         actions$ = m.hot('-a', { a: action });
         const result = resetMaterialStock();
@@ -140,7 +144,9 @@ describe('MaterialStockEffects', () => {
     test(
       'should trigger loadMaterialStock by setSelectedQuotationDetail',
       marbles((m) => {
-        action = setSelectedQuotationDetail({ gqPositionId: '1234' });
+        action = ActiveCaseActions.getQuotationSuccess({
+          item: {} as unknown as Quotation,
+        });
 
         actions$ = m.hot('-a', { a: action });
         const result = loadMaterialStock({

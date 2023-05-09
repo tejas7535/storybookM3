@@ -2,14 +2,12 @@ import { Component, OnInit } from '@angular/core';
 
 import { map, Observable } from 'rxjs';
 
-import { updateQuotation } from '@gq/core/store/actions';
 import {
-  getCustomerLoading,
+  ActiveCaseActions,
+  activeCaseFeature,
   getGqId,
-  getQuotation,
-  getQuotationLoading,
   getQuotationSapSyncStatus,
-} from '@gq/core/store/selectors';
+} from '@gq/core/store/active-case';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { Store } from '@ngrx/store';
 
@@ -29,15 +27,15 @@ import { ProcessCaseRoutePath } from './process-case-route-path.enum';
   styleUrls: ['./process-case-view.component.scss'],
 })
 export class ProcessCaseViewComponent implements OnInit {
-  public quotation$: Observable<Quotation>;
-  public customerLoading$: Observable<boolean>;
-  public quotationLoading$: Observable<boolean>;
-  public breadcrumbs$: Observable<Breadcrumb[]>;
-  public sapStatus$: Observable<SAP_SYNC_STATUS>;
+  quotation$: Observable<Quotation>;
+  customerLoading$: Observable<boolean>;
+  quotationLoading$: Observable<boolean>;
+  breadcrumbs$: Observable<Breadcrumb[]>;
+  sapStatus$: Observable<SAP_SYNC_STATUS>;
 
-  public tabs: Tab[] = [];
+  tabs: Tab[] = [];
 
-  public readonly sapSyncStatus = SAP_SYNC_STATUS;
+  readonly sapSyncStatus = SAP_SYNC_STATUS;
 
   constructor(
     private readonly store: Store,
@@ -45,10 +43,15 @@ export class ProcessCaseViewComponent implements OnInit {
     private readonly featureToggleService: FeatureToggleConfigService
   ) {}
 
-  public ngOnInit(): void {
-    this.quotation$ = this.store.select(getQuotation);
-    this.customerLoading$ = this.store.select(getCustomerLoading);
-    this.quotationLoading$ = this.store.select(getQuotationLoading);
+  ngOnInit(): void {
+    this.quotation$ = this.store.select(activeCaseFeature.selectQuotation);
+    this.customerLoading$ = this.store.select(
+      activeCaseFeature.selectCustomerLoading
+    );
+    this.quotationLoading$ = this.store.select(
+      activeCaseFeature.selectQuotationLoading
+    );
+
     this.sapStatus$ = this.store.select(getQuotationSapSyncStatus);
     this.breadcrumbs$ = this.store
       .select(getGqId)
@@ -81,7 +84,9 @@ export class ProcessCaseViewComponent implements OnInit {
     );
   }
 
-  public updateQuotation(updateQuotationRequest: UpdateQuotationRequest) {
-    this.store.dispatch(updateQuotation(updateQuotationRequest));
+  updateQuotation(updateQuotationRequest: UpdateQuotationRequest) {
+    this.store.dispatch(
+      ActiveCaseActions.updateQuotation(updateQuotationRequest)
+    );
   }
 }

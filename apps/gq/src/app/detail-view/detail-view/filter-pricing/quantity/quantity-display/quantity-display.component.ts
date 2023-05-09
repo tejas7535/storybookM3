@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 
-import { isManualCase } from '@gq/core/store/selectors';
+import { isManualCase } from '@gq/core/store/active-case/active-case.selectors';
 import { Store } from '@ngrx/store';
 
 import { ColumnFields } from '../../../../../shared/ag-grid/constants/column-fields.enum';

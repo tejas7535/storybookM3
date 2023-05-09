@@ -16,8 +16,8 @@ import {
   loadComparableTransactionsFailure,
   loadComparableTransactionsSuccess,
 } from '../../actions';
+import { getPriceUnitOfSelectedQuotationDetail } from '../../active-case/active-case.selectors';
 import { ComparableLinkedTransaction } from '../../reducers/models';
-import { getPriceUnitOfSelectedQuotationDetail } from '../../selectors';
 import { TransactionsEffect } from './transactions.effects';
 
 describe('TransactionsEffect', () => {

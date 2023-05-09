@@ -3,15 +3,16 @@ import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import {
+  activeCaseFeature,
+  getCoefficients,
+  getDetailViewQueryParams,
+  getQuotationCurrency,
+  getSelectedQuotationDetail,
+} from '@gq/core/store/active-case';
 import { ComparableLinkedTransaction } from '@gq/core/store/reducers/models';
 import {
-  getCoefficients,
-  getCustomer,
-  getDetailViewQueryParams,
   getGraphTransactions,
-  getQuotationCurrency,
-  getQuotationLoading,
-  getSelectedQuotationDetail,
   getTransactions,
   getTransactionsLoading,
   userHasGPCRole,
@@ -53,7 +54,7 @@ export class TransactionViewComponent implements OnInit {
     undefined
   );
 
-  public breadcrumbs$: Observable<Breadcrumb[]>;
+  breadcrumbs$: Observable<Breadcrumb[]>;
 
   constructor(
     private readonly store: Store,
@@ -63,7 +64,9 @@ export class TransactionViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.quotationDetail$ = this.store.select(getSelectedQuotationDetail);
-    this.quotationLoading$ = this.store.select(getQuotationLoading);
+    this.quotationLoading$ = this.store.select(
+      activeCaseFeature.selectQuotationLoading
+    );
     this.quotationCurrency$ = this.store.select(getQuotationCurrency);
     this.hasGpcRole$ = this.store.pipe(userHasGPCRole);
     this.translationsLoaded$ = this.translocoService
@@ -90,7 +93,7 @@ export class TransactionViewComponent implements OnInit {
       })
     );
     this.coefficients$ = this.store.select(getCoefficients);
-    this.customer$ = this.store.select(getCustomer);
+    this.customer$ = this.store.select(activeCaseFeature.selectCustomer);
     this.breadcrumbs$ = this.store
       .select(getDetailViewQueryParams)
       .pipe(

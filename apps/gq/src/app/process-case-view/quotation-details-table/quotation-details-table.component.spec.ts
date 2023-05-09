@@ -2,11 +2,9 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import {
-  addSimulatedQuotation,
-  removeSimulatedQuotationDetail,
-  resetSimulatedQuotation,
-} from '@gq/core/store/actions';
-import { getSelectedQuotationDetailIds } from '@gq/core/store/selectors';
+  ActiveCaseActions,
+  activeCaseFeature,
+} from '@gq/core/store/active-case';
 import {
   ColumnDefService,
   LocalizationService,
@@ -96,7 +94,9 @@ describe('QuotationDetailsTableComponent', () => {
     test('should take selected cases from the store', () => {
       expect(component.selectedQuotationIds).toEqual([]);
 
-      store.overrideSelector(getSelectedQuotationDetailIds, ['1234']);
+      store.overrideSelector(activeCaseFeature.selectSelectedQuotationDetails, [
+        '1234',
+      ]);
       component.ngOnInit();
 
       expect(component.selectedQuotationIds).toEqual(['1234']);
@@ -412,7 +412,7 @@ describe('QuotationDetailsTableComponent', () => {
             priceSource: PriceSource.MANUAL,
           },
         ],
-        type: addSimulatedQuotation.type,
+        type: ActiveCaseActions.addSimulatedQuotation.type,
       });
       expect(component.isInputInvalid).toEqual(false);
     });
@@ -435,7 +435,7 @@ describe('QuotationDetailsTableComponent', () => {
       expect(store.dispatch).toHaveBeenCalledWith({
         gqId: MOCK_QUOTATION_ID,
         quotationDetails: [mockQuotationDetail],
-        type: addSimulatedQuotation.type,
+        type: ActiveCaseActions.addSimulatedQuotation.type,
       });
       expect(component.isInputInvalid).toEqual(false);
     });
@@ -458,7 +458,7 @@ describe('QuotationDetailsTableComponent', () => {
       expect(store.dispatch).toHaveBeenCalledWith({
         gqId: MOCK_QUOTATION_ID,
         quotationDetails: [mockQuotationDetail],
-        type: addSimulatedQuotation.type,
+        type: ActiveCaseActions.addSimulatedQuotation.type,
       });
       expect(component.isInputInvalid).toEqual(false);
     });
@@ -481,7 +481,7 @@ describe('QuotationDetailsTableComponent', () => {
       expect(store.dispatch).toHaveBeenCalledWith({
         gqId: MOCK_QUOTATION_ID,
         quotationDetails: [mockQuotationDetail],
-        type: addSimulatedQuotation.type,
+        type: ActiveCaseActions.addSimulatedQuotation.type,
       });
       expect(component.isInputInvalid).toEqual(false);
     });
@@ -490,7 +490,7 @@ describe('QuotationDetailsTableComponent', () => {
       component.onMultipleMaterialSimulation(ColumnFields.PRICE, 123, true);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        addSimulatedQuotation({
+        ActiveCaseActions.addSimulatedQuotation({
           gqId: 123,
           quotationDetails: [],
         })
@@ -543,7 +543,7 @@ describe('QuotationDetailsTableComponent', () => {
             priceSource: PriceSource.MANUAL,
           },
         ],
-        type: addSimulatedQuotation.type,
+        type: ActiveCaseActions.addSimulatedQuotation.type,
       });
     });
 
@@ -567,7 +567,7 @@ describe('QuotationDetailsTableComponent', () => {
       } as any);
 
       expect(store.dispatch).toHaveBeenCalledWith({
-        type: removeSimulatedQuotationDetail.type,
+        type: ActiveCaseActions.removeSimulatedQuotationDetail.type,
         gqPositionId: '5694232',
       });
     });
@@ -586,7 +586,7 @@ describe('QuotationDetailsTableComponent', () => {
       expect(component.simulatedField).toEqual(undefined);
       expect(component.simulatedValue).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith({
-        type: resetSimulatedQuotation.type,
+        type: ActiveCaseActions.resetSimulatedQuotation.type,
       });
     });
 
@@ -608,11 +608,11 @@ describe('QuotationDetailsTableComponent', () => {
       expect(component.onPriceSourceSimulation).toHaveBeenCalledTimes(1);
       expect(component['simulateMaterial']).toHaveBeenCalledTimes(0);
       expect(store.dispatch).toHaveBeenCalledWith({
-        type: resetSimulatedQuotation.type,
+        type: ActiveCaseActions.resetSimulatedQuotation.type,
       });
     });
 
-    test('should dispatch row selected', () => {
+    test('should dispatch select quotation detail', () => {
       store.dispatch = jest.fn();
       component.onRowSelected({
         node: { isSelected: () => true, data: { gqPositionId: '1234' } },
@@ -623,11 +623,11 @@ describe('QuotationDetailsTableComponent', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith({
         gqPositionId: '1234',
-        type: '[Process Case] Select a Quotation Detail',
+        type: ActiveCaseActions.selectQuotationDetail.type,
       });
     });
 
-    test('should dispatch row deselected', () => {
+    test('should dispatch deselect quotation detail', () => {
       store.dispatch = jest.fn();
       component.onRowSelected({
         node: { isSelected: () => false, data: { gqPositionId: '1234' } },
@@ -638,7 +638,7 @@ describe('QuotationDetailsTableComponent', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith({
         gqPositionId: '1234',
-        type: '[Process Case] Deselect a Quotation Detail',
+        type: ActiveCaseActions.deselectQuotationDetail.type,
       });
     });
   });
@@ -654,7 +654,7 @@ describe('QuotationDetailsTableComponent', () => {
         expect(store.dispatch).toHaveBeenCalledWith({
           gqId: MOCK_QUOTATION_ID,
           quotationDetails: [],
-          type: addSimulatedQuotation.type,
+          type: ActiveCaseActions.addSimulatedQuotation.type,
         });
       });
       test('should dispatch addSimulatedQuotationAction if target and detail price source is Strategic', () => {
@@ -672,7 +672,7 @@ describe('QuotationDetailsTableComponent', () => {
         expect(store.dispatch).toHaveBeenCalledWith({
           gqId: MOCK_QUOTATION_ID,
           quotationDetails: [],
-          type: addSimulatedQuotation.type,
+          type: ActiveCaseActions.addSimulatedQuotation.type,
         });
       });
       test('should dispatch addSimulatedQuotationAction if target and detail price source is sap standard', () => {
@@ -688,7 +688,7 @@ describe('QuotationDetailsTableComponent', () => {
         expect(store.dispatch).toHaveBeenCalledWith({
           gqId: MOCK_QUOTATION_ID,
           quotationDetails: [],
-          type: addSimulatedQuotation.type,
+          type: ActiveCaseActions.addSimulatedQuotation.type,
         });
       });
       test('should dispatch addSimulatedQuotationAction if target and detail price source is cap_price', () => {
@@ -705,7 +705,7 @@ describe('QuotationDetailsTableComponent', () => {
         expect(store.dispatch).toHaveBeenCalledWith({
           gqId: MOCK_QUOTATION_ID,
           quotationDetails: [],
-          type: addSimulatedQuotation.type,
+          type: ActiveCaseActions.addSimulatedQuotation.type,
         });
       });
       test('should dispatch addSimulatedQuotationAction if target and detail price source is sap special', () => {
@@ -722,7 +722,7 @@ describe('QuotationDetailsTableComponent', () => {
         expect(store.dispatch).toHaveBeenCalledWith({
           gqId: MOCK_QUOTATION_ID,
           quotationDetails: [],
-          type: addSimulatedQuotation.type,
+          type: ActiveCaseActions.addSimulatedQuotation.type,
         });
       });
       test('should dispatch addSimulatedQuotationAction if target is GQ and no GQ price exists', () => {
@@ -740,7 +740,7 @@ describe('QuotationDetailsTableComponent', () => {
         expect(store.dispatch).toHaveBeenCalledWith({
           gqId: MOCK_QUOTATION_ID,
           quotationDetails: [],
-          type: addSimulatedQuotation.type,
+          type: ActiveCaseActions.addSimulatedQuotation.type,
         });
       });
       test('should dispatch addSimulatedQuotationAction if target is SAP and no SAP price exists', () => {
@@ -757,7 +757,7 @@ describe('QuotationDetailsTableComponent', () => {
         expect(store.dispatch).toHaveBeenCalledWith({
           gqId: MOCK_QUOTATION_ID,
           quotationDetails: [],
-          type: addSimulatedQuotation.type,
+          type: ActiveCaseActions.addSimulatedQuotation.type,
         });
       });
       test('should dispatch addSimulatedQuotationAction if target is TARGET_PRICE and no target price exists', () => {
@@ -774,7 +774,7 @@ describe('QuotationDetailsTableComponent', () => {
         expect(store.dispatch).toHaveBeenCalledWith({
           gqId: MOCK_QUOTATION_ID,
           quotationDetails: [],
-          type: addSimulatedQuotation.type,
+          type: ActiveCaseActions.addSimulatedQuotation.type,
         });
       });
     });
@@ -799,7 +799,7 @@ describe('QuotationDetailsTableComponent', () => {
         expect(store.dispatch).toHaveBeenCalledWith({
           gqId: MOCK_QUOTATION_ID,
           quotationDetails: [expectedDetail],
-          type: addSimulatedQuotation.type,
+          type: ActiveCaseActions.addSimulatedQuotation.type,
         });
       });
       test('should dispatch addSimulatedQuotationAction for new sap cap_price', () => {
@@ -830,7 +830,7 @@ describe('QuotationDetailsTableComponent', () => {
         expect(store.dispatch).toHaveBeenCalledWith({
           gqId: MOCK_QUOTATION_ID,
           quotationDetails: [expectedDetail],
-          type: addSimulatedQuotation.type,
+          type: ActiveCaseActions.addSimulatedQuotation.type,
         });
       });
       test('should dispatch addSimulatedQuotationAction for new sap special price', () => {
@@ -861,7 +861,7 @@ describe('QuotationDetailsTableComponent', () => {
         expect(store.dispatch).toHaveBeenCalledWith({
           gqId: MOCK_QUOTATION_ID,
           quotationDetails: [expectedDetail],
-          type: addSimulatedQuotation.type,
+          type: ActiveCaseActions.addSimulatedQuotation.type,
         });
       });
       test('should dispatch addSimulatedQuotationAction for gq price', () => {
@@ -891,7 +891,7 @@ describe('QuotationDetailsTableComponent', () => {
               rlm: 90.2,
             },
           ],
-          type: addSimulatedQuotation.type,
+          type: ActiveCaseActions.addSimulatedQuotation.type,
         });
       });
       test('should dispatch addSimulatedQuotationAction for strategic price', () => {
@@ -926,7 +926,7 @@ describe('QuotationDetailsTableComponent', () => {
               rlm: 90.2,
             },
           ],
-          type: addSimulatedQuotation.type,
+          type: ActiveCaseActions.addSimulatedQuotation.type,
         });
       });
     });
@@ -951,7 +951,7 @@ describe('QuotationDetailsTableComponent', () => {
             rlm: 72.94,
           },
         ],
-        type: addSimulatedQuotation.type,
+        type: ActiveCaseActions.addSimulatedQuotation.type,
       });
     });
   });

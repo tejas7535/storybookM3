@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { distinctUntilChanged, Observable } from 'rxjs';
 
-import { getSimulatedQuotationDetailByItemId } from '@gq/core/store/selectors/process-case/process-case.selectors';
+import { getSimulatedQuotationDetailByItemId } from '@gq/core/store/active-case/active-case.selectors';
 import { QuotationDetailsTableValidationService } from '@gq/process-case-view/quotation-details-table/services/quotation-details-table-validation.service';
 import { PRICE_VALIDITY_MARGIN_THRESHOLD } from '@gq/shared/constants';
 import { Store } from '@ngrx/store';

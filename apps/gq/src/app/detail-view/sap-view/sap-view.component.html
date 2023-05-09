@@ -34,7 +34,7 @@
         else tableLoading
       "
       [rowData]="rowData$ | ngrxPush"
-      [tableContext]="tableContext$ | ngrxPush"
+      [tableContext]="{ quotation: (quotation$ | ngrxPush) }"
     ></gq-sap-price-details-table>
     <ng-template #tableLoading>
       <schaeffler-loading-spinner></schaeffler-loading-spinner>

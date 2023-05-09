@@ -1,4 +1,5 @@
 export * from './api-version.enum';
+export * from './customer';
 export * from './environment.enum';
 export * from './keyboard.enum';
 export * from './language.model';
@@ -6,6 +7,7 @@ export * from './query-params.model';
 export * from './quotation/quotation.model';
 export * from './quotation/quotation-origin.enum';
 export * from './quotation/quotation-status.enum';
+export * from './quotation-detail';
 export * from './role-group.model';
 export * from './simulated-quotation';
 export * from './status-bar.model';

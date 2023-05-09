@@ -2,8 +2,10 @@ import { Component } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { resetSimulatedQuotation } from '@gq/core/store/actions';
-import { getSimulationModeEnabled } from '@gq/core/store/selectors';
+import {
+  ActiveCaseActions,
+  getSimulationModeEnabled,
+} from '@gq/core/store/active-case';
 import { Store } from '@ngrx/store';
 import { IStatusPanelParams } from 'ag-grid-community';
 
@@ -30,7 +32,7 @@ export class DiscardSimulationButtonComponent {
   }
 
   discardSimulation(): void {
-    this.store.dispatch(resetSimulatedQuotation());
+    this.store.dispatch(ActiveCaseActions.resetSimulatedQuotation());
 
     this.insightsService.logEvent(EVENT_NAMES.MASS_SIMULATION_CANCELLED, {
       type: this.params.context.simulatedField,

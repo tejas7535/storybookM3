@@ -28,11 +28,11 @@ import { SubheaderModule } from '@schaeffler/subheader';
 import {
   MATERIAL_STOCK_STATE_MOCK,
   PLANT_MATERIAL_DETAILS_STATE_MOCK,
-  PROCESS_CASE_STATE_MOCK,
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
 } from '../../../testing/mocks';
 import { MATERIAL_STOCK_MOCK } from '../../../testing/mocks/models/material-stock.mock';
+import { ACTIVE_CASE_STATE_MOCK } from '../../../testing/mocks/state/active-case-state.mock';
 import { DetailViewComponent } from './detail-view.component';
 import { FilterPricingModule } from './filter-pricing/filter-pricing.module';
 import { PricingDetailsModule } from './pricing-details/pricing-details.module';
@@ -69,12 +69,9 @@ describe('DetailViewComponent', () => {
       mockProvider(ApplicationInsightsService),
       provideMockStore({
         initialState: {
-          processCase: {
-            ...PROCESS_CASE_STATE_MOCK,
-            quotation: {
-              ...PROCESS_CASE_STATE_MOCK.quotation,
-              selectedQuotationDetail: '5694232',
-            },
+          activeCase: {
+            ...ACTIVE_CASE_STATE_MOCK,
+            selectedQuotationDetail: '5694232',
           },
           materialStock: MATERIAL_STOCK_STATE_MOCK,
           plantMaterialDetails: PLANT_MATERIAL_DETAILS_STATE_MOCK,

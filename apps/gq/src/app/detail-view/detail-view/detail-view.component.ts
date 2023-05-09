@@ -3,15 +3,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { filter, map, NEVER, Observable } from 'rxjs';
 
+import {
+  activeCaseFeature,
+  getDetailViewQueryParams,
+  getSelectedQuotationDetail,
+} from '@gq/core/store/active-case';
 import { MaterialStock } from '@gq/core/store/reducers/models';
 import {
-  getDetailViewQueryParams,
   getMaterialStock,
   getMaterialStockLoading,
   getPlantMaterialDetails,
-  getQuotation,
-  getQuotationLoading,
-  getSelectedQuotationDetail,
 } from '@gq/core/store/selectors';
 import { Quotation } from '@gq/shared/models';
 import {
@@ -33,19 +34,19 @@ import { AppRoutePath } from '../../app-route-path.enum';
   styleUrls: ['./detail-view.component.scss'],
 })
 export class DetailViewComponent implements OnInit {
-  public quotation$: Observable<Quotation>;
-  public quotationLoading$: Observable<boolean>;
-  public quotationDetail$: Observable<QuotationDetail>;
-  public plantMaterialDetails$: Observable<PlantMaterialDetail[]>;
-  public materialStock$: Observable<MaterialStock>;
-  public materialStockLoading$: Observable<boolean>;
+  quotation$: Observable<Quotation>;
+  quotationLoading$: Observable<boolean>;
+  quotationDetail$: Observable<QuotationDetail>;
+  plantMaterialDetails$: Observable<PlantMaterialDetail[]>;
+  materialStock$: Observable<MaterialStock>;
+  materialStockLoading$: Observable<boolean>;
 
-  public breadcrumbs$: Observable<Breadcrumb[]>;
-  public quotations: QuotationDetail[];
+  breadcrumbs$: Observable<Breadcrumb[]>;
+  quotations: QuotationDetail[];
 
-  public sapStatusPosition$: Observable<SAP_SYNC_STATUS> = NEVER;
-  public readonly sapSyncStatus: typeof SAP_SYNC_STATUS = SAP_SYNC_STATUS;
-  public constructor(
+  sapStatusPosition$: Observable<SAP_SYNC_STATUS> = NEVER;
+  readonly sapSyncStatus: typeof SAP_SYNC_STATUS = SAP_SYNC_STATUS;
+  constructor(
     private readonly store: Store,
     private readonly breadCrumbsService: BreadcrumbsService,
     private readonly router: Router,
@@ -53,9 +54,11 @@ export class DetailViewComponent implements OnInit {
     private readonly agGridService: AgGridStateService
   ) {}
 
-  public ngOnInit(): void {
-    this.quotation$ = this.store.select(getQuotation);
-    this.quotationLoading$ = this.store.select(getQuotationLoading);
+  ngOnInit(): void {
+    this.quotation$ = this.store.select(activeCaseFeature.selectQuotation);
+    this.quotationLoading$ = this.store.select(
+      activeCaseFeature.selectQuotationLoading
+    );
     this.quotationDetail$ = this.store.select(getSelectedQuotationDetail);
 
     this.sapStatusPosition$ = this.quotationDetail$.pipe(

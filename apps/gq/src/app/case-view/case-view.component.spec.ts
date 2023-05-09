@@ -3,9 +3,9 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { loadCases } from '@gq/core/store/actions';
+import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
 import {
   getDeleteLoading,
-  getQuotationLoading,
   getQuotations,
   getStatusBarForQuotationStatus,
   getViewToggles,
@@ -109,7 +109,7 @@ describe('CaseViewComponent', () => {
     test(
       'should set quotationsLoading$',
       marbles((m) => {
-        store.overrideSelector(getQuotationLoading, true);
+        store.overrideSelector(activeCaseFeature.selectQuotationLoading, true);
 
         component.ngOnInit();
 
@@ -134,7 +134,7 @@ describe('CaseViewComponent', () => {
 
   describe('onViewToggle', () => {
     test('should call setDisplayedQuotations', () => {
-      store.overrideSelector(getQuotationLoading, false);
+      store.overrideSelector(activeCaseFeature.selectQuotationLoading, false);
       store.dispatch = jest.fn();
 
       component.onViewToggle({

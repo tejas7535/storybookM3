@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { createSapQuote } from '@gq/core/store/actions';
 import {
+  ActiveCaseActions,
   getIsQuotationActive,
   getSapId,
   getSimulationModeEnabled,
-} from '@gq/core/store/selectors';
+} from '@gq/core/store/active-case';
 import { Store } from '@ngrx/store';
 import { IStatusPanelParams } from 'ag-grid-community';
 
@@ -18,10 +18,10 @@ import { QuotationDetail } from '../../../models/quotation-detail';
   templateUrl: './upload-quote-to-sap-button.component.html',
 })
 export class UploadQuoteToSapButtonComponent {
-  public selections: QuotationDetail[] = [];
-  public uploadDisabled = true;
-  public sapId$: Observable<string>;
-  public simulationModeEnabled$: Observable<boolean>;
+  selections: QuotationDetail[] = [];
+  uploadDisabled = true;
+  sapId$: Observable<string>;
+  simulationModeEnabled$: Observable<boolean>;
   quotationActive$: Observable<boolean>;
 
   private params: IStatusPanelParams;
@@ -29,7 +29,7 @@ export class UploadQuoteToSapButtonComponent {
 
   constructor(private readonly store: Store) {}
 
-  public agInit(params: IStatusPanelParams): void {
+  agInit(params: IStatusPanelParams): void {
     this.params = params;
     this.params.api.addEventListener(
       'selectionChanged',
@@ -40,18 +40,18 @@ export class UploadQuoteToSapButtonComponent {
     this.quotationActive$ = this.store.select(getIsQuotationActive);
   }
 
-  public onSelectionChange(): void {
+  onSelectionChange(): void {
     this.selections = this.params.api.getSelectedRows();
     this.uploadDisabled =
       this.selections.length === 0 ||
       this.selections.length > this.QUOTATION_POSITION_UPLOAD_LIMIT;
   }
 
-  public uploadCaseToSap(): void {
+  uploadCaseToSap(): void {
     const gqPositionIds = this.selections.map(
       (item: QuotationDetail) => item.gqPositionId
     );
 
-    this.store.dispatch(createSapQuote({ gqPositionIds }));
+    this.store.dispatch(ActiveCaseActions.createSapQuote({ gqPositionIds }));
   }
 }

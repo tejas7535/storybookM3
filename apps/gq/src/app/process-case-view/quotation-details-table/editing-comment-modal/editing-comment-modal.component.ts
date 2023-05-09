@@ -5,12 +5,11 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { combineLatest, map, Observable, pairwise, Subscription } from 'rxjs';
 
-import { updateQuotationDetails } from '@gq/core/store/actions';
-import { UpdateQuotationDetail } from '@gq/core/store/reducers/models';
 import {
-  getQuotationErrorMessage,
-  getUpdateLoading,
-} from '@gq/core/store/selectors/process-case/process-case.selectors';
+  ActiveCaseActions,
+  activeCaseFeature,
+  UpdateQuotationDetail,
+} from '@gq/core/store/active-case';
 import { Store } from '@ngrx/store';
 
 import { QuotationDetail } from '../../../shared/models/quotation-detail';
@@ -37,17 +36,23 @@ export class EditingCommentModalComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.commentFormControl = new UntypedFormControl(this.modalData.comment);
-    this.updateLoading$ = this.store.select(getUpdateLoading);
+    this.updateLoading$ = this.store.select(
+      activeCaseFeature.selectUpdateLoading
+    );
     this.addSubscriptions();
   }
 
   addSubscriptions(): void {
-    const loadingStopped$ = this.store.select(getUpdateLoading).pipe(
-      pairwise(),
-      // eslint-disable-next-line ngrx/avoid-mapping-selectors
-      map(([preVal, curVal]) => preVal && !curVal)
+    const loadingStopped$ = this.store
+      .select(activeCaseFeature.selectUpdateLoading)
+      .pipe(
+        pairwise(),
+        // eslint-disable-next-line ngrx/avoid-mapping-selectors
+        map(([preVal, curVal]) => preVal && !curVal)
+      );
+    const isErrorMessage$ = this.store.select(
+      activeCaseFeature.selectQuotationLoadingErrorMessage
     );
-    const isErrorMessage$ = this.store.select(getQuotationErrorMessage);
 
     this.subscription.add(
       combineLatest([isErrorMessage$, loadingStopped$]).subscribe(
@@ -84,6 +89,8 @@ export class EditingCommentModalComponent implements OnInit, OnDestroy {
         comment,
       },
     ];
-    this.store.dispatch(updateQuotationDetails({ updateQuotationDetailList }));
+    this.store.dispatch(
+      ActiveCaseActions.updateQuotationDetails({ updateQuotationDetailList })
+    );
   }
 }

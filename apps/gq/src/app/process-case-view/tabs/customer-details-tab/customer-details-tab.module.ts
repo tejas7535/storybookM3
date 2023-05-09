@@ -2,12 +2,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
-import { ProcessCaseEffects } from '@gq/core/store/effects';
-import { processCaseReducer } from '@gq/core/store/reducers/process-case/process-case.reducer';
+import { ActiveCaseModule } from '@gq/core/store/active-case/active-case.module';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -31,8 +28,7 @@ import { SalesforceComponent } from './salesforce/salesforce.component';
   ],
   imports: [
     CommonModule,
-    EffectsModule.forFeature([ProcessCaseEffects]),
-    StoreModule.forFeature('processCase', processCaseReducer),
+    ActiveCaseModule,
     MatCardModule,
     PushModule,
     SharedTranslocoModule,

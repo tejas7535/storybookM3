@@ -1,4 +1,4 @@
-import { confirmSimulatedQuotation } from '@gq/core/store/actions';
+import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -85,7 +85,7 @@ describe('ConfirmSimulationComponent', () => {
 
       expect(mockStore.dispatch).toHaveBeenCalledTimes(1);
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        confirmSimulatedQuotation()
+        ActiveCaseActions.confirmSimulatedQuotation()
       );
     });
   });

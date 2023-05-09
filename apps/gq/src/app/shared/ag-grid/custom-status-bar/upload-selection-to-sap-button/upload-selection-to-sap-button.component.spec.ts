@@ -6,7 +6,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { of } from 'rxjs';
 
-import { uploadSelectionToSap } from '@gq/core/store/actions';
+import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -150,7 +150,7 @@ describe('uploadSelectionToSapButtonComponent', () => {
       );
       expect(store.dispatch).toHaveBeenCalledTimes(1);
       expect(store.dispatch).toHaveBeenLastCalledWith(
-        uploadSelectionToSap({ gqPositionIds: ['1'] })
+        ActiveCaseActions.uploadSelectionToSap({ gqPositionIds: ['1'] })
       );
     });
   });

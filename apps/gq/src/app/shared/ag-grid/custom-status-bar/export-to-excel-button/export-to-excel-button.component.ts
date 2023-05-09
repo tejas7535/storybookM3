@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { combineLatest, Observable, Subscription } from 'rxjs';
 
+import { getSimulationModeEnabled } from '@gq/core/store/active-case/active-case.selectors';
 import {
   CalculationType,
   ExtendedComparableLinkedTransaction,
@@ -13,7 +14,6 @@ import {
 import {
   getExtendedComparableLinkedTransactions,
   getExtendedSapPriceConditionDetails,
-  getSimulationModeEnabled,
 } from '@gq/core/store/selectors';
 import { calculateStatusBarValues } from '@gq/shared/utils/pricing.utils';
 import { translate, TranslocoService } from '@ngneat/transloco';

@@ -13,8 +13,11 @@ import {
   loadExtendedComparableLinkedTransactionFailure,
   loadExtendedComparableLinkedTransactionSuccess,
 } from '../../actions';
+import {
+  getGqId,
+  getPriceUnitsForQuotationItemIds,
+} from '../../active-case/active-case.selectors';
 import { ExtendedComparableLinkedTransaction } from '../../reducers/models';
-import { getGqId, getPriceUnitsForQuotationItemIds } from '../../selectors';
 import { ExtendedComparableLinkedTransactionsEffect } from './extended-comparable-linked-transactions.effects';
 
 describe('ExtendedComparableLinkedTransactionsEffect', () => {

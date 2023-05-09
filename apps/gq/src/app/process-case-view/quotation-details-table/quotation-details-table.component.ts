@@ -5,16 +5,10 @@ import { Router } from '@angular/router';
 import { map, Observable, Subject, take, takeUntil } from 'rxjs';
 
 import {
-  addSimulatedQuotation,
-  deselectQuotationDetail,
-  removeSimulatedQuotationDetail,
-  resetSimulatedQuotation,
-  selectQuotationDetail,
-} from '@gq/core/store/actions';
-import {
-  getColumnDefsForRoles,
-  getSelectedQuotationDetailIds,
-} from '@gq/core/store/selectors';
+  ActiveCaseActions,
+  activeCaseFeature,
+} from '@gq/core/store/active-case';
+import { getColumnDefsForRoles } from '@gq/core/store/selectors';
 import { ColumnUtilityService } from '@gq/shared/ag-grid/services';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import {
@@ -147,7 +141,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
       this.onPriceSourceSimulation.bind(this);
 
     this.store
-      .select(getSelectedQuotationDetailIds)
+      .select(activeCaseFeature.selectSelectedQuotationDetails)
       .pipe(take(1))
       .subscribe((val) => {
         this.selectedQuotationIds = val;
@@ -263,11 +257,15 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
   public onRowSelected(event: RowSelectedEvent): void {
     if (event.node.isSelected()) {
       this.store.dispatch(
-        selectQuotationDetail({ gqPositionId: event.node.data.gqPositionId })
+        ActiveCaseActions.selectQuotationDetail({
+          gqPositionId: event.node.data.gqPositionId,
+        })
       );
     } else {
       this.store.dispatch(
-        deselectQuotationDetail({ gqPositionId: event.node.data.gqPositionId })
+        ActiveCaseActions.deselectQuotationDetail({
+          gqPositionId: event.node.data.gqPositionId,
+        })
       );
     }
 
@@ -288,7 +286,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
         );
       } else {
         this.store.dispatch(
-          removeSimulatedQuotationDetail({
+          ActiveCaseActions.removeSimulatedQuotationDetail({
             gqPositionId: event.node.data.gqPositionId,
           })
         );
@@ -298,7 +296,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
       this.simulatedValue = undefined;
       this.simulatedPriceSource = undefined;
 
-      this.store.dispatch(resetSimulatedQuotation());
+      this.store.dispatch(ActiveCaseActions.resetSimulatedQuotation());
     }
   }
 
@@ -391,7 +389,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
       .filter(Boolean);
 
     this.store.dispatch(
-      addSimulatedQuotation({
+      ActiveCaseActions.addSimulatedQuotation({
         gqId: this.tableContext.quotation.gqId,
         quotationDetails: simulatedRows,
       })
@@ -515,7 +513,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
         );
 
     this.store.dispatch(
-      addSimulatedQuotation({
+      ActiveCaseActions.addSimulatedQuotation({
         gqId: this.tableContext.quotation.gqId,
         quotationDetails: simulatedRows,
       })

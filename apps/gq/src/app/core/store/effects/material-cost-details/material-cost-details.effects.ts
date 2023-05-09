@@ -11,11 +11,10 @@ import {
   loadMaterialCostDetails,
   loadMaterialCostDetailsFailure,
   loadMaterialCostDetailsSuccess,
-  loadQuotationSuccess,
   resetMaterialCostDetails,
-  setSelectedQuotationDetail,
 } from '../../actions';
-import { getSelectedQuotationDetail } from '../../selectors';
+import { ActiveCaseActions } from '../../active-case/active-case.action';
+import { getSelectedQuotationDetail } from '../../active-case/active-case.selectors';
 
 @Injectable()
 export class MaterialCostDetailsEffects {
@@ -42,7 +41,7 @@ export class MaterialCostDetailsEffects {
 
   triggerLoadMaterialCostDetails$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(loadQuotationSuccess.type, setSelectedQuotationDetail.type),
+      ofType(ActiveCaseActions.getQuotationSuccess),
       concatLatestFrom(() => this.store.select(getSelectedQuotationDetail)),
       map(([_action, quotationDetail]) => quotationDetail),
       filter((quotationDetail) => quotationDetail !== undefined),

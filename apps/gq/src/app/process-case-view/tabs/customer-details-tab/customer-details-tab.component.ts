@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { getCustomer } from '@gq/core/store/selectors';
+import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
 import { Store } from '@ngrx/store';
 
 import { Customer } from '../../../shared/models/customer';
@@ -14,8 +14,8 @@ import { HelperService } from '../../../shared/services/helper/helper.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomerDetailsTabComponent implements OnInit {
-  public currentYear: number;
-  public lastYear: number;
+  currentYear: number;
+  lastYear: number;
 
   customer$: Observable<Customer>;
 
@@ -25,6 +25,6 @@ export class CustomerDetailsTabComponent implements OnInit {
     this.currentYear = HelperService.getCurrentYear();
     this.lastYear = HelperService.getLastYear();
 
-    this.customer$ = this.store.select(getCustomer);
+    this.customer$ = this.store.select(activeCaseFeature.selectCustomer);
   }
 }

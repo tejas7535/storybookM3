@@ -6,7 +6,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { of } from 'rxjs';
 
-import { refreshSapPricing } from '@gq/core/store/actions';
+import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { translate } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
@@ -83,7 +83,9 @@ describe('RefreshSapPriceComponent', () => {
       expect(component['dialog'].open).toHaveBeenCalledTimes(1);
       expect(store.dispatch).toHaveBeenCalledTimes(1);
       expect(translate).toHaveBeenCalledTimes(3);
-      expect(store.dispatch).toHaveBeenLastCalledWith(refreshSapPricing());
+      expect(store.dispatch).toHaveBeenLastCalledWith(
+        ActiveCaseActions.refreshSapPricing()
+      );
     });
   });
 

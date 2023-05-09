@@ -2,23 +2,23 @@ import { Component, OnInit } from '@angular/core';
 
 import { map, Observable } from 'rxjs';
 
-import { SapPriceConditionDetail } from '@gq/core/store/reducers/models';
 import {
-  getCustomer,
+  activeCaseFeature,
   getDetailViewQueryParams,
   getQuotationCurrency,
-  getQuotationLoading,
+  getSelectedQuotationDetail,
+} from '@gq/core/store/active-case';
+import { SapPriceConditionDetail } from '@gq/core/store/reducers/models';
+import {
   getSapPriceDetails,
   getSapPriceDetailsLoading,
-  getSelectedQuotationDetail,
-  getTableContextQuotationForCustomerCurrency,
 } from '@gq/core/store/selectors';
+import { Quotation } from '@gq/shared/models';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
-import { TableContext } from '../../process-case-view/quotation-details-table/config/tablecontext.model';
 import { Customer } from '../../shared/models/customer';
 import { QuotationDetail } from '../../shared/models/quotation-detail';
 import { BreadcrumbsService } from '../../shared/services/breadcrumbs/breadcrumbs.service';
@@ -34,27 +34,27 @@ export class SapViewComponent implements OnInit {
     private readonly translocoService: TranslocoService
   ) {}
 
-  public customer$: Observable<Customer>;
-  public quotationCurrency$: Observable<string>;
-  public quotationDetail$: Observable<QuotationDetail>;
-  public quotationLoading$: Observable<boolean>;
-  public translationsLoaded$: Observable<boolean>;
-  public sapPriceDetailsLoading$: Observable<boolean>;
-  public breadcrumbs$: Observable<Breadcrumb[]>;
-  public rowData$: Observable<SapPriceConditionDetail[]>;
-  public tableContext$: Observable<TableContext>;
-  public translation$: Observable<any>;
+  customer$: Observable<Customer>;
+  quotation$: Observable<Quotation>;
+  quotationCurrency$: Observable<string>;
+  quotationDetail$: Observable<QuotationDetail>;
+  quotationLoading$: Observable<boolean>;
+  translationsLoaded$: Observable<boolean>;
+  sapPriceDetailsLoading$: Observable<boolean>;
+  breadcrumbs$: Observable<Breadcrumb[]>;
+  rowData$: Observable<SapPriceConditionDetail[]>;
+  translation$: Observable<any>;
 
   ngOnInit(): void {
-    this.customer$ = this.store.select(getCustomer);
+    this.customer$ = this.store.select(activeCaseFeature.selectCustomer);
     this.quotationCurrency$ = this.store.select(getQuotationCurrency);
     this.quotationDetail$ = this.store.select(getSelectedQuotationDetail);
-    this.quotationLoading$ = this.store.select(getQuotationLoading);
+    this.quotationLoading$ = this.store.select(
+      activeCaseFeature.selectQuotationLoading
+    );
     this.sapPriceDetailsLoading$ = this.store.select(getSapPriceDetailsLoading);
     this.rowData$ = this.store.select(getSapPriceDetails);
-    this.tableContext$ = this.store.select(
-      getTableContextQuotationForCustomerCurrency
-    );
+    this.quotation$ = this.store.select(activeCaseFeature.selectQuotation);
     this.translationsLoaded$ = this.translocoService
       .selectTranslateObject('sapView', {}, '')
       .pipe(map((value) => typeof value !== 'string'));

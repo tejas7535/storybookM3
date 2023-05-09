@@ -4,7 +4,7 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
-import { updateQuotationDetails } from '@gq/core/store/actions';
+import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -97,7 +97,7 @@ describe('EditingCommentModalComponent', () => {
 
       expect(store.dispatch).toHaveBeenCalledTimes(1);
       expect(store.dispatch).toHaveBeenCalledWith(
-        updateQuotationDetails({
+        ActiveCaseActions.updateQuotationDetails({
           updateQuotationDetailList: [
             {
               gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,

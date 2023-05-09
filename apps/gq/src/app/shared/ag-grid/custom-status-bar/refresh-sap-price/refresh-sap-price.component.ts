@@ -3,8 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 
-import { refreshSapPricing } from '@gq/core/store/actions';
-import { getSimulationModeEnabled } from '@gq/core/store/selectors';
+import {
+  ActiveCaseActions,
+  getSimulationModeEnabled,
+} from '@gq/core/store/active-case';
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
@@ -52,7 +54,7 @@ export class RefreshSapPriceComponent {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.store.dispatch(refreshSapPricing());
+        this.store.dispatch(ActiveCaseActions.refreshSapPricing());
         this.insightsService.logEvent(EVENT_NAMES.SAP_DATA_REFRESHED);
       }
     });

@@ -2,11 +2,10 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
-import * as coreSelectors from '@gq/core/store/selectors/process-case/process-case.selectors';
+import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
 import { Spectator, SpyObject } from '@ngneat/spectator';
 import { createComponentFactory } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
-import { createSelector } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/marbles';
 
@@ -16,6 +15,7 @@ import {
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
 } from '../../../../../../testing/mocks';
+import { ACTIVE_CASE_STATE_MOCK } from '../../../../../../testing/mocks/state/active-case-state.mock';
 import { EditingModalComponent } from '../../../../components/modal/editing-modal/editing-modal.component';
 import { ColumnFields } from '../../../constants/column-fields.enum';
 import { EditCellComponent } from './edit-cell.component';
@@ -35,6 +35,7 @@ describe('EditCellComponent', () => {
       PushModule,
     ],
     mocks: [MatDialog],
+    detectChanges: false,
     providers: [
       {
         provide: MATERIAL_SANITY_CHECKS,
@@ -42,13 +43,12 @@ describe('EditCellComponent', () => {
       },
       provideMockStore({
         initialState: {
-          processCase: {
-            quotation: {},
+          activeCase: {
+            ...ACTIVE_CASE_STATE_MOCK,
           },
         },
       }),
     ],
-    detectChanges: false,
   });
 
   beforeEach(() => {
@@ -91,13 +91,8 @@ describe('EditCellComponent', () => {
     beforeEach(() => {
       selectorResult = {} as any;
       jest
-        .spyOn(coreSelectors, 'getSimulatedQuotationDetailByItemId')
-        .mockReturnValue(
-          createSelector(
-            (v) => v,
-            () => selectorResult
-          )
-        );
+        .spyOn(activeCaseFeature, 'selectSelectedQuotationDetail')
+        .mockReturnValue(selectorResult);
     });
 
     test('should load simulated quotation if field is PRICE', () => {

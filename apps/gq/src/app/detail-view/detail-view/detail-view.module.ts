@@ -5,11 +5,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { ProcessCaseEffects } from '@gq/core/store/effects';
-import { processCaseReducer } from '@gq/core/store/reducers/process-case/process-case.reducer';
+import { ActiveCaseModule } from '@gq/core/store/active-case/active-case.module';
 import { LetModule, PushModule } from '@ngrx/component';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -48,9 +45,7 @@ import { PricingDetailsModule } from './pricing-details/pricing-details.module';
     SyncStatusCustomerInfoHeaderModule,
     SharedTranslocoModule,
     MatTooltipModule,
-    // TODO: put shared state from processCase to its own feature store that gets shared
-    StoreModule.forFeature('processCase', processCaseReducer),
-    EffectsModule.forFeature([ProcessCaseEffects]),
+    ActiveCaseModule,
   ],
 })
 export class DetailViewModule {}

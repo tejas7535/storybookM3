@@ -17,12 +17,12 @@ import {
   loadSapPriceDetailsFailure,
   loadSapPriceDetailsSuccess,
 } from '../../actions';
+import { getGqId } from '../../active-case/active-case.selectors';
 import { RouterStateUrl } from '../../reducers';
 import {
   ExtendedSapPriceConditionDetail,
   SapPriceConditionDetail,
 } from '../../reducers/models';
-import { getGqId } from '../../selectors';
 
 @Injectable()
 export class SapPriceDetailsEffects {

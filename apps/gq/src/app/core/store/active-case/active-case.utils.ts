@@ -1,14 +1,17 @@
+import { SimulatedQuotation } from '@gq/shared/models';
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
 import {
   calculateDiscount,
   calculateMargin,
   calculatePriceDiff,
+  calculateStatusBarValues,
   getPriceUnit,
   multiplyAndRoundValues,
   roundValue,
 } from '@gq/shared/utils/pricing.utils';
 
-import { QuotationIdentifier, SapConditionType } from '../../reducers/models';
+import { SapConditionType } from '../reducers/models';
+import { QuotationIdentifier } from './models';
 
 export const addCalculationsForDetails = (details: QuotationDetail[]): void => {
   details.forEach((detail) => addCalculationsForDetail(detail));
@@ -217,3 +220,33 @@ export const calculatePriceUnitValues = (detail: QuotationDetail): void => {
     }
   }
 };
+
+export const buildSimulatedQuotation = (
+  gqId: number,
+  simulatedDetails: QuotationDetail[],
+  details: QuotationDetail[]
+): SimulatedQuotation => ({
+  gqId,
+  quotationDetails: simulatedDetails,
+  simulatedStatusBar: {
+    ...calculateStatusBarValues(getSimulatedDetails(details, simulatedDetails)),
+  },
+  previousStatusBar: { ...calculateStatusBarValues(details) },
+});
+
+export const getSimulatedDetails = (
+  details: QuotationDetail[],
+  simulatedDetails: QuotationDetail[]
+): QuotationDetail[] =>
+  details.map(
+    (detail) =>
+      simulatedDetails.find(
+        (simulatedDetail) =>
+          detail.quotationItemId === simulatedDetail.quotationItemId
+      ) || detail
+  );
+
+export const sortQuotationDetails = (
+  quotationDetails: QuotationDetail[]
+): QuotationDetail[] =>
+  [...quotationDetails].sort((a, b) => a.quotationItemId - b.quotationItemId);

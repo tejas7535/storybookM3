@@ -22,6 +22,7 @@ import {
   updateCasesStatusSuccess,
   updateCaseStatus,
 } from '../../actions';
+import { ActiveCaseActions } from '../../active-case';
 import { getDisplayStatus } from '../../selectors';
 import { ViewCasesEffect } from './view-cases.effects';
 
@@ -151,8 +152,9 @@ describe('View Cases Effects', () => {
           actions$ = m.hot('-a', { a: action });
 
           const response = m.cold('-a|');
-          const expected = m.cold('--b)', {
-            b: updateCasesStatusSuccess({ gqIds: action.gqIds }),
+          const expected = m.cold('--(bc))', {
+            b: ActiveCaseActions.clearActiveQuotation(),
+            c: updateCasesStatusSuccess({ gqIds: action.gqIds }),
           });
 
           m.expect(effects.updateCasesStatus$).toBeObservable(expected);
@@ -179,8 +181,9 @@ describe('View Cases Effects', () => {
           actions$ = m.hot('-a', { a: action });
 
           const response = m.cold('-a|');
-          const expected = m.cold('--b)', {
-            b: updateCasesStatusSuccess({ gqIds: action.gqIds }),
+          const expected = m.cold('--(bc))', {
+            b: ActiveCaseActions.clearActiveQuotation(),
+            c: updateCasesStatusSuccess({ gqIds: action.gqIds }),
           });
 
           m.expect(effects.updateCasesStatus$).toBeObservable(expected);
@@ -207,8 +210,9 @@ describe('View Cases Effects', () => {
           actions$ = m.hot('-a', { a: action });
 
           const response = m.cold('-a|');
-          const expected = m.cold('--b)', {
-            b: updateCasesStatusSuccess({ gqIds: action.gqIds }),
+          const expected = m.cold('--(bc))', {
+            b: ActiveCaseActions.clearActiveQuotation(),
+            c: updateCasesStatusSuccess({ gqIds: action.gqIds }),
           });
 
           m.expect(effects.updateCasesStatus$).toBeObservable(expected);

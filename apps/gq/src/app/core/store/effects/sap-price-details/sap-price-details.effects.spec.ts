@@ -24,7 +24,7 @@ import {
   loadSapPriceDetailsFailure,
   loadSapPriceDetailsSuccess,
 } from '../../actions';
-import { getGqId } from '../../selectors';
+import { getGqId } from '../../active-case/active-case.selectors';
 import { SapPriceDetailsEffects } from './sap-price-details.effects';
 
 describe('SapPriceDetailsEffects', () => {

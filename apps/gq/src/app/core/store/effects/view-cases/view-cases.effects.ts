@@ -17,11 +17,11 @@ import {
   loadCases,
   loadCasesFailure,
   loadCasesSuccess,
-  loadQuotation,
   updateCasesStatusFailure,
   updateCasesStatusSuccess,
   updateCaseStatus,
 } from '../../actions';
+import { ActiveCaseActions } from '../../active-case';
 import { getDisplayStatus } from '../../selectors';
 
 /**
@@ -61,17 +61,6 @@ export class ViewCasesEffect {
   });
 
   /**
-   * After sucessfully changing the status of a quotation, we need to reload it
-   * to be up-to-date with the backend data
-   */
-  reloadQuotationAfterStatusChange$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(loadCasesSuccess),
-      mergeMap(async () => loadQuotation())
-    );
-  });
-
-  /**
    * Update status of selected case for the authenticated user
    */
   updateCasesStatus$ = createEffect(() => {
@@ -88,7 +77,10 @@ export class ViewCasesEffect {
 
             this.snackBar.open(successMessage);
           }),
-          map(() => updateCasesStatusSuccess({ gqIds: action.gqIds })),
+          mergeMap(() => [
+            ActiveCaseActions.clearActiveQuotation(), // cleared active quotation enforces a reload when opening a quotation which ensures to get eventual changes
+            updateCasesStatusSuccess({ gqIds: action.gqIds }),
+          ]),
           catchError((errorMessage) =>
             of(updateCasesStatusFailure({ errorMessage }))
           )

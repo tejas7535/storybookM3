@@ -3,7 +3,7 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { BehaviorSubject } from 'rxjs';
 
-import { getSelectedQuotationDetail } from '@gq/core/store/selectors';
+import { getSelectedQuotationDetail } from '@gq/core/store/active-case/active-case.selectors';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -20,6 +20,7 @@ import {
   QUOTATION_MOCK,
 } from '../../../testing/mocks';
 import {
+  ACTIVE_CASE_STATE_MOCK,
   PROCESS_CASE_STATE_MOCK,
   SAP_PRICE_DETAILS_STATE_MOCK,
 } from '../../../testing/mocks/state';
@@ -50,6 +51,7 @@ describe('SapViewComponent', () => {
       provideMockStore({
         initialState: {
           processCase: PROCESS_CASE_STATE_MOCK,
+          activeCase: ACTIVE_CASE_STATE_MOCK,
           sapPriceDetails: SAP_PRICE_DETAILS_STATE_MOCK,
         },
       }),
@@ -97,9 +99,9 @@ describe('SapViewComponent', () => {
           m.cold('a', { a: false })
         );
         m.expect(component.rowData$).toBeObservable(m.cold('a', { a: [] }));
-        m.expect(component.tableContext$).toBeObservable(
+        m.expect(component.quotation$).toBeObservable(
           m.cold('a', {
-            a: { quotation: QUOTATION_MOCK },
+            a: QUOTATION_MOCK,
           })
         );
         m.expect(component.breadcrumbs$).toBeObservable(

@@ -3,7 +3,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { getQuotation, getUpdateLoading } from '@gq/core/store/selectors';
+import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -66,7 +66,10 @@ describe('SingleQuotesTab', () => {
       test(
         'should set quotation$',
         marbles((m) => {
-          store.overrideSelector(getQuotation, QUOTATION_MOCK);
+          store.overrideSelector(
+            activeCaseFeature.selectQuotation,
+            QUOTATION_MOCK
+          );
 
           component.ngOnInit();
 
@@ -78,7 +81,7 @@ describe('SingleQuotesTab', () => {
       test(
         'should set updateLoading$',
         marbles((m) => {
-          store.overrideSelector(getUpdateLoading, true);
+          store.overrideSelector(activeCaseFeature.selectUpdateLoading, true);
 
           component.ngOnInit();
 

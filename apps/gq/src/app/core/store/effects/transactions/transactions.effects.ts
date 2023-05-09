@@ -25,9 +25,9 @@ import {
   loadComparableTransactionsFailure,
   loadComparableTransactionsSuccess,
 } from '../../actions';
+import { getPriceUnitOfSelectedQuotationDetail } from '../../active-case/active-case.selectors';
 import { RouterStateUrl } from '../../reducers';
 import { ComparableLinkedTransaction } from '../../reducers/models';
-import { getPriceUnitOfSelectedQuotationDetail } from '../../selectors';
 
 @Injectable()
 export class TransactionsEffect {

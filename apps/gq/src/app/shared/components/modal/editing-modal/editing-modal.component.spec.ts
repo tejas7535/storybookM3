@@ -9,8 +9,10 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { updateQuotationDetails } from '@gq/core/store/actions';
-import { UpdateQuotationDetail } from '@gq/core/store/reducers/models';
+import {
+  ActiveCaseActions,
+  UpdateQuotationDetail,
+} from '@gq/core/store/active-case';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 import {
   createComponentFactory,
@@ -31,6 +33,7 @@ import {
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
+import { ACTIVE_CASE_STATE_MOCK } from '../../../../../testing/mocks/state/active-case-state.mock';
 import { ColumnFields } from '../../../ag-grid/constants/column-fields.enum';
 import { LOCALE_DE, LOCALE_EN } from '../../../constants';
 import * as regex from '../../../constants/regex';
@@ -64,6 +67,7 @@ describe('EditingModalComponent', () => {
       provideMockStore({
         initialState: {
           processCase: PROCESS_CASE_STATE_MOCK,
+          activeCase: ACTIVE_CASE_STATE_MOCK,
         },
       }),
       {
@@ -117,7 +121,7 @@ describe('EditingModalComponent', () => {
           a: QUOTATION_MOCK.currency,
         });
         m.expect(component.updateLoading$).toBeObservable('a', {
-          a: PROCESS_CASE_STATE_MOCK.quotation.updateLoading,
+          a: ACTIVE_CASE_STATE_MOCK.updateLoading,
         });
         expect(component.addSubscriptions).toHaveBeenCalledTimes(1);
       })
@@ -408,7 +412,7 @@ describe('EditingModalComponent', () => {
       component.confirmEditing();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        updateQuotationDetails({ updateQuotationDetailList })
+        ActiveCaseActions.updateQuotationDetails({ updateQuotationDetailList })
       );
     });
     test('should edit margin', () => {
@@ -427,7 +431,7 @@ describe('EditingModalComponent', () => {
       component.confirmEditing();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        updateQuotationDetails({ updateQuotationDetailList })
+        ActiveCaseActions.updateQuotationDetails({ updateQuotationDetailList })
       );
     });
     test('should edit discount', () => {
@@ -446,7 +450,7 @@ describe('EditingModalComponent', () => {
       component.confirmEditing();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        updateQuotationDetails({ updateQuotationDetailList })
+        ActiveCaseActions.updateQuotationDetails({ updateQuotationDetailList })
       );
     });
     test('should edit price', () => {
@@ -466,7 +470,7 @@ describe('EditingModalComponent', () => {
       component.confirmEditing();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        updateQuotationDetails({ updateQuotationDetailList })
+        ActiveCaseActions.updateQuotationDetails({ updateQuotationDetailList })
       );
     });
     test('should edit absolute prices', () => {
@@ -490,7 +494,7 @@ describe('EditingModalComponent', () => {
       component.confirmEditing();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        updateQuotationDetails({ updateQuotationDetailList })
+        ActiveCaseActions.updateQuotationDetails({ updateQuotationDetailList })
       );
     });
     test('should edit absolute prices with parsing for LocaleEN', () => {
@@ -517,7 +521,7 @@ describe('EditingModalComponent', () => {
       component.confirmEditing();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        updateQuotationDetails({ updateQuotationDetailList })
+        ActiveCaseActions.updateQuotationDetails({ updateQuotationDetailList })
       );
     });
     test('should edit absolute prices with parsing for LocaleDE', () => {
@@ -543,7 +547,7 @@ describe('EditingModalComponent', () => {
       component.confirmEditing();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        updateQuotationDetails({ updateQuotationDetailList })
+        ActiveCaseActions.updateQuotationDetails({ updateQuotationDetailList })
       );
     });
     test('should edit relative prices with parsing for LocaleDE', () => {
@@ -569,7 +573,7 @@ describe('EditingModalComponent', () => {
       component.confirmEditing();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        updateQuotationDetails({ updateQuotationDetailList })
+        ActiveCaseActions.updateQuotationDetails({ updateQuotationDetailList })
       );
     });
   });

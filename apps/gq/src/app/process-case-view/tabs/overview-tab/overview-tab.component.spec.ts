@@ -3,7 +3,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {
   getQuotationDetails,
   getQuotationOverviewInformation,
-} from '@gq/core/store/selectors';
+} from '@gq/core/store/active-case/active-case.selectors';
 import { Rating } from '@gq/shared/components/kpi-status-card/models/rating.enum';
 import { QuotationPricingOverview } from '@gq/shared/models/quotation';
 import { NumberCurrencyPipe } from '@gq/shared/pipes/number-currency/number-currency.pipe';
@@ -16,10 +16,8 @@ import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import {
-  PROCESS_CASE_STATE_MOCK,
-  QUOTATION_DETAILS_MOCK,
-} from './../../../../testing/mocks';
+import { QUOTATION_DETAILS_MOCK } from '../../../../testing/mocks';
+import { ACTIVE_CASE_STATE_MOCK } from '../../../../testing/mocks/state/active-case-state.mock';
 import { OverviewTabComponent } from './overview-tab.component';
 
 describe('OverviewTabComponent', () => {
@@ -35,7 +33,7 @@ describe('OverviewTabComponent', () => {
     providers: [
       provideMockStore({
         initialState: {
-          processCase: { ...PROCESS_CASE_STATE_MOCK },
+          activeCase: { ...ACTIVE_CASE_STATE_MOCK },
           'azure-auth': {},
         },
       }),
@@ -83,7 +81,7 @@ describe('OverviewTabComponent', () => {
             project: 'GSIM Project',
             projectInformation:
               'lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum.',
-            customer: PROCESS_CASE_STATE_MOCK.customer.item,
+            customer: ACTIVE_CASE_STATE_MOCK.customer,
             requestedQuotationDate: '01/01/2024',
             comment:
               'lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum.',
@@ -91,7 +89,7 @@ describe('OverviewTabComponent', () => {
         });
 
         m.expect(component.quotationCurrency$).toBeObservable('a', {
-          a: PROCESS_CASE_STATE_MOCK.quotation.item.currency,
+          a: ACTIVE_CASE_STATE_MOCK.quotation.currency,
         });
 
         m.expect(component.pricingInformation$).toBeObservable('a', {

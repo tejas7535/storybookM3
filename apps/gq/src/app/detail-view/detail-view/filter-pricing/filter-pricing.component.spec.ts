@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { updateQuotationDetails } from '@gq/core/store/actions';
+import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import { ProcessCaseState } from '@gq/core/store/reducers/process-case/process-case.reducer';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -23,6 +23,7 @@ import {
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
 } from '../../../../testing/mocks';
+import { ACTIVE_CASE_STATE_MOCK } from '../../../../testing/mocks/state/active-case-state.mock';
 import {
   PriceSource,
   UpdatePrice,
@@ -60,6 +61,7 @@ describe('FilterPricingComponent', () => {
       provideMockStore({
         initialState: {
           processCase: PROCESS_CASE_STATE_MOCK,
+          activeCase: ACTIVE_CASE_STATE_MOCK,
           'azure-auth': AUTH_STATE_MOCK,
         },
       }),
@@ -95,7 +97,7 @@ describe('FilterPricingComponent', () => {
           m.cold('a', { a: QUOTATION_MOCK.currency })
         );
         m.expect(component.updateIsLoading$).toBeObservable('a', {
-          a: PROCESS_CASE_STATE_MOCK.quotation.updateLoading,
+          a: ACTIVE_CASE_STATE_MOCK.updateLoading,
         });
         m.expect(component.userHasGPCRole$).toBeObservable('a', {
           a: true,
@@ -127,7 +129,7 @@ describe('FilterPricingComponent', () => {
         QUOTATION_DETAIL_MOCK
       );
       expect(mockStore.dispatch).toHaveBeenLastCalledWith(
-        updateQuotationDetails({
+        ActiveCaseActions.updateQuotationDetails({
           updateQuotationDetailList: [
             {
               gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,

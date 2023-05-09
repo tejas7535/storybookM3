@@ -3,10 +3,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { map, NEVER, Observable, Subject, takeUntil } from 'rxjs';
 
 import {
-  getCustomer,
+  activeCaseFeature,
   getQuotationCurrency,
   getQuotationOverviewInformation,
-} from '@gq/core/store/selectors';
+} from '@gq/core/store/active-case';
 import { Rating } from '@gq/shared/components/kpi-status-card/models/rating.enum';
 import { Customer } from '@gq/shared/models/customer';
 import { QuotationPricingOverview } from '@gq/shared/models/quotation';
@@ -19,9 +19,9 @@ import { GeneralInformation } from './models';
   templateUrl: './overview-tab.component.html',
 })
 export class OverviewTabComponent implements OnInit, OnDestroy {
-  public generalInformation$: Observable<GeneralInformation> = NEVER;
-  public pricingInformation$: Observable<QuotationPricingOverview> = NEVER;
-  public quotationCurrency$: Observable<string>;
+  generalInformation$: Observable<GeneralInformation> = NEVER;
+  pricingInformation$: Observable<QuotationPricingOverview> = NEVER;
+  quotationCurrency$: Observable<string>;
 
   private readonly shutDown$$: Subject<void> = new Subject();
 
@@ -37,28 +37,30 @@ export class OverviewTabComponent implements OnInit, OnDestroy {
   }
 
   private initializeObservables(): void {
-    this.generalInformation$ = this.store.select(getCustomer).pipe(
-      takeUntil(this.shutDown$$),
-      // TODO: collect information correctly when available
-      // eslint-disable-next-line ngrx/avoid-mapping-selectors
-      map((item: Customer) => {
-        const info: GeneralInformation = {
-          approvalLevel: 'L1 + L2',
-          validityFrom: '01/01/2023',
-          validityTo: '12/31/2023',
-          duration: '10 months',
-          project: 'GSIM Project',
-          projectInformation:
-            'lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum.',
-          customer: item,
-          requestedQuotationDate: '01/01/2024',
-          comment:
-            'lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum.',
-        };
+    this.generalInformation$ = this.store
+      .select(activeCaseFeature.selectCustomer)
+      .pipe(
+        takeUntil(this.shutDown$$),
+        // TODO: collect information correctly when available
+        // eslint-disable-next-line ngrx/avoid-mapping-selectors
+        map((item: Customer) => {
+          const info: GeneralInformation = {
+            approvalLevel: 'L1 + L2',
+            validityFrom: '01/01/2023',
+            validityTo: '12/31/2023',
+            duration: '10 months',
+            project: 'GSIM Project',
+            projectInformation:
+              'lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum.',
+            customer: item,
+            requestedQuotationDate: '01/01/2024',
+            comment:
+              'lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum.',
+          };
 
-        return info;
-      })
-    );
+          return info;
+        })
+      );
 
     this.pricingInformation$ = this.store.select(
       getQuotationOverviewInformation
@@ -67,7 +69,7 @@ export class OverviewTabComponent implements OnInit, OnDestroy {
     this.quotationCurrency$ = this.store.select(getQuotationCurrency);
   }
 
-  public getRating(value: number): Rating {
+  getRating(value: number): Rating {
     if (!value) {
       return undefined;
     }

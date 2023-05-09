@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-import { getCustomer } from '@gq/core/store/selectors';
+import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -8,10 +8,8 @@ import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import {
-  CUSTOMER_MOCK,
-  PROCESS_CASE_STATE_MOCK,
-} from '../../../../testing/mocks';
+import { CUSTOMER_MOCK } from '../../../../testing/mocks';
+import { ACTIVE_CASE_STATE_MOCK } from '../../../../testing/mocks/state/active-case-state.mock';
 import { CustomerDetailsTabComponent } from './customer-details-tab.component';
 
 describe('CustomerDetailsTabComponent', () => {
@@ -26,7 +24,7 @@ describe('CustomerDetailsTabComponent', () => {
     providers: [
       provideMockStore({
         initialState: {
-          processCase: PROCESS_CASE_STATE_MOCK,
+          activeCase: ACTIVE_CASE_STATE_MOCK,
           'azure-auth': {},
         },
       }),
@@ -48,7 +46,7 @@ describe('CustomerDetailsTabComponent', () => {
     test(
       'should set customer$',
       marbles((m) => {
-        store.overrideSelector(getCustomer, CUSTOMER_MOCK);
+        store.overrideSelector(activeCaseFeature.selectCustomer, CUSTOMER_MOCK);
 
         component.ngOnInit();
 

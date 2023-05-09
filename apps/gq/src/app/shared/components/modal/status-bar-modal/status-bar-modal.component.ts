@@ -3,11 +3,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 
-import {
-  getQuotationCurrency,
-  userHasGPCRole,
-  userHasSQVRole,
-} from '@gq/core/store/selectors';
+import { getQuotationCurrency } from '@gq/core/store/active-case/active-case.selectors';
+import { userHasGPCRole, userHasSQVRole } from '@gq/core/store/selectors';
 import { Store } from '@ngrx/store';
 
 import { StatusBar } from '../../../models';

@@ -1,4 +1,4 @@
-import { resetSimulatedQuotation } from '@gq/core/store/actions';
+import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -60,7 +60,7 @@ describe('DiscardSimulationButtonComponent', () => {
       component.discardSimulation();
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        resetSimulatedQuotation()
+        ActiveCaseActions.resetSimulatedQuotation()
       );
     });
   });

@@ -14,8 +14,11 @@ import {
   loadExtendedComparableLinkedTransactionFailure,
   loadExtendedComparableLinkedTransactionSuccess,
 } from '../../actions';
+import {
+  getGqId,
+  getPriceUnitsForQuotationItemIds,
+} from '../../active-case/active-case.selectors';
 import { ExtendedComparableLinkedTransaction } from '../../reducers/models';
-import { getGqId, getPriceUnitsForQuotationItemIds } from '../../selectors';
 
 @Injectable()
 export class ExtendedComparableLinkedTransactionsEffect {

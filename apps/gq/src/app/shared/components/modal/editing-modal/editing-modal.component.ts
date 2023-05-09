@@ -19,13 +19,12 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { combineLatest, map, Observable, pairwise, Subscription } from 'rxjs';
 
-import { updateQuotationDetails } from '@gq/core/store/actions';
-import { UpdateQuotationDetail } from '@gq/core/store/reducers/models';
 import {
+  ActiveCaseActions,
+  activeCaseFeature,
   getQuotationCurrency,
-  getQuotationErrorMessage,
-  getUpdateLoading,
-} from '@gq/core/store/selectors/process-case/process-case.selectors';
+  UpdateQuotationDetail,
+} from '@gq/core/store/active-case';
 import { QuotationDetailsTableValidationService } from '@gq/process-case-view/quotation-details-table/services/quotation-details-table-validation.service';
 import {
   calculateAffectedKPIs,
@@ -92,7 +91,9 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
       .setValidators([this.isInputValid.bind(this)]);
     this.editingFormGroup.get('valueInput').markAllAsTouched();
 
-    this.updateLoading$ = this.store.select(getUpdateLoading);
+    this.updateLoading$ = this.store.select(
+      activeCaseFeature.selectUpdateLoading
+    );
     this.quotationCurrency$ = this.store.select(getQuotationCurrency);
 
     if (
@@ -130,12 +131,16 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   addSubscriptions(): void {
-    const loadingStopped$ = this.store.select(getUpdateLoading).pipe(
-      pairwise(),
-      // eslint-disable-next-line ngrx/avoid-mapping-selectors
-      map(([preVal, curVal]) => preVal && !curVal)
+    const loadingStopped$ = this.store
+      .select(activeCaseFeature.selectUpdateLoading)
+      .pipe(
+        pairwise(),
+        // eslint-disable-next-line ngrx/avoid-mapping-selectors
+        map(([preVal, curVal]) => preVal && !curVal)
+      );
+    const isErrorMessage$ = this.store.select(
+      activeCaseFeature.selectQuotationLoadingErrorMessage
     );
-    const isErrorMessage$ = this.store.select(getQuotationErrorMessage);
 
     this.subscription.add(
       combineLatest([isErrorMessage$, loadingStopped$]).subscribe(
@@ -226,7 +231,7 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
         },
       ];
       this.store.dispatch(
-        updateQuotationDetails({ updateQuotationDetailList })
+        ActiveCaseActions.updateQuotationDetails({ updateQuotationDetailList })
       );
     } else {
       let newPrice: number;
@@ -269,7 +274,7 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
         },
       ];
       this.store.dispatch(
-        updateQuotationDetails({ updateQuotationDetailList })
+        ActiveCaseActions.updateQuotationDetails({ updateQuotationDetailList })
       );
     }
   }

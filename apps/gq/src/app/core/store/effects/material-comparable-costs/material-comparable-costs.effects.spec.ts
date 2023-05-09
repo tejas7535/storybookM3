@@ -15,7 +15,7 @@ import {
   loadMaterialComparableCostsFailure,
   loadMaterialComparableCostsSuccess,
 } from '../../actions';
-import { getPriceUnitOfSelectedQuotationDetail } from '../../selectors';
+import { getPriceUnitOfSelectedQuotationDetail } from '../../active-case/active-case.selectors';
 import { MaterialComparableCostEffect } from './material-comparable-costs.effects';
 
 describe('MaterialComparableCostEffect', () => {

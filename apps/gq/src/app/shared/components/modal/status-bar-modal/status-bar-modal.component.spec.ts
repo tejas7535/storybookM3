@@ -13,6 +13,7 @@ import {
   PROCESS_CASE_STATE_MOCK,
   QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
+import { ACTIVE_CASE_STATE_MOCK } from '../../../../../testing/mocks/state/active-case-state.mock';
 import { StatusBar } from '../../../models';
 import { SharedPipesModule } from '../../../pipes/shared-pipes.module';
 import { HelperService } from '../../../services/helper/helper.service';
@@ -39,6 +40,7 @@ describe('StatusBarModalComponent', () => {
       provideMockStore({
         initialState: {
           processCase: PROCESS_CASE_STATE_MOCK,
+          activeCase: ACTIVE_CASE_STATE_MOCK,
           'azure-auth': AUTH_STATE_MOCK,
         },
       }),

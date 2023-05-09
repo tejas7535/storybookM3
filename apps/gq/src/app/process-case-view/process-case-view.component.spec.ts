@@ -1,13 +1,11 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-import { updateQuotation } from '@gq/core/store/actions';
 import {
-  getCustomerLoading,
+  ActiveCaseActions,
+  activeCaseFeature,
   getGqId,
-  getQuotation,
-  getQuotationLoading,
   getQuotationSapSyncStatus,
-} from '@gq/core/store/selectors';
+} from '@gq/core/store/active-case';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { BreadcrumbsService } from '@gq/shared/services/breadcrumbs/breadcrumbs.service';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
@@ -22,6 +20,7 @@ import { Breadcrumb } from '@schaeffler/breadcrumbs';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { PROCESS_CASE_STATE_MOCK, QUOTATION_MOCK } from '../../testing/mocks';
+import { ACTIVE_CASE_STATE_MOCK } from '../../testing/mocks/state/active-case-state.mock';
 import { SAP_SYNC_STATUS } from '../shared/models/quotation-detail/sap-sync-status.enum';
 import { UpdateQuotationRequest } from '../shared/services/rest/quotation/models/update-quotation-request.model';
 import { ProcessCaseViewComponent } from './process-case-view.component';
@@ -45,6 +44,7 @@ describe('ProcessCaseViewComponent', () => {
       provideMockStore({
         initialState: {
           processCase: PROCESS_CASE_STATE_MOCK,
+          activeCase: ACTIVE_CASE_STATE_MOCK,
           'azure-auth': {},
         },
       }),
@@ -67,7 +67,7 @@ describe('ProcessCaseViewComponent', () => {
     test(
       'should set customerLoading$',
       marbles((m) => {
-        store.overrideSelector(getCustomerLoading, true);
+        store.overrideSelector(activeCaseFeature.selectCustomerLoading, true);
 
         component.ngOnInit();
 
@@ -79,7 +79,10 @@ describe('ProcessCaseViewComponent', () => {
     test(
       'should set quotation$',
       marbles((m) => {
-        store.overrideSelector(getQuotation, QUOTATION_MOCK);
+        store.overrideSelector(
+          activeCaseFeature.selectQuotation,
+          QUOTATION_MOCK
+        );
 
         component.ngOnInit();
 
@@ -91,7 +94,7 @@ describe('ProcessCaseViewComponent', () => {
     test(
       'should set quotationLoading$',
       marbles((m) => {
-        store.overrideSelector(getQuotationLoading, true);
+        store.overrideSelector(activeCaseFeature.selectQuotationLoading, true);
 
         component.ngOnInit();
 
@@ -170,7 +173,7 @@ describe('ProcessCaseViewComponent', () => {
 
       expect(store.dispatch).toHaveBeenCalledTimes(1);
       expect(store.dispatch).toHaveBeenCalledWith(
-        updateQuotation(updateQuotationRequest)
+        ActiveCaseActions.updateQuotation(updateQuotationRequest)
       );
     });
   });

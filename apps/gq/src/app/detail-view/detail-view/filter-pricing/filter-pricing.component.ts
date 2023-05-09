@@ -2,12 +2,14 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { updateQuotationDetails } from '@gq/core/store/actions';
-import { UpdateQuotationDetail } from '@gq/core/store/reducers/models';
 import {
+  ActiveCaseActions,
+  activeCaseFeature,
   getIsQuotationActive,
   getQuotationCurrency,
-  getUpdateLoading,
+  UpdateQuotationDetail,
+} from '@gq/core/store/active-case';
+import {
   userHasGPCRole,
   userHasManualPriceRole,
   userHasSQVRole,
@@ -41,7 +43,9 @@ export class FilterPricingComponent implements OnInit {
     this.userHasManualPriceRole$ = this.store.pipe(userHasManualPriceRole);
     this.userHasGPCRole$ = this.store.pipe(userHasGPCRole);
     this.userHasSQVRole$ = this.store.pipe(userHasSQVRole);
-    this.updateIsLoading$ = this.store.select(getUpdateLoading);
+    this.updateIsLoading$ = this.store.select(
+      activeCaseFeature.selectUpdateLoading
+    );
     this.quotationIsActive$ = this.store.select(getIsQuotationActive);
   }
 
@@ -58,6 +62,8 @@ export class FilterPricingComponent implements OnInit {
         gqPositionId: this.quotationDetail.gqPositionId,
       },
     ];
-    this.store.dispatch(updateQuotationDetails({ updateQuotationDetailList }));
+    this.store.dispatch(
+      ActiveCaseActions.updateQuotationDetails({ updateQuotationDetailList })
+    );
   }
 }

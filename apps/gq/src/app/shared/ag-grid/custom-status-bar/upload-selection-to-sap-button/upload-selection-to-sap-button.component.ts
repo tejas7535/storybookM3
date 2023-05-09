@@ -3,12 +3,12 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 
-import { uploadSelectionToSap } from '@gq/core/store/actions';
 import {
+  ActiveCaseActions,
   getIsQuotationActive,
   getSapId,
   getSimulationModeEnabled,
-} from '@gq/core/store/selectors';
+} from '@gq/core/store/active-case';
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import { IStatusPanelParams } from 'ag-grid-community';
@@ -22,12 +22,12 @@ import { QuotationDetail } from '../../../models/quotation-detail';
   templateUrl: './upload-selection-to-sap-button.component.html',
 })
 export class UploadSelectionToSapButtonComponent {
-  public sapId$: Observable<string>;
-  public selections: any[] = [];
-  public uploadDisabled = true;
+  sapId$: Observable<string>;
+  selections: any[] = [];
+  uploadDisabled = true;
   private params: IStatusPanelParams;
-  public icon = 'cloud_upload';
-  public simulationModeEnabled$: Observable<boolean>;
+  icon = 'cloud_upload';
+  simulationModeEnabled$: Observable<boolean>;
   quotationActive$: Observable<boolean>;
 
   private readonly QUOTATION_POSITION_UPLOAD_LIMIT = 1000;
@@ -90,7 +90,9 @@ export class UploadSelectionToSapButtonComponent {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.store.dispatch(uploadSelectionToSap({ gqPositionIds }));
+        this.store.dispatch(
+          ActiveCaseActions.uploadSelectionToSap({ gqPositionIds })
+        );
         this.selections = [];
       }
     });

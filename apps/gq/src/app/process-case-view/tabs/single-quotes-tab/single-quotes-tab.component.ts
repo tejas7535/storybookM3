@@ -4,7 +4,7 @@ import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 
 import { map, Observable, take } from 'rxjs';
 
-import { getQuotation, getUpdateLoading } from '@gq/core/store/selectors';
+import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
@@ -28,9 +28,10 @@ export class SingleQuotesTabComponent implements OnInit {
   private readonly ADD_ICON = 'add';
   private readonly DELETE_ICON = 'delete';
   private routeSnapShot: ActivatedRouteSnapshot;
-  public quotation$: Observable<Quotation>;
-  public updateLoading$: Observable<boolean>;
-  public customViews$: Observable<ViewToggle[]>;
+
+  quotation$: Observable<Quotation>;
+  updateLoading$: Observable<boolean>;
+  customViews$: Observable<ViewToggle[]>;
 
   constructor(
     private readonly store: Store,
@@ -39,11 +40,13 @@ export class SingleQuotesTabComponent implements OnInit {
     private readonly activatedRoute: ActivatedRoute
   ) {}
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.routeSnapShot = this.activatedRoute.snapshot;
 
-    this.quotation$ = this.store.select(getQuotation);
-    this.updateLoading$ = this.store.select(getUpdateLoading);
+    this.quotation$ = this.store.select(activeCaseFeature.selectQuotation);
+    this.updateLoading$ = this.store.select(
+      activeCaseFeature.selectUpdateLoading
+    );
     this.gridStateService.init('process_case');
 
     this.customViews$ = this.gridStateService.views.asObservable().pipe(

@@ -2,8 +2,10 @@ import { Component } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { confirmSimulatedQuotation } from '@gq/core/store/actions';
-import { getSimulationModeEnabled } from '@gq/core/store/selectors';
+import {
+  ActiveCaseActions,
+  getSimulationModeEnabled,
+} from '@gq/core/store/active-case';
 import { Store } from '@ngrx/store';
 import { IStatusPanelParams } from 'ag-grid-community';
 
@@ -39,7 +41,7 @@ export class ConfirmSimulationButtonComponent {
   }
 
   confirmSimulation(): void {
-    this.store.dispatch(confirmSimulatedQuotation());
+    this.store.dispatch(ActiveCaseActions.confirmSimulatedQuotation());
 
     this.insightsService.logEvent(EVENT_NAMES.MASS_SIMULATION_FINISHED, {
       type: this.params.context.simulatedField,

@@ -4,14 +4,11 @@ import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 import {
   QUOTATION_DETAIL_MOCK,
   QUOTATION_IDENTIFIER_MOCK,
-} from '../../../../../testing/mocks';
-import {
-  SapConditionType,
-  SapPriceConditionDetail,
-} from '../../reducers/models';
-import * as processCaseUtils from './process-case.utils';
+} from '../../../../testing/mocks';
+import { SapConditionType, SapPriceConditionDetail } from '../reducers/models';
+import * as processCaseUtils from './active-case.utils';
 
-describe('ProcessCaseUtils', () => {
+describe('ActiveCaseUtils', () => {
   describe('addCalculationForDetails', () => {
     test('should call addCalculationForDetail', () => {
       const details = [QUOTATION_DETAIL_MOCK];

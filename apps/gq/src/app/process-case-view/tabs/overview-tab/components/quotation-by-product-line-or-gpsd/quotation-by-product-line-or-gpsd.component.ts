@@ -13,7 +13,7 @@ import {
   getQuotationDetails,
   getQuotationDetailsByGPSD,
   getQuotationDetailsByPL,
-} from '@gq/core/store/selectors';
+} from '@gq/core/store/active-case/active-case.selectors';
 import { StatusBarProperties } from '@gq/shared/models';
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
 import { HelperService } from '@gq/shared/services/helper/helper.service';
@@ -30,12 +30,12 @@ import { BarChartData, ChartType } from '../../models';
 export class QuotationByProductLineOrGpsdComponent
   implements OnInit, OnDestroy
 {
-  public readonly chartType = ChartType;
-  public type = ChartType.GPSD;
-  public selectedChartType: ChartType = ChartType.PL;
+  readonly chartType = ChartType;
+  type = ChartType.GPSD;
+  selectedChartType: ChartType = ChartType.PL;
 
-  public gpsdBarChartData$: Observable<BarChartData[]> = NEVER;
-  public plBarChartData$: Observable<BarChartData[]> = NEVER;
+  gpsdBarChartData$: Observable<BarChartData[]> = NEVER;
+  plBarChartData$: Observable<BarChartData[]> = NEVER;
 
   private readonly shutdown$$: Subject<void> = new Subject<void>();
   constructor(

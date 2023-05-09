@@ -6,7 +6,7 @@ import {
 import {
   AddQuotationDetailsRequest,
   UpdateQuotationDetail,
-} from '@gq/core/store/reducers/models';
+} from '@gq/core/store/active-case/models';
 import {
   createServiceFactory,
   HttpMethod,

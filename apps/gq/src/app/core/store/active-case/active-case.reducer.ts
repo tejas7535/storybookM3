@@ -1,0 +1,427 @@
+/* eslint-disable max-lines */
+import {
+  Customer,
+  Quotation,
+  QuotationDetail,
+  SimulatedQuotation,
+} from '@gq/shared/models';
+import { calculateStatusBarValues } from '@gq/shared/utils/pricing.utils';
+import { createFeature, createReducer, on } from '@ngrx/store';
+
+import { ActiveCaseActions } from './active-case.action';
+import {
+  buildSimulatedQuotation,
+  getSimulatedDetails,
+  sortQuotationDetails,
+} from './active-case.utils';
+import { QuotationIdentifier } from './models';
+
+/**
+ * Currently selected/active quotation state.
+ */
+export interface ActiveCaseState {
+  quotationIdentifier: QuotationIdentifier;
+
+  customerLoading: boolean;
+  customer: Customer;
+  customerLoadingErrorMessage: string;
+
+  quotationLoading: boolean;
+  quotation: Quotation;
+  simulatedItem: SimulatedQuotation;
+  selectedQuotationDetail: string;
+  quotationLoadingErrorMessage: string;
+  updateLoading: boolean;
+  selectedQuotationDetails: string[];
+  removeQuotationDetailsIds: string[];
+}
+
+export const initialState: ActiveCaseState = {
+  quotationIdentifier: undefined,
+
+  customerLoading: false,
+  customer: undefined,
+  customerLoadingErrorMessage: undefined,
+
+  quotationLoading: false,
+  quotation: undefined,
+  simulatedItem: undefined,
+  selectedQuotationDetail: undefined,
+  quotationLoadingErrorMessage: undefined,
+  updateLoading: false,
+  selectedQuotationDetails: [],
+  removeQuotationDetailsIds: [],
+};
+
+export const activeCaseFeature = createFeature({
+  name: 'activeCase',
+  reducer: createReducer(
+    initialState,
+    on(
+      ActiveCaseActions.selectQuotation,
+      (state: ActiveCaseState, { quotationIdentifier }): ActiveCaseState => ({
+        ...state,
+        quotationIdentifier,
+      })
+    ),
+    on(
+      ActiveCaseActions.getCustomerDetails,
+      (state: ActiveCaseState): ActiveCaseState => ({
+        ...state,
+        customerLoading: true,
+        customer: initialState.customer,
+        customerLoadingErrorMessage: initialState.customerLoadingErrorMessage,
+      })
+    ),
+    on(
+      ActiveCaseActions.getCustomerDetailsSuccess,
+      (state: ActiveCaseState, { item }): ActiveCaseState => ({
+        ...state,
+        customer: item,
+        customerLoading: false,
+      })
+    ),
+    on(
+      ActiveCaseActions.getCustomerDetailsFailure,
+      (state: ActiveCaseState, { errorMessage }): ActiveCaseState => ({
+        ...state,
+        customerLoadingErrorMessage: errorMessage,
+        customerLoading: false,
+      })
+    ),
+    on(
+      ActiveCaseActions.getQuotationInInterval,
+      (state: ActiveCaseState): ActiveCaseState => ({
+        ...state,
+        quotation: initialState.quotation,
+        quotationLoading: true,
+        quotationLoadingErrorMessage: initialState.quotationLoadingErrorMessage,
+        updateLoading: false,
+      })
+    ),
+    on(
+      ActiveCaseActions.getQuotationSuccess,
+      (state: ActiveCaseState, { item }): ActiveCaseState => ({
+        ...state,
+        quotation: {
+          ...item,
+          quotationDetails: sortQuotationDetails(item.quotationDetails),
+        },
+        quotationLoading: false,
+        quotationLoadingErrorMessage: undefined,
+      })
+    ),
+    on(
+      ActiveCaseActions.getQuotationFailure,
+      (state: ActiveCaseState, { errorMessage }): ActiveCaseState => ({
+        ...state,
+        quotationLoadingErrorMessage: errorMessage,
+        quotationLoading: false,
+      })
+    ),
+    on(
+      ActiveCaseActions.updateQuotationDetails,
+      (state: ActiveCaseState): ActiveCaseState => ({
+        ...state,
+        updateLoading: true,
+      })
+    ),
+    on(
+      ActiveCaseActions.updateQuotationDetailsSuccess,
+      (state: ActiveCaseState, { updatedQuotation }): ActiveCaseState => ({
+        ...state,
+        quotation: {
+          ...updatedQuotation,
+          quotationDetails: [
+            ...sortQuotationDetails(state.quotation.quotationDetails),
+          ].map((el) => {
+            const update = updatedQuotation.quotationDetails.find(
+              (detail) => detail.gqPositionId === el.gqPositionId
+            );
+
+            return update ?? el;
+          }),
+        },
+        updateLoading: false,
+        quotationLoadingErrorMessage: undefined,
+      })
+    ),
+    on(
+      ActiveCaseActions.updateQuotationDetailsFailure,
+      (state: ActiveCaseState, { errorMessage }): ActiveCaseState => ({
+        ...state,
+        quotationLoadingErrorMessage: errorMessage,
+        updateLoading: false,
+      })
+    ),
+    on(
+      ActiveCaseActions.updateQuotation,
+      (state: ActiveCaseState): ActiveCaseState => ({
+        ...state,
+        quotationLoading: true,
+      })
+    ),
+    on(
+      ActiveCaseActions.updateQuotationSuccess,
+      (state: ActiveCaseState, { quotation }): ActiveCaseState => ({
+        ...state,
+        quotation: {
+          ...quotation,
+          quotationDetails: sortQuotationDetails(quotation.quotationDetails),
+        },
+        quotationLoading: false,
+      })
+    ),
+    on(
+      ActiveCaseActions.updateQuotationFailure,
+      (state: ActiveCaseState, { errorMessage }): ActiveCaseState => ({
+        ...state,
+        quotationLoading: false,
+        quotationLoadingErrorMessage: errorMessage,
+      })
+    ),
+    on(
+      ActiveCaseActions.setSelectedQuotationDetail,
+      (state: ActiveCaseState, { gqPositionId }): ActiveCaseState => ({
+        ...state,
+        selectedQuotationDetail: gqPositionId,
+      })
+    ),
+    on(
+      ActiveCaseActions.removePositionsFromQuotation,
+      (state: ActiveCaseState, { gqPositionIds }): ActiveCaseState => ({
+        ...state,
+        removeQuotationDetailsIds: gqPositionIds,
+        updateLoading: true,
+      })
+    ),
+    on(
+      ActiveCaseActions.removePositionsFromQuotationSuccess,
+      (state: ActiveCaseState, { updatedQuotation }): ActiveCaseState => ({
+        ...state,
+        quotation: {
+          ...updatedQuotation,
+          quotationDetails: sortQuotationDetails(
+            updatedQuotation.quotationDetails
+          ),
+        },
+        updateLoading: false,
+        quotationLoadingErrorMessage: undefined,
+        removeQuotationDetailsIds: [],
+      })
+    ),
+    on(
+      ActiveCaseActions.removePositionsFromQuotationFailure,
+      (
+        state: ActiveCaseState,
+        { errorMessage, updatedQuotation }
+      ): ActiveCaseState => ({
+        ...state,
+        quotationLoadingErrorMessage: errorMessage,
+        quotation: {
+          ...updatedQuotation,
+          quotationDetails: sortQuotationDetails(
+            updatedQuotation.quotationDetails
+          ),
+        },
+        updateLoading: false,
+        removeQuotationDetailsIds: [],
+      })
+    ),
+    on(
+      ActiveCaseActions.uploadSelectionToSap,
+      (state: ActiveCaseState): ActiveCaseState => ({
+        ...state,
+        updateLoading: true,
+      })
+    ),
+    on(
+      ActiveCaseActions.uploadSelectionToSapFailure,
+      (state: ActiveCaseState, { errorMessage }): ActiveCaseState => ({
+        ...state,
+        updateLoading: false,
+        quotationLoadingErrorMessage: errorMessage,
+      })
+    ),
+    on(
+      ActiveCaseActions.uploadSelectionToSapSuccess,
+      (state: ActiveCaseState, { updatedQuotation }): ActiveCaseState => ({
+        ...state,
+        updateLoading: false,
+        quotation: {
+          ...updatedQuotation,
+          quotationDetails: sortQuotationDetails(
+            state.quotation.quotationDetails.map(
+              (oldQuotationDetail: QuotationDetail) => {
+                const idx = updatedQuotation.quotationDetails.findIndex(
+                  (updatedQuotationDetail: QuotationDetail) =>
+                    updatedQuotationDetail.gqPositionId ===
+                    oldQuotationDetail.gqPositionId
+                );
+
+                if (idx === -1) {
+                  return oldQuotationDetail;
+                }
+
+                return updatedQuotation.quotationDetails[idx];
+              }
+            )
+          ),
+        },
+      })
+    ),
+    on(
+      ActiveCaseActions.refreshSapPricing,
+      (state: ActiveCaseState): ActiveCaseState => ({
+        ...state,
+        updateLoading: true,
+      })
+    ),
+    on(
+      ActiveCaseActions.refreshSapPricingSuccess,
+      (state: ActiveCaseState, { quotation }): ActiveCaseState => ({
+        ...state,
+        updateLoading: false,
+        quotation: {
+          ...quotation,
+          quotationDetails: sortQuotationDetails(quotation.quotationDetails),
+        },
+      })
+    ),
+    on(
+      ActiveCaseActions.refreshSapPricingFailure,
+      (state: ActiveCaseState, { errorMessage }): ActiveCaseState => ({
+        ...state,
+        updateLoading: false,
+        quotationLoadingErrorMessage: errorMessage,
+      })
+    ),
+    on(
+      ActiveCaseActions.resetSimulatedQuotation,
+      (state: ActiveCaseState): ActiveCaseState => ({
+        ...state,
+        simulatedItem: undefined,
+      })
+    ),
+    on(
+      ActiveCaseActions.createSapQuote,
+      (state: ActiveCaseState): ActiveCaseState => ({
+        ...state,
+        quotationLoading: true,
+      })
+    ),
+    on(
+      ActiveCaseActions.createSapQuoteSuccess,
+      (state: ActiveCaseState, { quotation }): ActiveCaseState => ({
+        ...state,
+        quotationLoading: false,
+        quotation: {
+          ...quotation,
+          quotationDetails: sortQuotationDetails(quotation.quotationDetails),
+        },
+      })
+    ),
+    on(
+      ActiveCaseActions.createSapQuoteFailure,
+      (state: ActiveCaseState, { errorMessage }): ActiveCaseState => ({
+        ...state,
+        quotationLoading: false,
+        quotationLoadingErrorMessage: errorMessage,
+      })
+    ),
+    on(
+      ActiveCaseActions.addSimulatedQuotation,
+      (
+        state: ActiveCaseState,
+        { gqId, quotationDetails }
+      ): ActiveCaseState => ({
+        ...state,
+        simulatedItem: buildSimulatedQuotation(
+          gqId,
+          quotationDetails,
+          state.quotation.quotationDetails
+        ),
+      })
+    ),
+    on(
+      ActiveCaseActions.addMaterialsToQuotation,
+      (state: ActiveCaseState): ActiveCaseState => ({
+        ...state,
+        updateLoading: true,
+        quotationLoadingErrorMessage: initialState.quotationLoadingErrorMessage,
+      })
+    ),
+    on(
+      ActiveCaseActions.addMaterialsToQuotationSuccess,
+      (state: ActiveCaseState, { updatedQuotation }): ActiveCaseState => ({
+        ...state,
+        quotation: {
+          ...updatedQuotation,
+          quotationDetails: [
+            ...sortQuotationDetails(updatedQuotation.quotationDetails),
+          ],
+        },
+        updateLoading: false,
+        quotationLoadingErrorMessage: undefined,
+      })
+    ),
+    on(
+      ActiveCaseActions.addMaterialsToQuotationFailure,
+      (state: ActiveCaseState, { errorMessage }): ActiveCaseState => ({
+        ...state,
+        quotationLoadingErrorMessage: errorMessage,
+        updateLoading: false,
+      })
+    ),
+    on(
+      ActiveCaseActions.removeSimulatedQuotationDetail,
+      (state: ActiveCaseState, { gqPositionId }): ActiveCaseState => ({
+        ...state,
+        simulatedItem: {
+          ...state.simulatedItem,
+          quotationDetails: state.simulatedItem.quotationDetails.filter(
+            (detail: QuotationDetail) => detail.gqPositionId !== gqPositionId
+          ),
+          simulatedStatusBar: {
+            ...calculateStatusBarValues(
+              getSimulatedDetails(
+                state.quotation.quotationDetails,
+                state.simulatedItem.quotationDetails.filter(
+                  (detail: QuotationDetail) =>
+                    detail.gqPositionId !== gqPositionId
+                )
+              )
+            ),
+          },
+        },
+      })
+    ),
+    on(
+      ActiveCaseActions.selectQuotationDetail,
+      (state: ActiveCaseState, { gqPositionId }): ActiveCaseState => ({
+        ...state,
+        selectedQuotationDetails: [
+          ...state.selectedQuotationDetails,
+          gqPositionId,
+        ],
+      })
+    ),
+    on(
+      ActiveCaseActions.deselectQuotationDetail,
+      (state: ActiveCaseState, { gqPositionId }): ActiveCaseState => ({
+        ...state,
+        selectedQuotationDetails: [
+          ...state.selectedQuotationDetails.filter((id) => id !== gqPositionId),
+        ],
+      })
+    ),
+    on(
+      ActiveCaseActions.clearActiveQuotation,
+      (state: ActiveCaseState): ActiveCaseState => ({
+        ...state,
+        quotation: initialState.quotation,
+        quotationIdentifier: initialState.quotationIdentifier,
+      })
+    )
+  ),
+});

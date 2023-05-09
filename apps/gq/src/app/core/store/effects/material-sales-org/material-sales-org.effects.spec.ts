@@ -16,7 +16,7 @@ import {
   loadMaterialSalesOrgFailure,
   loadMaterialSalesOrgSuccess,
 } from '../../actions';
-import { getPriceUnitOfSelectedQuotationDetail } from '../../selectors';
+import { getPriceUnitOfSelectedQuotationDetail } from '../../active-case/active-case.selectors';
 import { MaterialSalesOrgEffect } from './material-sales-org.effects';
 
 describe('materialSalesOrg Effect', () => {

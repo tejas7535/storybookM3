@@ -1,4 +1,4 @@
-import { PriceSource } from '../../../../../shared/models/quotation-detail';
+import { PriceSource } from '@gq/shared/models';
 
 export class UpdateQuotationDetail {
   gqPositionId: string;

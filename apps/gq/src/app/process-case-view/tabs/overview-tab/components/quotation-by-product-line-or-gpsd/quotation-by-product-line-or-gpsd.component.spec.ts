@@ -4,7 +4,7 @@ import {
   getQuotationDetails,
   getQuotationDetailsByGPSD,
   getQuotationDetailsByPL,
-} from '@gq/core/store/selectors';
+} from '@gq/core/store/active-case/active-case.selectors';
 import { StatusBarProperties } from '@gq/shared/models';
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
 import { HelperService } from '@gq/shared/services/helper/helper.service';

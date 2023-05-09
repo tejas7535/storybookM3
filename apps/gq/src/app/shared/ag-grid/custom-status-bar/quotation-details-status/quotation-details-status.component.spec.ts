@@ -21,6 +21,7 @@ import {
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
+import { ACTIVE_CASE_STATE_MOCK } from '../../../../../testing/mocks/state/active-case-state.mock';
 import { StatusBarModalComponent } from '../../../components/modal/status-bar-modal/status-bar-modal.component';
 import { StatusBarProperties } from '../../../models';
 import { SharedPipesModule } from '../../../pipes/shared-pipes.module';
@@ -57,6 +58,7 @@ describe('QuotationDetailsStatusComponent', () => {
         initialState: {
           'azure-auth': AUTH_STATE_MOCK,
           processCase: PROCESS_CASE_STATE_MOCK,
+          activeCase: ACTIVE_CASE_STATE_MOCK,
         },
       }),
       {

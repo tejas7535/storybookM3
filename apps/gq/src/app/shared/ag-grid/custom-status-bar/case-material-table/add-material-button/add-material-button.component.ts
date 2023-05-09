@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { addMaterials } from '@gq/core/store/actions';
+import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import { getAddMaterialRowDataValid } from '@gq/core/store/selectors/process-case/process-case.selectors';
 import { Store } from '@ngrx/store';
 
@@ -20,7 +20,7 @@ export class AddMaterialButtonComponent implements OnInit {
   }
 
   addMaterial(): void {
-    this.store.dispatch(addMaterials());
+    this.store.dispatch(ActiveCaseActions.addMaterialsToQuotation());
   }
 
   agInit(): void {}

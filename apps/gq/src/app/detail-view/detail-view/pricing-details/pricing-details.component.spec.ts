@@ -18,6 +18,7 @@ import {
   PROCESS_CASE_STATE_MOCK,
   QUOTATION_MOCK,
 } from '../../../../testing/mocks';
+import { ACTIVE_CASE_STATE_MOCK } from '../../../../testing/mocks/state/active-case-state.mock';
 import { MATERIAL_COST_DETAILS_STATE_MOCK } from '../../../../testing/mocks/state/material-cost-details-state.mock';
 import { LabelTextModule } from '../../../shared/components/label-text/label-text.module';
 import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
@@ -52,6 +53,7 @@ describe('PricingDetailsComponent', () => {
       provideMockStore({
         initialState: {
           processCase: PROCESS_CASE_STATE_MOCK,
+          activeCase: ACTIVE_CASE_STATE_MOCK,
           materialSalesOrg: MATERIAL_SALES_ORG_STATE_MOCK,
           materialComparableCosts: MATERIAL_COMPARABLE_COSTS_STATE_MOCK,
           plantMaterialDetails: PLANT_MATERIAL_DETAILS_STATE_MOCK,

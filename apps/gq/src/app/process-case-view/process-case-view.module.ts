@@ -8,6 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
 
+import { ActiveCaseModule } from '@gq/core/store/active-case/active-case.module';
 import { ApprovalModule } from '@gq/core/store/approval/approval.module';
 import { ProcessCaseEffects } from '@gq/core/store/effects';
 import { processCaseReducer } from '@gq/core/store/reducers/process-case/process-case.reducer';
@@ -36,7 +37,6 @@ import { ReleaseButtonComponent } from './release-button/release-button.componen
 import { ReleaseModalComponent } from './release-button/release-modal/release-modal.component';
 import { ReleaseModalApproverSelectComponent } from './release-button/release-modal/release-modal-approver-select/release-modal-approver-select.component';
 import { CalculationInProgressComponent } from './tabs/single-quotes-tab/calculation-in-progress/calculation-in-progress.component';
-
 @NgModule({
   declarations: [
     ProcessCaseViewComponent,
@@ -52,6 +52,7 @@ import { CalculationInProgressComponent } from './tabs/single-quotes-tab/calcula
     HeaderContentModule,
     ProcessCaseViewRoutingModule,
     SharedPipesModule,
+    ActiveCaseModule,
     StoreModule.forFeature('processCase', processCaseReducer),
     EffectsModule.forFeature([ProcessCaseEffects]),
     ApprovalModule,

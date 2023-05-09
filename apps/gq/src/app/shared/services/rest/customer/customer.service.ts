@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 
 import { map, Observable } from 'rxjs';
 
-import { QuotationIdentifier } from '../../../../core/store/reducers/models';
+import { QuotationIdentifier } from '@gq/core/store/active-case/models';
+
 import { ApiVersion } from '../../../../shared/models';
 import { Customer } from '../../../../shared/models/customer';
 import { roundToTwoDecimals } from '../../../../shared/utils/pricing.utils';
@@ -17,7 +18,7 @@ import { CustomerSalesOrgsCurrenciesResponse } from './models/customer-sales-org
 export class CustomerService {
   constructor(private readonly http: HttpClient) {}
 
-  public getSalesOrgsAndCurrenciesByCustomer(
+  getSalesOrgsAndCurrenciesByCustomer(
     customerId: string
   ): Observable<CustomerSalesOrgsCurrenciesResponse> {
     return this.http.get<CustomerSalesOrgsCurrenciesResponse>(
@@ -25,9 +26,7 @@ export class CustomerService {
     );
   }
 
-  public getCustomer(
-    quotationIdentifier: QuotationIdentifier
-  ): Observable<Customer> {
+  getCustomer(quotationIdentifier: QuotationIdentifier): Observable<Customer> {
     const { customerNumber, salesOrg } = quotationIdentifier;
 
     return this.http

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { removePositions } from '@gq/core/store/actions';
+import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import { IStatusPanelParams } from 'ag-grid-community';
@@ -90,7 +90,9 @@ export class DeleteItemsButtonComponent {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.store.dispatch(removePositions({ gqPositionIds }));
+        this.store.dispatch(
+          ActiveCaseActions.removePositionsFromQuotation({ gqPositionIds })
+        );
         this.selections = [];
       }
     });

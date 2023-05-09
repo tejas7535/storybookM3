@@ -5,11 +5,13 @@ import { Observable } from 'rxjs';
 
 import {
   AddQuotationDetailsRequest,
+  UpdateQuotationDetail,
+} from '@gq/core/store/active-case/models';
+import {
   ComparableLinkedTransaction,
   ExtendedComparableLinkedTransaction,
   ExtendedSapPriceConditionDetail,
   SapPriceConditionDetail,
-  UpdateQuotationDetail,
 } from '@gq/core/store/reducers/models';
 
 import { BYPASS_DEFAULT_ERROR_HANDLING } from '../../../http/http-error.interceptor';

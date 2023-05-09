@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import {
   getIsQuotationActive,
   getSimulationModeEnabled,
-} from '@gq/core/store/selectors';
+} from '@gq/core/store/active-case/active-case.selectors';
 import { Store } from '@ngrx/store';
 
 import { AddMaterialDialogComponent } from '../../../../process-case-view/add-material-dialog/add-material-dialog.component';

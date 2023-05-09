@@ -2,13 +2,13 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { getQuotationCurrency } from '@gq/core/store/active-case/active-case.selectors';
 import {
   getMaterialComparableCostsLoading,
   getMaterialCostDetails,
   getMaterialCostDetailsLoading,
   getMaterialSalesOrgLoading,
   getPlantMaterialDetailsLoading,
-  getQuotationCurrency,
 } from '@gq/core/store/selectors';
 import {
   MaterialCostDetails,

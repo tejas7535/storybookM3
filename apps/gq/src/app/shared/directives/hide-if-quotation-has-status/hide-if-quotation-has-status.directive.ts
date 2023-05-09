@@ -9,7 +9,7 @@ import {
 
 import { distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 
-import { getQuotationStatus } from '@gq/core/store/selectors';
+import { getQuotationStatus } from '@gq/core/store/active-case/active-case.selectors';
 import { Store } from '@ngrx/store';
 
 import { QuotationStatus } from '../../models';

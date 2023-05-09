@@ -4,12 +4,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import {
+  activeCaseFeature,
   getQuotationCurrency,
-  getSimulatedQuotation,
   getSimulationModeEnabled,
-  userHasGPCRole,
-  userHasSQVRole,
-} from '@gq/core/store/selectors';
+} from '@gq/core/store/active-case';
+import { userHasGPCRole, userHasSQVRole } from '@gq/core/store/selectors';
 import { calculateStatusBarValues } from '@gq/shared/utils/pricing.utils';
 import { Store } from '@ngrx/store';
 import { IStatusPanelParams, RowNode } from 'ag-grid-community';
@@ -50,7 +49,9 @@ export class QuotationDetailsStatusComponent implements OnInit {
     this.showGPM$ = this.store.pipe(userHasSQVRole);
     this.quotationCurrency$ = this.store.select(getQuotationCurrency);
     this.simulationModeEnabled$ = this.store.select(getSimulationModeEnabled);
-    this.simulatedQuotation$ = this.store.select(getSimulatedQuotation);
+    this.simulatedQuotation$ = this.store.select(
+      activeCaseFeature.selectSimulatedItem
+    );
   }
 
   agInit(params: IStatusPanelParams): void {

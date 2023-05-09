@@ -3,6 +3,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 
+import { QuotationIdentifier } from '@gq/core/store/active-case/models';
 import {
   createServiceFactory,
   HttpMethod,
@@ -10,7 +11,6 @@ import {
 } from '@ngneat/spectator';
 
 import { CUSTOMER_MOCK } from '../../../../../testing/mocks';
-import { QuotationIdentifier } from '../../../../core/store/reducers/models';
 import { ApiVersion } from '../../../../shared/models';
 import { SearchPaths } from '../search/models/search-paths.enum';
 import { CustomerService } from './customer.service';

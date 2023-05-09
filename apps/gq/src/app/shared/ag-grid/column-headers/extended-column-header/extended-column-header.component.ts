@@ -9,11 +9,11 @@ import { UntypedFormControl, Validators } from '@angular/forms';
 
 import { filter, map, Observable, pairwise, Subscription, take } from 'rxjs';
 
-import { userHasManualPriceRole } from '@gq/core/store/selectors';
 import {
+  activeCaseFeature,
   getIsQuotationStatusActive,
-  getSimulatedQuotation,
-} from '@gq/core/store/selectors/process-case/process-case.selectors';
+} from '@gq/core/store/active-case';
+import { userHasManualPriceRole } from '@gq/core/store/selectors';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
@@ -81,12 +81,14 @@ export class ExtendedColumnHeaderComponent
   }
 
   addSubscriptions(): void {
-    const simulationReset$ = this.store.select(getSimulatedQuotation).pipe(
-      pairwise(),
-      // eslint-disable-next-line ngrx/avoid-mapping-selectors
-      map(([preVal, currentVal]) => preVal && currentVal === undefined),
-      filter((val) => val)
-    );
+    const simulationReset$ = this.store
+      .select(activeCaseFeature.selectSimulatedItem)
+      .pipe(
+        pairwise(),
+        // eslint-disable-next-line ngrx/avoid-mapping-selectors
+        map(([preVal, currentVal]) => preVal && currentVal === undefined),
+        filter((val) => val)
+      );
 
     this.subscription.add(
       simulationReset$.subscribe(() => {
