@@ -67,6 +67,7 @@
         "label": "External"
       }
     },
+    "internalChangeTooltip": "Changed from > to",
     "reasonForLeaving": "Reason for leaving",
     "enoughRightsToShowAllEmployees": "This employee list is not complete due to insufficient user rights."
   },

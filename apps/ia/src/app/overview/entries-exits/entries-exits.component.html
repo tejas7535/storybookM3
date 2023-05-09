@@ -3,7 +3,7 @@
     {{ t('title') }}
     <mat-icon
       [matTooltip]="t('hint', { dimension: dimensionHint })"
-      class="ml-1 cursor-default text-high-emphasis"
+      class="text-high-emphasis ml-1 cursor-default"
     >
       info
     </mat-icon>
@@ -22,7 +22,7 @@
     ></ia-kpi>
 
     <div class="col-span-2 mt-4 text-center">
-      <span class="mb-[0.5rem] block h-[3.6em] text-body-2 leading-[1.8em]">{{
+      <span class="text-body-2 mb-[0.5rem] block h-[3.6em] leading-[1.8em]">{{
         t('totalHeadcount')
       }}</span>
       <h4>{{ totalEmployeesCount }}</h4>

@@ -13,7 +13,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { LineChartComponent } from '../../shared/charts/line-chart/line-chart.component';
 import { SharedModule } from '../../shared/shared.module';
-import { ChartType } from '../models/chart-type.enum';
+import { ChartType } from '../models';
 import {
   getChildDimensionName,
   getOrgUnitFluctuationDialogMeta,

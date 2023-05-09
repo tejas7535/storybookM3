@@ -22,11 +22,11 @@
 }
 
 .drag-list {
-  @apply mt-2 min-h-[60px] flex-1 rounded border border-border bg-surface;
+  @apply border-border bg-surface mt-2 min-h-[60px] flex-1 rounded border;
 }
 
 .drag-list-item {
-  @apply cursor-move border-b border-border bg-surface px-3 py-4 text-high-emphasis;
+  @apply border-border bg-surface text-high-emphasis cursor-move border-b px-3 py-4;
 }
 
 .drag-list-item:last-child {

@@ -1,6 +1,6 @@
 <div mat-dialog-title class="!flex flex-row" *ngIf="data?.headings?.header">
   <h6
-    class="!mt-0 !mr-0 !mb-4 !ml-1 grow font-medium !text-high-emphasis"
+    class="!text-high-emphasis !mb-4 !ml-1 !mr-0 !mt-0 grow font-medium"
     *transloco="let t; read: 'employeeListDialog'"
   >
     {{ data?.headings?.header }}
@@ -12,13 +12,13 @@
 >
   <span
     *ngIf="!data.enoughRightsToShowAllEmployees && !data.employeesLoading"
-    class="italic text-warning"
+    class="text-warning italic"
   >
     {{ t('enoughRightsToShowAllEmployees') }}
   </span>
   <h6
     *ngIf="data?.headings?.contentTitle"
-    class="mt-0 mr-0 mb-2 ml-1 text-overline font-medium leading-3"
+    class="text-overline mb-2 ml-1 mr-0 mt-0 font-medium leading-3"
   >
     {{ data?.headings?.contentTitle }}
   </h6>
@@ -28,11 +28,7 @@
     [maxBufferPx]="bufferPx"
     class="h-[450px] w-[590px]"
   >
-    <mat-list
-      *ngIf="!data.employeesLoading; else loading"
-      class="!pt-0"
-      [class]="data.employeesLoading ? '' : ''"
-    >
+    <mat-list *ngIf="!data.employeesLoading; else loading" class="!pt-0">
       <ng-container
         *cdkVirtualFor="
           let employee of data.employees;
@@ -50,46 +46,46 @@
             <div>{{ employee.employeeName }}</div>
             <div class="flex">
               <label
-                class="h-4 text-[12px] uppercase leading-4 text-medium-emphasis"
+                class="text-medium-emphasis h-4 text-[12px] uppercase leading-4"
                 >{{ t('userId') }}:&nbsp;</label
               >
-              <div class="text-[12px] leading-4 text-high-emphasis">
+              <div class="text-high-emphasis text-[12px] leading-4">
                 {{ employee.userId }} ({{ employee.employeeKey }})
               </div>
             </div>
             <div class="flex">
               <label
-                class="h-4 text-[12px] uppercase leading-4 text-medium-emphasis"
+                class="text-medium-emphasis h-4 text-[12px] uppercase leading-4"
                 >{{ t('orgUnit') }}:&nbsp;</label
               >
-              <div class="text-[12px] leading-4 text-high-emphasis">
+              <div class="text-high-emphasis text-[12px] leading-4">
                 {{ employee.orgUnit }}
               </div>
             </div>
             <div class="flex">
               <label
-                class="h-4 text-[12px] uppercase leading-4 text-medium-emphasis"
+                class="text-medium-emphasis h-4 text-[12px] uppercase leading-4"
                 >{{ t('position') }}:&nbsp;</label
               >
-              <div class="text-[12px] leading-4 text-high-emphasis">
+              <div class="text-high-emphasis text-[12px] leading-4">
                 {{ employee.positionDescription }}
               </div>
             </div>
             <div class="flex" *ngIf="employee.entryDate">
               <label
-                class="h-4 text-[12px] uppercase leading-4 text-medium-emphasis"
+                class="text-medium-emphasis h-4 text-[12px] uppercase leading-4"
                 >{{ t('entryDate') }}:&nbsp;</label
               >
-              <div class="text-[12px] leading-4 text-high-emphasis">
+              <div class="text-high-emphasis text-[12px] leading-4">
                 {{ employee.entryDate | date: 'dd/MM/yyyy' }}
               </div>
             </div>
             <div class="flex" *ngIf="employee.exitDate">
               <label
-                class="h-4 text-[12px] uppercase leading-4 text-medium-emphasis"
+                class="text-medium-emphasis h-4 text-[12px] uppercase leading-4"
                 >{{ t('exitDate') }}:&nbsp;</label
               >
-              <div class="text-[12px] leading-4 text-high-emphasis">
+              <div class="text-high-emphasis text-[12px] leading-4">
                 {{ employee.exitDate | date: 'dd/MM/yyyy' }}
               </div>
             </div>
@@ -108,7 +104,7 @@
               "
               disableRipple="true"
               selectable="false"
-              class="!w-[100px] justify-center !bg-lime text-caption !text-high-emphasis-dark-bg after:!bg-transparent"
+              class="!bg-lime text-caption !text-high-emphasis-dark-bg !w-[250px] justify-center self-center after:!bg-transparent"
               [matTooltip]="t('fluctuationType.info')"
               (click)="$event.stopPropagation()"
             >
@@ -121,7 +117,7 @@
               "
               disableRipple="true"
               selectable="false"
-              class="!bg-light-blue !w-[100px] justify-center text-caption !text-high-emphasis-dark-bg after:!bg-transparent"
+              class="!bg-light-blue text-caption !text-high-emphasis-dark-bg !w-[250px] justify-center self-center after:!bg-transparent"
               [matTooltip]="t('fluctuationType.info')"
               (click)="$event.stopPropagation()"
             >
@@ -131,7 +127,7 @@
               *ngIf="employee.reasonForLeaving"
               disableRipple="true"
               selectable="false"
-              class="!w-[100px] justify-center text-caption !text-high-emphasis-dark-bg after:!bg-transparent"
+              class="text-caption !text-high-emphasis-dark-bg !w-[250px] justify-center self-center after:!bg-transparent"
               [ngClass]="{
                 '!bg-gray-blue':
                   employee.reasonForLeaving === LEAVING_TYPE.FORCED,
@@ -143,6 +139,28 @@
               (click)="$event.stopPropagation()"
             >
               {{ employee.reasonForLeaving }}
+            </mat-chip>
+            <mat-chip
+              *ngIf="
+                employee.previousDimensionValue || employee.nextDimensionValue
+              "
+              disableRipple="true"
+              selectable="false"
+              class="text-caption !text-high-emphasis-dark-bg !grid !h-auto !max-h-20 !w-[250px] !grid-flow-col justify-center !bg-[#8fb2ca] after:!bg-transparent"
+              [matTooltip]="t('internalChangeTooltip')"
+              (click)="$event.stopPropagation()"
+            >
+              <span class="text-end">{{
+                employee.previousDimensionValue
+                  ? employee.previousDimensionValue
+                  : employee.currentDimensionValue
+              }}</span>
+              <mat-icon>chevron_right</mat-icon>
+              <span class="text-start">{{
+                employee.nextDimensionValue
+                  ? employee.nextDimensionValue
+                  : employee.currentDimensionValue
+              }}</span>
             </mat-chip>
           </mat-chip-list>
         </mat-list-item>
@@ -160,7 +178,7 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end" *transloco="let t; read: 'employeeListDialog'">
   <p
-    class="mr-auto text-caption"
+    class="text-caption mr-auto"
     [ngClass]="{
       'text-low-emphasis': data.enoughRightsToShowAllEmployees,
       'text-warning': !data.enoughRightsToShowAllEmployees

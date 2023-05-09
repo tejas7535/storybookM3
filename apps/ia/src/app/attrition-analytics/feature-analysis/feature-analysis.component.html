@@ -16,7 +16,7 @@
       <div class="relative">
         <div class="absolute right-3 top-1 flex flex-row gap-2">
           <button
-            class="z-50 text-medium-emphasis"
+            class="text-medium-emphasis z-50"
             mat-icon-button
             [attr.aria-label]="t('edit')"
             [matTooltip]="t('edit')"
@@ -26,7 +26,7 @@
           </button>
 
           <mat-icon
-            class="z-50 mt-2 cursor-move text-medium-emphasis"
+            class="text-medium-emphasis z-50 mt-2 cursor-move"
             cdkDragHandle
             [attr.aria-label]="t('move')"
             [matTooltip]="t('move')"
@@ -50,7 +50,7 @@
           [attr.aria-label]="t('add')"
           [matTooltip]="t('add')"
         >
-          <mat-icon class="!h-[48px] !w-[48px] text-[48px] text-medium-emphasis"
+          <mat-icon class="text-medium-emphasis !h-[48px] !w-[48px] text-[48px]"
             >add_circle_outline</mat-icon
           >
           <h6 class="text-medium-emphasis">{{ t('buttonText') }}</h6>

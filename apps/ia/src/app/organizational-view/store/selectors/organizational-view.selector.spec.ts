@@ -6,8 +6,7 @@ import {
   HeatType,
   IdValue,
 } from '../../../shared/models';
-import { ChartType } from '../../models/chart-type.enum';
-import { DimensionFluctuationData } from '../../models/dimension-fluctuation-data.model';
+import { ChartType, DimensionFluctuationData } from '../../models';
 import { CountryDataAttrition } from '../../world-map/models/country-data-attrition.model';
 import { initialState, OrganizationalViewState } from '..';
 import {

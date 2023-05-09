@@ -1,4 +1,4 @@
-import { DimensionFluctuationData } from '../../models/dimension-fluctuation-data.model';
+import { DimensionFluctuationData } from '../../models';
 
 export interface OrgChartResponse {
   dimensions: DimensionFluctuationData[];

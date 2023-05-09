@@ -20,8 +20,7 @@ import { EmployeeListDialogMeta } from '../../shared/dialogs/employee-list-dialo
 import { EmployeeListDialogMetaHeadings } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog-meta-headings.model';
 import { FilterDimension } from '../../shared/models';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
-import { ChartType } from '../models/chart-type.enum';
-import { DimensionFluctuationData } from '../models/dimension-fluctuation-data.model';
+import { ChartType, DimensionFluctuationData } from '../models';
 import { OrgChartData, OrgChartEmployee } from './models';
 import * as OrgChartConfig from './models/org-chart-config';
 import { OrgChartService } from './org-chart.service';

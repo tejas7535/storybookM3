@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
-import { ChartType } from '../models/chart-type.enum';
+import { ChartType } from '../models';
 import {
   getChildAttritionOverTimeOrgChartSeries,
   getChildDimensionName,

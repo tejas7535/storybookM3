@@ -7,13 +7,12 @@ import { TranslocoService } from '@ngneat/transloco';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/marbles';
 
-import { FilterDimension } from '../shared/models';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from '../../assets/i18n/en.json';
+import { FilterDimension } from '../shared/models';
 import { SharedModule } from '../shared/shared.module';
-import { ChartType } from './models/chart-type.enum';
-import { DimensionFluctuationData } from './models/dimension-fluctuation-data.model';
+import { ChartType, DimensionFluctuationData } from './models';
 import { OrgChartTranslation } from './org-chart/models';
 import { OrganizationalViewComponent } from './organizational-view.component';
 import {

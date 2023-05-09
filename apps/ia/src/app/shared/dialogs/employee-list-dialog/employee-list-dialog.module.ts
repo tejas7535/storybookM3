@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -23,6 +24,7 @@ import { EmployeeListDialogComponent } from './employee-list-dialog.component';
     MatListModule,
     MatChipsModule,
     MatTooltipModule,
+    MatIconModule,
     SharedTranslocoModule,
     ScrollingModule,
     LoadingSpinnerModule,

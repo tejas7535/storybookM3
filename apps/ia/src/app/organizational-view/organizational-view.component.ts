@@ -9,8 +9,7 @@ import { Store } from '@ngrx/store';
 import { getSelectedTimeRange } from '../core/store/selectors';
 import { ChartLegendItem } from '../shared/charts/models/chart-legend-item.model';
 import { FilterDimension, IdValue, TailwindColor } from '../shared/models';
-import { ChartType } from './models/chart-type.enum';
-import { DimensionFluctuationData } from './models/dimension-fluctuation-data.model';
+import { ChartType, DimensionFluctuationData } from './models';
 import { OrgChartData, OrgChartEmployee } from './org-chart/models';
 import {
   chartTypeSelected,

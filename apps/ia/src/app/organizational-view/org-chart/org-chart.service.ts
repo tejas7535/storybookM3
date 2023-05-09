@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import * as d3Selection from 'd3-selection';
 
 import { FilterDimension } from '../../shared/models';
-import { DimensionFluctuationData } from '../models/dimension-fluctuation-data.model';
+import { DimensionFluctuationData } from '../models';
 import { OrgChartNode } from './models/org-chart-node.model';
 
 @Injectable({

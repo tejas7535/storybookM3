@@ -5,8 +5,7 @@ import {
   EmployeesRequest,
   FilterDimension,
 } from '../../../shared/models';
-import { ChartType } from '../../models/chart-type.enum';
-import { DimensionFluctuationData } from '../../models/dimension-fluctuation-data.model';
+import { ChartType, DimensionFluctuationData } from '../../models';
 import {
   DimensionParentResponse,
   OrgChartEmployee,

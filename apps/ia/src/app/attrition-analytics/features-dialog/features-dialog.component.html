@@ -10,7 +10,7 @@
     *transloco="let t; read: 'attritionAnalytics'"
   >
     <div class="drag-list-wrapper">
-      <div class="sticky top-0 w-[100%] self-start bg-secondary pb-2">
+      <div class="bg-secondary sticky top-0 w-[100%] self-start pb-2">
         <h6>{{ t('addAnalysis.featuresDialog.availableFeatures') }}</h6>
       </div>
 
@@ -34,7 +34,7 @@
     </div>
 
     <div class="drag-list-wrapper sticky top-0 self-start">
-      <div class="w-[100%] bg-secondary pb-2">
+      <div class="bg-secondary w-[100%] pb-2">
         <h6>{{ t('addAnalysis.featuresDialog.selectedFeatures') }}</h6>
       </div>
 
@@ -58,7 +58,7 @@
   align="end"
   *transloco="let t; read: 'attritionAnalytics.addAnalysis.featuresDialog'"
 >
-  <p class="mr-auto text-caption text-low-emphasis">
+  <p class="text-caption text-low-emphasis mr-auto">
     {{
       t('amountSelected', {
         selected: selected.length,

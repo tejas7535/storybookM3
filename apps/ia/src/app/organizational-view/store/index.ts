@@ -2,8 +2,7 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
 import { AttritionOverTime } from '../../shared/models';
-import { ChartType } from '../models/chart-type.enum';
-import { DimensionFluctuationData } from '../models/dimension-fluctuation-data.model';
+import { ChartType, DimensionFluctuationData } from '../models';
 import { OrgChartEmployee, OrgUnitFluctuationRate } from '../org-chart/models';
 import { CountryDataAttrition } from '../world-map/models/country-data-attrition.model';
 import {

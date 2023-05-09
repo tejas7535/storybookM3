@@ -11,4 +11,8 @@ export interface EmployeeWithAction {
   positionDescription: string;
   orgUnit: string;
   actionType: ActionType;
+  dimensionKey: string;
+  previousDimensionValue: string;
+  nextDimensionValue: string;
+  currentDimensionValue: string;
 }

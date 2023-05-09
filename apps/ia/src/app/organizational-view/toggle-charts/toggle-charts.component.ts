@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 
-import { ChartType } from '../models/chart-type.enum';
+import { ChartType } from '../models';
 
 @Component({
   selector: 'ia-toggle-charts',

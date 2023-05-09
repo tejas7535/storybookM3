@@ -1,11 +1,11 @@
 <div *transloco="let t; read: 'overview'">
-  <div class="flex flex-wrap gap-4 bg-surface p-4 lg:flex-nowrap">
+  <div class="bg-surface flex flex-wrap gap-4 p-4 lg:flex-nowrap">
     <div class="flex w-full flex-col p-4 shadow lg:w-[24%]">
       <div class="flex-1">
         <div class="flex h-full flex-col">
           <h5>{{ t('fluctuationRate') }}</h5>
           <div
-            class="grid grid-cols-2 divide-x divide-solid divide-border pb-4"
+            class="divide-border grid grid-cols-2 divide-x divide-solid pb-4"
           >
             <div class="mb-4 pl-4">
               <ia-kpi
@@ -46,7 +46,7 @@
         <div class="flex h-full flex-col">
           <h5>{{ t('unforcedFluctuationRate') }}</h5>
           <div
-            class="grid grid-cols-2 divide-x divide-solid divide-border pb-4"
+            class="divide-border grid grid-cols-2 divide-x divide-solid pb-4"
           >
             <div class="mb-4 pl-4">
               <ia-kpi

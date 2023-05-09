@@ -13,7 +13,7 @@ import * as echarts from 'echarts';
 import worldJson from '../../../assets/world.json';
 import { Color } from '../../shared/models/color.enum';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
-import { ChartType } from '../models/chart-type.enum';
+import { ChartType } from '../models';
 import { CountryDataAttrition } from './models/country-data-attrition.model';
 
 @Component({

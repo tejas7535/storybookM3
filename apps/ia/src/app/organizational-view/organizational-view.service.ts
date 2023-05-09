@@ -14,7 +14,7 @@ import {
   FilterDimension,
   TimePeriod,
 } from '../shared/models';
-import { DimensionFluctuationData } from './models/dimension-fluctuation-data.model';
+import { DimensionFluctuationData } from './models';
 import {
   DimensionParentResponse,
   OrgChartEmployee,

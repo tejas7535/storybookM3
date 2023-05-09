@@ -2,7 +2,7 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import d3Selection from 'd3-selection';
 
 import { FilterDimension } from '../../shared/models';
-import { DimensionFluctuationData } from '../models/dimension-fluctuation-data.model';
+import { DimensionFluctuationData } from '../models';
 import { OrgChartService } from './org-chart.service';
 
 const mock: any = {

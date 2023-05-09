@@ -9,7 +9,7 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { HeatType } from '../../shared/models';
 import { Color } from '../../shared/models/color.enum';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
-import { ChartType } from '../models/chart-type.enum';
+import { ChartType } from '../models';
 import { CountryDataAttrition } from './models/country-data-attrition.model';
 import { WorldMapComponent } from './world-map.component';
 
