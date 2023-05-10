@@ -28,10 +28,13 @@ import { EditCellRendererComponent } from '@mac/msd/main-table/edit-cell-rendere
 import { FILTER_PARAMS } from '@mac/msd/main-table/table-config/filter-params';
 import {
   MANUFACTURER_VALUE_GETTER,
+  MATERIALSTANDARD_LINK_FORMATTER,
+  MATERIALSTOFFID_LINK_FORMATTER,
   RECYCLING_RATE_FILTER_VALUE_GETTER,
   RECYCLING_RATE_VALUE_GETTER,
   RELEASE_DATE_FORMATTER,
   RELEASE_DATE_VALUE_GETTER,
+  replaceColumn,
   STATUS_VALUE_GETTER,
   TRANSLATE_VALUE_FORMATTER_FACTORY,
 } from '@mac/msd/main-table/table-config/helpers';
@@ -53,7 +56,32 @@ export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
       RELEASE_RESTRICTIONS,
     ],
     // 'recentStatus' is replaced by 'releasedStatus'
-    excludeColumn([RECENT_STATUS, CO2_PER_TON], BASE_COLUMN_DEFINITIONS)
+    excludeColumn(
+      [RECENT_STATUS],
+      // CO2, materstandard get replaced so they keep their position!
+      replaceColumn(
+        [
+          {
+            field: MATERIAL_STANDARD_STANDARD_DOCUMENT,
+            headerName: MATERIAL_STANDARD_STANDARD_DOCUMENT,
+            filterParams: FILTER_PARAMS,
+            tooltipValueGetter: (params) =>
+              params.value ? 'standardLink' : undefined,
+            valueFormatter: MATERIALSTANDARD_LINK_FORMATTER,
+            cellRenderer: LinkCellRendererComponent,
+          },
+          {
+            field: CO2_PER_TON,
+            headerName: CO2_PER_TON,
+            filter: 'agNumberColumnFilter',
+            headerTooltip: CO2_PER_TON,
+            width: 140,
+            cellRenderer: GreenSteelCellRendererComponent,
+          },
+        ],
+        BASE_COLUMN_DEFINITIONS
+      )
+    )
   ),
   {
     field: RELEASED_STATUS,
@@ -72,14 +100,6 @@ export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
     suppressMovable: true,
     hide: false,
     suppressMenu: true,
-  },
-  {
-    field: CO2_PER_TON,
-    headerName: CO2_PER_TON,
-    filter: 'agNumberColumnFilter',
-    headerTooltip: CO2_PER_TON,
-    width: 140,
-    cellRenderer: GreenSteelCellRendererComponent,
   },
   {
     field: MATERIAL_NUMBERS,
@@ -187,8 +207,7 @@ export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
     hide: true,
     headerTooltip: MATERIAL_STANDARD_STOFF_ID,
     tooltipValueGetter: (params) => (params.value ? 'wiamLink' : undefined),
-    valueFormatter: (params) =>
-      `${params.value}|https://wiamp.schaeffler.com:8443/rdc/de.wiam.ext.schaeffler.rdc/sheets/raw?parameters=x[0,0,0[i1267680281-1673865505844-76_xEN3${params.data.materialStandardWiamId}-1011]`,
+    valueFormatter: MATERIALSTOFFID_LINK_FORMATTER,
     cellRenderer: LinkCellRendererComponent,
   },
 ];

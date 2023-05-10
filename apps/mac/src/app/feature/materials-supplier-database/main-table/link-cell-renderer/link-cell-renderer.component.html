@@ -3,12 +3,15 @@
   (mouseover)="setHovered(true)"
   (mouseout)="setHovered(false)"
 >
-  <span class="flex-1 truncate" *ngIf="params?.value">
+  <span class="flex-1 truncate" *ngIf="params?.valueFormatted; else plain">
     <a [href]="getHref()" target="_blank" [ngClass]="{ 'text-link': hovered }">
       {{ getName() }}
       <mat-icon class="!inline" inline="true">open_in_new</mat-icon>
     </a>
   </span>
+  <ng-template #plain>
+    <span class="flex-1 truncate">{{ params?.value }}</span>
+  </ng-template>
   <div
     class="h-full"
     *ngIf="params?.hasEditorRole && editableClass(materialClass$ | ngrxPush)"

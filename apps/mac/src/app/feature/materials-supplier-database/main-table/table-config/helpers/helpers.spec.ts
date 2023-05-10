@@ -17,10 +17,13 @@ import {
   excludeColumn,
   lockColumns,
   MANUFACTURER_VALUE_GETTER,
+  MATERIALSTANDARD_LINK_FORMATTER,
+  MATERIALSTOFFID_LINK_FORMATTER,
   RECYCLING_RATE_FILTER_VALUE_GETTER,
   RECYCLING_RATE_VALUE_GETTER,
   RELEASE_DATE_FORMATTER,
   RELEASE_DATE_VALUE_GETTER,
+  replaceColumn,
   STATUS_VALUE_GETTER,
   TRANSLATE_VALUE_FORMATTER_FACTORY,
 } from './index';
@@ -325,6 +328,18 @@ describe('helpers', () => {
     });
   });
 
+  describe('replaceColumn', () => {
+    it('should return the only non excluded columns', () => {
+      const cd = (name: string, width = 20) =>
+        ({ field: name, width } as ColDef);
+      const colDefs = [cd('1'), cd('2'), cd('3')];
+      const columns = [cd('4', 99), cd('1', 99)];
+      const expected = [cd('1', 99), cd('2'), cd('3')];
+
+      expect(replaceColumn(columns, colDefs)).toEqual(expected);
+    });
+  });
+
   describe('lockColumns', () => {
     it('should lock columns', () => {
       const cd = (name: string, locked?: boolean) =>
@@ -334,6 +349,46 @@ describe('helpers', () => {
       const expected = [cd('1', true), cd('2'), cd('3', true)];
 
       expect(lockColumns(columns, colDefs)).toEqual(expected);
+    });
+  });
+
+  describe('link-value-formatter material standard', () => {
+    const params = (value?: string) => ({ value } as ValueFormatterParams);
+
+    it('should make link to S standard', () => {
+      expect(MATERIALSTANDARD_LINK_FORMATTER(params('S 654321'))).toBeTruthy();
+      expect(
+        MATERIALSTANDARD_LINK_FORMATTER(params('S 123456-3'))
+      ).toBeTruthy();
+    });
+    it('should make link to 0812 standard', () => {
+      expect(
+        MATERIALSTANDARD_LINK_FORMATTER(params('0_812_4ERT'))
+      ).toBeTruthy();
+      expect(
+        MATERIALSTANDARD_LINK_FORMATTER(params('0_812_4567'))
+      ).toBeTruthy();
+    });
+    it('should make link to DIN standard', () => {
+      expect(
+        MATERIALSTANDARD_LINK_FORMATTER(params('DIN EN 123'))
+      ).toBeTruthy();
+    });
+    it('should not make a link to invalid standard', () => {
+      expect(MATERIALSTANDARD_LINK_FORMATTER(params('sth'))).toBeFalsy();
+    });
+    it('should not make a link to null', () => {
+      expect(MATERIALSTANDARD_LINK_FORMATTER(params())).toBeFalsy();
+    });
+  });
+  describe('link-value-formatter stoffId', () => {
+    it('should make link to wiam', () => {
+      const params = { value: '11', data: {} } as ValueFormatterParams;
+      expect(MATERIALSTOFFID_LINK_FORMATTER(params)).toBeTruthy();
+    });
+    it('should not make a link', () => {
+      const params = {} as ValueFormatterParams;
+      expect(MATERIALSTOFFID_LINK_FORMATTER(params)).toBeFalsy();
     });
   });
 });

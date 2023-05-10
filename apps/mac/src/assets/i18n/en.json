@@ -553,6 +553,7 @@
           "3": "Green Steel classification: Green"
         },
         "materialStandardStoffId": "Schaeffler Material ID (SSID) used in WIAM and Windchill",
+        "standardLink": "View Standard Document in SAP DMS (might not be available)",
         "wiamLink": "Show in Schaeffler Material Database WIAM"
       },
       "yes": "Yes"
