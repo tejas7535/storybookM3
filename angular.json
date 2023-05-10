@@ -4,6 +4,7 @@
     "cdba-e2e": "apps/cdba-e2e",
     "ea": "apps/ea",
     "ea-e2e": "apps/ea-e2e",
+    "eslint-rules": "tools/eslint-rules",
     "ga": "apps/ga",
     "ga-e2e": "apps/ga-e2e",
     "gq": "apps/gq",

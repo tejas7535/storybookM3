@@ -12,6 +12,7 @@
         "project": ["apps/gq/tsconfig.*?.json"]
       },
       "rules": {
+        "@nrwl/nx/workspace/gq-scoped-import": "error",
         "@angular-eslint/directive-selector": [
           "error",
           {
