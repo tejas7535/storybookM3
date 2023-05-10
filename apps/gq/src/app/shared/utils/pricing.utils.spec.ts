@@ -85,6 +85,42 @@ describe('PricingUtils', () => {
 
       expect(result).toBeUndefined();
     });
+
+    test('should return undefined if cost value is undefined', () => {
+      const price = 25;
+      const costValue = undefined as any;
+
+      const result = pricingUtils.calculateMargin(price, costValue);
+
+      expect(result).toBeUndefined();
+    });
+
+    test('should return margin if price value is greater than 0', () => {
+      const price = 25;
+      const margin = 20;
+
+      const result = pricingUtils.calculateMargin(price, margin);
+
+      expect(result).toEqual(20);
+    });
+
+    test('should return undefined if price value is 0', () => {
+      const price = 0;
+      const costValue = 20;
+
+      const result = pricingUtils.calculateMargin(price, costValue);
+
+      expect(result).toBeUndefined();
+    });
+
+    test('should return undefined if price value is undefined', () => {
+      const price = undefined as any;
+      const costValue = 20;
+
+      const result = pricingUtils.calculateMargin(price, costValue);
+
+      expect(result).toBeUndefined();
+    });
   });
 
   describe('calculateStatusBarValues should', () => {

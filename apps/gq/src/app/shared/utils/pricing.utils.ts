@@ -28,7 +28,7 @@ export const getPriceUnit = (detail: QuotationDetail): number => {
 };
 
 export const calculateMargin = (price: number, costValue: number): number => {
-  if (costValue > 0) {
+  if (price && price > 0 && costValue && costValue > 0) {
     const margin = (price - costValue) / price;
 
     return roundPercentageToTwoDecimals(margin);
