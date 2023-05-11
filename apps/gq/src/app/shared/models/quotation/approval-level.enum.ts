@@ -1,5 +1,5 @@
 export enum ApprovalLevel {
-  NONE = 0,
+  L0 = 0,
   L1 = 1,
   L2 = 2,
   L3 = 3,

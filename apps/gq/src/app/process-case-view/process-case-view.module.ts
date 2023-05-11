@@ -1,6 +1,8 @@
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -47,8 +49,11 @@ import { CalculationInProgressComponent } from './tabs/single-quotes-tab/calcula
   ],
   imports: [
     CommonModule,
+    ScrollingModule,
     MatSidenavModule,
     MatButtonModule,
+    MatInputModule,
+    MatAutocompleteModule,
     HeaderContentModule,
     ProcessCaseViewRoutingModule,
     SharedPipesModule,
@@ -69,7 +74,7 @@ import { CalculationInProgressComponent } from './tabs/single-quotes-tab/calcula
     MatSelectModule,
     FormsModule,
     ReactiveFormsModule,
-    MatInputModule,
+
     SubheaderModule,
     TabsHeaderModule,
     SyncStatusCustomerInfoHeaderModule,

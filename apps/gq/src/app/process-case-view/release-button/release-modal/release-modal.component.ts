@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -7,9 +8,10 @@ import {
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 
+import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { ApprovalLevel } from '@gq/shared/models/quotation/approval-level.enum';
-import { Approver } from '@gq/shared/models/quotation/approver.model';
-
+import { approverValidator } from '@gq/shared/validators/approver-validator';
+import { TranslocoService } from '@ngneat/transloco';
 @Component({
   selector: 'gq-release-modal',
   templateUrl: './release-modal.component.html',
@@ -26,78 +28,44 @@ export class ReleaseModalComponent implements OnInit {
 
   autoApprovalEnabled: boolean;
 
-  approver1FormControl = new FormControl('', Validators.required);
-  approver2FormControl = new FormControl('', Validators.required);
+  approver1FormControl = new FormControl(
+    '',
+    Validators.compose([approverValidator().bind(this), Validators.required])
+  );
+
+  approver2FormControl = new FormControl(
+    '',
+    Validators.compose([approverValidator().bind(this), Validators.required])
+  );
   approver3FormControl = new FormControl(
     '',
-    this.approver3Required ? Validators.required : undefined
+    Validators.compose([
+      approverValidator().bind(this),
+      this.approver3Required ? Validators.required : undefined,
+    ])
   );
   approverCCFormControl = new FormControl('');
 
-  // Mock Data - to be deleted once we get the real data from BE
-  approversLevel1: Approver[] = [
-    {
-      userId: 'schmjan',
-      firstName: 'Schmitt',
-      lastName: 'Jan',
-      approvalLevel: ApprovalLevel.L1,
-    },
-    {
-      userId: 'johndoe',
-      firstName: 'John',
-      lastName: 'Doe',
-      approvalLevel: ApprovalLevel.L1,
-    },
-  ];
-
-  approversLevel2: Approver[] = [
-    {
-      userId: 'kloedlrp',
-      firstName: 'Ralph',
-      lastName: 'Kloeditz',
-      approvalLevel: ApprovalLevel.L1,
-    },
-    {
-      userId: 'foobar',
-      firstName: 'Foo',
-      lastName: 'Bar',
-      approvalLevel: ApprovalLevel.L1,
-    },
-  ];
-
-  approversCC: Approver[] = [
-    {
-      userId: 'schmjan',
-      firstName: 'Schmitt',
-      lastName: 'Jan',
-      approvalLevel: ApprovalLevel.L1,
-    },
-    {
-      userId: 'kloedlrp',
-      firstName: 'Ralph',
-      lastName: 'Kloeditz',
-      approvalLevel: ApprovalLevel.L1,
-    },
-    {
-      userId: 'foobar',
-      firstName: 'Foo',
-      lastName: 'Bar',
-      approvalLevel: ApprovalLevel.L1,
-    },
-    {
-      userId: 'johndoe',
-      firstName: 'John',
-      lastName: 'Doe',
-      approvalLevel: ApprovalLevel.L1,
-    },
-  ];
+  private readonly REQUIRED_ERROR_MESSAGE = '';
+  private readonly INVALID_APPROVER_ERROR_MESSAGE = '';
 
   constructor(
+    public readonly approvalFacade: ApprovalFacade,
     private readonly dialogRef: MatDialogRef<ReleaseModalComponent>,
-    private readonly formBuilder: FormBuilder
-  ) {}
+    private readonly formBuilder: FormBuilder,
+    private readonly translocoService: TranslocoService
+  ) {
+    this.REQUIRED_ERROR_MESSAGE = this.translocoService.translate(
+      'processCaseView.header.releaseModal.requiredError'
+    );
+    this.INVALID_APPROVER_ERROR_MESSAGE = this.translocoService.translate(
+      'processCaseView.header.releaseModal.invalidApproverError'
+    );
+  }
 
   ngOnInit(): void {
+    this.approvalFacade.getApprovers();
+
     this.formGroup = this.formBuilder.group({
       approver1: this.approver1FormControl,
       approver2: this.approver2FormControl,
@@ -106,7 +74,21 @@ export class ReleaseModalComponent implements OnInit {
       comment: ['', Validators.maxLength(this.INPUT_MAX_LENGTH)],
       projectInformation: ['', Validators.maxLength(this.INPUT_MAX_LENGTH)],
     });
-    this.autoApprovalEnabled = this.approvalLevel === ApprovalLevel.NONE;
+
+    this.autoApprovalEnabled = this.approvalLevel === ApprovalLevel.L0;
+
+    this.formGroup.get('approver1').updateValueAndValidity();
+  }
+  getErrorMessageOfControl(control: AbstractControl): string {
+    if (control.hasError('required')) {
+      return this.REQUIRED_ERROR_MESSAGE;
+    }
+
+    if (control.hasError('invalidApprover')) {
+      return this.INVALID_APPROVER_ERROR_MESSAGE;
+    }
+
+    return '';
   }
 
   startWorkflow() {

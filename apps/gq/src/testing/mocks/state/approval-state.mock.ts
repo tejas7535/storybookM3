@@ -1,24 +1,13 @@
 import { ApprovalState } from '@gq/core/store/approval/approval.reducer';
 import { ApprovalLevel } from '@gq/shared/models/quotation/approval-level.enum';
 
+// this is sorted, because items are sorted in state
 export const APPROVAL_STATE_MOCK: ApprovalState = {
   approvers: [
-    {
-      userId: 'fischjny',
-      firstName: 'Jenny',
-      lastName: 'Fischer',
-      approvalLevel: ApprovalLevel.L3,
-    },
     {
       userId: 'herpisef',
       firstName: 'Stefan',
       lastName: 'Herpich',
-      approvalLevel: ApprovalLevel.L1,
-    },
-    {
-      userId: 'herpiseg',
-      firstName: 'Stefan',
-      lastName: 'Albert',
       approvalLevel: ApprovalLevel.L1,
     },
     {
@@ -28,12 +17,23 @@ export const APPROVAL_STATE_MOCK: ApprovalState = {
       approvalLevel: ApprovalLevel.L1,
     },
     {
+      userId: 'herpiseg',
+      firstName: 'Stefan',
+      lastName: 'Albert',
+      approvalLevel: ApprovalLevel.L1,
+    },
+    {
       userId: 'schlesni',
       firstName: 'Stefanie',
       lastName: 'Schleer',
       approvalLevel: ApprovalLevel.L2,
     },
-
+    {
+      userId: 'fischjny',
+      firstName: 'Jenny',
+      lastName: 'Fischer',
+      approvalLevel: ApprovalLevel.L3,
+    },
     {
       userId: 'soehnpsc',
       firstName: 'Pascal',

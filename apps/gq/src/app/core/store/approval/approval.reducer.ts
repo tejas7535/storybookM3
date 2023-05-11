@@ -1,3 +1,4 @@
+import { ApprovalLevel } from '@gq/shared/models/quotation/approval-level.enum';
 import { Approver } from '@gq/shared/models/quotation/approver.model';
 import { createFeature, createReducer, on } from '@ngrx/store';
 
@@ -34,7 +35,19 @@ export const approvalFeature = createFeature({
       ApprovalActions.getAllApproversSuccess,
       (state: ApprovalState, { approvers }): ApprovalState => ({
         ...state,
-        approvers,
+        approvers: approvers
+          .map((item: Approver) => ({
+            ...item,
+            // approvalLevel comes as string from BE, so let's map ('L1' to 1)
+            approvalLevel: +ApprovalLevel[item.approvalLevel],
+          }))
+          .sort(
+            (a, b) =>
+              a.approvalLevel - b.approvalLevel ||
+              a.userId.localeCompare(b.userId) ||
+              a.firstName?.localeCompare(b?.firstName) ||
+              a.lastName?.localeCompare(b?.lastName)
+          ),
         approversLoading: false,
         error: undefined,
       })

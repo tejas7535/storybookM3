@@ -20,7 +20,9 @@
       "approver1Title": "Approver 1 ({{ level }})",
       "approver2Title": "Approver 2 ({{ level }})",
       "approver3Title": "Approver 3 ({{ level }})",
-      "approverCCTitle": "Information (CC)"
+      "approverCCTitle": "Information (CC)",
+      "requiredError": "Approver required",
+      "invalidApproverError": "Invalid Approver"
     }
   },
   "tabs": {

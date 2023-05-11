@@ -18,24 +18,28 @@
     <div *ngIf="!autoApprovalEnabled">
       <p class="text-subtitle-2 pb-4 pt-6">{{ t('approvers') }}</p>
       <gq-release-modal-approver-select
+        tabindex="0"
         [approverSelectFormControl]="approver1FormControl"
-        [approvers]="approversLevel1"
+        [approvers$]="approvalFacade.levelOneApprovers$"
         [title]="t('approver1Title', { level: 'L1' })"
+        [errorMessage]="getErrorMessageOfControl(approver1FormControl)"
       ></gq-release-modal-approver-select>
       <gq-release-modal-approver-select
         [approverSelectFormControl]="approver2FormControl"
-        [approvers]="approversLevel2"
+        [approvers$]="approvalFacade.levelTwoApprovers$"
         [title]="t('approver2Title', { level: 'L2' })"
+        [errorMessage]="getErrorMessageOfControl(approver2FormControl)"
       ></gq-release-modal-approver-select>
       <gq-release-modal-approver-select
         *ngIf="approver3Required"
         [approverSelectFormControl]="approver3FormControl"
-        [approvers]="approversLevel2"
+        [approvers$]="approvalFacade.levelTwoApprovers$"
         [title]="t('approver3Title', { level: 'L2' })"
+        [errorMessage]="getErrorMessageOfControl(approver3FormControl)"
       ></gq-release-modal-approver-select>
       <gq-release-modal-approver-select
         [approverSelectFormControl]="approverCCFormControl"
-        [approvers]="approversCC"
+        [approvers$]="approvalFacade.levelOneApprovers$"
         [title]="t('approverCCTitle')"
       ></gq-release-modal-approver-select>
     </div>

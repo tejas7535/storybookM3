@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 
 import { ApiVersion } from '@gq/shared/models';
 import { Approver } from '@gq/shared/models/quotation/approver.model';
+import { withCache } from '@ngneat/cashew';
 
 import { ApprovalPaths } from './approval-paths.enum';
 
@@ -16,7 +17,10 @@ export class ApprovalService {
 
   public getAllApprovers(): Observable<Approver[]> {
     return this.http.get<Approver[]>(
-      `${ApiVersion.V1}/${ApprovalPaths.PATH_APPROVAL}/${ApprovalPaths.PATH_APPROVERS}`
+      `${ApiVersion.V1}/${ApprovalPaths.PATH_APPROVAL}/${ApprovalPaths.PATH_APPROVERS}`,
+      {
+        context: withCache(),
+      }
     );
   }
 }
