@@ -50,6 +50,7 @@ button {
 
 // custom overrides for ag grid
 .ag-theme-material {
+  --ag-font-family: 'Noto sans';
   .ag-row {
     border-color: rgba($color: #000000, $alpha: 0.12);
     border-top: none;

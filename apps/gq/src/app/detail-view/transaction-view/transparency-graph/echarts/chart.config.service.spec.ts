@@ -151,7 +151,7 @@ describe('ChartConfigService', () => {
       const result = service.tooltipFormatter(param, true);
 
       expect(result).toEqual(
-        `<span style="font-family: 'Roboto';color: rgba(0,0,0,0.38); font-weight:bold">${param.data.customerName}</span><br>`
+        `<span style="font-family: 'Noto Sans';color: rgba(0,0,0,0.38); font-weight:bold">${param.data.customerName}</span><br>`
       );
       expect(service.getValueForToolTipItem).toHaveBeenCalledTimes(4);
       expect(service.getLineForToolTipFormatter).toHaveBeenCalledTimes(4);
@@ -167,7 +167,7 @@ describe('ChartConfigService', () => {
       const result = service.tooltipFormatter(param, false);
 
       expect(result).toEqual(
-        `<span style="font-family: 'Roboto';color: rgba(0,0,0,0.38); font-weight:bold">${param.data.customerName}</span><br>`
+        `<span style="font-family: 'Noto Sans';color: rgba(0,0,0,0.38); font-weight:bold">${param.data.customerName}</span><br>`
       );
       expect(service.getValueForToolTipItem).toHaveBeenCalledTimes(3);
       expect(service.getLineForToolTipFormatter).toHaveBeenCalledTimes(3);

@@ -24,7 +24,11 @@ $schaeffler-theme: mat.define-light-theme(
   )
 );
 
-@include mat.core();
+$custom-typography: mat.define-typography-config(
+  $font-family: 'Noto Sans',
+);
+
+@include mat.core($custom-typography);
 @include mat.all-component-themes($schaeffler-theme);
 
 $prefix: '' !default;

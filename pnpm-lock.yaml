@@ -32,7 +32,7 @@ importers:
       '@commitlint/config-conventional': 17.1.0
       '@commitlint/cz-commitlint': 17.1.2
       '@fontsource/material-icons': 4.5.4
-      '@fontsource/roboto': 4.5.8
+      '@fontsource/noto-sans': 4.5.11
       '@geometricpanda/storybook-addon-badges': 0.2.2
       '@jscutlery/semver': 2.29.3
       '@microsoft/applicationinsights-web': 2.8.8
@@ -156,7 +156,7 @@ importers:
       '@azure/msal-browser': 2.30.0
       '@caeonline/dynamic-forms': 0.5.0_c3thwp2tb74lxnyqq3nwyns2cu
       '@fontsource/material-icons': 4.5.4
-      '@fontsource/roboto': 4.5.8
+      '@fontsource/noto-sans': 4.5.11
       '@microsoft/applicationinsights-web': 2.8.8_tslib@2.4.0
       '@ng-web-apis/common': 2.0.1_exoffocskofmlivdkikfgzqfuu
       '@ngneat/cashew': 3.1.0_@angular+core@14.2.1
@@ -4225,8 +4225,8 @@ packages:
     resolution: {integrity: sha512-YGmXkkEdu6EIgpFKNmB/nIXzZocwSmbI01Ninpmml8x8BT0M6RR++V1KqOfpzZ6Cw/FQ2/KYonQ3x4IY/4VRRA==}
     dev: false
 
-  /@fontsource/roboto/4.5.8:
-    resolution: {integrity: sha512-CnD7zLItIzt86q4Sj3kZUiLcBk1dSk81qcqgMGaZe7SQ1P8hFNxhMl5AZthK1zrDM5m74VVhaOpuMGIL4gagaA==}
+  /@fontsource/noto-sans/4.5.11:
+    resolution: {integrity: sha512-lBX7FCjIjSrQ+iMuXUuO+mbjbnUsJyZANg/04PgkeeAYe+cwnX81ibbgrAk1F56M6/btIrWQoDjxsK6Sz8KoVQ==}
     dev: false
 
   /@gar/promisify/1.1.3:

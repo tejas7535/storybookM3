@@ -31,10 +31,6 @@ const Template: Story = (args) => ({
   template: `
     <section>
       <div class="flex flex-row items-center gap-8 py-1">
-        <span class="w-24 shrink-0">Headline 1</span>
-        <h1>{{ typographyText }}</h1>
-      </div>
-      <div class="flex flex-row items-center gap-8 py-1">
         <span class="w-24 shrink-0">Headline 2</span>
         <h2>{{ typographyText }}</h2>
       </div>

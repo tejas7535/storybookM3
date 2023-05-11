@@ -75,11 +75,11 @@ export class ChartConfigService {
     style ="${this.tooltipLegendStyle}
     background-color: ${color};"
     ></span>
-    <span style="font-size: 12px; color: #646464; font-family: 'Roboto'">${translate(
+    <span style="font-size: 12px; color: #646464; font-family: 'Noto Sans'">${translate(
       `transactionView.graph.tooltip.${translateKey}`
     )}: </span>
     </span>
-    <span style="font-size: 12px; font-weight: bold; font-family: 'Roboto'; color: #000000">${data}</span><br/>`;
+    <span style="font-size: 12px; font-weight: bold; font-family: 'Noto Sans'; color: #000000">${data}</span><br/>`;
 
     return item;
   };
@@ -143,7 +143,7 @@ export class ChartConfigService {
       listedItems.splice(1, 0, ToolTipItems.PROFIT_MARGIN);
     }
 
-    let items = `<span style="font-family: 'Roboto';color: rgba(0,0,0,0.38); font-weight:bold">${data.customerName}</span><br>`;
+    let items = `<span style="font-family: 'Noto Sans';color: rgba(0,0,0,0.38); font-weight:bold">${data.customerName}</span><br>`;
 
     // tooltip data for scatter
     listedItems.forEach((item) => {

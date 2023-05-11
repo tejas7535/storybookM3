@@ -82,7 +82,7 @@ describe('OverviewChartComponent', () => {
           nameLocation: 'middle',
           nameGap: 50,
           nameTextStyle: {
-            fontFamily: 'Roboto',
+            fontFamily: 'Noto Sans',
           },
           minInterval: 1,
         },

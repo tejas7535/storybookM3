@@ -52,96 +52,57 @@ const border = {
 };
 
 const fontFamilies = {
-  sans: ['Roboto, sans-serif'],
+  sans: ['Noto sans'],
   materialIcons: ['Material Icons'],
 };
 
 const plugins = [
   plugin(function ({ addBase, theme }) {
-    const sm = theme('screens.sm', {});
-
     // override native elements styles
     addBase({
       body: {
         fontFamily: fontFamilies.sans,
         color: theme('textColor.emphasis.high-emphasis'),
       },
-      h1: {
-        fontSize: theme('fontSize.h1-mobile'),
-        fontWeight: theme('fontWeight.light'),
-        letterSpacing: fontSizes['h1-mobile'][1].letterSpacing,
-        lineHeight: fontSizes['h1-mobile'][1].lineHeight,
-        [`@media (min-width: ${sm})`]: {
-          fontSize: theme('fontSize.h1'),
-          lineHeight: fontSizes['h1'][1].lineHeight,
-          letterSpacing: fontSizes['h1'][1].letterSpacing,
-        },
-      },
       h2: {
-        fontSize: theme('fontSize.h2-mobile'),
-        fontWeight: theme('fontWeight.light'),
-        letterSpacing: fontSizes['h2-mobile'][1].letterSpacing,
-        lineHeight: fontSizes['h2-mobile'][1].lineHeight,
-        [`@media (min-width: ${sm})`]: {
-          fontSize: theme('fontSize.h2'),
-          lineHeight: fontSizes['h2'][1].lineHeight,
-        },
+        fontSize: theme('fontSize.h2'),
+        lineHeight: fontSizes['h2'][1].lineHeight,
       },
       h3: {
-        fontSize: theme('fontSize.h3-mobile'),
-        lineHeight: fontSizes['h3-mobile'][1].lineHeight,
-        [`@media (min-width: ${sm})`]: {
-          fontSize: theme('fontSize.h3'),
-          lineHeight: fontSizes['h3'][1].lineHeight,
-        },
+        fontSize: theme('fontSize.h3'),
+        lineHeight: fontSizes['h3'][1].lineHeight,
       },
       h4: {
-        fontSize: theme('fontSize.h4-mobile'),
-        letterSpacing: fontSizes['h4-mobile'][1].letterSpacing,
-        lineHeight: fontSizes['h4-mobile'][1].lineHeight,
-        [`@media (min-width: ${sm})`]: {
-          fontSize: theme('fontSize.h4'),
-          lineHeight: fontSizes['h4'][1].lineHeight,
-        },
+        fontSize: theme('fontSize.h4'),
+        lineHeight: fontSizes['h4'][1].lineHeight,
       },
       h5: {
-        fontSize: theme('fontSize.h5-mobile'),
-        lineHeight: fontSizes['h5-mobile'][1].lineHeight,
-        [`@media (min-width: ${sm})`]: {
-          fontSize: theme('fontSize.h5'),
-          lineHeight: fontSizes['h5'][1].lineHeight,
-        },
+        fontSize: theme('fontSize.h5'),
+        lineHeight: fontSizes['h5'][1].lineHeight,
       },
       h6: {
-        fontSize: theme('fontSize.h6-mobile'),
-        fontWeight: theme('fontWeight.medium'),
-        letterSpacing: fontSizes['h6-mobile'][1].letterSpacing,
-        lineHeight: fontSizes['h6-mobile'][1].lineHeight,
-        [`@media (min-width: ${sm})`]: {
-          fontSize: theme('fontSize.h6'),
-          lineHeight: fontSizes['h6'][1].lineHeight,
-        },
+        fontSize: theme('fontSize.h6'),
+        lineHeight: fontSizes['h6'][1].lineHeight,
       },
     });
   }),
   plugin(function ({ addComponents, theme }) {
     addComponents({
+      '.text-subtitle-1': {
+        fontWeight: theme('fontWeight.medium'),
+      },
       '.text-subtitle-2': {
         fontWeight: theme('fontWeight.medium'),
       },
       '.text-button': {
         fontWeight: theme('fontWeight.medium'),
+        textTransform: 'uppercase',
       },
-      '.text-h1': {
-        fontWeight: theme('fontWeight.light'),
-      },
-      '.text-h2': {
-        fontWeight: theme('fontWeight.light'),
-      },
-      '.text-h6': {
+      '.text-caption': {
         fontWeight: theme('fontWeight.medium'),
       },
       '.text-overline': {
+        fontWeight: theme('fontWeight.medium'),
         textTransform: 'uppercase',
       },
     });

@@ -1,96 +1,47 @@
 const fontSizes = {
-  h1: [
-    '96px',
-    {
-      letterSpacing: '-1.5px',
-      lineHeight: '112px',
-    },
-  ],
-  'h1-mobile': [
-    '48px',
-    {
-      letterSpacing: '-1.5px',
-      lineHeight: '57px',
-    },
-  ],
   h2: [
-    '60px',
+    '57px',
     {
-      letterSpacing: '-0.5px',
-      lineHeight: '71px',
-    },
-  ],
-  'h2-mobile': [
-    '36px',
-    {
-      letterSpacing: '-0.5px',
-      lineHeight: '42px',
+      letterSpacing: '-1.5px',
+      lineHeight: '64px',
     },
   ],
   h3: [
-    '48px',
+    '45px',
     {
-      lineHeight: '57px',
-    },
-  ],
-  'h3-mobile': [
-    '30px',
-    {
-      lineHeight: '35px',
+      lineHeight: '52px',
     },
   ],
   h4: [
-    '34px',
+    '36px',
     {
-      letterSpacing: '0.25px',
-      lineHeight: '40px',
-    },
-  ],
-  'h4-mobile': [
-    '24px',
-    {
-      letterSpacing: '0.25px',
-      lineHeight: '28px',
+      lineHeight: '44px',
     },
   ],
   h5: [
     '24px',
     {
-      lineHeight: '28px',
-    },
-  ],
-  'h5-mobile': [
-    '20px',
-    {
-      lineHeight: '24px',
+      lineHeight: '32px',
     },
   ],
   h6: [
-    '20px',
+    '22px',
     {
-      letterSpacing: '0.25px',
-      lineHeight: '24px',
-    },
-  ],
-  'h6-mobile': [
-    '18px',
-    {
-      letterSpacing: '0.25px',
-      lineHeight: '21px',
+      lineHeight: '28px',
     },
   ],
   'body-1': [
     '16px',
     {
       letterSpacing: '0.5px',
-      lineHeight: '28px',
+      lineHeight: '24px',
     },
   ],
   'body-2': [
     '14px',
     {
       letterSpacing: '0.25px',
-      lineHeight: '20px',
+      lineHeight: '22px',
     },
   ],
   'subtitle-1': [
@@ -104,28 +55,28 @@ const fontSizes = {
     '14px',
     {
       letterSpacing: '0.1px',
-      lineHeight: '24px',
+      lineHeight: '20px',
     },
   ],
   button: [
     '14px',
     {
-      letterSpacing: '1.25px',
-      lineHeight: '16px',
+      letterSpacing: '1.25px', // 0.25px when buttons are not uppercase anymore
+      lineHeight: '20px',
     },
   ],
   caption: [
     '12px',
     {
-      letterSpacing: '0.4px',
+      letterSpacing: '0.5px',
       lineHeight: '16px',
     },
   ],
   overline: [
-    '10px',
+    '11px',
 
     {
-      letterSpacing: '2px',
+      letterSpacing: '0.5px',
       lineHeight: '16px',
     },
   ],
