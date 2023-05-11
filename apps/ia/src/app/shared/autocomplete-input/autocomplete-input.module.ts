@@ -7,10 +7,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { AutocompleteInputComponent } from './autocomplete-input.component';
-import { InputValidatorDirective } from './validation/input-validator.directive';
 
 @NgModule({
-  declarations: [AutocompleteInputComponent, InputValidatorDirective],
+  declarations: [AutocompleteInputComponent],
   imports: [
     CommonModule,
     FormsModule,

@@ -15,6 +15,7 @@
         {{ t('dimension.title') }}
       </h6>
       <ia-select-input
+        #selectInput
         class="mr-1 flex-1"
         [appearance]="'fill'"
         [label]="t('dimension.dimension')"
@@ -41,10 +42,10 @@
         </mat-icon>
       </h6>
       <ia-autocomplete-input
+        [type]="type"
         [filter]="dimensionFilter"
         [autoCompleteLoading]="orgUnitsLoading"
         [autoCompleteLoading]="dimensionDataLoading"
-        [label]="dimensionName"
         [hint]="
           disableFilters
             ? undefined

@@ -1,7 +1,7 @@
-import { UntypedFormControl } from '@angular/forms';
+import { AbstractControl } from '@angular/forms';
 
 export const ValidationUtils = {
-  isInputInvalid(control: UntypedFormControl): boolean {
+  isInputInvalid(control: AbstractControl): boolean {
     return !!(
       control &&
       (control.dirty || control.touched) &&
@@ -11,17 +11,20 @@ export const ValidationUtils = {
     );
   },
 
-  isInputValueFromTyping(control: UntypedFormControl): boolean {
+  isInputValueFromTyping(control: AbstractControl): boolean {
     // if a value is selected, then it is of type object
     return control.value === null || typeof control.value === 'string';
   },
 
-  isInitialEmptyState(control: UntypedFormControl): boolean {
+  isInitialEmptyState(control: AbstractControl): boolean {
     // if nothing has ben selected yet and user focus/unfocus the input
-    return typeof control.value === 'object' && control.value === null;
+    return (
+      (typeof control.value === 'object' && control.value === null) ||
+      control.value === undefined
+    );
   },
 
-  isInputTooShort(control: UntypedFormControl): boolean {
+  isInputTooShort(control: AbstractControl): boolean {
     return typeof control.value === 'string' && control.value.length <= 1;
   },
 };

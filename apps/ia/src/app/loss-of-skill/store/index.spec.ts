@@ -5,6 +5,7 @@ import { Employee, EmployeesRequest } from '../../shared/models';
 import { LostJobProfilesResponse, WorkforceResponse } from '../models';
 import { initialState, lossOfSkillReducer, LossOfSkillState, reducer } from '.';
 import {
+  clearLossOfSkillDimensionData,
   loadJobProfiles,
   loadJobProfilesFailure,
   loadJobProfilesSuccess,
@@ -80,6 +81,33 @@ describe('LossOfSkill Reducer', () => {
       expect(state.jobProfiles.data).toBeUndefined();
       expect(state.jobProfiles.loading).toBeFalsy();
       expect(state.jobProfiles.errorMessage).toEqual(errorMessage);
+    });
+  });
+
+  describe('clearLossOfSkillDimensionData', () => {
+    test('should clear loss of skill dimension data', () => {
+      const fakeState: LossOfSkillState = {
+        ...initialState,
+        jobProfiles: {
+          ...initialState.jobProfiles,
+          data: {} as LostJobProfilesResponse,
+        },
+        workforce: {
+          ...initialState.workforce,
+          data: {} as WorkforceResponse,
+        },
+        leavers: {
+          ...initialState.leavers,
+          data: {} as ExitEntryEmployeesResponse,
+        },
+      };
+      const action = clearLossOfSkillDimensionData();
+
+      const state = lossOfSkillReducer(fakeState, action);
+
+      expect(state.jobProfiles.data).toBeUndefined();
+      expect(state.workforce.data).toBeUndefined();
+      expect(state.leavers.data).toBeUndefined();
     });
   });
 

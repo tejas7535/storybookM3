@@ -10,6 +10,7 @@ import {
 } from '../models';
 import { initialState, overviewReducer, OverviewState, reducer } from '.';
 import {
+  clearOverviewDimensionData,
   loadAttritionOverTimeEmployees,
   loadAttritionOverTimeEmployeesFailure,
   loadAttritionOverTimeEmployeesSuccess,
@@ -213,6 +214,100 @@ describe('Overview Reducer', () => {
 
       expect(state.entriesExitsMeta.loading).toBeFalsy();
       expect(state.entriesExitsMeta.errorMessage).toEqual(errorMessage);
+    });
+  });
+
+  describe('clearOverviewDimensionData', () => {
+    test('should clear overview dimension data', () => {
+      const global = 70;
+      const fakeState: OverviewState = {
+        ...initialState,
+        entriesExitsMeta: {
+          ...initialState.entriesExitsMeta,
+          data: {
+            ...initialState.entriesExitsMeta.data,
+            fluctuationRate: {
+              ...initialState.entriesExitsMeta.data?.fluctuationRate,
+              dimension: 50,
+              global,
+            },
+            unforcedFluctuationRate: {
+              ...initialState.entriesExitsMeta.data?.unforcedFluctuationRate,
+              dimension: 70,
+              global,
+            },
+            externalUnforcedExitCount: 1,
+            externalEntryCount: 2,
+            externalExitCount: 3,
+            internalEntryCount: 4,
+            internalExitCount: 5,
+            totalEmployeesCount: 6,
+          },
+        },
+        fluctuationRates: {
+          ...initialState.fluctuationRates,
+          data: {
+            ...initialState.fluctuationRates.data,
+            fluctuationRates: [{ dimension: 7, global }],
+            unforcedFluctuationRates: [{ dimension: 7, global }],
+          },
+        },
+        openApplicationsCount: {
+          ...initialState.openApplicationsCount,
+          data: 57,
+        },
+        openApplications: {
+          ...initialState.openApplications,
+          data: [],
+        },
+        resignedEmployees: {
+          ...initialState.resignedEmployees,
+          data: {} as ResignedEmployeesResponse,
+        },
+        attritionOverTime: {
+          ...initialState.attritionOverTime,
+          data: {} as AttritionOverTime,
+        },
+      };
+      const action = clearOverviewDimensionData();
+
+      const state = overviewReducer(fakeState, action);
+
+      expect(
+        state.entriesExitsMeta.data.fluctuationRate.dimension
+      ).toBeUndefined();
+      expect(state.entriesExitsMeta.data.fluctuationRate.global).toEqual(70);
+      expect(
+        state.entriesExitsMeta.data.unforcedFluctuationRate.dimension
+      ).toBeUndefined();
+      expect(
+        state.entriesExitsMeta.data.unforcedFluctuationRate.global
+      ).toEqual(70);
+      expect(
+        state.entriesExitsMeta.data.externalUnforcedExitCount
+      ).toBeUndefined();
+      expect(state.entriesExitsMeta.data.externalEntryCount).toBeUndefined();
+      expect(state.entriesExitsMeta.data.externalExitCount).toBeUndefined();
+      expect(state.entriesExitsMeta.data.internalEntryCount).toBeUndefined();
+      expect(state.entriesExitsMeta.data.internalExitCount).toBeUndefined();
+      expect(state.entriesExitsMeta.data.totalEmployeesCount).toBeUndefined();
+
+      expect(
+        state.fluctuationRates.data.fluctuationRates[0].dimension
+      ).toBeUndefined();
+      expect(state.fluctuationRates.data.fluctuationRates[0].global).toEqual(
+        global
+      );
+      expect(
+        state.fluctuationRates.data.unforcedFluctuationRates[0].dimension
+      ).toBeUndefined();
+      expect(
+        state.fluctuationRates.data.unforcedFluctuationRates[0].global
+      ).toEqual(global);
+      expect(state.openApplicationsCount.data).toBeUndefined();
+      expect(state.openApplications.data).toBeUndefined();
+      expect(state.resignedEmployees.data).toBeUndefined();
+      expect(state.attritionOverTime.data).toBeUndefined();
     });
   });
 

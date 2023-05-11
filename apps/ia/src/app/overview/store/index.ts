@@ -10,6 +10,7 @@ import {
   ResignedEmployeesResponse,
 } from '../models';
 import {
+  clearOverviewDimensionData,
   loadAttritionOverTimeEmployees,
   loadAttritionOverTimeEmployeesFailure,
   loadAttritionOverTimeEmployeesSuccess,
@@ -235,6 +236,67 @@ export const overviewReducer = createReducer(
         errorMessage,
         data: undefined,
         loading: false,
+      },
+    })
+  ),
+  on(
+    clearOverviewDimensionData,
+    (state: OverviewState): OverviewState => ({
+      ...state,
+      entriesExitsMeta: {
+        ...state.entriesExitsMeta,
+        data: {
+          ...state.entriesExitsMeta.data,
+          fluctuationRate: {
+            ...state.entriesExitsMeta.data?.fluctuationRate,
+            dimension: undefined,
+          },
+          unforcedFluctuationRate: {
+            ...state.entriesExitsMeta.data?.unforcedFluctuationRate,
+            dimension: undefined,
+          },
+          externalUnforcedExitCount: undefined,
+          externalEntryCount: undefined,
+          externalExitCount: undefined,
+          internalEntryCount: undefined,
+          internalExitCount: undefined,
+          totalEmployeesCount: undefined,
+        },
+      },
+      fluctuationRates: {
+        ...state.fluctuationRates,
+        data: {
+          ...state.fluctuationRates.data,
+          fluctuationRates: state.fluctuationRates.data?.fluctuationRates?.map(
+            (fr) => ({
+              global: fr.global,
+              dimension: undefined,
+            })
+          ),
+          unforcedFluctuationRates:
+            state.fluctuationRates.data?.unforcedFluctuationRates?.map(
+              (fr) => ({
+                global: fr.global,
+                dimension: undefined,
+              })
+            ),
+        },
+      },
+      openApplicationsCount: {
+        ...state.openApplicationsCount,
+        data: undefined,
+      },
+      openApplications: {
+        ...state.openApplications,
+        data: undefined,
+      },
+      resignedEmployees: {
+        ...state.resignedEmployees,
+        data: undefined,
+      },
+      attritionOverTime: {
+        ...state.attritionOverTime,
+        data: undefined,
       },
     })
   ),

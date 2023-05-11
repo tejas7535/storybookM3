@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 
 import { AutocompleteInputComponent } from '../autocomplete-input/autocomplete-input.component';
+import { InputType } from '../autocomplete-input/models';
 import {
   ASYNC_SEARCH_MIN_CHAR_LENGTH,
   LOCAL_SEARCH_MIN_CHAR_LENGTH,
@@ -20,6 +21,7 @@ import {
   SelectedFilter,
   TimePeriod,
 } from '../models';
+import { SelectInputComponent } from '../select-input/select-input.component';
 import { getBeautifiedTimeRange, getTimeRangeHint } from '../utils/utilities';
 import { FilterLayout } from './filter-layout.enum';
 
@@ -32,12 +34,17 @@ export class FilterComponent {
   @ViewChild(AutocompleteInputComponent)
   autocompleteInput: AutocompleteInputComponent;
 
+  @ViewChild('selectInput')
+  selectInput: SelectInputComponent;
+
   private _selectedDimensionIdValue: IdValue;
   private _selectedTimePeriod: TimePeriod;
   private _dimensionFilter: Filter;
   private _options: IdValue[];
   private _minCharLength = 0;
   private _asyncMode = false;
+  type: InputType;
+
   private _dimensionName: string;
 
   get dimensionName(): string {
@@ -59,6 +66,10 @@ export class FilterComponent {
     if (this.autocompleteInput) {
       this.autocompleteInput.latestSelection = undefined;
     }
+    this.type =
+      activeDimension === FilterDimension.ORG_UNIT
+        ? new InputType('autocomplete', this.dimensionName)
+        : new InputType('select', this.dimensionName);
   }
 
   timeRangeHintValue = 'time range';
@@ -134,9 +145,12 @@ export class FilterComponent {
   @Output() selectFilter = new EventEmitter<SelectedFilter>();
   @Output() readonly autoCompleteInput: EventEmitter<string> =
     new EventEmitter();
+  @Output() selectedDimensionInvalid = new EventEmitter<void>();
 
   dimensionSelected(selectedDimension: IdValue): void {
     this.selectDimension.emit(selectedDimension);
+    this.selectInput.closePanel();
+    this.autocompleteInput.focus();
   }
 
   optionSelected(selectedFilter: SelectedFilter): void {
@@ -160,6 +174,7 @@ export class FilterComponent {
 
   selectedDimensionDataInvalid(selectedDimensionDataInvalid: boolean): void {
     this.disabledTimeRangeFilter = selectedDimensionDataInvalid;
+    this.selectedDimensionInvalid.emit();
   }
 
   autoCompleteInputChange(searchFor: string): void {

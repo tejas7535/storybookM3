@@ -4,13 +4,13 @@
   (click)="clearInput()"
   (focusout)="setLatestSelection()"
 >
-  <mat-label>{{ label }}</mat-label>
+  <mat-label>{{ type?.label }}</mat-label>
   <input
     type="text"
     matInput
     #matInput
-    iaValidInput
-    [attr.aria-label]="label"
+    #autocompleteTrigger="matAutocompleteTrigger"
+    [attr.aria-label]="type?.label"
     [formControl]="inputControl"
     [matAutocomplete]="auto"
     [errorStateMatcher]="errorStateMatcher"

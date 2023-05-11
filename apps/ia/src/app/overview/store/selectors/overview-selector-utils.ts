@@ -53,7 +53,9 @@ export function getPercentageValue(rate: number): number {
 }
 
 export function getPercentageValueSigned(value: number): string {
-  return `${Number(getPercentageValue(value))}%`;
+  return value !== undefined
+    ? `${Number(getPercentageValue(value))}%`
+    : undefined;
 }
 
 export function createFluctuationRateChartConfig(

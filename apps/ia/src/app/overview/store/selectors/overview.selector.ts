@@ -84,11 +84,11 @@ export const getOverviewFluctuationKpi = createSelector(
     overviewFluctuationRates: OverviewFluctuationRates,
     selectedOrgUnit: IdValue
   ) =>
-    overviewFluctuationRates && selectedOrgUnit
+    overviewFluctuationRates
       ? utils.createFluctuationKpi(
           overviewFluctuationRates.fluctuationRate.global,
           overviewFluctuationRates.fluctuationRate.dimension,
-          selectedOrgUnit.value,
+          selectedOrgUnit?.value,
           overviewFluctuationRates.externalExitCount
         )
       : undefined
@@ -101,11 +101,11 @@ export const getOverviewUnforcedFluctuationKpi = createSelector(
     overviewFluctuationRates: OverviewFluctuationRates,
     selectedOrgUnit: IdValue
   ) =>
-    overviewFluctuationRates && selectedOrgUnit
+    overviewFluctuationRates
       ? utils.createFluctuationKpi(
           overviewFluctuationRates.unforcedFluctuationRate.global,
           overviewFluctuationRates.unforcedFluctuationRate.dimension,
-          selectedOrgUnit.value,
+          selectedOrgUnit?.value,
           overviewFluctuationRates.externalUnforcedExitCount
         )
       : undefined
@@ -144,21 +144,29 @@ export const getOverviewFluctuationExitsDoughnutConfig = createSelector(
   getInternalExitCount,
   getExternalExitCount,
   (internalExitCount: number, externalExitCount: number) =>
-    utils.createDoughnutConfig(internalExitCount, externalExitCount, 'Exits')
+    utils.createDoughnutConfig(
+      internalExitCount ?? 0,
+      externalExitCount ?? 0,
+      'Exits'
+    )
 );
 
 export const getOverviewFluctuationExitsCount = createSelector(
   getExternalExitCount,
   getInternalExitCount,
   (externalExitCount: number, internalExitCount: number) =>
-    externalExitCount + internalExitCount
+    externalExitCount !== undefined && internalExitCount !== undefined
+      ? externalExitCount + internalExitCount
+      : undefined
 );
 
 export const getOverviewFluctuationEntriesCount = createSelector(
   getExternalEntryCount,
   getInternalEntryCount,
   (externalEntryCount: number, internalEntryCount: number) =>
-    externalEntryCount + internalEntryCount
+    externalEntryCount !== undefined && internalEntryCount !== undefined
+      ? externalEntryCount + internalEntryCount
+      : undefined
 );
 
 export const getOverviewFluctuationTotalEmployeesCount = createSelector(
@@ -172,8 +180,8 @@ export const getOverviewFluctuationEntriesDoughnutConfig = createSelector(
   getExternalEntryCount,
   (internalEntryCount: number, externalEntryCount: number) =>
     utils.createDoughnutConfig(
-      internalEntryCount,
-      externalEntryCount,
+      internalEntryCount ?? 0,
+      externalEntryCount ?? 0,
       'Entries'
     )
 );
@@ -182,7 +190,7 @@ export const getFluctuationRatesForChart = createSelector(
   selectOverviewState,
   getSelectOrgUnitValueShort,
   (state: OverviewState, orgUnit: string) =>
-    state.fluctuationRates.data
+    state.fluctuationRates.data?.fluctuationRates
       ? utils.createFluctuationRateChartConfig(
           orgUnit,
           state.fluctuationRates.data.fluctuationRates
@@ -194,7 +202,7 @@ export const getUnforcedFluctuationRatesForChart = createSelector(
   selectOverviewState,
   getSelectOrgUnitValueShort,
   (state: OverviewState, orgUnit: string) =>
-    state.fluctuationRates.data
+    state.fluctuationRates.data?.unforcedFluctuationRates
       ? utils.createFluctuationRateChartConfig(
           orgUnit,
           state.fluctuationRates.data.unforcedFluctuationRates

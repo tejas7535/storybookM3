@@ -2,6 +2,7 @@ import { ExitEntryEmployeesResponse } from '../../../overview/models';
 import { EmployeesRequest } from '../../../shared/models';
 import { LostJobProfilesResponse, WorkforceResponse } from '../../models';
 import {
+  clearLossOfSkillDimensionData,
   loadJobProfiles,
   loadJobProfilesFailure,
   loadJobProfilesSuccess,
@@ -72,6 +73,14 @@ describe('LossOfSkill Actions', () => {
     expect(action).toEqual({
       errorMessage,
       type: '[Loss of Skill] Load Loss of Skill Workforce Failure',
+    });
+  });
+
+  test('clearLossOfSkillDimensionData', () => {
+    const action = clearLossOfSkillDimensionData();
+
+    expect(action).toEqual({
+      type: '[Loss of Skill] Clear Loss Of Skill Dimension data',
     });
   });
 

@@ -6,6 +6,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import {
+  dimensionSelected,
   filterSelected,
   loadFilterDimensionData,
   timePeriodSelected,
@@ -87,6 +88,7 @@ export class FilterSectionComponent implements OnInit {
     )?.[1];
 
     this.store.dispatch(loadFilterDimensionData({ filterDimension }));
+    this.store.dispatch(dimensionSelected());
   }
 
   filterSelected(filter: SelectedFilter): void {
@@ -108,6 +110,10 @@ export class FilterSectionComponent implements OnInit {
         searchFor,
       })
     );
+  }
+
+  triggerDimensionDataClear(): void {
+    this.store.dispatch(dimensionSelected());
   }
 
   mapTranslationsToIdValues(

@@ -41,6 +41,10 @@ export const loadFluctuationRatesOverviewFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
+export const clearOverviewDimensionData = createAction(
+  '[Overview] Clear Overview Dimension data'
+);
+
 export const loadOverviewExitEmployees = createAction(
   '[Overview] Load overview exit employees'
 );
@@ -149,6 +153,7 @@ const all = union({
   loadFluctuationRatesOverview,
   loadFluctuationRatesOverviewSuccess,
   loadFluctuationRatesOverviewFailure,
+  clearOverviewDimensionData,
   loadFluctuationRatesChartData,
   loadFluctuationRatesChartDataSuccess,
   loadFluctuationRatesChartDataFailure,

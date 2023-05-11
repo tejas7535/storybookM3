@@ -11,7 +11,6 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { FilterDimension } from '../../shared/models';
 import { Filter, IdValue } from '../models';
 import { AutocompleteInputComponent } from './autocomplete-input.component';
-import { InputValidatorDirective } from './validation/input-validator.directive';
 
 describe('AutocompleteInputComponent', () => {
   let component: AutocompleteInputComponent;
@@ -20,7 +19,6 @@ describe('AutocompleteInputComponent', () => {
 
   const createComponent = createComponentFactory({
     component: AutocompleteInputComponent,
-    declarations: [InputValidatorDirective],
     imports: [
       MatAutocompleteModule,
       MatInputModule,
@@ -159,16 +157,28 @@ describe('AutocompleteInputComponent', () => {
     });
   });
 
+  describe('focus', () => {
+    test('should click on input and open panel', () => {
+      component.matInput.nativeElement.click = jest.fn();
+      component.autocompleteTrigger.openPanel = jest.fn();
+
+      component.focus();
+
+      expect(component.matInput.nativeElement.click).toHaveBeenCalled();
+      expect(component.autocompleteTrigger.openPanel).toHaveBeenCalled();
+    });
+  });
+
   describe('clearInput', () => {
     test('should reset input if not empty', () => {
       const option: IdValue = { id: '0', value: 'option' };
       component.inputControl.setValue(option);
-      component.inputControl.reset = jest.fn();
+      component.inputControl.setValue = jest.fn();
 
       component.clearInput();
 
       expect(component.latestSelection).toBe(option);
-      expect(component.inputControl.reset).toHaveBeenCalled();
+      expect(component.inputControl.setValue).toHaveBeenCalledWith('');
     });
   });
 
@@ -177,6 +187,7 @@ describe('AutocompleteInputComponent', () => {
       const lastSelection: IdValue = { id: '0', value: 'option' };
       component.latestSelection = lastSelection;
       component.inputControl.setValue = jest.fn();
+      component.inputControl.setErrors({ invalidInput: 'invalid' });
 
       component.setLatestSelection();
 

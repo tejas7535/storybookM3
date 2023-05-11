@@ -116,12 +116,11 @@ export class OrgChartComponent implements AfterViewInit {
   @HostListener('document:click', ['$event']) clickout(event: any): void {
     const node: HTMLElement = event.target;
     const id = node.dataset.id;
-    this.selectedDataNode = this.orgChartData.data.find(
-      (elem) => elem.id === id
-    );
 
     switch (node.id) {
       case OrgChartConfig.BUTTON_CSS.people: {
+        this.selectedDataNode = this.getDimensionFluctuationDataById(id);
+
         this.showOrgChartEmployees.emit(this.selectedDataNode);
 
         const data = this.createEmployeeListDialogMeta();
@@ -132,6 +131,8 @@ export class OrgChartComponent implements AfterViewInit {
         break;
       }
       case OrgChartConfig.BUTTON_CSS.attrition: {
+        this.selectedDataNode = this.getDimensionFluctuationDataById(id);
+
         this.loadMeta.emit(this.selectedDataNode);
         this.dialog.open(AttritionDialogComponent, {
           data: ChartType.ORG_CHART,
@@ -142,6 +143,8 @@ export class OrgChartComponent implements AfterViewInit {
         break;
       }
       case OrgChartConfig.BUTTON_CSS.showUpArrow: {
+        this.selectedDataNode = this.getDimensionFluctuationDataById(id);
+
         this.showParent.emit(this.selectedDataNode);
 
         break;
@@ -157,6 +160,10 @@ export class OrgChartComponent implements AfterViewInit {
     }
 
     this.updateChart();
+  }
+
+  getDimensionFluctuationDataById(id: string): DimensionFluctuationData {
+    return this.orgChartData.data.find((elem) => elem.id === id);
   }
 
   updateChart(): void {

@@ -5,7 +5,7 @@
     [matTooltipDisabled]="!showTooltip"
     >{{ title }}</span
   >
-  <h4 class="mb-2">{{ value }}</h4>
+  <h4 class="mb-2">{{ value | defaultValue }}</h4>
   <div [class]="'text-high-emphasis'">
     <button
       mat-fab

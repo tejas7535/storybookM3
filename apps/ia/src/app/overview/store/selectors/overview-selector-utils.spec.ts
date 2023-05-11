@@ -94,6 +94,12 @@ describe('OverviewSelectorUtils', () => {
 
       expect(result).toEqual('4.3%');
     });
+
+    test('should return undefined when parameter undefined', () => {
+      const result = utils.getPercentageValueSigned(undefined as number);
+
+      expect(result).toBeUndefined();
+    });
   });
 
   describe('createFluctuationRateChartConfig', () => {

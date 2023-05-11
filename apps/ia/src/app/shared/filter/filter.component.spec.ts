@@ -4,6 +4,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { AutocompleteInputComponent } from '../autocomplete-input/autocomplete-input.component';
 import { AutocompleteInputModule } from '../autocomplete-input/autocomplete-input.module';
 import { DateInputModule } from '../date-input/date-input.module';
 import {
@@ -14,6 +15,7 @@ import {
   SelectedFilter,
   TimePeriod,
 } from '../models';
+import { SelectInputComponent } from '../select-input/select-input.component';
 import { SelectInputModule } from '../select-input/select-input.module';
 import { getTimeRangeHint } from '../utils/utilities';
 import { FilterComponent } from './filter.component';
@@ -56,6 +58,25 @@ describe('FilterComponent', () => {
 
       expect(component.selectedTimePeriod).toEqual(period);
       expect(getTimeRangeHint).toHaveBeenCalledWith(period);
+    });
+  });
+
+  describe('dimensionSelected', () => {
+    test('should emit dimension, close the panel and focus autocomplete', () => {
+      const dimension = new IdValue('1', 'bac');
+      component.selectInput = { closePanel: () => {} } as SelectInputComponent;
+      component.autocompleteInput = {
+        focus: () => {},
+      } as AutocompleteInputComponent;
+      component.selectDimension.emit = jest.fn();
+      component.selectInput.closePanel = jest.fn();
+      component.autocompleteInput.focus = jest.fn();
+
+      component.dimensionSelected(dimension);
+
+      expect(component.selectDimension.emit).toHaveBeenCalled();
+      expect(component.selectInput.closePanel).toHaveBeenCalled();
+      expect(component.autocompleteInput.focus).toHaveBeenCalled();
     });
   });
 
@@ -182,6 +203,46 @@ describe('FilterComponent', () => {
 
       expect(component.selectedDimensionIdValue).toEqual(idVal);
       expect(component.disabledTimeRangeFilter).toBeFalsy();
+    });
+  });
+
+  describe('activeDimension', () => {
+    test('should set active dimension and select type when dimension not org unit', () => {
+      const dimension = FilterDimension.BOARD;
+      const dimensionIdValue = new IdValue(dimension, dimension);
+
+      component.availableDimensions = [
+        new IdValue('1', 'avc'),
+        dimensionIdValue,
+      ];
+
+      component.activeDimension = dimension;
+
+      expect(component.activeDimension).toEqual(dimension);
+      expect(component.dimensionName).toEqual(FilterDimension[dimension]);
+      expect(component.type).toEqual({
+        type: 'select',
+        label: FilterDimension[dimension],
+      });
+    });
+
+    test('should set active dimension and autocomplete type when dimension org unit', () => {
+      const dimension = FilterDimension.ORG_UNIT;
+      const dimensionIdValue = new IdValue(dimension, dimension);
+
+      component.availableDimensions = [
+        new IdValue('1', 'avc'),
+        dimensionIdValue,
+      ];
+
+      component.activeDimension = dimension;
+
+      expect(component.activeDimension).toEqual(dimension);
+      expect(component.dimensionName).toEqual(FilterDimension[dimension]);
+      expect(component.type).toEqual({
+        type: 'autocomplete',
+        label: FilterDimension[dimension],
+      });
     });
   });
 

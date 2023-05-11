@@ -9,7 +9,11 @@ import { marbles } from 'rxjs-marbles/marbles';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from '../../assets/i18n/en.json';
-import { filterSelected, loadFilterDimensionData } from '../core/store/actions';
+import {
+  dimensionSelected,
+  filterSelected,
+  loadFilterDimensionData,
+} from '../core/store/actions';
 import {
   getOrgUnitsLoading,
   getSelectedDimensionFilter,
@@ -236,6 +240,7 @@ describe('FilterSectionComponent', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         loadFilterDimensionData({ filterDimension: FilterDimension.COUNTRY })
       );
+      expect(store.dispatch).toHaveBeenCalledWith(dimensionSelected());
     });
   });
 

@@ -7,6 +7,7 @@ import {
   ResignedEmployeesResponse,
 } from '../../models';
 import {
+  clearOverviewDimensionData,
   loadAttritionOverTimeEmployees,
   loadAttritionOverTimeEmployeesFailure,
   loadAttritionOverTimeEmployeesSuccess,
@@ -101,6 +102,14 @@ describe('Overview Actions', () => {
     expect(action).toEqual({
       errorMessage,
       type: '[Overview] Load FluctuationRates meta data Failure',
+    });
+  });
+
+  test('clearOverviewDimensionData', () => {
+    const action = clearOverviewDimensionData();
+
+    expect(action).toEqual({
+      type: '[Overview] Clear Overview Dimension data',
     });
   });
 

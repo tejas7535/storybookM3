@@ -28,7 +28,7 @@
       [filter]="dimensionFilter$ | ngrxPush"
       [autoCompleteLoading]="selectedDimensionDataLoading$ | ngrxPush"
       [value]="selectedDimensionIdValue"
-      [label]="dimensionName"
+      [type]="type"
       [hint]="
         t('dimensionIdValueHint', {
           dimension: dimensionName

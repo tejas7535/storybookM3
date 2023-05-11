@@ -10,12 +10,16 @@ import { Store } from '@ngrx/store';
 import { AppRoutePath } from '../../../app-route-path.enum';
 import { selectRouterState } from '../../../core/store';
 import { filterSelected } from '../../../core/store/actions';
-import { getCurrentFilters } from '../../../core/store/selectors';
+import {
+  getCurrentDimensionValue,
+  getCurrentFilters,
+} from '../../../core/store/selectors';
 import { ExitEntryEmployeesResponse } from '../../../overview/models';
 import { EmployeesRequest } from '../../../shared/models';
 import { LossOfSkillService } from '../../loss-of-skill.service';
 import { LostJobProfilesResponse, WorkforceResponse } from '../../models';
 import {
+  clearLossOfSkillDimensionData,
   loadJobProfiles,
   loadJobProfilesFailure,
   loadJobProfilesSuccess,
@@ -59,6 +63,20 @@ export class LossOfSkillEffects {
       mergeMap((request: EmployeesRequest) => [loadJobProfiles({ request })])
     );
   });
+
+  // clear dimension's data when user changed the dimension during the loading
+  clearDimensionDataOnDimensionChange$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        loadJobProfilesSuccess,
+        loadLossOfSkillWorkforceSuccess,
+        loadLossOfSkillLeaversSuccess
+      ),
+      concatLatestFrom(() => this.store.select(getCurrentDimensionValue)),
+      filter(([_action, dimensionFilter]) => !dimensionFilter),
+      map(() => clearLossOfSkillDimensionData())
+    )
+  );
 
   loadJobProfiles$ = createEffect(() => {
     return this.actions$.pipe(

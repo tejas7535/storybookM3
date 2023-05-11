@@ -25,7 +25,7 @@
       <span class="text-body-2 mb-[0.5rem] block h-[3.6em] leading-[1.8em]">{{
         t('totalHeadcount')
       }}</span>
-      <h4>{{ totalEmployeesCount }}</h4>
+      <h4>{{ totalEmployeesCount | defaultValue }}</h4>
     </div>
 
     <ia-kpi

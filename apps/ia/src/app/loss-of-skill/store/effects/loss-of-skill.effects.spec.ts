@@ -10,7 +10,10 @@ import { marbles } from 'rxjs-marbles/jest';
 import { AppRoutePath } from '../../../app-route-path.enum';
 import { RouterStateUrl, selectRouterState } from '../../../core/store';
 import { filterSelected } from '../../../core/store/actions';
-import { getCurrentFilters } from '../../../core/store/selectors';
+import {
+  getCurrentDimensionValue,
+  getCurrentFilters,
+} from '../../../core/store/selectors';
 import { ExitEntryEmployeesResponse } from '../../../overview/models';
 import {
   EmployeesRequest,
@@ -20,6 +23,7 @@ import {
 import { LossOfSkillService } from '../../loss-of-skill.service';
 import { LostJobProfilesResponse, WorkforceResponse } from '../../models';
 import {
+  clearLossOfSkillDimensionData,
   loadJobProfiles,
   loadJobProfilesFailure,
   loadJobProfilesSuccess,
@@ -136,6 +140,118 @@ describe('LossOfSkill Effects', () => {
         const expected = m.cold('--');
 
         m.expect(effects.filterChange$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('clearDimensionDataOnDimensionChange$', () => {
+    const value = 'ABC';
+
+    test(
+      'loadJobProfilesSuccess - should trigger loss of skill dimension data clear',
+      marbles((m) => {
+        action = loadJobProfilesSuccess({
+          lostJobProfilesResponse: {} as LostJobProfilesResponse,
+        });
+        store.overrideSelector(getCurrentDimensionValue, undefined as string);
+
+        actions$ = m.hot('-a', { a: action });
+        const result = clearLossOfSkillDimensionData();
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.clearDimensionDataOnDimensionChange$).toBeObservable(
+          expected
+        );
+      })
+    );
+
+    test(
+      'loadLossOfSkillWorkforceSuccess - should trigger loss of skill dimension data clear',
+      marbles((m) => {
+        action = loadLossOfSkillWorkforceSuccess({
+          data: {} as WorkforceResponse,
+        });
+        store.overrideSelector(getCurrentDimensionValue, undefined as string);
+
+        actions$ = m.hot('-a', { a: action });
+        const result = clearLossOfSkillDimensionData();
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.clearDimensionDataOnDimensionChange$).toBeObservable(
+          expected
+        );
+      })
+    );
+
+    test(
+      'loadLossOfSkillLeaversSuccess - should trigger loss of skill dimension data clear',
+      marbles((m) => {
+        action = loadLossOfSkillLeaversSuccess({
+          data: {} as ExitEntryEmployeesResponse,
+        });
+        store.overrideSelector(getCurrentDimensionValue, undefined as string);
+
+        actions$ = m.hot('-a', { a: action });
+        const result = clearLossOfSkillDimensionData();
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.clearDimensionDataOnDimensionChange$).toBeObservable(
+          expected
+        );
+      })
+    );
+
+    test(
+      'loadJobProfilesSuccess - should not trigger loss of skill dimension data clear',
+      marbles((m) => {
+        action = loadJobProfilesSuccess({
+          lostJobProfilesResponse: {} as LostJobProfilesResponse,
+        });
+        store.overrideSelector(getCurrentDimensionValue, value);
+
+        actions$ = m.hot('-a', { a: action });
+        const result = clearLossOfSkillDimensionData();
+        const expected = m.cold('--', { b: result });
+
+        m.expect(effects.clearDimensionDataOnDimensionChange$).toBeObservable(
+          expected
+        );
+      })
+    );
+
+    test(
+      'loadLossOfSkillWorkforceSuccess - should not trigger loss of skill dimension data clear',
+      marbles((m) => {
+        action = loadLossOfSkillWorkforceSuccess({
+          data: {} as WorkforceResponse,
+        });
+        store.overrideSelector(getCurrentDimensionValue, value);
+
+        actions$ = m.hot('-a', { a: action });
+        const result = clearLossOfSkillDimensionData();
+        const expected = m.cold('--', { b: result });
+
+        m.expect(effects.clearDimensionDataOnDimensionChange$).toBeObservable(
+          expected
+        );
+      })
+    );
+
+    test(
+      'loadLossOfSkillLeaversSuccess - should not trigger loss of skill dimension data clear',
+      marbles((m) => {
+        action = loadLossOfSkillLeaversSuccess({
+          data: {} as ExitEntryEmployeesResponse,
+        });
+        store.overrideSelector(getCurrentDimensionValue, value);
+
+        actions$ = m.hot('-a', { a: action });
+        const result = clearLossOfSkillDimensionData();
+        const expected = m.cold('--', { b: result });
+
+        m.expect(effects.clearDimensionDataOnDimensionChange$).toBeObservable(
+          expected
+        );
       })
     );
   });

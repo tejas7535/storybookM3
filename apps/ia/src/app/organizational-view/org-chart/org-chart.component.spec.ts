@@ -241,6 +241,18 @@ describe('OrgChartComponent', () => {
     }));
   });
 
+  describe('getDimensionFluctuationDataById', () => {
+    test('should get dimension fluctuation data by id', () => {
+      const id = 'AZ Alkmar';
+      const expected = { id } as DimensionFluctuationData;
+      component['_orgChartData'] = { data: [expected] } as OrgChartData;
+
+      const result = component.getDimensionFluctuationDataById(id);
+
+      expect(result).toBe(expected);
+    });
+  });
+
   describe('updateChart', () => {
     test('should do nothing when chart is not initialized yet', (done) => {
       component.updateChart();

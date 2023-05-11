@@ -4,6 +4,7 @@ import {
   EventEmitter,
   Input,
   Output,
+  ViewChild,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -11,7 +12,7 @@ import {
   UntypedFormControl,
 } from '@angular/forms';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
-import { MatSelectChange } from '@angular/material/select';
+import { MatSelect, MatSelectChange } from '@angular/material/select';
 
 import { IdValue } from '../models';
 
@@ -51,7 +52,13 @@ export class SelectInputComponent implements ControlValueAccessor {
 
   @Output() readonly selected: EventEmitter<IdValue> = new EventEmitter();
 
+  @ViewChild(MatSelect) matSelect: MatSelect;
+
   selectControl = new UntypedFormControl({ value: '', disabled: false });
+
+  closePanel(): void {
+    this.matSelect.close();
+  }
 
   selectionChange(evt: MatSelectChange): void {
     const option = this.findOptionById(evt.value);

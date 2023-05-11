@@ -9,7 +9,10 @@ import { marbles } from 'rxjs-marbles/jest';
 
 import { AppRoutePath } from '../../../app-route-path.enum';
 import { RouterStateUrl, selectRouterState } from '../../../core/store';
-import { getCurrentFilters } from '../../../core/store/selectors';
+import {
+  getCurrentDimensionValue,
+  getCurrentFilters,
+} from '../../../core/store/selectors';
 import { OrganizationalViewService } from '../../../organizational-view/organizational-view.service';
 import {
   AttritionOverTime,
@@ -26,6 +29,7 @@ import {
 } from '../../models';
 import { OverviewService } from '../../overview.service';
 import {
+  clearOverviewDimensionData,
   loadAttritionOverTimeEmployees,
   loadAttritionOverTimeEmployeesFailure,
   loadAttritionOverTimeEmployeesSuccess,
@@ -151,6 +155,185 @@ describe('Overview Effects', () => {
         const expected = m.cold('--');
 
         m.expect(effects.loadOverviewData$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('clearDimensionDataOnDimensionChange$', () => {
+    const value = 'ABC';
+
+    test(
+      'loadAttritionOverTimeOverviewSuccess - should do nothing when dimension selected',
+      marbles((m) => {
+        action = loadAttritionOverTimeOverviewSuccess({
+          data: {} as AttritionOverTime,
+        });
+        store.overrideSelector(getCurrentDimensionValue, value);
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('--');
+
+        m.expect(effects.clearDimensionDataOnDimensionChange$).toBeObservable(
+          expected
+        );
+      })
+    );
+
+    test(
+      'loadFluctuationRatesOverviewSuccess - should do nothing when dimension selected',
+      marbles((m) => {
+        action = loadFluctuationRatesOverviewSuccess({
+          data: {} as OverviewFluctuationRates,
+        });
+        store.overrideSelector(getCurrentDimensionValue, value);
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('--');
+
+        m.expect(effects.clearDimensionDataOnDimensionChange$).toBeObservable(
+          expected
+        );
+      })
+    );
+
+    test(
+      'loadFluctuationRatesChartDataSuccess - should do nothing when dimension selected',
+      marbles((m) => {
+        action = loadFluctuationRatesChartDataSuccess({
+          data: {} as FluctuationRatesChartData,
+        });
+        store.overrideSelector(getCurrentDimensionValue, value);
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('--');
+
+        m.expect(effects.clearDimensionDataOnDimensionChange$).toBeObservable(
+          expected
+        );
+      })
+    );
+
+    test(
+      'loadResignedEmployeesSuccess - should do nothing when dimension selected',
+      marbles((m) => {
+        action = loadResignedEmployeesSuccess({
+          data: {} as ResignedEmployeesResponse,
+        });
+        store.overrideSelector(getCurrentDimensionValue, value);
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('--');
+
+        m.expect(effects.clearDimensionDataOnDimensionChange$).toBeObservable(
+          expected
+        );
+      })
+    );
+
+    test(
+      'loadOpenApplicationsCountSuccess - should do nothing when dimension selected',
+      marbles((m) => {
+        action = loadOpenApplicationsCountSuccess({
+          openApplicationsCount: 0,
+        });
+        store.overrideSelector(getCurrentDimensionValue, value);
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('--');
+
+        m.expect(effects.clearDimensionDataOnDimensionChange$).toBeObservable(
+          expected
+        );
+      })
+    );
+
+    test(
+      'loadAttritionOverTimeOverviewSuccess - should return clearOverviewDimensionData when dimension not selected',
+      marbles((m) => {
+        action = loadAttritionOverTimeOverviewSuccess({
+          data: {} as AttritionOverTime,
+        });
+        store.overrideSelector(getCurrentDimensionValue, undefined as string);
+
+        actions$ = m.hot('-a', { a: action });
+        const result = clearOverviewDimensionData();
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.clearDimensionDataOnDimensionChange$).toBeObservable(
+          expected
+        );
+      })
+    );
+
+    test(
+      'loadFluctuationRatesOverviewSuccess - should return clearOverviewDimensionData when dimension not selected',
+      marbles((m) => {
+        action = loadFluctuationRatesOverviewSuccess({
+          data: {} as OverviewFluctuationRates,
+        });
+        store.overrideSelector(getCurrentDimensionValue, undefined as string);
+
+        actions$ = m.hot('-a', { a: action });
+        const result = clearOverviewDimensionData();
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.clearDimensionDataOnDimensionChange$).toBeObservable(
+          expected
+        );
+      })
+    );
+
+    test(
+      'loadFluctuationRatesChartDataSuccess - should return clearOverviewDimensionData when dimension not selected',
+      marbles((m) => {
+        action = loadFluctuationRatesChartDataSuccess({
+          data: {} as FluctuationRatesChartData,
+        });
+        store.overrideSelector(getCurrentDimensionValue, undefined as string);
+
+        actions$ = m.hot('-a', { a: action });
+        const result = clearOverviewDimensionData();
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.clearDimensionDataOnDimensionChange$).toBeObservable(
+          expected
+        );
+      })
+    );
+
+    test(
+      'loadResignedEmployeesSuccess - should return clearOverviewDimensionData when dimension not selected',
+      marbles((m) => {
+        action = loadResignedEmployeesSuccess({
+          data: {} as ResignedEmployeesResponse,
+        });
+        store.overrideSelector(getCurrentDimensionValue, undefined as string);
+
+        actions$ = m.hot('-a', { a: action });
+        const result = clearOverviewDimensionData();
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.clearDimensionDataOnDimensionChange$).toBeObservable(
+          expected
+        );
+      })
+    );
+
+    test(
+      'loadOpenApplicationsCountSuccess - should return clearOverviewDimensionData when dimension not selected',
+      marbles((m) => {
+        action = loadOpenApplicationsCountSuccess({
+          openApplicationsCount: 0,
+        });
+        store.overrideSelector(getCurrentDimensionValue, undefined as string);
+
+        actions$ = m.hot('-a', { a: action });
+        const result = clearOverviewDimensionData();
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.clearDimensionDataOnDimensionChange$).toBeObservable(
+          expected
+        );
       })
     );
   });

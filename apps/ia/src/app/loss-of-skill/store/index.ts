@@ -3,6 +3,7 @@ import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 import { ExitEntryEmployeesResponse } from '../../overview/models';
 import { LostJobProfilesResponse, WorkforceResponse } from '../models';
 import {
+  clearLossOfSkillDimensionData,
   loadJobProfiles,
   loadJobProfilesFailure,
   loadJobProfilesSuccess,
@@ -118,6 +119,24 @@ export const lossOfSkillReducer = createReducer(
         ...state.workforce,
         loading: false,
         errorMesssage: errorMessage,
+      },
+    })
+  ),
+  on(
+    clearLossOfSkillDimensionData,
+    (state: LossOfSkillState): LossOfSkillState => ({
+      ...state,
+      jobProfiles: {
+        ...state.jobProfiles,
+        data: undefined,
+      },
+      workforce: {
+        ...state.workforce,
+        data: undefined,
+      },
+      leavers: {
+        ...state.leavers,
+        data: undefined,
       },
     })
   ),

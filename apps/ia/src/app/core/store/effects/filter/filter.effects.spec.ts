@@ -5,14 +5,18 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/jest';
 
 import { FilterService } from '../../../../filter-section/filter.service';
+import { clearLossOfSkillDimensionData } from '../../../../loss-of-skill/store/actions/loss-of-skill.actions';
+import { clearOverviewDimensionData } from '../../../../overview/store/actions/overview.action';
 import { FilterDimension, FilterKey, IdValue } from '../../../../shared/models';
 import {
+  dimensionSelected,
   filterSelected,
   loadFilterDimensionData,
   loadFilterDimensionDataFailure,
   loadFilterDimensionDataSuccess,
 } from '../../actions/filter/filter.action';
 import {
+  getCurrentDimensionValue,
   getSelectedDimension,
   getSelectedDimensionIdValue,
   getSelectedTimeRange,
@@ -51,6 +55,38 @@ describe('Filter Effects', () => {
     effects = spectator.inject(FilterEffects);
     filterService = spectator.inject(FilterService);
     store = spectator.inject(MockStore);
+  });
+
+  describe('dimensionSelected$', () => {
+    test(
+      'should return clearOverviewDimensionData and when no dimension value not selected',
+      marbles((m) => {
+        store.overrideSelector(getCurrentDimensionValue, undefined as string);
+        action = dimensionSelected();
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-(bc)', {
+          b: clearOverviewDimensionData(),
+          c: clearLossOfSkillDimensionData(),
+        });
+
+        m.expect(effects.dimensionSelected$).toBeObservable(expected);
+      })
+    );
+
+    test(
+      'should return nothing when dimension value selected',
+      marbles((m) => {
+        const value = 'ABC';
+        store.overrideSelector(getCurrentDimensionValue, value);
+        action = dimensionSelected();
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('--');
+
+        m.expect(effects.dimensionSelected$).toBeObservable(expected);
+      })
+    );
   });
 
   describe('loadFilterDimensionData$', () => {

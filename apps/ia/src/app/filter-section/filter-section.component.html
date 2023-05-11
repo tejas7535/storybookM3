@@ -29,6 +29,7 @@
         (selectFilter)="filterSelected($event)"
         (selectTimePeriod)="timePeriodSelected($event)"
         (autoCompleteInput)="autoCompleteOrgUnitsChange($event)"
+        (selectedDimensionInvalid)="triggerDimensionDataClear()"
       >
       </ia-filter>
     </div>

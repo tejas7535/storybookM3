@@ -37,6 +37,8 @@ export const timePeriodSelected = createAction(
   props<{ timePeriod: TimePeriod }>()
 );
 
+export const dimensionSelected = createAction('[Filter] Dimension Selected');
+
 export const triggerLoad = createAction('[Filter] Trigger Load');
 
 const all = union({

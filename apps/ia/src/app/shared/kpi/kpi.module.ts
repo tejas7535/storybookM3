@@ -6,6 +6,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { EmployeeListDialogModule } from '../dialogs/employee-list-dialog/employee-list-dialog.module';
+import { SharedPipesModule } from '../pipes/shared-pipes.module';
 import { KpiComponent } from './kpi.component';
 
 @NgModule({
@@ -16,6 +17,7 @@ import { KpiComponent } from './kpi.component';
     EmployeeListDialogModule,
     MatTooltipModule,
     SharedTranslocoModule,
+    SharedPipesModule,
   ],
   exports: [KpiComponent],
 })

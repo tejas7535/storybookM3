@@ -38,6 +38,10 @@ export const loadLossOfSkillWorkforceFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
+export const clearLossOfSkillDimensionData = createAction(
+  '[Loss of Skill] Clear Loss Of Skill Dimension data'
+);
+
 export const loadLossOfSkillLeavers = createAction(
   '[Loss of Skill] Load Loss of Skill Leavers',
   props<{ positionDescription: string }>()

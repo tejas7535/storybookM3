@@ -1,19 +1,27 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnDestroy,
   OnInit,
   Output,
+  ViewChild,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 
 import { EMPTY, Subscription, timer } from 'rxjs';
 import { debounce, filter, tap } from 'rxjs/operators';
 
 import { Filter, IdValue, SelectedFilter } from '../models';
+import { InputType } from './models';
+import {
+  createAutocompleteInputValidator,
+  createSelectInputValidator,
+} from './validation/autocomplete-validator-functions';
 import { InputErrorStateMatcher } from './validation/input-error-state-matcher';
 
 @Component({
@@ -23,8 +31,26 @@ import { InputErrorStateMatcher } from './validation/input-error-state-matcher';
 })
 export class AutocompleteInputComponent implements OnInit, OnDestroy {
   latestSelection: IdValue;
+  errorStateMatcher: InputErrorStateMatcher;
+
+  private _type: InputType;
+
+  @Input() set type(type: InputType) {
+    this._type = type;
+    if (type.type === 'autocomplete') {
+      this.inputControl.setValidators(
+        createAutocompleteInputValidator(type.label)
+      );
+    } else {
+      this.inputControl.setValidators(createSelectInputValidator(type.label));
+    }
+  }
+
+  get type() {
+    return this._type;
+  }
+
   @Input() autoCompleteLoading = false;
-  @Input() label: string;
   @Input() hint: string;
   @Input() noResultMessage: string;
   @Input() set disabled(disable: boolean) {
@@ -53,20 +79,24 @@ export class AutocompleteInputComponent implements OnInit, OnDestroy {
   @Input() minCharLength = 0;
 
   @Output()
-  readonly selected: EventEmitter<SelectedFilter> = new EventEmitter();
+  selected: EventEmitter<SelectedFilter> = new EventEmitter();
 
   @Output()
-  readonly invalidFormControl: EventEmitter<boolean> = new EventEmitter();
+  invalidFormControl: EventEmitter<boolean> = new EventEmitter();
 
   @Output()
-  private readonly autoComplete: EventEmitter<string> = new EventEmitter();
+  readonly autoComplete: EventEmitter<string> = new EventEmitter();
 
   private readonly subscription: Subscription = new Subscription();
   private readonly DEBOUNCE_TIME_DEFAULT = 500;
 
   inputControl = new UntypedFormControl();
   isTyping = false;
-  errorStateMatcher = new InputErrorStateMatcher();
+
+  @ViewChild(MatAutocompleteTrigger)
+  autocompleteTrigger: MatAutocompleteTrigger;
+
+  @ViewChild('matInput') matInput: ElementRef;
 
   ngOnInit(): void {
     const optionSelected$ = this.inputControl.valueChanges.pipe(
@@ -108,9 +138,14 @@ export class AutocompleteInputComponent implements OnInit, OnDestroy {
     );
   }
 
+  focus(): void {
+    this.matInput.nativeElement.click();
+    this.autocompleteTrigger.openPanel();
+  }
+
   clearInput(): void {
     this.latestSelection = this.inputControl.value;
-    this.inputControl.reset();
+    this.inputControl.setValue('');
   }
 
   setLatestSelection(): void {

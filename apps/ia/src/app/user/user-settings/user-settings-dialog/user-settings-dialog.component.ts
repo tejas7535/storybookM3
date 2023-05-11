@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 
 import { getSpecificDimensonFilter } from '../../../core/store/selectors/filter/filter.selector';
 import { AutocompleteInputComponent } from '../../../shared/autocomplete-input/autocomplete-input.component';
+import { InputType } from '../../../shared/autocomplete-input/models';
 import {
   ASYNC_SEARCH_MIN_CHAR_LENGTH,
   FILTER_DIMENSIONS,
@@ -47,6 +48,8 @@ export class UserSettingsDialogComponent implements OnInit, OnDestroy {
   dimensionName: string;
 
   minCharLength = 0;
+
+  type: InputType;
 
   readonly subscription: Subscription = new Subscription();
 
@@ -96,6 +99,10 @@ export class UserSettingsDialogComponent implements OnInit, OnDestroy {
         : LOCAL_SEARCH_MIN_CHAR_LENGTH;
 
     this.selectedDimensionIdValue = undefined;
+    this.type =
+      this.activeDimension === FilterDimension.ORG_UNIT
+        ? new InputType('autocomplete', this.dimensionName)
+        : new InputType('select', this.dimensionName);
   }
 
   updateDimensionName(): void {

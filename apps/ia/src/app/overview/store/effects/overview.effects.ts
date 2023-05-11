@@ -10,7 +10,10 @@ import { Store } from '@ngrx/store';
 import { AppRoutePath } from '../../../app-route-path.enum';
 import { selectRouterState } from '../../../core/store';
 import { filterSelected } from '../../../core/store/actions';
-import { getCurrentFilters } from '../../../core/store/selectors';
+import {
+  getCurrentDimensionValue,
+  getCurrentFilters,
+} from '../../../core/store/selectors';
 import { OrganizationalViewService } from '../../../organizational-view/organizational-view.service';
 import {
   AttritionOverTime,
@@ -26,6 +29,7 @@ import {
 } from '../../models';
 import { OverviewService } from '../../overview.service';
 import {
+  clearOverviewDimensionData,
   loadAttritionOverTimeEmployees,
   loadAttritionOverTimeEmployeesFailure,
   loadAttritionOverTimeEmployeesSuccess,
@@ -86,6 +90,22 @@ export class OverviewEffects {
         loadResignedEmployees(),
         loadOpenApplicationsCount({ request }),
       ])
+    )
+  );
+
+  // clear dimension's data when user changed the dimension during the loading
+  clearDimensionDataOnDimensionChange$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        loadAttritionOverTimeOverviewSuccess,
+        loadFluctuationRatesOverviewSuccess,
+        loadFluctuationRatesChartDataSuccess,
+        loadResignedEmployeesSuccess,
+        loadOpenApplicationsCountSuccess
+      ),
+      concatLatestFrom(() => this.store.select(getCurrentDimensionValue)),
+      filter(([_action, dimensionFilter]) => !dimensionFilter),
+      map(() => clearOverviewDimensionData())
     )
   );
 

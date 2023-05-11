@@ -5,6 +5,7 @@ import {
   TimePeriod,
 } from '../../../../shared/models';
 import {
+  dimensionSelected,
   filterSelected,
   loadFilterDimensionData,
   loadFilterDimensionDataFailure,
@@ -75,6 +76,14 @@ describe('Filter Actions', () => {
       expect(action).toEqual({
         timePeriod,
         type: '[Filter] Time period selected',
+      });
+    });
+
+    test('dimensionSelected', () => {
+      const action = dimensionSelected();
+
+      expect(action).toEqual({
+        type: '[Filter] Dimension Selected',
       });
     });
   });

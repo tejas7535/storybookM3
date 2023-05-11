@@ -38,8 +38,8 @@
       "timeRangePlaceholderStart": "Start date",
       "timeRangePlaceholderEnd": "End date"
     },
-    "invalidInputDropdownHint": "Please select a valid input from the dropdown",
-    "invalidInputTooShortHint": "Please type at least two characters to trigger autocomplete",
+    "invalidInputDropdownHint": "Please select a valid {{dimensionName}} from the dropdown",
+    "invalidInputTooShortHint": "Please type at least two characters to trigger autocomplete for {{dimensionName}}",
     "globalFilters": "Global Filters",
     "noFiltersSelected": "~no filters selected~"
   },

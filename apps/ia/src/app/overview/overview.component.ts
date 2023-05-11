@@ -82,8 +82,6 @@ export class OverviewComponent implements OnInit {
   isLoadingDoughnutsConfig$: Observable<boolean>;
   entriesCount$: Observable<number>;
   exitsCount$: Observable<number>;
-  realEntriesCount$: Observable<number>;
-  realExitsCount$: Observable<number>;
   exitEmployees$: Observable<EmployeeWithAction[]>;
   entryEmployees$: Observable<EmployeeWithAction[]>;
   exitEmployeesLoading$: Observable<boolean>;

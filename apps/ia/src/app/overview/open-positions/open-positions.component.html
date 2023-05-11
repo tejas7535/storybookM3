@@ -11,7 +11,7 @@
         </span>
         <div class="flex flex-row items-center">
           <h4 *ngIf="!openApplicationsCountLoading; else loading" class="mr-8">
-            {{ openApplicationsCount }}
+            {{ openApplicationsCount | defaultValue }}
           </h4>
           <button
             [matMenuTriggerFor]="openApplicationsMenu"

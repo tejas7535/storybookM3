@@ -51,6 +51,16 @@ describe('SelectInputComponent', () => {
     });
   });
 
+  describe('closePanel', () => {
+    test('should trigger close in select input component', () => {
+      component.matSelect.close = jest.fn();
+
+      component.closePanel();
+
+      expect(component.matSelect.close).toHaveBeenCalled();
+    });
+  });
+
   describe('selectionChange', () => {
     test('should call emitChange', () => {
       component.emitChange = jest.fn();

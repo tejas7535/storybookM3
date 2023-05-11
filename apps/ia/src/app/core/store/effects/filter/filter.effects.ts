@@ -6,9 +6,12 @@ import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import { FilterService } from '../../../../filter-section/filter.service';
+import { clearLossOfSkillDimensionData } from '../../../../loss-of-skill/store/actions/loss-of-skill.actions';
+import { clearOverviewDimensionData } from '../../../../overview/store/actions/overview.action';
 import { FilterKey, IdValue, SelectedFilter } from '../../../../shared/models';
 import { loadUserSettingsDimensionData } from '../../../../user/store/actions/user.action';
 import {
+  dimensionSelected,
   filterDimensionSelected,
   filterSelected,
   loadFilterDimensionData,
@@ -16,6 +19,7 @@ import {
   loadFilterDimensionDataSuccess,
 } from '../../actions';
 import {
+  getCurrentDimensionValue,
   getSelectedDimension,
   getSelectedDimensionIdValue,
   getSelectedTimeRange,
@@ -23,6 +27,19 @@ import {
 
 @Injectable()
 export class FilterEffects {
+  // clear dimension's data when user changed the dimension during loading
+  dimensionSelected$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(dimensionSelected),
+      concatLatestFrom(() => this.store.select(getCurrentDimensionValue)),
+      filter(([_action, dimensionFilter]) => !dimensionFilter),
+      mergeMap(() => [
+        clearOverviewDimensionData(),
+        clearLossOfSkillDimensionData(),
+      ])
+    );
+  });
+
   loadFilterDimensionData$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadFilterDimensionData, loadUserSettingsDimensionData),
