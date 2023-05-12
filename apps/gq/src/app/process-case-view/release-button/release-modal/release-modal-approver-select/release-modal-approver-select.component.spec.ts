@@ -1,3 +1,4 @@
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -58,6 +59,16 @@ describe('ReleaseModalApproverSelectComponent', () => {
       component.ngOnInit();
       expect(component.addSubscription).toHaveBeenCalled();
     });
+  });
+
+  test('should call scrollToPosition', () => {
+    component.virtualScroll = {
+      scrollToIndex: jest.fn(),
+    } as unknown as CdkVirtualScrollViewport;
+    component.scrollToFirstPosition();
+    expect(component.virtualScroll.scrollToIndex).toHaveBeenCalledTimes(2);
+    expect(component.virtualScroll.scrollToIndex).toHaveBeenCalledWith(1);
+    expect(component.virtualScroll.scrollToIndex).toHaveBeenCalledWith(0);
   });
 
   describe('filtering', () => {

@@ -10,6 +10,7 @@
   <mat-autocomplete
     #autoComplete="matAutocomplete"
     [displayWith]="userDisplayPipe.transform"
+    (opened)="scrollToFirstPosition()"
   >
     <cdk-virtual-scroll-viewport
       itemSize="20"
