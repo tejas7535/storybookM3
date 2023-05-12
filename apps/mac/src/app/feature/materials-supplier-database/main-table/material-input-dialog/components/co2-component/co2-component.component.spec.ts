@@ -96,7 +96,7 @@ describe('Co2ComponentComponent', () => {
   });
 
   describe('modify co2 scope', () => {
-    beforeEach(() => {
+    afterEach(() => {
       co2Scope1Control.reset();
       co2Scope2Control.reset();
       co2Scope3Control.reset();
@@ -145,14 +145,41 @@ describe('Co2ComponentComponent', () => {
       component.co2Scope2Control.patchValue(7);
       component.co2Scope3Control.patchValue(7);
 
-      component.co2Scope1Control.patchValue(0);
-      component.co2Scope2Control.patchValue(0);
-      component.co2Scope3Control.patchValue(0);
+      component.co2Scope1Control.reset();
+      component.co2Scope2Control.reset();
+      component.co2Scope3Control.reset();
 
-      expect(component.co2TotalControl.valid).toBeTruthy();
       expect(
         component.co2TotalControl.hasValidator(Validators.required)
       ).toBeFalsy();
+      expect(component.co2TotalControl.valid).toBeTruthy();
+    });
+  });
+  describe('Use preset validator', () => {
+    beforeAll(() => {
+      co2TotalControl.addValidators(Validators.required);
+    });
+    afterEach(() => {
+      co2Scope1Control.reset();
+      co2Scope2Control.reset();
+      co2Scope3Control.reset();
+      co2TotalControl.reset();
+      co2ClassificationControl.reset();
+      co2TotalControl.removeValidators(Validators.required);
+    });
+    it('should not remove validator with scopes unset', () => {
+      component.co2Scope1Control.patchValue(7);
+      component.co2Scope2Control.patchValue(7);
+      component.co2Scope3Control.patchValue(7);
+
+      component.co2Scope1Control.reset();
+      component.co2Scope2Control.reset();
+      component.co2Scope3Control.reset();
+
+      expect(
+        component.co2TotalControl.hasValidator(Validators.required)
+      ).toBeTruthy();
+      expect(component.co2TotalControl.valid).toBeFalsy();
     });
   });
 

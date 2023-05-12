@@ -68,18 +68,20 @@ export class Co2ComponentComponent implements OnInit, OnDestroy {
       this.scopeTotalValidatorFn(this.co2Controls)
     );
 
-    // detect changes of the co2Scope fields
-    this.co2Controls.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((scopes) => {
-        // if scopes are filled, co2Total is required
-        if (scopes.some((v) => !!v)) {
-          this.co2TotalControl.addValidators(Validators.required);
-        } else {
-          this.co2TotalControl.removeValidators(Validators.required);
-        }
-        this.co2TotalControl.updateValueAndValidity();
-      });
+    // if co2Total is not required by default, it is required once one of the scope fields is filled out.
+    if (!this.co2TotalControl.hasValidator(Validators.required)) {
+      this.co2Controls.valueChanges
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((scopes) => {
+          // if any of the scopes is filled, co2Total is required
+          if (scopes.some((v) => !!v)) {
+            this.co2TotalControl.addValidators(Validators.required);
+          } else {
+            this.co2TotalControl.removeValidators(Validators.required);
+          }
+          this.co2TotalControl.updateValueAndValidity();
+        });
+    }
     // enable / disable classification field
     this.co2TotalControl.valueChanges
       .pipe(takeUntil(this.destroy$))
