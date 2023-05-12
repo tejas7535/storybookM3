@@ -59,6 +59,13 @@ class ExampleService {
       `${this.apiUrl}/${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/`
     );
   }
+
+  public createCustomerQuotation(): Observable<string> {
+    return this.http.post<string>(
+      `${this.apiUrl}/${QuotationPaths.PATH_CUSTOMER_QUOTATION}/`,
+      {}
+    );
+  }
 }
 
 class MatSnackBarStub {
@@ -209,6 +216,42 @@ describe(`HttpHeaderInterceptor`, () => {
         {
           parameters: {
             V102: 'test sap error message',
+          },
+        } as unknown as ErrorEvent,
+        { status: 400 }
+      );
+    }));
+
+    test('should toast case creation error and not show action on customer case creation without quotation details', waitForAsync(() => {
+      service.createCustomerQuotation().subscribe({
+        next: () => {
+          expect(true).toEqual(false);
+        },
+        error: (_response) => {
+          expect(snackBar.open).toHaveBeenCalledTimes(1);
+          expect(snackBar.open).toHaveBeenCalledWith('translate it', '', {
+            duration: 5000,
+          });
+          expect(translate).toHaveBeenCalledWith(
+            'errorInterceptorCreateCustomerCaseNoQuotationDetails'
+          );
+        },
+      });
+
+      const httpRequest = httpMock.expectOne(
+        `${environment.baseUrl}/${QuotationPaths.PATH_CUSTOMER_QUOTATION}/`
+      );
+
+      expect(httpRequest.request.method).toEqual('POST');
+
+      expect(router.navigate).toHaveBeenCalledTimes(0);
+
+      httpRequest.error(
+        {
+          error: {
+            message: 'error',
+            title: 'Service Unavailable',
+            detail: 'Damn monkey',
           },
         } as unknown as ErrorEvent,
         { status: 400 }

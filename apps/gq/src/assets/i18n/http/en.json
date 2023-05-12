@@ -2,5 +2,6 @@
   "errorInterceptorForbidden": "Forbidden. You do not have access to this customer. Please check if your Guided Quoting roles are correct.",
   "errorInterceptorMessageDefault": "We are experiencing server problems. Please try again later.",
   "errorInterceptorActionDefault": "Contact Support",
-  "errorInterceptorActionForbidden": "Forbidden. You do not have the necessary roles for this action. Please check if your Guided Quoting roles are correct."
+  "errorInterceptorActionForbidden": "Forbidden. You do not have the necessary roles for this action. Please check if your Guided Quoting roles are correct.",
+  "errorInterceptorCreateCustomerCaseNoQuotationDetails": "No materials could be found for the selected filters."
 }

@@ -54,6 +54,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         let errorMessage = '';
         let duration = 5000;
+        let showSnackBarAction = true;
 
         if (
           error.error?.parameters &&
@@ -74,6 +75,18 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           }
 
           errorMessage += translate('errorInterceptorForbidden');
+        } else if (
+          // handle error message for create case by customer with no valid selection
+          // TODO: adjust error handling strategy in the frontend to not overload the interceptor in the future
+          request.url.includes(
+            `${ApiVersion.V1}/${QuotationPaths.PATH_CUSTOMER_QUOTATION}`
+          ) &&
+          error.status === HttpStatusCode.BadRequest
+        ) {
+          errorMessage = translate(
+            'errorInterceptorCreateCustomerCaseNoQuotationDetails'
+          );
+          showSnackBarAction = false;
         } else {
           // default error message
           duration = 2000;
@@ -83,9 +96,15 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         // only show toasts for errors not triggered by auth lib
         if (!AUTH_URLS.some((authUrl) => error.url.startsWith(authUrl))) {
           this.snackbar
-            .open(errorMessage, translate('errorInterceptorActionDefault'), {
-              duration,
-            })
+            .open(
+              errorMessage,
+              showSnackBarAction
+                ? translate('errorInterceptorActionDefault')
+                : '',
+              {
+                duration,
+              }
+            )
             .onAction()
             .subscribe(() => {
               window.open(URL_SUPPORT, '_blank').focus();

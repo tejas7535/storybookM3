@@ -2,5 +2,6 @@
   "errorInterceptorForbidden": "Zugriff verweigert. Sie haben keinen Zugriff auf diesen Kunden. Bitte überprüfen Sie, ob Ihre Guided Quoting Rollen korrekt sind.",
   "errorInterceptorMessageDefault": "Es sind Serverprobleme aufgetreten. Bitte versuchen Sie es später noch einmal.",
   "errorInterceptorActionDefault": "Support kontaktieren",
-  "errorInterceptorActionForbidden": "Zugriff verweigert. Sie haben nicht die benötigten Berechtigungen für diese Aktion. Bitte überprüfen Sie, ob Ihre Guided Quoting Rollen korrekt sind."
+  "errorInterceptorActionForbidden": "Zugriff verweigert. Sie haben nicht die benötigten Berechtigungen für diese Aktion. Bitte überprüfen Sie, ob Ihre Guided Quoting Rollen korrekt sind.",
+  "errorInterceptorCreateCustomerCaseNoQuotationDetails": "Es konnten keine Materialien für die ausgewählten Filter gefunden werden."
 }
