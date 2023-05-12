@@ -2089,6 +2089,7 @@ describe('Dialog Effects', () => {
         action = fetchCo2ValuesForSupplierSteelMakingProcess({
           supplierId: 1,
           steelMakingProcess: 'BF+BOF',
+          productCategory: 'brightBar',
         });
         actions$ = m.hot('-a', { a: action });
 
@@ -2126,7 +2127,7 @@ describe('Dialog Effects', () => {
 
         expect(
           msdDataService.fetchCo2ValuesForSupplierPlantProcess
-        ).toHaveBeenCalledWith(1, MaterialClass.STEEL, 'BF+BOF');
+        ).toHaveBeenCalledWith(1, MaterialClass.STEEL, 'BF+BOF', 'brightBar');
       })
     );
 
@@ -2136,6 +2137,7 @@ describe('Dialog Effects', () => {
         action = fetchCo2ValuesForSupplierSteelMakingProcess({
           supplierId: 1,
           steelMakingProcess: 'BF+BOF',
+          productCategory: 'brightBar',
         });
         actions$ = m.hot('-a', { a: action });
 
@@ -2153,7 +2155,7 @@ describe('Dialog Effects', () => {
 
         expect(
           msdDataService.fetchCo2ValuesForSupplierPlantProcess
-        ).toHaveBeenCalledWith(1, MaterialClass.STEEL, 'BF+BOF');
+        ).toHaveBeenCalledWith(1, MaterialClass.STEEL, 'BF+BOF', 'brightBar');
       })
     );
   });

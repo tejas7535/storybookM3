@@ -928,25 +928,32 @@ export class DialogEffects {
     return this.actions$.pipe(
       ofType(DialogActions.fetchCo2ValuesForSupplierSteelMakingProcess),
       concatLatestFrom(() => this.dataFacade.materialClass$),
-      switchMap(([{ supplierId, steelMakingProcess }, materialClass]) =>
-        this.msdDataService
-          .fetchCo2ValuesForSupplierPlantProcess(
-            supplierId,
-            materialClass,
-            steelMakingProcess
-          )
-          .pipe(
-            map((co2Values) =>
-              DialogActions.fetchCo2ValuesForSupplierSteelMakingProcessSuccess({
-                co2Values,
-              })
-            ),
-            catchError(() =>
-              of(
-                DialogActions.fetchCo2ValuesForSupplierSteelMakingProcessFailure()
+      switchMap(
+        ([
+          { supplierId, steelMakingProcess, productCategory },
+          materialClass,
+        ]) =>
+          this.msdDataService
+            .fetchCo2ValuesForSupplierPlantProcess(
+              supplierId,
+              materialClass,
+              steelMakingProcess,
+              productCategory
+            )
+            .pipe(
+              map((co2Values) =>
+                DialogActions.fetchCo2ValuesForSupplierSteelMakingProcessSuccess(
+                  {
+                    co2Values,
+                  }
+                )
+              ),
+              catchError(() =>
+                of(
+                  DialogActions.fetchCo2ValuesForSupplierSteelMakingProcessFailure()
+                )
               )
             )
-          )
       )
     );
   });

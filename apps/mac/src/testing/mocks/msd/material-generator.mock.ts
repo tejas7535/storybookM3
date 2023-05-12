@@ -12,8 +12,11 @@ import {
   MaterialStandard,
 } from '@mac/feature/materials-supplier-database/models';
 
-export const createOption = (title: string, id = 7, data?: any) =>
-  ({ id, title, data } as StringOption);
+export const createOption = (
+  title: string,
+  id: number | string = 7,
+  data?: any
+) => ({ id, title, data } as StringOption);
 
 export const rndStr = (length = 8) => {
   const chars =

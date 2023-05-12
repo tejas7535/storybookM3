@@ -372,7 +372,11 @@ export const resetSteelMakingProcessInUse = createAction(
 
 export const fetchCo2ValuesForSupplierSteelMakingProcess = createAction(
   '[MSD - Dialog] Fetch CO2 Values For Supplier Steel Making Process',
-  props<{ supplierId: number; steelMakingProcess: string }>()
+  props<{
+    supplierId: number;
+    steelMakingProcess: string;
+    productCategory: string;
+  }>()
 );
 
 export const fetchCo2ValuesForSupplierSteelMakingProcessSuccess = createAction(

@@ -549,28 +549,26 @@ export class MsdDataService {
   public fetchCo2ValuesForSupplierPlantProcess(
     supplierId: number,
     materialClass: MaterialClass,
-    steelMakingProcess?: string
+    steelMakingProcess?: string,
+    productCategory?: string
   ) {
-    const where = steelMakingProcess
-      ? [
-          {
-            col: 'manufacturerSupplier.id',
-            op: 'IN',
-            values: [supplierId],
-          },
-          {
-            col: 'steelMakingProcess',
-            op: 'IN',
-            values: [steelMakingProcess],
-          },
-        ]
-      : [
-          {
-            col: 'manufacturerSupplier.id',
-            op: 'IN',
-            values: [supplierId],
-          },
-        ];
+    const where: { col: string; op: string; values: number[] | string[] }[] = [
+      { col: 'manufacturerSupplier.id', op: 'IN', values: [supplierId] },
+    ];
+    if (steelMakingProcess) {
+      where.push({
+        col: 'steelMakingProcess',
+        op: 'IN',
+        values: [steelMakingProcess],
+      });
+    }
+    if (productCategory) {
+      where.push({
+        col: 'productCategory',
+        op: 'IN',
+        values: [productCategory],
+      });
+    }
     const body = {
       select: [
         'co2PerTon',

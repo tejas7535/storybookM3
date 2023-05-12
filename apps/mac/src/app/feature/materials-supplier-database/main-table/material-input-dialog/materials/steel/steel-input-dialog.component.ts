@@ -296,15 +296,17 @@ export class SteelInputDialogComponent
         map((steelMakingProcess) => ({
           supplierId: this.manufacturerSupplierIdControl.value,
           steelMakingProcess: steelMakingProcess.title,
+          productCategory: this.categoriesControl.value.id as string,
         }))
       )
-      .subscribe(({ supplierId, steelMakingProcess }) => {
+      .subscribe(({ supplierId, steelMakingProcess, productCategory }) => {
         // TODO: remove workaround asap
         this.createMaterialForm.updateValueAndValidity();
         this.dialogFacade.dispatch(
           fetchCo2ValuesForSupplierSteelMakingProcess({
             supplierId,
             steelMakingProcess,
+            productCategory,
           })
         );
       });

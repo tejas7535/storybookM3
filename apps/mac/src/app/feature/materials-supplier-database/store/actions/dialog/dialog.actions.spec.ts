@@ -974,12 +974,14 @@ describe('Dialog Actions', () => {
       const action = fetchCo2ValuesForSupplierSteelMakingProcess({
         supplierId: 1,
         steelMakingProcess: 'BF+BOF',
+        productCategory: 'brightBar',
       });
 
       expect(action).toEqual({
         type: '[MSD - Dialog] Fetch CO2 Values For Supplier Steel Making Process',
         supplierId: 1,
         steelMakingProcess: 'BF+BOF',
+        productCategory: 'brightBar',
       });
     });
   });

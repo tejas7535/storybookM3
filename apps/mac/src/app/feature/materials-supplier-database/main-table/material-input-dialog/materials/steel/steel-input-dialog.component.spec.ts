@@ -404,12 +404,14 @@ describe('SteelInputDialogComponent', () => {
     it('should dispatch the fetch action on update of SMP', () => {
       component.createMaterialForm.updateValueAndValidity = jest.fn();
 
+      component.categoriesControl.setValue(createOption('xxx', 'brightBar'));
       component.steelMakingProcessControl.setValue(createOption('BF+BOF'));
 
       expect(store.dispatch).toHaveBeenCalledWith(
         fetchCo2ValuesForSupplierSteelMakingProcess({
           supplierId: 1,
           steelMakingProcess: 'BF+BOF',
+          productCategory: 'brightBar',
         })
       );
       expect(
@@ -420,12 +422,14 @@ describe('SteelInputDialogComponent', () => {
       component.createMaterialForm.updateValueAndValidity = jest.fn();
 
       component.manufacturerSupplierIdControl.setValue(7);
+      component.categoriesControl.setValue(createOption('xxx', 'brightBar'));
       component.steelMakingProcessControl.setValue(createOption('initial'));
 
       expect(store.dispatch).toHaveBeenCalledWith(
         fetchCo2ValuesForSupplierSteelMakingProcess({
           supplierId: 7,
           steelMakingProcess: 'initial',
+          productCategory: 'brightBar',
         })
       );
       expect(
