@@ -1,6 +1,11 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ComponentFixture } from '@angular/core/testing';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { By } from '@angular/platform-browser';
 
+import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
+import { EditingModalService } from '@gq/shared/components/modal/editing-modal/editing-modal.service';
+import { QuotationStatus } from '@gq/shared/models';
 import {
   PriceSource,
   QuotationDetail,
@@ -9,31 +14,57 @@ import {
 import { NumberCurrencyPipe } from '@gq/shared/pipes/number-currency/number-currency.pipe';
 import { PercentagePipe } from '@gq/shared/pipes/percentage/percentage.pipe';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+  SpyObject,
+} from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockPipe } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { QUOTATION_DETAIL_MOCK } from '../../../../../testing/mocks';
+import {
+  ACTIVE_CASE_STATE_MOCK,
+  QUOTATION_DETAIL_MOCK,
+  QUOTATION_MOCK,
+} from '../../../../../testing/mocks';
 import { TargetPriceComponent } from './target-price.component';
 
 describe('TargetPriceComponent', () => {
   let component: TargetPriceComponent;
   let spectator: Spectator<TargetPriceComponent>;
+  let fixture: ComponentFixture<TargetPriceComponent>;
+  let editingModalServiceSpy: SpyObject<EditingModalService>;
+  let store: MockStore;
 
   const createComponent = createComponentFactory({
     component: TargetPriceComponent,
     detectChanges: false,
     imports: [PushModule, provideTranslocoTestingModule({ en: {} })],
     declarations: [MockPipe(NumberCurrencyPipe), MockPipe(PercentagePipe)],
-    providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
+    providers: [
+      provideMockStore({
+        initialState: {
+          activeCase: {
+            ...ACTIVE_CASE_STATE_MOCK,
+          },
+        },
+      }),
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+      mockProvider(EditingModalService),
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+    fixture = spectator.fixture;
+    store = spectator.inject(MockStore);
+    editingModalServiceSpy = spectator.inject(EditingModalService);
     component.quotationDetail = QUOTATION_DETAIL_MOCK;
   });
 
@@ -94,5 +125,34 @@ describe('TargetPriceComponent', () => {
     expect(component.targetPriceSelected.emit).toHaveBeenCalledWith(
       expectedUpdatePrice
     );
+  });
+
+  test('should open target price editing modal', () => {
+    component.openTargetPriceEditingModal();
+    expect(editingModalServiceSpy.openEditingModal).toHaveBeenCalledWith({
+      quotationDetail: QUOTATION_DETAIL_MOCK,
+      field: ColumnFields.TARGET_PRICE,
+    });
+  });
+
+  test('should show edit button if quotation is active', () => {
+    fixture.detectChanges();
+    expect(fixture.debugElement.query(By.css('mat-icon'))).toBeTruthy();
+  });
+
+  test('should not show edit button if quotation is not active', () => {
+    store.setState({
+      activeCase: {
+        ...ACTIVE_CASE_STATE_MOCK,
+        quotation: {
+          ...QUOTATION_MOCK,
+          status: QuotationStatus.DELETED,
+        },
+      },
+    });
+
+    fixture.detectChanges();
+
+    expect(fixture.debugElement.query(By.css('mat-icon'))).toBeFalsy();
   });
 });

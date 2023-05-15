@@ -3,7 +3,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {
   getQuotationDetails,
   getQuotationOverviewInformation,
-} from '@gq/core/store/active-case/active-case.selectors';
+} from '@gq/core/store/active-case';
 import { Rating } from '@gq/shared/components/kpi-status-card/models/rating.enum';
 import { QuotationPricingOverview } from '@gq/shared/models/quotation';
 import { NumberCurrencyPipe } from '@gq/shared/pipes/number-currency/number-currency.pipe';

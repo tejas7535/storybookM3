@@ -389,11 +389,13 @@
       "gpi": "GPI % (KHK)",
       "discount": "Rabatt %",
       "price": "Preis",
+      "targetPrice": "Zielpreis",
       "orderQuantity": "Menge",
       "relative": "Relativ",
       "absolute": "Absolut",
       "confirm": {
         "price": "Neuen Preis setzen",
+        "targetPrice": "Neuen Zielpreis setzen",
         "gpi": "Neuen GPI setzen",
         "gpm": "Neuen GP; setzen",
         "discount": "Neuen Rabatt setzen",
@@ -401,14 +403,17 @@
       },
       "labels": {
         "price": "Preisänderung in %",
+        "targetPrice": "Zielpreisänderung in %",
         "gpi": "GPI Änderung in %",
         "gpm": "GPM Änderung in %",
         "discount": "Rabattänderung in %",
         "orderQuantity": "Mengenänderung",
-        "priceAbsolute": "Eingabe Nettopreis"
+        "priceAbsolute": "Eingabe Nettopreis",
+        "targetPriceAbsolute": "Eingabe Zielpreis"
       },
       "hints": {
         "price": "Preis ändern",
+        "targetPrice": "Zielpreis ändern",
         "gpi": "GPI ändern",
         "gpm": "GPM ändern",
         "discount": "Rabatt ändern",
@@ -419,6 +424,7 @@
       },
       "kpis": {
         "price": "Nettopreis",
+        "targetPrice": "Zielpreis",
         "previous": "Vorheriger {{fieldTranslation}}",
         "gpi": "GPI%",
         "gpm": "GPM%",

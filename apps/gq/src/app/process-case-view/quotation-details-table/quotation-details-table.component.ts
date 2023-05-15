@@ -45,7 +45,7 @@ import { excelStyles } from '../../shared/ag-grid/custom-status-bar/export-to-ex
 import { AgGridLocale } from '../../shared/ag-grid/models/ag-grid-locale.interface';
 import { ColumnDefService } from '../../shared/ag-grid/services/column-def.service';
 import { LocalizationService } from '../../shared/ag-grid/services/localization.service';
-import { KpiValue } from '../../shared/components/modal/editing-modal/kpi-value.model';
+import { KpiValue } from '../../shared/components/modal/editing-modal/models/kpi-value.model';
 import {
   basicTableStyle,
   statusBarSimulation,

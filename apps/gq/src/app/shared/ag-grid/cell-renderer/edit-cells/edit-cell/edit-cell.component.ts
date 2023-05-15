@@ -1,18 +1,17 @@
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 
 import { distinctUntilChanged, Observable } from 'rxjs';
 
 import { getSimulatedQuotationDetailByItemId } from '@gq/core/store/active-case/active-case.selectors';
 import { QuotationDetailsTableValidationService } from '@gq/process-case-view/quotation-details-table/services/quotation-details-table-validation.service';
+import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
+import { EditingModalService } from '@gq/shared/components/modal/editing-modal/editing-modal.service';
 import { PRICE_VALIDITY_MARGIN_THRESHOLD } from '@gq/shared/constants';
 import { Store } from '@ngrx/store';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 
-import { EditingModalComponent } from '../../../../components/modal/editing-modal/editing-modal.component';
 import { QuotationStatus } from '../../../../models';
 import { QuotationDetail } from '../../../../models/quotation-detail';
-import { ColumnFields } from '../../../constants/column-fields.enum';
 import { ExtendedEditCellClassParams } from '../../models/extended-cell-class-params.model';
 
 @Component({
@@ -31,7 +30,7 @@ export class EditCellComponent implements ICellRendererAngularComp {
   quotationStatus = QuotationStatus;
 
   constructor(
-    private readonly dialog: MatDialog,
+    private readonly editingModalService: EditingModalService,
     private readonly store: Store
   ) {}
 
@@ -127,12 +126,9 @@ export class EditCellComponent implements ICellRendererAngularComp {
   }
 
   onIconClick(): void {
-    this.dialog.open(EditingModalComponent, {
-      width: '684px',
-      data: {
-        quotationDetail: this.params.data as QuotationDetail,
-        field: this.params.field,
-      },
+    this.editingModalService.openEditingModal({
+      quotationDetail: this.params.data as QuotationDetail,
+      field: this.params.field as ColumnFields,
     });
   }
 

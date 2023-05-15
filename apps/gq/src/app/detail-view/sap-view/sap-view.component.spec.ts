@@ -3,7 +3,7 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { BehaviorSubject } from 'rxjs';
 
-import { getSelectedQuotationDetail } from '@gq/core/store/active-case/active-case.selectors';
+import { getSelectedQuotationDetail } from '@gq/core/store/active-case';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';

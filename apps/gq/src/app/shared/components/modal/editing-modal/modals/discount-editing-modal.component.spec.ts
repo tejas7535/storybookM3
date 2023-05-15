@@ -1,0 +1,118 @@
+import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
+import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
+import { LOCALE_DE } from '@gq/shared/constants';
+import * as constants from '@gq/shared/constants';
+import { PriceSource } from '@gq/shared/models/quotation-detail';
+import * as pricingUtils from '@gq/shared/utils/pricing.utils';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { PushModule } from '@ngrx/component';
+import { MockModule } from 'ng-mocks';
+
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
+import { QUOTATION_DETAIL_MOCK } from '../../../../../../testing/mocks';
+import { DiscountEditingModalComponent } from './discount-editing-modal.component';
+
+jest.mock('../editing-modal.component', () => ({
+  EditingModalComponent: jest.fn(),
+}));
+
+describe('DiscountEditingModalComponent', () => {
+  let component: DiscountEditingModalComponent;
+  let spectator: Spectator<DiscountEditingModalComponent>;
+
+  const createComponent = createComponentFactory({
+    component: DiscountEditingModalComponent,
+    detectChanges: false,
+    imports: [
+      DialogHeaderModule,
+      MockModule(PushModule),
+      provideTranslocoTestingModule({ en: {} }),
+    ],
+  });
+
+  beforeEach(() => {
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
+  });
+
+  test('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  describe('validateInput', () => {
+    const locale = LOCALE_DE.id;
+
+    beforeEach(() => {
+      component['translocoLocaleService'] = {
+        getLocale: jest.fn().mockReturnValue(locale),
+      } as any;
+    });
+
+    test('input should be valid', () => {
+      expect(component['validateInput']('25')).toBe(true);
+    });
+
+    test('input should not be valid', () => {
+      expect(component['validateInput']('100')).toBe(false);
+    });
+
+    test('should use percentage regex', () => {
+      const getPercentageRegexSpy = jest.spyOn(constants, 'getPercentageRegex');
+      getPercentageRegexSpy.mockReturnValue(/\d{2}\s%/);
+
+      component['validateInput']('100');
+
+      expect(getPercentageRegexSpy).toBeCalledWith(locale);
+    });
+  });
+
+  describe('shouldIncrement', () => {
+    test('should be possible to increment', () => {
+      expect(component['shouldIncrement'](98)).toBe(true);
+    });
+
+    test('should not be possible to increment', () => {
+      expect(component['shouldIncrement'](99)).toBe(false);
+    });
+  });
+
+  describe('shouldDecrement', () => {
+    test('should be possible to decrement', () => {
+      expect(component['shouldDecrement'](10)).toBe(true);
+    });
+
+    test('should not be possible to decrement', () => {
+      expect(component['shouldDecrement'](-100)).toBe(false);
+    });
+  });
+
+  test('should build the correct UpdateQuotationDetail', () => {
+    const priceUnit = 100;
+    const newPrice = 50;
+    const getManualPriceByDiscountSpy = jest.spyOn(
+      pricingUtils,
+      'getManualPriceByDiscount'
+    );
+    const getPriceUnitSpy = jest.spyOn(pricingUtils, 'getPriceUnit');
+
+    getManualPriceByDiscountSpy.mockReturnValue(newPrice);
+    getPriceUnitSpy.mockReturnValue(priceUnit);
+
+    component.modalData = {
+      field: ColumnFields.DISCOUNT,
+      quotationDetail: QUOTATION_DETAIL_MOCK,
+    };
+
+    expect(component['buildUpdateQuotationDetail'](320)).toEqual({
+      price: newPrice / priceUnit,
+      gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+      priceSource: PriceSource.MANUAL,
+    });
+    expect(getManualPriceByDiscountSpy).toHaveBeenCalledWith(
+      QUOTATION_DETAIL_MOCK.sapGrossPrice,
+      320
+    );
+    expect(getPriceUnitSpy).toHaveBeenCalledWith(QUOTATION_DETAIL_MOCK);
+  });
+});

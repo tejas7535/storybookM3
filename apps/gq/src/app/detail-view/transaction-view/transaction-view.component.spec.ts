@@ -5,7 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { BehaviorSubject } from 'rxjs';
 
-import { getSelectedQuotationDetail } from '@gq/core/store/active-case/active-case.selectors';
+import { getSelectedQuotationDetail } from '@gq/core/store/active-case';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';

@@ -1,13 +1,14 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
+import { EditingModalService } from '@gq/shared/components/modal/editing-modal/editing-modal.service';
 import { NumberCurrencyPipe } from '@gq/shared/pipes/number-currency/number-currency.pipe';
 import { PercentagePipe } from '@gq/shared/pipes/percentage/percentage.pipe';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 import {
   createComponentFactory,
+  mockProvider,
   Spectator,
   SpyObject,
 } from '@ngneat/spectator/jest';
@@ -19,14 +20,13 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { QUOTATION_DETAIL_MOCK } from '../../../../../testing/mocks';
 import { ColumnFields } from '../../../../shared/ag-grid/constants/column-fields.enum';
-import { EditingModalComponent } from '../../../../shared/components/modal/editing-modal/editing-modal.component';
 import { PriceSource } from '../../../../shared/models/quotation-detail';
 import { ManualPriceComponent } from './manual-price.component';
 
 describe('ManualPriceComponent', () => {
   let component: ManualPriceComponent;
   let spectator: Spectator<ManualPriceComponent>;
-  let matDialogSpyObject: SpyObject<MatDialog>;
+  let editingModalServiceSpy: SpyObject<EditingModalService>;
 
   const createComponent = createComponentFactory({
     component: ManualPriceComponent,
@@ -39,16 +39,16 @@ describe('ManualPriceComponent', () => {
     providers: [
       provideMockStore({}),
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+      mockProvider(EditingModalService),
     ],
     declarations: [MockPipe(NumberCurrencyPipe), MockPipe(PercentagePipe)],
-    mocks: [MatDialog],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    matDialogSpyObject = spectator.inject(MatDialog);
+    editingModalServiceSpy = spectator.inject(EditingModalService);
   });
 
   test('should create', () => {
@@ -108,44 +108,26 @@ describe('ManualPriceComponent', () => {
     test('should open editing modal for gpi', () => {
       component.openEditing(ColumnFields.GPI);
 
-      expect(matDialogSpyObject.open).toHaveBeenCalledWith(
-        EditingModalComponent,
-        {
-          data: {
-            quotationDetail: QUOTATION_DETAIL_MOCK,
-            field: ColumnFields.GPI,
-          },
-          width: '684px',
-        }
-      );
+      expect(editingModalServiceSpy.openEditingModal).toHaveBeenCalledWith({
+        quotationDetail: QUOTATION_DETAIL_MOCK,
+        field: ColumnFields.GPI,
+      });
     });
     test('should open editing modal for gpm', () => {
       component.openEditing(ColumnFields.GPM);
 
-      expect(matDialogSpyObject.open).toHaveBeenCalledWith(
-        EditingModalComponent,
-        {
-          data: {
-            quotationDetail: QUOTATION_DETAIL_MOCK,
-            field: ColumnFields.GPM,
-          },
-          width: '684px',
-        }
-      );
+      expect(editingModalServiceSpy.openEditingModal).toHaveBeenCalledWith({
+        quotationDetail: QUOTATION_DETAIL_MOCK,
+        field: ColumnFields.GPM,
+      });
     });
     test('should open editing modal for price', () => {
       component.openEditing(ColumnFields.PRICE);
 
-      expect(matDialogSpyObject.open).toHaveBeenCalledWith(
-        EditingModalComponent,
-        {
-          data: {
-            quotationDetail: QUOTATION_DETAIL_MOCK,
-            field: ColumnFields.PRICE,
-          },
-          width: '684px',
-        }
-      );
+      expect(editingModalServiceSpy.openEditingModal).toHaveBeenCalledWith({
+        quotationDetail: QUOTATION_DETAIL_MOCK,
+        field: ColumnFields.PRICE,
+      });
     });
   });
 

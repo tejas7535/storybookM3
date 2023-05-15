@@ -1,16 +1,14 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 
-import { getPriceUnit } from '@gq/shared/utils/pricing.utils';
-
-import { ColumnFields } from '../../../../shared/ag-grid/constants/column-fields.enum';
-import { EditingModalComponent } from '../../../../shared/components/modal/editing-modal/editing-modal.component';
-import { QuotationStatus } from '../../../../shared/models';
+import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
+import { EditingModalService } from '@gq/shared/components/modal/editing-modal/editing-modal.service';
+import { QuotationStatus } from '@gq/shared/models';
 import {
   PriceSource,
   QuotationDetail,
   UpdatePrice,
-} from '../../../../shared/models/quotation-detail';
+} from '@gq/shared/models/quotation-detail';
+import { getPriceUnit } from '@gq/shared/utils/pricing.utils';
 
 @Component({
   selector: 'gq-manual-price',
@@ -55,7 +53,7 @@ export class ManualPriceComponent {
 
   @Output() readonly selectManualPrice = new EventEmitter<UpdatePrice>();
 
-  constructor(private readonly dialog: MatDialog) {}
+  constructor(private readonly editingModalService: EditingModalService) {}
 
   setPrice(): void {
     if (this.quotationDetail.priceSource === PriceSource.MANUAL) {
@@ -69,13 +67,10 @@ export class ManualPriceComponent {
     }
   }
 
-  openEditing(columnField: ColumnFields): void {
-    this.dialog.open(EditingModalComponent, {
-      width: '684px',
-      data: {
-        quotationDetail: this.quotationDetail,
-        field: columnField,
-      },
+  openEditing(field: ColumnFields): void {
+    this.editingModalService.openEditingModal({
+      quotationDetail: this.quotationDetail,
+      field,
     });
   }
 }

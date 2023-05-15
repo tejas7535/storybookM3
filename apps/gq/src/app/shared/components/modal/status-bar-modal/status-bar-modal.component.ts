@@ -8,7 +8,6 @@ import { userHasGPCRole, userHasSQVRole } from '@gq/core/store/selectors';
 import { Store } from '@ngrx/store';
 
 import { StatusBar } from '../../../models';
-import { EditingModalComponent } from '../editing-modal/editing-modal.component';
 
 @Component({
   selector: 'gq-status-bar-modal',
@@ -22,7 +21,7 @@ export class StatusBarModalComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public statusBar: StatusBar,
-    private readonly dialogRef: MatDialogRef<EditingModalComponent>,
+    private readonly dialogRef: MatDialogRef<StatusBarModalComponent>,
     private readonly store: Store
   ) {}
 

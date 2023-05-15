@@ -344,6 +344,11 @@ export class ColumnDefService {
       field: ColumnFields.TARGET_PRICE,
       valueFormatter: (params) =>
         this.columnUtilityService.numberCurrencyFormatter(params),
+      cellRenderer: 'EditCellComponent',
+      cellRendererParams: {
+        condition: { enabled: false },
+        field: ColumnFields.TARGET_PRICE,
+      } as EditCellData,
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       headerComponentParams: {

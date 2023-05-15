@@ -1,41 +1,35 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
 import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
-import { Spectator, SpyObject } from '@ngneat/spectator';
-import { createComponentFactory } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
+import { EditingModalService } from '@gq/shared/components/modal/editing-modal/editing-modal.service';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+  SpyObject,
+} from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/marbles';
-
-import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
 } from '../../../../../../testing/mocks';
 import { ACTIVE_CASE_STATE_MOCK } from '../../../../../../testing/mocks/state/active-case-state.mock';
-import { EditingModalComponent } from '../../../../components/modal/editing-modal/editing-modal.component';
-import { ColumnFields } from '../../../constants/column-fields.enum';
 import { EditCellComponent } from './edit-cell.component';
 
 describe('EditCellComponent', () => {
   let component: EditCellComponent;
   let spectator: Spectator<EditCellComponent>;
-  let matDialogSpyObject: SpyObject<MatDialog>;
+  let editingModalServiceSpy: SpyObject<EditingModalService>;
   // TODO: add mock store and test if simulatedQuotation$ gets initialized for the right column fields
 
   const createComponent = createComponentFactory({
     component: EditCellComponent,
-    imports: [
-      MatIconModule,
-      MatDialogModule,
-      provideTranslocoTestingModule({ en: {} }),
-      PushModule,
-    ],
-    mocks: [MatDialog],
     detectChanges: false,
+    imports: [MatIconModule],
     providers: [
       {
         provide: MATERIAL_SANITY_CHECKS,
@@ -48,13 +42,14 @@ describe('EditCellComponent', () => {
           },
         },
       }),
+      mockProvider(EditingModalService),
     ],
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    matDialogSpyObject = spectator.inject(MatDialog);
+    editingModalServiceSpy = spectator.inject(EditingModalService);
   });
 
   test('should create', () => {
@@ -459,16 +454,10 @@ describe('EditCellComponent', () => {
       } as any;
       component.onIconClick();
 
-      expect(matDialogSpyObject.open).toHaveBeenCalledWith(
-        EditingModalComponent,
-        {
-          width: '684px',
-          data: {
-            quotationDetail: QUOTATION_DETAIL_MOCK,
-            field: ColumnFields.GPM,
-          },
-        }
-      );
+      expect(editingModalServiceSpy.openEditingModal).toHaveBeenCalledWith({
+        quotationDetail: QUOTATION_DETAIL_MOCK,
+        field: ColumnFields.GPM,
+      });
     });
   });
 });

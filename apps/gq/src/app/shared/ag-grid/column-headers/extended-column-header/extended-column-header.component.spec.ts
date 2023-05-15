@@ -9,7 +9,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { of } from 'rxjs';
 
-import { getIsQuotationStatusActive } from '@gq/core/store/active-case/active-case.selectors';
+import { getIsQuotationStatusActive } from '@gq/core/store/active-case';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { mockProvider } from '@ngneat/spectator/jest';

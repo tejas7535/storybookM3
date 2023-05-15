@@ -3,7 +3,7 @@ import {
   QUOTATION_DETAILS_MOCK,
 } from '../../../testing/mocks';
 import { ColumnFields } from '../ag-grid/constants/column-fields.enum';
-import { KpiValue } from '../components/modal/editing-modal/kpi-value.model';
+import { KpiValue } from '../components/modal/editing-modal/models/kpi-value.model';
 import { StatusBarProperties } from '../models';
 import { QuotationDetail } from '../models/quotation-detail';
 import * as pricingUtils from './pricing.utils';
@@ -235,6 +235,23 @@ describe('PricingUtils', () => {
         { key: ColumnFields.GPI, value: 2 },
         { key: ColumnFields.GPM, value: 2 },
         { key: ColumnFields.DISCOUNT, value: 3 },
+      ];
+      expect(result).toEqual(expected);
+    });
+
+    test('should return target price and no other kpis', () => {
+      jest.spyOn(pricingUtils, 'multiplyAndRoundValues').mockReturnValue(1);
+
+      const result = pricingUtils.calculateAffectedKPIs(
+        1,
+        ColumnFields.TARGET_PRICE,
+        QUOTATION_DETAIL_MOCK
+      );
+
+      expect(pricingUtils.multiplyAndRoundValues).toHaveBeenCalled();
+
+      const expected: KpiValue[] = [
+        { key: ColumnFields.TARGET_PRICE, value: 1 },
       ];
       expect(result).toEqual(expected);
     });

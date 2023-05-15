@@ -20,14 +20,14 @@
   >
     <mat-radio-group
       class="flex flex-col pb-8"
-      formControlName="isRelativePriceChangeRadioGroup"
-      *ngIf="showRadioGroup"
+      [formControlName]="IS_RELATIVE_PRICE_CONTROL_NAME"
+      *ngIf="isPriceChangeTypeAvailable"
     >
       <mat-radio-button
         [value]="true"
         class="pb-4"
         color="primary"
-        (change)="onRadioButtonChange(true)"
+        (change)="callPriceChangeTypeSwitchHandler(true)"
         [disabled]="isRelativePriceChangeDisabled"
         [attr.data-cy]="modalData.field + '-modal_relative-radio-btn'"
       >
@@ -38,7 +38,7 @@
       <mat-radio-button
         [value]="false"
         color="primary"
-        (change)="onRadioButtonChange(false)"
+        (change)="callPriceChangeTypeSwitchHandler(false)"
         [attr.data-cy]="modalData.field + '-modal_absolute-radio-btn'"
       >
         <span class="pl-2">
@@ -53,7 +53,8 @@
           t(
             'labels.' +
               modalData.field +
-              (editingFormGroup.get('isRelativePriceChangeRadioGroup').value
+              (editingFormGroup.get(IS_RELATIVE_PRICE_CONTROL_NAME)?.value ||
+              !isPriceChangeTypeAvailable
                 ? ''
                 : 'Absolute')
           )
@@ -62,14 +63,14 @@
         <input
           class="text-overline !leading-7"
           formControlName="valueInput"
-          (keydown)="onKeyPress($event)"
+          (keydown)="callInputFieldKeyDownHandler($event)"
           [placeholder]="localeValue"
           type="text"
           autocomplete="off"
           cdkTextareaAutosize
           matInput
           [attr.data-cy]="modalData.field + '-modal_value-input'"
-          #edit
+          #editInputField
         />
         <mat-hint>{{ t('hints.' + modalData.field) }}</mat-hint>
         <mat-error>{{ t('errors.invalidInput') }}</mat-error>
@@ -78,127 +79,29 @@
       <div class="ml-4 mt-3 flex flex-col gap-2">
         <mat-icon
           class="text-medium-emphasis cursor-pointer"
-          (click)="increment()"
+          (click)="changeValueIncrementally(1)"
           >add
         </mat-icon>
         <mat-icon
           class="text-medium-emphasis cursor-pointer"
-          (click)="decrement()"
+          (click)="changeValueIncrementally(-1)"
           >remove</mat-icon
         >
       </div>
     </div>
-    <div class="mt-2" *ngIf="orderQuantityWarning">
-      <ng-container *transloco="let t; read: 'shared.validation'">
-        <gq-info-banner
-          [infoText]="
-            t('orderQuantityMustBeMultipleOf', {
-              deliveryUnit: modalData.quotationDetail.deliveryUnit
-            })
-          "
-          [isWarning]="true"
-        >
-        </gq-info-banner>
-      </ng-container>
+
+    <div class="mt-2" *ngIf="warningText">
+      <gq-info-banner [infoText]="warningText" [isWarning]="true">
+      </gq-info-banner>
     </div>
-    <div
-      class="grid-col mt-2 grid grid-cols-2"
-      *ngIf="affectedKpis?.length > 0"
-    >
-      <div class="mt-4" *ngFor="let kpi of affectedKpis; index as i">
-        <div
-          *transloco="let t; read: 'shared.editingModal.kpis'"
-          class="flex flex-row"
-          [ngClass]="{ 'text-low-emphasis': !kpi.value, 'pl-12': i % 2 !== 0 }"
-        >
-          <div class="mr-8 w-32">
-            <h6>{{ t(kpi.key) }}</h6>
-            <div>
-              <span class="text-caption text-medium-emphasis">{{
-                t('previous', {
-                  fieldTranslation: t(kpi.key)
-                })
-              }}</span>
-            </div>
-          </div>
-          <div *ngrxLet="quotationCurrency$ as quotationCurrency">
-            <h6 class="truncate" *transloco="let t; read: 'shared.validation'">
-              <span
-                *ngIf="
-                  kpi.value &&
-                    (kpi.key === fields.GPI || kpi.key === fields.GPM) &&
-                    kpi.value <= priceThreshold;
-                  else discount
-                "
-                [attr.data-cy]="
-                  modalData.field + '-modal_' + kpi.key + '-value'
-                "
-                class="!text-orange"
-              >
-                {{ kpi.value | percentage }}
-                <mat-icon
-                  [matTooltip]="t('gpmOrGpiTooLow')"
-                  matTooltipClass="whitespace-pre-line !text-caption"
-                  class="ml-1 align-bottom"
-                >
-                  warning_amber
-                </mat-icon>
-              </span>
-              <ng-template #discount>
-                <span
-                  *ngIf="kpi.key !== fields.PRICE; else priceFormatter"
-                  [attr.data-cy]="
-                    modalData.field + '-modal_' + kpi.key + '-value'
-                  "
-                >
-                  {{ kpi.value | percentage }}
-                </span>
-              </ng-template>
-              <ng-template #priceFormatter>
-                <span
-                  [ngClass]="{ 'text-error': mspWarningEnabled }"
-                  [attr.data-cy]="
-                    modalData.field + '-modal_' + kpi.key + '-value'
-                  "
-                >
-                  {{ kpi.value | numberCurrency: quotationCurrency }}
-                  <mat-icon
-                    class="ml-1 align-bottom"
-                    *ngIf="mspWarningEnabled"
-                    [matTooltip]="t('priceLowerThanMsp')"
-                    matTooltipClass="whitespace-pre-line !text-caption"
-                  >
-                    warning_amber
-                  </mat-icon>
-                </span>
-              </ng-template>
-            </h6>
-            <div class="text-caption text-medium-emphasis leading-6">
-              <span
-                *ngIf="kpi.key !== fields.PRICE; else previousPriceFormatter"
-                [attr.data-cy]="
-                  modalData.field + '-modal_' + kpi.key + '-previous-value'
-                "
-              >
-                {{ $any(modalData.quotationDetail[kpi.key]) | percentage }}
-              </span>
-              <ng-template #previousPriceFormatter>
-                <span
-                  [attr.data-cy]="
-                    modalData.field + '-modal_' + kpi.key + '-previous-value'
-                  "
-                >
-                  {{
-                    modalData.quotationDetail.price
-                      | numberCurrency: quotationCurrency
-                  }}
-                </span>
-              </ng-template>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+
+    <ng-container *ngIf="affectedKpis?.length > 0">
+      <gq-kpi-list
+        [editingModalData]="modalData"
+        [kpis]="affectedKpis"
+      ></gq-kpi-list>
+    </ng-container>
+
     <gq-info-banner [infoText]="t('warning')"> </gq-info-banner>
     <div class="pt-8">
       <button
@@ -206,7 +109,8 @@
         color="primary"
         mat-raised-button
         [disabled]="
-          editingFormGroup.invalid || !editingFormGroup.get('valueInput').value
+          editingFormGroup.invalid ||
+          !editingFormGroup.get(VALUE_FORM_CONTROL_NAME).value
         "
         (click)="confirmEditing()"
         [attr.data-cy]="modalData.field + '-modal_submit-btn'"
@@ -224,13 +128,14 @@
       </button>
     </div>
   </form>
-  <ng-template #loading>
-    <div class="py-24">
-      <schaeffler-loading-spinner
-        class="h-full"
-        backgroundColor="rgba(255,255,255, 0.1)"
-        [relative]="true"
-      ></schaeffler-loading-spinner>
-    </div>
-  </ng-template>
 </div>
+
+<ng-template #loading>
+  <div class="py-24">
+    <schaeffler-loading-spinner
+      class="h-full"
+      backgroundColor="rgba(255,255,255, 0.1)"
+      [relative]="true"
+    ></schaeffler-loading-spinner>
+  </div>
+</ng-template>

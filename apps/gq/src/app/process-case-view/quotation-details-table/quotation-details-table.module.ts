@@ -9,7 +9,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -24,19 +23,18 @@ import { ColumnHeadersModule } from '../../shared/ag-grid/column-headers/column-
 import { CustomStatusBarModule } from '../../shared/ag-grid/custom-status-bar/custom-status-bar.module';
 import { AutocompleteInputModule } from '../../shared/components/autocomplete-input/autocomplete-input.module';
 import { DialogHeaderModule } from '../../shared/components/header/dialog-header/dialog-header.module';
-import { InfoBannerComponent } from '../../shared/components/info-banner/info-banner.component';
 import { EditCaseModalComponent } from '../../shared/components/modal/edit-case-modal/edit-case-modal.component';
 import { EditingMaterialModalComponent } from '../../shared/components/modal/editing-material-modal/editing-material-modal.component';
-import { EditingModalComponent } from '../../shared/components/modal/editing-modal/editing-modal.component';
+import { EditingModalModule } from '../../shared/components/modal/editing-modal/editing-modal.module';
 import { StatusBarModalModule } from '../../shared/components/modal/status-bar-modal/status-bar-modal.module';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { EditingCommentModalComponent } from './editing-comment-modal/editing-comment-modal.component';
 import { QuotationDetailsTableComponent } from './quotation-details-table.component';
+
 @NgModule({
   declarations: [
     QuotationDetailsTableComponent,
     EditingCommentModalComponent,
-    EditingModalComponent,
     EditingMaterialModalComponent,
     EditCaseModalComponent,
   ],
@@ -44,7 +42,6 @@ import { QuotationDetailsTableComponent } from './quotation-details-table.compon
     AutocompleteInputModule,
     CommonModule,
     AgGridModule,
-    InfoBannerComponent,
     LetModule,
     PushModule,
     SharedTranslocoModule,
@@ -61,13 +58,13 @@ import { QuotationDetailsTableComponent } from './quotation-details-table.compon
     ColumnHeadersModule,
     SharedDirectivesModule,
     SharedPipesModule,
-    MatRadioModule,
     FormsModule,
     MatSelectModule,
     MatTooltipModule,
     MatDatepickerModule,
     MatAutocompleteModule,
     MatProgressSpinnerModule,
+    EditingModalModule,
   ],
   exports: [QuotationDetailsTableComponent],
 })

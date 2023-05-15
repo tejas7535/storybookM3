@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 import { ColumnFields } from '../ag-grid/constants/column-fields.enum';
-import { KpiValue } from '../components/modal/editing-modal/kpi-value.model';
+import { KpiValue } from '../components/modal/editing-modal/models/kpi-value.model';
 import { StatusBarProperties } from '../models';
 import { QuotationDetail } from '../models/quotation-detail';
 
@@ -128,6 +128,12 @@ export const calculateAffectedKPIs = (
       case ColumnFields.PRICE:
         updatedPrice = multiplyAndRoundValues(detail.price, 1 + value / 100);
         break;
+      case ColumnFields.TARGET_PRICE:
+        updatedPrice = multiplyAndRoundValues(
+          detail.targetPrice,
+          1 + value / 100
+        );
+        break;
       case ColumnFields.GPI:
         updatedPrice = getManualPriceByMarginAndCost(detail.gpc, value);
         break;
@@ -144,39 +150,46 @@ export const calculateAffectedKPIs = (
     updatedPrice = value;
   }
 
-  result.push({
-    key: ColumnFields.PRICE,
-    value: updatedPrice,
-  });
-
-  // calc gpi
-  if (field !== ColumnFields.GPI) {
-    const gpi = calculateMargin(updatedPrice, detail.gpc);
+  if (field === ColumnFields.TARGET_PRICE) {
     result.push({
-      key: ColumnFields.GPI,
-      value: gpi,
+      key: ColumnFields.TARGET_PRICE,
+      value: updatedPrice,
     });
-  }
-
-  // calc gpm
-  if (field !== ColumnFields.GPM) {
-    const gpm = calculateMargin(updatedPrice, detail.sqv);
+  } else {
     result.push({
-      key: ColumnFields.GPM,
-      value: gpm,
+      key: ColumnFields.PRICE,
+      value: updatedPrice,
     });
-  }
 
-  // calc discount
-  if (
-    field !== ColumnFields.DISCOUNT &&
-    typeof detail.sapGrossPrice === 'number'
-  ) {
-    const discount = calculateDiscount(updatedPrice, detail.sapGrossPrice);
-    result.push({
-      key: ColumnFields.DISCOUNT,
-      value: discount,
-    });
+    // calc gpi
+    if (field !== ColumnFields.GPI) {
+      const gpi = calculateMargin(updatedPrice, detail.gpc);
+      result.push({
+        key: ColumnFields.GPI,
+        value: gpi,
+      });
+    }
+
+    // calc gpm
+    if (field !== ColumnFields.GPM) {
+      const gpm = calculateMargin(updatedPrice, detail.sqv);
+      result.push({
+        key: ColumnFields.GPM,
+        value: gpm,
+      });
+    }
+
+    // calc discount
+    if (
+      field !== ColumnFields.DISCOUNT &&
+      typeof detail.sapGrossPrice === 'number'
+    ) {
+      const discount = calculateDiscount(updatedPrice, detail.sapGrossPrice);
+      result.push({
+        key: ColumnFields.DISCOUNT,
+        value: discount,
+      });
+    }
   }
 
   return result;

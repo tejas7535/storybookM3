@@ -1,7 +1,7 @@
 import {
   AfterViewInit,
   ChangeDetectorRef,
-  Component,
+  Directive,
   ElementRef,
   Inject,
   OnDestroy,
@@ -22,115 +22,191 @@ import { combineLatest, map, Observable, pairwise, Subscription } from 'rxjs';
 import {
   ActiveCaseActions,
   activeCaseFeature,
-  getQuotationCurrency,
   UpdateQuotationDetail,
 } from '@gq/core/store/active-case';
-import { QuotationDetailsTableValidationService } from '@gq/process-case-view/quotation-details-table/services/quotation-details-table-validation.service';
-import {
-  calculateAffectedKPIs,
-  getManualPriceByDiscount,
-  getManualPriceByMarginAndCost,
-  getPriceUnit,
-  multiplyAndRoundValues,
-} from '@gq/shared/utils/pricing.utils';
+import { HelperService } from '@gq/shared/services/helper/helper.service';
+import { calculateAffectedKPIs } from '@gq/shared/utils/pricing.utils';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
 
-import { ColumnFields } from '../../../ag-grid/constants/column-fields.enum';
-import * as constants from '../../../constants';
-import { PriceSource, QuotationDetail } from '../../../models/quotation-detail';
-import { HelperService } from '../../../services/helper/helper.service';
-import { KpiValue } from './kpi-value.model';
+import { EditingModal } from './models/editing-modal.model';
+import { KpiValue } from './models/kpi-value.model';
 
-@Component({
-  selector: 'gq-editing-modal',
-  templateUrl: './editing-modal.component.html',
-})
-export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
-  private readonly subscription: Subscription = new Subscription();
+@Directive()
+export abstract class EditingModalComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
+  @ViewChild('editInputField') editInputField: ElementRef;
+
+  readonly VALUE_FORM_CONTROL_NAME = 'valueInput';
+  readonly IS_RELATIVE_PRICE_CONTROL_NAME = 'isRelativePriceChangeRadioGroup';
+
+  editingFormGroup = new FormGroup<{
+    valueInput: FormControl<string | undefined>;
+    isRelativePriceChangeRadioGroup?: FormControl<boolean>;
+  }>({ valueInput: new FormControl(undefined) });
 
   updateLoading$: Observable<boolean>;
-  quotationCurrency$: Observable<string>;
-  value: number;
   localeValue: string;
   affectedKpis: KpiValue[];
-  fields = ColumnFields;
 
-  isRelativePriceChangeDisabled: boolean;
-  showRadioGroup = this.modalData.field === ColumnFields.PRICE;
+  /**
+   * If true, it is possible to switch between relative and absolute price change using radio buttons.
+   */
+  isPriceChangeTypeAvailable = false;
+  isRelativePriceChangeDisabled = false;
 
-  priceThreshold = constants.PRICE_VALIDITY_MARGIN_THRESHOLD;
+  /**
+   * Text of the warning, which will be displayed, if it is set.
+   */
+  warningText?: string;
 
-  // variables needed for warning indication
-  mspWarningEnabled: boolean;
-  orderQuantityWarning: boolean;
+  protected value: number;
 
-  editingFormGroup: FormGroup = new FormGroup({
-    isRelativePriceChangeRadioGroup: new FormControl(true, Validators.required),
-    valueInput: new FormControl(undefined),
-  });
-
-  @ViewChild('edit') editInputField: ElementRef;
+  protected readonly subscription: Subscription = new Subscription();
 
   constructor(
-    @Inject(MAT_DIALOG_DATA)
-    public modalData: {
-      quotationDetail: QuotationDetail;
-      field: ColumnFields;
-    },
+    @Inject(MAT_DIALOG_DATA) public modalData: EditingModal,
+    protected translocoLocaleService: TranslocoLocaleService,
     private readonly dialogRef: MatDialogRef<EditingModalComponent>,
     private readonly store: Store,
-    private readonly cdr: ChangeDetectorRef,
-    private readonly translocoLocaleService: TranslocoLocaleService,
-    private readonly helperService: HelperService
+    private readonly helperService: HelperService,
+    private readonly changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.editingFormGroup
-      .get('valueInput')
+      .get(this.VALUE_FORM_CONTROL_NAME)
       .setValidators([this.isInputValid.bind(this)]);
-    this.editingFormGroup.get('valueInput').markAllAsTouched();
+    this.editingFormGroup.get(this.VALUE_FORM_CONTROL_NAME).markAllAsTouched();
 
     this.updateLoading$ = this.store.select(
       activeCaseFeature.selectUpdateLoading
     );
-    this.quotationCurrency$ = this.store.select(getQuotationCurrency);
 
-    if (
-      this.modalData.field === ColumnFields.PRICE &&
-      !this.modalData.quotationDetail.price
-    ) {
-      this.isRelativePriceChangeDisabled = true;
-      this.editingFormGroup
-        .get('isRelativePriceChangeRadioGroup')
-        .setValue(false);
+    if (this.isPriceChangeTypeAvailable) {
+      this.initPriceChangeRadioGroup();
     }
 
-    this.addSubscriptions();
+    this.subscribeLoadingStopped();
+    this.subscribeInputValueChanges();
   }
 
   ngAfterViewInit(): void {
-    this.value =
-      this.modalData.field === ColumnFields.PRICE
-        ? 0
-        : (this.modalData.quotationDetail[
-            this.modalData.field as keyof QuotationDetail
-          ] as number);
+    this.value = this.getValue();
     this.localeValue = this.helperService.transformNumber(this.value, true);
 
     this.setAffectedKpis(this.value);
 
     this.editInputField?.nativeElement.focus();
-    this.cdr.detectChanges();
+    this.changeDetectorRef.detectChanges();
 
     // validate input initially
     this.validateInput(`${this.value}`);
   }
+
+  callPriceChangeTypeSwitchHandler(isRelative: boolean): void {
+    this.editingFormGroup.get(this.VALUE_FORM_CONTROL_NAME).setValue('');
+    this.handlePriceChangeTypeSwitch?.(isRelative);
+  }
+
+  /**
+   * Increase or decrease the value, depending on the given increment value.
+   *
+   * @param increment 1 to increment and -1 to decrement
+   */
+  changeValueIncrementally(increment: -1 | 1): void {
+    const value = HelperService.parseLocalizedInputValue(
+      this.editingFormGroup.get(this.VALUE_FORM_CONTROL_NAME).value,
+      this.translocoLocaleService.getLocale()
+    );
+    const shouldChange =
+      increment === 1
+        ? this.shouldIncrement(value)
+        : this.shouldDecrement(value);
+
+    if (shouldChange) {
+      this.editingFormGroup
+        .get(this.VALUE_FORM_CONTROL_NAME)
+        .setValue(
+          this.helperService
+            .transformNumber(
+              (value || this.value || 0) + increment,
+              !Number.isInteger(value)
+            )
+            .toString()
+        );
+      this.editInputField?.nativeElement.focus();
+    }
+  }
+
+  confirmEditing(): void {
+    const value = HelperService.parseLocalizedInputValue(
+      this.editingFormGroup.get(this.VALUE_FORM_CONTROL_NAME).value,
+      this.translocoLocaleService.getLocale()
+    );
+
+    this.store.dispatch(
+      ActiveCaseActions.updateQuotationDetails({
+        updateQuotationDetailList: [this.buildUpdateQuotationDetail(value)],
+      })
+    );
+  }
+
+  closeDialog(): void {
+    this.dialogRef.close();
+  }
+
+  callInputFieldKeyDownHandler(event: KeyboardEvent): void {
+    this.handleInputFieldKeyDown?.(event);
+  }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  addSubscriptions(): void {
+  protected getValue(): number {
+    const quotationDetail = this.modalData.quotationDetail as any;
+
+    return quotationDetail[this.modalData.field] as number;
+  }
+
+  protected setAffectedKpis(value: number): void {
+    this.affectedKpis = calculateAffectedKPIs(
+      value,
+      this.modalData.field,
+      this.modalData.quotationDetail,
+      !this.isPriceChangeTypeAvailable ||
+        (this.isPriceChangeTypeAvailable &&
+          this.editingFormGroup.get(this.IS_RELATIVE_PRICE_CONTROL_NAME).value)
+    );
+  }
+
+  private initPriceChangeRadioGroup(): void {
+    this.editingFormGroup.addControl(
+      this.IS_RELATIVE_PRICE_CONTROL_NAME,
+      new FormControl(true, Validators.required)
+    );
+
+    this.isRelativePriceChangeDisabled =
+      this.shouldDisableRelativePriceChange();
+
+    if (this.isRelativePriceChangeDisabled) {
+      this.editingFormGroup
+        .get(this.IS_RELATIVE_PRICE_CONTROL_NAME)
+        .setValue(false);
+    }
+  }
+
+  private isInputValid(control: AbstractControl): ValidationErrors {
+    if (this.validateInput(control.value) || !control.value) {
+      return undefined;
+    }
+
+    return { invalidInput: true };
+  }
+
+  private subscribeLoadingStopped(): void {
     const loadingStopped$ = this.store
       .select(activeCaseFeature.selectUpdateLoading)
       .pipe(
@@ -151,17 +227,19 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       )
     );
+  }
 
+  private subscribeInputValueChanges(): void {
     this.subscription.add(
       this.editingFormGroup
-        .get('valueInput')
-        .valueChanges.subscribe((val: string) => {
+        .get(this.VALUE_FORM_CONTROL_NAME)
+        .valueChanges.subscribe((value: string) => {
           let parsedValue = HelperService.parseLocalizedInputValue(
-            val,
+            value,
             this.translocoLocaleService.getLocale()
           );
 
-          if (this.editingFormGroup.get('valueInput').invalid) {
+          if (this.editingFormGroup.get(this.VALUE_FORM_CONTROL_NAME).invalid) {
             parsedValue = Number.NaN;
           }
           // trigger dynamic kpi simulation
@@ -170,181 +248,56 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
     );
   }
 
-  validateInput(value: string): boolean {
-    const locale = this.translocoLocaleService.getLocale();
+  /**
+   * Handle the switch between relative and absolute price change via radio buttons.
+   *
+   * @param isRelative true, if relative price change has been selected, otherwise false
+   */
+  abstract handlePriceChangeTypeSwitch?(isRelative: boolean): void;
 
-    if (this.modalData.field === ColumnFields.ORDER_QUANTITY) {
-      // order quantity needs to be a multiple of delivery unit, else warn
-      const deliveryUnit = this.modalData.quotationDetail.deliveryUnit;
-      this.orderQuantityWarning =
-        QuotationDetailsTableValidationService.isOrderQuantityInvalid(
-          +value,
-          deliveryUnit
-        );
+  /**
+   * Handle keydown event, triggered on the input field.
+   *
+   * @param event {@link KeyboardEvent}
+   */
+  abstract handleInputFieldKeyDown?(event: KeyboardEvent): void;
 
-      return constants.getQuantityRegex(locale).test(value);
-    }
+  /**
+   * Validate the given input value.
+   *
+   * @param value The input value to be validated
+   * @returns true, if the given input value is valid, otherwise false.
+   */
+  protected abstract validateInput(value: string): boolean;
 
-    return !this.editingFormGroup.get('isRelativePriceChangeRadioGroup')
-      .value && this.modalData.field === ColumnFields.PRICE
-      ? constants.getCurrencyRegex(locale).test(value)
-      : constants.getPercentageRegex(locale).test(value);
-  }
+  /**
+   * Check if the value should be incremented.
+   *
+   * @param value The current value. In some cases, incrementing is always possible and the current value does not need to be checked.
+   * @returns true, if the value should be incremented, otherwise false.
+   */
+  protected abstract shouldIncrement(value?: number): boolean;
 
-  isInputValid(control: AbstractControl): ValidationErrors {
-    if (this.validateInput(control.value) || !control.value) {
-      return undefined;
-    }
+  /**
+   * Check if the value should be decremented.
+   *
+   * @param value The current value.
+   * @returns true, if the value should be decremented, otherwise false.
+   */
+  protected abstract shouldDecrement(value: number): boolean;
 
-    return { invalidInput: true };
-  }
+  /**
+   * If true, "Relative" is disabled and it is not possible to select this price change type in the radio buttons group.
+   */
+  protected abstract shouldDisableRelativePriceChange?(): boolean;
 
-  setAffectedKpis(val: number): void {
-    this.affectedKpis = calculateAffectedKPIs(
-      val,
-      this.modalData.field,
-      this.modalData.quotationDetail,
-      this.modalData.field !== ColumnFields.PRICE ||
-        (this.modalData.field === ColumnFields.PRICE &&
-          this.editingFormGroup.get('isRelativePriceChangeRadioGroup').value)
-    );
-    this.mspWarningEnabled =
-      this.modalData.quotationDetail.msp &&
-      this.affectedKpis.find((e) => e.key === ColumnFields.PRICE)?.value <
-        this.modalData.quotationDetail.msp;
-  }
-
-  closeDialog(): void {
-    this.dialogRef.close();
-  }
-  confirmEditing(): void {
-    const value = HelperService.parseLocalizedInputValue(
-      this.editingFormGroup.get('valueInput').value,
-      this.translocoLocaleService.getLocale()
-    );
-
-    if (this.modalData.field === ColumnFields.ORDER_QUANTITY) {
-      const updateQuotationDetailList: UpdateQuotationDetail[] = [
-        {
-          orderQuantity: value,
-          gqPositionId: this.modalData.quotationDetail.gqPositionId,
-        },
-      ];
-      this.store.dispatch(
-        ActiveCaseActions.updateQuotationDetails({ updateQuotationDetailList })
-      );
-    } else {
-      let newPrice: number;
-
-      if (
-        [ColumnFields.GPM, ColumnFields.GPI].includes(
-          this.modalData.field as ColumnFields
-        )
-      ) {
-        newPrice = getManualPriceByMarginAndCost(
-          this.modalData.field === ColumnFields.GPM
-            ? this.modalData.quotationDetail.sqv
-            : this.modalData.quotationDetail.gpc,
-          value
-        );
-      } else if (this.modalData.field === ColumnFields.DISCOUNT) {
-        newPrice = getManualPriceByDiscount(
-          this.modalData.quotationDetail.sapGrossPrice,
-          value
-        );
-      } else if (this.modalData.field === ColumnFields.PRICE) {
-        newPrice = this.editingFormGroup.get('isRelativePriceChangeRadioGroup')
-          .value
-          ? multiplyAndRoundValues(
-              this.modalData.quotationDetail.price,
-              1 + value / 100
-            )
-          : value;
-      } else {
-        newPrice = value;
-      }
-      const priceUnit = getPriceUnit(this.modalData.quotationDetail);
-      const price = newPrice / priceUnit;
-
-      const updateQuotationDetailList: UpdateQuotationDetail[] = [
-        {
-          price,
-          gqPositionId: this.modalData.quotationDetail.gqPositionId,
-          priceSource: PriceSource.MANUAL,
-        },
-      ];
-      this.store.dispatch(
-        ActiveCaseActions.updateQuotationDetails({ updateQuotationDetailList })
-      );
-    }
-  }
-
-  onKeyPress(event: KeyboardEvent): void {
-    if (this.modalData.field === ColumnFields.ORDER_QUANTITY) {
-      HelperService.validateQuantityInputKeyPress(event);
-    }
-  }
-
-  increment(): void {
-    // margins and discounts should not be higher than 99 %
-    const value = HelperService.parseLocalizedInputValue(
-      this.editingFormGroup.get('valueInput').value,
-      this.translocoLocaleService.getLocale()
-    );
-
-    if (
-      [ColumnFields.ORDER_QUANTITY, ColumnFields.PRICE].includes(
-        this.modalData.field
-      ) ||
-      value < 99
-    ) {
-      this.editingFormGroup
-        .get('valueInput')
-        .setValue(
-          this.helperService
-            .transformNumber(
-              (value || this.value || 0) + 1,
-              !Number.isInteger(value)
-            )
-            .toString()
-        );
-      this.editInputField?.nativeElement.focus();
-    }
-  }
-
-  decrement(): void {
-    const value = HelperService.parseLocalizedInputValue(
-      this.editingFormGroup.get('valueInput').value,
-      this.translocoLocaleService.getLocale()
-    );
-    if (
-      // should not decrement to less than -99 % for percentage changes
-      (this.modalData.field !== ColumnFields.ORDER_QUANTITY &&
-        this.editingFormGroup.get('isRelativePriceChangeRadioGroup').value &&
-        (value ?? this.value) > -99) ||
-      // absolute price can not be lower than 1
-      (!this.editingFormGroup.get('isRelativePriceChangeRadioGroup').value &&
-        (value ?? this.value) > 1) ||
-      // quantity should not be lower than 1
-      (this.modalData.field === ColumnFields.ORDER_QUANTITY &&
-        (value ?? this.value) > 1)
-    ) {
-      this.editingFormGroup
-        .get('valueInput')
-        .setValue(
-          this.helperService
-            .transformNumber(
-              (value || this.value || 0) - 1,
-              !Number.isInteger(value)
-            )
-            .toString()
-        );
-      this.editInputField?.nativeElement.focus();
-    }
-  }
-
-  onRadioButtonChange(isRelative: boolean): void {
-    this.editingFormGroup.get('valueInput').setValue('');
-    this.setAffectedKpis(isRelative ? this.modalData.quotationDetail.price : 0);
-  }
+  /**
+   * Build the {@link UpdateQuotationDetail} object, which will be used when editing is confirmed, using the given current value.
+   *
+   * @param value The current value.
+   * @returns The built {@link UpdateQuotationDetail} object
+   */
+  protected abstract buildUpdateQuotationDetail(
+    value: number
+  ): UpdateQuotationDetail;
 }
