@@ -362,6 +362,7 @@
       "materialAdded": "Material(s) added to the case",
       "materialDeleted": "Material(s) deleted from the case",
       "updateSelectedPrice": "Price selection was saved",
+      "updateTargetPrice": "Target Price change was saved",
       "updateQuantity": "Quantity change was saved",
       "updateComment": "Comment change was saved",
       "refreshSapPricingSuccess": "SAP Pricing was refreshed",

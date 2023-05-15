@@ -362,6 +362,7 @@
       "materialAdded": "Material wurde hinzugefügt",
       "materialDeleted": "Material wurde entfernt",
       "updateSelectedPrice": "Der Preis wurde gespeichert",
+      "updateTargetPrice": "Der Zielpreis wurde gespeichert",
       "updateQuantity": "Die Mengenänderung wurde gespeichert",
       "updateComment": "Die Kommentaränderung wurde gespeichert",
       "refreshSapPricingSuccess": "SAP Preise wurden aktualisiert",

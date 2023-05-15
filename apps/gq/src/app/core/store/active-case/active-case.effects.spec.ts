@@ -815,6 +815,14 @@ describe('ActiveCaseEffectss', () => {
         translate(`shared.snackBarMessages.updateQuantity`)
       );
     });
+    test('should display updateTargetPrice', () => {
+      effects['snackBar'].open = jest.fn();
+
+      effects['showUpdateQuotationDetailToast']({ targetPrice: 200 } as any);
+      expect(effects['snackBar'].open).toHaveBeenCalledWith(
+        translate(`shared.snackBarMessages.updateTargetPrice`)
+      );
+    });
   });
 
   describe('updateQuotation$', () => {

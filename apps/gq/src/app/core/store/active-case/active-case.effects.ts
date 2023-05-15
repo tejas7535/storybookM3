@@ -572,6 +572,8 @@ export class ActiveCaseEffects {
       translateString += 'updateSelectedPrice';
     } else if (update.orderQuantity) {
       translateString += 'updateQuantity';
+    } else if (update.targetPrice) {
+      translateString += 'updateTargetPrice';
     } else {
       translateString += 'updateComment';
     }
