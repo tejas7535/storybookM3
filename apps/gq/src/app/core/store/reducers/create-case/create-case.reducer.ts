@@ -1,13 +1,11 @@
+import { AutocompleteRequestDialog } from '@gq/shared/components/autocomplete-input/autocomplete-request-dialog.enum';
+import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
+import { IdValue } from '@gq/shared/models/search';
+import { MaterialTableItem } from '@gq/shared/models/table';
+import { ValidationDescription } from '@gq/shared/models/table';
+import { TableService } from '@gq/shared/services/table/table.service';
 import { Action, createReducer, on } from '@ngrx/store';
 
-import { AutocompleteRequestDialog } from '../../../../shared/components/autocomplete-input/autocomplete-request-dialog.enum';
-import { FilterNames } from '../../../../shared/components/autocomplete-input/filter-names.enum';
-import { IdValue } from '../../../../shared/models/search';
-import {
-  MaterialTableItem,
-  ValidationDescription,
-} from '../../../../shared/models/table';
-import { TableService } from '../../../../shared/services/table/table.service';
 import {
   addRowDataItems,
   autocomplete,
@@ -169,8 +167,6 @@ export const createCaseReducer = createReducer(
         const tmp = { ...it };
         let itemOptions = [...options];
         if (tmp.filter === filter) {
-          const mergedOptions: IdValue[] = [];
-
           if (tmp.filter === FilterNames.MATERIAL_NUMBER) {
             itemOptions = itemOptions.map((opt) => ({
               ...opt,
@@ -188,11 +184,7 @@ export const createCaseReducer = createReducer(
               (newOpt) => newOpt.id === oldOption.id
             );
 
-            // only consider selected options in old options
-            if (idxInNewOptions === -1 && oldOption.selected) {
-              // keep old option if it has been selected but is not part of received options
-              mergedOptions.push(oldOption);
-            } else if (idxInNewOptions > -1 && oldOption.selected) {
+            if (idxInNewOptions > -1 && oldOption.selected) {
               // update received options with selected info
               itemOptions[idxInNewOptions] = {
                 ...itemOptions[idxInNewOptions],
@@ -200,7 +192,7 @@ export const createCaseReducer = createReducer(
               };
             }
           });
-          tmp.options = [...mergedOptions, ...itemOptions];
+          tmp.options = itemOptions;
         }
 
         return tmp;
