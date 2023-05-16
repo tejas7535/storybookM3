@@ -33,16 +33,16 @@ export const getCalculationTypesConfig = createSelector(
   (state): CalculationParametersCalculationTypeConfig[] =>
     [
       {
-        name: 'emission' as const,
-        ...state.emission,
-        svgIcon: 'co2',
-        label: 'calculationTypes.co2',
-      },
-      {
         name: 'friction' as const,
         ...state.friction,
         icon: 'compress',
         label: 'calculationTypes.frictionalPowerloss',
+      },
+      {
+        name: 'emission' as const,
+        ...state.emission,
+        svgIcon: 'co2',
+        label: 'calculationTypes.co2',
       },
     ].filter((item) => item.visible)
 );

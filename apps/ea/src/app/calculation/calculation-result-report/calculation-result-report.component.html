@@ -21,14 +21,111 @@
   <mat-dialog-content class="ea-h-full md:ea-px-6 ea-px-2">
     <div class="ea-flex ea-h-full ea-flex-row">
       <div>
+        <!-- Frictional power loss -->
+        <ng-container
+          *ngIf="calculationResultFacade.isFrictionResultAvailable$ | ngrxPush"
+        >
+          <mat-expansion-panel
+            id="friction"
+            *transloco="
+              let t;
+              read: 'calculationResultReport.frictionalPowerloss'
+            "
+            class="ea-border-border ea-w-full ea-border !ea-shadow-none ea-mb-4"
+            [expanded]="
+              (selctedCalculationTypes$ | ngrxPush)?.friction?.selected === true
+            "
+          >
+            <mat-expansion-panel-header class="ea-h-[64px]">
+              <mat-panel-title>
+                <div class="ea-flex ea-flex-row">
+                  <div class="ea-my-auto">
+                    <mat-icon color="primary">compress</mat-icon>
+                  </div>
+                  <div class="ea-my-auto ea-ml-2">
+                    {{ t('title') }}
+                  </div>
+                </div>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div
+              class="ea-full-w ea-full-h !ea--mx-6 !ea--mb-4"
+              *ngIf="
+                calculationResultFacade.calculationReportFrictionalPowerloss$
+                  | ngrxPush as frictionalPowerloss
+              "
+            >
+              <ng-container
+                *transloco="
+                  let t;
+                  read: 'calculationResultReport.frictionalPowerloss'
+                "
+              >
+                <div
+                  class="ea-grid ea-grid-cols-2 ea-gap-0 ea-px-4 md:ea-px-8 ea-py-4 ea-border-border ea-border-t"
+                >
+                  <ng-container
+                    *ngFor="let item of frictionalPowerloss; let index = index"
+                  >
+                    <div
+                      class="ea-flex ea-flex-col ea-justify-start ea-border-border md:ea-border-b-0 ea-border-b md:ea-mx-2 ea-py-4 md:ea-py-2"
+                      [ngClass]="{
+                        'md:ea-border-r ea-border-r-0 md:ea-mr-4 ea-pl-4 md:ea-pl-0':
+                          index % 2 !== 1,
+                        'md:ea-border-r-0 ea-border-r md:ea-mr-4 ea-pr-4 md:ea-pr-0':
+                          index % 2 === 1,
+                        'ea-col-span-2 md:ea-col-span-1 !ea-pl-0': index === 0
+                      }"
+                    >
+                      <div class="ea-mb-4">
+                        <ea-tag
+                          [value]="item.short"
+                          styleClass="ea-text-[#007892] ea-bg-[#F0F6FA]"
+                        ></ea-tag>
+                      </div>
+                      <div
+                        class="ea-flex ea-flex-row ea-items-end ea-justify-start"
+                      >
+                        <div
+                          class="ea-text-high-emphasis"
+                          [class.ea-text-h4]="index === 0"
+                          [class.ea-text-h6]="index !== 0"
+                        >
+                          {{ (item.value | number: '1.0-2') || '-' }}
+                        </div>
+                        <div
+                          class="ea-text-body-2 ea-text-high-emphasis ea-pl-1"
+                        >
+                          {{ item.unit }}
+                        </div>
+                      </div>
+
+                      <div
+                        class="ea-text-caption ea-text-medium-emphasis ea-mt-4"
+                      >
+                        {{ t(item.title) }}
+                      </div>
+                    </div>
+                    <div
+                      class="ea-border-t ea-border-border ea-my-4 ea-h-[1px] ea-col-span-2 md:ea-block ea-hidden"
+                      *ngIf="index % 2 === 1"
+                    ></div>
+                  </ng-container>
+                </div>
+              </ng-container>
+            </div>
+          </mat-expansion-panel>
+        </ng-container>
+
         <!-- CO2 Emissions -->
         <ng-container
           *ngIf="calculationResultFacade.isEmissionResultAvailable$ | ngrxPush"
         >
           <mat-expansion-panel
-            id="emissions"
+            id="emission"
             *transloco="let t; read: 'calculationResultReport.co2Emissions'"
-            class="ea-border-border ea-w-full ea-border !ea-shadow-none"
+            class="ea-border-border ea-w-full ea-border !ea-shadow-none ea-mb-4"
             [expanded]="
               (selctedCalculationTypes$ | ngrxPush)?.emission?.selected === true
             "
@@ -98,7 +195,7 @@
                       class="ea-flex ea-w-full ea-flex-row md:ea-justify-start ea-items-center ea-justify-center"
                     >
                       <div
-                        class="ea-flex ea-flex-row ea-items-center ea-justify-center ea-py-2 ea-pr-4"
+                        class="ea-flex ea-flex-row ea-items-end ea-justify-center ea-py-2 ea-pr-4"
                       >
                         <div class="ea-text-h6 ea-text-high-emphasis">
                           {{
@@ -114,12 +211,12 @@
                       </div>
                       <mat-divider [vertical]="true"></mat-divider>
                       <div
-                        class="ea-flex ea-flex-row ea-items-center ea-justify-center ea-py-2 ea-pl-4"
+                        class="ea-flex ea-flex-row ea-items-end ea-justify-center ea-py-2 ea-pl-4"
                       >
                         <div class="ea-text-h6 ea-text-high-emphasis">
                           {{
                             (co2Emissions?.co2_upstream_percent * 100
-                              | number: '1.2-2') || '-'
+                              | number: '1.1-1') || '-'
                           }}
                         </div>
                         <div
@@ -156,7 +253,7 @@
                       class="ea-flex ea-w-full ea-flex-row md:ea-justify-start ea-justify-center ea-items-center"
                     >
                       <div
-                        class="ea-flex ea-flex-row ea-items-center ea-justify-center ea-py-2 ea-pr-4"
+                        class="ea-flex ea-flex-row ea-items-end ea-justify-center ea-py-2 ea-pr-4"
                       >
                         <div class="ea-text-h6 ea-text-high-emphasis">
                           {{
@@ -172,12 +269,12 @@
                       </div>
                       <mat-divider [vertical]="true"></mat-divider>
                       <div
-                        class="ea-flex ea-flex-row ea-items-center ea-justify-center ea-py-2 ea-pl-4"
+                        class="ea-flex ea-flex-row ea-items-end ea-justify-center ea-py-2 ea-pl-4"
                       >
                         <div class="ea-text-h6 ea-text-high-emphasis">
                           {{
                             (co2Emissions?.co2_downstream_percent * 100
-                              | number: '1.2-2') || '-'
+                              | number: '1.1-1') || '-'
                           }}
                         </div>
                         <div
@@ -207,100 +304,6 @@
                   >
                 </div>
               </div>
-            </div>
-          </mat-expansion-panel>
-        </ng-container>
-
-        <!-- Frictional power loss -->
-        <ng-container
-          *ngIf="calculationResultFacade.isFrictionResultAvailable$ | ngrxPush"
-        >
-          <mat-expansion-panel
-            id="friction"
-            *transloco="
-              let t;
-              read: 'calculationResultReport.frictionalPowerloss'
-            "
-            class="ea-border-border ea-w-full ea-border !ea-shadow-none ea-mt-4"
-            [expanded]="
-              (selctedCalculationTypes$ | ngrxPush)?.friction?.selected === true
-            "
-          >
-            <mat-expansion-panel-header class="ea-h-[64px]">
-              <mat-panel-title>
-                <div class="ea-flex ea-flex-row">
-                  <div class="ea-my-auto">
-                    <mat-icon color="primary">compress</mat-icon>
-                  </div>
-                  <div class="ea-my-auto ea-ml-2">
-                    {{ t('title') }}
-                  </div>
-                </div>
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-
-            <div
-              class="ea-full-w ea-full-h !ea--mx-6 !ea--mb-4"
-              *ngIf="
-                calculationResultFacade.calculationReportFrictionalPowerloss$
-                  | ngrxPush as frictionalPowerloss
-              "
-            >
-              <ng-container
-                *transloco="
-                  let t;
-                  read: 'calculationResultReport.frictionalPowerloss'
-                "
-              >
-                <div class="ea-grid ea-grid-cols-2 ea-gap-0 ea-px-4 md:ea-px-8">
-                  <ng-container
-                    *ngFor="let item of frictionalPowerloss; let index = index"
-                  >
-                    <div
-                      class="ea-flex ea-flex-col ea-justify-start ea-border-border md:ea-border-b-0 ea-border-b md:ea-mx-2 ea-py-4 md:ea-py-2"
-                      [ngClass]="{
-                        'md:ea-border-r ea-border-r-0 md:ea-mr-4 ea-pl-4 md:ea-pl-0':
-                          index % 2 !== 1,
-                        'md:ea-border-r-0 ea-border-r md:ea-mr-4 ea-pr-4 md:ea-pr-0':
-                          index % 2 === 1,
-                        'ea-col-span-2 md:ea-col-span-1 !ea-pl-0': index === 0
-                      }"
-                    >
-                      <div class="ea-mb-4">
-                        <ea-tag
-                          [value]="item.short"
-                          styleClass="ea-text-[#007892] ea-bg-[#F0F6FA]"
-                        ></ea-tag>
-                      </div>
-                      <div
-                        class="ea-flex ea-flex-row ea-items-center ea-justify-start"
-                      >
-                        <div
-                          class="ea-text-h6 ea-text-high-emphasis"
-                          [class.!ea-text-h4]="index === 0"
-                        >
-                          {{ (item.value | number: '1.0-2') || '-' }}
-                        </div>
-                        <div
-                          class="ea-text-body-2 ea-text-high-emphasis ea-pl-1"
-                        >
-                          {{ item.unit }}
-                        </div>
-                      </div>
-
-                      <div
-                        class="ea-text-caption ea-text-medium-emphasis ea-mt-4"
-                      >
-                        {{ t(item.title) }}
-                      </div>
-                    </div>
-                    <div
-                      class="ea-border-t ea-border-border ea-my-4 ea-h-[1px] ea-col-span-2 md:ea-block ea-hidden"
-                      *ngIf="index % 2 === 1"
-                    ></div>
-                  </ng-container>
-                </div>
-              </ng-container>
             </div>
           </mat-expansion-panel>
         </ng-container>

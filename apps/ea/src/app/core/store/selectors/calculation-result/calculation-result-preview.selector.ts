@@ -78,6 +78,19 @@ export const getCalculationResultPreviewData = createSelector(
   ): CalculationResultPreviewData => {
     const previewData: CalculationResultPreviewData = [];
 
+    if (calculationTypes.friction.selected) {
+      previewData.push({
+        title: 'frictionalPowerloss',
+        icon: 'compress',
+        values: [
+          {
+            title: 'frictionalPowerlossSubtitle',
+            ...frictionResult,
+          },
+        ],
+      });
+    }
+
     if (calculationTypes.emission.selected) {
       previewData.push({
         title: 'totalValueCO2',
@@ -90,19 +103,6 @@ export const getCalculationResultPreviewData = createSelector(
           {
             title: 'operation',
             ...co2DownstreamResult,
-          },
-        ],
-      });
-    }
-
-    if (calculationTypes.friction.selected) {
-      previewData.push({
-        title: 'frictionalPowerloss',
-        icon: 'compress',
-        values: [
-          {
-            title: 'frictionalPowerlossSubtitle',
-            ...frictionResult,
           },
         ],
       });
