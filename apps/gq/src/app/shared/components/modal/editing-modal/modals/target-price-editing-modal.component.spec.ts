@@ -90,7 +90,7 @@ describe('TargetPriceEditingModalComponent', () => {
       component['editingFormGroup'] = {
         get: jest.fn().mockReturnValue({ value: true }),
       } as any;
-      expect(component['validateInput']('99.99')).toBe(false);
+      expect(component['validateInput']('99,99R')).toBe(false);
     });
 
     test('input should be valid for absolute target price', () => {

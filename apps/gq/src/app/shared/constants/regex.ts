@@ -13,8 +13,21 @@ const numberFilterRegexEN =
 const numberFilterRegexDE =
   /^-?\d{3,},\d{1,2}?$|^\d{1,3}(?:\.\d{3})*(?:,\d{1,2})?$|^\d+$/;
 
-const percentageRegexDE = /^-?\d{1,2}(?:,\d{1,2})?$|^-?\d,/;
-const percentageRegexEN = /^-?\d{1,2}(?:\.\d{1,2})?$|^-?\d+\./;
+/**
+ * Allow values from -99 to 99 with max. two decimal places and a comma as a decimal separator.
+ *
+ * Following values are valid: -11; 11; 11,1; 11,11; -1; 1; 1,1; 1,11
+ * Following values are not valid: -111; 111; 11,111; 111,11; 111,; 11.11; 11.1
+ */
+const percentageRegexDE = /^-?\d{1,2}(?:,\d{1,2})?$/;
+
+/**
+ * Allow values from -99 to 99 with max. two decimal places and a dot as a decimal separator.
+ *
+ * Following values are valid: -11; 11; 11.1; 11.11; -1; 1; 1.1; 1.11
+ * Following values are not valid: -111; 111; 11.111; 111.11; 111.; 11,11; 11,1
+ */
+const percentageRegexEN = /^-?\d{1,2}(?:\.\d{1,2})?$/;
 
 export const getPercentageRegex = (locale: string): RegExp =>
   locale === LOCALE_DE.id ? percentageRegexDE : percentageRegexEN;

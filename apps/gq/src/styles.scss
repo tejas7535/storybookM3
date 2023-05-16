@@ -69,3 +69,7 @@ button {
 .release-modal .mat-dialog-container {
   padding: 0 !important;
 }
+
+.editing-modal mat-form-field {
+  line-height: normal;
+}

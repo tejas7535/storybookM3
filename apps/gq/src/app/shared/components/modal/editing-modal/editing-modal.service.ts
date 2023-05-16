@@ -34,6 +34,7 @@ export class EditingModalService {
     this.dialog.open(this.fieldToEditingModalComponent[modalData.field], {
       width: '684px',
       data: modalData,
+      panelClass: 'editing-modal',
     });
   }
 }

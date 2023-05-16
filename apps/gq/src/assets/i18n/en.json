@@ -115,7 +115,7 @@
       "strategicMaterial": "Strategic Material (GC)",
       "sapVolumeScale": "SAP Volume Scale %",
       "targetPrice": "Target Price",
-      "targetPriceInfoText": "Selected target price. When sent to SAP the target price will be applied as ZMAN in the SAP Quotation.",
+      "targetPriceInfoText": "Selected Target Price. When sent to SAP the Target Price will be applied as ZMAN in the SAP Quotation.",
       "headers": {
         "priceSource": {
           "gqPriceSource": "GQ Price",
@@ -208,7 +208,7 @@
         "materialNumber": "Material Number (15-digits)",
         "quantity": "Quantity",
         "targetPrice": "Target Price",
-        "targetPriceInfoText": "Please consider to convert the target price to the price unit, if needed.",
+        "targetPriceInfoText": "Please consider to convert the Target Price to the price unit, if needed.",
         "priceUnitOfTargetPrice": "per",
         "UoM": "UoM"
       }
@@ -390,13 +390,13 @@
       "gpi": "GPI %",
       "discount": "discount %",
       "price": "price",
-      "targetPrice": "target price",
+      "targetPrice": "Target Price",
       "orderQuantity": "Quantity",
       "relative": "Relative",
       "absolute": "Absolute",
       "confirm": {
         "price": "Set new price",
-        "targetPrice": "Set new target price",
+        "targetPrice": "Set new Target Price",
         "gpi": "Set new gpi",
         "gpm": "Set new gpm",
         "discount": "Set new discount",
@@ -405,7 +405,7 @@
       "cancel": "Cancel",
       "labels": {
         "price": "Price change in %",
-        "targetPrice": "Target price change in %",
+        "targetPrice": "Target Price change in %",
         "gpi": "GPI change in %",
         "gpm": "GPM change in %",
         "discount": "Discount change in %",
@@ -415,7 +415,7 @@
       },
       "hints": {
         "price": "Change price",
-        "targetPrice": "Change target price",
+        "targetPrice": "Change Target Price",
         "gpi": "Change gpi",
         "gpm": "Change gpm",
         "discount": "Change discount",

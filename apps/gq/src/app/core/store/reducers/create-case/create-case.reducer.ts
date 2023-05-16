@@ -1,8 +1,10 @@
 import { AutocompleteRequestDialog } from '@gq/shared/components/autocomplete-input/autocomplete-request-dialog.enum';
 import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
 import { IdValue } from '@gq/shared/models/search';
-import { MaterialTableItem } from '@gq/shared/models/table';
-import { ValidationDescription } from '@gq/shared/models/table';
+import {
+  MaterialTableItem,
+  ValidationDescription,
+} from '@gq/shared/models/table';
 import { TableService } from '@gq/shared/services/table/table.service';
 import { Action, createReducer, on } from '@ngrx/store';
 

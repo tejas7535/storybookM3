@@ -25,6 +25,7 @@ describe('EditingModalService', () => {
   let service: EditingModalService;
   let spectator: SpectatorService<EditingModalService>;
   let matDialog: SpyObject<MatDialog>;
+  const panelClass = 'editing-modal';
 
   const createService = createServiceFactory({
     service: EditingModalService,
@@ -52,6 +53,7 @@ describe('EditingModalService', () => {
     expect(matDialog.open).toBeCalledWith(GpiEditingModalComponent, {
       width: '684px',
       data,
+      panelClass,
     });
   });
 
@@ -66,6 +68,7 @@ describe('EditingModalService', () => {
     expect(matDialog.open).toBeCalledWith(GpmEditingModalComponent, {
       width: '684px',
       data,
+      panelClass,
     });
   });
 
@@ -80,6 +83,7 @@ describe('EditingModalService', () => {
     expect(matDialog.open).toBeCalledWith(DiscountEditingModalComponent, {
       width: '684px',
       data,
+      panelClass,
     });
   });
 
@@ -94,6 +98,7 @@ describe('EditingModalService', () => {
     expect(matDialog.open).toBeCalledWith(PriceEditingModalComponent, {
       width: '684px',
       data,
+      panelClass,
     });
   });
 
@@ -108,6 +113,7 @@ describe('EditingModalService', () => {
     expect(matDialog.open).toBeCalledWith(TargetPriceEditingModalComponent, {
       width: '684px',
       data,
+      panelClass,
     });
   });
 
@@ -122,6 +128,7 @@ describe('EditingModalService', () => {
     expect(matDialog.open).toBeCalledWith(QuantityEditingModalComponent, {
       width: '684px',
       data,
+      panelClass,
     });
   });
 });
