@@ -14,9 +14,9 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
 import { AutoCompleteFacade } from '@gq/core/store/facades';
+import { HelperService } from '@gq/shared/services/helper/helper.service';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
-import { HelperService } from '../../../../shared/services/helper/helper.service';
 import { MaterialColumnFields } from '../../../ag-grid/constants/column-fields.enum';
 import {
   MaterialTableItem,
@@ -40,6 +40,7 @@ export class EditingMaterialModalComponent
 
   private readonly materialToEdit: MaterialTableItem;
   private readonly fieldToFocus: MaterialColumnFields;
+  private readonly targetPrice: string;
 
   @ViewChild('materialNumberInput')
   public matNumberInput: AutocompleteInputComponent;
@@ -70,6 +71,12 @@ export class EditingMaterialModalComponent
   ) {
     this.materialToEdit = modalData.material;
     this.fieldToFocus = modalData.field;
+    this.targetPrice = this.materialToEdit.targetPrice
+      ? this.helperService.transformNumber(
+          this.materialToEdit.targetPrice,
+          true
+        )
+      : undefined;
   }
 
   ngOnInit() {
@@ -118,15 +125,9 @@ export class EditingMaterialModalComponent
       .get(MaterialColumnFields.QUANTITY)
       .setValue(this.materialToEdit.quantity);
 
-    const targetPrice = this.materialToEdit.targetPrice
-      ? this.helperService.transformNumber(
-          this.materialToEdit.targetPrice,
-          true
-        )
-      : undefined;
     this.editFormGroup
       .get(MaterialColumnFields.TARGET_PRICE)
-      .setValue(targetPrice);
+      .setValue(this.targetPrice);
 
     this.matDescInput.searchFormControl.setValue(
       this.materialToEdit.materialDescription
@@ -178,19 +179,19 @@ export class EditingMaterialModalComponent
 
   inputHasChanged(): boolean {
     const materialDescriptionChanged =
-      this.modalData.material.materialDescription !==
+      this.materialToEdit.materialDescription !==
       this.matDescInput.valueInput.nativeElement.value;
 
     const materialNumberChanged =
-      this.modalData.material.materialNumber !==
+      this.materialToEdit.materialNumber !==
       this.matNumberInput.valueInput.nativeElement.value;
 
     const quantityChanged =
-      this.modalData.material.quantity !==
+      this.materialToEdit.quantity !==
       this.editFormGroup.get(QUANTITY_FORM_CONTROL_NAME).value;
 
     const targetPriceChanged =
-      this.modalData.material.targetPrice !==
+      this.targetPrice !==
       this.editFormGroup.get(TARGET_PRICE_FORM_CONTROL_NAME).value;
 
     return (

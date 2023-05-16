@@ -4,7 +4,9 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 
 import { LOCALE_DE } from '@gq/shared/constants';
+import { FeatureToggleDirective } from '@gq/shared/directives/feature-toggle/feature-toggle.directive';
 import { SAP_ERROR_MESSAGE_CODE } from '@gq/shared/models/quotation-detail';
+import { HelperService } from '@gq/shared/services/helper/helper.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { PushModule } from '@ngrx/component';
@@ -19,8 +21,6 @@ import {
   MATERIAL_TABLE_ITEM_MOCK,
   PROCESS_CASE_STATE_MOCK,
 } from '../../../../../testing/mocks';
-import { FeatureToggleDirective } from '../../../../shared/directives/feature-toggle/feature-toggle.directive';
-import { HelperService } from '../../../../shared/services/helper/helper.service';
 import { MaterialColumnFields } from '../../../ag-grid/constants/column-fields.enum';
 import { ValidationDescription } from '../../../models/table';
 import { AutocompleteInputComponent } from '../../autocomplete-input/autocomplete-input.component';
@@ -306,6 +306,12 @@ describe('EditingMaterialModalComponent', () => {
 
     describe('inputHasChanged', () => {
       test('should return false for no changes', () => {
+        Object.defineProperty(component, 'materialToEdit', {
+          value: MATERIAL_TABLE_ITEM_MOCK,
+        });
+        Object.defineProperty(component, 'targetPrice', {
+          value: MATERIAL_TABLE_ITEM_MOCK.targetPrice,
+        });
         component.matDescInput = {
           valueInput: {
             nativeElement: {
@@ -391,6 +397,21 @@ describe('EditingMaterialModalComponent', () => {
         component.editFormGroup.get = jest
           .fn()
           .mockReturnValue({ value: 'newQuantity' });
+
+        expect(component.inputHasChanged()).toBeTruthy();
+      });
+      test('should return true for changed targetPrice', () => {
+        component.targetPriceInput = {
+          valueInput: {
+            nativeElement: {
+              value: '10.00',
+            },
+          },
+        } as any;
+
+        component.editFormGroup.get = jest
+          .fn()
+          .mockReturnValue({ value: '10.10' });
 
         expect(component.inputHasChanged()).toBeTruthy();
       });
