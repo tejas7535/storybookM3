@@ -98,6 +98,34 @@ describe('TableService', () => {
         data[1],
       ]);
     });
+    test('when currency is empty in store, use the currency of updated item instead', () => {
+      const data: MaterialTableItem[] = [
+        {
+          ...MATERIAL_TABLE_ITEM_MOCK,
+          currency: undefined,
+          UoM: '1',
+          priceUnit: 100,
+          targetPrice: 150,
+        },
+        { ...MATERIAL_TABLE_ITEM_MOCK, id: 2 },
+      ];
+      const newItem = {
+        ...MATERIAL_TABLE_ITEM_MOCK,
+        quantity: 5,
+        currency: 'EUR',
+      };
+      const result = TableService.updateItem(newItem, data, false);
+
+      expect(result).toEqual([
+        {
+          ...newItem,
+          currency: 'EUR',
+          UoM: '1',
+          priceUnit: 100,
+        },
+        data[1],
+      ]);
+    });
   });
 
   describe('updateStatusAndCurrencyOnCustomerOrSalesOrgChanged', () => {

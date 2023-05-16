@@ -79,7 +79,7 @@ export class TableService {
           : {
               // matDesc || matNumber have NOT been changed, validation values will not change so use currency, priceUnit and UoM from existing item of store
               ...item,
-              currency: dataItem.currency,
+              currency: dataItem.currency ?? item.currency, // when currency is undefined try if changed item has a currency (add addCurrencyToMaterialItem might have been called before)
               priceUnit: dataItem.priceUnit,
               UoM: dataItem.UoM,
             };
