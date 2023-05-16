@@ -10,6 +10,7 @@ export interface BaseMaterial {
   manufacturerSupplierName?: string;
   manufacturerSupplierPlant?: string;
   manufacturerSupplierCountry?: string;
+  manufacturerSupplierRegion?: string;
   manufacturerSupplierSapSupplierIds?: string[];
 
   materialClass: MaterialClass;

@@ -590,6 +590,7 @@ export class DialogEffects {
                     title: row.manufacturerSupplierName,
                   } as StringOption,
                   supplierCountry: {
+                    id: row.manufacturerSupplierCountry,
                     title: row.manufacturerSupplierCountry,
                   } as StringOption,
                   supplierPlant: {

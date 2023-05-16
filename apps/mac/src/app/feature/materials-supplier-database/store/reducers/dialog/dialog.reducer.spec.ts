@@ -685,7 +685,6 @@ describe('dialogReducer', () => {
             ...state.dialogOptions,
             customManufacturerSupplierNames: ['1'],
             customManufacturerSupplierPlants: ['1'],
-            customManufacturerSupplierCountries: ['1'],
           },
         },
         action
@@ -756,7 +755,6 @@ describe('dialogReducer', () => {
           ...state.dialogOptions,
           customCastingDiameters: ['1'],
           customReferenceDocuments: ['1'],
-          customManufacturerSupplierCountries: ['1'],
           customMaterialStandardDocuments: ['1'],
           customManufacturerSupplierNames: ['1'],
           customManufacturerSupplierPlants: ['1'],
@@ -1078,52 +1076,6 @@ describe('dialogReducer', () => {
         dialogOptions: {
           ...state.dialogOptions,
           customManufacturerSupplierPlants: ['new', 'old'],
-        },
-      });
-    });
-
-    it('should set the custom supplier country if they are not defined', () => {
-      const action = DialogActions.addCustomSupplierCountry({
-        supplierCountry: 'new',
-      });
-      const newState = dialogReducer(
-        {
-          ...state,
-          dialogOptions: {
-            ...state.dialogOptions,
-            customManufacturerSupplierCountries: undefined,
-          },
-        },
-        action
-      );
-      expect(newState).toEqual({
-        ...state,
-        dialogOptions: {
-          ...state.dialogOptions,
-          customManufacturerSupplierCountries: ['new'],
-        },
-      });
-    });
-
-    it('should add a custom supplier country', () => {
-      const action = DialogActions.addCustomSupplierCountry({
-        supplierCountry: 'new',
-      });
-      const newState = dialogReducer(
-        {
-          ...state,
-          dialogOptions: {
-            ...state.dialogOptions,
-            customManufacturerSupplierCountries: ['old'],
-          },
-        },
-        action
-      );
-      expect(newState).toEqual({
-        ...state,
-        dialogOptions: {
-          ...state.dialogOptions,
-          customManufacturerSupplierCountries: ['new', 'old'],
         },
       });
     });

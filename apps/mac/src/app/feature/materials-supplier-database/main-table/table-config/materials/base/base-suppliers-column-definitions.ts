@@ -1,3 +1,4 @@
+import { translate } from '@ngneat/transloco';
 import { ColDef } from 'ag-grid-community';
 
 import {
@@ -5,6 +6,7 @@ import {
   MANUFACTURER_SUPPLIER_COUNTRY,
   MANUFACTURER_SUPPLIER_NAME,
   MANUFACTURER_SUPPLIER_PLANT,
+  MANUFACTURER_SUPPLIER_REGION,
   RECENT_STATUS,
   SAP_SUPPLIER_IDS,
 } from '@mac/msd/constants';
@@ -33,7 +35,23 @@ export const BASE_SUPPLIERS_COLUMN_DEFINITIONS: ColDef[] = [
     field: MANUFACTURER_SUPPLIER_COUNTRY,
     headerName: MANUFACTURER_SUPPLIER_COUNTRY,
     filterParams: FILTER_PARAMS,
+    filterValueGetter: (params) =>
+      `${translate(
+        `materialsSupplierDatabase.mainTable.tooltip.country.${params.data['manufacturerSupplierCountry']}`
+      )} (${params.data['manufacturerSupplierCountry']})`,
     cellRenderer: EditCellRendererComponent,
+    tooltipValueGetter: (params) => `country.${params.value}`,
+  },
+  {
+    field: MANUFACTURER_SUPPLIER_REGION,
+    headerName: MANUFACTURER_SUPPLIER_REGION,
+    filterParams: FILTER_PARAMS,
+    filterValueGetter: (params) =>
+      `${translate(
+        `materialsSupplierDatabase.mainTable.tooltip.region.${params.data['manufacturerSupplierRegion']}`
+      )} (${params.data['manufacturerSupplierRegion']})`,
+    cellRenderer: EditCellRendererComponent,
+    tooltipValueGetter: (params) => `region.${params.value}`,
   },
   {
     field: SAP_SUPPLIER_IDS,

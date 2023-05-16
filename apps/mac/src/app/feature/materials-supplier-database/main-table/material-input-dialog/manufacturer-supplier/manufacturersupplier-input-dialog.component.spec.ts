@@ -211,7 +211,7 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
         id: values.manufacturerSupplierId,
         name: values.supplier.title,
         plant: values.supplierPlant.title,
-        country: values.supplierCountry.title,
+        country: values.supplierCountry.id as string,
         manufacturer: values.manufacturer,
         sapIds: undefined,
       };
@@ -237,7 +237,7 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
         id: values.manufacturerSupplierId,
         name: values.supplier.title,
         plant: values.supplierPlant.title,
-        country: values.supplierCountry.title,
+        country: values.supplierCountry.id as string,
         manufacturer: values.manufacturer,
         sapIds: undefined,
       };
@@ -263,7 +263,7 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
         id: values.manufacturerSupplierId,
         name: values.supplier.title,
         plant: values.supplierPlant.title,
-        country: values.supplierCountry.title,
+        country: values.supplierCountry.id as string,
         manufacturer: values.manufacturer,
         sapIds: undefined,
       };
@@ -289,7 +289,7 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
         id: values.manufacturerSupplierId,
         name: values.supplier.title,
         plant: values.supplierPlant.title,
-        country: values.supplierCountry.title,
+        country: values.supplierCountry.id as string,
         manufacturer: values.manufacturer,
         sapIds: undefined,
       };

@@ -7,6 +7,7 @@ export const MATERIAL_NUMBERS = 'materialNumbers';
 export const MANUFACTURER_SUPPLIER_NAME = 'manufacturerSupplierName';
 export const MANUFACTURER_SUPPLIER_PLANT = 'manufacturerSupplierPlant';
 export const MANUFACTURER_SUPPLIER_COUNTRY = 'manufacturerSupplierCountry';
+export const MANUFACTURER_SUPPLIER_REGION = 'manufacturerSupplierRegion';
 export const MANUFACTURER_SUPPLIER_SELFCERTIFIED = 'selfCertified';
 export const SAP_SUPPLIER_IDS = 'sapSupplierIds';
 export const PRODUCT_CATEGORY = 'productCategoryText';

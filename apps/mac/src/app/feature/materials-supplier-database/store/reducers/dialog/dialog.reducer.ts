@@ -17,7 +17,6 @@ import {
   addCustomMaterialStandardDocument,
   addCustomMaterialStandardName,
   addCustomReferenceDocument,
-  addCustomSupplierCountry,
   addCustomSupplierName,
   addCustomSupplierPlant,
   addCustomSupplierSapId,
@@ -102,7 +101,6 @@ export interface DialogState {
     manufacturerSuppliers: ManufacturerSupplier[];
     customManufacturerSupplierNames: string[];
     customManufacturerSupplierPlants: string[];
-    customManufacturerSupplierCountries: string[];
     customManufacturerSupplierSapIds: string[];
     manufacturerSuppliersLoading: boolean;
     conditions: StringOption[];
@@ -643,7 +641,6 @@ export const dialogReducer = createReducer(
         ...state.dialogOptions,
         customManufacturerSupplierNames: undefined,
         customManufacturerSupplierPlants: undefined,
-        customManufacturerSupplierCountries: undefined,
         customManufacturerSupplierSapIds: undefined,
       },
     })
@@ -681,7 +678,6 @@ export const dialogReducer = createReducer(
         customMaterialStandardDocuments: undefined,
         customManufacturerSupplierNames: undefined,
         customManufacturerSupplierPlants: undefined,
-        customManufacturerSupplierCountries: undefined,
         customManufacturerSupplierSapIds: undefined,
         customMaterialStandardNames: undefined,
         // reset loading fields
@@ -790,22 +786,6 @@ export const dialogReducer = createReducer(
       dialogOptions: {
         ...state.dialogOptions,
         customManufacturerSupplierPlants: manufPlants,
-      },
-    };
-  }),
-
-  on(addCustomSupplierCountry, (state, { supplierCountry }): DialogState => {
-    const manufCountries = state.dialogOptions
-      .customManufacturerSupplierCountries
-      ? [...state.dialogOptions.customManufacturerSupplierCountries]
-      : [];
-    manufCountries.unshift(supplierCountry);
-
-    return {
-      ...state,
-      dialogOptions: {
-        ...state.dialogOptions,
-        customManufacturerSupplierCountries: manufCountries,
       },
     };
   }),

@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   Input,
@@ -16,7 +15,6 @@ import { StringOption } from '@schaeffler/inputs';
 
 import * as util from '@mac/msd/main-table/material-input-dialog/util';
 import {
-  addCustomSupplierCountry,
   addCustomSupplierName,
   addCustomSupplierPlant,
 } from '@mac/msd/store/actions/dialog';
@@ -26,9 +24,7 @@ import { DialogFacade } from '@mac/msd/store/facades/dialog';
   selector: 'mac-manufacturer-supplier',
   templateUrl: './manufacturer-supplier.component.html',
 })
-export class ManufacturerSupplierComponent
-  implements OnInit, AfterViewInit, OnDestroy
-{
+export class ManufacturerSupplierComponent implements OnInit, OnDestroy {
   @Input()
   public readonly: boolean;
   @Input()
@@ -87,17 +83,13 @@ export class ManufacturerSupplierComponent
       this.supplierPlantControl.valueChanges
         .pipe(takeUntil(this.destroy$))
         .subscribe((supplierPlant) => {
+          this.supplierCountryControl.reset();
           // enable only for new suppliers
-          const isEnabled = supplierPlant?.data === undefined;
-          if (isEnabled) {
-            this.supplierCountryControl.reset();
+          const isNew = supplierPlant?.data === undefined;
+          if (isNew) {
             this.supplierCountryControl.enable();
           } else {
-            const country = supplierPlant.data?.['supplierCountry'];
-            this.supplierCountryControl.setValue({
-              id: country,
-              title: country,
-            });
+            // it is useless to allow this, as this entry already exists!
             this.supplierCountryControl.disable();
           }
         });
@@ -133,6 +125,15 @@ export class ManufacturerSupplierComponent
         });
     } else if (this.editable) {
       // only needed in edit mode
+      // set form field values
+      this.supplierEditControl.setValue(this.supplierControl.value?.title);
+      this.supplierPlantEditControl.setValue(
+        this.supplierPlantControl.value?.title
+      );
+      this.supplierCountryEditControl.setValue(
+        this.supplierCountryControl.value?.title
+      );
+      // create subscribtions to update parent form fields
       this.supplierEditControl.valueChanges
         .pipe(takeUntil(this.destroy$))
         .subscribe((name) => this.mapToControl(this.supplierControl, name));
@@ -154,25 +155,10 @@ export class ManufacturerSupplierComponent
     value: string
   ): void {
     const newValue = {
+      id: value,
       title: value,
     } as StringOption;
     control.setValue(newValue);
-  }
-
-  ngAfterViewInit(): void {
-    if (this.editable) {
-      this.supplierEditControl.setValue(this.supplierControl.value?.title, {
-        emitEvent: false,
-      });
-      this.supplierPlantEditControl.setValue(
-        this.supplierPlantControl.value?.title,
-        { emitEvent: false }
-      );
-      this.supplierCountryEditControl.setValue(
-        this.supplierCountryControl.value?.title,
-        { emitEvent: false }
-      );
-    }
   }
 
   public ngOnDestroy(): void {
@@ -186,9 +172,5 @@ export class ManufacturerSupplierComponent
 
   public addSupplierPlant(supplierPlant: string): void {
     this.dialogFacade.dispatch(addCustomSupplierPlant({ supplierPlant }));
-  }
-
-  public addSupplierCountry(supplierCountry: string): void {
-    this.dialogFacade.dispatch(addCustomSupplierCountry({ supplierCountry }));
   }
 }

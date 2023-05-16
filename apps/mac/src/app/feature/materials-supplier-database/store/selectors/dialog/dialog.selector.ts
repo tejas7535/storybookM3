@@ -6,6 +6,7 @@ import { createSelector, MemoizedSelector, select } from '@ngrx/store';
 
 import { StringOption } from '@schaeffler/inputs';
 
+import { SUPPORTED_SUPPLIER_COUNTRIES } from '@mac/feature/materials-supplier-database/constants';
 import * as fromStore from '@mac/msd/store/reducers';
 
 const TOOLTIP_DELAY = 1500;
@@ -158,10 +159,7 @@ export const getCustomSupplierPlants = createSelector(
   getMaterialDialogOptions,
   (dialogOptions) => dialogOptions.customManufacturerSupplierPlants
 );
-export const getCustomSupplierCountries = createSelector(
-  getMaterialDialogOptions,
-  (dialogOptions) => dialogOptions.customManufacturerSupplierCountries
-);
+
 export const getCustomSupplierSapIds = createSelector(
   getMaterialDialogOptions,
   (dialogOptions) => dialogOptions.customManufacturerSupplierSapIds
@@ -329,19 +327,15 @@ export const getSupplierPlantStringOptions = createSelector(
 );
 
 export const getSupplierCountryStringOptions = createSelector(
-  getMaterialDialogSuppliers,
-  (suppliers): StringOption[] =>
-    suppliers
-      ?.filter(
-        (supplier) =>
-          !!supplier && !!supplier.country && supplier.country.trim() !== ''
-      )
-      .map((supplier) => ({
-        id: supplier.country,
-        title: supplier.country,
-        tooltip: supplier.country,
-        tooltipDelay: TOOLTIP_DELAY,
-      }))
+  (): StringOption[] =>
+    SUPPORTED_SUPPLIER_COUNTRIES.map((country) => ({
+      id: country,
+      title: `${translate(
+        `materialsSupplierDatabase.mainTable.tooltip.country.${country}`
+      )} (${country})`,
+      tooltip: country,
+      tooltipDelay: TOOLTIP_DELAY,
+    }))
       .filter(Boolean)
       .sort(stringOptionsSortFn) || []
 );
@@ -390,27 +384,6 @@ export const getSupplierPlantsStringOptionsMerged = createSelector(
   getCustomSupplierPlants,
   (supplierOptions, customSupplierPlants): StringOption[] => {
     const customOptions: StringOption[] = (customSupplierPlants || []).map(
-      (value) =>
-        ({
-          id: undefined,
-          title: value,
-          tooltip: value,
-          tooltipDelay: TOOLTIP_DELAY,
-        } as StringOption)
-    );
-    customOptions.push(...supplierOptions);
-
-    return customOptions;
-  }
-);
-
-export const getSupplierCountriesStringOptionsMerged = createSelector(
-  getUniqueStringOptionsWithCompareDataStringified(
-    getSupplierCountryStringOptions
-  ),
-  getCustomSupplierCountries,
-  (supplierOptions, customSupplierCountries): StringOption[] => {
-    const customOptions: StringOption[] = (customSupplierCountries || []).map(
       (value) =>
         ({
           id: undefined,

@@ -9,7 +9,11 @@ import { translate } from '@ngneat/transloco';
 import { StringOption } from '@schaeffler/inputs';
 
 import { environment } from '@mac/environments/environment';
-import { MaterialClass, SupportedMaterialClasses } from '@mac/msd/constants';
+import {
+  MAP_COUNTRY_TO_REGION,
+  MaterialClass,
+  SupportedMaterialClasses,
+} from '@mac/msd/constants';
 import {
   ManufacturerSupplier,
   ManufacturerSupplierTableValue,
@@ -144,6 +148,9 @@ export class MsdDataService {
       manufacturerSupplierPlant: materialResponse.manufacturerSupplier.plant,
       manufacturerSupplierCountry:
         materialResponse.manufacturerSupplier.country,
+      manufacturerSupplierRegion: MAP_COUNTRY_TO_REGION(
+        materialResponse.manufacturerSupplier.country
+      ),
       materialClass: materialResponse.materialClass as MaterialClass,
       selfCertified: findProperty(materialResponse, 'selfCertified'),
       manufacturer: findProperty(
@@ -244,6 +251,9 @@ export class MsdDataService {
       manufacturerSupplierName: manufacturerSupplier.name,
       manufacturerSupplierPlant: manufacturerSupplier.plant,
       manufacturerSupplierCountry: manufacturerSupplier.country,
+      manufacturerSupplierRegion: MAP_COUNTRY_TO_REGION(
+        manufacturerSupplier.country
+      ),
       manufacturer: findProperty(manufacturerSupplier, 'manufacturer'),
       sapSupplierIds: findProperty<string[]>(manufacturerSupplier, 'sapIds'),
       lastModified: manufacturerSupplier.timestamp,

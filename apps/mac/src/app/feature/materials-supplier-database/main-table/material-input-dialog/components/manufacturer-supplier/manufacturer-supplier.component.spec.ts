@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
@@ -15,7 +16,6 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { ManufacturerSupplier } from '@mac/feature/materials-supplier-database/models';
 import {
-  addCustomSupplierCountry,
   addCustomSupplierName,
   addCustomSupplierPlant,
 } from '@mac/msd/store/actions/dialog';
@@ -62,6 +62,7 @@ describe('ManufacturerSupplierComponent', () => {
       MatFormFieldModule,
       MatInputModule,
       MatIconModule,
+      MatSelectModule,
       PushModule,
       ReactiveFormsModule,
       SelectModule,
@@ -110,13 +111,15 @@ describe('ManufacturerSupplierComponent', () => {
         };
         supplierCountryControl.reset = jest.fn();
         supplierCountryControl.enable = jest.fn();
+        supplierCountryControl.setValue = jest.fn();
 
         supplierPlantControl.setValue(mockSupplierPlant);
 
+        expect(supplierCountryControl.setValue).not.toHaveBeenCalled();
         expect(supplierCountryControl.reset).toHaveBeenCalled();
         expect(supplierCountryControl.enable).toHaveBeenCalled();
       });
-      it('should set the country and disable the control if it is defined in the plant data', () => {
+      it('should disable country control if plant data is available', () => {
         const mockSupplierPlant = {
           ...mockSupplierPlantBase,
           data: {
@@ -125,13 +128,12 @@ describe('ManufacturerSupplierComponent', () => {
         };
         supplierCountryControl.setValue = jest.fn();
         supplierCountryControl.disable = jest.fn();
+        supplierCountryControl.reset = jest.fn();
 
         supplierPlantControl.setValue(mockSupplierPlant);
 
-        expect(supplierCountryControl.setValue).toHaveBeenCalledWith({
-          id: 'country',
-          title: 'country',
-        });
+        expect(supplierCountryControl.reset).toHaveBeenCalled();
+        expect(supplierCountryControl.setValue).not.toHaveBeenCalled();
         expect(supplierCountryControl.disable).toHaveBeenCalled();
       });
     });
@@ -220,32 +222,41 @@ describe('ManufacturerSupplierComponent', () => {
     });
 
     describe('EDIT', () => {
+      const val = 'sth';
+      const so = { title: val, id: val } as StringOption;
       beforeAll(() => {
         editable = true;
         readonly = false;
       });
       it('should update supplier name', () => {
-        const val = 'sth';
-        const so = { title: val } as StringOption;
-
         component.supplierEditControl.setValue(val);
         expect(component.supplierControl.value).toEqual(so);
       });
       it('should update supplier Plant', () => {
-        const val = 'sth';
-        const so = { title: val } as StringOption;
-
         component.supplierPlantEditControl.setValue(val);
         expect(component.supplierPlantControl.value).toEqual(so);
       });
       it('should update supplier country', () => {
-        const val = 'sth';
-        const so = { title: val } as StringOption;
-
         component.supplierCountryEditControl.setValue(val);
         expect(component.supplierCountryControl.value).toEqual(so);
       });
+      it('should prefill edit fields', () => {
+        // set
+        component.supplierControl.setValue({ title: 'name' } as StringOption);
+        component.supplierPlantControl.setValue({
+          title: 'plant',
+        } as StringOption);
+        component.supplierCountryControl.setValue({
+          title: 'country',
+        } as StringOption);
+        component.ngOnInit();
+
+        expect(component.supplierEditControl.value).toBe('name');
+        expect(component.supplierPlantEditControl.value).toBe('plant');
+        expect(component.supplierCountryEditControl.value).toBe('country');
+      });
     });
+
     describe('readonly', () => {
       beforeEach(() => {
         readonly = true;
@@ -262,31 +273,6 @@ describe('ManufacturerSupplierComponent', () => {
       it('should not have any subscriptions', () => {
         expect(component.supplierEditControl.value).toBe(undefined);
       });
-    });
-  });
-
-  describe('ngAfterViewInit', () => {
-    afterEach(() => {
-      editable = false;
-      component.editable = false;
-      readonly = false;
-    });
-    it('should prefill edit fields', () => {
-      component.editable = true;
-      readonly = false;
-      // set
-      component.supplierControl.setValue({ title: 'name' } as StringOption);
-      component.supplierPlantControl.setValue({
-        title: 'plant',
-      } as StringOption);
-      component.supplierCountryControl.setValue({
-        title: 'country',
-      } as StringOption);
-      component.ngAfterViewInit();
-
-      expect(component.supplierEditControl.value).toBe('name');
-      expect(component.supplierPlantEditControl.value).toBe('plant');
-      expect(component.supplierCountryEditControl.value).toBe('country');
     });
   });
 
@@ -324,19 +310,6 @@ describe('ManufacturerSupplierComponent', () => {
 
       expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
         addCustomSupplierPlant({ supplierPlant })
-      );
-    });
-  });
-
-  describe('addSupplierCountry', () => {
-    it('should dispatch the action', () => {
-      component['dialogFacade'].dispatch = jest.fn();
-      const supplierCountry = 'test';
-
-      component.addSupplierCountry(supplierCountry);
-
-      expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
-        addCustomSupplierCountry({ supplierCountry })
       );
     });
   });

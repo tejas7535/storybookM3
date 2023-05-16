@@ -28,7 +28,7 @@ import {
   getResumeDialogData,
   getSteelMakingProcessesInUse,
   getStringOptions,
-  getSupplierCountriesStringOptionsMerged,
+  getSupplierCountryStringOptions,
   getSupplierNameStringOptionsMerged,
   getSupplierPlantsStringOptionsMerged,
   getSupplierSapIdsStringOptionsMerged,
@@ -49,9 +49,7 @@ export class DialogFacade {
   materialNames$ = this.store.select(getMaterialNameStringOptionsMerged);
   suppliers$ = this.store.select(getSupplierNameStringOptionsMerged);
   supplierPlants$ = this.store.select(getSupplierPlantsStringOptionsMerged);
-  supplierCountries$ = this.store.select(
-    getSupplierCountriesStringOptionsMerged
-  );
+  supplierCountries$ = this.store.select(getSupplierCountryStringOptions);
   supplierSapIds$ = this.store.select(getSupplierSapIdsStringOptionsMerged);
 
   castingModes$ = this.store.select(getMaterialDialogCastingModes);

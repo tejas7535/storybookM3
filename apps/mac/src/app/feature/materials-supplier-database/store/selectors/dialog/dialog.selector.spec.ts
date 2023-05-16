@@ -6,6 +6,7 @@ import { marbles } from 'rxjs-marbles';
 
 import { StringOption } from '@schaeffler/inputs';
 
+import { SUPPORTED_SUPPLIER_COUNTRIES } from '@mac/feature/materials-supplier-database/constants';
 import {
   DataResult,
   ManufacturerSupplier,
@@ -676,20 +677,15 @@ describe('DialogSelectors', () => {
     });
 
     it('should return the supplier countries as StringOptions', () => {
-      const expected: StringOption[] = [
-        {
-          id: 'country1',
-          title: 'country1',
-          tooltip: 'country1',
-          tooltipDelay: 1500,
-        },
-        {
-          id: 'country2',
-          title: 'country2',
-          tooltip: 'country2',
-          tooltipDelay: 1500,
-        },
-      ];
+      const expected = SUPPORTED_SUPPLIER_COUNTRIES.sort().map(
+        (c) =>
+          ({
+            id: c,
+            title: `${c} (${c})`,
+            tooltip: c,
+            tooltipDelay: 1500,
+          } as StringOption)
+      );
 
       const result =
         DialogSelectors.getSupplierCountryStringOptions.projector(
@@ -697,27 +693,6 @@ describe('DialogSelectors', () => {
         );
 
       expect(result).toEqual(expected);
-    });
-
-    it('should return the supplier countries including Customs as StringOptions', () => {
-      const result =
-        DialogSelectors.getSupplierCountriesStringOptionsMerged.projector(
-          mockStringOptions,
-          mockCustoms
-        );
-
-      expect(result).toEqual(mockCustomStringOptions);
-    });
-    it('should return the supplier countries with undefined Customs as StringOptions', () => {
-      const mockCustom: string[] = undefined;
-
-      const result =
-        DialogSelectors.getSupplierCountriesStringOptionsMerged.projector(
-          mockStringOptions,
-          mockCustom
-        );
-
-      expect(result).toEqual(mockStringOptions);
     });
   });
 

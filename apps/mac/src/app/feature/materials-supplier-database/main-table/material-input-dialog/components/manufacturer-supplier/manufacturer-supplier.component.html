@@ -62,13 +62,14 @@
         />
       </mat-form-field>
       <mat-form-field appearance="outline" class="w-full" floatLabel="always">
+        <mat-select required [formControl]="supplierCountryEditControl">
+          <mat-option
+            *ngFor="let country of supplierCountries$ | ngrxPush"
+            [value]="country.id"
+            >{{ country.title }}</mat-option
+          >
+        </mat-select>
         <mat-label>{{ t('supplierCountry') }}</mat-label>
-        <input
-          matInput
-          [formControl]="supplierCountryEditControl"
-          name="manufacturerSupplierCountry"
-          #dialogControl
-        />
       </mat-form-field>
     </ng-container>
     <!-- default (SELECT) -->
@@ -114,17 +115,16 @@
         </div>
       </schaeffler-select>
       <schaeffler-select
+        [ngClass]="{ '!hidden': supplierCountryControl.disabled }"
         appearance="outline"
         class="w-full"
         [stringOptions]="supplierCountries$ | ngrxPush"
         [control]="supplierCountryControl"
         [label]="t('supplierCountry')"
-        [addEntry]="true"
         [filterFn]="filterFn"
         [showTriggerTooltip]="true"
         triggerTooltipDelay="1500"
         tooltipPosition="right"
-        (entryAdded)="addSupplierCountry($event)"
         name="manufacturerSupplierCountry"
         #dialogControl
       >

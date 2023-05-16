@@ -156,7 +156,7 @@ export class ManufacturerSupplierInputDialogComponent
 
     const supplier: ManufacturerSupplier = {
       id: baseMaterial.id,
-      country: baseMaterial.country.title,
+      country: baseMaterial.country.id as string,
       name: baseMaterial.name.title,
       plant: baseMaterial.plant.title,
       sapIds: baseMaterial.sapSupplierIds?.map((so) => so.title as string),
