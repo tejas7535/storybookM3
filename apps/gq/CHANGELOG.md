@@ -1,4 +1,54 @@
 # Release Notes of Guided Quoting
+## [3.6.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v3.5.0...gq-v3.6.0) (2023-05-16)
+
+
+### Features
+
+* **gq:** add autoApproval button (GQUOTE-2392) ([#5247](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5247)) ([3810f1c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3810f1ce67b2a2affb6836eeb167af250d19b0a8))
+* **gq:** add featureToggle for TargetPrice in Table and Pricing details (GQUOTE-2173/ GQUOTE-2202) ([#5224](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5224)) ([9ddd050](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9ddd050d37b56732de1763164a0a21d693c2e7a0))
+* **gq:** add info icon for target price column in details table ([#5235](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5235)) ([7347e5c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7347e5c9852239bc103e406baeef110d490b84d3))
+* **gq:** add save button on release modal ([#5238](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5238)) ([5e97cb0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5e97cb01daf776aebfc0244af5c2643844b75fc0))
+* **gq:** add select for 3rd approver (GQUOTE-2391) ([#5243](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5243)) ([2fa903f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2fa903f8456142b116e64d25b1dacc9cebf4422b))
+* **gq:** add target price as a price source for simulation (GQUOTE-2412) ([#5230](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5230)) ([6622b82](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6622b8241591c1c525e1cf020d227ecdacf9b037))
+* **gq:** add target price field to add material Dialog and to materials table (GQUOTE-2410) ([#5198](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5198)) ([7b1bc08](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7b1bc085c00ffae3871a7ba17cee573fddf1faad))
+* **gq:** add target price in quotation detail table (GQUOTE-2173) ([#5217](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5217)) ([b89dc86](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b89dc869860775213283e8236d37a6f27e62bafd))
+* **gq:** add target price to the item details (GQUOTE-2202) ([#5221](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5221)) ([acc7ced](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/acc7cedd48d1de0507026614e1f9683cc70e8f9f))
+* **gq:** adjust ship to party autocomplete (GQUOTE-2483) ([#5251](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5251)) ([7d69280](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7d692804d17f046a7d3a09b4e7da91f9f4739af8))
+* **gq:** create active case store ([#5240](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5240)) ([37a9fa1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/37a9fa1c68e072a362c2329422ddb22c3cd5b2c8))
+* **gq:** create service for getting approvers (GQUOTE-2466) ([#5249](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5249)) ([794e7c3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/794e7c3203fa112233162a1992564ee5e84f9001))
+* **gq:** edit targetPrice from addMaterialTable (GQUOTE-2400) ([#5222](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5222)) ([824aff8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/824aff8f0c011017e523199c16b199ed3f681992))
+* **gq:** extend paste service to handle target price when pasting from clipboard (GQUOTE-2408) ([#5187](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5187)) ([58e82d6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/58e82d69b1ddf9b4986264adf0d17f85e7212ece))
+* **gq:** fix typo in translation (GQUOTE-2497) ([#5259](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5259)) ([9b150f0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9b150f02a82cae135afb62ed2758d7f46fa2b510))
+* **gq:** implement store items for approval feature store (GQUOTE-2463) ([#5245](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5245)) ([bbbfb60](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bbbfb60877b112ff0fb6338b5a37191bd2c919ed))
+* **gq:** round target price to two decimals when pasting ([#5246](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5246)) ([59bd61a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/59bd61a04a4d196911cedcb8f6428b1297dcf9db))
+* **gq:** set max length limit of textarea in approval and release modal to 1000 (GQUOTE-2450) ([#5237](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5237)) ([43162cb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/43162cb9cad4d318f7e72c293f3d9db4b849f98a))
+* **gq:** target price editing and refactoring of editing modal (GQUOTE-2359 & GQUOTE-2358) ([#5276](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5276)) ([c53867b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c53867b1b16dcad7b2b3d5ca9f1a68b0f270f3dd))
+* **gq:** update translation for RLT add Transit (GQUOTE-2250) ([#5283](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5283)) ([766c27d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/766c27dfe878590c7f1a38624f16d32df4da26d2))
+* **gq:** use matAutocomplete for approvalSelection (GQUOTE-2465) ([#5255](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5255)) ([2a7e8aa](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2a7e8aa52cef3af700e520bf04a2ed37d3419275))
+* replace font styles with m3 standard ([#5211](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5211)) ([0ef134c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0ef134c2cb41319de679919be47c318f010ce6c5))
+
+
+### Bug Fixes
+
+* **gq:** add currency after editing material table item (GQUOTE-2400) ([#5228](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5228)) ([23d99ea](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/23d99ea9554e427b2e0d563d56bec94154505a5b))
+* **gq:** add delivery unit in warning message ([#5232](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5232)) ([6be612f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6be612fabc739b701dcebba52805d3ab203024eb))
+* **gq:** add error interceptor for createCustomerCase error (GQUOTE-2433) ([#5278](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5278)) ([a07e090](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a07e090f7be5df07321e59c21f364c5c013b774b))
+* **gq:** add missing field errorCode in validation info (GQUOTE-2456) ([#5252](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5252)) ([f8d5e1f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f8d5e1fe60b845790459e52dd1ebc27d2d5f9425))
+* **gq:** added missing snackbar message for target price update (GQUOTE-2359) ([#5285](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5285)) ([2c464cc](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2c464cc2f3f266003f7e4c6a340042346add900b))
+* **gq:** allow price editing only if the user has the needed role (GQUOTE-2461) ([#5284](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5284)) ([47e418f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/47e418fbd7d8985fea2453b779af64b8767967cf))
+* **gq:** calculate margin only if cost value is grater than 0 (GQUOTE-2439) ([#5233](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5233)) ([6649b3e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6649b3e0824d50644bab209f310843aa9ce0115f))
+* **gq:** disable autofocus when opening editing-material-modal (GQUOTE-2382) ([#5212](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5212)) ([a4136fd](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a4136fd3986ee6f828061b409d90eeadb2f1a8fe))
+* **gq:** display correct price unit for manual pricing (GQUOTE-2462) ([#5239](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5239)) ([d35cf56](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d35cf56d9e3e877a7bcd5375fe62afbd8add27ae))
+* **gq:** do not enable button, when no changes in material edit dialog (GQUOTE-2480) ([#5275](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5275)) ([691de54](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/691de54bd378cd1ba0ef2b013bc300c0e9a4cb98))
+* **gq:** do not keep previous elements from the autocomplete results set in the store (GQUOTE-2493) ([#5286](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5286)) ([f56be1f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f56be1f806ba48c2b843a3ac17d66ba2999dc563))
+* **gq:** fix issues with approver autocomplete list rendering (GQUOTE-2524) ([#5280](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5280)) ([3538247](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/35382474a9dda378d46d859d800c34185d3e74ca))
+* **gq:** fix loading salesOrgs on selecting customerAndShipToParty (GQUOTE-2491) ([#5263](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5263)) ([6ec5299](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6ec52996a23758240720fce6ab3436035d0a1010))
+* **gq:** fix validation on margin calculation (GQUOTE-2453) ([#5270](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5270)) ([a6f0337](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a6f0337e880b200900455de5916091a42931371c))
+* **gq:** layout improvement, spelling and regex fix (GQUOTE-2358) ([#5289](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5289)) ([f83426e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f83426ef762774765bd0baf1690d9fd482c49b94))
+* **gq:** prevent errorMessage in testFile (GQUOTE-2498) ([#5261](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5261)) ([c68b082](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c68b08240467689fd2eb01850c32f944a72e7721))
+* **gq:** set currency to material table when item has been updated (GQUOTE-2479) ([#5271](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5271)) ([04312bb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/04312bb84e43f0547947fb4ce7fe4ad2c95e5f3f))
+* **gq:** update detail information during local navigation ([#5269](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5269)) ([98924fc](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/98924fc5839b1757094ef900bbd3cdce88cac920))
+
 ## [3.5.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v3.4.0...gq-v3.5.0) (2023-04-13)
 
 
