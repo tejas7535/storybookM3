@@ -13,7 +13,7 @@ import {
   activeCaseFeature,
   getIsQuotationStatusActive,
 } from '@gq/core/store/active-case';
-import { userHasManualPriceRole } from '@gq/core/store/selectors';
+import { userHasManualPriceRole, userHasRole } from '@gq/core/store/selectors';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
@@ -149,7 +149,21 @@ export class ExtendedColumnHeaderComponent
       return;
     }
 
+    if (this.params.editingRole) {
+      this.store
+        .pipe(userHasRole(this.params.editingRole))
+        .pipe(take(1))
+        .subscribe((userHasNeededRole: boolean) =>
+          this.shouldShowEditIcon(userHasNeededRole)
+        );
+    } else {
+      this.shouldShowEditIcon(true);
+    }
+  }
+
+  private shouldShowEditIcon(userHasNeededEditingRole: boolean): void {
     this.showEditIcon =
+      userHasNeededEditingRole &&
       this.params.api.getSelectedRows()?.length > 0 &&
       (this.isPriceSource // We do not need to check if there is data available in the column priceSource
         ? true

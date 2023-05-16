@@ -39,15 +39,12 @@ export const getColumnDefsForRoles = (colDef: ColDef[]) =>
 export const filterRoles = (roles: string[], prefix: string): string[] =>
   roles.filter((role) => role.includes(prefix));
 
-export const userHasGPCRole = pipe(
-  getRoles,
-  map((roles: string[]): boolean => roles.includes(UserRoles.COST_GPC))
-);
-export const userHasManualPriceRole = pipe(
-  getRoles,
-  map((roles: string[]): boolean => roles.includes(UserRoles.MANUAL_PRICE))
-);
-export const userHasSQVRole = pipe(
-  getRoles,
-  map((roles: string[]): boolean => roles.includes(UserRoles.COST_SQV))
-);
+export const userHasRole = (role: UserRoles) =>
+  createSelector(
+    getRoles,
+    map((roles: string[]): boolean => roles.includes(role))
+  );
+
+export const userHasGPCRole = userHasRole(UserRoles.COST_GPC);
+export const userHasManualPriceRole = userHasRole(UserRoles.MANUAL_PRICE);
+export const userHasSQVRole = userHasRole(UserRoles.COST_SQV);

@@ -10,6 +10,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { of } from 'rxjs';
 
 import { getIsQuotationStatusActive } from '@gq/core/store/active-case';
+import { UserRoles } from '@gq/shared/constants';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { mockProvider } from '@ngneat/spectator/jest';
@@ -79,6 +80,18 @@ describe('ExtendedColumnHeaderComponent', () => {
       provideMockStore({
         initialState: {
           processCase: PROCESS_CASE_STATE_MOCK,
+          'azure-auth': {
+            accountInfo: {
+              idTokenClaims: {
+                roles: [
+                  UserRoles.BASIC,
+                  UserRoles.COST_GPC,
+                  UserRoles.REGION_WORLD,
+                  UserRoles.SECTOR_ALL,
+                ],
+              },
+            },
+          },
         },
       }),
       {
@@ -390,6 +403,39 @@ describe('ExtendedColumnHeaderComponent', () => {
 
       expect(component.showEditIcon).toBe(false);
     });
+
+    it('should show the edit icon after row selection if the user has the needed role', () => {
+      spectator.detectChanges();
+      component.params.api.getSelectedRows = jest
+        .fn()
+        .mockReturnValue([{ price: 10 } as QuotationDetail]);
+
+      component.agInit({
+        ...DEFAULT_PARAMS,
+        editingRole: UserRoles.BASIC,
+      });
+
+      component.updateShowEditIcon();
+
+      expect(component.showEditIcon).toBe(true);
+    });
+
+    it('should not show the edit icon after row selection if the user does not have the needed role', () => {
+      spectator.detectChanges();
+      component.params.api.getSelectedRows = jest
+        .fn()
+        .mockReturnValue([{ price: 10 } as QuotationDetail]);
+
+      component.agInit({
+        ...DEFAULT_PARAMS,
+        editingRole: UserRoles.MANUAL_PRICE,
+      });
+
+      component.updateShowEditIcon();
+
+      expect(component.showEditIcon).toBe(false);
+    });
+
     describe('priceSource edge cases', () => {
       it('should not show edit icon if only gq price available', () => {
         component.isPriceSource = true;

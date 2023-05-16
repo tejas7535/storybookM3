@@ -1,18 +1,19 @@
 import { TestBed } from '@angular/core/testing';
 
+import { ColumnUtilityService } from '@gq/shared/ag-grid/services/column-utility.service';
+import { UserRoles } from '@gq/shared/constants/user-roles.enum';
+import { RoleGroup } from '@gq/shared/models';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { ColDef } from 'ag-grid-enterprise';
 import { marbles } from 'rxjs-marbles';
 
-import { ColumnUtilityService } from '../../../../shared/ag-grid/services/column-utility.service';
-import { UserRoles } from '../../../../shared/constants/user-roles.enum';
-import { RoleGroup } from '../../../../shared/models';
 import {
   filterRoles,
   getAllRoles,
   getColumnDefsForRoles,
   userHasGPCRole,
   userHasManualPriceRole,
+  userHasRole,
   userHasSQVRole,
 } from './roles.selector';
 
@@ -191,6 +192,38 @@ describe('shared selector', () => {
         const expected = m.cold('a', { a: false });
 
         const result = store.pipe(userHasManualPriceRole);
+
+        m.expect(result).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('userHasRole', () => {
+    test(
+      'should return true',
+      marbles((m) => {
+        const expected = m.cold('a', { a: true });
+
+        const result = store.pipe(userHasRole(UserRoles.BASIC));
+
+        m.expect(result).toBeObservable(expected);
+      })
+    );
+    test(
+      'should return false',
+      marbles((m) => {
+        store.setState({
+          'azure-auth': {
+            accountInfo: {
+              idTokenClaims: {
+                roles: [],
+              },
+            },
+          },
+        });
+        const expected = m.cold('a', { a: false });
+
+        const result = store.pipe(userHasRole(UserRoles.BASIC));
 
         m.expect(result).toBeObservable(expected);
       })

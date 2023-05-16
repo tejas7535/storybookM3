@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 
-import { distinctUntilChanged, Observable } from 'rxjs';
+import { distinctUntilChanged, Observable, take } from 'rxjs';
 
 import { getSimulatedQuotationDetailByItemId } from '@gq/core/store/active-case/active-case.selectors';
+import { userHasRole } from '@gq/core/store/selectors';
 import { QuotationDetailsTableValidationService } from '@gq/process-case-view/quotation-details-table/services/quotation-details-table-validation.service';
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { EditingModalService } from '@gq/shared/components/modal/editing-modal/editing-modal.service';
@@ -69,14 +70,16 @@ export class EditCellComponent implements ICellRendererAngularComp {
   }
 
   handleCellEditing(params: ExtendedEditCellClassParams): void {
-    this.isCellEditingAllowed =
-      // editing is enabled
-      (!params.condition.enabled ||
-        params.data[params.condition.conditionField]) &&
-      params.field !== ColumnFields.PRICE_DIFF &&
-      params.field !== ColumnFields.RLM &&
-      params.field !== ColumnFields.NET_VALUE &&
-      params.field !== ColumnFields.PRICE_SOURCE;
+    if (params.role) {
+      this.store
+        .pipe(userHasRole(params.role), take(1))
+        .pipe(take(1))
+        .subscribe((userHasNeededRole: boolean) =>
+          this.setCellEditingAllowed(params, userHasNeededRole)
+        );
+    } else {
+      this.setCellEditingAllowed(params, true);
+    }
   }
 
   handleInvalidStates(params: ExtendedEditCellClassParams): void {
@@ -134,5 +137,20 @@ export class EditCellComponent implements ICellRendererAngularComp {
 
   refresh() {
     return true;
+  }
+
+  private setCellEditingAllowed(
+    params: ExtendedEditCellClassParams,
+    userHasNeededRole: boolean
+  ): void {
+    this.isCellEditingAllowed =
+      // editing is enabled
+      (!params.condition.enabled ||
+        params.data[params.condition.conditionField]) &&
+      userHasNeededRole &&
+      params.field !== ColumnFields.PRICE_DIFF &&
+      params.field !== ColumnFields.RLM &&
+      params.field !== ColumnFields.NET_VALUE &&
+      params.field !== ColumnFields.PRICE_SOURCE;
   }
 }

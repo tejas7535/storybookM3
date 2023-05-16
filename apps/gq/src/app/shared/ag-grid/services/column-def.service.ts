@@ -8,7 +8,7 @@ import {
   ValueGetterParams,
 } from 'ag-grid-enterprise';
 
-import { timestampRegex } from '../../constants';
+import { timestampRegex, UserRoles } from '../../constants';
 import { Keyboard } from '../../models';
 import { SAP_SYNC_STATUS } from '../../models/quotation-detail';
 import { FreeStockCellComponent } from '../cell-renderer/free-stock/free-stock-cell/free-stock-cell.component';
@@ -158,6 +158,7 @@ export class ColumnDefService {
       cellRenderer: 'EditCellComponent',
       cellRendererParams: {
         condition: { enabled: false },
+        role: UserRoles.MANUAL_PRICE,
         field: ColumnFields.PRICE,
       } as EditCellData,
       filter: NUMBER_COLUMN_FILTER,
@@ -167,6 +168,7 @@ export class ColumnDefService {
           'shared.quotationDetailsTable.priceInfoText'
         ),
         editableColumn: true,
+        editingRole: UserRoles.MANUAL_PRICE,
       },
     },
     {

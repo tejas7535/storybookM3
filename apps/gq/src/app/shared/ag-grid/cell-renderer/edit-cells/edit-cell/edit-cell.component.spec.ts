@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { EditingModalService } from '@gq/shared/components/modal/editing-modal/editing-modal.service';
+import { UserRoles } from '@gq/shared/constants';
 import {
   createComponentFactory,
   mockProvider,
@@ -39,6 +40,18 @@ describe('EditCellComponent', () => {
         initialState: {
           activeCase: {
             ...ACTIVE_CASE_STATE_MOCK,
+          },
+          'azure-auth': {
+            accountInfo: {
+              idTokenClaims: {
+                roles: [
+                  UserRoles.BASIC,
+                  UserRoles.COST_GPC,
+                  UserRoles.REGION_WORLD,
+                  UserRoles.SECTOR_ALL,
+                ],
+              },
+            },
           },
         },
       }),
@@ -333,6 +346,36 @@ describe('EditCellComponent', () => {
       component.handleCellEditing(params);
 
       expect(component.isCellEditingAllowed).toBeTruthy();
+    });
+
+    test('should allow cell editing if user has the needed role', () => {
+      const params = {
+        data: QUOTATION_DETAIL_MOCK,
+        field: ColumnFields.PRICE,
+        condition: {
+          enabled: false,
+        },
+        role: UserRoles.BASIC,
+      } as any;
+
+      component.handleCellEditing(params);
+
+      expect(component.isCellEditingAllowed).toBeTruthy();
+    });
+
+    test('should not allow cell editing if user does not have the needed role', () => {
+      const params = {
+        data: QUOTATION_DETAIL_MOCK,
+        field: ColumnFields.PRICE,
+        condition: {
+          enabled: false,
+        },
+        role: UserRoles.MANUAL_PRICE,
+      } as any;
+
+      component.handleCellEditing(params);
+
+      expect(component.isCellEditingAllowed).toBeFalsy();
     });
   });
 
