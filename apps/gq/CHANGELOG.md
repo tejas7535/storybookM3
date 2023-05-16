@@ -1,4 +1,11 @@
 # Release Notes of Guided Quoting
+## [3.6.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v3.6.0...gq-v3.6.1) (2023-05-16)
+
+
+### Features
+
+* **gq:** enable targetPrice feature toggle ([#5295](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5295)) ([4e82f9c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4e82f9c881821163e65d963bad72731c315a6bb5))
+
 ## [3.6.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v3.5.0...gq-v3.6.0) (2023-05-16)
 
 
