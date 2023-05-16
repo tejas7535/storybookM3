@@ -90,7 +90,7 @@
       "supplyPlantStType": "Stochastiktyp (Lieferwerk)",
       "productionPlant": "Produktionswerk",
       "productionPlantStType": "Stochastiktyp (Produktionswerk)",
-      "productionPlantRlt": "Produktionswerk WBZ",
+      "productionPlantRltAndTransit": "WBZ + Transit",
       "stochasticTypes": {
         "1": "PTA: Produce to Availability",
         "2": "PTS: Produce to Series",

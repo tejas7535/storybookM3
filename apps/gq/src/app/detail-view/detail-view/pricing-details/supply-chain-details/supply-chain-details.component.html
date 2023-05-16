@@ -2,7 +2,7 @@
   class="mt-4"
   *transloco="let t; read: 'detailView.pricingDetails.supplyChainDetails'"
 >
-  <p class="mb-4 text-h6 text-medium-emphasis">
+  <p class="text-h6 text-medium-emphasis mb-4">
     {{ t('title') }}
   </p>
   <div *ngIf="quotationDetail">
@@ -15,7 +15,7 @@
       <span text>{{ quotationDetail.productionPlant | plantDisplay }}</span>
     </gq-label-text>
     <gq-label-text>
-      <span label>{{ t('productionPlantRlt') }}</span>
+      <span label>{{ t('productionPlantRltAndTransit') }}</span>
       <span text>{{ quotationDetail.rlt || '-' }}</span>
     </gq-label-text>
     <gq-label-text
