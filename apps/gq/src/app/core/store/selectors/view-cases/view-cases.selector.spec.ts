@@ -1,10 +1,9 @@
+import { ExtendedViewToggle } from '@gq/case-view/models/extended-view-toggle';
 import { translate } from '@ngneat/transloco';
-
-import { ViewToggle } from '@schaeffler/view-toggle';
 
 import {
   ACTIVE_STATUS_BAR_CONFIG,
-  INACTIVE_STATUS_BAR_CONFIG,
+  ARCHIVED_STATUS_BAR_CONFIG,
 } from '../../../../../app/case-view/case-table/config';
 import {
   VIEW_CASE_STATE_MOCK,
@@ -28,7 +27,7 @@ describe('View Cases Selector', () => {
           quotations: [VIEW_QUOTATION_MOCK],
           count: 1,
         },
-        inactive: {
+        archived: {
           quotations: [] as any,
           count: 0,
         },
@@ -44,21 +43,21 @@ describe('View Cases Selector', () => {
         viewCasesSelectors.getQuotations.projector(fakeState.viewCases)
       ).toEqual(fakeState.viewCases.quotations.active.quotations);
     });
-    test('should return inactive quotations', () => {
-      const inactiveFakeState: ViewCasesState = {
+    test('should return archived quotations', () => {
+      const archivedFakeState: ViewCasesState = {
         ...VIEW_CASE_STATE_MOCK,
         quotations: {
           ...VIEW_CASE_STATE_MOCK.quotations,
-          displayStatus: QuotationStatus.INACTIVE,
-          inactive: {
+          displayStatus: QuotationStatus.ARCHIVED,
+          archived: {
             quotations: [VIEW_QUOTATION_MOCK],
             count: 1,
           },
         },
       };
       expect(
-        viewCasesSelectors.getQuotations.projector(inactiveFakeState)
-      ).toEqual(inactiveFakeState.quotations.inactive.quotations);
+        viewCasesSelectors.getQuotations.projector(archivedFakeState)
+      ).toEqual(archivedFakeState.quotations.archived.quotations);
     });
   });
 
@@ -70,12 +69,12 @@ describe('View Cases Selector', () => {
         )
       ).toEqual(ACTIVE_STATUS_BAR_CONFIG);
     });
-    test('should return status panel for inactive quotations', () => {
+    test('should return status panel for archived quotations', () => {
       expect(
         viewCasesSelectors.getStatusBarForQuotationStatus.projector({
-          quotations: { displayStatus: QuotationStatus.INACTIVE },
+          quotations: { displayStatus: QuotationStatus.ARCHIVED },
         })
-      ).toEqual(INACTIVE_STATUS_BAR_CONFIG);
+      ).toEqual(ARCHIVED_STATUS_BAR_CONFIG);
     });
   });
 
@@ -84,33 +83,38 @@ describe('View Cases Selector', () => {
       jest.clearAllMocks();
     });
     test('should get view toggles', () => {
-      const expectedViewToggles: ViewToggle[] = [
+      const expectedViewToggles: ExtendedViewToggle[] = [
         {
-          id: QuotationStatus.ACTIVE,
+          id: 0,
+          status: QuotationStatus.ACTIVE,
           title: 'translate it',
           active: true,
         },
 
         {
-          id: QuotationStatus.TO_BE_APPROVED,
+          id: 3,
+          status: QuotationStatus.TO_BE_APPROVED,
           active: false,
           title: 'translate it',
           disabled: false,
         },
         {
-          id: QuotationStatus.IN_APPROVAL,
+          id: 4,
+          status: QuotationStatus.IN_APPROVAL,
           active: false,
           title: 'translate it',
           disabled: false,
         },
         {
-          id: QuotationStatus.APPROVED,
+          id: 5,
+          status: QuotationStatus.APPROVED,
           active: false,
           title: 'translate it',
           disabled: false,
         },
         {
-          id: QuotationStatus.INACTIVE,
+          id: 1,
+          status: QuotationStatus.ARCHIVED,
           active: false,
           title: 'translate it',
           disabled: false,
@@ -130,34 +134,38 @@ describe('View Cases Selector', () => {
         { variable: 2 }
       );
     });
-    test('should get view toggles with disabled inactive view', () => {
-      const expectedViewToggles: ViewToggle[] = [
+    test('should get view toggles with disabled archived view', () => {
+      const expectedViewToggles: ExtendedViewToggle[] = [
         {
-          id: QuotationStatus.ACTIVE,
+          id: 0,
+          status: QuotationStatus.ACTIVE,
           active: true,
           title: 'translate it',
         },
-
         {
-          id: QuotationStatus.TO_BE_APPROVED,
+          id: 3,
+          status: QuotationStatus.TO_BE_APPROVED,
           active: false,
           title: 'translate it',
           disabled: false,
         },
         {
-          id: QuotationStatus.IN_APPROVAL,
+          id: 4,
+          status: QuotationStatus.IN_APPROVAL,
           active: false,
           title: 'translate it',
           disabled: false,
         },
         {
-          id: QuotationStatus.APPROVED,
+          id: 5,
+          status: QuotationStatus.APPROVED,
           active: false,
           title: 'translate it',
           disabled: false,
         },
         {
-          id: QuotationStatus.INACTIVE,
+          id: 1,
+          status: QuotationStatus.ARCHIVED,
           active: false,
           title: 'translate it',
           disabled: true,
@@ -168,7 +176,7 @@ describe('View Cases Selector', () => {
           ...VIEW_CASE_STATE_MOCK,
           quotations: {
             ...VIEW_CASE_STATE_MOCK.quotations,
-            inactive: {
+            archived: {
               count: 0,
               quotations: [],
             },
@@ -189,10 +197,10 @@ describe('View Cases Selector', () => {
   });
 
   describe('getDisplayStatus', () => {
-    test('should return QuotationStatus.ACTIVE 0', () => {
+    test('should return QuotationStatus.ACTIVE', () => {
       expect(
         viewCasesSelectors.getDisplayStatus.projector(fakeState.viewCases)
-      ).toBe(0);
+      ).toBe(QuotationStatus.ACTIVE);
     });
   });
 

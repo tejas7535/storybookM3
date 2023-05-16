@@ -68,17 +68,17 @@
   },
   "confirmDialog": {
     "displayText": {
-      "inactive": "{variable, plural, =1 {Do you really want to delete this case ({{variable}})?} other {Do you really want to delete these cases ({{variable}})?}}",
+      "archived": "{variable, plural, =1 {Do you really want to delete this case ({{variable}})?} other {Do you really want to delete these cases ({{variable}})?}}",
       "active": "",
       "deleted": "{variable, plural, =1 {Do you really want to permanently delete this case ({{variable}})?} other {Do you really want to permanently delete these cases ({{variable}})?}}"
     },
     "confirmButton": {
-      "inactive": "delete",
+      "archived": "delete",
       "active": "",
       "deleted": "delete"
     },
     "cancelButton": {
-      "inactive": "cancel",
+      "archived": "cancel",
       "active": "",
       "deleted": "cancel"
     }
@@ -87,7 +87,7 @@
     "createSuccess": "Case was created successfully",
     "updateStatus": {
       "active": "Case was restored successfully",
-      "inactive": "Case was deleted successfully",
+      "archived": "Case was deleted successfully",
       "deleted": "Case was deleted irrevocably"
     },
     "importSuccess": "Case was imported successfully",

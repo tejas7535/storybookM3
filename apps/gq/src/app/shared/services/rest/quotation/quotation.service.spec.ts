@@ -71,11 +71,11 @@ describe('QuotationService', () => {
     test('should call DataService PUT', () => {
       const mockBody = {
         gqIds: [123],
-        status: QuotationStatus[QuotationStatus.INACTIVE],
+        status: QuotationStatus.ARCHIVED,
       };
 
       service
-        .updateCases([123], QuotationStatus.INACTIVE)
+        .updateCases([123], QuotationStatus.ARCHIVED)
         .subscribe((res) => expect(res).toEqual([]));
 
       const req = httpMock.expectOne(

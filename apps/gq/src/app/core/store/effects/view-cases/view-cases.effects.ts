@@ -4,25 +4,26 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { of } from 'rxjs';
 import { catchError, filter, map, mergeMap, tap } from 'rxjs/operators';
 
+import { AppRoutePath } from '@gq/app-route-path.enum';
+import { QuotationStatus } from '@gq/shared/models/quotation/quotation-status.enum';
+import { GetQuotationsResponse } from '@gq/shared/services/rest/quotation/models/get-quotations-response.interface';
+import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { translate } from '@ngneat/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 
-import { AppRoutePath } from '../../../../app-route-path.enum';
-import { QuotationStatus } from '../../../../shared/models/quotation/quotation-status.enum';
-import { GetQuotationsResponse } from '../../../../shared/services/rest/quotation/models/get-quotations-response.interface';
-import { QuotationService } from '../../../../shared/services/rest/quotation/quotation.service';
 import {
   loadCases,
   loadCasesFailure,
+  loadCasesForView,
   loadCasesSuccess,
   updateCasesStatusFailure,
   updateCasesStatusSuccess,
   updateCaseStatus,
 } from '../../actions';
 import { ActiveCaseActions } from '../../active-case';
-import { getDisplayStatus } from '../../selectors';
+import { getDisplayStatus, getQuotationStatusFromView } from '../../selectors';
 
 /**
  * Effect class for all view case related actions
@@ -40,6 +41,16 @@ export class ViewCasesEffect {
         routerState.url.includes(AppRoutePath.CaseViewPath)
       ),
       map(() => loadCases({ status: QuotationStatus.ACTIVE }))
+    );
+  });
+
+  loadCasesForView$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(loadCasesForView),
+      concatLatestFrom((action) =>
+        this.store.select(getQuotationStatusFromView(action.view))
+      ),
+      map(([_action, status]) => loadCases({ status }))
     );
   });
 

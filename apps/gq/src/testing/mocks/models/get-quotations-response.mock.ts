@@ -4,6 +4,6 @@ import { GetQuotationsResponse } from '../../../app/shared/services/rest/quotati
 export const GET_QUOTATIONS_RESPONSE_MOCK: GetQuotationsResponse = {
   quotations: [],
   activeCount: 0,
-  inactiveCount: 0,
-  statusTypeOfListedQuotation: QuotationStatus[QuotationStatus.ACTIVE],
+  archivedCount: 0,
+  statusTypeOfListedQuotation: QuotationStatus.ACTIVE,
 };

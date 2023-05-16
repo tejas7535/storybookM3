@@ -1,8 +1,11 @@
+import { QuotationStatus } from '@gq/shared/models/quotation/quotation-status.enum';
+import { GetQuotationsResponse } from '@gq/shared/services/rest/quotation/models/get-quotations-response.interface';
 import { createAction, props, union } from '@ngrx/store';
 
-import { QuotationStatus } from '../../../../shared/models/quotation/quotation-status.enum';
-import { GetQuotationsResponse } from '../../../../shared/services/rest/quotation/models/get-quotations-response.interface';
-
+export const loadCasesForView = createAction(
+  '[View Cases] Get View Related Cases For Authenticated User',
+  props<{ view: number }>()
+);
 export const loadCases = createAction(
   '[View Cases] Get Cases For Authenticated User',
   props<{ status: QuotationStatus }>()
@@ -37,6 +40,7 @@ export const deselectCase = createAction(
 );
 
 const all = union({
+  loadCasesForView,
   loadCases,
   loadCasesSuccess,
   loadCasesFailure,

@@ -22,7 +22,7 @@ describe('View Cases Reducer', () => {
   const errorMessage = 'An error occured';
   describe('loadCases', () => {
     test('should set quotationsLoading true', () => {
-      const action = loadCases({ status: QuotationStatus.INACTIVE });
+      const action = loadCases({ status: QuotationStatus.ARCHIVED });
       const state = viewCasesReducer(VIEW_CASE_STATE_MOCK, action);
 
       expect(state).toEqual({
@@ -30,7 +30,7 @@ describe('View Cases Reducer', () => {
         quotationsLoading: true,
         quotations: {
           ...VIEW_CASE_STATE_MOCK.quotations,
-          displayStatus: QuotationStatus.INACTIVE,
+          displayStatus: QuotationStatus.ARCHIVED,
         },
       });
     });
@@ -61,8 +61,8 @@ describe('View Cases Reducer', () => {
         ...VIEW_CASE_STATE_MOCK,
         quotations: {
           ...VIEW_CASE_STATE_MOCK.quotations,
-          inactive: {
-            count: GET_QUOTATIONS_RESPONSE_MOCK.inactiveCount,
+          archived: {
+            count: GET_QUOTATIONS_RESPONSE_MOCK.archivedCount,
             quotations: [],
           },
           active: {
@@ -73,13 +73,12 @@ describe('View Cases Reducer', () => {
         quotationsLoading: false,
       });
     });
-    test('should set inactive quotations and set quotationsLoading false', () => {
+    test('should set archived quotations and set quotationsLoading false', () => {
       const action = loadCasesSuccess({
         response: {
           ...GET_QUOTATIONS_RESPONSE_MOCK,
           quotations: [VIEW_QUOTATION_MOCK],
-          statusTypeOfListedQuotation:
-            QuotationStatus[QuotationStatus.INACTIVE],
+          statusTypeOfListedQuotation: QuotationStatus.ARCHIVED,
         },
       });
       const state = viewCasesReducer(VIEW_CASE_STATE_MOCK, action);
@@ -88,8 +87,8 @@ describe('View Cases Reducer', () => {
         ...VIEW_CASE_STATE_MOCK,
         quotations: {
           ...VIEW_CASE_STATE_MOCK.quotations,
-          inactive: {
-            count: GET_QUOTATIONS_RESPONSE_MOCK.inactiveCount,
+          archived: {
+            count: GET_QUOTATIONS_RESPONSE_MOCK.archivedCount,
             quotations: [VIEW_QUOTATION_MOCK],
           },
           active: {
@@ -104,7 +103,7 @@ describe('View Cases Reducer', () => {
   describe('updateCaseStatus', () => {
     test('should set deleteloading true', () => {
       const gqIds = [1];
-      const status = QuotationStatus.INACTIVE;
+      const status = QuotationStatus.ARCHIVED;
       const action = updateCaseStatus({ gqIds, status });
 
       const state = viewCasesReducer(

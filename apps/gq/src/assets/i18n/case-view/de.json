@@ -68,17 +68,17 @@
   },
   "confirmDialog": {
     "displayText": {
-      "inactive": "{variable, plural, =1 {Möchten Sie wirklich folgenden Case löschen ({{variable}})?} other {Möchten Sie wirklich folgende Cases löschen ({{variable}})?}}",
+      "archived": "{variable, plural, =1 {Möchten Sie wirklich folgenden Case löschen ({{variable}})?} other {Möchten Sie wirklich folgende Cases löschen ({{variable}})?}}",
       "active": "",
       "deleted": "{variable, plural, =1 {Möchten Sie wirklich folgenden Case unwiderruflich löschen ({{variable}})?} other {Möchten Sie wirklich folgende Cases unwiderruflich löschen ({{variable}})?}}"
     },
     "confirmButton": {
-      "inactive": "löschen",
+      "archived": "löschen",
       "active": "",
       "deleted": "löschen"
     },
     "cancelButton": {
-      "inactive": "abbrechen",
+      "archived": "abbrechen",
       "active": "",
       "deleted": "abbrechen"
     }
@@ -87,7 +87,7 @@
     "createSuccess": "Case wurde erfolgreich erstellt",
     "updateStatus": {
       "active": "Case wurde erfolgreich wiederhergestellt",
-      "inactive": "Case wurde erfolgreich gelöscht",
+      "archived": "Case wurde erfolgreich gelöscht",
       "deleted": "Case wurde unwiderruflich gelöscht"
     },
     "importSuccess": "Case wurde erfolgreich importiert",

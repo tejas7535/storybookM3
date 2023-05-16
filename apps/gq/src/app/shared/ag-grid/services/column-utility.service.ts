@@ -265,7 +265,7 @@ export class ColumnUtilityService {
       return {
         ...colDef,
         headerName:
-          displayStatus === QuotationStatus.INACTIVE
+          displayStatus === QuotationStatus.ARCHIVED
             ? translate('caseView.caseTable.deletedOnDate')
             : translate('caseView.caseTable.lastUpdatedDate'),
       };

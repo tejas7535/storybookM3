@@ -1,11 +1,10 @@
+import { ExtendedViewToggle } from '@gq/case-view/models/extended-view-toggle';
 import { translate } from '@ngneat/transloco';
 import { createSelector } from '@ngrx/store';
 
-import { ViewToggle } from '@schaeffler/view-toggle';
-
 import {
   ACTIVE_STATUS_BAR_CONFIG,
-  INACTIVE_STATUS_BAR_CONFIG,
+  ARCHIVED_STATUS_BAR_CONFIG,
 } from '../../../../case-view/case-table/config';
 import { AgStatusBar } from '../../../../shared/ag-grid/models/ag-status-bar.model';
 import { ViewQuotation } from '../../../../shared/models/quotation';
@@ -19,8 +18,8 @@ export const getQuotations = createSelector(
     switch (state.quotations.displayStatus) {
       case QuotationStatus.ACTIVE:
         return state.quotations.active.quotations;
-      case QuotationStatus.INACTIVE:
-        return state.quotations.inactive.quotations;
+      case QuotationStatus.ARCHIVED:
+        return state.quotations.archived.quotations;
       default:
         return undefined;
     }
@@ -33,8 +32,8 @@ export const getStatusBarForQuotationStatus = createSelector(
     switch (state.quotations.displayStatus) {
       case QuotationStatus.ACTIVE:
         return ACTIVE_STATUS_BAR_CONFIG;
-      case QuotationStatus.INACTIVE:
-        return INACTIVE_STATUS_BAR_CONFIG;
+      case QuotationStatus.ARCHIVED:
+        return ARCHIVED_STATUS_BAR_CONFIG;
       default:
         return { statusPanels: [] };
     }
@@ -43,16 +42,18 @@ export const getStatusBarForQuotationStatus = createSelector(
 
 export const getViewToggles = createSelector(
   getViewCasesState,
-  (state: ViewCasesState): ViewToggle[] => [
+  (state: ViewCasesState): ExtendedViewToggle[] => [
     {
-      id: QuotationStatus.ACTIVE,
+      id: 0,
+      status: QuotationStatus.ACTIVE,
       active: state.quotations.displayStatus === QuotationStatus.ACTIVE,
       title: translate('caseView.caseTable.viewToggle.openCases', {
         variable: state.quotations.active.count,
       }),
     },
     {
-      id: QuotationStatus.TO_BE_APPROVED,
+      id: 3,
+      status: QuotationStatus.TO_BE_APPROVED,
       active: state.quotations.displayStatus === QuotationStatus.TO_BE_APPROVED,
       title: translate('caseView.caseTable.viewToggle.toBeApproved', {
         variable: state.quotations.toBeApproved?.count || 0,
@@ -60,7 +61,8 @@ export const getViewToggles = createSelector(
       disabled: state.quotations.toBeApproved?.count === 0,
     },
     {
-      id: QuotationStatus.IN_APPROVAL,
+      id: 4,
+      status: QuotationStatus.IN_APPROVAL,
       active: state.quotations.displayStatus === QuotationStatus.IN_APPROVAL,
       title: translate('caseView.caseTable.viewToggle.inApproval', {
         variable: state.quotations.inApproval?.count || 0,
@@ -68,7 +70,8 @@ export const getViewToggles = createSelector(
       disabled: state.quotations.inApproval?.count === 0,
     },
     {
-      id: QuotationStatus.APPROVED,
+      id: 5,
+      status: QuotationStatus.APPROVED,
       active: state.quotations.displayStatus === QuotationStatus.APPROVED,
       title: translate('caseView.caseTable.viewToggle.approved', {
         variable: state.quotations.approved?.count || 0,
@@ -76,15 +79,23 @@ export const getViewToggles = createSelector(
       disabled: state.quotations.approved?.count === 0,
     },
     {
-      id: QuotationStatus.INACTIVE,
-      active: state.quotations.displayStatus === QuotationStatus.INACTIVE,
+      id: 1,
+      status: QuotationStatus.ARCHIVED,
+      active: state.quotations.displayStatus === QuotationStatus.ARCHIVED,
       title: translate('caseView.caseTable.viewToggle.deletedDrafts', {
-        variable: state.quotations.inactive.count,
+        variable: state.quotations.archived.count,
       }),
-      disabled: state.quotations.inactive.count === 0,
+      disabled: state.quotations.archived.count === 0,
     },
   ]
 );
+
+export const getQuotationStatusFromView = (id: number) =>
+  createSelector(
+    getViewToggles,
+    (viewToggles: ExtendedViewToggle[]) =>
+      viewToggles.find((view) => view.id === id)?.status
+  );
 
 export const getDisplayStatus = createSelector(
   getViewCasesState,

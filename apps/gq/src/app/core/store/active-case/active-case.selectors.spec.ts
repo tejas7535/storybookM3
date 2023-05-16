@@ -290,7 +290,7 @@ describe('Active Case Selectors', () => {
   describe('getIsQuotationActive', () => {
     [
       { status: QuotationStatus.ACTIVE, expectedResult: true },
-      { status: QuotationStatus.INACTIVE, expectedResult: false },
+      { status: QuotationStatus.ARCHIVED, expectedResult: false },
       { status: QuotationStatus.DELETED, expectedResult: false },
     ].forEach((testCase) => {
       test(`should return ${testCase.expectedResult} if Quotation has status ${testCase.status}`, () => {

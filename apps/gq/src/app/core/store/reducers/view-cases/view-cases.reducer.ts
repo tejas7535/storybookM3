@@ -30,7 +30,7 @@ export const initialState: ViewCasesState = {
       quotations: [],
       count: undefined,
     },
-    inactive: {
+    archived: {
       quotations: [],
       count: undefined,
     },
@@ -81,18 +81,16 @@ export const viewCasesReducer = createReducer(
         active: {
           count: response.activeCount,
           quotations:
-            response.statusTypeOfListedQuotation ===
-            QuotationStatus[QuotationStatus.ACTIVE]
+            response.statusTypeOfListedQuotation === QuotationStatus.ACTIVE
               ? response.quotations
               : state.quotations.active.quotations,
         },
-        inactive: {
-          count: response.inactiveCount,
+        archived: {
+          count: response.archivedCount,
           quotations:
-            response.statusTypeOfListedQuotation ===
-            QuotationStatus[QuotationStatus.INACTIVE]
+            response.statusTypeOfListedQuotation === QuotationStatus.ARCHIVED
               ? response.quotations
-              : state.quotations.inactive.quotations,
+              : state.quotations.archived.quotations,
         },
       },
       quotationsLoading: false,

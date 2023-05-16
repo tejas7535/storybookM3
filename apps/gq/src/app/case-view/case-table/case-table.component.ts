@@ -27,7 +27,7 @@ import {
   disableTableHorizontalScrollbar,
   statusBarStlye,
 } from '../../shared/constants';
-import { ViewQuotation } from '../../shared/models/quotation';
+import { QuotationStatus, ViewQuotation } from '../../shared/models/quotation';
 import { COMPONENTS, DEFAULT_COLUMN_DEFS } from './config';
 import { ColumnDefService } from './config/column-def.service';
 @Component({
@@ -52,7 +52,7 @@ export class CaseTableComponent implements OnInit {
 
   @Input() rowData: ViewQuotation[];
   @Input() statusBar: AgStatusBar;
-  @Input() displayStatus: number;
+  @Input() displayStatus: QuotationStatus;
 
   ngOnInit(): void {
     this.localeText$ = this.localizationService.locale$;

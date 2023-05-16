@@ -78,23 +78,17 @@ export class UpdateCaseStatusButtonComponent {
    */
   private updateAndShowConfirmDialog(list: IdValue[]) {
     const displayText = translate(
-      `caseView.confirmDialog.displayText.${QuotationStatus[
-        this.params.quotationStatus
-      ].toLowerCase()}`,
+      `caseView.confirmDialog.displayText.${this.params.quotationStatus.toLowerCase()}`,
       {
         variable: list.length,
       }
     );
 
     const confirmButton = translate(
-      `caseView.confirmDialog.confirmButton.${QuotationStatus[
-        this.params.quotationStatus
-      ].toLowerCase()}`
+      `caseView.confirmDialog.confirmButton.${this.params.quotationStatus.toLowerCase()}`
     );
     const cancelButton = translate(
-      `caseView.confirmDialog.cancelButton.${QuotationStatus[
-        this.params.quotationStatus
-      ].toLowerCase()}`
+      `caseView.confirmDialog.cancelButton.${this.params.quotationStatus.toLowerCase()}`
     );
 
     const data: ConfirmationModalData = {

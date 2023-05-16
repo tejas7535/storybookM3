@@ -5,9 +5,9 @@
   <mat-icon
     *hideIfQuotationHasStatus="[
       quotationStatus.DELETED,
-      quotationStatus.INACTIVE
+      quotationStatus.ARCHIVED
     ]"
-    class="cursor-pointer align-text-top !text-[16px] text-medium-emphasis"
+    class="text-medium-emphasis cursor-pointer align-text-top !text-[16px]"
     (click)="onIconClick()"
     >mode_edit</mat-icon
   >

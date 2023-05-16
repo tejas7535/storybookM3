@@ -4,7 +4,7 @@ import { ViewCasesStateQuotation } from './view-cases-state-quotation.interface'
 export interface ViewCasesStateQuotations {
   displayStatus: QuotationStatus;
   active: ViewCasesStateQuotation;
-  inactive: ViewCasesStateQuotation;
+  archived: ViewCasesStateQuotation;
   toBeApproved: ViewCasesStateQuotation;
   inApproval: ViewCasesStateQuotation;
   approved: ViewCasesStateQuotation;

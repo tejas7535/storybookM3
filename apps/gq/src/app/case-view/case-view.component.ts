@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { map, Observable } from 'rxjs';
 
-import { loadCases } from '@gq/core/store/actions';
+import { loadCasesForView } from '@gq/core/store/actions';
 import {
   getDeleteLoading,
   getDisplayStatus,
@@ -18,6 +18,7 @@ import { ViewToggle } from '@schaeffler/view-toggle';
 import { AgStatusBar } from '../shared/ag-grid/models/ag-status-bar.model';
 import { QuotationStatus, ViewQuotation } from '../shared/models/quotation';
 import { FeatureToggleConfigService } from '../shared/services/feature-toggle/feature-toggle-config.service';
+import { ExtendedViewToggle } from './models/extended-view-toggle';
 
 @Component({
   selector: 'gq-case-view',
@@ -29,7 +30,7 @@ export class CaseViewComponent implements OnInit {
   public displayedQuotations$: Observable<ViewQuotation[]>;
   public quotationsLoading$: Observable<boolean>;
   public deleteLoading$: Observable<boolean>;
-  public displayStatus$: Observable<number>;
+  public displayStatus$: Observable<QuotationStatus>;
 
   constructor(
     private readonly store: Store,
@@ -38,13 +39,15 @@ export class CaseViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.caseViews$ = this.store.select(getViewToggles).pipe(
-      map((views: ViewToggle[]) => {
+      map((views: ExtendedViewToggle[]) => {
         if (this.featureToggleConfigService.isEnabled('approvalWorkflow')) {
           return views;
         }
 
-        return views.filter((view: ViewToggle) =>
-          [QuotationStatus.ACTIVE, QuotationStatus.INACTIVE].includes(view.id)
+        return views.filter((view: ExtendedViewToggle) =>
+          [QuotationStatus.ACTIVE, QuotationStatus.ARCHIVED].includes(
+            view.status
+          )
         );
       })
     );
@@ -56,6 +59,6 @@ export class CaseViewComponent implements OnInit {
   }
 
   onViewToggle(view: ViewToggle) {
-    this.store.dispatch(loadCases({ status: view.id }));
+    this.store.dispatch(loadCasesForView({ view: view.id }));
   }
 }

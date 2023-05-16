@@ -249,7 +249,7 @@
         "discardSimulation": "Discard Changes",
         "panelButtons": {
           "active": "Restore",
-          "inactive": "Delete",
+          "archived": "Delete",
           "deleted": "Delete Forever"
         },
         "uploadQuoteToSap": "Create SAP Quote",

@@ -20,9 +20,9 @@ describe('View Actions', () => {
     test('load Cases Success', () => {
       const response: GetQuotationsResponse = {
         activeCount: 0,
-        inactiveCount: 0,
+        archivedCount: 0,
         quotations: [],
-        statusTypeOfListedQuotation: QuotationStatus[QuotationStatus.ACTIVE],
+        statusTypeOfListedQuotation: QuotationStatus.ACTIVE,
       };
       const action = loadCasesSuccess({ response });
       expect(action).toEqual({

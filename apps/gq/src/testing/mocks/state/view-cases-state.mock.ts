@@ -6,7 +6,7 @@ export const VIEW_CASE_STATE_MOCK: ViewCasesState = {
   quotations: {
     active: { count: 1, quotations: [] },
     displayStatus: QuotationStatus.ACTIVE,
-    inactive: { count: 2, quotations: [] },
+    archived: { count: 2, quotations: [] },
     toBeApproved: { count: 1, quotations: [] },
     inApproval: { count: 1, quotations: [] },
     approved: { count: 1, quotations: [] },

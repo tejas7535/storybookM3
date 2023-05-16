@@ -2,7 +2,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { loadCases } from '@gq/core/store/actions';
+import { loadCasesForView } from '@gq/core/store/actions';
 import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
 import {
   getDeleteLoading,
@@ -23,7 +23,6 @@ import { ViewToggleModule } from '@schaeffler/view-toggle';
 
 import { VIEW_CASE_STATE_MOCK } from '../../testing/mocks';
 import { CustomStatusBarModule } from '../shared/ag-grid/custom-status-bar/custom-status-bar.module';
-import { QuotationStatus } from '../shared/models/quotation/quotation-status.enum';
 import { CaseTableModule } from './case-table/case-table.module';
 import { CaseViewComponent } from './case-view.component';
 
@@ -138,14 +137,14 @@ describe('CaseViewComponent', () => {
       store.dispatch = jest.fn();
 
       component.onViewToggle({
-        id: QuotationStatus.ACTIVE,
+        id: 0,
         title: 'title',
         active: false,
       });
 
       expect(store.dispatch).toHaveBeenCalledTimes(1);
       expect(store.dispatch).toHaveBeenCalledWith(
-        loadCases({ status: QuotationStatus.ACTIVE })
+        loadCasesForView({ view: 0 })
       );
     });
   });

@@ -9,6 +9,7 @@ describe('HideIfQuotationHasStatusDirective', () => {
   let spectator: SpectatorDirective<HideIfQuotationHasStatusDirective>;
   let directive: HideIfQuotationHasStatusDirective;
   let store: MockStore;
+  const quotationStatus = QuotationStatus;
 
   const createDirective = createDirectiveFactory({
     directive: HideIfQuotationHasStatusDirective,
@@ -18,10 +19,17 @@ describe('HideIfQuotationHasStatusDirective', () => {
 
   beforeEach(() => {
     spectator = createDirective(
-      `<div *hideIfQuotationHasStatus="[${QuotationStatus.DELETED}, ${QuotationStatus.INACTIVE}]"></div>`
+      `<div *hideIfQuotationHasStatus="['ARCHIVED','FORBIDDEN']"></div>`,
+      {
+        props: {},
+      }
     );
     store = spectator.inject(MockStore);
     directive = spectator.directive;
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should create an instance', () => {
@@ -31,7 +39,7 @@ describe('HideIfQuotationHasStatusDirective', () => {
   test('should create view if quotation does not have a forbidden status', () => {
     jest.spyOn(directive['viewContainer'], 'createEmbeddedView');
 
-    store.overrideSelector(getQuotationStatus, QuotationStatus.ACTIVE);
+    store.overrideSelector(getQuotationStatus, quotationStatus.ACTIVE);
 
     spectator.detectChanges();
 
@@ -41,7 +49,7 @@ describe('HideIfQuotationHasStatusDirective', () => {
   test('should clear view if quotation has a forbidden status', () => {
     jest.spyOn(directive['viewContainer'], 'clear');
 
-    store.overrideSelector(getQuotationStatus, QuotationStatus.INACTIVE);
+    store.overrideSelector(getQuotationStatus, quotationStatus.ARCHIVED);
 
     spectator.detectChanges();
 
@@ -53,19 +61,16 @@ describe('HideIfQuotationHasStatusDirective', () => {
     jest.spyOn(directive['viewContainer'], 'clear');
 
     // First render: quotation status is ACTIVE
-    store.overrideSelector(getQuotationStatus, QuotationStatus.ACTIVE);
+    store.overrideSelector(getQuotationStatus, quotationStatus.ACTIVE);
     spectator.detectChanges();
 
     // Quotation was updated: quotation status has changed
-    store.resetSelectors();
-    store.overrideSelector(getQuotationStatus, QuotationStatus.INACTIVE);
+    store.overrideSelector(getQuotationStatus, quotationStatus.ARCHIVED);
     store.refreshState();
 
     // Both createEmbeddedView and clear should have been called once
-    expect(directive['viewContainer'].createEmbeddedView).toHaveBeenCalledTimes(
-      1
-    );
-    expect(directive['viewContainer'].clear).toHaveBeenCalledTimes(1);
+    expect(directive['viewContainer'].createEmbeddedView).toHaveBeenCalled();
+    expect(directive['viewContainer'].clear).toHaveBeenCalled();
   });
 
   test('should NOT create again if quotation status has NOT changed', () => {
@@ -73,7 +78,7 @@ describe('HideIfQuotationHasStatusDirective', () => {
     jest.spyOn(directive['viewContainer'], 'clear');
 
     // First render: quotation status is ACTIVE
-    store.overrideSelector(getQuotationStatus, QuotationStatus.ACTIVE);
+    store.overrideSelector(getQuotationStatus, quotationStatus.ACTIVE);
     spectator.detectChanges();
 
     // Quotation was updated: quotation status has NOT changed

@@ -1,8 +1,8 @@
-import { ViewQuotation } from '../../../../models/quotation';
+import { QuotationStatus, ViewQuotation } from '../../../../models/quotation';
 
 export interface GetQuotationsResponse {
   quotations: ViewQuotation[];
-  statusTypeOfListedQuotation: string;
+  statusTypeOfListedQuotation: QuotationStatus;
   activeCount: number;
-  inactiveCount: number;
+  archivedCount: number;
 }

@@ -16,7 +16,7 @@ export const ACTIVE_STATUS_BAR_CONFIG: {
     {
       statusPanel: UpdateCaseStatusButtonComponent,
       statusPanelParams: {
-        quotationStatus: QuotationStatus.INACTIVE,
+        quotationStatus: QuotationStatus.ARCHIVED,
         isOnlyVisibleOnSelection: true,
         showDialog: true,
         hasPanelCaption: false,
@@ -30,7 +30,7 @@ export const ACTIVE_STATUS_BAR_CONFIG: {
   ],
 };
 
-export const INACTIVE_STATUS_BAR_CONFIG: {
+export const ARCHIVED_STATUS_BAR_CONFIG: {
   statusPanels: StatusPanelDef[];
 } = {
   statusPanels: [

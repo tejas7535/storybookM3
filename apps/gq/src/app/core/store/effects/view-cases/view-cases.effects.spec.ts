@@ -3,27 +3,29 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { QuotationStatus } from '@gq/shared/models/quotation/quotation-status.enum';
+import { GetQuotationsResponse } from '@gq/shared/services/rest/quotation/models/get-quotations-response.interface';
+import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
+import { createSelector } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
-import { QuotationStatus } from '../../../../shared/models/quotation/quotation-status.enum';
-import { GetQuotationsResponse } from '../../../../shared/services/rest/quotation/models/get-quotations-response.interface';
-import { QuotationService } from '../../../../shared/services/rest/quotation/quotation.service';
 import {
   loadCases,
   loadCasesFailure,
+  loadCasesForView,
   loadCasesSuccess,
   updateCasesStatusFailure,
   updateCasesStatusSuccess,
   updateCaseStatus,
 } from '../../actions';
 import { ActiveCaseActions } from '../../active-case';
-import { getDisplayStatus } from '../../selectors';
+import * as viewCaseSelectors from '../../selectors';
 import { ViewCasesEffect } from './view-cases.effects';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -49,7 +51,7 @@ describe('View Cases Effects', () => {
     providers: [
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockActions(() => actions$),
-      provideMockStore(),
+      provideMockStore({}),
     ],
   });
   beforeEach(() => {
@@ -85,6 +87,34 @@ describe('View Cases Effects', () => {
       })
     );
   });
+  describe('loadCasesForView$', () => {
+    beforeEach(() => {
+      action = loadCasesForView({ view: 2 });
+    });
+
+    test(
+      'should return loadCases',
+      marbles((m) => {
+        jest
+          .spyOn(viewCaseSelectors, 'getQuotationStatusFromView')
+          .mockImplementation(
+            () =>
+              createSelector(
+                () => {},
+                () => QuotationStatus.ACTIVE
+              ) as any
+          );
+
+        const result = loadCases({ status: QuotationStatus.ACTIVE });
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.loadCasesForView$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+  });
   describe('loadCases', () => {
     beforeEach(() => {
       action = loadCases({ status: QuotationStatus.ACTIVE });
@@ -95,9 +125,9 @@ describe('View Cases Effects', () => {
       marbles((m) => {
         const getQuotationsResponse: GetQuotationsResponse = {
           activeCount: 0,
-          inactiveCount: 0,
+          archivedCount: 0,
           quotations: [],
-          statusTypeOfListedQuotation: QuotationStatus[QuotationStatus.ACTIVE],
+          statusTypeOfListedQuotation: QuotationStatus.ACTIVE,
         };
 
         const result = loadCasesSuccess({ response: getQuotationsResponse });
@@ -137,14 +167,14 @@ describe('View Cases Effects', () => {
     );
   });
   describe('updateCaseStatus$', () => {
-    describe('update to Inactive', () => {
+    describe('update to archived', () => {
       beforeEach(() => {
         const gqIds = [1];
-        const status = QuotationStatus.INACTIVE;
+        const status = QuotationStatus.ARCHIVED;
         action = updateCaseStatus({ gqIds, status });
       });
       test(
-        'should return deleteCaseSuccess (status inactive)',
+        'should return deleteCaseSuccess (status archived)',
         marbles((m) => {
           snackBar.open = jest.fn();
           quotationService.updateCases = jest.fn(() => response);
@@ -246,7 +276,10 @@ describe('View Cases Effects', () => {
 
   describe('loadCasesAfterUpdatingStatus', () => {
     beforeEach(() => {
-      store.overrideSelector(getDisplayStatus, QuotationStatus.ACTIVE);
+      store.overrideSelector(
+        viewCaseSelectors.getDisplayStatus,
+        QuotationStatus.ACTIVE
+      );
       action = updateCasesStatusSuccess({ gqIds: [1] });
     });
     test(

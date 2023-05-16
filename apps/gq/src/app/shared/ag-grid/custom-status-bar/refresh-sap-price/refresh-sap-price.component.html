@@ -1,12 +1,12 @@
 <ng-container
   *hideIfQuotationHasStatus="[
     quotationStatus.DELETED,
-    quotationStatus.INACTIVE
+    quotationStatus.ARCHIVED
   ]"
 >
   <div *ngIf="!(simulationModeEnabled$ | ngrxPush)">
     <button
-      class="!my-4 truncate !text-link"
+      class="!text-link !my-4 truncate"
       mat-icon-button
       *transloco="let t; read: 'shared.customStatusBar.buttons'"
       (click)="refreshSapPricing()"
