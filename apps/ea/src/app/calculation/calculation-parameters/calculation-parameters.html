@@ -2,18 +2,47 @@
   <div class="ea-flex ea-w-full ea-flex-col">
     <div class="ea-flex ea-flex-1 ea-flex-col ea-items-center ea-gap-10">
       <div class="ea-flex ea-flex-col ea-gap-0 sm:ea-gap-6 lg:ea-grid">
-        <h6 class="ea-text-medium-emphasis">
+        <h6 class="ea-text-medium-emphasis ea-mx-2">
           {{t('title', {bearingDesignation: bearingDesignation$ | ngrxPush } )}}
         </h6>
-        <div class="ea-flex ea-flex-row">
-          <span class="ea-flex-grow"></span>
-          <button mat-button color="primary" (click)="onResetButtonClick()">
-            {{ t('resetInputs') }}
+        <div
+          class="ea-flex-row ea-items-end ea-w-full ea-mb-4 ea-flex md:ea-hidden"
+        >
+          <button
+            (click)="onShowBasicFrequenciesDialogClick()"
+            mat-button
+            class="ea-ml-auto"
+            color="primary"
+          >
+            {{ 'basicFrequencies.showBasicFrequencies' | transloco }}
           </button>
         </div>
 
         <div
-          class="ea-border-border ea-bg-surface ea-border-t sm:ea-rounded sm:ea-border-x sm:ea-border-b"
+          class="ea-flex ea-flex-row ea-items-center ea-justify-between ea-mb-4"
+        >
+          <button
+            mat-button
+            color="primary"
+            (click)="onResetButtonClick()"
+            class="md:ea-ml-auto"
+          >
+            {{ t('resetInputs') }}
+          </button>
+
+          <button
+            mat-raised-button
+            mat-icon-button
+            color="primary"
+            (click)="onShowCalculationTypesClick()"
+            class="md:ea-hidden ea-inline-block mx-2"
+          >
+            <mat-icon>tune</mat-icon>
+          </button>
+        </div>
+
+        <div
+          class="ea-border-border ea-bg-surface ea-rounded ea-border ea-mb-6 md:ea-mb-0"
         >
           <div
             class="ea-border-border ea-flex ea-flex-row ea-items-center ea-border-b ea-px-6 ea-py-4"
@@ -54,7 +83,7 @@
           </div>
         </div>
         <div
-          class="ea-border-border ea-bg-surface ea-border-t sm:ea-rounded sm:ea-border-x sm:ea-border-b"
+          class="ea-border-border ea-bg-surface ea-rounded ea-border ea-mb-6 md:ea-mb-0"
         >
           <div
             class="ea-border-border ea-flex ea-flex-row ea-items-center ea-border-b ea-px-6 ea-py-4"

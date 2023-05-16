@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  Optional,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import {
@@ -7,7 +12,11 @@ import {
   MatCheckboxDefaultOptions,
   MatCheckboxModule,
 } from '@angular/material/checkbox';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -46,6 +55,7 @@ import { BasicFrequenciesComponent } from '../basic-frequencies/basic-frequencie
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CalculationTypesSelectionComponent implements OnDestroy {
+  public isInDialog = this.dialogRef?.id !== undefined;
   public calculationTypesConfig$ =
     this.calculationParametersFacade.getCalculationTypesConfig$;
   public getCalculationTypesGlobalSelection$ =
@@ -55,7 +65,9 @@ export class CalculationTypesSelectionComponent implements OnDestroy {
 
   constructor(
     private readonly calculationParametersFacade: CalculationParametersFacade,
-    private readonly matDialog: MatDialog
+    private readonly matDialog: MatDialog,
+    @Optional()
+    public readonly dialogRef?: MatDialogRef<CalculationTypesSelectionComponent>
   ) {}
 
   public ngOnDestroy(): void {

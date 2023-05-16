@@ -49,21 +49,39 @@ export const co2Downstream = createSelector(
   })
 );
 
+export const friction = createSelector(
+  frictionCalculationResult,
+  frictionIsLoading,
+  frictionError,
+  (
+    result,
+    isLoading,
+    error
+  ): BasicCalculationResultState & { value?: number; unit?: string } => ({
+    value: meaningfulRound(result?.max_frictionalTorque?.value),
+    unit: result?.max_frictionalTorque?.unit,
+    calculationError: error,
+    isLoading,
+  })
+);
+
 export const getCalculationResultPreviewData = createSelector(
   getCalculationTypes,
   co2Downstream,
   co2Upstream,
+  friction,
   (
     calculationTypes,
     co2DownstreamResult,
-    co2UpstreamResult
+    co2UpstreamResult,
+    frictionResult
   ): CalculationResultPreviewData => {
     const previewData: CalculationResultPreviewData = [];
 
     if (calculationTypes.emission.selected) {
       previewData.push({
         title: 'totalValueCO2',
-        icon: 'co2',
+        svgIcon: 'co2',
         values: [
           {
             title: 'production',
@@ -78,17 +96,16 @@ export const getCalculationResultPreviewData = createSelector(
     }
 
     if (calculationTypes.friction.selected) {
-      // not supported as of now
-      // previewData.push({
-      //   title: 'overrollingFrequency',
-      //   icon: 'airwaves',
-      //   values: [
-      //     {
-      //       title: 'overrollingFrequencySubtitle',
-      //       ...calculationResult.ratingLife,
-      //     },
-      //   ],
-      // });
+      previewData.push({
+        title: 'frictionalPowerloss',
+        icon: 'compress',
+        values: [
+          {
+            title: 'frictionalPowerlossSubtitle',
+            ...frictionResult,
+          },
+        ],
+      });
     }
 
     return previewData;

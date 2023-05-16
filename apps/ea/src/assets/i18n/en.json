@@ -2,11 +2,11 @@
   "appTitle": "Engineering App",
   "operationConditions": {
     "title": "Operating conditions for bearing {{bearingDesignation}}",
-    "requiredInformation": "* required information",
-    "loads": "Loads",
+    "requiredInformation": "*Mandatory",
+    "loads": "Load",
     "radialLoad": "Radial load",
     "axialLoad": "Axial load",
-    "relativeRotationalSpeed": "Rotational speed",
+    "relativeRotationalSpeed": "Motion influences",
     "resetInputs": "Reset inputs",
     "onePerMinute": "1/min",
     "pleaseEnter": "Enter {{label}}",
@@ -34,6 +34,8 @@
     "totalValueCO2": "Total value of CO₂",
     "overrollingFrequency": "Overrolling frequency",
     "overrollingFrequencySubtitle": "Frequency on inner ring (BPFI)",
+    "frictionalPowerloss": "Frictional power loss",
+    "frictionalPowerlossSubtitle": "Total Frictional Torque (MRmax)",
     "production": "Production",
     "operation": "Operation"
   },
@@ -53,6 +55,14 @@
       "calculationHint": "This is how we calculate the CO₂ values",
       "calculationHintLink": "https://schaeffler.com",
       "calculationHintLinkText": "Click here"
+    },
+    "frictionalPowerloss": {
+      "title": "Frictional power loss",
+      "frictionalTorque": "Frictional torque",
+      "frictionalPowerloss": "Frictional power loss",
+      "frictionalPowerlossSealing": "Frictional power loss sealing",
+      "frictionalPowerlossUnloadedZone": "Frictional power loss unloaded zone",
+      "operatingViscosity": "Operating viscosity"
     }
   },
   "basicFrequencies": {
@@ -62,10 +72,12 @@
   },
   "calculationSelection": {
     "title": "Choose your calculations",
+    "selectAll": "Select all",
     "calculations": "Calculations",
     "calculationTypes": {
       "co2": "CO₂ emissions",
-      "overrollingFrequency": "Overrolling frequency"
+      "overrollingFrequency": "Overrolling frequency",
+      "frictionalPowerloss": "Frictional power loss"
     },
     "basicFrequency": "Basic Frequencies",
     "saveAsPDF": "Save as pdf"

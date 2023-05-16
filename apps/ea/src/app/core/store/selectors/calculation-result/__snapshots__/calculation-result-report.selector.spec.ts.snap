@@ -13,11 +13,11 @@ exports[`Calculation Result Selector getSelectedCalculations should return the s
 Array [
   Object {
     "disabled": true,
-    "icon": "co2",
     "label": "calculationTypes.co2",
     "name": "emission",
     "resultAvailable": true,
     "selected": true,
+    "svgIcon": "co2",
     "visible": true,
   },
 ]

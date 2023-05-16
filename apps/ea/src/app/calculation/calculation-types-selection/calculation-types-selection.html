@@ -1,39 +1,64 @@
 <div
   *transloco="let t; read: 'calculationSelection'"
-  class="ea-flex ea-flex-col ea-items-center ea-justify-between ea-h-full"
+  class="ea-flex ea-flex-col ea-justify-between ea-h-full"
+  [ngClass]="{ 'ea-items-center': !isInDialog, 'ea-items-start': isInDialog }"
 >
-  <div class="ea-flex ea-flex-col ea-items-center">
-    <div class="ea-text-subtitle-1 ea-text-medium-emphasis ea-w-24">
+  <div
+    class="ea-flex ea-flex-col"
+    [ngClass]="{ 'ea-items-center': !isInDialog }"
+  >
+    <div
+      *ngIf="isInDialog && getCalculationTypesGlobalSelection$ | ngrxPush as selectionState"
+    >
+      <button
+        mat-button
+        (click)="selectAllChanged(true)"
+        [disabled]="selectionState?.selectAll && !selectionState?.indeterminate"
+        color="primary"
+      >
+        {{ t('selectAll') }}
+      </button>
+    </div>
+
+    <div
+      class="ea-text-subtitle-1 ea-text-medium-emphasis ea-mb-8"
+      *ngIf="!isInDialog"
+    >
       {{ t('title')}}
     </div>
-    <section class="ea-mt-8 ea-flex ea-w-48 ea-flex-col">
-      <div
-        class="ea-mb-2"
-        *ngIf="getCalculationTypesGlobalSelection$ | ngrxPush as selectionState"
-      >
-        <mat-checkbox
-          [disableRipple]="true"
-          color="primary"
-          class="hover:ea-bg-secondary-100 hover:ea-text-primary ea-text-medium-emphasis ea-px-4 ea-py-2 hover:ea-rounded"
-          (click)="selectAllChanged(!selectionState.selectAll || selectionState.indeterminate)"
-          [indeterminate]="selectionState.indeterminate"
-          [checked]="selectionState.selectAll"
+    <section class="ea-flex ea-w-48 ea-flex-col">
+      <ng-container *ngIf="!isInDialog">
+        <div
+          class="ea-mb-2"
+          *ngIf="getCalculationTypesGlobalSelection$ | ngrxPush as selectionState"
         >
-          <div class="ea-flex">
-            <mat-icon class="ea-mr-2 ea-flex-shrink-0">calculate</mat-icon>
-            <div class="ea-text-subtitle-1 ea-text-medium-emphasis">
-              {{ t('calculations') }}
+          <mat-checkbox
+            [disableRipple]="true"
+            color="primary"
+            class="hover:ea-bg-secondary-100 hover:ea-text-primary ea-text-medium-emphasis ea-px-4 ea-py-2 hover:ea-rounded"
+            (click)="selectAllChanged(!selectionState.selectAll || selectionState.indeterminate)"
+            [indeterminate]="selectionState.indeterminate"
+            [checked]="selectionState.selectAll"
+          >
+            <div class="ea-flex">
+              <mat-icon class="ea-mr-2 ea-flex-shrink-0">calculate</mat-icon>
+              <div class="ea-text-subtitle-1 ea-text-medium-emphasis">
+                {{ t('calculations') }}
+              </div>
             </div>
-          </div>
-        </mat-checkbox>
-      </div>
-      <mat-divider></mat-divider>
+          </mat-checkbox>
+        </div>
+        <mat-divider class="ea-mb-6"></mat-divider>
+      </ng-container>
       <div
-        class="ea-flex ea-pt-6"
+        class="ea-flex"
         *ngIf="calculationTypesConfig$ | ngrxPush as calculationTypesConfig"
       >
         <ul>
-          <li *ngFor="let config of calculationTypesConfig" class="ea-mt-4">
+          <li
+            *ngFor="let config of calculationTypesConfig"
+            class="md:ea-mt-4 ea-mt-2"
+          >
             <mat-checkbox
               [disableRipple]="true"
               class="hover:ea-bg-secondary-100 hover:ea-text-primary ea-px-4 ea-py-2 hover:ea-rounded"
@@ -45,8 +70,9 @@
               <div class="ea-flex ea-flex-row ea-items-center">
                 <mat-icon
                   class="ea-mr-2 ea-flex-shrink-0"
-                  [svgIcon]="config.icon"
-                ></mat-icon>
+                  [svgIcon]="config.svgIcon"
+                  >{{ config.icon }}</mat-icon
+                >
                 <div
                   class="ea-text-subtitle-2 ea-whitespace-normal"
                   [ngClass]="{'ea-text-low-emphasis': !config.selected, 'ea-text-medium-emphasis': config.selected}"
@@ -61,7 +87,7 @@
     </section>
   </div>
 
-  <div class="ea-mt-16">
+  <div class="ea-mt-16" *ngIf="!isInDialog; else okButton">
     <button
       (click)="onShowBasicFrequenciesDialogClick()"
       mat-button
@@ -71,3 +97,16 @@
     </button>
   </div>
 </div>
+
+<ng-template #okButton>
+  <div class="ea-flex ea-flex-row ea-items-center ea-w-full ea-mt-4">
+    <button
+      mat-raised-button
+      class="ea-w-full"
+      color="primary"
+      (click)="dialogRef.close()"
+    >
+      {{ 'ok' | transloco }}
+    </button>
+  </div>
+</ng-template>

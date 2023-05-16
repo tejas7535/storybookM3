@@ -3,6 +3,13 @@ export default {
   displayName: 'ea',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
+  coverageThreshold: {
+    global: {
+      branches: 50,
+      functions: 80,
+      lines: 80,
+    },
+  },
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.spec.json',

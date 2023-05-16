@@ -106,6 +106,7 @@ describe('CO2 Helper', () => {
                         designation: 'CO2-emission',
                         subordinates: [],
                         value: '123.45',
+                        unit: 'kg',
                       },
                     ],
                   },

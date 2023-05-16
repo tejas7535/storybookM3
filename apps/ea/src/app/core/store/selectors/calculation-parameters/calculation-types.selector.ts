@@ -35,14 +35,14 @@ export const getCalculationTypesConfig = createSelector(
       {
         name: 'emission' as const,
         ...state.emission,
-        icon: 'co2',
+        svgIcon: 'co2',
         label: 'calculationTypes.co2',
       },
       {
         name: 'friction' as const,
         ...state.friction,
-        icon: 'airwaves',
-        label: 'calculationTypes.overrollingFrequency',
+        icon: 'compress',
+        label: 'calculationTypes.frictionalPowerloss',
       },
     ].filter((item) => item.visible)
 );

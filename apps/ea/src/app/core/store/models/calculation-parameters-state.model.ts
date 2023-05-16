@@ -36,5 +36,6 @@ export interface CalculationParametersCalculationTypeConfig {
   name: keyof CalculationParametersCalculationTypes;
   selected: boolean;
   label: string;
-  icon: string;
+  svgIcon?: string;
+  icon?: string;
 }

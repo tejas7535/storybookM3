@@ -25,17 +25,19 @@
         else loadingTemplate
       "
     >
-      <div class="ea-border-border ea-rounded ea-border">
+      <div
+        class="ea-border-border ea-rounded ea-border ea-overflow-auto ea-min-w-[400px]"
+      >
         <div
-          class="ea-border-border ea-text-subtitle-1 ea-border-b ea-px-4 ea-py-2"
+          class="ea-border-border ea-text-subtitle-1 ea-border-b md:ea-px-4 md:ea-py-2 ea-p-2"
         >
           {{ basicFrequencies.title }}
         </div>
-        <div class="ea-px-8 ea-py-4">
+        <div class="md:ea-px-8 ea-p-0 md:ea-py-4">
           <table
             mat-table
             [dataSource]="basicFrequencies.rows"
-            class="ea-w-full"
+            class="md:ea-w-full"
           >
             <ng-container matColumnDef="name">
               <th mat-header-cell *matHeaderCellDef></th>
@@ -58,7 +60,7 @@
 
             <tr
               mat-row
-              [class.bg-hover-overlay]="i % 2 === 1"
+              [class.ea-bg-hover-overlay]="i % 2 === 1"
               *matRowDef="let row; let i = index; columns: columnsToDisplay"
             ></tr>
           </table>

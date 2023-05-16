@@ -1,6 +1,6 @@
 <ng-container *transloco="let t; read: 'calculationResult'">
   <div
-    class="ea-flex ea-flex-shrink-0 ea-flex-col ea-items-center ea-justify-start"
+    class="ea-flex ea-flex-shrink-0 ea-flex-col ea-items-center ea-justify-start md:ea-w-auto ea-w-[60vw]"
     *ngIf="_item"
   >
     <div
@@ -8,9 +8,10 @@
     >
       <mat-icon
         color="primary"
-        [svgIcon]="_item.icon"
+        [svgIcon]="_item.svgIcon"
         class="ea-mr-1 ea-flex-shrink-0"
       >
+        {{ _item.icon }}
       </mat-icon>
       <div
         class="ea-text-caption ea-text-medium-emphasis ea-flex-shrink-0 ea-font-medium"
@@ -22,8 +23,8 @@
     <div class="ea-flex ea-flex-row">
       <ng-container *ngFor="let value of _item.values; let last = last">
         <div
-          class="ea-flex ea-flex-col ea-p-2 ea-pl-4 ea-pr-4"
-          [class.items-center]="isSingleItem"
+          class="ea-flex ea-flex-col md:ea-py-2 ea-px-4"
+          [class.ea-items-center]="isSingleItem"
         >
           <div
             class="ea-text-caption ea-text-medium-emphasis ea-mb-2 ea-flex ea-flex-col"

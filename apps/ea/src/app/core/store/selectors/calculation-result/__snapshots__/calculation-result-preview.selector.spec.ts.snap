@@ -39,7 +39,7 @@ Object {
 exports[`Calculation Result Selector getCalculationResultPreviewData should return the result preview data 1`] = `
 Array [
   Object {
-    "icon": "co2",
+    "svgIcon": "co2",
     "title": "totalValueCO2",
     "values": Array [
       Object {
@@ -55,6 +55,19 @@ Array [
         "title": "operation",
         "unit": "kg",
         "value": 123,
+      },
+    ],
+  },
+  Object {
+    "icon": "compress",
+    "title": "frictionalPowerloss",
+    "values": Array [
+      Object {
+        "calculationError": undefined,
+        "isLoading": false,
+        "title": "frictionalPowerlossSubtitle",
+        "unit": undefined,
+        "value": undefined,
       },
     ],
   },

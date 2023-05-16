@@ -7,9 +7,14 @@ export interface CalculationResultPreviewItem {
   title: string;
 
   /**
+   * Material SVG icon name
+   */
+  svgIcon?: string;
+
+  /**
    * Material icon name
    */
-  icon: string;
+  icon?: string;
 
   /**
    * Value(s) to display

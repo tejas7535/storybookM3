@@ -18,177 +18,297 @@
     </div>
   </div>
 
-  <mat-dialog-content class="ea-h-full">
+  <mat-dialog-content class="ea-h-full md:ea-px-6 ea-px-2">
     <div class="ea-flex ea-h-full ea-flex-row">
       <div>
         <!-- CO2 Emissions -->
-        <mat-expansion-panel
-          *transloco="let t; read: 'calculationResultReport.co2Emissions'"
-          class="ea-border-border ea-w-full ea-border !ea-shadow-none"
-          [expanded]="
-            (selctedCalculationTypes$ | ngrxPush)?.emission?.selected === true
-          "
+        <ng-container
+          *ngIf="calculationResultFacade.isEmissionResultAvailable$ | ngrxPush"
         >
-          <mat-expansion-panel-header class="ea-h-[64px]">
-            <mat-panel-title>
-              <div class="ea-flex ea-flex-row">
-                <div class="ea-my-auto">
-                  <mat-icon color="primary" svgIcon="co2"></mat-icon>
-                </div>
-                <div class="ea-my-auto ea-ml-2">
-                  {{ t('title') }}
-                </div>
-              </div>
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-
-          <div
-            class="ea-full-w ea-full-h !ea--mx-6 !ea--mb-4"
-            *ngIf="co2Emissions$ | ngrxPush as co2Emissions"
+          <mat-expansion-panel
+            id="emissions"
+            *transloco="let t; read: 'calculationResultReport.co2Emissions'"
+            class="ea-border-border ea-w-full ea-border !ea-shadow-none"
+            [expanded]="
+              (selctedCalculationTypes$ | ngrxPush)?.emission?.selected === true
+            "
           >
+            <mat-expansion-panel-header class="ea-h-[64px]">
+              <mat-panel-title>
+                <div class="ea-flex ea-flex-row">
+                  <div class="ea-my-auto">
+                    <mat-icon color="primary" svgIcon="co2"></mat-icon>
+                  </div>
+                  <div class="ea-my-auto ea-ml-2">
+                    {{ t('title') }}
+                  </div>
+                </div>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
             <div
-              class="ea-text-body-2 ea-border-border ea-flex ea-w-full ea-flex-row ea-border-t"
+              class="ea-full-w ea-full-h !ea--mx-6 !ea--mb-4"
+              *ngIf="
+                calculationResultFacade.calculationReportCO2Emission$
+                  | ngrxPush as co2Emissions
+              "
             >
-              <!-- Chart -->
               <div
-                class="ea-border-border ea-flex ea-flex-shrink-0 ea-flex-col ea-items-center ea-border-r ea-p-8"
+                class="ea-text-body-2 ea-border-border ea-flex ea-w-full ea-flex-col md:ea-flex-row ea-border-t"
               >
-                <div class="ea-text-high-emphasis ea-mb-2">
-                  {{ t('chartTitle') }}
-                </div>
+                <!-- Chart -->
                 <div
-                  *ngIf="co2EmissionOptions$ | async as co2EmissionOptions"
-                  echarts
-                  class="ea-h-[200px] ea-w-[200px]"
-                  [options]="co2EmissionOptions"
-                  [initOpts]="{
-                    width: 200,
-                    height: 200
-                  }"
-                ></div>
+                  class="ea-border-border ea-flex ea-flex-shrink-0 ea-flex-col ea-items-center ea-border-r ea-p-2 md:ea-p-8"
+                >
+                  <div class="ea-text-high-emphasis ea-mb-2">
+                    {{ t('chartTitle') }}
+                  </div>
+                  <div
+                    *ngIf="co2EmissionOptions$ | async as co2EmissionOptions"
+                    echarts
+                    class="ea-h-[200px] ea-w-[200px]"
+                    [options]="co2EmissionOptions"
+                    [initOpts]="{
+                      width: 200,
+                      height: 200
+                    }"
+                  ></div>
 
-                <div class="ea-text-medium-emphasis ea-mh-2">
-                  {{ t('chartDesc') }}
+                  <div class="ea-text-medium-emphasis ea-mh-2">
+                    {{ t('chartDesc') }}
+                  </div>
+                </div>
+                <div class="ea-flex ea-flex-grow ea-flex-col">
+                  <!-- Upstream -->
+                  <div
+                    class="ea-border-border ea-w-full ea-border-t md:ea-border-t-0 ea-border-b ea-px-4 md:ea-px-8 ea-py-4"
+                  >
+                    <div
+                      class="ea-text-high-emphasis ea-flex ea-flex-row ea-items-center ea-pb-4"
+                    >
+                      <ea-tag
+                        value=""
+                        styleClass="ea-bg-[#DDE86E]"
+                        class="ea-mr-2"
+                      ></ea-tag>
+
+                      {{ t('upstreamTitle') }}
+                    </div>
+                    <div
+                      class="ea-flex ea-w-full ea-flex-row md:ea-justify-start ea-items-center ea-justify-center"
+                    >
+                      <div
+                        class="ea-flex ea-flex-row ea-items-center ea-justify-center ea-py-2 ea-pr-4"
+                      >
+                        <div class="ea-text-h6 ea-text-high-emphasis">
+                          {{
+                            (co2Emissions?.co2_upstream | number: '1.2-2') ||
+                              '-'
+                          }}
+                        </div>
+                        <div
+                          class="ea-text-body-2 ea-text-high-emphasis ea-pl-1"
+                        >
+                          kg
+                        </div>
+                      </div>
+                      <mat-divider [vertical]="true"></mat-divider>
+                      <div
+                        class="ea-flex ea-flex-row ea-items-center ea-justify-center ea-py-2 ea-pl-4"
+                      >
+                        <div class="ea-text-h6 ea-text-high-emphasis">
+                          {{
+                            (co2Emissions?.co2_upstream_percent * 100
+                              | number: '1.2-2') || '-'
+                          }}
+                        </div>
+                        <div
+                          class="ea-text-body-2 ea-text-high-emphasis ea-pl-1"
+                        >
+                          %
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ea-text-medium-emphasis ea-pt-4">
+                      {{ t('upstreamHint') }} -
+                      <a
+                        class="ea-text-primary"
+                        [href]="t('upstreamHintLink')"
+                        target="_blank"
+                        >{{ t('upstreamHintLinkText') }}</a
+                      >
+                    </div>
+                  </div>
+
+                  <!-- Downstream -->
+                  <div class="ea-w-full ea-px-4 md:ea-px-8 ea-py-4">
+                    <div
+                      class="ea-text-high-emphasis ea-flex ea-flex-row ea-items-center ea-pb-4"
+                    >
+                      <ea-tag
+                        value=""
+                        styleClass="ea-bg-[#7DC882]"
+                        class="ea-mr-2"
+                      ></ea-tag>
+                      {{ t('downstreamTitle') }}
+                    </div>
+                    <div
+                      class="ea-flex ea-w-full ea-flex-row md:ea-justify-start ea-justify-center ea-items-center"
+                    >
+                      <div
+                        class="ea-flex ea-flex-row ea-items-center ea-justify-center ea-py-2 ea-pr-4"
+                      >
+                        <div class="ea-text-h6 ea-text-high-emphasis">
+                          {{
+                            (co2Emissions?.co2_downstream | number: '1.2-2') ||
+                              '-'
+                          }}
+                        </div>
+                        <div
+                          class="ea-text-body-2 ea-text-high-emphasis ea-pl-1"
+                        >
+                          kg
+                        </div>
+                      </div>
+                      <mat-divider [vertical]="true"></mat-divider>
+                      <div
+                        class="ea-flex ea-flex-row ea-items-center ea-justify-center ea-py-2 ea-pl-4"
+                      >
+                        <div class="ea-text-h6 ea-text-high-emphasis">
+                          {{
+                            (co2Emissions?.co2_downstream_percent * 100
+                              | number: '1.2-2') || '-'
+                          }}
+                        </div>
+                        <div
+                          class="ea-text-body-2 ea-text-high-emphasis ea-pl-1"
+                        >
+                          %
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ea-text-medium-emphasis ea-pt-4"></div>
+                  </div>
                 </div>
               </div>
-              <div class="ea-flex ea-flex-grow ea-flex-col">
-                <!-- Upstream -->
-                <div
-                  class="ea-border-border ea-w-full ea-border-b ea-px-8 ea-py-4"
-                >
-                  <div
-                    class="ea-text-high-emphasis ea-flex ea-flex-row ea-items-center ea-pb-4"
-                  >
-                    <mat-icon class="ea-mr-2 ea-flex-shrink-0 ea-text-[#DDE86E]"
-                      >circle</mat-icon
-                    >
-                    {{ t('upstreamTitle') }}
-                  </div>
-                  <div class="ea-flex ea-w-full ea-flex-row">
-                    <div
-                      class="ea-flex ea-flex-row ea-items-center ea-justify-center ea-py-2 ea-pr-4"
-                    >
-                      <div class="ea-text-h6 ea-text-high-emphasis">
-                        {{
-                          (co2Emissions?.co2_upstream | number: '1.2-2') || '-'
-                        }}
-                      </div>
-                      <div class="ea-text-body-2 ea-text-high-emphasis ea-pl-1">
-                        kg
-                      </div>
-                    </div>
-                    <mat-divider [vertical]="true"></mat-divider>
-                    <div
-                      class="ea-flex ea-flex-row ea-items-center ea-justify-center ea-py-2 ea-pl-4"
-                    >
-                      <div class="ea-text-h6 ea-text-high-emphasis">
-                        {{
-                          (co2Emissions?.co2_upstream_percent * 100
-                            | number: '1.2-2') || '-'
-                        }}
-                      </div>
-                      <div class="ea-text-body-2 ea-text-high-emphasis ea-pl-1">
-                        %
-                      </div>
-                    </div>
-                  </div>
-                  <div class="ea-text-medium-emphasis ea-pt-4">
-                    {{ t('upstreamHint') }} -
-                    <a
-                      class="ea-text-primary"
-                      [href]="t('upstreamHintLink')"
-                      target="_blank"
-                      >{{ t('upstreamHintLinkText') }}</a
-                    >
-                  </div>
+              <div
+                class="ea-border-border ea-flex ea-flex-row ea-items-center ea-border-t ea-px-4 ea-py-2"
+              >
+                <div class="ea-mr-2 ea-flex-shrink-0">
+                  <mat-icon color="primary">info_outline</mat-icon>
                 </div>
-
-                <!-- Downstream -->
-                <div class="ea-w-full ea-px-8 ea-py-4">
-                  <div
-                    class="ea-text-high-emphasis ea-flex ea-flex-row ea-items-center ea-pb-4"
+                <div class="ea-text-body-2 ea-text-medium-emphasis">
+                  {{ t('calculationHint') }} -
+                  <a
+                    class="ea-text-primary"
+                    [href]="t('calculationHintLink')"
+                    target="_blank"
+                    >{{ t('calculationHintLinkText') }}</a
                   >
-                    <mat-icon class="ea-mr-2 ea-flex-shrink-0 ea-text-[#7DC882]"
-                      >circle</mat-icon
-                    >
-                    {{ t('downstreamTitle') }}
-                  </div>
-                  <div class="ea-flex ea-w-full ea-flex-row">
-                    <div
-                      class="ea-flex ea-flex-row ea-items-center ea-justify-center ea-py-2 ea-pr-4"
-                    >
-                      <div class="ea-text-h6 ea-text-high-emphasis">
-                        {{
-                          (co2Emissions?.co2_downstream | number: '1.2-2') ||
-                            '-'
-                        }}
-                      </div>
-                      <div class="ea-text-body-2 ea-text-high-emphasis ea-pl-1">
-                        kg
-                      </div>
-                    </div>
-                    <mat-divider [vertical]="true"></mat-divider>
-                    <div
-                      class="ea-flex ea-flex-row ea-items-center ea-justify-center ea-py-2 ea-pl-4"
-                    >
-                      <div class="ea-text-h6 ea-text-high-emphasis">
-                        {{
-                          (co2Emissions?.co2_downstream_percent * 100
-                            | number: '1.2-2') || '-'
-                        }}
-                      </div>
-                      <div class="ea-text-body-2 ea-text-high-emphasis ea-pl-1">
-                        %
-                      </div>
-                    </div>
-                  </div>
-                  <div class="ea-text-medium-emphasis ea-pt-4"></div>
                 </div>
               </div>
             </div>
+          </mat-expansion-panel>
+        </ng-container>
+
+        <!-- Frictional power loss -->
+        <ng-container
+          *ngIf="calculationResultFacade.isFrictionResultAvailable$ | ngrxPush"
+        >
+          <mat-expansion-panel
+            id="friction"
+            *transloco="
+              let t;
+              read: 'calculationResultReport.frictionalPowerloss'
+            "
+            class="ea-border-border ea-w-full ea-border !ea-shadow-none ea-mt-4"
+            [expanded]="
+              (selctedCalculationTypes$ | ngrxPush)?.friction?.selected === true
+            "
+          >
+            <mat-expansion-panel-header class="ea-h-[64px]">
+              <mat-panel-title>
+                <div class="ea-flex ea-flex-row">
+                  <div class="ea-my-auto">
+                    <mat-icon color="primary">compress</mat-icon>
+                  </div>
+                  <div class="ea-my-auto ea-ml-2">
+                    {{ t('title') }}
+                  </div>
+                </div>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
             <div
-              class="ea-border-border ea-flex ea-flex-row ea-items-center ea-border-t ea-px-4 ea-py-2"
+              class="ea-full-w ea-full-h !ea--mx-6 !ea--mb-4"
+              *ngIf="
+                calculationResultFacade.calculationReportFrictionalPowerloss$
+                  | ngrxPush as frictionalPowerloss
+              "
             >
-              <div class="ea-mr-2 ea-flex-shrink-0">
-                <mat-icon color="primary">info_outline</mat-icon>
-              </div>
-              <div class="ea-text-body-2 ea-text-medium-emphasis">
-                {{ t('calculationHint') }} -
-                <a
-                  class="ea-text-primary"
-                  [href]="t('calculationHintLink')"
-                  target="_blank"
-                  >{{ t('calculationHintLinkText') }}</a
-                >
-              </div>
+              <ng-container
+                *transloco="
+                  let t;
+                  read: 'calculationResultReport.frictionalPowerloss'
+                "
+              >
+                <div class="ea-grid ea-grid-cols-2 ea-gap-0 ea-px-4 md:ea-px-8">
+                  <ng-container
+                    *ngFor="let item of frictionalPowerloss; let index = index"
+                  >
+                    <div
+                      class="ea-flex ea-flex-col ea-justify-start ea-border-border md:ea-border-b-0 ea-border-b md:ea-mx-2 ea-py-4 md:ea-py-2"
+                      [ngClass]="{
+                        'md:ea-border-r ea-border-r-0 md:ea-mr-4 ea-pl-4 md:ea-pl-0':
+                          index % 2 !== 1,
+                        'md:ea-border-r-0 ea-border-r md:ea-mr-4 ea-pr-4 md:ea-pr-0':
+                          index % 2 === 1,
+                        'ea-col-span-2 md:ea-col-span-1 !ea-pl-0': index === 0
+                      }"
+                    >
+                      <div class="ea-mb-4">
+                        <ea-tag
+                          [value]="item.short"
+                          styleClass="ea-text-[#007892] ea-bg-[#F0F6FA]"
+                        ></ea-tag>
+                      </div>
+                      <div
+                        class="ea-flex ea-flex-row ea-items-center ea-justify-start"
+                      >
+                        <div
+                          class="ea-text-h6 ea-text-high-emphasis"
+                          [class.!ea-text-h4]="index === 0"
+                        >
+                          {{ (item.value | number: '1.0-2') || '-' }}
+                        </div>
+                        <div
+                          class="ea-text-body-2 ea-text-high-emphasis ea-pl-1"
+                        >
+                          {{ item.unit }}
+                        </div>
+                      </div>
+
+                      <div
+                        class="ea-text-caption ea-text-medium-emphasis ea-mt-4"
+                      >
+                        {{ t(item.title) }}
+                      </div>
+                    </div>
+                    <div
+                      class="ea-border-t ea-border-border ea-my-4 ea-h-[1px] ea-col-span-2 md:ea-block ea-hidden"
+                      *ngIf="index % 2 === 1"
+                    ></div>
+                  </ng-container>
+                </div>
+              </ng-container>
             </div>
-          </div>
-        </mat-expansion-panel>
+          </mat-expansion-panel>
+        </ng-container>
       </div>
 
       <!-- Right Hand Navigation -->
       <div
-        class="ea-text-medium-emphasis ea-ml-8 ea-flex ea-w-[250px] ea-flex-grow ea-flex-row"
+        class="ea-text-medium-emphasis ea-ml-8 md:ea-flex md:ea-w-[250px] ea-h-full ea-mb-auto ea-flex-row ea-hidden"
         *transloco="let t; read: 'calculationSelection'"
       >
         <mat-divider [vertical]="true"></mat-divider>
@@ -201,19 +321,22 @@
           </div>
           <mat-divider></mat-divider>
           <div
-            class="ea-flex ea-pt-4"
+            class="ea-flex ea-pt-4 ea-flex-col"
             *ngIf="
-              getSelectedCalculations$ | ngrxPush as getSelectedCalculations
+              calculationResultFacade.getSelectedCalculations$
+                | ngrxPush as getSelectedCalculations
             "
           >
             <div
               *ngFor="let config of getSelectedCalculations"
-              class="hover:ea-bg-secondary-100 hover:ea-text-primary ea-mt-4 ea-flex ea-w-full ea-flex-row ea-items-center ea-px-4 ea-py-2 hover:ea-rounded"
+              (click)="scrollIntoView(config.name)"
+              class="hover:ea-bg-secondary-100 hover:ea-text-primary ea-mt-4 ea-flex ea-w-full ea-flex-row ea-items-center ea-px-4 ea-py-2 hover:ea-rounded ea-cursor-pointer"
             >
               <mat-icon
                 class="ea-mr-2 ea-flex-shrink-0"
-                [svgIcon]="config.icon"
-              ></mat-icon>
+                [svgIcon]="config.svgIcon"
+                >{{ config.icon }}</mat-icon
+              >
               <div class="ea-text-subtitle-2 ea-whitespace-normal">
                 {{ t(config.label) }}
               </div>

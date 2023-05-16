@@ -1,8 +1,17 @@
 import { CommonModule, formatNumber } from '@angular/common';
-import { Component, Inject, LOCALE_ID } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Inject,
+  LOCALE_ID,
+  ViewChild,
+} from '@angular/core';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatExpansionModule } from '@angular/material/expansion';
+import {
+  MatExpansionModule,
+  MatExpansionPanelHeader,
+} from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
@@ -13,6 +22,8 @@ import {
   CalculationResultFacade,
 } from '@ea/core/store';
 import { ProductSelectionFacade } from '@ea/core/store/facades/product-selection/product-selection.facade';
+import { CalculationParametersCalculationTypeConfig } from '@ea/core/store/models';
+import { TagComponent } from '@ea/shared/tag/tag.component';
 import { TranslocoService } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { EChartsOption } from 'echarts';
@@ -37,21 +48,21 @@ const COLOR_PLATTE = ['#DDE86E', '#7DC882'];
     MatExpansionModule,
     SharedTranslocoModule,
     NgxEchartsModule,
+    TagComponent,
     CalculationTypesSelectionComponent,
   ],
 })
 export class CalculationResultReportComponent {
   public bearingDesignation$ = this.productSelectionFacade.bearingDesignation$;
-  public co2Emissions$ =
-    this.calculationResultFacade.calculationReportCO2Emission$;
+
   public selctedCalculationTypes$ =
     this.calculationParametersFacade.getCalculationTypes$;
 
-  public getSelectedCalculations$ =
-    this.calculationResultFacade.getSelectedCalculations$;
+  @ViewChild('emissionPanel')
+  emissionPanel: ElementRef<MatExpansionPanelHeader>;
 
   public co2EmissionOptions$: Observable<EChartsOption> =
-    this.co2Emissions$.pipe(
+    this.calculationResultFacade.calculationReportCO2Emission$.pipe(
       map(
         (co2Emissions) =>
           ({
@@ -115,7 +126,7 @@ export class CalculationResultReportComponent {
     );
 
   constructor(
-    private readonly calculationResultFacade: CalculationResultFacade,
+    public readonly calculationResultFacade: CalculationResultFacade,
     private readonly productSelectionFacade: ProductSelectionFacade,
     private readonly calculationParametersFacade: CalculationParametersFacade,
     public readonly dialogRef: MatDialogRef<CalculationResultReportComponent>,
@@ -126,6 +137,14 @@ export class CalculationResultReportComponent {
 
   closeDialog() {
     this.dialogRef.close();
+  }
+
+  scrollIntoView(itemName: CalculationParametersCalculationTypeConfig['name']) {
+    const scrollOptions: ScrollIntoViewOptions = {
+      behavior: 'smooth',
+      block: 'start',
+    };
+    document.querySelector(`#${itemName}`)?.scrollIntoView(scrollOptions);
   }
 
   private formatValue(value: number): string {

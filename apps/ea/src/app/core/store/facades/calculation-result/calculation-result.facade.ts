@@ -23,6 +23,18 @@ export class CalculationResultFacade {
     CalculationResultReportSelector.getCO2EmissionReport
   );
 
+  public readonly isEmissionResultAvailable$ = this.store.select(
+    CalculationResultReportSelector.isEmissionResultAvailable
+  );
+
+  public readonly calculationReportFrictionalPowerloss$ = this.store.select(
+    CalculationResultReportSelector.getFrictionalalPowerlossReport
+  );
+
+  public readonly isFrictionResultAvailable$ = this.store.select(
+    CalculationResultReportSelector.isFrictionResultAvailable
+  );
+
   public readonly getSelectedCalculations$ = this.store.select(
     CalculationResultReportSelector.getSelectedCalculations
   );

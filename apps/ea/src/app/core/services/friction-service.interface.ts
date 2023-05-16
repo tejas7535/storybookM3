@@ -72,7 +72,13 @@ export interface ResultSubordinate {
   title?: string;
   titleID?: string;
   value?: string;
+  abbreviation?: string;
   unit?: string;
   entries?: [][];
   subordinates: ResultSubordinate[];
+  data?: {
+    fields: string[];
+    unitFields: { unit: string }[];
+    items: { field: string; value: string; unit?: string }[][];
+  };
 }

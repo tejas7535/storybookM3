@@ -11,7 +11,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -27,6 +27,9 @@ import { FormFieldModule } from '@ea/shared/form-field';
 import { LetModule, PushModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
+
+import { BasicFrequenciesComponent } from '../basic-frequencies/basic-frequencies.component';
+import { CalculationTypesSelectionComponent } from '../calculation-types-selection/calculation-types-selection';
 
 @Component({
   templateUrl: './calculation-parameters.html',
@@ -76,7 +79,8 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly calculationParametersFacade: CalculationParametersFacade,
-    private readonly productSelectionFacade: ProductSelectionFacade
+    private readonly productSelectionFacade: ProductSelectionFacade,
+    private readonly matDialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -151,5 +155,13 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
   public onResetButtonClick(): void {
     this.operationConditionsForm.reset();
     this.calculationParametersFacade.dispatch(resetCalculationParameters());
+  }
+
+  public onShowBasicFrequenciesDialogClick(): void {
+    this.matDialog.open(BasicFrequenciesComponent);
+  }
+
+  public onShowCalculationTypesClick(): void {
+    this.matDialog.open(CalculationTypesSelectionComponent);
   }
 }

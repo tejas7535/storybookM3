@@ -30,25 +30,72 @@ export const getCO2EmissionReport = createSelector(
   }
 );
 
-const isEmissionResultAvailable = createSelector(
+export const isEmissionResultAvailable = createSelector(
   getCO2EmissionReport,
   (co2Emission): boolean =>
     !!co2Emission?.co2_downstream || !!co2Emission?.co2_upstream
 );
 
+export const getFrictionalalPowerlossReport = createSelector(
+  frictionCalculationResult,
+  (friction) => {
+    const result: {
+      value: number;
+      unit: string;
+      title: string;
+      short: string;
+    }[] = [
+      {
+        ...friction?.frictionalTorque,
+        short: 'MR',
+        title: 'frictionalTorque',
+      },
+      {
+        ...friction?.frictionalPowerloss,
+        short: 'NR',
+        title: 'frictionalPowerloss',
+      },
+      {
+        ...friction?.frictionalPowerlossSealing,
+        short: 'NSe',
+        title: 'frictionalPowerlossSealing',
+      },
+      {
+        ...friction?.frictionalPowerlossUnloadedZone,
+        short: 'NUz',
+        title: 'frictionalPowerlossUnloadedZone',
+      },
+      {
+        ...friction?.operatingViscosity,
+        short: 'ny',
+        title: 'operatingViscosity',
+      },
+    ];
+
+    return result.filter((item) => item.value !== undefined);
+  }
+);
+
+export const isFrictionResultAvailable = createSelector(
+  getFrictionalalPowerlossReport,
+  (powerlossReport): boolean => powerlossReport?.length > 0
+);
+
 export const getSelectedCalculations = createSelector(
   getCalculationTypesConfig,
   isEmissionResultAvailable,
+  isFrictionResultAvailable,
   (
     config,
-    emissionResultAvailable
+    emissionResultAvailable,
+    frictionResultAvailable
   ): CalculationResultReportCalculationTypeSelection => {
     const resultAvailableMapping: Record<
       keyof CalculationParametersCalculationTypes,
       boolean
     > = {
       emission: emissionResultAvailable,
-      friction: false,
+      friction: frictionResultAvailable,
     };
 
     return config
