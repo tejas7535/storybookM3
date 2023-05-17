@@ -1,4 +1,4 @@
-import { ApprovalLevel } from '@gq/shared/models/quotation';
+import { ApprovalLevel, ApprovalStatus } from '@gq/shared/models/quotation';
 import { Approver } from '@gq/shared/models/quotation/approver.model';
 
 import { APPROVAL_STATE_MOCK } from '../../../../testing/mocks';
@@ -20,7 +20,8 @@ describe('approvalReducer', () => {
       const action = ApprovalActions.getAllApproversFailure({ error });
       const state = approvalFeature.reducer(APPROVAL_STATE_MOCK, action);
       expect(state).toEqual({
-        ...initialState,
+        ...APPROVAL_STATE_MOCK,
+        approvers: [],
         approversLoading: false,
         error,
       });
@@ -81,6 +82,60 @@ describe('approvalReducer', () => {
         ...initialState,
         approversLoading: false,
         approvers: APPROVAL_STATE_MOCK.approvers,
+      });
+    });
+  });
+
+  describe('getApprovalStatus', () => {
+    test('should set approvalStatusLoading', () => {
+      const action = ApprovalActions.getApprovalStatus({ sapId: '1' });
+      const state = approvalFeature.reducer(initialState, action);
+      expect(state).toEqual({
+        ...initialState,
+        approvalStatusLoading: true,
+      });
+    });
+
+    test('should set the error', () => {
+      const error = new Error('my error');
+      const action = ApprovalActions.getApprovalStatusFailure({ error });
+      const state = approvalFeature.reducer(APPROVAL_STATE_MOCK, action);
+      expect(state).toEqual({
+        ...APPROVAL_STATE_MOCK,
+        approvalStatusLoading: false,
+        approvalStatus: {
+          sapId: undefined,
+          currency: undefined,
+          approvalLevel: undefined,
+          approver3Required: false,
+          autoApproval: false,
+          netValue: undefined,
+          gpm: undefined,
+          deviation: undefined,
+        },
+        error,
+      });
+    });
+
+    test('should set approvalStatus Values', () => {
+      const approvalStatus: ApprovalStatus = {
+        sapId: '12345',
+        currency: 'EUR',
+        approvalLevel: ApprovalLevel.L2,
+        approver3Required: false,
+        autoApproval: false,
+        deviation: 10,
+        gpm: 15,
+        netValue: 100_000,
+      };
+      const action = ApprovalActions.getApprovalStatusSuccess({
+        approvalStatus,
+      });
+      const state = approvalFeature.reducer(initialState, action);
+      expect(state).toEqual({
+        ...initialState,
+        approvalStatusLoading: false,
+        approvalStatus,
       });
     });
   });

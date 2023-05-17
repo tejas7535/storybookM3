@@ -47,4 +47,15 @@ describe('ApprovalService', () => {
       expect(req.request.method).toBe(HttpMethod.GET);
     });
   });
+
+  describe('getApprovalStatus', () => {
+    test('should call with correct path', () => {
+      service.getApprovalStatus('12345').subscribe();
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${ApprovalPaths.PATH_APPROVAL}/${ApprovalPaths.PATH_APPROVAL_STATUS}/12345`
+      );
+
+      expect(req.request.method).toBe(HttpMethod.GET);
+    });
+  });
 });

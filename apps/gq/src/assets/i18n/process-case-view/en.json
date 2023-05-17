@@ -7,7 +7,7 @@
     "releaseModal": {
       "title": "Quotation Release Workflow",
       "summary": "Summary",
-      "approvalLevel": "Approval Level",
+      "approvalLevelLabel": "Approval Level",
       "problems": "Problems",
       "approvers": "Approvers",
       "additionalInformation": "Additional Information",

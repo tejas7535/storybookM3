@@ -1,8 +1,12 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+
+import { of } from 'rxjs';
 
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
+import { Quotation } from '@gq/shared/models';
+import { ApprovalStatus } from '@gq/shared/models/quotation';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { TranslocoService } from '@ngneat/transloco';
 import { MockProvider } from 'ng-mocks';
@@ -23,6 +27,12 @@ describe('ReleaseModalComponent', () => {
       FormBuilder,
       MockProvider(TranslocoService),
       MockProvider(ApprovalFacade),
+      {
+        provide: MAT_DIALOG_DATA,
+        useValue: {
+          sapId: '12345',
+        } as Quotation,
+      },
     ],
     detectChanges: false,
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -37,10 +47,51 @@ describe('ReleaseModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call getAllApprover', () => {
-    component.approvalFacade.getApprovers = jest.fn();
-    component.ngOnInit();
-    expect(component.approvalFacade.getApprovers).toHaveBeenCalled();
+  describe('ngOnInit', () => {
+    beforeEach(() => {
+      const facadeMock: ApprovalFacade = {
+        getApprovalWorkflowData: jest.fn(),
+        approvalStatus$: of({ approver3Required: false } as ApprovalStatus),
+      } as unknown as ApprovalFacade;
+
+      Object.defineProperty(component, 'approvalFacade', {
+        value: facadeMock,
+      });
+    });
+    it('should call getAllApprover', () => {
+      component.ngOnInit();
+      expect(
+        component.approvalFacade.getApprovalWorkflowData
+      ).toHaveBeenCalled();
+    });
+    test('should set approver one and two in formGroup', () => {
+      component.ngOnInit();
+      expect(component.formGroup.get('approver3')).toBeNull();
+    });
+    test('should set approver one, two and three in formGroup', () => {
+      const facadeMock: ApprovalFacade = {
+        getApprovalWorkflowData: jest.fn(),
+        approvalStatus$: of({ approver3Required: true } as ApprovalStatus),
+      } as unknown as ApprovalFacade;
+
+      Object.defineProperty(component, 'approvalFacade', {
+        value: facadeMock,
+      });
+      component.ngOnInit();
+      expect(component.formGroup.get('approver3')).toBeDefined();
+    });
+  });
+
+  describe('ngOnDestroy', () => {
+    test('should emit', () => {
+      component['shutdown$$'].next = jest.fn();
+      component['shutdown$$'].complete = jest.fn();
+
+      component.ngOnDestroy();
+
+      expect(component['shutdown$$'].next).toHaveBeenCalled();
+      expect(component['shutdown$$'].complete).toHaveBeenCalled();
+    });
   });
 
   describe('getErrorMessageOfControl', () => {

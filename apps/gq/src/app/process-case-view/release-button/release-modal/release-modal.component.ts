@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -6,9 +12,13 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+
+import { Subject, takeUntil, tap } from 'rxjs';
 
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
+import { Quotation } from '@gq/shared/models';
+import { ApprovalStatus } from '@gq/shared/models/quotation';
 import { ApprovalLevel } from '@gq/shared/models/quotation/approval-level.enum';
 import { approverValidator } from '@gq/shared/validators/approver-validator';
 import { TranslocoService } from '@ngneat/transloco';
@@ -17,16 +27,11 @@ import { TranslocoService } from '@ngneat/transloco';
   templateUrl: './release-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ReleaseModalComponent implements OnInit {
+export class ReleaseModalComponent implements OnInit, OnDestroy {
   formGroup: FormGroup;
 
   INPUT_MAX_LENGTH = 1000;
-
-  // ToDo: adjust once we get the data from BE
-  approver3Required = true;
-  approvalLevel: ApprovalLevel;
-
-  autoApprovalEnabled: boolean;
+  readonly approvalLevelEnum = ApprovalLevel;
 
   approver1FormControl = new FormControl(
     '',
@@ -37,20 +42,22 @@ export class ReleaseModalComponent implements OnInit {
     '',
     Validators.compose([approverValidator().bind(this), Validators.required])
   );
+
   approver3FormControl = new FormControl(
     '',
-    Validators.compose([
-      approverValidator().bind(this),
-      this.approver3Required ? Validators.required : undefined,
-    ])
+    Validators.compose([approverValidator().bind(this), Validators.required])
   );
   approverCCFormControl = new FormControl('');
 
   private readonly REQUIRED_ERROR_MESSAGE = '';
   private readonly INVALID_APPROVER_ERROR_MESSAGE = '';
 
+  private readonly shutdown$$: Subject<void> = new Subject<void>();
+
   constructor(
     public readonly approvalFacade: ApprovalFacade,
+    @Inject(MAT_DIALOG_DATA)
+    public dialogData: Quotation,
     private readonly dialogRef: MatDialogRef<ReleaseModalComponent>,
     private readonly formBuilder: FormBuilder,
     private readonly translocoService: TranslocoService
@@ -64,21 +71,33 @@ export class ReleaseModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.approvalFacade.getApprovers();
+    this.approvalFacade.getApprovalWorkflowData(this.dialogData.sapId);
 
     this.formGroup = this.formBuilder.group({
       approver1: this.approver1FormControl,
       approver2: this.approver2FormControl,
-      approver3: this.approver3FormControl,
       approverCC: this.approverCCFormControl,
       comment: ['', Validators.maxLength(this.INPUT_MAX_LENGTH)],
       projectInformation: ['', Validators.maxLength(this.INPUT_MAX_LENGTH)],
     });
 
-    this.autoApprovalEnabled = this.approvalLevel === ApprovalLevel.L0;
-
-    this.formGroup.get('approver1').updateValueAndValidity();
+    this.approvalFacade.approvalStatus$
+      .pipe(
+        takeUntil(this.shutdown$$),
+        tap(({ approver3Required }: ApprovalStatus) => {
+          if (approver3Required) {
+            this.formGroup.addControl('approver3', this.approver3FormControl);
+          }
+        })
+      )
+      .subscribe();
   }
+
+  ngOnDestroy(): void {
+    this.shutdown$$.next();
+    this.shutdown$$.complete();
+  }
+
   getErrorMessageOfControl(control: AbstractControl): string {
     if (control.hasError('required')) {
       return this.REQUIRED_ERROR_MESSAGE;

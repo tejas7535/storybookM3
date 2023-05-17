@@ -17,6 +17,7 @@ export class ReleaseButtonComponent {
 
   openDialog() {
     this.dialog.open(ReleaseModalComponent, {
+      data: this.quotation,
       width: '634px',
       panelClass: 'release-modal',
     });

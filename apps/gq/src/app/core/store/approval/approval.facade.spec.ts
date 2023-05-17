@@ -1,13 +1,11 @@
-import { ApprovalLevel } from '@gq/shared/models/quotation';
-import { Approver } from '@gq/shared/models/quotation/approver.model';
+import { ApprovalLevel, Approver } from '@gq/shared/models/quotation';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
-import { APPROVAL_STATE_MOCK } from '../../../../../src/testing/mocks';
 import { ApprovalActions } from './approval.actions';
 import { ApprovalFacade } from './approval.facade';
-import { approvalFeature } from './approval.reducer';
+import * as fromApprovalSelectors from './approval.selectors';
 describe('ApprovalFacade', () => {
   let service: ApprovalFacade;
   let spectator: SpectatorService<ApprovalFacade>;
@@ -27,105 +25,126 @@ describe('ApprovalFacade', () => {
   test('should be created', () => {
     expect(service).toBeTruthy();
   });
-  describe('should return expected Observables$', () => {
-    beforeEach(() => {
-      mockStore.overrideSelector(
-        approvalFeature.selectApprovers,
-        APPROVAL_STATE_MOCK.approvers
-      );
-    });
-    const levelOneApproverResult: Approver[] =
-      APPROVAL_STATE_MOCK.approvers.sort(
-        (a, b) =>
-          a.approvalLevel - b.approvalLevel ||
-          a.userId.localeCompare(b.userId) ||
-          a.firstName.localeCompare(b.firstName) ||
-          a.lastName.localeCompare(b.lastName)
-      );
 
-    const levelTwoApproverResult: Approver[] = [
-      ...APPROVAL_STATE_MOCK.approvers
-        .filter((item) => item.approvalLevel !== ApprovalLevel.L1)
-        .sort(
-          (a, b) =>
-            a.approvalLevel - b.approvalLevel ||
-            a.userId.localeCompare(b.userId) ||
-            a.firstName.localeCompare(b.firstName) ||
-            a.lastName.localeCompare(b.lastName)
-        ),
-    ];
-    const levelThreeApproverResult: Approver[] = [
-      ...APPROVAL_STATE_MOCK.approvers.filter(
-        (item) =>
-          item.approvalLevel !== ApprovalLevel.L1 &&
-          item.approvalLevel !== ApprovalLevel.L2
-      ),
-    ];
-    const levelFourApproverResult: Approver[] = [
-      ...APPROVAL_STATE_MOCK.approvers.filter(
-        (item) =>
-          item.approvalLevel === ApprovalLevel.L4 ||
-          item.approvalLevel === ApprovalLevel.L5
-      ),
-    ];
-    const levelFiveApproverResult: Approver[] = [
-      ...APPROVAL_STATE_MOCK.approvers.filter(
-        (item) => item.approvalLevel === ApprovalLevel.L5
-      ),
-    ];
-
+  describe('Should provide the list for approvers', () => {
     test(
-      'should provide LevelOneApprovers',
+      'should provide firstApprovers',
       marbles((m) => {
-        m.expect(service.levelOneApprovers$).toBeObservable(
-          m.cold('a', { a: levelOneApproverResult })
+        const approverList: Approver[] = [{} as Approver];
+        mockStore.overrideSelector(
+          fromApprovalSelectors.getFirstApprovers,
+          approverList
         );
-        expect(true).toBeTruthy();
+        m.expect(service.firstApprovers$).toBeObservable(
+          m.cold('a', { a: approverList })
+        );
       })
     );
     test(
-      'should provide LevelTwoApprovers',
+      'should provide secondApprovers',
       marbles((m) => {
-        m.expect(service.levelTwoApprovers$).toBeObservable(
-          m.cold('a', { a: levelTwoApproverResult })
+        const approverList: Approver[] = [{} as Approver];
+        mockStore.overrideSelector(
+          fromApprovalSelectors.getSecondApprovers,
+          approverList
         );
-        expect(true).toBeTruthy();
+        m.expect(service.secondApprovers$).toBeObservable(
+          m.cold('a', { a: approverList })
+        );
       })
     );
     test(
-      'should provide LevelThreeApprovers',
+      'should provide thirdApprovers',
       marbles((m) => {
-        m.expect(service.levelThreeApprovers$).toBeObservable(
-          m.cold('a', { a: levelThreeApproverResult })
+        const approverList: Approver[] = [{} as Approver];
+        mockStore.overrideSelector(
+          fromApprovalSelectors.getThirdApprovers,
+          approverList
         );
-        expect(true).toBeTruthy();
-      })
-    );
-    test(
-      'should provide LevelFourApprovers',
-      marbles((m) => {
-        m.expect(service.levelFourApprovers$).toBeObservable(
-          m.cold('a', { a: levelFourApproverResult })
+        m.expect(service.thirdApprovers$).toBeObservable(
+          m.cold('a', { a: approverList })
         );
-        expect(true).toBeTruthy();
-      })
-    );
-    test(
-      'should provide LevelFiveApprovers',
-      marbles((m) => {
-        m.expect(service.levelFiveApprovers$).toBeObservable(
-          m.cold('a', { a: levelFiveApproverResult })
-        );
-        expect(true).toBeTruthy();
       })
     );
   });
 
-  test('should dispatch action', () => {
+  describe('Should provide approval Levels', () => {
+    test(
+      'should provide Observable for approvalLevel firstApprover',
+      marbles((m) => {
+        mockStore.overrideSelector(
+          fromApprovalSelectors.getApprovalLevelFirstApprover,
+          ApprovalLevel.L1
+        );
+        m.expect(service.approvalLevelFirstApprover$).toBeObservable(
+          m.cold('a', { a: ApprovalLevel.L1 })
+        );
+      })
+    );
+    test(
+      'should provide Observable for approvalLevel secondApprover',
+      marbles((m) => {
+        mockStore.overrideSelector(
+          fromApprovalSelectors.getApprovalLevelSecondApprover,
+          ApprovalLevel.L1
+        );
+        m.expect(service.approvalLevelSecondApprover$).toBeObservable(
+          m.cold('a', { a: ApprovalLevel.L1 })
+        );
+      })
+    );
+    test(
+      'should provide Observable for approvalLevel thirdApprover',
+      marbles((m) => {
+        mockStore.overrideSelector(
+          fromApprovalSelectors.getApprovalLevelThirdApprover,
+          ApprovalLevel.L1
+        );
+        m.expect(service.approvalLevelThirdApprover$).toBeObservable(
+          m.cold('a', { a: ApprovalLevel.L1 })
+        );
+      })
+    );
+  });
+
+  describe('should provide the approvalLevel string', () => {
+    test(
+      'should provide Observable for approvalLevelIncludedToQuotation',
+      marbles((m) => {
+        mockStore.overrideSelector(
+          fromApprovalSelectors.getRequiredApprovalLevelsForQuotation,
+          'a string'
+        );
+        m.expect(service.requiredApprovalLevelsForQuotation$).toBeObservable(
+          m.cold('a', { a: 'a string' })
+        );
+      })
+    );
+  });
+
+  test('should dispatch action getAllApprovers', () => {
     mockStore.dispatch = jest.fn();
     service.getApprovers();
     expect(mockStore.dispatch).toHaveBeenCalledWith(
       ApprovalActions.getAllApprovers()
     );
+  });
+
+  test('should dispatch action getApprovalStatus', () => {
+    mockStore.dispatch = jest.fn();
+    service.getApprovalStatus(expect.any(String));
+    expect(mockStore.dispatch).toHaveBeenCalledWith(
+      ApprovalActions.getApprovalStatus({ sapId: expect.any(String) })
+    );
+  });
+
+  test('should call mehtods', () => {
+    service.getApprovers = jest.fn();
+    service.getApprovalStatus = jest.fn();
+
+    service.getApprovalWorkflowData(expect.any(String));
+
+    expect(service.getApprovers).toHaveBeenCalled();
+    expect(service.getApprovalStatus).toHaveBeenCalled();
   });
 });

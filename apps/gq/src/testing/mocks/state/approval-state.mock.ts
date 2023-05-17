@@ -47,4 +47,17 @@ export const APPROVAL_STATE_MOCK: ApprovalState = {
       approvalLevel: ApprovalLevel.L5,
     },
   ],
-} as ApprovalState;
+  approvalStatusLoading: false,
+  error: undefined,
+  approversLoading: false,
+  approvalStatus: {
+    sapId: '12345',
+    currency: 'EUR',
+    approvalLevel: ApprovalLevel.L2,
+    approver3Required: false,
+    autoApproval: false,
+    deviation: 10,
+    gpm: 15,
+    netValue: 100_000,
+  },
+};

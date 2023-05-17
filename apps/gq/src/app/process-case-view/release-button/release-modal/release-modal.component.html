@@ -9,37 +9,70 @@
   </div>
 
   <div class="px-4">
-    <p class="text-subtitle-2 pt-4">{{ t('summary') }}</p>
-    <div class="flex items-center pt-3">
-      <p class="text-body-2 text-medium-emphasis">{{ t('approvalLevel') }}:</p>
-      <span class="text-body-2 text-high-emphasis pl-2">L1 + L2</span>
+    <p
+      *ngIf="!(approvalFacade.approvalStatus$ | ngrxPush).autoApproval"
+      class="text-subtitle-2 pt-4"
+    >
+      {{ t('summary') }}
+    </p>
+    <div
+      *ngIf="!(approvalFacade.approvalStatus$ | ngrxPush).autoApproval"
+      class="flex items-center pt-3"
+    >
+      <p class="text-body-2 text-medium-emphasis">
+        {{ t('approvalLevelLabel') }}:
+      </p>
+      <span class="text-body-2 text-high-emphasis pl-2">{{
+        approvalFacade.requiredApprovalLevelsForQuotation$ | ngrxPush
+      }}</span>
     </div>
 
-    <div *ngIf="!autoApprovalEnabled">
+    <div *ngIf="!(approvalFacade.approvalStatus$ | ngrxPush).autoApproval">
       <p class="text-subtitle-2 pb-4 pt-6">{{ t('approvers') }}</p>
       <gq-release-modal-approver-select
         tabindex="0"
         [approverSelectFormControl]="approver1FormControl"
-        [approvers$]="approvalFacade.levelOneApprovers$"
-        [title]="t('approver1Title', { level: 'L1' })"
+        [approvers$]="approvalFacade.firstApprovers$"
+        [title]="
+          t('approver1Title', {
+            level:
+              approvalLevelEnum[
+                approvalFacade.approvalLevelFirstApprover$ | ngrxPush
+              ]
+          })
+        "
         [errorMessage]="getErrorMessageOfControl(approver1FormControl)"
       ></gq-release-modal-approver-select>
       <gq-release-modal-approver-select
         [approverSelectFormControl]="approver2FormControl"
-        [approvers$]="approvalFacade.levelTwoApprovers$"
-        [title]="t('approver2Title', { level: 'L2' })"
+        [approvers$]="approvalFacade.secondApprovers$"
+        [title]="
+          t('approver2Title', {
+            level:
+              approvalLevelEnum[
+                approvalFacade.approvalLevelSecondApprover$ | ngrxPush
+              ]
+          })
+        "
         [errorMessage]="getErrorMessageOfControl(approver2FormControl)"
       ></gq-release-modal-approver-select>
       <gq-release-modal-approver-select
-        *ngIf="approver3Required"
+        *ngIf="(approvalFacade.approvalStatus$ | ngrxPush)?.approver3Required"
         [approverSelectFormControl]="approver3FormControl"
-        [approvers$]="approvalFacade.levelTwoApprovers$"
-        [title]="t('approver3Title', { level: 'L2' })"
+        [approvers$]="approvalFacade.thirdApprovers$"
+        [title]="
+          t('approver3Title', {
+            level:
+              approvalLevelEnum[
+                approvalFacade.approvalLevelThirdApprover$ | ngrxPush
+              ]
+          })
+        "
         [errorMessage]="getErrorMessageOfControl(approver3FormControl)"
       ></gq-release-modal-approver-select>
       <gq-release-modal-approver-select
         [approverSelectFormControl]="approverCCFormControl"
-        [approvers$]="approvalFacade.levelOneApprovers$"
+        [approvers$]="approvalFacade.allUsers$"
         [title]="t('approverCCTitle')"
       ></gq-release-modal-approver-select>
     </div>
@@ -83,7 +116,10 @@
       mat-raised-button
       color="primary"
       (click)="triggerAutoApproval()"
-      *ngIf="autoApprovalEnabled; else startWorkflowButton"
+      *ngIf="
+        (approvalFacade.approvalStatus$ | ngrxPush)?.autoApproval;
+        else startWorkflowButton
+      "
     >
       {{ t('autoApproval') }}
     </button>

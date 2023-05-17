@@ -7,7 +7,7 @@
     "releaseModal": {
       "title": "Workflow zur Angebotsfreigabe",
       "summary": "Zusammenfassung",
-      "approvalLevel": "Approval Level",
+      "approvalLevelLabel": "Approval Level",
       "problems": "Probleme",
       "approvers": "Genehmiger",
       "additionalInformation": "Zusätzliche Informationen",

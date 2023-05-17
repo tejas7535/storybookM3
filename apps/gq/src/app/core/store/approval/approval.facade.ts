@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { ApprovalLevel } from '@gq/shared/models/quotation';
+import { ApprovalLevel, ApprovalStatus } from '@gq/shared/models/quotation';
 import { Approver } from '@gq/shared/models/quotation/approver.model';
 import { Store } from '@ngrx/store';
 
 import { ApprovalActions } from './approval.actions';
+import { approvalFeature } from './approval.reducer';
 import * as fromApprovalSelectors from './approval.selectors';
 @Injectable({
   providedIn: 'root',
@@ -14,27 +15,68 @@ import * as fromApprovalSelectors from './approval.selectors';
 export class ApprovalFacade {
   constructor(private readonly store: Store) {}
 
-  public levelOneApprovers$: Observable<Approver[]> = this.store.select(
-    fromApprovalSelectors.getApproversOfLevel(ApprovalLevel.L1)
+  firstApprovers$: Observable<Approver[]> = this.store.select(
+    fromApprovalSelectors.getFirstApprovers
   );
 
-  public levelTwoApprovers$: Observable<Approver[]> = this.store.select(
-    fromApprovalSelectors.getApproversOfLevel(ApprovalLevel.L2)
+  secondApprovers$: Observable<Approver[]> = this.store.select(
+    fromApprovalSelectors.getSecondApprovers
   );
 
-  public levelThreeApprovers$: Observable<Approver[]> = this.store.select(
-    fromApprovalSelectors.getApproversOfLevel(ApprovalLevel.L3)
+  thirdApprovers$: Observable<Approver[]> = this.store.select(
+    fromApprovalSelectors.getThirdApprovers
   );
 
-  public levelFourApprovers$: Observable<Approver[]> = this.store.select(
-    fromApprovalSelectors.getApproversOfLevel(ApprovalLevel.L4)
+  approvalLevelFirstApprover$: Observable<ApprovalLevel> = this.store.select(
+    fromApprovalSelectors.getApprovalLevelFirstApprover
   );
 
-  public levelFiveApprovers$: Observable<Approver[]> = this.store.select(
-    fromApprovalSelectors.getApproversOfLevel(ApprovalLevel.L5)
+  approvalLevelSecondApprover$: Observable<ApprovalLevel> = this.store.select(
+    fromApprovalSelectors.getApprovalLevelSecondApprover
   );
 
-  public getApprovers(): void {
+  approvalLevelThirdApprover$: Observable<ApprovalLevel> = this.store.select(
+    fromApprovalSelectors.getApprovalLevelThirdApprover
+  );
+
+  requiredApprovalLevelsForQuotation$: Observable<string> = this.store.select(
+    fromApprovalSelectors.getRequiredApprovalLevelsForQuotation
+  );
+
+  // will be replace with all users later with another Ticket
+  allUsers$: Observable<Approver[]> = this.store.select(
+    approvalFeature.selectApprovers
+  );
+
+  approvalStatus$: Observable<ApprovalStatus> = this.store.select(
+    approvalFeature.selectApprovalStatus
+    // fromApprovalSelectors.getApprovalStatus
+  );
+
+  /**
+   * load all available approvers
+   */
+  getApprovers(): void {
     this.store.dispatch(ApprovalActions.getAllApprovers());
+  }
+
+  /**
+   * get information about approval status fro given sapId
+   *
+   * @param sapId sap Id of quotation
+   */
+  getApprovalStatus(sapId: string): void {
+    this.store.dispatch(ApprovalActions.getApprovalStatus({ sapId }));
+  }
+
+  /**
+   * Loads all Information needed for approval workflow.
+   * Contains all available approvers and approval Status of given sap Id.
+   *
+   * @param sapId sap Id of quotation
+   */
+  getApprovalWorkflowData(sapId: string): void {
+    this.getApprovers();
+    this.getApprovalStatus(sapId);
   }
 }
