@@ -16,6 +16,10 @@ export class QuantityEditingModalComponent extends EditingModalComponent {
   handlePriceChangeTypeSwitch: undefined;
   protected shouldDisableRelativePriceChange: undefined;
 
+  override getLocaleValue(value: number): string {
+    return this.helperService.transformNumber(value, false);
+  }
+
   handleInputFieldKeyDown(event: KeyboardEvent): void {
     HelperService.validateQuantityInputKeyPress(event);
   }
@@ -30,12 +34,11 @@ export class QuantityEditingModalComponent extends EditingModalComponent {
         deliveryUnit
       );
 
-    if (isOrderQuantityInvalid) {
-      this.warningText = translate(
-        'shared.validation.orderQuantityMustBeMultipleOf',
-        { deliveryUnit: this.modalData.quotationDetail.deliveryUnit }
-      );
-    }
+    this.warningText = isOrderQuantityInvalid
+      ? translate('shared.validation.orderQuantityMustBeMultipleOf', {
+          deliveryUnit: this.modalData.quotationDetail.deliveryUnit,
+        })
+      : undefined;
 
     return getQuantityRegex(locale).test(value);
   }

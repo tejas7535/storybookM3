@@ -1,10 +1,14 @@
 import { QuotationDetailsTableValidationService } from '@gq/process-case-view/quotation-details-table/services/quotation-details-table-validation.service';
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
-import { LOCALE_EN } from '@gq/shared/constants';
 import * as constants from '@gq/shared/constants';
+import { LOCALE_EN } from '@gq/shared/constants';
 import { HelperService } from '@gq/shared/services/helper/helper.service';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { MockModule } from 'ng-mocks';
@@ -21,6 +25,7 @@ jest.mock('../editing-modal.component', () => ({
 describe('QuantityEditingModalComponent', () => {
   let component: QuantityEditingModalComponent;
   let spectator: Spectator<QuantityEditingModalComponent>;
+  let helperService: HelperService;
 
   const createComponent = createComponentFactory({
     component: QuantityEditingModalComponent,
@@ -30,11 +35,13 @@ describe('QuantityEditingModalComponent', () => {
       MockModule(PushModule),
       provideTranslocoTestingModule({ en: {} }),
     ],
+    providers: [mockProvider(HelperService)],
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+    helperService = spectator.inject(HelperService);
     component.modalData = {
       field: ColumnFields.ORDER_QUANTITY,
       quotationDetail: QUOTATION_DETAIL_MOCK,
@@ -43,6 +50,17 @@ describe('QuantityEditingModalComponent', () => {
 
   test('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  test('should not show decimal places in input field placeholder', () => {
+    const value = QUOTATION_DETAIL_MOCK.orderQuantity;
+    const transformNumberSpy = jest.spyOn(helperService, 'transformNumber');
+    transformNumberSpy.mockReturnValue(value.toString());
+
+    component['helperService'] = helperService;
+
+    expect(component.getLocaleValue(value)).toBe(value.toString());
+    expect(transformNumberSpy).toHaveBeenCalledWith(value, false);
   });
 
   test('should handle input field keydown event', () => {
@@ -89,6 +107,14 @@ describe('QuantityEditingModalComponent', () => {
         'shared.validation.orderQuantityMustBeMultipleOf',
         { deliveryUnit: QUOTATION_DETAIL_MOCK.deliveryUnit }
       );
+    });
+
+    test('should remove warning if input is valid', () => {
+      component.warningText = 'test warning text';
+
+      isOrderQuantityInvalidSpy.mockReturnValue(false);
+      expect(component['validateInput']('100')).toBe(true);
+      expect(component.warningText).toBe(undefined);
     });
 
     test('should use quantity regex', () => {

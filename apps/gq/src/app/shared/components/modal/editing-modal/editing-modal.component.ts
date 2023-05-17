@@ -68,9 +68,9 @@ export abstract class EditingModalComponent
   constructor(
     @Inject(MAT_DIALOG_DATA) public modalData: EditingModal,
     protected translocoLocaleService: TranslocoLocaleService,
+    protected helperService: HelperService,
     private readonly dialogRef: MatDialogRef<EditingModalComponent>,
     private readonly store: Store,
-    private readonly helperService: HelperService,
     private readonly changeDetectorRef: ChangeDetectorRef
   ) {}
 
@@ -94,7 +94,7 @@ export abstract class EditingModalComponent
 
   ngAfterViewInit(): void {
     this.value = this.getValue();
-    this.localeValue = this.helperService.transformNumber(this.value, true);
+    this.localeValue = this.getLocaleValue(this.value);
 
     this.setAffectedKpis(this.value);
 
@@ -120,6 +120,7 @@ export abstract class EditingModalComponent
       this.editingFormGroup.get(this.VALUE_FORM_CONTROL_NAME).value,
       this.translocoLocaleService.getLocale()
     );
+
     const shouldChange =
       increment === 1
         ? this.shouldIncrement(value)
@@ -169,6 +170,10 @@ export abstract class EditingModalComponent
     const quotationDetail = this.modalData.quotationDetail as any;
 
     return quotationDetail[this.modalData.field] as number;
+  }
+
+  protected getLocaleValue(value: number): string {
+    return this.helperService.transformNumber(value, true);
   }
 
   protected setAffectedKpis(value: number): void {
