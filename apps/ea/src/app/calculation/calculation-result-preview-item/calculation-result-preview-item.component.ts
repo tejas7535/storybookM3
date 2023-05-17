@@ -6,6 +6,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { CalculationResultPreviewItem } from '@ea/core/store/models';
+import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -21,6 +22,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
     MatTooltipModule,
     MatProgressSpinnerModule,
     MatDividerModule,
+    MeaningfulRoundPipe,
   ],
 })
 export class CalculationResultPreviewItemComponent {

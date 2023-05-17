@@ -38,7 +38,7 @@
           >
             <ng-container *ngIf="!value.calculationError; else error">
               <div class="ea-text-body-2 ea-text-high-emphasis">
-                {{ (value.value | number: '1.0-2') || '-' }}
+                {{ (value.value | meaningfulRound) || '-' }}
               </div>
               <div
                 *ngIf="value.unit"

@@ -1,23 +1,32 @@
-import { meaningfulRound } from './number-helper';
+import { roundToThreeSigFigs } from './number-helper';
 
-describe('meaningfulRound', () => {
-  it('should round numbers >= 1000 to the nearest 10', () => {
-    expect(meaningfulRound(1542.12)).toBe(1540);
-    expect(meaningfulRound(2999.99)).toBe(3000);
+describe('roundToThreeSigFigs', () => {
+  test('should round large numbers to three significant figures', () => {
+    expect(roundToThreeSigFigs(12_345_678)).toBe('12300000');
+    expect(roundToThreeSigFigs(-12_345_678)).toBe('-12300000');
   });
 
-  it('should round numbers >= 100 to the nearest integer', () => {
-    expect(meaningfulRound(112.92)).toBe(113);
-    expect(meaningfulRound(199.49)).toBe(199);
+  test('should round small numbers to three significant figures', () => {
+    expect(roundToThreeSigFigs(0.000_123_456)).toBe('0.000123');
+    expect(roundToThreeSigFigs(-0.000_123_456)).toBe('-0.000123');
   });
 
-  it('should round numbers >= 10 to one decimal place', () => {
-    expect(meaningfulRound(23.456)).toBe(23.5);
-    expect(meaningfulRound(99.94)).toBe(99.9);
+  test('should return the same number for numbers with three or fewer significant figures', () => {
+    expect(roundToThreeSigFigs(123)).toBe('123');
+    expect(roundToThreeSigFigs(-123)).toBe('-123');
+    expect(roundToThreeSigFigs(0.123)).toBe('0.123');
+    expect(roundToThreeSigFigs(-0.123)).toBe('-0.123');
   });
 
-  it('should round numbers < 10 to two decimal places', () => {
-    expect(meaningfulRound(1.34)).toBe(1.34);
-    expect(meaningfulRound(9.999)).toBe(10);
+  test('should return zero for zero', () => {
+    expect(roundToThreeSigFigs(0)).toBe('0');
+  });
+
+  test('should handle numbers close to but less than 1', () => {
+    expect(roundToThreeSigFigs(0.9999)).toBe('1.00');
+    expect(roundToThreeSigFigs(0.9994)).toBe('0.999');
+    expect(roundToThreeSigFigs(-0.9999)).toBe('-1.00');
+    expect(roundToThreeSigFigs(-0.9994)).toBe('-0.999');
+    expect(roundToThreeSigFigs(1.332)).toBe('1.33');
   });
 });

@@ -1,4 +1,3 @@
-import { meaningfulRound } from '@ea/shared/helper';
 import { createSelector } from '@ngrx/store';
 
 import { CalculationParametersCalculationTypes } from '../../models';
@@ -22,8 +21,8 @@ export const getCO2EmissionReport = createSelector(
       co2Upstream?.upstreamEmissionTotal + friction?.co2_downstream?.value;
 
     return {
-      co2_upstream: meaningfulRound(co2Upstream?.upstreamEmissionTotal),
-      co2_downstream: meaningfulRound(friction?.co2_downstream?.value),
+      co2_upstream: co2Upstream?.upstreamEmissionTotal,
+      co2_downstream: friction?.co2_downstream?.value,
       co2_upstream_percent: co2Upstream?.upstreamEmissionTotal / totalEmission,
       co2_downstream_percent: friction?.co2_downstream?.value / totalEmission,
     };

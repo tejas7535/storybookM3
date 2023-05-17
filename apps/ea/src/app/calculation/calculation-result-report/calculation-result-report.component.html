@@ -92,7 +92,7 @@
                           [class.ea-text-h4]="index === 0"
                           [class.ea-text-h6]="index !== 0"
                         >
-                          {{ (item.value | number: '1.0-2') || '-' }}
+                          {{ (item.value | meaningfulRound) || '-' }}
                         </div>
                         <div
                           class="ea-text-body-2 ea-text-high-emphasis ea-pl-1"
@@ -199,7 +199,7 @@
                       >
                         <div class="ea-text-h6 ea-text-high-emphasis">
                           {{
-                            (co2Emissions?.co2_upstream | number: '1.2-2') ||
+                            (co2Emissions?.co2_upstream | meaningfulRound) ||
                               '-'
                           }}
                         </div>
@@ -257,7 +257,7 @@
                       >
                         <div class="ea-text-h6 ea-text-high-emphasis">
                           {{
-                            (co2Emissions?.co2_downstream | number: '1.2-2') ||
+                            (co2Emissions?.co2_downstream | meaningfulRound) ||
                               '-'
                           }}
                         </div>

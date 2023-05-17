@@ -68,9 +68,4 @@ describe('CalculationResultReportComponent', () => {
     component.closeDialog();
     expect(dialogRefMock.close).toHaveBeenCalled();
   });
-
-  it('should format the value', () => {
-    const result = component['formatValue'](123.4444);
-    expect(result).toEqual('123.44 kg');
-  });
 });

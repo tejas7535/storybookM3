@@ -1,4 +1,4 @@
-import { CommonModule, formatNumber } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -23,6 +23,7 @@ import {
 } from '@ea/core/store';
 import { ProductSelectionFacade } from '@ea/core/store/facades/product-selection/product-selection.facade';
 import { CalculationParametersCalculationTypeConfig } from '@ea/core/store/models';
+import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
 import { TagComponent } from '@ea/shared/tag/tag.component';
 import { TranslocoService } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
@@ -49,6 +50,7 @@ const COLOR_PLATTE = ['#DDE86E', '#7DC882'];
     SharedTranslocoModule,
     NgxEchartsModule,
     TagComponent,
+    MeaningfulRoundPipe,
     CalculationTypesSelectionComponent,
   ],
 })
@@ -70,7 +72,8 @@ export class CalculationResultReportComponent {
             tooltip: {
               trigger: 'item',
               appendToBody: true,
-              valueFormatter: (value) => this.formatValue(value as number),
+              valueFormatter: (value) =>
+                new MeaningfulRoundPipe(this.locale).transform(value as number),
             },
             series: [
               {
@@ -93,12 +96,10 @@ export class CalculationResultReportComponent {
                 label: {
                   show: true,
                   position: 'center',
-                  fontSize: 32,
-                  formatter: `${formatNumber(
+                  fontSize: 24,
+                  formatter: `${new MeaningfulRoundPipe(this.locale).transform(
                     (co2Emissions.co2_downstream || 0) +
-                      (co2Emissions.co2_upstream || 0),
-                    this.locale,
-                    '1.2-2'
+                      (co2Emissions.co2_upstream || 0)
                   )} kg`,
                 },
                 labelLine: {
@@ -145,9 +146,5 @@ export class CalculationResultReportComponent {
       block: 'start',
     };
     document.querySelector(`#${itemName}`)?.scrollIntoView(scrollOptions);
-  }
-
-  private formatValue(value: number): string {
-    return `${formatNumber(value, this.locale, '1.2-2')} kg`;
   }
 }

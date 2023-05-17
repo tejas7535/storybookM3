@@ -1,4 +1,3 @@
-import { meaningfulRound } from '@ea/shared/helper';
 import { createSelector } from '@ngrx/store';
 
 import {
@@ -27,7 +26,7 @@ export const co2Upstream = createSelector(
     error
   ): BasicCalculationResultState & { value?: number; unit?: string } => ({
     unit: result?.unit,
-    value: meaningfulRound(result?.upstreamEmissionTotal),
+    value: result?.upstreamEmissionTotal,
     calculationError: error,
     isLoading,
   })
@@ -42,7 +41,7 @@ export const co2Downstream = createSelector(
     isLoading,
     error
   ): BasicCalculationResultState & { value?: number; unit?: string } => ({
-    value: meaningfulRound(result?.co2_downstream?.value),
+    value: result?.co2_downstream?.value,
     unit: result?.co2_downstream?.unit,
     calculationError: error,
     isLoading,
@@ -58,7 +57,7 @@ export const friction = createSelector(
     isLoading,
     error
   ): BasicCalculationResultState & { value?: number; unit?: string } => ({
-    value: meaningfulRound(result?.max_frictionalTorque?.value),
+    value: result?.max_frictionalTorque?.value,
     unit: result?.max_frictionalTorque?.unit,
     calculationError: error,
     isLoading,
