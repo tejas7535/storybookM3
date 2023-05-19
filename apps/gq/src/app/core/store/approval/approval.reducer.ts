@@ -45,6 +45,14 @@ export const approvalFeature = createFeature({
   reducer: createReducer(
     initialState,
     on(
+      ApprovalActions.clearApprovalStatus,
+      (state: ApprovalState): ApprovalState => ({
+        ...state,
+        approvalStatusLoading: false,
+        approvalStatus: { ...initialState.approvalStatus },
+      })
+    ),
+    on(
       ApprovalActions.getAllApprovers,
       (state: ApprovalState): ApprovalState => ({
         ...state,

@@ -50,7 +50,6 @@ export class ApprovalFacade {
 
   approvalStatus$: Observable<ApprovalStatus> = this.store.select(
     approvalFeature.selectApprovalStatus
-    // fromApprovalSelectors.getApprovalStatus
   );
 
   /**
@@ -66,7 +65,9 @@ export class ApprovalFacade {
    * @param sapId sap Id of quotation
    */
   getApprovalStatus(sapId: string): void {
-    this.store.dispatch(ApprovalActions.getApprovalStatus({ sapId }));
+    return sapId
+      ? this.store.dispatch(ApprovalActions.getApprovalStatus({ sapId }))
+      : this.store.dispatch(ApprovalActions.clearApprovalStatus());
   }
 
   /**

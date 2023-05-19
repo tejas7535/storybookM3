@@ -11,5 +11,6 @@ export const ApprovalActions = createActionGroup({
     'Get Approval Status': props<{ sapId: string }>(),
     'Get Approval Status Success': props<{ approvalStatus: ApprovalStatus }>(),
     'Get Approval Status Failure': props<{ error: Error }>(),
+    'Clear Approval Status': emptyProps(),
   },
 });

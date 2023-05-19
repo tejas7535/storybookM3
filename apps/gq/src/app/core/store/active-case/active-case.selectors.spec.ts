@@ -189,10 +189,10 @@ describe('Active Case Selectors', () => {
       expect(
         activeCaseSelectors.getQuotationOverviewInformation(fakeState)
       ).toEqual({
-        gpi: 10,
-        gpm: 10,
-        netValue: 100,
-        avgGqRating: 2,
+        gpi: { value: 10 },
+        gpm: { value: 10 },
+        netValue: { value: 100 },
+        avgGqRating: { value: 2 },
       });
       expect(true).toBeTruthy();
     });

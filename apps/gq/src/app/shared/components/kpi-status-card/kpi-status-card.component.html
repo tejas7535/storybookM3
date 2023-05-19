@@ -1,5 +1,5 @@
 <mat-card
-  class="mat-elevation-z0 w-full grow rounded border-[1px] border-x-border border-y-border"
+  class="mat-elevation-z0 border-x-border border-y-border w-full grow rounded border-[1px]"
   *transloco="let t; read: 'shared.kpiStatusCard'"
 >
   <div class="align-center flex flex-row gap-2">
@@ -13,7 +13,7 @@
       }"
     >
       <div
-        class="absolute top-1 left-1 h-3 w-3 rounded-full"
+        class="absolute left-1 top-1 h-3 w-3 rounded-full"
         [ngClass]="{
           'bg-[#00893D]': rating === ratingStatus.GOOD,
           'bg-error': rating === ratingStatus.LOW,
@@ -21,13 +21,20 @@
         }"
       ></div>
     </div>
-    <mat-card-title class="truncate text-h6 text-high-emphasis">
-      {{ title }}
+    <mat-card-title class="text-h6 text-high-emphasis truncate">
+      {{ title
+      }}<mat-icon
+        *ngIf="warning"
+        [matTooltip]="warningInfo"
+        matTooltipClass="whitespace-pre-line !text-caption"
+        class="!text-caption !text-icon !text-orange ml-[5px] mt-[5px] cursor-help p-[1px] align-text-top"
+        >warning_amber</mat-icon
+      >
     </mat-card-title>
   </div>
   <div *ngIf="rating; else singleSubtitle" class="flow-row flex gap-2">
     <span
-      class="mat-card-subtitle mt-[-4px] text-caption"
+      class="mat-card-subtitle text-caption mt-[-4px]"
       [ngClass]="{
         'text-[#00893D]': rating === ratingStatus.GOOD,
         'text-error': rating === ratingStatus.LOW,
@@ -35,7 +42,7 @@
       }"
       >{{ t('status.' + ratingText) }}
     </span>
-    <span class="mat-card-subtitle mt-[-4px] text-caption opacity-[0.12]"
+    <span class="mat-card-subtitle text-caption mt-[-4px] opacity-[0.12]"
       >|</span
     >
     <mat-card-subtitle class="text-caption" *ngIf="subtitle">
@@ -49,7 +56,7 @@
   </ng-template>
 
   <ng-container *ngIf="kpiValue; else customContent">
-    <mat-card-content class="pt-6 text-h4">
+    <mat-card-content class="text-h4 pt-6">
       {{ kpiValue }}
     </mat-card-content>
   </ng-container>

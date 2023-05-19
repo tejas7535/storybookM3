@@ -1,15 +1,28 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { map, NEVER, Observable, Subject, takeUntil } from 'rxjs';
+import {
+  combineLatest,
+  filter,
+  map,
+  NEVER,
+  Observable,
+  Subject,
+  takeUntil,
+} from 'rxjs';
 
 import {
   activeCaseFeature,
   getQuotationCurrency,
   getQuotationOverviewInformation,
 } from '@gq/core/store/active-case';
+import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { Rating } from '@gq/shared/components/kpi-status-card/models/rating.enum';
 import { Customer } from '@gq/shared/models/customer';
-import { QuotationPricingOverview } from '@gq/shared/models/quotation';
+import {
+  ApprovalStatus,
+  Quotation,
+  QuotationPricingOverview,
+} from '@gq/shared/models/quotation';
 import { Store } from '@ngrx/store';
 
 import { GeneralInformation } from './models';
@@ -21,52 +34,23 @@ import { GeneralInformation } from './models';
 export class OverviewTabComponent implements OnInit, OnDestroy {
   generalInformation$: Observable<GeneralInformation> = NEVER;
   pricingInformation$: Observable<QuotationPricingOverview> = NEVER;
-  quotationCurrency$: Observable<string>;
+  quotationCurrency$: Observable<string> = NEVER;
 
   private readonly shutDown$$: Subject<void> = new Subject();
 
-  constructor(private readonly store: Store) {}
+  constructor(
+    readonly approvalFacade: ApprovalFacade,
+    private readonly store: Store
+  ) {}
 
   ngOnInit(): void {
+    this.requestApprovalStatus();
     this.initializeObservables();
   }
 
   ngOnDestroy(): void {
     this.shutDown$$.next();
     this.shutDown$$.unsubscribe();
-  }
-
-  private initializeObservables(): void {
-    this.generalInformation$ = this.store
-      .select(activeCaseFeature.selectCustomer)
-      .pipe(
-        takeUntil(this.shutDown$$),
-        // TODO: collect information correctly when available
-        // eslint-disable-next-line ngrx/avoid-mapping-selectors
-        map((item: Customer) => {
-          const info: GeneralInformation = {
-            approvalLevel: 'L1 + L2',
-            validityFrom: '01/01/2023',
-            validityTo: '12/31/2023',
-            duration: '10 months',
-            project: 'GSIM Project',
-            projectInformation:
-              'lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum.',
-            customer: item,
-            requestedQuotationDate: '01/01/2024',
-            comment:
-              'lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum.',
-          };
-
-          return info;
-        })
-      );
-
-    this.pricingInformation$ = this.store.select(
-      getQuotationOverviewInformation
-    );
-
-    this.quotationCurrency$ = this.store.select(getQuotationCurrency);
   }
 
   getRating(value: number): Rating {
@@ -87,5 +71,91 @@ export class OverviewTabComponent implements OnInit, OnDestroy {
     }
 
     return undefined;
+  }
+
+  private initializeObservables(): void {
+    this.quotationCurrency$ = this.store.select(getQuotationCurrency);
+    this.generalInformation$ = this.mapGeneralInformation();
+    this.pricingInformation$ = this.mapPricingInformation();
+  }
+
+  /**
+   * request ApprovalStatus
+   */
+  private requestApprovalStatus(): void {
+    this.store
+      .select(activeCaseFeature.selectQuotation)
+      .pipe(
+        takeUntil(this.shutDown$$),
+        filter((quotation: Quotation) => !!quotation),
+        map((quotation: Quotation) =>
+          this.approvalFacade.getApprovalStatus(quotation.sapId)
+        )
+      )
+      .subscribe();
+  }
+
+  /**
+   *
+   * @returns Observable<{@link GeneralInformation}>
+   */
+  private mapGeneralInformation(): Observable<GeneralInformation> {
+    return combineLatest([
+      this.store.select(activeCaseFeature.selectCustomer),
+      this.approvalFacade.requiredApprovalLevelsForQuotation$,
+    ]).pipe(
+      takeUntil(this.shutDown$$),
+      map(([customer, approvalLevel]: [Customer, string]) => {
+        const info: GeneralInformation = {
+          approvalLevel,
+          validityFrom: '01/01/2023',
+          validityTo: '12/31/2023',
+          duration: '10 months',
+          project: 'GSIM Project',
+          projectInformation:
+            'lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum.',
+          customer,
+          requestedQuotationDate: '01/01/2024',
+          comment:
+            'lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum.',
+        };
+
+        return info;
+      })
+    );
+  }
+
+  /**
+   * retrieve pricing Information
+   *
+   * @returns Observable<{@link QuotationPricingOverview}>
+   */
+  private mapPricingInformation(): Observable<QuotationPricingOverview> {
+    return combineLatest([
+      this.approvalFacade.approvalStatus$,
+      this.store.select(getQuotationOverviewInformation),
+    ]).pipe(
+      takeUntil(this.shutDown$$),
+      map(
+        ([approvalStatus, gqPricing]: [
+          ApprovalStatus,
+          QuotationPricingOverview
+        ]) => ({
+          netValue: {
+            value: approvalStatus.netValue ?? gqPricing.netValue.value,
+            warning:
+              approvalStatus.netValue &&
+              approvalStatus.netValue !== gqPricing.netValue.value,
+          },
+          avgGqRating: gqPricing.avgGqRating,
+          gpi: gqPricing.gpi,
+          gpm: {
+            value: approvalStatus.gpm ?? gqPricing.gpm.value,
+            warning:
+              approvalStatus.gpm && approvalStatus.gpm !== gqPricing.gpm.value,
+          },
+        })
+      )
+    );
   }
 }

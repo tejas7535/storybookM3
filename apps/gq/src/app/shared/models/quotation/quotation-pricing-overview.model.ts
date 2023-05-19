@@ -1,8 +1,11 @@
-export class QuotationPricingOverview {
-  constructor(
-    public netValue = 0,
-    public gpi = 0,
-    public gpm = 0,
-    public avgGqRating = 0
-  ) {}
+export interface QuotationPricingOverview {
+  netValue: NumberWarning;
+  gpi: NumberWarning;
+  gpm: NumberWarning;
+  avgGqRating: NumberWarning;
+}
+
+export interface NumberWarning {
+  value: number;
+  warning?: boolean;
 }

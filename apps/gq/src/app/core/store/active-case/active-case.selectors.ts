@@ -142,10 +142,10 @@ export const getQuotationOverviewInformation = createSelector(
     );
 
     return {
-      gpi: priceInformation.gpi,
-      gpm: priceInformation.gpm,
-      netValue: priceInformation.netValue,
-      avgGqRating: avgRating,
+      gpi: { value: priceInformation.gpi },
+      gpm: { value: priceInformation.gpm },
+      netValue: { value: priceInformation.netValue },
+      avgGqRating: { value: avgRating },
     };
   }
 );

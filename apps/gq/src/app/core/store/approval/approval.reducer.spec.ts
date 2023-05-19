@@ -6,6 +6,27 @@ import { ApprovalActions } from './approval.actions';
 import { approvalFeature, initialState } from './approval.reducer';
 
 describe('approvalReducer', () => {
+  describe('clear ApprovalStatus', () => {
+    test('should clear values for approvalStatus', () => {
+      const action = ApprovalActions.clearApprovalStatus();
+      const state = approvalFeature.reducer(APPROVAL_STATE_MOCK, action);
+      expect(state).toEqual({
+        ...APPROVAL_STATE_MOCK,
+        approvalStatusLoading: false,
+        approvalStatus: {
+          sapId: undefined,
+          currency: undefined,
+          approvalLevel: undefined,
+          approver3Required: false,
+          autoApproval: false,
+          netValue: undefined,
+          gpm: undefined,
+          deviation: undefined,
+        },
+      });
+    });
+  });
+
   describe('GetAllApprover', () => {
     test('should set approversLoading', () => {
       const action = ApprovalActions.getAllApprovers();

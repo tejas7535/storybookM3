@@ -138,6 +138,15 @@ describe('ApprovalFacade', () => {
     );
   });
 
+  test('should dispatch action clearApprovalStatus', () => {
+    mockStore.dispatch = jest.fn();
+
+    service.getApprovalStatus(undefined as string);
+    expect(mockStore.dispatch).toHaveBeenCalledWith(
+      ApprovalActions.clearApprovalStatus()
+    );
+  });
+
   test('should call mehtods', () => {
     service.getApprovers = jest.fn();
     service.getApprovalStatus = jest.fn();

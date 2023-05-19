@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ColumnUtilityService } from '@gq/shared/ag-grid/services/column-utility.service';
-import { UserRoles } from '@gq/shared/constants/user-roles.enum';
+import { ColumnUtilityService } from '@gq/shared/ag-grid/services';
+import { UserRoles } from '@gq/shared/constants';
 import { RoleGroup } from '@gq/shared/models';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { ColDef } from 'ag-grid-enterprise';

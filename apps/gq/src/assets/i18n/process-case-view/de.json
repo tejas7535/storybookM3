@@ -99,8 +99,10 @@
         "commentLabel": "Kommentar"
       },
       "netValueCardTitle": "Nettowert",
+      "netValueCardTitleWarning": "Nettowert aus SAP Quotation",
       "netValueCardSubtitle": "Nettowert gesamt  in {{currency}}",
       "gpmCardTitle": "GPM %",
+      "gpmCardTitleWarning": "GPM aus SAP Quotation",
       "gpmCardSubtitle": "Gross Profit Marge (SAW)",
       "gpiCardTitle": "GPI %",
       "gpiCardSubtitle": "Gross Profit I (KHK)",

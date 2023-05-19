@@ -99,8 +99,10 @@
         "commentLabel": "Comment"
       },
       "netValueCardTitle": "Net Value",
+      "netValueCardTitleWarning": "Net Value of SAP quotation",
       "netValueCardSubtitle": "Total Net Value in {{currency}}",
       "gpmCardTitle": "GPM %",
+      "gpmCardTitleWarning": "GPM from SAP quotation",
       "gpmCardSubtitle": "Gross Profit Margin (SQV)",
       "gpiCardTitle": "GPI %",
       "gpiCardSubtitle": "Gross Profit I (GPC)",

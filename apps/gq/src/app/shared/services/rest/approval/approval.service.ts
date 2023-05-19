@@ -21,7 +21,7 @@ export class ApprovalService {
    *
    * @returns a list with available approvers
    */
-  public getAllApprovers(): Observable<Approver[]> {
+  getAllApprovers(): Observable<Approver[]> {
     return this.http.get<Approver[]>(
       `${ApiVersion.V1}/${ApprovalPaths.PATH_APPROVAL}/${ApprovalPaths.PATH_APPROVERS}`,
       {
@@ -36,7 +36,7 @@ export class ApprovalService {
    * @param sapId the Id from SAP
    * @returns the approval status of SAP
    */
-  public getApprovalStatus(sapId: string): Observable<ApprovalStatus> {
+  getApprovalStatus(sapId: string): Observable<ApprovalStatus> {
     return this.http.get<ApprovalStatus>(
       `${ApiVersion.V1}/${ApprovalPaths.PATH_APPROVAL}/${ApprovalPaths.PATH_APPROVAL_STATUS}/${sapId}`
     );
