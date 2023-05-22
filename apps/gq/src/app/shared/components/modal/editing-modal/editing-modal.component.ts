@@ -25,7 +25,10 @@ import {
   UpdateQuotationDetail,
 } from '@gq/core/store/active-case';
 import { HelperService } from '@gq/shared/services/helper/helper.service';
-import { calculateAffectedKPIs } from '@gq/shared/utils/pricing.utils';
+import {
+  calculateAffectedKPIs,
+  multiplyAndRoundValues,
+} from '@gq/shared/utils/pricing.utils';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
 
@@ -60,6 +63,11 @@ export abstract class EditingModalComponent
    * Text of the warning, which will be displayed, if it is set.
    */
   warningText?: string;
+
+  /**
+   * Only if true, the save button will be enabled
+   */
+  hasValueChanged = false;
 
   protected value: number;
 
@@ -247,10 +255,37 @@ export abstract class EditingModalComponent
           if (this.editingFormGroup.get(this.VALUE_FORM_CONTROL_NAME).invalid) {
             parsedValue = Number.NaN;
           }
+
+          this.hasValueChanged =
+            (this.modalData.quotationDetail as any)[this.modalData.field] !==
+            this.determineAbsoluteValue(parsedValue);
+
           // trigger dynamic kpi simulation
           this.setAffectedKpis(parsedValue);
         })
     );
+  }
+
+  /**
+   * Check if the given value is relative and if yes, calculate the absolute value based on it and on the initial value.
+   * Otherwise, return the given value without changes.
+   * Needed, in order to be able to check if the initial value has been changed.
+   *
+   * @param value the current value
+   * @returns the absolute value
+   */
+  protected determineAbsoluteValue(value: number): number {
+    if (
+      this.isPriceChangeTypeAvailable &&
+      this.editingFormGroup.get(this.IS_RELATIVE_PRICE_CONTROL_NAME).value
+    ) {
+      return multiplyAndRoundValues(
+        (this.modalData.quotationDetail as any)[this.modalData.field],
+        1 + value / 100
+      );
+    }
+
+    return value;
   }
 
   /**

@@ -110,7 +110,8 @@
         mat-raised-button
         [disabled]="
           editingFormGroup.invalid ||
-          !editingFormGroup.get(VALUE_FORM_CONTROL_NAME).value
+          !editingFormGroup.get(VALUE_FORM_CONTROL_NAME).value ||
+          !hasValueChanged
         "
         (click)="confirmEditing()"
         [attr.data-cy]="modalData.field + '-modal_submit-btn'"

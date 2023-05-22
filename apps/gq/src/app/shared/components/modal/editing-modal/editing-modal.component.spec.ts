@@ -549,4 +549,95 @@ describe('TestEditingModalComponent', () => {
       expect(component['handleInputFieldKeyDown']).toHaveBeenCalledWith(event);
     });
   });
+
+  describe('determineAbsoluteValue', () => {
+    test('should determine absolute value if no switch between absolute and relative price is possible', () => {
+      component.isPriceChangeTypeAvailable = false;
+      expect(component['determineAbsoluteValue'](250)).toBe(250);
+    });
+
+    test('should determine absolute value if the current value is absolute', () => {
+      component.isPriceChangeTypeAvailable = true;
+      component['editingFormGroup'] = {
+        get: jest.fn().mockReturnValue({ value: false }),
+      } as any;
+      expect(component['determineAbsoluteValue'](250)).toBe(250);
+    });
+
+    test('should determine absolute value if the current value is relative', () => {
+      const testData = {
+        quotationDetail: QUOTATION_DETAIL_MOCK,
+        field: ColumnFields.PRICE,
+      };
+
+      component.modalData = testData;
+      component.isPriceChangeTypeAvailable = true;
+      component['editingFormGroup'] = {
+        get: jest.fn().mockReturnValue({ value: true }),
+      } as any;
+
+      const relativeValue = 50;
+      const absoluteValue = 75;
+
+      const multiplyAndRoundValuesSpy = jest.spyOn(
+        pricingUtils,
+        'multiplyAndRoundValues'
+      );
+      multiplyAndRoundValuesSpy.mockReturnValue(absoluteValue);
+
+      expect(component['determineAbsoluteValue'](relativeValue)).toBe(
+        absoluteValue
+      );
+      expect(multiplyAndRoundValuesSpy).toHaveBeenCalledWith(
+        (QUOTATION_DETAIL_MOCK as any)[testData.field],
+        1 + relativeValue / 100
+      );
+    });
+  });
+
+  describe('hasChanges', () => {
+    test('should have changes', () => {
+      const testData = {
+        quotationDetail: QUOTATION_DETAIL_MOCK,
+        field: ColumnFields.PRICE,
+      };
+      const currentValue = testData.quotationDetail.price + 25;
+
+      component.modalData = testData;
+
+      jest
+        .spyOn(HelperService, 'parseLocalizedInputValue')
+        .mockImplementation();
+
+      component['determineAbsoluteValue'] = jest
+        .fn()
+        .mockReturnValue(currentValue);
+
+      updateFormValue(currentValue.toString());
+
+      expect(component.hasValueChanged).toBe(true);
+    });
+
+    test('should have no changes', () => {
+      const testData = {
+        quotationDetail: QUOTATION_DETAIL_MOCK,
+        field: ColumnFields.PRICE,
+      };
+      const currentValue = testData.quotationDetail.price;
+
+      component.modalData = testData;
+
+      jest
+        .spyOn(HelperService, 'parseLocalizedInputValue')
+        .mockImplementation();
+
+      component['determineAbsoluteValue'] = jest
+        .fn()
+        .mockReturnValue(currentValue);
+
+      updateFormValue(currentValue.toString());
+
+      expect(component.hasValueChanged).toBe(false);
+    });
+  });
 });
