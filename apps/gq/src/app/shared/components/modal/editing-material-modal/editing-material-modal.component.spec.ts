@@ -418,6 +418,21 @@ describe('EditingMaterialModalComponent', () => {
     });
   });
 
+  describe('handleQuantityKeyDown', () => {
+    test('should call validateQuantityInputKeyPress', () => {
+      HelperService.validateQuantityInputKeyPress = jest.fn();
+      const event = {} as KeyboardEvent;
+
+      component.handleQuantityKeyDown(event);
+      expect(HelperService.validateQuantityInputKeyPress).toHaveBeenCalledTimes(
+        1
+      );
+      expect(HelperService.validateQuantityInputKeyPress).toHaveBeenCalledWith(
+        event
+      );
+    });
+  });
+
   describe('closeDialog', () => {
     test('should close dialog', () => {
       component.autoCompleteFacade.resetView = jest.fn();

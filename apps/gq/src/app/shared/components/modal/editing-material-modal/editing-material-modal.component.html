@@ -79,6 +79,7 @@
               min="1"
               type="number"
               formControlName="quantity"
+              (keydown)="handleQuantityKeyDown($event)"
             />
             <mat-hint>{{ t('quantity.hint') }}</mat-hint>
             <mat-error

@@ -202,6 +202,10 @@ export class EditingMaterialModalComponent
     );
   }
 
+  handleQuantityKeyDown(event: KeyboardEvent): void {
+    HelperService.validateQuantityInputKeyPress(event);
+  }
+
   closeDialog(): void {
     this.autoCompleteFacade.resetView();
     this.dialogRef.close();
