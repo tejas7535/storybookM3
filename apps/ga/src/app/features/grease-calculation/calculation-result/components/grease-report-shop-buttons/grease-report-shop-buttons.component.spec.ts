@@ -74,7 +74,7 @@ describe('GreaseReportShopButtonsComponent', () => {
       component.concept1Selection = CONCEPT1_SIZES['60ML'];
 
       expect(component.getConcept1ShopUrl()).toBe(
-        'calculationResult.shopBaseUrl/search/searchpage?text=ARCALUB-C1-60-FOOD2'
+        'calculationResult.shopBaseUrl/p/ARCALUB-C1-60-FOOD2?utm_source=grease-app'
       );
     });
 
@@ -84,7 +84,7 @@ describe('GreaseReportShopButtonsComponent', () => {
       component.concept1Selection = CONCEPT1_SIZES['125ML'];
 
       expect(component.getConcept1ShopUrl()).toBe(
-        'calculationResult.shopBaseUrl/search/searchpage?text=ARCALUB-C1-125-REFILLABLE'
+        'calculationResult.shopBaseUrl/p/ARCALUB-C1-125-REFILLABLE?utm_source=grease-app'
       );
     });
   });
@@ -113,7 +113,7 @@ describe('GreaseReportShopButtonsComponent', () => {
       const mockTitle = 'Arcanol MULTI2';
       component.greaseResult = { mainTitle: mockTitle } as GreaseResult;
       expect(component.getShopUrl()).toBe(
-        'calculationResult.shopBaseUrl/search/searchpage?text=Arcanol-MULTI2-1kg'
+        'calculationResult.shopBaseUrl/p/Arcanol-MULTI2-1kg?utm_source=grease-app'
       );
     });
   });

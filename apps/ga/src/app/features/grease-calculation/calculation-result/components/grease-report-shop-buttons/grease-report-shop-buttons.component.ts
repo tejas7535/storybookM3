@@ -33,7 +33,6 @@ import {
   GreaseConcep1Suitablity,
   GreaseResult,
 } from '../../models';
-import { shopSearchPathBase } from '../grease-report-result';
 
 @Component({
   selector: 'ga-grease-report-shop-buttons',
@@ -88,12 +87,10 @@ export class GreaseReportShopButtonsComponent implements OnInit {
   }
 
   public getConcept1ShopUrl(): string {
-    return `${translate(
-      'calculationResult.shopBaseUrl'
-    )}/${shopSearchPathBase}${concept1ShopQuery(
+    return `${translate('calculationResult.shopBaseUrl')}/p/${concept1ShopQuery(
       this.greaseResult?.mainTitle,
       this.concept1Selection
-    )}`;
+    )}?utm_source=grease-app`;
   }
 
   public trackConcept1Selection(): void {
@@ -103,9 +100,9 @@ export class GreaseReportShopButtonsComponent implements OnInit {
   }
 
   public getShopUrl(): string {
-    return `${translate(
-      'calculationResult.shopBaseUrl'
-    )}/${shopSearchPathBase}${greaseShopQuery(this.greaseResult?.mainTitle)}`;
+    return `${translate('calculationResult.shopBaseUrl')}/p/${greaseShopQuery(
+      this.greaseResult?.mainTitle
+    )}?utm_source=grease-app`;
   }
 
   public getLinkText(): string {
