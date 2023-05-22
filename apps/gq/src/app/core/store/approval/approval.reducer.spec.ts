@@ -1,5 +1,4 @@
 import { ApprovalLevel, ApprovalStatus } from '@gq/shared/models/quotation';
-import { Approver } from '@gq/shared/models/quotation/approver.model';
 
 import { APPROVAL_STATE_MOCK } from '../../../../testing/mocks';
 import { ApprovalActions } from './approval.actions';
@@ -47,56 +46,9 @@ describe('approvalReducer', () => {
         error,
       });
     });
-    test('Should set approvers with sorted and mapped entries', () => {
-      const unsortedFromBE: Approver[] = [
-        {
-          userId: 'soehnpsc',
-          firstName: 'Pascal',
-          lastName: 'Soehnlein',
-          approvalLevel: 'L4' as unknown as ApprovalLevel,
-        },
-
-        {
-          userId: 'herpiseg',
-          firstName: 'Franz',
-          lastName: 'Albert',
-          approvalLevel: 'L1' as unknown as ApprovalLevel,
-        },
-        {
-          userId: 'herpisef',
-          firstName: 'Stefan',
-          lastName: 'Herpich',
-          approvalLevel: 'L1' as unknown as ApprovalLevel,
-        },
-        {
-          userId: 'herpiseg',
-          firstName: 'Stefan',
-          lastName: 'Albert',
-          approvalLevel: 'L1' as unknown as ApprovalLevel,
-        },
-
-        {
-          userId: 'fischjny',
-          firstName: 'Jenny',
-          lastName: 'Fischer',
-          approvalLevel: 'L3' as unknown as ApprovalLevel,
-        },
-
-        {
-          userId: 'anyId',
-          firstName: 'Jan',
-          lastName: 'Schmitt',
-          approvalLevel: 'L5' as unknown as ApprovalLevel,
-        },
-        {
-          userId: 'schlesni',
-          firstName: 'Stefanie',
-          lastName: 'Schleer',
-          approvalLevel: 'L2' as unknown as ApprovalLevel,
-        },
-      ];
+    test('Should set approvers', () => {
       const action = ApprovalActions.getAllApproversSuccess({
-        approvers: unsortedFromBE,
+        approvers: APPROVAL_STATE_MOCK.approvers,
       });
       const state = approvalFeature.reducer(initialState, action);
       expect(state).toEqual({
@@ -156,8 +108,18 @@ describe('approvalReducer', () => {
       expect(state).toEqual({
         ...initialState,
         approvalStatusLoading: false,
-        approvalStatus,
+        approvalStatus: {
+          ...approvalStatus,
+          approvalLevel: ApprovalLevel.L2,
+        },
       });
+    });
+  });
+
+  describe('cast approval Level', () => {
+    test('should cast the enum', () => {
+      const result = +ApprovalLevel['L1'];
+      expect(result).toBe(ApprovalLevel.L1);
     });
   });
 });

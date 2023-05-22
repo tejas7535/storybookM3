@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 import { ApiVersion } from '@gq/shared/models';
+import { ApprovalLevel } from '@gq/shared/models/quotation/approval-level.enum';
 import { ApprovalStatus } from '@gq/shared/models/quotation/approval-status.model';
 import { Approver } from '@gq/shared/models/quotation/approver.model';
 import { withCache } from '@ngneat/cashew';
@@ -22,11 +23,31 @@ export class ApprovalService {
    * @returns a list with available approvers
    */
   getAllApprovers(): Observable<Approver[]> {
-    return this.http.get<Approver[]>(
-      `${ApiVersion.V1}/${ApprovalPaths.PATH_APPROVAL}/${ApprovalPaths.PATH_APPROVERS}`,
-      {
-        context: withCache(),
-      }
+    return (
+      this.http
+        .get<Approver[]>(
+          `${ApiVersion.V1}/${ApprovalPaths.PATH_APPROVAL}/${ApprovalPaths.PATH_APPROVERS}`,
+          {
+            context: withCache(),
+          }
+        )
+        // approvalLevel comes as string from BE, so let's map ('L1' to 1)
+        .pipe(
+          map((approvers: Approver[]) =>
+            approvers
+              .map((item: Approver) => ({
+                ...item,
+                approvalLevel: +ApprovalLevel[item.approvalLevel],
+              }))
+              .sort(
+                (a, b) =>
+                  a.approvalLevel - b.approvalLevel ||
+                  a.userId.localeCompare(b.userId) ||
+                  a.firstName?.localeCompare(b?.firstName) ||
+                  a.lastName?.localeCompare(b?.lastName)
+              )
+          )
+        )
     );
   }
 
@@ -37,8 +58,18 @@ export class ApprovalService {
    * @returns the approval status of SAP
    */
   getApprovalStatus(sapId: string): Observable<ApprovalStatus> {
-    return this.http.get<ApprovalStatus>(
-      `${ApiVersion.V1}/${ApprovalPaths.PATH_APPROVAL}/${ApprovalPaths.PATH_APPROVAL_STATUS}/${sapId}`
+    return (
+      this.http
+        .get<ApprovalStatus>(
+          `${ApiVersion.V1}/${ApprovalPaths.PATH_APPROVAL}/${ApprovalPaths.PATH_APPROVAL_STATUS}/${sapId}`
+        )
+        // ApprovalStatus from BE comes with the string 'L1' we need to cast this;
+        .pipe(
+          map((approvalStatus: ApprovalStatus) => ({
+            ...approvalStatus,
+            approvalLevel: +ApprovalLevel[approvalStatus.approvalLevel],
+          }))
+        )
     );
   }
 }
