@@ -46,7 +46,7 @@ boolean isMaster() {
 }
 
 boolean isAppRelease() {
-    return params.RELASE_SCOPE == 'APP' && isMaster()
+    return params.RELASE_SCOPE == ('cdba' || 'sedo' || 'gq' || 'ia' || 'mac' || 'mm' || 'ga' || 'ea') && isMaster()
 }
 
 boolean isLibsRelease() {
@@ -304,7 +304,7 @@ pipeline {
     parameters {
         choice(
           name: 'RELASE_SCOPE',
-          choices: ['NOTHING', 'APP', 'LIBS'],
+          choices: ['NOTHING', 'LIBS', 'cdba', 'sedo', 'gq', 'ia', 'mac', 'mm', 'ga', 'ea'],
           description: 'Use to trigger a production release of either an single app or for all libs.'
         )
         choice(
@@ -343,11 +343,7 @@ pipeline {
                         def apps = deployments.keySet()
 
                         try {
-                            timeout(time: 5, unit: 'MINUTES') {
-                                env.RELEASE_SCOPE = input message: 'User input required', ok: 'Release!',
-                                    parameters: [choice(name: 'RELEASE_SCOPE', choices: apps.join('\n'), description: 'What is the release scope?')]
-                            }
-
+                            env.RELEASE_SCOPE = params.RELASE_SCOPE
                             def appCodeOwners = getCodeOwners("${env.RELEASE_SCOPE}")
                             def userWhoTriggeredBuild = getBuildTriggerUser()
 
