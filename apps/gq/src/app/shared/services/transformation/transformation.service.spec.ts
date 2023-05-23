@@ -1,64 +1,19 @@
-import { PLsAndSeries } from '@gq/core/store/reducers/models';
-import {
-  CreateCaseActionCellComponent,
-  CreateCaseActionHeaderComponent,
-  ProcessCaseActionCellComponent,
-  ProcessCaseActionHeaderComponent,
-} from '@gq/shared/ag-grid/cell-renderer/action-cells';
-import { AddMaterialButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/case-material-table/add-material-button/add-material-button.component';
-import { CreateCaseButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/case-material-table/create-case-button/create-case-button.component';
-import { CreateCaseResetAllButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/case-material-table/create-case-reset-all-button/create-case-reset-all-button.component';
-import { ProcessCaseResetAllButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/case-material-table/process-case-reset-all-button/process-case-reset-all-button.component';
-import { PasteButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/paste-button/paste-button.component';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
-import { translate } from '@ngneat/transloco';
 import {
   TranslocoCurrencyPipe,
   TranslocoDatePipe,
   TranslocoDecimalPipe,
   TranslocoPercentPipe,
 } from '@ngneat/transloco-locale';
-import { ColDef } from 'ag-grid-enterprise';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { BASE_STATUS_BAR_CONFIG } from '../../components/case-material/input-table/config';
 import { Keyboard } from '../../models';
-import { StatusBarConfig } from '../../models/table';
-import { PLsSeriesResponse } from '../rest/search/models/pls-series-response.model';
-import { HelperService } from './helper.service';
+import { TransformationService } from './transformation.service';
 
-const BASE_COLUMN_DEFS = [
-  {
-    headerName: translate('shared.caseMaterial.table.materialDescription'),
-    field: 'materialDescription',
-    flex: 0.3,
-    sortable: true,
-  },
-  {
-    headerName: translate('shared.caseMaterial.table.materialNumber'),
-    field: 'materialNumber',
-    flex: 0.3,
-    sortable: true,
-  },
-  {
-    headerName: translate('shared.caseMaterial.table.quantity'),
-    field: 'quantity',
-    flex: 0.2,
-    sortable: true,
-  },
-  {
-    headerName: translate('shared.caseMaterial.table.info.title'),
-    field: 'info',
-    cellRenderer: 'infoCellComponent',
-    flex: 0.1,
-    sortable: true,
-  },
-];
-
-describe('HelperService', () => {
-  let service: HelperService;
-  let spectator: SpectatorService<HelperService>;
+describe('TransformationService', () => {
+  let service: TransformationService;
+  let spectator: SpectatorService<TransformationService>;
 
   let translocoCurrencyPipe: TranslocoCurrencyPipe;
   let translocoDatePipe: TranslocoDatePipe;
@@ -66,7 +21,7 @@ describe('HelperService', () => {
   let translocoPercentPipe: TranslocoPercentPipe;
 
   const createService = createServiceFactory({
-    service: HelperService,
+    service: TransformationService,
     providers: [
       {
         provide: TranslocoCurrencyPipe,
@@ -119,20 +74,6 @@ describe('HelperService', () => {
 
   afterEach(() => {
     jest.resetAllMocks();
-  });
-
-  describe('getCurrentYear', () => {
-    test('getCurrentYear', () => {
-      Date.prototype.getFullYear = jest.fn(() => 2020);
-      expect(HelperService.getCurrentYear()).toEqual(2020);
-      expect(Date.prototype.getFullYear).toHaveBeenCalledTimes(1);
-    });
-
-    test('getLastYear', () => {
-      HelperService.getCurrentYear = jest.fn(() => 2020);
-      expect(HelperService.getLastYear()).toEqual(2019);
-      expect(HelperService.getCurrentYear).toHaveBeenCalledTimes(1);
-    });
   });
 
   describe('localization functions', () => {
@@ -385,270 +326,6 @@ describe('HelperService', () => {
 
       expect(result).toEqual(Keyboard.DASH);
       expect(translocoPercentPipe.transform).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('initStatusBar', () => {
-    test('should return StatusBarConfig for createCase', () => {
-      const result = HelperService.initStatusBar(true, BASE_STATUS_BAR_CONFIG);
-
-      const expected: StatusBarConfig = {
-        statusPanels: [
-          ...BASE_STATUS_BAR_CONFIG.statusPanels,
-          {
-            statusPanel: CreateCaseButtonComponent,
-            align: 'left',
-          },
-          {
-            statusPanel: PasteButtonComponent,
-            align: 'left',
-            statusPanelParams: {
-              isCaseView: true,
-            },
-          },
-          {
-            statusPanel: CreateCaseResetAllButtonComponent,
-            align: 'right',
-          },
-        ],
-      };
-      expect(JSON.stringify(result)).toEqual(JSON.stringify(expected));
-    });
-    test('should return StatusBarConfig for processCase', () => {
-      const result = HelperService.initStatusBar(false, BASE_STATUS_BAR_CONFIG);
-
-      const expected: StatusBarConfig = {
-        statusPanels: [
-          ...BASE_STATUS_BAR_CONFIG.statusPanels,
-          {
-            statusPanel: AddMaterialButtonComponent,
-            align: 'left',
-          },
-          {
-            statusPanel: PasteButtonComponent,
-            align: 'left',
-            statusPanelParams: {
-              isCaseView: false,
-            },
-          },
-          {
-            statusPanel: ProcessCaseResetAllButtonComponent,
-            align: 'right',
-          },
-        ],
-      };
-      expect(JSON.stringify(result)).toEqual(JSON.stringify(expected));
-    });
-  });
-
-  describe('initColDef', () => {
-    test('should return ColDef for createCase', () => {
-      const result = HelperService.initColDef(true, BASE_COLUMN_DEFS);
-
-      const expected: ColDef[] = [
-        ...BASE_COLUMN_DEFS,
-        {
-          cellRenderer: CreateCaseActionCellComponent,
-          flex: 0.2,
-          headerComponent: CreateCaseActionHeaderComponent,
-        },
-      ];
-
-      expect(JSON.stringify(result)).toEqual(JSON.stringify(expected));
-    });
-    test('should return ColDef for processCase', () => {
-      const result = HelperService.initColDef(false, BASE_COLUMN_DEFS);
-
-      const expected: ColDef[] = [
-        ...BASE_COLUMN_DEFS,
-        {
-          cellRenderer: ProcessCaseActionCellComponent,
-          flex: 0.2,
-          headerComponent: ProcessCaseActionHeaderComponent,
-        },
-      ];
-
-      expect(JSON.stringify(result)).toEqual(JSON.stringify(expected));
-    });
-  });
-
-  describe('transformPLsAndSeriesResponse', () => {
-    test('should transform reponse', () => {
-      const response: PLsSeriesResponse[] = [
-        {
-          productLine: '10',
-          productLineId: '10',
-          series: '20',
-          gpsdGroupId: 'F02',
-        },
-        {
-          productLine: '10',
-          productLineId: '10',
-          series: '30',
-          gpsdGroupId: 'F03',
-        },
-      ];
-      const result = HelperService.transformPLsAndSeriesResponse(response);
-
-      const expected: PLsAndSeries = {
-        pls: [
-          { name: '10', selected: true, series: ['20', '30'], value: '10' },
-        ],
-        series: [
-          { value: '20', selected: true },
-          { value: '30', selected: true },
-        ],
-        gpsdGroupIds: [
-          { value: 'F02', selected: true },
-          { value: 'F03', selected: true },
-        ],
-      };
-      expect(result).toEqual(expected);
-    });
-  });
-  describe('validateQuantityInputKeyPress', () => {
-    test('should prevent default on invalid input', () => {
-      const event = { key: 'a', preventDefault: jest.fn() } as any;
-      HelperService.validateQuantityInputKeyPress(event);
-      expect(event.preventDefault).toHaveBeenCalledTimes(1);
-    });
-    test('should not prevent default when input is a number', () => {
-      const event = { key: '1', preventDefault: jest.fn() } as any;
-      HelperService.validateQuantityInputKeyPress(event);
-      expect(event.preventDefault).toHaveBeenCalledTimes(0);
-    });
-    test('should not prevent default when input is paste event', () => {
-      const event = {
-        key: 'v',
-        preventDefault: jest.fn(),
-        ctrlKey: true,
-      } as any;
-      HelperService.validateQuantityInputKeyPress(event);
-      expect(event.preventDefault).toHaveBeenCalledTimes(0);
-    });
-
-    test('should not prevent default when input is paste event on macOs', () => {
-      const event = {
-        key: 'v',
-        preventDefault: jest.fn(),
-        ctrlKey: false,
-        metaKey: true,
-      } as any;
-      HelperService.validateQuantityInputKeyPress(event);
-      expect(event.preventDefault).toHaveBeenCalledTimes(0);
-    });
-
-    test('should not prevent default when input is delete key', () => {
-      const event = {
-        key: Keyboard.BACKSPACE,
-        preventDefault: jest.fn(),
-      } as any;
-      HelperService.validateQuantityInputKeyPress(event);
-      expect(event.preventDefault).toHaveBeenCalledTimes(0);
-    });
-  });
-
-  describe('parseLocalizedInputValue', () => {
-    [
-      {
-        locale: 'de-DE',
-        inputs: [
-          undefined,
-          '100',
-          '1.000',
-          '1.000.000',
-          '1.000.000,45678',
-          '10,23',
-          '1,5',
-        ],
-        expectedOutputs: [
-          0, 100, 1000, 1_000_000, 1_000_000.456_78, 10.23, 1.5,
-        ],
-      },
-      {
-        locale: 'en-US',
-        inputs: [
-          undefined,
-          '100',
-          '1,000',
-          '1,000,000',
-          '1,000,000.45678',
-          '10.23',
-          '1.5',
-        ],
-        expectedOutputs: [
-          0, 100, 1000, 1_000_000, 1_000_000.456_78, 10.23, 1.5,
-        ],
-      },
-    ].forEach((testCase) => {
-      testCase.inputs.forEach((input, index) => {
-        test(`should return ${testCase.expectedOutputs[index]} for ${testCase.inputs[index]} for locale ${testCase.locale}`, () => {
-          const result = HelperService.parseLocalizedInputValue(
-            input,
-            testCase.locale
-          );
-
-          expect(result).toEqual(testCase.expectedOutputs[index]);
-        });
-      });
-    });
-  });
-
-  describe('parseNullableLocalizedInputValue', () => {
-    [
-      {
-        locale: 'de-DE',
-        inputs: [
-          undefined,
-          '100',
-          '1.000',
-          '1.000.000',
-          '1.000.000,45678',
-          '10,23',
-          '1,5',
-        ],
-        expectedOutputs: [
-          undefined,
-          100,
-          1000,
-          1_000_000,
-          1_000_000.456_78,
-          10.23,
-          1.5,
-        ],
-      },
-      {
-        locale: 'en-US',
-        inputs: [
-          undefined,
-          '100',
-          '1,000',
-          '1,000,000',
-          '1,000,000.45678',
-          '10.23',
-          '1.5',
-        ],
-        expectedOutputs: [
-          undefined,
-          100,
-          1000,
-          1_000_000,
-          1_000_000.456_78,
-          10.23,
-          1.5,
-        ],
-      },
-    ].forEach((testCase) => {
-      testCase.inputs.forEach((input, index) => {
-        test(`should return ${testCase.expectedOutputs[index]} for ${testCase.inputs[index]} for locale ${testCase.locale}`, () => {
-          const result = HelperService.parseNullableLocalizedInputValue(
-            input,
-            testCase.locale
-          );
-
-          expect(result).toEqual(testCase.expectedOutputs[index]);
-        });
-      });
     });
   });
 });

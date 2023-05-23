@@ -1,4 +1,5 @@
 import { SalesIndication } from '@gq/core/store/reducers/models';
+import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { translate, TranslocoModule } from '@ngneat/transloco';
@@ -9,7 +10,6 @@ import {
   CUSTOMER_MOCK,
   DATA_POINT_MOCK,
 } from '../../../../../testing/mocks';
-import { HelperService } from '../../../../shared/services/helper/helper.service';
 import { DataPoint } from '../models/data-point.model';
 import { ToolTipItems } from '../models/tooltip-items.enum';
 import { LEGEND, TOOLTIP_CONFIG } from './chart.config';
@@ -24,13 +24,13 @@ jest.mock('@ngneat/transloco', () => ({
 describe('ChartConfigService', () => {
   let service: ChartConfigService;
   let spectator: SpectatorService<ChartConfigService>;
-  let helperService: HelperService;
+  let transformationService: TransformationService;
 
   const createService = createServiceFactory({
     service: ChartConfigService,
     providers: [
       {
-        provide: HelperService,
+        provide: TransformationService,
         useValue: {
           transformPercentage: jest.fn(),
           transformNumberCurrency: jest.fn(),
@@ -43,7 +43,7 @@ describe('ChartConfigService', () => {
   beforeEach(() => {
     spectator = createService();
     service = spectator.service;
-    helperService = spectator.inject(HelperService);
+    transformationService = spectator.inject(TransformationService);
   });
 
   describe('getLineForToolTipFormatter', () => {
@@ -64,7 +64,9 @@ describe('ChartConfigService', () => {
   });
   describe('getRegressionForToolTipFormatter', () => {
     test('should return regression line', () => {
-      helperService.transformPercentage = jest.fn().mockReturnValue('100%');
+      transformationService.transformPercentage = jest
+        .fn()
+        .mockReturnValue('100%');
 
       const data = { value: [0, 1] } as any;
       service.regressionData = [[0, 100]];
@@ -101,16 +103,15 @@ describe('ChartConfigService', () => {
   describe('getValueForToolTipItem', () => {
     const data: DataPoint = DATA_POINT_MOCK;
     test('should return price', () => {
-      helperService.transformNumberCurrency = jest
+      transformationService.transformNumberCurrency = jest
         .fn()
         .mockReturnValue('25 EUR');
 
       const result = service.getValueForToolTipItem(ToolTipItems.PRICE, data);
 
-      expect(helperService.transformNumberCurrency).toHaveBeenCalledWith(
-        data.price.toString(),
-        data.currency
-      );
+      expect(
+        transformationService.transformNumberCurrency
+      ).toHaveBeenCalledWith(data.price.toString(), data.currency);
       expect(result).toEqual(`${data.price} ${data.currency}`);
     });
 
@@ -120,7 +121,7 @@ describe('ChartConfigService', () => {
       expect(result).toEqual(data.year);
     });
     test('should return quantity', () => {
-      helperService.transformNumber = jest.fn().mockReturnValue(120);
+      transformationService.transformNumber = jest.fn().mockReturnValue(120);
 
       const result = service.getValueForToolTipItem(
         ToolTipItems.QUANTITY,
@@ -130,7 +131,9 @@ describe('ChartConfigService', () => {
       expect(result).toEqual(data.value[service.INDEX_X_AXIS]);
     });
     test('should return profitMargin', () => {
-      helperService.transformPercentage = jest.fn().mockReturnValue('120%');
+      transformationService.transformPercentage = jest
+        .fn()
+        .mockReturnValue('120%');
 
       const result = service.getValueForToolTipItem(
         ToolTipItems.PROFIT_MARGIN,

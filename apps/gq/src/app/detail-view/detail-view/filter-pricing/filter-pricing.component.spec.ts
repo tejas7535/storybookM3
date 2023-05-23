@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
-import { ProcessCaseState } from '@gq/core/store/reducers/process-case/process-case.reducer';
+import { ProcessCaseState } from '@gq/core/store/process-case';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';

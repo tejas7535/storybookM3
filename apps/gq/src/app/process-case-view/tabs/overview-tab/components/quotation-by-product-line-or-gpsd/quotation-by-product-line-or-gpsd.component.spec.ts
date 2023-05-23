@@ -7,7 +7,7 @@ import {
 } from '@gq/core/store/active-case/active-case.selectors';
 import { StatusBarProperties } from '@gq/shared/models';
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
-import { HelperService } from '@gq/shared/services/helper/helper.service';
+import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
@@ -49,7 +49,7 @@ describe('QuotationByProductLineOrGpsdComponent', () => {
           'azure-auth': {},
         },
       }),
-      MockProvider(HelperService, {
+      MockProvider(TransformationService, {
         transformPercentage: jest.fn().mockReturnValue('17 %'),
       }),
     ],

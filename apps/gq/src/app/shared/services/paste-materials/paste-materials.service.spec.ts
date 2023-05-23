@@ -1,7 +1,7 @@
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { addRowDataItems } from '@gq/core/store/actions/create-case/create-case.actions';
-import { addMaterialRowDataItems } from '@gq/core/store/actions/process-case/process-case.action';
+import { ProcessCaseActions } from '@gq/core/store/process-case';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { mockProvider } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
@@ -265,7 +265,7 @@ describe('PasteMaterialsService', () => {
       await service.onPasteStart(false);
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        addMaterialRowDataItems(combinedItem)
+        ProcessCaseActions.addNewItemsToMaterialTable(combinedItem)
       );
     });
     test('should dispatch action with transformed array for zero quantity', async () => {
@@ -285,7 +285,7 @@ describe('PasteMaterialsService', () => {
       await service.onPasteStart(false);
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        addMaterialRowDataItems(combinedItem)
+        ProcessCaseActions.addNewItemsToMaterialTable(combinedItem)
       );
     });
 

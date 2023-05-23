@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
 
-import {
-  deleteMaterialRowDataItem,
-  duplicateMaterialRowDataItem,
-} from '@gq/core/store/actions';
+import { ProcessCaseActions } from '@gq/core/store/process-case/process-case.action';
 import { Store } from '@ngrx/store';
 import { CellClassParams } from 'ag-grid-community';
 
@@ -23,12 +20,14 @@ export class ProcessCaseActionCellComponent {
   deleteItem(): void {
     const { id } = this.params.data;
 
-    this.store.dispatch(deleteMaterialRowDataItem({ id }));
+    this.store.dispatch(ProcessCaseActions.deleteItemFromMaterialTable({ id }));
   }
 
   copyItem(): void {
     this.store.dispatch(
-      duplicateMaterialRowDataItem({ itemId: this.params.data.id })
+      ProcessCaseActions.duplicateItemFromMaterialTable({
+        itemId: this.params.data.id,
+      })
     );
   }
 }

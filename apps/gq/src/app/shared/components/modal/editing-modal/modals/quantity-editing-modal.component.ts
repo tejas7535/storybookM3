@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { UpdateQuotationDetail } from '@gq/core/store/active-case';
 import { QuotationDetailsTableValidationService } from '@gq/process-case-view/quotation-details-table/services/quotation-details-table-validation.service';
 import { getQuantityRegex } from '@gq/shared/constants';
-import { HelperService } from '@gq/shared/services/helper/helper.service';
+import { validateQuantityInputKeyPress } from '@gq/shared/utils/misc.utils';
 import { translate } from '@ngneat/transloco';
 
 import { EditingModalComponent } from '../editing-modal.component';
@@ -17,11 +17,11 @@ export class QuantityEditingModalComponent extends EditingModalComponent {
   protected shouldDisableRelativePriceChange: undefined;
 
   override getLocaleValue(value: number): string {
-    return this.helperService.transformNumber(value, false);
+    return this.transformationService.transformNumber(value, false);
   }
 
   handleInputFieldKeyDown(event: KeyboardEvent): void {
-    HelperService.validateQuantityInputKeyPress(event);
+    validateQuantityInputKeyPress(event);
   }
 
   protected validateInput(value: string): boolean {

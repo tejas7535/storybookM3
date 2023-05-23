@@ -1,13 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 import { Keyboard } from '@gq/shared/models';
-import { HelperService } from '@gq/shared/services/helper/helper.service';
+import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 
 @Pipe({
   name: 'multiplyComparableCostWithPriceUnit',
 })
 export class MultiplyComparableCostWithPriceUnitPipe implements PipeTransform {
-  constructor(private readonly helperService: HelperService) {}
+  constructor(private readonly transformationService: TransformationService) {}
 
   /**
    * Transforms a comparable cost by given sapPrice Unit.
@@ -34,6 +34,9 @@ export class MultiplyComparableCostWithPriceUnitPipe implements PipeTransform {
       : // value does not have to be multiplied with materialPriceUnit because it is already saved on that factor in the db
         value;
 
-    return this.helperService.transformMarginDetails(adjustedValue, currency);
+    return this.transformationService.transformMarginDetails(
+      adjustedValue,
+      currency
+    );
   }
 }

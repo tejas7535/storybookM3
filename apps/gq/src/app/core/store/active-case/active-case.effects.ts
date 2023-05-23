@@ -30,7 +30,7 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../../../app-route-path.enum';
-import { getAddQuotationDetailsRequest } from '../selectors';
+import { getAddQuotationDetailsRequest } from '../process-case';
 import { ActiveCaseActions } from './active-case.action';
 import { activeCaseFeature } from './active-case.reducer';
 import { getGqId } from './active-case.selectors';

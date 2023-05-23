@@ -1,21 +1,17 @@
 import { Customer } from '@gq/shared/models';
+import { MaterialQuantities, MaterialTableItem } from '@gq/shared/models/table';
+import { TableService } from '@gq/shared/services/table/table.service';
 import { createSelector } from '@ngrx/store';
 
 import {
-  MaterialQuantities,
-  MaterialTableItem,
-} from '../../../../shared/models/table';
-import { TableService } from '../../../../shared/services/table/table.service';
-import {
   activeCaseFeature,
   ActiveCaseState,
-} from '../../active-case/active-case.reducer';
-import { AddQuotationDetailsRequest } from '../../active-case/models';
-import { getProcessCaseState } from '../../reducers';
-import { ProcessCaseState } from '../../reducers/process-case/process-case.reducer';
+} from '../active-case/active-case.reducer';
+import { AddQuotationDetailsRequest } from '../active-case/models';
+import { processCaseFeature, ProcessCaseState } from './process-case.reducer';
 
 export const getAddMaterialRowData = createSelector(
-  getProcessCaseState,
+  processCaseFeature.selectProcessCaseState,
   activeCaseFeature.selectCustomer,
   (state: ProcessCaseState, customer: Customer): MaterialTableItem[] =>
     TableService.addCurrencyToMaterialItems(
@@ -25,7 +21,7 @@ export const getAddMaterialRowData = createSelector(
 );
 
 export const getAddQuotationDetailsRequest = createSelector(
-  getProcessCaseState,
+  processCaseFeature.selectProcessCaseState,
   activeCaseFeature.selectActiveCaseState,
   (
     state: ProcessCaseState,
@@ -57,7 +53,7 @@ export const getAddQuotationDetailsRequest = createSelector(
 );
 
 export const getAddMaterialRowDataValid = createSelector(
-  getProcessCaseState,
+  processCaseFeature.selectProcessCaseState,
   (state: ProcessCaseState): boolean => {
     const rowData = state ? [...state.addMaterialRowData] : [];
     let rowDataValid = rowData.length > 0;

@@ -2,8 +2,8 @@ import {
   CUSTOMER_MOCK,
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
-} from '../../../../../testing/mocks';
-import { initialState } from '../../reducers/process-case/process-case.reducer';
+} from '../../../../testing/mocks';
+import { initialState } from './process-case.reducer';
 import * as quotationSelectors from './process-case.selectors';
 
 describe('Process Case Selector', () => {

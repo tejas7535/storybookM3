@@ -8,7 +8,7 @@ import { TranslocoService } from '@ngneat/transloco';
 
 import { EditCaseModalComponent } from '../../shared/components/modal/edit-case-modal/edit-case-modal.component';
 import { Quotation, QuotationStatus } from '../../shared/models';
-import { HelperService } from '../../shared/services/helper/helper.service';
+import { TransformationService } from '../../shared/services/transformation/transformation.service';
 import { UpdateQuotationRequest } from '../../shared/services/rest/quotation/models/update-quotation-request.model';
 @Component({
   selector: 'gq-header-content',
@@ -47,12 +47,12 @@ export class HeaderContentComponent {
         'header.gqHeader',
         {
           gqCreationName: value.gqCreatedByUser.name,
-          gqCreationDate: this.helperService.transformDate(
+          gqCreationDate: this.TransformationService.transformDate(
             value.gqCreated,
             true
           ),
           gqUpdatedName: value.gqLastUpdatedByUser.name,
-          gqUpdatedDate: this.helperService.transformDate(
+          gqUpdatedDate: this.TransformationService.transformDate(
             value.gqLastUpdated,
             true
           ),
@@ -73,11 +73,11 @@ export class HeaderContentComponent {
           'header.sapHeader',
           {
             sapCreationName: value.sapCreatedByUser.name,
-            sapCreationDate: this.helperService.transformDate(
+            sapCreationDate: this.TransformationService.transformDate(
               value.sapCreated,
               true
             ),
-            sapUpdatedDate: this.helperService.transformDate(
+            sapUpdatedDate: this.TransformationService.transformDate(
               value.sapLastUpdated,
               true
             ),
@@ -93,7 +93,7 @@ export class HeaderContentComponent {
   constructor(
     private readonly translocoService: TranslocoService,
     private readonly matDialog: MatDialog,
-    private readonly helperService: HelperService
+    private readonly TransformationService: TransformationService
   ) {}
 
   public openCaseEditingModal(): void {

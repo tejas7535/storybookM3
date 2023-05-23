@@ -21,7 +21,10 @@ import { marbles } from 'rxjs-marbles';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
-import { PROCESS_CASE_STATE_MOCK } from '../../../../../testing/mocks';
+import {
+  ACTIVE_CASE_STATE_MOCK,
+  PROCESS_CASE_STATE_MOCK,
+} from '../../../../../testing/mocks';
 import { InfoIconModule } from '../../../components/info-icon/info-icon.module';
 import { SharedDirectivesModule } from '../../../directives/shared-directives.module';
 import { EVENT_NAMES } from '../../../models';
@@ -92,6 +95,7 @@ describe('ExtendedColumnHeaderComponent', () => {
               },
             },
           },
+          activeCase: ACTIVE_CASE_STATE_MOCK,
         },
       }),
       {

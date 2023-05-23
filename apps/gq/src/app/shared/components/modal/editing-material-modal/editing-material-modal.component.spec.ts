@@ -6,7 +6,8 @@ import { MatInputModule } from '@angular/material/input';
 import { LOCALE_DE } from '@gq/shared/constants';
 import { FeatureToggleDirective } from '@gq/shared/directives/feature-toggle/feature-toggle.directive';
 import { SAP_ERROR_MESSAGE_CODE } from '@gq/shared/models/quotation-detail';
-import { HelperService } from '@gq/shared/services/helper/helper.service';
+import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
+import * as miscUtils from '@gq/shared/utils/misc.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { PushModule } from '@ngrx/component';
@@ -27,6 +28,7 @@ import { AutocompleteInputComponent } from '../../autocomplete-input/autocomplet
 import { AutocompleteInputModule } from '../../autocomplete-input/autocomplete-input.module';
 import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete-request-dialog.enum';
 import { EditingMaterialModalComponent } from './editing-material-modal.component';
+
 describe('EditingMaterialModalComponent', () => {
   let component: EditingMaterialModalComponent;
   let spectator: Spectator<EditingMaterialModalComponent>;
@@ -43,7 +45,7 @@ describe('EditingMaterialModalComponent', () => {
     // TODO:FeatureToggle 'targetPrice' remove declaration for FeatureToggleDirective when FeatureToggle is removed
     declarations: [FeatureToggleDirective],
     providers: [
-      MockProvider(HelperService, {
+      MockProvider(TransformationService, {
         transformNumber: jest
           .fn()
           .mockImplementation((value) =>
@@ -420,14 +422,14 @@ describe('EditingMaterialModalComponent', () => {
 
   describe('handleQuantityKeyDown', () => {
     test('should call validateQuantityInputKeyPress', () => {
-      HelperService.validateQuantityInputKeyPress = jest.fn();
+      jest
+        .spyOn(miscUtils, 'validateQuantityInputKeyPress')
+        .mockImplementation();
       const event = {} as KeyboardEvent;
 
       component.handleQuantityKeyDown(event);
-      expect(HelperService.validateQuantityInputKeyPress).toHaveBeenCalledTimes(
-        1
-      );
-      expect(HelperService.validateQuantityInputKeyPress).toHaveBeenCalledWith(
+      expect(miscUtils.validateQuantityInputKeyPress).toHaveBeenCalledTimes(1);
+      expect(miscUtils.validateQuantityInputKeyPress).toHaveBeenCalledWith(
         event
       );
     });

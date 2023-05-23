@@ -27,7 +27,7 @@ import {
   QUOTATION_MOCK,
   SIMULATED_QUOTATION_MOCK,
 } from '../../../../testing/mocks';
-import { getAddQuotationDetailsRequest } from '../selectors';
+import { getAddQuotationDetailsRequest } from '../process-case';
 import { ActiveCaseActions } from './active-case.action';
 import { ActiveCaseEffects } from './active-case.effects';
 import { activeCaseFeature } from './active-case.reducer';

@@ -16,7 +16,7 @@ import {
 } from '@gq/core/store/active-case/active-case.selectors';
 import { StatusBarProperties } from '@gq/shared/models';
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
-import { HelperService } from '@gq/shared/services/helper/helper.service';
+import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { calculateStatusBarValues } from '@gq/shared/utils/pricing.utils';
 import { Store } from '@ngrx/store';
 
@@ -40,7 +40,7 @@ export class QuotationByProductLineOrGpsdComponent
   private readonly shutdown$$: Subject<void> = new Subject<void>();
   constructor(
     private readonly store: Store,
-    private readonly helperService: HelperService
+    private readonly TransformationService: TransformationService
   ) {}
 
   ngOnInit(): void {
@@ -101,7 +101,7 @@ export class QuotationByProductLineOrGpsdComponent
       const calc = calculateStatusBarValues(groupedDetails);
       const barItem: BarChartData = {
         name: labelPrefix ? `${labelPrefix} ${key}` : key,
-        gpm: this.helperService.transformPercentage(calc.gpm),
+        gpm: this.TransformationService.transformPercentage(calc.gpm),
         value: calc.netValue,
         share: this.calculateShare(calc, totalValues),
       };
@@ -122,7 +122,7 @@ export class QuotationByProductLineOrGpsdComponent
     shares: StatusBarProperties,
     totals: StatusBarProperties
   ): string {
-    return this.helperService.transformPercentage(
+    return this.TransformationService.transformPercentage(
       (shares.netValue * 100) / totals.netValue
     );
   }

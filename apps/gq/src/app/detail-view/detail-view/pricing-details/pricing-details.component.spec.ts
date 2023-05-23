@@ -22,7 +22,7 @@ import { ACTIVE_CASE_STATE_MOCK } from '../../../../testing/mocks/state/active-c
 import { MATERIAL_COST_DETAILS_STATE_MOCK } from '../../../../testing/mocks/state/material-cost-details-state.mock';
 import { LabelTextModule } from '../../../shared/components/label-text/label-text.module';
 import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
-import { HelperService } from '../../../shared/services/helper/helper.service';
+import { TransformationService } from '../../../shared/services/transformation/transformation.service';
 import { MaterialComparableCostDetailsComponent } from './material-comparable-cost-details/material-comparable-cost-details.component';
 import { MaterialDetailsModule } from './material-details/material-details.module';
 import { PricingDetailsComponent } from './pricing-details.component';
@@ -62,7 +62,7 @@ describe('PricingDetailsComponent', () => {
       }),
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       {
-        provide: HelperService,
+        provide: TransformationService,
         useValue: { transformMarginDetails: jest.fn() },
       },
     ],

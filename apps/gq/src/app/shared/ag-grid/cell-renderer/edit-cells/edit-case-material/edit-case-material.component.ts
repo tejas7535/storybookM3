@@ -7,11 +7,10 @@ import { Router } from '@angular/router';
 import {
   resetAutocompleteMaterials,
   setRequestingAutoCompleteDialog,
-  updateMaterialRowDataItem,
   updateRowDataItem,
-  validateAddMaterialsOnCustomerAndSalesOrg,
   validateMaterialsOnCustomerAndSalesOrg,
 } from '@gq/core/store/actions';
+import { ProcessCaseActions } from '@gq/core/store/process-case';
 import { Store } from '@ngrx/store';
 import { ICellRendererParams } from 'ag-grid-community';
 
@@ -102,7 +101,7 @@ export class EditCaseMaterialComponent {
     return this.isCaseView
       ? this.store.dispatch(updateRowDataItem({ item: recentData, revalidate }))
       : this.store.dispatch(
-          updateMaterialRowDataItem({
+          ProcessCaseActions.updateItemFromMaterialTable({
             item: recentData,
             revalidate,
           })
@@ -114,6 +113,6 @@ export class EditCaseMaterialComponent {
 
     return this.isCaseView
       ? this.store.dispatch(validateMaterialsOnCustomerAndSalesOrg())
-      : this.store.dispatch(validateAddMaterialsOnCustomerAndSalesOrg());
+      : this.store.dispatch(ProcessCaseActions.validateMaterialTableItems());
   }
 }

@@ -6,7 +6,6 @@ import { FilterNames } from '../../../shared/components/autocomplete-input/filte
 import { AutocompleteSearch, IdValue } from '../../../shared/models/search';
 import {
   autocomplete,
-  clearProcessCaseRowData,
   resetAutocompleteMaterials,
   resetRequestingAutoCompleteDialog,
   selectAutocompleteOption,
@@ -14,6 +13,7 @@ import {
   setSelectedAutocompleteOption,
   unselectAutocompleteOptions,
 } from '../actions';
+import { ProcessCaseActions } from '../process-case';
 import { AutoCompleteFacade } from './autocomplete.facade';
 
 describe('autocompleteFacade', () => {
@@ -118,7 +118,7 @@ describe('autocompleteFacade', () => {
       service.clearProcessCaseRowData();
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        clearProcessCaseRowData()
+        ProcessCaseActions.clearRowData()
       );
     });
   });

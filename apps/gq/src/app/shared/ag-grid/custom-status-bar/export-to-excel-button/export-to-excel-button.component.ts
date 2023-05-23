@@ -15,6 +15,7 @@ import {
   getExtendedComparableLinkedTransactions,
   getExtendedSapPriceConditionDetails,
 } from '@gq/core/store/selectors';
+import { getCurrentYear, getLastYear } from '@gq/shared/utils/misc.utils';
 import { calculateStatusBarValues } from '@gq/shared/utils/pricing.utils';
 import { translate, TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
@@ -34,7 +35,7 @@ import { ExportExcel } from '../../../components/modal/export-excel-modal/export
 import { ExportExcelModalComponent } from '../../../components/modal/export-excel-modal/export-excel-modal.component';
 import { Keyboard, Quotation } from '../../../models';
 import { UomPipe } from '../../../pipes/uom/uom.pipe';
-import { HelperService } from '../../../services/helper/helper.service';
+import { TransformationService } from '../../../services/transformation/transformation.service';
 import {
   ColumnFields,
   DateColumns,
@@ -78,7 +79,7 @@ export class ExportToExcelButtonComponent implements OnInit {
     private readonly store: Store,
     private readonly translocoService: TranslocoService,
     private readonly snackBar: MatSnackBar,
-    private readonly helperService: HelperService
+    private readonly transformationService: TransformationService
   ) {}
 
   ngOnInit(): void {
@@ -235,7 +236,7 @@ export class ExportToExcelButtonComponent implements OnInit {
     } else if (
       ExportExcelNumberColumns.includes(colDef.field as ColumnFields)
     ) {
-      return this.helperService.transformNumberExcel(params.value);
+      return this.transformationService.transformNumberExcel(params.value);
     }
 
     return params.value;
@@ -403,7 +404,7 @@ export class ExportToExcelButtonComponent implements OnInit {
           {
             data: {
               type: typeString,
-              value: this.helperService.transformMarginDetails(
+              value: this.transformationService.transformMarginDetails(
                 statusBarProperties?.netValue,
                 quotation.currency
               ),
@@ -426,7 +427,7 @@ export class ExportToExcelButtonComponent implements OnInit {
           {
             data: {
               type: typeString,
-              value: this.helperService.transformPercentage(
+              value: this.transformationService.transformPercentage(
                 statusBarProperties.gpm
               ),
             },
@@ -448,7 +449,7 @@ export class ExportToExcelButtonComponent implements OnInit {
           {
             data: {
               type: typeString,
-              value: this.helperService.transformPercentage(
+              value: this.transformationService.transformPercentage(
                 statusBarProperties.gpi
               ),
             },
@@ -470,7 +471,7 @@ export class ExportToExcelButtonComponent implements OnInit {
           {
             data: {
               type: typeString,
-              value: this.helperService.transformPercentage(
+              value: this.transformationService.transformPercentage(
                 statusBarProperties.priceDiff
               ),
             },
@@ -506,8 +507,8 @@ export class ExportToExcelButtonComponent implements OnInit {
 
   addCustomerOverview(quotation: Quotation): ExcelRow[] {
     const { customer } = quotation;
-    const lastYear = HelperService.getLastYear();
-    const currentYear = HelperService.getCurrentYear();
+    const lastYear = getLastYear();
+    const currentYear = getCurrentYear();
 
     return [
       {
@@ -597,7 +598,7 @@ export class ExportToExcelButtonComponent implements OnInit {
           {
             data: {
               type: typeString,
-              value: this.helperService.transformMarginDetails(
+              value: this.transformationService.transformMarginDetails(
                 customer.marginDetail?.netSalesLastYear,
                 customer.currency
               ),
@@ -620,7 +621,7 @@ export class ExportToExcelButtonComponent implements OnInit {
           {
             data: {
               type: typeString,
-              value: this.helperService.transformPercentage(
+              value: this.transformationService.transformPercentage(
                 customer.marginDetail?.gpiLastYear
               ),
             },
@@ -642,7 +643,7 @@ export class ExportToExcelButtonComponent implements OnInit {
           {
             data: {
               type: typeString,
-              value: this.helperService.transformMarginDetails(
+              value: this.transformationService.transformMarginDetails(
                 customer.marginDetail?.currentNetSales,
                 customer.currency
               ),
@@ -665,7 +666,7 @@ export class ExportToExcelButtonComponent implements OnInit {
           {
             data: {
               type: typeString,
-              value: this.helperService.transformPercentage(
+              value: this.transformationService.transformPercentage(
                 customer.marginDetail?.currentGpi
               ),
             },
@@ -834,9 +835,9 @@ export class ExportToExcelButtonComponent implements OnInit {
     if (value === undefined || value === null) {
       return '';
     } else if (ExportExcelNumberColumns.includes(key as ColumnFields)) {
-      return this.helperService.transformNumberExcel(value as number);
+      return this.transformationService.transformNumberExcel(value as number);
     } else if (DateColumns.includes(key as SapPriceDetailsColumnFields)) {
-      return this.helperService.transformDate(value.toString());
+      return this.transformationService.transformDate(value.toString());
     } else {
       switch (key) {
         case SapPriceDetailsColumnFields.SAP_PRICING_UNIT: {
@@ -852,13 +853,13 @@ export class ExportToExcelButtonComponent implements OnInit {
             'calculationType' in t &&
             t.calculationType === CalculationType.ABSOLUT
           ) {
-            return this.helperService.transformNumberCurrency(
-              this.helperService.transformNumber(Number(value), true),
+            return this.transformationService.transformNumberCurrency(
+              this.transformationService.transformNumber(Number(value), true),
               this.params.context.quotation.currency
             );
           }
 
-          return this.helperService.transformPercentage(Number(value));
+          return this.transformationService.transformPercentage(Number(value));
         }
         default:
           return value.toString();

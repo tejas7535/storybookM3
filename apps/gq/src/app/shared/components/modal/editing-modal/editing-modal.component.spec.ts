@@ -7,7 +7,8 @@ import {
   UpdateQuotationDetail,
 } from '@gq/core/store/active-case';
 import { PriceSource } from '@gq/shared/models';
-import { HelperService } from '@gq/shared/services/helper/helper.service';
+import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
+import * as miscUtils from '@gq/shared/utils/misc.utils';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 import {
   createComponentFactory,
@@ -72,7 +73,7 @@ describe('TestEditingModalComponent', () => {
   let component: TestEditingModalComponent;
   let spectator: Spectator<TestEditingModalComponent>;
   let store: MockStore;
-  let helperService: HelperService;
+  let transformationService: TransformationService;
 
   const VALUE_FORM_CONTROL_NAME = 'valueInput';
   const IS_RELATIVE_PRICE_CONTROL_NAME = 'isRelativePriceChangeRadioGroup';
@@ -100,7 +101,7 @@ describe('TestEditingModalComponent', () => {
         useValue: {},
       },
       {
-        provide: HelperService,
+        provide: TransformationService,
         useValue: {
           transformNumber: jest.fn().mockImplementation((value, showDigits) =>
             Intl.NumberFormat('de-DE', {
@@ -121,7 +122,7 @@ describe('TestEditingModalComponent', () => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     store = spectator.inject(MockStore);
-    helperService = spectator.inject(HelperService);
+    transformationService = spectator.inject(TransformationService);
   });
 
   test('should create', () => {
@@ -349,9 +350,7 @@ describe('TestEditingModalComponent', () => {
       };
 
       store.dispatch = jest.fn();
-      jest
-        .spyOn(HelperService, 'parseLocalizedInputValue')
-        .mockImplementation();
+      jest.spyOn(miscUtils, 'parseLocalizedInputValue').mockImplementation();
       component['buildUpdateQuotationDetail'] = jest
         .fn()
         .mockReturnValue(testData);
@@ -372,7 +371,7 @@ describe('TestEditingModalComponent', () => {
     });
 
     test('should increment', () => {
-      jest.spyOn(HelperService, 'parseLocalizedInputValue').mockReturnValue(1);
+      jest.spyOn(miscUtils, 'parseLocalizedInputValue').mockReturnValue(1);
       component['shouldIncrement'] = jest.fn().mockReturnValue(true);
 
       component.changeValueIncrementally(1);
@@ -380,12 +379,15 @@ describe('TestEditingModalComponent', () => {
       expect(
         component.editingFormGroup.get(VALUE_FORM_CONTROL_NAME).value
       ).toEqual('2');
-      expect(helperService.transformNumber).toHaveBeenCalledWith(2, false);
-      expect(helperService.transformNumber).toHaveBeenCalledTimes(2);
+      expect(transformationService.transformNumber).toHaveBeenCalledWith(
+        2,
+        false
+      );
+      expect(transformationService.transformNumber).toHaveBeenCalledTimes(2);
     });
 
     test('should increment on placeholder value', () => {
-      jest.spyOn(HelperService, 'parseLocalizedInputValue').mockReturnValue(0);
+      jest.spyOn(miscUtils, 'parseLocalizedInputValue').mockReturnValue(0);
       component['shouldIncrement'] = jest.fn().mockReturnValue(true);
       component['value'] = 10;
 
@@ -394,13 +396,16 @@ describe('TestEditingModalComponent', () => {
       expect(
         component.editingFormGroup.get(VALUE_FORM_CONTROL_NAME).value
       ).toEqual('11');
-      expect(helperService.transformNumber).toHaveBeenCalledWith(11, false);
-      expect(helperService.transformNumber).toHaveBeenCalledTimes(2);
+      expect(transformationService.transformNumber).toHaveBeenCalledWith(
+        11,
+        false
+      );
+      expect(transformationService.transformNumber).toHaveBeenCalledTimes(2);
     });
 
     test('should not increment', () => {
       updateFormValue('99');
-      jest.spyOn(HelperService, 'parseLocalizedInputValue').mockReturnValue(99);
+      jest.spyOn(miscUtils, 'parseLocalizedInputValue').mockReturnValue(99);
       component['shouldIncrement'] = jest.fn().mockReturnValue(false);
 
       component.changeValueIncrementally(1);
@@ -408,11 +413,11 @@ describe('TestEditingModalComponent', () => {
       expect(
         component.editingFormGroup.get(VALUE_FORM_CONTROL_NAME).value
       ).toEqual('99');
-      expect(helperService.transformNumber).toHaveBeenCalledTimes(1);
+      expect(transformationService.transformNumber).toHaveBeenCalledTimes(1);
     });
 
     test('should use 0 if the value is not parsable', () => {
-      jest.spyOn(HelperService, 'parseLocalizedInputValue').mockReturnValue(0);
+      jest.spyOn(miscUtils, 'parseLocalizedInputValue').mockReturnValue(0);
       component['shouldIncrement'] = jest.fn().mockReturnValue(true);
       component['value'] = '' as unknown as number;
       updateFormValue(undefined as any);
@@ -422,14 +427,15 @@ describe('TestEditingModalComponent', () => {
       expect(
         component.editingFormGroup.get(VALUE_FORM_CONTROL_NAME).value
       ).toEqual('1');
-      expect(helperService.transformNumber).toHaveBeenCalledWith(1, false);
-      expect(helperService.transformNumber).toHaveBeenCalledTimes(2);
+      expect(transformationService.transformNumber).toHaveBeenCalledWith(
+        1,
+        false
+      );
+      expect(transformationService.transformNumber).toHaveBeenCalledTimes(2);
     });
 
     test('should increment float value', () => {
-      jest
-        .spyOn(HelperService, 'parseLocalizedInputValue')
-        .mockReturnValue(10.25);
+      jest.spyOn(miscUtils, 'parseLocalizedInputValue').mockReturnValue(10.25);
       component['shouldIncrement'] = jest.fn().mockReturnValue(true);
 
       component.changeValueIncrementally(1);
@@ -437,8 +443,11 @@ describe('TestEditingModalComponent', () => {
       expect(
         component.editingFormGroup.get(VALUE_FORM_CONTROL_NAME).value
       ).toEqual('11,25');
-      expect(helperService.transformNumber).toHaveBeenCalledWith(11.25, true);
-      expect(helperService.transformNumber).toHaveBeenCalledTimes(2);
+      expect(transformationService.transformNumber).toHaveBeenCalledWith(
+        11.25,
+        true
+      );
+      expect(transformationService.transformNumber).toHaveBeenCalledTimes(2);
     });
   });
 
@@ -448,9 +457,7 @@ describe('TestEditingModalComponent', () => {
     });
 
     test('should decrement', () => {
-      jest
-        .spyOn(HelperService, 'parseLocalizedInputValue')
-        .mockReturnValue(100);
+      jest.spyOn(miscUtils, 'parseLocalizedInputValue').mockReturnValue(100);
       component['shouldDecrement'] = jest.fn().mockReturnValue(true);
 
       component.changeValueIncrementally(-1);
@@ -458,13 +465,16 @@ describe('TestEditingModalComponent', () => {
       expect(
         component.editingFormGroup.get(VALUE_FORM_CONTROL_NAME).value
       ).toEqual('99');
-      expect(helperService.transformNumber).toHaveBeenCalledWith(99, false);
-      expect(helperService.transformNumber).toHaveBeenCalledTimes(2);
+      expect(transformationService.transformNumber).toHaveBeenCalledWith(
+        99,
+        false
+      );
+      expect(transformationService.transformNumber).toHaveBeenCalledTimes(2);
     });
 
     test('should not decrement', () => {
       updateFormValue('1');
-      jest.spyOn(HelperService, 'parseLocalizedInputValue').mockReturnValue(1);
+      jest.spyOn(miscUtils, 'parseLocalizedInputValue').mockReturnValue(1);
       component['shouldDecrement'] = jest.fn().mockReturnValue(false);
 
       component.changeValueIncrementally(-1);
@@ -472,13 +482,11 @@ describe('TestEditingModalComponent', () => {
       expect(
         component.editingFormGroup.get(VALUE_FORM_CONTROL_NAME).value
       ).toEqual('1');
-      expect(helperService.transformNumber).toHaveBeenCalledTimes(1);
+      expect(transformationService.transformNumber).toHaveBeenCalledTimes(1);
     });
 
     test('should decrement negative', () => {
-      jest
-        .spyOn(HelperService, 'parseLocalizedInputValue')
-        .mockReturnValue(-90);
+      jest.spyOn(miscUtils, 'parseLocalizedInputValue').mockReturnValue(-90);
       component['shouldDecrement'] = jest.fn().mockReturnValue(true);
 
       component.changeValueIncrementally(-1);
@@ -486,12 +494,15 @@ describe('TestEditingModalComponent', () => {
       expect(
         component.editingFormGroup.get(VALUE_FORM_CONTROL_NAME).value
       ).toEqual('-91');
-      expect(helperService.transformNumber).toHaveBeenCalledWith(-91, false);
-      expect(helperService.transformNumber).toHaveBeenCalledTimes(2);
+      expect(transformationService.transformNumber).toHaveBeenCalledWith(
+        -91,
+        false
+      );
+      expect(transformationService.transformNumber).toHaveBeenCalledTimes(2);
     });
 
     test('should decrement on placeholder value', () => {
-      jest.spyOn(HelperService, 'parseLocalizedInputValue').mockReturnValue(0);
+      jest.spyOn(miscUtils, 'parseLocalizedInputValue').mockReturnValue(0);
       component['shouldDecrement'] = jest.fn().mockReturnValue(true);
       component['value'] = 10;
 
@@ -500,14 +511,15 @@ describe('TestEditingModalComponent', () => {
       expect(
         component.editingFormGroup.get(VALUE_FORM_CONTROL_NAME).value
       ).toEqual('9');
-      expect(helperService.transformNumber).toHaveBeenCalledWith(9, false);
-      expect(helperService.transformNumber).toHaveBeenCalledTimes(2);
+      expect(transformationService.transformNumber).toHaveBeenCalledWith(
+        9,
+        false
+      );
+      expect(transformationService.transformNumber).toHaveBeenCalledTimes(2);
     });
 
     test('should decrement float value', () => {
-      jest
-        .spyOn(HelperService, 'parseLocalizedInputValue')
-        .mockReturnValue(10.25);
+      jest.spyOn(miscUtils, 'parseLocalizedInputValue').mockReturnValue(10.25);
       component['shouldDecrement'] = jest.fn().mockReturnValue(true);
 
       component.changeValueIncrementally(-1);
@@ -515,8 +527,11 @@ describe('TestEditingModalComponent', () => {
       expect(
         component.editingFormGroup.get(VALUE_FORM_CONTROL_NAME).value
       ).toEqual('9,25');
-      expect(helperService.transformNumber).toHaveBeenCalledWith(9.25, true);
-      expect(helperService.transformNumber).toHaveBeenCalledTimes(2);
+      expect(transformationService.transformNumber).toHaveBeenCalledWith(
+        9.25,
+        true
+      );
+      expect(transformationService.transformNumber).toHaveBeenCalledTimes(2);
     });
   });
 
@@ -605,9 +620,7 @@ describe('TestEditingModalComponent', () => {
 
       component.modalData = testData;
 
-      jest
-        .spyOn(HelperService, 'parseLocalizedInputValue')
-        .mockImplementation();
+      jest.spyOn(miscUtils, 'parseLocalizedInputValue').mockImplementation();
 
       component['determineAbsoluteValue'] = jest
         .fn()
@@ -627,9 +640,7 @@ describe('TestEditingModalComponent', () => {
 
       component.modalData = testData;
 
-      jest
-        .spyOn(HelperService, 'parseLocalizedInputValue')
-        .mockImplementation();
+      jest.spyOn(miscUtils, 'parseLocalizedInputValue').mockImplementation();
 
       component['determineAbsoluteValue'] = jest
         .fn()

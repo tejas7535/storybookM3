@@ -19,7 +19,6 @@ import * as fromMaterialCostDetails from './material-cost-details/material-cost-
 import * as fromMaterialSalesOrg from './material-sales-org/material-sales-org.reducer';
 import * as fromMaterialStock from './material-stock/material-stock.reducer';
 import * as fromPlantMaterialDetails from './plant-material-details/plant-material-details.reducer';
-import * as fromProcessCase from './process-case/process-case.reducer';
 import * as fromSapPriceDetails from './sap-price-details/sap-price-details.reducer';
 import * as fromTransactions from './transactions/transactions.reducer';
 import * as fromViewCases from './view-cases/view-cases.reducer';
@@ -118,10 +117,6 @@ export const getMaterialCostDetailsState =
   createFeatureSelector<fromMaterialCostDetails.MaterialCostDetailsState>(
     'materialCostDetails'
   );
-
-/** Feature Stores */
-export const getProcessCaseState =
-  createFeatureSelector<fromProcessCase.ProcessCaseState>('processCase');
 
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl>

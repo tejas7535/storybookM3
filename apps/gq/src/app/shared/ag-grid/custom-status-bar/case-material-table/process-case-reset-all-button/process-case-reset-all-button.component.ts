@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { clearProcessCaseRowData } from '@gq/core/store/actions';
+import { ProcessCaseActions } from '@gq/core/store/process-case';
 import { Store } from '@ngrx/store';
 
 @Component({
@@ -11,6 +11,6 @@ export class ProcessCaseResetAllButtonComponent {
   constructor(private readonly store: Store) {}
   agInit(): void {}
   resetAll(): void {
-    this.store.dispatch(clearProcessCaseRowData());
+    this.store.dispatch(ProcessCaseActions.clearRowData());
   }
 }

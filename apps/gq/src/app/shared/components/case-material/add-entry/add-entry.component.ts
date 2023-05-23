@@ -9,12 +9,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Observable } from 'rxjs';
 
-import {
-  addMaterialRowDataItems,
-  addRowDataItems,
-} from '@gq/core/store/actions';
+import { addRowDataItems } from '@gq/core/store/actions';
 import { AutoCompleteFacade } from '@gq/core/store/facades';
+import { ProcessCaseActions } from '@gq/core/store/process-case';
 import { CaseFilterItem } from '@gq/core/store/reducers/models';
+import {
+  parseNullableLocalizedInputValue,
+  validateQuantityInputKeyPress,
+} from '@gq/shared/utils/misc.utils';
 import { translate } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
@@ -22,7 +24,6 @@ import { Store } from '@ngrx/store';
 import { Keyboard } from '../../../models';
 import { MaterialTableItem } from '../../../models/table/material-table-item-model';
 import { ValidationDescription } from '../../../models/table/validation-description.enum';
-import { HelperService } from '../../../services/helper/helper.service';
 import { PasteMaterialsService } from '../../../services/paste-materials/paste-materials.service';
 import { priceValidator } from '../../../validators/price-validator';
 import { AutocompleteInputComponent } from '../../autocomplete-input/autocomplete-input.component';
@@ -116,7 +117,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
         materialDescription: this.matDescInput.searchFormControl.value,
         quantity: this.quantity,
         targetPrice:
-          HelperService.parseNullableLocalizedInputValue(
+          parseNullableLocalizedInputValue(
             this.targetPriceFormControl.value?.toString(),
             this.translocoLocaleService.getLocale()
           ) ?? undefined,
@@ -130,7 +131,9 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     this.isCaseView
       ? this.store.dispatch(addRowDataItems({ items }))
-      : this.store.dispatch(addMaterialRowDataItems({ items }));
+      : this.store.dispatch(
+          ProcessCaseActions.addNewItemsToMaterialTable({ items })
+        );
 
     // clear fields after dispatching action
     this.matNumberInput.clearInput();
@@ -147,7 +150,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
       return;
     }
 
-    HelperService.validateQuantityInputKeyPress(event);
+    validateQuantityInputKeyPress(event);
   }
 
   pasteFromClipboard() {

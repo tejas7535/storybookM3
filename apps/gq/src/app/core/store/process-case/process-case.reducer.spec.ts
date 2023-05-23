@@ -1,31 +1,18 @@
-import { Action } from '@ngrx/store';
-
-import { PROCESS_CASE_STATE_MOCK } from '../../../../../testing/mocks';
 import {
   MaterialTableItem,
   MaterialValidation,
   ValidationDescription,
-} from '../../../../shared/models/table';
-import {
-  addMaterialRowDataItems,
-  clearProcessCaseRowData,
-  deleteMaterialRowDataItem,
-  duplicateMaterialRowDataItem,
-  updateMaterialRowDataItem,
-  validateAddMaterialsOnCustomerAndSalesOrgFailure,
-  validateAddMaterialsOnCustomerAndSalesOrgSuccess,
-} from '../../actions';
-import {
-  processCaseReducer,
-  ProcessCaseState,
-  reducer,
-} from './process-case.reducer';
+} from '@gq/shared/models/table';
+
+import { PROCESS_CASE_STATE_MOCK } from '../../../../testing/mocks';
+import { ProcessCaseActions } from './process-case.action';
+import { processCaseFeature, ProcessCaseState } from './process-case.reducer';
 
 describe('Process Case Reducer', () => {
   const errorMessage = 'An error occured';
 
   describe('Adding Materials', () => {
-    describe('addMaterialRowDataItem', () => {
+    describe('addNewItemsToMaterialTable', () => {
       test('should add Material RowDataItem', () => {
         const items: MaterialTableItem[] = [
           {
@@ -34,8 +21,11 @@ describe('Process Case Reducer', () => {
             quantity: 100,
           },
         ];
-        const action = addMaterialRowDataItems({ items });
-        const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
+        const action = ProcessCaseActions.addNewItemsToMaterialTable({ items });
+        const state = processCaseFeature.reducer(
+          PROCESS_CASE_STATE_MOCK,
+          action
+        );
 
         expect(state).toEqual({
           ...PROCESS_CASE_STATE_MOCK,
@@ -60,8 +50,11 @@ describe('Process Case Reducer', () => {
             targetPrice: 100.05,
           },
         ];
-        const action = addMaterialRowDataItems({ items });
-        const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
+        const action = ProcessCaseActions.addNewItemsToMaterialTable({ items });
+        const state = processCaseFeature.reducer(
+          PROCESS_CASE_STATE_MOCK,
+          action
+        );
 
         expect(state).toEqual({
           ...PROCESS_CASE_STATE_MOCK,
@@ -70,7 +63,7 @@ describe('Process Case Reducer', () => {
         });
       });
     });
-    describe('duplicateMaterialRowDataItem', () => {
+    describe('duplicateItemFromMaterialTable', () => {
       test('should call table service duplicate', () => {
         const items: MaterialTableItem[] = [
           {
@@ -84,8 +77,10 @@ describe('Process Case Reducer', () => {
           addMaterialRowData: items,
         };
 
-        const action = duplicateMaterialRowDataItem({ itemId: 0 });
-        const state = processCaseReducer(fakeState, action);
+        const action = ProcessCaseActions.duplicateItemFromMaterialTable({
+          itemId: 0,
+        });
+        const state = processCaseFeature.reducer(fakeState, action);
 
         const expectedItems = [items[0], { ...items[0], id: 1 }];
 
@@ -93,7 +88,7 @@ describe('Process Case Reducer', () => {
       });
     });
 
-    describe('updateMaterialRowDataItem', () => {
+    describe('updateItemFromMaterialTable', () => {
       test('should update item with revalidation', () => {
         const mockedRowData: MaterialTableItem[] = [
           {
@@ -127,8 +122,11 @@ describe('Process Case Reducer', () => {
           ...PROCESS_CASE_STATE_MOCK,
           addMaterialRowData: mockedRowData,
         };
-        const action = updateMaterialRowDataItem({ item, revalidate: true });
-        const state = processCaseReducer(fakeState, action);
+        const action = ProcessCaseActions.updateItemFromMaterialTable({
+          item,
+          revalidate: true,
+        });
+        const state = processCaseFeature.reducer(fakeState, action);
 
         expect(state.addMaterialRowData).toEqual([
           {
@@ -182,8 +180,11 @@ describe('Process Case Reducer', () => {
           ...PROCESS_CASE_STATE_MOCK,
           addMaterialRowData: mockedRowData,
         };
-        const action = updateMaterialRowDataItem({ item, revalidate: false });
-        const state = processCaseReducer(fakeState, action);
+        const action = ProcessCaseActions.updateItemFromMaterialTable({
+          item,
+          revalidate: false,
+        });
+        const state = processCaseFeature.reducer(fakeState, action);
 
         expect(state.addMaterialRowData).toEqual([
           {
@@ -196,9 +197,9 @@ describe('Process Case Reducer', () => {
         ]);
       });
     });
-    describe('deleteMaterialRowDataItem', () => {
+    describe('deleteItemFromMaterialTable', () => {
       test('should delete AddMaterialRowDataItem', () => {
-        const action = deleteMaterialRowDataItem({
+        const action = ProcessCaseActions.deleteItemFromMaterialTable({
           id: 10,
         });
 
@@ -218,7 +219,7 @@ describe('Process Case Reducer', () => {
           ],
         };
 
-        const state = processCaseReducer(fakeState, action);
+        const state = processCaseFeature.reducer(fakeState, action);
 
         expect(state).toEqual({
           ...PROCESS_CASE_STATE_MOCK,
@@ -233,7 +234,7 @@ describe('Process Case Reducer', () => {
       });
     });
 
-    describe('validateAddMaterialsSuccess', () => {
+    describe('validateMaterialTableItemsSuccess', () => {
       test('should validate AddMaterials Successful', () => {
         const materialValidations: MaterialValidation[] = [
           {
@@ -242,7 +243,7 @@ describe('Process Case Reducer', () => {
             valid: true,
           },
         ];
-        const action = validateAddMaterialsOnCustomerAndSalesOrgSuccess({
+        const action = ProcessCaseActions.validateMaterialTableItemsSuccess({
           materialValidations,
         });
 
@@ -256,7 +257,7 @@ describe('Process Case Reducer', () => {
             },
           ],
         };
-        const state = processCaseReducer(fakeState, action);
+        const state = processCaseFeature.reducer(fakeState, action);
 
         expect(state).toEqual({
           ...PROCESS_CASE_STATE_MOCK,
@@ -276,13 +277,16 @@ describe('Process Case Reducer', () => {
       });
     });
 
-    describe('validateAddMaterialsFailure', () => {
+    describe('validateMaterialTableItemsFailure', () => {
       test('should failed validation', () => {
-        const action = validateAddMaterialsOnCustomerAndSalesOrgFailure({
+        const action = ProcessCaseActions.validateMaterialTableItemsFailure({
           errorMessage,
         });
 
-        const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
+        const state = processCaseFeature.reducer(
+          PROCESS_CASE_STATE_MOCK,
+          action
+        );
 
         expect(state).toEqual({
           ...PROCESS_CASE_STATE_MOCK,
@@ -296,21 +300,11 @@ describe('Process Case Reducer', () => {
 
   describe('clearRowData', () => {
     test('should clearRowData', () => {
-      const action = clearProcessCaseRowData();
+      const action = ProcessCaseActions.clearRowData();
 
-      const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
+      const state = processCaseFeature.reducer(PROCESS_CASE_STATE_MOCK, action);
 
       expect(state.addMaterialRowData).toEqual([]);
-    });
-  });
-
-  describe('Reducer function', () => {
-    test('should return searchReducer', () => {
-      // prepare any action
-      const action: Action = clearProcessCaseRowData();
-      expect(reducer(PROCESS_CASE_STATE_MOCK, action)).toEqual(
-        processCaseReducer(PROCESS_CASE_STATE_MOCK, action)
-      );
     });
   });
 });

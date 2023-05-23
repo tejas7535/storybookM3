@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { catchError, filter, map, mergeMap, tap } from 'rxjs/operators';
 
+import { PLsSeriesResponse } from '@gq/shared/services/rest/search/models/pls-series-response.model';
 import { translate } from '@ngneat/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -14,7 +15,6 @@ import { FilterNames } from '../../../../shared/components/autocomplete-input/fi
 import { Quotation } from '../../../../shared/models';
 import { IdValue } from '../../../../shared/models/search';
 import { MaterialTableItem } from '../../../../shared/models/table';
-import { HelperService } from '../../../../shared/services/helper/helper.service';
 import { CustomerService } from '../../../../shared/services/rest/customer/customer.service';
 import {
   CustomerSalesOrgsCurrenciesResponse,
@@ -56,6 +56,7 @@ import {
 import {
   CreateCase,
   CreateCaseResponse,
+  PLsAndSeries,
   SalesOrg,
 } from '../../reducers/models';
 import {
@@ -271,9 +272,7 @@ export class CreateCaseEffects {
       ofType(getPLsAndSeries),
       mergeMap((action) =>
         this.searchService.getPlsAndSeries(action.customerFilters).pipe(
-          map((response) =>
-            HelperService.transformPLsAndSeriesResponse(response)
-          ),
+          map((response) => this.transformPLsAndSeriesResponse(response)),
           map((plsAndSeries) => getPLsAndSeriesSuccess({ plsAndSeries })),
           catchError((errorMessage) =>
             of(getPLsAndSeriesFailure({ errorMessage }))
@@ -348,5 +347,40 @@ export class CreateCaseEffects {
     );
 
     this.snackBar.open(successMessage);
+  }
+
+  transformPLsAndSeriesResponse(response: PLsSeriesResponse[]): PLsAndSeries {
+    const series = [
+      ...new Set(response.map((item: PLsSeriesResponse) => item.series)),
+    ].map((seriesElement) => ({ value: seriesElement, selected: true }));
+    const gpsdGroupIds = [
+      ...new Set(response.map((item: PLsSeriesResponse) => item.gpsdGroupId)),
+    ].map((gpsdGroupIdElement) => ({
+      value: gpsdGroupIdElement,
+      selected: true,
+    }));
+    const plsAndSeries: PLsAndSeries = {
+      series,
+      pls: [],
+      gpsdGroupIds,
+    };
+
+    response.forEach((element) => {
+      const index = plsAndSeries.pls.findIndex(
+        (item) => item.value === element.productLineId
+      );
+      if (index < 0) {
+        plsAndSeries.pls.push({
+          value: element.productLineId,
+          name: element.productLine,
+          selected: true,
+          series: [element.series],
+        });
+      } else if (!plsAndSeries.pls[index].series.includes(element.series)) {
+        plsAndSeries.pls[index].series.push(element.series);
+      }
+    });
+
+    return plsAndSeries;
   }
 }

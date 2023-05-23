@@ -4,6 +4,7 @@ import {
   ComparableLinkedTransaction,
   SalesIndication,
 } from '@gq/core/store/reducers/models';
+import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { roundToTwoDecimals } from '@gq/shared/utils/pricing.utils';
 import { translate } from '@ngneat/transloco';
 import {
@@ -15,7 +16,6 @@ import {
 } from 'echarts';
 
 import { Customer } from '../../../../shared/models/customer';
-import { HelperService } from '../../../../shared/services/helper/helper.service';
 import { DataPoint } from '../models/data-point.model';
 import { ToolTipItems } from '../models/tooltip-items.enum';
 import { LEGEND, TOOLTIP_CONFIG } from './chart.config';
@@ -40,7 +40,7 @@ export class ChartConfigService {
     axisLabel: {
       show: true,
       formatter: (value: number) =>
-        this.helperService.transformNumber(value, false),
+        this.transformationService.transformNumber(value, false),
     },
     name: translate(`transactionView.graph.x-axis`),
     nameLocation: 'middle',
@@ -58,11 +58,11 @@ export class ChartConfigService {
     max: 100,
     axisLabel: {
       formatter: (value: number) =>
-        this.helperService.transformNumber(value, false),
+        this.transformationService.transformNumber(value, false),
     },
   };
 
-  constructor(private readonly helperService: HelperService) {}
+  constructor(private readonly transformationService: TransformationService) {}
 
   getLineForToolTipFormatter = (
     color: string,
@@ -89,7 +89,7 @@ export class ChartConfigService {
       (d) => d[0] === data.value[this.INDEX_X_AXIS]
     );
 
-    const gpi = `${this.helperService.transformPercentage(
+    const gpi = `${this.transformationService.transformPercentage(
       dataPoint[this.INDEX_Y_AXIS]
     )}`;
 
@@ -110,19 +110,19 @@ export class ChartConfigService {
   ): string | number => {
     switch (item) {
       case ToolTipItems.PRICE:
-        return this.helperService.transformNumberCurrency(
+        return this.transformationService.transformNumberCurrency(
           data.price.toString(),
           data.currency
         );
       case ToolTipItems.YEAR:
         return data.year;
       case ToolTipItems.QUANTITY:
-        return this.helperService.transformNumber(
+        return this.transformationService.transformNumber(
           data.value[this.INDEX_X_AXIS],
           false
         );
       case ToolTipItems.PROFIT_MARGIN:
-        return this.helperService.transformPercentage(
+        return this.transformationService.transformPercentage(
           data.value[this.INDEX_Y_AXIS]
         );
       default:

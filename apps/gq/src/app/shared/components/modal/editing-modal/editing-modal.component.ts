@@ -24,7 +24,8 @@ import {
   activeCaseFeature,
   UpdateQuotationDetail,
 } from '@gq/core/store/active-case';
-import { HelperService } from '@gq/shared/services/helper/helper.service';
+import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
+import { parseLocalizedInputValue } from '@gq/shared/utils/misc.utils';
 import {
   calculateAffectedKPIs,
   multiplyAndRoundValues,
@@ -76,7 +77,7 @@ export abstract class EditingModalComponent
   constructor(
     @Inject(MAT_DIALOG_DATA) public modalData: EditingModal,
     protected translocoLocaleService: TranslocoLocaleService,
-    protected helperService: HelperService,
+    protected transformationService: TransformationService,
     private readonly dialogRef: MatDialogRef<EditingModalComponent>,
     private readonly store: Store,
     private readonly changeDetectorRef: ChangeDetectorRef
@@ -124,7 +125,7 @@ export abstract class EditingModalComponent
    * @param increment 1 to increment and -1 to decrement
    */
   changeValueIncrementally(increment: -1 | 1): void {
-    const value = HelperService.parseLocalizedInputValue(
+    const value = parseLocalizedInputValue(
       this.editingFormGroup.get(this.VALUE_FORM_CONTROL_NAME).value,
       this.translocoLocaleService.getLocale()
     );
@@ -138,7 +139,7 @@ export abstract class EditingModalComponent
       this.editingFormGroup
         .get(this.VALUE_FORM_CONTROL_NAME)
         .setValue(
-          this.helperService
+          this.transformationService
             .transformNumber(
               (value || this.value || 0) + increment,
               !Number.isInteger(value)
@@ -150,7 +151,7 @@ export abstract class EditingModalComponent
   }
 
   confirmEditing(): void {
-    const value = HelperService.parseLocalizedInputValue(
+    const value = parseLocalizedInputValue(
       this.editingFormGroup.get(this.VALUE_FORM_CONTROL_NAME).value,
       this.translocoLocaleService.getLocale()
     );
@@ -181,7 +182,7 @@ export abstract class EditingModalComponent
   }
 
   protected getLocaleValue(value: number): string {
-    return this.helperService.transformNumber(value, true);
+    return this.transformationService.transformNumber(value, true);
   }
 
   protected setAffectedKpis(value: number): void {
@@ -247,7 +248,7 @@ export abstract class EditingModalComponent
       this.editingFormGroup
         .get(this.VALUE_FORM_CONTROL_NAME)
         .valueChanges.subscribe((value: string) => {
-          let parsedValue = HelperService.parseLocalizedInputValue(
+          let parsedValue = parseLocalizedInputValue(
             value,
             this.translocoLocaleService.getLocale()
           );

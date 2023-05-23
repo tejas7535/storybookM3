@@ -32,7 +32,6 @@ export { MaterialCostDetailsEffects } from './material-cost-details/material-cos
 export { MaterialSalesOrgEffect } from './material-sales-org/material-sales-org.effects';
 export { MaterialStockEffects } from './material-stock/material-stock.effects';
 export { PlantMaterialDetailsEffects } from './plant-material-details/plant-material-details.effects';
-export { ProcessCaseEffects } from './process-case/process-case.effects';
 export { SapPriceDetailsEffects } from './sap-price-details/sap-price-details.effects';
 export { TransactionsEffect } from './transactions/transactions.effects';
 export { ViewCasesEffect } from './view-cases/view-cases.effects';

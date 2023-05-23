@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
-import { getAddMaterialRowDataValid } from '@gq/core/store/selectors/process-case/process-case.selectors';
+import { getAddMaterialRowDataValid } from '@gq/core/store/process-case';
 import { Store } from '@ngrx/store';
 
 @Component({

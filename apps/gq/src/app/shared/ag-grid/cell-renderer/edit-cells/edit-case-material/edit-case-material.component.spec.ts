@@ -8,11 +8,10 @@ import { of } from 'rxjs';
 import {
   resetAutocompleteMaterials,
   setRequestingAutoCompleteDialog,
-  updateMaterialRowDataItem,
   updateRowDataItem,
-  validateAddMaterialsOnCustomerAndSalesOrg,
   validateMaterialsOnCustomerAndSalesOrg,
 } from '@gq/core/store/actions';
+import { ProcessCaseActions } from '@gq/core/store/process-case';
 import { Spectator, SpyObject } from '@ngneat/spectator';
 import { createComponentFactory } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -196,7 +195,7 @@ describe('EditCaseMaterialComponent', () => {
         updateRowDataItem({ item: recentData, revalidate: false })
       );
       expect(component['store'].dispatch).not.toHaveBeenCalledWith(
-        updateMaterialRowDataItem({
+        ProcessCaseActions.updateItemFromMaterialTable({
           item: expect.any(MaterialTableItem),
           revalidate: expect.any(Boolean),
         })
@@ -214,7 +213,7 @@ describe('EditCaseMaterialComponent', () => {
         updateRowDataItem({ item: recentData, revalidate: true })
       );
       expect(component['store'].dispatch).not.toHaveBeenCalledWith(
-        updateMaterialRowDataItem({
+        ProcessCaseActions.updateItemFromMaterialTable({
           item: expect.any(MaterialTableItem),
           revalidate: expect.any(Boolean),
         })
@@ -235,7 +234,7 @@ describe('EditCaseMaterialComponent', () => {
         })
       );
       expect(component['store'].dispatch).toHaveBeenCalledWith(
-        updateMaterialRowDataItem({
+        ProcessCaseActions.updateItemFromMaterialTable({
           item: recentData,
           revalidate: false,
         })
@@ -257,7 +256,7 @@ describe('EditCaseMaterialComponent', () => {
         })
       );
       expect(component['store'].dispatch).toHaveBeenCalledWith(
-        updateMaterialRowDataItem({
+        ProcessCaseActions.updateItemFromMaterialTable({
           item: recentData,
           revalidate: true,
         })
@@ -288,7 +287,7 @@ describe('EditCaseMaterialComponent', () => {
         validateMaterialsOnCustomerAndSalesOrg()
       );
       expect(component['store'].dispatch).not.toHaveBeenCalledWith(
-        validateAddMaterialsOnCustomerAndSalesOrg()
+        ProcessCaseActions.validateMaterialTableItems()
       );
     });
     test('should dispatch the actions for processCase', () => {
@@ -309,7 +308,7 @@ describe('EditCaseMaterialComponent', () => {
         validateMaterialsOnCustomerAndSalesOrg()
       );
       expect(component['store'].dispatch).toHaveBeenCalledWith(
-        validateAddMaterialsOnCustomerAndSalesOrg()
+        ProcessCaseActions.validateMaterialTableItems()
       );
     });
   });

@@ -16,7 +16,7 @@ import {
 import { ACTIVE_CASE_STATE_MOCK } from '../../../../../testing/mocks/state/active-case-state.mock';
 import { StatusBar } from '../../../models';
 import { SharedPipesModule } from '../../../pipes/shared-pipes.module';
-import { HelperService } from '../../../services/helper/helper.service';
+import { TransformationService } from '../../../services/transformation/transformation.service';
 import { DialogHeaderModule } from '../../header/dialog-header/dialog-header.module';
 import { HorizontalDividerModule } from '../../horizontal-divider/horizontal-divider.module';
 import { LabelTextModule } from '../../label-text/label-text.module';
@@ -54,7 +54,7 @@ describe('StatusBarModalComponent', () => {
         useValue: new StatusBar(),
       },
       {
-        provide: HelperService,
+        provide: TransformationService,
         useValue: {
           transformMarginDetails: jest.fn(),
           transformPercentage: jest.fn(),

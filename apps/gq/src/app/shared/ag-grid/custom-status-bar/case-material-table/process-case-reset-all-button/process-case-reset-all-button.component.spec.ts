@@ -3,7 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 
-import { clearProcessCaseRowData } from '@gq/core/store/actions';
+import { ProcessCaseActions } from '@gq/core/store/process-case';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -49,7 +49,7 @@ describe('ResetAllButtonComponent', () => {
       mockStore.dispatch = jest.fn();
       component.resetAll();
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        clearProcessCaseRowData()
+        ProcessCaseActions.clearRowData()
       );
     });
   });

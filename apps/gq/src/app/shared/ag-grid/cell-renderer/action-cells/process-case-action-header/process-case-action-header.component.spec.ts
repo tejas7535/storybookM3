@@ -1,11 +1,11 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 
-import { deleteMaterialRowDataItem } from '@gq/core/store/actions';
 import {
   getAddMaterialRowData,
   getAddMaterialRowDataValid,
-} from '@gq/core/store/selectors/process-case/process-case.selectors';
+  ProcessCaseActions,
+} from '@gq/core/store/process-case';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -140,7 +140,7 @@ describe('ProcessCaseActionHeaderComponent', () => {
 
       expect(mockStore.dispatch).toHaveBeenCalledTimes(1);
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        deleteMaterialRowDataItem({
+        ProcessCaseActions.deleteItemFromMaterialTable({
           id: 20,
         })
       );

@@ -3,8 +3,9 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import { Injectable } from '@angular/core';
 
 import { CalculationType } from '@gq/core/store/reducers/models';
-import { HelperService } from '@gq/shared/services/helper/helper.service';
 import { MaterialNumberService } from '@gq/shared/services/material-number/material-number.service';
+import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
+import { parseLocalizedInputValue } from '@gq/shared/utils/misc.utils';
 import { roundToTwoDecimals } from '@gq/shared/utils/pricing.utils';
 import { translate } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
@@ -51,7 +52,7 @@ export class ColumnUtilityService {
   static materialClassificationSOPPipe = new MaterialClassificationSOPPipe();
 
   constructor(
-    private readonly helperService: HelperService,
+    private readonly transformationService: TransformationService,
     private readonly translocoLocaleService: TranslocoLocaleService,
     private readonly materialNumberService: MaterialNumberService
   ) {}
@@ -76,7 +77,7 @@ export class ColumnUtilityService {
           inputText
         )
       ) {
-        return HelperService.parseLocalizedInputValue(
+        return parseLocalizedInputValue(
           inputText,
           this.translocoLocaleService.getLocale()
         );
@@ -285,15 +286,15 @@ export class ColumnUtilityService {
       return Keyboard.DASH;
     }
 
-    return this.helperService.transformNumber(data.value, false);
+    return this.transformationService.transformNumber(data.value, false);
   }
 
   numberFormatter(data: ValueFormatterParams): string {
-    return this.helperService.transformNumber(data.value, false);
+    return this.transformationService.transformNumber(data.value, false);
   }
 
   percentageFormatter(data: ValueFormatterParams): string {
-    return this.helperService.transformPercentage(
+    return this.transformationService.transformPercentage(
       roundToTwoDecimals(data.value)
     );
   }
@@ -311,7 +312,7 @@ export class ColumnUtilityService {
       return Keyboard.DASH;
     }
 
-    return this.helperService.transformDate(date);
+    return this.transformationService.transformDate(date);
   }
 
   caseOriginFormatter(caseOrigin: string): string {
@@ -332,7 +333,7 @@ export class ColumnUtilityService {
   }
 
   numberCurrencyFormatter(params: ValueFormatterParams): string {
-    return this.helperService.transformNumberCurrency(
+    return this.transformationService.transformNumberCurrency(
       params.value,
       params.context.quotation.currency
     );
@@ -344,14 +345,14 @@ export class ColumnUtilityService {
   targetPriceFormatter(params: ValueFormatterParams): string {
     // check for tables where currency is within the data of the row
     if (params.data?.currency) {
-      return this.helperService.transformNumberCurrency(
+      return this.transformationService.transformNumberCurrency(
         params.value,
         params.data.currency
       );
     }
 
     // currency is not present, but transform the number to locale settings
-    return this.helperService.transformNumber(params.value, true);
+    return this.transformationService.transformNumber(params.value, true);
   }
 }
 

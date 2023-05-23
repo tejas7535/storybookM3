@@ -1,4 +1,4 @@
-import { ProcessCaseState } from '../../../app/core/store/reducers/process-case/process-case.reducer';
+import { ProcessCaseState } from '../../../app/core/store/process-case';
 
 export const PROCESS_CASE_STATE_MOCK: ProcessCaseState = {
   addMaterialRowData: [],

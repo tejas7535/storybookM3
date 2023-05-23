@@ -32,7 +32,7 @@ import {
 } from '../../../testing/mocks/state';
 import { MaterialPriceHeaderContentModule } from '../../shared/components/header/material-price-header-content/material-price-header-content.module';
 import { SyncStatusCustomerInfoHeaderModule } from '../../shared/components/header/sync-status-customer-info-header/sync-status-customer-info-header.module';
-import { HelperService } from '../../shared/services/helper/helper.service';
+import { TransformationService } from '../../shared/services/transformation/transformation.service';
 import { ComparableTransactionsModule } from './comparable-transactions/comparable-transactions.module';
 import { SavingInProgressComponent } from './saving-in-progress/saving-in-progress.component';
 import { TransactionViewComponent } from './transaction-view.component';
@@ -87,7 +87,7 @@ describe('TransactionViewComponent', () => {
         },
       }),
       {
-        provide: HelperService,
+        provide: TransformationService,
         useValue: {
           transformMarginDetails: jest.fn(),
           transformPercentage: jest.fn(),

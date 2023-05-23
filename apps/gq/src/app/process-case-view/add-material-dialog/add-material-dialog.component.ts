@@ -5,12 +5,14 @@ import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, pairwise } from 'rxjs/operators';
 
 import {
-  clearProcessCaseRowData,
   resetAllAutocompleteOptions,
   resetRequestingAutoCompleteDialog,
 } from '@gq/core/store/actions';
 import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
-import { getAddMaterialRowData } from '@gq/core/store/selectors';
+import {
+  getAddMaterialRowData,
+  ProcessCaseActions,
+} from '@gq/core/store/process-case';
 import { Customer } from '@gq/shared/models/customer';
 import { Store } from '@ngrx/store';
 
@@ -78,7 +80,7 @@ export class AddMaterialDialogComponent implements OnInit, OnDestroy {
   }
 
   private dispatchResetActions(): void {
-    this.store.dispatch(clearProcessCaseRowData());
+    this.store.dispatch(ProcessCaseActions.clearRowData());
     this.store.dispatch(resetAllAutocompleteOptions());
     this.store.dispatch(resetRequestingAutoCompleteDialog());
   }

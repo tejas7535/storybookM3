@@ -3,36 +3,34 @@ import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { catchError, filter, map, mergeMap } from 'rxjs/operators';
 
+import { AppRoutePath } from '@gq/app-route-path.enum';
+import { Customer } from '@gq/shared/models/customer';
 import { MaterialTableItem } from '@gq/shared/models/table';
+import { MaterialService } from '@gq/shared/services/rest/material/material.service';
 import {
   MaterialValidationRequest,
   MaterialValidationResponse,
 } from '@gq/shared/services/rest/material/models';
+import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 
-import { AppRoutePath } from '../../../../app-route-path.enum';
-import { Customer } from '../../../../shared/models/customer';
-import { MaterialService } from '../../../../shared/services/rest/material/material.service';
-import { QuotationService } from '../../../../shared/services/rest/quotation/quotation.service';
 import {
-  addMaterialRowDataItems,
   loadAvailableCurrenciesFailure,
   loadAvailableCurrenciesSuccess,
-  validateAddMaterialsOnCustomerAndSalesOrg,
-  validateAddMaterialsOnCustomerAndSalesOrgFailure,
-  validateAddMaterialsOnCustomerAndSalesOrgSuccess,
-} from '../../actions';
-import { activeCaseFeature } from '../../active-case/active-case.reducer';
-import { getAddMaterialRowData, getAvailableCurrencies } from '../../selectors';
+} from '../actions';
+import { activeCaseFeature } from '../active-case';
+import { getAvailableCurrencies } from '../selectors';
+import { ProcessCaseActions } from './process-case.action';
+import { getAddMaterialRowData } from './process-case.selectors';
 
 @Injectable()
 export class ProcessCaseEffects {
   validateAfterItemAdded$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(addMaterialRowDataItems),
-      map(() => validateAddMaterialsOnCustomerAndSalesOrg())
+      ofType(ProcessCaseActions.addNewItemsToMaterialTable),
+      map(() => ProcessCaseActions.validateMaterialTableItems())
     );
   });
 
@@ -41,14 +39,14 @@ export class ProcessCaseEffects {
    */
   validateMaterialsOnCustomerAndSalesOrg$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(validateAddMaterialsOnCustomerAndSalesOrg),
+      ofType(ProcessCaseActions.validateMaterialTableItems),
       concatLatestFrom(() => [
         this.store.select(getAddMaterialRowData),
         this.store.select(activeCaseFeature.selectCustomer),
       ]),
       mergeMap(
         ([_action, tableData, customer]: [
-          ReturnType<typeof validateAddMaterialsOnCustomerAndSalesOrg>,
+          ReturnType<typeof ProcessCaseActions.validateMaterialTableItems>,
           MaterialTableItem[],
           Customer
         ]) => {
@@ -61,13 +59,13 @@ export class ProcessCaseEffects {
 
           return this.materialService.validateMaterials(request).pipe(
             map((response: MaterialValidationResponse) =>
-              validateAddMaterialsOnCustomerAndSalesOrgSuccess({
+              ProcessCaseActions.validateMaterialTableItemsSuccess({
                 materialValidations: response?.validatedMaterials,
               })
             ),
             catchError((errorMessage) =>
               of(
-                validateAddMaterialsOnCustomerAndSalesOrgFailure({
+                ProcessCaseActions.validateMaterialTableItemsFailure({
                   errorMessage,
                 })
               )

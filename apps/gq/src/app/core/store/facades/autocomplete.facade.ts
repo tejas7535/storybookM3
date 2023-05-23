@@ -9,7 +9,6 @@ import { FilterNames } from '../../../shared/components/autocomplete-input/filte
 import { AutocompleteSearch, IdValue } from '../../../shared/models/search';
 import {
   autocomplete,
-  clearProcessCaseRowData,
   resetAutocompleteMaterials,
   resetRequestingAutoCompleteDialog,
   selectAutocompleteOption,
@@ -17,6 +16,7 @@ import {
   setSelectedAutocompleteOption,
   unselectAutocompleteOptions,
 } from '../actions';
+import { ProcessCaseActions } from '../process-case';
 import { CaseFilterItem } from '../reducers/create-case/models';
 import {
   getCaseAutocompleteLoading,
@@ -128,6 +128,6 @@ export class AutoCompleteFacade {
   }
 
   public clearProcessCaseRowData(): void {
-    this.store.dispatch(clearProcessCaseRowData());
+    this.store.dispatch(ProcessCaseActions.clearRowData());
   }
 }

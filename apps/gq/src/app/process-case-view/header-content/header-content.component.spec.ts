@@ -21,7 +21,7 @@ import { EditCaseModalComponent } from '../../shared/components/modal/edit-case-
 import { HideIfQuotationHasStatusDirective } from '../../shared/directives/hide-if-quotation-has-status/hide-if-quotation-has-status.directive';
 import { Keyboard } from '../../shared/models';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
-import { HelperService } from '../../shared/services/helper/helper.service';
+import { TransformationService } from '../../shared/services/transformation/transformation.service';
 import { HeaderContentComponent } from './header-content.component';
 
 describe('HeaderContentComponent', () => {
@@ -29,7 +29,7 @@ describe('HeaderContentComponent', () => {
   let spectator: Spectator<HeaderContentComponent>;
   let matDialogSpyObject: SpyObject<MatDialog>;
   let fakeTranslocoService: SpyObject<TranslocoService>;
-  let helperService: HelperService;
+  let transformationService: TransformationService;
 
   const createComponent = createComponentFactory({
     component: HeaderContentComponent,
@@ -45,7 +45,7 @@ describe('HeaderContentComponent', () => {
     providers: [
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       {
-        provide: HelperService,
+        provide: TransformationService,
         useValue: {
           transformDate: jest.fn(),
         },
@@ -65,7 +65,7 @@ describe('HeaderContentComponent', () => {
       .fn()
       .mockReturnValue(of('translated')) as any;
     component = spectator.debugElement.componentInstance;
-    helperService = spectator.inject(HelperService);
+    transformationService = spectator.inject(TransformationService);
   });
 
   test('should create', () => {
@@ -257,7 +257,9 @@ describe('HeaderContentComponent', () => {
       'translations for quotation mock',
       marbles((m) => {
         const mockDate = '2022-02-01';
-        helperService.transformDate = jest.fn().mockReturnValue(mockDate);
+        transformationService.transformDate = jest
+          .fn()
+          .mockReturnValue(mockDate);
 
         spectator.setInput('quotation', QUOTATION_MOCK);
 
@@ -293,7 +295,7 @@ describe('HeaderContentComponent', () => {
       'translations for missing sap updated date',
       marbles((m) => {
         const mockDate = '2022-02-01';
-        helperService.transformDate = jest
+        transformationService.transformDate = jest
           .fn()
           .mockImplementation((value) => (value ? mockDate : Keyboard.DASH));
 

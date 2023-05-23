@@ -3,7 +3,8 @@ import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import * as constants from '@gq/shared/constants';
 import { LOCALE_EN } from '@gq/shared/constants';
-import { HelperService } from '@gq/shared/services/helper/helper.service';
+import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
+import * as miscUtils from '@gq/shared/utils/misc.utils';
 import {
   createComponentFactory,
   mockProvider,
@@ -25,7 +26,7 @@ jest.mock('../editing-modal.component', () => ({
 describe('QuantityEditingModalComponent', () => {
   let component: QuantityEditingModalComponent;
   let spectator: Spectator<QuantityEditingModalComponent>;
-  let helperService: HelperService;
+  let transformationService: TransformationService;
 
   const createComponent = createComponentFactory({
     component: QuantityEditingModalComponent,
@@ -35,13 +36,13 @@ describe('QuantityEditingModalComponent', () => {
       MockModule(PushModule),
       provideTranslocoTestingModule({ en: {} }),
     ],
-    providers: [mockProvider(HelperService)],
+    providers: [mockProvider(TransformationService)],
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    helperService = spectator.inject(HelperService);
+    transformationService = spectator.inject(TransformationService);
     component.modalData = {
       field: ColumnFields.ORDER_QUANTITY,
       quotationDetail: QUOTATION_DETAIL_MOCK,
@@ -54,10 +55,13 @@ describe('QuantityEditingModalComponent', () => {
 
   test('should not show decimal places in input field placeholder', () => {
     const value = QUOTATION_DETAIL_MOCK.orderQuantity;
-    const transformNumberSpy = jest.spyOn(helperService, 'transformNumber');
+    const transformNumberSpy = jest.spyOn(
+      transformationService,
+      'transformNumber'
+    );
     transformNumberSpy.mockReturnValue(value.toString());
 
-    component['helperService'] = helperService;
+    component['transformationService'] = transformationService;
 
     expect(component.getLocaleValue(value)).toBe(value.toString());
     expect(transformNumberSpy).toHaveBeenCalledWith(value, false);
@@ -65,7 +69,7 @@ describe('QuantityEditingModalComponent', () => {
 
   test('should handle input field keydown event', () => {
     const validateQuantityInputKeyPressSpy = jest.spyOn(
-      HelperService,
+      miscUtils,
       'validateQuantityInputKeyPress'
     );
     validateQuantityInputKeyPressSpy.mockImplementation();

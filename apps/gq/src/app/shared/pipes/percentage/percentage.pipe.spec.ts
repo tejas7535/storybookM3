@@ -1,17 +1,17 @@
+import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { createPipeFactory, SpectatorPipe } from '@ngneat/spectator';
 
-import { HelperService } from '../../services/helper/helper.service';
 import { PercentagePipe } from './percentage.pipe';
 
 describe('PercentagePipe', () => {
   let spectator: SpectatorPipe<PercentagePipe>;
-  let helperService: HelperService;
+  let transformationService: TransformationService;
 
   const createPipe = createPipeFactory({
     pipe: PercentagePipe,
     providers: [
       {
-        provide: HelperService,
+        provide: TransformationService,
         useValue: {
           transformPercentage: jest.fn(),
         },
@@ -21,21 +21,21 @@ describe('PercentagePipe', () => {
 
   test('create an instance', () => {
     spectator = createPipe();
-    helperService = spectator.inject(HelperService);
+    transformationService = spectator.inject(TransformationService);
 
-    const pipe = new PercentagePipe(helperService);
+    const pipe = new PercentagePipe(transformationService);
 
     expect(pipe).toBeTruthy();
   });
 
-  test('should call HelperService', () => {
+  test('should call TransformationService', () => {
     spectator = createPipe();
-    helperService = spectator.inject(HelperService);
+    transformationService = spectator.inject(TransformationService);
 
-    const pipe = new PercentagePipe(helperService);
+    const pipe = new PercentagePipe(transformationService);
 
     pipe.transform(10);
-    expect(helperService.transformPercentage).toHaveBeenCalledTimes(1);
-    expect(helperService.transformPercentage).toHaveBeenCalledWith(10);
+    expect(transformationService.transformPercentage).toHaveBeenCalledTimes(1);
+    expect(transformationService.transformPercentage).toHaveBeenCalledWith(10);
   });
 });

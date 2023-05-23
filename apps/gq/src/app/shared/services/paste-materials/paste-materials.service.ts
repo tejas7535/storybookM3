@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { addRowDataItems } from '@gq/core/store/actions/create-case/create-case.actions';
-import { addMaterialRowDataItems } from '@gq/core/store/actions/process-case/process-case.action';
+import { ProcessCaseActions } from '@gq/core/store/process-case';
+import { parseNullableLocalizedInputValue } from '@gq/shared/utils/misc.utils';
 import { roundToTwoDecimals } from '@gq/shared/utils/pricing.utils';
 import { translate } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
@@ -13,7 +14,6 @@ import { LOCALE_DE } from '../../constants';
 import { Keyboard } from '../../models';
 import { MaterialTableItem, ValidationDescription } from '../../models/table';
 import { FeatureToggleConfigService } from '../feature-toggle/feature-toggle-config.service';
-import { HelperService } from '../helper/helper.service';
 
 const INDEX_MATERIAL_NUMBER = 0;
 const INDEX_QUANTITY = 1;
@@ -47,7 +47,7 @@ export class PasteMaterialsService {
             })
           )
         : this.store.dispatch(
-            addMaterialRowDataItems({
+            ProcessCaseActions.addNewItemsToMaterialTable({
               items: tableArray,
             })
           );
@@ -61,7 +61,7 @@ export class PasteMaterialsService {
         'targetPrice'
       )
         ? roundToTwoDecimals(
-            HelperService.parseNullableLocalizedInputValue(
+            parseNullableLocalizedInputValue(
               el[INDEX_TARGET_PRICE],
               this.translocoLocaleService.getLocale()
             )

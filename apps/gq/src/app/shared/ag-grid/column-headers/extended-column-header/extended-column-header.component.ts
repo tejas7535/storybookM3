@@ -15,6 +15,7 @@ import {
 } from '@gq/core/store/active-case';
 import { userHasManualPriceRole, userHasRole } from '@gq/core/store/selectors';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
+import { parseLocalizedInputValue } from '@gq/shared/utils/misc.utils';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
 import { IHeaderAngularComp } from 'ag-grid-angular';
@@ -24,7 +25,6 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { getPercentageRegex } from '../../../constants';
 import { EVENT_NAMES, MassSimulationParams } from '../../../models';
 import { PriceSource, QuotationDetail } from '../../../models/quotation-detail';
-import { HelperService } from '../../../services/helper/helper.service';
 import { ColumnFields } from '../../constants/column-fields.enum';
 import { ExtendedColumnHeaderComponentParams } from './models/extended-column-header-component-params.model';
 import { PriceSourceOptions } from './models/price-source-options.enum';
@@ -104,7 +104,7 @@ export class ExtendedColumnHeaderComponent
         )
         .subscribe((newVal: string | null) => {
           this.updateMaterialSimulation(
-            HelperService.parseLocalizedInputValue(
+            parseLocalizedInputValue(
               newVal,
               this.translocoLocaleService.getLocale()
             ) || 0

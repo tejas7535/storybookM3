@@ -1,17 +1,17 @@
+import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { createPipeFactory, SpectatorPipe } from '@ngneat/spectator';
 
-import { HelperService } from '../../services/helper/helper.service';
 import { NumberCurrencyPipe } from './number-currency.pipe';
 
 describe('NumberCurrencyPipe', () => {
   let spectator: SpectatorPipe<NumberCurrencyPipe>;
-  let helperService: HelperService;
+  let transformationService: TransformationService;
 
   const createPipe = createPipeFactory({
     pipe: NumberCurrencyPipe,
     providers: [
       {
-        provide: HelperService,
+        provide: TransformationService,
         useValue: {
           transformMarginDetails: jest.fn(),
         },
@@ -21,23 +21,25 @@ describe('NumberCurrencyPipe', () => {
 
   test('create an instance', () => {
     spectator = createPipe();
-    helperService = spectator.inject(HelperService);
+    transformationService = spectator.inject(TransformationService);
 
-    const pipe = new NumberCurrencyPipe(helperService);
+    const pipe = new NumberCurrencyPipe(transformationService);
 
     expect(pipe).toBeTruthy();
   });
 
   test('should transform number', () => {
     spectator = createPipe();
-    helperService = spectator.inject(HelperService);
+    transformationService = spectator.inject(TransformationService);
 
-    const pipe = new NumberCurrencyPipe(helperService);
+    const pipe = new NumberCurrencyPipe(transformationService);
 
     pipe.transform(10_000, 'EUR');
 
-    expect(helperService.transformMarginDetails).toHaveBeenCalledTimes(1);
-    expect(helperService.transformMarginDetails).toHaveBeenCalledWith(
+    expect(transformationService.transformMarginDetails).toHaveBeenCalledTimes(
+      1
+    );
+    expect(transformationService.transformMarginDetails).toHaveBeenCalledWith(
       10_000,
       'EUR'
     );

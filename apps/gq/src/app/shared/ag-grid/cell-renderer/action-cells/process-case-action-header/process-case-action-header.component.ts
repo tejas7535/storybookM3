@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 
 import { combineLatest, map, Observable } from 'rxjs';
 
-import { deleteMaterialRowDataItem } from '@gq/core/store/actions';
 import {
   getAddMaterialRowData,
   getAddMaterialRowDataValid,
-} from '@gq/core/store/selectors/process-case/process-case.selectors';
+  ProcessCaseActions,
+} from '@gq/core/store/process-case';
 import { Store } from '@ngrx/store';
 import { HeaderClassParams } from 'ag-grid-community';
 
@@ -39,7 +39,7 @@ export class ProcessCaseActionHeaderComponent {
     this.params.api.forEachNode((rowNode) => {
       if (!rowNode.data.info.valid) {
         this.store.dispatch(
-          deleteMaterialRowDataItem({
+          ProcessCaseActions.deleteItemFromMaterialTable({
             id: rowNode.data.id,
           })
         );

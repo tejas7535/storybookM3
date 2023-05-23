@@ -10,16 +10,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
 
-import { ActiveCaseModule } from '@gq/core/store/active-case/active-case.module';
 import { ApprovalModule } from '@gq/core/store/approval/approval.module';
-import { ProcessCaseEffects } from '@gq/core/store/effects';
-import { processCaseReducer } from '@gq/core/store/reducers/process-case/process-case.reducer';
+import { ProcessCaseModule } from '@gq/core/store/process-case';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -57,9 +53,7 @@ import { CalculationInProgressComponent } from './tabs/single-quotes-tab/calcula
     HeaderContentModule,
     ProcessCaseViewRoutingModule,
     SharedPipesModule,
-    ActiveCaseModule,
-    StoreModule.forFeature('processCase', processCaseReducer),
-    EffectsModule.forFeature([ProcessCaseEffects]),
+    ProcessCaseModule,
     ApprovalModule,
     AddMaterialDialogModule,
     LoadingSpinnerModule,

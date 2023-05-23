@@ -21,7 +21,6 @@ import {
   MaterialValidation,
   ValidationDescription,
 } from '../../../../shared/models/table';
-import { HelperService } from '../../../../shared/services/helper/helper.service';
 import { CustomerService } from '../../../../shared/services/rest/customer/customer.service';
 import { CustomerSalesOrgsCurrenciesResponse } from '../../../../shared/services/rest/customer/models/customer-sales-orgs-currencies-response.model';
 import { MaterialService } from '../../../../shared/services/rest/material/material.service';
@@ -608,9 +607,7 @@ describe('Create Case Effects', () => {
           series: [{ selected: true, value: '1' }],
           gpsdGroupIds: [{ selected: true, value: 'F02' }],
         };
-        HelperService.transformPLsAndSeriesResponse = jest.fn(
-          () => plsAndSeries
-        );
+        effects.transformPLsAndSeriesResponse = jest.fn(() => plsAndSeries);
 
         action = getPLsAndSeries({ customerFilters });
         const result = getPLsAndSeriesSuccess({ plsAndSeries });
@@ -722,6 +719,41 @@ describe('Create Case Effects', () => {
       );
       expect(router.navigate).toHaveBeenCalledTimes(1);
       expect(snackBar.open).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('transformPLsAndSeriesResponse', () => {
+    test('should transform reponse', () => {
+      const response: PLsSeriesResponse[] = [
+        {
+          productLine: '10',
+          productLineId: '10',
+          series: '20',
+          gpsdGroupId: 'F02',
+        },
+        {
+          productLine: '10',
+          productLineId: '10',
+          series: '30',
+          gpsdGroupId: 'F03',
+        },
+      ];
+      const result = effects.transformPLsAndSeriesResponse(response);
+
+      const expected: PLsAndSeries = {
+        pls: [
+          { name: '10', selected: true, series: ['20', '30'], value: '10' },
+        ],
+        series: [
+          { value: '20', selected: true },
+          { value: '30', selected: true },
+        ],
+        gpsdGroupIds: [
+          { value: 'F02', selected: true },
+          { value: 'F03', selected: true },
+        ],
+      };
+      expect(result).toEqual(expected);
     });
   });
 });

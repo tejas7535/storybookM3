@@ -2,7 +2,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { PRICE_VALIDITY_MARGIN_THRESHOLD } from '@gq/shared/constants';
-import { HelperService } from '@gq/shared/services/helper/helper.service';
+import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import {
   createComponentFactory,
   Spectator,
@@ -23,7 +23,7 @@ import { KpiListComponent } from './kpi-list.component';
 describe('KpiListComponent', () => {
   let component: KpiListComponent;
   let spectator: Spectator<KpiListComponent>;
-  let helperService: SpyObject<HelperService>;
+  let transformationService: SpyObject<TransformationService>;
 
   const createComponent = createComponentFactory({
     component: KpiListComponent,
@@ -38,7 +38,7 @@ describe('KpiListComponent', () => {
         },
       }),
       {
-        provide: HelperService,
+        provide: TransformationService,
         useValue: {
           transformPercentage: jest
             .fn()
@@ -56,7 +56,7 @@ describe('KpiListComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    helperService = spectator.inject(HelperService);
+    transformationService = spectator.inject(TransformationService);
   });
 
   test('should create', () => {
@@ -73,8 +73,10 @@ describe('KpiListComponent', () => {
       };
       component.kpis = [kpi];
 
-      expect(helperService.transformPercentage).toBeCalledWith(kpi.value);
-      expect(helperService.transformPercentage).toBeCalledWith(
+      expect(transformationService.transformPercentage).toBeCalledWith(
+        kpi.value
+      );
+      expect(transformationService.transformPercentage).toBeCalledWith(
         QUOTATION_DETAIL_MOCK.gpi
       );
       expect(component.displayedKpis).toEqual([
@@ -98,8 +100,10 @@ describe('KpiListComponent', () => {
       };
       component.kpis = [kpi];
 
-      expect(helperService.transformPercentage).toBeCalledWith(kpi.value);
-      expect(helperService.transformPercentage).toBeCalledWith(
+      expect(transformationService.transformPercentage).toBeCalledWith(
+        kpi.value
+      );
+      expect(transformationService.transformPercentage).toBeCalledWith(
         QUOTATION_DETAIL_MOCK.gpm
       );
       expect(component.displayedKpis).toEqual([
@@ -123,8 +127,10 @@ describe('KpiListComponent', () => {
       };
       component.kpis = [kpi];
 
-      expect(helperService.transformPercentage).toBeCalledWith(kpi.value);
-      expect(helperService.transformPercentage).toBeCalledWith(
+      expect(transformationService.transformPercentage).toBeCalledWith(
+        kpi.value
+      );
+      expect(transformationService.transformPercentage).toBeCalledWith(
         QUOTATION_DETAIL_MOCK.discount
       );
       expect(component.displayedKpis).toEqual([
@@ -148,11 +154,11 @@ describe('KpiListComponent', () => {
       };
       component.kpis = [kpi];
 
-      expect(helperService.transformMarginDetails).toBeCalledWith(
+      expect(transformationService.transformMarginDetails).toBeCalledWith(
         kpi.value,
         ACTIVE_CASE_STATE_MOCK.quotation.currency
       );
-      expect(helperService.transformMarginDetails).toBeCalledWith(
+      expect(transformationService.transformMarginDetails).toBeCalledWith(
         QUOTATION_DETAIL_MOCK.price,
         ACTIVE_CASE_STATE_MOCK.quotation.currency
       );
@@ -177,11 +183,11 @@ describe('KpiListComponent', () => {
       };
       component.kpis = [kpi];
 
-      expect(helperService.transformMarginDetails).toBeCalledWith(
+      expect(transformationService.transformMarginDetails).toBeCalledWith(
         kpi.value,
         ACTIVE_CASE_STATE_MOCK.quotation.currency
       );
-      expect(helperService.transformMarginDetails).toBeCalledWith(
+      expect(transformationService.transformMarginDetails).toBeCalledWith(
         QUOTATION_DETAIL_MOCK.targetPrice,
         ACTIVE_CASE_STATE_MOCK.quotation.currency
       );

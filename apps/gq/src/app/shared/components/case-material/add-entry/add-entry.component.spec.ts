@@ -2,10 +2,11 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { addMaterialRowDataItems } from '@gq/core/store/actions';
 import { AutoCompleteFacade } from '@gq/core/store/facades';
+import { ProcessCaseActions } from '@gq/core/store/process-case';
 import { LOCALE_DE } from '@gq/shared/constants';
 import { PasteMaterialsService } from '@gq/shared/services/paste-materials/paste-materials.service';
+import * as miscUtils from '@gq/shared/utils/misc.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { PushModule } from '@ngrx/component';
@@ -20,7 +21,6 @@ import {
   MaterialTableItem,
   ValidationDescription,
 } from '../../../models/table';
-import { HelperService } from '../../../services/helper/helper.service';
 import { AddEntryComponent } from './add-entry.component';
 
 describe('AddEntryComponent', () => {
@@ -148,7 +148,7 @@ describe('AddEntryComponent', () => {
 
       component.addRow();
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        addMaterialRowDataItems({ items: [item] })
+        ProcessCaseActions.addNewItemsToMaterialTable({ items: [item] })
       );
       expect(component.matNumberInput.clearInput).toHaveBeenCalledTimes(1);
       expect(component.matDescInput.clearInput).toHaveBeenCalledTimes(1);
@@ -157,15 +157,18 @@ describe('AddEntryComponent', () => {
     });
   });
   describe('onQuantityKeyPress', () => {
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
     test('should call validateQuantityInputKeyPress', () => {
-      HelperService.validateQuantityInputKeyPress = jest.fn();
+      jest
+        .spyOn(miscUtils, 'validateQuantityInputKeyPress')
+        .mockImplementation();
       const event = {} as KeyboardEvent;
 
       component.onQuantityKeyPress(event);
-      expect(HelperService.validateQuantityInputKeyPress).toHaveBeenCalledTimes(
-        1
-      );
-      expect(HelperService.validateQuantityInputKeyPress).toHaveBeenCalledWith(
+      expect(miscUtils.validateQuantityInputKeyPress).toHaveBeenCalledTimes(1);
+      expect(miscUtils.validateQuantityInputKeyPress).toHaveBeenCalledWith(
         event
       );
     });
@@ -174,27 +177,24 @@ describe('AddEntryComponent', () => {
       component.addRowEnabled = true;
 
       component.addRow = jest.fn();
-      HelperService.validateQuantityInputKeyPress = jest.fn();
       const event = { key: 'Enter' } as KeyboardEvent;
 
       component.onQuantityKeyPress(event);
-      expect(
-        HelperService.validateQuantityInputKeyPress
-      ).not.toHaveBeenCalled();
+      expect(miscUtils.validateQuantityInputKeyPress).not.toHaveBeenCalled();
       expect(component.addRow).toHaveBeenCalled();
     });
 
     test('should NOT caddRow on Enter if data is invalid', () => {
+      jest
+        .spyOn(miscUtils, 'validateQuantityInputKeyPress')
+        .mockImplementation();
       component.addRowEnabled = false;
 
       component.addRow = jest.fn();
-      HelperService.validateQuantityInputKeyPress = jest.fn();
       const event = { key: 'Enter' } as KeyboardEvent;
 
       component.onQuantityKeyPress(event);
-      expect(HelperService.validateQuantityInputKeyPress).toHaveBeenCalledTimes(
-        1
-      );
+      expect(miscUtils.validateQuantityInputKeyPress).toHaveBeenCalledTimes(1);
       expect(component.addRow).not.toHaveBeenCalled();
     });
   });

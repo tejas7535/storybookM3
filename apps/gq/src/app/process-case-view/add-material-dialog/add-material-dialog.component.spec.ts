@@ -3,10 +3,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 
 import { of, Subject } from 'rxjs';
 
-import {
-  clearProcessCaseRowData,
-  resetAllAutocompleteOptions,
-} from '@gq/core/store/actions';
+import { resetAllAutocompleteOptions } from '@gq/core/store/actions';
+import { ProcessCaseActions } from '@gq/core/store/process-case';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -93,7 +91,9 @@ describe('AddMaterialDialogComponent', () => {
       component['dialogRef'].close = jest.fn();
       component['dialogRef'].beforeClosed().subscribe((_value) => {
         expect(component['dialogRef'].close).toHaveBeenCalledTimes(1);
-        expect(store.dispatch).toHaveBeenCalledWith(clearProcessCaseRowData());
+        expect(store.dispatch).toHaveBeenCalledWith(
+          ProcessCaseActions.clearRowData()
+        );
         expect(store.dispatch).toHaveBeenCalledWith(
           resetAllAutocompleteOptions()
         );

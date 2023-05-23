@@ -1,19 +1,19 @@
 import { Keyboard } from '@gq/shared/models';
-import { HelperService } from '@gq/shared/services/helper/helper.service';
+import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { createPipeFactory, SpectatorPipe } from '@ngneat/spectator';
 
 import { MultiplyComparableCostWithPriceUnitPipe } from './multiply-comparable-cost-with-price-unit.pipe';
 
 describe('MultiplyComparableCostWithPriceUnitPipe', () => {
   let pipe: MultiplyComparableCostWithPriceUnitPipe;
-  let helperService: HelperService;
+  let transformationService: TransformationService;
   let spectator: SpectatorPipe<MultiplyComparableCostWithPriceUnitPipe>;
 
   const createPipe = createPipeFactory({
     pipe: MultiplyComparableCostWithPriceUnitPipe,
     providers: [
       {
-        provide: HelperService,
+        provide: TransformationService,
         useValue: {
           transformMarginDetails: jest.fn().mockReturnValue('result'),
         },
@@ -23,8 +23,8 @@ describe('MultiplyComparableCostWithPriceUnitPipe', () => {
 
   beforeEach(() => {
     spectator = createPipe();
-    helperService = spectator.inject(HelperService);
-    pipe = new MultiplyComparableCostWithPriceUnitPipe(helperService);
+    transformationService = spectator.inject(TransformationService);
+    pipe = new MultiplyComparableCostWithPriceUnitPipe(transformationService);
   });
   test('create instance', () => {
     expect(pipe).toBeTruthy();
@@ -38,14 +38,17 @@ describe('MultiplyComparableCostWithPriceUnitPipe', () => {
   test('should not adjust value for missing sapPriceUnit', () => {
     const result = pipe.transform(1, 'EUR', 10, undefined as any);
 
-    expect(helperService.transformMarginDetails).toHaveBeenCalledWith(1, 'EUR');
+    expect(transformationService.transformMarginDetails).toHaveBeenCalledWith(
+      1,
+      'EUR'
+    );
     expect(result).toEqual('result');
   });
 
   test('should adjust value for given sapPriceUnit', () => {
     const result = pipe.transform(50, 'EUR', 10, 100 as any);
 
-    expect(helperService.transformMarginDetails).toHaveBeenCalledWith(
+    expect(transformationService.transformMarginDetails).toHaveBeenCalledWith(
       500,
       'EUR'
     );

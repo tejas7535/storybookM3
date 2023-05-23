@@ -6,7 +6,7 @@ import {
   Output,
 } from '@angular/core';
 
-import { HelperService } from '@gq/shared/services/helper/helper.service';
+import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { calculateMargin } from '@gq/shared/utils/pricing.utils';
 
 import { QuotationSearchResult } from '../../../models/quotation';
@@ -24,7 +24,7 @@ export class GlobalSearchResultsItemComponent {
       searchResult.materialGpc
     );
 
-    this.materialGpi = this.helperService.transformPercentage(gpi);
+    this.materialGpi = this.transformationService.transformPercentage(gpi);
   }
   @Output() gqIdSelected = new EventEmitter<QuotationSearchResult>();
   @Output() contextMenu = new EventEmitter<MouseEvent>();
@@ -32,5 +32,5 @@ export class GlobalSearchResultsItemComponent {
   materialGpi: string;
   quotationSummary: QuotationSearchResult;
 
-  constructor(private readonly helperService: HelperService) {}
+  constructor(private readonly transformationService: TransformationService) {}
 }

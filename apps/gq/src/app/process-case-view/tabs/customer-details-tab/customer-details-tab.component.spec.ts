@@ -20,7 +20,6 @@ describe('CustomerDetailsTabComponent', () => {
   const createComponent = createComponentFactory({
     component: CustomerDetailsTabComponent,
     imports: [PushModule, provideTranslocoTestingModule({ en: {} })],
-
     providers: [
       provideMockStore({
         initialState: {

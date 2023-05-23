@@ -1,14 +1,14 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { HelperService } from '../../services/helper/helper.service';
+import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 
 @Pipe({
   name: 'percentage',
 })
 export class PercentagePipe implements PipeTransform {
-  constructor(private readonly helperService: HelperService) {}
+  constructor(private readonly transformationService: TransformationService) {}
 
   transform(value: number): string {
-    return this.helperService.transformPercentage(value);
+    return this.transformationService.transformPercentage(value);
   }
 }

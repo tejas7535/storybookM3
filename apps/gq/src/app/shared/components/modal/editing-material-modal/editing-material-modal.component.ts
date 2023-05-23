@@ -14,7 +14,11 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
 import { AutoCompleteFacade } from '@gq/core/store/facades';
-import { HelperService } from '@gq/shared/services/helper/helper.service';
+import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
+import {
+  parseNullableLocalizedInputValue,
+  validateQuantityInputKeyPress,
+} from '@gq/shared/utils/misc.utils';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
 import { MaterialColumnFields } from '../../../ag-grid/constants/column-fields.enum';
@@ -67,12 +71,12 @@ export class EditingMaterialModalComponent
     private readonly dialogRef: MatDialogRef<EditingMaterialModalComponent>,
     private readonly cdref: ChangeDetectorRef,
     private readonly translocoLocaleService: TranslocoLocaleService,
-    private readonly helperService: HelperService
+    private readonly transformationService: TransformationService
   ) {
     this.materialToEdit = modalData.material;
     this.fieldToFocus = modalData.field;
     this.targetPrice = this.materialToEdit.targetPrice
-      ? this.helperService.transformNumber(
+      ? this.transformationService.transformNumber(
           this.materialToEdit.targetPrice,
           true
         )
@@ -203,7 +207,7 @@ export class EditingMaterialModalComponent
   }
 
   handleQuantityKeyDown(event: KeyboardEvent): void {
-    HelperService.validateQuantityInputKeyPress(event);
+    validateQuantityInputKeyPress(event);
   }
 
   closeDialog(): void {
@@ -220,7 +224,7 @@ export class EditingMaterialModalComponent
       materialDescription: this.matDescInput.valueInput.nativeElement.value,
       materialNumber: this.matNumberInput.valueInput.nativeElement.value,
       quantity: this.editFormGroup.get(QUANTITY_FORM_CONTROL_NAME).value,
-      targetPrice: HelperService.parseNullableLocalizedInputValue(
+      targetPrice: parseNullableLocalizedInputValue(
         this.editFormGroup
           .get(TARGET_PRICE_FORM_CONTROL_NAME)
           .value?.toString(),

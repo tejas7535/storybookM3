@@ -1,7 +1,16 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
+import { AppRoutePath } from '@gq/app-route-path.enum';
+import { Customer } from '@gq/shared/models/customer';
+import {
+  MaterialTableItem,
+  MaterialValidation,
+  ValidationDescription,
+} from '@gq/shared/models/table';
+import { MaterialService } from '@gq/shared/services/rest/material/material.service';
 import { MaterialValidationRequest } from '@gq/shared/services/rest/material/models';
+import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -9,25 +18,12 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/jest';
 
-import { AppRoutePath } from '../../../../app-route-path.enum';
-import { Customer } from '../../../../shared/models/customer';
-import {
-  MaterialTableItem,
-  MaterialValidation,
-  ValidationDescription,
-} from '../../../../shared/models/table';
-import { MaterialService } from '../../../../shared/services/rest/material/material.service';
-import { QuotationService } from '../../../../shared/services/rest/quotation/quotation.service';
-import {
-  addMaterialRowDataItems,
-  loadAvailableCurrenciesSuccess,
-  validateAddMaterialsOnCustomerAndSalesOrg,
-  validateAddMaterialsOnCustomerAndSalesOrgFailure,
-  validateAddMaterialsOnCustomerAndSalesOrgSuccess,
-} from '../../actions';
-import { activeCaseFeature } from '../../active-case/active-case.reducer';
-import { getAddMaterialRowData, getAvailableCurrencies } from '../../selectors';
+import { loadAvailableCurrenciesSuccess } from '../actions';
+import { activeCaseFeature } from '../active-case';
+import { getAvailableCurrencies } from '../selectors';
+import { ProcessCaseActions } from './process-case.action';
 import { ProcessCaseEffects } from './process-case.effects';
+import { getAddMaterialRowData } from './process-case.selectors';
 
 describe('ProcessCaseEffectss', () => {
   let spectator: SpectatorService<ProcessCaseEffects>;
@@ -64,10 +60,10 @@ describe('ProcessCaseEffectss', () => {
     it(
       'Should call action by add dataItems',
       marbles((m) => {
-        action = addMaterialRowDataItems({ items: [] });
+        action = ProcessCaseActions.addNewItemsToMaterialTable({ items: [] });
         actions$ = m.hot('-a', { a: action });
 
-        const result = validateAddMaterialsOnCustomerAndSalesOrg();
+        const result = ProcessCaseActions.validateMaterialTableItems();
 
         const expected = m.cold('-b', { b: result });
 
@@ -103,11 +99,11 @@ describe('ProcessCaseEffectss', () => {
     test(
       'should return validateAddMaterialsOnCustomerAndSalesOrgSuccess when REST call is successful',
       marbles((m) => {
-        action = validateAddMaterialsOnCustomerAndSalesOrg();
+        action = ProcessCaseActions.validateMaterialTableItems();
 
         materialService.validateMaterials = jest.fn(() => response);
         const materialValidations: MaterialValidation[] = [];
-        const result = validateAddMaterialsOnCustomerAndSalesOrgSuccess({
+        const result = ProcessCaseActions.validateMaterialTableItemsSuccess({
           materialValidations,
         });
 
@@ -131,7 +127,7 @@ describe('ProcessCaseEffectss', () => {
     test(
       'should return validateFailure on REST error',
       marbles((m) => {
-        const result = validateAddMaterialsOnCustomerAndSalesOrgFailure({
+        const result = ProcessCaseActions.validateMaterialTableItemsFailure({
           errorMessage,
         });
 

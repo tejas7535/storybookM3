@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { take } from 'rxjs';
 
 import { getQuotationCurrency } from '@gq/core/store/active-case';
-import { HelperService } from '@gq/shared/services/helper/helper.service';
+import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
@@ -50,7 +50,7 @@ export class KpiListComponent {
 
   constructor(
     private readonly store: Store,
-    private readonly helperService: HelperService
+    private readonly transformationService: TransformationService
   ) {}
 
   private mapToKpiDisplayValue(
@@ -75,16 +75,16 @@ export class KpiListComponent {
     const quotationDetail = this.editingModalData.quotationDetail as any;
 
     if (valueFormatter === KpiValueFormatter.PERCENT) {
-      displayValue = this.helperService.transformPercentage(kpi.value);
-      previousDisplayValue = this.helperService.transformPercentage(
+      displayValue = this.transformationService.transformPercentage(kpi.value);
+      previousDisplayValue = this.transformationService.transformPercentage(
         quotationDetail[kpi.key]
       );
     } else if (valueFormatter === KpiValueFormatter.NUMBER_CURRENCY) {
-      displayValue = this.helperService.transformMarginDetails(
+      displayValue = this.transformationService.transformMarginDetails(
         kpi.value,
         currency
       );
-      previousDisplayValue = this.helperService.transformMarginDetails(
+      previousDisplayValue = this.transformationService.transformMarginDetails(
         quotationDetail[kpi.key],
         currency
       );

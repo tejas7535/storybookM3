@@ -1,60 +1,61 @@
 import { Keyboard } from '@gq/shared/models';
-import { HelperService } from '@gq/shared/services/helper/helper.service';
-import { createPipeFactory, SpectatorPipe } from '@ngneat/spectator';
+import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
+import { createPipeFactory, SpectatorPipe } from '@ngneat/spectator/jest';
+import { MockProvider } from 'ng-mocks';
 
 import { MultiplyWithPriceUnitPipe } from './multiply-with-price-unit.pipe';
 
 describe('MultiplyWithPriceUnitPipe', () => {
-  let pipe: MultiplyWithPriceUnitPipe;
-  let helperService: HelperService;
+  let transformationService: TransformationService;
   let spectator: SpectatorPipe<MultiplyWithPriceUnitPipe>;
 
   const createPipe = createPipeFactory({
     pipe: MultiplyWithPriceUnitPipe,
     providers: [
-      {
-        provide: HelperService,
-        useValue: {
-          transformMarginDetails: jest.fn().mockReturnValue('result'),
-        },
-      },
+      MockProvider(TransformationService, {
+        transformMarginDetails: jest.fn().mockReturnValue('result'),
+      }),
     ],
   });
 
-  beforeEach(() => {
-    spectator = createPipe();
-    helperService = spectator.inject(HelperService);
-    pipe = new MultiplyWithPriceUnitPipe(helperService);
-  });
-  test('create instance', () => {
-    expect(pipe).toBeTruthy();
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   test('should return dash for invalid value input', () => {
-    const result = pipe.transform(undefined, 'EUR', 1, 1);
-    expect(result).toEqual(Keyboard.DASH);
+    spectator = createPipe(`{{ 'ab' | multiplyWithPriceUnit }}`);
+    expect(spectator.element.textContent).toEqual(Keyboard.DASH);
   });
-  test('should return dash for invalid priceUnit Input', () => {
-    const result = pipe.transform(1, 'EUR', undefined as any, undefined as any);
-    expect(result).toEqual(Keyboard.DASH);
-  });
-  test('should adjust value for missing sapPriceUnit', () => {
-    const result = pipe.transform(2, 'EUR', 10, undefined as any);
 
-    expect(helperService.transformMarginDetails).toHaveBeenCalledWith(
+  test('should return dash for invalid priceUnit Input', () => {
+    spectator = createPipe(
+      `{{ 1 | multiplyWithPriceUnit : 'EUR' : undefined : undefined }}`
+    );
+    expect(spectator.element.textContent).toEqual(Keyboard.DASH);
+  });
+
+  test('should adjust value for missing sapPriceUnit', () => {
+    spectator = createPipe(
+      `{{ 2 | multiplyWithPriceUnit : 'EUR' : 10 : undefined }}`
+    );
+    transformationService = spectator.inject(TransformationService);
+
+    expect(transformationService.transformMarginDetails).toHaveBeenCalledWith(
       20,
       'EUR'
     );
-    expect(result).toEqual('result');
+    expect(spectator.element.textContent).toEqual('result');
   });
 
   test('should adjust value for given sapPriceUnit', () => {
-    const result = pipe.transform(50, 'EUR', 10, 100 as any);
-
-    expect(helperService.transformMarginDetails).toHaveBeenCalledWith(
+    spectator = createPipe(
+      `{{ 50 | multiplyWithPriceUnit : 'EUR' : 10 : 100 }}`
+    );
+    transformationService = spectator.inject(TransformationService);
+    expect(transformationService.transformMarginDetails).toHaveBeenCalledWith(
       5000,
       'EUR'
     );
-    expect(result).toEqual('result');
+    expect(spectator.element.textContent).toEqual('result');
   });
 });

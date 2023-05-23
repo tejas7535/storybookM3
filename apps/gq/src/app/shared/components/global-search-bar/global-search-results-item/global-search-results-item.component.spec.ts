@@ -6,7 +6,7 @@ import {
   QuotationStatus,
 } from '@gq/shared/models/quotation';
 import { MultiplyWithPriceUnitPipe } from '@gq/shared/pipes/multiply-with-price-unit/multiply-with-price-unit.pipe';
-import { HelperService } from '@gq/shared/services/helper/helper.service';
+import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { MockDirective, MockPipe } from 'ng-mocks';
@@ -18,14 +18,14 @@ import { GlobalSearchResultsItemComponent } from './global-search-results-item.c
 describe('GlobalSearchResultsItemComponent', () => {
   let component: GlobalSearchResultsItemComponent;
   let spectator: Spectator<GlobalSearchResultsItemComponent>;
-  let helperService: HelperService;
+  let transformationService: TransformationService;
 
   const createComponent = createComponentFactory({
     component: GlobalSearchResultsItemComponent,
     imports: [provideTranslocoTestingModule({ en: {} }), MatTooltipModule],
     providers: [
       {
-        provide: HelperService,
+        provide: TransformationService,
         useValue: {
           transformPercentage: jest.fn(),
         },
@@ -42,7 +42,7 @@ describe('GlobalSearchResultsItemComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.component;
-    helperService = spectator.inject(HelperService);
+    transformationService = spectator.inject(TransformationService);
   });
 
   it('should create', () => {
@@ -78,7 +78,7 @@ describe('GlobalSearchResultsItemComponent', () => {
       jest.spyOn(pricingUtils, 'roundValue').mockImplementation((val) => val);
       jest.spyOn(pricingUtils, 'calculateMargin').mockReturnValue(MOCK_GPI);
 
-      helperService.transformPercentage = jest
+      transformationService.transformPercentage = jest
         .fn()
         .mockReturnValue(MOCK_GPI_PERCENTAGE);
 
@@ -90,8 +90,12 @@ describe('GlobalSearchResultsItemComponent', () => {
         searchResult.materialPrice,
         searchResult.materialGpc
       );
-      expect(helperService.transformPercentage).toHaveBeenCalledTimes(1);
-      expect(helperService.transformPercentage).toHaveBeenCalledWith(MOCK_GPI);
+      expect(transformationService.transformPercentage).toHaveBeenCalledTimes(
+        1
+      );
+      expect(transformationService.transformPercentage).toHaveBeenCalledWith(
+        MOCK_GPI
+      );
       expect(component.materialGpi).toEqual(MOCK_GPI_PERCENTAGE);
     });
   });

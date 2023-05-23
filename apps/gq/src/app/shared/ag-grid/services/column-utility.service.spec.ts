@@ -1,7 +1,7 @@
 import { Clipboard } from '@angular/cdk/clipboard';
 
 import { CalculationType } from '@gq/core/store/reducers/models';
-import { HelperService } from '@gq/shared/services/helper/helper.service';
+import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
@@ -48,7 +48,7 @@ describe('CreateColumnService', () => {
   const createService = createServiceFactory({
     service: ColumnUtilityService,
     providers: [
-      MockProvider(HelperService, {
+      MockProvider(TransformationService, {
         transformPercentage: jest
           .fn()
           .mockImplementation((value) => `${value} %`),

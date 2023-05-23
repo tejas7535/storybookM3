@@ -25,7 +25,7 @@ import { ACTIVE_CASE_STATE_MOCK } from '../../../../../testing/mocks/state/activ
 import { StatusBarModalComponent } from '../../../components/modal/status-bar-modal/status-bar-modal.component';
 import { StatusBarProperties } from '../../../models';
 import { SharedPipesModule } from '../../../pipes/shared-pipes.module';
-import { HelperService } from '../../../services/helper/helper.service';
+import { TransformationService } from '../../../services/transformation/transformation.service';
 import { QuotationDetailsStatusComponent } from './quotation-details-status.component';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -62,7 +62,7 @@ describe('QuotationDetailsStatusComponent', () => {
         },
       }),
       {
-        provide: HelperService,
+        provide: TransformationService,
         useValue: {
           transformPercentage: jest.fn(),
           transformMarginDetails: jest.fn(),

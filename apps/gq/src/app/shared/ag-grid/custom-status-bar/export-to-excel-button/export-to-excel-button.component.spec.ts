@@ -7,6 +7,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { of } from 'rxjs';
 
+import { getCurrentYear, getLastYear } from '@gq/shared/utils/misc.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -32,7 +33,7 @@ import {
   PriceColumns,
 } from '../../../ag-grid/constants/column-fields.enum';
 import { ExportExcel } from '../../../components/modal/export-excel-modal/export-excel.enum';
-import { HelperService } from '../../../services/helper/helper.service';
+import { TransformationService } from '../../../services/transformation/transformation.service';
 import { excelStyleObjects } from './excel-styles.constants';
 import { ExportToExcelButtonComponent } from './export-to-excel-button.component';
 
@@ -41,7 +42,7 @@ describe('ExportToExcelButtonComponent', () => {
   let spectator: Spectator<ExportToExcelButtonComponent>;
   let mockParams: IStatusPanelParams;
   let snackBar: MatSnackBar;
-  let helperService: HelperService;
+  let transformationService: TransformationService;
 
   const createComponent = createComponentFactory({
     component: ExportToExcelButtonComponent,
@@ -56,7 +57,7 @@ describe('ExportToExcelButtonComponent', () => {
         },
       }),
       {
-        provide: HelperService,
+        provide: TransformationService,
         useValue: {
           transformMarginDetails: jest.fn().mockImplementation(
             (value) =>
@@ -100,7 +101,7 @@ describe('ExportToExcelButtonComponent', () => {
       },
     } as unknown as IStatusPanelParams;
     snackBar = spectator.inject(MatSnackBar);
-    helperService = spectator.inject(HelperService);
+    transformationService = spectator.inject(TransformationService);
   });
 
   test('should create', () => {
@@ -424,7 +425,7 @@ describe('ExportToExcelButtonComponent', () => {
 
   describe('addSummaryHeader', () => {
     test('should return summary Header', () => {
-      helperService.transformDate = jest
+      transformationService.transformDate = jest
         .fn()
         .mockReturnValue(
           new Date(QUOTATION_MOCK.gqCreated).toLocaleDateString()
@@ -647,8 +648,8 @@ describe('ExportToExcelButtonComponent', () => {
     test('should addCustomerOverview', () => {
       const result = component.addCustomerOverview(QUOTATION_MOCK);
       const type = 'String';
-      const lastYear = HelperService.getLastYear();
-      const currentYear = HelperService.getCurrentYear();
+      const lastYear = getLastYear();
+      const currentYear = getCurrentYear();
 
       const expected: ExcelRow[] = [
         {
@@ -728,7 +729,7 @@ describe('ExportToExcelButtonComponent', () => {
             {
               data: {
                 type,
-                value: helperService.transformMarginDetails(
+                value: transformationService.transformMarginDetails(
                   CUSTOMER_MOCK.marginDetail?.netSalesLastYear,
                   CUSTOMER_MOCK.currency
                 ),
@@ -767,7 +768,7 @@ describe('ExportToExcelButtonComponent', () => {
             {
               data: {
                 type,
-                value: helperService.transformMarginDetails(
+                value: transformationService.transformMarginDetails(
                   CUSTOMER_MOCK.marginDetail?.currentNetSales,
                   CUSTOMER_MOCK.currency
                 ),
@@ -1035,7 +1036,7 @@ describe('ExportToExcelButtonComponent', () => {
         expect(component.getNumberExcelCell).toHaveBeenCalledTimes(
           Object.values(translations).length
         );
-        expect(helperService.transformNumberExcel).toHaveBeenCalledWith(
+        expect(transformationService.transformNumberExcel).toHaveBeenCalledWith(
           EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK.profitMargin
         );
       });
@@ -1135,7 +1136,7 @@ describe('ExportToExcelButtonComponent', () => {
         ColumnFields.PROFIT_MARGIN
       );
 
-      expect(helperService.transformNumberExcel).toHaveBeenCalledWith(
+      expect(transformationService.transformNumberExcel).toHaveBeenCalledWith(
         EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK.profitMargin
       );
     });
@@ -1146,36 +1147,35 @@ describe('ExportToExcelButtonComponent', () => {
         ColumnFields.PRICE
       );
 
-      expect(helperService.transformNumberExcel).toHaveBeenCalledWith(
+      expect(transformationService.transformNumberExcel).toHaveBeenCalledWith(
         EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK.price
       );
     });
 
     test('handle undefined values', () => {
-      helperService.transformNumber = jest.fn().mockReturnValue(42);
+      transformationService.transformNumber = jest.fn().mockReturnValue(42);
 
       const result = component.transformValue(
         EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK as any,
         'does-not-exist' as any
       );
 
-      expect(helperService.transformNumber).not.toHaveBeenCalled();
+      expect(transformationService.transformNumber).not.toHaveBeenCalled();
       expect(result).toEqual('');
     });
 
     test('uses quotation currency', () => {
-      helperService.transformNumber = jest.fn().mockReturnValue(42);
-      helperService.transformNumberCurrency = jest.fn();
+      transformationService.transformNumber = jest.fn().mockReturnValue(42);
+      transformationService.transformNumberCurrency = jest.fn();
       component['params'] = {
         ...mockParams,
         context: { quotation: { currency: 'JPY' } },
       };
       component.transformValue(EXTENDED_SAP_PRICE_DETAIL_MOCK, 'amount');
 
-      expect(helperService.transformNumberCurrency).toHaveBeenCalledWith(
-        42,
-        'JPY'
-      );
+      expect(
+        transformationService.transformNumberCurrency
+      ).toHaveBeenCalledWith(42, 'JPY');
     });
   });
 });
