@@ -95,7 +95,8 @@
       "millimeterShort": "mm"
     },
     "min": "Mín.",
-    "max": "Máx."
+    "max": "Máx.",
+    "mediasButton": "Mostrar orientación {{bearing}} en Medias"
   },
   "bearing": {
     "title": {

@@ -13,6 +13,7 @@ export class SubheaderComponent {
   @Input() public breadcrumbs: Breadcrumb[] = [];
   @Input() public truncateBreadcrumbsAfter = 0;
   @Input() public hideLine? = false;
+  @Input() public breakTitle? = false;
   @Output() public backButtonClicked = new EventEmitter();
 
   public constructor(private readonly router: Router) {}

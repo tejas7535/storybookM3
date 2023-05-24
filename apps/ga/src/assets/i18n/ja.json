@@ -95,7 +95,8 @@
       "millimeterShort": "mm"
     },
     "min": "最小",
-    "max": "最大"
+    "max": "最大",
+    "mediasButton": "メディアで方位を表示する {{bearing}} を表示する"
   },
   "bearing": {
     "title": {

@@ -4,19 +4,26 @@
       class="-mx-4"
       *ngrxLet="selectedBearing$ as selectedBearing"
       [hideLine]="true"
+      [breakTitle]="true"
       (backButtonClicked)="navigateBack()"
     >
       <ng-container subheaderTitleContent>
         <span class="hidden sm:block">{{ t('title.main') }}&nbsp;</span>
         <span class="truncate">{{ selectedBearing }}</span>
         <mat-icon
-          class="ml-2 !h-[24px] !w-[24px] cursor-help text-h5 text-link sm:ml-4 sm:!h-[28px] sm:!w-[28px] sm:!text-[28px]"
+          class="text-h5 text-link ml-2 !h-[24px] !w-[24px] cursor-help sm:ml-4 sm:!h-[28px] sm:!w-[28px] sm:!text-[28px]"
           #tooltip="matTooltip"
           [matTooltip]="t('title.247hint')"
           (click)="tooltip.toggle()"
         >
           info_outline
         </mat-icon>
+      </ng-container>
+      <ng-container subheaderInlineContent>
+        <ga-medias-button
+          class="max-sm:w-full"
+          [bearing]="selectedBearing"
+        ></ga-medias-button>
       </ng-container>
     </schaeffler-subheader>
     <div *ngIf="reportUrls; else loading_spinner">

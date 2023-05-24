@@ -3,12 +3,19 @@
     <schaeffler-subheader
       *ngrxLet="selectedBearing$ as selectedBearing"
       [hideLine]="true"
+      [breakTitle]="true"
       [showBackButton]="!(appIsEmbedded$ | ngrxPush)"
       (backButtonClicked)="navigateBack()"
     >
       <ng-container subheaderTitleContent>
         <span class="hidden sm:block">{{ t('title.main') }}&nbsp;</span>
         <span class="truncate">{{ selectedBearing }}</span>
+      </ng-container>
+      <ng-container subheaderInlineContent>
+        <ga-medias-button
+          class="max-sm:w-full"
+          [bearing]="selectedBearing"
+        ></ga-medias-button>
       </ng-container>
     </schaeffler-subheader>
     <div
@@ -21,14 +28,14 @@
     >
       <div class="flex flex-col gap-0 sm:gap-5 lg:grid lg:grid-cols-2">
         <div
-          class="border-t border-border bg-surface sm:rounded sm:border-x sm:border-b"
+          class="border-border bg-surface border-t sm:rounded sm:border-x sm:border-b"
         >
-          <div class="flex flex-row items-center border-b border-border p-5">
-            <mat-icon class="mr-2 !text-medium-emphasis">compress</mat-icon>
-            <h5 class="mr-4 text-body-2">{{ t('loads') }}</h5>
+          <div class="border-border flex flex-row items-center border-b p-5">
+            <mat-icon class="!text-medium-emphasis mr-2">compress</mat-icon>
+            <h5 class="text-body-2 mr-4">{{ t('loads') }}</h5>
             <span class="flex-grow"></span>
             <span
-              class="text-caption font-medium tracking-wide text-low-emphasis"
+              class="text-caption text-low-emphasis font-medium tracking-wide"
               >{{ t('requiredInformation') }}</span
             >
           </div>
@@ -75,14 +82,14 @@
           </div>
         </div>
         <div
-          class="border-t border-border bg-surface sm:rounded sm:border-x sm:border-b"
+          class="border-border bg-surface border-t sm:rounded sm:border-x sm:border-b"
         >
-          <div class="flex flex-row items-center border-b border-border p-5">
-            <mat-icon class="mr-2 !text-medium-emphasis">animation</mat-icon>
-            <h5 class="mr-4 text-body-2">{{ t('motionInfluences') }}</h5>
+          <div class="border-border flex flex-row items-center border-b p-5">
+            <mat-icon class="!text-medium-emphasis mr-2">animation</mat-icon>
+            <h5 class="text-body-2 mr-4">{{ t('motionInfluences') }}</h5>
             <span class="flex-grow"></span>
             <span
-              class="text-caption font-medium tracking-wide text-low-emphasis"
+              class="text-caption text-low-emphasis font-medium tracking-wide"
               >{{ t('requiredInformation') }}</span
             >
           </div>
@@ -131,16 +138,16 @@
           </div>
         </div>
         <div
-          class="border-t border-border bg-surface sm:rounded sm:border-x sm:border-b"
+          class="border-border bg-surface border-t sm:rounded sm:border-x sm:border-b"
         >
-          <div class="flex flex-row items-center border-b border-border p-5">
-            <mat-icon class="mr-2 !text-medium-emphasis"
+          <div class="border-border flex flex-row items-center border-b p-5">
+            <mat-icon class="!text-medium-emphasis mr-2"
               >device_thermostat</mat-icon
             >
-            <h5 class="mr-4 text-body-2">{{ t('otherInfluences') }}</h5>
+            <h5 class="text-body-2 mr-4">{{ t('otherInfluences') }}</h5>
             <span class="flex-grow"></span>
             <span
-              class="text-caption font-medium tracking-wide text-low-emphasis"
+              class="text-caption text-low-emphasis font-medium tracking-wide"
               >{{ t('requiredInformation') }}</span
             >
           </div>
@@ -167,13 +174,13 @@
           </div>
         </div>
         <div
-          class="border-t border-border bg-surface sm:rounded sm:border-x sm:border-b"
+          class="border-border bg-surface border-t sm:rounded sm:border-x sm:border-b"
         >
           <div
-            class="flex flex-row items-center border-b border-border bg-primary-variant p-5 text-link"
+            class="border-border bg-primary-variant text-link flex flex-row items-center border-b p-5"
           >
             <mat-icon class="mr-2">manage_search</mat-icon>
-            <h5 class="mr-4 text-body-2">
+            <h5 class="text-body-2 mr-4">
               {{ t('productPreselection.title.main') }}
             </h5>
           </div>

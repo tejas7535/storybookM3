@@ -1,0 +1,14 @@
+<ng-container *ngIf="bearingInMedias">
+  <a
+    *transloco="let t; read: 'shared'"
+    mat-raised-button
+    color="secondary"
+    [href]="getBearingShopUrl()"
+    target="_blank"
+    class="w-full"
+    (click)="trackBearingSelection()"
+  >
+    <mat-icon>open_in_new</mat-icon
+    >{{ t('mediasButton', { bearing: bearing }) }}
+  </a>
+</ng-container>

@@ -72,6 +72,8 @@ API of Subheader Component:
   @Input() subheaderTitle = '' // title of the subheader
 
   @Input() hideLine: boolean // false on default, optinal hiding of line under the subheader
+ 
+  @Input() breakTitle: boolean // false on default, optional line break in title
 
   @Input() truncateBreadcrumbsAfter: number // 0 on default, optinal, adds a truncation of the breadcrumbs items at a certain point, counted from the top, see breadcrumbs component
 
@@ -88,10 +90,10 @@ Use like:
   </ng-container>
   <ng-container subheaderInlineContent>
     place content here
-  <ng-container>
+  </ng-container>
   <ng-container subheaderBlockContent>
     place content here
-  <ng-container>
+  </ng-container>
 </schaeffler-subheader>
 ```
 

@@ -16,6 +16,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { CalculationResultEffects } from '@ga/core/store';
 import { calculationResultReducer } from '@ga/core/store/reducers/calculation-result/calculation-result.reducer';
+import { MediasButtonComponent } from '@ga/shared/components/medias-button';
 
 import { CalculationParametersService } from '../calculation-parameters/services';
 import { CalculationResultComponent } from './calculation-result.component';
@@ -48,6 +49,7 @@ import { GreaseReportComponent } from './components/grease-report';
     SubheaderModule,
     ReportModule,
     GreaseReportComponent,
+    MediasButtonComponent,
   ],
   providers: [CalculationParametersService],
 })

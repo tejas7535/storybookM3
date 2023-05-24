@@ -95,7 +95,8 @@
       "millimeterShort": "毫米"
     },
     "min": "最小",
-    "max": "最大"
+    "max": "最大",
+    "mediasButton": "在媒体上显示方位 {{bearing}}"
   },
   "bearing": {
     "title": {

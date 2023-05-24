@@ -53,6 +53,7 @@ const Template: Story<SubheaderComponent | SubheaderStorybookTemplate> = (
       [breadcrumbs]="breadcrumbs"
       [truncateBreadcrumbsAfter]="truncateBreadcrumbsAfter"
       [hideLine]="hideLine"
+      [breakTitle]="breakTitle"
     >
       <ng-container subheaderTitleContent>
         <div class="flex flex-col justify-center px-2">
@@ -86,6 +87,7 @@ Primary.args = {
   breadcrumbs,
   truncateBreadcrumbsAfter: 0,
   hideLine: false,
+  breakTitle: false,
   subheaderTitleContent: 'Title Content',
   subheaderInlineContent: 'Inline Content',
   subheaderBlockContent: 'Subheader Block Content',
@@ -103,6 +105,7 @@ const TemplateWithStatus: Story<
     [breadcrumbs]="breadcrumbs"
     [truncateBreadcrumbsAfter]="truncateBreadcrumbsAfter"
     [hideLine]="hideLine"
+    [breakTitle]="breakTitle"
   >
     <ng-container subheaderStatusIcon>
       <div class="relative h-5 w-5 rounded-full bg-primary bg-opacity-20">
@@ -125,5 +128,6 @@ WithStatusIndication.args = {
   breadcrumbs,
   truncateBreadcrumbsAfter: 0,
   hideLine: false,
+  breakTitle: false,
   subheaderBlockContent: 'Synced with SAP',
 };

@@ -95,7 +95,8 @@
       "millimeterShort": "mm"
     },
     "min": "Min.",
-    "max": "Max."
+    "max": "Max.",
+    "mediasButton": "Zeige Lager {{bearing}} in Medias"
   },
   "bearing": {
     "title": {

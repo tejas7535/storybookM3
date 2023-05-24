@@ -17,6 +17,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { CalculationParametersEffects } from '@ga/core/store/effects';
 import { FormFieldModule } from '@ga/shared/components/form-field';
+import { MediasButtonComponent } from '@ga/shared/components/medias-button';
 import { PreferredGreaseSelectionComponent } from '@ga/shared/components/preferred-grease-selection';
 
 import { CalculationParametersComponent } from './calculation-parameters.component';
@@ -37,6 +38,7 @@ import { CalculationParametersService } from './services';
     SubheaderModule,
     FormFieldModule,
     PreferredGreaseSelectionComponent,
+    MediasButtonComponent,
 
     // Material Modules
     MatButtonModule,
