@@ -6,7 +6,7 @@
   [isLoading]="isLoading"
 >
   <div class="flex w-full flex-col flex-wrap sm:flex-row" content>
-    <div class="min-w-[8rem] max-w-[25%] grow pt-4">
+    <div class="min-w-[8rem] max-w-[25%] grow pt-2">
       <div class="text-body-2 text-medium-emphasis mb-1">
         <span>{{ t('label') }}:</span>
       </div>
@@ -30,7 +30,7 @@
         </div>
       </div>
     </div>
-    <div class="min-w-[8rem] pt-4" *ngIf="userHasGPCRole">
+    <div class="min-w-[8rem] pt-2" *ngIf="userHasGPCRole">
       <div class="text-body-2 text-medium-emphasis mb-1">{{ t('gpi') }}:</div>
       <div>
         <span class="font-bold">{{ gpi | percentage }}</span>
@@ -49,7 +49,7 @@
         </ng-container>
       </div>
     </div>
-    <div class="min-w-[8rem] pt-4" *ngIf="userHasSQVRole">
+    <div class="min-w-[8rem] pt-2" *ngIf="userHasSQVRole">
       <div class="text-body-2 text-medium-emphasis mb-1">{{ t('gpm') }}:</div>
       <div>
         <span class="font-bold">{{ gpm | percentage }}</span>
@@ -68,7 +68,7 @@
         </ng-container>
       </div>
     </div>
-    <div class="min-w-[8rem] pt-4">
+    <div class="min-w-[8rem] pt-2">
       <div class="text-body-2 text-medium-emphasis mb-1">
         {{ t('quantity') }}:
       </div>
@@ -76,7 +76,7 @@
         [quotationDetail]="quotationDetail"
       ></gq-quantity-display>
     </div>
-    <div class="min-w-[8rem] pt-4">
+    <div class="min-w-[8rem] pt-2">
       <div class="text-body-2 text-medium-emphasis mb-1">
         {{ t('priceUnit') }}:
       </div>

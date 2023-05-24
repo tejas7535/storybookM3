@@ -1,24 +1,19 @@
-<mat-card
+<div
   class="mt-4"
   *transloco="let t; read: 'detailView.pricingDetails.relocationCostDetails'"
 >
-  <div *ngIf="quotationDetail">
-    <p class="mb-4 text-h6 text-medium-emphasis">
-      {{ t('title') }}
-    </p>
-    <div>
-      <gq-label-text>
-        <span label>{{ t('relocationCost') }}</span>
-        <span text>{{
-          quotationDetail.relocationCost | numberCurrency: currency
-        }}</span>
-      </gq-label-text>
-      <gq-label-text [marginBottom]="false">
-        <span label>{{ t('relocationPlant') }}</span>
-        <span text>{{
-          quotationDetail.relocatedProductionPlant | plantDisplay
-        }}</span>
-      </gq-label-text>
-    </div>
-  </div>
-</mat-card>
+  <gq-kpi-status-card *ngIf="quotationDetail" [title]="t('title')">
+    <gq-label-text>
+      <span label>{{ t('relocationCost') }}</span>
+      <span text>{{
+        quotationDetail.relocationCost | numberCurrency: currency
+      }}</span>
+    </gq-label-text>
+    <gq-label-text [marginBottom]="false">
+      <span label>{{ t('relocationPlant') }}</span>
+      <span text>{{
+        quotationDetail.relocatedProductionPlant | plantDisplay
+      }}</span>
+    </gq-label-text>
+  </gq-kpi-status-card>
+</div>

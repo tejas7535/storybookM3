@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 
+import { KpiStatusCardComponent } from '@gq/shared/components/kpi-status-card/kpi-status-card.component';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 
@@ -37,7 +37,6 @@ import { TargetPriceComponent } from './target-price/target-price.component';
   ],
   imports: [
     MatButtonModule,
-    MatCardModule,
     MatIconModule,
     PushModule,
     SharedPipesModule,
@@ -48,6 +47,7 @@ import { TargetPriceComponent } from './target-price/target-price.component';
     SharedDirectivesModule,
     MatMenuModule,
     ContextMenuModule,
+    KpiStatusCardComponent,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'detail-view' }],
   exports: [FilterPricingComponent],

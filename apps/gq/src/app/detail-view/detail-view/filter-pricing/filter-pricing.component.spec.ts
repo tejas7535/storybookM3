@@ -1,5 +1,4 @@
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -47,7 +46,6 @@ describe('FilterPricingComponent', () => {
     imports: [
       BrowserAnimationsModule,
       LoadingSpinnerModule,
-      MatCardModule,
       MatIconModule,
       MatFormFieldModule,
       MatInputModule,

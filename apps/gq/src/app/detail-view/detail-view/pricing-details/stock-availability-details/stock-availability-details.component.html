@@ -1,14 +1,11 @@
-<mat-card class="mt-4" *ngIf="materialStockByPlant && uom">
+<div class="mt-4" *ngIf="materialStockByPlant && uom">
   <div
     *transloco="
       let t;
       read: 'detailView.pricingDetails.stockAvailabilityDetails'
     "
   >
-    <p class="mb-4 text-h6 text-medium-emphasis">
-      {{ t('title') }}
-    </p>
-    <div>
+    <gq-kpi-status-card [title]="t('title')">
       <gq-label-text>
         <span label>{{ t('deliveryPlant') }}</span>
         <span text>{{ materialStockByPlant.plant | plantDisplay }}</span>
@@ -54,6 +51,6 @@
         <span label>{{ t('deliveryDate') }}</span>
         <span text>{{ materialStockByPlant.arrivalDate | translocoDate }}</span>
       </gq-label-text>
-    </div>
+    </gq-kpi-status-card>
   </div>
-</mat-card>
+</div>

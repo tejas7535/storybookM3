@@ -11,11 +11,8 @@
       trackBy: trackByFn
     "
   >
-    <mat-card class="mt-4" *ngIf="materialComparableCost">
-      <p class="mb-4 text-h6 text-medium-emphasis">
-        {{ t('title', { number: i + 1 }) }}
-      </p>
-      <div>
+    <div class="mt-4" *ngIf="materialComparableCost">
+      <gq-kpi-status-card [title]="t('title', { number: i + 1 })">
         <gq-label-text>
           <span label>{{ t('gpc') }}</span>
           <span text>{{
@@ -40,7 +37,7 @@
           <span label>{{ t('productionPlant') }}</span>
           <span text>{{ materialComparableCost | plantDisplay }}</span>
         </gq-label-text>
-      </div>
-    </mat-card>
+      </gq-kpi-status-card>
+    </div>
   </ng-container>
 </div>

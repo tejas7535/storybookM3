@@ -1,17 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 
+import { FreeStockTrafficLightComponent } from '@gq/shared/components/free-stock-traffic-light/free-stock-traffic-light.component';
+import { KpiStatusCardComponent } from '@gq/shared/components/kpi-status-card/kpi-status-card.component';
+import { LabelTextModule } from '@gq/shared/components/label-text/label-text.module';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { FreeStockTrafficLightComponent } from '../../../shared/components/free-stock-traffic-light/free-stock-traffic-light.component';
-import { InfoIconModule } from '../../../shared/components/info-icon/info-icon.module';
-import { LabelTextModule } from '../../../shared/components/label-text/label-text.module';
 import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
 import { MaterialComparableCostDetailsComponent } from './material-comparable-cost-details/material-comparable-cost-details.component';
 import { MaterialDetailsModule } from './material-details/material-details.module';
@@ -32,7 +31,6 @@ import { SupplyChainDetailsComponent } from './supply-chain-details/supply-chain
   ],
   imports: [
     CommonModule,
-    MatCardModule,
     MaterialDetailsModule,
     MatExpansionModule,
     SharedTranslocoModule,
@@ -40,8 +38,8 @@ import { SupplyChainDetailsComponent } from './supply-chain-details/supply-chain
     SharedPipesModule,
     LoadingSpinnerModule,
     LabelTextModule,
-    InfoIconModule,
     FreeStockTrafficLightComponent,
+    KpiStatusCardComponent,
   ],
   providers: [
     {

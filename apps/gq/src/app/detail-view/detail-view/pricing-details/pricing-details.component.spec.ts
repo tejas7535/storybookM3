@@ -1,4 +1,3 @@
-import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -20,7 +19,6 @@ import {
 } from '../../../../testing/mocks';
 import { ACTIVE_CASE_STATE_MOCK } from '../../../../testing/mocks/state/active-case-state.mock';
 import { MATERIAL_COST_DETAILS_STATE_MOCK } from '../../../../testing/mocks/state/material-cost-details-state.mock';
-import { LabelTextModule } from '../../../shared/components/label-text/label-text.module';
 import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
 import { TransformationService } from '../../../shared/services/transformation/transformation.service';
 import { MaterialComparableCostDetailsComponent } from './material-comparable-cost-details/material-comparable-cost-details.component';
@@ -40,14 +38,12 @@ describe('PricingDetailsComponent', () => {
     detectChanges: false,
     imports: [
       BrowserAnimationsModule,
-      MatCardModule,
       MaterialDetailsModule,
       MatExpansionModule,
       provideTranslocoTestingModule({ en: {} }),
       SharedPipesModule,
       PushModule,
       LoadingSpinnerModule,
-      LabelTextModule,
     ],
     providers: [
       provideMockStore({

@@ -1,27 +1,26 @@
-<mat-card
+<div
   *transloco="let t; read: 'detailView.pricingDetails.productionCostDetails'"
 >
-  <p class="mb-4 text-h6 text-medium-emphasis">
-    {{ t('title') }}
-  </p>
-  <div *ngIf="quotationDetail">
-    <gq-label-text>
-      <span label> {{ t('gpc') }}</span>
-      <span text>{{ quotationDetail.gpc | numberCurrency: currency }}</span>
-      <span text *ngIf="materialCostDetails?.gpc?.date">{{
-        ' (' + (materialCostDetails.gpc.date | translocoDate) + ')'
-      }}</span>
-    </gq-label-text>
-    <gq-label-text>
-      <span label>{{ t('sqv') }}</span>
-      <span text>{{ quotationDetail.sqv | numberCurrency: currency }}</span>
-      <span text *ngIf="materialCostDetails?.sqv?.date">{{
-        ' (' + (materialCostDetails.sqv.date | translocoDate) + ')'
-      }}</span>
-    </gq-label-text>
-    <gq-label-text [marginBottom]="false">
-      <span label>{{ t('productionPlant') }}</span>
-      <span text> {{ quotationDetail.productionPlant | plantDisplay }}</span>
-    </gq-label-text>
-  </div>
-</mat-card>
+  <gq-kpi-status-card [title]="t('title')">
+    <div *ngIf="quotationDetail">
+      <gq-label-text>
+        <span label> {{ t('gpc') }}</span>
+        <span text>{{ quotationDetail.gpc | numberCurrency: currency }}</span>
+        <span text *ngIf="materialCostDetails?.gpc?.date">{{
+          ' (' + (materialCostDetails.gpc.date | translocoDate) + ')'
+        }}</span>
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('sqv') }}</span>
+        <span text>{{ quotationDetail.sqv | numberCurrency: currency }}</span>
+        <span text *ngIf="materialCostDetails?.sqv?.date">{{
+          ' (' + (materialCostDetails.sqv.date | translocoDate) + ')'
+        }}</span>
+      </gq-label-text>
+      <gq-label-text [marginBottom]="false">
+        <span label>{{ t('productionPlant') }}</span>
+        <span text> {{ quotationDetail.productionPlant | plantDisplay }}</span>
+      </gq-label-text>
+    </div>
+  </gq-kpi-status-card>
+</div>

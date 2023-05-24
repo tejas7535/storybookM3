@@ -8,28 +8,28 @@
     [isDisabled]="isDisabled"
   >
     <div content class="flex w-full flex-col flex-wrap sm:flex-row">
-      <div class="min-w-[8rem] max-w-[25%] grow pt-4">
-        <div class="mb-1 text-body-2 text-medium-emphasis">
+      <div class="min-w-[8rem] max-w-[25%] grow pt-2">
+        <div class="text-body-2 text-medium-emphasis mb-1">
           {{ t('priceLabel') }}:
         </div>
         <span class="font-bold">{{
           quotationDetail.recommendedPrice | numberCurrency: currency
         }}</span>
       </div>
-      <div class="min-w-[8rem] pt-4" *ngIf="userHasGPCRole">
-        <div class="mb-1 text-body-2 text-medium-emphasis">{{ t('gpi') }}:</div>
+      <div class="min-w-[8rem] pt-2" *ngIf="userHasGPCRole">
+        <div class="text-body-2 text-medium-emphasis mb-1">{{ t('gpi') }}:</div>
         <div>
           <span class="font-bold">{{ gpi | percentage }}</span>
         </div>
       </div>
-      <div class="min-w-[8rem] pt-4" *ngIf="userHasSQVRole">
-        <div class="mb-1 text-body-2 text-medium-emphasis">{{ t('gpm') }}:</div>
+      <div class="min-w-[8rem] pt-2" *ngIf="userHasSQVRole">
+        <div class="text-body-2 text-medium-emphasis mb-1">{{ t('gpm') }}:</div>
         <div>
           <span class="font-bold">{{ gpm | percentage }}</span>
         </div>
       </div>
-      <div class="min-w-[8rem] pt-4">
-        <div class="mb-1 text-body-2 text-medium-emphasis">
+      <div class="min-w-[8rem] pt-2">
+        <div class="text-body-2 text-medium-emphasis mb-1">
           {{ t('quantity') }}:
         </div>
         <gq-quantity-display
@@ -37,10 +37,10 @@
         ></gq-quantity-display>
       </div>
       <div
-        class="min-w-[8rem] pt-4"
+        class="min-w-[8rem] pt-2"
         *ngIf="quotationDetail.gqRating; else displayStrategicPriceSource"
       >
-        <div class="mb-1 text-body-2 text-medium-emphasis">
+        <div class="text-body-2 text-medium-emphasis mb-1">
           {{ t('rating') }}:
         </div>
         <div>
@@ -50,7 +50,7 @@
               trackBy: trackByFn
             "
           >
-            <mat-icon class="mr-1 text-link">star</mat-icon>
+            <mat-icon class="text-link mr-1">star</mat-icon>
           </ng-container>
           <ng-container
             *ngFor="
@@ -58,13 +58,13 @@
               trackBy: trackByFn
             "
           >
-            <mat-icon class="mr-1 text-link">star_border</mat-icon>
+            <mat-icon class="text-link mr-1">star_border</mat-icon>
           </ng-container>
         </div>
       </div>
       <ng-template #displayStrategicPriceSource>
-        <div class="min-w-[8rem] pt-4">
-          <div class="mb-1 text-body-2 text-medium-emphasis">
+        <div class="min-w-[8rem] pt-2">
+          <div class="text-body-2 text-medium-emphasis mb-1">
             {{ t('source') }}:
           </div>
           <div>
