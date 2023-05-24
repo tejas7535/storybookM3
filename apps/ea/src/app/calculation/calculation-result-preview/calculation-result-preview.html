@@ -1,6 +1,6 @@
 <ng-container *transloco="let t; read: 'calculation'">
   <div
-    class="ea-left-0 ea-flex ea-w-[100vw] ea-items-center ea-justify-center ea-overflow-hidden"
+    class="ea-left-0 ea-flex ea-w-full ea-items-center ea-justify-center ea-overflow-hidden"
     [ngClass]="{'md:ea-fixed ea-bottom-0': sticky}"
   >
     <div
@@ -70,7 +70,7 @@
           <button
             mat-raised-button
             color="primary"
-            class="ea-grow md:ea-grow-0 md:ea-mx-0 ea-mx-4 md:ea-mr-4"
+            class="ea-grow md:ea-mx-0 ea-mx-4 md:ea-mr-4"
             [disabled]="(isCalculationResultReportAvailable$ | ngrxPush) === false"
             (click)="showReport()"
           >

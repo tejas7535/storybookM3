@@ -18,8 +18,5 @@ export const getEnergySource = createSelector(
 
 export const isCalculationMissingInput = createSelector(
   getCalculationParametersState,
-  (state): boolean =>
-    state.operationConditions?.axialLoad === undefined ||
-    state.operationConditions?.radialLoad === undefined ||
-    state.operationConditions?.rotationalSpeed === undefined
+  (state): boolean => state.isInputInvalid
 );

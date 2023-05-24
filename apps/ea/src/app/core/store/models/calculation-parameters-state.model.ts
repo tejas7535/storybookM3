@@ -4,6 +4,7 @@ export interface CalculationParametersState {
   operationConditions: CalculationParametersOperationConditions;
   energySource: CalculationParametersEnergySource;
   calculationTypes: CalculationParametersCalculationTypes;
+  isInputInvalid: boolean;
 }
 
 export interface CalculationParametersOperationConditions {

@@ -54,30 +54,40 @@ export const convertFrictionApiResult = (
   if (frictionResultSubordinate) {
     const { ny, M_R, N_R, N_Se, N_Uz } = frictionResultTable;
 
-    result.frictionalPowerloss = {
-      value: Number.parseFloat(N_R.value),
-      unit: N_R.unit,
-    };
+    if (N_R) {
+      result.frictionalPowerloss = {
+        value: Number.parseFloat(N_R.value),
+        unit: N_R.unit,
+      };
+    }
 
-    result.frictionalPowerlossSealing = {
-      value: Number.parseFloat(N_Se.value),
-      unit: N_Se.unit,
-    };
+    if (N_Se) {
+      result.frictionalPowerlossSealing = {
+        value: Number.parseFloat(N_Se.value),
+        unit: N_Se.unit,
+      };
+    }
 
-    result.frictionalPowerlossUnloadedZone = {
-      value: Number.parseFloat(N_Uz.value),
-      unit: N_Uz.unit,
-    };
+    if (N_Uz) {
+      result.frictionalPowerlossUnloadedZone = {
+        value: Number.parseFloat(N_Uz.value),
+        unit: N_Uz.unit,
+      };
+    }
 
-    result.frictionalTorque = {
-      value: Number.parseFloat(M_R.value),
-      unit: M_R.unit,
-    };
+    if (M_R) {
+      result.frictionalTorque = {
+        value: Number.parseFloat(M_R.value),
+        unit: M_R.unit,
+      };
+    }
 
-    result.operatingViscosity = {
-      value: Number.parseFloat(ny.value),
-      unit: ny.unit,
-    };
+    if (ny) {
+      result.operatingViscosity = {
+        value: Number.parseFloat(ny.value),
+        unit: ny.unit,
+      };
+    }
   }
 
   return result;

@@ -2,7 +2,7 @@ import { CalculationParametersState } from '@ea/core/store/models';
 
 export const CALCULATION_PARAMETERS_STATE_MOCK: CalculationParametersState = {
   operationConditions: {
-    rotationalSpeed: 1,
+    rotationalSpeed: 0,
     axialLoad: 0,
     radialLoad: undefined,
     movementFrequency: 0,
@@ -28,4 +28,5 @@ export const CALCULATION_PARAMETERS_STATE_MOCK: CalculationParametersState = {
       visible: true,
     },
   },
+  isInputInvalid: false,
 };

@@ -78,8 +78,8 @@ export class FrictionService {
         idlC_OSCILLATION_ANGLE: operationConditions.oscillationAngle,
         idlC_MOVEMENT_FREQUENCY: operationConditions.movementFrequency,
         idlC_SPEED: operationConditions.rotationalSpeed,
-        idlD_FX: operationConditions.axialLoad,
-        idlD_FY: operationConditions.radialLoad,
+        idlD_FX: operationConditions.axialLoad ?? undefined,
+        idlD_FY: operationConditions.radialLoad ?? undefined,
         idlD_FZ: 0,
       },
     ];

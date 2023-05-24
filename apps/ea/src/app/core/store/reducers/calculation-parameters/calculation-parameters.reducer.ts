@@ -8,6 +8,7 @@ import { CalculationTypesActions } from '../../actions';
 import {
   operatingParameters,
   resetCalculationParameters,
+  setIsInputInvalid,
 } from '../../actions/calculation-parameters/calculation-parameters.actions';
 import { setCalculationTypes } from '../../actions/calculation-parameters/calculation-types.actions';
 
@@ -39,6 +40,7 @@ export const initialState: CalculationParametersState = {
       disabled: false,
     },
   },
+  isInputInvalid: true,
 };
 
 export const calculationParametersReducer = createReducer(
@@ -51,6 +53,15 @@ export const calculationParametersReducer = createReducer(
         ...state.operationConditions,
         ...operationConditions,
       },
+      isInputInvalid: false,
+    })
+  ),
+
+  on(
+    setIsInputInvalid,
+    (state, { isInputInvalid }): CalculationParametersState => ({
+      ...state,
+      isInputInvalid,
     })
   ),
 

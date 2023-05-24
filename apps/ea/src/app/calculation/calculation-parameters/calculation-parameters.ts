@@ -15,13 +15,10 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { debounceTime, filter, Subject, takeUntil } from 'rxjs';
+import { debounceTime, Subject, takeUntil } from 'rxjs';
 
 import { CalculationParametersFacade } from '@ea/core/store';
-import {
-  operatingParameters,
-  resetCalculationParameters,
-} from '@ea/core/store/actions/calculation-parameters/calculation-parameters.actions';
+import { CalculationParametersActions } from '@ea/core/store/actions';
 import { ProductSelectionFacade } from '@ea/core/store/facades/product-selection/product-selection.facade';
 import { FormFieldModule } from '@ea/shared/form-field';
 import { LetModule, PushModule } from '@ngrx/component';
@@ -57,12 +54,12 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
   public readonly bearingDesignation$ =
     this.productSelectionFacade.bearingDesignation$;
 
-  public radialLoad = new FormControl<number>(undefined, Validators.required);
-  public axialLoad = new FormControl<number>(undefined, Validators.required);
-  public rotationalSpeed = new FormControl<number>(
-    undefined,
-    Validators.required
-  );
+  public radialLoad = new FormControl<number>(undefined, [Validators.required]);
+  public axialLoad = new FormControl<number>(undefined, [Validators.required]);
+  public rotationalSpeed = new FormControl<number>(undefined, [
+    Validators.required,
+    Validators.min(1),
+  ]);
 
   public operationConditionsForm = new FormGroup(
     {
@@ -99,16 +96,25 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
     this.form.valueChanges
       .pipe(
         takeUntil(this.destroy$),
-        debounceTime(this.DEBOUNCE_TIME_DEFAULT),
-        filter(() => this.form.valid)
+        debounceTime(this.DEBOUNCE_TIME_DEFAULT)
+        //   filter(() => this.form.valid)
       )
       .subscribe((formValue) => {
-        this.calculationParametersFacade.dispatch(
-          operatingParameters({
-            ...formValue,
-            operationConditions: formValue.operationConditions,
-          })
-        );
+        if (this.form.valid) {
+          this.calculationParametersFacade.dispatch(
+            CalculationParametersActions.operatingParameters({
+              ...formValue,
+              operationConditions: formValue.operationConditions,
+            })
+          );
+        } else {
+          this.calculationParametersFacade.dispatch(
+            CalculationParametersActions.setIsInputInvalid({
+              isInputInvalid: true,
+            })
+          );
+        }
+
         this.operationConditionsForm.updateValueAndValidity({
           emitEvent: false,
         });
@@ -122,17 +128,27 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
 
   private loadValidator(): any {
     return (group: UntypedFormGroup): void => {
-      const { radialLoad, axialLoad, rotationalSpeed } = group.value;
+      const { radialLoad, axialLoad } = group.value;
 
-      const anyLoadApplied =
-        radialLoad > 0 || axialLoad > 0 || rotationalSpeed > 1;
+      const anyLoadApplied = radialLoad > 0 || axialLoad > 0;
 
-      if (!anyLoadApplied) {
-        this.setLoadErrors(group, 'radialLoad');
-        this.setLoadErrors(group, 'axialLoad');
-      } else {
+      if (anyLoadApplied) {
+        // remove required validator on other field
+        if (radialLoad > 0) {
+          this.axialLoad.clearValidators();
+        } else {
+          this.radialLoad.clearValidators();
+        }
+
         this.removeLoadErrors(group, 'radialLoad');
         this.removeLoadErrors(group, 'axialLoad');
+      } else {
+        this.setLoadErrors(group, 'radialLoad');
+        this.setLoadErrors(group, 'axialLoad');
+
+        // set both fields as required
+        this.radialLoad.setValidators([Validators.required]);
+        this.axialLoad.setValidators([Validators.required]);
       }
     };
   }
@@ -154,7 +170,9 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
 
   public onResetButtonClick(): void {
     this.operationConditionsForm.reset();
-    this.calculationParametersFacade.dispatch(resetCalculationParameters());
+    this.calculationParametersFacade.dispatch(
+      CalculationParametersActions.resetCalculationParameters()
+    );
   }
 
   public onShowBasicFrequenciesDialogClick(): void {

@@ -31,16 +31,12 @@ describe('Calculation Result Selector', () => {
   });
 
   describe('isCalculationMissingInput', () => {
-    it('should return true if any of the calculation parameters are undefined', () => {
+    it('should return true if any of the calculation parameters are missing', () => {
       expect(
         isCalculationMissingInput({
           calculationParameters: {
             ...CALCULATION_PARAMETERS_STATE_MOCK,
-            operationConditions: {
-              axialLoad: undefined,
-              radialLoad: 1,
-              rotationalSpeed: 1,
-            },
+            isInputInvalid: true,
           },
         })
       ).toEqual(true);
@@ -49,50 +45,7 @@ describe('Calculation Result Selector', () => {
         isCalculationMissingInput({
           calculationParameters: {
             ...CALCULATION_PARAMETERS_STATE_MOCK,
-            operationConditions: {
-              axialLoad: 1,
-              radialLoad: undefined,
-              rotationalSpeed: 1,
-            },
-          },
-        })
-      ).toEqual(true);
-
-      expect(
-        isCalculationMissingInput({
-          calculationParameters: {
-            ...CALCULATION_PARAMETERS_STATE_MOCK,
-            operationConditions: {
-              axialLoad: 1,
-              radialLoad: 1,
-              rotationalSpeed: undefined,
-            },
-          },
-        })
-      ).toEqual(true);
-
-      expect(
-        isCalculationMissingInput({
-          calculationParameters: {
-            ...CALCULATION_PARAMETERS_STATE_MOCK,
-            operationConditions: {
-              axialLoad: 1,
-              radialLoad: 1,
-              rotationalSpeed: 1,
-            },
-          },
-        })
-      ).toEqual(false);
-
-      expect(
-        isCalculationMissingInput({
-          calculationParameters: {
-            ...CALCULATION_PARAMETERS_STATE_MOCK,
-            operationConditions: {
-              axialLoad: 1,
-              radialLoad: 0,
-              rotationalSpeed: 1,
-            },
+            isInputInvalid: false,
           },
         })
       ).toEqual(false);

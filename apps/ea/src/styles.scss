@@ -41,3 +41,8 @@ mat-dialog-container {
     font-family: 'Material Icons' !important;
   }
 }
+
+/** fix font size for Medias integration */
+engineering-app {
+  @apply ea-text-body-1 #{!important};
+}

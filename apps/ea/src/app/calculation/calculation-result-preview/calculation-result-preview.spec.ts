@@ -42,7 +42,13 @@ describe('CalculationResultPreviewComponent', () => {
     ],
     providers: [
       provideMockStore({
-        initialState: { ...APP_STATE_MOCK },
+        initialState: {
+          ...APP_STATE_MOCK,
+          calculationParameters: {
+            ...APP_STATE_MOCK.calculationParameters,
+            isInputInvalid: true,
+          },
+        },
       }),
       {
         provide: translate,

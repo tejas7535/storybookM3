@@ -50,7 +50,7 @@ describe('CalculationParametersFacade', () => {
       'should provide if calculation is missing input',
       marbles((m) => {
         const expected = m.cold('a', {
-          a: true,
+          a: CALCULATION_PARAMETERS_STATE_MOCK.isInputInvalid,
         });
 
         m.expect(facade.isCalculationMissingInput$).toBeObservable(expected);

@@ -9,6 +9,13 @@ export const operatingParameters = createAction(
   }>()
 );
 
+export const setIsInputInvalid = createAction(
+  '[Calculation Parameters] Is Missing Input',
+  props<{
+    isInputInvalid: boolean;
+  }>()
+);
+
 export const resetCalculationParameters = createAction(
   '[Calculation Parameters] Reset Operating Parameters'
 );

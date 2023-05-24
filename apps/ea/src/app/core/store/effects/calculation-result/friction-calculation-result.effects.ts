@@ -67,9 +67,9 @@ export class FrictionCalculationResultEffects {
           modelId,
           energySource,
           operationConditions,
-          isMissingInput,
+          isInputInvalid,
         ]) =>
-          isMissingInput
+          isInputInvalid
             ? of(
                 FrictionCalculationResultActions.setLoading({
                   isLoading: false,

@@ -4,6 +4,7 @@ import { CalculationTypesActions } from '../../actions';
 import {
   operatingParameters,
   resetCalculationParameters,
+  setIsInputInvalid,
 } from '../../actions/calculation-parameters/calculation-parameters.actions';
 import { CalculationParametersState } from '../../models';
 import {
@@ -23,14 +24,15 @@ describe('calculationParametersReducer', () => {
     });
   });
 
-  describe('patchParameters Action', () => {
-    it('should patch all parameters', () => {
+  describe('operatingParameters', () => {
+    it('should update parameters', () => {
       const mockParameters: CalculationParametersState = {
         operationConditions: {
           rotationalSpeed: 1,
           axialLoad: 0,
           radialLoad: 0,
         },
+        isInputInvalid: true,
         calculationTypes: {},
       } as CalculationParametersState;
 
@@ -46,6 +48,34 @@ describe('calculationParametersReducer', () => {
           operationConditions: expect.objectContaining(
             mockParameters.operationConditions
           ),
+          isInputInvalid: false,
+        })
+      );
+    });
+  });
+
+  describe('setIsInputInvalid', () => {
+    it('should set missing input', () => {
+      const mockParameters: CalculationParametersState = {
+        operationConditions: {
+          rotationalSpeed: 1,
+          axialLoad: 0,
+          radialLoad: 0,
+        },
+        isInputInvalid: false,
+        calculationTypes: {},
+      } as CalculationParametersState;
+
+      const newState = calculationParametersReducer(
+        mockParameters,
+        setIsInputInvalid({
+          isInputInvalid: true,
+        })
+      );
+
+      expect(newState).toEqual(
+        expect.objectContaining({
+          isInputInvalid: true,
         })
       );
     });
