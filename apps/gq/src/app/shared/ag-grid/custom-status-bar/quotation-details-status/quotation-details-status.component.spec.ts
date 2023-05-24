@@ -1,13 +1,13 @@
-import { MatButtonModule } from '@angular/material/button';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
+import { StatusBarModalComponent } from '@gq/shared/components/modal/status-bar-modal/status-bar-modal.component';
+import { StatusBarProperties } from '@gq/shared/models/status-bar.model';
+import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
+import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 import { SpyObject } from '@ngneat/spectator';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { IStatusPanelParams } from 'ag-grid-community';
@@ -16,22 +16,13 @@ import { marbles } from 'rxjs-marbles';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
+  ACTIVE_CASE_STATE_MOCK,
   AUTH_STATE_MOCK,
   PROCESS_CASE_STATE_MOCK,
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
-import { ACTIVE_CASE_STATE_MOCK } from '../../../../../testing/mocks/state/active-case-state.mock';
-import { StatusBarModalComponent } from '../../../components/modal/status-bar-modal/status-bar-modal.component';
-import { StatusBarProperties } from '../../../models';
-import { SharedPipesModule } from '../../../pipes/shared-pipes.module';
-import { TransformationService } from '../../../services/transformation/transformation.service';
 import { QuotationDetailsStatusComponent } from './quotation-details-status.component';
-
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
 
 describe('QuotationDetailsStatusComponent', () => {
   let component: QuotationDetailsStatusComponent;
@@ -42,18 +33,20 @@ describe('QuotationDetailsStatusComponent', () => {
   const createComponent = createComponentFactory({
     component: QuotationDetailsStatusComponent,
     imports: [
-      MatButtonModule,
-      MatIconModule,
-      MatSnackBarModule,
       provideTranslocoTestingModule({ en: {} }),
       PushModule,
-      MatDialogModule,
       SharedPipesModule,
     ],
     mocks: [MatDialog],
-
     providers: [
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+      {
+        provide: TransformationService,
+        useValue: {
+          transformMarginDetails: jest.fn(),
+          transformPercentage: jest.fn(),
+        },
+      },
+
       provideMockStore({
         initialState: {
           'azure-auth': AUTH_STATE_MOCK,
@@ -69,6 +62,7 @@ describe('QuotationDetailsStatusComponent', () => {
         },
       },
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {

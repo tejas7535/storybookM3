@@ -1,5 +1,5 @@
 <div
-  class="hidden h-full items-center text-center text-caption font-medium md:!ml-4 md:flex"
+  class="text-caption hidden h-full items-center text-center font-medium md:flex md:!pl-4"
   *ngrxLet="simulationModeEnabled$ as simulationModeEnabled"
   [ngClass]="{ 'bg-secondary-900': simulationModeEnabled }"
 >
@@ -19,7 +19,7 @@
         {{ t('total') }}:</span
       >
       <span
-        class="text-left text-high-emphasis"
+        class="text-high-emphasis text-left"
         [ngClass]="
           simulationModeEnabled
             ? 'text-high-emphasis-dark-bg '

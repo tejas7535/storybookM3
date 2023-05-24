@@ -1,5 +1,5 @@
 <div
-  class="flex h-full w-full items-center justify-end text-center font-medium"
+  class="flex h-full w-full items-center justify-end !pr-4 text-center font-medium"
   [ngClass]="{ 'bg-secondary-900': (simulationModeEnabled$ | ngrxPush) }"
   *transloco="let t; read: 'shared.customStatusBar.quotationDetailsStatus'"
 >
@@ -9,7 +9,7 @@
       else simulationBar
     "
   >
-    <div class="flex flex-row gap-16 pr-8 text-left text-high-emphasis-dark-bg">
+    <div class="text-high-emphasis-dark-bg flex flex-row gap-16 pr-8 text-left">
       <div
         class="flex flex-row"
         *ngIf="quotationCurrency$ | ngrxPush as currency"
@@ -85,72 +85,72 @@
     <div class="hidden pr-4 xl:flex">
       <div class="flex flex-row" *ngIf="selections.length">
         <div class="ml-8 flex flex-col">
-          <span class="text-left text-low-emphasis"
+          <span class="text-low-emphasis text-left"
             >{{ t('selectedNetValue') }}:</span
           >
           <span
-            class="text-left text-high-emphasis"
+            class="text-high-emphasis text-left"
             *ngIf="quotationCurrency$ | ngrxPush as currency"
           >
             {{ statusBar.selected.netValue | numberCurrency: currency }}
           </span>
         </div>
         <div class="ml-8 flex flex-col" *ngIf="showGPI$ | ngrxPush">
-          <span class="text-left text-low-emphasis"
+          <span class="text-low-emphasis text-left"
             >{{ t('selectedAverageGPI') }}:</span
           >
-          <span class="text-left text-high-emphasis">
+          <span class="text-high-emphasis text-left">
             {{ statusBar.selected.gpi | percentage }}</span
           >
         </div>
         <div class="ml-8 flex flex-col" *ngIf="showGPM$ | ngrxPush">
-          <span class="text-left text-low-emphasis"
+          <span class="text-low-emphasis text-left"
             >{{ t('selectedAverageGPM') }}:
           </span>
-          <span class="text-left text-high-emphasis">{{
+          <span class="text-high-emphasis text-left">{{
             statusBar.selected.gpm | percentage
           }}</span>
         </div>
         <div class="ml-8 flex flex-col">
-          <span class="text-left text-low-emphasis"
+          <span class="text-low-emphasis text-left"
             >{{ t('selectedPriceDiff') }}:
           </span>
-          <span class="text-left text-high-emphasis">{{
+          <span class="text-high-emphasis text-left">{{
             statusBar.selected.priceDiff | percentage
           }}</span>
         </div>
       </div>
       <div class="ml-8 flex flex-col">
-        <span class="text-left text-low-emphasis">
+        <span class="text-low-emphasis text-left">
           {{ t('totalNetValue') }}:
         </span>
         <span
-          class="text-left text-high-emphasis"
+          class="text-high-emphasis text-left"
           *ngIf="quotationCurrency$ | ngrxPush as currency"
           >{{ statusBar.total.netValue | numberCurrency: currency }}
         </span>
       </div>
       <div class="ml-8 flex flex-col" *ngIf="showGPI$ | ngrxPush">
-        <span class="text-left text-low-emphasis">
+        <span class="text-low-emphasis text-left">
           {{ t('totalAverageGPI') }}:
         </span>
-        <span class="text-left text-high-emphasis">
+        <span class="text-high-emphasis text-left">
           {{ statusBar.total.gpi | percentage }}</span
         >
       </div>
       <div class="ml-8 flex flex-col" *ngIf="showGPM$ | ngrxPush">
-        <span class="text-left text-low-emphasis">
+        <span class="text-low-emphasis text-left">
           {{ t('totalAverageGPM') }}:
         </span>
-        <span class="text-left text-high-emphasis">
+        <span class="text-high-emphasis text-left">
           {{ statusBar.total.gpm | percentage }}</span
         >
       </div>
       <div class="ml-8 flex flex-col">
-        <span class="text-left text-low-emphasis">
+        <span class="text-low-emphasis text-left">
           {{ t('totalPriceDiff') }}:
         </span>
-        <span class="text-left text-high-emphasis">
+        <span class="text-high-emphasis text-left">
           {{ statusBar.total.priceDiff | percentage }}</span
         >
       </div>
@@ -158,7 +158,7 @@
     <div class="flex xl:hidden">
       <button
         mat-flat-button
-        class="cursor-pointer !text-button !text-link"
+        class="!text-button !text-link cursor-pointer"
         (click)="showAll()"
       >
         {{ t('showAll') }}

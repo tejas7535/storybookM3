@@ -9,11 +9,11 @@ import {
   getSimulationModeEnabled,
 } from '@gq/core/store/active-case';
 import { userHasGPCRole, userHasSQVRole } from '@gq/core/store/selectors';
+import { StatusBarModalComponent } from '@gq/shared/components/modal/status-bar-modal/status-bar-modal.component';
 import { calculateStatusBarValues } from '@gq/shared/utils/pricing.utils';
 import { Store } from '@ngrx/store';
 import { IStatusPanelParams, RowNode } from 'ag-grid-community';
 
-import { StatusBarModalComponent } from '../../../../shared/components/modal/status-bar-modal/status-bar-modal.component';
 import { SimulatedQuotation, StatusBar } from '../../../models';
 import { QuotationDetail } from '../../../models/quotation-detail';
 

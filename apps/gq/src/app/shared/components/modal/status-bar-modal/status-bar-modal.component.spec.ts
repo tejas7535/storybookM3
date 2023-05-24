@@ -1,6 +1,9 @@
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
+import { StatusBar } from '@gq/shared/models/status-bar.model';
+import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
+import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -9,17 +12,11 @@ import { marbles } from 'rxjs-marbles';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
+  ACTIVE_CASE_STATE_MOCK,
   AUTH_STATE_MOCK,
   PROCESS_CASE_STATE_MOCK,
   QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
-import { ACTIVE_CASE_STATE_MOCK } from '../../../../../testing/mocks/state/active-case-state.mock';
-import { StatusBar } from '../../../models';
-import { SharedPipesModule } from '../../../pipes/shared-pipes.module';
-import { TransformationService } from '../../../services/transformation/transformation.service';
-import { DialogHeaderModule } from '../../header/dialog-header/dialog-header.module';
-import { HorizontalDividerModule } from '../../horizontal-divider/horizontal-divider.module';
-import { LabelTextModule } from '../../label-text/label-text.module';
 import { StatusBarModalComponent } from './status-bar-modal.component';
 
 describe('StatusBarModalComponent', () => {
@@ -29,10 +26,8 @@ describe('StatusBarModalComponent', () => {
   const createComponent = createComponentFactory({
     component: StatusBarModalComponent,
     imports: [
-      DialogHeaderModule,
       provideTranslocoTestingModule({ en: {} }),
-      HorizontalDividerModule,
-      LabelTextModule,
+
       PushModule,
       SharedPipesModule,
     ],
@@ -44,7 +39,13 @@ describe('StatusBarModalComponent', () => {
           'azure-auth': AUTH_STATE_MOCK,
         },
       }),
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+      {
+        provide: TransformationService,
+        useValue: {
+          transformMarginDetails: jest.fn(),
+          transformPercentage: jest.fn(),
+        },
+      },
       {
         provide: MatDialogRef,
         useValue: {},
@@ -61,6 +62,7 @@ describe('StatusBarModalComponent', () => {
         },
       },
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {

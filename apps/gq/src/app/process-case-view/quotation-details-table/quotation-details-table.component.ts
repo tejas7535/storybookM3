@@ -9,7 +9,29 @@ import {
   activeCaseFeature,
 } from '@gq/core/store/active-case';
 import { getColumnDefsForRoles } from '@gq/core/store/selectors';
-import { ColumnUtilityService } from '@gq/shared/ag-grid/services';
+import { PriceSourceOptions } from '@gq/shared/ag-grid/column-headers/extended-column-header/models/price-source-options.enum';
+import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
+import { excelStyles } from '@gq/shared/ag-grid/custom-status-bar/export-to-excel-button/excel-styles.constants';
+import { AgGridLocale } from '@gq/shared/ag-grid/models/ag-grid-locale.interface';
+import {
+  ColumnDefService,
+  ColumnUtilityService,
+} from '@gq/shared/ag-grid/services';
+import { LocalizationService } from '@gq/shared/ag-grid/services/localization.service';
+import { KpiValue } from '@gq/shared/components/modal/editing-modal/models/kpi-value.model';
+import {
+  basicTableStyle,
+  statusBarSimulation,
+  statusBarWithBorderStyle,
+} from '@gq/shared/constants';
+import { Quotation } from '@gq/shared/models';
+import { FilterState } from '@gq/shared/models/grid-state.model';
+import {
+  PriceSource,
+  QuotationDetail,
+  SapPriceCondition,
+} from '@gq/shared/models/quotation-detail';
+import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import {
   calculateAffectedKPIs,
@@ -39,26 +61,6 @@ import {
 } from 'ag-grid-community';
 
 import { AppRoutePath } from '../../app-route-path.enum';
-import { PriceSourceOptions } from '../../shared/ag-grid/column-headers/extended-column-header/models/price-source-options.enum';
-import { ColumnFields } from '../../shared/ag-grid/constants/column-fields.enum';
-import { excelStyles } from '../../shared/ag-grid/custom-status-bar/export-to-excel-button/excel-styles.constants';
-import { AgGridLocale } from '../../shared/ag-grid/models/ag-grid-locale.interface';
-import { ColumnDefService } from '../../shared/ag-grid/services/column-def.service';
-import { LocalizationService } from '../../shared/ag-grid/services/localization.service';
-import { KpiValue } from '../../shared/components/modal/editing-modal/models/kpi-value.model';
-import {
-  basicTableStyle,
-  statusBarSimulation,
-  statusBarWithBorderStyle,
-} from '../../shared/constants';
-import { Quotation } from '../../shared/models';
-import { FilterState } from '../../shared/models/grid-state.model';
-import {
-  PriceSource,
-  QuotationDetail,
-  SapPriceCondition,
-} from '../../shared/models/quotation-detail';
-import { AgGridStateService } from '../../shared/services/ag-grid-state/ag-grid-state.service';
 import {
   COMPONENTS,
   DEFAULT_COLUMN_DEFS,

@@ -17,20 +17,19 @@ import {
   getTransactionsLoading,
   userHasGPCRole,
 } from '@gq/core/store/selectors';
+import { UserRoles } from '@gq/shared/constants';
+import { Customer } from '@gq/shared/models/customer';
+import {
+  Coefficients,
+  QuotationDetail,
+} from '@gq/shared/models/quotation-detail';
+import { BreadcrumbsService } from '@gq/shared/services/breadcrumbs/breadcrumbs.service';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import { FilterChangedEvent, RowNode } from 'ag-grid-community';
 
 import { hasIdTokenRoles } from '@schaeffler/azure-auth';
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
-
-import { UserRoles } from '../../shared/constants';
-import { Customer } from '../../shared/models/customer';
-import {
-  Coefficients,
-  QuotationDetail,
-} from '../../shared/models/quotation-detail';
-import { BreadcrumbsService } from '../../shared/services/breadcrumbs/breadcrumbs.service';
 
 @Component({
   selector: 'gq-transaction-view',

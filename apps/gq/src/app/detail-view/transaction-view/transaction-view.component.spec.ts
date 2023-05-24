@@ -1,7 +1,4 @@
-import { MatCardModule } from '@angular/material/card';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { RouterTestingModule } from '@angular/router/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
@@ -13,11 +10,6 @@ import { FilterChangedEvent } from 'ag-grid-community';
 import resize_observer_polyfill from 'resize-observer-polyfill';
 import { marbles } from 'rxjs-marbles';
 
-import { ApplicationInsightsService } from '@schaeffler/application-insights';
-import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
-import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
-import { ShareButtonModule } from '@schaeffler/share-button';
-import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
@@ -30,13 +22,7 @@ import {
   PROCESS_CASE_STATE_MOCK,
   TRANSACTIONS_STATE_MOCK,
 } from '../../../testing/mocks/state';
-import { MaterialPriceHeaderContentModule } from '../../shared/components/header/material-price-header-content/material-price-header-content.module';
-import { SyncStatusCustomerInfoHeaderModule } from '../../shared/components/header/sync-status-customer-info-header/sync-status-customer-info-header.module';
-import { TransformationService } from '../../shared/services/transformation/transformation.service';
-import { ComparableTransactionsModule } from './comparable-transactions/comparable-transactions.module';
-import { SavingInProgressComponent } from './saving-in-progress/saving-in-progress.component';
 import { TransactionViewComponent } from './transaction-view.component';
-import { TransparencyGraphModule } from './transparency-graph/transparency-graph.module';
 window.ResizeObserver = resize_observer_polyfill;
 
 describe('TransactionViewComponent', () => {
@@ -51,28 +37,9 @@ describe('TransactionViewComponent', () => {
 
   const createComponent = createComponentFactory({
     component: TransactionViewComponent,
-    imports: [
-      ComparableTransactionsModule,
-      TransparencyGraphModule,
-      MatCardModule,
-      LoadingSpinnerModule,
-      provideTranslocoTestingModule({ en: {} }),
-      PushModule,
-      MaterialPriceHeaderContentModule,
-      RouterTestingModule,
-      SubheaderModule,
-      BreadcrumbsModule,
-      ShareButtonModule,
-      MatSnackBarModule,
-      SyncStatusCustomerInfoHeaderModule,
-    ],
-    declarations: [SavingInProgressComponent],
+    imports: [provideTranslocoTestingModule({ en: {} }), PushModule],
+
     providers: [
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
-      {
-        provide: ApplicationInsightsService,
-        useValue: {},
-      },
       provideMockStore({
         initialState: {
           processCase: PROCESS_CASE_STATE_MOCK,
@@ -86,14 +53,8 @@ describe('TransactionViewComponent', () => {
           },
         },
       }),
-      {
-        provide: TransformationService,
-        useValue: {
-          transformMarginDetails: jest.fn(),
-          transformPercentage: jest.fn(),
-        },
-      },
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {

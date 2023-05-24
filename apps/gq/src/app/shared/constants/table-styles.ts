@@ -58,7 +58,7 @@ export const statusBarWithBorderStyle = `
     .ag-status-bar {
       border: none !important;
       border-radius: 4px !important;
-      padding: 0 16px !important;
+      padding: 0 !important;
     }
   }
 `;

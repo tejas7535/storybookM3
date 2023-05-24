@@ -5,12 +5,20 @@ import {
   ActiveCaseActions,
   activeCaseFeature,
 } from '@gq/core/store/active-case';
+import { PriceSourceOptions } from '@gq/shared/ag-grid/column-headers/extended-column-header/models/price-source-options.enum';
+import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import {
   ColumnDefService,
+  ColumnUtilityService,
   LocalizationService,
 } from '@gq/shared/ag-grid/services';
+import { Quotation } from '@gq/shared/models';
+import {
+  PriceSource,
+  QuotationDetail,
+  SapPriceCondition,
+} from '@gq/shared/models/quotation-detail';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AgGridModule } from 'ag-grid-angular';
@@ -23,26 +31,15 @@ import {
 } from 'ag-grid-community';
 import { MockProvider } from 'ng-mocks';
 
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
 import {
   PROCESS_CASE_STATE_MOCK,
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
 } from '../../../testing/mocks';
 import { AppRoutePath } from '../../app-route-path.enum';
-import { PriceSourceOptions } from '../../shared/ag-grid/column-headers/extended-column-header/models/price-source-options.enum';
-import { ColumnFields } from '../../shared/ag-grid/constants/column-fields.enum';
-import { ColumnUtilityService } from '../../shared/ag-grid/services/column-utility.service';
-import { Quotation } from '../../shared/models';
-import {
-  PriceSource,
-  QuotationDetail,
-  SapPriceCondition,
-} from '../../shared/models/quotation-detail';
 import { QuotationDetailsTableComponent } from './quotation-details-table.component';
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
 
 describe('QuotationDetailsTableComponent', () => {
   let component: QuotationDetailsTableComponent;
@@ -56,7 +53,12 @@ describe('QuotationDetailsTableComponent', () => {
     component: QuotationDetailsTableComponent,
     declarations: [QuotationDetailsTableComponent],
     detectChanges: false,
-    imports: [AgGridModule, PushModule, RouterTestingModule],
+    imports: [
+      AgGridModule,
+      PushModule,
+      RouterTestingModule,
+      provideTranslocoTestingModule({ en: {} }),
+    ],
     providers: [
       MockProvider(ColumnDefService),
       MockProvider(LocalizationService),
