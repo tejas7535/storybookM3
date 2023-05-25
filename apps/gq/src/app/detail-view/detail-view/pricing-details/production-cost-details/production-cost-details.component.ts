@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import {
   MaterialCostDetails,
   QuotationDetail,
-} from '../../../../shared/models/quotation-detail';
+} from '@gq/shared/models/quotation-detail';
 
 @Component({
   selector: 'gq-production-cost-details',

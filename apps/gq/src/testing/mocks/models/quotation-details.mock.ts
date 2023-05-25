@@ -50,6 +50,7 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   syncInSap: false,
   abcxClassification: AbcxClassification.UR1,
   targetPrice: 90.55,
+  mrpController: 'Test MRP Controller',
 
   priceDiff: 17.65,
   gpc: 20,

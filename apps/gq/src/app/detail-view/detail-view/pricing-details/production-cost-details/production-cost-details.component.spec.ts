@@ -1,12 +1,10 @@
-import { MatCardModule } from '@angular/material/card';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
+import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { LabelTextModule } from '../../../../shared/components/label-text/label-text.module';
-import { SharedPipesModule } from '../../../../shared/pipes/shared-pipes.module';
 import { ProductionCostDetailsComponent } from './production-cost-details.component';
 
 describe('ProductionCostDetailsComponent', () => {
@@ -15,13 +13,8 @@ describe('ProductionCostDetailsComponent', () => {
 
   const createComponent = createComponentFactory({
     component: ProductionCostDetailsComponent,
-    imports: [
-      provideTranslocoTestingModule({ en: {} }),
-      SharedPipesModule,
-      MatCardModule,
-      LabelTextModule,
-    ],
-    providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
+    imports: [provideTranslocoTestingModule({ en: {} }), SharedPipesModule],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {

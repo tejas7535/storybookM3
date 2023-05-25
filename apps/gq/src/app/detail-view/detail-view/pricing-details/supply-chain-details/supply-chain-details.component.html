@@ -30,7 +30,6 @@
       </gq-label-text>
 
       <gq-label-text
-        [marginBottom]="false"
         [tooltipText]="
           productionPlantStochasticType
             ? t('stochasticTypes.' + productionPlantStochasticType)
@@ -40,6 +39,13 @@
         <span label>{{ t('productionPlantStType') }}</span>
         <span text>
           {{ productionPlantStochasticType | nullableString }}
+        </span>
+      </gq-label-text>
+
+      <gq-label-text [marginBottom]="false">
+        <span label>{{ t('mrpController') }}</span>
+        <span text>
+          {{ quotationDetail.mrpController | nullableString }}
         </span>
       </gq-label-text>
     </div>

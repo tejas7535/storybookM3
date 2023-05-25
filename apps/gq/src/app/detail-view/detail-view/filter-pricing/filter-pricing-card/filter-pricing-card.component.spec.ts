@@ -1,11 +1,7 @@
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatIconModule } from '@angular/material/icon';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
-import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { FilterPricingCardComponent } from './filter-pricing-card.component';
@@ -16,20 +12,8 @@ describe('FilterPricingCardComponent', () => {
 
   const createComponent = createComponentFactory({
     component: FilterPricingCardComponent,
-    imports: [
-      MatButtonModule,
-      MatCardModule,
-      MatIconModule,
-      LoadingSpinnerModule,
-      provideTranslocoTestingModule({ en: {} }),
-    ],
-    declarations: [FilterPricingCardComponent],
-    providers: [
-      {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
-      },
-    ],
+    imports: [provideTranslocoTestingModule({ en: {} })],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {

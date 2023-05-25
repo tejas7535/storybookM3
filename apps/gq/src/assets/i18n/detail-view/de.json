@@ -90,6 +90,7 @@
       "supplyPlantStType": "Stochastiktyp (Lieferwerk)",
       "productionPlant": "Produktionswerk",
       "productionPlantStType": "Stochastiktyp (Produktionswerk)",
+      "mrpController": "Disponent",
       "productionPlantRltAndTransit": "WBZ + Transit",
       "stochasticTypes": {
         "1": "PTA: Produce to Availability",

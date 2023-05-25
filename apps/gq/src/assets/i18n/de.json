@@ -60,6 +60,7 @@
       "productionCity": "Ort",
       "productionCountry": "Land",
       "customerMaterial": "Kundenmaterialnummer",
+      "mrpController": "Disponent",
       "productionPlant": "Produktionswerk",
       "productLine": "PL",
       "productLineInfoText": "Produktlinie",

@@ -90,6 +90,7 @@
       "supplyPlantStType": "Stochastic Type (Delivery Plant)",
       "productionPlant": "Production Plant",
       "productionPlantStType": "Stochastic Type (Production Plant)",
+      "mrpController": "MRP Controller",
       "productionPlantRltAndTransit": "RLT + Transit",
       "stochasticTypes": {
         "1": "PTA: Produce to Availability",

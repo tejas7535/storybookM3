@@ -701,6 +701,12 @@ export class ColumnDefService {
       },
     },
     {
+      headerName: translate('shared.quotationDetailsTable.mrpController'),
+      field: 'mrpController',
+      valueFormatter: ColumnUtilityService.basicTransform,
+      filterParams: FILTER_PARAMS,
+    },
+    {
       headerName: translate('shared.quotationDetailsTable.productionPlant'),
       field: 'productionPlant.plantNumber',
       valueFormatter: ColumnUtilityService.basicTransform,
