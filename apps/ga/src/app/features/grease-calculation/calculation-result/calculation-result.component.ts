@@ -8,7 +8,7 @@ import { Store } from '@ngrx/store';
 
 import { environment } from '@ga/../environments/environment';
 import { AppRoutePath } from '@ga/app-route-path.enum';
-import { getSelectedBearing } from '@ga/core/store';
+import { getSelectedBearing, SettingsFacade } from '@ga/core/store';
 import { getCalculation } from '@ga/core/store/actions/calculation-result/calculation-result.actions';
 import {
   getAutomaticLubrication,
@@ -32,6 +32,7 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
     getPreferredGreaseSelection
   );
   public automaticLubrication$ = this.store.select(getAutomaticLubrication);
+  public appIsEmbedded$ = this.settingsFacade.appIsEmbedded$;
 
   private currentLanguage!: string;
   private reportUrlsSubscription!: Subscription;
@@ -40,7 +41,8 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
   constructor(
     private readonly store: Store,
     private readonly router: Router,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly settingsFacade: SettingsFacade
   ) {}
 
   public ngOnInit(): void {

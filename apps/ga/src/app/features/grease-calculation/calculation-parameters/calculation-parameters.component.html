@@ -11,7 +11,7 @@
         <span class="hidden sm:block">{{ t('title.main') }}&nbsp;</span>
         <span class="truncate">{{ selectedBearing }}</span>
       </ng-container>
-      <ng-container subheaderInlineContent>
+      <ng-container *ngIf="!(appIsEmbedded$ | ngrxPush)" subheaderInlineContent>
         <ga-medias-button
           class="max-sm:w-full"
           [bearing]="selectedBearing"

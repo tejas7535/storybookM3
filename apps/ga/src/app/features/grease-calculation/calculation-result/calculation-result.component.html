@@ -19,7 +19,7 @@
           info_outline
         </mat-icon>
       </ng-container>
-      <ng-container subheaderInlineContent>
+      <ng-container *ngIf="!(appIsEmbedded$ | ngrxPush)" subheaderInlineContent>
         <ga-medias-button
           class="max-sm:w-full"
           [bearing]="selectedBearing"
