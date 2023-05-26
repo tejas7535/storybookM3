@@ -320,12 +320,7 @@ pipeline {
                 script {
                     echo 'Install NPM Dependencies'
                     
-                    try { 
-                        sh 'pnpm install'
-                    } catch (e) {
-                        sh 'chmod +x -R ./node_modules'
-                        sh 'pnpm install'
-                    }
+                    sh 'pnpm install'
                 }
             }
         }
