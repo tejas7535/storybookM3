@@ -33,18 +33,15 @@
   >
   </gq-sap-price>
 
-  <ng-container *featureToggle="'targetPrice'">
-    <gq-target-price
-      *ngIf="quotationDetail?.targetPrice"
-      [quotationDetail]="quotationDetail"
-      [currency]="quotationCurrency$ | ngrxPush"
-      [isLoading]="updateIsLoading$ | ngrxPush"
-      [isDisabled]="
-        !(quotationIsActive$ | ngrxPush) ||
-        !(userHasManualPriceRole$ | ngrxPush)
-      "
-      (targetPriceSelected)="selectPrice($event)"
-    >
-    </gq-target-price
-  ></ng-container>
+  <gq-target-price
+    *ngIf="quotationDetail?.targetPrice"
+    [quotationDetail]="quotationDetail"
+    [currency]="quotationCurrency$ | ngrxPush"
+    [isLoading]="updateIsLoading$ | ngrxPush"
+    [isDisabled]="
+      !(quotationIsActive$ | ngrxPush) || !(userHasManualPriceRole$ | ngrxPush)
+    "
+    (targetPriceSelected)="selectPrice($event)"
+  >
+  </gq-target-price>
 </div>

@@ -4,7 +4,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 
 import { LOCALE_DE } from '@gq/shared/constants';
-import { FeatureToggleDirective } from '@gq/shared/directives/feature-toggle/feature-toggle.directive';
 import { SAP_ERROR_MESSAGE_CODE } from '@gq/shared/models/quotation-detail';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import * as miscUtils from '@gq/shared/utils/misc.utils';
@@ -42,8 +41,6 @@ describe('EditingMaterialModalComponent', () => {
       ReactiveFormsModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
-    // TODO:FeatureToggle 'targetPrice' remove declaration for FeatureToggleDirective when FeatureToggle is removed
-    declarations: [FeatureToggleDirective],
     providers: [
       MockProvider(TransformationService, {
         transformNumber: jest

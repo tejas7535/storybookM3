@@ -11,7 +11,6 @@ import { of } from 'rxjs';
 
 import { getIsQuotationStatusActive } from '@gq/core/store/active-case';
 import { UserRoles } from '@gq/shared/constants';
-import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { mockProvider } from '@ngneat/spectator/jest';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
@@ -39,7 +38,6 @@ describe('ExtendedColumnHeaderComponent', () => {
   let spectator: Spectator<ExtendedColumnHeaderComponent>;
   let applicationInsightsService: ApplicationInsightsService;
   let store: MockStore;
-  let featureToggleConfigService: FeatureToggleConfigService;
 
   const DEFAULT_PARAMS = {
     template: '',
@@ -115,8 +113,6 @@ describe('ExtendedColumnHeaderComponent', () => {
     component.editFormControl = new UntypedFormControl();
     applicationInsightsService = spectator.inject(ApplicationInsightsService);
     store = spectator.inject(MockStore);
-    featureToggleConfigService = spectator.inject(FeatureToggleConfigService);
-    featureToggleConfigService.isEnabled = jest.fn().mockReturnValue(true);
   });
 
   it('should create', () => {
@@ -664,27 +660,6 @@ describe('ExtendedColumnHeaderComponent', () => {
       expect(
         component.params.context.onPriceSourceSimulation
       ).toHaveBeenCalledWith(PriceSourceOptions.TARGET_PRICE);
-    });
-
-    test('TARGET_PRICE should not be available as a price source if feature is disabled', () => {
-      jest
-        .spyOn(featureToggleConfigService, 'isEnabled')
-        .mockReturnValue(false);
-      component.params.api.getSelectedRows = jest.fn().mockReturnValue([
-        {
-          recommendedPrice: 50,
-          sapPrice: 90,
-          targetPrice: 20,
-        } as QuotationDetail,
-      ]);
-
-      component.selectedPriceSource = undefined as any;
-      component.switchPriceSource();
-      expect(component.selectedPriceSource).toEqual(PriceSourceOptions.GQ);
-      component.switchPriceSource();
-      expect(component.selectedPriceSource).toEqual(PriceSourceOptions.SAP);
-      component.switchPriceSource();
-      expect(component.selectedPriceSource).toEqual(PriceSourceOptions.GQ);
     });
 
     test('TARGET_PRICE should not be available as a price source if user does not have the role PRICE.MANUAL', () => {

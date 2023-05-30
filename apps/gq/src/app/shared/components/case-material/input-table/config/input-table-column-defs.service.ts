@@ -77,40 +77,4 @@ export class InputTableColumnDefService {
         Keyboard.DASH,
     },
   ];
-
-  BASE_COLUMNS_WITHOUT_TARGET_PRICE: ColDef[] = [
-    {
-      headerName: translate('shared.caseMaterial.table.info.title'),
-      field: 'info',
-      cellRenderer: 'infoCellComponent',
-      flex: 0.15,
-      sortable: true,
-      comparator: ColumnUtilityService.infoComparator,
-    },
-    {
-      headerName: translate('shared.caseMaterial.table.materialDescription'),
-      field: 'materialDescription',
-      flex: 0.25,
-      sortable: true,
-      cellRenderer: EditCaseMaterialComponent,
-    },
-    {
-      headerName: translate('shared.caseMaterial.table.materialNumber'),
-      field: 'materialNumber',
-      flex: 0.25,
-      sortable: true,
-      cellRenderer: EditCaseMaterialComponent,
-      valueFormatter: (params) =>
-        this.columnUtilityService.materialTransform(params),
-    },
-    {
-      headerName: translate('shared.caseMaterial.table.quantity'),
-      field: 'quantity',
-      flex: 0.15,
-      sortable: true,
-      cellRenderer: EditCaseMaterialComponent,
-      valueFormatter: (params) =>
-        this.columnUtilityService.numberFormatter(params),
-    },
-  ];
 }

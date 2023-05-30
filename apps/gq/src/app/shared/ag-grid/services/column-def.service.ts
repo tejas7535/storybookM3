@@ -820,8 +820,4 @@ export class ColumnDefService {
       filter: TEXT_COLUMN_FILTER,
     },
   ];
-
-  COLUMN_DEFS_WITHOUT_TARGET_PRICE: ColDef[] = this.COLUMN_DEFS.filter(
-    (item: ColDef) => item.field !== ColumnFields.TARGET_PRICE
-  );
 }

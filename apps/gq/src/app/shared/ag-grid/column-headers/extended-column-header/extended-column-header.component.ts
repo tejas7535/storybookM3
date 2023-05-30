@@ -14,7 +14,6 @@ import {
   getIsQuotationStatusActive,
 } from '@gq/core/store/active-case';
 import { userHasManualPriceRole, userHasRole } from '@gq/core/store/selectors';
-import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { parseLocalizedInputValue } from '@gq/shared/utils/misc.utils';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
@@ -64,8 +63,7 @@ export class ExtendedColumnHeaderComponent
   constructor(
     private readonly store: Store,
     private readonly insightsService: ApplicationInsightsService,
-    private readonly translocoLocaleService: TranslocoLocaleService,
-    private readonly featureToggleConfigService: FeatureToggleConfigService
+    private readonly translocoLocaleService: TranslocoLocaleService
   ) {}
 
   ngOnInit(): void {
@@ -336,22 +334,20 @@ export class ExtendedColumnHeaderComponent
       this.availablePriceSourceOptions.push(PriceSourceOptions.SAP);
     }
 
-    if (this.featureToggleConfigService.isEnabled('targetPrice')) {
-      this.userHasManualPriceRole$
-        .pipe(take(1))
-        .subscribe((manualPriceRoleAvailable: boolean) => {
-          if (manualPriceRoleAvailable) {
-            const isTargetPriceAvailable = selectedRows.some(
-              (detail: QuotationDetail) => !!detail.targetPrice
-            );
+    this.userHasManualPriceRole$
+      .pipe(take(1))
+      .subscribe((manualPriceRoleAvailable: boolean) => {
+        if (manualPriceRoleAvailable) {
+          const isTargetPriceAvailable = selectedRows.some(
+            (detail: QuotationDetail) => !!detail.targetPrice
+          );
 
-            if (isTargetPriceAvailable) {
-              this.availablePriceSourceOptions.push(
-                PriceSourceOptions.TARGET_PRICE
-              );
-            }
+          if (isTargetPriceAvailable) {
+            this.availablePriceSourceOptions.push(
+              PriceSourceOptions.TARGET_PRICE
+            );
           }
-        });
-    }
+        }
+      });
   }
 }

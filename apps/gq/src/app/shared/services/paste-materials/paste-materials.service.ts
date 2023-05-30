@@ -13,7 +13,6 @@ import { Store } from '@ngrx/store';
 import { LOCALE_DE } from '../../constants';
 import { Keyboard } from '../../models';
 import { MaterialTableItem, ValidationDescription } from '../../models/table';
-import { FeatureToggleConfigService } from '../feature-toggle/feature-toggle-config.service';
 
 const INDEX_MATERIAL_NUMBER = 0;
 const INDEX_QUANTITY = 1;
@@ -26,8 +25,7 @@ export class PasteMaterialsService {
   public constructor(
     private readonly store: Store,
     private readonly snackBar: MatSnackBar,
-    private readonly translocoLocaleService: TranslocoLocaleService,
-    private readonly featureToggleService: FeatureToggleConfigService
+    private readonly translocoLocaleService: TranslocoLocaleService
   ) {}
 
   public async onPasteStart(isCaseView: boolean): Promise<void> {
@@ -57,16 +55,12 @@ export class PasteMaterialsService {
   private processInput(linesArray: string[][]): MaterialTableItem[] {
     return linesArray.map((el) => {
       const parsedQuantity = this.getParsedQuantity(el[INDEX_QUANTITY]);
-      const parsedAndRoundedTargetPrice = this.featureToggleService.isEnabled(
-        'targetPrice'
-      )
-        ? roundToTwoDecimals(
-            parseNullableLocalizedInputValue(
-              el[INDEX_TARGET_PRICE],
-              this.translocoLocaleService.getLocale()
-            )
-          )
-        : undefined;
+      const parsedAndRoundedTargetPrice = roundToTwoDecimals(
+        parseNullableLocalizedInputValue(
+          el[INDEX_TARGET_PRICE],
+          this.translocoLocaleService.getLocale()
+        )
+      );
 
       return {
         materialNumber: el[INDEX_MATERIAL_NUMBER].trim(),

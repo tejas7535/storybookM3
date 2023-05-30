@@ -13,7 +13,6 @@ import { CreateCaseButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/
 import { CreateCaseResetAllButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/case-material-table/create-case-reset-all-button/create-case-reset-all-button.component';
 import { ProcessCaseResetAllButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/case-material-table/process-case-reset-all-button/process-case-reset-all-button.component';
 import { PasteButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/paste-button/paste-button.component';
-import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { ColDef, StatusPanelDef } from 'ag-grid-enterprise';
 
 import { AgGridLocale } from '../../../ag-grid/models/ag-grid-locale.interface';
@@ -39,8 +38,7 @@ import {
 export class InputTableComponent implements OnInit {
   constructor(
     private readonly columnDefinitionService: InputTableColumnDefService,
-    private readonly localizationService: LocalizationService,
-    private readonly featureToggleService: FeatureToggleConfigService
+    private readonly localizationService: LocalizationService
   ) {}
   public defaultColumnDefs = DEFAULT_COLUMN_DEFS;
   public columnDefs: ColDef[];
@@ -54,9 +52,7 @@ export class InputTableComponent implements OnInit {
   ngOnInit(): void {
     this.columnDefs = this.initColDef(
       this.isCaseView,
-      this.featureToggleService.isEnabled('targetPrice')
-        ? this.columnDefinitionService.BASE_COLUMN_DEFS
-        : this.columnDefinitionService.BASE_COLUMNS_WITHOUT_TARGET_PRICE
+      this.columnDefinitionService.BASE_COLUMN_DEFS
     );
     this.statusBar = this.initStatusBar(
       this.isCaseView,
