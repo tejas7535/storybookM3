@@ -82,6 +82,9 @@
           [approvers$]="approvalFacade.allUsers$"
           [title]="t('approverCCTitle')"
         ></gq-release-modal-approver-select>
+        <mat-error *ngIf="formGroup.hasError('equalApprovers')">{{
+          t('equalApproversError')
+        }}</mat-error>
       </div>
 
       <div class="pb-10">

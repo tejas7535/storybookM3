@@ -22,7 +22,8 @@
       "approver3Title": "Approver 3 ({{ level }})",
       "approverCCTitle": "Information (CC)",
       "requiredError": "Approver required",
-      "invalidApproverError": "Invalid Approver"
+      "invalidApproverError": "Invalid Approver",
+      "equalApproversError": "Approvers must be different, it is not allowed to enter an approver multiple times!"
     }
   },
   "tabs": {

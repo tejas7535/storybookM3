@@ -21,6 +21,7 @@ import { Quotation } from '@gq/shared/models';
 import { ApprovalStatus } from '@gq/shared/models/quotation';
 import { ApprovalLevel } from '@gq/shared/models/quotation/approval-level.enum';
 import { approverValidator } from '@gq/shared/validators/approver-validator';
+import { approversDifferValidator } from '@gq/shared/validators/approvers-differ-validator';
 import { TranslocoService } from '@ngneat/transloco';
 @Component({
   selector: 'gq-release-modal',
@@ -73,13 +74,16 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.approvalFacade.getApprovalWorkflowData(this.dialogData.sapId);
 
-    this.formGroup = this.formBuilder.group({
-      approver1: this.approver1FormControl,
-      approver2: this.approver2FormControl,
-      approverCC: this.approverCCFormControl,
-      comment: ['', Validators.maxLength(this.INPUT_MAX_LENGTH)],
-      projectInformation: ['', Validators.maxLength(this.INPUT_MAX_LENGTH)],
-    });
+    this.formGroup = this.formBuilder.group(
+      {
+        approver1: this.approver1FormControl,
+        approver2: this.approver2FormControl,
+        approverCC: this.approverCCFormControl,
+        comment: ['', Validators.maxLength(this.INPUT_MAX_LENGTH)],
+        projectInformation: ['', Validators.maxLength(this.INPUT_MAX_LENGTH)],
+      },
+      { validators: approversDifferValidator().bind(this) }
+    );
 
     this.approvalFacade.approvalStatus$
       .pipe(
