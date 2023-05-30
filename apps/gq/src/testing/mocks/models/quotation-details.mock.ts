@@ -56,7 +56,7 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   gpc: 20,
   sqv: 30,
   rlt: 20,
-  productionSegment: 10,
+  productionSegment: '10',
   netValue: 2000,
   priceSource: PriceSource.GQ,
   gpi: 90,

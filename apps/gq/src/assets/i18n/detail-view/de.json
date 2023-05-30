@@ -76,7 +76,8 @@
       "title": "Produktion und Kosten",
       "gpc": "KHK",
       "sqv": "SAW",
-      "productionPlant": "Produktionswerk"
+      "productionPlant": "Produktionswerk",
+      "productionSegment": "Produktionssegment"
     },
     "materialComparableCostDetails": {
       "title": "Vergleichbare Kosten #{{number}}",

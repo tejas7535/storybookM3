@@ -17,9 +17,15 @@
           ' (' + (materialCostDetails.sqv.date | translocoDate) + ')'
         }}</span>
       </gq-label-text>
-      <gq-label-text [marginBottom]="false">
+      <gq-label-text>
         <span label>{{ t('productionPlant') }}</span>
         <span text> {{ quotationDetail.productionPlant | plantDisplay }}</span>
+      </gq-label-text>
+      <gq-label-text [marginBottom]="false">
+        <span label>{{ t('productionSegment') }}</span>
+        <span text>
+          {{ quotationDetail.productionSegment | nullableString }}</span
+        >
       </gq-label-text>
     </div>
   </gq-kpi-status-card>

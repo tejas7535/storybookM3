@@ -34,7 +34,7 @@ export class QuotationDetail {
   gpc: number;
   sqv: number;
   rlt: number;
-  productionSegment: number;
+  productionSegment: string;
   strategicPrice: number;
   priceSource: PriceSource;
   customerMaterial: string;

@@ -76,7 +76,8 @@
       "title": "Production & Cost",
       "gpc": "GPC",
       "sqv": "SQV",
-      "productionPlant": "Production Plant"
+      "productionPlant": "Production Plant",
+      "productionSegment": "Production Segment"
     },
     "materialComparableCostDetails": {
       "title": "Comparable Cost #{{number}}",
