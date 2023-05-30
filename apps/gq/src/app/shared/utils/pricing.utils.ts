@@ -19,7 +19,9 @@ export const calculatePriceDiff = (
   lastPrice: number,
   currentPrice: number
 ): number =>
-  roundPercentageToTwoDecimals((currentPrice - lastPrice) / lastPrice);
+  lastPrice
+    ? roundPercentageToTwoDecimals((currentPrice - lastPrice) / lastPrice)
+    : 0;
 
 export const getPriceUnit = (detail: QuotationDetail): number => {
   const priceUnit = detail.sapPriceUnit || detail.material?.priceUnit;

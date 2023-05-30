@@ -36,6 +36,10 @@ describe('PricingUtils', () => {
 
       expect(result).toEqual(expected);
     });
+
+    test('should return 0 if last customer price is undefined', () => {
+      expect(pricingUtils.calculatePriceDiff(undefined, 250)).toBe(0);
+    });
   });
 
   describe('multiplyAndRoundValues', () => {
