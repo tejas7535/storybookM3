@@ -30,6 +30,9 @@ boolean storybookAffected = false
 @Field
 boolean skipBuild = false
 
+@Field
+def releasableApps = ['cdba', 'sedo', 'gq', 'ia', 'mac', 'mm', 'ga', 'ea']
+
 /****************************************************************/
 
 // Functions
@@ -46,11 +49,16 @@ boolean isMaster() {
 }
 
 boolean isAppRelease() {
-    return params.RELASE_SCOPE == ('cdba' || 'sedo' || 'gq' || 'ia' || 'mac' || 'mm' || 'ga' || 'ea') && isMaster()
+    // releases only allowed on master
+    if(!isMaster()) {
+        return false;
+    }
+
+    return releasableApps.any { app -> app.contains(params.RELEASE_SCOPE)}
 }
 
 boolean isLibsRelease() {
-    return params.RELASE_SCOPE == 'LIBS' && isMaster()
+    return params.RELEASE_SCOPE == 'LIBS' && isMaster()
 }
 
 boolean isNightly() {
@@ -303,7 +311,7 @@ pipeline {
 
     parameters {
         choice(
-          name: 'RELASE_SCOPE',
+          name: 'RELEASE_SCOPE',
           choices: ['NOTHING', 'LIBS', 'cdba', 'sedo', 'gq', 'ia', 'mac', 'mm', 'ga', 'ea'],
           description: 'Use to trigger a production release of either an single app or for all libs.'
         )
@@ -338,7 +346,7 @@ pipeline {
                         def apps = deployments.keySet()
 
                         try {
-                            env.RELEASE_SCOPE = params.RELASE_SCOPE
+                            env.RELEASE_SCOPE = params.RELEASE_SCOPE
                             def appCodeOwners = getCodeOwners("${env.RELEASE_SCOPE}")
                             def userWhoTriggeredBuild = getBuildTriggerUser()
 
