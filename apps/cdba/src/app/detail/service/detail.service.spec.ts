@@ -5,6 +5,7 @@ import {
 } from '@angular/common/http/testing';
 import { waitForAsync } from '@angular/core/testing';
 
+import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { withCache } from '@ngneat/cashew';
 import {
   createServiceFactory,
@@ -28,6 +29,7 @@ import {
   EXCLUDED_CALCULATIONS_MOCK,
   REFERENCE_TYPE_MOCK,
 } from '@cdba/testing/mocks';
+import { LocalStorageMock } from '@cdba/testing/mocks/storage/local-storage.mock';
 
 import { CalculationsResponse } from '../../core/store/reducers/detail/models';
 import { DetailService } from './detail.service';
@@ -36,6 +38,7 @@ describe('DetailService', () => {
   let spectator: SpectatorService<DetailService>;
   let service: DetailService;
   let httpMock: HttpTestingController;
+  let localStorage: LocalStorageMock;
 
   const createService = createServiceFactory({
     service: DetailService,
@@ -47,6 +50,13 @@ describe('DetailService', () => {
     spectator = createService();
     service = spectator.inject(DetailService);
     httpMock = spectator.inject(HttpTestingController);
+
+    localStorage = spectator.inject(
+      LOCAL_STORAGE
+    ) as unknown as LocalStorageMock;
+
+    localStorage.clear();
+    localStorage.setItem('language', 'en');
   });
 
   describe('getDetails', () => {
@@ -54,7 +64,8 @@ describe('DetailService', () => {
       const mock = REFERENCE_TYPE_MOCK;
       const expectedParams = new HttpParams()
         .set('material_number', mock.materialNumber)
-        .set('plant', mock.plant);
+        .set('plant', mock.plant)
+        .set('language', 'en');
 
       service
         .getDetails(

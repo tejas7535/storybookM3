@@ -1,10 +1,14 @@
+import { HttpParams } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
 
+import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { withCache } from '@ngneat/cashew';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+
+import { LocalStorageMock } from '@cdba/testing/mocks/storage/local-storage.mock';
 
 import {
   FilterItem,
@@ -18,6 +22,7 @@ describe('SearchService', () => {
   let spectator: SpectatorService<SearchService>;
   let service: SearchService;
   let httpMock: HttpTestingController;
+  let localStorage: LocalStorageMock;
 
   const createService = createServiceFactory({
     service: SearchService,
@@ -28,6 +33,13 @@ describe('SearchService', () => {
     spectator = createService();
     service = spectator.inject(SearchService);
     httpMock = spectator.inject(HttpTestingController);
+
+    localStorage = spectator.inject(
+      LOCAL_STORAGE
+    ) as unknown as LocalStorageMock;
+
+    localStorage.clear();
+    localStorage.setItem('language', 'en');
   });
 
   afterEach(() => {
@@ -53,11 +65,15 @@ describe('SearchService', () => {
     test('should get search result', () => {
       const mock = new SearchResult([], [], 0);
 
+      const expectedParams = new HttpParams().set('language', 'en');
+
       service.search([]).subscribe((response) => {
         expect(response).toEqual(mock);
       });
 
-      const req = httpMock.expectOne('api/v2/search');
+      const req = httpMock.expectOne(
+        `api/v2/search?${expectedParams.toString()}`
+      );
       expect(req.request.method).toBe('POST');
       req.flush(mock);
     });

@@ -80,7 +80,9 @@
       "salesOrganization": "Verkaufsorganisation(en)",
       "salesOrganizationDescription": "Verkaufsorganisationsbeschreibung(en)",
       "projectName": "Projektname",
-      "productDescription": "Produktbeschreibung"
+      "productDescription": "Produktbeschreibung",
+      "materialClass": "Materialklasse",
+      "materialClassDescription": "Klassenbezeichnung"
     }
   },
   "errorTitle": "??? | ???"

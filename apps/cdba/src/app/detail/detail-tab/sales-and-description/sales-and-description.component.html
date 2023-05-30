@@ -49,4 +49,14 @@
     [label]="t('productDescription')"
     [value]="salesDetails?.productDescription | undefinedAttributeFallback"
   ></cdba-details-label-value>
+  <cdba-details-label-value
+    [label]="t('materialClass')"
+    [value]="salesDetails?.materialClass | undefinedAttributeFallback"
+  ></cdba-details-label-value>
+  <cdba-details-label-value
+    [label]="t('materialClassDescription')"
+    [value]="
+      salesDetails?.materialClassDescription | undefinedAttributeFallback
+    "
+  ></cdba-details-label-value>
 </div>

@@ -17,6 +17,8 @@ export interface ReferenceType {
   materialShortDescription: string;
   procurementType: string;
   productLine: string;
+  materialClass: string;
+  materialClassDescription: string;
   purchasePriceValidFrom: string;
   purchasePriceValidUntil: string;
   puUm: string;

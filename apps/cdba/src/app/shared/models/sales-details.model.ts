@@ -8,6 +8,8 @@ export class SalesDetails {
     public salesOrganizations: string[],
     public salesOrganizationDescriptions: string[],
     public projectName: string,
-    public productDescription: string
+    public productDescription: string,
+    public materialClass: string,
+    public materialClassDescription: string
   ) {}
 }

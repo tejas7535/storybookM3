@@ -22,15 +22,20 @@ export class MaterialCardStore extends ComponentStore<MaterialCardState> {
     ({ expandedItems }) => expandedItems
   );
 
-  public readonly addExpandedItem = this.updater((state, item: number) => ({
-    ...state,
-    expandedItems:
-      addArrayItem<number>(state.expandedItems, item) || state.expandedItems,
-  }));
+  public readonly addExpandedItem = this.updater(
+    (state, item: number): MaterialCardState => ({
+      ...state,
+      expandedItems:
+        addArrayItem<number>(state.expandedItems, item) || state.expandedItems,
+    })
+  );
 
-  public readonly removeExpandedItem = this.updater((state, item: number) => ({
-    ...state,
-    expandedItems:
-      removeArrayItem<number>(state.expandedItems, item) || state.expandedItems,
-  }));
+  public readonly removeExpandedItem = this.updater(
+    (state, item: number): MaterialCardState => ({
+      ...state,
+      expandedItems:
+        removeArrayItem<number>(state.expandedItems, item) ||
+        state.expandedItems,
+    })
+  );
 }

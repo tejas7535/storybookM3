@@ -47,7 +47,9 @@ export const getSalesDetails = createSelector(
           referenceType.salesOrganizations,
           referenceType.salesOrganizationsDescriptions,
           referenceType.pcmCalculations?.[0]?.projectName,
-          referenceType.productDescription
+          referenceType.productDescription,
+          referenceType.materialClass,
+          referenceType.materialClassDescription
         )
       : undefined
 );

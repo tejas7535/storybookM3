@@ -25,6 +25,8 @@
       "productDescription": "Product Description",
       "materialShortDescription": "Material Short Description",
       "productLine": "Product Line",
+      "materialClass": "Material class",
+      "materialClassDescription": "Class Description",
       "inquiryType": "Inquiry Type",
       "length": "Main Dimension 1",
       "width": "Main Dimension 2",
@@ -89,7 +91,9 @@
       "specialProcurement": "Lot more explicit value then the upper 'Procurement Type'; example: F0 = external procurement",
       "supplier": "The supplier of the part if it is a purchased part",
       "purchasePriceValidFrom": "Purchase Price valid from",
-      "purchasePriceValidUntil": "Purchase Price valid until"
+      "purchasePriceValidUntil": "Purchase Price valid until",
+      "materialClass": "The material class represents the technical assignment of the product to a product cluster",
+      "materialClassDescription": "The class description describes the product family to which the product is assigned"
     },
     "noRowsMessage": "We are sorry, we could not find any search results for your provided filters"
   }

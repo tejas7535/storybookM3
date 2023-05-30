@@ -1,9 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { withCache } from '@ngneat/cashew';
 
 import { API, DetailPath } from '@cdba/shared/constants/api';
@@ -21,6 +22,8 @@ import { CalculationsResponse } from '../../core/store/reducers/detail/models';
   providedIn: 'root',
 })
 export class DetailService {
+  private readonly PARAM_LANGUAGE = 'language';
+
   private readonly PARAM_MATERIAL_NUMBER = 'material_number';
   private readonly PARAM_PLANT = 'plant';
 
@@ -32,7 +35,10 @@ export class DetailService {
   private readonly PARAM_REFERENCE_OBJECT = 'reference_object';
   private readonly PARAM_VALUATION_VARIANT = 'valuation_variant';
 
-  public constructor(private readonly httpClient: HttpClient) {}
+  public constructor(
+    private readonly httpClient: HttpClient,
+    @Inject(LOCAL_STORAGE) readonly localStorage: Storage
+  ) {}
 
   private static defineBomTreeForAgGrid(
     items: BomItem[],
@@ -103,7 +109,8 @@ export class DetailService {
   public getDetails(item: ReferenceTypeIdentifier): Observable<ReferenceType> {
     const params: HttpParams = new HttpParams()
       .set(this.PARAM_MATERIAL_NUMBER, item.materialNumber)
-      .set(this.PARAM_PLANT, item.plant);
+      .set(this.PARAM_PLANT, item.plant)
+      .set(this.PARAM_LANGUAGE, this.localStorage.getItem('language'));
 
     const path = `${API.v2}/${DetailPath.Detail}`;
 

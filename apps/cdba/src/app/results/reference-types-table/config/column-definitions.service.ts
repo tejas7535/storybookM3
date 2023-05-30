@@ -479,6 +479,24 @@ export class ColumnDefinitionService {
       ),
     },
     {
+      field: 'materialClass',
+      headerName: translate(
+        'results.referenceTypesTable.headers.materialClass'
+      ),
+      headerTooltip: translate(
+        'results.referenceTypesTable.tooltips.materialClass'
+      ),
+    },
+    {
+      field: 'materialClassDescription',
+      headerName: translate(
+        'results.referenceTypesTable.headers.materialClassDescription'
+      ),
+      headerTooltip: translate(
+        'results.referenceTypesTable.tooltips.materialClassDescription'
+      ),
+    },
+    {
       field: 'inquiryType',
       headerName: translate('results.referenceTypesTable.headers.inquiryType'),
       headerTooltip: translate(

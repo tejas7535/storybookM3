@@ -19,6 +19,8 @@ export const REFERENCE_TYPE_MOCK: ReferenceType = {
   materialShortDescription: 'SLH',
   procurementType: 'in-house',
   productLine: '30',
+  materialClass: 'MKA12',
+  materialClassDescription: 'dummy description',
   purchasePriceValidFrom: '2021-08-01',
   purchasePriceValidUntil: '2021-08-01',
   puUm: '1 ST',

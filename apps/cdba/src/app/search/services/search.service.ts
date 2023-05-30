@@ -1,9 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { withCache } from '@ngneat/cashew';
 
 import { API } from '@cdba/shared/constants/api';
@@ -25,6 +26,8 @@ import { SearchUtilityService } from './search-utility.service';
   providedIn: 'root',
 })
 export class SearchService {
+  private readonly PARAM_LANGUAGE = 'language';
+
   private readonly INITIAL_FILTER = 'initial-filter';
 
   private readonly SEARCH = 'search';
@@ -34,7 +37,8 @@ export class SearchService {
 
   public constructor(
     private readonly httpClient: HttpClient,
-    private readonly searchUtilities: SearchUtilityService
+    private readonly searchUtilities: SearchUtilityService,
+    @Inject(LOCAL_STORAGE) readonly localStorage: Storage
   ) {}
 
   public getInitialFilters(): Observable<FilterItem[]> {
@@ -48,9 +52,18 @@ export class SearchService {
   public search(
     items: (FilterItemRangeUpdate | FilterItemIdValueUpdate)[]
   ): Observable<SearchResult> {
-    return this.httpClient.post<SearchResult>(`${API.v2}/${this.SEARCH}`, {
-      items,
-    });
+    const params: HttpParams = new HttpParams().set(
+      this.PARAM_LANGUAGE,
+      this.localStorage.getItem('language')
+    );
+
+    return this.httpClient.post<SearchResult>(
+      `${API.v2}/${this.SEARCH}`,
+      {
+        items,
+      },
+      { params }
+    );
   }
 
   public autocomplete(

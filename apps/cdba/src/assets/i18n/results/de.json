@@ -25,6 +25,8 @@
       "productDescription": "Produktbeschreibung",
       "materialShortDescription": "Materialkurzbezeichnung",
       "productLine": "Produktlinie",
+      "materialClass": "Materialklasse",
+      "materialClassDescription": "Klassenbezeichnung",
       "inquiryType": "Anfragetyp",
       "length": "Hauptabmessung 1",
       "width": "Hauptabmessung 2",
@@ -89,7 +91,9 @@
       "specialProcurement": "Sonderbeschaffung, z.B. F0 für Fremdbeschaffung",
       "supplier": "Name des Lieferanten",
       "purchasePriceValidFrom": "Zeigt das Startdatum der Gültigkeit des Zukaufteilpreises",
-      "purchasePriceValidUntil": "Zeigt das Enddatum der Gültigkeit des Zukaufteilpreises"
+      "purchasePriceValidUntil": "Zeigt das Enddatum der Gültigkeit des Zukaufteilpreises",
+      "materialClass": "Die Materialklasse repräsentiert die technische Zuordnung des Produktes in ein Produktcluster",
+      "materialClassDescription": "Die Klassenbezeichnung beschreibt die Produktfamilie der das Produkt zugeordnet ist"
     },
     "noRowsMessage": "Leider konnten keine Referenztypen für die getroffenen Filtereinstellungen gefunden werden"
   }
