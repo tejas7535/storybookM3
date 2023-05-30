@@ -1,4 +1,18 @@
 # Release Notes of Grease App
+## [1.3.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.3.1...ga-v1.3.2) (2023-05-30)
+
+
+### Features
+
+* **ga:** add bearing link to medias (UFTABI-6450) ([#5299](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5299)) ([19ae7d8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/19ae7d86081d9ce796568f01c392d0663157e5e9))
+* **ga:** use shortlink format and reflink for grease links (UFTABI-6451) ([#5298](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5298)) ([cc586eb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/cc586eb0d3e977f04533d6dd2d8aea87c456c5c0))
+* replace font styles with m3 standard ([#5211](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5211)) ([0ef134c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0ef134c2cb41319de679919be47c318f010ce6c5))
+
+
+### Bug Fixes
+
+* **ga:** only show medias grease button in standalone version ([#5318](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5318)) ([efd4c6b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/efd4c6bcb5cb3d22c3d017fa0ef1fd43690dfcf7))
+
 ## [1.3.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.3.0...ga-v1.3.1) (2023-04-25)
 
 
