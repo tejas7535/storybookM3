@@ -56,8 +56,15 @@ export const approvalFeature = createFeature({
       ApprovalActions.getAllApprovers,
       (state: ApprovalState): ApprovalState => ({
         ...state,
-        approvers: [],
         approversLoading: true,
+        error: undefined,
+      })
+    ),
+    on(
+      ApprovalActions.allApproversAlreadyLoaded,
+      (state: ApprovalState): ApprovalState => ({
+        ...state,
+        approversLoading: false,
         error: undefined,
       })
     ),
@@ -84,6 +91,13 @@ export const approvalFeature = createFeature({
       (state: ApprovalState): ApprovalState => ({
         ...state,
         approvalStatusLoading: true,
+      })
+    ),
+    on(
+      ApprovalActions.approvalStatusAlreadyLoaded,
+      (state: ApprovalState): ApprovalState => ({
+        ...state,
+        approvalStatusLoading: false,
       })
     ),
     on(

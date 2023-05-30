@@ -6,18 +6,19 @@ import { ApprovalService } from '@gq/shared/services/rest/approval/approval.serv
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { provideMockStore } from '@ngrx/store/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
 import { ApprovalActions } from './approval.actions';
 import { ApprovalEffects } from './approval.effects';
-import { initialState } from './approval.reducer';
+import { approvalFeature, initialState } from './approval.reducer';
 
 describe('ApprovalEffects', () => {
   let action: any;
   let actions$: any;
   let effects: ApprovalEffects;
   let spectator: SpectatorService<ApprovalEffects>;
+  let store: MockStore;
 
   let approvalService: ApprovalService;
 
@@ -26,7 +27,7 @@ describe('ApprovalEffects', () => {
     imports: [HttpClientTestingModule],
     providers: [
       provideMockActions(() => actions$),
-      provideMockStore({ initialState: { approvers: initialState } }),
+      provideMockStore({ initialState: { approval: initialState } }),
     ],
   });
 
@@ -34,13 +35,36 @@ describe('ApprovalEffects', () => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(ApprovalEffects);
+    store = spectator.inject(MockStore);
+
     approvalService = spectator.inject(ApprovalService);
   });
 
   describe('getAllApprovers', () => {
     test(
+      'Should dispatch data already loaded action',
+      marbles((m) => {
+        store.overrideSelector(approvalFeature.selectApprovers, [
+          { userId: 'schlesni' } as Approver,
+          { userId: 'soehnpsc' } as Approver,
+        ]);
+        action = ApprovalActions.getAllApprovers();
+        approvalService.getAllApprovers = jest.fn();
+        const result = ApprovalActions.allApproversAlreadyLoaded();
+        const expected = m.cold('b', { b: result });
+
+        actions$ = m.hot('a', { a: action });
+
+        m.expect(effects.getAllApprovers$).toBeObservable(expected);
+        m.flush();
+
+        expect(approvalService.getAllApprovers).not.toHaveBeenCalled();
+      })
+    );
+    test(
       'should dispatch successAction',
       marbles((m) => {
+        store.overrideSelector(approvalFeature.selectApprovers, []);
         action = ApprovalActions.getAllApprovers();
         const approvers: Approver[] = [
           { userId: 'schlesni' } as Approver,
@@ -65,6 +89,7 @@ describe('ApprovalEffects', () => {
     test(
       'should dispatch errorAction',
       marbles((m) => {
+        store.overrideSelector(approvalFeature.selectApprovers, []);
         action = ApprovalActions.getAllApprovers();
         const error = new Error('did not work');
         const result = ApprovalActions.getAllApproversFailure({ error });
@@ -81,8 +106,34 @@ describe('ApprovalEffects', () => {
 
   describe('getApprovalStatusOfSapQuotation', () => {
     test(
+      'Should dispatch data already loaded action',
+      marbles((m) => {
+        action = ApprovalActions.getApprovalStatus({ sapId: '12345' });
+        store.overrideSelector(approvalFeature.selectApprovalStatus, {
+          sapId: '12345',
+        } as ApprovalStatus);
+
+        approvalService.getApprovalStatus = jest.fn();
+        const result = ApprovalActions.approvalStatusAlreadyLoaded();
+        const expected = m.cold('b', { b: result });
+
+        actions$ = m.hot('a', { a: action });
+
+        m.expect(effects.getApprovalStatusOfSapQuotation$).toBeObservable(
+          expected
+        );
+        m.flush();
+
+        expect(approvalService.getApprovalStatus).not.toHaveBeenCalled();
+      })
+    );
+    test(
       'should dispatch Success Action',
       marbles((m) => {
+        store.overrideSelector(
+          approvalFeature.selectApprovalStatus,
+          initialState.approvalStatus
+        );
         action = ApprovalActions.getApprovalStatus({ sapId: '12345' });
         const approvalStatus: ApprovalStatus = {
           sapId: '12345',
@@ -111,8 +162,78 @@ describe('ApprovalEffects', () => {
     );
 
     test(
+      'should dispatch Success Action when approvalStatus ist undefined',
+      marbles((m) => {
+        store.overrideSelector(
+          approvalFeature.selectApprovalStatus,
+          undefined as ApprovalStatus
+        );
+        action = ApprovalActions.getApprovalStatus({ sapId: '12345' });
+        const approvalStatus: ApprovalStatus = {
+          sapId: '12345',
+          approvalLevel: ApprovalLevel.L1,
+          approver3Required: false,
+          autoApproval: false,
+          currency: 'EUR',
+          deviation: 12.2,
+          gpm: 13.5,
+          netValue: 120_014,
+        };
+        const result = ApprovalActions.getApprovalStatusSuccess({
+          approvalStatus,
+        });
+        const response = m.cold('-a', {
+          a: approvalStatus,
+        });
+        approvalService.getApprovalStatus = jest.fn(() => response);
+        const expected = m.cold('-b', { b: result });
+        actions$ = m.hot('a', { a: action });
+        m.expect(effects.getApprovalStatusOfSapQuotation$).toBeObservable(
+          expected
+        );
+        m.flush();
+      })
+    );
+
+    test(
+      'should dispatch Success Action when different ApprovalStatus in store',
+      marbles((m) => {
+        store.overrideSelector(approvalFeature.selectApprovalStatus, {
+          sapId: '65432',
+        } as ApprovalStatus);
+        action = ApprovalActions.getApprovalStatus({ sapId: '12345' });
+        const approvalStatus: ApprovalStatus = {
+          sapId: '12345',
+          approvalLevel: ApprovalLevel.L1,
+          approver3Required: false,
+          autoApproval: false,
+          currency: 'EUR',
+          deviation: 12.2,
+          gpm: 13.5,
+          netValue: 120_014,
+        };
+        const result = ApprovalActions.getApprovalStatusSuccess({
+          approvalStatus,
+        });
+        const response = m.cold('-a', {
+          a: approvalStatus,
+        });
+        approvalService.getApprovalStatus = jest.fn(() => response);
+        const expected = m.cold('-b', { b: result });
+        actions$ = m.hot('a', { a: action });
+        m.expect(effects.getApprovalStatusOfSapQuotation$).toBeObservable(
+          expected
+        );
+        m.flush();
+      })
+    );
+    test(
       'should dispatch Failure Action',
       marbles((m) => {
+        store.overrideSelector(
+          approvalFeature.selectApprovalStatus,
+          initialState.approvalStatus
+        );
         action = ApprovalActions.getApprovalStatus({ sapId: '12345' });
         const error = new Error('did not work');
         const result = ApprovalActions.getApprovalStatusFailure({ error });

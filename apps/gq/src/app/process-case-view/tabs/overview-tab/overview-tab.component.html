@@ -2,72 +2,80 @@
   class="flex flex-col gap-4 p-4 md:flex-row lg:grid lg:grid-cols-4 lg:items-start"
   *transloco="let t; read: 'processCaseView'"
 >
-  <div class="gap-4 md:w-1/2 lg:w-full">
-    <gq-kpi-status-card [title]="t('tabs.overview.overviewCardTitle')">
-      <gq-general-information
-        [info]="generalInformation$ | ngrxPush"
-      ></gq-general-information>
-    </gq-kpi-status-card>
-  </div>
-
-  <div class="col-span-2 grid grid-cols-2 gap-4 md:w-1/2 lg:w-full">
-    <gq-kpi-status-card
-      class="col-span-2"
-      [title]="t('tabs.overview.netValueCardTitle')"
-      [subtitle]="
-        t('tabs.overview.netValueCardSubtitle', {
-          currency: (quotationCurrency$ | ngrxPush)
-        })
-      "
-      [kpiValue]="
-        (pricingInformation$ | ngrxPush)?.netValue.value
-          | numberCurrency: (quotationCurrency$ | ngrxPush)
-      "
-      [warning]="(pricingInformation$ | ngrxPush)?.netValue.warning"
-      [warningInfo]="t('tabs.overview.netValueCardTitleWarning')"
-    >
-    </gq-kpi-status-card>
-    <div class="col-span-2">
-      <gq-quotation-by-product-line-or-gpsd></gq-quotation-by-product-line-or-gpsd>
+  <ng-container
+    *ngIf="!(approvalFacade.approvalStatusLoading$ | ngrxPush); else loading"
+  >
+    <div class="gap-4 md:w-1/2 lg:w-full">
+      <gq-kpi-status-card [title]="t('tabs.overview.overviewCardTitle')">
+        <gq-general-information
+          [info]="generalInformation$ | ngrxPush"
+        ></gq-general-information>
+      </gq-kpi-status-card>
     </div>
-    <gq-kpi-status-card
-      class="col-span-1"
-      [title]="t('tabs.overview.gpmCardTitle')"
-      [subtitle]="t('tabs.overview.gpmCardSubtitle')"
-      [kpiValue]="(pricingInformation$ | ngrxPush)?.gpm.value | percentage"
-      [warning]="(pricingInformation$ | ngrxPush)?.gpm.warning"
-      [warningInfo]="t('tabs.overview.gpmCardTitleWarning')"
-      [rating]="getRating((pricingInformation$ | ngrxPush)?.gpm.value)"
-    >
-    </gq-kpi-status-card>
-    <gq-kpi-status-card
-      class="col-span-1"
-      [title]="t('tabs.overview.gpiCardTitle')"
-      [subtitle]="t('tabs.overview.gpiCardSubtitle')"
-      [kpiValue]="(pricingInformation$ | ngrxPush)?.gpi.value | percentage"
-      [rating]="getRating((pricingInformation$ | ngrxPush)?.gpi.value)"
-    >
-    </gq-kpi-status-card>
-    <gq-kpi-status-card
-      class="col-span-1 flex"
-      [title]="t('tabs.overview.ratingCardTitle')"
-      [subtitle]="t('tabs.overview.ratingCardSubtitle')"
-    >
-      <gq-quotation-rating
-        [rating]="(pricingInformation$ | ngrxPush)?.avgGqRating.value"
-      ></gq-quotation-rating>
-    </gq-kpi-status-card>
-    <gq-kpi-status-card
-      class="col-span-1"
-      [title]="t('tabs.overview.priceDeviationCardTitle')"
-      [subtitle]="t('tabs.overview.priceDeviationCardSubtitle')"
-      [kpiValue]="
-        (approvalFacade.approvalStatus$ | ngrxPush)?.deviation | percentage
-      "
-    >
-    </gq-kpi-status-card>
-  </div>
-  <div class="gap-4 md:w-1/2 lg:w-full">
-    <gq-approval-cockpit></gq-approval-cockpit>
-  </div>
+
+    <div class="col-span-2 grid grid-cols-2 gap-4 md:w-1/2 lg:w-full">
+      <gq-kpi-status-card
+        class="col-span-2"
+        [title]="t('tabs.overview.netValueCardTitle')"
+        [subtitle]="
+          t('tabs.overview.netValueCardSubtitle', {
+            currency: (quotationCurrency$ | ngrxPush)
+          })
+        "
+        [kpiValue]="
+          (pricingInformation$ | ngrxPush)?.netValue.value
+            | numberCurrency: (quotationCurrency$ | ngrxPush)
+        "
+        [warning]="(pricingInformation$ | ngrxPush)?.netValue.warning"
+        [warningInfo]="t('tabs.overview.netValueCardTitleWarning')"
+      >
+      </gq-kpi-status-card>
+      <div class="col-span-2">
+        <gq-quotation-by-product-line-or-gpsd></gq-quotation-by-product-line-or-gpsd>
+      </div>
+      <gq-kpi-status-card
+        class="col-span-1"
+        [title]="t('tabs.overview.gpmCardTitle')"
+        [subtitle]="t('tabs.overview.gpmCardSubtitle')"
+        [kpiValue]="(pricingInformation$ | ngrxPush)?.gpm.value | percentage"
+        [warning]="(pricingInformation$ | ngrxPush)?.gpm.warning"
+        [warningInfo]="t('tabs.overview.gpmCardTitleWarning')"
+        [rating]="getRating((pricingInformation$ | ngrxPush)?.gpm.value)"
+      >
+      </gq-kpi-status-card>
+      <gq-kpi-status-card
+        class="col-span-1"
+        [title]="t('tabs.overview.gpiCardTitle')"
+        [subtitle]="t('tabs.overview.gpiCardSubtitle')"
+        [kpiValue]="(pricingInformation$ | ngrxPush)?.gpi.value | percentage"
+        [rating]="getRating((pricingInformation$ | ngrxPush)?.gpi.value)"
+      >
+      </gq-kpi-status-card>
+      <gq-kpi-status-card
+        class="col-span-1 flex"
+        [title]="t('tabs.overview.ratingCardTitle')"
+        [subtitle]="t('tabs.overview.ratingCardSubtitle')"
+      >
+        <gq-quotation-rating
+          [rating]="(pricingInformation$ | ngrxPush)?.avgGqRating.value"
+        ></gq-quotation-rating>
+      </gq-kpi-status-card>
+      <gq-kpi-status-card
+        class="col-span-1"
+        [title]="t('tabs.overview.priceDeviationCardTitle')"
+        [subtitle]="t('tabs.overview.priceDeviationCardSubtitle')"
+        [kpiValue]="
+          (approvalFacade.approvalStatus$ | ngrxPush)?.deviation | percentage
+        "
+      >
+      </gq-kpi-status-card>
+    </div>
+    <div class="gap-4 md:w-1/2 lg:w-full">
+      <gq-approval-cockpit></gq-approval-cockpit>
+    </div>
+  </ng-container>
 </div>
+
+<ng-template #loading>
+  <schaeffler-loading-spinner></schaeffler-loading-spinner>
+</ng-template>

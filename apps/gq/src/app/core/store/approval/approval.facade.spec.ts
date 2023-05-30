@@ -5,6 +5,7 @@ import { marbles } from 'rxjs-marbles';
 
 import { ApprovalActions } from './approval.actions';
 import { ApprovalFacade } from './approval.facade';
+import { approvalFeature } from './approval.reducer';
 import * as fromApprovalSelectors from './approval.selectors';
 describe('ApprovalFacade', () => {
   let service: ApprovalFacade;
@@ -24,6 +25,34 @@ describe('ApprovalFacade', () => {
 
   test('should be created', () => {
     expect(service).toBeTruthy();
+  });
+
+  describe('should provide loading statuses', () => {
+    test(
+      'should provide approvalStatusLoading',
+      marbles((m) => {
+        mockStore.overrideSelector(
+          approvalFeature.selectApprovalStatusLoading,
+          false
+        );
+        m.expect(service.approvalStatusLoading$).toBeObservable(
+          m.cold('a', { a: false })
+        );
+      })
+    );
+
+    test(
+      'should provide allApproversLoading',
+      marbles((m) => {
+        mockStore.overrideSelector(
+          approvalFeature.selectApproversLoading,
+          false
+        );
+        m.expect(service.allApproversLoading$).toBeObservable(
+          m.cold('a', { a: false })
+        );
+      })
+    );
   });
 
   describe('Should provide the list for approvers', () => {

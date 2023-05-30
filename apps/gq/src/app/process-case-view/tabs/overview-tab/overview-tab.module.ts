@@ -16,6 +16,7 @@ import { PushModule } from '@ngrx/component';
 import * as echarts from 'echarts';
 import { NgxEchartsModule } from 'ngx-echarts';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import {
@@ -49,6 +50,7 @@ import { OverviewTabRoutingModule } from './overview-tab.routing.module';
     ReactiveFormsModule,
     MatButtonModule,
     MatInputModule,
+    LoadingSpinnerModule,
   ],
   declarations: [
     OverviewTabComponent,

@@ -3,147 +3,161 @@
   class="flex h-full max-h-[90vh] flex-col overflow-y-auto"
   *transloco="let t; read: 'processCaseView.header.releaseModal'"
 >
-  <div class="px-4 pt-4">
-    <gq-dialog-header [title]="t('title')" (closeDialog)="closeDialog()">
-    </gq-dialog-header>
-  </div>
+  <ng-container
+    *ngIf="
+      !(approvalFacade.approvalStatusLoading$ | ngrxPush) ||
+        !(approvalFacade.allApproversLoading$ | ngrxPush);
+      else loading
+    "
+  >
+    <div class="px-4 pt-4">
+      <gq-dialog-header [title]="t('title')" (closeDialog)="closeDialog()">
+      </gq-dialog-header>
+    </div>
 
-  <div class="px-4">
-    <p
-      *ngIf="!(approvalFacade.approvalStatus$ | ngrxPush).autoApproval"
-      class="text-subtitle-2 pt-4"
-    >
-      {{ t('summary') }}
-    </p>
-    <div
-      *ngIf="!(approvalFacade.approvalStatus$ | ngrxPush).autoApproval"
-      class="flex items-center pt-3"
-    >
-      <p class="text-body-2 text-medium-emphasis">
-        {{ t('approvalLevelLabel') }}:
+    <div class="px-4">
+      <p
+        *ngIf="!(approvalFacade.approvalStatus$ | ngrxPush).autoApproval"
+        class="text-subtitle-2 pt-4"
+      >
+        {{ t('summary') }}
       </p>
-      <span class="text-body-2 text-high-emphasis pl-2">{{
-        approvalFacade.requiredApprovalLevelsForQuotation$ | ngrxPush
-      }}</span>
+      <div
+        *ngIf="!(approvalFacade.approvalStatus$ | ngrxPush).autoApproval"
+        class="flex items-center pt-3"
+      >
+        <p class="text-body-2 text-medium-emphasis">
+          {{ t('approvalLevelLabel') }}:
+        </p>
+        <span class="text-body-2 text-high-emphasis pl-2">{{
+          approvalFacade.requiredApprovalLevelsForQuotation$ | ngrxPush
+        }}</span>
+      </div>
+
+      <div *ngIf="!(approvalFacade.approvalStatus$ | ngrxPush).autoApproval">
+        <p class="text-subtitle-2 pb-4 pt-6">{{ t('approvers') }}</p>
+        <gq-release-modal-approver-select
+          tabindex="0"
+          [approverSelectFormControl]="approver1FormControl"
+          [approvers$]="approvalFacade.firstApprovers$"
+          [title]="
+            t('approver1Title', {
+              level:
+                approvalLevelEnum[
+                  approvalFacade.approvalLevelFirstApprover$ | ngrxPush
+                ]
+            })
+          "
+          [errorMessage]="getErrorMessageOfControl(approver1FormControl)"
+        ></gq-release-modal-approver-select>
+        <gq-release-modal-approver-select
+          [approverSelectFormControl]="approver2FormControl"
+          [approvers$]="approvalFacade.secondApprovers$"
+          [title]="
+            t('approver2Title', {
+              level:
+                approvalLevelEnum[
+                  approvalFacade.approvalLevelSecondApprover$ | ngrxPush
+                ]
+            })
+          "
+          [errorMessage]="getErrorMessageOfControl(approver2FormControl)"
+        ></gq-release-modal-approver-select>
+        <gq-release-modal-approver-select
+          *ngIf="(approvalFacade.approvalStatus$ | ngrxPush)?.approver3Required"
+          [approverSelectFormControl]="approver3FormControl"
+          [approvers$]="approvalFacade.thirdApprovers$"
+          [title]="
+            t('approver3Title', {
+              level:
+                approvalLevelEnum[
+                  approvalFacade.approvalLevelThirdApprover$ | ngrxPush
+                ]
+            })
+          "
+          [errorMessage]="getErrorMessageOfControl(approver3FormControl)"
+        ></gq-release-modal-approver-select>
+        <gq-release-modal-approver-select
+          [approverSelectFormControl]="approverCCFormControl"
+          [approvers$]="approvalFacade.allUsers$"
+          [title]="t('approverCCTitle')"
+        ></gq-release-modal-approver-select>
+      </div>
+
+      <div class="pb-10">
+        <p class="text-subtitle-2 pb-5 pt-6">
+          {{ t('additionalInformation') }}
+        </p>
+        <mat-form-field class="w-full" appearance="outline">
+          <mat-label>{{ t('commentLabel') }}</mat-label>
+          <textarea
+            matInput
+            class="h-20 max-h-32 !leading-6"
+            formControlName="comment"
+            type="text"
+            [maxlength]="INPUT_MAX_LENGTH"
+            #comment
+          ></textarea>
+          <mat-hint align="end">
+            {{ comment.value.length }} / {{ INPUT_MAX_LENGTH }}</mat-hint
+          >
+        </mat-form-field>
+        <mat-form-field class="w-full pt-2" appearance="outline">
+          <mat-label>{{ t('projectInformation') }}</mat-label>
+          <textarea
+            matInput
+            class="h-20 max-h-32 !leading-6"
+            formControlName="projectInformation"
+            type="text"
+            [maxlength]="INPUT_MAX_LENGTH"
+            #projectInformation
+          ></textarea>
+          <mat-hint align="end">
+            {{ projectInformation.value.length }} /
+            {{ INPUT_MAX_LENGTH }}</mat-hint
+          >
+        </mat-form-field>
+      </div>
     </div>
 
-    <div *ngIf="!(approvalFacade.approvalStatus$ | ngrxPush).autoApproval">
-      <p class="text-subtitle-2 pb-4 pt-6">{{ t('approvers') }}</p>
-      <gq-release-modal-approver-select
-        tabindex="0"
-        [approverSelectFormControl]="approver1FormControl"
-        [approvers$]="approvalFacade.firstApprovers$"
-        [title]="
-          t('approver1Title', {
-            level:
-              approvalLevelEnum[
-                approvalFacade.approvalLevelFirstApprover$ | ngrxPush
-              ]
-          })
+    <div class="flex w-full gap-4 border-t border-[#000000]/[0.12] px-4 py-4">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="triggerAutoApproval()"
+        *ngIf="
+          (approvalFacade.approvalStatus$ | ngrxPush)?.autoApproval;
+          else startWorkflowButton
         "
-        [errorMessage]="getErrorMessageOfControl(approver1FormControl)"
-      ></gq-release-modal-approver-select>
-      <gq-release-modal-approver-select
-        [approverSelectFormControl]="approver2FormControl"
-        [approvers$]="approvalFacade.secondApprovers$"
-        [title]="
-          t('approver2Title', {
-            level:
-              approvalLevelEnum[
-                approvalFacade.approvalLevelSecondApprover$ | ngrxPush
-              ]
-          })
-        "
-        [errorMessage]="getErrorMessageOfControl(approver2FormControl)"
-      ></gq-release-modal-approver-select>
-      <gq-release-modal-approver-select
-        *ngIf="(approvalFacade.approvalStatus$ | ngrxPush)?.approver3Required"
-        [approverSelectFormControl]="approver3FormControl"
-        [approvers$]="approvalFacade.thirdApprovers$"
-        [title]="
-          t('approver3Title', {
-            level:
-              approvalLevelEnum[
-                approvalFacade.approvalLevelThirdApprover$ | ngrxPush
-              ]
-          })
-        "
-        [errorMessage]="getErrorMessageOfControl(approver3FormControl)"
-      ></gq-release-modal-approver-select>
-      <gq-release-modal-approver-select
-        [approverSelectFormControl]="approverCCFormControl"
-        [approvers$]="approvalFacade.allUsers$"
-        [title]="t('approverCCTitle')"
-      ></gq-release-modal-approver-select>
-    </div>
-
-    <div class="pb-10">
-      <p class="text-subtitle-2 pb-5 pt-6">{{ t('additionalInformation') }}</p>
-      <mat-form-field class="w-full" appearance="outline">
-        <mat-label>{{ t('commentLabel') }}</mat-label>
-        <textarea
-          matInput
-          class="h-20 max-h-32 !leading-6"
-          formControlName="comment"
-          type="text"
-          [maxlength]="INPUT_MAX_LENGTH"
-          #comment
-        ></textarea>
-        <mat-hint align="end">
-          {{ comment.value.length }} / {{ INPUT_MAX_LENGTH }}</mat-hint
+      >
+        {{ t('autoApproval') }}
+      </button>
+      <ng-template #startWorkflowButton>
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="formGroup.invalid || formGroup.pristine"
+          (click)="startWorkflow()"
         >
-      </mat-form-field>
-      <mat-form-field class="w-full pt-2" appearance="outline">
-        <mat-label>{{ t('projectInformation') }}</mat-label>
-        <textarea
-          matInput
-          class="h-20 max-h-32 !leading-6"
-          formControlName="projectInformation"
-          type="text"
-          [maxlength]="INPUT_MAX_LENGTH"
-          #projectInformation
-        ></textarea>
-        <mat-hint align="end">
-          {{ projectInformation.value.length }} /
-          {{ INPUT_MAX_LENGTH }}</mat-hint
-        >
-      </mat-form-field>
-    </div>
-  </div>
+          {{ t('startWorkflow') }}
+        </button>
+      </ng-template>
 
-  <div class="flex w-full gap-4 border-t border-[#000000]/[0.12] px-4 py-4">
-    <button
-      mat-raised-button
-      color="primary"
-      (click)="triggerAutoApproval()"
-      *ngIf="
-        (approvalFacade.approvalStatus$ | ngrxPush)?.autoApproval;
-        else startWorkflowButton
-      "
-    >
-      {{ t('autoApproval') }}
-    </button>
-    <ng-template #startWorkflowButton>
       <button
         mat-raised-button
         color="primary"
         [disabled]="formGroup.invalid || formGroup.pristine"
-        (click)="startWorkflow()"
+        (click)="save()"
       >
-        {{ t('startWorkflow') }}
+        {{ t('save') }}
       </button>
-    </ng-template>
-
-    <button
-      mat-raised-button
-      color="primary"
-      [disabled]="formGroup.invalid || formGroup.pristine"
-      (click)="save()"
-    >
-      {{ t('save') }}
-    </button>
-    <button mat-stroked-button (click)="closeDialog()" color="primary">
-      {{ t('cancel') }}
-    </button>
-  </div>
+      <button mat-stroked-button (click)="closeDialog()" color="primary">
+        {{ t('cancel') }}
+      </button>
+    </div>
+  </ng-container>
 </form>
+
+<ng-template #loading>
+  <schaeffler-loading-spinner></schaeffler-loading-spinner>
+</ng-template>

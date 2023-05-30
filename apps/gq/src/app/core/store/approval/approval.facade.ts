@@ -15,6 +15,14 @@ import * as fromApprovalSelectors from './approval.selectors';
 export class ApprovalFacade {
   constructor(private readonly store: Store) {}
 
+  approvalStatusLoading$: Observable<boolean> = this.store.select(
+    approvalFeature.selectApprovalStatusLoading
+  );
+
+  allApproversLoading$: Observable<boolean> = this.store.select(
+    approvalFeature.selectApproversLoading
+  );
+
   firstApprovers$: Observable<Approver[]> = this.store.select(
     fromApprovalSelectors.getFirstApprovers
   );
