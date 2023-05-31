@@ -103,7 +103,7 @@ export class UserEffects implements OnInitEffects {
             data: {
               dimension: params[0],
               selectedDimensionIdValue: params[1],
-              initialLoad: !params[0] && !params[1],
+              initialLoad: !params[1],
             },
           });
         })

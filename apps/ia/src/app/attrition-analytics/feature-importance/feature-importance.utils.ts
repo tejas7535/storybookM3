@@ -59,7 +59,7 @@ export const getColorRangeFromGradient = (
 
   let index = 0;
   while (!colorRange) {
-    if (percent <= gradient[index][0]) {
+    if (percent <= (gradient[index] as number[])[0]) {
       colorRange = [index - 1, index];
     }
     if (index === gradient.length) {

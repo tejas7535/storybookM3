@@ -298,6 +298,26 @@ describe('User Settings Effects', () => {
       });
     });
 
+    test('should open dialog with initial load true when no favorite dimension set', () => {
+      action = showUserSettingsDialog();
+      actions$ = of(action);
+      store.overrideSelector(getFavoriteDimension, FilterDimension.BOARD);
+      store.overrideSelector(getFavoriteDimensionIdValue, undefined as IdValue);
+
+      dialog.open = jest.fn();
+
+      effects.showUserSettingsDialog$.subscribe();
+
+      expect(dialog.open).toHaveBeenCalledWith(UserSettingsDialogComponent, {
+        disableClose: true,
+        data: {
+          dimension,
+          selectedDimensionIdValue: undefined,
+          initialLoad: true,
+        },
+      });
+    });
+
     test('should open dialog on loadUserSettingsFailure', () => {
       action = loadUserSettingsFailure({ errorMessage: 'Error' });
       actions$ = of(action);

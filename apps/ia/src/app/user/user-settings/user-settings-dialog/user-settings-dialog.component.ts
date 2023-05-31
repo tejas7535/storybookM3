@@ -99,6 +99,7 @@ export class UserSettingsDialogComponent implements OnInit, OnDestroy {
         : LOCAL_SEARCH_MIN_CHAR_LENGTH;
 
     this.selectedDimensionIdValue = undefined;
+    this.selected = undefined;
     this.type =
       this.activeDimension === FilterDimension.ORG_UNIT
         ? new InputType('autocomplete', this.dimensionName)

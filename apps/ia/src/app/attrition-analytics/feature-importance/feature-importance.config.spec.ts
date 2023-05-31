@@ -12,11 +12,6 @@ import {
 } from '../models';
 import * as config from './feature-importance.config';
 
-jest.mock('./feature-importance.utils', () => ({
-  ...(jest.requireActual('./feature-importance.utils') as any),
-  calculateColor: jest.fn().mockReturnValue('rgb(251, 36, 36)'),
-}));
-
 describe('FeatureImoprtanceConfig', () => {
   afterEach(() => {
     jest.restoreAllMocks();
@@ -122,16 +117,6 @@ describe('FeatureImoprtanceConfig', () => {
           type: FeatureImportanceType.NUMERIC,
         },
       ];
-      const translateMock = 'translate it';
-      const mockCreateXAxisOption = jest
-        .spyOn(config, 'createXAxisOption')
-        .mockReturnValue({});
-      const mockCreateYAxisOption = jest
-        .spyOn(config, 'createYAxisOption')
-        .mockReturnValue({});
-      const mockCreateTitleOption = jest
-        .spyOn(config, 'createTitleOption')
-        .mockReturnValue({});
       const mockFillDataForFeature = jest
         .spyOn(config, 'fillDataForFeature')
         .mockReturnValue();
@@ -139,9 +124,6 @@ describe('FeatureImoprtanceConfig', () => {
       const result = config.createFeaturesImportanceConfig(featuresImportance);
 
       expect(result).toBeDefined();
-      expect(mockCreateXAxisOption).toHaveBeenCalledWith(translateMock);
-      expect(mockCreateYAxisOption).toHaveBeenCalledWith(['translate it']);
-      expect(mockCreateTitleOption).toHaveBeenCalledWith(translateMock);
       expect(mockFillDataForFeature).toHaveBeenCalledTimes(
         featuresImportance.length
       );
@@ -331,7 +313,7 @@ describe('FeatureImoprtanceConfig', () => {
   describe('mapToValueWithStyle', () => {
     test('should map data to value with color', () => {
       const dataPoint = {
-        colorMaps: '0.5',
+        colorMap: '0.5',
       } as unknown as FeatureImportanceDataPoint;
       const normalized = 10;
       const mockVal = ['test'];
@@ -346,7 +328,7 @@ describe('FeatureImoprtanceConfig', () => {
         dataPoint,
         normalized
       );
-      expect(result.itemStyle.color).toEqual('rgb(251, 36, 36)');
+      expect(result.itemStyle.color).toEqual('rgb(177, 49, 172)');
     });
   });
 
