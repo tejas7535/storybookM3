@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { FeatureToggleDirective } from './feature-toggle/feature-toggle.directive';
 import { HideIfQuotationHasStatusDirective } from './hide-if-quotation-has-status/hide-if-quotation-has-status.directive';
+import { PinDropDownDirective } from './pin-drop-down/pin-drop-down.directive';
 import { isTextTruncatedDirective } from './show-tooltip-when-truncated/show-tooltip-when-truncated.directive';
 
 @NgModule({
@@ -10,12 +11,14 @@ import { isTextTruncatedDirective } from './show-tooltip-when-truncated/show-too
     isTextTruncatedDirective,
     FeatureToggleDirective,
     HideIfQuotationHasStatusDirective,
+    PinDropDownDirective,
   ],
   imports: [CommonModule],
   exports: [
     isTextTruncatedDirective,
     FeatureToggleDirective,
     HideIfQuotationHasStatusDirective,
+    PinDropDownDirective,
   ],
 })
 export class SharedDirectivesModule {}

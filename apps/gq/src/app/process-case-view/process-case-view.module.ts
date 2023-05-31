@@ -13,7 +13,9 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { ApprovalModule } from '@gq/core/store/approval/approval.module';
 import { ProcessCaseModule } from '@gq/core/store/process-case';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
+import { ExportExcelModalModule } from '@gq/shared/components/modal/export-excel-modal/export-excel-modal.module';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
+import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 
@@ -25,8 +27,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SyncStatusCustomerInfoHeaderModule } from '../../app/shared/components/header/sync-status-customer-info-header/sync-status-customer-info-header.module';
 import { TabsHeaderModule } from '../../app/shared/components/tabs-header/tabs-header.module';
-import { ExportExcelModalModule } from '../shared/components/modal/export-excel-modal/export-excel-modal.module';
-import { SharedPipesModule } from '../shared/pipes/shared-pipes.module';
 import { AddMaterialDialogModule } from './add-material-dialog/add-material-dialog.module';
 import { HeaderContentModule } from './header-content/header-content.module';
 import { ProcessCaseViewComponent } from './process-case-view.component';
