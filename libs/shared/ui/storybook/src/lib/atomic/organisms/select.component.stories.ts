@@ -52,6 +52,7 @@ const Template: Story<SelectComponent> = (args: SelectComponent) => ({
           [searchPlaceholder]="searchPlaceholder"
           [addEntryPlaceholder]="addEntryPlaceholder"
           [hint]="hint"
+          [formFieldHint]="formFieldHint"
           [initialValue]="initialValue"
           [initialSearchValue]="initialSearchValue"
           [label]="label"
@@ -114,6 +115,7 @@ Primary.args = {
   searchPlaceholder: 'Search...',
   addEntryPlaceholder: 'New Entry',
   hint: 'optional hint',
+  formFieldHint: 'optional outer hint',
   initialSearchValue: '',
   loading: false,
   error: false,

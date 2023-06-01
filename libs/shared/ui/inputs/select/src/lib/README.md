@@ -117,6 +117,7 @@ In the parent component:
     [searchPlaceholder]="searchPlaceholder"
     [addEntryPlaceholder]="addEntryPlaceholder"
     [hint]="hint"
+    [formFieldHint]="formFieldHint"
     [loading]="loading"
     [error]="error"
     [multiple]="multiple"
@@ -193,6 +194,7 @@ export class ExampleComponent implements OnInit {
     public searchPlaceholder = 'search placeholder';
     public addEntryPlaceholder = 'add entry placeholder';
     public hint = 'search hint';
+    public formFieldHint = 'outer hint';
     public loading = false;
     public error = false;
     public multiple = true;
@@ -262,6 +264,7 @@ For further information about the option type see [@schaeffler/inputs documentat
 | searchPlaceholder     | (optional) the placeholder for the search control inside the select                                              |
 | addEntryplaceholder   | (optional) the placeholder for the add entry input control                                                       |
 | hint                  | (optional) the hint to display below the search bar                                                              |
+| formFieldHint         | (optional) the hint to display below the form field                                                              |
 | initialValue          | (optional) the initial value to set for the select (has to be within the provided options)                       |
 | initialSearchValue    | (optional) the initial value to set in the search bar                                                            |
 | loading               | (optional) whether the control should be in loading state (displays ng-content with selector `loadingContent`)   |

@@ -27,6 +27,7 @@ export class SelectComponent
   @Input() public searchPlaceholder = '';
   @Input() public addEntryPlaceholder = '';
   @Input() public hint = '';
+  @Input() public formFieldHint = '';
 
   @Input() public initialValue?: StringOption;
   @Input() public initialSearchValue?: string;
