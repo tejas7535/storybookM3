@@ -15,6 +15,11 @@
       "quantity": "Quantity",
       "profitMargin": "GPI",
       "salesIndication": "Data Source",
+      "salesIndicationValue": {
+        "invoice": "Invoice",
+        "lostQuote": "Lost Quote",
+        "order": "Orders"
+      },
       "year": "Year",
       "country": "Country",
       "customerId": "Customer Number",

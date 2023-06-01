@@ -2,7 +2,10 @@
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Injectable } from '@angular/core';
 
-import { CalculationType } from '@gq/core/store/reducers/models';
+import {
+  CalculationType,
+  SalesIndication,
+} from '@gq/core/store/reducers/models';
 import { MaterialNumberService } from '@gq/shared/services/material-number/material-number.service';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { parseLocalizedInputValue } from '@gq/shared/utils/misc.utils';
@@ -27,11 +30,11 @@ import {
   QuotationStatus,
 } from '../../models';
 import {
+  LastCustomerPriceCondition,
   PriceSource,
   QuotationDetail,
   SAP_SYNC_STATUS,
 } from '../../models/quotation-detail';
-import { LastCustomerPriceCondition } from '../../models/quotation-detail/last-customer-price-condition.enum';
 import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
 import { MaterialClassificationSOPPipe } from '../../pipes/material-classification-sop/material-classification-sop.pipe';
 import { UomPipe } from '../../pipes/uom/uom.pipe';
@@ -353,6 +356,23 @@ export class ColumnUtilityService {
 
     // currency is not present, but transform the number to locale settings
     return this.transformationService.transformNumber(params.value, true);
+  }
+
+  salesIndicationValueGetter(params: ValueGetterParams): string {
+    const salesIndicationValue = params.data.salesIndication;
+    const salesIndicationTranslationsKeyPath =
+      'transactionView.transactions.table.salesIndicationValue';
+
+    switch (salesIndicationValue) {
+      case SalesIndication.INVOICE:
+        return translate(`${salesIndicationTranslationsKeyPath}.invoice`);
+      case SalesIndication.ORDER:
+        return translate(`${salesIndicationTranslationsKeyPath}.order`);
+      case SalesIndication.LOST_QUOTE:
+        return translate(`${salesIndicationTranslationsKeyPath}.lostQuote`);
+      default:
+        return salesIndicationValue;
+    }
   }
 }
 

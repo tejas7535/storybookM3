@@ -3,6 +3,6 @@
   <span> | {{ price | numberCurrency: currency }} </span>
   <span>
     | {{ quotationDetail.orderQuantity }}
-    {{ quotationDetail.material.baseUoM }}</span
+    {{ quotationDetail.material.baseUoM | uom }}</span
   >
 </span>

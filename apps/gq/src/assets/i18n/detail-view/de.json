@@ -47,11 +47,11 @@
   },
   "pricingDetails": {
     "materialDetails": {
-      "15digit": "Materialnummer (15-stellig)",
+      "materialNumber": "Materialnummer (15-stellig)",
       "baseUoM": "Mengeneinheit",
       "deliveryUnit": "Liefereinheit",
       "customerMaterial": "Kundenmaterialnummer",
-      "dimension": "Abmessungen",
+      "dimensions": "Dimensionen",
       "ean11": "EAN Code",
       "followingType": "Folgetype",
       "gpsdGroup": "GPSD-Gruppe",
@@ -66,7 +66,7 @@
       "series": "Serie",
       "title": "Materialbeschreibung",
       "width": "Breite",
-      "encodedInSalesOrg": "In Sales Org. ausgeprägt",
+      "encodedInSalesOrg": "In Sales Org. verfügbar",
       "dchainMaterialStatus": "VkOrg. spez. Status",
       "minimumOrderQuantity": "Min. Auftragsmenge",
       "materialClassificationSOP": "S&OP Material Klassifizierung",

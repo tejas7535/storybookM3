@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 
-import { ColumnUtilityService } from '@gq/shared/ag-grid/services';
-import { translate } from '@ngneat/transloco';
-import { ColDef } from 'ag-grid-enterprise';
-
 import {
   FILTER_PARAMS,
   NUMBER_COLUMN_FILTER,
-} from '../../../../shared/ag-grid/constants/filters';
+} from '@gq/shared/ag-grid/constants/filters';
+import { ColumnUtilityService } from '@gq/shared/ag-grid/services';
+import { translate } from '@ngneat/transloco';
+import { ColDef } from 'ag-grid-enterprise';
 
 @Injectable({
   providedIn: 'root',
@@ -62,6 +61,8 @@ export class ColumnDefService {
         'transactionView.transactions.table.salesIndication'
       ),
       field: 'salesIndication',
+      valueGetter: (params) =>
+        this.columnUtilityService.salesIndicationValueGetter(params),
       filterParams: FILTER_PARAMS,
     },
     {

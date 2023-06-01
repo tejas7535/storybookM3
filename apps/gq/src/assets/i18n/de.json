@@ -114,7 +114,7 @@
       "rspInfoText": "Empfohlener Verkaufspreis (SAP)",
       "msp": "MSP",
       "mspInfoText": "Minimaler Verkaufspreis (SAP)",
-      "strategicMaterial": "Strateg. Material GC",
+      "strategicMaterial": "Strateg. Material (GC)",
       "sapVolumeScale": "SAP Volumen Staffel %",
       "targetPrice": "Zielpreis",
       "targetPriceInfoText": "Ausgewählter Zielpreis. Beim Senden an SAP wird der Zielpreis als ZMAN in das SAP-Angebot übernommen.",
@@ -183,7 +183,7 @@
           "wrongInput": "Bitte geben sie eine valide Materialbeschreibung ein"
         },
         "sap-quotation": {
-          "hint": "Geben Sie eine SAP-Angebotsnummer ein",
+          "hint": "Geben Sie eine SAP Angebotsnummer ein",
           "label": "Angebotsnummer",
           "nothingFound": "Keine Ergebnisse",
           "wrongInput": "Bitte geben Sie eine valide Angebotsnummer ein"
@@ -239,7 +239,7 @@
         "addNewItem": "Neue Position hinzufügen",
         "addNewItemMobile": "Hinzufügen",
         "deleteCase": "case löschen",
-        "refreshSapDataTooltip": "Aktualisierung der SAP-Preisstellungen und der Bestands und Verfügbarkeitsinformationen",
+        "refreshSapDataTooltip": "Aktualisierung der SAP-Preisstellungen und der Bestands- und Verfügbarkeitsinformationen",
         "resetAll": "Zurücksetzen",
         "uploadSelectionToSap": "SAP Angebot aktualisieren",
         "uploadSelectionToSapInfoText": "Aktualisierung aller ausgewählter Positionen im verknüpften SAP Angebot.",
@@ -437,7 +437,7 @@
       "warning": "Bitte beachten Sie, dass diese Änderung dauerhaft ist und nicht rückgängig gemacht werden kann."
     },
     "editingMaterialModal": {
-      "title": "Item bearbeiten",
+      "title": "Position bearbeiten",
       "cancel": "Abbrechen",
       "update": "Aktualisieren",
       "quantity": {

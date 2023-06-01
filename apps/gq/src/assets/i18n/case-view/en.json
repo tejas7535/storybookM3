@@ -39,19 +39,19 @@
       "cancelButton": "Cancel"
     },
     "createCustomerCase": {
-      "title": "Create case from Customer",
+      "title": "Create Case from Customer",
       "includeMaterials": {
         "title": "Include Materials",
         "materialSelection": "Material Selection",
         "lastYears": "{years, plural, =1 {Current year} other {Last {{ years }} years}}",
-        "salesHistory": "{numberOfYears, plural, =1 {Materials from sales history (Current year)} other {Materials from sales history (Last {{ numberOfYears }} years)}}",
+        "salesHistory": "{numberOfYears, plural, =1 {Materials from Sales History (Current year)} other {Materials from Sales History (Last {{ numberOfYears }} years)}}",
         "ordersOnHand": "Materials from Orders on Hand (Current Orders)",
         "openQuotes": "Materials from Open Quotes (Current Open Quotes)",
         "lostQuotes": "{numberOfYears, plural, =1 {Materials from Lost Quotes (Current year)} other {Materials from Lost Quotes (Last {{ numberOfYears }} years)}}"
       },
       "additionalMaterials": {
         "selectAll": "Select All",
-        "title": "Additional filters",
+        "title": "Additional Filters",
         "productLines": "Product Lines",
         "series": "Series",
         "gpsdGroups": "GPSD",

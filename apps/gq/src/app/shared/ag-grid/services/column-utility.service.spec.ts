@@ -1,6 +1,9 @@
 import { Clipboard } from '@angular/cdk/clipboard';
 
-import { CalculationType } from '@gq/core/store/reducers/models';
+import {
+  CalculationType,
+  SalesIndication,
+} from '@gq/core/store/reducers/models';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { translate, TranslocoModule } from '@ngneat/transloco';
@@ -138,6 +141,7 @@ describe('CreateColumnService', () => {
       expect(isNotFiltered).toBeTruthy();
     });
   });
+
   describe('filterSQV', () => {
     test('should return false', () => {
       const col = { field: ColumnFields.SQV };
@@ -180,6 +184,7 @@ describe('CreateColumnService', () => {
       });
     });
   });
+
   describe('filterChinaSpecificColumns', () => {
     test('should return false on missing role', () => {
       const userRoles = [
@@ -698,6 +703,55 @@ describe('CreateColumnService', () => {
         openInNew(params, 'window');
         expect(window.open).not.toHaveBeenCalled();
       });
+    });
+  });
+
+  describe('salesIndicationValueGetter', () => {
+    beforeEach(() => {
+      jest.resetAllMocks();
+    });
+
+    test('should translate invoice', () => {
+      service.salesIndicationValueGetter({
+        data: { salesIndication: SalesIndication.INVOICE },
+      } as ValueGetterParams);
+
+      expect(translate).toHaveBeenCalledTimes(1);
+      expect(translate).toHaveBeenCalledWith(
+        'transactionView.transactions.table.salesIndicationValue.invoice'
+      );
+    });
+
+    test('should translate order', () => {
+      service.salesIndicationValueGetter({
+        data: { salesIndication: SalesIndication.ORDER },
+      } as ValueGetterParams);
+
+      expect(translate).toHaveBeenCalledTimes(1);
+      expect(translate).toHaveBeenCalledWith(
+        'transactionView.transactions.table.salesIndicationValue.order'
+      );
+    });
+
+    test('should translate lostQuote', () => {
+      service.salesIndicationValueGetter({
+        data: { salesIndication: SalesIndication.LOST_QUOTE },
+      } as ValueGetterParams);
+
+      expect(translate).toHaveBeenCalledTimes(1);
+      expect(translate).toHaveBeenCalledWith(
+        'transactionView.transactions.table.salesIndicationValue.lostQuote'
+      );
+    });
+
+    test('should NOT translate unknown sales indication', () => {
+      const value = 'test sales indication';
+      const result = service.salesIndicationValueGetter({
+        data: { salesIndication: value },
+      } as ValueGetterParams);
+
+      expect(translate).not.toHaveBeenCalled();
+      expect(result).toBe(value);
     });
   });
 });
