@@ -14,7 +14,7 @@ import {
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
-import { Subject, takeUntil, tap } from 'rxjs';
+import { combineLatest, map, Observable, Subject, takeUntil, tap } from 'rxjs';
 
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { Quotation } from '@gq/shared/models';
@@ -50,6 +50,8 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
   );
   approverCCFormControl = new FormControl('');
 
+  dataLoadingComplete$: Observable<boolean>; // = NEVER;
+
   private readonly REQUIRED_ERROR_MESSAGE = '';
   private readonly INVALID_APPROVER_ERROR_MESSAGE = '';
 
@@ -73,6 +75,24 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.approvalFacade.getApprovalWorkflowData(this.dialogData.sapId);
+
+    this.dataLoadingComplete$ = combineLatest([
+      this.approvalFacade.allApproversLoading$,
+      this.approvalFacade.approvalStatusLoading$,
+      this.approvalFacade.approvalStatus$,
+    ]).pipe(
+      takeUntil(this.shutdown$$),
+      map(
+        ([loadingAllApprovers, loadingApprovalStatus, approvalStatus]: [
+          boolean,
+          boolean,
+          ApprovalStatus
+        ]) =>
+          !loadingAllApprovers &&
+          !loadingApprovalStatus &&
+          !!approvalStatus.sapId
+      )
+    );
 
     this.formGroup = this.formBuilder.group(
       {

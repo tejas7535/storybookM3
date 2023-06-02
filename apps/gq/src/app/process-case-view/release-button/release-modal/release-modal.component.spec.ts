@@ -10,6 +10,7 @@ import { ApprovalStatus } from '@gq/shared/models/quotation';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { TranslocoService } from '@ngneat/transloco';
 import { MockProvider } from 'ng-mocks';
+import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -79,6 +80,76 @@ describe('ReleaseModalComponent', () => {
       });
       component.ngOnInit();
       expect(component.formGroup.get('approver3')).toBeDefined();
+    });
+
+    describe('calculate loadingComplete', () => {
+      test(
+        'should return false when ApprovalStatus is on loading',
+        marbles((m) => {
+          const facadeMock: ApprovalFacade = {
+            getApprovalWorkflowData: jest.fn(),
+            approvalStatus$: of({
+              approver3Required: true,
+              sapId: undefined,
+            } as ApprovalStatus),
+            allApproversLoading$: of(false),
+            approvalStatusLoading$: of(true),
+          } as unknown as ApprovalFacade;
+
+          Object.defineProperty(component, 'approvalFacade', {
+            value: facadeMock,
+          });
+          component.ngOnInit();
+          m.expect(component.dataLoadingComplete$).toBeObservable('(a|)', {
+            a: false,
+          });
+        })
+      );
+
+      test(
+        'should return false when AllApprovers is on loading',
+        marbles((m) => {
+          const facadeMock: ApprovalFacade = {
+            getApprovalWorkflowData: jest.fn(),
+            approvalStatus$: of({
+              approver3Required: true,
+              sapId: '12',
+            } as ApprovalStatus),
+            allApproversLoading$: of(true),
+            approvalStatusLoading$: of(false),
+          } as unknown as ApprovalFacade;
+
+          Object.defineProperty(component, 'approvalFacade', {
+            value: facadeMock,
+          });
+          component.ngOnInit();
+          m.expect(component.dataLoadingComplete$).toBeObservable('(a|)', {
+            a: false,
+          });
+        })
+      );
+      test(
+        'should return when data received completely',
+        marbles((m) => {
+          const facadeMock: ApprovalFacade = {
+            getApprovalWorkflowData: jest.fn(),
+            approvalStatus$: of({
+              approver3Required: true,
+              sapId: '12',
+            } as ApprovalStatus),
+            allApproversLoading$: of(false),
+            approvalStatusLoading$: of(false),
+          } as unknown as ApprovalFacade;
+
+          Object.defineProperty(component, 'approvalFacade', {
+            value: facadeMock,
+          });
+          component.ngOnInit();
+          m.expect(component.dataLoadingComplete$).toBeObservable('(a|)', {
+            a: true,
+          });
+        })
+      );
     });
   });
 

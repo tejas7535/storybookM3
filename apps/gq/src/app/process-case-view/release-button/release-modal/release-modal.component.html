@@ -3,13 +3,7 @@
   class="flex h-full max-h-[90vh] flex-col overflow-y-auto"
   *transloco="let t; read: 'processCaseView.header.releaseModal'"
 >
-  <ng-container
-    *ngIf="
-      !(approvalFacade.approvalStatusLoading$ | ngrxPush) ||
-        !(approvalFacade.allApproversLoading$ | ngrxPush);
-      else loading
-    "
-  >
+  <ng-container *ngIf="dataLoadingComplete$ | ngrxPush; else loading">
     <div class="px-4 pt-4">
       <gq-dialog-header [title]="t('title')" (closeDialog)="closeDialog()">
       </gq-dialog-header>
