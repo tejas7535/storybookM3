@@ -1,9 +1,10 @@
 :host ::ng-deep {
-  @apply h-full w-full;
+  height: 100%;
+  width: 100%;
 
   // coloring
   .top-level-row {
-    @apply bg-selected-overlay;
+    background-color: rgba(0, 0, 0, 0.12);
   }
 
   @for $i from 1 to 15 {
@@ -14,34 +15,43 @@
   }
 
   .row-highest-cost-share {
-    @apply bg-secondary-800 text-high-emphasis-dark-bg;
+    --tw-bg-opacity: 1;
+    background-color: rgb(0 120 50 / var(--tw-bg-opacity));
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255 / var(--tw-text-opacity));
 
     .ag-icon {
-      @apply text-high-emphasis-dark-bg;
+      --tw-text-opacity: 1;
+      color: rgb(255 255 255 / var(--tw-text-opacity));
     }
   }
 
   .row-high-cost-share {
-    @apply bg-secondary-600;
+    --tw-bg-opacity: 1;
+    background-color: rgb(18 155 73 / var(--tw-bg-opacity));
   }
 
   .row-medium-cost-share {
-    @apply bg-secondary-400;
+    --tw-bg-opacity: 1;
+    background-color: rgb(73 182 107 / var(--tw-bg-opacity));
   }
 
   .row-low-cost-share {
-    @apply bg-secondary-200;
+    --tw-bg-opacity: 1;
+    background-color: rgb(152 211 167 / var(--tw-bg-opacity));
   }
 
   .row-lowest-cost-share {
-    @apply bg-secondary-50;
+    --tw-bg-opacity: 1;
+    background-color: rgb(229 244 233 / var(--tw-bg-opacity));
   }
 
   .row-negative-cost-share {
-    @apply bg-light-red;
+    --tw-bg-opacity: 1;
+    background-color: rgb(239 204 210 / var(--tw-bg-opacity));
   }
 }
 
 ag-grid-angular {
-  @apply h-full;
+  height: 100%;
 }
