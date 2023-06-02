@@ -125,7 +125,7 @@ export const transformAsMaterialRequest = (values: MaterialFormValue) => {
     id: values.manufacturerSupplierId,
     name: values.supplier.title,
     plant: values.supplierPlant.title,
-    country: values.supplierCountry.title,
+    country: values.supplierCountry.id as string,
     // steel only
     manufacturer: findProperty(values, 'manufacturer'),
   };

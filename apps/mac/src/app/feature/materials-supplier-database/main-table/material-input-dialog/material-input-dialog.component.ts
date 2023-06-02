@@ -329,7 +329,7 @@ export class MaterialInputDialogComponent
       id: baseMaterial.manufacturerSupplierId,
       name: baseMaterial.supplier.title,
       plant: baseMaterial.supplierPlant.title,
-      country: baseMaterial.supplierCountry?.title,
+      country: baseMaterial.supplierCountry?.id as string,
       manufacturer: findProperty(baseMaterial, 'manufacturer'),
     };
   }

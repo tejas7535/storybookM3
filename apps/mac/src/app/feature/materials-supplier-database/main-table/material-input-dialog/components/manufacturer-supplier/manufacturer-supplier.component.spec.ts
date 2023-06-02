@@ -105,21 +105,21 @@ describe('ManufacturerSupplierComponent', () => {
         id: 1,
         title: 'plant',
       };
-      it('should reset and enable the country control if the data is undefined', () => {
+      it('should set and enable the country control if the data is undefined', () => {
         const mockSupplierPlant = {
           ...mockSupplierPlantBase,
         };
-        supplierCountryControl.reset = jest.fn();
         supplierCountryControl.enable = jest.fn();
         supplierCountryControl.setValue = jest.fn();
 
         supplierPlantControl.setValue(mockSupplierPlant);
 
-        expect(supplierCountryControl.setValue).not.toHaveBeenCalled();
-        expect(supplierCountryControl.reset).toHaveBeenCalled();
+        expect(supplierCountryControl.setValue).toHaveBeenCalledWith(
+          mockSupplierPlant?.data?.supplierCountry
+        );
         expect(supplierCountryControl.enable).toHaveBeenCalled();
       });
-      it('should disable country control if plant data is available', () => {
+      it('should set and disable country control if plant data is available', () => {
         const mockSupplierPlant = {
           ...mockSupplierPlantBase,
           data: {
@@ -128,14 +128,25 @@ describe('ManufacturerSupplierComponent', () => {
         };
         supplierCountryControl.setValue = jest.fn();
         supplierCountryControl.disable = jest.fn();
-        supplierCountryControl.reset = jest.fn();
 
         supplierPlantControl.setValue(mockSupplierPlant);
 
-        expect(supplierCountryControl.reset).toHaveBeenCalled();
-        expect(supplierCountryControl.setValue).not.toHaveBeenCalled();
+        expect(supplierCountryControl.setValue).toHaveBeenCalledWith(
+          mockSupplierPlant?.data?.supplierCountry
+        );
         expect(supplierCountryControl.disable).toHaveBeenCalled();
       });
+    });
+
+    it('should set and disable country control if plant undefined', () => {
+      supplierCountryControl.setValue = jest.fn();
+      supplierCountryControl.disable = jest.fn();
+
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      supplierPlantControl.setValue(undefined);
+
+      expect(supplierCountryControl.setValue).toHaveBeenCalledWith(undefined);
+      expect(supplierCountryControl.disable).toHaveBeenCalled();
     });
 
     describe('ADD - supplierDependencies valueChanges', () => {
@@ -151,6 +162,8 @@ describe('ManufacturerSupplierComponent', () => {
         manufacturerSupplierIdControl.reset = jest.fn();
         supplierPlantControl.reset = jest.fn();
         supplierCountryControl.reset = jest.fn();
+        supplierPlantControl.disable = jest.fn();
+        supplierCountryControl.disable = jest.fn();
 
         // eslint-disable-next-line unicorn/no-useless-undefined
         supplierControl.setValue(undefined);
@@ -160,6 +173,12 @@ describe('ManufacturerSupplierComponent', () => {
           emitEvent: false,
         });
         expect(supplierCountryControl.reset).toHaveBeenCalledWith(undefined, {
+          emitEvent: false,
+        });
+        expect(supplierPlantControl.disable).toHaveBeenCalledWith({
+          emitEvent: false,
+        });
+        expect(supplierCountryControl.disable).toHaveBeenCalledWith({
           emitEvent: false,
         });
       });

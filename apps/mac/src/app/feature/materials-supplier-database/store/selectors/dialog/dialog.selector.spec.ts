@@ -630,7 +630,7 @@ describe('DialogSelectors', () => {
           data: {
             supplierId: 1,
             supplierName: 'supplier1',
-            supplierCountry: 'country1',
+            supplierCountry: { id: 'country1', title: 'country1 (country1)' },
             manufacturer: true,
           },
         },
@@ -642,7 +642,7 @@ describe('DialogSelectors', () => {
           data: {
             supplierId: 2,
             supplierName: 'supplier2',
-            supplierCountry: 'country2',
+            supplierCountry: { id: 'country2', title: 'country2 (country2)' },
             manufacturer: false,
           },
         },

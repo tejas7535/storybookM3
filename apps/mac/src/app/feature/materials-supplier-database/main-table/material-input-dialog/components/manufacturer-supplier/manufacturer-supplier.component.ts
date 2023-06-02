@@ -83,15 +83,15 @@ export class ManufacturerSupplierComponent implements OnInit, OnDestroy {
       this.supplierPlantControl.valueChanges
         .pipe(takeUntil(this.destroy$))
         .subscribe((supplierPlant) => {
-          this.supplierCountryControl.reset();
-          // enable only for new suppliers
-          const isNew = supplierPlant?.data === undefined;
-          if (isNew) {
+          if (supplierPlant) {
             this.supplierCountryControl.enable();
           } else {
-            // it is useless to allow this, as this entry already exists!
             this.supplierCountryControl.disable();
           }
+
+          this.supplierCountryControl.setValue(
+            supplierPlant?.data?.supplierCountry
+          );
         });
 
       this.supplierDependencies.valueChanges
@@ -120,7 +120,9 @@ export class ManufacturerSupplierComponent implements OnInit, OnDestroy {
           } else {
             this.manufacturerSupplierIdControl.reset();
             this.supplierPlantControl.reset(undefined, { emitEvent: false });
+            this.supplierPlantControl.disable({ emitEvent: false });
             this.supplierCountryControl.reset(undefined, { emitEvent: false });
+            this.supplierCountryControl.disable({ emitEvent: false });
           }
         });
     } else if (this.editable) {

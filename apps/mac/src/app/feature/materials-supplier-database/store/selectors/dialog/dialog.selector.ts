@@ -317,7 +317,12 @@ export const getSupplierPlantStringOptions = createSelector(
         data: {
           supplierId: supplier.id,
           supplierName: supplier.name,
-          supplierCountry: supplier.country,
+          supplierCountry: {
+            id: supplier.country,
+            title: `${translate(
+              `materialsSupplierDatabase.mainTable.tooltip.country.${supplier.country}`
+            )} (${supplier.country})`,
+          },
           manufacturer:
             'manufacturer' in supplier ? supplier.manufacturer : undefined,
         },

@@ -243,7 +243,11 @@ describe('DialogFacade', () => {
               data: {
                 supplierId: 1,
                 supplierName: 'supplier',
-                supplierCountry: 'country',
+                supplierCountry: {
+                  id: 'country',
+                  title:
+                    'materialsSupplierDatabase.mainTable.tooltip.country.country (country)',
+                },
                 manufacturer: false,
               },
             },

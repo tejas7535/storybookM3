@@ -115,7 +115,7 @@
         </div>
       </schaeffler-select>
       <schaeffler-select
-        [ngClass]="{ '!hidden': supplierCountryControl.disabled }"
+        *ngIf="!supplierPlantControl.value?.data; else readOnlyCountry"
         appearance="outline"
         class="w-full"
         [stringOptions]="supplierCountries$ | ngrxPush"
@@ -132,6 +132,20 @@
           {{ getErrorMessage(supplierCountryControl.errors) }}
         </div>
       </schaeffler-select>
+      <ng-template #readOnlyCountry>
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>{{ t('supplierCountry') }} {{ t('readonly') }}</mat-label>
+          <input
+            matInput
+            [value]="supplierCountryControl.value?.title"
+            name="manufacturerSupplierCountry"
+            [matTooltip]="supplierCountryControl.value?.title"
+            [matTooltipShowDelay]="1500"
+            #dialogControl
+            readonly="true"
+          />
+        </mat-form-field>
+      </ng-template>
     </ng-container>
   </div>
 </ng-container>
