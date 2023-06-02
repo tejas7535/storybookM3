@@ -1,4 +1,22 @@
 # Release Notes of Material App Center
+## [1.9.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.8.0...mac-v1.9.0) (2023-06-02)
+
+
+### Features
+
+* **mac:** msd, create a LinkCellRenderer for WIAM column - UFTABI-6370 ([#5257](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5257)) ([3571737](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3571737eb5a6bcbc9d4392c09bba040feacbbe7d))
+* **mac:** render Standards with link to document - UFTABI - 6045 ([#5266](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5266)) ([747c592](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/747c592c256ba31d5bf0727326a8e0a71aac51f1))
+* **mac:** update columns to display country and Region of supplier in ISO std - MSD / UFTABI-6377 ([#5274](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5274)) ([0fef4f7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0fef4f7ad13e883812f568488cd75a2cc793d8ee))
+* replace font styles with m3 standard ([#5211](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5211)) ([0ef134c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0ef134c2cb41319de679919be47c318f010ce6c5))
+* **workspace:** update msal library ([#5311](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5311)) ([c58e551](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c58e55125854d8b376c0a13094ce1824e53f9adb))
+
+
+### Bug Fixes
+
+* **mac:** adjust supplier dialog flow ([#5333](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5333)) ([efe4700](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/efe4700b707df9023199d5f2e883ddd34bdf05ef))
+* **mac:** co2 validation for preset required validator - UFTABI-6379 ([#5282](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5282)) ([a0ed900](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a0ed900c61a433f36e7f22b7c39cbc7ad128606c))
+* **mac:** fix fetching data of CO2Values UFTABI-6322 ([#5279](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5279)) ([2c0f195](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2c0f195efb954554fc27e3a0b0f8ca298a6eafbd))
+
 ## [1.8.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.7.0...mac-v1.8.0) (2023-05-03)
 
 
