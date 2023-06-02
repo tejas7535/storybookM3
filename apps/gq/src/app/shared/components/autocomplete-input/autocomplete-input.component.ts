@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/explicit-member-accessibility */
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
+  HostListener,
   Input,
   OnDestroy,
   OnInit,
@@ -14,7 +16,11 @@ import {
   UntypedFormControl,
   ValidationErrors,
 } from '@angular/forms';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import {
+  MatAutocomplete,
+  MatAutocompleteSelectedEvent,
+} from '@angular/material/autocomplete';
+import { MatFormField } from '@angular/material/form-field';
 
 import { EMPTY, Subscription, timer } from 'rxjs';
 import { debounce, filter, tap } from 'rxjs/operators';
@@ -27,7 +33,9 @@ import { FilterNames } from './filter-names.enum';
   selector: 'gq-autocomplete-input',
   templateUrl: './autocomplete-input.component.html',
 })
-export class AutocompleteInputComponent implements OnDestroy, OnInit {
+export class AutocompleteInputComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   @Input() autocompleteLoading = false;
 
   @Input() set isDisabled(isDisabled: boolean) {
@@ -54,6 +62,12 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
 
   @Input() filterName: string;
 
+  /**
+   * If true, the autocomplete panel will dynamically increase its width,
+   * in order to display the content completely until the max. allowed width of the panel is reached.
+   */
+  @Input() fitContent = false;
+
   @Output()
   private readonly autocomplete: EventEmitter<AutocompleteSearch> = new EventEmitter();
 
@@ -67,10 +81,14 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
     true
   );
 
+  @ViewChild('formField') formFieldReference: MatFormField;
   @ViewChild('valueInput') valueInput: ElementRef<HTMLInputElement>;
+  @ViewChild(MatAutocomplete) autocompleteReference: MatAutocomplete;
 
   private readonly ONE_CHAR_LENGTH = 1;
   private readonly DEBOUNCE_TIME_DEFAULT = 500;
+  private readonly AUTOCOMPLETE_PANEL_MAX_WIDTH = '420px';
+
   debounceIsActive = false;
 
   readonly subscription: Subscription = new Subscription();
@@ -78,6 +96,13 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
   selectedIdValue: IdValue;
   unselectedOptions: IdValue[];
   searchFormControl: UntypedFormControl = new UntypedFormControl();
+
+  @HostListener('window:resize')
+  handleWindowResize() {
+    if (this.fitContent && this.autocompleteReference.isOpen) {
+      this.setAutocompletePanelWidthLimits();
+    }
+  }
 
   ngOnInit(): void {
     this.subscription.add(
@@ -114,6 +139,18 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
     );
     this.searchFormControl.setValidators([this.isInputValid.bind(this)]);
   }
+
+  ngAfterViewInit(): void {
+    if (this.fitContent) {
+      this.autocompleteReference.panelWidth = 'auto';
+      this.subscription.add(
+        this.autocompleteReference.opened.subscribe(() =>
+          this.setAutocompletePanelWidthLimits()
+        )
+      );
+    }
+  }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
@@ -222,21 +259,33 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
     this.added.emit(event.option.value);
   }
 
-  public clearInput(): void {
+  clearInput(): void {
     this.unselect();
     this.valueInput.nativeElement.value = '';
     this.searchFormControl.setValue('');
   }
 
-  public focus(): void {
+  focus(): void {
     this.valueInput.nativeElement.focus();
   }
 
-  public trackByFn(index: number): number {
+  trackByFn(index: number): number {
     return index;
   }
 
   resetInputField(): void {
     this.searchFormControl.setValue('');
+  }
+
+  private setAutocompletePanelWidthLimits(): void {
+    // The timeout is needed because the autocomplete panel might not be rendered when min. and max. width are set!
+    setTimeout(() => {
+      this.autocompleteReference.panel.nativeElement.style.minWidth = `${
+        this.formFieldReference.getConnectedOverlayOrigin().nativeElement
+          .clientWidth
+      }px`;
+      this.autocompleteReference.panel.nativeElement.style.maxWidth =
+        this.AUTOCOMPLETE_PANEL_MAX_WIDTH;
+    });
   }
 }

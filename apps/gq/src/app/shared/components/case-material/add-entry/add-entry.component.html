@@ -20,6 +20,7 @@
       <gq-autocomplete-input
         #materialDescInput
         [filterName]="materialDesc.filter"
+        [fitContent]="true"
         [options]="materialDesc.options"
         (inputContent)="materialHasInput($event)"
         (unselected)="autoCompleteFacade.unselectOptions(materialDesc.filter)"
@@ -45,6 +46,7 @@
       <gq-autocomplete-input
         #materialNumberInput
         [filterName]="materialNumber.filter"
+        [fitContent]="true"
         [options]="materialNumber.options"
         (inputContent)="materialHasInput($event)"
         (unselected)="autoCompleteFacade.unselectOptions(materialNumber.filter)"

@@ -1,15 +1,18 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import {
+  MatAutocomplete,
   MatAutocompleteModule,
   MatAutocompleteSelectedEvent,
 } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { MatFormField } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 
 import * as rxjs from 'rxjs';
+import { of } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
@@ -361,6 +364,163 @@ describe('AutocompleteInputComponent', () => {
 
       expect(component.unselect).toHaveBeenCalledTimes(1);
       expect(result).toEqual({ invalidInput: true });
+    });
+  });
+
+  describe('handleWindowResize', () => {
+    test('should set autocomplete panel width limits if panel is opened and content should fit', () => {
+      jest.useFakeTimers();
+
+      component.fitContent = true;
+      component.autocompleteReference = {
+        isOpen: true,
+        panel: {
+          nativeElement: {
+            style: { minWidth: undefined, maxWidth: undefined },
+          },
+        },
+      } as MatAutocomplete;
+
+      const formFieldWidth = 500;
+
+      component.formFieldReference = {
+        getConnectedOverlayOrigin: () => ({
+          nativeElement: { clientWidth: formFieldWidth },
+        }),
+      } as MatFormField;
+
+      component.handleWindowResize();
+      jest.runOnlyPendingTimers();
+
+      expect(
+        component.autocompleteReference.panel.nativeElement.style.minWidth
+      ).toBe(`${formFieldWidth}px`);
+      expect(
+        component.autocompleteReference.panel.nativeElement.style.maxWidth
+      ).toBe(component['AUTOCOMPLETE_PANEL_MAX_WIDTH']);
+
+      jest.useRealTimers();
+    });
+
+    test('should not set autocomplete panel width limits if panel is not opened', () => {
+      component.fitContent = true;
+      component.autocompleteReference = {
+        isOpen: false,
+        panel: {
+          nativeElement: {
+            style: { minWidth: undefined, maxWidth: undefined },
+          },
+        },
+      } as MatAutocomplete;
+
+      const setAutocompletePanelWidthLimitsSpy = jest.spyOn(
+        component as any,
+        'setAutocompletePanelWidthLimits'
+      );
+
+      component.handleWindowResize();
+
+      expect(setAutocompletePanelWidthLimitsSpy).not.toBeCalled();
+      expect(
+        component.autocompleteReference.panel.nativeElement.style.minWidth
+      ).toBe(undefined);
+      expect(
+        component.autocompleteReference.panel.nativeElement.style.maxWidth
+      ).toBe(undefined);
+    });
+
+    test('should not set autocomplete panel width limits if content should not fit', () => {
+      component.fitContent = false;
+      component.autocompleteReference = {
+        isOpen: false,
+        panel: {
+          nativeElement: {
+            style: { minWidth: undefined, maxWidth: undefined },
+          },
+        },
+      } as MatAutocomplete;
+
+      const setAutocompletePanelWidthLimitsSpy = jest.spyOn(
+        component as any,
+        'setAutocompletePanelWidthLimits'
+      );
+
+      component.handleWindowResize();
+
+      expect(setAutocompletePanelWidthLimitsSpy).not.toBeCalled();
+      expect(
+        component.autocompleteReference.panel.nativeElement.style.minWidth
+      ).toBe(undefined);
+      expect(
+        component.autocompleteReference.panel.nativeElement.style.maxWidth
+      ).toBe(undefined);
+    });
+  });
+
+  describe('ngAfterViewInit', () => {
+    test('should set autocomplete panel width to auto and width limits if content should fit', () => {
+      jest.useFakeTimers();
+
+      component.fitContent = true;
+      component.autocompleteReference = {
+        panelWidth: undefined,
+        panel: {
+          nativeElement: {
+            style: { minWidth: undefined, maxWidth: undefined },
+          },
+        },
+        opened: of(true),
+      } as unknown as MatAutocomplete;
+
+      const formFieldWidth = 500;
+
+      component.formFieldReference = {
+        getConnectedOverlayOrigin: () => ({
+          nativeElement: { clientWidth: formFieldWidth },
+        }),
+      } as MatFormField;
+
+      component.ngAfterViewInit();
+
+      jest.runOnlyPendingTimers();
+
+      expect(component.autocompleteReference.panelWidth).toBe('auto');
+      expect(
+        component.autocompleteReference.panel.nativeElement.style.minWidth
+      ).toBe(`${formFieldWidth}px`);
+      expect(
+        component.autocompleteReference.panel.nativeElement.style.maxWidth
+      ).toBe(component['AUTOCOMPLETE_PANEL_MAX_WIDTH']);
+
+      jest.useRealTimers();
+    });
+
+    test('should not set autocomplete panel width to auto and width limits if content should not fit', () => {
+      component.fitContent = false;
+      component.autocompleteReference = {
+        panelWidth: undefined,
+        panel: {
+          nativeElement: {
+            style: { minWidth: undefined, maxWidth: undefined },
+          },
+        },
+        opened: of(true),
+      } as unknown as MatAutocomplete;
+
+      const setAutocompletePanelWidthLimitsSpy = jest.spyOn(
+        component as any,
+        'setAutocompletePanelWidthLimits'
+      );
+      component.ngAfterViewInit();
+
+      expect(setAutocompletePanelWidthLimitsSpy).not.toBeCalled();
+      expect(component.autocompleteReference.panelWidth).toBe(undefined);
+      expect(
+        component.autocompleteReference.panel.nativeElement.style.minWidth
+      ).toBe(undefined);
+      expect(
+        component.autocompleteReference.panel.nativeElement.style.maxWidth
+      ).toBe(undefined);
     });
   });
 });
