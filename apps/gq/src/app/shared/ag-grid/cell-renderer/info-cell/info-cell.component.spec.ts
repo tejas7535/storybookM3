@@ -3,11 +3,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { SAP_ERROR_MESSAGE_CODE } from '@gq/shared/models/quotation-detail';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { translate } from '@ngneat/transloco';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { CellClassParams } from 'ag-grid-community';
 
 import { ValidationDescription } from '../../../models/table';
+import { ColumnUtilityService } from '../../services';
 import { InfoCellComponent } from './info-cell.component';
 
 describe('InfoCellComponent', () => {
@@ -18,7 +22,10 @@ describe('InfoCellComponent', () => {
     component: InfoCellComponent,
     declarations: [InfoCellComponent],
     imports: [MatIconModule, MatTooltipModule],
-    providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
+    providers: [
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+      mockProvider(ColumnUtilityService),
+    ],
   });
 
   beforeEach(() => {
@@ -79,20 +86,6 @@ describe('InfoCellComponent', () => {
       params.value.valid = false;
 
       component.agInit(params);
-      expect(component.isErrorText).toBe(true);
-    });
-
-    test('should set the tooltip text to errorCode', () => {
-      const params: CellClassParams = cellClassParams;
-      params.data.info.description = [ValidationDescription.Not_Validated];
-      params.data.info.errorCode = SAP_ERROR_MESSAGE_CODE.SDG1000;
-      params.value.valid = false;
-
-      component.agInit(params);
-      expect(component.toolTipText).toMatch('translate it');
-      expect(translate).toHaveBeenCalledWith(
-        'shared.sapStatusLabels.errorCodes.SDG1000'
-      );
       expect(component.isErrorText).toBe(true);
     });
   });

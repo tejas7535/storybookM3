@@ -155,6 +155,8 @@ describe('InputTableComponent', () => {
         {
           cellRenderer: CreateCaseActionCellComponent,
           flex: 0.2,
+          filter: false,
+          floatingFilter: false,
           headerComponent: CreateCaseActionHeaderComponent,
         },
       ];
@@ -169,6 +171,8 @@ describe('InputTableComponent', () => {
         {
           cellRenderer: ProcessCaseActionCellComponent,
           flex: 0.2,
+          filter: false,
+          floatingFilter: false,
           headerComponent: ProcessCaseActionHeaderComponent,
         },
       ];

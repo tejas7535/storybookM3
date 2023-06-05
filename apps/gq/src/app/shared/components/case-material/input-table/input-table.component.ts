@@ -67,6 +67,8 @@ export class InputTableComponent implements OnInit {
         ? CreateCaseActionCellComponent
         : ProcessCaseActionCellComponent,
       flex: 0.2,
+      filter: false,
+      floatingFilter: false,
       headerComponent: isCaseView
         ? CreateCaseActionHeaderComponent
         : ProcessCaseActionHeaderComponent,

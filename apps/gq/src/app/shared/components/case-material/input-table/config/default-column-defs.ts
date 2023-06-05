@@ -4,4 +4,7 @@ export const DEFAULT_COLUMN_DEFS: ColDef = {
   editable: false,
   flex: 1,
   resizable: true,
+  filter: true,
+  floatingFilter: true,
+  menuTabs: ['generalMenuTab', 'columnsMenuTab'],
 };

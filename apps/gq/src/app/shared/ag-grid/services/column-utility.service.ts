@@ -6,6 +6,7 @@ import {
   CalculationType,
   SalesIndication,
 } from '@gq/core/store/reducers/models';
+import { ValidationDescription } from '@gq/shared/models/table';
 import { MaterialNumberService } from '@gq/shared/services/material-number/material-number.service';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { parseLocalizedInputValue } from '@gq/shared/utils/misc.utils';
@@ -373,6 +374,28 @@ export class ColumnUtilityService {
       default:
         return salesIndicationValue;
     }
+  }
+
+  buildMaterialInfoTooltipText(
+    description: ValidationDescription[],
+    errorCode?: string
+  ): string {
+    let text = '';
+
+    // show either errorCode Message or DescriptionMessages, No mixes
+    if (errorCode) {
+      text += `${translate(
+        `shared.sapStatusLabels.errorCodes.${errorCode}`
+      )}\n`;
+    } else {
+      description.forEach((item) => {
+        text += `${translate(
+          `shared.caseMaterial.table.info.status.${item}`
+        )}\n`;
+      });
+    }
+
+    return text;
   }
 }
 

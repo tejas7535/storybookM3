@@ -29,6 +29,7 @@ import { Keyboard, Quotation } from '../../models';
 import {
   LastCustomerPriceCondition,
   PriceSource,
+  SAP_ERROR_MESSAGE_CODE,
 } from '../../models/quotation-detail';
 import { ValidationDescription } from '../../models/table';
 import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
@@ -507,6 +508,20 @@ describe('CreateColumnService', () => {
 
       expect(translate).toHaveBeenCalledTimes(1);
       expect(res).toEqual('translate it');
+    });
+  });
+
+  describe('buildMaterialInfoTooltipText', () => {
+    test('should set the tooltip text to errorCode', () => {
+      const result = service.buildMaterialInfoTooltipText(
+        [ValidationDescription.Not_Validated],
+        SAP_ERROR_MESSAGE_CODE.SDG1000
+      );
+
+      expect(result).toMatch('translate it');
+      expect(translate).toHaveBeenCalledWith(
+        'shared.sapStatusLabels.errorCodes.SDG1000'
+      );
     });
   });
 

@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 
 import { EditCaseMaterialComponent } from '@gq/shared/ag-grid/cell-renderer/edit-cells';
+import {
+  FILTER_PARAMS,
+  NUMBER_COLUMN_FILTER,
+} from '@gq/shared/ag-grid/constants/filters';
 import { Keyboard } from '@gq/shared/models';
 import { translate } from '@ngneat/transloco';
 import { ColDef, ValueFormatterParams } from 'ag-grid-enterprise';
@@ -19,6 +23,12 @@ export class InputTableColumnDefService {
       cellRenderer: 'infoCellComponent',
       flex: 0.15,
       sortable: true,
+      filterParams: FILTER_PARAMS,
+      filterValueGetter: (params) =>
+        this.columnUtilityService.buildMaterialInfoTooltipText(
+          params.data.info.description,
+          params.data.info.errorCode
+        ),
       comparator: ColumnUtilityService.infoComparator,
     },
     {
@@ -26,6 +36,7 @@ export class InputTableColumnDefService {
       field: 'materialDescription',
       flex: 0.25,
       sortable: true,
+      filterParams: FILTER_PARAMS,
       cellRenderer: EditCaseMaterialComponent,
     },
     {
@@ -33,6 +44,11 @@ export class InputTableColumnDefService {
       field: 'materialNumber',
       flex: 0.25,
       sortable: true,
+      filterParams: {
+        ...FILTER_PARAMS,
+        valueFormatter: (params: ValueFormatterParams) =>
+          this.columnUtilityService.materialTransform(params),
+      },
       cellRenderer: EditCaseMaterialComponent,
       valueFormatter: (params) =>
         this.columnUtilityService.materialTransform(params),
@@ -42,6 +58,8 @@ export class InputTableColumnDefService {
       field: 'quantity',
       flex: 0.15,
       sortable: true,
+      filter: NUMBER_COLUMN_FILTER,
+      filterParams: ColumnUtilityService.integerFilterParams,
       cellRenderer: EditCaseMaterialComponent,
       valueFormatter: (params) =>
         this.columnUtilityService.numberFormatter(params),
@@ -51,6 +69,8 @@ export class InputTableColumnDefService {
       field: 'targetPrice',
       flex: 0.15,
       sortable: true,
+      filter: NUMBER_COLUMN_FILTER,
+      filterParams: this.columnUtilityService.numberFilterParams,
       cellRenderer: EditCaseMaterialComponent,
       valueFormatter: (params) =>
         this.columnUtilityService.targetPriceFormatter(params),
@@ -64,6 +84,7 @@ export class InputTableColumnDefService {
       field: 'priceUnit',
       flex: 0.15,
       sortable: true,
+      filterParams: FILTER_PARAMS,
       valueFormatter: (params) =>
         this.columnUtilityService.numberDashFormatter(params),
     },
@@ -72,6 +93,12 @@ export class InputTableColumnDefService {
       field: 'UoM',
       flex: 0.15,
       sortable: true,
+      filterParams: {
+        ...FILTER_PARAMS,
+        valueFormatter: (params: ValueFormatterParams) =>
+          this.columnUtilityService.transformConditionUnit(params) ??
+          Keyboard.DASH,
+      },
       valueFormatter: (params: ValueFormatterParams) =>
         this.columnUtilityService.transformConditionUnit(params) ??
         Keyboard.DASH,
