@@ -47,7 +47,7 @@
   },
   "pricingDetails": {
     "materialDetails": {
-      "materialNumber": "Material Nr. (15-Digit)",
+      "materialNumber": "Material Number (15-Digit)",
       "baseUoM": "Base UoM",
       "deliveryUnit": "Delivery Unit",
       "customerMaterial": "Customer Material",
