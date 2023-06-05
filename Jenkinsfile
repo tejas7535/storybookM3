@@ -757,8 +757,15 @@ pipeline {
 
                         script {
                             withCredentials([usernamePassword(credentialsId: 'ARTIFACTORY_USER', passwordVariable: 'API_KEY', usernameVariable: 'USERNAME')]) {
-                                sh "echo 'email=${USERNAME}' > ~/.npmrc"
-                                sh "echo '//artifactory.schaeffler.com/artifactory/api/npm/npm/:_authToken=${API_KEY}' > ~/.npmrc"
+                                sh '''
+                                    username=svc_frontend_mono
+                                    authToken=$(echo -n "${username}:${API_KEY}" | base64 -w 0)
+                                    
+                                    npm config set _auth "${authToken}"
+                                    npm config set email "${username}@schaeffler.com"
+
+                                    npm config list
+                                '''
 
                                 sh "pnpm nx affected --base=${buildBase} --target=publish --registry=https://artifactory.schaeffler.com/artifactory/api/npm/npm/"
                             }
