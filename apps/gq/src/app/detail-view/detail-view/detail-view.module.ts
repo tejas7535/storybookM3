@@ -6,6 +6,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { ActiveCaseModule } from '@gq/core/store/active-case/active-case.module';
+import { SyncStatusCustomerInfoHeaderModule } from '@gq/shared/components/header/sync-status-customer-info-header/sync-status-customer-info-header.module';
+import { EditingModalModule } from '@gq/shared/components/modal/editing-modal/editing-modal.module';
+import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { LetModule, PushModule } from '@ngrx/component';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
@@ -14,8 +17,6 @@ import { ShareButtonModule } from '@schaeffler/share-button';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { SyncStatusCustomerInfoHeaderModule } from '../../shared/components/header/sync-status-customer-info-header/sync-status-customer-info-header.module';
-import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { DetailViewComponent } from './detail-view.component';
 import { DetailViewHeaderContentModule } from './detail-view-header-content/detail-view-header-content.module';
 import { DetailViewNavigationBarModule } from './detail-view-navigation-bar/detail-view-navigation-bar.module';
@@ -46,6 +47,7 @@ import { PricingDetailsModule } from './pricing-details/pricing-details.module';
     SharedTranslocoModule,
     MatTooltipModule,
     ActiveCaseModule,
+    EditingModalModule,
   ],
 })
 export class DetailViewModule {}
