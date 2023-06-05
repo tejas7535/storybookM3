@@ -246,7 +246,7 @@ def getAgentLabel() {
 
 void deployArtifact(target, uploadFile, checksum) {
     withCredentials([usernamePassword(credentialsId: 'ARTIFACTORY_FRONTEND_USER', passwordVariable: 'API_KEY', usernameVariable: 'USERNAME')]) {
-        sh "curl --insecure --http1.1 -H X-JFrog-Art-Api:${API_KEY} -H X-Checksum-Sha1:${checksum} -X PUT \"https://artifactory.schaeffler.com/artifactory/${target};build.number=${BUILD_NUMBER};build.name=${target};build.commit=${GIT_COMMIT}\" -T ${uploadFile}"
+        sh "curl --http1.1 -H X-JFrog-Art-Api:${API_KEY} -H X-Checksum-Sha1:${checksum} -X PUT \"https://artifactory.schaeffler.com/artifactory/${target};build.number=${BUILD_NUMBER};build.name=${target};build.commit=${GIT_COMMIT}\" -T ${uploadFile}"
     }
 }
 
@@ -427,7 +427,7 @@ pipeline {
                         script {
                             withCredentials([usernamePassword(credentialsId: 'ARTIFACTORY_FRONTEND_USER', passwordVariable: 'API_KEY', usernameVariable: 'USERNAME')]) {
                                 def jsonString = sh (
-                                    script: "curl --insecure --silent -H X-JFrog-Art-Api:${API_KEY} -X GET \"https://artifactory.schaeffler.com/artifactory/api/storage/${artifactoryBasePath}?list&deep=1&depth=10&listFolders=1&mdTimestamps=1&includeRootPath=1\"",
+                                    script: "curl --silent -H X-JFrog-Art-Api:${API_KEY} -X GET \"https://artifactory.schaeffler.com/artifactory/api/storage/${artifactoryBasePath}?list&deep=1&depth=10&listFolders=1&mdTimestamps=1&includeRootPath=1\"",
                                     returnStdout: true
                                 )
                                 def artifactoryResponse = readJSON text: jsonString
@@ -442,7 +442,7 @@ pipeline {
                                         if (daysBetween > 60) {
                                             echo "${artifactoryFile}"
                                             echo 'IS GOING TO GET DELETED'
-                                            sh "curl --insecure --silent -H X-JFrog-Art-Api:${API_KEY} -X DELETE \"https://artifactory.schaeffler.com/artifactory/${artifactoryBasePath}${artifactoryFile.uri}\""
+                                            sh "curl --silent -H X-JFrog-Art-Api:${API_KEY} -X DELETE \"https://artifactory.schaeffler.com/artifactory/${artifactoryBasePath}${artifactoryFile.uri}\""
                                         }
                                     }
                                 }
