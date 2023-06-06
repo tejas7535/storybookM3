@@ -5,7 +5,9 @@
     [matTooltipDisabled]="!showTooltip"
     >{{ title }}</span
   >
-  <h4 class="mb-2">{{ value | defaultValue }}</h4>
+  <ng-container *ngIf="!isLoading; else loading">
+    <h4 class="mb-2">{{ value | defaultValue }}</h4>
+  </ng-container>
   <div [class]="'text-high-emphasis'">
     <button
       mat-fab
@@ -22,3 +24,10 @@
     </button>
   </div>
 </div>
+<ng-template #loading>
+  <schaeffler-loading-spinner
+    [diameter]="40"
+    [strokeWidth]="4"
+    [relative]="true"
+  ></schaeffler-loading-spinner>
+</ng-template>

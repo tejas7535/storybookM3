@@ -13,35 +13,19 @@
   <ng-template #infoExistingSettings>
     <p>{{ t('instruction') }}</p>
   </ng-template>
-  <div class="mt-10 grid grid-cols-2 gap-2">
-    <ia-select-input
-      [appearance]="'outline'"
-      [label]="t('dimensionLabel')"
-      [hint]="t('dimensionHint')"
-      [disabled]="false"
-      [options]="availableDimensions"
-      [selectedOption]="activeDimension"
-      (selected)="selectDimension($event)"
-    ></ia-select-input>
-
-    <ia-autocomplete-input
-      [filter]="dimensionFilter$ | ngrxPush"
-      [autoCompleteLoading]="selectedDimensionDataLoading$ | ngrxPush"
-      [value]="selectedDimensionIdValue"
-      [type]="type"
-      [hint]="
-        t('dimensionIdValueHint', {
-          dimension: dimensionName
-        })
-      "
-      [minCharLength]="minCharLength"
-      [appearance]="'outline'"
-      [noResultMessage]="t('nothingFound')"
-      (selected)="selectDimensionDataOption($event)"
-      (invalidFormControl)="invalidDimensionData($event)"
-      (autoComplete)="autoCompleteSelectedDimensionIdValueChange($event)"
-    ></ia-autocomplete-input>
-  </div>
+  <ia-dimension-filter
+    class="my-8 flex justify-center"
+    [apparence]="'outline'"
+    [availableDimensions]="availableDimensions$ | ngrxPush"
+    [activeDimension]="activeDimension"
+    [selectedDimensionIdValue]="selectedDimensionIdValue"
+    [dimensionFilter]="dimensionFilter$ | ngrxPush"
+    [dimensionFilterTranslation]="dimensionFilterTranslation$ | ngrxPush"
+    [dimensionDataLoading]="selectedDimensionDataLoading$ | ngrxPush"
+    (dimensionSelected)="onDimensionSelected($event)"
+    (autocompleteInput)="onDimensionAutocompleteInput($event)"
+    (optionSelected)="onDimensionOptionSelected($event)"
+  ></ia-dimension-filter>
 </mat-dialog-content>
 <mat-dialog-actions
   align="end"

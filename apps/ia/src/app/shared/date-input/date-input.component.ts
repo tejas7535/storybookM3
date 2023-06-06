@@ -56,13 +56,16 @@ export class DateInputComponent {
   @Input() placeholderEnd: string;
 
   @Input() set timePeriod(timePeriod: TimePeriod) {
-    this._timePeriod = timePeriod;
-
     // refDate depends on year or month/last12month dropdown
-    const refDate =
-      timePeriod === TimePeriod.YEAR ? this.maxDate : this.nowDate;
-    this.updateStartEndDates(refDate);
-    this.setInitialStartEndDates();
+    if (!this.timePeriod) {
+      this._timePeriod = timePeriod;
+      this.setInitialStartEndDates();
+    } else {
+      this._timePeriod = timePeriod;
+      const refDate =
+        timePeriod === TimePeriod.YEAR ? this.maxDate : this.nowDate;
+      this.updateStartEndDates(refDate);
+    }
   }
 
   get timePeriod(): TimePeriod {

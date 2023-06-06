@@ -16,6 +16,7 @@ import {
 } from '../../../core/store/selectors';
 import { ExitEntryEmployeesResponse } from '../../../overview/models';
 import { EmployeesRequest } from '../../../shared/models';
+import { updateUserSettingsSuccess } from '../../../user/store/actions/user.action';
 import { LossOfSkillService } from '../../loss-of-skill.service';
 import { LostJobProfilesResponse, WorkforceResponse } from '../../models';
 import {
@@ -45,7 +46,7 @@ export class LossOfSkillEffects {
 
   filterChange$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(filterSelected, routerNavigationAction),
+      ofType(filterSelected, routerNavigationAction, updateUserSettingsSuccess),
       concatLatestFrom(() => this.store.select(selectRouterState)),
       filter(
         ([_action, router]) => router.state.url === this.LOSS_OF_SKILL_URL

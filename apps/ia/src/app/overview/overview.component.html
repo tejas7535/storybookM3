@@ -9,33 +9,37 @@
           >
             <div class="mb-4 pl-4">
               <ia-kpi
-                [title]="t('companyName')"
-                [value]="(fluctuationKpi$ | ngrxPush)?.kpiRates.company"
+                [title]="(benchmarkFluctuationKpi$ | ngrxPush)?.name"
+                [value]="(benchmarkFluctuationKpi$ | ngrxPush)?.fluctuationRate"
                 [showTeamMemberDialog]="false"
+                [isLoading]="isBenchmarkFluctuationKpiLoading$ | ngrxPush"
               ></ia-kpi>
             </div>
             <div class="mb-4 pl-4">
               <ia-kpi
-                [title]="(fluctuationKpi$ | ngrxPush)?.orgUnitName"
-                [value]="(fluctuationKpi$ | ngrxPush)?.kpiRates.orgUnit"
+                [title]="(dimensionFluctuationKpi$ | ngrxPush)?.name"
+                [value]="(dimensionFluctuationKpi$ | ngrxPush)?.fluctuationRate"
                 [employees]="externalExitEmployees$ | ngrxPush"
                 [employeesLoading]="exitEmployeesLoading$ | ngrxPush"
                 [employeeListDialogMetaHeadings]="
                   employeeListDialogMetaHeadings$ | ngrxPush
                 "
                 [employeesCount]="
-                  (fluctuationKpi$ | ngrxPush)?.realEmployeesCount
+                  (dimensionFluctuationKpi$ | ngrxPush)?.realEmployeesCount
                 "
                 [showTooltip]="true"
+                [isLoading]="isDimensionFluctuationKpiLoading$ | ngrxPush"
                 (openTeamMembers)="triggerLoadExitEmployees()"
               ></ia-kpi>
             </div>
           </div>
           <div class="grow">
             <ia-line-chart
-              [config]="fluctuationChartData$ | ngrxPush"
+              [config]="fluctuationRatesChartConfig"
               [isDataLoading]="isFluctuationChartLoading$ | ngrxPush"
               [title]="t('fluctuationChartTitle')"
+              [series]="fluctuationChartData$ | ngrxPush"
+              [benchmarkSeries]="benchmarkfluctuationChartData$ | ngrxPush"
             ></ia-line-chart>
           </div>
         </div>
@@ -50,33 +54,43 @@
           >
             <div class="mb-4 pl-4">
               <ia-kpi
-                [title]="t('companyName')"
-                [value]="(unforcedFluctuationKpi$ | ngrxPush)?.kpiRates.company"
+                [title]="(benchmarkFluctuationKpi$ | ngrxPush)?.name"
+                [value]="
+                  (benchmarkFluctuationKpi$ | ngrxPush)?.unforcedFluctuationRate
+                "
                 [showTeamMemberDialog]="false"
+                [isLoading]="isBenchmarkFluctuationKpiLoading$ | ngrxPush"
               ></ia-kpi>
             </div>
             <div class="mb-4 pl-4">
               <ia-kpi
-                [title]="(unforcedFluctuationKpi$ | ngrxPush)?.orgUnitName"
-                [value]="(unforcedFluctuationKpi$ | ngrxPush)?.kpiRates.orgUnit"
+                [title]="(dimensionFluctuationKpi$ | ngrxPush)?.name"
+                [value]="
+                  (dimensionFluctuationKpi$ | ngrxPush)?.unforcedFluctuationRate
+                "
                 [employees]="externalUnforcedExitEmployees$ | ngrxPush"
                 [employeesLoading]="exitEmployeesLoading$ | ngrxPush"
                 [employeeListDialogMetaHeadings]="
                   employeeListDialogMetaHeadings$ | ngrxPush
                 "
                 [employeesCount]="
-                  (unforcedFluctuationKpi$ | ngrxPush)?.realEmployeesCount
+                  (dimensionFluctuationKpi$ | ngrxPush)?.realEmployeesCount
                 "
                 [showTooltip]="true"
+                [isLoading]="isDimensionFluctuationKpiLoading$ | ngrxPush"
                 (openTeamMembers)="triggerLoadExitEmployees()"
               ></ia-kpi>
             </div>
           </div>
           <div class="grow">
             <ia-line-chart
-              [config]="unforcedFluctuationChartData$ | ngrxPush"
+              [config]="unforcedFluctuationRatesChartConfig"
               [isDataLoading]="isFluctuationChartLoading$ | ngrxPush"
               [title]="t('unforcedFluctuationChartTitle')"
+              [series]="unforcedFluctuationChartData$ | ngrxPush"
+              [benchmarkSeries]="
+                benchmarkUnforcedFluctuationChartData$ | ngrxPush
+              "
             ></ia-line-chart>
           </div>
         </div>

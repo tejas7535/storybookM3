@@ -476,28 +476,30 @@ describe('Organizational View Selector', () => {
       const result = getParentAttritionOverTimeOrgChartData.projector(state);
 
       expect(result).toEqual({
-        series: [
-          {
-            data: 0.2,
-            lineStyle: { width: 4 },
-            name: 'SLK',
-            showSymbol: false,
-            type: 'line',
-          },
-        ],
-        yAxis: {
-          axisPointer: { label: { precision: 0 }, snap: true },
-          minInterval: 1,
-          type: 'value',
-        },
+        data: 0.2,
+        lineStyle: { width: 4 },
+        id: 'parent',
+        name: 'SLK',
+        showSymbol: false,
+        type: 'line',
       });
     });
 
-    test('should return undefined if data not available', () => {
+    test('should return empty data if parent attrition over time not available', () => {
       const data = {};
+      const expected = {
+        data: [] as number[],
+        id: 'parent',
+        lineStyle: {
+          width: 4,
+        },
+        name: '',
+        showSymbol: false,
+        type: 'line',
+      };
       const result = getParentAttritionOverTimeOrgChartData.projector(data);
 
-      expect(result).toBeUndefined();
+      expect(result).toEqual(expected);
     });
   });
 
@@ -532,22 +534,29 @@ describe('Organizational View Selector', () => {
 
       const result = getChildAttritionOverTimeOrgChartSeries.projector(state);
 
-      expect(result).toEqual([
-        {
-          data: 0.2,
-          lineStyle: { width: 4 },
-          name: 'SLK',
-          showSymbol: false,
-          type: 'line',
-        },
-      ]);
+      expect(result).toEqual({
+        data: 0.2,
+        lineStyle: { width: 4 },
+        name: 'SLK',
+        id: 'child',
+        showSymbol: false,
+        type: 'line',
+      });
     });
 
-    test('should return undefined if data not available', () => {
+    test('should return empty data when child attrition over time not available', () => {
       const data = {};
+      const expected = {
+        data: [] as number[],
+        id: 'child',
+        lineStyle: { width: 4 },
+        name: '',
+        showSymbol: false,
+        type: 'line',
+      };
       const result = getChildAttritionOverTimeOrgChartSeries.projector(data);
 
-      expect(result).toBeUndefined();
+      expect(result).toEqual(expected);
     });
   });
 

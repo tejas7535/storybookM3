@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store';
-import { EChartsOption } from 'echarts';
+import { LineSeriesOption } from 'echarts';
 
 import {
   getSelectedDimension,
@@ -16,6 +16,9 @@ import {
 import { AttritionDialogFluctuationMeta } from '../../attrition-dialog/models/attrition-dialog-fluctuation-meta.model';
 import { CountryDataAttrition } from '../../world-map/models';
 import { OrganizationalViewState, selectOrganizationalViewState } from '..';
+
+const PARENT_SERIE_ID = 'parent';
+const CHILD_SERIE_ID = 'child';
 
 export const getSelectedChartType = createSelector(
   selectOrganizationalViewState,
@@ -179,7 +182,8 @@ export const getWorldMap = createSelector(
 export const getParentAttritionOverTimeOrgChartData = createSelector(
   selectOrganizationalViewState,
   (state: OrganizationalViewState) =>
-    mapDataToChartOption(
+    mapDataToLineSerie(
+      PARENT_SERIE_ID,
       state.attritionOverTime?.parent?.data?.data,
       state.attritionOverTime?.parent?.dimensionName
     )
@@ -193,10 +197,11 @@ export const getParentIsLoadingAttritionOverTimeOrgChart = createSelector(
 export const getChildAttritionOverTimeOrgChartSeries = createSelector(
   selectOrganizationalViewState,
   (state: OrganizationalViewState) =>
-    mapDataToChartOption(
+    mapDataToLineSerie(
+      CHILD_SERIE_ID,
       state.attritionOverTime?.child?.data?.data,
       state.attritionOverTime?.child?.dimensionName
-    )?.series
+    )
 );
 
 export const getChildIsLoadingAttritionOverTimeOrgChart = createSelector(
@@ -234,27 +239,15 @@ export const getDimensionKeyForWorldMap = (
     }
   });
 
-export function mapDataToChartOption(
+export function mapDataToLineSerie(
+  id: string,
   data: AttritionSeries,
   seriesName: string
-) {
-  return data
-    ? ({
-        series: Object.keys(data).map((name) => ({
-          ...LINE_SERIES_BASE_OPTIONS,
-          name: seriesName,
-          data: data[name].attrition,
-        })),
-        yAxis: {
-          type: 'value',
-          minInterval: 1,
-          axisPointer: {
-            label: {
-              precision: 0,
-            },
-            snap: true,
-          },
-        },
-      } as EChartsOption)
-    : undefined;
+): LineSeriesOption {
+  return {
+    ...LINE_SERIES_BASE_OPTIONS,
+    id,
+    name: data ? seriesName : '',
+    data: data ? data[Object.keys(data)[0]].attrition : [],
+  } as LineSeriesOption;
 }

@@ -3,13 +3,20 @@ import { createAction, props, union } from '@ngrx/store';
 import { AttritionOverTime, EmployeesRequest } from '../../../shared/models';
 import {
   ExitEntryEmployeesResponse,
+  FluctuationRate,
   FluctuationRatesChartData,
   OpenApplication,
-  OverviewFluctuationRates,
+  OverviewWorkforceBalanceMeta,
   ResignedEmployeesResponse,
 } from '../../models';
 
-export const loadOverviewData = createAction('[Overview] Load Overview data');
+export const loadOverviewDimensionData = createAction(
+  '[Overview] Load Overview Dimension data'
+);
+
+export const loadOverviewBenchmarkData = createAction(
+  '[Overview] Load Overview Benchmark data'
+);
 
 export const loadAttritionOverTimeOverview = createAction(
   '[Overview] Load AttritionOverTime for last three years',
@@ -26,23 +33,57 @@ export const loadAttritionOverTimeOverviewFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
-export const loadFluctuationRatesOverview = createAction(
-  '[Overview] Load FluctuationRates meta data',
+export const loadWorkforceBalanceMeta = createAction(
+  '[Overview] Load workforce balance meta',
   props<{ request: EmployeesRequest }>()
 );
 
-export const loadFluctuationRatesOverviewSuccess = createAction(
-  '[Overview] Load FluctuationRates meta data Success',
-  props<{ data: OverviewFluctuationRates }>()
+export const loadWorkforceBalanceMetaSuccess = createAction(
+  '[Overview] Load workforce balance meta Success',
+  props<{ data: OverviewWorkforceBalanceMeta }>()
 );
 
-export const loadFluctuationRatesOverviewFailure = createAction(
-  '[Overview] Load FluctuationRates meta data Failure',
+export const loadWorkforceBalanceMetaFailure = createAction(
+  '[Overview] Load workforce balance meta Failure',
+  props<{ errorMessage: string }>()
+);
+
+export const loadFluctuationRates = createAction(
+  '[Overview] Load FluctuationRates',
+  props<{ request: EmployeesRequest }>()
+);
+
+export const loadFluctuationRatesSuccess = createAction(
+  '[Overview] Load FluctuationRates Success',
+  props<{ data: FluctuationRate }>()
+);
+
+export const loadFluctuationRatesFailure = createAction(
+  '[Overview] Load FluctuationRates Failure',
+  props<{ errorMessage: string }>()
+);
+
+export const loadBenchmarkFluctuationRates = createAction(
+  '[Overview] Load Benchmark FluctuationRates',
+  props<{ request: EmployeesRequest }>()
+);
+
+export const loadBenchmarkFluctuationRatesSuccess = createAction(
+  '[Overview] Load Benchmark FluctuationRates Success',
+  props<{ data: FluctuationRate }>()
+);
+
+export const loadBenchmarkFluctuationRatesFailure = createAction(
+  '[Overview] Load Benchmark FluctuationRates Failure',
   props<{ errorMessage: string }>()
 );
 
 export const clearOverviewDimensionData = createAction(
   '[Overview] Clear Overview Dimension data'
+);
+
+export const clearOverviewBenchmarkData = createAction(
+  '[Overview] Clear Overview Benchmark data'
 );
 
 export const loadOverviewExitEmployees = createAction(
@@ -85,6 +126,21 @@ export const loadFluctuationRatesChartDataSuccess = createAction(
 
 export const loadFluctuationRatesChartDataFailure = createAction(
   '[Overview] Load FluctuationRatesChartData Failure',
+  props<{ errorMessage: string }>()
+);
+
+export const loadBenchmarkFluctuationRatesChartData = createAction(
+  '[Overview] Load Benchmark FluctuationRatesChartData',
+  props<{ request: EmployeesRequest }>()
+);
+
+export const loadBenchmarkFluctuationRatesChartDataSuccess = createAction(
+  '[Overview] Load Benchmark FluctuationRatesChartData Success',
+  props<{ data: FluctuationRatesChartData }>()
+);
+
+export const loadBenchmarkFluctuationRatesChartDataFailure = createAction(
+  '[Overview] Load Benchmark FluctuationRatesChartData Failure',
   props<{ errorMessage: string }>()
 );
 
@@ -147,12 +203,18 @@ export const loadAttritionOverTimeEmployeesFailure = createAction(
 );
 
 const all = union({
+  loadFluctuationRates,
+  loadFluctuationRatesSuccess,
+  loadFluctuationRatesFailure,
+  loadBenchmarkFluctuationRates,
+  loadBenchmarkFluctuationRatesSuccess,
+  loadBenchmarkFluctuationRatesFailure,
   loadAttritionOverTimeOverview,
   loadAttritionOverTimeOverviewSuccess,
   loadAttritionOverTimeOverviewFailure,
-  loadFluctuationRatesOverview,
-  loadFluctuationRatesOverviewSuccess,
-  loadFluctuationRatesOverviewFailure,
+  loadWorkforceBalanceMeta,
+  loadWorkforceBalanceMetaSuccess,
+  loadWorkforceBalanceMetaFailure,
   clearOverviewDimensionData,
   loadFluctuationRatesChartData,
   loadFluctuationRatesChartDataSuccess,

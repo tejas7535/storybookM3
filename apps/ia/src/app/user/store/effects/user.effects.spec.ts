@@ -13,6 +13,7 @@ import { getIsLoggedIn, loginSuccess } from '@schaeffler/azure-auth';
 
 import {
   filterDimensionSelected,
+  filterSelected,
   loadFilterDimensionData,
 } from '../../../core/store/actions';
 import { FilterDimension, IdValue } from '../../../shared/models';
@@ -104,7 +105,7 @@ describe('User Settings Effects', () => {
             dimensionDisplayName,
           },
         });
-        const resultFilter = filterDimensionSelected({
+        const resultFilter = filterSelected({
           filter: {
             name: dimension,
             idValue: {
@@ -112,7 +113,6 @@ describe('User Settings Effects', () => {
               value: dimensionDisplayName,
             },
           },
-          filterDimension: dimension,
         });
 
         const resultDimensionData = loadFilterDimensionData({
@@ -153,7 +153,7 @@ describe('User Settings Effects', () => {
             dimensionDisplayName,
           },
         });
-        const resultFilter = filterDimensionSelected({
+        const resultFilter = filterSelected({
           filter: {
             name: dimension,
             idValue: {
@@ -161,7 +161,6 @@ describe('User Settings Effects', () => {
               value: dimensionDisplayName,
             },
           },
-          filterDimension: dimension,
         });
 
         const resultDimensionData = loadFilterDimensionData({

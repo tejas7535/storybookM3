@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { map, Observable, Subscription } from 'rxjs';
@@ -7,13 +7,8 @@ import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { getSpecificDimensonFilter } from '../../../core/store/selectors/filter/filter.selector';
-import { AutocompleteInputComponent } from '../../../shared/autocomplete-input/autocomplete-input.component';
-import { InputType } from '../../../shared/autocomplete-input/models';
-import {
-  ASYNC_SEARCH_MIN_CHAR_LENGTH,
-  FILTER_DIMENSIONS,
-  LOCAL_SEARCH_MIN_CHAR_LENGTH,
-} from '../../../shared/constants';
+import { FILTER_DIMENSIONS } from '../../../shared/constants';
+import { DimensionFilterTranslation } from '../../../shared/dimension-filter/models';
 import {
   Filter,
   FilterDimension,
@@ -33,23 +28,16 @@ import { UserSettingsDialogData } from './user-settings-dialog-data.model';
   templateUrl: './user-settings-dialog.component.html',
   styles: [],
 })
-export class UserSettingsDialogComponent implements OnInit, OnDestroy {
-  @ViewChild(AutocompleteInputComponent)
-  autocompleteInput: AutocompleteInputComponent;
-
+export class UserSettingsDialogComponent implements OnInit {
   selected: SelectedFilter;
   invalidDimensionDataInput: boolean;
-
   activeDimension: FilterDimension;
-  dimensionFilter$: Observable<Filter>;
   selectedDimensionIdValue: IdValue;
+
+  dimensionFilter$: Observable<Filter>;
   selectedDimensionDataLoading$: Observable<boolean>;
-  availableDimensions: IdValue[];
-  dimensionName: string;
-
-  minCharLength = 0;
-
-  type: InputType;
+  availableDimensions$: Observable<IdValue[]>;
+  dimensionFilterTranslation$: Observable<DimensionFilterTranslation>;
 
   readonly subscription: Subscription = new Subscription();
 
@@ -66,24 +54,16 @@ export class UserSettingsDialogComponent implements OnInit, OnDestroy {
     this.selectedDimensionDataLoading$ = this.store.select(
       getDialogSelectedDimensionDataLoading
     );
+    this.dimensionFilterTranslation$ =
+      this.translocoService.selectTranslateObject('filters.dimension');
 
-    this.subscription.add(
-      this.translocoService
-        .selectTranslateObject('filters.dimension.availableDimensions')
-        .pipe(
-          map((translateObject) =>
-            this.mapTranslationsToIdValues(translateObject)
-          )
+    this.availableDimensions$ = this.translocoService
+      .selectTranslateObject('filters.dimension.availableDimensions')
+      .pipe(
+        map((translateObject) =>
+          this.mapTranslationsToIdValues(translateObject)
         )
-        .subscribe((dimensions) => {
-          this.availableDimensions = dimensions;
-          this.updateDimensionName();
-        })
-    );
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+      );
   }
 
   updateDimension(dimension: FilterDimension): void {
@@ -92,27 +72,11 @@ export class UserSettingsDialogComponent implements OnInit, OnDestroy {
     );
 
     this.activeDimension = dimension;
-    this.updateDimensionName();
-    this.minCharLength =
-      dimension === FilterDimension.ORG_UNIT
-        ? ASYNC_SEARCH_MIN_CHAR_LENGTH
-        : LOCAL_SEARCH_MIN_CHAR_LENGTH;
-
     this.selectedDimensionIdValue = undefined;
     this.selected = undefined;
-    this.type =
-      this.activeDimension === FilterDimension.ORG_UNIT
-        ? new InputType('autocomplete', this.dimensionName)
-        : new InputType('select', this.dimensionName);
   }
 
-  updateDimensionName(): void {
-    this.dimensionName = this.availableDimensions?.find(
-      (dim) => dim.id === this.activeDimension
-    )?.value;
-  }
-
-  selectDimensionDataOption(option: SelectedFilter): void {
+  onDimensionOptionSelected(option: SelectedFilter): void {
     this.selected = option;
     this.selectedDimensionIdValue = option.idValue;
   }
@@ -130,36 +94,16 @@ export class UserSettingsDialogComponent implements OnInit, OnDestroy {
     this.store.dispatch(updateUserSettings({ data }));
   }
 
-  autoCompleteSelectedDimensionIdValueChange(searchFor: string): void {
-    if (this.activeDimension === FilterDimension.ORG_UNIT) {
-      this.store.dispatch(
-        loadUserSettingsDimensionData({
-          filterDimension: this.activeDimension,
-          searchFor,
-        })
-      );
-    } else {
-      this.dimensionFilter$ = this.store
-        .select(getSpecificDimensonFilter(this.activeDimension))
-        .pipe(
-          // eslint-disable-next-line ngrx/avoid-mapping-selectors
-          map((filter: Filter) => {
-            const options =
-              searchFor.length > 0
-                ? filter.options.filter((option) =>
-                    option.value
-                      ?.toUpperCase()
-                      .startsWith(searchFor.toUpperCase())
-                  )
-                : filter.options;
-
-            return { ...filter, options };
-          })
-        );
-    }
+  onDimensionAutocompleteInput(searchFor: string): void {
+    this.store.dispatch(
+      loadUserSettingsDimensionData({
+        filterDimension: this.activeDimension,
+        searchFor,
+      })
+    );
   }
 
-  selectDimension(selectedDimension: IdValue): void {
+  onDimensionSelected(selectedDimension: IdValue): void {
     this.store.dispatch(
       loadUserSettingsDimensionData({
         filterDimension: selectedDimension.id as FilterDimension,
@@ -167,9 +111,6 @@ export class UserSettingsDialogComponent implements OnInit, OnDestroy {
       })
     );
     this.updateDimension(selectedDimension.id as FilterDimension);
-    if (this.autocompleteInput) {
-      this.autocompleteInput.latestSelection = undefined;
-    }
   }
 
   mapTranslationsToIdValues(

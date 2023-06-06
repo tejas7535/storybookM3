@@ -5,6 +5,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/marbles';
 
 import { DoughnutConfig } from '../shared/charts/models';
+import { FluctuationKpi } from './models';
 import { OverviewComponent } from './overview.component';
 import {
   loadOpenApplications,
@@ -13,8 +14,12 @@ import {
 } from './store/actions/overview.action';
 import {
   getAttritionOverTimeOverviewData,
-  getFluctuationRatesForChart,
+  getBenchmarkFluctuationKpi,
+  getDimensionFluctuationKpi,
+  getDimensionFluctuationRatesForChart,
   getIsLoadingAttritionOverTimeOverview,
+  getIsLoadingBenchmarkFluctuationRates,
+  getIsLoadingDimensionFluctuationRates,
   getIsLoadingDoughnutsConfig,
   getIsLoadingFluctuationRatesForChart,
   getOverviewEntryEmployees,
@@ -27,7 +32,7 @@ import {
   getOverviewFluctuationEntriesDoughnutConfig,
   getOverviewFluctuationExitsCount,
   getOverviewFluctuationExitsDoughnutConfig,
-  getUnforcedFluctuationRatesForChart,
+  getDimensionUnforcedFluctuationRatesForChart,
 } from './store/selectors/overview.selector';
 
 describe('OverviewComponent', () => {
@@ -55,6 +60,62 @@ describe('OverviewComponent', () => {
   });
 
   describe('ngOnInit', () => {
+    test(
+      'should set isDimensionFluctuationKpiLoading$',
+      marbles((m) => {
+        const result = true;
+        store.overrideSelector(getIsLoadingDimensionFluctuationRates, result);
+        component.ngOnInit();
+        m.expect(component.isDimensionFluctuationKpiLoading$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+      })
+    );
+
+    test(
+      'should set isBenchmarkFluctuationKpiLoading$',
+      marbles((m) => {
+        const result = true;
+        store.overrideSelector(getIsLoadingBenchmarkFluctuationRates, result);
+        component.ngOnInit();
+        m.expect(component.isBenchmarkFluctuationKpiLoading$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+      })
+    );
+
+    test(
+      'should set dimensionFluctuationKpi$',
+      marbles((m) => {
+        const result = {} as FluctuationKpi;
+        store.overrideSelector(getDimensionFluctuationKpi, result);
+        component.ngOnInit();
+        m.expect(component.dimensionFluctuationKpi$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+      })
+    );
+
+    test(
+      'should set benchmarkFluctuationKpi$',
+      marbles((m) => {
+        const result = {} as FluctuationKpi;
+        store.overrideSelector(getBenchmarkFluctuationKpi, result);
+        component.ngOnInit();
+        m.expect(component.benchmarkFluctuationKpi$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+      })
+    );
+
     test(
       'should set attritionData$',
       marbles((m) => {
@@ -272,7 +333,7 @@ describe('OverviewComponent', () => {
       'should set fluctuationChartData$',
       marbles((m) => {
         const result = [] as any;
-        store.overrideSelector(getFluctuationRatesForChart, result);
+        store.overrideSelector(getDimensionFluctuationRatesForChart, result);
         component.ngOnInit();
         m.expect(component.fluctuationChartData$).toBeObservable(
           m.cold('a', {
@@ -286,7 +347,10 @@ describe('OverviewComponent', () => {
       'should set unforcedFluctuationChartData$',
       marbles((m) => {
         const result = [] as any;
-        store.overrideSelector(getUnforcedFluctuationRatesForChart, result);
+        store.overrideSelector(
+          getDimensionUnforcedFluctuationRatesForChart,
+          result
+        );
         component.ngOnInit();
         m.expect(component.unforcedFluctuationChartData$).toBeObservable(
           m.cold('a', {

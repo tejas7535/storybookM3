@@ -1,5 +1,6 @@
 import { LossOfSkillState } from '..';
 import {
+  getJobProfilesData,
   getJobProfilesLoading,
   getLossOfSkillLeaversData,
   getLossOfSkillLeaversLoading,
@@ -60,7 +61,13 @@ describe('LossOfSkill Selector', () => {
     });
   });
 
-  describe('getLostJobProfilesData', () => {});
+  describe('getJobProfilesData', () => {
+    test('should return job profiles data', () => {
+      expect(getJobProfilesData(fakeState)).toEqual(
+        fakeState.lossOfSkill.jobProfiles.data.lostJobProfiles
+      );
+    });
+  });
 
   describe('getLossOfSkillWorkforceData', () => {
     test('should get data', () => {

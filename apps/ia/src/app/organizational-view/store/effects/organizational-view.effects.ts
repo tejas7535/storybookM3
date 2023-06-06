@@ -10,8 +10,8 @@ import { Store } from '@ngrx/store';
 import { AppRoutePath } from '../../../app-route-path.enum';
 import { selectRouterState } from '../../../core/store';
 import {
-  filterDimensionSelected,
   filterSelected,
+  loadFilterDimensionData,
 } from '../../../core/store/actions';
 import {
   getCurrentDimensionValue,
@@ -24,6 +24,7 @@ import {
   EmployeesRequest,
   TimePeriod,
 } from '../../../shared/models';
+import { updateUserSettingsSuccess } from '../../../user/store/actions/user.action';
 import { DimensionFluctuationData } from '../../models';
 import {
   DimensionParentResponse,
@@ -67,7 +68,7 @@ export class OrganizationalViewEffects {
 
   filterChange$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(filterSelected, routerNavigationAction),
+      ofType(filterSelected, routerNavigationAction, updateUserSettingsSuccess),
       concatLatestFrom(() => this.store.select(selectRouterState)),
       filter(
         ([_action, router]) => router.state.url === this.ORGANIZATIONAL_VIEW_URL
@@ -228,15 +229,17 @@ export class OrganizationalViewEffects {
   loadParentSuccess$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadParentSuccess),
-      map((selectedFilter) =>
-        filterDimensionSelected({
-          filterDimension: selectedFilter.response.filterDimension,
+      mergeMap((selectedFilter) => [
+        filterSelected({
           filter: {
             idValue: selectedFilter.response.data,
             name: selectedFilter.response.filterDimension,
           },
-        })
-      )
+        }),
+        loadFilterDimensionData({
+          filterDimension: selectedFilter.response.filterDimension,
+        }),
+      ])
     );
   });
 

@@ -1,11 +1,12 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { ECharts } from 'echarts';
+import { ECharts, EChartsOption, SeriesOption } from 'echarts';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { Color } from '../../models/color.enum';
 import { SharedModule } from '../../shared.module';
+import { LegendSelectAction } from '../models';
 import { DoughnutConfig } from '../models/doughnut-config.model';
 import { DoughnutSeriesConfig } from '../models/doughnut-series-config.model';
 import { LooseDoughnutChartComponent } from './loose-doughnut-chart.component';
@@ -58,6 +59,40 @@ describe('LooseDoughnutChartComponent', () => {
         new DoughnutConfig('', series)
       );
       expect(doughnutChartConfig.createPieChartBaseOptions).toHaveBeenCalled();
+    });
+  });
+
+  describe('set data', () => {
+    test('should set merge options', () => {
+      const data = new DoughnutConfig('Demo', [
+        new DoughnutSeriesConfig([{ value: 99 }], 'demo data 1', 'red'),
+      ]);
+      component.resetSelection = jest.fn();
+      const expected: EChartsOption = {
+        series: [{}] as SeriesOption[],
+        title: { text: '99', subtext: 'Demo' },
+      };
+
+      component.data = data;
+
+      expect(component.mergeOptions).toEqual(expected);
+      expect(component.resetSelection).toHaveBeenCalled();
+    });
+  });
+
+  describe('legendSelectAction', () => {
+    test('should set legend', () => {
+      const action: LegendSelectAction = {};
+      component.echartsInstance = { setOption: () => {} } as unknown as ECharts;
+      component.echartsInstance.setOption = jest.fn();
+
+      component.legendSelectAction = action;
+
+      expect(component.echartsInstance.setOption).toHaveBeenCalledWith({
+        legend: {
+          selected: action,
+        },
+      });
     });
   });
 

@@ -4,7 +4,9 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
+import { EChartsOption, LineSeriesOption } from 'echarts';
 
+import { createFluctuationRateChartConfig } from '../../shared/charts/line-chart/line-chart-utils';
 import { ChartType } from '../models';
 import {
   getChildAttritionOverTimeOrgChartSeries,
@@ -23,15 +25,16 @@ import { AttritionDialogMeta } from './models/attrition-dialog-meta.model';
   templateUrl: './attrition-dialog.component.html',
 })
 export class AttritionDialogComponent implements OnInit {
-  public parentFluctuationOverTimeData$: Observable<any>;
-  public parentFluctuationOverTimeDataLoading$: Observable<boolean>;
+  parentFluctuationOverTimeData$: Observable<LineSeriesOption>;
+  parentFluctuationOverTimeDataLoading$: Observable<boolean>;
 
-  public childFluctuationOverTimeData$: Observable<any>;
-  public childFluctuationOverTimeDataLoading$: Observable<boolean>;
+  childFluctuationOverTimeData$: Observable<LineSeriesOption>;
+  childFluctuationOverTimeDataLoading$: Observable<boolean>;
 
-  public meta$: Observable<AttritionDialogMeta>;
-  public fluctuationLoading$: Observable<boolean>;
-  public childDimensionName$: Observable<string>;
+  meta$: Observable<AttritionDialogMeta>;
+  fluctuationLoading$: Observable<boolean>;
+  childDimensionName$: Observable<string>;
+  fluctuationChartConfig: EChartsOption;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: ChartType,
@@ -39,6 +42,7 @@ export class AttritionDialogComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
+    this.fluctuationChartConfig = createFluctuationRateChartConfig('', 1);
     this.parentFluctuationOverTimeData$ = this.store.select(
       getParentAttritionOverTimeOrgChartData
     );

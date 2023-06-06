@@ -9,9 +9,10 @@ import { ParamsCreatorService } from '../shared/http/params-creator.service';
 import { ApiVersion, EmployeesRequest } from '../shared/models';
 import {
   ExitEntryEmployeesResponse,
+  FluctuationRate,
   FluctuationRatesChartData,
   OpenApplication,
-  OverviewFluctuationRates,
+  OverviewWorkforceBalanceMeta,
   ResignedEmployeesResponse,
 } from './models';
 
@@ -19,6 +20,7 @@ import {
   providedIn: 'root',
 })
 export class OverviewService {
+  readonly OVERVIEW_WORKFORCE_BALANCE_META = 'overview-workforce-balance-meta';
   readonly OVERVIEW_FLUCTUATION_RATES = 'overview-fluctuation-rates';
   readonly FLUCTUATION_RATES_CHART = 'fluctuation-rates-chart';
   readonly UNFORCED_FLUCTUATION_RATES_CHART =
@@ -36,17 +38,35 @@ export class OverviewService {
     private readonly paramsCreator: ParamsCreatorService
   ) {}
 
-  getOverviewFluctuationRates(
+  getFluctuationRates(
     employeesRequest: EmployeesRequest
-  ): Observable<OverviewFluctuationRates> {
+  ): Observable<FluctuationRate> {
     const params = this.paramsCreator.createHttpParamsForDimensionAndTimeRange(
       employeesRequest.filterDimension,
       employeesRequest.value,
       employeesRequest.timeRange
     );
 
-    return this.http.get<OverviewFluctuationRates>(
+    return this.http.get<FluctuationRate>(
       `${ApiVersion.V1}/${this.OVERVIEW_FLUCTUATION_RATES}`,
+      {
+        params,
+        context: withCache(),
+      }
+    );
+  }
+
+  getOverviewWorkforceBalanceMeta(
+    employeesRequest: EmployeesRequest
+  ): Observable<OverviewWorkforceBalanceMeta> {
+    const params = this.paramsCreator.createHttpParamsForDimensionAndTimeRange(
+      employeesRequest.filterDimension,
+      employeesRequest.value,
+      employeesRequest.timeRange
+    );
+
+    return this.http.get<OverviewWorkforceBalanceMeta>(
+      `${ApiVersion.V1}/${this.OVERVIEW_WORKFORCE_BALANCE_META}`,
       {
         params,
         context: withCache(),

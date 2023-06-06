@@ -5,12 +5,16 @@ import {
   TimePeriod,
 } from '../../../../shared/models';
 import {
+  benchmarDimensionSelected,
+  benchmarkFilterSelected,
   dimensionSelected,
   filterSelected,
+  loadFilterBenchmarkDimensionData,
   loadFilterDimensionData,
   loadFilterDimensionDataFailure,
   loadFilterDimensionDataSuccess,
   timePeriodSelected,
+  timeRangeSelected,
   triggerLoad,
 } from '../';
 
@@ -18,6 +22,20 @@ describe('Filter Actions', () => {
   const errorMessage = 'An error occured';
 
   describe('Get initial filters actions', () => {
+    test('loadFilterBenchmarkDimensionData', () => {
+      const searchFor = 'search';
+      const action = loadFilterBenchmarkDimensionData({
+        filterDimension: FilterDimension.ORG_UNIT,
+        searchFor,
+      });
+
+      expect(action).toEqual({
+        filterDimension: FilterDimension.ORG_UNIT,
+        searchFor,
+        type: '[Filter] Load Filter Benchmark Dimension Data',
+      });
+    });
+
     test('loadFilterDimenstionData', () => {
       const searchFor = 'search';
       const action = loadFilterDimensionData({
@@ -69,6 +87,16 @@ describe('Filter Actions', () => {
       });
     });
 
+    test('benchmarkFilterSelected', () => {
+      const filter = new SelectedFilter('test', undefined);
+      const action = benchmarkFilterSelected({ filter });
+
+      expect(action).toEqual({
+        filter,
+        type: '[Filter] Benchmark Filter selected',
+      });
+    });
+
     test('timePeriodSelected', () => {
       const timePeriod = TimePeriod.YEAR;
       const action = timePeriodSelected({ timePeriod });
@@ -84,6 +112,24 @@ describe('Filter Actions', () => {
 
       expect(action).toEqual({
         type: '[Filter] Dimension Selected',
+      });
+    });
+
+    test('benchmarDimensionSelected', () => {
+      const action = benchmarDimensionSelected();
+
+      expect(action).toEqual({
+        type: '[Filter] Benchmark Dimension Selected',
+      });
+    });
+
+    test('timeRangeSelected', () => {
+      const timeRange = new SelectedFilter('x', new IdValue('a', 'b'));
+      const action = timeRangeSelected({ timeRange });
+
+      expect(action).toEqual({
+        timeRange,
+        type: '[Filter] Time range selected',
       });
     });
   });

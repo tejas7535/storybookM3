@@ -1,9 +1,5 @@
-import { FluctuationRate } from './fluctuation-rate.model';
-
-export class OverviewFluctuationRates {
+export class OverviewWorkforceBalanceMeta {
   totalEmployeesCount: number;
-  fluctuationRate: FluctuationRate;
-  unforcedFluctuationRate: FluctuationRate;
   internalExitCount: number;
   externalExitCount: number;
   externalUnforcedExitCount: number;

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -17,6 +18,7 @@ import { EntriesExitsComponent } from './entries-exits.component';
     SharedModule,
     SharedTranslocoModule,
     SharedPipesModule,
+    LoadingSpinnerModule,
     LooseDoughnutChartModule,
     CombinedLegendModule,
     KpiModule,

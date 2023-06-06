@@ -5,6 +5,8 @@ import {
   convertTimeRangeToUTC,
   getBeautifiedTimeRange,
   getMonth12MonthsAgo,
+  getPercentageValue,
+  getPercentageValueSigned,
   getTimeRangeFromDates,
   getTimeRangeHint,
 } from './utilities';
@@ -87,6 +89,40 @@ describe('utilities', () => {
       const result = convertTimeRangeToUTC(timeRange);
 
       expect(result).toEqual('123000|456000');
+    });
+  });
+
+  describe('getPercentageValue', () => {
+    test('should return value multiplied by 100', () => {
+      const value = 0.04;
+
+      const result = getPercentageValue(value);
+
+      expect(result).toEqual(4);
+    });
+
+    test('should return value multiplied by 100 with 2 positions after comma', () => {
+      const value = 0.041_818_156;
+
+      const result = getPercentageValue(value);
+
+      expect(result).toEqual(4.2);
+    });
+  });
+
+  describe('getPercentageValueSigned', () => {
+    test('should return value multiplied by 100 with percentage sign', () => {
+      const value = 0.043_21;
+
+      const result = getPercentageValueSigned(value);
+
+      expect(result).toEqual('4.3%');
+    });
+
+    test('should return undefined when parameter undefined', () => {
+      const result = getPercentageValueSigned(undefined as number);
+
+      expect(result).toBeUndefined();
     });
   });
 });

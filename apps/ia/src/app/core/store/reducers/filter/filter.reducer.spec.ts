@@ -3,12 +3,16 @@ import moment from 'moment';
 
 import {
   FilterDimension,
+  FilterKey,
   IdValue,
   SelectedFilter,
   TimePeriod,
 } from '../../../../shared/models';
 import {
+  benchmarkFilterSelected,
+  filterDimensionSelected,
   filterSelected,
+  loadFilterBenchmarkDimensionData,
   loadFilterDimensionData,
   loadFilterDimensionDataFailure,
   loadFilterDimensionDataSuccess,
@@ -24,21 +28,38 @@ import {
 describe('Filter Reducer', () => {
   const errorMessage = 'An error occured';
 
-  describe('loadOrgUnits', () => {
-    test('should set loading', () => {
+  describe('loadFilterDimensionData', () => {
+    test('should set loading and selected dimension', () => {
       const searchFor = 'search';
+      const filterDimension = FilterDimension.ORG_UNIT;
       const action = loadFilterDimensionData({
-        filterDimension: FilterDimension.ORG_UNIT,
+        filterDimension,
         searchFor,
       });
       const state = filterReducer(initialState, action);
 
       expect(state.data.ORG_UNIT.loading).toBeTruthy();
+      expect(state.selectedDimension).toEqual(filterDimension);
     });
   });
 
-  describe('loadOrgUnitsSuccess', () => {
-    test('should unset loading and set possible org units', () => {
+  describe('loadFilterBenchmarkDimensionData', () => {
+    test('should set loading and benchmark dimension', () => {
+      const searchFor = 'search';
+      const filterDimension = FilterDimension.ORG_UNIT;
+      const action = loadFilterBenchmarkDimensionData({
+        filterDimension,
+        searchFor,
+      });
+      const state = filterReducer(initialState, action);
+
+      expect(state.data.ORG_UNIT.loading).toBeTruthy();
+      expect(state.benchmarkDimension).toEqual(filterDimension);
+    });
+  });
+
+  describe('loadFilterDimensionDataSuccess', () => {
+    test('should unset loading and set filter options', () => {
       const items = [new IdValue('Department1', 'Department1')];
 
       const action = loadFilterDimensionDataSuccess({
@@ -117,6 +138,45 @@ describe('Filter Reducer', () => {
         test: update,
       });
     });
+
+    test('should update both filters on time range change', () => {
+      const filter = new SelectedFilter(FilterKey.TIME_RANGE, {
+        id: '1',
+        value: '1',
+      });
+
+      const fakeState = {
+        ...initialState,
+        selectedFilters: {
+          ids: [FilterKey.TIME_RANGE],
+          entities: {
+            [FilterKey.TIME_RANGE]: filter,
+          },
+        },
+        benchmarkFilters: {
+          ids: [FilterKey.TIME_RANGE],
+          entities: {
+            [FilterKey.TIME_RANGE]: filter,
+          },
+        },
+      };
+
+      const update = new SelectedFilter(FilterKey.TIME_RANGE, {
+        id: '3',
+        value: '3',
+      });
+
+      const action = filterSelected({ filter: update });
+
+      const state = filterReducer(fakeState, action);
+
+      expect(state.selectedFilters.entities).toEqual({
+        [FilterKey.TIME_RANGE]: update,
+      });
+      expect(state.benchmarkFilters.entities).toEqual({
+        [FilterKey.TIME_RANGE]: update,
+      });
+    });
   });
 
   describe('timePeriodSelected', () => {
@@ -127,6 +187,39 @@ describe('Filter Reducer', () => {
       const state = filterReducer(initialState, action);
 
       expect(state.selectedTimePeriod).toEqual(timePeriod);
+    });
+  });
+
+  describe('benchmarkFilterSelected', () => {
+    test('should add benchmark filter', () => {
+      const filterDimension = FilterDimension.BOARD;
+      const filter: SelectedFilter = {
+        idValue: { id: 'a', value: 'b' },
+        name: filterDimension,
+      };
+      const action = benchmarkFilterSelected({ filter });
+
+      const state = filterReducer(initialState, action);
+
+      const result = state.benchmarkFilters.entities[filterDimension];
+      expect(result).toEqual(filter);
+    });
+  });
+
+  describe('filterDimensionSelected', () => {
+    test('should add selected filter and set selected dimension', () => {
+      const filterDimension = FilterDimension.BOARD;
+      const filter: SelectedFilter = {
+        idValue: { id: 'a', value: 'b' },
+        name: filterDimension,
+      };
+      const action = filterDimensionSelected({ filter, filterDimension });
+
+      const state = filterReducer(initialState, action);
+
+      const result = state.selectedFilters.entities[filterDimension];
+      expect(result).toEqual(filter);
+      expect(state.selectedDimension).toEqual(filterDimension);
     });
   });
 

@@ -1,0 +1,55 @@
+<ng-container *transloco="let t; read: 'filters'" class="gap-2">
+  <div class="flex flex-col">
+    <span class="text-body-1 mb-2" *ngIf="layout === filterLayout.DEFAULT">
+      {{ dimensionFilterTranslation.title }}
+    </span>
+    <ia-select-input
+      #selectInput
+      class="mr-1 flex-1"
+      [appearance]="apparence"
+      [disabled]="disableFilters"
+      [label]="dimensionFilterTranslation.dimension"
+      [hint]="dimensionFilterTranslation.hint"
+      [options]="availableDimensions"
+      [selectedOption]="activeDimension"
+      (selected)="onDimensionSelected($event)"
+    ></ia-select-input>
+  </div>
+  <div class="flex flex-col">
+    <div class="flex flex-row">
+      <span
+        class="text-body-1 mb-2 flex"
+        *ngIf="layout === filterLayout.DEFAULT"
+      >
+        {{ t('dimensionIdValue.title', { dimension: dimensionName }) }}
+      </span>
+      <mat-icon
+        [matTooltip]="t('dimensionIdValue.organizationTooltip')"
+        class="text-high-emphasis ml-1 flex cursor-default"
+      >
+        info
+      </mat-icon>
+    </div>
+    <ia-autocomplete-input
+      [type]="type"
+      [filter]="dimensionFilter"
+      [autoCompleteLoading]="orgUnitsLoading"
+      [autoCompleteLoading]="dimensionDataLoading"
+      [hint]="
+        disableFilters
+          ? undefined
+          : t('dimensionIdValue.dimensionIdValueHint', {
+              dimension: dimensionName
+            })
+      "
+      [noResultMessage]="t('dimensionIdValue.nothingFound')"
+      [value]="selectedDimensionIdValue"
+      [disabled]="disableFilters"
+      [minCharLength]="minCharLength"
+      [appearance]="apparence"
+      (selected)="onOptionSelected($event)"
+      (invalidFormControl)="onSelectedDimensionDataInvalid($event)"
+      (autoComplete)="onAutoCompleteInputChange($event)"
+    ></ia-autocomplete-input>
+  </div>
+</ng-container>

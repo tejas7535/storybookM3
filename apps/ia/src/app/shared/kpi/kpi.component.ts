@@ -34,6 +34,7 @@ export class KpiComponent {
   @Input() showFluctuationType: boolean;
   @Input() showTeamMemberDialog = true;
   @Input() showTooltip = false;
+  @Input() isLoading: boolean;
 
   @Output()
   readonly openTeamMembers: EventEmitter<void> = new EventEmitter();

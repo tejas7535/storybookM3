@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { EmployeeListDialogModule } from '../dialogs/employee-list-dialog/employee-list-dialog.module';
@@ -15,6 +16,7 @@ import { KpiComponent } from './kpi.component';
     CommonModule,
     MatIconModule,
     EmployeeListDialogModule,
+    LoadingSpinnerModule,
     MatTooltipModule,
     SharedTranslocoModule,
     SharedPipesModule,

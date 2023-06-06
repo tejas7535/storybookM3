@@ -6,6 +6,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { SelectModule } from '@schaeffler/inputs/select';
 
+import { DimensionFilterModule } from '../../shared/dimension-filter/dimension-filter.module';
 import { AutocompleteInputModule } from '../autocomplete-input/autocomplete-input.module';
 import { DateInputModule } from '../date-input/date-input.module';
 import { SelectInputModule } from '../select-input/select-input.module';
@@ -23,6 +24,7 @@ import { FilterComponent } from './filter.component';
     TranslocoModule,
     MatIconModule,
     MatTooltipModule,
+    DimensionFilterModule,
   ],
   exports: [FilterComponent],
 })

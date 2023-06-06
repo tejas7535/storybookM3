@@ -115,6 +115,24 @@ describe('FilterService', () => {
     });
   });
 
+  describe('getFunctions', () => {
+    test('should get sub-functions', () => {
+      const data: IdValue[] = [];
+      const timeRange = '1-1';
+
+      service.getFunctions(timeRange).subscribe((response) => {
+        expect(response).toEqual(data);
+      });
+
+      const req = httpMock.expectOne(
+        `api/v1/filters/functions?time_range=${timeRange}`
+      );
+
+      expect(req.request.method).toBe('GET');
+      req.flush(data);
+    });
+  });
+
   describe('getSubFunctions', () => {
     test('should get sub-functions', () => {
       const data: IdValue[] = [];
@@ -126,6 +144,96 @@ describe('FilterService', () => {
 
       const req = httpMock.expectOne(
         `api/v1/filters/sub-functions?time_range=${timeRange}`
+      );
+
+      expect(req.request.method).toBe('GET');
+      req.flush(data);
+    });
+  });
+
+  describe('getSegments', () => {
+    test('should get segments', () => {
+      const data: IdValue[] = [];
+      const timeRange = '1-1';
+
+      service.getSegments(timeRange).subscribe((response) => {
+        expect(response).toEqual(data);
+      });
+
+      const req = httpMock.expectOne(
+        `api/v1/filters/segments?time_range=${timeRange}`
+      );
+
+      expect(req.request.method).toBe('GET');
+      req.flush(data);
+    });
+  });
+
+  describe('getSubSegments', () => {
+    test('should get sub-segments', () => {
+      const data: IdValue[] = [];
+      const timeRange = '1-1';
+
+      service.getSubSegments(timeRange).subscribe((response) => {
+        expect(response).toEqual(data);
+      });
+
+      const req = httpMock.expectOne(
+        `api/v1/filters/sub-segments?time_range=${timeRange}`
+      );
+
+      expect(req.request.method).toBe('GET');
+      req.flush(data);
+    });
+  });
+
+  describe('getSegmentUnits', () => {
+    test('should get segment units', () => {
+      const data: IdValue[] = [];
+      const timeRange = '1-1';
+
+      service.getSegmentUnits(timeRange).subscribe((response) => {
+        expect(response).toEqual(data);
+      });
+
+      const req = httpMock.expectOne(
+        `api/v1/filters/segment-units?time_range=${timeRange}`
+      );
+
+      expect(req.request.method).toBe('GET');
+      req.flush(data);
+    });
+  });
+
+  describe('getBoards', () => {
+    test('should get segment units', () => {
+      const data: IdValue[] = [];
+      const timeRange = '1-1';
+
+      service.getBoards(timeRange).subscribe((response) => {
+        expect(response).toEqual(data);
+      });
+
+      const req = httpMock.expectOne(
+        `api/v1/filters/boards?time_range=${timeRange}`
+      );
+
+      expect(req.request.method).toBe('GET');
+      req.flush(data);
+    });
+  });
+
+  describe('getSubBoards', () => {
+    test('should get sub-boards', () => {
+      const data: IdValue[] = [];
+      const timeRange = '1-1';
+
+      service.getSubBoards(timeRange).subscribe((response) => {
+        expect(response).toEqual(data);
+      });
+
+      const req = httpMock.expectOne(
+        `api/v1/filters/sub-boards?time_range=${timeRange}`
       );
 
       expect(req.request.method).toBe('GET');

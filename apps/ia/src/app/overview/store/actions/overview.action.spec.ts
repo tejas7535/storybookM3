@@ -1,12 +1,14 @@
 import { AttritionOverTime, EmployeesRequest } from '../../../shared/models';
 import {
   ExitEntryEmployeesResponse,
+  FluctuationRate,
   FluctuationRatesChartData,
   OpenApplication,
-  OverviewFluctuationRates,
+  OverviewWorkforceBalanceMeta,
   ResignedEmployeesResponse,
 } from '../../models';
 import {
+  clearOverviewBenchmarkData,
   clearOverviewDimensionData,
   loadAttritionOverTimeEmployees,
   loadAttritionOverTimeEmployeesFailure,
@@ -14,18 +16,23 @@ import {
   loadAttritionOverTimeOverview,
   loadAttritionOverTimeOverviewFailure,
   loadAttritionOverTimeOverviewSuccess,
+  loadBenchmarkFluctuationRatesChartData,
+  loadBenchmarkFluctuationRatesChartDataFailure,
+  loadBenchmarkFluctuationRatesChartDataSuccess,
+  loadFluctuationRates,
   loadFluctuationRatesChartData,
   loadFluctuationRatesChartDataFailure,
   loadFluctuationRatesChartDataSuccess,
-  loadFluctuationRatesOverview,
-  loadFluctuationRatesOverviewFailure,
-  loadFluctuationRatesOverviewSuccess,
+  loadFluctuationRatesFailure,
+  loadFluctuationRatesSuccess,
   loadOpenApplications,
   loadOpenApplicationsCount,
   loadOpenApplicationsCountFailure,
   loadOpenApplicationsCountSuccess,
   loadOpenApplicationsFailure,
   loadOpenApplicationsSuccess,
+  loadOverviewBenchmarkData,
+  loadOverviewDimensionData,
   loadOverviewEntryEmployees,
   loadOverviewEntryEmployeesFailure,
   loadOverviewEntryEmployeesSuccess,
@@ -35,10 +42,29 @@ import {
   loadResignedEmployees,
   loadResignedEmployeesFailure,
   loadResignedEmployeesSuccess,
+  loadWorkforceBalanceMeta,
+  loadWorkforceBalanceMetaFailure,
+  loadWorkforceBalanceMetaSuccess,
 } from './overview.action';
 
 describe('Overview Actions', () => {
   const errorMessage = 'An error occured';
+
+  test('loadOverviewDimensionData', () => {
+    const action = loadOverviewDimensionData();
+
+    expect(action).toEqual({
+      type: '[Overview] Load Overview Dimension data',
+    });
+  });
+
+  test('loadOverviewBenchmarkData', () => {
+    const action = loadOverviewBenchmarkData();
+
+    expect(action).toEqual({
+      type: '[Overview] Load Overview Benchmark data',
+    });
+  });
 
   test('loadAttritionOverTimeOverview', () => {
     const orgUnit = 'ABC';
@@ -74,34 +100,67 @@ describe('Overview Actions', () => {
     });
   });
 
-  test('loadFluctuationRatesOverview', () => {
+  test('loadWorkforceBalanceMeta', () => {
     const request = {} as unknown as EmployeesRequest;
-    const action = loadFluctuationRatesOverview({ request });
+    const action = loadWorkforceBalanceMeta({ request });
 
     expect(action).toEqual({
       request,
-      type: '[Overview] Load FluctuationRates meta data',
+      type: '[Overview] Load workforce balance meta',
     });
   });
 
-  test('loadFluctuationRatesOverviewSuccess', () => {
-    const data = {} as unknown as OverviewFluctuationRates;
-    const action = loadFluctuationRatesOverviewSuccess({
+  test('loadWorkforceBalanceMetaSuccess', () => {
+    const data = {} as unknown as OverviewWorkforceBalanceMeta;
+    const action = loadWorkforceBalanceMetaSuccess({
       data,
     });
 
     expect(action).toEqual({
       data,
-      type: '[Overview] Load FluctuationRates meta data Success',
+      type: '[Overview] Load workforce balance meta Success',
     });
   });
 
-  test('loadFluctuationRatesOverviewFailure', () => {
-    const action = loadFluctuationRatesOverviewFailure({ errorMessage });
+  test('loadWorkforceBalanceMetaFailure', () => {
+    const action = loadWorkforceBalanceMetaFailure({ errorMessage });
 
     expect(action).toEqual({
       errorMessage,
-      type: '[Overview] Load FluctuationRates meta data Failure',
+      type: '[Overview] Load workforce balance meta Failure',
+    });
+  });
+
+  test('loadFluctuationRates', () => {
+    const request = {} as unknown as EmployeesRequest;
+    const action = loadFluctuationRates({ request });
+
+    expect(action).toEqual({
+      request,
+      type: '[Overview] Load FluctuationRates',
+    });
+  });
+
+  test('loadFluctuationRatesSuccess', () => {
+    const data = {} as unknown as FluctuationRate;
+    const action = loadFluctuationRatesSuccess({
+      data,
+    });
+
+    expect(action).toEqual({
+      data,
+      type: '[Overview] Load FluctuationRates Success',
+    });
+  });
+
+  test('loadFluctuationRatesFailure', () => {
+    const action = loadFluctuationRatesFailure({
+      errorMessage,
+    });
+
+    expect(action).toEqual({
+      errorMessage,
+      type: '[Overview] Load FluctuationRates Failure',
     });
   });
 
@@ -110,6 +169,14 @@ describe('Overview Actions', () => {
 
     expect(action).toEqual({
       type: '[Overview] Clear Overview Dimension data',
+    });
+  });
+
+  test('clearOverviewBenchmarkData', () => {
+    const action = clearOverviewBenchmarkData();
+
+    expect(action).toEqual({
+      type: '[Overview] Clear Overview Benchmark data',
     });
   });
 
@@ -139,6 +206,37 @@ describe('Overview Actions', () => {
     expect(action).toEqual({
       errorMessage,
       type: '[Overview] Load FluctuationRatesChartData Failure',
+    });
+  });
+
+  test('loadBenchmarkFluctuationRatesChartData', () => {
+    const request = {} as unknown as EmployeesRequest;
+    const action = loadBenchmarkFluctuationRatesChartData({ request });
+
+    expect(action).toEqual({
+      request,
+      type: '[Overview] Load Benchmark FluctuationRatesChartData',
+    });
+  });
+
+  test('loadBenchmarkFluctuationRatesChartDataSuccess', () => {
+    const data = {} as FluctuationRatesChartData;
+    const action = loadBenchmarkFluctuationRatesChartDataSuccess({ data });
+
+    expect(action).toEqual({
+      data,
+      type: '[Overview] Load Benchmark FluctuationRatesChartData Success',
+    });
+  });
+
+  test('loadBenchmarkFluctuationRatesChartDataFailure', () => {
+    const action = loadBenchmarkFluctuationRatesChartDataFailure({
+      errorMessage,
+    });
+
+    expect(action).toEqual({
+      errorMessage,
+      type: '[Overview] Load Benchmark FluctuationRatesChartData Failure',
     });
   });
 

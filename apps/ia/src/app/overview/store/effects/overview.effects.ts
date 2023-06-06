@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 
 import { of } from 'rxjs';
@@ -9,10 +10,15 @@ import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../../../app-route-path.enum';
 import { selectRouterState } from '../../../core/store';
-import { filterSelected } from '../../../core/store/actions';
 import {
+  benchmarkFilterSelected,
+  filterSelected,
+} from '../../../core/store/actions';
+import {
+  getCurrentBenchmarkFilters,
   getCurrentDimensionValue,
   getCurrentFilters,
+  getSelectedBenchmarkValueShort,
 } from '../../../core/store/selectors';
 import { OrganizationalViewService } from '../../../organizational-view/organizational-view.service';
 import {
@@ -20,15 +26,18 @@ import {
   EmployeesRequest,
   TimePeriod,
 } from '../../../shared/models';
+import { updateUserSettingsSuccess } from '../../../user/store/actions/user.action';
 import {
   ExitEntryEmployeesResponse,
+  FluctuationRate,
   FluctuationRatesChartData,
   OpenApplication,
-  OverviewFluctuationRates,
+  OverviewWorkforceBalanceMeta,
   ResignedEmployeesResponse,
 } from '../../models';
 import { OverviewService } from '../../overview.service';
 import {
+  clearOverviewBenchmarkData,
   clearOverviewDimensionData,
   loadAttritionOverTimeEmployees,
   loadAttritionOverTimeEmployeesFailure,
@@ -36,19 +45,26 @@ import {
   loadAttritionOverTimeOverview,
   loadAttritionOverTimeOverviewFailure,
   loadAttritionOverTimeOverviewSuccess,
+  loadBenchmarkFluctuationRates,
+  loadBenchmarkFluctuationRatesChartData,
+  loadBenchmarkFluctuationRatesChartDataFailure,
+  loadBenchmarkFluctuationRatesChartDataSuccess,
+  loadBenchmarkFluctuationRatesFailure,
+  loadBenchmarkFluctuationRatesSuccess,
+  loadFluctuationRates,
   loadFluctuationRatesChartData,
   loadFluctuationRatesChartDataFailure,
   loadFluctuationRatesChartDataSuccess,
-  loadFluctuationRatesOverview,
-  loadFluctuationRatesOverviewFailure,
-  loadFluctuationRatesOverviewSuccess,
+  loadFluctuationRatesFailure,
+  loadFluctuationRatesSuccess,
   loadOpenApplications,
   loadOpenApplicationsCount,
   loadOpenApplicationsCountFailure,
   loadOpenApplicationsCountSuccess,
   loadOpenApplicationsFailure,
   loadOpenApplicationsSuccess,
-  loadOverviewData,
+  loadOverviewBenchmarkData,
+  loadOverviewDimensionData,
   loadOverviewEntryEmployees,
   loadOverviewEntryEmployeesFailure,
   loadOverviewEntryEmployeesSuccess,
@@ -58,6 +74,9 @@ import {
   loadResignedEmployees,
   loadResignedEmployeesFailure,
   loadResignedEmployeesSuccess,
+  loadWorkforceBalanceMeta,
+  loadWorkforceBalanceMetaFailure,
+  loadWorkforceBalanceMetaSuccess,
 } from '../actions/overview.action';
 
 /* eslint-disable ngrx/prefer-effect-callback-in-block-statement */
@@ -67,28 +86,64 @@ export class OverviewEffects {
 
   filterChange$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(filterSelected, routerNavigationAction),
+      ofType(filterSelected, routerNavigationAction, updateUserSettingsSuccess),
       concatLatestFrom(() => this.store.select(selectRouterState)),
       filter(([_action, router]) => router.state.url === this.OVERVIEW_URL),
-      map(() => loadOverviewData())
+      mergeMap(() => [loadOverviewDimensionData()])
     )
   );
 
-  loadOverviewData$ = createEffect(() =>
+  benchmarkFilterChange$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(loadOverviewData),
+      ofType(benchmarkFilterSelected, routerNavigationAction),
+      concatLatestFrom(() => this.store.select(selectRouterState)),
+      filter(([_action, router]) => router.state.url === this.OVERVIEW_URL),
+      map(() => loadOverviewBenchmarkData())
+    )
+  );
+
+  loadOverviewDimensionData$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadOverviewDimensionData),
       concatLatestFrom(() => this.store.select(getCurrentFilters)),
       map(([_action, request]) => request),
       filter(
-        (request) =>
-          !!(request.filterDimension && request.value && request.timeRange)
+        (request: EmployeesRequest) =>
+          !!(request.filterDimension && request.value)
       ),
       mergeMap((request: EmployeesRequest) => [
-        loadAttritionOverTimeOverview({ request }),
-        loadFluctuationRatesOverview({ request }),
-        loadFluctuationRatesChartData({ request }),
+        loadFluctuationRates({
+          request,
+        }),
+        loadAttritionOverTimeOverview({
+          request,
+        }),
+        loadWorkforceBalanceMeta({ request }),
+        loadFluctuationRatesChartData({
+          request,
+        }),
         loadResignedEmployees(),
-        loadOpenApplicationsCount({ request }),
+        loadOpenApplicationsCount({
+          request,
+        }),
+      ])
+    )
+  );
+
+  loadOverviewBenchmarkData$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadOverviewBenchmarkData),
+      concatLatestFrom(() => this.store.select(getCurrentBenchmarkFilters)),
+      map(([_action, request]) => request),
+      filter(
+        (request: EmployeesRequest) =>
+          !!(request.filterDimension && request.value)
+      ),
+      mergeMap((request: EmployeesRequest) => [
+        loadBenchmarkFluctuationRates({ request }),
+        loadBenchmarkFluctuationRatesChartData({
+          request,
+        }),
       ])
     )
   );
@@ -97,8 +152,9 @@ export class OverviewEffects {
   clearDimensionDataOnDimensionChange$ = createEffect(() =>
     this.actions$.pipe(
       ofType(
+        loadFluctuationRatesSuccess,
         loadAttritionOverTimeOverviewSuccess,
-        loadFluctuationRatesOverviewSuccess,
+        loadWorkforceBalanceMetaSuccess,
         loadFluctuationRatesChartDataSuccess,
         loadResignedEmployeesSuccess,
         loadOpenApplicationsCountSuccess
@@ -106,6 +162,59 @@ export class OverviewEffects {
       concatLatestFrom(() => this.store.select(getCurrentDimensionValue)),
       filter(([_action, dimensionFilter]) => !dimensionFilter),
       map(() => clearOverviewDimensionData())
+    )
+  );
+
+  // clear benchmark's data when user changed the dimension during the loading
+  clearBenchmarkDataOnBenchmarkChange$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        loadBenchmarkFluctuationRatesChartDataSuccess,
+        loadBenchmarkFluctuationRatesSuccess
+      ),
+      concatLatestFrom(() => this.store.select(getSelectedBenchmarkValueShort)),
+      filter(([_action, dimensionFilter]) => !dimensionFilter),
+      map(() => clearOverviewBenchmarkData())
+    )
+  );
+
+  loadFluctuationRates$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadFluctuationRates),
+      map((action) => action.request),
+      switchMap((request: EmployeesRequest) =>
+        this.overviewService.getFluctuationRates(request).pipe(
+          map((data: FluctuationRate) => loadFluctuationRatesSuccess({ data })),
+          catchError((error) =>
+            of(
+              loadFluctuationRatesFailure({
+                errorMessage: error.message,
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
+  loadBenchmarkFluctuationRates$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadBenchmarkFluctuationRates),
+      map((action) => action.request),
+      switchMap((request: EmployeesRequest) =>
+        this.overviewService.getFluctuationRates(request).pipe(
+          map((data: FluctuationRate) =>
+            loadBenchmarkFluctuationRatesSuccess({ data })
+          ),
+          catchError((error) =>
+            of(
+              loadBenchmarkFluctuationRatesFailure({
+                errorMessage: error.message,
+              })
+            )
+          )
+        )
+      )
     )
   );
 
@@ -136,18 +245,18 @@ export class OverviewEffects {
     )
   );
 
-  loadOverviewFluctuationRates$ = createEffect(() =>
+  loadWorkforceBalanceMeta$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(loadFluctuationRatesOverview),
+      ofType(loadWorkforceBalanceMeta),
       map((action) => action.request),
       switchMap((request: EmployeesRequest) =>
-        this.overviewService.getOverviewFluctuationRates(request).pipe(
-          map((data: OverviewFluctuationRates) =>
-            loadFluctuationRatesOverviewSuccess({ data })
+        this.overviewService.getOverviewWorkforceBalanceMeta(request).pipe(
+          map((data: OverviewWorkforceBalanceMeta) =>
+            loadWorkforceBalanceMetaSuccess({ data })
           ),
           catchError((error) =>
             of(
-              loadFluctuationRatesOverviewFailure({
+              loadWorkforceBalanceMetaFailure({
                 errorMessage: error.message,
               })
             )
@@ -169,6 +278,27 @@ export class OverviewEffects {
           catchError((error) =>
             of(
               loadFluctuationRatesChartDataFailure({
+                errorMessage: error.message,
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
+  loadBenchmarkFluctuationRatesChartData$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadBenchmarkFluctuationRatesChartData),
+      map((action) => action.request),
+      switchMap((request: EmployeesRequest) =>
+        this.overviewService.getFluctuationRateChartData(request).pipe(
+          map((data: FluctuationRatesChartData) =>
+            loadBenchmarkFluctuationRatesChartDataSuccess({ data })
+          ),
+          catchError((error) =>
+            of(
+              loadBenchmarkFluctuationRatesChartDataFailure({
                 errorMessage: error.message,
               })
             )
@@ -325,4 +455,20 @@ export class OverviewEffects {
     private readonly organizationalViewService: OrganizationalViewService,
     private readonly store: Store
   ) {}
+
+  areRquiredFieldsDefined(requests: EmployeesRequests): boolean {
+    return !!(
+      requests.selectedFilterRequest.filterDimension &&
+      requests.selectedFilterRequest.value &&
+      requests.selectedFilterRequest.timeRange &&
+      requests.benchmarkRequest.filterDimension &&
+      requests.benchmarkRequest.value &&
+      requests.benchmarkRequest.timeRange
+    );
+  }
+}
+
+export interface EmployeesRequests {
+  selectedFilterRequest: EmployeesRequest;
+  benchmarkRequest: EmployeesRequest;
 }

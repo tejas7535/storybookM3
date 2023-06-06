@@ -9,7 +9,10 @@ import { marbles } from 'rxjs-marbles/jest';
 
 import { AppRoutePath } from '../../../app-route-path.enum';
 import { RouterStateUrl, selectRouterState } from '../../../core/store';
-import { filterDimensionSelected } from '../../../core/store/actions';
+import {
+  filterSelected,
+  loadFilterDimensionData,
+} from '../../../core/store/actions';
 import {
   getCurrentDimensionValue,
   getCurrentFilters,
@@ -613,12 +616,17 @@ describe('Organizational View Effects', () => {
         };
 
         actions$ = m.hot('-a', { a: action });
-        const result = filterDimensionSelected({
+        const filterSelectedAction = filterSelected({
           filter,
-          filterDimension: FilterDimension.ORG_UNIT,
+        });
+        const loadFilterDimensionDataAction = loadFilterDimensionData({
+          filterDimension: filter.name,
         });
 
-        const expected = m.cold('-b', { b: result });
+        const expected = m.cold('-(bc)', {
+          b: filterSelectedAction,
+          c: loadFilterDimensionDataAction,
+        });
 
         m.expect(effects.loadParentSuccess$).toBeObservable(expected);
       })

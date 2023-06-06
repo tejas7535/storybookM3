@@ -4,9 +4,10 @@ import { combineLatest, map, Observable } from 'rxjs';
 
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
-import { EChartsOption } from 'echarts';
+import { EChartsOption, LineSeriesOption } from 'echarts';
 
 import { getSelectedDimension } from '../core/store/selectors/filter/filter.selector';
+import { createFluctuationRateChartConfig } from '../shared/charts/line-chart/line-chart-utils';
 import { DoughnutConfig } from '../shared/charts/models/doughnut-config.model';
 import { EmployeeListDialogMetaHeadings } from '../shared/dialogs/employee-list-dialog/employee-list-dialog-meta-headings.model';
 import { AttritionSeries, EmployeeWithAction } from '../shared/models';
@@ -26,8 +27,15 @@ import {
   getAttritionOverTimeEmployeesData,
   getAttritionOverTimeEmployeesLoading,
   getAttritionOverTimeOverviewData,
-  getFluctuationRatesForChart,
+  getBenchmarkFluctuationKpi,
+  getBenchmarkFluctuationRatesForChart,
+  getBenchmarkUnforcedFluctuationRatesForChart,
+  getDimensionFluctuationKpi,
+  getDimensionFluctuationRatesForChart,
+  getDimensionUnforcedFluctuationRatesForChart,
   getIsLoadingAttritionOverTimeOverview,
+  getIsLoadingBenchmarkFluctuationRates,
+  getIsLoadingDimensionFluctuationRates,
   getIsLoadingDoughnutsConfig,
   getIsLoadingFluctuationRatesForChart,
   getIsLoadingOpenApplications,
@@ -45,12 +53,9 @@ import {
   getOverviewFluctuationEntriesDoughnutConfig,
   getOverviewFluctuationExitsCount,
   getOverviewFluctuationExitsDoughnutConfig,
-  getOverviewFluctuationKpi,
   getOverviewFluctuationTotalEmployeesCount,
-  getOverviewUnforcedFluctuationKpi,
   getResignedEmployees,
   getResignedEmployeesCount,
-  getUnforcedFluctuationRatesForChart,
 } from './store/selectors/overview.selector';
 
 @Component({
@@ -58,11 +63,17 @@ import {
   templateUrl: './overview.component.html',
 })
 export class OverviewComponent implements OnInit {
-  fluctuationChartData$: Observable<EChartsOption>;
-  unforcedFluctuationChartData$: Observable<EChartsOption>;
+  fluctuationRatesChartConfig: EChartsOption;
+  unforcedFluctuationRatesChartConfig: EChartsOption;
+  fluctuationChartData$: Observable<LineSeriesOption>;
+  benchmarkfluctuationChartData$: Observable<LineSeriesOption>;
+  benchmarkUnforcedFluctuationChartData$: Observable<LineSeriesOption>;
+  unforcedFluctuationChartData$: Observable<LineSeriesOption>;
   isFluctuationChartLoading$: Observable<boolean>;
-  fluctuationKpi$: Observable<FluctuationKpi>;
-  unforcedFluctuationKpi$: Observable<FluctuationKpi>;
+  dimensionFluctuationKpi$: Observable<FluctuationKpi>;
+  isDimensionFluctuationKpiLoading$: Observable<boolean>;
+  benchmarkFluctuationKpi$: Observable<FluctuationKpi>;
+  isBenchmarkFluctuationKpiLoading$: Observable<boolean>;
   externalExitEmployees$: Observable<EmployeeWithAction[]>;
   externalUnforcedExitEmployees$: Observable<EmployeeWithAction[]>;
 
@@ -121,19 +132,40 @@ export class OverviewComponent implements OnInit {
   }
 
   loadFluctuationData() {
-    this.fluctuationChartData$ = this.store.select(getFluctuationRatesForChart);
+    const percentageSign = '%';
+    this.fluctuationRatesChartConfig =
+      createFluctuationRateChartConfig(percentageSign);
+    this.unforcedFluctuationRatesChartConfig =
+      createFluctuationRateChartConfig(percentageSign);
+    this.isDimensionFluctuationKpiLoading$ = this.store.select(
+      getIsLoadingDimensionFluctuationRates
+    );
+    this.isBenchmarkFluctuationKpiLoading$ = this.store.select(
+      getIsLoadingBenchmarkFluctuationRates
+    );
+    this.fluctuationChartData$ = this.store.select(
+      getDimensionFluctuationRatesForChart
+    );
     this.unforcedFluctuationChartData$ = this.store.select(
-      getUnforcedFluctuationRatesForChart
+      getDimensionUnforcedFluctuationRatesForChart
+    );
+    this.benchmarkfluctuationChartData$ = this.store.select(
+      getBenchmarkFluctuationRatesForChart
+    );
+    this.benchmarkUnforcedFluctuationChartData$ = this.store.select(
+      getBenchmarkUnforcedFluctuationRatesForChart
     );
     this.isFluctuationChartLoading$ = this.store.select(
       getIsLoadingFluctuationRatesForChart
     );
-    this.fluctuationKpi$ = this.store.select(getOverviewFluctuationKpi);
+    this.dimensionFluctuationKpi$ = this.store.select(
+      getDimensionFluctuationKpi
+    );
     this.externalExitEmployees$ = this.store.select(
       getOverviewExternalExitEmployees
     );
-    this.unforcedFluctuationKpi$ = this.store.select(
-      getOverviewUnforcedFluctuationKpi
+    this.benchmarkFluctuationKpi$ = this.store.select(
+      getBenchmarkFluctuationKpi
     );
     this.externalUnforcedExitEmployees$ = this.store.select(
       getOverviewExternalUnforcedExitEmployees

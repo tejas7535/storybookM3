@@ -1,3 +1,6 @@
 export class FluctuationRate {
-  public constructor(public global: number, public dimension: number) {}
+  public constructor(
+    public fluctuationRate: number,
+    public unforcedFluctuationRate: number
+  ) {}
 }

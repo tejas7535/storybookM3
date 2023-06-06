@@ -3,18 +3,11 @@ import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
-import { createSelector } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { marbles } from 'rxjs-marbles/marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import * as filterSelectors from '../../../core/store/selectors/filter/filter.selector';
 import { AutocompleteInputModule } from '../../../shared/autocomplete-input/autocomplete-input.module';
-import {
-  ASYNC_SEARCH_MIN_CHAR_LENGTH,
-  LOCAL_SEARCH_MIN_CHAR_LENGTH,
-} from '../../../shared/constants';
 import {
   FilterDimension,
   IdValue,
@@ -69,69 +62,32 @@ describe('UserSettingsDialogComponent', () => {
 
   describe('updateDimension', () => {
     test('should handle dimension update', () => {
-      component.updateDimensionName = jest.fn();
       component.updateDimension(FilterDimension.COUNTRY);
 
       expect(component.activeDimension).toEqual(FilterDimension.COUNTRY);
-      expect(component.updateDimensionName).toHaveBeenCalledTimes(1);
-      expect(component.minCharLength).toEqual(LOCAL_SEARCH_MIN_CHAR_LENGTH);
       expect(component.dimensionFilter$).toBeDefined();
       expect(component.selectedDimensionIdValue).toBeUndefined();
     });
 
-    test('should set minCharLength to ASYNC if org unit', () => {
-      component.updateDimensionName = jest.fn();
+    test('should set active dimension', () => {
       component.updateDimension(FilterDimension.ORG_UNIT);
 
       expect(component.activeDimension).toEqual(FilterDimension.ORG_UNIT);
-      expect(component.minCharLength).toEqual(ASYNC_SEARCH_MIN_CHAR_LENGTH);
+      expect(component.selectedDimensionIdValue).toBeUndefined();
     });
   });
 
-  describe('updateDimensionName', () => {
-    test('should update dimension name if found', () => {
-      component.availableDimensions = [
-        { id: 'REGION', value: '2' },
-        { id: 'BOARD', value: '4' },
-      ];
-      component.activeDimension = FilterDimension.REGION;
-
-      component.updateDimensionName();
-
-      expect(component.dimensionName).toEqual('2');
-    });
-
-    test('should do nothing if availableDimensions not set', () => {
-      component.availableDimensions = undefined;
-      component.activeDimension = FilterDimension.REGION;
-
-      component.updateDimensionName();
-
-      expect(component.dimensionName).toBeUndefined();
-    });
-
-    test('should do nothing if not found', () => {
-      component.availableDimensions = [
-        { id: 'REGION', value: '2' },
-        { id: 'BOARD', value: '4' },
-      ];
-      component.activeDimension = FilterDimension.SUB_BOARD;
-
-      component.updateDimensionName();
-
-      expect(component.dimensionName).toBeUndefined();
-    });
-  });
-  describe('selectDimensionDataOption', () => {
+  describe('onDimensionOptionSelected', () => {
     test('should set option', () => {
       const option = new SelectedFilter('test', {
         id: 'Sales',
         value: 'Sales',
       });
 
-      component.selectDimensionDataOption(option);
+      component.onDimensionOptionSelected(option);
 
       expect(component.selected).toEqual(option);
+      expect(component.selectedDimensionIdValue).toEqual(option.idValue);
     });
   });
 
@@ -167,12 +123,13 @@ describe('UserSettingsDialogComponent', () => {
     });
   });
 
-  describe('autoCompleteSelectedDimensionIdValueChange', () => {
-    test('should emit search string when asyncMode', () => {
+  describe('onDimensionAutocompleteInput', () => {
+    test('should emit search string and dimension', () => {
       const searchFor = 'search';
       component.activeDimension = FilterDimension.ORG_UNIT;
+      store.dispatch = jest.fn();
 
-      component.autoCompleteSelectedDimensionIdValueChange(searchFor);
+      component.onDimensionAutocompleteInput(searchFor);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         loadUserSettingsDimensionData({
@@ -181,67 +138,15 @@ describe('UserSettingsDialogComponent', () => {
         })
       );
     });
-
-    test(
-      'should set dimension filter and not filter options if search too short',
-      marbles((m) => {
-        const searchFor = '';
-        const fakeFilter = {
-          options: [] as any[],
-          name: FilterDimension.BOARD,
-        };
-        jest
-          .spyOn(filterSelectors, 'getSpecificDimensonFilter')
-          .mockImplementation(() => createSelector(() => fakeFilter));
-        component.activeDimension = FilterDimension.BOARD;
-
-        component.autoCompleteSelectedDimensionIdValueChange(searchFor);
-
-        m.expect(component.dimensionFilter$).toBeObservable(
-          m.cold('a', { a: fakeFilter })
-        );
-      })
-    );
-
-    test(
-      'should set dimension filter and filter options',
-      marbles((m) => {
-        const searchFor = 'te';
-        const fakeFilter = {
-          options: [
-            { value: 'te' } as IdValue,
-            { value: 'emte' } as IdValue,
-            { value: 'arg' } as IdValue,
-            { value: 'yay' } as IdValue,
-          ],
-          name: FilterDimension.BOARD,
-        };
-        jest
-          .spyOn(filterSelectors, 'getSpecificDimensonFilter')
-          .mockImplementation(() => createSelector(() => fakeFilter));
-        component.activeDimension = FilterDimension.BOARD;
-
-        const expectedFilter = {
-          options: [{ value: 'te' } as IdValue],
-          name: FilterDimension.BOARD,
-        };
-
-        component.autoCompleteSelectedDimensionIdValueChange(searchFor);
-
-        m.expect(component.dimensionFilter$).toBeObservable(
-          m.cold('a', { a: expectedFilter })
-        );
-      })
-    );
   });
 
-  describe('selectDimension', () => {
+  describe('onDimensionSelected', () => {
     test('should dispatch action and update dimension', () => {
       const idVal = new IdValue('2', 'value');
 
       component.updateDimension = jest.fn();
 
-      component.selectDimension(idVal);
+      component.onDimensionSelected(idVal);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         loadUserSettingsDimensionData({

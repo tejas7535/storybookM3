@@ -67,3 +67,13 @@ export const convertTimeRangeToUTC = (timeRange: string) => {
         .valueOf()}`
     : undefined;
 };
+
+export function getPercentageValue(rate: number): number {
+  return Math.round(rate * 1000) / 10;
+}
+
+export function getPercentageValueSigned(value: number): string {
+  return value !== undefined
+    ? `${Number(getPercentageValue(value))}%`
+    : undefined;
+}

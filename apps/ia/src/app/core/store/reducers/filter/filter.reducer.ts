@@ -17,8 +17,10 @@ import {
   getTimeRangeFromDates,
 } from '../../../../shared/utils/utilities';
 import {
+  benchmarkFilterSelected,
   filterDimensionSelected,
   filterSelected,
+  loadFilterBenchmarkDimensionData,
   loadFilterDimensionData,
   loadFilterDimensionDataFailure,
   loadFilterDimensionDataSuccess,
@@ -37,8 +39,10 @@ export interface FilterState {
   data: Record<FilterDimension, FilterData>;
   timePeriods: IdValue[];
   selectedFilters: EntityState<SelectedFilter>; // currently selected filters
+  benchmarkFilters: EntityState<SelectedFilter>; // currently selected benchmark filters
   selectedTimePeriod: TimePeriod;
   selectedDimension: FilterDimension;
+  benchmarkDimension: FilterDimension;
 }
 
 export const getInitialSelectedTimeRange = (today: Moment) => {
@@ -98,12 +102,46 @@ export const initialState: FilterState = {
       },
     },
   }),
+  benchmarkFilters: filterAdapter.getInitialState({
+    ids: [FilterKey.TIME_RANGE, FilterDimension.ORG_UNIT],
+    entities: {
+      [FilterKey.TIME_RANGE]: {
+        name: FilterKey.TIME_RANGE,
+        idValue: {
+          id: initialTimeRange,
+          value: getBeautifiedTimeRange(initialTimeRange),
+        },
+      },
+      [FilterDimension.ORG_UNIT]: {
+        name: FilterDimension.ORG_UNIT,
+        idValue: {
+          id: '50008377',
+          value: 'Schaeffler',
+        },
+      },
+    },
+  }),
   selectedTimePeriod: TimePeriod.LAST_12_MONTHS,
   selectedDimension: undefined,
+  benchmarkDimension: FilterDimension.ORG_UNIT,
 };
 
 export const filterReducer = createReducer(
   initialState,
+  on(
+    loadFilterBenchmarkDimensionData,
+    (state: FilterState, { filterDimension }): FilterState => ({
+      ...state,
+      data: {
+        ...state.data,
+        [filterDimension]: {
+          ...state.data[filterDimension],
+          loading: true,
+        },
+      },
+      benchmarkDimension: filterDimension,
+    })
+  ),
   on(
     loadFilterDimensionData,
     (state: FilterState, { filterDimension }): FilterState => ({
@@ -151,6 +189,19 @@ export const filterReducer = createReducer(
     (state: FilterState, { filter }): FilterState => ({
       ...state,
       selectedFilters: filterAdapter.upsertOne(filter, state.selectedFilters),
+      // There is only one time range filter for now. It makes changes for both filter collections.
+      // So, when time range filter changes, make updates in benchmark filters too.
+      benchmarkFilters:
+        filter.name === FilterKey.TIME_RANGE
+          ? filterAdapter.upsertOne(filter, state.benchmarkFilters)
+          : state.benchmarkFilters,
+    })
+  ),
+  on(
+    benchmarkFilterSelected,
+    (state: FilterState, { filter }): FilterState => ({
+      ...state,
+      benchmarkFilters: filterAdapter.upsertOne(filter, state.benchmarkFilters),
     })
   ),
   on(

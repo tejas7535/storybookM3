@@ -7,20 +7,26 @@ import { Store } from '@ngrx/store';
 
 import { FilterService } from '../../../../filter-section/filter.service';
 import { clearLossOfSkillDimensionData } from '../../../../loss-of-skill/store/actions/loss-of-skill.actions';
-import { clearOverviewDimensionData } from '../../../../overview/store/actions/overview.action';
-import { FilterKey, IdValue, SelectedFilter } from '../../../../shared/models';
+import {
+  clearOverviewBenchmarkData,
+  clearOverviewDimensionData,
+} from '../../../../overview/store/actions/overview.action';
+import { IdValue, SelectedFilter } from '../../../../shared/models';
 import { loadUserSettingsDimensionData } from '../../../../user/store/actions/user.action';
 import {
+  benchmarDimensionSelected,
+  benchmarkFilterSelected,
   dimensionSelected,
-  filterDimensionSelected,
   filterSelected,
+  loadFilterBenchmarkDimensionData,
   loadFilterDimensionData,
   loadFilterDimensionDataFailure,
   loadFilterDimensionDataSuccess,
 } from '../../actions';
 import {
+  getBenchmarkIdValue,
   getCurrentDimensionValue,
-  getSelectedDimension,
+  getSelectedBenchmarkValueShort,
   getSelectedDimensionIdValue,
   getSelectedTimeRange,
 } from '../../selectors';
@@ -40,9 +46,23 @@ export class FilterEffects {
     );
   });
 
+  // clear benchmark's data when user changed the dimension during loading
+  benchmarkDimensionSelected$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(benchmarDimensionSelected),
+      concatLatestFrom(() => this.store.select(getSelectedBenchmarkValueShort)),
+      filter(([_action, dimensionFilter]) => !dimensionFilter),
+      mergeMap(() => [clearOverviewBenchmarkData()])
+    );
+  });
+
   loadFilterDimensionData$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(loadFilterDimensionData, loadUserSettingsDimensionData),
+      ofType(
+        loadFilterDimensionData,
+        loadFilterBenchmarkDimensionData,
+        loadUserSettingsDimensionData
+      ),
       concatLatestFrom(() => this.store.select(getSelectedTimeRange)),
       mergeMap(([action, timeRange]) =>
         this.filterService
@@ -71,9 +91,9 @@ export class FilterEffects {
     );
   });
 
-  loadFilterDimensionDataSuccess$ = createEffect(() => {
+  loadFilterDimensionDataFilterSelected$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(loadFilterDimensionDataSuccess),
+      ofType(loadFilterDimensionData),
       concatLatestFrom(() => this.store.select(getSelectedDimensionIdValue)),
       mergeMap(([action, selectedDimensionIdValue]) => {
         return selectedDimensionIdValue
@@ -90,23 +110,22 @@ export class FilterEffects {
     );
   });
 
-  filterDimensionSelected$ = createEffect(() => {
+  loadFilterDimensionDataBenchmarkFilterSelected$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(filterDimensionSelected),
-      map((action) =>
-        loadFilterDimensionData({ filterDimension: action.filterDimension })
-      )
-    );
-  });
-
-  timeRangeSelected$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(filterSelected),
-      filter((action) => action.filter.name === FilterKey.TIME_RANGE),
-      concatLatestFrom(() => this.store.select(getSelectedDimension)),
-      map(([_action, filterDimension]) =>
-        loadFilterDimensionData({ filterDimension })
-      )
+      ofType(loadFilterBenchmarkDimensionData),
+      concatLatestFrom(() => this.store.select(getBenchmarkIdValue)),
+      mergeMap(([action, benchmarkDimensionIdValue]) => {
+        return benchmarkDimensionIdValue
+          ? of(
+              benchmarkFilterSelected({
+                filter: {
+                  name: action.filterDimension,
+                  idValue: benchmarkDimensionIdValue,
+                } as SelectedFilter,
+              })
+            )
+          : EMPTY;
+      })
     );
   });
 

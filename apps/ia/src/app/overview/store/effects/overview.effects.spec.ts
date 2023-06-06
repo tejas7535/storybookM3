@@ -10,8 +10,10 @@ import { marbles } from 'rxjs-marbles/jest';
 import { AppRoutePath } from '../../../app-route-path.enum';
 import { RouterStateUrl, selectRouterState } from '../../../core/store';
 import {
+  getCurrentBenchmarkFilters,
   getCurrentDimensionValue,
   getCurrentFilters,
+  getSelectedBenchmarkValueShort,
 } from '../../../core/store/selectors';
 import { OrganizationalViewService } from '../../../organizational-view/organizational-view.service';
 import {
@@ -22,13 +24,15 @@ import {
 } from '../../../shared/models';
 import {
   ExitEntryEmployeesResponse,
+  FluctuationRate,
   FluctuationRatesChartData,
   OpenApplication,
-  OverviewFluctuationRates,
+  OverviewWorkforceBalanceMeta,
   ResignedEmployeesResponse,
 } from '../../models';
 import { OverviewService } from '../../overview.service';
 import {
+  clearOverviewBenchmarkData,
   clearOverviewDimensionData,
   loadAttritionOverTimeEmployees,
   loadAttritionOverTimeEmployeesFailure,
@@ -36,19 +40,23 @@ import {
   loadAttritionOverTimeOverview,
   loadAttritionOverTimeOverviewFailure,
   loadAttritionOverTimeOverviewSuccess,
+  loadBenchmarkFluctuationRates,
+  loadBenchmarkFluctuationRatesChartData,
+  loadBenchmarkFluctuationRatesChartDataSuccess,
+  loadFluctuationRates,
   loadFluctuationRatesChartData,
   loadFluctuationRatesChartDataFailure,
   loadFluctuationRatesChartDataSuccess,
-  loadFluctuationRatesOverview,
-  loadFluctuationRatesOverviewFailure,
-  loadFluctuationRatesOverviewSuccess,
+  loadFluctuationRatesFailure,
+  loadFluctuationRatesSuccess,
   loadOpenApplications,
   loadOpenApplicationsCount,
   loadOpenApplicationsCountFailure,
   loadOpenApplicationsCountSuccess,
   loadOpenApplicationsFailure,
   loadOpenApplicationsSuccess,
-  loadOverviewData,
+  loadOverviewBenchmarkData,
+  loadOverviewDimensionData,
   loadOverviewEntryEmployees,
   loadOverviewEntryEmployeesFailure,
   loadOverviewEntryEmployeesSuccess,
@@ -58,8 +66,11 @@ import {
   loadResignedEmployees,
   loadResignedEmployeesFailure,
   loadResignedEmployeesSuccess,
+  loadWorkforceBalanceMeta,
+  loadWorkforceBalanceMetaFailure,
+  loadWorkforceBalanceMetaSuccess,
 } from '../actions/overview.action';
-import { OverviewEffects } from './overview.effects';
+import { EmployeesRequests, OverviewEffects } from './overview.effects';
 
 jest.mock('../../../core/store/reducers/filter/filter.reducer', () => ({
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-arguments
@@ -111,16 +122,16 @@ describe('Overview Effects', () => {
     store = spectator.inject(MockStore);
   });
 
-  describe('filterChange', () => {
+  describe('filterChange$', () => {
     test(
-      'should return loadOverviewData when url /overview',
+      'should return loadOverviewDimensionData when url /overview',
       marbles((m) => {
         store.overrideSelector(selectRouterState, {
           state: {
             url: `/${AppRoutePath.OverviewPath}`,
           },
         } as RouterReducerState<RouterStateUrl>);
-        action = loadOverviewData();
+        action = loadOverviewDimensionData();
         actions$ = m.hot('-', { a: action });
         const expected = m.cold('-');
 
@@ -144,19 +155,169 @@ describe('Overview Effects', () => {
     );
   });
 
-  describe('loadOverviewData$', () => {
+  describe('benchmarkFilterChange$', () => {
     test(
-      'loadOverviewData - should do nothing when organization is not set',
+      'should return loadOverviewBenchmarkData when url /overview',
       marbles((m) => {
-        action = loadOverviewData();
+        store.overrideSelector(selectRouterState, {
+          state: {
+            url: `/${AppRoutePath.OverviewPath}`,
+          },
+        } as RouterReducerState<RouterStateUrl>);
+        action = loadOverviewBenchmarkData();
+        actions$ = m.hot('-', { a: action });
+        const expected = m.cold('-');
+
+        m.expect(effects.benchmarkFilterChange$).toBeObservable(expected);
+      })
+    );
+
+    test(
+      'should not return loadOverviewData when url different than /overview',
+      marbles((m) => {
+        store.overrideSelector(selectRouterState, {
+          state: {
+            url: `/different-path`,
+          },
+        } as RouterReducerState<RouterStateUrl>);
+        actions$ = m.hot('-', { a: EMPTY });
+        const expected = m.cold('-');
+
+        m.expect(effects.benchmarkFilterChange$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('loadOverviewDimensionData$', () => {
+    test(
+      'loadOverviewDimensionData - should do nothing when diemnsion value is not set',
+      marbles((m) => {
+        action = loadOverviewDimensionData();
         store.overrideSelector(getCurrentFilters, {} as EmployeesRequest);
+        store.overrideSelector(
+          getCurrentBenchmarkFilters,
+          {} as EmployeesRequest
+        );
 
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('--');
 
-        m.expect(effects.loadOverviewData$).toBeObservable(expected);
+        m.expect(effects.loadOverviewDimensionData$).toBeObservable(expected);
       })
     );
+
+    test(
+      'should return dimension overview data',
+      marbles((m) => {
+        const selectedDimensionRequest = {
+          filterDimension: FilterDimension.ORG_UNIT,
+          value: '9595',
+          timeRange: '123-321',
+        };
+        store.overrideSelector(getCurrentFilters, selectedDimensionRequest);
+
+        action = loadOverviewDimensionData();
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-(bcdefg)', {
+          b: loadFluctuationRates({
+            request: selectedDimensionRequest,
+          }),
+          c: loadAttritionOverTimeOverview({
+            request: selectedDimensionRequest,
+          }),
+          d: loadWorkforceBalanceMeta({ request: selectedDimensionRequest }),
+          e: loadFluctuationRatesChartData({
+            request: selectedDimensionRequest,
+          }),
+          f: loadResignedEmployees(),
+          g: loadOpenApplicationsCount({ request: selectedDimensionRequest }),
+        });
+
+        m.expect(effects.loadOverviewDimensionData$).toBeObservable(expected);
+      })
+    );
+
+    describe('loadOverviewBenchmarkData$', () => {
+      test(
+        'loadOverviewBenchmarkData - should do nothing when diemnsion value is not set',
+        marbles((m) => {
+          action = loadOverviewBenchmarkData();
+          store.overrideSelector(getCurrentFilters, {} as EmployeesRequest);
+          store.overrideSelector(
+            getCurrentBenchmarkFilters,
+            {} as EmployeesRequest
+          );
+
+          actions$ = m.hot('-a', { a: action });
+          const expected = m.cold('--');
+
+          m.expect(effects.loadOverviewBenchmarkData$).toBeObservable(expected);
+        })
+      );
+
+      test(
+        'should return benchmark overview data',
+        marbles((m) => {
+          const benchmarkRequest = {
+            filterDimension: FilterDimension.REGION,
+            value: 'DE',
+            timeRange: '997-997',
+          };
+          store.overrideSelector(getCurrentBenchmarkFilters, benchmarkRequest);
+
+          action = loadOverviewBenchmarkData();
+          actions$ = m.hot('-a', { a: action });
+
+          const expected = m.cold('-(bc)', {
+            b: loadBenchmarkFluctuationRates({ request: benchmarkRequest }),
+            c: loadBenchmarkFluctuationRatesChartData({
+              request: benchmarkRequest,
+            }),
+          });
+
+          m.expect(effects.loadOverviewBenchmarkData$).toBeObservable(expected);
+        })
+      );
+
+      test(
+        'should do nothing when benchmark request field is missing',
+        marbles((m) => {
+          const benchmarkRequest = {
+            filterDimension: undefined as FilterDimension,
+            value: 'DE',
+            timeRange: '997-997',
+          };
+          store.overrideSelector(getCurrentBenchmarkFilters, benchmarkRequest);
+
+          action = loadOverviewBenchmarkData();
+          actions$ = m.hot('-a', { a: action });
+
+          const expected = m.cold('--');
+
+          m.expect(effects.loadOverviewBenchmarkData$).toBeObservable(expected);
+        })
+      );
+
+      test(
+        'should do nothing when selected dimension request field is missing',
+        marbles((m) => {
+          const benchmarkRequest = {
+            filterDimension: undefined as FilterDimension,
+            value: 'DE',
+            timeRange: '997-997',
+          };
+          store.overrideSelector(getCurrentBenchmarkFilters, benchmarkRequest);
+
+          action = loadOverviewBenchmarkData();
+          actions$ = m.hot('-a', { a: action });
+
+          const expected = m.cold('--');
+
+          m.expect(effects.loadOverviewBenchmarkData$).toBeObservable(expected);
+        })
+      );
+    });
   });
 
   describe('clearDimensionDataOnDimensionChange$', () => {
@@ -182,8 +343,8 @@ describe('Overview Effects', () => {
     test(
       'loadFluctuationRatesOverviewSuccess - should do nothing when dimension selected',
       marbles((m) => {
-        action = loadFluctuationRatesOverviewSuccess({
-          data: {} as OverviewFluctuationRates,
+        action = loadWorkforceBalanceMetaSuccess({
+          data: {} as OverviewWorkforceBalanceMeta,
         });
         store.overrideSelector(getCurrentDimensionValue, value);
 
@@ -268,8 +429,8 @@ describe('Overview Effects', () => {
     test(
       'loadFluctuationRatesOverviewSuccess - should return clearOverviewDimensionData when dimension not selected',
       marbles((m) => {
-        action = loadFluctuationRatesOverviewSuccess({
-          data: {} as OverviewFluctuationRates,
+        action = loadWorkforceBalanceMetaSuccess({
+          data: {} as OverviewWorkforceBalanceMeta,
         });
         store.overrideSelector(getCurrentDimensionValue, undefined as string);
 
@@ -332,6 +493,48 @@ describe('Overview Effects', () => {
         const expected = m.cold('-b', { b: result });
 
         m.expect(effects.clearDimensionDataOnDimensionChange$).toBeObservable(
+          expected
+        );
+      })
+    );
+  });
+
+  describe('clearBenchmarkDataOnBenchmarkChange$', () => {
+    const value = 'ABC';
+
+    test(
+      'loadBenchmarkFluctuationRatesChartDataSuccess - should do nothing when dimension selected',
+      marbles((m) => {
+        action = loadBenchmarkFluctuationRatesChartDataSuccess({
+          data: {} as FluctuationRatesChartData,
+        });
+        store.overrideSelector(getSelectedBenchmarkValueShort, value);
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('--');
+
+        m.expect(effects.clearDimensionDataOnDimensionChange$).toBeObservable(
+          expected
+        );
+      })
+    );
+
+    test(
+      'loadBenchmarkFluctuationRatesChartDataSuccess - should return clearOverviewBenchmarkData when dimension not selected',
+      marbles((m) => {
+        action = loadBenchmarkFluctuationRatesChartDataSuccess({
+          data: {} as FluctuationRatesChartData,
+        });
+        store.overrideSelector(
+          getSelectedBenchmarkValueShort,
+          undefined as string
+        );
+
+        actions$ = m.hot('-a', { a: action });
+        const result = clearOverviewBenchmarkData();
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.clearBenchmarkDataOnBenchmarkChange$).toBeObservable(
           expected
         );
       })
@@ -414,28 +617,26 @@ describe('Overview Effects', () => {
     );
   });
 
-  describe('loadOverviewFluctuationRates$', () => {
+  describe('loadWorkforceBalanceMeta$', () => {
     let request: EmployeesRequest;
 
     beforeEach(() => {
       request = {} as unknown as EmployeesRequest;
-      action = loadFluctuationRatesOverview({ request });
+      action = loadWorkforceBalanceMeta({ request });
     });
 
     test(
-      'should return loadFluctuationRatesOverviewSuccess action when REST call is successful',
+      'should return loadWorkforceBalanceMetaSuccess action when REST call is successful',
       marbles((m) => {
-        const data: OverviewFluctuationRates = {
+        const data: OverviewWorkforceBalanceMeta = {
           totalEmployeesCount: 0,
-          fluctuationRate: { global: 0, dimension: 0 },
-          unforcedFluctuationRate: { global: 0, dimension: 0 },
           internalExitCount: 0,
           externalExitCount: 0,
           externalUnforcedExitCount: 0,
           internalEntryCount: 0,
           externalEntryCount: 0,
         };
-        const result = loadFluctuationRatesOverviewSuccess({
+        const result = loadWorkforceBalanceMetaSuccess({
           data,
         });
 
@@ -445,22 +646,22 @@ describe('Overview Effects', () => {
         });
         const expected = m.cold('--b', { b: result });
 
-        overviewService.getOverviewFluctuationRates = jest.fn(() => response);
-
-        m.expect(effects.loadOverviewFluctuationRates$).toBeObservable(
-          expected
+        overviewService.getOverviewWorkforceBalanceMeta = jest.fn(
+          () => response
         );
+
+        m.expect(effects.loadWorkforceBalanceMeta$).toBeObservable(expected);
         m.flush();
         expect(
-          overviewService.getOverviewFluctuationRates
+          overviewService.getOverviewWorkforceBalanceMeta
         ).toHaveBeenCalledWith(request);
       })
     );
 
     test(
-      'should return loadFluctuationRatesOverviewFailure on REST error',
+      'should return loadWorkforceBalanceMetaFailure on REST error',
       marbles((m) => {
-        const result = loadFluctuationRatesOverviewFailure({
+        const result = loadWorkforceBalanceMetaFailure({
           errorMessage: error.message,
         }) as any;
 
@@ -468,16 +669,73 @@ describe('Overview Effects', () => {
         const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
 
-        overviewService.getOverviewFluctuationRates = jest
+        overviewService.getOverviewWorkforceBalanceMeta = jest
           .fn()
           .mockImplementation(() => response);
 
-        m.expect(effects.loadOverviewFluctuationRates$).toBeObservable(
-          expected
-        );
+        m.expect(effects.loadWorkforceBalanceMeta$).toBeObservable(expected);
         m.flush();
         expect(
-          overviewService.getOverviewFluctuationRates
+          overviewService.getOverviewWorkforceBalanceMeta
+        ).toHaveBeenCalledWith(request);
+      })
+    );
+  });
+
+  describe('loadFluctuationRates$', () => {
+    let request: EmployeesRequest;
+
+    beforeEach(() => {
+      request = {} as unknown as EmployeesRequest;
+      action = loadFluctuationRates({ request });
+    });
+
+    test(
+      'should return loadFluctuationRatesSuccess action when REST call is successful',
+      marbles((m) => {
+        const data: FluctuationRate = {
+          fluctuationRate: 1,
+          unforcedFluctuationRate: 2,
+        };
+        const result = loadFluctuationRatesSuccess({
+          data,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|', {
+          a: data,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        overviewService.getFluctuationRates = jest.fn(() => response);
+
+        m.expect(effects.loadFluctuationRates$).toBeObservable(expected);
+        m.flush();
+        expect(overviewService.getFluctuationRates).toHaveBeenCalledWith(
+          request
+        );
+      })
+    );
+
+    test(
+      'should return loadFluctuationRatesFailure on REST error',
+      marbles((m) => {
+        const result = loadFluctuationRatesFailure({
+          errorMessage: error.message,
+        }) as any;
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+
+        overviewService.getFluctuationRates = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadFluctuationRates$).toBeObservable(expected);
+        m.flush();
+        expect(
+          overviewService.getOverviewWorkforceBalanceMeta
         ).toHaveBeenCalledWith(request);
       })
     );
@@ -912,5 +1170,64 @@ describe('Overview Effects', () => {
         ).toHaveBeenCalledWith(request);
       })
     );
+  });
+
+  describe('areRquiredFieldsDefined', () => {
+    test('should return true when all required fields defined', () => {
+      const request: EmployeesRequests = {
+        selectedFilterRequest: {
+          filterDimension: FilterDimension.ORG_UNIT,
+          timeRange: '1-1',
+          value: 'abc',
+        },
+        benchmarkRequest: {
+          filterDimension: FilterDimension.ORG_UNIT,
+          timeRange: '1-1',
+          value: 'abc',
+        },
+      };
+
+      const result = effects.areRquiredFieldsDefined(request);
+
+      expect(result).toBeTruthy();
+    });
+
+    test('should return false when one required field of selected filter request is missing', () => {
+      const request: EmployeesRequests = {
+        selectedFilterRequest: {
+          filterDimension: FilterDimension.ORG_UNIT,
+          timeRange: undefined,
+          value: 'abc',
+        },
+        benchmarkRequest: {
+          filterDimension: FilterDimension.ORG_UNIT,
+          timeRange: '1-1',
+          value: 'abc',
+        },
+      };
+
+      const result = effects.areRquiredFieldsDefined(request);
+
+      expect(result).toBeFalsy();
+    });
+
+    test('should return false when one required field of benchmark request is missing', () => {
+      const request: EmployeesRequests = {
+        selectedFilterRequest: {
+          filterDimension: FilterDimension.ORG_UNIT,
+          timeRange: '1-1',
+          value: 'abc',
+        },
+        benchmarkRequest: {
+          filterDimension: undefined,
+          timeRange: '1-1',
+          value: 'abc',
+        },
+      };
+
+      const result = effects.areRquiredFieldsDefined(request);
+
+      expect(result).toBeFalsy();
+    });
   });
 });

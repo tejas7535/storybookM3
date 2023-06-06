@@ -6,18 +6,26 @@ import { marbles } from 'rxjs-marbles/jest';
 
 import { FilterService } from '../../../../filter-section/filter.service';
 import { clearLossOfSkillDimensionData } from '../../../../loss-of-skill/store/actions/loss-of-skill.actions';
-import { clearOverviewDimensionData } from '../../../../overview/store/actions/overview.action';
-import { FilterDimension, FilterKey, IdValue } from '../../../../shared/models';
 import {
+  clearOverviewBenchmarkData,
+  clearOverviewDimensionData,
+} from '../../../../overview/store/actions/overview.action';
+import { FilterDimension, IdValue } from '../../../../shared/models';
+import { loadUserSettingsDimensionData } from '../../../../user/store/actions/user.action';
+import {
+  benchmarDimensionSelected as benchmarkDimensionSelected,
+  benchmarkFilterSelected,
   dimensionSelected,
   filterSelected,
+  loadFilterBenchmarkDimensionData,
   loadFilterDimensionData,
   loadFilterDimensionDataFailure,
   loadFilterDimensionDataSuccess,
 } from '../../actions/filter/filter.action';
 import {
+  getBenchmarkIdValue,
   getCurrentDimensionValue,
-  getSelectedDimension,
+  getSelectedBenchmarkValueShort,
   getSelectedDimensionIdValue,
   getSelectedTimeRange,
 } from '../../selectors';
@@ -59,7 +67,7 @@ describe('Filter Effects', () => {
 
   describe('dimensionSelected$', () => {
     test(
-      'should return clearOverviewDimensionData and when no dimension value not selected',
+      'should return clearOverviewDimensionData when no dimension value selected',
       marbles((m) => {
         store.overrideSelector(getCurrentDimensionValue, undefined as string);
         action = dimensionSelected();
@@ -89,15 +97,45 @@ describe('Filter Effects', () => {
     );
   });
 
+  describe('benchmarkDimensionSelected$', () => {
+    test(
+      'should return clearOverviewBenchmarkData when no dimension value selected',
+      marbles((m) => {
+        store.overrideSelector(
+          getSelectedBenchmarkValueShort,
+          undefined as string
+        );
+        action = benchmarkDimensionSelected();
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-b', {
+          b: clearOverviewBenchmarkData(),
+        });
+
+        m.expect(effects.benchmarkDimensionSelected$).toBeObservable(expected);
+      })
+    );
+
+    test(
+      'should return nothing when dimension value selected',
+      marbles((m) => {
+        const value = 'ABC';
+        store.overrideSelector(getSelectedBenchmarkValueShort, value);
+        action = benchmarkDimensionSelected();
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('--');
+
+        m.expect(effects.benchmarkDimensionSelected$).toBeObservable(expected);
+      })
+    );
+  });
+
   describe('loadFilterDimensionData$', () => {
     const searchFor = 'search';
     const timeRange = '123|456';
 
     beforeEach(() => {
-      action = loadFilterDimensionData({
-        filterDimension: FilterDimension.ORG_UNIT,
-        searchFor,
-      });
       store.overrideSelector(getSelectedTimeRange, {
         id: timeRange,
         value: timeRange,
@@ -105,8 +143,74 @@ describe('Filter Effects', () => {
     });
 
     test(
-      'should return loadOrgUnitsSuccess action when REST call is successful',
+      'should return loadOrgUnitsSuccess on loadFilterDimensionData action when REST call is successful',
       marbles((m) => {
+        action = loadFilterDimensionData({
+          filterDimension: FilterDimension.ORG_UNIT,
+          searchFor,
+        });
+        const items = [new IdValue('Department1', 'Department1')];
+        const result = loadFilterDimensionDataSuccess({
+          filterDimension: FilterDimension.ORG_UNIT,
+          items,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-c', { c: items });
+
+        const expected = m.cold('--b', { b: result });
+
+        filterService.getDataForFilterDimension = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadFilterDimensionData$).toBeObservable(expected);
+        m.flush();
+        expect(filterService.getDataForFilterDimension).toHaveBeenCalledTimes(
+          1
+        );
+      })
+    );
+
+    test(
+      'should return loadOrgUnitsSuccess on loadFilterBenchmarkDimensionData action when REST call is successful',
+      marbles((m) => {
+        action = loadFilterBenchmarkDimensionData({
+          filterDimension: FilterDimension.ORG_UNIT,
+          searchFor,
+        });
+        const items = [new IdValue('Department1', 'Department1')];
+        const result = loadFilterDimensionDataSuccess({
+          filterDimension: FilterDimension.ORG_UNIT,
+          items,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-c', { c: items });
+
+        const expected = m.cold('--b', { b: result });
+
+        filterService.getDataForFilterDimension = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadFilterDimensionData$).toBeObservable(expected);
+        m.flush();
+        expect(filterService.getDataForFilterDimension).toHaveBeenCalledTimes(
+          1
+        );
+      })
+    );
+
+    test(
+      'should return loadOrgUnitsSuccess on loadUserSettingsDimensionData action when REST call is successful',
+      marbles((m) => {
+        action = loadUserSettingsDimensionData({
+          filterDimension: FilterDimension.ORG_UNIT,
+          searchFor,
+        });
         const items = [new IdValue('Department1', 'Department1')];
         const result = loadFilterDimensionDataSuccess({
           filterDimension: FilterDimension.ORG_UNIT,
@@ -156,7 +260,7 @@ describe('Filter Effects', () => {
     );
   });
 
-  describe('loadFilterDimensionDataSuccess$', () => {
+  describe('loadFilterDimensionDataFilterSelected$', () => {
     const idValue = new IdValue('DE', 'Germany');
     const filterDimension = FilterDimension.COUNTRY;
     const selectedFilter = {
@@ -165,9 +269,8 @@ describe('Filter Effects', () => {
     };
 
     beforeEach(() => {
-      action = loadFilterDimensionDataSuccess({
+      action = loadFilterDimensionData({
         filterDimension,
-        items: [idValue],
       });
     });
 
@@ -182,7 +285,7 @@ describe('Filter Effects', () => {
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('-b', { b: result });
 
-        m.expect(effects.loadFilterDimensionDataSuccess$).toBeObservable(
+        m.expect(effects.loadFilterDimensionDataFilterSelected$).toBeObservable(
           expected
         );
         m.flush();
@@ -200,7 +303,7 @@ describe('Filter Effects', () => {
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('', {});
 
-        m.expect(effects.loadFilterDimensionDataSuccess$).toBeObservable(
+        m.expect(effects.loadFilterDimensionDataFilterSelected$).toBeObservable(
           expected
         );
         m.flush();
@@ -208,45 +311,49 @@ describe('Filter Effects', () => {
     );
   });
 
-  describe('timeRangeSelected$', () => {
-    test(
-      'should dispatch loadFilterDimensionData action when selected filter time range',
-      marbles((m) => {
-        const idValue = new IdValue('123-123', '2020-2022');
-        const filterDimension = FilterDimension.ORG_UNIT;
-        const selectedFilter = {
-          name: FilterKey.TIME_RANGE,
-          idValue,
-        };
-        action = filterSelected({ filter: selectedFilter });
+  describe('loadFilterDimensionDataBenchmarkFilterSelected$', () => {
+    const idValue = new IdValue('DE', 'Germany');
+    const filterDimension = FilterDimension.COUNTRY;
+    const selectedFilter = {
+      name: filterDimension,
+      idValue,
+    };
 
-        store.overrideSelector(getSelectedDimension, filterDimension);
-        const result = loadFilterDimensionData({
-          filterDimension,
+    beforeEach(() => {
+      action = loadFilterBenchmarkDimensionData({
+        filterDimension,
+      });
+    });
+
+    test(
+      'should dispatch benchmarkFilterSelected action',
+      marbles((m) => {
+        store.overrideSelector(getBenchmarkIdValue, idValue);
+        const result = benchmarkFilterSelected({
+          filter: selectedFilter,
         });
 
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('-b', { b: result });
 
-        m.expect(effects.timeRangeSelected$).toBeObservable(expected);
+        m.expect(
+          effects.loadFilterDimensionDataBenchmarkFilterSelected$
+        ).toBeObservable(expected);
         m.flush();
       })
     );
 
     test(
-      'should not dispatch loadFilterDimensionData action when selected filter not time range',
+      'should return empty observable when benchmarkDimensionIdValue undefined',
       marbles((m) => {
-        const idValue = new IdValue('123-123', '2020-2022');
-        const selectedFilter = {
-          name: FilterDimension.COUNTRY,
-          idValue,
-        };
-        action = filterSelected({ filter: selectedFilter });
+        store.overrideSelector(getBenchmarkIdValue, undefined as IdValue);
 
         actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('-');
+        const expected = m.cold('', {});
 
-        m.expect(effects.timeRangeSelected$).toBeObservable(expected);
+        m.expect(
+          effects.loadFilterDimensionDataBenchmarkFilterSelected$
+        ).toBeObservable(expected);
         m.flush();
       })
     );

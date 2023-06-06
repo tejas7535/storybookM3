@@ -1,4 +1,4 @@
-<h2 mat-dialog-title class="!mt-0 !mr-0 !mb-4 !ml-1 !text-high-emphasis">
+<h2 mat-dialog-title class="!text-high-emphasis !mb-4 !ml-1 !mr-0 !mt-0">
   {{ (meta$ | ngrxPush)?.data?.title }}
 </h2>
 <mat-dialog-content>
@@ -19,10 +19,11 @@
       *transloco="let t; read: 'organizationalView.attritionDialog'"
     >
       <ia-line-chart
-        [config]="parentFluctuationOverTimeData$ | ngrxPush"
-        [isDataLoading]="parentFluctuationOverTimeDataLoading$ | ngrxPush"
+        [config]="fluctuationChartConfig"
+        [isDataLoading]="childFluctuationOverTimeDataLoading$ | ngrxPush"
         [title]="(childDimensionName$ | ngrxPush) + ' - ' + t('chartTitle')"
         [series]="childFluctuationOverTimeData$ | ngrxPush"
+        [benchmarkSeries]="parentFluctuationOverTimeData$ | ngrxPush"
       ></ia-line-chart>
     </div>
   </div>

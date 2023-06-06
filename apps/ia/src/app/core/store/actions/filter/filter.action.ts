@@ -7,6 +7,11 @@ import {
   TimePeriod,
 } from '../../../../shared/models';
 
+export const loadFilterBenchmarkDimensionData = createAction(
+  '[Filter] Load Filter Benchmark Dimension Data',
+  props<{ filterDimension: FilterDimension; searchFor?: string }>()
+);
+
 export const loadFilterDimensionData = createAction(
   '[Filter] Load Filter Dimension Data',
   props<{ filterDimension: FilterDimension; searchFor?: string }>()
@@ -27,6 +32,11 @@ export const filterSelected = createAction(
   props<{ filter: SelectedFilter }>()
 );
 
+export const benchmarkFilterSelected = createAction(
+  '[Filter] Benchmark Filter selected',
+  props<{ filter: SelectedFilter }>()
+);
+
 export const filterDimensionSelected = createAction(
   '[Filter] Filter dimension selected',
   props<{ filterDimension: FilterDimension; filter: SelectedFilter }>()
@@ -37,7 +47,16 @@ export const timePeriodSelected = createAction(
   props<{ timePeriod: TimePeriod }>()
 );
 
+export const timeRangeSelected = createAction(
+  '[Filter] Time range selected',
+  props<{ timeRange: SelectedFilter }>()
+);
+
 export const dimensionSelected = createAction('[Filter] Dimension Selected');
+
+export const benchmarDimensionSelected = createAction(
+  '[Filter] Benchmark Dimension Selected'
+);
 
 export const triggerLoad = createAction('[Filter] Trigger Load');
 

@@ -1,7 +1,7 @@
 <div class="relative flex h-full flex-col">
   <h6
     *ngIf="title"
-    class="mt-0 mr-0 mb-2 ml-1 text-overline font-medium leading-4 text-medium-emphasis"
+    class="text-overline text-medium-emphasis mb-2 ml-1 mr-0 mt-0 font-medium leading-4"
   >
     {{ title }}
   </h6>
@@ -10,13 +10,8 @@
     class="h-[330px]"
     [options]="options"
     [merge]="mergeOptions"
-    *ngIf="!isDataLoading; else loading"
+    [loading]="isDataLoading"
+    [loadingOpts]="loadingOpts"
+    (chartInit)="onChartInit($event)"
   ></div>
-
-  <ng-template #loading>
-    <schaeffler-loading-spinner
-      [diameter]="40"
-      [strokeWidth]="4"
-    ></schaeffler-loading-spinner>
-  </ng-template>
 </div>

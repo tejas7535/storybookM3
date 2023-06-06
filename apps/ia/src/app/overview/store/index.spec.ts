@@ -3,13 +3,15 @@ import { Action } from '@ngrx/store';
 import { AttritionOverTime, EmployeesRequest } from '../../shared/models';
 import {
   ExitEntryEmployeesResponse,
+  FluctuationRate,
   FluctuationRatesChartData,
   OpenApplication,
-  OverviewFluctuationRates,
+  OverviewWorkforceBalanceMeta,
   ResignedEmployeesResponse,
 } from '../models';
 import { initialState, overviewReducer, OverviewState, reducer } from '.';
 import {
+  clearOverviewBenchmarkData,
   clearOverviewDimensionData,
   loadAttritionOverTimeEmployees,
   loadAttritionOverTimeEmployeesFailure,
@@ -20,9 +22,6 @@ import {
   loadFluctuationRatesChartData,
   loadFluctuationRatesChartDataFailure,
   loadFluctuationRatesChartDataSuccess,
-  loadFluctuationRatesOverview,
-  loadFluctuationRatesOverviewFailure,
-  loadFluctuationRatesOverviewSuccess,
   loadOpenApplications,
   loadOpenApplicationsCount,
   loadOpenApplicationsCountFailure,
@@ -38,6 +37,9 @@ import {
   loadResignedEmployees,
   loadResignedEmployeesFailure,
   loadResignedEmployeesSuccess,
+  loadWorkforceBalanceMeta,
+  loadWorkforceBalanceMetaFailure,
+  loadWorkforceBalanceMetaSuccess,
 } from './actions/overview.action';
 
 describe('Overview Reducer', () => {
@@ -138,7 +140,7 @@ describe('Overview Reducer', () => {
       });
       const state = overviewReducer(initialState, action);
 
-      expect(state.fluctuationRates.loading).toBeTruthy();
+      expect(state.fluctuationRatesChart.dimension.loading).toBeTruthy();
     });
   });
 
@@ -151,8 +153,8 @@ describe('Overview Reducer', () => {
 
       const state = overviewReducer(initialState, action);
 
-      expect(state.fluctuationRates.loading).toBeFalsy();
-      expect(state.fluctuationRates.data).toEqual(data);
+      expect(state.fluctuationRatesChart.dimension.loading).toBeFalsy();
+      expect(state.fluctuationRatesChart.dimension.data).toEqual(data);
     });
   });
 
@@ -161,95 +163,130 @@ describe('Overview Reducer', () => {
       const action = loadFluctuationRatesChartDataFailure({ errorMessage });
       const fakeState: OverviewState = {
         ...initialState,
-        fluctuationRates: {
-          ...initialState.fluctuationRates,
-          loading: true,
+        fluctuationRatesChart: {
+          ...initialState.fluctuationRatesChart,
+          dimension: {
+            ...initialState.fluctuationRatesChart.dimension,
+            loading: true,
+          },
         },
       };
 
       const state = overviewReducer(fakeState, action);
 
-      expect(state.fluctuationRates.loading).toBeFalsy();
-      expect(state.fluctuationRates.errorMessage).toEqual(errorMessage);
+      expect(state.fluctuationRatesChart.dimension.loading).toBeFalsy();
+      expect(state.fluctuationRatesChart.dimension.errorMessage).toEqual(
+        errorMessage
+      );
     });
   });
 
   describe('loadFluctuationRatesOverview', () => {
     test('should set loading', () => {
-      const action = loadFluctuationRatesOverview({
+      const action = loadWorkforceBalanceMeta({
         request: {} as unknown as EmployeesRequest,
       });
       const state = overviewReducer(initialState, action);
 
-      expect(state.entriesExitsMeta.loading).toBeTruthy();
+      expect(state.workforceBalanceMeta.dimension.loading).toBeTruthy();
     });
   });
 
   describe('loadFluctuationRatesOverviewSuccess', () => {
     test('should unset loading and set fluctuation data', () => {
-      const data: OverviewFluctuationRates =
-        {} as unknown as OverviewFluctuationRates;
+      const data: OverviewWorkforceBalanceMeta =
+        {} as unknown as OverviewWorkforceBalanceMeta;
 
-      const action = loadFluctuationRatesOverviewSuccess({ data });
+      const action = loadWorkforceBalanceMetaSuccess({ data });
 
       const state = overviewReducer(initialState, action);
 
-      expect(state.entriesExitsMeta.loading).toBeFalsy();
-      expect(state.entriesExitsMeta.data).toEqual(data);
+      expect(state.workforceBalanceMeta.dimension.loading).toBeFalsy();
+      expect(state.workforceBalanceMeta.dimension.data).toEqual(data);
     });
   });
 
   describe('loadFluctuationRatesOverviewFailure', () => {
     test('should unset loading / set error message', () => {
-      const action = loadFluctuationRatesOverviewFailure({ errorMessage });
+      const action = loadWorkforceBalanceMetaFailure({ errorMessage });
       const fakeState: OverviewState = {
         ...initialState,
-        entriesExitsMeta: {
-          ...initialState.entriesExitsMeta,
-          loading: true,
+        workforceBalanceMeta: {
+          ...initialState.workforceBalanceMeta,
+          dimension: {
+            ...initialState.workforceBalanceMeta.dimension,
+            loading: true,
+          },
         },
       };
 
       const state = overviewReducer(fakeState, action);
 
-      expect(state.entriesExitsMeta.loading).toBeFalsy();
-      expect(state.entriesExitsMeta.errorMessage).toEqual(errorMessage);
+      expect(state.workforceBalanceMeta.dimension.loading).toBeFalsy();
+      expect(state.workforceBalanceMeta.dimension.errorMessage).toEqual(
+        errorMessage
+      );
     });
   });
 
   describe('clearOverviewDimensionData', () => {
     test('should clear overview dimension data', () => {
-      const global = 70;
+      const benchmarkRate = 70;
+      const benchmarkUnforcedRate = 50;
+      const dimensionRate = 90;
+      const dimensionUnforcedRate = 60;
+
       const fakeState: OverviewState = {
         ...initialState,
-        entriesExitsMeta: {
-          ...initialState.entriesExitsMeta,
-          data: {
-            ...initialState.entriesExitsMeta.data,
-            fluctuationRate: {
-              ...initialState.entriesExitsMeta.data?.fluctuationRate,
-              dimension: 50,
-              global,
-            },
-            unforcedFluctuationRate: {
-              ...initialState.entriesExitsMeta.data?.unforcedFluctuationRate,
-              dimension: 70,
-              global,
-            },
-            externalUnforcedExitCount: 1,
-            externalEntryCount: 2,
-            externalExitCount: 3,
-            internalEntryCount: 4,
-            internalExitCount: 5,
-            totalEmployeesCount: 6,
-          },
-        },
         fluctuationRates: {
           ...initialState.fluctuationRates,
-          data: {
-            ...initialState.fluctuationRates.data,
-            fluctuationRates: [{ dimension: 7, global }],
-            unforcedFluctuationRates: [{ dimension: 7, global }],
+          benchmark: {
+            ...initialState.fluctuationRates.benchmark,
+            data: {
+              fluctuationRate: benchmarkRate,
+              unforcedFluctuationRate: benchmarkUnforcedRate,
+            },
+          },
+          dimension: {
+            ...initialState.fluctuationRates.dimension,
+            data: {
+              fluctuationRate: dimensionRate,
+              unforcedFluctuationRate: dimensionUnforcedRate,
+            },
+          },
+        },
+        workforceBalanceMeta: {
+          ...initialState.workforceBalanceMeta,
+          dimension: {
+            ...initialState.workforceBalanceMeta.dimension,
+            data: {
+              ...initialState.workforceBalanceMeta.dimension.data,
+              externalUnforcedExitCount: 1,
+              externalEntryCount: 2,
+              externalExitCount: 3,
+              internalEntryCount: 4,
+              internalExitCount: 5,
+              totalEmployeesCount: 6,
+            },
+          },
+        },
+        fluctuationRatesChart: {
+          ...initialState.fluctuationRatesChart,
+          dimension: {
+            ...initialState.fluctuationRatesChart.dimension,
+            data: {
+              ...initialState.fluctuationRatesChart.dimension.data,
+              fluctuationRates: [7],
+              unforcedFluctuationRates: [7],
+            },
+          },
+          benchmark: {
+            ...initialState.fluctuationRatesChart.benchmark,
+            data: {
+              ...initialState.fluctuationRatesChart.benchmark.data,
+              fluctuationRates: [benchmarkRate],
+              unforcedFluctuationRates: [benchmarkUnforcedRate],
+            },
           },
         },
         openApplicationsCount: {
@@ -273,41 +310,59 @@ describe('Overview Reducer', () => {
 
       const state = overviewReducer(fakeState, action);
 
-      expect(
-        state.entriesExitsMeta.data.fluctuationRate.dimension
-      ).toBeUndefined();
-      expect(state.entriesExitsMeta.data.fluctuationRate.global).toEqual(70);
-      expect(
-        state.entriesExitsMeta.data.unforcedFluctuationRate.dimension
-      ).toBeUndefined();
-      expect(
-        state.entriesExitsMeta.data.unforcedFluctuationRate.global
-      ).toEqual(70);
-      expect(
-        state.entriesExitsMeta.data.externalUnforcedExitCount
-      ).toBeUndefined();
-      expect(state.entriesExitsMeta.data.externalEntryCount).toBeUndefined();
-      expect(state.entriesExitsMeta.data.externalExitCount).toBeUndefined();
-      expect(state.entriesExitsMeta.data.internalEntryCount).toBeUndefined();
-      expect(state.entriesExitsMeta.data.internalExitCount).toBeUndefined();
-      expect(state.entriesExitsMeta.data.totalEmployeesCount).toBeUndefined();
-
-      expect(
-        state.fluctuationRates.data.fluctuationRates[0].dimension
-      ).toBeUndefined();
-      expect(state.fluctuationRates.data.fluctuationRates[0].global).toEqual(
-        global
+      expect(state.fluctuationRates.dimension.data).toBeUndefined();
+      expect(state.fluctuationRates.benchmark.data.fluctuationRate).toEqual(
+        benchmarkRate
       );
       expect(
-        state.fluctuationRates.data.unforcedFluctuationRates[0].dimension
-      ).toBeUndefined();
+        state.fluctuationRates.benchmark.data.unforcedFluctuationRate
+      ).toEqual(benchmarkUnforcedRate);
+      expect(state.workforceBalanceMeta.dimension.data).toBeUndefined();
+      expect(state.fluctuationRatesChart.dimension.data).toBeUndefined();
       expect(
-        state.fluctuationRates.data.unforcedFluctuationRates[0].global
-      ).toEqual(global);
+        state.fluctuationRatesChart.benchmark.data.fluctuationRates[0]
+      ).toEqual(benchmarkRate);
+      expect(
+        state.fluctuationRatesChart.benchmark.data.unforcedFluctuationRates[0]
+      ).toEqual(benchmarkUnforcedRate);
       expect(state.openApplicationsCount.data).toBeUndefined();
       expect(state.openApplications.data).toBeUndefined();
       expect(state.resignedEmployees.data).toBeUndefined();
       expect(state.attritionOverTime.data).toBeUndefined();
+    });
+  });
+
+  describe('clearOverviewBenchmarkData', () => {
+    test('should clear benchmark related data', () => {
+      const fakeState: OverviewState = {
+        ...initialState,
+        fluctuationRates: {
+          ...initialState.fluctuationRates,
+          benchmark: {
+            ...initialState.fluctuationRates.benchmark,
+            data: {
+              fluctuationRate: 10,
+              unforcedFluctuationRate: 20,
+            } as FluctuationRate,
+          },
+        },
+        fluctuationRatesChart: {
+          ...initialState.fluctuationRatesChart,
+          benchmark: {
+            ...initialState.fluctuationRatesChart.benchmark,
+            data: {
+              fluctuationRates: [1],
+              unforcedFluctuationRates: [2],
+            } as FluctuationRatesChartData,
+          },
+        },
+      };
+      const action = clearOverviewBenchmarkData();
+
+      const state = overviewReducer(fakeState, action);
+
+      expect(state.fluctuationRates.benchmark.data).toBeUndefined();
+      expect(state.fluctuationRatesChart.benchmark.data).toBeUndefined();
     });
   });
 

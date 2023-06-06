@@ -18,6 +18,7 @@
       [employeeListDialogMetaHeadings]="employeeListDialogMetaHeadings"
       [showFluctuationType]="true"
       [employeesCount]="entriesCount"
+      [isLoading]="isDataLoading"
       (openTeamMembers)="triggerEntryEmployeesAction()"
     ></ia-kpi>
 
@@ -25,7 +26,9 @@
       <span class="text-body-2 mb-[0.5rem] block h-[3.6em] leading-[1.8em]">{{
         t('totalHeadcount')
       }}</span>
-      <h4>{{ totalEmployeesCount | defaultValue }}</h4>
+      <h4 *ngIf="!isDataLoading; else loading">
+        {{ totalEmployeesCount | defaultValue }}
+      </h4>
     </div>
 
     <ia-kpi
@@ -37,6 +40,7 @@
       [employeeListDialogMetaHeadings]="employeeListDialogMetaHeadings"
       [showFluctuationType]="true"
       [employeesCount]="exitsCount"
+      [isLoading]="isDataLoading"
       (openTeamMembers)="triggerExitEmployeesAction()"
     ></ia-kpi>
 
@@ -64,3 +68,11 @@
     ></ia-external-legend>
   </div>
 </div>
+
+<ng-template #loading>
+  <schaeffler-loading-spinner
+    [diameter]="40"
+    [strokeWidth]="4"
+    [relative]="true"
+  ></schaeffler-loading-spinner>
+</ng-template>

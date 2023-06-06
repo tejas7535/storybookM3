@@ -8,18 +8,19 @@ import {
 import { initialState } from '../../reducers/filter/filter.reducer';
 import {
   getAllSelectedFilters,
+  getBenchmarkDimensionDataLoading,
   getCurrentFilters,
   getCurrentRoute,
-  getOrgUnitsLoading,
+  getSelectedBenchmarkValueShort,
   getSelectedDimension,
   getSelectedDimensionDataLoading,
   getSelectedDimensionFilter,
   getSelectedDimensionIdValue,
+  getSelectedDimensionValueShort,
   getSelectedFilters,
   getSelectedFilterValues,
   getSelectedTimePeriod,
   getSelectedTimeRange,
-  getSelectOrgUnitValueShort,
   getTimePeriods,
 } from './filter.selector';
 
@@ -53,7 +54,27 @@ describe('Filter Selector', () => {
           },
         },
       },
+      benchmarkFilters: {
+        ids: [FilterDimension.ORG_UNIT, FilterKey.TIME_RANGE],
+        entities: {
+          [FilterDimension.ORG_UNIT]: {
+            name: FilterDimension.ORG_UNIT,
+            idValue: {
+              id: 'Schaeffler',
+              value: 'Schaeffler',
+            },
+          },
+          [FilterKey.TIME_RANGE]: {
+            name: FilterKey.TIME_RANGE,
+            idValue: {
+              id: '1577863715000|1609399715000',
+              value: '1/1/2020 - 12/31/2020',
+            },
+          },
+        },
+      },
       selectedDimension: FilterDimension.ORG_UNIT,
+      selectedBenchmark: FilterDimension.ORG_UNIT,
     },
     router: {
       state: {
@@ -80,9 +101,9 @@ describe('Filter Selector', () => {
     });
   });
 
-  describe('getOrgUnitsLoading', () => {
+  describe('getBenchmarkDimensionDataLoading', () => {
     test('should return loading status', () => {
-      expect(getOrgUnitsLoading(fakeState)).toBeTruthy();
+      expect(getBenchmarkDimensionDataLoading(fakeState)).toBeTruthy();
     });
   });
 
@@ -163,14 +184,26 @@ describe('Filter Selector', () => {
     });
   });
 
-  describe('getSelectOrgUnitValueShort', () => {
+  describe('getSelectDimensionValueShort', () => {
     test('should return selected org unit without the medium name', () => {
       const idVal = {
         id: 'Schaeffler_IT_1',
         value: 'Schaeffler_IT_1 (Best IT department)',
       };
-      const result = getSelectOrgUnitValueShort.projector(idVal);
+      const result = getSelectedDimensionValueShort.projector(idVal);
       expect(result).toEqual('Schaeffler_IT_1');
+    });
+  });
+
+  describe('getSelectedBenchmarkValueShort', () => {
+    test('should return short string of selected dimension', () => {
+      const idVal = {
+        id: 'Schaeffler',
+        value: 'Schaeffler (Best IT department)',
+      };
+      expect(getSelectedBenchmarkValueShort.projector(idVal)).toEqual(
+        'Schaeffler'
+      );
     });
   });
 

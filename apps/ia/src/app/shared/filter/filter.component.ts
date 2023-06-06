@@ -4,15 +4,9 @@ import {
   EventEmitter,
   Input,
   Output,
-  ViewChild,
 } from '@angular/core';
 
-import { AutocompleteInputComponent } from '../autocomplete-input/autocomplete-input.component';
-import { InputType } from '../autocomplete-input/models';
-import {
-  ASYNC_SEARCH_MIN_CHAR_LENGTH,
-  LOCAL_SEARCH_MIN_CHAR_LENGTH,
-} from '../constants';
+import { DimensionFilterTranslation } from '../dimension-filter/models';
 import {
   Filter,
   FilterDimension,
@@ -21,7 +15,6 @@ import {
   SelectedFilter,
   TimePeriod,
 } from '../models';
-import { SelectInputComponent } from '../select-input/select-input.component';
 import { getBeautifiedTimeRange, getTimeRangeHint } from '../utils/utilities';
 import { FilterLayout } from './filter-layout.enum';
 
@@ -31,95 +24,23 @@ import { FilterLayout } from './filter-layout.enum';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilterComponent {
-  @ViewChild(AutocompleteInputComponent)
-  autocompleteInput: AutocompleteInputComponent;
-
-  @ViewChild('selectInput')
-  selectInput: SelectInputComponent;
-
   private _selectedDimensionIdValue: IdValue;
   private _selectedTimePeriod: TimePeriod;
-  private _dimensionFilter: Filter;
-  private _options: IdValue[];
-  private _minCharLength = 0;
-  private _asyncMode = false;
-  type: InputType;
-
-  private _dimensionName: string;
-
-  get dimensionName(): string {
-    return this._dimensionName;
-  }
-
-  private _activeDimension: FilterDimension;
-
-  get activeDimension(): FilterDimension {
-    return this._activeDimension;
-  }
-
-  @Input() set activeDimension(activeDimension: FilterDimension) {
-    this._activeDimension = activeDimension;
-    this._dimensionName = this.availableDimensions?.find(
-      (dimension) => dimension.id === this.activeDimension
-    )?.value;
-
-    if (this.autocompleteInput) {
-      this.autocompleteInput.latestSelection = undefined;
-    }
-    this.type =
-      activeDimension === FilterDimension.ORG_UNIT
-        ? new InputType('autocomplete', this.dimensionName)
-        : new InputType('select', this.dimensionName);
-  }
-
-  timeRangeHintValue = 'time range';
 
   disabledTimeRangeFilter = true;
   filterLayout = FilterLayout;
+  timeRangeHintValue = 'time range';
 
-  private _availableDimensions: IdValue[];
-
-  @Input() set availableDimensions(availableDimensions: IdValue[]) {
-    this._availableDimensions = availableDimensions;
-    this._dimensionName = this.getDimensionName();
-  }
-
-  get availableDimensions(): IdValue[] {
-    return this._availableDimensions;
-  }
-
-  @Input() dimensionDataLoading: boolean;
+  @Input() availableDimensions: IdValue[];
   @Input() orgUnitsLoading: boolean;
-
-  @Input() set dimensionFilter(dimensionFilter: Filter) {
-    this._dimensionFilter = dimensionFilter;
-    this._options = dimensionFilter?.options;
-    this._minCharLength =
-      dimensionFilter?.name === FilterDimension.ORG_UNIT
-        ? ASYNC_SEARCH_MIN_CHAR_LENGTH
-        : LOCAL_SEARCH_MIN_CHAR_LENGTH;
-    this._asyncMode = dimensionFilter?.name === FilterDimension.ORG_UNIT;
-  }
-
-  get dimensionFilter(): Filter {
-    return this._dimensionFilter;
-  }
-
-  get options(): IdValue[] {
-    return this._options;
-  }
-
-  get minCharLength(): number {
-    return this._minCharLength;
-  }
-
-  get asyncMode(): boolean {
-    return this._asyncMode;
-  }
-
-  @Input() layout: FilterLayout = FilterLayout.DEFAULT;
-
   @Input() disableFilters: boolean;
+  @Input() layout: FilterLayout = FilterLayout.DEFAULT;
+  @Input() selectedTime: IdValue;
+  @Input() timePeriods: IdValue[];
+
+  @Input() dimensionFilter: Filter;
+  @Input() activeDimension: FilterDimension;
+
   @Input() set selectedDimensionIdValue(selectedDimensionIdValue: IdValue) {
     this._selectedDimensionIdValue = selectedDimensionIdValue;
     this.disabledTimeRangeFilter = selectedDimensionIdValue === undefined;
@@ -129,8 +50,8 @@ export class FilterComponent {
     return this._selectedDimensionIdValue;
   }
 
-  @Input() selectedTime: IdValue;
-  @Input() timePeriods: IdValue[];
+  @Input() dimensionFilterTranslation: DimensionFilterTranslation;
+  @Input() dimensionDataLoading: boolean;
 
   @Input() set selectedTimePeriod(selectedTimePeriod: TimePeriod) {
     this._selectedTimePeriod = selectedTimePeriod;
@@ -140,25 +61,60 @@ export class FilterComponent {
     return this._selectedTimePeriod;
   }
 
-  @Output() selectDimension = new EventEmitter<IdValue>();
+  @Input() benchmarkDimensionFilter: Filter;
+  @Input() activeBenchmarkDimension: FilterDimension;
+  @Input() benchmarkDimensionIdValue: IdValue;
+  @Input() benchmarkDimensionFilterTranslation: DimensionFilterTranslation;
+  @Input() benchmarkDimensionDataLoading: boolean;
+
   @Output() selectTimePeriod = new EventEmitter<TimePeriod>();
-  @Output() selectFilter = new EventEmitter<SelectedFilter>();
-  @Output() readonly autoCompleteInput: EventEmitter<string> =
-    new EventEmitter();
+  @Output() selectTimeRange = new EventEmitter<SelectedFilter>();
   @Output() selectedDimensionInvalid = new EventEmitter<void>();
 
-  dimensionSelected(selectedDimension: IdValue): void {
-    this.selectDimension.emit(selectedDimension);
-    this.selectInput.closePanel();
-    this.autocompleteInput.focus();
+  @Output() selectDimension = new EventEmitter<IdValue>();
+  @Output() selectDimensionOption = new EventEmitter<SelectedFilter>();
+  @Output() readonly autoCompleteInput: EventEmitter<string> =
+    new EventEmitter();
+
+  @Output() selectBenchmarkDimension = new EventEmitter<IdValue>();
+  @Output() selectBenchmarkOption = new EventEmitter<SelectedFilter>();
+  @Output() readonly benchmarkAutocompleteInput: EventEmitter<string> =
+    new EventEmitter();
+
+  onDimensionSelected(selectedDimension: IdValue): void {
+    if (selectedDimension.id !== this.activeDimension) {
+      this.selectDimension.emit(selectedDimension);
+    }
   }
 
-  optionSelected(selectedFilter: SelectedFilter): void {
-    this.selectFilter.emit(selectedFilter);
+  onDimensionOptionSelected(selectedFilter: SelectedFilter): void {
+    if (selectedFilter.name !== FilterKey.TIME_RANGE) {
+      this.selectDimensionOption.emit(selectedFilter);
+    }
+  }
+
+  onDimensionAutocompleteInput(value: string): void {
+    this.autoCompleteInput.emit(value);
+  }
+
+  onBenchmarkDimensionSelected(selectedDimension: IdValue): void {
+    if (selectedDimension.id !== this.activeBenchmarkDimension) {
+      this.selectBenchmarkDimension.emit(selectedDimension);
+    }
+  }
+
+  onBenchmarkOptionSelected(option: SelectedFilter): void {
+    if (option.name !== FilterKey.TIME_RANGE) {
+      this.selectBenchmarkOption.emit(option);
+    }
+  }
+
+  onBenchmarkAutocompleteInput(value: string): void {
+    this.benchmarkAutocompleteInput.emit(value);
   }
 
   timePeriodSelected(idValue: IdValue): void {
-    this.selectTimePeriod.emit(idValue.id as unknown as TimePeriod);
+    this.selectTimePeriod.emit(idValue.id as TimePeriod);
   }
 
   timeRangeSelected(timeRange: string): void {
@@ -169,30 +125,7 @@ export class FilterComponent {
         value: getBeautifiedTimeRange(timeRange),
       },
     };
-    this.selectFilter.emit(filter);
-  }
-
-  selectedDimensionDataInvalid(selectedDimensionDataInvalid: boolean): void {
-    this.disabledTimeRangeFilter = selectedDimensionDataInvalid;
-    this.selectedDimensionInvalid.emit();
-  }
-
-  autoCompleteInputChange(searchFor: string): void {
-    if (this.asyncMode) {
-      this.autoCompleteInput.emit(searchFor);
-    } else {
-      this.dimensionFilter.options =
-        searchFor.length > 0
-          ? this.options?.filter((option) =>
-              option.value?.toUpperCase().startsWith(searchFor.toUpperCase())
-            )
-          : this.options;
-    }
-  }
-
-  getDimensionName(): string {
-    return this.availableDimensions?.find(
-      (dimension) => dimension.id === this.activeDimension
-    )?.value;
+    this.selectDimensionOption.emit(filter);
+    this.selectBenchmarkOption.emit(filter);
   }
 }

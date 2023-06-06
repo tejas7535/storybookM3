@@ -10,7 +10,7 @@ import {
   ExitEntryEmployeesResponse,
   FluctuationRatesChartData,
   OpenApplication,
-  OverviewFluctuationRates,
+  OverviewWorkforceBalanceMeta,
   ResignedEmployeesResponse,
 } from './models';
 import { OverviewService } from './overview.service';
@@ -45,14 +45,14 @@ describe('OverviewService', () => {
         timeRange,
       } as EmployeesRequest;
 
-      const response = {} as OverviewFluctuationRates;
+      const response = {} as OverviewWorkforceBalanceMeta;
 
-      service.getOverviewFluctuationRates(request).subscribe((result) => {
+      service.getOverviewWorkforceBalanceMeta(request).subscribe((result) => {
         expect(result).toEqual(response);
       });
 
       const req = httpMock.expectOne(
-        `api/v1/overview-fluctuation-rates?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}&time_range=123%7C456`
+        `api/v1/overview-workforce-balance-meta?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}&time_range=123%7C456`
       );
       expect(req.request.method).toBe('GET');
       req.flush(request);

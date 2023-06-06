@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { EChartsOption, LineSeriesOption } from 'echarts';
+import { ECharts, EChartsOption, LineSeriesOption } from 'echarts';
 import moment from 'moment';
 
 import { DATA_IMPORT_DAY } from '../../constants';
@@ -13,31 +13,90 @@ import { LINE_CHART_BASE_OPTIONS } from './line-chart.config';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LineChartComponent {
+  readonly DATE_FORMAT = 'MM.YYYY';
+  loadingOpts = {
+    text: '',
+    color: Color.GREEN,
+    zlevel: 0,
+  };
+  echartsInstance: ECharts;
   options: EChartsOption;
-  mergeOptions: EChartsOption;
+  mergeOptions: EChartsOption = {
+    series: [],
+    color: [Color.GREEN, Color.DARK_GREY],
+  };
 
   private _config: EChartsOption;
-  readonly DATE_FORMAT = 'MM.YYYY';
+  private _banchmarkSeries: LineSeriesOption;
+  private _series: LineSeriesOption;
+  private _isDataLoading = true;
+
+  @Input() set isDataLoading(isDataLoading: boolean) {
+    this._isDataLoading = isDataLoading;
+  }
+
+  get isDataLoading() {
+    return this._isDataLoading;
+  }
 
   @Input() title: string;
-  @Input() isDataLoading: boolean;
 
-  @Input() get config(): EChartsOption {
+  get config(): EChartsOption {
     return this._config;
   }
 
-  set config(config: EChartsOption) {
-    this._config = config;
+  @Input() set config(config: EChartsOption) {
+    this._config = { ...config };
     this.options = this.createEChartsOption();
   }
 
-  @Input() set series(series: LineSeriesOption[]) {
-    if (series) {
-      this.mergeOptions = {
-        series: this.options.series,
-        color: [Color.GREEN, Color.DARK_GREY],
-      };
-      (this.mergeOptions.series as LineSeriesOption[]).unshift(series[0]);
+  get series() {
+    return this._series;
+  }
+
+  @Input() set series(series: LineSeriesOption) {
+    this._series = series;
+
+    let mergeSeries: LineSeriesOption[];
+
+    if (this.benchmarkSeries) {
+      mergeSeries = [this.benchmarkSeries, this.series];
+    } else {
+      mergeSeries = this.series ? [this.series] : [];
+    }
+
+    this.mergeOptions = {
+      series: mergeSeries,
+    };
+  }
+
+  get benchmarkSeries() {
+    return this._banchmarkSeries;
+  }
+
+  @Input() set benchmarkSeries(benchmarkSeries: LineSeriesOption) {
+    this._banchmarkSeries = benchmarkSeries;
+
+    let mergeSeries: LineSeriesOption[];
+
+    if (this.series) {
+      mergeSeries = [this.benchmarkSeries, this.series];
+    } else {
+      mergeSeries = this.benchmarkSeries ? [this.benchmarkSeries] : [];
+    }
+
+    this.mergeOptions = {
+      series: mergeSeries,
+    };
+  }
+
+  onChartInit(ec: ECharts): void {
+    this.echartsInstance = ec;
+
+    if (this.isDataLoading) {
+      ec.showLoading(this.loadingOpts);
+    } else {
+      ec.hideLoading();
     }
   }
 

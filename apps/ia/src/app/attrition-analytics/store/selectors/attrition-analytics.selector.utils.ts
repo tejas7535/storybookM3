@@ -1,8 +1,8 @@
 import { translate } from '@ngneat/transloco';
 
-import { getPercentageValue } from '../../../overview/store/selectors/overview-selector-utils';
 import { BarChartConfig } from '../../../shared/charts/models/bar-chart-config.model';
 import { BarChartSerie } from '../../../shared/charts/models/bar-chart-serie.model';
+import { getPercentageValue } from '../../../shared/utils/utilities';
 import { EmployeeAnalytics } from '../../models/employee-analytics.model';
 import { FeatureParams } from '../../models/feature-params.model';
 import { FeatureSelector } from '../../models/feature-selector.model';

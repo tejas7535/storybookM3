@@ -3,6 +3,7 @@ import { RouterReducerState } from '@ngrx/router-store';
 import { createSelector } from '@ngrx/store';
 
 import {
+  EmployeesRequest,
   Filter,
   FilterDimension,
   FilterKey,
@@ -24,6 +25,11 @@ export const getSelectedDimension = createSelector(
   (state: FilterState) => state.selectedDimension
 );
 
+export const getBenchmarkDimension = createSelector(
+  selectFilterState,
+  (state: FilterState) => state.benchmarkDimension
+);
+
 export const getSelectedDimensionFilter = createSelector(
   selectFilterState,
   getSelectedDimension,
@@ -34,6 +40,20 @@ export const getSelectedDimensionFilter = createSelector(
             ([_, value]) => value === selectedDimension
           )?.[1],
           state.data[selectedDimension].items
+        )
+      : undefined
+);
+
+export const getBenchmarkDimensionFilter = createSelector(
+  selectFilterState,
+  getBenchmarkDimension,
+  (state: FilterState, benchmarkDimension: FilterDimension) =>
+    state.data[benchmarkDimension]
+      ? new Filter(
+          Object.entries(FilterDimension).find(
+            ([_, value]) => value === benchmarkDimension
+          )?.[1],
+          state.data[benchmarkDimension].items
         )
       : undefined
 );
@@ -50,14 +70,14 @@ export const getSpecificDimensonFilter = (dimension: FilterDimension) =>
       : undefined
   );
 
-export const getOrgUnitsLoading = createSelector(
-  selectFilterState,
-  (state: FilterState) => state.data[FilterDimension.ORG_UNIT].loading
-);
-
 export const getSelectedDimensionDataLoading = createSelector(
   selectFilterState,
   (state: FilterState) => state.data[state.selectedDimension]?.loading
+);
+
+export const getBenchmarkDimensionDataLoading = createSelector(
+  selectFilterState,
+  (state: FilterState) => state.data[state.benchmarkDimension]?.loading
 );
 
 export const getCurrentRoute = createSelector(
@@ -87,16 +107,53 @@ export const getSelectedFilters = createSelector(
   (state: FilterState) => state.selectedFilters
 );
 
+export const getBenchmarkFilters = createSelector(
+  selectFilterState,
+  (state: FilterState) => state.benchmarkFilters
+);
+
 export const getAllSelectedFilters = createSelector(
   getSelectedFilters,
+  selectAllSelectedFilters
+);
+
+export const getAllBenchmarkFilters = createSelector(
+  getBenchmarkFilters,
   selectAllSelectedFilters
 );
 
 export const getCurrentFilters = createSelector(
   getAllSelectedFilters,
   getSelectedDimension,
-  (filters: SelectedFilter[], selectedDimension: FilterDimension) => {
+  (
+    filters: SelectedFilter[],
+    selectedDimension: FilterDimension
+  ): EmployeesRequest => {
     const selectedFilters = filters.filter(
+      (filter) =>
+        filter.name === selectedDimension ||
+        filter.name === FilterKey.TIME_RANGE
+    );
+
+    return {
+      filterDimension: selectedDimension,
+      value: selectedFilters.find((filter) => filter.name === selectedDimension)
+        ?.idValue.id,
+      timeRange: selectedFilters.find(
+        (filter) => filter.name === FilterKey.TIME_RANGE
+      )?.idValue.id,
+    };
+  }
+);
+
+export const getCurrentBenchmarkFilters = createSelector(
+  getAllBenchmarkFilters,
+  getBenchmarkDimension,
+  (
+    benchmarkFilters: SelectedFilter[],
+    selectedDimension: FilterDimension
+  ): EmployeesRequest => {
+    const selectedFilters = benchmarkFilters.filter(
       (filter) =>
         filter.name === selectedDimension ||
         filter.name === FilterKey.TIME_RANGE
@@ -136,8 +193,20 @@ export const getSelectedDimensionIdValue = createSelector(
     filters.find((filter) => filter.name === selectedDimension)?.idValue
 );
 
-export const getSelectOrgUnitValueShort = createSelector(
+export const getBenchmarkIdValue = createSelector(
+  getAllBenchmarkFilters,
+  getBenchmarkDimension,
+  (filters: SelectedFilter[], benchmarkDimension: FilterDimension) =>
+    filters.find((filter) => filter.name === benchmarkDimension)?.idValue
+);
+
+export const getSelectedDimensionValueShort = createSelector(
   getSelectedDimensionIdValue,
+  (val: IdValue) => val?.value?.split('(')[0].trim()
+);
+
+export const getSelectedBenchmarkValueShort = createSelector(
+  getBenchmarkIdValue,
   (val: IdValue) => val?.value?.split('(')[0].trim()
 );
 

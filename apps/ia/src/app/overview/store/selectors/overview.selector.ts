@@ -1,19 +1,31 @@
 import { createSelector } from '@ngrx/store';
 
 import {
+  getBenchmarkIdValue,
+  getSelectedBenchmarkValueShort,
   getSelectedDimensionIdValue,
-  getSelectOrgUnitValueShort,
+  getSelectedDimensionValueShort,
 } from '../../../core/store/selectors';
+import { createFluctuationRateChartSerie } from '../../../shared/charts/line-chart/line-chart-utils';
 import {
   ActionType,
   AttritionOverTime,
   EmployeeWithAction,
   IdValue,
 } from '../../../shared/models';
-import { LeavingType } from '../../models';
-import { OverviewFluctuationRates } from '../../models/overview-fluctuation-rates.model';
+import { getPercentageValueSigned } from '../../../shared/utils/utilities';
+import {
+  FluctuationKpi,
+  FluctuationRate,
+  FluctuationRatesChartData,
+  LeavingType,
+  OverviewWorkforceBalanceMeta,
+} from '../../models';
 import { OverviewState, selectOverviewState } from '..';
 import * as utils from './overview-selector-utils';
+
+const DIMENSION_SERIE_ID = 'dimension';
+const BENCHMARK_SERIE_ID = 'benchmark';
 
 export const getIsLoadingAttritionOverTimeOverview = createSelector(
   selectOverviewState,
@@ -40,9 +52,24 @@ export const getAttritionOverTimeEmployeesLoading = createSelector(
   (state: OverviewState) => state.attritionOverTimeEmployees.loading
 );
 
-export const getOverviewFluctuationRates = createSelector(
+export const getIsLoadingDimensionFluctuationRates = createSelector(
   selectOverviewState,
-  (state: OverviewState) => state.entriesExitsMeta?.data
+  (state: OverviewState) => state.fluctuationRates.dimension.loading
+);
+
+export const getIsLoadingBenchmarkFluctuationRates = createSelector(
+  selectOverviewState,
+  (state: OverviewState) => state.fluctuationRates.benchmark.loading
+);
+
+export const getDimensionFluctuationRates = createSelector(
+  selectOverviewState,
+  (state: OverviewState) => state.fluctuationRates.dimension.data
+);
+
+export const getBenchmarkFluctuationRates = createSelector(
+  selectOverviewState,
+  (state: OverviewState) => state.fluctuationRates.benchmark.data
 );
 
 export const getOverviewExitEmployees = createSelector(
@@ -77,67 +104,72 @@ export const getOverviewEntryEmployeesLoading = createSelector(
   (state: OverviewState) => state.entryEmployees.loading
 );
 
-export const getOverviewFluctuationKpi = createSelector(
-  getOverviewFluctuationRates,
-  getSelectedDimensionIdValue,
-  (
-    overviewFluctuationRates: OverviewFluctuationRates,
-    selectedOrgUnit: IdValue
-  ) =>
-    overviewFluctuationRates
-      ? utils.createFluctuationKpi(
-          overviewFluctuationRates.fluctuationRate.global,
-          overviewFluctuationRates.fluctuationRate.dimension,
-          selectedOrgUnit?.value,
-          overviewFluctuationRates.externalExitCount
+export const getWorkforceBalanceMeta = createSelector(
+  selectOverviewState,
+  (state: OverviewState) => state.workforceBalanceMeta.dimension.data
+);
+
+export const getBenchmarkFluctuationKpi = createSelector(
+  getBenchmarkFluctuationRates,
+  getBenchmarkIdValue,
+  (fluctuationRates: FluctuationRate, dimension: IdValue) =>
+    fluctuationRates
+      ? new FluctuationKpi(
+          getPercentageValueSigned(fluctuationRates.fluctuationRate),
+          getPercentageValueSigned(fluctuationRates.unforcedFluctuationRate),
+          dimension?.value,
+          undefined
         )
       : undefined
 );
 
-export const getOverviewUnforcedFluctuationKpi = createSelector(
-  getOverviewFluctuationRates,
+export const getDimensionFluctuationKpi = createSelector(
+  getDimensionFluctuationRates,
+  getWorkforceBalanceMeta,
   getSelectedDimensionIdValue,
   (
-    overviewFluctuationRates: OverviewFluctuationRates,
-    selectedOrgUnit: IdValue
+    fluctuationRates: FluctuationRate,
+    workforceBalanceMeta: OverviewWorkforceBalanceMeta,
+    dimension: IdValue
   ) =>
-    overviewFluctuationRates
-      ? utils.createFluctuationKpi(
-          overviewFluctuationRates.unforcedFluctuationRate.global,
-          overviewFluctuationRates.unforcedFluctuationRate.dimension,
-          selectedOrgUnit?.value,
-          overviewFluctuationRates.externalUnforcedExitCount
+    fluctuationRates
+      ? new FluctuationKpi(
+          getPercentageValueSigned(fluctuationRates.fluctuationRate),
+          getPercentageValueSigned(fluctuationRates.unforcedFluctuationRate),
+          dimension?.value,
+          workforceBalanceMeta?.externalExitCount
         )
       : undefined
 );
 
 export const getIsLoadingDoughnutsConfig = createSelector(
   selectOverviewState,
-  (overviewState: OverviewState) => overviewState.entriesExitsMeta?.loading
+  (overviewState: OverviewState) =>
+    overviewState.workforceBalanceMeta.dimension.loading
 );
 
 export const getInternalExitCount = createSelector(
   selectOverviewState,
   (overviewState: OverviewState) =>
-    overviewState.entriesExitsMeta?.data?.internalExitCount
+    overviewState.workforceBalanceMeta.dimension.data?.internalExitCount
 );
 
 export const getExternalExitCount = createSelector(
   selectOverviewState,
   (overviewState: OverviewState) =>
-    overviewState.entriesExitsMeta?.data?.externalExitCount
+    overviewState.workforceBalanceMeta.dimension.data?.externalExitCount
 );
 
 export const getInternalEntryCount = createSelector(
   selectOverviewState,
   (overviewState: OverviewState) =>
-    overviewState.entriesExitsMeta?.data?.internalEntryCount
+    overviewState.workforceBalanceMeta.dimension.data?.internalEntryCount
 );
 
 export const getExternalEntryCount = createSelector(
   selectOverviewState,
   (overviewState: OverviewState) =>
-    overviewState.entriesExitsMeta?.data?.externalEntryCount
+    overviewState.workforceBalanceMeta.dimension.data?.externalEntryCount
 );
 
 export const getOverviewFluctuationExitsDoughnutConfig = createSelector(
@@ -172,7 +204,7 @@ export const getOverviewFluctuationEntriesCount = createSelector(
 export const getOverviewFluctuationTotalEmployeesCount = createSelector(
   selectOverviewState,
   (overviewState: OverviewState) =>
-    overviewState.entriesExitsMeta.data?.totalEmployeesCount
+    overviewState.workforceBalanceMeta.dimension.data?.totalEmployeesCount
 );
 
 export const getOverviewFluctuationEntriesDoughnutConfig = createSelector(
@@ -186,33 +218,65 @@ export const getOverviewFluctuationEntriesDoughnutConfig = createSelector(
     )
 );
 
-export const getFluctuationRatesForChart = createSelector(
+export const getDimensionFluctuationRatesChart = createSelector(
   selectOverviewState,
-  getSelectOrgUnitValueShort,
-  (state: OverviewState, orgUnit: string) =>
-    state.fluctuationRates.data?.fluctuationRates
-      ? utils.createFluctuationRateChartConfig(
-          orgUnit,
-          state.fluctuationRates.data.fluctuationRates
-        )
-      : undefined
+  (state: OverviewState) => state.fluctuationRatesChart.dimension.data
 );
 
-export const getUnforcedFluctuationRatesForChart = createSelector(
+export const getDimensionFluctuationRatesForChart = createSelector(
+  getDimensionFluctuationRatesChart,
+  getSelectedDimensionValueShort,
+  (chartData: FluctuationRatesChartData, dimensionName: string) =>
+    createFluctuationRateChartSerie(
+      DIMENSION_SERIE_ID,
+      dimensionName,
+      chartData?.fluctuationRates
+    )
+);
+
+export const getDimensionUnforcedFluctuationRatesForChart = createSelector(
+  getDimensionFluctuationRatesChart,
+  getSelectedDimensionValueShort,
+  (chartData: FluctuationRatesChartData, dimensionName: string) =>
+    createFluctuationRateChartSerie(
+      DIMENSION_SERIE_ID,
+      dimensionName,
+      chartData?.unforcedFluctuationRates
+    )
+);
+
+export const getBenchmarkFluctuationRatesChart = createSelector(
   selectOverviewState,
-  getSelectOrgUnitValueShort,
-  (state: OverviewState, orgUnit: string) =>
-    state.fluctuationRates.data?.unforcedFluctuationRates
-      ? utils.createFluctuationRateChartConfig(
-          orgUnit,
-          state.fluctuationRates.data.unforcedFluctuationRates
-        )
-      : undefined
+  (state: OverviewState) => state.fluctuationRatesChart.benchmark.data
+);
+
+export const getBenchmarkFluctuationRatesForChart = createSelector(
+  getBenchmarkFluctuationRatesChart,
+  getSelectedBenchmarkValueShort,
+  (chartData: FluctuationRatesChartData, dimensionName: string) =>
+    createFluctuationRateChartSerie(
+      BENCHMARK_SERIE_ID,
+      dimensionName,
+      chartData?.fluctuationRates
+    )
+);
+
+export const getBenchmarkUnforcedFluctuationRatesForChart = createSelector(
+  getBenchmarkFluctuationRatesChart,
+  getSelectedBenchmarkValueShort,
+  (chartData: FluctuationRatesChartData, dimensionName: string) =>
+    createFluctuationRateChartSerie(
+      BENCHMARK_SERIE_ID,
+      dimensionName,
+      chartData?.unforcedFluctuationRates
+    )
 );
 
 export const getIsLoadingFluctuationRatesForChart = createSelector(
   selectOverviewState,
-  (state: OverviewState) => state.fluctuationRates?.loading
+  (state: OverviewState) =>
+    state.fluctuationRatesChart.dimension.loading ||
+    state.fluctuationRatesChart.benchmark.loading
 );
 
 export const getIsLoadingResignedEmployees = createSelector(

@@ -95,6 +95,7 @@ describe('EntriesExitsComponent', () => {
       component.entriesCount = 65;
       component.exitsCount = 72;
       component.exitEmployees = [];
+      component.totalEmployeesCount = 500;
 
       fixture.detectChanges();
 
@@ -106,8 +107,8 @@ describe('EntriesExitsComponent', () => {
       );
 
       expect(kpiValues.length).toEqual(3);
-      expect(kpiValues).toContain(component.entriesCount.toString());
-      expect(kpiValues).toContain(component.exitsCount.toString());
+      expect(kpiValues).toContainEqual(component.entriesCount.toString());
+      expect(kpiValues).toContainEqual(component.exitsCount.toString());
       expect(charts.length).toEqual(2);
     });
   });

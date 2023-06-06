@@ -18,6 +18,7 @@ import { getIsLoggedIn, loginSuccess } from '@schaeffler/azure-auth';
 
 import {
   filterDimensionSelected,
+  filterSelected,
   loadFilterDimensionData,
 } from '../../../core/store/actions';
 import { SelectedFilter } from '../../../shared/models';
@@ -67,9 +68,8 @@ export class UserEffects implements OnInitEffects {
 
               result.push(
                 // select favorite
-                filterDimensionSelected({
+                filterSelected({
                   filter: filterObj,
-                  filterDimension: data.dimension,
                 }),
                 // preload data for favorite dimension to allow autocomplete
                 loadFilterDimensionData({

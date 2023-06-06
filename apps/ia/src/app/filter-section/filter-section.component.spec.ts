@@ -1,7 +1,10 @@
 import { MatExpansionModule } from '@angular/material/expansion';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
+import { of } from 'rxjs';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { TranslocoService } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/marbles';
@@ -10,12 +13,14 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from '../../assets/i18n/en.json';
 import {
+  benchmarkFilterSelected,
   dimensionSelected,
   filterSelected,
+  loadFilterBenchmarkDimensionData,
   loadFilterDimensionData,
 } from '../core/store/actions';
 import {
-  getOrgUnitsLoading,
+  getBenchmarkDimensionDataLoading,
   getSelectedDimensionFilter,
   getSelectedDimensionIdValue,
   getSelectedFilterValues,
@@ -23,6 +28,8 @@ import {
   getSelectedTimeRange,
   getTimePeriods,
 } from '../core/store/selectors';
+import { DimensionFilterModule } from '../shared/dimension-filter/dimension-filter.module';
+import { DimensionFilterTranslation } from '../shared/dimension-filter/models';
 import { FilterModule } from '../shared/filter/filter.module';
 import {
   Filter,
@@ -37,6 +44,7 @@ describe('FilterSectionComponent', () => {
   let component: FilterSectionComponent;
   let spectator: Spectator<FilterSectionComponent>;
   let store: MockStore;
+  let transloco: TranslocoService;
 
   const createComponent = createComponentFactory({
     component: FilterSectionComponent,
@@ -45,6 +53,7 @@ describe('FilterSectionComponent', () => {
       PushModule,
       MatExpansionModule,
       FilterModule,
+      DimensionFilterModule,
       provideTranslocoTestingModule({ en }),
     ],
     providers: [
@@ -72,6 +81,7 @@ describe('FilterSectionComponent', () => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     store = spectator.inject(MockStore);
+    transloco = spectator.inject(TranslocoService);
   });
 
   test('should create', () => {
@@ -79,6 +89,32 @@ describe('FilterSectionComponent', () => {
   });
 
   describe('ngOnInit', () => {
+    test(
+      'should set availableDimensions',
+      marbles((m) => {
+        const expected: IdValue[] = [
+          { id: 'ORG_UNIT', level: 0, value: undefined },
+          { id: 'REGION', level: 0, value: undefined },
+          { id: 'SUB_REGION', level: 1, value: undefined },
+          { id: 'COUNTRY', level: 2, value: undefined },
+          { id: 'BOARD', level: 0, value: undefined },
+          { id: 'SUB_BOARD', level: 1, value: undefined },
+          { id: 'FUNCTION', level: 2, value: undefined },
+          { id: 'SUB_FUNCTION', level: 3, value: undefined },
+          { id: 'SEGMENT', level: 0, value: undefined },
+          { id: 'SUB_SEGMENT', level: 1, value: undefined },
+          { id: 'SEGMENT_UNIT', level: 2, value: undefined },
+        ];
+        transloco.translateObject = jest.fn().mockReturnValue(of(expected));
+
+        component.ngOnInit();
+
+        m.expect(component.availableDimensions$).toBeObservable(
+          m.cold('a', { a: expected })
+        );
+      })
+    );
+
     test(
       'should set orgUnitsFilter',
       marbles((m) => {
@@ -93,13 +129,13 @@ describe('FilterSectionComponent', () => {
     );
 
     test(
-      'should set orgUnitsLoading',
+      'should set benchmarkDimensionDataLoading',
       marbles((m) => {
         const result = true;
-        store.overrideSelector(getOrgUnitsLoading, result);
+        store.overrideSelector(getBenchmarkDimensionDataLoading, result);
         component.ngOnInit();
 
-        m.expect(component.orgUnitsLoading$).toBeObservable(
+        m.expect(component.benchmarkDimensionDataLoading$).toBeObservable(
           m.cold('a', { a: result })
         );
       })
@@ -178,8 +214,22 @@ describe('FilterSectionComponent', () => {
     );
   });
 
+  describe('onBenchmarkDimensionSelected', () => {
+    test('should dispatch loadFilterBenchmarkDimensionData action', () => {
+      const filter: IdValue = { id: 'BOARD', value: 'b' };
+      const filterDimension = FilterDimension.BOARD;
+      store.dispatch = jest.fn();
+
+      component.onBenchmarkDimensionSelected(filter);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        loadFilterBenchmarkDimensionData({ filterDimension })
+      );
+    });
+  });
+
   describe('filterSelected', () => {
-    test('should dispatch action', () => {
+    test('should dispatch filterSelected action', () => {
       const filter = new SelectedFilter('test', undefined);
       store.dispatch = jest.fn();
 
@@ -190,7 +240,7 @@ describe('FilterSectionComponent', () => {
   });
 
   describe('timePeriodSelected', () => {
-    test('should dispatch timePeriodSelected', () => {
+    test('should dispatch timePeriodSelected action', () => {
       store.dispatch = jest.fn();
       component.timePeriodSelected(TimePeriod.YEAR);
 
@@ -211,11 +261,12 @@ describe('FilterSectionComponent', () => {
     });
   });
 
-  describe('autoCompleteOrgUnitsChange', () => {
-    test('should dispatch loadOrgUnits action', () => {
+  describe('onDimensionAutocompleteInput', () => {
+    test('should dispatch loadFilterDimensionData action', () => {
       store.dispatch = jest.fn();
       const searchFor = 'search';
-      component.autoCompleteOrgUnitsChange(searchFor);
+
+      component.onDimensionAutocompleteInput(searchFor);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         loadFilterDimensionData({
@@ -226,7 +277,7 @@ describe('FilterSectionComponent', () => {
     });
   });
 
-  describe('dimensionSelected', () => {
+  describe('onDimensionSelected', () => {
     test('should return selected dimension', () => {
       const dimension = {
         id: FilterDimension.COUNTRY,
@@ -235,11 +286,50 @@ describe('FilterSectionComponent', () => {
 
       store.dispatch = jest.fn();
 
-      component.dimensionSelected(dimension);
+      component.onDimensionSelected(dimension);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         loadFilterDimensionData({ filterDimension: FilterDimension.COUNTRY })
       );
+    });
+  });
+
+  describe('onBenchmarkAutocompleteInput', () => {
+    test('should dispatch loadFilterBenchmarkDimensionData action', () => {
+      store.dispatch = jest.fn();
+      const filterDimension = FilterDimension.ORG_UNIT;
+      const searchFor = 'abc';
+
+      component.onBenchmarkAutocompleteInput(searchFor);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        loadFilterBenchmarkDimensionData({ filterDimension, searchFor })
+      );
+    });
+  });
+
+  describe('onBenchmarkOptionSelected', () => {
+    test('should dispatch benchmarkFilterSelected action', () => {
+      store.dispatch = jest.fn();
+      const selectedFilter: SelectedFilter = {
+        idValue: { id: 'a', value: 'b' },
+        name: 'filter',
+      };
+
+      component.onBenchmarkOptionSelected(selectedFilter);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        benchmarkFilterSelected({ filter: selectedFilter })
+      );
+    });
+  });
+
+  describe('triggerDimensionDataClear', () => {
+    test('should dispatch dimensionSelected action', () => {
+      store.dispatch = jest.fn();
+
+      component.triggerDimensionDataClear();
+
       expect(store.dispatch).toHaveBeenCalledWith(dimensionSelected());
     });
   });
@@ -341,5 +431,41 @@ describe('FilterSectionComponent', () => {
         )
       );
     });
+
+    test(
+      'should set dimensionFilterTranslation',
+      marbles((m) => {
+        const expected = new DimensionFilterTranslation(
+          'select dimension',
+          'dimension',
+          'please select one'
+        );
+        transloco.translateObject = jest.fn().mockReturnValue(expected);
+
+        component.ngOnInit();
+
+        m.expect(component.dimensionFilterTranslation$).toBeObservable(
+          m.cold('a', { a: expected })
+        );
+      })
+    );
+
+    test(
+      'should set benchmarkDimensionFilterTranslation',
+      marbles((m) => {
+        const expected = new DimensionFilterTranslation(
+          'select dimension',
+          'dimension',
+          'please select one'
+        );
+        transloco.translateObject = jest.fn().mockReturnValue(expected);
+
+        component.ngOnInit();
+
+        m.expect(component.benchmarkDimensionFilterTranslation$).toBeObservable(
+          m.cold('a', { a: expected })
+        );
+      })
+    );
   });
 });

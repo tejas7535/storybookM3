@@ -6,13 +6,20 @@ import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import {
+  benchmarDimensionSelected,
+  benchmarkFilterSelected,
   dimensionSelected,
   filterSelected,
+  loadFilterBenchmarkDimensionData,
   loadFilterDimensionData,
   timePeriodSelected,
+  timeRangeSelected,
 } from '../core/store/actions';
 import {
-  getOrgUnitsLoading,
+  getBenchmarkDimension,
+  getBenchmarkDimensionDataLoading,
+  getBenchmarkDimensionFilter,
+  getBenchmarkIdValue,
   getSelectedDimension,
   getSelectedDimensionDataLoading,
   getSelectedDimensionFilter,
@@ -23,6 +30,7 @@ import {
   getTimePeriods,
 } from '../core/store/selectors';
 import { FILTER_DIMENSIONS } from '../shared/constants';
+import { DimensionFilterTranslation } from '../shared/dimension-filter/models';
 import { FilterLayout } from '../shared/filter/filter-layout.enum';
 import {
   Filter,
@@ -41,14 +49,19 @@ export class FilterSectionComponent implements OnInit {
 
   availableDimensions$: Observable<IdValue[]>;
   activeDimension$: Observable<FilterDimension>;
+  activeBenchmarkDimension$: Observable<FilterDimension>;
   selectedDimensionFilter$: Observable<Filter>;
-  orgUnitsLoading$: Observable<boolean>;
+  benchmarkDimensionFilter$: Observable<Filter>;
   selectedDimensionDataLoading$: Observable<boolean>;
+  benchmarkDimensionDataLoading$: Observable<boolean>;
   selectedDimensionIdValue$: Observable<IdValue>;
+  benchmarkDimensionIdValue$: Observable<IdValue>;
   timePeriods$: Observable<IdValue[]>;
   selectedTimePeriod$: Observable<TimePeriod>;
   selectedTime$: Observable<IdValue>;
   selectedFilterValues$: Observable<string[]>;
+  dimensionFilterTranslation$: Observable<DimensionFilterTranslation>;
+  benchmarkDimensionFilterTranslation$: Observable<DimensionFilterTranslation>;
 
   filterLayout = FilterLayout;
 
@@ -66,29 +79,49 @@ export class FilterSectionComponent implements OnInit {
         )
       );
     this.activeDimension$ = this.store.select(getSelectedDimension);
+    this.activeBenchmarkDimension$ = this.store.select(getBenchmarkDimension);
     this.selectedDimensionDataLoading$ = this.store.select(
       getSelectedDimensionDataLoading
+    );
+    this.benchmarkDimensionDataLoading$ = this.store.select(
+      getBenchmarkDimensionDataLoading
     );
     this.selectedDimensionFilter$ = this.store.select(
       getSelectedDimensionFilter
     );
-    this.orgUnitsLoading$ = this.store.select(getOrgUnitsLoading);
+    this.benchmarkDimensionFilter$ = this.store.select(
+      getBenchmarkDimensionFilter
+    );
     this.timePeriods$ = this.store.select(getTimePeriods);
     this.selectedTimePeriod$ = this.store.select(getSelectedTimePeriod);
     this.selectedDimensionIdValue$ = this.store.select(
       getSelectedDimensionIdValue
     );
+    this.benchmarkDimensionIdValue$ = this.store.select(getBenchmarkIdValue);
     this.selectedTime$ = this.store.select(getSelectedTimeRange);
     this.selectedFilterValues$ = this.store.select(getSelectedFilterValues);
+    this.dimensionFilterTranslation$ =
+      this.translocoService.selectTranslateObject('filters.dimension');
+    this.benchmarkDimensionFilterTranslation$ =
+      this.translocoService.selectTranslateObject('filters.benchmark');
   }
 
-  dimensionSelected(dimension: IdValue): void {
+  onDimensionSelected(dimension: IdValue): void {
     const filterDimension = Object.entries(FilterDimension).find(
       ([_, value]) => value === dimension.id
     )?.[1];
 
     this.store.dispatch(loadFilterDimensionData({ filterDimension }));
     this.store.dispatch(dimensionSelected());
+  }
+
+  onBenchmarkDimensionSelected(dimension: IdValue): void {
+    const filterDimension = Object.entries(FilterDimension).find(
+      ([_, value]) => value === dimension.id
+    )?.[1];
+
+    this.store.dispatch(loadFilterBenchmarkDimensionData({ filterDimension }));
+    this.store.dispatch(benchmarDimensionSelected());
   }
 
   filterSelected(filter: SelectedFilter): void {
@@ -99,17 +132,34 @@ export class FilterSectionComponent implements OnInit {
     this.store.dispatch(timePeriodSelected({ timePeriod }));
   }
 
+  timeRangeSelected(timeRange: SelectedFilter): void {
+    this.store.dispatch(timeRangeSelected({ timeRange }));
+  }
+
   expansionPanelToggled(expanded: boolean): void {
     this.isExpanded = expanded;
   }
 
-  autoCompleteOrgUnitsChange(searchFor: string): void {
+  onDimensionAutocompleteInput(searchFor: string): void {
     this.store.dispatch(
       loadFilterDimensionData({
         filterDimension: FilterDimension.ORG_UNIT,
         searchFor,
       })
     );
+  }
+
+  onBenchmarkAutocompleteInput(searchFor: string): void {
+    this.store.dispatch(
+      loadFilterBenchmarkDimensionData({
+        filterDimension: FilterDimension.ORG_UNIT,
+        searchFor,
+      })
+    );
+  }
+
+  onBenchmarkOptionSelected(filter: SelectedFilter): void {
+    this.store.dispatch(benchmarkFilterSelected({ filter }));
   }
 
   triggerDimensionDataClear(): void {

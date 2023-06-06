@@ -4,22 +4,18 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { AutocompleteInputComponent } from '../autocomplete-input/autocomplete-input.component';
 import { AutocompleteInputModule } from '../autocomplete-input/autocomplete-input.module';
 import { DateInputModule } from '../date-input/date-input.module';
 import {
-  Filter,
   FilterDimension,
   FilterKey,
   IdValue,
   SelectedFilter,
   TimePeriod,
 } from '../models';
-import { SelectInputComponent } from '../select-input/select-input.component';
 import { SelectInputModule } from '../select-input/select-input.module';
 import { getTimeRangeHint } from '../utils/utilities';
 import { FilterComponent } from './filter.component';
-
 jest.mock('../utils/utilities', () => ({
   getTimeRangeHint: jest.fn(() => 'test'),
   getBeautifiedTimeRange: jest.fn(() => 'beauty'),
@@ -61,57 +57,51 @@ describe('FilterComponent', () => {
     });
   });
 
-  describe('dimensionSelected', () => {
-    test('should emit dimension, close the panel and focus autocomplete', () => {
+  describe('onDimensionSelected', () => {
+    test('should emit dimension', () => {
       const dimension = new IdValue('1', 'bac');
-      component.selectInput = { closePanel: () => {} } as SelectInputComponent;
-      component.autocompleteInput = {
-        focus: () => {},
-      } as AutocompleteInputComponent;
       component.selectDimension.emit = jest.fn();
-      component.selectInput.closePanel = jest.fn();
-      component.autocompleteInput.focus = jest.fn();
 
-      component.dimensionSelected(dimension);
+      component.onDimensionSelected(dimension);
 
       expect(component.selectDimension.emit).toHaveBeenCalled();
-      expect(component.selectInput.closePanel).toHaveBeenCalled();
-      expect(component.autocompleteInput.focus).toHaveBeenCalled();
     });
   });
 
-  describe('dimensionFilter', () => {
-    test('set dimensionFilter should set properties and asyncMode false when not org unit', () => {
-      const idValue = new IdValue('DE', 'Germany');
-      const filter = new Filter(FilterDimension.COUNTRY, [idValue]);
+  describe('onBenchmarkDimensionSelected', () => {
+    test('should emit selected benchmark dimension', () => {
+      const dimension = new IdValue('1', 'bac');
+      component.selectBenchmarkDimension.emit = jest.fn();
 
-      component.dimensionFilter = filter;
+      component.onBenchmarkDimensionSelected(dimension);
 
-      expect(component.dimensionFilter).toBe(filter);
-      expect(component.options).toBe(filter.options);
-      expect(component.asyncMode).toBeFalsy();
-    });
-
-    test('set dimensionFilter should set properties and asyncMode true when org unit', () => {
-      const idValue = new IdValue('DE', 'Germany');
-      const filter = new Filter(FilterDimension.ORG_UNIT, [idValue]);
-
-      component.dimensionFilter = filter;
-
-      expect(component.dimensionFilter).toBe(filter);
-      expect(component.options).toBe(filter.options);
-      expect(component.asyncMode).toBeTruthy();
+      expect(component.selectBenchmarkDimension.emit).toHaveBeenCalled();
     });
   });
 
-  describe('optionSelected', () => {
+  describe('onDimensionOptionSelected', () => {
     test('should emit selected filter', () => {
       const selectedFilter = {} as SelectedFilter;
-      component.selectFilter.emit = jest.fn();
+      component.selectDimensionOption.emit = jest.fn();
 
-      component.optionSelected(selectedFilter);
+      component.onDimensionOptionSelected(selectedFilter);
 
-      expect(component.selectFilter.emit).toHaveBeenCalledWith(selectedFilter);
+      expect(component.selectDimensionOption.emit).toHaveBeenCalledWith(
+        selectedFilter
+      );
+    });
+  });
+
+  describe('onBenchmarkOptionSelected', () => {
+    test('should emit selected option', () => {
+      const selectedFilter = {} as SelectedFilter;
+      component.selectBenchmarkOption.emit = jest.fn();
+
+      component.onBenchmarkOptionSelected(selectedFilter);
+
+      expect(component.selectBenchmarkOption.emit).toHaveBeenCalledWith(
+        selectedFilter
+      );
     });
   });
 
@@ -138,25 +128,15 @@ describe('FilterComponent', () => {
           value: 'beauty',
         },
       };
-      component.selectFilter.emit = jest.fn();
+      component.selectDimensionOption.emit = jest.fn();
 
       component.timeRangeSelected(timeRange);
 
-      expect(component.selectFilter.emit).toHaveBeenCalledWith(filter);
+      expect(component.selectDimensionOption.emit).toHaveBeenCalledWith(filter);
     });
   });
 
-  describe('selectedDimensionDataInvalid', () => {
-    test('should set disabledTimeRangeFilter', () => {
-      const invalid = true;
-
-      component.selectedDimensionDataInvalid(invalid);
-
-      expect(component.disabledTimeRangeFilter).toEqual(invalid);
-    });
-  });
-
-  describe('autoCompleteInputChange', () => {
+  describe('onDimensionAutocompleteInput', () => {
     test('should emit search string when asyncMode', () => {
       const search = 'search';
       component.dimensionFilter = {
@@ -165,24 +145,26 @@ describe('FilterComponent', () => {
       };
       component.autoCompleteInput.emit = jest.fn();
 
-      component.autoCompleteInputChange(search);
+      component.onDimensionAutocompleteInput(search);
 
       expect(component.autoCompleteInput.emit).toHaveBeenCalledWith(search);
     });
+  });
 
-    test('should filter options when asyncMode false', () => {
-      const search = 'g';
-      const option1 = new IdValue('DE', 'Germany');
-      const option2 = new IdValue('GR', 'Greece');
-      const option3 = new IdValue('PL', 'Poland');
-      const options = [option1, option2, option3];
-      component.dimensionFilter = new Filter(FilterDimension.COUNTRY, options);
+  describe('onBenchmarkAutocompleteInput', () => {
+    test('should emit search string when asyncMode', () => {
+      const search = 'search';
+      component.benchmarkDimensionFilter = {
+        name: FilterDimension.ORG_UNIT,
+        options: [],
+      };
+      component.benchmarkAutocompleteInput.emit = jest.fn();
 
-      component.autoCompleteInputChange(search);
+      component.onBenchmarkAutocompleteInput(search);
 
-      expect(component.dimensionFilter.options).toContain(option1);
-      expect(component.dimensionFilter.options).toContain(option2);
-      expect(component.dimensionFilter.options).not.toContain(option3);
+      expect(component.benchmarkAutocompleteInput.emit).toHaveBeenCalledWith(
+        search
+      );
     });
   });
 
@@ -207,7 +189,7 @@ describe('FilterComponent', () => {
   });
 
   describe('activeDimension', () => {
-    test('should set active dimension and select type when dimension not org unit', () => {
+    test('should set active dimension and when dimension not org unit', () => {
       const dimension = FilterDimension.BOARD;
       const dimensionIdValue = new IdValue(dimension, dimension);
 
@@ -219,14 +201,9 @@ describe('FilterComponent', () => {
       component.activeDimension = dimension;
 
       expect(component.activeDimension).toEqual(dimension);
-      expect(component.dimensionName).toEqual(FilterDimension[dimension]);
-      expect(component.type).toEqual({
-        type: 'select',
-        label: FilterDimension[dimension],
-      });
     });
 
-    test('should set active dimension and autocomplete type when dimension org unit', () => {
+    test('should set active dimension when dimension org unit', () => {
       const dimension = FilterDimension.ORG_UNIT;
       const dimensionIdValue = new IdValue(dimension, dimension);
 
@@ -238,41 +215,6 @@ describe('FilterComponent', () => {
       component.activeDimension = dimension;
 
       expect(component.activeDimension).toEqual(dimension);
-      expect(component.dimensionName).toEqual(FilterDimension[dimension]);
-      expect(component.type).toEqual({
-        type: 'autocomplete',
-        label: FilterDimension[dimension],
-      });
-    });
-  });
-
-  describe('getDimensionName', () => {
-    test('should retun undefined if dimensions undefined', () => {
-      component.availableDimensions = undefined;
-
-      const result = component.getDimensionName();
-
-      expect(result).toBeUndefined();
-    });
-
-    test('should retun undefined if dimension not found', () => {
-      component.availableDimensions = [{ id: '123', value: 'Test 1234' }];
-      component.activeDimension = FilterDimension.BOARD;
-
-      const result = component.getDimensionName();
-
-      expect(result).toBeUndefined();
-    });
-
-    test('should retun active dimension value', () => {
-      component.availableDimensions = [
-        { id: FilterDimension.BOARD, value: 'Test 1234' },
-      ];
-      component.activeDimension = FilterDimension.BOARD;
-
-      const result = component.getDimensionName();
-
-      expect(result).toEqual('Test 1234');
     });
   });
 });

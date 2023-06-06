@@ -1,4 +1,3 @@
-import { SeriesOption } from 'echarts';
 import moment from 'moment';
 
 import { FilterState } from '../../../core/store/reducers/filter/filter.reducer';
@@ -11,19 +10,37 @@ import {
   EmployeeWithAction,
   FilterDimension,
   FilterKey,
+  TimePeriod,
 } from '../../../shared/models';
-import { FluctuationKpi, LeavingType, OpenApplication } from '../../models';
+import {
+  FluctuationKpi,
+  FluctuationRate,
+  LeavingType,
+  OpenApplication,
+  OverviewWorkforceBalanceMeta,
+} from '../../models';
 import { initialState, OverviewState } from '..';
 import {
   getAttritionOverTimeEmployeesData,
   getAttritionOverTimeEmployeesLoading,
   getAttritionOverTimeOverviewData,
+  getBenchmarkFluctuationKpi,
+  getBenchmarkFluctuationRates,
+  getBenchmarkFluctuationRatesChart,
+  getBenchmarkFluctuationRatesForChart,
+  getBenchmarkUnforcedFluctuationRatesForChart,
+  getDimensionFluctuationKpi,
+  getDimensionFluctuationRates,
+  getDimensionFluctuationRatesChart,
+  getDimensionFluctuationRatesForChart,
+  getDimensionUnforcedFluctuationRatesForChart,
   getExternalEntryCount,
   getExternalExitCount,
-  getFluctuationRatesForChart,
   getInternalEntryCount,
   getInternalExitCount,
   getIsLoadingAttritionOverTimeOverview,
+  getIsLoadingBenchmarkFluctuationRates,
+  getIsLoadingDimensionFluctuationRates,
   getIsLoadingDoughnutsConfig,
   getIsLoadingFluctuationRatesForChart,
   getIsLoadingOpenApplications,
@@ -41,13 +58,10 @@ import {
   getOverviewFluctuationEntriesDoughnutConfig,
   getOverviewFluctuationExitsCount,
   getOverviewFluctuationExitsDoughnutConfig,
-  getOverviewFluctuationKpi,
-  getOverviewFluctuationRates,
   getOverviewFluctuationTotalEmployeesCount,
-  getOverviewUnforcedFluctuationKpi,
   getResignedEmployees,
   getResignedEmployeesCount,
-  getUnforcedFluctuationRatesForChart,
+  getWorkforceBalanceMeta,
 } from './overview.selector';
 
 describe('Overview Selector', () => {
@@ -141,39 +155,55 @@ describe('Overview Selector', () => {
         loading: true,
         errorMessage: undefined,
       },
-      entriesExitsMeta: {
-        data: {
-          fluctuationRate: {
-            global: 0.041,
-            dimension: 0.023,
-          },
-          unforcedFluctuationRate: {
-            global: 0.081,
-            dimension: 0.065,
-          },
-          totalEmployeesCount: 20,
-          internalExitCount: 5,
-          externalExitCount: 3,
-          externalUnforcedExitCount: 0,
-          internalEntryCount: 2,
-          externalEntryCount: 5,
-        },
-        loading: true,
-        errorMessage: undefined,
-      },
       fluctuationRates: {
-        data: {
-          unforcedFluctuationRates: [
-            { global: 0.02, dimension: 0.013 },
-            { global: 0.04, dimension: 0.03 },
-          ],
-          fluctuationRates: [
-            { global: 0.025, dimension: 0.018 },
-            { global: 0.035, dimension: 0.014 },
-          ],
+        dimension: {
+          data: {
+            fluctuationRate: 0.023,
+            unforcedFluctuationRate: 0.065,
+          },
+          loading: false,
+          errorMessage: undefined,
         },
-        errorMessage: undefined,
-        loading: false,
+        benchmark: {
+          data: {
+            fluctuationRate: 0.041,
+            unforcedFluctuationRate: 0.081,
+          },
+          loading: true,
+          errorMessage: undefined,
+        },
+      },
+      workforceBalanceMeta: {
+        dimension: {
+          data: {
+            totalEmployeesCount: 20,
+            internalExitCount: 5,
+            externalExitCount: 3,
+            externalUnforcedExitCount: 0,
+            internalEntryCount: 2,
+            externalEntryCount: 5,
+          },
+          loading: true,
+          errorMessage: undefined,
+        },
+      },
+      fluctuationRatesChart: {
+        dimension: {
+          data: {
+            fluctuationRates: [0.018, 0.014],
+            unforcedFluctuationRates: [0.013, 0.03],
+          },
+          loading: false,
+          errorMessage: undefined,
+        },
+        benchmark: {
+          data: {
+            fluctuationRates: [0.025, 0.035],
+            unforcedFluctuationRates: [0.02, 0.04],
+          },
+          loading: false,
+          errorMessage: undefined,
+        },
       },
       resignedEmployees: {
         data: {
@@ -215,13 +245,45 @@ describe('Overview Selector', () => {
           },
         },
       },
+      benchmarkFilters: {
+        ids: [FilterDimension.ORG_UNIT, FilterKey.TIME_RANGE],
+        entities: {
+          [FilterDimension.ORG_UNIT]: {
+            name: FilterDimension.ORG_UNIT,
+            idValue: {
+              id: 'Schaeffler',
+              value: 'Schaeffler',
+            },
+          },
+          [FilterKey.TIME_RANGE]: {
+            name: FilterKey.TIME_RANGE,
+            idValue: {
+              id: '1577863715|1609399715',
+              value: '01.01.2020 - 31.12.2020',
+            },
+          },
+        },
+      },
       selectedDimension: FilterDimension.ORG_UNIT,
+      benchmarkDimension: FilterDimension.ORG_UNIT,
     } as unknown as FilterState,
   };
 
   describe('getIsLoadingAttritionOverTimeOverview', () => {
     it('should return loading status', () => {
       expect(getIsLoadingAttritionOverTimeOverview(fakeState)).toBeTruthy();
+    });
+  });
+
+  describe('getIsLoadingDimensionFluctuationRates', () => {
+    it('should return loading status', () => {
+      expect(getIsLoadingDimensionFluctuationRates(fakeState)).toBeFalsy();
+    });
+  });
+
+  describe('getIsLoadingBenchmarkFluctuationRates', () => {
+    it('should return loading status', () => {
+      expect(getIsLoadingBenchmarkFluctuationRates(fakeState)).toBeTruthy();
     });
   });
 
@@ -250,23 +312,20 @@ describe('Overview Selector', () => {
     });
   });
 
-  describe('getOverviewFluctuationRates', () => {
+  describe('getDimensionFluctuationRates', () => {
     it('should return actual fluctuation data', () => {
-      expect(getOverviewFluctuationRates(fakeState)).toEqual({
-        fluctuationRate: {
-          global: 0.041,
-          dimension: 0.023,
-        },
-        unforcedFluctuationRate: {
-          global: 0.081,
-          dimension: 0.065,
-        },
-        totalEmployeesCount: 20,
-        internalExitCount: 5,
-        externalExitCount: 3,
-        externalUnforcedExitCount: 0,
-        internalEntryCount: 2,
-        externalEntryCount: 5,
+      expect(getDimensionFluctuationRates(fakeState)).toEqual({
+        fluctuationRate: 0.023,
+        unforcedFluctuationRate: 0.065,
+      });
+    });
+  });
+
+  describe('getBenchmarkFluctuationRates', () => {
+    it('should return actual benchmark fluctuation data', () => {
+      expect(getBenchmarkFluctuationRates(fakeState)).toEqual({
+        fluctuationRate: 0.041,
+        unforcedFluctuationRate: 0.081,
       });
     });
   });
@@ -317,7 +376,10 @@ describe('Overview Selector', () => {
     it('should return total headcount', () => {
       expect(
         getOverviewFluctuationTotalEmployeesCount.projector(fakeState.overview)
-      ).toEqual(fakeState.overview.entriesExitsMeta.data.totalEmployeesCount);
+      ).toEqual(
+        fakeState.overview.workforceBalanceMeta.dimension.data
+          .totalEmployeesCount
+      );
     });
   });
   describe('getOverviewFluctuationExitsCount', () => {
@@ -384,27 +446,70 @@ describe('Overview Selector', () => {
     });
   });
 
-  describe('getFluctuationRatesForChart', () => {
-    it('should return config for chart', () => {
-      const result = getFluctuationRatesForChart(fakeState);
-      const series = result.series as SeriesOption[];
-      expect(series.length).toEqual(2);
-      expect(series[0].name).toEqual('Schaeffler');
-      expect(series[0].data).toEqual([2.5, 3.5]);
-      expect(series[1].name).toEqual('Schaeffler_IT');
-      expect(series[1].data).toEqual([1.8, 1.4]);
+  describe('getWorkforceBalanceMeta', () => {
+    it('should return dimension workforce balance meta', () => {
+      const expected = {
+        totalEmployeesCount: 20,
+        internalExitCount: 5,
+        externalExitCount: 3,
+        externalUnforcedExitCount: 0,
+        internalEntryCount: 2,
+        externalEntryCount: 5,
+      };
+
+      expect(getWorkforceBalanceMeta.projector(fakeState.overview)).toEqual(
+        expected
+      );
     });
   });
 
-  describe('getUnforcedFluctuationRatesForChart', () => {
+  describe('getDimensionFluctuationRatesChart', () => {
+    test('should return chart fluctuation rates for dimension', () => {
+      const result = getDimensionFluctuationRatesChart(fakeState);
+
+      expect(result.fluctuationRates).toEqual([0.018, 0.014]);
+      expect(result.unforcedFluctuationRates).toEqual([0.013, 0.03]);
+    });
+  });
+
+  describe('getDimensionFluctuationRatesForChart', () => {
     it('should return config for chart', () => {
-      const result = getUnforcedFluctuationRatesForChart(fakeState);
-      const series = result.series as SeriesOption[];
-      expect(series.length).toEqual(2);
-      expect(series[0].name).toEqual('Schaeffler');
-      expect(series[0].data).toEqual([2, 4]);
-      expect(series[1].name).toEqual('Schaeffler_IT');
-      expect(series[1].data).toEqual([1.3, 3]);
+      const result = getDimensionFluctuationRatesForChart(fakeState);
+      expect(result.name).toEqual('Schaeffler_IT');
+      expect(result.data).toEqual([1.8, 1.4]);
+    });
+  });
+
+  describe('getDimensionUnforcedFluctuationRatesForChart', () => {
+    it('should return config for chart', () => {
+      const result = getDimensionUnforcedFluctuationRatesForChart(fakeState);
+      expect(result.name).toEqual('Schaeffler_IT');
+      expect(result.data).toEqual([1.3, 3]);
+    });
+  });
+
+  describe('getBenchmarkFluctuationRatesChart', () => {
+    test('should return chart fluctuation rates for benchmark', () => {
+      const result = getBenchmarkFluctuationRatesChart(fakeState);
+
+      expect(result.fluctuationRates).toEqual([0.025, 0.035]);
+      expect(result.unforcedFluctuationRates).toEqual([0.02, 0.04]);
+    });
+  });
+
+  describe('getBenchmarkFluctuationRatesForChart', () => {
+    it('should return config for chart', () => {
+      const result = getBenchmarkFluctuationRatesForChart(fakeState);
+      expect(result.name).toEqual('Schaeffler');
+      expect(result.data).toEqual([2.5, 3.5]);
+    });
+  });
+
+  describe('getBenchmarkUnforcedFluctuationRatesForChart', () => {
+    it('should return config for chart', () => {
+      const result = getBenchmarkUnforcedFluctuationRatesForChart(fakeState);
+      expect(result.name).toEqual('Schaeffler');
+      expect(result.data).toEqual([2, 4]);
     });
   });
 
@@ -414,24 +519,69 @@ describe('Overview Selector', () => {
     });
   });
 
-  describe('getOverviewFluctuationKpi', () => {
+  describe('getBenchmarkFluctuationKpi', () => {
     it('should return kpis', () => {
       const expectedResult = {
-        kpiRates: {
-          company: '4.1%',
-          orgUnit: '2.3%',
+        fluctuationRate: '4.1%',
+        unforcedFluctuationRate: '8.1%',
+        name: 'Schaeffler',
+        realEmployeesCount: undefined as number,
+      } as FluctuationKpi;
+      const x = getBenchmarkFluctuationKpi(fakeState);
+      expect(x).toEqual(expectedResult);
+    });
+
+    it('should return undefined when fluctuation rates not ready', () => {
+      const entriesExitsNotReady = {
+        overview: {
+          fluctuationRates: {
+            dimension: {},
+            benchmark: {
+              data: undefined as FluctuationRate,
+            },
+          },
         },
-        orgUnitName: 'Schaeffler_IT',
+        filter: {
+          selectedTimePeriod: TimePeriod.LAST_12_MONTHS,
+          benchmarkFilters: {
+            ids: [FilterDimension.ORG_UNIT],
+            entities: {
+              ORG_UNIT: {
+                name: FilterDimension.ORG_UNIT,
+                value: 'Schaeffler_IT',
+              },
+            },
+          },
+          benchmarkDimension: FilterDimension.ORG_UNIT,
+        } as unknown as FilterState,
+      };
+
+      expect(getBenchmarkFluctuationKpi(entriesExitsNotReady)).toBeUndefined();
+    });
+  });
+
+  describe('getDimensionFluctuationKpi', () => {
+    it('should return kpis', () => {
+      const expectedResult = {
+        fluctuationRate: '2.3%',
+        unforcedFluctuationRate: '6.5%',
+        name: 'Schaeffler_IT',
         realEmployeesCount: 3,
       } as FluctuationKpi;
-      const x = getOverviewFluctuationKpi(fakeState);
+      const x = getDimensionFluctuationKpi(fakeState);
       expect(x).toEqual(expectedResult);
     });
 
     it('should return undefined when fluctuation rates not ready', () => {
       const entriesExitsNotReady = {
         overview: {
-          entriesExits: {},
+          fluctuationRates: {
+            dimension: {},
+            benchmark: {},
+          },
+          workforceBalanceMeta: {
+            dimension: {},
+          },
         },
         filter: {
           selectedTimeRange: '1577863715000|1609399715000', // 01.01.2020 - 31.12.2020
@@ -448,28 +598,19 @@ describe('Overview Selector', () => {
         } as unknown as FilterState,
       };
 
-      expect(getOverviewFluctuationKpi(entriesExitsNotReady)).toBeUndefined();
-    });
-  });
-
-  describe('getOverviewUnforcedFluctuationKpi', () => {
-    it('should return kpis', () => {
-      const expectedResult = {
-        kpiRates: {
-          company: '8.1%',
-          orgUnit: '6.5%',
-        },
-        orgUnitName: 'Schaeffler_IT',
-        realEmployeesCount: 0,
-      } as FluctuationKpi;
-      const x = getOverviewUnforcedFluctuationKpi(fakeState);
-      expect(x).toEqual(expectedResult);
+      expect(getDimensionFluctuationKpi(entriesExitsNotReady)).toBeUndefined();
     });
 
-    it('should return undefined when fluctuation rates not ready', () => {
+    it('should return undefined when filter not ready', () => {
       const entriesExitsNotReady = {
         overview: {
-          entriesExits: {},
+          fluctuationRates: {
+            dimension: {},
+            benchmark: {},
+          },
+          workforceBalanceMeta: {
+            dimension: {},
+          },
         },
         filter: {
           selectedTimeRange: '1577863715000|1609399715000', // 01.01.2020 - 31.12.2020
@@ -482,20 +623,43 @@ describe('Overview Selector', () => {
               },
             },
           },
-          selectedDimension: FilterDimension.ORG_UNIT,
+          selectedDimension: FilterDimension.COUNTRY,
         } as unknown as FilterState,
       };
 
-      expect(
-        getOverviewUnforcedFluctuationKpi(entriesExitsNotReady)
-      ).toBeUndefined();
+      expect(getDimensionFluctuationKpi(entriesExitsNotReady)).toBeUndefined();
     });
-  });
 
-  it('should return undefined when filter not ready', () => {
-    const entriesExitsNotReady = getStateForFluctuationKpiTesting();
+    it('should return undefined when workforce balance meta not ready', () => {
+      const entriesExitsNotReady = {
+        overview: {
+          fluctuationRates: {
+            dimension: {},
+            benchmark: {},
+          },
+          workforceBalanceMeta: {
+            dimension: {
+              data: undefined as OverviewWorkforceBalanceMeta,
+            },
+          },
+        },
+        filter: {
+          selectedTimeRange: '1577863715000|1609399715000', // 01.01.2020 - 31.12.2020
+          selectedFilters: {
+            ids: [FilterDimension.ORG_UNIT],
+            entities: {
+              ORG_UNIT: {
+                name: FilterDimension.ORG_UNIT,
+                value: 'Schaeffler_IT',
+              },
+            },
+          },
+          selectedDimension: FilterDimension.COUNTRY,
+        } as unknown as FilterState,
+      };
 
-    expect(getOverviewFluctuationKpi(entriesExitsNotReady)).toBeUndefined();
+      expect(getDimensionFluctuationKpi(entriesExitsNotReady)).toBeUndefined();
+    });
   });
 
   describe('getIsLoadingResignedEmployees', () => {
@@ -559,7 +723,7 @@ describe('Overview Selector', () => {
       const count = getInternalExitCount.projector(fakeState.overview);
 
       expect(count).toEqual(
-        fakeState.overview.entriesExitsMeta.data.internalExitCount
+        fakeState.overview.workforceBalanceMeta.dimension.data.internalExitCount
       );
     });
   });
@@ -569,7 +733,7 @@ describe('Overview Selector', () => {
       const count = getExternalExitCount.projector(fakeState.overview);
 
       expect(count).toEqual(
-        fakeState.overview.entriesExitsMeta.data.externalExitCount
+        fakeState.overview.workforceBalanceMeta.dimension.data.externalExitCount
       );
     });
   });
@@ -579,7 +743,8 @@ describe('Overview Selector', () => {
       const count = getInternalEntryCount.projector(fakeState.overview);
 
       expect(count).toEqual(
-        fakeState.overview.entriesExitsMeta.data.internalEntryCount
+        fakeState.overview.workforceBalanceMeta.dimension.data
+          .internalEntryCount
       );
     });
   });
@@ -589,38 +754,12 @@ describe('Overview Selector', () => {
       const count = getExternalEntryCount.projector(fakeState.overview);
 
       expect(count).toEqual(
-        fakeState.overview.entriesExitsMeta.data.externalEntryCount
+        fakeState.overview.workforceBalanceMeta.dimension.data
+          .externalEntryCount
       );
     });
   });
 });
-
-function getStateForFluctuationKpiTesting() {
-  return {
-    overview: {
-      entriesExits: {
-        fluctuationRate: {
-          company: 0.041,
-          orgUnit: 0.023,
-        },
-        unforcedFluctuationRate: {
-          company: 0.041,
-          orgUnit: 0.023,
-        },
-      },
-    },
-    filter: {
-      selectedTimeRange: '1577863715000|1609399715000',
-      selectedFilters: {
-        ids: [FilterDimension.ORG_UNIT],
-        entities: {
-          ORG_UNIT: { name: FilterDimension.ORG_UNIT, value: 'Schaeffler_IT' },
-        },
-      },
-      selectedDimension: FilterDimension.ORG_UNIT,
-    } as unknown as FilterState,
-  };
-}
 
 function createExternalEntryEmployee(
   name: string,

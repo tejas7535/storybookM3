@@ -18,6 +18,11 @@
         "SEGMENT_UNIT": "Segment Unit"
       }
     },
+    "benchmark": {
+      "title": "Select a benchmark",
+      "dimension": "Benchmark dimension",
+      "hint": "Select a benchmark dimension"
+    },
     "dimensionIdValue": {
       "title": "Select {{dimension}}",
       "dimensionIdValueHint": "Select {{dimension}}",
@@ -39,7 +44,7 @@
       "timeRangePlaceholderEnd": "End date"
     },
     "invalidInputDropdownHint": "Please select a valid {{dimensionName}} from the dropdown",
-    "invalidInputTooShortHint": "Please type at least two characters to trigger autocomplete for {{dimensionName}}",
+    "invalidInputTooShortHint": "Please type at least 2 characters to search for {{dimensionName}}",
     "globalFilters": "Global Filters",
     "noFiltersSelected": "~no filters selected~"
   },
