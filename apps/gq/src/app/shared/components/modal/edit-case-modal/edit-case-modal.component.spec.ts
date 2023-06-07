@@ -15,6 +15,7 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
 import { of } from 'rxjs';
 
+import { CurrencyFacade } from '@gq/core/store/currency/currency.facade';
 import { AutoCompleteFacade } from '@gq/core/store/facades';
 import { getSalesOrgs } from '@gq/core/store/selectors';
 import { Spectator } from '@ngneat/spectator';
@@ -93,6 +94,12 @@ describe('EditCaseModalComponent', () => {
             filter: FilterNames.CUSTOMER_AND_SHIP_TO_PARTY,
             items: [],
           }),
+        },
+      },
+      {
+        provide: CurrencyFacade,
+        useValue: {
+          availableCurrencies$: of([]),
         },
       },
     ],

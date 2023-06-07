@@ -1,5 +1,4 @@
 export * from './create-case/create-case.actions';
-export * from './currency/currency.actions';
 export * from './extended-comparable-linked-transactions/extended-comparable-linked-transactions.actions';
 export * from './health-check/health-check.actions';
 export * from './material-comparable-costs/material-comparable-costs.actions';

@@ -11,6 +11,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
 
 import { ApprovalModule } from '@gq/core/store/approval/approval.module';
+import { CurrencyModule } from '@gq/core/store/currency/currency.module';
 import { ProcessCaseModule } from '@gq/core/store/process-case';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { ExportExcelModalModule } from '@gq/shared/components/modal/export-excel-modal/export-excel-modal.module';
@@ -55,6 +56,7 @@ import { CalculationInProgressComponent } from './tabs/single-quotes-tab/calcula
     SharedPipesModule,
     ProcessCaseModule,
     ApprovalModule,
+    CurrencyModule,
     AddMaterialDialogModule,
     LoadingSpinnerModule,
     PushModule,

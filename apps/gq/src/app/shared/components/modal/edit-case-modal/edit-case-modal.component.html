@@ -34,7 +34,9 @@
               data-cy="edit-case-modal_custom-currency-input"
             >
               <mat-option
-                *ngFor="let currency of currencies$ | ngrxPush"
+                *ngFor="
+                  let currency of currencyFacade.availableCurrencies$ | ngrxPush
+                "
                 [value]="currency"
                 >{{ currency }}</mat-option
               >

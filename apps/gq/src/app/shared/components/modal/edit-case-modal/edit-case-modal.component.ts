@@ -17,24 +17,17 @@ import {
 import { DateAdapter } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
-import {
-  debounce,
-  EMPTY,
-  Observable,
-  Subject,
-  takeUntil,
-  tap,
-  timer,
-} from 'rxjs';
+import { debounce, EMPTY, Subject, takeUntil, tap, timer } from 'rxjs';
 
 import {
   clearCreateCaseRowData,
   clearCustomer,
   resetAllAutocompleteOptions,
 } from '@gq/core/store/actions';
+import { CurrencyFacade } from '@gq/core/store/currency/currency.facade';
 import { AutoCompleteFacade } from '@gq/core/store/facades';
 import { SalesOrg } from '@gq/core/store/reducers/models';
-import { getAvailableCurrencies, getSalesOrgs } from '@gq/core/store/selectors';
+import { getSalesOrgs } from '@gq/core/store/selectors';
 import { IdValue } from '@gq/shared/models/search';
 import { ShipToParty } from '@gq/shared/services/rest/quotation/models/ship-to-party';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
@@ -61,7 +54,6 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
   public salesOrg: string;
   public filterName = FilterNames.CUSTOMER_AND_SHIP_TO_PARTY;
 
-  currencies$: Observable<string[]>;
   unsubscribe$$: Subject<boolean> = new Subject<boolean>();
 
   private readonly now: Date = new Date(Date.now());
@@ -85,7 +77,8 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
     private readonly store: Store,
     private readonly adapter: DateAdapter<any>,
     private readonly translocoLocaleService: TranslocoLocaleService,
-    public readonly autocomplete: AutoCompleteFacade
+    readonly autocomplete: AutoCompleteFacade,
+    readonly currencyFacade: CurrencyFacade
   ) {}
 
   ngOnInit(): void {
@@ -96,8 +89,6 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
     const locale = this.translocoLocaleService.getLocale();
 
     this.adapter.setLocale(locale || 'en-US');
-
-    this.currencies$ = this.store.select(getAvailableCurrencies);
 
     this.salesOrg = this.modalData.salesOrg;
     this.caseModalForm = new FormGroup({

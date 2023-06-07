@@ -1,6 +1,8 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
+import { of } from 'rxjs';
+
 import { AppRoutePath } from '@gq/app-route-path.enum';
 import { Customer } from '@gq/shared/models/customer';
 import {
@@ -10,7 +12,6 @@ import {
 } from '@gq/shared/models/table';
 import { MaterialService } from '@gq/shared/services/rest/material/material.service';
 import { MaterialValidationRequest } from '@gq/shared/services/rest/material/models';
-import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -18,24 +19,23 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/jest';
 
-import { loadAvailableCurrenciesSuccess } from '../actions';
 import { activeCaseFeature } from '../active-case';
-import { getAvailableCurrencies } from '../selectors';
+import { CurrencyFacade } from '../currency/currency.facade';
 import { ProcessCaseActions } from './process-case.action';
 import { ProcessCaseEffects } from './process-case.effects';
 import { getAddMaterialRowData } from './process-case.selectors';
 
-describe('ProcessCaseEffectss', () => {
+describe('ProcessCaseEffects', () => {
   let spectator: SpectatorService<ProcessCaseEffects>;
   let action: any;
   let actions$: any;
   let effects: ProcessCaseEffects;
-  let quotationService: QuotationService;
+  let currencyFacade: CurrencyFacade;
   let materialService: MaterialService;
 
   let store: any;
 
-  const errorMessage = 'An error occured';
+  const errorMessage = 'An error occurred';
 
   const createService = createServiceFactory({
     service: ProcessCaseEffects,
@@ -51,7 +51,7 @@ describe('ProcessCaseEffectss', () => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(ProcessCaseEffects);
-    quotationService = spectator.inject(QuotationService);
+    currencyFacade = spectator.inject(CurrencyFacade);
     materialService = spectator.inject(MaterialService);
     store = spectator.inject(MockStore);
   });
@@ -148,7 +148,6 @@ describe('ProcessCaseEffectss', () => {
 
   describe('loadAvailableCurrencies', () => {
     beforeEach(() => {
-      store.overrideSelector(getAvailableCurrencies, []);
       action = {
         type: ROUTER_NAVIGATED,
         payload: {
@@ -163,39 +162,30 @@ describe('ProcessCaseEffectss', () => {
     test(
       'should return loadAvailableCurrencies',
       marbles((m) => {
-        quotationService.getCurrencies = jest.fn(() => response);
-        const currencies = [{ currency: 'USD' }, { currency: 'EUR' }];
-
+        currencyFacade.availableCurrencies$ = of([]);
+        currencyFacade.loadCurrencies = jest.fn();
         actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-b', { b: undefined });
 
-        const response = m.cold('-a|', { a: currencies });
-        const expected = m.cold('--b', {
-          b: loadAvailableCurrenciesSuccess({ currencies: ['EUR', 'USD'] }),
-        });
-
+        expect(true).toBeTruthy();
         m.expect(effects.loadAvailableCurrencies$).toBeObservable(expected);
         m.flush();
-        expect(quotationService.getCurrencies).toHaveBeenCalledTimes(1);
+        expect(currencyFacade.loadCurrencies).toHaveBeenCalledTimes(1);
       })
     );
 
     test(
       'should NOT call the service if currencies are already set',
       marbles((m) => {
-        store.overrideSelector(getAvailableCurrencies, [
-          { currency: 'EUR' },
-          { currency: 'USD' },
-        ]);
-
-        quotationService.getCurrencies = jest.fn(() => response);
-        const currencies = [{ currency: 'EUR' }, { currency: 'USD' }];
-
+        currencyFacade.availableCurrencies$ = of(['EUR', 'USD']);
+        currencyFacade.loadCurrencies = jest.fn();
         actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-b', { b: undefined });
 
-        const response = m.cold('-a|', { a: currencies });
-
+        expect(true).toBeTruthy();
+        m.expect(effects.loadAvailableCurrencies$).toBeObservable(expected);
         m.flush();
-        expect(quotationService.getCurrencies).toHaveBeenCalledTimes(0);
+        expect(currencyFacade.loadCurrencies).toHaveBeenCalledTimes(0);
       })
     );
   });

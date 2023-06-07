@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { of } from 'rxjs';
-import { catchError, filter, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 
 import { AppRoutePath } from '@gq/app-route-path.enum';
 import { Customer } from '@gq/shared/models/customer';
@@ -11,17 +11,12 @@ import {
   MaterialValidationRequest,
   MaterialValidationResponse,
 } from '@gq/shared/services/rest/material/models';
-import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
-import { ROUTER_NAVIGATED } from '@ngrx/router-store';
+import { ROUTER_NAVIGATED, RouterNavigatedAction } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 
-import {
-  loadAvailableCurrenciesFailure,
-  loadAvailableCurrenciesSuccess,
-} from '../actions';
 import { activeCaseFeature } from '../active-case';
-import { getAvailableCurrencies } from '../selectors';
+import { CurrencyFacade } from '../currency/currency.facade';
 import { ProcessCaseActions } from './process-case.action';
 import { getAddMaterialRowData } from './process-case.selectors';
 
@@ -76,39 +71,30 @@ export class ProcessCaseEffects {
     );
   });
 
-  loadAvailableCurrencies$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(ROUTER_NAVIGATED),
-      map((action: any) => action.payload.routerState),
-      concatLatestFrom(() => this.store.select(getAvailableCurrencies)),
-      filter(
-        ([routerState, availableCurrencies]) =>
-          routerState.url.includes(AppRoutePath.ProcessCaseViewPath) &&
-          availableCurrencies?.length === 0
-      ),
-      mergeMap(() =>
-        this.quotationService.getCurrencies().pipe(
-          map((currencies: { currency: string }[]) => {
-            const currencyNames = currencies.map(
-              (currency: { currency: string }) => currency.currency
-            );
-
-            return loadAvailableCurrenciesSuccess({
-              currencies: currencyNames.sort((a, b) => a.localeCompare(b)),
-            });
-          }),
-          catchError((errorMessage) => {
-            return of(loadAvailableCurrenciesFailure(errorMessage));
-          })
-        )
-      )
-    );
-  });
+  loadAvailableCurrencies$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(ROUTER_NAVIGATED),
+        concatLatestFrom(() => this.currencyFacade.availableCurrencies$),
+        map(([action, currencies]: [RouterNavigatedAction, string[]]) => {
+          if (
+            action.payload.routerState.url.includes(
+              AppRoutePath.ProcessCaseViewPath
+            ) &&
+            currencies?.length === 0
+          ) {
+            this.currencyFacade.loadCurrencies();
+          }
+        })
+      );
+    },
+    { dispatch: false }
+  );
 
   constructor(
     private readonly actions$: Actions,
-    private readonly quotationService: QuotationService,
     private readonly store: Store,
-    private readonly materialService: MaterialService
+    private readonly materialService: MaterialService,
+    private readonly currencyFacade: CurrencyFacade
   ) {}
 }
