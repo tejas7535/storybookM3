@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { updateCaseStatus } from '@gq/core/store/actions';
+import { OverviewCasesFacade } from '@gq/core/store/overview-cases/overview-cases.facade';
 import { translate } from '@ngneat/transloco';
-import { Store } from '@ngrx/store';
 
 import { ConfirmationModalComponent } from '../../../components/modal/confirmation-modal/confirmation-modal.component';
 import { ConfirmationModalData } from '../../../components/modal/confirmation-modal/models/confirmation-modal-data.model';
@@ -29,8 +28,8 @@ export class UpdateCaseStatusButtonComponent {
   private params: ExtendedStatusPanelComponentParams;
 
   constructor(
-    private readonly store: Store,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly overviewCasesFacade: OverviewCasesFacade
   ) {}
 
   agInit(params: ExtendedStatusPanelComponentParams): void {
@@ -118,8 +117,9 @@ export class UpdateCaseStatusButtonComponent {
    * @param gqIds list of gqIds
    */
   private update(gqIds: number[]) {
-    this.store.dispatch(
-      updateCaseStatus({ gqIds, status: this.params.quotationStatus })
+    this.overviewCasesFacade.updateCasesStatus(
+      gqIds,
+      this.params.quotationStatus
     );
   }
 }

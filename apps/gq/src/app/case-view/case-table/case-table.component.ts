@@ -3,9 +3,18 @@ import { Router } from '@angular/router';
 
 import { Observable, take } from 'rxjs';
 
-import { deselectCase, selectCase } from '@gq/core/store/actions';
-import { getSelectedCaseIds } from '@gq/core/store/selectors';
-import { Store } from '@ngrx/store';
+import { OverviewCasesFacade } from '@gq/core/store/overview-cases/overview-cases.facade';
+import { CaseTableColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
+import { AgGridLocale } from '@gq/shared/ag-grid/models/ag-grid-locale.interface';
+import { AgStatusBar } from '@gq/shared/ag-grid/models/ag-status-bar.model';
+import { ColumnUtilityService } from '@gq/shared/ag-grid/services/column-utility.service';
+import { LocalizationService } from '@gq/shared/ag-grid/services/localization.service';
+import {
+  basicTableStyle,
+  disableTableHorizontalScrollbar,
+  statusBarStlye,
+} from '@gq/shared/constants';
+import { QuotationStatus, ViewQuotation } from '@gq/shared/models/quotation';
 import {
   ColDef,
   GetContextMenuItemsParams,
@@ -17,17 +26,6 @@ import {
 } from 'ag-grid-community';
 
 import { AppRoutePath } from '../../app-route-path.enum';
-import { CaseTableColumnFields } from '../../shared/ag-grid/constants/column-fields.enum';
-import { AgGridLocale } from '../../shared/ag-grid/models/ag-grid-locale.interface';
-import { AgStatusBar } from '../../shared/ag-grid/models/ag-status-bar.model';
-import { ColumnUtilityService } from '../../shared/ag-grid/services/column-utility.service';
-import { LocalizationService } from '../../shared/ag-grid/services/localization.service';
-import {
-  basicTableStyle,
-  disableTableHorizontalScrollbar,
-  statusBarStlye,
-} from '../../shared/constants';
-import { QuotationStatus, ViewQuotation } from '../../shared/models/quotation';
 import { COMPONENTS, DEFAULT_COLUMN_DEFS } from './config';
 import { ColumnDefService } from './config/column-def.service';
 @Component({
@@ -40,8 +38,8 @@ export class CaseTableComponent implements OnInit {
     private readonly columnDefService: ColumnDefService,
     private readonly columnUtilityService: ColumnUtilityService,
     private readonly localizationService: LocalizationService,
-    private readonly store: Store,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly overviewCasesFacade: OverviewCasesFacade
   ) {}
 
   public defaultColumnDefs = DEFAULT_COLUMN_DEFS;
@@ -56,12 +54,9 @@ export class CaseTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.localeText$ = this.localizationService.locale$;
-    this.store
-      .select(getSelectedCaseIds)
+    this.overviewCasesFacade.selectedIds$
       .pipe(take(1))
-      .subscribe((val) => {
-        this.selectedRows = val;
-      });
+      .subscribe((val) => (this.selectedRows = val));
     this.columnDefs = this.columnDefService.COLUMN_DEFS.filter((colDef) =>
       this.columnUtilityService.filterQuotationStatusColumns(
         colDef,
@@ -85,9 +80,9 @@ export class CaseTableComponent implements OnInit {
 
   onRowSelected(event: RowSelectedEvent): void {
     if (event.node.isSelected()) {
-      this.store.dispatch(selectCase({ gqId: event.node.data.gqId }));
+      this.overviewCasesFacade.selectCase(event.node.data.gqId);
     } else {
-      this.store.dispatch(deselectCase({ gqId: event.node.data.gqId }));
+      this.overviewCasesFacade.deselectCase(event.node.data.gqId);
     }
   }
 

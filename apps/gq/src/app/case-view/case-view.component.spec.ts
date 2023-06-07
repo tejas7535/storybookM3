@@ -1,64 +1,37 @@
-import { MatCardModule } from '@angular/material/card';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { RouterTestingModule } from '@angular/router/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-import { loadCasesForView } from '@gq/core/store/actions';
-import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
-import {
-  getDeleteLoading,
-  getQuotations,
-  getStatusBarForQuotationStatus,
-  getViewToggles,
-} from '@gq/core/store/selectors';
+import { of } from 'rxjs';
+
+import { OverviewCasesFacade } from '@gq/core/store/overview-cases/overview-cases.facade';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { AgGridModule } from 'ag-grid-angular';
+import { provideMockStore } from '@ngrx/store/testing';
+import { MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
-import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
-import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
-import { ViewToggleModule } from '@schaeffler/view-toggle';
 
-import { VIEW_CASE_STATE_MOCK } from '../../testing/mocks';
-import { CustomStatusBarModule } from '../shared/ag-grid/custom-status-bar/custom-status-bar.module';
-import { CaseTableModule } from './case-table/case-table.module';
 import { CaseViewComponent } from './case-view.component';
 
 describe('CaseViewComponent', () => {
   let component: CaseViewComponent;
   let spectator: Spectator<CaseViewComponent>;
-  let store: MockStore;
 
   const createComponent = createComponentFactory({
     component: CaseViewComponent,
-    imports: [
-      AgGridModule,
-      CaseTableModule,
-      CustomStatusBarModule,
-      provideTranslocoTestingModule({ en: {} }),
-      LoadingSpinnerModule,
-      PushModule,
-      MatCardModule,
-      ViewToggleModule,
-      SubheaderModule,
-      RouterTestingModule,
-    ],
+    imports: [provideTranslocoTestingModule({ en: {} }), PushModule],
     providers: [
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
-      provideMockStore({
-        initialState: {
-          viewCases: { ...VIEW_CASE_STATE_MOCK, quotationsLoading: true },
-        },
+      provideMockStore(),
+      MockProvider(OverviewCasesFacade, {
+        viewToggles$: of([]),
       }),
     ],
-    declarations: [CaseViewComponent],
+
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {
     spectator = createComponent();
-    store = spectator.inject(MockStore);
     component = spectator.debugElement.componentInstance;
   });
 
@@ -67,65 +40,20 @@ describe('CaseViewComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    beforeAll(() => {});
-
     test(
       'should set caseViews$',
       marbles((m) => {
-        store.overrideSelector(getViewToggles, []);
-
-        component.ngOnInit();
-
-        m.expect(component.caseViews$).toBeObservable(m.cold('a', { a: [] }));
-      })
-    );
-    test(
-      'should set statusBar$',
-      marbles((m) => {
-        store.overrideSelector(getStatusBarForQuotationStatus, {
-          statusPanels: [],
+        const overviewCasesFacadeMock: OverviewCasesFacade = {
+          viewToggles$: of([]),
+        } as unknown as OverviewCasesFacade;
+        Object.defineProperty(component, 'overviewCasesFacade', {
+          value: overviewCasesFacadeMock,
         });
 
         component.ngOnInit();
 
-        m.expect(component.statusBar$).toBeObservable(
-          m.cold('a', { a: { statusPanels: [] } })
-        );
-      })
-    );
-    test(
-      'should set displayedQuotations$',
-      marbles((m) => {
-        store.overrideSelector(getQuotations, []);
-
-        component.ngOnInit();
-
-        m.expect(component.displayedQuotations$).toBeObservable(
-          m.cold('a', { a: [] })
-        );
-      })
-    );
-    test(
-      'should set quotationsLoading$',
-      marbles((m) => {
-        store.overrideSelector(activeCaseFeature.selectQuotationLoading, true);
-
-        component.ngOnInit();
-
-        m.expect(component.quotationsLoading$).toBeObservable(
-          m.cold('a', { a: true })
-        );
-      })
-    );
-    test(
-      'should set deleteLoading$',
-      marbles((m) => {
-        store.overrideSelector(getDeleteLoading, false);
-
-        component.ngOnInit();
-
-        m.expect(component.deleteLoading$).toBeObservable(
-          m.cold('a', { a: false })
+        m.expect(component.caseViews$).toBeObservable(
+          m.cold('(a|)', { a: [] })
         );
       })
     );
@@ -133,19 +61,21 @@ describe('CaseViewComponent', () => {
 
   describe('onViewToggle', () => {
     test('should call setDisplayedQuotations', () => {
-      store.overrideSelector(activeCaseFeature.selectQuotationLoading, false);
-      store.dispatch = jest.fn();
+      const overviewCasesFacadeMock: OverviewCasesFacade = {
+        loadCasesForView: jest.fn(),
+      } as unknown as OverviewCasesFacade;
+      Object.defineProperty(component, 'overviewCasesFacade', {
+        value: overviewCasesFacadeMock,
+      });
 
       component.onViewToggle({
         id: 0,
         title: 'title',
         active: false,
       });
-
-      expect(store.dispatch).toHaveBeenCalledTimes(1);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        loadCasesForView({ view: 0 })
-      );
+      expect(
+        component['overviewCasesFacade'].loadCasesForView
+      ).toHaveBeenCalledWith(0);
     });
   });
 });

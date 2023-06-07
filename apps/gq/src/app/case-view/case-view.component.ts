@@ -2,22 +2,12 @@ import { Component, OnInit } from '@angular/core';
 
 import { map, Observable } from 'rxjs';
 
-import { loadCasesForView } from '@gq/core/store/actions';
-import {
-  getDeleteLoading,
-  getDisplayStatus,
-  getQuotations,
-  getQuotationsLoading,
-  getStatusBarForQuotationStatus,
-  getViewToggles,
-} from '@gq/core/store/selectors';
-import { Store } from '@ngrx/store';
+import { OverviewCasesFacade } from '@gq/core/store/overview-cases/overview-cases.facade';
+import { QuotationStatus } from '@gq/shared/models/quotation';
+import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 
 import { ViewToggle } from '@schaeffler/view-toggle';
 
-import { AgStatusBar } from '../shared/ag-grid/models/ag-status-bar.model';
-import { QuotationStatus, ViewQuotation } from '../shared/models/quotation';
-import { FeatureToggleConfigService } from '../shared/services/feature-toggle/feature-toggle-config.service';
 import { ExtendedViewToggle } from './models/extended-view-toggle';
 
 @Component({
@@ -25,20 +15,15 @@ import { ExtendedViewToggle } from './models/extended-view-toggle';
   templateUrl: './case-view.component.html',
 })
 export class CaseViewComponent implements OnInit {
-  public caseViews$: Observable<ViewToggle[]>;
-  public statusBar$: Observable<AgStatusBar>;
-  public displayedQuotations$: Observable<ViewQuotation[]>;
-  public quotationsLoading$: Observable<boolean>;
-  public deleteLoading$: Observable<boolean>;
-  public displayStatus$: Observable<QuotationStatus>;
+  caseViews$: Observable<ViewToggle[]>;
 
   constructor(
-    private readonly store: Store,
+    readonly overviewCasesFacade: OverviewCasesFacade,
     private readonly featureToggleConfigService: FeatureToggleConfigService
   ) {}
 
   ngOnInit(): void {
-    this.caseViews$ = this.store.select(getViewToggles).pipe(
+    this.caseViews$ = this.overviewCasesFacade.viewToggles$.pipe(
       map((views: ExtendedViewToggle[]) => {
         if (this.featureToggleConfigService.isEnabled('approvalWorkflow')) {
           return views;
@@ -51,14 +36,9 @@ export class CaseViewComponent implements OnInit {
         );
       })
     );
-    this.statusBar$ = this.store.select(getStatusBarForQuotationStatus);
-    this.displayedQuotations$ = this.store.select(getQuotations);
-    this.quotationsLoading$ = this.store.select(getQuotationsLoading);
-    this.deleteLoading$ = this.store.select(getDeleteLoading);
-    this.displayStatus$ = this.store.select(getDisplayStatus);
   }
 
   onViewToggle(view: ViewToggle) {
-    this.store.dispatch(loadCasesForView({ view: view.id }));
+    this.overviewCasesFacade.loadCasesForView(view.id);
   }
 }

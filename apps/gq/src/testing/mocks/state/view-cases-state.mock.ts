@@ -1,7 +1,7 @@
-import { ViewCasesState } from '../../../app/core/store/reducers/view-cases/view-cases.reducer';
-import { QuotationStatus } from '../../../app/shared/models/quotation/quotation-status.enum';
+import { OverviewCasesState } from '@gq/core/store/overview-cases/overview-cases.reducer';
+import { QuotationStatus } from '@gq/shared/models/quotation/quotation-status.enum';
 
-export const VIEW_CASE_STATE_MOCK: ViewCasesState = {
+export const VIEW_CASE_STATE_MOCK: OverviewCasesState = {
   quotationsLoading: false,
   quotations: {
     active: { count: 1, quotations: [] },

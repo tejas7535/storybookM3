@@ -8,4 +8,3 @@ export * from './plant-material-details/plant-material-details.selectors';
 export * from './roles/roles.selector';
 export * from './sap-price-details/sap-price-details.selector';
 export * from './transactions/transactions.selector';
-export * from './view-cases/view-cases.selector';

@@ -19,7 +19,6 @@ import * as fromMaterialStock from './material-stock/material-stock.reducer';
 import * as fromPlantMaterialDetails from './plant-material-details/plant-material-details.reducer';
 import * as fromSapPriceDetails from './sap-price-details/sap-price-details.reducer';
 import * as fromTransactions from './transactions/transactions.reducer';
-import * as fromViewCases from './view-cases/view-cases.reducer';
 
 export interface RouterStateUrl {
   url: string;
@@ -30,7 +29,6 @@ export interface RouterStateUrl {
 export interface AppState {
   router: fromRouter.RouterReducerState<RouterStateUrl>;
   case: fromCase.CreateCaseState;
-  viewCases: fromViewCases.ViewCasesState;
   transactions: fromTransactions.TransactionsState;
   extendedComparableLinkedTransactions: fromExtendedComparableLinkedTransactions.ExtendedComparableLinkedTransactionsState;
   materialComparableCosts: fromMaterialComparableCosts.MaterialComparableCostsState;
@@ -44,7 +42,6 @@ export interface AppState {
 export const reducers: ActionReducerMap<AppState> = {
   router: fromRouter.routerReducer,
   case: fromCase.createCaseReducer,
-  viewCases: fromViewCases.viewCasesReducer,
   transactions: fromTransactions.transactionsReducer,
   extendedComparableLinkedTransactions:
     fromExtendedComparableLinkedTransactions.extendedComparableLinkedTransactionsReducer,
@@ -69,9 +66,6 @@ export const getRouterState =
 
 export const getCaseState =
   createFeatureSelector<fromCase.CreateCaseState>('case');
-
-export const getViewCasesState =
-  createFeatureSelector<fromViewCases.ViewCasesState>('viewCases');
 export const getTransactionsState =
   createFeatureSelector<fromTransactions.TransactionsState>('transactions');
 export const getExtendedComparableLinkedTransactionsState =

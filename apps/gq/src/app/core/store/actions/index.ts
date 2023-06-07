@@ -7,4 +7,3 @@ export * from './material-stock/material-stock.actions';
 export * from './plant-material-details/plant-material-details.actions';
 export * from './sap-price-details/sap-price-details.actions';
 export * from './transactions/transactions.actions';
-export * from './view-cases/view-cases.actions';

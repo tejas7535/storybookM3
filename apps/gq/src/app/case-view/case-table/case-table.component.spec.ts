@@ -2,12 +2,15 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { getSelectedCaseIds } from '@gq/core/store/selectors';
+import { of } from 'rxjs';
+
+import { OverviewCasesFacade } from '@gq/core/store/overview-cases/overview-cases.facade';
+import { CaseTableColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { LocalizationService } from '@gq/shared/ag-grid/services';
+import { ColumnUtilityService } from '@gq/shared/ag-grid/services/column-utility.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 import {
   GetContextMenuItemsParams,
   GetMainMenuItemsParams,
@@ -22,20 +25,12 @@ import {
   VIEW_CASE_STATE_MOCK,
 } from '../../../testing/mocks';
 import { AppRoutePath } from '../../app-route-path.enum';
-import { CaseTableColumnFields } from '../../shared/ag-grid/constants/column-fields.enum';
-import { ColumnUtilityService } from '../../shared/ag-grid/services/column-utility.service';
 import { CaseTableComponent } from './case-table.component';
 import { ColumnDefService } from './config/column-def.service';
-
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
 
 describe('CaseTableComponent', () => {
   let component: CaseTableComponent;
   let spectator: Spectator<CaseTableComponent>;
-  let store: MockStore;
   let router: Router;
 
   const createComponent = createComponentFactory({
@@ -64,7 +59,6 @@ describe('CaseTableComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    store = spectator.inject(MockStore);
     router = spectator.inject(Router);
     router.navigate = jest.fn();
   });
@@ -79,12 +73,17 @@ describe('CaseTableComponent', () => {
 
   describe('on init', () => {
     test('should take selected cases from the store', () => {
+      const selectedIds = [1234];
+      const overviewCasesFacadeMock: OverviewCasesFacade = {
+        selectedIds$: of(selectedIds),
+      } as unknown as OverviewCasesFacade;
+      Object.defineProperty(component, 'overviewCasesFacade', {
+        value: overviewCasesFacadeMock,
+      });
+
       expect(component.selectedRows).toEqual(undefined);
-
-      store.overrideSelector(getSelectedCaseIds, [1234]);
       component.ngOnInit();
-
-      expect(component.selectedRows).toEqual([1234]);
+      expect(component.selectedRows).toEqual(selectedIds);
     });
   });
 
@@ -113,27 +112,39 @@ describe('CaseTableComponent', () => {
 
   describe('onRowSelected', () => {
     test('should dispatch row selected', () => {
-      store.dispatch = jest.fn();
+      const overviewCasesFacadeMock: OverviewCasesFacade = {
+        selectedIds$: of([1234]),
+        selectCase: jest.fn(),
+      } as unknown as OverviewCasesFacade;
+      Object.defineProperty(component, 'overviewCasesFacade', {
+        value: overviewCasesFacadeMock,
+      });
+
       component.onRowSelected({
         node: { isSelected: () => true, data: { gqId: 1234 } },
       } as any);
 
-      expect(store.dispatch).toHaveBeenCalledWith({
-        gqId: 1234,
-        type: '[View Cases] Select a Case',
-      });
+      expect(component['overviewCasesFacade'].selectCase).toHaveBeenCalledWith(
+        1234
+      );
     });
 
     test('should dispatch row deselected', () => {
-      store.dispatch = jest.fn();
+      const overviewCasesFacadeMock: OverviewCasesFacade = {
+        selectedIds$: of([1234]),
+        deselectCase: jest.fn(),
+      } as unknown as OverviewCasesFacade;
+
+      Object.defineProperty(component, 'overviewCasesFacade', {
+        value: overviewCasesFacadeMock,
+      });
       component.onRowSelected({
         node: { isSelected: () => false, data: { gqId: 1234 } },
       } as any);
 
-      expect(store.dispatch).toHaveBeenCalledWith({
-        gqId: 1234,
-        type: '[View Cases] Deselect a Case',
-      });
+      expect(
+        component['overviewCasesFacade'].deselectCase
+      ).toHaveBeenCalledWith(1234);
     });
   });
 
