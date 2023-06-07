@@ -29,4 +29,8 @@ describe('LoadingSpinnerComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should set bearingUrl', () => {
+    expect(component.bearingUrl).toBeDefined();
+  });
 });

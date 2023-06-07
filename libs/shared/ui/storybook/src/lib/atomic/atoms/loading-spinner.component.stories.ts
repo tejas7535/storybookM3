@@ -38,4 +38,5 @@ const Template: Story<LoadingSpinnerComponent> = (
 export const Primary = Template.bind({});
 Primary.args = {
   backgroundColor: '',
+  useBearingLoadingSpinner: false,
 };

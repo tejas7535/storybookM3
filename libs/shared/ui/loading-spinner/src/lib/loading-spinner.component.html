@@ -1,11 +1,21 @@
 <div
-  class="top-0 left-0 z-10 flex h-full w-full items-center justify-center"
+  class="left-0 top-0 z-10 flex h-full w-full items-center justify-center"
   [ngStyle]="{ backgroundColor: backgroundColor }"
   [ngClass]="{ absolute: !relative }"
 >
-  <mat-spinner
-    class="outline-none"
-    [diameter]="diameter"
-    [strokeWidth]="strokeWidth"
-  ></mat-spinner>
+  <img
+    *ngIf="useBearingLoadingSpinner; else matSpinner"
+    [width]="diameter"
+    [height]="diameter"
+    class="animate-spin"
+    [src]="bearingUrl"
+  />
+
+  <ng-template #matSpinner>
+    <mat-spinner
+      class="outline-none"
+      [diameter]="diameter"
+      [strokeWidth]="strokeWidth"
+    ></mat-spinner>
+  </ng-template>
 </div>
