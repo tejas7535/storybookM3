@@ -22,6 +22,9 @@
           (added)="autocompleteFacade.selectCustomer($event, customer.filter)"
           [autocompleteLoading]="autocompleteFacade.customerLoading$ | ngrxPush"
           (autocomplete)="autocompleteFacade.autocomplete($event)"
+          (inputContent)="
+            !$event ? autocompleteFacade.unselectOptions(customer.filter) : null
+          "
         ></gq-autocomplete-input>
       </div>
       <div class="ml-3 mt-3 w-1/5">
