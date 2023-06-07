@@ -18,6 +18,7 @@
               [materialCostDetails]="materialCostDetails$ | ngrxPush"
             ></gq-production-cost-details>
             <gq-material-comparable-cost-details
+              [price]="quotationDetail.price"
               [currency]="currency"
               [sapPriceUnit]="quotationDetail.sapPriceUnit"
             ></gq-material-comparable-cost-details>

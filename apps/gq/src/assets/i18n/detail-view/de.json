@@ -83,6 +83,8 @@
       "title": "Vergleichbare Kosten #{{number}}",
       "gpc": "KHK",
       "sqv": "SAW",
+      "gpi": "GPI% (KHK)",
+      "gpm": "GPM% (SAW)",
       "productionPlant": "Produktionswerk"
     },
     "supplyChainDetails": {

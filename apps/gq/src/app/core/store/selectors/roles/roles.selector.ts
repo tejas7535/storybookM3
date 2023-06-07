@@ -48,3 +48,5 @@ export const userHasRole = (role: UserRoles) =>
 export const userHasGPCRole = userHasRole(UserRoles.COST_GPC);
 export const userHasManualPriceRole = userHasRole(UserRoles.MANUAL_PRICE);
 export const userHasSQVRole = userHasRole(UserRoles.COST_SQV);
+export const userHasRegionAmericasRole = userHasRole(UserRoles.REGION_AMERICAS);
+export const userHasRegionWorldRole = userHasRole(UserRoles.REGION_WORLD);

@@ -83,6 +83,8 @@
       "title": "Comparable Cost #{{number}}",
       "gpc": "GPC",
       "sqv": "SQV",
+      "gpi": "GPI% (GPC)",
+      "gpm": "GPM% (SQV)",
       "productionPlant": "Production Plant"
     },
     "supplyChainDetails": {

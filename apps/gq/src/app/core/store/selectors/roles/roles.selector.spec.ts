@@ -13,6 +13,8 @@ import {
   getColumnDefsForRoles,
   userHasGPCRole,
   userHasManualPriceRole,
+  userHasRegionAmericasRole,
+  userHasRegionWorldRole,
   userHasRole,
   userHasSQVRole,
 } from './roles.selector';
@@ -31,6 +33,7 @@ describe('shared selector', () => {
                     UserRoles.BASIC,
                     UserRoles.COST_GPC,
                     UserRoles.REGION_WORLD,
+                    UserRoles.REGION_AMERICAS,
                     UserRoles.SECTOR_ALL,
                     UserRoles.MANUAL_PRICE,
                   ],
@@ -52,7 +55,7 @@ describe('shared selector', () => {
         const expectedValue: RoleGroup[] = [
           {
             key: 'geoRoles',
-            roles: [UserRoles.REGION_WORLD],
+            roles: [UserRoles.REGION_WORLD, UserRoles.REGION_AMERICAS],
           },
           {
             key: 'sectoralRoles',
@@ -192,6 +195,76 @@ describe('shared selector', () => {
         const expected = m.cold('a', { a: false });
 
         const result = store.pipe(userHasManualPriceRole);
+
+        m.expect(result).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('userHasRegionAmericasRole', () => {
+    test(
+      'should return true',
+      marbles((m) => {
+        const expected = m.cold('a', { a: true });
+
+        const result = store.pipe(userHasRegionAmericasRole);
+
+        m.expect(result).toBeObservable(expected);
+      })
+    );
+    test(
+      'should return false',
+      marbles((m) => {
+        store.setState({
+          'azure-auth': {
+            accountInfo: {
+              idTokenClaims: {
+                roles: [],
+              },
+            },
+          },
+        });
+        const expected = m.cold('a', { a: false });
+
+        const result = store.pipe(userHasRegionAmericasRole);
+
+        m.expect(result).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('userHasRegionWorldRole', () => {
+    test(
+      'should return true',
+      marbles((m) => {
+        const expected = m.cold('a', { a: true });
+
+        const result = store.pipe(userHasRegionWorldRole);
+
+        m.expect(result).toBeObservable(expected);
+      })
+    );
+    test(
+      'should return false',
+      marbles((m) => {
+        store.setState({
+          'azure-auth': {
+            accountInfo: {
+              idTokenClaims: {
+                roles: [
+                  UserRoles.BASIC,
+                  UserRoles.COST_GPC,
+                  UserRoles.REGION_AMERICAS,
+                  UserRoles.SECTOR_ALL,
+                  UserRoles.MANUAL_PRICE,
+                ],
+              },
+            },
+          },
+        });
+        const expected = m.cold('a', { a: false });
+
+        const result = store.pipe(userHasRegionWorldRole);
 
         m.expect(result).toBeObservable(expected);
       })

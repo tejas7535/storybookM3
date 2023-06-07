@@ -33,6 +33,16 @@
                 : sapPriceUnit
           }}</span>
         </gq-label-text>
+        <ng-container *ngIf="userHasNeededRegionalRoleForMargins$ | ngrxPush">
+          <gq-label-text *ngIf="userHasGPCRole$ | ngrxPush">
+            <span label>{{ t('gpi') }}</span>
+            <span text>{{ materialComparableCost.gpi | percentage }}</span>
+          </gq-label-text>
+          <gq-label-text *ngIf="userHasSQVRole$ | ngrxPush">
+            <span label>{{ t('gpm') }}</span>
+            <span text>{{ materialComparableCost.gpm | percentage }}</span>
+          </gq-label-text>
+        </ng-container>
         <gq-label-text [marginBottom]="false">
           <span label>{{ t('productionPlant') }}</span>
           <span text>{{ materialComparableCost | plantDisplay }}</span>
