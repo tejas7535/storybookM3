@@ -1,0 +1,11 @@
+<mat-radio-group [formControl]="control">
+  <mat-radio-button
+    [value]="value"
+    (change)="onChange()"
+    color="primary"
+    [class.suboption]="isSubOption"
+    [disabled]="disabled"
+  >
+    {{ label }}
+  </mat-radio-button>
+</mat-radio-group>

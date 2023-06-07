@@ -33,7 +33,8 @@
             "
             class="ea-border-border ea-w-full ea-border !ea-shadow-none ea-mb-4"
             [expanded]="
-              (selctedCalculationTypes$ | ngrxPush)?.friction?.selected === true
+              (selctedCalculationTypes$ | ngrxPush)?.frictionalPowerloss
+                .selected === true
             "
           >
             <mat-expansion-panel-header class="ea-h-[64px]">

@@ -1,0 +1,21 @@
+<div
+  class="ea-border ea-border-border md:ea-bg-transparent ea-rounded-lg ea-flex ea-flex-col ea-gap-4 ea-py-4 ea-px-2 md:ea-gap-6 md:ea-px-6 md:ea-pt-4 md:ea-pb-8 ea-bg-surface"
+  [class.ea-border-primary]="selected"
+  [class.ea-opacity-75]="isDisabled"
+>
+  <ea-radio-button
+    [formControl]="control"
+    [label]="label?.toUpperCase()"
+    [value]="name"
+    [isSubOption]="true"
+    [isDisabled]="isDisabled"
+  ></ea-radio-button>
+
+  <ng-container *ngIf="selected; else descriptionTemplate">
+    <ng-content></ng-content>
+  </ng-container>
+</div>
+
+<ng-template #descriptionTemplate>
+  <div class="ea-text-medium-emphasis ea-text-body-2">{{ description }}</div>
+</ng-template>

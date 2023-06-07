@@ -1,0 +1,16 @@
+export const Greases = [
+  { label: 'Arcanol FOOD2', value: 'Arcanol FOOD2' },
+  { label: 'Arcanol LOAD1000', value: 'Arcanol LOAD1000' },
+  { label: 'Arcanol LOAD150', value: 'Arcanol LOAD150' },
+  { label: 'Arcanol LOAD220', value: 'Arcanol LOAD220' },
+  { label: 'Arcanol LOAD400', value: 'Arcanol LOAD400' },
+  { label: 'Arcanol LOAD460', value: 'Arcanol LOAD460' },
+  { label: 'Arcanol MULTI2', value: 'Arcanol MULTI2' },
+  { label: 'Arcanol MULTI3', value: 'Arcanol MULTI3' },
+  { label: 'Arcanol MULTITOP', value: 'Arcanol MULTITOP' },
+  { label: 'Arcanol SPEED 2,6', value: 'Arcanol SPEED 2,6' },
+  { label: 'Arcanol TEMP110', value: 'Arcanol TEMP110' },
+  { label: 'Arcanol TEMP200', value: 'Arcanol TEMP200' },
+  { label: 'Arcanol TEMP90', value: 'Arcanol TEMP90' },
+  { label: 'Arcanol VIB3', value: 'Arcanol VIB3' },
+];

@@ -1,8 +1,13 @@
 {
   "appTitle": "Engineering App",
+  "general": {
+    "requiredInformation": "*Mandatory"
+  },
+  "inputs": {
+    "pleaseSelect": "Please select"
+  },
   "operationConditions": {
     "title": "Operating conditions for bearing {{bearingDesignation}}",
-    "requiredInformation": "*Mandatory",
     "loads": "Load",
     "radialLoad": "Radial load",
     "axialLoad": "Axial load",
@@ -23,6 +28,34 @@
       "innerOuterInconsistent": "The bore diameter must be smaller than the outer diameter",
       "minMaxInconsistent": "The minimum value must be smaller than than the maximum value",
       "anyLoad": "One load is required"
+    },
+    "lubrication": {
+      "title": "Lubrication conditions",
+      "options": {
+        "grease": "Grease",
+        "oilBath": "Oil-bath lubrication",
+        "oilMist": "Oil-mist lubrication",
+        "recirculatingOil": "Recirculating oil lubrication"
+      },
+      "grease": {
+        "typeOfGrease": {
+          "label": "Type of grease",
+          "description": "Select the used type of grease for your bearing calculation.",
+          "tooltip": "The grease has a significant impact as it affects factors such as friction, heat generation, wear, and overall bearing performance"
+        },
+        "isoVgClass": {
+          "label": "ISO VG class",
+          "description": "Select the ISO VG class of your lubricant.",
+          "tooltip": "The ISO VG class is a classification of the viscosity of lubricants"
+        },
+        "viscosity": {
+          "label": "Enter viscosity",
+          "description": "Enter your own viscosity at 40°C (ny 40) and at 100°C (ny 100).",
+          "ny40": "Viscosity at 40°C",
+          "ny100": "Viscosity at 100°C",
+          "unit": "mm²/s"
+        }
+      }
     }
   },
   "calculation": {

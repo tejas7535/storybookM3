@@ -9,14 +9,14 @@ import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { InputComponent } from './input.component';
+import { InputNumberComponent } from './input-number.component';
 
-describe('InputComponent', () => {
-  let component: InputComponent;
-  let spectator: Spectator<InputComponent>;
+describe('InputNumberComponent', () => {
+  let component: InputNumberComponent;
+  let spectator: Spectator<InputNumberComponent>;
 
   const createComponent = createComponentFactory({
-    component: InputComponent,
+    component: InputNumberComponent,
     imports: [
       ReactiveFormsModule,
       MockModule(MatFormFieldModule),
@@ -35,7 +35,7 @@ describe('InputComponent', () => {
   beforeEach(() => {
     const control = new FormControl('');
     spectator = createComponent({
-      props: { control },
+      props: { formControl: control },
     });
     component = spectator.debugElement.componentInstance;
   });

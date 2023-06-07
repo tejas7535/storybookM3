@@ -8,10 +8,8 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
-import { MockModule } from 'ng-mocks';
 
 import { AppComponent } from './app.component';
-import { FormFieldModule } from './shared/form-field';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
@@ -25,12 +23,7 @@ describe('AppComponent', () => {
 
   const createComponent = createComponentFactory({
     component: AppComponent,
-    imports: [
-      PushModule,
-      RouterTestingModule,
-      MockModule(FormFieldModule),
-      MatIconTestingModule,
-    ],
+    imports: [PushModule, RouterTestingModule, MatIconTestingModule],
     providers: [
       provideMockStore({
         initialState: { ...APP_STATE_MOCK },

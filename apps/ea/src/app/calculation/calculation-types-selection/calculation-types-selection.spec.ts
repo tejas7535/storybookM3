@@ -4,7 +4,6 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 import { CalculationParametersCalculationTypeConfig } from '@ea/core/store/models';
-import { FormFieldModule } from '@ea/shared/form-field';
 import { APP_STATE_MOCK } from '@ea/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { translate } from '@ngneat/transloco';
@@ -33,7 +32,6 @@ describe('CalculationTypesSelectionComponent', () => {
       // Material Modules
       MockModule(MatButtonModule),
       MatIconTestingModule,
-      MockModule(FormFieldModule),
       MockModule(MatDividerModule),
 
       provideTranslocoTestingModule({ en: {} }),

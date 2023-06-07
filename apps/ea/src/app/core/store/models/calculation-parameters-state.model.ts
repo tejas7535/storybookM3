@@ -9,18 +9,75 @@ export interface CalculationParametersState {
 
 export interface CalculationParametersOperationConditions {
   operatingTime: number;
-  typeOfMovement: 'LB_ROTATING';
 
-  rotationalSpeed: number;
-  axialLoad: number;
-  radialLoad: number;
+  load: {
+    axialLoad: number;
+    radialLoad: number;
+  };
+  rotation: {
+    rotationalSpeed: number;
+    typeOfMovement: 'LB_ROTATING';
+  };
 
-  oilTemp: number;
-  viscosity: number;
+  lubrication: {
+    lubricationSelection: 'grease' | 'oilBath' | 'oilMist' | 'recirculatingOil';
+    grease: {
+      greaseSelection: 'typeOfGrease' | 'isoVgClass' | 'viscosity';
+      typeOfGrease: {
+        typeOfGrease: string;
+      };
+      isoVgClass: {
+        isoVgClass: number;
+      };
+      viscosity: {
+        ny40: number;
+        ny100: number;
+      };
+    };
+    oilBath: {
+      oilBathSelection: 'isoVgClass' | 'viscosity';
+      isoVgClass: {
+        isoVgClass: number;
+      };
+      viscosity: {
+        ny40: number;
+        ny100: number;
+      };
+    };
+    oilMist: {
+      oilMistSelection: 'isoVgClass' | 'viscosity';
+      isoVgClass: {
+        isoVgClass: number;
+      };
+      viscosity: {
+        ny40: number;
+        ny100: number;
+      };
+    };
+    recirculatingOil: {
+      recirculatingOilSelection: 'isoVgClass' | 'viscosity';
+      isoVgClass: {
+        isoVgClass: number;
+      };
+      viscosity: {
+        ny40: number;
+        ny100: number;
+      };
+    };
+  };
 
   oscillationAngle: number;
   movementFrequency: number;
+
+  oilTemp: number;
 }
+
+export type CalculationType =
+  | 'frictionalPowerloss'
+  | 'ratingLife'
+  | 'lubrication'
+  | 'emission'
+  | 'overrollingFrequencies';
 
 export interface CalculationParametersEnergySource {
   type: FrictionServiceBearingData['idscO_CO2_EMISSION_FACTOR_CALCULATION'];
@@ -29,12 +86,12 @@ export interface CalculationParametersEnergySource {
 }
 
 export type CalculationParametersCalculationTypes = Record<
-  'emission' | 'friction',
+  CalculationType,
   { selected: boolean; visible: boolean; disabled: boolean }
 >;
 
 export interface CalculationParametersCalculationTypeConfig {
-  name: keyof CalculationParametersCalculationTypes;
+  name: CalculationType;
   selected: boolean;
   label: string;
   svgIcon?: string;

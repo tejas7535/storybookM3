@@ -57,6 +57,10 @@ export class FrictionService {
     operationConditions: CalculationParametersOperationConditions,
     energySource: CalculationParametersEnergySource
   ): Observable<void> {
+    const viscosity =
+      operationConditions?.lubrication?.[
+        operationConditions?.lubrication?.lubricationSelection
+      ]?.isoVgClass?.isoVgClass;
     const bearingData: FrictionServiceBearingData = {
       idscO_CO2_EMISSION_FACTOR_CALCULATION: energySource.type,
       idscO_CO2_EMISSION_FACTOR_FOSSIL_ORIGIN:
@@ -68,18 +72,18 @@ export class FrictionService {
           ? energySource.electricityRegion
           : undefined,
       idL_OILTEMP: operationConditions.oilTemp,
-      idL_VG: operationConditions.viscosity,
+      idL_VG: viscosity,
     };
 
     const loadcaseData: FrictionServiceLoadCaseData[] = [
       {
         idslC_OPERATING_TIME_IN_HOURS: operationConditions.operatingTime,
-        idlC_TYPE_OF_MOVEMENT: operationConditions.typeOfMovement,
+        idlC_TYPE_OF_MOVEMENT: operationConditions.rotation?.typeOfMovement,
         idlC_OSCILLATION_ANGLE: operationConditions.oscillationAngle,
         idlC_MOVEMENT_FREQUENCY: operationConditions.movementFrequency,
-        idlC_SPEED: operationConditions.rotationalSpeed,
-        idlD_FX: operationConditions.axialLoad ?? undefined,
-        idlD_FY: operationConditions.radialLoad ?? undefined,
+        idlC_SPEED: operationConditions.rotation?.rotationalSpeed,
+        idlD_FX: operationConditions.load?.axialLoad ?? undefined,
+        idlD_FY: operationConditions.load?.radialLoad ?? undefined,
         idlD_FZ: 0,
       },
     ];

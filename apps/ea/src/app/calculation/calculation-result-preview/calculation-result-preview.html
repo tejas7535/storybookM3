@@ -4,10 +4,10 @@
     [ngClass]="{'md:ea-fixed ea-bottom-0': sticky}"
   >
     <div
-      class="ea-bg-background-dark ea-flex ea-flex-row ea-items-center ea-justify-center ea-rounded-t ea-m-2 md:ea-m-0 ea-pt-4 ea-pb-2 ea-px-2 md:ea-py-4 md:ea-px-4"
+      class="ea-bg-background-dark ea-flex ea-flex-row ea-items-center ea-justify-center ea-rounded-t ea-m-2 md:ea-m-0 ea-pt-4 ea-pb-2 ea-px-2 md:ea-py-2 md:ea-px-4"
     >
       <div
-        class="ea-flex ea-flex-col md:ea-flex-row ea-flex-grow ea-gap-4 md:ea-gap-8 ea-items-center md:ea-min-w-0 ea-min-w-[90vw]"
+        class="ea-flex ea-flex-col md:ea-flex-row ea-flex-grow ea-gap-2 md:ea-gap-8 ea-items-center md:ea-min-w-0 ea-min-w-[90vw]"
       >
         <!-- Missing Input -->
         <ng-container *ngIf="isCalculationMissingInput$ | ngrxPush">
@@ -48,10 +48,10 @@
         <!-- Preview items -->
         <div
           *ngIf="overlayData$ | ngrxPush as overlayData"
-          class="ea-flex ea-touch-pan-x ea-snap-x ea-snap-mandatory ea-flex-row ea-overflow-x-auto ea-max-w-[calc(100vw-2rem)] md:ea-max-w-auto md:ea-px-0 ea-px-[30vw]"
+          class="ea-flex ea-touch-pan-x ea-snap-x ea-snap-mandatory ea-flex-row ea-gap-2 ea-overflow-x-auto ea-max-w-[calc(100vw-2rem)] md:ea-max-w-auto md:ea-px-0 ea-px-[30vw]"
         >
           <ng-container *ngFor="let item of overlayData">
-            <div class="ea-snap-center">
+            <div class="ea-snap-center ea-my-4 md:ea-my-0">
               <ea-calculation-result-preview-item
                 [item]="item"
               ></ea-calculation-result-preview-item>

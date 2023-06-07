@@ -2,7 +2,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { FormFieldModule } from '@ea/shared/form-field';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { translate } from '@ngneat/transloco';
 import { MockModule } from 'ng-mocks';
@@ -22,7 +21,6 @@ describe('CalculationResultPreviewItemComponent', () => {
       MockModule(MatButtonModule),
       MatIconTestingModule,
       MockModule(MatTooltipModule),
-      MockModule(FormFieldModule),
 
       provideTranslocoTestingModule({ en: {} }),
     ],

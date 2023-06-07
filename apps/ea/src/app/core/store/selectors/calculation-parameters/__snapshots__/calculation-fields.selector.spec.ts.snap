@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Calculation Fields Selector getCalculationFieldsConfig should return the fields config 1`] = `
+Object {
+  "optional": Array [
+    "time",
+    "energySource",
+    "operatingTemperature",
+    "contamination",
+  ],
+  "required": Array [
+    "rpm",
+    "load",
+    "lubrication",
+  ],
+}
+`;

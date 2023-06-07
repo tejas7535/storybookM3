@@ -14,13 +14,40 @@ import { setCalculationTypes } from '../../actions/calculation-parameters/calcul
 
 export const initialState: CalculationParametersState = {
   operationConditions: {
-    rotationalSpeed: undefined,
-    axialLoad: undefined,
-    radialLoad: undefined,
+    rotation: {
+      rotationalSpeed: undefined,
+      typeOfMovement: 'LB_ROTATING',
+    },
+    load: {
+      axialLoad: undefined,
+      radialLoad: undefined,
+    },
+    lubrication: {
+      lubricationSelection: 'grease',
+      grease: {
+        greaseSelection: 'isoVgClass',
+        isoVgClass: { isoVgClass: 100 },
+        typeOfGrease: { typeOfGrease: undefined },
+        viscosity: { ny100: undefined, ny40: undefined },
+      },
+      oilBath: {
+        oilBathSelection: 'isoVgClass',
+        isoVgClass: { isoVgClass: undefined },
+        viscosity: { ny100: undefined, ny40: undefined },
+      },
+      oilMist: {
+        oilMistSelection: 'isoVgClass',
+        isoVgClass: { isoVgClass: undefined },
+        viscosity: { ny100: undefined, ny40: undefined },
+      },
+      recirculatingOil: {
+        recirculatingOilSelection: 'isoVgClass',
+        isoVgClass: { isoVgClass: undefined },
+        viscosity: { ny100: undefined, ny40: undefined },
+      },
+    },
     operatingTime: 8766,
-    typeOfMovement: 'LB_ROTATING',
     oilTemp: 70,
-    viscosity: 110, // Arcanol Multi 2
     movementFrequency: 0,
     oscillationAngle: 0,
   },
@@ -34,9 +61,24 @@ export const initialState: CalculationParametersState = {
       visible: true,
       disabled: false,
     },
-    friction: {
+    frictionalPowerloss: {
       selected: false,
       visible: true,
+      disabled: false,
+    },
+    lubrication: {
+      selected: false,
+      visible: false,
+      disabled: false,
+    },
+    overrollingFrequencies: {
+      selected: false,
+      visible: false,
+      disabled: false,
+    },
+    ratingLife: {
+      selected: false,
+      visible: false,
       disabled: false,
     },
   },
@@ -71,9 +113,7 @@ export const calculationParametersReducer = createReducer(
       ...state,
       operationConditions: {
         ...state.operationConditions,
-        rotationalSpeed: undefined,
-        axialLoad: undefined,
-        radialLoad: undefined,
+        ...initialState.operationConditions,
       },
     })
   ),

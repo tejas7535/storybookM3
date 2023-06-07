@@ -28,9 +28,10 @@ describe('calculationParametersReducer', () => {
     it('should update parameters', () => {
       const mockParameters: CalculationParametersState = {
         operationConditions: {
-          rotationalSpeed: 1,
-          axialLoad: 0,
-          radialLoad: 0,
+          load: {
+            axialLoad: 1,
+            radialLoad: 123,
+          },
         },
         isInputInvalid: true,
         calculationTypes: {},
@@ -58,9 +59,10 @@ describe('calculationParametersReducer', () => {
     it('should set missing input', () => {
       const mockParameters: CalculationParametersState = {
         operationConditions: {
-          rotationalSpeed: 1,
-          axialLoad: 0,
-          radialLoad: 0,
+          load: {
+            axialLoad: 1,
+            radialLoad: 123,
+          },
         },
         isInputInvalid: false,
         calculationTypes: {},
@@ -110,16 +112,16 @@ describe('calculationParametersReducer', () => {
 
       expect(newState).toEqual(
         expect.objectContaining({
-          calculationTypes: {
+          calculationTypes: expect.objectContaining({
             emission: expect.objectContaining({
               selected: true,
               disabled: true,
             }),
-            friction: expect.objectContaining({
+            frictionalPowerloss: expect.objectContaining({
               selected: true,
               disabled: false,
             }),
-          },
+          }),
         })
       );
     });
@@ -141,16 +143,16 @@ describe('calculationParametersReducer', () => {
 
       expect(newState).toEqual(
         expect.objectContaining({
-          calculationTypes: {
+          calculationTypes: expect.objectContaining({
             emission: expect.objectContaining({
               selected: true,
               disabled: true,
             }),
-            friction: expect.objectContaining({
+            frictionalPowerloss: expect.objectContaining({
               selected: false,
               disabled: false,
             }),
-          },
+          }),
         })
       );
     });
@@ -162,14 +164,14 @@ describe('calculationParametersReducer', () => {
         initialState,
         CalculationTypesActions.selectType({
           select: true,
-          calculationType: 'friction',
+          calculationType: 'frictionalPowerloss',
         })
       );
 
       expect(newState).toEqual(
         expect.objectContaining({
           calculationTypes: expect.objectContaining({
-            friction: expect.objectContaining({
+            frictionalPowerloss: expect.objectContaining({
               selected: true,
               disabled: false,
             }),

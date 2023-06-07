@@ -33,8 +33,8 @@ export const getCalculationTypesConfig = createSelector(
   (state): CalculationParametersCalculationTypeConfig[] =>
     [
       {
-        name: 'friction' as const,
-        ...state.friction,
+        name: 'frictionalPowerloss' as const,
+        ...state.frictionalPowerloss,
         icon: 'compress',
         label: 'calculationTypes.frictionalPowerloss',
       },

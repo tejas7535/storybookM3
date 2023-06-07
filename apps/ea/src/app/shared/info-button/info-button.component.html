@@ -1,0 +1,11 @@
+<div *ngIf="tooltip">
+  <mat-icon
+    color="primary"
+    class="ea-cursor-help"
+    #tooltipRef="matTooltip"
+    [matTooltip]="tooltip"
+    (click)="tooltipRef.toggle()"
+  >
+    info_outline
+  </mat-icon>
+</div>

@@ -14,10 +14,25 @@ describe('CalculationTypes', () => {
           selected: true,
           visible: false,
         },
-        friction: {
+        frictionalPowerloss: {
           disabled: true,
           selected: false,
           visible: true,
+        },
+        lubrication: {
+          disabled: false,
+          selected: false,
+          visible: false,
+        },
+        overrollingFrequencies: {
+          disabled: false,
+          selected: false,
+          visible: false,
+        },
+        ratingLife: {
+          disabled: false,
+          selected: false,
+          visible: false,
         },
       };
       const action = setCalculationTypes({ calculationTypes: mockParameters });

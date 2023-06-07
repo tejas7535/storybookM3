@@ -40,6 +40,46 @@ mat-dialog-container {
   .material-icons {
     font-family: 'Material Icons' !important;
   }
+
+  mat-radio-button {
+    @apply ea-px-2 ea-py-1;
+    @apply ea-text-subtitle-2;
+
+    .mat-radio-container {
+      transform: scale(0.7);
+    }
+    .mat-radio-ripple {
+      @apply ea-hidden;
+    }
+
+    // green background
+    &.mat-radio-checked {
+      @apply ea-rounded-full;
+      @apply ea-bg-secondary-50;
+      @apply ea-text-primary #{!important};
+    }
+
+    &:not(.mat-radio-checked) {
+      @apply ea-text-medium-emphasis;
+    }
+
+    // suboption
+    &.suboption {
+      @apply ea-rounded-full;
+      @apply ea-text-[8px];
+
+      &:not(.mat-radio-checked) {
+        @apply ea-bg-secondary-variant;
+      }
+    }
+  }
+
+  // apply full width to wrapper so it actually takes the full width
+  mat-form-field.ea-w-full {
+    .mat-form-field-wrapper {
+      width: 100%;
+    }
+  }
 }
 
 /** fix font size for Medias integration */

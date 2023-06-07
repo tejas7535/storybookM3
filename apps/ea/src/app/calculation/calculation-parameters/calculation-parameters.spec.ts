@@ -3,7 +3,6 @@ import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { resetCalculationParameters } from '@ea/core/store/actions/calculation-parameters/calculation-parameters.actions';
-import { FormFieldModule } from '@ea/shared/form-field';
 import { APP_STATE_MOCK } from '@ea/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { translate } from '@ngneat/transloco';
@@ -30,7 +29,6 @@ describe('CalculationParametersComponent', () => {
       MockModule(MatButtonModule),
       MatIconTestingModule,
       MockModule(MatTooltipModule),
-      MockModule(FormFieldModule),
 
       provideTranslocoTestingModule({ en: {} }),
     ],
@@ -76,38 +74,6 @@ describe('CalculationParametersComponent', () => {
       component.onResetButtonClick();
 
       expect(store.dispatch).toHaveBeenCalledWith(resetCalculationParameters());
-    });
-  });
-
-  describe('loadValidator', () => {
-    it('should unset the anyLoad error if one field is > 0', () => {
-      component.radialLoad.setValue(0);
-      component.axialLoad.setValue(0);
-
-      component['loadValidator']();
-      expect(component.radialLoad.errors).toEqual({
-        anyLoad: true,
-      });
-
-      component.radialLoad.setValue(6);
-      component['loadValidator']();
-
-      /* eslint-disable unicorn/no-null */
-      expect(component.radialLoad.errors).toEqual(null);
-    });
-
-    it('should set the anyLoad error if both fields are less then 0', () => {
-      component.radialLoad.setValue(0);
-      component.axialLoad.setValue(0);
-
-      component['loadValidator']();
-
-      expect(component.radialLoad.errors).toEqual({
-        anyLoad: true,
-      });
-      expect(component.axialLoad.errors).toEqual({
-        anyLoad: true,
-      });
     });
   });
 });

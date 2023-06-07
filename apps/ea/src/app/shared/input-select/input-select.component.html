@@ -1,0 +1,24 @@
+<div
+  class="ea-flex ea-w-full ea-flex-row ea-items-baseline ea-gap-2"
+  *transloco="let t; read: 'inputs'"
+>
+  <mat-form-field
+    appearance="outline"
+    floatLabel="always"
+    class="ea-flex ea-w-full ea-grow-0 ea-flex-row ea-pb-3"
+  >
+    <mat-label *ngIf="label">{{ label }}</mat-label>
+    <mat-select
+      [formControl]="control"
+      [placeholder]="placeholder || t('pleaseSelect')"
+    >
+      <mat-option *ngFor="let option of options" [value]="option.value">
+        {{ option.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div *ngIf="tooltip">
+    <ea-info-button [tooltip]="tooltip"></ea-info-button>
+  </div>
+</div>

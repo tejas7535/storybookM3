@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,6 +8,7 @@ import {
 import {
   FormControl,
   FormGroup,
+  ReactiveFormsModule,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
@@ -20,7 +22,18 @@ import { debounceTime, Subject, takeUntil } from 'rxjs';
 import { CalculationParametersFacade } from '@ea/core/store';
 import { CalculationParametersActions } from '@ea/core/store/actions';
 import { ProductSelectionFacade } from '@ea/core/store/facades/product-selection/product-selection.facade';
-import { FormFieldModule } from '@ea/shared/form-field';
+import { Greases } from '@ea/shared/constants/greases';
+import { ISOVgClasses } from '@ea/shared/constants/iso-vg-classes';
+import {
+  FormGroupDisabledValidator,
+  FormSelectValidatorSwitcher,
+} from '@ea/shared/helper/form-select-validation-switcher';
+import { InputGroupComponent } from '@ea/shared/input-group/input-group.component';
+import { InputNumberComponent } from '@ea/shared/input-number/input-number.component';
+import { InputSelectComponent } from '@ea/shared/input-select/input-select.component';
+import { OptionTemplateDirective } from '@ea/shared/tabbed-options/option-template.directive';
+import { TabbedOptionsComponent } from '@ea/shared/tabbed-options/tabbed-options.component';
+import { TabbedSuboptionComponent } from '@ea/shared/tabbed-suboption/tabbed-suboption.component';
 import { LetModule, PushModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -34,13 +47,20 @@ import { CalculationTypesSelectionComponent } from '../calculation-types-selecti
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    FormFieldModule,
+    CommonModule,
     MatIconModule,
+    InputNumberComponent,
+    InputSelectComponent,
     MatTooltipModule,
     MatButtonModule,
     MatDialogModule,
     LetModule,
     PushModule,
+    ReactiveFormsModule,
+    InputGroupComponent,
+    TabbedOptionsComponent,
+    TabbedSuboptionComponent,
+    OptionTemplateDirective,
     SharedTranslocoModule,
   ],
 })
@@ -54,25 +74,102 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
   public readonly bearingDesignation$ =
     this.productSelectionFacade.bearingDesignation$;
 
-  public radialLoad = new FormControl<number>(undefined, [Validators.required]);
-  public axialLoad = new FormControl<number>(undefined, [Validators.required]);
-  public rotationalSpeed = new FormControl<number>(undefined, [
-    Validators.required,
-    Validators.min(1),
-  ]);
-
-  public operationConditionsForm = new FormGroup(
-    {
-      radialLoad: this.radialLoad,
-      axialLoad: this.axialLoad,
-      rotationalSpeed: this.rotationalSpeed,
-    },
-    this.loadValidator()
-  );
+  public operationConditionsForm = new FormGroup({
+    load: new FormGroup(
+      {
+        radialLoad: new FormControl<number>(undefined, Validators.required),
+        axialLoad: new FormControl<number>(undefined, Validators.required),
+      },
+      [this.loadValidator()]
+    ),
+    rotation: new FormGroup({
+      rotationalSpeed: new FormControl<number>(undefined, Validators.required),
+      typeOfMovement: new FormControl<'LB_ROTATING'>('LB_ROTATING'),
+    }),
+    lubrication: new FormGroup({
+      lubricationSelection: new FormControl<
+        'grease' | 'oilBath' | 'oilMist' | 'recirculatingOil'
+      >(undefined, [FormSelectValidatorSwitcher()]),
+      grease: new FormGroup({
+        greaseSelection: new FormControl<
+          'typeOfGrease' | 'isoVgClass' | 'viscosity'
+        >('typeOfGrease', [FormSelectValidatorSwitcher()]),
+        typeOfGrease: new FormGroup(
+          {
+            typeOfGrease: new FormControl<string>(undefined, [
+              Validators.required,
+            ]),
+          },
+          [FormGroupDisabledValidator()]
+        ),
+        isoVgClass: new FormGroup({
+          isoVgClass: new FormControl<number>(undefined, [Validators.required]),
+        }),
+        viscosity: new FormGroup(
+          {
+            ny40: new FormControl<number>(undefined, [Validators.required]),
+            ny100: new FormControl<number>(undefined, [Validators.required]),
+          },
+          [FormGroupDisabledValidator()]
+        ),
+      }),
+      oilBath: new FormGroup({
+        oilBathSelection: new FormControl<'isoVgClass' | 'viscosity'>(
+          'isoVgClass',
+          [FormSelectValidatorSwitcher()]
+        ),
+        isoVgClass: new FormGroup({
+          isoVgClass: new FormControl<number>(undefined, [Validators.required]),
+        }),
+        viscosity: new FormGroup(
+          {
+            ny40: new FormControl<number>(undefined, [Validators.required]),
+            ny100: new FormControl<number>(undefined, [Validators.required]),
+          },
+          FormGroupDisabledValidator()
+        ),
+      }),
+      oilMist: new FormGroup({
+        oilMistSelection: new FormControl<'isoVgClass' | 'viscosity'>(
+          'isoVgClass',
+          [FormSelectValidatorSwitcher()]
+        ),
+        isoVgClass: new FormGroup({
+          isoVgClass: new FormControl<number>(undefined, [Validators.required]),
+        }),
+        viscosity: new FormGroup(
+          {
+            ny40: new FormControl<number>(undefined, [Validators.required]),
+            ny100: new FormControl<number>(undefined, [Validators.required]),
+          },
+          FormGroupDisabledValidator()
+        ),
+      }),
+      recirculatingOil: new FormGroup({
+        recirculatingOilSelection: new FormControl<'isoVgClass' | 'viscosity'>(
+          'isoVgClass',
+          [FormSelectValidatorSwitcher()]
+        ),
+        isoVgClass: new FormGroup({
+          isoVgClass: new FormControl<number>(undefined, [Validators.required]),
+        }),
+        viscosity: new FormGroup(
+          {
+            ny40: new FormControl<number>(undefined, [Validators.required]),
+            ny100: new FormControl<number>(undefined, [Validators.required]),
+          },
+          FormGroupDisabledValidator()
+        ),
+      }),
+    }),
+  });
 
   form = new FormGroup({
     operationConditions: this.operationConditionsForm,
   });
+
+  public readonly isoVgClasses = ISOVgClasses;
+  public readonly greases = Greases;
 
   constructor(
     private readonly calculationParametersFacade: CalculationParametersFacade,
@@ -94,17 +191,13 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
       });
 
     this.form.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(this.DEBOUNCE_TIME_DEFAULT)
-        //   filter(() => this.form.valid)
-      )
+      .pipe(takeUntil(this.destroy$), debounceTime(this.DEBOUNCE_TIME_DEFAULT))
       .subscribe((formValue) => {
         if (this.form.valid) {
           this.calculationParametersFacade.dispatch(
             CalculationParametersActions.operatingParameters({
               ...formValue,
-              operationConditions: formValue.operationConditions,
+              operationConditions: this.form.getRawValue().operationConditions,
             })
           );
         } else {
@@ -129,17 +222,18 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
   private loadValidator(): any {
     return (group: UntypedFormGroup): void => {
       const { radialLoad, axialLoad } = group.value;
+      const { axialLoad: axialLoadControl, radialLoad: radialLoadControl } =
+        group.controls;
 
       const anyLoadApplied = radialLoad > 0 || axialLoad > 0;
 
       if (anyLoadApplied) {
         // remove required validator on other field
         if (radialLoad > 0) {
-          this.axialLoad.clearValidators();
+          axialLoadControl.clearValidators();
         } else {
-          this.radialLoad.clearValidators();
+          radialLoadControl.clearValidators();
         }
-
         this.removeLoadErrors(group, 'radialLoad');
         this.removeLoadErrors(group, 'axialLoad');
       } else {
@@ -147,8 +241,8 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
         this.setLoadErrors(group, 'axialLoad');
 
         // set both fields as required
-        this.radialLoad.setValidators([Validators.required]);
-        this.axialLoad.setValidators([Validators.required]);
+        radialLoadControl.setValidators([Validators.required]);
+        axialLoadControl.setValidators([Validators.required]);
       }
     };
   }

@@ -84,6 +84,7 @@ export class CoreModule {
       friction_load: 'icon_load_frictional_powerloss.svg',
       lubrication_parameters: 'icon_lubrication_parameters',
       rating_life: 'icon_rpm_rating_life.svg',
+      water_drop: 'icon_water_drop.svg',
     };
     for (const [name, url] of Object.entries(iconSet)) {
       const setUrl = this.sanitizer.bypassSecurityTrustResourceUrl(

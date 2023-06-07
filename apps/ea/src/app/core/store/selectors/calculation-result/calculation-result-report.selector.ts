@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 
-import { CalculationParametersCalculationTypes } from '../../models';
+import { CalculationType } from '../../models';
 import { CalculationResultReportCalculationTypeSelection } from '../../models/calculation-result-report.model';
 import { getCalculationTypesConfig } from '../calculation-parameters/calculation-types.selector';
 import { getCalculationResult as co2UpstreamCalculationResult } from './co2-upstream-calculation-result.selector';
@@ -89,12 +89,12 @@ export const getSelectedCalculations = createSelector(
     emissionResultAvailable,
     frictionResultAvailable
   ): CalculationResultReportCalculationTypeSelection => {
-    const resultAvailableMapping: Record<
-      keyof CalculationParametersCalculationTypes,
-      boolean
-    > = {
+    const resultAvailableMapping: Record<CalculationType, boolean> = {
       emission: emissionResultAvailable,
-      friction: frictionResultAvailable,
+      frictionalPowerloss: frictionResultAvailable,
+      lubrication: false,
+      overrollingFrequencies: false,
+      ratingLife: false,
     };
 
     return config

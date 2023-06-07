@@ -77,7 +77,7 @@ export const getCalculationResultPreviewData = createSelector(
   ): CalculationResultPreviewData => {
     const previewData: CalculationResultPreviewData = [];
 
-    if (calculationTypes.friction.selected) {
+    if (calculationTypes.frictionalPowerloss.selected) {
       previewData.push({
         title: 'frictionalPowerloss',
         icon: 'compress',

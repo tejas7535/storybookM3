@@ -3,7 +3,6 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { FormFieldModule } from '@ea/shared/form-field';
 import { APP_STATE_MOCK } from '@ea/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { translate } from '@ngneat/transloco';
@@ -33,7 +32,6 @@ describe('CalculationResultReportComponent', () => {
       MockModule(MatButtonModule),
       MatIconTestingModule,
       MockModule(MatTooltipModule),
-      MockModule(FormFieldModule),
 
       NgxEchartsModule.forRoot({
         echarts: async () => import('echarts'),

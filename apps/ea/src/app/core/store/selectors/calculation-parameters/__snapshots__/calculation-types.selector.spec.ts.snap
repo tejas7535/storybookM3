@@ -6,7 +6,7 @@ Array [
     "disabled": false,
     "icon": "compress",
     "label": "calculationTypes.frictionalPowerloss",
-    "name": "friction",
+    "name": "frictionalPowerloss",
     "selected": true,
     "visible": true,
   },
@@ -23,7 +23,7 @@ Array [
 
 exports[`Calculation Types Selector getCalculationTypesGlobalSelectionState should return the operation conditions 1`] = `
 Object {
-  "indeterminate": false,
+  "indeterminate": true,
   "selectAll": true,
 }
 `;
