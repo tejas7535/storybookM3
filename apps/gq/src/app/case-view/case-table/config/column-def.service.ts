@@ -1,21 +1,20 @@
 import { Injectable } from '@angular/core';
 
-import { translate } from '@ngneat/transloco';
-import { ColDef, ValueFormatterParams } from 'ag-grid-enterprise';
-
-import { CaseTableColumnFields } from '../../../shared/ag-grid/constants/column-fields.enum';
+import { CaseTableColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import {
   FILTER_PARAMS,
   MULTI_COLUMN_FILTER,
   SET_COLUMN_FILTER,
   TEXT_COLUMN_FILTER,
-} from '../../../shared/ag-grid/constants/filters';
+} from '@gq/shared/ag-grid/constants/filters';
 import {
   ColumnUtilityService,
   ComparatorService,
-} from '../../../shared/ag-grid/services';
-import { timestampRegex } from '../../../shared/constants';
-import { SAP_SYNC_STATUS } from '../../../shared/models/quotation-detail/sap-sync-status.enum';
+} from '@gq/shared/ag-grid/services';
+import { timestampRegex } from '@gq/shared/constants';
+import { SAP_SYNC_STATUS } from '@gq/shared/models/quotation-detail/sap-sync-status.enum';
+import { translate } from '@ngneat/transloco';
+import { ColDef, ValueFormatterParams } from 'ag-grid-enterprise';
 
 @Injectable({
   providedIn: 'root',
@@ -92,12 +91,17 @@ export class ColumnDefService {
       filterParams: {
         ...FILTER_PARAMS,
         valueFormatter: (params: ValueFormatterParams) => {
-          if (params.value === SAP_SYNC_STATUS.SYNCED.toString()) {
-            return translate('shared.sapStatusLabels.synced');
-          } else if (params.value === SAP_SYNC_STATUS.NOT_SYNCED.toString()) {
-            return translate('shared.sapStatusLabels.notSynced');
-          } else {
-            return translate('shared.sapStatusLabels.partiallySynced');
+          switch (params.value) {
+            case SAP_SYNC_STATUS.SYNCED.toString():
+              return translate('shared.sapStatusLabels.synced');
+            case SAP_SYNC_STATUS.NOT_SYNCED.toString():
+              return translate('shared.sapStatusLabels.notSynced');
+            case SAP_SYNC_STATUS.PARTIALLY_SYNCED.toString():
+              return translate('shared.sapStatusLabels.partiallySynced');
+            case SAP_SYNC_STATUS.SYNC_FAILED.toString():
+              return translate('shared.sapStatusLabels.syncFailed');
+            default:
+              return params.value;
           }
         },
       },
