@@ -1,4 +1,37 @@
 # Release Notes of Guided Quoting
+## [3.7.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v3.6.1...gq-v3.7.0) (2023-06-07)
+
+
+### Features
+
+* **gq:** add Approvers not to be equal Validation (GQUOTE-2526) ([#5316](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5316)) ([2c68de5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2c68de53e562cc48bc210a37d06fb1dfb7841a60))
+* **gq:** add filters for new items table columns (GQUOTE-2043) ([#5341](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5341)) ([93e17be](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/93e17becf0c9b11b78bf7da627b37e4596770fe9))
+* **gq:** add production segment in table and details view (GQUOTE-2571) ([#5317](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5317)) ([15f8ee6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/15f8ee6b573d253c7270845b2fde32e754610243))
+* **gq:** adjust autcomplete panel width to the content for Material Number and Material Description (GQUOTE-2415) ([#5336](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5336)) ([8c72193](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8c72193de35a3c4e7c4e3ecbc98344fb6ac48138))
+* **gq:** display ApprovalStatus in OverviewTab (GQUOTE-2326) ([#5294](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5294)) ([51c0952](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/51c09520c712289d78e402f74aae672cb342a3d5))
+* **gq:** display ApprovalStatus information in ReleaseModal Component (GQUOTE-2501) ([#5292](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5292)) ([632df60](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/632df6013b73d6e6a44394cd805546a716e69c27))
+* **gq:** display mrp controller in table and details view and fix "unknown element" error in unit tests (GQUOTE-2568) ([#5315](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5315)) ([081ba93](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/081ba9359844f95e190d4ea33d48ca0d63df790f))
+* **gq:** enable save button in editing modal only if there are changes (GQUOTE-2540) ([#5302](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5302)) ([ed35595](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ed3559529149181a2dc30682b7fa6c538237deaf))
+* **gq:** override main-content background (GQUOTE-2535) ([#5324](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5324)) ([e88ae57](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e88ae576af513d909fcb38108549e8be3e913aa1))
+* **gq:** remove targetPrice featureToggle (GQUOTE-2576) ([#5323](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5323)) ([58379a7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/58379a7efa65f3886ebe781b8317598bc432d9fd))
+* **gq:** switch to new cards design in pricing details (GQUOTE-2468) ([#5309](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5309)) ([ba9ce6c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ba9ce6c3b5c305ab3cf6ea2699557ab6c24be8e2))
+* **gq:** update translations (GQUOTE-2274) ([#5326](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5326)) ([fe75779](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fe75779fea7518581e80ae24604930bdd543181d))
+
+
+### Bug Fixes
+
+* **gq:** display Modal, when loading is complete (GQUOTE-2558) ([#5334](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5334)) ([653950b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/653950bf3b8a358e85b9190c0e7af9c9046ae236))
+* **gq:** do not allow decimal numbers for quantity (GQUOTE-2550) ([#5304](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5304)) ([936b917](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/936b917ac869e2a68e40729828752281657aa09c))
+* **gq:** do not divide by 0 when calculating price diff ([#5321](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5321)) ([e55caa4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e55caa4bbff3ff3eaf2e2761b47ee4c41952b6f2))
+* **gq:** do not show decimal places in quantity input field placeholder in editing modal (GQUOTE-2147) ([#5296](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5296)) ([33c410f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/33c410fe02d41118ffa5643d79802a0a1f1a1430))
+* **gq:** fix mapping of string ApprovalLevel (GQUOTE-2501) ([#5303](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5303)) ([ba59869](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ba59869fc37c8cf454d914b2f9b13afadf7b4e5b))
+* **gq:** pin dropDown auf autocompletes (GQUOTE-2528) ([#5322](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5322)) ([2058137](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2058137c8f017550f272ada80c566c05f3d0b11b))
+* **gq:** show loading spinner when loading approval data (GQUOTE-2558) ([#5320](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5320)) ([6dae3b0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6dae3b052e48f3c9491bc8b107c80c8673a99fce))
+* **gq:** spelling mistake in german translation ([#5300](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5300)) ([ec0886e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ec0886ebf80f356ebccae69054c60c1088743315))
+* **gq:** update import for editingModalModule (GQUOTE-2546) ([#5344](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5344)) ([be08eb9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/be08eb945b3c46462e7a6dad6bf2ef4592515bd2))
+* **gq:** update StatusBar LAout and Fix locally failed tests (GQUOTE-2028) ([#5314](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5314)) ([99bb5ad](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/99bb5add53b823fdace126547a6eec2dcc5b4f56))
+* **gq:** update translation (GQUOTE-2274) ([#5342](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5342)) ([81e2af2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/81e2af2a27cd59f712e5da9f3209ff4c5733ca57))
+
 ## [3.6.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v3.6.0...gq-v3.6.1) (2023-05-16)
 
 
