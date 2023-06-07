@@ -1,6 +1,5 @@
 import { CreateCaseEffects } from './create-case/create-case.effects';
 import { ExtendedComparableLinkedTransactionsEffect } from './extended-comparable-linked-transactions/extended-comparable-linked-transactions.effects';
-import { HealthCheckEffects } from './health-check/health-check.effects';
 import { MaterialComparableCostEffect } from './material-comparable-costs/material-comparable-costs.effects';
 import { MaterialCostDetailsEffects } from './material-cost-details/material-cost-details.effects';
 import { MaterialSalesOrgEffect } from './material-sales-org/material-sales-org.effects';
@@ -17,7 +16,6 @@ export const ROOT_EFFECTS = [
   MaterialComparableCostEffect,
   MaterialSalesOrgEffect,
   ExtendedComparableLinkedTransactionsEffect,
-  HealthCheckEffects,
   SapPriceDetailsEffects,
   MaterialStockEffects,
   PlantMaterialDetailsEffects,
@@ -26,7 +24,6 @@ export const ROOT_EFFECTS = [
 
 export { CreateCaseEffects } from './create-case/create-case.effects';
 export { ExtendedComparableLinkedTransactionsEffect } from './extended-comparable-linked-transactions/extended-comparable-linked-transactions.effects';
-export { HealthCheckEffects } from './health-check/health-check.effects';
 export { MaterialComparableCostEffect } from './material-comparable-costs/material-comparable-costs.effects';
 export { MaterialCostDetailsEffects } from './material-cost-details/material-cost-details.effects';
 export { MaterialSalesOrgEffect } from './material-sales-org/material-sales-org.effects';

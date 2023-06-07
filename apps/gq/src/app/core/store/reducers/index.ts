@@ -12,7 +12,6 @@ import {
 import { environment } from '../../../../environments/environment';
 import * as fromCase from './create-case/create-case.reducer';
 import * as fromExtendedComparableLinkedTransactions from './extended-comparable-linked-transactions/extended-comparable-linked-transactions.reducer';
-import * as fromHealthCheck from './health-check/health-check.reducer';
 import * as fromMaterialComparableCosts from './material-comparable-costs/material-comparable-costs.reducer';
 import * as fromMaterialCostDetails from './material-cost-details/material-cost-details.reducer';
 import * as fromMaterialSalesOrg from './material-sales-org/material-sales-org.reducer';
@@ -36,7 +35,6 @@ export interface AppState {
   extendedComparableLinkedTransactions: fromExtendedComparableLinkedTransactions.ExtendedComparableLinkedTransactionsState;
   materialComparableCosts: fromMaterialComparableCosts.MaterialComparableCostsState;
   materialSalesOrg: fromMaterialSalesOrg.MaterialSalesOrgsState;
-  healthCheck: fromHealthCheck.HealthCheckState;
   sapPriceDetails: fromSapPriceDetails.SapPriceDetailsState;
   materialStock: fromMaterialStock.MaterialStockState;
   plantMaterialDetails: fromPlantMaterialDetails.PlantMaterialDetailsState;
@@ -53,7 +51,6 @@ export const reducers: ActionReducerMap<AppState> = {
   materialComparableCosts:
     fromMaterialComparableCosts.materialComparableCostsReducer,
   materialSalesOrg: fromMaterialSalesOrg.materialSalesOrgReducer,
-  healthCheck: fromHealthCheck.healthCheckReducer,
   sapPriceDetails: fromSapPriceDetails.sapPriceDetailsReducer,
   materialStock: fromMaterialStock.materialStockReducer,
   plantMaterialDetails: fromPlantMaterialDetails.plantMaterialDetailsReducer,
@@ -91,8 +88,6 @@ export const getMaterialSalesOrgsState =
   createFeatureSelector<fromMaterialSalesOrg.MaterialSalesOrgsState>(
     'materialSalesOrg'
   );
-export const getHealthCheckState =
-  createFeatureSelector<fromHealthCheck.HealthCheckState>('healthCheck');
 
 export const getSapPriceDetailsState =
   createFeatureSelector<fromSapPriceDetails.SapPriceDetailsState>(

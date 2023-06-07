@@ -19,10 +19,7 @@ import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
 import packageJson from '../../package.json';
 import { AppRoutePath } from './app-route-path.enum';
-import {
-  getHealthCheckAvailable,
-  getHealthCheckLoading,
-} from './core/store/selectors';
+import { HealthCheckFacade } from './core/store/health-check/health-check.facade';
 
 @Component({
   selector: 'gq-root',
@@ -71,8 +68,6 @@ export class AppComponent implements OnInit {
   profileImage$: Observable<string>;
   username$: Observable<string>;
   isLoggedIn$: Observable<boolean>;
-  healthCheckLoading$: Observable<boolean>;
-  isHealthCheckAvailable$: Observable<boolean>;
   isCookieRouteActive$: Observable<boolean>;
   showGlobalSearch$: Observable<boolean>;
 
@@ -81,15 +76,14 @@ export class AppComponent implements OnInit {
     private readonly router: Router,
     private readonly translocoService: TranslocoService,
     private readonly appInsightsService: ApplicationInsightsService,
-    @Optional() private readonly oneTrustService: OneTrustService
+    @Optional() private readonly oneTrustService: OneTrustService,
+    readonly healthCheckFacade: HealthCheckFacade
   ) {}
 
   public ngOnInit(): void {
     this.username$ = this.store.select(getUsername);
     this.profileImage$ = this.store.select(getProfileImage);
     this.isLoggedIn$ = this.store.select(getIsLoggedIn);
-    this.healthCheckLoading$ = this.store.select(getHealthCheckLoading);
-    this.isHealthCheckAvailable$ = this.store.select(getHealthCheckAvailable);
 
     this.handleCurrentRoute();
 

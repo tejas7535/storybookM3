@@ -8,6 +8,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { environment } from '../../../environments/environment';
 import { ROOT_EFFECTS } from './effects';
+import { HealthCheckModule } from './health-check/health-check.module';
 import { CustomSerializer, metaReducers, reducers } from './reducers';
 
 @NgModule({
@@ -30,6 +31,7 @@ import { CustomSerializer, metaReducers, reducers } from './reducers';
         })
       : /* istanbul ignore next: very difficult */ [],
     EffectsModule.forRoot([...ROOT_EFFECTS]),
+    HealthCheckModule,
   ],
   exports: [],
 })

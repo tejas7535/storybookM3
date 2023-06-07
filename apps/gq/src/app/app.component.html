@@ -1,6 +1,7 @@
 <schaeffler-app-shell
   *ngIf="
-    (isLoggedIn$ | ngrxPush) && !(healthCheckLoading$ | ngrxPush);
+    (isLoggedIn$ | ngrxPush) &&
+      !(healthCheckFacade.healthCheckLoading$ | ngrxPush);
     else loading
   "
   [appTitle]="title"
@@ -18,18 +19,21 @@
     <gq-user-settings></gq-user-settings>
   </ng-container>
   <ng-container mainContent>
-    <div class="h-full w-full bg-secondary">
+    <div class="bg-secondary h-full w-full">
       <div
-        *ngIf="isHealthCheckAvailable$ | ngrxPush; else maintenance"
+        *ngIf="
+          healthCheckFacade.healthCheckAvailable$ | ngrxPush;
+          else maintenance
+        "
         class="h-full w-full"
       >
         <router-outlet></router-outlet>
         <div
           *transloco="let t; read: 'legal'"
-          class="mx-auto w-full max-w-screen-md bg-surface"
+          class="bg-surface mx-auto w-full max-w-screen-md"
           [ngClass]="{ hidden: !(isCookieRouteActive$ | ngrxPush) }"
         >
-          <div class="py-3 px-4">
+          <div class="px-4 py-3">
             <button id="ot-sdk-btn" class="ot-sdk-show-settings">
               {{ t('cookieSettings') }}
             </button>
