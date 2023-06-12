@@ -33,4 +33,6 @@ export class CalculationResultPreviewItemComponent {
     this._item = item;
     this.isSingleItem = item.values.length === 1;
   }
+
+  @Input() styleClass: string | undefined;
 }

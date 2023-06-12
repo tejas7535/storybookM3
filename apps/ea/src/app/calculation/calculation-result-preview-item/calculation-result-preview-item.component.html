@@ -1,6 +1,7 @@
 <ng-container *transloco="let t; read: 'calculationResult'">
   <div
-    class="ea-flex ea-flex-shrink-0 ea-flex-col ea-items-center ea-justify-between md:ea-justify-center disabled-ea-border ea-border-border md:ea-border-0 md:ea-w-auto ea-w-[60vw] ea-py-2 md:ea-h-auto ea-h-full disabled-ea-bg-surface md:ea-bg-transparent ea-rounded-lg"
+    class="ea-flex ea-flex-shrink-0 ea-flex-col ea-items-center ea-justify-between md:ea-justify-center disabled-ea-border ea-border-border md:ea-border-0 md:ea-w-auto ea-py-2 md:ea-h-auto ea-h-full disabled-ea-bg-surface md:ea-bg-transparent ea-rounded-lg"
+    [ngClass]="styleClass"
     *ngIf="_item"
   >
     <div
