@@ -117,7 +117,7 @@
           return {
             wrapperAppTitle: 'Embedded App',
             webComponentSrc: 'http://localhost:8000',
-            webComponentTag: '<app-root></app-root>',
+            webComponentTag: '<engineering-app></engineering-app>',
             containerHeight: 800,
             containerWidth: 1280,
           };
@@ -136,7 +136,7 @@
         mounted() {
           const webcomponentScript = document.createElement('script');
           webcomponentScript.id = 'webcomponentScript';
-          webcomponentScript.src = 'http://localhost:8000/test';
+          webcomponentScript.src = 'http://localhost:8000/ea-webcomponent.js';
           document.head.appendChild(webcomponentScript);
         },
       }).mount('#app');
