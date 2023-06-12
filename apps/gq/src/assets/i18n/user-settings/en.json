@@ -8,34 +8,34 @@
     "title": "Roles & Rights",
     "geoRoles": {
       "title": "Geographical Roles",
-      "REGION.WORLD": "This role enables a user to query customers from all regions.",
-      "REGION.EMEA": "This role enables a user to query customers from region Europe.",
-      "REGION.AMERICAS": "This role enables a user to query customers from region Americas.",
-      "REGION.ASIA.PACIFIC": "This role enables a user to query customers from region Asia Pacific.",
-      "REGION.GREATER.CHINA": "This role enables a user to query customers from region Greater China."
+      "REGION_WORLD": "This role enables a user to query customers from all regions.",
+      "REGION_EMEA": "This role enables a user to query customers from region Europe.",
+      "REGION_AMERICAS": "This role enables a user to query customers from region Americas.",
+      "REGION_ASIA_PACIFIC": "This role enables a user to query customers from region Asia Pacific.",
+      "REGION_GREATER_CHINA": "This role enables a user to query customers from region Greater China."
     },
     "sectoralRoles": {
       "title": "Sectoral Roles",
-      "SECTOR.ALL": "This role enables a user to query customers from all sectors.",
-      "SECTOR.ID": "This role enables a user to query Distribution customers.",
-      "SECTOR.OEM": "This role enables a user to query OEM/MRO customers.",
-      "SECTOR.IA": "This role enables a user to query customers allocated to sector Industrial Automation.",
-      "SECTOR.OR": "This role enables a user to query customers allocated to sector Offroad.",
-      "SECTOR.PT": "This role enables a user to query customers allocated to sector Power Transmission.",
-      "SECTOR.RM": "This role enables a user to query customers allocated to sector Raw Materials.",
-      "SECTOR.RV": "This role enables a user to query customers allocated to sector Railway.",
-      "SECTOR.TW": "This role enables a user to query customers allocated to sector Two Wheelers.",
-      "SECTOR.WE": "This role enables a user to query customers allocated to sector Windenergy.",
-      "SECTOR.XA": "This role enables a user to query customers allocated to sector Aerospace."
+      "SECTOR_ALL": "This role enables a user to query customers from all sectors.",
+      "SECTOR_ID": "This role enables a user to query Distribution customers.",
+      "SECTOR_OEM": "This role enables a user to query OEM/MRO customers.",
+      "SECTOR_IA": "This role enables a user to query customers allocated to sector Industrial Automation.",
+      "SECTOR_OR": "This role enables a user to query customers allocated to sector Offroad.",
+      "SECTOR_PT": "This role enables a user to query customers allocated to sector Power Transmission.",
+      "SECTOR_RM": "This role enables a user to query customers allocated to sector Raw Materials.",
+      "SECTOR_RV": "This role enables a user to query customers allocated to sector Railway.",
+      "SECTOR_TW": "This role enables a user to query customers allocated to sector Two Wheelers.",
+      "SECTOR_WE": "This role enables a user to query customers allocated to sector Windenergy.",
+      "SECTOR_XA": "This role enables a user to query customers allocated to sector Aerospace."
     },
     "costRoles": {
       "title": "Cost Roles",
-      "COST.GPC": "This role enables a user to see GPC and margin information.",
-      "COST.SQV": "This role enables a user to see SQV information."
+      "COST_GPC": "This role enables a user to see GPC and margin information.",
+      "COST_SQV": "This role enables a user to see SQV information."
     },
     "priceRoles": {
       "title": "Price Manual",
-      "PRICE.MANUAL": "This role enables a user to enter a manual price (ZMAN)."
+      "PRICE_MANUAL": "This role enables a user to enter a manual price (ZMAN)."
     }
   },
   "contactInformation": "Please contact <a class='text-link' href='{{serivceNowAdress}}' target='_blank' rel='noopener noreferrer'>ServiceNow</a> if you have questions about your user roles or need access to additional user roles.<br><br>Please choose Software then choose GQ – Guided Quoting."

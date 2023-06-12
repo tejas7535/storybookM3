@@ -8,34 +8,34 @@
     "title": "Rollen & Rechte",
     "geoRoles": {
       "title": "Geografische Rollen",
-      "REGION.WORLD": "Diese Rolle berechtigt zum Zugriff auf Kunden aus allen Regionen.",
-      "REGION.EMEA": "Diese Rolle berechtigt zum Zugriff auf Kunden aus der Region Europa.",
-      "REGION.AMERICAS": "Diese Rolle berechtigt zum Zugriff auf Kunden aus der Region Amerikas.",
-      "REGION.ASIA.PACIFIC": "Diese Rolle berechtigt zum Zugriff auf Kunden aus der Region Asien Pazifik.",
-      "REGION.GREATER.CHINA": "Diese Rolle berechtigt zum Zugriff auf Kunden aus der Region China."
+      "REGION_WORLD": "Diese Rolle berechtigt zum Zugriff auf Kunden aus allen Regionen.",
+      "REGION_EMEA": "Diese Rolle berechtigt zum Zugriff auf Kunden aus der Region Europa.",
+      "REGION_AMERICAS": "Diese Rolle berechtigt zum Zugriff auf Kunden aus der Region Amerikas.",
+      "REGION_ASIA.PACIFIC": "Diese Rolle berechtigt zum Zugriff auf Kunden aus der Region Asien Pazifik.",
+      "REGION_GREATER.CHINA": "Diese Rolle berechtigt zum Zugriff auf Kunden aus der Region China."
     },
     "sectoralRoles": {
       "title": "Sektor Rollen",
-      "SECTOR.ALL": "Diese Rolle berechtigt zum Zugriff auf Kunden aus allen Sektoren.",
-      "SECTOR.ID": "Diese Rolle berechtigt zum Zugriff auf Distribution - Kunden.",
-      "SECTOR.OEM": "Diese Rolle berechtigt zum Zugriff auf OEM/MRO - Kunden.",
-      "SECTOR.IA": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Industrial Automation.",
-      "SECTOR.OR": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Offroad.",
-      "SECTOR.PT": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Power Transmission.",
-      "SECTOR.RM": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Raw Materials.",
-      "SECTOR.RV": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Railway.",
-      "SECTOR.TW": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Two Wheelers.",
-      "SECTOR.WE": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Windenergy.",
-      "SECTOR.XA": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Aerospace."
+      "SECTOR_ALL": "Diese Rolle berechtigt zum Zugriff auf Kunden aus allen Sektoren.",
+      "SECTOR_ID": "Diese Rolle berechtigt zum Zugriff auf Distribution - Kunden.",
+      "SECTOR_OEM": "Diese Rolle berechtigt zum Zugriff auf OEM/MRO - Kunden.",
+      "SECTOR_IA": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Industrial Automation.",
+      "SECTOR_OR": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Offroad.",
+      "SECTOR_PT": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Power Transmission.",
+      "SECTOR_RM": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Raw Materials.",
+      "SECTOR_RV": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Railway.",
+      "SECTOR_TW": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Two Wheelers.",
+      "SECTOR_WE": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Windenergy.",
+      "SECTOR_XA": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Aerospace."
     },
     "costRoles": {
       "title": "Kosten Rollen",
-      "COST.GPC": "Diese Rolle berechtigt zur Anzeige von KHK und GPI Informationen.",
-      "COST.SQV": "Diese Rolle berechtigt zur Anzeige von SAW."
+      "COST_GPC": "Diese Rolle berechtigt zur Anzeige von KHK und GPI Informationen.",
+      "COST_SQV": "Diese Rolle berechtigt zur Anzeige von SAW."
     },
     "priceRoles": {
       "title": "Preis Rollen",
-      "PRICE.MANUAL": "Diese Rolle berechtigt zur Anlage von manuellen Preisen (ZMAN)."
+      "PRICE_MANUAL": "Diese Rolle berechtigt zur Anlage von manuellen Preisen (ZMAN)."
     }
   },
   "contactInformation": "Kontaktieren Sie bitte: <a class='text-link' href='{{serivceNowAdress}}' target='_blank' rel='noopener noreferrer'>ServiceNow</a>, wenn Sie Fragen zu Ihren Benutzerrollen haben oder Zugang zu weiteren Benutzerrollen benötigen.<br><br>Bitte wählen Sie Software und dann GQ – Guided Quoting aus."
