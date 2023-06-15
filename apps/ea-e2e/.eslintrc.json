@@ -15,7 +15,10 @@
       "parserOptions": {
         "project": ["apps/ea-e2e/tsconfig.*?.json"]
       },
-      "extends": ["plugin:cypress/recommended"]
+      "extends": ["plugin:cypress/recommended"],
+      "rules": {
+        "unicorn/no-empty-file": "off"
+      }
     }
   ]
 }

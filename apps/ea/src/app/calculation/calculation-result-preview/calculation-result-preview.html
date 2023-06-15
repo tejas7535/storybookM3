@@ -1,42 +1,35 @@
 <ng-container *transloco="let t; read: 'calculation'">
   <div
-    class="ea-left-0 ea-flex ea-w-full ea-items-center ea-justify-center ea-overflow-hidden ea-box-border"
-    [ngClass]="{'md:ea-fixed ea-bottom-0': sticky}"
+    class="left-0 flex w-full items-center justify-center overflow-hidden box-border"
+    [ngClass]="{'md:fixed bottom-0': sticky}"
   >
     <div
-      class="ea-bg-background-dark ea-flex ea-flex-row ea-items-center ea-justify-center ea-rounded-t ea-m-2 md:ea-flex-grow-0 ea-flex-grow md:ea-m-0 ea-pt-4 ea-pb-2 ea-px-2 md:ea-py-2 md:ea-px-4"
+      class="bg-background-dark flex flex-row items-center justify-center rounded-t m-2 md:flex-grow-0 flex-grow md:m-0 pt-4 pb-2 px-2 md:py-2 md:px-4"
     >
       <div
-        class="ea-flex ea-flex-col md:ea-flex-row ea-flex-grow ea-gap-2 md:ea-gap-8 ea-items-center md:ea-min-w-0"
+        class="flex flex-col md:flex-row flex-grow gap-2 md:gap-8 items-center md:min-w-0"
       >
         <!-- Missing Input -->
         <ng-container *ngIf="isCalculationMissingInput$ | ngrxPush">
-          <div
-            class="ea-flex ea-flex-shrink-0 ea-flex-row ea-items-center ea-justify-center"
-          >
-            <div class="ea-flex ea-flex-shrink-0">
+          <div class="flex flex-shrink-0 flex-row items-center justify-center">
+            <div class="flex flex-shrink-0">
               <mat-icon color="primary">info_outline</mat-icon>
             </div>
-            <div
-              class="ea-text-caption ea-text-high-emphasis ea-ml-2 ea-flex-shrink-0"
-            >
+            <div class="text-caption text-high-emphasis ml-2 flex-shrink-0">
               {{ t('calculationMissingInput') }}
             </div>
           </div>
-          <mat-divider
-            class="ea-hidden md:ea-block"
-            [vertical]="true"
-          ></mat-divider>
+          <mat-divider class="hidden md:block" [vertical]="true"></mat-divider>
         </ng-container>
 
         <!-- Calculation Impossible -->
         <ng-container *ngIf="isCalculationImpossible$ | ngrxPush">
-          <div class="ea-flex ea-flex-shrink-0 ea-flex-row ea-items-center">
-            <div class="ea-flex ea-flex-shrink-0">
+          <div class="flex flex-shrink-0 flex-row items-center">
+            <div class="flex flex-shrink-0">
               <mat-icon color="error">warning</mat-icon>
             </div>
             <div
-              class="ea-text-caption ea-text-high-emphasis ea-ml-2 ea-flex-shrink-0"
+              class="text-caption text-high-emphasis ml-2 flex-shrink-0"
               [style]="{'max-width': '220px'}"
             >
               {{ t('calculationImpossible') }}
@@ -48,18 +41,18 @@
         <!-- Preview items -->
         <div
           *ngIf="overlayData$ | ngrxPush as overlayData"
-          class="ea-flex ea-touch-pan-x ea-snap-x ea-snap-mandatory ea-flex-row ea-gap-2 ea-overflow-x-auto md:ea-max-w-auto md:ea-px-0"
-          [ngClass]="{'ea-max-w-[calc(100vw-2rem)] ea-px-[30vw]': sticky, 'ea-max-w-[calc(100vw-2rem-4rem)] ea-px-[25vw]': !sticky}"
+          class="flex touch-pan-x snap-x snap-mandatory flex-row gap-2 overflow-x-auto md:max-w-auto md:px-0"
+          [ngClass]="{'max-w-[calc(100vw-2rem)] px-[30vw]': sticky, 'max-w-[calc(100vw-2rem-4rem)] px-[25vw]': !sticky}"
         >
           <ng-container *ngFor="let item of overlayData">
-            <div class="ea-snap-center ea-my-4 md:ea-my-0">
+            <div class="snap-center my-4 md:my-0">
               <ea-calculation-result-preview-item
-                styleClass="ea-w-[50vw]"
+                styleClass="w-[50vw]"
                 [item]="item"
               ></ea-calculation-result-preview-item>
             </div>
             <mat-divider
-              class="ea-hidden md:ea-block"
+              class="hidden md:block"
               [vertical]="true"
             ></mat-divider>
           </ng-container>
@@ -67,16 +60,16 @@
 
         <!-- Report button -->
         <div
-          class="ea-flex ea-flex-shrink-0 ea-flex-grow md:ea-flex md:ea-items-center ea-w-full md:ea-w-auto"
+          class="flex flex-shrink-0 flex-grow md:flex md:items-center w-full md:w-auto"
         >
           <button
             mat-raised-button
             color="primary"
-            class="ea-grow md:ea-mx-0 ea-mx-4 md:ea-mr-4"
+            class="grow md:mx-0 mx-4 md:mr-4"
             [disabled]="(isCalculationResultReportAvailable$ | ngrxPush) === false"
             (click)="showReport()"
           >
-            <div class="ea-flex ea-items-center ea-justify-center">
+            <div class="flex items-center justify-center">
               {{ t('showReport') }}
             </div>
           </button>

@@ -1,31 +1,27 @@
 <ng-container *transloco="let t; read: 'operationConditions'">
-  <div class="ea-flex ea-w-full ea-flex-col ea-max-w-[850px]">
-    <div class="ea-flex ea-flex-1 ea-flex-col ea-items-center ea-gap-10">
-      <div class="ea-flex ea-flex-col ea-gap-0 sm:ea-gap-6 lg:ea-grid">
-        <h6 class="ea-text-medium-emphasis ea-mx-2">
+  <div class="flex w-full flex-col max-w-[850px]">
+    <div class="flex flex-1 flex-col items-center gap-10">
+      <div class="flex flex-col gap-0 sm:gap-6 lg:grid">
+        <h6 class="text-medium-emphasis mx-2">
           {{t('title', {bearingDesignation: bearingDesignation$ | ngrxPush } )}}
         </h6>
-        <div
-          class="ea-flex-row ea-items-end ea-w-full ea-mb-4 ea-flex md:ea-hidden"
-        >
+        <div class="flex-row items-end w-full mb-4 flex md:hidden">
           <button
             (click)="onShowBasicFrequenciesDialogClick()"
             mat-button
-            class="ea-ml-auto"
+            class="ml-auto"
             color="primary"
           >
             {{ 'basicFrequencies.showBasicFrequencies' | transloco }}
           </button>
         </div>
 
-        <div
-          class="ea-flex ea-flex-row ea-items-center ea-justify-between ea-mb-4"
-        >
+        <div class="flex flex-row items-center justify-between mb-4">
           <button
             mat-button
             color="primary"
             (click)="onResetButtonClick()"
-            class="md:ea-ml-auto"
+            class="md:ml-auto"
           >
             {{ t('resetInputs') }}
           </button>
@@ -35,7 +31,7 @@
             mat-icon-button
             color="primary"
             (click)="onShowCalculationTypesClick()"
-            class="md:ea-hidden ea-inline-block mx-2"
+            class="md:hidden inline-block mx-2"
           >
             <mat-icon>tune</mat-icon>
           </button>
@@ -60,7 +56,7 @@
 <!-- LOAD -->
 <ng-template #inputLoad let-t="t">
   <ea-input-group [title]="t('loads')" icon="compress" [isMandatory]="true">
-    <div class="ea-grid ea-grid-cols-1 ea-gap-0 md:ea-grid-cols-2 md:ea-gap-4">
+    <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4">
       <ea-input-number
         [formControl]="operationConditionsForm.controls.load.controls.radialLoad"
         [label]="t('radialLoad')"
@@ -88,7 +84,7 @@
     icon="animation"
     [isMandatory]="true"
   >
-    <div class="ea-grid ea-grid-cols-1 ea-gap-0 md:ea-grid-cols-2 md:ea-gap-4">
+    <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4">
       <ea-input-number
         [formControl]="operationConditionsForm.controls.rotation.controls.rotationalSpeed"
         [label]="t('relativeRotationalSpeed')"

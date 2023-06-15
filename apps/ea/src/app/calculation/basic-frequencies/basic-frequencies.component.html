@@ -1,43 +1,37 @@
 <ng-container *transloco="let t; read: 'basicFrequencies'">
-  <div mat-dialog-title class="!-ea-mx-6 !-ea-mt-4">
-    <div
-      class="ea-flex ea-flex-row ea-content-around ea-justify-between ea-pb-2 ea-pl-4 ea-pr-2"
-    >
-      <div class="ea-text-h6 ea-text-high-emphasis ea-my-auto">
+  <div mat-dialog-title class="!-mx-6 !-mt-4">
+    <div class="flex flex-row content-around justify-between pb-2 pl-4 pr-2">
+      <div class="text-h6 text-high-emphasis my-auto">
         {{
           t('dialogTitle', {
             bearingDesignation: bearingDesignation$ | ngrxPush
           })
         }}
       </div>
-      <div class="ea-flex ea-flex-row">
+      <div class="flex flex-row">
         <button mat-icon-button (click)="closeDialog()">
-          <mat-icon class="ea-text-medium-emphasis">close</mat-icon>
+          <mat-icon class="text-medium-emphasis">close</mat-icon>
         </button>
       </div>
     </div>
   </div>
 
-  <mat-dialog-content class="!ea-px-4 ea-pb-4">
+  <mat-dialog-content class="!px-4 pb-4">
     <ng-container
       *ngIf="
         basicFrequencies$ | ngrxPush as basicFrequencies;
         else loadingTemplate
       "
     >
-      <div
-        class="ea-border-border ea-rounded ea-border ea-overflow-auto ea-min-w-[400px]"
-      >
-        <div
-          class="ea-border-border ea-text-subtitle-1 ea-border-b md:ea-px-4 md:ea-py-2 ea-p-2"
-        >
+      <div class="border-border rounded border overflow-auto min-w-[400px]">
+        <div class="border-border text-subtitle-1 border-b md:px-4 md:py-2 p-2">
           {{ basicFrequencies.title }}
         </div>
-        <div class="md:ea-px-8 ea-p-0 md:ea-py-4">
+        <div class="md:px-8 p-0 md:py-4">
           <table
             mat-table
             [dataSource]="basicFrequencies.rows"
-            class="md:ea-w-full"
+            class="md:w-full"
           >
             <ng-container matColumnDef="name">
               <th mat-header-cell *matHeaderCellDef></th>
@@ -47,7 +41,7 @@
             </ng-container>
             <ng-container matColumnDef="abbreviation">
               <th mat-header-cell *matHeaderCellDef></th>
-              <td mat-cell *matCellDef="let item" class="!ea-px-4">
+              <td mat-cell *matCellDef="let item" class="!px-4">
                 {{ item.abbreviation }}
               </td>
             </ng-container>
@@ -60,7 +54,7 @@
 
             <tr
               mat-row
-              [class.ea-bg-hover-overlay]="i % 2 === 1"
+              [class.bg-hover-overlay]="i % 2 === 1"
               *matRowDef="let row; let i = index; columns: columnsToDisplay"
             ></tr>
           </table>
@@ -69,8 +63,8 @@
     </ng-container>
 
     <ng-template #loadingTemplate>
-      <div class="ea-item-center ea-flex ea-content-center ea-p-8">
-        <div class="ea-ml-auto ea-mr-auto">
+      <div class="item-center flex content-center p-8">
+        <div class="ml-auto mr-auto">
           <mat-spinner diameter="20"></mat-spinner>
         </div>
       </div>

@@ -1,3 +1,4 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
 import {
   AfterContentInit,
@@ -19,13 +20,13 @@ import {
 import { MatDividerModule } from '@angular/material/divider';
 import { MatRadioModule } from '@angular/material/radio';
 
+import { map, Observable } from 'rxjs';
+
 import { NOOP_VALUE_ACCESSOR } from '../constants/input';
+import { TAILWIND_SCREENS } from '../constants/screens';
 import { RadioButtonComponent } from '../radio-button/radio-button.component';
 import { TabbedSuboptionComponent } from '../tabbed-suboption/tabbed-suboption.component';
 import { OptionTemplateDirective } from './option-template.directive';
-import { BreakpointObserver } from '@angular/cdk/layout';
-import { Observable, map } from 'rxjs';
-import { TAILWIND_SCREENS } from '../constants/screens';
 
 @Component({
   selector: 'ea-tabbed-options',

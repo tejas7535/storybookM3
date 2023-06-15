@@ -1,11 +1,8 @@
 <div
-  class="ea-flex ea-w-full ea-flex-row ea-items-baseline ea-gap-2"
+  class="flex w-full flex-row items-baseline gap-2"
   *transloco="let t; read: 'operationConditions.errors'"
 >
-  <mat-form-field
-    appearance="outline"
-    class="ea-flex ea-w-full ea-grow-0 ea-flex-row ea-pb-3"
-  >
+  <mat-form-field appearance="outline" class="flex w-full grow-0 flex-row pb-3">
     <mat-label *ngIf="label">{{ label }}</mat-label>
     <input
       matInput
@@ -14,7 +11,7 @@
       [formControl]="control"
       [placeholder]="placeholder"
     />
-    <div *ngIf="unit" class="ea-relative ea-bottom-1" matSuffix>
+    <div *ngIf="unit" class="relative bottom-1" matSuffix>
       {{ unit }}
     </div>
     <mat-hint *ngIf="hint">{{ hint }}</mat-hint>

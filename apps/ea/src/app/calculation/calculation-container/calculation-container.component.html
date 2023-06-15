@@ -1,14 +1,14 @@
 <div
-  class="ea-flex ea-flex-row ea-p-2 md:ea-mb-8 md:ea-p-0"
-  [ngClass]="{ 'md:ea-pb-[148px]': isStandalone$ | ngrxPush }"
+  class="flex flex-row p-2 md:mb-8 md:p-0"
+  [ngClass]="{ 'md:pb-[148px]': isStandalone$ | ngrxPush }"
 >
-  <div class="md:ea-mx-8">
+  <div class="md:mx-8">
     <ea-calculation-parameters></ea-calculation-parameters>
   </div>
 
-  <div class="ea-ml-auto ea-hidden ea-flex-row md:ea-flex">
+  <div class="ml-auto hidden flex-row md:flex">
     <mat-divider [vertical]="true"></mat-divider>
-    <div class="ea-my-8 ea-ml-8">
+    <div class="my-8 ml-8">
       <ea-calculation-types-selection></ea-calculation-types-selection>
     </div>
   </div>

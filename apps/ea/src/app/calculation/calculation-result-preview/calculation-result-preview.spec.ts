@@ -72,7 +72,7 @@ describe('CalculationResultPreviewComponent', () => {
   });
 
   it('should show info if calculation is missing inputs', () => {
-    const m = spectator.query('.ea-bg-background-dark').textContent;
+    const m = spectator.query('.bg-background-dark').textContent;
     expect(m).toContain('calculation.calculationMissingInput');
   });
 

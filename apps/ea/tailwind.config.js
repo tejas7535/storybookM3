@@ -38,7 +38,9 @@ module.exports = {
       },
     },
   },
-  important: true,
-  prefix: 'ea-',
+  important: 'engineering-app',
   plugins: [],
+  corePlugins: {
+    preflight: false,
+  },
 };

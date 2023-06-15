@@ -5,10 +5,7 @@
 /*
 * Angular Material, material design components
 * see https://material.angular.io
-
 */
-$prefix: 'ea-';
-
 @import 'libs/shared/ui/styles/src/lib/scss/material-theme';
 
 /***************************************************************************************************
@@ -23,6 +20,11 @@ $prefix: 'ea-';
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Tailwind preflight modified with application scope only
+ */
+@import './preflight';
+
 engineering-app,
 mat-dialog-container {
   * {
@@ -30,7 +32,7 @@ mat-dialog-container {
   }
 
   .mat-button-base.mat-button .mat-button-focus-overlay {
-    @apply ea-hidden;
+    @apply hidden;
   }
 
   button {
@@ -42,40 +44,40 @@ mat-dialog-container {
   }
 
   mat-radio-button {
-    @apply ea-px-2 ea-py-1;
-    @apply ea-text-subtitle-2;
+    @apply px-2 py-1;
+    @apply text-subtitle-2;
 
     .mat-radio-container {
       transform: scale(0.7);
     }
     .mat-radio-ripple {
-      @apply ea-hidden;
+      @apply hidden;
     }
 
     // green background
     &.mat-radio-checked {
-      @apply ea-rounded-full;
-      @apply ea-bg-secondary-50;
-      @apply ea-text-primary #{!important};
+      @apply rounded-full;
+      @apply bg-secondary-50;
+      @apply text-primary #{!important};
     }
 
     &:not(.mat-radio-checked) {
-      @apply ea-text-medium-emphasis;
+      @apply text-medium-emphasis;
     }
 
     // suboption
     &.suboption {
-      @apply ea-rounded-full;
-      @apply ea-text-[8px];
+      @apply rounded-full;
+      @apply text-[8px];
 
       &:not(.mat-radio-checked) {
-        @apply ea-bg-secondary-variant;
+        @apply bg-secondary-variant;
       }
     }
   }
 
   // apply full width to wrapper so it actually takes the full width
-  mat-form-field.ea-w-full {
+  mat-form-field.w-full {
     .mat-form-field-wrapper {
       width: 100%;
     }
@@ -84,5 +86,5 @@ mat-dialog-container {
 
 /** fix font size for Medias integration */
 engineering-app {
-  @apply ea-text-body-1 #{!important};
+  @apply text-body-1 #{!important};
 }

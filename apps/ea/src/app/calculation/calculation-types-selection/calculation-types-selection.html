@@ -1,12 +1,9 @@
 <div
   *transloco="let t; read: 'calculationSelection'"
-  class="ea-flex ea-flex-col ea-justify-between ea-h-full"
-  [ngClass]="{ 'ea-items-center': !isInDialog, 'ea-items-start': isInDialog }"
+  class="flex flex-col justify-between h-full"
+  [ngClass]="{ 'items-center': !isInDialog, 'items-start': isInDialog }"
 >
-  <div
-    class="ea-flex ea-flex-col"
-    [ngClass]="{ 'ea-items-center': !isInDialog }"
-  >
+  <div class="flex flex-col" [ngClass]="{ 'items-center': !isInDialog }">
     <div
       *ngIf="isInDialog && getCalculationTypesGlobalSelection$ | ngrxPush as selectionState"
     >
@@ -20,62 +17,57 @@
       </button>
     </div>
 
-    <div
-      class="ea-text-subtitle-1 ea-text-medium-emphasis ea-mb-8"
-      *ngIf="!isInDialog"
-    >
+    <div class="text-subtitle-1 text-medium-emphasis mb-8" *ngIf="!isInDialog">
       {{ t('title')}}
     </div>
-    <section class="ea-flex ea-w-48 ea-flex-col">
+    <section class="flex w-48 flex-col">
       <ng-container *ngIf="!isInDialog">
         <div
-          class="ea-mb-2"
+          class="mb-2"
           *ngIf="getCalculationTypesGlobalSelection$ | ngrxPush as selectionState"
         >
           <mat-checkbox
             [disableRipple]="true"
             color="primary"
-            class="hover:ea-bg-secondary-100 hover:ea-text-primary ea-text-medium-emphasis ea-px-4 ea-py-2 hover:ea-rounded"
+            class="hover:bg-secondary-100 hover:text-primary text-medium-emphasis px-4 py-2 hover:rounded"
             (click)="selectAllChanged(!selectionState.selectAll || selectionState.indeterminate)"
             [indeterminate]="selectionState.indeterminate"
             [checked]="selectionState.selectAll"
           >
-            <div class="ea-flex">
-              <mat-icon class="ea-mr-2 ea-flex-shrink-0">calculate</mat-icon>
-              <div class="ea-text-subtitle-1 ea-text-medium-emphasis">
+            <div class="flex">
+              <mat-icon class="mr-2 flex-shrink-0">calculate</mat-icon>
+              <div class="text-subtitle-1 text-medium-emphasis">
                 {{ t('calculations') }}
               </div>
             </div>
           </mat-checkbox>
         </div>
-        <mat-divider class="ea-mb-6"></mat-divider>
+        <mat-divider class="mb-6"></mat-divider>
       </ng-container>
       <div
-        class="ea-flex"
+        class="flex"
         *ngIf="calculationTypesConfig$ | ngrxPush as calculationTypesConfig"
       >
         <ul>
           <li
             *ngFor="let config of calculationTypesConfig"
-            class="md:ea-mt-4 ea-mt-2"
+            class="md:mt-4 mt-2"
           >
             <mat-checkbox
               [disableRipple]="true"
-              class="hover:ea-bg-secondary-100 hover:ea-text-primary ea-px-4 ea-py-2 hover:ea-rounded"
-              [ngClass]="{'ea-text-low-emphasis': !config.selected, 'ea-text-medium-emphasis': config.selected}"
+              class="hover:bg-secondary-100 hover:text-primary px-4 py-2 hover:rounded"
+              [ngClass]="{'text-low-emphasis': !config.selected, 'text-medium-emphasis': config.selected}"
               color="primary"
               [checked]="config.selected"
               (click)="selectionChanged(!config.selected, config)"
             >
-              <div class="ea-flex ea-flex-row ea-items-center">
-                <mat-icon
-                  class="ea-mr-2 ea-flex-shrink-0"
-                  [svgIcon]="config.svgIcon"
+              <div class="flex flex-row items-center">
+                <mat-icon class="mr-2 flex-shrink-0" [svgIcon]="config.svgIcon"
                   >{{ config.icon }}</mat-icon
                 >
                 <div
-                  class="ea-text-subtitle-2 ea-whitespace-normal"
-                  [ngClass]="{'ea-text-low-emphasis': !config.selected, 'ea-text-medium-emphasis': config.selected}"
+                  class="text-subtitle-2 whitespace-normal"
+                  [ngClass]="{'text-low-emphasis': !config.selected, 'text-medium-emphasis': config.selected}"
                 >
                   {{ t(config.label) }}
                 </div>
@@ -87,7 +79,7 @@
     </section>
   </div>
 
-  <div class="ea-mt-16" *ngIf="!isInDialog; else okButton">
+  <div class="mt-16" *ngIf="!isInDialog; else okButton">
     <button
       (click)="onShowBasicFrequenciesDialogClick()"
       mat-button
@@ -99,10 +91,10 @@
 </div>
 
 <ng-template #okButton>
-  <div class="ea-flex ea-flex-row ea-items-center ea-w-full ea-mt-4">
+  <div class="flex flex-row items-center w-full mt-4">
     <button
       mat-raised-button
-      class="ea-w-full"
+      class="w-full"
       color="primary"
       (click)="dialogRef.close()"
     >

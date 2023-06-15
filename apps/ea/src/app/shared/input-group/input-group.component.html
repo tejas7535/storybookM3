@@ -1,25 +1,21 @@
-<div
-  class="ea-border-border ea-bg-surface ea-rounded ea-border ea-mb-6 md:ea-mb-0"
->
-  <div
-    class="ea-border-border ea-flex ea-flex-row ea-items-center ea-border-b ea-px-6 ea-py-4"
-  >
+<div class="border-border bg-surface rounded border mb-6 md:mb-0">
+  <div class="border-border flex flex-row items-center border-b px-6 py-4">
     <mat-icon
-      class="!ea-text-medium-emphasis ea-mr-2"
+      class="!text-medium-emphasis mr-2"
       *ngIf="svgIcon || icon"
       [svgIcon]="svgIcon"
       >{{ icon }}</mat-icon
     >
-    <h5 class="ea-text-subtitle-2 ea-text-medium-emphasis ea-mr-4">
+    <h5 class="text-subtitle-2 text-medium-emphasis mr-4">
       {{ title }}
     </h5>
     <span
       *ngIf="isMandatory"
-      class="ea-text-caption ea-ml-auto ea-text-low-emphasis ea-font-medium ea-tracking-wide"
+      class="text-caption ml-auto text-low-emphasis font-medium tracking-wide"
       >{{ 'general.requiredInformation' | transloco }}</span
     >
   </div>
-  <div class="md:ea-p-8 md:ea-pb-4 ea-px-2 ea-py-4">
+  <div class="md:p-8 md:pb-4 px-2 py-4">
     <ng-content></ng-content>
   </div>
 </div>

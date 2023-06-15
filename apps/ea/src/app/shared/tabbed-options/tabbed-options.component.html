@@ -1,8 +1,8 @@
-<div class="ea-flex ea-flex-col md:ea-gap-6 ea-gap-2" *ngIf="selectionOptions">
+<div class="flex flex-col md:gap-6 gap-2" *ngIf="selectionOptions">
   <ng-container *ngIf="isMediumScreen$ | async; else mobileView">
-    <mat-radio-group [formControl]="control" class="ea-flex ea-flex-wrap">
+    <mat-radio-group [formControl]="control" class="flex flex-wrap">
       <div
-        class="ea-flex"
+        class="flex"
         *ngFor="let option of selectionOptions; let last = last"
       >
         <mat-radio-button
@@ -12,15 +12,11 @@
         >
           {{ option.label }}
         </mat-radio-button>
-        <mat-divider
-          [vertical]="true"
-          *ngIf="!last"
-          class="ea-mx-4"
-        ></mat-divider>
+        <mat-divider [vertical]="true" *ngIf="!last" class="mx-4"></mat-divider>
       </div>
     </mat-radio-group>
 
-    <div class="ea-flex ea-flex-row ea-gap-4">
+    <div class="flex flex-row gap-4">
       <ng-template *ngTemplateOutlet="visibleTemplate"></ng-template>
     </div>
   </ng-container>
@@ -30,7 +26,7 @@
 <ng-template #mobileView>
   <div
     *ngFor="let option of selectionOptions"
-    class="ea-bg-secondary-variant ea-flex ea-flex-col ea-px-2 ea-py-4 ea-rounded-lg ea-gap-4"
+    class="bg-secondary-variant flex flex-col px-2 py-4 rounded-lg gap-4"
   >
     <ea-radio-button
       [label]="option.label"
@@ -38,10 +34,7 @@
       [formControl]="control"
     ></ea-radio-button>
 
-    <div
-      class="ea-flex ea-flex-col ea-gap-2"
-      *ngIf="option.value === control?.value"
-    >
+    <div class="flex flex-col gap-2" *ngIf="option.value === control?.value">
       <ng-template *ngTemplateOutlet="templateMap[option.value]"></ng-template>
     </div>
   </div>
