@@ -1,4 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 
 import { combineLatest, map, Observable, take } from 'rxjs';
 
@@ -10,7 +16,10 @@ import {
   userHasSQVRole,
 } from '@gq/core/store/selectors';
 import { MaterialComparableCost } from '@gq/shared/models/quotation-detail/material-comparable-cost.model';
-import { calculateMargin } from '@gq/shared/utils/pricing.utils';
+import {
+  calculateMargin,
+  roundToTwoDecimals,
+} from '@gq/shared/utils/pricing.utils';
 import { Store } from '@ngrx/store';
 
 interface MaterialComparableCostWithMargin extends MaterialComparableCost {
@@ -22,7 +31,9 @@ interface MaterialComparableCostWithMargin extends MaterialComparableCost {
   selector: 'gq-material-comparable-cost-details',
   templateUrl: './material-comparable-cost-details.component.html',
 })
-export class MaterialComparableCostDetailsComponent implements OnInit {
+export class MaterialComparableCostDetailsComponent
+  implements OnInit, OnChanges
+{
   @Input() price: number;
   @Input() currency: string;
   @Input() sapPriceUnit: number;
@@ -33,15 +44,23 @@ export class MaterialComparableCostDetailsComponent implements OnInit {
   userHasGPCRole$: Observable<boolean>;
   userHasSQVRole$: Observable<boolean>;
 
-  trackByFn(index: number): number {
-    return index;
-  }
-
   constructor(private readonly store: Store) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // Do not execute the processMaterialComparableCosts logic on price first change (when the price parameter is initially set) because the role check (executed in ngOnInit) has not completed yet.
+    // The processMaterialComparableCosts logic is executed initially in ngOnInit after user roles check.
+    if (changes.price && !changes.price.firstChange) {
+      this.processMaterialComparableCosts();
+    }
+  }
 
   ngOnInit(): void {
     this.checkUserRoles();
     this.processMaterialComparableCosts();
+  }
+
+  trackByFn(index: number): number {
+    return index;
   }
 
   private checkUserRoles(): void {
@@ -104,14 +123,14 @@ export class MaterialComparableCostDetailsComponent implements OnInit {
     if (hasGPCRole) {
       processedMaterialComparableCost.gpi = calculateMargin(
         this.price,
-        materialComparableCost.gpc
+        roundToTwoDecimals(materialComparableCost.gpc)
       );
     }
 
     if (hasSQVRole) {
       processedMaterialComparableCost.gpm = calculateMargin(
         this.price,
-        materialComparableCost.sqv
+        roundToTwoDecimals(materialComparableCost.sqv)
       );
     }
 

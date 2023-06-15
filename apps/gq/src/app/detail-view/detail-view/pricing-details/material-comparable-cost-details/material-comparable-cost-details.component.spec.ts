@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, SimpleChange } from '@angular/core';
 
 import { of } from 'rxjs';
 
@@ -212,9 +212,19 @@ describe('MaterialComparableCostDetailsComponent', () => {
       marbles((m) => {
         const price = 500;
         const margin = 25;
+        const gpcRounded = 2.56;
+        const sqvRounded = 9.25;
 
         const calculateMarginSpy = jest.spyOn(pricingUtils, 'calculateMargin');
         calculateMarginSpy.mockReturnValue(margin);
+
+        const roundToTwoDecimalsSpy = jest.spyOn(
+          pricingUtils,
+          'roundToTwoDecimals'
+        );
+        roundToTwoDecimalsSpy.mockImplementation((value: number) =>
+          value === MATERIAL_COMPARABLE_COST_MOCK.gpc ? gpcRounded : sqvRounded
+        );
 
         component['checkUserRoles'] = jest.fn();
         component.userHasNeededRegionalRoleForMargins$ = of(true);
@@ -228,14 +238,27 @@ describe('MaterialComparableCostDetailsComponent', () => {
           a: [{ ...MATERIAL_COMPARABLE_COST_MOCK, gpi: margin, gpm: margin }],
         });
         m.flush();
-        expect(calculateMarginSpy).toBeCalledTimes(2);
-        expect(calculateMarginSpy).toHaveBeenCalledWith(
-          price,
+
+        expect(roundToTwoDecimalsSpy).toBeCalledTimes(2);
+        expect(roundToTwoDecimalsSpy).toHaveBeenNthCalledWith(
+          1,
           MATERIAL_COMPARABLE_COST_MOCK.gpc
         );
-        expect(calculateMarginSpy).toHaveBeenCalledWith(
-          price,
+        expect(roundToTwoDecimalsSpy).toHaveBeenNthCalledWith(
+          2,
           MATERIAL_COMPARABLE_COST_MOCK.sqv
+        );
+
+        expect(calculateMarginSpy).toBeCalledTimes(2);
+        expect(calculateMarginSpy).toHaveBeenNthCalledWith(
+          1,
+          price,
+          gpcRounded
+        );
+        expect(calculateMarginSpy).toHaveBeenNthCalledWith(
+          2,
+          price,
+          sqvRounded
         );
       })
     );
@@ -245,9 +268,16 @@ describe('MaterialComparableCostDetailsComponent', () => {
       marbles((m) => {
         const price = 500;
         const margin = 25;
+        const gpcRounded = 9.99;
 
         const calculateMarginSpy = jest.spyOn(pricingUtils, 'calculateMargin');
         calculateMarginSpy.mockReturnValue(margin);
+
+        const roundToTwoDecimalsSpy = jest.spyOn(
+          pricingUtils,
+          'roundToTwoDecimals'
+        );
+        roundToTwoDecimalsSpy.mockReturnValue(gpcRounded);
 
         component['checkUserRoles'] = jest.fn();
         component.userHasNeededRegionalRoleForMargins$ = of(true);
@@ -261,11 +291,14 @@ describe('MaterialComparableCostDetailsComponent', () => {
           a: [{ ...MATERIAL_COMPARABLE_COST_MOCK, gpi: margin }],
         });
         m.flush();
-        expect(calculateMarginSpy).toBeCalledTimes(1);
-        expect(calculateMarginSpy).toHaveBeenCalledWith(
-          price,
+
+        expect(roundToTwoDecimalsSpy).toBeCalledTimes(1);
+        expect(roundToTwoDecimalsSpy).toHaveBeenCalledWith(
           MATERIAL_COMPARABLE_COST_MOCK.gpc
         );
+
+        expect(calculateMarginSpy).toBeCalledTimes(1);
+        expect(calculateMarginSpy).toHaveBeenCalledWith(price, gpcRounded);
       })
     );
 
@@ -274,9 +307,16 @@ describe('MaterialComparableCostDetailsComponent', () => {
       marbles((m) => {
         const price = 500;
         const margin = 25;
+        const sqvRounded = 1.99;
 
         const calculateMarginSpy = jest.spyOn(pricingUtils, 'calculateMargin');
         calculateMarginSpy.mockReturnValue(margin);
+
+        const roundToTwoDecimalsSpy = jest.spyOn(
+          pricingUtils,
+          'roundToTwoDecimals'
+        );
+        roundToTwoDecimalsSpy.mockReturnValue(sqvRounded);
 
         component['checkUserRoles'] = jest.fn();
         component.userHasNeededRegionalRoleForMargins$ = of(true);
@@ -290,12 +330,68 @@ describe('MaterialComparableCostDetailsComponent', () => {
           a: [{ ...MATERIAL_COMPARABLE_COST_MOCK, gpm: margin }],
         });
         m.flush();
-        expect(calculateMarginSpy).toBeCalledTimes(1);
-        expect(calculateMarginSpy).toHaveBeenCalledWith(
-          price,
+
+        expect(roundToTwoDecimalsSpy).toBeCalledTimes(1);
+        expect(roundToTwoDecimalsSpy).toHaveBeenCalledWith(
           MATERIAL_COMPARABLE_COST_MOCK.sqv
         );
+
+        expect(calculateMarginSpy).toBeCalledTimes(1);
+        expect(calculateMarginSpy).toHaveBeenCalledWith(price, sqvRounded);
       })
     );
+  });
+
+  describe('recalculate margins', () => {
+    test('should recalculate', () => {
+      const processMaterialComparableCostsSpy = jest.spyOn(
+        component as any,
+        'processMaterialComparableCosts'
+      );
+
+      component.ngOnChanges({
+        price: {
+          currentValue: 83.69,
+          firstChange: false,
+          previousValue: 5.25,
+        } as SimpleChange,
+      });
+
+      expect(processMaterialComparableCostsSpy).toHaveBeenCalledTimes(1);
+    });
+
+    test('should not recalculate, if not the price has been changed', () => {
+      const processMaterialComparableCostsSpy = jest.spyOn(
+        component as any,
+        'processMaterialComparableCosts'
+      );
+
+      component.ngOnChanges({
+        sapPriceUnit: {
+          currentValue: 10,
+          firstChange: false,
+          previousValue: 1,
+        } as SimpleChange,
+      });
+
+      expect(processMaterialComparableCostsSpy).not.toHaveBeenCalled();
+    });
+
+    test('should not recalculate, if price has not been changed', () => {
+      const processMaterialComparableCostsSpy = jest.spyOn(
+        component as any,
+        'processMaterialComparableCosts'
+      );
+
+      component.ngOnChanges({
+        price: {
+          currentValue: 999,
+          firstChange: true,
+          previousValue: undefined,
+        } as SimpleChange,
+      });
+
+      expect(processMaterialComparableCostsSpy).not.toHaveBeenCalled();
+    });
   });
 });
