@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { catchError, map, mergeMap, of } from 'rxjs';
 
+import { ActiveDirectoryUser } from '@gq/shared/models';
 import { ApprovalStatus } from '@gq/shared/models/quotation';
 import { Approver } from '@gq/shared/models/quotation/approver.model';
 import { ApprovalService } from '@gq/shared/services/rest/approval/approval.service';
@@ -69,6 +70,26 @@ export class ApprovalEffects {
           return of(ApprovalActions.approvalStatusAlreadyLoaded());
         }
       )
+    );
+  });
+
+  getActiveDirectoryUsers$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ApprovalActions.getActiveDirectoryUsers),
+      mergeMap((action) => {
+        return this.approvalService
+          .getActiveDirectoryUsers(action.searchExpression)
+          .pipe(
+            map((activeDirectoryUsers: ActiveDirectoryUser[]) =>
+              ApprovalActions.getActiveDirectoryUsersSuccess({
+                activeDirectoryUsers,
+              })
+            ),
+            catchError((error: Error) =>
+              of(ApprovalActions.getActiveDirectoryUsersFailure({ error }))
+            )
+          );
+      })
     );
   });
 

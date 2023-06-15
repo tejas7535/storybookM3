@@ -1,4 +1,4 @@
-import { User } from '..';
+import { GQUser } from '..';
 import { CustomerId } from '../customer';
 
 export interface ViewQuotation {
@@ -6,11 +6,11 @@ export interface ViewQuotation {
   caseName: string;
   imported: boolean;
   sapCreated: string;
-  sapCreatedByUser: User;
+  sapCreatedByUser: GQUser;
   sapId: string;
   gqCreated: string;
-  gqCreatedByUser: User;
-  gqLastUpdatedByUser: User;
+  gqCreatedByUser: GQUser;
+  gqLastUpdatedByUser: GQUser;
   gqLastUpdated: string;
   customerIdentifiers: CustomerId;
   customerName: string;

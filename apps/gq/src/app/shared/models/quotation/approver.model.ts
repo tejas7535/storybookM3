@@ -1,8 +1,6 @@
+import { ActiveDirectoryUser } from '../user.model';
 import { ApprovalLevel } from './approval-level.enum';
 
-export interface Approver {
-  userId: string;
-  firstName: string;
-  lastName: string;
+export interface Approver extends ActiveDirectoryUser {
   approvalLevel: ApprovalLevel;
 }

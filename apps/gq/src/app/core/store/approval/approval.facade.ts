@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { ActiveDirectoryUser } from '@gq/shared/models';
 import { ApprovalLevel, ApprovalStatus } from '@gq/shared/models/quotation';
 import { Approver } from '@gq/shared/models/quotation/approver.model';
 import { Store } from '@ngrx/store';
@@ -21,6 +22,10 @@ export class ApprovalFacade {
 
   allApproversLoading$: Observable<boolean> = this.store.select(
     approvalFeature.selectApproversLoading
+  );
+
+  activeDirectoryUsersLoading$: Observable<boolean> = this.store.select(
+    approvalFeature.selectActiveDirectoryUsersLoading
   );
 
   firstApprovers$: Observable<Approver[]> = this.store.select(
@@ -51,9 +56,8 @@ export class ApprovalFacade {
     fromApprovalSelectors.getRequiredApprovalLevelsForQuotation
   );
 
-  // will be replace with all users later with another Ticket
-  allUsers$: Observable<Approver[]> = this.store.select(
-    approvalFeature.selectApprovers
+  activeDirectoryUsers$: Observable<ActiveDirectoryUser[]> = this.store.select(
+    approvalFeature.selectActiveDirectoryUsers
   );
 
   approvalStatus$: Observable<ApprovalStatus> = this.store.select(
@@ -87,5 +91,21 @@ export class ApprovalFacade {
   getApprovalWorkflowData(sapId: string): void {
     this.getApprovers();
     this.getApprovalStatus(sapId);
+  }
+
+  /**
+   * load all active directory users, which match to the given search expression
+   */
+  getActiveDirectoryUsers(searchExpression: string): void {
+    this.store.dispatch(
+      ApprovalActions.getActiveDirectoryUsers({ searchExpression })
+    );
+  }
+
+  /**
+   * Remove all active directory users from the store
+   */
+  clearActiveDirectoryUsers(): void {
+    this.store.dispatch(ApprovalActions.clearActiveDirectoryUsers());
   }
 }

@@ -122,4 +122,47 @@ describe('approvalReducer', () => {
       expect(result).toBe(ApprovalLevel.L1);
     });
   });
+
+  describe('active directory users', () => {
+    test('should set activeDirectoryUsersLoading', () => {
+      const action = ApprovalActions.getActiveDirectoryUsers({
+        searchExpression: 'test',
+      });
+      const state = approvalFeature.reducer(initialState, action);
+      expect(state).toEqual({
+        ...initialState,
+        activeDirectoryUsersLoading: true,
+      });
+    });
+    test('should set the error', () => {
+      const error = new Error('my error');
+      const action = ApprovalActions.getActiveDirectoryUsersFailure({ error });
+      const state = approvalFeature.reducer(APPROVAL_STATE_MOCK, action);
+      expect(state).toEqual({
+        ...APPROVAL_STATE_MOCK,
+        activeDirectoryUsers: [],
+        activeDirectoryUsersLoading: false,
+        error,
+      });
+    });
+    test('Should set users', () => {
+      const action = ApprovalActions.getActiveDirectoryUsersSuccess({
+        activeDirectoryUsers: APPROVAL_STATE_MOCK.activeDirectoryUsers,
+      });
+      const state = approvalFeature.reducer(initialState, action);
+      expect(state).toEqual({
+        ...initialState,
+        activeDirectoryUsersLoading: false,
+        activeDirectoryUsers: APPROVAL_STATE_MOCK.activeDirectoryUsers,
+      });
+    });
+    test('Should clear users', () => {
+      const action = ApprovalActions.clearActiveDirectoryUsers();
+      const state = approvalFeature.reducer(APPROVAL_STATE_MOCK, action);
+      expect(state).toEqual({
+        ...APPROVAL_STATE_MOCK,
+        activeDirectoryUsers: [],
+      });
+    });
+  });
 });

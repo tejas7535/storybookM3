@@ -1,9 +1,14 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { map, Observable } from 'rxjs';
 
-import { ApiVersion } from '@gq/shared/models';
+import {
+  ActiveDirectoryUser,
+  ApiVersion,
+  MicrosoftUser,
+  MicrosoftUsersResponse,
+} from '@gq/shared/models';
 import { ApprovalLevel } from '@gq/shared/models/quotation/approval-level.enum';
 import { ApprovalStatus } from '@gq/shared/models/quotation/approval-status.model';
 import { Approver } from '@gq/shared/models/quotation/approver.model';
@@ -15,6 +20,14 @@ import { ApprovalPaths } from './approval-paths.enum';
   providedIn: 'root',
 })
 export class ApprovalService {
+  private readonly USERS_PAGE_SIZE = 20;
+  private readonly USERS_FIELDS = [
+    'givenName',
+    'surname',
+    'displayName',
+    'userPrincipalName',
+  ];
+
   constructor(private readonly http: HttpClient) {}
 
   /**
@@ -71,5 +84,38 @@ export class ApprovalService {
           }))
         )
     );
+  }
+
+  /**
+   * Get a list of active directory users, which match to the given search expression in their display or principal names
+   *
+   * @param searchExpression The search expression
+   * @returns List of found users
+   */
+  getActiveDirectoryUsers(
+    searchExpression: string
+  ): Observable<ActiveDirectoryUser[]> {
+    const headers: HttpHeaders = new HttpHeaders({
+      ConsistencyLevel: 'eventual',
+    });
+
+    return this.http
+      .get<MicrosoftUsersResponse>(
+        `${
+          ApprovalPaths.PATH_USERS
+        }?$search="displayName:${searchExpression}" OR "userPrincipalName:${searchExpression}"&$filter=givenName ne null and surname ne null&$orderby=userPrincipalName&$select=${this.USERS_FIELDS.join(
+          ','
+        )}&$count=true&$top=${this.USERS_PAGE_SIZE}`,
+        { headers }
+      )
+      .pipe(
+        map((userResponse: MicrosoftUsersResponse) =>
+          userResponse.value.map((microsoftUser: MicrosoftUser) => ({
+            firstName: microsoftUser.givenName,
+            lastName: microsoftUser.surname,
+            userId: microsoftUser.userPrincipalName.split('@')[0],
+          }))
+        )
+      );
   }
 }

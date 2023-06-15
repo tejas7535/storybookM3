@@ -6,6 +6,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -35,7 +36,7 @@ import { ProcessCaseViewComponent } from './process-case-view.component';
 import { ProcessCaseViewRoutingModule } from './process-case-view-routing.module';
 import { ReleaseButtonComponent } from './release-button/release-button.component';
 import { ReleaseModalComponent } from './release-button/release-modal/release-modal.component';
-import { ReleaseModalApproverSelectComponent } from './release-button/release-modal/release-modal-approver-select/release-modal-approver-select.component';
+import { ReleaseModalUserSelectComponent } from './release-button/release-modal/release-modal-user-select/release-modal-user-select.component';
 import { CalculationInProgressComponent } from './tabs/single-quotes-tab/calculation-in-progress/calculation-in-progress.component';
 @NgModule({
   declarations: [
@@ -43,7 +44,7 @@ import { CalculationInProgressComponent } from './tabs/single-quotes-tab/calcula
     CalculationInProgressComponent,
     ReleaseButtonComponent,
     ReleaseModalComponent,
-    ReleaseModalApproverSelectComponent,
+    ReleaseModalUserSelectComponent,
   ],
   imports: [
     CommonModule,
@@ -60,6 +61,7 @@ import { CalculationInProgressComponent } from './tabs/single-quotes-tab/calcula
     CurrencyModule,
     AddMaterialDialogModule,
     LoadingSpinnerModule,
+    MatProgressSpinnerModule,
     PushModule,
     SharedTranslocoModule,
     SubheaderModule,

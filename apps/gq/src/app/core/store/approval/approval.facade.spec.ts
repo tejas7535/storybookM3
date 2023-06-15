@@ -3,6 +3,7 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
+import { APPROVAL_STATE_MOCK } from '../../../../testing/mocks';
 import { ApprovalActions } from './approval.actions';
 import { ApprovalFacade } from './approval.facade';
 import { approvalFeature } from './approval.reducer';
@@ -49,6 +50,19 @@ describe('ApprovalFacade', () => {
           false
         );
         m.expect(service.allApproversLoading$).toBeObservable(
+          m.cold('a', { a: false })
+        );
+      })
+    );
+
+    test(
+      'should provide activeDirectoryUsersLoading',
+      marbles((m) => {
+        mockStore.overrideSelector(
+          approvalFeature.selectActiveDirectoryUsersLoading,
+          false
+        );
+        m.expect(service.activeDirectoryUsersLoading$).toBeObservable(
           m.cold('a', { a: false })
         );
       })
@@ -151,6 +165,19 @@ describe('ApprovalFacade', () => {
     );
   });
 
+  test(
+    'should provide active directory users',
+    marbles((m) => {
+      mockStore.overrideSelector(
+        approvalFeature.selectActiveDirectoryUsers,
+        APPROVAL_STATE_MOCK.activeDirectoryUsers
+      );
+      m.expect(service.activeDirectoryUsers$).toBeObservable(
+        m.cold('a', { a: APPROVAL_STATE_MOCK.activeDirectoryUsers })
+      );
+    })
+  );
+
   test('should dispatch action getAllApprovers', () => {
     mockStore.dispatch = jest.fn();
     service.getApprovers();
@@ -176,7 +203,7 @@ describe('ApprovalFacade', () => {
     );
   });
 
-  test('should call mehtods', () => {
+  test('should call methods', () => {
     service.getApprovers = jest.fn();
     service.getApprovalStatus = jest.fn();
 
@@ -184,5 +211,22 @@ describe('ApprovalFacade', () => {
 
     expect(service.getApprovers).toHaveBeenCalled();
     expect(service.getApprovalStatus).toHaveBeenCalled();
+  });
+
+  test('should dispatch action getActiveDirectoryUsers', () => {
+    const searchExpression = 'test';
+    mockStore.dispatch = jest.fn();
+    service.getActiveDirectoryUsers(searchExpression);
+    expect(mockStore.dispatch).toHaveBeenCalledWith(
+      ApprovalActions.getActiveDirectoryUsers({ searchExpression })
+    );
+  });
+
+  test('should dispatch action clearActiveDirectoryUsers', () => {
+    mockStore.dispatch = jest.fn();
+    service.clearActiveDirectoryUsers();
+    expect(mockStore.dispatch).toHaveBeenCalledWith(
+      ApprovalActions.clearActiveDirectoryUsers()
+    );
   });
 });

@@ -1,5 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
+import { ActiveDirectoryUser } from '@gq/shared/models';
 import { ApprovalLevel, ApprovalStatus } from '@gq/shared/models/quotation';
 import { Approver } from '@gq/shared/models/quotation/approver.model';
 import { ApprovalService } from '@gq/shared/services/rest/approval/approval.service';
@@ -245,6 +246,54 @@ describe('ApprovalEffects', () => {
         m.expect(effects.getApprovalStatusOfSapQuotation$).toBeObservable(
           expected
         );
+        m.flush();
+      })
+    );
+  });
+
+  describe('getActiveDirectoryUsers', () => {
+    test(
+      'should dispatch successAction',
+      marbles((m) => {
+        action = ApprovalActions.getActiveDirectoryUsers({
+          searchExpression: 'test',
+        });
+        const activeDirectoryUsers: ActiveDirectoryUser[] = [
+          { userId: 'schlesni' } as ActiveDirectoryUser,
+          { userId: 'soehnpsc' } as ActiveDirectoryUser,
+        ];
+        const result = ApprovalActions.getActiveDirectoryUsersSuccess({
+          activeDirectoryUsers,
+        });
+        const response = m.cold('-a', {
+          a: activeDirectoryUsers,
+        });
+        approvalService.getActiveDirectoryUsers = jest.fn(() => response);
+        const expected = m.cold('-b', { b: result });
+
+        actions$ = m.hot('a', { a: action });
+
+        m.expect(effects.getActiveDirectoryUsers$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+
+    test(
+      'should dispatch errorAction',
+      marbles((m) => {
+        action = ApprovalActions.getActiveDirectoryUsers({
+          searchExpression: 'test',
+        });
+        const error = new Error('did not work');
+        const result = ApprovalActions.getActiveDirectoryUsersFailure({
+          error,
+        });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+        approvalService.getActiveDirectoryUsers = jest.fn(() => response);
+
+        actions$ = m.hot('-a', { a: action });
+        m.expect(effects.getActiveDirectoryUsers$).toBeObservable(expected);
         m.flush();
       })
     );

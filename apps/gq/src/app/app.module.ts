@@ -53,6 +53,9 @@ const azureConfig = new AzureConfig(
   ),
   new MsalInterceptorConfig([
     new ProtectedResource('/api/*', [environment.appScope]),
+    new ProtectedResource('https://graph.microsoft.com/v1.0/users', [
+      'User.ReadBasic.All',
+    ]),
   ]),
   new MsalGuardConfig(`/${AppRoutePath.ForbiddenPath}`, [environment.appScope])
 );

@@ -1,12 +1,14 @@
 <mat-form-field appearance="outline" class="w-full">
   <mat-label>{{ title }}</mat-label>
   <input
+    #inputField
     type="text"
     matInput
-    [formControl]="approverSelectFormControl"
+    [formControl]="userSelectFormControl"
     [matAutocomplete]="autoComplete"
     pinDropDown="matAutocompleteTrigger"
   />
+  <mat-spinner *ngIf="isLoading" matSuffix [diameter]="18"></mat-spinner>
   <mat-error *ngIf="errorMessage">{{ errorMessage }}</mat-error>
   <mat-autocomplete
     #autoComplete="matAutocomplete"
@@ -20,12 +22,12 @@
     >
       <mat-option
         *cdkVirtualFor="
-          let approver of filteredOptions$ | ngrxPush;
+          let user of filteredOptions$ | ngrxPush;
           trackBy: trackByFn
         "
-        [value]="approver"
+        [value]="user"
         class="h-[50px] items-center justify-center"
-        >{{ approver | approverDisplay }}</mat-option
+        >{{ user | userDisplay }}</mat-option
       ></cdk-virtual-scroll-viewport
     >
   </mat-autocomplete>

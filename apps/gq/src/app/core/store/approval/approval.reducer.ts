@@ -1,3 +1,4 @@
+import { ActiveDirectoryUser } from '@gq/shared/models';
 import { ApprovalLevel } from '@gq/shared/models/quotation/approval-level.enum';
 import { Approver } from '@gq/shared/models/quotation/approver.model';
 import { createFeature, createReducer, on } from '@ngrx/store';
@@ -6,7 +7,9 @@ import { ApprovalActions } from './approval.actions';
 
 export interface ApprovalState {
   approvers: Approver[];
+  activeDirectoryUsers: ActiveDirectoryUser[];
   approversLoading: boolean;
+  activeDirectoryUsersLoading: boolean;
   approvalStatusLoading: boolean;
   approvalStatus: {
     sapId: string;
@@ -25,7 +28,9 @@ const APPROVAL_KEY = 'approval';
 
 export const initialState: ApprovalState = {
   approvers: [],
+  activeDirectoryUsers: [],
   approversLoading: false,
+  activeDirectoryUsersLoading: false,
   approvalStatusLoading: false,
   approvalStatus: {
     sapId: undefined,
@@ -117,6 +122,39 @@ export const approvalFeature = createFeature({
           ...initialState.approvalStatus,
         },
         error,
+      })
+    ),
+    on(
+      ApprovalActions.getActiveDirectoryUsers,
+      (state: ApprovalState): ApprovalState => ({
+        ...state,
+        activeDirectoryUsersLoading: true,
+        error: undefined,
+      })
+    ),
+    on(
+      ApprovalActions.getActiveDirectoryUsersSuccess,
+      (state: ApprovalState, { activeDirectoryUsers }): ApprovalState => ({
+        ...state,
+        activeDirectoryUsers,
+        activeDirectoryUsersLoading: false,
+        error: undefined,
+      })
+    ),
+    on(
+      ApprovalActions.getActiveDirectoryUsersFailure,
+      (state: ApprovalState, { error }): ApprovalState => ({
+        ...state,
+        activeDirectoryUsersLoading: false,
+        activeDirectoryUsers: [],
+        error,
+      })
+    ),
+    on(
+      ApprovalActions.clearActiveDirectoryUsers,
+      (state: ApprovalState): ApprovalState => ({
+        ...state,
+        activeDirectoryUsers: [],
       })
     )
   ),

@@ -54,6 +54,7 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
 
   private readonly REQUIRED_ERROR_MESSAGE = '';
   private readonly INVALID_APPROVER_ERROR_MESSAGE = '';
+  private readonly USER_SEARCH_EXPRESSION_MIN_LENGTH = 2;
 
   private readonly shutdown$$: Subject<void> = new Subject<void>();
 
@@ -117,11 +118,6 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
       .subscribe();
   }
 
-  ngOnDestroy(): void {
-    this.shutdown$$.next();
-    this.shutdown$$.complete();
-  }
-
   getErrorMessageOfControl(control: AbstractControl): string {
     if (control.hasError('required')) {
       return this.REQUIRED_ERROR_MESSAGE;
@@ -132,6 +128,14 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
     }
 
     return '';
+  }
+
+  handleUserSearchExpressionChanged(userSearchExpression: string): void {
+    if (userSearchExpression.length >= this.USER_SEARCH_EXPRESSION_MIN_LENGTH) {
+      this.approvalFacade.getActiveDirectoryUsers(userSearchExpression);
+    } else {
+      this.approvalFacade.clearActiveDirectoryUsers();
+    }
   }
 
   startWorkflow() {
@@ -146,6 +150,12 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
   }
 
   closeDialog() {
+    this.approvalFacade.clearActiveDirectoryUsers();
     this.dialogRef.close();
+  }
+
+  ngOnDestroy(): void {
+    this.shutdown$$.next();
+    this.shutdown$$.complete();
   }
 }

@@ -1,5 +1,5 @@
-import { ApprovalStatus } from '@gq/shared/models/quotation';
-import { Approver } from '@gq/shared/models/quotation/approver.model';
+import { ActiveDirectoryUser } from '@gq/shared/models';
+import { ApprovalStatus, Approver } from '@gq/shared/models/quotation';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
 export const ApprovalActions = createActionGroup({
@@ -14,5 +14,11 @@ export const ApprovalActions = createActionGroup({
     'Approval Status already loaded': emptyProps(),
     'Get Approval Status Failure': props<{ error: Error }>(),
     'Clear Approval Status': emptyProps(),
+    'Get Active Directory Users': props<{ searchExpression: string }>(),
+    'Get Active Directory Users Success': props<{
+      activeDirectoryUsers: ActiveDirectoryUser[];
+    }>(),
+    'Get Active Directory Users Failure': props<{ error: Error }>(),
+    'Clear Active Directory Users': emptyProps(),
   },
 });

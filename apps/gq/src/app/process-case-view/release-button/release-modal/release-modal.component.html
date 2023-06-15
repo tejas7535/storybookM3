@@ -30,10 +30,11 @@
 
       <div *ngIf="!(approvalFacade.approvalStatus$ | ngrxPush).autoApproval">
         <p class="text-subtitle-2 pb-4 pt-6">{{ t('approvers') }}</p>
-        <gq-release-modal-approver-select
+        <gq-release-modal-user-select
           tabindex="0"
-          [approverSelectFormControl]="approver1FormControl"
-          [approvers$]="approvalFacade.firstApprovers$"
+          [enableFiltering]="true"
+          [userSelectFormControl]="approver1FormControl"
+          [users$]="approvalFacade.firstApprovers$"
           [title]="
             t('approver1Title', {
               level:
@@ -43,10 +44,11 @@
             })
           "
           [errorMessage]="getErrorMessageOfControl(approver1FormControl)"
-        ></gq-release-modal-approver-select>
-        <gq-release-modal-approver-select
-          [approverSelectFormControl]="approver2FormControl"
-          [approvers$]="approvalFacade.secondApprovers$"
+        ></gq-release-modal-user-select>
+        <gq-release-modal-user-select
+          [enableFiltering]="true"
+          [userSelectFormControl]="approver2FormControl"
+          [users$]="approvalFacade.secondApprovers$"
           [title]="
             t('approver2Title', {
               level:
@@ -56,13 +58,14 @@
             })
           "
           [errorMessage]="getErrorMessageOfControl(approver2FormControl)"
-        ></gq-release-modal-approver-select>
-        <gq-release-modal-approver-select
+        ></gq-release-modal-user-select>
+        <gq-release-modal-user-select
           *ngIf="
             (approvalFacade.approvalStatus$ | ngrxPush)?.thirdApproverRequired
           "
-          [approverSelectFormControl]="approver3FormControl"
-          [approvers$]="approvalFacade.thirdApprovers$"
+          [enableFiltering]="true"
+          [userSelectFormControl]="approver3FormControl"
+          [users$]="approvalFacade.thirdApprovers$"
           [title]="
             t('approver3Title', {
               level:
@@ -72,12 +75,15 @@
             })
           "
           [errorMessage]="getErrorMessageOfControl(approver3FormControl)"
-        ></gq-release-modal-approver-select>
-        <gq-release-modal-approver-select
-          [approverSelectFormControl]="approverCCFormControl"
-          [approvers$]="approvalFacade.allUsers$"
+        ></gq-release-modal-user-select>
+        <gq-release-modal-user-select
+          [userSelectFormControl]="approverCCFormControl"
+          [users$]="approvalFacade.activeDirectoryUsers$"
+          [isLoading]="approvalFacade.activeDirectoryUsersLoading$ | ngrxPush"
           [title]="t('approverCCTitle')"
-        ></gq-release-modal-approver-select>
+          [inputChangedDebounceTime]="500"
+          (inputChanged)="handleUserSearchExpressionChanged($event)"
+        ></gq-release-modal-user-select>
         <mat-error *ngIf="formGroup.hasError('equalApprovers')">{{
           t('equalApproversError')
         }}</mat-error>

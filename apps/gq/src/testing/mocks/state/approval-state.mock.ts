@@ -47,9 +47,32 @@ export const APPROVAL_STATE_MOCK: ApprovalState = {
       approvalLevel: ApprovalLevel.L5,
     },
   ],
+  activeDirectoryUsers: [
+    {
+      userId: 'herpisef',
+      firstName: 'Stefan',
+      lastName: 'Herpich',
+    },
+    {
+      userId: 'herpiseg',
+      firstName: 'Franz',
+      lastName: 'Albert',
+    },
+    {
+      userId: 'schlesni',
+      firstName: 'Stefanie',
+      lastName: 'Schleer',
+    },
+    {
+      userId: 'soehnpsc',
+      firstName: 'Pascal',
+      lastName: 'Soehnlein',
+    },
+  ],
   approvalStatusLoading: false,
   error: undefined,
   approversLoading: false,
+  activeDirectoryUsersLoading: false,
   approvalStatus: {
     sapId: '12345',
     currency: 'EUR',

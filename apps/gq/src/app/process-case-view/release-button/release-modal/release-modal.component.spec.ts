@@ -154,7 +154,7 @@ describe('ReleaseModalComponent', () => {
   });
 
   describe('ngOnDestroy', () => {
-    test('should emit', () => {
+    test('should emit and clear user list', () => {
       component['shutdown$$'].next = jest.fn();
       component['shutdown$$'].complete = jest.fn();
 
@@ -196,11 +196,42 @@ describe('ReleaseModalComponent', () => {
 
   describe('closeDialog', () => {
     it('should close the dialog', () => {
+      const clearUsersSpy = jest.spyOn(
+        component.approvalFacade,
+        'clearActiveDirectoryUsers'
+      );
       component['dialogRef'].close = jest.fn();
 
       component.closeDialog();
 
+      expect(clearUsersSpy).toHaveBeenCalled();
       expect(component['dialogRef'].close).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('handleUserSearchExpressionChanged', () => {
+    test('should get active directory users', () => {
+      const searchExpression = 'test';
+      const getActiveDirectoryUsersSpy = jest.spyOn(
+        component.approvalFacade,
+        'getActiveDirectoryUsers'
+      );
+
+      component.handleUserSearchExpressionChanged(searchExpression);
+
+      expect(getActiveDirectoryUsersSpy).toHaveBeenCalledWith(searchExpression);
+    });
+
+    test('should clear active directory users', () => {
+      const searchExpression = 't';
+      const clearActiveDirectoryUsersSpy = jest.spyOn(
+        component.approvalFacade,
+        'clearActiveDirectoryUsers'
+      );
+
+      component.handleUserSearchExpressionChanged(searchExpression);
+
+      expect(clearActiveDirectoryUsersSpy).toHaveBeenCalled();
     });
   });
 });

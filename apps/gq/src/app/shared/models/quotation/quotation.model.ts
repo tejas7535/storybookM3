@@ -1,7 +1,7 @@
 import { Customer } from '../customer';
 import { QuotationDetail } from '../quotation-detail';
 import { SAP_SYNC_STATUS } from '../quotation-detail/sap-sync-status.enum';
-import { User } from '../user.model';
+import { GQUser } from '../user.model';
 import { CASE_ORIGIN } from './quotation-origin.enum';
 import { QuotationStatus } from './quotation-status.enum';
 import { SapCallInProgress } from './sap-call-in-progress.enum';
@@ -13,12 +13,12 @@ export class Quotation {
   public reImported: boolean;
   public sapId: string;
   public gqCreated: string;
-  public gqCreatedByUser: User;
+  public gqCreatedByUser: GQUser;
   public gqLastUpdated: string;
-  public gqLastUpdatedByUser: User;
+  public gqLastUpdatedByUser: GQUser;
   public sapCreated: string;
   public sapLastUpdated: string;
-  public sapCreatedByUser: User;
+  public sapCreatedByUser: GQUser;
   public customer: Customer;
   public quotationDetails: QuotationDetail[];
   public currency: string;
