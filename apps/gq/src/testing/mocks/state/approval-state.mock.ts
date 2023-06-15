@@ -54,10 +54,10 @@ export const APPROVAL_STATE_MOCK: ApprovalState = {
     sapId: '12345',
     currency: 'EUR',
     approvalLevel: ApprovalLevel.L2,
-    approver3Required: false,
+    thirdApproverRequired: false,
     autoApproval: false,
-    deviation: 10,
+    priceDeviation: 10,
     gpm: 15,
-    netValue: 100_000,
+    totalNetValue: 100_000,
   },
 };

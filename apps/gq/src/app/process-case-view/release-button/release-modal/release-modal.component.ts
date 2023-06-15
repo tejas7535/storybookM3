@@ -108,8 +108,8 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
     this.approvalFacade.approvalStatus$
       .pipe(
         takeUntil(this.shutdown$$),
-        tap(({ approver3Required }: ApprovalStatus) => {
-          if (approver3Required) {
+        tap(({ thirdApproverRequired }: ApprovalStatus) => {
+          if (thirdApproverRequired) {
             this.formGroup.addControl('approver3', this.approver3FormControl);
           }
         })

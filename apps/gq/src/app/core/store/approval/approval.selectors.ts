@@ -45,14 +45,14 @@ export const getThirdApprovers = createSelector(
 
 export const getApprovalLevelFirstApprover = createSelector(
   approvalFeature.selectApprovalStatus,
-  ({ approver3Required, approvalLevel }: ApprovalStatus): ApprovalLevel =>
-    firstApproverLogic[+approver3Required][approvalLevel]
+  ({ thirdApproverRequired, approvalLevel }: ApprovalStatus): ApprovalLevel =>
+    firstApproverLogic[+thirdApproverRequired][approvalLevel]
 );
 
 export const getApprovalLevelSecondApprover = createSelector(
   approvalFeature.selectApprovalStatus,
-  ({ approver3Required, approvalLevel }: ApprovalStatus): ApprovalLevel =>
-    secondApproverLogic[+approver3Required][approvalLevel]
+  ({ thirdApproverRequired, approvalLevel }: ApprovalStatus): ApprovalLevel =>
+    secondApproverLogic[+thirdApproverRequired][approvalLevel]
 );
 
 export const getApprovalLevelThirdApprover = createSelector(
@@ -63,8 +63,8 @@ export const getApprovalLevelThirdApprover = createSelector(
 
 export const getRequiredApprovalLevelsForQuotation = createSelector(
   approvalFeature.selectApprovalStatus,
-  ({ approver3Required, approvalLevel }: ApprovalStatus): string =>
-    approvalLevelOfQuotationLogic[+approver3Required][approvalLevel]
+  ({ thirdApproverRequired, approvalLevel }: ApprovalStatus): string =>
+    approvalLevelOfQuotationLogic[+thirdApproverRequired][approvalLevel]
 );
 
 /**
@@ -75,11 +75,11 @@ export const getRequiredApprovalLevelsForQuotation = createSelector(
  */
 function getApproversForFirstApprover(
   approvers: Approver[],
-  { approver3Required, approvalLevel }: ApprovalStatus
+  { thirdApproverRequired, approvalLevel }: ApprovalStatus
 ): Approver[] {
   return getApproversByApprovalLevel(
     approvers,
-    firstApproverLogic[+approver3Required][approvalLevel]
+    firstApproverLogic[+thirdApproverRequired][approvalLevel]
   );
 }
 
@@ -91,11 +91,11 @@ function getApproversForFirstApprover(
  */
 function getApproversForSecondApprover(
   approvers: Approver[],
-  { approver3Required, approvalLevel }: ApprovalStatus
+  { thirdApproverRequired, approvalLevel }: ApprovalStatus
 ): Approver[] {
   return getApproversByApprovalLevel(
     approvers,
-    secondApproverLogic[+approver3Required][approvalLevel]
+    secondApproverLogic[+thirdApproverRequired][approvalLevel]
   );
 }
 
@@ -107,9 +107,9 @@ function getApproversForSecondApprover(
  */
 function getApproversForThirdApprover(
   approvers: Approver[],
-  { approver3Required, approvalLevel }: ApprovalStatus
+  { thirdApproverRequired, approvalLevel }: ApprovalStatus
 ): Approver[] {
-  return approver3Required
+  return thirdApproverRequired
     ? getApproversByApprovalLevel(approvers, thirdApproverLogic[approvalLevel])
     : [];
 }

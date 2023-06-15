@@ -92,7 +92,7 @@ describe('ApprovalSelectors', () => {
       expect(
         fromApprovalSelector.getApprovalLevelFirstApprover.projector({
           approvalLevel: ApprovalLevel.L1,
-          approver3Required: false,
+          thirdApproverRequired: false,
         } as ApprovalStatus)
       ).toEqual(ApprovalLevel.L1);
     });
@@ -100,7 +100,7 @@ describe('ApprovalSelectors', () => {
       expect(
         fromApprovalSelector.getApprovalLevelSecondApprover.projector({
           approvalLevel: ApprovalLevel.L1,
-          approver3Required: false,
+          thirdApproverRequired: false,
         } as ApprovalStatus)
       ).toEqual(ApprovalLevel.L2);
     });
@@ -108,7 +108,7 @@ describe('ApprovalSelectors', () => {
       expect(
         fromApprovalSelector.getApprovalLevelThirdApprover.projector({
           approvalLevel: ApprovalLevel.L4,
-          approver3Required: true,
+          thirdApproverRequired: true,
         } as ApprovalStatus)
       ).toEqual(ApprovalLevel.L4);
     });
@@ -119,7 +119,7 @@ describe('ApprovalSelectors', () => {
       expect(
         fromApprovalSelector.getRequiredApprovalLevelsForQuotation.projector({
           approvalLevel: ApprovalLevel.L4,
-          approver3Required: false,
+          thirdApproverRequired: false,
         } as ApprovalStatus)
       ).toEqual(
         `${ApprovalLevel[ApprovalLevel.L4]} + ${
@@ -131,7 +131,7 @@ describe('ApprovalSelectors', () => {
       expect(
         fromApprovalSelector.getRequiredApprovalLevelsForQuotation.projector({
           approvalLevel: ApprovalLevel.L4,
-          approver3Required: true,
+          thirdApproverRequired: true,
         } as ApprovalStatus)
       ).toEqual(
         `${ApprovalLevel[ApprovalLevel.L3]} + ${
@@ -148,7 +148,7 @@ describe('ApprovalSelectors', () => {
           APPROVAL_STATE_MOCK.approvers,
           {
             approvalLevel: ApprovalLevel.L1,
-            approver3Required: true,
+            thirdApproverRequired: true,
           } as ApprovalStatus
         )
       ).toEqual([]);
@@ -158,7 +158,7 @@ describe('ApprovalSelectors', () => {
         fromApprovalSelector.getFirstApprovers.projector(
           APPROVAL_STATE_MOCK.approvers,
           {
-            approver3Required: false,
+            thirdApproverRequired: false,
             approvalLevel: ApprovalLevel.L1,
           } as ApprovalStatus
         )
@@ -173,7 +173,7 @@ describe('ApprovalSelectors', () => {
         fromApprovalSelector.getFirstApprovers.projector(
           APPROVAL_STATE_MOCK.approvers,
           {
-            approver3Required: true,
+            thirdApproverRequired: true,
             approvalLevel: ApprovalLevel.L5,
           } as ApprovalStatus
         )
@@ -191,7 +191,7 @@ describe('ApprovalSelectors', () => {
         fromApprovalSelector.getSecondApprovers.projector(
           APPROVAL_STATE_MOCK.approvers,
           {
-            approver3Required: true,
+            thirdApproverRequired: true,
             approvalLevel: ApprovalLevel.L1,
           } as ApprovalStatus
         )
@@ -202,7 +202,7 @@ describe('ApprovalSelectors', () => {
         fromApprovalSelector.getSecondApprovers.projector(
           APPROVAL_STATE_MOCK.approvers,
           {
-            approver3Required: false,
+            thirdApproverRequired: false,
             approvalLevel: ApprovalLevel.L1,
           } as ApprovalStatus
         )
@@ -217,7 +217,7 @@ describe('ApprovalSelectors', () => {
         fromApprovalSelector.getSecondApprovers.projector(
           APPROVAL_STATE_MOCK.approvers,
           {
-            approver3Required: true,
+            thirdApproverRequired: true,
             approvalLevel: ApprovalLevel.L5,
           } as ApprovalStatus
         )
@@ -235,7 +235,7 @@ describe('ApprovalSelectors', () => {
         fromApprovalSelector.getThirdApprovers.projector(
           APPROVAL_STATE_MOCK.approvers,
           {
-            approver3Required: true,
+            thirdApproverRequired: true,
             approvalLevel: ApprovalLevel.L1,
           } as ApprovalStatus
         )
@@ -246,7 +246,7 @@ describe('ApprovalSelectors', () => {
         fromApprovalSelector.getThirdApprovers.projector(
           APPROVAL_STATE_MOCK.approvers,
           {
-            approver3Required: false,
+            thirdApproverRequired: false,
             approvalLevel: ApprovalLevel.L1,
           } as ApprovalStatus
         )
@@ -257,7 +257,7 @@ describe('ApprovalSelectors', () => {
         fromApprovalSelector.getThirdApprovers.projector(
           APPROVAL_STATE_MOCK.approvers,
           {
-            approver3Required: true,
+            thirdApproverRequired: true,
             approvalLevel: ApprovalLevel.L5,
           } as ApprovalStatus
         )
@@ -273,7 +273,7 @@ describe('ApprovalSelectors', () => {
         fromApprovalSelector.getThirdApprovers.projector(
           APPROVAL_STATE_MOCK.approvers,
           {
-            approver3Required: true,
+            thirdApproverRequired: true,
             approvalLevel: ApprovalLevel.L4,
           } as ApprovalStatus
         )

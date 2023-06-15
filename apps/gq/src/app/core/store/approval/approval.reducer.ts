@@ -12,11 +12,11 @@ export interface ApprovalState {
     sapId: string;
     currency: string;
     approvalLevel: ApprovalLevel;
-    approver3Required: boolean;
+    thirdApproverRequired: boolean;
     autoApproval: boolean;
-    netValue: number;
+    totalNetValue: number;
     gpm: number;
-    deviation: number;
+    priceDeviation: number;
   };
   error: Error;
 }
@@ -31,11 +31,11 @@ export const initialState: ApprovalState = {
     sapId: undefined,
     currency: undefined,
     approvalLevel: undefined,
-    approver3Required: false,
+    thirdApproverRequired: false,
     autoApproval: false,
-    netValue: undefined,
+    totalNetValue: undefined,
     gpm: undefined,
-    deviation: undefined,
+    priceDeviation: undefined,
   },
   error: undefined,
 };

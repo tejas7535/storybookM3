@@ -4,9 +4,9 @@ export interface ApprovalStatus {
   sapId: string;
   currency: string;
   approvalLevel: ApprovalLevel;
-  approver3Required: boolean;
+  thirdApproverRequired: boolean;
   autoApproval: boolean;
-  netValue: number;
+  totalNetValue: number;
   gpm: number;
-  deviation: number;
+  priceDeviation: number;
 }

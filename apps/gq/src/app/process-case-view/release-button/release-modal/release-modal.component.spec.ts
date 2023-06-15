@@ -52,7 +52,7 @@ describe('ReleaseModalComponent', () => {
     beforeEach(() => {
       const facadeMock: ApprovalFacade = {
         getApprovalWorkflowData: jest.fn(),
-        approvalStatus$: of({ approver3Required: false } as ApprovalStatus),
+        approvalStatus$: of({ thirdApproverRequired: false } as ApprovalStatus),
       } as unknown as ApprovalFacade;
 
       Object.defineProperty(component, 'approvalFacade', {
@@ -72,7 +72,7 @@ describe('ReleaseModalComponent', () => {
     test('should set approver one, two and three in formGroup', () => {
       const facadeMock: ApprovalFacade = {
         getApprovalWorkflowData: jest.fn(),
-        approvalStatus$: of({ approver3Required: true } as ApprovalStatus),
+        approvalStatus$: of({ thirdApproverRequired: true } as ApprovalStatus),
       } as unknown as ApprovalFacade;
 
       Object.defineProperty(component, 'approvalFacade', {
@@ -89,7 +89,7 @@ describe('ReleaseModalComponent', () => {
           const facadeMock: ApprovalFacade = {
             getApprovalWorkflowData: jest.fn(),
             approvalStatus$: of({
-              approver3Required: true,
+              thirdApproverRequired: true,
               sapId: undefined,
             } as ApprovalStatus),
             allApproversLoading$: of(false),
@@ -112,7 +112,7 @@ describe('ReleaseModalComponent', () => {
           const facadeMock: ApprovalFacade = {
             getApprovalWorkflowData: jest.fn(),
             approvalStatus$: of({
-              approver3Required: true,
+              thirdApproverRequired: true,
               sapId: '12',
             } as ApprovalStatus),
             allApproversLoading$: of(true),
@@ -134,7 +134,7 @@ describe('ReleaseModalComponent', () => {
           const facadeMock: ApprovalFacade = {
             getApprovalWorkflowData: jest.fn(),
             approvalStatus$: of({
-              approver3Required: true,
+              thirdApproverRequired: true,
               sapId: '12',
             } as ApprovalStatus),
             allApproversLoading$: of(false),

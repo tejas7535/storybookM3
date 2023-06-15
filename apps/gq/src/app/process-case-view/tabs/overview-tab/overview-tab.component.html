@@ -65,7 +65,8 @@
         [title]="t('tabs.overview.priceDeviationCardTitle')"
         [subtitle]="t('tabs.overview.priceDeviationCardSubtitle')"
         [kpiValue]="
-          (approvalFacade.approvalStatus$ | ngrxPush)?.deviation | percentage
+          (approvalFacade.approvalStatus$ | ngrxPush)?.priceDeviation
+            | percentage
         "
       >
       </gq-kpi-status-card>

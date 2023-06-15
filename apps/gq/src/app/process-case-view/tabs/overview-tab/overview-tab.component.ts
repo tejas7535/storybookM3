@@ -142,10 +142,10 @@ export class OverviewTabComponent implements OnInit, OnDestroy {
           QuotationPricingOverview
         ]) => ({
           netValue: {
-            value: approvalStatus.netValue ?? gqPricing.netValue.value,
+            value: approvalStatus.totalNetValue ?? gqPricing.netValue.value,
             warning:
-              approvalStatus.netValue &&
-              approvalStatus.netValue !== gqPricing.netValue.value,
+              approvalStatus.totalNetValue &&
+              approvalStatus.totalNetValue !== gqPricing.netValue.value,
           },
           avgGqRating: gqPricing.avgGqRating,
           gpi: gqPricing.gpi,

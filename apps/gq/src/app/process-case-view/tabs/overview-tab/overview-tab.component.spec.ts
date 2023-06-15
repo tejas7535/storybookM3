@@ -85,7 +85,7 @@ describe('OverviewTabComponent', () => {
         };
         const expectedPricingInformation: QuotationPricingOverview = {
           netValue: {
-            value: APPROVAL_STATE_MOCK.approvalStatus.netValue,
+            value: APPROVAL_STATE_MOCK.approvalStatus.totalNetValue,
             warning: true,
           },
           avgGqRating: {

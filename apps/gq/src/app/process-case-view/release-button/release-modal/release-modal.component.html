@@ -58,7 +58,9 @@
           [errorMessage]="getErrorMessageOfControl(approver2FormControl)"
         ></gq-release-modal-approver-select>
         <gq-release-modal-approver-select
-          *ngIf="(approvalFacade.approvalStatus$ | ngrxPush)?.approver3Required"
+          *ngIf="
+            (approvalFacade.approvalStatus$ | ngrxPush)?.thirdApproverRequired
+          "
           [approverSelectFormControl]="approver3FormControl"
           [approvers$]="approvalFacade.thirdApprovers$"
           [title]="

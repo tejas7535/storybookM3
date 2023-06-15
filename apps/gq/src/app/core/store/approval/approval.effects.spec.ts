@@ -138,12 +138,12 @@ describe('ApprovalEffects', () => {
         const approvalStatus: ApprovalStatus = {
           sapId: '12345',
           approvalLevel: ApprovalLevel.L1,
-          approver3Required: false,
+          thirdApproverRequired: false,
           autoApproval: false,
           currency: 'EUR',
-          deviation: 12.2,
+          priceDeviation: 12.2,
           gpm: 13.5,
-          netValue: 120_014,
+          totalNetValue: 120_014,
         };
         const result = ApprovalActions.getApprovalStatusSuccess({
           approvalStatus,
@@ -172,12 +172,12 @@ describe('ApprovalEffects', () => {
         const approvalStatus: ApprovalStatus = {
           sapId: '12345',
           approvalLevel: ApprovalLevel.L1,
-          approver3Required: false,
+          thirdApproverRequired: false,
           autoApproval: false,
           currency: 'EUR',
-          deviation: 12.2,
+          priceDeviation: 12.2,
           gpm: 13.5,
-          netValue: 120_014,
+          totalNetValue: 120_014,
         };
         const result = ApprovalActions.getApprovalStatusSuccess({
           approvalStatus,
@@ -205,12 +205,12 @@ describe('ApprovalEffects', () => {
         const approvalStatus: ApprovalStatus = {
           sapId: '12345',
           approvalLevel: ApprovalLevel.L1,
-          approver3Required: false,
+          thirdApproverRequired: false,
           autoApproval: false,
           currency: 'EUR',
-          deviation: 12.2,
+          priceDeviation: 12.2,
           gpm: 13.5,
-          netValue: 120_014,
+          totalNetValue: 120_014,
         };
         const result = ApprovalActions.getApprovalStatusSuccess({
           approvalStatus,
