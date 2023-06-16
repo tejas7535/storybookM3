@@ -1,7 +1,7 @@
 import { SalesIndication } from '@gq/core/store/reducers/models';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 import { SeriesOption } from 'echarts';
 

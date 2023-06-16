@@ -5,14 +5,14 @@
     {
       "files": ["*.ts"],
       "extends": [
-        "plugin:@nrwl/nx/angular",
+        "plugin:@nx/angular",
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "parserOptions": {
         "project": ["apps/gq/tsconfig.*?.json"]
       },
       "rules": {
-        "@nrwl/nx/workspace/gq-scoped-import": "error",
+        "@nx/workspace/gq-scoped-import": "error",
         "@angular-eslint/directive-selector": [
           "error",
           {
@@ -29,7 +29,7 @@
             "style": "kebab-case"
           }
         ],
-        "@nrwl/nx/enforce-module-boundaries": [
+        "@nx/enforce-module-boundaries": [
           "error",
           {
             "allow": [],
@@ -53,7 +53,7 @@
     },
     {
       "files": ["*.html"],
-      "extends": ["plugin:@nrwl/nx/angular-template"],
+      "extends": ["plugin:@nx/angular-template"],
       "plugins": ["@angular-eslint/eslint-plugin-template"]
     }
   ]

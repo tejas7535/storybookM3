@@ -1,8 +1,11 @@
 import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import {
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogModule as MatDialogModule,
+} from '@angular/material/legacy-dialog';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { PushModule } from '@ngrx/component';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -34,7 +37,7 @@ describe('UserSettingsDialogComponent', () => {
       MatButtonModule,
       provideTranslocoTestingModule({ en: {} }),
       SelectInputModule,
-      PushModule,
+      PushPipe,
     ],
     providers: [
       provideMockStore(),

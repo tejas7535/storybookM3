@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { SubheaderModule } from '@schaeffler/subheader';
 
@@ -24,7 +24,7 @@ import { LegalRoutingModule } from './legal-routing.module';
     SubheaderModule,
     TranslocoModule,
     RouterModule,
-    PushModule,
+    PushPipe,
   ],
   exports: [LegalComponent],
 })

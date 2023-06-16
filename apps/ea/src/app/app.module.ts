@@ -3,7 +3,7 @@ import { createCustomElement } from '@angular/elements';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { AppComponent } from './app.component';
 import { CalculationContainerComponent } from './calculation/calculation-container/calculation-container.component';
@@ -14,7 +14,7 @@ import { CoreModule } from './core/core.module';
   imports: [
     BrowserModule,
     CoreModule,
-    PushModule,
+    PushPipe,
     BrowserAnimationsModule,
     CalculationContainerComponent,
   ],

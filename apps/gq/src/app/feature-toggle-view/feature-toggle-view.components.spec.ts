@@ -3,19 +3,19 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import {
-  MatSlideToggleChange,
-  MatSlideToggleModule,
-} from '@angular/material/slide-toggle';
+  MatLegacySlideToggleChange as MatSlideToggleChange,
+  MatLegacySlideToggleModule as MatSlideToggleModule,
+} from '@angular/material/legacy-slide-toggle';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MockModule } from 'ng-mocks';
 
 import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { FeatureToggleConfigService } from '../shared/services/feature-toggle/feature-toggle-config.service';
 import { FeatureToggleViewComponent } from './feature-toggle-view.component';
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),

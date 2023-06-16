@@ -14,13 +14,9 @@ import {
   StorybookTranslocoModule,
 } from '../../../../.storybook/storybook-transloco.module';
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
-import {
-  NavigationAtomic,
-  NavigationMain,
-} from '../../../../.storybook/storybook-navigation.constants';
 
 export default {
-  title: `${NavigationMain.Atomic}/${NavigationAtomic.Molecules}/Share Button`,
+  title: 'Atomic/Molecules/Share Button',
   component: ShareButtonComponent,
   decorators: [
     moduleMetadata({

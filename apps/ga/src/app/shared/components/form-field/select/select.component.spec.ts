@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 

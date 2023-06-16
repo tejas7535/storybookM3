@@ -1,4 +1,5 @@
-import { PlantMaterialDetail } from '../../../../shared/models/quotation-detail/plant-material-detail.model';
+import { PlantMaterialDetail } from '@gq/shared/models/quotation-detail/plant-material-detail.model';
+
 import {
   loadPlantMaterialDetails,
   loadPlantMaterialDetailsFailure,

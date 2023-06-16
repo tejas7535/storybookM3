@@ -1,13 +1,16 @@
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import {
+  MatLegacySelectChange as MatSelectChange,
+  MatLegacySelectModule as MatSelectModule,
+} from '@angular/material/legacy-select';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { SharedPipesModule } from '../../../../../shared/pipes/shared-pipes.module';
 import { FilterSelectionComponent } from './filter-selection.component';
 
 describe('FilterSelectionComponent', () => {

@@ -1,6 +1,6 @@
+import { MaterialComparableCost } from '@gq/shared/models/quotation-detail/material-comparable-cost.model';
 import { Action, createReducer, on } from '@ngrx/store';
 
-import { MaterialComparableCost } from '../../../../shared/models/quotation-detail/material-comparable-cost.model';
 import {
   loadMaterialComparableCosts,
   loadMaterialComparableCostsFailure,

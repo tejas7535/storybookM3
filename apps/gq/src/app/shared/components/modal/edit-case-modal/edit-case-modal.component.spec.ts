@@ -7,9 +7,12 @@ import {
 } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { DateAdapter } from '@angular/material/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import {
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
@@ -18,8 +21,11 @@ import { of } from 'rxjs';
 import { CurrencyFacade } from '@gq/core/store/currency/currency.facade';
 import { AutoCompleteFacade } from '@gq/core/store/facades';
 import { getSalesOrgs } from '@gq/core/store/selectors';
-import { Spectator } from '@ngneat/spectator';
-import { createComponentFactory, mockProvider } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';

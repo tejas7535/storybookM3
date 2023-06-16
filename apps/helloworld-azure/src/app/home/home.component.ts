@@ -9,18 +9,18 @@ import { GreetingService } from '../greeting.service';
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit {
-  public responsePublic$: Observable<string>;
-  public responseAuthorized$: Observable<string>;
-  public responseUsers$: Observable<string>;
-  public responseAdmins$: Observable<string>;
-  public responseDotNetPublic$: Observable<string>;
-  public responseDotNetAuthorized$: Observable<string>;
-  public responseDotNetUsers$: Observable<string>;
-  public responseDotNetAdmins$: Observable<string>;
+  responsePublic$: Observable<string>;
+  responseAuthorized$: Observable<string>;
+  responseUsers$: Observable<string>;
+  responseAdmins$: Observable<string>;
+  responseDotNetPublic$: Observable<string>;
+  responseDotNetAuthorized$: Observable<string>;
+  responseDotNetUsers$: Observable<string>;
+  responseDotNetAdmins$: Observable<string>;
 
   constructor(private readonly greetingsService: GreetingService) {}
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.responsePublic$ = this.greetingsService.greetPublic();
     this.responseAuthorized$ = this.greetingsService.greetAuthorized();
     this.responseUsers$ = this.greetingsService.greetUsers();

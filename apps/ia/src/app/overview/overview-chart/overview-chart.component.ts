@@ -5,7 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 import { EChartsOption } from 'echarts';
 import moment from 'moment';
@@ -28,14 +28,14 @@ import { ChartSeries } from '../models/chart-series.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OverviewChartComponent {
+  @Input() dataLoading: boolean;
+  readonly SYMBOL_SIZE = 10;
+
   private _data: {
     [seriesName: string]: {
       attrition: number[];
     };
   };
-  readonly SYMBOL_SIZE = 10;
-
-  @Input() dataLoading: boolean;
 
   @Input() set data(data: {
     [seriesName: string]: {

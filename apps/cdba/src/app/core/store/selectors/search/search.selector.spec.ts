@@ -119,7 +119,11 @@ describe('Search Selector', () => {
       const range = new FilterItemRange('length', 0, 200, 0, 200, 'kg');
       const items = [plant, range];
 
-      expect(getSelectedIdValueFilters.projector(items)).toEqual([
+      expect(
+        getSelectedIdValueFilters.projector(
+          items as unknown as FilterItemIdValueUpdate[]
+        )
+      ).toEqual([
         new FilterItemIdValue(
           'plant',
           [new IdValue('32', 'Nice Plant', true)],

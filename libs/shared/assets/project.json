@@ -18,5 +18,6 @@
     }
   },
   "generators": {},
-  "tags": ["scope:shared", "type:assets"]
+  "tags": ["scope:shared", "type:assets"],
+  "name": "shared-assets"
 }

@@ -1,12 +1,12 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormBuilder, FormsModule } from '@angular/forms';
 import {
-  MAT_DIALOG_DATA,
-  MatDialogModule,
-  MatDialogRef,
-} from '@angular/material/dialog';
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogModule as MatDialogModule,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 

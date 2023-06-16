@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 import { RouterModule } from '@angular/router';
 
-import { LetModule, PushModule } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -60,8 +60,8 @@ import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-b
     MatTooltipModule,
     RouterModule,
     SharedTranslocoModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     SharedPipesModule,
     SharedDirectivesModule,
   ],

@@ -1,7 +1,7 @@
-import { MatButtonModule } from '@angular/material/button';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { PageNotFoundComponent } from './page-not-found.component';
 

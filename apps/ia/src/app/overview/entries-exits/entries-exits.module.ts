@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { CombinedLegendModule } from '../../shared/charts/external-legend/external-legend.module';

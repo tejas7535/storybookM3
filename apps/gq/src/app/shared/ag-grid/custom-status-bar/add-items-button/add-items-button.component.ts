@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 import { Observable } from 'rxjs';
 
@@ -7,9 +7,8 @@ import {
   getIsQuotationActive,
   getSimulationModeEnabled,
 } from '@gq/core/store/active-case/active-case.selectors';
+import { AddMaterialDialogComponent } from '@gq/process-case-view/add-material-dialog/add-material-dialog.component';
 import { Store } from '@ngrx/store';
-
-import { AddMaterialDialogComponent } from '../../../../process-case-view/add-material-dialog/add-material-dialog.component';
 
 @Component({
   selector: 'gq-add-items-button',

@@ -1,14 +1,13 @@
+import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
 import { SAP_ERROR_MESSAGE_CODE } from '@gq/shared/models/quotation-detail';
+import { AutocompleteSearch } from '@gq/shared/models/search';
+import { IdValue } from '@gq/shared/models/search';
+import { MaterialTableItem } from '@gq/shared/models/table';
+import { MaterialValidation } from '@gq/shared/models/table';
+import { ValidationDescription } from '@gq/shared/models/table';
 import { Action } from '@ngrx/store';
 
 import { CREATE_CASE_STORE_STATE_MOCK } from '../../../../../testing/mocks';
-import { FilterNames } from '../../../../shared/components/autocomplete-input/filter-names.enum';
-import { AutocompleteSearch, IdValue } from '../../../../shared/models/search';
-import {
-  MaterialTableItem,
-  MaterialValidation,
-  ValidationDescription,
-} from '../../../../shared/models/table';
 import {
   addRowDataItems,
   autocomplete,

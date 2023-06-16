@@ -6,9 +6,8 @@ import {
   getMaterialSalesOrg,
   getMaterialSalesOrgDataAvailable,
 } from '@gq/core/store/selectors';
+import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
 import { Store } from '@ngrx/store';
-
-import { MaterialSalesOrg } from '../../../../../shared/models/quotation-detail/material-sales-org.model';
 
 @Component({
   selector: 'gq-material-sales-org-details',

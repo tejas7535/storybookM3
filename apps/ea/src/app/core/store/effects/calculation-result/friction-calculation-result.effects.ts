@@ -13,14 +13,6 @@ import { ProductSelectionFacade } from '../../facades/product-selection/product-
 
 @Injectable()
 export class FrictionCalculationResultEffects {
-  constructor(
-    private readonly actions$: Actions,
-    private readonly frictionService: FrictionService,
-    private readonly calculationParametersFacade: CalculationParametersFacade,
-    private readonly frictionCalculationResultFacade: FrictionCalculationResultFacade,
-    private readonly productSelectionFacade: ProductSelectionFacade
-  ) {}
-
   public createModel$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(FrictionCalculationResultActions.createModel),
@@ -171,4 +163,12 @@ export class FrictionCalculationResultEffects {
       )
     );
   });
+
+  constructor(
+    private readonly actions$: Actions,
+    private readonly frictionService: FrictionService,
+    private readonly calculationParametersFacade: CalculationParametersFacade,
+    private readonly frictionCalculationResultFacade: FrictionCalculationResultFacade,
+    private readonly productSelectionFacade: ProductSelectionFacade
+  ) {}
 }

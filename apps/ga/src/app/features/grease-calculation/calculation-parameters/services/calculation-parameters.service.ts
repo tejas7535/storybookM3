@@ -58,6 +58,12 @@ export class CalculationParametersService {
       this.operatingTemperatureValidator(),
     ]);
 
+  public getDensity = (): number =>
+    this.measurementUnitsService.getMeasurementUnits() ===
+    MeasurementUnits.Imperial
+      ? NON_SCHAEFFLER_RHO_FPS
+      : NON_SCHAEFFLER_RHO_SI;
+
   private operatingTemperatureValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: boolean } | null => {
       if (
@@ -73,12 +79,6 @@ export class CalculationParametersService {
       return undefined;
     };
   }
-
-  public getDensity = (): number =>
-    this.measurementUnitsService.getMeasurementUnits() ===
-    MeasurementUnits.Imperial
-      ? NON_SCHAEFFLER_RHO_FPS
-      : NON_SCHAEFFLER_RHO_SI;
 
   private readonly getTemperatureFromCelsius = (centigrade: number): number =>
     this.measurementUnitsService.getMeasurementUnits() ===

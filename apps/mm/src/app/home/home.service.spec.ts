@@ -11,7 +11,7 @@ import {
   PageMetaStatus,
   VariablePropertyMeta,
 } from '@caeonline/dynamic-forms';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import {
   RSY_BEARING,

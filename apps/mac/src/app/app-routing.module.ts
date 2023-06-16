@@ -76,11 +76,7 @@ export const appRoutePaths: MACRoutes = [
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forRoot(appRoutePaths, {
-      relativeLinkResolution: 'legacy',
-    }),
-  ],
+  imports: [RouterModule.forRoot(appRoutePaths, {})],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

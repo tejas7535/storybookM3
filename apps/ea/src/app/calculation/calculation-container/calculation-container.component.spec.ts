@@ -3,7 +3,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 import { APP_STATE_MOCK } from '@ea/testing/mocks';
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 

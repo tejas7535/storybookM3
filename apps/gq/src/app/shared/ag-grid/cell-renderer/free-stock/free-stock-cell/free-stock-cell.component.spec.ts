@@ -1,4 +1,4 @@
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { FreeStockTrafficLightComponent } from '../../../../components/free-stock-traffic-light/free-stock-traffic-light.component';
 import { FreeStockCellComponent } from './free-stock-cell.component';

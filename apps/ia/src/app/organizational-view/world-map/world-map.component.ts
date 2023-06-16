@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 import * as echarts from 'echarts';
 
@@ -22,11 +22,27 @@ import { CountryDataAttrition } from './models/country-data-attrition.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorldMapComponent implements OnInit {
-  private _data: CountryDataAttrition[];
+  @Output()
+  readonly loadCountryMeta: EventEmitter<string> = new EventEmitter();
+
+  @Output()
+  readonly loadRegionMeta: EventEmitter<string> = new EventEmitter();
 
   @Input() isLoading: boolean;
 
   @Input() selectedTimeRange = '';
+
+  @Input() regions: string[];
+
+  mergeOptions: any;
+  options: any;
+  echartsInstance: any;
+
+  private _data: CountryDataAttrition[];
+
+  get data(): CountryDataAttrition[] {
+    return this._data;
+  }
 
   @Input() set data(countryData: CountryDataAttrition[]) {
     const selectedAreas = [];
@@ -43,22 +59,6 @@ export class WorldMapComponent implements OnInit {
       },
     };
   }
-
-  get data(): CountryDataAttrition[] {
-    return this._data;
-  }
-
-  @Input() regions: string[];
-
-  @Output()
-  readonly loadCountryMeta: EventEmitter<string> = new EventEmitter();
-
-  @Output()
-  readonly loadRegionMeta: EventEmitter<string> = new EventEmitter();
-
-  mergeOptions: any;
-  options: any;
-  echartsInstance: any;
 
   constructor(private readonly dialog: MatDialog) {}
 

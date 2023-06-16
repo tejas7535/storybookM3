@@ -3,12 +3,11 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { isManualCase } from '@gq/core/store/active-case/active-case.selectors';
+import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { EditingModalService } from '@gq/shared/components/modal/editing-modal/editing-modal.service';
+import { QuotationStatus } from '@gq/shared/models';
+import { QuotationDetail } from '@gq/shared/models/quotation-detail';
 import { Store } from '@ngrx/store';
-
-import { ColumnFields } from '../../../../../shared/ag-grid/constants/column-fields.enum';
-import { QuotationStatus } from '../../../../../shared/models';
-import { QuotationDetail } from '../../../../../shared/models/quotation-detail';
 
 @Component({
   selector: 'gq-quantity-display',

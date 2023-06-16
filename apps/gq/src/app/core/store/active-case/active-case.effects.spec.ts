@@ -1,6 +1,9 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import {
+  MatLegacySnackBar as MatSnackBar,
+  MatLegacySnackBarModule as MatSnackBarModule,
+} from '@angular/material/legacy-snack-bar';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 

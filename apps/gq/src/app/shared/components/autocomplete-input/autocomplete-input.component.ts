@@ -17,10 +17,10 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import {
-  MatAutocomplete,
-  MatAutocompleteSelectedEvent,
-} from '@angular/material/autocomplete';
-import { MatFormField } from '@angular/material/form-field';
+  MatLegacyAutocomplete as MatAutocomplete,
+  MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent,
+} from '@angular/material/legacy-autocomplete';
+import { MatLegacyFormField as MatFormField } from '@angular/material/legacy-form-field';
 
 import { EMPTY, Subscription, timer } from 'rxjs';
 import { debounce, filter, tap } from 'rxjs/operators';

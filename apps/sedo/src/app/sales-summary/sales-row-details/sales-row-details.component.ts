@@ -5,9 +5,9 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { MatMenuTrigger } from '@angular/material/menu';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatLegacyMenuTrigger as MatMenuTrigger } from '@angular/material/legacy-menu';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 
 import { Subject, takeUntil } from 'rxjs';
 
@@ -149,6 +149,31 @@ export class SalesRowDetailsComponent
     });
   }
 
+  public iconEnter(trigger: MatMenuTrigger): void {
+    if (this.timedOutCloser) {
+      clearTimeout(this.timedOutCloser);
+    }
+    trigger.openMenu();
+  }
+
+  public iconLeave(trigger: MatMenuTrigger): void {
+    this.timedOutCloser = window.setTimeout(() => {
+      trigger.closeMenu();
+    }, 1500);
+  }
+
+  public openIgnoreDialog(): void {
+    const dialogRef = this.dialog.open(IgnoreFlagDialogComponent, {
+      data: this.rowData.ignoreFlag,
+    });
+
+    dialogRef.afterClosed().subscribe((ignoreFlag: IgnoreFlag) => {
+      if (ignoreFlag !== undefined) {
+        this.sendUpdatedIgnoreFlag(ignoreFlag);
+      }
+    });
+  }
+
   private setInitialFormValues(): void {
     this.datesFormGroup
       .get('edoDateControl')
@@ -213,30 +238,5 @@ export class SalesRowDetailsComponent
     ).getTime();
 
     return edoTimestamp < eopTimestamp ? { disallowedEdo: true } : undefined;
-  }
-
-  public iconEnter(trigger: MatMenuTrigger): void {
-    if (this.timedOutCloser) {
-      clearTimeout(this.timedOutCloser);
-    }
-    trigger.openMenu();
-  }
-
-  public iconLeave(trigger: MatMenuTrigger): void {
-    this.timedOutCloser = window.setTimeout(() => {
-      trigger.closeMenu();
-    }, 1500);
-  }
-
-  public openIgnoreDialog(): void {
-    const dialogRef = this.dialog.open(IgnoreFlagDialogComponent, {
-      data: this.rowData.ignoreFlag,
-    });
-
-    dialogRef.afterClosed().subscribe((ignoreFlag: IgnoreFlag) => {
-      if (ignoreFlag !== undefined) {
-        this.sendUpdatedIgnoreFlag(ignoreFlag);
-      }
-    });
   }
 }

@@ -1,4 +1,4 @@
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ITooltipParams } from 'ag-grid-community';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';

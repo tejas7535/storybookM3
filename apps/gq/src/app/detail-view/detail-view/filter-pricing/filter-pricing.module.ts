@@ -1,20 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
 
+import { ContextMenuModule } from '@gq/shared/components/contextMenu/context-menu.module';
+import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { KpiStatusCardComponent } from '@gq/shared/components/kpi-status-card/kpi-status-card.component';
+import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
+import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { ContextMenuModule } from '../../../shared/components/contextMenu/context-menu.module';
-import { DialogHeaderModule } from '../../../shared/components/header/dialog-header/dialog-header.module';
-import { SharedDirectivesModule } from '../../../shared/directives/shared-directives.module';
-import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
 import { DetailButtonComponent } from './detail-button/detail-button.component';
 import { FilterPricingComponent } from './filter-pricing.component';
 import { FilterPricingCardComponent } from './filter-pricing-card/filter-pricing-card.component';
@@ -38,7 +38,7 @@ import { TargetPriceComponent } from './target-price/target-price.component';
   imports: [
     MatButtonModule,
     MatIconModule,
-    PushModule,
+    PushPipe,
     SharedPipesModule,
     DialogHeaderModule,
     LoadingSpinnerModule,

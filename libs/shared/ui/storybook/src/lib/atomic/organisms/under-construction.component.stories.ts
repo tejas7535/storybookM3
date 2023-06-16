@@ -1,7 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 
 import { TranslocoModule } from '@ngneat/transloco';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import {
   UnderConstructionComponent,
@@ -10,14 +10,11 @@ import {
 
 import READMEMd from '../../../../../empty-states/src/lib/under-construction/README.md';
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
-import {
-  NavigationAtomic,
-  NavigationMain,
-} from '../../../../.storybook/storybook-navigation.constants';
+
 import { StorybookTranslocoModule } from '../../../../.storybook/storybook-transloco.module';
 
 export default {
-  title: `${NavigationMain.Atomic}/${NavigationAtomic.Organisms}/Under Construction`,
+  title: 'Atomic/Organisms/Under Construction',
   component: UnderConstructionComponent,
   decorators: [
     moduleMetadata({
@@ -35,7 +32,7 @@ export default {
   },
 } as Meta<UnderConstructionComponent>;
 
-const Template: Story<UnderConstructionComponent> = (
+const Template: StoryFn<UnderConstructionComponent> = (
   args: UnderConstructionComponent
 ) => ({
   component: UnderConstructionComponent,

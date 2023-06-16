@@ -6,14 +6,17 @@ import {
   LOCALE_ID,
   ViewChild,
 } from '@angular/core';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import {
   MatExpansionModule,
   MatExpansionPanelHeader,
 } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import {
+  MatLegacyDialogModule as MatDialogModule,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
+import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
 
 import { map, Observable } from 'rxjs';
 
@@ -26,7 +29,7 @@ import { CalculationParametersCalculationTypeConfig } from '@ea/core/store/model
 import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
 import { TagComponent } from '@ea/shared/tag/tag.component';
 import { TranslocoService } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { EChartsOption } from 'echarts';
 import { NgxEchartsModule } from 'ngx-echarts';
 
@@ -41,7 +44,7 @@ const COLOR_PLATTE = ['#DDE86E', '#7DC882'];
   standalone: true,
   imports: [
     CommonModule,
-    PushModule,
+    PushPipe,
     MatIconModule,
     MatDividerModule,
     MatDialogModule,
@@ -55,13 +58,13 @@ const COLOR_PLATTE = ['#DDE86E', '#7DC882'];
   ],
 })
 export class CalculationResultReportComponent {
+  @ViewChild('emissionPanel')
+  emissionPanel: ElementRef<MatExpansionPanelHeader>;
+
   public bearingDesignation$ = this.productSelectionFacade.bearingDesignation$;
 
   public selctedCalculationTypes$ =
     this.calculationParametersFacade.getCalculationTypes$;
-
-  @ViewChild('emissionPanel')
-  emissionPanel: ElementRef<MatExpansionPanelHeader>;
 
   public co2EmissionOptions$: Observable<EChartsOption> =
     this.calculationResultFacade.calculationReportCO2Emission$.pipe(

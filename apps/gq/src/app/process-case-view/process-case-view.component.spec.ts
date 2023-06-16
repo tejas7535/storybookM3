@@ -6,10 +6,12 @@ import {
   getGqId,
   getQuotationSapSyncStatus,
 } from '@gq/core/store/active-case';
+import { SAP_SYNC_STATUS } from '@gq/shared/models/quotation-detail/sap-sync-status.enum';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { BreadcrumbsService } from '@gq/shared/services/breadcrumbs/breadcrumbs.service';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { ShipToParty } from '@gq/shared/services/rest/quotation/models/ship-to-party';
+import { UpdateQuotationRequest } from '@gq/shared/services/rest/quotation/models/update-quotation-request.model';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -21,8 +23,6 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { PROCESS_CASE_STATE_MOCK, QUOTATION_MOCK } from '../../testing/mocks';
 import { ACTIVE_CASE_STATE_MOCK } from '../../testing/mocks/state/active-case-state.mock';
-import { SAP_SYNC_STATUS } from '../shared/models/quotation-detail/sap-sync-status.enum';
-import { UpdateQuotationRequest } from '../shared/services/rest/quotation/models/update-quotation-request.model';
 import { ProcessCaseViewComponent } from './process-case-view.component';
 
 describe('ProcessCaseViewComponent', () => {

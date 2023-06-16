@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TranslocoService } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { AppShellModule } from '@schaeffler/app-shell';
 import {
@@ -35,7 +35,7 @@ export function DynamicStoragePeriod(translocoService: TranslocoService) {
     StoreModule,
     AppShellModule,
     MaterialModule,
-    PushModule,
+    PushPipe,
   ],
   providers: [
     {

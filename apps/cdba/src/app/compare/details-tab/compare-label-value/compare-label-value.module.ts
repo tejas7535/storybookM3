@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { CompareLabelValueComponent } from './compare-label-value.component';
 
 @NgModule({
   declarations: [CompareLabelValueComponent],
-  imports: [CommonModule, PushModule, MatTooltipModule],
+  imports: [CommonModule, PushPipe, MatTooltipModule],
   exports: [CompareLabelValueComponent],
 })
 export class CompareLabelValueModule {}

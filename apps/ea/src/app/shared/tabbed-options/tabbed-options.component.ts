@@ -18,7 +18,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatRadioModule } from '@angular/material/radio';
+import { MatLegacyRadioModule as MatRadioModule } from '@angular/material/legacy-radio';
 
 import { map, Observable } from 'rxjs';
 
@@ -52,12 +52,12 @@ import { OptionTemplateDirective } from './option-template.directive';
 export class TabbedOptionsComponent implements AfterContentInit {
   @Input() formControl: FormControl | undefined;
 
+  @ContentChildren(OptionTemplateDirective)
+  templates!: QueryList<OptionTemplateDirective>;
+
   isMediumScreen$: Observable<boolean> = this.breakpointObserver
     .observe([`(min-width: ${TAILWIND_SCREENS.MD})`])
     .pipe(map((state) => state.matches));
-
-  @ContentChildren(OptionTemplateDirective)
-  templates!: QueryList<OptionTemplateDirective>;
 
   templateMap: { [key: string]: TemplateRef<unknown> } = {};
   visibleTemplate: TemplateRef<unknown> | undefined;
@@ -71,6 +71,10 @@ export class TabbedOptionsComponent implements AfterContentInit {
     if (this.ngControl) {
       this.ngControl.valueAccessor = NOOP_VALUE_ACCESSOR;
     }
+  }
+
+  get control(): FormControl {
+    return this.formControl || (this.ngControl?.control as FormControl);
   }
 
   ngAfterContentInit() {
@@ -91,9 +95,5 @@ export class TabbedOptionsComponent implements AfterContentInit {
 
   selectOption(option: string) {
     this.visibleTemplate = this.templateMap[option];
-  }
-
-  get control(): FormControl {
-    return this.formControl || (this.ngControl?.control as FormControl);
   }
 }

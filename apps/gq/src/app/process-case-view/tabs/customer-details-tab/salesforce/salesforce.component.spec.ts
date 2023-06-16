@@ -1,10 +1,10 @@
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { HorizontalDividerModule } from '@gq/shared/components/horizontal-divider/horizontal-divider.module';
+import { LabelTextModule } from '@gq/shared/components/label-text/label-text.module';
+import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { HorizontalDividerModule } from '../../../../shared/components/horizontal-divider/horizontal-divider.module';
-import { LabelTextModule } from '../../../../shared/components/label-text/label-text.module';
-import { SharedPipesModule } from '../../../../shared/pipes/shared-pipes.module';
 import { SalesforceComponent } from './salesforce.component';
 
 describe('SalesforceComponent', () => {

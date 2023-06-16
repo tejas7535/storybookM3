@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
 import { CellClassParams } from 'ag-grid-community';
 

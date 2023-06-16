@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
+import { ConfirmationModalComponent } from '@gq/shared/components/modal/confirmation-modal/confirmation-modal.component';
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import { IStatusPanelParams } from 'ag-grid-community';
 
-import { ConfirmationModalComponent } from '../../../../shared/components/modal/confirmation-modal/confirmation-modal.component';
 import { ConfirmationModalData } from '../../../components/modal/confirmation-modal/models/confirmation-modal-data.model';
 import { Quotation, QuotationStatus } from '../../../models';
 import { QuotationDetail } from '../../../models/quotation-detail';

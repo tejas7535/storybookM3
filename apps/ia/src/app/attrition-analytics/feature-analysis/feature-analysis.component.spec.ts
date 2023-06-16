@@ -1,12 +1,15 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import * as cdkDragDropLib from '@angular/cdk/drag-drop';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import {
+  MatLegacyDialogModule as MatDialogModule,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { of } from 'rxjs';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 

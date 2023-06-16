@@ -119,106 +119,6 @@ export class MsdDataService {
       );
   }
 
-  // eslint-disable-next-line complexity
-  private mapMaterials<T extends Material = Material>(
-    materialResponse: MaterialResponse
-  ): T {
-    return {
-      id: materialResponse.id,
-      materialStandardId: materialResponse.materialStandard.id,
-      materialStandardMaterialName:
-        materialResponse.materialStandard.materialName,
-      materialNumbers: findProperty(
-        materialResponse.materialStandard,
-        'materialNumber'
-      ),
-      materialStandardStandardDocument:
-        materialResponse.materialStandard.standardDocument,
-      materialStandardWiamId: findProperty(
-        materialResponse.materialStandard,
-        'wiamId'
-      ),
-      materialStandardStoffId: findProperty(
-        materialResponse.materialStandard,
-        'stoffId'
-      ),
-
-      manufacturerSupplierId: materialResponse.manufacturerSupplier.id,
-      manufacturerSupplierName: materialResponse.manufacturerSupplier.name,
-      manufacturerSupplierPlant: materialResponse.manufacturerSupplier.plant,
-      manufacturerSupplierCountry:
-        materialResponse.manufacturerSupplier.country,
-      manufacturerSupplierRegion: MAP_COUNTRY_TO_REGION(
-        materialResponse.manufacturerSupplier.country
-      ),
-      materialClass: materialResponse.materialClass as MaterialClass,
-      selfCertified: findProperty(materialResponse, 'selfCertified'),
-      manufacturer: findProperty(
-        materialResponse.manufacturerSupplier,
-        'manufacturer'
-      ),
-      sapSupplierIds: findProperty<string[]>(
-        materialResponse.manufacturerSupplier,
-        'sapIds'
-      ),
-      productCategory: materialResponse.productCategory,
-      productCategoryText: materialResponse.productCategory
-        ? translate(
-            `materialsSupplierDatabase.productCategoryValues.${materialResponse.productCategory}`
-          )
-        : undefined,
-      generalDescription: findProperty(materialResponse, 'generalDescription'),
-      referenceDoc: findProperty(materialResponse, 'referenceDoc'),
-      co2Scope1: materialResponse.co2Scope1,
-      co2Scope2: materialResponse.co2Scope2,
-      co2Scope3: materialResponse.co2Scope3,
-      co2PerTon: materialResponse.co2PerTon,
-      co2Classification: materialResponse.co2Classification,
-      releaseDateYear: findProperty(materialResponse, 'releaseDateYear'),
-      releaseDateMonth: findProperty(materialResponse, 'releaseDateMonth'),
-      releaseRestrictions: materialResponse.releaseRestrictions,
-      blocked: findProperty(materialResponse, 'blocked'),
-      castingMode: findProperty(materialResponse, 'castingMode'),
-      castingDiameter: findProperty(materialResponse, 'castingDiameter'),
-      minDimension: findProperty(materialResponse, 'minDimension'),
-      maxDimension: findProperty(materialResponse, 'maxDimension'),
-      steelMakingProcess: findProperty(materialResponse, 'steelMakingProcess'),
-      productionProcess: findProperty(materialResponse, 'productionProcess'),
-      productionProcessText: mapProperty<string>(
-        materialResponse,
-        'productionProcess',
-        (val) =>
-          translate(
-            `materialsSupplierDatabase.productionProcessValues.${materialResponse.materialClass}.${val}`
-          )
-      ),
-      minRecyclingRate: findProperty(materialResponse, 'minRecyclingRate'),
-      maxRecyclingRate: findProperty(materialResponse, 'maxRecyclingRate'),
-      rating: findProperty(materialResponse, 'rating'),
-      ratingRemark: findProperty(materialResponse, 'ratingRemark'),
-      ratingChangeComment: findProperty(
-        materialResponse,
-        'ratingChangeComment'
-      ),
-      condition: findProperty(materialResponse, 'condition'),
-      conditionText: mapProperty<string>(materialResponse, 'condition', (val) =>
-        translate(
-          `materialsSupplierDatabase.condition.${materialResponse.materialClass}.${val}`
-        )
-      ),
-      coating: findProperty(materialResponse, 'coating'),
-      coatingText: mapProperty<string>(materialResponse, 'coating', (val) =>
-        translate(
-          `materialsSupplierDatabase.coating.${materialResponse.materialClass}.${val}`
-        )
-      ),
-      grade: findProperty(materialResponse, 'grade'),
-
-      lastModified: materialResponse.timestamp,
-      modifiedBy: materialResponse.modifiedBy,
-    } as Material as T;
-  }
-
   public fetchManufacturerSuppliers(materialClass: MaterialClass) {
     return this.httpClient.get<ManufacturerSupplier[]>(
       `${this.BASE_URL}/materials/${materialClass}/manufacturerSuppliers`
@@ -243,24 +143,6 @@ export class MsdDataService {
     return suppliers.map((supplier) => this.mapSuppliers(supplier));
   }
 
-  private mapSuppliers(
-    manufacturerSupplier: ManufacturerSupplier
-  ): ManufacturerSupplierTableValue {
-    return {
-      id: manufacturerSupplier.id,
-      manufacturerSupplierName: manufacturerSupplier.name,
-      manufacturerSupplierPlant: manufacturerSupplier.plant,
-      manufacturerSupplierCountry: manufacturerSupplier.country,
-      manufacturerSupplierRegion: MAP_COUNTRY_TO_REGION(
-        manufacturerSupplier.country
-      ),
-      manufacturer: findProperty(manufacturerSupplier, 'manufacturer'),
-      sapSupplierIds: findProperty<string[]>(manufacturerSupplier, 'sapIds'),
-      lastModified: manufacturerSupplier.timestamp,
-      modifiedBy: manufacturerSupplier.modifiedBy,
-    } as ManufacturerSupplierTableValue;
-  }
-
   public fetchMaterialStandards(materialClass: MaterialClass) {
     return this.httpClient.get<MaterialStandard[]>(
       `${this.BASE_URL}/materials/${materialClass}/materialStandards`
@@ -283,19 +165,6 @@ export class MsdDataService {
     standards: MaterialStandard[]
   ): MaterialStandardTableValue[] {
     return standards.map((std) => this.mapStandards(std));
-  }
-
-  private mapStandards(std: MaterialStandard): MaterialStandardTableValue {
-    return {
-      id: std.id,
-      materialStandardMaterialName: std.materialName,
-      materialStandardStandardDocument: std.standardDocument,
-      materialStandardWiamId: findProperty(std, 'wiamId'),
-      materialStandardStoffId: findProperty(std, 'stoffId'),
-      materialNumbers: findProperty(std, 'materialNumber'),
-      lastModified: std.timestamp,
-      modifiedBy: std.modifiedBy,
-    } as MaterialStandardTableValue;
   }
 
   public fetchRatings() {
@@ -672,5 +541,136 @@ export class MsdDataService {
       `${this.BASE_URL_SAP}/emissionfactor/query`,
       request
     );
+  }
+
+  // eslint-disable-next-line complexity
+  private mapMaterials<T extends Material = Material>(
+    materialResponse: MaterialResponse
+  ): T {
+    return {
+      id: materialResponse.id,
+      materialStandardId: materialResponse.materialStandard.id,
+      materialStandardMaterialName:
+        materialResponse.materialStandard.materialName,
+      materialNumbers: findProperty(
+        materialResponse.materialStandard,
+        'materialNumber'
+      ),
+      materialStandardStandardDocument:
+        materialResponse.materialStandard.standardDocument,
+      materialStandardWiamId: findProperty(
+        materialResponse.materialStandard,
+        'wiamId'
+      ),
+      materialStandardStoffId: findProperty(
+        materialResponse.materialStandard,
+        'stoffId'
+      ),
+
+      manufacturerSupplierId: materialResponse.manufacturerSupplier.id,
+      manufacturerSupplierName: materialResponse.manufacturerSupplier.name,
+      manufacturerSupplierPlant: materialResponse.manufacturerSupplier.plant,
+      manufacturerSupplierCountry:
+        materialResponse.manufacturerSupplier.country,
+      manufacturerSupplierRegion: MAP_COUNTRY_TO_REGION(
+        materialResponse.manufacturerSupplier.country
+      ),
+      materialClass: materialResponse.materialClass as MaterialClass,
+      selfCertified: findProperty(materialResponse, 'selfCertified'),
+      manufacturer: findProperty(
+        materialResponse.manufacturerSupplier,
+        'manufacturer'
+      ),
+      sapSupplierIds: findProperty<string[]>(
+        materialResponse.manufacturerSupplier,
+        'sapIds'
+      ),
+      productCategory: materialResponse.productCategory,
+      productCategoryText: materialResponse.productCategory
+        ? translate(
+            `materialsSupplierDatabase.productCategoryValues.${materialResponse.productCategory}`
+          )
+        : undefined,
+      generalDescription: findProperty(materialResponse, 'generalDescription'),
+      referenceDoc: findProperty(materialResponse, 'referenceDoc'),
+      co2Scope1: materialResponse.co2Scope1,
+      co2Scope2: materialResponse.co2Scope2,
+      co2Scope3: materialResponse.co2Scope3,
+      co2PerTon: materialResponse.co2PerTon,
+      co2Classification: materialResponse.co2Classification,
+      releaseDateYear: findProperty(materialResponse, 'releaseDateYear'),
+      releaseDateMonth: findProperty(materialResponse, 'releaseDateMonth'),
+      releaseRestrictions: materialResponse.releaseRestrictions,
+      blocked: findProperty(materialResponse, 'blocked'),
+      castingMode: findProperty(materialResponse, 'castingMode'),
+      castingDiameter: findProperty(materialResponse, 'castingDiameter'),
+      minDimension: findProperty(materialResponse, 'minDimension'),
+      maxDimension: findProperty(materialResponse, 'maxDimension'),
+      steelMakingProcess: findProperty(materialResponse, 'steelMakingProcess'),
+      productionProcess: findProperty(materialResponse, 'productionProcess'),
+      productionProcessText: mapProperty<string>(
+        materialResponse,
+        'productionProcess',
+        (val) =>
+          translate(
+            `materialsSupplierDatabase.productionProcessValues.${materialResponse.materialClass}.${val}`
+          )
+      ),
+      minRecyclingRate: findProperty(materialResponse, 'minRecyclingRate'),
+      maxRecyclingRate: findProperty(materialResponse, 'maxRecyclingRate'),
+      rating: findProperty(materialResponse, 'rating'),
+      ratingRemark: findProperty(materialResponse, 'ratingRemark'),
+      ratingChangeComment: findProperty(
+        materialResponse,
+        'ratingChangeComment'
+      ),
+      condition: findProperty(materialResponse, 'condition'),
+      conditionText: mapProperty<string>(materialResponse, 'condition', (val) =>
+        translate(
+          `materialsSupplierDatabase.condition.${materialResponse.materialClass}.${val}`
+        )
+      ),
+      coating: findProperty(materialResponse, 'coating'),
+      coatingText: mapProperty<string>(materialResponse, 'coating', (val) =>
+        translate(
+          `materialsSupplierDatabase.coating.${materialResponse.materialClass}.${val}`
+        )
+      ),
+      grade: findProperty(materialResponse, 'grade'),
+
+      lastModified: materialResponse.timestamp,
+      modifiedBy: materialResponse.modifiedBy,
+    } as Material as T;
+  }
+
+  private mapSuppliers(
+    manufacturerSupplier: ManufacturerSupplier
+  ): ManufacturerSupplierTableValue {
+    return {
+      id: manufacturerSupplier.id,
+      manufacturerSupplierName: manufacturerSupplier.name,
+      manufacturerSupplierPlant: manufacturerSupplier.plant,
+      manufacturerSupplierCountry: manufacturerSupplier.country,
+      manufacturerSupplierRegion: MAP_COUNTRY_TO_REGION(
+        manufacturerSupplier.country
+      ),
+      manufacturer: findProperty(manufacturerSupplier, 'manufacturer'),
+      sapSupplierIds: findProperty<string[]>(manufacturerSupplier, 'sapIds'),
+      lastModified: manufacturerSupplier.timestamp,
+      modifiedBy: manufacturerSupplier.modifiedBy,
+    } as ManufacturerSupplierTableValue;
+  }
+
+  private mapStandards(std: MaterialStandard): MaterialStandardTableValue {
+    return {
+      id: std.id,
+      materialStandardMaterialName: std.materialName,
+      materialStandardStandardDocument: std.standardDocument,
+      materialStandardWiamId: findProperty(std, 'wiamId'),
+      materialStandardStoffId: findProperty(std, 'stoffId'),
+      materialNumbers: findProperty(std, 'materialNumber'),
+      lastModified: std.timestamp,
+      modifiedBy: std.modifiedBy,
+    } as MaterialStandardTableValue;
   }
 }

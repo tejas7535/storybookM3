@@ -3,10 +3,9 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
+import { Customer } from '@gq/shared/models/customer';
 import { getCurrentYear, getLastYear } from '@gq/shared/utils/misc.utils';
 import { Store } from '@ngrx/store';
-
-import { Customer } from '../../../shared/models/customer';
 
 @Component({
   selector: 'gq-customer-details-tab',

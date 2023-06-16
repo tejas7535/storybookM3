@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 
 import { Observable, of } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { Store, StoreModule } from '@ngrx/store';
 
 import { hasIdTokenRoles } from '@schaeffler/azure-auth';
@@ -28,7 +28,7 @@ import { GuideGroup, LinkGroup } from './models';
     SharedTranslocoModule,
     StoreModule,
     SubheaderModule,
-    PushModule,
+    PushPipe,
   ],
   templateUrl: './learn-more.component.html',
 })

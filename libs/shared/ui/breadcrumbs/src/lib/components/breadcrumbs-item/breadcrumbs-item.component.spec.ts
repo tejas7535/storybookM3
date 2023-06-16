@@ -2,7 +2,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockModule } from 'ng-mocks';
 
 import { BreadcrumbsItemComponent } from './breadcrumbs-item.component';

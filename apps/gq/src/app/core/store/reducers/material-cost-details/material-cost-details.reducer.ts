@@ -1,6 +1,6 @@
+import { MaterialCostDetails } from '@gq/shared/models/quotation-detail/material-cost-details';
 import { Action, createReducer, on } from '@ngrx/store';
 
-import { MaterialCostDetails } from '../../../../shared/models/quotation-detail/material-cost-details';
 import {
   loadMaterialCostDetails,
   loadMaterialCostDetailsFailure,

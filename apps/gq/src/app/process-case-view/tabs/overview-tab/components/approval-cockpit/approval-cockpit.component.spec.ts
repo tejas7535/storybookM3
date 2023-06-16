@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { ApprovalCockpitComponent } from './approval-cockpit.component';
 

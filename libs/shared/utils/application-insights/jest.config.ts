@@ -2,12 +2,7 @@ export default {
   displayName: 'application-insights',
 
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  globals: {
-    'ts-jest': {
-      tsconfig: '<rootDir>/tsconfig.spec.json',
-      stringifyContentPathRegex: '\\.(html|svg)$',
-    },
-  },
+  globals: {},
   coverageDirectory:
     '../../../../coverage/libs/shared/utils/application-insights',
   snapshotSerializers: [
@@ -16,7 +11,13 @@ export default {
     'jest-preset-angular/build/serializers/html-comment',
   ],
   transform: {
-    '^.+.(ts|mjs|js|html)$': 'jest-preset-angular',
+    '^.+.(ts|mjs|js|html)$': [
+      'jest-preset-angular',
+      {
+        tsconfig: '<rootDir>/tsconfig.spec.json',
+        stringifyContentPathRegex: '\\.(html|svg)$',
+      },
+    ],
   },
   transformIgnorePatterns: ['node_modules/(?!.*.mjs$)'],
   preset: '../../../../jest.preset.js',

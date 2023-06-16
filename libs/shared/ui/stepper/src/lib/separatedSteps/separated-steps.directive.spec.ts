@@ -2,7 +2,10 @@ import { ChangeDetectorRef, ElementRef } from '@angular/core';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 
-import { createDirectiveFactory, SpectatorDirective } from '@ngneat/spectator';
+import {
+  createDirectiveFactory,
+  SpectatorDirective,
+} from '@ngneat/spectator/jest';
 
 import { SeparatedStepsDirective } from './separated-steps.directive';
 

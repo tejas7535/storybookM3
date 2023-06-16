@@ -1,6 +1,8 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { MaterialComparableCost } from '@gq/shared/models/quotation-detail/material-comparable-cost.model';
+import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
@@ -8,8 +10,6 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
-import { MaterialComparableCost } from '../../../../shared/models/quotation-detail/material-comparable-cost.model';
-import { QuotationDetailsService } from '../../../../shared/services/rest/quotation-details/quotation-details.service';
 import {
   loadMaterialComparableCosts,
   loadMaterialComparableCostsFailure,

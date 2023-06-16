@@ -5,7 +5,7 @@ import {
   SalesIndication,
 } from '@gq/core/store/reducers/models';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import {

@@ -17,6 +17,7 @@ import {
   getBenchmarkFluctuationKpi,
   getDimensionFluctuationKpi,
   getDimensionFluctuationRatesForChart,
+  getDimensionUnforcedFluctuationRatesForChart,
   getIsLoadingAttritionOverTimeOverview,
   getIsLoadingBenchmarkFluctuationRates,
   getIsLoadingDimensionFluctuationRates,
@@ -32,7 +33,6 @@ import {
   getOverviewFluctuationEntriesDoughnutConfig,
   getOverviewFluctuationExitsCount,
   getOverviewFluctuationExitsDoughnutConfig,
-  getDimensionUnforcedFluctuationRatesForChart,
 } from './store/selectors/overview.selector';
 
 describe('OverviewComponent', () => {

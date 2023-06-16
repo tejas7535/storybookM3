@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-list';
+import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
 
-import { LetModule } from '@ngrx/component';
+import { LetDirective } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -14,7 +14,7 @@ import { BearingSelectionListComponent } from './bearing-selection-list.componen
   declarations: [BearingSelectionListComponent],
   imports: [
     CommonModule,
-    LetModule,
+    LetDirective,
 
     // Material Modules
     MatIconModule,

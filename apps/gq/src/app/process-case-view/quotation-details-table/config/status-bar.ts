@@ -1,6 +1,5 @@
+import { UploadQuoteToSapButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/upload-quote-to-sap-button/upload-quote-to-sap-button.component';
 import { StatusPanelDef } from 'ag-grid-community';
-
-import { UploadQuoteToSapButtonComponent } from '../../../shared/ag-grid/custom-status-bar/upload-quote-to-sap-button/upload-quote-to-sap-button.component';
 
 export const STATUS_BAR_CONFIG: {
   statusPanels: StatusPanelDef[];

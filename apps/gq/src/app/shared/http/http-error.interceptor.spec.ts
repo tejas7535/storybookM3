@@ -11,7 +11,7 @@ import {
 import { Injectable } from '@angular/core';
 import { waitForAsync } from '@angular/core/testing';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';

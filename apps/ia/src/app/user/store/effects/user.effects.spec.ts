@@ -1,9 +1,15 @@
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import {
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogModule as MatDialogModule,
+} from '@angular/material/legacy-dialog';
+import {
+  MatLegacySnackBar as MatSnackBar,
+  MatLegacySnackBarModule as MatSnackBarModule,
+} from '@angular/material/legacy-snack-bar';
 
 import { of } from 'rxjs';
 
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';

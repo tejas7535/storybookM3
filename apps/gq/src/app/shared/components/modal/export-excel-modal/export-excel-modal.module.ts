@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { MatRadioModule } from '@angular/material/radio';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatLegacyRadioModule as MatRadioModule } from '@angular/material/legacy-radio';
 
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -25,7 +25,7 @@ import { ExportExcelModalComponent } from './export-excel-modal.component';
     MatRadioModule,
     FormsModule,
     LoadingSpinnerModule,
-    PushModule,
+    PushPipe,
     DialogHeaderModule,
   ],
   exports: [ExportExcelModalComponent],

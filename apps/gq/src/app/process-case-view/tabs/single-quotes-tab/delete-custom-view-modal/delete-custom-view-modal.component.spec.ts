@@ -1,10 +1,10 @@
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { DialogHeaderModule } from '../../../../shared/components/header/dialog-header/dialog-header.module';
 import { DeleteCustomViewModalComponent } from './delete-custom-view-modal.component';
 
 describe('DeleteCustomViewModalComponent', () => {

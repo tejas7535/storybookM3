@@ -1,16 +1,16 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import {
-  MAT_SNACK_BAR_DEFAULT_OPTIONS,
-  MatSnackBarModule,
-} from '@angular/material/snack-bar';
-import { MatTabsModule } from '@angular/material/tabs';
+  MAT_LEGACY_SNACK_BAR_DEFAULT_OPTIONS as MAT_SNACK_BAR_DEFAULT_OPTIONS,
+  MatLegacySnackBarModule as MatSnackBarModule,
+} from '@angular/material/legacy-snack-bar';
+import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
 import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import {
   ApplicationInsightsModule,
@@ -62,7 +62,7 @@ export function appInitializer(
 
     // NgRx Setup
     StoreModule,
-    PushModule,
+    PushPipe,
     RouterModule,
     LoadingSpinnerModule,
 

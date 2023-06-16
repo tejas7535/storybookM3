@@ -1,9 +1,13 @@
-import { AutocompleteRequestDialog } from '../../../../shared/components/autocomplete-input/autocomplete-request-dialog.enum';
-import { FilterNames } from '../../../../shared/components/autocomplete-input/filter-names.enum';
-import { IdValue } from '../../../../shared/models/search';
-import { ValidationDescription } from '../../../../shared/models/table';
-import { CreateCustomerCase } from '../../../../shared/services/rest/search/models/create-customer-case.model';
-import { initialState } from '../../reducers/create-case/create-case.reducer';
+import { AutocompleteRequestDialog } from '@gq/shared/components/autocomplete-input/autocomplete-request-dialog.enum';
+import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
+import { IdValue } from '@gq/shared/models/search';
+import { ValidationDescription } from '@gq/shared/models/table';
+import { CreateCustomerCase } from '@gq/shared/services/rest/search/models/create-customer-case.model';
+
+import {
+  CreateCaseState,
+  initialState,
+} from '../../reducers/create-case/create-case.reducer';
 import { SalesIndication } from '../../reducers/transactions/models/sales-indication.enum';
 import * as createSelectors from './create-case.selector';
 
@@ -49,7 +53,7 @@ describe('Create Case Selector', () => {
           },
         },
       ],
-    },
+    } as unknown as CreateCaseState,
   };
 
   describe('getCaseQuotation', () => {
@@ -260,7 +264,7 @@ describe('Create Case Selector', () => {
             gpsdGroupIds: [{ value: '1', selected: false }],
           },
         },
-      };
+      } as unknown as CreateCaseState;
 
       expect(
         createSelectors.getCreateCustomerCaseDisabled.projector(mockState)
@@ -285,7 +289,7 @@ describe('Create Case Selector', () => {
             gpsdGroupIds: [{ value: '1', selected: true }],
           },
         },
-      };
+      } as unknown as CreateCaseState;
 
       expect(
         createSelectors.getCreateCustomerCaseDisabled.projector(mockState)
@@ -314,7 +318,7 @@ describe('Create Case Selector', () => {
           },
           historicalDataLimitInYear: 2,
         },
-      };
+      } as unknown as CreateCaseState;
 
       const expected: CreateCustomerCase = {
         customer: {

@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { ComparableLinkedTransaction } from '@gq/core/store/reducers/models';
+import { Customer } from '@gq/shared/models/customer';
+import { Coefficients } from '@gq/shared/models/quotation-detail';
 import { EChartsOption } from 'echarts';
 
-import { Customer } from '../../../shared/models/customer';
-import { Coefficients } from '../../../shared/models/quotation-detail';
 import { DATA_ZOOM, GRID_CONFIG } from './echarts/chart.config';
 import { ChartConfigService } from './echarts/chart.config.service';
 import { RegressionService } from './echarts/regression.service';

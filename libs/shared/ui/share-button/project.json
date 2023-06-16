@@ -1,12 +1,13 @@
 {
+  "name": "shared-ui-share-button",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/shared/ui/share-button/src",
   "prefix": "schaeffler",
   "targets": {
     "build": {
-      "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/shared/ui/share-button"],
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/libs/shared/ui/share-button"],
       "options": {
         "project": "libs/shared/ui/share-button/ng-package.json",
         "tailwindConfig": "libs/shared/ui/share-button/tailwind.config.js"
@@ -22,15 +23,15 @@
       "defaultConfiguration": "production"
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/shared/ui/share-button"],
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/shared/ui/share-button"],
       "options": {
         "jestConfig": "libs/shared/ui/share-button/jest.config.ts",
         "passWithNoTests": true
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
@@ -47,7 +48,7 @@
       }
     },
     "publish": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "commands": [
           {

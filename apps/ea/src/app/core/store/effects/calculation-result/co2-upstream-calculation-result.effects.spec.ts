@@ -3,7 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
 
 import { CO2UpstreamService } from '@ea/core/services/co2-upstream.service';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';

@@ -9,7 +9,7 @@ import { CaseTableColumnFields } from '@gq/shared/ag-grid/constants/column-field
 import { LocalizationService } from '@gq/shared/ag-grid/services';
 import { ColumnUtilityService } from '@gq/shared/ag-grid/services/column-utility.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import {
   GetContextMenuItemsParams,
@@ -38,7 +38,7 @@ describe('CaseTableComponent', () => {
     imports: [
       RouterTestingModule.withRoutes([]),
       provideTranslocoTestingModule({ en: {} }),
-      PushModule,
+      PushPipe,
     ],
     providers: [
       MockProvider(ColumnDefService, {

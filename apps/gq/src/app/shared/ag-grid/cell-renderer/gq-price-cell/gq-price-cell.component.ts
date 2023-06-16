@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 
+import { DetailRoutePath } from '@gq/detail-view/detail-route-path.enum';
 import { ICellRendererParams } from 'ag-grid-community';
 
 import { AppRoutePath } from '../../../../../app/app-route-path.enum';
-import { DetailRoutePath } from '../../../../detail-view/detail-route-path.enum';
 import { QuotationDetail } from '../../../models/quotation-detail';
 
 @Component({

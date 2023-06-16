@@ -1,14 +1,11 @@
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { withDesign } from 'storybook-addon-designs';
 
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
-import {
-  NavigationAtomic,
-  NavigationMain,
-} from '../../../../.storybook/storybook-navigation.constants';
+
 import READMEMd from './input/README.md';
 import { MatInputModule } from '@angular/material/input';
 
@@ -24,7 +21,7 @@ enum SuffixIcons {
 }
 
 export default {
-  title: `${NavigationMain.Atomic}/${NavigationAtomic.Molecules}/Input`,
+  title: 'Atomic/Molecules/Input',
   decorators: [
     moduleMetadata({
       imports: [BrowserAnimationsModule, MatInputModule, MatIconModule],
@@ -41,7 +38,7 @@ export default {
   },
 } as Meta;
 
-const Template: Story = (args) => ({
+const Template: StoryFn = (args) => ({
   props: args,
   template: `
     <section class="mb-8">

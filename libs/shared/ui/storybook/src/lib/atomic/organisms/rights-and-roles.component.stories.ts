@@ -10,10 +10,7 @@ import {
 
 import READMEMd from '../../../../../roles-and-rights/README.md';
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
-import {
-  NavigationAtomic,
-  NavigationMain,
-} from '../../../../.storybook/storybook-navigation.constants';
+
 import { getMultiLanguageStoryTemplate } from '../../../../.storybook/storybook-transloco.module';
 
 const mockRoles: Role[] = [
@@ -49,7 +46,7 @@ const mockMissingRolesGroup: RolesGroup = {
 };
 
 export default {
-  title: `${NavigationMain.Atomic}/${NavigationAtomic.Organisms}/Roles & Rights`,
+  title: 'Atomic/Organisms/Roles & Rights',
   component: RolesAndRightsComponent,
   parameters: {
     notes: { markdown: READMEMd },

@@ -1,12 +1,9 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import READMEMd from '../../../../../inputs/select/src/lib/README.md';
-import {
-  NavigationAtomic,
-  NavigationMain,
-} from '../../../../.storybook/storybook-navigation.constants';
+
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
 import { SelectComponent, SelectModule } from '@schaeffler/inputs/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -16,7 +13,7 @@ import { action } from '@storybook/addon-actions';
 import { StringOption } from '@schaeffler/inputs';
 
 export default {
-  title: `${NavigationMain.Atomic}/${NavigationAtomic.Organisms}/Select`,
+  title: 'Atomic/Organisms/Select',
   component: SelectComponent,
   decorators: [
     moduleMetadata({
@@ -34,7 +31,7 @@ export default {
   },
 } as Meta<SelectComponent>;
 
-const Template: Story<SelectComponent> = (args: SelectComponent) => ({
+const Template: StoryFn<SelectComponent> = (args: SelectComponent) => ({
   component: SelectComponent,
   props: {
     ...args,

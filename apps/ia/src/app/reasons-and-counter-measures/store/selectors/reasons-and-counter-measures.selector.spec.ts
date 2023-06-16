@@ -403,7 +403,9 @@ describe('ReasonsAndCounterMeasures Selector', () => {
 
     test('should return undefined if reasons not set', () => {
       (utils.getTop5ReasonsForChart as any) = jest.fn(() => []);
-      expect(getComparedReasonsChartData.projector()).toEqual([]);
+      expect(
+        getComparedReasonsChartData.projector(undefined as any)
+      ).toBeUndefined();
       expect(utils.getTop5ReasonsForChart).not.toHaveBeenCalled();
     });
   });

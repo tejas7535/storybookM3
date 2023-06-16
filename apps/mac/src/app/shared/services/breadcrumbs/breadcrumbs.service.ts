@@ -9,8 +9,7 @@ import { Breadcrumb } from '@mac/shared/components/breadcrumbs/breadcrumb.model'
   providedIn: 'root',
 })
 export class BreadcrumbsService {
-  private readonly breadcrumbs: BehaviorSubject<Breadcrumb[]> =
-    new BehaviorSubject([]);
+  readonly breadcrumbs: BehaviorSubject<Breadcrumb[]> = new BehaviorSubject([]);
 
   public currentBreadcrumbs: Observable<Breadcrumb[]> =
     this.breadcrumbs.asObservable();

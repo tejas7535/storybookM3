@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatLegacySlideToggleModule as MatSlideToggleModule } from '@angular/material/legacy-slide-toggle';
 
-import { LetModule } from '@ngrx/component';
+import { LetDirective } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 
 import { SubheaderModule } from '@schaeffler/subheader';
@@ -21,7 +21,7 @@ import { AdvancedBearingSelectionModule } from './components/advanced-bearing-se
   imports: [
     // Angular
     CommonModule,
-    LetModule,
+    LetDirective,
 
     // Routing
     BearingSelectionRoutingModule,

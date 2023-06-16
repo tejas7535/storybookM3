@@ -1,18 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
 import {
   MatButtonToggleChange,
   MatButtonToggleModule,
 } from '@angular/material/button-toggle';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import {
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogModule as MatDialogModule,
+} from '@angular/material/legacy-dialog';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
 
 import { filter, Observable, Subject, takeUntil } from 'rxjs';
 
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { ColumnApi, ColumnState, GridApi } from 'ag-grid-community';
 import {} from 'ag-grid-community/dist/lib/events';
 
@@ -47,7 +50,7 @@ import { QuickfilterDialogComponent } from './quickfilter-dialog/quickfilter-dia
     MatIconModule,
     MatButtonToggleModule,
 
-    PushModule,
+    PushPipe,
     MatButtonModule,
     MatFormFieldModule,
     ReactiveFormsModule,
@@ -57,6 +60,13 @@ import { QuickfilterDialogComponent } from './quickfilter-dialog/quickfilter-dia
   templateUrl: './quick-filter.component.html',
 })
 export class QuickFilterComponent implements OnDestroy, OnInit {
+  // stores currently selected element (bound to ToggleComponent)
+  public active: QuickFilter;
+  // list of predifined filters
+  public staticFilters: QuickFilter[];
+  // list of custom user filters
+  public customFilters$: Observable<QuickFilter[]>;
+
   private agGridApi: GridApi;
   private agGridColumnApi: ColumnApi;
 
@@ -69,13 +79,7 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
     RELEASED_STATUS,
   ]);
 
-  // stores currently selected element (bound to ToggleComponent)
-  public active: QuickFilter;
   private activeEdit: QuickFilter = undefined;
-  // list of predifined filters
-  public staticFilters: QuickFilter[];
-  // list of custom user filters
-  public customFilters$: Observable<QuickFilter[]>;
 
   constructor(
     private readonly qfFacade: QuickFilterFacade,
@@ -114,6 +118,39 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
       .subscribe(({ gridApi, columnApi }) =>
         this.onAgGridReady(gridApi, columnApi)
       );
+  }
+
+  // event triggered on selection of button group
+  public onQuickfilterSelect(event: MatButtonToggleChange) {
+    const selected = event.value as QuickFilter;
+    this.applyQuickFilter(selected);
+  }
+
+  // add a custom quickfilter
+  public add() {
+    this.openDialog();
+  }
+
+  // edit title of an existing quickfilter
+  public edit(quickFilter: QuickFilter): void {
+    this.openDialog(quickFilter);
+  }
+
+  // remove custom quickfilter
+  public remove(quickFilter: QuickFilter): void {
+    this.openDialog(quickFilter, true);
+  }
+
+  openDialog(selected?: QuickFilter, deleted: boolean = false): void {
+    this.activeEdit = selected;
+    const dialogRef = this.dialog.open(QuickfilterDialogComponent, {
+      width: '500px',
+      autoFocus: false,
+      data: { title: selected?.title, edit: !!selected, delete: deleted },
+    });
+
+    // this version will still provide type inference with current component, otherwise "this" would be the event object.
+    dialogRef.afterClosed().subscribe((result) => this.onDialogClose(result));
   }
 
   // event propagated when agGrid table has bin initialized
@@ -168,12 +205,6 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
     }
   }
 
-  // event triggered on selection of button group
-  public onQuickfilterSelect(event: MatButtonToggleChange) {
-    const selected = event.value as QuickFilter;
-    this.applyQuickFilter(selected);
-  }
-
   // apply selected quickfilter
   private applyQuickFilter(selected: QuickFilter): void {
     this.active = selected;
@@ -205,18 +236,6 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
       .getColumnState()
       .filter((state) => !state.hide)
       .map((state) => state.colId);
-  }
-
-  openDialog(selected?: QuickFilter, deleted: boolean = false): void {
-    this.activeEdit = selected;
-    const dialogRef = this.dialog.open(QuickfilterDialogComponent, {
-      width: '500px',
-      autoFocus: false,
-      data: { title: selected?.title, edit: !!selected, delete: deleted },
-    });
-
-    // this version will still provide type inference with current component, otherwise "this" would be the event object.
-    dialogRef.afterClosed().subscribe((result) => this.onDialogClose(result));
   }
 
   // triggered by close event of dialog
@@ -273,20 +292,5 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
       title,
       custom: true,
     };
-  }
-
-  // add a custom quickfilter
-  public add() {
-    this.openDialog();
-  }
-
-  // edit title of an existing quickfilter
-  public edit(quickFilter: QuickFilter): void {
-    this.openDialog(quickFilter);
-  }
-
-  // remove custom quickfilter
-  public remove(quickFilter: QuickFilter): void {
-    this.openDialog(quickFilter, true);
   }
 }

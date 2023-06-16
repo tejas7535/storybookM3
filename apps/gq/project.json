@@ -1,8 +1,9 @@
 {
+  "name": "gq",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "generators": {
-    "@nrwl/angular:component": {
+    "@nx/angular:component": {
       "style": "scss"
     }
   },
@@ -10,7 +11,7 @@
   "prefix": "gq",
   "targets": {
     "build": {
-      "executor": "@nrwl/angular:webpack-browser",
+      "executor": "@nx/angular:webpack-browser",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/gq",
@@ -93,7 +94,7 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@nrwl/angular:webpack-server",
+      "executor": "@nx/angular:webpack-dev-server",
       "options": {
         "browserTarget": "gq:build"
       },
@@ -115,7 +116,7 @@
       "defaultConfiguration": "local"
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/gq/src/**/*.ts", "apps/gq/src/**/*.html"]
@@ -129,12 +130,12 @@
       }
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "options": {
         "jestConfig": "apps/gq/jest.config.ts",
         "passWithNoTests": true
       },
-      "outputs": ["coverage/apps/gq"]
+      "outputs": ["{workspaceRoot}/coverage/apps/gq"]
     },
     "version": {
       "executor": "@jscutlery/semver:version",

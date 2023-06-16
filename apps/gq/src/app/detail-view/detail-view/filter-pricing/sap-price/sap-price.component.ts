@@ -1,13 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
+import { PriceSource } from '@gq/shared/models/quotation-detail';
+import { QuotationDetail } from '@gq/shared/models/quotation-detail';
+import { SapPriceCondition } from '@gq/shared/models/quotation-detail';
+import { UpdatePrice } from '@gq/shared/models/quotation-detail';
 import { calculateMargin } from '@gq/shared/utils/pricing.utils';
 
-import {
-  PriceSource,
-  QuotationDetail,
-  SapPriceCondition,
-  UpdatePrice,
-} from '../../../../shared/models/quotation-detail';
 import { DetailRoutePath } from '../../../detail-route-path.enum';
 
 @Component({

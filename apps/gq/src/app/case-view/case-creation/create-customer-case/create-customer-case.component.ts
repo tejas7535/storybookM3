@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 
 import { Observable } from 'rxjs';
 
@@ -19,18 +19,16 @@ import {
   getSelectedCustomerId,
   getSelectedSalesOrg,
 } from '@gq/core/store/selectors/create-case/create-case.selector';
+import { AutocompleteInputComponent } from '@gq/shared/components/autocomplete-input/autocomplete-input.component';
 import { AutocompleteRequestDialog } from '@gq/shared/components/autocomplete-input/autocomplete-request-dialog.enum';
+import { CASE_CREATION_TYPES } from '@gq/shared/models';
+import { CaseCreationEventParams } from '@gq/shared/models';
+import { EVENT_NAMES } from '@gq/shared/models';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
-import { AutocompleteInputComponent } from '../../../shared/components/autocomplete-input/autocomplete-input.component';
-import {
-  CASE_CREATION_TYPES,
-  CaseCreationEventParams,
-  EVENT_NAMES,
-} from '../../../shared/models';
 import { MaterialSelectionComponent } from './material-selection/material-selection.component';
 
 @Component({

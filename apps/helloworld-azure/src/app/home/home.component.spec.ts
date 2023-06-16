@@ -3,8 +3,8 @@ import { ComponentFixture } from '@angular/core/testing';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { PushModule } from '@ngrx/component';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { PushPipe } from '@ngrx/component';
 
 import { GreetingService } from '../greeting.service';
 import { HomeComponent } from './home.component';
@@ -17,7 +17,7 @@ describe('HomeComponent', () => {
 
   const createComponent = createComponentFactory({
     component: HomeComponent,
-    imports: [MatProgressBarModule, HttpClientTestingModule, PushModule],
+    imports: [MatProgressBarModule, HttpClientTestingModule, PushPipe],
     providers: [
       GreetingService,
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },

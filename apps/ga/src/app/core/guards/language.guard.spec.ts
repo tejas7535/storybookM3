@@ -10,7 +10,9 @@ import { isLanguageAvailable } from '@ga/core/helpers/language-helpers';
 import { LanguageGuard } from './language.guard';
 
 jest.mock('@ga/core/helpers/language-helpers');
-const mockedIsLanguageAvailable = jest.mocked(isLanguageAvailable, true);
+const mockedIsLanguageAvailable = jest.mocked(isLanguageAvailable, {
+  shallow: true,
+});
 
 describe('LanguageGuard', () => {
   let spectator: SpectatorService<LanguageGuard>;

@@ -1,6 +1,5 @@
+import { PlantMaterialDetail } from '@gq/shared/models/quotation-detail/plant-material-detail.model';
 import { createAction, props, union } from '@ngrx/store';
-
-import { PlantMaterialDetail } from '../../../../shared/models/quotation-detail/plant-material-detail.model';
 
 export const loadPlantMaterialDetails = createAction(
   '[Plant Material Details] Load Plant Material Details',

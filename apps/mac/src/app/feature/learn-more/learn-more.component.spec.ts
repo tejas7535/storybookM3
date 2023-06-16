@@ -8,8 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { of, Subject } from 'rxjs';
 
-import { Spectator } from '@ngneat/spectator';
-import { createComponentFactory } from '@ngneat/spectator/jest';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { StoreModule } from '@ngrx/store';

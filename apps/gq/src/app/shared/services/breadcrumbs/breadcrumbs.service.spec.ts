@@ -2,7 +2,7 @@ import {
   DetailViewQueryParams,
   ProcessCaseViewQueryParams,
 } from '@gq/shared/models';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
 
 import { AppRoutePath } from '../../../app-route-path.enum';

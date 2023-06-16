@@ -1,15 +1,11 @@
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { withDesign } from 'storybook-addon-designs';
 
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
-import {
-  NavigationAtomic,
-  NavigationMain,
-} from '../../../../.storybook/storybook-navigation.constants';
 import READMEMd from './typography/README.md';
 
 export default {
-  title: `${NavigationMain.Atomic}/${NavigationAtomic.Foundations}/Typography`,
+  title: 'Atomic/Foundations/Typography',
   decorators: [
     moduleMetadata({
       imports: [],
@@ -26,7 +22,7 @@ export default {
   },
 } as Meta;
 
-const Template: Story = (args) => ({
+const Template: StoryFn = (args) => ({
   props: args,
   template: `
     <section>

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 
@@ -20,7 +20,7 @@ import { GreaseCalculationRoutingModule } from './grease-calculation-routing.mod
     BreadcrumbsModule,
     GreaseCalculationRoutingModule,
     GreaseStepperComponent,
-    PushModule,
+    PushPipe,
   ],
   providers: [CalculationParametersGuard, CalculationResultGuard],
   bootstrap: [GreaseCalculationComponent],

@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 

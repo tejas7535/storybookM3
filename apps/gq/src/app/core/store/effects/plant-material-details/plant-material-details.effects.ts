@@ -2,14 +2,12 @@ import { Injectable } from '@angular/core';
 
 import { catchError, filter, map, mergeMap, of } from 'rxjs';
 
+import { PlantMaterialDetail } from '@gq/shared/models/quotation-detail';
+import { QuotationDetail } from '@gq/shared/models/quotation-detail';
+import { MaterialService } from '@gq/shared/services/rest/material/material.service';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
-import {
-  PlantMaterialDetail,
-  QuotationDetail,
-} from '../../../../shared/models/quotation-detail';
-import { MaterialService } from '../../../../shared/services/rest/material/material.service';
 import {
   loadPlantMaterialDetails,
   loadPlantMaterialDetailsFailure,

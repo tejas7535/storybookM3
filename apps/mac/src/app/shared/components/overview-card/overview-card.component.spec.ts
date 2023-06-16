@@ -4,7 +4,7 @@ import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';

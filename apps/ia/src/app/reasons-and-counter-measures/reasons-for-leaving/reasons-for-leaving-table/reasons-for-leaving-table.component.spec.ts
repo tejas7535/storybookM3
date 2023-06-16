@@ -1,4 +1,4 @@
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { AgGridModule } from 'ag-grid-angular';
 import { RowDataUpdatedEvent } from 'ag-grid-community';
 

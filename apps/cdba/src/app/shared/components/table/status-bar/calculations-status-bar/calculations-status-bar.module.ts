@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { ExcludedCalculationsModule } from '@cdba/shared/components/excluded-calculations';
 import { InViewModule } from '@cdba/shared/directives/in-view';
@@ -12,7 +12,7 @@ import { CalculationsStatusBarComponent } from './calculations-status-bar.compon
 @NgModule({
   declarations: [CalculationsStatusBarComponent],
   imports: [
-    PushModule,
+    PushPipe,
     InViewModule,
     LoadBomButtonModule,
     CompareButtonModule,

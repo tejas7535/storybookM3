@@ -40,7 +40,7 @@ export class QuotationByProductLineOrGpsdComponent
   private readonly shutdown$$: Subject<void> = new Subject<void>();
   constructor(
     private readonly store: Store,
-    private readonly TransformationService: TransformationService
+    private readonly transformationService: TransformationService
   ) {}
 
   ngOnInit(): void {
@@ -101,7 +101,7 @@ export class QuotationByProductLineOrGpsdComponent
       const calc = calculateStatusBarValues(groupedDetails);
       const barItem: BarChartData = {
         name: labelPrefix ? `${labelPrefix} ${key}` : key,
-        gpm: this.TransformationService.transformPercentage(calc.gpm),
+        gpm: this.transformationService.transformPercentage(calc.gpm),
         value: calc.netValue,
         share: this.calculateShare(calc, totalValues),
       };
@@ -122,7 +122,7 @@ export class QuotationByProductLineOrGpsdComponent
     shares: StatusBarProperties,
     totals: StatusBarProperties
   ): string {
-    return this.TransformationService.transformPercentage(
+    return this.transformationService.transformPercentage(
       (shares.netValue * 100) / totals.netValue
     );
   }

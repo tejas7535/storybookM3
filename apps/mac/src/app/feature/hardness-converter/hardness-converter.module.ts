@@ -1,16 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -39,7 +39,7 @@ import { HardnessConverterRoutingModule } from './hardness-converter-routing.mod
     MatSnackBarModule,
 
     ReactiveFormsModule,
-    PushModule,
+    PushPipe,
 
     SharedModule,
     SharedTranslocoModule,

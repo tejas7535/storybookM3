@@ -1,6 +1,5 @@
+import { MaterialComparableCost } from '@gq/shared/models/quotation-detail/material-comparable-cost.model';
 import { createAction, props, union } from '@ngrx/store';
-
-import { MaterialComparableCost } from '../../../../shared/models/quotation-detail/material-comparable-cost.model';
 
 export const loadMaterialComparableCosts = createAction(
   '[Material Comparable Costs] Load Material Comparable Costs For Quotation Detail',

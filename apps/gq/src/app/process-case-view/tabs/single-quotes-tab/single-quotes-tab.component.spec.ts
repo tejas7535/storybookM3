@@ -1,10 +1,10 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';

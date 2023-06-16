@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 
-import { of, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 import {
   clearCreateCaseRowData,
@@ -9,7 +9,12 @@ import {
   resetAllAutocompleteOptions,
 } from '@gq/core/store/actions';
 import { AutoCompleteFacade } from '@gq/core/store/facades';
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import {
+  CASE_CREATION_TYPES,
+  CaseCreationEventParams,
+  EVENT_NAMES,
+} from '@gq/shared/models';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockProvider } from 'ng-mocks';
@@ -17,11 +22,6 @@ import { MockProvider } from 'ng-mocks';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import {
-  CASE_CREATION_TYPES,
-  CaseCreationEventParams,
-  EVENT_NAMES,
-} from '../../../shared/models';
 import { CreateManualCaseComponent } from './create-manual-case.component';
 
 describe('CreateManualCaseComponent', () => {
@@ -29,7 +29,7 @@ describe('CreateManualCaseComponent', () => {
   let spectator: Spectator<CreateManualCaseComponent>;
   let mockStore: MockStore;
   let applicationInsightsService: ApplicationInsightsService;
-  let beforeClosed: () => Subject<boolean>;
+  // const beforeClosed: () => Subject<boolean> = () => new Subject<boolean>();
   let mockSubjectClose: Subject<boolean>;
 
   const createComponent = createComponentFactory({
@@ -50,7 +50,7 @@ describe('CreateManualCaseComponent', () => {
       {
         provide: MatDialogRef,
         useValue: {
-          beforeClosed: jest.fn(() => of(beforeClosed)),
+          beforeClosed: () => new Subject<boolean>(),
         } as unknown as MatDialogRef<CreateManualCaseComponent>,
       },
       {
@@ -66,7 +66,7 @@ describe('CreateManualCaseComponent', () => {
   beforeEach(() => {
     jest.restoreAllMocks();
     mockSubjectClose = new Subject<boolean>();
-    beforeClosed = () => mockSubjectClose;
+    // beforeClosed = () => mockSubjectClose;
     spectator = createComponent();
 
     component = spectator.debugElement.componentInstance;

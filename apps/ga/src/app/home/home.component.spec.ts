@@ -1,4 +1,4 @@
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockComponent, MockModule } from 'ng-mocks';
 
 import { AppLogoModule } from '@ga/shared/components/app-logo';

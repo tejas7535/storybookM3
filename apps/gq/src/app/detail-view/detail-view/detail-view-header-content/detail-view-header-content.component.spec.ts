@@ -1,7 +1,6 @@
 import { MatChipsModule } from '@angular/material/chips';
 
-import { Spectator } from '@ngneat/spectator';
-import { createComponentFactory } from '@ngneat/spectator/jest';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 

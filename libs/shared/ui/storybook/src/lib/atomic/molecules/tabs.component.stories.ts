@@ -4,11 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTabsModule } from '@angular/material/tabs';
 
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
-import {
-  NavigationAtomic,
-  NavigationMain,
-} from 'libs/shared/ui/storybook/.storybook/storybook-navigation.constants';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+
 import { withDesign } from 'storybook-addon-designs';
 
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
@@ -96,7 +93,7 @@ class TabsExampleComponent {
 }
 
 export default {
-  title: `${NavigationMain.Atomic}/${NavigationAtomic.Molecules}/Tabs`,
+  title: 'Atomic/Molecules/Tabs',
   component: TabsExampleComponent,
   decorators: [
     moduleMetadata({
@@ -119,7 +116,9 @@ export default {
   },
 } as Meta<TabsExampleComponent>;
 
-const Template: Story<TabsExampleComponent> = (args: TabsExampleComponent) => ({
+const Template: StoryFn<TabsExampleComponent> = (
+  args: TabsExampleComponent
+) => ({
   component: TabsExampleComponent,
   props: args,
 });

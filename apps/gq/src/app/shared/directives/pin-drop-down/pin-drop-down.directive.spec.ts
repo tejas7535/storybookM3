@@ -1,4 +1,4 @@
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatLegacyAutocompleteTrigger as MatAutocompleteTrigger } from '@angular/material/legacy-autocomplete';
 
 import { PinDropDownDirective } from './pin-drop-down.directive';
 

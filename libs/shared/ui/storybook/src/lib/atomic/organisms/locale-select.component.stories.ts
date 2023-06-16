@@ -10,17 +10,14 @@ import {
 import READMEMd from '../../../../../../utils/transloco/components/src/locale-select/README.md';
 
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
-import {
-  NavigationAtomic,
-  NavigationMain,
-} from '../../../../.storybook/storybook-navigation.constants';
+
 import {
   getMultiLanguageStoryTemplate,
   StorybookTranslocoModule,
 } from '../../../../.storybook/storybook-transloco.module';
 
 export default {
-  title: `${NavigationMain.Atomic}/${NavigationAtomic.Organisms}/Locale Select`,
+  title: 'Atomic/Organisms/Locale Select',
   component: LocaleSelectComponent,
   parameters: {
     notes: { markdown: READMEMd },

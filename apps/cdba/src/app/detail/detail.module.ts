@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
-import { LetModule, PushModule } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
@@ -29,8 +29,8 @@ import { DetailRoutingModule } from './detail-routing.module';
   declarations: [DetailComponent],
   imports: [
     CommonModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     SharedTranslocoModule,
     DetailRoutingModule,
     StoreModule.forFeature('detail', detailReducer),

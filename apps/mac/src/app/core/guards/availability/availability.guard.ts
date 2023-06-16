@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
-  CanActivate,
   Router,
   RouterStateSnapshot,
 } from '@angular/router';
@@ -16,7 +15,7 @@ import { AvailabilityData } from '@mac/shared/models';
 @Injectable({
   providedIn: 'root',
 })
-export class AvailabityGuard implements CanActivate {
+export class AvailabityGuard {
   private readonly BASE_URL = `${environment.baseUrl}`;
   private readonly MAINTENANCE_PATH = '/maintenance';
 

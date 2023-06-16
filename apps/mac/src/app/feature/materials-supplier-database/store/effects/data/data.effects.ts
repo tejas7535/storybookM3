@@ -25,14 +25,6 @@ import { DataFacade } from '@mac/msd/store/facades/data';
 
 @Injectable()
 export class DataEffects {
-  constructor(
-    private readonly actions$: Actions,
-    private readonly msdDataService: MsdDataService,
-    private readonly dataFacade: DataFacade,
-    // private readonly matSnackBar: MatSnackBar
-    private readonly matSnackBar: MsdSnackbarService
-  ) {}
-
   public fetchResult$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DataActions.fetchResult),
@@ -275,4 +267,12 @@ export class DataEffects {
     },
     { dispatch: false }
   );
+
+  constructor(
+    private readonly actions$: Actions,
+    private readonly msdDataService: MsdDataService,
+    private readonly dataFacade: DataFacade,
+    // private readonly matSnackBar: MatSnackBar
+    private readonly matSnackBar: MsdSnackbarService
+  ) {}
 }

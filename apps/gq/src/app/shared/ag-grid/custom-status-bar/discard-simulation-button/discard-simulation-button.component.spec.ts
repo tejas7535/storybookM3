@@ -1,5 +1,5 @@
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 

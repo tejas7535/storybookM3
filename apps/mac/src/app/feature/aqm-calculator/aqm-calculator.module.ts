@@ -1,15 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSelectModule } from '@angular/material/select';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { MatLegacyChipsModule as MatChipsModule } from '@angular/material/legacy-chips';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
 
-import { LetModule, PushModule } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 
 import { SelectModule } from '@schaeffler/inputs/select';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -32,8 +32,8 @@ import { AqmCalculatorRoutingModule } from './aqm-calculator-routing.module';
     MatCardModule,
     MatChipsModule,
     MatIconModule,
-    PushModule,
-    LetModule,
+    PushPipe,
+    LetDirective,
     SharedTranslocoModule,
     SelectModule,
   ],

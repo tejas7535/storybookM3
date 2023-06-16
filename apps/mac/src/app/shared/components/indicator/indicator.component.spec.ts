@@ -1,6 +1,6 @@
 import { MatIconModule } from '@angular/material/icon';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { IndicatorComponent } from './indicator.component';
 

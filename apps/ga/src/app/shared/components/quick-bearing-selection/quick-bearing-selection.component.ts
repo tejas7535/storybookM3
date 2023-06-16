@@ -7,13 +7,13 @@ import {
   OnInit,
 } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
 
 import { Subject, takeUntil } from 'rxjs';
 
 import { TranslocoService } from '@ngneat/transloco';
-import { LetModule, PushModule } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
 import { StringOption } from '@schaeffler/inputs';
@@ -37,8 +37,8 @@ import { AdvancedBearingButtonComponent } from '@ga/shared/components/advanced-b
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    PushModule,
-    LetModule,
+    PushPipe,
+    LetDirective,
     SharedTranslocoModule,
     MatButtonModule,
     MatProgressSpinnerModule,

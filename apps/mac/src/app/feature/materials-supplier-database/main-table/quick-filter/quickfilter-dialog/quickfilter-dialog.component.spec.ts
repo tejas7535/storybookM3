@@ -1,17 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogModule,
-  MatDialogRef,
-} from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import {
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogModule as MatDialogModule,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 import { MatRadioModule } from '@angular/material/radio';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';

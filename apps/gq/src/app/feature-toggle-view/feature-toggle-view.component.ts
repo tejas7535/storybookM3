@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { MatLegacySlideToggleChange as MatSlideToggleChange } from '@angular/material/legacy-slide-toggle';
 
-import { FeatureToggleConfigService } from '../shared/services/feature-toggle/feature-toggle-config.service';
+import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 
 @Component({
   selector: 'gq-feature-toggle-view',

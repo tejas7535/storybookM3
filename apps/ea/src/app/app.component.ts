@@ -18,10 +18,10 @@ import { DEFAULT_BEARING_DESIGNATION } from './shared/constants/products';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnChanges {
-  public title = 'Engineering App';
-
   @Input() bearingDesignation: string | undefined;
   @Input() standalone: string | undefined;
+
+  public title = 'Engineering App';
 
   public constructor(private readonly store: Store) {}
 

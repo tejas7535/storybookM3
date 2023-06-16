@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
+import { MatLegacySlideToggleModule as MatSlideToggleModule } from '@angular/material/legacy-slide-toggle';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 
-import { LetModule, PushModule } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
@@ -29,8 +29,8 @@ import { CalculationParametersService } from './services';
   imports: [
     CommonModule,
     CalculationParametersRoutingModule,
-    PushModule,
-    LetModule,
+    PushPipe,
+    LetDirective,
 
     // UI
     BreadcrumbsModule,

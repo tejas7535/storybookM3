@@ -1,14 +1,10 @@
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import { LabelValue, LabelValueModule } from '@schaeffler/label-value';
 
 import READMEMd from '../../../../../../label-value/README.md';
 import { Badges } from '../../../../../.storybook/storybook-badges.constants';
-import {
-  NavigationAtomic,
-  NavigationMain,
-} from '../../../../../.storybook/storybook-navigation.constants';
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -106,7 +102,7 @@ const mockLabelValuesHtml: LabelValue[] = [
 class LabelValueExampleComponent {}
 
 export default {
-  title: `${NavigationMain.Atomic}/${NavigationAtomic.Molecules}/Label Value`,
+  title: 'Atomic/Molecules/Label Value',
   component: LabelValueExampleComponent,
   parameters: {
     notes: { markdown: READMEMd },
@@ -119,7 +115,7 @@ export default {
   ],
 } as Meta<LabelValueExampleComponent>;
 
-const Template: Story<LabelValueExampleComponent> = (
+const Template: StoryFn<LabelValueExampleComponent> = (
   args: LabelValueExampleComponent
 ) => ({
   component: LabelValueExampleComponent,

@@ -29,6 +29,9 @@ import * as util from '../../util';
   templateUrl: './co2-component.component.html',
 })
 export class Co2ComponentComponent implements OnInit, OnDestroy {
+  @ViewChildren('dialogControl', { read: ElementRef })
+  dialogControlRefs: QueryList<ElementRef>;
+
   @Input()
   public co2Scope1Control: FormControl<number>;
   @Input()
@@ -42,7 +45,6 @@ export class Co2ComponentComponent implements OnInit, OnDestroy {
   @Input()
   public releaseRestrictionsControl: FormControl<string>;
 
-  private co2Controls: FormArray<FormControl<number>>;
   // list of classifications
   public co2Classification$ = this.dialogFacade.co2Classification$;
 
@@ -51,10 +53,9 @@ export class Co2ComponentComponent implements OnInit, OnDestroy {
   // utility for parsing error message
   public readonly getErrorMessage = util.getErrorMessage;
 
-  private readonly destroy$ = new Subject<void>();
+  private co2Controls: FormArray<FormControl<number>>;
 
-  @ViewChildren('dialogControl', { read: ElementRef })
-  dialogControlRefs: QueryList<ElementRef>;
+  private readonly destroy$ = new Subject<void>();
 
   constructor(private readonly dialogFacade: DialogFacade) {}
 
@@ -92,6 +93,11 @@ export class Co2ComponentComponent implements OnInit, OnDestroy {
       );
   }
 
+  public ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   // special validator that compares entered scope values with co2total
   private readonly scopeTotalValidatorFn =
     (values: FormArray<FormControl<number>>): ValidatorFn =>
@@ -112,9 +118,4 @@ export class Co2ComponentComponent implements OnInit, OnDestroy {
 
       return undefined;
     };
-
-  public ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
 }

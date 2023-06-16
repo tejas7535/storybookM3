@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatLegacyProgressBarModule as MatProgressBarModule } from '@angular/material/legacy-progress-bar';
 import { RouterModule } from '@angular/router';
 
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home-routing.module';
@@ -16,7 +16,7 @@ import { HomeRoutingModule } from './home-routing.module';
     HomeRoutingModule,
     RouterModule,
     MatProgressBarModule,
-    PushModule,
+    PushPipe,
   ],
   exports: [HomeComponent],
 })

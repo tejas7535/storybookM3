@@ -1,5 +1,8 @@
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
-import { mockProvider } from '@ngneat/spectator/jest';
+import {
+  createServiceFactory,
+  mockProvider,
+  SpectatorService,
+} from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 

@@ -11,8 +11,14 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import {
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
+import {
+  MatLegacySnackBar as MatSnackBar,
+  MatLegacySnackBarConfig as MatSnackBarConfig,
+} from '@angular/material/legacy-snack-bar';
 
 import { BehaviorSubject, filter, Subject, take, takeUntil } from 'rxjs';
 
@@ -49,6 +55,9 @@ import { findProperty, mapProperty } from './util/form-helpers';
 export class MaterialInputDialogComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
+  @ViewChildren('dialogControl', { read: ElementRef })
+  dialogControlRefs: QueryList<ElementRef>;
+
   public TOOLTIP_DELAY = 1500;
 
   public materialClass: MaterialClass;
@@ -103,9 +112,6 @@ export class MaterialInputDialogComponent
   public releaseRestrictionsControl = this.controlsService.getControl<string>();
 
   public createMaterialForm: FormGroup;
-
-  @ViewChildren('dialogControl', { read: ElementRef })
-  dialogControlRefs: QueryList<ElementRef>;
 
   protected isCopy = false;
 
@@ -307,6 +313,51 @@ export class MaterialInputDialogComponent
     return this.dialogData?.editDialogInformation?.column;
   }
 
+  public confirmMaterial(createAnother: boolean): void {
+    const baseMaterial = this.createMaterialForm.value as MaterialFormValue;
+
+    const standard = this.buildMaterialStandard(baseMaterial);
+    const supplier = this.buildManufacturerSupplier(baseMaterial);
+    const material = this.buildMaterial(baseMaterial);
+
+    // include material, stdDoc and supplier put logic in effect
+    this.dialogFacade.dispatch(
+      materialDialogConfirmed({ standard, supplier, material })
+    );
+    this.awaitMaterialComplete(createAnother, NavigationLevel.MATERIAL);
+  }
+
+  public awaitMaterialComplete(
+    createAnother: boolean,
+    navigationLevel: NavigationLevel
+  ) {
+    // rename to createMaterialComplete, return object instead of
+    this.dialogFacade.createMaterialRecord$
+      .pipe(filter(Boolean), take(1))
+      .subscribe((record) => {
+        let msgKey;
+        if (!record.error) {
+          if (!createAnother) {
+            this.closeDialog(true);
+          }
+          msgKey = 'materialsSupplierDatabase.mainTable.dialog.createSuccess';
+        } else {
+          msgKey = `materialsSupplierDatabase.mainTable.dialog.createFailure.${record.error.code}`;
+        }
+        const level = translate(
+          `materialsSupplierDatabase.mainTable.dialog.level.${navigationLevel}`
+        );
+        this.showInSnackbar(
+          translate(msgKey, { level }),
+          translate('materialsSupplierDatabase.mainTable.dialog.close'),
+          { duration: 5000 }
+        );
+        this.dialogFacade.dispatch(
+          resetMaterialRecord({ error: !!record.error, createAnother })
+        );
+      });
+  }
+
   protected buildMaterialStandard(
     baseMaterial: MaterialFormValue
   ): MaterialStandard {
@@ -383,50 +434,5 @@ export class MaterialInputDialogComponent
       grade: findProperty(baseMaterial, 'grade'),
       // attachments: '',
     };
-  }
-
-  public confirmMaterial(createAnother: boolean): void {
-    const baseMaterial = this.createMaterialForm.value as MaterialFormValue;
-
-    const standard = this.buildMaterialStandard(baseMaterial);
-    const supplier = this.buildManufacturerSupplier(baseMaterial);
-    const material = this.buildMaterial(baseMaterial);
-
-    // include material, stdDoc and supplier put logic in effect
-    this.dialogFacade.dispatch(
-      materialDialogConfirmed({ standard, supplier, material })
-    );
-    this.awaitMaterialComplete(createAnother, NavigationLevel.MATERIAL);
-  }
-
-  public awaitMaterialComplete(
-    createAnother: boolean,
-    navigationLevel: NavigationLevel
-  ) {
-    // rename to createMaterialComplete, return object instead of
-    this.dialogFacade.createMaterialRecord$
-      .pipe(filter(Boolean), take(1))
-      .subscribe((record) => {
-        let msgKey;
-        if (!record.error) {
-          if (!createAnother) {
-            this.closeDialog(true);
-          }
-          msgKey = 'materialsSupplierDatabase.mainTable.dialog.createSuccess';
-        } else {
-          msgKey = `materialsSupplierDatabase.mainTable.dialog.createFailure.${record.error.code}`;
-        }
-        const level = translate(
-          `materialsSupplierDatabase.mainTable.dialog.level.${navigationLevel}`
-        );
-        this.showInSnackbar(
-          translate(msgKey, { level }),
-          translate('materialsSupplierDatabase.mainTable.dialog.close'),
-          { duration: 5000 }
-        );
-        this.dialogFacade.dispatch(
-          resetMaterialRecord({ error: !!record.error, createAnother })
-        );
-      });
   }
 }

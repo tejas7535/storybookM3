@@ -78,6 +78,21 @@ export class AqmCalculatorComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
+  public filterFn(option?: AQMMaterial, value?: string): boolean {
+    if (!value) {
+      return true;
+    }
+
+    return option?.title
+      ?.toLowerCase()
+      .trim()
+      .includes(value.toLowerCase().trim());
+  }
+
+  public trackByFn(index: number): number {
+    return index;
+  }
+
   private patchSelect(material?: AQMMaterial): void {
     if (material !== this.materialInput.value) {
       this.materialInput.patchValue(material, { emitEvent: false });
@@ -132,20 +147,5 @@ export class AqmCalculatorComponent implements OnInit, OnDestroy {
 
       return false;
     });
-  }
-
-  public filterFn(option?: AQMMaterial, value?: string): boolean {
-    if (!value) {
-      return true;
-    }
-
-    return option?.title
-      ?.toLowerCase()
-      .trim()
-      .includes(value.toLowerCase().trim());
-  }
-
-  public trackByFn(index: number): number {
-    return index;
   }
 }

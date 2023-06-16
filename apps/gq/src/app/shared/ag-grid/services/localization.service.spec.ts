@@ -1,4 +1,4 @@
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';

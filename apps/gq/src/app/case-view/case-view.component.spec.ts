@@ -4,7 +4,7 @@ import { of } from 'rxjs';
 
 import { OverviewCasesFacade } from '@gq/core/store/overview-cases/overview-cases.facade';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
@@ -19,7 +19,7 @@ describe('CaseViewComponent', () => {
 
   const createComponent = createComponentFactory({
     component: CaseViewComponent,
-    imports: [provideTranslocoTestingModule({ en: {} }), PushModule],
+    imports: [provideTranslocoTestingModule({ en: {} }), PushPipe],
     providers: [
       provideMockStore(),
       MockProvider(OverviewCasesFacade, {

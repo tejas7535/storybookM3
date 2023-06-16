@@ -20,6 +20,10 @@ import { PropertyChange } from './models/property-change';
   templateUrl: './detail-cell-renderer.component.html',
 })
 export class DetailCellRendererComponent implements ICellRendererAngularComp {
+  public changes: ChangeHistoryItem[] = [];
+  public initial: ChangeHistoryItem;
+  public done$: Observable<any[]>;
+
   /*
    * stell material specific: productCategory -> productCategoryText will be used
    */
@@ -31,9 +35,6 @@ export class DetailCellRendererComponent implements ICellRendererAngularComp {
 
   private materialClass: MaterialClass;
   private navigationLevel: NavigationLevel;
-  public changes: ChangeHistoryItem[] = [];
-  public initial: ChangeHistoryItem;
-  public done$: Observable<any[]>;
 
   constructor(
     private readonly dataFacade: DataFacade,
@@ -47,6 +48,10 @@ export class DetailCellRendererComponent implements ICellRendererAngularComp {
       this.materialClass = navigation.materialClass;
       this.navigationLevel = navigation.navigationLevel;
     });
+  }
+
+  refresh(): boolean {
+    return false;
   }
 
   agInit(params: ICellRendererParams): void {
@@ -97,10 +102,6 @@ export class DetailCellRendererComponent implements ICellRendererAngularComp {
           id
         );
     }
-  }
-
-  refresh(): boolean {
-    return false;
   }
 
   /**

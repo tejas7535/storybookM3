@@ -11,19 +11,20 @@ import { createFeaturesImportanceConfig } from './feature-importance.config';
   templateUrl: './feature-importance.component.html',
 })
 export class FeatureImportanceComponent {
-  @Input() loading: boolean;
-  @Input() set groups(groups: FeatureImportanceGroup[]) {
-    if (groups) {
-      this.initChart(groups);
-    }
-  }
   @Input() hasNextFeatures: boolean;
+  @Input() loading: boolean;
 
   @Output()
   private readonly loadNext: EventEmitter<void> = new EventEmitter();
 
   options: EChartsOption;
   sortDirectionEnum = SortDirection;
+
+  @Input() set groups(groups: FeatureImportanceGroup[]) {
+    if (groups) {
+      this.initChart(groups);
+    }
+  }
 
   initChart(groups: FeatureImportanceGroup[]): void {
     this.options = createFeaturesImportanceConfig(groups);

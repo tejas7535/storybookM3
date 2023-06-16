@@ -1,11 +1,12 @@
 {
+  "name": "shared-ui-legal-pages",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/shared/ui/legal-pages/src",
   "prefix": "schaeffler",
   "targets": {
     "build": {
-      "executor": "@nrwl/angular:package",
+      "executor": "@nx/angular:package",
       "options": {
         "tsConfig": "libs/shared/ui/legal-pages/tsconfig.lib.json",
         "project": "libs/shared/ui/legal-pages/ng-package.json",
@@ -18,15 +19,15 @@
       }
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/shared/ui/legal-pages"],
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/shared/ui/legal-pages"],
       "options": {
         "jestConfig": "libs/shared/ui/legal-pages/jest.config.ts",
         "passWithNoTests": true
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
@@ -42,9 +43,8 @@
         }
       }
     },
-
     "publish": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "commands": [
           {

@@ -1,8 +1,9 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 
 import { EditingModalService } from '@gq/shared/components/modal/editing-modal/editing-modal.service';
+import { HideIfQuotationHasStatusDirective } from '@gq/shared/directives/hide-if-quotation-has-status/hide-if-quotation-has-status.directive';
 import {
   createComponentFactory,
   mockProvider,
@@ -13,7 +14,6 @@ import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockDirective } from 'ng-mocks';
 
-import { HideIfQuotationHasStatusDirective } from './../../../../../shared/directives/hide-if-quotation-has-status/hide-if-quotation-has-status.directive';
 import { QuantityDisplayComponent } from './quantity-display.component';
 
 describe('QuantityDisplayComponent', () => {

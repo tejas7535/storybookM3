@@ -1,11 +1,12 @@
 {
+  "name": "shared-utils-transloco",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/shared/utils/transloco/src",
   "prefix": "schaeffler",
   "targets": {
     "build": {
-      "executor": "@nrwl/angular:package",
+      "executor": "@nx/angular:package",
       "options": {
         "tsConfig": "libs/shared/utils/transloco/tsconfig.lib.json",
         "project": "libs/shared/utils/transloco/ng-package.json",
@@ -19,7 +20,7 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
@@ -36,15 +37,15 @@
       }
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "options": {
         "jestConfig": "libs/shared/utils/transloco/jest.config.ts",
         "passWithNoTests": true
       },
-      "outputs": ["coverage/libs/shared/utils/transloco"]
+      "outputs": ["{workspaceRoot}/coverage/libs/shared/utils/transloco"]
     },
     "publish": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "commands": [
           {
@@ -67,7 +68,7 @@
     }
   },
   "generators": {
-    "@nrwl/angular:component": {
+    "@nx/angular:component": {
       "style": "scss"
     }
   },

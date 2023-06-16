@@ -1,15 +1,14 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 import { Observable } from 'rxjs';
 
+import { EditCaseModalComponent } from '@gq/shared/components/modal/edit-case-modal/edit-case-modal.component';
+import { Quotation, QuotationStatus } from '@gq/shared/models';
 import { Customer } from '@gq/shared/models/customer';
+import { UpdateQuotationRequest } from '@gq/shared/services/rest/quotation/models/update-quotation-request.model';
+import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { TranslocoService } from '@ngneat/transloco';
-
-import { EditCaseModalComponent } from '../../shared/components/modal/edit-case-modal/edit-case-modal.component';
-import { Quotation, QuotationStatus } from '../../shared/models';
-import { TransformationService } from '../../shared/services/transformation/transformation.service';
-import { UpdateQuotationRequest } from '../../shared/services/rest/quotation/models/update-quotation-request.model';
 @Component({
   selector: 'gq-header-content',
   styleUrls: ['./header-content.component.scss'],
@@ -47,12 +46,12 @@ export class HeaderContentComponent {
         'header.gqHeader',
         {
           gqCreationName: value.gqCreatedByUser.name,
-          gqCreationDate: this.TransformationService.transformDate(
+          gqCreationDate: this.transformationService.transformDate(
             value.gqCreated,
             true
           ),
           gqUpdatedName: value.gqLastUpdatedByUser.name,
-          gqUpdatedDate: this.TransformationService.transformDate(
+          gqUpdatedDate: this.transformationService.transformDate(
             value.gqLastUpdated,
             true
           ),
@@ -73,11 +72,11 @@ export class HeaderContentComponent {
           'header.sapHeader',
           {
             sapCreationName: value.sapCreatedByUser.name,
-            sapCreationDate: this.TransformationService.transformDate(
+            sapCreationDate: this.transformationService.transformDate(
               value.sapCreated,
               true
             ),
-            sapUpdatedDate: this.TransformationService.transformDate(
+            sapUpdatedDate: this.transformationService.transformDate(
               value.sapLastUpdated,
               true
             ),
@@ -93,7 +92,7 @@ export class HeaderContentComponent {
   constructor(
     private readonly translocoService: TranslocoService,
     private readonly matDialog: MatDialog,
-    private readonly TransformationService: TransformationService
+    private readonly transformationService: TransformationService
   ) {}
 
   public openCaseEditingModal(): void {

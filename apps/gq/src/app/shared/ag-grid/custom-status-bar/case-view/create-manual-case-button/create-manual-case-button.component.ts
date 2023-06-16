@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
-import { CreateManualCaseComponent } from '../../../../../case-view/case-creation/create-manual-case/create-manual-case.component';
+import { CreateManualCaseComponent } from '@gq/case-view/case-creation/create-manual-case/create-manual-case.component';
 
 @Component({
   selector: 'gq-create-manual-case',

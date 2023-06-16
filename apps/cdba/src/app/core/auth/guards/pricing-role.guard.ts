@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivateChild, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -11,7 +11,7 @@ import { RoleFacade } from '../role.facade';
 @Injectable({
   providedIn: 'root',
 })
-export class PricingRoleGuard implements CanActivateChild {
+export class PricingRoleGuard {
   constructor(
     private readonly router: Router,
     private readonly roleFacade: RoleFacade

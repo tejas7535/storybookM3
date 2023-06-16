@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
 
 import { SettingsFacade } from '@ea/core/store';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { CalculationParametersComponent } from '../calculation-parameters/calculation-parameters';
 import { CalculationResultPreviewComponent } from '../calculation-result-preview/calculation-result-preview';
@@ -17,7 +17,7 @@ import { CalculationTypesSelectionComponent } from '../calculation-types-selecti
   imports: [
     CommonModule,
     MatDividerModule,
-    PushModule,
+    PushPipe,
     CalculationParametersComponent,
     CalculationTypesSelectionComponent,
     CalculationResultPreviewComponent,

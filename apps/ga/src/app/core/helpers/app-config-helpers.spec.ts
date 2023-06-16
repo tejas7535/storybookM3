@@ -6,7 +6,9 @@ import { getAppFooterLinks } from './app-config-helpers';
 
 jest.mock('@ga/core/helpers/settings-helpers');
 
-const mockedDetectAppDelivery = jest.mocked(detectAppDelivery, true);
+const mockedDetectAppDelivery = jest.mocked(detectAppDelivery, {
+  shallow: true,
+});
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),

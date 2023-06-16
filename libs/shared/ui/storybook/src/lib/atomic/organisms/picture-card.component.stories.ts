@@ -1,6 +1,6 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import {
   PictureCardComponent,
@@ -8,14 +8,11 @@ import {
 } from '@schaeffler/picture-card';
 
 import READMEMd from '../../../../../picture-card/README.md';
-import {
-  NavigationAtomic,
-  NavigationMain,
-} from '../../../../.storybook/storybook-navigation.constants';
+
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
 
 export default {
-  title: `${NavigationMain.Atomic}/${NavigationAtomic.Organisms}/PictureCard`,
+  title: 'Atomic/Organisms/PictureCard',
   component: PictureCardComponent,
   decorators: [
     moduleMetadata({
@@ -28,7 +25,9 @@ export default {
   },
 } as Meta<PictureCardComponent>;
 
-const Template: Story<PictureCardComponent> = (args: PictureCardComponent) => ({
+const Template: StoryFn<PictureCardComponent> = (
+  args: PictureCardComponent
+) => ({
   component: PictureCardComponent,
   props: args,
   template: `
@@ -47,7 +46,7 @@ Primary.args = {
   img: 'https://mountingmanager-cae.schaeffler.com/api/Images/peku_unknown.bmp',
 };
 
-const TemplateWithAction: Story<PictureCardComponent> = (
+const TemplateWithAction: StoryFn<PictureCardComponent> = (
   args: PictureCardComponent
 ) => ({
   component: PictureCardComponent,
@@ -78,7 +77,7 @@ WithAction.args = {
   ],
 };
 
-const TemplateWithContent: Story<PictureCardComponent> = (
+const TemplateWithContent: StoryFn<PictureCardComponent> = (
   args: PictureCardComponent
 ) => ({
   component: PictureCardComponent,

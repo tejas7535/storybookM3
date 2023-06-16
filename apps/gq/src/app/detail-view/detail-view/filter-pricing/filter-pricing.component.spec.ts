@@ -7,6 +7,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import { ProcessCaseState } from '@gq/core/store/process-case';
+import { PriceSource, UpdatePrice } from '@gq/shared/models/quotation-detail';
+import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
@@ -23,11 +25,6 @@ import {
   QUOTATION_MOCK,
 } from '../../../../testing/mocks';
 import { ACTIVE_CASE_STATE_MOCK } from '../../../../testing/mocks/state/active-case-state.mock';
-import {
-  PriceSource,
-  UpdatePrice,
-} from '../../../shared/models/quotation-detail';
-import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
 import { FilterPricingComponent } from './filter-pricing.component';
 import { FilterPricingCardComponent } from './filter-pricing-card/filter-pricing-card.component';
 import { GqPriceComponent } from './gq-price/gq-price.component';

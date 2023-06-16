@@ -1,5 +1,5 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
@@ -7,14 +7,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ViewToggle, ViewToggleComponent } from '@schaeffler/view-toggle';
 import READMEMd from '../../../../../view-toggle/README.md';
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
-import {
-  NavigationAtomic,
-  NavigationMain,
-} from '../../../../.storybook/storybook-navigation.constants';
 import { action } from '@storybook/addon-actions';
 
 export default {
-  title: `${NavigationMain.Atomic}/${NavigationAtomic.Molecules}/View Toggle`,
+  title: 'Atomic/Molecules/View Toggle',
   component: ViewToggleComponent,
   decorators: [
     moduleMetadata({
@@ -32,7 +28,7 @@ export default {
   },
 } as Meta<ViewToggleComponent>;
 
-const Template: Story<ViewToggleComponent> = (args: ViewToggleComponent) => ({
+const Template: StoryFn<ViewToggleComponent> = (args: ViewToggleComponent) => ({
   component: ViewToggleComponent,
   props: { ...args, iconClicked: action('iconClicked') },
 });

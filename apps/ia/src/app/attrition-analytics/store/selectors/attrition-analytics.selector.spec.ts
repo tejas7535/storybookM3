@@ -1,3 +1,4 @@
+import { EmployeeAnalytics } from '../../models';
 import { FeatureParams } from '../../models/feature-params.model';
 import { FeatureSelector } from '../../models/feature-selector.model';
 import { AttritionAnalyticsState, initialState } from '..';
@@ -30,7 +31,7 @@ describe('attrition analytics selector', () => {
               loading: true,
             },
           },
-        })
+        } as AttritionAnalyticsState)
       ).toBeTruthy();
     });
 
@@ -42,7 +43,7 @@ describe('attrition analytics selector', () => {
               loading: false,
             },
           },
-        })
+        } as AttritionAnalyticsState)
       ).toBeFalsy();
     });
   });
@@ -87,12 +88,16 @@ describe('attrition analytics selector', () => {
 
   describe('getFeatureSelectorsForSelectedRegion', () => {
     test('should get feature selectors', () => {
-      const ageFeature = { feature: 'Age' } as FeatureParams;
-      const positionFeature = { feature: 'Position' } as FeatureParams;
+      const ageFeature = { feature: 'Age', region: 'World' } as FeatureParams;
+      const positionFeature = {
+        feature: 'Position',
+        region: 'World',
+      } as FeatureParams;
       expect(
         getFeatureSelectorsForSelectedRegion.projector(
           [ageFeature, positionFeature],
-          [positionFeature]
+          [positionFeature],
+          'World'
         )
       ).toEqual([
         new FeatureSelector(ageFeature, false),
@@ -103,8 +108,9 @@ describe('attrition analytics selector', () => {
     test('should return undefined when features undefined', () => {
       expect(
         getFeatureSelectorsForSelectedRegion.projector(
-          undefined as string[],
-          undefined as string[]
+          undefined as FeatureParams[],
+          undefined as FeatureParams[],
+          'World'
         )
       ).toBeUndefined();
     });
@@ -131,27 +137,25 @@ describe('attrition analytics selector', () => {
     });
 
     test('should return undefined otherwise', () => {
-      expect(getFeatureOverallAttritionRate.projector([])).toBeUndefined();
+      expect(
+        getFeatureOverallAttritionRate.projector([], 'World')
+      ).toBeUndefined();
     });
   });
 
   describe('getBarChartConfigForSelectedFeatures', () => {
     test('should get bar chart config for selected features', () => {
-      const average = 0.045;
-      const result = getBarChartConfigsForSelectedFeatures.projector(
-        [fakeState.employeeAnalytics.features.data[0]],
-        average
-      );
+      const result = getBarChartConfigsForSelectedFeatures.projector([
+        fakeState.employeeAnalytics.features.data[0],
+      ]);
       expect(result[0].categories.length).toEqual(3);
       expect(result[0].series.length).toEqual(1);
       expect(result[0].referenceValue).toEqual(4.5);
     });
 
     test('should return undefined when selected features undefined', () => {
-      const average = 0.45;
       const result = getBarChartConfigsForSelectedFeatures.projector(
-        undefined,
-        average
+        undefined as EmployeeAnalytics[]
       );
       expect(result).toBeUndefined();
     });

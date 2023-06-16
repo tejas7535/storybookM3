@@ -1,6 +1,6 @@
 import { MatButtonModule } from '@angular/material/button';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';

@@ -1,8 +1,9 @@
+import { Quotation } from '@gq/shared/models';
+import { QuotationDetail } from '@gq/shared/models';
+import { Customer } from '@gq/shared/models/customer';
+import { ShipToParty } from '@gq/shared/services/rest/quotation/models/ship-to-party';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
-import { Quotation, QuotationDetail } from '../../../shared/models';
-import { Customer } from '../../../shared/models/customer';
-import { ShipToParty } from '../../../shared/services/rest/quotation/models/ship-to-party';
 import { QuotationIdentifier, UpdateQuotationDetail } from './models';
 
 export const ActiveCaseActions = createActionGroup({

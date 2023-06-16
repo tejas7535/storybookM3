@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
@@ -30,7 +30,7 @@ import { LossOfSkillEffects } from './store/effects/loss-of-skill.effects';
     LostJobProfilesModule,
     RiskOfLeavingModule,
     MatCardModule,
-    PushModule,
+    PushPipe,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'loss-of-skill' }],
 })

@@ -1,5 +1,5 @@
 import { IdValue } from '@gq/shared/models/search';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { GlobalSearchLastResultsService } from './global-search-last-results.service';
 

@@ -1,6 +1,6 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 

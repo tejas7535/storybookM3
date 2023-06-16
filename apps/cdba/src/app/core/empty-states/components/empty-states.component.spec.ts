@@ -1,9 +1,15 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import {
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogModule as MatDialogModule,
+} from '@angular/material/legacy-dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { SpyObject } from '@ngneat/spectator';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  Spectator,
+  SpyObject,
+} from '@ngneat/spectator/jest';
 
 import { EmptyStatesComponent } from './empty-states.component';
 

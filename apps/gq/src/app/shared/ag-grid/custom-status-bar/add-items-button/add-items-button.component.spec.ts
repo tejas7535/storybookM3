@@ -1,9 +1,9 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 

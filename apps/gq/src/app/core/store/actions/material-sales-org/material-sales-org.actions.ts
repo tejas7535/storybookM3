@@ -1,6 +1,5 @@
+import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
 import { createAction, props, union } from '@ngrx/store';
-
-import { MaterialSalesOrg } from '../../../../shared/models/quotation-detail/material-sales-org.model';
 
 export const loadMaterialSalesOrg = createAction(
   '[Detail View] Load Material Data For SalesOrg For Quotation Detail',

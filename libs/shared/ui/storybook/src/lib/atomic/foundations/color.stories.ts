@@ -1,11 +1,7 @@
-import { Meta, Story } from '@storybook/angular';
+import { Meta, StoryFn } from '@storybook/angular';
 import { withDesign } from 'storybook-addon-designs';
 
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
-import {
-  NavigationAtomic,
-  NavigationMain,
-} from '../../../../.storybook/storybook-navigation.constants';
 
 import READMEMd from './color/README.md';
 // const colors = require('../../../../../../../../tailwind/colors');
@@ -48,7 +44,7 @@ const colors = {
 };
 
 export default {
-  title: `${NavigationMain.Atomic}/${NavigationAtomic.Foundations}/Color`,
+  title: 'Atomic/Foundations/Color',
   decorators: [withDesign],
   parameters: {
     notes: { markdown: READMEMd },
@@ -60,7 +56,7 @@ export default {
   },
 } as Meta;
 
-const Template: Story = (args) => ({
+const Template: StoryFn = (args) => ({
   props: args,
   template: `
     <section class="bg-background-dark p-4">

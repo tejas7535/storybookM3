@@ -1,6 +1,6 @@
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';

@@ -2,7 +2,9 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 
+import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { EditingModalService } from '@gq/shared/components/modal/editing-modal/editing-modal.service';
+import { PriceSource } from '@gq/shared/models/quotation-detail';
 import { NumberCurrencyPipe } from '@gq/shared/pipes/number-currency/number-currency.pipe';
 import { PercentagePipe } from '@gq/shared/pipes/percentage/percentage.pipe';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
@@ -19,8 +21,6 @@ import { MockPipe } from 'ng-mocks';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { QUOTATION_DETAIL_MOCK } from '../../../../../testing/mocks';
-import { ColumnFields } from '../../../../shared/ag-grid/constants/column-fields.enum';
-import { PriceSource } from '../../../../shared/models/quotation-detail';
 import { ManualPriceComponent } from './manual-price.component';
 
 describe('ManualPriceComponent', () => {

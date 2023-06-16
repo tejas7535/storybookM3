@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { MaterialStockByPlant } from '../../../../shared/models/quotation-detail';
+import { MaterialStockByPlant } from '@gq/shared/models/quotation-detail';
 
 @Component({
   selector: 'gq-stock-availability-details',

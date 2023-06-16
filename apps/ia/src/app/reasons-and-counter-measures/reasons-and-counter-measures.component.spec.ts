@@ -1,4 +1,4 @@
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockComponent } from 'ng-mocks';
 
 import { ReasonsAndCounterMeasuresComponent } from './reasons-and-counter-measures.component';

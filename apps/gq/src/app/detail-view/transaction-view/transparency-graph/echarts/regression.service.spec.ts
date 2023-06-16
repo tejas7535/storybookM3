@@ -1,4 +1,4 @@
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { COMPARABLE_LINKED_TRANSACTION_MOCK } from '../../../../../testing/mocks';
 import { RegressionService } from './regression.service';

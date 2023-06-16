@@ -15,12 +15,6 @@ import { ProductSelectionFacade } from '../../facades/product-selection/product-
 
 @Injectable()
 export class ProductSelectionEffects {
-  constructor(
-    private readonly actions$: Actions,
-    private readonly catalogService: CatalogService,
-    private readonly productSelectionFacade: ProductSelectionFacade
-  ) {}
-
   public setBearingDesignation$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ProductSelectionActions.setBearingDesignation),
@@ -60,4 +54,10 @@ export class ProductSelectionEffects {
       })
     );
   });
+
+  constructor(
+    private readonly actions$: Actions,
+    private readonly catalogService: CatalogService,
+    private readonly productSelectionFacade: ProductSelectionFacade
+  ) {}
 }

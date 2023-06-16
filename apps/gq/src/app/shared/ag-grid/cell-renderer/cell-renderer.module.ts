@@ -1,15 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 
 import { FreeStockTrafficLightComponent } from '@gq/shared/components/free-stock-traffic-light/free-stock-traffic-light.component';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -58,7 +58,7 @@ import { SapStatusCellComponent } from './sap-sync-status-cell/sap-sync-status-c
     MatTooltipModule,
     MatButtonModule,
     ReactiveFormsModule,
-    PushModule,
+    PushPipe,
     FreeStockTrafficLightComponent,
     SharedTranslocoModule,
     EditCaseMaterialComponent,

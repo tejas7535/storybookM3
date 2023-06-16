@@ -5,14 +5,18 @@ import { marbles } from 'rxjs-marbles';
 
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import { DataResult, SAPMaterialsResponse } from '@mac/msd/models';
-import { initialState } from '@mac/msd/store/reducers/data/data.reducer';
+import {
+  DataState,
+  initialState,
+} from '@mac/msd/store/reducers/data/data.reducer';
 
+import { MSDState } from '../../reducers';
 import * as DataSelectors from './data.selector';
 
 describe('DataSelectors', () => {
   it('should get dataState', () => {
     expect(
-      DataSelectors.getDataState.projector({ data: initialState })
+      DataSelectors.getDataState.projector({ data: initialState } as MSDState)
     ).toEqual(initialState);
   });
 
@@ -74,7 +78,9 @@ describe('DataSelectors', () => {
   });
 
   it('should get data loading', () => {
-    expect(DataSelectors.getLoading.projector(initialState)).toEqual(undefined);
+    expect(DataSelectors.getLoading.projector(initialState as any)).toEqual(
+      undefined
+    );
   });
 
   describe('getMaterialClassOptions', () => {
@@ -117,8 +123,8 @@ describe('DataSelectors', () => {
             aluminumMaterials: [],
             polymerMaterials: [],
           },
-        },
-        materialClass
+        } as DataState,
+        materialClass as any
       )
     ).toEqual(expected);
   });
@@ -198,7 +204,7 @@ describe('DataSelectors', () => {
               [navigationLevel]: agGridFilter,
             },
           },
-        }
+        } as any
       )
     ).toEqual({
       materialClass,
@@ -267,7 +273,7 @@ describe('DataSelectors', () => {
   });
 
   it('should return undefined if sap material rows are undefined', () => {
-    expect(DataSelectors.getSAPResult.projector(undefined, [])).toEqual(
+    expect(DataSelectors.getSAPResult.projector(undefined, [] as any)).toEqual(
       undefined
     );
   });

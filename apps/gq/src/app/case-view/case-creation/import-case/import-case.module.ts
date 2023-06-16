@@ -1,15 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
 
-import { PushModule } from '@ngrx/component';
+import { AutocompleteInputModule } from '@gq/shared/components/autocomplete-input/autocomplete-input.module';
+import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
+import { PushPipe } from '@ngrx/component';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { AutocompleteInputModule } from '../../../shared/components/autocomplete-input/autocomplete-input.module';
-import { DialogHeaderModule } from '../../../shared/components/header/dialog-header/dialog-header.module';
 import { ImportCaseComponent } from './import-case.component';
 
 @NgModule({
@@ -18,7 +18,7 @@ import { ImportCaseComponent } from './import-case.component';
     CommonModule,
     SharedTranslocoModule,
     AutocompleteInputModule,
-    PushModule,
+    PushPipe,
     MatButtonModule,
     LoadingSpinnerModule,
     DialogHeaderModule,

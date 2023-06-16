@@ -11,7 +11,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 
 import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 import { debounceTime, filter, map, take, takeUntil } from 'rxjs/operators';
@@ -40,7 +40,6 @@ import { changeFavicon } from '@mac/shared/change-favicon';
 export class HardnessConverterComponent implements OnInit, OnDestroy {
   public breadcrumbs: Breadcrumb[];
 
-  private readonly destroy$ = new Subject<void>();
   public MPA = MPA;
 
   public tables$ = new ReplaySubject<string[]>();
@@ -72,6 +71,8 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
   public conversionResult$ = new ReplaySubject<HardnessConversionResponse>();
   public resultLoading$ = new BehaviorSubject<boolean>(false);
 
+  private readonly destroy$ = new Subject<void>();
+
   public constructor(
     private readonly hardnessService: HardnessConverterApiService,
     private readonly applicationInsightService: ApplicationInsightsService,
@@ -90,6 +91,12 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
         label: this.translocoService.translate('hardnessConverter.title'),
       },
     ];
+  }
+
+  public get step(): string {
+    return ONE_DIGIT_UNITS.includes(this.initialInput.get('inputUnit').value)
+      ? '.1'
+      : '1';
   }
 
   public ngOnInit(): void {
@@ -142,6 +149,53 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  public getPrecision(unit: string): number {
+    return ONE_DIGIT_UNITS.includes(unit) ? 1 : 0;
+  }
+
+  public onAddButtonClick(): void {
+    const newInputs = new UntypedFormGroup({
+      [0]: this.createInputFormControl(),
+      [1]: this.createInputFormControl(),
+    });
+    this.additionalInputs.push(newInputs, { emitEvent: false });
+    this.conversionForm.markAsTouched();
+    this.conversionForm.markAsDirty();
+  }
+
+  public onResetButtonClick(): void {
+    this.additionalInputs.clear();
+    this.conversionForm.reset();
+    this.fetchInfo();
+    this.average$ = new ReplaySubject<number>();
+    this.standardDeviation$ = new ReplaySubject<number>();
+    this.conversionResult$ = new ReplaySubject<HardnessConversionResponse>();
+    this.multipleValues$.next(false);
+    this.conversionForm.markAsUntouched();
+    this.conversionForm.markAsPristine();
+  }
+
+  public onShareButtonClick(): void {
+    this.clipboard.copy(window.location.href);
+    this.snackbar.open(
+      this.translocoService.translate(
+        'hardnessConverter.shareCopiedToClipboard'
+      ),
+      this.translocoService.translate('hardnessConverter.close'),
+      { duration: 5000 }
+    );
+  }
+
+  public trackByFn(index: number): number {
+    return index;
+  }
+
+  public getTooltip(unit: string): string | undefined {
+    return unit === MPA
+      ? this.translocoService.translate('hardnessConverter.utsTooltip')
+      : undefined;
   }
 
   private fetchInfo(): void {
@@ -202,59 +256,6 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
         this.resultLoading$.next(false);
         this.conversionResult$.next(result);
       });
-  }
-
-  public get step(): string {
-    return ONE_DIGIT_UNITS.includes(this.initialInput.get('inputUnit').value)
-      ? '.1'
-      : '1';
-  }
-
-  public getPrecision(unit: string): number {
-    return ONE_DIGIT_UNITS.includes(unit) ? 1 : 0;
-  }
-
-  public onAddButtonClick(): void {
-    const newInputs = new UntypedFormGroup({
-      [0]: this.createInputFormControl(),
-      [1]: this.createInputFormControl(),
-    });
-    this.additionalInputs.push(newInputs, { emitEvent: false });
-    this.conversionForm.markAsTouched();
-    this.conversionForm.markAsDirty();
-  }
-
-  public onResetButtonClick(): void {
-    this.additionalInputs.clear();
-    this.conversionForm.reset();
-    this.fetchInfo();
-    this.average$ = new ReplaySubject<number>();
-    this.standardDeviation$ = new ReplaySubject<number>();
-    this.conversionResult$ = new ReplaySubject<HardnessConversionResponse>();
-    this.multipleValues$.next(false);
-    this.conversionForm.markAsUntouched();
-    this.conversionForm.markAsPristine();
-  }
-
-  public onShareButtonClick(): void {
-    this.clipboard.copy(window.location.href);
-    this.snackbar.open(
-      this.translocoService.translate(
-        'hardnessConverter.shareCopiedToClipboard'
-      ),
-      this.translocoService.translate('hardnessConverter.close'),
-      { duration: 5000 }
-    );
-  }
-
-  public trackByFn(index: number): number {
-    return index;
-  }
-
-  public getTooltip(unit: string): string | undefined {
-    return unit === MPA
-      ? this.translocoService.translate('hardnessConverter.utsTooltip')
-      : undefined;
   }
 
   private createInputFormControl() {

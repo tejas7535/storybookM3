@@ -1,10 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatTableModule } from '@angular/material/table';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import {
+  MatLegacyDialogModule as MatDialogModule,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
+import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
+import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 
 import { Observable } from 'rxjs';
 
@@ -12,7 +15,7 @@ import { CatalogCalculationResultActions } from '@ea/core/store/actions';
 import { CatalogCalculationResultFacade } from '@ea/core/store/facades/calculation-result/catalog-calculation-result.facade';
 import { ProductSelectionFacade } from '@ea/core/store/facades/product-selection/product-selection.facade';
 import { BasicFrequenciesResult } from '@ea/core/store/models';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -22,7 +25,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
   standalone: true,
   imports: [
     CommonModule,
-    PushModule,
+    PushPipe,
     SharedTranslocoModule,
     MatIconModule,
     MatTableModule,

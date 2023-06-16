@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSelectModule } from '@angular/material/select';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 
 import { TranslocoService } from '@ngneat/transloco';
 
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import deJson from './i18n/de.json';

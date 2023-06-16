@@ -1,14 +1,17 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import {
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 import { MatRadioModule } from '@angular/material/radio';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { DialogHeaderModule } from '../../../../shared/components/header/dialog-header/dialog-header.module';
 import { AddCustomViewModalComponent } from './add-custom-view-modal.component';
 
 describe('AddCustomViewModalComponent', () => {

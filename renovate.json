@@ -56,14 +56,14 @@
     },
     {
       "packageNames": [
-        "@nrwl/angular",
+        "@nx/angular",
         "@nrwl/cli",
-        "@nrwl/cypress",
-        "@nrwl/eslint-plugin-nx",
-        "@nrwl/jest",
-        "@nrwl/storybook",
-        "@nrwl/workspace",
-        "@nrwl/linter"
+        "@nx/cypress",
+        "@nx/eslint-plugin",
+        "@nx/jest",
+        "@nx/storybook",
+        "@nx/workspace",
+        "@nx/linter"
       ],
       "groupName": "@nrwl/nx",
       "major": {

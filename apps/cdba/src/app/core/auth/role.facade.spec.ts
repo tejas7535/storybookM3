@@ -1,4 +1,4 @@
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 

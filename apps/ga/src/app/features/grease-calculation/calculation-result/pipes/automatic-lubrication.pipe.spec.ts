@@ -1,4 +1,4 @@
-import { createPipeFactory, SpectatorPipe } from '@ngneat/spectator';
+import { createPipeFactory, SpectatorPipe } from '@ngneat/spectator/jest';
 
 import { CONCEPT1_LABEL_VALUE_MOCK } from '@ga/testing/mocks';
 

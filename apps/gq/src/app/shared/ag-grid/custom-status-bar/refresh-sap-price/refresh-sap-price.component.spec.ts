@@ -1,13 +1,13 @@
 import { MatButtonModule } from '@angular/material/button';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { of } from 'rxjs';
 
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';

@@ -2,7 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { TranslocoModule } from '@ngneat/transloco';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import {
   PageNotFoundComponent,
@@ -11,14 +11,11 @@ import {
 
 import READMEMd from '../../../../../empty-states/src/lib/page-not-found/README.md';
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
-import {
-  NavigationAtomic,
-  NavigationMain,
-} from '../../../../.storybook/storybook-navigation.constants';
+
 import { StorybookTranslocoModule } from '../../../../.storybook/storybook-transloco.module';
 
 export default {
-  title: `${NavigationMain.Atomic}/${NavigationAtomic.Pages}/Page Not Found`,
+  title: 'Atomic/Pages/Page Not Found',
   component: PageNotFoundComponent,
   decorators: [
     moduleMetadata({
@@ -39,7 +36,7 @@ export default {
   },
 } as Meta<PageNotFoundComponent>;
 
-const Template: Story<PageNotFoundComponent> = (
+const Template: StoryFn<PageNotFoundComponent> = (
   args: PageNotFoundComponent
 ) => ({
   component: PageNotFoundComponent,

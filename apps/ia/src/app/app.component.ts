@@ -37,8 +37,6 @@ export class AppComponent implements OnInit {
   isLegalRouteActive$: Observable<boolean>;
   isCookieRouteActive$: Observable<boolean>;
   isFluctuationAnalyticsPageActive$: Observable<boolean>;
-  // eslint-disable-next-line no-useless-escape
-  private readonly legalRouteRegExp = new RegExp(`^\/${LegalRoute}\/.*`);
 
   tabs: TabElem[] = [
     {
@@ -92,6 +90,10 @@ export class AppComponent implements OnInit {
       external: false,
     },
   ];
+
+  // eslint-disable-next-line no-useless-escape
+  private readonly legalRouteRegExp = new RegExp(`^\/${LegalRoute}\/.*`);
+
   public constructor(
     private readonly store: Store,
     private readonly router: Router,

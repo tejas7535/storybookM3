@@ -1,20 +1,20 @@
 import { Inject, Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
-  CanActivate,
   Router,
   RouterStateSnapshot,
 } from '@angular/router';
 
+import { EnvironmentEnum } from '@gq/shared/models';
+
 import { AppRoutePath } from '../../app-route-path.enum';
-import { EnvironmentEnum } from '../../shared/models';
 import { Environment } from './../../../environments/environment.model';
 import { ENV } from './../../../environments/environments.provider';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProdGuard implements CanActivate {
+export class ProdGuard {
   constructor(
     @Inject(ENV) private readonly env: Environment,
     private readonly router: Router

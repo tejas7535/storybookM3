@@ -2,10 +2,27 @@
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import {
+  MatLegacySnackBar as MatSnackBar,
+  MatLegacySnackBarModule as MatSnackBarModule,
+} from '@angular/material/legacy-snack-bar';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
+import { AutocompleteSearch } from '@gq/shared/models/search';
+import { IdValue } from '@gq/shared/models/search';
+import { MaterialTableItem } from '@gq/shared/models/table';
+import { MaterialValidation } from '@gq/shared/models/table';
+import { ValidationDescription } from '@gq/shared/models/table';
+import { CustomerService } from '@gq/shared/services/rest/customer/customer.service';
+import { CustomerSalesOrgsCurrenciesResponse } from '@gq/shared/services/rest/customer/models/customer-sales-orgs-currencies-response.model';
+import { MaterialService } from '@gq/shared/services/rest/material/material.service';
+import { MaterialValidationRequest } from '@gq/shared/services/rest/material/models';
+import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
+import { PLsSeriesRequest } from '@gq/shared/services/rest/search/models/pls-series-request.model';
+import { PLsSeriesResponse } from '@gq/shared/services/rest/search/models/pls-series-response.model';
+import { SearchService } from '@gq/shared/services/rest/search/search.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
 import { Actions } from '@ngrx/effects';
@@ -14,21 +31,6 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
 import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../../../../testing/mocks';
-import { FilterNames } from '../../../../shared/components/autocomplete-input/filter-names.enum';
-import { AutocompleteSearch, IdValue } from '../../../../shared/models/search';
-import {
-  MaterialTableItem,
-  MaterialValidation,
-  ValidationDescription,
-} from '../../../../shared/models/table';
-import { CustomerService } from '../../../../shared/services/rest/customer/customer.service';
-import { CustomerSalesOrgsCurrenciesResponse } from '../../../../shared/services/rest/customer/models/customer-sales-orgs-currencies-response.model';
-import { MaterialService } from '../../../../shared/services/rest/material/material.service';
-import { MaterialValidationRequest } from '../../../../shared/services/rest/material/models';
-import { QuotationService } from '../../../../shared/services/rest/quotation/quotation.service';
-import { PLsSeriesRequest } from '../../../../shared/services/rest/search/models/pls-series-request.model';
-import { PLsSeriesResponse } from '../../../../shared/services/rest/search/models/pls-series-response.model';
-import { SearchService } from '../../../../shared/services/rest/search/search.service';
 import {
   addRowDataItems,
   autocomplete,

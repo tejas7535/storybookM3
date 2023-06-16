@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { QuotationDetail } from '../../../../shared/models/quotation-detail';
+import { QuotationDetail } from '@gq/shared/models/quotation-detail';
 
 @Component({
   selector: 'gq-relocation-cost-details',

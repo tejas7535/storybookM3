@@ -70,13 +70,6 @@ export class SalesTableComponent implements OnInit, OnDestroy {
     );
   }
 
-  private setSubscription(): void {
-    this.store
-      .select(getUserUniqueIdentifier)
-      .pipe(takeUntil(this.shutDown$$))
-      .subscribe((userId: string) => (this.username = userId));
-  }
-
   public onRowClicked(event: RowClickedEvent): void {
     event.node.setExpanded(!event.node.expanded);
   }
@@ -110,16 +103,6 @@ export class SalesTableComponent implements OnInit, OnDestroy {
     );
   }
 
-  private setupColumState(event: GridReadyEvent): void {
-    const columnState = this.agGridStateService.getColumnState(this.TABLE_KEY);
-    if (columnState) {
-      event.columnApi.applyColumnState({
-        state: columnState,
-        applyOrder: true,
-      });
-    }
-  }
-
   public setLastModifierFilter(): void {
     const filterModel = this.gridApi.getFilterInstance('lastModifier');
     filterModel.setModel({
@@ -143,5 +126,22 @@ export class SalesTableComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.shutDown$$.next();
+  }
+
+  private setupColumState(event: GridReadyEvent): void {
+    const columnState = this.agGridStateService.getColumnState(this.TABLE_KEY);
+    if (columnState) {
+      event.columnApi.applyColumnState({
+        state: columnState,
+        applyOrder: true,
+      });
+    }
+  }
+
+  private setSubscription(): void {
+    this.store
+      .select(getUserUniqueIdentifier)
+      .pipe(takeUntil(this.shutDown$$))
+      .subscribe((userId: string) => (this.username = userId));
   }
 }

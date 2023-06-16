@@ -8,10 +8,11 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { ControlValueAccessor, FormControl, Validators } from '@angular/forms';
-import { MatOption } from '@angular/material/core';
+import { MatLegacyOption as MatOption } from '@angular/material/legacy-core';
 
 import { debounceTime, Subscription } from 'rxjs';
 
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { StringOption } from '@schaeffler/inputs';
 
 @Component({
@@ -56,16 +57,42 @@ export class SelectComponent
     StringOption | StringOption[]
   >();
 
+  @Input() public control = new FormControl();
+  @Input() public filterFn?: (option: StringOption, value: string) => boolean;
+
   @ViewChildren('selectOption') private readonly selectOptions!: MatOption[];
 
-  @Input() public control = new FormControl();
   public searchControl = new FormControl();
-
-  @Input() public filterFn?: (option: StringOption, value: string) => boolean;
 
   public addingEntry = false;
 
   private readonly subscription = new Subscription();
+
+  public get filteredOptions(): StringOption[] {
+    return this.stringOptions.filter((option) =>
+      this.filterOptions(option, this.searchControl.value)
+    );
+  }
+
+  public get currentValue(): string | string[] {
+    if (this.multiple) {
+      return this.control.value?.map((option: StringOption) => option.title);
+    }
+
+    return this.control.value?.title;
+  }
+
+  public get currentTooltipValue(): string {
+    if (this.multiple) {
+      return (this.currentValue as string[])?.join(', ');
+    }
+
+    return this.currentValue as string;
+  }
+
+  public get formControlRequired(): boolean {
+    return this.control.hasValidator(Validators.required);
+  }
 
   public ngOnInit(): void {
     if (this.filterFn) {
@@ -147,32 +174,6 @@ export class SelectComponent
   public onConfirmAddEntry(value: string): void {
     this.entryAdded.emit(value);
     this.addingEntry = false;
-  }
-
-  public get filteredOptions(): StringOption[] {
-    return this.stringOptions.filter((option) =>
-      this.filterOptions(option, this.searchControl.value)
-    );
-  }
-
-  public get currentValue(): string | string[] {
-    if (this.multiple) {
-      return this.control.value?.map((option: StringOption) => option.title);
-    }
-
-    return this.control.value?.title;
-  }
-
-  public get currentTooltipValue(): string {
-    if (this.multiple) {
-      return (this.currentValue as string[])?.join(', ');
-    }
-
-    return this.currentValue as string;
-  }
-
-  public get formControlRequired(): boolean {
-    return this.control.hasValidator(Validators.required);
   }
 
   public filterOptions = (_option?: StringOption, _value?: string) => true;

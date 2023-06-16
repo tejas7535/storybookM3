@@ -1,6 +1,6 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 
 import { HttpErrorInterceptor } from './interceptors/http-error.interceptor';
 

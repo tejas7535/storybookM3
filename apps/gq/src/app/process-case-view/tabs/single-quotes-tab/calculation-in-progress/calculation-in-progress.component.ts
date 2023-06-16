@@ -2,9 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { map, Observable } from 'rxjs';
 
+import { SapCallInProgress } from '@gq/shared/models/quotation';
 import { TranslocoService } from '@ngneat/transloco';
-
-import { SapCallInProgress } from '../../../../shared/models/quotation';
 
 @Component({
   selector: 'gq-calculation-in-progress',

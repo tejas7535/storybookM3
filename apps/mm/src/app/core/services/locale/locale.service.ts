@@ -12,9 +12,9 @@ import { MMSeparator } from './separator.enum';
   providedIn: 'root',
 })
 export class LocaleService {
-  private readonly separator = new BehaviorSubject<MMSeparator>(undefined);
+  public readonly separator = new BehaviorSubject<MMSeparator>(undefined);
 
-  separator$ = this.separator.asObservable();
+  public separator$ = this.separator.asObservable();
 
   private manualSeparator = false;
 
@@ -25,13 +25,6 @@ export class LocaleService {
     this.setLocale(lang as MMLocales);
   }
 
-  private registerLocales(): void {
-    for (const l of Object.keys(locales)) {
-      const locale = l as MMLocales;
-      registerLocaleData(locales[locale].locale, locale);
-    }
-  }
-
   public setSeparator(separator: MMSeparator): void {
     this.separator.next(separator);
     this.manualSeparator = true;
@@ -40,6 +33,13 @@ export class LocaleService {
   public setLocale(locale: MMLocales): void {
     if (!this.manualSeparator) {
       this.separator.next(locales[locale].defaultSeparator);
+    }
+  }
+
+  private registerLocales(): void {
+    for (const l of Object.keys(locales)) {
+      const locale = l as MMLocales;
+      registerLocaleData(locales[locale].locale, locale);
     }
   }
 }

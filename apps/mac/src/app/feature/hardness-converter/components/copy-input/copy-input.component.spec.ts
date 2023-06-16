@@ -3,16 +3,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { Spectator } from '@ngneat/spectator';
-import { createComponentFactory } from '@ngneat/spectator/jest';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { CopyInputComponent } from './copy-input.component';
 
-describe('HardnessValueComponent', () => {
+describe('CopyInputComponent', () => {
   let component: CopyInputComponent;
   let spectator: Spectator<CopyInputComponent>;
 

@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 
 import { InfoIconModule } from '@gq/shared/components/info-icon/info-icon.module';
 import { PasteMaterialsService } from '@gq/shared/services/paste-materials/paste-materials.service';

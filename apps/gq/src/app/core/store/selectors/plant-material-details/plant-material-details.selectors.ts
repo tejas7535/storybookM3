@@ -1,6 +1,6 @@
+import { PlantMaterialDetail } from '@gq/shared/models/quotation-detail';
 import { createSelector } from '@ngrx/store';
 
-import { PlantMaterialDetail } from '../../../../shared/models/quotation-detail';
 import { getPlantMaterialDetailsState } from '../../reducers';
 import { PlantMaterialDetailsState } from '../../reducers/plant-material-details/plant-material-details.reducer';
 

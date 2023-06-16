@@ -7,11 +7,11 @@
   },
   "ignorePatterns": ["**/*"],
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@nrwl/nx", "@typescript-eslint"],
+  "plugins": ["@nx", "@typescript-eslint"],
   "overrides": [
     {
       "files": ["*.js"],
-      "extends": ["plugin:@nrwl/nx/javascript"],
+      "extends": ["plugin:@nx/javascript"],
       "rules": {}
     },
     {
@@ -30,8 +30,9 @@
     },
     {
       "files": ["*.ts", "*.js"],
+      "extends": ["plugin:storybook/recommended"],
       "rules": {
-        "@nrwl/nx/enforce-module-boundaries": [
+        "@nx/enforce-module-boundaries": [
           "error",
           {
             "allow": [],
@@ -58,7 +59,7 @@
       "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
-        "plugin:@nrwl/nx/typescript",
+        "plugin:@nx/typescript",
         "plugin:ngrx/recommended",
         "plugin:unicorn/recommended"
       ],

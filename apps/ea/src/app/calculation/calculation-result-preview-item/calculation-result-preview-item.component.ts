@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 
 import { CalculationResultPreviewItem } from '@ea/core/store/models';
 import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
@@ -26,6 +26,8 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
   ],
 })
 export class CalculationResultPreviewItemComponent {
+  @Input() styleClass: string | undefined;
+
   public _item: CalculationResultPreviewItem;
   public isSingleItem = false;
 
@@ -33,6 +35,4 @@ export class CalculationResultPreviewItemComponent {
     this._item = item;
     this.isSingleItem = item.values.length === 1;
   }
-
-  @Input() styleClass: string | undefined;
 }

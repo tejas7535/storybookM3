@@ -3,20 +3,18 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { SapPriceConditionDetail } from '@gq/core/store/reducers/models';
+import { TableContext } from '@gq/process-case-view/quotation-details-table/config/tablecontext.model';
+import { AgGridLocale } from '@gq/shared/ag-grid/models/ag-grid-locale.interface';
+import { LocalizationService } from '@gq/shared/ag-grid/services/localization.service';
+import { basicTableStyle } from '@gq/shared/constants/table-styles';
+import { disableTableHorizontalScrollbar } from '@gq/shared/constants/table-styles';
+import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import {
   ColumnState,
   GridReadyEvent,
   SortChangedEvent,
 } from 'ag-grid-community';
 
-import { TableContext } from '../../../process-case-view/quotation-details-table/config/tablecontext.model';
-import { AgGridLocale } from '../../../shared/ag-grid/models/ag-grid-locale.interface';
-import { LocalizationService } from '../../../shared/ag-grid/services/localization.service';
-import {
-  basicTableStyle,
-  disableTableHorizontalScrollbar,
-} from '../../../shared/constants/table-styles';
-import { AgGridStateService } from '../../../shared/services/ag-grid-state/ag-grid-state.service';
 import {
   COMPONENTS,
   SAP_PRICE_DETAILS_DEFAULT_COLUMN_DEFS,

@@ -4,7 +4,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatStepperModule } from '@angular/material/stepper';
 import { Router } from '@angular/router';
 
-import { LetModule, PushModule } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
 import { StepperModule } from '@schaeffler/stepper';
@@ -24,8 +24,8 @@ import { steps } from '@ga/shared/constants';
     CommonModule,
     MatStepperModule,
     StepperModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     SharedTranslocoModule,
   ],
   templateUrl: './grease-stepper.component.html',

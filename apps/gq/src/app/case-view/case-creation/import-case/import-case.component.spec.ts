@@ -1,6 +1,6 @@
 import { MatButtonModule } from '@angular/material/button';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 
 import {
   autocomplete,
@@ -9,7 +9,16 @@ import {
   selectAutocompleteOption,
   unselectAutocompleteOptions,
 } from '@gq/core/store/actions';
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { AutocompleteInputModule } from '@gq/shared/components/autocomplete-input/autocomplete-input.module';
+import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
+import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
+import {
+  CASE_CREATION_TYPES,
+  CaseCreationEventParams,
+  EVENT_NAMES,
+} from '@gq/shared/models';
+import { AutocompleteSearch, IdValue } from '@gq/shared/models/search';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
@@ -18,15 +27,6 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CREATE_CASE_STORE_STATE_MOCK } from '../../../../testing/mocks';
-import { AutocompleteInputModule } from '../../../shared/components/autocomplete-input/autocomplete-input.module';
-import { FilterNames } from '../../../shared/components/autocomplete-input/filter-names.enum';
-import { DialogHeaderModule } from '../../../shared/components/header/dialog-header/dialog-header.module';
-import {
-  CASE_CREATION_TYPES,
-  CaseCreationEventParams,
-  EVENT_NAMES,
-} from '../../../shared/models';
-import { AutocompleteSearch, IdValue } from '../../../shared/models/search';
 import { ImportCaseComponent } from './import-case.component';
 
 describe('ImportCaseComponent', () => {

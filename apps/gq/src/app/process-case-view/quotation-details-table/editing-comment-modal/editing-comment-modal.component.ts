@@ -1,7 +1,10 @@
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 
 import { combineLatest, map, Observable, pairwise, Subscription } from 'rxjs';
 
@@ -10,9 +13,8 @@ import {
   activeCaseFeature,
   UpdateQuotationDetail,
 } from '@gq/core/store/active-case';
+import { QuotationDetail } from '@gq/shared/models/quotation-detail';
 import { Store } from '@ngrx/store';
-
-import { QuotationDetail } from '../../../shared/models/quotation-detail';
 
 @Component({
   selector: 'gq-editing-comment-modal',

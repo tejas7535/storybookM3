@@ -1,32 +1,28 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { Router } from '@angular/router';
 
 import { of } from 'rxjs';
 import { catchError, filter, map, mergeMap, tap } from 'rxjs/operators';
 
+import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
+import { Quotation } from '@gq/shared/models';
+import { IdValue } from '@gq/shared/models/search';
+import { MaterialTableItem } from '@gq/shared/models/table';
+import { CustomerService } from '@gq/shared/services/rest/customer/customer.service';
+import { CustomerSalesOrgsCurrenciesResponse } from '@gq/shared/services/rest/customer/models/customer-sales-orgs-currencies-response.model';
+import { SalesOrgCurrency } from '@gq/shared/services/rest/customer/models/customer-sales-orgs-currencies-response.model';
+import { MaterialService } from '@gq/shared/services/rest/material/material.service';
+import { MaterialValidationRequest } from '@gq/shared/services/rest/material/models';
+import { MaterialValidationResponse } from '@gq/shared/services/rest/material/models';
+import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { PLsSeriesResponse } from '@gq/shared/services/rest/search/models/pls-series-response.model';
+import { SearchService } from '@gq/shared/services/rest/search/search.service';
 import { translate } from '@ngneat/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
-import { FilterNames } from '../../../../shared/components/autocomplete-input/filter-names.enum';
-import { Quotation } from '../../../../shared/models';
-import { IdValue } from '../../../../shared/models/search';
-import { MaterialTableItem } from '../../../../shared/models/table';
-import { CustomerService } from '../../../../shared/services/rest/customer/customer.service';
-import {
-  CustomerSalesOrgsCurrenciesResponse,
-  SalesOrgCurrency,
-} from '../../../../shared/services/rest/customer/models/customer-sales-orgs-currencies-response.model';
-import { MaterialService } from '../../../../shared/services/rest/material/material.service';
-import {
-  MaterialValidationRequest,
-  MaterialValidationResponse,
-} from '../../../../shared/services/rest/material/models';
-import { QuotationService } from '../../../../shared/services/rest/quotation/quotation.service';
-import { SearchService } from '../../../../shared/services/rest/search/search.service';
 import {
   addRowDataItems,
   autocomplete,

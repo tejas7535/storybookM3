@@ -3,11 +3,10 @@
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
     "types": [],
-    "lib": ["es2017", "dom", "es2019"]
+    "lib": ["ES2022", "dom", "es2019"],
+    "target": "ES2022",
+    "useDefineForClassFields": false
   },
   "files": ["src/main.ts", "src/polyfills.ts"],
-  "angularCompilerOptions": {
-    "enableIvy": true
-  },
   "exclude": ["jest.config.ts"]
 }

@@ -9,6 +9,8 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 
+import { DetailRoutePath } from '@gq/detail-view/detail-route-path.enum';
+import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
 import {
   multiplyAndRoundValues,
   roundToTwoDecimals,
@@ -18,8 +20,6 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
-import { DetailRoutePath } from '../../../../detail-view/detail-route-path.enum';
-import { QuotationDetailsService } from '../../../../shared/services/rest/quotation-details/quotation-details.service';
 import {
   loadComparableTransactions,
   loadComparableTransactionsFailure,

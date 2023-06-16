@@ -5,8 +5,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 
-import { mockProvider } from '@ngneat/spectator';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockComponent, MockModule } from 'ng-mocks';

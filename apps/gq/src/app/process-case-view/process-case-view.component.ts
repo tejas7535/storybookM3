@@ -8,17 +8,17 @@ import {
   getGqId,
   getQuotationSapSyncStatus,
 } from '@gq/core/store/active-case';
+import { Tab } from '@gq/shared/components/tabs-header/tab.model';
+import { Quotation } from '@gq/shared/models';
+import { SAP_SYNC_STATUS } from '@gq/shared/models/quotation-detail/sap-sync-status.enum';
+import { BreadcrumbsService } from '@gq/shared/services/breadcrumbs/breadcrumbs.service';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
+import { UpdateQuotationRequest } from '@gq/shared/services/rest/quotation/models/update-quotation-request.model';
 import { Store } from '@ngrx/store';
 
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
 import { AppRoutePath } from '../app-route-path.enum';
-import { Tab } from '../shared/components/tabs-header/tab.model';
-import { Quotation } from '../shared/models';
-import { SAP_SYNC_STATUS } from '../shared/models/quotation-detail/sap-sync-status.enum';
-import { BreadcrumbsService } from '../shared/services/breadcrumbs/breadcrumbs.service';
-import { UpdateQuotationRequest } from '../shared/services/rest/quotation/models/update-quotation-request.model';
 import { ProcessCaseRoutePath } from './process-case-route-path.enum';
 
 @Component({

@@ -1,6 +1,6 @@
 import { of, Subject } from 'rxjs';
 
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';

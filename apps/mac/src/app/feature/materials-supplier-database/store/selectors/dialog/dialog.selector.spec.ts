@@ -13,8 +13,12 @@ import {
   MaterialFormValue,
   MaterialStandard,
 } from '@mac/msd/models';
-import { initialState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
+import {
+  DialogState,
+  initialState,
+} from '@mac/msd/store/reducers/dialog/dialog.reducer';
 
+import { MSDState } from '../../reducers';
 import * as DialogSelectors from './dialog.selector';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -33,7 +37,9 @@ describe('DialogSelectors', () => {
   });
   it('should get dialogState', () => {
     expect(
-      DialogSelectors.getDialogState.projector({ dialog: initialState })
+      DialogSelectors.getDialogState.projector({
+        dialog: initialState,
+      } as MSDState)
     ).toEqual(initialState);
   });
 
@@ -42,7 +48,7 @@ describe('DialogSelectors', () => {
       dialogOptions: {
         materialStandardsLoading: true,
       },
-    });
+    } as DialogState);
 
     expect(result).toEqual({
       materialStandardsLoading: true,
@@ -130,7 +136,7 @@ describe('DialogSelectors', () => {
         DialogSelectors.getMaterialDialogOptionsLoadingError.projector({
           ...dialogOptionsBase,
           ...replaceOptions,
-        });
+        } as any);
 
       expect(result).toEqual(expected);
     }
@@ -152,7 +158,7 @@ describe('DialogSelectors', () => {
 
     const result = DialogSelectors.getMaterialDialogOptionsLoading.projector({
       ...dialogOptionsBase,
-    });
+    } as any);
 
     expect(result).toBe(false);
   });
@@ -238,7 +244,7 @@ describe('DialogSelectors', () => {
       const result = DialogSelectors.getMaterialDialogOptionsLoading.projector({
         ...dialogOptionsBase,
         ...replaceOptions,
-      });
+      } as any);
 
       expect(result).toEqual(expected);
     }
@@ -261,7 +267,7 @@ describe('DialogSelectors', () => {
     const result =
       DialogSelectors.getMaterialDialogOptionsLoadingError.projector({
         ...dialogOptionsBase,
-      });
+      } as any);
 
     expect(result).toBe(false);
   });
@@ -270,7 +276,7 @@ describe('DialogSelectors', () => {
     expect(
       DialogSelectors.getMaterialDialogCastingModes.projector({
         castingModes: ['1', '2'],
-      })
+      } as any)
     ).toEqual(['1', '2']);
   });
 
@@ -278,7 +284,7 @@ describe('DialogSelectors', () => {
     expect(
       DialogSelectors.getMaterialDialogCo2Classifications.projector({
         co2Classifications: ['1', '2'],
-      })
+      } as any)
     ).toEqual(['1', '2', { id: undefined, title: 'none' }]);
   });
 
@@ -302,7 +308,7 @@ describe('DialogSelectors', () => {
     expect(
       DialogSelectors.getMaterialDialogSuppliers.projector({
         manufacturerSuppliers,
-      })
+      } as any)
     ).toEqual(manufacturerSuppliers);
   });
 
@@ -324,7 +330,7 @@ describe('DialogSelectors', () => {
     expect(
       DialogSelectors.getMaterialDialogMaterialStandards.projector({
         materialStandards,
-      })
+      } as any)
     ).toEqual(materialStandards);
   });
 
@@ -332,7 +338,7 @@ describe('DialogSelectors', () => {
     expect(
       DialogSelectors.getMaterialDialogRatings.projector({
         ratings: ['1', '2'],
-      })
+      } as any)
     ).toEqual(['1', '2']);
   });
 
@@ -340,7 +346,7 @@ describe('DialogSelectors', () => {
     expect(
       DialogSelectors.getMaterialDialogSteelMakingProcesses.projector({
         steelMakingProcesses: ['1', '2'],
-      })
+      } as any)
     ).toEqual(['1', '2']);
   });
 
@@ -348,7 +354,7 @@ describe('DialogSelectors', () => {
     expect(
       DialogSelectors.getMaterialDialogProductionProcesses.projector({
         productionProcesses: ['1', '2'],
-      })
+      } as any)
     ).toEqual(['1', '2']);
   });
 
@@ -356,7 +362,7 @@ describe('DialogSelectors', () => {
     expect(
       DialogSelectors.getMaterialDialogCastingDiameters.projector({
         castingDiameters: ['200x200'],
-      })
+      } as any)
     ).toEqual(['200x200']);
   });
 
@@ -364,7 +370,7 @@ describe('DialogSelectors', () => {
     expect(
       DialogSelectors.getMaterialDialogCustomCastingDiameters.projector({
         customCastingDiameters: ['200x200'],
-      })
+      } as any)
     ).toEqual(['200x200']);
   });
 
@@ -416,7 +422,7 @@ describe('DialogSelectors', () => {
     expect(
       DialogSelectors.getMaterialDialogCastingDiametersLoading.projector({
         castingDiametersLoading: true,
-      })
+      } as any)
     ).toBe(true);
   });
 
@@ -425,7 +431,7 @@ describe('DialogSelectors', () => {
     expect(
       DialogSelectors.getProductCategories.projector({
         productCategories: mockProductCategories,
-      })
+      } as any)
     ).toEqual(mockProductCategories);
   });
 
@@ -433,7 +439,7 @@ describe('DialogSelectors', () => {
     expect(
       DialogSelectors.getProductCategoriesLoading.projector({
         productCategoriesLoading: true,
-      })
+      } as any)
     ).toEqual(true);
   });
 
@@ -441,7 +447,7 @@ describe('DialogSelectors', () => {
     expect(
       DialogSelectors.getMaterialDialogReferenceDocuments.projector({
         referenceDocuments: ['reference'],
-      })
+      } as any)
     ).toEqual(['reference']);
   });
 
@@ -449,7 +455,7 @@ describe('DialogSelectors', () => {
     expect(
       DialogSelectors.getMaterialDialogCustomReferenceDocuments.projector({
         customReferenceDocuments: ['reference'],
-      })
+      } as any)
     ).toEqual(['reference']);
   });
 
@@ -505,7 +511,7 @@ describe('DialogSelectors', () => {
     expect(
       DialogSelectors.getMaterialDialogReferenceDocumentsLoading.projector({
         referenceDocumentsLoading: true,
-      })
+      } as any)
     ).toBe(true);
   });
 
@@ -688,9 +694,7 @@ describe('DialogSelectors', () => {
       );
 
       const result =
-        DialogSelectors.getSupplierCountryStringOptions.projector(
-          mockSuppliers
-        );
+        DialogSelectors.getSupplierCountryStringOptions.projector();
 
       expect(result).toEqual(expected);
     });
@@ -1069,7 +1073,7 @@ describe('DialogSelectors', () => {
         createMaterial: {
           createMaterialLoading: true,
         },
-      })
+      } as DialogState)
     ).toEqual(true);
   });
 
@@ -1079,7 +1083,7 @@ describe('DialogSelectors', () => {
         createMaterial: {
           createMaterialRecord: {},
         },
-      })
+      } as DialogState)
     ).toEqual({});
   });
 
@@ -1090,7 +1094,7 @@ describe('DialogSelectors', () => {
           row: {} as DataResult,
           column: 'column',
         },
-      })
+      } as DialogState)
     ).toEqual({ row: {} as DataResult, column: 'column' });
   });
 
@@ -1098,7 +1102,7 @@ describe('DialogSelectors', () => {
     expect(
       DialogSelectors.getHasMinimizedDialog.projector({
         minimizedDialog: undefined,
-      })
+      } as DialogState)
     ).toBe(false);
   });
 
@@ -1109,7 +1113,7 @@ describe('DialogSelectors', () => {
           id: 1,
           value: {} as MaterialFormValue,
         },
-      })
+      } as DialogState)
     ).toBe(true);
   });
 
@@ -1120,7 +1124,7 @@ describe('DialogSelectors', () => {
           id: 1,
           value: {} as MaterialFormValue,
         },
-      })
+      } as DialogState)
     ).toEqual({
       id: 1,
       value: {} as MaterialFormValue,
@@ -1134,7 +1138,7 @@ describe('DialogSelectors', () => {
           row: {} as DataResult,
           parsedMaterial: {} as MaterialFormValue,
           column: 'column',
-        },
+        } as any,
         {
           id: 1,
           value: {} as MaterialFormValue,
@@ -1340,7 +1344,7 @@ describe('DialogSelectors', () => {
       expect(
         DialogSelectors.getSteelMakingProcessesInUse.projector({
           steelMakingProcessesInUse: ['BF+BOF'],
-        })
+        } as any)
       ).toEqual(['BF+BOF']);
     });
   });
@@ -1350,7 +1354,7 @@ describe('DialogSelectors', () => {
       expect(
         DialogSelectors.getCo2ValuesForSupplierSteelMakingProcess.projector({
           co2Values: [],
-        })
+        } as any)
       ).toEqual([]);
     });
   });

@@ -4,13 +4,12 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { MatLegacySlideToggleChange as MatSlideToggleChange } from '@angular/material/legacy-slide-toggle';
 import { Router } from '@angular/router';
 
 import { debounceTime, filter, Subject, take, takeUntil } from 'rxjs';
 
 import { Store } from '@ngrx/store';
-import { isEqual } from 'lodash';
 
 import { AppRoutePath } from '@ga/app-route-path.enum';
 import { getCalculationParametersState, SettingsFacade } from '@ga/core/store';
@@ -148,8 +147,9 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
   public modelCreationLoading$ = this.store.select(getModelCreationLoading);
   public appIsEmbedded$ = this.settingsFacade.appIsEmbedded$;
 
-  private readonly destroy$ = new Subject<void>();
   public DEBOUNCE_TIME_DEFAULT = 500;
+
+  private readonly destroy$ = new Subject<void>();
 
   public constructor(
     private readonly store: Store,
@@ -163,7 +163,12 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
       .select(getCalculationParametersState)
       .pipe(take(1))
       .subscribe((parametersState: CalculationParametersState) => {
-        if (!isEqual(parametersState, initialState)) {
+        /**
+         * the following check looks wrong but is correct since we are only writing
+         * to the store from inside this component on form value changes. At that point we
+         * have changed the initial state and will receive a new object reference.
+         */
+        if (parametersState !== initialState) {
           this.form.patchValue(parametersState, {
             onlySelf: false,
             emitEvent: true,

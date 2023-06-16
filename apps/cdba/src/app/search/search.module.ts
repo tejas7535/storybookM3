@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -18,7 +18,7 @@ import { SearchRoutingModule } from './search-routing.module';
   declarations: [SearchComponent],
   imports: [
     CommonModule,
-    PushModule,
+    PushPipe,
     SharedTranslocoModule,
     SearchRoutingModule,
     EffectsModule.forFeature([SearchEffects]),

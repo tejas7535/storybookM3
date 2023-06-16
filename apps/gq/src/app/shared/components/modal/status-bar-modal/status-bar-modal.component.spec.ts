@@ -1,10 +1,13 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 
 import { StatusBar } from '@gq/shared/models/status-bar.model';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';

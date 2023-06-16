@@ -11,12 +11,6 @@ import { ProductSelectionFacade } from '../../facades/product-selection/product-
 
 @Injectable()
 export class CO2UpstreamCalculationResultEffects {
-  constructor(
-    private readonly actions$: Actions,
-    private readonly co2UpstreamService: CO2UpstreamService,
-    private readonly productSelectionFacade: ProductSelectionFacade
-  ) {}
-
   public fetchResult$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(CO2UpstreamCalculationResultActions.fetchResult),
@@ -41,4 +35,10 @@ export class CO2UpstreamCalculationResultEffects {
       )
     );
   });
+
+  constructor(
+    private readonly actions$: Actions,
+    private readonly co2UpstreamService: CO2UpstreamService,
+    private readonly productSelectionFacade: ProductSelectionFacade
+  ) {}
 }

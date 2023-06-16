@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatInputModule } from '@angular/material/input';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
   MatMomentDateModule,

@@ -1,3 +1,5 @@
+import { LabelTextModule } from '@gq/shared/components/label-text/label-text.module';
+import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -6,8 +8,6 @@ import { marbles } from 'rxjs-marbles';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { MATERIAL_SALES_ORG_STATE_MOCK } from '../../../../../../testing/mocks';
-import { LabelTextModule } from '../../../../../shared/components/label-text/label-text.module';
-import { SharedPipesModule } from '../../../../../shared/pipes/shared-pipes.module';
 import { MaterialSalesOrgDetailsComponent } from './material-sales-org-details.component';
 
 describe('MaterialSalesOrgDetailsComponent', () => {

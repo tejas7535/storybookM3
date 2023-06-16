@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { UnderConstructionModule } from '@schaeffler/empty-states';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -16,7 +16,7 @@ import { DrawingsTableModule } from './drawings-table/drawings-table.module';
   declarations: [DrawingsComponent],
   imports: [
     CommonModule,
-    PushModule,
+    PushPipe,
     SharedTranslocoModule,
     MaterialNumberModule,
     DrawingsTableModule,

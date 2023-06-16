@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { MatSelectModule } from '@angular/material/select';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -22,19 +22,9 @@ export class MeasurementUnitsSelectComponent {
     measurementUnitsOptions;
   public selectedOption: MeasurementUnitsOption = this.getSelectedOption;
 
-  public constructor(
+  constructor(
     private readonly measurementUnitsService: MeasurementUnitsService
   ) {}
-
-  public onMeasurementUnitsSelectChange(option: MeasurementUnitsOption): void {
-    this.measurementUnitsService.setMeasurementUnits(option.id);
-    location.reload();
-  }
-
-  public compareOptions = (
-    a: MeasurementUnitsOption,
-    b: MeasurementUnitsOption
-  ): boolean => a?.id === b?.id;
 
   protected get getSelectedOption(): MeasurementUnitsOption {
     return (
@@ -50,4 +40,14 @@ export class MeasurementUnitsSelectComponent {
       (option) => option.id === measurementUnitsDefault
     );
   }
+
+  public onMeasurementUnitsSelectChange(option: MeasurementUnitsOption): void {
+    this.measurementUnitsService.setMeasurementUnits(option.id);
+    location.reload();
+  }
+
+  public compareOptions = (
+    a: MeasurementUnitsOption,
+    b: MeasurementUnitsOption
+  ): boolean => a?.id === b?.id;
 }

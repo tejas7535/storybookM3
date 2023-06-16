@@ -1,7 +1,7 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 

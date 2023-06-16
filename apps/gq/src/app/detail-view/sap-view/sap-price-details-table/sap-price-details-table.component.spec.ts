@@ -1,8 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { LocalizationService } from '@gq/shared/ag-grid/services';
-import { Spectator } from '@ngneat/spectator';
-import { createComponentFactory } from '@ngneat/spectator/jest';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockProvider } from 'ng-mocks';

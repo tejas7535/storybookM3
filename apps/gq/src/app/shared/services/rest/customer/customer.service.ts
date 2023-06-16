@@ -4,10 +4,10 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 
 import { QuotationIdentifier } from '@gq/core/store/active-case/models';
+import { ApiVersion } from '@gq/shared/models';
+import { Customer } from '@gq/shared/models/customer';
+import { roundToTwoDecimals } from '@gq/shared/utils/pricing.utils';
 
-import { ApiVersion } from '../../../../shared/models';
-import { Customer } from '../../../../shared/models/customer';
-import { roundToTwoDecimals } from '../../../../shared/utils/pricing.utils';
 import { SearchPaths } from '../search/models/search-paths.enum';
 import { CustomerPaths } from './models/customer-paths.enum';
 import { CustomerSalesOrgsCurrenciesResponse } from './models/customer-sales-orgs-currencies-response.model';

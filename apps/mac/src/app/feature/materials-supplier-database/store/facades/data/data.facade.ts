@@ -27,7 +27,7 @@ import {
   providedIn: 'root',
 })
 export class DataFacade {
-  private readonly EDITOR_ROLE = 'material-supplier-database-editor';
+  readonly EDITOR_ROLE = 'material-supplier-database-editor';
 
   materialClassOptions$ = this.store.select(getMaterialClassOptions);
   optionsLoading$ = this.store.select(getOptionsLoading);

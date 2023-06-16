@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 import { SubheaderModule } from '@schaeffler/subheader';
@@ -24,7 +24,7 @@ import { OverviewRoutingModule } from './overview-routing.module';
     ApplicationInsightsModule,
     OverviewCardModule,
     SubheaderModule,
-    PushModule,
+    PushPipe,
     SharedTranslocoModule,
   ],
 })

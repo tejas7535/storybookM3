@@ -8,14 +8,14 @@ import {
   setSelectedProductLines,
   setSelectedSeries,
 } from '@gq/core/store/actions';
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { SharedPipesModule } from '../../../../shared/pipes/shared-pipes.module';
 import { AdditionalFiltersComponent } from './additional-filters.component';
 import { FilterSelectionComponent } from './filter-selection/filter-selection.component';
 

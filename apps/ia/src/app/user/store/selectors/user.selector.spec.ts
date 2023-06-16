@@ -42,7 +42,7 @@ describe('User Selector', () => {
         getFavoriteDimensionDisplayName.projector({
           ...state,
           settings: { data: undefined },
-        })
+        } as unknown as UserState)
       ).toBeUndefined();
     });
   });
@@ -72,7 +72,7 @@ describe('User Selector', () => {
               dimension: undefined,
             },
           },
-        })
+        } as unknown as UserState)
       ).toEqual(FilterDimension.ORG_UNIT);
     });
 
@@ -83,7 +83,7 @@ describe('User Selector', () => {
           settings: {
             data: undefined,
           },
-        })
+        } as unknown as UserState)
       ).toEqual(FilterDimension.ORG_UNIT);
     });
   });
@@ -103,7 +103,7 @@ describe('User Selector', () => {
         getFavoriteDimensionIdValue.projector({
           ...state,
           settings: { data: undefined },
-        })
+        } as unknown as UserState)
       ).toBeUndefined();
     });
   });

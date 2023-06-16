@@ -1,6 +1,6 @@
 import { of } from 'rxjs';
 
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { LazyListLoaderService } from '../core/services/lazy-list-loader';
 import { RSY_PAGE_BEARING_TYPE } from '../shared/constants/dialog-constant';

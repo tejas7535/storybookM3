@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { AutocompleteRequestDialog } from '@gq/shared/components/autocomplete-input/autocomplete-request-dialog.enum';
+import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
+import { AutocompleteSearch } from '@gq/shared/models/search';
+import { IdValue } from '@gq/shared/models/search';
 import { Store } from '@ngrx/store';
 
-import { AutocompleteRequestDialog } from '../../../shared/components/autocomplete-input/autocomplete-request-dialog.enum';
-import { FilterNames } from '../../../shared/components/autocomplete-input/filter-names.enum';
-import { AutocompleteSearch, IdValue } from '../../../shared/models/search';
 import {
   autocomplete,
   resetAutocompleteMaterials,

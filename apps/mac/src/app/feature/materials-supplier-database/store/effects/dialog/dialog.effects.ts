@@ -27,12 +27,6 @@ import { DataFacade } from '@mac/msd/store/facades/data';
 
 @Injectable()
 export class DialogEffects {
-  constructor(
-    private readonly actions$: Actions,
-    private readonly msdDataService: MsdDataService,
-    private readonly dataFacade: DataFacade
-  ) {}
-
   public materialDialogOpened$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DialogActions.materialDialogOpened),
@@ -958,4 +952,10 @@ export class DialogEffects {
       )
     );
   });
+
+  constructor(
+    private readonly actions$: Actions,
+    private readonly msdDataService: MsdDataService,
+    private readonly dataFacade: DataFacade
+  ) {}
 }

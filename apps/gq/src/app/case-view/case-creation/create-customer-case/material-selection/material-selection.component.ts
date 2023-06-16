@@ -1,12 +1,12 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatSelectChange } from '@angular/material/select';
+import { MatLegacyCheckboxChange as MatCheckboxChange } from '@angular/material/legacy-checkbox';
+import { MatLegacySelectChange as MatSelectChange } from '@angular/material/legacy-select';
 
 import { getPLsAndSeries } from '@gq/core/store/actions';
 import { SalesIndication } from '@gq/core/store/reducers/models';
+import { PLsSeriesRequest } from '@gq/shared/services/rest/search/models/pls-series-request.model';
 import { Store } from '@ngrx/store';
 
-import { PLsSeriesRequest } from '../../../../shared/services/rest/search/models/pls-series-request.model';
 import { Selection } from './models/selection.model';
 
 @Component({

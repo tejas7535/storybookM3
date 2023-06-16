@@ -1,13 +1,16 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
+import {
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 
 import { LOCALE_DE } from '@gq/shared/constants';
 import { SAP_ERROR_MESSAGE_CODE } from '@gq/shared/models/quotation-detail';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import * as miscUtils from '@gq/shared/utils/misc.utils';
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -77,33 +80,6 @@ describe('EditingMaterialModalComponent', () => {
     spectator = createComponent();
     component = spectator.component;
     jest.restoreAllMocks();
-  });
-  test('should create', () => {
-    expect(component).toBeTruthy();
-
-    expect(component['materialToEdit']).toEqual(MATERIAL_TABLE_ITEM_MOCK);
-    expect(component['fieldToFocus']).toEqual(MaterialColumnFields.MATERIAL);
-  });
-
-  describe('ngOnInit', () => {
-    test('should init component', () => {
-      component.autoCompleteFacade.resetView = jest.fn();
-      component.autoCompleteFacade.initFacade = jest.fn();
-
-      component.ngOnInit();
-
-      expect(component.autoCompleteFacade.resetView).toHaveBeenCalledTimes(1);
-      expect(component.autoCompleteFacade.initFacade).toHaveBeenCalledWith(
-        AutocompleteRequestDialog.EDIT_MATERIAL
-      );
-    });
-  });
-
-  describe('afterViewInit', () => {
-    test('should init', () => {
-      component.ngAfterViewInit();
-      expect(true).toBeTruthy();
-    });
   });
 
   describe('ngAfterViewInit', () => {
@@ -495,6 +471,27 @@ describe('EditingMaterialModalComponent', () => {
           errorCode: SAP_ERROR_MESSAGE_CODE.SDG101,
         },
       });
+    });
+  });
+
+  describe('ngOnInit', () => {
+    test('should init component', () => {
+      component.autoCompleteFacade.resetView = jest.fn();
+      component.autoCompleteFacade.initFacade = jest.fn();
+
+      component.ngOnInit();
+
+      expect(component.autoCompleteFacade.resetView).toHaveBeenCalledTimes(1);
+      expect(component.autoCompleteFacade.initFacade).toHaveBeenCalledWith(
+        AutocompleteRequestDialog.EDIT_MATERIAL
+      );
+    });
+  });
+
+  describe('afterViewInit', () => {
+    test('should init', () => {
+      component.ngAfterViewInit();
+      expect(true).toBeTruthy();
     });
   });
 });

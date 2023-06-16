@@ -86,6 +86,12 @@ export class AppComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  public checkIframe(): void {
+    if (window.self !== window.top) {
+      this.embedded = true;
+    }
+  }
+
   private updateFooterLinks(): AppShellFooterLink[] {
     const footerLinks = [
       {
@@ -119,11 +125,5 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     return footerLinks;
-  }
-
-  public checkIframe(): void {
-    if (window.self !== window.top) {
-      this.embedded = true;
-    }
   }
 }

@@ -11,7 +11,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { MatOptionSelectionChange } from '@angular/material/core';
+import { MatLegacyOptionSelectionChange as MatOptionSelectionChange } from '@angular/material/legacy-core';
 
 import { Subscription, timer } from 'rxjs';
 import { debounce, tap } from 'rxjs/operators';

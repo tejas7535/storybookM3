@@ -11,14 +11,14 @@ import { getProfileImage, getUsername } from '@schaeffler/azure-auth';
   templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
-  public platformTitle = 'Hello World Azure';
+  platformTitle = 'Hello World Azure';
 
-  public username$: Observable<string>;
-  public profileImage$: Observable<string>;
+  username$: Observable<string>;
+  profileImage$: Observable<string>;
 
-  public constructor(private readonly store: Store) {}
+  constructor(private readonly store: Store) {}
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.username$ = this.store.select(getUsername);
     this.profileImage$ = this.store.select(getProfileImage);
   }

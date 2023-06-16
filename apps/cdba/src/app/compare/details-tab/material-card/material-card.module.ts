@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
 import {
   MAT_EXPANSION_PANEL_DEFAULT_OPTIONS,
   MatExpansionModule,
   MatExpansionPanelDefaultOptions,
 } from '@angular/material/expansion';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -25,7 +25,7 @@ const defaultOptions: MatExpansionPanelDefaultOptions = {
   declarations: [MaterialCardComponent],
   imports: [
     CommonModule,
-    PushModule,
+    PushPipe,
     MatCardModule,
     MatExpansionModule,
     SharedTranslocoModule,

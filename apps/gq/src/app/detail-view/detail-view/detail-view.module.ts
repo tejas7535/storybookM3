@@ -1,15 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { ActiveCaseModule } from '@gq/core/store/active-case/active-case.module';
 import { SyncStatusCustomerInfoHeaderModule } from '@gq/shared/components/header/sync-status-customer-info-header/sync-status-customer-info-header.module';
 import { EditingModalModule } from '@gq/shared/components/modal/editing-modal/editing-modal.module';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
-import { LetModule, PushModule } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -34,8 +34,8 @@ import { PricingDetailsModule } from './pricing-details/pricing-details.module';
     MatButtonModule,
     MatSidenavModule,
     ReactiveFormsModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     SharedPipesModule,
     PricingDetailsModule,
     LoadingSpinnerModule,

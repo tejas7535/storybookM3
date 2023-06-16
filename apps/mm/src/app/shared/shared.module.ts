@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { LetModule, PushModule } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 
 import { SelectModule } from '@schaeffler/inputs/select';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -25,8 +25,8 @@ import { MmNumberPipe } from './pipes/mm-number.pipe';
     FormsModule,
     ReactiveFormsModule,
     SharedTranslocoModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     PictureCardModule,
     LoadingSpinnerModule,
     MaterialModule,
@@ -42,8 +42,8 @@ import { MmNumberPipe } from './pipes/mm-number.pipe';
     ListMemberComponent,
     SelectMemberComponent,
     StringNumberMemberComponent,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     MagneticSliderComponent,
     LoadingSpinnerModule,
     MaterialModule,

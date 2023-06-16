@@ -1,4 +1,4 @@
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { LetModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { IStatusPanelParams } from 'ag-grid-community';

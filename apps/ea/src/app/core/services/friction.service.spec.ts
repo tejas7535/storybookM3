@@ -8,7 +8,7 @@ import { waitForAsync } from '@angular/core/testing';
 import { firstValueFrom } from 'rxjs';
 
 import { environment } from '@ea/environments/environment';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import {
   CalculationParametersEnergySource,

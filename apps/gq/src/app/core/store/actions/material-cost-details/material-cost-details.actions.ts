@@ -1,6 +1,5 @@
+import { MaterialCostDetails } from '@gq/shared/models/quotation-detail/material-cost-details';
 import { createAction, props, union } from '@ngrx/store';
-
-import { MaterialCostDetails } from '../../../../shared/models/quotation-detail/material-cost-details';
 
 export const loadMaterialCostDetails = createAction(
   '[Material Cost Details] Get Material Cost Details by Production Plant and Material Number',

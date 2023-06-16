@@ -7,6 +7,7 @@ import { OneTrustModule } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
+import { MockModule } from 'ng-mocks';
 
 import { AppShellModule } from '@schaeffler/app-shell';
 import {
@@ -16,7 +17,6 @@ import {
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 import { LanguageSelectModule } from '@schaeffler/transloco/components';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
-import { MockModule } from 'ng-mocks';
 
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';

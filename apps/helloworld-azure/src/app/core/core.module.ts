@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { AppShellModule } from '@schaeffler/app-shell';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -33,8 +33,7 @@ import { StoreModule } from './store/store.module';
       true,
       !environment.localDev
     ),
-
-    PushModule,
+    PushPipe,
   ],
   providers: [],
   exports: [AppComponent],

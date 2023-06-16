@@ -1,7 +1,7 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 

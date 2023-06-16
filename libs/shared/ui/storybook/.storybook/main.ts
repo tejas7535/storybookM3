@@ -1,11 +1,9 @@
-import type { StorybookConfig } from '@storybook/core-common';
-const rootMain = require('../../../../../.storybook/main');
-
+import { StorybookConfig } from '@storybook/angular';
+import rootMain from '../../../../../.storybook/main';
 const config: StorybookConfig = {
   ...rootMain,
   core: {
-    ...rootMain.core,
-    builder: 'webpack5',
+    disableTelemetry: true,
   },
   stories: ['../src/lib/**/*.stories.@(ts|js)'],
   staticDirs: ['../src/assets'],

@@ -1,7 +1,10 @@
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 
 import { BehaviorSubject } from 'rxjs';
 
@@ -76,17 +79,6 @@ export class MaterialStandardInputDialogComponent
     });
   }
 
-  private createMaterialNumberControl(): FormControl<string> {
-    switch (this.materialClass) {
-      case MaterialClass.STEEL:
-        return this.controlsService.getSteelNumberControl();
-      case MaterialClass.COPPER:
-        return this.controlsService.getCopperNumberControl();
-      default:
-        return this.controlsService.getControl(undefined, true);
-    }
-  }
-
   public showMaterialNumber() {
     return this.materialNumberControl.enabled;
   }
@@ -148,6 +140,17 @@ export class MaterialStandardInputDialogComponent
     }
   }
 
+  public confirmMaterial(createAnother: boolean): void {
+    const baseMaterial = this.createMaterialForm
+      .value as MaterialStandardFormValue;
+
+    const standard: MaterialStandard = this.buildMaterialStandard(baseMaterial);
+
+    // include stdDoc put logic in effect
+    this.dialogFacade.dispatch(materialstandardDialogConfirmed({ standard }));
+    this.awaitMaterialComplete(createAnother, NavigationLevel.STANDARD);
+  }
+
   protected buildMaterialStandard(
     baseMaterial: MaterialStandardFormValue
   ): MaterialStandard {
@@ -163,14 +166,14 @@ export class MaterialStandardInputDialogComponent
     };
   }
 
-  public confirmMaterial(createAnother: boolean): void {
-    const baseMaterial = this.createMaterialForm
-      .value as MaterialStandardFormValue;
-
-    const standard: MaterialStandard = this.buildMaterialStandard(baseMaterial);
-
-    // include stdDoc put logic in effect
-    this.dialogFacade.dispatch(materialstandardDialogConfirmed({ standard }));
-    this.awaitMaterialComplete(createAnother, NavigationLevel.STANDARD);
+  private createMaterialNumberControl(): FormControl<string> {
+    switch (this.materialClass) {
+      case MaterialClass.STEEL:
+        return this.controlsService.getSteelNumberControl();
+      case MaterialClass.COPPER:
+        return this.controlsService.getCopperNumberControl();
+      default:
+        return this.controlsService.getControl(undefined, true);
+    }
   }
 }

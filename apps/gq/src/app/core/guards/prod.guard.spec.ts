@@ -1,5 +1,6 @@
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { EnvironmentEnum } from '@gq/shared/models';
 import {
   createServiceFactory,
   SpectatorService,
@@ -7,7 +8,6 @@ import {
 } from '@ngneat/spectator';
 
 import { ENV, getEnv } from '../../../environments/environments.provider';
-import { EnvironmentEnum } from '../../shared/models';
 import { ProdGuard } from '.';
 
 describe('ProdGuard', () => {

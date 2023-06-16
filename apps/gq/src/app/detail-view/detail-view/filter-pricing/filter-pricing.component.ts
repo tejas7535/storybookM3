@@ -14,13 +14,10 @@ import {
   userHasManualPriceRole,
   userHasSQVRole,
 } from '@gq/core/store/selectors';
+import { QuotationDetail } from '@gq/shared/models/quotation-detail';
+import { UpdatePrice } from '@gq/shared/models/quotation-detail';
 import { getPriceUnit } from '@gq/shared/utils/pricing.utils';
 import { Store } from '@ngrx/store';
-
-import {
-  QuotationDetail,
-  UpdatePrice,
-} from '../../../shared/models/quotation-detail';
 
 @Component({
   selector: 'gq-filter-pricing',

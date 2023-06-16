@@ -5,8 +5,8 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { CreateCase, CreateCaseResponse } from '@gq/core/store/reducers/models';
+import { QuotationSearchResult } from '@gq/shared/models/quotation';
 
-import { QuotationSearchResult } from '../../../../shared/models/quotation';
 import { ApiVersion, Quotation } from '../../../models';
 import { QuotationStatus } from '../../../models/quotation/quotation-status.enum';
 import { CreateCustomerCase } from '../search/models/create-customer-case.model';

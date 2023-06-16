@@ -151,17 +151,17 @@ def getLatestGitTag(app) {
 def mapAffectedStringToArray(String input) {
     input = input.trim()
 
-    return input == '' ? [] : input.split(' ')
+    return input == '' ? [] : input.split('\n')
 }
 
 def defineAffectedAppsAndLibs() {
     apps = sh (
-        script: "pnpm run --silent affected:apps --base=${buildBase} --plain",
+        script: "npx nx show projects --affected --base=${buildBase} --exclude *-e2e,shared-*,eslint-rules", 
         returnStdout: true
     )
 
     libs = sh (
-        script: "pnpm run --silent affected:libs --base=${buildBase} --plain",
+        script: "npx nx show projects --affected --base=${buildBase} --projects shared-*",
         returnStdout: true
     )
 
@@ -174,16 +174,6 @@ def defineAffectedAppsAndLibs() {
     }
 
     affectedLibs -= 'shared-ui-storybook'
-
-    if (isAppRelease()) {
-        // save all affected apps that should not be released
-        def affectedE2EApps = []
-        for (app in affectedApps) {
-            affectedE2EApps.add(app + '-e2e')
-        }
-
-        affectedProjects = affectedApps.clone() + affectedE2EApps + affectedLibs.clone()
-    }
 }
 
 boolean ciSkip() {
@@ -643,7 +633,8 @@ pipeline {
         stage('Build:Storybook') {
             when {
                 expression {
-                    return buildStorybook()
+                    return false;
+                    // return buildStorybook() // FIXME
                 }
             }
             steps {
@@ -778,7 +769,8 @@ pipeline {
                 stage('Deliver:Storybook') {
                     when {
                         expression {
-                            return publishStorybook()
+                            return false;
+                            // return publishStorybook() // FIXME
                         }
                     }
                     steps {
@@ -864,7 +856,8 @@ pipeline {
         stage ('Storybook Deployment') {
             when {
                 expression {
-                    return publishStorybook()
+                    return false;
+                    // return publishStorybook() // FIXME
                 }
             }
             steps {

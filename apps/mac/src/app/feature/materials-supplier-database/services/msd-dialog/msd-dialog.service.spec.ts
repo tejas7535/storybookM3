@@ -1,6 +1,9 @@
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';

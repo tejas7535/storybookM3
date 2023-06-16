@@ -4,11 +4,11 @@ import { NgModule } from '@angular/core';
 import { HorizontalDividerModule } from '@gq/shared/components/horizontal-divider/horizontal-divider.module';
 import { KpiStatusCardComponent } from '@gq/shared/components/kpi-status-card/kpi-status-card.component';
 import { LabelTextModule } from '@gq/shared/components/label-text/label-text.module';
-import { PushModule } from '@ngrx/component';
+import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
+import { PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { SharedPipesModule } from '../../../../shared/pipes/shared-pipes.module';
 import { MaterialDetailsComponent } from './material-details.component';
 import { MaterialSalesOrgDetailsComponent } from './material-sales-org-details/material-sales-org-details.component';
 
@@ -19,7 +19,7 @@ import { MaterialSalesOrgDetailsComponent } from './material-sales-org-details/m
     SharedPipesModule,
     LabelTextModule,
     HorizontalDividerModule,
-    PushModule,
+    PushPipe,
     CommonModule,
     KpiStatusCardComponent,
   ],

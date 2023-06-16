@@ -15,7 +15,7 @@ import {
 } from '@gq/shared/models/quotation';
 import { NumberCurrencyPipe } from '@gq/shared/pipes/number-currency/number-currency.pipe';
 import { PercentagePipe } from '@gq/shared/pipes/percentage/percentage.pipe';
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockPipe, MockProvider } from 'ng-mocks';

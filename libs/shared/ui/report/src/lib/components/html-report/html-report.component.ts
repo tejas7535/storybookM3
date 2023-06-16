@@ -1,10 +1,10 @@
 /* eslint-disable max-lines */
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import {
-  MatSnackBar,
-  MatSnackBarRef,
-  TextOnlySnackBar,
-} from '@angular/material/snack-bar';
+  LegacyTextOnlySnackBar as TextOnlySnackBar,
+  MatLegacySnackBar as MatSnackBar,
+  MatLegacySnackBarRef as MatSnackBarRef,
+} from '@angular/material/legacy-snack-bar';
 
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 

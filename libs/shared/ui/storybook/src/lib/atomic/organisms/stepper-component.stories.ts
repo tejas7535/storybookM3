@@ -12,15 +12,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import { StepperModule } from '@schaeffler/stepper';
 
 import READMEMd from '../../../../../stepper/README.md';
-import {
-  NavigationAtomic,
-  NavigationMain,
-} from '../../../../.storybook/storybook-navigation.constants';
+
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
 
 @Component({
@@ -88,7 +85,7 @@ class WrapperComponentForStepper implements OnInit {
 }
 
 export default {
-  title: `${NavigationMain.Atomic}/${NavigationAtomic.Organisms}/Stepper`,
+  title: 'Atomic/Organisms/Stepper',
   component: WrapperComponentForStepper,
   decorators: [
     moduleMetadata({
@@ -110,7 +107,7 @@ export default {
   },
 } as Meta<WrapperComponentForStepper>;
 
-const Template: Story<WrapperComponentForStepper> = (
+const Template: StoryFn<WrapperComponentForStepper> = (
   args: WrapperComponentForStepper
 ) => ({
   component: WrapperComponentForStepper,

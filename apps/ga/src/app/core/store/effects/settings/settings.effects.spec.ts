@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { TranslocoTestingModule } from '@ngneat/transloco';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';

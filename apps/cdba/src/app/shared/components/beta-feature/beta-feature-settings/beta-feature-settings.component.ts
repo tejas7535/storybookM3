@@ -1,5 +1,5 @@
 import { Component, TemplateRef, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 import { BetaFeature } from '@cdba/shared/constants/beta-feature';
 import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';

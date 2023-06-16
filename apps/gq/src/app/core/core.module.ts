@@ -1,20 +1,27 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MAT_LEGACY_DIALOG_DEFAULT_OPTIONS as MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/legacy-dialog';
 import {
-  MAT_SNACK_BAR_DEFAULT_OPTIONS,
-  MatSnackBarModule,
-} from '@angular/material/snack-bar';
+  MAT_LEGACY_SNACK_BAR_DEFAULT_OPTIONS as MAT_SNACK_BAR_DEFAULT_OPTIONS,
+  MatLegacySnackBarModule as MatSnackBarModule,
+} from '@angular/material/legacy-snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
 import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
+import { GlobalSearchBarModule } from '@gq/shared/components/global-search-bar/global-search-bar.module';
+import { UserSettingsModule } from '@gq/shared/components/user-settings/user-settings.module';
+import { AVAILABLE_LANGUAGES } from '@gq/shared/constants/language';
+import { FALLBACK_LANGUAGE } from '@gq/shared/constants/language';
+import { LANGUAGE_STORAGE_KEY } from '@gq/shared/constants/language';
+import { HttpErrorInterceptor } from '@gq/shared/http/http-error.interceptor';
+import { HttpHeaderInterceptor } from '@gq/shared/http/http-header.interceptor';
 import {
   TRANSLOCO_PERSIST_LANG_STORAGE,
   TranslocoPersistLangModule,
 } from '@ngneat/transloco-persist-lang';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { AppShellModule } from '@schaeffler/app-shell';
 import {
@@ -31,15 +38,6 @@ import { environment } from '../../environments/environment';
 import { ENV, getEnv } from '../../environments/environments.provider';
 import i18nChecksumsJson from '../../i18n-checksums.json';
 import { AppComponent } from '../app.component';
-import { GlobalSearchBarModule } from '../shared/components/global-search-bar/global-search-bar.module';
-import { UserSettingsModule } from '../shared/components/user-settings/user-settings.module';
-import {
-  AVAILABLE_LANGUAGES,
-  FALLBACK_LANGUAGE,
-  LANGUAGE_STORAGE_KEY,
-} from '../shared/constants/language';
-import { HttpErrorInterceptor } from '../shared/http/http-error.interceptor';
-import { HttpHeaderInterceptor } from '../shared/http/http-header.interceptor';
 import { StoreModule } from './store';
 
 export function appInitializer(
@@ -67,7 +65,7 @@ export function appInitializer(
     // NgRx Setup
     StoreModule,
     RouterModule,
-    PushModule,
+    PushPipe,
 
     // UI Modules
     AppShellModule,

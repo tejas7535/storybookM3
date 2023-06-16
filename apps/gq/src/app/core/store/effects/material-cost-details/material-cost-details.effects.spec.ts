@@ -1,7 +1,8 @@
 import { HttpClientModule } from '@angular/common/http';
 
 import { Quotation } from '@gq/shared/models';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { MaterialService } from '@gq/shared/services/rest/material/material.service';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -12,7 +13,6 @@ import {
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
 } from '../../../../../testing/mocks/models';
-import { MaterialService } from '../../../../shared/services/rest/material/material.service';
 import {
   loadMaterialCostDetails,
   loadMaterialCostDetailsFailure,

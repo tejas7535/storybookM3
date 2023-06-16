@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { LetModule, PushModule } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 
 @NgModule({
-  imports: [CommonModule, LetModule, PushModule],
-  exports: [CommonModule, LetModule, PushModule],
+  imports: [CommonModule, LetDirective, PushPipe],
+  exports: [CommonModule, LetDirective, PushPipe],
 })
 export class SharedModule {}

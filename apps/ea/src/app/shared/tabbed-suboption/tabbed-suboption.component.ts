@@ -47,7 +47,7 @@ export class TabbedSuboptionComponent {
 
   get isDisabled(): boolean {
     return (
-      (this.control.parent as FormGroup)?.controls[this.name] as FormGroup
+      (this.control?.parent as FormGroup)?.controls[this.name] as FormGroup
     )?.disabled;
   }
 

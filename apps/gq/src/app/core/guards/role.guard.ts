@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
-  CanActivateChild,
   Router,
   RouterStateSnapshot,
 } from '@angular/router';
@@ -9,17 +8,17 @@ import {
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
+import { UserRoles } from '@gq/shared/constants/user-roles.enum';
 import { Store } from '@ngrx/store';
 
 import { hasIdTokenRole } from '@schaeffler/azure-auth';
 
 import { AppRoutePath } from '../../app-route-path.enum';
-import { UserRoles } from '../../shared/constants/user-roles.enum';
 
 @Injectable({
   providedIn: 'root',
 })
-export class RoleGuard implements CanActivateChild {
+export class RoleGuard {
   constructor(private readonly store: Store, private readonly router: Router) {}
 
   canActivateChild(

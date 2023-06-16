@@ -1,4 +1,4 @@
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { NgxEchartsModule } from 'ngx-echarts';
 import resize_observer_polyfill from 'resize-observer-polyfill';
 

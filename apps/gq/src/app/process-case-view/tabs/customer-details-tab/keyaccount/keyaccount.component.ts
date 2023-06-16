@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { Customer } from '../../../../shared/models/customer';
+import { Customer } from '@gq/shared/models/customer';
 
 @Component({
   selector: 'gq-keyaccount',

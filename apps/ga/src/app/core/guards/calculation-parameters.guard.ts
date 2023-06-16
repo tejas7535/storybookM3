@@ -1,6 +1,6 @@
 // src/app/auth/auth-guard.service.ts
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, Router } from '@angular/router';
 
 import { map, Observable } from 'rxjs';
 
@@ -11,7 +11,7 @@ import { GreaseCalculationPath } from '../../features/grease-calculation/grease-
 import { getModelCreationSuccess } from '../store/selectors/bearing-selection/bearing-selection.selector';
 
 @Injectable()
-export class CalculationParametersGuard implements CanActivate {
+export class CalculationParametersGuard {
   constructor(public readonly store: Store, public readonly router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {

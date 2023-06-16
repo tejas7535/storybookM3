@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { of } from 'rxjs';
@@ -11,7 +11,7 @@ import {
   QuotationSearchResult,
   QuotationStatus,
 } from '@gq/shared/models/quotation';
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 

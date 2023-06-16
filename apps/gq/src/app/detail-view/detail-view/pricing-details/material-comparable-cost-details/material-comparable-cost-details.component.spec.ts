@@ -16,7 +16,7 @@ import {
   TranslocoDecimalPipe,
   TranslocoPercentPipe,
 } from '@ngneat/transloco-locale';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
@@ -37,7 +37,7 @@ describe('MaterialComparableCostDetailsComponent', () => {
     component: MaterialComparableCostDetailsComponent,
     imports: [
       provideTranslocoTestingModule({ en: {} }),
-      PushModule,
+      PushPipe,
       SharedPipesModule,
     ],
     providers: [

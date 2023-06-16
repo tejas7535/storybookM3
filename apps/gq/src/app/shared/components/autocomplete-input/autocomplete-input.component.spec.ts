@@ -1,15 +1,15 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import {
-  MatAutocomplete,
-  MatAutocompleteModule,
-  MatAutocompleteSelectedEvent,
-} from '@angular/material/autocomplete';
-import { MatChipsModule } from '@angular/material/chips';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatFormField } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSelectModule } from '@angular/material/select';
+  MatLegacyAutocomplete as MatAutocomplete,
+  MatLegacyAutocompleteModule as MatAutocompleteModule,
+  MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent,
+} from '@angular/material/legacy-autocomplete';
+import { MatLegacyChipsModule as MatChipsModule } from '@angular/material/legacy-chips';
+import { MATERIAL_LEGACY_SANITY_CHECKS as MATERIAL_SANITY_CHECKS } from '@angular/material/legacy-core';
+import { MatLegacyFormField as MatFormField } from '@angular/material/legacy-form-field';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
 
 import * as rxjs from 'rxjs';
 import { of } from 'rxjs';

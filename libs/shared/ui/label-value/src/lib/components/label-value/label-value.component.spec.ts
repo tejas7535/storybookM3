@@ -1,6 +1,6 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { LabelValueModule } from '../../label-value.module';
 import { mockValue } from '../../mocks/label-value.mocks';

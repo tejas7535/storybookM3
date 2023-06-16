@@ -1,6 +1,10 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { ColumnHeadersModule } from '@gq/shared/ag-grid/column-headers/column-headers.module';
+import { ColumnUtilityService } from '@gq/shared/ag-grid/services/column-utility.service';
+import { InfoIconModule } from '@gq/shared/components/info-icon/info-icon.module';
+import { UserRoles } from '@gq/shared/constants';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -11,10 +15,6 @@ import { MockProvider } from 'ng-mocks';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { ColumnHeadersModule } from '../../../shared/ag-grid/column-headers/column-headers.module';
-import { ColumnUtilityService } from '../../../shared/ag-grid/services/column-utility.service';
-import { InfoIconModule } from '../../../shared/components/info-icon/info-icon.module';
-import { UserRoles } from '../../../shared/constants';
 import { ComparableTransactionsComponent } from './comparable-transactions.component';
 import { ColumnDefService } from './config';
 
@@ -37,7 +37,6 @@ describe('ComparableTransactionsComponent', () => {
       InfoIconModule,
       provideTranslocoTestingModule({ en: {} }),
       PushModule,
-      InfoIconModule,
       ColumnHeadersModule,
     ],
     providers: [

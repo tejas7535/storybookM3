@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 
 import { addRowDataItems } from '@gq/core/store/actions/create-case/create-case.actions';
 import { ProcessCaseActions } from '@gq/core/store/process-case';

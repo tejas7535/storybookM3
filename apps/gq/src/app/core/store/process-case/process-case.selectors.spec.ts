@@ -1,9 +1,12 @@
+import { Customer } from '@gq/shared/models';
+
 import {
   CUSTOMER_MOCK,
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
 } from '../../../../testing/mocks';
-import { initialState } from './process-case.reducer';
+import { ActiveCaseState } from '../active-case';
+import { initialState, ProcessCaseState } from './process-case.reducer';
 import * as quotationSelectors from './process-case.selectors';
 
 describe('Process Case Selector', () => {
@@ -13,13 +16,17 @@ describe('Process Case Selector', () => {
       addMaterialRowData: initialState.addMaterialRowData,
       validationLoading: false,
     },
+    activeCase: {
+      customer: {} as unknown as Customer,
+    },
   };
 
   describe('getAddMaterialRowData', () => {
     test('should return add addMaterial row data', () => {
       expect(
         quotationSelectors.getAddMaterialRowData.projector(
-          fakeState.processCase
+          fakeState.processCase,
+          fakeState.activeCase.customer
         )
       ).toEqual(fakeState.processCase.addMaterialRowData);
     });
@@ -33,7 +40,7 @@ describe('Process Case Selector', () => {
           customerNumber: '12345',
           salesOrg: '0267',
         },
-      };
+      } as unknown as ActiveCaseState;
       expect(
         quotationSelectors.getAddQuotationDetailsRequest.projector(
           processCaseStateFake,
@@ -54,14 +61,14 @@ describe('Process Case Selector', () => {
             quantity: '200',
           },
         ],
-      };
+      } as unknown as ProcessCaseState;
       const activeCaseStateFake = {
         customer: CUSTOMER_MOCK,
         customerLoading: true,
         quotation: QUOTATION_MOCK,
         quotationLoading: true,
         quotationIdentifier: { gqId: 123 },
-      };
+      } as unknown as ActiveCaseState;
 
       expect(
         quotationSelectors.getAddQuotationDetailsRequest.projector(
@@ -108,7 +115,7 @@ describe('Process Case Selector', () => {
       };
       expect(
         quotationSelectors.getAddMaterialRowDataValid.projector(
-          mockState.processCase
+          mockState.processCase as unknown as ProcessCaseState
         )
       ).toBeTruthy();
     });

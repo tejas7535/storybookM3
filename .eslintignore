@@ -6,3 +6,4 @@ dist
 coverage
 # don't lint docs
 docs
+!.storybook

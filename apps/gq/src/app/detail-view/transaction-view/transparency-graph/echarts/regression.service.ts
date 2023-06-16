@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { ComparableLinkedTransaction } from '@gq/core/store/reducers/models';
-
-import { Coefficients } from '../../../../shared/models/quotation-detail';
+import { Coefficients } from '@gq/shared/models/quotation-detail';
 
 @Injectable({
   providedIn: 'root',

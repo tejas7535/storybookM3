@@ -1,12 +1,12 @@
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { DetailRoutePath } from '@gq/detail-view/detail-route-path.enum';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ICellRendererParams } from 'ag-grid-community';
 
 import { AppRoutePath } from './../../../../app-route-path.enum';
-import { DetailRoutePath } from './../../../../detail-view/detail-route-path.enum';
 import { SapPriceCellComponent } from './sap-price-cell.component';
 
 describe('SapPriceCellComponent', () => {

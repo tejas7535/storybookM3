@@ -24,7 +24,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
   @Input() public embedded = false;
   languageSelectComponent = LanguageSelectComponent;
 
-  private readonly subscription = new Subscription();
   public separatorSelectControl: UntypedFormControl = new UntypedFormControl(
     ''
   );
@@ -33,6 +32,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
     { id: ',', label: 'decimalSeparatorComma' },
     { id: '.', label: 'decimalSeparatorPoint' },
   ];
+
+  private readonly subscription = new Subscription();
 
   public constructor(
     private readonly translocoService: TranslocoService,

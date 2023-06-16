@@ -6,7 +6,10 @@ import {
 import { Injectable } from '@angular/core';
 import { waitForAsync } from '@angular/core/testing';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import {
+  MatLegacySnackBar as MatSnackBar,
+  MatLegacySnackBarModule as MatSnackBarModule,
+} from '@angular/material/legacy-snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Observable } from 'rxjs';

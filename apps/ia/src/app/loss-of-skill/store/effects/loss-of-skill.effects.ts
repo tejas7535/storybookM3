@@ -38,12 +38,6 @@ import {
 export class LossOfSkillEffects {
   readonly LOSS_OF_SKILL_URL = `/${AppRoutePath.LossOfSkillPath}`;
 
-  constructor(
-    private readonly actions$: Actions,
-    private readonly lossOfSkillService: LossOfSkillService,
-    private readonly store: Store
-  ) {}
-
   filterChange$ = createEffect(() =>
     this.actions$.pipe(
       ofType(filterSelected, routerNavigationAction, updateUserSettingsSuccess),
@@ -145,4 +139,10 @@ export class LossOfSkillEffects {
       )
     )
   );
+
+  constructor(
+    private readonly actions$: Actions,
+    private readonly lossOfSkillService: LossOfSkillService,
+    private readonly store: Store
+  ) {}
 }

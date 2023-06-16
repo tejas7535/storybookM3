@@ -1,5 +1,6 @@
 import { initialState } from '@mac/msd/store/reducers/quickfilter/quickfilter.reducer';
 
+import { MSDState } from '../../reducers';
 import * as QuickFilterSelectors from './quickfilter.selectors';
 
 describe('QuickfilterSelectors', () => {
@@ -7,7 +8,7 @@ describe('QuickfilterSelectors', () => {
     expect(
       QuickFilterSelectors.getQuickFilterState.projector({
         quickfilter: initialState,
-      })
+      } as MSDState)
     ).toEqual(initialState);
   });
 

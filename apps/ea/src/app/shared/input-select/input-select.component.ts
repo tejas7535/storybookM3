@@ -7,8 +7,8 @@ import {
   NgControl,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 

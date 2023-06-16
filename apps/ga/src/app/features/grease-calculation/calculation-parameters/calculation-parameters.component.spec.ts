@@ -2,15 +2,13 @@ import { Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
+import { MatLegacySlideToggleChange } from '@angular/material/legacy-slide-toggle';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import {
-  MatSlideToggleChange,
-  MatSlideToggleModule,
-} from '@angular/material/slide-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
 import { LetModule, PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -317,7 +315,7 @@ describe('CalculationParametersComponent', () => {
     it('should dispatch the setAutocomplet', () => {
       component.toggleAutomaticLubrication({
         checked: AUTOMATIC_LUBRICATON_MOCK,
-      } as MatSlideToggleChange);
+      } as MatLegacySlideToggleChange);
       expect(store.dispatch).toHaveBeenCalledWith(
         setAutomaticLubrication({
           automaticLubrication: AUTOMATIC_LUBRICATON_MOCK,

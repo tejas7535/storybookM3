@@ -1,4 +1,5 @@
 import { TRANSACTIONS_STATE_MOCK } from '../../../../../testing/mocks';
+import { TransactionsState } from '../../reducers/transactions/transactions.reducer';
 import * as transactionsSelectors from './transactions.selector';
 
 describe('Transactions Selector', () => {
@@ -27,7 +28,9 @@ describe('Transactions Selector', () => {
         transactions: [transaction1, transaction2],
       };
       expect(
-        transactionsSelectors.getGraphTransactions.projector(state)
+        transactionsSelectors.getGraphTransactions.projector(
+          state as unknown as TransactionsState
+        )
       ).toEqual([transaction1]);
     });
   });

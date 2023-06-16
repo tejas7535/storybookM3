@@ -7,10 +7,10 @@ import {
 } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import {
-  MatSnackBar,
-  MatSnackBarRef,
-  TextOnlySnackBar,
-} from '@angular/material/snack-bar';
+  LegacyTextOnlySnackBar as TextOnlySnackBar,
+  MatLegacySnackBar as MatSnackBar,
+  MatLegacySnackBarRef as MatSnackBarRef,
+} from '@angular/material/legacy-snack-bar';
 
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 
@@ -29,19 +29,28 @@ export class ResultPageComponent implements OnDestroy, OnChanges {
   @Input() public active? = false;
   @Input() public bearing? = '';
 
+  public reportSelector = environment.reportSelector;
+  public snackBarRef?: MatSnackBarRef<TextOnlySnackBar>;
+
   public result$ = new BehaviorSubject<Result>(undefined);
   public error$ = new BehaviorSubject<boolean>(false);
   private readonly inactive$ = new Subject<void>();
   private readonly destroy$ = new Subject<void>();
   private lastFormData?: UntypedFormGroup;
-  public reportSelector = environment.reportSelector;
-  public snackBarRef?: MatSnackBarRef<TextOnlySnackBar>;
 
   public constructor(
     private readonly resultPageService: ResultPageService,
     private readonly snackbar: MatSnackBar,
     private readonly translocoService: TranslocoService
   ) {}
+
+  public get errorMsg(): string {
+    return this.translocoService.translate('error.content');
+  }
+
+  public get actionText(): string {
+    return this.translocoService.translate('error.retry');
+  }
 
   public ngOnChanges(changes: SimpleChanges) {
     if (!changes.active?.currentValue) {
@@ -67,7 +76,11 @@ export class ResultPageComponent implements OnDestroy, OnChanges {
       // eslint-disable-next-line unicorn/no-array-reduce
       .objects[0].properties.reduce(
         (
-          { dimension1, initialValue, ...prevEntry }: RawValue,
+          {
+            dimension1: _dimension1,
+            initialValue: _initialValue,
+            ...prevEntry
+          }: RawValue,
           { name, value }: RawValueContent
         ) => {
           const key = name === 'RSY_BEARING' ? 'IDCO_DESIGNATION' : name;
@@ -108,14 +121,6 @@ export class ResultPageComponent implements OnDestroy, OnChanges {
             });
         },
       });
-  }
-
-  public get errorMsg(): string {
-    return this.translocoService.translate('error.content');
-  }
-
-  public get actionText(): string {
-    return this.translocoService.translate('error.retry');
   }
 
   public resetWizard(): void {

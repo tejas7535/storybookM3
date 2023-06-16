@@ -2,14 +2,14 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSelectModule } from '@angular/material/select';
+import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatTabsModule } from '@angular/material/tabs';
 
 import { ApprovalModule } from '@gq/core/store/approval/approval.module';
 import { CurrencyModule } from '@gq/core/store/currency/currency.module';
@@ -20,7 +20,7 @@ import { ExportExcelModalModule } from '@gq/shared/components/modal/export-excel
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -53,6 +53,7 @@ import { CalculationInProgressComponent } from './tabs/single-quotes-tab/calcula
     MatButtonModule,
     MatInputModule,
     MatAutocompleteModule,
+    MatProgressSpinnerModule,
     HeaderContentModule,
     ProcessCaseViewRoutingModule,
     SharedPipesModule,
@@ -61,8 +62,7 @@ import { CalculationInProgressComponent } from './tabs/single-quotes-tab/calcula
     CurrencyModule,
     AddMaterialDialogModule,
     LoadingSpinnerModule,
-    MatProgressSpinnerModule,
-    PushModule,
+    PushPipe,
     SharedTranslocoModule,
     SubheaderModule,
     BreadcrumbsModule,

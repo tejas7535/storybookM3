@@ -5,13 +5,14 @@ import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
+// eslint-disable-next-line no-restricted-imports
 import { createMouseEvent } from '@ngneat/spectator';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { SharedPipesModule } from '../../../../shared/pipes/shared-pipes.module';
 import { FilterPricingCardComponent } from '../filter-pricing-card/filter-pricing-card.component';
 import { QuantityDisplayComponent } from '../quantity/quantity-display/quantity-display.component';
 import { AppRoutePath } from './../../../../app-route-path.enum';

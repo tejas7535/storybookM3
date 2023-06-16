@@ -1,7 +1,7 @@
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { RoutePath } from '@mac/app-routing.enum';

@@ -1,10 +1,7 @@
+import { UpdateCaseStatusButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/update-case-status-button/update-case-status-button.component';
+import { ExtendedStatusPanelComponentParams } from '@gq/shared/models';
+import { QuotationStatus } from '@gq/shared/models';
 import { StatusPanelDef } from 'ag-grid-community';
-
-import { UpdateCaseStatusButtonComponent } from '../../../shared/ag-grid/custom-status-bar/update-case-status-button/update-case-status-button.component';
-import {
-  ExtendedStatusPanelComponentParams,
-  QuotationStatus,
-} from '../../../shared/models';
 
 export const ACTIVE_STATUS_BAR_CONFIG: {
   statusPanels: StatusPanelDef[];

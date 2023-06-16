@@ -1,27 +1,23 @@
-import { Meta, Story } from '@storybook/angular';
+import { Meta, StoryFn } from '@storybook/angular';
 
 import { ForbiddenComponent } from '@schaeffler/empty-states';
 
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
-import {
-  NavigationAtomic,
-  NavigationMain,
-} from '../../../../.storybook/storybook-navigation.constants';
 import READMEMd from './responsive/README.md';
 
 export default {
-  title: `${NavigationMain.Atomic}/${NavigationAtomic.Foundations}/Responsive`,
+  title: 'Atomic/Foundations/Responsive',
   parameters: {
     notes: { markdown: READMEMd },
     badges: [Badges.Final],
   },
 } as Meta<ForbiddenComponent>;
 
-const DefaultTemplate: Story = (args) => ({
+const DefaultTemplate: StoryFn = (args) => ({
   props: args,
   template: defaultTemplate,
 });
-const ResponsiveGridTemplate: Story = (args) => ({
+const ResponsiveGridTemplate: StoryFn = (args) => ({
   props: args,
   template: responsiveGridTemplate,
 });

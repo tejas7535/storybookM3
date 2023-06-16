@@ -9,7 +9,7 @@ import { StatusBarProperties } from '@gq/shared/models';
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule, MockProvider } from 'ng-mocks';

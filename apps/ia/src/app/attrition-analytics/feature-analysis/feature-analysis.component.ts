@@ -1,6 +1,9 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 
 import { filter, Subscription } from 'rxjs';
 
@@ -14,8 +17,6 @@ import { FeatureSelector } from '../models/feature-selector.model';
   templateUrl: './feature-analysis.component.html',
 })
 export class FeatureAnalysisComponent {
-  readonly NUMBER_OF_TILES = 4;
-
   @Input()
   allFeatureSelectors: FeatureSelector[];
 
@@ -33,6 +34,8 @@ export class FeatureAnalysisComponent {
 
   @Output()
   readonly selectFeatures: EventEmitter<FeatureParams[]> = new EventEmitter();
+
+  readonly NUMBER_OF_TILES = 4;
 
   private readonly subscription: Subscription = new Subscription();
 

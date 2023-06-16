@@ -1,6 +1,6 @@
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 
 import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
 import { TranslocoService } from '@ngneat/transloco';

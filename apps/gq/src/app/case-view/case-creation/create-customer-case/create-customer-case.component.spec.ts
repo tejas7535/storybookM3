@@ -1,9 +1,9 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { MatSelectModule } from '@angular/material/select';
 
 import {
@@ -11,7 +11,16 @@ import {
   resetPLsAndSeries,
   resetProductLineAndSeries,
 } from '@gq/core/store/actions';
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { AutocompleteInputModule } from '@gq/shared/components/autocomplete-input/autocomplete-input.module';
+import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
+import { SelectSalesOrgModule } from '@gq/shared/components/select-sales-org/select-sales-org.module';
+import {
+  CASE_CREATION_TYPES,
+  CaseCreationEventParams,
+  EVENT_NAMES,
+} from '@gq/shared/models';
+import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
@@ -20,15 +29,6 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { VIEW_CASE_STATE_MOCK } from '../../../../testing/mocks';
-import { AutocompleteInputModule } from '../../../shared/components/autocomplete-input/autocomplete-input.module';
-import { DialogHeaderModule } from '../../../shared/components/header/dialog-header/dialog-header.module';
-import { SelectSalesOrgModule } from '../../../shared/components/select-sales-org/select-sales-org.module';
-import {
-  CASE_CREATION_TYPES,
-  CaseCreationEventParams,
-  EVENT_NAMES,
-} from '../../../shared/models';
-import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
 import { AdditionalFiltersComponent } from './additional-filters/additional-filters.component';
 import { FilterSelectionComponent } from './additional-filters/filter-selection/filter-selection.component';
 import { CreateCustomerCaseComponent } from './create-customer-case.component';

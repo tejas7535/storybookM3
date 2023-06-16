@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewChecked, ChangeDetectorRef, Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSelectModule } from '@angular/material/select';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 
-import { LetModule } from '@ngrx/component';
+import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -25,7 +25,7 @@ import { PreferredGreaseOption } from '@ga/shared/models';
   standalone: true,
   imports: [
     CommonModule,
-    LetModule,
+    LetDirective,
     SharedTranslocoModule,
     MatIconModule,
     MatSelectModule,

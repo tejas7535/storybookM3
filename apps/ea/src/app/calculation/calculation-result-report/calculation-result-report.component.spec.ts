@@ -1,10 +1,10 @@
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogRef } from '@angular/material/dialog';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { APP_STATE_MOCK } from '@ea/testing/mocks';
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';

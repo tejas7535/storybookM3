@@ -16,8 +16,11 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 
 import { BehaviorSubject, filter, map, takeUntil, tap } from 'rxjs';
 
@@ -57,7 +60,8 @@ export class SteelInputDialogComponent
   extends MaterialInputDialogComponent
   implements OnInit
 {
-  private readonly STEEL_MAKING_PROCESS_SEARCH_STRING = 'in use by supplier';
+  @ViewChildren('steelMakingProcessSelect', { read: SelectComponent })
+  private readonly steelMakingProcessSelectQueryList: QueryList<SelectComponent>;
 
   public materialClass = MaterialClass.STEEL;
 
@@ -110,18 +114,8 @@ export class SteelInputDialogComponent
     true
   );
 
-  // co2 dependencies
-  private co2Controls: FormArray<FormControl<number>>;
-  private readonly co2ValuesForSupplierSteelMakingProcess$ =
-    this.dialogFacade.co2ValuesForSupplierSteelMakingProcess$;
-
   // steel making processes
   public steelMakingProcessesInUse: string[] = [];
-  @ViewChildren('steelMakingProcessSelect', { read: SelectComponent })
-  private readonly steelMakingProcessSelectQueryList: QueryList<SelectComponent>;
-  // autofiller for steelMakingprocess
-  private readonly steelMakingProcessesInUse$ =
-    this.dialogFacade.steelMakingProcessesInUse$;
 
   // releasedate year & month
   public years: number[];
@@ -132,6 +126,17 @@ export class SteelInputDialogComponent
     supplierId: FormControl<number>;
     castingMode: FormControl<string>;
   }>;
+
+  private readonly STEEL_MAKING_PROCESS_SEARCH_STRING = 'in use by supplier';
+
+  // co2 dependencies
+  private co2Controls: FormArray<FormControl<number>>;
+  private readonly co2ValuesForSupplierSteelMakingProcess$ =
+    this.dialogFacade.co2ValuesForSupplierSteelMakingProcess$;
+
+  // autofiller for steelMakingprocess
+  private readonly steelMakingProcessesInUse$ =
+    this.dialogFacade.steelMakingProcessesInUse$;
 
   public constructor(
     readonly controlsService: DialogControlsService,

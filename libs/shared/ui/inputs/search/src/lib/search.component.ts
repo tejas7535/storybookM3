@@ -13,10 +13,11 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatLegacyAutocompleteTrigger as MatAutocompleteTrigger } from '@angular/material/legacy-autocomplete';
 
 import { debounceTime, filter, Subscription, tap } from 'rxjs';
 
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { StringOption } from '@schaeffler/inputs';
 
 @Component({
@@ -43,14 +44,29 @@ export class SearchComponent
 
   @Input() public control = new FormControl();
 
-  public searchControl = new FormControl();
-
   @Input() public filterFn?: (option: StringOption, value: string) => boolean;
 
   @ViewChild(MatAutocompleteTrigger)
   private readonly autocomplete: MatAutocompleteTrigger;
 
+  public searchControl = new FormControl();
+
   private readonly subscription = new Subscription();
+
+  public get filteredOptions(): StringOption[] {
+    const value =
+      typeof this.searchControl.value === 'string'
+        ? this.searchControl.value
+        : '';
+
+    return this.stringOptions.filter((option) =>
+      this.filterOptions(option, value)
+    );
+  }
+
+  public get formControlRequired(): boolean {
+    return this.control.hasValidator(Validators.required);
+  }
 
   public ngOnInit(): void {
     if (this.filterFn) {
@@ -116,21 +132,6 @@ export class SearchComponent
     this.stringOptions = [];
     this.searchControl.setValue('');
     this.control.reset();
-  }
-
-  public get filteredOptions(): StringOption[] {
-    const value =
-      typeof this.searchControl.value === 'string'
-        ? this.searchControl.value
-        : '';
-
-    return this.stringOptions.filter((option) =>
-      this.filterOptions(option, value)
-    );
-  }
-
-  public get formControlRequired(): boolean {
-    return this.control.hasValidator(Validators.required);
   }
 
   public displayWithFn = (option: StringOption): string =>

@@ -1,4 +1,5 @@
 import {
+  Quotation,
   QuotationDetail,
   QuotationStatus,
   SAP_SYNC_STATUS,
@@ -135,9 +136,9 @@ describe('Active Case Selectors', () => {
 
     test('should return undefined', () => {
       expect(
-        activeCaseSelectors.getQuotationDetails.projector({
-          quotation: {},
-        })
+        activeCaseSelectors.getQuotationDetails.projector(
+          {} as unknown as Quotation
+        )
       ).toEqual(undefined);
     });
   });
@@ -229,16 +230,20 @@ describe('Active Case Selectors', () => {
   });
 
   describe('getSelectedQuotationDetail', () => {
-    test('should return quotationd detail', () => {
+    test('should return quotation detail', () => {
       expect(
         activeCaseSelectors.getSelectedQuotationDetail.projector(
-          fakeState.activeCase.quotation
+          fakeState.activeCase.quotation,
+          '5694232'
         )
       ).toEqual(fakeState.activeCase.quotation.quotationDetails[0]);
     });
     test('should return undefined', () => {
       expect(
-        activeCaseSelectors.getSelectedQuotationDetail.projector(undefined, {})
+        activeCaseSelectors.getSelectedQuotationDetail.projector(
+          undefined,
+          '5694232'
+        )
       ).toEqual(undefined);
     });
   });
@@ -405,9 +410,11 @@ describe('Active Case Selectors', () => {
       const processCase = {
         quotation: {},
       };
-      expect(activeCaseSelectors.getSapId.projector(processCase)).toEqual(
-        undefined
-      );
+      expect(
+        activeCaseSelectors.getSapId.projector(
+          processCase.quotation as unknown as Quotation
+        )
+      ).toEqual(undefined);
     });
   });
 });

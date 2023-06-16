@@ -1,5 +1,5 @@
-import { FilterNames } from '../../../../../shared/components/autocomplete-input/filter-names.enum';
-import { IdValue } from '../../../../../shared/models/search';
+import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
+import { IdValue } from '@gq/shared/models/search';
 
 export class CaseFilterItem {
   filter: FilterNames;

@@ -1,19 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatListModule } from '@angular/material/list';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-list';
+import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
 import {
-  MAT_SNACK_BAR_DEFAULT_OPTIONS,
-  MatSnackBarModule,
-} from '@angular/material/snack-bar';
-import { MatTooltipModule } from '@angular/material/tooltip';
+  MAT_LEGACY_SNACK_BAR_DEFAULT_OPTIONS as MAT_SNACK_BAR_DEFAULT_OPTIONS,
+  MatLegacySnackBarModule as MatSnackBarModule,
+} from '@angular/material/legacy-snack-bar';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 
 import { AgGridModule } from 'ag-grid-angular';
 

@@ -1,7 +1,7 @@
 import { BehaviorSubject } from 'rxjs';
 
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 import { ColumnState } from 'ag-grid-community';
 

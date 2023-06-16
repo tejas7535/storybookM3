@@ -1,7 +1,7 @@
-import { MatButtonModule } from '@angular/material/button';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { NavigationEnd, RouterEvent } from '@angular/router';
@@ -9,7 +9,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { Subject } from 'rxjs';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -81,7 +81,7 @@ describe('AppShellComponent', () => {
     component.scrollToTop = true;
     component.ngOnInit();
 
-    (component['router'].events as Subject<RouterEvent>).next(
+    (component['router'].events as unknown as Subject<RouterEvent>).next(
       new NavigationEnd(1, 'url', 'fullUrl')
     );
 
@@ -94,7 +94,7 @@ describe('AppShellComponent', () => {
     component.scrollToTop = false;
     component.ngOnInit();
 
-    (component['router'].events as Subject<RouterEvent>).next(
+    (component['router'].events as unknown as Subject<RouterEvent>).next(
       new NavigationEnd(1, 'url', 'fullUrl')
     );
 

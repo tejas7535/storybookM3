@@ -1,12 +1,13 @@
 {
+  "name": "shared-ui-breadcrumbs",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/shared/ui/breadcrumbs/src",
   "prefix": "schaeffler",
   "targets": {
     "build": {
-      "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/shared/ui/breadcrumbs"],
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/libs/shared/ui/breadcrumbs"],
       "options": {
         "project": "libs/shared/ui/breadcrumbs/ng-package.json",
         "tailwindConfig": "libs/shared/ui/breadcrumbs/tailwind.config.js"
@@ -22,15 +23,15 @@
       "defaultConfiguration": "production"
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/shared/ui/breadcrumbs"],
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/shared/ui/breadcrumbs"],
       "options": {
         "jestConfig": "libs/shared/ui/breadcrumbs/jest.config.ts",
         "passWithNoTests": true
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
@@ -47,7 +48,7 @@
       }
     },
     "publish": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "commands": [
           {

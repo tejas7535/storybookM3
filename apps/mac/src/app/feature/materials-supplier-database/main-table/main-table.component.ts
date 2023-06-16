@@ -111,6 +111,10 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   public navigation$ = this.dataFacade.navigation$;
   public expandedClass = MaterialClass.STEEL;
 
+  public agGridTooltipDelay = 500;
+
+  public serverSideRowData!: SAPMaterial[];
+
   private agGridApi!: GridApi;
   private agGridColumnApi!: ColumnApi;
 
@@ -126,10 +130,6 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     HISTORY,
     ACTION,
   ]);
-
-  public agGridTooltipDelay = 500;
-
-  public serverSideRowData!: SAPMaterial[];
 
   public constructor(
     private readonly dataFacade: DataFacade,
@@ -195,38 +195,72 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     this.destroy$.complete();
   }
 
-  private parseQueryParams(): void {
-    const materialClass: MaterialClass = this.route.snapshot.queryParamMap.get(
-      'materialClass'
-    ) as MaterialClass;
-    const navigationLevel: NavigationLevel =
-      this.route.snapshot.queryParamMap.get(
-        'navigationLevel'
-      ) as NavigationLevel;
-    const agGridFilterString =
-      this.route.snapshot.queryParamMap.get('agGridFilter');
+  public editableClass = (materialClass: MaterialClass): boolean =>
+    EDITABLE_MATERIAL_CLASSES.includes(materialClass);
 
-    if (materialClass && navigationLevel) {
-      this.expandedClass = materialClass;
-      this.dataFacade.dispatch(
-        setNavigation({ materialClass, navigationLevel })
-      );
-    }
-    if (agGridFilterString) {
-      this.setParamAgGridFilter(agGridFilterString);
-    }
+  public getColumnDefs = (hasEditorRole: boolean): ColDef[] =>
+    this.defaultColumnDefs?.map((columnDef) => ({
+      ...columnDef,
+      headerName: translate(
+        `materialsSupplierDatabase.mainTable.columns.${columnDef.headerName}`
+      ),
+      cellRendererParams: {
+        hasEditorRole,
+      },
+    })) ?? [];
 
-    this.router.navigate([], { relativeTo: this.route, queryParams: {} });
-    this.changeDetectorRef.markForCheck();
-    this.changeDetectorRef.detectChanges();
+  public isBlockedRow(params: RowClassParams): boolean {
+    return (
+      getStatus(params.data?.blocked, params.data?.lastModified) ===
+      Status.BLOCKED
+    );
   }
 
-  private setParamAgGridFilter(filterModelString: string): void {
-    const filterModel = JSON.parse(filterModelString);
-    if (!filterModel) {
-      return;
-    }
-    this.dataFacade.dispatch(setAgGridFilter({ filterModel }));
+  public isRecentlyChangedRow(params: RowClassParams): boolean {
+    return (
+      getStatus(params.data?.blocked, params.data?.lastModified) ===
+      Status.CHANGED
+    );
+  }
+
+  public resumeDialog(): void {
+    this.openDialog(true);
+  }
+
+  public openDialog(isResumeDialog?: boolean): void {
+    this.dataFacade.dispatch(openDialog());
+    const dialogRef = this.dialogService.openDialog(isResumeDialog);
+
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy$), take(1))
+      .subscribe(({ reload, minimize }) => {
+        if (reload) {
+          this.fetchResult();
+        }
+        if (minimize) {
+          this.dataFacade.dispatch(minimizeDialog(minimize));
+        } else if (!reload) {
+          this.dataFacade.dispatch(materialDialogCanceled());
+        }
+      });
+  }
+
+  public createServerSideDataSource(
+    service: MsdAgGridReadyService
+  ): IServerSideDatasource {
+    return {
+      getRows: (params: IServerSideGetRowsParams<SAPMaterial>): void => {
+        service.setParams(params);
+      },
+      destroy: () => {
+        service.unsetParams();
+      },
+    } as IServerSideDatasource;
+  }
+
+  public refreshServerSide(): void {
+    this.agGridApi?.refreshServerSide();
   }
 
   public onFilterChange({ api }: { api: GridApi }): void {
@@ -380,6 +414,40 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  private parseQueryParams(): void {
+    const materialClass: MaterialClass = this.route.snapshot.queryParamMap.get(
+      'materialClass'
+    ) as MaterialClass;
+    const navigationLevel: NavigationLevel =
+      this.route.snapshot.queryParamMap.get(
+        'navigationLevel'
+      ) as NavigationLevel;
+    const agGridFilterString =
+      this.route.snapshot.queryParamMap.get('agGridFilter');
+
+    if (materialClass && navigationLevel) {
+      this.expandedClass = materialClass;
+      this.dataFacade.dispatch(
+        setNavigation({ materialClass, navigationLevel })
+      );
+    }
+    if (agGridFilterString) {
+      this.setParamAgGridFilter(agGridFilterString);
+    }
+
+    this.router.navigate([], { relativeTo: this.route, queryParams: {} });
+    this.changeDetectorRef.markForCheck();
+    this.changeDetectorRef.detectChanges();
+  }
+
+  private setParamAgGridFilter(filterModelString: string): void {
+    const filterModel = JSON.parse(filterModelString);
+    if (!filterModel) {
+      return;
+    }
+    this.dataFacade.dispatch(setAgGridFilter({ filterModel }));
+  }
+
   private setVisibleColumns(): void {
     if (!this.agGridColumnApi) {
       return;
@@ -498,73 +566,5 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       default:
         return value?.toString() || '';
     }
-  }
-
-  public editableClass = (materialClass: MaterialClass): boolean =>
-    EDITABLE_MATERIAL_CLASSES.includes(materialClass);
-
-  public getColumnDefs = (hasEditorRole: boolean): ColDef[] =>
-    this.defaultColumnDefs?.map((columnDef) => ({
-      ...columnDef,
-      headerName: translate(
-        `materialsSupplierDatabase.mainTable.columns.${columnDef.headerName}`
-      ),
-      cellRendererParams: {
-        hasEditorRole,
-      },
-    })) ?? [];
-
-  public isBlockedRow(params: RowClassParams): boolean {
-    return (
-      getStatus(params.data?.blocked, params.data?.lastModified) ===
-      Status.BLOCKED
-    );
-  }
-
-  public isRecentlyChangedRow(params: RowClassParams): boolean {
-    return (
-      getStatus(params.data?.blocked, params.data?.lastModified) ===
-      Status.CHANGED
-    );
-  }
-
-  public resumeDialog(): void {
-    this.openDialog(true);
-  }
-
-  public openDialog(isResumeDialog?: boolean): void {
-    this.dataFacade.dispatch(openDialog());
-    const dialogRef = this.dialogService.openDialog(isResumeDialog);
-
-    dialogRef
-      .afterClosed()
-      .pipe(takeUntil(this.destroy$), take(1))
-      .subscribe(({ reload, minimize }) => {
-        if (reload) {
-          this.fetchResult();
-        }
-        if (minimize) {
-          this.dataFacade.dispatch(minimizeDialog(minimize));
-        } else if (!reload) {
-          this.dataFacade.dispatch(materialDialogCanceled());
-        }
-      });
-  }
-
-  public createServerSideDataSource(
-    service: MsdAgGridReadyService
-  ): IServerSideDatasource {
-    return {
-      getRows: (params: IServerSideGetRowsParams<SAPMaterial>): void => {
-        service.setParams(params);
-      },
-      destroy: () => {
-        service.unsetParams();
-      },
-    } as IServerSideDatasource;
-  }
-
-  public refreshServerSide(): void {
-    this.agGridApi?.refreshServerSide();
   }
 }

@@ -1,13 +1,16 @@
 import { FormsModule } from '@angular/forms';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {
+  MatLegacyDialogModule as MatDialogModule,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 
 import { from, of } from 'rxjs';
 
 import { loadExtendedComparableLinkedTransaction } from '@gq/core/store/actions';
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 

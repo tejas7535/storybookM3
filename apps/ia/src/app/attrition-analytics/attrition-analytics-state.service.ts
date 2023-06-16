@@ -14,10 +14,9 @@ export class AttritionAnalyticsStateService {
     { feature: 'education', region: 'Germany', year: 2022, month: 12 },
     { feature: 'positionType', region: 'Germany', year: 2022, month: 12 },
   ];
+  readonly selectedFeaturesKey = `${LOCAL_STORAGE_APP_KEY}-selected-features`;
 
   constructor(@Inject(LOCAL_STORAGE) readonly localStorage: Storage) {}
-
-  readonly selectedFeaturesKey = `${LOCAL_STORAGE_APP_KEY}-selected-features`;
 
   setSelectedFeatures(features: FeatureParams[]): void {
     let nextFilters =

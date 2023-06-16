@@ -1,6 +1,6 @@
 import { Subject } from 'rxjs';
 
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import {
   ColumnApi,
   GridApi,

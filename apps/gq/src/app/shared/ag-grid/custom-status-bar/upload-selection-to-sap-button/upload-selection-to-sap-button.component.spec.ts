@@ -1,12 +1,13 @@
 import { MatButtonModule } from '@angular/material/button';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { of } from 'rxjs';
 
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
+import { ConfirmationModalComponent } from '@gq/shared/components/modal/confirmation-modal/confirmation-modal.component';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -16,7 +17,6 @@ import { MockDirective } from 'ng-mocks';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { PROCESS_CASE_STATE_MOCK } from '../../../../../testing/mocks';
-import { ConfirmationModalComponent } from '../../../../shared/components/modal/confirmation-modal/confirmation-modal.component';
 import { HideIfQuotationHasStatusDirective } from '../../../directives/hide-if-quotation-has-status/hide-if-quotation-has-status.directive';
 import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-button.component';
 

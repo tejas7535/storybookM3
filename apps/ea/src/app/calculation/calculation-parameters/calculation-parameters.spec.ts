@@ -4,7 +4,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { resetCalculationParameters } from '@ea/core/store/actions/calculation-parameters/calculation-parameters.actions';
 import { APP_STATE_MOCK } from '@ea/testing/mocks';
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
 import { LetModule, PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';

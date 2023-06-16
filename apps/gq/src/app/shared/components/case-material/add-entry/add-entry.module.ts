@@ -1,16 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 
-import { PushModule } from '@ngrx/component';
+import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
+import { PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { SharedDirectivesModule } from '../../../../shared/directives/shared-directives.module';
 import { AutocompleteInputModule } from '../../autocomplete-input/autocomplete-input.module';
 import { InfoIconModule } from '../../info-icon/info-icon.module';
 import { AddEntryComponent } from './add-entry.component';
@@ -25,7 +25,7 @@ import { AddEntryComponent } from './add-entry.component';
     SharedTranslocoModule,
     SharedDirectivesModule,
     ReactiveFormsModule,
-    PushModule,
+    PushPipe,
     InfoIconModule,
     CommonModule,
   ],

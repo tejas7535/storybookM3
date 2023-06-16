@@ -6,7 +6,10 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-import { createDirectiveFactory, SpectatorDirective } from '@ngneat/spectator';
+import {
+  createDirectiveFactory,
+  SpectatorDirective,
+} from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { StringOption } from '@schaeffler/inputs';

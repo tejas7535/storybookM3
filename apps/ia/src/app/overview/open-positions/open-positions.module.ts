@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';

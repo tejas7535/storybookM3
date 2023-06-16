@@ -27,15 +27,15 @@ export class RootEffects {
 
   private readonly APPLICATION_INSIGHTS_DEPARTMENT = 'department';
 
+  public constructor(
+    private readonly actions$: Actions,
+    private readonly applicationInsightsService: ApplicationInsightsService
+  ) {}
+
   private trackDepartment(department: string) {
     this.applicationInsightsService.addCustomPropertyToTelemetryData(
       this.APPLICATION_INSIGHTS_DEPARTMENT,
       department || 'Department unavailable'
     );
   }
-
-  public constructor(
-    private readonly actions$: Actions,
-    private readonly applicationInsightsService: ApplicationInsightsService
-  ) {}
 }

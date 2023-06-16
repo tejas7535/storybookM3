@@ -1,5 +1,8 @@
 import { Injectable, Type } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 
 import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
@@ -59,6 +62,16 @@ export class MsdDialogService {
     });
   }
 
+  public openConfirmDeleteDialog(): MatDialogRef<
+    ConfirmDeleteDialogComponent,
+    { apply: boolean }
+  > {
+    return this.dialog.open(ConfirmDeleteDialogComponent, {
+      width: '500px',
+      autoFocus: false,
+    });
+  }
+
   private getDialogClass(
     materialClass?: MaterialClass,
     navigationLevel?: NavigationLevel
@@ -91,15 +104,5 @@ export class MsdDialogService {
       default:
         return SteelInputDialogComponent;
     }
-  }
-
-  public openConfirmDeleteDialog(): MatDialogRef<
-    ConfirmDeleteDialogComponent,
-    { apply: boolean }
-  > {
-    return this.dialog.open(ConfirmDeleteDialogComponent, {
-      width: '500px',
-      autoFocus: false,
-    });
   }
 }

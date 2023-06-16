@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -13,7 +13,7 @@ import { SyncStatusCustomerInfoHeaderComponent } from './sync-status-customer-in
     CommonModule,
     SharedTranslocoModule,
     SharedPipesModule,
-    PushModule,
+    PushPipe,
     MatTooltipModule,
   ],
   declarations: [SyncStatusCustomerInfoHeaderComponent],

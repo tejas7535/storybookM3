@@ -1,6 +1,6 @@
+import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
 import { createSelector } from '@ngrx/store';
 
-import { MaterialSalesOrg } from '../../../../shared/models/quotation-detail/material-sales-org.model';
 import { getMaterialSalesOrgsState } from '../../reducers';
 import { MaterialSalesOrgsState } from '../../reducers/material-sales-org/material-sales-org.reducer';
 

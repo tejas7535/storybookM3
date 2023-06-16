@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, pairwise } from 'rxjs/operators';
@@ -14,9 +14,8 @@ import {
   ProcessCaseActions,
 } from '@gq/core/store/process-case';
 import { Customer } from '@gq/shared/models/customer';
+import { MaterialTableItem } from '@gq/shared/models/table';
 import { Store } from '@ngrx/store';
-
-import { MaterialTableItem } from '../../shared/models/table';
 
 @Component({
   selector: 'gq-add-material-dialog',

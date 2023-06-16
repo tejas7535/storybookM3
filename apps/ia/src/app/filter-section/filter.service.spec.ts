@@ -5,7 +5,7 @@ import {
 
 import { of } from 'rxjs';
 
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { FilterDimension, IdValue, Slice } from '../shared/models';
 import { FilterService } from './filter.service';

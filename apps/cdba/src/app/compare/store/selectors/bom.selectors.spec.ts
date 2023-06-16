@@ -261,7 +261,7 @@ describe('BoM Selectors', () => {
   describe('getRawMaterialAnalysisForSelectedBomItem', () => {
     it('should return undefined for non existing bom items', () => {
       result = getRawMaterialAnalysisForSelectedBomItem(99).projector(
-        REFERENCE_TYPE_MOCK,
+        REFERENCE_TYPE_MOCK as unknown as BomItem,
         undefined
       );
 

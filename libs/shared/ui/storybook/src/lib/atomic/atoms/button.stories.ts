@@ -1,18 +1,14 @@
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { withDesign } from 'storybook-addon-designs';
 
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
-import {
-  NavigationAtomic,
-  NavigationMain,
-} from '../../../../.storybook/storybook-navigation.constants';
 import READMEMd from './button/README.md';
 
 export default {
-  title: `${NavigationMain.Atomic}/${NavigationAtomic.Atoms}/Button`,
+  title: 'Atomic/Atoms/Button',
   decorators: [
     moduleMetadata({
       imports: [MatButtonModule, MatIconModule],
@@ -29,7 +25,7 @@ export default {
   },
 } as Meta;
 
-const Template: Story = (args) => ({
+const Template: StoryFn = (args) => ({
   props: args,
   template: `
     <section>

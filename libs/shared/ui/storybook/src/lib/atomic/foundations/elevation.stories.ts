@@ -1,16 +1,12 @@
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { withDesign } from 'storybook-addon-designs';
 
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
-import {
-  NavigationAtomic,
-  NavigationMain,
-} from '../../../../.storybook/storybook-navigation.constants';
 
 import READMEMd from './elevation/README.md';
 
 export default {
-  title: `${NavigationMain.Atomic}/${NavigationAtomic.Foundations}/Elevation`,
+  title: 'Atomic/Foundations/Elevation',
   decorators: [
     moduleMetadata({
       imports: [],
@@ -27,7 +23,7 @@ export default {
   },
 } as Meta;
 
-const Template: Story = (args) => ({
+const Template: StoryFn = (args) => ({
   props: args,
   template: `
     <section class="bg-background-dark p-4">

@@ -9,16 +9,13 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { moduleMetadata, Story, Meta } from '@storybook/angular';
+import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
 
 import { AppShellComponent } from '@schaeffler/app-shell';
 
 import { UserPanelComponent } from '../../../../../app-shell/src/lib/components/user-panel/user-panel.component';
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
-import {
-  NavigationAtomic,
-  NavigationMain,
-} from '../../../../.storybook/storybook-navigation.constants';
+
 import { StorybookTranslocoModule } from '../../../../.storybook/storybook-transloco.module';
 import READMEMd from '../../../../../app-shell/README.md';
 
@@ -32,7 +29,7 @@ interface AppShellStorybookTemplate {
 }
 
 export default {
-  title: `${NavigationMain.Atomic}/${NavigationAtomic.Templates}/App Shell`,
+  title: 'Atomic/Templates/App Shell',
   component: AppShellComponent,
   parameters: {
     notes: { markdown: READMEMd },
@@ -57,9 +54,9 @@ export default {
   ],
 } as Meta;
 
-const TemplateDefault: Story<AppShellComponent | AppShellStorybookTemplate> = (
-  args
-) => ({
+const TemplateDefault: StoryFn<
+  AppShellComponent | AppShellStorybookTemplate
+> = (args) => ({
   props: args,
   template: `
   <schaeffler-app-shell

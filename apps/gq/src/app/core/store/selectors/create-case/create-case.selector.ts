@@ -1,14 +1,12 @@
+import { AutocompleteRequestDialog } from '@gq/shared/components/autocomplete-input/autocomplete-request-dialog.enum';
+import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
+import { IdValue } from '@gq/shared/models/search';
+import { MaterialQuantities } from '@gq/shared/models/table';
+import { MaterialTableItem } from '@gq/shared/models/table';
+import { CreateCustomerCase } from '@gq/shared/services/rest/search/models/create-customer-case.model';
+import { TableService } from '@gq/shared/services/table/table.service';
 import { createSelector } from '@ngrx/store';
 
-import { AutocompleteRequestDialog } from '../../../../shared/components/autocomplete-input/autocomplete-request-dialog.enum';
-import { FilterNames } from '../../../../shared/components/autocomplete-input/filter-names.enum';
-import { IdValue } from '../../../../shared/models/search';
-import {
-  MaterialQuantities,
-  MaterialTableItem,
-} from '../../../../shared/models/table';
-import { CreateCustomerCase } from '../../../../shared/services/rest/search/models/create-customer-case.model';
-import { TableService } from '../../../../shared/services/table/table.service';
 import { getCaseState } from '../../reducers';
 import { CreateCaseState } from '../../reducers/create-case/create-case.reducer';
 import {

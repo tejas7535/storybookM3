@@ -1,6 +1,6 @@
 import { Subject } from 'rxjs';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { DefaultProjectorFn, MemoizedSelector } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';

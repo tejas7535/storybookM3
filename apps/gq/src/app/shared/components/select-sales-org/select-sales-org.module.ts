@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatSelectModule } from '@angular/material/select';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
 
-import { LetModule, PushModule } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -14,8 +14,8 @@ import { SelectSalesOrgComponent } from './select-sales-org.component';
     CommonModule,
     MatSelectModule,
     SharedTranslocoModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
   ],
   exports: [SelectSalesOrgComponent],
 })

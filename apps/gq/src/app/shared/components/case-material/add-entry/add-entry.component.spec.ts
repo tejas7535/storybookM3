@@ -1,13 +1,14 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 
 import { AutoCompleteFacade } from '@gq/core/store/facades';
 import { ProcessCaseActions } from '@gq/core/store/process-case';
 import { LOCALE_DE } from '@gq/shared/constants';
+import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
 import { PasteMaterialsService } from '@gq/shared/services/paste-materials/paste-materials.service';
 import * as miscUtils from '@gq/shared/utils/misc.utils';
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -16,7 +17,6 @@ import { MockProvider } from 'ng-mocks';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CREATE_CASE_STORE_STATE_MOCK } from '../../../../../testing/mocks';
-import { SharedDirectivesModule } from '../../../../shared/directives/shared-directives.module';
 import {
   MaterialTableItem,
   ValidationDescription,

@@ -1,15 +1,15 @@
 import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
+import { HorizontalDividerModule } from '@gq/shared/components/horizontal-divider/horizontal-divider.module';
+import { LabelTextModule } from '@gq/shared/components/label-text/label-text.module';
+import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { HorizontalDividerModule } from '../../../../shared/components/horizontal-divider/horizontal-divider.module';
-import { LabelTextModule } from '../../../../shared/components/label-text/label-text.module';
-import { SharedPipesModule } from '../../../../shared/pipes/shared-pipes.module';
 import { MaterialDetailsComponent } from './material-details.component';
 import { MaterialSalesOrgDetailsComponent } from './material-sales-org-details/material-sales-org-details.component';
 

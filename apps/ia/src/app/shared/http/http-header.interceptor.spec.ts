@@ -11,7 +11,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { HttpHeaderInterceptor } from './http-header.interceptor';
 

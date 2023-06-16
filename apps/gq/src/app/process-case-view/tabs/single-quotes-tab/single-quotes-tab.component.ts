@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 
 import { map, Observable, take } from 'rxjs';
 
 import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
+import { FILTER_PARAM_INDICATOR } from '@gq/shared/constants';
+import { Quotation } from '@gq/shared/models';
+import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { ViewToggle } from '@schaeffler/view-toggle';
 
-import { FILTER_PARAM_INDICATOR } from '../../../shared/constants';
-import { Quotation } from '../../../shared/models';
-import { AgGridStateService } from '../../../shared/services/ag-grid-state/ag-grid-state.service';
 import { AddCustomViewModalComponent } from './add-custom-view-modal/add-custom-view-modal.component';
 import { DeleteCustomViewModalComponent } from './delete-custom-view-modal/delete-custom-view-modal.component';
 

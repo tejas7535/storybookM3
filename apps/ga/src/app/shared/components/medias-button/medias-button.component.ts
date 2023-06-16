@@ -5,8 +5,8 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 
 import { translate } from '@ngneat/transloco';
 

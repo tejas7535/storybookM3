@@ -4,12 +4,12 @@ import { MatSelectModule } from '@angular/material/select';
 
 import { getPLsAndSeries } from '@gq/core/store/actions';
 import { SalesIndication } from '@gq/core/store/reducers/models';
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { PLsSeriesRequest } from '@gq/shared/services/rest/search/models/pls-series-request.model';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { PLsSeriesRequest } from '../../../../shared/services/rest/search/models/pls-series-request.model';
 import { MaterialSelectionComponent } from './material-selection.component';
 
 describe('MaterialSelectionComponent', () => {

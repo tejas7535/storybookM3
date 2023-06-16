@@ -6,26 +6,26 @@ import {
   Optional,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import {
-  MAT_CHECKBOX_DEFAULT_OPTIONS,
-  MatCheckboxDefaultOptions,
-  MatCheckboxModule,
-} from '@angular/material/checkbox';
-import {
-  MatDialog,
-  MatDialogModule,
-  MatDialogRef,
-} from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import {
+  MAT_LEGACY_CHECKBOX_DEFAULT_OPTIONS as MAT_CHECKBOX_DEFAULT_OPTIONS,
+  MatLegacyCheckboxDefaultOptions as MatCheckboxDefaultOptions,
+  MatLegacyCheckboxModule as MatCheckboxModule,
+} from '@angular/material/legacy-checkbox';
+import {
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogModule as MatDialogModule,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 
 import { Subject } from 'rxjs';
 
 import { CalculationParametersFacade } from '@ea/core/store';
 import { CalculationTypesActions } from '@ea/core/store/actions';
 import { CalculationParametersCalculationTypeConfig } from '@ea/core/store/models';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -38,7 +38,7 @@ import { BasicFrequenciesComponent } from '../basic-frequencies/basic-frequencie
     MatIconModule,
     MatButtonModule,
     MatDialogModule,
-    PushModule,
+    PushPipe,
     SharedTranslocoModule,
     MatCheckboxModule,
     CommonModule,

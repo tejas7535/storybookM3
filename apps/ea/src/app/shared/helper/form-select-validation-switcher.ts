@@ -15,7 +15,7 @@ import {
 export const FormSelectValidatorSwitcher =
   (): ValidatorFn =>
   (abstractControl: AbstractControl): ValidationErrors | undefined => {
-    const formGroup = abstractControl.parent as FormGroup;
+    const formGroup = abstractControl?.parent as FormGroup;
 
     if (!formGroup) {
       return undefined;

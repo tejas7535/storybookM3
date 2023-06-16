@@ -5,7 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 import { translate } from '@ngneat/transloco';
 import { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';

@@ -12,10 +12,13 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import {
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogModule as MatDialogModule,
+} from '@angular/material/legacy-dialog';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 
 import { debounceTime, Subject, takeUntil } from 'rxjs';
 
@@ -34,7 +37,7 @@ import { InputSelectComponent } from '@ea/shared/input-select/input-select.compo
 import { OptionTemplateDirective } from '@ea/shared/tabbed-options/option-template.directive';
 import { TabbedOptionsComponent } from '@ea/shared/tabbed-options/tabbed-options.component';
 import { TabbedSuboptionComponent } from '@ea/shared/tabbed-suboption/tabbed-suboption.component';
-import { LetModule, PushModule } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -54,20 +57,17 @@ import { CalculationTypesSelectionComponent } from '../calculation-types-selecti
     MatTooltipModule,
     MatButtonModule,
     MatDialogModule,
-    LetModule,
-    PushModule,
     ReactiveFormsModule,
     InputGroupComponent,
     TabbedOptionsComponent,
     TabbedSuboptionComponent,
     OptionTemplateDirective,
+    LetDirective,
+    PushPipe,
     SharedTranslocoModule,
   ],
 })
 export class CalculationParametersComponent implements OnInit, OnDestroy {
-  public DEBOUNCE_TIME_DEFAULT = 200;
-  private readonly destroy$ = new Subject<void>();
-
   public operationConditions$ =
     this.calculationParametersFacade.operationConditions$;
 
@@ -171,6 +171,9 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
   public readonly isoVgClasses = ISOVgClasses;
   public readonly greases = Greases;
 
+  public DEBOUNCE_TIME_DEFAULT = 200;
+  private readonly destroy$ = new Subject<void>();
+
   constructor(
     private readonly calculationParametersFacade: CalculationParametersFacade,
     private readonly productSelectionFacade: ProductSelectionFacade,
@@ -219,6 +222,21 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  public onResetButtonClick(): void {
+    this.operationConditionsForm.reset();
+    this.calculationParametersFacade.dispatch(
+      CalculationParametersActions.resetCalculationParameters()
+    );
+  }
+
+  public onShowBasicFrequenciesDialogClick(): void {
+    this.matDialog.open(BasicFrequenciesComponent);
+  }
+
+  public onShowCalculationTypesClick(): void {
+    this.matDialog.open(CalculationTypesSelectionComponent);
+  }
+
   private loadValidator(): any {
     return (group: UntypedFormGroup): void => {
       const { radialLoad, axialLoad } = group.value;
@@ -260,20 +278,5 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
       /* eslint-disable unicorn/no-null */
       group.controls[type].setErrors(otherErrors?.length ? otherErrors : null);
     }
-  }
-
-  public onResetButtonClick(): void {
-    this.operationConditionsForm.reset();
-    this.calculationParametersFacade.dispatch(
-      CalculationParametersActions.resetCalculationParameters()
-    );
-  }
-
-  public onShowBasicFrequenciesDialogClick(): void {
-    this.matDialog.open(BasicFrequenciesComponent);
-  }
-
-  public onShowCalculationTypesClick(): void {
-    this.matDialog.open(CalculationTypesSelectionComponent);
   }
 }

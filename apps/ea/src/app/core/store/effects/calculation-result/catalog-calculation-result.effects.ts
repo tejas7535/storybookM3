@@ -11,12 +11,6 @@ import { ProductSelectionFacade } from '../../facades/product-selection/product-
 
 @Injectable()
 export class CatalogCalculationResultEffects {
-  constructor(
-    private readonly actions$: Actions,
-    private readonly catalogService: CatalogService,
-    private readonly productSelectionFacade: ProductSelectionFacade
-  ) {}
-
   public fetchBasicFrequencies$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(CatalogCalculationResultActions.fetchBasicFrequencies),
@@ -66,4 +60,10 @@ export class CatalogCalculationResultEffects {
     },
     { dispatch: false }
   );
+
+  constructor(
+    private readonly actions$: Actions,
+    private readonly catalogService: CatalogService,
+    private readonly productSelectionFacade: ProductSelectionFacade
+  ) {}
 }

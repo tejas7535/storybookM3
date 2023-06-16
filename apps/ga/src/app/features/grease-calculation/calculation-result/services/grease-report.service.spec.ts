@@ -5,8 +5,11 @@ import {
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { OneTrustModule } from '@altack/ngx-onetrust';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
-import { mockProvider } from '@ngneat/spectator/jest';
+import {
+  createServiceFactory,
+  mockProvider,
+  SpectatorService,
+} from '@ngneat/spectator/jest';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
 import { COOKIE_GROUPS } from '@schaeffler/application-insights';

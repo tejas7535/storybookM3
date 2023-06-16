@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, CanActivateChild, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { tap } from 'rxjs/operators';
 
@@ -11,7 +11,7 @@ import { RoleFacade } from '../role.facade';
 @Injectable({
   providedIn: 'root',
 })
-export class DescriptiveRoleGuard implements CanActivate, CanActivateChild {
+export class DescriptiveRoleGuard {
   constructor(
     private readonly router: Router,
     private readonly roleFacade: RoleFacade

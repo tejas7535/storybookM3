@@ -3,18 +3,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import {
+  MatLegacySnackBar as MatSnackBar,
+  MatLegacySnackBarModule as MatSnackBarModule,
+} from '@angular/material/legacy-snack-bar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { withDesign } from 'storybook-addon-designs';
 
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
-import {
-  NavigationAtomic,
-  NavigationMain,
-} from '../../../../.storybook/storybook-navigation.constants';
 import READMEMd from './snackbar/README.md';
 
 // noinspection AngularMissingOrInvalidDeclarationInModule
@@ -69,7 +68,7 @@ class SnackbarExampleComponent {
 }
 
 export default {
-  title: `${NavigationMain.Atomic}/${NavigationAtomic.Molecules}/Snackbar`,
+  title: 'Atomic/Molecules/Snackbar',
   component: SnackbarExampleComponent,
   decorators: [
     moduleMetadata({
@@ -96,7 +95,7 @@ export default {
   },
 } as Meta<SnackbarExampleComponent>;
 
-const Template: Story<SnackbarExampleComponent> = (
+const Template: StoryFn<SnackbarExampleComponent> = (
   args: SnackbarExampleComponent
 ) => ({
   component: SnackbarExampleComponent,

@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { catchError, filter, map, mergeMap } from 'rxjs/operators';
 
+import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
+import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
-import { MaterialSalesOrg } from '../../../../shared/models/quotation-detail/material-sales-org.model';
-import { QuotationDetailsService } from '../../../../shared/services/rest/quotation-details/quotation-details.service';
 import {
   loadMaterialSalesOrg,
   loadMaterialSalesOrgFailure,

@@ -1,4 +1,5 @@
-import { MaterialComparableCost } from '../../../../shared/models/quotation-detail/material-comparable-cost.model';
+import { MaterialComparableCost } from '@gq/shared/models/quotation-detail/material-comparable-cost.model';
+
 import {
   loadMaterialComparableCosts,
   loadMaterialComparableCostsFailure,

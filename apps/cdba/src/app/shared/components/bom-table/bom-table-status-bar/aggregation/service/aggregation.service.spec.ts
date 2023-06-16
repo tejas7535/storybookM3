@@ -1,4 +1,4 @@
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { CellRange, GridApi } from 'ag-grid-community';
 
 import { AggregationStatusBar } from '@cdba/shared/models';

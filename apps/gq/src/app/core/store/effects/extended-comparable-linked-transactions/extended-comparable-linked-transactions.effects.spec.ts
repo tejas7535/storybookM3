@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';

@@ -1,6 +1,6 @@
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Directive, HostListener } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { Router } from '@angular/router';
 
 import { translate } from '@ngneat/transloco';

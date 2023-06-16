@@ -3,7 +3,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import READMEMd from '../../../../../breadcrumbs/README.md';
 
 import {
@@ -12,14 +12,10 @@ import {
   BreadcrumbsModule,
 } from '@schaeffler/breadcrumbs';
 
-import {
-  NavigationAtomic,
-  NavigationMain,
-} from '../../../../.storybook/storybook-navigation.constants';
 import { Badges } from 'libs/shared/ui/storybook/.storybook/storybook-badges.constants';
 
 export default {
-  title: `${NavigationMain.Atomic}/${NavigationAtomic.Molecules}/Breadcrumbs`,
+  title: 'Atomic/Molecules/Breadcrumbs',
   component: BreadcrumbsComponent,
   decorators: [
     moduleMetadata({
@@ -38,7 +34,9 @@ export default {
   },
 } as Meta<BreadcrumbsComponent>;
 
-const Template: Story<BreadcrumbsComponent> = (args: BreadcrumbsComponent) => ({
+const Template: StoryFn<BreadcrumbsComponent> = (
+  args: BreadcrumbsComponent
+) => ({
   component: BreadcrumbsComponent,
   props: args,
 });

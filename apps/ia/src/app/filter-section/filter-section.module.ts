@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -14,7 +14,7 @@ import { FilterSectionComponent } from './filter-section.component';
   declarations: [FilterSectionComponent],
   imports: [
     SharedModule,
-    PushModule,
+    PushPipe,
     MatExpansionModule,
     CollapsedFiltersModule,
     SharedTranslocoModule,

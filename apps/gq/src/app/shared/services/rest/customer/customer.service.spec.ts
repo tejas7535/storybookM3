@@ -4,6 +4,7 @@ import {
 } from '@angular/common/http/testing';
 
 import { QuotationIdentifier } from '@gq/core/store/active-case/models';
+import { ApiVersion } from '@gq/shared/models';
 import {
   createServiceFactory,
   HttpMethod,
@@ -11,7 +12,6 @@ import {
 } from '@ngneat/spectator';
 
 import { CUSTOMER_MOCK } from '../../../../../testing/mocks';
-import { ApiVersion } from '../../../../shared/models';
 import { SearchPaths } from '../search/models/search-paths.enum';
 import { CustomerService } from './customer.service';
 import { CustomerPaths } from './models/customer-paths.enum';

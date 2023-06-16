@@ -1,8 +1,9 @@
 {
+  "name": "sedo",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "generators": {
-    "@nrwl/angular:component": {
+    "@nx/angular:component": {
       "style": "scss"
     }
   },
@@ -10,7 +11,7 @@
   "prefix": "sedo",
   "targets": {
     "build": {
-      "executor": "@nrwl/angular:webpack-browser",
+      "executor": "@nx/angular:webpack-browser",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/sedo",
@@ -87,7 +88,7 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@nrwl/angular:webpack-server",
+      "executor": "@nx/angular:webpack-dev-server",
       "options": {
         "browserTarget": "sedo:build"
       },
@@ -108,7 +109,7 @@
       "defaultConfiguration": "local"
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/sedo/src/**/*.ts", "apps/sedo/src/**/*.html"]
@@ -122,12 +123,12 @@
       }
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "options": {
         "jestConfig": "apps/sedo/jest.config.ts",
         "passWithNoTests": true
       },
-      "outputs": ["coverage/apps/sedo"]
+      "outputs": ["{workspaceRoot}/coverage/apps/sedo"]
     },
     "version": {
       "executor": "@jscutlery/semver:version",

@@ -1,6 +1,6 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { DetailViewNavigationBarComponent } from './detail-view-navigation-bar.component';
 

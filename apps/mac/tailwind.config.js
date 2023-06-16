@@ -1,4 +1,4 @@
-const { createGlobPatternsForDependencies } = require('@nrwl/angular/tailwind');
+const { createGlobPatternsForDependencies } = require('@nx/angular/tailwind');
 const {
   schaefflerTailwindPreset,
 } = require('../../libs/shared/ui/styles/src/lib/tailwind/preset');

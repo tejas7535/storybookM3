@@ -28,10 +28,11 @@ export class AdvancedBearingSelectionComponent implements OnInit {
   public widthRangeFilter: RangeFilter;
   public advancedBearingSelectionFilters: AdvancedBearingSelectionFilters;
 
+  public modelCreationLoading$ = this.store.select(getModelCreationLoading);
+
   private readonly advancedBearingSelectionFilters$ = this.store.select(
     getAdvancedBearingSelectionFilters
   );
-  public modelCreationLoading$ = this.store.select(getModelCreationLoading);
 
   constructor(
     private readonly store: Store,

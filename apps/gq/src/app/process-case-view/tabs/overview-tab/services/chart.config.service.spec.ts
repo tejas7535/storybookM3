@@ -1,4 +1,4 @@
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { SeriesOption } from 'echarts';
 

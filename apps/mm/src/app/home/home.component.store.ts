@@ -22,18 +22,6 @@ export interface HomeState {
   providedIn: 'root',
 })
 export class HomeStore extends ComponentStore<HomeState> {
-  public constructor(
-    private readonly lazyListLoaderService: LazyListLoaderService,
-    private readonly homeService: HomeService
-  ) {
-    super({
-      pagedMetas: [],
-      activePageId: RSY_PAGE_BEARING_TYPE,
-      inactivePageId: undefined,
-      bearing: undefined,
-    });
-  }
-
   // Todo: Remove any[] if dynamic-forms is correctly typed in the future
   public readonly pagedMetas$: Observable<PagedMeta[] | any[]> = this.select(
     (state) => state.pagedMetas
@@ -161,4 +149,16 @@ export class HomeStore extends ComponentStore<HomeState> {
         )
       )
   );
+
+  public constructor(
+    private readonly lazyListLoaderService: LazyListLoaderService,
+    private readonly homeService: HomeService
+  ) {
+    super({
+      pagedMetas: [],
+      activePageId: RSY_PAGE_BEARING_TYPE,
+      inactivePageId: undefined,
+      bearing: undefined,
+    });
+  }
 }

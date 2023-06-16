@@ -12,8 +12,8 @@ import {
   UntypedFormControl,
   UntypedFormGroup,
 } from '@angular/forms';
-import { MatOption } from '@angular/material/core';
-import { MatSelectChange } from '@angular/material/select';
+import { MatLegacyOption as MatOption } from '@angular/material/legacy-core';
+import { MatLegacySelectChange as MatSelectChange } from '@angular/material/legacy-select';
 
 @Component({
   selector: 'gq-filter-selection',

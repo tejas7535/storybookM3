@@ -8,7 +8,7 @@ import {
 import { MultiplyWithPriceUnitPipe } from '@gq/shared/pipes/multiply-with-price-unit/multiply-with-price-unit.pipe';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockDirective, MockPipe } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';

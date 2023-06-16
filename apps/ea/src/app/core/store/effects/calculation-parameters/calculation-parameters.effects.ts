@@ -11,8 +11,6 @@ import {
 
 @Injectable()
 export class CalculationParametersEffects {
-  constructor(private readonly actions$: Actions) {}
-
   // trigger calculation once parameters are updated
   public operatingParameters$ = createEffect(() => {
     return this.actions$.pipe(
@@ -23,4 +21,6 @@ export class CalculationParametersEffects {
       )
     );
   });
+
+  constructor(private readonly actions$: Actions) {}
 }

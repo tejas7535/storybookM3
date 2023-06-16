@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -16,7 +16,7 @@ import { PortfolioAnalysisTableModule } from './portfolio-analysis-table/portfol
 @NgModule({
   declarations: [PortfolioAnalysisComponent],
   imports: [
-    PushModule,
+    PushPipe,
     SharedTranslocoModule,
     PortfolioAnalysisRoutingModule,
     SubheaderModule,

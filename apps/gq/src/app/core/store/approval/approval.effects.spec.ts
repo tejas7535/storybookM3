@@ -4,7 +4,7 @@ import { ActiveDirectoryUser } from '@gq/shared/models';
 import { ApprovalLevel, ApprovalStatus } from '@gq/shared/models/quotation';
 import { Approver } from '@gq/shared/models/quotation/approver.model';
 import { ApprovalService } from '@gq/shared/services/rest/approval/approval.service';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';

@@ -1,5 +1,5 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { NgxEchartsModule } from 'ngx-echarts';

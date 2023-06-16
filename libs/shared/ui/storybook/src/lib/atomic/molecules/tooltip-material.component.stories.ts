@@ -8,11 +8,8 @@ import { MatTooltipModule, TooltipPosition } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
-import {
-  NavigationAtomic,
-  NavigationMain,
-} from 'libs/shared/ui/storybook/.storybook/storybook-navigation.constants';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+
 import { withDesign } from 'storybook-addon-designs';
 
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
@@ -82,7 +79,7 @@ class TooltipExampleComponent {
 }
 
 export default {
-  title: `${NavigationMain.Atomic}/${NavigationAtomic.Molecules}/Tooltip`,
+  title: 'Atomic/Molecules/Tooltip',
   component: TooltipExampleComponent,
   decorators: [
     moduleMetadata({
@@ -109,7 +106,7 @@ export default {
   },
 } as Meta<TooltipExampleComponent>;
 
-const Template: Story<TooltipExampleComponent> = (
+const Template: StoryFn<TooltipExampleComponent> = (
   args: TooltipExampleComponent
 ) => ({
   component: TooltipExampleComponent,

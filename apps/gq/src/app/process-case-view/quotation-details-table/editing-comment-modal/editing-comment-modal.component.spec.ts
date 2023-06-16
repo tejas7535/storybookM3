@@ -1,11 +1,15 @@
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import {
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
@@ -13,7 +17,6 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks';
-import { DialogHeaderModule } from '../../../shared/components/header/dialog-header/dialog-header.module';
 import { EditingCommentModalComponent } from './editing-comment-modal.component';
 
 describe('EditingCommentModalComponent', () => {

@@ -3,7 +3,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 import { getSelectedQuotationDetail } from '@gq/core/store/active-case';
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { FilterChangedEvent } from 'ag-grid-community';

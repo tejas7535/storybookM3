@@ -8,6 +8,7 @@ import { catchError, map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class GreetingService {
+  constructor(private readonly httpClient: HttpClient) {}
   private static handleError(e: HttpErrorResponse): Observable<string> {
     let message = 'Server is currently unavailable! 🤬';
 
@@ -18,37 +19,35 @@ export class GreetingService {
     return of(message);
   }
 
-  constructor(private readonly httpClient: HttpClient) {}
-
-  public greetPublic(): Observable<string> {
+  greetPublic(): Observable<string> {
     return this.getGreetingFromAPI(`/public/api/hello`);
   }
 
-  public greetAuthorized(): Observable<string> {
+  greetAuthorized(): Observable<string> {
     return this.getGreetingFromAPI(`/api/hello`);
   }
 
-  public greetUsers(): Observable<string> {
+  greetUsers(): Observable<string> {
     return this.getGreetingFromAPI(`/api/user-hello`);
   }
 
-  public greetAdmins(): Observable<string> {
+  greetAdmins(): Observable<string> {
     return this.getGreetingFromAPI(`/admin/api/hello`);
   }
 
-  public greetDotNetPublic(): Observable<string> {
+  greetDotNetPublic(): Observable<string> {
     return this.getGreetingFromAPI(`/dotnet/api/hello`);
   }
 
-  public greetDotNetAuthorized(): Observable<string> {
+  greetDotNetAuthorized(): Observable<string> {
     return this.getGreetingFromAPI(`/dotnet/api/hello/auth`);
   }
 
-  public greetDotNetUsers(): Observable<string> {
+  greetDotNetUsers(): Observable<string> {
     return this.getGreetingFromAPI(`/dotnet/api/hello/user`);
   }
 
-  public greetDotNetAdmins(): Observable<string> {
+  greetDotNetAdmins(): Observable<string> {
     return this.getGreetingFromAPI(`/dotnet/api/hello/admin`);
   }
 

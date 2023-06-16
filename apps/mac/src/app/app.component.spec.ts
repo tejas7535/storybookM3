@@ -105,7 +105,7 @@ describe('AppComponent', () => {
     });
 
     it('should get the link from router', () => {
-      (component['router'].events as Subject<RouterEvent>).next(
+      (component['router'].events as unknown as Subject<RouterEvent>).next(
         new NavigationEnd(1, 'url', 'fullUrl')
       );
 

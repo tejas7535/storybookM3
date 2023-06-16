@@ -2,16 +2,12 @@ import { APP_BASE_HREF, CommonModule } from '@angular/common';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import { Breadcrumb, BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { SubheaderComponent, SubheaderModule } from '@schaeffler/subheader';
 
 import READMEMd from '../../../../../subheader/README.md';
-import {
-  NavigationAtomic,
-  NavigationMain,
-} from '../../../../.storybook/storybook-navigation.constants';
 import { Badges } from 'libs/shared/ui/storybook/.storybook/storybook-badges.constants';
 
 interface SubheaderStorybookTemplate {
@@ -21,7 +17,7 @@ interface SubheaderStorybookTemplate {
 }
 
 export default {
-  title: `${NavigationMain.Atomic}/${NavigationAtomic.Templates}/Subheader`,
+  title: 'Atomic/Templates/Subheader',
   component: SubheaderComponent,
   decorators: [
     moduleMetadata({
@@ -41,7 +37,7 @@ export default {
   },
 } as Meta<SubheaderComponent>;
 
-const Template: Story<SubheaderComponent | SubheaderStorybookTemplate> = (
+const Template: StoryFn<SubheaderComponent | SubheaderStorybookTemplate> = (
   args
 ) => ({
   component: SubheaderComponent,
@@ -93,7 +89,7 @@ Primary.args = {
   subheaderBlockContent: 'Subheader Block Content',
 };
 
-const TemplateWithStatus: Story<
+const TemplateWithStatus: StoryFn<
   SubheaderComponent | SubheaderStorybookTemplate
 > = (args) => ({
   component: SubheaderComponent,

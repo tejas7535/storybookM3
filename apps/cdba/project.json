@@ -1,8 +1,9 @@
 {
+  "name": "cdba",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "generators": {
-    "@nrwl/angular:component": {
+    "@nx/angular:component": {
       "style": "scss"
     }
   },
@@ -10,7 +11,7 @@
   "prefix": "cdba",
   "targets": {
     "build": {
-      "executor": "@nrwl/angular:webpack-browser",
+      "executor": "@nx/angular:webpack-browser",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/cdba",
@@ -91,7 +92,7 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@nrwl/angular:webpack-server",
+      "executor": "@nx/angular:webpack-dev-server",
       "options": {
         "browserTarget": "cdba:build"
       },
@@ -113,7 +114,7 @@
       "defaultConfiguration": "local"
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/cdba/src/**/*.ts", "apps/cdba/src/**/*.html"]
@@ -127,12 +128,12 @@
       }
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "options": {
         "jestConfig": "apps/cdba/jest.config.ts",
         "passWithNoTests": true
       },
-      "outputs": ["coverage/apps/cdba"]
+      "outputs": ["{workspaceRoot}/coverage/apps/cdba"]
     },
     "version": {
       "executor": "@jscutlery/semver:version",

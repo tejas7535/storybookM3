@@ -2,7 +2,7 @@ import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { MatStepperModule } from '@angular/material/stepper';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { LetModule, PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';

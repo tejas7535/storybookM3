@@ -15,14 +15,14 @@ import { ChartType } from '../models';
   ],
 })
 export class ToggleChartsComponent {
-  @Input() set chartType(chartType: ChartType) {
-    this.selectedChart = chartType;
-  }
-
   @Output() readonly changed: EventEmitter<ChartType> = new EventEmitter();
 
   selectedChart: ChartType;
   possibleChartTypes = ChartType;
+
+  @Input() set chartType(chartType: ChartType) {
+    this.selectedChart = chartType;
+  }
 
   public valueChanged(event: MatButtonToggleChange): void {
     this.changed.emit(event.value);

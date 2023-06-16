@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
-  CanActivateChild,
   Router,
   RouterStateSnapshot,
 } from '@angular/router';
@@ -17,7 +16,7 @@ import { AppRoutePath } from '../../app-route-path.enum';
 @Injectable({
   providedIn: 'root',
 })
-export class RoleGuard implements CanActivateChild {
+export class RoleGuard {
   private readonly BASE_ROLE = 'USER_READ';
 
   constructor(private readonly store: Store, private readonly router: Router) {}

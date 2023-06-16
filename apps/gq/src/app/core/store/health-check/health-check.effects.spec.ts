@@ -5,7 +5,7 @@ import { defer, Observable, of } from 'rxjs';
 import { MsalBroadcastService } from '@azure/msal-angular';
 import { InteractionStatus } from '@azure/msal-browser';
 import { HealthCheckService } from '@gq/shared/services/rest/health-check/health-check.service';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { marbles } from 'rxjs-marbles';
 
 import { HealthCheckActions } from './health-check.actions';

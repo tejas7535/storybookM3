@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 
 import { OverviewCasesModule } from '@gq/core/store/overview-cases/overview-cases.module';
 import { ConfirmationModalModule } from '@gq/shared/components/modal/confirmation-modal/confirmation-modal.module';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SubheaderModule } from '@schaeffler/subheader';
@@ -29,7 +29,7 @@ import { CaseViewRoutingModule } from './case-view-routing.module';
     SharedTranslocoModule,
     CreateCustomerCaseModule,
     LoadingSpinnerModule,
-    PushModule,
+    PushPipe,
     ImportCaseModule,
     CreateManualCaseModule,
     ConfirmationModalModule,

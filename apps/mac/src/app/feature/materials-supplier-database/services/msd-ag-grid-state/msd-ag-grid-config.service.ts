@@ -18,10 +18,8 @@ import { MsdAgGridStateService } from './msd-ag-grid-state.service';
   providedIn: 'root',
 })
 export class MsdAgGridConfigService {
-  private readonly COLUMN_DEFINITIONS_MAPPING = COLUMN_DEFINITIONS_MAPPING;
-  private readonly STATIC_QUICKFILTERS_MAPPING = STATIC_QUICKFILTERS_MAPPING;
-
-  private hasEditorRole = false;
+  readonly COLUMN_DEFINITIONS_MAPPING = COLUMN_DEFINITIONS_MAPPING;
+  readonly STATIC_QUICKFILTERS_MAPPING = STATIC_QUICKFILTERS_MAPPING;
 
   public columnDefinitions$ = new BehaviorSubject<{
     defaultColumnDefinitions: ColDef[];
@@ -34,11 +32,35 @@ export class MsdAgGridConfigService {
     savedColumnState: this.agGridStateService.getColumnState(),
   });
 
+  private hasEditorRole = false;
+
   constructor(
     private readonly dataFacade: DataFacade,
     private readonly agGridStateService: MsdAgGridStateService
   ) {
     this.init();
+  }
+
+  public getDefaultColumnDefinitions(
+    materialClass: MaterialClass,
+    navigationLevel: NavigationLevel
+  ): ColDef[] {
+    let colDefs =
+      this.COLUMN_DEFINITIONS_MAPPING.materials[materialClass][navigationLevel];
+    if (this.isEditable(materialClass)) {
+      colDefs = [...EDITOR_COLUMN_DEFINITIONS, ...colDefs];
+    }
+
+    return colDefs;
+  }
+
+  public getStaticQuickFilters(
+    materialClass: MaterialClass = MaterialClass.STEEL,
+    navigationLevel: NavigationLevel = NavigationLevel.MATERIAL
+  ): QuickFilter[] {
+    return this.STATIC_QUICKFILTERS_MAPPING.materials[materialClass][
+      navigationLevel
+    ];
   }
 
   private init(): void {
@@ -66,27 +88,5 @@ export class MsdAgGridConfigService {
     return (
       this.hasEditorRole && EDITABLE_MATERIAL_CLASSES.includes(materialClass)
     );
-  }
-
-  public getDefaultColumnDefinitions(
-    materialClass: MaterialClass,
-    navigationLevel: NavigationLevel
-  ): ColDef[] {
-    let colDefs =
-      this.COLUMN_DEFINITIONS_MAPPING.materials[materialClass][navigationLevel];
-    if (this.isEditable(materialClass)) {
-      colDefs = [...EDITOR_COLUMN_DEFINITIONS, ...colDefs];
-    }
-
-    return colDefs;
-  }
-
-  public getStaticQuickFilters(
-    materialClass: MaterialClass = MaterialClass.STEEL,
-    navigationLevel: NavigationLevel = NavigationLevel.MATERIAL
-  ): QuickFilter[] {
-    return this.STATIC_QUICKFILTERS_MAPPING.materials[materialClass][
-      navigationLevel
-    ];
   }
 }

@@ -1,9 +1,9 @@
-import { MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 
 import { Subject } from 'rxjs';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { Column, ICellRendererParams } from 'ag-grid-community';
 

@@ -81,6 +81,18 @@ export class RangeFilterComponent implements OnChanges {
     }
   }
 
+  public formatSliderThumbLabel(value: number): string {
+    if (value > 999 && value < 1_000_000) {
+      return `${Math.round(value / 1000)}K`;
+    }
+
+    if (value > 1_000_000) {
+      return `${(value / 1_000_000).toFixed(1)}M`;
+    }
+
+    return String(value);
+  }
+
   /**
    * Update filter selection dependent on new min input.
    */
@@ -140,17 +152,5 @@ export class RangeFilterComponent implements OnChanges {
       minSelected,
       maxSelected: value,
     });
-  }
-
-  public formatSliderThumbLabel(value: number): string {
-    if (value > 999 && value < 1_000_000) {
-      return `${Math.round(value / 1000)}K`;
-    }
-
-    if (value > 1_000_000) {
-      return `${(value / 1_000_000).toFixed(1)}M`;
-    }
-
-    return String(value);
   }
 }

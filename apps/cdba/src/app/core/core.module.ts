@@ -7,7 +7,7 @@ import {
   TRANSLOCO_PERSIST_LANG_STORAGE,
   TranslocoPersistLangModule,
 } from '@ngneat/transloco-persist-lang';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 import {
@@ -55,7 +55,7 @@ const azureConfig = new AzureConfig(
     // NgRx Setup
     StoreModule,
     RouterModule,
-    PushModule,
+    PushPipe,
 
     // HTTP
     HttpModule,

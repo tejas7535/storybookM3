@@ -1,8 +1,9 @@
 {
+  "name": "ia",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "generators": {
-    "@nrwl/angular:component": {
+    "@nx/angular:component": {
       "style": "scss"
     }
   },
@@ -10,7 +11,7 @@
   "prefix": "ia",
   "targets": {
     "build": {
-      "executor": "@nrwl/angular:webpack-browser",
+      "executor": "@nx/angular:webpack-browser",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/ia",
@@ -91,7 +92,7 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@nrwl/angular:webpack-server",
+      "executor": "@nx/angular:webpack-dev-server",
       "options": {
         "browserTarget": "ia:build",
         "proxyConfig": "apps/ia/proxy.conf.js"
@@ -113,7 +114,7 @@
       "defaultConfiguration": "local"
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/ia/src/**/*.ts", "apps/ia/src/**/*.html"]
@@ -127,12 +128,12 @@
       }
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "options": {
         "jestConfig": "apps/ia/jest.config.ts",
         "passWithNoTests": true
       },
-      "outputs": ["coverage/apps/ia"]
+      "outputs": ["{workspaceRoot}/coverage/apps/ia"]
     },
     "version": {
       "executor": "@jscutlery/semver:version",

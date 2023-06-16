@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 import { of, throwError } from 'rxjs';
 
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';

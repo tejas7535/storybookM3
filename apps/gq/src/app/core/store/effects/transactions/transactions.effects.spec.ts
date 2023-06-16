@@ -1,6 +1,8 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { DetailRoutePath } from '@gq/detail-view/detail-route-path.enum';
+import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
@@ -9,8 +11,6 @@ import { marbles } from 'rxjs-marbles';
 
 import { COMPARABLE_LINKED_TRANSACTION_MOCK } from '../../../../../testing/mocks';
 import { AppRoutePath } from '../../../../app-route-path.enum';
-import { DetailRoutePath } from '../../../../detail-view/detail-route-path.enum';
-import { QuotationDetailsService } from '../../../../shared/services/rest/quotation-details/quotation-details.service';
 import {
   loadComparableTransactions,
   loadComparableTransactionsFailure,

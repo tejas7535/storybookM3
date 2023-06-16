@@ -1,8 +1,8 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { mockProvider } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';

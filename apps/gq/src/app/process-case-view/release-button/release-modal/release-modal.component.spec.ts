@@ -1,13 +1,16 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 
 import { of } from 'rxjs';
 
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { Quotation } from '@gq/shared/models';
 import { ApprovalStatus } from '@gq/shared/models/quotation';
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoService } from '@ngneat/transloco';
 import { MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';

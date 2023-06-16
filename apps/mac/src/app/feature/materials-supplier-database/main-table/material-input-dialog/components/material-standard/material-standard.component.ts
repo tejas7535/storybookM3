@@ -30,7 +30,8 @@ import * as util from '../../util';
 export class MaterialStandardComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
-  private readonly destroy$ = new Subject<void>();
+  @ViewChildren('dialogControl', { read: ElementRef })
+  dialogControlRefs: QueryList<ElementRef>;
 
   @Input()
   // property defining if entries should be "readonly" or dropdown menues
@@ -66,8 +67,7 @@ export class MaterialStandardComponent
   // utility for parsing error message
   public readonly getErrorMessage = util.getErrorMessage;
 
-  @ViewChildren('dialogControl', { read: ElementRef })
-  dialogControlRefs: QueryList<ElementRef>;
+  private readonly destroy$ = new Subject<void>();
 
   // constructor
   constructor(
@@ -117,16 +117,6 @@ export class MaterialStandardComponent
     }
   }
 
-  private mapToControl(
-    control: FormControl<StringOption>,
-    value: string
-  ): void {
-    const newValue = {
-      title: value,
-    } as StringOption;
-    control.setValue(newValue);
-  }
-
   ngAfterViewInit(): void {
     this.materialNamesEditControl.setValue(
       this.materialNamesControl.value?.title,
@@ -136,6 +126,62 @@ export class MaterialStandardComponent
       this.standardDocumentsControl.value?.title,
       { emitEvent: false }
     );
+  }
+
+  public addStandardDocument(standardDocument: string): void {
+    this.dialogFacade.dispatch(
+      addCustomMaterialStandardDocument({ standardDocument })
+    );
+  }
+
+  public addMaterialName(materialName: string): void {
+    this.dialogFacade.dispatch(addCustomMaterialStandardName({ materialName }));
+  }
+
+  public materialNameFilterFnFactory =
+    (standardDocumentsControl: FormControl<StringOption>) =>
+    (option?: StringOption, value?: string) => {
+      if (
+        option.id &&
+        standardDocumentsControl.value &&
+        standardDocumentsControl.value.data &&
+        !standardDocumentsControl.value.data['materialNames'].some(
+          ({ materialName }: { materialName: string }) =>
+            materialName === option.title
+        )
+      ) {
+        return false;
+      }
+
+      return util.filterFn(option, value);
+    };
+
+  public standardDocumentFilterFnFactory =
+    (materialNamesControl: FormControl<StringOption>) =>
+    (option?: StringOption, value?: string) => {
+      if (
+        option.id &&
+        materialNamesControl.value &&
+        materialNamesControl.value.data &&
+        !materialNamesControl.value.data['standardDocuments'].some(
+          ({ standardDocument }: { standardDocument: string }) =>
+            standardDocument === option.title
+        )
+      ) {
+        return false;
+      }
+
+      return util.filterFn(option, value);
+    };
+
+  private mapToControl(
+    control: FormControl<StringOption>,
+    value: string
+  ): void {
+    const newValue = {
+      title: value,
+    } as StringOption;
+    control.setValue(newValue);
   }
 
   /* Detect changes of stdDoc and reset material name if value from matName does
@@ -193,50 +239,4 @@ export class MaterialStandardComponent
   private reset(control: FormControl): void {
     control.reset(undefined, { emitEvent: false });
   }
-
-  public addStandardDocument(standardDocument: string): void {
-    this.dialogFacade.dispatch(
-      addCustomMaterialStandardDocument({ standardDocument })
-    );
-  }
-
-  public addMaterialName(materialName: string): void {
-    this.dialogFacade.dispatch(addCustomMaterialStandardName({ materialName }));
-  }
-
-  public materialNameFilterFnFactory =
-    (standardDocumentsControl: FormControl<StringOption>) =>
-    (option?: StringOption, value?: string) => {
-      if (
-        option.id &&
-        standardDocumentsControl.value &&
-        standardDocumentsControl.value.data &&
-        !standardDocumentsControl.value.data['materialNames'].some(
-          ({ materialName }: { materialName: string }) =>
-            materialName === option.title
-        )
-      ) {
-        return false;
-      }
-
-      return util.filterFn(option, value);
-    };
-
-  public standardDocumentFilterFnFactory =
-    (materialNamesControl: FormControl<StringOption>) =>
-    (option?: StringOption, value?: string) => {
-      if (
-        option.id &&
-        materialNamesControl.value &&
-        materialNamesControl.value.data &&
-        !materialNamesControl.value.data['standardDocuments'].some(
-          ({ standardDocument }: { standardDocument: string }) =>
-            standardDocument === option.title
-        )
-      ) {
-        return false;
-      }
-
-      return util.filterFn(option, value);
-    };
 }

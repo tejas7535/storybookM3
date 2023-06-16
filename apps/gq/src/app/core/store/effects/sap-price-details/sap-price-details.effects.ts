@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 
 import { catchError, filter, map, mergeMap, of } from 'rxjs';
 
+import { DetailRoutePath } from '@gq/detail-view/detail-route-path.enum';
 import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
-import { DetailRoutePath } from '../../../../detail-view/detail-route-path.enum';
 import {
   loadExtendedSapPriceConditionDetails,
   loadExtendedSapPriceConditionDetailsFailure,

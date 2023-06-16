@@ -1,17 +1,17 @@
 import { MatButtonModule } from '@angular/material/button';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import {
-  MAT_DIALOG_DATA,
-  MatDialogModule,
-  MatDialogRef,
-} from '@angular/material/dialog';
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogModule as MatDialogModule,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 import { MatSelectModule } from '@angular/material/select';
 
 import {
   createComponentFactory,
   Spectator,
   SpyObject,
-} from '@ngneat/spectator';
+} from '@ngneat/spectator/jest';
 
 import { IgnoreFlag } from '../enums/ignore-flag.enum';
 import { IgnoreFlagDialogComponent } from './ignore-flag-dialog.component';

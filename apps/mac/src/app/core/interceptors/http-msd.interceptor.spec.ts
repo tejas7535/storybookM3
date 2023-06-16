@@ -1,7 +1,6 @@
 import { HttpHandler, HttpHeaders, HttpRequest } from '@angular/common/http';
 
-import { SpectatorService } from '@ngneat/spectator';
-import { createServiceFactory } from '@ngneat/spectator/jest';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 // eslint-disable-next-line unicorn/prefer-node-protocol
 import { Buffer } from 'buffer';
 

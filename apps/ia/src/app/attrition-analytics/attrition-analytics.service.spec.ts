@@ -3,7 +3,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { Slice, SortDirection } from '../shared/models';
 import { AttritionAnalyticsService } from './attrition-analytics.service';

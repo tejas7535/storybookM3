@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
@@ -24,7 +24,7 @@ import { compareReducer } from './store/reducers/compare.reducer';
 @NgModule({
   declarations: [CompareComponent],
   imports: [
-    PushModule,
+    PushPipe,
     CompareRoutingModule,
     SharedTranslocoModule,
     StoreModule.forFeature('compare', compareReducer),

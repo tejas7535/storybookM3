@@ -5,7 +5,7 @@ import { MatDividerModule } from '@angular/material/divider';
 
 import { MsalRedirectComponent } from '@azure/msal-angular';
 import { HttpCacheInterceptorModule } from '@ngneat/cashew';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { AppShellModule } from '@schaeffler/app-shell';
 
@@ -27,7 +27,7 @@ import { AppRoutingModule } from './app-routing.module';
     // angular modules
     HttpClientModule,
     HttpCacheInterceptorModule.forRoot(),
-    PushModule,
+    PushPipe,
     CommonModule,
 
     // core and routing modules

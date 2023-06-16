@@ -1,4 +1,5 @@
-import { NetSalesClassification } from '../../../../../shared/models/customer';
+import { NetSalesClassification } from '@gq/shared/models/customer';
+
 import { SalesIndication } from './sales-indication.enum';
 
 export interface ComparableLinkedTransaction {

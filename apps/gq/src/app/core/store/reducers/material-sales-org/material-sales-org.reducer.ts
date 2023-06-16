@@ -1,6 +1,6 @@
+import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
 import { Action, createReducer, on } from '@ngrx/store';
 
-import { MaterialSalesOrg } from '../../../../shared/models/quotation-detail/material-sales-org.model';
 import {
   loadMaterialSalesOrg,
   loadMaterialSalesOrgFailure,

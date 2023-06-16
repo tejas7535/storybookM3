@@ -1,9 +1,9 @@
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { UserRoles } from '@gq/shared/constants';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { UserRoles } from '../../shared/constants';
 import { RoleGuard } from './role.guard';
 
 describe('RoleGuard', () => {

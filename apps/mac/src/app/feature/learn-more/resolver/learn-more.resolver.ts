@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
-  Resolve,
   Router,
   RouterStateSnapshot,
 } from '@angular/router';
@@ -18,7 +17,7 @@ import { LearnMoreData } from '../models';
 @Injectable({
   providedIn: 'root',
 })
-export class LearnMoreResolver implements Resolve<LearnMoreData> {
+export class LearnMoreResolver {
   constructor(private readonly router: Router) {}
 
   resolve(

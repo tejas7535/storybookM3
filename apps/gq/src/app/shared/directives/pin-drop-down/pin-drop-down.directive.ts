@@ -1,5 +1,5 @@
 import { AfterViewInit, Directive, OnDestroy } from '@angular/core';
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatLegacyAutocompleteTrigger as MatAutocompleteTrigger } from '@angular/material/legacy-autocomplete';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector

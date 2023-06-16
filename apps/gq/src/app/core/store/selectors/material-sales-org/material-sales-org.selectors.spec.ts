@@ -1,3 +1,5 @@
+import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
+
 import { MATERIAL_SALESORG_MOCK } from '../../../../../testing/mocks';
 import { MATERIAL_SALES_ORG_STATE_MOCK } from '../../../../../testing/mocks/state';
 import * as materialSalesOrgSelectors from './material-sales-org.selector';
@@ -33,7 +35,7 @@ describe('material-sales-org Selector', () => {
       expect(
         materialSalesOrgSelectors.getMaterialSalesOrgDataAvailable.projector({
           ...MATERIAL_SALES_ORG_STATE_MOCK,
-          materialSalesOrg: {},
+          materialSalesOrg: {} as unknown as MaterialSalesOrg,
         })
       ).toBeFalsy();
     });

@@ -1,11 +1,12 @@
 {
+  "name": "shared-ui-report",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/shared/ui/report/src",
   "prefix": "schaeffler",
   "targets": {
     "build": {
-      "executor": "@nrwl/angular:package",
+      "executor": "@nx/angular:package",
       "options": {
         "tsConfig": "libs/shared/ui/report/tsconfig.lib.json",
         "project": "libs/shared/ui/report/ng-package.json",
@@ -18,7 +19,7 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
@@ -35,15 +36,15 @@
       }
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/shared/ui/report"],
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/shared/ui/report"],
       "options": {
         "jestConfig": "libs/shared/ui/report/jest.config.ts",
         "passWithNoTests": true
       }
     },
     "publish": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "commands": [
           {

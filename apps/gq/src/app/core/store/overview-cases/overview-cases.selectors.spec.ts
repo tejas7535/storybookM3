@@ -31,7 +31,7 @@ describe('Overview Cases Selector', () => {
       },
       deleteLoading: false,
       selectedCases: [] as number[],
-    },
+    } as OverviewCasesState,
   };
 
   describe('getQuotations', () => {
@@ -69,8 +69,10 @@ describe('Overview Cases Selector', () => {
     test('should return status panel for archived quotations', () => {
       expect(
         overviewCasesSelectors.getStatusBarForQuotationStatus.projector({
-          quotations: { displayStatus: QuotationStatus.ARCHIVED },
-        })
+          quotations: {
+            displayStatus: QuotationStatus.ARCHIVED,
+          },
+        } as OverviewCasesState)
       ).toEqual(ARCHIVED_STATUS_BAR_CONFIG);
     });
   });

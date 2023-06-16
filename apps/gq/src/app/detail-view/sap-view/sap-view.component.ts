@@ -14,14 +14,13 @@ import {
   getSapPriceDetailsLoading,
 } from '@gq/core/store/selectors';
 import { Quotation } from '@gq/shared/models';
+import { Customer } from '@gq/shared/models/customer';
+import { QuotationDetail } from '@gq/shared/models/quotation-detail';
+import { BreadcrumbsService } from '@gq/shared/services/breadcrumbs/breadcrumbs.service';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
-
-import { Customer } from '../../shared/models/customer';
-import { QuotationDetail } from '../../shared/models/quotation-detail';
-import { BreadcrumbsService } from '../../shared/services/breadcrumbs/breadcrumbs.service';
 
 @Component({
   selector: 'gq-sap-view',

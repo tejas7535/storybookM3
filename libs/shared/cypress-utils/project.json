@@ -1,11 +1,12 @@
 {
+  "name": "shared-cypress-utils",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/shared/cypress-utils/src",
   "prefix": "schaeffler",
   "targets": {
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [

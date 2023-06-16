@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, Router } from '@angular/router';
 
 import { map } from 'rxjs';
 
@@ -10,7 +10,7 @@ import { GreaseCalculationPath } from '@ga/features/grease-calculation/grease-ca
 @Injectable({
   providedIn: 'root',
 })
-export class AppIsEmbeddedGuard implements CanActivate {
+export class AppIsEmbeddedGuard {
   constructor(
     private readonly router: Router,
     private readonly settingsFacade: SettingsFacade

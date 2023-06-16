@@ -25,6 +25,9 @@ import { DialogFacade } from '@mac/msd/store/facades/dialog';
   templateUrl: './manufacturer-supplier.component.html',
 })
 export class ManufacturerSupplierComponent implements OnInit, OnDestroy {
+  @ViewChildren('dialogControl', { read: ElementRef })
+  dialogControlRefs: QueryList<ElementRef>;
+
   @Input()
   public readonly: boolean;
   @Input()
@@ -57,9 +60,6 @@ export class ManufacturerSupplierComponent implements OnInit, OnDestroy {
     supplierCountry: FormControl<StringOption>;
   }>;
   private readonly destroy$ = new Subject<void>();
-
-  @ViewChildren('dialogControl', { read: ElementRef })
-  dialogControlRefs: QueryList<ElementRef>;
 
   constructor(private readonly dialogFacade: DialogFacade) {}
 
@@ -152,17 +152,6 @@ export class ManufacturerSupplierComponent implements OnInit, OnDestroy {
     }
   }
 
-  private mapToControl(
-    control: FormControl<StringOption>,
-    value: string
-  ): void {
-    const newValue = {
-      id: value,
-      title: value,
-    } as StringOption;
-    control.setValue(newValue);
-  }
-
   public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
@@ -174,5 +163,16 @@ export class ManufacturerSupplierComponent implements OnInit, OnDestroy {
 
   public addSupplierPlant(supplierPlant: string): void {
     this.dialogFacade.dispatch(addCustomSupplierPlant({ supplierPlant }));
+  }
+
+  private mapToControl(
+    control: FormControl<StringOption>,
+    value: string
+  ): void {
+    const newValue = {
+      id: value,
+      title: value,
+    } as StringOption;
+    control.setValue(newValue);
   }
 }

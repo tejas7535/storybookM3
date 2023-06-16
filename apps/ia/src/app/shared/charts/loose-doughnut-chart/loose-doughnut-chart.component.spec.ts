@@ -1,4 +1,4 @@
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ECharts, EChartsOption, SeriesOption } from 'echarts';
 import { NgxEchartsModule } from 'ngx-echarts';
 

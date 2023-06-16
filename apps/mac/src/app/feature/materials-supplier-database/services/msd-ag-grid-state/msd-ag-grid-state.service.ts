@@ -44,6 +44,65 @@ export class MsdAgGridStateService {
     this.init();
   }
 
+  public getColumnState(): ColumnState[] {
+    const msdMainTableState = this.getMsdMainTableState();
+
+    return msdMainTableState.materials[this.materialClass]?.[
+      this.navigationLevel
+    ]?.columnState;
+  }
+
+  public setColumnState(columnState: ColumnState[]): void {
+    const msdMainTableState = this.getMsdMainTableState();
+    const newMsdMainTableState: MsdAgGridStateCurrent = {
+      ...msdMainTableState,
+      materials: {
+        ...msdMainTableState.materials,
+        [this.materialClass]: {
+          ...msdMainTableState.materials[this.materialClass],
+          [this.navigationLevel]: {
+            ...msdMainTableState.materials[this.materialClass][
+              this.navigationLevel
+            ],
+            columnState,
+          },
+        },
+      },
+    };
+
+    this.setMsdMainTableState(newMsdMainTableState);
+  }
+
+  public getQuickFilterState(): QuickFilter[] {
+    const msdMainTableState = this.getMsdMainTableState();
+
+    return (
+      msdMainTableState.materials[this.materialClass]?.[this.navigationLevel]
+        ?.quickFilters ?? []
+    );
+  }
+
+  public setQuickFilterState(quickFilters: QuickFilter[]): void {
+    const msdMainTableState = this.getMsdMainTableState();
+    const newMsdMainTableState: MsdAgGridStateCurrent = {
+      ...msdMainTableState,
+      materials: {
+        ...msdMainTableState.materials,
+        [this.materialClass]: {
+          ...msdMainTableState.materials[this.materialClass],
+          [this.navigationLevel]: {
+            ...msdMainTableState.materials[this.materialClass][
+              this.navigationLevel
+            ],
+            quickFilters,
+          },
+        },
+      },
+    };
+
+    this.setMsdMainTableState(newMsdMainTableState);
+  }
+
   private init(): void {
     // always try to convert the legacy states
     let currentStorage: MsdAgGridState =
@@ -189,7 +248,7 @@ export class MsdAgGridStateService {
     return newMsdState;
   }
 
-  public migrateToVersion2_1(
+  private migrateToVersion2_1(
     currentStorage: MsdAgGridStateV2
   ): MsdAgGridStateV2 {
     // list of columns required to be visible
@@ -386,64 +445,5 @@ export class MsdAgGridStateService {
     );
 
     return [...added, ...newState];
-  }
-
-  public getColumnState(): ColumnState[] {
-    const msdMainTableState = this.getMsdMainTableState();
-
-    return msdMainTableState.materials[this.materialClass]?.[
-      this.navigationLevel
-    ]?.columnState;
-  }
-
-  public setColumnState(columnState: ColumnState[]): void {
-    const msdMainTableState = this.getMsdMainTableState();
-    const newMsdMainTableState: MsdAgGridStateCurrent = {
-      ...msdMainTableState,
-      materials: {
-        ...msdMainTableState.materials,
-        [this.materialClass]: {
-          ...msdMainTableState.materials[this.materialClass],
-          [this.navigationLevel]: {
-            ...msdMainTableState.materials[this.materialClass][
-              this.navigationLevel
-            ],
-            columnState,
-          },
-        },
-      },
-    };
-
-    this.setMsdMainTableState(newMsdMainTableState);
-  }
-
-  public getQuickFilterState(): QuickFilter[] {
-    const msdMainTableState = this.getMsdMainTableState();
-
-    return (
-      msdMainTableState.materials[this.materialClass]?.[this.navigationLevel]
-        ?.quickFilters ?? []
-    );
-  }
-
-  public setQuickFilterState(quickFilters: QuickFilter[]): void {
-    const msdMainTableState = this.getMsdMainTableState();
-    const newMsdMainTableState: MsdAgGridStateCurrent = {
-      ...msdMainTableState,
-      materials: {
-        ...msdMainTableState.materials,
-        [this.materialClass]: {
-          ...msdMainTableState.materials[this.materialClass],
-          [this.navigationLevel]: {
-            ...msdMainTableState.materials[this.materialClass][
-              this.navigationLevel
-            ],
-            quickFilters,
-          },
-        },
-      },
-    };
-
-    this.setMsdMainTableState(newMsdMainTableState);
   }
 }

@@ -1,10 +1,19 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import {
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogModule as MatDialogModule,
+} from '@angular/material/legacy-dialog';
 
 import { of } from 'rxjs';
 
+import { InfoIconModule } from '@gq/shared/components/info-icon/info-icon.module';
+import { EditCaseModalComponent } from '@gq/shared/components/modal/edit-case-modal/edit-case-modal.component';
+import { HideIfQuotationHasStatusDirective } from '@gq/shared/directives/hide-if-quotation-has-status/hide-if-quotation-has-status.directive';
+import { Keyboard } from '@gq/shared/models';
 import { Customer } from '@gq/shared/models/customer';
+import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
+import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { SpyObject } from '@ngneat/spectator/jest/lib/mock.js';
 import { TranslocoService } from '@ngneat/transloco';
@@ -16,12 +25,6 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CUSTOMER_MOCK } from '../../../testing/mocks';
 import { QUOTATION_MOCK } from '../../../testing/mocks/models/quotation.mock';
-import { InfoIconModule } from '../../shared/components/info-icon/info-icon.module';
-import { EditCaseModalComponent } from '../../shared/components/modal/edit-case-modal/edit-case-modal.component';
-import { HideIfQuotationHasStatusDirective } from '../../shared/directives/hide-if-quotation-has-status/hide-if-quotation-has-status.directive';
-import { Keyboard } from '../../shared/models';
-import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
-import { TransformationService } from '../../shared/services/transformation/transformation.service';
 import { HeaderContentComponent } from './header-content.component';
 
 describe('HeaderContentComponent', () => {

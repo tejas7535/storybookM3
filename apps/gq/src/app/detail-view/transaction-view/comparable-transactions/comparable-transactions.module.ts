@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
+import { InfoIconModule } from '@gq/shared/components/info-icon/info-icon.module';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { AgGridModule } from 'ag-grid-angular';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { InfoIconModule } from '../../../shared/components/info-icon/info-icon.module';
 import { ComparableTransactionsComponent } from './comparable-transactions.component';
 
 @NgModule({
@@ -17,7 +17,7 @@ import { ComparableTransactionsComponent } from './comparable-transactions.compo
     SharedTranslocoModule,
     AgGridModule,
     InfoIconModule,
-    PushModule,
+    PushPipe,
   ],
   exports: [ComparableTransactionsComponent],
   providers: [

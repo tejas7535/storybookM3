@@ -1,6 +1,6 @@
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { provideMockStore } from '@ngrx/store/testing';
 

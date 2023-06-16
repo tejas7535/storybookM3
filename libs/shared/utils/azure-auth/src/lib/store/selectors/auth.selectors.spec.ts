@@ -10,25 +10,27 @@ import * as fromAuthSelectors from './auth.selectors';
 describe('Azure Auth selectors', () => {
   test('should return accountInfo', () => {
     const accountInfo = { name: 'Test' } as unknown as AccountInfo;
-    expect(fromAuthSelectors.getAccountInfo.projector({ accountInfo })).toEqual(
-      accountInfo
-    );
+    expect(
+      fromAuthSelectors.getAccountInfo.projector({ accountInfo } as AuthState)
+    ).toEqual(accountInfo);
   });
 
   test('should return username', () => {
     const accountInfo = { name: 'Test' } as unknown as AccountInfo;
-    expect(fromAuthSelectors.getUsername.projector({ accountInfo })).toEqual(
-      accountInfo.name
-    );
+    expect(
+      fromAuthSelectors.getUsername.projector({ accountInfo } as AuthState)
+    ).toEqual(accountInfo.name);
   });
 
   test('should return undefined on undefined user', () => {
     const accountInfo: AccountInfo = undefined;
     expect(
-      fromAuthSelectors.getUsername.projector({ accountInfo })
+      fromAuthSelectors.getUsername.projector({ accountInfo } as AuthState)
     ).toBeUndefined();
     expect(
-      fromAuthSelectors.getUserUniqueIdentifier.projector({ accountInfo })
+      fromAuthSelectors.getUserUniqueIdentifier.projector({
+        accountInfo,
+      } as AuthState)
     ).toBeUndefined();
   });
 
@@ -38,7 +40,9 @@ describe('Azure Auth selectors', () => {
     } as unknown as AccountInfo;
     const expectedUserId = 'Test';
     expect(
-      fromAuthSelectors.getUserUniqueIdentifier.projector({ accountInfo })
+      fromAuthSelectors.getUserUniqueIdentifier.projector({
+        accountInfo,
+      } as AuthState)
     ).toEqual(expectedUserId);
   });
 
@@ -47,7 +51,9 @@ describe('Azure Auth selectors', () => {
       username: undefined,
     } as unknown as AccountInfo;
     expect(
-      fromAuthSelectors.getUserUniqueIdentifier.projector({ accountInfo })
+      fromAuthSelectors.getUserUniqueIdentifier.projector({
+        accountInfo,
+      } as AuthState)
     ).toBeUndefined();
   });
 
@@ -57,7 +63,9 @@ describe('Azure Auth selectors', () => {
     } as unknown as AccountInfo;
     const expected = '';
     expect(
-      fromAuthSelectors.getUserUniqueIdentifier.projector({ accountInfo })
+      fromAuthSelectors.getUserUniqueIdentifier.projector({
+        accountInfo,
+      } as AuthState)
     ).toEqual(expected);
   });
 
@@ -68,7 +76,9 @@ describe('Azure Auth selectors', () => {
     } as unknown as AccountInfo;
 
     expect(
-      fromAuthSelectors.getUserDepartment.projector({ accountInfo })
+      fromAuthSelectors.getUserDepartment.projector({
+        accountInfo,
+      } as AuthState)
     ).toEqual('C-IT');
   });
 
@@ -78,21 +88,23 @@ describe('Azure Auth selectors', () => {
     } as unknown as AccountInfo;
 
     expect(
-      fromAuthSelectors.getUserDepartment.projector({ accountInfo })
+      fromAuthSelectors.getUserDepartment.projector({
+        accountInfo,
+      } as AuthState)
     ).toBeUndefined();
   });
 
   test('should return login true for authenticated user', () => {
     const accountInfo = { name: 'Test' } as unknown as AccountInfo;
     expect(
-      fromAuthSelectors.getIsLoggedIn.projector({ accountInfo })
+      fromAuthSelectors.getIsLoggedIn.projector({ accountInfo } as AuthState)
     ).toBeTruthy();
   });
 
   test('should return login false for unauthenticated user', () => {
     const accountInfo: AccountInfo = undefined;
     expect(
-      fromAuthSelectors.getIsLoggedIn.projector({ accountInfo })
+      fromAuthSelectors.getIsLoggedIn.projector({ accountInfo } as AuthState)
     ).toBeFalsy();
   });
 
@@ -100,7 +112,9 @@ describe('Azure Auth selectors', () => {
     const url = 'my-sweet-img.png';
 
     expect(
-      fromAuthSelectors.getProfileImage.projector({ profileImage: { url } })
+      fromAuthSelectors.getProfileImage.projector({
+        profileImage: { url },
+      } as AuthState)
     ).toEqual(url);
   });
 
@@ -384,7 +398,9 @@ describe('Azure Auth selectors', () => {
         } as unknown as AccountInfo;
 
         expect(
-          fromAuthSelectors.getBackendRoles.projector({ accountInfo })
+          fromAuthSelectors.getBackendRoles.projector({
+            accountInfo,
+          } as AuthState)
         ).toEqual(['Admin']);
       });
 
@@ -392,7 +408,9 @@ describe('Azure Auth selectors', () => {
         const accountInfo = { name: 'Test' } as unknown as AccountInfo;
 
         expect(
-          fromAuthSelectors.getBackendRoles.projector({ accountInfo })
+          fromAuthSelectors.getBackendRoles.projector({
+            accountInfo,
+          } as AuthState)
         ).toEqual([]);
       });
     });

@@ -4,6 +4,7 @@ import {
   ComparableLinkedTransaction,
   SalesIndication,
 } from '@gq/core/store/reducers/models';
+import { Customer } from '@gq/shared/models/customer';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { roundToTwoDecimals } from '@gq/shared/utils/pricing.utils';
 import { translate } from '@ngneat/transloco';
@@ -15,7 +16,6 @@ import {
   YAXisComponentOption,
 } from 'echarts';
 
-import { Customer } from '../../../../shared/models/customer';
 import { DataPoint } from '../models/data-point.model';
 import { ToolTipItems } from '../models/tooltip-items.enum';
 import { LEGEND, TOOLTIP_CONFIG } from './chart.config';

@@ -49,6 +49,17 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly oneTrustService: OneTrustService
   ) {}
 
+  public get envName(): string {
+    // don't show environment name in production
+    return environment.production ? '' : translate(environment.envName);
+  }
+
+  public get link(): string | boolean {
+    return this.url && this.url !== `/${RoutePath.OverviewPath}`
+      ? `/${RoutePath.OverviewPath}`
+      : false;
+  }
+
   public ngOnInit(): void {
     this.username$ = this.store.select(getUsername);
     this.profileImage$ = this.store.select(getProfileImage);
@@ -91,17 +102,6 @@ export class AppComponent implements OnInit, OnDestroy {
         this.oneTrustService.translateBanner(language, true);
         this.footerLinks$.next(this.updateFooterLinks());
       });
-  }
-
-  public get envName(): string {
-    // don't show environment name in production
-    return environment.production ? '' : translate(environment.envName);
-  }
-
-  public get link(): string | boolean {
-    return this.url && this.url !== `/${RoutePath.OverviewPath}`
-      ? `/${RoutePath.OverviewPath}`
-      : false;
   }
 
   public ngOnDestroy() {

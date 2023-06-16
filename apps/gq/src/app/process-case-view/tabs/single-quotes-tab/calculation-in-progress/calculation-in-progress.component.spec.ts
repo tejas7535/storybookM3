@@ -1,9 +1,9 @@
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { SapCallInProgress } from '@gq/shared/models/quotation';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { SapCallInProgress } from '../../../../shared/models/quotation';
 import { CalculationInProgressComponent } from './calculation-in-progress.component';
 
 describe('CalculationInProgressComponent', () => {

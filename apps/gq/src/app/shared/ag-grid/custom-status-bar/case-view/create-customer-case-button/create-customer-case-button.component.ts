@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
-import { CreateCustomerCaseComponent } from '../../../../../case-view/case-creation/create-customer-case/create-customer-case.component';
+import { CreateCustomerCaseComponent } from '@gq/case-view/case-creation/create-customer-case/create-customer-case.component';
 
 @Component({
   selector: 'gq-create-customer-case-button',

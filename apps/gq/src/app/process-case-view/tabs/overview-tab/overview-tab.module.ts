@@ -1,18 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
 
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { HorizontalDividerModule } from '@gq/shared/components/horizontal-divider/horizontal-divider.module';
 import { KpiStatusCardComponent } from '@gq/shared/components/kpi-status-card/kpi-status-card.component';
 import { LabelTextModule } from '@gq/shared/components/label-text/label-text.module';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import * as echarts from 'echarts';
 import { NgxEchartsModule } from 'ngx-echarts';
 
@@ -42,7 +42,7 @@ import { OverviewTabRoutingModule } from './overview-tab.routing.module';
     HorizontalDividerModule,
     MatIconModule,
     SharedPipesModule,
-    PushModule,
+    PushPipe,
     MatCardModule,
     MatSelectModule,
     DialogHeaderModule,

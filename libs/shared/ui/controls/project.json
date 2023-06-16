@@ -1,11 +1,12 @@
 {
+  "name": "shared-ui-controls",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/shared/ui/controls/src",
   "prefix": "schaeffler",
   "targets": {
     "build": {
-      "executor": "@nrwl/angular:package",
+      "executor": "@nx/angular:package",
       "options": {
         "tsConfig": "libs/shared/ui/controls/tsconfig.lib.json",
         "project": "libs/shared/ui/controls/ng-package.json",
@@ -19,7 +20,7 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
@@ -36,15 +37,15 @@
       }
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/shared/ui/controls"],
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/shared/ui/controls"],
       "options": {
         "jestConfig": "libs/shared/ui/controls/jest.config.ts",
         "passWithNoTests": true
       }
     },
     "publish": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "commands": [
           {

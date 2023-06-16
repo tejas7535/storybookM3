@@ -6,8 +6,11 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 
 import { BehaviorSubject } from 'rxjs';
 
@@ -131,16 +134,6 @@ export class HardmagnetMaterialStandardInputDialogComponent
         );
   }
 
-  protected buildMaterialStandard(
-    baseMaterial: MaterialStandardFormValue
-  ): MaterialStandard {
-    return {
-      id: baseMaterial.id,
-      materialName: baseMaterial.materialName.title,
-      standardDocument: baseMaterial.standardDocument.title,
-    };
-  }
-
   public confirmMaterial(createAnother: boolean): void {
     const baseMaterial = this.createMaterialForm
       .value as MaterialStandardFormValue;
@@ -150,5 +143,15 @@ export class HardmagnetMaterialStandardInputDialogComponent
     // include stdDoc put logic in effect
     this.dialogFacade.dispatch(materialstandardDialogConfirmed({ standard }));
     this.awaitMaterialComplete(createAnother, NavigationLevel.STANDARD);
+  }
+
+  protected buildMaterialStandard(
+    baseMaterial: MaterialStandardFormValue
+  ): MaterialStandard {
+    return {
+      id: baseMaterial.id,
+      materialName: baseMaterial.materialName.title,
+      standardDocument: baseMaterial.standardDocument.title,
+    };
   }
 }

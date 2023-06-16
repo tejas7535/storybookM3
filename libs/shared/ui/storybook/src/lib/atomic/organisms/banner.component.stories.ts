@@ -1,21 +1,18 @@
 import { CommonModule } from '@angular/common';
 
 import { TranslocoModule } from '@ngneat/transloco';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { BannerTextModule } from 'libs/shared/ui/banner/src/lib/banner-text/banner-text.module';
 
 import { BannerTextComponent, BannerType } from '@schaeffler/banner';
 
 import READMEMd from '../../../../../banner/README.md';
-import {
-  NavigationAtomic,
-  NavigationMain,
-} from '../../../../.storybook/storybook-navigation.constants';
+
 import { StorybookTranslocoModule } from '../../../../.storybook/storybook-transloco.module';
 import { Badges } from 'libs/shared/ui/storybook/.storybook/storybook-badges.constants';
 
 export default {
-  title: `${NavigationMain.Atomic}/${NavigationAtomic.Organisms}/Banner`,
+  title: 'Atomic/Organisms/Banner',
   component: BannerTextComponent,
   parameters: {
     notes: { markdown: READMEMd },
@@ -33,7 +30,7 @@ export default {
   ],
 } as Meta<BannerTextComponent>;
 
-const Template: Story<BannerTextComponent> = (args: BannerTextComponent) => ({
+const Template: StoryFn<BannerTextComponent> = (args: BannerTextComponent) => ({
   component: BannerTextComponent,
   props: args,
 });

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 
 import { Observable, Subject, takeUntil } from 'rxjs';
 
@@ -14,17 +14,16 @@ import {
   getCreateCaseLoading,
 } from '@gq/core/store/selectors/create-case/create-case.selector';
 import { AutocompleteRequestDialog } from '@gq/shared/components/autocomplete-input/autocomplete-request-dialog.enum';
-import { TranslocoService } from '@ngneat/transloco';
-import { Store } from '@ngrx/store';
-
-import { ApplicationInsightsService } from '@schaeffler/application-insights';
-
 import {
   CASE_CREATION_TYPES,
   CaseCreationEventParams,
   EVENT_NAMES,
-} from '../../../shared/models';
-import { MaterialTableItem } from '../../../shared/models/table';
+} from '@gq/shared/models';
+import { MaterialTableItem } from '@gq/shared/models/table';
+import { TranslocoService } from '@ngneat/transloco';
+import { Store } from '@ngrx/store';
+
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 @Component({
   selector: 'gq-create-manual-case',

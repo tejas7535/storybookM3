@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 
 import { LineChart } from 'echarts/charts';
 import {

@@ -6,6 +6,7 @@ import {
   HeatType,
   IdValue,
 } from '../../../shared/models';
+import { AttritionDialogFluctuationMeta } from '../../attrition-dialog/models/attrition-dialog-fluctuation-meta.model';
 import { ChartType, DimensionFluctuationData } from '../../models';
 import { CountryDataAttrition } from '../../world-map/models/country-data-attrition.model';
 import { initialState, OrganizationalViewState } from '..';
@@ -210,7 +211,7 @@ describe('Organizational View Selector', () => {
       };
 
       const result = getOrgUnitFluctuationDialogEmployeeData.projector(
-        state,
+        state as OrganizationalViewState,
         timeRange
       );
 
@@ -230,7 +231,10 @@ describe('Organizational View Selector', () => {
         value: '01.01.2020 - 31.12.2020',
       };
       const data = {};
-      const result = getOrgUnitFluctuationDialogMeta.projector(timeRange, data);
+      const result = getOrgUnitFluctuationDialogMeta.projector(
+        timeRange,
+        data as any
+      );
 
       expect(result).toEqual({
         selectedTimeRange: '01.01.2020 - 31.12.2020',
@@ -255,7 +259,7 @@ describe('Organizational View Selector', () => {
       const result = getRegions.projector([
         { region: 'Europe' },
         { region: 'Asia' },
-      ]);
+      ] as CountryDataAttrition[]);
 
       expect(result).toEqual(['Europe', 'Asia']);
     });
@@ -352,7 +356,9 @@ describe('Organizational View Selector', () => {
           },
         },
       };
-      const result = getChildDimensionName.projector(input);
+      const result = getChildDimensionName.projector(
+        input as OrganizationalViewState
+      );
 
       expect(result).toEqual(dimensionName);
     });
@@ -417,7 +423,7 @@ describe('Organizational View Selector', () => {
 
       const result = getWorldMapFluctuationDialogMeta.projector(
         timeRange,
-        data
+        data as AttritionDialogFluctuationMeta
       );
 
       expect(result).toEqual({
@@ -473,7 +479,9 @@ describe('Organizational View Selector', () => {
         },
       };
 
-      const result = getParentAttritionOverTimeOrgChartData.projector(state);
+      const result = getParentAttritionOverTimeOrgChartData.projector(
+        state as unknown as OrganizationalViewState
+      );
 
       expect(result).toEqual({
         data: 0.2,
@@ -497,7 +505,10 @@ describe('Organizational View Selector', () => {
         showSymbol: false,
         type: 'line',
       };
-      const result = getParentAttritionOverTimeOrgChartData.projector(data);
+
+      const result = getParentAttritionOverTimeOrgChartData.projector(
+        data as unknown as OrganizationalViewState
+      );
 
       expect(result).toEqual(expected);
     });
@@ -532,7 +543,9 @@ describe('Organizational View Selector', () => {
         },
       };
 
-      const result = getChildAttritionOverTimeOrgChartSeries.projector(state);
+      const result = getChildAttritionOverTimeOrgChartSeries.projector(
+        state as unknown as OrganizationalViewState
+      );
 
       expect(result).toEqual({
         data: 0.2,
@@ -545,18 +558,35 @@ describe('Organizational View Selector', () => {
     });
 
     test('should return empty data when child attrition over time not available', () => {
-      const data = {};
-      const expected = {
-        data: [] as number[],
-        id: 'child',
+      const state = {
+        attritionOverTime: {
+          child: {
+            dimensionName: 'SLK',
+            data: {
+              data: {
+                ['SLK']: {
+                  attrition: 0.2,
+                },
+              },
+            },
+            loading: false,
+            errorMessage: '',
+          },
+        },
+      };
+
+      const result = getChildAttritionOverTimeOrgChartSeries.projector(
+        state as unknown as OrganizationalViewState
+      );
+
+      expect(result).toEqual({
+        data: 0.2,
         lineStyle: { width: 4 },
-        name: '',
+        name: 'SLK',
+        id: 'child',
         showSymbol: false,
         type: 'line',
-      };
-      const result = getChildAttritionOverTimeOrgChartSeries.projector(data);
-
-      expect(result).toEqual(expected);
+      });
     });
   });
 

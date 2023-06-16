@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import {
   RotaryControlComponent,
@@ -9,10 +9,6 @@ import {
 } from '@schaeffler/controls';
 
 import READMEMd from '../../../../../controls/src/lib/rotary-control/README.md';
-import {
-  NavigationAtomic,
-  NavigationMain,
-} from '../../../../.storybook/storybook-navigation.constants';
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
 
 const monthsWithNumber = [0, 1, 3, 6, 9, 12];
@@ -43,7 +39,7 @@ const itemsWithHighlight: RotaryControlItem[] = Array.from(
 );
 
 export default {
-  title: `${NavigationMain.Atomic}/${NavigationAtomic.Molecules}/Rotary Control`,
+  title: 'Atomic/Molecules/Rotary Control',
   component: RotaryControlComponent,
   decorators: [
     moduleMetadata({
@@ -56,7 +52,7 @@ export default {
   },
 } as Meta<RotaryControlComponent>;
 
-const Template: Story<RotaryControlComponent> = (
+const Template: StoryFn<RotaryControlComponent> = (
   args: RotaryControlComponent
 ) => ({
   component: RotaryControlComponent,

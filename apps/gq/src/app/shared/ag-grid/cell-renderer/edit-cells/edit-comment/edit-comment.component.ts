@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
+import { EditingCommentModalComponent } from '@gq/process-case-view/quotation-details-table/editing-comment-modal/editing-comment-modal.component';
 import { CellClassParams } from 'ag-grid-community';
 
-import { EditingCommentModalComponent } from '../../../../../process-case-view/quotation-details-table/editing-comment-modal/editing-comment-modal.component';
 import { QuotationStatus } from '../../../../models';
 import { QuotationDetail } from '../../../../models/quotation-detail';
 

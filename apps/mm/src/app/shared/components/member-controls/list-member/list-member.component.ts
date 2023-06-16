@@ -59,6 +59,13 @@ export class ListMemberComponent implements OnInit, OnDestroy {
     @Inject(CONTROL_META) public readonly meta: VariablePropertyMeta
   ) {}
 
+  public get control(): UntypedFormControl {
+    return (
+      (this.meta.control?.get('value') as UntypedFormControl) ||
+      new UntypedFormControl('')
+    );
+  }
+
   public ngOnInit(): void {
     if (this.meta.member.type === MemberTypes.Boolean) {
       this.isBoolean = true;
@@ -85,13 +92,6 @@ export class ListMemberComponent implements OnInit, OnDestroy {
 
   public isDropdownInput(type: string, id: string): boolean {
     return type === MemberTypes.LazyList && !forcedSelectsList.includes(id);
-  }
-
-  public get control(): UntypedFormControl {
-    return (
-      (this.meta.control?.get('value') as UntypedFormControl) ||
-      new UntypedFormControl('')
-    );
   }
 
   public translationRequired(type: string, id: string): boolean {

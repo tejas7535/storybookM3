@@ -1,15 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import {
-  MatSnackBar,
-  MatSnackBarModule,
-  MatSnackBarRef,
-  TextOnlySnackBar,
-} from '@angular/material/snack-bar';
-import { MatTooltipModule } from '@angular/material/tooltip';
+  LegacyTextOnlySnackBar as TextOnlySnackBar,
+  MatLegacySnackBar as MatSnackBar,
+  MatLegacySnackBarModule as MatSnackBarModule,
+  MatLegacySnackBarRef as MatSnackBarRef,
+} from '@angular/material/legacy-snack-bar';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 
 import { Subscription } from 'rxjs';
 
@@ -102,18 +102,6 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
     }
   }
 
-  private fetchGreaseReport(): void {
-    this.greaseReportService
-      .getGreaseReport(this.greaseReportUrl)
-      .then((report) => {
-        this.reportRaw = report;
-        this.assignReportData();
-      })
-      .catch(() => {
-        this.showSnackBarError();
-      });
-  }
-
   public isGreaseResultSection = (
     titleID: GreaseReportSubordinateTitle | string | undefined
   ): boolean => titleID === GreaseReportSubordinateTitle.STRING_OUTP_RESULTS;
@@ -155,6 +143,18 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
             SUITABILITY_LABEL.SUITED
         ).length === 0
     );
+  }
+
+  private fetchGreaseReport(): void {
+    this.greaseReportService
+      .getGreaseReport(this.greaseReportUrl)
+      .then((report) => {
+        this.reportRaw = report;
+        this.assignReportData();
+      })
+      .catch(() => {
+        this.showSnackBarError();
+      });
   }
 
   private assignReportData(): void {

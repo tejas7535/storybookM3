@@ -4,7 +4,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { of } from 'rxjs';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { LetModule, PushModule } from '@ngrx/component';
 import { ICellRendererParams } from 'ag-grid-community';
 

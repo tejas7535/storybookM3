@@ -4,6 +4,12 @@ import { combineLatest, map, Observable, of } from 'rxjs';
 
 import { ComparableLinkedTransaction } from '@gq/core/store/reducers/models';
 import { userHasGPCRole } from '@gq/core/store/selectors';
+import { TableContext } from '@gq/process-case-view/quotation-details-table/config/tablecontext.model';
+import { AgGridLocale } from '@gq/shared/ag-grid/models/ag-grid-locale.interface';
+import { LocalizationService } from '@gq/shared/ag-grid/services/localization.service';
+import { basicTableStyle } from '@gq/shared/constants';
+import { Quotation } from '@gq/shared/models';
+import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import { Store } from '@ngrx/store';
 import {
   ColDef,
@@ -14,12 +20,6 @@ import {
   SortChangedEvent,
 } from 'ag-grid-community';
 
-import { TableContext } from '../../../process-case-view/quotation-details-table/config/tablecontext.model';
-import { AgGridLocale } from '../../../shared/ag-grid/models/ag-grid-locale.interface';
-import { LocalizationService } from '../../../shared/ag-grid/services/localization.service';
-import { basicTableStyle } from '../../../shared/constants';
-import { Quotation } from '../../../shared/models';
-import { AgGridStateService } from '../../../shared/services/ag-grid-state/ag-grid-state.service';
 import { DEFAULT_COLUMN_DEFS } from './config';
 import { ColumnDefService } from './config/column-def.service';
 import { COMPONENTS } from './config/components';

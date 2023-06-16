@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -24,7 +24,7 @@ import { ExtendedColumnHeaderComponent } from './extended-column-header/extended
     InfoIconModule,
     SharedDirectivesModule,
     MatTooltipModule,
-    PushModule,
+    PushPipe,
   ],
   declarations: [ExtendedColumnHeaderComponent],
   exports: [ExtendedColumnHeaderComponent],

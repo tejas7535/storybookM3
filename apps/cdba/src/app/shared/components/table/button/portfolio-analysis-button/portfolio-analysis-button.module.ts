@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 import { RouterModule } from '@angular/router';
 
-import { LetModule } from '@ngrx/component';
+import { LetDirective } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -12,7 +12,7 @@ import { PortfolioAnalysisButtonComponent } from './portfolio-analysis-button.co
 @NgModule({
   imports: [
     RouterModule,
-    LetModule,
+    LetDirective,
     MatButtonModule,
     MatTooltipModule,
     SharedTranslocoModule,

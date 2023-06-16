@@ -3,13 +3,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import { Badges } from '../../../../../.storybook/storybook-badges.constants';
-import {
-  NavigationAtomic,
-  NavigationMain,
-} from '../../../../../.storybook/storybook-navigation.constants';
 import READMEMd from './README.md';
 
 // noinspection AngularMissingOrInvalidDeclarationInModule
@@ -43,7 +39,7 @@ class ExpansionPanelExampleComponent {
 }
 
 export default {
-  title: `${NavigationMain.Atomic}/${NavigationAtomic.Molecules}/ExpansionPanel`,
+  title: 'Atomic/Molecules/ExpansionPanel',
   component: ExpansionPanelExampleComponent,
   decorators: [
     moduleMetadata({
@@ -56,7 +52,7 @@ export default {
   },
 } as Meta<ExpansionPanelExampleComponent>;
 
-const Template: Story<ExpansionPanelExampleComponent> = (
+const Template: StoryFn<ExpansionPanelExampleComponent> = (
   args: ExpansionPanelExampleComponent
 ) => ({
   component: ExpansionPanelExampleComponent,

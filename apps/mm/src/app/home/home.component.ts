@@ -72,6 +72,11 @@ import { ResultPageComponent } from './result-page/result-page.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  @ViewChildren('inBoxControl')
+  public readonly inBoxTemplates: TemplateRef<any>[];
+  @ViewChild('stepper') private readonly stepper: PagesStepperComponent;
+  @ViewChild('resultPage') private readonly resultPage: ResultPageComponent;
+
   public readonly PAGE_MOUNTING_MANAGER_SEAT = PAGE_MOUNTING_MANAGER_SEAT;
   public readonly RSY_PAGE_BEARING_TYPE = RSY_PAGE_BEARING_TYPE;
   public readonly RSY_BEARING_TYPE = RSY_BEARING_TYPE;
@@ -109,11 +114,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
 
   private form: UntypedFormGroup;
-
-  @ViewChild('stepper') private readonly stepper: PagesStepperComponent;
-  @ViewChild('resultPage') private readonly resultPage: ResultPageComponent;
-  @ViewChildren('inBoxControl')
-  public readonly inBoxTemplates: TemplateRef<any>[];
 
   public constructor(
     private readonly cdRef: ChangeDetectorRef,
@@ -220,6 +220,38 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public isCalculationOptions(pageID: string) {
     return pageID === PROPERTY_PAGE_MOUNTING_SITUATION;
+  }
+
+  public handleActivePageIdChange(id: string) {
+    this.homeStore.setActivePageId(id);
+
+    if (id !== RSY_PAGE_BEARING_TYPE) {
+      this.homeStore.getBearing(this.bearingParams$);
+    }
+  }
+
+  public hasHeadline(pageId?: string, memberId?: string): boolean {
+    const noHeadlineIds = new Set([
+      RSY_BEARING_TYPE,
+      IDMM_MOUNTING_METHOD,
+      PAGE_MOUNTING_MANAGER_SEAT,
+      PROPERTY_PAGE_MOUNTING_SITUATION_SUB,
+      PROPERTY_PAGE_MOUNTING,
+    ]);
+    if (noHeadlineIds.has(pageId) || noHeadlineIds.has(memberId)) {
+      return false;
+    }
+
+    return true;
+  }
+
+  public measuringMethodSet(): boolean {
+    const currentValue: FormValue = this.form.value;
+    const measuringMethodProperty = currentValue.objects[0].properties.find(
+      (property: FormValueProperty) => property.name === IDMM_MEASSURING_METHOD
+    );
+
+    return measuringMethodProperty.value ? true : false;
   }
 
   private resetFormValue(prev: FormValue, next: FormValue): void {
@@ -338,37 +370,5 @@ export class HomeComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
-  }
-
-  public handleActivePageIdChange(id: string) {
-    this.homeStore.setActivePageId(id);
-
-    if (id !== RSY_PAGE_BEARING_TYPE) {
-      this.homeStore.getBearing(this.bearingParams$);
-    }
-  }
-
-  public hasHeadline(pageId?: string, memberId?: string): boolean {
-    const noHeadlineIds = new Set([
-      RSY_BEARING_TYPE,
-      IDMM_MOUNTING_METHOD,
-      PAGE_MOUNTING_MANAGER_SEAT,
-      PROPERTY_PAGE_MOUNTING_SITUATION_SUB,
-      PROPERTY_PAGE_MOUNTING,
-    ]);
-    if (noHeadlineIds.has(pageId) || noHeadlineIds.has(memberId)) {
-      return false;
-    }
-
-    return true;
-  }
-
-  public measuringMethodSet(): boolean {
-    const currentValue: FormValue = this.form.value;
-    const measuringMethodProperty = currentValue.objects[0].properties.find(
-      (property: FormValueProperty) => property.name === IDMM_MEASSURING_METHOD
-    );
-
-    return measuringMethodProperty.value ? true : false;
   }
 }

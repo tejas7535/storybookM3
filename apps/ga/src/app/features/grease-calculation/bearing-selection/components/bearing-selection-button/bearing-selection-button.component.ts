@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 
-import { LetModule, PushModule } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -22,8 +22,8 @@ import { tooManyBearingsResultsThreshold } from '../../constants';
   standalone: true,
   imports: [
     CommonModule,
-    LetModule,
-    PushModule,
+    LetDirective,
+    PushPipe,
     SharedTranslocoModule,
     MatButtonModule,
     MatIconModule,

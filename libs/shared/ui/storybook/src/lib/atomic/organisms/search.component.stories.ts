@@ -1,13 +1,10 @@
 import { action } from '@storybook/addon-actions';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import READMEMd from '../../../../../inputs/search/src/lib/README.md';
-import {
-  NavigationAtomic,
-  NavigationMain,
-} from '../../../../.storybook/storybook-navigation.constants';
+
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
 import { SearchComponent, SearchModule } from '@schaeffler/inputs/search';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -57,7 +54,7 @@ import { Component } from '@angular/core';
 class WrapperComponentForSearch extends SearchComponent {}
 
 export default {
-  title: `${NavigationMain.Atomic}/${NavigationAtomic.Organisms}/Search`,
+  title: 'Atomic/Organisms/Search',
   component: WrapperComponentForSearch,
   decorators: [
     moduleMetadata({
@@ -77,7 +74,7 @@ export default {
   },
 } as Meta<WrapperComponentForSearch>;
 
-const Template: Story<WrapperComponentForSearch> = (
+const Template: StoryFn<WrapperComponentForSearch> = (
   args: WrapperComponentForSearch
 ) => ({
   component: WrapperComponentForSearch,

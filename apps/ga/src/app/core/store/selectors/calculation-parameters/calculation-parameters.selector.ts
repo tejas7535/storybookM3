@@ -160,11 +160,16 @@ export const getAllGreases = createSelector(
         ? [
             ...marketGreases
               .filter(({ category }) => category === greaseCategory.type)
-              .flatMap((marketGreasesCategory) =>
-                marketGreasesCategory.entries.map((entry) => ({
-                  text: entry,
-                  id: marketGreasesCategory.category,
-                }))
+              .flatMap(
+                (marketGreasesCategory: {
+                  category: string;
+                  title: string;
+                  entries: string[];
+                }) =>
+                  marketGreasesCategory.entries.map((entry: string) => ({
+                    text: entry,
+                    id: marketGreasesCategory.category,
+                  }))
               ),
           ]
         : preferredGreaseOptions?.filter(

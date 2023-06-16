@@ -6,7 +6,7 @@ import {
 import { ActivatedRouteSnapshot, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { AvailabityGuard } from '@mac/core/guards';
 

@@ -2,7 +2,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
 import { MockModule } from 'ng-mocks';
 

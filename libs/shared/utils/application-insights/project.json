@@ -1,11 +1,12 @@
 {
+  "name": "shared-utils-application-insights",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/shared/utils/application-insights/src",
   "prefix": "schaeffler",
   "targets": {
     "build": {
-      "executor": "@nrwl/angular:package",
+      "executor": "@nx/angular:package",
       "options": {
         "tsConfig": "libs/shared/utils/application-insights/tsconfig.lib.json",
         "project": "libs/shared/utils/application-insights/ng-package.json",
@@ -18,7 +19,7 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
@@ -35,15 +36,17 @@
       }
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "options": {
         "jestConfig": "libs/shared/utils/application-insights/jest.config.ts",
         "passWithNoTests": true
       },
-      "outputs": ["coverage/libs/shared/utils/application-insights"]
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/shared/utils/application-insights"
+      ]
     },
     "publish": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "commands": [
           {

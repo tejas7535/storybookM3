@@ -1,7 +1,7 @@
 import { ElementRef } from '@angular/core';
 import { fakeAsync, tick } from '@angular/core/testing';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';

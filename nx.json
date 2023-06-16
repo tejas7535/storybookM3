@@ -1,23 +1,11 @@
 {
-  "implicitDependencies": {
-    "package.json": {
-      "dependencies": "*",
-      "devDependencies": "*"
-    },
-    "pnpm-lock.yaml": "*",
-    ".eslintrc.json": "*",
-    "Jenkinsfile": "*",
-    "deployments.json": "*",
-    ".npmrc": "*",
-    "tools/eslint-rules/**/*": "*"
-  },
   "affected": {
     "defaultBase": "master"
   },
   "npmScope": "schaeffler",
   "tasksRunnerOptions": {
     "default": {
-      "runner": "@nrwl/workspace/tasks-runners/default",
+      "runner": "@nx/workspace/tasks-runners/default",
       "options": {
         "cacheableOperations": [
           "build",
@@ -30,7 +18,7 @@
       }
     },
     "ci": {
-      "runner": "@nrwl/workspace/tasks-runners/default",
+      "runner": "@nx/workspace/tasks-runners/default",
       "options": {
         "cacheableOperations": [
           "build",
@@ -72,13 +60,13 @@
   },
   "defaultProject": "helloworld-azure",
   "generators": {
-    "@nrwl/angular:application": {
+    "@nx/angular:application": {
       "style": "scss",
       "linter": "eslint",
       "unitTestRunner": "jest",
       "e2eTestRunner": "cypress"
     },
-    "@nrwl/angular:library": {
+    "@nx/angular:library": {
       "linter": "eslint",
       "unitTestRunner": "jest",
       "strict": true
@@ -87,14 +75,46 @@
       "jest": true,
       "style": "scss"
     },
-    "@nrwl/angular:component": {
+    "@nx/angular:component": {
       "style": "scss"
     }
   },
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "targetDefaults": {
     "build": {
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
+    },
+    "lint": {
+      "inputs": ["default", "{workspaceRoot}/.eslintrc.json"]
+    },
+    "test": {
+      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"]
+    },
+    "build-storybook": {
+      "inputs": ["default", "^production", "{workspaceRoot}/.storybook/**/*"]
+    },
+    "e2e": {
+      "inputs": ["default", "^production"]
     }
+  },
+  "namedInputs": {
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "sharedGlobals": [
+      "{workspaceRoot}/pnpm-lock.yaml",
+      "{workspaceRoot}/Jenkinsfile",
+      "{workspaceRoot}/deployments.json",
+      "{workspaceRoot}/.npmrc",
+      "{workspaceRoot}/tools/eslint-rules/**/*"
+    ],
+    "production": [
+      "default",
+      "!{projectRoot}/.eslintrc.json",
+      "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
+      "!{projectRoot}/tsconfig.spec.json",
+      "!{projectRoot}/jest.config.[jt]s",
+      "!{projectRoot}/.storybook/**/*",
+      "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)"
+    ]
   }
 }

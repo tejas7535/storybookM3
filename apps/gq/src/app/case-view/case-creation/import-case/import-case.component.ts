@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 
 import { Observable } from 'rxjs';
 
@@ -16,18 +16,16 @@ import {
   getCaseQuotation,
   getCreateCaseLoading,
 } from '@gq/core/store/selectors/create-case/create-case.selector';
+import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
+import { CASE_CREATION_TYPES } from '@gq/shared/models';
+import { CaseCreationEventParams } from '@gq/shared/models';
+import { EVENT_NAMES } from '@gq/shared/models';
+import { AutocompleteSearch } from '@gq/shared/models/search';
+import { IdValue } from '@gq/shared/models/search';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
-
-import { FilterNames } from '../../../shared/components/autocomplete-input/filter-names.enum';
-import {
-  CASE_CREATION_TYPES,
-  CaseCreationEventParams,
-  EVENT_NAMES,
-} from '../../../shared/models';
-import { AutocompleteSearch, IdValue } from '../../../shared/models/search';
 
 @Component({
   selector: 'gq-import-case',

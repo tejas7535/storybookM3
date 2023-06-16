@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { HtmlReportComponent } from './components/html-report/html-report.component';
 import deJson from './i18n/de.json';
@@ -20,7 +20,7 @@ import { SafeHtmlPipe } from './safe-html.pipe';
 @NgModule({
   imports: [
     CommonModule,
-    PushModule,
+    PushPipe,
     TranslocoModule,
 
     // Angular Material

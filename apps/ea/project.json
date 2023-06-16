@@ -1,8 +1,9 @@
 {
+  "name": "ea",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "generators": {
-    "@nrwl/angular:component": {
+    "@nx/angular:component": {
       "style": "scss"
     }
   },
@@ -10,7 +11,7 @@
   "prefix": "ea",
   "targets": {
     "build": {
-      "executor": "@nrwl/angular:webpack-browser",
+      "executor": "@nx/angular:webpack-browser",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/ea",
@@ -199,7 +200,7 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@nrwl/angular:webpack-server",
+      "executor": "@nx/angular:webpack-dev-server",
       "configurations": {
         "default": {
           "browserTarget": "ea:build:default"
@@ -220,7 +221,7 @@
       "defaultConfiguration": "default"
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/ea/src/**/*.ts", "apps/ea/src/**/*.html"]
@@ -234,8 +235,8 @@
       }
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/ea"],
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/apps/ea"],
       "options": {
         "jestConfig": "apps/ea/jest.config.ts",
         "passWithNoTests": true

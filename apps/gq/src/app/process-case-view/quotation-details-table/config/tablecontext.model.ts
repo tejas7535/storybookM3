@@ -1,6 +1,6 @@
-import { PriceSourceOptions } from '../../../shared/ag-grid/column-headers/extended-column-header/models/price-source-options.enum';
-import { ColumnFields } from '../../../shared/ag-grid/constants/column-fields.enum';
-import { Quotation } from '../../../shared/models';
+import { PriceSourceOptions } from '@gq/shared/ag-grid/column-headers/extended-column-header/models/price-source-options.enum';
+import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
+import { Quotation } from '@gq/shared/models';
 
 export class TableContext {
   quotation: Quotation;

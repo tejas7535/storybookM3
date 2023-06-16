@@ -1,13 +1,16 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 import { StatusBarModalComponent } from '@gq/shared/components/modal/status-bar-modal/status-bar-modal.component';
 import { StatusBarProperties } from '@gq/shared/models/status-bar.model';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
-import { SpyObject } from '@ngneat/spectator';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  Spectator,
+  SpyObject,
+} from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { IStatusPanelParams } from 'ag-grid-community';

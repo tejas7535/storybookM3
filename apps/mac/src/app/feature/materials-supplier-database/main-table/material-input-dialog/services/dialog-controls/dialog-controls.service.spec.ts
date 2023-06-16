@@ -1,7 +1,6 @@
 import { Validators } from '@angular/forms';
 
-import { SpectatorService } from '@ngneat/spectator';
-import { createServiceFactory } from '@ngneat/spectator/jest';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { DialogControlsService } from '.';
 
