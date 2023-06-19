@@ -1,4 +1,21 @@
 # Release Notes of Cost Database Analytics
+## [4.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v3.1.0...cdba-v4.0.0) (2023-06-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* **cdba:** introduced new param in the http calls to the backend to extract only the windchill
+column data in specific language
+
+* test(cdba): updated test cases with new params, updated mocks
+
+* refactor(cdba): checkstyle warning fix
+
+### Features
+
+* **cdba:** windchill data integration ([#5306](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5306)) ([4decfb7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4decfb783afcf3384cc69c7be57453351f646885))
+* replace font styles with m3 standard ([#5211](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5211)) ([0ef134c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0ef134c2cb41319de679919be47c318f010ce6c5))
+
 ## [3.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v3.0.0...cdba-v3.1.0) (2023-04-19)
 
 
