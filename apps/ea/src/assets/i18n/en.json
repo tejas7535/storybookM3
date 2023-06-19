@@ -1,5 +1,6 @@
 {
   "appTitle": "Engineering App",
+  "appDescription": "Our calculation tool allows you to perform various calculations, to determine the performance of bearing products.",
   "general": {
     "requiredInformation": "*Mandatory"
   },

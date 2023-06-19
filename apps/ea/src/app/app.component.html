@@ -1,5 +1,11 @@
-<div class="flex h-full w-full flex-1 flex-col items-center">
-  <h4 id="title" class="text-medium-emphasis py-10">Engineering App</h4>
+<div class="flex h-full w-full flex-1 flex-col items-center" *transloco="let t">
+  <div
+    *ngIf="isStandalone$ | ngrxPush"
+    id="title"
+    class="text-medium-emphasis text-h4 md:py-10 py-4"
+  >
+    {{ t('appTitle') }}
+  </div>
   <div class="flex flex-1">
     <ea-calculation-container></ea-calculation-container>
   </div>

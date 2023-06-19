@@ -9,6 +9,7 @@ import {
 import { Store } from '@ngrx/store';
 
 import { ProductSelectionActions, SettingsActions } from './core/store/actions';
+import { isStandalone } from './core/store/selectors/settings/settings.selector';
 import { DEFAULT_BEARING_DESIGNATION } from './shared/constants/products';
 
 @Component({
@@ -22,6 +23,7 @@ export class AppComponent implements OnInit, OnChanges {
   @Input() standalone: string | undefined;
 
   public title = 'Engineering App';
+  public isStandalone$ = this.store.select(isStandalone);
 
   public constructor(private readonly store: Store) {}
 

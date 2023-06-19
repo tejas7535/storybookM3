@@ -2,9 +2,13 @@
   <div class="flex w-full flex-col max-w-[850px]">
     <div class="flex flex-1 flex-col items-center gap-10">
       <div class="flex flex-col gap-0 sm:gap-6 lg:grid">
-        <h6 class="text-medium-emphasis mx-2">
+        <div class="text-body-1 text-medium-emphasis md:py-0 py-2">
+          {{ 'appDescription' | transloco }}
+        </div>
+
+        <div class="text-medium-emphasis text-h6">
           {{t('title', {bearingDesignation: bearingDesignation$ | ngrxPush } )}}
-        </h6>
+        </div>
         <div class="flex-row items-end w-full mb-4 flex md:hidden">
           <button
             (click)="onShowBasicFrequenciesDialogClick()"

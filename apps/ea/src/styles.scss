@@ -25,8 +25,10 @@
  */
 @import './preflight';
 
-engineering-app,
-mat-dialog-container {
+engineering-app {
+  /** fix font size for Medias integration */
+  @apply text-body-1 #{!important};
+
   * {
     font-family: Noto Sans, sans-serif !important;
   }
@@ -82,9 +84,13 @@ mat-dialog-container {
       width: 100%;
     }
   }
-}
 
-/** fix font size for Medias integration */
-engineering-app {
-  @apply text-body-1 #{!important};
+  // styles for the dialog overlay
+  .app-overlay-container {
+    @apply top-0 left-0 h-full w-full fixed pointer-events-none;
+  }
+
+  .app-overlay-container:empty {
+    @apply hidden;
+  }
 }
