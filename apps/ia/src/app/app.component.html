@@ -30,16 +30,18 @@
           *transloco="let t; read: 'tabs'"
           class="shadow-md"
         >
-          <a
-            *ngFor="let tab of tabs; trackBy: trackByFn"
-            mat-tab-link
-            routerLinkActive
-            #rla="routerLinkActive"
-            [routerLink]="tab.path"
-            [active]="rla.isActive"
-            [disabled]="tab.disabled"
-            >{{ t(tab.label) | uppercase }}</a
-          >
+          <ng-container *ngFor="let tab of tabs; trackBy: trackByFn">
+            <a
+              *ngIf="!tab.disabled"
+              mat-tab-link
+              routerLinkActive
+              #rla="routerLinkActive"
+              [routerLink]="tab.path"
+              [active]="rla.isActive"
+              [disabled]="tab.disabled"
+              >{{ t(tab.label) | uppercase }}</a
+            >
+          </ng-container>
         </nav>
       </ng-container>
 

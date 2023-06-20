@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, isDevMode, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 
 import { filter, map, merge, Observable, of, take } from 'rxjs';
@@ -54,13 +54,11 @@ export class AppComponent implements OnInit {
       path: AppRoutePath.LossOfSkillPath,
       disabled: false,
     },
-    // Feature not used now because of lack of the data.
-    // Replace by Toggle Feature when available in shared libs.
-    // {
-    //   label: 'reasonsAndCounterMeasures',
-    //   path: AppRoutePath.ReasonsAndCounterMeasuresPath,
-    //   disabled: false,
-    // },
+    {
+      label: 'reasonsAndCounterMeasures',
+      path: AppRoutePath.ReasonsAndCounterMeasuresPath,
+      disabled: !isDevMode(),
+    },
     {
       label: 'fluctuationAnalytics',
       path: AppRoutePath.FluctuationAnalyticsPath,

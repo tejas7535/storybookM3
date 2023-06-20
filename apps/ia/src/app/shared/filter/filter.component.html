@@ -1,55 +1,62 @@
-<div class="flex" *transloco="let t; read: 'filters'">
-  <ia-dimension-filter
-    class="mr-6 flex"
-    [availableDimensions]="availableDimensions"
-    [activeDimension]="activeDimension"
-    [selectedDimensionIdValue]="selectedDimensionIdValue"
-    [dimensionFilter]="dimensionFilter"
-    [dimensionFilterTranslation]="dimensionFilterTranslation"
-    [dimensionDataLoading]="dimensionDataLoading"
-    (dimensionSelected)="onDimensionSelected($event)"
-    (autocompleteInput)="onDimensionAutocompleteInput($event)"
-    (optionSelected)="onDimensionOptionSelected($event)"
-  ></ia-dimension-filter>
+<ng-container *transloco="let t; read: 'filters'">
+  <div
+    class="flex gap-4"
+    [class]="layout === filterLayout.DEFAULT ? 'flex-row' : 'flex-col'"
+  >
+    <ia-dimension-filter
+      class="mr-6 flex columns-2 gap-2"
+      [availableDimensions]="availableDimensions"
+      [activeDimension]="activeDimension"
+      [selectedDimensionIdValue]="selectedDimensionIdValue"
+      [dimensionFilter]="dimensionFilter"
+      [dimensionFilterTranslation]="dimensionFilterTranslation"
+      [dimensionDataLoading]="dimensionDataLoading"
+      [disableFilters]="disableFilters"
+      (dimensionSelected)="onDimensionSelected($event)"
+      (autocompleteInput)="onDimensionAutocompleteInput($event)"
+      (optionSelected)="onDimensionOptionSelected($event)"
+    ></ia-dimension-filter>
 
-  <div class="flex flex-col">
-    <span class="text-body-1 mb-2" *ngIf="layout === filterLayout.DEFAULT">
-      {{ t('periodOfTime.title') }}
-    </span>
-    <div class="flex flex-row gap-2">
-      <ia-select-input
-        class=""
-        [options]="timePeriods"
-        [selectedOption]="selectedTimePeriod"
-        [label]="t('periodOfTime.timePeriodLabel')"
-        [hint]="disableFilters ? undefined : t('periodOfTime.timePeriodHint')"
-        [disabled]="disableFilters || disabledTimeRangeFilter"
-        (selected)="timePeriodSelected($event)"
-      ></ia-select-input>
-      <ia-date-input
-        class=""
-        [timePeriod]="selectedTimePeriod"
-        [selectedTime]="selectedTime?.id"
-        [label]="t('periodOfTime.timeRangeLabel')"
-        [hint]="disableFilters ? undefined : timeRangeHintValue"
-        [placeholderStart]="t('periodOfTime.timeRangePlaceholderStart')"
-        [placeholderEnd]="t('periodOfTime.timeRangePlaceholderEnd')"
-        [disabled]="disableFilters || disabledTimeRangeFilter"
-        (selected)="timeRangeSelected($event)"
-      ></ia-date-input>
+    <div class="mr-6 flex flex-col columns-2">
+      <span class="text-body-1 mb-2" *ngIf="!disableFilters">
+        {{ t('periodOfTime.title') }}
+      </span>
+      <div class="flex flex-row gap-2">
+        <ia-select-input
+          class="w-full mr-1"
+          [options]="timePeriods"
+          [selectedOption]="selectedTimePeriod"
+          [label]="t('periodOfTime.timePeriodLabel')"
+          [hint]="disableFilters ? undefined : t('periodOfTime.timePeriodHint')"
+          [disabled]="disableFilters || disabledTimeRangeFilter"
+          (selected)="timePeriodSelected($event)"
+        ></ia-select-input>
+        <ia-date-input
+          class="w-full"
+          [timePeriod]="selectedTimePeriod"
+          [selectedTime]="selectedTime?.id"
+          [label]="t('periodOfTime.timeRangeLabel')"
+          [hint]="disableFilters ? undefined : timeRangeHintValue"
+          [placeholderStart]="t('periodOfTime.timeRangePlaceholderStart')"
+          [placeholderEnd]="t('periodOfTime.timeRangePlaceholderEnd')"
+          [disabled]="disableFilters || disabledTimeRangeFilter"
+          (selected)="timeRangeSelected($event)"
+        ></ia-date-input>
+      </div>
     </div>
-  </div>
 
-  <ia-dimension-filter
-    class="ml-auto flex"
-    [availableDimensions]="availableDimensions"
-    [activeDimension]="activeBenchmarkDimension"
-    [selectedDimensionIdValue]="benchmarkDimensionIdValue"
-    [dimensionFilter]="benchmarkDimensionFilter"
-    [dimensionFilterTranslation]="benchmarkDimensionFilterTranslation"
-    [dimensionDataLoading]="benchmarkDimensionDataLoading"
-    (dimensionSelected)="onBenchmarkDimensionSelected($event)"
-    (autocompleteInput)="onBenchmarkAutocompleteInput($event)"
-    (optionSelected)="onBenchmarkOptionSelected($event)"
-  ></ia-dimension-filter>
-</div>
+    <ia-dimension-filter
+      *ngIf="showBenchmarkFilter"
+      class="ml-auto flex"
+      [availableDimensions]="availableDimensions"
+      [activeDimension]="activeBenchmarkDimension"
+      [selectedDimensionIdValue]="benchmarkDimensionIdValue"
+      [dimensionFilter]="benchmarkDimensionFilter"
+      [dimensionFilterTranslation]="benchmarkDimensionFilterTranslation"
+      [dimensionDataLoading]="benchmarkDimensionDataLoading"
+      (dimensionSelected)="onBenchmarkDimensionSelected($event)"
+      (autocompleteInput)="onBenchmarkAutocompleteInput($event)"
+      (optionSelected)="onBenchmarkOptionSelected($event)"
+    ></ia-dimension-filter>
+  </div>
+</ng-container>

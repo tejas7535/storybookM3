@@ -16,6 +16,7 @@ import { ChartLegendItem } from '../../shared/charts/models/chart-legend-item.mo
 import { DoughnutChartData } from '../../shared/charts/models/doughnut-chart-data.model';
 import { SolidDoughnutChartConfig } from '../../shared/charts/models/solid-doughnut-chart-config.model';
 import { FILTER_DIMENSIONS } from '../../shared/constants';
+import { DimensionFilterTranslation } from '../../shared/dimension-filter/models';
 import { FilterLayout } from '../../shared/filter/filter-layout.enum';
 import {
   Filter,
@@ -85,6 +86,8 @@ export class ReasonsForLeavingComponent implements OnInit {
   comparedSelectedTimePeriod$: Observable<TimePeriod>;
   comparedSelectedTime$: Observable<IdValue>;
 
+  dimensionFilterTranslation$: Observable<DimensionFilterTranslation>;
+
   filterLayout = FilterLayout;
   comparedDisabledTimeRangeFilter: boolean;
 
@@ -148,6 +151,8 @@ export class ReasonsForLeavingComponent implements OnInit {
     this.comparedReasonsTableData$ = this.store.select(
       getComparedReasonsTableData
     );
+    this.dimensionFilterTranslation$ =
+      this.translocoService.selectTranslateObject('filters.dimension');
   }
 
   comparedFilterSelected(filter: SelectedFilter): void {

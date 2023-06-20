@@ -31,6 +31,8 @@ export class FilterComponent {
   filterLayout = FilterLayout;
   timeRangeHintValue = 'time range';
 
+  @Input() showBenchmarkFilter = false;
+
   @Input() availableDimensions: IdValue[];
   @Input() orgUnitsLoading: boolean;
   @Input() disableFilters: boolean;

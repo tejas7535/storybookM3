@@ -348,15 +348,16 @@ describe('ReasonsAndCounterMeasures Selector', () => {
 
   describe('getCurrentComparedFilters', () => {
     test('should return currently compared selected filters and time range', () => {
+      const filterDimension = FilterDimension.BOARD;
+      const value = new IdValue('BR04', 'Finance');
+      const timeRange = new IdValue('last12Months', '123-321');
+
       expect(
-        getCurrentComparedFilters.projector(
-          Object.values(
-            fakeState.reasonsForLeaving.comparedSelectedFilters.entities
-          )
-        )
+        getCurrentComparedFilters.projector(filterDimension, value, timeRange)
       ).toEqual({
-        ORG_UNIT: 'Schaeffler_IT_1',
-        timeRange: '1577863715000|1609399715000',
+        filterDimension,
+        value: value.id,
+        timeRange: timeRange.id,
       });
     });
   });

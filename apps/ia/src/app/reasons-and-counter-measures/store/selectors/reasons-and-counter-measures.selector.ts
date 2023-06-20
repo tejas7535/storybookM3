@@ -2,6 +2,11 @@ import { translate } from '@ngneat/transloco';
 import { createSelector } from '@ngrx/store';
 
 import {
+  ReasonsAndCounterMeasuresState,
+  selectAllComparedSelectedFilters,
+  selectReasonsAndCounterMeasuresState,
+} from '..';
+import {
   getSelectedTimePeriod,
   getSelectedTimeRange,
 } from '../../../core/store/selectors';
@@ -16,11 +21,6 @@ import {
   TimePeriod,
 } from '../../../shared/models';
 import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
-import {
-  ReasonsAndCounterMeasuresState,
-  selectAllComparedSelectedFilters,
-  selectReasonsAndCounterMeasuresState,
-} from '..';
 import * as utils from './reasons-and-counter-measures.selector.utils';
 import { getColorsForChart } from './reasons-and-counter-measures.selector.utils';
 
@@ -131,14 +131,14 @@ export const getComparedSelectedOrgUnitLoading = createSelector(
 );
 
 export const getCurrentComparedFilters = createSelector(
-  getAllComparedSelectedFilters,
-  (filters: SelectedFilter[]) =>
-    // eslint-disable-next-line unicorn/no-array-reduce
-    filters.reduce((map: any, filter) => {
-      map[filter.name] = filter.idValue.id;
-
-      return map;
-    }, {})
+  getComparedSelectedDimension,
+  getComparedSelectedDimensionIdValue,
+  getComparedSelectedTimeRange,
+  (filterDimension: FilterDimension, idValue: IdValue, timeRange: IdValue) => ({
+    filterDimension,
+    timeRange: timeRange?.id,
+    value: idValue?.id,
+  })
 );
 
 export const getComparedReasonsData = createSelector(

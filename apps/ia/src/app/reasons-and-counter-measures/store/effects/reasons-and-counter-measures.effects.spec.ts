@@ -240,7 +240,7 @@ describe('ReasonsAndCounterMeasures Effects', () => {
 
         action = comparedFilterSelected({ filter });
         store.overrideSelector(getCurrentComparedFilters, {
-          timeRange,
+          ...request,
         });
 
         const resultComparedReasonsWhyPeopleLeft =

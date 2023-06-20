@@ -4,7 +4,7 @@
   </h5>
   <div class="grid w-full grid-cols-1 gap-4 p-4 lg:grid-cols-3">
     <ia-filter
-      class="order-1"
+      class="order-1 mt-8"
       [layout]="filterLayout.SLIM"
       [availableDimensions]="availableDimensions$ | ngrxPush"
       [activeDimension]="activeDimension$ | ngrxPush"
@@ -13,6 +13,7 @@
       [timePeriods]="timePeriods$ | ngrxPush"
       [selectedTimePeriod]="selectedTimePeriod$ | ngrxPush"
       [selectedTime]="selectedTime$ | ngrxPush"
+      [dimensionFilterTranslation]="dimensionFilterTranslation$ | ngrxPush"
     >
     </ia-filter>
     <ia-reasons-for-leaving-chart
@@ -46,8 +47,9 @@
         [timePeriods]="timePeriods$ | ngrxPush"
         [selectedTimePeriod]="comparedSelectedTimePeriod$ | ngrxPush"
         [selectedTime]="comparedSelectedTime$ | ngrxPush"
+        [dimensionFilterTranslation]="dimensionFilterTranslation$ | ngrxPush"
         (selectDimension)="comparedDimensionSelected($event)"
-        (selectFilter)="comparedFilterSelected($event)"
+        (selectDimensionOption)="comparedFilterSelected($event)"
         (autoCompleteInput)="comparedAutoCompleteOrgUnitsChange($event)"
         (selectTimePeriod)="comparedTimePeriodSelected($event)"
       >
