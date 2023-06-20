@@ -1,5 +1,7 @@
 import { ApprovalLevel, Approver } from '@gq/shared/models/quotation';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+import { Actions } from '@ngrx/effects';
+import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
@@ -12,16 +14,18 @@ describe('ApprovalFacade', () => {
   let service: ApprovalFacade;
   let spectator: SpectatorService<ApprovalFacade>;
   let mockStore: MockStore;
+  let actions$: Actions;
 
   const createService = createServiceFactory({
     service: ApprovalFacade,
-    providers: [provideMockStore({})],
+    providers: [provideMockStore({}), provideMockActions(() => actions$)],
   });
 
   beforeEach(() => {
     spectator = createService();
     service = spectator.service;
     mockStore = spectator.inject(MockStore);
+    actions$ = spectator.inject(Actions);
   });
 
   test('should be created', () => {
@@ -64,6 +68,19 @@ describe('ApprovalFacade', () => {
         );
         m.expect(service.activeDirectoryUsersLoading$).toBeObservable(
           m.cold('a', { a: false })
+        );
+      })
+    );
+
+    test(
+      'should provide triggerApprovalWorkflowInProgress',
+      marbles((m) => {
+        mockStore.overrideSelector(
+          approvalFeature.selectTriggerApprovalWorkflowInProgress,
+          true
+        );
+        m.expect(service.triggerApprovalWorkflowInProgress$).toBeObservable(
+          m.cold('a', { a: true })
         );
       })
     );
@@ -227,6 +244,42 @@ describe('ApprovalFacade', () => {
     service.clearActiveDirectoryUsers();
     expect(mockStore.dispatch).toHaveBeenCalledWith(
       ApprovalActions.clearActiveDirectoryUsers()
+    );
+  });
+
+  describe('trigger approval workflow', () => {
+    test('should dispatch action triggerApprovalWorkflow', () => {
+      const approvalWorkflowData = {
+        firstApprover: 'APPR1',
+        secondApprover: 'APPR2',
+        thirdApprover: 'APPR3',
+        infoUser: 'CC00',
+        comment: 'test comment',
+        projectInformation: 'project info',
+      };
+
+      mockStore.dispatch = jest.fn();
+      service.triggerApprovalWorkflow(approvalWorkflowData);
+
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        ApprovalActions.triggerApprovalWorkflow({ approvalWorkflowData })
+      );
+    });
+
+    test(
+      'should succeed',
+      marbles((m) => {
+        const action = ApprovalActions.triggerApprovalWorkflowSuccess();
+        const expected = m.cold('b', {
+          b: action,
+        });
+
+        actions$ = m.hot('a', { a: action });
+
+        m.expect(service.triggerApprovalWorkflowSucceeded$).toBeObservable(
+          expected as any
+        );
+      })
     );
   });
 });

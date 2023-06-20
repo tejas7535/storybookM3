@@ -9,6 +9,7 @@ import {
   MicrosoftUser,
   MicrosoftUsersResponse,
 } from '@gq/shared/models';
+import { TriggerApprovalWorkflowRequest } from '@gq/shared/models/quotation';
 import { ApprovalLevel } from '@gq/shared/models/quotation/approval-level.enum';
 import { ApprovalStatus } from '@gq/shared/models/quotation/approval-status.model';
 import { Approver } from '@gq/shared/models/quotation/approver.model';
@@ -117,5 +118,21 @@ export class ApprovalService {
           }))
         )
       );
+  }
+
+  /**
+   * Trigger the approval workflow for the SAP quotation with the given ID
+   *
+   * @param sapId the Id from SAP
+   * @param triggerApprovalWorkflowRequest The {@link TriggerApprovalWorkflowRequest}
+   */
+  triggerApprovalWorkflow(
+    sapId: string,
+    triggerApprovalWorkflowRequest: TriggerApprovalWorkflowRequest
+  ): Observable<void> {
+    return this.http.post<void>(
+      `${ApiVersion.V1}/${ApprovalPaths.PATH_APPROVAL}/${ApprovalPaths.PATH_START_APPROVAL_WORKFLOW}/${sapId}`,
+      triggerApprovalWorkflowRequest
+    );
   }
 }

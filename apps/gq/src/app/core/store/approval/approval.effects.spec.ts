@@ -1,5 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
+import { AppRoutePath } from '@gq/app-route-path.enum';
+import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-path.enum';
 import { ActiveDirectoryUser } from '@gq/shared/models';
 import { ApprovalLevel, ApprovalStatus } from '@gq/shared/models/quotation';
 import { Approver } from '@gq/shared/models/quotation/approver.model';
@@ -10,6 +12,8 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
+import { activeCaseFeature, getSapId } from '../active-case';
+import * as activeCaseUtils from '../active-case/active-case.utils';
 import { ApprovalActions } from './approval.actions';
 import { ApprovalEffects } from './approval.effects';
 import { approvalFeature, initialState } from './approval.reducer';
@@ -294,6 +298,119 @@ describe('ApprovalEffects', () => {
 
         actions$ = m.hot('-a', { a: action });
         m.expect(effects.getActiveDirectoryUsers$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+  });
+
+  describe('triggerApprovalWorkflow', () => {
+    test(
+      'should dispatch successAction',
+      marbles((m) => {
+        const sapId = '123456';
+        const quotationIdentifier = {
+          gqId: 999,
+          customerNumber: '20577',
+          salesOrg: '7895',
+        };
+        const queryParams = `quotation_number=${quotationIdentifier.gqId}&customer_number=${quotationIdentifier.customerNumber}&sales_org=${quotationIdentifier.salesOrg}`;
+        const approvalWorkflowData = {
+          firstApprover: 'APPR1',
+          secondApprover: 'APPR2',
+          thirdApprover: 'APPR3',
+          infoUser: 'CC00',
+          comment: 'test comment',
+          projectInformation: 'project info',
+        };
+        const protocol = 'https';
+        const hostname = 'guided-quoting-test.dev.dp.schaeffler';
+        const gqLinkBase64Encoded =
+          'aHR0cHM6Ly90ZXN0LmRlP3ExPXRlc3QxJnEyPXRlc3Qy';
+
+        store.overrideSelector(getSapId, sapId);
+        store.overrideSelector(
+          activeCaseFeature.selectQuotationIdentifier,
+          quotationIdentifier
+        );
+
+        delete window.location;
+        window.location = { protocol, hostname } as any;
+
+        const mapQuotationIdentifierToQueryParamsStringSpy = jest.spyOn(
+          activeCaseUtils,
+          'mapQuotationIdentifierToQueryParamsString'
+        );
+        mapQuotationIdentifierToQueryParamsStringSpy.mockReturnValue(
+          queryParams
+        );
+
+        const btoaSpy = jest.spyOn(window, 'btoa');
+        btoaSpy.mockReturnValue(gqLinkBase64Encoded);
+
+        const triggerApprovalWorkflowSpy = jest.spyOn(
+          approvalService,
+          'triggerApprovalWorkflow'
+        );
+
+        action = ApprovalActions.triggerApprovalWorkflow({
+          approvalWorkflowData,
+        });
+
+        const result = ApprovalActions.triggerApprovalWorkflowSuccess();
+        const response = m.cold('-a');
+        triggerApprovalWorkflowSpy.mockReturnValue(response);
+        const expected = m.cold('-b', { b: result });
+
+        actions$ = m.hot('a', { a: action });
+
+        m.expect(effects.triggerApprovalWorkflow$).toBeObservable(expected);
+        m.flush();
+
+        expect(
+          mapQuotationIdentifierToQueryParamsStringSpy
+        ).toHaveBeenCalledWith(quotationIdentifier);
+
+        expect(btoaSpy).toBeCalledWith(
+          `${protocol}//${hostname}/${AppRoutePath.ProcessCaseViewPath}/${ProcessCaseRoutePath.OverviewPath}?${queryParams}`
+        );
+
+        expect(triggerApprovalWorkflowSpy).toHaveBeenCalledWith(sapId, {
+          ...approvalWorkflowData,
+          gqId: quotationIdentifier.gqId,
+          gqLinkBase64Encoded,
+        });
+      })
+    );
+
+    test(
+      'should dispatch errorAction',
+      marbles((m) => {
+        store.overrideSelector(getSapId, '123897');
+        store.overrideSelector(
+          activeCaseFeature.selectQuotationIdentifier,
+          {} as any
+        );
+
+        delete window.location;
+        window.location = { protocol: 'https', hostname: 'test.de' } as any;
+
+        jest
+          .spyOn(activeCaseUtils, 'mapQuotationIdentifierToQueryParamsString')
+          .mockReturnValue('queryString');
+
+        action = ApprovalActions.triggerApprovalWorkflow({
+          approvalWorkflowData: {} as any,
+        });
+        const error = new Error('did not work');
+        const result = ApprovalActions.triggerApprovalWorkflowFailure({
+          error,
+        });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+        approvalService.triggerApprovalWorkflow = jest.fn(() => response);
+
+        actions$ = m.hot('-a', { a: action });
+        m.expect(effects.triggerApprovalWorkflow$).toBeObservable(expected);
         m.flush();
       })
     );

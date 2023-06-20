@@ -8,7 +8,7 @@ import {
   createServiceFactory,
   HttpMethod,
   SpectatorService,
-} from '@ngneat/spectator';
+} from '@ngneat/spectator/jest';
 
 import { APPROVAL_STATE_MOCK } from '../../../../../testing/mocks/';
 import { ApprovalService } from './approval.service';
@@ -192,6 +192,30 @@ describe('ApprovalService', () => {
       );
 
       req.flush(response);
+    });
+  });
+
+  describe('triggerApprovalWorkflow', () => {
+    test('should call with correct path', () => {
+      const sapId = 'testSapId';
+      const request = {
+        gqId: 998_755,
+        firstApprover: 'APPR1',
+        secondApprover: 'APPR2',
+        thirdApprover: 'APPR3',
+        infoUser: 'CC00',
+        comment: 'test comment',
+        projectInformation: 'project info',
+        gqLinkBase64Encoded: 'aHR0cHM6Ly90ZXN0LmRlP3ExPXRlc3QxJnEyPXRlc3Qy',
+      };
+
+      service.triggerApprovalWorkflow(sapId, request).subscribe();
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${ApprovalPaths.PATH_APPROVAL}/${ApprovalPaths.PATH_START_APPROVAL_WORKFLOW}/${sapId}`
+      );
+
+      expect(req.request.method).toBe(HttpMethod.POST);
+      expect(req.request.body).toEqual(request);
     });
   });
 });

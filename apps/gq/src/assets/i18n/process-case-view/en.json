@@ -23,7 +23,8 @@
       "approverCCTitle": "Information (CC)",
       "requiredError": "Approver required",
       "invalidApproverError": "Invalid Approver",
-      "equalApproversError": "Approvers must be different, it is not allowed to enter an approver multiple times!"
+      "equalApproversError": "Approvers must be different, it is not allowed to enter an approver multiple times!",
+      "invalidUserError": "Invalid User"
     }
   },
   "tabs": {

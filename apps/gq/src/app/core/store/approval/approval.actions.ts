@@ -1,5 +1,9 @@
 import { ActiveDirectoryUser } from '@gq/shared/models';
-import { ApprovalStatus, Approver } from '@gq/shared/models/quotation';
+import {
+  ApprovalStatus,
+  Approver,
+  TriggerApprovalWorkflowRequest,
+} from '@gq/shared/models/quotation';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
 export const ApprovalActions = createActionGroup({
@@ -20,5 +24,13 @@ export const ApprovalActions = createActionGroup({
     }>(),
     'Get Active Directory Users Failure': props<{ error: Error }>(),
     'Clear Active Directory Users': emptyProps(),
+    'Trigger Approval Workflow': props<{
+      approvalWorkflowData: Omit<
+        TriggerApprovalWorkflowRequest,
+        'gqId' | 'gqLinkBase64Encoded'
+      >;
+    }>(),
+    'Trigger Approval Workflow Success': emptyProps(),
+    'Trigger Approval Workflow Failure': props<{ error: Error }>(),
   },
 });

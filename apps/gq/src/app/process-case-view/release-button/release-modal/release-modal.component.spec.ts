@@ -8,8 +8,8 @@ import {
 import { of } from 'rxjs';
 
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
-import { Quotation } from '@gq/shared/models';
-import { ApprovalStatus } from '@gq/shared/models/quotation';
+import { ActiveDirectoryUser, Quotation } from '@gq/shared/models';
+import { ApprovalStatus, Approver } from '@gq/shared/models/quotation';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoService } from '@ngneat/transloco';
 import { MockProvider } from 'ng-mocks';
@@ -56,6 +56,7 @@ describe('ReleaseModalComponent', () => {
       const facadeMock: ApprovalFacade = {
         getApprovalWorkflowData: jest.fn(),
         approvalStatus$: of({ thirdApproverRequired: false } as ApprovalStatus),
+        triggerApprovalWorkflowSucceeded$: of(),
       } as unknown as ApprovalFacade;
 
       Object.defineProperty(component, 'approvalFacade', {
@@ -76,6 +77,7 @@ describe('ReleaseModalComponent', () => {
       const facadeMock: ApprovalFacade = {
         getApprovalWorkflowData: jest.fn(),
         approvalStatus$: of({ thirdApproverRequired: true } as ApprovalStatus),
+        triggerApprovalWorkflowSucceeded$: of(),
       } as unknown as ApprovalFacade;
 
       Object.defineProperty(component, 'approvalFacade', {
@@ -97,6 +99,7 @@ describe('ReleaseModalComponent', () => {
             } as ApprovalStatus),
             allApproversLoading$: of(false),
             approvalStatusLoading$: of(true),
+            triggerApprovalWorkflowSucceeded$: of(),
           } as unknown as ApprovalFacade;
 
           Object.defineProperty(component, 'approvalFacade', {
@@ -120,6 +123,7 @@ describe('ReleaseModalComponent', () => {
             } as ApprovalStatus),
             allApproversLoading$: of(true),
             approvalStatusLoading$: of(false),
+            triggerApprovalWorkflowSucceeded$: of(),
           } as unknown as ApprovalFacade;
 
           Object.defineProperty(component, 'approvalFacade', {
@@ -142,6 +146,7 @@ describe('ReleaseModalComponent', () => {
             } as ApprovalStatus),
             allApproversLoading$: of(false),
             approvalStatusLoading$: of(false),
+            triggerApprovalWorkflowSucceeded$: of(),
           } as unknown as ApprovalFacade;
 
           Object.defineProperty(component, 'approvalFacade', {
@@ -154,10 +159,31 @@ describe('ReleaseModalComponent', () => {
         })
       );
     });
+
+    describe('trigger approval workflow success', () => {
+      test('should close dialog when trigger approval workflow succeeded', () => {
+        const facadeMock: ApprovalFacade = {
+          getApprovalWorkflowData: jest.fn(),
+          approvalStatus$: of(),
+          triggerApprovalWorkflowSucceeded$: of(true),
+        } as unknown as ApprovalFacade;
+
+        Object.defineProperty(component, 'approvalFacade', {
+          value: facadeMock,
+        });
+
+        const closeDialogSpy = jest.spyOn(component, 'closeDialog');
+        closeDialogSpy.mockImplementation();
+
+        component.ngOnInit();
+
+        expect(closeDialogSpy).toHaveBeenCalledTimes(1);
+      });
+    });
   });
 
   describe('ngOnDestroy', () => {
-    test('should emit and clear user list', () => {
+    test('should emit', () => {
       component['shutdown$$'].next = jest.fn();
       component['shutdown$$'].complete = jest.fn();
 
@@ -176,6 +202,9 @@ describe('ReleaseModalComponent', () => {
       Object.defineProperty(component, 'INVALID_APPROVER_ERROR_MESSAGE', {
         value: 'invalidApprover',
       });
+      Object.defineProperty(component, 'INVALID_USER_ERROR_MESSAGE', {
+        value: 'invalidUser',
+      });
     });
 
     test('should return an errorErrorMessage for required', () => {
@@ -186,9 +215,15 @@ describe('ReleaseModalComponent', () => {
     });
     test('should return an errorErrorMessage for invalid approver', () => {
       const control: FormControl = new FormControl();
-      control.setErrors({ invalidApprover: true });
-      const result = component.getErrorMessageOfControl(control);
+      control.setErrors({ invalidUser: true });
+      const result = component.getErrorMessageOfControl(control, true);
       expect(result).toBe('invalidApprover');
+    });
+    test('should return an errorErrorMessage for invalid user', () => {
+      const control: FormControl = new FormControl();
+      control.setErrors({ invalidUser: true });
+      const result = component.getErrorMessageOfControl(control);
+      expect(result).toBe('invalidUser');
     });
     test('should return empty string when control has no errors', () => {
       const control: FormControl = new FormControl();
@@ -235,6 +270,41 @@ describe('ReleaseModalComponent', () => {
       component.handleUserSearchExpressionChanged(searchExpression);
 
       expect(clearActiveDirectoryUsersSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('Approval workflow', () => {
+    test('should start approval workflow', () => {
+      component.approvalFacade.approvalStatus$ = of({
+        thirdApproverRequired: true,
+      } as ApprovalStatus);
+      component.approvalFacade.triggerApprovalWorkflowSucceeded$ = of();
+      component.ngOnInit();
+
+      const formValue = {
+        approver1: { userId: 'APPR1' } as Approver,
+        approver2: { userId: 'APPR2' } as Approver,
+        approver3: { userId: 'APPR3' } as Approver,
+        approverCC: { userId: 'CCuser' } as ActiveDirectoryUser,
+        comment: 'test comment',
+        projectInformation: 'test project info',
+      };
+      const triggerApprovalWorkflowSpy = jest.spyOn(
+        component.approvalFacade,
+        'triggerApprovalWorkflow'
+      );
+
+      component.formGroup.setValue(formValue);
+      component.startWorkflow();
+
+      expect(triggerApprovalWorkflowSpy).toHaveBeenCalledWith({
+        firstApprover: formValue.approver1.userId,
+        secondApprover: formValue.approver2.userId,
+        thirdApprover: formValue.approver3.userId,
+        infoUser: formValue.approverCC.userId,
+        comment: formValue.comment,
+        projectInformation: formValue.projectInformation,
+      });
     });
   });
 });

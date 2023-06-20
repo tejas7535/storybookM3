@@ -73,6 +73,7 @@ export const APPROVAL_STATE_MOCK: ApprovalState = {
   error: undefined,
   approversLoading: false,
   activeDirectoryUsersLoading: false,
+  triggerApprovalWorkflowInProgress: false,
   approvalStatus: {
     sapId: '12345',
     currency: 'EUR',

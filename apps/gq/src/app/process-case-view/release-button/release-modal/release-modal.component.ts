@@ -20,43 +20,58 @@ import {
 import { combineLatest, map, Observable, Subject, takeUntil, tap } from 'rxjs';
 
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
-import { Quotation } from '@gq/shared/models';
-import { ApprovalStatus } from '@gq/shared/models/quotation';
+import { ActiveDirectoryUser, Quotation } from '@gq/shared/models';
+import { ApprovalStatus, Approver } from '@gq/shared/models/quotation';
 import { ApprovalLevel } from '@gq/shared/models/quotation/approval-level.enum';
-import { approverValidator } from '@gq/shared/validators/approver-validator';
 import { approversDifferValidator } from '@gq/shared/validators/approvers-differ-validator';
+import { userValidator } from '@gq/shared/validators/user-validator';
 import { TranslocoService } from '@ngneat/transloco';
+
+interface ReleaseModalFormControl {
+  approver1: FormControl<Approver>;
+  approver2: FormControl<Approver>;
+  approver3?: FormControl<Approver>;
+  approverCC: FormControl<ActiveDirectoryUser>;
+  comment: FormControl<string>;
+  projectInformation: FormControl<string>;
+}
+
 @Component({
   selector: 'gq-release-modal',
   templateUrl: './release-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReleaseModalComponent implements OnInit, OnDestroy {
-  formGroup: FormGroup;
+  formGroup: FormGroup<ReleaseModalFormControl>;
 
   INPUT_MAX_LENGTH = 1000;
   readonly approvalLevelEnum = ApprovalLevel;
 
-  approver1FormControl = new FormControl(
-    '',
-    Validators.compose([approverValidator().bind(this), Validators.required])
+  approver1FormControl = new FormControl<Approver>(
+    undefined,
+    Validators.compose([userValidator().bind(this), Validators.required])
   );
 
-  approver2FormControl = new FormControl(
-    '',
-    Validators.compose([approverValidator().bind(this), Validators.required])
+  approver2FormControl = new FormControl<Approver>(
+    undefined,
+    Validators.compose([userValidator().bind(this), Validators.required])
   );
 
-  approver3FormControl = new FormControl(
-    '',
-    Validators.compose([approverValidator().bind(this), Validators.required])
+  approver3FormControl = new FormControl<Approver>(
+    undefined,
+    Validators.compose([userValidator().bind(this), Validators.required])
   );
-  approverCCFormControl = new FormControl('');
+
+  approverCCFormControl = new FormControl<ActiveDirectoryUser>(
+    undefined,
+    userValidator().bind(this)
+  );
 
   dataLoadingComplete$: Observable<boolean>; // = NEVER;
 
   private readonly REQUIRED_ERROR_MESSAGE = '';
   private readonly INVALID_APPROVER_ERROR_MESSAGE = '';
+  private readonly INVALID_USER_ERROR_MESSAGE = '';
   private readonly USER_SEARCH_EXPRESSION_MIN_LENGTH = 2;
 
   private readonly shutdown$$: Subject<void> = new Subject<void>();
@@ -72,8 +87,13 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
     this.REQUIRED_ERROR_MESSAGE = this.translocoService.translate(
       'processCaseView.header.releaseModal.requiredError'
     );
+
     this.INVALID_APPROVER_ERROR_MESSAGE = this.translocoService.translate(
       'processCaseView.header.releaseModal.invalidApproverError'
+    );
+
+    this.INVALID_USER_ERROR_MESSAGE = this.translocoService.translate(
+      'processCaseView.header.releaseModal.invalidUserError'
     );
   }
 
@@ -98,13 +118,19 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
       )
     );
 
-    this.formGroup = this.formBuilder.group(
+    this.formGroup = this.formBuilder.group<ReleaseModalFormControl>(
       {
         approver1: this.approver1FormControl,
         approver2: this.approver2FormControl,
         approverCC: this.approverCCFormControl,
-        comment: ['', Validators.maxLength(this.INPUT_MAX_LENGTH)],
-        projectInformation: ['', Validators.maxLength(this.INPUT_MAX_LENGTH)],
+        comment: new FormControl(
+          undefined,
+          Validators.maxLength(this.INPUT_MAX_LENGTH)
+        ),
+        projectInformation: new FormControl(
+          undefined,
+          Validators.maxLength(this.INPUT_MAX_LENGTH)
+        ),
       },
       { validators: approversDifferValidator().bind(this) }
     );
@@ -119,15 +145,24 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
+
+    this.approvalFacade.triggerApprovalWorkflowSucceeded$
+      .pipe(takeUntil(this.shutdown$$))
+      .subscribe(() => this.closeDialog());
   }
 
-  getErrorMessageOfControl(control: AbstractControl): string {
+  getErrorMessageOfControl(
+    control: AbstractControl,
+    isApproverControl?: boolean
+  ): string {
     if (control.hasError('required')) {
       return this.REQUIRED_ERROR_MESSAGE;
     }
 
-    if (control.hasError('invalidApprover')) {
-      return this.INVALID_APPROVER_ERROR_MESSAGE;
+    if (control.hasError('invalidUser')) {
+      return isApproverControl
+        ? this.INVALID_APPROVER_ERROR_MESSAGE
+        : this.INVALID_USER_ERROR_MESSAGE;
     }
 
     return '';
@@ -142,8 +177,19 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
   }
 
   startWorkflow() {
-    // Will be implemented in a later story
+    const formGroupValue = this.formGroup.value;
+
+    this.approvalFacade.triggerApprovalWorkflow({
+      firstApprover: formGroupValue.approver1.userId,
+      secondApprover: formGroupValue.approver2.userId,
+      thirdApprover: formGroupValue.approver3?.userId,
+      infoUser: formGroupValue.approverCC?.userId,
+      comment: formGroupValue.comment?.trim() || undefined,
+      projectInformation:
+        formGroupValue.projectInformation?.trim() || undefined,
+    });
   }
+
   triggerAutoApproval() {
     // Will be implemented in a later story
   }

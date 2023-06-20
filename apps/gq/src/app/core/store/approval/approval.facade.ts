@@ -3,8 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ActiveDirectoryUser } from '@gq/shared/models';
-import { ApprovalLevel, ApprovalStatus } from '@gq/shared/models/quotation';
+import {
+  ApprovalLevel,
+  ApprovalStatus,
+  TriggerApprovalWorkflowRequest,
+} from '@gq/shared/models/quotation';
 import { Approver } from '@gq/shared/models/quotation/approver.model';
+import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import { ApprovalActions } from './approval.actions';
@@ -14,8 +19,6 @@ import * as fromApprovalSelectors from './approval.selectors';
   providedIn: 'root',
 })
 export class ApprovalFacade {
-  constructor(private readonly store: Store) {}
-
   approvalStatusLoading$: Observable<boolean> = this.store.select(
     approvalFeature.selectApprovalStatusLoading
   );
@@ -64,6 +67,19 @@ export class ApprovalFacade {
     approvalFeature.selectApprovalStatus
   );
 
+  triggerApprovalWorkflowInProgress$: Observable<boolean> = this.store.select(
+    approvalFeature.selectTriggerApprovalWorkflowInProgress
+  );
+
+  triggerApprovalWorkflowSucceeded$: Observable<void> = this.actions$.pipe(
+    ofType(ApprovalActions.triggerApprovalWorkflowSuccess)
+  );
+
+  constructor(
+    private readonly store: Store,
+    private readonly actions$: Actions
+  ) {}
+
   /**
    * load all available approvers
    */
@@ -107,5 +123,21 @@ export class ApprovalFacade {
    */
   clearActiveDirectoryUsers(): void {
     this.store.dispatch(ApprovalActions.clearActiveDirectoryUsers());
+  }
+
+  /**
+   * Trigger the approval workflow process
+   *
+   * @param approvalWorkflowData Approval workflow data, specified by the user
+   */
+  triggerApprovalWorkflow(
+    approvalWorkflowData: Omit<
+      TriggerApprovalWorkflowRequest,
+      'gqId' | 'gqLinkBase64Encoded'
+    >
+  ): void {
+    this.store.dispatch(
+      ApprovalActions.triggerApprovalWorkflow({ approvalWorkflowData })
+    );
   }
 }

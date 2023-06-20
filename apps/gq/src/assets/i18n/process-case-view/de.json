@@ -23,7 +23,8 @@
       "approverCCTitle": "Information (CC)",
       "requiredError": "Genehmiger erforderlich",
       "invalidApproverError": "Genehmiger ungültig",
-      "equalApproversError": "Die ausgewählten Genehmiger müssen unterschiedlich sein!"
+      "equalApproversError": "Die ausgewählten Genehmiger müssen unterschiedlich sein!",
+      "invalidUserError": "Benutzer ungültig"
     }
   },
   "tabs": {

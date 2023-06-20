@@ -165,4 +165,50 @@ describe('approvalReducer', () => {
       });
     });
   });
+
+  describe('trigger approval workflow', () => {
+    test('should set triggerApprovalWorkflowInProgress', () => {
+      const action = ApprovalActions.triggerApprovalWorkflow({} as any);
+      const state = approvalFeature.reducer(initialState, action);
+
+      expect(state).toEqual({
+        ...initialState,
+        triggerApprovalWorkflowInProgress: true,
+        error: undefined,
+      });
+    });
+
+    test('should reset triggerApprovalWorkflowInProgress', () => {
+      const action = ApprovalActions.triggerApprovalWorkflowSuccess();
+      const state = approvalFeature.reducer(
+        {
+          ...initialState,
+          triggerApprovalWorkflowInProgress: true,
+          error: new Error('my error'),
+        },
+        action
+      );
+
+      expect(state).toEqual({
+        ...initialState,
+        triggerApprovalWorkflowInProgress: false,
+        error: undefined,
+      });
+    });
+
+    test('should set the error', () => {
+      const error = new Error('my error');
+      const action = ApprovalActions.triggerApprovalWorkflowFailure({ error });
+      const state = approvalFeature.reducer(
+        { ...APPROVAL_STATE_MOCK, triggerApprovalWorkflowInProgress: true },
+        action
+      );
+
+      expect(state).toEqual({
+        ...APPROVAL_STATE_MOCK,
+        triggerApprovalWorkflowInProgress: false,
+        error,
+      });
+    });
+  });
 });

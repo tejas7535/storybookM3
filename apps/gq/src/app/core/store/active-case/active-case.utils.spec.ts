@@ -194,6 +194,28 @@ describe('ActiveCaseUtils', () => {
     });
   });
 
+  describe('mapQuotationIdentifierToQueryParamsString', () => {
+    test('should QuotationIdentifier to query params string', () => {
+      const gqId = 999;
+      const customerNumber = '20577';
+      const salesOrg = '7895';
+
+      const quotationIdentifier = {
+        gqId,
+        customerNumber,
+        salesOrg,
+      };
+
+      expect(
+        processCaseUtils.mapQuotationIdentifierToQueryParamsString(
+          quotationIdentifier
+        )
+      ).toBe(
+        `quotation_number=${gqId}&customer_number=${customerNumber}&sales_org=${salesOrg}`
+      );
+    });
+  });
+
   describe('checkEqualityOfIdentifier', () => {
     let fromRoute;
     let current;

@@ -1,3 +1,4 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatChipsModule } from '@angular/material/chips';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -13,6 +14,7 @@ describe('DetailViewHeaderContentComponent', () => {
   const createComponent = createComponentFactory({
     component: DetailViewHeaderContentComponent,
     imports: [MatChipsModule, provideTranslocoTestingModule({ en: {} })],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {

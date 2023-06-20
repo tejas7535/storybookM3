@@ -21,6 +21,7 @@ export interface ApprovalState {
     gpm: number;
     priceDeviation: number;
   };
+  triggerApprovalWorkflowInProgress: boolean;
   error: Error;
 }
 
@@ -42,6 +43,7 @@ export const initialState: ApprovalState = {
     gpm: undefined,
     priceDeviation: undefined,
   },
+  triggerApprovalWorkflowInProgress: false,
   error: undefined,
 };
 
@@ -155,6 +157,30 @@ export const approvalFeature = createFeature({
       (state: ApprovalState): ApprovalState => ({
         ...state,
         activeDirectoryUsers: [],
+      })
+    ),
+    on(
+      ApprovalActions.triggerApprovalWorkflow,
+      (state: ApprovalState): ApprovalState => ({
+        ...state,
+        triggerApprovalWorkflowInProgress: true,
+        error: undefined,
+      })
+    ),
+    on(
+      ApprovalActions.triggerApprovalWorkflowSuccess,
+      (state: ApprovalState): ApprovalState => ({
+        ...state,
+        triggerApprovalWorkflowInProgress: false,
+        error: undefined,
+      })
+    ),
+    on(
+      ApprovalActions.triggerApprovalWorkflowFailure,
+      (state: ApprovalState, { error }): ApprovalState => ({
+        ...state,
+        triggerApprovalWorkflowInProgress: false,
+        error,
       })
     )
   ),
