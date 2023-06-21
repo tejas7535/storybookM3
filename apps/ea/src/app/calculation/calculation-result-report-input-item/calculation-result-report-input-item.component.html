@@ -1,0 +1,11 @@
+<ng-container *ngIf="reportInputItem">
+  <div class="p-3 font-medium">
+    {{ reportInputItem.title }}
+  </div>
+  <schaeffler-label-value
+    *ngIf="labelValues"
+    [labelValues]="labelValues"
+    [labelMinWidth]="labelWidth"
+    [labelMaxWidth]="labelWidth"
+  ></schaeffler-label-value>
+</ng-container>

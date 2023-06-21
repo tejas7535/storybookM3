@@ -35,6 +35,8 @@ import { NgxEchartsModule } from 'ngx-echarts';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { CalculationResultMessageComponent } from '../calculation-result-information/calculation-result-message.component';
+import { CalculationResultReportInputComponent } from '../calculation-result-report-input';
 import { CalculationTypesSelectionComponent } from '../calculation-types-selection/calculation-types-selection';
 
 const COLOR_PLATTE = ['#DDE86E', '#7DC882'];
@@ -55,6 +57,8 @@ const COLOR_PLATTE = ['#DDE86E', '#7DC882'];
     TagComponent,
     MeaningfulRoundPipe,
     CalculationTypesSelectionComponent,
+    CalculationResultReportInputComponent,
+    CalculationResultMessageComponent,
   ],
 })
 export class CalculationResultReportComponent {

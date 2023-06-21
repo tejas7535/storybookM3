@@ -3,6 +3,8 @@ import { APP_STATE_MOCK } from '@ea/testing/mocks';
 import { AppState } from '../../reducers';
 import {
   getCO2EmissionReport,
+  getReportMessages,
+  getResultInput,
   getSelectedCalculations,
 } from './calculation-result-report.selector';
 
@@ -24,6 +26,24 @@ describe('Calculation Result Selector', () => {
           unit: 'kg',
           value: 32.2,
         },
+        reportInputSuborinates: {
+          inputSubordinates: [
+            {
+              identifier: 'block',
+              title: 'some title',
+            },
+          ],
+        },
+        reportMessages: {
+          messages: [
+            {
+              title: 'Errors',
+            },
+            {
+              title: 'Warnings',
+            },
+          ],
+        },
       },
       isLoading: false,
     },
@@ -38,6 +58,18 @@ describe('Calculation Result Selector', () => {
   describe('getSelectedCalculations', () => {
     it('should return the selected calculations', () => {
       expect(getSelectedCalculations(mockState)).toMatchSnapshot();
+    });
+  });
+
+  describe('getResultInput', () => {
+    it('should return result input', () => {
+      expect(getResultInput(mockState)).toMatchSnapshot();
+    });
+  });
+
+  describe('getReportMessages', () => {
+    it('should return report messages', () => {
+      expect(getReportMessages(mockState)).toMatchSnapshot();
     });
   });
 });

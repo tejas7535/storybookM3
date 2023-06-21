@@ -1,3 +1,4 @@
+import { ReportMessage } from '../store/models';
 import {
   BearinxOnlineResult,
   BearinxOnlineResultSubordinate,
@@ -61,3 +62,37 @@ export const matchItem = (
       ? subordinate[key as keyof BearinxOnlineResultSubordinate] === value
       : value === undefined
   );
+
+export const extractErrorsWarningsAndNotesFromResult = (
+  input: BearinxOnlineResultSubordinate
+): BearinxOnlineResultSubordinate[] =>
+  input.subordinates.filter(
+    (subordinate) =>
+      subordinate.titleID === undefined && subordinate.identifier === 'block'
+  );
+
+export const formatErrorsWarningsAndNotesResult = (
+  input: BearinxOnlineResultSubordinate[]
+): ReportMessage[] => input.map((message) => getItemValue(message));
+
+const getItemValue = (input: BearinxOnlineResultSubordinate): ReportMessage => {
+  const result: ReportMessage = {};
+
+  if (input.title) {
+    result.title = input.title;
+  }
+
+  if (input.identifier === 'block') {
+    result.item = {
+      subItems: formatErrorsWarningsAndNotesResult(input.subordinates),
+    };
+  }
+
+  if (input.identifier === 'text') {
+    result.item = {
+      messages: input.text,
+    };
+  }
+
+  return result;
+};

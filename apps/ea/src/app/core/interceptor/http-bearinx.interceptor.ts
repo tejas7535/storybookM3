@@ -26,9 +26,10 @@ export class HttpBearinxInterceptor implements HttpInterceptor {
     let bearinxLanguage: string;
 
     switch (this.translocoService.getActiveLang()) {
-      case 'de':
+      // disabled German language as currently there is no option to change it
+      /* case 'de':
         bearinxLanguage = 'LANGUAGE_GERMAN';
-        break;
+        break; */
       case 'en':
         bearinxLanguage = 'LANGUAGE_ENGLISH';
         break;

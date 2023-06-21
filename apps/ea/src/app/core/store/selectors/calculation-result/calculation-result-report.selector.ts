@@ -1,7 +1,8 @@
 import { createSelector } from '@ngrx/store';
 
-import { CalculationType } from '../../models';
+import { CalculationResultReportInput, CalculationType } from '../../models';
 import { CalculationResultReportCalculationTypeSelection } from '../../models/calculation-result-report.model';
+import { CalculationResultReportMessage } from '../../models/calculation-result-report-message.model';
 import { getCalculationTypesConfig } from '../calculation-parameters/calculation-types.selector';
 import { getCalculationResult as co2UpstreamCalculationResult } from './co2-upstream-calculation-result.selector';
 import { getCalculationResult as frictionCalculationResult } from './friction-calculation-result.selector';
@@ -73,6 +74,20 @@ export const getFrictionalalPowerlossReport = createSelector(
 
     return result.filter((item) => item.value !== undefined);
   }
+);
+
+export const getResultInput = createSelector(
+  frictionCalculationResult,
+  (friction): CalculationResultReportInput[] =>
+    friction?.reportInputSuborinates.inputSubordinates.map((subordinate) => ({
+      ...subordinate,
+    }))
+);
+
+export const getReportMessages = createSelector(
+  frictionCalculationResult,
+  (friction): CalculationResultReportMessage[] =>
+    friction?.reportMessages?.messages
 );
 
 export const isFrictionResultAvailable = createSelector(

@@ -1,6 +1,8 @@
 import {
+  extractErrorsWarningsAndNotesFromResult,
   extractSubordinatesFromPath,
   extractTableFromSubordinate,
+  formatErrorsWarningsAndNotesResult,
   matchItem,
 } from './bearinx-helper';
 import {
@@ -107,6 +109,146 @@ describe('Bearinx Helper', () => {
 
     it('handles an empty input gracefully', () => {
       expect(extractTableFromSubordinate({})).toBeUndefined();
+    });
+  });
+
+  describe('extractErrorsWarningsAndNotesFromResult', () => {
+    let item: BearinxOnlineResultSubordinate;
+    describe('when report messages are provided', () => {
+      it('should extract report messages data', () => {
+        item = {
+          identifier: 'abc',
+          subordinates: [
+            {
+              title: 'some title',
+              identifier: 'block',
+            },
+          ],
+        };
+        expect(extractErrorsWarningsAndNotesFromResult(item)).toEqual([
+          { title: 'some title', identifier: 'block' },
+        ]);
+      });
+    });
+
+    describe('when report messages are not provided', () => {
+      it('should return empty collection', () => {
+        item = {
+          identifier: 'abc',
+          subordinates: [
+            {
+              title: 'some title',
+              identifier: 'block',
+              titleID: 'some other result',
+            },
+          ],
+        };
+        expect(extractErrorsWarningsAndNotesFromResult(item)).toEqual([]);
+      });
+    });
+  });
+
+  describe('formatErrorsWarningsAndNotesResult', () => {
+    let items: BearinxOnlineResultSubordinate[];
+
+    describe('when report messages are provided', () => {
+      it('should extract report messages data', () => {
+        items = [
+          {
+            identifier: 'block',
+            title: 'Warnings',
+            subordinates: [
+              {
+                text: ['some text'],
+                identifier: 'text',
+              },
+            ],
+          },
+          {
+            identifier: 'block',
+            title: 'Errors',
+            subordinates: [
+              {
+                text: ['main error'],
+                identifier: 'text',
+              },
+              {
+                identifier: 'block',
+                subordinates: [
+                  {
+                    text: ['nested error 1'],
+                    identifier: 'text',
+                  },
+                  {
+                    text: [
+                      'nested error 2',
+                      'nested error 2.1',
+                      'nested error 2.2',
+                    ],
+                    identifier: 'text',
+                  },
+                  {
+                    text: ['nested error 3'],
+                    identifier: 'text',
+                  },
+                ],
+              },
+            ],
+          },
+        ];
+
+        expect(formatErrorsWarningsAndNotesResult(items)).toEqual([
+          {
+            title: 'Warnings',
+            item: {
+              subItems: [
+                {
+                  item: {
+                    messages: ['some text'],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            title: 'Errors',
+            item: {
+              subItems: [
+                {
+                  item: {
+                    messages: ['main error'],
+                  },
+                },
+                {
+                  item: {
+                    subItems: [
+                      {
+                        item: {
+                          messages: ['nested error 1'],
+                        },
+                      },
+                      {
+                        item: {
+                          messages: [
+                            'nested error 2',
+                            'nested error 2.1',
+                            'nested error 2.2',
+                          ],
+                        },
+                      },
+                      {
+                        item: {
+                          messages: ['nested error 3'],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ]);
+      });
     });
   });
 });

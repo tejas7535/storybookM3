@@ -78,6 +78,8 @@
   },
   "calculationResultReport": {
     "dialogTitle": "Report for bearing {{bearingDesignation}}",
+    "reportSectionInput": "Input",
+    "reportSectionWarnings": "Errors/Warnings/Notes",
     "co2Emissions": {
       "title": "Estimation of CO₂ emissions per piece",
       "chartTitle": "Total value of CO₂",

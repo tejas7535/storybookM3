@@ -1,7 +1,9 @@
-import { FrictionCalculationResult } from '../store/models';
+import { FrictionCalculationResult, ReportMessage } from '../store/models';
 import {
+  extractErrorsWarningsAndNotesFromResult,
   extractSubordinatesFromPath,
   extractTableFromSubordinate,
+  formatErrorsWarningsAndNotesResult,
 } from './bearinx-helper';
 import { BearinxOnlineResult } from './bearinx-result.interface';
 
@@ -33,6 +35,27 @@ export const convertFrictionApiResult = (
       { abbreviation: 'M_R_max', identifier: 'variableLine' },
     ]
   );
+
+  const inputData = extractSubordinatesFromPath(originalResult, [
+    { titleID: 'STRING_OUTP_INPUT', identifier: 'block' },
+  ]);
+
+  if (inputData?.subordinates) {
+    result.reportInputSuborinates = {
+      inputSubordinates: inputData.subordinates,
+    };
+  }
+
+  const messages = extractErrorsWarningsAndNotesFromResult(originalResult);
+
+  const formattedMessages: ReportMessage[] =
+    formatErrorsWarningsAndNotesResult(messages);
+
+  if (formattedMessages) {
+    result.reportMessages = {
+      messages: formattedMessages,
+    };
+  }
 
   if (maxFrictionalTorqueSubordinate) {
     result.max_frictionalTorque = {

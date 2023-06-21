@@ -9,6 +9,26 @@ Object {
 }
 `;
 
+exports[`Calculation Result Selector getReportMessages should return report messages 1`] = `
+Array [
+  Object {
+    "title": "Errors",
+  },
+  Object {
+    "title": "Warnings",
+  },
+]
+`;
+
+exports[`Calculation Result Selector getResultInput should return result input 1`] = `
+Array [
+  Object {
+    "identifier": "block",
+    "title": "some title",
+  },
+]
+`;
+
 exports[`Calculation Result Selector getSelectedCalculations should return the selected calculations 1`] = `
 Array [
   Object {

@@ -23,6 +23,14 @@ export class CalculationResultFacade {
     CalculationResultReportSelector.getCO2EmissionReport
   );
 
+  public readonly calculationReportInput$ = this.store.select(
+    CalculationResultReportSelector.getResultInput
+  );
+
+  public readonly calculationReportMessages$ = this.store.select(
+    CalculationResultReportSelector.getReportMessages
+  );
+
   public readonly isEmissionResultAvailable$ = this.store.select(
     CalculationResultReportSelector.isEmissionResultAvailable
   );

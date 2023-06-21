@@ -1,0 +1,21 @@
+:host {
+  .ea-calculation-result-report-input {
+    &__grid-item {
+      &:nth-of-type(2n + 1) {
+        @apply md:pr-4;
+      }
+
+      &:nth-of-type(2n + 2) {
+        @apply md:pr-2;
+      }
+
+      &:nth-of-type(3n + 1) {
+        @apply lg:pr-4;
+      }
+
+      &:nth-of-type(3n + 2) {
+        @apply lg:pr-2;
+      }
+    }
+  }
+}

@@ -32,11 +32,68 @@ describe('CO2 Helper', () => {
               },
             ],
           },
+          {
+            identifier: 'block',
+            subordinates: [
+              {
+                designation: 'Designation',
+                identifier: 'variableLine',
+                value: '6210',
+              },
+              {
+                designation: 'Series',
+                identifier: 'variableLine',
+                value: '5510',
+              },
+            ],
+            title: 'Input',
+            titleID: 'STRING_OUTP_INPUT',
+          },
+          {
+            identifier: 'block',
+            title: 'Error title',
+            subordinates: [],
+          },
+          {
+            identifier: 'block',
+            title: 'Warning title',
+            subordinates: [],
+          },
         ],
       };
 
       const expectedResult: FrictionCalculationResult = {
         co2_downstream: { value: 123.45, unit: 'kg' },
+        reportInputSuborinates: {
+          inputSubordinates: [
+            {
+              designation: 'Designation',
+              identifier: 'variableLine',
+              value: '6210',
+            },
+            {
+              designation: 'Series',
+              identifier: 'variableLine',
+              value: '5510',
+            },
+          ],
+        },
+        reportMessages: {
+          messages: [
+            {
+              title: 'Error title',
+              item: {
+                subItems: [],
+              },
+            },
+            {
+              title: 'Warning title',
+              item: {
+                subItems: [],
+              },
+            },
+          ],
+        },
       };
 
       expect(
@@ -57,7 +114,11 @@ describe('CO2 Helper', () => {
 
       expect(
         convertFrictionApiResult(resultMock as BearinxOnlineResult)
-      ).toEqual({});
+      ).toEqual({
+        reportMessages: {
+          messages: [],
+        },
+      });
     });
   });
 });

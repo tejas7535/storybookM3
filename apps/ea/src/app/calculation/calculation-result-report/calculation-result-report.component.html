@@ -19,6 +19,27 @@
   <mat-dialog-content class="h-full md:px-6 px-2">
     <div class="flex h-full flex-row">
       <div>
+        <!-- CO2 input notes -->
+        <mat-expansion-panel
+          *ngIf="
+            calculationResultFacade.calculationReportInput$
+              | ngrxPush as calculationInput
+          "
+          class="border-border w-full border !shadow-none mb-4"
+        >
+          <mat-expansion-panel-header class="h-[64px]">
+            <mat-panel-title>
+              <div class="flex flex-row">
+                <div class="my-auto ml-2">
+                  {{ t('reportSectionInput') }}
+                </div>
+              </div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <ea-calculation-result-report-input [reportInput]="calculationInput">
+          </ea-calculation-result-report-input>
+        </mat-expansion-panel>
+
         <!-- Frictional power loss -->
         <ng-container
           *ngIf="calculationResultFacade.isFrictionResultAvailable$ | ngrxPush"
@@ -288,6 +309,36 @@
             </div>
           </mat-expansion-panel>
         </ng-container>
+
+        <!-- Errors, Warnings and notes -->
+        <mat-expansion-panel
+          *ngIf="
+            calculationResultFacade.calculationReportMessages$
+              | ngrxPush as reportMessages
+          "
+          class="border-border w-full border !shadow-none mb-4"
+        >
+          <mat-expansion-panel-header class="h-[64px]">
+            <mat-panel-title>
+              <div class="flex flex-row">
+                <div class="my-auto">
+                  <mat-icon class="text-[#1C98B5]">report_problem</mat-icon>
+                </div>
+                <div class="my-auto ml-2">
+                  {{ t('reportSectionWarnings') }}
+                </div>
+              </div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="m-2">
+            <ea-calculation-result-message
+              *ngFor="let message of reportMessages"
+              [title]="message.title"
+              [item]="message.item"
+            >
+            </ea-calculation-result-message>
+          </div>
+        </mat-expansion-panel>
       </div>
 
       <!-- Right Hand Navigation -->

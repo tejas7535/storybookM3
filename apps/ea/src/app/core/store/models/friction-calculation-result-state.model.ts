@@ -1,3 +1,5 @@
+import { BearinxOnlineResultSubordinate } from '@ea/core/services/bearinx-result.interface';
+
 import { BasicCalculationResultState } from './calculation-result-state.model';
 
 export interface FrictionCalculationResultState
@@ -42,5 +44,20 @@ export interface FrictionCalculationResult {
     // ny (Operating viscosity)
     value: number;
     unit: string;
+  };
+  reportInputSuborinates?: {
+    inputSubordinates: BearinxOnlineResultSubordinate[];
+  };
+  reportMessages?: {
+    // messages contains Erros, Warnings and Notes if available
+    messages: ReportMessage[];
+  };
+}
+
+export interface ReportMessage {
+  title?: string;
+  item?: {
+    messages?: string[];
+    subItems?: ReportMessage[];
   };
 }

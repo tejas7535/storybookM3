@@ -20,7 +20,8 @@ export interface BearinxOnlineResultSubordinate {
   abbreviation?: string;
   unit?: string;
   entries?: [][];
-  subordinates: BearinxOnlineResultSubordinate[];
+  subordinates?: BearinxOnlineResultSubordinate[];
+  text?: string[];
   data?: {
     fields: string[];
     unitFields: { unit: string }[];
