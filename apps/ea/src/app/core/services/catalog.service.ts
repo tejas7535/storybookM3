@@ -1,12 +1,24 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { map, Observable, throwError } from 'rxjs';
+import { map, Observable, switchMap, throwError } from 'rxjs';
 
 import { environment } from '@ea/environments/environment';
+import { toNumberString } from '@ea/shared/helper';
 
-import { BasicFrequenciesResult } from '../store/models';
-import { CatalogServiceBasicFrequenciesResult } from './catalog.service.interface';
+import {
+  BasicFrequenciesResult,
+  CalculationParametersOperationConditions,
+  CatalogCalculationResult,
+} from '../store/models';
+import { BearinxOnlineResult } from './bearinx-result.interface';
+import { convertCatalogCalculationResult } from './catalog-helper';
+import {
+  CatalogServiceBasicFrequenciesResult,
+  CatalogServiceCalculationResult,
+  CatalogServiceLoadCaseData,
+  CatalogServiceOperatingConditions,
+} from './catalog.service.interface';
 
 @Injectable({ providedIn: 'root' })
 export class CatalogService {
@@ -78,5 +90,164 @@ export class CatalogService {
         downloadLink.click();
       })
     );
+  }
+
+  public getCalculationResult(
+    bearingId: string,
+    operationConditions: CalculationParametersOperationConditions
+  ): Observable<CatalogCalculationResult> {
+    if (!bearingId) {
+      return throwError(() => new Error('bearingId must be provided'));
+    }
+
+    const { lubrication: lubricationConditions, oilTemp } = operationConditions;
+
+    const lubricationMethod = this.convertLubricationMethod(
+      lubricationConditions
+    );
+
+    const definitionOfViscosity = this.convertDefinitionOfViscosity(
+      lubricationConditions
+    );
+    const grease =
+      definitionOfViscosity === 'LB_ARCANOL_GREASE'
+        ? lubricationConditions.grease.typeOfGrease.typeOfGrease
+        : 'LB_PLEASE_SELECT';
+    const isoVgClass =
+      definitionOfViscosity === 'LB_ISO_VG_CLASS'
+        ? this.convertIsoVgClass(lubricationConditions)
+        : 'LB_PLEASE_SELECT';
+
+    const viscosity =
+      lubricationConditions[lubricationConditions.lubricationSelection]
+        .viscosity;
+    const ny40 =
+      definitionOfViscosity === 'LB_ENTER_VISCOSITIES'
+        ? toNumberString(viscosity?.ny40 || 0)
+        : '0';
+    const ny100 =
+      definitionOfViscosity === 'LB_ENTER_VISCOSITIES'
+        ? toNumberString(viscosity?.ny100 || 0)
+        : '0';
+
+    const operatingConditions: CatalogServiceOperatingConditions = {
+      IDL_LUBRICATION_METHOD: lubricationMethod,
+      IDL_INFLUENCE_OF_AMBIENT: 'LB_AVERAGE_AMBIENT_INFLUENCE',
+      IDL_OIL_FLOW: '0',
+      IDL_OIL_TEMPERATURE_DIFFERENCE: '0',
+      IDL_EXTERNAL_HEAT_FLOW: '0',
+      IDL_CLEANESS_VALUE: 'LB_STANDARD_CLEANLINESS',
+      IDSLC_TEMPERATURE: '20',
+      IDL_DEFINITION_OF_VISCOSITY: definitionOfViscosity,
+      IDL_ISO_VG_CLASS: isoVgClass,
+      IDL_GREASE: grease,
+      IDL_OILTEMP: toNumberString(oilTemp),
+      IDL_SPEED_WITHOUT_SIGN: '0',
+      IDL_ISO_VG_CLASS_CALCULATED: '',
+      IDL_NY_40: ny40,
+      IDL_NY_100: ny100,
+      IDL_CONDITION_OF_ROTATION: 'LB_ROTATING_INNERRING',
+    };
+
+    const { load, rotation, movementFrequency } = operationConditions;
+
+    const loadcaseData: CatalogServiceLoadCaseData[] = [
+      {
+        IDCO_DESIGNATION: 'Workload',
+        IDSLC_TIME_PORTION: '100',
+        IDSLC_AXIAL_LOAD: toNumberString(load?.axialLoad || 0),
+        IDSLC_RADIAL_LOAD: toNumberString(load?.radialLoad || 0),
+        IDSLC_MEAN_BEARING_OPERATING_TEMPERATURE: '105',
+        IDSLC_TYPE_OF_MOVEMENT: rotation.typeOfMovement,
+        IDLC_SPEED: toNumberString(rotation.rotationalSpeed || 0),
+        IDSLC_MOVEMENT_FREQUENCY: toNumberString(movementFrequency || 0),
+        IDSLC_OPERATING_ANGLE: '0',
+      },
+    ];
+
+    return this.httpClient
+      .post<CatalogServiceCalculationResult>(
+        `${this.baseUrl}/product/calculate/${bearingId}`,
+        {
+          operatingConditions,
+          loadcaseData,
+        }
+      )
+      .pipe(
+        map((result) => {
+          // check for errors
+          if (result.data?.errors?.length > 0) {
+            throw new Error(
+              result.data.message?.replace('\n', ' ')?.trim() ||
+                'Unable to calculate'
+            );
+          }
+
+          return result;
+        }),
+        switchMap((result) => this.getCalculationResultReport(result)),
+        map((result) => convertCatalogCalculationResult(result))
+      );
+  }
+
+  public getCalculationResultReport(
+    result: CatalogServiceCalculationResult
+  ): Observable<BearinxOnlineResult> {
+    const jsonReportUrl = result?._links?.find(
+      (link) => link.rel === 'json'
+    )?.href;
+
+    if (!jsonReportUrl) {
+      throw new Error('Unable to find report url');
+    }
+
+    return this.httpClient.get<BearinxOnlineResult>(jsonReportUrl);
+  }
+
+  private convertLubricationMethod(
+    lubricationConditions: CalculationParametersOperationConditions['lubrication']
+  ): CatalogServiceOperatingConditions['IDL_LUBRICATION_METHOD'] {
+    const { lubricationSelection } = lubricationConditions;
+    switch (lubricationSelection) {
+      case 'grease':
+        return 'LB_GREASE_LUBRICATION';
+      case 'oilBath':
+        return 'LB_OIL_BATH_LUBRICATION';
+      case 'oilMist':
+        return 'LB_OIL_MIST_LUBRICATION';
+      case 'recirculatingOil':
+        return 'LB_RECIRCULATING_OIL_LUBRICATION';
+      default:
+        throw new Error(
+          `Unsupported lubrication method: ${lubricationSelection}`
+        );
+    }
+  }
+
+  private convertDefinitionOfViscosity(
+    lubricationConditions: CalculationParametersOperationConditions['lubrication']
+  ): CatalogServiceOperatingConditions['IDL_DEFINITION_OF_VISCOSITY'] {
+    const { selection } =
+      lubricationConditions[lubricationConditions.lubricationSelection];
+
+    switch (selection) {
+      case 'isoVgClass':
+        return 'LB_ISO_VG_CLASS';
+      case 'typeOfGrease':
+        return 'LB_ARCANOL_GREASE';
+      case 'viscosity':
+        return 'LB_ENTER_VISCOSITIES';
+      default:
+        throw new Error(`Unsupported definition of viscosity: ${selection}`);
+    }
+  }
+
+  private convertIsoVgClass(
+    lubricationConditions: CalculationParametersOperationConditions['lubrication']
+  ): CatalogServiceOperatingConditions['IDL_ISO_VG_CLASS'] {
+    return `LB_ISO_VG_${
+      lubricationConditions[lubricationConditions.lubricationSelection]
+        .isoVgClass.isoVgClass
+    }`;
   }
 }

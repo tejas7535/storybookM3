@@ -6,18 +6,22 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import {
   CalculationParametersActions,
+  CatalogCalculationResultActions,
   FrictionCalculationResultActions,
 } from '../../actions';
 
 @Injectable()
 export class CalculationParametersEffects {
-  // trigger calculation once parameters are updated
+  // trigger calculations once parameters are updated
   public operatingParameters$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(CalculationParametersActions.operatingParameters),
       debounceTime(250),
       switchMap((_action) =>
-        of(FrictionCalculationResultActions.createModel({}))
+        of(
+          FrictionCalculationResultActions.createModel({}),
+          CatalogCalculationResultActions.fetchCalculationResult()
+        )
       )
     );
   });

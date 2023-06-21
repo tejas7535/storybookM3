@@ -3,7 +3,6 @@ import { Component, Input, Optional, Self } from '@angular/core';
 import {
   ControlContainer,
   FormControl,
-  FormGroup,
   FormGroupDirective,
   NgControl,
   ReactiveFormsModule,
@@ -30,6 +29,7 @@ export class TabbedSuboptionComponent {
   @Input() label!: string;
   @Input() name!: string;
   @Input() description!: string;
+  @Input() isDisabled = false;
 
   constructor(@Self() @Optional() public ngControl: NgControl) {
     if (this.ngControl) {
@@ -43,12 +43,6 @@ export class TabbedSuboptionComponent {
 
   get selected(): boolean {
     return this.isDisabled ? false : this.control?.value === this.name;
-  }
-
-  get isDisabled(): boolean {
-    return (
-      (this.control?.parent as FormGroup)?.controls[this.name] as FormGroup
-    )?.disabled;
   }
 
   onClick(event: MouseEvent): void {

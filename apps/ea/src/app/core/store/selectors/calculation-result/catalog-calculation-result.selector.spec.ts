@@ -21,7 +21,7 @@ describe('Catalog Calculation Result Selector', () => {
           ...mockState,
           catalogCalculationResult: {
             ...mockState.catalogCalculationResult,
-            result: 'my-result',
+            basicFrequencies: 'my-result',
           },
         })
       ).toEqual('my-result');

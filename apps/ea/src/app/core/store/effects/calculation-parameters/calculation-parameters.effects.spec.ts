@@ -8,6 +8,7 @@ import { marbles } from 'rxjs-marbles';
 
 import {
   CalculationParametersActions,
+  CatalogCalculationResultActions,
   FrictionCalculationResultActions,
 } from '../../actions';
 import { CalculationParametersEffects } from './calculation-parameters.effects';
@@ -31,15 +32,16 @@ describe('Calculation Parameters Effects', () => {
   });
 
   describe('operatingParameters$', () => {
-    it('should dispatch createModel action if operating parameters are being set', () =>
+    it('should dispatch calculation actions if operating parameters are being set', () =>
       marbles((m) => {
         action = CalculationParametersActions.operatingParameters({
           operationConditions: {},
         });
         actions$ = m.hot('-a', { a: action });
 
-        const expected = m.cold('- 250ms b', {
+        const expected = m.cold('- 250ms (bc)', {
           b: FrictionCalculationResultActions.createModel({}),
+          c: CatalogCalculationResultActions.fetchCalculationResult(),
         });
 
         m.expect(effects.operatingParameters$).toBeObservable(expected);

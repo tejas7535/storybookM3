@@ -24,7 +24,7 @@ describe('CalculationTypes', () => {
           selected: false,
           visible: false,
         },
-        overrollingFrequencies: {
+        overrollingFrequency: {
           disabled: false,
           selected: false,
           visible: false,

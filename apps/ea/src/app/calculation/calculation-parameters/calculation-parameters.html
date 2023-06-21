@@ -118,7 +118,7 @@
       >
         <!-- TYPE OF GREASE -->
         <ea-tabbed-suboption
-          formControlName="greaseSelection"
+          formControlName="selection"
           [label]="t('grease.typeOfGrease.label')"
           name="typeOfGrease"
           [description]="t('grease.typeOfGrease.description')"
@@ -135,7 +135,7 @@
 
         <!-- ISO VG CLASS -->
         <ea-tabbed-suboption
-          formControlName="greaseSelection"
+          formControlName="selection"
           [label]="t('grease.isoVgClass.label')"
           name="isoVgClass"
           [description]="t('grease.isoVgClass.description')"
@@ -152,10 +152,11 @@
 
         <!-- VISCOSITY -->
         <ea-tabbed-suboption
-          formControlName="greaseSelection"
+          formControlName="selection"
           [label]="t('grease.viscosity.label')"
           name="viscosity"
           [description]="t('grease.viscosity.description')"
+          [isDisabled]="true"
         >
           <ng-container formGroupName="viscosity">
             <ea-input-number
@@ -182,7 +183,7 @@
       >
         <!-- ISO VG CLASS -->
         <ea-tabbed-suboption
-          formControlName="oilBathSelection"
+          formControlName="selection"
           [label]="t('grease.isoVgClass.label')"
           name="isoVgClass"
           [description]="t('grease.isoVgClass.description')"
@@ -199,10 +200,11 @@
 
         <!-- VISCOSITY -->
         <ea-tabbed-suboption
-          formControlName="oilBathSelection"
+          formControlName="selection"
           [label]="t('grease.viscosity.label')"
           name="viscosity"
           [description]="t('grease.viscosity.description')"
+          [isDisabled]="true"
         >
           <ng-container formGroupName="viscosity">
             <ea-input-number
@@ -229,7 +231,7 @@
       >
         <!-- ISO VG CLASS -->
         <ea-tabbed-suboption
-          formControlName="oilMistSelection"
+          formControlName="selection"
           [label]="t('grease.isoVgClass.label')"
           name="isoVgClass"
           [description]="t('grease.isoVgClass.description')"
@@ -246,10 +248,11 @@
 
         <!-- VISCOSITY -->
         <ea-tabbed-suboption
-          formControlName="oilMistSelection"
+          formControlName="selection"
           [label]="t('grease.viscosity.label')"
           name="viscosity"
           [description]="t('grease.viscosity.description')"
+          [isDisabled]="true"
         >
           <ng-container formGroupName="viscosity">
             <ea-input-number
@@ -276,7 +279,7 @@
       >
         <!-- ISO VG CLASS -->
         <ea-tabbed-suboption
-          formControlName="recirculatingOilSelection"
+          formControlName="selection"
           [label]="t('grease.isoVgClass.label')"
           name="isoVgClass"
           [description]="t('grease.isoVgClass.description')"
@@ -293,7 +296,7 @@
 
         <!-- VISCOSITY -->
         <ea-tabbed-suboption
-          formControlName="recirculatingOilSelection"
+          formControlName="selection"
           [label]="t('grease.viscosity.label')"
           name="viscosity"
           [description]="t('grease.viscosity.description')"

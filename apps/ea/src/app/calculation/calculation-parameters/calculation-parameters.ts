@@ -91,17 +91,15 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
         'grease' | 'oilBath' | 'oilMist' | 'recirculatingOil'
       >(undefined, [FormSelectValidatorSwitcher()]),
       grease: new FormGroup({
-        greaseSelection: new FormControl<
-          'typeOfGrease' | 'isoVgClass' | 'viscosity'
-        >('typeOfGrease', [FormSelectValidatorSwitcher()]),
-        typeOfGrease: new FormGroup(
-          {
-            typeOfGrease: new FormControl<string>(undefined, [
-              Validators.required,
-            ]),
-          },
-          [FormGroupDisabledValidator()]
+        selection: new FormControl<'typeOfGrease' | 'isoVgClass' | 'viscosity'>(
+          'typeOfGrease',
+          [FormSelectValidatorSwitcher()]
         ),
+        typeOfGrease: new FormGroup({
+          typeOfGrease: new FormControl<`LB_FAG_${string}`>(undefined, [
+            Validators.required,
+          ]),
+        }),
         isoVgClass: new FormGroup({
           isoVgClass: new FormControl<number>(undefined, [Validators.required]),
         }),
@@ -114,10 +112,9 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
         ),
       }),
       oilBath: new FormGroup({
-        oilBathSelection: new FormControl<'isoVgClass' | 'viscosity'>(
-          'isoVgClass',
-          [FormSelectValidatorSwitcher()]
-        ),
+        selection: new FormControl<'isoVgClass' | 'viscosity'>('isoVgClass', [
+          FormSelectValidatorSwitcher(),
+        ]),
         isoVgClass: new FormGroup({
           isoVgClass: new FormControl<number>(undefined, [Validators.required]),
         }),
@@ -130,10 +127,9 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
         ),
       }),
       oilMist: new FormGroup({
-        oilMistSelection: new FormControl<'isoVgClass' | 'viscosity'>(
-          'isoVgClass',
-          [FormSelectValidatorSwitcher()]
-        ),
+        selection: new FormControl<'isoVgClass' | 'viscosity'>('isoVgClass', [
+          FormSelectValidatorSwitcher(),
+        ]),
         isoVgClass: new FormGroup({
           isoVgClass: new FormControl<number>(undefined, [Validators.required]),
         }),
@@ -146,10 +142,9 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
         ),
       }),
       recirculatingOil: new FormGroup({
-        recirculatingOilSelection: new FormControl<'isoVgClass' | 'viscosity'>(
-          'isoVgClass',
-          [FormSelectValidatorSwitcher()]
-        ),
+        selection: new FormControl<'isoVgClass' | 'viscosity'>('isoVgClass', [
+          FormSelectValidatorSwitcher(),
+        ]),
         isoVgClass: new FormGroup({
           isoVgClass: new FormControl<number>(undefined, [Validators.required]),
         }),

@@ -7,6 +7,7 @@ import { CatalogService } from '@ea/core/services/catalog.service';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 
 import { CatalogCalculationResultActions } from '../../actions';
+import { CalculationParametersFacade } from '../../facades';
 import { ProductSelectionFacade } from '../../facades/product-selection/product-selection.facade';
 
 @Injectable()
@@ -61,9 +62,44 @@ export class CatalogCalculationResultEffects {
     { dispatch: false }
   );
 
+  public fetchCalculationResult$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CatalogCalculationResultActions.fetchCalculationResult),
+      concatLatestFrom(() => [
+        this.productSelectionFacade.bearingId$,
+        this.calculationParametersFacade.operationConditions$,
+      ]),
+      switchMap(([_action, bearingId, operatingConditions]) =>
+        this.catalogService
+          .getCalculationResult(bearingId, operatingConditions)
+          .pipe(
+            takeUntil(
+              // cancel request if action is called again
+              this.actions$.pipe(
+                ofType(CatalogCalculationResultActions.fetchCalculationResult)
+              )
+            ),
+            switchMap((calculationResult) => [
+              CatalogCalculationResultActions.setCalculationResult({
+                calculationResult,
+              }),
+            ]),
+            catchError((error: HttpErrorResponse) =>
+              of(
+                CatalogCalculationResultActions.setCalculationFailure({
+                  error: error.message,
+                })
+              )
+            )
+          )
+      )
+    );
+  });
+
   constructor(
     private readonly actions$: Actions,
     private readonly catalogService: CatalogService,
-    private readonly productSelectionFacade: ProductSelectionFacade
+    private readonly productSelectionFacade: ProductSelectionFacade,
+    private readonly calculationParametersFacade: CalculationParametersFacade
   ) {}
 }

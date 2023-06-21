@@ -1,11 +1,12 @@
 import { FrictionCalculationResult } from '../store/models';
 import {
-  FrictionServiceCalculationResult,
-  ResultSubordinate,
-} from './friction-service.interface';
+  extractSubordinatesFromPath,
+  extractTableFromSubordinate,
+} from './bearinx-helper';
+import { BearinxOnlineResult } from './bearinx-result.interface';
 
 export const convertFrictionApiResult = (
-  originalResult: FrictionServiceCalculationResult
+  originalResult: BearinxOnlineResult
 ): FrictionCalculationResult => {
   const result: FrictionCalculationResult = {};
 
@@ -92,62 +93,3 @@ export const convertFrictionApiResult = (
 
   return result;
 };
-
-export const extractSubordinatesFromPath = (
-  input: FrictionServiceCalculationResult,
-  path: Partial<ResultSubordinate>[],
-  requireValue?: boolean
-): ResultSubordinate | undefined => {
-  let result: ResultSubordinate = input;
-
-  for (const pathItem of path) {
-    // find sub item by identifier and designation
-    const item = result.subordinates.find((subordinate) =>
-      matchItem(subordinate, pathItem)
-    );
-
-    if (!item) {
-      if (requireValue) {
-        console.error('Unable to find subordinate', { result, pathItem });
-      }
-
-      return undefined;
-    }
-
-    result = item;
-  }
-
-  return result;
-};
-
-export const extractTableFromSubordinate = (
-  input: Partial<ResultSubordinate>
-): Record<string, { unit: string; value: string }> | undefined => {
-  if (!input.data) {
-    return undefined;
-  }
-
-  const { items } = input.data;
-
-  if (items.length > 1) {
-    throw new Error('Only one line tables supported');
-  }
-
-  const result: Record<string, { unit: string; value: string }> = {};
-
-  for (const item of items[0]) {
-    result[item.field] = { unit: item.unit, value: item.value };
-  }
-
-  return result;
-};
-
-export const matchItem = (
-  subordinate: ResultSubordinate,
-  objectToMatch: Partial<ResultSubordinate>
-): boolean =>
-  Object.entries(objectToMatch).every(([key, value]) =>
-    key in subordinate
-      ? subordinate[key as keyof ResultSubordinate] === value
-      : value === undefined
-  );

@@ -1,7 +1,7 @@
 import { Action, createAction, props } from '@ngrx/store';
 
 import { CatalogCalculationResultActions } from '../../actions';
-import { BasicFrequenciesResult } from '../../models';
+import { BasicFrequenciesResult, CatalogCalculationResult } from '../../models';
 import {
   catalogCalculationResultReducer,
   initialState,
@@ -57,7 +57,7 @@ describe('catalogCalculationResultReducer', () => {
   });
 
   describe('Calculation Result', () => {
-    it('should set calculation result', () => {
+    it('should set basic frequencies result', () => {
       const loadingState = {
         ...initialState,
         isLoading: true,
@@ -70,6 +70,30 @@ describe('catalogCalculationResultReducer', () => {
           basicFrequenciesResult: {
             abc: '123',
           } as unknown as BasicFrequenciesResult,
+        })
+      );
+
+      expect(newState).toEqual({
+        ...loadingState,
+        isLoading: false,
+        basicFrequencies: { abc: '123' },
+        calculationError: undefined,
+      });
+    });
+
+    it('should set calculation result', () => {
+      const loadingState = {
+        ...initialState,
+        isLoading: true,
+        calculationError: 'some error',
+      };
+
+      const newState = catalogCalculationResultReducer(
+        loadingState,
+        CatalogCalculationResultActions.setCalculationResult({
+          calculationResult: {
+            abc: '123',
+          } as unknown as CatalogCalculationResult,
         })
       );
 

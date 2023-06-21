@@ -25,7 +25,7 @@ export interface CalculationResultPreviewItem {
      */
     title: string;
 
-    value?: number;
+    value?: number | string;
     unit?: string;
   })[];
 }

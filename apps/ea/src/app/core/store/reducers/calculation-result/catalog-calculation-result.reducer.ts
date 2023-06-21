@@ -23,7 +23,25 @@ export const catalogCalculationResultReducer = createReducer(
       ...state,
       isLoading: false,
       calculationError: undefined,
-      result: basicFrequenciesResult,
+      basicFrequencies: basicFrequenciesResult,
+    })
+  ),
+
+  on(
+    CatalogCalculationResultActions.fetchCalculationResult,
+    (state): CatalogCalculationResultState => ({
+      ...state,
+      isLoading: true,
+    })
+  ),
+
+  on(
+    CatalogCalculationResultActions.setCalculationResult,
+    (state, { calculationResult }): CatalogCalculationResultState => ({
+      ...state,
+      isLoading: false,
+      calculationError: undefined,
+      result: calculationResult,
     })
   ),
 

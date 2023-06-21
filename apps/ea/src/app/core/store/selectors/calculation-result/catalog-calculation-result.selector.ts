@@ -1,11 +1,16 @@
 import { createSelector } from '@ngrx/store';
 
-import { BasicFrequenciesResult } from '../../models';
+import { BasicFrequenciesResult, CatalogCalculationResult } from '../../models';
 import { getCatalogCalculationResultState } from '../../reducers';
 
 export const getBasicFrequencies = createSelector(
   getCatalogCalculationResultState,
-  (state): BasicFrequenciesResult => state.result
+  (state): BasicFrequenciesResult => state.basicFrequencies
+);
+
+export const getCalculationResult = createSelector(
+  getCatalogCalculationResultState,
+  (state): CatalogCalculationResult => state.result
 );
 
 export const isLoading = createSelector(
@@ -19,6 +24,6 @@ export const getError = createSelector(
 );
 
 export const isCalculationResultAvailable = createSelector(
-  getBasicFrequencies,
+  getCalculationResult,
   (state): boolean => !!state
 );

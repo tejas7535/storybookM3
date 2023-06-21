@@ -38,7 +38,7 @@ const mandatoryFieldMapping: Record<
     energySource: false,
     operatingTemperature: false,
   },
-  overrollingFrequencies: {
+  overrollingFrequency: {
     rotatingCondition: true,
     rpm: true,
     load: true,

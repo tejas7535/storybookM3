@@ -25,23 +25,23 @@ export const initialState: CalculationParametersState = {
     lubrication: {
       lubricationSelection: 'grease',
       grease: {
-        greaseSelection: 'isoVgClass',
+        selection: 'isoVgClass',
         isoVgClass: { isoVgClass: 100 },
         typeOfGrease: { typeOfGrease: undefined },
         viscosity: { ny100: undefined, ny40: undefined },
       },
       oilBath: {
-        oilBathSelection: 'isoVgClass',
+        selection: 'isoVgClass',
         isoVgClass: { isoVgClass: undefined },
         viscosity: { ny100: undefined, ny40: undefined },
       },
       oilMist: {
-        oilMistSelection: 'isoVgClass',
+        selection: 'isoVgClass',
         isoVgClass: { isoVgClass: undefined },
         viscosity: { ny100: undefined, ny40: undefined },
       },
       recirculatingOil: {
-        recirculatingOilSelection: 'isoVgClass',
+        selection: 'isoVgClass',
         isoVgClass: { isoVgClass: undefined },
         viscosity: { ny100: undefined, ny40: undefined },
       },
@@ -56,12 +56,7 @@ export const initialState: CalculationParametersState = {
     electricityRegion: 'LB_EUROPEAN_UNION',
   },
   calculationTypes: {
-    emission: {
-      selected: true,
-      visible: true,
-      disabled: false,
-    },
-    frictionalPowerloss: {
+    ratingLife: {
       selected: false,
       visible: true,
       disabled: false,
@@ -71,12 +66,17 @@ export const initialState: CalculationParametersState = {
       visible: false,
       disabled: false,
     },
-    overrollingFrequencies: {
+    frictionalPowerloss: {
       selected: false,
-      visible: false,
+      visible: true,
       disabled: false,
     },
-    ratingLife: {
+    emission: {
+      selected: true,
+      visible: true,
+      disabled: false,
+    },
+    overrollingFrequency: {
       selected: false,
       visible: false,
       disabled: false,

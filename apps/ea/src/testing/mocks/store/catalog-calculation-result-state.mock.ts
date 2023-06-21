@@ -3,8 +3,14 @@ import { CatalogCalculationResultState } from '@ea/core/store/models';
 export const CATALOG_CALCULATION_RESULT_STATE_MOCK: CatalogCalculationResultState =
   {
     isLoading: false,
-    result: {
+    basicFrequencies: {
       rows: [],
       title: 'Catalog Calculation Result',
+    },
+    result: {
+      lh10: {
+        unit: 'h',
+        value: '123',
+      },
     },
   };

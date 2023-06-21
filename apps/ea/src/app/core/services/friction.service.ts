@@ -9,10 +9,10 @@ import {
   CalculationParametersOperationConditions,
   FrictionCalculationResult,
 } from '../store/models';
+import { BearinxOnlineResult } from './bearinx-result.interface';
 import { convertFrictionApiResult } from './friction-helper';
 import {
   FrictionServiceBearingData,
-  FrictionServiceCalculationResult,
   FrictionServiceLoadCaseData,
 } from './friction-service.interface';
 
@@ -108,7 +108,7 @@ export class FrictionService {
     calculationId: string
   ): Observable<FrictionCalculationResult> {
     return this.http
-      .get<FrictionServiceCalculationResult>(
+      .get<BearinxOnlineResult>(
         `${this.baseUrl}/${modelId}/output/${calculationId}`,
         { observe: 'response', responseType: 'json' }
       )

@@ -1,8 +1,11 @@
 import { OverlayContainer } from '@angular/cdk/overlay';
+import { Injectable } from '@angular/core';
 
 import { APP_ROOT } from './app.module';
 
 // Based on https://stackoverflow.com/a/61074576
+
+@Injectable()
 export class AppOverlayContainer extends OverlayContainer {
   protected _createContainer(): void {
     const container: HTMLDivElement = document.createElement('div');

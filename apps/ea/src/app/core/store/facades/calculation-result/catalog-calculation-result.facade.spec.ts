@@ -38,7 +38,7 @@ describe('CatalogCalculationResultFacade', () => {
       'should provide basic frequencies',
       marbles((m) => {
         const expected = m.cold('a', {
-          a: CATALOG_CALCULATION_RESULT_STATE_MOCK.result,
+          a: CATALOG_CALCULATION_RESULT_STATE_MOCK.basicFrequencies,
         });
 
         m.expect(facade.basicFrequencies$).toBeObservable(expected);

@@ -52,33 +52,3 @@ export interface FrictionServiceLoadCaseData {
   idlD_FY: number; // 200,
   idlD_FZ: number; // 300
 }
-
-export type FrictionServiceCalculationResult = ResultSubordinate & {
-  programName: string;
-  programNameID: string;
-  isBeta: boolean;
-  method: string;
-  methodID: string;
-
-  companyInformation: unknown;
-  timeStamp: string;
-  programVersion: string;
-  transactionFileName: string;
-};
-
-export interface ResultSubordinate {
-  identifier: string;
-  designation?: string;
-  title?: string;
-  titleID?: string;
-  value?: string;
-  abbreviation?: string;
-  unit?: string;
-  entries?: [][];
-  subordinates: ResultSubordinate[];
-  data?: {
-    fields: string[];
-    unitFields: { unit: string }[];
-    items: { field: string; value: string; unit?: string }[][];
-  };
-}

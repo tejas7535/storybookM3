@@ -6,6 +6,11 @@ import {
 } from '../../models';
 import { getCalculationTypes } from '../calculation-parameters/calculation-types.selector';
 import {
+  getCalculationResult as catalogCalculationResult,
+  getError as catalogCalculationError,
+  isLoading as catalogCalculationIsLoading,
+} from './catalog-calculation-result.selector';
+import {
   getCalculationResult as co2UpstreamCalculationResult,
   getError as co2UpstreamError,
   isLoading as co2UpstreamIsLoading,
@@ -16,15 +21,16 @@ import {
   isLoading as frictionIsLoading,
 } from './friction-calculation-result.selector';
 
+type ResultStateWithValue = BasicCalculationResultState & {
+  value?: number | string;
+  unit?: string;
+};
+
 export const co2Upstream = createSelector(
   co2UpstreamCalculationResult,
   co2UpstreamIsLoading,
   co2UpstreamError,
-  (
-    result,
-    isLoading,
-    error
-  ): BasicCalculationResultState & { value?: number; unit?: string } => ({
+  (result, isLoading, error): ResultStateWithValue => ({
     unit: result?.unit,
     value: result?.upstreamEmissionTotal,
     calculationError: error,
@@ -36,11 +42,7 @@ export const co2Downstream = createSelector(
   frictionCalculationResult,
   frictionIsLoading,
   frictionError,
-  (
-    result,
-    isLoading,
-    error
-  ): BasicCalculationResultState & { value?: number; unit?: string } => ({
+  (result, isLoading, error): ResultStateWithValue => ({
     value: result?.co2_downstream?.value,
     unit: result?.co2_downstream?.unit,
     calculationError: error,
@@ -52,11 +54,7 @@ export const friction = createSelector(
   frictionCalculationResult,
   frictionIsLoading,
   frictionError,
-  (
-    result,
-    isLoading,
-    error
-  ): BasicCalculationResultState & { value?: number; unit?: string } => ({
+  (result, isLoading, error): ResultStateWithValue => ({
     value: result?.max_frictionalTorque?.value,
     unit: result?.max_frictionalTorque?.unit,
     calculationError: error,
@@ -64,18 +62,45 @@ export const friction = createSelector(
   })
 );
 
+export const catalogCalculation = createSelector(
+  catalogCalculationResult,
+  catalogCalculationIsLoading,
+  catalogCalculationError,
+  (result, isLoading, error): ResultStateWithValue => ({
+    value: result?.lh10?.value,
+    unit: result?.lh10?.unit,
+    calculationError: error,
+    isLoading,
+  })
+);
+
 export const getCalculationResultPreviewData = createSelector(
   getCalculationTypes,
+  catalogCalculation,
   co2Downstream,
   co2Upstream,
   friction,
   (
     calculationTypes,
+    catalogCalculationPreviewResult,
     co2DownstreamResult,
     co2UpstreamResult,
     frictionResult
   ): CalculationResultPreviewData => {
     const previewData: CalculationResultPreviewData = [];
+
+    if (calculationTypes.ratingLife.selected) {
+      previewData.push({
+        title: 'ratingLife',
+        icon: 'animation',
+        values: [
+          {
+            title: 'ratingLifeSubtitle',
+            ...catalogCalculationPreviewResult,
+          },
+        ],
+      });
+    }
 
     if (calculationTypes.frictionalPowerloss.selected) {
       previewData.push({

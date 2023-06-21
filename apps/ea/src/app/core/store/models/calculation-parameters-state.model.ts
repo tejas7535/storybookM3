@@ -1,4 +1,5 @@
 import { FrictionServiceBearingData } from '@ea/core/services/friction-service.interface';
+import { Greases } from '@ea/shared/constants/greases';
 
 export interface CalculationParametersState {
   operationConditions: CalculationParametersOperationConditions;
@@ -22,9 +23,9 @@ export interface CalculationParametersOperationConditions {
   lubrication: {
     lubricationSelection: 'grease' | 'oilBath' | 'oilMist' | 'recirculatingOil';
     grease: {
-      greaseSelection: 'typeOfGrease' | 'isoVgClass' | 'viscosity';
+      selection: 'typeOfGrease' | 'isoVgClass' | 'viscosity';
       typeOfGrease: {
-        typeOfGrease: string;
+        typeOfGrease: typeof Greases[number]['value'];
       };
       isoVgClass: {
         isoVgClass: number;
@@ -35,7 +36,7 @@ export interface CalculationParametersOperationConditions {
       };
     };
     oilBath: {
-      oilBathSelection: 'isoVgClass' | 'viscosity';
+      selection: 'isoVgClass' | 'viscosity';
       isoVgClass: {
         isoVgClass: number;
       };
@@ -45,7 +46,7 @@ export interface CalculationParametersOperationConditions {
       };
     };
     oilMist: {
-      oilMistSelection: 'isoVgClass' | 'viscosity';
+      selection: 'isoVgClass' | 'viscosity';
       isoVgClass: {
         isoVgClass: number;
       };
@@ -55,7 +56,7 @@ export interface CalculationParametersOperationConditions {
       };
     };
     recirculatingOil: {
-      recirculatingOilSelection: 'isoVgClass' | 'viscosity';
+      selection: 'isoVgClass' | 'viscosity';
       isoVgClass: {
         isoVgClass: number;
       };
@@ -77,7 +78,7 @@ export type CalculationType =
   | 'ratingLife'
   | 'lubrication'
   | 'emission'
-  | 'overrollingFrequencies';
+  | 'overrollingFrequency';
 
 export interface CalculationParametersEnergySource {
   type: FrictionServiceBearingData['idscO_CO2_EMISSION_FACTOR_CALCULATION'];

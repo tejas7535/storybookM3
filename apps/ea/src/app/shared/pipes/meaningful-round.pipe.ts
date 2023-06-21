@@ -20,7 +20,7 @@ export class MeaningfulRoundPipe extends DecimalPipe implements PipeTransform {
     digitsInfo?: string,
     locale?: string
   ): string | null {
-    if (value === undefined || value === null || Number.isNaN(value)) {
+    if (value === undefined || value === null) {
       // eslint-disable-next-line unicorn/no-null
       return null;
     }
@@ -28,6 +28,11 @@ export class MeaningfulRoundPipe extends DecimalPipe implements PipeTransform {
     const roundedNumber = roundToThreeSigFigs(
       typeof value === 'number' ? value : Number.parseFloat(value)
     );
+
+    // if this didn't work (e.g. value was no number after all) return original
+    if (roundedNumber === 'NaN') {
+      return value as string;
+    }
 
     return super.transform(roundedNumber, digitsInfo, locale);
   }

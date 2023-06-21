@@ -66,6 +66,8 @@
     "calculationMissingInput": "Please add the remaining conditions."
   },
   "calculationResult": {
+    "ratingLife": "Rating life",
+    "ratingLifeSubtitle": "Total rating life (Lh10)",
     "totalValueCO2": "Total value of CO₂",
     "overrollingFrequency": "Overrolling frequency",
     "overrollingFrequencySubtitle": "Frequency on inner ring (BPFI)",
@@ -110,9 +112,11 @@
     "selectAll": "Select all",
     "calculations": "Calculations",
     "calculationTypes": {
+      "ratingLife": "Rating Life",
+      "lubrication": "Lubrication parameter",
+      "frictionalPowerloss": "Frictional power loss",
       "co2": "CO₂ emissions",
-      "overrollingFrequency": "Overrolling frequency",
-      "frictionalPowerloss": "Frictional power loss"
+      "overrollingFrequency": "Overrolling frequency"
     },
     "basicFrequency": "Basic Frequencies",
     "saveAsPDF": "Save as pdf"

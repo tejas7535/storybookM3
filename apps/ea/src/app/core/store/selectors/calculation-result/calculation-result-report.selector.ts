@@ -93,7 +93,7 @@ export const getSelectedCalculations = createSelector(
       emission: emissionResultAvailable,
       frictionalPowerloss: frictionResultAvailable,
       lubrication: false,
-      overrollingFrequencies: false,
+      overrollingFrequency: false,
       ratingLife: false,
     };
 

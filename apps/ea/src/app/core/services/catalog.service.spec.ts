@@ -9,6 +9,7 @@ import { firstValueFrom } from 'rxjs';
 import { environment } from '@ea/environments/environment';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
+import { CalculationParametersOperationConditions } from '../store/models';
 import { CatalogService } from './catalog.service';
 import { CatalogServiceBasicFrequenciesResult } from './catalog.service.interface';
 
@@ -121,5 +122,85 @@ describe('CatalogService', () => {
       expect(req.request.method).toBe('GET');
       req.flush(mockResult);
     }));
+  });
+
+  describe('convertDefinitionOfViscosity', () => {
+    it('should select typeOfGrease', () => {
+      const lubricationConditions: CalculationParametersOperationConditions['lubrication'] =
+        {
+          lubricationSelection: 'grease',
+          grease: {
+            selection: 'typeOfGrease',
+          },
+        } as CalculationParametersOperationConditions['lubrication'];
+
+      const result = catalogService['convertDefinitionOfViscosity'](
+        lubricationConditions
+      );
+
+      expect(result).toEqual('LB_ARCANOL_GREASE');
+    });
+
+    it('should select isoVgClass', () => {
+      const lubricationConditions: CalculationParametersOperationConditions['lubrication'] =
+        {
+          lubricationSelection: 'oilBath',
+          oilBath: {
+            selection: 'isoVgClass',
+          },
+        } as CalculationParametersOperationConditions['lubrication'];
+
+      const result = catalogService['convertDefinitionOfViscosity'](
+        lubricationConditions
+      );
+
+      expect(result).toEqual('LB_ISO_VG_CLASS');
+    });
+  });
+
+  describe('convertLubricationMethod', () => {
+    it('should select grease', () => {
+      const lubricationConditions: CalculationParametersOperationConditions['lubrication'] =
+        {
+          lubricationSelection: 'grease',
+        } as CalculationParametersOperationConditions['lubrication'];
+
+      const result = catalogService['convertLubricationMethod'](
+        lubricationConditions
+      );
+
+      expect(result).toEqual('LB_GREASE_LUBRICATION');
+    });
+
+    it('should select oil mist', () => {
+      const lubricationConditions: CalculationParametersOperationConditions['lubrication'] =
+        {
+          lubricationSelection: 'oilMist',
+        } as CalculationParametersOperationConditions['lubrication'];
+
+      const result = catalogService['convertLubricationMethod'](
+        lubricationConditions
+      );
+
+      expect(result).toEqual('LB_OIL_MIST_LUBRICATION');
+    });
+  });
+
+  describe('convertIsoVgClass', () => {
+    it('should convert iso vg class', () => {
+      const lubricationConditions: CalculationParametersOperationConditions['lubrication'] =
+        {
+          lubricationSelection: 'oilBath',
+          oilBath: {
+            selection: 'isoVgClass',
+
+            isoVgClass: { isoVgClass: 1223 },
+          },
+        } as CalculationParametersOperationConditions['lubrication'];
+
+      const result = catalogService['convertIsoVgClass'](lubricationConditions);
+
+      expect(result).toEqual('LB_ISO_VG_1223');
+    });
   });
 });

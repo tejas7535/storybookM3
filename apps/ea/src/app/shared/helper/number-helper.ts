@@ -28,3 +28,9 @@ export function roundToThreeSigFigs(num: number): string {
     return rounded.toFixed(decimalPlaces);
   }
 }
+
+export type NumberString = `${number}`;
+
+export function toNumberString(input: number): NumberString {
+  return input.toString() as NumberString;
+}

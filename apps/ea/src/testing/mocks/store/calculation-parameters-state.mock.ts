@@ -13,23 +13,23 @@ export const CALCULATION_PARAMETERS_STATE_MOCK: CalculationParametersState = {
     lubrication: {
       lubricationSelection: 'grease',
       grease: {
-        greaseSelection: 'isoVgClass',
+        selection: 'isoVgClass',
         isoVgClass: { isoVgClass: undefined },
         typeOfGrease: { typeOfGrease: undefined },
         viscosity: { ny100: undefined, ny40: undefined },
       },
       oilBath: {
-        oilBathSelection: 'isoVgClass',
+        selection: 'isoVgClass',
         isoVgClass: { isoVgClass: undefined },
         viscosity: { ny100: undefined, ny40: undefined },
       },
       oilMist: {
-        oilMistSelection: 'isoVgClass',
+        selection: 'isoVgClass',
         isoVgClass: { isoVgClass: undefined },
         viscosity: { ny100: undefined, ny40: undefined },
       },
       recirculatingOil: {
-        recirculatingOilSelection: 'isoVgClass',
+        selection: 'isoVgClass',
         isoVgClass: { isoVgClass: undefined },
         viscosity: { ny100: undefined, ny40: undefined },
       },
@@ -59,7 +59,7 @@ export const CALCULATION_PARAMETERS_STATE_MOCK: CalculationParametersState = {
       selected: false,
       visible: false,
     },
-    overrollingFrequencies: {
+    overrollingFrequency: {
       disabled: false,
       selected: false,
       visible: false,
