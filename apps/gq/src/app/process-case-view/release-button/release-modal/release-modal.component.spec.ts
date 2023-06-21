@@ -71,7 +71,12 @@ describe('ReleaseModalComponent', () => {
     });
     test('should set approver one and two in formGroup', () => {
       component.ngOnInit();
+      expect(component.formGroup.get('approver1')).toBeDefined();
+      expect(component.formGroup.get('approver2')).toBeDefined();
       expect(component.formGroup.get('approver3')).toBeNull();
+      expect(component.formGroup.get('approverCC')).toBeDefined();
+      expect(component.formGroup.get('comment')).toBeDefined();
+      expect(component.formGroup.get('projectInformation')).toBeDefined();
     });
     test('should set approver one, two and three in formGroup', () => {
       const facadeMock: ApprovalFacade = {
@@ -84,7 +89,31 @@ describe('ReleaseModalComponent', () => {
         value: facadeMock,
       });
       component.ngOnInit();
+      expect(component.formGroup.get('approver1')).toBeDefined();
+      expect(component.formGroup.get('approver2')).toBeDefined();
       expect(component.formGroup.get('approver3')).toBeDefined();
+      expect(component.formGroup.get('approverCC')).toBeDefined();
+      expect(component.formGroup.get('comment')).toBeDefined();
+      expect(component.formGroup.get('projectInformation')).toBeDefined();
+    });
+
+    test('should set only comment and project information in formGroup', () => {
+      const facadeMock: ApprovalFacade = {
+        getApprovalWorkflowData: jest.fn(),
+        approvalStatus$: of({ autoApproval: true } as ApprovalStatus),
+        triggerApprovalWorkflowSucceeded$: of(),
+      } as unknown as ApprovalFacade;
+
+      Object.defineProperty(component, 'approvalFacade', {
+        value: facadeMock,
+      });
+      component.ngOnInit();
+      expect(component.formGroup.get('approver1')).toBeNull();
+      expect(component.formGroup.get('approver2')).toBeNull();
+      expect(component.formGroup.get('approver3')).toBeNull();
+      expect(component.formGroup.get('approverCC')).toBeNull();
+      expect(component.formGroup.get('comment')).toBeDefined();
+      expect(component.formGroup.get('projectInformation')).toBeDefined();
     });
 
     describe('calculate loadingComplete', () => {
@@ -303,6 +332,31 @@ describe('ReleaseModalComponent', () => {
         thirdApprover: formValue.approver3.userId,
         infoUser: formValue.approverCC.userId,
         comment: formValue.comment,
+        projectInformation: formValue.projectInformation,
+      });
+    });
+
+    test('should start auto approval', () => {
+      component.approvalFacade.approvalStatus$ = of({
+        autoApproval: true,
+      } as ApprovalStatus);
+      component.approvalFacade.triggerApprovalWorkflowSucceeded$ = of();
+      component.ngOnInit();
+
+      const formValue = {
+        comment: 'test comment    ',
+        projectInformation: 'test project info',
+      };
+      const triggerApprovalWorkflowSpy = jest.spyOn(
+        component.approvalFacade,
+        'triggerApprovalWorkflow'
+      );
+
+      component.formGroup.setValue(formValue);
+      component.triggerAutoApproval();
+
+      expect(triggerApprovalWorkflowSpy).toHaveBeenCalledWith({
+        comment: formValue.comment.trim(),
         projectInformation: formValue.projectInformation,
       });
     });

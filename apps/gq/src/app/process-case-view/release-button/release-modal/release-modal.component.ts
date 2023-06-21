@@ -28,10 +28,10 @@ import { userValidator } from '@gq/shared/validators/user-validator';
 import { TranslocoService } from '@ngneat/transloco';
 
 interface ReleaseModalFormControl {
-  approver1: FormControl<Approver>;
-  approver2: FormControl<Approver>;
+  approver1?: FormControl<Approver>;
+  approver2?: FormControl<Approver>;
   approver3?: FormControl<Approver>;
-  approverCC: FormControl<ActiveDirectoryUser>;
+  approverCC?: FormControl<ActiveDirectoryUser>;
   comment: FormControl<string>;
   projectInformation: FormControl<string>;
 }
@@ -118,29 +118,31 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
       )
     );
 
-    this.formGroup = this.formBuilder.group<ReleaseModalFormControl>(
-      {
-        approver1: this.approver1FormControl,
-        approver2: this.approver2FormControl,
-        approverCC: this.approverCCFormControl,
-        comment: new FormControl(
-          undefined,
-          Validators.maxLength(this.INPUT_MAX_LENGTH)
-        ),
-        projectInformation: new FormControl(
-          undefined,
-          Validators.maxLength(this.INPUT_MAX_LENGTH)
-        ),
-      },
-      { validators: approversDifferValidator().bind(this) }
-    );
+    this.formGroup = this.formBuilder.group<ReleaseModalFormControl>({
+      comment: new FormControl(
+        undefined,
+        Validators.maxLength(this.INPUT_MAX_LENGTH)
+      ),
+      projectInformation: new FormControl(
+        undefined,
+        Validators.maxLength(this.INPUT_MAX_LENGTH)
+      ),
+    });
 
     this.approvalFacade.approvalStatus$
       .pipe(
         takeUntil(this.shutdown$$),
-        tap(({ thirdApproverRequired }: ApprovalStatus) => {
-          if (thirdApproverRequired) {
-            this.formGroup.addControl('approver3', this.approver3FormControl);
+        tap(({ thirdApproverRequired, autoApproval }: ApprovalStatus) => {
+          if (!autoApproval) {
+            this.formGroup.addControl('approver1', this.approver1FormControl);
+            this.formGroup.addControl('approver2', this.approver2FormControl);
+            this.formGroup.addControl('approverCC', this.approverCCFormControl);
+
+            if (thirdApproverRequired) {
+              this.formGroup.addControl('approver3', this.approver3FormControl);
+            }
+
+            this.formGroup.addValidators(approversDifferValidator().bind(this));
           }
         })
       )
@@ -191,7 +193,13 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
   }
 
   triggerAutoApproval() {
-    // Will be implemented in a later story
+    const formGroupValue = this.formGroup.value;
+
+    this.approvalFacade.triggerApprovalWorkflow({
+      comment: formGroupValue.comment?.trim() || undefined,
+      projectInformation:
+        formGroupValue.projectInformation?.trim() || undefined,
+    });
   }
 
   save() {
