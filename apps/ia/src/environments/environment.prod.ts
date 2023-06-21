@@ -1,4 +1,5 @@
 import { Environment } from './environment.model';
+import { EnvironmentEnum } from '../app/shared/models';
 
 export const environment: Environment = {
   production: true,
@@ -26,4 +27,5 @@ export const environment: Environment = {
     ngrxIgnorePattern: ['@ngrx/*'],
     consent: true,
   },
+  environment: EnvironmentEnum.prod,
 };

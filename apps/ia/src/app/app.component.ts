@@ -1,4 +1,4 @@
-import { Component, isDevMode, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 
 import { filter, map, merge, Observable, of, take } from 'rxjs';
@@ -15,7 +15,9 @@ import {
 } from '@schaeffler/azure-auth';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
+import { getEnv } from '../environments/environments.provider';
 import { AppRoutePath } from './app-route-path.enum';
+import { EnvironmentEnum } from './shared/models';
 
 interface TabElem {
   label: string;
@@ -57,7 +59,7 @@ export class AppComponent implements OnInit {
     {
       label: 'reasonsAndCounterMeasures',
       path: AppRoutePath.ReasonsAndCounterMeasuresPath,
-      disabled: !isDevMode(),
+      disabled: getEnv().environment === EnvironmentEnum.prod,
     },
     {
       label: 'fluctuationAnalytics',

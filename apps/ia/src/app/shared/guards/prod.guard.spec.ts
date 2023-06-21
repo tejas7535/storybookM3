@@ -1,40 +1,47 @@
-import * as angularCore from '@angular/core';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
-import {
-  createServiceFactory,
-  SpectatorService,
-  SpectatorServiceFactory,
-} from '@ngneat/spectator';
+import { Environment } from '../../../environments/environment.model';
+import { EnvironmentEnum } from '../models';
+import { prodGuard } from './';
 
-import { ProdGuard } from '.';
+let environment: EnvironmentEnum;
 
-describe('ProdGuard', () => {
-  let guard: ProdGuard;
-  let spectator: SpectatorService<ProdGuard>;
-  let createService: SpectatorServiceFactory<ProdGuard>;
+jest.mock('./../../../environments/environments.provider', () => ({
+  ...jest.requireActual('./../../../environments/environments.provider'),
+  getEnv: jest.fn(() => ({ environment } as Environment)),
+}));
 
-  describe('Dev Environemnt', () => {
-    createService = createServiceFactory({
-      service: ProdGuard,
-      imports: [RouterTestingModule],
-    });
+describe('prodGuard', () => {
+  test('should return true when dev environment', () => {
+    environment = EnvironmentEnum.dev;
 
-    beforeEach(() => {
-      spectator = createService();
-      guard = spectator.inject(ProdGuard);
-    });
+    expect(
+      prodGuard(
+        undefined as ActivatedRouteSnapshot,
+        undefined as RouterStateSnapshot
+      )
+    ).toBeTruthy();
+  });
 
-    test('should return true when dev mode', () => {
-      jest.spyOn(angularCore, 'isDevMode').mockReturnValue(true);
+  test('should return true when qa environment', () => {
+    environment = EnvironmentEnum.qa;
 
-      expect(guard.canLoad()).toBeTruthy();
-    });
+    expect(
+      prodGuard(
+        undefined as ActivatedRouteSnapshot,
+        undefined as RouterStateSnapshot
+      )
+    ).toBeTruthy();
+  });
 
-    test('should return false when not dev mode', () => {
-      jest.spyOn(angularCore, 'isDevMode').mockReturnValue(false);
+  test('should return false when prod environment', () => {
+    environment = EnvironmentEnum.prod;
 
-      expect(guard.canLoad()).toBeFalsy();
-    });
+    expect(
+      prodGuard(
+        undefined as ActivatedRouteSnapshot,
+        undefined as RouterStateSnapshot
+      )
+    ).toBeFalsy();
   });
 });

@@ -9,3 +9,4 @@ export * from './pageable';
 export * from './position.model';
 export * from './rest-response.model';
 export * from './tailwind-color.enum';
+export * from './environment-enum';

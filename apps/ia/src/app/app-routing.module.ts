@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AppRoutePath } from './app-route-path.enum';
-import { ProdGuard } from './shared/guards';
+import { prodGuard } from './shared/guards';
 
 export const appRoutePaths: Routes = [
   {
@@ -38,7 +38,7 @@ export const appRoutePaths: Routes = [
           import(
             './reasons-and-counter-measures/reasons-and-counter-measures.module'
           ).then((m) => m.ReasonsAndCounterMeasuresModule),
-        canLoad: [ProdGuard],
+        canActivate: [prodGuard],
       },
       {
         path: AppRoutePath.FluctuationAnalyticsPath,

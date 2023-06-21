@@ -1,3 +1,5 @@
+import { EnvironmentEnum } from '../app/shared/models';
+
 export interface Environment {
   production: boolean;
   localDev: boolean;
@@ -23,4 +25,5 @@ export interface Environment {
     ngrxIgnorePattern: string[];
     consent: boolean;
   };
+  environment: EnvironmentEnum;
 }

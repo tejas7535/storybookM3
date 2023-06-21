@@ -1,11 +1,17 @@
-import { Injectable, isDevMode } from '@angular/core';
-import { CanLoad } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  CanActivateFn,
+  RouterStateSnapshot,
+} from '@angular/router';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class ProdGuard implements CanLoad {
-  canLoad() {
-    return isDevMode();
-  }
-}
+import { EnvironmentEnum } from '../../shared/models';
+import { getEnv } from './../../../environments/environments.provider';
+
+export const prodGuard: CanActivateFn = (
+  _next: ActivatedRouteSnapshot,
+  _state: RouterStateSnapshot
+): boolean => {
+  const env = getEnv();
+
+  return env.environment !== EnvironmentEnum.prod;
+};
