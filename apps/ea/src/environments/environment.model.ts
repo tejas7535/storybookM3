@@ -8,4 +8,5 @@ export interface Environment {
   tenantId: string;
   groupId: string;
   assetsPath: string;
+  oneTrustId: string;
 }
