@@ -1,4 +1,27 @@
 # Release Notes of Guided Quoting
+## [3.8.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v3.7.0...gq-v3.8.0) (2023-06-22)
+
+
+### Features
+
+* **gq:** add autocomplete function for users in approval modal (GQUOTE-2489) ([#5361](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5361)) ([ef7e85b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ef7e85b65220d6014cb77052d53bb4307f1df0dd))
+* **gq:** calculate and display margins for comparable costs (GQUOTE-2352) ([#5347](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5347)) ([5733cf0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5733cf0ee0c8d50689f4cd5ee932e8b47979bcc1))
+* **gq:** refactor currency store (GQUOTE-2599) ([#5340](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5340)) ([4d174ec](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4d174eca705d9383a013439af1a1e0f47b37c2c6))
+* **gq:** refactor health-check store (GQUOTE-2601) ([#5343](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5343)) ([9f828f7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9f828f7f8a0d6b4b76f163b4125e8eb439d91505))
+* **gq:** Refactor Store for Cases Overview Page (GQUOTE-2579) ([#5335](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5335)) ([016d7c3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/016d7c39f085f2363ee6936ce921c32b1256d86b))
+* **gq:** renaming State and Model (GQUOTE-2648) ([#5365](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5365)) ([06bfa62](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/06bfa6210b93dcec53575558e934647c6c55925a))
+* **gq:** trigger approval workflow (GQUOTE-2585) ([#5371](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5371)) ([1156291](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1156291809f689883d27d428d92b6d01f012706d))
+* **gq:** trigger auto approval (GQUOTE-2667) ([14367aa](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/14367aa7fae2a02708ebc40e189c36ba86c9ff2e))
+
+
+### Bug Fixes
+
+* **gq:**  import overviewCasesModule to access via direct Link to Quotation (GQUOTE-2338) ([#5363](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5363)) ([3325ffa](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3325ffa1611ce531906edd26c156cf99ffa1a31c))
+* **gq:** added missing case in sync status filter value formatter ([#5351](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5351)) ([451e290](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/451e290d05366abd2137443f35f080df838eca3e))
+* **gq:** adjust styling in globalSearch (GQUOTE-2596) ([#5345](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5345)) ([0aa0d70](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0aa0d70973778aed59dc6b965c39df4fbd2ba009))
+* **gq:** round gpc and sqv before calculating margins and recalculate margins on price change (GQUOTE-2352) ([#5362](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5362)) ([40fdcbc](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/40fdcbc6ef8198e4b221ba42126fad56996c5e3b))
+* **gq:** unselect customer, when control has empty input (GQUOTE-2367) ([#5352](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5352)) ([6ed9a4b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6ed9a4be9584d867cd6119fd62602ab64fddc08c))
+
 ## [3.7.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v3.6.1...gq-v3.7.0) (2023-06-07)
 
 
