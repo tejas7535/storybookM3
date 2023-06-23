@@ -15,7 +15,7 @@ export interface DataResult {
   sapSupplierIds?: string[];
   productCategory: string;
   productCategoryText: string;
-  referenceDoc?: string;
+  referenceDoc?: string[];
   co2Scope1?: number;
   co2Scope2?: number;
   co2Scope3?: number;

@@ -46,6 +46,7 @@ export class DialogEffects {
               DialogActions.fetchProductCategories(),
               DialogActions.fetchCastingModes(),
               DialogActions.fetchProductionProcesses(),
+              DialogActions.fetchReferenceDocuments(),
             ];
           case MaterialClass.STEEL:
             return [
@@ -54,6 +55,7 @@ export class DialogEffects {
               DialogActions.fetchRatings(),
               DialogActions.fetchSteelMakingProcesses(),
               DialogActions.fetchCastingModes(),
+              DialogActions.fetchReferenceDocuments(),
             ];
           case MaterialClass.CERAMIC:
             return [
@@ -513,45 +515,35 @@ export class DialogEffects {
     return this.actions$.pipe(
       ofType(DialogActions.fetchReferenceDocuments),
       concatLatestFrom(() => this.dataFacade.materialClass$),
-      switchMap(([{ materialStandardId }, materialClass]) => {
-        if (!materialStandardId) {
-          return of(
-            DialogActions.fetchReferenceDocumentsSuccess({
-              referenceDocuments: [],
-            })
-          );
-        }
-
-        return this.msdDataService
-          .fetchReferenceDocuments(materialStandardId, materialClass)
-          .pipe(
-            map((referenceDocuments) => {
-              const parsedDocuments: string[] = [];
-              for (const documents of referenceDocuments) {
-                // TODO: can be removed as soon as it is guaranteed that we have only parsable options in the db (not during we still work on the modification of materials)
-                try {
-                  JSON.parse(documents).map((document: string) =>
-                    parsedDocuments.push(document)
-                  );
-                } catch {
-                  parsedDocuments.push(documents);
-                }
+      switchMap(([_action, materialClass]) => {
+        return this.msdDataService.fetchReferenceDocuments(materialClass).pipe(
+          map((referenceDocuments) => {
+            const parsedDocuments: string[] = [];
+            for (const documents of referenceDocuments) {
+              // TODO: can be removed as soon as it is guaranteed that we have only parsable options in the db (not during we still work on the modification of materials)
+              try {
+                JSON.parse(documents).map((document: string) =>
+                  parsedDocuments.push(document)
+                );
+              } catch {
+                parsedDocuments.push(documents);
               }
+            }
 
-              return parsedDocuments;
-            }),
-            map((parsedDocuments) =>
-              parsedDocuments.filter(
-                (document, index) => parsedDocuments.indexOf(document) === index
-              )
-            ),
-            map((referenceDocuments) =>
-              DialogActions.fetchReferenceDocumentsSuccess({
-                referenceDocuments,
-              })
-            ),
-            catchError(() => of(DialogActions.fetchReferenceDocumentsFailure()))
-          );
+            return parsedDocuments;
+          }),
+          map((parsedDocuments) =>
+            parsedDocuments.filter(
+              (document, index) => parsedDocuments.indexOf(document) === index
+            )
+          ),
+          map((referenceDocuments) =>
+            DialogActions.fetchReferenceDocumentsSuccess({
+              referenceDocuments,
+            })
+          ),
+          catchError(() => of(DialogActions.fetchReferenceDocumentsFailure()))
+        );
       })
     );
   });
@@ -741,17 +733,6 @@ export class DialogEffects {
       map(([_nothing, editMaterial]) => {
         const material: DataResult = editMaterial.row;
 
-        let referenceDocValue;
-        try {
-          referenceDocValue = JSON.parse(material.referenceDoc || '[]').map(
-            (document: string) => ({ id: document, title: document })
-          );
-        } catch {
-          referenceDocValue = [
-            { id: material.referenceDoc, title: material.referenceDoc },
-          ];
-        }
-
         const parsedMaterial: Partial<MaterialFormValue> = {
           manufacturerSupplierId: material.manufacturerSupplierId,
           materialStandardId: material.materialStandardId,
@@ -763,7 +744,9 @@ export class DialogEffects {
                 ),
               }
             : undefined,
-          referenceDoc: referenceDocValue,
+          referenceDoc: (material.referenceDoc || []).map(
+            (document: string) => ({ id: document, title: document })
+          ),
           co2Scope1: material.co2Scope1,
           co2Scope2: material.co2Scope2,
           co2Scope3: material.co2Scope3,

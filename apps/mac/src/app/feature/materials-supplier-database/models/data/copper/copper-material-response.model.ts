@@ -8,7 +8,7 @@ export interface CopperMaterialResponse extends BaseMaterialResponse {
   materialStandard: CopperMaterialStandard;
   manufacturerSupplier: CopperManufacturerSupplier;
   productCategory: string;
-  referenceDoc?: string;
+  referenceDoc?: string[];
   castingMode: string;
   castingDiameter: string;
   maxDimension: number;

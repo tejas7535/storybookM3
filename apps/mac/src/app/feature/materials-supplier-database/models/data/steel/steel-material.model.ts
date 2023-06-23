@@ -10,7 +10,7 @@ export interface SteelMaterial extends BaseMaterial {
 
   selfCertified: boolean;
   blocked: boolean;
-  referenceDoc?: string;
+  referenceDoc?: string[];
   releaseDateYear?: number;
   releaseDateMonth?: number;
   castingMode: string;

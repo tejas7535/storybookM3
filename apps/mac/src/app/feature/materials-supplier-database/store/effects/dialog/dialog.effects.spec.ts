@@ -148,7 +148,7 @@ describe('Dialog Effects', () => {
         action = materialDialogOpened();
         actions$ = m.hot('-a', { a: action });
 
-        const expected = m.cold('-(bcdefgh)', {
+        const expected = m.cold('-(bcdefghi)', {
           b: fetchMaterialStandards(),
           c: fetchCo2Classifications(),
           d: fetchManufacturerSuppliers(),
@@ -156,6 +156,7 @@ describe('Dialog Effects', () => {
           f: fetchRatings(),
           g: fetchSteelMakingProcesses(),
           h: fetchCastingModes(),
+          i: fetchReferenceDocuments(),
         });
 
         m.expect(effects.materialDialogOpened$).toBeObservable(expected);
@@ -223,13 +224,14 @@ describe('Dialog Effects', () => {
 
         msdDataFacade.materialClass$ = of(MaterialClass.COPPER);
 
-        const expected = m.cold('-(bcdefg)', {
+        const expected = m.cold('-(bcdefgh)', {
           b: fetchMaterialStandards(),
           c: fetchCo2Classifications(),
           d: fetchManufacturerSuppliers(),
           e: fetchProductCategories(),
           f: fetchCastingModes(),
           g: fetchProductionProcesses(),
+          h: fetchReferenceDocuments(),
         });
 
         m.expect(effects.materialDialogOpened$).toBeObservable(expected);
@@ -1438,31 +1440,9 @@ describe('Dialog Effects', () => {
 
   describe('fetchReferenceDocuments$', () => {
     it(
-      'should return empty success action with empty materialStandardId',
-      marbles((m) => {
-        action = fetchReferenceDocuments({
-          materialStandardId: undefined,
-        });
-        actions$ = m.hot('-a', { a: action });
-
-        msdDataService.fetchReferenceDocuments = jest.fn();
-
-        const result = fetchReferenceDocumentsSuccess({
-          referenceDocuments: [],
-        });
-        const expected = m.cold('-b', { b: result });
-
-        m.expect(effects.fetchReferenceDocuments$).toBeObservable(expected);
-        m.flush();
-
-        expect(msdDataService.fetchReferenceDocuments).not.toHaveBeenCalled();
-      })
-    );
-
-    it(
       'should fetch referenceDocuments and return success action on success',
       marbles((m) => {
-        action = fetchReferenceDocuments({ materialStandardId: 1 });
+        action = fetchReferenceDocuments();
         actions$ = m.hot('-a', { a: action });
 
         const resultMock: string[] = ['reference', 'document', '["as json"]'];
@@ -1478,16 +1458,15 @@ describe('Dialog Effects', () => {
         m.flush();
 
         expect(msdDataService.fetchReferenceDocuments).toHaveBeenCalledWith(
-          1,
           MaterialClass.STEEL
         );
       })
     );
 
     it(
-      'should fetch castingDiameters and return failure action on failure',
+      'should fetch reference documents and return failure action on failure',
       marbles((m) => {
-        action = fetchReferenceDocuments({ materialStandardId: 1 });
+        action = fetchReferenceDocuments();
         actions$ = m.hot('-a', { a: action });
 
         msdDataService.fetchReferenceDocuments = jest
@@ -1501,7 +1480,6 @@ describe('Dialog Effects', () => {
         m.flush();
 
         expect(msdDataService.fetchReferenceDocuments).toHaveBeenCalledWith(
-          1,
           MaterialClass.STEEL
         );
       })
@@ -1754,7 +1732,7 @@ describe('Dialog Effects', () => {
           selfCertified: true,
           productCategory: 'brightBar',
           productCategoryText: 'Bright Bar',
-          referenceDoc: '["reference"]',
+          referenceDoc: ['reference'],
           co2Scope1: 1,
           co2Scope2: 1,
           co2Scope3: 1,
@@ -1897,7 +1875,7 @@ describe('Dialog Effects', () => {
           productCategory: 'brightBar',
           productCategoryText: 'Bright Bar',
           productionProcess: 'something',
-          referenceDoc: 'reference',
+          referenceDoc: ['reference'],
           co2Scope1: 1,
           co2Scope2: 1,
           co2Scope3: 1,

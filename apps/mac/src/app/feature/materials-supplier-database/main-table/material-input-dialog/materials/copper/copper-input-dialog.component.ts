@@ -7,7 +7,7 @@ import {
 } from '@angular/material/legacy-dialog';
 import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 
-import { BehaviorSubject, filter, takeUntil } from 'rxjs';
+import { BehaviorSubject, takeUntil } from 'rxjs';
 
 import { StringOption } from '@schaeffler/inputs';
 
@@ -16,7 +16,6 @@ import {
   addCustomCastingDiameter,
   addCustomReferenceDocument,
   fetchCastingDiameters,
-  fetchReferenceDocuments,
 } from '@mac/feature/materials-supplier-database/store/actions/dialog';
 import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
 import { MaterialInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/material-input-dialog.component';
@@ -148,14 +147,6 @@ export class CopperInputDialogComponent
           this.castingDiameterControl.disable();
         }
       });
-
-    this.materialStandardIdControl.valueChanges
-      .pipe(takeUntil(this.destroy$), filter(Boolean))
-      .subscribe((id) =>
-        this.dialogFacade.dispatch(
-          fetchReferenceDocuments({ materialStandardId: id })
-        )
-      );
   }
 
   public addReferenceDocument(referenceDocument: string): void {

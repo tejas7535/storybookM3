@@ -35,7 +35,6 @@ import {
   addCustomCastingDiameter,
   addCustomReferenceDocument,
   fetchCastingDiameters,
-  fetchReferenceDocuments,
   materialDialogConfirmed,
 } from '@mac/msd/store/actions/dialog';
 import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
@@ -211,21 +210,6 @@ describe('CopperInputDialogComponent', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         fetchCastingDiameters({ supplierId, castingMode })
       );
-    });
-  });
-
-  describe('modify material standard', () => {
-    it('should dispatch fetch action for reference documents on material standard id change', () => {
-      component.materialStandardIdControl.setValue(5);
-
-      expect(store.dispatch).toHaveBeenCalledWith(
-        fetchReferenceDocuments({ materialStandardId: 5 })
-      );
-    });
-    it('should not dispatch action with no id number', () => {
-      component.materialStandardIdControl.reset();
-
-      expect(store.dispatch).not.toHaveBeenCalled();
     });
   });
 

@@ -690,17 +690,10 @@ describe('MsdDataService', () => {
       const mockResponse = ['document'];
       const expectedBody = {
         select: ['referenceDoc'],
-        where: [
-          {
-            col: 'materialStandard.id',
-            op: 'IN',
-            values: ['1'],
-          },
-        ],
         distinct: true,
       };
       service
-        .fetchReferenceDocuments(1, MaterialClass.STEEL)
+        .fetchReferenceDocuments(MaterialClass.STEEL)
         .subscribe((result) => {
           expect(result).toEqual(mockResponse);
           done();

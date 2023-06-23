@@ -19,6 +19,7 @@ import {
   RATING_REMARK,
   RECENT_STATUS,
   RECYCLING_RATE,
+  REFERENCE_DOCUMENT,
   RELEASE_DATE,
   RELEASE_RESTRICTIONS,
   RELEASED_STATUS,
@@ -209,5 +210,12 @@ export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
     tooltipValueGetter: (params) => (params.value ? 'wiamLink' : undefined),
     valueFormatter: MATERIALSTOFFID_LINK_FORMATTER,
     cellRenderer: LinkCellRendererComponent,
+  },
+  {
+    field: REFERENCE_DOCUMENT,
+    headerName: REFERENCE_DOCUMENT,
+    filterParams: FILTER_PARAMS,
+    hide: true,
+    cellRenderer: EditCellRendererComponent,
   },
 ];

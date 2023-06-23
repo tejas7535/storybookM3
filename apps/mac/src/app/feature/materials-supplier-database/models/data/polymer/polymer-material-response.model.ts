@@ -8,7 +8,7 @@ export interface PolymerMaterialResponse extends BaseMaterialResponse {
   materialStandard: PolymerMaterialStandard;
   manufacturerSupplier: PolymerManufacturerSupplier;
   generalDescription?: string;
-  referenceDoc?: string;
+  referenceDoc?: string[];
   releaseDateYear?: number;
   releaseDateMonth?: number;
 }

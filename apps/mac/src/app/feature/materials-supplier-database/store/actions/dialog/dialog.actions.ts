@@ -211,8 +211,7 @@ export const fetchCastingDiametersFailure = createAction(
 );
 
 export const fetchReferenceDocuments = createAction(
-  '[MSD - Dialog] Fetch Reference Documents',
-  props<{ materialStandardId: number }>()
+  '[MSD - Dialog] Fetch Reference Documents'
 );
 
 export const fetchReferenceDocumentsSuccess = createAction(

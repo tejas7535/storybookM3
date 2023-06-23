@@ -257,19 +257,9 @@ export class MsdDataService {
     );
   }
 
-  public fetchReferenceDocuments(
-    materialStandardId: number,
-    materialClass: MaterialClass
-  ) {
+  public fetchReferenceDocuments(materialClass: MaterialClass) {
     const body = {
       select: ['referenceDoc'],
-      where: [
-        {
-          col: 'materialStandard.id',
-          op: 'IN',
-          values: [materialStandardId.toString()],
-        },
-      ],
       distinct: true,
     };
 
@@ -543,6 +533,12 @@ export class MsdDataService {
     );
   }
 
+  private fromJson(json: string): string[] {
+    const array = json ? JSON.parse(json) : [];
+
+    return array.length === 0 ? undefined : array;
+  }
+
   // eslint-disable-next-line complexity
   private mapMaterials<T extends Material = Material>(
     materialResponse: MaterialResponse
@@ -592,7 +588,9 @@ export class MsdDataService {
           )
         : undefined,
       generalDescription: findProperty(materialResponse, 'generalDescription'),
-      referenceDoc: findProperty(materialResponse, 'referenceDoc'),
+      referenceDoc: this.fromJson(
+        findProperty(materialResponse, 'referenceDoc')
+      ),
       co2Scope1: materialResponse.co2Scope1,
       co2Scope2: materialResponse.co2Scope2,
       co2Scope3: materialResponse.co2Scope3,

@@ -10,7 +10,7 @@ export interface SteelMaterialResponse extends BaseMaterialResponse {
   selfCertified: boolean;
   blocked: boolean;
   productCategory: string;
-  referenceDoc?: string;
+  referenceDoc?: string[];
   releaseDateYear?: number;
   releaseDateMonth?: number;
   castingMode: string;

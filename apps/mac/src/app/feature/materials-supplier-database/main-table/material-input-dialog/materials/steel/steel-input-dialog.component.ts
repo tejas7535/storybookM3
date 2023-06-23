@@ -35,7 +35,6 @@ import {
   addCustomReferenceDocument,
   fetchCastingDiameters,
   fetchCo2ValuesForSupplierSteelMakingProcess,
-  fetchReferenceDocuments,
   fetchSteelMakingProcessesInUse,
   resetSteelMakingProcessInUse,
 } from '@mac/feature/materials-supplier-database/store/actions/dialog';
@@ -315,14 +314,6 @@ export class SteelInputDialogComponent
           })
         );
       });
-
-    this.materialStandardIdControl.valueChanges
-      .pipe(takeUntil(this.destroy$), filter(Boolean))
-      .subscribe((id) =>
-        this.dialogFacade.dispatch(
-          fetchReferenceDocuments({ materialStandardId: id })
-        )
-      );
 
     this.steelMakingProcessesInUse$
       .pipe(takeUntil(this.destroy$))

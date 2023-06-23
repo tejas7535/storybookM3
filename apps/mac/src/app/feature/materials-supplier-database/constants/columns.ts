@@ -17,6 +17,7 @@ export const CO2_SCOPE_3 = 'co2Scope3';
 export const CO2_PER_TON = 'co2PerTon';
 export const CO2_CLASSIFICATION = 'co2Classification';
 export const RELEASE_RESTRICTIONS = 'releaseRestrictions';
+export const REFERENCE_DOCUMENT = 'referenceDoc';
 export const CASTING_MODE = 'castingMode';
 export const CASTING_DIAMETER = 'castingDiameter';
 export const MIN_DIMENSION = 'minDimension';

@@ -377,9 +377,7 @@ describe('dialogReducer', () => {
 
     it('should reset the referenceDocuments and set the loading state to true', () => {
       const referenceDocuments = ['reference', 'reference2'];
-      const action = DialogActions.fetchReferenceDocuments({
-        materialStandardId: 1,
-      });
+      const action = DialogActions.fetchReferenceDocuments();
       const newState = dialogReducer(
         {
           ...state,

@@ -6,6 +6,7 @@ import {
   MATERIAL_NUMBERS,
   MAX_DIMENSION,
   PRODUCTION_PROCESS,
+  REFERENCE_DOCUMENT,
 } from '@mac/msd/constants';
 import { EditCellRendererComponent } from '@mac/msd/main-table/edit-cell-renderer/edit-cell-renderer.component';
 import { FILTER_PARAMS } from '@mac/msd/main-table/table-config/filter-params';
@@ -51,6 +52,13 @@ export const COPPER_COLUMN_DEFINITIONS: ColDef[] = [
   {
     field: PRODUCTION_PROCESS,
     headerName: PRODUCTION_PROCESS,
+    filterParams: FILTER_PARAMS,
+    hide: true,
+    cellRenderer: EditCellRendererComponent,
+  },
+  {
+    field: REFERENCE_DOCUMENT,
+    headerName: REFERENCE_DOCUMENT,
     filterParams: FILTER_PARAMS,
     hide: true,
     cellRenderer: EditCellRendererComponent,

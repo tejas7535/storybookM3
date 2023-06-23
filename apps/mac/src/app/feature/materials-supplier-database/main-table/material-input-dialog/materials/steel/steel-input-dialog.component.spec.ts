@@ -44,7 +44,6 @@ import {
   addCustomReferenceDocument,
   fetchCastingDiameters,
   fetchCo2ValuesForSupplierSteelMakingProcess,
-  fetchReferenceDocuments,
   fetchSteelMakingProcessesInUse,
   materialDialogConfirmed,
   resetSteelMakingProcessInUse,
@@ -444,21 +443,6 @@ describe('SteelInputDialogComponent', () => {
     it('should not dispatch the fetch action with no supplierId', () => {
       setSilent(component.manufacturerSupplierIdControl);
       component.steelMakingProcessControl.setValue({ id: 0, title: 'process' });
-
-      expect(store.dispatch).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('modify material standard', () => {
-    it('should dispatch fetch action for reference documents on material standard id change', () => {
-      component.materialStandardIdControl.setValue(5);
-
-      expect(store.dispatch).toHaveBeenCalledWith(
-        fetchReferenceDocuments({ materialStandardId: 5 })
-      );
-    });
-    it('should not dispatch action with no id number', () => {
-      component.materialStandardIdControl.reset();
 
       expect(store.dispatch).not.toHaveBeenCalled();
     });

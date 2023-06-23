@@ -598,13 +598,10 @@ describe('Dialog Actions', () => {
 
   describe('Fetch Reference Documents', () => {
     it('fetchReferenceDocuments', () => {
-      const action = fetchReferenceDocuments({
-        materialStandardId: 1,
-      });
+      const action = fetchReferenceDocuments();
 
       expect(action).toEqual({
         type: '[MSD - Dialog] Fetch Reference Documents',
-        materialStandardId: 1,
       });
     });
   });
