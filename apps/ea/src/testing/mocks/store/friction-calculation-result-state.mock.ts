@@ -10,7 +10,7 @@ export const FRICTION_CALCULATION_RESULT_STATE_MOCK: FrictionCalculationResultSt
       reportInputSuborinates: {
         inputSubordinates: [
           {
-            identifier: 'block',
+            hasNestedStructure: true,
             title: 'some title',
           },
         ],

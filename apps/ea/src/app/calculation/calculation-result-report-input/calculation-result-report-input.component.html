@@ -12,9 +12,7 @@
 <ng-container *ngIf="nestedInputs">
   <div *ngFor="let subordinate of nestedInputs">
     <div class="pb-4 px-3 md:px-8">{{ subordinate.title }}</div>
-    <ea-calculation-result-report-input
-      [reportInput]="subordinate.subordinates"
-    >
+    <ea-calculation-result-report-input [reportInput]="subordinate.subItems">
     </ea-calculation-result-report-input>
   </div>
 </ng-container>

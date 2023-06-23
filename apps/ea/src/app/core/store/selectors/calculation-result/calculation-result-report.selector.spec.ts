@@ -29,7 +29,7 @@ describe('Calculation Result Selector', () => {
         reportInputSuborinates: {
           inputSubordinates: [
             {
-              identifier: 'block',
+              hasNestedStructure: true,
               title: 'some title',
             },
           ],

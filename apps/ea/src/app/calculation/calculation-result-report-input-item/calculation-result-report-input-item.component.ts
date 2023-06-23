@@ -48,7 +48,7 @@ export class CalculationResultReportInputItemComponent implements OnInit {
 
   public ngOnInit() {
     if (this.reportInputItem) {
-      this.assignLabelValues(this.reportInputItem.subordinates);
+      this.assignLabelValues(this.reportInputItem.subItems);
     }
 
     this.observer = new ResizeObserver((entries) => {

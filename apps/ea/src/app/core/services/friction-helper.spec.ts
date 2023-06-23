@@ -68,12 +68,12 @@ describe('CO2 Helper', () => {
           inputSubordinates: [
             {
               designation: 'Designation',
-              identifier: 'variableLine',
+              hasNestedStructure: false,
               value: '6210',
             },
             {
               designation: 'Series',
-              identifier: 'variableLine',
+              hasNestedStructure: false,
               value: '5510',
             },
           ],

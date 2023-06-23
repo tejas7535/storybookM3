@@ -34,7 +34,7 @@ describe('CalculationResultReportInputItemComponent', () => {
 
   describe('OnInit', () => {
     it('should handle empty array', () => {
-      component.reportInputItem = { identifier: 'variableBlock' };
+      component.reportInputItem = { hasNestedStructure: false };
 
       component.ngOnInit();
       expect(component.labelValues).toStrictEqual([]);
@@ -42,10 +42,10 @@ describe('CalculationResultReportInputItemComponent', () => {
 
     it('should assign label-value data with unit and abbreviation', () => {
       component.reportInputItem = {
-        identifier: 'variableBlock',
-        subordinates: [
+        hasNestedStructure: false,
+        subItems: [
           {
-            identifier: 'variableLine',
+            hasNestedStructure: false,
             designation: 'mock_designation',
             abbreviation: 'mock_abbreviation',
             value: '123',
@@ -66,10 +66,10 @@ describe('CalculationResultReportInputItemComponent', () => {
 
     it('should assign label-value data without unit and abbreviation', () => {
       component.reportInputItem = {
-        identifier: 'variableBlock',
-        subordinates: [
+        hasNestedStructure: false,
+        subItems: [
           {
-            identifier: 'variableLine',
+            hasNestedStructure: false,
             designation: 'mock_designation',
             value: 'mock_value',
           },

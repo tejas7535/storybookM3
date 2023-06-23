@@ -23,7 +23,7 @@ Array [
 exports[`Calculation Result Selector getResultInput should return result input 1`] = `
 Array [
   Object {
-    "identifier": "block",
+    "hasNestedStructure": true,
     "title": "some title",
   },
 ]

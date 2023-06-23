@@ -9,7 +9,6 @@ import {
 import { CalculationResultReportInput } from '@ea/core/store/models';
 
 import { CalculationResultReportInputItemComponent } from '../calculation-result-report-input-item';
-import { CalculationResultReportInputIdentifierType } from './calculation-result-report-input-identifier-type';
 
 @Component({
   selector: 'ea-calculation-result-report-input',
@@ -27,13 +26,10 @@ export class CalculationResultReportInputComponent implements OnInit {
 
   ngOnInit(): void {
     this.nestedInputs = this.reportInput?.filter(
-      (input) =>
-        CalculationResultReportInputIdentifierType.Block === input.identifier
+      (input) => input.hasNestedStructure
     );
     this.regularInputs = this.reportInput?.filter(
-      (input) =>
-        CalculationResultReportInputIdentifierType.VariableBlock ===
-        input.identifier
+      (input) => !input.hasNestedStructure
     );
   }
 }

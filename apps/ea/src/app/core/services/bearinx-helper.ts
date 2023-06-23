@@ -1,4 +1,4 @@
-import { ReportMessage } from '../store/models';
+import { ReportInput, ReportMessage } from '../store/models';
 import {
   BearinxOnlineResult,
   BearinxOnlineResultSubordinate,
@@ -95,4 +95,53 @@ const getItemValue = (input: BearinxOnlineResultSubordinate): ReportMessage => {
   }
 
   return result;
+};
+
+export const formatReportInputResult = (
+  input: BearinxOnlineResultSubordinate[]
+): ReportInput[] => input?.map((reportInput) => getReportInput(reportInput));
+
+const getReportInput = (input: BearinxOnlineResultSubordinate): ReportInput => {
+  const result: ReportInput = {
+    hasNestedStructure: input.identifier === 'block' ? true : false,
+    title: input?.title,
+  };
+
+  if (input.identifier === 'block' || input.identifier === 'variableBlock') {
+    result.subItems = formatReportInputResult(input.subordinates);
+  }
+
+  if (input.identifier === 'table') {
+    result.subItems = extractReportInputFromTableSubordinate(input);
+  }
+
+  if (input.identifier === 'variableLine') {
+    result.designation = input?.designation;
+    result.abbreviation = input?.abbreviation;
+    result.value = input?.value;
+    result.unit = input?.unit;
+  }
+
+  return result;
+};
+
+const extractReportInputFromTableSubordinate = (
+  input: Partial<BearinxOnlineResultSubordinate>
+): ReportInput[] | undefined => {
+  if (!input?.data) {
+    return undefined;
+  }
+
+  const { items } = input.data;
+
+  if (items.length > 1) {
+    throw new Error('Only one line tables supported');
+  }
+
+  return items[0].map((tableRow) => ({
+    hasNestedStructure: false,
+    designation: tableRow.field,
+    value: tableRow.value,
+    unit: tableRow?.unit,
+  }));
 };

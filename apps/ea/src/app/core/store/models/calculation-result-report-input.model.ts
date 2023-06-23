@@ -1,9 +1,9 @@
 export interface CalculationResultReportInput {
-  identifier: string;
+  hasNestedStructure: boolean;
   title?: string;
   designation?: string;
   abbreviation?: string;
   unit?: string;
   value?: string;
-  subordinates?: CalculationResultReportInput[];
+  subItems?: CalculationResultReportInput[];
 }

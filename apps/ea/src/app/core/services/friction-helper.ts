@@ -4,6 +4,7 @@ import {
   extractSubordinatesFromPath,
   extractTableFromSubordinate,
   formatErrorsWarningsAndNotesResult,
+  formatReportInputResult,
 } from './bearinx-helper';
 import { BearinxOnlineResult } from './bearinx-result.interface';
 
@@ -40,9 +41,11 @@ export const convertFrictionApiResult = (
     { titleID: 'STRING_OUTP_INPUT', identifier: 'block' },
   ]);
 
-  if (inputData?.subordinates) {
+  const formattedInputData = formatReportInputResult(inputData?.subordinates);
+
+  if (formattedInputData) {
     result.reportInputSuborinates = {
-      inputSubordinates: inputData.subordinates,
+      inputSubordinates: formattedInputData,
     };
   }
 

@@ -26,16 +26,16 @@ describe('CalculationResultReportInputComponent', () => {
     beforeEach(() => {
       component.reportInput = [
         {
-          identifier: 'block',
-          subordinates: [],
+          hasNestedStructure: true,
+          subItems: [],
         },
         {
-          identifier: 'variableBlock',
-          subordinates: [],
+          hasNestedStructure: false,
+          subItems: [],
         },
         {
-          identifier: 'variableBlock',
-          subordinates: [],
+          hasNestedStructure: false,
+          subItems: [],
         },
       ];
 

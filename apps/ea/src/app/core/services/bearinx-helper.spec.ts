@@ -3,6 +3,7 @@ import {
   extractSubordinatesFromPath,
   extractTableFromSubordinate,
   formatErrorsWarningsAndNotesResult,
+  formatReportInputResult,
   matchItem,
 } from './bearinx-helper';
 import {
@@ -249,6 +250,115 @@ describe('Bearinx Helper', () => {
           },
         ]);
       });
+    });
+  });
+
+  describe('formatReportInputResult', () => {
+    let items: BearinxOnlineResultSubordinate[];
+    it('should format report input result', () => {
+      items = [
+        {
+          identifier: 'block',
+          subordinates: [
+            {
+              identifier: 'block',
+              subordinates: [
+                {
+                  identifier: 'table',
+                  data: {
+                    fields: ['apple', 'bannana', 'tomato'],
+                    items: [
+                      [
+                        {
+                          field: 'apple',
+                          value: 'delicious apple',
+                          unit: 'kg',
+                        },
+                        {
+                          field: 'bannana',
+                          value: 'delicious bannana',
+                          unit: 'qt',
+                        },
+                        {
+                          field: 'tomato',
+                          value: 'some cherry tomatoes',
+                        },
+                      ],
+                    ],
+                    unitFields: [],
+                  },
+                },
+              ],
+              title: 'inner Block',
+            },
+            {
+              identifier: 'variableBlock',
+              title: 'title variable Block 1',
+              subordinates: [
+                {
+                  identifier: 'variableLine',
+                  designation: 'reference rating life',
+                  value: 'nominal',
+                },
+              ],
+            },
+          ],
+          title: 'main block',
+        },
+      ];
+
+      expect(formatReportInputResult(items)).toEqual([
+        {
+          hasNestedStructure: true,
+          subItems: [
+            {
+              hasNestedStructure: true,
+              subItems: [
+                {
+                  hasNestedStructure: false,
+                  subItems: [
+                    {
+                      hasNestedStructure: false,
+                      designation: 'apple',
+                      value: 'delicious apple',
+                      unit: 'kg',
+                    },
+                    {
+                      hasNestedStructure: false,
+                      designation: 'bannana',
+                      value: 'delicious bannana',
+                      unit: 'qt',
+                    },
+                    {
+                      hasNestedStructure: false,
+                      designation: 'tomato',
+                      value: 'some cherry tomatoes',
+                      unit: undefined,
+                    },
+                  ],
+                  title: undefined,
+                },
+              ],
+              title: 'inner Block',
+            },
+            {
+              hasNestedStructure: false,
+              title: 'title variable Block 1',
+              subItems: [
+                {
+                  abbreviation: undefined,
+                  hasNestedStructure: false,
+                  designation: 'reference rating life',
+                  value: 'nominal',
+                  title: undefined,
+                  unit: undefined,
+                },
+              ],
+            },
+          ],
+          title: 'main block',
+        },
+      ]);
     });
   });
 });

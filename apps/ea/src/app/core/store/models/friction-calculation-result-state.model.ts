@@ -1,5 +1,3 @@
-import { BearinxOnlineResultSubordinate } from '@ea/core/services/bearinx-result.interface';
-
 import { BasicCalculationResultState } from './calculation-result-state.model';
 
 export interface FrictionCalculationResultState
@@ -46,12 +44,22 @@ export interface FrictionCalculationResult {
     unit: string;
   };
   reportInputSuborinates?: {
-    inputSubordinates: BearinxOnlineResultSubordinate[];
+    inputSubordinates: ReportInput[];
   };
   reportMessages?: {
     // messages contains Erros, Warnings and Notes if available
     messages: ReportMessage[];
   };
+}
+
+export interface ReportInput {
+  hasNestedStructure: boolean;
+  title?: string;
+  designation?: string;
+  abbreviation?: string;
+  unit?: string;
+  value?: string;
+  subItems?: ReportInput[];
 }
 
 export interface ReportMessage {
