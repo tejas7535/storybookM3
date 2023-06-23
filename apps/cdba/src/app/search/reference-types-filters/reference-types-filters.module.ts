@@ -40,7 +40,9 @@ import { ReferenceTypesFiltersComponent } from './reference-types-filters.compon
     CommonModule,
     PushPipe,
     SharedTranslocoModule,
-    FormsModule,
+    FormsModule.withConfig({
+      callSetDisabledState: 'whenDisabledForLegacyCode',
+    }),
     MatButtonModule,
     MatIconModule,
     ReactiveFormsModule,
