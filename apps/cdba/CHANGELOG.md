@@ -1,4 +1,11 @@
 # Release Notes of Cost Database Analytics
+## [4.0.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v4.0.0...cdba-v4.0.1) (2023-06-23)
+
+
+### Bug Fixes
+
+* **cdba:** dimension filters should be disabled by default ([#5380](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5380)) ([9239a32](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9239a320719aa65fa6f9b2b759fd7b75f5cd13aa))
+
 ## [4.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v3.1.0...cdba-v4.0.0) (2023-06-19)
 
 
