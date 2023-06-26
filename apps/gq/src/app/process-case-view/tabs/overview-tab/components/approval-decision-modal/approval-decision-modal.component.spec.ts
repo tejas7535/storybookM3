@@ -1,12 +1,17 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { FormBuilder, FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
-  MatLegacyDialogModule as MatDialogModule,
   MatLegacyDialogRef as MatDialogRef,
 } from '@angular/material/legacy-dialog';
 
+import { of } from 'rxjs';
+
+import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
+import { UpdateFunction } from '@gq/shared/models';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { TranslocoService } from '@ngneat/transloco';
+import { MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -17,37 +22,146 @@ describe('ApprovalDecisionModalComponent', () => {
   let component: ApprovalDecisionModalComponent;
   let spectator: Spectator<ApprovalDecisionModalComponent>;
 
+  const COMMENT_FORM_CONTROL_NAME = 'comment';
+
   const createComponent = createComponentFactory({
     component: ApprovalDecisionModalComponent,
-    imports: [
-      MatDialogModule,
-      FormsModule,
-      provideTranslocoTestingModule({ en: {} }),
-    ],
+    imports: [provideTranslocoTestingModule({})],
     providers: [
+      { provide: MatDialogRef, useValue: {} },
+      FormBuilder,
+      MockProvider(TranslocoService),
+      MockProvider(ApprovalFacade),
       {
         provide: MAT_DIALOG_DATA,
-        useValue: {
-          type: ApprovalModalType.APPROVE_CASE,
-        },
+        useValue: { type: ApprovalModalType.APPROVE_CASE },
       },
-      {
-        provide: MatDialogRef,
-        useValue: {},
-      },
-      FormBuilder,
     ],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
     detectChanges: false,
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {
     spectator = createComponent();
-    component = spectator.debugElement.componentInstance;
+    component = spectator.component;
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('ngOnInit', () => {
+    beforeEach(() => {
+      const facadeMock: ApprovalFacade = {
+        updateApprovalWorkflowSucceeded$: of(),
+      } as unknown as ApprovalFacade;
+
+      Object.defineProperty(component, 'approvalFacade', {
+        value: facadeMock,
+      });
+    });
+
+    test('should set comment in formGroup', () => {
+      component.ngOnInit();
+
+      expect(component.formGroup.get(COMMENT_FORM_CONTROL_NAME)).toBeDefined();
+      expect(
+        component.formGroup
+          .get(COMMENT_FORM_CONTROL_NAME)
+          .hasValidator(Validators.required)
+      ).toBe(false);
+    });
+
+    test('should set required validator for reject case', () => {
+      (component as any).modalData = {
+        type: ApprovalModalType.REJECT_CASE,
+      };
+
+      component.ngOnInit();
+
+      expect(
+        component.formGroup
+          .get(COMMENT_FORM_CONTROL_NAME)
+          .hasValidator(Validators.required)
+      ).toBe(true);
+    });
+
+    test('should close dialog when update approval workflow succeeded', () => {
+      const facadeMock: ApprovalFacade = {
+        updateApprovalWorkflowSucceeded$: of(true),
+      } as unknown as ApprovalFacade;
+
+      Object.defineProperty(component, 'approvalFacade', {
+        value: facadeMock,
+      });
+
+      const closeDialogSpy = jest.spyOn(component, 'closeDialog');
+      closeDialogSpy.mockImplementation();
+
+      component.ngOnInit();
+
+      expect(closeDialogSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('updateApprovalWorkflow', () => {
+    test('should approve', () => {
+      component.approvalFacade.updateApprovalWorkflowSucceeded$ = of();
+
+      component.ngOnInit();
+
+      const updateApprovalWorkflowSpy = jest.spyOn(
+        component.approvalFacade,
+        'updateApprovalWorkflow'
+      );
+
+      component.updateApprovalWorkflow();
+
+      expect(updateApprovalWorkflowSpy).toHaveBeenCalledWith({
+        updateFunction: UpdateFunction.APPROVE_QUOTATION,
+        comment: undefined,
+      });
+    });
+
+    test('should reject', () => {
+      (component as any).modalData = {
+        type: ApprovalModalType.REJECT_CASE,
+      };
+      component.approvalFacade.updateApprovalWorkflowSucceeded$ = of();
+
+      component.ngOnInit();
+
+      const formValue = {
+        comment: 'test comment ',
+      };
+      const updateApprovalWorkflowSpy = jest.spyOn(
+        component.approvalFacade,
+        'updateApprovalWorkflow'
+      );
+
+      component.formGroup.setValue(formValue);
+      component.updateApprovalWorkflow();
+
+      expect(updateApprovalWorkflowSpy).toHaveBeenCalledWith({
+        updateFunction: UpdateFunction.REJECT_QUOTATION,
+        comment: formValue.comment.trim(),
+      });
+    });
+
+    test('should not update approval workflow', () => {
+      component.formGroup = {
+        valid: false,
+      } as FormGroup;
+
+      const updateApprovalWorkflowSpy = jest.spyOn(
+        component.approvalFacade,
+        'updateApprovalWorkflow'
+      );
+
+      component.updateApprovalWorkflow();
+
+      expect(updateApprovalWorkflowSpy).not.toHaveBeenCalled();
+    });
   });
 
   describe('closeDialog', () => {
@@ -57,6 +171,18 @@ describe('ApprovalDecisionModalComponent', () => {
       component.closeDialog();
 
       expect(component['dialogRef'].close).toHaveBeenCalled();
+    });
+  });
+
+  describe('ngOnDestroy', () => {
+    test('should emit', () => {
+      component['shutdown$$'].next = jest.fn();
+      component['shutdown$$'].complete = jest.fn();
+
+      component.ngOnDestroy();
+
+      expect(component['shutdown$$'].next).toHaveBeenCalled();
+      expect(component['shutdown$$'].complete).toHaveBeenCalled();
     });
   });
 });

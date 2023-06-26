@@ -2,7 +2,11 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { AppRoutePath } from '@gq/app-route-path.enum';
 import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-path.enum';
-import { ActiveDirectoryUser } from '@gq/shared/models';
+import {
+  ActiveDirectoryUser,
+  ApprovalEvent,
+  UpdateFunction,
+} from '@gq/shared/models';
 import { ApprovalLevel, ApprovalStatus } from '@gq/shared/models/quotation';
 import { Approver } from '@gq/shared/models/quotation/approver.model';
 import { ApprovalService } from '@gq/shared/services/rest/approval/approval.service';
@@ -411,6 +415,89 @@ describe('ApprovalEffects', () => {
 
         actions$ = m.hot('-a', { a: action });
         m.expect(effects.triggerApprovalWorkflow$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+  });
+
+  describe('updateApprovalWorkflow', () => {
+    test(
+      'should dispatch successAction',
+      marbles((m) => {
+        const sapId = '123456';
+
+        const quotationIdentifier = {
+          gqId: 999,
+        } as any;
+
+        const updateApprovalWorkflowData = {
+          comment: 'test',
+          updateFunction: UpdateFunction.APPROVE_QUOTATION,
+        };
+
+        const approvalEvent = {
+          comment: updateApprovalWorkflowData.comment,
+          gqId: quotationIdentifier.gqId,
+        } as ApprovalEvent;
+
+        store.overrideSelector(getSapId, sapId);
+        store.overrideSelector(
+          activeCaseFeature.selectQuotationIdentifier,
+          quotationIdentifier
+        );
+
+        const updateApprovalWorkflowSpy = jest.spyOn(
+          approvalService,
+          'updateApprovalWorkflow'
+        );
+
+        action = ApprovalActions.updateApprovalWorkflow({
+          updateApprovalWorkflowData,
+        });
+
+        const result = ApprovalActions.updateApprovalWorkflowSuccess({
+          approvalEvent,
+        });
+        const response = m.cold('-a', {
+          a: approvalEvent,
+        });
+        updateApprovalWorkflowSpy.mockReturnValue(response);
+        const expected = m.cold('-b', { b: result });
+
+        actions$ = m.hot('a', { a: action });
+
+        m.expect(effects.updateApprovalWorkflow$).toBeObservable(expected);
+        m.flush();
+
+        expect(updateApprovalWorkflowSpy).toHaveBeenCalledWith(sapId, {
+          ...updateApprovalWorkflowData,
+          gqId: quotationIdentifier.gqId,
+        });
+      })
+    );
+
+    test(
+      'should dispatch errorAction',
+      marbles((m) => {
+        store.overrideSelector(getSapId, '123897');
+        store.overrideSelector(
+          activeCaseFeature.selectQuotationIdentifier,
+          {} as any
+        );
+
+        action = ApprovalActions.updateApprovalWorkflow({
+          updateApprovalWorkflowData: {} as any,
+        });
+        const error = new Error('did not work');
+        const result = ApprovalActions.updateApprovalWorkflowFailure({
+          error,
+        });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+        approvalService.updateApprovalWorkflow = jest.fn(() => response);
+
+        actions$ = m.hot('-a', { a: action });
+        m.expect(effects.updateApprovalWorkflow$).toBeObservable(expected);
         m.flush();
       })
     );

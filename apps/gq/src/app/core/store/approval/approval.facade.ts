@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { ActiveDirectoryUser } from '@gq/shared/models';
 import {
-  ApprovalLevel,
-  ApprovalStatus,
+  ActiveDirectoryUser,
   TriggerApprovalWorkflowRequest,
-} from '@gq/shared/models/quotation';
+  UpdateApprovalWorkflowRequest,
+} from '@gq/shared/models';
+import { ApprovalLevel, ApprovalStatus } from '@gq/shared/models/quotation';
 import { Approver } from '@gq/shared/models/quotation/approver.model';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -75,6 +75,14 @@ export class ApprovalFacade {
     ofType(ApprovalActions.triggerApprovalWorkflowSuccess)
   );
 
+  updateApprovalWorkflowInProgress$: Observable<boolean> = this.store.select(
+    approvalFeature.selectUpdateApprovalWorkflowInProgress
+  );
+
+  updateApprovalWorkflowSucceeded$: Observable<void> = this.actions$.pipe(
+    ofType(ApprovalActions.updateApprovalWorkflowSuccess)
+  );
+
   constructor(
     private readonly store: Store,
     private readonly actions$: Actions
@@ -138,6 +146,19 @@ export class ApprovalFacade {
   ): void {
     this.store.dispatch(
       ApprovalActions.triggerApprovalWorkflow({ approvalWorkflowData })
+    );
+  }
+
+  /**
+   * Update the approval workflow process
+   *
+   * @param updateApprovalWorkflowData Update approval workflow data
+   */
+  updateApprovalWorkflow(
+    updateApprovalWorkflowData: Omit<UpdateApprovalWorkflowRequest, 'gqId'>
+  ): void {
+    this.store.dispatch(
+      ApprovalActions.updateApprovalWorkflow({ updateApprovalWorkflowData })
     );
   }
 }

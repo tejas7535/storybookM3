@@ -22,6 +22,7 @@ export interface ApprovalState {
     priceDeviation: number;
   };
   triggerApprovalWorkflowInProgress: boolean;
+  updateApprovalWorkflowInProgress: boolean;
   error: Error;
 }
 
@@ -44,6 +45,7 @@ export const initialState: ApprovalState = {
     priceDeviation: undefined,
   },
   triggerApprovalWorkflowInProgress: false,
+  updateApprovalWorkflowInProgress: false,
   error: undefined,
 };
 
@@ -180,6 +182,30 @@ export const approvalFeature = createFeature({
       (state: ApprovalState, { error }): ApprovalState => ({
         ...state,
         triggerApprovalWorkflowInProgress: false,
+        error,
+      })
+    ),
+    on(
+      ApprovalActions.updateApprovalWorkflow,
+      (state: ApprovalState): ApprovalState => ({
+        ...state,
+        updateApprovalWorkflowInProgress: true,
+        error: undefined,
+      })
+    ),
+    on(
+      ApprovalActions.updateApprovalWorkflowSuccess,
+      (state: ApprovalState): ApprovalState => ({
+        ...state,
+        updateApprovalWorkflowInProgress: false,
+        error: undefined,
+      })
+    ),
+    on(
+      ApprovalActions.updateApprovalWorkflowFailure,
+      (state: ApprovalState, { error }): ApprovalState => ({
+        ...state,
+        updateApprovalWorkflowInProgress: false,
         error,
       })
     )

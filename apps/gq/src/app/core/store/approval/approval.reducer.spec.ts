@@ -211,4 +211,52 @@ describe('approvalReducer', () => {
       });
     });
   });
+
+  describe('update approval workflow', () => {
+    test('should set updateApprovalWorkflowInProgress', () => {
+      const action = ApprovalActions.updateApprovalWorkflow({} as any);
+      const state = approvalFeature.reducer(initialState, action);
+
+      expect(state).toEqual({
+        ...initialState,
+        updateApprovalWorkflowInProgress: true,
+        error: undefined,
+      });
+    });
+
+    test('should reset updateApprovalWorkflowInProgress', () => {
+      const action = ApprovalActions.updateApprovalWorkflowSuccess({
+        approvalEvent: {} as any,
+      });
+      const state = approvalFeature.reducer(
+        {
+          ...initialState,
+          updateApprovalWorkflowInProgress: true,
+          error: new Error('my error'),
+        },
+        action
+      );
+
+      expect(state).toEqual({
+        ...initialState,
+        updateApprovalWorkflowInProgress: false,
+        error: undefined,
+      });
+    });
+
+    test('should set the error', () => {
+      const error = new Error('my error');
+      const action = ApprovalActions.updateApprovalWorkflowFailure({ error });
+      const state = approvalFeature.reducer(
+        { ...APPROVAL_STATE_MOCK, updateApprovalWorkflowInProgress: true },
+        action
+      );
+
+      expect(state).toEqual({
+        ...APPROVAL_STATE_MOCK,
+        updateApprovalWorkflowInProgress: false,
+        error,
+      });
+    });
+  });
 });

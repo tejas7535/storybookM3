@@ -1,9 +1,10 @@
-import { ActiveDirectoryUser } from '@gq/shared/models';
 import {
-  ApprovalStatus,
-  Approver,
+  ActiveDirectoryUser,
+  ApprovalEvent,
   TriggerApprovalWorkflowRequest,
-} from '@gq/shared/models/quotation';
+  UpdateApprovalWorkflowRequest,
+} from '@gq/shared/models';
+import { ApprovalStatus, Approver } from '@gq/shared/models/quotation';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
 export const ApprovalActions = createActionGroup({
@@ -32,5 +33,12 @@ export const ApprovalActions = createActionGroup({
     }>(),
     'Trigger Approval Workflow Success': emptyProps(),
     'Trigger Approval Workflow Failure': props<{ error: Error }>(),
+    'Update Approval Workflow': props<{
+      updateApprovalWorkflowData: Omit<UpdateApprovalWorkflowRequest, 'gqId'>;
+    }>(),
+    'Update Approval Workflow Success': props<{
+      approvalEvent: ApprovalEvent;
+    }>(),
+    'Update Approval Workflow Failure': props<{ error: Error }>(),
   },
 });

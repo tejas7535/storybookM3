@@ -1,3 +1,4 @@
+import { UpdateFunction } from '@gq/shared/models';
 import { ApprovalLevel, Approver } from '@gq/shared/models/quotation';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
@@ -80,6 +81,19 @@ describe('ApprovalFacade', () => {
           true
         );
         m.expect(service.triggerApprovalWorkflowInProgress$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
+
+    test(
+      'should provide updateApprovalWorkflowInProgress',
+      marbles((m) => {
+        mockStore.overrideSelector(
+          approvalFeature.selectUpdateApprovalWorkflowInProgress,
+          true
+        );
+        m.expect(service.updateApprovalWorkflowInProgress$).toBeObservable(
           m.cold('a', { a: true })
         );
       })
@@ -277,6 +291,40 @@ describe('ApprovalFacade', () => {
         actions$ = m.hot('a', { a: action });
 
         m.expect(service.triggerApprovalWorkflowSucceeded$).toBeObservable(
+          expected as any
+        );
+      })
+    );
+  });
+
+  describe('update approval workflow', () => {
+    test('should dispatch action updateApprovalWorkflow', () => {
+      const updateApprovalWorkflowData = {
+        comment: 'test comment',
+        updateFunction: UpdateFunction.REJECT_QUOTATION,
+      };
+
+      mockStore.dispatch = jest.fn();
+      service.updateApprovalWorkflow(updateApprovalWorkflowData);
+
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        ApprovalActions.updateApprovalWorkflow({ updateApprovalWorkflowData })
+      );
+    });
+
+    test(
+      'should succeed',
+      marbles((m) => {
+        const action = ApprovalActions.updateApprovalWorkflowSuccess({
+          approvalEvent: {} as any,
+        });
+        const expected = m.cold('b', {
+          b: action,
+        });
+
+        actions$ = m.hot('a', { a: action });
+
+        m.expect(service.updateApprovalWorkflowSucceeded$).toBeObservable(
           expected as any
         );
       })

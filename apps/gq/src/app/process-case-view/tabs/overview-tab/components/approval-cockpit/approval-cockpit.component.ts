@@ -11,31 +11,21 @@ import { ApprovalDecisionModalComponent } from '../approval-decision-modal/appro
 export class ApprovalCockpitComponent {
   constructor(private readonly matDialog: MatDialog) {}
 
-  public openApprovalDialog(): void {
-    this.matDialog
-      .open(ApprovalDecisionModalComponent, {
-        width: '634px',
-        data: {
-          type: ApprovalModalType.APPROVE_CASE,
-        },
-      })
-      .afterClosed()
-      .subscribe(() => {
-        // Will be implemented in a later story
-      });
+  openApprovalDialog(): void {
+    this.matDialog.open(ApprovalDecisionModalComponent, {
+      width: '634px',
+      data: {
+        type: ApprovalModalType.APPROVE_CASE,
+      },
+    });
   }
 
-  public openRejectionDialog(): void {
-    this.matDialog
-      .open(ApprovalDecisionModalComponent, {
-        width: '634px',
-        data: {
-          type: ApprovalModalType.REJECT_CASE,
-        },
-      })
-      .afterClosed()
-      .subscribe(() => {
-        // Will be implemented in a later story
-      });
+  openRejectionDialog(): void {
+    this.matDialog.open(ApprovalDecisionModalComponent, {
+      width: '634px',
+      data: {
+        type: ApprovalModalType.REJECT_CASE,
+      },
+    });
   }
 }

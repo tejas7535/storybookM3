@@ -4,7 +4,7 @@ import { catchError, map, mergeMap, of } from 'rxjs';
 
 import { AppRoutePath } from '@gq/app-route-path.enum';
 import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-path.enum';
-import { ActiveDirectoryUser } from '@gq/shared/models';
+import { ActiveDirectoryUser, ApprovalEvent } from '@gq/shared/models';
 import { ApprovalStatus } from '@gq/shared/models/quotation';
 import { Approver } from '@gq/shared/models/quotation/approver.model';
 import { ApprovalService } from '@gq/shared/services/rest/approval/approval.service';
@@ -133,6 +133,36 @@ export class ApprovalEffects {
               )
             );
         }
+      )
+    );
+  });
+
+  updateApprovalWorkflow$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ApprovalActions.updateApprovalWorkflow),
+      concatLatestFrom(() => [
+        this.store.select(getSapId),
+        this.store.select(activeCaseFeature.selectQuotationIdentifier),
+      ]),
+      mergeMap(
+        ([action, sapId, quotationIdentifier]: [
+          ReturnType<typeof ApprovalActions.updateApprovalWorkflow>,
+          string,
+          QuotationIdentifier
+        ]) =>
+          this.approvalService
+            .updateApprovalWorkflow(sapId, {
+              ...action.updateApprovalWorkflowData,
+              gqId: quotationIdentifier.gqId,
+            })
+            .pipe(
+              map((approvalEvent: ApprovalEvent) =>
+                ApprovalActions.updateApprovalWorkflowSuccess({ approvalEvent })
+              ),
+              catchError((error: Error) =>
+                of(ApprovalActions.updateApprovalWorkflowFailure({ error }))
+              )
+            )
       )
     );
   });

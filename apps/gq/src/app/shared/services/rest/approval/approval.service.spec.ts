@@ -3,7 +3,14 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 
-import { ApiVersion, MicrosoftUsersResponse } from '@gq/shared/models';
+import {
+  ApiVersion,
+  ApprovalEvent,
+  ApprovalEventType,
+  MicrosoftUsersResponse,
+  QuotationStatus,
+  UpdateFunction,
+} from '@gq/shared/models';
 import {
   createServiceFactory,
   HttpMethod,
@@ -216,6 +223,40 @@ describe('ApprovalService', () => {
 
       expect(req.request.method).toBe(HttpMethod.POST);
       expect(req.request.body).toEqual(request);
+    });
+  });
+
+  describe('updateApprovalWorkflow', () => {
+    test('should call with correct path and deliver correct result', () => {
+      const sapId = 'testSapId';
+      const request = {
+        gqId: 998_755,
+        comment: 'test comment',
+        updateFunction: UpdateFunction.APPROVE_QUOTATION,
+      };
+      const response = {
+        gqId: request.gqId,
+        sapId,
+        comment: request.comment,
+        quotationStatus: QuotationStatus.APPROVED,
+        userId: 'testUser',
+        event: ApprovalEventType.APPROVED,
+        verified: true,
+        eventDate: new Date().toISOString(),
+      } as ApprovalEvent;
+
+      service
+        .updateApprovalWorkflow(sapId, request)
+        .subscribe((data) => expect(data).toEqual(response));
+
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${ApprovalPaths.PATH_APPROVAL}/${ApprovalPaths.PATH_UPDATE_APPROVAL_WORKFLOW}/${sapId}`
+      );
+
+      expect(req.request.method).toBe(HttpMethod.POST);
+      expect(req.request.body).toEqual(request);
+
+      req.flush(response);
     });
   });
 });
