@@ -20,9 +20,13 @@ import {
 import { combineLatest, map, Observable, Subject, takeUntil, tap } from 'rxjs';
 
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
-import { ActiveDirectoryUser, Quotation } from '@gq/shared/models';
-import { ApprovalStatus, Approver } from '@gq/shared/models/quotation';
-import { ApprovalLevel } from '@gq/shared/models/quotation/approval-level.enum';
+import {
+  ActiveDirectoryUser,
+  ApprovalLevel,
+  ApprovalStatus,
+  Approver,
+  Quotation,
+} from '@gq/shared/models';
 import { approversDifferValidator } from '@gq/shared/validators/approvers-differ-validator';
 import { userValidator } from '@gq/shared/validators/user-validator';
 import { TranslocoService } from '@ngneat/transloco';
@@ -98,7 +102,7 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.approvalFacade.getApprovalWorkflowData(this.dialogData.sapId);
+    this.approvalFacade.getAllApprovalData(this.dialogData.sapId);
 
     this.dataLoadingComplete$ = combineLatest([
       this.approvalFacade.allApproversLoading$,

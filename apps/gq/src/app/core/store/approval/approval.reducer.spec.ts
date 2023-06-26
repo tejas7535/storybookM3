@@ -1,27 +1,37 @@
-import { ApprovalLevel, ApprovalStatus } from '@gq/shared/models/quotation';
+import {
+  ApprovalCockpitData,
+  ApprovalEventType,
+  ApprovalLevel,
+  ApprovalStatus,
+  ApprovalWorkflowEvent,
+  ApprovalWorkflowInformation,
+  Approver,
+} from '@gq/shared/models';
 
 import { APPROVAL_STATE_MOCK } from '../../../../testing/mocks';
 import { ApprovalActions } from './approval.actions';
 import { approvalFeature, initialState } from './approval.reducer';
+import { firstApproverLogic } from './constants/approvers';
 
 describe('approvalReducer', () => {
-  describe('clear ApprovalStatus', () => {
+  describe('clear', () => {
     test('should clear values for approvalStatus', () => {
       const action = ApprovalActions.clearApprovalStatus();
       const state = approvalFeature.reducer(APPROVAL_STATE_MOCK, action);
       expect(state).toEqual({
         ...APPROVAL_STATE_MOCK,
         approvalStatusLoading: false,
-        approvalStatus: {
-          sapId: undefined,
-          currency: undefined,
-          approvalLevel: undefined,
-          thirdApproverRequired: false,
-          autoApproval: false,
-          totalNetValue: undefined,
-          gpm: undefined,
-          priceDeviation: undefined,
-        },
+        approvalStatus: { ...initialState.approvalStatus },
+      });
+    });
+
+    test('should clear values for approvalCockpit', () => {
+      const action = ApprovalActions.clearApprovalCockpitData();
+      const state = approvalFeature.reducer(APPROVAL_STATE_MOCK, action);
+      expect(state).toEqual({
+        ...APPROVAL_STATE_MOCK,
+        approvalCockpitLoading: false,
+        approvalCockpit: { ...initialState.approvalCockpit },
       });
     });
   });
@@ -55,6 +65,17 @@ describe('approvalReducer', () => {
         ...initialState,
         approversLoading: false,
         approvers: APPROVAL_STATE_MOCK.approvers,
+      });
+    });
+    test('should set property when AllApprovers already loaded', () => {
+      const action = ApprovalActions.allApproversAlreadyLoaded();
+      const state = approvalFeature.reducer(
+        { ...initialState, approversLoading: true },
+        action
+      );
+      expect(state).toEqual({
+        ...initialState,
+        approversLoading: false,
       });
     });
   });
@@ -112,6 +133,80 @@ describe('approvalReducer', () => {
           ...approvalStatus,
           approvalLevel: ApprovalLevel.L2,
         },
+      });
+    });
+    test('should set loading to false, when already loaded', () => {
+      const action = ApprovalActions.approvalStatusAlreadyLoaded();
+      const state = approvalFeature.reducer(
+        { ...initialState, approvalStatusLoading: true },
+        action
+      );
+      expect(state).toEqual({
+        ...initialState,
+        approvalStatusLoading: false,
+      });
+    });
+  });
+
+  describe('getApprovalCockpitData', () => {
+    test('should set approvalCockpitLoading', () => {
+      const action = ApprovalActions.getApprovalCockpitData({ sapId: '1' });
+      const state = approvalFeature.reducer(initialState, action);
+      expect(state).toEqual({
+        ...initialState,
+        approvalCockpitLoading: true,
+      });
+    });
+
+    test('should set the error', () => {
+      const error = new Error('my error');
+      const action = ApprovalActions.getApprovalCockpitDataFailure({ error });
+      const state = approvalFeature.reducer(APPROVAL_STATE_MOCK, action);
+      expect(state).toEqual({
+        ...APPROVAL_STATE_MOCK,
+        approvalCockpitLoading: false,
+        approvalCockpit: {
+          ...initialState.approvalCockpit,
+        },
+        error,
+      });
+    });
+
+    test('should set approvalCockpit Values', () => {
+      const approvalCockpit: ApprovalCockpitData = {
+        approvalGeneral: {
+          sapId: '12345',
+          currency: 'EUR',
+          thirdApproverRequired: false,
+          autoApproval: false,
+          priceDeviation: 10,
+          gpm: 15,
+          totalNetValue: 100_000,
+        } as ApprovalWorkflowInformation,
+        approvalEvents: [],
+      };
+      const action = ApprovalActions.getApprovalCockpitDataSuccess({
+        approvalCockpit,
+      });
+      const state = approvalFeature.reducer(initialState, action);
+      expect(state).toEqual({
+        ...initialState,
+        approvalCockpitLoading: false,
+        approvalCockpit: {
+          ...approvalCockpit,
+        },
+      });
+    });
+
+    test('should set loading to false, when already loaded', () => {
+      const action = ApprovalActions.approvalCockpitDataAlreadyLoaded();
+      const state = approvalFeature.reducer(
+        { ...initialState, approvalCockpitLoading: true },
+        action
+      );
+      expect(state).toEqual({
+        ...initialState,
+        approvalCockpitLoading: false,
       });
     });
   });
@@ -256,6 +351,419 @@ describe('approvalReducer', () => {
         ...APPROVAL_STATE_MOCK,
         updateApprovalWorkflowInProgress: false,
         error,
+      });
+    });
+  });
+  describe('ExtraSelector', () => {
+    test('should return Approvers of requested Level 3', () => {
+      expect(
+        approvalFeature
+          .getApproversOfLevel(ApprovalLevel.L3)
+          .projector(APPROVAL_STATE_MOCK.approvers)
+      ).toEqual([
+        ...APPROVAL_STATE_MOCK.approvers.filter(
+          (item) =>
+            item.approvalLevel !== ApprovalLevel.L1 &&
+            item.approvalLevel !== ApprovalLevel.L2
+        ),
+      ]);
+    });
+
+    test('should return Approvers of requested Level 4', () => {
+      expect(
+        approvalFeature
+          .getApproversOfLevel(ApprovalLevel.L4)
+          .projector(APPROVAL_STATE_MOCK.approvers)
+      ).toEqual([
+        ...APPROVAL_STATE_MOCK.approvers.filter(
+          (item) =>
+            item.approvalLevel === ApprovalLevel.L4 ||
+            item.approvalLevel === ApprovalLevel.L5
+        ),
+      ]);
+    });
+
+    test('should return Approvers of requested Level 1 and check for sorting', () => {
+      expect(
+        approvalFeature
+          .getApproversOfLevel(ApprovalLevel.L1)
+          .projector(APPROVAL_STATE_MOCK.approvers)
+      ).toEqual([
+        {
+          userId: 'herpisef',
+          firstName: 'Stefan',
+          lastName: 'Herpich',
+          approvalLevel: 1,
+        },
+        {
+          userId: 'herpiseg',
+          firstName: 'Franz',
+          lastName: 'Albert',
+          approvalLevel: 1,
+        },
+        {
+          userId: 'herpiseg',
+          firstName: 'Stefan',
+          lastName: 'Albert',
+          approvalLevel: 1,
+        },
+        {
+          userId: 'schlesni',
+          firstName: 'Stefanie',
+          lastName: 'Schleer',
+          approvalLevel: 2,
+        },
+        {
+          userId: 'fischjny',
+          firstName: 'Jenny',
+          lastName: 'Fischer',
+          approvalLevel: 3,
+        },
+        {
+          userId: 'soehnpsc',
+          firstName: 'Pascal',
+          lastName: 'Soehnlein',
+          approvalLevel: 4,
+        },
+        {
+          userId: 'anyId',
+          firstName: 'Jan',
+          lastName: 'Schmitt',
+          approvalLevel: 5,
+        },
+      ]);
+    });
+
+    describe('should return ApprovalLevel', () => {
+      test('should return approvalLevel for firstApprover', () => {
+        expect(
+          approvalFeature.getApprovalLevelFirstApprover.projector({
+            approvalLevel: ApprovalLevel.L1,
+            thirdApproverRequired: false,
+          } as ApprovalStatus)
+        ).toEqual(ApprovalLevel.L1);
+      });
+      test('should return approvalLevel for secondApprover', () => {
+        expect(
+          approvalFeature.getApprovalLevelSecondApprover.projector({
+            approvalLevel: ApprovalLevel.L1,
+            thirdApproverRequired: false,
+          } as ApprovalStatus)
+        ).toEqual(ApprovalLevel.L2);
+      });
+      test('should return approvalLevel for thirdApprover', () => {
+        expect(
+          approvalFeature.getApprovalLevelThirdApprover.projector({
+            approvalLevel: ApprovalLevel.L4,
+            thirdApproverRequired: true,
+          } as ApprovalStatus)
+        ).toEqual(ApprovalLevel.L4);
+      });
+    });
+
+    describe('should return the combination of all approvalLevels include to quotation', () => {
+      test('should return string when 3rd Approver is not needed', () => {
+        expect(
+          approvalFeature.getRequiredApprovalLevelsForQuotation.projector({
+            approvalLevel: ApprovalLevel.L4,
+            thirdApproverRequired: false,
+          } as ApprovalStatus)
+        ).toEqual(
+          `${ApprovalLevel[ApprovalLevel.L4]} + ${
+            ApprovalLevel[ApprovalLevel.L4]
+          }`
+        );
+      });
+      test('should return string when 3rd Approver is  needed', () => {
+        expect(
+          approvalFeature.getRequiredApprovalLevelsForQuotation.projector({
+            approvalLevel: ApprovalLevel.L4,
+            thirdApproverRequired: true,
+          } as ApprovalStatus)
+        ).toEqual(
+          `${ApprovalLevel[ApprovalLevel.L3]} + ${
+            ApprovalLevel[ApprovalLevel.L4]
+          } + ${ApprovalLevel[ApprovalLevel.L4]}`
+        );
+      });
+    });
+
+    describe('getFirstApprovers', () => {
+      test('should return the approvers when 3ApproverRequired and approvalLevel is L1 (not possible)', () => {
+        expect(
+          approvalFeature.getFirstApprovers.projector(
+            APPROVAL_STATE_MOCK.approvers,
+            {
+              approvalLevel: ApprovalLevel.L1,
+              thirdApproverRequired: true,
+            } as ApprovalStatus
+          )
+        ).toEqual([]);
+      });
+      test('should return the approvers when 3ApproverRequired not and approvalLevel is L1 (would be L1)', () => {
+        expect(
+          approvalFeature.getFirstApprovers.projector(
+            APPROVAL_STATE_MOCK.approvers,
+            {
+              thirdApproverRequired: false,
+              approvalLevel: ApprovalLevel.L1,
+            } as ApprovalStatus
+          )
+        ).toEqual(
+          APPROVAL_STATE_MOCK.approvers.filter(
+            (item: Approver) => item.approvalLevel >= ApprovalLevel.L1
+          )
+        );
+      });
+      test('should return the approvers for first when 3ApproverRequired true and approvalLevel is L5 (would be Level3)', () => {
+        expect(
+          approvalFeature.getFirstApprovers.projector(
+            APPROVAL_STATE_MOCK.approvers,
+            {
+              thirdApproverRequired: true,
+              approvalLevel: ApprovalLevel.L5,
+            } as ApprovalStatus
+          )
+        ).toEqual(
+          APPROVAL_STATE_MOCK.approvers.filter(
+            (item: Approver) => item.approvalLevel >= ApprovalLevel.L3
+          )
+        );
+      });
+    });
+
+    describe('getSecondApprovers', () => {
+      test('should return the approvers when 3ApproverRequired and approvalLevel is L1 (not possible)', () => {
+        expect(
+          approvalFeature.getSecondApprovers.projector(
+            APPROVAL_STATE_MOCK.approvers,
+            {
+              thirdApproverRequired: true,
+              approvalLevel: ApprovalLevel.L1,
+            } as ApprovalStatus
+          )
+        ).toEqual([]);
+      });
+      test('should return the approvers when 3ApproverRequired =false and approvalLevel is L1 (would be L2)', () => {
+        expect(
+          approvalFeature.getSecondApprovers.projector(
+            APPROVAL_STATE_MOCK.approvers,
+            {
+              thirdApproverRequired: false,
+              approvalLevel: ApprovalLevel.L1,
+            } as ApprovalStatus
+          )
+        ).toEqual(
+          APPROVAL_STATE_MOCK.approvers.filter(
+            (item: Approver) => item.approvalLevel >= ApprovalLevel.L2
+          )
+        );
+      });
+      test('should return the approvers for first when 3ApproverRequired true and approvalLevel is L5 (would be Level4)', () => {
+        expect(
+          approvalFeature.getSecondApprovers.projector(
+            APPROVAL_STATE_MOCK.approvers,
+            {
+              thirdApproverRequired: true,
+              approvalLevel: ApprovalLevel.L5,
+            } as ApprovalStatus
+          )
+        ).toEqual(
+          APPROVAL_STATE_MOCK.approvers.filter(
+            (item: Approver) => item.approvalLevel >= ApprovalLevel.L4
+          )
+        );
+      });
+    });
+
+    describe('getThirdApprovers', () => {
+      test('should return the approvers when 3ApproverRequired and approvalLevel is L1 (not possible)', () => {
+        expect(
+          approvalFeature.getThirdApprovers.projector(
+            APPROVAL_STATE_MOCK.approvers,
+            {
+              thirdApproverRequired: true,
+              approvalLevel: ApprovalLevel.L1,
+            } as ApprovalStatus
+          )
+        ).toEqual([]);
+      });
+      test('should return the approvers when 3ApproverRequired = false and approvalLevel is L1 (would be undefined --> no 3rd Approver on Level 1)', () => {
+        expect(
+          approvalFeature.getThirdApprovers.projector(
+            APPROVAL_STATE_MOCK.approvers,
+            {
+              thirdApproverRequired: false,
+              approvalLevel: ApprovalLevel.L1,
+            } as ApprovalStatus
+          )
+        ).toEqual([]);
+      });
+      test('should return the approvers for first when 3ApproverRequired true and approvalLevel is L5 (would be Level5)', () => {
+        expect(
+          approvalFeature.getThirdApprovers.projector(
+            APPROVAL_STATE_MOCK.approvers,
+            {
+              thirdApproverRequired: true,
+              approvalLevel: ApprovalLevel.L5,
+            } as ApprovalStatus
+          )
+        ).toEqual(
+          APPROVAL_STATE_MOCK.approvers.filter(
+            (item: Approver) => item.approvalLevel >= ApprovalLevel.L5
+          )
+        );
+      });
+
+      test('should return the approvers for first when 3ApproverRequired true and approvalLevel is L4 (would be Level4)', () => {
+        expect(
+          approvalFeature.getThirdApprovers.projector(
+            APPROVAL_STATE_MOCK.approvers,
+            {
+              thirdApproverRequired: true,
+              approvalLevel: ApprovalLevel.L4,
+            } as ApprovalStatus
+          )
+        ).toEqual(
+          APPROVAL_STATE_MOCK.approvers.filter(
+            (item: Approver) => item.approvalLevel >= ApprovalLevel.L4
+          )
+        );
+      });
+      test('should return the information from approvalCockpit', () => {
+        expect(
+          approvalFeature.getApprovalCockpitInformation.projector(
+            APPROVAL_STATE_MOCK.approvalCockpit
+          )
+        ).toEqual(APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral);
+      });
+      test('should return the events from approvalCockpit', () => {
+        expect(
+          approvalFeature.getApprovalCockpitEvents.projector(
+            APPROVAL_STATE_MOCK.approvalCockpit
+          )
+        ).toEqual(APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents);
+      });
+      describe('hasAnyWorkflowEvents', () => {
+        test('should check if there are any events, return true', () => {
+          expect(
+            approvalFeature.getHasAnyApprovalEvent.projector(
+              APPROVAL_STATE_MOCK.approvalCockpit
+            )
+          ).toBeTruthy();
+        });
+        test('should check if there are any events, return false', () => {
+          expect(
+            approvalFeature.getHasAnyApprovalEvent.projector({
+              ...APPROVAL_STATE_MOCK.approvalCockpit,
+              approvalEvents: [],
+            })
+          ).toBeFalsy();
+        });
+      });
+
+      describe('getEventsAfterLastWorkflowStarted', () => {
+        test('should return empty array when no events', () => {
+          expect(
+            approvalFeature.getEventsAfterLastWorkflowStarted.projector({
+              ...APPROVAL_STATE_MOCK.approvalCockpit,
+              approvalEvents: [],
+            })
+          ).toEqual([]);
+        });
+        test('should return empty array when events undefined', () => {
+          expect(
+            approvalFeature.getEventsAfterLastWorkflowStarted.projector({
+              ...APPROVAL_STATE_MOCK.approvalCockpit,
+              approvalEvents: undefined,
+            })
+          ).toEqual([]);
+        });
+
+        test('should return empty array when there is no start event after cancel event', () => {
+          const events: ApprovalWorkflowEvent[] = [
+            ...APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents,
+            {
+              event: ApprovalEventType.CANCELLED,
+              eventDate: '2023-06-08T10:00:30Z',
+            } as unknown as ApprovalWorkflowEvent,
+          ];
+          expect(
+            approvalFeature.getEventsAfterLastWorkflowStarted.projector({
+              ...APPROVAL_STATE_MOCK.approvalCockpit,
+              approvalEvents: events,
+            })
+          ).toEqual([]);
+        });
+        test('should return events of active workflow, WF started after cancel, return all from started event on', () => {
+          const expected = [
+            {
+              event: ApprovalEventType.STARTED,
+              eventDate: '2023-06-08T11:00:30Z',
+            } as unknown as ApprovalWorkflowEvent,
+            {
+              event: ApprovalEventType.APPROVED,
+              eventDate: '2023-06-08T11:00:30Z',
+            } as unknown as ApprovalWorkflowEvent,
+          ];
+          const events: ApprovalWorkflowEvent[] = [
+            ...APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents,
+            {
+              event: ApprovalEventType.CANCELLED,
+              eventDate: '2023-06-08T10:00:30Z',
+            } as unknown as ApprovalWorkflowEvent,
+            ...expected,
+          ];
+          expect(
+            approvalFeature.getEventsAfterLastWorkflowStarted.projector({
+              ...APPROVAL_STATE_MOCK.approvalCockpit,
+              approvalEvents: events,
+            })
+          ).toEqual(expected);
+        });
+        test('should return all the events (no cancel event)', () => {
+          expect(
+            approvalFeature.getEventsAfterLastWorkflowStarted.projector(
+              APPROVAL_STATE_MOCK.approvalCockpit
+            )
+          ).toEqual(
+            APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents.sort((a, b) =>
+              b.eventDate.localeCompare(a.eventDate)
+            )
+          );
+        });
+      });
+    });
+    describe('test the array logic', () => {
+      test('should return undefined', () => {
+        const result = firstApproverLogic[1][ApprovalLevel.L1];
+        expect(result).toBeUndefined();
+      });
+
+      test('should return 3 for ApprovalLevel 3 when not required', () => {
+        const result = firstApproverLogic[0][ApprovalLevel.L3];
+        expect(result).toBe(ApprovalLevel.L3);
+      });
+      test('should return 2 for ApprovalLevel 3 when IS required', () => {
+        const result = firstApproverLogic[1][ApprovalLevel.L3];
+        expect(result).toBe(ApprovalLevel.L2);
+      });
+    });
+
+    describe('ApprovalCockpit Sub Data', () => {
+      test('should information property', () => {
+        expect(
+          approvalFeature.getApprovalCockpitInformation.projector(
+            APPROVAL_STATE_MOCK.approvalCockpit
+          )
+        ).toEqual(APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral);
+      });
+      test('should events property', () => {
+        expect(
+          approvalFeature.getApprovalCockpitEvents.projector(
+            APPROVAL_STATE_MOCK.approvalCockpit
+          )
+        ).toEqual(APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents);
       });
     });
   });

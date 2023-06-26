@@ -1,5 +1,9 @@
 import { ApprovalState } from '@gq/core/store/approval/approval.reducer';
-import { ApprovalLevel } from '@gq/shared/models/quotation/approval-level.enum';
+import {
+  ApprovalEventType,
+  ApprovalLevel,
+  QuotationStatus,
+} from '@gq/shared/models';
 
 // this is sorted, because items are sorted in state
 export const APPROVAL_STATE_MOCK: ApprovalState = {
@@ -75,6 +79,7 @@ export const APPROVAL_STATE_MOCK: ApprovalState = {
   activeDirectoryUsersLoading: false,
   triggerApprovalWorkflowInProgress: false,
   updateApprovalWorkflowInProgress: false,
+  approvalCockpitLoading: false,
   approvalStatus: {
     sapId: '12345',
     currency: 'EUR',
@@ -84,5 +89,55 @@ export const APPROVAL_STATE_MOCK: ApprovalState = {
     priceDeviation: 10,
     gpm: 15,
     totalNetValue: 100_000,
+  },
+  approvalCockpit: {
+    approvalGeneral: {
+      gqId: 51_553,
+      sapId: '800194605',
+      thirdApproverRequired: false,
+      autoApproval: false,
+      firstApprover: 'KELLERBI',
+      secondApprover: 'ZIRKLIS',
+      thirdApprover: undefined,
+      approverInformation: 'SCHMJAN',
+      comment: 'Test Approval Use Case 3',
+      projectInformation: 'Test Project Information',
+      totalNetValue: 662_975.08,
+      gpm: 54.09,
+      priceDeviation: undefined,
+      currency: 'EUR',
+    },
+    approvalEvents: [
+      {
+        gqId: 51_553,
+        sapId: '800194605',
+        userId: 'SCHMJAN',
+        eventDate: '2023-06-07T11:12:30Z',
+        quotationStatus: QuotationStatus.IN_APPROVAL,
+        event: ApprovalEventType.STARTED,
+        comment: 'a coemment',
+        verified: true,
+      },
+      {
+        gqId: 51_553,
+        sapId: '800194605',
+        userId: 'KELLERBI',
+        eventDate: '2023-06-08T09:00:30Z',
+        quotationStatus: QuotationStatus.IN_APPROVAL,
+        event: ApprovalEventType.APPROVED,
+        comment: 'a coemment',
+        verified: true,
+      },
+      {
+        gqId: 51_553,
+        sapId: '800194605',
+        userId: 'KELLERBI',
+        eventDate: '2023-06-08T09:00:30Z',
+        quotationStatus: QuotationStatus.IN_APPROVAL,
+        event: ApprovalEventType.APPROVED,
+        comment: 'a coemment',
+        verified: true,
+      },
+    ],
   },
 };

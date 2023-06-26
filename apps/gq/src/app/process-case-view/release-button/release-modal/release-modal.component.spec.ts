@@ -8,8 +8,12 @@ import {
 import { of } from 'rxjs';
 
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
-import { ActiveDirectoryUser, Quotation } from '@gq/shared/models';
-import { ApprovalStatus, Approver } from '@gq/shared/models/quotation';
+import {
+  ActiveDirectoryUser,
+  ApprovalStatus,
+  Approver,
+  Quotation,
+} from '@gq/shared/models';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoService } from '@ngneat/transloco';
 import { MockProvider } from 'ng-mocks';
@@ -54,7 +58,7 @@ describe('ReleaseModalComponent', () => {
   describe('ngOnInit', () => {
     beforeEach(() => {
       const facadeMock: ApprovalFacade = {
-        getApprovalWorkflowData: jest.fn(),
+        getAllApprovalData: jest.fn(),
         approvalStatus$: of({ thirdApproverRequired: false } as ApprovalStatus),
         triggerApprovalWorkflowSucceeded$: of(),
       } as unknown as ApprovalFacade;
@@ -65,9 +69,7 @@ describe('ReleaseModalComponent', () => {
     });
     it('should call getAllApprover', () => {
       component.ngOnInit();
-      expect(
-        component.approvalFacade.getApprovalWorkflowData
-      ).toHaveBeenCalled();
+      expect(component.approvalFacade.getAllApprovalData).toHaveBeenCalled();
     });
     test('should set approver one and two in formGroup', () => {
       component.ngOnInit();
@@ -80,7 +82,7 @@ describe('ReleaseModalComponent', () => {
     });
     test('should set approver one, two and three in formGroup', () => {
       const facadeMock: ApprovalFacade = {
-        getApprovalWorkflowData: jest.fn(),
+        getAllApprovalData: jest.fn(),
         approvalStatus$: of({ thirdApproverRequired: true } as ApprovalStatus),
         triggerApprovalWorkflowSucceeded$: of(),
       } as unknown as ApprovalFacade;
@@ -99,7 +101,7 @@ describe('ReleaseModalComponent', () => {
 
     test('should set only comment and project information in formGroup', () => {
       const facadeMock: ApprovalFacade = {
-        getApprovalWorkflowData: jest.fn(),
+        getAllApprovalData: jest.fn(),
         approvalStatus$: of({ autoApproval: true } as ApprovalStatus),
         triggerApprovalWorkflowSucceeded$: of(),
       } as unknown as ApprovalFacade;
@@ -121,7 +123,7 @@ describe('ReleaseModalComponent', () => {
         'should return false when ApprovalStatus is on loading',
         marbles((m) => {
           const facadeMock: ApprovalFacade = {
-            getApprovalWorkflowData: jest.fn(),
+            getAllApprovalData: jest.fn(),
             approvalStatus$: of({
               thirdApproverRequired: true,
               sapId: undefined,
@@ -145,7 +147,7 @@ describe('ReleaseModalComponent', () => {
         'should return false when AllApprovers is on loading',
         marbles((m) => {
           const facadeMock: ApprovalFacade = {
-            getApprovalWorkflowData: jest.fn(),
+            getAllApprovalData: jest.fn(),
             approvalStatus$: of({
               thirdApproverRequired: true,
               sapId: '12',
@@ -168,7 +170,7 @@ describe('ReleaseModalComponent', () => {
         'should return when data received completely',
         marbles((m) => {
           const facadeMock: ApprovalFacade = {
-            getApprovalWorkflowData: jest.fn(),
+            getAllApprovalData: jest.fn(),
             approvalStatus$: of({
               thirdApproverRequired: true,
               sapId: '12',
@@ -192,7 +194,7 @@ describe('ReleaseModalComponent', () => {
     describe('trigger approval workflow success', () => {
       test('should close dialog when trigger approval workflow succeeded', () => {
         const facadeMock: ApprovalFacade = {
-          getApprovalWorkflowData: jest.fn(),
+          getAllApprovalData: jest.fn(),
           approvalStatus$: of(),
           triggerApprovalWorkflowSucceeded$: of(true),
         } as unknown as ApprovalFacade;

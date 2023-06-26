@@ -4,9 +4,13 @@ import { catchError, map, mergeMap, of } from 'rxjs';
 
 import { AppRoutePath } from '@gq/app-route-path.enum';
 import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-path.enum';
-import { ActiveDirectoryUser, ApprovalEvent } from '@gq/shared/models';
-import { ApprovalStatus } from '@gq/shared/models/quotation';
-import { Approver } from '@gq/shared/models/quotation/approver.model';
+import { ActiveDirectoryUser } from '@gq/shared/models';
+import {
+  ApprovalCockpitData,
+  ApprovalStatus,
+  ApprovalWorkflowEvent,
+  Approver,
+} from '@gq/shared/models/approval';
 import { ApprovalService } from '@gq/shared/services/rest/approval/approval.service';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -156,13 +160,48 @@ export class ApprovalEffects {
               gqId: quotationIdentifier.gqId,
             })
             .pipe(
-              map((approvalEvent: ApprovalEvent) =>
+              map((approvalEvent: ApprovalWorkflowEvent) =>
                 ApprovalActions.updateApprovalWorkflowSuccess({ approvalEvent })
               ),
               catchError((error: Error) =>
                 of(ApprovalActions.updateApprovalWorkflowFailure({ error }))
               )
             )
+      )
+    );
+  });
+
+  getApprovalCockpitDataForSapQuotation$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ApprovalActions.getApprovalCockpitData),
+      concatLatestFrom(() =>
+        this.store.select(approvalFeature.selectApprovalCockpit)
+      ),
+      mergeMap(
+        ([action, recentApprovalCockpit]: [
+          ReturnType<typeof ApprovalActions.getApprovalCockpitData>,
+          ApprovalCockpitData
+        ]) => {
+          if (
+            !recentApprovalCockpit?.approvalGeneral?.sapId ||
+            recentApprovalCockpit?.approvalGeneral?.sapId !== action.sapId
+          ) {
+            return this.approvalService
+              .getApprovalCockpitData(action.sapId)
+              .pipe(
+                map((approvalCockpit: ApprovalCockpitData) =>
+                  ApprovalActions.getApprovalCockpitDataSuccess({
+                    approvalCockpit,
+                  })
+                ),
+                catchError((error: Error) =>
+                  of(ApprovalActions.getApprovalCockpitDataFailure({ error }))
+                )
+              );
+          }
+
+          return of(ApprovalActions.approvalCockpitDataAlreadyLoaded());
+        }
       )
     );
   });

@@ -5,8 +5,8 @@ import {
 
 import {
   ApiVersion,
-  ApprovalEvent,
   ApprovalEventType,
+  ApprovalWorkflowEvent,
   MicrosoftUsersResponse,
   QuotationStatus,
   UpdateFunction,
@@ -125,23 +125,23 @@ describe('ApprovalService', () => {
 
       expect(req.request.method).toBe(HttpMethod.GET);
     });
-  });
 
-  test('should map', () => {
-    const response = {
-      ...APPROVAL_STATE_MOCK.approvalStatus,
-      approvalLevel: 'L2',
-    };
-    service
-      .getApprovalStatus('12345')
-      .subscribe((data) =>
-        expect(data).toEqual(APPROVAL_STATE_MOCK.approvalStatus)
+    test('should map', () => {
+      const response = {
+        ...APPROVAL_STATE_MOCK.approvalStatus,
+        approvalLevel: 'L2',
+      };
+      service
+        .getApprovalStatus('12345')
+        .subscribe((data) =>
+          expect(data).toEqual(APPROVAL_STATE_MOCK.approvalStatus)
+        );
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${ApprovalPaths.PATH_APPROVAL}/${ApprovalPaths.PATH_APPROVAL_STATUS}/12345`
       );
-    const req = httpMock.expectOne(
-      `${ApiVersion.V1}/${ApprovalPaths.PATH_APPROVAL}/${ApprovalPaths.PATH_APPROVAL_STATUS}/12345`
-    );
 
-    req.flush(response);
+      req.flush(response);
+    });
   });
 
   describe('getActiveDirectoryUsers', () => {
@@ -243,7 +243,7 @@ describe('ApprovalService', () => {
         event: ApprovalEventType.APPROVED,
         verified: true,
         eventDate: new Date().toISOString(),
-      } as ApprovalEvent;
+      } as ApprovalWorkflowEvent;
 
       service
         .updateApprovalWorkflow(sapId, request)
@@ -257,6 +257,17 @@ describe('ApprovalService', () => {
       expect(req.request.body).toEqual(request);
 
       req.flush(response);
+    });
+  });
+
+  describe('getApprovalCockpitData', () => {
+    test('should call with correct path', () => {
+      service.getApprovalCockpitData('12345').subscribe();
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${ApprovalPaths.PATH_APPROVAL}/${ApprovalPaths.PATH_APPROVAL_COCKPIT_INFO}/12345`
+      );
+
+      expect(req.request.method).toBe(HttpMethod.GET);
     });
   });
 });

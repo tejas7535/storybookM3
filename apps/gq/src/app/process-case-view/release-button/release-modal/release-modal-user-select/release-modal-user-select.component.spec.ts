@@ -7,8 +7,8 @@ import * as rxjs from 'rxjs';
 import { of } from 'rxjs';
 
 import { ActiveDirectoryUser } from '@gq/shared/models';
-import { ApprovalLevel, Approver } from '@gq/shared/models/quotation';
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { ApprovalLevel, Approver } from '@gq/shared/models/approval';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { marbles } from 'rxjs-marbles';
 

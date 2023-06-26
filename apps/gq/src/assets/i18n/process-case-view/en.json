@@ -138,6 +138,11 @@
           "sendBack": "Send Back",
           "confirmApproval": "Confirm Approval",
           "cancel": "Cancel"
+        },
+        "quotationAutoApproved": "System automatically approved this Quotation.",
+        "approvalStatusOfApprover": {
+          "forwardedTo": "Quotation forwarded to {{variable}}",
+          "unknownApprover": "unknown"
         }
       }
     }

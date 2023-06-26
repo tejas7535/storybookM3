@@ -6,15 +6,16 @@ import { map, Observable } from 'rxjs';
 import {
   ActiveDirectoryUser,
   ApiVersion,
-  ApprovalEvent,
+  ApprovalCockpitData,
+  ApprovalLevel,
+  ApprovalStatus,
+  ApprovalWorkflowEvent,
+  Approver,
   MicrosoftUser,
   MicrosoftUsersResponse,
   TriggerApprovalWorkflowRequest,
   UpdateApprovalWorkflowRequest,
 } from '@gq/shared/models';
-import { ApprovalLevel } from '@gq/shared/models/quotation/approval-level.enum';
-import { ApprovalStatus } from '@gq/shared/models/quotation/approval-status.model';
-import { Approver } from '@gq/shared/models/quotation/approver.model';
 import { withCache } from '@ngneat/cashew';
 
 import { ApprovalPaths } from './approval-paths.enum';
@@ -147,10 +148,22 @@ export class ApprovalService {
   updateApprovalWorkflow(
     sapId: string,
     updateApprovalWorkflowRequest: UpdateApprovalWorkflowRequest
-  ): Observable<ApprovalEvent> {
-    return this.http.post<ApprovalEvent>(
+  ): Observable<ApprovalWorkflowEvent> {
+    return this.http.post<ApprovalWorkflowEvent>(
       `${ApiVersion.V1}/${ApprovalPaths.PATH_APPROVAL}/${ApprovalPaths.PATH_UPDATE_APPROVAL_WORKFLOW}/${sapId}`,
       updateApprovalWorkflowRequest
+    );
+  }
+
+  /**
+   * get all approval cockpit Data
+   *
+   * @param sapId sap Id of Quotation
+   * @returns overall Information of the Approval Workflow {@link ApprovalCockpitData}
+   */
+  getApprovalCockpitData(sapId: string): Observable<ApprovalCockpitData> {
+    return this.http.get<ApprovalCockpitData>(
+      `${ApiVersion.V1}/${ApprovalPaths.PATH_APPROVAL}/${ApprovalPaths.PATH_APPROVAL_COCKPIT_INFO}/${sapId}`
     );
   }
 }

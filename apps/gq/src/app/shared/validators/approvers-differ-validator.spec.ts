@@ -5,7 +5,7 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 
-import { Approver } from '../models/quotation';
+import { Approver } from '../models';
 import { approversDifferValidator } from './approvers-differ-validator';
 
 describe('ApproversDifferValidator', () => {

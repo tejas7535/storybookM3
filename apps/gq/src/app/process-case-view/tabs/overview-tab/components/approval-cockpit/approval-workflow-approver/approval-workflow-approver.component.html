@@ -1,0 +1,66 @@
+<div
+  *transloco="
+    let t;
+    read: 'processCaseView.tabs.overview.approvalCockpit.approvalStatusOfApprover'
+  "
+  class="flex flex-row items-center gap-2"
+>
+  <div>
+    <div
+      class="flex h-[32px] w-[32px] items-center justify-center rounded-full"
+      [ngClass]="{
+        'bg-profile-pic-orange': colorSetNumber === 1,
+        'bg-profile-pic-blue': colorSetNumber === 2,
+        'bg-profile-pic-red': colorSetNumber === 3,
+        'bg-profile-pic-green': colorSetNumber === 4,
+        'bg-profile-pic-purple': colorSetNumber === 5
+      }"
+    >
+      <span
+        [ngClass]="{
+          'text-profile-initials-orange': colorSetNumber === 1,
+          'text-profile-initials-blue': colorSetNumber === 2,
+          'text-profile-initials-red': colorSetNumber === 3,
+          'text-profile-initials-green': colorSetNumber === 4,
+          'text-profile-initials-purple': colorSetNumber === 5
+        }"
+        >{{ approver | userInitialLetters }}</span
+      >
+    </div>
+  </div>
+  <div class="flex w-full flex-col items-start justify-center">
+    <div class="flex w-full flex-row justify-between">
+      <div class="text-body-2 text-medium-emphasis">
+        {{ approver | approverDisplay: t('unknownApprover') }}
+      </div>
+      <div class="flex-end flex items-center gap-2">
+        <ng-container *ngIf="workflowStatus === displayStatus.IN_APPROVAL">
+          <span class="text-caption text-[#007892]">in approval</span>
+        </ng-container>
+
+        <ng-container *ngIf="workflowStatus === displayStatus.APPROVED">
+          <mat-icon class="text-caption text-[#5C7E33]">check</mat-icon
+          ><span class="text-caption text-[#5C7E33]">approved</span>
+        </ng-container>
+
+        <ng-container *ngIf="workflowStatus === displayStatus.FORWARDED">
+          <mat-icon class="bg-[#666666]text-caption">arrow_forward</mat-icon
+          ><span class="text-caption text-[x666666]">forwarded</span>
+        </ng-container>
+
+        <ng-container *ngIf="workflowStatus === displayStatus.REJECTED">
+          <mat-icon class="text-caption text-[#A31739]">report_problem</mat-icon
+          ><span class="text-caption text-[#A31739]">rejected</span>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="text-caption text-low-emphasis">
+      {{ eventDate }}
+    </div>
+
+    <div class="text-caption text-medium-emphasis">
+      {{ eventComment }}
+    </div>
+  </div>
+</div>

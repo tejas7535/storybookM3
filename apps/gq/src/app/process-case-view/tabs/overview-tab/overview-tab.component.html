@@ -13,7 +13,14 @@
       </gq-kpi-status-card>
     </div>
 
-    <div class="col-span-2 grid grid-cols-2 gap-4 md:w-1/2 lg:w-full">
+    <div
+      class="col-span-2 grid grid-cols-2 gap-4 md:w-1/2 lg:w-full"
+      [ngClass]="
+        (approvalFacade.hasAnyApprovalEvent$ | ngrxPush)
+          ? 'col-span-2'
+          : 'col-span-3'
+      "
+    >
       <gq-kpi-status-card
         class="col-span-2"
         [title]="t('tabs.overview.netValueCardTitle')"
@@ -71,7 +78,11 @@
       >
       </gq-kpi-status-card>
     </div>
-    <div class="gap-4 md:w-1/2 lg:w-full">
+
+    <div
+      *ngIf="approvalFacade.hasAnyApprovalEvent$ | ngrxPush"
+      class="gap-4 md:w-1/2 lg:w-full"
+    >
       <gq-approval-cockpit></gq-approval-cockpit>
     </div>
   </ng-container>

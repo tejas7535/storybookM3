@@ -4,11 +4,15 @@ import { AppRoutePath } from '@gq/app-route-path.enum';
 import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-path.enum';
 import {
   ActiveDirectoryUser,
-  ApprovalEvent,
+  ApprovalCockpitData,
+  ApprovalEventType,
+  ApprovalLevel,
+  ApprovalStatus,
+  ApprovalWorkflowEvent,
+  Approver,
   UpdateFunction,
 } from '@gq/shared/models';
-import { ApprovalLevel, ApprovalStatus } from '@gq/shared/models/quotation';
-import { Approver } from '@gq/shared/models/quotation/approver.model';
+import { QuotationStatus } from '@gq/shared/models/quotation';
 import { ApprovalService } from '@gq/shared/services/rest/approval/approval.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
@@ -415,6 +419,212 @@ describe('ApprovalEffects', () => {
 
         actions$ = m.hot('-a', { a: action });
         m.expect(effects.triggerApprovalWorkflow$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('getApprovalCockpitDataOfSapQuotation', () => {
+    test(
+      'Should dispatch data already loaded action',
+      marbles((m) => {
+        action = ApprovalActions.getApprovalCockpitData({ sapId: '12345' });
+        store.overrideSelector(approvalFeature.selectApprovalCockpit, {
+          approvalGeneral: { sapId: '12345' },
+        } as ApprovalCockpitData);
+
+        approvalService.getApprovalCockpitData = jest.fn();
+        const result = ApprovalActions.approvalCockpitDataAlreadyLoaded();
+        const expected = m.cold('b', { b: result });
+
+        actions$ = m.hot('a', { a: action });
+
+        m.expect(effects.getApprovalCockpitDataForSapQuotation$).toBeObservable(
+          expected
+        );
+        m.flush();
+
+        expect(approvalService.getApprovalCockpitData).not.toHaveBeenCalled();
+      })
+    );
+    test(
+      'should dispatch Success Action',
+      marbles((m) => {
+        store.overrideSelector(
+          approvalFeature.selectApprovalCockpit,
+          initialState.approvalCockpit
+        );
+        action = ApprovalActions.getApprovalCockpitData({ sapId: '12345' });
+        const approvalCockpit: ApprovalCockpitData = {
+          approvalGeneral: {
+            sapId: '12345',
+            thirdApproverRequired: true,
+            autoApproval: false,
+            currency: 'EUR',
+            priceDeviation: 12.2,
+            gpm: 13.5,
+            totalNetValue: 120_014,
+            approverInformation: 'ANY',
+            comment: 'comment',
+            projectInformation: 'projectInformation',
+            gqId: 98_765,
+            firstApprover: 'FIRSTAPPROVER',
+            secondApprover: 'SECONDAPPROVER',
+            thirdApprover: 'THIRDAPPROVER',
+          },
+          approvalEvents: [
+            {
+              gqId: 98_765,
+              sapId: '12345',
+              userId: 'EVENTUSER',
+              eventDate: '2022-10-10 14:00:00',
+              quotationStatus: QuotationStatus.IN_APPROVAL,
+              event: ApprovalEventType.STARTED,
+              verified: true,
+              comment: '',
+            },
+          ],
+        };
+        const result = ApprovalActions.getApprovalCockpitDataSuccess({
+          approvalCockpit,
+        });
+        const response = m.cold('-a', {
+          a: approvalCockpit,
+        });
+        approvalService.getApprovalCockpitData = jest.fn(() => response);
+        const expected = m.cold('-b', { b: result });
+        actions$ = m.hot('a', { a: action });
+        m.expect(effects.getApprovalCockpitDataForSapQuotation$).toBeObservable(
+          expected
+        );
+        m.flush();
+      })
+    );
+
+    test(
+      'should dispatch Success Action when approvalStatus ist undefined',
+      marbles((m) => {
+        store.overrideSelector(
+          approvalFeature.selectApprovalCockpit,
+          undefined as ApprovalCockpitData
+        );
+        action = ApprovalActions.getApprovalCockpitData({ sapId: '12345' });
+        const approvalCockpit: ApprovalCockpitData = {
+          approvalGeneral: {
+            sapId: '12345',
+            thirdApproverRequired: true,
+            autoApproval: false,
+            currency: 'EUR',
+            priceDeviation: 12.2,
+            gpm: 13.5,
+            totalNetValue: 120_014,
+            approverInformation: 'ANY',
+            comment: 'comment',
+            projectInformation: 'projectInformation',
+            gqId: 98_765,
+            firstApprover: 'FIRSTAPPROVER',
+            secondApprover: 'SECONDAPPROVER',
+            thirdApprover: 'THIRDAPPROVER',
+          },
+          approvalEvents: [
+            {
+              gqId: 98_765,
+              sapId: '12345',
+              userId: 'EVENTUSER',
+              eventDate: '2022-10-10 14:00:00',
+              quotationStatus: QuotationStatus.IN_APPROVAL,
+              event: ApprovalEventType.STARTED,
+              verified: true,
+              comment: '',
+            },
+          ],
+        };
+        const result = ApprovalActions.getApprovalCockpitDataSuccess({
+          approvalCockpit,
+        });
+        const response = m.cold('-a', {
+          a: approvalCockpit,
+        });
+        approvalService.getApprovalCockpitData = jest.fn(() => response);
+        const expected = m.cold('-b', { b: result });
+        actions$ = m.hot('a', { a: action });
+        m.expect(effects.getApprovalCockpitDataForSapQuotation$).toBeObservable(
+          expected
+        );
+        m.flush();
+      })
+    );
+
+    test(
+      'should dispatch Success Action when different ApprovalStatus in store',
+      marbles((m) => {
+        store.overrideSelector(approvalFeature.selectApprovalCockpit, {
+          approvalGeneral: { sapId: '65432' },
+        } as ApprovalCockpitData);
+        action = ApprovalActions.getApprovalCockpitData({ sapId: '12345' });
+        const approvalCockpit: ApprovalCockpitData = {
+          approvalGeneral: {
+            sapId: '12345',
+            thirdApproverRequired: true,
+            autoApproval: false,
+            currency: 'EUR',
+            priceDeviation: 12.2,
+            gpm: 13.5,
+            totalNetValue: 120_014,
+            approverInformation: 'ANY',
+            comment: 'comment',
+            projectInformation: 'projectInformation',
+            gqId: 98_765,
+            firstApprover: 'FIRSTAPPROVER',
+            secondApprover: 'SECONDAPPROVER',
+            thirdApprover: 'THIRDAPPROVER',
+          },
+          approvalEvents: [
+            {
+              gqId: 98_765,
+              sapId: '12345',
+              userId: 'EVENTUSER',
+              eventDate: '2022-10-10 14:00:00',
+              quotationStatus: QuotationStatus.IN_APPROVAL,
+              event: ApprovalEventType.STARTED,
+              verified: true,
+              comment: '',
+            },
+          ],
+        };
+        const result = ApprovalActions.getApprovalCockpitDataSuccess({
+          approvalCockpit,
+        });
+        const response = m.cold('-a', {
+          a: approvalCockpit,
+        });
+        approvalService.getApprovalCockpitData = jest.fn(() => response);
+        const expected = m.cold('-b', { b: result });
+        actions$ = m.hot('a', { a: action });
+        m.expect(effects.getApprovalCockpitDataForSapQuotation$).toBeObservable(
+          expected
+        );
+        m.flush();
+      })
+    );
+    test(
+      'should dispatch Failure Action',
+      marbles((m) => {
+        store.overrideSelector(
+          approvalFeature.selectApprovalCockpit,
+          initialState.approvalCockpit
+        );
+        action = ApprovalActions.getApprovalCockpitData({ sapId: '12345' });
+        const error = new Error('did not work');
+        const result = ApprovalActions.getApprovalCockpitDataFailure({ error });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+        approvalService.getApprovalCockpitData = jest.fn(() => response);
+
+        actions$ = m.hot('-a', { a: action });
+        m.expect(effects.getApprovalCockpitDataForSapQuotation$).toBeObservable(
+          expected
+        );
+
         m.flush();
       })
     );
@@ -438,7 +648,7 @@ describe('ApprovalEffects', () => {
         const approvalEvent = {
           comment: updateApprovalWorkflowData.comment,
           gqId: quotationIdentifier.gqId,
-        } as ApprovalEvent;
+        } as ApprovalWorkflowEvent;
 
         store.overrideSelector(getSapId, sapId);
         store.overrideSelector(

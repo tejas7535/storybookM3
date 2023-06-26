@@ -21,14 +21,18 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import {
   ApprovalCockpitComponent,
+  ApprovalWorkflowApproverComponent,
   GeneralInformationComponent,
   QuotationByProductLineOrGpsdBarChartComponent,
   QuotationByProductLineOrGpsdComponent,
   QuotationRatingComponent,
 } from './components';
+import { ApproverDisplayPipe } from './components/approval-cockpit/approval-workflow-approver/pipes/approver-display.pipe';
+import { UserInitialLettersPipe } from './components/approval-cockpit/approval-workflow-approver/pipes/user-initial-letters.pipe';
 import { ApprovalDecisionModalComponent } from './components/approval-decision-modal/approval-decision-modal.component';
 import { OverviewTabComponent } from './overview-tab.component';
 import { OverviewTabRoutingModule } from './overview-tab.routing.module';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -59,7 +63,10 @@ import { OverviewTabRoutingModule } from './overview-tab.routing.module';
     QuotationByProductLineOrGpsdComponent,
     QuotationByProductLineOrGpsdBarChartComponent,
     ApprovalCockpitComponent,
+    ApprovalWorkflowApproverComponent,
     ApprovalDecisionModalComponent,
+    UserInitialLettersPipe,
+    ApproverDisplayPipe,
   ],
   exports: [
     OverviewTabComponent,

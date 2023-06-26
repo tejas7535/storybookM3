@@ -1,5 +1,5 @@
 <mat-card
-  class="mat-elevation-z0 w-full grow rounded border-[1px] border-border"
+  class="mat-elevation-z0 border-border w-full grow rounded border-[1px]"
   *transloco="let t; read: 'processCaseView.tabs.overview.approvalCockpit'"
 >
   <div class="flex flex-col">
@@ -8,11 +8,84 @@
     </h6>
     <span class="text-low-emphasis">TBD</span>
     <gq-horizontal-divider></gq-horizontal-divider>
-    <h6 class="py-4">
-      {{ t('approver') }}
-    </h6>
-    <span class="text-low-emphasis">TBD</span>
-    <gq-horizontal-divider></gq-horizontal-divider>
+
+    <ng-container
+      *ngIf="
+        !(approvalFacade.quotationAutoApprovedEvent$ | ngrxPush);
+        else quotationAutoApproved
+      "
+    >
+      <div class="flex items-center justify-between">
+        <h6 class="py-4">
+          {{ t('approver') }}
+        </h6>
+        <div>
+          <div
+            class="flex flex-row items-center gap-1 rounded-full px-2 py-1"
+            [ngClass]="
+              (approvalFacade.numberOfApproversApproved$ | ngrxPush) ===
+              (approvalFacade.numberOfRequiredApprovers$ | ngrxPush)
+                ? 'bg-primary'
+                : 'bg-[#F0F0F0]'
+            "
+          >
+            <mat-icon
+              class="!h-[15px] !w-[15px] !text-[14px] font-normal"
+              [ngClass]="
+                (approvalFacade.quotationFullyApproved$ | ngrxPush)
+                  ? 'text-white'
+                  : 'text-low-emphasis'
+              "
+              >check_circle_outline</mat-icon
+            >
+            <span
+              class="text-[12px]"
+              [ngClass]="
+                (approvalFacade.quotationFullyApproved$ | ngrxPush)
+                  ? 'text-white'
+                  : 'text-low-emphasis'
+              "
+              >{{ approvalFacade.numberOfApproversApproved$ | ngrxPush }}/{{
+                approvalFacade.numberOfRequiredApprovers$ | ngrxPush
+              }}</span
+            >
+          </div>
+        </div>
+      </div>
+      <ng-container
+        *ngFor="
+          let approvalStatus of approvalFacade.approvalStatusOfRequestedApprover$
+            | ngrxPush as approvalStatuses;
+          let i = index
+        "
+      >
+        <gq-approval-workflow-approver
+          [approver]="approvalStatus.approver"
+          [workflowEvent]="approvalStatus.event"
+          [workflowInProgress]="approvalFacade.workflowInProgress$ | ngrxPush"
+        ></gq-approval-workflow-approver>
+
+        <gq-horizontal-divider
+          *ngIf="!(approvalStatuses.length - 1 === i)"
+        ></gq-horizontal-divider>
+      </ng-container>
+    </ng-container>
+    <!--template when quotation has been automatically approved-->
+    <ng-template #quotationAutoApproved>
+      <h6 class="py-4">
+        {{ t('approver') }}
+      </h6>
+      <div class="flex align-center flex-col justify-start">
+        <span class="text-body-2 text-medium-emphasis">{{
+          t('quotationAutoApproved')
+        }}</span>
+        <span class="text-[12px] text-low-emphasis">{{
+          (approvalFacade.quotationAutoApprovedEvent$ | ngrxPush)?.eventDate
+        }}</span>
+      </div>
+    </ng-template>
+
+    <gq-horizontal-divider class="mx-[-1rem] mt-8"></gq-horizontal-divider>
     <div class="flex flex-row justify-between">
       <button
         mat-stroke-button

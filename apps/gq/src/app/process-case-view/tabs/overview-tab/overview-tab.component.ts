@@ -17,11 +17,12 @@ import {
 } from '@gq/core/store/active-case';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { Rating } from '@gq/shared/components/kpi-status-card/models/rating.enum';
+import { ApprovalStatus } from '@gq/shared/models/approval';
 import { Customer } from '@gq/shared/models/customer';
 import {
-  ApprovalStatus,
   Quotation,
   QuotationPricingOverview,
+  QuotationStatus,
 } from '@gq/shared/models/quotation';
 import { Store } from '@ngrx/store';
 
@@ -36,6 +37,8 @@ export class OverviewTabComponent implements OnInit, OnDestroy {
   pricingInformation$: Observable<QuotationPricingOverview> = NEVER;
   quotationCurrency$: Observable<string> = NEVER;
 
+  readonly quotationStatus = QuotationStatus;
+
   private readonly shutDown$$: Subject<void> = new Subject();
 
   constructor(
@@ -44,7 +47,7 @@ export class OverviewTabComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.requestApprovalStatus();
+    this.requestApprovalData();
     this.initializeObservables();
   }
 
@@ -75,6 +78,7 @@ export class OverviewTabComponent implements OnInit, OnDestroy {
 
   private initializeObservables(): void {
     this.quotationCurrency$ = this.store.select(getQuotationCurrency);
+
     this.generalInformation$ = this.mapGeneralInformation();
     this.pricingInformation$ = this.mapPricingInformation();
   }
@@ -82,20 +86,21 @@ export class OverviewTabComponent implements OnInit, OnDestroy {
   /**
    * request ApprovalStatus
    */
-  private requestApprovalStatus(): void {
+  private requestApprovalData(): void {
     this.store
       .select(activeCaseFeature.selectQuotation)
       .pipe(
         takeUntil(this.shutDown$$),
         filter((quotation: Quotation) => !!quotation),
         map((quotation: Quotation) =>
-          this.approvalFacade.getApprovalStatus(quotation.sapId)
+          this.approvalFacade.getAllApprovalData(quotation.sapId)
         )
       )
       .subscribe();
   }
 
   /**
+   * maps the general Information
    *
    * @returns Observable<{@link GeneralInformation}>
    */

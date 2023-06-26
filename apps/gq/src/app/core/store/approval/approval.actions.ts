@@ -1,10 +1,12 @@
 import {
   ActiveDirectoryUser,
-  ApprovalEvent,
+  ApprovalCockpitData,
+  ApprovalStatus,
+  ApprovalWorkflowEvent,
+  Approver,
   TriggerApprovalWorkflowRequest,
   UpdateApprovalWorkflowRequest,
 } from '@gq/shared/models';
-import { ApprovalStatus, Approver } from '@gq/shared/models/quotation';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
 export const ApprovalActions = createActionGroup({
@@ -33,12 +35,21 @@ export const ApprovalActions = createActionGroup({
     }>(),
     'Trigger Approval Workflow Success': emptyProps(),
     'Trigger Approval Workflow Failure': props<{ error: Error }>(),
+
     'Update Approval Workflow': props<{
       updateApprovalWorkflowData: Omit<UpdateApprovalWorkflowRequest, 'gqId'>;
     }>(),
     'Update Approval Workflow Success': props<{
-      approvalEvent: ApprovalEvent;
+      approvalEvent: ApprovalWorkflowEvent;
     }>(),
     'Update Approval Workflow Failure': props<{ error: Error }>(),
+
+    'Get Approval Cockpit Data': props<{ sapId: string }>(),
+    'Get Approval Cockpit Data Success': props<{
+      approvalCockpit: ApprovalCockpitData;
+    }>(),
+    'Approval Cockpit Data Already loaded': emptyProps(),
+    'Get Approval Cockpit Data Failure': props<{ error: Error }>(),
+    'Clear Approval Cockpit Data': emptyProps(),
   },
 });

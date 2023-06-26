@@ -1,6 +1,6 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-import { Approver } from '../models/quotation/approver.model';
+import { Approver } from '../models';
 
 export function approversDifferValidator(): ValidatorFn {
   return (group: AbstractControl): ValidationErrors | undefined => {

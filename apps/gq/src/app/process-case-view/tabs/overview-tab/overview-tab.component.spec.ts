@@ -9,10 +9,8 @@ import {
 } from '@gq/core/store/active-case';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { Rating } from '@gq/shared/components/kpi-status-card/models/rating.enum';
-import {
-  ApprovalStatus,
-  QuotationPricingOverview,
-} from '@gq/shared/models/quotation';
+import { ApprovalStatus } from '@gq/shared/models/approval';
+import { QuotationPricingOverview } from '@gq/shared/models/quotation';
 import { NumberCurrencyPipe } from '@gq/shared/pipes/number-currency/number-currency.pipe';
 import { PercentagePipe } from '@gq/shared/pipes/percentage/percentage.pipe';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -37,7 +35,7 @@ describe('OverviewTabComponent', () => {
   let spectator: Spectator<OverviewTabComponent>;
   let store: MockStore;
   const facadeMock = {
-    getApprovalStatus: jest.fn(),
+    getAllApprovalData: jest.fn(),
     requiredApprovalLevelsForQuotation$: of('approvalLevel'),
     approvalStatus$: of(APPROVAL_STATE_MOCK.approvalStatus),
   } as unknown as ApprovalFacade;
@@ -142,7 +140,7 @@ describe('OverviewTabComponent', () => {
       marbles((m) => {
         Object.defineProperty(component, 'approvalFacade', {
           value: {
-            getApprovalStatus: jest.fn(),
+            getAllApprovalData: jest.fn(),
             requiredApprovalLevelsForQuotation$: of('approvalLevel'),
             approvalStatus$: of({} as unknown as ApprovalStatus),
           } as unknown as ApprovalFacade,

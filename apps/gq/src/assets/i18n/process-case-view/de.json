@@ -138,6 +138,11 @@
           "sendBack": "Zurückschicken",
           "confirmApproval": "Genehmigung bestätigen",
           "cancel": "Abbrechen"
+        },
+        "quotationAutoApproved": "Quotation automatisch vom System freigegeben.",
+        "approvalStatusOfApprover": {
+          "forwardedTo": "Quotation weitergeleitet an {{variable}}",
+          "unknownApprover": "unbekannt"
         }
       }
     }

@@ -1,8 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { ActiveDirectoryUser } from '@gq/shared/models';
-import { ApprovalLevel } from '@gq/shared/models/quotation/approval-level.enum';
-import { Approver } from '@gq/shared/models/quotation/approver.model';
+import {
+  ActiveDirectoryUser,
+  ApprovalLevel,
+  Approver,
+} from '@gq/shared/models';
 
 @Pipe({
   name: 'userDisplay',
