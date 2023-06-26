@@ -169,8 +169,8 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
             .filter((c) => c.lockVisible)
             .map((c) => c.field)
         );
-        this.restoredColumnState = savedColumnState?.filter(
-          (s) => !locked.has(s.colId)
+        this.restoredColumnState = savedColumnState?.map((s) =>
+          locked.has(s.colId) ? { ...s, hide: false } : s
         );
 
         this.defaultColumnDefs = defaultColumnDefinitions;
