@@ -122,7 +122,7 @@ export const BASE_COLUMN_DEFINITIONS: ColDef[] = [
     field: RELEASE_RESTRICTIONS,
     headerName: RELEASE_RESTRICTIONS,
     filterParams: FILTER_PARAMS,
-    hide: true,
+    hide: false,
     cellRenderer: EditCellRendererComponent,
   },
   {
