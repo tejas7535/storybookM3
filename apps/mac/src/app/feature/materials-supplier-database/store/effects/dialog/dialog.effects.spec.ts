@@ -76,14 +76,18 @@ import {
   fetchSteelMakingProcessesInUseFailure,
   fetchSteelMakingProcessesInUseSuccess,
   fetchSteelMakingProcessesSuccess,
+  manufacturerSupplierDialogCanceled,
   manufacturerSupplierDialogConfirmed,
   manufacturerSupplierDialogOpened,
+  materialDialogCanceled,
   materialDialogConfirmed,
   materialDialogOpened,
+  materialstandardDialogCanceled,
   materialstandardDialogConfirmed,
   materialstandardDialogOpened,
   openEditDialog,
   parseMaterialFormValue,
+  postBulkMaterial,
   postManufacturerSupplier,
   postMaterial,
   postMaterialStandard,
@@ -770,6 +774,7 @@ describe('Dialog Effects', () => {
           material: mockMaterial,
           standard: mockStandard,
           supplier: mockSupplier,
+          isBulkEdit: false,
         });
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('-(b)', {
@@ -800,10 +805,42 @@ describe('Dialog Effects', () => {
           material: mockMaterial,
           standard: mockStandard,
           supplier: mockSupplier,
+          isBulkEdit: false,
         });
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('-(b)', {
           b: postMaterialStandard({
+            record: {
+              material: mockMaterial,
+              standard: mockStandard,
+              supplier: mockSupplier,
+              materialClass: MaterialClass.ALUMINUM,
+            } as CreateMaterialRecord,
+          }),
+        });
+
+        m.expect(effects.materialDialogConfirmed$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+
+    it(
+      'should call post bulkmaterial',
+      marbles((m) => {
+        const mockMaterial = {} as MaterialRequest;
+        const mockStandard = {} as MaterialStandard;
+        const mockSupplier = {} as ManufacturerSupplier;
+        msdDataFacade.materialClass$ = of(MaterialClass.ALUMINUM);
+
+        action = materialDialogConfirmed({
+          material: mockMaterial,
+          standard: mockStandard,
+          supplier: mockSupplier,
+          isBulkEdit: true,
+        });
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-(b)', {
+          b: postBulkMaterial({
             record: {
               material: mockMaterial,
               standard: mockStandard,
@@ -1277,6 +1314,175 @@ describe('Dialog Effects', () => {
     );
   });
 
+  describe('postBulkMaterial', () => {
+    const create = (co2?: number, mode?: string, min?: number, max?: number) =>
+      ({
+        co2PerTon: co2,
+        castingMode: mode,
+        minDimension: min,
+        maxDimension: max,
+      } as DataResult);
+    it(
+      'should reqest bulk material edit',
+      marbles((m) => {
+        const selected = [create(132, 'b', 3, 8), create(456, 'b', 3)];
+        msdDataFacade.selectedMaterialData$ = of({
+          rows: selected,
+          combinedRows: create(undefined, 'b', 3),
+        });
+        const record = {
+          material: create(432, 'a'),
+          materialClass: MaterialClass.STEEL,
+          standard: undefined,
+          supplier: undefined,
+        } as CreateMaterialRecord;
+        const resultingMaterial = [
+          create(432, 'a', undefined, 8),
+          create(432, 'a'),
+        ];
+
+        action = postBulkMaterial({ record });
+        actions$ = m.hot('-a', { a: action });
+
+        const resultMock = { id: 42 };
+        const response = m.cold('-a|', { a: resultMock });
+        msdDataService.bulkEditMaterial = jest.fn(() => response);
+
+        const expected = m.cold('--b', {
+          b: createMaterialComplete({ record }),
+        });
+
+        m.expect(effects.postBulkMaterial$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.bulkEditMaterial).toHaveBeenCalledWith(
+          resultingMaterial,
+          record.materialClass
+        );
+      })
+    );
+
+    it(
+      'should handle errors for bulk material edit',
+      marbles((m) => {
+        const selected = [create(132, 'b', 3), create(456, 'b')];
+        msdDataFacade.selectedMaterialData$ = of({
+          rows: selected,
+          combinedRows: create(undefined, 'b'),
+        });
+        const record = {
+          material: create(432, 'a'),
+          materialClass: MaterialClass.STEEL,
+          standard: undefined,
+          supplier: undefined,
+        } as CreateMaterialRecord;
+        const resultingMaterial = [create(432, 'a', 3), create(432, 'a')];
+
+        action = postBulkMaterial({ record });
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataService.bulkEditMaterial = jest
+          .fn()
+          .mockReturnValue(
+            throwError(() => new HttpErrorResponse({ status: 407 }))
+          );
+
+        const expected = m.cold('-b', {
+          b: createMaterialComplete({
+            record: {
+              ...record,
+              error: {
+                code: 407,
+                state: CreateMaterialErrorState.MaterialCreationFailed,
+              },
+            },
+          }),
+        });
+
+        m.expect(effects.postBulkMaterial$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.bulkEditMaterial).toHaveBeenCalledWith(
+          resultingMaterial,
+          record.materialClass
+        );
+      })
+    );
+  });
+
+  describe('createMaterialComplete$', () => {
+    it(
+      'should fetch new results',
+      marbles((m) => {
+        const record = {
+          error: false,
+        } as unknown as CreateMaterialRecord;
+        action = createMaterialComplete({ record });
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-(c)', {
+          c: fetchResult(),
+        });
+
+        m.expect(effects.createMaterialComplete$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+    it(
+      'should not fetch new results',
+      marbles((m) => {
+        const record = {
+          error: true,
+        } as unknown as CreateMaterialRecord;
+        action = createMaterialComplete({ record });
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-', {});
+
+        m.expect(effects.createMaterialComplete$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+  });
+
+  describe('materialDialogCanceled$', () => {
+    it(
+      'should reset dialog data from cancel material dialog',
+      marbles((m) => {
+        action = materialDialogCanceled();
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-(b)', {
+          b: resetDialogOptions(),
+        });
+        m.expect(effects.materialDialogCanceled$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+    it(
+      'should reset dialog data from cancel material standard dialog',
+      marbles((m) => {
+        action = materialstandardDialogCanceled();
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-(b)', {
+          b: resetDialogOptions(),
+        });
+        m.expect(effects.materialDialogCanceled$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+    it(
+      'should reset dialog data from cancel supplier dialog',
+      marbles((m) => {
+        action = manufacturerSupplierDialogCanceled();
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-(b)', {
+          b: resetDialogOptions(),
+        });
+        m.expect(effects.materialDialogCanceled$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+  });
+
   describe('resetMaterialRecord$', () => {
     it(
       'should call to reset dialog options',
@@ -1497,6 +1703,31 @@ describe('Dialog Effects', () => {
             materialStandardStandardDocument: 'document',
           } as DataResult,
           column: 'column',
+          isCopy: false,
+          isBulkEdit: false,
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-(b)', {
+          b: parseMaterialFormValue(),
+        });
+
+        m.expect(effects.openEditDialog$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+    it(
+      'should dispatch the actions with Copy',
+      marbles((m) => {
+        action = openEditDialog({
+          row: {
+            manufacturerSupplierName: 'supplier',
+            materialStandardMaterialName: 'material',
+            materialStandardStandardDocument: 'document',
+          } as DataResult,
+          column: 'column',
+          isCopy: true,
+          isBulkEdit: false,
         });
         actions$ = m.hot('-a', { a: action });
 

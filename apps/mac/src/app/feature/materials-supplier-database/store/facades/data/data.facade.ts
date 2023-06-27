@@ -20,7 +20,9 @@ import {
   getResumeDialogData,
   getSAPMaterialsRows,
   getSAPResult,
+  getSelectedMaterialData,
   getShareQueryParams,
+  isBulkEditAllowed,
 } from '@mac/msd/store/selectors';
 
 @Injectable({
@@ -48,9 +50,11 @@ export class DataFacade {
 
   editMaterialInformation = this.store.pipe(getEditMaterialDataLoaded);
   editMaterial = this.store.select(getEditMaterialData);
+  selectedMaterialData$ = this.store.select(getSelectedMaterialData);
 
   hasMinimizedDialog$ = this.store.select(getHasMinimizedDialog);
   resumeDialogData$ = this.store.select(getResumeDialogData);
+  isBulkEditAllowed$ = this.store.select(isBulkEditAllowed);
 
   constructor(private readonly store: Store) {}
 

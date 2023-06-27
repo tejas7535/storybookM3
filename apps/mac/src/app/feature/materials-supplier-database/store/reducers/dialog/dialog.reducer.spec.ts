@@ -76,6 +76,8 @@ describe('dialogReducer', () => {
           error: undefined,
         },
         editMaterial: undefined,
+        selectedMaterial: undefined,
+        minimizedDialog: undefined,
       });
     });
 
@@ -630,6 +632,7 @@ describe('dialogReducer', () => {
         standard: undefined,
         supplier: undefined,
         material: undefined,
+        isBulkEdit: false,
       });
       const newState = dialogReducer(
         {
@@ -794,6 +797,7 @@ describe('dialogReducer', () => {
         },
         // other fields
         editMaterial: undefined,
+        selectedMaterial: undefined,
         minimizedDialog: undefined,
       });
     });
@@ -1125,6 +1129,27 @@ describe('dialogReducer', () => {
           supplierIds: undefined,
           supplierIdsLoading: true,
           loadingComplete: false,
+        },
+      });
+    });
+
+    it('should set the multi rows Material', () => {
+      const action = DialogActions.openMultiEditDialog({
+        rows: [{} as DataResult],
+        combinedRows: {} as DataResult,
+      });
+      const newState = dialogReducer(
+        {
+          ...state,
+          selectedMaterial: undefined,
+        },
+        action
+      );
+      expect(newState).toEqual({
+        ...state,
+        selectedMaterial: {
+          rows: [{} as DataResult],
+          combinedRows: {},
         },
       });
     });
@@ -1746,6 +1771,25 @@ describe('dialogReducer', () => {
           coatings: undefined,
           coatingsLoading: undefined,
           error: true,
+        },
+      });
+    });
+
+    it('should set the current form values', () => {
+      const action = DialogActions.updateCreateMaterialDialogValues({
+        form: {} as MaterialFormValue,
+      });
+      const newState = dialogReducer(
+        {
+          ...state,
+          selectedMaterial: undefined,
+        },
+        action
+      );
+      expect(newState).toEqual({
+        ...state,
+        selectedMaterial: {
+          form: {},
         },
       });
     });

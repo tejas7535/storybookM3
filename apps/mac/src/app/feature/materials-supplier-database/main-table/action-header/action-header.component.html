@@ -1,0 +1,12 @@
+<div class="pl-2">
+  <button
+    mat-icon-button
+    (click)="onSelectClick()"
+    *ngIf="isBulkEditAllowed$ | ngrxPush"
+  >
+    <mat-icon class="text-medium-emphasis !text-[16px]">{{
+      getCheckBoxStyle()
+    }}</mat-icon>
+  </button>
+  {{ params?.displayName }}
+</div>

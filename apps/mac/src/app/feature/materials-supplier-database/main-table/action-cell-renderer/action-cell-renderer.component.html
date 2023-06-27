@@ -1,12 +1,48 @@
 <div class="flex h-full min-h-[46px] w-full flex-row justify-center">
   <div class="h-full">
-    <button class="my-auto" mat-icon-button (click)="onCopyClick()">
-      <mat-icon class="!text-[16px] text-medium-emphasis"
+    <button
+      class="my-auto"
+      mat-icon-button
+      (click)="onSelectClick()"
+      *ngIf="isBulkEditAllowed$ | ngrxPush"
+    >
+      <mat-icon
+        class="text-medium-emphasis !text-[16px]"
+        *ngIf="isSelected(); else blank"
+        >check_box</mat-icon
+      >
+      <ng-template #blank
+        ><mat-icon class="text-medium-emphasis !text-[16px]"
+          >check_box_outline_blank</mat-icon
+        ></ng-template
+      >
+    </button>
+
+    <button
+      class="my-auto"
+      mat-icon-button
+      (click)="onCopyClick()"
+      [disabled]="activeSelectionOnGrid()"
+    >
+      <mat-icon
+        [ngClass]="{
+          'line-through': activeSelectionOnGrid(),
+        }"
+        class="text-medium-emphasis !text-[16px]"
         >content_copy</mat-icon
       >
     </button>
-    <button class="my-auto" mat-icon-button (click)="onDeleteClick()">
-      <mat-icon class="!text-[16px] text-medium-emphasis"
+    <button
+      class="my-auto"
+      [disabled]="activeSelectionOnGrid()"
+      mat-icon-button
+      (click)="onDeleteClick()"
+    >
+      <mat-icon
+        [ngClass]="{
+          'line-through': activeSelectionOnGrid()
+        }"
+        class="text-medium-emphasis !text-[16px]"
         >delete_forever</mat-icon
       >
     </button>

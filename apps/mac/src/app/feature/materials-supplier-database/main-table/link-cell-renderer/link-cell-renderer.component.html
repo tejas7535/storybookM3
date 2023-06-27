@@ -12,10 +12,7 @@
   <ng-template #plain>
     <span class="flex-1 truncate">{{ params?.value }}</span>
   </ng-template>
-  <div
-    class="h-full"
-    *ngIf="params?.hasEditorRole && editableClass(materialClass$ | ngrxPush)"
-  >
+  <div class="h-full" *ngIf="isEnabled(materialClass$ | ngrxPush)">
     <button
       class="my-auto"
       mat-icon-button

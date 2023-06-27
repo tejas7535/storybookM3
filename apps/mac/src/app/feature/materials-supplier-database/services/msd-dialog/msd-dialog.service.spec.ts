@@ -4,7 +4,7 @@ import {
 } from '@angular/material/legacy-dialog';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { provideMockStore } from '@ngrx/store/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import { ConfirmDeleteDialogComponent } from '@mac/msd/main-table/confirm-delete-dialog/confirm-delete-dialog.component';
@@ -17,11 +17,13 @@ import { MaterialStandardInputDialogComponent } from '../../main-table/material-
 import { CeramicInputDialogComponent } from '../../main-table/material-input-dialog/materials/ceramic/ceramic-input-dialog.component';
 import { CopperInputDialogComponent } from '../../main-table/material-input-dialog/materials/copper/copper-input-dialog.component';
 import { HardmagnetMaterialStandardInputDialogComponent } from '../../main-table/material-input-dialog/materials/hardmagnet/hardmagnet-material-standard-input-dialog.component';
+import { openMultiEditDialog } from '../../store/actions/dialog';
 import { MsdDialogService } from './msd-dialog.service';
 
 describe('MsdDialogService', () => {
   let spectator: SpectatorService<MsdDialogService>;
   let service: MsdDialogService;
+  let store: MockStore;
 
   const initialState = {
     msd: {
@@ -52,6 +54,9 @@ describe('MsdDialogService', () => {
   beforeEach(() => {
     spectator = createService();
     service = spectator.inject(MsdDialogService);
+    store = spectator.inject(MockStore);
+
+    store.dispatch = jest.fn();
   });
 
   it('should be created', () => {
@@ -167,6 +172,63 @@ describe('MsdDialogService', () => {
           autoFocus: false,
         }
       );
+    });
+  });
+
+  describe('open dialog MultiEdit', () => {
+    it('should open the dialog', () => {
+      const dr: DataResult = {} as DataResult;
+      service.openDialog = jest.fn();
+      service['combineRows'] = jest.fn<any, any>(() => ({}));
+      const selectedRows = [{ data: dr }, { data: dr }];
+
+      service.openBulkEditDialog(selectedRows);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        openMultiEditDialog({
+          rows: [dr, dr],
+          combinedRows: dr,
+        })
+      );
+      expect(service.openDialog).toBeCalledWith(false, {
+        row: dr,
+        column: undefined,
+        isCopy: false,
+        isBulkEdit: true,
+      });
+    });
+  });
+
+  describe('combineRows', () => {
+    it('should combine rows', () => {
+      interface Temp {
+        a: number;
+        b?: number;
+        c?: number;
+      }
+
+      const rows: Temp[] = [
+        {
+          a: 1,
+          b: 2,
+          c: 3,
+        },
+        {
+          a: 1,
+          b: 2,
+        },
+        {
+          a: 1,
+          c: 3,
+        },
+      ];
+      const expected: Temp = {
+        a: 1,
+        b: undefined,
+        c: undefined,
+      };
+
+      expect(service['combineRows'](rows)).toStrictEqual(expected);
     });
   });
 });

@@ -499,6 +499,16 @@ export class MsdDataService {
     );
   }
 
+  public bulkEditMaterial(
+    materials: MaterialRequest[],
+    materialClass: MaterialClass = MaterialClass.STEEL
+  ) {
+    return this.httpClient.post(
+      `${this.BASE_URL}/materials/${materialClass}/bulk`,
+      materials
+    );
+  }
+
   public deleteMaterialStandard(
     id: number,
     materialClass: MaterialClass = MaterialClass.STEEL

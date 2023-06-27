@@ -18,6 +18,7 @@ import {
   DataResult,
   ManufacturerSupplier,
   MaterialFormValue,
+  MaterialRequest,
   MaterialStandard,
 } from '@mac/msd/models';
 import { MsdDataService } from '@mac/msd/services';
@@ -266,16 +267,30 @@ export class DialogEffects {
     return this.actions$.pipe(
       ofType(DialogActions.materialDialogConfirmed),
       concatLatestFrom(() => this.dataFacade.materialClass$),
-      switchMap(([{ standard, supplier, material }, materialClass]) => [
-        DialogActions.postMaterialStandard({
-          record: {
-            standard,
-            supplier,
-            material,
-            materialClass,
-          },
-        }),
-      ])
+      switchMap(
+        ([{ standard, supplier, material, isBulkEdit }, materialClass]) =>
+          isBulkEdit
+            ? [
+                DialogActions.postBulkMaterial({
+                  record: {
+                    standard,
+                    supplier,
+                    material,
+                    materialClass,
+                  },
+                }),
+              ]
+            : [
+                DialogActions.postMaterialStandard({
+                  record: {
+                    standard,
+                    supplier,
+                    material,
+                    materialClass,
+                  },
+                }),
+              ]
+      )
     );
   });
 
@@ -473,6 +488,71 @@ export class DialogEffects {
     );
   });
 
+  public postBulkMaterial$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.postBulkMaterial),
+      // load selected table data
+      concatLatestFrom(() => this.dataFacade.selectedMaterialData$),
+      switchMap(([{ record }, { rows, combinedRows }]) => {
+        // get data from dialog and remove all "undefined" fields, so only filled out fields are used
+        const form = { ...record.material } as any;
+        for (const property in form) {
+          if (!form[property] && !combinedRows[property as keyof DataResult]) {
+            delete form[property];
+          }
+        }
+
+        // override row data with data from the dialog (only non-undefined values)
+        const materials = rows.map(
+          (row) =>
+            ({
+              ...row,
+              ...form,
+            } as MaterialRequest)
+        );
+
+        return this.msdDataService
+          .bulkEditMaterial(materials, record.materialClass)
+          .pipe(
+            map(() => DialogActions.createMaterialComplete({ record })),
+            catchError((e: HttpErrorResponse) =>
+              of(
+                DialogActions.createMaterialComplete({
+                  record: {
+                    ...record,
+                    error: {
+                      code: e.status,
+                      state: CreateMaterialErrorState.MaterialCreationFailed,
+                    },
+                  },
+                })
+              )
+            )
+          );
+      })
+    );
+  });
+
+  public createMaterialComplete$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.createMaterialComplete),
+      switchMap(({ record }) => {
+        return !record.error ? of(DataActions.fetchResult()) : [];
+      })
+    );
+  });
+
+  public materialDialogCanceled$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(
+        DialogActions.materialstandardDialogCanceled,
+        DialogActions.manufacturerSupplierDialogCanceled,
+        DialogActions.materialDialogCanceled
+      ),
+      switchMap(() => [DialogActions.resetDialogOptions()])
+    );
+  });
+
   public resetMaterialDialog$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DialogActions.resetMaterialRecord),
@@ -552,7 +632,7 @@ export class DialogEffects {
     return this.actions$.pipe(
       ofType(DialogActions.openEditDialog),
       concatLatestFrom(() => this.dataFacade.navigation$),
-      switchMap(([{ row }, { navigationLevel }]) => {
+      switchMap(([{ row, isCopy = false }, { navigationLevel }]) => {
         switch (navigationLevel) {
           case NavigationLevel.STANDARD:
             return [
@@ -590,17 +670,19 @@ export class DialogEffects {
               }),
             ];
           case NavigationLevel.MATERIAL:
-            return [
-              DialogActions.fetchEditStandardDocumentData({
-                standardDocument: row.materialStandardStandardDocument,
-              }),
-              DialogActions.fetchEditMaterialNameData({
-                materialName: row.materialStandardMaterialName,
-              }),
-              DialogActions.fetchEditMaterialSuppliers({
-                supplierName: row.manufacturerSupplierName,
-              }),
-            ];
+            return isCopy
+              ? [
+                  DialogActions.fetchEditStandardDocumentData({
+                    standardDocument: row.materialStandardStandardDocument,
+                  }),
+                  DialogActions.fetchEditMaterialNameData({
+                    materialName: row.materialStandardMaterialName,
+                  }),
+                  DialogActions.fetchEditMaterialSuppliers({
+                    supplierName: row.manufacturerSupplierName,
+                  }),
+                ]
+              : [DialogActions.parseMaterialFormValue()];
           default:
             return [];
         }

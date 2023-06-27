@@ -5,17 +5,16 @@ import { Subject } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
-import { Column, ICellRendererParams } from 'ag-grid-community';
-
-import { DataResult, MaterialFormValue } from '@mac/msd/models';
-import { MsdDialogService } from '@mac/msd/services';
-import { deleteEntity, fetchResult } from '@mac/msd/store/actions/data';
 import {
-  materialDialogCanceled,
-  minimizeDialog,
-  openDialog,
-  openEditDialog,
-} from '@mac/msd/store/actions/dialog';
+  Column,
+  GridApi,
+  ICellRendererParams,
+  RowNode,
+} from 'ag-grid-community';
+
+import { DataResult } from '@mac/msd/models';
+import { MsdDialogService } from '@mac/msd/services';
+import { deleteEntity } from '@mac/msd/store/actions/data';
 import { DataFacade } from '@mac/msd/store/facades/data';
 
 import { ActionCellRendererComponent } from './action-cell-renderer.component';
@@ -27,10 +26,6 @@ describe('ActionCellRendererComponent', () => {
   let mockDialogRef: MatDialogRef<any>;
   let mockSubjectOpen: Subject<void>;
   let mockSubjectClose: Subject<boolean>;
-  let mockSubjectCopyClose: Subject<{
-    reload: boolean;
-    minimize: { id: number; value: MaterialFormValue };
-  }>;
 
   let mockParams: ICellRendererParams<any, DataResult>;
   const mockData = {} as DataResult;
@@ -52,7 +47,7 @@ describe('ActionCellRendererComponent', () => {
         provide: MsdDialogService,
         useValue: {
           openConfirmDeleteDialog: jest.fn(() => mockDialogRef),
-          openDialog: jest.fn(() => mockDialogRef),
+          openDialog: jest.fn(),
         },
       },
     ],
@@ -116,103 +111,17 @@ describe('ActionCellRendererComponent', () => {
   });
 
   describe('onCopyClick', () => {
-    beforeEach(() => {
-      mockSubjectCopyClose = new Subject<{
-        reload: boolean;
-        minimize: { id: number; value: MaterialFormValue };
-      }>();
-      const afterOpened = () => mockSubjectOpen;
-      const afterClosedCopy = () => mockSubjectCopyClose;
-      mockDialogRef.afterOpened = afterOpened;
-      mockDialogRef.afterClosed = afterClosedCopy;
-    });
-
-    it('should dispatch the edit dialog actions and cancel on close', (done) => {
-      let otherDone = false;
+    it('should dispatch the edit dialog actions', () => {
       component.params = {
         data: mockData,
         column: mockColumn,
       } as ICellRendererParams<any, DataResult>;
 
       component.onCopyClick();
-
-      expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
-        openDialog()
-      );
-
-      mockDialogRef.afterOpened().subscribe(() => {
-        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
-          openEditDialog({
-            row: mockData,
-            column: 'column',
-          })
-        );
-        if (otherDone) {
-          done();
-        } else {
-          otherDone = true;
-        }
-      });
-
-      mockDialogRef.afterClosed().subscribe((_value) => {
-        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
-          materialDialogCanceled()
-        );
-        if (otherDone) {
-          done();
-        } else {
-          otherDone = true;
-        }
-      });
-
-      mockSubjectOpen.next();
-      mockSubjectCopyClose.next({ reload: false, minimize: undefined });
-    });
-    it('should dispatch the edit dialog actions and dispatch fetch and minimize', (done) => {
-      let otherDone = false;
-      component.params = {
-        data: mockData,
-        column: mockColumn,
-      } as ICellRendererParams<any, DataResult>;
-
-      component.onCopyClick();
-
-      expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
-        openDialog()
-      );
-
-      mockDialogRef.afterOpened().subscribe(() => {
-        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
-          openEditDialog({
-            row: mockData,
-            column: 'column',
-          })
-        );
-        if (otherDone) {
-          done();
-        } else {
-          otherDone = true;
-        }
-      });
-
-      mockDialogRef.afterClosed().subscribe((_value) => {
-        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
-          fetchResult()
-        );
-        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
-          minimizeDialog({ id: 1, value: {} as MaterialFormValue })
-        );
-        if (otherDone) {
-          done();
-        } else {
-          otherDone = true;
-        }
-      });
-
-      mockSubjectOpen.next();
-      mockSubjectCopyClose.next({
-        reload: true,
-        minimize: { id: 1, value: {} as MaterialFormValue },
+      expect(component['dialogService'].openDialog).toBeCalledWith(false, {
+        row: mockData,
+        column: mockColumn.getColId(),
+        isCopy: true,
       });
     });
   });
@@ -227,6 +136,67 @@ describe('ActionCellRendererComponent', () => {
       expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
         deleteEntity({ id: 876 })
       );
+    });
+  });
+
+  describe('isSelected', () => {
+    it('should be selected', () => {
+      component.params = {
+        node: {
+          isSelected: jest.fn(() => true),
+        } as unknown as RowNode,
+      } as unknown as ICellRendererParams<any, DataResult>;
+      expect(component.isSelected()).toBeTruthy();
+    });
+    it('should not be selected', () => {
+      component.params = {
+        node: {
+          isSelected: jest.fn(() => false),
+        } as unknown as RowNode,
+      } as unknown as ICellRendererParams<any, DataResult>;
+      expect(component.isSelected()).toBeFalsy();
+    });
+  });
+
+  describe('activeSelectionOnGrid', () => {
+    it('should be true', () => {
+      component.params = {
+        api: {
+          getSelectedRows: jest.fn(() => [1, 2, 3, 4]),
+        } as unknown as GridApi,
+      } as unknown as ICellRendererParams<any, DataResult>;
+      expect(component.activeSelectionOnGrid()).toBeTruthy();
+    });
+    it('should be false', () => {
+      component.params = {
+        api: {
+          getSelectedRows: jest.fn(() => []),
+        } as unknown as GridApi,
+      } as unknown as ICellRendererParams<any, DataResult>;
+      expect(component.activeSelectionOnGrid()).toBeFalsy();
+    });
+  });
+
+  describe('onSelectClick', () => {
+    it('should be selected', () => {
+      component.params = {
+        node: {
+          isSelected: jest.fn(() => false),
+          setSelected: jest.fn(),
+        } as unknown as RowNode,
+      } as unknown as ICellRendererParams<any, DataResult>;
+      component.onSelectClick();
+      expect(component.params.node.setSelected).toBeCalledWith(true);
+    });
+    it('should be unselected', () => {
+      component.params = {
+        node: {
+          isSelected: jest.fn(() => true),
+          setSelected: jest.fn(),
+        } as unknown as RowNode,
+      } as unknown as ICellRendererParams<any, DataResult>;
+      component.onSelectClick();
+      expect(component.params.node.setSelected).toBeCalledWith(false);
     });
   });
 });

@@ -8,7 +8,7 @@
         <mat-label>{{ t('supplierName') }} {{ t('readonly') }}</mat-label>
         <input
           matInput
-          [value]="supplierControl.value?.title"
+          [value]="supplierControl.value?.title || ''"
           name="manufacturerSupplierName"
           [matTooltip]="supplierControl.value.title"
           [matTooltipShowDelay]="1500"
@@ -20,7 +20,7 @@
         <mat-label>{{ t('supplierPlant') }} {{ t('readonly') }}</mat-label>
         <input
           matInput
-          [value]="supplierPlantControl.value?.title"
+          [value]="supplierPlantControl.value?.title || ''"
           name="manufacturerSupplierPlant"
           [matTooltip]="supplierPlantControl.value.title"
           [matTooltipShowDelay]="1500"
@@ -32,7 +32,7 @@
         <mat-label>{{ t('supplierCountry') }} {{ t('readonly') }}</mat-label>
         <input
           matInput
-          [value]="supplierCountryControl.value?.title"
+          [value]="supplierCountryControl.value?.title || ''"
           name="manufacturerSupplierCountry"
           [matTooltip]="supplierCountryControl.value.title"
           [matTooltipShowDelay]="1500"

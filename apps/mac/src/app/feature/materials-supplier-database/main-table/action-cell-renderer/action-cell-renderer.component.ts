@@ -7,13 +7,7 @@ import { ICellRendererParams } from 'ag-grid-community';
 
 import { DataResult } from '@mac/msd/models';
 import { MsdDialogService } from '@mac/msd/services';
-import { deleteEntity, fetchResult } from '@mac/msd/store/actions/data';
-import {
-  materialDialogCanceled,
-  minimizeDialog,
-  openDialog,
-  openEditDialog,
-} from '@mac/msd/store/actions/dialog';
+import { deleteEntity } from '@mac/msd/store/actions/data';
 import { DataFacade } from '@mac/msd/store/facades/data';
 
 @Component({
@@ -22,6 +16,7 @@ import { DataFacade } from '@mac/msd/store/facades/data';
 })
 export class ActionCellRendererComponent implements ICellRendererAngularComp {
   public params: ICellRendererParams<any, DataResult>;
+  public isBulkEditAllowed$ = this.dataFacade.isBulkEditAllowed$;
 
   constructor(
     private readonly dialogService: MsdDialogService,
@@ -34,6 +29,18 @@ export class ActionCellRendererComponent implements ICellRendererAngularComp {
 
   public refresh(): boolean {
     return false;
+  }
+
+  public isSelected(): boolean {
+    return this.params?.node.isSelected();
+  }
+
+  public onSelectClick(): void {
+    this.params.node.setSelected(!this.params.node.isSelected());
+  }
+
+  public activeSelectionOnGrid(): boolean {
+    return this.params?.api.getSelectedRows().length > 0;
   }
 
   public onDeleteClick(): void {
@@ -49,38 +56,11 @@ export class ActionCellRendererComponent implements ICellRendererAngularComp {
   }
 
   public onCopyClick(): void {
-    this.dataFacade.dispatch(openDialog());
-    const dialogRef = this.dialogService.openDialog(false, {
+    this.dialogService.openDialog(false, {
       row: this.params.data as DataResult,
       column: this.params.column.getColId(),
       isCopy: true,
     });
-
-    dialogRef
-      .afterOpened()
-      .pipe(take(1))
-      .subscribe(() => {
-        this.dataFacade.dispatch(
-          openEditDialog({
-            row: this.params.data as DataResult,
-            column: this.params.column.getColId(),
-          })
-        );
-      });
-
-    dialogRef
-      .afterClosed()
-      .pipe(take(1))
-      .subscribe(({ reload, minimize }) => {
-        if (reload) {
-          this.dataFacade.dispatch(fetchResult());
-        }
-        if (minimize) {
-          this.dataFacade.dispatch(minimizeDialog(minimize));
-        } else if (!reload) {
-          this.dataFacade.dispatch(materialDialogCanceled());
-        }
-      });
   }
 
   private onConfirmDelete(): void {

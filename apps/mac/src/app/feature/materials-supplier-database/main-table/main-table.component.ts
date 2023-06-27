@@ -68,11 +68,6 @@ import {
   setAgGridFilter,
   setNavigation,
 } from '@mac/msd/store/actions/data';
-import {
-  materialDialogCanceled,
-  minimizeDialog,
-  openDialog,
-} from '@mac/msd/store/actions/dialog';
 import { DataFacade } from '@mac/msd/store/facades/data';
 
 import { EDITABLE_MATERIAL_CLASSES } from '../constants/editable-material-classes';
@@ -96,6 +91,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   public sapMaterialsRows$ = this.dataFacade.sapMaterialsRows$;
 
   public hasEditorRole$ = this.dataFacade.hasEditorRole$;
+  public isBulkEditAllowed$ = this.dataFacade.isBulkEditAllowed$;
 
   public hasMinimizedDialog$ = this.dataFacade.hasMinimizedDialog$;
 
@@ -228,24 +224,8 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public openDialog(isResumeDialog?: boolean): void {
-    this.dataFacade.dispatch(openDialog());
-    const dialogRef = this.dialogService.openDialog(isResumeDialog);
-
-    dialogRef
-      .afterClosed()
-      .pipe(takeUntil(this.destroy$), take(1))
-      .subscribe(({ reload, minimize }) => {
-        if (reload) {
-          this.fetchResult();
-        }
-        if (minimize) {
-          this.dataFacade.dispatch(minimizeDialog(minimize));
-        } else if (!reload) {
-          this.dataFacade.dispatch(materialDialogCanceled());
-        }
-      });
+    this.dialogService.openDialog(isResumeDialog);
   }
-
   public createServerSideDataSource(
     service: MsdAgGridReadyService
   ): IServerSideDatasource {
@@ -261,6 +241,14 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public refreshServerSide(): void {
     this.agGridApi?.refreshServerSide();
+  }
+
+  public countSelectedNodes(): number {
+    return this.agGridApi?.getSelectedNodes().length;
+  }
+
+  public openDialogMultiEdit() {
+    this.dialogService.openBulkEditDialog(this.agGridApi.getSelectedNodes());
   }
 
   public onFilterChange({ api }: { api: GridApi }): void {

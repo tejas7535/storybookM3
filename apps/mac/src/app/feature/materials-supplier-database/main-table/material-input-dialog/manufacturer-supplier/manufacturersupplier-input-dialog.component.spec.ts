@@ -196,7 +196,7 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
     beforeEach(() => {
       component.materialClass = MaterialClass.STEEL;
       component.ngOnInit();
-      component.closeDialog = jest.fn();
+      component['closeDialog'] = jest.fn();
       component.showInSnackbar = jest.fn();
 
       component.enableEditFields();
@@ -223,7 +223,7 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
 
       // backend response
       update(false);
-      expect(component.closeDialog).toBeCalledWith(true);
+      expect(component['closeDialog']).toBeCalled();
       expect(component.showInSnackbar).toBeCalled();
     });
 
@@ -249,7 +249,7 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
 
       // backend response
       update(false);
-      expect(component.closeDialog).not.toHaveBeenCalled();
+      expect(component['closeDialog']).not.toHaveBeenCalled();
       expect(component.showInSnackbar).toBeCalled();
     });
 
@@ -275,7 +275,7 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
 
       // backend response
       update(true);
-      expect(component.closeDialog).not.toBeCalled();
+      expect(component['closeDialog']).not.toBeCalled();
       expect(component.showInSnackbar).toBeCalled();
     });
 
@@ -301,7 +301,7 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
 
       // backend response
       update(true);
-      expect(component.closeDialog).not.toBeCalled();
+      expect(component['closeDialog']).not.toBeCalled();
       expect(component.showInSnackbar).toBeCalled();
     });
   });

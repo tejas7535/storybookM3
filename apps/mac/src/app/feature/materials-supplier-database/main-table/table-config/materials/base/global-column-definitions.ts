@@ -3,13 +3,15 @@ import { ColDef } from 'ag-grid-community';
 import { ACTION, HISTORY } from '@mac/msd/constants';
 import { ActionCellRendererComponent } from '@mac/msd/main-table/action-cell-renderer/action-cell-renderer.component';
 
+import { ActionHeaderComponent } from '../../../action-header/action-header.component';
+
 export const EDITOR_COLUMN_DEFINITIONS: ColDef[] = [
   {
     field: ACTION,
     headerName: ACTION,
     filter: false,
     cellRenderer: ActionCellRendererComponent,
-    width: 95, // 140 for 3 icons
+    width: 140, // 140 for 3 icons
     pinned: 'right',
     lockPinned: true,
     lockPosition: true,
@@ -19,6 +21,9 @@ export const EDITOR_COLUMN_DEFINITIONS: ColDef[] = [
     sortable: false,
     lockVisible: true,
     cellClass: 'px-0',
+    checkboxSelection: false,
+    headerClass: 'text-caption leading-6 font-medium px-0',
+    headerComponent: ActionHeaderComponent,
   },
 ];
 

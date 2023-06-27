@@ -37,6 +37,7 @@ import {
   fetchCo2ValuesForSupplierSteelMakingProcess,
   fetchSteelMakingProcessesInUse,
   resetSteelMakingProcessInUse,
+  updateCreateMaterialDialogValues,
 } from '@mac/feature/materials-supplier-database/store/actions/dialog';
 import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
 import { MaterialInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/material-input-dialog.component';
@@ -125,7 +126,6 @@ export class SteelInputDialogComponent
     supplierId: FormControl<number>;
     castingMode: FormControl<string>;
   }>;
-
   private readonly STEEL_MAKING_PROCESS_SEARCH_STRING = 'in use by supplier';
 
   // co2 dependencies
@@ -260,10 +260,13 @@ export class SteelInputDialogComponent
               fetchCastingDiameters({ supplierId, castingMode })
             );
           }
-        } else {
+        } else if (!this.isBulkEdit) {
           this.castingDiameterControl.reset();
           this.castingDiameterControl.disable();
         }
+        this.createMaterialForm.updateValueAndValidity({
+          emitEvent: false,
+        });
       });
 
     this.castingDiameterControl.valueChanges
@@ -305,7 +308,9 @@ export class SteelInputDialogComponent
       )
       .subscribe(({ supplierId, steelMakingProcess, productCategory }) => {
         // TODO: remove workaround asap
-        this.createMaterialForm.updateValueAndValidity();
+        this.createMaterialForm.updateValueAndValidity({
+          emitEvent: false,
+        });
         this.dialogFacade.dispatch(
           fetchCo2ValuesForSupplierSteelMakingProcess({
             supplierId,
@@ -359,6 +364,9 @@ export class SteelInputDialogComponent
           }
         );
       });
+    this.co2Controls.valueChanges.subscribe(() => {
+      this.createMaterialForm.updateValueAndValidity({});
+    });
 
     // recyclingRate validation
     this.minRecyclingRateControl.addValidators(
@@ -399,10 +407,16 @@ export class SteelInputDialogComponent
           this.maxRecyclingRateControl.setValue(100);
         }
       });
+
+    this.createMaterialForm.valueChanges.subscribe((val) => {
+      this.dialogFacade.dispatch(
+        updateCreateMaterialDialogValues({ form: val })
+      );
+    });
   }
 
   public selectReleaseDateView() {
-    if (!this.isEditDialog() || this.isCopyDialog()) {
+    if (!this.isEditDialog() || this.isCopyDialog() || this.isBulkEdit) {
       return ReleaseDateViewMode.DEFAULT;
     } else if (
       this.releaseMonthControl.value &&
@@ -445,6 +459,12 @@ export class SteelInputDialogComponent
     ) {
       this.releaseMonthControl.removeValidators(Validators.required);
       this.releaseYearControl.removeValidators(Validators.required);
+    }
+
+    if (this.isBulkEdit) {
+      this.selfCertifiedControl.enable();
+      this.castingDiameterControl.enable();
+      this.co2ClassificationControl.enable();
     }
   }
 

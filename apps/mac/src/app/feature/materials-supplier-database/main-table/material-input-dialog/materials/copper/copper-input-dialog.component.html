@@ -7,7 +7,7 @@
     isEditDialog() && !isCopyDialog() ? t('updateMaterial') : t('addMaterial')
   "
   [isAddDialog]="isCopyDialog() || !isEditDialog()"
-  [valid]="createMaterialForm.valid"
+  [valid]="isBulkEditDialog() || createMaterialForm.valid"
   (accept)="confirmMaterial($event)"
   (minimize)="minimizeDialog()"
   (cancel)="cancelDialog()"
@@ -16,196 +16,214 @@
     <ng-container
       *ngIf="!(dialogLoading$ | ngrxPush) && !(editLoading$ | ngrxPush)"
     >
-      <!-- MatStd -->
-      <div class="text-subtitle-2 text-high-emphasis">
-        {{ t('materialStandardTitle') }}
-      </div>
-      <div class="flex flex-row gap-x-6">
-        <mac-material-standard
-          class="w-full"
-          [readonly]="isEditDialog() && !isCopyDialog()"
-          [materialStandardIdControl]="materialStandardIdControl"
-          [standardDocumentsControl]="standardDocumentsControl"
-          [materialNamesControl]="materialNamesControl"
-          macMaterialDialogBasePart
-        ></mac-material-standard>
-      </div>
-      <div class="flex flex-row gap-x-6">
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>{{ t('copperNumber') }}</mat-label>
-          <mat-label *ngIf="isEditDialog() && !isCopyDialog()"
-            >&nbsp;{{ t('readonly') }}</mat-label
-          >
-          <input
-            matInput
-            placeholder="2.1234"
-            value=""
-            [formControl]="materialNumberControl"
+      <ng-container *ngrxLet="hintData$ as hintData">
+        <!-- MatStd -->
+        <div class="text-subtitle-2 text-high-emphasis">
+          {{ t('materialStandardTitle') }}
+        </div>
+        <div class="flex flex-row gap-x-6">
+          <mac-material-standard
+            class="w-full"
             [readonly]="isEditDialog() && !isCopyDialog()"
-            name="materialNumbers"
-            #dialogControl
-          />
-          <mat-error
-            *ngIf="materialNumberControl.invalid"
-            [matTooltip]="t('error.copperNumber')"
-            class="cursor-help"
-          >
-            {{ getErrorMessage(materialNumberControl.errors) }}
-            <mat-icon inline="true" class="!leading-3">info_outline</mat-icon>
-          </mat-error>
-        </mat-form-field>
-        <div class="flex w-full flex-row">
+            [materialStandardIdControl]="materialStandardIdControl"
+            [standardDocumentsControl]="standardDocumentsControl"
+            [materialNamesControl]="materialNamesControl"
+            macMaterialDialogBasePart
+          ></mac-material-standard>
+        </div>
+        <div class="flex flex-row gap-x-6">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>{{ t('copperNumber') }}</mat-label>
+            <mat-label *ngIf="isEditDialog() && !isCopyDialog()"
+              >&nbsp;{{ t('readonly') }}</mat-label
+            >
+            <input
+              matInput
+              placeholder="2.1234"
+              value=""
+              [formControl]="materialNumberControl"
+              [readonly]="isEditDialog() && !isCopyDialog()"
+              name="materialNumbers"
+              #dialogControl
+            />
+            <mat-error
+              *ngIf="materialNumberControl.invalid"
+              [matTooltip]="t('error.copperNumber')"
+              class="cursor-help"
+            >
+              {{ getErrorMessage(materialNumberControl.errors) }}
+              <mat-icon inline="true" class="!leading-3">info_outline</mat-icon>
+            </mat-error>
+          </mat-form-field>
+          <div class="flex w-full flex-row">
+            <schaeffler-select
+              appearance="outline"
+              class="w-full"
+              [filterFn]="filterFn"
+              [label]="t('referencedInDocument')"
+              [stringOptions]="referenceDocuments$ | ngrxPush"
+              [control]="referenceDocumentControl"
+              [loading]="referenceDocumentsLoading$ | ngrxPush"
+              [addEntry]="true"
+              [multiple]="true"
+              [showTriggerTooltip]="true"
+              [formFieldHint]="getHint(hintData, 'referenceDoc')"
+              triggerTooltipDelay="1500"
+              tooltipPosition="right"
+              (entryAdded)="addReferenceDocument($event)"
+              name="referenceDoc"
+              #dialogControl
+            ></schaeffler-select>
+            <span mat-icon class="mb-4 self-center pl-4">
+              <mat-icon
+                [matTooltip]="t('tooltip.referencedInDocument')"
+                matTooltipPosition="before"
+                class="cursor-help text-link"
+                >info_outline</mat-icon
+              >
+            </span>
+          </div>
+        </div>
+
+        <!-- Supplier Block -->
+        <div class="text-subtitle-2 text-high-emphasis">
+          {{ t('supplierInformationTitle') }}
+        </div>
+        <mac-manufacturer-supplier
+          [readonly]="isEditDialog() && !isCopyDialog()"
+          [manufacturerSupplierIdControl]="manufacturerSupplierIdControl"
+          [supplierControl]="supplierControl"
+          [supplierPlantControl]="supplierPlantControl"
+          [supplierCountryControl]="supplierCountryControl"
+          macMaterialDialogBasePart
+        ></mac-manufacturer-supplier>
+
+        <div class="flex flex-row gap-x-6">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>{{ t('castingMode') }}</mat-label>
+            <mat-select
+              [formControl]="castingModesControl"
+              name="castingMode"
+              #dialogControl
+            >
+              <mat-option
+                *ngFor="let mode of castingModes$ | ngrxPush"
+                [value]="mode"
+              >
+                {{ t(mode.toLowerCase()) }}
+              </mat-option>
+            </mat-select>
+            <mat-hint>
+              {{ getHint(hintData, 'castingMode') }}
+            </mat-hint>
+            <mat-error *ngIf="castingModesControl.invalid">{{
+              getErrorMessage(castingModesControl.errors)
+            }}</mat-error>
+          </mat-form-field>
           <schaeffler-select
             appearance="outline"
             class="w-full"
+            [stringOptions]="castingDiameters$ | ngrxPush"
+            [control]="castingDiameterControl"
             [filterFn]="filterFn"
-            [label]="t('referencedInDocument')"
-            [stringOptions]="referenceDocuments$ | ngrxPush"
-            [control]="referenceDocumentControl"
-            [loading]="referenceDocumentsLoading$ | ngrxPush"
             [addEntry]="true"
-            [multiple]="true"
+            [label]="t('castingDiameter')"
+            (entryAdded)="addCastingDiameter($event)"
+            [resetButton]="false"
+            [loading]="castingDiametersLoading$ | ngrxPush"
+            [showTriggerTooltip]="true"
+            [formFieldHint]="getHint(hintData, 'castingDiameter')"
+            triggerTooltipDelay="1500"
+            tooltipPosition="right"
+            name="castingDiameter"
+            #dialogControl
+          >
+            <div matErrorContent *ngIf="castingDiameterControl.invalid">
+              {{ getErrorMessage(castingDiameterControl.errors) }}
+            </div>
+          </schaeffler-select>
+        </div>
+
+        <!-- CO2 Block -->
+        <div class="text-subtitle-2 text-high-emphasis">
+          {{ t('co2AndProductInformationTitle') }}
+        </div>
+
+        <div class="flex flex-row gap-x-6">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>{{ t('maxDim') }}</mat-label>
+            <input
+              matInput
+              [formControl]="maxDimControl"
+              type="number"
+              name="maxDimension"
+              #dialogControl
+            />
+            <span matSuffix class="relative -top-1 pl-1 text-caption">{{
+              t('mm')
+            }}</span>
+            <mat-hint>
+              {{ getHint(hintData, 'maxDimension') }}
+            </mat-hint>
+            <mat-error *ngIf="maxDimControl.invalid">{{
+              getErrorMessage(maxDimControl.errors)
+            }}</mat-error>
+          </mat-form-field>
+
+          <schaeffler-select
+            appearance="outline"
+            class="w-full"
+            [stringOptions]="categories$ | ngrxPush"
+            [control]="categoriesControl"
+            [filterFn]="filterFn"
+            [label]="t('productCategory')"
+            [resetButton]="false"
+            [formFieldHint]="getHint(hintData, 'productCategory')"
             [showTriggerTooltip]="true"
             triggerTooltipDelay="1500"
             tooltipPosition="right"
-            (entryAdded)="addReferenceDocument($event)"
-            name="referenceDoc"
-            #dialogControl
-          ></schaeffler-select>
-          <span mat-icon class="mb-4 self-center pl-4">
-            <mat-icon
-              [matTooltip]="t('tooltip.referencedInDocument')"
-              matTooltipPosition="before"
-              class="cursor-help text-link"
-              >info_outline</mat-icon
-            >
-          </span>
-        </div>
-      </div>
-
-      <!-- Supplier Block -->
-      <div class="text-subtitle-2 text-high-emphasis">
-        {{ t('supplierInformationTitle') }}
-      </div>
-      <mac-manufacturer-supplier
-        [readonly]="isEditDialog() && !isCopyDialog()"
-        [manufacturerSupplierIdControl]="manufacturerSupplierIdControl"
-        [supplierControl]="supplierControl"
-        [supplierPlantControl]="supplierPlantControl"
-        [supplierCountryControl]="supplierCountryControl"
-        macMaterialDialogBasePart
-      ></mac-manufacturer-supplier>
-
-      <div class="flex flex-row gap-x-6">
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>{{ t('castingMode') }}</mat-label>
-          <mat-select
-            [formControl]="castingModesControl"
-            name="castingMode"
+            name="productCategoryText"
             #dialogControl
           >
-            <mat-option
-              *ngFor="let mode of castingModes$ | ngrxPush"
-              [value]="mode"
-            >
-              {{ t(mode.toLowerCase()) }}
-            </mat-option>
-          </mat-select>
+            <div matErrorContent *ngIf="categoriesControl.invalid">
+              {{ getErrorMessage(categoriesControl.errors) }}
+            </div>
+          </schaeffler-select>
+        </div>
 
-          <mat-error *ngIf="castingModesControl.invalid">{{
-            getErrorMessage(castingModesControl.errors)
-          }}</mat-error>
-        </mat-form-field>
-        <schaeffler-select
-          appearance="outline"
-          class="w-full"
-          [stringOptions]="castingDiameters$ | ngrxPush"
-          [control]="castingDiameterControl"
-          [filterFn]="filterFn"
-          [addEntry]="true"
-          [label]="t('castingDiameter')"
-          (entryAdded)="addCastingDiameter($event)"
-          [resetButton]="false"
-          [loading]="castingDiametersLoading$ | ngrxPush"
-          [showTriggerTooltip]="true"
-          triggerTooltipDelay="1500"
-          tooltipPosition="right"
-          name="castingDiameter"
-          #dialogControl
+        <mac-co2-component
+          [co2Scope1Control]="co2Scope1Control"
+          [co2Scope2Control]="co2Scope2Control"
+          [co2Scope3Control]="co2Scope3Control"
+          [co2TotalControl]="co2TotalControl"
+          [co2ClassificationControl]="co2ClassificationControl"
+          [releaseRestrictionsControl]="releaseRestrictionsControl"
+          [co2Scope1Hint]="getHint(hintData, 'co2Scope1')"
+          [co2Scope2Hint]="getHint(hintData, 'co2Scope2')"
+          [co2Scope3Hint]="getHint(hintData, 'co2Scope3')"
+          [co2TotalHint]="getHint(hintData, 'co2PerTon')"
+          [co2ClassificationHint]="getHint(hintData, 'co2Classification')"
+          [releaseRestrictionsHint]="getHint(hintData, 'releaseRestrictions')"
+          [column]="getColumn()"
+          macMaterialDialogBasePart
         >
-          <div matErrorContent *ngIf="castingDiameterControl.invalid">
-            {{ getErrorMessage(castingDiameterControl.errors) }}
-          </div>
-        </schaeffler-select>
-      </div>
-
-      <!-- CO2 Block -->
-      <div class="text-subtitle-2 text-high-emphasis">
-        {{ t('co2AndProductInformationTitle') }}
-      </div>
-
-      <div class="flex flex-row gap-x-6">
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>{{ t('maxDim') }}</mat-label>
-          <input
-            matInput
-            [formControl]="maxDimControl"
-            type="number"
-            name="maxDimension"
+          <schaeffler-select
+            preCo2Classification
+            appearance="outline"
+            class="w-auto"
+            [stringOptions]="productionProcesses$ | ngrxPush"
+            [control]="productionProcessControl"
+            [filterFn]="filterFn"
+            [label]="t('productionProcess')"
+            [showTriggerTooltip]="true"
+            [formFieldHint]="getHint(hintData, 'productionProcess')"
+            triggerTooltipDelay="1500"
+            tooltipPosition="right"
+            name="productionProcess"
             #dialogControl
-          />
-          <span matSuffix class="relative -top-1 pl-1 text-caption">{{
-            t('mm')
-          }}</span>
-          <mat-error *ngIf="maxDimControl.invalid">{{
-            getErrorMessage(maxDimControl.errors)
-          }}</mat-error>
-        </mat-form-field>
-
-        <schaeffler-select
-          appearance="outline"
-          class="w-full"
-          [stringOptions]="categories$ | ngrxPush"
-          [control]="categoriesControl"
-          [filterFn]="filterFn"
-          [label]="t('productCategory')"
-          [resetButton]="false"
-          [showTriggerTooltip]="true"
-          triggerTooltipDelay="1500"
-          tooltipPosition="right"
-          name="productCategoryText"
-          #dialogControl
-        >
-          <div matErrorContent *ngIf="categoriesControl.invalid">
-            {{ getErrorMessage(categoriesControl.errors) }}
-          </div>
-        </schaeffler-select>
-      </div>
-
-      <mac-co2-component
-        [co2Scope1Control]="co2Scope1Control"
-        [co2Scope2Control]="co2Scope2Control"
-        [co2Scope3Control]="co2Scope3Control"
-        [co2TotalControl]="co2TotalControl"
-        [co2ClassificationControl]="co2ClassificationControl"
-        [releaseRestrictionsControl]="releaseRestrictionsControl"
-        macMaterialDialogBasePart
-      >
-        <schaeffler-select
-          preCo2Classification
-          appearance="outline"
-          class="w-auto"
-          [stringOptions]="productionProcesses$ | ngrxPush"
-          [control]="productionProcessControl"
-          [filterFn]="filterFn"
-          [label]="t('productionProcess')"
-          [showTriggerTooltip]="true"
-          triggerTooltipDelay="1500"
-          tooltipPosition="right"
-          name="productionProcess"
-          #dialogControl
-        ></schaeffler-select>
-      </mac-co2-component>
+          ></schaeffler-select>
+        </mac-co2-component>
+      </ng-container>
     </ng-container>
   </div>
 </mac-base-dialog>

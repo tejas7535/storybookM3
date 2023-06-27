@@ -23,6 +23,7 @@ import {
 import { BehaviorSubject, filter, Subject, take, takeUntil } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
+import { TypedAction } from '@ngrx/store/src/models';
 
 import { StringOption } from '@schaeffler/inputs';
 
@@ -38,9 +39,12 @@ import {
   MaterialStandard,
 } from '@mac/msd/models';
 import {
+  materialDialogCanceled,
   materialDialogConfirmed,
   materialDialogOpened,
-  resetDialogOptions,
+  minimizeDialog as minimizeDialogAction,
+  openDialog,
+  openEditDialog,
   resetMaterialRecord,
 } from '@mac/msd/store/actions/dialog';
 import { DialogFacade } from '@mac/msd/store/facades/dialog';
@@ -61,6 +65,8 @@ export class MaterialInputDialogComponent
   public TOOLTIP_DELAY = 1500;
 
   public materialClass: MaterialClass;
+
+  public hintData$ = this.dialogFacade.getHintData$();
 
   public dialogLoading$ = this.dialogFacade.dialogLoading$;
   public createMaterialLoading$ = this.dialogFacade.createMaterialLoading$;
@@ -112,8 +118,10 @@ export class MaterialInputDialogComponent
   public releaseRestrictionsControl = this.controlsService.getControl<string>();
 
   public createMaterialForm: FormGroup;
+  public countSelected = 0;
 
   protected isCopy = false;
+  protected isBulkEdit = false;
 
   public constructor(
     readonly controlsService: DialogControlsService,
@@ -128,14 +136,26 @@ export class MaterialInputDialogComponent
         row: DataResult;
         column: string;
         isCopy?: boolean;
+        isBulkEdit?: boolean;
       };
       isResumeDialog: boolean;
     }
   ) {
+    this.dataFacade.dispatch(openDialog());
+    if (dialogData.editDialogInformation) {
+      this.dataFacade.dispatch(
+        openEditDialog(dialogData.editDialogInformation)
+      );
+    }
+    this.isBulkEdit = dialogData.editDialogInformation?.isBulkEdit;
+
     this.editLoading$ = new BehaviorSubject(!!dialogData.editDialogInformation);
     this.dataFacade.materialClass$
       .pipe(takeUntil(this.destroy$))
       .subscribe((mc) => (this.materialClass = mc));
+    this.dataFacade.selectedMaterialData$
+      .pipe(take(1))
+      .subscribe((selected) => (this.countSelected = selected?.rows?.length));
   }
 
   public ngOnInit(): void {
@@ -170,6 +190,9 @@ export class MaterialInputDialogComponent
           this.isCopy =
             this.dialogData.editDialogInformation?.isCopy ||
             dialogData.minimizedDialog?.isCopy;
+          this.isBulkEdit =
+            this.dialogData.editDialogInformation?.isBulkEdit ||
+            dialogData.minimizedDialog?.isBulkEdit;
           this.materialId =
             (dialogData.minimizedDialog ||
               this.dialogData.editDialogInformation) &&
@@ -190,7 +213,6 @@ export class MaterialInputDialogComponent
             }
 
             this.createMaterialForm.updateValueAndValidity();
-
             this.cdRef.markForCheck();
             this.cdRef.detectChanges();
           }
@@ -240,22 +262,17 @@ export class MaterialInputDialogComponent
   }
 
   public cancelDialog(): void {
-    this.closeDialog(false);
-    this.dialogFacade.dispatch(resetDialogOptions());
-  }
-
-  public closeDialog(reload: boolean): void {
-    this.dialogRef.close({ reload });
+    this.closeDialog(materialDialogCanceled());
   }
 
   public minimizeDialog(): void {
-    this.dialogRef.close({
-      minimize: {
-        id: this.materialId,
-        value: this.createMaterialForm.getRawValue(),
-        isCopy: this.isCopy,
-      },
-    });
+    const minimize = {
+      id: this.materialId,
+      value: this.createMaterialForm.getRawValue(),
+      isCopy: this.isCopy,
+      isBulkEdit: this.isBulkEdit,
+    };
+    this.closeDialog(minimizeDialogAction(minimize));
   }
 
   public showInSnackbar(
@@ -285,7 +302,15 @@ export class MaterialInputDialogComponent
   }
 
   public isEditDialog(): boolean {
-    return !!this.materialId || !!this.dialogData?.editDialogInformation;
+    return (
+      this.isBulkEdit ||
+      !!this.materialId ||
+      !!this.dialogData?.editDialogInformation
+    );
+  }
+
+  public isBulkEditDialog(): boolean {
+    return this.isBulkEdit;
   }
 
   public isCopyDialog(): boolean {
@@ -293,17 +318,63 @@ export class MaterialInputDialogComponent
   }
 
   public getTitle(): string {
-    return this.isEditDialog() && !this.isCopyDialog()
-      ? translate('materialsSupplierDatabase.mainTable.dialog.updateTitle', {
+    if (this.isBulkEditDialog()) {
+      return translate(
+        'materialsSupplierDatabase.mainTable.dialog.bulkUpdateTitle',
+        {
           class: translate(
             `materialsSupplierDatabase.materialClassValues.${this.materialClass}`
           ),
-        })
-      : translate('materialsSupplierDatabase.mainTable.dialog.addTitle', {
+          count: this.countSelected,
+        }
+      );
+    } else if (this.isEditDialog() && !this.isCopyDialog()) {
+      return translate(
+        'materialsSupplierDatabase.mainTable.dialog.updateTitle',
+        {
           class: translate(
             `materialsSupplierDatabase.materialClassValues.${this.materialClass}`
           ),
-        });
+        }
+      );
+    } else {
+      return translate('materialsSupplierDatabase.mainTable.dialog.addTitle', {
+        class: translate(
+          `materialsSupplierDatabase.materialClassValues.${this.materialClass}`
+        ),
+      });
+    }
+  }
+
+  public getHint(hintData: any, column: string) {
+    // only bulk edit gets the hints, other dialogs get nothing
+    if (!hintData) {
+      return '';
+    } else if (hintData[column]?.value) {
+      // if a value is entered, it is either prefilled (all values are equal)
+      return hintData[column]?.updated === 0
+        ? ''
+        : // or a number of materials is updated
+          translate(
+            'materialsSupplierDatabase.mainTable.dialog.hint.info_update',
+            { count: hintData[column].updated }
+          );
+    } else if (hintData[column]?.unique === 1) {
+      // If no value is entered, but there is only one unique value, it will be deleted
+      return translate(
+        'materialsSupplierDatabase.mainTable.dialog.hint.info_delete',
+        { count: hintData[column].updated }
+      );
+    } else if (hintData[column]?.unique) {
+      // No value is entered, and there are unique values (> 1)
+      return translate(
+        'materialsSupplierDatabase.mainTable.dialog.hint.info_unique',
+        { count: hintData[column].unique }
+      );
+    } else {
+      // no values entered in all selected rows
+      return '';
+    }
   }
 
   public compareWithId = (option: StringOption, selected: StringOption) =>
@@ -322,7 +393,12 @@ export class MaterialInputDialogComponent
 
     // include material, stdDoc and supplier put logic in effect
     this.dialogFacade.dispatch(
-      materialDialogConfirmed({ standard, supplier, material })
+      materialDialogConfirmed({
+        standard,
+        supplier,
+        material,
+        isBulkEdit: this.isBulkEdit,
+      })
     );
     this.awaitMaterialComplete(createAnother, NavigationLevel.MATERIAL);
   }
@@ -338,7 +414,7 @@ export class MaterialInputDialogComponent
         let msgKey;
         if (!record.error) {
           if (!createAnother) {
-            this.closeDialog(true);
+            this.closeDialog();
           }
           msgKey = 'materialsSupplierDatabase.mainTable.dialog.createSuccess';
         } else {
@@ -434,5 +510,18 @@ export class MaterialInputDialogComponent
       grade: findProperty(baseMaterial, 'grade'),
       // attachments: '',
     };
+  }
+
+  private closeDialog(closeAction?: TypedAction<any>): void {
+    this.dialogRef.close({ action: closeAction });
+
+    this.dialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe(({ action }) => {
+        if (action) {
+          this.dataFacade.dispatch(action);
+        }
+      });
   }
 }

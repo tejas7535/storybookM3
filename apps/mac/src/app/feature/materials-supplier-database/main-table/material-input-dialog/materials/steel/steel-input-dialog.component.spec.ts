@@ -47,6 +47,7 @@ import {
   fetchSteelMakingProcessesInUse,
   materialDialogConfirmed,
   resetSteelMakingProcessInUse,
+  updateCreateMaterialDialogValues,
 } from '@mac/msd/store/actions/dialog';
 import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
 import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
@@ -200,6 +201,18 @@ describe('SteelInputDialogComponent', () => {
           expect.not.arrayContaining([1999, curYear + 1])
         );
       });
+    });
+  });
+
+  describe('updateCreateMaterialDialogValues', () => {
+    it('should assign the material form', () => {
+      component.co2Scope1Control.setValue(99);
+
+      expect(store.dispatch).toBeCalledWith(
+        updateCreateMaterialDialogValues({
+          form: component.createMaterialForm.value,
+        })
+      );
     });
   });
 
@@ -380,17 +393,35 @@ describe('SteelInputDialogComponent', () => {
     });
     it('should not fetch processes with empty diameter', () => {
       component.castingDiameterControl.reset();
-      expect(store.dispatch).not.toBeCalled();
+      expect(store.dispatch).not.toBeCalledWith(
+        fetchSteelMakingProcessesInUse({
+          supplierId,
+          castingMode,
+          castingDiameter: undefined,
+        })
+      );
     });
     it('should not fetch processes with empty casting mode', () => {
       setSilent(component.castingModesControl);
       component.castingDiameterControl.setValue(createOption('test'));
-      expect(store.dispatch).not.toBeCalled();
+      expect(store.dispatch).not.toBeCalledWith(
+        fetchSteelMakingProcessesInUse({
+          supplierId,
+          castingMode: undefined,
+          castingDiameter: 'test',
+        })
+      );
     });
     it('should not fetch processes with empty id', () => {
       setSilent(component.manufacturerSupplierIdControl);
       component.castingDiameterControl.setValue(createOption('test'));
-      expect(store.dispatch).not.toBeCalled();
+      expect(store.dispatch).not.toBeCalledWith(
+        fetchSteelMakingProcessesInUse({
+          supplierId: undefined,
+          castingMode,
+          castingDiameter: 'test',
+        })
+      );
     });
   });
 
@@ -438,13 +469,25 @@ describe('SteelInputDialogComponent', () => {
     it('should not dispatch the fetch action with no SMP', () => {
       component.steelMakingProcessControl.reset();
 
-      expect(store.dispatch).not.toHaveBeenCalled();
+      expect(store.dispatch).not.toHaveBeenCalledWith(
+        fetchCo2ValuesForSupplierSteelMakingProcess({
+          supplierId: 7,
+          steelMakingProcess: undefined,
+          productCategory: 'brightBar',
+        })
+      );
     });
     it('should not dispatch the fetch action with no supplierId', () => {
       setSilent(component.manufacturerSupplierIdControl);
       component.steelMakingProcessControl.setValue({ id: 0, title: 'process' });
 
-      expect(store.dispatch).not.toHaveBeenCalled();
+      expect(store.dispatch).not.toHaveBeenCalledWith(
+        fetchCo2ValuesForSupplierSteelMakingProcess({
+          supplierId: undefined,
+          steelMakingProcess: undefined,
+          productCategory: 'brightBar',
+        })
+      );
     });
   });
 
@@ -567,12 +610,14 @@ describe('SteelInputDialogComponent', () => {
     beforeEach(() => {
       component.isEditDialog = jest.fn(() => false);
       component.isCopyDialog = jest.fn(() => false);
+      component['isBulkEdit'] = false;
       component.releaseMonthControl.enable();
       component.releaseYearControl.enable();
     });
     it('should return NEW for ADD Dialog', () => {
       component.isCopyDialog = jest.fn(() => false);
       component.isEditDialog = jest.fn(() => false);
+      component['isBulkEdit'] = false;
       expect(component.selectReleaseDateView()).toBe(
         ReleaseDateViewMode.DEFAULT
       );
@@ -580,6 +625,15 @@ describe('SteelInputDialogComponent', () => {
     it('should return NEW for COPY Dialog', () => {
       component.isCopyDialog = jest.fn(() => true);
       component.isEditDialog = jest.fn(() => true);
+      component['isBulkEdit'] = false;
+      expect(component.selectReleaseDateView()).toBe(
+        ReleaseDateViewMode.DEFAULT
+      );
+    });
+    it('should return NEW for BULK Edit Dialog', () => {
+      component.isCopyDialog = jest.fn(() => false);
+      component.isEditDialog = jest.fn(() => true);
+      component['isBulkEdit'] = true;
       expect(component.selectReleaseDateView()).toBe(
         ReleaseDateViewMode.DEFAULT
       );
@@ -587,6 +641,7 @@ describe('SteelInputDialogComponent', () => {
     it('should return READONLY for EDIT Dialog', () => {
       component.isCopyDialog = jest.fn(() => false);
       component.isEditDialog = jest.fn(() => true);
+      component['isBulkEdit'] = false;
       component.releaseMonthControl.setValue(1);
       component.releaseYearControl.setValue(33);
       expect(component.selectReleaseDateView()).toBe(
@@ -596,6 +651,7 @@ describe('SteelInputDialogComponent', () => {
     it('should return HISTORIC for EDIT Dialog without full release date (month)', () => {
       component.isCopyDialog = jest.fn(() => false);
       component.isEditDialog = jest.fn(() => true);
+      component['isBulkEdit'] = false;
       component.releaseMonthControl.reset();
       component.releaseYearControl.setValue(33);
       expect(component.selectReleaseDateView()).toBe(
@@ -605,6 +661,7 @@ describe('SteelInputDialogComponent', () => {
     it('should return HISTORIC for EDIT Dialog without full release date (Year)', () => {
       component.isCopyDialog = jest.fn(() => false);
       component.isEditDialog = jest.fn(() => true);
+      component['isBulkEdit'] = false;
       component.releaseMonthControl.setValue(1);
       component.releaseYearControl.reset();
       expect(component.selectReleaseDateView()).toBe(
@@ -686,7 +743,7 @@ describe('SteelInputDialogComponent', () => {
       store.refreshState();
     };
     beforeEach(() => {
-      component.closeDialog = jest.fn();
+      component['closeDialog'] = jest.fn();
       component.showInSnackbar = jest.fn();
     });
     it('should close dialog on successful confirm', () => {
@@ -700,7 +757,7 @@ describe('SteelInputDialogComponent', () => {
 
       // backend response
       update(false);
-      expect(component.closeDialog).toBeCalledWith(true);
+      expect(component['closeDialog']).toBeCalled();
       expect(component.showInSnackbar).toBeCalled();
     });
 
@@ -720,7 +777,7 @@ describe('SteelInputDialogComponent', () => {
 
       // backend response
       update(false);
-      expect(component.closeDialog).toBeCalledWith(true);
+      expect(component['closeDialog']).toBeCalled();
       expect(component.showInSnackbar).toBeCalled();
     });
     it('should not close dialog on successful confirm with createAnother', () => {
@@ -734,7 +791,7 @@ describe('SteelInputDialogComponent', () => {
 
       // backend response
       update(false);
-      expect(component.closeDialog).not.toHaveBeenCalled();
+      expect(component['closeDialog']).not.toHaveBeenCalled();
       expect(component.showInSnackbar).toBeCalled();
     });
     it('should keep the dialog open on error', () => {
@@ -748,7 +805,7 @@ describe('SteelInputDialogComponent', () => {
 
       // backend response
       update(true);
-      expect(component.closeDialog).not.toBeCalled();
+      expect(component['closeDialog']).not.toBeCalled();
       expect(component.showInSnackbar).toBeCalled();
     });
     it('should keep the dialog open on error with createAnother', () => {
@@ -762,7 +819,7 @@ describe('SteelInputDialogComponent', () => {
 
       // backend response
       update(true);
-      expect(component.closeDialog).not.toBeCalled();
+      expect(component['closeDialog']).not.toBeCalled();
       expect(component.showInSnackbar).toBeCalled();
     });
   });

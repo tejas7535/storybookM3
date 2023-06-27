@@ -102,6 +102,17 @@ describe('MsdNavigationComponent', () => {
         })
       );
     });
+
+    it('should dispatch the action with default values', () => {
+      component.setActive(MaterialClass.ALUMINUM);
+
+      expect(dataFacade.dispatch).toHaveBeenCalledWith(
+        setNavigation({
+          materialClass: MaterialClass.ALUMINUM,
+          navigationLevel: NavigationLevel.MATERIAL,
+        })
+      );
+    });
   });
 
   describe('toggleSideBar', () => {

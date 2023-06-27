@@ -9,6 +9,7 @@ import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack
 import { BehaviorSubject } from 'rxjs';
 
 import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
+import { updateCreateMaterialDialogValues } from '@mac/feature/materials-supplier-database/store/actions/dialog';
 import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
 import { MaterialInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/material-input-dialog.component';
 import { DialogControlsService } from '@mac/msd/main-table/material-input-dialog/services';
@@ -72,6 +73,11 @@ export class AluminumInputDialogComponent
       supplier: this.supplierControl,
       supplierPlant: this.supplierPlantControl,
       supplierCountry: this.supplierCountryControl,
+    });
+    this.createMaterialForm.valueChanges.subscribe((val) => {
+      this.dialogFacade.dispatch(
+        updateCreateMaterialDialogValues({ form: val })
+      );
     });
   }
 }

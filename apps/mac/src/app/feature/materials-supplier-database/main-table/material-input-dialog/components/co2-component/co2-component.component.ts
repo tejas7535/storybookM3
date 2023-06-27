@@ -44,6 +44,18 @@ export class Co2ComponentComponent implements OnInit, OnDestroy {
   public co2ClassificationControl: FormControl<StringOption>;
   @Input()
   public releaseRestrictionsControl: FormControl<string>;
+  @Input()
+  public co2Scope1Hint: string;
+  @Input()
+  public co2Scope2Hint: string;
+  @Input()
+  public co2Scope3Hint: string;
+  @Input()
+  public co2TotalHint: string;
+  @Input()
+  public co2ClassificationHint: string;
+  @Input()
+  public releaseRestrictionsHint: string;
 
   // list of classifications
   public co2Classification$ = this.dialogFacade.co2Classification$;

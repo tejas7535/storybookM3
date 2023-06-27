@@ -382,6 +382,11 @@
           "suppliers": "Manufacturer Supplier",
           "materialStandards": "Material Standard"
         },
+        "hint": {
+          "info_update": "{{count}} material(s) will be updated!",
+          "info_unique": "{{count}} different value(s) found!",
+          "info_delete": "All entries will be deleted!"
+        },
         "supplierSapIds": "SAP ID(s) for supplier",
         "addMaterial": "ADD MATERIAL",
         "addMaterialStandard": "ADD MATERIAL STANDARD",
@@ -498,6 +503,7 @@
         "updateMaterialStandard": "UPDATE MATERIAL STANDARD",
         "updateManufacturerSupplier": "UPDATE MANUFACTURER SUPPLIER",
         "updateTitle": "Update {{class}} Material",
+        "bulkUpdateTitle": "Update {{class}} Materials ({{count}} selected)",
         "updateMaterialStandardTitle": "Update {{class}} Material Standard",
         "updateManufacturerSupplierTitle": "Update {{class}} Manufacturer Supplier",
         "var": "VAR",
@@ -715,6 +721,8 @@
     "reload": "Reload",
     "resetTable": "Reset Table",
     "resume": "Resume",
+    "multiEdit": "Edit {{count}} Items",
+    "discard": "Discard recent Dialog",
     "selectAll": "Select All",
     "share": "Share",
     "shareCopiedToClipboard": "Link copied to clipboard",

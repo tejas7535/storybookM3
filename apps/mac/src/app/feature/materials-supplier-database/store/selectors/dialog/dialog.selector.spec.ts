@@ -1157,6 +1157,73 @@ describe('DialogSelectors', () => {
     });
   });
 
+  it('should return the selected material', () => {
+    expect(
+      DialogSelectors.getSelectedMaterialData.projector({
+        selectedMaterial: {
+          rows: [{} as DataResult],
+          combinedRows: {} as DataResult,
+        },
+      } as any)
+    ).toEqual({
+      rows: [{}],
+      combinedRows: {},
+    });
+  });
+
+  it('should return the material hints', () => {
+    expect(
+      DialogSelectors.selectedHintData.projector({
+        form: {
+          castingMode: 'CM_2',
+          co2PerTon: 3,
+          productCategory: { id: 1 } as StringOption,
+          minRecyclingRate: 0,
+        } as MaterialFormValue,
+        rows: [
+          {
+            castingMode: 'CM_1',
+            co2PerTon: 3,
+            productCategory: '#3',
+            minRecyclingRate: undefined,
+          } as DataResult,
+          {
+            castingMode: 'CM_3',
+            co2PerTon: 5,
+            productCategory: '#2',
+            minRecyclingRate: undefined,
+          } as DataResult,
+        ],
+        combinedRows: undefined, // not needed
+      } as any)
+    ).toStrictEqual({
+      castingMode: {
+        unique: 2,
+        updated: 2,
+        value: 'CM_2',
+        values: ['CM_1', 'CM_3'],
+      },
+      co2PerTon: {
+        unique: 2,
+        updated: 1,
+        value: 3,
+        values: [3, 5],
+      },
+      productCategory: {
+        unique: 2,
+        updated: 2,
+        value: 1,
+        values: ['#3', '#2'],
+      },
+      minRecyclingRate: {
+        unique: 0,
+        updated: 2,
+        value: 0,
+        values: [undefined, undefined],
+      },
+    });
+  });
+
   it('should remove duplicate string options compared by title and sort', () => {
     const mockOptions: StringOption[] = [
       {

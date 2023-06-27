@@ -22,6 +22,7 @@ import { Subject } from 'rxjs';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
+import { TypedAction } from '@ngrx/store/src/models';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { StringOption } from '@schaeffler/inputs';
@@ -42,6 +43,11 @@ import {
 } from '@mac/testing/mocks/msd';
 
 import * as en from '../../../../../assets/i18n/en.json';
+import { MaterialClass } from '../../constants';
+import {
+  materialDialogCanceled,
+  minimizeDialog,
+} from '../../store/actions/dialog';
 import { BaseDialogModule } from './base-dialog/base-dialog.module';
 import { MaterialInputDialogComponent } from './material-input-dialog.component';
 import { MaterialInputDialogModule } from './material-input-dialog.module';
@@ -345,30 +351,27 @@ describe('MaterialInputDialogComponent', () => {
   });
 
   describe('cancelDialog', () => {
+    const mockSubjectClose = new Subject<{ action: TypedAction<any> }>();
+
     it('should call closeDialog', () => {
-      component.closeDialog = jest.fn();
+      component['dialogRef'].close = jest.fn();
+      component['dialogRef'].afterClosed = jest.fn(() => mockSubjectClose);
 
       component.cancelDialog();
-
-      expect(component.closeDialog).toHaveBeenCalledWith(false);
-    });
-  });
-
-  describe('closeDialog', () => {
-    it('should close the dialog ref with the reload value', () => {
-      component['dialogRef'].close = jest.fn();
-
-      component.closeDialog(true);
-
+      mockSubjectClose.next({ action: materialDialogCanceled() });
       expect(component['dialogRef'].close).toHaveBeenCalledWith({
-        reload: true,
+        action: materialDialogCanceled(),
       });
     });
   });
 
   describe('minimizeDialog', () => {
+    const mockSubjectClose = new Subject<{ action: TypedAction<any> }>();
+
     it('should close the dialog ref with the minimize value', () => {
       component['dialogRef'].close = jest.fn();
+      component['dialogRef'].afterClosed = jest.fn(() => mockSubjectClose);
+
       component.createMaterialForm = new FormGroup({} as MaterialForm);
       component.createMaterialForm.getRawValue = jest.fn(
         () => ({} as unknown as any)
@@ -379,11 +382,11 @@ describe('MaterialInputDialogComponent', () => {
 
       expect(component.createMaterialForm.getRawValue).toHaveBeenCalled();
       expect(component['dialogRef'].close).toHaveBeenCalledWith({
-        minimize: {
+        action: minimizeDialog({
           id: undefined,
           value: {},
           isCopy: true,
-        },
+        }),
       });
     });
   });
@@ -520,15 +523,40 @@ describe('MaterialInputDialogComponent', () => {
   });
 
   describe('getTitle', () => {
+    beforeEach(() => {
+      component.materialClass = MaterialClass.COPPER;
+      component.countSelected = 3;
+    });
+    it('should return the bulkUpdate title', () => {
+      component.isEditDialog = jest.fn(() => true);
+      component.isCopyDialog = jest.fn(() => false);
+      component['isBulkEdit'] = true;
+
+      const result = component.getTitle();
+
+      expect(translate).toHaveBeenCalledWith(
+        'materialsSupplierDatabase.mainTable.dialog.bulkUpdateTitle',
+        {
+          class: 'materialsSupplierDatabase.materialClassValues.cu',
+          count: 3,
+        }
+      );
+
+      expect(result).toEqual(
+        'materialsSupplierDatabase.mainTable.dialog.bulkUpdateTitle'
+      );
+    });
+
     it('should return the update title', () => {
       component.isEditDialog = jest.fn(() => true);
       component.isCopyDialog = jest.fn(() => false);
+      component['isBulkEdit'] = false;
 
       const result = component.getTitle();
 
       expect(translate).toHaveBeenCalledWith(
         'materialsSupplierDatabase.mainTable.dialog.updateTitle',
-        { class: 'materialsSupplierDatabase.materialClassValues.undefined' }
+        { class: 'materialsSupplierDatabase.materialClassValues.cu' }
       );
 
       expect(result).toEqual(
@@ -539,12 +567,13 @@ describe('MaterialInputDialogComponent', () => {
     it('should return the add title', () => {
       component.isEditDialog = jest.fn(() => false);
       component.isCopyDialog = jest.fn(() => false);
+      component['isBulkEdit'] = false;
 
       const result = component.getTitle();
 
       expect(translate).toHaveBeenCalledWith(
         'materialsSupplierDatabase.mainTable.dialog.addTitle',
-        { class: 'materialsSupplierDatabase.materialClassValues.undefined' }
+        { class: 'materialsSupplierDatabase.materialClassValues.cu' }
       );
       expect(result).toEqual(
         'materialsSupplierDatabase.mainTable.dialog.addTitle'
@@ -554,12 +583,13 @@ describe('MaterialInputDialogComponent', () => {
     it('should return the add title if dialog is a copy', () => {
       component.isEditDialog = jest.fn(() => true);
       component.isCopyDialog = jest.fn(() => true);
+      component['isBulkEdit'] = false;
 
       const result = component.getTitle();
 
       expect(translate).toHaveBeenCalledWith(
         'materialsSupplierDatabase.mainTable.dialog.addTitle',
-        { class: 'materialsSupplierDatabase.materialClassValues.undefined' }
+        { class: 'materialsSupplierDatabase.materialClassValues.cu' }
       );
       expect(result).toEqual(
         'materialsSupplierDatabase.mainTable.dialog.addTitle'
@@ -598,6 +628,43 @@ describe('MaterialInputDialogComponent', () => {
       component['dialogData'].editDialogInformation = undefined;
 
       expect(component.getColumn()).toBeFalsy();
+    });
+  });
+
+  describe('getHint', () => {
+    const hintData = {
+      update: { value: 2 },
+      prefilled: { value: 1, updated: 0 },
+      unchanged: { unique: 2 },
+      delete: { unique: 1 },
+      nodata: {},
+    };
+    it('should return no hint without hint data', () => {
+      expect(component.getHint(undefined, 'update')).toBeFalsy();
+    });
+    it('should return no hint for preset data', () => {
+      expect(component.getHint(hintData, 'prefilled')).toBeFalsy();
+    });
+    it('should return hint for data update', () => {
+      const translation =
+        'materialsSupplierDatabase.mainTable.dialog.hint.info_update';
+      expect(component.getHint(hintData, 'update')).toStrictEqual(translation);
+    });
+    it('should return hint for no changes', () => {
+      const translation =
+        'materialsSupplierDatabase.mainTable.dialog.hint.info_unique';
+      expect(component.getHint(hintData, 'unchanged')).toStrictEqual(
+        translation
+      );
+    });
+    it('should return hint for no data available', () => {
+      expect(component.getHint(hintData, 'nodata')).toBeFalsy();
+    });
+    it('should return hint for delete', () => {
+      const translation =
+        'materialsSupplierDatabase.mainTable.dialog.hint.info_delete';
+
+      expect(component.getHint(hintData, 'delete')).toStrictEqual(translation);
     });
   });
 });

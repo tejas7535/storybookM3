@@ -83,7 +83,9 @@ import {
   minimizeDialog,
   openDialog,
   openEditDialog,
+  openMultiEditDialog,
   parseMaterialFormValue,
+  postBulkMaterial,
   postManufacturerSupplier,
   postMaterial,
   postMaterialStandard,
@@ -152,12 +154,14 @@ describe('Dialog Actions', () => {
         material: mockMaterial,
         standard: mockStandard,
         supplier: mockSupplier,
+        isBulkEdit: false,
       });
 
       expect(action).toEqual({
         material: mockMaterial,
         standard: mockStandard,
         supplier: mockSupplier,
+        isBulkEdit: false,
         type: '[MSD - Dialog] Material Confirmed',
       });
     });
@@ -707,12 +711,22 @@ describe('Dialog Actions', () => {
   });
 
   describe('Post Material', () => {
-    it('MaterialName', () => {
+    it('Material', () => {
       const record = {} as CreateMaterialRecord;
       const action = postMaterial({ record });
 
       expect(action).toEqual({
         type: '[MSD - Dialog] Post Material',
+        record,
+      });
+    });
+
+    it('Bulk Material', () => {
+      const record = {} as CreateMaterialRecord;
+      const action = postBulkMaterial({ record });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Post Bulk Material',
         record,
       });
     });
@@ -744,12 +758,34 @@ describe('Dialog Actions', () => {
       const action = openEditDialog({
         row: mockMaterial,
         column: 'column',
+        isCopy: false,
+        isBulkEdit: false,
       });
 
       expect(action).toEqual({
         type: '[MSD - Dialog] Open Edit Dialog',
         row: mockMaterial,
         column: 'column',
+        isCopy: false,
+        isBulkEdit: false,
+      });
+    });
+  });
+
+  describe('Open Multi Edit Dialog', () => {
+    it('openMultiEditDialog', () => {
+      const mockRow = {} as DataResult;
+      const mockRows = [mockRow];
+
+      const action = openMultiEditDialog({
+        rows: mockRows,
+        combinedRows: mockRow,
+      });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Open Multi Edit Dialog',
+        rows: mockRows,
+        combinedRows: mockRow,
       });
     });
   });

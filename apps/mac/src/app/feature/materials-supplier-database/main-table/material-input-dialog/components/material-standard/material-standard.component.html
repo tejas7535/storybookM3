@@ -8,7 +8,7 @@
         <mat-label>{{ t('standardDocument') }} {{ t('readonly') }}</mat-label>
         <input
           matInput
-          [value]="standardDocumentsControl.value.title"
+          [value]="standardDocumentsControl.value?.title || ''"
           name="materialStandardStandardDocument"
           [matTooltip]="standardDocumentsControl.value.title"
           [matTooltipShowDelay]="1500"
@@ -20,7 +20,7 @@
         <mat-label>{{ t('materialName') }} {{ t('readonly') }}</mat-label>
         <input
           matInput
-          [value]="materialNamesControl.value.title"
+          [value]="materialNamesControl.value?.title || ''"
           name="materialStandardMaterialName"
           [matTooltip]="materialNamesControl.value.title"
           [matTooltipShowDelay]="1500"

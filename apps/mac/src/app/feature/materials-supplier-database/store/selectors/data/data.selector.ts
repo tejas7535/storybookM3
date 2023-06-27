@@ -107,3 +107,8 @@ export const getSAPResult = createSelector(
         }
       : undefined
 );
+
+export const isBulkEditAllowed = createSelector(
+  getNavigation,
+  (navigation) => navigation.navigationLevel === NavigationLevel.MATERIAL
+);

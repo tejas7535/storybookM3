@@ -36,6 +36,7 @@ import {
   addCustomReferenceDocument,
   fetchCastingDiameters,
   materialDialogConfirmed,
+  updateCreateMaterialDialogValues,
 } from '@mac/msd/store/actions/dialog';
 import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
 import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
@@ -192,7 +193,9 @@ describe('CopperInputDialogComponent', () => {
       component['castingModesControl'].setValue('mode');
 
       expect(component['castingDiameterControl'].enabled).toBeTruthy();
-      expect(store.dispatch).not.toHaveBeenCalled();
+      expect(store.dispatch).not.toHaveBeenCalledWith(
+        fetchCastingDiameters({ supplierId: undefined, castingMode: 'mode' })
+      );
     });
 
     it('should enable casting Diameter and fetch them', () => {
@@ -209,6 +212,18 @@ describe('CopperInputDialogComponent', () => {
       expect(component['castingDiameterControl'].enabled).toBeTruthy();
       expect(store.dispatch).toHaveBeenCalledWith(
         fetchCastingDiameters({ supplierId, castingMode })
+      );
+    });
+  });
+
+  describe('updateCreateMaterialDialogValues', () => {
+    it('should assign the material form', () => {
+      component.co2Scope1Control.setValue(99);
+
+      expect(store.dispatch).toBeCalledWith(
+        updateCreateMaterialDialogValues({
+          form: component.createMaterialForm.value,
+        })
       );
     });
   });
@@ -254,7 +269,7 @@ describe('CopperInputDialogComponent', () => {
       store.refreshState();
     };
     beforeEach(() => {
-      component.closeDialog = jest.fn();
+      component['closeDialog'] = jest.fn();
       component.showInSnackbar = jest.fn();
     });
     it('should close dialog on successful confirm', () => {
@@ -268,7 +283,7 @@ describe('CopperInputDialogComponent', () => {
 
       // backend response
       update(false);
-      expect(component.closeDialog).toBeCalledWith(true);
+      expect(component['closeDialog']).toBeCalled();
       expect(component.showInSnackbar).toBeCalled();
     });
 
@@ -287,7 +302,7 @@ describe('CopperInputDialogComponent', () => {
 
       // backend response
       update(false);
-      expect(component.closeDialog).toBeCalledWith(true);
+      expect(component['closeDialog']).toBeCalled();
       expect(component.showInSnackbar).toBeCalled();
     });
     it('should not close dialog on successful confirm with createAnother', () => {
@@ -301,7 +316,7 @@ describe('CopperInputDialogComponent', () => {
 
       // backend response
       update(false);
-      expect(component.closeDialog).not.toHaveBeenCalled();
+      expect(component['closeDialog']).not.toHaveBeenCalled();
       expect(component.showInSnackbar).toBeCalled();
     });
     it('should keep the dialog open on error', () => {
@@ -315,7 +330,7 @@ describe('CopperInputDialogComponent', () => {
 
       // backend response
       update(true);
-      expect(component.closeDialog).not.toBeCalled();
+      expect(component['closeDialog']).not.toBeCalled();
       expect(component.showInSnackbar).toBeCalled();
     });
     it('should keep the dialog open on error with createAnother', () => {
@@ -329,7 +344,7 @@ describe('CopperInputDialogComponent', () => {
 
       // backend response
       update(true);
-      expect(component.closeDialog).not.toBeCalled();
+      expect(component['closeDialog']).not.toBeCalled();
       expect(component.showInSnackbar).toBeCalled();
     });
   });

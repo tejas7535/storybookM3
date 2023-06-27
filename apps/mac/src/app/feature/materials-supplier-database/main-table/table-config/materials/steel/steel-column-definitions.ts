@@ -200,6 +200,8 @@ export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
     headerName: MANUFACTURER_SUPPLIER_SELFCERTIFIED,
     hide: true,
     headerTooltip: MANUFACTURER_SUPPLIER_SELFCERTIFIED,
+    cellRenderer: EditCellRendererComponent,
+    valueGetter: MANUFACTURER_VALUE_GETTER,
   },
   {
     field: MATERIAL_STANDARD_STOFF_ID,

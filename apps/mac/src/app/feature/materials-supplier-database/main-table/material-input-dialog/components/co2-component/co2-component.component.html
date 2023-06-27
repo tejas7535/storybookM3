@@ -1,8 +1,9 @@
-<ng-container
+<div
+  class="gap-y-3"
   *transloco="let t; read: 'materialsSupplierDatabase.mainTable.dialog'"
 >
   <!-- gap-x-6 did not work out with 4 input fields so i used pr-6 3 times.-->
-  <div class="flex flex-row">
+  <div class="mb-4 flex flex-row">
     <mat-form-field appearance="outline" class="w-1/4 pr-6">
       <mat-label>{{ t('scope1') }}</mat-label>
       <input
@@ -12,9 +13,10 @@
         name="co2Scope1"
         #dialogControl
       />
-      <span matSuffix class="relative -top-1 pl-1 text-caption">{{
+      <span matSuffix class="text-caption relative -top-1 pl-1">{{
         t('co2PerTon')
       }}</span>
+      <mat-hint>{{ co2Scope1Hint }}</mat-hint>
       <mat-error *ngIf="co2Scope1Control.invalid">{{
         getErrorMessage(co2Scope1Control.errors)
       }}</mat-error>
@@ -28,9 +30,10 @@
         name="co2Scope2"
         #dialogControl
       />
-      <span matSuffix class="relative -top-1 pl-1 text-caption">{{
+      <span matSuffix class="text-caption relative -top-1 pl-1">{{
         t('co2PerTon')
       }}</span>
+      <mat-hint>{{ co2Scope2Hint }}</mat-hint>
       <mat-error *ngIf="co2Scope2Control.invalid">{{
         getErrorMessage(co2Scope2Control.errors)
       }}</mat-error>
@@ -44,9 +47,10 @@
         name="co2Scope3"
         #dialogControl
       />
-      <span matSuffix class="relative -top-1 pl-1 text-caption">{{
+      <span matSuffix class="text-caption relative -top-1 pl-1">{{
         t('co2PerTon')
       }}</span>
+      <mat-hint>{{ co2Scope3Hint }}</mat-hint>
       <mat-error *ngIf="co2Scope3Control.invalid">{{
         getErrorMessage(co2Scope3Control.errors)
       }}</mat-error>
@@ -60,9 +64,10 @@
         name="co2PerTon"
         #dialogControl
       />
-      <span matSuffix class="relative -top-1 pl-1 text-caption">{{
+      <span matSuffix class="text-caption relative -top-1 pl-1">{{
         t('co2PerTon')
       }}</span>
+      <mat-hint>{{ co2TotalHint }}</mat-hint>
       <mat-error
         class="cursor-help"
         *ngIf="co2TotalControl.invalid"
@@ -90,6 +95,7 @@
         [label]="t('co2Classification')"
         [resetButton]="false"
         [showTriggerTooltip]="true"
+        [formFieldHint]="co2ClassificationHint"
         triggerTooltipDelay="1500"
         tooltipPosition="right"
         name="co2Classification"
@@ -103,7 +109,7 @@
         <mat-icon
           matTooltipPosition="before"
           [matTooltip]="t('tooltip.co2Classification')"
-          class="cursor-help text-link"
+          class="text-link cursor-help"
           >info_outline</mat-icon
         >
       </span>
@@ -121,6 +127,7 @@
         name="releaseRestrictions"
         #dialogControl
       ></textarea>
+      <mat-hint>{{ releaseRestrictionsHint }}</mat-hint>
     </mat-form-field>
   </div>
-</ng-container>
+</div>

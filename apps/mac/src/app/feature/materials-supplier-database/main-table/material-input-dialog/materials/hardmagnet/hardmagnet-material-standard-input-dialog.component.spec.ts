@@ -174,7 +174,7 @@ describe('HardmagnetMaterialstandardInputDialogComponent', () => {
     };
 
     beforeEach(() => {
-      component.closeDialog = jest.fn();
+      component['closeDialog'] = jest.fn();
       component.showInSnackbar = jest.fn();
 
       component.enableEditFields();
@@ -198,7 +198,7 @@ describe('HardmagnetMaterialstandardInputDialogComponent', () => {
 
       // backend response
       update(false);
-      expect(component.closeDialog).toBeCalledWith(true);
+      expect(component['closeDialog']).toBeCalled();
       expect(component.showInSnackbar).toBeCalled();
     });
     it('should not close dialog on successful confirm with createAnother', () => {
@@ -220,7 +220,7 @@ describe('HardmagnetMaterialstandardInputDialogComponent', () => {
 
       // backend response
       update(false);
-      expect(component.closeDialog).not.toHaveBeenCalled();
+      expect(component['closeDialog']).not.toHaveBeenCalled();
       expect(component.showInSnackbar).toBeCalled();
     });
     it('should keep the dialog open on error', () => {
@@ -242,7 +242,7 @@ describe('HardmagnetMaterialstandardInputDialogComponent', () => {
 
       // backend response
       update(true);
-      expect(component.closeDialog).not.toBeCalled();
+      expect(component['closeDialog']).not.toBeCalled();
       expect(component.showInSnackbar).toBeCalled();
     });
   });

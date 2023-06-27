@@ -16,6 +16,7 @@ import {
   addCustomCastingDiameter,
   addCustomReferenceDocument,
   fetchCastingDiameters,
+  updateCreateMaterialDialogValues,
 } from '@mac/feature/materials-supplier-database/store/actions/dialog';
 import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
 import { MaterialInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/material-input-dialog.component';
@@ -147,6 +148,12 @@ export class CopperInputDialogComponent
           this.castingDiameterControl.disable();
         }
       });
+
+    this.createMaterialForm.valueChanges.subscribe((val) => {
+      this.dialogFacade.dispatch(
+        updateCreateMaterialDialogValues({ form: val })
+      );
+    });
   }
 
   public addReferenceDocument(referenceDocument: string): void {

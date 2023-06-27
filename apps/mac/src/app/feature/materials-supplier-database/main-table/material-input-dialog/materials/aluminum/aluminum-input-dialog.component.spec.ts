@@ -30,7 +30,10 @@ import {
   CreateMaterialErrorState,
   CreateMaterialRecord,
 } from '@mac/feature/materials-supplier-database/models';
-import { materialDialogConfirmed } from '@mac/feature/materials-supplier-database/store/actions/dialog';
+import {
+  materialDialogConfirmed,
+  updateCreateMaterialDialogValues,
+} from '@mac/feature/materials-supplier-database/store/actions/dialog';
 import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
 import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
 import { getCreateMaterialRecord } from '@mac/msd/store/selectors';
@@ -150,6 +153,18 @@ describe('AluminumInputDialogComponent', () => {
     });
   });
 
+  describe('updateCreateMaterialDialogValues', () => {
+    it('should assign the material form', () => {
+      component.co2Scope1Control.setValue(99);
+
+      expect(store.dispatch).toBeCalledWith(
+        updateCreateMaterialDialogValues({
+          form: component.createMaterialForm.value,
+        })
+      );
+    });
+  });
+
   describe('confirmMaterial', () => {
     beforeEach(() => {
       component.supplierPlantControl.enable({ emitEvent: false });
@@ -170,7 +185,7 @@ describe('AluminumInputDialogComponent', () => {
     };
 
     beforeEach(() => {
-      component.closeDialog = jest.fn();
+      component['closeDialog'] = jest.fn();
       component.showInSnackbar = jest.fn();
     });
     it('should close dialog on successful confirm', () => {
@@ -184,7 +199,7 @@ describe('AluminumInputDialogComponent', () => {
 
       // backend response
       update(false);
-      expect(component.closeDialog).toBeCalledWith(true);
+      expect(component['closeDialog']).toBeCalled();
       expect(component.showInSnackbar).toBeCalled();
     });
     it('should not close dialog on successful confirm with createAnother', () => {
@@ -198,7 +213,7 @@ describe('AluminumInputDialogComponent', () => {
 
       // backend response
       update(false);
-      expect(component.closeDialog).not.toHaveBeenCalled();
+      expect(component['closeDialog']).not.toHaveBeenCalled();
       expect(component.showInSnackbar).toBeCalled();
     });
     it('should keep the dialog open on error', () => {
@@ -212,7 +227,7 @@ describe('AluminumInputDialogComponent', () => {
 
       // backend response
       update(true);
-      expect(component.closeDialog).not.toBeCalled();
+      expect(component['closeDialog']).not.toBeCalled();
       expect(component.showInSnackbar).toBeCalled();
     });
     it('should keep the dialog open on error with createAnother', () => {
@@ -226,7 +241,7 @@ describe('AluminumInputDialogComponent', () => {
 
       // backend response
       update(true);
-      expect(component.closeDialog).not.toBeCalled();
+      expect(component['closeDialog']).not.toBeCalled();
       expect(component.showInSnackbar).toBeCalled();
     });
   });

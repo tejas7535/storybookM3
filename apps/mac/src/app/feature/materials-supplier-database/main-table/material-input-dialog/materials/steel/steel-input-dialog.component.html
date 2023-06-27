@@ -7,7 +7,7 @@
     isEditDialog() && !isCopyDialog() ? t('updateMaterial') : t('addMaterial')
   "
   [isAddDialog]="isCopyDialog() || !isEditDialog()"
-  [valid]="createMaterialForm.valid"
+  [valid]="isBulkEditDialog() || createMaterialForm.valid"
   (accept)="confirmMaterial($event)"
   (minimize)="minimizeDialog()"
   (cancel)="cancelDialog()"
@@ -16,415 +16,458 @@
     <ng-container
       *ngIf="!(dialogLoading$ | ngrxPush) && !(editLoading$ | ngrxPush)"
     >
-      <!-- MatStd -->
-      <div class="text-subtitle-2 text-high-emphasis">
-        {{ t('materialStandardTitle') }}
-      </div>
-      <div class="flex flex-row gap-x-6">
-        <mac-material-standard
-          class="w-full"
-          [readonly]="isEditDialog() && !isCopyDialog()"
-          [materialStandardIdControl]="materialStandardIdControl"
-          [standardDocumentsControl]="standardDocumentsControl"
-          [materialNamesControl]="materialNamesControl"
-          macMaterialDialogBasePart
-        ></mac-material-standard>
-      </div>
-      <div class="flex flex-row gap-x-6">
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>{{ t('steelNumber') }}</mat-label>
-          <mat-label *ngIf="isEditDialog() && !isCopyDialog()"
-            >&nbsp;{{ t('readonly') }}</mat-label
-          >
-          <input
-            matInput
-            placeholder="1.1234"
-            value=""
-            [formControl]="steelNumberControl"
+      <ng-container *ngrxLet="hintData$ as hintData">
+        <!-- MatStd -->
+        <div class="text-subtitle-2 text-high-emphasis">
+          {{ t('materialStandardTitle') }}
+        </div>
+        <div class="flex flex-row gap-x-6">
+          <mac-material-standard
+            class="w-full"
             [readonly]="isEditDialog() && !isCopyDialog()"
-            name="materialNumbers"
-            #dialogControl
-          />
-          <mat-error
-            *ngIf="steelNumberControl.invalid"
-            [matTooltip]="t('error.steelNumber')"
-            class="cursor-help"
-          >
-            {{ getErrorMessage(steelNumberControl.errors) }}
-            <mat-icon inline="true" class="!leading-3">info_outline</mat-icon>
-          </mat-error>
-        </mat-form-field>
-        <div class="flex w-full flex-row">
+            [materialStandardIdControl]="materialStandardIdControl"
+            [standardDocumentsControl]="standardDocumentsControl"
+            [materialNamesControl]="materialNamesControl"
+            macMaterialDialogBasePart
+          ></mac-material-standard>
+        </div>
+        <div class="flex flex-row gap-x-6">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>{{ t('steelNumber') }}</mat-label>
+            <mat-label *ngIf="isEditDialog() && !isCopyDialog()"
+              >&nbsp;{{ t('readonly') }}</mat-label
+            >
+            <input
+              matInput
+              placeholder="1.1234"
+              value=""
+              [formControl]="steelNumberControl"
+              [readonly]="isEditDialog() && !isCopyDialog()"
+              name="materialNumbers"
+              #dialogControl
+            />
+            <mat-error
+              *ngIf="steelNumberControl.invalid"
+              [matTooltip]="t('error.steelNumber')"
+              class="cursor-help"
+            >
+              {{ getErrorMessage(steelNumberControl.errors) }}
+              <mat-icon inline="true" class="!leading-3">info_outline</mat-icon>
+            </mat-error>
+          </mat-form-field>
+          <div class="flex w-full flex-row">
+            <schaeffler-select
+              appearance="outline"
+              class="w-full"
+              [filterFn]="filterFn"
+              [label]="t('referencedInDocument')"
+              [stringOptions]="referenceDocuments$ | ngrxPush"
+              [control]="referenceDocumentControl"
+              [loading]="referenceDocumentsLoading$ | ngrxPush"
+              [addEntry]="true"
+              [multiple]="true"
+              [showTriggerTooltip]="true"
+              [formFieldHint]="getHint(hintData, 'referenceDoc')"
+              triggerTooltipDelay="1500"
+              tooltipPosition="right"
+              (entryAdded)="addReferenceDocument($event)"
+              name="referenceDoc"
+              #dialogControl
+            ></schaeffler-select>
+            <span mat-icon class="mb-4 self-center pl-4">
+              <mat-icon
+                [matTooltip]="t('tooltip.referencedInDocument')"
+                matTooltipPosition="before"
+                class="text-link cursor-help"
+                >info_outline</mat-icon
+              >
+            </span>
+          </div>
+        </div>
+
+        <!-- Supplier Block -->
+        <div class="text-subtitle-2 text-high-emphasis">
+          {{ t('supplierInformationTitle') }}
+        </div>
+        <mac-manufacturer-supplier
+          [readonly]="isEditDialog() && !isCopyDialog()"
+          [manufacturerSupplierIdControl]="manufacturerSupplierIdControl"
+          [supplierControl]="supplierControl"
+          [supplierPlantControl]="supplierPlantControl"
+          [supplierCountryControl]="supplierCountryControl"
+          macMaterialDialogBasePart
+        ></mac-manufacturer-supplier>
+
+        <div class="flex flex-row gap-x-6">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>{{ t('castingMode') }}</mat-label>
+            <mat-select
+              [formControl]="castingModesControl"
+              name="castingMode"
+              #dialogControl
+            >
+              <mat-option
+                *ngFor="let mode of castingModes$ | ngrxPush"
+                [value]="mode"
+              >
+                {{ t(mode.toLowerCase()) }}
+              </mat-option>
+            </mat-select>
+            <mat-hint>
+              {{ getHint(hintData, 'castingMode') }}
+            </mat-hint>
+
+            <mat-error *ngIf="castingModesControl.invalid">{{
+              getErrorMessage(castingModesControl.errors)
+            }}</mat-error>
+          </mat-form-field>
           <schaeffler-select
             appearance="outline"
             class="w-full"
+            [stringOptions]="castingDiameters$ | ngrxPush"
+            [control]="castingDiameterControl"
             [filterFn]="filterFn"
-            [label]="t('referencedInDocument')"
-            [stringOptions]="referenceDocuments$ | ngrxPush"
-            [control]="referenceDocumentControl"
-            [loading]="referenceDocumentsLoading$ | ngrxPush"
             [addEntry]="true"
-            [multiple]="true"
+            [label]="t('castingDiameter')"
+            (entryAdded)="addCastingDiameter($event)"
+            [resetButton]="false"
+            [loading]="castingDiametersLoading$ | ngrxPush"
             [showTriggerTooltip]="true"
+            [formFieldHint]="getHint(hintData, 'castingDiameter')"
             triggerTooltipDelay="1500"
             tooltipPosition="right"
-            (entryAdded)="addReferenceDocument($event)"
-            name="referenceDoc"
+            name="castingDiameter"
             #dialogControl
-          ></schaeffler-select>
-          <span mat-icon class="mb-4 self-center pl-4">
+          >
+            <div matErrorContent *ngIf="castingDiameterControl.invalid">
+              {{ getErrorMessage(castingDiameterControl.errors) }}
+            </div>
+          </schaeffler-select>
+        </div>
+        <div class="flex flex-row gap-x-6">
+          <mat-form-field appearance="outline" class="w-auto">
+            <mat-label>{{ t('supplierRating') }}</mat-label>
+            <mat-select
+              [formControl]="ratingsControl"
+              [compareWith]="compareWithId"
+              name="rating"
+              #dialogControl
+            >
+              <mat-option
+                *ngFor="let rating of ratings$ | ngrxPush"
+                [value]="rating"
+              >
+                {{ rating.title }}
+              </mat-option>
+            </mat-select>
+            <mat-hint>
+              {{ getHint(hintData, 'rating') }}
+            </mat-hint>
+            <mat-error *ngIf="ratingsControl.invalid">{{
+              getErrorMessage(ratingsControl.errors)
+            }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>{{ t('supplierRatingRemark') }}</mat-label>
+            <input
+              matInput
+              [formControl]="ratingRemarkControl"
+              name="ratingRemark"
+              #dialogControl
+            />
+            <mat-hint>
+              {{ getHint(hintData, 'ratingRemark') }}
+            </mat-hint>
+          </mat-form-field>
+        </div>
+
+        <div class="flex flex-row gap-x-6">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>{{ t('ratingChangeComment') }}</mat-label>
+            <textarea
+              matInput
+              [formControl]="ratingChangeCommentControl"
+              required
+              name="ratingChangeComment"
+              #dialogControl
+            ></textarea>
+            <mat-hint>
+              {{ getHint(hintData, 'ratingChangeComment') }}
+            </mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="mb-4 flex flex-row gap-x-6">
+          <mat-checkbox
+            class="text-caption text-high-emphasis"
+            color="primary"
+            [formControl]="selfCertifiedControl"
+            name="manufacturerSupplierSelfCertified"
+            #dialogControl
+          >
+            {{ t('selfCertified') }}
             <mat-icon
-              [matTooltip]="t('tooltip.referencedInDocument')"
-              matTooltipPosition="before"
-              class="cursor-help text-link"
+              [matTooltip]="t('selfCertified_tooltip')"
+              matTooltipPosition="after"
+              class="text-link cursor-help !leading-3"
+              inline="true"
               >info_outline</mat-icon
             >
-          </span>
+          </mat-checkbox>
         </div>
-      </div>
 
-      <!-- Supplier Block -->
-      <div class="text-subtitle-2 text-high-emphasis">
-        {{ t('supplierInformationTitle') }}
-      </div>
-      <mac-manufacturer-supplier
-        [readonly]="isEditDialog() && !isCopyDialog()"
-        [manufacturerSupplierIdControl]="manufacturerSupplierIdControl"
-        [supplierControl]="supplierControl"
-        [supplierPlantControl]="supplierPlantControl"
-        [supplierCountryControl]="supplierCountryControl"
-        macMaterialDialogBasePart
-      ></mac-manufacturer-supplier>
-
-      <div class="flex flex-row gap-x-6">
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>{{ t('castingMode') }}</mat-label>
-          <mat-select
-            [formControl]="castingModesControl"
-            name="castingMode"
+        <div class="mb-4 flex flex-row gap-x-6">
+          <mat-checkbox
+            class="text-caption text-high-emphasis"
+            color="primary"
+            [formControl]="isManufacturerControl"
+            name="manufacturer"
             #dialogControl
           >
-            <mat-option
-              *ngFor="let mode of castingModes$ | ngrxPush"
-              [value]="mode"
-            >
-              {{ t(mode.toLowerCase()) }}
-            </mat-option>
-          </mat-select>
+            {{ t('manufacturer') }}
+          </mat-checkbox>
+        </div>
 
-          <mat-error *ngIf="castingModesControl.invalid">{{
-            getErrorMessage(castingModesControl.errors)
-          }}</mat-error>
-        </mat-form-field>
-        <schaeffler-select
-          appearance="outline"
-          class="w-full"
-          [stringOptions]="castingDiameters$ | ngrxPush"
-          [control]="castingDiameterControl"
-          [filterFn]="filterFn"
-          [addEntry]="true"
-          [label]="t('castingDiameter')"
-          (entryAdded)="addCastingDiameter($event)"
-          [resetButton]="false"
-          [loading]="castingDiametersLoading$ | ngrxPush"
-          [showTriggerTooltip]="true"
-          triggerTooltipDelay="1500"
-          tooltipPosition="right"
-          name="castingDiameter"
-          #dialogControl
-        >
-          <div matErrorContent *ngIf="castingDiameterControl.invalid">
-            {{ getErrorMessage(castingDiameterControl.errors) }}
-          </div>
-        </schaeffler-select>
-      </div>
-      <div class="flex flex-row gap-x-6">
-        <mat-form-field appearance="outline" class="w-auto">
-          <mat-label>{{ t('supplierRating') }}</mat-label>
-          <mat-select
-            [formControl]="ratingsControl"
-            [compareWith]="compareWithId"
-            name="rating"
-            #dialogControl
-          >
-            <mat-option
-              *ngFor="let rating of ratings$ | ngrxPush"
-              [value]="rating"
-            >
-              {{ rating.title }}
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="ratingsControl.invalid">{{
-            getErrorMessage(ratingsControl.errors)
-          }}</mat-error>
-        </mat-form-field>
+        <!-- CO2 Block -->
+        <div class="text-subtitle-2 text-high-emphasis">
+          {{ t('co2AndProductInformationTitle') }}
+        </div>
 
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>{{ t('supplierRatingRemark') }}</mat-label>
-          <input
-            matInput
-            [formControl]="ratingRemarkControl"
-            name="ratingRemark"
-            #dialogControl
-          />
-        </mat-form-field>
-      </div>
-
-      <div class="flex flex-row gap-x-6">
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>{{ t('ratingChangeComment') }}</mat-label>
-          <textarea
-            matInput
-            [formControl]="ratingChangeCommentControl"
-            required
-            name="ratingChangeComment"
-            #dialogControl
-          ></textarea>
-        </mat-form-field>
-      </div>
-      <div class="mb-4 flex flex-row gap-x-6">
-        <mat-checkbox
-          class="text-caption text-high-emphasis"
-          color="primary"
-          [formControl]="selfCertifiedControl"
-          name="manufacturerSupplierSelfCertified"
-          #dialogControl
-        >
-          {{ t('selfCertified') }}
-          <mat-icon
-            [matTooltip]="t('selfCertified_tooltip')"
-            matTooltipPosition="after"
-            class="cursor-help !leading-3 text-link"
-            inline="true"
-            >info_outline</mat-icon
-          >
-        </mat-checkbox>
-      </div>
-
-      <div class="mb-4 flex flex-row gap-x-6">
-        <mat-checkbox
-          class="text-caption text-high-emphasis"
-          color="primary"
-          [formControl]="isManufacturerControl"
-          name="manufacturer"
-          #dialogControl
-        >
-          {{ t('manufacturer') }}
-        </mat-checkbox>
-      </div>
-
-      <!-- CO2 Block -->
-      <div class="text-subtitle-2 text-high-emphasis">
-        {{ t('co2AndProductInformationTitle') }}
-      </div>
-
-      <div class="flex flex-row gap-x-6">
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>{{ t('maxDim') }}</mat-label>
-          <input
-            matInput
-            [formControl]="maxDimControl"
-            type="number"
-            name="maxDimension"
-            #dialogControl
-          />
-          <span matSuffix class="relative -top-1 pl-1 text-caption">{{
-            t('mm')
-          }}</span>
-          <mat-error *ngIf="maxDimControl.invalid">{{
-            getErrorMessage(maxDimControl.errors)
-          }}</mat-error>
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>{{ t('minDim') }}</mat-label>
-          <input
-            matInput
-            [formControl]="minDimControl"
-            type="number"
-            name="minDimension"
-            #dialogControl
-          />
-          <span matSuffix class="relative -top-1 pl-1 text-caption">{{
-            t('mm')
-          }}</span>
-          <mat-error *ngIf="minDimControl.invalid">{{
-            getErrorMessage(minDimControl.errors)
-          }}</mat-error>
-        </mat-form-field>
-      </div>
-
-      <div class="flex flex-row gap-x-6">
-        <schaeffler-select
-          appearance="outline"
-          class="w-full"
-          [stringOptions]="categories$ | ngrxPush"
-          [control]="categoriesControl"
-          [filterFn]="filterFn"
-          [label]="t('productCategory')"
-          [resetButton]="false"
-          [showTriggerTooltip]="true"
-          triggerTooltipDelay="1500"
-          tooltipPosition="right"
-          name="productCategoryText"
-          #dialogControl
-        >
-          <div matErrorContent *ngIf="categoriesControl.invalid">
-            {{ getErrorMessage(categoriesControl.errors) }}
-          </div>
-        </schaeffler-select>
-        <schaeffler-select
-          preCo2Classification
-          appearance="outline"
-          class="w-full"
-          [stringOptions]="steelMakingProcess$ | ngrxPush"
-          [control]="steelMakingProcessControl"
-          [filterFn]="steelMakingProcessFilterFn"
-          [label]="t('steelMakingProcess')"
-          [showTriggerTooltip]="true"
-          triggerTooltipDelay="1500"
-          tooltipPosition="right"
-          name="steelMakingProcess"
-          #dialogControl
-          #steelMakingProcessSelect
-        ></schaeffler-select>
-        <mat-form-field appearance="outline" class="w-1/5">
-          <mat-label>{{ t('minRecyclingRate') }}</mat-label>
-          <input
-            matInput
-            [formControl]="minRecyclingRateControl"
-            type="number"
-            name="recyclingRate"
-            #dialogControl
-          />
-          <span matSuffix class="relative -top-1 pl-1 text-caption"> %</span>
-          <mat-error *ngIf="minRecyclingRateControl.invalid">{{
-            getErrorMessage(minRecyclingRateControl.errors)
-          }}</mat-error>
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="w-1/5">
-          <mat-label>{{ t('maxRecyclingRate') }}</mat-label>
-          <input
-            matInput
-            [formControl]="maxRecyclingRateControl"
-            type="number"
-            name="recyclingRate"
-            #dialogControl
-          />
-          <span matSuffix class="relative -top-1 pl-1 text-caption"> %</span>
-          <mat-error *ngIf="maxRecyclingRateControl.invalid">{{
-            getErrorMessage(maxRecyclingRateControl.errors)
-          }}</mat-error>
-        </mat-form-field>
-      </div>
-
-      <mac-co2-component
-        [co2Scope1Control]="co2Scope1Control"
-        [co2Scope2Control]="co2Scope2Control"
-        [co2Scope3Control]="co2Scope3Control"
-        [co2TotalControl]="co2TotalControl"
-        [co2ClassificationControl]="co2ClassificationControl"
-        [releaseRestrictionsControl]="releaseRestrictionsControl"
-        macMaterialDialogBasePart
-      >
-      </mac-co2-component>
-
-      <div class="flex flex-row gap-x-6" [ngSwitch]="selectReleaseDateView()">
-        <ng-container *ngSwitchCase="'READONLY'">
+        <div class="flex flex-row gap-x-6">
           <mat-form-field appearance="outline" class="w-full">
-            <mat-label
-              >{{ t('releaseDateYear') }} {{ t('readonly') }}</mat-label
-            >
+            <mat-label>{{ t('maxDim') }}</mat-label>
             <input
               matInput
-              [value]="releaseYearControl.value"
-              name="releaseDate"
+              [formControl]="maxDimControl"
+              type="number"
+              name="maxDimension"
               #dialogControl
-              readonly="true"
             />
+            <mat-hint>
+              {{ getHint(hintData, 'maxDimension') }}
+            </mat-hint>
+            <span matSuffix class="text-caption relative -top-1 pl-1">{{
+              t('mm')
+            }}</span>
+            <mat-error *ngIf="maxDimControl.invalid">{{
+              getErrorMessage(maxDimControl.errors)
+            }}</mat-error>
           </mat-form-field>
-          <mat-form-field
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>{{ t('minDim') }}</mat-label>
+            <input
+              matInput
+              [formControl]="minDimControl"
+              type="number"
+              name="minDimension"
+              #dialogControl
+            />
+            <mat-hint>
+              {{ getHint(hintData, 'minDimension') }}
+            </mat-hint>
+            <span matSuffix class="text-caption relative -top-1 pl-1">{{
+              t('mm')
+            }}</span>
+            <mat-error *ngIf="minDimControl.invalid">{{
+              getErrorMessage(minDimControl.errors)
+            }}</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="flex flex-row gap-x-6">
+          <schaeffler-select
             appearance="outline"
             class="w-full"
-            *ngIf="releaseMonthControl.value"
+            [stringOptions]="categories$ | ngrxPush"
+            [control]="categoriesControl"
+            [filterFn]="filterFn"
+            [label]="t('productCategory')"
+            [resetButton]="false"
+            [showTriggerTooltip]="true"
+            [formFieldHint]="getHint(hintData, 'productCategory')"
+            triggerTooltipDelay="1500"
+            tooltipPosition="right"
+            name="productCategoryText"
+            #dialogControl
           >
-            <mat-label
-              >{{ t('releaseDateMonth') }} {{ t('readonly') }}</mat-label
-            >
+            <div matErrorContent *ngIf="categoriesControl.invalid">
+              {{ getErrorMessage(categoriesControl.errors) }}
+            </div>
+          </schaeffler-select>
+          <schaeffler-select
+            preCo2Classification
+            appearance="outline"
+            class="w-full"
+            [stringOptions]="steelMakingProcess$ | ngrxPush"
+            [control]="steelMakingProcessControl"
+            [filterFn]="steelMakingProcessFilterFn"
+            [label]="t('steelMakingProcess')"
+            [showTriggerTooltip]="true"
+            [formFieldHint]="getHint(hintData, 'steelMakingProcess')"
+            triggerTooltipDelay="1500"
+            tooltipPosition="right"
+            name="steelMakingProcess"
+            #dialogControl
+            #steelMakingProcessSelect
+          ></schaeffler-select>
+          <mat-form-field appearance="outline" class="w-1/5">
+            <mat-label>{{ t('minRecyclingRate') }}</mat-label>
             <input
               matInput
-              [value]="t('month.' + releaseMonthControl.value)"
-              name="releaseDateMonth"
+              [formControl]="minRecyclingRateControl"
+              type="number"
+              name="recyclingRate"
               #dialogControl
-              readonly="true"
             />
+            <span matSuffix class="text-caption relative -top-1 pl-1"> %</span>
+            <mat-hint>
+              {{ getHint(hintData, 'minRecyclingRate') }}
+            </mat-hint>
+            <mat-error *ngIf="minRecyclingRateControl.invalid">{{
+              getErrorMessage(minRecyclingRateControl.errors)
+            }}</mat-error>
           </mat-form-field>
-        </ng-container>
-        <ng-container *ngSwitchCase="'HISTORIC'">
-          <mat-form-field appearance="outline" class="w-full">
-            <mat-label>{{ t('releaseDate') }} {{ t('readonly') }}</mat-label>
+          <mat-form-field appearance="outline" class="w-1/5">
+            <mat-label>{{ t('maxRecyclingRate') }}</mat-label>
             <input
               matInput
-              [value]="t('historicallyApproved')"
-              name="releaseDate"
+              [formControl]="maxRecyclingRateControl"
+              type="number"
+              name="recyclingRate"
               #dialogControl
-              readonly="true"
             />
-          </mat-form-field>
-        </ng-container>
-        <!-- DEFAULT == EDIT-->
-        <ng-container *ngSwitchDefault>
-          <mat-form-field appearance="outline" class="w-full">
-            <mat-label>{{ t('releaseDateYear') }}</mat-label>
-            <mat-select
-              [formControl]="releaseYearControl"
-              name="releaseDate"
-              #dialogControl
-            >
-              <mat-option *ngFor="let year of years" [value]="year">
-                {{ year }}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="releaseYearControl.invalid">{{
-              t('error.required')
+            <span matSuffix class="text-caption relative -top-1 pl-1"> %</span>
+            <mat-hint>
+              {{ getHint(hintData, 'maxRecyclingRate') }}
+            </mat-hint>
+            <mat-error *ngIf="maxRecyclingRateControl.invalid">{{
+              getErrorMessage(maxRecyclingRateControl.errors)
             }}</mat-error>
           </mat-form-field>
+        </div>
 
-          <mat-form-field appearance="outline" class="w-full">
-            <mat-label>{{ t('releaseDateMonth') }}</mat-label>
-            <mat-select
-              [formControl]="releaseMonthControl"
-              name="releaseDateMonth"
-              #dialogControl
-            >
-              <mat-option *ngFor="let month of months" [value]="month">
-                {{ t('month.' + month) }}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="releaseMonthControl.invalid">{{
-              t('error.required')
-            }}</mat-error>
-          </mat-form-field>
-        </ng-container>
-      </div>
-
-      <div class="flex flex-row gap-x-6">
-        <mat-checkbox
-          class="text-caption text-high-emphasis"
-          color="primary"
-          [formControl]="isBlockedControl"
-          name="blocked"
-          #dialogControl
+        <mac-co2-component
+          [co2Scope1Control]="co2Scope1Control"
+          [co2Scope2Control]="co2Scope2Control"
+          [co2Scope3Control]="co2Scope3Control"
+          [co2TotalControl]="co2TotalControl"
+          [co2ClassificationControl]="co2ClassificationControl"
+          [releaseRestrictionsControl]="releaseRestrictionsControl"
+          [co2Scope1Hint]="getHint(hintData, 'co2Scope1')"
+          [co2Scope2Hint]="getHint(hintData, 'co2Scope2')"
+          [co2Scope3Hint]="getHint(hintData, 'co2Scope3')"
+          [co2TotalHint]="getHint(hintData, 'co2PerTon')"
+          [co2ClassificationHint]="getHint(hintData, 'co2Classification')"
+          [releaseRestrictionsHint]="getHint(hintData, 'releaseRestrictions')"
+          [column]="getColumn()"
+          macMaterialDialogBasePart
         >
-          {{ t('blocked') }}
-          <mat-icon
-            [matTooltip]="t('tooltip.blocked')"
-            matTooltipPosition="after"
-            class="cursor-help !leading-3 text-link"
-            inline="true"
-            >info_outline</mat-icon
+        </mac-co2-component>
+
+        <div class="flex flex-row gap-x-6" [ngSwitch]="selectReleaseDateView()">
+          <ng-container *ngSwitchCase="'READONLY'">
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label
+                >{{ t('releaseDateYear') }} {{ t('readonly') }}</mat-label
+              >
+              <input
+                matInput
+                [value]="releaseYearControl.value"
+                name="releaseDate"
+                #dialogControl
+                readonly="true"
+              />
+            </mat-form-field>
+            <mat-form-field
+              appearance="outline"
+              class="w-full"
+              *ngIf="releaseMonthControl.value"
+            >
+              <mat-label
+                >{{ t('releaseDateMonth') }} {{ t('readonly') }}</mat-label
+              >
+              <input
+                matInput
+                [value]="t('month.' + releaseMonthControl.value)"
+                name="releaseDateMonth"
+                #dialogControl
+                readonly="true"
+              />
+            </mat-form-field>
+          </ng-container>
+          <ng-container *ngSwitchCase="'HISTORIC'">
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>{{ t('releaseDate') }} {{ t('readonly') }}</mat-label>
+              <input
+                matInput
+                [value]="t('historicallyApproved')"
+                name="releaseDate"
+                #dialogControl
+                readonly="true"
+              />
+            </mat-form-field>
+          </ng-container>
+          <!-- DEFAULT == EDIT-->
+          <ng-container *ngSwitchDefault>
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>{{ t('releaseDateYear') }}</mat-label>
+              <mat-select
+                [formControl]="releaseYearControl"
+                name="releaseDate"
+                #dialogControl
+              >
+                <mat-option *ngFor="let year of years" [value]="year">
+                  {{ year }}
+                </mat-option>
+              </mat-select>
+              <mat-hint>
+                {{ getHint(hintData, 'releaseDateYear') }}
+              </mat-hint>
+              <mat-error *ngIf="releaseYearControl.invalid">{{
+                t('error.required')
+              }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>{{ t('releaseDateMonth') }}</mat-label>
+              <mat-select
+                [formControl]="releaseMonthControl"
+                name="releaseDateMonth"
+                #dialogControl
+              >
+                <mat-option *ngFor="let month of months" [value]="month">
+                  {{ t('month.' + month) }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="releaseMonthControl.invalid">{{
+                t('error.required')
+              }}</mat-error>
+              <mat-hint>
+                {{ getHint(hintData, 'releaseDateMonth') }}
+              </mat-hint>
+            </mat-form-field>
+          </ng-container>
+        </div>
+
+        <div class="flex flex-row gap-x-6">
+          <mat-checkbox
+            class="text-caption text-high-emphasis"
+            color="primary"
+            [formControl]="isBlockedControl"
+            name="blocked"
+            #dialogControl
           >
-        </mat-checkbox>
-      </div>
+            {{ t('blocked') }}
+            <mat-icon
+              [matTooltip]="t('tooltip.blocked')"
+              matTooltipPosition="after"
+              class="text-link cursor-help !leading-3"
+              inline="true"
+              >info_outline</mat-icon
+            >
+          </mat-checkbox>
+        </div>
+      </ng-container>
     </ng-container>
   </div>
 </mac-base-dialog>

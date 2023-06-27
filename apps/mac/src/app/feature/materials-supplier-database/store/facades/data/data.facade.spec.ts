@@ -357,6 +357,28 @@ describe('DataFacade', () => {
     );
   });
 
+  describe('selectedMaterialData$', () => {
+    it(
+      'should provide the selectedMaterialData$',
+      marbles((m) => {
+        const expected = m.cold('a', [{} as DataResult]);
+
+        m.expect(facade.selectedMaterialData$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('isBulkEditAllowed$', () => {
+    it(
+      'should provide the isBulkEditAllowed$',
+      marbles((m) => {
+        const expected = m.cold('a', { a: true });
+
+        m.expect(facade.isBulkEditAllowed$).toBeObservable(expected);
+      })
+    );
+  });
+
   describe('hasMinimizedDialog', () => {
     it(
       'should return a boolean indicating if a dialog is minimized',

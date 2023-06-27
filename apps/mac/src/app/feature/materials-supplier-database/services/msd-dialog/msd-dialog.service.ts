@@ -4,6 +4,8 @@ import {
   MatLegacyDialogRef as MatDialogRef,
 } from '@angular/material/legacy-dialog';
 
+import { TypedAction } from '@ngrx/store/src/models';
+
 import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import { ConfirmDeleteDialogComponent } from '@mac/msd/main-table/confirm-delete-dialog/confirm-delete-dialog.component';
@@ -14,10 +16,11 @@ import { AluminumInputDialogComponent } from '@mac/msd/main-table/material-input
 import { CeramicInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/materials/ceramic/ceramic-input-dialog.component';
 import { CopperInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/materials/copper/copper-input-dialog.component';
 import { SteelInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/materials/steel/steel-input-dialog.component';
-import { DataResult, MaterialFormValue } from '@mac/msd/models';
+import { DataResult } from '@mac/msd/models';
 
 import { HardmagnetInputDialogComponent } from '../../main-table/material-input-dialog/materials/hardmagnet/hardmagnet-input-dialog.component';
 import { HardmagnetMaterialStandardInputDialogComponent } from '../../main-table/material-input-dialog/materials/hardmagnet/hardmagnet-material-standard-input-dialog.component';
+import { openMultiEditDialog } from '../../store/actions/dialog';
 
 @Injectable()
 export class MsdDialogService {
@@ -42,14 +45,9 @@ export class MsdDialogService {
       row: DataResult;
       column: string;
       isCopy?: boolean;
+      isBulkEdit?: boolean;
     }
-  ): MatDialogRef<
-    MaterialInputDialogComponent,
-    {
-      reload?: boolean;
-      minimize?: { id?: number; value: MaterialFormValue };
-    }
-  > {
+  ): MatDialogRef<MaterialInputDialogComponent, { action?: TypedAction<any> }> {
     return this.dialog.open(this.dialogType, {
       width: '863px',
       autoFocus: false,
@@ -69,6 +67,22 @@ export class MsdDialogService {
     return this.dialog.open(ConfirmDeleteDialogComponent, {
       width: '500px',
       autoFocus: false,
+    });
+  }
+
+  public openBulkEditDialog(
+    selectedRows: any[],
+    column?: string
+  ): MatDialogRef<MaterialInputDialogComponent, { action?: TypedAction<any> }> {
+    const rows = selectedRows.map((node) => node.data);
+    const combinedRows = this.combineRows(rows);
+    this.dataFacade.dispatch(openMultiEditDialog({ rows, combinedRows }));
+
+    return this.openDialog(false, {
+      row: combinedRows,
+      column,
+      isCopy: false,
+      isBulkEdit: true,
     });
   }
 
@@ -104,5 +118,20 @@ export class MsdDialogService {
       default:
         return SteelInputDialogComponent;
     }
+  }
+
+  private combineRows<T>(rows: T[]): T {
+    const result: Record<any, any> = {};
+    for (const key in rows[0]) {
+      const val = rows
+        // get list of property keys
+        .map((row) => row[key])
+        // either all values are equal or undefined
+        // eslint-disable-next-line unicorn/no-array-reduce
+        .reduce((acc, curr) => (acc === curr ? curr : undefined), rows[0][key]);
+      result[key] = val;
+    }
+
+    return result;
   }
 }

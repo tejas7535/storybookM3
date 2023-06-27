@@ -4,17 +4,10 @@ import { Subject } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
-import { Column } from 'ag-grid-community';
+import { Column, RowNode } from 'ag-grid-community';
 
 import { DataResult, MaterialFormValue } from '@mac/msd/models';
 import { MsdDialogService } from '@mac/msd/services';
-import { fetchResult } from '@mac/msd/store/actions/data';
-import {
-  materialDialogCanceled,
-  minimizeDialog,
-  openDialog,
-  openEditDialog,
-} from '@mac/msd/store/actions/dialog';
 import { DataFacade } from '@mac/msd/store/facades/data';
 
 import { MaterialClass } from '../../constants';
@@ -38,6 +31,17 @@ describe('EditCellRendererComponent', () => {
     minimize: { id: number; value: MaterialFormValue };
   }>;
 
+  const setSelectNodes = () => {
+    mockparams.api.getSelectedNodes = () => [
+      {} as RowNode,
+      {} as RowNode,
+      {} as RowNode,
+    ];
+  };
+  const resetSelectNodes = () => {
+    mockparams.api.getSelectedNodes = () => [];
+  };
+
   const createComponent = createComponentFactory({
     component: EditCellRendererComponent,
     imports: [PushModule],
@@ -52,6 +56,7 @@ describe('EditCellRendererComponent', () => {
         provide: MsdDialogService,
         useValue: {
           openDialog: jest.fn(() => mockDialogRef),
+          openBulkEditDialog: jest.fn(),
         },
       },
     ],
@@ -66,6 +71,8 @@ describe('EditCellRendererComponent', () => {
     data: mockData,
     column: mockColumn,
     value: 'nix',
+    api: { getSelectedNodes: () => [] },
+    node: { isSelected: () => false },
   } as EditCellRendererParams;
 
   beforeEach(() => {
@@ -109,108 +116,74 @@ describe('EditCellRendererComponent', () => {
     });
   });
 
-  describe('editableClass', () => {
+  describe('isEnabled', () => {
+    beforeEach(() => {
+      component['params'].hasEditorRole = true;
+      component['params'].node.isSelected = () => false;
+      resetSelectNodes();
+    });
     it('should return true for editable classes', () => {
-      const result = component.editableClass(MaterialClass.STEEL);
+      const result = component.isEnabled(MaterialClass.STEEL);
 
       expect(result).toBe(true);
     });
 
     it('should return false for not editable classes', () => {
-      const result = component.editableClass(MaterialClass.POLYMER);
+      const result = component.isEnabled(MaterialClass.POLYMER);
 
       expect(result).toBe(false);
+    });
+
+    it('should return false for non editors', () => {
+      component['params'].hasEditorRole = false;
+
+      const result = component.isEnabled(MaterialClass.STEEL);
+
+      expect(result).toBe(false);
+    });
+
+    it('should return false if other rows are selected', () => {
+      setSelectNodes();
+      const result = component.isEnabled(MaterialClass.STEEL);
+
+      expect(result).toBe(false);
+    });
+    it('should return true if this rows is selected', () => {
+      setSelectNodes();
+      component['params'].node.isSelected = () => true;
+      const result = component.isEnabled(MaterialClass.STEEL);
+
+      expect(result).toBe(true);
     });
   });
 
   describe('onEditClick', () => {
-    it('should dispatch the edit dialog actions and cancel on close', (done) => {
-      let otherDone = false;
-      component.params = {
-        data: mockData,
-        column: mockColumn,
-      } as EditCellRendererParams;
-
-      component.onEditClick();
-
-      expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
-        openDialog()
-      );
-
-      mockDialogRef.afterOpened().subscribe(() => {
-        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
-          openEditDialog({
-            row: mockData,
-            column: 'column',
-          })
-        );
-        if (otherDone) {
-          done();
-        } else {
-          otherDone = true;
-        }
-      });
-
-      mockDialogRef.afterClosed().subscribe((_value) => {
-        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
-          materialDialogCanceled()
-        );
-        if (otherDone) {
-          done();
-        } else {
-          otherDone = true;
-        }
-      });
-
-      mockSubjectOpen.next();
-      mockSubjectClose.next({ reload: false, minimize: undefined });
+    beforeEach(() => {
+      resetSelectNodes();
     });
-    it('should dispatch the edit dialog actions and dispatch fetch and minimize', (done) => {
-      let otherDone = false;
-      component.params = {
-        data: mockData,
-        column: mockColumn,
-      } as EditCellRendererParams;
+    it('should call the dialog service', () => {
+      component.onEditClick();
+
+      expect(component['dialogService'].openDialog).toHaveBeenCalledWith(
+        false,
+        {
+          row: mockData,
+          column: mockColumn.getColId(),
+        }
+      );
+    });
+
+    it('should call the dialog service for bulk edit', () => {
+      setSelectNodes();
 
       component.onEditClick();
 
-      expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
-        openDialog()
+      expect(
+        component['dialogService'].openBulkEditDialog
+      ).toHaveBeenCalledWith(
+        mockparams.api.getSelectedNodes(),
+        mockColumn.getColId()
       );
-
-      mockDialogRef.afterOpened().subscribe(() => {
-        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
-          openEditDialog({
-            row: mockData,
-            column: 'column',
-          })
-        );
-        if (otherDone) {
-          done();
-        } else {
-          otherDone = true;
-        }
-      });
-
-      mockDialogRef.afterClosed().subscribe((_value) => {
-        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
-          fetchResult()
-        );
-        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
-          minimizeDialog({ id: 1, value: {} as MaterialFormValue })
-        );
-        if (otherDone) {
-          done();
-        } else {
-          otherDone = true;
-        }
-      });
-
-      mockSubjectOpen.next();
-      mockSubjectClose.next({
-        reload: true,
-        minimize: { id: 1, value: {} as MaterialFormValue },
-      });
     });
   });
 });

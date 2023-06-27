@@ -17,6 +17,7 @@ import {
   ManufacturerSupplier,
   ManufacturerSupplierTableValue,
   Material,
+  MaterialRequest,
   MaterialStandard,
   MaterialStandardTableValue,
   PolymerMaterial,
@@ -650,6 +651,32 @@ describe('MsdDataService', () => {
     });
   });
 
+  it('should post a bulk material edit (steel)', (done) => {
+    const mockResponse = '';
+    service.bulkEditMaterial([{} as MaterialRequest]).subscribe((result) => {
+      expect(result).toEqual(mockResponse);
+      done();
+    });
+
+    const req = httpMock.expectOne(`${service['BASE_URL']}/materials/st/bulk`);
+    expect(req.request.method).toBe('POST');
+    req.flush(mockResponse);
+  });
+
+  it('should post a bulk material edit (alu)', (done) => {
+    const mockResponse = '';
+    service
+      .bulkEditMaterial([{} as MaterialRequest], MaterialClass.ALUMINUM)
+      .subscribe((result) => {
+        expect(result).toEqual(mockResponse);
+        done();
+      });
+
+    const req = httpMock.expectOne(`${service['BASE_URL']}/materials/al/bulk`);
+    expect(req.request.method).toBe('POST');
+    req.flush(mockResponse);
+  });
+
   describe('fetchCastingDiameters', () => {
     it('should post a query for the casting diameters', (done) => {
       const mockResponse = ['diameter'];
@@ -981,9 +1008,9 @@ describe('MsdDataService', () => {
   });
 
   describe('delete Entity', () => {
-    it('should delete a material', (done) => {
+    it('should delete a material (ST)', (done) => {
       const id = 79;
-      service.deleteMaterial(id, MaterialClass.STEEL).subscribe(() => done());
+      service.deleteMaterial(id).subscribe(() => done());
 
       const req = httpMock.expectOne(
         `${service['BASE_URL']}/materials/st/${id}`
@@ -991,12 +1018,22 @@ describe('MsdDataService', () => {
       expect(req.request.method).toBe('DELETE');
       req.flush('');
     });
-
-    it('should delete a deleteMaterialStandard', (done) => {
+    it('should delete a material (AL)', (done) => {
       const id = 79;
       service
-        .deleteMaterialStandard(id, MaterialClass.STEEL)
+        .deleteMaterial(id, MaterialClass.ALUMINUM)
         .subscribe(() => done());
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/al/${id}`
+      );
+      expect(req.request.method).toBe('DELETE');
+      req.flush('');
+    });
+
+    it('should delete a deleteMaterialStandard (steel)', (done) => {
+      const id = 79;
+      service.deleteMaterialStandard(id).subscribe(() => done());
 
       const req = httpMock.expectOne(
         `${service['BASE_URL']}/materials/st/materialStandards/${id}`
@@ -1005,14 +1042,38 @@ describe('MsdDataService', () => {
       req.flush('');
     });
 
-    it('should delete a deleteManufacturerSupplier', (done) => {
+    it('should delete a deleteMaterialStandard (al)', (done) => {
       const id = 79;
       service
-        .deleteManufacturerSupplier(id, MaterialClass.STEEL)
+        .deleteMaterialStandard(id, MaterialClass.ALUMINUM)
         .subscribe(() => done());
 
       const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/al/materialStandards/${id}`
+      );
+      expect(req.request.method).toBe('DELETE');
+      req.flush('');
+    });
+
+    it('should delete a deleteManufacturerSupplier (steel)', (done) => {
+      const id = 79;
+      service.deleteManufacturerSupplier(id).subscribe(() => done());
+
+      const req = httpMock.expectOne(
         `${service['BASE_URL']}/materials/st/manufacturerSuppliers/${id}`
+      );
+      expect(req.request.method).toBe('DELETE');
+      req.flush('');
+    });
+
+    it('should delete a deleteManufacturerSupplier (AL)', (done) => {
+      const id = 79;
+      service
+        .deleteManufacturerSupplier(id, MaterialClass.ALUMINUM)
+        .subscribe(() => done());
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/al/manufacturerSuppliers/${id}`
       );
       expect(req.request.method).toBe('DELETE');
       req.flush('');

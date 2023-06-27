@@ -1,4 +1,5 @@
 /* eslint-disable max-lines */
+
 import { filter, map, pipe } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
@@ -7,6 +8,7 @@ import { createSelector, MemoizedSelector, select } from '@ngrx/store';
 import { StringOption } from '@schaeffler/inputs';
 
 import { SUPPORTED_SUPPLIER_COUNTRIES } from '@mac/feature/materials-supplier-database/constants';
+import { DataResult } from '@mac/feature/materials-supplier-database/models';
 import * as fromStore from '@mac/msd/store/reducers';
 
 const TOOLTIP_DELAY = 1500;
@@ -586,6 +588,47 @@ export const getResumeDialogData = createSelector(
   getEditMaterialData,
   getMinimizedDialog,
   (editMaterial, minimizedDialog) => ({ editMaterial, minimizedDialog })
+);
+
+export const getSelectedMaterialData = createSelector(
+  getDialogState,
+  (dialogState) => dialogState.selectedMaterial
+);
+
+export const selectedHintData = createSelector(
+  getSelectedMaterialData,
+  (selectedData) => {
+    const formValue = selectedData.form;
+    let result: any;
+    if (selectedData.rows) {
+      result = {};
+      for (const column in formValue) {
+        const values = selectedData.rows.map(
+          (row) => row[column as keyof DataResult] as string
+        );
+        const value = Object.prototype.hasOwnProperty.call(
+          formValue[column] || {},
+          'id'
+        )
+          ? formValue[column].id
+          : formValue[column];
+        const updated = values.filter((v) => v !== value).length;
+        const uniqueVals = values.filter(
+          (v, index, array) => array.indexOf(v) === index
+        );
+        // look for array with only undefined entries
+        const unique = uniqueVals.every((v) => !v) ? 0 : uniqueVals.length;
+        result[column] = {
+          values,
+          unique,
+          updated,
+          value,
+        };
+      }
+    }
+
+    return result;
+  }
 );
 
 export const getSteelMakingProcessesInUse = createSelector(

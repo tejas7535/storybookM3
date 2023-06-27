@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { createAction, props } from '@ngrx/store';
 
 import { StringOption } from '@schaeffler/inputs';
@@ -25,6 +26,7 @@ export const materialDialogConfirmed = createAction(
     standard: MaterialStandard;
     supplier: ManufacturerSupplier;
     material: MaterialRequest;
+    isBulkEdit?: boolean;
   }>()
 );
 
@@ -263,6 +265,11 @@ export const postMaterial = createAction(
   props<{ record: CreateMaterialRecord }>()
 );
 
+export const postBulkMaterial = createAction(
+  '[MSD - Dialog] Post Bulk Material',
+  props<{ record: CreateMaterialRecord }>()
+);
+
 export const postMaterialStandard = createAction(
   '[MSD - Dialog] Post Material standard',
   props<{ record: CreateMaterialRecord }>()
@@ -275,7 +282,17 @@ export const postManufacturerSupplier = createAction(
 
 export const openEditDialog = createAction(
   '[MSD - Dialog] Open Edit Dialog',
-  props<{ row: DataResult; column: string }>()
+  props<{
+    row: DataResult;
+    column: string;
+    isCopy?: boolean;
+    isBulkEdit?: boolean;
+  }>()
+);
+
+export const openMultiEditDialog = createAction(
+  '[MSD - Dialog] Open Multi Edit Dialog',
+  props<{ rows: DataResult[]; combinedRows: DataResult }>()
 );
 
 export const fetchEditStandardDocumentData = createAction(
@@ -343,7 +360,12 @@ export const cleanMinimizeDialog = createAction(
 
 export const minimizeDialog = createAction(
   '[MSD - Dialog] Minimize Dialog',
-  props<{ id?: number; value: Partial<MaterialFormValue>; isCopy?: boolean }>()
+  props<{
+    id?: number;
+    value: Partial<MaterialFormValue>;
+    isCopy?: boolean;
+    isBulkEdit?: boolean;
+  }>()
 );
 
 export const fetchSteelMakingProcessesInUse = createAction(
@@ -392,6 +414,11 @@ export const fetchCo2ValuesForSupplierSteelMakingProcessFailure = createAction(
 
 export const resetCo2ValuesForSupplierSteelMakingProcess = createAction(
   '[MSD - Dialog] Reset CO2 Values For Supplier Steel Making Process'
+);
+
+export const updateCreateMaterialDialogValues = createAction(
+  '[MSD - Dialog] Update create material dialog values',
+  props<{ form: MaterialFormValue }>()
 );
 
 export const openDialog = createAction('[MSD - Dialog] Open Dialog');

@@ -6,7 +6,7 @@
     isEditDialog() && !isCopyDialog() ? t('updateMaterial') : t('addMaterial')
   "
   [isAddDialog]="isCopyDialog() || !isEditDialog()"
-  [valid]="createMaterialForm.valid"
+  [valid]="isBulkEditDialog() || createMaterialForm.valid"
   (accept)="confirmMaterial($event)"
   (minimize)="minimizeDialog()"
   (cancel)="cancelDialog()"
@@ -15,63 +15,72 @@
     <ng-container
       *ngIf="!(dialogLoading$ | ngrxPush) && !(editLoading$ | ngrxPush)"
     >
-      <div class="text-subtitle-2 text-high-emphasis">
-        {{ t('materialStandardTitle') }}
-      </div>
-      <div class="flex flex-row gap-x-6">
-        <mac-material-standard
-          class="w-full"
-          [readonly]="isEditDialog() && !isCopyDialog()"
-          [materialStandardIdControl]="materialStandardIdControl"
-          [standardDocumentsControl]="standardDocumentsControl"
-          [materialNamesControl]="materialNamesControl"
-          [column]="getColumn()"
-          macMaterialDialogBasePart
-        ></mac-material-standard>
-      </div>
-      <ng-container>
-        <!-- Supplier Block -->
+      <ng-container *ngrxLet="hintData$ as hintData">
         <div class="text-subtitle-2 text-high-emphasis">
-          {{ t('supplierInformationTitle') }}
+          {{ t('materialStandardTitle') }}
         </div>
-        <mac-manufacturer-supplier
-          [readonly]="isEditDialog() && !isCopyDialog()"
-          [manufacturerSupplierIdControl]="manufacturerSupplierIdControl"
-          [supplierControl]="supplierControl"
-          [supplierPlantControl]="supplierPlantControl"
-          [supplierCountryControl]="supplierCountryControl"
-          [column]="getColumn()"
-          macMaterialDialogBasePart
-        ></mac-manufacturer-supplier>
-        <div class="text-subtitle-2 text-high-emphasis">
-          {{ t('co2AndProductInformationTitle') }}
+        <div class="flex flex-row gap-x-6">
+          <mac-material-standard
+            class="w-full"
+            [readonly]="isEditDialog() && !isCopyDialog()"
+            [materialStandardIdControl]="materialStandardIdControl"
+            [standardDocumentsControl]="standardDocumentsControl"
+            [materialNamesControl]="materialNamesControl"
+            [column]="getColumn()"
+            macMaterialDialogBasePart
+          ></mac-material-standard>
         </div>
-        <mac-co2-component
-          [co2Scope1Control]="co2Scope1Control"
-          [co2Scope2Control]="co2Scope2Control"
-          [co2Scope3Control]="co2Scope3Control"
-          [co2TotalControl]="co2TotalControl"
-          [co2ClassificationControl]="co2ClassificationControl"
-          [releaseRestrictionsControl]="releaseRestrictionsControl"
-          [column]="getColumn()"
-          macMaterialDialogBasePart
-        >
-          <ng-container preCo2Classification>
-            <schaeffler-select
-              appearance="outline"
-              class="w-auto"
-              [stringOptions]="categories$ | ngrxPush"
-              [control]="categoriesControl"
-              [filterFn]="filterFn"
-              [label]="t('productCategory')"
-              [showTriggerTooltip]="true"
-              triggerTooltipDelay="1500"
-              tooltipPosition="right"
-              name="productCategoryText"
-              #dialogControl
-            ></schaeffler-select>
-          </ng-container>
-        </mac-co2-component>
+        <ng-container>
+          <!-- Supplier Block -->
+          <div class="text-subtitle-2 text-high-emphasis">
+            {{ t('supplierInformationTitle') }}
+          </div>
+          <mac-manufacturer-supplier
+            [readonly]="isEditDialog() && !isCopyDialog()"
+            [manufacturerSupplierIdControl]="manufacturerSupplierIdControl"
+            [supplierControl]="supplierControl"
+            [supplierPlantControl]="supplierPlantControl"
+            [supplierCountryControl]="supplierCountryControl"
+            [column]="getColumn()"
+            macMaterialDialogBasePart
+          ></mac-manufacturer-supplier>
+          <div class="text-subtitle-2 text-high-emphasis">
+            {{ t('co2AndProductInformationTitle') }}
+          </div>
+          <mac-co2-component
+            [co2Scope1Control]="co2Scope1Control"
+            [co2Scope2Control]="co2Scope2Control"
+            [co2Scope3Control]="co2Scope3Control"
+            [co2TotalControl]="co2TotalControl"
+            [co2ClassificationControl]="co2ClassificationControl"
+            [releaseRestrictionsControl]="releaseRestrictionsControl"
+            [co2Scope1Hint]="getHint(hintData, 'co2Scope1')"
+            [co2Scope2Hint]="getHint(hintData, 'co2Scope2')"
+            [co2Scope3Hint]="getHint(hintData, 'co2Scope3')"
+            [co2TotalHint]="getHint(hintData, 'co2PerTon')"
+            [co2ClassificationHint]="getHint(hintData, 'co2Classification')"
+            [releaseRestrictionsHint]="getHint(hintData, 'releaseRestrictions')"
+            [column]="getColumn()"
+            macMaterialDialogBasePart
+          >
+            <ng-container preCo2Classification>
+              <schaeffler-select
+                appearance="outline"
+                class="w-auto"
+                [stringOptions]="categories$ | ngrxPush"
+                [control]="categoriesControl"
+                [filterFn]="filterFn"
+                [label]="t('productCategory')"
+                [formFieldHint]="getHint(hintData, 'productCategory')"
+                [showTriggerTooltip]="true"
+                triggerTooltipDelay="1500"
+                tooltipPosition="right"
+                name="productCategoryText"
+                #dialogControl
+              ></schaeffler-select>
+            </ng-container>
+          </mac-co2-component>
+        </ng-container>
       </ng-container>
     </ng-container>
   </div>

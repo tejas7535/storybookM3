@@ -220,7 +220,7 @@ describe('MaterialstandardInputDialogComponent', () => {
     };
 
     beforeEach(() => {
-      component.closeDialog = jest.fn();
+      component['closeDialog'] = jest.fn();
       component.showInSnackbar = jest.fn();
 
       component.enableEditFields();
@@ -246,7 +246,7 @@ describe('MaterialstandardInputDialogComponent', () => {
 
       // backend response
       update(false);
-      expect(component.closeDialog).toBeCalledWith(true);
+      expect(component['closeDialog']).toBeCalled();
       expect(component.showInSnackbar).toBeCalled();
     });
     it('should close dialog on successful confirm with empty material number', () => {
@@ -272,7 +272,7 @@ describe('MaterialstandardInputDialogComponent', () => {
 
       // backend response
       update(false);
-      expect(component.closeDialog).toBeCalledWith(true);
+      expect(component['closeDialog']).toBeCalled();
       expect(component.showInSnackbar).toBeCalled();
     });
     it('should not close dialog on successful confirm with createAnother', () => {
@@ -296,7 +296,7 @@ describe('MaterialstandardInputDialogComponent', () => {
 
       // backend response
       update(false);
-      expect(component.closeDialog).not.toHaveBeenCalled();
+      expect(component['closeDialog']).not.toHaveBeenCalled();
       expect(component.showInSnackbar).toBeCalled();
     });
     it('should keep the dialog open on error', () => {
@@ -320,7 +320,7 @@ describe('MaterialstandardInputDialogComponent', () => {
 
       // backend response
       update(true);
-      expect(component.closeDialog).not.toBeCalled();
+      expect(component['closeDialog']).not.toBeCalled();
       expect(component.showInSnackbar).toBeCalled();
     });
   });

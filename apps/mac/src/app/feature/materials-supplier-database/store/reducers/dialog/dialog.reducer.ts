@@ -73,6 +73,7 @@ import {
   minimizeDialog,
   openDialog,
   openEditDialog,
+  openMultiEditDialog,
   postManufacturerSupplier,
   postMaterial,
   resetCo2ValuesForSupplierSteelMakingProcess,
@@ -80,6 +81,7 @@ import {
   resetMaterialRecord,
   resetSteelMakingProcessInUse,
   setMaterialFormValue,
+  updateCreateMaterialDialogValues,
 } from '@mac/msd/store/actions/dialog';
 
 export interface DialogState {
@@ -140,6 +142,11 @@ export interface DialogState {
     createMaterialLoading: boolean;
     createMaterialRecord: CreateMaterialRecord;
   };
+  selectedMaterial?: {
+    rows: DataResult[];
+    combinedRows: DataResult;
+    form?: any;
+  };
   editMaterial?: {
     row: DataResult;
     parsedMaterial: Partial<MaterialFormValue>;
@@ -156,6 +163,7 @@ export interface DialogState {
     id?: number;
     value: Partial<MaterialFormValue>;
     isCopy?: boolean;
+    isBulkEdit?: boolean;
   };
 }
 
@@ -165,6 +173,7 @@ export const initialState: DialogState = {
   dialogOptions: undefined,
   createMaterial: undefined,
   editMaterial: undefined,
+  selectedMaterial: undefined,
   minimizedDialog: undefined,
 };
 
@@ -191,6 +200,7 @@ export const dialogReducer = createReducer(
         error: undefined,
       },
       editMaterial: undefined,
+      selectedMaterial: undefined,
       minimizedDialog: undefined,
     })
   ),
@@ -689,6 +699,7 @@ export const dialogReducer = createReducer(
       },
       // other fields
       editMaterial: undefined,
+      selectedMaterial: undefined,
       minimizedDialog: undefined,
     })
   ),
@@ -825,6 +836,29 @@ export const dialogReducer = createReducer(
   ),
 
   on(
+    openMultiEditDialog,
+    (state, { rows, combinedRows }): DialogState => ({
+      ...state,
+      selectedMaterial: {
+        rows,
+        combinedRows,
+        form: undefined,
+      },
+    })
+  ),
+
+  on(
+    updateCreateMaterialDialogValues,
+    (state, { form }): DialogState => ({
+      ...state,
+      selectedMaterial: {
+        ...state.selectedMaterial,
+        form,
+      },
+    })
+  ),
+
+  on(
     setMaterialFormValue,
     (state, { parsedMaterial }): DialogState => ({
       ...state,
@@ -932,12 +966,13 @@ export const dialogReducer = createReducer(
 
   on(
     minimizeDialog,
-    (state, { id, value, isCopy }): DialogState => ({
+    (state, { id, value, isCopy, isBulkEdit }): DialogState => ({
       ...state,
       minimizedDialog: {
         id,
         value,
         isCopy,
+        isBulkEdit,
       },
     })
   ),

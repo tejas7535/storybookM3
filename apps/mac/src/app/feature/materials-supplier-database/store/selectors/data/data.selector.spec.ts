@@ -277,4 +277,22 @@ describe('DataSelectors', () => {
       undefined
     );
   });
+
+  it('should get allowance for bulk edit', () => {
+    expect(
+      DataSelectors.isBulkEditAllowed.projector({
+        materialClass: MaterialClass.STEEL,
+        navigationLevel: NavigationLevel.MATERIAL,
+      })
+    ).toBeTruthy();
+  });
+
+  it('should NOT get allowance for bulk edit', () => {
+    expect(
+      DataSelectors.isBulkEditAllowed.projector({
+        materialClass: MaterialClass.STEEL,
+        navigationLevel: NavigationLevel.STANDARD,
+      })
+    ).toBeFalsy();
+  });
 });

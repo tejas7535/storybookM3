@@ -14,7 +14,7 @@ import { MatLegacySelectModule as MatSelectModule } from '@angular/material/lega
 import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 
-import { PushPipe } from '@ngrx/component';
+import { LetModule, PushPipe } from '@ngrx/component';
 
 import { SelectModule } from '@schaeffler/inputs/select';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -47,6 +47,7 @@ import { SteelInputDialogComponent } from './steel/steel-input-dialog.component'
     CommonModule,
     MatProgressSpinnerModule,
     PushPipe,
+    LetModule,
     MatIconModule,
     MatButtonModule,
     MatDividerModule,

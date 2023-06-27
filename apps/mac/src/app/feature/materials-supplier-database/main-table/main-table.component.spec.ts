@@ -5,15 +5,12 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import {
-  MatLegacyDialogModule as MatDialogModule,
-  MatLegacyDialogRef as MatDialogRef,
-} from '@angular/material/legacy-dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { BehaviorSubject, of, Subject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate, TranslocoModule } from '@ngneat/transloco';
@@ -52,7 +49,7 @@ import {
 } from '@mac/msd/constants';
 import { QuickFilterComponent } from '@mac/msd/main-table/quick-filter/quick-filter.component';
 import { STEEL_COLUMN_DEFINITIONS } from '@mac/msd/main-table/table-config/materials/steel';
-import { DataResult, MaterialFormValue, SAPMaterial } from '@mac/msd/models';
+import { DataResult, SAPMaterial } from '@mac/msd/models';
 import {
   MsdAgGridConfigService,
   MsdAgGridReadyService,
@@ -65,11 +62,6 @@ import {
   setAgGridFilter,
   setNavigation,
 } from '@mac/msd/store/actions/data';
-import {
-  materialDialogCanceled,
-  minimizeDialog,
-  openDialog,
-} from '@mac/msd/store/actions/dialog';
 import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
 import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
 import { initialState as initialQuickfilterState } from '@mac/msd/store/reducers/quickfilter/quickfilter.reducer';
@@ -97,19 +89,6 @@ describe('MainTableComponent', () => {
   let store: MockStore;
   let route: ActivatedRoute;
   let router: Router;
-
-  let afterOpened: () => Subject<void>;
-  let afterClosed: () => Subject<{
-    reload?: boolean;
-    minimize?: { id?: number; value: MaterialFormValue };
-  }>;
-  let mockDialogRef: MatDialogRef<any>;
-
-  let mockSubjectOpen: Subject<void>;
-  let mockSubjectClose: Subject<{
-    reload?: boolean;
-    minimize?: { id?: number; value: MaterialFormValue };
-  }>;
 
   const initialState = {
     msd: {
@@ -175,7 +154,7 @@ describe('MainTableComponent', () => {
       {
         provide: MsdDialogService,
         useValue: {
-          openDialog: jest.fn(() => mockDialogRef),
+          openDialog: jest.fn(),
         },
       },
       {
@@ -197,18 +176,6 @@ describe('MainTableComponent', () => {
   });
 
   beforeEach(() => {
-    mockSubjectOpen = new Subject<void>();
-    mockSubjectClose = new Subject<{
-      reload?: boolean;
-      minimize?: { id?: number; value: MaterialFormValue };
-    }>();
-    afterOpened = () => mockSubjectOpen;
-    afterClosed = () => mockSubjectClose;
-    mockDialogRef = {
-      afterOpened,
-      afterClosed,
-    } as unknown as MatDialogRef<any>;
-
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     store = spectator.inject(MockStore);
@@ -1266,75 +1233,15 @@ describe('MainTableComponent', () => {
   });
 
   describe('openDialog', () => {
-    it('should dispatch the edit dialog actions and cancel on close', (done) => {
-      component['dataFacade'].dispatch = jest.fn();
-
-      let otherDone = false;
+    it('should dispatch the edit dialog actions and cancel on close', () => {
       component.openDialog();
-
-      expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
-        openDialog()
+      expect(component['dialogService'].openDialog).not.toHaveBeenCalledWith(
+        true
       );
-
-      mockDialogRef.afterOpened().subscribe(() => {
-        if (otherDone) {
-          done();
-        } else {
-          otherDone = true;
-        }
-      });
-
-      mockDialogRef.afterClosed().subscribe((_value) => {
-        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
-          materialDialogCanceled()
-        );
-        if (otherDone) {
-          done();
-        } else {
-          otherDone = true;
-        }
-      });
-
-      mockSubjectOpen.next();
-      mockSubjectClose.next({ reload: false, minimize: undefined });
     });
-    it('should dispatch the edit dialog actions and dispatch fetch and minimize', (done) => {
-      component['dataFacade'].dispatch = jest.fn();
-      component.fetchResult = jest.fn();
-
-      let otherDone = false;
-
+    it('should dispatch the edit dialog actions and dispatch fetch and minimize', () => {
       component.openDialog(true);
-
-      expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
-        openDialog()
-      );
-
-      mockDialogRef.afterOpened().subscribe(() => {
-        if (otherDone) {
-          done();
-        } else {
-          otherDone = true;
-        }
-      });
-
-      mockDialogRef.afterClosed().subscribe(() => {
-        expect(component.fetchResult).toHaveBeenCalled();
-        expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
-          minimizeDialog({ value: {} as MaterialFormValue })
-        );
-        if (otherDone) {
-          done();
-        } else {
-          otherDone = true;
-        }
-      });
-
-      mockSubjectOpen.next();
-      mockSubjectClose.next({
-        reload: true,
-        minimize: { value: {} as MaterialFormValue },
-      });
+      expect(component['dialogService'].openDialog).toHaveBeenCalledWith(true);
     });
   });
 
@@ -1369,6 +1276,33 @@ describe('MainTableComponent', () => {
       component.refreshServerSide();
 
       expect(component['agGridApi'].refreshServerSide).toHaveBeenCalled();
+    });
+  });
+
+  describe('count selected row', () => {
+    it('should count selected rows', () => {
+      component['agGridApi'] = {
+        getSelectedNodes: jest.fn(() => [1, 2, 3]),
+      } as unknown as GridApi;
+      expect(component.countSelectedNodes()).toBe(3);
+      expect(component['agGridApi'].getSelectedNodes).toHaveBeenCalled();
+    });
+  });
+
+  describe('open dialog MultiEdit', () => {
+    it('should call the dialog service', () => {
+      const dr: DataResult = {} as DataResult;
+      const selectedNodes = [{ data: dr }, { data: dr }];
+      component['dialogService'].openBulkEditDialog = jest.fn();
+      component['agGridApi'] = {
+        getSelectedNodes: jest.fn(() => selectedNodes),
+      } as unknown as GridApi;
+
+      component.openDialogMultiEdit();
+
+      expect(component['dialogService'].openBulkEditDialog).toBeCalledWith(
+        selectedNodes
+      );
     });
   });
 });

@@ -11,14 +11,15 @@
     (mouseout)="setHovered(false)"
   >
     <span>{{ params?.valueFormatted ?? params?.value }}</span>
+
     <button
       class="my-auto"
       mat-icon-button
       [ngClass]="{ '!hidden': !hovered }"
       (click)="onEditClick()"
-      *ngIf="params?.hasEditorRole && editableClass(materialClass$ | ngrxPush)"
+      *ngIf="isEnabled(materialClass$ | ngrxPush)"
     >
-      <mat-icon class="text-medium-emphasis !text-[12px]">edit</mat-icon>
+      <mat-icon class="!text-[12px] text-medium-emphasis">edit</mat-icon>
     </button>
   </div>
 

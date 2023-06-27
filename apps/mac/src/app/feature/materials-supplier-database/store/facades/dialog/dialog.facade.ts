@@ -33,6 +33,7 @@ import {
   getSupplierPlantsStringOptionsMerged,
   getSupplierSapIdsStringOptionsMerged,
   getUniqueStringOptions,
+  selectedHintData,
 } from '@mac/msd/store/selectors';
 
 @Injectable({
@@ -97,6 +98,8 @@ export class DialogFacade {
   createMaterialRecord$ = this.store.select(getCreateMaterialRecord);
 
   dialogError$ = this.store.pipe(getDialogError);
+
+  getHintData$ = () => this.store.select(selectedHintData);
 
   constructor(private readonly store: Store) {}
 

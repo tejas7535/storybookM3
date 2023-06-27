@@ -7,7 +7,7 @@
     isEditDialog() && !isCopyDialog() ? t('updateMaterial') : t('addMaterial')
   "
   [isAddDialog]="isCopyDialog() || !isEditDialog()"
-  [valid]="createMaterialForm.valid"
+  [valid]="isBulkEditDialog() || createMaterialForm.valid"
   (accept)="confirmMaterial($event)"
   (minimize)="minimizeDialog()"
   (cancel)="cancelDialog()"
@@ -16,87 +16,98 @@
     <ng-container
       *ngIf="!(dialogLoading$ | ngrxPush) && !(editLoading$ | ngrxPush)"
     >
-      <!-- MatStd -->
-      <div class="text-subtitle-2 text-high-emphasis">
-        {{ t('materialStandardTitle') }}
-      </div>
-      <div class="flex flex-row gap-x-6">
-        <mac-material-standard
-          class="w-full"
+      <ng-container *ngrxLet="hintData$ as hintData">
+        <!-- MatStd -->
+        <div class="text-subtitle-2 text-high-emphasis">
+          {{ t('materialStandardTitle') }}
+        </div>
+        <div class="flex flex-row gap-x-6">
+          <mac-material-standard
+            class="w-full"
+            [readonly]="isEditDialog() && !isCopyDialog()"
+            [materialStandardIdControl]="materialStandardIdControl"
+            [standardDocumentsControl]="standardDocumentsControl"
+            [materialNamesControl]="materialNamesControl"
+            macMaterialDialogBasePart
+          ></mac-material-standard>
+        </div>
+        <!-- Supplier Block -->
+        <div class="text-subtitle-2 text-high-emphasis">
+          {{ t('supplierInformationTitle') }}
+        </div>
+        <mac-manufacturer-supplier
           [readonly]="isEditDialog() && !isCopyDialog()"
-          [materialStandardIdControl]="materialStandardIdControl"
-          [standardDocumentsControl]="standardDocumentsControl"
-          [materialNamesControl]="materialNamesControl"
+          [manufacturerSupplierIdControl]="manufacturerSupplierIdControl"
+          [supplierControl]="supplierControl"
+          [supplierPlantControl]="supplierPlantControl"
+          [supplierCountryControl]="supplierCountryControl"
           macMaterialDialogBasePart
-        ></mac-material-standard>
-      </div>
-      <!-- Supplier Block -->
-      <div class="text-subtitle-2 text-high-emphasis">
-        {{ t('supplierInformationTitle') }}
-      </div>
-      <mac-manufacturer-supplier
-        [readonly]="isEditDialog() && !isCopyDialog()"
-        [manufacturerSupplierIdControl]="manufacturerSupplierIdControl"
-        [supplierControl]="supplierControl"
-        [supplierPlantControl]="supplierPlantControl"
-        [supplierCountryControl]="supplierCountryControl"
-        macMaterialDialogBasePart
-      ></mac-manufacturer-supplier>
+        ></mac-manufacturer-supplier>
 
-      <!-- CO2 Block -->
-      <div class="text-subtitle-2 text-high-emphasis">
-        {{ t('co2AndProductInformationTitle') }}
-      </div>
+        <!-- CO2 Block -->
+        <div class="text-subtitle-2 text-high-emphasis">
+          {{ t('co2AndProductInformationTitle') }}
+        </div>
 
-      <div class="flex flex-row gap-x-6">
-        <schaeffler-select
-          appearance="outline"
-          class="w-full"
-          [stringOptions]="conditions$ | ngrxPush"
-          [control]="conditionControl"
-          [filterFn]="filterFn"
-          [label]="t('condition')"
-          [resetButton]="false"
-          [showTriggerTooltip]="true"
-          triggerTooltipDelay="1500"
-          tooltipPosition="right"
-          name="conditionText"
-          #dialogControl
+        <div class="flex flex-row gap-x-6">
+          <schaeffler-select
+            appearance="outline"
+            class="w-full"
+            [stringOptions]="conditions$ | ngrxPush"
+            [control]="conditionControl"
+            [filterFn]="filterFn"
+            [label]="t('condition')"
+            [resetButton]="false"
+            [showTriggerTooltip]="true"
+            [formFieldHint]="getHint(hintData, 'condition')"
+            triggerTooltipDelay="1500"
+            tooltipPosition="right"
+            name="conditionText"
+            #dialogControl
+          >
+            <div matErrorContent *ngIf="conditionControl.invalid">
+              {{ getErrorMessage(conditionControl.errors) }}
+            </div>
+          </schaeffler-select>
+          <schaeffler-select
+            appearance="outline"
+            class="w-full"
+            [stringOptions]="categories$ | ngrxPush"
+            [control]="categoriesControl"
+            [filterFn]="filterFn"
+            [label]="t('productCategory')"
+            [resetButton]="false"
+            [showTriggerTooltip]="true"
+            [formFieldHint]="getHint(hintData, 'productCategory')"
+            triggerTooltipDelay="1500"
+            tooltipPosition="right"
+            name="productCategoryText"
+            #dialogControl
+          >
+            <div matErrorContent *ngIf="categoriesControl.invalid">
+              {{ getErrorMessage(categoriesControl.errors) }}
+            </div>
+          </schaeffler-select>
+        </div>
+
+        <mac-co2-component
+          [co2Scope1Control]="co2Scope1Control"
+          [co2Scope2Control]="co2Scope2Control"
+          [co2Scope3Control]="co2Scope3Control"
+          [co2TotalControl]="co2TotalControl"
+          [co2ClassificationControl]="co2ClassificationControl"
+          [releaseRestrictionsControl]="releaseRestrictionsControl"
+          [co2Scope1Hint]="getHint(hintData, 'co2Scope1')"
+          [co2Scope2Hint]="getHint(hintData, 'co2Scope2')"
+          [co2Scope3Hint]="getHint(hintData, 'co2Scope3')"
+          [co2TotalHint]="getHint(hintData, 'co2PerTon')"
+          [co2ClassificationHint]="getHint(hintData, 'co2Classification')"
+          [releaseRestrictionsHint]="getHint(hintData, 'releaseRestrictions')"
+          [column]="getColumn()"
+          macMaterialDialogBasePart
         >
-          <div matErrorContent *ngIf="conditionControl.invalid">
-            {{ getErrorMessage(conditionControl.errors) }}
-          </div>
-        </schaeffler-select>
-        <schaeffler-select
-          appearance="outline"
-          class="w-full"
-          [stringOptions]="categories$ | ngrxPush"
-          [control]="categoriesControl"
-          [filterFn]="filterFn"
-          [label]="t('productCategory')"
-          [resetButton]="false"
-          [showTriggerTooltip]="true"
-          triggerTooltipDelay="1500"
-          tooltipPosition="right"
-          name="productCategoryText"
-          #dialogControl
-        >
-          <div matErrorContent *ngIf="categoriesControl.invalid">
-            {{ getErrorMessage(categoriesControl.errors) }}
-          </div>
-        </schaeffler-select>
-      </div>
-
-      <mac-co2-component
-        [co2Scope1Control]="co2Scope1Control"
-        [co2Scope2Control]="co2Scope2Control"
-        [co2Scope3Control]="co2Scope3Control"
-        [co2TotalControl]="co2TotalControl"
-        [co2ClassificationControl]="co2ClassificationControl"
-        [releaseRestrictionsControl]="releaseRestrictionsControl"
-        macMaterialDialogBasePart
-      >
-      </mac-co2-component>
+        </mac-co2-component>
+      </ng-container>
     </ng-container>
   </div>
 </mac-base-dialog>
