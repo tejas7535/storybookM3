@@ -1,4 +1,17 @@
 # Release Notes of Material App Center
+## [1.10.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.9.0...mac-v1.10.0) (2023-06-27)
+
+
+### Features
+
+* **mac:** make reference doc visible and selectable in table UFTABI-6527 ([#5377](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5377)) ([e71dec4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e71dec4bfff71f345c52192109e614194924f610))
+
+
+### Bug Fixes
+
+* **mac:** fix for restoring column state ([#5381](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5381)) ([26c96d3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/26c96d3dffa6cb17a374895a635ea185fd93ee1b))
+* **mac:** reset 'AllView' to default configuration - UFTABI-6576 ([#5383](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5383)) ([6e5e46f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6e5e46ff73cc756589fc39358b4c70f405c5027c))
+
 ## [1.9.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.8.0...mac-v1.9.0) (2023-06-02)
 
 
