@@ -1,6 +1,6 @@
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import { Meta, moduleMetadata } from '@storybook/angular';
+import { applicationConfig, Meta, moduleMetadata } from '@storybook/angular';
 
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 import {
@@ -14,30 +14,40 @@ import {
   StorybookTranslocoModule,
 } from '../../../../.storybook/storybook-transloco.module';
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
+import { importProvidersFrom } from '@angular/core';
 
 export default {
   title: 'Atomic/Molecules/Share Button',
   component: ShareButtonComponent,
   decorators: [
     moduleMetadata({
-      imports: [
-        // necessary module imports
-        BrowserAnimationsModule,
-        RouterModule.forRoot([], {
-          useHash: true,
-        }),
-        ApplicationInsightsModule.forRoot({
-          applicationInsightsConfig: {
-            instrumentationKey: 'some key',
-          },
-        }),
-        StorybookTranslocoModule,
-        ShareButtonModule,
+      imports: [ShareButtonModule],
+    }),
+    applicationConfig({
+      providers: [
+        provideAnimations(),
+        importProvidersFrom(StorybookTranslocoModule),
+        importProvidersFrom(
+          RouterModule.forRoot([], {
+            useHash: true,
+          })
+        ),
+        importProvidersFrom(
+          ApplicationInsightsModule.forRoot({
+            applicationInsightsConfig: {
+              instrumentationKey: 'some key',
+            },
+          })
+        ),
       ],
     }),
   ],
   parameters: {
-    notes: { markdown: READMEMd },
+    docs: {
+      description: {
+        story: READMEMd,
+      },
+    },
     badges: [Badges.Final],
   },
 } as Meta<ShareButtonComponent>;

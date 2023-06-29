@@ -1,7 +1,12 @@
 import { action } from '@storybook/addon-actions';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import {
+  applicationConfig,
+  Meta,
+  moduleMetadata,
+  StoryFn,
+} from '@storybook/angular';
 
 import READMEMd from '../../../../../inputs/search/src/lib/README.md';
 
@@ -60,16 +65,22 @@ export default {
     moduleMetadata({
       imports: [
         CommonModule,
-        BrowserAnimationsModule,
         ReactiveFormsModule,
         SearchModule,
         MatProgressSpinnerModule,
         MatIconModule,
       ],
     }),
+    applicationConfig({
+      providers: [provideAnimations()],
+    }),
   ],
   parameters: {
-    notes: { markdown: READMEMd },
+    docs: {
+      description: {
+        story: READMEMd,
+      },
+    },
     badges: [Badges.Final],
   },
 } as Meta<WrapperComponentForSearch>;

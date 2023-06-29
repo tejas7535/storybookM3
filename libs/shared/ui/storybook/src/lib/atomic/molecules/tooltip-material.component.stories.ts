@@ -1,14 +1,21 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatTooltipModule, TooltipPosition } from '@angular/material/tooltip';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import {
+  MatLegacyTooltipModule as MatTooltipModule,
+  LegacyTooltipPosition as TooltipPosition,
+} from '@angular/material/legacy-tooltip';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import {
+  applicationConfig,
+  Meta,
+  moduleMetadata,
+  StoryFn,
+} from '@storybook/angular';
 
 import { withDesign } from 'storybook-addon-designs';
 
@@ -84,8 +91,6 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
         FormsModule,
         MatButtonModule,
         MatFormFieldModule,
@@ -95,9 +100,16 @@ export default {
       ],
     }),
     withDesign,
+    applicationConfig({
+      providers: [provideAnimations()],
+    }),
   ],
   parameters: {
-    notes: { markdown: READMEMd },
+    docs: {
+      description: {
+        story: READMEMd,
+      },
+    },
     badges: [Badges.Final],
     design: {
       type: 'figma',

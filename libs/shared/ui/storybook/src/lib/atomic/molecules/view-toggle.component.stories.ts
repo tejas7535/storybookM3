@@ -1,5 +1,10 @@
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import {
+  applicationConfig,
+  Meta,
+  moduleMetadata,
+  StoryFn,
+} from '@storybook/angular';
 
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
@@ -14,16 +19,18 @@ export default {
   component: ViewToggleComponent,
   decorators: [
     moduleMetadata({
-      imports: [
-        BrowserAnimationsModule,
-        RouterTestingModule,
-        MatButtonToggleModule,
-        MatIconModule,
-      ],
+      imports: [RouterTestingModule, MatButtonToggleModule, MatIconModule],
+    }),
+    applicationConfig({
+      providers: [provideAnimations()],
     }),
   ],
   parameters: {
-    notes: { markdown: READMEMd },
+    docs: {
+      description: {
+        story: READMEMd,
+      },
+    },
     badges: [Badges.InProgress],
   },
 } as Meta<ViewToggleComponent>;

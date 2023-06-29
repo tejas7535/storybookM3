@@ -1,6 +1,11 @@
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import {
+  applicationConfig,
+  Meta,
+  moduleMetadata,
+  StoryFn,
+} from '@storybook/angular';
 
 import {
   PictureCardComponent,
@@ -16,11 +21,18 @@ export default {
   component: PictureCardComponent,
   decorators: [
     moduleMetadata({
-      imports: [BrowserAnimationsModule, PictureCardModule],
+      imports: [PictureCardModule],
+    }),
+    applicationConfig({
+      providers: [provideAnimations()],
     }),
   ],
   parameters: {
-    notes: { markdown: READMEMd },
+    docs: {
+      description: {
+        story: READMEMd,
+      },
+    },
     badges: [Badges.Final],
   },
 } as Meta<PictureCardComponent>;

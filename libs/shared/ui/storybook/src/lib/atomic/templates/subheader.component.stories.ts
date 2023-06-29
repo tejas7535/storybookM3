@@ -1,14 +1,20 @@
 import { APP_BASE_HREF, CommonModule } from '@angular/common';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import {
+  applicationConfig,
+  Meta,
+  moduleMetadata,
+  StoryFn,
+} from '@storybook/angular';
 
 import { Breadcrumb, BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { SubheaderComponent, SubheaderModule } from '@schaeffler/subheader';
 
 import READMEMd from '../../../../../subheader/README.md';
 import { Badges } from 'libs/shared/ui/storybook/.storybook/storybook-badges.constants';
+import { importProvidersFrom } from '@angular/core';
 
 interface SubheaderStorybookTemplate {
   subheaderTitleContent?: string;
@@ -21,18 +27,26 @@ export default {
   component: SubheaderComponent,
   decorators: [
     moduleMetadata({
-      imports: [
-        CommonModule,
-        NoopAnimationsModule,
-        SubheaderModule,
-        BreadcrumbsModule,
-        RouterModule.forRoot([{ path: 'base', component: SubheaderComponent }]),
-      ],
+      imports: [CommonModule, SubheaderModule, BreadcrumbsModule],
       providers: [{ provide: APP_BASE_HREF, useValue: 'base' }],
+    }),
+    applicationConfig({
+      providers: [
+        provideNoopAnimations(),
+        importProvidersFrom(
+          RouterModule.forRoot([
+            { path: 'base', component: SubheaderComponent },
+          ])
+        ),
+      ],
     }),
   ],
   parameters: {
-    notes: { markdown: READMEMd },
+    docs: {
+      description: {
+        story: READMEMd,
+      },
+    },
     badges: [Badges.Final],
   },
 } as Meta<SubheaderComponent>;

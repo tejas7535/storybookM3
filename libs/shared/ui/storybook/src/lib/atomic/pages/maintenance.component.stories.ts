@@ -1,5 +1,9 @@
-import { TranslocoModule } from '@ngneat/transloco';
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import {
+  applicationConfig,
+  Meta,
+  moduleMetadata,
+  StoryFn,
+} from '@storybook/angular';
 
 import {
   MaintenanceComponent,
@@ -10,17 +14,25 @@ import READMEMd from '../../../../../empty-states/src/lib/maintenance/README.md'
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
 
 import { StorybookTranslocoModule } from '../../../../.storybook/storybook-transloco.module';
+import { importProvidersFrom } from '@angular/core';
 
 export default {
   title: 'Atomic/Pages/Maintenance',
   component: MaintenanceComponent,
   parameters: {
-    notes: { markdown: READMEMd },
+    docs: {
+      description: {
+        story: READMEMd,
+      },
+    },
     badges: [Badges.Final],
   },
   decorators: [
     moduleMetadata({
-      imports: [MaintenanceModule, StorybookTranslocoModule, TranslocoModule],
+      imports: [MaintenanceModule],
+    }),
+    applicationConfig({
+      providers: [importProvidersFrom(StorybookTranslocoModule)],
     }),
   ],
 } as Meta<MaintenanceComponent>;

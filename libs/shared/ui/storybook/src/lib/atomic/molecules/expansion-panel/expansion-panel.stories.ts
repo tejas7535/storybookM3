@@ -1,9 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import {
+  applicationConfig,
+  Meta,
+  moduleMetadata,
+  StoryFn,
+} from '@storybook/angular';
 
 import { Badges } from '../../../../../.storybook/storybook-badges.constants';
 import READMEMd from './README.md';
@@ -43,11 +47,18 @@ export default {
   component: ExpansionPanelExampleComponent,
   decorators: [
     moduleMetadata({
-      imports: [BrowserModule, BrowserAnimationsModule, MatExpansionModule],
+      imports: [MatExpansionModule],
+    }),
+    applicationConfig({
+      providers: [provideAnimations()],
     }),
   ],
   parameters: {
-    notes: { markdown: READMEMd },
+    docs: {
+      description: {
+        story: READMEMd,
+      },
+    },
     badges: [Badges.Final],
   },
 } as Meta<ExpansionPanelExampleComponent>;

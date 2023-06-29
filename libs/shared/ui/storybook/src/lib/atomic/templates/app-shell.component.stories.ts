@@ -4,12 +4,17 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
+import {
+  moduleMetadata,
+  StoryFn,
+  Meta,
+  applicationConfig,
+} from '@storybook/angular';
 
 import { AppShellComponent } from '@schaeffler/app-shell';
 
@@ -18,6 +23,7 @@ import { Badges } from '../../../../.storybook/storybook-badges.constants';
 
 import { StorybookTranslocoModule } from '../../../../.storybook/storybook-transloco.module';
 import READMEMd from '../../../../../app-shell/README.md';
+import { importProvidersFrom } from '@angular/core';
 
 interface AppShellStorybookTemplate {
   headerContent?: string;
@@ -32,14 +38,18 @@ export default {
   title: 'Atomic/Templates/App Shell',
   component: AppShellComponent,
   parameters: {
-    notes: { markdown: READMEMd },
+    docs: {
+      hidden: true,
+      description: {
+        story: READMEMd,
+      },
+    },
     badges: [Badges.Final],
   },
   decorators: [
     moduleMetadata({
       declarations: [AppShellComponent, UserPanelComponent],
       imports: [
-        BrowserAnimationsModule,
         CommonModule,
         RouterTestingModule,
         StorybookTranslocoModule,
@@ -51,6 +61,12 @@ export default {
         MatToolbarModule,
       ],
     }),
+    applicationConfig({
+      providers: [
+        importProvidersFrom(StorybookTranslocoModule),
+        provideAnimations(),
+      ],
+    }),
   ],
 } as Meta;
 
@@ -58,38 +74,40 @@ const TemplateDefault: StoryFn<
   AppShellComponent | AppShellStorybookTemplate
 > = (args) => ({
   props: args,
-  template: `
-  <schaeffler-app-shell
-    [appTitle]="appTitle"
-    [appTitleLink]="appTitleLink"
-    [hasSidebarLeft]="hasSidebarLeft"
-    [userName]="userName"
-    [userImageUrl]="userImageUrl"
-    [hasFooter]="hasFooter"
-    [footerLinks]="footerLinks"
-    [footerFixed]="footerFixed"
-    [appVersion]="appVersion"
-  >
-    <ng-container headerInlineContent>
-      <span class="rounded bg-gradient-to-br from-primary-variant to-surface border border-primary px-3 py-1">{{ headerContent }}</span>
-    </ng-container>
-    <ng-container sidenavBody>
-      <div class="rounded bg-gradient-to-br from-primary-variant to-surface border border-primary px-3 py-1 m-2">{{ sideNavContent }}</div>
-    </ng-container>
-    <ng-container mainContent>
-      <div class="h-full w-full">
-        <h1 class="px-3">{{ mainContent }}</h1>
-        <div class="px-3 py-8">
-          <button mat-stroked-button color="primary" class="!mr-3" (click)="mainContentParagraphs.push(mainContentText)">Add more content</button>
-          <button mat-stroked-button (click)="mainContentParagraphs.length = 0">Reset content</button>
-          <div *ngFor="let paragraph of mainContentParagraphs" class="py-4 text-h3">{{ paragraph }}</div>
-        </div>
+  template: `  
+<div  class="absolute inset-0">
+<schaeffler-app-shell class="!relative"
+  [appTitle]="appTitle"
+  [appTitleLink]="appTitleLink"
+  [hasSidebarLeft]="hasSidebarLeft"
+  [userName]="userName"
+  [userImageUrl]="userImageUrl"
+  [hasFooter]="hasFooter"
+  [footerLinks]="footerLinks"
+  [footerFixed]="footerFixed"
+  [appVersion]="appVersion"
+>
+  <ng-container headerInlineContent>
+    <span class="rounded bg-gradient-to-br from-primary-variant to-surface border border-primary px-3 py-1">{{ headerContent }}</span>
+  </ng-container>
+  <ng-container sidenavBody>
+    <div class="rounded bg-gradient-to-br from-primary-variant to-surface border border-primary px-3 py-1 m-2">{{ sideNavContent }}</div>
+  </ng-container>
+  <ng-container mainContent>
+    <div class="h-full w-full">
+      <h1 class="px-3">{{ mainContent }}</h1>
+      <div class="px-3 py-8">
+        <button mat-stroked-button color="primary" class="!mr-3" (click)="mainContentParagraphs.push(mainContentText)">Add more content</button>
+        <button mat-stroked-button (click)="mainContentParagraphs.length = 0">Reset content</button>
+        <div *ngFor="let paragraph of mainContentParagraphs" class="py-4 text-h3">{{ paragraph }}</div>
       </div>
-    </ng-container>
-    <ng-container footerContent>
-      <span class="rounded bg-gradient-to-br from-primary-variant to-surface border border-primary px-3 py-1">{{ footerContent }}</span>
-    </ng-container>
-  </schaeffler-app-shell>
+    </div>
+  </ng-container>
+  <ng-container footerContent>
+    <span class="rounded bg-gradient-to-br from-primary-variant to-surface border border-primary px-3 py-1">{{ footerContent }}</span>
+  </ng-container>
+</schaeffler-app-shell>
+</div>  
   `,
 });
 

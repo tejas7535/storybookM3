@@ -14,7 +14,11 @@ export default {
     withDesign,
   ],
   parameters: {
-    notes: { markdown: READMEMd },
+    docs: {
+      description: {
+        story: READMEMd,
+      },
+    },
     badges: [Badges.Final],
     design: {
       type: 'figma',

@@ -1,7 +1,12 @@
 import { HttpClientModule } from '@angular/common/http';
 
 import { TranslocoModule } from '@ngneat/transloco';
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import {
+  applicationConfig,
+  Meta,
+  moduleMetadata,
+  StoryFn,
+} from '@storybook/angular';
 
 import {
   UnderConstructionComponent,
@@ -12,6 +17,7 @@ import READMEMd from '../../../../../empty-states/src/lib/under-construction/REA
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
 
 import { StorybookTranslocoModule } from '../../../../.storybook/storybook-transloco.module';
+import { importProvidersFrom } from '@angular/core';
 
 export default {
   title: 'Atomic/Organisms/Under Construction',
@@ -25,9 +31,16 @@ export default {
         TranslocoModule,
       ],
     }),
+    applicationConfig({
+      providers: [importProvidersFrom(StorybookTranslocoModule)],
+    }),
   ],
   parameters: {
-    notes: { markdown: READMEMd },
+    docs: {
+      description: {
+        story: READMEMd,
+      },
+    },
     badges: [Badges.NeedsRevision],
   },
 } as Meta<UnderConstructionComponent>;

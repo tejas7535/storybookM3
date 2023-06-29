@@ -1,13 +1,18 @@
 import { MatIconModule } from '@angular/material/icon';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import {
+  applicationConfig,
+  Meta,
+  moduleMetadata,
+  StoryFn,
+} from '@storybook/angular';
 import { withDesign } from 'storybook-addon-designs';
 
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
 
 import READMEMd from './input/README.md';
-import { MatInputModule } from '@angular/material/input';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 
 enum PrefixIcons {
   None = '',
@@ -24,12 +29,19 @@ export default {
   title: 'Atomic/Molecules/Input',
   decorators: [
     moduleMetadata({
-      imports: [BrowserAnimationsModule, MatInputModule, MatIconModule],
+      imports: [MatInputModule, MatIconModule],
     }),
     withDesign,
+    applicationConfig({
+      providers: [provideAnimations()],
+    }),
   ],
   parameters: {
-    notes: { markdown: READMEMd },
+    docs: {
+      description: {
+        story: READMEMd,
+      },
+    },
     badges: [Badges.NeedsRevision],
     design: {
       type: 'figma',

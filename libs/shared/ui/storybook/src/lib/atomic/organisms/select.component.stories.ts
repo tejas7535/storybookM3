@@ -1,6 +1,11 @@
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import {
+  applicationConfig,
+  Meta,
+  moduleMetadata,
+  StoryFn,
+} from '@storybook/angular';
 
 import READMEMd from '../../../../../inputs/select/src/lib/README.md';
 
@@ -11,65 +16,43 @@ import { FormControl, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { action } from '@storybook/addon-actions';
 import { StringOption } from '@schaeffler/inputs';
+import { StorybookTranslocoModule } from 'libs/shared/ui/storybook/.storybook/storybook-transloco.module';
+import { Component, importProvidersFrom } from '@angular/core';
 
-export default {
-  title: 'Atomic/Organisms/Select',
-  component: SelectComponent,
-  decorators: [
-    moduleMetadata({
-      imports: [
-        BrowserAnimationsModule,
-        SelectModule,
-        MatProgressSpinnerModule,
-        MatIconModule,
-      ],
-    }),
-  ],
-  parameters: {
-    notes: { markdown: READMEMd },
-    badges: [Badges.Final],
-  },
-} as Meta<SelectComponent>;
-
-const Template: StoryFn<SelectComponent> = (args: SelectComponent) => ({
-  component: SelectComponent,
-  props: {
-    ...args,
-    onSearchUpdated: action('onSearchUpdated'),
-    onEntryAdded: action('onEntryAdded'),
-    onOptionRemoved: action('onOptionRemoved'),
-    onOptionSelected: action('onOptionSelected'),
-  },
-  template: `
-    <div style="width: 300px">
+@Component({
+  selector: 'wrapper',
+  template: `<div style="width: 300px">
       <schaeffler-select
-          [stringOptions]="stringOptions"
-          [appearance]="appearance"
-          [placeholder]="placeholder"
-          [searchPlaceholder]="searchPlaceholder"
-          [addEntryPlaceholder]="addEntryPlaceholder"
-          [hint]="hint"
-          [formFieldHint]="formFieldHint"
-          [initialValue]="initialValue"
-          [initialSearchValue]="initialSearchValue"
-          [label]="label"
-          [loading]="loading"
-          [error]="error"
-          [multiple]="multiple"
-          [noResultsText]="noResultsText"
-          [addEntry]="addEntry"
-          [control]="control"
-          [filterFn]="filterFn"
-          [resetButton]="resetButton"
-          [showTriggerTooltip]="showTriggerTooltip"
-          [triggerTooltipDelay]="triggerTooltipDelay"
-          [tooltipPosition]="tooltipPosition"
-          (searchUpdated)="onSearchUpdated($event)"
-          (entryAdded)="onEntryAdded($event)"
-          (optionRemoved)="onOptionRemoved($event)"
-          (optionSelected)="onOptionSelected($event)"
+        [stringOptions]="stringOptions"
+        [appearance]="appearance"
+        [placeholder]="placeholder"
+        [searchPlaceholder]="searchPlaceholder"
+        [addEntryPlaceholder]="addEntryPlaceholder"
+        [hint]="hint"
+        [formFieldHint]="formFieldHint"
+        [initialValue]="initialValue"
+        [initialSearchValue]="initialSearchValue"
+        [label]="label"
+        [loading]="loading"
+        [error]="error"
+        [multiple]="multiple"
+        [noResultsText]="noResultsText"
+        [addEntry]="addEntry"
+        [control]="control"
+        [filterFn]="filterFn"
+        [resetButton]="resetButton"
+        [showTriggerTooltip]="showTriggerTooltip"
+        [triggerTooltipDelay]="triggerTooltipDelay"
+        [tooltipPosition]="tooltipPosition"
+        (searchUpdated)="onSearchUpdated($event)"
+        (entryAdded)="onEntryAdded($event)"
+        (optionRemoved)="onOptionRemoved($event)"
+        (optionSelected)="onOptionSelected($event)"
       >
-        <div loadingContent class="flex flex-row w-full p-4 content-center gap-4">
+        <div
+          loadingContent
+          class="flex flex-row w-full p-4 content-center gap-4"
+        >
           <mat-spinner diameter="16"></mat-spinner>
           <span class="text-caption">custom loading content</span>
         </div>
@@ -83,8 +66,45 @@ const Template: StoryFn<SelectComponent> = (args: SelectComponent) => ({
     <div class="flex flex-row gap-4 mt-10">
       <div>Current Value:</div>
       <div>{{ control.value | json }}</div>
-    </div>
-  `,
+    </div> `,
+})
+class WrapperComponentForSelect extends SelectComponent {}
+
+export default {
+  title: 'Atomic/Organisms/Select',
+  component: WrapperComponentForSelect,
+  decorators: [
+    moduleMetadata({
+      imports: [SelectModule, MatProgressSpinnerModule, MatIconModule],
+    }),
+    applicationConfig({
+      providers: [
+        importProvidersFrom(StorybookTranslocoModule),
+        provideAnimations(),
+      ],
+    }),
+  ],
+  parameters: {
+    docs: {
+      description: {
+        story: READMEMd,
+      },
+    },
+    badges: [Badges.Final],
+  },
+} as Meta<WrapperComponentForSelect>;
+
+const Template: StoryFn<WrapperComponentForSelect> = (
+  args: WrapperComponentForSelect
+) => ({
+  component: WrapperComponentForSelect,
+  props: {
+    ...args,
+    onSearchUpdated: action('onSearchUpdated'),
+    onEntryAdded: action('onEntryAdded'),
+    onOptionRemoved: action('onOptionRemoved'),
+    onOptionSelected: action('onOptionSelected'),
+  },
 });
 
 export const Primary = Template.bind({});

@@ -47,7 +47,11 @@ export default {
   title: 'Atomic/Foundations/Color',
   decorators: [withDesign],
   parameters: {
-    notes: { markdown: READMEMd },
+    docs: {
+      description: {
+        story: READMEMd,
+      },
+    },
     badges: [Badges.InProgress],
     design: {
       type: 'figma',

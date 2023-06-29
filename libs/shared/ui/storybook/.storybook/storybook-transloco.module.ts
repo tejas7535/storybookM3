@@ -7,13 +7,13 @@ import {
   TranslocoService,
 } from '@ngneat/transloco';
 
-import { forceReRender, Story } from '@storybook/angular';
-import { distinctUntilChanged, tap } from 'rxjs';
+import { Story } from '@storybook/angular';
 
 import {
   STORYBOOK_DEFAULT_LANGUAGE,
   STORYBOOK_SUPPORTED_LANGUAGES,
 } from './storybook-transloco.constants';
+import { distinctUntilChanged } from 'rxjs';
 
 let translocoServiceInstance: TranslocoService | null;
 
@@ -37,10 +37,7 @@ export const getMultiLanguageStoryTemplate: Story = (
 const translocoStorybookInitializer =
   (translocoService: TranslocoService) => () => {
     const subscription = translocoService.langChanges$
-      .pipe(
-        distinctUntilChanged(),
-        tap(() => forceReRender())
-      )
+      .pipe(distinctUntilChanged())
       .subscribe();
 
     translocoServiceInstance = translocoService;

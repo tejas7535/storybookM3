@@ -1,6 +1,6 @@
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
-import { Meta, moduleMetadata } from '@storybook/angular';
+import { applicationConfig, Meta, moduleMetadata } from '@storybook/angular';
 
 import {
   LanguageSelectComponent,
@@ -15,20 +15,27 @@ import {
   getMultiLanguageStoryTemplate,
   StorybookTranslocoModule,
 } from '../../../../.storybook/storybook-transloco.module';
+import { importProvidersFrom } from '@angular/core';
 
 export default {
   title: 'Atomic/Organisms/Language Select',
   component: LanguageSelectComponent,
   parameters: {
-    notes: { markdown: READMEMd },
+    docs: {
+      description: {
+        story: READMEMd,
+      },
+    },
     badges: [Badges.Final],
   },
   decorators: [
     moduleMetadata({
-      imports: [
-        NoopAnimationsModule,
-        StorybookTranslocoModule,
-        LanguageSelectModule,
+      imports: [LanguageSelectModule],
+    }),
+    applicationConfig({
+      providers: [
+        provideNoopAnimations(),
+        importProvidersFrom(StorybookTranslocoModule),
       ],
     }),
   ],

@@ -8,7 +8,11 @@ import READMEMd from './responsive/README.md';
 export default {
   title: 'Atomic/Foundations/Responsive',
   parameters: {
-    notes: { markdown: READMEMd },
+    docs: {
+      description: {
+        story: READMEMd,
+      },
+    },
     badges: [Badges.Final],
   },
 } as Meta<ForbiddenComponent>;

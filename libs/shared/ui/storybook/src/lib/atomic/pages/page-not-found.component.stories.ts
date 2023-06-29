@@ -1,8 +1,12 @@
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
-import { TranslocoModule } from '@ngneat/transloco';
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import {
+  applicationConfig,
+  Meta,
+  moduleMetadata,
+  StoryFn,
+} from '@storybook/angular';
 
 import {
   PageNotFoundComponent,
@@ -13,25 +17,32 @@ import READMEMd from '../../../../../empty-states/src/lib/page-not-found/README.
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
 
 import { StorybookTranslocoModule } from '../../../../.storybook/storybook-transloco.module';
+import { importProvidersFrom } from '@angular/core';
 
 export default {
   title: 'Atomic/Pages/Page Not Found',
   component: PageNotFoundComponent,
   decorators: [
     moduleMetadata({
-      imports: [
-        PageNotFoundModule,
-        RouterModule.forRoot([], {
-          useHash: true,
-        }),
-        HttpClientModule,
-        StorybookTranslocoModule,
-        TranslocoModule,
+      imports: [PageNotFoundModule, HttpClientModule],
+    }),
+    applicationConfig({
+      providers: [
+        importProvidersFrom(StorybookTranslocoModule),
+        importProvidersFrom(
+          RouterModule.forRoot([], {
+            useHash: true,
+          })
+        ),
       ],
     }),
   ],
   parameters: {
-    notes: { markdown: READMEMd },
+    docs: {
+      description: {
+        story: READMEMd,
+      },
+    },
     badges: [Badges.Final],
   },
 } as Meta<PageNotFoundComponent>;

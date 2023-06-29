@@ -1,7 +1,12 @@
 import { CommonModule } from '@angular/common';
 
 import { TranslocoModule } from '@ngneat/transloco';
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import {
+  applicationConfig,
+  Meta,
+  moduleMetadata,
+  StoryFn,
+} from '@storybook/angular';
 import { BannerTextModule } from 'libs/shared/ui/banner/src/lib/banner-text/banner-text.module';
 
 import { BannerTextComponent, BannerType } from '@schaeffler/banner';
@@ -10,12 +15,17 @@ import READMEMd from '../../../../../banner/README.md';
 
 import { StorybookTranslocoModule } from '../../../../.storybook/storybook-transloco.module';
 import { Badges } from 'libs/shared/ui/storybook/.storybook/storybook-badges.constants';
+import { importProvidersFrom } from '@angular/core';
 
 export default {
   title: 'Atomic/Organisms/Banner',
   component: BannerTextComponent,
   parameters: {
-    notes: { markdown: READMEMd },
+    docs: {
+      description: {
+        story: READMEMd,
+      },
+    },
     badges: [Badges.Final],
   },
   decorators: [
@@ -26,6 +36,9 @@ export default {
         StorybookTranslocoModule,
         TranslocoModule,
       ],
+    }),
+    applicationConfig({
+      providers: [importProvidersFrom(StorybookTranslocoModule)],
     }),
   ],
 } as Meta<BannerTextComponent>;

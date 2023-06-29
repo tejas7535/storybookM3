@@ -1,10 +1,14 @@
 import { Component } from '@angular/core';
 
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatTabsModule } from '@angular/material/tabs';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
 
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import {
+  applicationConfig,
+  Meta,
+  moduleMetadata,
+  StoryFn,
+} from '@storybook/angular';
 
 import { withDesign } from 'storybook-addon-designs';
 
@@ -97,17 +101,19 @@ export default {
   component: TabsExampleComponent,
   decorators: [
     moduleMetadata({
-      imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        MatTabsModule,
-        MatIconModule,
-      ],
+      imports: [MatTabsModule, MatIconModule],
+    }),
+    applicationConfig({
+      providers: [provideAnimations()],
     }),
     withDesign,
   ],
   parameters: {
-    notes: { markdown: READMEMd },
+    docs: {
+      description: {
+        story: READMEMd,
+      },
+    },
     badges: [Badges.Final],
     design: {
       type: 'figma',

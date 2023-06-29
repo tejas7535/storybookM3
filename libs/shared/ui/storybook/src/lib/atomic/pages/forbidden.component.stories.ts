@@ -1,24 +1,35 @@
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { Meta, moduleMetadata } from '@storybook/angular';
+import { Meta, applicationConfig, moduleMetadata } from '@storybook/angular';
 
 import { ForbiddenComponent, ForbiddenModule } from '@schaeffler/empty-states';
 
 import READMEMd from '../../../../../empty-states/src/lib/forbidden/README.md';
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
 
-import { getMultiLanguageStoryTemplate } from '../../../../.storybook/storybook-transloco.module';
+import {
+  StorybookTranslocoModule,
+  getMultiLanguageStoryTemplate,
+} from '../../../../.storybook/storybook-transloco.module';
+import { importProvidersFrom } from '@angular/core';
 
 export default {
   title: 'Atomic/Pages/Forbidden',
   component: ForbiddenComponent,
   parameters: {
-    notes: { markdown: READMEMd },
+    docs: {
+      description: {
+        story: READMEMd,
+      },
+    },
     badges: [Badges.Final],
   },
   decorators: [
     moduleMetadata({
       imports: [ForbiddenModule, RouterTestingModule],
+    }),
+    applicationConfig({
+      providers: [importProvidersFrom(StorybookTranslocoModule)],
     }),
   ],
 } as Meta<ForbiddenComponent>;

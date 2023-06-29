@@ -1,12 +1,17 @@
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import {
+  applicationConfig,
+  Meta,
+  moduleMetadata,
+  StoryFn,
+} from '@storybook/angular';
 
 import { LabelValue, LabelValueModule } from '@schaeffler/label-value';
 
 import READMEMd from '../../../../../../label-value/README.md';
 import { Badges } from '../../../../../.storybook/storybook-badges.constants';
 import { Component } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 
 const mockLabelValuesSingle: LabelValue[] = [
   {
@@ -89,7 +94,7 @@ const mockLabelValuesHtml: LabelValue[] = [
     <schaeffler-label-value
       [labelValues]="labelValues"
       [labelMinWidth]="labelMinWidth"
-      [LabelMaxWidth]="LabelMaxWidth"
+      [labelMaxWidth]="LabelMaxWidth"
     >
       <ng-template #custom let-row="row" let-data="data">
         <div *ngIf="row === 'htmlrow'">
@@ -105,12 +110,19 @@ export default {
   title: 'Atomic/Molecules/Label Value',
   component: LabelValueExampleComponent,
   parameters: {
-    notes: { markdown: READMEMd },
+    docs: {
+      description: {
+        story: READMEMd,
+      },
+    },
     badges: [Badges.NeedsRevision],
   },
   decorators: [
     moduleMetadata({
-      imports: [NoopAnimationsModule, LabelValueModule, MatButtonModule],
+      imports: [LabelValueModule, MatButtonModule],
+    }),
+    applicationConfig({
+      providers: [provideNoopAnimations()],
     }),
   ],
 } as Meta<LabelValueExampleComponent>;

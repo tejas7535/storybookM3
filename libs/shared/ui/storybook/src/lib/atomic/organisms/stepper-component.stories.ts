@@ -10,9 +10,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatStepperModule } from '@angular/material/stepper';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import {
+  applicationConfig,
+  Meta,
+  moduleMetadata,
+  StoryFn,
+} from '@storybook/angular';
 
 import { StepperModule } from '@schaeffler/stepper';
 
@@ -92,7 +97,6 @@ export default {
       imports: [
         StepperModule,
         CommonModule,
-        BrowserAnimationsModule,
         MatStepperModule,
         MatButtonModule,
         MatIconModule,
@@ -100,9 +104,16 @@ export default {
         ReactiveFormsModule,
       ],
     }),
+    applicationConfig({
+      providers: [provideAnimations()],
+    }),
   ],
   parameters: {
-    notes: { markdown: READMEMd },
+    docs: {
+      description: {
+        story: READMEMd,
+      },
+    },
     badges: [Badges.Final],
   },
 } as Meta<WrapperComponentForStepper>;

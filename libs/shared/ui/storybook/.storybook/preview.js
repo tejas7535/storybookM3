@@ -1,13 +1,8 @@
-import { DocsContainer, DocsPage } from '@storybook/addon-docs';
 import { moduleMetadata } from '@storybook/angular';
 import { themes } from '@storybook/theming';
 
 import logo from './schaeffler-logo.svg';
 import { Badges } from './storybook-badges.constants';
-import {
-  NavigationAtomic,
-  NavigationMain,
-} from './storybook-navigation.constants';
 import {
   STORYBOOK_DEFAULT_LANGUAGE,
   STORYBOOK_SUPPORTED_LANGUAGES,
@@ -25,18 +20,17 @@ export const parameters = {
   options: {
     storySort: {
       order: [
-        NavigationMain.Atomic,
+        'Atomic',
         [
-          NavigationAtomic.Foundations,
-          NavigationAtomic.Atoms,
-          NavigationAtomic.Molecules,
-          NavigationAtomic.Organisms,
-          NavigationAtomic.Templates,
-          NavigationAtomic.Pages,
+          'Foundations',
+          'Atoms',
+          'Molecules',
+          'Organisms',
+          'Templates',
+          'Pages',
         ],
-        NavigationMain.Components,
-        NavigationMain.Deprecated,
-        NavigationMain.Rest,
+        'Deprecated',
+        '*',
       ],
     },
     includeName: true,
@@ -87,23 +81,34 @@ export const parameters = {
   },
   badgesConfig: {
     [Badges.InProgress]: {
-      contrast: '#1d9bb2',
-      color: '#fff',
+      styles: {
+        backgroundColor: '#1d9bb2',
+        borderColor: '#1d9bb2',
+        color: '#fff',
+      },
       title: 'In Progress',
     },
     [Badges.NeedsRevision]: {
-      contrast: '#fccf46',
-      color: '#000',
+      styles: {
+        backgroundColor: '#fccf46',
+        color: '#000',
+      },
       title: 'Needs Revision',
     },
     [Badges.Final]: {
-      contrast: '#00893d',
-      color: '#fff',
+      styles: {
+        backgroundColor: '#00893d',
+        borderColor: '#00893d',
+        color: '#fff',
+      },
       title: 'Final',
     },
     [Badges.Deprecated]: {
-      contrast: '#e62c27',
-      color: '#fff',
+      styles: {
+        backgroundColor: '#e62c27',
+        borderColor: '#e62c27',
+        color: '#fff',
+      },
       title: 'Deprecated',
     },
   },

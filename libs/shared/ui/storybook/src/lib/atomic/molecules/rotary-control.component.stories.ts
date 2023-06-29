@@ -1,7 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import {
+  applicationConfig,
+  Meta,
+  moduleMetadata,
+  StoryFn,
+} from '@storybook/angular';
 
 import {
   RotaryControlComponent,
@@ -43,11 +48,18 @@ export default {
   component: RotaryControlComponent,
   decorators: [
     moduleMetadata({
-      imports: [CommonModule, NoopAnimationsModule],
+      imports: [CommonModule],
+    }),
+    applicationConfig({
+      providers: [provideNoopAnimations()],
     }),
   ],
   parameters: {
-    notes: { markdown: READMEMd },
+    docs: {
+      description: {
+        story: READMEMd,
+      },
+    },
     badges: [Badges.NeedsRevision],
   },
 } as Meta<RotaryControlComponent>;

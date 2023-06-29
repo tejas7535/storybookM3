@@ -1,16 +1,20 @@
 import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import {
   MatLegacySnackBar as MatSnackBar,
   MatLegacySnackBarModule as MatSnackBarModule,
 } from '@angular/material/legacy-snack-bar';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import {
+  applicationConfig,
+  Meta,
+  moduleMetadata,
+  StoryFn,
+} from '@storybook/angular';
 import { withDesign } from 'storybook-addon-designs';
 
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
@@ -73,8 +77,6 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
         FormsModule,
         ReactiveFormsModule,
         MatSnackBarModule,
@@ -84,9 +86,16 @@ export default {
       ],
     }),
     withDesign,
+    applicationConfig({
+      providers: [provideAnimations()],
+    }),
   ],
   parameters: {
-    notes: { markdown: READMEMd },
+    docs: {
+      description: {
+        story: READMEMd,
+      },
+    },
     badges: [Badges.Final],
     design: {
       type: 'figma',

@@ -1,5 +1,5 @@
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Meta, moduleMetadata } from '@storybook/angular';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { Meta, applicationConfig, moduleMetadata } from '@storybook/angular';
 
 import {
   Role,
@@ -11,7 +11,11 @@ import {
 import READMEMd from '../../../../../roles-and-rights/README.md';
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
 
-import { getMultiLanguageStoryTemplate } from '../../../../.storybook/storybook-transloco.module';
+import {
+  StorybookTranslocoModule,
+  getMultiLanguageStoryTemplate,
+} from '../../../../.storybook/storybook-transloco.module';
+import { importProvidersFrom } from '@angular/core';
 
 const mockRoles: Role[] = [
   {
@@ -49,12 +53,22 @@ export default {
   title: 'Atomic/Organisms/Roles & Rights',
   component: RolesAndRightsComponent,
   parameters: {
-    notes: { markdown: READMEMd },
+    docs: {
+      description: {
+        story: READMEMd,
+      },
+    },
     badges: [Badges.Final],
   },
   decorators: [
     moduleMetadata({
-      imports: [RolesAndRightsModule, BrowserAnimationsModule],
+      imports: [RolesAndRightsModule],
+    }),
+    applicationConfig({
+      providers: [
+        importProvidersFrom(StorybookTranslocoModule),
+        provideAnimations(),
+      ],
     }),
   ],
 } as Meta<RolesAndRightsModule>;

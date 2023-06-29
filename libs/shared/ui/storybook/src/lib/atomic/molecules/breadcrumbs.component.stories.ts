@@ -1,9 +1,14 @@
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import {
+  applicationConfig,
+  Meta,
+  moduleMetadata,
+  StoryFn,
+} from '@storybook/angular';
 import READMEMd from '../../../../../breadcrumbs/README.md';
 
 import {
@@ -23,14 +28,20 @@ export default {
         RouterTestingModule,
         MatIconModule,
         MatMenuModule,
-        NoopAnimationsModule,
         BreadcrumbsModule,
       ],
     }),
+    applicationConfig({
+      providers: [provideNoopAnimations()],
+    }),
   ],
   parameters: {
-    notes: { markdown: READMEMd },
     badges: [Badges.NeedsRevision],
+    docs: {
+      description: {
+        story: READMEMd,
+      },
+    },
   },
 } as Meta<BreadcrumbsComponent>;
 
