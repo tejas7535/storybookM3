@@ -1,21 +1,10 @@
 {
-  "extends": ["../../.eslintrc.json"],
+  "extends": ["plugin:cypress/recommended", "../../.eslintrc.json"],
   "ignorePatterns": ["!**/*"],
-  "plugins": ["cypress"],
   "overrides": [
     {
-      "files": ["src/plugins/index.js"],
-      "rules": {
-        "@typescript-eslint/no-var-requires": "off",
-        "no-undef": "off"
-      }
-    },
-    {
-      "files": ["*.ts"],
-      "parserOptions": {
-        "project": ["apps/ga-e2e/tsconfig.*?.json"]
-      },
-      "extends": ["plugin:cypress/recommended"]
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "rules": {}
     }
   ]
 }

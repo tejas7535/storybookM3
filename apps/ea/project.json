@@ -216,6 +216,10 @@
         },
         "production": {
           "browserTarget": "ea:build:production"
+        },
+        "e2e": {
+          "browserTarget": "ea:build:default",
+          "host": "0.0.0.0"
         }
       },
       "defaultConfiguration": "default"

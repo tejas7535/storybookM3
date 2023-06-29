@@ -282,8 +282,6 @@ pipeline {
 
     environment {
         NPM_CONFIG_REGISTRY = 'https://registry.npmjs.org/'
-        // todo cypress download doesnt work on docker dind agent. on monoagent it should work
-        CYPRESS_INSTALL_BINARY = 0
     }
 
     options {
@@ -543,10 +541,8 @@ pipeline {
                 }
 
                 stage('Test:E2E') {
-                    when {
-                        expression {
-                            return false
-                        }
+                    environment {
+                        NO_PROXY="localhost,127.0.0.1,::1"
                     }
                     steps {
                         // quantity 1 means that only one pipeline can execute cypress tests on an agent, other pipelines have to wait until the lock is released
@@ -554,7 +550,7 @@ pipeline {
                             echo 'Run E2E Tests'
 
                             script {
-                                sh "pnpm run affected:e2e:headless --base=${buildBase} ${getNxRunnerConfig()}"
+                                sh "pnpm cypress install && pnpm run affected:e2e --base=${buildBase} ${getNxRunnerConfig()}"
                             }
                         }
                     }

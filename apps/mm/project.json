@@ -144,6 +144,10 @@
         },
         "production": {
           "browserTarget": "mm:build:production"
+        },
+        "e2e": {
+          "browserTarget": "mm:build",
+          "host": "0.0.0.0"
         }
       },
       "defaultConfiguration": "local"

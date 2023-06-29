@@ -7,9 +7,9 @@
     "e2e": {
       "executor": "@nx/cypress:cypress",
       "options": {
-        "cypressConfig": "apps/mm-e2e/cypress.json",
-        "tsConfig": "apps/mm-e2e/tsconfig.e2e.json",
-        "devServerTarget": "mm:serve"
+        "cypressConfig": "apps/mm-e2e/cypress.config.ts",
+        "devServerTarget": "mm:serve:e2e",
+        "testingType": "e2e"
       },
       "configurations": {
         "local": {

@@ -13,7 +13,7 @@
 ![@angular/material: 16.0.3](https://img.shields.io/badge/%40angular%2Fmaterial-16.0.3-brightgreen)
 ![@ngrx/store: 16.0.1](https://img.shields.io/badge/%40ngrx%2Fstore-16.0.1-brightgreen)
 ![jest: 29.4.3](https://img.shields.io/badge/jest-29.4.3-brightgreen)
-![cypress: 7.3.0](https://img.shields.io/badge/cypress-7.3.0-brightgreen)
+![cypress: 12.16.0](https://img.shields.io/badge/cypress-12.16.0-brightgreen)
 ![prettier: 2.7.1](https://img.shields.io/badge/prettier-2.7.1-brightgreen)
 ![tailwindcss: 3.3.1](https://img.shields.io/badge/tailwindcss-3.3.1-brightgreen)
 
