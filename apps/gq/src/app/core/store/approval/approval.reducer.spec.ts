@@ -3,6 +3,7 @@ import {
   ApprovalEventType,
   ApprovalLevel,
   ApprovalStatus,
+  ApprovalWorkflowBaseInformation,
   ApprovalWorkflowEvent,
   ApprovalWorkflowInformation,
   Approver,
@@ -302,6 +303,79 @@ describe('approvalReducer', () => {
       expect(state).toEqual({
         ...APPROVAL_STATE_MOCK,
         triggerApprovalWorkflowInProgress: false,
+        error,
+      });
+    });
+  });
+
+  describe('save approval workflow information', () => {
+    test('should set saveApprovalWorkflowInformationInProgress', () => {
+      const action = ApprovalActions.saveApprovalWorkflowInformation({} as any);
+      const state = approvalFeature.reducer(initialState, action);
+
+      expect(state).toEqual({
+        ...initialState,
+        saveApprovalWorkflowInformationInProgress: true,
+        error: undefined,
+      });
+    });
+
+    test('should update the data on success', () => {
+      const approvalWorkflowBaseInformation: ApprovalWorkflowBaseInformation = {
+        gqId: 998_755,
+        firstApprover: 'APPR1',
+        secondApprover: 'APPR2',
+        thirdApprover: 'APPR3',
+        infoUser: 'CC00',
+        comment: 'test comment',
+        projectInformation: 'project info',
+      };
+
+      const action = ApprovalActions.saveApprovalWorkflowInformationSuccess({
+        approvalGeneral: {
+          ...initialState.approvalCockpit.approvalGeneral,
+          ...approvalWorkflowBaseInformation,
+        },
+      });
+      const state = approvalFeature.reducer(
+        {
+          ...APPROVAL_STATE_MOCK,
+          saveApprovalWorkflowInformationInProgress: true,
+          error: new Error('my error'),
+        },
+        action
+      );
+
+      expect(state).toEqual({
+        ...APPROVAL_STATE_MOCK,
+        saveApprovalWorkflowInformationInProgress: false,
+        error: undefined,
+        approvalCockpit: {
+          ...APPROVAL_STATE_MOCK.approvalCockpit,
+          approvalGeneral: {
+            ...APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral,
+            ...approvalWorkflowBaseInformation,
+          },
+        },
+      });
+    });
+
+    test('should set the error', () => {
+      const error = new Error('my error');
+      const action = ApprovalActions.saveApprovalWorkflowInformationFailure({
+        error,
+      });
+      const state = approvalFeature.reducer(
+        {
+          ...APPROVAL_STATE_MOCK,
+          saveApprovalWorkflowInformationInProgress: true,
+        },
+        action
+      );
+
+      expect(state).toEqual({
+        ...APPROVAL_STATE_MOCK,
+        saveApprovalWorkflowInformationInProgress: false,
         error,
       });
     });

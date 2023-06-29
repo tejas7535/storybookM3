@@ -6,7 +6,9 @@ import {
 import {
   ApiVersion,
   ApprovalEventType,
+  ApprovalWorkflowBaseInformation,
   ApprovalWorkflowEvent,
+  ApprovalWorkflowInformation,
   MicrosoftUsersResponse,
   QuotationStatus,
   UpdateFunction,
@@ -223,6 +225,44 @@ describe('ApprovalService', () => {
 
       expect(req.request.method).toBe(HttpMethod.POST);
       expect(req.request.body).toEqual(request);
+    });
+  });
+
+  describe('saveApprovalWorkflowInformation', () => {
+    test('should call with correct path and deliver correct result', () => {
+      const sapId = 'testSapId';
+      const request: ApprovalWorkflowBaseInformation = {
+        gqId: 998_755,
+        firstApprover: 'APPR1',
+        secondApprover: 'APPR2',
+        thirdApprover: 'APPR3',
+        infoUser: 'CC00',
+        comment: 'test comment',
+        projectInformation: 'project info',
+      };
+      const response: ApprovalWorkflowInformation = {
+        ...request,
+        sapId,
+        currency: undefined,
+        autoApproval: undefined,
+        thirdApproverRequired: undefined,
+        totalNetValue: undefined,
+        gpm: undefined,
+        priceDeviation: undefined,
+      };
+
+      service
+        .saveApprovalWorkflowInformation(sapId, request)
+        .subscribe((data) => expect(data).toEqual(response));
+
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${ApprovalPaths.PATH_APPROVAL}/${ApprovalPaths.PATH_APPROVAL_GENERAL_INFO}/${sapId}`
+      );
+
+      expect(req.request.method).toBe(HttpMethod.POST);
+      expect(req.request.body).toEqual(request);
+
+      req.flush(response);
     });
   });
 

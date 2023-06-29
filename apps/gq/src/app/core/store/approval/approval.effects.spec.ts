@@ -9,6 +9,7 @@ import {
   ApprovalLevel,
   ApprovalStatus,
   ApprovalWorkflowEvent,
+  ApprovalWorkflowInformation,
   Approver,
   UpdateFunction,
 } from '@gq/shared/models';
@@ -463,7 +464,7 @@ describe('ApprovalEffects', () => {
             priceDeviation: 12.2,
             gpm: 13.5,
             totalNetValue: 120_014,
-            approverInformation: 'ANY',
+            infoUser: 'ANY',
             comment: 'comment',
             projectInformation: 'projectInformation',
             gqId: 98_765,
@@ -517,7 +518,7 @@ describe('ApprovalEffects', () => {
             priceDeviation: 12.2,
             gpm: 13.5,
             totalNetValue: 120_014,
-            approverInformation: 'ANY',
+            infoUser: 'ANY',
             comment: 'comment',
             projectInformation: 'projectInformation',
             gqId: 98_765,
@@ -570,7 +571,7 @@ describe('ApprovalEffects', () => {
             priceDeviation: 12.2,
             gpm: 13.5,
             totalNetValue: 120_014,
-            approverInformation: 'ANY',
+            infoUser: 'ANY',
             comment: 'comment',
             projectInformation: 'projectInformation',
             gqId: 98_765,
@@ -708,6 +709,106 @@ describe('ApprovalEffects', () => {
 
         actions$ = m.hot('-a', { a: action });
         m.expect(effects.updateApprovalWorkflow$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+  });
+
+  describe('saveApprovalWorkflowInformation', () => {
+    test(
+      'should dispatch successAction',
+      marbles((m) => {
+        const sapId = '123456';
+
+        const quotationIdentifier = {
+          gqId: 999,
+        } as any;
+
+        const approvalWorkflowInformation = {
+          firstApprover: 'APPR1',
+          secondApprover: 'APPR2',
+          thirdApprover: 'APPR3',
+          infoUser: 'CC00',
+          comment: 'test comment',
+          projectInformation: 'project info',
+        };
+
+        const approvalGeneral: ApprovalWorkflowInformation = {
+          ...approvalWorkflowInformation,
+          gqId: quotationIdentifier.gqId,
+          sapId,
+          currency: undefined,
+          autoApproval: undefined,
+          thirdApproverRequired: undefined,
+          totalNetValue: undefined,
+          gpm: undefined,
+          priceDeviation: undefined,
+        };
+
+        store.overrideSelector(getSapId, sapId);
+        store.overrideSelector(
+          activeCaseFeature.selectQuotationIdentifier,
+          quotationIdentifier
+        );
+
+        const saveApprovalWorkflowInformationSpy = jest.spyOn(
+          approvalService,
+          'saveApprovalWorkflowInformation'
+        );
+
+        action = ApprovalActions.saveApprovalWorkflowInformation({
+          approvalWorkflowInformation,
+        });
+
+        const result = ApprovalActions.saveApprovalWorkflowInformationSuccess({
+          approvalGeneral,
+        });
+        const response = m.cold('-a', {
+          a: approvalGeneral,
+        });
+        saveApprovalWorkflowInformationSpy.mockReturnValue(response);
+        const expected = m.cold('-b', { b: result });
+
+        actions$ = m.hot('a', { a: action });
+
+        m.expect(effects.saveApprovalWorkflowInformation$).toBeObservable(
+          expected
+        );
+        m.flush();
+
+        expect(saveApprovalWorkflowInformationSpy).toHaveBeenCalledWith(sapId, {
+          ...approvalWorkflowInformation,
+          gqId: quotationIdentifier.gqId,
+        });
+      })
+    );
+
+    test(
+      'should dispatch errorAction',
+      marbles((m) => {
+        store.overrideSelector(getSapId, '123897');
+        store.overrideSelector(
+          activeCaseFeature.selectQuotationIdentifier,
+          {} as any
+        );
+
+        action = ApprovalActions.saveApprovalWorkflowInformation({
+          approvalWorkflowInformation: {} as any,
+        });
+        const error = new Error('did not work');
+        const result = ApprovalActions.saveApprovalWorkflowInformationFailure({
+          error,
+        });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+        approvalService.saveApprovalWorkflowInformation = jest.fn(
+          () => response
+        );
+
+        actions$ = m.hot('-a', { a: action });
+        m.expect(effects.saveApprovalWorkflowInformation$).toBeObservable(
+          expected
+        );
         m.flush();
       })
     );

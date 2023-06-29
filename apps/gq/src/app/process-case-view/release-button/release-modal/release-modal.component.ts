@@ -17,13 +17,22 @@ import {
   MatLegacyDialogRef as MatDialogRef,
 } from '@angular/material/legacy-dialog';
 
-import { combineLatest, map, Observable, Subject, takeUntil, tap } from 'rxjs';
+import {
+  combineLatest,
+  map,
+  merge,
+  Observable,
+  Subject,
+  takeUntil,
+  tap,
+} from 'rxjs';
 
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import {
   ActiveDirectoryUser,
   ApprovalLevel,
   ApprovalStatus,
+  ApprovalWorkflowBaseInformation,
   Approver,
   Quotation,
 } from '@gq/shared/models';
@@ -152,7 +161,10 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
       )
       .subscribe();
 
-    this.approvalFacade.triggerApprovalWorkflowSucceeded$
+    merge(
+      this.approvalFacade.triggerApprovalWorkflowSucceeded$,
+      this.approvalFacade.saveApprovalWorkflowInformationSucceeded$
+    )
       .pipe(takeUntil(this.shutdown$$))
       .subscribe(() => this.closeDialog());
   }
@@ -183,17 +195,7 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
   }
 
   startWorkflow() {
-    const formGroupValue = this.formGroup.value;
-
-    this.approvalFacade.triggerApprovalWorkflow({
-      firstApprover: formGroupValue.approver1.userId,
-      secondApprover: formGroupValue.approver2.userId,
-      thirdApprover: formGroupValue.approver3?.userId,
-      infoUser: formGroupValue.approverCC?.userId,
-      comment: formGroupValue.comment?.trim() || undefined,
-      projectInformation:
-        formGroupValue.projectInformation?.trim() || undefined,
-    });
+    this.approvalFacade.triggerApprovalWorkflow(this.getApprovalWorkflowData());
   }
 
   triggerAutoApproval() {
@@ -207,7 +209,9 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
   }
 
   save() {
-    // Will be implemented in a later story
+    this.approvalFacade.saveApprovalWorkflowInformation(
+      this.getApprovalWorkflowData()
+    );
   }
 
   closeDialog() {
@@ -218,5 +222,22 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.shutdown$$.next();
     this.shutdown$$.complete();
+  }
+
+  private getApprovalWorkflowData(): Omit<
+    ApprovalWorkflowBaseInformation,
+    'gqId'
+  > {
+    const formGroupValue = this.formGroup.value;
+
+    return {
+      firstApprover: formGroupValue.approver1.userId,
+      secondApprover: formGroupValue.approver2.userId,
+      thirdApprover: formGroupValue.approver3?.userId,
+      infoUser: formGroupValue.approverCC?.userId,
+      comment: formGroupValue.comment?.trim() || undefined,
+      projectInformation:
+        formGroupValue.projectInformation?.trim() || undefined,
+    };
   }
 }

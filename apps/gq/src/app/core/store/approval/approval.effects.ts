@@ -9,6 +9,7 @@ import {
   ApprovalCockpitData,
   ApprovalStatus,
   ApprovalWorkflowEvent,
+  ApprovalWorkflowInformation,
   Approver,
 } from '@gq/shared/models/approval';
 import { ApprovalService } from '@gq/shared/services/rest/approval/approval.service';
@@ -137,6 +138,42 @@ export class ApprovalEffects {
               )
             );
         }
+      )
+    );
+  });
+
+  saveApprovalWorkflowInformation$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ApprovalActions.saveApprovalWorkflowInformation),
+      concatLatestFrom(() => [
+        this.store.select(getSapId),
+        this.store.select(activeCaseFeature.selectQuotationIdentifier),
+      ]),
+      mergeMap(
+        ([action, sapId, quotationIdentifier]: [
+          ReturnType<typeof ApprovalActions.saveApprovalWorkflowInformation>,
+          string,
+          QuotationIdentifier
+        ]) =>
+          this.approvalService
+            .saveApprovalWorkflowInformation(sapId, {
+              ...action.approvalWorkflowInformation,
+              gqId: quotationIdentifier.gqId,
+            })
+            .pipe(
+              map((approvalGeneral: ApprovalWorkflowInformation) =>
+                ApprovalActions.saveApprovalWorkflowInformationSuccess({
+                  approvalGeneral,
+                })
+              ),
+              catchError((error: Error) =>
+                of(
+                  ApprovalActions.saveApprovalWorkflowInformationFailure({
+                    error,
+                  })
+                )
+              )
+            )
       )
     );
   });

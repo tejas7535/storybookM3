@@ -1,23 +1,18 @@
 import { QuotationStatus } from '../quotation/quotation-status.enum';
 import { ApprovalEventType } from './approval-event-type.enum';
+import { ApprovalWorkflowBaseInformation } from './approval-workflow-base-information.model';
 
 export interface ApprovalCockpitData {
   approvalGeneral: ApprovalWorkflowInformation;
   approvalEvents: ApprovalWorkflowEvent[];
 }
 
-export interface ApprovalWorkflowInformation {
-  gqId: number;
+export interface ApprovalWorkflowInformation
+  extends ApprovalWorkflowBaseInformation {
   sapId: string;
   currency: string;
   autoApproval: boolean;
-  firstApprover: string;
-  secondApprover: string;
-  thirdApprover: string;
   thirdApproverRequired: boolean;
-  approverInformation: string;
-  comment: string;
-  projectInformation: string;
   totalNetValue: number;
   gpm: number;
   priceDeviation: number;

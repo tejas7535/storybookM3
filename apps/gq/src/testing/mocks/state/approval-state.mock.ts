@@ -79,6 +79,7 @@ export const APPROVAL_STATE_MOCK: ApprovalState = {
   activeDirectoryUsersLoading: false,
   triggerApprovalWorkflowInProgress: false,
   updateApprovalWorkflowInProgress: false,
+  saveApprovalWorkflowInformationInProgress: false,
   approvalCockpitLoading: false,
   approvalStatus: {
     sapId: '12345',
@@ -99,7 +100,7 @@ export const APPROVAL_STATE_MOCK: ApprovalState = {
       firstApprover: 'KELLERBI',
       secondApprover: 'ZIRKLIS',
       thirdApprover: undefined,
-      approverInformation: 'SCHMJAN',
+      infoUser: 'SCHMJAN',
       comment: 'Test Approval Use Case 3',
       projectInformation: 'Test Project Information',
       totalNetValue: 662_975.08,

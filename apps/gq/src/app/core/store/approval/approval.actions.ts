@@ -2,9 +2,10 @@ import {
   ActiveDirectoryUser,
   ApprovalCockpitData,
   ApprovalStatus,
+  ApprovalWorkflowBaseInformation,
   ApprovalWorkflowEvent,
+  ApprovalWorkflowInformation,
   Approver,
-  TriggerApprovalWorkflowRequest,
   UpdateApprovalWorkflowRequest,
 } from '@gq/shared/models';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
@@ -28,14 +29,10 @@ export const ApprovalActions = createActionGroup({
     'Get Active Directory Users Failure': props<{ error: Error }>(),
     'Clear Active Directory Users': emptyProps(),
     'Trigger Approval Workflow': props<{
-      approvalWorkflowData: Omit<
-        TriggerApprovalWorkflowRequest,
-        'gqId' | 'gqLinkBase64Encoded'
-      >;
+      approvalWorkflowData: Omit<ApprovalWorkflowBaseInformation, 'gqId'>;
     }>(),
     'Trigger Approval Workflow Success': emptyProps(),
     'Trigger Approval Workflow Failure': props<{ error: Error }>(),
-
     'Update Approval Workflow': props<{
       updateApprovalWorkflowData: Omit<UpdateApprovalWorkflowRequest, 'gqId'>;
     }>(),
@@ -51,5 +48,15 @@ export const ApprovalActions = createActionGroup({
     'Approval Cockpit Data Already loaded': emptyProps(),
     'Get Approval Cockpit Data Failure': props<{ error: Error }>(),
     'Clear Approval Cockpit Data': emptyProps(),
+    'Save Approval Workflow Information': props<{
+      approvalWorkflowInformation: Omit<
+        ApprovalWorkflowBaseInformation,
+        'gqId'
+      >;
+    }>(),
+    'Save Approval Workflow Information Success': props<{
+      approvalGeneral: ApprovalWorkflowInformation;
+    }>(),
+    'Save Approval Workflow Information Failure': props<{ error: Error }>(),
   },
 });

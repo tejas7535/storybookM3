@@ -9,7 +9,9 @@ import {
   ApprovalCockpitData,
   ApprovalLevel,
   ApprovalStatus,
+  ApprovalWorkflowBaseInformation,
   ApprovalWorkflowEvent,
+  ApprovalWorkflowInformation,
   Approver,
   MicrosoftUser,
   MicrosoftUsersResponse,
@@ -144,6 +146,7 @@ export class ApprovalService {
    *
    * @param sapId the Id from SAP
    * @param updateApprovalWorkflowRequest The {@link UpdateApprovalWorkflowRequest}
+   * @returns ApprovalWorkflowEvent
    */
   updateApprovalWorkflow(
     sapId: string,
@@ -164,6 +167,23 @@ export class ApprovalService {
   getApprovalCockpitData(sapId: string): Observable<ApprovalCockpitData> {
     return this.http.get<ApprovalCockpitData>(
       `${ApiVersion.V1}/${ApprovalPaths.PATH_APPROVAL}/${ApprovalPaths.PATH_APPROVAL_COCKPIT_INFO}/${sapId}`
+    );
+  }
+
+  /**
+   * Save the approval workflow information for the SAP quotation with the given ID
+   *
+   * @param sapId the Id from SAP
+   * @param approvalWorkflowInformation The approval workflow information to be saved
+   * @return ApprovalWorkflowInformation. Only the properties of ApprovalWorkflowBaseInformation will be set in the response, based on the request. All other properties will be null.
+   */
+  saveApprovalWorkflowInformation(
+    sapId: string,
+    approvalWorkflowInformation: ApprovalWorkflowBaseInformation
+  ): Observable<ApprovalWorkflowInformation> {
+    return this.http.post<ApprovalWorkflowInformation>(
+      `${ApiVersion.V1}/${ApprovalPaths.PATH_APPROVAL}/${ApprovalPaths.PATH_APPROVAL_GENERAL_INFO}/${sapId}`,
+      approvalWorkflowInformation
     );
   }
 }

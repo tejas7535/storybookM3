@@ -11,8 +11,10 @@
 
     <ng-container
       *ngIf="
-        (approvalFacade.triggerApprovalWorkflowInProgress$ | ngrxPush) ===
-          false;
+        !(approvalFacade.triggerApprovalWorkflowInProgress$ | ngrxPush) &&
+          !(
+            approvalFacade.saveApprovalWorkflowInformationInProgress$ | ngrxPush
+          );
         else loadingRelative
       "
     >

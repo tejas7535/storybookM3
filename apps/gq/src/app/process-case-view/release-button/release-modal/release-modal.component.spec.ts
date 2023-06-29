@@ -61,6 +61,7 @@ describe('ReleaseModalComponent', () => {
         getAllApprovalData: jest.fn(),
         approvalStatus$: of({ thirdApproverRequired: false } as ApprovalStatus),
         triggerApprovalWorkflowSucceeded$: of(),
+        saveApprovalWorkflowInformationSucceeded$: of(),
       } as unknown as ApprovalFacade;
 
       Object.defineProperty(component, 'approvalFacade', {
@@ -85,6 +86,7 @@ describe('ReleaseModalComponent', () => {
         getAllApprovalData: jest.fn(),
         approvalStatus$: of({ thirdApproverRequired: true } as ApprovalStatus),
         triggerApprovalWorkflowSucceeded$: of(),
+        saveApprovalWorkflowInformationSucceeded$: of(),
       } as unknown as ApprovalFacade;
 
       Object.defineProperty(component, 'approvalFacade', {
@@ -104,6 +106,7 @@ describe('ReleaseModalComponent', () => {
         getAllApprovalData: jest.fn(),
         approvalStatus$: of({ autoApproval: true } as ApprovalStatus),
         triggerApprovalWorkflowSucceeded$: of(),
+        saveApprovalWorkflowInformationSucceeded$: of(),
       } as unknown as ApprovalFacade;
 
       Object.defineProperty(component, 'approvalFacade', {
@@ -131,6 +134,7 @@ describe('ReleaseModalComponent', () => {
             allApproversLoading$: of(false),
             approvalStatusLoading$: of(true),
             triggerApprovalWorkflowSucceeded$: of(),
+            saveApprovalWorkflowInformationSucceeded$: of(),
           } as unknown as ApprovalFacade;
 
           Object.defineProperty(component, 'approvalFacade', {
@@ -155,6 +159,7 @@ describe('ReleaseModalComponent', () => {
             allApproversLoading$: of(true),
             approvalStatusLoading$: of(false),
             triggerApprovalWorkflowSucceeded$: of(),
+            saveApprovalWorkflowInformationSucceeded$: of(),
           } as unknown as ApprovalFacade;
 
           Object.defineProperty(component, 'approvalFacade', {
@@ -178,6 +183,7 @@ describe('ReleaseModalComponent', () => {
             allApproversLoading$: of(false),
             approvalStatusLoading$: of(false),
             triggerApprovalWorkflowSucceeded$: of(),
+            saveApprovalWorkflowInformationSucceeded$: of(),
           } as unknown as ApprovalFacade;
 
           Object.defineProperty(component, 'approvalFacade', {
@@ -197,6 +203,29 @@ describe('ReleaseModalComponent', () => {
           getAllApprovalData: jest.fn(),
           approvalStatus$: of(),
           triggerApprovalWorkflowSucceeded$: of(true),
+          saveApprovalWorkflowInformationSucceeded$: of(),
+        } as unknown as ApprovalFacade;
+
+        Object.defineProperty(component, 'approvalFacade', {
+          value: facadeMock,
+        });
+
+        const closeDialogSpy = jest.spyOn(component, 'closeDialog');
+        closeDialogSpy.mockImplementation();
+
+        component.ngOnInit();
+
+        expect(closeDialogSpy).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    describe('save approval workflow information success', () => {
+      test('should close dialog when save approval workflow information succeeded', () => {
+        const facadeMock: ApprovalFacade = {
+          getAllApprovalData: jest.fn(),
+          approvalStatus$: of(),
+          triggerApprovalWorkflowSucceeded$: of(),
+          saveApprovalWorkflowInformationSucceeded$: of(true),
         } as unknown as ApprovalFacade;
 
         Object.defineProperty(component, 'approvalFacade', {
@@ -310,6 +339,7 @@ describe('ReleaseModalComponent', () => {
         thirdApproverRequired: true,
       } as ApprovalStatus);
       component.approvalFacade.triggerApprovalWorkflowSucceeded$ = of();
+      component.approvalFacade.saveApprovalWorkflowInformationSucceeded$ = of();
       component.ngOnInit();
 
       const formValue = {
@@ -343,6 +373,7 @@ describe('ReleaseModalComponent', () => {
         autoApproval: true,
       } as ApprovalStatus);
       component.approvalFacade.triggerApprovalWorkflowSucceeded$ = of();
+      component.approvalFacade.saveApprovalWorkflowInformationSucceeded$ = of();
       component.ngOnInit();
 
       const formValue = {
@@ -359,6 +390,40 @@ describe('ReleaseModalComponent', () => {
 
       expect(triggerApprovalWorkflowSpy).toHaveBeenCalledWith({
         comment: formValue.comment.trim(),
+        projectInformation: formValue.projectInformation,
+      });
+    });
+
+    test('should save approval workflow information', () => {
+      component.approvalFacade.approvalStatus$ = of({
+        thirdApproverRequired: true,
+      } as ApprovalStatus);
+      component.approvalFacade.triggerApprovalWorkflowSucceeded$ = of();
+      component.approvalFacade.saveApprovalWorkflowInformationSucceeded$ = of();
+      component.ngOnInit();
+
+      const formValue = {
+        approver1: { userId: 'APPR1' } as Approver,
+        approver2: { userId: 'APPR2' } as Approver,
+        approver3: { userId: 'APPR3' } as Approver,
+        approverCC: { userId: 'CCuser' } as ActiveDirectoryUser,
+        comment: 'test comment',
+        projectInformation: 'test project info',
+      };
+      const saveApprovalWorkflowInformationSpy = jest.spyOn(
+        component.approvalFacade,
+        'saveApprovalWorkflowInformation'
+      );
+
+      component.formGroup.setValue(formValue);
+      component.save();
+
+      expect(saveApprovalWorkflowInformationSpy).toHaveBeenCalledWith({
+        firstApprover: formValue.approver1.userId,
+        secondApprover: formValue.approver2.userId,
+        thirdApprover: formValue.approver3.userId,
+        infoUser: formValue.approverCC.userId,
+        comment: formValue.comment,
         projectInformation: formValue.projectInformation,
       });
     });

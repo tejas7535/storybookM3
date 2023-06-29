@@ -1,10 +1,6 @@
-export interface TriggerApprovalWorkflowRequest {
-  gqId: number;
-  firstApprover?: string;
-  secondApprover?: string;
-  thirdApprover?: string;
-  infoUser?: string;
-  comment?: string;
-  projectInformation?: string;
+import { ApprovalWorkflowBaseInformation } from './approval-workflow-base-information.model';
+
+export interface TriggerApprovalWorkflowRequest
+  extends ApprovalWorkflowBaseInformation {
   gqLinkBase64Encoded: string;
 }

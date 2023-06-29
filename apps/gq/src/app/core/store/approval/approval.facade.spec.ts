@@ -106,6 +106,19 @@ describe('ApprovalFacade', () => {
     );
 
     test(
+      'should provide saveApprovalWorkflowInformationInProgress',
+      marbles((m) => {
+        mockStore.overrideSelector(
+          approvalFeature.selectSaveApprovalWorkflowInformationInProgress,
+          true
+        );
+        m.expect(
+          service.saveApprovalWorkflowInformationInProgress$
+        ).toBeObservable(m.cold('a', { a: true }));
+      })
+    );
+
+    test(
       'should provide updateApprovalWorkflowInProgress',
       marbles((m) => {
         mockStore.overrideSelector(
@@ -738,6 +751,46 @@ describe('ApprovalFacade', () => {
         m.expect(service.triggerApprovalWorkflowSucceeded$).toBeObservable(
           expected as any
         );
+      })
+    );
+  });
+
+  describe('save approval workflow information', () => {
+    test('should dispatch action saveApprovalWOrkflowInformation', () => {
+      const approvalWorkflowInformation = {
+        firstApprover: 'APPR1',
+        secondApprover: 'APPR2',
+        thirdApprover: 'APPR3',
+        infoUser: 'CC00',
+        comment: 'test comment',
+        projectInformation: 'project info',
+      };
+
+      mockStore.dispatch = jest.fn();
+      service.saveApprovalWorkflowInformation(approvalWorkflowInformation);
+
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        ApprovalActions.saveApprovalWorkflowInformation({
+          approvalWorkflowInformation,
+        })
+      );
+    });
+
+    test(
+      'should succeed',
+      marbles((m) => {
+        const action = ApprovalActions.saveApprovalWorkflowInformationSuccess(
+          {} as any
+        );
+        const expected = m.cold('b', {
+          b: action,
+        });
+
+        actions$ = m.hot('a', { a: action });
+
+        m.expect(
+          service.saveApprovalWorkflowInformationSucceeded$
+        ).toBeObservable(expected as any);
       })
     );
   });

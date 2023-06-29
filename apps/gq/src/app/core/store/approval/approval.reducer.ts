@@ -27,6 +27,7 @@ export interface ApprovalState {
   approvalStatusLoading: boolean;
   triggerApprovalWorkflowInProgress: boolean;
   updateApprovalWorkflowInProgress: boolean;
+  saveApprovalWorkflowInformationInProgress: boolean;
   approvalStatus: ApprovalStatus;
   approvalCockpitLoading: boolean;
   approvalCockpit: ApprovalCockpitData;
@@ -54,10 +55,11 @@ export const initialState: ApprovalState = {
   },
   triggerApprovalWorkflowInProgress: false,
   updateApprovalWorkflowInProgress: false,
+  saveApprovalWorkflowInformationInProgress: false,
   approvalCockpit: {
     approvalEvents: [],
     approvalGeneral: {
-      approverInformation: undefined,
+      infoUser: undefined,
       autoApproval: undefined,
       comment: undefined,
       currency: undefined,
@@ -216,6 +218,45 @@ export const approvalFeature = createFeature({
       (state: ApprovalState, { error }): ApprovalState => ({
         ...state,
         triggerApprovalWorkflowInProgress: false,
+        error,
+      })
+    ),
+    on(
+      ApprovalActions.saveApprovalWorkflowInformation,
+      (state: ApprovalState): ApprovalState => ({
+        ...state,
+        saveApprovalWorkflowInformationInProgress: true,
+        error: undefined,
+      })
+    ),
+    on(
+      ApprovalActions.saveApprovalWorkflowInformationSuccess,
+      (state: ApprovalState, { approvalGeneral }): ApprovalState => ({
+        ...state,
+        saveApprovalWorkflowInformationInProgress: false,
+        error: undefined,
+        approvalCockpit: {
+          ...state.approvalCockpit,
+          // Update only the ApprovalWorkflowBaseInformation fields.
+          // All other fields of approvalGeneral will be null in the backend response and should not be overwritten.
+          approvalGeneral: {
+            ...state.approvalCockpit.approvalGeneral,
+            gqId: approvalGeneral.gqId,
+            firstApprover: approvalGeneral.firstApprover,
+            secondApprover: approvalGeneral.secondApprover,
+            thirdApprover: approvalGeneral.thirdApprover,
+            infoUser: approvalGeneral.infoUser,
+            comment: approvalGeneral.comment,
+            projectInformation: approvalGeneral.projectInformation,
+          },
+        },
+      })
+    ),
+    on(
+      ApprovalActions.saveApprovalWorkflowInformationFailure,
+      (state: ApprovalState, { error }): ApprovalState => ({
+        ...state,
+        saveApprovalWorkflowInformationInProgress: false,
         error,
       })
     ),

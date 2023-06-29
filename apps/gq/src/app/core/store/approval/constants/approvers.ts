@@ -1,4 +1,4 @@
-import { ApprovalLevel } from '@gq/shared/models/approval/approval-level.enum';
+import { ApprovalLevel } from '@gq/shared/models/approval';
 // ###############################################################################################################
 // ###  For approver Logic see documentation                                                                   ###
 // ###  https://confluence.schaeffler.com/pages/viewpage.action?spaceKey=PARS&title=Advanced+Approval+Process  ###

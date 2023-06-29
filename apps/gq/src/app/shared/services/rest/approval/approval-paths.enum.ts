@@ -6,4 +6,5 @@ export enum ApprovalPaths {
   PATH_UPDATE_APPROVAL_WORKFLOW = 'update-approval-workflow',
   PATH_USERS = 'https://graph.microsoft.com/v1.0/users',
   PATH_APPROVAL_COCKPIT_INFO = 'approval-information',
+  PATH_APPROVAL_GENERAL_INFO = 'approval-general',
 }

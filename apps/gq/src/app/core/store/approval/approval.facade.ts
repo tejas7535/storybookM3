@@ -6,7 +6,6 @@ import * as fromActiveCaseSelectors from '@gq/core/store/active-case/active-case
 import {
   ActiveDirectoryUser,
   QuotationStatus,
-  TriggerApprovalWorkflowRequest,
   UpdateApprovalWorkflowRequest,
 } from '@gq/shared/models';
 import {
@@ -15,6 +14,7 @@ import {
   ApprovalLevel,
   ApprovalStatus,
   ApprovalStatusOfRequestedApprover,
+  ApprovalWorkflowBaseInformation,
   ApprovalWorkflowEvent,
   ApprovalWorkflowInformation,
   Approver,
@@ -84,6 +84,16 @@ export class ApprovalFacade {
   triggerApprovalWorkflowSucceeded$: Observable<void> = this.actions$.pipe(
     ofType(ApprovalActions.triggerApprovalWorkflowSuccess)
   );
+
+  saveApprovalWorkflowInformationInProgress$: Observable<boolean> =
+    this.store.select(
+      approvalFeature.selectSaveApprovalWorkflowInformationInProgress
+    );
+
+  saveApprovalWorkflowInformationSucceeded$: Observable<void> =
+    this.actions$.pipe(
+      ofType(ApprovalActions.saveApprovalWorkflowInformationSuccess)
+    );
 
   updateApprovalWorkflowInProgress$: Observable<boolean> = this.store.select(
     approvalFeature.selectUpdateApprovalWorkflowInProgress
@@ -269,13 +279,25 @@ export class ApprovalFacade {
    * @param approvalWorkflowData Approval workflow data, specified by the user
    */
   triggerApprovalWorkflow(
-    approvalWorkflowData: Omit<
-      TriggerApprovalWorkflowRequest,
-      'gqId' | 'gqLinkBase64Encoded'
-    >
+    approvalWorkflowData: Omit<ApprovalWorkflowBaseInformation, 'gqId'>
   ): void {
     this.store.dispatch(
       ApprovalActions.triggerApprovalWorkflow({ approvalWorkflowData })
+    );
+  }
+
+  /**
+   * Save the approval workflow information
+   *
+   * @param approvalWorkflowInformation Approval workflow information to be saved
+   */
+  saveApprovalWorkflowInformation(
+    approvalWorkflowInformation: Omit<ApprovalWorkflowBaseInformation, 'gqId'>
+  ): void {
+    this.store.dispatch(
+      ApprovalActions.saveApprovalWorkflowInformation({
+        approvalWorkflowInformation,
+      })
     );
   }
 
