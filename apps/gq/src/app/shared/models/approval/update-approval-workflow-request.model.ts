@@ -6,8 +6,8 @@ export interface UpdateApprovalWorkflowRequest {
 }
 
 export enum UpdateFunction {
-  APPROVE_QUOTATION = 'ApproveQuotation',
-  REJECT_QUOTATION = 'RejectQuotation',
-  FORWARD_WF_ITEM = 'ForwardWFItem',
-  CANCEL_WORKFLOW = 'CANCEL_WF',
+  APPROVE_QUOTATION = 'APPROVE_QUOTATION',
+  REJECT_QUOTATION = 'REJECT_QUOTATION',
+  FORWARD_WF_ITEM = 'FORWARD_WF_ITEM',
+  CANCEL_WORKFLOW = 'CANCEL_WORKFLOW',
 }
