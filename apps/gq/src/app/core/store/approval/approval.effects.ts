@@ -7,7 +7,6 @@ import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-p
 import { ActiveDirectoryUser } from '@gq/shared/models';
 import {
   ApprovalCockpitData,
-  ApprovalStatus,
   ApprovalWorkflowEvent,
   ApprovalWorkflowInformation,
   Approver,
@@ -54,38 +53,6 @@ export class ApprovalEffects {
       )
     );
   });
-
-  getApprovalStatusOfSapQuotation$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(ApprovalActions.getApprovalStatus),
-      concatLatestFrom(() =>
-        this.store.select(approvalFeature.selectApprovalStatus)
-      ),
-      mergeMap(
-        ([action, recentApprovalStatus]: [
-          ReturnType<typeof ApprovalActions.getApprovalStatus>,
-          ApprovalStatus
-        ]) => {
-          if (
-            !recentApprovalStatus?.sapId ||
-            recentApprovalStatus?.sapId !== action.sapId
-          ) {
-            return this.approvalService.getApprovalStatus(action.sapId).pipe(
-              map((approvalStatus: ApprovalStatus) =>
-                ApprovalActions.getApprovalStatusSuccess({ approvalStatus })
-              ),
-              catchError((error: Error) =>
-                of(ApprovalActions.getApprovalStatusFailure({ error }))
-              )
-            );
-          }
-
-          return of(ApprovalActions.approvalStatusAlreadyLoaded());
-        }
-      )
-    );
-  });
-
   getActiveDirectoryUsers$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ApprovalActions.getActiveDirectoryUsers),

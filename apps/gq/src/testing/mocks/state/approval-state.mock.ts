@@ -73,7 +73,7 @@ export const APPROVAL_STATE_MOCK: ApprovalState = {
       lastName: 'Soehnlein',
     },
   ],
-  approvalStatusLoading: false,
+
   error: undefined,
   approversLoading: false,
   activeDirectoryUsersLoading: false,
@@ -81,20 +81,11 @@ export const APPROVAL_STATE_MOCK: ApprovalState = {
   updateApprovalWorkflowInProgress: false,
   saveApprovalWorkflowInformationInProgress: false,
   approvalCockpitLoading: false,
-  approvalStatus: {
-    sapId: '12345',
-    currency: 'EUR',
-    approvalLevel: ApprovalLevel.L2,
-    thirdApproverRequired: false,
-    autoApproval: false,
-    priceDeviation: 10,
-    gpm: 15,
-    totalNetValue: 100_000,
-  },
   approvalCockpit: {
     approvalGeneral: {
       gqId: 51_553,
       sapId: '800194605',
+      approvalLevel: ApprovalLevel.L1,
       thirdApproverRequired: false,
       autoApproval: false,
       firstApprover: 'KELLERBI',

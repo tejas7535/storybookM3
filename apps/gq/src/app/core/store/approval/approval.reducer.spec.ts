@@ -2,7 +2,6 @@ import {
   ApprovalCockpitData,
   ApprovalEventType,
   ApprovalLevel,
-  ApprovalStatus,
   ApprovalWorkflowBaseInformation,
   ApprovalWorkflowEvent,
   ApprovalWorkflowInformation,
@@ -16,16 +15,6 @@ import { firstApproverLogic } from './constants/approvers';
 
 describe('approvalReducer', () => {
   describe('clear', () => {
-    test('should clear values for approvalStatus', () => {
-      const action = ApprovalActions.clearApprovalStatus();
-      const state = approvalFeature.reducer(APPROVAL_STATE_MOCK, action);
-      expect(state).toEqual({
-        ...APPROVAL_STATE_MOCK,
-        approvalStatusLoading: false,
-        approvalStatus: { ...initialState.approvalStatus },
-      });
-    });
-
     test('should clear values for approvalCockpit', () => {
       const action = ApprovalActions.clearApprovalCockpitData();
       const state = approvalFeature.reducer(APPROVAL_STATE_MOCK, action);
@@ -77,74 +66,6 @@ describe('approvalReducer', () => {
       expect(state).toEqual({
         ...initialState,
         approversLoading: false,
-      });
-    });
-  });
-
-  describe('getApprovalStatus', () => {
-    test('should set approvalStatusLoading', () => {
-      const action = ApprovalActions.getApprovalStatus({ sapId: '1' });
-      const state = approvalFeature.reducer(initialState, action);
-      expect(state).toEqual({
-        ...initialState,
-        approvalStatusLoading: true,
-      });
-    });
-
-    test('should set the error', () => {
-      const error = new Error('my error');
-      const action = ApprovalActions.getApprovalStatusFailure({ error });
-      const state = approvalFeature.reducer(APPROVAL_STATE_MOCK, action);
-      expect(state).toEqual({
-        ...APPROVAL_STATE_MOCK,
-        approvalStatusLoading: false,
-        approvalStatus: {
-          sapId: undefined,
-          currency: undefined,
-          approvalLevel: undefined,
-          thirdApproverRequired: false,
-          autoApproval: false,
-          totalNetValue: undefined,
-          gpm: undefined,
-          priceDeviation: undefined,
-        },
-        error,
-      });
-    });
-
-    test('should set approvalStatus Values', () => {
-      const approvalStatus: ApprovalStatus = {
-        sapId: '12345',
-        currency: 'EUR',
-        approvalLevel: ApprovalLevel.L2,
-        thirdApproverRequired: false,
-        autoApproval: false,
-        priceDeviation: 10,
-        gpm: 15,
-        totalNetValue: 100_000,
-      };
-      const action = ApprovalActions.getApprovalStatusSuccess({
-        approvalStatus,
-      });
-      const state = approvalFeature.reducer(initialState, action);
-      expect(state).toEqual({
-        ...initialState,
-        approvalStatusLoading: false,
-        approvalStatus: {
-          ...approvalStatus,
-          approvalLevel: ApprovalLevel.L2,
-        },
-      });
-    });
-    test('should set loading to false, when already loaded', () => {
-      const action = ApprovalActions.approvalStatusAlreadyLoaded();
-      const state = approvalFeature.reducer(
-        { ...initialState, approvalStatusLoading: true },
-        action
-      );
-      expect(state).toEqual({
-        ...initialState,
-        approvalStatusLoading: false,
       });
     });
   });
@@ -512,25 +433,31 @@ describe('approvalReducer', () => {
       test('should return approvalLevel for firstApprover', () => {
         expect(
           approvalFeature.getApprovalLevelFirstApprover.projector({
-            approvalLevel: ApprovalLevel.L1,
-            thirdApproverRequired: false,
-          } as ApprovalStatus)
+            approvalGeneral: {
+              approvalLevel: ApprovalLevel.L1,
+              thirdApproverRequired: false,
+            },
+          } as ApprovalCockpitData)
         ).toEqual(ApprovalLevel.L1);
       });
       test('should return approvalLevel for secondApprover', () => {
         expect(
           approvalFeature.getApprovalLevelSecondApprover.projector({
-            approvalLevel: ApprovalLevel.L1,
-            thirdApproverRequired: false,
-          } as ApprovalStatus)
+            approvalGeneral: {
+              approvalLevel: ApprovalLevel.L1,
+              thirdApproverRequired: false,
+            },
+          } as ApprovalCockpitData)
         ).toEqual(ApprovalLevel.L2);
       });
       test('should return approvalLevel for thirdApprover', () => {
         expect(
           approvalFeature.getApprovalLevelThirdApprover.projector({
-            approvalLevel: ApprovalLevel.L4,
-            thirdApproverRequired: true,
-          } as ApprovalStatus)
+            approvalGeneral: {
+              approvalLevel: ApprovalLevel.L4,
+              thirdApproverRequired: true,
+            },
+          } as ApprovalCockpitData)
         ).toEqual(ApprovalLevel.L4);
       });
     });
@@ -539,9 +466,11 @@ describe('approvalReducer', () => {
       test('should return string when 3rd Approver is not needed', () => {
         expect(
           approvalFeature.getRequiredApprovalLevelsForQuotation.projector({
-            approvalLevel: ApprovalLevel.L4,
-            thirdApproverRequired: false,
-          } as ApprovalStatus)
+            approvalGeneral: {
+              approvalLevel: ApprovalLevel.L4,
+              thirdApproverRequired: false,
+            },
+          } as ApprovalCockpitData)
         ).toEqual(
           `${ApprovalLevel[ApprovalLevel.L4]} + ${
             ApprovalLevel[ApprovalLevel.L4]
@@ -551,9 +480,11 @@ describe('approvalReducer', () => {
       test('should return string when 3rd Approver is  needed', () => {
         expect(
           approvalFeature.getRequiredApprovalLevelsForQuotation.projector({
-            approvalLevel: ApprovalLevel.L4,
-            thirdApproverRequired: true,
-          } as ApprovalStatus)
+            approvalGeneral: {
+              approvalLevel: ApprovalLevel.L4,
+              thirdApproverRequired: true,
+            },
+          } as ApprovalCockpitData)
         ).toEqual(
           `${ApprovalLevel[ApprovalLevel.L3]} + ${
             ApprovalLevel[ApprovalLevel.L4]
@@ -568,9 +499,11 @@ describe('approvalReducer', () => {
           approvalFeature.getFirstApprovers.projector(
             APPROVAL_STATE_MOCK.approvers,
             {
-              approvalLevel: ApprovalLevel.L1,
-              thirdApproverRequired: true,
-            } as ApprovalStatus
+              approvalGeneral: {
+                approvalLevel: ApprovalLevel.L1,
+                thirdApproverRequired: true,
+              },
+            } as ApprovalCockpitData
           )
         ).toEqual([]);
       });
@@ -579,9 +512,11 @@ describe('approvalReducer', () => {
           approvalFeature.getFirstApprovers.projector(
             APPROVAL_STATE_MOCK.approvers,
             {
-              thirdApproverRequired: false,
-              approvalLevel: ApprovalLevel.L1,
-            } as ApprovalStatus
+              approvalGeneral: {
+                thirdApproverRequired: false,
+                approvalLevel: ApprovalLevel.L1,
+              },
+            } as ApprovalCockpitData
           )
         ).toEqual(
           APPROVAL_STATE_MOCK.approvers.filter(
@@ -594,9 +529,11 @@ describe('approvalReducer', () => {
           approvalFeature.getFirstApprovers.projector(
             APPROVAL_STATE_MOCK.approvers,
             {
-              thirdApproverRequired: true,
-              approvalLevel: ApprovalLevel.L5,
-            } as ApprovalStatus
+              approvalGeneral: {
+                thirdApproverRequired: true,
+                approvalLevel: ApprovalLevel.L5,
+              },
+            } as ApprovalCockpitData
           )
         ).toEqual(
           APPROVAL_STATE_MOCK.approvers.filter(
@@ -612,9 +549,11 @@ describe('approvalReducer', () => {
           approvalFeature.getSecondApprovers.projector(
             APPROVAL_STATE_MOCK.approvers,
             {
-              thirdApproverRequired: true,
-              approvalLevel: ApprovalLevel.L1,
-            } as ApprovalStatus
+              approvalGeneral: {
+                thirdApproverRequired: true,
+                approvalLevel: ApprovalLevel.L1,
+              },
+            } as ApprovalCockpitData
           )
         ).toEqual([]);
       });
@@ -623,9 +562,11 @@ describe('approvalReducer', () => {
           approvalFeature.getSecondApprovers.projector(
             APPROVAL_STATE_MOCK.approvers,
             {
-              thirdApproverRequired: false,
-              approvalLevel: ApprovalLevel.L1,
-            } as ApprovalStatus
+              approvalGeneral: {
+                thirdApproverRequired: false,
+                approvalLevel: ApprovalLevel.L1,
+              },
+            } as ApprovalCockpitData
           )
         ).toEqual(
           APPROVAL_STATE_MOCK.approvers.filter(
@@ -638,9 +579,11 @@ describe('approvalReducer', () => {
           approvalFeature.getSecondApprovers.projector(
             APPROVAL_STATE_MOCK.approvers,
             {
-              thirdApproverRequired: true,
-              approvalLevel: ApprovalLevel.L5,
-            } as ApprovalStatus
+              approvalGeneral: {
+                thirdApproverRequired: true,
+                approvalLevel: ApprovalLevel.L5,
+              },
+            } as ApprovalCockpitData
           )
         ).toEqual(
           APPROVAL_STATE_MOCK.approvers.filter(
@@ -656,9 +599,11 @@ describe('approvalReducer', () => {
           approvalFeature.getThirdApprovers.projector(
             APPROVAL_STATE_MOCK.approvers,
             {
-              thirdApproverRequired: true,
-              approvalLevel: ApprovalLevel.L1,
-            } as ApprovalStatus
+              approvalGeneral: {
+                thirdApproverRequired: true,
+                approvalLevel: ApprovalLevel.L1,
+              },
+            } as ApprovalCockpitData
           )
         ).toEqual([]);
       });
@@ -667,9 +612,11 @@ describe('approvalReducer', () => {
           approvalFeature.getThirdApprovers.projector(
             APPROVAL_STATE_MOCK.approvers,
             {
-              thirdApproverRequired: false,
-              approvalLevel: ApprovalLevel.L1,
-            } as ApprovalStatus
+              approvalGeneral: {
+                thirdApproverRequired: false,
+                approvalLevel: ApprovalLevel.L1,
+              },
+            } as ApprovalCockpitData
           )
         ).toEqual([]);
       });
@@ -678,9 +625,11 @@ describe('approvalReducer', () => {
           approvalFeature.getThirdApprovers.projector(
             APPROVAL_STATE_MOCK.approvers,
             {
-              thirdApproverRequired: true,
-              approvalLevel: ApprovalLevel.L5,
-            } as ApprovalStatus
+              approvalGeneral: {
+                thirdApproverRequired: true,
+                approvalLevel: ApprovalLevel.L5,
+              },
+            } as ApprovalCockpitData
           )
         ).toEqual(
           APPROVAL_STATE_MOCK.approvers.filter(
@@ -694,9 +643,11 @@ describe('approvalReducer', () => {
           approvalFeature.getThirdApprovers.projector(
             APPROVAL_STATE_MOCK.approvers,
             {
-              thirdApproverRequired: true,
-              approvalLevel: ApprovalLevel.L4,
-            } as ApprovalStatus
+              approvalGeneral: {
+                thirdApproverRequired: true,
+                approvalLevel: ApprovalLevel.L4,
+              },
+            } as ApprovalCockpitData
           )
         ).toEqual(
           APPROVAL_STATE_MOCK.approvers.filter(

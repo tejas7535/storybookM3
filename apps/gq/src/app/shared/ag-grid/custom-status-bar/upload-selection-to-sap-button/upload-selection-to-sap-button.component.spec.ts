@@ -1,8 +1,6 @@
-import { MatButtonModule } from '@angular/material/button';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatIconModule } from '@angular/material/icon';
 import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
-import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { of } from 'rxjs';
 
@@ -30,11 +28,8 @@ describe('uploadSelectionToSapButtonComponent', () => {
     component: UploadSelectionToSapButtonComponent,
     declarations: [MockDirective(HideIfQuotationHasStatusDirective)],
     imports: [
-      MatButtonModule,
-      MatIconModule,
       MatDialogModule,
       PushModule,
-      MatTooltipModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
@@ -45,6 +40,7 @@ describe('uploadSelectionToSapButtonComponent', () => {
       }),
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {

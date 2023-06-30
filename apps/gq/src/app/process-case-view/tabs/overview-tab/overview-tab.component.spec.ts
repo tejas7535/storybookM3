@@ -9,7 +9,7 @@ import {
 } from '@gq/core/store/active-case';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { Rating } from '@gq/shared/components/kpi-status-card/models/rating.enum';
-import { ApprovalStatus } from '@gq/shared/models/approval';
+import { ApprovalWorkflowInformation } from '@gq/shared/models';
 import { QuotationPricingOverview } from '@gq/shared/models/quotation';
 import { NumberCurrencyPipe } from '@gq/shared/pipes/number-currency/number-currency.pipe';
 import { PercentagePipe } from '@gq/shared/pipes/percentage/percentage.pipe';
@@ -37,7 +37,9 @@ describe('OverviewTabComponent', () => {
   const facadeMock = {
     getAllApprovalData: jest.fn(),
     requiredApprovalLevelsForQuotation$: of('approvalLevel'),
-    approvalStatus$: of(APPROVAL_STATE_MOCK.approvalStatus),
+    approvalCockpitInformation$: of(
+      APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
+    ),
   } as unknown as ApprovalFacade;
 
   const createComponent = createComponentFactory({
@@ -83,14 +85,18 @@ describe('OverviewTabComponent', () => {
         };
         const expectedPricingInformation: QuotationPricingOverview = {
           netValue: {
-            value: APPROVAL_STATE_MOCK.approvalStatus.totalNetValue,
+            value:
+              APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.totalNetValue,
             warning: true,
           },
           avgGqRating: {
             value: mockQuotationOverviewInformation.avgGqRating.value,
           },
           gpi: { value: mockQuotationOverviewInformation.gpi.value },
-          gpm: { value: APPROVAL_STATE_MOCK.approvalStatus.gpm, warning: true },
+          gpm: {
+            value: APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.gpm,
+            warning: true,
+          },
         };
         store.overrideSelector(getQuotationDetails, QUOTATION_DETAILS_MOCK);
         store.overrideSelector(
@@ -142,7 +148,9 @@ describe('OverviewTabComponent', () => {
           value: {
             getAllApprovalData: jest.fn(),
             requiredApprovalLevelsForQuotation$: of('approvalLevel'),
-            approvalStatus$: of({} as unknown as ApprovalStatus),
+            approvalCockpitInformation$: of(
+              {} as unknown as ApprovalWorkflowInformation
+            ),
           } as unknown as ApprovalFacade,
         });
 

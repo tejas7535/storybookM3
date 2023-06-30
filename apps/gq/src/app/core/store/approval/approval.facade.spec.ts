@@ -54,19 +54,6 @@ describe('ApprovalFacade', () => {
 
   describe('should provide loading statuses', () => {
     test(
-      'should provide approvalStatusLoading',
-      marbles((m) => {
-        mockStore.overrideSelector(
-          approvalFeature.selectApprovalStatusLoading,
-          false
-        );
-        m.expect(service.approvalStatusLoading$).toBeObservable(
-          m.cold('a', { a: false })
-        );
-      })
-    );
-
-    test(
       'should provide allApproversLoading',
       marbles((m) => {
         mockStore.overrideSelector(
@@ -643,23 +630,6 @@ describe('ApprovalFacade', () => {
       );
     });
 
-    test('should dispatch action getApprovalStatus', () => {
-      mockStore.dispatch = jest.fn();
-      service.getApprovalStatus(expect.any(String));
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
-        ApprovalActions.getApprovalStatus({ sapId: expect.any(String) })
-      );
-    });
-
-    test('should dispatch action clearApprovalStatus', () => {
-      mockStore.dispatch = jest.fn();
-
-      service.getApprovalStatus(undefined as string);
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
-        ApprovalActions.clearApprovalStatus()
-      );
-    });
-
     test('should dispatch action getApprovalCockpitData', () => {
       mockStore.dispatch = jest.fn();
       service.getApprovalCockpitData(expect.any(String));
@@ -679,24 +649,20 @@ describe('ApprovalFacade', () => {
 
     test('should call methods', () => {
       service.getApprovers = jest.fn();
-      service.getApprovalStatus = jest.fn();
       service.getApprovalCockpitData = jest.fn();
 
       service.getAllApprovalData(expect.any(String));
 
       expect(service.getApprovers).toHaveBeenCalled();
-      expect(service.getApprovalStatus).toHaveBeenCalled();
       expect(service.getApprovalCockpitData).toHaveBeenCalled();
     });
 
     test('should call methods for approvalOverview', () => {
-      service.getApprovalStatus = jest.fn();
       service.getApprovalCockpitData = jest.fn();
       service.getApprovalCockpitData = jest.fn();
 
       service.getAllApprovalData(expect.any(String));
 
-      expect(service.getApprovalStatus).toHaveBeenCalled();
       expect(service.getApprovalCockpitData).toHaveBeenCalled();
       expect(service.getApprovalCockpitData).toHaveBeenCalled();
     });

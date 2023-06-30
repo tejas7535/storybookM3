@@ -1,7 +1,6 @@
 import {
   ActiveDirectoryUser,
   ApprovalCockpitData,
-  ApprovalStatus,
   ApprovalWorkflowBaseInformation,
   ApprovalWorkflowEvent,
   ApprovalWorkflowInformation,
@@ -17,11 +16,6 @@ export const ApprovalActions = createActionGroup({
     'Get all Approvers Success': props<{ approvers: Approver[] }>(),
     'All Approvers already loaded': emptyProps(),
     'Get all Approvers Failure': props<{ error: Error }>(),
-    'Get Approval Status': props<{ sapId: string }>(),
-    'Get Approval Status Success': props<{ approvalStatus: ApprovalStatus }>(),
-    'Approval Status already loaded': emptyProps(),
-    'Get Approval Status Failure': props<{ error: Error }>(),
-    'Clear Approval Status': emptyProps(),
     'Get Active Directory Users': props<{ searchExpression: string }>(),
     'Get Active Directory Users Success': props<{
       activeDirectoryUsers: ActiveDirectoryUser[];

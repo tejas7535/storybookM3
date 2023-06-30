@@ -97,6 +97,11 @@ export class DetailViewComponent implements OnInit {
     }
   }
 
+  getSelectedQuotationIndex = (selectedQuotationId: string): number =>
+    this.quotations.findIndex(
+      (detail: QuotationDetail) => detail.gqPositionId === selectedQuotationId
+    );
+
   private readonly navigateToDetailView = (gqPositionId: string): void => {
     this.router.navigate([AppRoutePath.DetailViewPath], {
       queryParamsHandling: 'merge',
@@ -105,9 +110,4 @@ export class DetailViewComponent implements OnInit {
       },
     });
   };
-
-  getSelectedQuotationIndex = (selectedQuotationId: string): number =>
-    this.quotations.findIndex(
-      (detail: QuotationDetail) => detail.gqPositionId === selectedQuotationId
-    );
 }

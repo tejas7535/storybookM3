@@ -118,34 +118,6 @@ describe('ApprovalService', () => {
     });
   });
 
-  describe('getApprovalStatus', () => {
-    test('should call with correct path', () => {
-      service.getApprovalStatus('12345').subscribe();
-      const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${ApprovalPaths.PATH_APPROVAL}/${ApprovalPaths.PATH_APPROVAL_STATUS}/12345`
-      );
-
-      expect(req.request.method).toBe(HttpMethod.GET);
-    });
-
-    test('should map', () => {
-      const response = {
-        ...APPROVAL_STATE_MOCK.approvalStatus,
-        approvalLevel: 'L2',
-      };
-      service
-        .getApprovalStatus('12345')
-        .subscribe((data) =>
-          expect(data).toEqual(APPROVAL_STATE_MOCK.approvalStatus)
-        );
-      const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${ApprovalPaths.PATH_APPROVAL}/${ApprovalPaths.PATH_APPROVAL_STATUS}/12345`
-      );
-
-      req.flush(response);
-    });
-  });
-
   describe('getActiveDirectoryUsers', () => {
     test('should call with correct path and header', () => {
       const searchExpression = 'test';
@@ -249,6 +221,7 @@ describe('ApprovalService', () => {
         totalNetValue: undefined,
         gpm: undefined,
         priceDeviation: undefined,
+        approvalLevel: undefined,
       };
 
       service
@@ -308,6 +281,26 @@ describe('ApprovalService', () => {
       );
 
       expect(req.request.method).toBe(HttpMethod.GET);
+    });
+
+    test('should map', () => {
+      const response = {
+        approvalGeneral: {
+          ...APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral,
+          approvalLevel: 'L2',
+        },
+        approvalEvents: APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents,
+      };
+      service
+        .getApprovalCockpitData('12345')
+        .subscribe((data) =>
+          expect(data).toEqual(APPROVAL_STATE_MOCK.approvalCockpit)
+        );
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${ApprovalPaths.PATH_APPROVAL}/${ApprovalPaths.PATH_APPROVAL_COCKPIT_INFO}/12345`
+      );
+
+      req.flush(response);
     });
   });
 });

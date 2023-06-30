@@ -20,13 +20,19 @@
     >
       <div class="px-4">
         <p
-          *ngIf="!(approvalFacade.approvalStatus$ | ngrxPush).autoApproval"
+          *ngIf="
+            !(approvalFacade.approvalCockpitInformation$ | ngrxPush)
+              .autoApproval
+          "
           class="text-subtitle-2 pt-4"
         >
           {{ t('summary') }}
         </p>
         <div
-          *ngIf="!(approvalFacade.approvalStatus$ | ngrxPush).autoApproval"
+          *ngIf="
+            !(approvalFacade.approvalCockpitInformation$ | ngrxPush)
+              .autoApproval
+          "
           class="flex items-center pt-3"
         >
           <p class="text-body-2 text-medium-emphasis">
@@ -37,7 +43,12 @@
           }}</span>
         </div>
 
-        <div *ngIf="!(approvalFacade.approvalStatus$ | ngrxPush).autoApproval">
+        <div
+          *ngIf="
+            !(approvalFacade.approvalCockpitInformation$ | ngrxPush)
+              .autoApproval
+          "
+        >
           <p class="text-subtitle-2 pb-4 pt-6">{{ t('approvers') }}</p>
           <gq-release-modal-user-select
             tabindex="0"
@@ -74,7 +85,8 @@
           ></gq-release-modal-user-select>
           <gq-release-modal-user-select
             *ngIf="
-              (approvalFacade.approvalStatus$ | ngrxPush)?.thirdApproverRequired
+              (approvalFacade.approvalCockpitInformation$ | ngrxPush)
+                ?.thirdApproverRequired
             "
             [enableFiltering]="true"
             [userSelectFormControl]="approver3FormControl"
@@ -147,7 +159,8 @@
           color="primary"
           (click)="triggerAutoApproval()"
           *ngIf="
-            (approvalFacade.approvalStatus$ | ngrxPush)?.autoApproval;
+            (approvalFacade.approvalCockpitInformation$ | ngrxPush)
+              ?.autoApproval;
             else startWorkflowButton
           "
         >

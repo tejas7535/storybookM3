@@ -31,8 +31,8 @@ import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import {
   ActiveDirectoryUser,
   ApprovalLevel,
-  ApprovalStatus,
   ApprovalWorkflowBaseInformation,
+  ApprovalWorkflowInformation,
   Approver,
   Quotation,
 } from '@gq/shared/models';
@@ -115,19 +115,19 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
 
     this.dataLoadingComplete$ = combineLatest([
       this.approvalFacade.allApproversLoading$,
-      this.approvalFacade.approvalStatusLoading$,
-      this.approvalFacade.approvalStatus$,
+      this.approvalFacade.approvalCockpitLoading$,
+      this.approvalFacade.approvalCockpitInformation$,
     ]).pipe(
       takeUntil(this.shutdown$$),
       map(
-        ([loadingAllApprovers, loadingApprovalStatus, approvalStatus]: [
+        ([loadingAllApprovers, loadingApprovalStatus, approvalInformation]: [
           boolean,
           boolean,
-          ApprovalStatus
+          ApprovalWorkflowInformation
         ]) =>
           !loadingAllApprovers &&
           !loadingApprovalStatus &&
-          !!approvalStatus.sapId
+          !!approvalInformation.sapId
       )
     );
 
@@ -142,22 +142,35 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
       ),
     });
 
-    this.approvalFacade.approvalStatus$
+    this.approvalFacade.approvalCockpitInformation$
       .pipe(
         takeUntil(this.shutdown$$),
-        tap(({ thirdApproverRequired, autoApproval }: ApprovalStatus) => {
-          if (!autoApproval) {
-            this.formGroup.addControl('approver1', this.approver1FormControl);
-            this.formGroup.addControl('approver2', this.approver2FormControl);
-            this.formGroup.addControl('approverCC', this.approverCCFormControl);
+        tap(
+          ({
+            thirdApproverRequired,
+            autoApproval,
+          }: ApprovalWorkflowInformation) => {
+            if (!autoApproval) {
+              this.formGroup.addControl('approver1', this.approver1FormControl);
+              this.formGroup.addControl('approver2', this.approver2FormControl);
+              this.formGroup.addControl(
+                'approverCC',
+                this.approverCCFormControl
+              );
 
-            if (thirdApproverRequired) {
-              this.formGroup.addControl('approver3', this.approver3FormControl);
+              if (thirdApproverRequired) {
+                this.formGroup.addControl(
+                  'approver3',
+                  this.approver3FormControl
+                );
+              }
+
+              this.formGroup.addValidators(
+                approversDifferValidator().bind(this)
+              );
             }
-
-            this.formGroup.addValidators(approversDifferValidator().bind(this));
           }
-        })
+        )
       )
       .subscribe();
 

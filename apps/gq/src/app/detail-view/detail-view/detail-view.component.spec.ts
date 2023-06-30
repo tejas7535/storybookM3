@@ -1,11 +1,7 @@
-import { MatButtonModule } from '@angular/material/button';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { SyncStatusCustomerInfoHeaderModule } from '@gq/shared/components/header/sync-status-customer-info-header/sync-status-customer-info-header.module';
 import { SAP_SYNC_STATUS } from '@gq/shared/models/quotation-detail';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import {
@@ -13,17 +9,12 @@ import {
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule, PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles/jest';
 
-import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
-import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
-import { ShareButtonModule } from '@schaeffler/share-button';
-import { SubheaderModule } from '@schaeffler/subheader';
 
 import {
   MATERIAL_STOCK_STATE_MOCK,
@@ -34,13 +25,6 @@ import {
 import { MATERIAL_STOCK_MOCK } from '../../../testing/mocks/models/material-stock.mock';
 import { ACTIVE_CASE_STATE_MOCK } from '../../../testing/mocks/state/active-case-state.mock';
 import { DetailViewComponent } from './detail-view.component';
-import { FilterPricingModule } from './filter-pricing/filter-pricing.module';
-import { PricingDetailsModule } from './pricing-details/pricing-details.module';
-
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
 
 describe('DetailViewComponent', () => {
   let component: DetailViewComponent;
@@ -50,23 +34,12 @@ describe('DetailViewComponent', () => {
   const createComponent = createComponentFactory({
     component: DetailViewComponent,
     imports: [
-      BrowserAnimationsModule,
-      FilterPricingModule,
-      MatButtonModule,
-      MatSidenavModule,
-      PricingDetailsModule,
-      LoadingSpinnerModule,
       MockModule(LetModule),
       MockModule(PushModule),
-      SubheaderModule,
       BreadcrumbsModule,
-      ShareButtonModule,
       RouterTestingModule,
-      SyncStatusCustomerInfoHeaderModule,
     ],
     providers: [
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
-      mockProvider(ApplicationInsightsService),
       provideMockStore({
         initialState: {
           activeCase: {
@@ -79,6 +52,7 @@ describe('DetailViewComponent', () => {
       }),
       mockProvider(AgGridStateService),
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {

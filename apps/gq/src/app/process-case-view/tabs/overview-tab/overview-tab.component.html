@@ -3,7 +3,7 @@
   *transloco="let t; read: 'processCaseView'"
 >
   <ng-container
-    *ngIf="!(approvalFacade.approvalStatusLoading$ | ngrxPush); else loading"
+    *ngIf="!(approvalFacade.approvalCockpitLoading$ | ngrxPush); else loading"
   >
     <div class="gap-4 md:w-1/2 lg:w-full">
       <gq-kpi-status-card [title]="t('tabs.overview.overviewCardTitle')">
@@ -72,8 +72,8 @@
         [title]="t('tabs.overview.priceDeviationCardTitle')"
         [subtitle]="t('tabs.overview.priceDeviationCardSubtitle')"
         [kpiValue]="
-          (approvalFacade.approvalStatus$ | ngrxPush)?.priceDeviation
-            | percentage
+          (approvalFacade.approvalCockpitInformation$ | ngrxPush)
+            ?.priceDeviation | percentage
         "
       >
       </gq-kpi-status-card>

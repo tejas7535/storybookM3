@@ -10,7 +10,7 @@ import { of } from 'rxjs';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import {
   ActiveDirectoryUser,
-  ApprovalStatus,
+  ApprovalWorkflowInformation,
   Approver,
   Quotation,
 } from '@gq/shared/models';
@@ -59,7 +59,9 @@ describe('ReleaseModalComponent', () => {
     beforeEach(() => {
       const facadeMock: ApprovalFacade = {
         getAllApprovalData: jest.fn(),
-        approvalStatus$: of({ thirdApproverRequired: false } as ApprovalStatus),
+        approvalCockpitInformation$: of({
+          thirdApproverRequired: false,
+        } as ApprovalWorkflowInformation),
         triggerApprovalWorkflowSucceeded$: of(),
         saveApprovalWorkflowInformationSucceeded$: of(),
       } as unknown as ApprovalFacade;
@@ -84,7 +86,9 @@ describe('ReleaseModalComponent', () => {
     test('should set approver one, two and three in formGroup', () => {
       const facadeMock: ApprovalFacade = {
         getAllApprovalData: jest.fn(),
-        approvalStatus$: of({ thirdApproverRequired: true } as ApprovalStatus),
+        approvalCockpitInformation$: of({
+          thirdApproverRequired: true,
+        } as ApprovalWorkflowInformation),
         triggerApprovalWorkflowSucceeded$: of(),
         saveApprovalWorkflowInformationSucceeded$: of(),
       } as unknown as ApprovalFacade;
@@ -104,7 +108,9 @@ describe('ReleaseModalComponent', () => {
     test('should set only comment and project information in formGroup', () => {
       const facadeMock: ApprovalFacade = {
         getAllApprovalData: jest.fn(),
-        approvalStatus$: of({ autoApproval: true } as ApprovalStatus),
+        approvalCockpitInformation$: of({
+          autoApproval: true,
+        } as ApprovalWorkflowInformation),
         triggerApprovalWorkflowSucceeded$: of(),
         saveApprovalWorkflowInformationSucceeded$: of(),
       } as unknown as ApprovalFacade;
@@ -123,16 +129,16 @@ describe('ReleaseModalComponent', () => {
 
     describe('calculate loadingComplete', () => {
       test(
-        'should return false when ApprovalStatus is on loading',
+        'should return false when ApprovalCockpit is on loading',
         marbles((m) => {
           const facadeMock: ApprovalFacade = {
             getAllApprovalData: jest.fn(),
-            approvalStatus$: of({
+            approvalCockpitInformation$: of({
               thirdApproverRequired: true,
               sapId: undefined,
-            } as ApprovalStatus),
+            } as ApprovalWorkflowInformation),
             allApproversLoading$: of(false),
-            approvalStatusLoading$: of(true),
+            approvalCockpitLoading$: of(true),
             triggerApprovalWorkflowSucceeded$: of(),
             saveApprovalWorkflowInformationSucceeded$: of(),
           } as unknown as ApprovalFacade;
@@ -152,12 +158,12 @@ describe('ReleaseModalComponent', () => {
         marbles((m) => {
           const facadeMock: ApprovalFacade = {
             getAllApprovalData: jest.fn(),
-            approvalStatus$: of({
+            approvalCockpitInformation$: of({
               thirdApproverRequired: true,
               sapId: '12',
-            } as ApprovalStatus),
+            } as ApprovalWorkflowInformation),
             allApproversLoading$: of(true),
-            approvalStatusLoading$: of(false),
+            approvalCockpitLoading$: of(false),
             triggerApprovalWorkflowSucceeded$: of(),
             saveApprovalWorkflowInformationSucceeded$: of(),
           } as unknown as ApprovalFacade;
@@ -176,12 +182,12 @@ describe('ReleaseModalComponent', () => {
         marbles((m) => {
           const facadeMock: ApprovalFacade = {
             getAllApprovalData: jest.fn(),
-            approvalStatus$: of({
+            approvalCockpitInformation$: of({
               thirdApproverRequired: true,
               sapId: '12',
-            } as ApprovalStatus),
+            } as ApprovalWorkflowInformation),
             allApproversLoading$: of(false),
-            approvalStatusLoading$: of(false),
+            approvalCockpitLoading$: of(false),
             triggerApprovalWorkflowSucceeded$: of(),
             saveApprovalWorkflowInformationSucceeded$: of(),
           } as unknown as ApprovalFacade;
@@ -201,7 +207,7 @@ describe('ReleaseModalComponent', () => {
       test('should close dialog when trigger approval workflow succeeded', () => {
         const facadeMock: ApprovalFacade = {
           getAllApprovalData: jest.fn(),
-          approvalStatus$: of(),
+          approvalCockpitInformation$: of(),
           triggerApprovalWorkflowSucceeded$: of(true),
           saveApprovalWorkflowInformationSucceeded$: of(),
         } as unknown as ApprovalFacade;
@@ -223,6 +229,7 @@ describe('ReleaseModalComponent', () => {
       test('should close dialog when save approval workflow information succeeded', () => {
         const facadeMock: ApprovalFacade = {
           getAllApprovalData: jest.fn(),
+          approvalCockpitInformation$: of(),
           approvalStatus$: of(),
           triggerApprovalWorkflowSucceeded$: of(),
           saveApprovalWorkflowInformationSucceeded$: of(true),
@@ -335,9 +342,9 @@ describe('ReleaseModalComponent', () => {
 
   describe('Approval workflow', () => {
     test('should start approval workflow', () => {
-      component.approvalFacade.approvalStatus$ = of({
+      component.approvalFacade.approvalCockpitInformation$ = of({
         thirdApproverRequired: true,
-      } as ApprovalStatus);
+      } as ApprovalWorkflowInformation);
       component.approvalFacade.triggerApprovalWorkflowSucceeded$ = of();
       component.approvalFacade.saveApprovalWorkflowInformationSucceeded$ = of();
       component.ngOnInit();
@@ -369,9 +376,9 @@ describe('ReleaseModalComponent', () => {
     });
 
     test('should start auto approval', () => {
-      component.approvalFacade.approvalStatus$ = of({
+      component.approvalFacade.approvalCockpitInformation$ = of({
         autoApproval: true,
-      } as ApprovalStatus);
+      } as ApprovalWorkflowInformation);
       component.approvalFacade.triggerApprovalWorkflowSucceeded$ = of();
       component.approvalFacade.saveApprovalWorkflowInformationSucceeded$ = of();
       component.ngOnInit();
@@ -395,9 +402,9 @@ describe('ReleaseModalComponent', () => {
     });
 
     test('should save approval workflow information', () => {
-      component.approvalFacade.approvalStatus$ = of({
+      component.approvalFacade.approvalCockpitInformation$ = of({
         thirdApproverRequired: true,
-      } as ApprovalStatus);
+      } as ApprovalWorkflowInformation);
       component.approvalFacade.triggerApprovalWorkflowSucceeded$ = of();
       component.approvalFacade.saveApprovalWorkflowInformationSucceeded$ = of();
       component.ngOnInit();

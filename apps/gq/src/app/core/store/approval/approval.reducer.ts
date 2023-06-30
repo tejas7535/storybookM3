@@ -5,7 +5,6 @@ import {
   ApprovalCockpitData,
   ApprovalEventType,
   ApprovalLevel,
-  ApprovalStatus,
   ApprovalWorkflowEvent,
   ApprovalWorkflowInformation,
   Approver,
@@ -24,11 +23,9 @@ export interface ApprovalState {
   activeDirectoryUsers: ActiveDirectoryUser[];
   approversLoading: boolean;
   activeDirectoryUsersLoading: boolean;
-  approvalStatusLoading: boolean;
   triggerApprovalWorkflowInProgress: boolean;
   updateApprovalWorkflowInProgress: boolean;
   saveApprovalWorkflowInformationInProgress: boolean;
-  approvalStatus: ApprovalStatus;
   approvalCockpitLoading: boolean;
   approvalCockpit: ApprovalCockpitData;
   error: Error;
@@ -41,18 +38,7 @@ export const initialState: ApprovalState = {
   activeDirectoryUsers: [],
   approversLoading: false,
   activeDirectoryUsersLoading: false,
-  approvalStatusLoading: false,
   approvalCockpitLoading: false,
-  approvalStatus: {
-    sapId: undefined,
-    currency: undefined,
-    approvalLevel: undefined,
-    thirdApproverRequired: false,
-    autoApproval: false,
-    totalNetValue: undefined,
-    gpm: undefined,
-    priceDeviation: undefined,
-  },
   triggerApprovalWorkflowInProgress: false,
   updateApprovalWorkflowInProgress: false,
   saveApprovalWorkflowInformationInProgress: false,
@@ -60,6 +46,7 @@ export const initialState: ApprovalState = {
     approvalEvents: [],
     approvalGeneral: {
       infoUser: undefined,
+      approvalLevel: undefined,
       autoApproval: undefined,
       comment: undefined,
       currency: undefined,
@@ -82,14 +69,6 @@ export const approvalFeature = createFeature({
   name: APPROVAL_KEY,
   reducer: createReducer(
     initialState,
-    on(
-      ApprovalActions.clearApprovalStatus,
-      (state: ApprovalState): ApprovalState => ({
-        ...state,
-        approvalStatusLoading: false,
-        approvalStatus: { ...initialState.approvalStatus },
-      })
-    ),
     on(
       ApprovalActions.clearApprovalCockpitData,
       (state: ApprovalState): ApprovalState => ({
@@ -128,39 +107,6 @@ export const approvalFeature = createFeature({
         ...state,
         approvers: [],
         approversLoading: false,
-        error,
-      })
-    ),
-    on(
-      ApprovalActions.getApprovalStatus,
-      (state: ApprovalState): ApprovalState => ({
-        ...state,
-        approvalStatusLoading: true,
-      })
-    ),
-    on(
-      ApprovalActions.approvalStatusAlreadyLoaded,
-      (state: ApprovalState): ApprovalState => ({
-        ...state,
-        approvalStatusLoading: false,
-      })
-    ),
-    on(
-      ApprovalActions.getApprovalStatusSuccess,
-      (state: ApprovalState, { approvalStatus }): ApprovalState => ({
-        ...state,
-        approvalStatusLoading: false,
-        approvalStatus,
-      })
-    ),
-    on(
-      ApprovalActions.getApprovalStatusFailure,
-      (state: ApprovalState, { error }): ApprovalState => ({
-        ...state,
-        approvalStatusLoading: false,
-        approvalStatus: {
-          ...initialState.approvalStatus,
-        },
         error,
       })
     ),
@@ -316,11 +262,7 @@ export const approvalFeature = createFeature({
       })
     )
   ),
-  extraSelectors: ({
-    selectApprovalCockpit,
-    selectApprovers,
-    selectApprovalStatus,
-  }) => ({
+  extraSelectors: ({ selectApprovalCockpit, selectApprovers }) => ({
     getApproversOfLevel: (approvalLevel: ApprovalLevel) =>
       createSelector(selectApprovers, (allApprovers: Approver[]): Approver[] =>
         getApproversByApprovalLevel(allApprovers, approvalLevel)
@@ -331,46 +273,52 @@ export const approvalFeature = createFeature({
     // ###############################################################################################################
     getFirstApprovers: createSelector(
       selectApprovers,
-      selectApprovalStatus,
-      (approvers: Approver[], approvalStatus: ApprovalStatus) =>
-        getApproversForFirstApprover(approvers, approvalStatus)
+      selectApprovalCockpit,
+      (
+        approvers: Approver[],
+        { approvalGeneral }: ApprovalCockpitData
+      ): Approver[] => getApproversForFirstApprover(approvers, approvalGeneral)
     ),
     getSecondApprovers: createSelector(
       selectApprovers,
-      selectApprovalStatus,
-      (approvers: Approver[], approvalStatus: ApprovalStatus) =>
-        getApproversForSecondApprover(approvers, approvalStatus)
+      selectApprovalCockpit,
+      (
+        approvers: Approver[],
+        { approvalGeneral }: ApprovalCockpitData
+      ): Approver[] => getApproversForSecondApprover(approvers, approvalGeneral)
     ),
     getThirdApprovers: createSelector(
       selectApprovers,
-      selectApprovalStatus,
-      (approvers: Approver[], approvalStatus: ApprovalStatus) =>
-        getApproversForThirdApprover(approvers, approvalStatus)
+      selectApprovalCockpit,
+      (approvers: Approver[], { approvalGeneral }: ApprovalCockpitData) =>
+        getApproversForThirdApprover(approvers, approvalGeneral)
     ),
     getApprovalLevelFirstApprover: createSelector(
-      selectApprovalStatus,
+      selectApprovalCockpit,
       ({
-        thirdApproverRequired,
-        approvalLevel,
-      }: ApprovalStatus): ApprovalLevel =>
+        approvalGeneral: { thirdApproverRequired, approvalLevel },
+      }: ApprovalCockpitData): ApprovalLevel =>
         firstApproverLogic[+thirdApproverRequired][approvalLevel]
     ),
     getApprovalLevelSecondApprover: createSelector(
-      selectApprovalStatus,
+      selectApprovalCockpit,
       ({
-        thirdApproverRequired,
-        approvalLevel,
-      }: ApprovalStatus): ApprovalLevel =>
+        approvalGeneral: { thirdApproverRequired, approvalLevel },
+      }: ApprovalCockpitData): ApprovalLevel =>
         secondApproverLogic[+thirdApproverRequired][approvalLevel]
     ),
     getApprovalLevelThirdApprover: createSelector(
-      selectApprovalStatus,
-      ({ approvalLevel }: ApprovalStatus): ApprovalLevel =>
+      selectApprovalCockpit,
+      ({
+        approvalGeneral: { approvalLevel },
+      }: ApprovalCockpitData): ApprovalLevel =>
         thirdApproverLogic[approvalLevel]
     ),
     getRequiredApprovalLevelsForQuotation: createSelector(
-      selectApprovalStatus,
-      ({ thirdApproverRequired, approvalLevel }: ApprovalStatus): string =>
+      selectApprovalCockpit,
+      ({
+        approvalGeneral: { thirdApproverRequired, approvalLevel },
+      }: ApprovalCockpitData): string =>
         approvalLevelOfQuotationLogic[+thirdApproverRequired][approvalLevel]
     ),
     getApprovalCockpitInformation: createSelector(
@@ -441,7 +389,7 @@ export const approvalFeature = createFeature({
  */
 function getApproversForFirstApprover(
   approvers: Approver[],
-  { thirdApproverRequired, approvalLevel }: ApprovalStatus
+  { thirdApproverRequired, approvalLevel }: ApprovalWorkflowInformation
 ): Approver[] {
   return getApproversByApprovalLevel(
     approvers,
@@ -457,7 +405,7 @@ function getApproversForFirstApprover(
  */
 function getApproversForSecondApprover(
   approvers: Approver[],
-  { thirdApproverRequired, approvalLevel }: ApprovalStatus
+  { thirdApproverRequired, approvalLevel }: ApprovalWorkflowInformation
 ): Approver[] {
   return getApproversByApprovalLevel(
     approvers,
@@ -473,7 +421,7 @@ function getApproversForSecondApprover(
  */
 function getApproversForThirdApprover(
   approvers: Approver[],
-  { thirdApproverRequired, approvalLevel }: ApprovalStatus
+  { thirdApproverRequired, approvalLevel }: ApprovalWorkflowInformation
 ): Approver[] {
   return thirdApproverRequired
     ? getApproversByApprovalLevel(approvers, thirdApproverLogic[approvalLevel])

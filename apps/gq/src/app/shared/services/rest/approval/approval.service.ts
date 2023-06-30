@@ -8,7 +8,6 @@ import {
   ApiVersion,
   ApprovalCockpitData,
   ApprovalLevel,
-  ApprovalStatus,
   ApprovalWorkflowBaseInformation,
   ApprovalWorkflowEvent,
   ApprovalWorkflowInformation,
@@ -66,28 +65,6 @@ export class ApprovalService {
                   a.lastName?.localeCompare(b?.lastName)
               )
           )
-        )
-    );
-  }
-
-  /**
-   * get the status of the SAP quotation
-   *
-   * @param sapId the Id from SAP
-   * @returns the approval status of SAP
-   */
-  getApprovalStatus(sapId: string): Observable<ApprovalStatus> {
-    return (
-      this.http
-        .get<ApprovalStatus>(
-          `${ApiVersion.V1}/${ApprovalPaths.PATH_APPROVAL}/${ApprovalPaths.PATH_APPROVAL_STATUS}/${sapId}`
-        )
-        // ApprovalStatus from BE comes with the string 'L1' we need to cast this;
-        .pipe(
-          map((approvalStatus: ApprovalStatus) => ({
-            ...approvalStatus,
-            approvalLevel: +ApprovalLevel[approvalStatus.approvalLevel],
-          }))
         )
     );
   }
@@ -165,8 +142,22 @@ export class ApprovalService {
    * @returns overall Information of the Approval Workflow {@link ApprovalCockpitData}
    */
   getApprovalCockpitData(sapId: string): Observable<ApprovalCockpitData> {
-    return this.http.get<ApprovalCockpitData>(
-      `${ApiVersion.V1}/${ApprovalPaths.PATH_APPROVAL}/${ApprovalPaths.PATH_APPROVAL_COCKPIT_INFO}/${sapId}`
+    return (
+      this.http
+        .get<ApprovalCockpitData>(
+          `${ApiVersion.V1}/${ApprovalPaths.PATH_APPROVAL}/${ApprovalPaths.PATH_APPROVAL_COCKPIT_INFO}/${sapId}`
+        )
+        // ApprovalLevel from BE comes with the string 'L1' we need to cast this;
+        .pipe(
+          map((cockpitData: ApprovalCockpitData) => ({
+            approvalEvents: cockpitData.approvalEvents,
+            approvalGeneral: {
+              ...cockpitData.approvalGeneral,
+              approvalLevel:
+                +ApprovalLevel[cockpitData.approvalGeneral.approvalLevel],
+            },
+          }))
+        )
     );
   }
 

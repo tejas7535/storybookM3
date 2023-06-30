@@ -1,7 +1,6 @@
 export * from './approval-cockpit-data.model';
 export * from './approval-event-type.enum';
 export * from './approval-level.enum';
-export * from './approval-status.model';
 export * from './approval-status-of-requested-approver.model';
 export * from './approval-workflow-base-information.model';
 export * from './approver.model';

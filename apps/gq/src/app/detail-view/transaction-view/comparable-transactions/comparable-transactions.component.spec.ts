@@ -1,14 +1,11 @@
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-import { ColumnHeadersModule } from '@gq/shared/ag-grid/column-headers/column-headers.module';
-import { ColumnUtilityService } from '@gq/shared/ag-grid/services/column-utility.service';
-import { InfoIconModule } from '@gq/shared/components/info-icon/info-icon.module';
+import { ColumnUtilityService } from '@gq/shared/ag-grid/services';
 import { UserRoles } from '@gq/shared/constants';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { AgGridModule } from 'ag-grid-angular';
 import { FilterChangedEvent } from 'ag-grid-community';
 import { MockProvider } from 'ng-mocks';
 
@@ -18,12 +15,6 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { ComparableTransactionsComponent } from './comparable-transactions.component';
 import { ColumnDefService } from './config';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-  replace: jest.fn(),
-}));
-
 describe('ComparableTransactionsComponent', () => {
   let component: ComparableTransactionsComponent;
   let spectator: Spectator<ComparableTransactionsComponent>;
@@ -32,15 +23,8 @@ describe('ComparableTransactionsComponent', () => {
 
   const createComponent = createComponentFactory({
     component: ComparableTransactionsComponent,
-    imports: [
-      AgGridModule,
-      InfoIconModule,
-      provideTranslocoTestingModule({ en: {} }),
-      PushModule,
-      ColumnHeadersModule,
-    ],
+    imports: [provideTranslocoTestingModule({ en: {} }), PushModule],
     providers: [
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       ColumnDefService,
       {
         provide: ColumnUtilityService,
@@ -48,8 +32,10 @@ describe('ComparableTransactionsComponent', () => {
       },
       provideMockStore(),
       MockProvider(ApplicationInsightsService),
+      MockProvider(TranslocoLocaleService),
     ],
     detectChanges: false,
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {

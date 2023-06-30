@@ -17,7 +17,7 @@ import {
 } from '@gq/core/store/active-case';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { Rating } from '@gq/shared/components/kpi-status-card/models/rating.enum';
-import { ApprovalStatus } from '@gq/shared/models/approval';
+import { ApprovalWorkflowInformation } from '@gq/shared/models';
 import { Customer } from '@gq/shared/models/customer';
 import {
   Quotation,
@@ -137,27 +137,29 @@ export class OverviewTabComponent implements OnInit, OnDestroy {
    */
   private mapPricingInformation(): Observable<QuotationPricingOverview> {
     return combineLatest([
-      this.approvalFacade.approvalStatus$,
+      this.approvalFacade.approvalCockpitInformation$,
       this.store.select(getQuotationOverviewInformation),
     ]).pipe(
       takeUntil(this.shutDown$$),
       map(
-        ([approvalStatus, gqPricing]: [
-          ApprovalStatus,
+        ([approvalInformation, gqPricing]: [
+          ApprovalWorkflowInformation,
           QuotationPricingOverview
         ]) => ({
           netValue: {
-            value: approvalStatus.totalNetValue ?? gqPricing.netValue.value,
+            value:
+              approvalInformation.totalNetValue ?? gqPricing.netValue.value,
             warning:
-              approvalStatus.totalNetValue &&
-              approvalStatus.totalNetValue !== gqPricing.netValue.value,
+              approvalInformation.totalNetValue &&
+              approvalInformation.totalNetValue !== gqPricing.netValue.value,
           },
           avgGqRating: gqPricing.avgGqRating,
           gpi: gqPricing.gpi,
           gpm: {
-            value: approvalStatus.gpm ?? gqPricing.gpm.value,
+            value: approvalInformation.gpm ?? gqPricing.gpm.value,
             warning:
-              approvalStatus.gpm && approvalStatus.gpm !== gqPricing.gpm.value,
+              approvalInformation.gpm &&
+              approvalInformation.gpm !== gqPricing.gpm.value,
           },
         })
       )

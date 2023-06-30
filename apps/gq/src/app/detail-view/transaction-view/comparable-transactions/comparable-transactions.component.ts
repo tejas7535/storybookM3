@@ -31,16 +31,10 @@ import { COMPONENTS } from './config/components';
 })
 export class ComparableTransactionsComponent implements OnInit {
   @Input() rowData: ComparableLinkedTransaction[];
-  @Input() set currency(currency: string) {
-    this.tableContext.quotation.currency = currency;
-  }
-
   @Output() filterChanged: EventEmitter<FilterChangedEvent> =
     new EventEmitter<FilterChangedEvent>();
-
-  private readonly TABLE_KEY = 'transactions';
-  public defaultColumnDefs = DEFAULT_COLUMN_DEFS;
-  public localeText$: Observable<AgGridLocale>;
+  defaultColumnDefs = DEFAULT_COLUMN_DEFS;
+  localeText$: Observable<AgGridLocale>;
   columnDefs$: Observable<ColDef[]>;
 
   tableContext: TableContext = {
@@ -49,12 +43,17 @@ export class ComparableTransactionsComponent implements OnInit {
 
   components = COMPONENTS;
 
+  private readonly TABLE_KEY = 'transactions';
   constructor(
     private readonly columnDefService: ColumnDefService,
     private readonly agGridStateService: AgGridStateService,
     private readonly localizationService: LocalizationService,
     private readonly store: Store
   ) {}
+
+  @Input() set currency(currency: string) {
+    this.tableContext.quotation.currency = currency;
+  }
 
   ngOnInit(): void {
     this.localeText$ = this.localizationService.locale$;

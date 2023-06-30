@@ -9,11 +9,11 @@ import {
   getSapId,
   getSimulationModeEnabled,
 } from '@gq/core/store/active-case';
+import { ConfirmationModalComponent } from '@gq/shared/components/modal/confirmation-modal/confirmation-modal.component';
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import { IStatusPanelParams } from 'ag-grid-community';
 
-import { ConfirmationModalComponent } from '../../../components/modal/confirmation-modal/confirmation-modal.component';
 import { ConfirmationModalData } from '../../../components/modal/confirmation-modal/models/confirmation-modal-data.model';
 import { QuotationDetail } from '../../../models/quotation-detail';
 
@@ -25,12 +25,20 @@ export class UploadSelectionToSapButtonComponent {
   sapId$: Observable<string>;
   selections: any[] = [];
   uploadDisabled = true;
-  private params: IStatusPanelParams;
+
   icon = 'cloud_upload';
   simulationModeEnabled$: Observable<boolean>;
   quotationActive$: Observable<boolean>;
 
+  private params: IStatusPanelParams;
   private readonly QUOTATION_POSITION_UPLOAD_LIMIT = 1000;
+
+  constructor(
+    private readonly store: Store,
+    private readonly dialog: MatDialog
+  ) {
+    this.sapId$ = this.store.select(getSapId);
+  }
 
   agInit(params: IStatusPanelParams): void {
     this.params = params;
@@ -53,13 +61,6 @@ export class UploadSelectionToSapButtonComponent {
     this.uploadDisabled =
       this.selections.length === 0 ||
       this.selections.length > this.QUOTATION_POSITION_UPLOAD_LIMIT;
-  }
-
-  constructor(
-    private readonly store: Store,
-    private readonly dialog: MatDialog
-  ) {
-    this.sapId$ = this.store.select(getSapId);
   }
 
   uploadSelectionToSap(): void {

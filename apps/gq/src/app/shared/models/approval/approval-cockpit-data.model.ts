@@ -1,5 +1,6 @@
 import { QuotationStatus } from '../quotation/quotation-status.enum';
 import { ApprovalEventType } from './approval-event-type.enum';
+import { ApprovalLevel } from './approval-level.enum';
 import { ApprovalWorkflowBaseInformation } from './approval-workflow-base-information.model';
 
 export interface ApprovalCockpitData {
@@ -10,6 +11,7 @@ export interface ApprovalCockpitData {
 export interface ApprovalWorkflowInformation
   extends ApprovalWorkflowBaseInformation {
   sapId: string;
+  approvalLevel: ApprovalLevel;
   currency: string;
   autoApproval: boolean;
   thirdApproverRequired: boolean;

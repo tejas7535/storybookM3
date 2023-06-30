@@ -12,7 +12,6 @@ import {
   ApprovalCockpitData,
   ApprovalEventType,
   ApprovalLevel,
-  ApprovalStatus,
   ApprovalStatusOfRequestedApprover,
   ApprovalWorkflowBaseInformation,
   ApprovalWorkflowEvent,
@@ -29,10 +28,6 @@ import { approvalFeature } from './approval.reducer';
   providedIn: 'root',
 })
 export class ApprovalFacade {
-  approvalStatusLoading$: Observable<boolean> = this.store.select(
-    approvalFeature.selectApprovalStatusLoading
-  );
-
   allApproversLoading$: Observable<boolean> = this.store.select(
     approvalFeature.selectApproversLoading
   );
@@ -101,10 +96,6 @@ export class ApprovalFacade {
 
   updateApprovalWorkflowSucceeded$: Observable<void> = this.actions$.pipe(
     ofType(ApprovalActions.updateApprovalWorkflowSuccess)
-  );
-
-  approvalStatus$: Observable<ApprovalStatus> = this.store.select(
-    approvalFeature.selectApprovalStatus
   );
 
   approvalCockpit$: Observable<ApprovalCockpitData> = this.store.select(
@@ -228,17 +219,6 @@ export class ApprovalFacade {
     this.store.dispatch(ApprovalActions.getAllApprovers());
   }
 
-  /**
-   * get information about approval status fro given sapId
-   *
-   * @param sapId sap Id of quotation
-   */
-  getApprovalStatus(sapId: string): void {
-    return sapId
-      ? this.store.dispatch(ApprovalActions.getApprovalStatus({ sapId }))
-      : this.store.dispatch(ApprovalActions.clearApprovalStatus());
-  }
-
   getApprovalCockpitData(sapId: string): void {
     return sapId
       ? this.store.dispatch(ApprovalActions.getApprovalCockpitData({ sapId }))
@@ -253,7 +233,6 @@ export class ApprovalFacade {
    */
   getAllApprovalData(sapId: string): void {
     this.getApprovers();
-    this.getApprovalStatus(sapId);
     this.getApprovalCockpitData(sapId);
   }
 
