@@ -6,6 +6,7 @@ import {
   ApprovalWorkflowEvent,
   ApprovalWorkflowInformation,
   Approver,
+  Quotation,
 } from '@gq/shared/models';
 
 import { APPROVAL_STATE_MOCK } from '../../../../testing/mocks';
@@ -465,12 +466,15 @@ describe('approvalReducer', () => {
     describe('should return the combination of all approvalLevels include to quotation', () => {
       test('should return string when 3rd Approver is not needed', () => {
         expect(
-          approvalFeature.getRequiredApprovalLevelsForQuotation.projector({
-            approvalGeneral: {
-              approvalLevel: ApprovalLevel.L4,
-              thirdApproverRequired: false,
-            },
-          } as ApprovalCockpitData)
+          approvalFeature.getRequiredApprovalLevelsForQuotation.projector(
+            { sapId: '124' } as Quotation,
+            {
+              approvalGeneral: {
+                approvalLevel: ApprovalLevel.L4,
+                thirdApproverRequired: false,
+              },
+            } as ApprovalCockpitData
+          )
         ).toEqual(
           `${ApprovalLevel[ApprovalLevel.L4]} + ${
             ApprovalLevel[ApprovalLevel.L4]
@@ -479,17 +483,41 @@ describe('approvalReducer', () => {
       });
       test('should return string when 3rd Approver is  needed', () => {
         expect(
-          approvalFeature.getRequiredApprovalLevelsForQuotation.projector({
-            approvalGeneral: {
-              approvalLevel: ApprovalLevel.L4,
-              thirdApproverRequired: true,
-            },
-          } as ApprovalCockpitData)
+          approvalFeature.getRequiredApprovalLevelsForQuotation.projector(
+            { sapId: '124' } as Quotation,
+            {
+              approvalGeneral: {
+                approvalLevel: ApprovalLevel.L4,
+                thirdApproverRequired: true,
+              },
+            } as ApprovalCockpitData
+          )
         ).toEqual(
           `${ApprovalLevel[ApprovalLevel.L3]} + ${
             ApprovalLevel[ApprovalLevel.L4]
           } + ${ApprovalLevel[ApprovalLevel.L4]}`
         );
+      });
+      test('should return empty string when when quotation has no SAP id', () => {
+        expect(
+          approvalFeature.getRequiredApprovalLevelsForQuotation.projector(
+            {} as Quotation,
+            {
+              approvalGeneral: {
+                approvalLevel: ApprovalLevel.L4,
+                thirdApproverRequired: true,
+              },
+            } as ApprovalCockpitData
+          )
+        ).toEqual('');
+      });
+      test('should return empty string when when no ApprovalData for SAPId', () => {
+        expect(
+          approvalFeature.getRequiredApprovalLevelsForQuotation.projector(
+            { sapId: '123' } as Quotation,
+            {} as ApprovalCockpitData
+          )
+        ).toEqual('');
       });
     });
 

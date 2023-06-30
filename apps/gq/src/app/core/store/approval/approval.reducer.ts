@@ -11,6 +11,7 @@ import {
 } from '@gq/shared/models';
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 
+import { activeCaseFeature } from '../active-case';
 import { ApprovalActions } from './approval.actions';
 import {
   approvalLevelOfQuotationLogic,
@@ -315,11 +316,16 @@ export const approvalFeature = createFeature({
         thirdApproverLogic[approvalLevel]
     ),
     getRequiredApprovalLevelsForQuotation: createSelector(
+      activeCaseFeature.selectQuotation,
       selectApprovalCockpit,
-      ({
-        approvalGeneral: { thirdApproverRequired, approvalLevel },
-      }: ApprovalCockpitData): string =>
-        approvalLevelOfQuotationLogic[+thirdApproverRequired][approvalLevel]
+      (quotation, { approvalGeneral }: ApprovalCockpitData): string =>
+        quotation?.sapId &&
+        approvalGeneral?.approvalLevel &&
+        approvalGeneral?.thirdApproverRequired !== undefined
+          ? approvalLevelOfQuotationLogic[
+              +approvalGeneral?.thirdApproverRequired
+            ][approvalGeneral?.approvalLevel]
+          : ''
     ),
     getApprovalCockpitInformation: createSelector(
       selectApprovalCockpit,

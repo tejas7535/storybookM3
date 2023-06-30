@@ -128,6 +128,13 @@ export class ApprovalFacade {
     map((status: QuotationStatus) => status === QuotationStatus.APPROVED)
   );
 
+  /**
+   * Provides the ApprovalStatus of each approver defined in ApprovalGeneral.
+   * (the Approver data and the corresponding workflowEvent)
+   * Considers only events after the latest started of the Workflow (either the from latest start event or from the latest cancel event if not restarted )
+   * for this model, if event has data --> the user has made an approval decision such as approved, rejected.
+   * if event is undefined, the user hasn't made a decision yet, so it's status would be 'in approval'
+   */
   approvalStatusOfRequestedApprover$: Observable<
     ApprovalStatusOfRequestedApprover[]
   > = combineLatest([
