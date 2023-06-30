@@ -22,6 +22,8 @@ import { TransformationService } from '@gq/shared/services/transformation/transf
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
+import { getUserUniqueIdentifier } from '@schaeffler/azure-auth';
+
 import { ApprovalActions } from './approval.actions';
 import { approvalFeature } from './approval.reducer';
 @Injectable({
@@ -212,6 +214,38 @@ export class ApprovalFacade {
         );
       })
     );
+
+  shouldShowApprovalButtons$: Observable<boolean> = combineLatest([
+    this.store.select(getUserUniqueIdentifier),
+    this.approvalStatusOfRequestedApprover$,
+  ]).pipe(
+    map(
+      ([userId, approversWithApprovalStatus]: [
+        string,
+        ApprovalStatusOfRequestedApprover[]
+      ]) => {
+        const approverIndex = approversWithApprovalStatus.findIndex(
+          (approverWithApprovalStatus: ApprovalStatusOfRequestedApprover) =>
+            approverWithApprovalStatus.approver.userId === userId
+        );
+
+        // If user is an approver and has not made any approval decision (approve, reject, forward) yet
+        if (
+          approverIndex > -1 &&
+          !approversWithApprovalStatus[approverIndex].event
+        ) {
+          // If user is first approver, show buttons.
+          // Otherwise show buttons, only if the previous approver has already approved.
+          return approverIndex === 0
+            ? true
+            : approversWithApprovalStatus[approverIndex - 1].event?.event ===
+                ApprovalEventType.APPROVED;
+        }
+
+        return false;
+      }
+    )
+  );
 
   constructor(
     private readonly store: Store,

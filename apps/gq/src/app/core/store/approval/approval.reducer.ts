@@ -217,10 +217,17 @@ export const approvalFeature = createFeature({
     ),
     on(
       ApprovalActions.updateApprovalWorkflowSuccess,
-      (state: ApprovalState): ApprovalState => ({
+      (state: ApprovalState, { approvalEvent }): ApprovalState => ({
         ...state,
         updateApprovalWorkflowInProgress: false,
         error: undefined,
+        approvalCockpit: {
+          ...state.approvalCockpit,
+          approvalEvents: [
+            ...state.approvalCockpit.approvalEvents,
+            approvalEvent,
+          ],
+        },
       })
     ),
     on(

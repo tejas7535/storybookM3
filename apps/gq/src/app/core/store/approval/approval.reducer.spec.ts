@@ -7,6 +7,7 @@ import {
   ApprovalWorkflowInformation,
   Approver,
   Quotation,
+  QuotationStatus,
 } from '@gq/shared/models';
 
 import { APPROVAL_STATE_MOCK } from '../../../../testing/mocks';
@@ -316,14 +317,41 @@ describe('approvalReducer', () => {
     });
 
     test('should reset updateApprovalWorkflowInProgress', () => {
+      const currentApprovalEvent: ApprovalWorkflowEvent = {
+        sapId: 'sapTestId',
+        gqId: 123,
+        event: ApprovalEventType.STARTED,
+        comment: 'test comment',
+        userId: 'tesUser',
+        quotationStatus: QuotationStatus.ACTIVE,
+        verified: true,
+        eventDate: '01-02-2023',
+      };
+
+      const approvalEvent: ApprovalWorkflowEvent = {
+        sapId: 'sapTestId2',
+        gqId: 123_456,
+        event: ApprovalEventType.APPROVED,
+        comment: 'test comment 2',
+        userId: 'tesUser2',
+        quotationStatus: QuotationStatus.APPROVED,
+        verified: false,
+        eventDate: '01-02-2023',
+      };
+
       const action = ApprovalActions.updateApprovalWorkflowSuccess({
-        approvalEvent: {} as any,
+        approvalEvent,
       });
+
       const state = approvalFeature.reducer(
         {
           ...initialState,
           updateApprovalWorkflowInProgress: true,
           error: new Error('my error'),
+          approvalCockpit: {
+            ...initialState.approvalCockpit,
+            approvalEvents: [currentApprovalEvent],
+          },
         },
         action
       );
@@ -332,6 +360,10 @@ describe('approvalReducer', () => {
         ...initialState,
         updateApprovalWorkflowInProgress: false,
         error: undefined,
+        approvalCockpit: {
+          ...initialState.approvalCockpit,
+          approvalEvents: [currentApprovalEvent, approvalEvent],
+        },
       });
     });
 

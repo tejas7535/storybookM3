@@ -17,6 +17,8 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
+import { getUserUniqueIdentifier } from '@schaeffler/azure-auth';
+
 import { APPROVAL_STATE_MOCK } from '../../../../testing/mocks';
 import { ApprovalActions } from './approval.actions';
 import { ApprovalFacade } from './approval.facade';
@@ -790,6 +792,201 @@ describe('ApprovalFacade', () => {
 
         m.expect(service.updateApprovalWorkflowSucceeded$).toBeObservable(
           expected as any
+        );
+      })
+    );
+  });
+
+  describe('check if approval buttons should be visible', () => {
+    test(
+      'should not show buttons if user is not an approver',
+      marbles((m) => {
+        const firstApprover: Approver = {
+          userId: 'KELLERBI',
+        } as Approver;
+        const secondApprover: Approver = {
+          userId: 'ZIRKLIS',
+        } as Approver;
+
+        mockStore.overrideSelector(getUserUniqueIdentifier, 'someUser');
+        mockStore.overrideSelector(
+          approvalFeature.getEventsAfterLastWorkflowStarted,
+          []
+        );
+        mockStore.overrideSelector(
+          approvalFeature.getApprovalCockpitInformation,
+          APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
+        );
+        mockStore.overrideSelector(approvalFeature.selectApprovers, [
+          firstApprover,
+          secondApprover,
+        ]);
+
+        m.expect(service.shouldShowApprovalButtons$).toBeObservable(
+          m.cold('a', { a: false })
+        );
+      })
+    );
+
+    test(
+      'should not show buttons if approver has already made approval decision',
+      marbles((m) => {
+        const firstApprover: Approver = {
+          userId: 'KELLERBI',
+        } as Approver;
+        const secondApprover: Approver = {
+          userId: 'ZIRKLIS',
+        } as Approver;
+
+        mockStore.overrideSelector(
+          getUserUniqueIdentifier,
+          firstApprover.userId
+        );
+        mockStore.overrideSelector(
+          approvalFeature.getEventsAfterLastWorkflowStarted,
+          [
+            {
+              userId: firstApprover.userId,
+              event: ApprovalEventType.APPROVED,
+            } as ApprovalWorkflowEvent,
+          ]
+        );
+        mockStore.overrideSelector(
+          approvalFeature.getApprovalCockpitInformation,
+          APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
+        );
+        mockStore.overrideSelector(approvalFeature.selectApprovers, [
+          firstApprover,
+          secondApprover,
+        ]);
+
+        m.expect(service.shouldShowApprovalButtons$).toBeObservable(
+          m.cold('a', { a: false })
+        );
+      })
+    );
+
+    test(
+      'should show buttons if user is first approver and has not made approval decision, yet',
+      marbles((m) => {
+        const firstApprover: Approver = {
+          userId: 'KELLERBI',
+        } as Approver;
+        const secondApprover: Approver = {
+          userId: 'ZIRKLIS',
+        } as Approver;
+
+        mockStore.overrideSelector(
+          getUserUniqueIdentifier,
+          firstApprover.userId
+        );
+        mockStore.overrideSelector(
+          approvalFeature.getEventsAfterLastWorkflowStarted,
+          []
+        );
+        mockStore.overrideSelector(
+          approvalFeature.getApprovalCockpitInformation,
+          APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
+        );
+        mockStore.overrideSelector(approvalFeature.selectApprovers, [
+          firstApprover,
+          secondApprover,
+        ]);
+
+        m.expect(service.shouldShowApprovalButtons$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
+
+    test(
+      'should show buttons if user is second approver and the first approver has approved',
+      marbles((m) => {
+        const firstApprover: Approver = {
+          userId: 'KELLERBI',
+        } as Approver;
+        const secondApprover: Approver = {
+          userId: 'ZIRKLIS',
+        } as Approver;
+
+        mockStore.overrideSelector(
+          getUserUniqueIdentifier,
+          secondApprover.userId
+        );
+        mockStore.overrideSelector(
+          approvalFeature.getEventsAfterLastWorkflowStarted,
+          [
+            {
+              userId: firstApprover.userId,
+              event: ApprovalEventType.APPROVED,
+            } as ApprovalWorkflowEvent,
+          ]
+        );
+        mockStore.overrideSelector(
+          approvalFeature.getApprovalCockpitInformation,
+          APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
+        );
+        mockStore.overrideSelector(approvalFeature.selectApprovers, [
+          firstApprover,
+          secondApprover,
+        ]);
+
+        m.expect(service.shouldShowApprovalButtons$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
+
+    test(
+      'should show buttons if user is third approver and the second approver has approved',
+      marbles((m) => {
+        const firstApprover: Approver = {
+          userId: 'KELLERBI',
+        } as Approver;
+        const secondApprover: Approver = {
+          userId: 'ZIRKLIS',
+        } as Approver;
+        const thirdApprover: Approver = {
+          userId: 'schlesni',
+        } as Approver;
+        const mockState: ApprovalState = {
+          ...APPROVAL_STATE_MOCK,
+          approvalCockpit: {
+            ...APPROVAL_STATE_MOCK.approvalCockpit,
+            approvalGeneral: {
+              ...APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral,
+              thirdApproverRequired: true,
+              thirdApprover: thirdApprover.userId,
+            },
+            approvalEvents: [
+              ...APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents,
+              {
+                userId: secondApprover.userId,
+                event: ApprovalEventType.APPROVED,
+              } as ApprovalWorkflowEvent,
+            ],
+          },
+        };
+
+        mockStore.overrideSelector(
+          getUserUniqueIdentifier,
+          thirdApprover.userId
+        );
+        mockStore.overrideSelector(
+          approvalFeature.getEventsAfterLastWorkflowStarted,
+          mockState.approvalCockpit.approvalEvents
+        );
+        mockStore.overrideSelector(
+          approvalFeature.getApprovalCockpitInformation,
+          mockState.approvalCockpit.approvalGeneral
+        );
+        mockStore.overrideSelector(approvalFeature.selectApprovers, [
+          firstApprover,
+          secondApprover,
+          thirdApprover,
+        ]);
+        m.expect(service.shouldShowApprovalButtons$).toBeObservable(
+          m.cold('a', { a: true })
         );
       })
     );
