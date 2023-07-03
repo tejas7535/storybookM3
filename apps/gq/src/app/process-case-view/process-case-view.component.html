@@ -51,6 +51,9 @@
     <ng-container subheaderInlineContent>
       <schaeffler-share-button></schaeffler-share-button>
       <gq-release-button [quotation]="quotation"></gq-release-button>
+      <gq-cancel-workflow-button
+        [quotationStatus]="quotation?.status"
+      ></gq-cancel-workflow-button>
     </ng-container>
     <ng-container subheaderBlockContent>
       <gq-sync-status-customer-info-header

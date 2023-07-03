@@ -31,6 +31,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { SyncStatusCustomerInfoHeaderModule } from '../../app/shared/components/header/sync-status-customer-info-header/sync-status-customer-info-header.module';
 import { TabsHeaderModule } from '../../app/shared/components/tabs-header/tabs-header.module';
 import { AddMaterialDialogModule } from './add-material-dialog/add-material-dialog.module';
+import { CancelWorkflowButtonComponent } from './cancel-workflow-button/cancel-workflow-button.component';
 import { HeaderContentModule } from './header-content/header-content.module';
 import { ProcessCaseViewComponent } from './process-case-view.component';
 import { ProcessCaseViewRoutingModule } from './process-case-view-routing.module';
@@ -45,6 +46,7 @@ import { CalculationInProgressComponent } from './tabs/single-quotes-tab/calcula
     ReleaseButtonComponent,
     ReleaseModalComponent,
     ReleaseModalUserSelectComponent,
+    CancelWorkflowButtonComponent,
   ],
   imports: [
     CommonModule,
