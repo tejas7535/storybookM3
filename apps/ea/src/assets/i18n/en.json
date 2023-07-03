@@ -90,7 +90,7 @@
       "upstreamHint": "*Estimated value based on assumptions during production",
       "upstreamHintLink": "https://schaeffler.com",
       "upstreamHintLinkText": "More information.",
-      "downstreamTitle": "CO₂ caused by friction during operation (Downstream)",
+      "downstreamTitle": "CO₂ caused by friction during operation (use phase, part of Downstream)",
       "calculationHint": "This is how we calculate the CO₂ values",
       "calculationHintLink": "https://schaeffler.com",
       "calculationHintLinkText": "Click here"
