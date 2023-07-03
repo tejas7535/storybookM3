@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 
 import { combineLatest, map, Observable } from 'rxjs';
@@ -226,7 +227,8 @@ export class ApprovalFacade {
       ]) => {
         const approverIndex = approversWithApprovalStatus.findIndex(
           (approverWithApprovalStatus: ApprovalStatusOfRequestedApprover) =>
-            approverWithApprovalStatus.approver.userId === userId
+            approverWithApprovalStatus.approver.userId.toLowerCase() ===
+            userId.toLowerCase()
         );
 
         // If user is an approver and has not made any approval decision (approve, reject, forward) yet
