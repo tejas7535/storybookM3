@@ -112,6 +112,7 @@
   "calculationSelection": {
     "title": "Choose your calculations",
     "selectAll": "Select all",
+    "typeUnavailable": "Calculation type unavailable for the selected bearing",
     "calculations": "Calculations",
     "calculationTypes": {
       "ratingLife": "Rating Life",

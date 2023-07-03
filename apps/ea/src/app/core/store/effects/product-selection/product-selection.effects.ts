@@ -3,15 +3,19 @@ import { Injectable } from '@angular/core';
 
 import { catchError, mergeMap, of, switchMap } from 'rxjs';
 
+import { CalculationModuleInfoService } from '@ea/core/services/calculation-module-info.service';
 import { CatalogService } from '@ea/core/services/catalog.service';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 
 import {
+  CalculationTypesActions,
   CO2UpstreamCalculationResultActions,
   FrictionCalculationResultActions,
   ProductSelectionActions,
 } from '../../actions';
+import { CalculationParametersFacade } from '../../facades';
 import { ProductSelectionFacade } from '../../facades/product-selection/product-selection.facade';
+import { CalculationParametersCalculationTypes } from '../../models';
 
 @Injectable()
 export class ProductSelectionEffects {
@@ -20,6 +24,7 @@ export class ProductSelectionEffects {
       ofType(ProductSelectionActions.setBearingDesignation),
       mergeMap(() => [
         ProductSelectionActions.fetchBearingId(),
+        ProductSelectionActions.fetchCalculationModuleInfo(),
         FrictionCalculationResultActions.createModel({ forceRecreate: true }),
         CO2UpstreamCalculationResultActions.fetchResult(),
       ])
@@ -55,9 +60,76 @@ export class ProductSelectionEffects {
     );
   });
 
+  public fetchCalculationModuleInfo$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ProductSelectionActions.fetchCalculationModuleInfo),
+      concatLatestFrom(() => [this.productSelectionFacade.bearingDesignation$]),
+      switchMap(([_action, bearingDesignation]) => {
+        return this.calculationModuleInfoService
+          .getCalculationInfo(bearingDesignation)
+          .pipe(
+            concatLatestFrom(() => [
+              this.calculationParametersFacade.getCalculationTypes$,
+            ]),
+            switchMap(([result, calculationTypes]) => {
+              const updatedTypes: CalculationParametersCalculationTypes = {
+                emission: {
+                  ...calculationTypes.emission,
+                  disabled: !result.frictionCalculation,
+                  selected: !result.frictionCalculation
+                    ? false
+                    : calculationTypes.emission.selected,
+                },
+                frictionalPowerloss: {
+                  ...calculationTypes.frictionalPowerloss,
+                  disabled: !result.frictionCalculation,
+                  selected: !result.frictionCalculation
+                    ? false
+                    : calculationTypes.frictionalPowerloss.selected,
+                },
+                lubrication: {
+                  ...calculationTypes.lubrication,
+                  disabled: !result.catalogueCalculation,
+                  selected: !result.catalogueCalculation
+                    ? false
+                    : calculationTypes.lubrication.selected,
+                },
+                overrollingFrequency: {
+                  ...calculationTypes.overrollingFrequency,
+                  disabled: !result.catalogueCalculation,
+                  selected: !result.catalogueCalculation
+                    ? false
+                    : calculationTypes.overrollingFrequency.selected,
+                },
+                ratingLife: {
+                  ...calculationTypes.ratingLife,
+                  disabled: !result.catalogueCalculation,
+                  selected: !result.catalogueCalculation
+                    ? false
+                    : calculationTypes.ratingLife.selected,
+                },
+              };
+
+              return [
+                CalculationTypesActions.setCalculationTypes({
+                  calculationTypes: updatedTypes,
+                }),
+              ];
+            }),
+            catchError((_error: HttpErrorResponse) =>
+              // TODO: Handle error
+              of()
+            )
+          );
+      })
+    );
+  });
+
   constructor(
     private readonly actions$: Actions,
     private readonly catalogService: CatalogService,
-    private readonly productSelectionFacade: ProductSelectionFacade
+    private readonly calculationModuleInfoService: CalculationModuleInfoService,
+    private readonly productSelectionFacade: ProductSelectionFacade,
+    private readonly calculationParametersFacade: CalculationParametersFacade
   ) {}
 }

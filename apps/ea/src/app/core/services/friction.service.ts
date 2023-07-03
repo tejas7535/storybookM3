@@ -37,7 +37,7 @@ export class FrictionService {
       .pipe(
         map((response) => {
           if (!response) {
-            throw new Error('No modelId returned');
+            throw new Error('No model id returned');
           }
 
           return response;

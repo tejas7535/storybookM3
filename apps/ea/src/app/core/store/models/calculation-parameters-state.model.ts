@@ -94,6 +94,7 @@ export type CalculationParametersCalculationTypes = Record<
 export interface CalculationParametersCalculationTypeConfig {
   name: CalculationType;
   selected: boolean;
+  disabled: boolean;
   label: string;
   svgIcon?: string;
   icon?: string;

@@ -19,6 +19,7 @@ import {
   MatLegacyDialogModule as MatDialogModule,
   MatLegacyDialogRef as MatDialogRef,
 } from '@angular/material/legacy-dialog';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 
 import { Subject } from 'rxjs';
 
@@ -43,6 +44,7 @@ import { BasicFrequenciesComponent } from '../basic-frequencies/basic-frequencie
     MatCheckboxModule,
     CommonModule,
     FormsModule,
+    MatTooltipModule,
     MatDividerModule,
   ],
   providers: [

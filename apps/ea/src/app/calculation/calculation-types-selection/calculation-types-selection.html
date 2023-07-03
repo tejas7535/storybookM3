@@ -55,20 +55,22 @@
           >
             <mat-checkbox
               [disableRipple]="true"
-              class="hover:bg-secondary-100 hover:text-primary px-4 py-2 hover:rounded"
-              [ngClass]="{'text-low-emphasis': !config.selected, 'text-medium-emphasis': config.selected}"
+              class="px-4 py-2 hover:rounded w-full"
+              [ngClass]="{'text-low-emphasis cursor-help': config.disabled, 'hover:bg-secondary-100 hover:text-primary': !config.disabled, 'text-high-emphasis': config.selected, 'text-medium-emphasis': !config.selected}"
               color="primary"
+              [disabled]="config.disabled"
               [checked]="config.selected"
-              (click)="selectionChanged(!config.selected, config)"
+              [matTooltip]="t('typeUnavailable')"
+              [matTooltipDisabled]="!config.disabled"
+              [matTooltipPosition]="isInDialog ? 'below' : 'left'"
+              #tooltipRef="matTooltip"
+              (click)="!config.disabled && selectionChanged(!config.selected, config)"
             >
               <div class="flex flex-row items-center">
                 <mat-icon class="mr-2 flex-shrink-0" [svgIcon]="config.svgIcon"
                   >{{ config.icon }}</mat-icon
                 >
-                <div
-                  class="text-subtitle-2 whitespace-normal"
-                  [ngClass]="{'text-low-emphasis': !config.selected, 'text-medium-emphasis': config.selected}"
-                >
+                <div class="text-subtitle-2 whitespace-normal">
                   {{ t(config.label) }}
                 </div>
               </div>

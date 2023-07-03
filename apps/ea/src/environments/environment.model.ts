@@ -5,6 +5,7 @@ export interface Environment {
   catalogApiBaseUrl: string;
   frictionApiBaseUrl: string;
   co2UpstreamApiBaseUrl: string;
+  calculationModuleInfoApiBaseUrl: string;
   tenantId: string;
   groupId: string;
   assetsPath: string;

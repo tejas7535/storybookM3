@@ -14,6 +14,10 @@ export const setBearingId = createAction(
   props<{ bearingId: string }>()
 );
 
+export const fetchCalculationModuleInfo = createAction(
+  '[Product Selection] Fetch Calculation Module Info'
+);
+
 export const setProductFetchFailure = createAction(
   '[Product Selection] Set Product Fetch Failure',
   props<{ error: string }>()
