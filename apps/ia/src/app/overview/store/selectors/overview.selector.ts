@@ -117,8 +117,7 @@ export const getBenchmarkFluctuationKpi = createSelector(
       ? new FluctuationKpi(
           getPercentageValueSigned(fluctuationRates.fluctuationRate),
           getPercentageValueSigned(fluctuationRates.unforcedFluctuationRate),
-          dimension?.value,
-          undefined
+          dimension?.value
         )
       : undefined
 );
@@ -137,7 +136,8 @@ export const getDimensionFluctuationKpi = createSelector(
           getPercentageValueSigned(fluctuationRates.fluctuationRate),
           getPercentageValueSigned(fluctuationRates.unforcedFluctuationRate),
           dimension?.value,
-          workforceBalanceMeta?.externalExitCount
+          workforceBalanceMeta?.externalExitCount,
+          workforceBalanceMeta?.externalUnforcedExitCount
         )
       : undefined
 );

@@ -25,7 +25,7 @@
                   employeeListDialogMetaHeadings$ | ngrxPush
                 "
                 [employeesCount]="
-                  (dimensionFluctuationKpi$ | ngrxPush)?.realEmployeesCount
+                  (dimensionFluctuationKpi$ | ngrxPush)?.realTotalLeaversCount
                 "
                 [showTooltip]="true"
                 [isLoading]="isDimensionFluctuationKpiLoading$ | ngrxPush"
@@ -74,7 +74,8 @@
                   employeeListDialogMetaHeadings$ | ngrxPush
                 "
                 [employeesCount]="
-                  (dimensionFluctuationKpi$ | ngrxPush)?.realEmployeesCount
+                  (dimensionFluctuationKpi$ | ngrxPush)
+                    ?.realUnforcedLeaversCount
                 "
                 [showTooltip]="true"
                 [isLoading]="isDimensionFluctuationKpiLoading$ | ngrxPush"

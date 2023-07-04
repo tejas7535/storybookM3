@@ -525,7 +525,8 @@ describe('Overview Selector', () => {
         fluctuationRate: '4.1%',
         unforcedFluctuationRate: '8.1%',
         name: 'Schaeffler',
-        realEmployeesCount: undefined as number,
+        realTotalLeaversCount: undefined as number,
+        realUnforcedLeaversCount: undefined as number,
       } as FluctuationKpi;
       const x = getBenchmarkFluctuationKpi(fakeState);
       expect(x).toEqual(expectedResult);
@@ -566,7 +567,8 @@ describe('Overview Selector', () => {
         fluctuationRate: '2.3%',
         unforcedFluctuationRate: '6.5%',
         name: 'Schaeffler_IT',
-        realEmployeesCount: 3,
+        realTotalLeaversCount: 3,
+        realUnforcedLeaversCount: 0,
       } as FluctuationKpi;
       const x = getDimensionFluctuationKpi(fakeState);
       expect(x).toEqual(expectedResult);

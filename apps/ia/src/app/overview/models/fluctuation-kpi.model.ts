@@ -3,6 +3,7 @@ export class FluctuationKpi {
     public fluctuationRate: string,
     public unforcedFluctuationRate: string,
     public name: string,
-    public realEmployeesCount: number
+    public realTotalLeaversCount?: number,
+    public realUnforcedLeaversCount?: number
   ) {}
 }
