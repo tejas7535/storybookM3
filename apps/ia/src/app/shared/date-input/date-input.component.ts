@@ -62,8 +62,14 @@ export class DateInputComponent {
       this.setInitialStartEndDates();
     } else {
       this._timePeriod = timePeriod;
-      const refDate =
-        timePeriod === TimePeriod.YEAR ? this.maxDate : this.nowDate;
+      let refDate;
+      if (timePeriod === TimePeriod.YEAR) {
+        refDate = this.maxDate.clone().subtract(1, 'year').endOf('year');
+      } else if (timePeriod === TimePeriod.LAST_12_MONTHS) {
+        refDate = this.nowDate;
+      } else {
+        refDate = this.nowDate.clone().subtract(1, 'month').utc();
+      }
       this.updateStartEndDates(refDate);
     }
   }
@@ -125,6 +131,11 @@ export class DateInputComponent {
   updateStartEndDates(refDate: Moment): void {
     switch (this.timePeriod) {
       case TimePeriod.YEAR: {
+        this.maxDate = moment({
+          year: this.nowDate.year() - 1,
+          month: 11,
+          day: 31,
+        }).utc(); // last day of last year
         this.rangeInput.controls.start.setValue(
           refDate.clone().startOf('year').utc()
         );
@@ -134,6 +145,11 @@ export class DateInputComponent {
         break;
       }
       case TimePeriod.MONTH: {
+        this.maxDate = this.nowDate
+          .clone()
+          .subtract(1, 'month')
+          .endOf('month')
+          .utc();
         const start = refDate.clone().startOf('month').utc();
         const end = refDate.clone().endOf('month').utc();
         this.rangeInput.controls.start.setValue(start);
