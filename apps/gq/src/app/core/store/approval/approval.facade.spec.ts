@@ -578,6 +578,63 @@ describe('ApprovalFacade', () => {
           );
         })
       );
+
+      test(
+        'should return the two approvers with its statuses (no approvals), approver2 started the workflow,provide 2 as  numberOfRequiredApprovers and 0 for numberOfApproversApproved$',
+        marbles((m) => {
+          const expectedFirstApprover: Approver = {
+            userId: 'KELLERBI',
+            firstName: 'firstName KELLERBI',
+            lastName: 'lastName KELLERBI',
+          } as Approver;
+          const expectedSecondApprover: Approver = {
+            userId: 'ZIRKLIS',
+            firstName: 'firstName ZIRKLIS',
+            lastName: 'lastName ZIRKLIS',
+          } as Approver;
+          // expected Result: KELLERBI has an Event present in mock
+          // ZIRKLIS  has no Event in mock, so nothing is returned
+          const expectedResult: ApprovalStatusOfRequestedApprover[] = [
+            {
+              approver: expectedFirstApprover,
+              event: undefined,
+            } as unknown as ApprovalStatusOfRequestedApprover,
+            {
+              approver: expectedSecondApprover,
+              event: undefined,
+            } as unknown as ApprovalStatusOfRequestedApprover,
+          ];
+          const approverTwoStartedEvent = {
+            userId: 'ZIRKLIS',
+            event: ApprovalEventType.STARTED,
+            eventDate: '2023-01-01- 10:10:00',
+          } as ApprovalWorkflowEvent;
+          mockStore.overrideSelector(
+            approvalFeature.getEventsAfterLastWorkflowStarted,
+            [approverTwoStartedEvent]
+          );
+          mockStore.overrideSelector(
+            approvalFeature.getApprovalCockpitInformation,
+            APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
+          );
+          mockStore.overrideSelector(approvalFeature.selectApprovers, [
+            expectedFirstApprover,
+            expectedSecondApprover,
+          ]);
+
+          m.expect(service.approvalStatusOfRequestedApprover$).toBeObservable(
+            m.cold('a', { a: expectedResult })
+          );
+
+          m.expect(service.numberOfRequiredApprovers$).toBeObservable(
+            m.cold('a', { a: 2 })
+          );
+
+          m.expect(service.numberOfApproversApproved$).toBeObservable(
+            m.cold('a', { a: 0 })
+          );
+        })
+      );
     });
 
     describe('should provide quotationAutoApprovedEvent$', () => {

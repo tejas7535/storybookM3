@@ -373,6 +373,8 @@ export class ApprovalFacade {
     // then the 'approved' event has priority over 'started' event
     // only start and approved can be at same timestamp
     // sort the array descending by time but ascending by eventName
+
+    // if approver has started event but no approved event, the started event will NOT be returned
     return workflowEventsSorted
       .sort(
         (a, b) =>
@@ -381,7 +383,8 @@ export class ApprovalFacade {
       )
       .find(
         (event: ApprovalWorkflowEvent) =>
-          event.userId.toLowerCase() === userId.toLowerCase()
+          event.userId.toLowerCase() === userId.toLowerCase() &&
+          event.event !== ApprovalEventType.STARTED
       );
   }
 
