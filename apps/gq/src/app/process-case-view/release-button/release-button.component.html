@@ -4,9 +4,9 @@
       mat-raised-button
       color="primary"
       (click)="openDialog()"
-      *ngIf="quotation?.sapId"
+      *ngIf="quotation?.sapId && quotation?.status === quotationStatus.ACTIVE"
     >
       {{ t('header.release') }}
     </button>
-  </ng-container>
-</ng-container>
+  </ng-container></ng-container
+>

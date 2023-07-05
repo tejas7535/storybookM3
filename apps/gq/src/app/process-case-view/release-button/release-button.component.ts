@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
-import { Quotation } from '@gq/shared/models';
+import { Quotation, QuotationStatus } from '@gq/shared/models';
 
 import { ReleaseModalComponent } from './release-modal/release-modal.component';
 
@@ -11,7 +11,9 @@ import { ReleaseModalComponent } from './release-modal/release-modal.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReleaseButtonComponent {
-  @Input() public quotation: Quotation;
+  @Input() quotation: Quotation;
+
+  readonly quotationStatus = QuotationStatus;
 
   constructor(private readonly dialog: MatDialog) {}
 
