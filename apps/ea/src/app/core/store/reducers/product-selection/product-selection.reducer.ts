@@ -25,6 +25,14 @@ export const productSelectionReducer = createReducer(
     })
   ),
   on(
+    ProductSelectionActions.setCalculationModuleInfo,
+    (state, { calculationModuleInfo }): ProductSelectionState => ({
+      ...state,
+      calculationModuleInfo,
+      error: undefined,
+    })
+  ),
+  on(
     ProductSelectionActions.setProductFetchFailure,
     (state, { error }): ProductSelectionState => ({
       ...state,

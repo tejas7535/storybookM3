@@ -143,8 +143,14 @@ describe('Product Selection Effects', () => {
         action = ProductSelectionActions.fetchCalculationModuleInfo();
         actions$ = m.hot('-a', { a: action });
 
-        const expected = m.cold('-b', {
-          b: CalculationTypesActions.setCalculationTypes({
+        const expected = m.cold('-(bc)', {
+          b: ProductSelectionActions.setCalculationModuleInfo({
+            calculationModuleInfo: {
+              frictionCalculation: true,
+              catalogueCalculation: true,
+            },
+          }),
+          c: CalculationTypesActions.setCalculationTypes({
             calculationTypes: {
               ...CALCULATION_PARAMETERS_STATE_MOCK.calculationTypes,
               emission: {

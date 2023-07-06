@@ -9,6 +9,7 @@
   },
   "operationConditions": {
     "title": "Operating conditions for bearing {{bearingDesignation}}",
+    "co2DownstreamUnavailableHint": "For the selected bearing a calculation for CO₂e values during operation is currently not available.",
     "loads": "Load",
     "radialLoad": "Radial load",
     "axialLoad": "Axial load",
@@ -67,31 +68,32 @@
   },
   "calculationResult": {
     "ratingLife": "Rating life",
-    "ratingLifeSubtitle": "Total rating life (Lh10)",
-    "totalValueCO2": "Total value of CO₂",
+    "ratingLifeSubtitle": "Total Rating Life (Lh10)",
+    "emissions": "CO₂e emitted",
     "overrollingFrequency": "Overrolling frequency",
     "overrollingFrequencySubtitle": "Frequency on inner ring (BPFI)",
     "frictionalPowerloss": "Frictional power loss",
     "frictionalPowerlossSubtitle": "Total Frictional Torque (MRmax)",
-    "production": "Production",
-    "operation": "Operation"
+    "production": "For Production",
+    "operation": "During Operation"
   },
   "calculationResultReport": {
     "dialogTitle": "Report for bearing {{bearingDesignation}}",
     "reportSectionInput": "Input",
     "reportSectionWarnings": "Errors/Warnings/Notes",
     "co2Emissions": {
-      "title": "Estimation of CO₂ emissions per piece",
-      "chartTitle": "Total value of CO₂",
+      "title": "Estimation of CO₂e emissions per piece",
+      "co2DownstreamUnavailableHint": "For the selected bearing a calculation for CO₂e values during operation is currently not possible. For further information please contact our customer support.",
+      "chartTitle": "Total value of CO₂e",
       "chartUpstream": "Upstream",
       "chartDownstream": "Downstream",
       "chartDesc": "Value for 24/7 use for one year",
-      "upstreamTitle": "CO₂ emitted for production* (Upstream)",
+      "upstreamTitle": "CO₂e emitted for production* (Upstream)",
       "upstreamHint": "*Estimated value based on assumptions during production",
       "upstreamHintLink": "https://schaeffler.com",
       "upstreamHintLinkText": "More information.",
-      "downstreamTitle": "CO₂ caused by friction during operation (use phase, part of Downstream)",
-      "calculationHint": "This is how we calculate the CO₂ values",
+      "downstreamTitle": "CO₂e caused by friction during operation (use phase, part of Downstream)",
+      "calculationHint": "This is how we calculate the CO₂e values",
       "calculationHintLink": "https://schaeffler.com",
       "calculationHintLinkText": "Click here"
     },
@@ -118,7 +120,7 @@
       "ratingLife": "Rating Life",
       "lubrication": "Lubrication parameter",
       "frictionalPowerloss": "Frictional power loss",
-      "co2": "CO₂ emissions",
+      "co2": "CO₂e emissions",
       "overrollingFrequency": "Overrolling frequency"
     },
     "basicFrequency": "Basic Frequencies",

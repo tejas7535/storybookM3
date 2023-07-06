@@ -3,8 +3,10 @@ import { createSelector } from '@ngrx/store';
 import {
   BasicCalculationResultState,
   CalculationResultPreviewData,
+  CalculationResultPreviewItem,
 } from '../../models';
 import { getCalculationTypes } from '../calculation-parameters/calculation-types.selector';
+import { getCalculationModuleInfo } from '../product-selection/product-selection.selector';
 import {
   getCalculationResult as catalogCalculationResult,
   getError as catalogCalculationError,
@@ -80,12 +82,14 @@ export const getCalculationResultPreviewData = createSelector(
   co2Downstream,
   co2Upstream,
   friction,
+  getCalculationModuleInfo,
   (
     calculationTypes,
     catalogCalculationPreviewResult,
     co2DownstreamResult,
     co2UpstreamResult,
-    frictionResult
+    frictionResult,
+    moduleInfo
   ): CalculationResultPreviewData => {
     const previewData: CalculationResultPreviewData = [];
 
@@ -116,19 +120,24 @@ export const getCalculationResultPreviewData = createSelector(
     }
 
     if (calculationTypes.emission.selected) {
+      const values: CalculationResultPreviewItem['values'] = [
+        {
+          title: 'production',
+          ...co2UpstreamResult,
+        },
+      ];
+
+      if (moduleInfo?.frictionCalculation) {
+        values.push({
+          title: 'operation',
+          ...co2DownstreamResult,
+        });
+      }
+
       previewData.push({
-        title: 'totalValueCO2',
+        title: 'emissions',
         svgIcon: 'co2',
-        values: [
-          {
-            title: 'production',
-            ...co2UpstreamResult,
-          },
-          {
-            title: 'operation',
-            ...co2DownstreamResult,
-          },
-        ],
+        values,
       });
     }
 

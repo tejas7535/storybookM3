@@ -75,10 +75,7 @@ export class ProductSelectionEffects {
               const updatedTypes: CalculationParametersCalculationTypes = {
                 emission: {
                   ...calculationTypes.emission,
-                  disabled: !result.frictionCalculation,
-                  selected: !result.frictionCalculation
-                    ? false
-                    : calculationTypes.emission.selected,
+                  disabled: false, // special case, stays enabled since we are still able to calculate upstream
                 },
                 frictionalPowerloss: {
                   ...calculationTypes.frictionalPowerloss,
@@ -111,6 +108,9 @@ export class ProductSelectionEffects {
               };
 
               return [
+                ProductSelectionActions.setCalculationModuleInfo({
+                  calculationModuleInfo: result,
+                }),
                 CalculationTypesActions.setCalculationTypes({
                   calculationTypes: updatedTypes,
                 }),

@@ -9,6 +9,10 @@
         <div class="text-medium-emphasis text-h6">
           {{t('title', {bearingDesignation: bearingDesignation$ | ngrxPush } )}}
         </div>
+        <ea-info-banner
+          *ngIf="(isDownstreamUnavailable$ | ngrxPush)"
+          [infoText]="t('co2DownstreamUnavailableHint')"
+        ></ea-info-banner>
         <div class="flex-row items-end w-full mb-4 flex md:hidden">
           <button
             (click)="onShowBasicFrequenciesDialogClick()"
@@ -20,22 +24,13 @@
           </button>
         </div>
 
-        <div class="flex flex-row items-center justify-between mb-4">
-          <button
-            mat-button
-            color="primary"
-            (click)="onResetButtonClick()"
-            class="md:ml-auto"
-          >
-            {{ t('resetInputs') }}
-          </button>
-
+        <div class="flex flex-row items-center md:hidden justify-between mb-4">
           <button
             mat-raised-button
             mat-icon-button
             color="primary"
             (click)="onShowCalculationTypesClick()"
-            class="md:hidden inline-block mx-2"
+            class="ml-auto mx-2"
           >
             <mat-icon>tune</mat-icon>
           </button>
@@ -320,4 +315,11 @@
       </ng-template>
     </ea-tabbed-options>
   </ea-input-group>
+
+  <div class="flex">
+    <button mat-button color="primary" (click)="onResetButtonClick()" icon>
+      <mat-icon>refresh</mat-icon>
+      {{ t('resetInputs') }}
+    </button>
+  </div>
 </ng-template>

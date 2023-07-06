@@ -246,18 +246,28 @@
                   </div>
 
                   <!-- Downstream -->
-                  <div class="w-full px-4 md:px-8 py-4">
+                  <div
+                    class="w-full px-4 md:px-8 py-4"
+                    *ngrxLet="isDownstreamAvailable$; let isDownstreamAvailable"
+                  >
                     <div
-                      class="text-high-emphasis flex flex-row items-center pb-4"
+                      class="flex flex-row items-center pb-4"
+                      [ngClass]="{
+                        'text-high-emphasis': isDownstreamAvailable,
+                        'text-low-emphasis': !isDownstreamAvailable
+                      }"
                     >
                       <ea-tag
                         value=""
+                        [disabled]="!isDownstreamAvailable"
                         styleClass="bg-[#7DC882]"
                         class="mr-2"
                       ></ea-tag>
+
                       {{ t('downstreamTitle') }}
                     </div>
                     <div
+                      *ngIf="isDownstreamAvailable; else downstreamUnavailable"
                       class="flex w-full flex-row md:justify-start justify-center items-center"
                     >
                       <div
@@ -286,6 +296,11 @@
                         <div class="text-body-2 text-high-emphasis pl-1">%</div>
                       </div>
                     </div>
+                    <ng-template #downstreamUnavailable>
+                      <ea-info-banner
+                        [infoText]="t('co2DownstreamUnavailableHint')"
+                      ></ea-info-banner>
+                    </ng-template>
                     <div class="text-medium-emphasis pt-4"></div>
                   </div>
                 </div>

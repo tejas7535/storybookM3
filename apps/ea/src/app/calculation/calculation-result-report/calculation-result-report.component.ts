@@ -26,10 +26,11 @@ import {
 } from '@ea/core/store';
 import { ProductSelectionFacade } from '@ea/core/store/facades/product-selection/product-selection.facade';
 import { CalculationParametersCalculationTypeConfig } from '@ea/core/store/models';
+import { InfoBannerComponent } from '@ea/shared/info-banner/info-banner.component';
 import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
 import { TagComponent } from '@ea/shared/tag/tag.component';
 import { TranslocoService } from '@ngneat/transloco';
-import { PushPipe } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 import { EChartsOption } from 'echarts';
 import { NgxEchartsModule } from 'ngx-echarts';
 
@@ -55,10 +56,12 @@ const COLOR_PLATTE = ['#DDE86E', '#7DC882'];
     SharedTranslocoModule,
     NgxEchartsModule,
     TagComponent,
+    LetDirective,
     MeaningfulRoundPipe,
     CalculationTypesSelectionComponent,
     CalculationResultReportInputComponent,
     CalculationResultMessageComponent,
+    InfoBannerComponent,
   ],
 })
 export class CalculationResultReportComponent {
@@ -69,6 +72,14 @@ export class CalculationResultReportComponent {
 
   public selctedCalculationTypes$ =
     this.calculationParametersFacade.getCalculationTypes$;
+
+  public calcualtionModuleInfo$ =
+    this.productSelectionFacade.calcualtionModuleInfo$;
+
+  public isDownstreamAvailable$ =
+    this.productSelectionFacade.calcualtionModuleInfo$.pipe(
+      map((res) => res?.frictionCalculation)
+    );
 
   public co2EmissionOptions$: Observable<EChartsOption> =
     this.calculationResultFacade.calculationReportCO2Emission$.pipe(

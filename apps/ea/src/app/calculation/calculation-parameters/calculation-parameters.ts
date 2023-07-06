@@ -20,7 +20,7 @@ import {
 } from '@angular/material/legacy-dialog';
 import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 
-import { debounceTime, Subject, takeUntil } from 'rxjs';
+import { debounceTime, map, Subject, takeUntil } from 'rxjs';
 
 import { CalculationParametersFacade } from '@ea/core/store';
 import { CalculationParametersActions } from '@ea/core/store/actions';
@@ -31,6 +31,7 @@ import {
   FormGroupDisabledValidator,
   FormSelectValidatorSwitcher,
 } from '@ea/shared/helper/form-select-validation-switcher';
+import { InfoBannerComponent } from '@ea/shared/info-banner/info-banner.component';
 import { InputGroupComponent } from '@ea/shared/input-group/input-group.component';
 import { InputNumberComponent } from '@ea/shared/input-number/input-number.component';
 import { InputSelectComponent } from '@ea/shared/input-select/input-select.component';
@@ -64,6 +65,7 @@ import { CalculationTypesSelectionComponent } from '../calculation-types-selecti
     OptionTemplateDirective,
     LetDirective,
     PushPipe,
+    InfoBannerComponent,
     SharedTranslocoModule,
   ],
 })
@@ -73,6 +75,11 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
 
   public readonly bearingDesignation$ =
     this.productSelectionFacade.bearingDesignation$;
+
+  public readonly isDownstreamUnavailable$ =
+    this.productSelectionFacade.calcualtionModuleInfo$.pipe(
+      map((res) => res && !res.frictionCalculation)
+    );
 
   public operationConditionsForm = new FormGroup({
     load: new FormGroup(

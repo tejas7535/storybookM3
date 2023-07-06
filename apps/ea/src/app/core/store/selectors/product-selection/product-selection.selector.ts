@@ -11,3 +11,8 @@ export const getBearingId = createSelector(
   getProductSelectionState,
   (state): string => state.bearingId
 );
+
+export const getCalculationModuleInfo = createSelector(
+  getProductSelectionState,
+  (state) => state.calculationModuleInfo
+);

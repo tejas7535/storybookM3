@@ -1,0 +1,29 @@
+<div
+  class="flex w-full flex-row items-center justify-center rounded-md border-[1px] py-2 px-3"
+  [ngClass]="{
+    'border-[#1C98B5] bg-[#F0F6FA]': !isWarning,
+    'border-warning bg-sunny-yellow': isWarning
+  }"
+>
+  <mat-icon
+    *ngIf="!isWarning"
+    class="mr-4 align-middle flex-shrink-0 text-[#1C98B5]"
+    >info_outline
+  </mat-icon>
+
+  <mat-icon
+    *ngIf="isWarning"
+    class="mr-4 align-middle flex-shrink-0 text-orange"
+    >warning_amber
+  </mat-icon>
+
+  <div
+    class="text-subtitle-2"
+    [ngClass]="{
+      'text-[#00596E]': !isWarning,
+      'text-orange': isWarning
+    }"
+  >
+    {{ infoText }}
+  </div>
+</div>

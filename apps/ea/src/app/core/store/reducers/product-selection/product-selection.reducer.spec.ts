@@ -63,6 +63,32 @@ describe('ProductSelectionReducer', () => {
     });
   });
 
+  describe('setCalculationModuleInfo', () => {
+    it('should set the module info', () => {
+      const originalState: ProductSelectionState = {
+        ...initialState,
+      };
+
+      const newState = productSelectionReducer(
+        originalState,
+        ProductSelectionActions.setCalculationModuleInfo({
+          calculationModuleInfo: {
+            catalogueCalculation: true,
+            frictionCalculation: false,
+          },
+        })
+      );
+
+      expect(newState).toEqual({
+        ...initialState,
+        calculationModuleInfo: {
+          catalogueCalculation: true,
+          frictionCalculation: false,
+        },
+      });
+    });
+  });
+
   describe('setProductFetchFailure', () => {
     it('should set the error', () => {
       const originalState: ProductSelectionState = {

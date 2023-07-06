@@ -5,6 +5,7 @@ import { Action, Store } from '@ngrx/store';
 import {
   getBearingDesignation,
   getBearingId,
+  getCalculationModuleInfo,
 } from '../../selectors/product-selection/product-selection.selector';
 
 @Injectable({
@@ -15,6 +16,7 @@ export class ProductSelectionFacade {
     getBearingDesignation
   );
   public bearingId$ = this.store.select(getBearingId);
+  public calcualtionModuleInfo$ = this.store.select(getCalculationModuleInfo);
 
   constructor(private readonly store: Store) {}
 
