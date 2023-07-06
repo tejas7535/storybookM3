@@ -21,6 +21,10 @@ export const getQuotations = createSelector(
     switch (state.quotations.displayStatus) {
       case QuotationStatus.ACTIVE:
         return state.quotations.active.quotations;
+      case QuotationStatus.IN_APPROVAL:
+        return state.quotations.inApproval.quotations;
+      case QuotationStatus.APPROVED:
+        return state.quotations.approved.quotations;
       case QuotationStatus.ARCHIVED:
         return state.quotations.archived.quotations;
       default:

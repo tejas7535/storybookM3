@@ -17,6 +17,7 @@ import { createSelector } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
+import { GET_QUOTATIONS_RESPONSE_MOCK } from '../../../../testing/mocks';
 import { ActiveCaseActions } from '../active-case';
 import { OverviewCasesActions } from './overview-cases.actions';
 import { OverviewCasesEffects } from './overview-cases.effects';
@@ -119,12 +120,8 @@ describe('Overview Cases Effects', () => {
     test(
       'should return loadCases Success',
       marbles((m) => {
-        const getQuotationsResponse: GetQuotationsResponse = {
-          activeCount: 0,
-          archivedCount: 0,
-          quotations: [],
-          statusTypeOfListedQuotation: QuotationStatus.ACTIVE,
-        };
+        const getQuotationsResponse: GetQuotationsResponse =
+          GET_QUOTATIONS_RESPONSE_MOCK;
 
         const result = OverviewCasesActions.loadCasesSuccess({
           response: getQuotationsResponse,

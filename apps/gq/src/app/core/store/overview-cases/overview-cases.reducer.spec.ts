@@ -44,7 +44,9 @@ describe('Overview Cases Reducer', () => {
       const action = OverviewCasesActions.loadCasesSuccess({
         response: {
           ...GET_QUOTATIONS_RESPONSE_MOCK,
+          activeCount: 1,
           quotations: [VIEW_QUOTATION_MOCK],
+          statusTypeOfListedQuotation: QuotationStatus.ACTIVE,
         },
       });
       const state = overviewCasesFeature.reducer(VIEW_CASE_STATE_MOCK, action);
@@ -58,8 +60,16 @@ describe('Overview Cases Reducer', () => {
             quotations: [],
           },
           active: {
-            count: GET_QUOTATIONS_RESPONSE_MOCK.activeCount,
+            count: 1,
             quotations: [VIEW_QUOTATION_MOCK],
+          },
+          inApproval: {
+            count: GET_QUOTATIONS_RESPONSE_MOCK.inApprovalCount,
+            quotations: [],
+          },
+          approved: {
+            count: GET_QUOTATIONS_RESPONSE_MOCK.approvedCount,
+            quotations: [],
           },
         },
         quotationsLoading: false,
@@ -70,6 +80,7 @@ describe('Overview Cases Reducer', () => {
         response: {
           ...GET_QUOTATIONS_RESPONSE_MOCK,
           quotations: [VIEW_QUOTATION_MOCK],
+          archivedCount: 1,
           statusTypeOfListedQuotation: QuotationStatus.ARCHIVED,
         },
       });
@@ -80,12 +91,91 @@ describe('Overview Cases Reducer', () => {
         quotations: {
           ...VIEW_CASE_STATE_MOCK.quotations,
           archived: {
-            count: GET_QUOTATIONS_RESPONSE_MOCK.archivedCount,
+            count: 1,
             quotations: [VIEW_QUOTATION_MOCK],
           },
           active: {
             count: GET_QUOTATIONS_RESPONSE_MOCK.activeCount,
             quotations: [],
+          },
+          inApproval: {
+            count: GET_QUOTATIONS_RESPONSE_MOCK.inApprovalCount,
+            quotations: [],
+          },
+          approved: {
+            count: GET_QUOTATIONS_RESPONSE_MOCK.approvedCount,
+            quotations: [],
+          },
+        },
+        quotationsLoading: false,
+      });
+    });
+    test('should set inApproval quotations and set quotationsLoading false', () => {
+      const action = OverviewCasesActions.loadCasesSuccess({
+        response: {
+          ...GET_QUOTATIONS_RESPONSE_MOCK,
+          inApprovalCount: 1,
+          quotations: [VIEW_QUOTATION_MOCK],
+          statusTypeOfListedQuotation: QuotationStatus.IN_APPROVAL,
+        },
+      });
+      const state = overviewCasesFeature.reducer(VIEW_CASE_STATE_MOCK, action);
+
+      expect(state).toEqual({
+        ...VIEW_CASE_STATE_MOCK,
+        quotations: {
+          ...VIEW_CASE_STATE_MOCK.quotations,
+          active: {
+            count: GET_QUOTATIONS_RESPONSE_MOCK.activeCount,
+            quotations: [],
+          },
+          archived: {
+            count: GET_QUOTATIONS_RESPONSE_MOCK.archivedCount,
+            quotations: [],
+          },
+          inApproval: {
+            count: 1,
+            quotations: [VIEW_QUOTATION_MOCK],
+          },
+          approved: {
+            count: GET_QUOTATIONS_RESPONSE_MOCK.approvedCount,
+            quotations: [],
+          },
+        },
+        quotationsLoading: false,
+      });
+    });
+
+    test('should set approved quotations and set quotationsLoading false', () => {
+      const action = OverviewCasesActions.loadCasesSuccess({
+        response: {
+          ...GET_QUOTATIONS_RESPONSE_MOCK,
+          approvedCount: 1,
+          quotations: [VIEW_QUOTATION_MOCK],
+          statusTypeOfListedQuotation: QuotationStatus.APPROVED,
+        },
+      });
+      const state = overviewCasesFeature.reducer(VIEW_CASE_STATE_MOCK, action);
+
+      expect(state).toEqual({
+        ...VIEW_CASE_STATE_MOCK,
+        quotations: {
+          ...VIEW_CASE_STATE_MOCK.quotations,
+          active: {
+            count: GET_QUOTATIONS_RESPONSE_MOCK.activeCount,
+            quotations: [],
+          },
+          archived: {
+            count: GET_QUOTATIONS_RESPONSE_MOCK.archivedCount,
+            quotations: [],
+          },
+          inApproval: {
+            count: GET_QUOTATIONS_RESPONSE_MOCK.inApprovalCount,
+            quotations: [],
+          },
+          approved: {
+            count: 1,
+            quotations: [VIEW_QUOTATION_MOCK],
           },
         },
         quotationsLoading: false,

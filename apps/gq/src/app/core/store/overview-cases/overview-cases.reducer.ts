@@ -1,4 +1,6 @@
+import { ViewQuotation } from '@gq/shared/models/quotation';
 import { QuotationStatus } from '@gq/shared/models/quotation/quotation-status.enum';
+import { GetQuotationsResponse } from '@gq/shared/services/rest/quotation/models/get-quotations-response.interface';
 import { createFeature, createReducer, on } from '@ngrx/store';
 
 import { OverviewCasesStateQuotations } from './models/overview-cases-state-quotations.model';
@@ -66,27 +68,53 @@ export const overviewCasesFeature = createFeature({
     ),
     on(
       OverviewCasesActions.loadCasesSuccess,
-      (state: OverviewCasesState, { response }): OverviewCasesState => ({
-        ...state,
-        quotations: {
+      (state: OverviewCasesState, { response }): OverviewCasesState => {
+        const { activeCount, inApprovalCount, approvedCount, archivedCount } =
+          response;
+        const { active, inApproval, approved, archived } = state.quotations;
+
+        const quotations: OverviewCasesStateQuotations = {
           ...state.quotations,
           active: {
-            count: response.activeCount,
-            quotations:
-              response.statusTypeOfListedQuotation === QuotationStatus.ACTIVE
-                ? response.quotations
-                : state.quotations.active.quotations,
+            count: activeCount,
+            quotations: getQuotationsFromResponse(
+              response,
+              active.quotations,
+              QuotationStatus.ACTIVE
+            ),
+          },
+          inApproval: {
+            count: inApprovalCount,
+            quotations: getQuotationsFromResponse(
+              response,
+              inApproval.quotations,
+              QuotationStatus.IN_APPROVAL
+            ),
+          },
+          approved: {
+            count: approvedCount,
+            quotations: getQuotationsFromResponse(
+              response,
+              approved.quotations,
+              QuotationStatus.APPROVED
+            ),
           },
           archived: {
-            count: response.archivedCount,
-            quotations:
-              response.statusTypeOfListedQuotation === QuotationStatus.ARCHIVED
-                ? response.quotations
-                : state.quotations.archived.quotations,
+            count: archivedCount,
+            quotations: getQuotationsFromResponse(
+              response,
+              archived.quotations,
+              QuotationStatus.ARCHIVED
+            ),
           },
-        },
-        quotationsLoading: false,
-      })
+        };
+
+        return {
+          ...state,
+          quotations,
+          quotationsLoading: false,
+        };
+      }
     ),
     on(
       OverviewCasesActions.updateCasesStatus,
@@ -129,3 +157,20 @@ export const overviewCasesFeature = createFeature({
     )
   ),
 });
+
+/**
+ * If the status matches to the quotations status in the response, return the responseQuotations, otherwise return the current Quotations.
+ * @param response            the http response
+ * @param currentQuotations   the current quotations
+ * @param currentStatus              the currentStatus
+ * @returns
+ */
+function getQuotationsFromResponse(
+  response: GetQuotationsResponse,
+  currentQuotations: ViewQuotation[],
+  currentStatus: QuotationStatus
+) {
+  return response.statusTypeOfListedQuotation === currentStatus
+    ? response.quotations
+    : currentQuotations;
+}

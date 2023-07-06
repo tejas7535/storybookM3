@@ -16,12 +16,9 @@ import * as fromOverviewCasesSelectors from './overview-cases.selectors';
   providedIn: 'root',
 })
 export class OverviewCasesFacade {
-  constructor(private readonly store: Store) {}
-
   quotations$: Observable<ViewQuotation[]> = this.store.select(
     fromOverviewCasesSelectors.getQuotations
   );
-
   statusBarForQuotationStatus$: Observable<AgStatusBar> = this.store.select(
     fromOverviewCasesSelectors.getStatusBarForQuotationStatus
   );
@@ -45,6 +42,8 @@ export class OverviewCasesFacade {
   selectedIds$: Observable<number[]> = this.store.select(
     overviewCasesFeature.selectSelectedCases
   );
+
+  constructor(private readonly store: Store) {}
 
   selectCase(gqId: number) {
     this.store.dispatch(OverviewCasesActions.selectCase({ gqId }));

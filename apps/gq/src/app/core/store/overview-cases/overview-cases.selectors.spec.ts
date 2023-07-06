@@ -56,6 +56,39 @@ describe('Overview Cases Selector', () => {
         overviewCasesSelectors.getQuotations.projector(archivedFakeState)
       ).toEqual(archivedFakeState.quotations.archived.quotations);
     });
+    test('should return inApproval quotations', () => {
+      const archivedFakeState: OverviewCasesState = {
+        ...VIEW_CASE_STATE_MOCK,
+        quotations: {
+          ...VIEW_CASE_STATE_MOCK.quotations,
+          displayStatus: QuotationStatus.IN_APPROVAL,
+          inApproval: {
+            quotations: [VIEW_QUOTATION_MOCK],
+            count: 1,
+          },
+        },
+      };
+      expect(
+        overviewCasesSelectors.getQuotations.projector(archivedFakeState)
+      ).toEqual(archivedFakeState.quotations.inApproval.quotations);
+    });
+
+    test('should return approved quotations', () => {
+      const archivedFakeState: OverviewCasesState = {
+        ...VIEW_CASE_STATE_MOCK,
+        quotations: {
+          ...VIEW_CASE_STATE_MOCK.quotations,
+          displayStatus: QuotationStatus.APPROVED,
+          approved: {
+            quotations: [VIEW_QUOTATION_MOCK],
+            count: 1,
+          },
+        },
+      };
+      expect(
+        overviewCasesSelectors.getQuotations.projector(archivedFakeState)
+      ).toEqual(archivedFakeState.quotations.approved.quotations);
+    });
   });
 
   describe('getStatusBarForQuotationStatus', () => {
