@@ -92,51 +92,57 @@ export class OrgChartService {
   `;
   }
 
-  getNodeContent(data: OrgChartNode, dimension: FilterDimension): string {
+  getNodeContent(
+    data: OrgChartNode,
+    width: number,
+    height: number,
+    dimension: FilterDimension
+  ): string {
+    const paddingTop = data.showUpperParentBtn ? '39' : '64';
+    const marginBottom = dimension === FilterDimension.ORG_UNIT ? '0.5' : '1.5';
     const upwardsButton = `
-      <div class="
-          pointer-events-auto cursor-pointer bg-surface text-low-emphasis rounded-full
-          flex flex-col items-center justify-center
-          absolute left-1/2 transform -translate-x-1/2 w-6 h-6 text-[24px] -top-11
-          hover:text-medium-emphasis hover:ring-1 hover:ring-mediumEmphasis">
-        <span id="show-parent" data-id="${data.nodeId}" class="before:content-['\\e5d8'] before:font-materiaIcons"></span>
-      </div>
-    `;
+            <div class="
+                pointer-events-auto cursor-pointer bg-surface text-low-emphasis
+                flex flex-col mx-auto
+                w-6 h-6 text-[24px]
+                hover:text-medium-emphasis">
+              <span id="show-parent" data-id="${data.nodeId}" 
+                class="-mt-20 w-6 h-6 rounded-full before:content-['\\e5d8'] before:font-materiaIcons hover:ring-1 hover:ring-mediumEmphasis">
+              </span>
+            </div>
+          `;
 
     return `
-          <div class="relative border border-border rounded-sm h-full flex flex-col px-2">
+            <div style="padding-top:${paddingTop}px; padding-left:70px;width:${
+      width - 70
+    }px;height:${height}px">
             ${data.showUpperParentBtn ? upwardsButton : ''}
-            <div class="flex justify-center rounded-2xl py-2 -my-4
-              ${data.heatMapClass}">
-                <span class="text-body-2 text-center ${
-                  data.heatMapClass !== undefined
-                    ? 'text-high-emphasis-dark-bg'
-                    : 'text-high-emphasis'
-                }">${data.organization}</span>
-            </div>
-            <div class="text-high-emphasis text-body-1 mt-6 mb-2 text-center">${
-              data.name
-            }</div>
 
-           ${
-             dimension === FilterDimension.ORG_UNIT
-               ? this.getOrgUnitTable(data)
-               : this.getGeneralDimensionGrid(data)
-           }
-
-            <div class="grid grid-cols-2 gap-2 text-center flex-1">
-                <span id="employee-node-people" data-id="${
-                  data.nodeId
-                }" class="before:content-['people'] before:font-materiaIcons self-center cursor-pointer text-[24px] text-low-emphasis hover:text-medium-emphasis"></span>
-                <span id="employee-node-attrition" data-id="${
-                  data.nodeId
-                }" class="before:content-['\\e24b'] before:font-materiaIcons self-center cursor-pointer text-[24px] text-low-emphasis hover:text-medium-emphasis"></span>
+              <div class="-ml-[70px] px-2 rounded-sm border border-border" style="height:${height}px;width:${width}px;margin-top:-64px;">
+                <div class="flex justify-center pt-2 pb-2 -mt-4 rounded-2xl bg-secondary-900" style="margin-bottom:${marginBottom}rem;">
+                  <span class="text-body-2 text-high-emphasis-dark-bg text-center">
+                    ${data.organization}
+                  </span>
+                </div>
+              ${
+                dimension === FilterDimension.ORG_UNIT
+                  ? this.getOrgUnitTable(data)
+                  : this.getGeneralDimensionGrid(data)
+              }
+                <div class="grid grid-cols-2 gap-2 text-center flex-1 mt-6">
+                  <span id="employee-node-people" data-id="${
+                    data.nodeId
+                  }" class="before:content-['people'] before:font-materiaIcons self-center cursor-pointer text-[24px] text-low-emphasis hover:text-medium-emphasis"></span>
+                  <span id="employee-node-attrition" data-id="${
+                    data.nodeId
+                  }" class="before:content-['\\e24b'] before:font-materiaIcons self-center cursor-pointer text-[24px] text-low-emphasis hover:text-medium-emphasis"></span>
+                </div>
+              </div>
             </div>
-          </div>
-        `;
+            `;
   }
 
-  private getGeneralDimensionGrid(data: OrgChartNode): string {
+  getGeneralDimensionGrid(data: OrgChartNode): string {
     return `
       <div class="grid grid-cols-2 gap-2 text-center flex-1">
         <div class="flex flex-col gap-2 justify-center">
@@ -157,8 +163,9 @@ export class OrgChartService {
     `;
   }
 
-  private getOrgUnitTable(data: OrgChartNode): string {
+  getOrgUnitTable(data: OrgChartNode): string {
     return `
+      <div class="text-high-emphasis text-body-1 mt-2 mb-2 text-center">${data.name}</div>
       <table class="table-fixed">
         <thead>
           <tr class="font-semibold uppercase text-low-emphasis divide-x divide-border">
@@ -169,7 +176,7 @@ export class OrgChartService {
         </thead>
       <tbody>
         <tr class="text-center h-9 divide-x divide-border">
-          <td class="flex text-body-2 text-low-emphasis gap-1 items-center h-full">
+          <td class="flex text-body-2 text-low-emphasis gap-1 mr-1 items-center h-full">
             <span class="text-[16px] before:font-materiaIcons before:content-['person'] before:block text-link"></span>
             <span>${data.textRowEmployees}</span>
           </td>
@@ -177,7 +184,7 @@ export class OrgChartService {
           <td class="text-body-2">${data.totalSubordinates}</td>
         </tr>
         <tr class="text-center h-9 divide-x divide-border">
-          <td class="flex text-body-2 text-low-emphasis gap-1 items-center h-full">
+          <td class="flex text-body-2 text-low-emphasis gap-1 mr-1 items-center h-full">
             <span class="text-[16px] before:font-materiaIcons before:content-['\\e26a'] before:block text-link"></span>
             <span>${data.textRowAttrition}</span>
           </td>

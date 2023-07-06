@@ -24,7 +24,7 @@ import { EmployeeListDialogMetaHeadings } from '../../shared/dialogs/employee-li
 import { FilterDimension } from '../../shared/models';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
 import { ChartType, DimensionFluctuationData } from '../models';
-import { OrgChartData, OrgChartEmployee } from './models';
+import { OrgChartData, OrgChartEmployee, OrgChartNode } from './models';
 import * as OrgChartConfig from './models/org-chart-config';
 import { OrgChartService } from './org-chart.service';
 
@@ -193,16 +193,24 @@ export class OrgChartComponent implements AfterViewInit {
           this.chartContainer.nativeElement.getBoundingClientRect().height ||
             376 // default height
         )
+        .svgWidth(
+          this.chartContainer.nativeElement.getBoundingClientRect().height ||
+            376
+        ) // default width
         .backgroundColor('white')
         .initialZoom(0.8)
         .nodeWidth(() => nodeWidth)
         .nodeHeight(() => nodeHeight)
         .compact(false)
-        .nodeContent((d: any) =>
-          this.orgChartService.getNodeContent(
-            d.data,
-            this.orgChartData.dimension
-          )
+        .compactMarginBetween((_d: any) => 170)
+        .nodeContent(
+          (d: { data: OrgChartNode; width: number; height: number }) =>
+            this.orgChartService.getNodeContent(
+              d.data,
+              d.width,
+              d.height,
+              this.orgChartData.dimension
+            )
         )
         .buttonContent(({ node }: any) =>
           this.orgChartService.getButtonContent(node)

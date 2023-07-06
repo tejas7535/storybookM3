@@ -40,7 +40,6 @@ describe('LineChartComponent', () => {
         .spyOn(Date, 'now')
         .mockImplementation(() => 1_630_014_361_000); // 26.8.2021
       const result = component.getXAxisData();
-
       expect(result).toEqual([`2/21`, `3/21`, `4/21`, `5/21`, `6/21`, `7/21`]);
       expect(spyDate).toHaveBeenCalled();
     });

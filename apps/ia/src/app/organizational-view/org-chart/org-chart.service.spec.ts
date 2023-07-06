@@ -185,10 +185,14 @@ describe('OrgChartService', () => {
         expanded: true,
       };
 
-      const result = service.getNodeContent(data, FilterDimension.ORG_UNIT);
+      const result = service.getNodeContent(
+        data,
+        150,
+        150,
+        FilterDimension.ORG_UNIT
+      );
 
       expect(result).not.toContain('show-parent');
-      expect(result).toContain(data.heatMapClass);
       expect(result).toContain(data.name);
     });
 
@@ -214,11 +218,15 @@ describe('OrgChartService', () => {
       service['getOrgUnitTable'] = jest.fn();
       service['getGeneralDimensionGrid'] = jest.fn();
 
-      const result = service.getNodeContent(data, FilterDimension.ORG_UNIT);
+      const result = service.getNodeContent(
+        data,
+        150,
+        150,
+        FilterDimension.ORG_UNIT
+      );
 
       expect(result).not.toContain('show-parent');
-      expect(result).toContain(data.heatMapClass);
-      expect(result).toContain(data.name);
+      expect(result).toContain(data.organization);
       expect(service['getOrgUnitTable']).toHaveBeenCalledWith(data);
       expect(service['getGeneralDimensionGrid']).not.toHaveBeenCalled();
     });
@@ -245,11 +253,15 @@ describe('OrgChartService', () => {
       service['getOrgUnitTable'] = jest.fn();
       service['getGeneralDimensionGrid'] = jest.fn();
 
-      const result = service.getNodeContent(data, FilterDimension.SEGMENT);
+      const result = service.getNodeContent(
+        data,
+        150,
+        150,
+        FilterDimension.SEGMENT
+      );
 
       expect(result).not.toContain('show-parent');
-      expect(result).toContain(data.heatMapClass);
-      expect(result).toContain(data.name);
+      expect(result).toContain(data.organization);
       expect(service['getGeneralDimensionGrid']).toHaveBeenCalledWith(data);
       expect(service['getOrgUnitTable']).not.toHaveBeenCalled();
     });
@@ -273,11 +285,15 @@ describe('OrgChartService', () => {
         expanded: true,
       };
 
-      const result = service.getNodeContent(data, FilterDimension.ORG_UNIT);
+      const result = service.getNodeContent(
+        data,
+        150,
+        150,
+        FilterDimension.ORG_UNIT
+      );
 
       expect(result).toContain('show-parent');
-      expect(result).toContain(data.heatMapClass);
-      expect(result).toContain(data.name);
+      expect(result).toContain(data.organization);
     });
   });
 

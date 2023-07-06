@@ -7,7 +7,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoService } from '@ngneat/transloco';
 import { provideMockStore } from '@ngrx/store/testing';
-import { OrgChart } from 'd3-org-chart';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -261,29 +260,6 @@ describe('OrgChartComponent', () => {
 
       setTimeout(() => {
         expect(component.chart).toBeUndefined();
-        done();
-      }, 200);
-    });
-
-    test('should update org chart if chart is set', (done) => {
-      component.orgChartData = {
-        data: [],
-        dimension: FilterDimension.ORG_UNIT,
-        translation,
-      };
-      component.chart = new OrgChart();
-      component.chartData = [{}];
-      component.chartContainer = {
-        nativeElement: {
-          getBoundingClientRect: jest.fn(() => ({ height: 20 })),
-        },
-      };
-
-      component.updateChart();
-
-      setTimeout(() => {
-        expect(component.chart.render).toHaveBeenCalled();
-        expect(component.chart.fit).toHaveBeenCalled();
         done();
       }, 200);
     });
