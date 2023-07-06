@@ -5,12 +5,15 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { OneTrustModule } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
+import { MockProvider } from 'ng-mocks';
 import resize_observer_polyfill from 'resize-observer-polyfill';
 
 import { COOKIE_GROUPS } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { generalHighTemperature } from '@ga/shared/constants';
+import { EmbeddedGoogleAnalyticsService } from '@ga/shared/services';
+import { InteractionEventType } from '@ga/shared/services/embedded-google-analytics/interaction-event-type.enum';
 import { CONCEPT1_LABEL_VALUE_MOCK, greaseResultMock } from '@ga/testing/mocks';
 import { GREASE_CONCEPT1_SUITABILITY } from '@ga/testing/mocks/models/grease-concept1-suitability.mock';
 
@@ -40,6 +43,7 @@ describe('GreaseReportResultComponent', () => {
         domainScript: 'mockOneTrustId',
       }),
     ],
+    providers: [MockProvider(EmbeddedGoogleAnalyticsService)],
   });
 
   beforeEach(() => {
@@ -81,6 +85,19 @@ describe('GreaseReportResultComponent', () => {
 
       component.toggleShowValues();
       expect(component.labelValues).toHaveLength(3);
+    });
+
+    it('should call the logInteractionEvent method', () => {
+      const trackingSpy = jest.spyOn(
+        component['embeddedGoogleAnalyticsService'],
+        'logInteractionEvent'
+      );
+
+      component.toggleShowValues();
+
+      expect(trackingSpy).toHaveBeenCalledWith(
+        InteractionEventType.ShowAllValues
+      );
     });
   });
 

@@ -21,6 +21,8 @@ import { COOKIE_GROUPS } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CalculationParametersService } from '@ga/features/grease-calculation/calculation-parameters/services';
+import { EmbeddedGoogleAnalyticsService } from '@ga/shared/services';
+import { InteractionEventType } from '@ga/shared/services/embedded-google-analytics/interaction-event-type.enum';
 import {
   GREASE_RESULT_SUBORDINATES_MOCK,
   greaseResultMock,
@@ -64,6 +66,7 @@ describe('GreaseReportComponent', () => {
       mockProvider(GreaseReportService),
       mockProvider(CalculationParametersService),
       mockProvider(TranslocoLocaleService, { localizeNumber, localeChanges$ }),
+      mockProvider(EmbeddedGoogleAnalyticsService),
     ],
   });
 
@@ -221,6 +224,19 @@ describe('GreaseReportComponent', () => {
       component.getResultAmount();
 
       expect(component.concept1Impossible()).toBe(true);
+    });
+  });
+
+  describe('logTogglingInputSection', () => {
+    it('should call the logInteractionEvent method', () => {
+      const trackingSpy = jest.spyOn(
+        component['embeddedGoogleAnalyticsService'],
+        'logInteractionEvent'
+      );
+
+      component.logTogglingInputSection();
+
+      expect(trackingSpy).toHaveBeenCalledWith(InteractionEventType.ShowInput);
     });
   });
 });

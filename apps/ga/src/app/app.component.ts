@@ -16,6 +16,7 @@ import { SettingsFacade } from '@ga/core/store';
 
 import packageJson from '../../package.json';
 import { TRACKING_NAME_LANGUAGE } from './shared/constants';
+import { EmbeddedGoogleAnalyticsService } from './shared/services/embedded-google-analytics/embedded-google-analytics.service';
 
 @Component({
   selector: 'ga-root',
@@ -37,6 +38,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly titleService: Title,
     private readonly applicationInsightsService: ApplicationInsightsService,
     private readonly settingsFacade: SettingsFacade,
+    private readonly embeddedGoogleAnalyticsService: EmbeddedGoogleAnalyticsService,
     @Optional() private readonly oneTrustService: OneTrustService
   ) {}
 
@@ -83,6 +85,19 @@ export class AppComponent implements OnInit, OnDestroy {
 
         this.isCookiePage = url === LegalPath.CookiePath;
       });
+
+    if (this.embeddedGoogleAnalyticsService.isApplicationOfEmbeddedVersion()) {
+      this.router.events
+        .pipe(
+          takeUntil(this.destroy$),
+          filter((event) => event instanceof NavigationEnd)
+        )
+        .subscribe((event) => {
+          this.embeddedGoogleAnalyticsService.logNavigationEvent(
+            (event as NavigationEnd).url
+          );
+        });
+    }
   }
 
   public ngOnDestroy(): void {

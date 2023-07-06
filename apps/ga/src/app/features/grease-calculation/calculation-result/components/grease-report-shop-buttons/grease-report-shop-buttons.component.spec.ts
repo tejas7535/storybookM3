@@ -4,10 +4,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { MockModule } from 'ng-mocks';
+import { MockModule, MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { EmbeddedGoogleAnalyticsService } from '@ga/shared/services';
 import { GREASE_CONCEPT1_SUITABILITY } from '@ga/testing/mocks/models/grease-concept1-suitability.mock';
 
 import { MEDIASGREASE } from '../../constants';
@@ -28,6 +29,7 @@ describe('GreaseReportShopButtonsComponent', () => {
       MockModule(MatTooltipModule),
       RouterTestingModule,
     ],
+    providers: [MockProvider(EmbeddedGoogleAnalyticsService)],
   });
 
   beforeEach(() => {
@@ -106,6 +108,21 @@ describe('GreaseReportShopButtonsComponent', () => {
         grease: 'CONCEPT1 FOOD 2 60',
       });
     });
+
+    it('should call the logOpenExternalLinkEvent method', () => {
+      const trackingSpy = jest.spyOn(
+        component['embeddedGoogleAnalyticsService'],
+        'logOpenExternalLinkEvent'
+      );
+
+      const mockTitle = 'FOOD 2';
+      component.greaseResult = { mainTitle: mockTitle } as GreaseResult;
+      component.concept1Selection = CONCEPT1_SIZES['60ML'];
+
+      component.trackConcept1Selection();
+
+      expect(trackingSpy).toHaveBeenCalledWith('CONCEPT1 FOOD 2 60');
+    });
   });
 
   describe('getShopUrl', () => {
@@ -141,6 +158,20 @@ describe('GreaseReportShopButtonsComponent', () => {
       expect(trackingSpy).toHaveBeenCalledWith(MEDIASGREASE, {
         grease: 'Arcanol MULTI2',
       });
+    });
+
+    it('should call the logOpenExternalLinkEvent method', () => {
+      const trackingSpy = jest.spyOn(
+        component['embeddedGoogleAnalyticsService'],
+        'logOpenExternalLinkEvent'
+      );
+
+      const mockTitle = 'Arcanol MULTI2';
+      component.greaseResult = { mainTitle: mockTitle } as GreaseResult;
+
+      component.trackGreaseSelection();
+
+      expect(trackingSpy).toHaveBeenCalledWith('Arcanol MULTI2');
     });
   });
 });

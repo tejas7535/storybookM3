@@ -18,6 +18,8 @@ import { LabelValue, LabelValueModule } from '@schaeffler/label-value';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { alternativeTable, generalHighTemperature } from '@ga/shared/constants';
+import { EmbeddedGoogleAnalyticsService } from '@ga/shared/services';
+import { InteractionEventType } from '@ga/shared/services/embedded-google-analytics/interaction-event-type.enum';
 
 import { adaptLabelValuesFromGreaseResultData } from '../../helpers/grease-helpers';
 import {
@@ -78,7 +80,8 @@ export class GreaseReportResultComponent implements OnInit, OnDestroy {
 
   public constructor(
     private readonly elementRef: ElementRef,
-    private readonly changeDetector: ChangeDetectorRef
+    private readonly changeDetector: ChangeDetectorRef,
+    private readonly embeddedGoogleAnalyticsService: EmbeddedGoogleAnalyticsService
   ) {
     this.htmlElement = this.elementRef.nativeElement;
   }
@@ -104,6 +107,9 @@ export class GreaseReportResultComponent implements OnInit, OnDestroy {
   public toggleShowValues(): void {
     this.showAllValues = !this.showAllValues;
 
+    this.embeddedGoogleAnalyticsService.logInteractionEvent(
+      InteractionEventType.ShowAllValues
+    );
     this.assignGreaseResultData();
   }
 

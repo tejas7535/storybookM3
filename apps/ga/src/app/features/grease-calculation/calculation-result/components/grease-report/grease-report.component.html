@@ -1,7 +1,7 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <mat-accordion [multi]="true" *transloco="let t; read: 'calculationResult'">
   <mat-expansion-panel *ngIf="greaseInput">
-    <mat-expansion-panel-header>
+    <mat-expansion-panel-header (click)="logTogglingInputSection()">
       {{ t('reportSectionInput') }}
     </mat-expansion-panel-header>
     <ga-grease-report-input

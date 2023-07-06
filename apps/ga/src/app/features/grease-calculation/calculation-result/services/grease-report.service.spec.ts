@@ -15,6 +15,7 @@ import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { COOKIE_GROUPS } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { InteractionEventType } from '@ga/shared/services/embedded-google-analytics/interaction-event-type.enum';
 import { GREASE_RESULT_SUBORDINATES_MOCK } from '@ga/testing/mocks';
 
 import { CalculationParametersService } from '../../calculation-parameters/services';
@@ -76,6 +77,19 @@ describe('GreaseReportService', () => {
       service.trackWarningsOpened();
 
       expect(trackingSpy).toHaveBeenCalledWith(WARNINGSOPENED);
+    });
+
+    it('should call the logInteractionEvent method', () => {
+      const trackingSpy = jest.spyOn(
+        service['embeddedGoogleAnalyticsService'],
+        'logInteractionEvent'
+      );
+
+      service.trackWarningsOpened();
+
+      expect(trackingSpy).toHaveBeenCalledWith(
+        InteractionEventType.ErrorsAndWarnings
+      );
     });
   });
 });

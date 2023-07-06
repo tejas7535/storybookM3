@@ -1,6 +1,9 @@
 import { Meta, Title } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+
+import { ReplaySubject } from 'rxjs';
 
 import { OneTrustModule } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -19,14 +22,22 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { UserSettingsModule } from './shared/components/user-settings';
+import { EmbeddedGoogleAnalyticsService } from './shared/services';
 
 describe('AppComponent', () => {
   let component: AppComponent;
   let spectator: Spectator<AppComponent>;
   let translocoService: TranslocoService;
   let applicationInsightsService: ApplicationInsightsService;
+  let embeddedGoogleAnalyticsService: EmbeddedGoogleAnalyticsService;
   let metaService: Meta;
   let titleService: Title;
+  const eventSubject = new ReplaySubject<RouterEvent>(1);
+  const routerMock = {
+    navigate: jest.fn(),
+    events: eventSubject.asObservable(),
+    url: 'testApp/url',
+  };
 
   const createComponent = createComponentFactory({
     component: AppComponent,
@@ -53,6 +64,10 @@ describe('AppComponent', () => {
           logEvent: jest.fn(),
         },
       },
+      {
+        provide: Router,
+        useValue: routerMock,
+      },
     ],
     declarations: [AppComponent],
   });
@@ -62,6 +77,9 @@ describe('AppComponent', () => {
     component = spectator.debugElement.componentInstance;
     translocoService = spectator.inject(TranslocoService);
     applicationInsightsService = spectator.inject(ApplicationInsightsService);
+    embeddedGoogleAnalyticsService = spectator.inject(
+      EmbeddedGoogleAnalyticsService
+    );
 
     metaService = spectator.inject(Meta);
     titleService = spectator.inject(Title);
@@ -104,6 +122,48 @@ describe('AppComponent', () => {
         expect(titleService.setTitle).toHaveBeenCalledTimes(2);
 
         done();
+      });
+    });
+  });
+
+  describe('routing changes', () => {
+    let trackingSpy: jest.SpyInstance;
+    beforeEach(() => {
+      trackingSpy = jest.spyOn(
+        component['embeddedGoogleAnalyticsService'],
+        'logNavigationEvent'
+      );
+    });
+
+    describe('when application is of embedded type', () => {
+      beforeEach(() => {
+        embeddedGoogleAnalyticsService.isApplicationOfEmbeddedVersion = jest.fn(
+          () => true
+        );
+
+        component.ngOnInit();
+      });
+
+      it('should log navigation event', () => {
+        eventSubject.next(new NavigationEnd(1, 'myTestUrl', 'redirectPath'));
+
+        expect(trackingSpy).toHaveBeenCalledWith('myTestUrl');
+      });
+    });
+
+    describe('when application is not embedded', () => {
+      beforeEach(() => {
+        embeddedGoogleAnalyticsService.isApplicationOfEmbeddedVersion = jest.fn(
+          () => false
+        );
+
+        component.ngOnInit();
+      });
+
+      it('should not log anything', () => {
+        eventSubject.next(new NavigationEnd(1, 'myTestUrl', 'redirectPath'));
+
+        expect(trackingSpy).not.toHaveBeenCalled();
       });
     });
   });

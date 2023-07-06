@@ -18,6 +18,9 @@ import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { EmbeddedGoogleAnalyticsService } from '@ga/shared/services';
+import { InteractionEventType } from '@ga/shared/services/embedded-google-analytics/interaction-event-type.enum';
+
 import {
   GreaseReport,
   GreaseReportSubordinate,
@@ -73,7 +76,8 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
   public constructor(
     private readonly greaseReportService: GreaseReportService,
     private readonly snackbar: MatSnackBar,
-    private readonly localeService: TranslocoLocaleService
+    private readonly localeService: TranslocoLocaleService,
+    private readonly embeddedGoogleAnalyticsService: EmbeddedGoogleAnalyticsService
   ) {}
 
   public ngOnInit(): void {
@@ -142,6 +146,12 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
             greaseResult.dataSource[0].custom.data.label ===
             SUITABILITY_LABEL.SUITED
         ).length === 0
+    );
+  }
+
+  public logTogglingInputSection(): void {
+    this.embeddedGoogleAnalyticsService.logInteractionEvent(
+      InteractionEventType.ShowInput
     );
   }
 
