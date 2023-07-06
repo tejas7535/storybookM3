@@ -1,4 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Event, NavigationEnd } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -11,6 +12,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { ProcessCaseRoutePath } from '../process-case-route-path.enum';
 import { CancelWorkflowButtonComponent } from './cancel-workflow-button.component';
+import { CancelWorkflowModalComponent } from './cancel-workflow-modal/cancel-workflow-modal.component';
 
 describe('CancelWorkflowButtonComponent', () => {
   let component: CancelWorkflowButtonComponent;
@@ -19,6 +21,7 @@ describe('CancelWorkflowButtonComponent', () => {
   const createComponent = createComponentFactory({
     component: CancelWorkflowButtonComponent,
     imports: [provideTranslocoTestingModule({ en: {} }), RouterTestingModule],
+    providers: [{ provide: MatDialog, useValue: {} }],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     detectChanges: false,
   });
@@ -80,6 +83,19 @@ describe('CancelWorkflowButtonComponent', () => {
 
       expect(checkIfOverviewTabIsActiveSpy).toBeCalledTimes(2);
       expect(component.isProcessCaseOverviewTabActive).toBe(true);
+    });
+  });
+
+  test('should open dialog', () => {
+    const openMock = jest.fn();
+    component['dialog'].open = openMock;
+
+    component.openDialog();
+
+    expect(openMock).toBeCalledTimes(1);
+    expect(openMock).toHaveBeenCalledWith(CancelWorkflowModalComponent, {
+      width: '634px',
+      autoFocus: false,
     });
   });
 });

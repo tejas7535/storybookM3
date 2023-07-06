@@ -35,7 +35,7 @@ export class ApprovalDecisionModalComponent implements OnInit, OnDestroy {
 
   INPUT_MAX_LENGTH = 1000;
 
-  approvalModalType = ApprovalModalType;
+  readonly approvalModalType = ApprovalModalType;
 
   private readonly shutdown$$: Subject<void> = new Subject();
 

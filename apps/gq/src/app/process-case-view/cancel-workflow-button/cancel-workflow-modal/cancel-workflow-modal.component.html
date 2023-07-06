@@ -1,0 +1,46 @@
+<div
+  class="flex h-full flex-col"
+  *transloco="let t; read: 'processCaseView.header.cancelWorkflowModal'"
+>
+  <gq-dialog-header
+    [title]="t('title')"
+    (closeDialog)="closeDialog()"
+  ></gq-dialog-header>
+
+  <ng-container
+    *ngIf="
+      (approvalFacade.updateApprovalWorkflowInProgress$ | ngrxPush) === false;
+      else loading
+    "
+  >
+    <p class="text-subtitle-2 mt-6">{{ t('summary') }}</p>
+    <div class="flex items-center mt-3">
+      <p class="text-body-2 text-medium-emphasis">{{ t('approvalLevel') }}:</p>
+      <span class="text-body-2 text-high-emphasis ml-2">L1 + L2</span>
+    </div>
+    <p class="text-body-1 mt-3">{{ t('confirmationQuestion') }}</p>
+
+    <div class="flex w-full gap-4 mt-7">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="cancelApprovalWorkflow()"
+      >
+        {{ t('cancelWorkflow') }}
+      </button>
+      <button mat-stroked-button (click)="closeDialog()" color="primary">
+        {{ t('backToOverview') }}
+      </button>
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #loading>
+  <div class="py-24">
+    <schaeffler-loading-spinner
+      class="h-full"
+      backgroundColor="rgba(255,255,255, 0.1)"
+      [relative]="true"
+    ></schaeffler-loading-spinner>
+  </div>
+</ng-template>

@@ -1,4 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Event, NavigationEnd, Router } from '@angular/router';
 
 import { filter, Subject, takeUntil } from 'rxjs';
@@ -7,6 +8,7 @@ import { AppRoutePath } from '@gq/app-route-path.enum';
 import { QuotationStatus } from '@gq/shared/models';
 
 import { ProcessCaseRoutePath } from '../process-case-route-path.enum';
+import { CancelWorkflowModalComponent } from './cancel-workflow-modal/cancel-workflow-modal.component';
 
 @Component({
   selector: 'gq-cancel-workflow-button',
@@ -20,7 +22,10 @@ export class CancelWorkflowButtonComponent implements OnInit, OnDestroy {
 
   private readonly shutdown$$: Subject<void> = new Subject();
 
-  constructor(private readonly router: Router) {}
+  constructor(
+    private readonly router: Router,
+    private readonly dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.checkIfOverviewTabIsActive();
@@ -31,6 +36,13 @@ export class CancelWorkflowButtonComponent implements OnInit, OnDestroy {
         takeUntil(this.shutdown$$)
       )
       .subscribe(() => this.checkIfOverviewTabIsActive());
+  }
+
+  openDialog() {
+    this.dialog.open(CancelWorkflowModalComponent, {
+      width: '634px',
+      autoFocus: false,
+    });
   }
 
   ngOnDestroy(): void {

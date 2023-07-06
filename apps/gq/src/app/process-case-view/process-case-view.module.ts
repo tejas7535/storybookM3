@@ -32,6 +32,7 @@ import { SyncStatusCustomerInfoHeaderModule } from '../../app/shared/components/
 import { TabsHeaderModule } from '../../app/shared/components/tabs-header/tabs-header.module';
 import { AddMaterialDialogModule } from './add-material-dialog/add-material-dialog.module';
 import { CancelWorkflowButtonComponent } from './cancel-workflow-button/cancel-workflow-button.component';
+import { CancelWorkflowModalComponent } from './cancel-workflow-button/cancel-workflow-modal/cancel-workflow-modal.component';
 import { HeaderContentModule } from './header-content/header-content.module';
 import { ProcessCaseViewComponent } from './process-case-view.component';
 import { ProcessCaseViewRoutingModule } from './process-case-view-routing.module';
@@ -47,6 +48,7 @@ import { CalculationInProgressComponent } from './tabs/single-quotes-tab/calcula
     ReleaseModalComponent,
     ReleaseModalUserSelectComponent,
     CancelWorkflowButtonComponent,
+    CancelWorkflowModalComponent,
   ],
   imports: [
     CommonModule,

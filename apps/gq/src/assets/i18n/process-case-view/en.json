@@ -4,7 +4,6 @@
     "sapHeader": "\n\nCreated in SAP by:\n{{sapCreationName}}\non {{sapCreationDate}}\n\nLast Updated in SAP on:\n{{sapUpdatedDate}}",
     "caseNamePlaceholder": "Enter a case name (max. 20 characters)",
     "release": "Release",
-    "cancelWorkflow": "Cancel Workflow",
     "releaseModal": {
       "title": "Quotation Release Workflow",
       "summary": "Summary",
@@ -26,6 +25,15 @@
       "invalidApproverError": "Invalid Approver",
       "equalApproversError": "Approvers must be different, it is not allowed to enter an approver multiple times!",
       "invalidUserError": "Invalid User"
+    },
+    "cancelWorkflow": "Cancel Workflow",
+    "cancelWorkflowModal": {
+      "title": "Cancel Approval Workflow",
+      "summary": "Summary",
+      "approvalLevel": "Approval Level",
+      "confirmationQuestion": "Are you sure you want to cancel the approval workflow?",
+      "cancelWorkflow": "Cancel Workflow",
+      "backToOverview": "Back to Overview"
     }
   },
   "tabs": {
