@@ -8,6 +8,7 @@ import { ColumnState } from 'ag-grid-community';
 import {
   ACTION,
   HISTORY,
+  MANUFACTURER,
   MaterialClass,
   NavigationLevel,
 } from '@mac/msd/constants';
@@ -161,6 +162,7 @@ describe('MsdAgGridStateService', () => {
       service['migrateToVersion2_3'] = jest.fn(() => anyMigrationFn());
       service['migrateToVersion2_4'] = jest.fn(() => anyMigrationFn());
       service['migrateToVersion2_5'] = jest.fn(() => anyMigrationFn());
+      service['migrateToVersion2_6'] = jest.fn(() => anyMigrationFn());
     });
     it('should run migration to v1', () => {
       service['migrateLocalStorage'](0, { version: 0 } as MsdAgGridState);
@@ -202,6 +204,12 @@ describe('MsdAgGridStateService', () => {
       service['migrateLocalStorage'](2.4, {} as MsdAgGridState);
 
       expect(service['migrateToVersion2_5']).toHaveBeenCalled();
+    });
+
+    it('should run migration to v2_6', () => {
+      service['migrateLocalStorage'](2.5, {} as MsdAgGridState);
+
+      expect(service['migrateToVersion2_6']).toHaveBeenCalled();
     });
 
     it('should not migrate', () => {
@@ -583,6 +591,57 @@ describe('MsdAgGridStateService', () => {
       const result = service['migrateToVersion2_5'](oldStorage);
 
       expect(result).toEqual(expected);
+    });
+  });
+
+  describe('migrateToVersion2_6', () => {
+    it('should migrate to version 2_6', () => {
+      const createViewState = (columns: string[]): ViewState => ({
+        columnState: columns.map((id) => ({ colId: id } as ColumnState)),
+        quickFilters: [],
+      });
+
+      const oldStorage: MsdAgGridStateV2 = {
+        version: 2.5,
+        materials: {
+          [MaterialClass.ALUMINUM]: {
+            materials: createViewState([ACTION, 'au']),
+          },
+          [MaterialClass.CERAMIC]: {
+            materials: createViewState([HISTORY, 'ce']),
+          },
+          [MaterialClass.COPPER]: {
+            materials: createViewState([ACTION, 'test', 'abc']),
+          },
+          [MaterialClass.POLYMER]: {
+            materials: createViewState([ACTION, HISTORY, 'px']),
+          },
+          [MaterialClass.SAP_MATERIAL]: {
+            materials: createViewState([ACTION, HISTORY]),
+          },
+          [MaterialClass.STEEL]: {
+            materials: createViewState([ACTION, HISTORY, MANUFACTURER]),
+          },
+        },
+      };
+
+      const expected: MsdAgGridStateV2 = {
+        ...oldStorage,
+        version: 2.6,
+        materials: {
+          ...oldStorage.materials,
+          [MaterialClass.ALUMINUM]: { materials: createViewState(['au']) },
+          [MaterialClass.CERAMIC]: { materials: createViewState(['ce']) },
+          [MaterialClass.COPPER]: {
+            materials: createViewState(['test', 'abc']),
+          },
+          [MaterialClass.POLYMER]: { materials: createViewState(['px']) },
+          [MaterialClass.SAP_MATERIAL]: { materials: createViewState([]) },
+          [MaterialClass.STEEL]: { materials: createViewState([MANUFACTURER]) },
+        },
+      };
+
+      expect(service['migrateToVersion2_6'](oldStorage)).toEqual(expected);
     });
   });
 

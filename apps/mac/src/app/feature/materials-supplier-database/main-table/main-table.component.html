@@ -44,6 +44,7 @@
               }"
               (columnVisible)="onColumnChange($event)"
               (columnMoved)="onColumnChange($event)"
+              (columnResized)="onColumnChange($event)"
               (sortChanged)="onColumnChange($event)"
             ></ag-grid-angular>
           </ng-container>
@@ -74,6 +75,7 @@
               (filterChanged)="onFilterChange($event)"
               (columnVisible)="onColumnChange($event)"
               (columnMoved)="onColumnChange($event)"
+              (columnResized)="onColumnChange($event)"
               (sortChanged)="onColumnChange($event)"
             ></ag-grid-angular>
           </ng-template>

@@ -119,7 +119,12 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   private visibleColumns: string[];
 
   // collect columns which are not really in the dataset but rendered by ag grid
-  private readonly META_COLUMNS = [RELEASED_STATUS, HISTORY, ACTION];
+  private readonly META_COLUMNS = [
+    RELEASED_STATUS,
+    RECENT_STATUS,
+    HISTORY,
+    ACTION,
+  ];
   private readonly NON_EXCEL_COLUMNS = new Set([
     '',
     RECENT_STATUS,
@@ -312,7 +317,9 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public onColumnChange({ columnApi }: { columnApi: ColumnApi }): void {
-    const agGridColumns = columnApi.getColumnState();
+    const agGridColumns = columnApi
+      .getColumnState()
+      .filter((cs) => !this.META_COLUMNS.includes(cs.colId));
     this.agGridStateService.setColumnState(agGridColumns);
     this.dataFacade.dispatch(
       setAgGridColumns({ agGridColumns: JSON.stringify(agGridColumns) })

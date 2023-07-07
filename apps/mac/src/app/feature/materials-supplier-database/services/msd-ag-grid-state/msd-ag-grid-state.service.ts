@@ -11,6 +11,9 @@ import {
   HISTORY,
   MaterialClass,
   NavigationLevel,
+  RECENT_STATUS,
+  RELEASED_STATUS,
+  SupportedMaterialClasses,
 } from '@mac/msd/constants';
 import {
   MsdAgGridState,
@@ -28,7 +31,7 @@ import { QuickFilterFacade } from '@mac/msd/store/facades/quickfilter';
   providedIn: 'root',
 })
 export class MsdAgGridStateService {
-  private readonly MIN_STATE_VERSION = 2.5;
+  private readonly MIN_STATE_VERSION = 2.6;
   private readonly KEY = 'MSD_MAIN_TABLE_STATE';
   private readonly LEGACY_MSD_KEY = 'msdMainTable';
   private readonly LEGACY_MSD_QUICKFILTER_KEY = 'MSD_quickfilter';
@@ -167,6 +170,9 @@ export class MsdAgGridStateService {
     }
     if (version < 2.5) {
       state = this.migrateToVersion2_5(state as MsdAgGridStateV2);
+    }
+    if (version < 2.6) {
+      state = this.migrateToVersion2_6(state as MsdAgGridStateV2);
     }
     // add further migrations here
 
@@ -421,6 +427,35 @@ export class MsdAgGridStateService {
         },
       },
     };
+  }
+
+  private migrateToVersion2_6(
+    currentStorage: MsdAgGridStateV2
+  ): MsdAgGridStateV2 {
+    const ignore = new Set([RELEASED_STATUS, RECENT_STATUS, HISTORY, ACTION]);
+
+    const removeColumns = (
+      storage: MsdAgGridStateV2,
+      clazz: MaterialClass
+    ): void => {
+      if (storage.materials[clazz]) {
+        const materials = storage.materials[clazz].materials;
+        const state = materials.columnState.filter(
+          (cs) => !ignore.has(cs.colId)
+        );
+        materials.columnState = state;
+      }
+    };
+
+    const newStorage = {
+      ...currentStorage,
+      version: 2.6,
+    };
+    SupportedMaterialClasses.forEach((clazz) =>
+      removeColumns(newStorage, clazz)
+    );
+
+    return newStorage;
   }
 
   private combineColumnState(
