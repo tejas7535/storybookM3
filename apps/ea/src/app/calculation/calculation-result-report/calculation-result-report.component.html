@@ -238,8 +238,8 @@
                       {{ t('upstreamHint') }} -
                       <a
                         class="text-primary"
-                        [href]="t('upstreamHintLink')"
-                        target="_blank"
+                        (click)="showCalculationDisclaimerDialog()"
+                        role="button"
                         >{{ t('upstreamHintLinkText') }}</a
                       >
                     </div>
@@ -301,7 +301,15 @@
                         [infoText]="t('co2DownstreamUnavailableHint')"
                       ></ea-info-banner>
                     </ng-template>
-                    <div class="text-medium-emphasis pt-4"></div>
+                    <div class="text-medium-emphasis pt-4">
+                      {{ t('downstreamHint') }} -
+                      <a
+                        class="text-primary"
+                        (click)="showCalculationDisclaimerDialog()"
+                        role="button"
+                        >{{ t('downstreamHintLinkText') }}</a
+                      >
+                    </div>
                   </div>
                 </div>
               </div>
@@ -316,6 +324,7 @@
                   <a
                     class="text-primary"
                     [href]="t('calculationHintLink')"
+                    role="button"
                     target="_blank"
                     >{{ t('calculationHintLinkText') }}</a
                   >

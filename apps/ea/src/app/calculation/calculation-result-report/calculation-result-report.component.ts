@@ -15,6 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
 import {
   MatLegacyDialogModule as MatDialogModule,
   MatLegacyDialogRef as MatDialogRef,
+  MatLegacyDialog as Dialog,
 } from '@angular/material/legacy-dialog';
 import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
 
@@ -39,6 +40,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { CalculationResultMessageComponent } from '../calculation-result-information/calculation-result-message.component';
 import { CalculationResultReportInputComponent } from '../calculation-result-report-input';
 import { CalculationTypesSelectionComponent } from '../calculation-types-selection/calculation-types-selection';
+import { CalculationDisclaimerComponent } from '../calculation-disclaimer/calculation-disclaimer.component';
 
 const COLOR_PLATTE = ['#DDE86E', '#7DC882'];
 
@@ -151,11 +153,19 @@ export class CalculationResultReportComponent {
     public readonly dialogRef: MatDialogRef<CalculationResultReportComponent>,
     private readonly translocoService: TranslocoService,
     @Inject(LOCALE_ID)
-    private readonly locale: string
+    private readonly locale: string,
+    private readonly dialog: Dialog
   ) {}
 
   closeDialog() {
     this.dialogRef.close();
+  }
+
+  showCalculationDisclaimerDialog() {
+    this.dialog.open(CalculationDisclaimerComponent, {
+      hasBackdrop: true,
+      autoFocus: true,
+    });
   }
 
   scrollIntoView(itemName: CalculationParametersCalculationTypeConfig['name']) {

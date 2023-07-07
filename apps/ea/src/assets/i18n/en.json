@@ -90,11 +90,12 @@
       "chartDesc": "Value for 24/7 use for one year",
       "upstreamTitle": "CO₂e emitted for production* (Upstream)",
       "upstreamHint": "*Estimated value based on assumptions during production",
-      "upstreamHintLink": "https://schaeffler.com",
       "upstreamHintLinkText": "More information.",
       "downstreamTitle": "CO₂e caused by friction during operation (use phase, part of Downstream)",
-      "calculationHint": "This is how we calculate the CO₂e values",
-      "calculationHintLink": "https://schaeffler.com",
+      "downstreamHint": "This is how we calculated the values",
+      "downstreamHintLinkText": "More information.",
+      "calculationHint": "Want to know more about CO₂ at Schaeffler?",
+      "calculationHintLink": "https://medias.schaeffler.de/en/co2-calculation",
       "calculationHintLinkText": "Click here"
     },
     "frictionalPowerloss": {
@@ -104,6 +105,10 @@
       "frictionalPowerlossSealing": "Frictional power loss sealing",
       "frictionalPowerlossUnloadedZone": "Frictional power loss unloaded zone",
       "operatingViscosity": "Operating viscosity"
+    },
+    "calculationDisclaimer": {
+      "title": "Calculation disclaimer",
+      "disclaimerFile": "/disclaimers/calculation-en.html"
     }
   },
   "basicFrequencies": {
