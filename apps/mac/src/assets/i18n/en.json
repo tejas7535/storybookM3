@@ -554,11 +554,18 @@
         "releaseDate": "Date of initial release;<br>The term '<i>historical supplier</i>' is in accordance with P 174200 and P 174211",
         "steelNumber": "According to „Stahl-Eisen-Liste“ (Register of European Steels)",
         "greensteel": {
-          "0": "Green Steel classification: Gray",
-          "1": "Green Steel classification: Light Green",
-          "2": "Green Steel classification: Medium Green",
-          "3": "Green Steel classification: Green"
+          "0": "Green Steel classification: Gray.",
+          "1": "Green Steel classification: Light Green.",
+          "2": "Green Steel classification: Medium Green.",
+          "3": "Green Steel classification: Green.",
+          "moreInformation": "More information",
+          "moreInformationTitle": "Schaeffler internal Green Steel classification",
+          "moreInformationImg": "/assets/img/msd_steel_classification_info.png",
+          "moreInformationImgCaption": "Source: Decision by Executive Board, 02/23",
+          "moreInformationContact": "Kroemer, Oliver",
+          "moreInformationContactLink": "mailto:kroemoiv@schaeffler.com"
         },
+        "moreInformationContactLabel": "Contact:",
         "materialStandardStoffId": "Schaeffler Material ID (SSID) used in WIAM and Windchill",
         "standardLink": "View Standard Document in SAP DMS (might not be available)",
         "wiamLink": "Show in Schaeffler Material Database WIAM",

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { EditCellRendererComponent } from '../edit-cell-renderer/edit-cell-renderer.component';
+import { translate } from '@ngneat/transloco';
 
 @Component({
   selector: 'mac-green-steel-cell-renderer',
@@ -25,5 +26,27 @@ export class GreenSteelCellRendererComponent extends EditCellRendererComponent {
     const co2Value = this.params?.value;
 
     return !(!co2Value && co2Value !== 0);
+  }
+
+  public openMoreInformation() {
+    this.dialogService.openInfoDialog(
+      translate(
+        'materialsSupplierDatabase.mainTable.tooltip.greensteel.moreInformationTitle'
+      ),
+      undefined,
+      translate(
+        'materialsSupplierDatabase.mainTable.tooltip.greensteel.moreInformationImg'
+      ),
+      translate(
+        'materialsSupplierDatabase.mainTable.tooltip.greensteel.moreInformationImgCaption'
+      ),
+      undefined,
+      translate(
+        'materialsSupplierDatabase.mainTable.tooltip.greensteel.moreInformationContact'
+      ),
+      translate(
+        'materialsSupplierDatabase.mainTable.tooltip.greensteel.moreInformationContactLink'
+      )
+    );
   }
 }

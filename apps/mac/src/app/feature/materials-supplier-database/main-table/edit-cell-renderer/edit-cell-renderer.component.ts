@@ -21,8 +21,8 @@ export class EditCellRendererComponent implements ICellRendererAngularComp {
   public materialClass$ = this.dataFacade.materialClass$;
 
   constructor(
-    private readonly dialogService: MsdDialogService,
-    private readonly dataFacade: DataFacade
+    protected readonly dialogService: MsdDialogService,
+    protected readonly dataFacade: DataFacade
   ) {}
 
   public agInit(params: EditCellRendererParams): void {

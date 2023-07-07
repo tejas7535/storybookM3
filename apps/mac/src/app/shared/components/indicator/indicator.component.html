@@ -1,3 +1,9 @@
-<mat-icon *ngFor="let i of getIterable()" [ngClass]="getClass(i)" inline="true">
-  {{ icon }}
-</mat-icon>
+<div class="h-full">
+  <mat-icon
+    *ngFor="let i of getIterable()"
+    [ngClass]="getClass(i)"
+    inline="true"
+  >
+    {{ icon }}
+  </mat-icon>
+</div>

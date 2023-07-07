@@ -17,6 +17,7 @@ import { MaterialStandardInputDialogComponent } from '../../main-table/material-
 import { CeramicInputDialogComponent } from '../../main-table/material-input-dialog/materials/ceramic/ceramic-input-dialog.component';
 import { CopperInputDialogComponent } from '../../main-table/material-input-dialog/materials/copper/copper-input-dialog.component';
 import { HardmagnetMaterialStandardInputDialogComponent } from '../../main-table/material-input-dialog/materials/hardmagnet/hardmagnet-material-standard-input-dialog.component';
+import { MoreInformationDialogComponent } from '../../main-table/more-information-dialog/more-information-dialog.component';
 import { openMultiEditDialog } from '../../store/actions/dialog';
 import { MsdDialogService } from './msd-dialog.service';
 
@@ -196,6 +197,36 @@ describe('MsdDialogService', () => {
         isCopy: false,
         isBulkEdit: true,
       });
+    });
+  });
+
+  describe('openInfoDialog', () => {
+    it('should open the dialog', () => {
+      service.openInfoDialog(
+        'test',
+        'test',
+        'test',
+        'test',
+        'test',
+        'test',
+        'test'
+      );
+
+      expect(service['dialog'].open).toHaveBeenCalledWith(
+        MoreInformationDialogComponent,
+        {
+          data: {
+            title: 'test',
+            topText: 'test',
+            imageSrc: 'test',
+            imageCaption: 'test',
+            bottomText: 'test',
+            contact: 'test',
+            mailToLink: 'test',
+          },
+          autoFocus: false,
+        }
+      );
     });
   });
 

@@ -1,5 +1,5 @@
 <div
-  class="flex h-full min-h-[46px] w-full flex-row"
+  class="flex h-[46px] w-full flex-row"
   *transloco="
     let t;
     read: 'materialsSupplierDatabase.mainTable.tooltip.greensteel'
@@ -19,19 +19,36 @@
       (click)="onEditClick()"
       *ngIf="isEnabled(materialClass$ | ngrxPush)"
     >
-      <mat-icon class="!text-[12px] text-medium-emphasis">edit</mat-icon>
+      <mat-icon class="text-medium-emphasis !text-[12px]">edit</mat-icon>
     </button>
   </div>
 
   <div class="flex-1 align-baseline" *ngIf="isValid()">
-    <mac-indicator
-      icon="eco"
-      [val]="getRating()"
-      of="3"
-      class="text-low-emphasis text-[16px]"
-      activeClass="text-link"
-      [matTooltip]="t(getRating())"
-      matTooltipPosition="right"
-    ></mac-indicator>
+    <ng-container>
+      <mac-indicator
+        icon="eco"
+        [val]="getRating()"
+        of="3"
+        class="text-low-emphasis text-[16px]"
+        activeClass="text-link"
+        cdkOverlayOrigin
+        #indicator="cdkOverlayOrigin"
+      ></mac-indicator>
+      <mac-html-tooltip
+        [tooltipOrigin]="indicator"
+        [tooltipShowDelay]="500"
+        [tooltipHideDelay]="500"
+      >
+        {{ t(getRating()) }}
+        <a
+          class="hover:cursor-pointer hover:underline ml-1"
+          (click)="openMoreInformation()"
+          >{{ t('moreInformation')
+          }}<mat-icon [inline]="true" class="ml-0.5 !h-3"
+            >open_in_new</mat-icon
+          ></a
+        ></mac-html-tooltip
+      >
+    </ng-container>
   </div>
 </div>

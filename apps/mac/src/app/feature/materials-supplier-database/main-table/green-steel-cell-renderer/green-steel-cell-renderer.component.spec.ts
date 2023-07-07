@@ -1,4 +1,5 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -9,6 +10,11 @@ import * as en from '../../../../../assets/i18n/en.json';
 import { MsdDialogService } from '../../services';
 import { EditCellRendererParams } from '../edit-cell-renderer/edit-cell-renderer-params.model';
 import { GreenSteelCellRendererComponent } from './green-steel-cell-renderer.component';
+
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+  translate: jest.fn((string) => string),
+}));
 
 describe('GreenSteelCellRendererComponent', () => {
   let component: GreenSteelCellRendererComponent;
@@ -28,6 +34,7 @@ describe('GreenSteelCellRendererComponent', () => {
         provide: MsdDialogService,
         useValue: {
           openDialog: jest.fn(),
+          openInfoDialog: jest.fn(),
         },
       },
     ],
@@ -96,6 +103,22 @@ describe('GreenSteelCellRendererComponent', () => {
     it('null values are "invalid"', () => {
       setValue();
       expect(component.isValid()).toBeFalsy();
+    });
+  });
+
+  describe('openMoreInformation', () => {
+    it('should open the dialog', () => {
+      component.openMoreInformation();
+
+      expect(component['dialogService'].openInfoDialog).toHaveBeenCalledWith(
+        'materialsSupplierDatabase.mainTable.tooltip.greensteel.moreInformationTitle',
+        undefined,
+        'materialsSupplierDatabase.mainTable.tooltip.greensteel.moreInformationImg',
+        'materialsSupplierDatabase.mainTable.tooltip.greensteel.moreInformationImgCaption',
+        undefined,
+        'materialsSupplierDatabase.mainTable.tooltip.greensteel.moreInformationContact',
+        'materialsSupplierDatabase.mainTable.tooltip.greensteel.moreInformationContactLink'
+      );
     });
   });
 });

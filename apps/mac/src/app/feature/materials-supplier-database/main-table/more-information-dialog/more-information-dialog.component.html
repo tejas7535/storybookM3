@@ -1,0 +1,44 @@
+<ng-container
+  *transloco="let t; read: 'materialsSupplierDatabase.mainTable.tooltip'"
+>
+  <div mat-dialog-title class="!-mx-6 !-mt-4">
+    <div class="flex flex-row content-around justify-between pl-4 pb-2 pr-2">
+      <div class="text-h6 text-high-emphasis my-auto">
+        {{ dialogData.title }}
+      </div>
+      <button mat-icon-button (click)="closeDialog()">
+        <mat-icon class="text-medium-emphasis">close</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div mat-dialog-content>
+    <div class="flex flex-col gap-2">
+      <p *ngIf="dialogData.topText">{{ dialogData.topText }}</p>
+      <img *ngIf="dialogData.imageSrc" [src]="dialogData.imageSrc" />
+      <div *ngIf="dialogData.imageCaption" class="flex flex-row-reverse">
+        <span class="text-caption">{{ dialogData.imageCaption }}</span>
+      </div>
+      <p *ngIf="dialogData.bottomText">{{ dialogData.bottomText }}</p>
+      <div
+        *ngIf="dialogData.contact"
+        class="flex flex-row-reverse items-baseline"
+      >
+        <span
+          class="text-caption"
+          *ngIf="!dialogData.mailToLink; else contactLink"
+          >{{ dialogData.contact }}</span
+        >
+        <ng-template #contactLink>
+          <a class="text-caption text-link" [href]="dialogData.mailToLink"
+            ><mat-icon [inline]="true" class="!h-3 mr-0.5"
+              >mail_outline</mat-icon
+            >{{ dialogData.contact }}</a
+          >
+        </ng-template>
+        <span class="text-caption pr-1">{{
+          t('moreInformationContactLabel')
+        }}</span>
+      </div>
+    </div>
+  </div>
+</ng-container>

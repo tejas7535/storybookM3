@@ -33,6 +33,9 @@ import { MsdNavigationModule } from './msd-navigation/msd-navigation.module';
 import { QuickFilterComponent } from './quick-filter/quick-filter.component';
 import { RecentStatusCellRendererComponent } from './recent-status-cell-renderer/recent-status-cell-renderer.component';
 import { ReleaseStatusCellRendererComponent } from './release-status-cell-renderer/release-status-cell-renderer.component';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { HtmlTooltipComponent } from '@mac/shared/components/html-tooltip/html-tooltip.component';
+import { MoreInformationDialogComponent } from './more-information-dialog/more-information-dialog.component';
 
 @NgModule({
   declarations: [
@@ -46,9 +49,11 @@ import { ReleaseStatusCellRendererComponent } from './release-status-cell-render
     ActionHeaderComponent,
     DetailCellRendererComponent,
     HeaderTooltipComponent,
+    MoreInformationDialogComponent,
   ],
   imports: [
     IndicatorComponent,
+    HtmlTooltipComponent,
     CommonModule,
     MainTableRoutingModule,
     AgGridModule,
@@ -68,6 +73,7 @@ import { ReleaseStatusCellRendererComponent } from './release-status-cell-render
     LetDirective,
     MatChipsModule,
     MatTooltipModule,
+    OverlayModule,
   ],
   providers: [DatePipe, MsdDialogService],
 })

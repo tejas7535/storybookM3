@@ -21,6 +21,7 @@ import { DataResult } from '@mac/msd/models';
 import { HardmagnetInputDialogComponent } from '../../main-table/material-input-dialog/materials/hardmagnet/hardmagnet-input-dialog.component';
 import { HardmagnetMaterialStandardInputDialogComponent } from '../../main-table/material-input-dialog/materials/hardmagnet/hardmagnet-material-standard-input-dialog.component';
 import { openMultiEditDialog } from '../../store/actions/dialog';
+import { MoreInformationDialogComponent } from '../../main-table/more-information-dialog/more-information-dialog.component';
 
 @Injectable()
 export class MsdDialogService {
@@ -83,6 +84,29 @@ export class MsdDialogService {
       column,
       isCopy: false,
       isBulkEdit: true,
+    });
+  }
+
+  public openInfoDialog(
+    title?: string,
+    topText?: string,
+    imageSrc?: string,
+    imageCaption?: string,
+    bottomText?: string,
+    contact?: string,
+    mailToLink?: string
+  ): MatDialogRef<MoreInformationDialogComponent> {
+    return this.dialog.open(MoreInformationDialogComponent, {
+      data: {
+        title,
+        topText,
+        imageSrc,
+        imageCaption,
+        bottomText,
+        contact,
+        mailToLink,
+      },
+      autoFocus: false,
     });
   }
 
