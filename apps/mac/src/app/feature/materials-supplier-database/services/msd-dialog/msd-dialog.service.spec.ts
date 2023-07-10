@@ -261,5 +261,37 @@ describe('MsdDialogService', () => {
 
       expect(service['combineRows'](rows)).toStrictEqual(expected);
     });
+    it('should combine rows with array', () => {
+      interface Temp {
+        a: number;
+        b?: number[];
+        c?: number[];
+      }
+
+      const rows: Temp[] = [
+        {
+          a: 1,
+          b: [1, 2],
+          c: [3],
+        },
+        {
+          a: 2,
+          b: [1, 2],
+          c: [2, 3],
+        },
+        {
+          a: 3,
+          b: [1, 2],
+          c: [1, 2],
+        },
+      ];
+      const expected: Temp = {
+        a: undefined,
+        b: [1, 2],
+        c: undefined,
+      };
+
+      expect(service['combineRows'](rows)).toStrictEqual(expected);
+    });
   });
 });

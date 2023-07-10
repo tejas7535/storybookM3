@@ -144,6 +144,10 @@ export class MsdDialogService {
     }
   }
 
+  private __transformValue(data: any): any {
+    return Array.isArray(data) ? JSON.stringify(data) : data;
+  }
+
   private combineRows<T>(rows: T[]): T {
     const result: Record<any, any> = {};
     for (const key in rows[0]) {
@@ -152,7 +156,13 @@ export class MsdDialogService {
         .map((row) => row[key])
         // either all values are equal or undefined
         // eslint-disable-next-line unicorn/no-array-reduce
-        .reduce((acc, curr) => (acc === curr ? curr : undefined), rows[0][key]);
+        .reduce(
+          (acc, curr) =>
+            this.__transformValue(acc) === this.__transformValue(curr)
+              ? curr
+              : undefined,
+          rows[0][key]
+        );
       result[key] = val;
     }
 

@@ -826,9 +826,10 @@ export class DialogEffects {
                 ),
               }
             : undefined,
-          referenceDoc: (material.referenceDoc || []).map(
-            (document: string) => ({ id: document, title: document })
-          ),
+          referenceDoc: material.referenceDoc?.map((document: string) => ({
+            id: document,
+            title: document,
+          })),
           co2Scope1: material.co2Scope1,
           co2Scope2: material.co2Scope2,
           co2Scope3: material.co2Scope3,

@@ -34,6 +34,7 @@ import {
   getSupplierSapIdsStringOptionsMerged,
   getUniqueStringOptions,
   selectedHintData,
+  validateCo2Scope,
 } from '@mac/msd/store/selectors';
 
 @Injectable({
@@ -99,7 +100,8 @@ export class DialogFacade {
 
   dialogError$ = this.store.pipe(getDialogError);
 
-  getHintData$ = () => this.store.select(selectedHintData);
+  dialogHintData$ = this.store.select(selectedHintData);
+  dialogCo2Valid$ = this.store.select(validateCo2Scope);
 
   constructor(private readonly store: Store) {}
 

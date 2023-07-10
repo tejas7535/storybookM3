@@ -6,7 +6,7 @@
     isEditDialog() && !isCopyDialog() ? t('updateMaterial') : t('addMaterial')
   "
   [isAddDialog]="isCopyDialog() || !isEditDialog()"
-  [valid]="isBulkEditDialog() || createMaterialForm.valid"
+  [valid]="isValidDialog() && (isCo2Valid$ | ngrxPush)"
   (accept)="confirmMaterial($event)"
   (minimize)="minimizeDialog()"
   (cancel)="cancelDialog()"
@@ -63,6 +63,12 @@
             [column]="getColumn()"
             macMaterialDialogBasePart
           >
+            <mat-error
+              afterCo2Scope
+              class="text-caption text-center"
+              *ngIf="isBulkEditDialog() && !(isCo2Valid$ | ngrxPush)"
+              >{{ t('error.co2TooLowBulkEdit') }}
+            </mat-error>
             <ng-container preCo2Classification>
               <schaeffler-select
                 appearance="outline"

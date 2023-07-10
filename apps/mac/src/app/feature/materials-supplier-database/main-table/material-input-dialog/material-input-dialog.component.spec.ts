@@ -493,6 +493,37 @@ describe('MaterialInputDialogComponent', () => {
     });
   });
 
+  describe('isAddDialog', () => {
+    describe('with editMaterialInformation', () => {
+      beforeEach(() => {
+        component['isCopy'] = false;
+        component['isBulkEdit'] = false;
+        component['materialId'] = 0;
+        component.dialogData.editDialogInformation = undefined;
+      });
+
+      it('should return true on default', () => {
+        expect(component.isAddDialog()).toBe(true);
+      });
+    });
+
+    it('should return false if materialId is set', () => {
+      component.materialId = 1;
+
+      expect(component.isAddDialog()).toBe(false);
+    });
+    it('should return false if isCopy is true', () => {
+      component['isCopy'] = true;
+
+      expect(component.isAddDialog()).toBe(false);
+    });
+    it('should return false if isBulkEdit is true', () => {
+      component['isBulkEdit'] = true;
+
+      expect(component.isAddDialog()).toBe(false);
+    });
+  });
+
   describe('isCopyDialog', () => {
     it('should return false if materialId is set', () => {
       component.materialId = 1;
@@ -665,6 +696,55 @@ describe('MaterialInputDialogComponent', () => {
         'materialsSupplierDatabase.mainTable.dialog.hint.info_delete';
 
       expect(component.getHint(hintData, 'delete')).toStrictEqual(translation);
+    });
+  });
+
+  describe('isValidDialog', () => {
+    let form = {
+      controls: {},
+      valid: true,
+    };
+    beforeEach(() => {
+      component['isBulkEdit'] = false;
+      form = {
+        controls: {},
+        valid: true,
+      };
+      component.createMaterialForm = form as FormGroup;
+    });
+    it('should be valid dialog on default', () => {
+      expect(component.isValidDialog()).toBeTruthy();
+    });
+    it('should be invalid dialog on with no bulk edit and invalid form', () => {
+      form.valid = false;
+
+      expect(component.isValidDialog()).toBeFalsy();
+    });
+    it('should be valid dialog on with bulk edit and valid form', () => {
+      component['isBulkEdit'] = true;
+      expect(component.isValidDialog()).toBeTruthy();
+    });
+
+    it('should be valid dialog on with bulk edit and reuired form', () => {
+      component['isBulkEdit'] = true;
+      form.controls = {
+        test1: {
+          errors: { required: true },
+        },
+      };
+      expect(component.isValidDialog()).toBeTruthy();
+    });
+    it('should be invalid dialog on with bulk edit and invalid form', () => {
+      component['isBulkEdit'] = true;
+      form.controls = {
+        test1: {
+          errors: { required: true },
+        },
+        test2: {
+          errors: { anythg: true },
+        },
+      };
+      expect(component.isValidDialog()).toBeFalsy();
     });
   });
 });

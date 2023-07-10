@@ -1,5 +1,6 @@
 /* eslint-disable max-lines */
 import {
+  AfterViewInit,
   ChangeDetectorRef,
   Component,
   Inject,
@@ -58,7 +59,7 @@ import { ReleaseDateViewMode } from './constants/release-date-view-mode.enum';
 })
 export class SteelInputDialogComponent
   extends MaterialInputDialogComponent
-  implements OnInit
+  implements OnInit, AfterViewInit
 {
   @ViewChildren('steelMakingProcessSelect', { read: SelectComponent })
   private readonly steelMakingProcessSelectQueryList: QueryList<SelectComponent>;
@@ -292,34 +293,6 @@ export class SteelInputDialogComponent
         )
       );
 
-    // setup co2Dependencies
-    this.steelMakingProcessControl.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        filter(
-          (steelMakingProcess) =>
-            !!this.manufacturerSupplierIdControl.value && !!steelMakingProcess
-        ),
-        map((steelMakingProcess) => ({
-          supplierId: this.manufacturerSupplierIdControl.value,
-          steelMakingProcess: steelMakingProcess.title,
-          productCategory: this.categoriesControl.value.id as string,
-        }))
-      )
-      .subscribe(({ supplierId, steelMakingProcess, productCategory }) => {
-        // TODO: remove workaround asap
-        this.createMaterialForm.updateValueAndValidity({
-          emitEvent: false,
-        });
-        this.dialogFacade.dispatch(
-          fetchCo2ValuesForSupplierSteelMakingProcess({
-            supplierId,
-            steelMakingProcess,
-            productCategory,
-          })
-        );
-      });
-
     this.steelMakingProcessesInUse$
       .pipe(takeUntil(this.destroy$))
       .subscribe((steelMakingProcessesInUse) => {
@@ -364,9 +337,6 @@ export class SteelInputDialogComponent
           }
         );
       });
-    this.co2Controls.valueChanges.subscribe(() => {
-      this.createMaterialForm.updateValueAndValidity({});
-    });
 
     // recyclingRate validation
     this.minRecyclingRateControl.addValidators(
@@ -415,12 +385,47 @@ export class SteelInputDialogComponent
     });
   }
 
+  public ngAfterViewInit(): void {
+    super.ngAfterViewInit();
+
+    // setup co2Dependencies
+    if (this.isAddDialog()) {
+      // skip prefill of co2 values on edited / added items
+      this.steelMakingProcessControl.valueChanges
+        .pipe(
+          takeUntil(this.destroy$),
+          filter(
+            (steelMakingProcess) =>
+              !!this.manufacturerSupplierIdControl.value && !!steelMakingProcess
+          ),
+          map((steelMakingProcess) => ({
+            supplierId: this.manufacturerSupplierIdControl.value,
+            steelMakingProcess: steelMakingProcess.title,
+            productCategory: this.categoriesControl.value.id as string,
+          }))
+        )
+        .subscribe(({ supplierId, steelMakingProcess, productCategory }) => {
+          // TODO: remove workaround asap
+          this.createMaterialForm.updateValueAndValidity({
+            emitEvent: false,
+          });
+          this.dialogFacade.dispatch(
+            fetchCo2ValuesForSupplierSteelMakingProcess({
+              supplierId,
+              steelMakingProcess,
+              productCategory,
+            })
+          );
+        });
+    }
+  }
+
   public selectReleaseDateView() {
-    if (!this.isEditDialog() || this.isCopyDialog() || this.isBulkEdit) {
+    if (!this.isEditDialog() || this.isCopyDialog()) {
       return ReleaseDateViewMode.DEFAULT;
     } else if (
-      this.releaseMonthControl.value &&
-      this.releaseYearControl.value
+      this.isBulkEditDialog() ||
+      (this.releaseMonthControl.value && this.releaseYearControl.value)
     ) {
       return ReleaseDateViewMode.READONLY;
     } else {

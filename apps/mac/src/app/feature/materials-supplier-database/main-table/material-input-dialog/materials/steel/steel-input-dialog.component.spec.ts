@@ -177,6 +177,7 @@ describe('SteelInputDialogComponent', () => {
       component.createMaterialForm = undefined;
 
       component.ngOnInit();
+      component.ngAfterViewInit();
 
       expect(component.createMaterialForm).toBeTruthy();
     });
@@ -206,7 +207,7 @@ describe('SteelInputDialogComponent', () => {
 
   describe('updateCreateMaterialDialogValues', () => {
     it('should assign the material form', () => {
-      component.co2Scope1Control.setValue(99);
+      component.minDimControl.setValue(99);
 
       expect(store.dispatch).toBeCalledWith(
         updateCreateMaterialDialogValues({
@@ -635,7 +636,7 @@ describe('SteelInputDialogComponent', () => {
       component.isEditDialog = jest.fn(() => true);
       component['isBulkEdit'] = true;
       expect(component.selectReleaseDateView()).toBe(
-        ReleaseDateViewMode.DEFAULT
+        ReleaseDateViewMode.READONLY
       );
     });
     it('should return READONLY for EDIT Dialog', () => {

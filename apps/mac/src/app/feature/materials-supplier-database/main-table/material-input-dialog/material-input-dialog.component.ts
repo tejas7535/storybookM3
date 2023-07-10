@@ -66,7 +66,8 @@ export class MaterialInputDialogComponent
 
   public materialClass: MaterialClass;
 
-  public hintData$ = this.dialogFacade.getHintData$();
+  public hintData$ = this.dialogFacade.dialogHintData$;
+  public isCo2Valid$ = this.dialogFacade.dialogCo2Valid$;
 
   public dialogLoading$ = this.dialogFacade.dialogLoading$;
   public createMaterialLoading$ = this.dialogFacade.createMaterialLoading$;
@@ -309,6 +310,10 @@ export class MaterialInputDialogComponent
     );
   }
 
+  public isAddDialog(): boolean {
+    return !(this.isCopy || this.isBulkEditDialog() || this.isEditDialog());
+  }
+
   public isBulkEditDialog(): boolean {
     return this.isBulkEdit;
   }
@@ -432,6 +437,21 @@ export class MaterialInputDialogComponent
           resetMaterialRecord({ error: !!record.error, createAnother })
         );
       });
+  }
+
+  public isValidDialog() {
+    if (this.isBulkEditDialog()) {
+      const controls = this.createMaterialForm.controls;
+
+      return (
+        Object.keys(controls)
+          .map((name) => controls[name])
+          .filter((control) => control.errors)
+          .filter((control) => !control.errors['required']).length === 0
+      );
+    } else {
+      return this.createMaterialForm.valid;
+    }
   }
 
   protected buildMaterialStandard(

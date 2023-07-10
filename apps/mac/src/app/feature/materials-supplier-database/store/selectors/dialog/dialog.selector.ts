@@ -7,7 +7,13 @@ import { createSelector, MemoizedSelector, select } from '@ngrx/store';
 
 import { StringOption } from '@schaeffler/inputs';
 
-import { SUPPORTED_SUPPLIER_COUNTRIES } from '@mac/feature/materials-supplier-database/constants';
+import {
+  CO2_PER_TON,
+  CO2_SCOPE_1,
+  CO2_SCOPE_2,
+  CO2_SCOPE_3,
+  SUPPORTED_SUPPLIER_COUNTRIES,
+} from '@mac/feature/materials-supplier-database/constants';
 import { DataResult } from '@mac/feature/materials-supplier-database/models';
 import * as fromStore from '@mac/msd/store/reducers';
 
@@ -598,24 +604,17 @@ export const getSelectedMaterialData = createSelector(
 export const selectedHintData = createSelector(
   getSelectedMaterialData,
   (selectedData) => {
-    const formValue = selectedData.form;
+    const formValue = selectedData?.form;
     let result: any;
-    if (selectedData.rows) {
+    if (selectedData?.rows) {
       result = {};
       for (const column in formValue) {
-        const values = selectedData.rows.map(
-          (row) => row[column as keyof DataResult] as string
+        const values = selectedData.rows.map((row) =>
+          __transformValue(row[column as keyof DataResult])
         );
-        const value = Object.prototype.hasOwnProperty.call(
-          formValue[column] || {},
-          'id'
-        )
-          ? formValue[column].id
-          : formValue[column];
+        const value = __transformField(formValue[column]);
         const updated = values.filter((v) => v !== value).length;
-        const uniqueVals = values.filter(
-          (v, index, array) => array.indexOf(v) === index
-        );
+        const uniqueVals = [...new Set(values)];
         // look for array with only undefined entries
         const unique = uniqueVals.every((v) => !v) ? 0 : uniqueVals.length;
         result[column] = {
@@ -628,6 +627,32 @@ export const selectedHintData = createSelector(
     }
 
     return result;
+  }
+);
+
+export const validateCo2Scope = createSelector(
+  getSelectedMaterialData,
+  selectedHintData,
+  (selectedData, hd) => {
+    const form = selectedData?.form || {};
+    const scope1 = form[CO2_SCOPE_1];
+    const scope2 = form[CO2_SCOPE_2];
+    const scope3 = form[CO2_SCOPE_3];
+
+    const deleted = !!hd && !form[CO2_PER_TON] && hd[CO2_PER_TON]?.unique === 1;
+
+    return !selectedData?.rows?.some((row) => {
+      const s1 = scope1 || row.co2Scope1 || 0;
+      const s2 = scope2 || row.co2Scope2 || 0;
+      const s3 = scope3 || row.co2Scope3 || 0;
+      const t = form[CO2_PER_TON] || row.co2PerTon || 0;
+
+      if (deleted && s1 + s2 + s3 > 0) {
+        return true;
+      }
+
+      return t < s1 + s2 + s3;
+    });
   }
 );
 
@@ -729,3 +754,19 @@ export const getEditMaterialDataLoaded = pipe(
       : undefined
   )
 );
+
+function __transformValue(data: any): string {
+  return Array.isArray(data) ? JSON.stringify(data) : (data as string);
+}
+
+function __transformField(data: any): string {
+  if (data !== 0 && !data) {
+    return undefined;
+  } else if (Array.isArray(data)) {
+    return JSON.stringify(data.map((d) => __transformField(d)));
+  } else if (Object.prototype.hasOwnProperty.call(data, 'id')) {
+    return data.id;
+  }
+
+  return data;
+}

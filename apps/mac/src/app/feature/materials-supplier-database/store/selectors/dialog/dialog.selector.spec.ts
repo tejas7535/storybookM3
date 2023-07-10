@@ -1179,6 +1179,8 @@ describe('DialogSelectors', () => {
           co2PerTon: 3,
           productCategory: { id: 1 } as StringOption,
           minRecyclingRate: 0,
+          maxRecyclingRate: undefined,
+          referenceDoc: [{ id: '1' } as StringOption],
         } as MaterialFormValue,
         rows: [
           {
@@ -1186,12 +1188,14 @@ describe('DialogSelectors', () => {
             co2PerTon: 3,
             productCategory: '#3',
             minRecyclingRate: undefined,
+            referenceDoc: ['123'],
           } as DataResult,
           {
             castingMode: 'CM_3',
             co2PerTon: 5,
             productCategory: '#2',
             minRecyclingRate: undefined,
+            referenceDoc: ['123'],
           } as DataResult,
         ],
         combinedRows: undefined, // not needed
@@ -1221,6 +1225,89 @@ describe('DialogSelectors', () => {
         value: 0,
         values: [undefined, undefined],
       },
+      maxRecyclingRate: {
+        unique: 0,
+        updated: 0,
+        value: undefined,
+        values: [undefined, undefined],
+      },
+      referenceDoc: {
+        unique: 1,
+        updated: 2,
+        value: '["1"]',
+        values: ['["123"]', '["123"]'],
+      },
+    });
+  });
+
+  describe('validateCo2Scope', () => {
+    it('should return true', () => {
+      expect(
+        DialogSelectors.validateCo2Scope.projector(
+          {
+            form: {
+              co2Scope1: 3,
+              co2Scope2: 3,
+              co2Scope3: 3,
+              co2PerTon: 9,
+            } as MaterialFormValue,
+            rows: [{ co2PerTon: 9 } as DataResult],
+            combinedRows: undefined, // not needed
+          } as any,
+          { co2PerTon: { unique: 0 } }
+        )
+      ).toBeTruthy();
+    });
+
+    it('should return true without selected', () => {
+      expect(
+        DialogSelectors.validateCo2Scope.projector(
+          {
+            form: {
+              co2Scope1: 3,
+              co2Scope2: 3,
+              co2Scope3: 3,
+              co2PerTon: 9,
+            } as MaterialFormValue,
+            rows: undefined,
+            combinedRows: undefined, // not needed
+          } as any,
+          {}
+        )
+      ).toBeTruthy();
+    });
+
+    it('should return false', () => {
+      expect(
+        DialogSelectors.validateCo2Scope.projector(
+          {
+            form: { co2Scope3: 22 } as MaterialFormValue,
+            rows: [
+              {
+                co2Scope1: 3,
+                co2Scope2: 3,
+                co2Scope3: 3,
+                co2PerTon: 9,
+              } as DataResult,
+            ],
+            combinedRows: undefined, // not needed
+          } as any,
+          { co2PerTon: { unique: 0 } }
+        )
+      ).toBeFalsy();
+    });
+
+    it('should return false on deleted Co2Total', () => {
+      expect(
+        DialogSelectors.validateCo2Scope.projector(
+          {
+            form: {} as MaterialFormValue,
+            rows: [{ co2Scope3: 3, co2PerTon: 99 } as DataResult],
+            combinedRows: undefined, // not needed
+          } as any,
+          { co2PerTon: { unique: 1 } }
+        )
+      ).toBeFalsy();
     });
   });
 

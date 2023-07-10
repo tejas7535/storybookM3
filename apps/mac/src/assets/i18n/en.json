@@ -432,6 +432,7 @@
         "createSuccess": "{{level}} added successfully",
         "error": {
           "co2TooLow": "Total value must be higher than the sum of the single scopes",
+          "co2TooLowBulkEdit": "Total CO2 value must be higher than the sum of the single scopes for all selected materials!",
           "co2TooLowShort": "Value lower than {{min}}",
           "generic": "Value is not valid",
           "min": "Value lower than {{min}}",

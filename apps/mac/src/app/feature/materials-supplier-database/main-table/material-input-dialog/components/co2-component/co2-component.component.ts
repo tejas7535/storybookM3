@@ -103,6 +103,9 @@ export class Co2ComponentComponent implements OnInit, OnDestroy {
           ? this.co2ClassificationControl.enable({ emitEvent: false })
           : this.co2ClassificationControl.disable({ emitEvent: false })
       );
+    this.co2Controls.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.co2TotalControl.updateValueAndValidity());
   }
 
   public ngOnDestroy(): void {

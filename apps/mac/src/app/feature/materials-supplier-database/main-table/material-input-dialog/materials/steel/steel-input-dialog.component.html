@@ -7,7 +7,7 @@
     isEditDialog() && !isCopyDialog() ? t('updateMaterial') : t('addMaterial')
   "
   [isAddDialog]="isCopyDialog() || !isEditDialog()"
-  [valid]="isBulkEditDialog() || createMaterialForm.valid"
+  [valid]="isValidDialog() && (isCo2Valid$ | ngrxPush)"
   (accept)="confirmMaterial($event)"
   (minimize)="minimizeDialog()"
   (cancel)="cancelDialog()"
@@ -345,7 +345,6 @@
             }}</mat-error>
           </mat-form-field>
         </div>
-
         <mac-co2-component
           [co2Scope1Control]="co2Scope1Control"
           [co2Scope2Control]="co2Scope2Control"
@@ -362,6 +361,12 @@
           [column]="getColumn()"
           macMaterialDialogBasePart
         >
+          <mat-error
+            afterCo2Scope
+            class="text-caption text-center"
+            *ngIf="isBulkEditDialog() && !(isCo2Valid$ | ngrxPush)"
+            >{{ t('error.co2TooLowBulkEdit') }}
+          </mat-error>
         </mac-co2-component>
 
         <div class="flex flex-row gap-x-6" [ngSwitch]="selectReleaseDateView()">
@@ -372,7 +377,7 @@
               >
               <input
                 matInput
-                [value]="releaseYearControl.value"
+                [value]="releaseYearControl.value || ''"
                 name="releaseDate"
                 #dialogControl
                 readonly="true"
