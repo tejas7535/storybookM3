@@ -5,7 +5,7 @@ import {
 } from './bearinx-result.interface';
 
 export const extractSubordinatesFromPath = (
-  input: BearinxOnlineResult,
+  input: BearinxOnlineResult | BearinxOnlineResultSubordinate,
   path: Partial<BearinxOnlineResultSubordinate>[],
   requireValue?: boolean
 ): BearinxOnlineResultSubordinate | undefined => {

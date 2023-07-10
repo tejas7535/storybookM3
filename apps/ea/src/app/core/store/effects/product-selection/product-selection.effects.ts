@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 
 import { catchError, mergeMap, of, switchMap } from 'rxjs';
 
+import { ModuleCalculationModuleInfoResult } from '@ea/core/services/calculation-module-info.interface';
 import { CalculationModuleInfoService } from '@ea/core/services/calculation-module-info.service';
 import { CatalogService } from '@ea/core/services/catalog.service';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
@@ -68,6 +69,14 @@ export class ProductSelectionEffects {
         return this.calculationModuleInfoService
           .getCalculationInfo(bearingDesignation)
           .pipe(
+            catchError((_error: HttpErrorResponse) =>
+              of(
+                {} as Pick<
+                  ModuleCalculationModuleInfoResult,
+                  'catalogueCalculation' | 'frictionCalculation'
+                >
+              )
+            ),
             concatLatestFrom(() => [
               this.calculationParametersFacade.getCalculationTypes$,
             ]),
@@ -115,11 +124,7 @@ export class ProductSelectionEffects {
                   calculationTypes: updatedTypes,
                 }),
               ];
-            }),
-            catchError((_error: HttpErrorResponse) =>
-              // TODO: Handle error
-              of()
-            )
+            })
           );
       })
     );

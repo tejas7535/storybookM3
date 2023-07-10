@@ -47,6 +47,14 @@ export class CalculationResultFacade {
     CalculationResultReportSelector.getSelectedCalculations
   );
 
+  public readonly isRatingLifeResultAvailable$ = this.store.select(
+    CalculationResultReportSelector.isFrictionResultAvailable
+  );
+
+  public readonly calculationReportRatingLife$ = this.store.select(
+    CalculationResultReportSelector.getRatingLifeResultReport
+  );
+
   constructor(private readonly store: Store) {}
 
   dispatch(action: Action) {

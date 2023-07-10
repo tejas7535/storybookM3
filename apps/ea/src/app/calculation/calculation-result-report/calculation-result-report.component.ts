@@ -7,15 +7,12 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
-import {
-  MatExpansionModule,
-  MatExpansionPanelHeader,
-} from '@angular/material/expansion';
+import { MatExpansionPanelHeader } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import {
+  MatLegacyDialog as Dialog,
   MatLegacyDialogModule as MatDialogModule,
   MatLegacyDialogRef as MatDialogRef,
-  MatLegacyDialog as Dialog,
 } from '@angular/material/legacy-dialog';
 import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
 
@@ -27,6 +24,7 @@ import {
 } from '@ea/core/store';
 import { ProductSelectionFacade } from '@ea/core/store/facades/product-selection/product-selection.facade';
 import { CalculationParametersCalculationTypeConfig } from '@ea/core/store/models';
+import { ExpansionPanelComponent } from '@ea/expansion-panel/expansion-panel.component';
 import { InfoBannerComponent } from '@ea/shared/info-banner/info-banner.component';
 import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
 import { TagComponent } from '@ea/shared/tag/tag.component';
@@ -37,10 +35,11 @@ import { NgxEchartsModule } from 'ngx-echarts';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { CalculationDisclaimerComponent } from '../calculation-disclaimer/calculation-disclaimer.component';
 import { CalculationResultMessageComponent } from '../calculation-result-information/calculation-result-message.component';
 import { CalculationResultReportInputComponent } from '../calculation-result-report-input';
+import { CalculationResultReportLargeItemsComponent } from '../calculation-result-report-large-items/calculation-result-report-large-items.component';
 import { CalculationTypesSelectionComponent } from '../calculation-types-selection/calculation-types-selection';
-import { CalculationDisclaimerComponent } from '../calculation-disclaimer/calculation-disclaimer.component';
 
 const COLOR_PLATTE = ['#DDE86E', '#7DC882'];
 
@@ -54,7 +53,6 @@ const COLOR_PLATTE = ['#DDE86E', '#7DC882'];
     MatDividerModule,
     MatDialogModule,
     MatProgressSpinnerModule,
-    MatExpansionModule,
     SharedTranslocoModule,
     NgxEchartsModule,
     TagComponent,
@@ -64,6 +62,8 @@ const COLOR_PLATTE = ['#DDE86E', '#7DC882'];
     CalculationResultReportInputComponent,
     CalculationResultMessageComponent,
     InfoBannerComponent,
+    ExpansionPanelComponent,
+    CalculationResultReportLargeItemsComponent,
   ],
 })
 export class CalculationResultReportComponent {

@@ -109,6 +109,16 @@
     "calculationDisclaimer": {
       "title": "Calculation disclaimer",
       "disclaimerFile": "/disclaimers/calculation-en.html"
+    },
+    "ratingLife": {
+      "title": "Rating life",
+      "lh10": "Total rating life in hours (nominal)",
+      "lh_nm_unavailable": "Please add “Lubrication parameters” to your calculation to display this value",
+      "lh_nm": "Modified rating life in hours",
+      "p": "Equivalent dynamic load",
+      "n": "Equivalent speed",
+      "s0_min": "Static safety",
+      "p0_max": "Maximum equivalent static load"
     }
   },
   "basicFrequencies": {

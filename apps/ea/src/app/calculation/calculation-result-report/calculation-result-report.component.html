@@ -20,340 +20,267 @@
     <div class="flex h-full flex-row">
       <div>
         <!-- CO2 input notes -->
-        <mat-expansion-panel
+        <ea-expansion-panel
           *ngIf="
             calculationResultFacade.calculationReportInput$
               | ngrxPush as calculationInput
           "
-          class="border-border w-full border !shadow-none mb-4"
+          [title]="t('reportSectionInput')"
         >
-          <mat-expansion-panel-header class="h-[64px]">
-            <mat-panel-title>
-              <div class="flex flex-row">
-                <div class="my-auto ml-2">
-                  {{ t('reportSectionInput') }}
-                </div>
-              </div>
-            </mat-panel-title>
-          </mat-expansion-panel-header>
           <ea-calculation-result-report-input [reportInput]="calculationInput">
           </ea-calculation-result-report-input>
-        </mat-expansion-panel>
+        </ea-expansion-panel>
+
+        <!-- Rating life -->
+        <ng-container
+          *transloco="let t; read: 'calculationResultReport.ratingLife'"
+        >
+          <ea-expansion-panel
+            *ngIf="
+              calculationResultFacade.isRatingLifeResultAvailable$ | ngrxPush
+            "
+            id="ratingLife"
+            icon="animation"
+            [title]="t('title')"
+            [expanded]="
+              (selctedCalculationTypes$ | ngrxPush)?.ratingLife.selected ===
+              true
+            "
+          >
+            <ea-calculation-result-report-large-items
+              *ngIf="
+                calculationResultFacade.calculationReportRatingLife$
+                  | ngrxPush as ratingLife
+              "
+              [items]="ratingLife"
+              translocoRoot="calculationResultReport.ratingLife"
+            ></ea-calculation-result-report-large-items>
+          </ea-expansion-panel>
+        </ng-container>
 
         <!-- Frictional power loss -->
         <ng-container
-          *ngIf="calculationResultFacade.isFrictionResultAvailable$ | ngrxPush"
+          *transloco="
+            let t;
+            read: 'calculationResultReport.frictionalPowerloss'
+          "
         >
-          <mat-expansion-panel
-            id="friction"
-            *transloco="
-              let t;
-              read: 'calculationResultReport.frictionalPowerloss'
+          <ea-expansion-panel
+            *ngIf="
+              calculationResultFacade.isFrictionResultAvailable$ | ngrxPush
             "
-            class="border-border w-full border !shadow-none mb-4"
+            id="frictionalPowerloss"
+            icon="compress"
+            [title]="t('title')"
             [expanded]="
               (selctedCalculationTypes$ | ngrxPush)?.frictionalPowerloss
                 .selected === true
             "
           >
-            <mat-expansion-panel-header class="h-[64px]">
-              <mat-panel-title>
-                <div class="flex flex-row">
-                  <div class="my-auto">
-                    <mat-icon color="primary">compress</mat-icon>
-                  </div>
-                  <div class="my-auto ml-2">
-                    {{ t('title') }}
-                  </div>
-                </div>
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-
-            <div
-              class="full-w full-h !-mx-6 !-mb-4"
+            <ea-calculation-result-report-large-items
               *ngIf="
                 calculationResultFacade.calculationReportFrictionalPowerloss$
                   | ngrxPush as frictionalPowerloss
               "
-            >
-              <ng-container
-                *transloco="
-                  let t;
-                  read: 'calculationResultReport.frictionalPowerloss'
-                "
-              >
-                <div
-                  class="grid grid-cols-2 gap-0 px-4 md:px-8 py-4 border-border border-t"
-                >
-                  <ng-container
-                    *ngFor="let item of frictionalPowerloss; let index = index"
-                  >
-                    <div
-                      class="flex flex-col justify-start border-border md:border-b-0 border-b md:mx-2 py-4 md:py-2"
-                      [ngClass]="{
-                        'md:border-r border-r-0 md:mr-4 pl-4 md:pl-0':
-                          index % 2 !== 1,
-                        'md:border-r-0 border-r md:mr-4 pr-4 md:pr-0':
-                          index % 2 === 1,
-                        'col-span-2 md:col-span-1 !pl-0': index === 0
-                      }"
-                    >
-                      <div class="mb-4">
-                        <ea-tag
-                          [value]="item.short"
-                          styleClass="text-[#007892] bg-[#F0F6FA]"
-                        ></ea-tag>
-                      </div>
-                      <div class="flex flex-row items-end justify-start">
-                        <div
-                          class="text-high-emphasis"
-                          [class.text-h4]="index === 0"
-                          [class.text-h6]="index !== 0"
-                        >
-                          {{ (item.value | meaningfulRound) || '-' }}
-                        </div>
-                        <div class="text-body-2 text-high-emphasis pl-1">
-                          {{ item.unit }}
-                        </div>
-                      </div>
-
-                      <div class="text-caption text-medium-emphasis mt-4">
-                        {{ t(item.title) }}
-                      </div>
-                    </div>
-                    <div
-                      class="border-t border-border my-4 h-[1px] col-span-2 md:block hidden"
-                      *ngIf="index % 2 === 1"
-                    ></div>
-                  </ng-container>
-                </div>
-              </ng-container>
-            </div>
-          </mat-expansion-panel>
+              [items]="frictionalPowerloss"
+              translocoRoot="calculationResultReport.frictionalPowerloss"
+            ></ea-calculation-result-report-large-items>
+          </ea-expansion-panel>
         </ng-container>
 
         <!-- CO2 Emissions -->
         <ng-container
-          *ngIf="calculationResultFacade.isEmissionResultAvailable$ | ngrxPush"
+          *transloco="let t; read: 'calculationResultReport.co2Emissions'"
         >
-          <mat-expansion-panel
+          <ea-expansion-panel
+            *ngIf="
+              calculationResultFacade.isEmissionResultAvailable$ | ngrxPush
+            "
             id="emission"
-            *transloco="let t; read: 'calculationResultReport.co2Emissions'"
-            class="border-border w-full border !shadow-none mb-4"
+            svgIcon="co2"
+            [title]="t('title')"
             [expanded]="
-              (selctedCalculationTypes$ | ngrxPush)?.emission?.selected === true
+              (selctedCalculationTypes$ | ngrxPush)?.emission.selected === true
             "
           >
-            <mat-expansion-panel-header class="h-[64px]">
-              <mat-panel-title>
-                <div class="flex flex-row">
-                  <div class="my-auto">
-                    <mat-icon color="primary" svgIcon="co2"></mat-icon>
-                  </div>
-                  <div class="my-auto ml-2">
-                    {{ t('title') }}
-                  </div>
-                </div>
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-
             <div
-              class="full-w full-h !-mx-6 !-mb-4"
+              class="text-body-2 border-border flex w-full flex-col md:flex-row border-t"
               *ngIf="
                 calculationResultFacade.calculationReportCO2Emission$
                   | ngrxPush as co2Emissions
               "
             >
+              <!-- Chart -->
               <div
-                class="text-body-2 border-border flex w-full flex-col md:flex-row border-t"
+                class="border-border flex flex-shrink-0 flex-col items-center border-r p-2 md:p-8"
               >
-                <!-- Chart -->
-                <div
-                  class="border-border flex flex-shrink-0 flex-col items-center border-r p-2 md:p-8"
-                >
-                  <div class="text-high-emphasis mb-2">
-                    {{ t('chartTitle') }}
-                  </div>
-                  <div
-                    *ngIf="co2EmissionOptions$ | async as co2EmissionOptions"
-                    echarts
-                    class="h-[200px] w-[200px]"
-                    [options]="co2EmissionOptions"
-                    [initOpts]="{
-                      width: 200,
-                      height: 200
-                    }"
-                  ></div>
-
-                  <div class="text-medium-emphasis mh-2">
-                    {{ t('chartDesc') }}
-                  </div>
+                <div class="text-high-emphasis mb-2">
+                  {{ t('chartTitle') }}
                 </div>
-                <div class="flex flex-grow flex-col">
-                  <!-- Upstream -->
-                  <div
-                    class="border-border w-full border-t md:border-t-0 border-b px-4 md:px-8 py-4"
-                  >
-                    <div
-                      class="text-high-emphasis flex flex-row items-center pb-4"
-                    >
-                      <ea-tag
-                        value=""
-                        styleClass="bg-[#DDE86E]"
-                        class="mr-2"
-                      ></ea-tag>
+                <div
+                  *ngIf="co2EmissionOptions$ | async as co2EmissionOptions"
+                  echarts
+                  class="h-[200px] w-[200px]"
+                  [options]="co2EmissionOptions"
+                  [initOpts]="{
+                    width: 200,
+                    height: 200
+                  }"
+                ></div>
 
-                      {{ t('upstreamTitle') }}
-                    </div>
-                    <div
-                      class="flex w-full flex-row md:justify-start items-center justify-center"
-                    >
-                      <div
-                        class="flex flex-row items-end justify-center py-2 pr-4"
-                      >
-                        <div class="text-h6 text-high-emphasis">
-                          {{
-                            (co2Emissions?.co2_upstream | meaningfulRound) ||
-                              '-'
-                          }}
-                        </div>
-                        <div class="text-body-2 text-high-emphasis pl-1">
-                          kg
-                        </div>
-                      </div>
-                      <mat-divider [vertical]="true"></mat-divider>
-                      <div
-                        class="flex flex-row items-end justify-center py-2 pl-4"
-                      >
-                        <div class="text-h6 text-high-emphasis">
-                          {{
-                            (co2Emissions?.co2_upstream_percent * 100
-                              | number: '1.1-1') || '-'
-                          }}
-                        </div>
-                        <div class="text-body-2 text-high-emphasis pl-1">%</div>
-                      </div>
-                    </div>
-                    <div class="text-medium-emphasis pt-4">
-                      {{ t('upstreamHint') }} -
-                      <a
-                        class="text-primary"
-                        (click)="showCalculationDisclaimerDialog()"
-                        role="button"
-                        >{{ t('upstreamHintLinkText') }}</a
-                      >
-                    </div>
-                  </div>
-
-                  <!-- Downstream -->
-                  <div
-                    class="w-full px-4 md:px-8 py-4"
-                    *ngrxLet="isDownstreamAvailable$; let isDownstreamAvailable"
-                  >
-                    <div
-                      class="flex flex-row items-center pb-4"
-                      [ngClass]="{
-                        'text-high-emphasis': isDownstreamAvailable,
-                        'text-low-emphasis': !isDownstreamAvailable
-                      }"
-                    >
-                      <ea-tag
-                        value=""
-                        [disabled]="!isDownstreamAvailable"
-                        styleClass="bg-[#7DC882]"
-                        class="mr-2"
-                      ></ea-tag>
-
-                      {{ t('downstreamTitle') }}
-                    </div>
-                    <div
-                      *ngIf="isDownstreamAvailable; else downstreamUnavailable"
-                      class="flex w-full flex-row md:justify-start justify-center items-center"
-                    >
-                      <div
-                        class="flex flex-row items-end justify-center py-2 pr-4"
-                      >
-                        <div class="text-h6 text-high-emphasis">
-                          {{
-                            (co2Emissions?.co2_downstream | meaningfulRound) ||
-                              '-'
-                          }}
-                        </div>
-                        <div class="text-body-2 text-high-emphasis pl-1">
-                          kg
-                        </div>
-                      </div>
-                      <mat-divider [vertical]="true"></mat-divider>
-                      <div
-                        class="flex flex-row items-end justify-center py-2 pl-4"
-                      >
-                        <div class="text-h6 text-high-emphasis">
-                          {{
-                            (co2Emissions?.co2_downstream_percent * 100
-                              | number: '1.1-1') || '-'
-                          }}
-                        </div>
-                        <div class="text-body-2 text-high-emphasis pl-1">%</div>
-                      </div>
-                    </div>
-                    <ng-template #downstreamUnavailable>
-                      <ea-info-banner
-                        [infoText]="t('co2DownstreamUnavailableHint')"
-                      ></ea-info-banner>
-                    </ng-template>
-                    <div class="text-medium-emphasis pt-4">
-                      {{ t('downstreamHint') }} -
-                      <a
-                        class="text-primary"
-                        (click)="showCalculationDisclaimerDialog()"
-                        role="button"
-                        >{{ t('downstreamHintLinkText') }}</a
-                      >
-                    </div>
-                  </div>
+                <div class="text-medium-emphasis mh-2">
+                  {{ t('chartDesc') }}
                 </div>
               </div>
-              <div
-                class="border-border flex flex-row items-center border-t px-4 py-2"
-              >
-                <div class="mr-2 flex-shrink-0">
-                  <mat-icon color="primary">info_outline</mat-icon>
-                </div>
-                <div class="text-body-2 text-medium-emphasis">
-                  {{ t('calculationHint') }} -
-                  <a
-                    class="text-primary"
-                    [href]="t('calculationHintLink')"
-                    role="button"
-                    target="_blank"
-                    >{{ t('calculationHintLinkText') }}</a
+              <div class="flex flex-grow flex-col">
+                <!-- Upstream -->
+                <div
+                  class="border-border w-full border-t md:border-t-0 border-b px-4 md:px-8 py-4"
+                >
+                  <div
+                    class="text-high-emphasis flex flex-row items-center pb-4"
                   >
+                    <ea-tag
+                      value=""
+                      styleClass="bg-[#DDE86E]"
+                      class="mr-2"
+                    ></ea-tag>
+
+                    {{ t('upstreamTitle') }}
+                  </div>
+                  <div
+                    class="flex w-full flex-row md:justify-start items-center justify-center"
+                  >
+                    <div
+                      class="flex flex-row items-end justify-center py-2 pr-4"
+                    >
+                      <div class="text-h6 text-high-emphasis">
+                        {{
+                          (co2Emissions?.co2_upstream | meaningfulRound) || '-'
+                        }}
+                      </div>
+                      <div class="text-body-2 text-high-emphasis pl-1">kg</div>
+                    </div>
+                    <mat-divider [vertical]="true"></mat-divider>
+                    <div
+                      class="flex flex-row items-end justify-center py-2 pl-4"
+                    >
+                      <div class="text-h6 text-high-emphasis">
+                        {{
+                          (co2Emissions?.co2_upstream_percent * 100
+                            | number: '1.1-1') || '-'
+                        }}
+                      </div>
+                      <div class="text-body-2 text-high-emphasis pl-1">%</div>
+                    </div>
+                  </div>
+                  <div class="text-medium-emphasis pt-4">
+                    {{ t('upstreamHint') }} -
+                    <a
+                      class="text-primary"
+                      (click)="showCalculationDisclaimerDialog()"
+                      role="button"
+                      >{{ t('upstreamHintLinkText') }}</a
+                    >
+                  </div>
+                </div>
+
+                <!-- Downstream -->
+                <div
+                  class="w-full px-4 md:px-8 py-4"
+                  *ngrxLet="isDownstreamAvailable$; let isDownstreamAvailable"
+                >
+                  <div
+                    class="flex flex-row items-center pb-4"
+                    [ngClass]="{
+                      'text-high-emphasis': isDownstreamAvailable,
+                      'text-low-emphasis': !isDownstreamAvailable
+                    }"
+                  >
+                    <ea-tag
+                      value=""
+                      [disabled]="!isDownstreamAvailable"
+                      styleClass="bg-[#7DC882]"
+                      class="mr-2"
+                    ></ea-tag>
+
+                    {{ t('downstreamTitle') }}
+                  </div>
+                  <div
+                    *ngIf="isDownstreamAvailable; else downstreamUnavailable"
+                    class="flex w-full flex-row md:justify-start justify-center items-center"
+                  >
+                    <div
+                      class="flex flex-row items-end justify-center py-2 pr-4"
+                    >
+                      <div class="text-h6 text-high-emphasis">
+                        {{
+                          (co2Emissions?.co2_downstream | meaningfulRound) ||
+                            '-'
+                        }}
+                      </div>
+                      <div class="text-body-2 text-high-emphasis pl-1">kg</div>
+                    </div>
+                    <mat-divider [vertical]="true"></mat-divider>
+                    <div
+                      class="flex flex-row items-end justify-center py-2 pl-4"
+                    >
+                      <div class="text-h6 text-high-emphasis">
+                        {{
+                          (co2Emissions?.co2_downstream_percent * 100
+                            | number: '1.1-1') || '-'
+                        }}
+                      </div>
+                      <div class="text-body-2 text-high-emphasis pl-1">%</div>
+                    </div>
+                  </div>
+                  <ng-template #downstreamUnavailable>
+                    <ea-info-banner
+                      [infoText]="t('co2DownstreamUnavailableHint')"
+                    ></ea-info-banner>
+                  </ng-template>
+                  <div class="text-medium-emphasis pt-4">
+                    {{ t('downstreamHint') }} -
+                    <a
+                      class="text-primary"
+                      (click)="showCalculationDisclaimerDialog()"
+                      role="button"
+                      >{{ t('downstreamHintLinkText') }}</a
+                    >
+                  </div>
                 </div>
               </div>
             </div>
-          </mat-expansion-panel>
+            <div
+              class="border-border flex flex-row items-center border-t px-4 py-2"
+            >
+              <div class="mr-2 flex-shrink-0">
+                <mat-icon color="primary">info_outline</mat-icon>
+              </div>
+              <div class="text-body-2 text-medium-emphasis">
+                {{ t('calculationHint') }} -
+                <a
+                  class="text-primary"
+                  [href]="t('calculationHintLink')"
+                  role="button"
+                  target="_blank"
+                  >{{ t('calculationHintLinkText') }}</a
+                >
+              </div>
+            </div>
+          </ea-expansion-panel>
         </ng-container>
 
         <!-- Errors, Warnings and notes -->
-        <mat-expansion-panel
+        <ea-expansion-panel
           *ngIf="
             calculationResultFacade.calculationReportMessages$
               | ngrxPush as reportMessages
           "
-          class="border-border w-full border !shadow-none mb-4"
+          [title]="t('reportSectionWarnings')"
+          icon="report_problem"
+          [iconClassName]="'!text-[#1C98B5]'"
         >
-          <mat-expansion-panel-header class="h-[64px]">
-            <mat-panel-title>
-              <div class="flex flex-row">
-                <div class="my-auto">
-                  <mat-icon class="text-[#1C98B5]">report_problem</mat-icon>
-                </div>
-                <div class="my-auto ml-2">
-                  {{ t('reportSectionWarnings') }}
-                </div>
-              </div>
-            </mat-panel-title>
-          </mat-expansion-panel-header>
           <div class="m-2">
             <ea-calculation-result-message
               *ngFor="let message of reportMessages"
@@ -362,7 +289,7 @@
             >
             </ea-calculation-result-message>
           </div>
-        </mat-expansion-panel>
+        </ea-expansion-panel>
       </div>
 
       <!-- Right Hand Navigation -->

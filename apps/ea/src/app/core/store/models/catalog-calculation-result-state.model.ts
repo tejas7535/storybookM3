@@ -12,7 +12,33 @@ export interface BasicFrequenciesResult {
 }
 
 export interface CatalogCalculationResult {
+  /** Rating Life (nominal) */
   lh10?: {
+    value: string;
+    unit: string;
+  };
+  /** Modified Rating Life in hours */
+  lh_nm?: {
+    value: string;
+    unit: string;
+  };
+  /** Equivalent Dynamic Load */
+  p?: {
+    value: string;
+    unit: string;
+  };
+  /** Equivalent Speed */
+  n?: {
+    value: string;
+    unit: string;
+  };
+  /** Static Safety */
+  S0_min?: {
+    value: string;
+    unit: string;
+  };
+  /** Maximum Equivalent Static Load */
+  P0_max?: {
     value: string;
     unit: string;
   };

@@ -4,6 +4,7 @@ import { CalculationResultReportInput, CalculationType } from '../../models';
 import { CalculationResultReportCalculationTypeSelection } from '../../models/calculation-result-report.model';
 import { CalculationResultReportMessage } from '../../models/calculation-result-report-message.model';
 import { getCalculationTypesConfig } from '../calculation-parameters/calculation-types.selector';
+import { getCalculationResult } from './catalog-calculation-result.selector';
 import { getCalculationResult as co2UpstreamCalculationResult } from './co2-upstream-calculation-result.selector';
 import { getCalculationResult as frictionCalculationResult } from './friction-calculation-result.selector';
 
@@ -40,7 +41,8 @@ export const getFrictionalalPowerlossReport = createSelector(
   frictionCalculationResult,
   (friction) => {
     const result: {
-      value: number;
+      value?: number | string;
+      warning?: string;
       unit: string;
       title: string;
       short: string;
@@ -76,6 +78,56 @@ export const getFrictionalalPowerlossReport = createSelector(
   }
 );
 
+export const getRatingLifeResultReport = createSelector(
+  getCalculationResult,
+  (calculationResult) => {
+    const result: {
+      value: number | string;
+      unit: string;
+      title: string;
+      short: string;
+      warning?: string;
+    }[] = [
+      {
+        ...calculationResult?.lh10,
+        short: 'Lh10',
+        title: 'lh10',
+      },
+      {
+        ...calculationResult?.lh_nm,
+        // warning: 'lh_nm_unavailable', // show warning if result could not be calculated
+        short: 'Lh_nm',
+        title: 'lh_nm',
+      },
+      {
+        ...calculationResult?.p,
+        short: 'P',
+        title: 'p',
+      },
+      {
+        ...calculationResult?.n,
+        short: 'n',
+        title: 'n',
+      },
+      {
+        ...calculationResult?.S0_min,
+        short: 'SO_min',
+        title: 's0_min',
+      },
+      {
+        ...calculationResult?.P0_max,
+        short: 'P0_max',
+        title: 'p0_max',
+      },
+    ];
+
+    return result.filter(
+      (item) =>
+        item.value !== undefined || (item.value === undefined && item.warning)
+    );
+  }
+);
+
 export const getResultInput = createSelector(
   frictionCalculationResult,
   (friction): CalculationResultReportInput[] =>
@@ -92,24 +144,31 @@ export const getReportMessages = createSelector(
 
 export const isFrictionResultAvailable = createSelector(
   getFrictionalalPowerlossReport,
-  (powerlossReport): boolean => powerlossReport?.length > 0
+  (report): boolean => report?.length > 0
+);
+
+export const isRatingLifeResultAvailable = createSelector(
+  getRatingLifeResultReport,
+  (report): boolean => report?.length > 0
 );
 
 export const getSelectedCalculations = createSelector(
   getCalculationTypesConfig,
   isEmissionResultAvailable,
   isFrictionResultAvailable,
+  isRatingLifeResultAvailable,
   (
     config,
     emissionResultAvailable,
-    frictionResultAvailable
+    frictionResultAvailable,
+    ratingLifeResultAvailable
   ): CalculationResultReportCalculationTypeSelection => {
     const resultAvailableMapping: Record<CalculationType, boolean> = {
       emission: emissionResultAvailable,
       frictionalPowerloss: frictionResultAvailable,
       lubrication: false,
       overrollingFrequency: false,
-      ratingLife: false,
+      ratingLife: ratingLifeResultAvailable,
     };
 
     return config
