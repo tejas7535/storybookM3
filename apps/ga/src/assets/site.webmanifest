@@ -36,5 +36,13 @@
   "start_url": "/",
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
-  "display": "standalone"
+  "display": "standalone",
+  "prefer_related_applications": true,
+  "related_applications": [
+    {
+      "platform": "play",
+      "id": "com.schaeffler.greaseapp",
+      "url": "https://play.google.com/store/apps/details?id=com.schaeffler.greaseapp"
+    }
+  ]
 }

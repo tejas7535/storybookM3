@@ -1,6 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
+import { PushPipe } from '@ngrx/component';
+
+import { ApplicationInsightsModule } from '@schaeffler/application-insights';
+
 import { AppLogoModule } from '@ga/shared/components/app-logo';
 import { QuickBearingSelectionComponent } from '@ga/shared/components/quick-bearing-selection';
 
@@ -18,6 +22,9 @@ import { HomeRoutingModule } from './home-routing.module';
     HomepageCardModule,
     AppLogoModule,
     QuickBearingSelectionComponent,
+    ApplicationInsightsModule,
+
+    PushPipe,
   ],
   bootstrap: [HomeComponent],
 })

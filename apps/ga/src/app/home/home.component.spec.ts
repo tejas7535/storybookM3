@@ -1,8 +1,17 @@
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+
+import { of } from 'rxjs';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { PushPipe } from '@ngrx/component';
+import { provideMockStore } from '@ngrx/store/testing';
 import { MockComponent, MockModule } from 'ng-mocks';
 
+import { initialState } from '@ga/core/store/reducers/settings/settings.reducer';
 import { AppLogoModule } from '@ga/shared/components/app-logo';
 import { QuickBearingSelectionComponent } from '@ga/shared/components/quick-bearing-selection';
+import { TRACKING_APP_STORE_LINK_CLICK } from '@ga/shared/constants';
 
 import { HomepageCardModule } from './components';
 import { HomeComponent } from './home.component';
@@ -18,6 +27,23 @@ describe('HomeComponent', () => {
       MockModule(HomepageCardModule),
       MockModule(AppLogoModule),
       MockComponent(QuickBearingSelectionComponent),
+      RouterTestingModule,
+      PushPipe,
+    ],
+    providers: [
+      provideMockStore({
+        initialState: {
+          settings: {
+            ...initialState,
+          },
+        },
+      }),
+      {
+        provider: ActivatedRoute,
+        useValue: {
+          queryParamMap: of(convertToParamMap({ bearing: 'some bearing' })),
+        },
+      },
     ],
   });
 
@@ -32,5 +58,14 @@ describe('HomeComponent', () => {
 
   it('should provide homepage cards', () => {
     expect(component.homepageCards).toHaveLength(8);
+  });
+
+  it('should send application insights events for store clicks', () => {
+    const logEventSpy = jest.spyOn(component['appInsightService'], 'logEvent');
+    component.sendClickEvent('play');
+    expect(logEventSpy).toHaveBeenCalledWith(TRACKING_APP_STORE_LINK_CLICK, {
+      page: 'home',
+      storeName: 'play',
+    });
   });
 });
