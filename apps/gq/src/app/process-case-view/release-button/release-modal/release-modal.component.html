@@ -50,7 +50,7 @@
           "
         >
           <p class="text-subtitle-2 pb-4 pt-6">{{ t('approvers') }}</p>
-          <gq-release-modal-user-select
+          <gq-user-select
             tabindex="0"
             [enableFiltering]="true"
             [userSelectFormControl]="approver1FormControl"
@@ -66,8 +66,8 @@
             [errorMessage]="
               getErrorMessageOfControl(approver1FormControl, true)
             "
-          ></gq-release-modal-user-select>
-          <gq-release-modal-user-select
+          ></gq-user-select>
+          <gq-user-select
             [enableFiltering]="true"
             [userSelectFormControl]="approver2FormControl"
             [users$]="approvalFacade.secondApprovers$"
@@ -82,8 +82,8 @@
             [errorMessage]="
               getErrorMessageOfControl(approver2FormControl, true)
             "
-          ></gq-release-modal-user-select>
-          <gq-release-modal-user-select
+          ></gq-user-select>
+          <gq-user-select
             *ngIf="
               (approvalFacade.approvalCockpitInformation$ | ngrxPush)
                 ?.thirdApproverRequired
@@ -102,8 +102,8 @@
             [errorMessage]="
               getErrorMessageOfControl(approver3FormControl, true)
             "
-          ></gq-release-modal-user-select>
-          <gq-release-modal-user-select
+          ></gq-user-select>
+          <gq-user-select
             [userSelectFormControl]="approverCCFormControl"
             [users$]="approvalFacade.activeDirectoryUsers$"
             [isLoading]="approvalFacade.activeDirectoryUsersLoading$ | ngrxPush"
@@ -111,7 +111,7 @@
             [errorMessage]="getErrorMessageOfControl(approverCCFormControl)"
             [inputChangedDebounceTime]="500"
             (inputChanged)="handleUserSearchExpressionChanged($event)"
-          ></gq-release-modal-user-select>
+          ></gq-user-select>
           <mat-error *ngIf="formGroup.hasError('equalApprovers')">{{
             t('equalApproversError')
           }}</mat-error>

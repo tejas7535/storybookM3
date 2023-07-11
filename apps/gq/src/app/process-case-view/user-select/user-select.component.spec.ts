@@ -1,7 +1,7 @@
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete';
 
 import * as rxjs from 'rxjs';
 import { of } from 'rxjs';
@@ -12,15 +12,15 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { marbles } from 'rxjs-marbles';
 
-import { APPROVAL_STATE_MOCK } from '../../../../../testing/mocks';
-import { ReleaseModalUserSelectComponent } from './release-modal-user-select.component';
+import { APPROVAL_STATE_MOCK } from '../../../testing/mocks';
+import { UserSelectComponent } from './user-select.component';
 
-describe('ReleaseModalUserSelectComponent', () => {
-  let component: ReleaseModalUserSelectComponent;
-  let spectator: Spectator<ReleaseModalUserSelectComponent>;
+describe('UserSelectComponent', () => {
+  let component: UserSelectComponent;
+  let spectator: Spectator<UserSelectComponent>;
 
   const createComponent = createComponentFactory({
-    component: ReleaseModalUserSelectComponent,
+    component: UserSelectComponent,
     imports: [MatAutocompleteModule, PushModule, ReactiveFormsModule],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     detectChanges: false,

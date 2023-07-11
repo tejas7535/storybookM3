@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 
-import { UserDisplayPipe } from '@gq/process-case-view/release-button/release-modal/user-display/user-display.pipe';
-
 import { DateDisplayPipe } from './date-display/date-display.pipe';
 import { GqQuotationPipe } from './gq-quotation/gq-quotation.pipe';
 import { IsDashOrEmptyStringPipe } from './is-dash-or-empty-string/is-dash-or-empty-string.pipe';
@@ -18,6 +16,8 @@ import { PercentagePipe } from './percentage/percentage.pipe';
 import { PlantDisplayPipe } from './plant-display/plant-display.pipe';
 import { SapQuotationPipe } from './sap-quotation/sap-quotation.pipe';
 import { UomPipe } from './uom/uom.pipe';
+import { UserDisplayPipe } from './user-display/user-display.pipe';
+
 @NgModule({
   declarations: [
     UserDisplayPipe,

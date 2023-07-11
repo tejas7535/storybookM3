@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 
-import { combineLatest, map, Observable } from 'rxjs';
+import { combineLatest, map, mergeMap, Observable, of } from 'rxjs';
 
 import * as fromActiveCaseSelectors from '@gq/core/store/active-case/active-case.selectors';
 import {
@@ -245,6 +245,61 @@ export class ApprovalFacade {
         }
 
         return false;
+      }
+    )
+  );
+
+  /**
+   * List of approvers on the same approval step as the current user, who is one of the specified approvers for the quotation.
+   *
+   * If the user is
+   * - the first approver, return a list of first approvers
+   * - the second approver, return a list of second approvers
+   * - the third approver, return a list of third approvers
+   *
+   *  corresponding to the required approval levels for the quotation.
+   *
+   * The current user is not in the returned approvers list!
+   */
+  approversOnUserApprovalStep$: Observable<Approver[]> = combineLatest([
+    this.store.select(getUserUniqueIdentifier),
+    this.approvalStatusOfRequestedApprover$,
+  ]).pipe(
+    mergeMap(
+      ([userId, approversWithApprovalStatus]: [
+        string,
+        ApprovalStatusOfRequestedApprover[]
+      ]) => {
+        const approverIndex = approversWithApprovalStatus.findIndex(
+          (approverWithApprovalStatus: ApprovalStatusOfRequestedApprover) =>
+            approverWithApprovalStatus.approver.userId.toLowerCase() ===
+            userId.toLowerCase()
+        );
+
+        let approvers$: Observable<Approver[]>;
+
+        switch (approverIndex) {
+          case 0:
+            approvers$ = this.firstApprovers$;
+            break;
+          case 1:
+            approvers$ = this.secondApprovers$;
+            break;
+          case 2:
+            approvers$ = this.thirdApprovers$;
+            break;
+          default:
+            approvers$ = of([]);
+        }
+
+        return approvers$.pipe(
+          map((approvers: Approver[]) =>
+            approvers.filter(
+              (approver: Approver) =>
+                approver.userId.toLowerCase() !== userId.toLowerCase()
+            )
+          )
+        );
       }
     )
   );

@@ -1048,4 +1048,216 @@ describe('ApprovalFacade', () => {
       })
     );
   });
+
+  describe('determine approvers on the same approval step as the current user', () => {
+    test(
+      'should return first approvers',
+      marbles((m) => {
+        const firstApprover: Approver = {
+          userId: 'KELLERBI',
+        } as Approver;
+        const secondApprover: Approver = {
+          userId: 'ZIRKLIS',
+        } as Approver;
+
+        mockStore.overrideSelector(
+          getUserUniqueIdentifier,
+          firstApprover.userId.toLowerCase()
+        );
+        mockStore.overrideSelector(
+          approvalFeature.getEventsAfterLastWorkflowStarted,
+          [
+            {
+              userId: firstApprover.userId,
+              event: ApprovalEventType.APPROVED,
+              eventDate: '2023-06-08T09:00:30Z',
+            } as ApprovalWorkflowEvent,
+            {
+              userId: secondApprover.userId,
+              event: ApprovalEventType.APPROVED,
+              eventDate: '2023-06-08T10:00:30Z',
+            } as ApprovalWorkflowEvent,
+          ]
+        );
+        mockStore.overrideSelector(
+          approvalFeature.getApprovalCockpitInformation,
+          APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
+        );
+        mockStore.overrideSelector(approvalFeature.selectApprovers, [
+          ...APPROVAL_STATE_MOCK.approvers,
+          firstApprover,
+          secondApprover,
+        ]);
+        mockStore.overrideSelector(approvalFeature.getFirstApprovers, [
+          ...APPROVAL_STATE_MOCK.approvers,
+          firstApprover,
+        ]);
+
+        m.expect(service.approversOnUserApprovalStep$).toBeObservable(
+          m.cold('a', { a: APPROVAL_STATE_MOCK.approvers })
+        );
+      })
+    );
+
+    test(
+      'should return second approvers',
+      marbles((m) => {
+        const firstApprover: Approver = {
+          userId: 'KELLERBI',
+        } as Approver;
+        const secondApprover: Approver = {
+          userId: 'ZIRKLIS',
+        } as Approver;
+
+        mockStore.overrideSelector(
+          getUserUniqueIdentifier,
+          secondApprover.userId
+        );
+        mockStore.overrideSelector(
+          approvalFeature.getEventsAfterLastWorkflowStarted,
+          [
+            {
+              userId: firstApprover.userId,
+              event: ApprovalEventType.APPROVED,
+              eventDate: '2023-06-08T09:00:30Z',
+            } as ApprovalWorkflowEvent,
+            {
+              userId: secondApprover.userId,
+              event: ApprovalEventType.APPROVED,
+              eventDate: '2023-06-08T11:00:30Z',
+            } as ApprovalWorkflowEvent,
+          ]
+        );
+        mockStore.overrideSelector(
+          approvalFeature.getApprovalCockpitInformation,
+          APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
+        );
+        mockStore.overrideSelector(approvalFeature.selectApprovers, [
+          ...APPROVAL_STATE_MOCK.approvers,
+          firstApprover,
+          secondApprover,
+        ]);
+        mockStore.overrideSelector(approvalFeature.getSecondApprovers, [
+          ...APPROVAL_STATE_MOCK.approvers,
+          secondApprover,
+        ]);
+
+        m.expect(service.approversOnUserApprovalStep$).toBeObservable(
+          m.cold('a', { a: APPROVAL_STATE_MOCK.approvers })
+        );
+      })
+    );
+
+    test(
+      'should return third approvers',
+      marbles((m) => {
+        const firstApprover: Approver = {
+          userId: 'KELLERBI',
+        } as Approver;
+        const secondApprover: Approver = {
+          userId: 'ZIRKLIS',
+        } as Approver;
+        const thirdApprover: Approver = {
+          userId: 'TSTUSR',
+        } as Approver;
+        const mockState: ApprovalState = {
+          ...APPROVAL_STATE_MOCK,
+          approvalCockpit: {
+            ...APPROVAL_STATE_MOCK.approvalCockpit,
+            approvalGeneral: {
+              ...APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral,
+              thirdApproverRequired: true,
+              thirdApprover: thirdApprover.userId,
+            },
+            approvalEvents: [
+              {
+                userId: firstApprover.userId,
+                event: ApprovalEventType.APPROVED,
+                eventDate: '2023-06-08T09:00:30Z',
+              } as ApprovalWorkflowEvent,
+              {
+                userId: secondApprover.userId,
+                event: ApprovalEventType.APPROVED,
+                eventDate: '2023-06-08T11:00:30Z',
+              } as ApprovalWorkflowEvent,
+              {
+                userId: thirdApprover.userId,
+                event: ApprovalEventType.APPROVED,
+                eventDate: '2023-06-08T12:00:30Z',
+              } as ApprovalWorkflowEvent,
+            ],
+          },
+        };
+
+        mockStore.overrideSelector(
+          getUserUniqueIdentifier,
+          thirdApprover.userId
+        );
+        mockStore.overrideSelector(
+          approvalFeature.getEventsAfterLastWorkflowStarted,
+          mockState.approvalCockpit.approvalEvents
+        );
+        mockStore.overrideSelector(
+          approvalFeature.getApprovalCockpitInformation,
+          mockState.approvalCockpit.approvalGeneral
+        );
+        mockStore.overrideSelector(approvalFeature.selectApprovers, [
+          ...APPROVAL_STATE_MOCK.approvers,
+          firstApprover,
+          secondApprover,
+          thirdApprover,
+        ]);
+        mockStore.overrideSelector(approvalFeature.getThirdApprovers, [
+          ...APPROVAL_STATE_MOCK.approvers,
+          thirdApprover,
+        ]);
+
+        m.expect(service.approversOnUserApprovalStep$).toBeObservable(
+          m.cold('a', { a: APPROVAL_STATE_MOCK.approvers })
+        );
+      })
+    );
+
+    test(
+      'should return empty list',
+      marbles((m) => {
+        const firstApprover: Approver = {
+          userId: 'KELLERBI',
+        } as Approver;
+        const secondApprover: Approver = {
+          userId: 'ZIRKLIS',
+        } as Approver;
+
+        mockStore.overrideSelector(getUserUniqueIdentifier, 'noApprover');
+        mockStore.overrideSelector(
+          approvalFeature.getEventsAfterLastWorkflowStarted,
+          [
+            {
+              userId: firstApprover.userId,
+              event: ApprovalEventType.APPROVED,
+              eventDate: '2023-06-08T09:00:30Z',
+            } as ApprovalWorkflowEvent,
+            {
+              userId: secondApprover.userId,
+              event: ApprovalEventType.APPROVED,
+              eventDate: '2023-06-08T11:00:30Z',
+            } as ApprovalWorkflowEvent,
+          ]
+        );
+        mockStore.overrideSelector(
+          approvalFeature.getApprovalCockpitInformation,
+          APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
+        );
+        mockStore.overrideSelector(approvalFeature.selectApprovers, [
+          ...APPROVAL_STATE_MOCK.approvers,
+          firstApprover,
+          secondApprover,
+        ]);
+
+        m.expect(service.approversOnUserApprovalStep$).toBeObservable(
+          m.cold('a', { a: [] })
+        );
+      })
+    );
+  });
 });

@@ -7,6 +7,7 @@ import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-c
 import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
 
+import { UserSelectComponent } from '@gq/process-case-view/user-select/user-select.component';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { HorizontalDividerModule } from '@gq/shared/components/horizontal-divider/horizontal-divider.module';
 import { KpiStatusCardComponent } from '@gq/shared/components/kpi-status-card/kpi-status-card.component';
@@ -30,6 +31,7 @@ import {
 import { ApproverDisplayPipe } from './components/approval-cockpit/approval-workflow-approver/pipes/approver-display.pipe';
 import { UserInitialLettersPipe } from './components/approval-cockpit/approval-workflow-approver/pipes/user-initial-letters.pipe';
 import { ApprovalDecisionModalComponent } from './components/approval-decision-modal/approval-decision-modal.component';
+import { ForwardApprovalWorkflowModalComponent } from './components/forward-approval-workflow-modal/forward-approval-workflow-modal.component';
 import { OverviewTabComponent } from './overview-tab.component';
 import { OverviewTabRoutingModule } from './overview-tab.routing.module';
 
@@ -55,6 +57,7 @@ import { OverviewTabRoutingModule } from './overview-tab.routing.module';
     MatButtonModule,
     MatInputModule,
     LoadingSpinnerModule,
+    UserSelectComponent,
   ],
   declarations: [
     OverviewTabComponent,
@@ -65,6 +68,7 @@ import { OverviewTabRoutingModule } from './overview-tab.routing.module';
     ApprovalCockpitComponent,
     ApprovalWorkflowApproverComponent,
     ApprovalDecisionModalComponent,
+    ForwardApprovalWorkflowModalComponent,
     UserInitialLettersPipe,
     ApproverDisplayPipe,
   ],

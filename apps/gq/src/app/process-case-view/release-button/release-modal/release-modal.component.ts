@@ -120,13 +120,13 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
     ]).pipe(
       takeUntil(this.shutdown$$),
       map(
-        ([loadingAllApprovers, loadingApprovalStatus, approvalInformation]: [
-          boolean,
-          boolean,
-          ApprovalWorkflowInformation
-        ]) =>
-          !loadingAllApprovers &&
-          !loadingApprovalStatus &&
+        ([
+          allApproversLoading,
+          approvalInformationLoading,
+          approvalInformation,
+        ]: [boolean, boolean, ApprovalWorkflowInformation]) =>
+          !allApproversLoading &&
+          !approvalInformationLoading &&
           !!approvalInformation.sapId
       )
     );

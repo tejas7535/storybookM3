@@ -1,12 +1,9 @@
-import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete';
 import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
 import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
-import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
 import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
 import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -38,26 +35,23 @@ import { ProcessCaseViewComponent } from './process-case-view.component';
 import { ProcessCaseViewRoutingModule } from './process-case-view-routing.module';
 import { ReleaseButtonComponent } from './release-button/release-button.component';
 import { ReleaseModalComponent } from './release-button/release-modal/release-modal.component';
-import { ReleaseModalUserSelectComponent } from './release-button/release-modal/release-modal-user-select/release-modal-user-select.component';
 import { CalculationInProgressComponent } from './tabs/single-quotes-tab/calculation-in-progress/calculation-in-progress.component';
+import { UserSelectComponent } from './user-select/user-select.component';
+
 @NgModule({
   declarations: [
     ProcessCaseViewComponent,
     CalculationInProgressComponent,
     ReleaseButtonComponent,
     ReleaseModalComponent,
-    ReleaseModalUserSelectComponent,
     CancelWorkflowButtonComponent,
     CancelWorkflowModalComponent,
   ],
   imports: [
     CommonModule,
-    ScrollingModule,
     MatSidenavModule,
     MatButtonModule,
     MatInputModule,
-    MatAutocompleteModule,
-    MatProgressSpinnerModule,
     HeaderContentModule,
     ProcessCaseViewRoutingModule,
     SharedPipesModule,
@@ -83,6 +77,7 @@ import { CalculationInProgressComponent } from './tabs/single-quotes-tab/calcula
     SyncStatusCustomerInfoHeaderModule,
     SharedDirectivesModule,
     DialogHeaderModule,
+    UserSelectComponent,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'process-case-view' }],
 })

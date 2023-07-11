@@ -148,6 +148,17 @@
           "confirmApproval": "Confirm Approval",
           "cancel": "Cancel"
         },
+        "forwardApprovalWorkflowModal": {
+          "title": "Forward Approval Workflow",
+          "summary": "Summary",
+          "approvalLevel": "Approval Level",
+          "forwardTo": "Forward to",
+          "hint": "The person to whom the workflow is forwarded needs to have the required approval level.",
+          "forwardWorkflow": "Forward Workflow",
+          "backToOverview": "Back to Overview",
+          "requiredApproverError": "Approver required",
+          "invalidApproverError": "Invalid Approver"
+        },
         "quotationAutoApproved": "System automatically approved this Quotation.",
         "approvalStatusOfApprover": {
           "forwardedTo": "Quotation forwarded to {{variable}}",

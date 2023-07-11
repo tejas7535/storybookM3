@@ -96,7 +96,11 @@
           <mat-icon class="text-orange">clear</mat-icon>
           <span class="text-orange">{{ t('rejectButton') }}</span>
         </button>
-        <button mat-stroke-button class="flex flex-col items-center gap-2">
+        <button
+          mat-stroke-button
+          class="flex flex-col items-center gap-2"
+          (click)="openForwardDialog()"
+        >
           <mat-icon class="text-medium-emphasis">arrow_forward</mat-icon>
           <span class="text-medium-emphasis">{{ t('forwardButton') }}</span>
         </button>

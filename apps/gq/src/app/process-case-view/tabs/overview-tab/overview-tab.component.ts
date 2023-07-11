@@ -36,6 +36,7 @@ export class OverviewTabComponent implements OnInit, OnDestroy {
   generalInformation$: Observable<GeneralInformation> = NEVER;
   pricingInformation$: Observable<QuotationPricingOverview> = NEVER;
   quotationCurrency$: Observable<string> = NEVER;
+  dataLoadingComplete$: Observable<boolean>;
 
   readonly quotationStatus = QuotationStatus;
 
@@ -81,6 +82,19 @@ export class OverviewTabComponent implements OnInit, OnDestroy {
 
     this.generalInformation$ = this.mapGeneralInformation();
     this.pricingInformation$ = this.mapPricingInformation();
+
+    this.dataLoadingComplete$ = combineLatest([
+      this.approvalFacade.allApproversLoading$,
+      this.approvalFacade.approvalCockpitLoading$,
+    ]).pipe(
+      takeUntil(this.shutDown$$),
+      map(
+        ([allApproversLoading, approvalInformationLoading]: [
+          boolean,
+          boolean
+        ]) => !allApproversLoading && !approvalInformationLoading
+      )
+    );
   }
 
   /**

@@ -1,4 +1,8 @@
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import {
+  CdkVirtualScrollViewport,
+  ScrollingModule,
+} from '@angular/cdk/scrolling';
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -11,7 +15,11 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
 
 import {
   debounceTime,
@@ -25,20 +33,35 @@ import {
 } from 'rxjs';
 
 import { ActiveDirectoryUser } from '@gq/shared/models';
-
-import { UserDisplayPipe } from '../user-display/user-display.pipe';
+import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
+import { UserDisplayPipe } from '@gq/shared/pipes/user-display/user-display.pipe';
+import { PushPipe } from '@ngrx/component';
 
 const ITEM_HEIGHT = 50;
 const MAX_ITEMS_IN_LIST_COUNT = 5;
 
 @Component({
-  selector: 'gq-release-modal-user-select',
-  templateUrl: './release-modal-user-select.component.html',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ScrollingModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    MatProgressSpinnerModule,
+    SharedPipesModule,
+    MatFormFieldModule,
+    FormsModule,
+    ReactiveFormsModule,
+    PushPipe,
+  ],
+  selector: 'gq-user-select',
+  templateUrl: './user-select.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ReleaseModalUserSelectComponent
-  implements AfterViewInit, OnDestroy
-{
+export class UserSelectComponent implements AfterViewInit, OnDestroy {
+  @ViewChild(CdkVirtualScrollViewport) virtualScroll: CdkVirtualScrollViewport;
+  @ViewChild('inputField') inputField: ElementRef<HTMLInputElement>;
+
   @Input() userSelectFormControl: FormControl;
   @Input() title: string;
   @Input() errorMessage = '';
@@ -49,22 +72,6 @@ export class ReleaseModalUserSelectComponent
    * If true, the loaded data is filtered using the input field value
    */
   @Input() enableFiltering = false;
-
-  @Input() set users$(users$: Observable<ActiveDirectoryUser[]>) {
-    this.filteredOptions$ = users$.pipe(
-      tap((users: ActiveDirectoryUser[]) =>
-        this.calculateHeightOfAutoCompletePanel(users.length)
-      )
-    );
-    this._users$ = users$;
-  }
-
-  get users$(): Observable<ActiveDirectoryUser[]> {
-    return this._users$;
-  }
-
-  @ViewChild(CdkVirtualScrollViewport) virtualScroll: CdkVirtualScrollViewport;
-  @ViewChild('inputField') inputField: ElementRef<HTMLInputElement>;
 
   /**
    * Will be emmited as soon as the user changes the input field value and after the defined {@link inputChangedDebounceTime} in milliseconds.
@@ -83,6 +90,19 @@ export class ReleaseModalUserSelectComponent
   private readonly shutdown$$: Subject<void> = new Subject<void>();
 
   constructor(private readonly changeDetectorRef: ChangeDetectorRef) {}
+
+  get users$(): Observable<ActiveDirectoryUser[]> {
+    return this._users$;
+  }
+
+  @Input() set users$(users$: Observable<ActiveDirectoryUser[]>) {
+    this.filteredOptions$ = users$.pipe(
+      tap((users: ActiveDirectoryUser[]) =>
+        this.calculateHeightOfAutoCompletePanel(users.length)
+      )
+    );
+    this._users$ = users$;
+  }
 
   ngAfterViewInit(): void {
     fromEvent<InputEvent>(this.inputField.nativeElement, 'input')

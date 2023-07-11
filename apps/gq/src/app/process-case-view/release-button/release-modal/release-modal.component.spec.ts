@@ -178,7 +178,7 @@ describe('ReleaseModalComponent', () => {
         })
       );
       test(
-        'should return when data received completely',
+        'should return true when data received completely',
         marbles((m) => {
           const facadeMock: ApprovalFacade = {
             getAllApprovalData: jest.fn(),

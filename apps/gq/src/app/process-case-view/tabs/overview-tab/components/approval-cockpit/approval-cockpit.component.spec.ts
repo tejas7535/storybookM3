@@ -1,9 +1,12 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
+import { ApprovalModalType } from '../../models';
+import { ApprovalDecisionModalComponent } from '../approval-decision-modal/approval-decision-modal.component';
+import { ForwardApprovalWorkflowModalComponent } from '../forward-approval-workflow-modal/forward-approval-workflow-modal.component';
 import { ApprovalCockpitComponent } from './approval-cockpit.component';
 
 describe('ApprovalCockpitComponent', () => {
@@ -12,12 +15,12 @@ describe('ApprovalCockpitComponent', () => {
 
   const createComponent = createComponentFactory({
     component: ApprovalCockpitComponent,
-    imports: [MatDialogModule],
     providers: [
       {
         provide: ApprovalFacade,
         useValue: {},
       },
+      { provide: MatDialog, useValue: {} },
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
@@ -29,5 +32,51 @@ describe('ApprovalCockpitComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  test('should open reject approval dialog', () => {
+    const openMock = jest.fn();
+    component['matDialog'].open = openMock;
+
+    component.openRejectionDialog();
+
+    expect(openMock).toBeCalledTimes(1);
+    expect(openMock).toHaveBeenCalledWith(ApprovalDecisionModalComponent, {
+      width: '634px',
+      data: {
+        type: ApprovalModalType.REJECT_CASE,
+      },
+    });
+  });
+
+  test('should open forward approval dialog', () => {
+    const openMock = jest.fn();
+    component['matDialog'].open = openMock;
+
+    component.openForwardDialog();
+
+    expect(openMock).toBeCalledTimes(1);
+    expect(openMock).toHaveBeenCalledWith(
+      ForwardApprovalWorkflowModalComponent,
+      {
+        width: '634px',
+        autoFocus: false,
+      }
+    );
+  });
+
+  test('should open approve approval dialog', () => {
+    const openMock = jest.fn();
+    component['matDialog'].open = openMock;
+
+    component.openApprovalDialog();
+
+    expect(openMock).toBeCalledTimes(1);
+    expect(openMock).toHaveBeenCalledWith(ApprovalDecisionModalComponent, {
+      width: '634px',
+      data: {
+        type: ApprovalModalType.APPROVE_CASE,
+      },
+    });
   });
 });

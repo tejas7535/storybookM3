@@ -53,6 +53,7 @@ export class ApprovalEffects {
       )
     );
   });
+
   getActiveDirectoryUsers$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ApprovalActions.getActiveDirectoryUsers),

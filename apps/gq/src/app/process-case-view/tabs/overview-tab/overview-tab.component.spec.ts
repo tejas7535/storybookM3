@@ -192,6 +192,70 @@ describe('OverviewTabComponent', () => {
     );
   });
 
+  describe('calculate loadingComplete', () => {
+    test(
+      'should return false when ApprovalCockpit is on loading',
+      marbles((m) => {
+        const facade: ApprovalFacade = {
+          getAllApprovalData: jest.fn(),
+          allApproversLoading$: of(false),
+          approvalCockpitLoading$: of(true),
+        } as unknown as ApprovalFacade;
+
+        Object.defineProperty(component, 'approvalFacade', {
+          value: facade,
+        });
+
+        component.ngOnInit();
+
+        m.expect(component.dataLoadingComplete$).toBeObservable('(a|)', {
+          a: false,
+        });
+      })
+    );
+
+    test(
+      'should return false when AllApprovers is on loading',
+      marbles((m) => {
+        const facade: ApprovalFacade = {
+          getAllApprovalData: jest.fn(),
+          allApproversLoading$: of(true),
+          approvalCockpitLoading$: of(false),
+        } as unknown as ApprovalFacade;
+
+        Object.defineProperty(component, 'approvalFacade', {
+          value: facade,
+        });
+
+        component.ngOnInit();
+
+        m.expect(component.dataLoadingComplete$).toBeObservable('(a|)', {
+          a: false,
+        });
+      })
+    );
+    test(
+      'should return true when data received completely',
+      marbles((m) => {
+        const facade: ApprovalFacade = {
+          getAllApprovalData: jest.fn(),
+          allApproversLoading$: of(false),
+          approvalCockpitLoading$: of(false),
+        } as unknown as ApprovalFacade;
+
+        Object.defineProperty(component, 'approvalFacade', {
+          value: facade,
+        });
+
+        component.ngOnInit();
+
+        m.expect(component.dataLoadingComplete$).toBeObservable('(a|)', {
+          a: true,
+        });
+      })
+    );
+  });
+
   describe('ngOnDestroy', () => {
     test('should call methods', () => {
       component['shutDown$$'].next = jest.fn();

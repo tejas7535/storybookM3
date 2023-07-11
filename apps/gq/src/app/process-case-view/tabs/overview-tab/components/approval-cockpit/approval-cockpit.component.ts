@@ -5,6 +5,7 @@ import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 
 import { ApprovalModalType } from '../../models';
 import { ApprovalDecisionModalComponent } from '../approval-decision-modal/approval-decision-modal.component';
+import { ForwardApprovalWorkflowModalComponent } from '../forward-approval-workflow-modal/forward-approval-workflow-modal.component';
 
 @Component({
   selector: 'gq-approval-cockpit',
@@ -16,20 +17,27 @@ export class ApprovalCockpitComponent {
     readonly approvalFacade: ApprovalFacade
   ) {}
 
-  openApprovalDialog(): void {
-    this.matDialog.open(ApprovalDecisionModalComponent, {
-      width: '634px',
-      data: {
-        type: ApprovalModalType.APPROVE_CASE,
-      },
-    });
-  }
-
   openRejectionDialog(): void {
     this.matDialog.open(ApprovalDecisionModalComponent, {
       width: '634px',
       data: {
         type: ApprovalModalType.REJECT_CASE,
+      },
+    });
+  }
+
+  openForwardDialog(): void {
+    this.matDialog.open(ForwardApprovalWorkflowModalComponent, {
+      width: '634px',
+      autoFocus: false,
+    });
+  }
+
+  openApprovalDialog(): void {
+    this.matDialog.open(ApprovalDecisionModalComponent, {
+      width: '634px',
+      data: {
+        type: ApprovalModalType.APPROVE_CASE,
       },
     });
   }

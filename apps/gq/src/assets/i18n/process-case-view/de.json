@@ -148,6 +148,17 @@
           "confirmApproval": "Genehmigung bestätigen",
           "cancel": "Abbrechen"
         },
+        "forwardApprovalWorkflowModal": {
+          "title": "Freigabeprozess weiterleiten",
+          "summary": "Zusammenfassung",
+          "approvalLevel": "Freigabelevel",
+          "forwardTo": "Weiterleiten an",
+          "hint": "Die Person, an die die Freigabe weitergeleitet wird, muss das entsprechende Freigabelevel besitzen.",
+          "forwardWorkflow": "Freigabe weiterleiten",
+          "backToOverview": "Zurück zur Übersicht",
+          "requiredApproverError": "Genehmiger erforderlich",
+          "invalidApproverError": "Genehmiger ungültig"
+        },
         "quotationAutoApproved": "Quotation automatisch vom System freigegeben.",
         "approvalStatusOfApprover": {
           "forwardedTo": "Quotation weitergeleitet an {{variable}}",
