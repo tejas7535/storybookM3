@@ -19,10 +19,13 @@ import {
 
 import {
   combineLatest,
+  distinctUntilChanged,
+  filter,
   map,
   merge,
   Observable,
   Subject,
+  take,
   takeUntil,
   tap,
 } from 'rxjs';
@@ -142,37 +145,7 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
       ),
     });
 
-    this.approvalFacade.approvalCockpitInformation$
-      .pipe(
-        takeUntil(this.shutdown$$),
-        tap(
-          ({
-            thirdApproverRequired,
-            autoApproval,
-          }: ApprovalWorkflowInformation) => {
-            if (!autoApproval) {
-              this.formGroup.addControl('approver1', this.approver1FormControl);
-              this.formGroup.addControl('approver2', this.approver2FormControl);
-              this.formGroup.addControl(
-                'approverCC',
-                this.approverCCFormControl
-              );
-
-              if (thirdApproverRequired) {
-                this.formGroup.addControl(
-                  'approver3',
-                  this.approver3FormControl
-                );
-              }
-
-              this.formGroup.addValidators(
-                approversDifferValidator().bind(this)
-              );
-            }
-          }
-        )
-      )
-      .subscribe();
+    this.setApprovalControlsAndInitialData();
 
     merge(
       this.approvalFacade.triggerApprovalWorkflowSucceeded$,
@@ -252,5 +225,110 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
       projectInformation:
         formGroupValue.projectInformation?.trim() || undefined,
     };
+  }
+
+  /**
+   * sets Approvers as FormControlValues, depending on the data of approvalStatusOfRequestedApprover$ of the facade
+   */
+  private setApprovalControlsAndInitialData() {
+    combineLatest([
+      this.dataLoadingComplete$,
+      this.approvalFacade.approvalCockpitInformation$,
+    ])
+      .pipe(
+        distinctUntilChanged(),
+        takeUntil(this.shutdown$$),
+        filter(
+          ([loadingComplete, _cockpitInformation]: [
+            boolean,
+            ApprovalWorkflowInformation
+          ]) => !!loadingComplete
+        ),
+        tap(
+          ([_loading, cockpitInformation]: [
+            boolean,
+            ApprovalWorkflowInformation
+          ]) => {
+            if (!cockpitInformation.autoApproval) {
+              this.formGroup.addControl('approver1', this.approver1FormControl);
+              this.formGroup.addControl('approver2', this.approver2FormControl);
+              this.formGroup.addControl(
+                'approverCC',
+                this.approverCCFormControl
+              );
+
+              if (cockpitInformation.thirdApproverRequired) {
+                this.formGroup.addControl(
+                  'approver3',
+                  this.approver3FormControl
+                );
+              }
+
+              this.formGroup.addValidators(
+                approversDifferValidator().bind(this)
+              );
+              this.setInitialDataForApprovers(cockpitInformation);
+            }
+
+            this.formGroup
+              .get('projectInformation')
+              .setValue(cockpitInformation?.projectInformation);
+            this.formGroup.get('comment').setValue(cockpitInformation?.comment);
+          }
+        )
+      )
+      .subscribe();
+  }
+
+  private setInitialDataForApprovers(
+    workflowInformation: ApprovalWorkflowInformation
+  ): void {
+    this.approvalFacade.approvalStatusOfRequestedApprover$
+      .pipe(
+        take(1),
+        tap((approvalStatusOfApprovers) => {
+          this.approver1FormControl.setValue(
+            approvalStatusOfApprovers[0]?.approver
+          );
+          this.approver2FormControl.setValue(
+            approvalStatusOfApprovers[1]?.approver
+          );
+          this.approver3FormControl.setValue(
+            approvalStatusOfApprovers[2]?.approver
+          );
+
+          this.setInfoUser(workflowInformation.infoUser);
+        })
+      )
+      .subscribe();
+  }
+
+  private setInfoUser(userId: string) {
+    if (!userId) {
+      this.approverCCFormControl.setValue(undefined as ActiveDirectoryUser);
+      this.approverCCFormControl.markAsTouched();
+
+      return;
+    }
+
+    this.approvalFacade
+      .getActiveDirectoryUserByUserId(userId)
+      .pipe(take(1))
+      .subscribe((data) => {
+        if (!data) {
+          // set errors manually,
+          // because validators do NOT know if user is present in AD,
+          // validator can just check for the type BUT we want to display the value that has been saved
+          this.approverCCFormControl.setValue({ userId } as any);
+          this.approverCCFormControl.setErrors({ invalidUser: true });
+          this.approverCCFormControl.markAsTouched();
+
+          return;
+        }
+
+        this.approverCCFormControl.setValue(data);
+      });
+
+    this.approverCCFormControl.markAsTouched();
   }
 }

@@ -170,7 +170,7 @@
           <button
             mat-raised-button
             color="primary"
-            [disabled]="formGroup.invalid || formGroup.pristine"
+            [disabled]="formGroup.invalid"
             (click)="startWorkflow()"
           >
             {{ t('startWorkflow') }}

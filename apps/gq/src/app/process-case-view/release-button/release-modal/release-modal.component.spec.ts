@@ -49,6 +49,7 @@ describe('ReleaseModalComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.component;
+    jest.resetAllMocks();
   });
 
   it('should create', () => {
@@ -56,77 +57,189 @@ describe('ReleaseModalComponent', () => {
   });
 
   describe('ngOnInit', () => {
+    const firstApprover: Approver = { userId: 'appr1' } as Approver;
+    const secondApprover: Approver = { userId: 'appr2' } as Approver;
+    const thirdApprover: Approver = { userId: 'appr3' } as Approver;
+    const infoUser: ActiveDirectoryUser = {
+      userId: 'infoUser',
+    } as ActiveDirectoryUser;
+    const approvalStatusOfApprover = [
+      firstApprover,
+      secondApprover,
+      thirdApprover,
+    ];
     beforeEach(() => {
       const facadeMock: ApprovalFacade = {
+        getActiveDirectoryUsers: jest.fn(),
         getAllApprovalData: jest.fn(),
         approvalCockpitInformation$: of({
+          sapId: '1',
           thirdApproverRequired: false,
+          autoApproval: false,
+          infoUser: 'infoUser',
         } as ApprovalWorkflowInformation),
         triggerApprovalWorkflowSucceeded$: of(),
         saveApprovalWorkflowInformationSucceeded$: of(),
+        approvalStatusOfRequestedApprover$: of(approvalStatusOfApprover),
+        activeDirectoryUsers$: of([], [infoUser]),
+        approvalCockpitLoading$: of(false),
+        allApproversLoading$: of(false),
+        clearActiveDirectoryUsers: jest.fn(),
+        getActiveDirectoryUserByUserId: jest.fn(() =>
+          of({} as ActiveDirectoryUser)
+        ),
       } as unknown as ApprovalFacade;
 
       Object.defineProperty(component, 'approvalFacade', {
         value: facadeMock,
       });
     });
-    it('should call getAllApprover', () => {
-      component.ngOnInit();
-      expect(component.approvalFacade.getAllApprovalData).toHaveBeenCalled();
-    });
-    test('should set approver one and two in formGroup', () => {
-      component.ngOnInit();
-      expect(component.formGroup.get('approver1')).toBeDefined();
-      expect(component.formGroup.get('approver2')).toBeDefined();
-      expect(component.formGroup.get('approver3')).toBeNull();
-      expect(component.formGroup.get('approverCC')).toBeDefined();
-      expect(component.formGroup.get('comment')).toBeDefined();
-      expect(component.formGroup.get('projectInformation')).toBeDefined();
-    });
-    test('should set approver one, two and three in formGroup', () => {
-      const facadeMock: ApprovalFacade = {
-        getAllApprovalData: jest.fn(),
-        approvalCockpitInformation$: of({
-          thirdApproverRequired: true,
-        } as ApprovalWorkflowInformation),
-        triggerApprovalWorkflowSucceeded$: of(),
-        saveApprovalWorkflowInformationSucceeded$: of(),
-      } as unknown as ApprovalFacade;
-
-      Object.defineProperty(component, 'approvalFacade', {
-        value: facadeMock,
+    describe('formgroups', () => {
+      it('should call getAllApprover', () => {
+        component.ngOnInit();
+        expect(component.approvalFacade.getAllApprovalData).toHaveBeenCalled();
       });
-      component.ngOnInit();
-      expect(component.formGroup.get('approver1')).toBeDefined();
-      expect(component.formGroup.get('approver2')).toBeDefined();
-      expect(component.formGroup.get('approver3')).toBeDefined();
-      expect(component.formGroup.get('approverCC')).toBeDefined();
-      expect(component.formGroup.get('comment')).toBeDefined();
-      expect(component.formGroup.get('projectInformation')).toBeDefined();
-    });
+      test('should set approver one and two in formGroup', () => {
+        component['setInitialDataForApprovers'] = jest.fn();
+        component.ngOnInit();
 
-    test('should set only comment and project information in formGroup', () => {
-      const facadeMock: ApprovalFacade = {
-        getAllApprovalData: jest.fn(),
-        approvalCockpitInformation$: of({
-          autoApproval: true,
-        } as ApprovalWorkflowInformation),
-        triggerApprovalWorkflowSucceeded$: of(),
-        saveApprovalWorkflowInformationSucceeded$: of(),
-      } as unknown as ApprovalFacade;
+        expect(component.formGroup.get('approver1')).toBeDefined();
+        expect(component.formGroup.get('approver2')).toBeDefined();
+        expect(component.formGroup.get('approver3')).toBeNull();
+        expect(component.formGroup.get('approverCC')).toBeDefined();
+        expect(component.formGroup.get('comment')).toBeDefined();
+        expect(component.formGroup.get('projectInformation')).toBeDefined();
 
-      Object.defineProperty(component, 'approvalFacade', {
-        value: facadeMock,
+        expect(component['setInitialDataForApprovers']).toHaveBeenCalled();
       });
-      component.ngOnInit();
-      expect(component.formGroup.get('approver1')).toBeNull();
-      expect(component.formGroup.get('approver2')).toBeNull();
-      expect(component.formGroup.get('approver3')).toBeNull();
-      expect(component.formGroup.get('approverCC')).toBeNull();
-      expect(component.formGroup.get('comment')).toBeDefined();
-      expect(component.formGroup.get('projectInformation')).toBeDefined();
-    });
+      test('should set approver one, two and three in formGroup', () => {
+        const facadeMock: ApprovalFacade = {
+          getAllApprovalData: jest.fn(),
+          approvalCockpitInformation$: of({
+            sapId: '1',
+            thirdApproverRequired: true,
+            autoApproval: false,
+          } as ApprovalWorkflowInformation),
+          triggerApprovalWorkflowSucceeded$: of(),
+          saveApprovalWorkflowInformationSucceeded$: of(),
+          approvalStatusOfRequestedApprover$: of(approvalStatusOfApprover),
+          approvalCockpitLoading$: of(false),
+          allApproversLoading$: of(false),
+          getActiveDirectoryUserByUserId: jest.fn(),
+        } as unknown as ApprovalFacade;
 
+        Object.defineProperty(component, 'approvalFacade', {
+          value: facadeMock,
+        });
+        component['setInitialDataForApprovers'] = jest.fn();
+        component.ngOnInit();
+        expect(component.formGroup.get('approver1')).toBeDefined();
+        expect(component.formGroup.get('approver2')).toBeDefined();
+        expect(component.formGroup.get('approver3')).toBeDefined();
+        expect(component.formGroup.get('approverCC')).toBeDefined();
+        expect(component.formGroup.get('comment')).toBeDefined();
+        expect(component.formGroup.get('projectInformation')).toBeDefined();
+        expect(component['setInitialDataForApprovers']).toHaveBeenCalled();
+      });
+
+      test('should set only comment and project information in formGroup', () => {
+        const facadeMock: ApprovalFacade = {
+          getAllApprovalData: jest.fn(),
+          approvalCockpitInformation$: of({
+            sapId: '1',
+            autoApproval: true,
+            projectInformation: 'projectInfo',
+            comment: 'comment',
+          } as ApprovalWorkflowInformation),
+          triggerApprovalWorkflowSucceeded$: of(),
+          saveApprovalWorkflowInformationSucceeded$: of(),
+          approvalStatusOfRequestedApprover$: of(),
+          approvalCockpitLoading$: of(false),
+          allApproversLoading$: of(false),
+        } as unknown as ApprovalFacade;
+
+        Object.defineProperty(component, 'approvalFacade', {
+          value: facadeMock,
+        });
+        component['setInitialDataForApprovers'] = jest.fn();
+
+        component.ngOnInit();
+        expect(component.formGroup.get('approver1')).toBeNull();
+        expect(component.formGroup.get('approver2')).toBeNull();
+        expect(component.formGroup.get('approver3')).toBeNull();
+        expect(component.formGroup.get('approverCC')).toBeNull();
+        expect(component.formGroup.get('comment')).toBeDefined();
+        expect(component.formGroup.get('projectInformation')).toBeDefined();
+        expect(component['setInitialDataForApprovers']).not.toHaveBeenCalled();
+      });
+      describe('should set initialValues', () => {
+        test('should set Approver1 and Approver2', () => {
+          const approver1 = new FormControl(undefined);
+          approver1.setValue = jest.fn();
+          const approver2 = new FormControl(undefined);
+          approver2.setValue = jest.fn();
+
+          component.approver1FormControl = approver1;
+          component.approver2FormControl = approver2;
+          component.ngOnInit();
+          expect(component.approver1FormControl.setValue).toHaveBeenCalled();
+          expect(component.approver2FormControl.setValue).toHaveBeenCalled();
+
+          expect(true).toBeTruthy();
+        });
+
+        test('should set Approver1 and Approver2, and Approver3', () => {
+          const approver3 = new FormControl(undefined);
+          approver3.setValue = jest.fn();
+
+          component.approver3FormControl = approver3;
+          component.approvalFacade.approvalCockpitInformation$ = of({
+            sapId: '1',
+            thirdApproverRequired: true,
+          } as ApprovalWorkflowInformation);
+          component.approvalFacade.allApproversLoading$ = of(false);
+          component.approvalFacade.approvalCockpitLoading$ = of(false);
+
+          component.ngOnInit();
+          expect(component.approver3FormControl.setValue).toHaveBeenCalled();
+        });
+      });
+      describe('infoUser', () => {
+        test('initialUserInfo setValue', () => {
+          component.approverCCFormControl =
+            new FormControl<ActiveDirectoryUser>(undefined);
+          component.approverCCFormControl.setValue = jest.fn();
+          component.approvalFacade.getActiveDirectoryUserByUserId = jest.fn(
+            () => of(infoUser)
+          );
+
+          component.ngOnInit();
+
+          expect(component.approverCCFormControl.setValue).toHaveBeenCalledWith(
+            infoUser
+          );
+        });
+        test('should set error', () => {
+          component.approverCCFormControl =
+            new FormControl<ActiveDirectoryUser>(undefined);
+          component.approverCCFormControl.setValue = jest.fn();
+          component.approverCCFormControl.setErrors = jest.fn();
+          component.approvalFacade.activeDirectoryUsers$ = of([], []);
+          component.approvalFacade.getActiveDirectoryUserByUserId = jest.fn(
+            () => of(undefined as ActiveDirectoryUser)
+          );
+
+          component.ngOnInit();
+
+          expect(component.approverCCFormControl.setValue).toHaveBeenCalledWith(
+            { userId: infoUser.userId }
+          );
+          expect(
+            component.approverCCFormControl.setErrors
+          ).toHaveBeenCalledWith({ invalidUser: true });
+        });
+      });
+    });
     describe('calculate loadingComplete', () => {
       test(
         'should return false when ApprovalCockpit is on loading',
@@ -141,11 +254,13 @@ describe('ReleaseModalComponent', () => {
             approvalCockpitLoading$: of(true),
             triggerApprovalWorkflowSucceeded$: of(),
             saveApprovalWorkflowInformationSucceeded$: of(),
+            approvalStatusOfRequestedApprover$: of(),
           } as unknown as ApprovalFacade;
 
           Object.defineProperty(component, 'approvalFacade', {
             value: facadeMock,
           });
+
           component.ngOnInit();
           m.expect(component.dataLoadingComplete$).toBeObservable('(a|)', {
             a: false,
@@ -166,11 +281,13 @@ describe('ReleaseModalComponent', () => {
             approvalCockpitLoading$: of(false),
             triggerApprovalWorkflowSucceeded$: of(),
             saveApprovalWorkflowInformationSucceeded$: of(),
+            approvalStatusOfRequestedApprover$: of(),
           } as unknown as ApprovalFacade;
 
           Object.defineProperty(component, 'approvalFacade', {
             value: facadeMock,
           });
+
           component.ngOnInit();
           m.expect(component.dataLoadingComplete$).toBeObservable('(a|)', {
             a: false,
@@ -190,6 +307,7 @@ describe('ReleaseModalComponent', () => {
             approvalCockpitLoading$: of(false),
             triggerApprovalWorkflowSucceeded$: of(),
             saveApprovalWorkflowInformationSucceeded$: of(),
+            approvalStatusOfRequestedApprover$: of(),
           } as unknown as ApprovalFacade;
 
           Object.defineProperty(component, 'approvalFacade', {
@@ -210,6 +328,9 @@ describe('ReleaseModalComponent', () => {
           approvalCockpitInformation$: of(),
           triggerApprovalWorkflowSucceeded$: of(true),
           saveApprovalWorkflowInformationSucceeded$: of(),
+          approvalStatusOfRequestedApprover$: of(),
+          approvalCockpitLoading$: of(false),
+          allApproversLoading$: of(false),
         } as unknown as ApprovalFacade;
 
         Object.defineProperty(component, 'approvalFacade', {
@@ -229,10 +350,13 @@ describe('ReleaseModalComponent', () => {
       test('should close dialog when save approval workflow information succeeded', () => {
         const facadeMock: ApprovalFacade = {
           getAllApprovalData: jest.fn(),
-          approvalCockpitInformation$: of(),
+          approvalCockpitInformation$: of({
+            sapId: '1',
+          } as ApprovalWorkflowInformation),
           approvalStatus$: of(),
           triggerApprovalWorkflowSucceeded$: of(),
           saveApprovalWorkflowInformationSucceeded$: of(true),
+          approvalStatusOfRequestedApprover$: of(),
         } as unknown as ApprovalFacade;
 
         Object.defineProperty(component, 'approvalFacade', {
@@ -241,9 +365,9 @@ describe('ReleaseModalComponent', () => {
 
         const closeDialogSpy = jest.spyOn(component, 'closeDialog');
         closeDialogSpy.mockImplementation();
-
+        component['setApprovalControlsAndInitialData'] = jest.fn(() => {});
         component.ngOnInit();
-
+        component['setApprovalControlsAndInitialData'] = jest.fn(() => {});
         expect(closeDialogSpy).toHaveBeenCalledTimes(1);
       });
     });
@@ -343,10 +467,14 @@ describe('ReleaseModalComponent', () => {
   describe('Approval workflow', () => {
     test('should start approval workflow', () => {
       component.approvalFacade.approvalCockpitInformation$ = of({
+        sapId: '1',
         thirdApproverRequired: true,
       } as ApprovalWorkflowInformation);
       component.approvalFacade.triggerApprovalWorkflowSucceeded$ = of();
       component.approvalFacade.saveApprovalWorkflowInformationSucceeded$ = of();
+      component.approvalFacade.approvalStatusOfRequestedApprover$ = of();
+      component.approvalFacade.allApproversLoading$ = of(false);
+      component.approvalFacade.approvalCockpitLoading$ = of(false);
       component.ngOnInit();
 
       const formValue = {
@@ -377,10 +505,14 @@ describe('ReleaseModalComponent', () => {
 
     test('should start auto approval', () => {
       component.approvalFacade.approvalCockpitInformation$ = of({
+        sapId: '1',
         autoApproval: true,
       } as ApprovalWorkflowInformation);
       component.approvalFacade.triggerApprovalWorkflowSucceeded$ = of();
       component.approvalFacade.saveApprovalWorkflowInformationSucceeded$ = of();
+      component.approvalFacade.approvalStatusOfRequestedApprover$ = of();
+      component.approvalFacade.allApproversLoading$ = of(false);
+      component.approvalFacade.approvalCockpitLoading$ = of(false);
       component.ngOnInit();
 
       const formValue = {
@@ -403,10 +535,14 @@ describe('ReleaseModalComponent', () => {
 
     test('should save approval workflow information', () => {
       component.approvalFacade.approvalCockpitInformation$ = of({
+        sapId: '1',
         thirdApproverRequired: true,
       } as ApprovalWorkflowInformation);
       component.approvalFacade.triggerApprovalWorkflowSucceeded$ = of();
       component.approvalFacade.saveApprovalWorkflowInformationSucceeded$ = of();
+      component.approvalFacade.approvalStatusOfRequestedApprover$ = of();
+      component.approvalFacade.allApproversLoading$ = of(false);
+      component.approvalFacade.approvalCockpitLoading$ = of(false);
       component.ngOnInit();
 
       const formValue = {

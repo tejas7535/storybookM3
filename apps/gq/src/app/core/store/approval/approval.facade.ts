@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 
-import { combineLatest, map, mergeMap, Observable, of } from 'rxjs';
+import { combineLatest, map, mergeMap, Observable, of, take } from 'rxjs';
 
 import * as fromActiveCaseSelectors from '@gq/core/store/active-case/active-case.selectors';
 import {
@@ -19,6 +19,7 @@ import {
   ApprovalWorkflowInformation,
   Approver,
 } from '@gq/shared/models/approval';
+import { ApprovalService } from '@gq/shared/services/rest/approval/approval.service';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -137,6 +138,8 @@ export class ApprovalFacade {
    * Considers only events after the latest started of the Workflow (either the from latest start event or from the latest cancel event if not restarted )
    * for this model, if event has data --> the user has made an approval decision such as approved, rejected.
    * if event is undefined, the user hasn't made a decision yet, so it's status would be 'in approval'
+   *
+   * If no Approvers can be determined the list will return empty
    */
   approvalStatusOfRequestedApprover$: Observable<
     ApprovalStatusOfRequestedApprover[]
@@ -150,27 +153,36 @@ export class ApprovalFacade {
         ApprovalWorkflowEvent[],
         ApprovalWorkflowInformation,
         Approver[]
-      ]) => [
-        this.getApprovalStatusDataForUserId(
-          approvers,
-          events,
-          info?.firstApprover
-        ),
-        this.getApprovalStatusDataForUserId(
-          approvers,
-          events,
-          info?.secondApprover
-        ),
-        ...(info?.thirdApproverRequired
-          ? [
-              this.getApprovalStatusDataForUserId(
-                approvers,
-                events,
-                info?.thirdApprover
-              ),
-            ]
-          : []),
-      ]
+      ]) => {
+        // either all approvers (two or three) are set or no approvers are set
+        // when no approvers have been saved, then we do not have a approvalStatus of the RequestedApprovers
+        if (!info.firstApprover) {
+          return [];
+        }
+
+        return [
+          this.getApprovalStatusDataForUserId(
+            approvers,
+            events,
+            info?.firstApprover
+          ),
+
+          this.getApprovalStatusDataForUserId(
+            approvers,
+            events,
+            info?.secondApprover
+          ),
+          ...(info?.thirdApproverRequired
+            ? [
+                this.getApprovalStatusDataForUserId(
+                  approvers,
+                  events,
+                  info?.thirdApprover
+                ),
+              ]
+            : []),
+        ];
+      }
     )
   );
 
@@ -307,7 +319,8 @@ export class ApprovalFacade {
   constructor(
     private readonly store: Store,
     private readonly actions$: Actions,
-    private readonly transformationService: TransformationService
+    private readonly transformationService: TransformationService,
+    private readonly approvalService: ApprovalService
   ) {}
 
   /**
@@ -340,6 +353,16 @@ export class ApprovalFacade {
   getActiveDirectoryUsers(searchExpression: string): void {
     this.store.dispatch(
       ApprovalActions.getActiveDirectoryUsers({ searchExpression })
+    );
+  }
+
+  /** get activeDirectory user by userId (Schaeffler userId (alias)) */
+  getActiveDirectoryUserByUserId(
+    userId: string
+  ): Observable<ActiveDirectoryUser> {
+    return this.approvalService.getActiveDirectoryUsers(userId).pipe(
+      take(1),
+      map((data: ActiveDirectoryUser[]) => data[0])
     );
   }
 

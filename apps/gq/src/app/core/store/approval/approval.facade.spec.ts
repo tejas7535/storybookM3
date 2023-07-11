@@ -1,5 +1,7 @@
+import { of } from 'rxjs';
+
 import * as fromActiveCaseSelectors from '@gq/core/store/active-case/active-case.selectors';
-import { UpdateFunction } from '@gq/shared/models';
+import { ActiveDirectoryUser, UpdateFunction } from '@gq/shared/models';
 import {
   ApprovalCockpitData,
   ApprovalEventType,
@@ -10,6 +12,7 @@ import {
   Approver,
 } from '@gq/shared/models/approval';
 import { QuotationStatus } from '@gq/shared/models/quotation';
+import { ApprovalService } from '@gq/shared/services/rest/approval/approval.service';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
@@ -38,6 +41,17 @@ describe('ApprovalFacade', () => {
         provide: TransformationService,
         useValue: {
           transformDate: jest.fn(() => 'any Date'),
+        },
+      },
+      {
+        provide: ApprovalService,
+        useValue: {
+          getActiveDirectoryUsers: jest.fn(() =>
+            of([
+              { userId: 1 } as unknown as ActiveDirectoryUser,
+              { userId: 2 } as unknown as ActiveDirectoryUser,
+            ])
+          ),
         },
       },
     ],
@@ -395,6 +409,26 @@ describe('ApprovalFacade', () => {
 
     describe('should provide approvalStatusOfRequestedApprover$', () => {
       test(
+        'should provide empty array when approvalInformation has no approvers set',
+        marbles((m) => {
+          mockStore.overrideSelector(
+            approvalFeature.getEventsAfterLastWorkflowStarted,
+            []
+          );
+          mockStore.overrideSelector(
+            approvalFeature.getApprovalCockpitInformation,
+            {
+              sapId: '1',
+            } as ApprovalWorkflowInformation
+          );
+          mockStore.overrideSelector(approvalFeature.selectApprovers, []);
+          m.expect(service.approvalStatusOfRequestedApprover$).toBeObservable(
+            m.cold('a', { a: [] })
+          );
+          expect(true).toBeTruthy();
+        })
+      );
+      test(
         'should return the two approvers with its statuses(no approvals ) provide 2 as  numberOfRequiredApprovers and 0 for numberOfApproversApproved$',
         marbles((m) => {
           const expectedFirstApprover: Approver = {
@@ -733,6 +767,24 @@ describe('ApprovalFacade', () => {
     service.getActiveDirectoryUsers(searchExpression);
     expect(mockStore.dispatch).toHaveBeenCalledWith(
       ApprovalActions.getActiveDirectoryUsers({ searchExpression })
+    );
+  });
+
+  describe('getActiveDirectoryUserByUserId', () => {
+    test('should call the approvalService Method', () => {
+      service.getActiveDirectoryUserByUserId('1');
+      expect(
+        service['approvalService'].getActiveDirectoryUsers
+      ).toHaveBeenCalledWith('1');
+    });
+    test(
+      'should call the approvalService method and map the result',
+      marbles((m) => {
+        const result = service.getActiveDirectoryUserByUserId('1');
+        m.expect(result).toBeObservable(
+          m.cold('(a|)', { a: { userId: 1 } as unknown as ActiveDirectoryUser })
+        );
+      })
     );
   });
 
