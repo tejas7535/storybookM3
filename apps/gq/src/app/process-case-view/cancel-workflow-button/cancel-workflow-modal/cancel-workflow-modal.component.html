@@ -16,7 +16,9 @@
     <p class="text-subtitle-2 mt-6">{{ t('summary') }}</p>
     <div class="flex items-center mt-3">
       <p class="text-body-2 text-medium-emphasis">{{ t('approvalLevel') }}:</p>
-      <span class="text-body-2 text-high-emphasis ml-2">L1 + L2</span>
+      <span class="text-body-2 text-high-emphasis ml-2">{{
+        approvalFacade.requiredApprovalLevelsForQuotation$ | ngrxPush
+      }}</span>
     </div>
     <p class="text-body-1 mt-3">{{ t('confirmationQuestion') }}</p>
 
