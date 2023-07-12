@@ -486,6 +486,14 @@
       "priceLowerThanMsp": "Net Price is lower than MSP. Please request approval from Pricing.",
       "gpmOrGpiTooLow": "Current Net Price leads to a loss maker (margin < 25%). Please verify price setting.",
       "orderQuantityMustBeMultipleOf": "Please consider Delivery Unit {{deliveryUnit}} PC for this item."
+    },
+    "duration": {
+      "year": "year",
+      "years": "years",
+      "month": "month",
+      "months": "months",
+      "day": "day",
+      "days": "days"
     }
   },
   "legal": {

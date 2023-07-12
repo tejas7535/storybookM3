@@ -1,6 +1,7 @@
 export * from './api-version.enum';
 export * from './approval';
 export * from './customer';
+export * from './duration.model';
 export * from './environment.enum';
 export * from './keyboard.enum';
 export * from './language.model';

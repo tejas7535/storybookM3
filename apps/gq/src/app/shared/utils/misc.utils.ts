@@ -1,9 +1,35 @@
 import { LOCALE_DE } from '@gq/shared/constants';
-import { Keyboard } from '@gq/shared/models';
+import { Duration, Keyboard } from '@gq/shared/models';
+import moment from 'moment';
 
 export const getCurrentYear = (): number => new Date().getFullYear();
 
 export const getLastYear = (): number => getCurrentYear() - 1;
+
+/**
+ * Calculate the duration between the given start and end date.
+ *
+ * @param startDate start date as ISO string
+ * @param endDate end date as ISO string
+ * @returns an object, describing the duration
+ */
+export const calculateDuration = (
+  startDate: string,
+  endDate: string
+): Duration => {
+  if (!startDate || !endDate) {
+    return undefined;
+  }
+
+  const difference = moment(endDate).diff(moment(startDate));
+  const duration = moment.duration(difference);
+
+  return {
+    years: duration.years(),
+    months: duration.months(),
+    days: duration.days(),
+  };
+};
 
 export const parseLocalizedInputValue = (
   val: string,

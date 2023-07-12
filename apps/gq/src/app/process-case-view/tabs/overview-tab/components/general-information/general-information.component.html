@@ -8,19 +8,21 @@
   <gq-label-text>
     <span label>{{ t('validity') }}</span>
     <span text
-      >{{ info.validityFrom | translocoDate | nullableString }} -
-      {{ info.validityTo | translocoDate | nullableString }}</span
-    >
+      >{{
+        (info.validityFrom && info.validityTo
+          ? (info.validityFrom | translocoDate) +
+            ' - ' +
+            (info.validityTo | translocoDate)
+          : undefined
+        ) | nullableString
+      }}
+    </span>
   </gq-label-text>
   <gq-label-text>
     <span label>{{ t('duration') }}</span>
-    <span text>{{ info.duration | nullableString }}</span>
+    <span text>{{ info.duration | duration }}</span>
   </gq-label-text>
   <gq-horizontal-divider></gq-horizontal-divider>
-  <gq-label-text>
-    <span label>{{ t('project') }}</span>
-    <span text>{{ info.project | nullableString }}</span>
-  </gq-label-text>
   <gq-label-text>
     <span label>{{ t('customer') }}</span>
     <span text>{{ info.customer?.name | nullableString }}</span>

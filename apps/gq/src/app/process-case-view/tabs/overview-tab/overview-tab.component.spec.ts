@@ -9,10 +9,11 @@ import {
 } from '@gq/core/store/active-case';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { Rating } from '@gq/shared/components/kpi-status-card/models/rating.enum';
-import { ApprovalWorkflowInformation } from '@gq/shared/models';
+import { ApprovalWorkflowInformation, Duration } from '@gq/shared/models';
 import { QuotationPricingOverview } from '@gq/shared/models/quotation';
 import { NumberCurrencyPipe } from '@gq/shared/pipes/number-currency/number-currency.pipe';
 import { PercentagePipe } from '@gq/shared/pipes/percentage/percentage.pipe';
+import * as miscUtils from '@gq/shared/utils/misc.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -113,21 +114,30 @@ describe('OverviewTabComponent', () => {
           value: facadeMock,
         });
 
+        const testDuration: Duration = {
+          years: 0,
+          months: 6,
+          days: 12,
+        };
+        const calculateDurationSpy = jest.spyOn(miscUtils, 'calculateDuration');
+        calculateDurationSpy.mockReturnValue(testDuration);
+
         component.ngOnInit();
 
         m.expect(component.generalInformation$).toBeObservable('a', {
           a: {
             approvalLevel: 'approvalLevel',
-            validityFrom: '01/01/2023',
-            validityTo: '12/31/2023',
-            duration: '10 months',
-            project: 'GSIM Project',
+            validityFrom: ACTIVE_CASE_STATE_MOCK.quotation.sapCreated,
+            validityTo: ACTIVE_CASE_STATE_MOCK.quotation.validTo,
+            duration: testDuration,
             projectInformation:
-              'lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum.',
+              APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
+                .projectInformation,
             customer: ACTIVE_CASE_STATE_MOCK.customer,
-            requestedQuotationDate: '01/01/2024',
+            requestedQuotationDate:
+              ACTIVE_CASE_STATE_MOCK.quotation.sapQuotationToDate,
             comment:
-              'lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum.',
+              APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.comment,
           },
         });
 
@@ -138,6 +148,12 @@ describe('OverviewTabComponent', () => {
         m.expect(component.pricingInformation$).toBeObservable('a', {
           a: expectedPricingInformation,
         });
+
+        m.flush();
+        expect(calculateDurationSpy).toHaveBeenCalledWith(
+          ACTIVE_CASE_STATE_MOCK.quotation.sapCreated,
+          ACTIVE_CASE_STATE_MOCK.quotation.validTo
+        );
       })
     );
 

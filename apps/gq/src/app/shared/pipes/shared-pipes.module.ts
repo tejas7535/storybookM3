@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { DateDisplayPipe } from './date-display/date-display.pipe';
+import { DurationPipe } from './duration/duration.pipe';
 import { GqQuotationPipe } from './gq-quotation/gq-quotation.pipe';
 import { IsDashOrEmptyStringPipe } from './is-dash-or-empty-string/is-dash-or-empty-string.pipe';
 import { MaterialClassificationSOPPipe } from './material-classification-sop/material-classification-sop.pipe';
@@ -37,6 +38,7 @@ import { UserDisplayPipe } from './user-display/user-display.pipe';
     IsDashOrEmptyStringPipe,
     MultiplyComparableCostWithPriceUnitPipe,
     MultiplyWithPriceUnitPipe,
+    DurationPipe,
   ],
   imports: [],
   exports: [
@@ -57,6 +59,7 @@ import { UserDisplayPipe } from './user-display/user-display.pipe';
     MultiplyComparableCostWithPriceUnitPipe,
     MultiplyWithPriceUnitPipe,
     UserDisplayPipe,
+    DurationPipe,
   ],
   providers: [MaterialTransformPipe],
 })

@@ -102,7 +102,6 @@
         "approvalLevel": "Freigabelevel",
         "validity": "Gültigkeit",
         "duration": "Angebotsdauer",
-        "project": "Projekt",
         "projectInformation": "Projektinformationen",
         "customer": "Kunde",
         "customerClass": "Umsatzklassifizierung (A,B,C)",

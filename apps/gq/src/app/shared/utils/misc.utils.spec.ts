@@ -161,4 +161,27 @@ describe('MiscUtils', () => {
       });
     });
   });
+
+  describe('calculateDuration', () => {
+    test('should return undefined if startDate is undefined', () => {
+      expect(
+        miscUtils.calculateDuration(undefined, '2023-07-10T06:36:46.8018708Z')
+      ).toBeUndefined();
+    });
+
+    test('should return undefined if endDate is empty', () => {
+      expect(
+        miscUtils.calculateDuration('2023-07-10T06:36:46.8018708Z', '')
+      ).toBeUndefined();
+    });
+
+    test('should return correct duration', () => {
+      expect(
+        miscUtils.calculateDuration(
+          '2021-02-28T00:00:00Z',
+          '2023-06-12T00:00:00Z'
+        )
+      ).toEqual({ years: 2, months: 3, days: 12 });
+    });
+  });
 });

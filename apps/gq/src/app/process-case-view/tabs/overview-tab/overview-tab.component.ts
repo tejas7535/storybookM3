@@ -24,6 +24,7 @@ import {
   QuotationPricingOverview,
   QuotationStatus,
 } from '@gq/shared/models/quotation';
+import { calculateDuration } from '@gq/shared/utils/misc.utils';
 import { Store } from '@ngrx/store';
 
 import { GeneralInformation } from './models';
@@ -120,27 +121,29 @@ export class OverviewTabComponent implements OnInit, OnDestroy {
    */
   private mapGeneralInformation(): Observable<GeneralInformation> {
     return combineLatest([
+      this.store.select(activeCaseFeature.selectQuotation),
       this.store.select(activeCaseFeature.selectCustomer),
       this.approvalFacade.requiredApprovalLevelsForQuotation$,
+      this.approvalFacade.approvalCockpitInformation$,
     ]).pipe(
       takeUntil(this.shutDown$$),
-      map(([customer, approvalLevel]: [Customer, string]) => {
-        const info: GeneralInformation = {
+      map(
+        ([quotation, customer, approvalLevel, approvalGeneralInformation]: [
+          Quotation,
+          Customer,
+          string,
+          ApprovalWorkflowInformation
+        ]) => ({
           approvalLevel,
-          validityFrom: '01/01/2023',
-          validityTo: '12/31/2023',
-          duration: '10 months',
-          project: 'GSIM Project',
-          projectInformation:
-            'lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum.',
+          validityFrom: quotation.sapCreated,
+          validityTo: quotation.validTo,
+          duration: calculateDuration(quotation.sapCreated, quotation.validTo),
+          projectInformation: approvalGeneralInformation.projectInformation,
           customer,
-          requestedQuotationDate: '01/01/2024',
-          comment:
-            'lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum.',
-        };
-
-        return info;
-      })
+          requestedQuotationDate: quotation.sapQuotationToDate,
+          comment: approvalGeneralInformation.comment,
+        })
+      )
     );
   }
 

@@ -486,6 +486,14 @@
       "priceLowerThanMsp": "Nettopreis ist niedriger als MSP. Bitte beantragen Sie die Genehmigung der Preisgestaltung.",
       "gpmOrGpiTooLow": "Aktueller Nettopreis führt zu einem Loss Maker (Marge < 25%). Bitte Preisstellung überprüfen.",
       "orderQuantityMustBeMultipleOf": "Bitte beachten Sie die Liefereinheit von {{deliveryUnit}} ST für diese Position."
+    },
+    "duration": {
+      "year": "Jahr",
+      "years": "Jahre",
+      "month": "Monat",
+      "months": "Monate",
+      "day": "Tag",
+      "days": "Tage"
     }
   },
   "legal": {
