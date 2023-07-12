@@ -13,7 +13,7 @@ describe('NumberCurrencyPipe', () => {
       {
         provide: TransformationService,
         useValue: {
-          transformMarginDetails: jest.fn(),
+          transformNumberCurrency: jest.fn(),
         },
       },
     ],
@@ -36,10 +36,10 @@ describe('NumberCurrencyPipe', () => {
 
     pipe.transform(10_000, 'EUR');
 
-    expect(transformationService.transformMarginDetails).toHaveBeenCalledTimes(
+    expect(transformationService.transformNumberCurrency).toHaveBeenCalledTimes(
       1
     );
-    expect(transformationService.transformMarginDetails).toHaveBeenCalledWith(
+    expect(transformationService.transformNumberCurrency).toHaveBeenCalledWith(
       10_000,
       'EUR'
     );

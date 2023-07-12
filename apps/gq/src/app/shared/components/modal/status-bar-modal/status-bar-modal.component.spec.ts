@@ -45,7 +45,7 @@ describe('StatusBarModalComponent', () => {
       {
         provide: TransformationService,
         useValue: {
-          transformMarginDetails: jest.fn(),
+          transformNumberCurrency: jest.fn(),
           transformPercentage: jest.fn(),
         },
       },
@@ -56,13 +56,6 @@ describe('StatusBarModalComponent', () => {
       {
         provide: MAT_DIALOG_DATA,
         useValue: new StatusBar(),
-      },
-      {
-        provide: TransformationService,
-        useValue: {
-          transformMarginDetails: jest.fn(),
-          transformPercentage: jest.fn(),
-        },
       },
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],

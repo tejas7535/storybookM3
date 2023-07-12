@@ -13,7 +13,7 @@ describe('MultiplyWithPriceUnitPipe', () => {
     pipe: MultiplyWithPriceUnitPipe,
     providers: [
       MockProvider(TransformationService, {
-        transformMarginDetails: jest.fn().mockReturnValue('result'),
+        transformNumberCurrency: jest.fn().mockReturnValue('result'),
       }),
     ],
   });
@@ -40,7 +40,7 @@ describe('MultiplyWithPriceUnitPipe', () => {
     );
     transformationService = spectator.inject(TransformationService);
 
-    expect(transformationService.transformMarginDetails).toHaveBeenCalledWith(
+    expect(transformationService.transformNumberCurrency).toHaveBeenCalledWith(
       20,
       'EUR'
     );
@@ -52,7 +52,7 @@ describe('MultiplyWithPriceUnitPipe', () => {
       `{{ 50 | multiplyWithPriceUnit : 'EUR' : 10 : 100 }}`
     );
     transformationService = spectator.inject(TransformationService);
-    expect(transformationService.transformMarginDetails).toHaveBeenCalledWith(
+    expect(transformationService.transformNumberCurrency).toHaveBeenCalledWith(
       5000,
       'EUR'
     );

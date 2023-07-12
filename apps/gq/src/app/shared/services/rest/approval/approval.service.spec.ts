@@ -16,8 +16,10 @@ import {
 import {
   createServiceFactory,
   HttpMethod,
+  mockProvider,
   SpectatorService,
 } from '@ngneat/spectator/jest';
+import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
 import { APPROVAL_STATE_MOCK } from '../../../../../testing/mocks/';
 import { ApprovalService } from './approval.service';
@@ -31,6 +33,7 @@ describe('ApprovalService', () => {
   const createService = createServiceFactory({
     service: ApprovalService,
     imports: [HttpClientTestingModule],
+    providers: [mockProvider(TranslocoLocaleService)],
   });
 
   beforeEach(() => {
@@ -283,13 +286,17 @@ describe('ApprovalService', () => {
       expect(req.request.method).toBe(HttpMethod.GET);
     });
 
-    test('should map', () => {
+    test('should map and sort', () => {
       const response = {
         approvalGeneral: {
           ...APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral,
           approvalLevel: 'L2',
         },
-        approvalEvents: APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents,
+        approvalEvents: [
+          APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents[2],
+          APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents[0],
+          APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents[1],
+        ],
       };
       service
         .getApprovalCockpitData('12345')

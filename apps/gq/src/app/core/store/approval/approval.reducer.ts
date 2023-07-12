@@ -339,10 +339,27 @@ export const approvalFeature = createFeature({
       (cockpit: ApprovalCockpitData): ApprovalWorkflowInformation =>
         cockpit?.approvalGeneral
     ),
+    // map the user of type Approver to the workflow Events
     getApprovalCockpitEvents: createSelector(
       selectApprovalCockpit,
-      (cockpit: ApprovalCockpitData): ApprovalWorkflowEvent[] =>
-        cockpit?.approvalEvents
+      selectApprovers,
+      (
+        cockpit: ApprovalCockpitData,
+        allApprovers: Approver[]
+      ): ApprovalWorkflowEvent[] =>
+        cockpit?.approvalEvents?.map((singleEvent: ApprovalWorkflowEvent) => ({
+          ...singleEvent,
+          user:
+            allApprovers.find(
+              (listItem: Approver) =>
+                listItem.userId.toLowerCase() ===
+                singleEvent?.userId.toLowerCase()
+            ) ??
+            ({
+              userId: singleEvent?.userId,
+              firstName: singleEvent?.userId,
+            } as Approver),
+        }))
     ),
     getHasAnyApprovalEvent: createSelector(
       selectApprovalCockpit,
@@ -359,28 +376,25 @@ export const approvalFeature = createFeature({
         if (!cockpit.approvalEvents) {
           return [];
         }
-        const workflowEventsSorted: ApprovalWorkflowEvent[] = [
-          ...cockpit.approvalEvents,
-        ].sort((a, b) => b.eventDate.localeCompare(a.eventDate));
 
-        const latestCancelEvent = workflowEventsSorted.find(
+        const latestCancelEvent = cockpit.approvalEvents.find(
           (eventItem: ApprovalWorkflowEvent) =>
             eventItem.event === ApprovalEventType.CANCELLED
         );
-        // find the first START event in descended sorted List (optional: after a CANCELLED event) older entries belong to further workflow
+        // find the first START event in descended sorted List (already sorted in store!!) (optional: after a CANCELLED event) older entries belong to further workflow
         const latestWFStartEvent = latestCancelEvent
-          ? workflowEventsSorted.find(
+          ? cockpit.approvalEvents.find(
               (eventItem: ApprovalWorkflowEvent) =>
                 eventItem.eventDate >= latestCancelEvent.eventDate &&
                 eventItem.event === ApprovalEventType.STARTED
             )
-          : workflowEventsSorted.find(
+          : cockpit.approvalEvents.find(
               (eventItem: ApprovalWorkflowEvent) =>
                 eventItem.event === ApprovalEventType.STARTED
             );
 
         return latestWFStartEvent
-          ? workflowEventsSorted.filter(
+          ? cockpit.approvalEvents.filter(
               (eventItem: ApprovalWorkflowEvent) =>
                 eventItem.eventDate >= latestWFStartEvent.eventDate
             )

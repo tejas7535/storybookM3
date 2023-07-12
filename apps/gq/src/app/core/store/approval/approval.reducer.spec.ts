@@ -326,6 +326,7 @@ describe('approvalReducer', () => {
         quotationStatus: QuotationStatus.ACTIVE,
         verified: true,
         eventDate: '01-02-2023',
+        user: undefined,
       };
 
       const approvalEvent: ApprovalWorkflowEvent = {
@@ -337,6 +338,7 @@ describe('approvalReducer', () => {
         quotationStatus: QuotationStatus.APPROVED,
         verified: false,
         eventDate: '01-02-2023',
+        user: undefined,
       };
 
       const action = ApprovalActions.updateApprovalWorkflowSuccess({
@@ -715,20 +717,7 @@ describe('approvalReducer', () => {
           )
         );
       });
-      test('should return the information from approvalCockpit', () => {
-        expect(
-          approvalFeature.getApprovalCockpitInformation.projector(
-            APPROVAL_STATE_MOCK.approvalCockpit
-          )
-        ).toEqual(APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral);
-      });
-      test('should return the events from approvalCockpit', () => {
-        expect(
-          approvalFeature.getApprovalCockpitEvents.projector(
-            APPROVAL_STATE_MOCK.approvalCockpit
-          )
-        ).toEqual(APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents);
-      });
+
       describe('hasAnyWorkflowEvents', () => {
         test('should check if there are any events, return true', () => {
           expect(
@@ -811,11 +800,7 @@ describe('approvalReducer', () => {
             approvalFeature.getEventsAfterLastWorkflowStarted.projector(
               APPROVAL_STATE_MOCK.approvalCockpit
             )
-          ).toEqual(
-            APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents.sort((a, b) =>
-              b.eventDate.localeCompare(a.eventDate)
-            )
-          );
+          ).toEqual(APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents);
         });
       });
     });
@@ -836,19 +821,51 @@ describe('approvalReducer', () => {
     });
 
     describe('ApprovalCockpit Sub Data', () => {
-      test('should information property', () => {
+      test('should return the information from approvalCockpit', () => {
         expect(
           approvalFeature.getApprovalCockpitInformation.projector(
             APPROVAL_STATE_MOCK.approvalCockpit
           )
         ).toEqual(APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral);
       });
-      test('should events property', () => {
+      // Selector maps the user, but these users do not exists in approvers list
+      test('should return the events from approvalCockpit', () => {
+        const firstEvent =
+          APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents[0];
+        const secondEvent =
+          APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents[1];
+        const thirdEvent =
+          APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents[2];
+
+        const expected: ApprovalWorkflowEvent[] = [
+          {
+            ...firstEvent,
+            user: {
+              userId: firstEvent.userId,
+              firstName: firstEvent.userId,
+            } as Approver,
+          },
+          {
+            ...secondEvent,
+            user: {
+              userId: secondEvent.userId,
+              firstName: secondEvent.userId,
+            } as Approver,
+          },
+          {
+            ...thirdEvent,
+            user: {
+              userId: thirdEvent.userId,
+              firstName: thirdEvent.userId,
+            } as Approver,
+          },
+        ];
         expect(
           approvalFeature.getApprovalCockpitEvents.projector(
-            APPROVAL_STATE_MOCK.approvalCockpit
+            APPROVAL_STATE_MOCK.approvalCockpit,
+            APPROVAL_STATE_MOCK.approvers
           )
-        ).toEqual(APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents);
+        ).toEqual(expected);
       });
     });
   });

@@ -111,7 +111,7 @@ describe('ChartConfigService', () => {
 
       expect(
         transformationService.transformNumberCurrency
-      ).toHaveBeenCalledWith(data.price.toString(), data.currency);
+      ).toHaveBeenCalledWith(data.price, data.currency);
       expect(result).toEqual(`${data.price} ${data.currency}`);
     });
 

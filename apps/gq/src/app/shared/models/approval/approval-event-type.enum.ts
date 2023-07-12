@@ -5,4 +5,5 @@ export enum ApprovalEventType {
   FORWARDED = 'FORWARDED',
   CANCELLED = 'CANCELLED',
   AUTO_APPROVAL = 'AUTO_APPROVAL',
+  RELEASED = 'RELEASED',
 }

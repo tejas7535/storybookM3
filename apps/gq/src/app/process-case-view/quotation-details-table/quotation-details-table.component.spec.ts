@@ -18,7 +18,12 @@ import {
   QuotationDetail,
   SapPriceCondition,
 } from '@gq/shared/models/quotation-detail';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AgGridModule } from 'ag-grid-angular';
@@ -62,6 +67,7 @@ describe('QuotationDetailsTableComponent', () => {
     providers: [
       MockProvider(ColumnDefService),
       MockProvider(LocalizationService),
+      mockProvider(TransformationService),
       provideMockStore({
         initialState: {
           processCase: PROCESS_CASE_STATE_MOCK,

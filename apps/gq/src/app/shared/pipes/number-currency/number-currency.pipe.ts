@@ -9,6 +9,6 @@ export class NumberCurrencyPipe implements PipeTransform {
   constructor(private readonly transformationService: TransformationService) {}
 
   transform(value: number, currency: string): string {
-    return this.transformationService.transformMarginDetails(value, currency);
+    return this.transformationService.transformNumberCurrency(value, currency);
   }
 }

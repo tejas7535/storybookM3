@@ -45,7 +45,7 @@ describe('QuotationDetailsStatusComponent', () => {
       {
         provide: TransformationService,
         useValue: {
-          transformMarginDetails: jest.fn(),
+          transformNumberCurrency: jest.fn(),
           transformPercentage: jest.fn(),
         },
       },
@@ -61,7 +61,7 @@ describe('QuotationDetailsStatusComponent', () => {
         provide: TransformationService,
         useValue: {
           transformPercentage: jest.fn(),
-          transformMarginDetails: jest.fn(),
+          transformNumberCurrency: jest.fn(),
         },
       },
     ],

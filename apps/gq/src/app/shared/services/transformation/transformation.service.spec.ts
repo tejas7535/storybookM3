@@ -1,9 +1,7 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import {
-  TranslocoCurrencyPipe,
-  TranslocoDatePipe,
-  TranslocoDecimalPipe,
-  TranslocoPercentPipe,
+  TranslocoLocaleModule,
+  TranslocoLocaleService,
 } from '@ngneat/transloco-locale';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -15,317 +13,107 @@ describe('TransformationService', () => {
   let service: TransformationService;
   let spectator: SpectatorService<TransformationService>;
 
-  let translocoCurrencyPipe: TranslocoCurrencyPipe;
-  let translocoDatePipe: TranslocoDatePipe;
-  let translocoDecimalPipe: TranslocoDecimalPipe;
-  let translocoPercentPipe: TranslocoPercentPipe;
-
   const createService = createServiceFactory({
     service: TransformationService,
-    providers: [
-      {
-        provide: TranslocoCurrencyPipe,
-        useValue: {
-          transform: jest.fn(),
-        },
-      },
-      {
-        provide: TranslocoDatePipe,
-        useValue: {
-          transform: jest
-            .fn()
-            .mockImplementation((value) =>
-              Intl.DateTimeFormat('en-US').format(value)
-            ),
-        },
-      },
-      {
-        provide: TranslocoDecimalPipe,
-        useValue: {
-          transform: jest.fn(),
-        },
-      },
-      {
-        provide: TranslocoPercentPipe,
-        useValue: {
-          transform: jest.fn().mockImplementation((value) =>
-            Intl.NumberFormat('en-US', {
-              style: 'percent',
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            }).format(value)
-          ),
-        },
-      },
+    providers: [TranslocoLocaleService],
+    imports: [
+      provideTranslocoTestingModule({ en: {} }),
+      TranslocoLocaleModule.forRoot(),
     ],
-    imports: [provideTranslocoTestingModule({ en: {} })],
     declarations: [],
   });
 
   beforeEach(() => {
     spectator = createService();
     service = spectator.service;
-
-    translocoCurrencyPipe = spectator.inject(TranslocoCurrencyPipe);
-    translocoDatePipe = spectator.inject(TranslocoDatePipe);
-    translocoDecimalPipe = spectator.inject(TranslocoDecimalPipe);
-    translocoPercentPipe = spectator.inject(TranslocoPercentPipe);
   });
 
   afterEach(() => {
     jest.resetAllMocks();
   });
 
-  describe('localization functions', () => {
-    const decimalValue = 12_345_678.912_345;
-    const currencyValue = 10_000_000;
-    const marginDetailValue = 123.45;
-    const percentValue = 25.711_234;
-    const dateValue = '2022-06-22T13:45:30';
+  describe('transformNumber', () => {
+    test('should localize decimal number without digits', () => {
+      const result = service.transformNumber(12_345_678.912_345, false);
 
-    [
-      {
-        locale: 'en-US',
-        expectedWithDigits: '12,345,678.91',
-        expectedWithoutDigits: '12,345,679',
-        expectedCurrency: 'EUR\u00A010,000,000.00',
-        expectedMarginDetail: 'EUR\u00A0123.45',
-        expectedPercent: '25.71%',
-        expectedDate: '06/22/22',
-        expectedDateAndTime: '06/22/22, 01:45 PM',
-        expectedExcelNumber: '12345678.91',
-      },
-      {
-        locale: 'de-DE',
-        expectedWithDigits: '12.345.678,91',
-        expectedWithoutDigits: '12.345.679',
-        expectedCurrency: '10.000.000,00\u00A0EUR',
-        expectedMarginDetail: '123,45\u00A0EUR',
-        expectedPercent: '25,71\u00A0%',
-        expectedDate: '22.06.22',
-        expectedDateAndTime: '22.06.22, 13:45',
-        expectedExcelNumber: '12345678.91',
-      },
-    ].forEach((testCase) => {
-      test(`transformNumber (with digits) - should return ${testCase.expectedWithDigits} for ${testCase.locale}`, () => {
-        translocoDecimalPipe.transform = jest.fn().mockImplementation((value) =>
-          Intl.NumberFormat(testCase.locale, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          }).format(value)
-        );
+      expect(result).toEqual('12,345,679');
+    });
 
-        const result = service.transformNumber(decimalValue, true);
+    test('should localize decimal number with digits', () => {
+      const result = service.transformNumber(12_345_678.912_345, true);
 
-        expect(result).toEqual(testCase.expectedWithDigits);
-        expect(translocoDecimalPipe.transform).toHaveBeenCalledTimes(1);
-        expect(translocoDecimalPipe.transform).toHaveBeenCalledWith(
-          decimalValue,
-          {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          }
-        );
-      });
+      expect(result).toEqual('12,345,678.91');
+    });
+    test('should return dash if undefined', () => {
+      const result = service.transformNumber(undefined, false);
 
-      test(`transformNumber (without digits) - should return ${testCase.expectedWithDigits} for ${testCase.locale}`, () => {
-        translocoDecimalPipe.transform = jest.fn().mockImplementation((value) =>
-          Intl.NumberFormat(testCase.locale, {
-            minimumFractionDigits: undefined,
-            maximumFractionDigits: 0,
-          }).format(value)
-        );
-
-        const result = service.transformNumber(decimalValue, false);
-
-        expect(result).toEqual(testCase.expectedWithoutDigits);
-        expect(translocoDecimalPipe.transform).toHaveBeenCalledTimes(1);
-        expect(translocoDecimalPipe.transform).toHaveBeenCalledWith(
-          decimalValue,
-          {
-            minimumFractionDigits: undefined,
-            maximumFractionDigits: 0,
-          }
-        );
-      });
-
-      test(`transformNumberExcel - should return ${testCase.expectedExcelNumber} for ${testCase.locale}`, () => {
-        translocoDecimalPipe.transform = jest.fn().mockImplementation((value) =>
-          Intl.NumberFormat('en-US', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-            useGrouping: false,
-          }).format(value)
-        );
-
-        const result = service.transformNumberExcel(decimalValue);
-
-        expect(result).toEqual(testCase.expectedExcelNumber);
-        expect(translocoDecimalPipe.transform).toHaveBeenCalledTimes(1);
-        expect(translocoDecimalPipe.transform).toHaveBeenCalledWith(
-          decimalValue,
-          {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-            useGrouping: false,
-          },
-          'en-US'
-        );
-      });
-
-      test(`transformMarginDetails: should return ${testCase.expectedMarginDetail} for ${testCase.locale}`, () => {
-        translocoCurrencyPipe.transform = jest
-          .fn()
-          .mockImplementation((value, code, _, currency) =>
-            Intl.NumberFormat(testCase.locale, {
-              style: 'currency',
-              currencyDisplay: code,
-              currency,
-            }).format(value)
-          );
-
-        const result = service.transformMarginDetails(marginDetailValue, 'EUR');
-
-        expect(result).toEqual(testCase.expectedMarginDetail);
-        expect(translocoCurrencyPipe.transform).toHaveBeenCalledTimes(1);
-        expect(translocoCurrencyPipe.transform).toHaveBeenCalledWith(
-          marginDetailValue.toString(),
-          'code',
-          undefined,
-          'EUR'
-        );
-      });
-
-      test(`transformNumberCurrency: should return ${testCase.expectedWithDigits} for ${testCase.locale}`, () => {
-        translocoCurrencyPipe.transform = jest
-          .fn()
-          .mockImplementation((value, code, _, currency) =>
-            Intl.NumberFormat(testCase.locale, {
-              style: 'currency',
-              currencyDisplay: code,
-              currency,
-            }).format(value)
-          );
-
-        const result = service.transformNumberCurrency(
-          currencyValue.toString(),
-          'EUR'
-        );
-
-        expect(result).toEqual(testCase.expectedCurrency);
-        expect(translocoCurrencyPipe.transform).toHaveBeenCalledTimes(1);
-        expect(translocoCurrencyPipe.transform).toHaveBeenCalledWith(
-          currencyValue.toString(),
-          'code',
-          undefined,
-          'EUR'
-        );
-      });
-
-      test(`transformPercentage: should return ${testCase.expectedPercent} for ${testCase.locale}`, () => {
-        translocoPercentPipe.transform = jest.fn().mockImplementation(
-          (value) =>
-            `${Intl.NumberFormat(testCase.locale, {
-              style: 'percent',
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            }).format(value)}`
-        );
-
-        const result = service.transformPercentage(percentValue);
-
-        expect(result).toEqual(testCase.expectedPercent);
-        expect(translocoPercentPipe.transform).toHaveBeenCalledTimes(1);
-        expect(translocoPercentPipe.transform).toHaveBeenCalledWith(
-          percentValue / 100,
-          { minimumFractionDigits: 2, maximumFractionDigits: 2 }
-        );
-      });
-
-      test(`transformDate(without time): should return ${testCase.expectedDate} for ${testCase.locale}`, () => {
-        translocoDatePipe.transform = jest.fn().mockImplementation((value) =>
-          Intl.DateTimeFormat(testCase.locale, {
-            day: '2-digit',
-            month: '2-digit',
-            year: '2-digit',
-          }).format(new Date(value))
-        );
-
-        const result = service.transformDate(dateValue, false);
-
-        expect(result).toEqual(testCase.expectedDate);
-        expect(translocoDatePipe.transform).toHaveBeenCalledTimes(1);
-        expect(translocoDatePipe.transform).toHaveBeenCalledWith(dateValue, {
-          day: '2-digit',
-          month: '2-digit',
-          year: '2-digit',
-          hour: undefined,
-          minute: undefined,
-        });
-      });
-
-      test(`transformDate(with time): should return ${testCase.expectedDateAndTime} for ${testCase.locale}`, () => {
-        translocoDatePipe.transform = jest.fn().mockImplementation((value) =>
-          Intl.DateTimeFormat(testCase.locale, {
-            day: '2-digit',
-            month: '2-digit',
-            year: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-          }).format(new Date(value))
-        );
-
-        const result = service.transformDate(dateValue, true);
-
-        expect(result).toEqual(testCase.expectedDateAndTime);
-        expect(translocoDatePipe.transform).toHaveBeenCalledTimes(1);
-        expect(translocoDatePipe.transform).toHaveBeenCalledWith(dateValue, {
-          day: '2-digit',
-          month: '2-digit',
-          year: '2-digit',
-          hour: '2-digit',
-          minute: '2-digit',
-        });
-      });
+      expect(result).toEqual(Keyboard.DASH);
     });
   });
 
-  describe('should NOT localize undefined values', () => {
-    test('transformNumberCurrency', () => {
+  describe('transformNumberExcel', () => {
+    test('should localize decimal number', () => {
+      const result = service.transformNumberExcel(12_345_678.912_345);
+
+      expect(result).toEqual('12345678.91');
+    });
+
+    test('should return dash if undefined', () => {
+      const result = service.transformNumber(undefined, false);
+
+      expect(result).toEqual(Keyboard.DASH);
+    });
+  });
+
+  describe('transformNumberCurrency', () => {
+    test('should transform currency', () => {
+      const result = service.transformNumberCurrency(10_000_000, 'EUR');
+
+      expect(result).toEqual('EUR\u00A010,000,000.00');
+    });
+
+    test('should return dash if undefined', () => {
       const result = service.transformNumberCurrency(undefined, 'EUR');
 
       expect(result).toEqual(Keyboard.DASH);
-      expect(translocoCurrencyPipe.transform).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('transformPercentage', () => {
+    test('should localize percentage', () => {
+      const result = service.transformPercentage(25.711_234);
+
+      expect(result).toEqual('25.71%');
     });
 
-    test('transformDate', () => {
-      const result = service.transformDate('');
+    test('should return dash if undefined', () => {
+      const result = service.transformPercentage(undefined as any);
+
+      expect(result).toEqual(Keyboard.DASH);
+    });
+  });
+
+  describe('transformDate', () => {
+    test('should localize date without time', () => {
+      const result = service.transformDate('2022-06-22T13:45:30', false);
+
+      expect(result).toEqual('06/22/22');
+    });
+
+    test('should localize with time', () => {
+      const result = service.transformDate('2022-06-22T13:45:30', true);
+
+      // needed to ensure equality on each env -> remove spaces
+      const formattedResult = result
+        .replace('\u202F', ' ')
+        .replace('\u00A0', ' ');
+
+      expect(formattedResult).toEqual('06/22/22, 01:45 PM');
+    });
+    test('should return empty if undefined', () => {
+      const result = service.transformDate(undefined, false);
 
       expect(result).toEqual('');
-      expect(translocoDatePipe.transform).not.toHaveBeenCalled();
-    });
-
-    test('transformNumber', () => {
-      const result = service.transformNumber(undefined, true);
-
-      expect(result).toEqual(Keyboard.DASH);
-      expect(translocoDecimalPipe.transform).not.toHaveBeenCalled();
-    });
-
-    test('transformMarginDetails', () => {
-      const result = service.transformMarginDetails(undefined, 'EUR');
-
-      expect(result).toEqual(Keyboard.DASH);
-      expect(translocoCurrencyPipe.transform).not.toHaveBeenCalled();
-    });
-
-    test('transformPercentage', () => {
-      const result = service.transformPercentage(
-        undefined as unknown as number
-      );
-
-      expect(result).toEqual(Keyboard.DASH);
-      expect(translocoPercentPipe.transform).not.toHaveBeenCalled();
     });
   });
 });

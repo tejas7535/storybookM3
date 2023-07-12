@@ -4,18 +4,13 @@ import { of } from 'rxjs';
 
 import { UserRoles } from '@gq/shared/constants';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
+import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 import {
   createComponentFactory,
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import {
-  TranslocoCurrencyPipe,
-  TranslocoDatePipe,
-  TranslocoDecimalPipe,
-  TranslocoPercentPipe,
-} from '@ngneat/transloco-locale';
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
@@ -41,10 +36,7 @@ describe('MaterialComparableCostDetailsComponent', () => {
       SharedPipesModule,
     ],
     providers: [
-      mockProvider(TranslocoCurrencyPipe),
-      mockProvider(TranslocoDatePipe),
-      mockProvider(TranslocoPercentPipe),
-      mockProvider(TranslocoDecimalPipe),
+      mockProvider(TransformationService),
       provideMockStore({
         initialState: {
           materialComparableCosts: {

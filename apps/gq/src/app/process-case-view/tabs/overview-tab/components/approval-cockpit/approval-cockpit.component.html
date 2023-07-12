@@ -3,10 +3,10 @@
   *transloco="let t; read: 'processCaseView.tabs.overview.approvalCockpit'"
 >
   <div class="flex flex-col">
-    <h6 class="pb-4">
+    <div class="mat-card-title text-high-emphasis text-[20px] leading-6 pb-5">
       {{ t('approvalOverview') }}
-    </h6>
-    <span class="text-low-emphasis">TBD</span>
+    </div>
+    <gq-approval-workflow-history></gq-approval-workflow-history>
     <gq-horizontal-divider></gq-horizontal-divider>
 
     <ng-container
@@ -16,21 +16,20 @@
       "
     >
       <div class="flex items-center justify-between">
-        <h6 class="py-4">
+        <div class="py-4 text-[16px]">
           {{ t('approver') }}
-        </h6>
+        </div>
         <div>
           <div
             class="flex flex-row items-center gap-1 rounded-full px-2 py-1"
             [ngClass]="
-              (approvalFacade.numberOfApproversApproved$ | ngrxPush) ===
-              (approvalFacade.numberOfRequiredApprovers$ | ngrxPush)
+              (approvalFacade.quotationFullyApproved$ | ngrxPush)
                 ? 'bg-primary'
-                : 'bg-[#F0F0F0]'
+                : 'bg-gray-300'
             "
           >
             <mat-icon
-              class="!h-[15px] !w-[15px] !text-[14px] font-normal"
+              class="!w-[14px] !h-[auto] !flex items-center !text-[14px] font-normal"
               [ngClass]="
                 (approvalFacade.quotationFullyApproved$ | ngrxPush)
                   ? 'text-white'
@@ -45,8 +44,8 @@
                   ? 'text-white'
                   : 'text-low-emphasis'
               "
-              >{{ approvalFacade.numberOfApproversApproved$ | ngrxPush }}/{{
-                approvalFacade.numberOfRequiredApprovers$ | ngrxPush
+              >{{
+                approvalFacade.receivedApprovalsOfRequiredApprovals$ | ngrxPush
               }}</span
             >
           </div>
@@ -72,7 +71,7 @@
     </ng-container>
     <!--template when quotation has been automatically approved-->
     <ng-template #quotationAutoApproved>
-      <h6 class="py-4">
+      <h6 class="py-4 !font-bold">
         {{ t('approver') }}
       </h6>
       <div class="flex align-center flex-col justify-start">

@@ -62,7 +62,7 @@ describe('ExportToExcelButtonComponent', () => {
       {
         provide: TransformationService,
         useValue: {
-          transformMarginDetails: jest.fn().mockImplementation(
+          transformNumberCurrency: jest.fn().mockImplementation(
             (value) =>
               `${Intl.NumberFormat('en-US', {
                 minimumFractionDigits: 2,
@@ -732,7 +732,7 @@ describe('ExportToExcelButtonComponent', () => {
             {
               data: {
                 type,
-                value: transformationService.transformMarginDetails(
+                value: transformationService.transformNumberCurrency(
                   CUSTOMER_MOCK.marginDetail?.netSalesLastYear,
                   CUSTOMER_MOCK.currency
                 ),
@@ -771,7 +771,7 @@ describe('ExportToExcelButtonComponent', () => {
             {
               data: {
                 type,
-                value: transformationService.transformMarginDetails(
+                value: transformationService.transformNumberCurrency(
                   CUSTOMER_MOCK.marginDetail?.currentNetSales,
                   CUSTOMER_MOCK.currency
                 ),

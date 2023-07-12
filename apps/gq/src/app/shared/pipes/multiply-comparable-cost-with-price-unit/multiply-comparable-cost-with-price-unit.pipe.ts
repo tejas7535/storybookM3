@@ -34,7 +34,7 @@ export class MultiplyComparableCostWithPriceUnitPipe implements PipeTransform {
       : // value does not have to be multiplied with materialPriceUnit because it is already saved on that factor in the db
         value;
 
-    return this.transformationService.transformMarginDetails(
+    return this.transformationService.transformNumberCurrency(
       adjustedValue,
       currency
     );

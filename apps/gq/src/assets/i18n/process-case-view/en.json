@@ -162,6 +162,27 @@
         "approvalStatusOfApprover": {
           "forwardedTo": "Quotation forwarded to {{variable}}",
           "unknownApprover": "unknown"
+        },
+        "workflow": {
+          "workflowLabel": "Workflow",
+          "inApprovalLabel": "In Approval",
+          "cancelledLabel": "Cancelled",
+          "rejectedLabel": "Rejected",
+          "approversApproved": "{{ variable }} Approvers have approved",
+          "workflowStartedText": "Quotation Approval started",
+          "viewIterationsLabel": "View Iterations ({{amount}})",
+          "hideIterationsLabel": "Hide Iterations ({{amount}})",
+          "quotationApprovedText": "Quotation approved",
+          "caseApprovalStatus": "Approval given",
+          "approvalPending": "pending",
+          "eventCreatedBy": "{{date}} by {{user}}",
+          "unknownApprover": "unknown",
+          "STARTED": "Quotation Approval started",
+          "REJECTED": "Quotation Rejected",
+          "APPROVED": "Quotation Approved",
+          "FORWARDED": "Quotation forwarded",
+          "CANCELLED": "Approval cancelled",
+          "AUTO_APPROVAL": "Automatically approved by system"
         }
       }
     }

@@ -80,11 +80,11 @@ export class KpiListComponent {
         quotationDetail[kpi.key]
       );
     } else if (valueFormatter === KpiValueFormatter.NUMBER_CURRENCY) {
-      displayValue = this.transformationService.transformMarginDetails(
+      displayValue = this.transformationService.transformNumberCurrency(
         kpi.value,
         currency
       );
-      previousDisplayValue = this.transformationService.transformMarginDetails(
+      previousDisplayValue = this.transformationService.transformNumberCurrency(
         quotationDetail[kpi.key],
         currency
       );

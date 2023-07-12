@@ -1,22 +1,14 @@
 import { Injectable } from '@angular/core';
 
 import { Keyboard } from '@gq/shared/models';
-import {
-  TranslocoCurrencyPipe,
-  TranslocoDatePipe,
-  TranslocoDecimalPipe,
-  TranslocoPercentPipe,
-} from '@ngneat/transloco-locale';
+import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TransformationService {
   constructor(
-    private readonly translocoCurrencyPipe: TranslocoCurrencyPipe,
-    private readonly translocoDatePipe: TranslocoDatePipe,
-    private readonly translocoPercentPipe: TranslocoPercentPipe,
-    private readonly translocoDecimalPipe: TranslocoDecimalPipe
+    private readonly translocoLocaleService: TranslocoLocaleService
   ) {}
 
   transformNumber(number: number, showDigits: boolean): string {
@@ -24,10 +16,17 @@ export class TransformationService {
       return Keyboard.DASH;
     }
 
-    return this.translocoDecimalPipe.transform(number, {
-      minimumFractionDigits: showDigits ? 2 : undefined,
-      maximumFractionDigits: showDigits ? 2 : 0,
-    });
+    const locale = this.translocoLocaleService.getLocale();
+
+    return this.translocoLocaleService.localizeNumber(
+      number,
+      'decimal',
+      locale,
+      {
+        minimumFractionDigits: showDigits ? 2 : undefined,
+        maximumFractionDigits: showDigits ? 2 : 0,
+      }
+    );
   }
 
   transformNumberExcel(number: number): string {
@@ -35,42 +34,42 @@ export class TransformationService {
       return Keyboard.DASH;
     }
 
-    return this.translocoDecimalPipe.transform(
+    return this.translocoLocaleService.localizeNumber(
       number,
+      'decimal',
+      'en-US', // en-US is needed for Excel export due to Excel import issues with other seperators
       {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
         useGrouping: false,
-      },
-      'en-US'
+      }
     );
   }
 
-  transformNumberCurrency(number: string, currency: string): string {
+  transformNumberCurrency(number: number, currency: string): string {
+    const locale = this.translocoLocaleService.getLocale();
+
     return number
-      ? this.translocoCurrencyPipe.transform(
-          number,
-          'code',
-          undefined,
-          currency
-        )
+      ? this.translocoLocaleService.localizeNumber(number, 'currency', locale, {
+          currency,
+          currencyDisplay: 'code',
+        })
       : Keyboard.DASH;
   }
 
-  transformMarginDetails(value: number, currency: string): string {
-    if (!value) {
-      return Keyboard.DASH;
-    }
-
-    return this.transformNumberCurrency(value.toString(), currency);
-  }
-
   transformPercentage(percentage: number): string {
+    const locale = this.translocoLocaleService.getLocale();
+
     return percentage
-      ? this.translocoPercentPipe.transform(percentage / 100, {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })
+      ? this.translocoLocaleService.localizeNumber(
+          percentage / 100,
+          'percent',
+          locale,
+          {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          }
+        )
       : Keyboard.DASH;
   }
 
@@ -79,7 +78,9 @@ export class TransformationService {
       return '';
     }
 
-    return this.translocoDatePipe.transform(date, {
+    const locale = this.translocoLocaleService.getLocale();
+
+    return this.translocoLocaleService.localizeDate(date, locale, {
       day: '2-digit',
       month: '2-digit',
       year: '2-digit',

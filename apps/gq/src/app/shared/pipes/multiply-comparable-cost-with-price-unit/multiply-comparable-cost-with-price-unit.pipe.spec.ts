@@ -15,7 +15,7 @@ describe('MultiplyComparableCostWithPriceUnitPipe', () => {
       {
         provide: TransformationService,
         useValue: {
-          transformMarginDetails: jest.fn().mockReturnValue('result'),
+          transformNumberCurrency: jest.fn().mockReturnValue('result'),
         },
       },
     ],
@@ -38,7 +38,7 @@ describe('MultiplyComparableCostWithPriceUnitPipe', () => {
   test('should not adjust value for missing sapPriceUnit', () => {
     const result = pipe.transform(1, 'EUR', 10, undefined as any);
 
-    expect(transformationService.transformMarginDetails).toHaveBeenCalledWith(
+    expect(transformationService.transformNumberCurrency).toHaveBeenCalledWith(
       1,
       'EUR'
     );
@@ -48,7 +48,7 @@ describe('MultiplyComparableCostWithPriceUnitPipe', () => {
   test('should adjust value for given sapPriceUnit', () => {
     const result = pipe.transform(50, 'EUR', 10, 100 as any);
 
-    expect(transformationService.transformMarginDetails).toHaveBeenCalledWith(
+    expect(transformationService.transformNumberCurrency).toHaveBeenCalledWith(
       500,
       'EUR'
     );

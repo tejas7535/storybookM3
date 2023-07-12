@@ -1,0 +1,117 @@
+<div
+  class="flex flex-col"
+  *transloco="
+    let t;
+    read: 'processCaseView.tabs.overview.approvalCockpit.workflow'
+  "
+>
+  <ng-container
+    *ngrxLet="approvalFacade.getApprovalWorkflowEvents$ as workflowEvents"
+  >
+    <!-- the Headline-->
+    <div class="flex items-center justify-between">
+      <div class="text-body-1 font-bold">{{ t('workflowLabel') }}</div>
+      <div
+        class="flex flex-row items-center gap-1 rounded-full px-2 py-1"
+        [ngClass]="
+          (approvalFacade.quotationStatus$ | ngrxPush) ===
+          quotationStatus.APPROVED
+            ? 'bg-primary'
+            : 'bg-gray-300'
+        "
+      >
+        <mat-icon
+          class="!text-[14px] !w-[14px] !h-[auto] font-normal text-low-emphasis !flex items-center"
+          [ngClass]="
+            (approvalFacade.quotationStatus$ | ngrxPush) ===
+            quotationStatus.APPROVED
+              ? 'text-white'
+              : 'text-low-emphasis'
+          "
+          >check_circle_outline</mat-icon
+        >
+        <span
+          class="text-[12px] text-low-emphasis"
+          [ngClass]="
+            (approvalFacade.quotationStatus$ | ngrxPush) ===
+            quotationStatus.APPROVED
+              ? 'text-white'
+              : 'text-low-emphasis'
+          "
+          >{{ approvalFacade.workflowStepsComplete$ | ngrxPush }}/3</span
+        >
+      </div>
+    </div>
+    <!--StartEvent-->
+    <gq-approval-workflow-history-section
+      [icon]="'check_circle_outline'"
+      [iconColor]="'text-link'"
+      [title]="t('workflowStartedText')"
+      [subtitle]="
+        t('eventCreatedBy', {
+          date: (workflowEvents | slice: 0:1)[0]?.eventDate,
+          user:
+            (workflowEvents | slice: 0:1)[0]?.user
+            | approverDisplay: t('unknownApprover')
+        })
+      "
+    ></gq-approval-workflow-history-section>
+    <div
+      class="timeline border-l-2 border-l-border border-solid h-[1.5rem] bg border-y-border ml-3"
+    ></div>
+
+    <!-- section of all Iterations Event-->
+    <gq-approval-workflow-history-iterations></gq-approval-workflow-history-iterations>
+
+    <!--EndEvent-->
+    <ng-container
+      *ngIf="
+        (approvalFacade.quotationStatus$ | ngrxPush) ===
+          quotationStatus.APPROVED;
+        then approvalComplete;
+        else approvalPending
+      "
+    >
+    </ng-container>
+
+    <ng-template #approvalComplete>
+      <ng-container
+        *ngIf="
+          approvalFacade.quotationAutoApprovedEvent$ | ngrxPush;
+          then quotationAutoApproved;
+          else quotationByWorkflowApproved
+        "
+      ></ng-container>
+    </ng-template>
+
+    <ng-template #quotationAutoApproved>
+      <gq-approval-workflow-history-section
+        [icon]="'check_circle_outline'"
+        [iconColor]="'text-link'"
+        [title]="t('quotationApprovedText')"
+        [subtitle]="
+          (approvalFacade.quotationAutoApprovedEvent$ | ngrxPush)?.eventDate
+        "
+      ></gq-approval-workflow-history-section
+    ></ng-template>
+    <ng-template #quotationByWorkflowApproved>
+      <gq-approval-workflow-history-section
+        [icon]="'check_circle_outline'"
+        [iconColor]="'text-link'"
+        [title]="t('quotationApprovedText')"
+        [subtitle]="
+          (approvalFacade.quotationFinalReleaseEvent$ | ngrxPush)?.eventDate
+        "
+      ></gq-approval-workflow-history-section
+    ></ng-template>
+
+    <ng-template #approvalPending>
+      <gq-approval-workflow-history-section
+        [icon]="'timer_outline'"
+        [iconColor]="'text-low-emphasis'"
+        [title]="t('caseApprovalStatus')"
+        [subtitle]="t('approvalPending')"
+      ></gq-approval-workflow-history-section>
+    </ng-template>
+  </ng-container>
+</div>

@@ -33,7 +33,7 @@ export class MultiplyWithPriceUnitPipe implements PipeTransform {
       ? value * sapPriceUnit
       : value * materialPriceUnit;
 
-    return this.transformationService.transformMarginDetails(
+    return this.transformationService.transformNumberCurrency(
       adjustedValue,
       currency
     );

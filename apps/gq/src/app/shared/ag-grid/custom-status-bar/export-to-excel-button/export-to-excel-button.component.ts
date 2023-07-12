@@ -404,7 +404,7 @@ export class ExportToExcelButtonComponent implements OnInit {
           {
             data: {
               type: typeString,
-              value: this.transformationService.transformMarginDetails(
+              value: this.transformationService.transformNumberCurrency(
                 statusBarProperties?.netValue,
                 quotation.currency
               ),
@@ -598,7 +598,7 @@ export class ExportToExcelButtonComponent implements OnInit {
           {
             data: {
               type: typeString,
-              value: this.transformationService.transformMarginDetails(
+              value: this.transformationService.transformNumberCurrency(
                 customer.marginDetail?.netSalesLastYear,
                 customer.currency
               ),
@@ -643,7 +643,7 @@ export class ExportToExcelButtonComponent implements OnInit {
           {
             data: {
               type: typeString,
-              value: this.transformationService.transformMarginDetails(
+              value: this.transformationService.transformNumberCurrency(
                 customer.marginDetail?.currentNetSales,
                 customer.currency
               ),
@@ -854,7 +854,7 @@ export class ExportToExcelButtonComponent implements OnInit {
             t.calculationType === CalculationType.ABSOLUT
           ) {
             return this.transformationService.transformNumberCurrency(
-              this.transformationService.transformNumber(Number(value), true),
+              +this.transformationService.transformNumber(+value, true),
               this.params.context.quotation.currency
             );
           }

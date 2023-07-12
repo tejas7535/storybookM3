@@ -13,7 +13,7 @@ import { HorizontalDividerModule } from '@gq/shared/components/horizontal-divide
 import { KpiStatusCardComponent } from '@gq/shared/components/kpi-status-card/kpi-status-card.component';
 import { LabelTextModule } from '@gq/shared/components/label-text/label-text.module';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
-import { PushPipe } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 import * as echarts from 'echarts';
 import { NgxEchartsModule } from 'ngx-echarts';
 
@@ -30,6 +30,9 @@ import {
 } from './components';
 import { ApproverDisplayPipe } from './components/approval-cockpit/approval-workflow-approver/pipes/approver-display.pipe';
 import { UserInitialLettersPipe } from './components/approval-cockpit/approval-workflow-approver/pipes/user-initial-letters.pipe';
+import { ApprovalWorkflowHistoryComponent } from './components/approval-cockpit/approval-workflow-history/approval-workflow-history.component';
+import { ApprovalWorkflowHistoryIterationsComponent } from './components/approval-cockpit/approval-workflow-history/approval-workflow-history-iterations/approval-workflow-history-iterations.component';
+import { ApprovalWorkflowHistorySectionComponent } from './components/approval-cockpit/approval-workflow-history/approval-workflow-history-section/approval-workflow-history-section.component';
 import { ApprovalDecisionModalComponent } from './components/approval-decision-modal/approval-decision-modal.component';
 import { ForwardApprovalWorkflowModalComponent } from './components/forward-approval-workflow-modal/forward-approval-workflow-modal.component';
 import { OverviewTabComponent } from './overview-tab.component';
@@ -58,6 +61,7 @@ import { OverviewTabRoutingModule } from './overview-tab.routing.module';
     MatInputModule,
     LoadingSpinnerModule,
     UserSelectComponent,
+    LetDirective,
   ],
   declarations: [
     OverviewTabComponent,
@@ -67,6 +71,9 @@ import { OverviewTabRoutingModule } from './overview-tab.routing.module';
     QuotationByProductLineOrGpsdBarChartComponent,
     ApprovalCockpitComponent,
     ApprovalWorkflowApproverComponent,
+    ApprovalWorkflowHistoryComponent,
+    ApprovalWorkflowHistoryIterationsComponent,
+    ApprovalWorkflowHistorySectionComponent,
     ApprovalDecisionModalComponent,
     ForwardApprovalWorkflowModalComponent,
     UserInitialLettersPipe,

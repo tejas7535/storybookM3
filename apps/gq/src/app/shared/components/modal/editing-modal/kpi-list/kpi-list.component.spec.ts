@@ -43,7 +43,7 @@ describe('KpiListComponent', () => {
           transformPercentage: jest
             .fn()
             .mockImplementation((value: number) => `${value} %`),
-          transformMarginDetails: jest
+          transformNumberCurrency: jest
             .fn()
             .mockImplementation(
               (value: number, currency: string) => `${value} ${currency}`
@@ -154,11 +154,11 @@ describe('KpiListComponent', () => {
       };
       component.kpis = [kpi];
 
-      expect(transformationService.transformMarginDetails).toBeCalledWith(
+      expect(transformationService.transformNumberCurrency).toBeCalledWith(
         kpi.value,
         ACTIVE_CASE_STATE_MOCK.quotation.currency
       );
-      expect(transformationService.transformMarginDetails).toBeCalledWith(
+      expect(transformationService.transformNumberCurrency).toBeCalledWith(
         QUOTATION_DETAIL_MOCK.price,
         ACTIVE_CASE_STATE_MOCK.quotation.currency
       );
@@ -183,11 +183,11 @@ describe('KpiListComponent', () => {
       };
       component.kpis = [kpi];
 
-      expect(transformationService.transformMarginDetails).toBeCalledWith(
+      expect(transformationService.transformNumberCurrency).toBeCalledWith(
         kpi.value,
         ACTIVE_CASE_STATE_MOCK.quotation.currency
       );
-      expect(transformationService.transformMarginDetails).toBeCalledWith(
+      expect(transformationService.transformNumberCurrency).toBeCalledWith(
         QUOTATION_DETAIL_MOCK.targetPrice,
         ACTIVE_CASE_STATE_MOCK.quotation.currency
       );

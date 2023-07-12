@@ -14,7 +14,12 @@ import {
 } from '@gq/shared/models';
 import { QuotationStatus } from '@gq/shared/models/quotation';
 import { ApprovalService } from '@gq/shared/services/rest/approval/approval.service';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
+import {
+  createServiceFactory,
+  mockProvider,
+  SpectatorService,
+} from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -41,6 +46,7 @@ describe('ApprovalEffects', () => {
     providers: [
       provideMockActions(() => actions$),
       provideMockStore({ initialState: { approval: initialState } }),
+      mockProvider(TransformationService),
     ],
   });
 
@@ -336,6 +342,7 @@ describe('ApprovalEffects', () => {
               event: ApprovalEventType.STARTED,
               verified: true,
               comment: '',
+              user: undefined,
             },
           ],
         };
@@ -391,6 +398,7 @@ describe('ApprovalEffects', () => {
               event: ApprovalEventType.STARTED,
               verified: true,
               comment: '',
+              user: undefined,
             },
           ],
         };
@@ -445,6 +453,7 @@ describe('ApprovalEffects', () => {
               event: ApprovalEventType.STARTED,
               verified: true,
               comment: '',
+              user: undefined,
             },
           ],
         };

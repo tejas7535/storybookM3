@@ -20,7 +20,6 @@ import {
   Approver,
 } from '@gq/shared/models/approval';
 import { ApprovalService } from '@gq/shared/services/rest/approval/approval.service';
-import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
@@ -109,7 +108,7 @@ export class ApprovalFacade {
   approvalCockpitInformation$: Observable<ApprovalWorkflowInformation> =
     this.store.select(approvalFeature.getApprovalCockpitInformation);
 
-  approvalCockpitEvents$: Observable<ApprovalWorkflowEvent[]> =
+  getApprovalWorkflowEvents$: Observable<ApprovalWorkflowEvent[]> =
     this.store.select(approvalFeature.getApprovalCockpitEvents);
 
   hasAnyApprovalEvent$: Observable<boolean> = this.store.select(
@@ -186,12 +185,12 @@ export class ApprovalFacade {
     )
   );
 
-  numberOfRequiredApprovers$: Observable<number> =
+  numberOfRequiredApprovals$: Observable<number> =
     this.approvalStatusOfRequestedApprover$.pipe(
       map((items: ApprovalStatusOfRequestedApprover[]) => items.length)
     );
 
-  numberOfApproversApproved$: Observable<number> =
+  numberOfReceivedApprovals$: Observable<number> =
     this.approvalStatusOfRequestedApprover$.pipe(
       map(
         (items: ApprovalStatusOfRequestedApprover[]) =>
@@ -202,6 +201,44 @@ export class ApprovalFacade {
       )
     );
 
+  receivedApprovalsOfRequiredApprovals$: Observable<string> = combineLatest([
+    this.numberOfReceivedApprovals$,
+    this.numberOfRequiredApprovals$,
+  ]).pipe(
+    map(([approved, required]: [number, number]) => `${approved}/${required}`)
+  );
+
+  // TODO: will be update with FE AutoApproved Event implementation
+  workflowStepsComplete$ = combineLatest([
+    this.quotationStatus$,
+    this.numberOfReceivedApprovals$,
+    this.numberOfRequiredApprovals$,
+  ]).pipe(
+    map(
+      ([quotationStatus, approved, required]: [
+        QuotationStatus,
+        number,
+        number
+      ]) => {
+        switch (quotationStatus) {
+          case QuotationStatus.ACTIVE:
+            return 0;
+          case QuotationStatus.IN_APPROVAL:
+            return approved === required ? 2 : 1;
+          case QuotationStatus.APPROVED:
+            return 3;
+          case QuotationStatus.REJECTED:
+            return 1;
+          default:
+            return 0;
+        }
+      }
+    )
+  );
+
+  /**
+   * get the latest AUTO_APPROVED event of recent workflow
+   */
   quotationAutoApprovedEvent$: Observable<ApprovalWorkflowEvent> =
     combineLatest([
       this.quotationStatus$,
@@ -216,15 +253,7 @@ export class ApprovalFacade {
             eventItem.event === ApprovalEventType.AUTO_APPROVAL
         );
 
-        return (
-          autoApprovalEvent && {
-            ...autoApprovalEvent,
-            eventDate: this.transformationService.transformDate(
-              autoApprovalEvent.eventDate,
-              true
-            ),
-          }
-        );
+        return autoApprovalEvent;
       })
     );
 
@@ -316,10 +345,69 @@ export class ApprovalFacade {
     )
   );
 
+  /*
+   * get the latest RELEASED event af recent workflow
+   */
+  quotationFinalReleaseEvent$: Observable<ApprovalWorkflowEvent> =
+    combineLatest([
+      this.quotationStatus$,
+      this.store.select(approvalFeature.getEventsAfterLastWorkflowStarted),
+    ]).pipe(
+      map(([status, events]: [QuotationStatus, ApprovalWorkflowEvent[]]) => {
+        if (status !== QuotationStatus.APPROVED) {
+          return undefined as ApprovalWorkflowEvent;
+        }
+
+        return this.findEventByEventType(events, ApprovalEventType.RELEASED);
+      })
+    );
+
+  /**
+   * get the latest REJECTED event of recent workflow
+   */
+  quotationRejectedEvent$: Observable<ApprovalWorkflowEvent> = combineLatest([
+    this.quotationStatus$,
+    this.store.select(approvalFeature.selectApprovers),
+    this.store.select(approvalFeature.getEventsAfterLastWorkflowStarted),
+  ]).pipe(
+    map(
+      ([status, allApprovers, events]: [
+        QuotationStatus,
+        Approver[],
+        ApprovalWorkflowEvent[]
+      ]) => {
+        if (status !== QuotationStatus.REJECTED) {
+          return undefined as ApprovalWorkflowEvent;
+        }
+
+        const rejectedEvent = this.findEventByEventType(
+          events,
+          ApprovalEventType.REJECTED
+        );
+
+        return (
+          rejectedEvent && {
+            ...rejectedEvent,
+            user: this.findApproverByUserId(allApprovers, rejectedEvent.userId),
+          }
+        );
+      }
+    )
+  );
+
+  /** get the latest CANCELLED Event of recent Workflow */
+  quotationCancelledEvent$: Observable<ApprovalWorkflowEvent> =
+    this.getApprovalWorkflowEvents$.pipe(
+      map((events: ApprovalWorkflowEvent[]) =>
+        // if events are sorted descending and the last event is Cancelled, then the Workflow has been cancelled
+        // if there is any event after a cancelled event, then the workflow is in any other state
+        events[0]?.event === ApprovalEventType.CANCELLED ? events[0] : undefined
+      )
+    );
+
   constructor(
     private readonly store: Store,
     private readonly actions$: Actions,
-    private readonly transformationService: TransformationService,
     private readonly approvalService: ApprovalService
   ) {}
 
@@ -428,9 +516,7 @@ export class ApprovalFacade {
     userId: string
   ): ApprovalStatusOfRequestedApprover {
     return {
-      approver:
-        this.findApproverByUserId(approvers, userId) ??
-        ({ userId, firstName: userId } as Approver),
+      approver: this.findApproverByUserId(approvers, userId),
       event: this.findTheLatestApprovalEventOfUserId(events, userId),
     };
   }
@@ -473,13 +559,20 @@ export class ApprovalFacade {
    * @param userId userId to search for
    * @returns the approver {@link Approver}
    */
-  private findApproverByUserId(
+  private readonly findApproverByUserId = (
     approvers: Approver[],
     userId: string
-  ): Approver {
-    return approvers.find(
+  ): Approver =>
+    approvers.find(
       (listItem: Approver) =>
         listItem.userId.toLowerCase() === userId.toLowerCase()
+    ) ?? ({ userId, firstName: userId } as Approver);
+
+  private readonly findEventByEventType = (
+    events: ApprovalWorkflowEvent[],
+    eventType: ApprovalEventType
+  ): ApprovalWorkflowEvent =>
+    events.find(
+      (eventItem: ApprovalWorkflowEvent) => eventItem.event === eventType
     );
-  }
 }

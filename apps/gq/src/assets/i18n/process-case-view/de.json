@@ -162,6 +162,27 @@
         "approvalStatusOfApprover": {
           "forwardedTo": "Quotation weitergeleitet an {{variable}}",
           "unknownApprover": "unbekannt"
+        },
+        "workflow": {
+          "workflowLabel": "Workflow",
+          "inApprovalLabel": "in Freigabe",
+          "cancelledLabel": "Abgebrochen",
+          "rejectedLabel": "Zurückgewiesen",
+          "approversApproved": "{{ variable }} Genehmiger freigegeben",
+          "workflowStartedText": "Case Freigabe gestartet",
+          "viewIterationsLabel": "Iterationen anzeigen ({{amount}})",
+          "hideIterationsLabel": "Iterationen ausblenden ({{amount}})",
+          "quotationApprovedText": "Case freigegeben",
+          "caseApprovalStatus": "Freigabestatus",
+          "approvalPending": "wartend",
+          "eventCreatedBy": "{{date}} von {{user}}",
+          "unknownApprover": "unbekannt",
+          "STARTED": "Case Freigabe gestartet",
+          "REJECTED": "Case zurückgewiesen",
+          "APPROVED": "Case Freigegeben",
+          "FORWARDED": "Case weitergeleitet",
+          "CANCELLED": "Freigabe abgebrochen",
+          "AUTO_APPROVAL": "Freigabe durch System erteilt"
         }
       }
     }

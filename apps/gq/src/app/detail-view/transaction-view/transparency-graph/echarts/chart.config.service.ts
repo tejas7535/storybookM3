@@ -111,7 +111,7 @@ export class ChartConfigService {
     switch (item) {
       case ToolTipItems.PRICE:
         return this.transformationService.transformNumberCurrency(
-          data.price.toString(),
+          data.price,
           data.currency
         );
       case ToolTipItems.YEAR:
