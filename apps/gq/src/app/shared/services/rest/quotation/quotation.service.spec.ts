@@ -3,6 +3,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 
+import { QuotationTab } from '@gq/core/store/overview-cases/models/quotation-tab.enum';
 import { CreateCase, SalesIndication } from '@gq/core/store/reducers/models';
 import {
   createServiceFactory,
@@ -106,13 +107,24 @@ describe('QuotationService', () => {
   });
 
   describe('getCases', () => {
-    test('should call DataService getAll', () => {
+    test('should call', () => {
       service
-        .getCases(QuotationStatus.ACTIVE)
+        .getCases(QuotationTab.ACTIVE, 'userId')
         .subscribe((res) => expect(res).toEqual([]));
 
       const req = httpMock.expectOne(
         `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}?${service['PARAM_STATUS']}=${QuotationStatus.ACTIVE}`
+      );
+      expect(req.request.method).toBe(HttpMethod.GET);
+    });
+
+    test('should call with nextApprover', () => {
+      service
+        .getCases(QuotationTab.TO_APPROVE, 'userId')
+        .subscribe((res) => expect(res).toEqual([]));
+
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}?${service['PARAM_STATUS']}=${QuotationStatus.IN_APPROVAL}&${service['PARAM_NEXT_APPROVER']}=userId`
       );
       expect(req.request.method).toBe(HttpMethod.GET);
     });

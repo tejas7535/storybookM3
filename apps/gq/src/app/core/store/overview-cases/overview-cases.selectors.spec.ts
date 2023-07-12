@@ -1,5 +1,4 @@
 import { ExtendedViewToggle } from '@gq/case-view/models/extended-view-toggle';
-import { QuotationStatus } from '@gq/shared/models';
 import { translate } from '@ngneat/transloco';
 
 import {
@@ -10,6 +9,7 @@ import {
   VIEW_CASE_STATE_MOCK,
   VIEW_QUOTATION_MOCK,
 } from '../../../../testing/mocks';
+import { QuotationTab } from './models/quotation-tab.enum';
 import { initialState, OverviewCasesState } from './overview-cases.reducer';
 import * as overviewCasesSelectors from './overview-cases.selectors';
 
@@ -19,7 +19,7 @@ describe('Overview Cases Selector', () => {
       ...initialState,
       quotationsLoading: false,
       quotations: {
-        displayStatus: QuotationStatus.ACTIVE,
+        activeTab: QuotationTab.ACTIVE,
         active: {
           quotations: [VIEW_QUOTATION_MOCK],
           count: 1,
@@ -45,7 +45,7 @@ describe('Overview Cases Selector', () => {
         ...VIEW_CASE_STATE_MOCK,
         quotations: {
           ...VIEW_CASE_STATE_MOCK.quotations,
-          displayStatus: QuotationStatus.ARCHIVED,
+          activeTab: QuotationTab.ARCHIVED,
           archived: {
             quotations: [VIEW_QUOTATION_MOCK],
             count: 1,
@@ -61,7 +61,7 @@ describe('Overview Cases Selector', () => {
         ...VIEW_CASE_STATE_MOCK,
         quotations: {
           ...VIEW_CASE_STATE_MOCK.quotations,
-          displayStatus: QuotationStatus.IN_APPROVAL,
+          activeTab: QuotationTab.IN_APPROVAL,
           inApproval: {
             quotations: [VIEW_QUOTATION_MOCK],
             count: 1,
@@ -78,7 +78,7 @@ describe('Overview Cases Selector', () => {
         ...VIEW_CASE_STATE_MOCK,
         quotations: {
           ...VIEW_CASE_STATE_MOCK.quotations,
-          displayStatus: QuotationStatus.APPROVED,
+          activeTab: QuotationTab.APPROVED,
           approved: {
             quotations: [VIEW_QUOTATION_MOCK],
             count: 1,
@@ -103,7 +103,7 @@ describe('Overview Cases Selector', () => {
       expect(
         overviewCasesSelectors.getStatusBarForQuotationStatus.projector({
           quotations: {
-            displayStatus: QuotationStatus.ARCHIVED,
+            activeTab: QuotationTab.ARCHIVED,
           },
         } as OverviewCasesState)
       ).toEqual(ARCHIVED_STATUS_BAR_CONFIG);
@@ -118,35 +118,34 @@ describe('Overview Cases Selector', () => {
       const expectedViewToggles: ExtendedViewToggle[] = [
         {
           id: 0,
-          status: QuotationStatus.ACTIVE,
+          tab: QuotationTab.ACTIVE,
           title: 'translate it',
           active: true,
         },
-
+        {
+          id: 1,
+          tab: QuotationTab.TO_APPROVE,
+          active: false,
+          title: 'translate it',
+          disabled: false,
+        },
+        {
+          id: 2,
+          tab: QuotationTab.IN_APPROVAL,
+          active: false,
+          title: 'translate it',
+          disabled: false,
+        },
         {
           id: 3,
-          status: QuotationStatus.TO_BE_APPROVED,
+          tab: QuotationTab.APPROVED,
           active: false,
           title: 'translate it',
           disabled: false,
         },
         {
           id: 4,
-          status: QuotationStatus.IN_APPROVAL,
-          active: false,
-          title: 'translate it',
-          disabled: false,
-        },
-        {
-          id: 5,
-          status: QuotationStatus.APPROVED,
-          active: false,
-          title: 'translate it',
-          disabled: false,
-        },
-        {
-          id: 1,
-          status: QuotationStatus.ARCHIVED,
+          tab: QuotationTab.ARCHIVED,
           active: false,
           title: 'translate it',
           disabled: false,
@@ -170,34 +169,34 @@ describe('Overview Cases Selector', () => {
       const expectedViewToggles: ExtendedViewToggle[] = [
         {
           id: 0,
-          status: QuotationStatus.ACTIVE,
+          tab: QuotationTab.ACTIVE,
           active: true,
           title: 'translate it',
         },
         {
+          id: 1,
+          tab: QuotationTab.TO_APPROVE,
+          active: false,
+          title: 'translate it',
+          disabled: false,
+        },
+        {
+          id: 2,
+          tab: QuotationTab.IN_APPROVAL,
+          active: false,
+          title: 'translate it',
+          disabled: false,
+        },
+        {
           id: 3,
-          status: QuotationStatus.TO_BE_APPROVED,
+          tab: QuotationTab.APPROVED,
           active: false,
           title: 'translate it',
           disabled: false,
         },
         {
           id: 4,
-          status: QuotationStatus.IN_APPROVAL,
-          active: false,
-          title: 'translate it',
-          disabled: false,
-        },
-        {
-          id: 5,
-          status: QuotationStatus.APPROVED,
-          active: false,
-          title: 'translate it',
-          disabled: false,
-        },
-        {
-          id: 1,
-          status: QuotationStatus.ARCHIVED,
+          tab: QuotationTab.ARCHIVED,
           active: false,
           title: 'translate it',
           disabled: true,
@@ -233,27 +232,25 @@ describe('Overview Cases Selector', () => {
       const viewToggles: ExtendedViewToggle[] = [
         {
           id: 1,
-          status: QuotationStatus.ACTIVE,
+          tab: QuotationTab.ACTIVE,
         } as unknown as ExtendedViewToggle,
         {
           id: 2,
-          status: QuotationStatus.DELETED,
+          tab: QuotationTab.ARCHIVED,
         } as unknown as ExtendedViewToggle,
       ];
       expect(
-        overviewCasesSelectors
-          .getQuotationStatusFromView(1)
-          .projector(viewToggles)
-      ).toEqual(QuotationStatus.ACTIVE);
+        overviewCasesSelectors.getQuotationTabFromView(1).projector(viewToggles)
+      ).toEqual(QuotationTab.ACTIVE);
     });
   });
-  describe('getDisplayStatus', () => {
+  describe('getActiveTab', () => {
     test('should return QuotationStatus.ACTIVE', () => {
       expect(
-        overviewCasesSelectors.getDisplayStatus.projector(
+        overviewCasesSelectors.getActiveTab.projector(
           fakeState.overviewCases.quotations
         )
-      ).toBe(QuotationStatus.ACTIVE);
+      ).toBe(QuotationTab.ACTIVE);
     });
   });
 });

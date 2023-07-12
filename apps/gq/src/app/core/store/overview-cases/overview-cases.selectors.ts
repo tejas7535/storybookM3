@@ -5,11 +5,11 @@ import {
 import { ExtendedViewToggle } from '@gq/case-view/models/extended-view-toggle';
 import { AgStatusBar } from '@gq/shared/ag-grid/models/ag-status-bar.model';
 import { ViewQuotation } from '@gq/shared/models/quotation';
-import { QuotationStatus } from '@gq/shared/models/quotation/quotation-status.enum';
 import { translate } from '@ngneat/transloco';
 import { createSelector } from '@ngrx/store';
 
 import { OverviewCasesStateQuotations } from './models/overview-cases-state-quotations.model';
+import { QuotationTab } from './models/quotation-tab.enum';
 import {
   overviewCasesFeature,
   OverviewCasesState,
@@ -18,15 +18,17 @@ import {
 export const getQuotations = createSelector(
   overviewCasesFeature.selectOverviewCasesState,
   (state: OverviewCasesState): ViewQuotation[] => {
-    switch (state.quotations.displayStatus) {
-      case QuotationStatus.ACTIVE:
+    switch (state.quotations.activeTab) {
+      case QuotationTab.ACTIVE:
         return state.quotations.active.quotations;
-      case QuotationStatus.IN_APPROVAL:
+      case QuotationTab.IN_APPROVAL:
         return state.quotations.inApproval.quotations;
-      case QuotationStatus.APPROVED:
+      case QuotationTab.APPROVED:
         return state.quotations.approved.quotations;
-      case QuotationStatus.ARCHIVED:
+      case QuotationTab.ARCHIVED:
         return state.quotations.archived.quotations;
+      case QuotationTab.TO_APPROVE:
+        return state.quotations.toApprove.quotations;
       default:
         return undefined;
     }
@@ -36,10 +38,10 @@ export const getQuotations = createSelector(
 export const getStatusBarForQuotationStatus = createSelector(
   overviewCasesFeature.selectOverviewCasesState,
   (state: OverviewCasesState): AgStatusBar => {
-    switch (state.quotations.displayStatus) {
-      case QuotationStatus.ACTIVE:
+    switch (state.quotations.activeTab) {
+      case QuotationTab.ACTIVE:
         return ACTIVE_STATUS_BAR_CONFIG;
-      case QuotationStatus.ARCHIVED:
+      case QuotationTab.ARCHIVED:
         return ARCHIVED_STATUS_BAR_CONFIG;
       default:
         return { statusPanels: [] };
@@ -52,43 +54,43 @@ export const getViewToggles = createSelector(
   (state: OverviewCasesState): ExtendedViewToggle[] => [
     {
       id: 0,
-      status: QuotationStatus.ACTIVE,
-      active: state.quotations.displayStatus === QuotationStatus.ACTIVE,
+      tab: QuotationTab.ACTIVE,
+      active: state.quotations.activeTab === QuotationTab.ACTIVE,
       title: translate('caseView.caseTable.viewToggle.openCases', {
         variable: state.quotations.active.count,
       }),
     },
     {
-      id: 3,
-      status: QuotationStatus.TO_BE_APPROVED,
-      active: state.quotations.displayStatus === QuotationStatus.TO_BE_APPROVED,
-      title: translate('caseView.caseTable.viewToggle.toBeApproved', {
-        variable: state.quotations.toBeApproved?.count || 0,
+      id: 1,
+      tab: QuotationTab.TO_APPROVE,
+      active: state.quotations.activeTab === QuotationTab.TO_APPROVE,
+      title: translate('caseView.caseTable.viewToggle.toApprove', {
+        variable: state.quotations.toApprove?.count || 0,
       }),
-      disabled: state.quotations.toBeApproved?.count === 0,
+      disabled: state.quotations.toApprove?.count === 0,
     },
     {
-      id: 4,
-      status: QuotationStatus.IN_APPROVAL,
-      active: state.quotations.displayStatus === QuotationStatus.IN_APPROVAL,
+      id: 2,
+      tab: QuotationTab.IN_APPROVAL,
+      active: state.quotations.activeTab === QuotationTab.IN_APPROVAL,
       title: translate('caseView.caseTable.viewToggle.inApproval', {
         variable: state.quotations.inApproval?.count || 0,
       }),
       disabled: state.quotations.inApproval?.count === 0,
     },
     {
-      id: 5,
-      status: QuotationStatus.APPROVED,
-      active: state.quotations.displayStatus === QuotationStatus.APPROVED,
+      id: 3,
+      tab: QuotationTab.APPROVED,
+      active: state.quotations.activeTab === QuotationTab.APPROVED,
       title: translate('caseView.caseTable.viewToggle.approved', {
         variable: state.quotations.approved?.count || 0,
       }),
       disabled: state.quotations.approved?.count === 0,
     },
     {
-      id: 1,
-      status: QuotationStatus.ARCHIVED,
-      active: state.quotations.displayStatus === QuotationStatus.ARCHIVED,
+      id: 4,
+      tab: QuotationTab.ARCHIVED,
+      active: state.quotations.activeTab === QuotationTab.ARCHIVED,
       title: translate('caseView.caseTable.viewToggle.deletedDrafts', {
         variable: state.quotations.archived.count,
       }),
@@ -96,15 +98,15 @@ export const getViewToggles = createSelector(
     },
   ]
 );
-export const getQuotationStatusFromView = (id: number) =>
+export const getQuotationTabFromView = (id: number) =>
   createSelector(
     getViewToggles,
     (viewToggles: ExtendedViewToggle[]) =>
-      viewToggles.find((view) => view.id === id)?.status
+      viewToggles.find((view) => view.id === id)?.tab
   );
 
-export const getDisplayStatus = createSelector(
+export const getActiveTab = createSelector(
   overviewCasesFeature.selectQuotations,
-  (viewQuotations: OverviewCasesStateQuotations): QuotationStatus =>
-    viewQuotations.displayStatus
+  (viewQuotations: OverviewCasesStateQuotations): QuotationTab =>
+    viewQuotations.activeTab
 );

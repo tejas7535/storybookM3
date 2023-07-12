@@ -4,6 +4,7 @@ import { GetQuotationsResponse } from '@gq/shared/services/rest/quotation/models
 import { createFeature, createReducer, on } from '@ngrx/store';
 
 import { OverviewCasesStateQuotations } from './models/overview-cases-state-quotations.model';
+import { QuotationTab } from './models/quotation-tab.enum';
 import { OverviewCasesActions } from './overview-cases.actions';
 
 export interface OverviewCasesState {
@@ -18,7 +19,7 @@ export const initialState: OverviewCasesState = {
   quotationsLoading: false,
   errorMessage: undefined,
   quotations: {
-    displayStatus: QuotationStatus.ACTIVE,
+    activeTab: QuotationTab.ACTIVE,
     active: {
       quotations: [],
       count: undefined,
@@ -27,7 +28,7 @@ export const initialState: OverviewCasesState = {
       quotations: [],
       count: undefined,
     },
-    toBeApproved: {
+    toApprove: {
       quotations: [],
       count: undefined,
     },
@@ -49,11 +50,11 @@ export const overviewCasesFeature = createFeature({
     initialState,
     on(
       OverviewCasesActions.loadCases,
-      (state: OverviewCasesState, { status }): OverviewCasesState => ({
+      (state: OverviewCasesState, { tab }): OverviewCasesState => ({
         ...state,
         quotations: {
           ...state.quotations,
-          displayStatus: status,
+          activeTab: tab,
         },
         quotationsLoading: true,
       })
@@ -69,9 +70,16 @@ export const overviewCasesFeature = createFeature({
     on(
       OverviewCasesActions.loadCasesSuccess,
       (state: OverviewCasesState, { response }): OverviewCasesState => {
-        const { activeCount, inApprovalCount, approvedCount, archivedCount } =
-          response;
-        const { active, inApproval, approved, archived } = state.quotations;
+        const {
+          activeCount,
+          inApprovalCount,
+          approvedCount,
+          archivedCount,
+          toApproveCount,
+          statusTypeOfListedQuotation,
+        } = response;
+        const { active, approved, archived, toApprove, activeTab } =
+          state.quotations;
 
         const quotations: OverviewCasesStateQuotations = {
           ...state.quotations,
@@ -85,11 +93,19 @@ export const overviewCasesFeature = createFeature({
           },
           inApproval: {
             count: inApprovalCount,
-            quotations: getQuotationsFromResponse(
-              response,
-              inApproval.quotations,
-              QuotationStatus.IN_APPROVAL
-            ),
+            quotations:
+              statusTypeOfListedQuotation === QuotationStatus.IN_APPROVAL &&
+              activeTab === QuotationTab.IN_APPROVAL
+                ? response.quotations
+                : toApprove.quotations,
+          },
+          toApprove: {
+            count: toApproveCount,
+            quotations:
+              statusTypeOfListedQuotation === QuotationStatus.IN_APPROVAL &&
+              activeTab === QuotationTab.TO_APPROVE
+                ? response.quotations
+                : toApprove.quotations,
           },
           approved: {
             count: approvedCount,

@@ -2,11 +2,13 @@ import { QuotationStatus } from '@gq/shared/models/quotation/quotation-status.en
 import { GetQuotationsResponse } from '@gq/shared/services/rest/quotation/models/get-quotations-response.interface';
 import { createActionGroup, props } from '@ngrx/store';
 
+import { QuotationTab } from './models/quotation-tab.enum';
+
 export const OverviewCasesActions = createActionGroup({
   source: 'OverviewCases',
   events: {
     'load Cases for View': props<{ viewId: number }>(),
-    'load Cases': props<{ status: QuotationStatus }>(),
+    'load Cases': props<{ tab: QuotationTab }>(),
     'load Cases Success': props<{ response: GetQuotationsResponse }>(),
     'load Cases Failure': props<{ errorMessage: string }>(),
     'update Cases Status': props<{

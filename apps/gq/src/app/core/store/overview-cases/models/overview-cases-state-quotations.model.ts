@@ -1,12 +1,11 @@
-import { QuotationStatus } from '@gq/shared/models/quotation/quotation-status.enum';
-
+import { QuotationTab } from '../models/quotation-tab.enum';
 import { OverviewCasesStateQuotation } from './overview-cases-state-quotation.model';
 
 export interface OverviewCasesStateQuotations {
-  displayStatus: QuotationStatus;
+  activeTab: QuotationTab;
   active: OverviewCasesStateQuotation;
   archived: OverviewCasesStateQuotation;
-  toBeApproved: OverviewCasesStateQuotation;
+  toApprove: OverviewCasesStateQuotation;
   inApproval: OverviewCasesStateQuotation;
   approved: OverviewCasesStateQuotation;
 }

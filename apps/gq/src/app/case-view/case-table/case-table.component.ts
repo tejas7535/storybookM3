@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { Observable, take } from 'rxjs';
 
+import { QuotationTab } from '@gq/core/store/overview-cases/models/quotation-tab.enum';
 import { OverviewCasesFacade } from '@gq/core/store/overview-cases/overview-cases.facade';
 import { CaseTableColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { AgGridLocale } from '@gq/shared/ag-grid/models/ag-grid-locale.interface';
@@ -14,7 +15,7 @@ import {
   disableTableHorizontalScrollbar,
   statusBarStlye,
 } from '@gq/shared/constants';
-import { QuotationStatus, ViewQuotation } from '@gq/shared/models/quotation';
+import { ViewQuotation } from '@gq/shared/models/quotation';
 import {
   ColDef,
   GetContextMenuItemsParams,
@@ -50,7 +51,7 @@ export class CaseTableComponent implements OnInit {
 
   @Input() rowData: ViewQuotation[];
   @Input() statusBar: AgStatusBar;
-  @Input() displayStatus: QuotationStatus;
+  @Input() activeTab: QuotationTab;
 
   ngOnInit(): void {
     this.localeText$ = this.localizationService.locale$;
@@ -60,12 +61,12 @@ export class CaseTableComponent implements OnInit {
     this.columnDefs = this.columnDefService.COLUMN_DEFS.filter((colDef) =>
       this.columnUtilityService.filterQuotationStatusColumns(
         colDef,
-        this.displayStatus
+        this.activeTab
       )
     ).map((colDef) =>
       this.columnUtilityService.mapLastUpdateDateOnColumn(
         colDef,
-        this.displayStatus
+        this.activeTab
       )
     );
   }

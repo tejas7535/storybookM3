@@ -17,8 +17,11 @@ import { createSelector } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
+import { getUserUniqueIdentifier } from '@schaeffler/azure-auth';
+
 import { GET_QUOTATIONS_RESPONSE_MOCK } from '../../../../testing/mocks';
 import { ActiveCaseActions } from '../active-case';
+import { QuotationTab } from './models/quotation-tab.enum';
 import { OverviewCasesActions } from './overview-cases.actions';
 import { OverviewCasesEffects } from './overview-cases.effects';
 import * as fromOverviewCasesSelector from './overview-cases.selectors';
@@ -69,7 +72,7 @@ describe('Overview Cases Effects', () => {
       'should dispatch loadCases',
       marbles((m) => {
         const result = OverviewCasesActions.loadCases({
-          status: QuotationStatus.ACTIVE,
+          tab: QuotationTab.ACTIVE,
         });
 
         actions$ = m.hot('-a', { a: action });
@@ -89,17 +92,17 @@ describe('Overview Cases Effects', () => {
       'should return loadCases',
       marbles((m) => {
         jest
-          .spyOn(fromOverviewCasesSelector, 'getQuotationStatusFromView')
+          .spyOn(fromOverviewCasesSelector, 'getQuotationTabFromView')
           .mockImplementation(
             () =>
               createSelector(
                 () => {},
-                () => QuotationStatus.ACTIVE
+                () => QuotationTab.ACTIVE
               ) as any
           );
 
         const result = OverviewCasesActions.loadCases({
-          status: QuotationStatus.ACTIVE,
+          tab: QuotationTab.ACTIVE,
         });
         actions$ = m.hot('-a', { a: action });
 
@@ -113,8 +116,9 @@ describe('Overview Cases Effects', () => {
   describe('loadCases', () => {
     beforeEach(() => {
       action = OverviewCasesActions.loadCases({
-        status: QuotationStatus.ACTIVE,
+        tab: QuotationTab.ACTIVE,
       });
+      store.overrideSelector(getUserUniqueIdentifier, 'userId');
     });
 
     test(
@@ -138,6 +142,10 @@ describe('Overview Cases Effects', () => {
         m.flush();
 
         expect(quotationService.getCases).toHaveBeenCalledTimes(1);
+        expect(quotationService.getCases).toHaveBeenCalledWith(
+          QuotationTab.ACTIVE,
+          'userId'
+        );
       })
     );
 
@@ -280,8 +288,8 @@ describe('Overview Cases Effects', () => {
   describe('loadCasesAfterUpdatingStatus', () => {
     beforeEach(() => {
       store.overrideSelector(
-        fromOverviewCasesSelector.getDisplayStatus,
-        QuotationStatus.ACTIVE
+        fromOverviewCasesSelector.getActiveTab,
+        QuotationTab.ACTIVE
       );
       action = OverviewCasesActions.updateCasesStatusSuccess({ gqIds: [1] });
     });
@@ -294,7 +302,7 @@ describe('Overview Cases Effects', () => {
         actions$ = m.hot('-a', { a: action });
 
         const result = OverviewCasesActions.loadCases({
-          status: QuotationStatus.ACTIVE,
+          tab: QuotationTab.ACTIVE,
         });
         const response = m.cold('-a|');
         const expected = m.cold('-b', {

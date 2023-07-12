@@ -5,7 +5,7 @@
     "viewToggle": {
       "openCases": "Offene Angebote ({{variable}})",
       "deletedDrafts": "Gelöschte Entwürfe ({{variable}})",
-      "toBeApproved": "Zur Genehmigung ({{variable}})",
+      "toApprove": "Zu genehmigende Angebote ({{variable}})",
       "inApproval": "Meine Angebote in Genehmigung ({{variable}})",
       "approved": "Genehmigte Angebote ({{variable}})"
     },

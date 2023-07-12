@@ -4,6 +4,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import {
+  QuotationStatusByQuotationTab,
+  QuotationTab,
+} from '@gq/core/store/overview-cases/models/quotation-tab.enum';
 import { CreateCase, CreateCaseResponse } from '@gq/core/store/reducers/models';
 import { QuotationSearchResult } from '@gq/shared/models/quotation';
 
@@ -19,6 +23,8 @@ import { UpdateQuotationRequest } from './models/update-quotation-request.model'
 })
 export class QuotationService {
   private readonly PARAM_STATUS = 'status';
+  private readonly PARAM_NEXT_APPROVER = 'next_approver';
+
   private readonly PARAM_MATERIAL_NUMBER = 'material-number';
 
   constructor(private readonly http: HttpClient) {}
@@ -58,8 +64,18 @@ export class QuotationService {
     );
   }
 
-  public getCases(status: QuotationStatus): Observable<GetQuotationsResponse> {
-    const httpParams = new HttpParams().set(this.PARAM_STATUS, status);
+  getCases(
+    tab: QuotationTab,
+    nextApprover: string
+  ): Observable<GetQuotationsResponse> {
+    let httpParams = new HttpParams().set(
+      this.PARAM_STATUS,
+      QuotationStatusByQuotationTab.get(tab)
+    );
+
+    if (tab === QuotationTab.TO_APPROVE) {
+      httpParams = httpParams.set(this.PARAM_NEXT_APPROVER, nextApprover);
+    }
 
     return this.http.get<GetQuotationsResponse>(
       `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}`,

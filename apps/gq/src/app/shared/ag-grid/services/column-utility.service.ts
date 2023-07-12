@@ -2,6 +2,7 @@
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Injectable } from '@angular/core';
 
+import { QuotationTab } from '@gq/core/store/overview-cases/models/quotation-tab.enum';
 import {
   CalculationType,
   SalesIndication,
@@ -24,12 +25,7 @@ import {
 
 import { getNumberFilterRegex, LOCALE_DE, LOCALE_EN } from '../../constants';
 import { UserRoles } from '../../constants/user-roles.enum';
-import {
-  CASE_ORIGIN,
-  Keyboard,
-  Quotation,
-  QuotationStatus,
-} from '../../models';
+import { CASE_ORIGIN, Keyboard, Quotation } from '../../models';
 import {
   LastCustomerPriceCondition,
   PriceSource,
@@ -254,9 +250,9 @@ export class ColumnUtilityService {
     );
   }
 
-  filterQuotationStatusColumns(colDef: ColDef, displayStatus: QuotationStatus) {
+  filterQuotationStatusColumns(colDef: ColDef, tab: QuotationTab) {
     if (
-      displayStatus !== QuotationStatus.ACTIVE &&
+      tab !== QuotationTab.ACTIVE &&
       colDef.field === CaseTableColumnFields.SAP_SYNC_STATUS
     ) {
       return false;
@@ -265,12 +261,12 @@ export class ColumnUtilityService {
     return true;
   }
 
-  mapLastUpdateDateOnColumn(colDef: ColDef, displayStatus: QuotationStatus) {
+  mapLastUpdateDateOnColumn(colDef: ColDef, activeTab: QuotationTab) {
     if (colDef.field === CaseTableColumnFields.LAST_UPDATED) {
       return {
         ...colDef,
         headerName:
-          displayStatus === QuotationStatus.ARCHIVED
+          activeTab === QuotationTab.ARCHIVED
             ? translate('caseView.caseTable.deletedOnDate')
             : translate('caseView.caseTable.lastUpdatedDate'),
       };

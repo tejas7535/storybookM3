@@ -5,6 +5,7 @@ export interface GetQuotationsResponse {
   statusTypeOfListedQuotation: QuotationStatus;
   activeCount: number;
   inApprovalCount: number;
+  toApproveCount: number;
   approvedCount: number;
   archivedCount: number;
 }

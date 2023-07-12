@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { map, Observable } from 'rxjs';
 
+import { QuotationTab } from '@gq/core/store/overview-cases/models/quotation-tab.enum';
 import { OverviewCasesFacade } from '@gq/core/store/overview-cases/overview-cases.facade';
-import { QuotationStatus } from '@gq/shared/models/quotation';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 
 import { ViewToggle } from '@schaeffler/view-toggle';
@@ -30,9 +30,7 @@ export class CaseViewComponent implements OnInit {
         }
 
         return views.filter((view: ExtendedViewToggle) =>
-          [QuotationStatus.ACTIVE, QuotationStatus.ARCHIVED].includes(
-            view.status
-          )
+          [QuotationTab.ACTIVE, QuotationTab.ARCHIVED].includes(view.tab)
         );
       })
     );

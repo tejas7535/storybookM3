@@ -1,10 +1,11 @@
 import { ExtendedViewToggle } from '@gq/case-view/models/extended-view-toggle';
 import { AgStatusBar } from '@gq/shared/ag-grid/models/ag-status-bar.model';
 import { QuotationStatus, ViewQuotation } from '@gq/shared/models/quotation';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
+import { QuotationTab } from './models/quotation-tab.enum';
 import { OverviewCasesActions } from './overview-cases.actions';
 import { OverviewCasesFacade } from './overview-cases.facade';
 import { overviewCasesFeature } from './overview-cases.reducer';
@@ -79,14 +80,14 @@ describe('OverviewCasesFacade', () => {
     );
 
     test(
-      'should provide displayStatus$',
+      'should provide activeTab$',
       marbles((m) => {
         mockStore.overrideSelector(
-          fromOverviewCasesSelector.getDisplayStatus,
-          QuotationStatus.APPROVED
+          fromOverviewCasesSelector.getActiveTab,
+          QuotationTab.APPROVED
         );
-        m.expect(facade.displayStatus$).toBeObservable(
-          m.cold('a', { a: QuotationStatus.APPROVED })
+        m.expect(facade.activeTab$).toBeObservable(
+          m.cold('a', { a: QuotationTab.APPROVED })
         );
       })
     );

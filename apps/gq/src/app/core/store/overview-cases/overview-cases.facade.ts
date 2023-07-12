@@ -8,6 +8,7 @@ import { ViewQuotation } from '@gq/shared/models/quotation';
 import { QuotationStatus } from '@gq/shared/models/quotation/quotation-status.enum';
 import { Store } from '@ngrx/store';
 
+import { QuotationTab } from './models/quotation-tab.enum';
 import { OverviewCasesActions } from './overview-cases.actions';
 import { overviewCasesFeature } from './overview-cases.reducer';
 import * as fromOverviewCasesSelectors from './overview-cases.selectors';
@@ -27,8 +28,8 @@ export class OverviewCasesFacade {
     fromOverviewCasesSelectors.getViewToggles
   );
 
-  displayStatus$: Observable<QuotationStatus> = this.store.select(
-    fromOverviewCasesSelectors.getDisplayStatus
+  activeTab$: Observable<QuotationTab> = this.store.select(
+    fromOverviewCasesSelectors.getActiveTab
   );
 
   quotationsLoading$: Observable<boolean> = this.store.select(

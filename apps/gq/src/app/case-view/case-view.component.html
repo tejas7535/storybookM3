@@ -24,7 +24,7 @@
       class="h-full"
       [rowData]="overviewCasesFacade.quotations$ | ngrxPush"
       [statusBar]="overviewCasesFacade.statusBarForQuotationStatus$ | ngrxPush"
-      [displayStatus]="overviewCasesFacade.displayStatus$ | ngrxPush"
+      [activeTab]="overviewCasesFacade.activeTab$ | ngrxPush"
     ></gq-case-table>
   </div>
 </div>

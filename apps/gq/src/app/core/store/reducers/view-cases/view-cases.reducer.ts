@@ -34,7 +34,7 @@ export const initialState: ViewCasesState = {
       quotations: [],
       count: undefined,
     },
-    toBeApproved: {
+    toApprove: {
       quotations: [],
       count: undefined,
     },

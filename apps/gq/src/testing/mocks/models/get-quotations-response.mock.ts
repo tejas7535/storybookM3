@@ -6,6 +6,7 @@ export const GET_QUOTATIONS_RESPONSE_MOCK: GetQuotationsResponse = {
   activeCount: 0,
   archivedCount: 0,
   inApprovalCount: 0,
+  toApproveCount: 0,
   approvedCount: 0,
   statusTypeOfListedQuotation: QuotationStatus.ACTIVE,
 };

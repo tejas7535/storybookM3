@@ -5,7 +5,7 @@
     "viewToggle": {
       "openCases": "Open cases ({{variable}})",
       "deletedDrafts": "Deleted drafts ({{variable}})",
-      "toBeApproved": "To be approved ({{variable}})",
+      "toApprove": "Cases to approve ({{variable}})",
       "inApproval": "My cases in approval ({{variable}})",
       "approved": "Approved cases ({{variable}})"
     },

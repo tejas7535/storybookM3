@@ -13,12 +13,18 @@ import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 
+import { getUserUniqueIdentifier } from '@schaeffler/azure-auth';
+
 import { ActiveCaseActions } from '../active-case/active-case.action';
+import { QuotationTab } from './models/quotation-tab.enum';
 import { OverviewCasesActions } from './overview-cases.actions';
 import * as fromOverviewCasesSelector from './overview-cases.selectors';
 
 @Injectable()
 export class OverviewCasesEffects {
+  /**
+   * Load QuotationTab active when navigating to the CaseViewPath
+   */
   getCases$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ROUTER_NAVIGATED),
@@ -26,21 +32,22 @@ export class OverviewCasesEffects {
       filter((routerState) =>
         routerState.url.includes(AppRoutePath.CaseViewPath)
       ),
-      map(() =>
-        OverviewCasesActions.loadCases({ status: QuotationStatus.ACTIVE })
-      )
+      map(() => OverviewCasesActions.loadCases({ tab: QuotationTab.ACTIVE }))
     );
   });
 
+  /**
+   * Load QuotationTab when switching between tabs.
+   */
   loadCasesForView$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(OverviewCasesActions.loadCasesForView),
       concatLatestFrom((action) =>
         this.store.select(
-          fromOverviewCasesSelector.getQuotationStatusFromView(action.viewId)
+          fromOverviewCasesSelector.getQuotationTabFromView(action.viewId)
         )
       ),
-      map(([_action, status]) => OverviewCasesActions.loadCases({ status }))
+      map(([_action, tab]) => OverviewCasesActions.loadCases({ tab }))
     );
   });
 
@@ -50,8 +57,9 @@ export class OverviewCasesEffects {
   loadCases$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(OverviewCasesActions.loadCases),
-      mergeMap((action) =>
-        this.quotationService.getCases(action.status).pipe(
+      concatLatestFrom(() => this.store.select(getUserUniqueIdentifier)),
+      mergeMap(([action, userId]) =>
+        this.quotationService.getCases(action.tab, userId).pipe(
           map((response: GetQuotationsResponse) =>
             OverviewCasesActions.loadCasesSuccess({ response })
           ),
@@ -101,13 +109,13 @@ export class OverviewCasesEffects {
     return this.actions$.pipe(
       ofType(OverviewCasesActions.updateCasesStatusSuccess),
       concatLatestFrom(() =>
-        this.store.select(fromOverviewCasesSelector.getDisplayStatus)
+        this.store.select(fromOverviewCasesSelector.getActiveTab)
       ),
       map(
-        ([_, status]: [
+        ([_, tab]: [
           ReturnType<typeof OverviewCasesActions.updateCasesStatusSuccess>,
-          QuotationStatus
-        ]) => OverviewCasesActions.loadCases({ status })
+          QuotationTab
+        ]) => OverviewCasesActions.loadCases({ tab })
       )
     );
   });
