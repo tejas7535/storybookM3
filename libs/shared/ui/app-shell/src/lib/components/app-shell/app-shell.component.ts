@@ -58,6 +58,12 @@ export class AppShellComponent implements OnInit {
     this.translocoService.setTranslation(zhJson, 'zh');
   }
 
+  // close the sidenav when pressing "esc"
+  @HostListener('document:keyup.esc')
+  public onEscKeyUp() {
+    this.sidenavOpen = false;
+  }
+
   public ngOnInit(): void {
     if (this.scrollToTop) {
       this.router.events
@@ -66,11 +72,5 @@ export class AppShellComponent implements OnInit {
           this.sidenavContent.scrollTo({ top: 0 });
         });
     }
-  }
-
-  // close the sidenav when pressing "esc"
-  @HostListener('document:keyup.esc')
-  public onEscKeyUp() {
-    this.sidenavOpen = false;
   }
 }
