@@ -10,6 +10,10 @@
           {{t('title', {bearingDesignation: bearingDesignation$ | ngrxPush } )}}
         </div>
         <ea-info-banner
+          [isWarning]="true"
+          [infoText]="t('prototypeWarning')"
+        ></ea-info-banner>
+        <ea-info-banner
           *ngIf="(isDownstreamUnavailable$ | ngrxPush)"
           [infoText]="t('co2DownstreamUnavailableHint')"
         ></ea-info-banner>

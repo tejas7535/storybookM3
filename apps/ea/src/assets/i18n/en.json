@@ -9,6 +9,7 @@
   },
   "operationConditions": {
     "title": "Operating conditions for bearing {{bearingDesignation}}",
+    "prototypeWarning": "The values shown in the this development prototype are hypothetical and must not be used in production",
     "co2DownstreamUnavailableHint": "For the selected bearing a calculation for CO₂e values during operation is currently not available.",
     "loads": "Load",
     "radialLoad": "Radial load",

@@ -15,12 +15,12 @@
         <ea-tag
           *ngIf="!item.warning"
           [value]="item.short"
-          styleClass="text-[#007892] bg-[#F0F6FA]"
+          styleClass="text-info bg-info"
         ></ea-tag>
         <ea-tag
           *ngIf="item.warning"
           [value]="item.short"
-          styleClass="text-[#966C00] bg-[#FEF9EE]"
+          styleClass="text-warning bg-warning"
         ></ea-tag>
       </div>
       <div
@@ -43,7 +43,7 @@
         *ngIf="item.warning"
         class="flex flex-row items-center justify-start"
       >
-        <div class="pr-1 text-[#ffa026]">
+        <div class="pr-1 text-warning-icon">
           <mat-icon>info_outline</mat-icon>
         </div>
         <div class="text-high-emphasis text-caption">
