@@ -1,4 +1,12 @@
 # Release Notes of Grease App
+## [1.3.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.3.2...ga-v1.3.3) (2023-07-13)
+
+
+### Features
+
+* **ga:** add related google play app to webmanifest - UFTABI-6018 ([#5411](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5411)) ([602aa2a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/602aa2a102938a8c806dd1c8d351c93b3933b5a3))
+* **ga:** implement google analytics tracking calls (UFTABI-6382) ([#5410](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5410)) ([8b30c55](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8b30c5553b64d3ab3a1438dcbace831bcea39d6c))
+
 ## [1.3.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.3.1...ga-v1.3.2) (2023-05-30)
 
 
