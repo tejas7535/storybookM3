@@ -44,14 +44,15 @@
     </div>
     <!--StartEvent-->
     <gq-approval-workflow-history-section
+      *ngrxLet="workflowEvents?.slice().reverse() as workflowEventsAsc"
       [icon]="'check_circle_outline'"
       [iconColor]="'text-link'"
       [title]="t('workflowStartedText')"
       [subtitle]="
         t('eventCreatedBy', {
-          date: (workflowEvents | slice: 0:1)[0]?.eventDate,
+          date: (workflowEventsAsc | slice: 0:1)[0]?.eventDate,
           user:
-            (workflowEvents | slice: 0:1)[0]?.user
+            (workflowEventsAsc | slice: 0:1)[0]?.user
             | approverDisplay: t('unknownApprover')
         })
       "

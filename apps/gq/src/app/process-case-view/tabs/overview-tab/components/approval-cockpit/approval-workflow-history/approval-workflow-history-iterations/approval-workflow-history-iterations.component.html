@@ -54,7 +54,10 @@
       </gq-approval-workflow-history-section>
 
       <ng-container *ngIf="iterationVisible">
-        <ng-container *ngFor="let event of workflowEvents | slice: 1"
+        <!-- data is stored in descended sorting in the store, for displaying the history we want it in ascending -->
+        <!-- slice the array because first event is the started event, which is not displayed in iterations section-->
+        <ng-container
+          *ngFor="let event of workflowEvents?.slice().reverse() | slice: 1"
           ><!--slice the array because first event is the started event, which is not displayed in iterations section-->
           <gq-approval-workflow-history-section
             [title]="t(event.event)"
