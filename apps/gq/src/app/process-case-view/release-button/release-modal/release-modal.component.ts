@@ -16,13 +16,13 @@ import {
   MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
   MatLegacyDialogRef as MatDialogRef,
 } from '@angular/material/legacy-dialog';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import {
   combineLatest,
   distinctUntilChanged,
   filter,
   map,
-  merge,
   Observable,
   Subject,
   take,
@@ -30,7 +30,9 @@ import {
   tap,
 } from 'rxjs';
 
+import { AppRoutePath } from '@gq/app-route-path.enum';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
+import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-path.enum';
 import {
   ActiveDirectoryUser,
   ApprovalLevel,
@@ -98,7 +100,9 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
     public dialogData: Quotation,
     private readonly dialogRef: MatDialogRef<ReleaseModalComponent>,
     private readonly formBuilder: FormBuilder,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute
   ) {
     this.REQUIRED_ERROR_MESSAGE = this.translocoService.translate(
       'processCaseView.header.releaseModal.requiredError'
@@ -147,10 +151,11 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
 
     this.setApprovalControlsAndInitialData();
 
-    merge(
-      this.approvalFacade.triggerApprovalWorkflowSucceeded$,
-      this.approvalFacade.saveApprovalWorkflowInformationSucceeded$
-    )
+    this.approvalFacade.triggerApprovalWorkflowSucceeded$
+      .pipe(takeUntil(this.shutdown$$))
+      .subscribe(() => this.handleTriggerApprovalWorkflowSucceeded());
+
+    this.approvalFacade.saveApprovalWorkflowInformationSucceeded$
       .pipe(takeUntil(this.shutdown$$))
       .subscribe(() => this.closeDialog());
   }
@@ -330,5 +335,23 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
       });
 
     this.approverCCFormControl.markAsTouched();
+  }
+
+  /**
+   * Close the modal and navigate to overview tab
+   */
+  private handleTriggerApprovalWorkflowSucceeded(): void {
+    this.closeDialog();
+
+    this.activatedRoute.queryParams
+      .pipe(take(1))
+      .subscribe((queryParams: Params) => {
+        this.router.navigate(
+          [AppRoutePath.ProcessCaseViewPath, ProcessCaseRoutePath.OverviewPath],
+          {
+            queryParams,
+          }
+        );
+      });
   }
 }

@@ -4,10 +4,14 @@ import {
   MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
   MatLegacyDialogRef as MatDialogRef,
 } from '@angular/material/legacy-dialog';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { of } from 'rxjs';
 
+import { AppRoutePath } from '@gq/app-route-path.enum';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
+import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-path.enum';
 import {
   ActiveDirectoryUser,
   ApprovalWorkflowInformation,
@@ -29,7 +33,7 @@ describe('ReleaseModalComponent', () => {
 
   const createComponent = createComponentFactory({
     component: ReleaseModalComponent,
-    imports: [provideTranslocoTestingModule({})],
+    imports: [provideTranslocoTestingModule({}), RouterTestingModule],
     providers: [
       { provide: MatDialogRef, useValue: {} },
       FormBuilder,
@@ -322,7 +326,7 @@ describe('ReleaseModalComponent', () => {
     });
 
     describe('trigger approval workflow success', () => {
-      test('should close dialog when trigger approval workflow succeeded', () => {
+      test('should close dialog and navigate to overview tab when trigger approval workflow succeeded', () => {
         const facadeMock: ApprovalFacade = {
           getAllApprovalData: jest.fn(),
           approvalCockpitInformation$: of(),
@@ -333,8 +337,30 @@ describe('ReleaseModalComponent', () => {
           allApproversLoading$: of(false),
         } as unknown as ApprovalFacade;
 
+        const queryParams: Params = {
+          quotation_number: '46791',
+          customer_number: '4861',
+          sales_org: '0615',
+        };
+        const activatedRouteMock: ActivatedRoute = {
+          queryParams: of(queryParams),
+        } as unknown as ActivatedRoute;
+
+        const navigateMock = jest.fn();
+        const routerMock: Router = {
+          navigate: navigateMock,
+        } as unknown as Router;
+
         Object.defineProperty(component, 'approvalFacade', {
           value: facadeMock,
+        });
+
+        Object.defineProperty(component, 'activatedRoute', {
+          value: activatedRouteMock,
+        });
+
+        Object.defineProperty(component, 'router', {
+          value: routerMock,
         });
 
         const closeDialogSpy = jest.spyOn(component, 'closeDialog');
@@ -343,6 +369,12 @@ describe('ReleaseModalComponent', () => {
         component.ngOnInit();
 
         expect(closeDialogSpy).toHaveBeenCalledTimes(1);
+        expect(navigateMock).toHaveBeenCalledWith(
+          [AppRoutePath.ProcessCaseViewPath, ProcessCaseRoutePath.OverviewPath],
+          {
+            queryParams,
+          }
+        );
       });
     });
 
