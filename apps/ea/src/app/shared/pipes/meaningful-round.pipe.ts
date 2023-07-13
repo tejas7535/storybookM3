@@ -25,6 +25,14 @@ export class MeaningfulRoundPipe extends DecimalPipe implements PipeTransform {
       return null;
     }
 
+    // special case for strings like "> 10000000"
+    if (typeof value === 'string' && value.startsWith('> ')) {
+      const numberPart = value.slice(2);
+      const transformed = super.transform(numberPart, digitsInfo, locale);
+
+      return `> ${transformed}`;
+    }
+
     const roundedNumber = roundToThreeSigFigs(
       typeof value === 'number' ? value : Number.parseFloat(value)
     );

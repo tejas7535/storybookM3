@@ -541,8 +541,13 @@ pipeline {
                 }
 
                 stage('Test:E2E') {
+                    when {
+                        expression {
+                            return isNightly()
+                        }
+                    }
                     environment {
-                        NO_PROXY="localhost,127.0.0.1,::1"
+                        NO_PROXY="localhost,127.0.0.1,::1,schaeffler.com,caeonlinecalculation-d.schaeffler.com,caeonlinecalculation.schaeffler.com"
                     }
                     steps {
                         // quantity 1 means that only one pipeline can execute cypress tests on an agent, other pipelines have to wait until the lock is released
@@ -550,7 +555,9 @@ pipeline {
                             echo 'Run E2E Tests'
 
                             script {
+                                sh "printenv"
                                 sh "pnpm cypress install && pnpm run affected:e2e --base=${buildBase} ${getNxRunnerConfig()}"
+
                             }
                         }
                     }
