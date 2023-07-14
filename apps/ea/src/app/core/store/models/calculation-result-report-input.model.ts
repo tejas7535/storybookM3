@@ -6,4 +6,5 @@ export interface CalculationResultReportInput {
   unit?: string;
   value?: string;
   subItems?: CalculationResultReportInput[];
+  titleID?: string;
 }

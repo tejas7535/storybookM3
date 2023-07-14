@@ -1,3 +1,5 @@
+import { FILTER_INPUT_FIELDS_MOCK } from '@ea/testing/mocks/friction-api-result-mock';
+
 import { FrictionCalculationResult } from '../store/models';
 import { BearinxOnlineResult } from './bearinx-result.interface';
 import { convertFrictionApiResult } from './friction-helper';
@@ -39,11 +41,19 @@ describe('CO2 Helper', () => {
                 designation: 'Designation',
                 identifier: 'variableLine',
                 value: '6210',
+                titleID: 'STRING_OUTP_CO2E',
+                abbreviation: 'Test',
+                unit: 'N',
+                title: 'Series',
               },
               {
                 designation: 'Series',
                 identifier: 'variableLine',
                 value: '5510',
+                titleID: 'STRING_OUTP_CO2E',
+                abbreviation: 'Test',
+                unit: 'N',
+                title: 'Series',
               },
             ],
             title: 'Input',
@@ -70,11 +80,19 @@ describe('CO2 Helper', () => {
               designation: 'Designation',
               hasNestedStructure: false,
               value: '6210',
+              unit: 'N',
+              abbreviation: 'Test',
+              title: 'Series',
+              titleID: 'STRING_OUTP_CO2E',
             },
             {
               designation: 'Series',
               hasNestedStructure: false,
               value: '5510',
+              unit: 'N',
+              abbreviation: 'Test',
+              title: 'Series',
+              titleID: 'STRING_OUTP_CO2E',
             },
           ],
         },
@@ -119,6 +137,16 @@ describe('CO2 Helper', () => {
           messages: [],
         },
       });
+    });
+
+    it('Should ignore input fields that are meant to be hidden', () => {
+      const mockResult = FILTER_INPUT_FIELDS_MOCK.apiResponse;
+      const expectedResult = FILTER_INPUT_FIELDS_MOCK.expectedResult;
+
+      const result = convertFrictionApiResult(
+        mockResult as BearinxOnlineResult
+      );
+      expect(result).toEqual(expectedResult);
     });
   });
 });

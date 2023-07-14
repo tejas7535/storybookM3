@@ -54,6 +54,7 @@ export interface FrictionCalculationResult {
 
 export interface ReportInput {
   hasNestedStructure: boolean;
+  titleID?: string;
   title?: string;
   designation?: string;
   abbreviation?: string;

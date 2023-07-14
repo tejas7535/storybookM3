@@ -105,6 +105,7 @@ const getReportInput = (input: BearinxOnlineResultSubordinate): ReportInput => {
   const result: ReportInput = {
     hasNestedStructure: input.identifier === 'block' ? true : false,
     title: input?.title,
+    titleID: input?.titleID,
   };
 
   if (input.identifier === 'block' || input.identifier === 'variableBlock') {
