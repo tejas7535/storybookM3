@@ -38,7 +38,7 @@
           *ngIf="approvalStatusOfApprover === displayStatus.IN_APPROVAL"
         >
           <span class="text-caption font-bold text-approval-status-blue"
-            >in approval</span
+            >t('inApproval')</span
           >
         </ng-container>
 
@@ -48,7 +48,17 @@
           <mat-icon class="text-caption text-approval-status-green"
             >check</mat-icon
           ><span class="text-caption font-bold text-approval-status-green"
-            >approved</span
+            >t('approved')</span
+          >
+        </ng-container>
+
+        <ng-container
+          *ngIf="approvalStatusOfApprover === displayStatus.PRE_APPROVED"
+        >
+          <mat-icon class="text-caption text-approval-status-green"
+            >check</mat-icon
+          ><span class="text-caption text-approval-status-green"
+            >t('preApproved')</span
           >
         </ng-container>
 
@@ -58,7 +68,7 @@
           <mat-icon class="text-caption text-approval-status-grey"
             >arrow_forward</mat-icon
           ><span class="text-caption font-bold text-approval-status-grey"
-            >forwarded</span
+            >t('forwarded')</span
           >
         </ng-container>
 
@@ -66,7 +76,7 @@
           *ngIf="approvalStatusOfApprover === displayStatus.REJECTED"
         >
           <mat-icon class="text-caption text-error">report_problem</mat-icon
-          ><span class="text-caption font-bold text-error">rejected</span>
+          ><span class="text-caption font-bold text-error">t('rejected')</span>
         </ng-container>
       </div>
     </div>
