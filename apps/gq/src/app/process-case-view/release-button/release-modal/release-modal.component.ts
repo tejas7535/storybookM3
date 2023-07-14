@@ -244,10 +244,12 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         takeUntil(this.shutdown$$),
         filter(
-          ([loadingComplete, _cockpitInformation]: [
+          ([loadingComplete, cockpitInformation]: [
             boolean,
             ApprovalWorkflowInformation
-          ]) => !!loadingComplete
+          ]) =>
+            !!loadingComplete &&
+            cockpitInformation.sapId === this.dialogData.sapId
         ),
         tap(
           ([_loading, cockpitInformation]: [

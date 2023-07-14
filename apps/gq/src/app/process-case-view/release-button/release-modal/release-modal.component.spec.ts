@@ -42,7 +42,7 @@ describe('ReleaseModalComponent', () => {
       {
         provide: MAT_DIALOG_DATA,
         useValue: {
-          sapId: '12345',
+          sapId: '1',
         } as Quotation,
       },
     ],
@@ -521,7 +521,7 @@ describe('ReleaseModalComponent', () => {
         component.approvalFacade,
         'triggerApprovalWorkflow'
       );
-
+      component.dialogData = undefined;
       component.formGroup.setValue(formValue);
       component.startWorkflow();
 
