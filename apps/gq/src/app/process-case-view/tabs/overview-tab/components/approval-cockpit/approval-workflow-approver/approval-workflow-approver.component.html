@@ -37,28 +37,36 @@
         <ng-container
           *ngIf="approvalStatusOfApprover === displayStatus.IN_APPROVAL"
         >
-          <span class="text-caption text-[#007892]">in approval</span>
+          <span class="text-caption font-bold text-approval-status-blue"
+            >in approval</span
+          >
         </ng-container>
 
         <ng-container
           *ngIf="approvalStatusOfApprover === displayStatus.APPROVED"
         >
-          <mat-icon class="text-caption text-[#5C7E33]">check</mat-icon
-          ><span class="text-caption text-[#5C7E33]">approved</span>
+          <mat-icon class="text-caption text-approval-status-green"
+            >check</mat-icon
+          ><span class="text-caption font-bold text-approval-status-green"
+            >approved</span
+          >
         </ng-container>
 
         <ng-container
           *ngIf="approvalStatusOfApprover === displayStatus.FORWARDED"
         >
-          <mat-icon class="bg-[#666666]text-caption">arrow_forward</mat-icon
-          ><span class="text-caption text-[x666666]">forwarded</span>
+          <mat-icon class="text-caption text-approval-status-grey"
+            >arrow_forward</mat-icon
+          ><span class="text-caption font-bold text-approval-status-grey"
+            >forwarded</span
+          >
         </ng-container>
 
         <ng-container
           *ngIf="approvalStatusOfApprover === displayStatus.REJECTED"
         >
           <mat-icon class="text-caption text-error">report_problem</mat-icon
-          ><span class="text-caption text-error">rejected</span>
+          ><span class="text-caption font-bold text-error">rejected</span>
         </ng-container>
       </div>
     </div>

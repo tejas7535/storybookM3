@@ -161,7 +161,12 @@
         "quotationAutoApproved": "Quotation automatisch vom System freigegeben.",
         "approvalStatusOfApprover": {
           "forwardedTo": "Quotation weitergeleitet an {{variable}}",
-          "unknownApprover": "unbekannt"
+          "unknownApprover": "unbekannt",
+          "inApproval": "in Genehmigung",
+          "approved": "genehmigt",
+          "rejected": "abgelehnt",
+          "forwarded": "weitergeleitet",
+          "preApproved": "vorab genehmigt"
         },
         "workflow": {
           "workflowLabel": "Workflow",
