@@ -474,6 +474,36 @@ pipeline {
                         }
                     }
                 }
+
+                stage('Test:E2E') {
+                    environment {
+                        NO_PROXY="localhost,127.0.0.1,::1,schaeffler.com,caeonlinecalculation-d.schaeffler.com,caeonlinecalculation.schaeffler.com"
+                    }
+                    steps {
+                        // quantity 1 means that only one pipeline can execute cypress tests on an agent, other pipelines have to wait until the lock is released
+                        lock(resource: "lock-cypress-${env.NODE_NAME}", quantity: 1) {
+                            echo 'Run E2E Tests'
+
+                            script {
+                                sh "printenv"
+                                def result = sh "pnpm cypress install && pnpm run affected:e2e --base=${buildBase} ${getNxRunnerConfig()}"
+
+                                if (result != 0) {
+                                    unstable 'E2E tests failed'
+                                }
+                            }
+                        }
+                    }
+                    post {
+                        always {
+                            junit allowEmptyResults: true, testResults: 'dist/cypress/apps/**/junit/cypress-report.xml'
+                            archiveArtifacts artifacts: 'dist/cypress/apps/**/videos/**/*.mp4', onlyIfSuccessful: false, allowEmptyArchive: true
+                        }
+                        failure {
+                            archiveArtifacts artifacts: 'dist/cypress/apps/**/screenshots/**/*.png', onlyIfSuccessful: false
+                        }
+                    }
+                }
             }
         }
 
@@ -536,38 +566,6 @@ pipeline {
                         }
                         always {
                             junit allowEmptyResults: true, testResults: 'coverage/junit/test-*.xml'
-                        }
-                    }
-                }
-
-                stage('Test:E2E') {
-                    when {
-                        expression {
-                            return isNightly()
-                        }
-                    }
-                    environment {
-                        NO_PROXY="localhost,127.0.0.1,::1,schaeffler.com,caeonlinecalculation-d.schaeffler.com,caeonlinecalculation.schaeffler.com"
-                    }
-                    steps {
-                        // quantity 1 means that only one pipeline can execute cypress tests on an agent, other pipelines have to wait until the lock is released
-                        lock(resource: "lock-cypress-${env.NODE_NAME}", quantity: 1) {
-                            echo 'Run E2E Tests'
-
-                            script {
-                                sh "printenv"
-                                sh "pnpm cypress install && pnpm run affected:e2e --base=${buildBase} ${getNxRunnerConfig()}"
-
-                            }
-                        }
-                    }
-                    post {
-                        always {
-                            junit allowEmptyResults: true, testResults: 'dist/cypress/apps/**/junit/cypress-report.xml'
-                            archiveArtifacts artifacts: 'dist/cypress/apps/**/videos/**/*.mp4', onlyIfSuccessful: false, allowEmptyArchive: true
-                        }
-                        failure {
-                            archiveArtifacts artifacts: 'dist/cypress/apps/**/screenshots/**/*.png', onlyIfSuccessful: false
                         }
                     }
                 }
