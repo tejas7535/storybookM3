@@ -37,9 +37,9 @@
         <ng-container
           *ngIf="approvalStatusOfApprover === displayStatus.IN_APPROVAL"
         >
-          <span class="text-caption font-bold text-approval-status-blue"
-            >t('inApproval')</span
-          >
+          <span class="text-caption font-bold text-approval-status-blue">{{
+            t('inApproval')
+          }}</span>
         </ng-container>
 
         <ng-container
@@ -47,9 +47,9 @@
         >
           <mat-icon class="text-caption text-approval-status-green"
             >check</mat-icon
-          ><span class="text-caption font-bold text-approval-status-green"
-            >t('approved')</span
-          >
+          ><span class="text-caption font-bold text-approval-status-green">{{
+            t('approved')
+          }}</span>
         </ng-container>
 
         <ng-container
@@ -57,9 +57,9 @@
         >
           <mat-icon class="text-caption text-approval-status-green"
             >check</mat-icon
-          ><span class="text-caption text-approval-status-green"
-            >t('preApproved')</span
-          >
+          ><span class="text-caption text-approval-status-green">{{
+            t('preApproved')
+          }}</span>
         </ng-container>
 
         <ng-container
@@ -67,16 +67,18 @@
         >
           <mat-icon class="text-caption text-approval-status-grey"
             >arrow_forward</mat-icon
-          ><span class="text-caption font-bold text-approval-status-grey"
-            >t('forwarded')</span
-          >
+          ><span class="text-caption font-bold text-approval-status-grey">{{
+            t('forwarded')
+          }}</span>
         </ng-container>
 
         <ng-container
           *ngIf="approvalStatusOfApprover === displayStatus.REJECTED"
         >
           <mat-icon class="text-caption text-error">report_problem</mat-icon
-          ><span class="text-caption font-bold text-error">t('rejected')</span>
+          ><span class="text-caption font-bold text-error">{{
+            t('rejected')
+          }}</span>
         </ng-container>
       </div>
     </div>
