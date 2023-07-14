@@ -11,6 +11,7 @@ import {
   ApprovalWorkflowInformation,
   MicrosoftUsersResponse,
   QuotationStatus,
+  TriggerApprovalWorkflowRequest,
   UpdateFunction,
 } from '@gq/shared/models';
 import {
@@ -180,9 +181,10 @@ describe('ApprovalService', () => {
   });
 
   describe('triggerApprovalWorkflow', () => {
-    test('should call with correct path', () => {
+    test('should call with correct path and process the response', () => {
       const sapId = 'testSapId';
-      const request = {
+
+      const baseInformation: ApprovalWorkflowBaseInformation = {
         gqId: 998_755,
         firstApprover: 'APPR1',
         secondApprover: 'APPR2',
@@ -190,16 +192,56 @@ describe('ApprovalService', () => {
         infoUser: 'CC00',
         comment: 'test comment',
         projectInformation: 'project info',
-        gqLinkBase64Encoded: 'aHR0cHM6Ly90ZXN0LmRlP3ExPXRlc3QxJnEyPXRlc3Qy',
       };
 
-      service.triggerApprovalWorkflow(sapId, request).subscribe();
+      const request: TriggerApprovalWorkflowRequest = {
+        ...baseInformation,
+        gqLinkBase64Encoded: 'aHR0cHM6Ly90ZXN0LmRlP3ExPXRlc3QxJnEyPXRlc3Qy',
+        approvalLevel:
+          APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.approvalLevel,
+        currency: APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.currency,
+        autoApproval:
+          APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.autoApproval,
+        thirdApproverRequired:
+          APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
+            .thirdApproverRequired,
+        totalNetValue:
+          APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.totalNetValue,
+        gpm: APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.gpm,
+        priceDeviation:
+          APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.priceDeviation,
+      };
+
+      const response = {
+        approvalGeneral: {
+          ...APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral,
+          approvalLevel: 'L2',
+          ...baseInformation,
+        },
+        approvalEvents: [
+          APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents[2],
+          APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents[0],
+          APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents[1],
+        ],
+      };
+
+      service.triggerApprovalWorkflow(sapId, request).subscribe((data) =>
+        expect(data).toEqual({
+          ...APPROVAL_STATE_MOCK.approvalCockpit,
+          approvalGeneral: {
+            ...APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral,
+            ...baseInformation,
+          },
+        })
+      );
       const req = httpMock.expectOne(
         `${ApiVersion.V1}/${ApprovalPaths.PATH_APPROVAL}/${ApprovalPaths.PATH_START_APPROVAL_WORKFLOW}/${sapId}`
       );
 
       expect(req.request.method).toBe(HttpMethod.POST);
       expect(req.request.body).toEqual(request);
+
+      req.flush(response);
     });
   });
 

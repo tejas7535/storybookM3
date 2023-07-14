@@ -9,7 +9,7 @@ import {
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { TranslocoService } from '@ngneat/transloco';
 
-import { APPROVAL_STATUS_DISPLAY } from './consts/approval-status-display';
+import { APPROVAL_STATUS_OF_APPROVER_DISPLAY } from './consts/approval-status-display';
 
 @Component({
   selector: 'gq-approval-workflow-approver',
@@ -20,7 +20,7 @@ export class ApprovalWorkflowApproverComponent {
   @Input() workflowEvent: ApprovalWorkflowEvent;
   @Input() workflowInProgress: boolean;
 
-  readonly displayStatus = APPROVAL_STATUS_DISPLAY;
+  readonly displayStatus = APPROVAL_STATUS_OF_APPROVER_DISPLAY;
   readonly quotationStatus = QuotationStatus;
 
   // have a colorSet of possible Colors and we randomly choose a Set
@@ -50,13 +50,15 @@ export class ApprovalWorkflowApproverComponent {
         );
   }
 
-  get workflowStatus(): string {
+  // check also comment in facade for workflowInProgress !!!
+  // a workaround is implemented
+  get approvalStatusOfApprover(): string {
     // when there's no event for the approver, the approver hasn't done any action yet,
     // so status is IN_APPROVAL
     if (!this.workflowEvent && this.workflowInProgress) {
-      return APPROVAL_STATUS_DISPLAY.IN_APPROVAL;
+      return APPROVAL_STATUS_OF_APPROVER_DISPLAY.IN_APPROVAL;
     }
 
-    return APPROVAL_STATUS_DISPLAY[this.workflowEvent?.event] ?? '';
+    return APPROVAL_STATUS_OF_APPROVER_DISPLAY[this.workflowEvent?.event] ?? '';
   }
 }

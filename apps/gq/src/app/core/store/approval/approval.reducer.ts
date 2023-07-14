@@ -154,8 +154,16 @@ export const approvalFeature = createFeature({
     ),
     on(
       ApprovalActions.triggerApprovalWorkflowSuccess,
-      (state: ApprovalState): ApprovalState => ({
+      (state: ApprovalState, { approvalInformation }): ApprovalState => ({
         ...state,
+        approvalCockpit: {
+          approvalGeneral: approvalInformation.approvalGeneral,
+          approvalEvents: [
+            // add the event from response to existing events
+            ...approvalInformation.approvalEvents,
+            ...state.approvalCockpit.approvalEvents,
+          ],
+        },
         triggerApprovalWorkflowInProgress: false,
         error: undefined,
       })

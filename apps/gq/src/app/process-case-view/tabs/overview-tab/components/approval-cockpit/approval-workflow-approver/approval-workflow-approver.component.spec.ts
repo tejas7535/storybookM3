@@ -10,7 +10,7 @@ import { MockPipe } from 'ng-mocks';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { ApprovalWorkflowApproverComponent } from './approval-workflow-approver.component';
-import { APPROVAL_STATUS_DISPLAY } from './consts/approval-status-display';
+import { APPROVAL_STATUS_OF_APPROVER_DISPLAY } from './consts/approval-status-display';
 import { ApproverDisplayPipe } from './pipes/approver-display.pipe';
 import { UserInitialLettersPipe } from './pipes/user-initial-letters.pipe';
 
@@ -99,8 +99,8 @@ describe('ApprovalWorkflowApproverComponent', () => {
         value: true,
       });
 
-      expect(component.workflowStatus).toBe(
-        APPROVAL_STATUS_DISPLAY.IN_APPROVAL
+      expect(component.approvalStatusOfApprover).toBe(
+        APPROVAL_STATUS_OF_APPROVER_DISPLAY.IN_APPROVAL
       );
     });
     test('when workflow is in Progress, and event is APPROVED --> APPROVED', () => {
@@ -112,7 +112,9 @@ describe('ApprovalWorkflowApproverComponent', () => {
         value: true,
       });
 
-      expect(component.workflowStatus).toBe(APPROVAL_STATUS_DISPLAY.APPROVED);
+      expect(component.approvalStatusOfApprover).toBe(
+        APPROVAL_STATUS_OF_APPROVER_DISPLAY.APPROVED
+      );
     });
 
     test('when workflow is in Progress, and event is FORWARDED --> FORWARDED', () => {
@@ -124,7 +126,9 @@ describe('ApprovalWorkflowApproverComponent', () => {
         value: true,
       });
 
-      expect(component.workflowStatus).toBe(APPROVAL_STATUS_DISPLAY.FORWARDED);
+      expect(component.approvalStatusOfApprover).toBe(
+        APPROVAL_STATUS_OF_APPROVER_DISPLAY.FORWARDED
+      );
     });
 
     test('when workflow is in Progress, and event is REJECTED --> REJECTED', () => {
@@ -136,7 +140,9 @@ describe('ApprovalWorkflowApproverComponent', () => {
         value: true,
       });
 
-      expect(component.workflowStatus).toBe(APPROVAL_STATUS_DISPLAY.REJECTED);
+      expect(component.approvalStatusOfApprover).toBe(
+        APPROVAL_STATUS_OF_APPROVER_DISPLAY.REJECTED
+      );
     });
 
     test('when workflow is in Progress, and event is is not found --> emptyString', () => {
@@ -148,7 +154,7 @@ describe('ApprovalWorkflowApproverComponent', () => {
         value: true,
       });
 
-      expect(component.workflowStatus).toBe('');
+      expect(component.approvalStatusOfApprover).toBe('');
     });
   });
 });

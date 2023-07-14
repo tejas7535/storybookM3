@@ -119,13 +119,30 @@ export class ApprovalFacade {
     fromActiveCaseSelectors.getQuotationStatus
   );
 
-  workflowInProgress$: Observable<boolean> = this.quotationStatus$.pipe(
-    map(
-      (status: QuotationStatus) =>
-        status === QuotationStatus.IN_APPROVAL ||
-        status === QuotationStatus.REJECTED
-    )
-  );
+  // workflowInProgress is not a good wording as long as we have the workaround implemented.
+  // It would return true as long as the current workflow has not been cancelled,
+  // and also return true when Quotation has been completely approved, which is technically not correct.
+  // but we will keep it like this, because when returning back to the Quotation status it fits.
+  workflowInProgress$: Observable<boolean> = this.store
+    .select(approvalFeature.getEventsAfterLastWorkflowStarted)
+    .pipe(
+      // TODO: this is a workaround until we have implemented the
+      // ### polling for events.verified = true ###
+
+      // uncomment code using QuotationStatus when done
+      // this.quotationStatus$.pipe(
+      //   map(
+      //     (status: QuotationStatus) =>
+      //       status === QuotationStatus.IN_APPROVAL ||
+      //       status === QuotationStatus.REJECTED
+      //   )
+      // );
+
+      // eslint-disable-next-line ngrx/avoid-mapping-selectors
+      map(
+        (workflowEvents: ApprovalWorkflowEvent[]) => workflowEvents?.length >= 1
+      )
+    );
 
   quotationFullyApproved$: Observable<boolean> = this.quotationStatus$.pipe(
     map((status: QuotationStatus) => status === QuotationStatus.APPROVED)

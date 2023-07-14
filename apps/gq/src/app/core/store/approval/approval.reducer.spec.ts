@@ -197,11 +197,24 @@ describe('approvalReducer', () => {
       });
     });
 
-    test('should reset triggerApprovalWorkflowInProgress', () => {
-      const action = ApprovalActions.triggerApprovalWorkflowSuccess();
+    test('should update approval information and reset triggerApprovalWorkflowInProgress on success', () => {
+      const approvalInformation: ApprovalCockpitData = {
+        ...APPROVAL_STATE_MOCK.approvalCockpit,
+      };
+
+      const action = ApprovalActions.triggerApprovalWorkflowSuccess({
+        approvalInformation,
+      });
+      const existingEvent = {
+        comment: 'a event already in store',
+      } as ApprovalWorkflowEvent;
       const state = approvalFeature.reducer(
         {
           ...initialState,
+          approvalCockpit: {
+            approvalGeneral: initialState.approvalCockpit.approvalGeneral,
+            approvalEvents: [existingEvent],
+          },
           triggerApprovalWorkflowInProgress: true,
           error: new Error('my error'),
         },
@@ -210,6 +223,13 @@ describe('approvalReducer', () => {
 
       expect(state).toEqual({
         ...initialState,
+        approvalCockpit: {
+          ...approvalInformation,
+          approvalEvents: [
+            ...approvalInformation.approvalEvents,
+            existingEvent,
+          ],
+        },
         triggerApprovalWorkflowInProgress: false,
         error: undefined,
       });

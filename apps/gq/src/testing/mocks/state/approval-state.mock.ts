@@ -98,6 +98,7 @@ export const APPROVAL_STATE_MOCK: ApprovalState = {
       gpm: 54.09,
       priceDeviation: undefined,
       currency: 'EUR',
+      nextApprover: undefined,
     },
     // events are sorted in store
     approvalEvents: [

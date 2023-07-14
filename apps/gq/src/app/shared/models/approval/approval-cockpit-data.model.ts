@@ -19,6 +19,7 @@ export interface ApprovalWorkflowInformation
   totalNetValue: number;
   gpm: number;
   priceDeviation: number;
+  nextApprover?: string;
 }
 
 export interface ApprovalWorkflowEvent {

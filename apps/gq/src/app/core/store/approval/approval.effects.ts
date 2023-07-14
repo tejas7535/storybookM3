@@ -80,12 +80,14 @@ export class ApprovalEffects {
       concatLatestFrom(() => [
         this.store.select(getSapId),
         this.store.select(activeCaseFeature.selectQuotationIdentifier),
+        this.store.select(approvalFeature.getApprovalCockpitInformation),
       ]),
       mergeMap(
-        ([action, sapId, quotationIdentifier]: [
+        ([action, sapId, quotationIdentifier, approvalWorkflowInformation]: [
           ReturnType<typeof ApprovalActions.triggerApprovalWorkflow>,
           string,
-          QuotationIdentifier
+          QuotationIdentifier,
+          ApprovalWorkflowInformation
         ]) => {
           const gqLink = `${window.location.protocol}//${
             window.location.hostname
@@ -98,9 +100,21 @@ export class ApprovalEffects {
               ...action.approvalWorkflowData,
               gqId: quotationIdentifier.gqId,
               gqLinkBase64Encoded: window.btoa(gqLink), // needs to be encoded as base64, otherwise the request is blocked by the gateway
+              approvalLevel: approvalWorkflowInformation.approvalLevel,
+              currency: approvalWorkflowInformation.currency,
+              autoApproval: approvalWorkflowInformation.autoApproval,
+              thirdApproverRequired:
+                approvalWorkflowInformation.thirdApproverRequired,
+              totalNetValue: approvalWorkflowInformation.totalNetValue,
+              gpm: approvalWorkflowInformation.gpm,
+              priceDeviation: approvalWorkflowInformation.priceDeviation,
             })
             .pipe(
-              map(() => ApprovalActions.triggerApprovalWorkflowSuccess()),
+              map((approvalInformation: ApprovalCockpitData) =>
+                ApprovalActions.triggerApprovalWorkflowSuccess({
+                  approvalInformation,
+                })
+              ),
               catchError((error: Error) =>
                 of(ApprovalActions.triggerApprovalWorkflowFailure({ error }))
               )

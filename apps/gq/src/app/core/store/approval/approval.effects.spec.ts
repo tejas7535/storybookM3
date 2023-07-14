@@ -25,6 +25,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
+import { APPROVAL_STATE_MOCK } from '../../../../testing/mocks';
 import { activeCaseFeature, getSapId } from '../active-case';
 import * as activeCaseUtils from '../active-case/active-case.utils';
 import { ApprovalActions } from './approval.actions';
@@ -195,10 +196,36 @@ describe('ApprovalEffects', () => {
         const gqLinkBase64Encoded =
           'aHR0cHM6Ly90ZXN0LmRlP3ExPXRlc3QxJnEyPXRlc3Qy';
 
+        const approvalInformation: ApprovalCockpitData = {
+          approvalGeneral: {
+            ...APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral,
+            ...approvalWorkflowData,
+            gqId: quotationIdentifier.gqId,
+            sapId,
+          },
+          approvalEvents: [
+            {
+              gqId: quotationIdentifier.gqId,
+              sapId,
+              userId: approvalWorkflowData.firstApprover,
+              eventDate: '2023-06-07T11:12:30Z',
+              quotationStatus: QuotationStatus.IN_APPROVAL,
+              event: ApprovalEventType.STARTED,
+              comment: approvalWorkflowData.comment,
+              verified: true,
+              user: undefined,
+            },
+          ],
+        };
+
         store.overrideSelector(getSapId, sapId);
         store.overrideSelector(
           activeCaseFeature.selectQuotationIdentifier,
           quotationIdentifier
+        );
+        store.overrideSelector(
+          approvalFeature.getApprovalCockpitInformation,
+          APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
         );
 
         delete window.location;
@@ -224,8 +251,10 @@ describe('ApprovalEffects', () => {
           approvalWorkflowData,
         });
 
-        const result = ApprovalActions.triggerApprovalWorkflowSuccess();
-        const response = m.cold('-a');
+        const result = ApprovalActions.triggerApprovalWorkflowSuccess({
+          approvalInformation,
+        });
+        const response = m.cold('-a', { a: approvalInformation });
         triggerApprovalWorkflowSpy.mockReturnValue(response);
         const expected = m.cold('-b', { b: result });
 
@@ -246,6 +275,20 @@ describe('ApprovalEffects', () => {
           ...approvalWorkflowData,
           gqId: quotationIdentifier.gqId,
           gqLinkBase64Encoded,
+          approvalLevel:
+            APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.approvalLevel,
+          currency:
+            APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.currency,
+          autoApproval:
+            APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.autoApproval,
+          thirdApproverRequired:
+            APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
+              .thirdApproverRequired,
+          totalNetValue:
+            APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.totalNetValue,
+          gpm: APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.gpm,
+          priceDeviation:
+            APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.priceDeviation,
         });
       })
     );

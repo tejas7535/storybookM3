@@ -386,33 +386,37 @@ describe('ApprovalFacade', () => {
           );
         })
       );
-      test(
-        'should return true when REJECTED',
-        marbles((m) => {
-          mockStore.overrideSelector(
-            fromActiveCaseSelectors.getQuotationStatus,
-            QuotationStatus.REJECTED
-          );
 
-          m.expect(service.workflowInProgress$).toBeObservable(
-            m.cold('a', { a: true })
-          );
-        })
-      );
+      // TODO: uncomment when workflowInProgress is calculated by QuotationStatus
+      // eslint-disable-next-line jest/no-commented-out-tests
+      // test(
+      //   'should return true when REJECTED',
+      //   marbles((m) => {
+      //     mockStore.overrideSelector(
+      //       fromActiveCaseSelectors.getQuotationStatus,
+      //       QuotationStatus.REJECTED
+      //     );
 
-      test(
-        'should return true when IN_APPROVAL',
-        marbles((m) => {
-          mockStore.overrideSelector(
-            fromActiveCaseSelectors.getQuotationStatus,
-            QuotationStatus.IN_APPROVAL
-          );
+      //     m.expect(service.workflowInProgress$).toBeObservable(
+      //       m.cold('a', { a: true })
+      //     );
+      //   })
+      // );
 
-          m.expect(service.workflowInProgress$).toBeObservable(
-            m.cold('a', { a: true })
-          );
-        })
-      );
+      // eslint-disable-next-line jest/no-commented-out-tests
+      // test(
+      //   'should return true when IN_APPROVAL',
+      //   marbles((m) => {
+      //     mockStore.overrideSelector(
+      //       fromActiveCaseSelectors.getQuotationStatus,
+      //       QuotationStatus.IN_APPROVAL
+      //     );
+
+      //     m.expect(service.workflowInProgress$).toBeObservable(
+      //       m.cold('a', { a: true })
+      //     );
+      //   })
+      // );
     });
 
     describe('should provide approvalStatusOfRequestedApprover$', () => {
@@ -1056,7 +1060,9 @@ describe('ApprovalFacade', () => {
     test(
       'should succeed',
       marbles((m) => {
-        const action = ApprovalActions.triggerApprovalWorkflowSuccess();
+        const action = ApprovalActions.triggerApprovalWorkflowSuccess({
+          approvalInformation: {} as ApprovalCockpitData,
+        });
         const expected = m.cold('b', {
           b: action,
         });

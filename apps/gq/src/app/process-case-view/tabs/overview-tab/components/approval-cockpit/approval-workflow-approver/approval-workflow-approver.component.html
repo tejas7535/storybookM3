@@ -34,21 +34,29 @@
         {{ approver | approverDisplay: t('unknownApprover') }}
       </div>
       <div class="flex-end flex items-center gap-2">
-        <ng-container *ngIf="workflowStatus === displayStatus.IN_APPROVAL">
+        <ng-container
+          *ngIf="approvalStatusOfApprover === displayStatus.IN_APPROVAL"
+        >
           <span class="text-caption text-[#007892]">in approval</span>
         </ng-container>
 
-        <ng-container *ngIf="workflowStatus === displayStatus.APPROVED">
+        <ng-container
+          *ngIf="approvalStatusOfApprover === displayStatus.APPROVED"
+        >
           <mat-icon class="text-caption text-[#5C7E33]">check</mat-icon
           ><span class="text-caption text-[#5C7E33]">approved</span>
         </ng-container>
 
-        <ng-container *ngIf="workflowStatus === displayStatus.FORWARDED">
+        <ng-container
+          *ngIf="approvalStatusOfApprover === displayStatus.FORWARDED"
+        >
           <mat-icon class="bg-[#666666]text-caption">arrow_forward</mat-icon
           ><span class="text-caption text-[x666666]">forwarded</span>
         </ng-container>
 
-        <ng-container *ngIf="workflowStatus === displayStatus.REJECTED">
+        <ng-container
+          *ngIf="approvalStatusOfApprover === displayStatus.REJECTED"
+        >
           <mat-icon class="text-caption text-error">report_problem</mat-icon
           ><span class="text-caption text-error">rejected</span>
         </ng-container>

@@ -25,7 +25,9 @@ export const ApprovalActions = createActionGroup({
     'Trigger Approval Workflow': props<{
       approvalWorkflowData: Omit<ApprovalWorkflowBaseInformation, 'gqId'>;
     }>(),
-    'Trigger Approval Workflow Success': emptyProps(),
+    'Trigger Approval Workflow Success': props<{
+      approvalInformation: ApprovalCockpitData;
+    }>(),
     'Trigger Approval Workflow Failure': props<{ error: Error }>(),
     'Update Approval Workflow': props<{
       updateApprovalWorkflowData: Omit<UpdateApprovalWorkflowRequest, 'gqId'>;
