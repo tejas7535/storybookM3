@@ -24,7 +24,8 @@
       "requiredError": "Approver required",
       "invalidApproverError": "Invalid Approver",
       "equalApproversError": "Approvers must be different, it is not allowed to enter an approver multiple times!",
-      "invalidUserError": "Invalid User"
+      "invalidUserError": "Invalid User",
+      "invalidSelectionApproverError": "Invalid Approver selected"
     },
     "cancelWorkflow": "Cancel Workflow",
     "cancelWorkflowModal": {

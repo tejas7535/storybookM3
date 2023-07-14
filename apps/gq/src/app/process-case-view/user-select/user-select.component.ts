@@ -35,6 +35,7 @@ import {
 import { ActiveDirectoryUser } from '@gq/shared/models';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { UserDisplayPipe } from '@gq/shared/pipes/user-display/user-display.pipe';
+import { autocompleteValueSelectedValidator } from '@gq/shared/validators/autocomplete-value-selected-validator';
 import { PushPipe } from '@ngrx/component';
 
 const ITEM_HEIGHT = 50;
@@ -65,6 +66,7 @@ export class UserSelectComponent implements AfterViewInit, OnDestroy {
   @Input() userSelectFormControl: FormControl;
   @Input() title: string;
   @Input() errorMessage = '';
+  @Input() invalidSelectionErrorMessage = '';
   @Input() isLoading = false;
   @Input() inputChangedDebounceTime = 0;
 
@@ -74,7 +76,7 @@ export class UserSelectComponent implements AfterViewInit, OnDestroy {
   @Input() enableFiltering = false;
 
   /**
-   * Will be emmited as soon as the user changes the input field value and after the defined {@link inputChangedDebounceTime} in milliseconds.
+   * Will be emitted as soon as the user changes the input field value and after the defined {@link inputChangedDebounceTime} in milliseconds.
    *
    * Payload of the event is the current value, entered by the user.
    */
@@ -87,6 +89,8 @@ export class UserSelectComponent implements AfterViewInit, OnDestroy {
   lastRenderedPosition = 0;
 
   private _users$: Observable<ActiveDirectoryUser[]>;
+  private _usersList: ActiveDirectoryUser[];
+
   private readonly shutdown$$: Subject<void> = new Subject<void>();
 
   constructor(private readonly changeDetectorRef: ChangeDetectorRef) {}
@@ -97,9 +101,10 @@ export class UserSelectComponent implements AfterViewInit, OnDestroy {
 
   @Input() set users$(users$: Observable<ActiveDirectoryUser[]>) {
     this.filteredOptions$ = users$.pipe(
-      tap((users: ActiveDirectoryUser[]) =>
-        this.calculateHeightOfAutoCompletePanel(users.length)
-      )
+      tap((users: ActiveDirectoryUser[]) => {
+        this._usersList = users;
+        this.calculateHeightOfAutoCompletePanel(users.length);
+      })
     );
     this._users$ = users$;
   }
@@ -126,6 +131,15 @@ export class UserSelectComponent implements AfterViewInit, OnDestroy {
 
         this.inputChanged.emit(inputFieldValue);
       });
+
+    // when the control has initially a value, then do validation and display possible error Message
+    if (this.enableFiltering && this.userSelectFormControl.value) {
+      this.userSelectFormControl.addValidators(
+        autocompleteValueSelectedValidator(this._usersList)
+      );
+      this.userSelectFormControl.updateValueAndValidity();
+      this.userSelectFormControl.markAsTouched();
+    }
   }
 
   scrollToFirstPosition(): void {

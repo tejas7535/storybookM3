@@ -78,6 +78,7 @@ describe('ReleaseModalComponent', () => {
         getAllApprovalData: jest.fn(),
         approvalCockpitInformation$: of({
           sapId: '1',
+          firstApprover: 'appr1',
           thirdApproverRequired: false,
           autoApproval: false,
           infoUser: 'infoUser',
@@ -104,7 +105,7 @@ describe('ReleaseModalComponent', () => {
         expect(component.approvalFacade.getAllApprovalData).toHaveBeenCalled();
       });
       test('should set approver one and two in formGroup', () => {
-        component['setInitialDataForApprovers'] = jest.fn();
+        component['setInitialData'] = jest.fn();
         component.ngOnInit();
 
         expect(component.formGroup.get('approver1')).toBeDefined();
@@ -114,7 +115,7 @@ describe('ReleaseModalComponent', () => {
         expect(component.formGroup.get('comment')).toBeDefined();
         expect(component.formGroup.get('projectInformation')).toBeDefined();
 
-        expect(component['setInitialDataForApprovers']).toHaveBeenCalled();
+        expect(component['setInitialData']).toHaveBeenCalled();
       });
       test('should set approver one, two and three in formGroup', () => {
         const facadeMock: ApprovalFacade = {
@@ -135,7 +136,7 @@ describe('ReleaseModalComponent', () => {
         Object.defineProperty(component, 'approvalFacade', {
           value: facadeMock,
         });
-        component['setInitialDataForApprovers'] = jest.fn();
+        component['setInitialData'] = jest.fn();
         component.ngOnInit();
         expect(component.formGroup.get('approver1')).toBeDefined();
         expect(component.formGroup.get('approver2')).toBeDefined();
@@ -143,7 +144,7 @@ describe('ReleaseModalComponent', () => {
         expect(component.formGroup.get('approverCC')).toBeDefined();
         expect(component.formGroup.get('comment')).toBeDefined();
         expect(component.formGroup.get('projectInformation')).toBeDefined();
-        expect(component['setInitialDataForApprovers']).toHaveBeenCalled();
+        expect(component['setInitialData']).toHaveBeenCalled();
       });
 
       test('should set only comment and project information in formGroup', () => {
@@ -165,7 +166,7 @@ describe('ReleaseModalComponent', () => {
         Object.defineProperty(component, 'approvalFacade', {
           value: facadeMock,
         });
-        component['setInitialDataForApprovers'] = jest.fn();
+        component['setInitialData'] = jest.fn();
 
         component.ngOnInit();
         expect(component.formGroup.get('approver1')).toBeNull();
@@ -174,10 +175,10 @@ describe('ReleaseModalComponent', () => {
         expect(component.formGroup.get('approverCC')).toBeNull();
         expect(component.formGroup.get('comment')).toBeDefined();
         expect(component.formGroup.get('projectInformation')).toBeDefined();
-        expect(component['setInitialDataForApprovers']).not.toHaveBeenCalled();
+        expect(component['setInitialData']).not.toHaveBeenCalled();
       });
       describe('should set initialValues', () => {
-        test('should set Approver1 and Approver2', () => {
+        test('should call setValue for Approver1 and Approver2', () => {
           const approver1 = new FormControl(undefined);
           approver1.setValue = jest.fn();
           const approver2 = new FormControl(undefined);
@@ -185,6 +186,7 @@ describe('ReleaseModalComponent', () => {
 
           component.approver1FormControl = approver1;
           component.approver2FormControl = approver2;
+
           component.ngOnInit();
           expect(component.approver1FormControl.setValue).toHaveBeenCalled();
           expect(component.approver2FormControl.setValue).toHaveBeenCalled();
@@ -192,7 +194,7 @@ describe('ReleaseModalComponent', () => {
           expect(true).toBeTruthy();
         });
 
-        test('should set Approver1 and Approver2, and Approver3', () => {
+        test('should call setValue for Approver1 and Approver2, and Approver3', () => {
           const approver3 = new FormControl(undefined);
           approver3.setValue = jest.fn();
 

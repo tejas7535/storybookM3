@@ -24,7 +24,8 @@
       "requiredError": "Genehmiger erforderlich",
       "invalidApproverError": "Genehmiger ungültig",
       "equalApproversError": "Die ausgewählten Genehmiger müssen unterschiedlich sein!",
-      "invalidUserError": "Benutzer ungültig"
+      "invalidUserError": "Benutzer ungültig",
+      "invalidSelectionApproverError": "Genehmigerauswahl ungültig"
     },
     "cancelWorkflow": "Freigabe abbrechen",
     "cancelWorkflowModal": {

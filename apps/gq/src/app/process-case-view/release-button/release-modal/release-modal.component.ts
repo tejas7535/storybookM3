@@ -40,6 +40,7 @@ import {
   ApprovalWorkflowInformation,
   Approver,
   Quotation,
+  QuotationStatus,
 } from '@gq/shared/models';
 import { approversDifferValidator } from '@gq/shared/validators/approvers-differ-validator';
 import { userValidator } from '@gq/shared/validators/user-validator';
@@ -87,9 +88,13 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
 
   dataLoadingComplete$: Observable<boolean>; // = NEVER;
 
+  readonly quotationStatus = QuotationStatus;
+  readonly INVALID_SELECTION_APPROVER = '';
+
   private readonly REQUIRED_ERROR_MESSAGE = '';
   private readonly INVALID_APPROVER_ERROR_MESSAGE = '';
   private readonly INVALID_USER_ERROR_MESSAGE = '';
+
   private readonly USER_SEARCH_EXPRESSION_MIN_LENGTH = 2;
 
   private readonly shutdown$$: Subject<void> = new Subject<void>();
@@ -114,6 +119,10 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
 
     this.INVALID_USER_ERROR_MESSAGE = this.translocoService.translate(
       'processCaseView.header.releaseModal.invalidUserError'
+    );
+
+    this.INVALID_SELECTION_APPROVER = this.translocoService.translate(
+      'processCaseView.header.releaseModal.invalidSelectionApproverError'
     );
   }
 
@@ -274,37 +283,51 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
               this.formGroup.addValidators(
                 approversDifferValidator().bind(this)
               );
-              this.setInitialDataForApprovers(cockpitInformation);
-            }
 
-            this.formGroup
-              .get('projectInformation')
-              .setValue(cockpitInformation?.projectInformation);
-            this.formGroup.get('comment').setValue(cockpitInformation?.comment);
+              this.setInitialData(cockpitInformation);
+            }
           }
         )
       )
       .subscribe();
   }
 
-  private setInitialDataForApprovers(
+  private setInitialData(
     workflowInformation: ApprovalWorkflowInformation
   ): void {
+    this.formGroup
+      .get('projectInformation')
+      .setValue(workflowInformation?.projectInformation);
+    this.formGroup.get('comment').setValue(workflowInformation?.comment);
+    this.setInfoUser(workflowInformation.infoUser);
+
     this.approvalFacade.approvalStatusOfRequestedApprover$
       .pipe(
         take(1),
         tap((approvalStatusOfApprovers) => {
+          // approvalStatusOfApprovers and workflowInformation have the same data for users
+          // approvalStatusOfApprovers has additionally mapped the user Id to an Approver Object
+          // the Approver Object is set as the value of the formControl, to always display the latest data
           this.approver1FormControl.setValue(
             approvalStatusOfApprovers[0]?.approver
           );
+
           this.approver2FormControl.setValue(
             approvalStatusOfApprovers[1]?.approver
           );
+
           this.approver3FormControl.setValue(
             approvalStatusOfApprovers[2]?.approver
           );
 
-          this.setInfoUser(workflowInformation.infoUser);
+          // Approver 1-2 are required fields, if Approver1 or 2 don't have data formGroup is status 'pristine'
+          // when either Approver 1 or 2 have data, the complete form is touched, and all required error and other error should be shown on startUp
+          if (
+            workflowInformation.firstApprover ||
+            workflowInformation.secondApprover
+          ) {
+            this.formGroup.markAllAsTouched();
+          }
         })
       )
       .subscribe();

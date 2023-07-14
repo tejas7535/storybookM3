@@ -8,6 +8,7 @@ import { of } from 'rxjs';
 
 import { ActiveDirectoryUser } from '@gq/shared/models';
 import { ApprovalLevel, Approver } from '@gq/shared/models/approval';
+import * as autocompleteSelectValidator from '@gq/shared/validators/autocomplete-value-selected-validator';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { marbles } from 'rxjs-marbles';
@@ -29,6 +30,10 @@ describe('UserSelectComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.component;
+    jest.resetAllMocks();
+    jest
+      .spyOn(autocompleteSelectValidator, 'autocompleteValueSelectedValidator')
+      .mockImplementation();
   });
 
   it('should create', () => {
@@ -116,8 +121,11 @@ describe('UserSelectComponent', () => {
         .spyOn(rxjs, 'fromEvent')
         .mockReturnValue(of({ target: { value: searchExpression } }));
 
+      component.userSelectFormControl.addValidators = jest.fn();
+
       component.ngAfterViewInit();
 
+      expect(component.userSelectFormControl.addValidators).toHaveBeenCalled();
       expect(inputChangedSpy).toHaveBeenCalledWith(searchExpression);
       expect(inputChangedSpy).toHaveBeenCalledTimes(1);
       component.filteredOptions$.subscribe(
@@ -183,7 +191,7 @@ describe('UserSelectComponent', () => {
 
     test('should filter for empty string and return complete list', (done) => {
       component.enableFiltering = true;
-
+      component.userSelectFormControl = new FormControl(undefined);
       jest.spyOn(component, 'users$', 'get').mockReturnValue(
         of(
           APPROVAL_STATE_MOCK.approvers.map((item) => ({
@@ -197,7 +205,13 @@ describe('UserSelectComponent', () => {
         .spyOn(rxjs, 'fromEvent')
         .mockReturnValue(of({ target: { value: '' } }));
 
+      component.userSelectFormControl.addValidators = jest.fn();
+
       component.ngAfterViewInit();
+
+      expect(
+        component.userSelectFormControl.addValidators
+      ).not.toHaveBeenCalled();
 
       component.filteredOptions$.subscribe(
         (filteredOptions: ActiveDirectoryUser[]) => {
