@@ -188,7 +188,8 @@
           "APPROVED": "Quotation Approved",
           "FORWARDED": "Quotation forwarded",
           "CANCELLED": "Approval cancelled",
-          "AUTO_APPROVAL": "Automatically approved by system"
+          "AUTO_APPROVAL": "Automatically approved by system",
+          "PRE_APPROVED": "Quotation pre-approved"
         }
       }
     }

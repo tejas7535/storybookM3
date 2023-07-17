@@ -188,7 +188,8 @@
           "APPROVED": "Case Freigegeben",
           "FORWARDED": "Case weitergeleitet",
           "CANCELLED": "Freigabe abgebrochen",
-          "AUTO_APPROVAL": "Freigabe durch System erteilt"
+          "AUTO_APPROVAL": "Freigabe durch System erteilt",
+          "PRE_APPROVED": "Vorab genehmigt"
         }
       }
     }
