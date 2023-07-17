@@ -188,7 +188,8 @@ export class ApprovalFacade {
             events,
             info?.secondApprover
           ),
-          ...(info?.thirdApproverRequired
+          // if thirdApprover is required but not set, do not request the data
+          ...(info?.thirdApproverRequired && info?.thirdApprover
             ? [
                 this.getApprovalStatusDataForUserId(
                   approvers,
