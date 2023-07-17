@@ -21,6 +21,7 @@ import { IndicatorComponent } from '@mac/shared/components/indicator/indicator.c
 
 import { ActionCellRendererComponent } from './action-cell-renderer/action-cell-renderer.component';
 import { ActionHeaderComponent } from './action-header/action-header.component';
+import { CustomSnackbarComponent } from './custom-snackbar/custom-snackbar.component';
 import { DetailCellRendererComponent } from './detail-cell-renderer/detail-cell-renderer.component';
 import { EditCellRendererComponent } from './edit-cell-renderer/edit-cell-renderer.component';
 import { GreenSteelCellRendererComponent } from './green-steel-cell-renderer/green-steel-cell-renderer.component';
@@ -52,6 +53,7 @@ import { MoreInformationDialogComponent } from './more-information-dialog/more-i
     MoreInformationDialogComponent,
   ],
   imports: [
+    CustomSnackbarComponent,
     IndicatorComponent,
     HtmlTooltipComponent,
     CommonModule,

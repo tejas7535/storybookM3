@@ -503,13 +503,17 @@ export class DialogEffects {
         }
 
         // override row data with data from the dialog (only non-undefined values)
-        const materials = rows.map(
-          (row) =>
-            ({
-              ...row,
-              ...form,
-            } as MaterialRequest)
-        );
+        const materials = rows.map((row) => {
+          const newRow = {
+            ...row,
+            ...form,
+          } as MaterialRequest;
+          if (form.ratingChangeComment && row.rating === form.rating) {
+            delete (newRow as any).ratingChangeComment;
+          }
+
+          return newRow;
+        });
 
         return this.msdDataService
           .bulkEditMaterial(materials, record.materialClass)
@@ -523,6 +527,7 @@ export class DialogEffects {
                     error: {
                       code: e.status,
                       state: CreateMaterialErrorState.MaterialCreationFailed,
+                      detail: this.parseBulkErrors(e.error, materials),
                     },
                   },
                 })
@@ -536,8 +541,34 @@ export class DialogEffects {
   public createMaterialComplete$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DialogActions.createMaterialComplete),
-      switchMap(({ record }) => {
-        return !record.error ? of(DataActions.fetchResult()) : [];
+      concatLatestFrom(() => this.dataFacade.navigation$),
+      switchMap(([{ record }, { navigationLevel }]) => {
+        const level = translate(
+          `materialsSupplierDatabase.mainTable.dialog.level.${navigationLevel}`
+        );
+        if (record.error) {
+          const err = record.error;
+
+          return of(
+            DataActions.errorSnackBar({
+              message: translate(
+                `materialsSupplierDatabase.mainTable.dialog.createFailure.${err.code}`,
+                { level }
+              ),
+              detailMessage: err.detail?.message,
+              items: err.detail?.items,
+            })
+          );
+        }
+
+        return of(
+          DataActions.infoSnackBar({
+            message: translate(
+              'materialsSupplierDatabase.mainTable.dialog.createSuccess',
+              { level }
+            ),
+          })
+        );
       })
     );
   });
@@ -1024,4 +1055,35 @@ export class DialogEffects {
     private readonly msdDataService: MsdDataService,
     private readonly dataFacade: DataFacade
   ) {}
+
+  private parseBulkErrors(error: any, materials: MaterialRequest[]) {
+    interface ErrorDef {
+      id: number;
+      message: string;
+    }
+    const ed = (Array.isArray(error) ? error[0] : error) as ErrorDef;
+
+    return {
+      message: ed.message,
+      items: this.convertToProperties(materials.find((mr) => mr.id === ed.id)),
+    };
+  }
+
+  private convertToProperties(dataObj: any) {
+    return !dataObj
+      ? []
+      : Object.keys(dataObj)
+          .map((key) => ({
+            key: this.translateKey(key),
+            value: dataObj[key],
+          }))
+          .filter((item) => item.key && (item.value || item.value === 0));
+  }
+
+  private translateKey(key: string) {
+    const longKey = `materialsSupplierDatabase.mainTable.columns.${key}`;
+    const result = translate(longKey);
+
+    return result === longKey ? undefined : result;
+  }
 }

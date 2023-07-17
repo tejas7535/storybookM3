@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { catchError, map, of, switchMap, tap, timeout } from 'rxjs';
 
+import { translate } from '@ngneat/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { TypedAction } from '@ngrx/store/src/models';
 
@@ -238,9 +239,10 @@ export class DataEffects {
       ofType(DataActions.deleteEntitySuccess),
       switchMap(() => [
         DataActions.fetchResult(),
-        DataActions.openSnackBar({
-          msgKey:
-            'materialsSupplierDatabase.mainTable.confirmDialog.successDeleteEntity',
+        DataActions.infoSnackBar({
+          message: translate(
+            'materialsSupplierDatabase.mainTable.confirmDialog.successDeleteEntity'
+          ),
         }),
       ])
     );
@@ -250,19 +252,32 @@ export class DataEffects {
     return this.actions$.pipe(
       ofType(DataActions.deleteEntityFailure),
       map(() =>
-        DataActions.openSnackBar({
-          msgKey:
-            'materialsSupplierDatabase.mainTable.confirmDialog.failureDeleteEntity',
+        DataActions.infoSnackBar({
+          message: translate(
+            'materialsSupplierDatabase.mainTable.confirmDialog.failureDeleteEntity'
+          ),
         })
       )
     );
   });
 
-  public openSnackBar$ = createEffect(
+  public infoSnackBar$ = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(DataActions.openSnackBar),
-        tap(({ msgKey }) => this.matSnackBar.open(msgKey))
+        ofType(DataActions.infoSnackBar),
+        tap(({ message }) => this.matSnackBar.infoTranslated(message))
+      );
+    },
+    { dispatch: false }
+  );
+
+  public errorSnackBar$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(DataActions.errorSnackBar),
+        tap(({ message, detailMessage, items }) =>
+          this.matSnackBar.errorTranslated(message, detailMessage, items)
+        )
       );
     },
     { dispatch: false }
@@ -272,7 +287,6 @@ export class DataEffects {
     private readonly actions$: Actions,
     private readonly msdDataService: MsdDataService,
     private readonly dataFacade: DataFacade,
-    // private readonly matSnackBar: MatSnackBar
     private readonly matSnackBar: MsdSnackbarService
   ) {}
 }

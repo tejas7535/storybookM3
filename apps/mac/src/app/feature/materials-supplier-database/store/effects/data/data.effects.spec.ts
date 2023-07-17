@@ -3,6 +3,7 @@ import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/
 import { delay, of, throwError } from 'rxjs';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+import { TranslocoModule } from '@ngneat/transloco';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -26,6 +27,7 @@ import {
   deleteManufacturerSupplier,
   deleteMaterial,
   deleteMaterialStandard,
+  errorSnackBar,
   fetchClassOptions,
   fetchClassOptionsFailure,
   fetchClassOptionsSuccess,
@@ -42,7 +44,7 @@ import {
   fetchSAPMaterials,
   fetchSAPMaterialsFailure,
   fetchSAPMaterialsSuccess,
-  openSnackBar,
+  infoSnackBar,
   setAgGridFilter,
   setAgGridFilterForNavigation,
   setNavigation,
@@ -52,6 +54,11 @@ import { getNavigation } from '@mac/msd/store/selectors';
 
 import { cleanMinimizeDialog } from '../../actions/dialog';
 import { DataEffects } from './data.effects';
+
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+  translate: jest.fn((string) => string.split('.').pop()),
+}));
 
 describe('Data Effects', () => {
   let action: any;
@@ -722,9 +729,8 @@ describe('Data Effects', () => {
 
         const expected = m.cold('-(bc)', {
           b: fetchResult(),
-          c: openSnackBar({
-            msgKey:
-              'materialsSupplierDatabase.mainTable.confirmDialog.successDeleteEntity',
+          c: infoSnackBar({
+            message: 'successDeleteEntity',
           }),
         });
 
@@ -742,9 +748,8 @@ describe('Data Effects', () => {
         actions$ = m.hot('-a', { a: action });
 
         const expected = m.cold('-b-', {
-          b: openSnackBar({
-            msgKey:
-              'materialsSupplierDatabase.mainTable.confirmDialog.failureDeleteEntity',
+          b: infoSnackBar({
+            message: 'failureDeleteEntity',
           }),
         });
 
@@ -754,19 +759,42 @@ describe('Data Effects', () => {
     );
   });
 
-  describe('openSnackBar$', () => {
+  describe('infoSnackBar$', () => {
     it(
       'should dispatch the correct actions',
       marbles((m) => {
-        effects['matSnackBar'].open = jest.fn();
-        action = openSnackBar({ msgKey: 'test' });
+        effects['matSnackBar'].infoTranslated = jest.fn();
+        action = infoSnackBar({ message: 'test' });
         actions$ = m.hot('-a', { a: action });
 
         const expected = m.cold('-a-', { a: action });
 
-        m.expect(effects.openSnackBar$).toBeObservable(expected);
+        m.expect(effects.infoSnackBar$).toBeObservable(expected);
         m.flush();
-        expect(effects['matSnackBar'].open).toHaveBeenCalledWith('test');
+        expect(effects['matSnackBar'].infoTranslated).toHaveBeenCalledWith(
+          'test'
+        );
+      })
+    );
+  });
+
+  describe('errorSnackBar$', () => {
+    it(
+      'should dispatch the correct actions',
+      marbles((m) => {
+        effects['matSnackBar'].errorTranslated = jest.fn();
+        action = errorSnackBar({ message: 'test' });
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-a-', { a: action });
+
+        m.expect(effects.errorSnackBar$).toBeObservable(expected);
+        m.flush();
+        expect(effects['matSnackBar'].errorTranslated).toHaveBeenCalledWith(
+          'test',
+          undefined,
+          undefined
+        );
       })
     );
   });

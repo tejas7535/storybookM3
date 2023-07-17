@@ -4,16 +4,13 @@ import {
   MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
   MatLegacyDialogRef as MatDialogRef,
 } from '@angular/material/legacy-dialog';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 
 import { BehaviorSubject } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
 
-import {
-  MaterialClass,
-  NavigationLevel,
-} from '@mac/feature/materials-supplier-database/constants';
+import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
+import { MsdSnackbarService } from '@mac/feature/materials-supplier-database/services/msd-snackbar';
 import {
   addCustomSupplierSapId,
   manufacturerSupplierDialogConfirmed,
@@ -50,7 +47,7 @@ export class ManufacturerSupplierInputDialogComponent
     readonly dialogFacade: DialogFacade,
     readonly dataFacade: DataFacade,
     readonly dialogRef: MatDialogRef<MaterialInputDialogComponent>,
-    readonly snackbar: MatSnackBar,
+    readonly snackbar: MsdSnackbarService,
     readonly cdRef: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA)
     readonly dialogData: {
@@ -170,7 +167,7 @@ export class ManufacturerSupplierInputDialogComponent
     this.dialogFacade.dispatch(
       manufacturerSupplierDialogConfirmed({ supplier })
     );
-    this.awaitMaterialComplete(createAnother, NavigationLevel.SUPPLIER);
+    this.awaitMaterialComplete(createAnother);
   }
 
   public addSupplierSapId(supplierSapId: string): void {

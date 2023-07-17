@@ -62,6 +62,9 @@ export const getErrorMessage = (errors: { [key: string]: any }): string => {
   if (errors.required) {
     return getTranslatedError('required');
   }
+  if (errors.dependency) {
+    return getTranslatedError('dependency');
+  }
   if (errors.min) {
     return getTranslatedError('min', { min: errors.min.min });
   }

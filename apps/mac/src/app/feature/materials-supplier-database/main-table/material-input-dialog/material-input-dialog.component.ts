@@ -15,10 +15,6 @@ import {
   MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
   MatLegacyDialogRef as MatDialogRef,
 } from '@angular/material/legacy-dialog';
-import {
-  MatLegacySnackBar as MatSnackBar,
-  MatLegacySnackBarConfig as MatSnackBarConfig,
-} from '@angular/material/legacy-snack-bar';
 
 import { BehaviorSubject, filter, Subject, take, takeUntil } from 'rxjs';
 
@@ -27,7 +23,7 @@ import { TypedAction } from '@ngrx/store/src/models';
 
 import { StringOption } from '@schaeffler/inputs';
 
-import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
+import { MaterialClass } from '@mac/msd/constants';
 import { DialogControlsService } from '@mac/msd/main-table/material-input-dialog/services';
 import * as util from '@mac/msd/main-table/material-input-dialog/util';
 import { focusSelectedElement } from '@mac/msd/main-table/material-input-dialog/util';
@@ -49,6 +45,7 @@ import {
 } from '@mac/msd/store/actions/dialog';
 import { DialogFacade } from '@mac/msd/store/facades/dialog';
 
+import { MsdSnackbarService } from '../../services/msd-snackbar';
 import { DataFacade } from '../../store/facades/data';
 import { findProperty, mapProperty } from './util/form-helpers';
 
@@ -129,7 +126,7 @@ export class MaterialInputDialogComponent
     readonly dialogFacade: DialogFacade,
     readonly dataFacade: DataFacade,
     readonly dialogRef: MatDialogRef<MaterialInputDialogComponent>,
-    readonly snackbar: MatSnackBar,
+    readonly snackbar: MsdSnackbarService,
     readonly cdRef: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA)
     readonly dialogData: {
@@ -255,10 +252,7 @@ export class MaterialInputDialogComponent
   }
 
   public handleDialogError(): void {
-    this.showInSnackbar(
-      translate('materialsSupplierDatabase.somethingWentWrong'),
-      translate('materialsSupplierDatabase.close')
-    );
+    this.snackbar.error('materialsSupplierDatabase.somethingWentWrong');
     this.cancelDialog();
   }
 
@@ -274,14 +268,6 @@ export class MaterialInputDialogComponent
       isBulkEdit: this.isBulkEdit,
     };
     this.closeDialog(minimizeDialogAction(minimize));
-  }
-
-  public showInSnackbar(
-    msg: string,
-    action?: string,
-    config?: MatSnackBarConfig
-  ): void {
-    this.snackbar.open(msg, action ?? undefined, config);
   }
 
   // extend this method in child classes for specific material classes
@@ -405,34 +391,17 @@ export class MaterialInputDialogComponent
         isBulkEdit: this.isBulkEdit,
       })
     );
-    this.awaitMaterialComplete(createAnother, NavigationLevel.MATERIAL);
+    this.awaitMaterialComplete(createAnother);
   }
 
-  public awaitMaterialComplete(
-    createAnother: boolean,
-    navigationLevel: NavigationLevel
-  ) {
+  public awaitMaterialComplete(createAnother: boolean) {
     // rename to createMaterialComplete, return object instead of
     this.dialogFacade.createMaterialRecord$
       .pipe(filter(Boolean), take(1))
       .subscribe((record) => {
-        let msgKey;
-        if (!record.error) {
-          if (!createAnother) {
-            this.closeDialog();
-          }
-          msgKey = 'materialsSupplierDatabase.mainTable.dialog.createSuccess';
-        } else {
-          msgKey = `materialsSupplierDatabase.mainTable.dialog.createFailure.${record.error.code}`;
+        if (!record.error && !createAnother) {
+          this.closeDialog();
         }
-        const level = translate(
-          `materialsSupplierDatabase.mainTable.dialog.level.${navigationLevel}`
-        );
-        this.showInSnackbar(
-          translate(msgKey, { level }),
-          translate('materialsSupplierDatabase.mainTable.dialog.close'),
-          { duration: 5000 }
-        );
         this.dialogFacade.dispatch(
           resetMaterialRecord({ error: !!record.error, createAnother })
         );
@@ -446,8 +415,8 @@ export class MaterialInputDialogComponent
       return (
         Object.keys(controls)
           .map((name) => controls[name])
-          .filter((control) => control.errors)
-          .filter((control) => !control.errors['required']).length === 0
+          .filter((control) => control.errors && !control.errors['required'])
+          .length === 0
       );
     } else {
       return this.createMaterialForm.valid;

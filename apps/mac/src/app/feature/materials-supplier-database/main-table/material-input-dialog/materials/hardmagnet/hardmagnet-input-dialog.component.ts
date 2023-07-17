@@ -11,7 +11,6 @@ import {
   MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
   MatLegacyDialogRef as MatDialogRef,
 } from '@angular/material/legacy-dialog';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 
 import { BehaviorSubject } from 'rxjs';
 
@@ -19,6 +18,7 @@ import { StringOption } from '@schaeffler/inputs';
 
 import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
 import { HardmagnetMaterialForm } from '@mac/feature/materials-supplier-database/models/data/hardmagnet';
+import { MsdSnackbarService } from '@mac/feature/materials-supplier-database/services/msd-snackbar';
 import { addCustomMaterialStandardName } from '@mac/feature/materials-supplier-database/store/actions/dialog';
 import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
 import { MaterialInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/material-input-dialog.component';
@@ -53,7 +53,7 @@ export class HardmagnetInputDialogComponent
     readonly dialogFacade: DialogFacade,
     readonly dataFacade: DataFacade,
     readonly dialogRef: MatDialogRef<MaterialInputDialogComponent>,
-    readonly snackbar: MatSnackBar,
+    readonly snackbar: MsdSnackbarService,
     readonly cdRef: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA)
     readonly dialogData: {

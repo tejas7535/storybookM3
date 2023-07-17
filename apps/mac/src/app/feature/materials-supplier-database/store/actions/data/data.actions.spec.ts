@@ -7,6 +7,7 @@ import {
 } from '@mac/msd/models';
 
 import {
+  errorSnackBar,
   fetchClassOptions,
   fetchClassOptionsFailure,
   fetchClassOptionsSuccess,
@@ -23,7 +24,7 @@ import {
   fetchSAPMaterials,
   fetchSAPMaterialsFailure,
   fetchSAPMaterialsSuccess,
-  openSnackBar,
+  infoSnackBar,
   resetResult,
   setAgGridColumns,
   setAgGridFilter,
@@ -294,12 +295,20 @@ describe('Data Actions', () => {
   });
 
   describe('Open snack bar', () => {
-    it('openSnackBar', () => {
-      const action = openSnackBar({ msgKey: 'test' });
+    it('infoSnackBar', () => {
+      const action = infoSnackBar({ message: 'test' });
 
       expect(action).toEqual({
-        msgKey: 'test',
-        type: '[MSD - Data] open snackbar',
+        message: 'test',
+        type: '[MSD - Data] info snackbar',
+      });
+    });
+    it('errorSnackBar', () => {
+      const action = errorSnackBar({ message: 'test' });
+
+      expect(action).toEqual({
+        message: 'test',
+        type: '[MSD - Data] error snackbar',
       });
     });
   });

@@ -155,7 +155,16 @@ export const deleteEntityFailure = createAction(
   '[MSD - Data] Delete MSD Entity Failure'
 );
 
-export const openSnackBar = createAction(
-  '[MSD - Data] open snackbar',
-  props<{ msgKey: string }>()
+export const infoSnackBar = createAction(
+  '[MSD - Data] info snackbar',
+  props<{ message: string }>()
+);
+
+export const errorSnackBar = createAction(
+  '[MSD - Data] error snackbar',
+  props<{
+    message: string;
+    detailMessage?: string;
+    items?: { key: string; value: any }[];
+  }>()
 );

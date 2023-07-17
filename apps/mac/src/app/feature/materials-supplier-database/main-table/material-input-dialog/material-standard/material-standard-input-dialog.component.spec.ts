@@ -221,7 +221,6 @@ describe('MaterialstandardInputDialogComponent', () => {
 
     beforeEach(() => {
       component['closeDialog'] = jest.fn();
-      component.showInSnackbar = jest.fn();
 
       component.enableEditFields();
     });
@@ -247,7 +246,6 @@ describe('MaterialstandardInputDialogComponent', () => {
       // backend response
       update(false);
       expect(component['closeDialog']).toBeCalled();
-      expect(component.showInSnackbar).toBeCalled();
     });
     it('should close dialog on successful confirm with empty material number', () => {
       const baseValues = createMaterialFormValue(MaterialClass.STEEL);
@@ -273,7 +271,6 @@ describe('MaterialstandardInputDialogComponent', () => {
       // backend response
       update(false);
       expect(component['closeDialog']).toBeCalled();
-      expect(component.showInSnackbar).toBeCalled();
     });
     it('should not close dialog on successful confirm with createAnother', () => {
       const values = createMaterialFormValue(
@@ -297,7 +294,6 @@ describe('MaterialstandardInputDialogComponent', () => {
       // backend response
       update(false);
       expect(component['closeDialog']).not.toHaveBeenCalled();
-      expect(component.showInSnackbar).toBeCalled();
     });
     it('should keep the dialog open on error', () => {
       const values = createMaterialFormValue(
@@ -321,7 +317,6 @@ describe('MaterialstandardInputDialogComponent', () => {
       // backend response
       update(true);
       expect(component['closeDialog']).not.toBeCalled();
-      expect(component.showInSnackbar).toBeCalled();
     });
   });
 

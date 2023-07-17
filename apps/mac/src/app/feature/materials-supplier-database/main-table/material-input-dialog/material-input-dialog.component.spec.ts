@@ -340,12 +340,12 @@ describe('MaterialInputDialogComponent', () => {
 
   describe('handleDialogError', () => {
     it('should call the showInSnackbar and cancelDialog', () => {
-      component.showInSnackbar = jest.fn();
+      component['snackbar'].error = jest.fn();
       component.cancelDialog = jest.fn();
 
       component.handleDialogError();
 
-      expect(component.showInSnackbar).toHaveBeenCalled();
+      expect(component['snackbar'].error).toHaveBeenCalled();
       expect(component.cancelDialog).toHaveBeenCalled();
     });
   });
@@ -388,32 +388,6 @@ describe('MaterialInputDialogComponent', () => {
           isCopy: true,
         }),
       });
-    });
-  });
-
-  describe('showInSnackbar', () => {
-    it('should call snackbar open', () => {
-      component['snackbar'].open = jest.fn();
-
-      component.showInSnackbar('hello');
-
-      expect(component['snackbar'].open).toHaveBeenCalledWith(
-        'hello',
-        undefined,
-        undefined
-      );
-    });
-
-    it('should call snackbar open with action and config', () => {
-      component['snackbar'].open = jest.fn();
-
-      component.showInSnackbar('hello', 'action', {});
-
-      expect(component['snackbar'].open).toHaveBeenCalledWith(
-        'hello',
-        'action',
-        {}
-      );
     });
   });
 

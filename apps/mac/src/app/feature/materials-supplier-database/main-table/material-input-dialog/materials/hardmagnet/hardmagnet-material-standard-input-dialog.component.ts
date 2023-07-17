@@ -10,7 +10,6 @@ import {
   MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
   MatLegacyDialogRef as MatDialogRef,
 } from '@angular/material/legacy-dialog';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 
 import { BehaviorSubject } from 'rxjs';
 
@@ -18,7 +17,7 @@ import { translate } from '@ngneat/transloco';
 
 import { StringOption } from '@schaeffler/inputs';
 
-import { NavigationLevel } from '@mac/feature/materials-supplier-database/constants';
+import { MsdSnackbarService } from '@mac/feature/materials-supplier-database/services/msd-snackbar';
 import {
   materialstandardDialogConfirmed,
   materialstandardDialogOpened,
@@ -51,7 +50,7 @@ export class HardmagnetMaterialStandardInputDialogComponent
     readonly dialogFacade: DialogFacade,
     readonly dataFacade: DataFacade,
     readonly dialogRef: MatDialogRef<MaterialInputDialogComponent>,
-    readonly snackbar: MatSnackBar,
+    readonly snackbar: MsdSnackbarService,
     readonly cdRef: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA)
     readonly dialogData: {
@@ -142,7 +141,7 @@ export class HardmagnetMaterialStandardInputDialogComponent
 
     // include stdDoc put logic in effect
     this.dialogFacade.dispatch(materialstandardDialogConfirmed({ standard }));
-    this.awaitMaterialComplete(createAnother, NavigationLevel.STANDARD);
+    this.awaitMaterialComplete(createAnother);
   }
 
   protected buildMaterialStandard(

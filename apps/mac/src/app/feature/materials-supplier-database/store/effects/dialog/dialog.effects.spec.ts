@@ -21,7 +21,11 @@ import {
   MaterialStandard,
 } from '@mac/msd/models';
 import { MsdDataService } from '@mac/msd/services';
-import { fetchResult } from '@mac/msd/store/actions/data';
+import {
+  errorSnackBar,
+  fetchResult,
+  infoSnackBar,
+} from '@mac/msd/store/actions/data';
 import {
   createMaterialComplete,
   editDialogLoadingComplete,
@@ -1244,6 +1248,9 @@ describe('Dialog Effects', () => {
   describe('postMaterial$', () => {
     const recordMock = {
       materialClass: MaterialClass.STEEL,
+      material: {
+        id: 2,
+      },
     } as CreateMaterialRecord;
     it(
       'should create a material',
@@ -1277,9 +1284,8 @@ describe('Dialog Effects', () => {
       marbles((m) => {
         const record = {
           ...recordMock,
-          supplier: {
-            ...recordMock.supplier,
-            id: undefined,
+          material: {
+            ...recordMock.material,
           },
         } as CreateMaterialRecord;
         action = postMaterial({ record });
@@ -1317,6 +1323,7 @@ describe('Dialog Effects', () => {
   describe('postBulkMaterial', () => {
     const create = (co2?: number, mode?: string, min?: number, max?: number) =>
       ({
+        id: 0,
         co2PerTon: co2,
         castingMode: mode,
         minDimension: min,
@@ -1361,6 +1368,53 @@ describe('Dialog Effects', () => {
         );
       })
     );
+    it(
+      'should remove rating comment for materials without rating changes',
+      marbles((m) => {
+        const selected = [
+          { ...create(132, 'b'), rating: 'S1' },
+          { ...create(456, 'b'), rating: 'S2' },
+        ];
+        msdDataFacade.selectedMaterialData$ = of({
+          rows: selected,
+          combinedRows: create(undefined, 'b'),
+        });
+        const record = {
+          material: {
+            ...create(432, 'a'),
+            rating: 'S2',
+            ratingChangeComment: 'test',
+          },
+          materialClass: MaterialClass.STEEL,
+          standard: undefined,
+          supplier: undefined,
+        } as CreateMaterialRecord;
+
+        const resultingMaterial = [
+          { ...create(432, 'a'), rating: 'S2', ratingChangeComment: 'test' },
+          { ...create(432, 'a'), rating: 'S2' },
+        ];
+
+        action = postBulkMaterial({ record });
+        actions$ = m.hot('-a', { a: action });
+
+        const resultMock = { id: 42 };
+        const response = m.cold('-a|', { a: resultMock });
+        msdDataService.bulkEditMaterial = jest.fn(() => response);
+
+        const expected = m.cold('--b', {
+          b: createMaterialComplete({ record }),
+        });
+
+        m.expect(effects.postBulkMaterial$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.bulkEditMaterial).toHaveBeenCalledWith(
+          resultingMaterial,
+          record.materialClass
+        );
+      })
+    );
 
     it(
       'should handle errors for bulk material edit',
@@ -1381,11 +1435,18 @@ describe('Dialog Effects', () => {
         action = postBulkMaterial({ record });
         actions$ = m.hot('-a', { a: action });
 
-        msdDataService.bulkEditMaterial = jest
-          .fn()
-          .mockReturnValue(
-            throwError(() => new HttpErrorResponse({ status: 407 }))
-          );
+        msdDataService.bulkEditMaterial = jest.fn().mockReturnValue(
+          throwError(
+            () =>
+              new HttpErrorResponse({
+                status: 407,
+                error: {
+                  id: 0,
+                  message: 'errMsg',
+                },
+              })
+          )
+        );
 
         const expected = m.cold('-b', {
           b: createMaterialComplete({
@@ -1394,6 +1455,80 @@ describe('Dialog Effects', () => {
               error: {
                 code: 407,
                 state: CreateMaterialErrorState.MaterialCreationFailed,
+                detail: {
+                  items: [
+                    { key: 'id', value: 0 },
+                    { key: 'co2PerTon', value: 432 },
+                    { key: 'castingMode', value: 'a' },
+                    { key: 'minDimension', value: 3 },
+                  ],
+                  message: 'errMsg',
+                },
+              },
+            },
+          }),
+        });
+
+        m.expect(effects.postBulkMaterial$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.bulkEditMaterial).toHaveBeenCalledWith(
+          resultingMaterial,
+          record.materialClass
+        );
+      })
+    );
+
+    it(
+      'should handle list of errors for bulk material edit',
+      marbles((m) => {
+        const selected = [create(132, 'b', 3), create(456, 'b')];
+        msdDataFacade.selectedMaterialData$ = of({
+          rows: selected,
+          combinedRows: create(undefined, 'b'),
+        });
+        const record = {
+          material: create(432, 'a'),
+          materialClass: MaterialClass.STEEL,
+          standard: undefined,
+          supplier: undefined,
+        } as CreateMaterialRecord;
+        const resultingMaterial = [create(432, 'a', 3), create(432, 'a')];
+
+        action = postBulkMaterial({ record });
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataService.bulkEditMaterial = jest.fn().mockReturnValue(
+          throwError(
+            () =>
+              new HttpErrorResponse({
+                status: 407,
+                error: [
+                  {
+                    id: 0,
+                    message: 'errMsg',
+                  },
+                ],
+              })
+          )
+        );
+
+        const expected = m.cold('-b', {
+          b: createMaterialComplete({
+            record: {
+              ...record,
+              error: {
+                code: 407,
+                state: CreateMaterialErrorState.MaterialCreationFailed,
+                detail: {
+                  items: [
+                    { key: 'id', value: 0 },
+                    { key: 'co2PerTon', value: 432 },
+                    { key: 'castingMode', value: 'a' },
+                    { key: 'minDimension', value: 3 },
+                  ],
+                  message: 'errMsg',
+                },
               },
             },
           }),
@@ -1412,7 +1547,7 @@ describe('Dialog Effects', () => {
 
   describe('createMaterialComplete$', () => {
     it(
-      'should fetch new results',
+      'should report success',
       marbles((m) => {
         const record = {
           error: false,
@@ -1421,7 +1556,7 @@ describe('Dialog Effects', () => {
         actions$ = m.hot('-a', { a: action });
 
         const expected = m.cold('-(c)', {
-          c: fetchResult(),
+          c: infoSnackBar({ message: 'createSuccess' }),
         });
 
         m.expect(effects.createMaterialComplete$).toBeObservable(expected);
@@ -1429,14 +1564,22 @@ describe('Dialog Effects', () => {
       })
     );
     it(
-      'should not fetch new results',
+      'should report failure',
       marbles((m) => {
         const record = {
-          error: true,
+          error: {
+            code: 407,
+          },
         } as unknown as CreateMaterialRecord;
         action = createMaterialComplete({ record });
         actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('-', {});
+        const expected = m.cold('-(c)', {
+          c: errorSnackBar({
+            message: '407',
+            items: undefined,
+            detailMessage: undefined,
+          }),
+        });
 
         m.expect(effects.createMaterialComplete$).toBeObservable(expected);
         m.flush();

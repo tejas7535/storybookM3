@@ -14,6 +14,10 @@ export interface CreateMaterialRecord {
   error?: {
     code: number;
     state: CreateMaterialErrorState;
+    detail?: {
+      message?: string;
+      items: { key: string; value: any }[];
+    };
   };
 }
 

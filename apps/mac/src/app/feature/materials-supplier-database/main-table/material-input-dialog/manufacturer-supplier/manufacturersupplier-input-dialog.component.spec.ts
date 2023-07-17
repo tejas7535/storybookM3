@@ -197,7 +197,6 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
       component.materialClass = MaterialClass.STEEL;
       component.ngOnInit();
       component['closeDialog'] = jest.fn();
-      component.showInSnackbar = jest.fn();
 
       component.enableEditFields();
     });
@@ -224,7 +223,6 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
       // backend response
       update(false);
       expect(component['closeDialog']).toBeCalled();
-      expect(component.showInSnackbar).toBeCalled();
     });
 
     it('should not close dialog on successful confirm with createAnother', () => {
@@ -250,7 +248,6 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
       // backend response
       update(false);
       expect(component['closeDialog']).not.toHaveBeenCalled();
-      expect(component.showInSnackbar).toBeCalled();
     });
 
     it('should keep the dialog open on error', () => {
@@ -276,7 +273,6 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
       // backend response
       update(true);
       expect(component['closeDialog']).not.toBeCalled();
-      expect(component.showInSnackbar).toBeCalled();
     });
 
     it('should keep the dialog open on error with createAnother', () => {
@@ -302,7 +298,6 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
       // backend response
       update(true);
       expect(component['closeDialog']).not.toBeCalled();
-      expect(component.showInSnackbar).toBeCalled();
     });
   });
 

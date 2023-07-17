@@ -227,7 +227,11 @@ describe('SteelInputDialogComponent', () => {
     it('ratingChangeComment should be enabled when rating has been set', () => {
       component.ratingsControl.setValue(createOption('', 1));
 
-      expect(component.ratingChangeCommentControl.disabled).toBeFalsy();
+      expect(component.ratingChangeCommentControl.enabled).toBeTruthy();
+      expect(component.ratingChangeCommentControl.invalid).toBeTruthy();
+      expect(component.ratingChangeCommentControl.errors).toStrictEqual({
+        dependency: true,
+      });
     });
     it('ratingChangeComment should be disabled when rating is reset', () => {
       // set and reset
@@ -526,7 +530,7 @@ describe('SteelInputDialogComponent', () => {
       setSilent(component.co2TotalControl);
       setSilent(component.co2ClassificationControl);
       component.co2ClassificationControl.disable();
-      component['snackbar'].open = jest.fn();
+      component['snackbar'].infoTranslated = jest.fn();
     });
     const update = (
       arr?: number[],
@@ -552,7 +556,7 @@ describe('SteelInputDialogComponent', () => {
     it('should update co2Dialog values', () => {
       update([1, 2, 3, 4], 'yes', 8);
 
-      expect(component['snackbar'].open).toBeCalled();
+      expect(component['snackbar'].infoTranslated).toBeCalled();
       expect(component.co2ClassificationControl.enabled).toBe(true);
       expect(component.co2ClassificationControl.value).toBe('yes');
       expect(component.co2Scope1Control.value).toBe(1);
@@ -563,7 +567,7 @@ describe('SteelInputDialogComponent', () => {
     it('should partial update co2Dialog values', () => {
       update([1, undefined, undefined, 4]);
 
-      expect(component['snackbar'].open).toBeCalled();
+      expect(component['snackbar'].infoTranslated).toBeCalled();
       expect(component.co2ClassificationControl.enabled).toBe(true);
       expect(component.co2ClassificationControl.value).toBeFalsy();
       expect(component.co2Scope1Control.value).toBe(1);
@@ -574,35 +578,35 @@ describe('SteelInputDialogComponent', () => {
     it('should not update co2Dialog values with no values given', () => {
       update();
 
-      expect(component['snackbar'].open).not.toBeCalled();
+      expect(component['snackbar'].infoTranslated).not.toBeCalled();
       expect(component.co2ClassificationControl.enabled).toBe(false);
     });
     it('should not update co2Dialog values with value set for scope1', () => {
       setSilent(component.co2Scope1Control, 400);
       update([1, 2, 3, 4]);
 
-      expect(component['snackbar'].open).not.toBeCalled();
+      expect(component['snackbar'].infoTranslated).not.toBeCalled();
       expect(component.co2ClassificationControl.enabled).toBe(false);
     });
     it('should not update co2Dialog values with value set for scope2', () => {
       setSilent(component.co2Scope2Control, 99);
       update([1, 2, 3, 4]);
 
-      expect(component['snackbar'].open).not.toBeCalled();
+      expect(component['snackbar'].infoTranslated).not.toBeCalled();
       expect(component.co2ClassificationControl.enabled).toBe(false);
     });
     it('should not update co2Dialog values with value set for scope3', () => {
       setSilent(component.co2Scope3Control, 66);
       update([1, 2, 3, 4]);
 
-      expect(component['snackbar'].open).not.toBeCalled();
+      expect(component['snackbar'].infoTranslated).not.toBeCalled();
       expect(component.co2ClassificationControl.enabled).toBe(false);
     });
     it('should not update co2Dialog values with value set for co2Total given', () => {
       setSilent(component.co2TotalControl, 3);
       update([1, 2, 3, 4]);
 
-      expect(component['snackbar'].open).not.toBeCalled();
+      expect(component['snackbar'].infoTranslated).not.toBeCalled();
       expect(component.co2ClassificationControl.enabled).toBe(false);
     });
   });
@@ -745,7 +749,6 @@ describe('SteelInputDialogComponent', () => {
     };
     beforeEach(() => {
       component['closeDialog'] = jest.fn();
-      component.showInSnackbar = jest.fn();
     });
     it('should close dialog on successful confirm', () => {
       const values = createMaterialFormValue(MaterialClass.STEEL);
@@ -759,7 +762,6 @@ describe('SteelInputDialogComponent', () => {
       // backend response
       update(false);
       expect(component['closeDialog']).toBeCalled();
-      expect(component.showInSnackbar).toBeCalled();
     });
 
     it('should close dialog on successful confirm with empty material number', () => {
@@ -779,7 +781,6 @@ describe('SteelInputDialogComponent', () => {
       // backend response
       update(false);
       expect(component['closeDialog']).toBeCalled();
-      expect(component.showInSnackbar).toBeCalled();
     });
     it('should not close dialog on successful confirm with createAnother', () => {
       const values = createMaterialFormValue(MaterialClass.STEEL);
@@ -793,7 +794,6 @@ describe('SteelInputDialogComponent', () => {
       // backend response
       update(false);
       expect(component['closeDialog']).not.toHaveBeenCalled();
-      expect(component.showInSnackbar).toBeCalled();
     });
     it('should keep the dialog open on error', () => {
       const values = createMaterialFormValue(MaterialClass.STEEL);
@@ -807,7 +807,6 @@ describe('SteelInputDialogComponent', () => {
       // backend response
       update(true);
       expect(component['closeDialog']).not.toBeCalled();
-      expect(component.showInSnackbar).toBeCalled();
     });
     it('should keep the dialog open on error with createAnother', () => {
       const values = createMaterialFormValue(MaterialClass.STEEL);
@@ -821,7 +820,6 @@ describe('SteelInputDialogComponent', () => {
       // backend response
       update(true);
       expect(component['closeDialog']).not.toBeCalled();
-      expect(component.showInSnackbar).toBeCalled();
     });
   });
 
@@ -966,14 +964,14 @@ describe('SteelInputDialogComponent', () => {
 
         expect(min.valid).toBe(true);
         expect(max.valid).toBe(false);
-        expect(max.errors).toStrictEqual({ required: true });
+        expect(max.errors).toStrictEqual({ dependency: true });
       });
       it('should make controls required by setting max', () => {
         max.setValue(0);
 
         expect(max.valid).toBe(true);
         expect(min.valid).toBe(false);
-        expect(min.errors).toStrictEqual({ required: true });
+        expect(min.errors).toStrictEqual({ dependency: true });
       });
       it('should reset when both fields get reset', () => {
         min.setValue(12);

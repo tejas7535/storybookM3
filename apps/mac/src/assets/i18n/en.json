@@ -297,7 +297,7 @@
         "manufacturerSupplierCountry": "Supplier Country",
         "manufacturerSupplierRegion": "Supplier Region",
         "selfCertified": "Self-certification supplier",
-        "materialNumbers": " ",
+        "materialNumbers": "Material Number(s)",
         "steelNumber": "Steel Number(s)",
         "copperNumber": "Copper Number(s)",
         "materialStandardMaterialName": "Material Name",
@@ -325,6 +325,8 @@
         "sapSupplierIds": "SAP Supplier ID(s)",
         "steelMakingProcess": "Iron- & Steel Making Process",
         "recyclingRate": "Recycle Rate",
+        "minRecyclingRate": "Min. Recycle Rate",
+        "maxRecyclingRate": "Max. Recycle Rate",
         "manufacturer": "Iron- & Steelmaking",
         "ssid": "SSID",
         "generalDescription": "General Description",
@@ -427,7 +429,9 @@
           "403": "{{level}} creation failed, Firewall rejected content. Avoid using '--' or '#'!",
           "404": "{{level}} creation failed!",
           "406": "{{level}} creation failed, entry needs modification!",
-          "409": "{{level}} creation failed, an identical entry already exists!"
+          "409": "{{level}} creation failed, an identical entry already exists!",
+          "412": "{{level}} creation failed, entered content is not valid!",
+          "500": "{{level}} creation failed because of a unknown server side error!"
         },
         "createSuccess": "{{level}} added successfully",
         "error": {
@@ -437,6 +441,7 @@
           "generic": "Value is not valid",
           "min": "Value lower than {{min}}",
           "required": "Input required",
+          "dependency": "Input required due to dependent field",
           "invalidSapId": "Required format: S123456789",
           "steelNumber": "Required format: 1.1234(, 1.3456, ...)",
           "copperNumber": "Required format: 2.1234(, 2.3456, ...)"

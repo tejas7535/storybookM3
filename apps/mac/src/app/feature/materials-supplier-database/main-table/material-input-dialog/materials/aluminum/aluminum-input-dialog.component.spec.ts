@@ -186,7 +186,6 @@ describe('AluminumInputDialogComponent', () => {
 
     beforeEach(() => {
       component['closeDialog'] = jest.fn();
-      component.showInSnackbar = jest.fn();
     });
     it('should close dialog on successful confirm', () => {
       const values = createMaterialFormValue(MaterialClass.ALUMINUM);
@@ -200,7 +199,6 @@ describe('AluminumInputDialogComponent', () => {
       // backend response
       update(false);
       expect(component['closeDialog']).toBeCalled();
-      expect(component.showInSnackbar).toBeCalled();
     });
     it('should not close dialog on successful confirm with createAnother', () => {
       const values = createMaterialFormValue(MaterialClass.ALUMINUM);
@@ -214,7 +212,6 @@ describe('AluminumInputDialogComponent', () => {
       // backend response
       update(false);
       expect(component['closeDialog']).not.toHaveBeenCalled();
-      expect(component.showInSnackbar).toBeCalled();
     });
     it('should keep the dialog open on error', () => {
       const values = createMaterialFormValue(MaterialClass.ALUMINUM);
@@ -228,7 +225,6 @@ describe('AluminumInputDialogComponent', () => {
       // backend response
       update(true);
       expect(component['closeDialog']).not.toBeCalled();
-      expect(component.showInSnackbar).toBeCalled();
     });
     it('should keep the dialog open on error with createAnother', () => {
       const values = createMaterialFormValue(MaterialClass.ALUMINUM);
@@ -242,7 +238,6 @@ describe('AluminumInputDialogComponent', () => {
       // backend response
       update(true);
       expect(component['closeDialog']).not.toBeCalled();
-      expect(component.showInSnackbar).toBeCalled();
     });
   });
 });

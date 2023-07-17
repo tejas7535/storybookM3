@@ -6,45 +6,79 @@ import {
 
 import { translate } from '@ngneat/transloco';
 
+import { CustomSnackbarComponent } from '../../main-table/custom-snackbar/custom-snackbar.component';
+
 @Injectable({
   providedIn: 'any',
 })
 export class MsdSnackbarService {
-  private static readonly DEFAULT_ACTION_KEY =
-    'materialsSupplierDatabase.mainTable.dialog.close';
   private static readonly DEFAULT_CONFIG = {
     duration: 5000,
   } as MatSnackBarConfig;
 
   constructor(private readonly snackBar: MatSnackBar) {}
 
+  info(msgKey: string) {
+    this.open(msgKey);
+  }
+
+  infoTranslated(message: string) {
+    this.openTranslated(message);
+  }
+
+  error(
+    msgKey: string,
+    detailMessage?: string,
+    items?: { key: string; value: any }[]
+  ) {
+    this.open(msgKey, detailMessage, items, {});
+  }
+
+  errorTranslated(
+    message: string,
+    detailMessage?: string,
+    items?: { key: string; value: any }[]
+  ) {
+    this.openTranslated(message, detailMessage, items, {});
+  }
+
   /**
    * Open Snackbar with message stored under given msgKey.
    *
    * @param msgKey key of message to be displayed
-   * @param actionKey (optional) key of action message
+   * @param detailMessage (optional) detail message to be displayed
+   * @param items (optional) items list to be displayed
    * @param config (optional) SnackBar configuration
    */
-  open(
+  private open(
     msgKey: string,
-    actionKey = MsdSnackbarService.DEFAULT_ACTION_KEY,
-    config?: MatSnackBarConfig
+    detailMessage?: string,
+    items?: { key: string; value: any }[],
+    config = MsdSnackbarService.DEFAULT_CONFIG
   ) {
-    this.openTranslated(translate(msgKey), translate(actionKey), config);
+    this.openTranslated(translate(msgKey), detailMessage, items, config);
   }
 
   /**
    * Open Snackbar with message.
    *
-   * @param msgKey message to be displayed
-   * @param actionKey action message
+   * @param message message to be displayed
+   * @param detailMessage (optional) detail message to be displayed
+   * @param items (optional) items list to be displayed
    * @param config (optional) SnackBar configuration
    */
-  openTranslated(
+  private openTranslated(
     message: string,
-    close: string,
+    detailMessage?: string,
+    items?: { key: string; value: any }[],
     config = MsdSnackbarService.DEFAULT_CONFIG
   ) {
-    this.snackBar.open(message, close, config);
+    const snackBarConfig = !items
+      ? { ...config, data: { message } }
+      : ({
+          ...config,
+          data: { message, detail: { message: detailMessage, items } },
+        } as MatSnackBarConfig);
+    this.snackBar.openFromComponent(CustomSnackbarComponent, snackBarConfig);
   }
 }

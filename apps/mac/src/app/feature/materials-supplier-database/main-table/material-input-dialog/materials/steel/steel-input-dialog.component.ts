@@ -10,7 +10,6 @@ import {
 } from '@angular/core';
 import {
   AbstractControl,
-  FormArray,
   FormControl,
   FormGroup,
   ValidationErrors,
@@ -21,7 +20,6 @@ import {
   MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
   MatLegacyDialogRef as MatDialogRef,
 } from '@angular/material/legacy-dialog';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 
 import { BehaviorSubject, filter, map, takeUntil, tap } from 'rxjs';
 
@@ -31,6 +29,7 @@ import { StringOption } from '@schaeffler/inputs';
 import { SelectComponent } from '@schaeffler/inputs/select';
 
 import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
+import { MsdSnackbarService } from '@mac/feature/materials-supplier-database/services/msd-snackbar';
 import {
   addCustomCastingDiameter,
   addCustomReferenceDocument,
@@ -93,8 +92,10 @@ export class SteelInputDialogComponent
   public referenceDocumentControl =
     this.controlsService.getControl<StringOption[]>();
   public ratingRemarkControl = this.controlsService.getControl<string>();
-  public ratingChangeCommentControl =
-    this.controlsService.getRequiredControl<string>(undefined, true);
+  public ratingChangeCommentControl = this.controlsService.getControl<string>(
+    undefined,
+    true
+  );
   public isBlockedControl = this.controlsService.getControl<boolean>(false);
   public steelMakingProcessControl =
     this.controlsService.getControl<StringOption>();
@@ -130,7 +131,6 @@ export class SteelInputDialogComponent
   private readonly STEEL_MAKING_PROCESS_SEARCH_STRING = 'in use by supplier';
 
   // co2 dependencies
-  private co2Controls: FormArray<FormControl<number>>;
   private readonly co2ValuesForSupplierSteelMakingProcess$ =
     this.dialogFacade.co2ValuesForSupplierSteelMakingProcess$;
 
@@ -143,7 +143,7 @@ export class SteelInputDialogComponent
     readonly dialogFacade: DialogFacade,
     readonly dataFacade: DataFacade,
     readonly dialogRef: MatDialogRef<MaterialInputDialogComponent>,
-    readonly snackbar: MatSnackBar,
+    readonly snackbar: MsdSnackbarService,
     readonly cdRef: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA)
     readonly dialogData: {
@@ -211,11 +211,16 @@ export class SteelInputDialogComponent
     // enable or disable rating comment, if initial value has been modified
     this.ratingsControl.valueChanges
       .pipe(takeUntil(this.destroy$))
-      .subscribe((value: StringOption) =>
-        value?.id !== this.dialogData.editDialogInformation?.row?.rating
-          ? this.ratingChangeCommentControl.enable({ emitEvent: false })
-          : this.ratingChangeCommentControl.disable({ emitEvent: false })
-      );
+      .subscribe((value: StringOption) => {
+        if (value?.id !== this.dialogData.editDialogInformation?.row?.rating) {
+          this.ratingChangeCommentControl.enable({ emitEvent: false });
+        } else {
+          this.ratingChangeCommentControl.disable({ emitEvent: false });
+        }
+        // this is needed, otherwise field would not be marked as invalid until touched!
+        this.ratingChangeCommentControl.markAsTouched();
+      });
+    this.ratingChangeCommentControl.addValidators(this.dependencyValidatorFn());
 
     // "manufacturer"-field only available for new suppliers. For existing suppliers value will be prefilled
     this.supplierPlantControl.valueChanges
@@ -308,33 +313,26 @@ export class SteelInputDialogComponent
       });
 
     // co2classification can be ignored here, as it is just available after filling in a co2Value
-    this.co2Controls = new FormArray([
-      this.co2Scope1Control,
-      this.co2Scope2Control,
-      this.co2Scope3Control,
-      this.co2TotalControl,
-    ]);
+    const someCo2 = () =>
+      this.co2Scope1Control.value ||
+      this.co2Scope2Control.value ||
+      this.co2Scope3Control.value ||
+      this.co2TotalControl.value;
     this.co2ValuesForSupplierSteelMakingProcess$
       .pipe(
         takeUntil(this.destroy$),
-        filter(
-          ({ co2Values }) => co2Values && !this.co2Controls.value.some(Boolean)
-        )
+        filter(({ co2Values }) => co2Values && !someCo2())
       )
       .subscribe(({ co2Values, otherValues }) => {
         this.co2ClassificationControl.enable({ emitEvent: false });
         this.createMaterialForm.patchValue(co2Values);
-        this.snackbar.open(
+        this.snackbar.infoTranslated(
           translate(
             otherValues > 0
               ? 'materialsSupplierDatabase.mainTable.dialog.co2ValuesFilledWithOtherValues'
               : 'materialsSupplierDatabase.mainTable.dialog.co2ValuesFilled',
             otherValues > 0 ? { otherValues } : undefined
-          ),
-          translate('materialsSupplierDatabase.mainTable.dialog.close'),
-          {
-            panelClass: '[&>div>div>simple-snack-bar]:!flex-nowrap',
-          }
+          )
         );
       });
 
@@ -488,7 +486,7 @@ export class SteelInputDialogComponent
 
       // if only on field is filled, the other is required
       if (maxFilled && !minFilled) {
-        return { required: true };
+        return { dependency: true };
       }
 
       return undefined;
@@ -514,7 +512,18 @@ export class SteelInputDialogComponent
       }
       // if only on field is filled, the other is required
       else if (minFilled && !maxFilled) {
-        return { required: true };
+        return { dependency: true };
+      }
+
+      return undefined;
+    };
+  }
+
+  // validator for a field that is only mandatory depending on input from other fields
+  private dependencyValidatorFn(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.value) {
+        return { dependency: true };
       }
 
       return undefined;
