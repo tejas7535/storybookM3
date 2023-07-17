@@ -18,6 +18,7 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class FrictionService {
+  // swagger: https://bearinx-d.schaeffler.com/co_api/swagger/index.html
   readonly baseUrl = `${environment.frictionApiBaseUrl}/v1.3/co2calculator`;
 
   constructor(private readonly http: HttpClient) {}
@@ -61,6 +62,13 @@ export class FrictionService {
       operationConditions?.lubrication?.[
         operationConditions?.lubrication?.lubricationSelection
       ]?.isoVgClass?.isoVgClass;
+
+    const greaseDefinition = (
+      operationConditions?.lubrication?.[
+        operationConditions?.lubrication?.lubricationSelection
+      ] as CalculationParametersOperationConditions['lubrication']['grease']
+    )?.typeOfGrease?.typeOfGrease;
+
     const bearingData: FrictionServiceBearingData = {
       idscO_CO2_EMISSION_FACTOR_CALCULATION: energySource.type,
       idscO_CO2_EMISSION_FACTOR_FOSSIL_ORIGIN:
@@ -72,7 +80,15 @@ export class FrictionService {
           ? energySource.electricityRegion
           : undefined,
       idL_OILTEMP: operationConditions.oilTemp,
-      idL_VG: viscosity,
+      idL_VG: greaseDefinition ? undefined : viscosity,
+      idscO_LUBRICANT_TYPE: 'LB_GREASE_LUBRICATION',
+      idscO_LUBRICANT_DEFINITION_FLAG: greaseDefinition
+        ? 'LB_DEFINITION_BY_GREASE'
+        : 'LB_DEFINITION_BY_INPUT',
+      idscO_DESIGNATION_OF_GREASE: greaseDefinition ?? undefined,
+      idscO_VISCOSITY_DEFINITION_FLAG: greaseDefinition
+        ? 'LB_DEFINITION_BY_GREASE'
+        : 'LB_DEFINITION_BY_CLASS',
     };
 
     const loadcaseData: FrictionServiceLoadCaseData[] = [

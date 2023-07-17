@@ -50,7 +50,7 @@ export interface CatalogServiceOperatingConditions {
     | 'LB_ENTER_VISCOSITIES';
 
   IDL_ISO_VG_CLASS: 'LB_PLEASE_SELECT' | `LB_ISO_VG_${number}`; // e.g 'LB_ISO_VG_22'
-  IDL_GREASE: 'LB_PLEASE_SELECT' | `LB_FAG_${string}`; // e.g. 'LB_FAG_MULTITOP'
+  IDL_GREASE: 'LB_PLEASE_SELECT' | `LB_${string}`; // e.g. 'LB_FAG_MULTITOP'
   IDL_OILTEMP: NumberString;
   IDL_SPEED_WITHOUT_SIGN: NumberString;
   IDL_ISO_VG_CLASS_CALCULATED: string;

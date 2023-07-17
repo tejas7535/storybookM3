@@ -25,9 +25,9 @@ export const initialState: CalculationParametersState = {
     lubrication: {
       lubricationSelection: 'grease',
       grease: {
-        selection: 'isoVgClass',
-        isoVgClass: { isoVgClass: 100 },
-        typeOfGrease: { typeOfGrease: undefined },
+        selection: 'typeOfGrease',
+        isoVgClass: { isoVgClass: undefined },
+        typeOfGrease: { typeOfGrease: 'LB_FAG_MULTI_2' },
         viscosity: { ny100: undefined, ny40: undefined },
       },
       oilBath: {

@@ -103,7 +103,7 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
           [FormSelectValidatorSwitcher()]
         ),
         typeOfGrease: new FormGroup({
-          typeOfGrease: new FormControl<`LB_FAG_${string}`>(undefined, [
+          typeOfGrease: new FormControl<`LB_${string}`>(undefined, [
             Validators.required,
           ]),
         }),

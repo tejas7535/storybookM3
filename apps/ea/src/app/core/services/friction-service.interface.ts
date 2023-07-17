@@ -29,11 +29,20 @@ export interface FrictionServiceBearingData {
     | 'LB_SOUTH_AFRICA'
     | 'LB_SOUTH_KOREA'
     | 'LB_TURKEYZLB_USA';
+  idscO_LUBRICANT_DEFINITION_FLAG:
+    | 'LB_DEFINITION_BY_GREASE'
+    | 'LB_DEFINITION_BY_INPUT';
+  idscO_DESIGNATION_OF_GREASE?: `LB_${string}`;
+  idscO_LUBRICANT_TYPE: 'LB_GREASE_LUBRICATION' | 'LB_OIL_LUBRICATION';
+  idscO_VISCOSITY_DEFINITION_FLAG:
+    | 'LB_DEFINITION_BY_CLASS'
+    | 'LB_DEFINITION_BY_GREASE'
+    | 'LB_DEFINITION_BY_TWO_VISCOSITIES';
 
   /**
    * Viscosity at 40 degress
    */
-  idL_VG: number;
+  idL_VG?: number;
 
   /**
    * Oil temperature
