@@ -9,7 +9,6 @@ import { SapCallInProgress } from './sap-call-in-progress.enum';
 export class Quotation {
   public gqId: number;
   public caseName: string;
-  public imported: boolean;
   public reImported: boolean;
   public sapId: string;
   public gqCreated: string;

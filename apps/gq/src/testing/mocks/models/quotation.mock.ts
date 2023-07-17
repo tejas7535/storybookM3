@@ -10,7 +10,6 @@ import { QUOTATION_DETAIL_MOCK } from './quotation-details.mock';
 export const QUOTATION_MOCK: Quotation = {
   gqId: 12_345,
   caseName: 'caseName',
-  imported: true,
   reImported: false,
   sapId: '12345',
   gqCreated: '2020-12-17T09:29:34',

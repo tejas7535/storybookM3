@@ -6,7 +6,6 @@ export const VIEW_QUOTATION_MOCK: ViewQuotation = {
   caseName: 'caseName',
   customerName: 'name',
   customerIdentifiers: { customerId: '1234', salesOrg: '0672' },
-  imported: true,
   sapCreated: '2022-02-21T09:14:17.2994738+01:00',
   sapCreatedByUser: { id: 'userid', name: 'username' },
   sapId: '1234',
