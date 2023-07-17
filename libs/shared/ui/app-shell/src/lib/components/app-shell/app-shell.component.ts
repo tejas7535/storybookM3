@@ -64,6 +64,12 @@ export class AppShellComponent implements OnInit {
     this.sidenavOpen = false;
   }
 
+  public handleClick(link: AppShellFooterLink, $event: MouseEvent) {
+    if (link.onClick) {
+      link.onClick($event);
+    }
+  }
+
   public ngOnInit(): void {
     if (this.scrollToTop) {
       this.router.events

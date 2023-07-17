@@ -15,6 +15,7 @@ import { MockModule } from 'ng-mocks';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppShellModule } from '../../app-shell.module';
+import { AppShellFooterLink } from '../../models';
 import { AppShellComponent } from './app-shell.component';
 
 describe('AppShellComponent', () => {
@@ -99,5 +100,41 @@ describe('AppShellComponent', () => {
     );
 
     expect(spy).toBeCalledTimes(0);
+  });
+
+  it('calls the link handler with the event', () => {
+    const internalSpyHandler = jest.fn();
+    const externalSpyHandler = jest.fn();
+
+    const footerLinks: AppShellFooterLink[] = [
+      {
+        link: '/',
+        title: 'Click here',
+        onClick: internalSpyHandler,
+      },
+      {
+        link: 'https://schaeffler.com',
+        title: 'External Link',
+        onClick: externalSpyHandler,
+        external: true,
+      },
+    ];
+    spectator = createComponent({
+      props: {
+        footerLinks,
+      },
+    });
+    component = spectator.component;
+
+    const internalLink = spectator.query('div.footer-link-internal');
+    const externalLink = spectator.query('a.footer-link-external');
+
+    spectator.click(internalLink);
+    spectator.click(externalLink);
+
+    expect(internalSpyHandler).toBeCalledTimes(1);
+    expect(internalSpyHandler).toHaveBeenCalledWith(expect.any(MouseEvent));
+    expect(externalSpyHandler).toBeCalledTimes(1);
+    expect(externalSpyHandler).toHaveBeenCalledWith(expect.any(MouseEvent));
   });
 });

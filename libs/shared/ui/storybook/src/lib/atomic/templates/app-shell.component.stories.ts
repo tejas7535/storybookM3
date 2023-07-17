@@ -10,10 +10,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import {
-  moduleMetadata,
-  StoryFn,
   Meta,
+  StoryFn,
   applicationConfig,
+  moduleMetadata,
 } from '@storybook/angular';
 
 import { AppShellComponent } from '@schaeffler/app-shell';
@@ -21,10 +21,9 @@ import { AppShellComponent } from '@schaeffler/app-shell';
 import { UserPanelComponent } from '../../../../../app-shell/src/lib/components/user-panel/user-panel.component';
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
 
-import { StorybookTranslocoModule } from '../../../../.storybook/storybook-transloco.module';
-import READMEMd from '../../../../../app-shell/README.md';
 import { importProvidersFrom } from '@angular/core';
-
+import READMEMd from '../../../../../app-shell/README.md';
+import { StorybookTranslocoModule } from '../../../../.storybook/storybook-transloco.module';
 interface AppShellStorybookTemplate {
   headerContent?: string;
   sideNavContent?: string;
@@ -136,6 +135,12 @@ Default.args = {
       link: 'some://external.url.com',
       title: 'External Link Text',
       external: true,
+      onClick: () => alert('Click external link'),
+    },
+    {
+      title: 'Custom handling!',
+      link: '',
+      onClick: () => alert('Custom click handler'),
     },
   ],
   footerFixed: true,
