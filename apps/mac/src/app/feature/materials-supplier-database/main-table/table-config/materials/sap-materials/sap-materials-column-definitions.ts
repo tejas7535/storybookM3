@@ -24,6 +24,8 @@ import {
   TEXT_FILTER_PARAMS,
 } from '@mac/msd/main-table/table-config';
 
+import { PcfMaturityCo2CellRendererComponent } from '../../../pcf-maturity-co2-cell-renderer/pcf-maturity-co2-cell-renderer.component';
+
 export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
   {
     field: MATERIAL_NUMBER,
@@ -84,12 +86,14 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     headerName: EMISSION_FACTOR_KG,
     filter: 'agNumberColumnFilter',
     filterParams: NUMBER_FILTER_PARAMS,
+    cellRenderer: PcfMaturityCo2CellRendererComponent,
   },
   {
     field: EMISSION_FACTOR_PC,
     headerName: EMISSION_FACTOR_PC,
     filter: 'agNumberColumnFilter',
     filterParams: NUMBER_FILTER_PARAMS,
+    cellRenderer: PcfMaturityCo2CellRendererComponent,
   },
   {
     field: TRANSPORT_PC,

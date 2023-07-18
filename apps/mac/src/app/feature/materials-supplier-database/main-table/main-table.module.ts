@@ -1,3 +1,4 @@
+import { OverlayModule } from '@angular/cdk/overlay';
 import { CommonModule, DatePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -17,6 +18,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { MsdDialogService } from '@mac/msd/services';
+import { HtmlTooltipComponent } from '@mac/shared/components/html-tooltip/html-tooltip.component';
 import { IndicatorComponent } from '@mac/shared/components/indicator/indicator.component';
 
 import { ActionCellRendererComponent } from './action-cell-renderer/action-cell-renderer.component';
@@ -30,13 +32,12 @@ import { LinkCellRendererComponent } from './link-cell-renderer/link-cell-render
 import { MainTableComponent } from './main-table.component';
 import { MainTableRoutingModule } from './main-table-routing.module';
 import { MaterialDialogsModule } from './material-input-dialog/materials/materials.module';
+import { MoreInformationDialogComponent } from './more-information-dialog/more-information-dialog.component';
 import { MsdNavigationModule } from './msd-navigation/msd-navigation.module';
+import { PcfMaturityCo2CellRendererComponent } from './pcf-maturity-co2-cell-renderer/pcf-maturity-co2-cell-renderer.component';
 import { QuickFilterComponent } from './quick-filter/quick-filter.component';
 import { RecentStatusCellRendererComponent } from './recent-status-cell-renderer/recent-status-cell-renderer.component';
 import { ReleaseStatusCellRendererComponent } from './release-status-cell-renderer/release-status-cell-renderer.component';
-import { OverlayModule } from '@angular/cdk/overlay';
-import { HtmlTooltipComponent } from '@mac/shared/components/html-tooltip/html-tooltip.component';
-import { MoreInformationDialogComponent } from './more-information-dialog/more-information-dialog.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { MoreInformationDialogComponent } from './more-information-dialog/more-i
     EditCellRendererComponent,
     LinkCellRendererComponent,
     GreenSteelCellRendererComponent,
+    PcfMaturityCo2CellRendererComponent,
     RecentStatusCellRendererComponent,
     ReleaseStatusCellRendererComponent,
     ActionCellRendererComponent,

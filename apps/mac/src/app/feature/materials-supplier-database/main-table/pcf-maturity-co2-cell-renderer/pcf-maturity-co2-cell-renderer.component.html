@@ -1,0 +1,41 @@
+<div
+  class="flex h-[46px] w-full flex-row"
+  *transloco="
+    let t;
+    read: 'materialsSupplierDatabase.mainTable.tooltip.maturity'
+  "
+>
+  <div class="mr-2 flex-1">
+    <span>{{ params?.valueFormatted ?? params?.value }}</span>
+  </div>
+  <div class="flex-1 align-baseline text-right" *ngIf="hasValue()">
+    <ng-container>
+      <span
+        activeClass="text-link"
+        cdkOverlayOrigin
+        #indicator="cdkOverlayOrigin"
+      >
+        {{ t(getMaturity()) }}
+        <span
+          class="bg-secondary-900 text-white rounded-[50%] text-center w-5 h-5 inline-block line leading-5"
+        >
+          {{ getMaturity() }}
+        </span>
+      </span>
+      <mac-html-tooltip
+        [tooltipOrigin]="indicator"
+        [tooltipShowDelay]="500"
+        [tooltipHideDelay]="500"
+      >
+        {{ t('tooltip') }}
+        <a
+          class="hover:cursor-pointer hover:underline ml-1"
+          (click)="openMoreInformation()"
+        >
+          {{ t('moreInformation') }}
+          <mat-icon [inline]="true" class="ml-0.5 !h-3">open_in_new</mat-icon>
+        </a>
+      </mac-html-tooltip>
+    </ng-container>
+  </div>
+</div>
