@@ -457,7 +457,7 @@ export class MaterialInputDialogComponent
       manufacturerSupplierId: baseMaterial.manufacturerSupplierId,
       materialStandardId: baseMaterial.materialStandardId,
       productCategory: baseMaterial.productCategory?.id as string,
-      referenceDoc: JSON.stringify(
+      referenceDoc: this.listToJson(
         findProperty<StringOption[]>(baseMaterial, 'referenceDoc')?.map(
           (val) => val.title
         )
@@ -499,6 +499,10 @@ export class MaterialInputDialogComponent
       grade: findProperty(baseMaterial, 'grade'),
       // attachments: '',
     };
+  }
+
+  private listToJson(list: any[]) {
+    return list?.length === 0 ? undefined : list;
   }
 
   private closeDialog(closeAction?: TypedAction<any>): void {

@@ -3,7 +3,7 @@ import { BaseMaterialRequest } from '@mac/msd/models';
 export interface SteelMaterialRequest extends BaseMaterialRequest {
   selfCertified: boolean;
   blocked: boolean;
-  referenceDoc?: string;
+  referenceDoc?: string[];
   releaseDateYear?: number;
   releaseDateMonth?: number;
   castingMode: string;

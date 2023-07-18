@@ -1246,4 +1246,17 @@ describe('MsdDataService', () => {
       req.flush(mockResponse);
     });
   });
+
+  describe('fromJson', () => {
+    it('should return undefined on empty array', () => {
+      expect(service['fromJson']([])).toBeFalsy();
+    });
+    it('should return undefined on undefined', () => {
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      expect(service['fromJson'](undefined)).toBeFalsy();
+    });
+    it('should return array on array with data', () => {
+      expect(service['fromJson'](['1'])).toStrictEqual(['1']);
+    });
+  });
 });

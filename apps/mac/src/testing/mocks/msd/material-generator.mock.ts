@@ -141,9 +141,9 @@ export const transformAsMaterialRequest = (values: MaterialFormValue) => {
     productCategory: values.productCategory.id as string,
     // steel only
     releaseRestrictions: values.releaseRestrictions,
-    referenceDoc: findProperty<StringOption[]>(values, 'referenceDoc')
-      ? `["${findProperty<StringOption[]>(values, 'referenceDoc')[0].title}"]`
-      : undefined,
+    referenceDoc: findProperty<StringOption[]>(values, 'referenceDoc')?.map(
+      (so) => so.title
+    ),
     castingMode: findProperty(values, 'castingMode'),
     minDimension: findProperty(values, 'minDimension'),
     maxDimension: findProperty(values, 'maxDimension'),

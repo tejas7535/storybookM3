@@ -1181,6 +1181,7 @@ describe('DialogSelectors', () => {
           minRecyclingRate: 0,
           maxRecyclingRate: undefined,
           referenceDoc: [{ id: '1' } as StringOption],
+          sapSupplierIds: [],
         } as MaterialFormValue,
         rows: [
           {
@@ -1236,6 +1237,12 @@ describe('DialogSelectors', () => {
         updated: 2,
         value: '["1"]',
         values: ['["123"]', '["123"]'],
+      },
+      sapSupplierIds: {
+        unique: 0,
+        updated: 0,
+        value: undefined,
+        values: [undefined, undefined],
       },
     });
   });

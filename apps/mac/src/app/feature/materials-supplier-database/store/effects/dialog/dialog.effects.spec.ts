@@ -1555,8 +1555,9 @@ describe('Dialog Effects', () => {
         action = createMaterialComplete({ record });
         actions$ = m.hot('-a', { a: action });
 
-        const expected = m.cold('-(c)', {
-          c: infoSnackBar({ message: 'createSuccess' }),
+        const expected = m.cold('-(cd)', {
+          c: fetchResult(),
+          d: infoSnackBar({ message: 'createSuccess' }),
         });
 
         m.expect(effects.createMaterialComplete$).toBeObservable(expected);
@@ -1644,16 +1645,14 @@ describe('Dialog Effects', () => {
       })
     );
     it(
-      'should call to fetch results',
+      'should call nothing',
       marbles((m) => {
         action = resetMaterialRecord({
           error: false,
           createAnother: true,
         });
         actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('-(b)', {
-          b: fetchResult(),
-        });
+        const expected = m.cold('---');
 
         m.expect(effects.resetMaterialDialog$).toBeObservable(expected);
         m.flush();
@@ -1794,7 +1793,12 @@ describe('Dialog Effects', () => {
         action = fetchReferenceDocuments();
         actions$ = m.hot('-a', { a: action });
 
-        const resultMock: string[] = ['reference', 'document', '["as json"]'];
+        const resultMock: string[] = [
+          undefined,
+          '["reference"]',
+          '["document"]',
+          '["as json", "document"]',
+        ];
         const response = m.cold('-a|', { a: resultMock });
         msdDataService.fetchReferenceDocuments = jest.fn(() => response);
 

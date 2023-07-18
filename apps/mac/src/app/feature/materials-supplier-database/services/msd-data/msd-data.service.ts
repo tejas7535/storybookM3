@@ -543,10 +543,8 @@ export class MsdDataService {
     );
   }
 
-  private fromJson(json: string): string[] {
-    const array = json ? JSON.parse(json) : [];
-
-    return array.length === 0 ? undefined : array;
+  private fromJson(json: string[]): string[] {
+    return json?.length > 0 ? json : undefined;
   }
 
   // eslint-disable-next-line complexity

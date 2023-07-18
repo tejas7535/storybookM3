@@ -763,7 +763,9 @@ function __transformField(data: any): string {
   if (data !== 0 && !data) {
     return undefined;
   } else if (Array.isArray(data)) {
-    return JSON.stringify(data.map((d) => __transformField(d)));
+    return data.length > 0
+      ? JSON.stringify(data.map((d) => __transformField(d)))
+      : undefined;
   } else if (Object.prototype.hasOwnProperty.call(data, 'id')) {
     return data.id;
   }

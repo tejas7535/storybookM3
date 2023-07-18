@@ -721,4 +721,13 @@ describe('MaterialInputDialogComponent', () => {
       expect(component.isValidDialog()).toBeFalsy();
     });
   });
+
+  describe('listToJson', () => {
+    it('should return list', () => {
+      expect(component['listToJson']([1, 2, 3])).toStrictEqual([1, 2, 3]);
+    });
+    it('should return undefined', () => {
+      expect(component['listToJson']([])).toBeFalsy();
+    });
+  });
 });

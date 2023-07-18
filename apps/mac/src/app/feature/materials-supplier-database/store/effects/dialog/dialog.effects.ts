@@ -561,14 +561,15 @@ export class DialogEffects {
           );
         }
 
-        return of(
+        return [
+          DataActions.fetchResult(),
           DataActions.infoSnackBar({
             message: translate(
               'materialsSupplierDatabase.mainTable.dialog.createSuccess',
               { level }
             ),
-          })
-        );
+          }),
+        ];
       })
     );
   });
@@ -590,8 +591,6 @@ export class DialogEffects {
       switchMap(({ error, createAnother }) => {
         if (!error && !createAnother) {
           return of(DialogActions.resetDialogOptions());
-        } else if (!error && createAnother) {
-          return of(DataActions.fetchResult());
         }
 
         return [];
@@ -631,13 +630,11 @@ export class DialogEffects {
           map((referenceDocuments) => {
             const parsedDocuments: string[] = [];
             for (const documents of referenceDocuments) {
-              // TODO: can be removed as soon as it is guaranteed that we have only parsable options in the db (not during we still work on the modification of materials)
-              try {
+              // fetch will return some 'null' elements
+              if (documents) {
                 JSON.parse(documents).map((document: string) =>
                   parsedDocuments.push(document)
                 );
-              } catch {
-                parsedDocuments.push(documents);
               }
             }
 
