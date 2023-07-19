@@ -93,4 +93,24 @@ engineering-app {
   .app-overlay-container:empty {
     @apply hidden;
   }
+
+  // animation for certain dialogs (e.g. result report)
+  @keyframes upslide {
+    0% {
+      @apply mt-[30vh] opacity-0;
+    }
+    100% {
+      @apply mt-8 opacity-100;
+    }
+  }
+
+  .dialog-upwards-animation {
+    @apply w-[90vw] min-w-[90vw] h-[100vh] min-h-[100vh] #{!important};
+    @apply mt-8;
+    animation: upslide 0.25s forwards;
+
+    mat-dialog-container {
+      @apply overflow-y-hidden rounded-b-none #{!important};
+    }
+  }
 }

@@ -2,14 +2,16 @@
   "appTitle": "Engineering App",
   "appDescription": "Our calculation tool allows you to perform various calculations, to determine the performance of bearing products.",
   "general": {
-    "requiredInformation": "*Mandatory"
+    "requiredInformation": "*Mandatory",
+    "poweredBy": "powered by {{ name }}",
+    "back": "Back"
   },
   "inputs": {
     "pleaseSelect": "Please select"
   },
   "operationConditions": {
     "title": "Operating conditions for bearing {{bearingDesignation}}",
-    "prototypeWarning": "The values shown in the this development prototype are hypothetical and must not be used in production",
+    "prototypeWarning": "The values shown in this development prototype are hypothetical and must not be used in production",
     "co2DownstreamUnavailableHint": "For the selected bearing a calculation for CO₂e values during operation is currently not available.",
     "loads": "Load",
     "radialLoad": "Radial load",
@@ -123,7 +125,7 @@
     }
   },
   "basicFrequencies": {
-    "showBasicFrequencies": "Basic Frequencies",
+    "showBasicFrequencies": "Show Basic Frequencies",
     "dialogTitle": "Basic frequencies for bearing {{bearingDesignation}}",
     "saveAsPdf": "Save as PDF"
   },

@@ -1,14 +1,8 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  ElementRef,
-  Inject,
-  LOCALE_ID,
-  ViewChild,
-} from '@angular/core';
+import { Component, Inject, LOCALE_ID } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatExpansionPanelHeader } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
+import { MatLegacyButtonModule } from '@angular/material/legacy-button';
 import {
   MatLegacyDialog as Dialog,
   MatLegacyDialogModule as MatDialogModule,
@@ -52,6 +46,7 @@ const COLOR_PLATTE = ['#DDE86E', '#7DC882'];
     MatIconModule,
     MatDividerModule,
     MatDialogModule,
+    MatLegacyButtonModule,
     MatProgressSpinnerModule,
     SharedTranslocoModule,
     NgxEchartsModule,
@@ -67,9 +62,6 @@ const COLOR_PLATTE = ['#DDE86E', '#7DC882'];
   ],
 })
 export class CalculationResultReportComponent {
-  @ViewChild('emissionPanel')
-  emissionPanel: ElementRef<MatExpansionPanelHeader>;
-
   public bearingDesignation$ = this.productSelectionFacade.bearingDesignation$;
 
   public selctedCalculationTypes$ =

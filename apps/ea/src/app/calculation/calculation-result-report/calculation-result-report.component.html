@@ -1,25 +1,24 @@
 <ng-container *transloco="let t; read: 'calculationResultReport'">
-  <div mat-dialog-title>
+  <div mat-dialog-title class="flex flex-col gap-4 md:gap-8">
     <div class="flex flex-row content-around justify-between pb-2 pr-2">
-      <div class="text-h6 text-high-emphasis my-auto">
-        {{
-          t('dialogTitle', {
-            bearingDesignation: bearingDesignation$ | ngrxPush
-          })
-        }}
-      </div>
-      <div class="flex flex-row">
-        <button mat-icon-button (click)="closeDialog()">
-          <mat-icon class="text-medium-emphasis">close</mat-icon>
-        </button>
-      </div>
+      <button (click)="closeDialog()" mat-button color="primary">
+        <mat-icon class="!mr-0">arrow_back</mat-icon>
+        {{ 'general.back' | transloco }}
+      </button>
+    </div>
+    <div class="text-h6 text-high-emphasis mb-4 md:mb-8">
+      {{
+        t('dialogTitle', {
+          bearingDesignation: bearingDesignation$ | ngrxPush
+        })
+      }}
     </div>
   </div>
 
   <mat-dialog-content class="h-full md:px-6 px-2">
-    <div class="flex h-full flex-row">
+    <div class="flex h-full flex-row justify-between">
       <div
-        class="md:overflow-y-auto md:max-h-[calc(65vh-20px)] md:overflow-x-hidden md:pr-4"
+        class="md:overflow-y-auto md:overflow-x-hidden md:pr-4 md:max-w-[80vw] md:w-full"
       >
         <!-- CO2 input notes -->
         <ea-expansion-panel

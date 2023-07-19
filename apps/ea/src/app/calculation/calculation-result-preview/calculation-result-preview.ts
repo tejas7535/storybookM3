@@ -53,6 +53,10 @@ export class CalculationResultPreviewComponent {
     this.dialog.open(CalculationResultReportComponent, {
       autoFocus: false,
       hasBackdrop: true,
+      panelClass: 'dialog-upwards-animation',
+      enterAnimationDuration: '0s',
+      width: '90vw',
+      maxWidth: '90vw',
     });
   }
 }
