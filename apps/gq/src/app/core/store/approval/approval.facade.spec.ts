@@ -717,6 +717,81 @@ describe('ApprovalFacade', () => {
           );
         })
       );
+
+      test(
+        '(pre-approved) should return the two approvers with its statuses provide 2 as  numberOfRequiredApprovals and 1 for numberOfReceivedApprovals$',
+        marbles((m) => {
+          const expectedFirstApprover: Approver = {
+            userId: 'KELLERBI',
+            firstName: 'firstName KELLERBI',
+            lastName: 'lastName KELLERBI',
+          } as Approver;
+          const expectedSecondApprover: Approver = {
+            userId: 'ZIRKLIS',
+            firstName: 'firstName ZIRKLIS',
+            lastName: 'lastName ZIRKLIS',
+          } as Approver;
+          // expected Result: KELLERBI has an Event present in mock
+          // ZIRKLIS has no Event in mock, so nothing is returned
+          const expectedResult: ApprovalStatusOfRequestedApprover[] = [
+            {
+              approver: expectedFirstApprover,
+              event: {
+                ...APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents[0],
+                event: ApprovalEventType.PRE_APPROVED,
+              },
+            } as unknown as ApprovalStatusOfRequestedApprover,
+            {
+              approver: expectedSecondApprover,
+              event: undefined,
+            } as unknown as ApprovalStatusOfRequestedApprover,
+          ];
+
+          mockStore.overrideSelector(
+            fromActiveCaseSelectors.getQuotationStatus,
+            QuotationStatus.IN_APPROVAL
+          );
+          mockStore.overrideSelector(
+            approvalFeature.getEventsAfterLastWorkflowStarted,
+            [
+              {
+                ...APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents[0],
+                event: ApprovalEventType.PRE_APPROVED,
+              },
+              APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents[1],
+              APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents[2],
+            ]
+          );
+          mockStore.overrideSelector(
+            approvalFeature.getApprovalCockpitInformation,
+            APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
+          );
+          mockStore.overrideSelector(approvalFeature.selectApprovers, [
+            expectedFirstApprover,
+            expectedSecondApprover,
+          ]);
+
+          m.expect(service.approvalStatusOfRequestedApprover$).toBeObservable(
+            m.cold('a', { a: expectedResult })
+          );
+
+          m.expect(service.numberOfRequiredApprovals$).toBeObservable(
+            m.cold('a', { a: 2 })
+          );
+
+          m.expect(service.numberOfReceivedApprovals$).toBeObservable(
+            m.cold('a', { a: 1 })
+          );
+
+          m.expect(
+            service.receivedApprovalsOfRequiredApprovals$
+          ).toBeObservable(m.cold('a', { a: '1/2' }));
+
+          m.expect(service.workflowStepsComplete$).toBeObservable(
+            m.cold('a', { a: 1 })
+          );
+        })
+      );
       describe('Check for WorkflowStepsComplte', () => {
         const firstApproverEvent: ApprovalWorkflowEvent = {
           userId: 'KELLERBI',

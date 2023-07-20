@@ -214,7 +214,8 @@ export class ApprovalFacade {
         (items: ApprovalStatusOfRequestedApprover[]) =>
           items.filter(
             (item: ApprovalStatusOfRequestedApprover) =>
-              item.event?.event === ApprovalEventType.APPROVED
+              item.event?.event === ApprovalEventType.APPROVED ||
+              item.event?.event === ApprovalEventType.PRE_APPROVED
           )?.length ?? 0
       )
     );
