@@ -1,4 +1,23 @@
 # Release Notes of Material App Center
+## [1.11.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.10.0...mac-v1.11.0) (2023-07-20)
+
+
+### Features
+
+* **mac:** add co2validation to bulk edit - Feature/uftabi 6326 ([#5406](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5406)) ([b2fa7a5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b2fa7a576236fc31eb41e68d3e9fe062cf3916c7))
+* **mac:** add info dialog for steel classification (UFTABI-6579) ([#5395](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5395)) ([0587ce3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0587ce36dfc04a9712ffc37eb9722e2be897a182))
+* **mac:** add maturity classification to co2 column in PFC table ([#5443](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5443)) ([4f41d9a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4f41d9a71cb3835c0358b95c763402e801ada243))
+* **mac:** bulk edit show meaningful error message - UFTABI-6506 ([#5423](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5423)) ([93e3757](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/93e375704f29cfee8d30893bc8f19197c24b6839))
+* **mac:** enable bulk edit mode for MSD - Feature/uftabi 6325 ([#5319](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5319)) ([dd2f919](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/dd2f919f115a7f50c35cb579e3dbb522c235ed12))
+
+
+### Bug Fixes
+
+* **mac:** add a bottom component to display text and link - UFTABI-6580 ([#5455](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5455)) ([fe18e0c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fe18e0c96966e819652d9e9119cc4c801d8cea06))
+* **mac:** change contact information ([#5452](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5452)) ([174b385](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/174b3859f1b22aab398f65ee330774f67d9e52ac))
+* **mac:** fix handling of reference docs - UFTABI-6601 ([#5446](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5446)) ([0196021](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/01960215ea9e73e9c0d6a9c8d7f5f2094db9788a))
+* **mac:** storage migration for action column - UFTABI-6591 ([#5388](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5388)) ([baa28e1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/baa28e17a11628d8b2373985727445d022488b11))
+
 ## [1.10.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.9.0...mac-v1.10.0) (2023-06-27)
 
 
