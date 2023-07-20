@@ -25,7 +25,7 @@ import { ShareButtonModule } from '@schaeffler/share-button';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { SyncStatusCustomerInfoHeaderModule } from '../../app/shared/components/header/sync-status-customer-info-header/sync-status-customer-info-header.module';
+import { StatusCustomerInfoHeaderModule } from '../../app/shared/components/header/status-customer-info-header/status-customer-info-header.module';
 import { TabsHeaderModule } from '../../app/shared/components/tabs-header/tabs-header.module';
 import { AddMaterialDialogModule } from './add-material-dialog/add-material-dialog.module';
 import { CancelWorkflowButtonComponent } from './cancel-workflow-button/cancel-workflow-button.component';
@@ -74,7 +74,7 @@ import { UserSelectComponent } from './user-select/user-select.component';
     OverviewCasesModule,
     SubheaderModule,
     TabsHeaderModule,
-    SyncStatusCustomerInfoHeaderModule,
+    StatusCustomerInfoHeaderModule,
     SharedDirectivesModule,
     DialogHeaderModule,
     UserSelectComponent,

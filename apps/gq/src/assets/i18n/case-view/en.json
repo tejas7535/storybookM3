@@ -19,6 +19,7 @@
     "sapId": "SAP Quotation",
     "caseName": "Case Name",
     "syncStatus": "Sync Status",
+    "status": "Status",
     "origin": {
       "title": "Case Origin",
       "unknown": "Unknown",

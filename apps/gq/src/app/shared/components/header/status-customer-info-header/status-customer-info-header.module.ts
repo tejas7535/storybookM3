@@ -7,7 +7,7 @@ import { PushPipe } from '@ngrx/component';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedPipesModule } from '../../../pipes/shared-pipes.module';
-import { SyncStatusCustomerInfoHeaderComponent } from './sync-status-customer-info-header.component';
+import { StatusCustomerInfoHeaderComponent } from './status-customer-info-header.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -16,7 +16,7 @@ import { SyncStatusCustomerInfoHeaderComponent } from './sync-status-customer-in
     PushPipe,
     MatTooltipModule,
   ],
-  declarations: [SyncStatusCustomerInfoHeaderComponent],
-  exports: [SyncStatusCustomerInfoHeaderComponent],
+  declarations: [StatusCustomerInfoHeaderComponent],
+  exports: [StatusCustomerInfoHeaderComponent],
 })
-export class SyncStatusCustomerInfoHeaderModule {}
+export class StatusCustomerInfoHeaderModule {}

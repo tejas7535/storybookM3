@@ -4,7 +4,7 @@ import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-c
 
 import { ActiveCaseModule } from '@gq/core/store/active-case/active-case.module';
 import { MaterialPriceHeaderContentModule } from '@gq/shared/components/header/material-price-header-content/material-price-header-content.module';
-import { SyncStatusCustomerInfoHeaderModule } from '@gq/shared/components/header/sync-status-customer-info-header/sync-status-customer-info-header.module';
+import { StatusCustomerInfoHeaderModule } from '@gq/shared/components/header/status-customer-info-header/status-customer-info-header.module';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { PushPipe } from '@ngrx/component';
 
@@ -34,7 +34,7 @@ import { TransparencyGraphModule } from './transparency-graph/transparency-graph
     BreadcrumbsModule,
     ShareButtonModule,
     CommonModule,
-    SyncStatusCustomerInfoHeaderModule,
+    StatusCustomerInfoHeaderModule,
     ActiveCaseModule,
   ],
   providers: [

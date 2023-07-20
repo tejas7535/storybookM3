@@ -13,28 +13,16 @@
     [breadcrumbs]="breadcrumbs$ | ngrxPush"
   >
     <ng-container subheaderStatusIcon>
-      <div
-        class="relative h-5 w-5 rounded-full"
-        [ngClass]="{
-          'bg-[#E3F7FD]': (sapStatus$ | ngrxPush) === sapSyncStatus.SYNCED,
-          'bg-gray-300': (sapStatus$ | ngrxPush) === sapSyncStatus.NOT_SYNCED,
-          'bg-[#FFF8E2]':
-            (sapStatus$ | ngrxPush) === sapSyncStatus.PARTIALLY_SYNCED,
-          'bg-[#FCE3E6]': (sapStatus$ | ngrxPush) === sapSyncStatus.SYNC_FAILED
-        }"
+      <ng-container
+        *ngIf="
+          quotation.status !== quotationStatus.ACTIVE &&
+            quotation.status !== quotationStatus.DELETED &&
+            quotation.status !== quotationStatus.ARCHIVED;
+          then quotationStatusIcon;
+          else sapSyncStatusIcon
+        "
       >
-        <div
-          class="absolute top-1 left-1 h-3 w-3 rounded-full"
-          [ngClass]="{
-            'bg-nordic-blue': (sapStatus$ | ngrxPush) === sapSyncStatus.SYNCED,
-            'bg-low-emphasis':
-              (sapStatus$ | ngrxPush) === sapSyncStatus.NOT_SYNCED,
-            'bg-orange':
-              (sapStatus$ | ngrxPush) === sapSyncStatus.PARTIALLY_SYNCED,
-            'bg-error': (sapStatus$ | ngrxPush) === sapSyncStatus.SYNC_FAILED
-          }"
-        ></div>
-      </div>
+      </ng-container>
     </ng-container>
 
     <ng-container subheaderTitleContent>
@@ -56,11 +44,12 @@
       ></gq-cancel-workflow-button>
     </ng-container>
     <ng-container subheaderBlockContent>
-      <gq-sync-status-customer-info-header
+      <gq-status-customer-info-header
         [customer]="quotation.customer"
         [sapStatus$]="sapStatus$"
-        [showSyncStatus]="true"
-      ></gq-sync-status-customer-info-header>
+        [statusOfQuotation]="quotation.status"
+        [showStatus]="true"
+      ></gq-status-customer-info-header>
     </ng-container>
   </schaeffler-subheader>
 
@@ -75,8 +64,52 @@
   ></gq-tabs-header>
 </div>
 
-<ng-template #loading>
-  <schaeffler-loading-spinner></schaeffler-loading-spinner>
+<ng-template #sapSyncStatusIcon>
+  <div
+    class="relative h-5 w-5 rounded-full"
+    [ngClass]="{
+      'bg-quotation-status-blue':
+        (sapStatus$ | ngrxPush) === sapSyncStatus.SYNCED,
+      'bg-gray-300': (sapStatus$ | ngrxPush) === sapSyncStatus.NOT_SYNCED,
+      'bg-quotation-status-orange':
+        (sapStatus$ | ngrxPush) === sapSyncStatus.PARTIALLY_SYNCED,
+      'bg-quotation-status-red':
+        (sapStatus$ | ngrxPush) === sapSyncStatus.SYNC_FAILED
+    }"
+  >
+    <div
+      class="absolute top-1 left-1 h-3 w-3 rounded-full"
+      [ngClass]="{
+        'bg-nordic-blue': (sapStatus$ | ngrxPush) === sapSyncStatus.SYNCED,
+        'bg-low-emphasis': (sapStatus$ | ngrxPush) === sapSyncStatus.NOT_SYNCED,
+        'bg-orange': (sapStatus$ | ngrxPush) === sapSyncStatus.PARTIALLY_SYNCED,
+        'bg-error': (sapStatus$ | ngrxPush) === sapSyncStatus.SYNC_FAILED
+      }"
+    ></div>
+  </div>
+</ng-template>
+
+<ng-template #quotationStatusIcon>
+  <div
+    *ngIf="quotation$ | ngrxPush as quotation"
+    class="relative h-5 w-5 rounded-full bg-opacity-20"
+    [ngClass]="{
+      'bg-nordic-blue': quotation.status === quotationStatus.IN_APPROVAL,
+      'bg-quotation-status-dark-green':
+        quotation.status === quotationStatus.APPROVED,
+      'bg-error': quotation.status === quotationStatus.REJECTED
+    }"
+  >
+    <div
+      class="absolute top-1 left-1 h-3 w-3 rounded-full"
+      [ngClass]="{
+        'bg-nordic-blue': quotation.status === quotationStatus.IN_APPROVAL,
+        'bg-quotation-status-dark-green':
+          quotation.status === quotationStatus.APPROVED,
+        'bg-error': quotation.status === quotationStatus.REJECTED
+      }"
+    ></div>
+  </div>
 </ng-template>
 
 <ng-template #taskInProgress>
@@ -86,4 +119,8 @@
     [sapCallInProgress]="(quotation$ | ngrxPush).sapCallInProgress"
   >
   </gq-calculation-in-progress>
+</ng-template>
+
+<ng-template #loading>
+  <schaeffler-loading-spinner></schaeffler-loading-spinner>
 </ng-template>

@@ -35,6 +35,16 @@ import { ColumnDefService } from './config/column-def.service';
   styles: [basicTableStyle, disableTableHorizontalScrollbar, statusBarStlye],
 })
 export class CaseTableComponent implements OnInit {
+  @Input() rowData: ViewQuotation[];
+  @Input() statusBar: AgStatusBar;
+  @Input() activeTab: QuotationTab;
+
+  defaultColumnDefs = DEFAULT_COLUMN_DEFS;
+  columnDefs: ColDef[];
+  components = COMPONENTS;
+  localeText$: Observable<AgGridLocale>;
+  selectedRows: number[] = [];
+
   constructor(
     private readonly columnDefService: ColumnDefService,
     private readonly columnUtilityService: ColumnUtilityService,
@@ -43,26 +53,21 @@ export class CaseTableComponent implements OnInit {
     private readonly overviewCasesFacade: OverviewCasesFacade
   ) {}
 
-  public defaultColumnDefs = DEFAULT_COLUMN_DEFS;
-  public columnDefs: ColDef[];
-  public components = COMPONENTS;
-  public localeText$: Observable<AgGridLocale>;
-  public selectedRows: number[] = [];
-
-  @Input() rowData: ViewQuotation[];
-  @Input() statusBar: AgStatusBar;
-  @Input() activeTab: QuotationTab;
-
   ngOnInit(): void {
     this.localeText$ = this.localizationService.locale$;
     this.overviewCasesFacade.selectedIds$
       .pipe(take(1))
       .subscribe((val) => (this.selectedRows = val));
-    this.columnDefs = this.columnDefService.COLUMN_DEFS.filter((colDef) =>
-      this.columnUtilityService.filterQuotationStatusColumns(
-        colDef,
-        this.activeTab
-      )
+    this.columnDefs = this.columnDefService.COLUMN_DEFS.filter(
+      (colDef) =>
+        this.columnUtilityService.filterSapSyncStatusColumns(
+          colDef,
+          this.activeTab
+        ) &&
+        this.columnUtilityService.filterQuotationStatusColumns(
+          colDef,
+          this.activeTab
+        )
     ).map((colDef) =>
       this.columnUtilityService.mapLastUpdateDateOnColumn(
         colDef,

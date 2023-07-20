@@ -19,6 +19,7 @@
     "sapId": "SAP Angebotsnummer",
     "caseName": "Case Bezeichnung",
     "syncStatus": "Sync Status",
+    "status": "Status",
     "origin": {
       "title": "Case Herkunft",
       "unknown": "Unbekannt",

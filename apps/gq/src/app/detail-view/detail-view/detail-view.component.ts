@@ -14,7 +14,7 @@ import {
   getMaterialStockLoading,
   getPlantMaterialDetails,
 } from '@gq/core/store/selectors';
-import { Quotation } from '@gq/shared/models';
+import { Quotation, QuotationStatus } from '@gq/shared/models';
 import {
   PlantMaterialDetail,
   QuotationDetail,
@@ -45,7 +45,10 @@ export class DetailViewComponent implements OnInit {
   quotations: QuotationDetail[];
 
   sapStatusPosition$: Observable<SAP_SYNC_STATUS> = NEVER;
+
   readonly sapSyncStatus: typeof SAP_SYNC_STATUS = SAP_SYNC_STATUS;
+  readonly quotationStatus: typeof QuotationStatus = QuotationStatus;
+
   constructor(
     private readonly store: Store,
     private readonly breadCrumbsService: BreadcrumbsService,

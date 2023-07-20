@@ -58,6 +58,7 @@ export enum CaseTableColumnFields {
   GQ_ID = 'gqId',
   GQ_CREATED = 'gqCreated',
   SAP_SYNC_STATUS = 'sapSyncStatus',
+  STATUS = 'status',
   CASE_NAME = 'caseName',
   SAP_ID = 'sapId',
   SAP_CREATED_BY = 'sapCreatedByUser.name',

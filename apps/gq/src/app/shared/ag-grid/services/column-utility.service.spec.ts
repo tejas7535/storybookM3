@@ -1,12 +1,13 @@
 import { Clipboard } from '@angular/cdk/clipboard';
 
+import { QuotationTab } from '@gq/core/store/overview-cases/models/quotation-tab.enum';
 import {
   CalculationType,
   SalesIndication,
 } from '@gq/core/store/reducers/models';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { translate, TranslocoModule } from '@ngneat/transloco';
+import { translate } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import {
   ColDef,
@@ -17,6 +18,8 @@ import {
   ValueGetterParams,
 } from 'ag-grid-community';
 import { MockProvider } from 'ng-mocks';
+
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
   QUOTATION_DETAIL_MOCK,
@@ -33,16 +36,15 @@ import {
 } from '../../models/quotation-detail';
 import { ValidationDescription } from '../../models/table';
 import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
-import { ColumnFields } from '../constants/column-fields.enum';
+import {
+  CaseTableColumnFields,
+  ColumnFields,
+} from '../constants/column-fields.enum';
 import {
   ColumnUtilityService,
   getValueOfFocusedCell,
   openInNew,
 } from './column-utility.service';
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
 
 describe('CreateColumnService', () => {
   let service: ColumnUtilityService;
@@ -51,6 +53,7 @@ describe('CreateColumnService', () => {
 
   const createService = createServiceFactory({
     service: ColumnUtilityService,
+    imports: [provideTranslocoTestingModule({ en: {} })],
     providers: [
       MockProvider(TransformationService, {
         transformPercentage: jest
@@ -767,6 +770,26 @@ describe('CreateColumnService', () => {
 
       expect(translate).not.toHaveBeenCalled();
       expect(result).toBe(value);
+    });
+  });
+
+  describe('filterQuotationStatusColumns', () => {
+    test('should return true if column field is not status', () => {
+      expect(
+        service.filterQuotationStatusColumns(
+          { field: CaseTableColumnFields.CASE_NAME } as ColDef,
+          QuotationTab.ACTIVE
+        )
+      ).toBe(true);
+    });
+
+    test('should return false if column field is status and tab is non-approval', () => {
+      expect(
+        service.filterQuotationStatusColumns(
+          { field: CaseTableColumnFields.STATUS } as ColDef,
+          QuotationTab.ACTIVE
+        )
+      ).toBe(false);
     });
   });
 });

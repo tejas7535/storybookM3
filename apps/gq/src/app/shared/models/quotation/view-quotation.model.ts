@@ -1,4 +1,4 @@
-import { GQUser } from '..';
+import { GQUser, QuotationStatus } from '..';
 import { CustomerId } from '../customer';
 
 export interface ViewQuotation {
@@ -14,4 +14,5 @@ export interface ViewQuotation {
   customerIdentifiers: CustomerId;
   customerName: string;
   origin: number;
+  status: QuotationStatus;
 }

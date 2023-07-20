@@ -1,5 +1,6 @@
 import {
   GqIdComponent,
+  QuotationStatusCellComponent,
   SapStatusCellComponent,
 } from '@gq/shared/ag-grid/cell-renderer';
 import { CreateCustomerCaseButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/case-view/create-customer-case-button/create-customer-case-button.component';
@@ -12,4 +13,5 @@ export const COMPONENTS = {
   createCustomerCaseButtonComponent: CreateCustomerCaseButtonComponent,
   gqIdComponent: GqIdComponent,
   SapStatusCellComponent,
+  QuotationStatusCellComponent,
 };

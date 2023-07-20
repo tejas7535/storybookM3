@@ -1,0 +1,20 @@
+<div class="flex h-full items-center overflow-hidden">
+  <div
+    class="flex items-center overflow-hidden rounded-full px-3 py-1 text-caption uppercase"
+    [ngClass]="{
+      'text-info': status === quotationStatus.IN_APPROVAL,
+      'bg-quotation-status-blue': status === quotationStatus.IN_APPROVAL,
+      'text-quotation-status-green': status === quotationStatus.APPROVED,
+      'bg-quotation-status-green': status === quotationStatus.APPROVED,
+      'text-error': status === quotationStatus.REJECTED,
+      'bg-quotation-status-red': status === quotationStatus.REJECTED
+    }"
+  >
+    <span
+      *transloco="let t; read: 'shared.quotationStatusLabels'"
+      class="truncate text-[8px] font-bold"
+    >
+      {{ t(status) }}
+    </span>
+  </div>
+</div>

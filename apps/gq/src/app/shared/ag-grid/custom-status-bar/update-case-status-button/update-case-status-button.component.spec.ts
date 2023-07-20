@@ -150,6 +150,7 @@ describe('UpdateCaseStatusButtonComponent', () => {
           sapCreatedByUser: undefined,
           sapId: '',
           origin: CASE_ORIGIN.CREATED_MANUALLY,
+          status: QuotationStatus.ACTIVE,
         },
       ];
 
@@ -181,6 +182,7 @@ describe('UpdateCaseStatusButtonComponent', () => {
           sapCreatedByUser: undefined,
           sapId: '',
           origin: CASE_ORIGIN.CREATED_MANUALLY,
+          status: QuotationStatus.ACTIVE,
         },
       ];
 

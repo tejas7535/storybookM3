@@ -9,7 +9,7 @@ import {
   getQuotationSapSyncStatus,
 } from '@gq/core/store/active-case';
 import { Tab } from '@gq/shared/components/tabs-header/tab.model';
-import { Quotation } from '@gq/shared/models';
+import { Quotation, QuotationStatus } from '@gq/shared/models';
 import { SAP_SYNC_STATUS } from '@gq/shared/models/quotation-detail/sap-sync-status.enum';
 import { BreadcrumbsService } from '@gq/shared/services/breadcrumbs/breadcrumbs.service';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
@@ -36,6 +36,7 @@ export class ProcessCaseViewComponent implements OnInit {
   tabs: Tab[] = [];
 
   readonly sapSyncStatus = SAP_SYNC_STATUS;
+  readonly quotationStatus = QuotationStatus;
 
   constructor(
     private readonly store: Store,

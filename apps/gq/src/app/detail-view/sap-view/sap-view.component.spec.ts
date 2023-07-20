@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 
 import { getSelectedQuotationDetail } from '@gq/core/store/active-case';
 import { MaterialPriceHeaderContentModule } from '@gq/shared/components/header/material-price-header-content/material-price-header-content.module';
-import { SyncStatusCustomerInfoHeaderModule } from '@gq/shared/components/header/sync-status-customer-info-header/sync-status-customer-info-header.module';
+import { StatusCustomerInfoHeaderModule } from '@gq/shared/components/header/status-customer-info-header/status-customer-info-header.module';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -45,7 +45,7 @@ describe('SapViewComponent', () => {
       LoadingSpinnerModule,
       MaterialPriceHeaderContentModule,
       SapPriceDetailsTableModule,
-      SyncStatusCustomerInfoHeaderModule,
+      StatusCustomerInfoHeaderModule,
     ],
     providers: [
       provideMockStore({

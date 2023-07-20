@@ -6,7 +6,7 @@ import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/le
 import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { ActiveCaseModule } from '@gq/core/store/active-case/active-case.module';
-import { SyncStatusCustomerInfoHeaderModule } from '@gq/shared/components/header/sync-status-customer-info-header/sync-status-customer-info-header.module';
+import { StatusCustomerInfoHeaderModule } from '@gq/shared/components/header/status-customer-info-header/status-customer-info-header.module';
 import { EditingModalModule } from '@gq/shared/components/modal/editing-modal/editing-modal.module';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { LetDirective, PushPipe } from '@ngrx/component';
@@ -43,7 +43,7 @@ import { PricingDetailsModule } from './pricing-details/pricing-details.module';
     BreadcrumbsModule,
     ShareButtonModule,
     CommonModule,
-    SyncStatusCustomerInfoHeaderModule,
+    StatusCustomerInfoHeaderModule,
     SharedTranslocoModule,
     MatTooltipModule,
     ActiveCaseModule,

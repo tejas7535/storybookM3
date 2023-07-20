@@ -216,6 +216,11 @@
       }
     },
     "itemId": "Position {{id}}",
+    "quotationStatusLabels": {
+      "IN_APPROVAL": "In Genehmigung",
+      "APPROVED": "Genehmigt",
+      "REJECTED": "Abgelehnt"
+    },
     "sapStatusLabels": {
       "notSynced": "Nicht synchronisiert",
       "synced": "Mit SAP synchronisiert",

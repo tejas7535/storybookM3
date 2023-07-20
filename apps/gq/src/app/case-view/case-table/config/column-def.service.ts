@@ -46,11 +46,6 @@ export class ColumnDefService {
     ],
   };
 
-  constructor(
-    private readonly columnUtilityService: ColumnUtilityService,
-    private readonly comparatorService: ComparatorService
-  ) {}
-
   COLUMN_DEFS: ColDef[] = [
     {
       headerCheckboxSelection: true,
@@ -106,15 +101,16 @@ export class ColumnDefService {
         },
       },
       cellRenderer: 'SapStatusCellComponent',
-      valueFormatter: (params: ValueFormatterParams) => {
-        if (params.value === SAP_SYNC_STATUS.SYNCED) {
-          return translate('shared.sapStatusLabels.synced');
-        } else if (params.value === SAP_SYNC_STATUS.NOT_SYNCED) {
-          return translate('shared.sapStatusLabels.notSynced');
-        } else {
-          return translate('shared.sapStatusLabels.partiallySynced');
-        }
+    },
+    {
+      headerName: translate('caseView.caseTable.status'),
+      field: CaseTableColumnFields.STATUS,
+      filterParams: {
+        ...FILTER_PARAMS,
+        valueFormatter: (params: ValueFormatterParams) =>
+          translate(`shared.quotationStatusLabels.${params.value}`),
       },
+      cellRenderer: 'QuotationStatusCellComponent',
     },
     {
       headerName: translate('caseView.caseTable.caseName'),
@@ -152,4 +148,9 @@ export class ColumnDefService {
       filterParams: this.DATE_FILTER_PARAMS,
     },
   ];
+
+  constructor(
+    private readonly columnUtilityService: ColumnUtilityService,
+    private readonly comparatorService: ComparatorService
+  ) {}
 }

@@ -9,5 +9,6 @@ export { InfoCellComponent } from './info-cell/info-cell.component';
 export { EditCellData } from './models/edit-cell-class-params.model';
 export { ExtendedEditCellClassParams } from './models/extended-cell-class-params.model';
 export { PositionIdComponent } from './position-id/position-id.component';
+export { QuotationStatusCellComponent } from './quotation-status-cell/quotation-status-cell.component';
 export { SapPriceCellComponent } from './sap-price-cell/sap-price-cell.component';
 export { SapStatusCellComponent } from './sap-sync-status-cell/sap-sync-status-cell.component';

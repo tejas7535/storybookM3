@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 
 import { MaterialPriceHeaderContentModule } from '@gq/shared/components/header/material-price-header-content/material-price-header-content.module';
-import { SyncStatusCustomerInfoHeaderModule } from '@gq/shared/components/header/sync-status-customer-info-header/sync-status-customer-info-header.module';
+import { StatusCustomerInfoHeaderModule } from '@gq/shared/components/header/status-customer-info-header/status-customer-info-header.module';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { PushPipe } from '@ngrx/component';
 
@@ -29,7 +29,7 @@ import { SapViewRoutingModule } from './sap-view-routing.module';
     MaterialPriceHeaderContentModule,
     LoadingSpinnerModule,
     SapPriceDetailsTableModule,
-    SyncStatusCustomerInfoHeaderModule,
+    StatusCustomerInfoHeaderModule,
   ],
   providers: [
     {

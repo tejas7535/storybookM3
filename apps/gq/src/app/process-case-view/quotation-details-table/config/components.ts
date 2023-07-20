@@ -4,6 +4,7 @@ import {
   FreeStockCellComponent,
   GqRatingComponent,
   PositionIdComponent,
+  QuotationStatusCellComponent,
   SapStatusCellComponent,
 } from '@gq/shared/ag-grid/cell-renderer';
 import { ExtendedColumnHeaderComponent } from '@gq/shared/ag-grid/column-headers/extended-column-header/extended-column-header.component';
@@ -33,5 +34,6 @@ export const COMPONENTS = {
   ConfirmSimulationButtonComponent,
   DiscardSimulationButtonComponent,
   SapStatusCellComponent,
+  QuotationStatusCellComponent,
   agColumnHeader: ExtendedColumnHeaderComponent,
 };

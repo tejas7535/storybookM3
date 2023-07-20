@@ -51,12 +51,6 @@ type openInTarget = 'window' | 'tab';
 export class ColumnUtilityService {
   static materialClassificationSOPPipe = new MaterialClassificationSOPPipe();
 
-  constructor(
-    private readonly transformationService: TransformationService,
-    private readonly translocoLocaleService: TranslocoLocaleService,
-    private readonly materialNumberService: MaterialNumberService
-  ) {}
-
   static dateFilterParams = {
     suppressFilterButton: true,
   };
@@ -91,6 +85,12 @@ export class ColumnUtilityService {
       return Number.parseFloat(inputText);
     },
   };
+
+  constructor(
+    private readonly transformationService: TransformationService,
+    private readonly translocoLocaleService: TranslocoLocaleService,
+    private readonly materialNumberService: MaterialNumberService
+  ) {}
 
   static createColumnDefs(roles: string[], colDefs: ColDef[]): ColDef[] {
     return colDefs.filter(
@@ -250,10 +250,23 @@ export class ColumnUtilityService {
     );
   }
 
-  filterQuotationStatusColumns(colDef: ColDef, tab: QuotationTab) {
+  filterSapSyncStatusColumns(colDef: ColDef, tab: QuotationTab) {
     if (
       tab !== QuotationTab.ACTIVE &&
       colDef.field === CaseTableColumnFields.SAP_SYNC_STATUS
+    ) {
+      return false;
+    }
+
+    return true;
+  }
+
+  filterQuotationStatusColumns(colDef: ColDef, tab: QuotationTab): boolean {
+    if (
+      tab !== QuotationTab.TO_APPROVE &&
+      tab !== QuotationTab.IN_APPROVAL &&
+      tab !== QuotationTab.APPROVED &&
+      colDef.field === CaseTableColumnFields.STATUS
     ) {
       return false;
     }

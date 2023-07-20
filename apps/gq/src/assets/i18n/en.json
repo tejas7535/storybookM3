@@ -216,6 +216,11 @@
       }
     },
     "itemId": "Item {{id}}",
+    "quotationStatusLabels": {
+      "IN_APPROVAL": "In Approval",
+      "APPROVED": "Approved",
+      "REJECTED": "Rejected"
+    },
     "sapStatusLabels": {
       "notSynced": "Not synced",
       "synced": "Synced with SAP",
