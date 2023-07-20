@@ -1,9 +1,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   HostListener,
   Input,
   OnInit,
+  Output,
   ViewChild,
 } from '@angular/core';
 import { MatSidenavContent } from '@angular/material/sidenav';
@@ -41,6 +43,8 @@ export class AppShellComponent implements OnInit {
   @Input() public appVersion?: string;
   @Input() public scrollToTop? = false;
 
+  @Output() public onContentScroll = new EventEmitter();
+
   @ViewChild('sidenavContent')
   private readonly sidenavContent: MatSidenavContent;
 
@@ -68,6 +72,10 @@ export class AppShellComponent implements OnInit {
     if (link.onClick) {
       link.onClick($event);
     }
+  }
+
+  public handleContentScroll($event: Event) {
+    this.onContentScroll.emit($event);
   }
 
   public ngOnInit(): void {

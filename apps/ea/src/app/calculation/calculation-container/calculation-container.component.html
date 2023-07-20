@@ -1,9 +1,13 @@
 <div
   class="flex flex-row p-2 md:mb-8 md:p-0"
-  [ngClass]="{ 'pb-[250px]': isStandalone$ | ngrxPush }"
+  [ngClass]="{ 'mt-6 mb:pb-0': isStandalone$ | ngrxPush }"
+  #wrapperContainer
 >
   <div
-    class="md:ml-8 md:mr-2 lg:mr-8 md:pr-4 md:overflow-y-auto md:max-h-[calc(100vh-250px)]"
+    class="md:ml-8 md:mr-2 lg:mr-8 md:pr-4 md:overflow-y-auto md:max-h-[calc(100vh-260px)]"
+    [ngClass]="{
+      'md:mb-24': (isStandalone$ | async)
+    }"
   >
     <ea-calculation-parameters></ea-calculation-parameters>
   </div>
@@ -18,5 +22,5 @@
   </div>
 </div>
 <ea-calculation-result-preview
-  [sticky]="isStandalone$ | ngrxPush"
+  [sticky]="isResultPreviewSticky$ | ngrxPush"
 ></ea-calculation-result-preview>

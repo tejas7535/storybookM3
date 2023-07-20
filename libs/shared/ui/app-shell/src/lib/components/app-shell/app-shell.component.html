@@ -66,6 +66,7 @@
     #sidenavContent
     class="flex-col pt-[60px]"
     [ngClass]="footerFixed ? 'footer-fixed' : 'footer-not-fixed'"
+    (scroll)="handleContentScroll($event)"
   >
     <!-- start main content -->
     <div class="content-wrapper main-content-wrapper">

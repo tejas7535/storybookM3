@@ -37,4 +37,22 @@ describe('SettingsReducer', () => {
       });
     });
   });
+  describe('PreviewSticky', () => {
+    it('should set isPreviewSticky', () => {
+      const originalState: SettingsState = {
+        ...initialState,
+        isResultPreviewSticky: false,
+      };
+
+      const newState = settingsReducer(
+        originalState,
+        SettingsActions.setResultPreviewSticky({ isResultPreviewSticky: true })
+      );
+
+      expect(newState).toEqual({
+        ...initialState,
+        isResultPreviewSticky: true,
+      });
+    });
+  });
 });

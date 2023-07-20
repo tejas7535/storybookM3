@@ -25,6 +25,7 @@ import { CalculationTypesSelectionComponent } from '../calculation-types-selecti
 })
 export class CalculationContainerComponent {
   public isStandalone$ = this.settingsFacade.isStandalone$;
+  public isResultPreviewSticky$ = this.settingsFacade.isResultPreviewSticky$;
 
   constructor(private readonly settingsFacade: SettingsFacade) {}
 }

@@ -1,14 +1,32 @@
-<div class="flex h-full w-full flex-1 flex-col items-center" *transloco="let t">
-  <div
-    *ngIf="isStandalone$ | ngrxPush"
-    id="title"
-    class="text-medium-emphasis text-h4 md:py-10 py-4"
+<ng-container *ngIf="isStandalone$ | ngrxPush; else appInner">
+  <schaeffler-app-shell
+    [hasSidebarLeft]="true"
+    [appTitle]="title"
+    [footerFixed]="false"
+    [footerLinks]="footerLinks"
+    (onContentScroll)="handleContentScroll($event)"
   >
-    {{ t('appTitle') }}
+    <ng-container mainContent>
+      <router-outlet></router-outlet>
+    </ng-container>
+  </schaeffler-app-shell>
+</ng-container>
+<ng-template #appInner>
+  <div
+    class="flex h-full w-full flex-1 flex-col items-center"
+    *transloco="let t"
+  >
+    <div
+      *ngIf="isStandalone$ | ngrxPush"
+      id="title"
+      class="text-medium-emphasis text-h4 md:py-10 py-4"
+    >
+      {{ t('appTitle') }}
+    </div>
+    <div class="flex flex-1 max-w-full">
+      <ea-calculation-container
+        [ngClass]="{ 'max-w-full': !isStandalone$ | ngrxPush }"
+      ></ea-calculation-container>
+    </div>
   </div>
-  <div class="flex flex-1 max-w-full">
-    <ea-calculation-container
-      [ngClass]="{ 'max-w-full': !isStandalone$ | ngrxPush }"
-    ></ea-calculation-container>
-  </div>
-</div>
+</ng-template>
