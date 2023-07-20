@@ -87,10 +87,11 @@ describe('PcfMaturityCo2CellRendererComponent', () => {
         'materialsSupplierDatabase.mainTable.tooltip.maturity.moreInformationTitle',
         undefined,
         'materialsSupplierDatabase.mainTable.tooltip.maturity.moreInformationImg',
-        'materialsSupplierDatabase.mainTable.tooltip.maturity.moreInformationImgCaption',
+        undefined,
         undefined,
         'materialsSupplierDatabase.mainTable.tooltip.maturity.moreInformationContact',
-        'materialsSupplierDatabase.mainTable.tooltip.maturity.moreInformationContactLink'
+        'materialsSupplierDatabase.mainTable.tooltip.maturity.moreInformationContactLink',
+        component.bottomTextTemplate
       );
     });
   });

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 
 import { translate } from '@ngneat/transloco';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
@@ -13,6 +13,9 @@ import { MsdDialogService } from '../../services';
 export class PcfMaturityCo2CellRendererComponent
   implements ICellRendererAngularComp
 {
+  @ViewChild('bottomTextTemplate')
+  bottomTextTemplate: TemplateRef<any>;
+
   public params: ICellRendererParams;
   public hovered = false;
 
@@ -43,16 +46,15 @@ export class PcfMaturityCo2CellRendererComponent
       translate(
         'materialsSupplierDatabase.mainTable.tooltip.maturity.moreInformationImg'
       ),
-      translate(
-        'materialsSupplierDatabase.mainTable.tooltip.maturity.moreInformationImgCaption'
-      ),
+      undefined,
       undefined,
       translate(
         'materialsSupplierDatabase.mainTable.tooltip.maturity.moreInformationContact'
       ),
       translate(
         'materialsSupplierDatabase.mainTable.tooltip.maturity.moreInformationContactLink'
-      )
+      ),
+      this.bottomTextTemplate
     );
   }
 }

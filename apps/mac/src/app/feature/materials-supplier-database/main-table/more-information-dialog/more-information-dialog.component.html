@@ -19,6 +19,10 @@
         <span class="text-caption">{{ dialogData.imageCaption }}</span>
       </div>
       <p *ngIf="dialogData.bottomText">{{ dialogData.bottomText }}</p>
+      <ng-container
+        *ngIf="dialogData.bottomTemplate"
+        [ngTemplateOutlet]="dialogData.bottomTemplate"
+      ></ng-container>
       <div
         *ngIf="dialogData.contact"
         class="flex flex-row-reverse items-baseline"

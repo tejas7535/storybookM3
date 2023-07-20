@@ -1,4 +1,4 @@
-import { Injectable, Type } from '@angular/core';
+import { Injectable, TemplateRef, Type } from '@angular/core';
 import {
   MatLegacyDialog as MatDialog,
   MatLegacyDialogRef as MatDialogRef,
@@ -20,8 +20,8 @@ import { DataResult } from '@mac/msd/models';
 
 import { HardmagnetInputDialogComponent } from '../../main-table/material-input-dialog/materials/hardmagnet/hardmagnet-input-dialog.component';
 import { HardmagnetMaterialStandardInputDialogComponent } from '../../main-table/material-input-dialog/materials/hardmagnet/hardmagnet-material-standard-input-dialog.component';
-import { openMultiEditDialog } from '../../store/actions/dialog';
 import { MoreInformationDialogComponent } from '../../main-table/more-information-dialog/more-information-dialog.component';
+import { openMultiEditDialog } from '../../store/actions/dialog';
 
 @Injectable()
 export class MsdDialogService {
@@ -94,7 +94,8 @@ export class MsdDialogService {
     imageCaption?: string,
     bottomText?: string,
     contact?: string,
-    mailToLink?: string
+    mailToLink?: string,
+    bottomTemplate?: TemplateRef<any>
   ): MatDialogRef<MoreInformationDialogComponent> {
     return this.dialog.open(MoreInformationDialogComponent, {
       data: {
@@ -105,6 +106,7 @@ export class MsdDialogService {
         bottomText,
         contact,
         mailToLink,
+        bottomTemplate,
       },
       autoFocus: false,
     });

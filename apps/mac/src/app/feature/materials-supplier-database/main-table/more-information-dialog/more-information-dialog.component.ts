@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, TemplateRef } from '@angular/core';
 import {
   MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
   MatLegacyDialogRef as MatDialogRef,
@@ -20,6 +20,7 @@ export class MoreInformationDialogComponent {
       bottomText?: string;
       contact?: string;
       mailToLink?: string;
+      bottomTemplate?: TemplateRef<any>;
     }
   ) {}
 
