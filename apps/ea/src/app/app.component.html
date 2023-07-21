@@ -3,7 +3,7 @@
     [hasSidebarLeft]="true"
     [appTitle]="title"
     [footerFixed]="false"
-    [footerLinks]="footerLinks"
+    [footerLinks]="footerLinks$ | ngrxPush"
     (onContentScroll)="handleContentScroll($event)"
   >
     <ng-container mainContent>

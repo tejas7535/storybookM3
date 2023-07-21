@@ -9,6 +9,8 @@ import { PushModule } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
 import { AppComponent } from './app.component';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -23,7 +25,12 @@ describe('AppComponent', () => {
 
   const createComponent = createComponentFactory({
     component: AppComponent,
-    imports: [PushModule, RouterTestingModule, MatIconTestingModule],
+    imports: [
+      PushModule,
+      RouterTestingModule,
+      MatIconTestingModule,
+      provideTranslocoTestingModule({ en: {} }),
+    ],
     providers: [
       provideMockStore({
         initialState: { ...APP_STATE_MOCK },

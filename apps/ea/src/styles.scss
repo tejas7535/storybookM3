@@ -87,7 +87,7 @@ engineering-app {
 
   // styles for the dialog overlay
   .app-overlay-container {
-    @apply top-0 left-0 h-full w-full fixed pointer-events-none;
+    @apply top-0 left-0 h-full w-full fixed pointer-events-none z-50;
   }
 
   .app-overlay-container:empty {
@@ -111,6 +111,10 @@ engineering-app {
 
     mat-dialog-container {
       @apply overflow-y-hidden rounded-b-none #{!important};
+    }
+
+    mat-dialog-content {
+      @apply max-h-none h-[calc(100%-156px)];
     }
   }
 }

@@ -9,14 +9,16 @@
         <div class="text-medium-emphasis px-1 text-h6">
           {{t('title', {bearingDesignation: bearingDesignation$ | ngrxPush } )}}
         </div>
-        <ea-info-banner
-          [isWarning]="true"
-          [infoText]="t('prototypeWarning')"
-        ></ea-info-banner>
-        <ea-info-banner
-          *ngIf="(isDownstreamUnavailable$ | ngrxPush)"
-          [infoText]="t('co2DownstreamUnavailableHint')"
-        ></ea-info-banner>
+        <div class="py-2">
+          <ea-info-banner
+            [isWarning]="true"
+            [infoText]="t('prototypeWarning')"
+          ></ea-info-banner>
+          <ea-info-banner
+            *ngIf="(isDownstreamUnavailable$ | ngrxPush)"
+            [infoText]="t('co2DownstreamUnavailableHint')"
+          ></ea-info-banner>
+        </div>
         <div class="flex-row items-end w-full mb-4 flex md:hidden">
           <button
             (click)="onShowBasicFrequenciesDialogClick()"

@@ -2,37 +2,41 @@ import {
   Component,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   SimpleChanges,
 } from '@angular/core';
 
-import { translate } from '@ngneat/transloco';
-import { Store } from '@ngrx/store';
-import { AppShellFooterLink } from '@schaeffler/app-shell';
-import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 import {
   BehaviorSubject,
-  Subject,
-  combineLatestWith,
-  debounceTime,
   filter,
   map,
+  Observable,
+  startWith,
+  Subject,
   takeUntil,
 } from 'rxjs';
+
+import { TranslocoService } from '@ngneat/transloco';
+import { Store } from '@ngrx/store';
+
+import { AppShellFooterLink } from '@schaeffler/app-shell';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
+
 import { SettingsFacade } from './core/store';
 import { ProductSelectionActions, SettingsActions } from './core/store/actions';
 import { setResultPreviewSticky } from './core/store/actions/settings/settings.actions';
 import { isStandalone } from './core/store/selectors/settings/settings.selector';
 import { DEFAULT_BEARING_DESIGNATION } from './shared/constants/products';
 
-const APP_BOTTOM_SCROLL_FIXED_OFFSET = 305;
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'engineering-app',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit, OnChanges {
+export class AppComponent implements OnInit, OnChanges, OnDestroy {
   @Input() bearingDesignation: string | undefined;
   @Input() standalone: string | undefined;
 
@@ -45,42 +49,44 @@ export class AppComponent implements OnInit, OnChanges {
     filter(
       (event) => event !== ({} as Event) && event.target instanceof HTMLElement
     ),
-    debounceTime(50),
-    combineLatestWith(this.settingsFacade.isResultPreviewSticky$),
-    map(([event, isStickyState]) => {
+    map((event) => {
       const target: Partial<HTMLElement> = event.target;
       const scrollHeight = target.scrollHeight - target.offsetHeight;
+      const footer = target.parentElement?.querySelector('footer');
+      const offset = footer?.clientHeight ?? 0;
 
-      if (isStickyState) {
-        return target.scrollTop >= scrollHeight;
-      }
-      return target.scrollTop >= scrollHeight - APP_BOTTOM_SCROLL_FIXED_OFFSET;
+      return target.scrollTop >= scrollHeight - offset;
     })
   );
 
+  public footerLinks$: Observable<AppShellFooterLink[]> =
+    this.translocoService.langChanges$.pipe(
+      startWith(''),
+      map(() => [
+        {
+          link: `${LegalRoute}/${LegalPath.ImprintPath}`,
+          title: this.translocoService.translate('legal.imprint'),
+          external: false,
+        },
+        {
+          link: `${LegalRoute}/${LegalPath.DataprivacyPath}`,
+          title: this.translocoService.translate('legal.dataPrivacy'),
+          external: false,
+        },
+        {
+          link: `${LegalRoute}/${LegalPath.TermsPath}`,
+          title: this.translocoService.translate('legal.termsOfUse'),
+          external: false,
+        },
+      ])
+    );
+
   private readonly destroyScrollThreshold$ = new Subject<boolean>();
 
-  public footerLinks: AppShellFooterLink[] = [
-    {
-      link: `${LegalRoute}/${LegalPath.ImprintPath}`,
-      title: translate('legal.imprint'),
-      external: false,
-    },
-    {
-      link: `${LegalRoute}/${LegalPath.DataprivacyPath}`,
-      title: translate('legal.dataPrivacy'),
-      external: false,
-    },
-    {
-      link: `${LegalRoute}/${LegalPath.TermsPath}`,
-      title: translate('legal.termsOfUse'),
-      external: false,
-    },
-  ];
-
-  public constructor(
+  constructor(
     private readonly store: Store,
-    private readonly settingsFacade: SettingsFacade
+    private readonly settingsFacade: SettingsFacade,
+    private readonly translocoService: TranslocoService
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {

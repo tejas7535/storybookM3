@@ -1,6 +1,9 @@
 <div
-  class="flex flex-row p-2 md:mb-8 md:p-0"
-  [ngClass]="{ 'mt-6 mb:pb-0': isStandalone$ | ngrxPush }"
+  class="md:flex md:flex-row p-2 md:mb-8 md:p-0 mb-64"
+  [ngClass]="{
+    'mt-6 mb:pb-0': isStandalone$ | ngrxPush,
+    'mb-64': isResultPreviewSticky$ | ngrxPush
+  }"
   #wrapperContainer
 >
   <div
