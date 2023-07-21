@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 
-import { AppRoutePath } from '../../../../app-route-path.enum';
 import { ViewQuotation } from '../../../models/quotation';
+import { ColumnUtilityService } from '../../services';
 
 @Component({
   selector: 'gq-gq-id',
@@ -15,7 +15,10 @@ export class GqIdComponent {
   urlQueryParams: NavigationExtras;
   url: string;
 
-  constructor(private readonly router: Router) {}
+  constructor(
+    private readonly router: Router,
+    private readonly columnUtilityService: ColumnUtilityService
+  ) {}
 
   agInit(params: any): void {
     this.valueFormatted = params.valueFormatted;
@@ -31,7 +34,12 @@ export class GqIdComponent {
     };
 
     this.url = this.router
-      .createUrlTree([AppRoutePath.ProcessCaseViewPath], this.urlQueryParams)
+      .createUrlTree(
+        this.columnUtilityService.determineCaseNavigationPath(
+          this.quotation.status
+        ),
+        this.urlQueryParams
+      )
       .toString();
   }
 
@@ -39,7 +47,9 @@ export class GqIdComponent {
     event.preventDefault();
 
     this.router.navigate(
-      [AppRoutePath.ProcessCaseViewPath],
+      this.columnUtilityService.determineCaseNavigationPath(
+        this.quotation.status
+      ),
       this.urlQueryParams
     );
   }

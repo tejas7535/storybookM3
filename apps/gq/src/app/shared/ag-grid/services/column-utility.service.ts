@@ -2,11 +2,14 @@
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Injectable } from '@angular/core';
 
+import { AppRoutePath } from '@gq/app-route-path.enum';
 import { QuotationTab } from '@gq/core/store/overview-cases/models/quotation-tab.enum';
 import {
   CalculationType,
   SalesIndication,
 } from '@gq/core/store/reducers/models';
+import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-path.enum';
+import { QuotationStatus } from '@gq/shared/models/quotation';
 import { ValidationDescription } from '@gq/shared/models/table';
 import { MaterialNumberService } from '@gq/shared/services/material-number/material-number.service';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
@@ -405,6 +408,20 @@ export class ColumnUtilityService {
     }
 
     return text;
+  }
+
+  /**
+   * Determine tha navigation path to be used to navigate from Case-View to Process-Case-View.
+   *
+   * @param quotation The quotation status
+   * @returns The parts of the navigation path as an array
+   */
+  determineCaseNavigationPath(quotationStatus: QuotationStatus) {
+    return quotationStatus === QuotationStatus.IN_APPROVAL ||
+      quotationStatus === QuotationStatus.APPROVED ||
+      quotationStatus === QuotationStatus.REJECTED
+      ? [AppRoutePath.ProcessCaseViewPath, ProcessCaseRoutePath.OverviewPath]
+      : [AppRoutePath.ProcessCaseViewPath];
   }
 }
 

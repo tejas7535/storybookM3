@@ -26,7 +26,6 @@ import {
   RowSelectedEvent,
 } from 'ag-grid-community';
 
-import { AppRoutePath } from '../../app-route-path.enum';
 import { COMPONENTS, DEFAULT_COLUMN_DEFS } from './config';
 import { ColumnDefService } from './config/column-def.service';
 @Component({
@@ -93,14 +92,17 @@ export class CaseTableComponent implements OnInit {
   }
 
   onRowDoubleClicked(event: RowDoubleClickedEvent) {
-    this.router.navigate([AppRoutePath.ProcessCaseViewPath], {
-      queryParamsHandling: 'merge',
-      queryParams: {
-        quotation_number: event.data.gqId,
-        customer_number: event.data.customerIdentifiers.customerId,
-        sales_org: event.data.customerIdentifiers.salesOrg,
-      },
-    });
+    this.router.navigate(
+      this.columnUtilityService.determineCaseNavigationPath(event.data.status),
+      {
+        queryParamsHandling: 'merge',
+        queryParams: {
+          quotation_number: event.data.gqId,
+          customer_number: event.data.customerIdentifiers.customerId,
+          sales_org: event.data.customerIdentifiers.salesOrg,
+        },
+      }
+    );
   }
 
   getMainMenuItems(params: GetMainMenuItemsParams): (string | MenuItemDef)[] {

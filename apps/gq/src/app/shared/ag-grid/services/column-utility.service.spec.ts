@@ -1,10 +1,12 @@
 import { Clipboard } from '@angular/cdk/clipboard';
 
+import { AppRoutePath } from '@gq/app-route-path.enum';
 import { QuotationTab } from '@gq/core/store/overview-cases/models/quotation-tab.enum';
 import {
   CalculationType,
   SalesIndication,
 } from '@gq/core/store/reducers/models';
+import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-path.enum';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
@@ -28,7 +30,7 @@ import {
 } from '../../../../testing/mocks';
 import { LOCALE_DE, LOCALE_EN } from '../../constants';
 import { UserRoles } from '../../constants/user-roles.enum';
-import { Keyboard, Quotation } from '../../models';
+import { Keyboard, Quotation, QuotationStatus } from '../../models';
 import {
   LastCustomerPriceCondition,
   PriceSource,
@@ -790,6 +792,23 @@ describe('CreateColumnService', () => {
           QuotationTab.ACTIVE
         )
       ).toBe(false);
+    });
+  });
+
+  describe('determineCaseNavigationPath', () => {
+    test('should return ProcessCaseViewPath if status is non-approval', () => {
+      expect(
+        service.determineCaseNavigationPath(QuotationStatus.ACTIVE)
+      ).toEqual([AppRoutePath.ProcessCaseViewPath]);
+    });
+
+    test('should return ProcessCaseViewPath and OverviewPath if status is approval', () => {
+      expect(
+        service.determineCaseNavigationPath(QuotationStatus.APPROVED)
+      ).toEqual([
+        AppRoutePath.ProcessCaseViewPath,
+        ProcessCaseRoutePath.OverviewPath,
+      ]);
     });
   });
 });

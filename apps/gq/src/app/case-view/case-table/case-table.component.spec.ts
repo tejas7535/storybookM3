@@ -8,6 +8,7 @@ import { OverviewCasesFacade } from '@gq/core/store/overview-cases/overview-case
 import { CaseTableColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { LocalizationService } from '@gq/shared/ag-grid/services';
 import { ColumnUtilityService } from '@gq/shared/ag-grid/services/column-utility.service';
+import { QuotationStatus } from '@gq/shared/models';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -157,20 +158,29 @@ describe('CaseTableComponent', () => {
             customerId: 'customer-id',
             salesOrg: 'sales-org-id',
           },
+          status: QuotationStatus.ACTIVE,
         },
       } as any;
+
+      const determineCaseNavigationPathSpy = jest.spyOn(
+        component['columnUtilityService'],
+        'determineCaseNavigationPath'
+      );
+      const navigationPath = [AppRoutePath.ProcessCaseViewPath];
+      determineCaseNavigationPathSpy.mockReturnValue(navigationPath);
+
       component.onRowDoubleClicked(mockEvent);
 
-      expect(router.navigate).toHaveBeenCalledWith(
-        [AppRoutePath.ProcessCaseViewPath],
-        {
-          queryParamsHandling: 'merge',
-          queryParams: {
-            quotation_number: mockEvent.data.gqId,
-            customer_number: mockEvent.data.customerIdentifiers.customerId,
-            sales_org: mockEvent.data.customerIdentifiers.salesOrg,
-          },
-        }
+      expect(router.navigate).toHaveBeenCalledWith(navigationPath, {
+        queryParamsHandling: 'merge',
+        queryParams: {
+          quotation_number: mockEvent.data.gqId,
+          customer_number: mockEvent.data.customerIdentifiers.customerId,
+          sales_org: mockEvent.data.customerIdentifiers.salesOrg,
+        },
+      });
+      expect(determineCaseNavigationPathSpy).toHaveBeenCalledWith(
+        mockEvent.data.status
       );
     });
   });
