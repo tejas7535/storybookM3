@@ -23,7 +23,7 @@
     >
       {{ t('appTitle') }}
     </div>
-    <div class="flex flex-1 max-w-full">
+    <div class="md:flex md:flex-1 max-w-full">
       <ea-calculation-container
         [ngClass]="{ 'max-w-full': !isStandalone$ | ngrxPush }"
       ></ea-calculation-container>
