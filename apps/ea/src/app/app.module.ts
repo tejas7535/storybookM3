@@ -16,6 +16,7 @@ import {
   STORAGE_PERIOD,
   TERMS_OF_USE,
 } from '@schaeffler/legal-pages';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { AppComponent } from './app.component';
 import { AppOverlayContainer } from './app-overlay.container';
@@ -63,6 +64,7 @@ export function DynamicStoragePeriod(translocoService: TranslocoService) {
     PushPipe,
     BrowserAnimationsModule,
     CalculationContainerComponent,
+    SharedTranslocoModule,
     RouterModule.forRoot(appRoutePaths, { enableTracing: false }),
 
     // UI Modules
