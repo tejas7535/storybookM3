@@ -6,6 +6,7 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
+import { Router } from '@angular/router';
 
 import {
   BehaviorSubject,
@@ -86,7 +87,8 @@ export class AppComponent implements OnInit, OnChanges, OnDestroy {
   constructor(
     private readonly store: Store,
     private readonly settingsFacade: SettingsFacade,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly router: Router
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -99,11 +101,19 @@ export class AppComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     if (changes.standalone) {
+      const isStandaloneVersion = changes.standalone.currentValue === 'true';
       this.store.dispatch(
         SettingsActions.setStandalone({
-          isStandalone: changes.standalone.currentValue === 'true',
+          isStandalone: isStandaloneVersion,
         })
       );
+
+      // trigger initial navigation (necessary for webcomponent)
+      // only used if run with app shell / standalone
+      // @see https://github.com/angular/angular/issues/23740
+      if (isStandaloneVersion && !this.router.lastSuccessfulNavigation) {
+        this.router.initialNavigation();
+      }
     }
   }
 
