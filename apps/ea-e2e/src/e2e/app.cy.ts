@@ -1,7 +1,7 @@
 describe('ea', () => {
   beforeEach(() => cy.visit('/'));
 
-  it('should display app title', () => {
-    cy.get('.text-h4').contains('Engineering App');
+  it('should display app description', () => {
+    cy.get('.text-body-1').contains('Our calculation tool allows');
   });
 });
