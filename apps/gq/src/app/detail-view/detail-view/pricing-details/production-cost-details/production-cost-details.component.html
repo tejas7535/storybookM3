@@ -6,14 +6,14 @@
       <gq-label-text>
         <span label> {{ t('gpc') }}</span>
         <span text>{{ quotationDetail.gpc | numberCurrency: currency }}</span>
-        <span text>{{
+        <span *ngIf="quotationDetail.gpc" text>{{
           ' (' + (quotationDetail.gqCreated | translocoDate) + ')'
         }}</span>
       </gq-label-text>
       <gq-label-text>
         <span label>{{ t('sqv') }}</span>
         <span text>{{ quotationDetail.sqv | numberCurrency: currency }}</span>
-        <span text>{{
+        <span *ngIf="quotationDetail.sqv" text>{{
           ' (' + (quotationDetail.gqCreated | translocoDate) + ')'
         }}</span>
       </gq-label-text>
