@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import {
   combineLatest,
-  filter,
   map,
   NEVER,
   Observable,
@@ -37,7 +36,6 @@ export class OverviewTabComponent implements OnInit, OnDestroy {
   generalInformation$: Observable<GeneralInformation> = NEVER;
   pricingInformation$: Observable<QuotationPricingOverview> = NEVER;
   quotationCurrency$: Observable<string> = NEVER;
-  dataLoadingComplete$: Observable<boolean>;
 
   readonly quotationStatus = QuotationStatus;
 
@@ -49,13 +47,13 @@ export class OverviewTabComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.requestApprovalData();
+    this.approvalFacade.getApprovers();
     this.initializeObservables();
   }
 
   ngOnDestroy(): void {
     this.shutDown$$.next();
-    this.shutDown$$.unsubscribe();
+    this.shutDown$$.complete();
   }
 
   getRating(value: number): Rating {
@@ -80,38 +78,8 @@ export class OverviewTabComponent implements OnInit, OnDestroy {
 
   private initializeObservables(): void {
     this.quotationCurrency$ = this.store.select(getQuotationCurrency);
-
     this.generalInformation$ = this.mapGeneralInformation();
     this.pricingInformation$ = this.mapPricingInformation();
-
-    this.dataLoadingComplete$ = combineLatest([
-      this.approvalFacade.allApproversLoading$,
-      this.approvalFacade.approvalCockpitLoading$,
-    ]).pipe(
-      takeUntil(this.shutDown$$),
-      map(
-        ([allApproversLoading, approvalInformationLoading]: [
-          boolean,
-          boolean
-        ]) => !allApproversLoading && !approvalInformationLoading
-      )
-    );
-  }
-
-  /**
-   * request ApprovalStatus
-   */
-  private requestApprovalData(): void {
-    this.store
-      .select(activeCaseFeature.selectQuotation)
-      .pipe(
-        takeUntil(this.shutDown$$),
-        filter((quotation: Quotation) => !!quotation),
-        map((quotation: Quotation) =>
-          this.approvalFacade.getAllApprovalData(quotation.sapId)
-        )
-      )
-      .subscribe();
   }
 
   /**

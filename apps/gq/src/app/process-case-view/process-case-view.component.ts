@@ -1,6 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { map, Observable } from 'rxjs';
+import {
+  combineLatest,
+  filter,
+  map,
+  Observable,
+  Subject,
+  takeUntil,
+} from 'rxjs';
 
 import {
   ActiveCaseActions,
@@ -8,8 +15,13 @@ import {
   getGqId,
   getQuotationSapSyncStatus,
 } from '@gq/core/store/active-case';
+import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { Tab } from '@gq/shared/components/tabs-header/tab.model';
-import { Quotation, QuotationStatus } from '@gq/shared/models';
+import {
+  ApprovalWorkflowInformation,
+  Quotation,
+  QuotationStatus,
+} from '@gq/shared/models';
 import { SAP_SYNC_STATUS } from '@gq/shared/models/quotation-detail/sap-sync-status.enum';
 import { BreadcrumbsService } from '@gq/shared/services/breadcrumbs/breadcrumbs.service';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
@@ -26,44 +38,44 @@ import { ProcessCaseRoutePath } from './process-case-route-path.enum';
   templateUrl: './process-case-view.component.html',
   styleUrls: ['./process-case-view.component.scss'],
 })
-export class ProcessCaseViewComponent implements OnInit {
+export class ProcessCaseViewComponent implements OnInit, OnDestroy {
   quotation$: Observable<Quotation>;
-  customerLoading$: Observable<boolean>;
-  quotationLoading$: Observable<boolean>;
   breadcrumbs$: Observable<Breadcrumb[]>;
   sapStatus$: Observable<SAP_SYNC_STATUS>;
+  dataLoadingComplete$: Observable<boolean>;
 
   tabs: Tab[] = [];
 
   readonly sapSyncStatus = SAP_SYNC_STATUS;
   readonly quotationStatus = QuotationStatus;
 
+  private readonly shutDown$$: Subject<void> = new Subject();
+
   constructor(
     private readonly store: Store,
+    private readonly approvalFacade: ApprovalFacade,
     private readonly breadCrumbsService: BreadcrumbsService,
     private readonly featureToggleService: FeatureToggleConfigService
   ) {}
 
   ngOnInit(): void {
-    this.quotation$ = this.store.select(activeCaseFeature.selectQuotation);
-    this.customerLoading$ = this.store.select(
-      activeCaseFeature.selectCustomerLoading
-    );
-    this.quotationLoading$ = this.store.select(
-      activeCaseFeature.selectQuotationLoading
-    );
+    this.setTabs();
+    this.initObservables();
+    this.requestApprovalData();
+  }
 
-    this.sapStatus$ = this.store.select(getQuotationSapSyncStatus);
-    this.breadcrumbs$ = this.store
-      .select(getGqId)
-      .pipe(
-        map((gqId) =>
-          this.breadCrumbsService.getQuotationBreadcrumbsForProcessCaseView(
-            gqId
-          )
-        )
-      );
+  updateQuotation(updateQuotationRequest: UpdateQuotationRequest) {
+    this.store.dispatch(
+      ActiveCaseActions.updateQuotation(updateQuotationRequest)
+    );
+  }
 
+  ngOnDestroy(): void {
+    this.shutDown$$.next();
+    this.shutDown$$.complete();
+  }
+
+  private setTabs(): void {
     if (this.featureToggleService.isEnabled('approvalWorkflow')) {
       this.tabs.push({
         label: 'processCaseView.tabs.overview.title',
@@ -85,9 +97,60 @@ export class ProcessCaseViewComponent implements OnInit {
     );
   }
 
-  updateQuotation(updateQuotationRequest: UpdateQuotationRequest) {
-    this.store.dispatch(
-      ActiveCaseActions.updateQuotation(updateQuotationRequest)
+  private initObservables(): void {
+    this.quotation$ = this.store.select(activeCaseFeature.selectQuotation);
+    this.sapStatus$ = this.store.select(getQuotationSapSyncStatus);
+    this.breadcrumbs$ = this.store
+      .select(getGqId)
+      .pipe(
+        map((gqId) =>
+          this.breadCrumbsService.getQuotationBreadcrumbsForProcessCaseView(
+            gqId
+          )
+        )
+      );
+
+    this.dataLoadingComplete$ = combineLatest([
+      this.store.select(activeCaseFeature.selectCustomerLoading),
+      this.store.select(activeCaseFeature.selectQuotationLoading),
+      this.quotation$,
+      this.approvalFacade.approvalCockpitLoading$,
+      this.approvalFacade.approvalCockpitInformation$,
+    ]).pipe(
+      takeUntil(this.shutDown$$),
+      map(
+        ([
+          customerLoading,
+          quotationLoading,
+          quotation,
+          approvalInformationLoading,
+          approvalInformation,
+        ]: [
+          boolean,
+          boolean,
+          Quotation,
+          boolean,
+          ApprovalWorkflowInformation
+        ]) =>
+          !customerLoading &&
+          !quotationLoading &&
+          // Approval information loading status is relevant only if the quotation is synced with SAP
+          (quotation?.sapId
+            ? !approvalInformationLoading && !!approvalInformation.sapId
+            : true)
+      )
     );
+  }
+
+  private requestApprovalData(): void {
+    this.quotation$
+      .pipe(
+        takeUntil(this.shutDown$$),
+        filter((quotation: Quotation) => !!quotation),
+        map((quotation: Quotation) =>
+          this.approvalFacade.getApprovalCockpitData(quotation.sapId)
+        )
+      )
+      .subscribe();
   }
 }

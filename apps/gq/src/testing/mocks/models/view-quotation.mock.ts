@@ -15,4 +15,5 @@ export const VIEW_QUOTATION_MOCK: ViewQuotation = {
   gqLastUpdated: '2022-02-21T09:14:17.2994738+01:00',
   origin: CASE_ORIGIN.CREATED_MANUALLY,
   status: QuotationStatus.ACTIVE,
+  statusVerified: true,
 };

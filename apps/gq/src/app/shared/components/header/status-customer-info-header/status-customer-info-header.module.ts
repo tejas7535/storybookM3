@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 
 import { PushPipe } from '@ngrx/component';
@@ -14,6 +15,7 @@ import { StatusCustomerInfoHeaderComponent } from './status-customer-info-header
     SharedTranslocoModule,
     SharedPipesModule,
     PushPipe,
+    MatIconModule,
     MatTooltipModule,
   ],
   declarations: [StatusCustomerInfoHeaderComponent],

@@ -1,4 +1,4 @@
-<div *ngIf="!(quotationLoading$ | ngrxPush); else loading">
+<div *ngIf="dataLoadingComplete$ | ngrxPush; else loading">
   <div *ngIf="quotation$ | ngrxPush as quotation">
     <schaeffler-subheader
       *ngIf="(quotationDetail$ | ngrxPush)?.material as material"

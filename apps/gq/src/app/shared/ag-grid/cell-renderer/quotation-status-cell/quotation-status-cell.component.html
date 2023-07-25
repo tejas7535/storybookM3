@@ -1,5 +1,6 @@
 <div class="flex h-full items-center overflow-hidden">
   <div
+    *transloco="let t; read: 'shared.quotationStatusLabels'"
     class="flex items-center overflow-hidden rounded-full px-3 py-1 text-caption uppercase"
     [ngClass]="{
       'text-info': status === quotationStatus.IN_APPROVAL,
@@ -10,11 +11,14 @@
       'bg-quotation-status-red': status === quotationStatus.REJECTED
     }"
   >
-    <span
-      *transloco="let t; read: 'shared.quotationStatusLabels'"
-      class="truncate text-[8px] font-bold"
-    >
+    <span class="truncate text-[8px] font-bold">
       {{ t(status) }}
     </span>
+    <mat-icon
+      *ngIf="statusVerified === false"
+      class="ml-1 !text-[12px] !h-3 !w-3"
+      [matTooltip]="t('ongoingSapVerification')"
+      >hourglass_empty</mat-icon
+    >
   </div>
 </div>

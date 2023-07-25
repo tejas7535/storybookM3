@@ -64,15 +64,23 @@
 </ng-template>
 
 <ng-template #quotationStatusTemplate>
-  <span
+  <div
     *transloco="let t; read: 'shared.quotationStatusLabels'"
-    class="pl-9 pt-2 text-caption"
+    class="flex items-center pl-9 pt-2"
     [ngClass]="{
       'text-info': statusOfQuotation === quotationStatus.IN_APPROVAL,
       'text-quotation-status-green': statusOfQuotation === quotationStatus.APPROVED,
       'text-error': statusOfQuotation === quotationStatus.REJECTED,
     }"
   >
-    {{ t(statusOfQuotation) }}
-  </span>
+    <span class="text-caption">
+      {{ t(statusOfQuotation) }}
+    </span>
+    <mat-icon
+      *ngIf="approvalFacade.areAnyNonVerifiedApprovalEvents$ | ngrxPush"
+      class="ml-2 !text-[12px] !font-medium !h-3 !w-3"
+      [matTooltip]="t('ongoingSapVerification')"
+      >hourglass_empty</mat-icon
+    >
+  </div>
 </ng-template>

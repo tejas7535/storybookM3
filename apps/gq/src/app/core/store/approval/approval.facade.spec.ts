@@ -343,6 +343,19 @@ describe('ApprovalFacade', () => {
       })
     );
 
+    test(
+      'should provide areAnyNonVerifiedApprovalEvents$',
+      marbles((m) => {
+        mockStore.overrideSelector(
+          approvalFeature.areAnyNonVerifiedApprovalEvents,
+          true
+        );
+        m.expect(service.areAnyNonVerifiedApprovalEvents$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
+
     describe('should provide quotationFullyApproved$', () => {
       test(
         'should return false for quotationFullyApproved$ when ACTIVE',
@@ -850,26 +863,6 @@ describe('ApprovalFacade', () => {
       expect(mockStore.dispatch).toHaveBeenCalledWith(
         ApprovalActions.clearApprovalCockpitData()
       );
-    });
-
-    test('should call methods', () => {
-      service.getApprovers = jest.fn();
-      service.getApprovalCockpitData = jest.fn();
-
-      service.getAllApprovalData(expect.any(String));
-
-      expect(service.getApprovers).toHaveBeenCalled();
-      expect(service.getApprovalCockpitData).toHaveBeenCalled();
-    });
-
-    test('should call methods for approvalOverview', () => {
-      service.getApprovalCockpitData = jest.fn();
-      service.getApprovalCockpitData = jest.fn();
-
-      service.getAllApprovalData(expect.any(String));
-
-      expect(service.getApprovalCockpitData).toHaveBeenCalled();
-      expect(service.getApprovalCockpitData).toHaveBeenCalled();
     });
   });
 

@@ -28,14 +28,19 @@ describe('QuotationStatusCellComponent', () => {
   });
 
   describe('agInit', () => {
-    test('should set status', () => {
+    test('should set status and statusVerified', () => {
       expect(component.status).toBeUndefined();
+      expect(component.statusVerified).toBeUndefined();
 
       component.agInit({
         value: QuotationStatus.ACTIVE,
+        data: {
+          statusVerified: false,
+        },
       } as ICellRendererParams);
 
       expect(component.status).toBe(QuotationStatus.ACTIVE);
+      expect(component.statusVerified).toBe(false);
     });
   });
 });

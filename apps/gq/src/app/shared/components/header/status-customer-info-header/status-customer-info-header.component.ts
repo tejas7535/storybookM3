@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { QuotationStatus } from '@gq/shared/models';
 
 import { Customer } from './../../../models/customer/';
@@ -22,4 +23,6 @@ export class StatusCustomerInfoHeaderComponent {
 
   readonly sapSyncStatus: typeof SAP_SYNC_STATUS = SAP_SYNC_STATUS;
   readonly quotationStatus: typeof QuotationStatus = QuotationStatus;
+
+  constructor(readonly approvalFacade: ApprovalFacade) {}
 }

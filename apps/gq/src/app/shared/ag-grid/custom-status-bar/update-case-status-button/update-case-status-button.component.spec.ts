@@ -151,6 +151,7 @@ describe('UpdateCaseStatusButtonComponent', () => {
           sapId: '',
           origin: CASE_ORIGIN.CREATED_MANUALLY,
           status: QuotationStatus.ACTIVE,
+          statusVerified: true,
         },
       ];
 
@@ -183,6 +184,7 @@ describe('UpdateCaseStatusButtonComponent', () => {
           sapId: '',
           origin: CASE_ORIGIN.CREATED_MANUALLY,
           status: QuotationStatus.ACTIVE,
+          statusVerified: true,
         },
       ];
 

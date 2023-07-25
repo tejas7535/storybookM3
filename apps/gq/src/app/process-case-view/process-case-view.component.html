@@ -1,9 +1,6 @@
 <div
   class="flex h-full flex-col"
-  *ngIf="
-    !(customerLoading$ | ngrxPush) && !(quotationLoading$ | ngrxPush);
-    else loading
-  "
+  *ngIf="dataLoadingComplete$ | ngrxPush; else loading"
 >
   <schaeffler-subheader
     *ngIf="quotation$ | ngrxPush as quotation"

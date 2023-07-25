@@ -824,6 +824,32 @@ describe('approvalReducer', () => {
         });
       });
     });
+
+    describe('areAnyNonVerifiedApprovalEvents', () => {
+      test('should not have any non-verified approval events', () => {
+        expect(
+          approvalFeature.areAnyNonVerifiedApprovalEvents.projector(
+            APPROVAL_STATE_MOCK.approvalCockpit
+          )
+        ).toBe(false);
+      });
+
+      test('should have non-verified approval events', () => {
+        expect(
+          approvalFeature.areAnyNonVerifiedApprovalEvents.projector({
+            ...APPROVAL_STATE_MOCK.approvalCockpit,
+            approvalEvents:
+              APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents.map(
+                (event: ApprovalWorkflowEvent, index: number) => ({
+                  ...event,
+                  verified: index === 0,
+                })
+              ),
+          })
+        ).toBe(true);
+      });
+    });
+
     describe('test the array logic', () => {
       test('should return undefined', () => {
         const result = firstApproverLogic[1][ApprovalLevel.L1];

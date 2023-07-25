@@ -15,4 +15,5 @@ export interface ViewQuotation {
   customerName: string;
   origin: number;
   status: QuotationStatus;
+  statusVerified: boolean;
 }

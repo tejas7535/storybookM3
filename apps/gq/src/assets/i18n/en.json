@@ -219,7 +219,8 @@
     "quotationStatusLabels": {
       "IN_APPROVAL": "In Approval",
       "APPROVED": "Approved",
-      "REJECTED": "Rejected"
+      "REJECTED": "Rejected",
+      "ongoingSapVerification": "Verification with SAP ongoing"
     },
     "sapStatusLabels": {
       "notSynced": "Not synced",

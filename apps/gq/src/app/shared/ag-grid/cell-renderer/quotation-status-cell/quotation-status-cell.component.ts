@@ -9,10 +9,12 @@ import { ICellRendererParams } from 'ag-grid-community';
 })
 export class QuotationStatusCellComponent {
   status: QuotationStatus;
+  statusVerified: boolean;
 
   readonly quotationStatus = QuotationStatus;
 
   agInit(params: ICellRendererParams): void {
     this.status = params.value;
+    this.statusVerified = params.data.statusVerified;
   }
 }

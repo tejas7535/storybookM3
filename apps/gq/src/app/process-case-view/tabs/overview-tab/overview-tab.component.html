@@ -2,7 +2,9 @@
   class="flex flex-col gap-4 p-4 md:flex-row lg:grid lg:grid-cols-4 lg:items-start"
   *transloco="let t; read: 'processCaseView'"
 >
-  <ng-container *ngIf="dataLoadingComplete$ | ngrxPush; else loading">
+  <ng-container
+    *ngIf="!(approvalFacade.allApproversLoading$ | ngrxPush); else loading"
+  >
     <div class="gap-4 md:w-1/2 lg:w-full">
       <gq-kpi-status-card [title]="t('tabs.overview.overviewCardTitle')">
         <gq-general-information

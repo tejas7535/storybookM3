@@ -1,7 +1,9 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
+import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -14,6 +16,7 @@ describe('StatusCustomerInfoHeaderComponent', () => {
   const createComponent = createComponentFactory({
     component: StatusCustomerInfoHeaderComponent,
     imports: [provideTranslocoTestingModule({ en: {} }), SharedPipesModule],
+    providers: [MockProvider(ApprovalFacade)],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     detectChanges: false,
   });

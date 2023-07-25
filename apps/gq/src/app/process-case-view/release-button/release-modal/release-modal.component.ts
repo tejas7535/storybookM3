@@ -22,8 +22,6 @@ import {
   combineLatest,
   distinctUntilChanged,
   filter,
-  map,
-  Observable,
   Subject,
   take,
   takeUntil,
@@ -86,8 +84,6 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
     userValidator().bind(this)
   );
 
-  dataLoadingComplete$: Observable<boolean>; // = NEVER;
-
   readonly quotationStatus = QuotationStatus;
   readonly INVALID_SELECTION_APPROVER = '';
 
@@ -127,25 +123,7 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.approvalFacade.getAllApprovalData(this.dialogData.sapId);
-
-    this.dataLoadingComplete$ = combineLatest([
-      this.approvalFacade.allApproversLoading$,
-      this.approvalFacade.approvalCockpitLoading$,
-      this.approvalFacade.approvalCockpitInformation$,
-    ]).pipe(
-      takeUntil(this.shutdown$$),
-      map(
-        ([
-          allApproversLoading,
-          approvalInformationLoading,
-          approvalInformation,
-        ]: [boolean, boolean, ApprovalWorkflowInformation]) =>
-          !allApproversLoading &&
-          !approvalInformationLoading &&
-          !!approvalInformation.sapId
-      )
-    );
+    this.approvalFacade.getApprovers();
 
     this.formGroup = this.formBuilder.group<ReleaseModalFormControl>({
       comment: new FormControl(
@@ -246,18 +224,18 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
    */
   private setApprovalControlsAndInitialData() {
     combineLatest([
-      this.dataLoadingComplete$,
+      this.approvalFacade.allApproversLoading$,
       this.approvalFacade.approvalCockpitInformation$,
     ])
       .pipe(
         distinctUntilChanged(),
         takeUntil(this.shutdown$$),
         filter(
-          ([loadingComplete, cockpitInformation]: [
+          ([allApproversLoading, cockpitInformation]: [
             boolean,
             ApprovalWorkflowInformation
           ]) =>
-            !!loadingComplete &&
+            !allApproversLoading &&
             cockpitInformation.sapId === this.dialogData.sapId
         ),
         tap(

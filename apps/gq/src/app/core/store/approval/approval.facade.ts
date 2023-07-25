@@ -115,6 +115,10 @@ export class ApprovalFacade {
     approvalFeature.getHasAnyApprovalEvent
   );
 
+  areAnyNonVerifiedApprovalEvents$: Observable<boolean> = this.store.select(
+    approvalFeature.areAnyNonVerifiedApprovalEvents
+  );
+
   quotationStatus$: Observable<QuotationStatus> = this.store.select(
     fromActiveCaseSelectors.getQuotationStatus
   );
@@ -322,7 +326,7 @@ export class ApprovalFacade {
     this.findWorkflowCompletionEvent(ApprovalEventType.AUTO_APPROVAL);
 
   /*
-   * get the latest RELEASED event af recent workflow
+   * get the latest RELEASED event of recent workflow
    */
   quotationFinalReleaseEvent$: Observable<ApprovalWorkflowEvent> =
     this.findWorkflowCompletionEvent(ApprovalEventType.RELEASED);
@@ -360,17 +364,6 @@ export class ApprovalFacade {
     return sapId
       ? this.store.dispatch(ApprovalActions.getApprovalCockpitData({ sapId }))
       : this.store.dispatch(ApprovalActions.clearApprovalCockpitData());
-  }
-
-  /**
-   * Loads all Information needed for approval workflow.
-   * Contains all available approvers and approval Status of given sap Id.
-   *
-   * @param sapId sap Id of quotation
-   */
-  getAllApprovalData(sapId: string): void {
-    this.getApprovers();
-    this.getApprovalCockpitData(sapId);
   }
 
   /**
