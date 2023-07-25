@@ -3,3 +3,7 @@ export * from './grease-report-concept1.model';
 export * from './grease-report-subordinate.model';
 export * from './grease-result.model';
 export * from './grease-suitability.model';
+export * from './pdf/grease-pdf-input.model';
+export * from './pdf/grease-pdf-message.model';
+export * from './pdf/grease-pdf-report.model';
+export * from './pdf/grease-pdf-result.model';

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { debounceTime, Subscription } from 'rxjs';
@@ -18,11 +18,16 @@ import { getReportUrls } from '@ga/core/store/selectors/calculation-result/calcu
 import { GreaseCalculationPath } from '@ga/features/grease-calculation/grease-calculation-path.enum';
 import { ReportUrls } from '@ga/shared/models';
 
+import { GreaseReportComponent } from './components/grease-report';
+import { GreaseReportPdfGeneratorService } from './services/grease-report-pdf-generator.service';
+
 @Component({
   selector: 'ga-calculation-result',
   templateUrl: './calculation-result.component.html',
 })
 export class CalculationResultComponent implements OnInit, OnDestroy {
+  @ViewChild('greaseReport') greaseReport: GreaseReportComponent;
+
   public isProduction = environment.production;
   public reportUrls: ReportUrls;
   public reportSelector = '.content';
@@ -42,7 +47,8 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
     private readonly store: Store,
     private readonly router: Router,
     private readonly translocoService: TranslocoService,
-    private readonly settingsFacade: SettingsFacade
+    private readonly settingsFacade: SettingsFacade,
+    private readonly greaseReportGeneratorService: GreaseReportPdfGeneratorService
   ) {}
 
   public ngOnInit(): void {
@@ -81,6 +87,23 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
     this.router.navigate([
       `${AppRoutePath.GreaseCalculationPath}/${GreaseCalculationPath.ParametersPath}`,
     ]);
+  }
+
+  public generateReport(selectedBearing: string): void {
+    const title = this.translocoService.translate(
+      'calculationResult.title.main'
+    );
+
+    const hint = this.translocoService.translate(
+      'calculationResult.title.247hint'
+    );
+    const reportTitle = `${title} ${selectedBearing} - ${hint}`;
+
+    this.greaseReportGeneratorService.generateReport({
+      reportTitle,
+      data: this.greaseReport.subordinates,
+      legalNote: this.greaseReport.legalNote,
+    });
   }
 
   private resetReportUrls(): void {

@@ -18,6 +18,16 @@
         >
           info_outline
         </mat-icon>
+        <button
+          *ngIf="!isProduction"
+          class="hover:bg-sky-700 hover:text-link ml-1"
+          mat-fab
+          color="accent"
+          aria-label="generate report"
+          (click)="generateReport(selectedBearing)"
+        >
+          <mat-icon class="align-middle">download</mat-icon>
+        </button>
       </ng-container>
       <ng-container *ngIf="!(appIsEmbedded$ | ngrxPush)" subheaderInlineContent>
         <ga-medias-button
@@ -37,6 +47,7 @@
         </mat-slide-toggle>
       </div>
       <ga-grease-report
+        #greaseReport
         *ngIf="showCompactView"
         [greaseReportUrl]="reportUrls.jsonReportUrl"
         [preferredGreaseResult]="preferredGreaseSelection$ | ngrxPush"

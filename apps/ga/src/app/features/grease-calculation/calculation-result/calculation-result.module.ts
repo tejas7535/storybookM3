@@ -22,6 +22,10 @@ import { CalculationParametersService } from '../calculation-parameters/services
 import { CalculationResultComponent } from './calculation-result.component';
 import { CalculationResultRoutingModule } from './calculation-result-routing.module';
 import { GreaseReportComponent } from './components/grease-report';
+import {
+  GreaseReportDataGeneratorService,
+  GreaseReportPdfGeneratorService,
+} from './services';
 
 @NgModule({
   declarations: [CalculationResultComponent],
@@ -51,6 +55,10 @@ import { GreaseReportComponent } from './components/grease-report';
     GreaseReportComponent,
     MediasButtonComponent,
   ],
-  providers: [CalculationParametersService],
+  providers: [
+    CalculationParametersService,
+    GreaseReportDataGeneratorService,
+    GreaseReportPdfGeneratorService,
+  ],
 })
 export class CalculationResultModule {}

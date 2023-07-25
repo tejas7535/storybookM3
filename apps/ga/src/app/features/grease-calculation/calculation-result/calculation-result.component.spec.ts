@@ -5,9 +5,13 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { translate, TranslocoService } from '@ngneat/transloco';
-import { LetModule, PushModule } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
@@ -16,9 +20,12 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppRoutePath } from '@ga/app-route-path.enum';
 import { getCalculation } from '@ga/core/store/actions/calculation-result/calculation-result.actions';
+import { MediasButtonComponent } from '@ga/shared/components/medias-button';
 
 import { GreaseCalculationPath } from '../grease-calculation-path.enum';
 import { CalculationResultComponent } from './calculation-result.component';
+import { GreaseReportComponent } from './components/grease-report';
+import { GreaseReportPdfGeneratorService } from './services';
 
 describe('CalculationResultComponent', () => {
   let component: CalculationResultComponent;
@@ -30,13 +37,14 @@ describe('CalculationResultComponent', () => {
     component: CalculationResultComponent,
     imports: [
       RouterTestingModule,
-      PushModule,
-      LetModule,
+      PushPipe,
+      LetDirective,
       FormsModule,
       provideTranslocoTestingModule(
         { en: {} },
         { translocoConfig: { defaultLang: 'de' } }
       ),
+      MediasButtonComponent,
 
       // UI Modules
       MockModule(SubheaderModule),
@@ -51,6 +59,7 @@ describe('CalculationResultComponent', () => {
         provide: translate,
         useValue: jest.fn(),
       },
+      mockProvider(GreaseReportPdfGeneratorService),
     ],
   });
 
@@ -96,6 +105,33 @@ describe('CalculationResultComponent', () => {
       expect(component['router'].navigate).toHaveBeenCalledWith([
         `${AppRoutePath.GreaseCalculationPath}/${GreaseCalculationPath.ParametersPath}`,
       ]);
+    });
+  });
+
+  describe('when generate pdf report', () => {
+    let spy: jest.SpyInstance;
+
+    beforeEach(() => {
+      component.greaseReport = {
+        subordinates: [{ indentifier: 'text' }],
+        legalNote: 'some legal note',
+      } as any as GreaseReportComponent;
+
+      spy = jest.spyOn(
+        component['greaseReportGeneratorService'],
+        'generateReport'
+      );
+
+      component.generateReport('bearing 123');
+    });
+
+    it('should generate pdf report', () => {
+      expect(spy).toHaveBeenCalledWith({
+        data: [{ indentifier: 'text' }],
+        legalNote: 'some legal note',
+        reportTitle:
+          'de.calculationResult.title.main bearing 123 - de.calculationResult.title.247hint',
+      });
     });
   });
 });

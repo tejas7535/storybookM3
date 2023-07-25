@@ -65,6 +65,7 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
 
   public resultsLimit = 3;
   public limitResults = true;
+  public legalNote: string;
   public subordinates: GreaseReportSubordinate[] = [];
   public greaseInput: GreaseReportSubordinate | undefined;
   public snackBarRef?: MatSnackBarRef<TextOnlySnackBar>;
@@ -178,6 +179,12 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
       (subordinate) =>
         subordinate.titleID === GreaseReportSubordinateTitle.STRING_OUTP_INPUT
     );
+
+    if (this.reportRaw?.subordinates) {
+      this.legalNote = this.reportRaw.subordinates.find(
+        (subordinate) => subordinate.identifier === 'legalNote'
+      )?.legal;
+    }
   }
 
   private showSnackBarError(): void {

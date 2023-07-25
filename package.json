@@ -95,6 +95,8 @@
     "core-js": "3.26.0",
     "d3-org-chart": "2.6.0",
     "echarts": "5.4.0",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.5.31",
     "jwt-decode": "3.1.2",
     "moment": "2.29.4",
     "ngx-echarts": "14.0.0",
@@ -123,6 +125,7 @@
     "@ngneat/transloco-optimize": "3.0.2",
     "@ngneat/transloco-validator": "3.0.1",
     "@ngrx/store-devtools": "16.0.1",
+    "@nx/angular": "16.3.1",
     "@nx/cypress": "16.3.1",
     "@nx/eslint-plugin": "16.3.1",
     "@nx/jest": "16.3.1",
@@ -197,8 +200,7 @@
     "typescript": "5.0.4",
     "webpack": "5.74.0",
     "webpack-bundle-analyzer": "4.7.0",
-    "yargs": "17.6.2",
-    "@nx/angular": "16.3.1"
+    "yargs": "17.6.2"
   },
   "engines": {
     "node": ">= 14.0.0"

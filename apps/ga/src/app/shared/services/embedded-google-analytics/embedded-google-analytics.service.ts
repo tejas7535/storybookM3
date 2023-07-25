@@ -81,8 +81,6 @@ export class EmbeddedGoogleAnalyticsService {
 
     if ((this.window as any).dataLayer && interactionEvent) {
       (this.window as any).dataLayer.push(interactionEvent);
-      console.log('current data push state');
-      console.log((this.window as any).dataLayer);
     }
   }
 
