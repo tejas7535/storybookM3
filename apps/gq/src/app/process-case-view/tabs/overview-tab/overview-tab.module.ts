@@ -32,6 +32,7 @@ import { ApproverDisplayPipe } from './components/approval-cockpit/approval-work
 import { UserInitialLettersPipe } from './components/approval-cockpit/approval-workflow-approver/pipes/user-initial-letters.pipe';
 import { ApprovalWorkflowHistoryComponent } from './components/approval-cockpit/approval-workflow-history/approval-workflow-history.component';
 import { ApprovalWorkflowHistoryIterationsComponent } from './components/approval-cockpit/approval-workflow-history/approval-workflow-history-iterations/approval-workflow-history-iterations.component';
+import { FilterStartReleaseEventsPipe } from './components/approval-cockpit/approval-workflow-history/approval-workflow-history-iterations/pipes/filter-start-release-events.pipe';
 import { ApprovalWorkflowHistorySectionComponent } from './components/approval-cockpit/approval-workflow-history/approval-workflow-history-section/approval-workflow-history-section.component';
 import { ApprovalDecisionModalComponent } from './components/approval-decision-modal/approval-decision-modal.component';
 import { ForwardApprovalWorkflowModalComponent } from './components/forward-approval-workflow-modal/forward-approval-workflow-modal.component';
@@ -78,6 +79,7 @@ import { OverviewTabRoutingModule } from './overview-tab.routing.module';
     ForwardApprovalWorkflowModalComponent,
     UserInitialLettersPipe,
     ApproverDisplayPipe,
+    FilterStartReleaseEventsPipe,
   ],
   exports: [
     OverviewTabComponent,

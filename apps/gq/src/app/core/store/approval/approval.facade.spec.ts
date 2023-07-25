@@ -424,7 +424,7 @@ describe('ApprovalFacade', () => {
         'should provide empty array when approvalInformation has no approvers set',
         marbles((m) => {
           mockStore.overrideSelector(
-            approvalFeature.getEventsAfterLastWorkflowStarted,
+            approvalFeature.getEventsOfLatestWorkflow,
             []
           );
           mockStore.overrideSelector(
@@ -471,7 +471,7 @@ describe('ApprovalFacade', () => {
             QuotationStatus.IN_APPROVAL
           );
           mockStore.overrideSelector(
-            approvalFeature.getEventsAfterLastWorkflowStarted,
+            approvalFeature.getEventsOfLatestWorkflow,
             []
           );
           mockStore.overrideSelector(
@@ -498,10 +498,6 @@ describe('ApprovalFacade', () => {
           m.expect(
             service.receivedApprovalsOfRequiredApprovals$
           ).toBeObservable(m.cold('a', { a: '0/2' }));
-
-          m.expect(service.workflowStepsComplete$).toBeObservable(
-            m.cold('a', { a: 1 })
-          );
         })
       );
 
@@ -536,7 +532,7 @@ describe('ApprovalFacade', () => {
             QuotationStatus.IN_APPROVAL
           );
           mockStore.overrideSelector(
-            approvalFeature.getEventsAfterLastWorkflowStarted,
+            approvalFeature.getEventsOfLatestWorkflow,
             APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents
           );
           mockStore.overrideSelector(
@@ -563,10 +559,6 @@ describe('ApprovalFacade', () => {
           m.expect(
             service.receivedApprovalsOfRequiredApprovals$
           ).toBeObservable(m.cold('a', { a: '1/2' }));
-
-          m.expect(service.workflowStepsComplete$).toBeObservable(
-            m.cold('a', { a: 1 })
-          );
         })
       );
 
@@ -627,7 +619,7 @@ describe('ApprovalFacade', () => {
             QuotationStatus.IN_APPROVAL
           );
           mockStore.overrideSelector(
-            approvalFeature.getEventsAfterLastWorkflowStarted,
+            approvalFeature.getEventsOfLatestWorkflow,
             mockState.approvalCockpit.approvalEvents
           );
           mockStore.overrideSelector(
@@ -654,10 +646,6 @@ describe('ApprovalFacade', () => {
           m.expect(
             service.receivedApprovalsOfRequiredApprovals$
           ).toBeObservable(m.cold('a', { a: '1/3' }));
-
-          m.expect(service.workflowStepsComplete$).toBeObservable(
-            m.cold('a', { a: 1 })
-          );
         })
       );
 
@@ -692,7 +680,7 @@ describe('ApprovalFacade', () => {
             eventDate: '2023-01-01- 10:10:00',
           } as ApprovalWorkflowEvent;
           mockStore.overrideSelector(
-            approvalFeature.getEventsAfterLastWorkflowStarted,
+            approvalFeature.getEventsOfLatestWorkflow,
             [approverTwoStartedEvent]
           );
           mockStore.overrideSelector(
@@ -752,7 +740,7 @@ describe('ApprovalFacade', () => {
             QuotationStatus.IN_APPROVAL
           );
           mockStore.overrideSelector(
-            approvalFeature.getEventsAfterLastWorkflowStarted,
+            approvalFeature.getEventsOfLatestWorkflow,
             [
               {
                 ...APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents[0],
@@ -786,192 +774,8 @@ describe('ApprovalFacade', () => {
           m.expect(
             service.receivedApprovalsOfRequiredApprovals$
           ).toBeObservable(m.cold('a', { a: '1/2' }));
-
-          m.expect(service.workflowStepsComplete$).toBeObservable(
-            m.cold('a', { a: 1 })
-          );
         })
       );
-      describe('Check for WorkflowStepsComplte', () => {
-        const firstApproverEvent: ApprovalWorkflowEvent = {
-          userId: 'KELLERBI',
-          event: ApprovalEventType.APPROVED,
-          eventDate: 'dateString',
-        } as ApprovalWorkflowEvent;
-        const secondApproverEvent: ApprovalWorkflowEvent = {
-          userId: 'ZIRKLIS',
-          event: ApprovalEventType.APPROVED,
-          eventDate: 'dateString',
-        } as ApprovalWorkflowEvent;
-        const thirdApproverEvent: ApprovalWorkflowEvent = {
-          userId: 'schlesni',
-          event: ApprovalEventType.APPROVED,
-          eventDate: 'dateString',
-        } as ApprovalWorkflowEvent;
-
-        const mockState: ApprovalState = {
-          ...APPROVAL_STATE_MOCK,
-          approvalCockpit: {
-            ...APPROVAL_STATE_MOCK.approvalCockpit,
-            approvalGeneral: {
-              ...APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral,
-              thirdApproverRequired: true,
-              thirdApprover: 'schlesni',
-            },
-            approvalEvents: [
-              ...APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents,
-              firstApproverEvent,
-              secondApproverEvent,
-              thirdApproverEvent,
-            ],
-          },
-        };
-        const expectedFirstApprover: Approver = {
-          userId: 'KELLERBI',
-          firstName: 'firstName KELLERBI',
-          lastName: 'lastName KELLERBI',
-        } as Approver;
-        const expectedSecondApprover: Approver = {
-          userId: 'ZIRKLIS',
-          firstName: 'firstName ZIRKLIS',
-          lastName: 'lastName ZIRKLIS',
-        } as Approver;
-
-        test(
-          'should return steps 2 when quotationStatus in Approval',
-          marbles((m) => {
-            mockStore.overrideSelector(
-              fromActiveCaseSelectors.getQuotationStatus,
-              QuotationStatus.IN_APPROVAL
-            );
-
-            mockStore.overrideSelector(
-              approvalFeature.getEventsAfterLastWorkflowStarted,
-              mockState.approvalCockpit.approvalEvents
-            );
-            mockStore.overrideSelector(
-              approvalFeature.getApprovalCockpitInformation,
-              mockState.approvalCockpit.approvalGeneral
-            );
-            mockStore.overrideSelector(approvalFeature.selectApprovers, [
-              expectedFirstApprover,
-              expectedSecondApprover,
-            ]);
-
-            m.expect(service.workflowStepsComplete$).toBeObservable(
-              m.cold('a', { a: 2 })
-            );
-          })
-        );
-
-        test(
-          'should return steps 3 when quotationStatus in APPROVED',
-          marbles((m) => {
-            mockStore.overrideSelector(
-              fromActiveCaseSelectors.getQuotationStatus,
-              QuotationStatus.APPROVED
-            );
-
-            mockStore.overrideSelector(
-              approvalFeature.getEventsAfterLastWorkflowStarted,
-              mockState.approvalCockpit.approvalEvents
-            );
-            mockStore.overrideSelector(
-              approvalFeature.getApprovalCockpitInformation,
-              mockState.approvalCockpit.approvalGeneral
-            );
-            mockStore.overrideSelector(approvalFeature.selectApprovers, [
-              expectedFirstApprover,
-              expectedSecondApprover,
-            ]);
-
-            m.expect(service.workflowStepsComplete$).toBeObservable(
-              m.cold('a', { a: 3 })
-            );
-          })
-        );
-
-        test(
-          'should return steps 0 when quotationStatus is ACTIVE',
-          marbles((m) => {
-            mockStore.overrideSelector(
-              fromActiveCaseSelectors.getQuotationStatus,
-              QuotationStatus.ACTIVE
-            );
-
-            mockStore.overrideSelector(
-              approvalFeature.getEventsAfterLastWorkflowStarted,
-              mockState.approvalCockpit.approvalEvents
-            );
-            mockStore.overrideSelector(
-              approvalFeature.getApprovalCockpitInformation,
-              mockState.approvalCockpit.approvalGeneral
-            );
-            mockStore.overrideSelector(approvalFeature.selectApprovers, [
-              expectedFirstApprover,
-              expectedSecondApprover,
-            ]);
-
-            m.expect(service.workflowStepsComplete$).toBeObservable(
-              m.cold('a', { a: 0 })
-            );
-          })
-        );
-
-        test(
-          'should return steps 0 when quotationStatus is not Active, approved or in_approval',
-          marbles((m) => {
-            mockStore.overrideSelector(
-              fromActiveCaseSelectors.getQuotationStatus,
-              QuotationStatus.DELETED
-            );
-
-            mockStore.overrideSelector(
-              approvalFeature.getEventsAfterLastWorkflowStarted,
-              mockState.approvalCockpit.approvalEvents
-            );
-            mockStore.overrideSelector(
-              approvalFeature.getApprovalCockpitInformation,
-              mockState.approvalCockpit.approvalGeneral
-            );
-            mockStore.overrideSelector(approvalFeature.selectApprovers, [
-              expectedFirstApprover,
-              expectedSecondApprover,
-            ]);
-
-            m.expect(service.workflowStepsComplete$).toBeObservable(
-              m.cold('a', { a: 0 })
-            );
-          })
-        );
-
-        test(
-          'should return steps 1 when quotationStatus isRejected',
-          marbles((m) => {
-            mockStore.overrideSelector(
-              fromActiveCaseSelectors.getQuotationStatus,
-              QuotationStatus.REJECTED
-            );
-
-            mockStore.overrideSelector(
-              approvalFeature.getEventsAfterLastWorkflowStarted,
-              mockState.approvalCockpit.approvalEvents
-            );
-            mockStore.overrideSelector(
-              approvalFeature.getApprovalCockpitInformation,
-              mockState.approvalCockpit.approvalGeneral
-            );
-            mockStore.overrideSelector(approvalFeature.selectApprovers, [
-              expectedFirstApprover,
-              expectedSecondApprover,
-            ]);
-
-            m.expect(service.workflowStepsComplete$).toBeObservable(
-              m.cold('a', { a: 1 })
-            );
-          })
-        );
-      });
     });
 
     describe('should provide quotationAutoApprovedEvent$', () => {
@@ -983,7 +787,7 @@ describe('ApprovalFacade', () => {
             QuotationStatus.IN_APPROVAL
           );
           mockStore.overrideSelector(
-            approvalFeature.getEventsAfterLastWorkflowStarted,
+            approvalFeature.getEventsOfLatestWorkflow,
             APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents
           );
 
@@ -997,20 +801,25 @@ describe('ApprovalFacade', () => {
         'should return the AutoApprovalEvent',
         marbles((m) => {
           const autoApprovalEvent: ApprovalWorkflowEvent = {
+            userId: 'schlesni',
             event: ApprovalEventType.AUTO_APPROVAL,
             eventDate: new Date('2023-12-12 14:00:00'),
           } as unknown as ApprovalWorkflowEvent;
+          const approver = { userId: 'schlesni' } as Approver;
           mockStore.overrideSelector(
             fromActiveCaseSelectors.getQuotationStatus,
             QuotationStatus.APPROVED
           );
           mockStore.overrideSelector(
-            approvalFeature.getEventsAfterLastWorkflowStarted,
+            approvalFeature.getEventsOfLatestWorkflow,
             [autoApprovalEvent]
           );
+          mockStore.overrideSelector(approvalFeature.selectApprovers, [
+            approver,
+          ]);
 
           m.expect(service.quotationAutoApprovedEvent$).toBeObservable(
-            m.cold('a', { a: autoApprovalEvent })
+            m.cold('a', { a: { ...autoApprovalEvent, user: approver } })
           );
         })
       );
@@ -1238,7 +1047,7 @@ describe('ApprovalFacade', () => {
 
         mockStore.overrideSelector(getUserUniqueIdentifier, 'someUser');
         mockStore.overrideSelector(
-          approvalFeature.getEventsAfterLastWorkflowStarted,
+          approvalFeature.getEventsOfLatestWorkflow,
           []
         );
         mockStore.overrideSelector(
@@ -1270,15 +1079,12 @@ describe('ApprovalFacade', () => {
           getUserUniqueIdentifier,
           firstApprover.userId
         );
-        mockStore.overrideSelector(
-          approvalFeature.getEventsAfterLastWorkflowStarted,
-          [
-            {
-              userId: firstApprover.userId,
-              event: ApprovalEventType.APPROVED,
-            } as ApprovalWorkflowEvent,
-          ]
-        );
+        mockStore.overrideSelector(approvalFeature.getEventsOfLatestWorkflow, [
+          {
+            userId: firstApprover.userId,
+            event: ApprovalEventType.APPROVED,
+          } as ApprovalWorkflowEvent,
+        ]);
         mockStore.overrideSelector(
           approvalFeature.getApprovalCockpitInformation,
           APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
@@ -1309,7 +1115,7 @@ describe('ApprovalFacade', () => {
           firstApprover.userId
         );
         mockStore.overrideSelector(
-          approvalFeature.getEventsAfterLastWorkflowStarted,
+          approvalFeature.getEventsOfLatestWorkflow,
           []
         );
         mockStore.overrideSelector(
@@ -1341,15 +1147,12 @@ describe('ApprovalFacade', () => {
           getUserUniqueIdentifier,
           secondApprover.userId
         );
-        mockStore.overrideSelector(
-          approvalFeature.getEventsAfterLastWorkflowStarted,
-          [
-            {
-              userId: firstApprover.userId,
-              event: ApprovalEventType.APPROVED,
-            } as ApprovalWorkflowEvent,
-          ]
-        );
+        mockStore.overrideSelector(approvalFeature.getEventsOfLatestWorkflow, [
+          {
+            userId: firstApprover.userId,
+            event: ApprovalEventType.APPROVED,
+          } as ApprovalWorkflowEvent,
+        ]);
         mockStore.overrideSelector(
           approvalFeature.getApprovalCockpitInformation,
           APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
@@ -1401,7 +1204,7 @@ describe('ApprovalFacade', () => {
           thirdApprover.userId
         );
         mockStore.overrideSelector(
-          approvalFeature.getEventsAfterLastWorkflowStarted,
+          approvalFeature.getEventsOfLatestWorkflow,
           mockState.approvalCockpit.approvalEvents
         );
         mockStore.overrideSelector(
@@ -1435,21 +1238,18 @@ describe('ApprovalFacade', () => {
           getUserUniqueIdentifier,
           firstApprover.userId.toLowerCase()
         );
-        mockStore.overrideSelector(
-          approvalFeature.getEventsAfterLastWorkflowStarted,
-          [
-            {
-              userId: firstApprover.userId,
-              event: ApprovalEventType.APPROVED,
-              eventDate: '2023-06-08T09:00:30Z',
-            } as ApprovalWorkflowEvent,
-            {
-              userId: secondApprover.userId,
-              event: ApprovalEventType.APPROVED,
-              eventDate: '2023-06-08T10:00:30Z',
-            } as ApprovalWorkflowEvent,
-          ]
-        );
+        mockStore.overrideSelector(approvalFeature.getEventsOfLatestWorkflow, [
+          {
+            userId: firstApprover.userId,
+            event: ApprovalEventType.APPROVED,
+            eventDate: '2023-06-08T09:00:30Z',
+          } as ApprovalWorkflowEvent,
+          {
+            userId: secondApprover.userId,
+            event: ApprovalEventType.APPROVED,
+            eventDate: '2023-06-08T10:00:30Z',
+          } as ApprovalWorkflowEvent,
+        ]);
         mockStore.overrideSelector(
           approvalFeature.getApprovalCockpitInformation,
           APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
@@ -1484,21 +1284,18 @@ describe('ApprovalFacade', () => {
           getUserUniqueIdentifier,
           secondApprover.userId
         );
-        mockStore.overrideSelector(
-          approvalFeature.getEventsAfterLastWorkflowStarted,
-          [
-            {
-              userId: firstApprover.userId,
-              event: ApprovalEventType.APPROVED,
-              eventDate: '2023-06-08T09:00:30Z',
-            } as ApprovalWorkflowEvent,
-            {
-              userId: secondApprover.userId,
-              event: ApprovalEventType.APPROVED,
-              eventDate: '2023-06-08T11:00:30Z',
-            } as ApprovalWorkflowEvent,
-          ]
-        );
+        mockStore.overrideSelector(approvalFeature.getEventsOfLatestWorkflow, [
+          {
+            userId: firstApprover.userId,
+            event: ApprovalEventType.APPROVED,
+            eventDate: '2023-06-08T09:00:30Z',
+          } as ApprovalWorkflowEvent,
+          {
+            userId: secondApprover.userId,
+            event: ApprovalEventType.APPROVED,
+            eventDate: '2023-06-08T11:00:30Z',
+          } as ApprovalWorkflowEvent,
+        ]);
         mockStore.overrideSelector(
           approvalFeature.getApprovalCockpitInformation,
           APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
@@ -1565,7 +1362,7 @@ describe('ApprovalFacade', () => {
           thirdApprover.userId
         );
         mockStore.overrideSelector(
-          approvalFeature.getEventsAfterLastWorkflowStarted,
+          approvalFeature.getEventsOfLatestWorkflow,
           mockState.approvalCockpit.approvalEvents
         );
         mockStore.overrideSelector(
@@ -1600,21 +1397,18 @@ describe('ApprovalFacade', () => {
         } as Approver;
 
         mockStore.overrideSelector(getUserUniqueIdentifier, 'noApprover');
-        mockStore.overrideSelector(
-          approvalFeature.getEventsAfterLastWorkflowStarted,
-          [
-            {
-              userId: firstApprover.userId,
-              event: ApprovalEventType.APPROVED,
-              eventDate: '2023-06-08T09:00:30Z',
-            } as ApprovalWorkflowEvent,
-            {
-              userId: secondApprover.userId,
-              event: ApprovalEventType.APPROVED,
-              eventDate: '2023-06-08T11:00:30Z',
-            } as ApprovalWorkflowEvent,
-          ]
-        );
+        mockStore.overrideSelector(approvalFeature.getEventsOfLatestWorkflow, [
+          {
+            userId: firstApprover.userId,
+            event: ApprovalEventType.APPROVED,
+            eventDate: '2023-06-08T09:00:30Z',
+          } as ApprovalWorkflowEvent,
+          {
+            userId: secondApprover.userId,
+            event: ApprovalEventType.APPROVED,
+            eventDate: '2023-06-08T11:00:30Z',
+          } as ApprovalWorkflowEvent,
+        ]);
         mockStore.overrideSelector(
           approvalFeature.getApprovalCockpitInformation,
           APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
@@ -1640,7 +1434,7 @@ describe('ApprovalFacade', () => {
           QuotationStatus.IN_APPROVAL
         );
         mockStore.overrideSelector(
-          approvalFeature.getEventsAfterLastWorkflowStarted,
+          approvalFeature.getEventsOfLatestWorkflow,
           APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents
         );
 
@@ -1657,7 +1451,7 @@ describe('ApprovalFacade', () => {
           QuotationStatus.APPROVED
         );
         mockStore.overrideSelector(
-          approvalFeature.getEventsAfterLastWorkflowStarted,
+          approvalFeature.getEventsOfLatestWorkflow,
           APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents
         );
 
@@ -1670,20 +1464,23 @@ describe('ApprovalFacade', () => {
       'should provide the finalReleasedEvent when present',
       marbles((m) => {
         const releasedEvent = {
+          userId: 'schlesni',
           event: ApprovalEventType.RELEASED,
           eventDate: 'a date string',
         } as ApprovalWorkflowEvent;
+        const approver = { userId: 'schlesni' } as Approver;
         mockStore.overrideSelector(
           fromActiveCaseSelectors.getQuotationStatus,
           QuotationStatus.APPROVED
         );
-        mockStore.overrideSelector(
-          approvalFeature.getEventsAfterLastWorkflowStarted,
-          [...APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents, releasedEvent]
-        );
+        mockStore.overrideSelector(approvalFeature.getEventsOfLatestWorkflow, [
+          ...APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents,
+          releasedEvent,
+        ]);
+        mockStore.overrideSelector(approvalFeature.selectApprovers, [approver]);
 
         m.expect(service.quotationFinalReleaseEvent$).toBeObservable(
-          m.cold('a', { a: releasedEvent })
+          m.cold('a', { a: { ...releasedEvent, user: approver } })
         );
       })
     );
@@ -1698,7 +1495,7 @@ describe('ApprovalFacade', () => {
           QuotationStatus.IN_APPROVAL
         );
         mockStore.overrideSelector(
-          approvalFeature.getEventsAfterLastWorkflowStarted,
+          approvalFeature.getEventsOfLatestWorkflow,
           APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents
         );
         mockStore.overrideSelector(approvalFeature.selectApprovers, []);
@@ -1716,7 +1513,7 @@ describe('ApprovalFacade', () => {
           QuotationStatus.REJECTED
         );
         mockStore.overrideSelector(
-          approvalFeature.getEventsAfterLastWorkflowStarted,
+          approvalFeature.getEventsOfLatestWorkflow,
           APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents
         );
         mockStore.overrideSelector(approvalFeature.selectApprovers, []);
@@ -1744,10 +1541,10 @@ describe('ApprovalFacade', () => {
           fromActiveCaseSelectors.getQuotationStatus,
           QuotationStatus.REJECTED
         );
-        mockStore.overrideSelector(
-          approvalFeature.getEventsAfterLastWorkflowStarted,
-          [...APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents, rejectedEvent]
-        );
+        mockStore.overrideSelector(approvalFeature.getEventsOfLatestWorkflow, [
+          ...APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents,
+          rejectedEvent,
+        ]);
         mockStore.overrideSelector(approvalFeature.selectApprovers, [approver]);
 
         m.expect(service.quotationRejectedEvent$).toBeObservable(

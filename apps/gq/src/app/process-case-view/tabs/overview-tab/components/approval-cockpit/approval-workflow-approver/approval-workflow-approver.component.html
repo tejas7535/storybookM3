@@ -63,6 +63,16 @@
         </ng-container>
 
         <ng-container
+          *ngIf="approvalStatusOfApprover === displayStatus.AUTO_APPROVAL"
+        >
+          <mat-icon class="text-caption text-approval-status-green"
+            >check</mat-icon
+          ><span class="text-caption font-bold text-approval-status-green">{{
+            t('autoApproved')
+          }}</span>
+        </ng-container>
+
+        <ng-container
           *ngIf="approvalStatusOfApprover === displayStatus.FORWARDED"
         >
           <mat-icon class="text-caption text-approval-status-grey"
@@ -84,7 +94,7 @@
     </div>
 
     <div class="text-caption text-low-emphasis">
-      {{ eventDate }}
+      {{ workflowEvent?.eventDate }}
     </div>
 
     <div class="text-caption text-medium-emphasis">

@@ -375,10 +375,11 @@ export const approvalFeature = createFeature({
         cockpit?.approvalEvents.length > 0
     ),
     /**
-     * find all events after the latest STARTED event
+     * find all events after the latest STARTED or AUTO_APPROVED event
+     * STARTED and AUTO_APPROVED ae events that started a WF
      * this can be empty when WF has been cancelled and not started again yet
      */
-    getEventsAfterLastWorkflowStarted: createSelector(
+    getEventsOfLatestWorkflow: createSelector(
       selectApprovalCockpit,
       (cockpit: ApprovalCockpitData): ApprovalWorkflowEvent[] => {
         if (!cockpit.approvalEvents) {
@@ -390,15 +391,18 @@ export const approvalFeature = createFeature({
             eventItem.event === ApprovalEventType.CANCELLED
         );
         // find the first START event in descended sorted List (already sorted in store!!) (optional: after a CANCELLED event) older entries belong to further workflow
+        // a STARTED or AUTO_APPROVED event will start a workflow (when auto_approved we do not have a started event)
         const latestWFStartEvent = latestCancelEvent
           ? cockpit.approvalEvents.find(
               (eventItem: ApprovalWorkflowEvent) =>
                 eventItem.eventDate >= latestCancelEvent.eventDate &&
-                eventItem.event === ApprovalEventType.STARTED
+                (eventItem.event === ApprovalEventType.STARTED ||
+                  eventItem.event === ApprovalEventType.AUTO_APPROVAL)
             )
           : cockpit.approvalEvents.find(
               (eventItem: ApprovalWorkflowEvent) =>
-                eventItem.event === ApprovalEventType.STARTED
+                eventItem.event === ApprovalEventType.STARTED ||
+                eventItem.event === ApprovalEventType.AUTO_APPROVAL
             );
 
         return latestWFStartEvent

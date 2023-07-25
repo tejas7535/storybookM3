@@ -167,15 +167,17 @@
           "approved": "genehmigt",
           "rejected": "abgelehnt",
           "forwarded": "weitergeleitet",
-          "preApproved": "vorab genehmigt"
+          "preApproved": "vorab genehmigt",
+          "autoApproved": "automatisch freigegeben"
         },
         "workflow": {
-          "workflowLabel": "Workflow",
+          "historyLabel": "Historie",
           "inApprovalLabel": "in Freigabe",
           "cancelledLabel": "Abgebrochen",
           "rejectedLabel": "Zurückgewiesen",
           "approversApproved": "{{ variable }} Genehmiger freigegeben",
           "workflowStartedText": "Case Freigabe gestartet",
+          "workflowAutoApprovedText": "Case automatisch freigegeben",
           "viewIterationsLabel": "Iterationen anzeigen ({{amount}})",
           "hideIterationsLabel": "Iterationen ausblenden ({{amount}})",
           "quotationApprovedText": "Case freigegeben",
@@ -188,8 +190,9 @@
           "APPROVED": "Case Freigegeben",
           "FORWARDED": "Case weitergeleitet",
           "CANCELLED": "Freigabe abgebrochen",
-          "AUTO_APPROVAL": "Freigabe durch System erteilt",
-          "PRE_APPROVED": "Vorab genehmigt"
+          "AUTO_APPROVAL": "Freigabe gestartet",
+          "PRE_APPROVED": "Vorab genehmigt",
+          "RELEASED": "Case vollständig freigegeben"
         }
       }
     }

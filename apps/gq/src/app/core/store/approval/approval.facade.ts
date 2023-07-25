@@ -124,7 +124,7 @@ export class ApprovalFacade {
   // and also return true when Quotation has been completely approved, which is technically not correct.
   // but we will keep it like this, because when returning back to the Quotation status it fits.
   workflowInProgress$: Observable<boolean> = this.store
-    .select(approvalFeature.getEventsAfterLastWorkflowStarted)
+    .select(approvalFeature.getEventsOfLatestWorkflow)
     .pipe(
       // TODO: this is a workaround until we have implemented the
       // ### polling for events.verified = true ###
@@ -160,7 +160,7 @@ export class ApprovalFacade {
   approvalStatusOfRequestedApprover$: Observable<
     ApprovalStatusOfRequestedApprover[]
   > = combineLatest([
-    this.store.select(approvalFeature.getEventsAfterLastWorkflowStarted),
+    this.store.select(approvalFeature.getEventsOfLatestWorkflow),
     this.approvalCockpitInformation$,
     this.store.select(approvalFeature.selectApprovers),
   ]).pipe(
@@ -226,55 +226,6 @@ export class ApprovalFacade {
   ]).pipe(
     map(([approved, required]: [number, number]) => `${approved}/${required}`)
   );
-
-  // TODO: will be update with FE AutoApproved Event implementation
-  workflowStepsComplete$ = combineLatest([
-    this.quotationStatus$,
-    this.numberOfReceivedApprovals$,
-    this.numberOfRequiredApprovals$,
-  ]).pipe(
-    map(
-      ([quotationStatus, approved, required]: [
-        QuotationStatus,
-        number,
-        number
-      ]) => {
-        switch (quotationStatus) {
-          case QuotationStatus.ACTIVE:
-            return 0;
-          case QuotationStatus.IN_APPROVAL:
-            return approved === required ? 2 : 1;
-          case QuotationStatus.APPROVED:
-            return 3;
-          case QuotationStatus.REJECTED:
-            return 1;
-          default:
-            return 0;
-        }
-      }
-    )
-  );
-
-  /**
-   * get the latest AUTO_APPROVED event of recent workflow
-   */
-  quotationAutoApprovedEvent$: Observable<ApprovalWorkflowEvent> =
-    combineLatest([
-      this.quotationStatus$,
-      this.store.select(approvalFeature.getEventsAfterLastWorkflowStarted),
-    ]).pipe(
-      map(([status, events]: [QuotationStatus, ApprovalWorkflowEvent[]]) => {
-        if (status !== QuotationStatus.APPROVED) {
-          return undefined as ApprovalWorkflowEvent;
-        }
-        const autoApprovalEvent = events.find(
-          (eventItem: ApprovalWorkflowEvent) =>
-            eventItem.event === ApprovalEventType.AUTO_APPROVAL
-        );
-
-        return autoApprovalEvent;
-      })
-    );
 
   shouldShowApprovalButtons$: Observable<boolean> = combineLatest([
     this.store.select(getUserUniqueIdentifier),
@@ -364,55 +315,23 @@ export class ApprovalFacade {
     )
   );
 
+  /**
+   * get the latest AUTO_APPROVED event of recent workflow
+   */
+  quotationAutoApprovedEvent$: Observable<ApprovalWorkflowEvent> =
+    this.findWorkflowCompletionEvent(ApprovalEventType.AUTO_APPROVAL);
+
   /*
    * get the latest RELEASED event af recent workflow
    */
   quotationFinalReleaseEvent$: Observable<ApprovalWorkflowEvent> =
-    combineLatest([
-      this.quotationStatus$,
-      this.store.select(approvalFeature.getEventsAfterLastWorkflowStarted),
-    ]).pipe(
-      map(([status, events]: [QuotationStatus, ApprovalWorkflowEvent[]]) => {
-        if (status !== QuotationStatus.APPROVED) {
-          return undefined as ApprovalWorkflowEvent;
-        }
-
-        return this.findEventByEventType(events, ApprovalEventType.RELEASED);
-      })
-    );
+    this.findWorkflowCompletionEvent(ApprovalEventType.RELEASED);
 
   /**
    * get the latest REJECTED event of recent workflow
    */
-  quotationRejectedEvent$: Observable<ApprovalWorkflowEvent> = combineLatest([
-    this.quotationStatus$,
-    this.store.select(approvalFeature.selectApprovers),
-    this.store.select(approvalFeature.getEventsAfterLastWorkflowStarted),
-  ]).pipe(
-    map(
-      ([status, allApprovers, events]: [
-        QuotationStatus,
-        Approver[],
-        ApprovalWorkflowEvent[]
-      ]) => {
-        if (status !== QuotationStatus.REJECTED) {
-          return undefined as ApprovalWorkflowEvent;
-        }
-
-        const rejectedEvent = this.findEventByEventType(
-          events,
-          ApprovalEventType.REJECTED
-        );
-
-        return (
-          rejectedEvent && {
-            ...rejectedEvent,
-            user: this.findApproverByUserId(allApprovers, rejectedEvent.userId),
-          }
-        );
-      }
-    )
-  );
+  quotationRejectedEvent$: Observable<ApprovalWorkflowEvent> =
+    this.findWorkflowCompletionEvent(ApprovalEventType.REJECTED);
 
   /** get the latest CANCELLED Event of recent Workflow */
   quotationCancelledEvent$: Observable<ApprovalWorkflowEvent> =
@@ -567,7 +486,8 @@ export class ApprovalFacade {
       .find(
         (event: ApprovalWorkflowEvent) =>
           event.userId.toLowerCase() === userId.toLowerCase() &&
-          event.event !== ApprovalEventType.STARTED
+          event.event !== ApprovalEventType.STARTED &&
+          event.event !== ApprovalEventType.RELEASED
       );
   }
 
@@ -586,6 +506,53 @@ export class ApprovalFacade {
       (listItem: Approver) =>
         listItem.userId.toLowerCase() === userId.toLowerCase()
     ) ?? ({ userId, firstName: userId } as Approver);
+
+  /**
+   * Will return either the auto approved or release event depending on input.
+   * Only for events that change the quotation Status from in_approval to approved or rejected
+   *
+   * @param eventType RELEASED, REJECTED or AUTO_APPROVAL event
+   */
+  private findWorkflowCompletionEvent(
+    eventType:
+      | ApprovalEventType.RELEASED
+      | ApprovalEventType.AUTO_APPROVAL
+      | ApprovalEventType.REJECTED
+  ): Observable<ApprovalWorkflowEvent> {
+    return combineLatest([
+      this.quotationStatus$,
+      this.store.select(approvalFeature.selectApprovers),
+      this.store.select(approvalFeature.getEventsOfLatestWorkflow),
+    ]).pipe(
+      map(
+        ([status, allApprovers, events]: [
+          QuotationStatus,
+          Approver[],
+          ApprovalWorkflowEvent[]
+        ]) => {
+          if (
+            status !==
+            (eventType === ApprovalEventType.REJECTED
+              ? QuotationStatus.REJECTED
+              : QuotationStatus.APPROVED)
+          ) {
+            return undefined as ApprovalWorkflowEvent;
+          }
+          const releaseEvent = this.findEventByEventType(events, eventType);
+
+          return (
+            releaseEvent && {
+              ...releaseEvent,
+              user: this.findApproverByUserId(
+                allApprovers,
+                releaseEvent.userId
+              ),
+            }
+          );
+        }
+      )
+    );
+  }
 
   private readonly findEventByEventType = (
     events: ApprovalWorkflowEvent[],

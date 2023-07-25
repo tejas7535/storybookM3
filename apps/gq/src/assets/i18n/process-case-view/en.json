@@ -167,15 +167,17 @@
           "approved": "approved",
           "rejected": "rejected",
           "forwarded": "forwarded",
-          "preApproved": "pre-approved"
+          "preApproved": "pre-approved",
+          "autoApproved": "auto approved"
         },
         "workflow": {
-          "workflowLabel": "Workflow",
+          "historyLabel": "History",
           "inApprovalLabel": "In Approval",
           "cancelledLabel": "Cancelled",
           "rejectedLabel": "Rejected",
           "approversApproved": "{{ variable }} Approvers have approved",
           "workflowStartedText": "Quotation Approval started",
+          "workflowAutoApprovedText": "Quotation auto approved",
           "viewIterationsLabel": "View Iterations ({{amount}})",
           "hideIterationsLabel": "Hide Iterations ({{amount}})",
           "quotationApprovedText": "Quotation approved",
@@ -188,8 +190,9 @@
           "APPROVED": "Quotation Approved",
           "FORWARDED": "Quotation forwarded",
           "CANCELLED": "Approval cancelled",
-          "AUTO_APPROVAL": "Automatically approved by system",
-          "PRE_APPROVED": "Quotation pre-approved"
+          "AUTO_APPROVAL": "Approval started",
+          "PRE_APPROVED": "Quotation pre-approved",
+          "RELEASED": "Quotation completely Approved"
         }
       }
     }

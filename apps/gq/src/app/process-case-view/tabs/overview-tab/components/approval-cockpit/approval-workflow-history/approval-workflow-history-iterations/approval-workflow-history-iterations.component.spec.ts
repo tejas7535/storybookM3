@@ -1,7 +1,11 @@
 /* tslint:disable:no-unused-variable */
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import {
+  CUSTOM_ELEMENTS_SCHEMA,
+  SimpleChange,
+  SimpleChanges,
+} from '@angular/core';
 
-import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
+import { ApprovalWorkflowEvent } from '@gq/shared/models';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { ApprovalWorkflowHistoryIterationsComponent } from './approval-workflow-history-iterations.component';
@@ -12,12 +16,6 @@ describe('ApprovalWorkflowHistoryIterationsComponent', () => {
 
   const createComponent = createComponentFactory({
     component: ApprovalWorkflowHistoryIterationsComponent,
-    providers: [
-      {
-        provide: ApprovalFacade,
-        useValue: {},
-      },
-    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
@@ -36,6 +34,54 @@ describe('ApprovalWorkflowHistoryIterationsComponent', () => {
       component.iterationVisible = input;
       component.toggleIteration();
       expect(component.iterationVisible).toBe(!input);
+    });
+  });
+
+  describe('getIconColor on ngOnChanges', () => {
+    let changes: SimpleChanges;
+
+    beforeEach(() => {
+      component.isApproved = false;
+      component.inApproval = false;
+      component.rejectedEvent = undefined;
+      component.cancelledEvent = undefined;
+    });
+    test('should return empty string', () => {
+      changes = { anyField: new SimpleChange(undefined, 'hello', true) };
+      component.ngOnChanges(changes);
+      expect(component.iconColor).toBe('');
+    });
+    test('should return empty string as default', () => {
+      changes = { isApproved: new SimpleChange(undefined, false, true) };
+      component.ngOnChanges(changes);
+      expect(component.iconColor).toBe('');
+    });
+    test('should return green', () => {
+      changes = { isApproved: new SimpleChange(undefined, true, true) };
+      component.ngOnChanges(changes);
+      expect(component.iconColor).toBe('text-approval-status-green');
+    });
+    test('should return red when rejected', () => {
+      changes = {
+        rejectedEvent: new SimpleChange(
+          undefined,
+          {} as ApprovalWorkflowEvent,
+          true
+        ),
+      };
+      component.ngOnChanges(changes);
+      expect(component.iconColor).toBe('text-error');
+    });
+    test('should return red when cancelled', () => {
+      changes = {
+        cancelledEvent: new SimpleChange(
+          undefined,
+          {} as ApprovalWorkflowEvent,
+          true
+        ),
+      };
+      component.ngOnChanges(changes);
+      expect(component.iconColor).toBe('text-error');
     });
   });
 });

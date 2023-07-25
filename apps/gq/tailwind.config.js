@@ -36,6 +36,7 @@ module.exports = {
         'profile-initials-purple': '#0849C9',
         error: '#A31739',
         'iteration-item-icon': '#9E9E9E',
+
         'in-progress-blue': '#007892',
         'approval-status-blue': '#007892',
         'approval-status-green': '#00893D',

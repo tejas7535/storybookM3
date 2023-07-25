@@ -31,15 +31,6 @@ export class ApprovalWorkflowApproverComponent {
     readonly translationService: TranslocoService
   ) {}
 
-  get eventDate(): string {
-    return this.workflowEvent?.event
-      ? this.transformationService.transformDate(
-          this.workflowEvent?.eventDate,
-          true
-        )
-      : '';
-  }
-
   get eventComment(): string {
     return this.workflowEvent?.event !== ApprovalEventType.FORWARDED
       ? this.workflowEvent?.comment

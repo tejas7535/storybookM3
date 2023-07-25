@@ -759,7 +759,7 @@ describe('approvalReducer', () => {
       describe('getEventsAfterLastWorkflowStarted', () => {
         test('should return empty array when no events', () => {
           expect(
-            approvalFeature.getEventsAfterLastWorkflowStarted.projector({
+            approvalFeature.getEventsOfLatestWorkflow.projector({
               ...APPROVAL_STATE_MOCK.approvalCockpit,
               approvalEvents: [],
             })
@@ -767,7 +767,7 @@ describe('approvalReducer', () => {
         });
         test('should return empty array when events undefined', () => {
           expect(
-            approvalFeature.getEventsAfterLastWorkflowStarted.projector({
+            approvalFeature.getEventsOfLatestWorkflow.projector({
               ...APPROVAL_STATE_MOCK.approvalCockpit,
               approvalEvents: undefined,
             })
@@ -783,7 +783,7 @@ describe('approvalReducer', () => {
             } as unknown as ApprovalWorkflowEvent,
           ];
           expect(
-            approvalFeature.getEventsAfterLastWorkflowStarted.projector({
+            approvalFeature.getEventsOfLatestWorkflow.projector({
               ...APPROVAL_STATE_MOCK.approvalCockpit,
               approvalEvents: events,
             })
@@ -809,7 +809,7 @@ describe('approvalReducer', () => {
             ...expected,
           ];
           expect(
-            approvalFeature.getEventsAfterLastWorkflowStarted.projector({
+            approvalFeature.getEventsOfLatestWorkflow.projector({
               ...APPROVAL_STATE_MOCK.approvalCockpit,
               approvalEvents: events,
             })
@@ -817,7 +817,7 @@ describe('approvalReducer', () => {
         });
         test('should return all the events (no cancel event)', () => {
           expect(
-            approvalFeature.getEventsAfterLastWorkflowStarted.projector(
+            approvalFeature.getEventsOfLatestWorkflow.projector(
               APPROVAL_STATE_MOCK.approvalCockpit
             )
           ).toEqual(APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents);

@@ -5,60 +5,50 @@
   "
 >
   <ng-container
-    *ngrxLet="approvalFacade.getApprovalWorkflowEvents$ as workflowEvents"
+    *ngrxLet="workflowEvents | filterStartRelease as workflowEvents"
   >
-    <!--check which title to display-->
-    <ng-container
-      *ngIf="
-        !(approvalFacade.quotationRejectedEvent$ | ngrxPush) &&
-          !(approvalFacade.quotationCancelledEvent$ | ngrxPush);
-        then inApproval;
-        else aborted
-      "
-    ></ng-container>
+    <!--auto approved event does not show a title for the Iterations-->
+    <ng-container *ngIf="!autoApprovedEvent">
+      <!--check which title to display find the template-->
+      <ng-container
+        *ngIf="
+          rejectedEvent || cancelledEvent;
+          then aborted;
+          else inApprovalOrApproved
+        "
+      ></ng-container>
+    </ng-container>
 
-    <!-- all Events in chronological order when quotation is not AutoApproved -->
-    <!-- if not items for iterations, do not show IterationsSection but display a timeline line -->
+    <!-- all Events in chronological order -->
+    <!-- if no items for iterations, do not show IterationsSection but display a timeline line -->
     <div
-      *ngIf="workflowEvents.length <= 1"
-      class="timeline border-l-2 border-l-border border-dashed h-[1.5rem] bg border-y-border ml-3"
+      *ngIf="workflowEvents.length < 1"
+      class="timeline noIterations border-l-2 border-l-border border-dashed h-[1.5rem] bg border-y-border ml-3"
     ></div>
     <!-- show Iterations Section-->
     <div
-      *ngIf="workflowEvents.length > 1"
-      class="timeline border-l-2 border-y-border ml-3"
+      *ngIf="workflowEvents.length >= 1"
+      class="timeline iterations border-l-2 ml-3"
       [ngClass]="[
-        (approvalFacade.quotationStatus$ | ngrxPush) ===
-        quotationStatus.IN_APPROVAL
-          ? 'border-dashed'
-          : 'border-solid',
-
-        (approvalFacade.quotationRejectedEvent$ | ngrxPush) ||
-        (approvalFacade.quotationCancelledEvent$ | ngrxPush)
-          ? 'text-error'
-          : 'border-l-border'
+        inApproval ? 'border-dashed border-l-border' : 'border-solid',
+        rejectedEvent || cancelledEvent ? 'text-error' : '',
+        isApproved ? 'text-approval-status-green' : ''
       ]"
     >
-      <!-- workflowEvents.length > 1  first event can be ignored, because this is not displayed in iterations section-->
       <gq-approval-workflow-history-section
         *ngIf="!iterationVisible"
         class="cursor-pointer"
         [icon]="'add'"
         [iconColor]="'text-low-emphasis'"
-        [title]="
-          t('viewIterationsLabel', { amount: workflowEvents.length - 1 })
-        "
+        [title]="t('viewIterationsLabel', { amount: workflowEvents.length })"
         [isIterationItem]="true"
         (click)="toggleIteration()"
       >
       </gq-approval-workflow-history-section>
 
       <ng-container *ngIf="iterationVisible">
-        <!-- data is stored in descended sorting in the store, for displaying the history we want it in ascending -->
-        <!-- slice the array because first event is the started event, which is not displayed in iterations section-->
-        <ng-container
-          *ngFor="let event of workflowEvents?.slice().reverse() | slice: 1"
-          ><!--slice the array because first event is the started event, which is not displayed in iterations section-->
+        <!-- we want the events asc for the iterations-->
+        <ng-container *ngFor="let event of workflowEvents?.slice().reverse()">
           <gq-approval-workflow-history-section
             [title]="t(event.event)"
             [subtitle]="
@@ -69,39 +59,46 @@
             "
             [comment]="event.comment"
             [isIterationItem]="true"
-            [iterationItemIconColor]="
-              (approvalFacade.quotationRejectedEvent$ | ngrxPush) ||
-              (approvalFacade.quotationCancelledEvent$ | ngrxPush)
-                ? 'text-error'
-                : ''
-            "
+            [iterationItemIconColor]="iconColor"
           >
-          </gq-approval-workflow-history-section> </ng-container
-      ></ng-container>
+          </gq-approval-workflow-history-section>
+        </ng-container>
+      </ng-container>
 
       <gq-approval-workflow-history-section
         *ngIf="iterationVisible"
         class="cursor-pointer"
         [icon]="'remove'"
         [iconColor]="'text-low-emphasis'"
-        [title]="
-          t('hideIterationsLabel', { amount: workflowEvents.length - 1 })
-        "
+        [title]="t('hideIterationsLabel', { amount: workflowEvents.length })"
         [isIterationItem]="true"
         (click)="toggleIteration()"
       >
       </gq-approval-workflow-history-section>
     </div>
-
-    <ng-template #inApproval>
+    <!--###############  TEMPLATES for Title of Iterations ###############-->
+    <ng-template #inApprovalOrApproved>
       <gq-approval-workflow-history-section
+        *ngIf="inApproval"
         [icon]="'autorenew'"
         [iconColor]="'text-in-progress-blue'"
         [title]="t('inApprovalLabel')"
         [subtitle]="
           t('approversApproved', {
-            variable:
-              (approvalFacade.receivedApprovalsOfRequiredApprovals$ | ngrxPush)
+            variable: receivedApprovalsOfRequiredApprovals
+          })
+        "
+      >
+      </gq-approval-workflow-history-section>
+
+      <gq-approval-workflow-history-section
+        *ngIf="isApproved"
+        [icon]="'check_circle_outline'"
+        [iconColor]="'text-link'"
+        [title]="t('inApprovalLabel')"
+        [subtitle]="
+          t('approversApproved', {
+            variable: receivedApprovalsOfRequiredApprovals
           })
         "
       >
@@ -110,22 +107,21 @@
 
     <ng-template #aborted>
       <gq-approval-workflow-history-section
-        *ngIf="approvalFacade.quotationCancelledEvent$ | ngrxPush as event"
+        *ngIf="cancelledEvent"
         [icon]="'remove_circle'"
         [iconColor]="'text-error'"
         [title]="t('cancelledLabel')"
         [titleTextColor]="'text-error'"
         [subtitle]="
           t('eventCreatedBy', {
-            date: event.eventDate,
-            user: event.user | approverDisplay: t('unknownApprover')
+            date: cancelledEvent.eventDate,
+            user: cancelledEvent.user | approverDisplay: t('unknownApprover')
           })
         "
       >
       </gq-approval-workflow-history-section>
-
       <gq-approval-workflow-history-section
-        *ngIf="approvalFacade.quotationRejectedEvent$ | ngrxPush as event"
+        *ngIf="rejectedEvent"
         [icon]="'warning'"
         [iconColor]="'text-error'"
         [title]="t('rejectedLabel')"
@@ -133,8 +129,8 @@
         class="text-error"
         [subtitle]="
           t('eventCreatedBy', {
-            date: event.eventDate,
-            user: event.user | approverDisplay: t('unknownApprover')
+            date: rejectedEvent.eventDate,
+            user: rejectedEvent.user | approverDisplay: t('unknownApprover')
           })
         "
       >

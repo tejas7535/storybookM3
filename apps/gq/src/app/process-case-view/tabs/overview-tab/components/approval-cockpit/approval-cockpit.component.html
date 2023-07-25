@@ -7,7 +7,10 @@
       {{ t('approvalOverview') }}
     </div>
     <gq-approval-workflow-history></gq-approval-workflow-history>
-    <gq-horizontal-divider></gq-horizontal-divider>
+
+    <div
+      class="mt-2 bg-gradient-to-r from-low-emphasis from-50% to-secondary to-0% bg-[length:16px] bg-repeat-x bg-top h-[1px]"
+    ></div>
 
     <ng-container
       *ngIf="
@@ -16,7 +19,7 @@
       "
     >
       <div class="flex items-center justify-between">
-        <div class="py-4 text-[16px]">
+        <div class="py-4 text-body-1 font-bold">
           {{ t('approver') }}
         </div>
         <div>
@@ -71,17 +74,29 @@
     </ng-container>
     <!--template when quotation has been automatically approved-->
     <ng-template #quotationAutoApproved>
-      <h6 class="py-4 !font-bold">
-        {{ t('approver') }}
-      </h6>
-      <div class="flex align-center flex-col justify-start">
-        <span class="text-body-2 text-medium-emphasis">{{
-          t('quotationAutoApproved')
-        }}</span>
-        <span class="text-[12px] text-low-emphasis">{{
-          (approvalFacade.quotationAutoApprovedEvent$ | ngrxPush)?.eventDate
-        }}</span>
+      <div class="flex items-center justify-between">
+        <div class="py-4 !text-body-1 !font-bold">
+          {{ t('approver') }}
+        </div>
+        <div>
+          <div
+            class="flex flex-row bg-primary items-center gap-1 rounded-full px-2 py-1"
+          >
+            <mat-icon
+              class="!w-[14px] !h-[auto] text-white !flex items-center !text-[14px] font-normal"
+              >check_circle_outline</mat-icon
+            >
+            <span class="text-[12px] text-white">1/1</span>
+          </div>
+        </div>
       </div>
+      <gq-approval-workflow-approver
+        [approver]="
+          (approvalFacade.quotationAutoApprovedEvent$ | ngrxPush)?.user
+        "
+        [workflowEvent]="approvalFacade.quotationAutoApprovedEvent$ | ngrxPush"
+        [workflowInProgress]="false"
+      ></gq-approval-workflow-approver>
     </ng-template>
 
     <ng-container *ngIf="approvalFacade.shouldShowApprovalButtons$ | ngrxPush">

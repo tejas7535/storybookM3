@@ -43,26 +43,6 @@ describe('ApprovalWorkflowApproverComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('eventDate', () => {
-    test('should return empty string', () => {
-      Object.defineProperty(component, 'workflowEvent', {
-        value: {} as unknown as ApprovalWorkflowEvent,
-      });
-
-      expect(component.eventDate).toBe('');
-    });
-    test('should return the date transformed', () => {
-      Object.defineProperty(component, 'workflowEvent', {
-        value: {
-          event: ApprovalEventType.STARTED,
-          eventDate: new Date(),
-        } as unknown as ApprovalWorkflowEvent,
-      });
-
-      expect(component.eventDate).toBe('transformedDate');
-    });
-  });
-
   describe('eventComment', () => {
     test('should return translated Text when forwarded', () => {
       Object.defineProperty(component, 'workflowEvent', {
