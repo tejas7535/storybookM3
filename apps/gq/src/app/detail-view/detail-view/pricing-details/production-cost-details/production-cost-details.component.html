@@ -6,15 +6,15 @@
       <gq-label-text>
         <span label> {{ t('gpc') }}</span>
         <span text>{{ quotationDetail.gpc | numberCurrency: currency }}</span>
-        <span text *ngIf="materialCostDetails?.gpc?.date">{{
-          ' (' + (materialCostDetails.gpc.date | translocoDate) + ')'
+        <span text>{{
+          ' (' + (quotationDetail.gqCreated | translocoDate) + ')'
         }}</span>
       </gq-label-text>
       <gq-label-text>
         <span label>{{ t('sqv') }}</span>
         <span text>{{ quotationDetail.sqv | numberCurrency: currency }}</span>
-        <span text *ngIf="materialCostDetails?.sqv?.date">{{
-          ' (' + (materialCostDetails.sqv.date | translocoDate) + ')'
+        <span text>{{
+          ' (' + (quotationDetail.gqCreated | translocoDate) + ')'
         }}</span>
       </gq-label-text>
       <gq-label-text>

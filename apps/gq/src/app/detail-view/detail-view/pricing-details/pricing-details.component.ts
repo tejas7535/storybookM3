@@ -5,13 +5,10 @@ import { Observable } from 'rxjs';
 import { getQuotationCurrency } from '@gq/core/store/active-case/active-case.selectors';
 import {
   getMaterialComparableCostsLoading,
-  getMaterialCostDetails,
-  getMaterialCostDetailsLoading,
   getMaterialSalesOrgLoading,
   getPlantMaterialDetailsLoading,
 } from '@gq/core/store/selectors';
 import {
-  MaterialCostDetails,
   PlantMaterialDetail,
   QuotationDetail,
 } from '@gq/shared/models/quotation-detail';
@@ -23,6 +20,16 @@ import { Store } from '@ngrx/store';
 })
 export class PricingDetailsComponent implements OnInit {
   @Input() quotationDetail: QuotationDetail;
+
+  quotationCurrency$: Observable<string>;
+  materialComparableCostsLoading$: Observable<boolean>;
+  materialSalesOrgLoading$: Observable<boolean>;
+  plantMaterialDetailsLoading$: Observable<boolean>;
+  productionPlantStochasticType: string;
+  supplyPlantStochasticType: string;
+
+  constructor(private readonly store: Store) {}
+
   @Input() set plantMaterialDetails(
     plantMaterialDetails: PlantMaterialDetail[]
   ) {
@@ -38,17 +45,6 @@ export class PricingDetailsComponent implements OnInit {
       )?.stochasticType || undefined;
   }
 
-  quotationCurrency$: Observable<string>;
-  materialCostDetails$: Observable<MaterialCostDetails>;
-  materialCostDetailsLoading$: Observable<boolean>;
-  materialComparableCostsLoading$: Observable<boolean>;
-  materialSalesOrgLoading$: Observable<boolean>;
-  plantMaterialDetailsLoading$: Observable<boolean>;
-  productionPlantStochasticType: string;
-  supplyPlantStochasticType: string;
-
-  public constructor(private readonly store: Store) {}
-
   ngOnInit(): void {
     this.quotationCurrency$ = this.store.select(getQuotationCurrency);
     this.materialComparableCostsLoading$ = this.store.select(
@@ -60,9 +56,5 @@ export class PricingDetailsComponent implements OnInit {
     this.plantMaterialDetailsLoading$ = this.store.select(
       getPlantMaterialDetailsLoading
     );
-    this.materialCostDetailsLoading$ = this.store.select(
-      getMaterialCostDetailsLoading
-    );
-    this.materialCostDetails$ = this.store.select(getMaterialCostDetails);
   }
 }

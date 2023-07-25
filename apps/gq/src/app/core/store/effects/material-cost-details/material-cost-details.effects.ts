@@ -53,10 +53,12 @@ export class MaterialCostDetailsEffects {
           quotationDetail.material?.materialNumber15 &&
           quotationDetail.productionPlant?.plantNumber !== undefined
         ) {
-          return loadMaterialCostDetails({
+          // Temporary turn off material cost details loading (GQUOTE-2654)
+          return { type: 'EMPTY_ACTION' };
+          /* return loadMaterialCostDetails({
             materialNumber15: quotationDetail.material.materialNumber15,
             productionPlantId: quotationDetail.productionPlant.plantNumber,
-          });
+          }); */
         }
 
         return resetMaterialCostDetails();

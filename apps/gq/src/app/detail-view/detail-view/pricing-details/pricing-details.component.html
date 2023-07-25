@@ -5,8 +5,7 @@
         *ngIf="
           !(materialComparableCostsLoading$ | ngrxPush) &&
             !(materialSalesOrgLoading$ | ngrxPush) &&
-            !(plantMaterialDetailsLoading$ | ngrxPush) &&
-            !(materialCostDetailsLoading$ | ngrxPush);
+            !(plantMaterialDetailsLoading$ | ngrxPush);
           else loading
         "
       >
@@ -15,7 +14,6 @@
             <gq-production-cost-details
               [currency]="currency"
               [quotationDetail]="quotationDetail"
-              [materialCostDetails]="materialCostDetails$ | ngrxPush"
             ></gq-production-cost-details>
             <gq-material-comparable-cost-details
               [price]="quotationDetail.price"
