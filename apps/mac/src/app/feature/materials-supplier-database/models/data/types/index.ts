@@ -51,6 +51,8 @@ import {
   HardmagnetMaterialStandardForm,
   HardmagnetMaterialStandardFormValue,
   HardmagnetMaterialStandardTableValue,
+  LubricantMaterial,
+  LubricantMaterialResponse,
   PolymerManufacturerSupplier,
   PolymerManufacturerSupplierTableValue,
   PolymerMaterial,
@@ -80,14 +82,16 @@ export type Material =
   | CopperMaterial
   | HardmagnetMaterial
   | CeramicMaterial
-  | SAPMaterial;
+  | SAPMaterial
+  | LubricantMaterial;
 export type MaterialResponse =
   | AluminumMaterialResponse
   | SteelMaterialResponse
   | PolymerMaterialResponse
   | CopperMaterialResponse
   | HardmagnetMaterialResponse
-  | CeramicMaterialResponse;
+  | CeramicMaterialResponse
+  | LubricantMaterialResponse;
 export type ManufacturerSupplier =
   | AluminumManufacturerSupplier
   | SteelManufacturerSupplier

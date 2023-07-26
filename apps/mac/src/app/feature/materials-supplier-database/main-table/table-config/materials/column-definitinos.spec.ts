@@ -27,6 +27,7 @@ import {
   HISTORY_COLUMN_DEFINITION,
 } from '@mac/msd/main-table/table-config/materials/base';
 
+import { LUBRICANT_COLUMN_DEFINITIONS } from './lubricant';
 import { SAP_MATERIALS_COLUMN_DEFINITIONS } from './sap-materials';
 import { STEEL_COLUMN_DEFINITIONS } from './steel';
 
@@ -272,6 +273,27 @@ describe('column definitions', () => {
       });
     });
 
+    describe('MATERIAL_STANDARD_STOFF_ID', () => {
+      it('should translate material standard tooltip', () => {
+        const params = {
+          value: 'DE',
+        } as ITooltipParams;
+        const fkt = lookup(def, MATERIAL_STANDARD_STOFF_ID).tooltipValueGetter;
+
+        expect(fkt(params)).toBe('wiamLink');
+      });
+
+      it('should disable tooltip on empty value', () => {
+        const params = {} as ITooltipParams;
+        const fkt = lookup(def, MATERIAL_STANDARD_STOFF_ID).tooltipValueGetter;
+
+        expect(fkt(params)).toBeFalsy();
+      });
+    });
+  });
+
+  describe('LUBRICANT_COLUMN_DEFINITIONS', () => {
+    const def = LUBRICANT_COLUMN_DEFINITIONS;
     describe('MATERIAL_STANDARD_STOFF_ID', () => {
       it('should translate material standard tooltip', () => {
         const params = {

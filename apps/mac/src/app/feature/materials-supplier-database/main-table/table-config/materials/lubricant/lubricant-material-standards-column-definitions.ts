@@ -1,0 +1,6 @@
+import { ColDef } from 'ag-grid-community';
+
+import { BASE_MATERIAL_STANDARDS_COLUMN_DEFINITIONS } from '../base';
+
+export const LUBRICANT_MATERIAL_STANDARDS_COLUMN_DEFINITIONS: ColDef[] =
+  BASE_MATERIAL_STANDARDS_COLUMN_DEFINITIONS;

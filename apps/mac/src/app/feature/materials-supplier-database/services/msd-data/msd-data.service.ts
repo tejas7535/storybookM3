@@ -585,6 +585,7 @@ export class MsdDataService {
         materialResponse.manufacturerSupplier,
         'manufacturer'
       ),
+      // this seems to be wrong, why not 'manufacturerSupplierSapSupplierIds'?
       sapSupplierIds: findProperty<string[]>(
         materialResponse.manufacturerSupplier,
         'sapIds'
@@ -643,6 +644,8 @@ export class MsdDataService {
         )
       ),
       grade: findProperty(materialResponse, 'grade'),
+      co2Type: findProperty(materialResponse, 'co2Type'),
+      materialSapId: findProperty(materialResponse, 'materialSapId'),
 
       lastModified: materialResponse.timestamp,
       modifiedBy: materialResponse.modifiedBy,

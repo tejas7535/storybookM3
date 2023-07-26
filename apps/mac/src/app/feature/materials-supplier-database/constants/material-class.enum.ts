@@ -4,6 +4,7 @@ export enum MaterialClass {
   POLYMER = 'px',
   COPPER = 'cu',
   CERAMIC = 'ce',
+  LUBRICANTS = 'lu',
   // TODO remove hardmagnet implementation if no longer needed
   HARDMAGNET = 'hm',
 

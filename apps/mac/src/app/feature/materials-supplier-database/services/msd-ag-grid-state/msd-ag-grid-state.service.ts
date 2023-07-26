@@ -116,6 +116,13 @@ export class MsdAgGridStateService {
     }
     if ((currentStorage?.version || 0) < this.MIN_STATE_VERSION) {
       this.migrateLocalStorage(currentStorage?.version || 0, currentStorage);
+    } else {
+      // this should run every time, so that new materials would not need a separate migration
+      currentStorage = this.prepareSupportedMaterialClasses(
+        currentStorage as MsdAgGridStateV2
+      );
+      // add further migrations here
+      this.setMsdMainTableState(currentStorage as MsdAgGridStateCurrent);
     }
 
     this.dataFacade.navigation$
@@ -159,23 +166,13 @@ export class MsdAgGridStateService {
     if (version < 2.1) {
       state = this.migrateToVersion2_1(state as MsdAgGridStateV2);
     }
-    if (version < 2.2) {
-      state = this.migrateToVersion2_2(state as MsdAgGridStateV2);
-    }
-    if (version < 2.3) {
-      state = this.migrateToVersion2_3(state as MsdAgGridStateV2);
-    }
-    if (version < 2.4) {
-      state = this.migrateToVersion2_4(state as MsdAgGridStateV2);
-    }
-    if (version < 2.5) {
-      state = this.migrateToVersion2_5(state as MsdAgGridStateV2);
-    }
+    // run preparation script with every migration!
+    state = this.prepareSupportedMaterialClasses(state as MsdAgGridStateV2);
+    // 2.2 to 2.5 are no longer needed, as "prepareSupportedMaterialClasses" will create those structures!
     if (version < 2.6) {
       state = this.migrateToVersion2_6(state as MsdAgGridStateV2);
     }
     // add further migrations here
-
     this.setMsdMainTableState(state as MsdAgGridStateCurrent);
   }
 
@@ -341,94 +338,6 @@ export class MsdAgGridStateService {
     };
   }
 
-  private migrateToVersion2_2(
-    currentStorage: MsdAgGridStateV2
-  ): MsdAgGridStateV2 {
-    const baseViewState: ViewState = {
-      columnState: [],
-      quickFilters: [],
-    };
-
-    return {
-      ...currentStorage,
-      version: 2.2,
-      materials: {
-        ...currentStorage.materials,
-        [MaterialClass.COPPER]: {
-          [NavigationLevel.MATERIAL]: { ...baseViewState },
-          [NavigationLevel.SUPPLIER]: { ...baseViewState },
-          [NavigationLevel.STANDARD]: { ...baseViewState },
-        },
-      },
-    };
-  }
-
-  private migrateToVersion2_3(
-    currentStorage: MsdAgGridStateV2
-  ): MsdAgGridStateV2 {
-    const baseViewState: ViewState = {
-      columnState: [],
-      quickFilters: [],
-    };
-
-    return {
-      ...currentStorage,
-      version: 2.3,
-      materials: {
-        ...currentStorage.materials,
-        [MaterialClass.CERAMIC]: {
-          [NavigationLevel.MATERIAL]: { ...baseViewState },
-          [NavigationLevel.SUPPLIER]: { ...baseViewState },
-          [NavigationLevel.STANDARD]: { ...baseViewState },
-        },
-      },
-    };
-  }
-
-  private migrateToVersion2_4(
-    currentStorage: MsdAgGridStateV2
-  ): MsdAgGridStateV2 {
-    const baseViewState: ViewState = {
-      columnState: [],
-      quickFilters: [],
-    };
-
-    return {
-      ...currentStorage,
-      version: 2.4,
-      materials: {
-        ...currentStorage.materials,
-        [MaterialClass.HARDMAGNET]: {
-          [NavigationLevel.MATERIAL]: { ...baseViewState },
-          [NavigationLevel.SUPPLIER]: { ...baseViewState },
-          [NavigationLevel.STANDARD]: { ...baseViewState },
-        },
-      },
-    };
-  }
-
-  private migrateToVersion2_5(
-    currentStorage: MsdAgGridStateV2
-  ): MsdAgGridStateV2 {
-    const baseViewState: ViewState = {
-      columnState: [],
-      quickFilters: [],
-    };
-
-    return {
-      ...currentStorage,
-      version: 2.5,
-      materials: {
-        ...currentStorage.materials,
-        [MaterialClass.SAP_MATERIAL]: {
-          [NavigationLevel.MATERIAL]: { ...baseViewState },
-          [NavigationLevel.SUPPLIER]: { ...baseViewState },
-          [NavigationLevel.STANDARD]: { ...baseViewState },
-        },
-      },
-    };
-  }
-
   private migrateToVersion2_6(
     currentStorage: MsdAgGridStateV2
   ): MsdAgGridStateV2 {
@@ -456,6 +365,28 @@ export class MsdAgGridStateService {
     );
 
     return newStorage;
+  }
+
+  private prepareSupportedMaterialClasses(
+    currentStorage: MsdAgGridStateV2
+  ): MsdAgGridStateV2 {
+    const baseViewState: ViewState = {
+      columnState: [],
+      quickFilters: [],
+    };
+
+    const storage = { ...currentStorage };
+    SupportedMaterialClasses.forEach((materialClass) => {
+      if (!storage.materials[materialClass]) {
+        storage.materials[materialClass] = {
+          [NavigationLevel.MATERIAL]: { ...baseViewState },
+          [NavigationLevel.SUPPLIER]: { ...baseViewState },
+          [NavigationLevel.STANDARD]: { ...baseViewState },
+        };
+      }
+    });
+
+    return storage;
   }
 
   private combineColumnState(

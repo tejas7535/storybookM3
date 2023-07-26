@@ -30,8 +30,12 @@ import {
 import {
   msdServiceAluminumMockResponse,
   msdServiceAluminumMockResult,
+  msdServiceCeramicMockResponse,
+  msdServiceCeramicMockResult,
   msdServiceCopperMockResponse,
   msdServiceCopperMockResult,
+  msdServiceLubricantMockResponse,
+  msdServiceLubricantMockResult,
   msdServicePolymerMockResponse,
   msdServicePolymerMockResult,
   msdServiceSteelMockResponse,
@@ -225,6 +229,45 @@ describe('MsdDataService', () => {
       const req = httpMock.expectOne(
         `${service['BASE_URL']}/materials/cu?category=category`
       );
+      expect(req.request.method).toBe('GET');
+      req.flush(mockResponse);
+    });
+
+    it('should fetch the materials for the given materialClass with category (ceramic)', (done) => {
+      const mockResponse = msdServiceCeramicMockResponse;
+      const mockResult = msdServiceCeramicMockResult;
+
+      service
+        .getMaterials<AluminumMaterial>(MaterialClass.CERAMIC, [
+          'category',
+          undefined,
+        ])
+        .subscribe((result: any) => {
+          // TODO: observe this
+          expect(result).toMatchObject(mockResult);
+          done();
+        });
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/ce?category=category`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(mockResponse);
+    });
+
+    it('should fetch the materials for the given materialClass with category (lubricant)', (done) => {
+      const mockResponse = msdServiceLubricantMockResponse;
+      const mockResult = msdServiceLubricantMockResult;
+
+      service
+        .getMaterials<AluminumMaterial>(MaterialClass.LUBRICANTS, [undefined])
+        .subscribe((result: any) => {
+          // TODO: observe this
+          expect(result).toMatchObject(mockResult);
+          done();
+        });
+
+      const req = httpMock.expectOne(`${service['BASE_URL']}/materials/lu`);
       expect(req.request.method).toBe('GET');
       req.flush(mockResponse);
     });

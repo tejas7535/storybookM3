@@ -303,6 +303,9 @@
         "materialStandardMaterialName": "Material Name",
         "materialStandardStandardDocument": "Standard Document",
         "materialStandardStoffId": "Schaeffler Material ID",
+        "materialStandardWiamId": "WIAM ID",
+        "co2Type": "PCF/CCF",
+        "materialSapId": "SAP Materialnummer",
         "maxDimension": "Maximum Dimension (mm)",
         "minDimension": "Minimum Dimension (mm)",
         "productCategoryText": "Product Category",
@@ -412,7 +415,9 @@
           "c2": "ISO-conform calculation method, and third-party certified (method-specific)",
           "c3": "Internal calculation method according to ISO standards (product-specific)",
           "c4": "Estimated based on energy and material consumption",
-          "c5": "Estimated based on material consumption"
+          "c5": "Estimated based on material consumption",
+          "ccf": "CCF",
+          "pcf": "PCF"
         },
         "co2PerTon": "kg CO₂e / t",
         "co2Total": "CO₂ Total",
@@ -667,6 +672,7 @@
       "cu": "Copper",
       "ce": "Ceramic",
       "hm": "Hardmagnet",
+      "lu": "Lubricants",
       "sap": "SAP Materials"
     },
     "materialClassValuesNavigation": {
@@ -676,6 +682,7 @@
       "cu": "Copper alloys",
       "ce": "Ceramics",
       "hm": "Hardmagnets",
+      "lu": "Lubricants",
       "sap": "SAP material numbers"
     },
     "status": {

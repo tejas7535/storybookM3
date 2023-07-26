@@ -1,0 +1,33 @@
+import { QuickFilter } from '@mac/feature/materials-supplier-database/models';
+import {
+  CO2_PER_TON,
+  GRADE,
+  LAST_MODIFIED,
+  MANUFACTURER_SUPPLIER_NAME,
+  MATERIAL_NUMBERS,
+  MATERIAL_STANDARD_MATERIAL_NAME,
+  MATERIAL_STANDARD_STANDARD_DOCUMENT,
+  MATERIAL_STANDARD_STOFF_ID,
+  MATERIAL_STANDARD_WIAM_ID,
+  RATING_REMARK,
+} from '@mac/msd/constants';
+
+export const LUBRICANT_STATIC_QUICKFILTERS: QuickFilter[] = [
+  {
+    title: 'default',
+    filter: {},
+    columns: [
+      MATERIAL_STANDARD_MATERIAL_NAME,
+      MATERIAL_STANDARD_STANDARD_DOCUMENT,
+      MANUFACTURER_SUPPLIER_NAME,
+      CO2_PER_TON,
+      GRADE,
+      MATERIAL_NUMBERS,
+      MATERIAL_STANDARD_STOFF_ID,
+      MATERIAL_STANDARD_WIAM_ID,
+      RATING_REMARK,
+      LAST_MODIFIED,
+    ],
+    custom: false,
+  },
+];
