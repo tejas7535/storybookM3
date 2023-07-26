@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 
-import { EditCellRendererComponent } from '../edit-cell-renderer/edit-cell-renderer.component';
 import { translate } from '@ngneat/transloco';
+
+import { EditCellRendererComponent } from '../edit-cell-renderer/edit-cell-renderer.component';
 
 @Component({
   selector: 'mac-green-steel-cell-renderer',
@@ -11,11 +12,11 @@ export class GreenSteelCellRendererComponent extends EditCellRendererComponent {
   public getRating(): number {
     let result = 0;
     const co2Value: number = this.params?.value;
-    if (co2Value < 400) {
+    if (co2Value <= 400) {
       result = 3;
-    } else if (co2Value < 1000) {
+    } else if (co2Value <= 1000) {
       result = 2;
-    } else if (co2Value < 1750) {
+    } else if (co2Value <= 1750) {
       result = 1;
     }
 

@@ -77,8 +77,11 @@ describe('GreenSteelCellRendererComponent', () => {
     it.each([
       [0, 3],
       [200, 3],
+      [400, 3],
       [800, 2],
+      [1000, 2],
       [1200, 1],
+      [1750, 1],
       [1800, 0],
       [undefined, 0],
     ])('should classify co2Value of <%p> as [%p]', (co2Value, expected) => {
