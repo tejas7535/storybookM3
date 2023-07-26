@@ -4,6 +4,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatStepperModule } from '@angular/material/stepper';
 import { Router } from '@angular/router';
 
+import { firstValueFrom } from 'rxjs';
+
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
@@ -15,7 +17,6 @@ import {
   getCurrentStep,
   getSteps,
 } from '@ga/core/store/selectors/settings/settings.selector';
-import { steps } from '@ga/shared/constants';
 
 @Component({
   selector: 'ga-grease-stepper',
@@ -34,14 +35,24 @@ import { steps } from '@ga/shared/constants';
 })
 export class GreaseStepperComponent {
   public steps$ = this.store.select(getSteps);
+
   public currentStep$ = this.store.select(getCurrentStep);
 
   constructor(private readonly store: Store, private readonly router: Router) {}
 
-  selectStep(event: StepperSelectionEvent): void {
-    const newRoute = steps.find(
-      ({ index }) => index === event.selectedIndex
-    ).link;
-    this.router.navigate([`${AppRoutePath.GreaseCalculationPath}/${newRoute}`]);
+  async selectStep(_event: StepperSelectionEvent): Promise<void> {
+    const items = await firstValueFrom(this.steps$);
+
+    const targetRoute = items.find(
+      ({ index }) => index === _event.selectedIndex
+    );
+
+    if (!targetRoute.enabled) {
+      return;
+    }
+
+    this.router.navigate([
+      `${AppRoutePath.GreaseCalculationPath}/${targetRoute.link}`,
+    ]);
   }
 }

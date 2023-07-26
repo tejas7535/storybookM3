@@ -4,11 +4,15 @@
     *ngrxLet="steps$; let steps"
     [selectedIndex]="currentStep$ | ngrxPush"
     (selectionChange)="selectStep($event)"
+    linear="true"
     #stepper
   >
     <mat-step
       *ngFor="let step of steps"
       state="number"
+      [editable]="step.editable"
+      [completed]="step.complete"
+      optional="false"
       [aria-labelledby]="
         step.enabled
           ? step.index === (currentStep$ | ngrxPush)

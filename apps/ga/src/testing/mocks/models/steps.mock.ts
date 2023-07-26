@@ -26,3 +26,7 @@ export const STEPS_MOCK: Step[] = [
     name: 'report',
   },
 ];
+
+export const EMBEDDED_FINISHED: Step[] = [
+  { ...STEPS_MOCK[0], enabled: false, complete: true, editable: false },
+];

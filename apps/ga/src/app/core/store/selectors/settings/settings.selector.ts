@@ -39,11 +39,26 @@ export const getSteps = createSelector(
     steps.map((step) => {
       switch (step.name) {
         case 'bearingSelection':
-          return { ...step, enabled: !appIsEmbedded };
+          return {
+            ...step,
+            editable: !appIsEmbedded,
+            enabled: !appIsEmbedded,
+            complete: appIsEmbedded || !!bearing,
+          };
         case 'parameters':
-          return { ...step, enabled: !!bearing && success };
+          return {
+            ...step,
+            enabled: !!bearing,
+            complete: !!bearing && success && valid,
+            editable: true,
+          };
         case 'report':
-          return { ...step, enabled: !!bearing && valid && success };
+          return {
+            ...step,
+            enabled: !!bearing && valid && success,
+            editable: true,
+            complete: false,
+          };
         default:
           return step;
       }

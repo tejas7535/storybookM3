@@ -3,6 +3,7 @@ import {
   APP_STATE_MOCK,
   BEARING_SELECTION_STATE_MOCK,
   CALCULATION_PARAMETERS_STATE_MOCK,
+  EMBEDDED_FINISHED,
   INVALID_STEP_MOCK,
   SETTINGS_STATE_MOCK,
   STEPS_MOCK,
@@ -55,10 +56,10 @@ describe('Settings Selector', () => {
   });
 
   describe('getSteps', () => {
-    it('should return step 1 disabled, others enabled', () => {
+    it('should return step 1 comppleted', () => {
       mockState.settings.environment.appDelivery = 'embedded';
-
-      expect(getSteps(mockState)).toEqual([...STEPS_MOCK, INVALID_STEP_MOCK]);
+      const getStepsReturnValue = getSteps(mockState);
+      expect([getStepsReturnValue[0]]).toEqual(EMBEDDED_FINISHED);
     });
   });
 

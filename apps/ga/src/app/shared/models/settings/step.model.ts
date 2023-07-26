@@ -3,4 +3,6 @@ export interface Step {
   index: number;
   link: string;
   enabled?: boolean;
+  complete?: boolean;
+  editable?: boolean;
 }
