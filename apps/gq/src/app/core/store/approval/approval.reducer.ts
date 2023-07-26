@@ -159,7 +159,7 @@ export const approvalFeature = createFeature({
         approvalCockpit: {
           approvalGeneral: approvalInformation.approvalGeneral,
           approvalEvents: [
-            // add the event from response to existing events
+            // add the event from response to existing events in reverse order
             ...approvalInformation.approvalEvents,
             ...state.approvalCockpit.approvalEvents,
           ],
@@ -232,8 +232,9 @@ export const approvalFeature = createFeature({
         approvalCockpit: {
           ...state.approvalCockpit,
           approvalEvents: [
-            ...state.approvalCockpit.approvalEvents,
+            // add the event from response to existing events in reverse order
             approvalEvent,
+            ...state.approvalCockpit.approvalEvents,
           ],
         },
       })

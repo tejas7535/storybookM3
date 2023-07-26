@@ -336,7 +336,7 @@ describe('approvalReducer', () => {
       });
     });
 
-    test('should reset updateApprovalWorkflowInProgress', () => {
+    test('should reset updateApprovalWorkflowInProgress and add the new event to the existing ones in reverse order', () => {
       const currentApprovalEvent: ApprovalWorkflowEvent = {
         sapId: 'sapTestId',
         gqId: 123,
@@ -384,7 +384,7 @@ describe('approvalReducer', () => {
         error: undefined,
         approvalCockpit: {
           ...initialState.approvalCockpit,
-          approvalEvents: [currentApprovalEvent, approvalEvent],
+          approvalEvents: [approvalEvent, currentApprovalEvent],
         },
       });
     });
