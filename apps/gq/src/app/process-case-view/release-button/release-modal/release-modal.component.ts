@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import {
   ChangeDetectionStrategy,
   Component,
@@ -83,6 +84,10 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
     undefined,
     userValidator().bind(this)
   );
+
+  formGroupInitialValue: typeof this.formGroup.value = undefined;
+
+  hasValueChanged = false;
 
   readonly quotationStatus = QuotationStatus;
   readonly INVALID_SELECTION_APPROVER = '';
@@ -209,8 +214,8 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
     const formGroupValue = this.formGroup.value;
 
     return {
-      firstApprover: formGroupValue.approver1.userId,
-      secondApprover: formGroupValue.approver2.userId,
+      firstApprover: formGroupValue.approver1?.userId, // on autoApproval first and second approver is not required
+      secondApprover: formGroupValue.approver2?.userId,
       thirdApprover: formGroupValue.approver3?.userId,
       infoUser: formGroupValue.approverCC?.userId,
       comment: formGroupValue.comment?.trim() || undefined,
@@ -263,6 +268,9 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
               );
 
               this.setInitialData(cockpitInformation);
+            } else {
+              this.setInitialDataForCommentAndProject(cockpitInformation);
+              this.attachForChanges();
             }
           }
         )
@@ -273,10 +281,7 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
   private setInitialData(
     workflowInformation: ApprovalWorkflowInformation
   ): void {
-    this.formGroup
-      .get('projectInformation')
-      .setValue(workflowInformation?.projectInformation);
-    this.formGroup.get('comment').setValue(workflowInformation?.comment);
+    this.setInitialDataForCommentAndProject(workflowInformation);
     this.setInfoUser(workflowInformation.infoUser);
 
     this.approvalFacade.approvalStatusOfRequestedApprover$
@@ -306,9 +311,20 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
           ) {
             this.formGroup.markAllAsTouched();
           }
+
+          this.attachForChanges();
         })
       )
       .subscribe();
+  }
+
+  private setInitialDataForCommentAndProject(
+    workflowInformation: ApprovalWorkflowInformation
+  ): void {
+    this.formGroup
+      .get('projectInformation')
+      .setValue(workflowInformation?.projectInformation);
+    this.formGroup.get('comment').setValue(workflowInformation?.comment);
   }
 
   private setInfoUser(userId: string) {
@@ -340,6 +356,41 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
     this.approverCCFormControl.markAsTouched();
   }
 
+  private attachForChanges(): void {
+    this.formGroupInitialValue = this.formGroup.value;
+
+    this.formGroup.valueChanges.pipe(takeUntil(this.shutdown$$)).subscribe(
+      () =>
+        (this.hasValueChanged =
+          // falsy value will be transformed into undefined for object and into empty string for strings,
+          // so that !== check will work easily
+          this.isNotEqual(
+            this.formGroupInitialValue?.approver1,
+            this.formGroup.value.approver1
+          ) ||
+          this.isNotEqual(
+            this.formGroupInitialValue?.approver2,
+            this.formGroup.value.approver2
+          ) ||
+          this.isNotEqual(
+            this.formGroupInitialValue?.approver3,
+            this.formGroup.value.approver3
+          ) ||
+          this.isNotEqual(
+            this.formGroupInitialValue?.approverCC,
+            this.formGroup.value.approverCC
+          ) ||
+          this.isNotEqual(
+            this.formGroupInitialValue?.comment,
+            this.formGroup.value.comment
+          ) ||
+          this.isNotEqual(
+            this.formGroupInitialValue?.projectInformation,
+            this.formGroup.value.projectInformation
+          ))
+    );
+  }
+
   /**
    * Close the modal and navigate to overview tab
    */
@@ -356,5 +407,20 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
           }
         );
       });
+  }
+
+  /**
+   * checks if value are non equal,
+   * two falsy values compared are equal
+   * e.g. null !== undefined  will return false
+   */
+  private isNotEqual(
+    formControlValueInitial: any,
+    formControlValueChanged: any
+  ): boolean {
+    return (
+      (formControlValueInitial || undefined) !==
+      (formControlValueChanged || undefined)
+    );
   }
 }

@@ -189,7 +189,9 @@
         <button
           mat-raised-button
           color="primary"
-          [disabled]="formGroup.invalid || formGroup.pristine"
+          [disabled]="
+            formGroup.invalid || formGroup.pristine || !hasValueChanged
+          "
           (click)="save()"
         >
           {{ t('save') }}

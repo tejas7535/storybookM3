@@ -320,8 +320,115 @@ describe('ReleaseModalComponent', () => {
         expect(closeDialogSpy).toHaveBeenCalledTimes(1);
       });
     });
+
+    describe('calculate hasValueChanged', () => {
+      test('should return false for hasValueChanged', () => {
+        const formValue = {
+          approver1: { userId: 'APPR1' } as Approver,
+          approver2: { userId: 'APPR2' } as Approver,
+
+          approverCC: { userId: 'CCuser' } as ActiveDirectoryUser,
+          comment: 'test comment',
+          projectInformation: 'test project info',
+        };
+
+        component.ngOnInit();
+        component.formGroup.setValue(formValue);
+        component.formGroupInitialValue = formValue;
+
+        component.formGroup.get('comment').setValue('');
+        component.formGroup.get('comment').setValue('test comment');
+        expect(component.hasValueChanged).toBe(false);
+      });
+
+      test('should return true for hasValueChanged when text removed', () => {
+        const formValue = {
+          approver1: { userId: 'APPR1' } as Approver,
+          approver2: { userId: 'APPR2' } as Approver,
+
+          approverCC: { userId: 'CCuser' } as ActiveDirectoryUser,
+          comment: 'test comment',
+          projectInformation: 'test project info',
+        };
+
+        component.ngOnInit();
+        component.formGroup.setValue(formValue);
+        component.formGroupInitialValue = formValue;
+
+        component.formGroup.get('comment').setValue('');
+        expect(component.hasValueChanged).toBe(true);
+      });
+      test('should return true for hasValueChanged when text removed changed', () => {
+        const formValue = {
+          approver1: { userId: 'APPR1' } as Approver,
+          approver2: { userId: 'APPR2' } as Approver,
+
+          approverCC: { userId: 'CCuser' } as ActiveDirectoryUser,
+          comment: 'test comment',
+          projectInformation: 'test project info',
+        };
+
+        component.ngOnInit();
+        component.formGroup.setValue(formValue);
+        component.formGroupInitialValue = formValue;
+
+        component.formGroup.get('comment').setValue('an other string');
+        expect(component.hasValueChanged).toBe(true);
+      });
+      test('should return true for hasValueChanged when approver1 changed', () => {
+        const formValue = {
+          approver1: { userId: 'APPR1' } as Approver,
+          approver2: { userId: 'APPR2' } as Approver,
+
+          approverCC: { userId: 'CCuser' } as ActiveDirectoryUser,
+          comment: 'test comment',
+          projectInformation: 'test project info',
+        };
+
+        component.ngOnInit();
+        component.formGroup.setValue(formValue);
+        component.formGroupInitialValue = formValue;
+
+        component.formGroup
+          .get('approver2')
+          .setValue({ userId: 'APPR3' } as Approver);
+        expect(component.hasValueChanged).toBe(true);
+      });
+      test('should return true for hasValueChanged when approverCC changed', () => {
+        const formValue = {
+          approver1: { userId: 'APPR1' } as Approver,
+          approver2: { userId: 'APPR2' } as Approver,
+
+          approverCC: { userId: 'CCuser' } as ActiveDirectoryUser,
+          comment: 'test comment',
+          projectInformation: 'test project info',
+        };
+
+        component.ngOnInit();
+        component.formGroup.setValue(formValue);
+        component.formGroupInitialValue = formValue;
+
+        component.formGroup
+          .get('approverCC')
+          .setValue({ userId: 'CCuser2' } as ActiveDirectoryUser);
+        expect(component.hasValueChanged).toBe(true);
+      });
+      test('should return false for hasValueChanged when projectInfo has both falsy values', () => {
+        component.ngOnInit();
+        component.formGroup.addControl(
+          'approverCC',
+          new FormControl(undefined)
+        );
+
+        component.formGroupInitialValue = new FormControl(undefined).value;
+
+        component.formGroup.get('approverCC').setValue('' as any);
+        expect(component.hasValueChanged).toBe(false);
+      });
+    });
   });
 
+  describe('hasValueChanged', () => {});
   describe('ngOnDestroy', () => {
     test('should emit', () => {
       component['shutdown$$'].next = jest.fn();
