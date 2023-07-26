@@ -64,6 +64,7 @@
         <gq-approval-workflow-approver
           [approver]="approvalStatus.approver"
           [workflowEvent]="approvalStatus.event"
+          [quotationStatus]="approvalFacade.quotationStatus$ | ngrxPush"
           [workflowInProgress]="approvalFacade.workflowInProgress$ | ngrxPush"
         ></gq-approval-workflow-approver>
 

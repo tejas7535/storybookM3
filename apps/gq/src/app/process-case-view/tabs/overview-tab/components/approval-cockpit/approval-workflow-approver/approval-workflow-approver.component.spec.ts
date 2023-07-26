@@ -2,7 +2,11 @@
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-import { ApprovalEventType, ApprovalWorkflowEvent } from '@gq/shared/models';
+import {
+  ApprovalEventType,
+  ApprovalWorkflowEvent,
+  QuotationStatus,
+} from '@gq/shared/models';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockPipe } from 'ng-mocks';
@@ -125,13 +129,39 @@ describe('ApprovalWorkflowApproverComponent', () => {
       );
     });
 
-    test('when workflow is in Progress, and event is is not found --> emptyString', () => {
+    test('when workflow is in Progress, and event is not found --> emptyString', () => {
       Object.defineProperty(component, 'workflowEvent', {
         value: { event: 'ANY-FANCY-EVENT' },
       });
 
       Object.defineProperty(component, 'workflowInProgress', {
         value: true,
+      });
+
+      expect(component.approvalStatusOfApprover).toBe('');
+    });
+
+    test('when quotation status is REJECTED and event is REJECTED --> REJECTED', () => {
+      Object.defineProperty(component, 'quotationStatus', {
+        value: QuotationStatus.REJECTED,
+      });
+
+      Object.defineProperty(component, 'workflowEvent', {
+        value: { event: ApprovalEventType.REJECTED },
+      });
+
+      expect(component.approvalStatusOfApprover).toBe(
+        APPROVAL_STATUS_OF_APPROVER_DISPLAY.REJECTED
+      );
+    });
+
+    test('when quotation status is REJECTED but event is undefined --> emptyString', () => {
+      Object.defineProperty(component, 'quotationStatus', {
+        value: QuotationStatus.REJECTED,
+      });
+
+      Object.defineProperty(component, 'workflowEvent', {
+        value: undefined,
       });
 
       expect(component.approvalStatusOfApprover).toBe('');
