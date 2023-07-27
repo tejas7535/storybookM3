@@ -1,4 +1,16 @@
 # Release Notes of Grease App
+## [1.3.5](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.3.4...ga-v1.3.5) (2023-07-27)
+
+
+### Features
+
+* **ga:** add pdf report generation functionality (UFTABI-5284) ([#5470](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5470)) ([bc33b0a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bc33b0a73e2e97b3432f1e7b101eb3963358b179))
+
+
+### Bug Fixes
+
+* **ga/mm:** fix skip ahead bug in stepper - UFTABI-6543 ([#5472](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5472)) ([8974ee4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8974ee47473d2ce56e14cd4af8b00739995d4eb6))
+
 ## [1.3.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.3.3...ga-v1.3.4) (2023-07-14)
 
 ## [1.3.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.3.2...ga-v1.3.3) (2023-07-13)
