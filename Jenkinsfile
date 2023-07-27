@@ -486,7 +486,7 @@ pipeline {
 
                             script {
                                 sh "printenv"
-                                def result = sh "pnpm cypress install && pnpm run affected:e2e --base=${buildBase} ${getNxRunnerConfig()}"
+                                def result = sh "pnpm install && pnpm cypress install && pnpm run affected:e2e --base=${buildBase} ${getNxRunnerConfig()}"
 
                                 if (result != 0) {
                                     unstable 'E2E tests failed'
