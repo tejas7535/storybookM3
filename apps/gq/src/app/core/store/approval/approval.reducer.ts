@@ -414,13 +414,6 @@ export const approvalFeature = createFeature({
           : [];
       }
     ),
-    areAnyNonVerifiedApprovalEvents: createSelector(
-      selectApprovalCockpit,
-      (cockpit: ApprovalCockpitData): boolean =>
-        cockpit?.approvalEvents.some(
-          (approvalEvent: ApprovalWorkflowEvent) => !approvalEvent.verified
-        )
-    ),
   }),
 });
 

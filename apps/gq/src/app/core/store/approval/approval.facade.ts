@@ -115,9 +115,15 @@ export class ApprovalFacade {
     approvalFeature.getHasAnyApprovalEvent
   );
 
-  areAnyNonVerifiedApprovalEvents$: Observable<boolean> = this.store.select(
-    approvalFeature.areAnyNonVerifiedApprovalEvents
-  );
+  isLatestApprovalEventVerified$: Observable<boolean> =
+    this.approvalCockpit$.pipe(
+      map(
+        (approvalData: ApprovalCockpitData) =>
+          // approval events are sorted by timestamp in descending order
+          // the first approval event is the latest one
+          approvalData.approvalEvents[0]?.verified
+      )
+    );
 
   quotationStatus$: Observable<QuotationStatus> = this.store.select(
     fromActiveCaseSelectors.getQuotationStatus

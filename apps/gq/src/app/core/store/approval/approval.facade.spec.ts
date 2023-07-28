@@ -25,6 +25,7 @@ import { APPROVAL_STATE_MOCK } from '../../../../testing/mocks';
 import { ApprovalActions } from './approval.actions';
 import { ApprovalFacade } from './approval.facade';
 import { approvalFeature, ApprovalState } from './approval.reducer';
+
 describe('ApprovalFacade', () => {
   let service: ApprovalFacade;
   let spectator: SpectatorService<ApprovalFacade>;
@@ -343,18 +344,41 @@ describe('ApprovalFacade', () => {
       })
     );
 
-    test(
-      'should provide areAnyNonVerifiedApprovalEvents$',
-      marbles((m) => {
-        mockStore.overrideSelector(
-          approvalFeature.areAnyNonVerifiedApprovalEvents,
-          true
-        );
-        m.expect(service.areAnyNonVerifiedApprovalEvents$).toBeObservable(
-          m.cold('a', { a: true })
-        );
-      })
-    );
+    describe('should provide isLatestApprovalEventVerified$', () => {
+      test(
+        'latest approval event should be verified',
+        marbles((m) => {
+          mockStore.overrideSelector(
+            approvalFeature.selectApprovalCockpit,
+            APPROVAL_STATE_MOCK.approvalCockpit
+          );
+
+          m.expect(service.isLatestApprovalEventVerified$).toBeObservable(
+            m.cold('a', { a: true })
+          );
+        })
+      );
+
+      test(
+        'latest approval event should not be verified',
+        marbles((m) => {
+          mockStore.overrideSelector(approvalFeature.selectApprovalCockpit, {
+            ...APPROVAL_STATE_MOCK.approvalCockpit,
+            approvalEvents:
+              APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents.map(
+                (event: ApprovalWorkflowEvent, index: number) => ({
+                  ...event,
+                  verified: index > 0,
+                })
+              ),
+          });
+
+          m.expect(service.isLatestApprovalEventVerified$).toBeObservable(
+            m.cold('a', { a: false })
+          );
+        })
+      );
+    });
 
     describe('should provide quotationFullyApproved$', () => {
       test(
@@ -387,11 +411,11 @@ describe('ApprovalFacade', () => {
 
     describe('should provide workflowInProgress$', () => {
       test(
-        'should return false when ACTIVE',
+        'should return false when workflowEvents length less than 1',
         marbles((m) => {
           mockStore.overrideSelector(
-            fromActiveCaseSelectors.getQuotationStatus,
-            QuotationStatus.ACTIVE
+            approvalFeature.getEventsOfLatestWorkflow,
+            []
           );
 
           m.expect(service.workflowInProgress$).toBeObservable(
@@ -401,6 +425,22 @@ describe('ApprovalFacade', () => {
       );
 
       // TODO: uncomment when workflowInProgress is calculated by QuotationStatus
+      //
+      // eslint-disable-next-line jest/no-commented-out-tests
+      // test(
+      //   'should return false when ACTIVE',
+      //   marbles((m) => {
+      //     mockStore.overrideSelector(
+      //       fromActiveCaseSelectors.getQuotationStatus,
+      //       QuotationStatus.ACTIVE
+      //     );
+
+      //     m.expect(service.workflowInProgress$).toBeObservable(
+      //       m.cold('a', { a: false })
+      //     );
+      //   })
+      // );
+
       // eslint-disable-next-line jest/no-commented-out-tests
       // test(
       //   'should return true when REJECTED',
