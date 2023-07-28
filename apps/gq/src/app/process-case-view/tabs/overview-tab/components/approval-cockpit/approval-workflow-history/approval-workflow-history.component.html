@@ -5,128 +5,102 @@
     read: 'processCaseView.tabs.overview.approvalCockpit.workflow'
   "
 >
+  <!-- the Headline-->
+  <div class="flex items-center justify-between">
+    <div class="text-body-1 font-bold">{{ t('historyLabel') }}</div>
+  </div>
+
+  <!--StartEvent-->
+  <gq-approval-workflow-history-section
+    [icon]="'check_circle_outline'"
+    [iconColor]="'text-link'"
+    [title]="
+      (workflowEventsAsc | slice: 0:1)[0]?.event === eventType.AUTO_APPROVAL
+        ? t('workflowAutoApprovedText')
+        : t('workflowStartedText')
+    "
+    [subtitle]="
+      t('eventCreatedBy', {
+        date: (workflowEventsAsc | slice: 0:1)[0]?.eventDate,
+        user:
+          (workflowEventsAsc | slice: 0:1)[0]?.user
+          | approverDisplay: t('unknownApprover')
+      })
+    "
+  ></gq-approval-workflow-history-section>
+  <!--timeline under start event-->
   <ng-container
-    *ngrxLet="approvalFacade.getApprovalWorkflowEvents$ as workflowEvents"
+    *ngIf="!(quotationAutoApprovedEvent && workflowEvents?.length === 2)"
   >
-    <!-- the Headline-->
-    <div class="flex items-center justify-between">
-      <div class="text-body-1 font-bold">{{ t('historyLabel') }}</div>
-    </div>
+    <div
+      class="timeline history border-l-2 border-solid h-[1.5rem] bg border-y-border ml-3"
+      [ngClass]="
+        quotationStatus === quotationStatusEnum.APPROVED
+          ? 'text-approval-status-green'
+          : 'border-l-border'
+      "
+    ></div>
 
-    <!--StartEvent-->
-    <gq-approval-workflow-history-section
-      *ngrxLet="workflowEvents?.slice().reverse() as workflowEventsAsc"
-      [icon]="'check_circle_outline'"
-      [iconColor]="'text-link'"
-      [title]="
-        (workflowEventsAsc | slice: 0:1)[0]?.event === eventType.AUTO_APPROVAL
-          ? t('workflowAutoApprovedText')
-          : t('workflowStartedText')
+    <!-- section of all Iterations Event-->
+    <gq-approval-workflow-history-iterations
+      [autoApprovedEvent]="quotationAutoApprovedEvent"
+      [cancelledEvent]="quotationCancelledEvent"
+      [rejectedEvent]="quotationRejectedEvent"
+      [workflowEvents]="workflowEvents"
+      [isApproved]="quotationStatus === quotationStatusEnum.APPROVED"
+      [inApproval]="quotationStatus === quotationStatusEnum.IN_APPROVAL"
+      [receivedApprovalsOfRequiredApprovals]="
+        receivedApprovalsOfRequiredApprovals
       "
-      [subtitle]="
-        t('eventCreatedBy', {
-          date: (workflowEventsAsc | slice: 0:1)[0]?.eventDate,
-          user:
-            (workflowEventsAsc | slice: 0:1)[0]?.user
-            | approverDisplay: t('unknownApprover')
-        })
-      "
-    ></gq-approval-workflow-history-section>
-    <!--timeline under start event-->
+    ></gq-approval-workflow-history-iterations>
+  </ng-container>
+  <!--EndEvent-->
+  <ng-container
+    *ngIf="
+      quotationStatus === quotationStatusEnum.APPROVED;
+      then approvalComplete;
+      else approvalPending
+    "
+  >
+  </ng-container>
+
+  <ng-template #approvalComplete>
     <ng-container
       *ngIf="
-        !(
-          (approvalFacade.quotationAutoApprovedEvent$ | ngrxPush) &&
-          (approvalFacade.getApprovalWorkflowEvents$ | ngrxPush)?.length === 2
-        )
+        quotationAutoApprovedEvent;
+        then quotationAutoApproved;
+        else quotationByWorkflowApproved
       "
-    >
-      <div
-        class="timeline history border-l-2 border-solid h-[1.5rem] bg border-y-border ml-3"
-        [ngClass]="
-          (approvalFacade.quotationStatus$ | ngrxPush) ===
-          quotationStatus.APPROVED
-            ? 'text-approval-status-green'
-            : 'border-l-border'
-        "
-      ></div>
+    ></ng-container>
+  </ng-template>
 
-      <!-- section of all Iterations Event-->
-      <gq-approval-workflow-history-iterations
-        [autoApprovedEvent]="
-          approvalFacade.quotationAutoApprovedEvent$ | ngrxPush
-        "
-        [cancelledEvent]="approvalFacade.quotationCancelledEvent$ | ngrxPush"
-        [rejectedEvent]="approvalFacade.quotationRejectedEvent$ | ngrxPush"
-        [workflowEvents]="approvalFacade.getApprovalWorkflowEvents$ | ngrxPush"
-        [isApproved]="
-          (approvalFacade.quotationStatus$ | ngrxPush) ===
-          quotationStatus.APPROVED
-        "
-        [inApproval]="
-          (approvalFacade.quotationStatus$ | ngrxPush) ===
-          quotationStatus.IN_APPROVAL
-        "
-        [receivedApprovalsOfRequiredApprovals]="
-          approvalFacade.receivedApprovalsOfRequiredApprovals$ | ngrxPush
-        "
-      ></gq-approval-workflow-history-iterations>
-    </ng-container>
-    <!--EndEvent-->
-    <ng-container
-      *ngIf="
-        (approvalFacade.quotationStatus$ | ngrxPush) ===
-          quotationStatus.APPROVED;
-        then approvalComplete;
-        else approvalPending
-      "
-    >
-    </ng-container>
-
-    <ng-template #approvalComplete>
-      <ng-container
-        *ngIf="
-          approvalFacade.quotationAutoApprovedEvent$ | ngrxPush;
-          then quotationAutoApproved;
-          else quotationByWorkflowApproved
-        "
-      ></ng-container>
-    </ng-template>
-
-    <ng-template #quotationAutoApproved>
-      <!-- when quotation was auto_approved (two events received:Auto_Approved and Released) and never touched again, we just display the start Event,
+  <ng-template #quotationAutoApproved>
+    <!-- when quotation was auto_approved (two events received:Auto_Approved and Released) and never touched again, we just display the start Event,
         when workflowEvents.length <2 we have iterations such as cancelled and then restarted 
       -->
-      <gq-approval-workflow-history-section
-        *ngIf="
-          (approvalFacade.getApprovalWorkflowEvents$ | ngrxPush)?.length > 2
-        "
-        [icon]="'check_circle_outline'"
-        [iconColor]="'text-link'"
-        [title]="t('workflowAutoApprovedText')"
-        [subtitle]="
-          (approvalFacade.quotationAutoApprovedEvent$ | ngrxPush)?.eventDate
-        "
-      ></gq-approval-workflow-history-section
-    ></ng-template>
-    <ng-template #quotationByWorkflowApproved>
-      <gq-approval-workflow-history-section
-        [icon]="'check_circle_outline'"
-        [iconColor]="'text-link'"
-        [title]="t('quotationApprovedText')"
-        [subtitle]="
-          (approvalFacade.quotationFinalReleaseEvent$ | ngrxPush)?.eventDate
-        "
-      ></gq-approval-workflow-history-section
-    ></ng-template>
+    <gq-approval-workflow-history-section
+      *ngIf="workflowEvents?.length > 2"
+      [icon]="'check_circle_outline'"
+      [iconColor]="'text-link'"
+      [title]="t('workflowAutoApprovedText')"
+      [subtitle]="quotationAutoApprovedEvent?.eventDate"
+    ></gq-approval-workflow-history-section
+  ></ng-template>
+  <ng-template #quotationByWorkflowApproved>
+    <gq-approval-workflow-history-section
+      [icon]="'check_circle_outline'"
+      [iconColor]="'text-link'"
+      [title]="t('quotationApprovedText')"
+      [subtitle]="quotationFinalReleaseEvent?.eventDate"
+    ></gq-approval-workflow-history-section
+  ></ng-template>
 
-    <ng-template #approvalPending>
-      <gq-approval-workflow-history-section
-        [icon]="'timer_outline'"
-        [iconColor]="'text-low-emphasis'"
-        [title]="t('caseApprovalStatus')"
-        [subtitle]="t('approvalPending')"
-      ></gq-approval-workflow-history-section>
-    </ng-template>
-  </ng-container>
+  <ng-template #approvalPending>
+    <gq-approval-workflow-history-section
+      [icon]="'timer_outline'"
+      [iconColor]="'text-low-emphasis'"
+      [title]="t('caseApprovalStatus')"
+      [subtitle]="t('approvalPending')"
+    ></gq-approval-workflow-history-section>
+  </ng-template>
 </div>

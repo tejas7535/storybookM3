@@ -37,6 +37,7 @@ export class ApprovalWorkflowHistoryIterationsComponent implements OnChanges {
       );
     }
   }
+
   private getIconColor(
     isApproved: boolean,
     rejectedEvent: ApprovalWorkflowEvent,

@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
-import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
-import { ApprovalEventType } from '@gq/shared/models';
+import { ApprovalEventType, ApprovalWorkflowEvent } from '@gq/shared/models';
 import { QuotationStatus } from '@gq/shared/models/quotation';
 
 @Component({
@@ -9,8 +8,27 @@ import { QuotationStatus } from '@gq/shared/models/quotation';
   templateUrl: './approval-workflow-history.component.html',
 })
 export class ApprovalWorkflowHistoryComponent {
-  readonly quotationStatus = QuotationStatus;
+  @Input() quotationAutoApprovedEvent: ApprovalWorkflowEvent;
+  @Input() quotationCancelledEvent: ApprovalWorkflowEvent;
+  @Input() quotationRejectedEvent: ApprovalWorkflowEvent;
+  @Input() quotationFinalReleaseEvent: ApprovalWorkflowEvent;
+  @Input() receivedApprovalsOfRequiredApprovals: string;
+  @Input() quotationStatus: QuotationStatus;
+
+  workflowEventsAsc: ApprovalWorkflowEvent[];
+
+  readonly quotationStatusEnum = QuotationStatus;
   readonly eventType = ApprovalEventType;
 
-  constructor(readonly approvalFacade: ApprovalFacade) {}
+  private _workflowEvents: ApprovalWorkflowEvent[];
+
+  get workflowEvents(): ApprovalWorkflowEvent[] {
+    return this._workflowEvents;
+  }
+
+  @Input()
+  set workflowEvents(workflowEvents: ApprovalWorkflowEvent[]) {
+    this._workflowEvents = workflowEvents;
+    this.workflowEventsAsc = workflowEvents?.slice().reverse();
+  }
 }
