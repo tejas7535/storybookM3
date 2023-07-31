@@ -44,15 +44,15 @@ export class ApprovalWorkflowApproverComponent {
   // check also comment in facade for workflowInProgress !!!
   // a workaround is implemented
   get approvalStatusOfApprover(): string {
-    if (this.quotationStatus === QuotationStatus.REJECTED) {
-      return this.workflowEvent?.event === ApprovalEventType.REJECTED
-        ? APPROVAL_STATUS_OF_APPROVER_DISPLAY.REJECTED
-        : '';
-    }
-
     // when there's no event for the approver, the approver hasn't done any action yet,
     // so status is IN_APPROVAL
-    if (!this.workflowEvent && this.workflowInProgress) {
+    const isInApproval = !this.workflowEvent && this.workflowInProgress;
+
+    if (this.quotationStatus === QuotationStatus.REJECTED && isInApproval) {
+      return '';
+    }
+
+    if (isInApproval) {
       return APPROVAL_STATUS_OF_APPROVER_DISPLAY.IN_APPROVAL;
     }
 

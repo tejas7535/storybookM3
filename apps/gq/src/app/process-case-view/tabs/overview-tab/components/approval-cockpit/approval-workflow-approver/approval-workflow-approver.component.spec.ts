@@ -129,6 +129,22 @@ describe('ApprovalWorkflowApproverComponent', () => {
       );
     });
 
+    test('when workflow is in Progress, status would be IN_APPROVAL but quotation is rejected  --> emptyString', () => {
+      Object.defineProperty(component, 'workflowEvent', {
+        value: undefined,
+      });
+
+      Object.defineProperty(component, 'workflowInProgress', {
+        value: true,
+      });
+
+      Object.defineProperty(component, 'quotationStatus', {
+        value: QuotationStatus.REJECTED,
+      });
+
+      expect(component.approvalStatusOfApprover).toBe('');
+    });
+
     test('when workflow is in Progress, and event is not found --> emptyString', () => {
       Object.defineProperty(component, 'workflowEvent', {
         value: { event: 'ANY-FANCY-EVENT' },
