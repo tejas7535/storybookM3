@@ -80,6 +80,7 @@ export const APPROVAL_STATE_MOCK: ApprovalState = {
   triggerApprovalWorkflowInProgress: false,
   updateApprovalWorkflowInProgress: false,
   saveApprovalWorkflowInformationInProgress: false,
+  pollingApprovalCockpitDataInProgress: false,
   approvalCockpitLoading: false,
   approvalCockpit: {
     approvalGeneral: {

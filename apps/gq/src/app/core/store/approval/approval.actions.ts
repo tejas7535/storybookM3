@@ -44,6 +44,8 @@ export const ApprovalActions = createActionGroup({
     'Approval Cockpit Data Already loaded': emptyProps(),
     'Get Approval Cockpit Data Failure': props<{ error: Error }>(),
     'Clear Approval Cockpit Data': emptyProps(),
+    'Start Polling Approval Cockpit Data': emptyProps(),
+    'Stop Polling Approval Cockpit Data': emptyProps(),
     'Save Approval Workflow Information': props<{
       approvalWorkflowInformation: Omit<
         ApprovalWorkflowBaseInformation,

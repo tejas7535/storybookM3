@@ -1,7 +1,15 @@
 /* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 
-import { combineLatest, map, mergeMap, Observable, of, take } from 'rxjs';
+import {
+  combineLatest,
+  filter,
+  map,
+  mergeMap,
+  Observable,
+  of,
+  take,
+} from 'rxjs';
 
 import * as fromActiveCaseSelectors from '@gq/core/store/active-case/active-case.selectors';
 import {
@@ -42,6 +50,8 @@ export class ApprovalFacade {
   approvalCockpitLoading$: Observable<boolean> = this.store.select(
     approvalFeature.selectApprovalCockpitLoading
   );
+
+  error$: Observable<Error> = this.store.select(approvalFeature.selectError);
 
   firstApprovers$: Observable<Approver[]> = this.store.select(
     approvalFeature.getFirstApprovers
@@ -115,15 +125,9 @@ export class ApprovalFacade {
     approvalFeature.getHasAnyApprovalEvent
   );
 
-  isLatestApprovalEventVerified$: Observable<boolean> =
-    this.approvalCockpit$.pipe(
-      map(
-        (approvalData: ApprovalCockpitData) =>
-          // approval events are sorted by timestamp in descending order
-          // the first approval event is the latest one
-          approvalData.approvalEvents[0]?.verified
-      )
-    );
+  isLatestApprovalEventVerified$: Observable<boolean> = this.store.select(
+    approvalFeature.isLatestApprovalEventVerified
+  );
 
   quotationStatus$: Observable<QuotationStatus> = this.store.select(
     fromActiveCaseSelectors.getQuotationStatus
@@ -437,6 +441,24 @@ export class ApprovalFacade {
     this.store.dispatch(
       ApprovalActions.updateApprovalWorkflow({ updateApprovalWorkflowData })
     );
+  }
+
+  /**
+   * Stop the approval cockpit data polling process if it is running
+   */
+  stopApprovalCockpitDataPolling(): void {
+    this.store
+      .select(approvalFeature.selectPollingApprovalCockpitDataInProgress)
+      .pipe(
+        take(1),
+        filter(
+          (pollingApprovalCockpitDataInProgress: boolean) =>
+            pollingApprovalCockpitDataInProgress
+        )
+      )
+      .subscribe(() =>
+        this.store.dispatch(ApprovalActions.stopPollingApprovalCockpitData())
+      );
   }
 
   /**

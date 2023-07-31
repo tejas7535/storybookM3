@@ -1,10 +1,20 @@
 import { Injectable } from '@angular/core';
 
-import { catchError, map, mergeMap, of } from 'rxjs';
+import {
+  catchError,
+  EMPTY,
+  filter,
+  map,
+  mergeMap,
+  Observable,
+  of,
+  takeUntil,
+  timer,
+} from 'rxjs';
 
 import { AppRoutePath } from '@gq/app-route-path.enum';
 import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-path.enum';
-import { ActiveDirectoryUser } from '@gq/shared/models';
+import { ActiveDirectoryUser, QuotationStatus } from '@gq/shared/models';
 import {
   ApprovalCockpitData,
   ApprovalWorkflowEvent,
@@ -17,6 +27,7 @@ import { Store } from '@ngrx/store';
 
 import {
   activeCaseFeature,
+  getQuotationStatus,
   getSapId,
   QuotationIdentifier,
 } from '../active-case';
@@ -26,6 +37,8 @@ import { approvalFeature } from './approval.reducer';
 
 @Injectable()
 export class ApprovalEffects {
+  readonly APPROVAL_COCKPIT_DATA_POLLING_INTERVAL = 5000;
+
   getAllApprovers$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ApprovalActions.getAllApprovers),
@@ -205,22 +218,130 @@ export class ApprovalEffects {
             !recentApprovalCockpit?.approvalGeneral?.sapId ||
             recentApprovalCockpit?.approvalGeneral?.sapId !== action.sapId
           ) {
-            return this.approvalService
-              .getApprovalCockpitData(action.sapId)
-              .pipe(
-                map((approvalCockpit: ApprovalCockpitData) =>
-                  ApprovalActions.getApprovalCockpitDataSuccess({
-                    approvalCockpit,
-                  })
-                ),
-                catchError((error: Error) =>
-                  of(ApprovalActions.getApprovalCockpitDataFailure({ error }))
-                )
-              );
+            return this.getApprovalCockpitData(action.sapId);
           }
 
           return of(ApprovalActions.approvalCockpitDataAlreadyLoaded());
         }
+      )
+    );
+  });
+
+  /**
+   * Start approval cockpit data polling if not started yet and if the latest event is not verified.
+   * Stop polling if it is running and the latest event is verified.
+   */
+  handleApprovalCockpitDataPolling$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(
+        ApprovalActions.getApprovalCockpitDataSuccess,
+        ApprovalActions.approvalCockpitDataAlreadyLoaded,
+        ApprovalActions.triggerApprovalWorkflowSuccess,
+        ApprovalActions.updateApprovalWorkflowSuccess
+      ),
+      concatLatestFrom(() => [
+        this.store.select(
+          approvalFeature.selectPollingApprovalCockpitDataInProgress
+        ),
+        this.store.select(getQuotationStatus),
+        this.store.select(approvalFeature.isLatestApprovalEventVerified),
+      ]),
+      filter(
+        ([
+          _action,
+          _pollingApprovalCockpitDataInProgress,
+          quotationStatus,
+          _isLatestApprovalEventVerified,
+        ]: [
+          ReturnType<
+            | typeof ApprovalActions.getApprovalCockpitDataSuccess
+            | typeof ApprovalActions.approvalCockpitDataAlreadyLoaded
+            | typeof ApprovalActions.triggerApprovalWorkflowSuccess
+            | typeof ApprovalActions.updateApprovalWorkflowSuccess
+          >,
+          boolean,
+          QuotationStatus,
+          boolean
+        ]) =>
+          quotationStatus !== QuotationStatus.ACTIVE &&
+          quotationStatus !== QuotationStatus.DELETED &&
+          quotationStatus !== QuotationStatus.ARCHIVED
+      ),
+      mergeMap(
+        ([
+          _action,
+          pollingApprovalCockpitDataInProgress,
+          _quotationStatus,
+          isLatestApprovalEventVerified,
+        ]: [
+          ReturnType<
+            | typeof ApprovalActions.getApprovalCockpitDataSuccess
+            | typeof ApprovalActions.approvalCockpitDataAlreadyLoaded
+            | typeof ApprovalActions.triggerApprovalWorkflowSuccess
+            | typeof ApprovalActions.updateApprovalWorkflowSuccess
+          >,
+          boolean,
+          QuotationStatus,
+          boolean
+        ]) => {
+          if (pollingApprovalCockpitDataInProgress) {
+            if (isLatestApprovalEventVerified) {
+              return of(ApprovalActions.stopPollingApprovalCockpitData());
+            }
+          } else {
+            if (!isLatestApprovalEventVerified) {
+              return of(ApprovalActions.startPollingApprovalCockpitData());
+            }
+          }
+
+          return EMPTY;
+        }
+      )
+    );
+  });
+
+  /**
+   * Stop approval cockpit data polling if it is running
+   */
+  getApprovalCockpitDataFailure$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ApprovalActions.getApprovalCockpitDataFailure),
+      concatLatestFrom(() =>
+        this.store.select(
+          approvalFeature.selectPollingApprovalCockpitDataInProgress
+        )
+      ),
+      filter(
+        ([_action, pollingApprovalCockpitDataInProgress]: [
+          ReturnType<typeof ApprovalActions.getApprovalCockpitDataFailure>,
+          boolean
+        ]) => pollingApprovalCockpitDataInProgress
+      ),
+      map(() => ApprovalActions.stopPollingApprovalCockpitData())
+    );
+  });
+
+  startPollingApprovalCockpitData$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ApprovalActions.startPollingApprovalCockpitData),
+      concatLatestFrom(() => this.store.select(getSapId)),
+      mergeMap(
+        ([_action, sapId]: [
+          ReturnType<typeof ApprovalActions.startPollingApprovalCockpitData>,
+          string
+        ]) =>
+          timer(
+            // we don't need to start the polling immediately as the status cannot be verified immediately after workflow start or workflow update
+            this.APPROVAL_COCKPIT_DATA_POLLING_INTERVAL,
+            this.APPROVAL_COCKPIT_DATA_POLLING_INTERVAL
+          ).pipe(
+            takeUntil(
+              this.actions$.pipe(
+                ofType(ApprovalActions.stopPollingApprovalCockpitData)
+              )
+            ),
+            mergeMap(() => this.getApprovalCockpitData(sapId))
+          )
       )
     );
   });
@@ -230,4 +351,24 @@ export class ApprovalEffects {
     private readonly actions$: Actions,
     private readonly approvalService: ApprovalService
   ) {}
+
+  private getApprovalCockpitData(
+    sapId: string
+  ): Observable<
+    ReturnType<
+      | typeof ApprovalActions.getApprovalCockpitDataSuccess
+      | typeof ApprovalActions.getApprovalCockpitDataFailure
+    >
+  > {
+    return this.approvalService.getApprovalCockpitData(sapId).pipe(
+      map((approvalCockpit: ApprovalCockpitData) =>
+        ApprovalActions.getApprovalCockpitDataSuccess({
+          approvalCockpit,
+        })
+      ),
+      catchError((error: Error) =>
+        of(ApprovalActions.getApprovalCockpitDataFailure({ error }))
+      )
+    );
+  }
 }

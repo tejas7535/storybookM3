@@ -27,6 +27,7 @@ export interface ApprovalState {
   triggerApprovalWorkflowInProgress: boolean;
   updateApprovalWorkflowInProgress: boolean;
   saveApprovalWorkflowInformationInProgress: boolean;
+  pollingApprovalCockpitDataInProgress: boolean;
   approvalCockpitLoading: boolean;
   approvalCockpit: ApprovalCockpitData;
   error: Error;
@@ -43,6 +44,7 @@ export const initialState: ApprovalState = {
   triggerApprovalWorkflowInProgress: false,
   updateApprovalWorkflowInProgress: false,
   saveApprovalWorkflowInformationInProgress: false,
+  pollingApprovalCockpitDataInProgress: false,
   approvalCockpit: {
     approvalEvents: [],
     approvalGeneral: {
@@ -252,6 +254,7 @@ export const approvalFeature = createFeature({
       (state: ApprovalState): ApprovalState => ({
         ...state,
         approvalCockpitLoading: true,
+        error: undefined,
       })
     ),
     on(
@@ -276,6 +279,20 @@ export const approvalFeature = createFeature({
         approvalCockpitLoading: false,
         approvalCockpit: { ...initialState.approvalCockpit },
         error,
+      })
+    ),
+    on(
+      ApprovalActions.startPollingApprovalCockpitData,
+      (state: ApprovalState): ApprovalState => ({
+        ...state,
+        pollingApprovalCockpitDataInProgress: true,
+      })
+    ),
+    on(
+      ApprovalActions.stopPollingApprovalCockpitData,
+      (state: ApprovalState): ApprovalState => ({
+        ...state,
+        pollingApprovalCockpitDataInProgress: false,
       })
     )
   ),
@@ -413,6 +430,13 @@ export const approvalFeature = createFeature({
             )
           : [];
       }
+    ),
+    isLatestApprovalEventVerified: createSelector(
+      selectApprovalCockpit,
+      (cockpit: ApprovalCockpitData): boolean =>
+        // approval events are sorted by timestamp in descending order
+        // the first approval event is the latest one
+        cockpit?.approvalEvents[0]?.verified
     ),
   }),
 });

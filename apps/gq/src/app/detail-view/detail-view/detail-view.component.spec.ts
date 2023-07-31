@@ -121,6 +121,8 @@ describe('DetailViewComponent', () => {
             } as ApprovalWorkflowInformation),
             approvalCockpitLoading$: of(true),
             getApprovalCockpitData: jest.fn(),
+            error$: of(undefined as Error),
+            stopApprovalCockpitDataPolling: jest.fn(),
           } as unknown as ApprovalFacade;
 
           Object.defineProperty(component, 'approvalFacade', {
@@ -141,6 +143,36 @@ describe('DetailViewComponent', () => {
       );
 
       test(
+        'should return true when ApprovalCockpit loading has finished with an error',
+        marbles((m) => {
+          const facadeMock: ApprovalFacade = {
+            approvalCockpitInformation$: of({
+              sapId: undefined,
+            } as ApprovalWorkflowInformation),
+            approvalCockpitLoading$: of(false),
+            getApprovalCockpitData: jest.fn(),
+            error$: of(new Error('error')),
+            stopApprovalCockpitDataPolling: jest.fn(),
+          } as unknown as ApprovalFacade;
+
+          Object.defineProperty(component, 'approvalFacade', {
+            value: facadeMock,
+          });
+
+          mockStore.overrideSelector(
+            activeCaseFeature.selectQuotationLoading,
+            false
+          );
+
+          component.ngOnInit();
+
+          m.expect(component.dataLoadingComplete$).toBeObservable(
+            m.cold('a', { a: true })
+          );
+        })
+      );
+
+      test(
         'should return false when quotation is on loading',
         marbles((m) => {
           const facadeMock: ApprovalFacade = {
@@ -149,6 +181,8 @@ describe('DetailViewComponent', () => {
             } as ApprovalWorkflowInformation),
             approvalCockpitLoading$: of(false),
             getApprovalCockpitData: jest.fn(),
+            error$: of(undefined as Error),
+            stopApprovalCockpitDataPolling: jest.fn(),
           } as unknown as ApprovalFacade;
 
           Object.defineProperty(component, 'approvalFacade', {
@@ -177,6 +211,8 @@ describe('DetailViewComponent', () => {
             } as ApprovalWorkflowInformation),
             approvalCockpitLoading$: of(true),
             getApprovalCockpitData: jest.fn(),
+            error$: of(undefined as Error),
+            stopApprovalCockpitDataPolling: jest.fn(),
           } as unknown as ApprovalFacade;
 
           Object.defineProperty(component, 'approvalFacade', {
@@ -210,6 +246,8 @@ describe('DetailViewComponent', () => {
             } as ApprovalWorkflowInformation),
             approvalCockpitLoading$: of(false),
             getApprovalCockpitData: jest.fn(),
+            error$: of(undefined as Error),
+            stopApprovalCockpitDataPolling: jest.fn(),
           } as unknown as ApprovalFacade;
 
           Object.defineProperty(component, 'approvalFacade', {
@@ -232,7 +270,12 @@ describe('DetailViewComponent', () => {
   });
 
   describe('ngOnDestroy', () => {
-    test('should emit', () => {
+    test('should emit shutDown and stop approval cockpit data polling', () => {
+      const stopApprovalCockpitDataPolling = jest.fn();
+
+      Object.defineProperty(component, 'approvalFacade', {
+        value: { stopApprovalCockpitDataPolling },
+      });
       component['shutDown$$'].next = jest.fn();
       component['shutDown$$'].complete = jest.fn();
 
@@ -240,6 +283,7 @@ describe('DetailViewComponent', () => {
 
       expect(component['shutDown$$'].next).toHaveBeenCalled();
       expect(component['shutDown$$'].complete).toHaveBeenCalled();
+      expect(stopApprovalCockpitDataPolling).toHaveBeenCalled();
     });
   });
 

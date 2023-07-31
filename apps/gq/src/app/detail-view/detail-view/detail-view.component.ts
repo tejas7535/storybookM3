@@ -96,6 +96,8 @@ export class DetailViewComponent implements OnInit, OnDestroy {
     );
 
   ngOnDestroy(): void {
+    this.approvalFacade.stopApprovalCockpitDataPolling();
+
     this.shutDown$$.next();
     this.shutDown$$.complete();
   }
@@ -134,6 +136,7 @@ export class DetailViewComponent implements OnInit, OnDestroy {
       this.quotation$,
       this.approvalFacade.approvalCockpitLoading$,
       this.approvalFacade.approvalCockpitInformation$,
+      this.approvalFacade.error$,
     ]).pipe(
       takeUntil(this.shutDown$$),
       map(
@@ -142,11 +145,13 @@ export class DetailViewComponent implements OnInit, OnDestroy {
           quotation,
           approvalInformationLoading,
           approvalInformation,
-        ]: [boolean, Quotation, boolean, ApprovalWorkflowInformation]) =>
+          error,
+        ]: [boolean, Quotation, boolean, ApprovalWorkflowInformation, Error]) =>
           !quotationLoading &&
           // Approval information loading status is relevant only if the quotation is synced with SAP
           (quotation?.sapId
-            ? !approvalInformationLoading && !!approvalInformation.sapId
+            ? !approvalInformationLoading &&
+              (!!approvalInformation.sapId || !!error)
             : true)
       )
     );

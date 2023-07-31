@@ -26,7 +26,11 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
 import { APPROVAL_STATE_MOCK } from '../../../../testing/mocks';
-import { activeCaseFeature, getSapId } from '../active-case';
+import {
+  activeCaseFeature,
+  getQuotationStatus,
+  getSapId,
+} from '../active-case';
 import * as activeCaseUtils from '../active-case/active-case.utils';
 import { ApprovalActions } from './approval.actions';
 import { ApprovalEffects } from './approval.effects';
@@ -719,6 +723,252 @@ describe('ApprovalEffects', () => {
           expected
         );
         m.flush();
+      })
+    );
+  });
+
+  describe('handleApprovalCockpitDataPolling$', () => {
+    test(
+      'should not dispatch an action if quotation has non-approval status',
+      marbles((m) => {
+        store.overrideSelector(
+          approvalFeature.selectPollingApprovalCockpitDataInProgress,
+          false
+        );
+        store.overrideSelector(getQuotationStatus, QuotationStatus.ACTIVE);
+        store.overrideSelector(
+          approvalFeature.isLatestApprovalEventVerified,
+          false
+        );
+
+        action = ApprovalActions.getApprovalCockpitDataSuccess({
+          approvalCockpit: {} as ApprovalCockpitData,
+        });
+        const expected = m.cold('', {});
+
+        actions$ = m.hot('-a', { a: action });
+        m.expect(effects.handleApprovalCockpitDataPolling$).toBeObservable(
+          expected
+        );
+      })
+    );
+
+    test(
+      'should not dispatch an action if latest approval event is verified and polling is not running',
+      marbles((m) => {
+        store.overrideSelector(
+          approvalFeature.selectPollingApprovalCockpitDataInProgress,
+          false
+        );
+        store.overrideSelector(getQuotationStatus, QuotationStatus.APPROVED);
+        store.overrideSelector(
+          approvalFeature.isLatestApprovalEventVerified,
+          true
+        );
+
+        action = ApprovalActions.approvalCockpitDataAlreadyLoaded();
+        const expected = m.cold('', {});
+
+        actions$ = m.hot('-a', { a: action });
+        m.expect(effects.handleApprovalCockpitDataPolling$).toBeObservable(
+          expected
+        );
+      })
+    );
+
+    test(
+      'should dispatch startPollingApprovalCockpitData if latest approval event is not verified and polling is not running',
+      marbles((m) => {
+        store.overrideSelector(
+          approvalFeature.selectPollingApprovalCockpitDataInProgress,
+          false
+        );
+        store.overrideSelector(getQuotationStatus, QuotationStatus.IN_APPROVAL);
+        store.overrideSelector(
+          approvalFeature.isLatestApprovalEventVerified,
+          false
+        );
+
+        action = ApprovalActions.triggerApprovalWorkflowSuccess({
+          approvalInformation: {} as ApprovalCockpitData,
+        });
+        const expected = m.cold('-b', {
+          b: ApprovalActions.startPollingApprovalCockpitData(),
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        m.expect(effects.handleApprovalCockpitDataPolling$).toBeObservable(
+          expected
+        );
+      })
+    );
+
+    test(
+      'should dispatch stopPollingApprovalCockpitData if latest approval event is verified and polling is running',
+      marbles((m) => {
+        store.overrideSelector(
+          approvalFeature.selectPollingApprovalCockpitDataInProgress,
+          true
+        );
+        store.overrideSelector(getQuotationStatus, QuotationStatus.REJECTED);
+        store.overrideSelector(
+          approvalFeature.isLatestApprovalEventVerified,
+          true
+        );
+
+        action = ApprovalActions.updateApprovalWorkflowSuccess({
+          approvalEvent: {} as ApprovalWorkflowEvent,
+        });
+        const expected = m.cold('-b', {
+          b: ApprovalActions.stopPollingApprovalCockpitData(),
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        m.expect(effects.handleApprovalCockpitDataPolling$).toBeObservable(
+          expected
+        );
+      })
+    );
+  });
+
+  describe('getApprovalCockpitDataFailure$', () => {
+    test(
+      'should dispatch stopPollingApprovalCockpitData if polling is running',
+      marbles((m) => {
+        store.overrideSelector(
+          approvalFeature.selectPollingApprovalCockpitDataInProgress,
+          true
+        );
+
+        action = ApprovalActions.getApprovalCockpitDataFailure({
+          error: new Error('error'),
+        });
+        const expected = m.cold('-b', {
+          b: ApprovalActions.stopPollingApprovalCockpitData(),
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        m.expect(effects.getApprovalCockpitDataFailure$).toBeObservable(
+          expected
+        );
+      })
+    );
+
+    test(
+      'should not dispatch stopPollingApprovalCockpitData if polling is not running',
+      marbles((m) => {
+        store.overrideSelector(
+          approvalFeature.selectPollingApprovalCockpitDataInProgress,
+          false
+        );
+
+        action = ApprovalActions.getApprovalCockpitDataFailure({
+          error: new Error('error'),
+        });
+        const expected = m.cold('', {});
+
+        actions$ = m.hot('-a', { a: action });
+        m.expect(effects.getApprovalCockpitDataFailure$).toBeObservable(
+          expected
+        );
+      })
+    );
+  });
+
+  describe('startPollingApprovalCockpitData$', () => {
+    test(
+      'should start polling approval cockpit data and stop it when stopPollingApprovalCockpitData is dispatched',
+      marbles((m) => {
+        const expectedPollingCycles = 3;
+        const sapId = '123456';
+        const getApprovalCockpitDataSpy = jest.spyOn(
+          approvalService,
+          'getApprovalCockpitData'
+        );
+
+        store.overrideSelector(getSapId, sapId);
+
+        const response = m.cold('a', {
+          a: APPROVAL_STATE_MOCK.approvalCockpit,
+        });
+        getApprovalCockpitDataSpy.mockReturnValue(response);
+
+        const result = ApprovalActions.getApprovalCockpitDataSuccess({
+          approvalCockpit: APPROVAL_STATE_MOCK.approvalCockpit,
+        });
+        const expected = m.cold(
+          // subtract 1 ms from the time to progress because the marbles advance time 1 virtual frame themselves
+          // s. https://rxjs.dev/guide/testing/marble-testing#time-progression-syntax
+          `${effects.APPROVAL_COCKPIT_DATA_POLLING_INTERVAL}ms a ${
+            effects.APPROVAL_COCKPIT_DATA_POLLING_INTERVAL - 1
+          }ms b ${effects.APPROVAL_COCKPIT_DATA_POLLING_INTERVAL - 1}ms c`,
+          { a: result, b: result, c: result }
+        );
+
+        actions$ = m.hot(
+          `a ${
+            expectedPollingCycles *
+              effects.APPROVAL_COCKPIT_DATA_POLLING_INTERVAL +
+            5
+          }ms b`,
+          {
+            a: ApprovalActions.startPollingApprovalCockpitData(),
+            b: ApprovalActions.stopPollingApprovalCockpitData(),
+          }
+        );
+
+        m.expect(effects.startPollingApprovalCockpitData$).toBeObservable(
+          expected
+        );
+
+        m.flush();
+
+        expect(getApprovalCockpitDataSpy).toHaveBeenCalledWith(sapId);
+        expect(getApprovalCockpitDataSpy).toHaveBeenCalledTimes(
+          expectedPollingCycles
+        );
+      })
+    );
+
+    test(
+      'should dispatch getApprovalCockpitDataFailure after first polling',
+      marbles((m) => {
+        const sapId = '123456';
+        const error = new Error('Test error');
+        const getApprovalCockpitDataSpy = jest.spyOn(
+          approvalService,
+          'getApprovalCockpitData'
+        );
+
+        store.overrideSelector(getSapId, sapId);
+
+        const response = m.cold('#', undefined, error);
+        getApprovalCockpitDataSpy.mockReturnValue(response);
+
+        const result = ApprovalActions.getApprovalCockpitDataFailure({
+          error,
+        });
+        const expected = m.cold(
+          `${effects.APPROVAL_COCKPIT_DATA_POLLING_INTERVAL}ms a`,
+          { a: result }
+        );
+
+        actions$ = m.hot(
+          `a ${effects.APPROVAL_COCKPIT_DATA_POLLING_INTERVAL + 5}ms b`,
+          {
+            a: ApprovalActions.startPollingApprovalCockpitData(),
+            b: ApprovalActions.stopPollingApprovalCockpitData(),
+          }
+        );
+
+        m.expect(effects.startPollingApprovalCockpitData$).toBeObservable(
+          expected
+        );
+
+        m.flush();
+
+        expect(getApprovalCockpitDataSpy).toHaveBeenCalledWith(sapId);
+        expect(getApprovalCockpitDataSpy).toHaveBeenCalledTimes(1);
       })
     );
   });

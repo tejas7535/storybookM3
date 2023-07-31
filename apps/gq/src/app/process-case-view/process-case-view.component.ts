@@ -71,6 +71,8 @@ export class ProcessCaseViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.approvalFacade.stopApprovalCockpitDataPolling();
+
     this.shutDown$$.next();
     this.shutDown$$.complete();
   }
@@ -116,6 +118,7 @@ export class ProcessCaseViewComponent implements OnInit, OnDestroy {
       this.quotation$,
       this.approvalFacade.approvalCockpitLoading$,
       this.approvalFacade.approvalCockpitInformation$,
+      this.approvalFacade.error$,
     ]).pipe(
       takeUntil(this.shutDown$$),
       map(
@@ -125,18 +128,21 @@ export class ProcessCaseViewComponent implements OnInit, OnDestroy {
           quotation,
           approvalInformationLoading,
           approvalInformation,
+          error,
         ]: [
           boolean,
           boolean,
           Quotation,
           boolean,
-          ApprovalWorkflowInformation
+          ApprovalWorkflowInformation,
+          Error
         ]) =>
           !customerLoading &&
           !quotationLoading &&
           // Approval information loading status is relevant only if the quotation is synced with SAP
           (quotation?.sapId
-            ? !approvalInformationLoading && !!approvalInformation.sapId
+            ? !approvalInformationLoading &&
+              (!!approvalInformation.sapId || !!error)
             : true)
       )
     );

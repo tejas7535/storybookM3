@@ -344,41 +344,28 @@ describe('ApprovalFacade', () => {
       })
     );
 
-    describe('should provide isLatestApprovalEventVerified$', () => {
-      test(
-        'latest approval event should be verified',
-        marbles((m) => {
-          mockStore.overrideSelector(
-            approvalFeature.selectApprovalCockpit,
-            APPROVAL_STATE_MOCK.approvalCockpit
-          );
+    test(
+      'should provide error$',
+      marbles((m) => {
+        const error = new Error('error');
+        mockStore.overrideSelector(approvalFeature.selectError, error);
+        m.expect(service.error$).toBeObservable(m.cold('a', { a: error }));
+      })
+    );
 
-          m.expect(service.isLatestApprovalEventVerified$).toBeObservable(
-            m.cold('a', { a: true })
-          );
-        })
-      );
+    test(
+      'should provide isLatestApprovalEventVerified$',
+      marbles((m) => {
+        mockStore.overrideSelector(
+          approvalFeature.isLatestApprovalEventVerified,
+          true
+        );
 
-      test(
-        'latest approval event should not be verified',
-        marbles((m) => {
-          mockStore.overrideSelector(approvalFeature.selectApprovalCockpit, {
-            ...APPROVAL_STATE_MOCK.approvalCockpit,
-            approvalEvents:
-              APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents.map(
-                (event: ApprovalWorkflowEvent, index: number) => ({
-                  ...event,
-                  verified: index > 0,
-                })
-              ),
-          });
-
-          m.expect(service.isLatestApprovalEventVerified$).toBeObservable(
-            m.cold('a', { a: false })
-          );
-        })
-      );
-    });
+        m.expect(service.isLatestApprovalEventVerified$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
 
     describe('should provide quotationFullyApproved$', () => {
       test(
@@ -1631,5 +1618,35 @@ describe('ApprovalFacade', () => {
         );
       })
     );
+  });
+
+  describe('stopApprovalCockpitDataPolling', () => {
+    test('should stop polling if it is running', () => {
+      mockStore.overrideSelector(
+        approvalFeature.selectPollingApprovalCockpitDataInProgress,
+        true
+      );
+
+      mockStore.dispatch = jest.fn();
+      service.stopApprovalCockpitDataPolling();
+
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        ApprovalActions.stopPollingApprovalCockpitData()
+      );
+    });
+
+    test('should not dispatch stopPollingApprovalCockpitData if polling is not running', () => {
+      mockStore.overrideSelector(
+        approvalFeature.selectPollingApprovalCockpitDataInProgress,
+        false
+      );
+
+      mockStore.dispatch = jest.fn();
+      service.stopApprovalCockpitDataPolling();
+
+      expect(mockStore.dispatch).not.toHaveBeenCalledWith(
+        ApprovalActions.stopPollingApprovalCockpitData()
+      );
+    });
   });
 });

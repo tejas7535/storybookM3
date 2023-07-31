@@ -73,9 +73,12 @@ describe('approvalReducer', () => {
   });
 
   describe('getApprovalCockpitData', () => {
-    test('should set approvalCockpitLoading', () => {
+    test('should set approvalCockpitLoading and reset error', () => {
       const action = ApprovalActions.getApprovalCockpitData({ sapId: '1' });
-      const state = approvalFeature.reducer(initialState, action);
+      const state = approvalFeature.reducer(
+        { ...initialState, error: new Error('error') },
+        action
+      );
       expect(state).toEqual({
         ...initialState,
         approvalCockpitLoading: true,
@@ -404,6 +407,32 @@ describe('approvalReducer', () => {
       });
     });
   });
+
+  describe('approval cockpit data polling', () => {
+    test('should set pollingApprovalCockpitDataInProgress to true', () => {
+      const action = ApprovalActions.startPollingApprovalCockpitData();
+      const state = approvalFeature.reducer(initialState, action);
+
+      expect(state).toEqual({
+        ...initialState,
+        pollingApprovalCockpitDataInProgress: true,
+      });
+    });
+
+    test('should set pollingApprovalCockpitDataInProgress to false', () => {
+      const action = ApprovalActions.stopPollingApprovalCockpitData();
+      const state = approvalFeature.reducer(
+        { ...initialState, pollingApprovalCockpitDataInProgress: true },
+        action
+      );
+
+      expect(state).toEqual({
+        ...initialState,
+        pollingApprovalCockpitDataInProgress: false,
+      });
+    });
+  });
+
   describe('ExtraSelector', () => {
     test('should return Approvers of requested Level 3', () => {
       expect(
@@ -822,6 +851,31 @@ describe('approvalReducer', () => {
             )
           ).toEqual(APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents);
         });
+      });
+    });
+
+    describe('isLatestApprovalEventVerified', () => {
+      test('latest approval event should be verified', () => {
+        expect(
+          approvalFeature.isLatestApprovalEventVerified.projector(
+            APPROVAL_STATE_MOCK.approvalCockpit
+          )
+        ).toBe(true);
+      });
+
+      test('latest approval event should not be verified', () => {
+        expect(
+          approvalFeature.isLatestApprovalEventVerified.projector({
+            ...APPROVAL_STATE_MOCK.approvalCockpit,
+            approvalEvents:
+              APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents.map(
+                (event: ApprovalWorkflowEvent, index: number) => ({
+                  ...event,
+                  verified: index > 0,
+                })
+              ),
+          })
+        ).toBe(false);
       });
     });
 
