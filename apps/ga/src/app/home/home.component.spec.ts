@@ -10,6 +10,7 @@ import { MockComponent, MockModule } from 'ng-mocks';
 
 import { initialState } from '@ga/core/store/reducers/settings/settings.reducer';
 import { AppLogoModule } from '@ga/shared/components/app-logo';
+import { QualtricsInfoBannerComponent } from '@ga/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
 import { QuickBearingSelectionComponent } from '@ga/shared/components/quick-bearing-selection';
 import { TRACKING_APP_STORE_LINK_CLICK } from '@ga/shared/constants';
 
@@ -27,6 +28,7 @@ describe('HomeComponent', () => {
       MockModule(HomepageCardModule),
       MockModule(AppLogoModule),
       MockComponent(QuickBearingSelectionComponent),
+      MockComponent(QualtricsInfoBannerComponent),
       RouterTestingModule,
       PushPipe,
     ],
@@ -67,5 +69,9 @@ describe('HomeComponent', () => {
       page: 'home',
       storeName: 'play',
     });
+  });
+
+  it('should display qualtrics info banner', () => {
+    expect(spectator.query('ga-qualtrics-info-banner')).toBeTruthy();
   });
 });

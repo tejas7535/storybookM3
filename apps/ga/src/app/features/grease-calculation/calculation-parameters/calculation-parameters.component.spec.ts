@@ -10,9 +10,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
-import { LetModule, PushModule } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { MockModule } from 'ng-mocks';
+import { MockComponent, MockModule } from 'ng-mocks';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { MaintenanceModule } from '@schaeffler/empty-states';
@@ -27,7 +27,9 @@ import {
 } from '@ga/core/store/actions';
 import { CalculationParametersState } from '@ga/core/store/models';
 import { initialState } from '@ga/core/store/reducers/calculation-parameters/calculation-parameters.reducer';
+import { MediasButtonComponent } from '@ga/shared/components/medias-button';
 import { PreferredGreaseSelectionComponent } from '@ga/shared/components/preferred-grease-selection';
+import { QualtricsInfoBannerComponent } from '@ga/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
 import { EnvironmentImpact, LoadLevels, Movement } from '@ga/shared/models';
 import {
   AUTOMATIC_LUBRICATON_MOCK,
@@ -58,13 +60,15 @@ describe('CalculationParametersComponent', () => {
     component: CalculationParametersComponent,
     imports: [
       RouterTestingModule,
-      PushModule,
-      LetModule,
+      PushPipe,
+      LetDirective,
       provideTranslocoTestingModule({ en: {} }),
 
       // UI
       BreadcrumbsModule,
       PreferredGreaseSelectionComponent,
+      MockComponent(QualtricsInfoBannerComponent),
+      MockComponent(MediasButtonComponent),
       MockModule(SubheaderModule),
       MockModule(MaintenanceModule),
 
@@ -109,6 +113,10 @@ describe('CalculationParametersComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should display qualtrics info banner', () => {
+    expect(spectator.query('ga-qualtrics-info-banner')).toBeTruthy();
   });
 
   describe('ngOnInit', () => {

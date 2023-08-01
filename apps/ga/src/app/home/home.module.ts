@@ -6,6 +6,7 @@ import { PushPipe } from '@ngrx/component';
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 
 import { AppLogoModule } from '@ga/shared/components/app-logo';
+import { QualtricsInfoBannerComponent } from '@ga/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
 import { QuickBearingSelectionComponent } from '@ga/shared/components/quick-bearing-selection';
 
 import { HomepageCardModule } from './components';
@@ -17,14 +18,13 @@ import { HomeRoutingModule } from './home-routing.module';
   imports: [
     CommonModule,
     HomeRoutingModule,
-
     // Components
     HomepageCardModule,
     AppLogoModule,
     QuickBearingSelectionComponent,
     ApplicationInsightsModule,
-
     PushPipe,
+    QualtricsInfoBannerComponent,
   ],
   bootstrap: [HomeComponent],
 })

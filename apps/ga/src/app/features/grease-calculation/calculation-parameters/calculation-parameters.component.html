@@ -1,5 +1,8 @@
 <ng-container *transloco="let t; read: 'parameters'">
   <div class="flex h-full flex-col">
+    <ga-qualtrics-info-banner
+      class="block mb-3 md:mb-6 px-4"
+    ></ga-qualtrics-info-banner>
     <schaeffler-subheader
       *ngrxLet="selectedBearing$ as selectedBearing"
       [hideLine]="true"

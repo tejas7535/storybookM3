@@ -17,6 +17,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { CalculationResultEffects } from '@ga/core/store';
 import { calculationResultReducer } from '@ga/core/store/reducers/calculation-result/calculation-result.reducer';
 import { MediasButtonComponent } from '@ga/shared/components/medias-button';
+import { QualtricsInfoBannerComponent } from '@ga/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
 
 import { CalculationParametersService } from '../calculation-parameters/services';
 import { CalculationResultComponent } from './calculation-result.component';
@@ -54,6 +55,7 @@ import {
     ReportModule,
     GreaseReportComponent,
     MediasButtonComponent,
+    QualtricsInfoBannerComponent,
   ],
   providers: [
     CalculationParametersService,

@@ -1,0 +1,16 @@
+<ng-container *ngIf="shouldDisplayBanner">
+  <ga-info-banner
+    *transloco="let t; read: 'shared'"
+    infoText="{{ t('feedbackText') }}"
+  >
+    <div class="pt-2 md:pt-0 md:ml-6">
+      <button
+        mat-raised-button
+        class="text-medium-emphasis hover:text-link"
+        (click)="openSurveyDialog()"
+      >
+        <mat-icon>feedback</mat-icon> {{ t('feedbackButton') }}
+      </button>
+    </div>
+  </ga-info-banner>
+</ng-container>

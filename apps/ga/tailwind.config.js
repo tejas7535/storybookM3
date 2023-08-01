@@ -14,7 +14,18 @@ module.exports = {
   ],
   presets: [schaefflerTailwindPreset],
   theme: {
-    extend: {},
+    extend: {
+      backgroundColor: {
+        info: '#F0F6FA',
+      },
+      borderColor: {
+        info: '#1C98B5',
+      },
+      textColor: {
+        'info-icon': '#1C98B5',
+        info: '#00596E',
+      },
+    },
   },
   plugins: [],
 };

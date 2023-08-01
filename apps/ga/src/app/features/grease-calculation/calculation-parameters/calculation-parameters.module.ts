@@ -19,6 +19,7 @@ import { CalculationParametersEffects } from '@ga/core/store/effects';
 import { FormFieldModule } from '@ga/shared/components/form-field';
 import { MediasButtonComponent } from '@ga/shared/components/medias-button';
 import { PreferredGreaseSelectionComponent } from '@ga/shared/components/preferred-grease-selection';
+import { QualtricsInfoBannerComponent } from '@ga/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
 
 import { CalculationParametersComponent } from './calculation-parameters.component';
 import { CalculationParametersRoutingModule } from './calculation-parameters-routing.module';
@@ -39,6 +40,7 @@ import { CalculationParametersService } from './services';
     FormFieldModule,
     PreferredGreaseSelectionComponent,
     MediasButtonComponent,
+    QualtricsInfoBannerComponent,
 
     // Material Modules
     MatButtonModule,

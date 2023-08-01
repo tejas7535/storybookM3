@@ -96,7 +96,9 @@
     },
     "min": "最小",
     "max": "最大",
-    "mediasButton": "在媒体上显示方位 {{bearing}}"
+    "mediasButton": "在媒体上显示方位 {{bearing}}",
+    "feedbackButton": "反馈意见",
+    "feedbackText": "您的反馈对我们非常重要，我们邀请您参与我们的调查，以帮助我们改进工作。您的真知灼见将指导我们努力改进产品，我们感谢您的时间和反馈。"
   },
   "bearing": {
     "title": {

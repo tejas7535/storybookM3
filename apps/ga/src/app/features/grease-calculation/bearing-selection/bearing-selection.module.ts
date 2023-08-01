@@ -10,6 +10,7 @@ import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { BearingSelectionEffects } from '@ga/core/store';
+import { QualtricsInfoBannerComponent } from '@ga/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
 import { QuickBearingSelectionComponent } from '@ga/shared/components/quick-bearing-selection';
 
 import { BearingSelectionComponent } from './bearing-selection.component';
@@ -40,6 +41,7 @@ import { AdvancedBearingSelectionModule } from './components/advanced-bearing-se
     AdvancedBearingSelectionModule,
     QuickBearingSelectionComponent,
     SubheaderModule,
+    QualtricsInfoBannerComponent,
   ],
 })
 export class BearingSelectionModule {}

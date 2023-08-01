@@ -13,7 +13,7 @@ import {
 import { translate, TranslocoService } from '@ngneat/transloco';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { MockModule } from 'ng-mocks';
+import { MockComponent, MockModule } from 'ng-mocks';
 
 import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -21,6 +21,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { AppRoutePath } from '@ga/app-route-path.enum';
 import { getCalculation } from '@ga/core/store/actions/calculation-result/calculation-result.actions';
 import { MediasButtonComponent } from '@ga/shared/components/medias-button';
+import { QualtricsInfoBannerComponent } from '@ga/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
 
 import { GreaseCalculationPath } from '../grease-calculation-path.enum';
 import { CalculationResultComponent } from './calculation-result.component';
@@ -46,6 +47,7 @@ describe('CalculationResultComponent', () => {
       ),
       MediasButtonComponent,
 
+      MockComponent(QualtricsInfoBannerComponent),
       // UI Modules
       MockModule(SubheaderModule),
       MockModule(MatIconModule),
@@ -132,6 +134,10 @@ describe('CalculationResultComponent', () => {
         reportTitle:
           'de.calculationResult.title.main bearing 123 - de.calculationResult.title.247hint',
       });
+    });
+
+    it('should display qualtrics info banner', () => {
+      expect(spectator.query('ga-qualtrics-info-banner')).toBeTruthy();
     });
   });
 });
