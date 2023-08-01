@@ -8,10 +8,12 @@ import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy
 import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
 
 import { UserSelectComponent } from '@gq/process-case-view/user-select/user-select.component';
+import { AttachmentFilesModule } from '@gq/shared/components/attachment-files/attachment-files.module';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { HorizontalDividerModule } from '@gq/shared/components/horizontal-divider/horizontal-divider.module';
 import { KpiStatusCardComponent } from '@gq/shared/components/kpi-status-card/kpi-status-card.component';
 import { LabelTextModule } from '@gq/shared/components/label-text/label-text.module';
+import { AttachmentFilesUploadModalModule } from '@gq/shared/components/modal/attachment-files-upload-modal/attachment-files-upload-modal.module';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import * as echarts from 'echarts';
@@ -63,6 +65,8 @@ import { OverviewTabRoutingModule } from './overview-tab.routing.module';
     LoadingSpinnerModule,
     UserSelectComponent,
     LetDirective,
+    AttachmentFilesModule,
+    AttachmentFilesUploadModalModule,
   ],
   declarations: [
     OverviewTabComponent,

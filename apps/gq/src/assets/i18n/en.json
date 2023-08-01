@@ -488,6 +488,13 @@
         "LOW": "too Low"
       }
     },
+    "uploadDialog": {
+      "title": "Upload Document",
+      "dialogOptionInfo": "or Drop Files",
+      "dialogInfo": "Maximum file size + supported file types",
+      "uploadButton": "Upload",
+      "cancelButton": "Cancel"
+    },
     "validation": {
       "priceLowerThanMsp": "Net Price is lower than MSP. Please request approval from Pricing.",
       "gpmOrGpiTooLow": "Current Net Price leads to a loss maker (margin < 25%). Please verify price setting.",

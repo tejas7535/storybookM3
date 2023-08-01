@@ -488,6 +488,13 @@
         "LOW": "zu Niedrig"
       }
     },
+    "uploadDialog": {
+      "title": "Dokument Hochladen",
+      "dialogOptionInfo": "oder Dateien löschen",
+      "dialogInfo": "Maximale Dateigröße + unterstützte Datentypen",
+      "uploadButton": "Hochladen",
+      "cancelButton": "Abbrechen"
+    },
     "validation": {
       "priceLowerThanMsp": "Nettopreis ist niedriger als MSP. Bitte beantragen Sie die Genehmigung der Preisgestaltung.",
       "gpmOrGpiTooLow": "Aktueller Nettopreis führt zu einem Loss Maker (Marge < 25%). Bitte Preisstellung überprüfen.",

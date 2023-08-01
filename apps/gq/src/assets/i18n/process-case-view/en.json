@@ -107,7 +107,10 @@
         "customer": "Customer",
         "customerClass": "Customer Class",
         "requestedQuotationDate": "Requested Quotation Date",
-        "commentLabel": "Comment"
+        "commentLabel": "Comment",
+        "attachments": {
+          "title": "Attachments"
+        }
       },
       "netValueCardTitle": "Net Value",
       "netValueCardTitleWarning": "Net Value of SAP quotation",

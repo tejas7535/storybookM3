@@ -107,7 +107,10 @@
         "customer": "Kunde",
         "customerClass": "Umsatzklassifizierung (A,B,C)",
         "requestedQuotationDate": "Angebot bis",
-        "commentLabel": "Kommentar"
+        "commentLabel": "Kommentar",
+        "attachments": {
+          "title": "Anhänge"
+        }
       },
       "netValueCardTitle": "Nettowert",
       "netValueCardTitleWarning": "Nettowert aus SAP Quotation",
