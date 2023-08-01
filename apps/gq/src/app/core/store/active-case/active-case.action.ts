@@ -1,5 +1,4 @@
-import { Quotation } from '@gq/shared/models';
-import { QuotationDetail } from '@gq/shared/models';
+import { Quotation, QuotationDetail, QuotationStatus } from '@gq/shared/models';
 import { Customer } from '@gq/shared/models/customer';
 import { ShipToParty } from '@gq/shared/services/rest/quotation/models/ship-to-party';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
@@ -106,5 +105,9 @@ export const ActiveCaseActions = createActionGroup({
     'Deselect Quotation Detail': props<{ gqPositionId: string }>(),
 
     'Clear Active Quotation': emptyProps(),
+
+    'Update Quotation Status by ApprovalEvent': props<{
+      quotationStatus: QuotationStatus;
+    }>(),
   },
 });

@@ -21,7 +21,9 @@
     "
     [subtitle]="
       t('eventCreatedBy', {
-        date: (workflowEventsAsc | slice: 0:1)[0]?.eventDate,
+        date:
+          (workflowEventsAsc | slice: 0:1)[0]?.eventDate
+          | translocoDate: translocoDatePipeConfig,
         user:
           (workflowEventsAsc | slice: 0:1)[0]?.user
           | approverDisplay: t('unknownApprover')
@@ -83,7 +85,10 @@
       [icon]="'check_circle_outline'"
       [iconColor]="'text-link'"
       [title]="t('workflowAutoApprovedText')"
-      [subtitle]="quotationAutoApprovedEvent?.eventDate"
+      [subtitle]="
+        quotationAutoApprovedEvent?.eventDate
+          | translocoDate: translocoDatePipeConfig
+      "
     ></gq-approval-workflow-history-section
   ></ng-template>
   <ng-template #quotationByWorkflowApproved>
@@ -91,7 +96,10 @@
       [icon]="'check_circle_outline'"
       [iconColor]="'text-link'"
       [title]="t('quotationApprovedText')"
-      [subtitle]="quotationFinalReleaseEvent?.eventDate"
+      [subtitle]="
+        quotationFinalReleaseEvent?.eventDate
+          | translocoDate: translocoDatePipeConfig
+      "
     ></gq-approval-workflow-history-section
   ></ng-template>
 

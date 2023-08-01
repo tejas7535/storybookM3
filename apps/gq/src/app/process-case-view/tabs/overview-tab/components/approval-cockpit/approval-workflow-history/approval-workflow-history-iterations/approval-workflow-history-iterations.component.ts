@@ -6,6 +6,8 @@ import {
 } from '@gq/shared/models/approval';
 import { QuotationStatus } from '@gq/shared/models/quotation/quotation-status.enum';
 
+import { TRANSLOCO_DATE_PIPE_CONFIG } from '../../approval-workflow-approver/consts/transloco-date-pipe-config';
+
 @Component({
   selector: 'gq-approval-workflow-history-iterations',
   templateUrl: './approval-workflow-history-iterations.component.html',
@@ -21,6 +23,8 @@ export class ApprovalWorkflowHistoryIterationsComponent implements OnChanges {
 
   readonly quotationStatus = QuotationStatus;
   readonly eventType = ApprovalEventType;
+  readonly translocoDatePipeConfig = TRANSLOCO_DATE_PIPE_CONFIG;
+
   iterationVisible = false;
   iconColor = '';
 

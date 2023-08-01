@@ -10,6 +10,7 @@ import { TransformationService } from '@gq/shared/services/transformation/transf
 import { TranslocoService } from '@ngneat/transloco';
 
 import { APPROVAL_STATUS_OF_APPROVER_DISPLAY } from './consts/approval-status-display';
+import { TRANSLOCO_DATE_PIPE_CONFIG } from './consts/transloco-date-pipe-config';
 
 @Component({
   selector: 'gq-approval-workflow-approver',
@@ -22,6 +23,7 @@ export class ApprovalWorkflowApproverComponent {
   @Input() workflowInProgress: boolean;
 
   readonly displayStatus = APPROVAL_STATUS_OF_APPROVER_DISPLAY;
+  readonly translocoDatePipeConfig = TRANSLOCO_DATE_PIPE_CONFIG;
 
   // have a colorSet of possible Colors and we randomly choose a Set
   // this is to not accidentally gender people wrong
@@ -41,8 +43,6 @@ export class ApprovalWorkflowApproverComponent {
         );
   }
 
-  // check also comment in facade for workflowInProgress !!!
-  // a workaround is implemented
   get approvalStatusOfApprover(): string {
     // when there's no event for the approver, the approver hasn't done any action yet,
     // so status is IN_APPROVAL

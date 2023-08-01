@@ -26,6 +26,7 @@ import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import {
+  ActiveCaseActions,
   activeCaseFeature,
   getQuotationStatus,
   getSapId,
@@ -192,13 +193,43 @@ export class ApprovalEffects {
               gqId: quotationIdentifier.gqId,
             })
             .pipe(
-              map((approvalEvent: ApprovalWorkflowEvent) =>
-                ApprovalActions.updateApprovalWorkflowSuccess({ approvalEvent })
+              map((approvalInformation: ApprovalCockpitData) =>
+                ApprovalActions.updateApprovalWorkflowSuccess({
+                  approvalInformation,
+                })
               ),
               catchError((error: Error) =>
                 of(ApprovalActions.updateApprovalWorkflowFailure({ error }))
               )
             )
+      )
+    );
+  });
+
+  updateQuotationStateOnWorkflowEvent$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(
+        ApprovalActions.updateApprovalWorkflowSuccess,
+        ApprovalActions.triggerApprovalWorkflowSuccess
+      ),
+      concatLatestFrom(() =>
+        this.store.select(approvalFeature.getLastEventOfApprovalWorkflow)
+      ),
+      mergeMap(
+        ([_action, lastEvent]: [
+          ReturnType<
+            | typeof ApprovalActions.updateApprovalWorkflowSuccess
+            | typeof ApprovalActions.triggerApprovalWorkflowSuccess
+          >,
+          ApprovalWorkflowEvent
+        ]) =>
+          lastEvent
+            ? of(
+                ActiveCaseActions.updateQuotationStatusByApprovalEvent({
+                  quotationStatus: lastEvent.quotationStatus,
+                })
+              )
+            : EMPTY
       )
     );
   });

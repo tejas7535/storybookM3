@@ -158,14 +158,7 @@ export const approvalFeature = createFeature({
       ApprovalActions.triggerApprovalWorkflowSuccess,
       (state: ApprovalState, { approvalInformation }): ApprovalState => ({
         ...state,
-        approvalCockpit: {
-          approvalGeneral: approvalInformation.approvalGeneral,
-          approvalEvents: [
-            // add the event from response to existing events in reverse order
-            ...approvalInformation.approvalEvents,
-            ...state.approvalCockpit.approvalEvents,
-          ],
-        },
+        approvalCockpit: approvalInformation,
         triggerApprovalWorkflowInProgress: false,
         error: undefined,
       })
@@ -227,18 +220,11 @@ export const approvalFeature = createFeature({
     ),
     on(
       ApprovalActions.updateApprovalWorkflowSuccess,
-      (state: ApprovalState, { approvalEvent }): ApprovalState => ({
+      (state: ApprovalState, { approvalInformation }): ApprovalState => ({
         ...state,
         updateApprovalWorkflowInProgress: false,
         error: undefined,
-        approvalCockpit: {
-          ...state.approvalCockpit,
-          approvalEvents: [
-            // add the event from response to existing events in reverse order
-            approvalEvent,
-            ...state.approvalCockpit.approvalEvents,
-          ],
-        },
+        approvalCockpit: approvalInformation,
       })
     ),
     on(
@@ -436,7 +422,18 @@ export const approvalFeature = createFeature({
       (cockpit: ApprovalCockpitData): boolean =>
         // approval events are sorted by timestamp in descending order
         // the first approval event is the latest one
-        cockpit?.approvalEvents[0]?.verified
+        cockpit?.approvalEvents?.at(0)?.verified
+    ),
+    getLastEventOfApprovalWorkflow: createSelector(
+      selectApprovalCockpit,
+      (cockpit: ApprovalCockpitData): ApprovalWorkflowEvent =>
+        // events are desc sorted, so the first event is the latest
+        cockpit?.approvalEvents?.at(0)
+    ),
+    getNextApprover: createSelector(
+      selectApprovalCockpit,
+      (cockpit: ApprovalCockpitData): string =>
+        cockpit?.approvalGeneral?.nextApprover
     ),
   }),
 });

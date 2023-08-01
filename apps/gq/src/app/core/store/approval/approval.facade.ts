@@ -133,30 +133,13 @@ export class ApprovalFacade {
     fromActiveCaseSelectors.getQuotationStatus
   );
 
-  // workflowInProgress is not a good wording as long as we have the workaround implemented.
-  // It would return true as long as the current workflow has not been cancelled,
-  // and also return true when Quotation has been completely approved, which is technically not correct.
-  // but we will keep it like this, because when returning back to the Quotation status it fits.
-  workflowInProgress$: Observable<boolean> = this.store
-    .select(approvalFeature.getEventsOfLatestWorkflow)
-    .pipe(
-      // TODO: this is a workaround until we have implemented the
-      // ### polling for events.verified = true ###
-
-      // uncomment code using QuotationStatus when done
-      // this.quotationStatus$.pipe(
-      //   map(
-      //     (status: QuotationStatus) =>
-      //       status === QuotationStatus.IN_APPROVAL ||
-      //       status === QuotationStatus.REJECTED
-      //   )
-      // );
-
-      // eslint-disable-next-line ngrx/avoid-mapping-selectors
-      map(
-        (workflowEvents: ApprovalWorkflowEvent[]) => workflowEvents?.length >= 1
-      )
-    );
+  workflowInProgress$: Observable<boolean> = this.quotationStatus$.pipe(
+    map(
+      (status: QuotationStatus) =>
+        status === QuotationStatus.IN_APPROVAL ||
+        status === QuotationStatus.REJECTED
+    )
+  );
 
   quotationFullyApproved$: Observable<boolean> = this.quotationStatus$.pipe(
     map((status: QuotationStatus) => status === QuotationStatus.APPROVED)
@@ -243,34 +226,11 @@ export class ApprovalFacade {
 
   shouldShowApprovalButtons$: Observable<boolean> = combineLatest([
     this.store.select(getUserUniqueIdentifier),
-    this.approvalStatusOfRequestedApprover$,
+    this.store.select(approvalFeature.getNextApprover),
   ]).pipe(
     map(
-      ([userId, approversWithApprovalStatus]: [
-        string,
-        ApprovalStatusOfRequestedApprover[]
-      ]) => {
-        const approverIndex = approversWithApprovalStatus.findIndex(
-          (approverWithApprovalStatus: ApprovalStatusOfRequestedApprover) =>
-            approverWithApprovalStatus.approver.userId.toLowerCase() ===
-            userId.toLowerCase()
-        );
-
-        // If user is an approver and has not made any approval decision (approve, reject, forward) yet
-        if (
-          approverIndex > -1 &&
-          !approversWithApprovalStatus[approverIndex].event
-        ) {
-          // If user is first approver, show buttons.
-          // Otherwise show buttons, only if the previous approver has already approved.
-          return approverIndex === 0
-            ? true
-            : approversWithApprovalStatus[approverIndex - 1].event?.event ===
-                ApprovalEventType.APPROVED;
-        }
-
-        return false;
-      }
+      ([userId, nextApprover]: [string, string]) =>
+        userId?.toLowerCase() === nextApprover?.toLowerCase()
     )
   );
 
@@ -481,7 +441,7 @@ export class ApprovalFacade {
   }
 
   /**
-   * find the latest workflow event for given userId
+   * find the latest  workflow event for given userId (consideres only approval-decisions)
    *
    * @param workflowEvents all approval workflow events
    * @param userId userId the latest event is the be found
@@ -508,7 +468,8 @@ export class ApprovalFacade {
         (event: ApprovalWorkflowEvent) =>
           event.userId.toLowerCase() === userId.toLowerCase() &&
           event.event !== ApprovalEventType.STARTED &&
-          event.event !== ApprovalEventType.RELEASED
+          event.event !== ApprovalEventType.RELEASED &&
+          event.event !== ApprovalEventType.CANCELLED
       );
   }
 

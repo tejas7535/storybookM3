@@ -7,7 +7,6 @@ import {
   ApprovalWorkflowInformation,
   Approver,
   Quotation,
-  QuotationStatus,
 } from '@gq/shared/models';
 
 import { APPROVAL_STATE_MOCK } from '../../../../testing/mocks';
@@ -208,16 +207,10 @@ describe('approvalReducer', () => {
       const action = ApprovalActions.triggerApprovalWorkflowSuccess({
         approvalInformation,
       });
-      const existingEvent = {
-        comment: 'a event already in store',
-      } as ApprovalWorkflowEvent;
+
       const state = approvalFeature.reducer(
         {
           ...initialState,
-          approvalCockpit: {
-            approvalGeneral: initialState.approvalCockpit.approvalGeneral,
-            approvalEvents: [existingEvent],
-          },
           triggerApprovalWorkflowInProgress: true,
           error: new Error('my error'),
         },
@@ -226,13 +219,7 @@ describe('approvalReducer', () => {
 
       expect(state).toEqual({
         ...initialState,
-        approvalCockpit: {
-          ...approvalInformation,
-          approvalEvents: [
-            ...approvalInformation.approvalEvents,
-            existingEvent,
-          ],
-        },
+        approvalCockpit: approvalInformation,
         triggerApprovalWorkflowInProgress: false,
         error: undefined,
       });
@@ -340,32 +327,12 @@ describe('approvalReducer', () => {
     });
 
     test('should reset updateApprovalWorkflowInProgress and add the new event to the existing ones in reverse order', () => {
-      const currentApprovalEvent: ApprovalWorkflowEvent = {
-        sapId: 'sapTestId',
-        gqId: 123,
-        event: ApprovalEventType.STARTED,
-        comment: 'test comment',
-        userId: 'tesUser',
-        quotationStatus: QuotationStatus.ACTIVE,
-        verified: true,
-        eventDate: '01-02-2023',
-        user: undefined,
-      };
-
-      const approvalEvent: ApprovalWorkflowEvent = {
-        sapId: 'sapTestId2',
-        gqId: 123_456,
-        event: ApprovalEventType.APPROVED,
-        comment: 'test comment 2',
-        userId: 'tesUser2',
-        quotationStatus: QuotationStatus.APPROVED,
-        verified: false,
-        eventDate: '01-02-2023',
-        user: undefined,
+      const approvalInformation: ApprovalCockpitData = {
+        ...APPROVAL_STATE_MOCK.approvalCockpit,
       };
 
       const action = ApprovalActions.updateApprovalWorkflowSuccess({
-        approvalEvent,
+        approvalInformation,
       });
 
       const state = approvalFeature.reducer(
@@ -373,10 +340,6 @@ describe('approvalReducer', () => {
           ...initialState,
           updateApprovalWorkflowInProgress: true,
           error: new Error('my error'),
-          approvalCockpit: {
-            ...initialState.approvalCockpit,
-            approvalEvents: [currentApprovalEvent],
-          },
         },
         action
       );
@@ -385,10 +348,7 @@ describe('approvalReducer', () => {
         ...initialState,
         updateApprovalWorkflowInProgress: false,
         error: undefined,
-        approvalCockpit: {
-          ...initialState.approvalCockpit,
-          approvalEvents: [approvalEvent, currentApprovalEvent],
-        },
+        approvalCockpit: approvalInformation,
       });
     });
 
@@ -876,6 +836,30 @@ describe('approvalReducer', () => {
               ),
           })
         ).toBe(false);
+      });
+    });
+
+    describe('getNextApprover', () => {
+      test('should return the next Approver', () => {
+        expect(
+          approvalFeature.getNextApprover.projector({
+            ...APPROVAL_STATE_MOCK.approvalCockpit,
+            approvalGeneral: {
+              ...APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral,
+              nextApprover: 'schlesni',
+            },
+          })
+        ).toBe('schlesni');
+      });
+    });
+
+    describe('getLastEventOfApprovalWorkflow', () => {
+      test('should return the latest event from the WF', () => {
+        expect(
+          approvalFeature.getLastEventOfApprovalWorkflow.projector(
+            APPROVAL_STATE_MOCK.approvalCockpit
+          )
+        ).toBe(APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents[0]);
       });
     });
 

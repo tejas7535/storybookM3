@@ -9,7 +9,6 @@ import {
   ApprovalCockpitData,
   ApprovalLevel,
   ApprovalWorkflowBaseInformation,
-  ApprovalWorkflowEvent,
   ApprovalWorkflowInformation,
   Approver,
   MicrosoftUser,
@@ -17,7 +16,6 @@ import {
   TriggerApprovalWorkflowRequest,
   UpdateApprovalWorkflowRequest,
 } from '@gq/shared/models';
-import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { withCache } from '@ngneat/cashew';
 
 import { ApprovalPaths } from './approval-paths.enum';
@@ -34,10 +32,7 @@ export class ApprovalService {
     'userPrincipalName',
   ];
 
-  constructor(
-    private readonly http: HttpClient,
-    private readonly transformationService: TransformationService
-  ) {}
+  constructor(private readonly http: HttpClient) {}
 
   /**
    * get All SAP Approvers
@@ -134,18 +129,22 @@ export class ApprovalService {
    *
    * @param sapId the Id from SAP
    * @param updateApprovalWorkflowRequest The {@link UpdateApprovalWorkflowRequest}
-   * @returns ApprovalWorkflowEvent
+   * @returns ApprovalCockpitData
    */
   updateApprovalWorkflow(
     sapId: string,
     updateApprovalWorkflowRequest: UpdateApprovalWorkflowRequest
-  ): Observable<ApprovalWorkflowEvent> {
+  ): Observable<ApprovalCockpitData> {
     return this.http
-      .post<ApprovalWorkflowEvent>(
+      .post<ApprovalCockpitData>(
         `${ApiVersion.V1}/${ApprovalPaths.PATH_APPROVAL}/${ApprovalPaths.PATH_UPDATE_APPROVAL_WORKFLOW}/${sapId}`,
         updateApprovalWorkflowRequest
       )
-      .pipe(map((event) => this.getTransformedEvent(event)));
+      .pipe(
+        map((cockpitData: ApprovalCockpitData) =>
+          this.processApprovalCockpitData(cockpitData)
+        )
+      );
   }
 
   /**
@@ -193,38 +192,18 @@ export class ApprovalService {
     cockpitData: ApprovalCockpitData
   ): ApprovalCockpitData {
     // we sort the events by timestamp descending
-    const sortedEvents = [...cockpitData.approvalEvents].sort((a, b) =>
-      b.eventDate.localeCompare(a.eventDate)
+    const sortedEvents = [...cockpitData.approvalEvents].sort(
+      (a, b) => b.eventDate.localeCompare(a.eventDate) || b.id - a.id
     );
 
     return {
-      approvalEvents: sortedEvents?.map((event) =>
-        this.getTransformedEvent(event)
-      ),
+      approvalEvents: sortedEvents,
       approvalGeneral: {
         ...cockpitData.approvalGeneral,
         // ApprovalLevel from BE comes with the string 'L1' we need to cast this;
         approvalLevel:
           +ApprovalLevel[cockpitData.approvalGeneral.approvalLevel],
       },
-    };
-  }
-
-  /**
-   * Transform the event's eventDate to match the date format used in GQ.
-   *
-   * @param approvalWorkflowEvent approval event
-   * @returns approval event with updated date style.
-   */
-  private getTransformedEvent(
-    approvalWorkflowEvent: ApprovalWorkflowEvent
-  ): ApprovalWorkflowEvent {
-    return {
-      ...approvalWorkflowEvent,
-      eventDate: this.transformationService.transformDate(
-        approvalWorkflowEvent.eventDate,
-        true
-      ),
     };
   }
 }

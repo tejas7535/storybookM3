@@ -104,6 +104,7 @@ export const APPROVAL_STATE_MOCK: ApprovalState = {
     // events are sorted in store
     approvalEvents: [
       {
+        id: 3,
         gqId: 51_553,
         sapId: '800194605',
         userId: 'KELLERBI',
@@ -115,6 +116,7 @@ export const APPROVAL_STATE_MOCK: ApprovalState = {
         user: undefined,
       },
       {
+        id: 2,
         gqId: 51_553,
         sapId: '800194605',
         userId: 'KELLERBI',
@@ -126,6 +128,7 @@ export const APPROVAL_STATE_MOCK: ApprovalState = {
         user: undefined,
       },
       {
+        id: 1,
         gqId: 51_553,
         sapId: '800194605',
         userId: 'SCHMJAN',

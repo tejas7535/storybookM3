@@ -23,6 +23,7 @@ export interface ApprovalWorkflowInformation
 }
 
 export interface ApprovalWorkflowEvent {
+  id: number;
   gqId: number;
   sapId: string;
   userId: string;

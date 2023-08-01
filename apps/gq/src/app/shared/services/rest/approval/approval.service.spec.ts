@@ -351,5 +351,34 @@ describe('ApprovalService', () => {
 
       req.flush(response);
     });
+
+    test('should map and sort, desc by date and id', () => {
+      const event1 = {
+        id: 12,
+        eventDate: '2023-01-01 12:00',
+      } as ApprovalWorkflowEvent;
+      const event2 = {
+        id: 13,
+        eventDate: '2023-01-01 12:00',
+      } as ApprovalWorkflowEvent;
+      const response = {
+        approvalGeneral: {
+          ...APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral,
+          approvalLevel: 'L2',
+        },
+        approvalEvents: [event1, event2],
+      };
+      service.getApprovalCockpitData('12345').subscribe((data) =>
+        expect(data).toEqual({
+          ...APPROVAL_STATE_MOCK.approvalCockpit,
+          approvalEvents: [event2, event1],
+        })
+      );
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${ApprovalPaths.PATH_APPROVAL}/${ApprovalPaths.PATH_APPROVAL_COCKPIT_INFO}/12345`
+      );
+
+      req.flush(response);
+    });
   });
 });

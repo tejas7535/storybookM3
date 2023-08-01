@@ -2,7 +2,6 @@ import {
   ActiveDirectoryUser,
   ApprovalCockpitData,
   ApprovalWorkflowBaseInformation,
-  ApprovalWorkflowEvent,
   ApprovalWorkflowInformation,
   Approver,
   UpdateApprovalWorkflowRequest,
@@ -33,7 +32,7 @@ export const ApprovalActions = createActionGroup({
       updateApprovalWorkflowData: Omit<UpdateApprovalWorkflowRequest, 'gqId'>;
     }>(),
     'Update Approval Workflow Success': props<{
-      approvalEvent: ApprovalWorkflowEvent;
+      approvalInformation: ApprovalCockpitData;
     }>(),
     'Update Approval Workflow Failure': props<{ error: Error }>(),
 

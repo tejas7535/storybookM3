@@ -422,6 +422,16 @@ export const activeCaseFeature = createFeature({
         quotation: initialState.quotation,
         quotationIdentifier: initialState.quotationIdentifier,
       })
+    ),
+    on(
+      ActiveCaseActions.updateQuotationStatusByApprovalEvent,
+      (state: ActiveCaseState, { quotationStatus }): ActiveCaseState => ({
+        ...state,
+        quotation: {
+          ...state.quotation,
+          status: quotationStatus,
+        },
+      })
     )
   ),
 });

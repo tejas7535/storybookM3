@@ -3,6 +3,8 @@ import { Component, Input } from '@angular/core';
 import { ApprovalEventType, ApprovalWorkflowEvent } from '@gq/shared/models';
 import { QuotationStatus } from '@gq/shared/models/quotation';
 
+import { TRANSLOCO_DATE_PIPE_CONFIG } from '../approval-workflow-approver/consts/transloco-date-pipe-config';
+
 @Component({
   selector: 'gq-approval-workflow-history',
   templateUrl: './approval-workflow-history.component.html',
@@ -19,6 +21,7 @@ export class ApprovalWorkflowHistoryComponent {
 
   readonly quotationStatusEnum = QuotationStatus;
   readonly eventType = ApprovalEventType;
+  readonly translocoDatePipeConfig = TRANSLOCO_DATE_PIPE_CONFIG;
 
   private _workflowEvents: ApprovalWorkflowEvent[];
 

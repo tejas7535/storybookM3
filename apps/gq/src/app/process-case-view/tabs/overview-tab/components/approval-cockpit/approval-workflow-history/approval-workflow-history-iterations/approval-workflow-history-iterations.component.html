@@ -5,7 +5,9 @@
   "
 >
   <ng-container
-    *ngrxLet="workflowEvents | filterStartRelease as workflowEvents"
+    *ngrxLet="
+      workflowEvents | filterEventsForIterationsSection as workflowEvents
+    "
   >
     <!--auto approved event does not show a title for the Iterations-->
     <ng-container *ngIf="!autoApprovedEvent">
@@ -53,7 +55,7 @@
             [title]="t(event.event)"
             [subtitle]="
               t('eventCreatedBy', {
-                date: event.eventDate,
+                date: event.eventDate | translocoDate: translocoDatePipeConfig,
                 user: event.user | approverDisplay: t('unknownApprover')
               })
             "
@@ -114,7 +116,8 @@
         [titleTextColor]="'text-error'"
         [subtitle]="
           t('eventCreatedBy', {
-            date: cancelledEvent.eventDate,
+            date:
+              cancelledEvent.eventDate | translocoDate: translocoDatePipeConfig,
             user: cancelledEvent.user | approverDisplay: t('unknownApprover')
           })
         "
@@ -129,7 +132,8 @@
         class="text-error"
         [subtitle]="
           t('eventCreatedBy', {
-            date: rejectedEvent.eventDate,
+            date:
+              rejectedEvent.eventDate | translocoDate: translocoDatePipeConfig,
             user: rejectedEvent.user | approverDisplay: t('unknownApprover')
           })
         "

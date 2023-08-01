@@ -1,11 +1,11 @@
 import { ApprovalEventType, ApprovalWorkflowEvent } from '@gq/shared/models';
 
-import { FilterStartReleaseEventsPipe } from './filter-start-release-events.pipe';
+import { FilterEventsForIterationsSectionPipe } from './filter-events-for-iterations-section.pipe';
 
-describe('FilterStartReleaseEventsPipe', () => {
-  const pipe = new FilterStartReleaseEventsPipe();
+describe('FilterEventsForIterationsSectionPipe', () => {
+  const pipe = new FilterEventsForIterationsSectionPipe();
 
-  test('should return ampty list when undefined', () => {
+  test('should return empty list when undefined', () => {
     expect(pipe.transform(undefined as ApprovalWorkflowEvent[])).toStrictEqual(
       []
     );
@@ -55,6 +55,23 @@ describe('FilterStartReleaseEventsPipe', () => {
     const expected: ApprovalWorkflowEvent[] = [
       { event: ApprovalEventType.APPROVED } as ApprovalWorkflowEvent,
       { event: ApprovalEventType.APPROVED } as ApprovalWorkflowEvent,
+    ];
+
+    const input = [
+      ...expected,
+      { event: ApprovalEventType.RELEASED } as ApprovalWorkflowEvent,
+      { event: ApprovalEventType.STARTED } as ApprovalWorkflowEvent,
+    ];
+    const result = pipe.transform(input);
+    expect(result).toStrictEqual(expected);
+  });
+
+  test('should return dismiss released and started event, but keep Start Events within the list', () => {
+    const expected: ApprovalWorkflowEvent[] = [
+      { event: ApprovalEventType.APPROVED } as ApprovalWorkflowEvent,
+      { event: ApprovalEventType.APPROVED } as ApprovalWorkflowEvent,
+      { event: ApprovalEventType.STARTED } as ApprovalWorkflowEvent,
+      { event: ApprovalEventType.CANCELLED } as ApprovalWorkflowEvent,
     ];
 
     const input = [

@@ -27,6 +27,7 @@ import { marbles } from 'rxjs-marbles';
 
 import { APPROVAL_STATE_MOCK } from '../../../../testing/mocks';
 import {
+  ActiveCaseActions,
   activeCaseFeature,
   getQuotationStatus,
   getSapId,
@@ -209,6 +210,7 @@ describe('ApprovalEffects', () => {
           },
           approvalEvents: [
             {
+              id: 1,
               gqId: quotationIdentifier.gqId,
               sapId,
               userId: approvalWorkflowData.firstApprover,
@@ -381,6 +383,7 @@ describe('ApprovalEffects', () => {
           },
           approvalEvents: [
             {
+              id: 1,
               gqId: 98_765,
               sapId: '12345',
               userId: 'EVENTUSER',
@@ -437,6 +440,7 @@ describe('ApprovalEffects', () => {
           },
           approvalEvents: [
             {
+              id: 1,
               gqId: 98_765,
               sapId: '12345',
               userId: 'EVENTUSER',
@@ -492,6 +496,7 @@ describe('ApprovalEffects', () => {
           },
           approvalEvents: [
             {
+              id: 1,
               gqId: 98_765,
               sapId: '12345',
               userId: 'EVENTUSER',
@@ -558,10 +563,17 @@ describe('ApprovalEffects', () => {
           updateFunction: UpdateFunction.APPROVE_QUOTATION,
         };
 
-        const approvalEvent = {
-          comment: updateApprovalWorkflowData.comment,
-          gqId: quotationIdentifier.gqId,
-        } as ApprovalWorkflowEvent;
+        const approvalInformation: ApprovalCockpitData = {
+          approvalGeneral: {
+            gqId: 999,
+            sapId: '123456',
+            nextApprover: 'schlesni',
+            autoApproval: false,
+          },
+          approvalEvents: [
+            { id: 1, gqId: 999, sapId: '123456' } as ApprovalWorkflowEvent,
+          ],
+        } as ApprovalCockpitData;
 
         store.overrideSelector(getSapId, sapId);
         store.overrideSelector(
@@ -579,10 +591,10 @@ describe('ApprovalEffects', () => {
         });
 
         const result = ApprovalActions.updateApprovalWorkflowSuccess({
-          approvalEvent,
+          approvalInformation,
         });
         const response = m.cold('-a', {
-          a: approvalEvent,
+          a: approvalInformation,
         });
         updateApprovalWorkflowSpy.mockReturnValue(response);
         const expected = m.cold('-b', { b: result });
@@ -621,6 +633,74 @@ describe('ApprovalEffects', () => {
 
         actions$ = m.hot('-a', { a: action });
         m.expect(effects.updateApprovalWorkflow$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+  });
+
+  describe('updateQuotationStateOnWorkflowEvent', () => {
+    test(
+      'should dispatch action after triggerWorkflowSuccess',
+      marbles((m) => {
+        store.overrideSelector(approvalFeature.getLastEventOfApprovalWorkflow, {
+          quotationStatus: QuotationStatus.APPROVED,
+        } as ApprovalWorkflowEvent);
+        action = ApprovalActions.triggerApprovalWorkflowSuccess({
+          approvalInformation: {} as ApprovalCockpitData,
+        });
+
+        const expected = m.cold('b', {
+          b: ActiveCaseActions.updateQuotationStatusByApprovalEvent({
+            quotationStatus: QuotationStatus.APPROVED,
+          }),
+        });
+        actions$ = m.hot('a', { a: action });
+        m.expect(effects.updateQuotationStateOnWorkflowEvent$).toBeObservable(
+          expected
+        );
+        m.flush();
+      })
+    );
+
+    test(
+      'should dispatch action after updateApprovalWorkflowSuccess',
+      marbles((m) => {
+        store.overrideSelector(approvalFeature.getLastEventOfApprovalWorkflow, {
+          quotationStatus: QuotationStatus.APPROVED,
+        } as ApprovalWorkflowEvent);
+        action = ApprovalActions.updateApprovalWorkflowSuccess({
+          approvalInformation: {} as ApprovalCockpitData,
+        });
+
+        const expected = m.cold('b', {
+          b: ActiveCaseActions.updateQuotationStatusByApprovalEvent({
+            quotationStatus: QuotationStatus.APPROVED,
+          }),
+        });
+        actions$ = m.hot('a', { a: action });
+        m.expect(effects.updateQuotationStateOnWorkflowEvent$).toBeObservable(
+          expected
+        );
+        m.flush();
+      })
+    );
+
+    test(
+      'should dispatch empty action when there is no event',
+      marbles((m) => {
+        store.overrideSelector(
+          approvalFeature.getLastEventOfApprovalWorkflow,
+          undefined as ApprovalWorkflowEvent
+        );
+        action = ApprovalActions.updateApprovalWorkflowSuccess({
+          approvalInformation: {} as ApprovalCockpitData,
+        });
+
+        const expected = m.cold('');
+        actions$ = m.hot('a', { a: action });
+        m.expect(effects.updateQuotationStateOnWorkflowEvent$).toBeObservable(
+          expected
+        );
         m.flush();
       })
     );
@@ -817,7 +897,7 @@ describe('ApprovalEffects', () => {
         );
 
         action = ApprovalActions.updateApprovalWorkflowSuccess({
-          approvalEvent: {} as ApprovalWorkflowEvent,
+          approvalInformation: {} as ApprovalCockpitData,
         });
         const expected = m.cold('-b', {
           b: ApprovalActions.stopPollingApprovalCockpitData(),

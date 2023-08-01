@@ -1,4 +1,9 @@
-import { PriceSource, Quotation, QuotationDetail } from '@gq/shared/models';
+import {
+  PriceSource,
+  Quotation,
+  QuotationDetail,
+  QuotationStatus,
+} from '@gq/shared/models';
 import { SapCallInProgress } from '@gq/shared/models/quotation';
 import { Action } from '@ngrx/store';
 
@@ -706,6 +711,16 @@ describe('Active Case Reducer', () => {
         ...QUOTATION_MOCK,
       });
       expect(state.quotationLoadingErrorMessage).toBe(errorMessage);
+    });
+  });
+
+  describe('UpdateQuotationStatusByApprovalEvent', () => {
+    test('should update the status of the Quotation', () => {
+      const action = ActiveCaseActions.updateQuotationStatusByApprovalEvent({
+        quotationStatus: QuotationStatus.REJECTED,
+      });
+      const state = activeCaseFeature.reducer(ACTIVE_CASE_STATE_MOCK, action);
+      expect(state.quotation.status).toBe(QuotationStatus.REJECTED);
     });
   });
 });
