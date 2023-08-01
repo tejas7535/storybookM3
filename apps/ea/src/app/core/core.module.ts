@@ -1,5 +1,9 @@
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import {
+  ErrorStateMatcher,
+  ShowOnDirtyErrorStateMatcher,
+} from '@angular/material/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -60,6 +64,7 @@ import { StoreModule } from './store/store.module';
       useClass: HttpBearinxInterceptor,
       multi: true,
     },
+    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
   ],
 
   exports: [StoreModule, SharedTranslocoModule],
@@ -80,9 +85,14 @@ export class CoreModule {
     const iconSet: Record<string, string> = {
       co2: 'icon_CO2.svg',
       airwaves: 'icon_airwaves.svg',
+      air: 'icon_air.svg',
+      acute: 'icon_acute.svg',
+      bolt: 'icon_bolt.svg',
+      device_thermostat: 'icon_device_thermostat.svg',
+      mop: 'icon_mop.svg',
       calculation: 'icon_calculations.svg',
       friction_load: 'icon_load_frictional_powerloss.svg',
-      lubrication_parameters: 'icon_lubrication_parameters',
+      lubrication_parameters: 'icon_lubrication_parameters.svg',
       rating_life: 'icon_rpm_rating_life.svg',
       water_drop: 'icon_water_drop.svg',
     };

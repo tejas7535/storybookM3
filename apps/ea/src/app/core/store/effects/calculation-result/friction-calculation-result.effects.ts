@@ -49,44 +49,36 @@ export class FrictionCalculationResultEffects {
       ofType(FrictionCalculationResultActions.updateModel),
       concatLatestFrom(() => [
         this.frictionCalculationResultFacade.modelId$,
-        this.calculationParametersFacade.energySource$,
         this.calculationParametersFacade.operationConditions$,
         this.calculationParametersFacade.isCalculationMissingInput$,
       ]),
-      switchMap(
-        ([
-          _action,
-          modelId,
-          energySource,
-          operationConditions,
-          isInputInvalid,
-        ]) =>
-          isInputInvalid
-            ? of(
-                FrictionCalculationResultActions.setLoading({
-                  isLoading: false,
-                })
-              )
-            : this.frictionService
-                .updateFrictionModel(modelId, operationConditions, energySource)
-                .pipe(
-                  takeUntil(
-                    // cancel request if action is called again
-                    this.actions$.pipe(
-                      ofType(FrictionCalculationResultActions.updateModel)
-                    )
-                  ),
-                  switchMap(() => [
-                    FrictionCalculationResultActions.calculateModel(),
-                  ]),
-                  catchError((error: HttpErrorResponse) =>
-                    of(
-                      FrictionCalculationResultActions.setCalculationFailure({
-                        error: error.message,
-                      })
-                    )
+      switchMap(([_action, modelId, operationConditions, isInputInvalid]) =>
+        isInputInvalid
+          ? of(
+              FrictionCalculationResultActions.setLoading({
+                isLoading: false,
+              })
+            )
+          : this.frictionService
+              .updateFrictionModel(modelId, operationConditions)
+              .pipe(
+                takeUntil(
+                  // cancel request if action is called again
+                  this.actions$.pipe(
+                    ofType(FrictionCalculationResultActions.updateModel)
+                  )
+                ),
+                switchMap(() => [
+                  FrictionCalculationResultActions.calculateModel(),
+                ]),
+                catchError((error: HttpErrorResponse) =>
+                  of(
+                    FrictionCalculationResultActions.setCalculationFailure({
+                      error: error.message,
+                    })
                   )
                 )
+              )
       )
     );
   });

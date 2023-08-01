@@ -10,10 +10,10 @@ import { Router } from '@angular/router';
 
 import {
   BehaviorSubject,
+  combineLatest,
   filter,
   map,
   Observable,
-  startWith,
   Subject,
   takeUntil,
 } from 'rxjs';
@@ -60,27 +60,29 @@ export class AppComponent implements OnInit, OnChanges, OnDestroy {
     })
   );
 
-  public footerLinks$: Observable<AppShellFooterLink[]> =
-    this.translocoService.langChanges$.pipe(
-      startWith(''),
-      map(() => [
-        {
-          link: `${LegalRoute}/${LegalPath.ImprintPath}`,
-          title: this.translocoService.translate('legal.imprint'),
-          external: false,
-        },
-        {
-          link: `${LegalRoute}/${LegalPath.DataprivacyPath}`,
-          title: this.translocoService.translate('legal.dataPrivacy'),
-          external: false,
-        },
-        {
-          link: `${LegalRoute}/${LegalPath.TermsPath}`,
-          title: this.translocoService.translate('legal.termsOfUse'),
-          external: false,
-        },
-      ])
-    );
+  public footerLinks$: Observable<AppShellFooterLink[]> = combineLatest([
+    this.translocoService.selectTranslate('legal.imprint').pipe(
+      map((title) => ({
+        link: `${LegalRoute}/${LegalPath.ImprintPath}`,
+        title,
+        external: false,
+      }))
+    ),
+    this.translocoService.selectTranslate('legal.dataPrivacy').pipe(
+      map((title) => ({
+        link: `${LegalRoute}/${LegalPath.DataprivacyPath}`,
+        title,
+        external: false,
+      }))
+    ),
+    this.translocoService.selectTranslate('legal.termsOfUse').pipe(
+      map((title) => ({
+        link: `${LegalRoute}/${LegalPath.TermsPath}`,
+        title,
+        external: false,
+      }))
+    ),
+  ]);
 
   private readonly destroyScrollThreshold$ = new Subject<boolean>();
 

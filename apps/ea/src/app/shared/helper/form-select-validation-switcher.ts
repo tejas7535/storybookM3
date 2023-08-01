@@ -34,11 +34,6 @@ export const FormSelectValidatorSwitcher =
         continue;
       }
 
-      // skip controls that are not form groups
-      if (!(control instanceof FormGroup)) {
-        continue;
-      }
-
       // check if current form group is selected
       const isSelected = key === selectionValue;
 

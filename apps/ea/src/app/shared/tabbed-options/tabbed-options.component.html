@@ -5,18 +5,17 @@
         class="flex"
         *ngFor="let option of selectionOptions; let last = last"
       >
-        <mat-radio-button
-          [value]="option.value"
-          color="primary"
-          (change)="selectOption($event.value)"
-        >
+        <mat-radio-button [value]="option.value" color="primary">
           {{ option.label }}
         </mat-radio-button>
         <mat-divider [vertical]="true" *ngIf="!last" class="mx-4"></mat-divider>
       </div>
     </mat-radio-group>
 
-    <div class="flex flex-row gap-4">
+    <div
+      class="flex flex-row gap-4"
+      *ngIf="visibleTemplate$ | async as visibleTemplate"
+    >
       <ng-template *ngTemplateOutlet="visibleTemplate"></ng-template>
     </div>
   </ng-container>

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { Action, Store } from '@ngrx/store';
 
+import { getCalculationFieldsConfig } from '../../selectors/calculation-parameters/calculation-fields.selector';
 import {
-  getEnergySource,
   getOperationConditions,
   isCalculationMissingInput,
 } from '../../selectors/calculation-parameters/calculation-parameters.selector';
@@ -35,7 +35,9 @@ export class CalculationParametersFacade {
     getCalculationTypesGlobalSelectionState
   );
 
-  public readonly energySource$ = this.store.select(getEnergySource);
+  public getCalculationFieldsConfig$ = this.store.select(
+    getCalculationFieldsConfig
+  );
 
   constructor(private readonly store: Store) {}
 

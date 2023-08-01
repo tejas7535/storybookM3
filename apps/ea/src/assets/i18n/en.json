@@ -13,6 +13,7 @@
     "title": "Operating conditions for bearing {{bearingDesignation}}",
     "prototypeWarning": "The values shown in this development prototype are hypothetical and must not be used in production",
     "co2DownstreamUnavailableHint": "For the selected bearing a calculation for CO₂e values during operation is currently not available.",
+    "showPresetCalculationParameters": "Show preset calculation parameters",
     "loads": "Load",
     "radialLoad": "Radial load",
     "axialLoad": "Axial load",
@@ -61,6 +62,91 @@
           "ny100": "Viscosity at 100°C",
           "unit": "mm²/s"
         }
+      }
+    },
+    "time": {
+      "title": "Time",
+      "operatingTime": {
+        "label": "Amount",
+        "description": "8766 hours equal 24/7 use for one year",
+        "unit": "h"
+      }
+    },
+    "energySource": {
+      "title": "Energy source",
+      "options": {
+        "electricity": "Electric energy",
+        "fossil": "Fossil energy"
+      },
+      "fossilOrigin": "Fossil origin",
+      "electricityRegion": "Electricity region",
+      "electricityRegionOption": {
+        "argentina": "Argentina",
+        "australia": "Australia",
+        "brazil": "Brazil",
+        "canada": "Canada",
+        "china": "China",
+        "europeanUnion": "European Union",
+        "france": "France",
+        "germany": "Germany",
+        "greatBritain": "Great Britian",
+        "india": "India",
+        "indonesia": "Indonesia",
+        "italy": "Italy",
+        "japan": "Japan",
+        "mexico": "Mexico",
+        "russianFederation": "Russian Federation",
+        "southAfrica": "South Africa",
+        "southKorea": "South Korea",
+        "turkey": "Turkey"
+      },
+      "fossilOriginOptions": {
+        "gasoline": "Gasoline",
+        "diesel": "Diesel",
+        "e10": "E10",
+        "diesel87": "Diesel 87",
+        "lpg": "LPG",
+        "cng": "CNG",
+        "cngBiomethane": "CNG (Biomethane)"
+      }
+    },
+    "contamination": {
+      "title": "Contamination",
+      "label": "Contamination",
+      "options": {
+        "extremeCleanliness": "extreme cleanliness",
+        "highCleanliness": "high cleanliness",
+        "standardCleanliness": "normal cleanliness",
+        "slightContamination": "slight contamination",
+        "typicalContamination": "typical contamination",
+        "heavyContamination": "heavy contamination",
+        "veryHeavyContamination": "very heavy contamination"
+      }
+    },
+    "temperature": {
+      "title": "Temperature",
+      "operatingTemperature": {
+        "label": "Operating Temperature",
+        "unit": "°C",
+        "tooltip": "Operating temperature of the bearing (if necessary, please estimate)"
+      },
+      "ambientTemperature": {
+        "label": "Ambient Temperature",
+        "unit": "°C",
+        "tooltip": "Temperature of the machine`s surrounding environment"
+      }
+    },
+    "externalHeatflow": {
+      "title": "External Heatflow",
+      "label": "External Heatflow",
+      "unit": "KW",
+      "tooltip": "The external heatflow"
+    },
+    "conditionOfRotation": {
+      "title": "Condition of rotation",
+      "options": {
+        "rotatingOuterring": "Rotating outerring",
+        "rotatingInnerring": "Rotating innerring"
       }
     }
   },

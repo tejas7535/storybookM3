@@ -1,15 +1,20 @@
+import {
+  CatalogServiceLoadCaseData,
+  CatalogServiceOperatingConditions,
+} from '@ea/core/services/catalog.service.interface';
 import { FrictionServiceBearingData } from '@ea/core/services/friction-service.interface';
 import { Greases } from '@ea/shared/constants/greases';
 
 export interface CalculationParametersState {
   operationConditions: CalculationParametersOperationConditions;
-  energySource: CalculationParametersEnergySource;
   calculationTypes: CalculationParametersCalculationTypes;
   isInputInvalid: boolean;
 }
 
 export interface CalculationParametersOperationConditions {
   operatingTime: number;
+  operatingTemperature: number;
+  ambientTemperature: number;
 
   load: {
     axialLoad: number;
@@ -17,8 +22,11 @@ export interface CalculationParametersOperationConditions {
   };
   rotation: {
     rotationalSpeed: number;
-    typeOfMovement: 'LB_ROTATING';
+    typeOfMovement: CatalogServiceLoadCaseData['IDSLC_TYPE_OF_MOVEMENT'];
   };
+
+  contamination: CatalogServiceOperatingConditions['IDL_CLEANESS_VALUE'];
+  energySource: CalculationParametersEnergySource;
 
   lubrication: {
     lubricationSelection: 'grease' | 'oilBath' | 'oilMist' | 'recirculatingOil';
@@ -70,7 +78,9 @@ export interface CalculationParametersOperationConditions {
   oscillationAngle: number;
   movementFrequency: number;
 
-  oilTemp: number;
+  externalHeatFlow: number;
+
+  conditionOfRotation: 'innerring' | 'outerring';
 }
 
 export type CalculationType =
@@ -81,9 +91,13 @@ export type CalculationType =
   | 'overrollingFrequency';
 
 export interface CalculationParametersEnergySource {
-  type: FrictionServiceBearingData['idscO_CO2_EMISSION_FACTOR_CALCULATION'];
-  fossilOrigin?: FrictionServiceBearingData['idscO_CO2_EMISSION_FACTOR_FOSSIL_ORIGIN'];
-  electricityRegion?: FrictionServiceBearingData['idscO_CO2_EMISSION_FACTOR_ELECTRICITY_REGIONAL'];
+  type: 'fossil' | 'electric';
+  fossil?: {
+    fossilOrigin: FrictionServiceBearingData['idscO_CO2_EMISSION_FACTOR_FOSSIL_ORIGIN'];
+  };
+  electric?: {
+    electricityRegion: FrictionServiceBearingData['idscO_CO2_EMISSION_FACTOR_ELECTRICITY_REGIONAL'];
+  };
 }
 
 export type CalculationParametersCalculationTypes = Record<

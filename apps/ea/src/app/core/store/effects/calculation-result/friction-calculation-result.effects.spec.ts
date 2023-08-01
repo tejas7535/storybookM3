@@ -45,7 +45,6 @@ describe('Friction Calculation Result Effects', () => {
       {
         provide: CalculationParametersFacade,
         useValue: {
-          energySource$: of('energy-123'),
           operationConditions$: of('conditions-123'),
           isCalculationMissingInput$: of(false),
         },

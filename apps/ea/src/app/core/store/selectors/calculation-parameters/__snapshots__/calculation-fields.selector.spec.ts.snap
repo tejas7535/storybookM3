@@ -2,15 +2,15 @@
 
 exports[`Calculation Fields Selector getCalculationFieldsConfig should return the fields config 1`] = `
 Object {
-  "optional": Array [
+  "preset": Array [
     "time",
     "energySource",
     "operatingTemperature",
     "contamination",
   ],
   "required": Array [
-    "rpm",
     "load",
+    "rotatingCondition",
     "lubrication",
   ],
 }

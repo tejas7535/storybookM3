@@ -53,7 +53,7 @@ export interface FrictionServiceBearingData {
 export interface FrictionServiceLoadCaseData {
   idcO_DESIGNATION?: string; // "Loadcase 1",
   idslC_OPERATING_TIME_IN_HOURS: number; // 200,
-  idlC_TYPE_OF_MOVEMENT: 'LB_ROTATING';
+  idlC_TYPE_OF_MOVEMENT: 'LB_ROTATING' | 'LB_OSCILLATING';
   idlC_OSCILLATION_ANGLE: number; //  10,
   idlC_MOVEMENT_FREQUENCY: number; // 20,
   idlC_SPEED: number; // 200,

@@ -1,5 +1,4 @@
-export type CalculationParameterField =
-  | 'rpm'
+export type CalculationParameterGroup =
   | 'load'
   | 'time'
   | 'lubrication'
@@ -7,4 +6,6 @@ export type CalculationParameterField =
   | 'operatingTemperature'
   | 'ambientTemperature'
   | 'energySource'
-  | 'rotatingCondition';
+  | 'rotatingCondition'
+  | 'externalHeatflow'
+  | 'conditionOfRotation';

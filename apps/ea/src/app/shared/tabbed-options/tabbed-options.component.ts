@@ -20,7 +20,7 @@ import {
 import { MatDividerModule } from '@angular/material/divider';
 import { MatLegacyRadioModule as MatRadioModule } from '@angular/material/legacy-radio';
 
-import { map, Observable } from 'rxjs';
+import { distinctUntilChanged, map, Observable, startWith } from 'rxjs';
 
 import { NOOP_VALUE_ACCESSOR } from '../constants/input';
 import { TAILWIND_SCREENS } from '../constants/screens';
@@ -60,7 +60,7 @@ export class TabbedOptionsComponent implements AfterContentInit {
     .pipe(map((state) => state.matches));
 
   templateMap: { [key: string]: TemplateRef<unknown> } = {};
-  visibleTemplate: TemplateRef<unknown> | undefined;
+  visibleTemplate$: Observable<TemplateRef<unknown> | undefined>;
 
   selectionOptions: { label: string; value: string }[] = [];
 
@@ -88,12 +88,10 @@ export class TabbedOptionsComponent implements AfterContentInit {
       value: item.name || '',
     }));
 
-    if (this.selectionOptions.length > 0) {
-      this.visibleTemplate = this.templateMap[this.control?.value];
-    }
-  }
-
-  selectOption(option: string) {
-    this.visibleTemplate = this.templateMap[option];
+    this.visibleTemplate$ = this.control.valueChanges.pipe(
+      startWith(this.control.value),
+      distinctUntilChanged(),
+      map((value) => this.templateMap[value])
+    );
   }
 }

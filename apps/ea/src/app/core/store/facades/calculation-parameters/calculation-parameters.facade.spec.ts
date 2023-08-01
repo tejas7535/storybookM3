@@ -58,19 +58,6 @@ describe('CalculationParametersFacade', () => {
     );
   });
 
-  describe('energySource$', () => {
-    it(
-      'should provide the energy source',
-      marbles((m) => {
-        const expected = m.cold('a', {
-          a: CALCULATION_PARAMETERS_STATE_MOCK.energySource,
-        });
-
-        m.expect(facade.energySource$).toBeObservable(expected);
-      })
-    );
-  });
-
   describe('dispatch', () => {
     it('should dispatch each action', () => {
       store.dispatch = jest.fn();

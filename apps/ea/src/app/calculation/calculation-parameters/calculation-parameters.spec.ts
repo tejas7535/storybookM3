@@ -1,18 +1,20 @@
-import { MatButtonModule } from '@angular/material/button';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatLegacySlideToggleModule as MatSlideToggleModule } from '@angular/material/legacy-slide-toggle';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 
 import { resetCalculationParameters } from '@ea/core/store/actions/calculation-parameters/calculation-parameters.actions';
 import { APP_STATE_MOCK } from '@ea/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
-import { LetModule, PushModule } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CalculationParametersComponent } from './calculation-parameters';
+import { ParameterTemplateDirective } from './parameter-template.directive';
 
 describe('CalculationParametersComponent', () => {
   let component: CalculationParametersComponent;
@@ -22,13 +24,16 @@ describe('CalculationParametersComponent', () => {
   const createComponent = createComponentFactory({
     component: CalculationParametersComponent,
     imports: [
-      PushModule,
-      LetModule,
+      ParameterTemplateDirective,
+
+      LetDirective,
+      PushPipe,
 
       // Material Modules
       MockModule(MatButtonModule),
       MatIconTestingModule,
       MockModule(MatTooltipModule),
+      MockModule(MatSlideToggleModule),
 
       provideTranslocoTestingModule({ en: {} }),
     ],
@@ -44,7 +49,7 @@ describe('CalculationParametersComponent', () => {
   });
 
   beforeEach(() => {
-    spectator = createComponent();
+    spectator = createComponent({ detectChanges: false });
     component = spectator.debugElement.componentInstance;
 
     store = spectator.inject(MockStore);

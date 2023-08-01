@@ -42,24 +42,105 @@
           </button>
         </div>
 
-        <ng-container
-          *ngTemplateOutlet="inputLoad; context: { t }"
-        ></ng-container>
+        <!-- DEV STUFF -->
+        <div
+          *ngIf="isDev"
+          class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4"
+        >
+          <div class="flex flex-col">
+            <mat-slide-toggle
+              [checked]="false"
+              #showRawErrors
+              class="text-body-1 m-2"
+              color="primary"
+              labelPosition="after"
+            >
+              Show form errors
+            </mat-slide-toggle>
 
-        <ng-container
-          *ngTemplateOutlet="inputMotion; context: { t }"
-        ></ng-container>
+            <pre
+              class="bg-surface border-border border rounded-md mt-2 p-2"
+              *ngIf="showRawErrors.checked && operationConditionsForm.invalid"
+            >
+{{ formErrors$ | ngrxPush | json}}</pre
+            >
+          </div>
 
+          <div class="flex flex-col">
+            <mat-slide-toggle
+              [checked]="false"
+              #showFormValue
+              class="text-body-1 m-2"
+              color="primary"
+              labelPosition="after"
+            >
+              Show form value
+            </mat-slide-toggle>
+
+            <pre
+              class="bg-surface border-border border rounded-md mt-2 p-2"
+              *ngIf="showFormValue.checked"
+            >
+{{ operationConditionsForm.value | json }}</pre
+            >
+          </div>
+        </div>
+
+        <!-- INPUT PARAMETERS -->
         <ng-container
-          *ngTemplateOutlet="inputLubrication; context: { t }"
-        ></ng-container>
+          *ngIf="parameterTemplates$ | ngrxPush as parameterTemplates"
+        >
+          <!-- MANDATORY PARAMETERS -->
+          <ng-container
+            *ngFor="let parameterTemplate of parameterTemplates.mandatory"
+            [ngTemplateOutlet]="parameterTemplate"
+            [ngTemplateOutletContext]="{ t: t }"
+          >
+          </ng-container>
+
+          <!-- PRESET PARAMETERS -->
+          <div class="flex w-full justify-end items-center">
+            <mat-slide-toggle
+              [checked]="false"
+              #showPresets
+              class="text-body-1"
+              color="primary"
+              labelPosition="before"
+            >
+              {{ t('showPresetCalculationParameters') }}
+            </mat-slide-toggle>
+          </div>
+          <div
+            class="flex flex-col gap-4"
+            [ngClass]="{ 'hidden': !showPresets.checked }"
+          >
+            <ng-container
+              *ngFor="let parameterTemplate of parameterTemplates.preset"
+              [ngTemplateOutlet]="parameterTemplate"
+              [ngTemplateOutletContext]="{ t: t }"
+            >
+            </ng-container>
+          </div>
+        </ng-container>
+
+        <div class="flex">
+          <button
+            mat-button
+            color="primary"
+            (click)="onResetButtonClick()"
+            icon
+          >
+            <mat-icon>refresh</mat-icon>
+            {{ t('resetInputs') }}
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </ng-container>
 
 <!-- LOAD -->
-<ng-template #inputLoad let-t="t">
+<ng-template parameterTemplate="load" let-t="t">
   <ea-input-group [title]="t('loads')" icon="compress" [isMandatory]="true">
     <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4">
       <ea-input-number
@@ -83,7 +164,7 @@
 </ng-template>
 
 <!-- MOTION -->
-<ng-template #inputMotion let-t="t">
+<ng-template parameterTemplate="rotatingCondition" let-t="t">
   <ea-input-group
     [title]="t('motionInfluences')"
     icon="animation"
@@ -103,7 +184,7 @@
 </ng-template>
 
 <!-- LUBRICATION -->
-<ng-template #inputLubrication let-t="t">
+<ng-template parameterTemplate="lubrication" let-t="t">
   <ea-input-group
     [title]="t('title')"
     svgIcon="water_drop"
@@ -321,11 +402,157 @@
       </ng-template>
     </ea-tabbed-options>
   </ea-input-group>
+</ng-template>
 
-  <div class="flex">
-    <button mat-button color="primary" (click)="onResetButtonClick()" icon>
-      <mat-icon>refresh</mat-icon>
-      {{ t('resetInputs') }}
-    </button>
-  </div>
+<!-- TIME -->
+<ng-template parameterTemplate="time">
+  <ea-input-group
+    [title]="t('title')"
+    svgIcon="acute"
+    [isMandatory]="true"
+    *transloco="let t; read: 'operationConditions.time'"
+  >
+    <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4">
+      <ea-input-number
+        [formControl]="operationConditionsForm.controls.operatingTime"
+        [label]="t('operatingTime.label')"
+        [unit]="t('operatingTime.unit')"
+        [hint]="t('operatingTime.description')"
+        [placeholder]="'operationConditions.pleaseEnter' | transloco:{ label: t('operatingTime.label')}"
+        [onlyPositive]="true"
+      ></ea-input-number>
+    </div>
+  </ea-input-group>
+</ng-template>
+
+<!-- ENERGY SOURCE -->
+<ng-template parameterTemplate="energySource">
+  <ea-input-group
+    [title]="t('title')"
+    svgIcon="bolt"
+    [isMandatory]="true"
+    *transloco="let t; read: 'operationConditions.energySource'"
+    [formGroup]="operationConditionsForm.controls.energySource"
+  >
+    <ea-tabbed-options formControlName="type">
+      <ng-template optionTemplate="fossil" [label]="t('options.fossil')">
+        <!-- FOSSIL ENERGY -->
+        <ng-container formGroupName="fossil">
+          <ea-input-select
+            formControlName="fossilOrigin"
+            [label]="t('fossilOrigin')"
+            [options]="fossilOriginOptions$ | ngrxPush"
+          ></ea-input-select>
+        </ng-container>
+      </ng-template>
+
+      <ng-template optionTemplate="electric" [label]="t('options.electricity')">
+        <!-- ELECTIRCAL ENERGY -->
+        <ng-container formGroupName="electric">
+          <ea-input-select
+            formControlName="electricityRegion"
+            [label]="t('electricityRegion')"
+            [options]="electricityRegionOptions$ | ngrxPush"
+          ></ea-input-select>
+        </ng-container>
+      </ng-template>
+    </ea-tabbed-options>
+  </ea-input-group>
+</ng-template>
+
+<!-- TEMPERATURE -->
+<ng-template
+  [parameterTemplate]="['operatingTemperature', 'ambientTemperature']"
+>
+  <ea-input-group
+    [title]="t('title')"
+    svgIcon="device_thermostat"
+    [isMandatory]="true"
+    *transloco="let t; read: 'operationConditions.temperature'"
+  >
+    <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4">
+      <ea-input-number
+        [formControl]="operationConditionsForm.controls.operatingTemperature"
+        [label]="t('operatingTemperature.label')"
+        [unit]="t('operatingTemperature.unit')"
+        [tooltip]="t('operatingTemperature.tooltip')"
+        [placeholder]="'operationConditions.pleaseEnter' | transloco:{ label: t('operatingTemperature.label')}"
+        [onlyPositive]="true"
+      ></ea-input-number>
+
+      <ea-input-number
+        [formControl]="operationConditionsForm.controls.ambientTemperature"
+        [label]="t('ambientTemperature.label')"
+        [unit]="t('ambientTemperature.unit')"
+        [tooltip]="t('ambientTemperature.tooltip')"
+        [placeholder]="'operationConditions.pleaseEnter' | transloco:{ label: t('ambientTemperature.label')}"
+        [onlyPositive]="true"
+      ></ea-input-number>
+    </div>
+  </ea-input-group>
+</ng-template>
+
+<!-- CONTAMINATION -->
+<ng-template parameterTemplate="contamination">
+  <ea-input-group
+    [title]="t('title')"
+    svgIcon="mop"
+    [isMandatory]="true"
+    *transloco="let t; read: 'operationConditions.contamination'"
+  >
+    <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4">
+      <ea-input-select
+        [formControl]="operationConditionsForm.controls.contamination"
+        [label]="t('label')"
+        [options]="contaminationOptions$ | ngrxPush"
+      ></ea-input-select>
+    </div>
+  </ea-input-group>
+</ng-template>
+
+<!-- EXTERNAL HEATFLOW -->
+<ng-template parameterTemplate="externalHeatflow">
+  <ea-input-group
+    [title]="t('title')"
+    svgIcon="air"
+    [isMandatory]="false"
+    *transloco="let t; read: 'operationConditions.externalHeatflow'"
+  >
+    <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4">
+      <ea-input-number
+        [formControl]="operationConditionsForm.controls.externalHeatflow"
+        [label]="t('label')"
+        [unit]="t('unit')"
+        [tooltip]="t('tooltip')"
+        [placeholder]="'operationConditions.pleaseEnter' | transloco:{ label: t('label')}"
+        [onlyPositive]="true"
+      ></ea-input-number>
+    </div>
+  </ea-input-group>
+</ng-template>
+
+<!-- CONDITION OF ROTATION -->
+<ng-template parameterTemplate="conditionOfRotation">
+  <ea-input-group
+    [title]="t('title')"
+    svgIcon="mop"
+    [isMandatory]="true"
+    *transloco="let t; read: 'operationConditions.conditionOfRotation'"
+  >
+    <ea-tabbed-options
+      [formControl]="operationConditionsForm.controls.conditionOfRotation"
+    >
+      <ng-template
+        optionTemplate="innerring"
+        [label]="t('options.rotatingInnerring')"
+      >
+      </ng-template>
+
+      <ng-template
+        optionTemplate="outerring"
+        [label]="t('options.rotatingOuterring')"
+      >
+      </ng-template>
+    </ea-tabbed-options>
+  </ea-input-group>
 </ng-template>

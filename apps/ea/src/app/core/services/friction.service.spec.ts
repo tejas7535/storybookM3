@@ -8,12 +8,9 @@ import { waitForAsync } from '@angular/core/testing';
 import { firstValueFrom } from 'rxjs';
 
 import { environment } from '@ea/environments/environment';
+import { CALCULATION_PARAMETERS_STATE_MOCK } from '@ea/testing/mocks';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
-import {
-  CalculationParametersEnergySource,
-  CalculationParametersOperationConditions,
-} from '../store/models';
 import { FrictionService } from './friction.service';
 
 describe('FrictionService', () => {
@@ -59,8 +56,7 @@ describe('FrictionService', () => {
       firstValueFrom(
         frictionService.updateFrictionModel(
           'my-id',
-          {} as CalculationParametersOperationConditions,
-          {} as CalculationParametersEnergySource
+          CALCULATION_PARAMETERS_STATE_MOCK.operationConditions
         )
       ).then((res) => {
         expect(res).toEqual({});

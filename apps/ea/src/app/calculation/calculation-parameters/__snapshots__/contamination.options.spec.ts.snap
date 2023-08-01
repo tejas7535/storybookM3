@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ContaminationOptions getContaminationOptions 1`] = `
+Array [
+  Object {
+    "label": "operationConditions.contamination.options.extremeCleanliness",
+    "value": "LB_EXTREM_CLEANLINESS",
+  },
+  Object {
+    "label": "operationConditions.contamination.options.highCleanliness",
+    "value": "LB_HIGH_CLEANLINESS",
+  },
+  Object {
+    "label": "operationConditions.contamination.options.standardCleanliness",
+    "value": "LB_STANDARD_CLEANLINESS",
+  },
+  Object {
+    "label": "operationConditions.contamination.options.slightContamination",
+    "value": "LB_SLIGHT_CONTAMINATION",
+  },
+  Object {
+    "label": "operationConditions.contamination.options.typicalContamination",
+    "value": "LB_TYPICAL_CONTAMINATION",
+  },
+  Object {
+    "label": "operationConditions.contamination.options.heavyContamination",
+    "value": "LB_HEAVY_CONTAMINATION",
+  },
+  Object {
+    "label": "operationConditions.contamination.options.veryHeavyContamination",
+    "value": "LB_VERY_HEAVY_CONTAMINATION",
+  },
+]
+`;

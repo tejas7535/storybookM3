@@ -47,14 +47,21 @@ export const initialState: CalculationParametersState = {
       },
     },
     operatingTime: 8766,
-    oilTemp: 70,
+    ambientTemperature: 20,
+    operatingTemperature: 70,
     movementFrequency: 0,
     oscillationAngle: 0,
+    contamination: 'LB_STANDARD_CLEANLINESS',
+    energySource: {
+      type: 'electric',
+      electric: {
+        electricityRegion: 'LB_EUROPEAN_UNION',
+      },
+    },
+    conditionOfRotation: 'innerring',
+    externalHeatFlow: 0,
   },
-  energySource: {
-    type: 'LB_ELECTRIC_ENERGY',
-    electricityRegion: 'LB_EUROPEAN_UNION',
-  },
+
   calculationTypes: {
     ratingLife: {
       selected: false,
@@ -82,6 +89,7 @@ export const initialState: CalculationParametersState = {
       disabled: false,
     },
   },
+
   isInputInvalid: true,
 };
 

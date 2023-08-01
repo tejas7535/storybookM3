@@ -1,7 +1,6 @@
 import { CALCULATION_PARAMETERS_STATE_MOCK } from '@ea/testing/mocks';
 
 import {
-  getEnergySource,
   getOperationConditions,
   isCalculationMissingInput,
 } from './calculation-parameters.selector';
@@ -18,14 +17,6 @@ describe('Calculation Result Selector', () => {
     it('should return the operation conditions', () => {
       expect(getOperationConditions(mockState)).toEqual(
         CALCULATION_PARAMETERS_STATE_MOCK.operationConditions
-      );
-    });
-  });
-
-  describe('getEnergySource', () => {
-    it('should return the energy source', () => {
-      expect(getEnergySource(mockState)).toEqual(
-        CALCULATION_PARAMETERS_STATE_MOCK.energySource
       );
     });
   });

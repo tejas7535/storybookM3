@@ -5,7 +5,6 @@ import { map, Observable, retry, timer } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import {
-  CalculationParametersEnergySource,
   CalculationParametersOperationConditions,
   FrictionCalculationResult,
 } from '../store/models';
@@ -55,8 +54,7 @@ export class FrictionService {
    */
   updateFrictionModel(
     modelId: string,
-    operationConditions: CalculationParametersOperationConditions,
-    energySource: CalculationParametersEnergySource
+    operationConditions: CalculationParametersOperationConditions
   ): Observable<void> {
     const viscosity =
       operationConditions?.lubrication?.[
@@ -69,19 +67,34 @@ export class FrictionService {
       ] as CalculationParametersOperationConditions['lubrication']['grease']
     )?.typeOfGrease?.typeOfGrease;
 
+    const {
+      energySource,
+      operatingTime,
+      rotation,
+      oscillationAngle,
+      movementFrequency,
+      operatingTemperature,
+      load,
+    } = operationConditions;
+
     const bearingData: FrictionServiceBearingData = {
-      idscO_CO2_EMISSION_FACTOR_CALCULATION: energySource.type,
+      idscO_CO2_EMISSION_FACTOR_CALCULATION:
+        energySource.type === 'electric'
+          ? 'LB_ELECTRIC_ENERGY'
+          : 'LB_FOSSIL_ENERGY',
       idscO_CO2_EMISSION_FACTOR_FOSSIL_ORIGIN:
-        energySource.type === 'LB_FOSSIL_ENERGY'
-          ? energySource.fossilOrigin
+        energySource.type === 'fossil'
+          ? energySource.fossil?.fossilOrigin
           : undefined,
       idscO_CO2_EMISSION_FACTOR_ELECTRICITY_REGIONAL:
-        energySource.type === 'LB_ELECTRIC_ENERGY'
-          ? energySource.electricityRegion
+        energySource.type === 'electric'
+          ? energySource.electric?.electricityRegion
           : undefined,
-      idL_OILTEMP: operationConditions.oilTemp,
+      idL_OILTEMP: operatingTemperature,
       idL_VG: greaseDefinition ? undefined : viscosity,
-      idscO_LUBRICANT_TYPE: 'LB_GREASE_LUBRICATION',
+      idscO_LUBRICANT_TYPE: greaseDefinition
+        ? 'LB_GREASE_LUBRICATION'
+        : 'LB_OIL_LUBRICATION',
       idscO_LUBRICANT_DEFINITION_FLAG: greaseDefinition
         ? 'LB_DEFINITION_BY_GREASE'
         : 'LB_DEFINITION_BY_INPUT',
@@ -93,13 +106,13 @@ export class FrictionService {
 
     const loadcaseData: FrictionServiceLoadCaseData[] = [
       {
-        idslC_OPERATING_TIME_IN_HOURS: operationConditions.operatingTime,
-        idlC_TYPE_OF_MOVEMENT: operationConditions.rotation?.typeOfMovement,
-        idlC_OSCILLATION_ANGLE: operationConditions.oscillationAngle,
-        idlC_MOVEMENT_FREQUENCY: operationConditions.movementFrequency,
-        idlC_SPEED: operationConditions.rotation?.rotationalSpeed,
-        idlD_FX: operationConditions.load?.axialLoad ?? undefined,
-        idlD_FY: operationConditions.load?.radialLoad ?? undefined,
+        idslC_OPERATING_TIME_IN_HOURS: operatingTime,
+        idlC_TYPE_OF_MOVEMENT: rotation?.typeOfMovement,
+        idlC_OSCILLATION_ANGLE: oscillationAngle,
+        idlC_MOVEMENT_FREQUENCY: movementFrequency,
+        idlC_SPEED: rotation?.rotationalSpeed,
+        idlD_FX: load?.axialLoad ?? undefined,
+        idlD_FY: load?.radialLoad ?? undefined,
         idlD_FZ: 0,
       },
     ];

@@ -12,13 +12,13 @@ import {
   CatalogCalculationResult,
 } from '../store/models';
 import { BearinxOnlineResult } from './bearinx-result.interface';
-import { convertCatalogCalculationResult } from './catalog-helper';
 import {
   CatalogServiceBasicFrequenciesResult,
   CatalogServiceCalculationResult,
   CatalogServiceLoadCaseData,
   CatalogServiceOperatingConditions,
 } from './catalog.service.interface';
+import { convertCatalogCalculationResult } from './catalog-helper';
 
 @Injectable({ providedIn: 'root' })
 export class CatalogService {
@@ -100,7 +100,13 @@ export class CatalogService {
       return throwError(() => new Error('bearingId must be provided'));
     }
 
-    const { lubrication: lubricationConditions, oilTemp } = operationConditions;
+    const {
+      lubrication: lubricationConditions,
+      ambientTemperature,
+      externalHeatFlow,
+      contamination,
+      conditionOfRotation,
+    } = operationConditions;
 
     const lubricationMethod = this.convertLubricationMethod(
       lubricationConditions
@@ -134,22 +140,26 @@ export class CatalogService {
       IDL_LUBRICATION_METHOD: lubricationMethod,
       IDL_INFLUENCE_OF_AMBIENT: 'LB_AVERAGE_AMBIENT_INFLUENCE',
       IDL_OIL_FLOW: '0',
+      IDL_OILTEMP: '0',
       IDL_OIL_TEMPERATURE_DIFFERENCE: '0',
-      IDL_EXTERNAL_HEAT_FLOW: '0',
-      IDL_CLEANESS_VALUE: 'LB_STANDARD_CLEANLINESS',
-      IDSLC_TEMPERATURE: '20',
+      IDL_EXTERNAL_HEAT_FLOW: toNumberString(externalHeatFlow),
+      IDL_CLEANESS_VALUE: contamination,
+      IDSLC_TEMPERATURE: toNumberString(ambientTemperature),
       IDL_DEFINITION_OF_VISCOSITY: definitionOfViscosity,
       IDL_ISO_VG_CLASS: isoVgClass,
       IDL_GREASE: grease,
-      IDL_OILTEMP: toNumberString(oilTemp),
       IDL_SPEED_WITHOUT_SIGN: '0',
       IDL_ISO_VG_CLASS_CALCULATED: '',
       IDL_NY_40: ny40,
       IDL_NY_100: ny100,
-      IDL_CONDITION_OF_ROTATION: 'LB_ROTATING_INNERRING',
+      IDL_CONDITION_OF_ROTATION:
+        conditionOfRotation === 'innerring'
+          ? 'LB_ROTATING_INNERRING'
+          : 'LB_ROTATING_OUTERRING',
     };
 
-    const { load, rotation, movementFrequency } = operationConditions;
+    const { load, rotation, movementFrequency, operatingTemperature } =
+      operationConditions;
 
     const loadcaseData: CatalogServiceLoadCaseData[] = [
       {
@@ -157,7 +167,8 @@ export class CatalogService {
         IDSLC_TIME_PORTION: '100',
         IDSLC_AXIAL_LOAD: toNumberString(load?.axialLoad || 0),
         IDSLC_RADIAL_LOAD: toNumberString(load?.radialLoad || 0),
-        IDSLC_MEAN_BEARING_OPERATING_TEMPERATURE: '105',
+        IDSLC_MEAN_BEARING_OPERATING_TEMPERATURE:
+          toNumberString(operatingTemperature),
         IDSLC_TYPE_OF_MOVEMENT: rotation.typeOfMovement,
         IDLC_SPEED: toNumberString(rotation.rotationalSpeed || 0),
         IDSLC_MOVEMENT_FREQUENCY: toNumberString(movementFrequency || 0),
