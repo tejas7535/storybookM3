@@ -2,6 +2,7 @@
   <schaeffler-app-shell
     [hasSidebarLeft]="true"
     [appTitle]="title"
+    appTitleLink="/"
     [footerFixed]="false"
     [footerLinks]="footerLinks$ | ngrxPush"
     (onContentScroll)="handleContentScroll($event)"
