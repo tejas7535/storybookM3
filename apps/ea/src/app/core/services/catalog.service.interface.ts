@@ -28,7 +28,8 @@ export interface Frequency {
   ];
 }
 
-export interface CatalogServiceOperatingConditions {
+export interface CatalogServiceBaseOperatingConditions {
+  IDL_CONDITION_OF_ROTATION: 'LB_ROTATING_INNERRING' | 'LB_ROTATING_OUTERRING';
   IDL_LUBRICATION_METHOD:
     | 'LB_GREASE_LUBRICATION'
     | 'LB_OIL_BATH_LUBRICATION'
@@ -38,8 +39,7 @@ export interface CatalogServiceOperatingConditions {
     | 'LB_LOW_AMBIENT_INFLUENCE'
     | 'LB_AVERAGE_AMBIENT_INFLUENCE'
     | 'LB_HIGH_AMBIENT_INFLUENCE';
-  IDL_OIL_FLOW: NumberString;
-  IDL_OIL_TEMPERATURE_DIFFERENCE: NumberString;
+
   IDL_EXTERNAL_HEAT_FLOW: NumberString;
   IDL_CLEANESS_VALUE:
     | 'LB_EXTREM_CLEANLINESS'
@@ -56,21 +56,40 @@ export interface CatalogServiceOperatingConditions {
   IDL_DEFINITION_OF_VISCOSITY:
     | 'LB_ISO_VG_CLASS'
     | 'LB_ARCANOL_GREASE'
-    | 'LB_CALCULATE_VISCOSITIES'
     | 'LB_ENTER_VISCOSITIES';
+  // | 'LB_CALCULATE_VISCOSITIES' Not currently used
 
-  IDL_ISO_VG_CLASS: 'LB_PLEASE_SELECT' | `LB_ISO_VG_${number}`; // e.g 'LB_ISO_VG_22'
-  IDL_GREASE: 'LB_PLEASE_SELECT' | `LB_${string}`; // e.g. 'LB_FAG_MULTITOP'
   /**
-   * Oil temp (for LB_CALCULATE_VISCOSITIES only)
+   * Only used for LB_CALCULATE_VISCOSITIES
    */
-  IDL_OILTEMP?: NumberString;
-  IDL_SPEED_WITHOUT_SIGN: NumberString;
-  IDL_ISO_VG_CLASS_CALCULATED: string;
+  // IDL_OILTEMP?: NumberString;
+  // IDL_SPEED_WITHOUT_SIGN: NumberString;
+  // IDL_ISO_VG_CLASS_CALCULATED?: string;
+}
+
+export interface CatalogServiceOperatingConditionsISOClass {
+  IDL_DEFINITION_OF_VISCOSITY: 'LB_ISO_VG_CLASS';
+  IDL_ISO_VG_CLASS: 'LB_PLEASE_SELECT' | `LB_ISO_VG_${number}`; // e.g 'LB_ISO_VG_22'
+}
+
+export interface CatalogServiceOperatingConditionsGrease {
+  IDL_DEFINITION_OF_VISCOSITY: 'LB_ARCANOL_GREASE';
+  IDL_GREASE: `LB_${string}`; // e.g. 'LB_FAG_MULTITOP'
+}
+
+export interface CatalogServiceOperatingConditionsEnterViscosities {
+  IDL_DEFINITION_OF_VISCOSITY: 'LB_ENTER_VISCOSITIES';
   IDL_NY_40: NumberString;
   IDL_NY_100: NumberString;
-  IDL_CONDITION_OF_ROTATION: 'LB_ROTATING_INNERRING' | 'LB_ROTATING_OUTERRING';
 }
+
+export type CatalogServiceOperatingConditions =
+  CatalogServiceBaseOperatingConditions &
+    (
+      | CatalogServiceOperatingConditionsISOClass
+      | CatalogServiceOperatingConditionsGrease
+      | CatalogServiceOperatingConditionsEnterViscosities
+    );
 
 export interface CatalogServiceLoadCaseData {
   IDCO_DESIGNATION: string; // choosen name of this load case

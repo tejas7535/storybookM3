@@ -17,6 +17,7 @@ import {
   CatalogServiceCalculationResult,
   CatalogServiceLoadCaseData,
   CatalogServiceOperatingConditions,
+  CatalogServiceOperatingConditionsISOClass,
 } from './catalog.service.interface';
 import { convertCatalogCalculationResult } from './catalog-helper';
 
@@ -139,17 +140,12 @@ export class CatalogService {
     const operatingConditions: CatalogServiceOperatingConditions = {
       IDL_LUBRICATION_METHOD: lubricationMethod,
       IDL_INFLUENCE_OF_AMBIENT: 'LB_AVERAGE_AMBIENT_INFLUENCE',
-      IDL_OIL_FLOW: '0',
-      IDL_OILTEMP: '0',
-      IDL_OIL_TEMPERATURE_DIFFERENCE: '0',
       IDL_EXTERNAL_HEAT_FLOW: toNumberString(externalHeatFlow),
       IDL_CLEANESS_VALUE: contamination,
       IDSLC_TEMPERATURE: toNumberString(ambientTemperature),
       IDL_DEFINITION_OF_VISCOSITY: definitionOfViscosity,
       IDL_ISO_VG_CLASS: isoVgClass,
       IDL_GREASE: grease,
-      IDL_SPEED_WITHOUT_SIGN: '0',
-      IDL_ISO_VG_CLASS_CALCULATED: '',
       IDL_NY_40: ny40,
       IDL_NY_100: ny100,
       IDL_CONDITION_OF_ROTATION:
@@ -255,7 +251,7 @@ export class CatalogService {
 
   private convertIsoVgClass(
     lubricationConditions: CalculationParametersOperationConditions['lubrication']
-  ): CatalogServiceOperatingConditions['IDL_ISO_VG_CLASS'] {
+  ): CatalogServiceOperatingConditionsISOClass['IDL_ISO_VG_CLASS'] {
     return `LB_ISO_VG_${
       lubricationConditions[lubricationConditions.lubricationSelection]
         .isoVgClass.isoVgClass

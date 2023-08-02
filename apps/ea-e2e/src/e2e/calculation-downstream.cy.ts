@@ -1,6 +1,6 @@
 describe('EA: CO2 downstream values', () => {
   const reportSectionValueMapping: Record<string, string[]> = {
-    'Rating life': ['135,000', '3,930,000', '1,500', '2,000', '15.5'],
+    'Rating life': ['135,000', '6,770,000', '1,500', '2,000', '15.5'],
     'Frictional power loss': ['0.182', '38.1', '28'],
   };
 
