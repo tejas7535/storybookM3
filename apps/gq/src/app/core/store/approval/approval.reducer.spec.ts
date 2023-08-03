@@ -507,6 +507,19 @@ describe('approvalReducer', () => {
     });
 
     describe('should return the combination of all approvalLevels include to quotation', () => {
+      test('should return L0 when 3rd Approver is not needed', () => {
+        expect(
+          approvalFeature.getRequiredApprovalLevelsForQuotation.projector(
+            { sapId: '124' } as Quotation,
+            {
+              approvalGeneral: {
+                approvalLevel: ApprovalLevel.L0,
+                thirdApproverRequired: false,
+              },
+            } as ApprovalCockpitData
+          )
+        ).toEqual(`${ApprovalLevel[ApprovalLevel.L0]}`);
+      });
       test('should return string when 3rd Approver is not needed', () => {
         expect(
           approvalFeature.getRequiredApprovalLevelsForQuotation.projector(

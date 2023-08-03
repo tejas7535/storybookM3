@@ -77,13 +77,13 @@ export const thirdApproverLogic: ApprovalLevel[] = [
 /* string combination of requested approval Level of Quotation
 3rdAppRequired / Level	| L0        | L1	        |	 L2	              |	L3	              |	 L4	              |	L5
                     ---------------------------------------------------------------------------------------------------------------------
-3rdAppRequired        0 |	undefined | L1 + L2     |	 L2 + L3	        |	L3 + L4	          |	 L4 + L4	        |	L4 + L5
+3rdAppRequired        0 |	L0        | L1 + L2     |	 L2 + L3	        |	L3 + L4	          |	 L4 + L4	        |	L4 + L5
                       1	| undefined | undefined	  |	 L1 + L2 + L3	    |	L2 + L3 + L4	    |	 L3 + L4 + L4     |	L3 + L4 + L5
  
  */
 export const approvalLevelOfQuotationLogic: string[][] = [
   [
-    undefined as any,
+    `${ApprovalLevel[ApprovalLevel.L0]}`,
     `${ApprovalLevel[ApprovalLevel.L1]} + ${ApprovalLevel[ApprovalLevel.L2]}`,
     `${ApprovalLevel[ApprovalLevel.L2]} + ${ApprovalLevel[ApprovalLevel.L3]}`,
     `${ApprovalLevel[ApprovalLevel.L3]} + ${ApprovalLevel[ApprovalLevel.L4]}`,

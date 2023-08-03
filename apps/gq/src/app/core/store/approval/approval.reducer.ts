@@ -339,7 +339,7 @@ export const approvalFeature = createFeature({
       selectApprovalCockpit,
       (quotation, { approvalGeneral }: ApprovalCockpitData): string =>
         quotation?.sapId &&
-        approvalGeneral?.approvalLevel &&
+        approvalGeneral?.approvalLevel !== undefined &&
         approvalGeneral?.thirdApproverRequired !== undefined
           ? approvalLevelOfQuotationLogic[
               +approvalGeneral?.thirdApproverRequired
