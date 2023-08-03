@@ -76,6 +76,10 @@ describe('Overview Cases Reducer', () => {
             count: GET_QUOTATIONS_RESPONSE_MOCK.approvedCount,
             quotations: [],
           },
+          rejected: {
+            count: GET_QUOTATIONS_RESPONSE_MOCK.rejectedCount,
+            quotations: [],
+          },
         },
         quotationsLoading: false,
       });
@@ -113,6 +117,10 @@ describe('Overview Cases Reducer', () => {
           },
           approved: {
             count: GET_QUOTATIONS_RESPONSE_MOCK.approvedCount,
+            quotations: [],
+          },
+          rejected: {
+            count: GET_QUOTATIONS_RESPONSE_MOCK.rejectedCount,
             quotations: [],
           },
         },
@@ -162,6 +170,10 @@ describe('Overview Cases Reducer', () => {
           },
           approved: {
             count: GET_QUOTATIONS_RESPONSE_MOCK.approvedCount,
+            quotations: [],
+          },
+          rejected: {
+            count: GET_QUOTATIONS_RESPONSE_MOCK.rejectedCount,
             quotations: [],
           },
         },
@@ -214,6 +226,10 @@ describe('Overview Cases Reducer', () => {
             count: GET_QUOTATIONS_RESPONSE_MOCK.approvedCount,
             quotations: [],
           },
+          rejected: {
+            count: GET_QUOTATIONS_RESPONSE_MOCK.rejectedCount,
+            quotations: [],
+          },
         },
         quotationsLoading: false,
       });
@@ -254,11 +270,60 @@ describe('Overview Cases Reducer', () => {
             count: 1,
             quotations: [VIEW_QUOTATION_MOCK],
           },
+          rejected: {
+            count: GET_QUOTATIONS_RESPONSE_MOCK.rejectedCount,
+            quotations: [],
+          },
         },
         quotationsLoading: false,
       });
     });
   });
+
+  test('should set rejected quotations and set quotationsLoading false', () => {
+    const action = OverviewCasesActions.loadCasesSuccess({
+      response: {
+        ...GET_QUOTATIONS_RESPONSE_MOCK,
+        rejectedCount: 1,
+        quotations: [VIEW_QUOTATION_MOCK],
+        statusTypeOfListedQuotation: QuotationStatus.REJECTED,
+      },
+    });
+    const state = overviewCasesFeature.reducer(VIEW_CASE_STATE_MOCK, action);
+
+    expect(state).toEqual({
+      ...VIEW_CASE_STATE_MOCK,
+      quotations: {
+        ...VIEW_CASE_STATE_MOCK.quotations,
+        active: {
+          count: GET_QUOTATIONS_RESPONSE_MOCK.activeCount,
+          quotations: [],
+        },
+        toApprove: {
+          count: GET_QUOTATIONS_RESPONSE_MOCK.toApproveCount,
+          quotations: [],
+        },
+        archived: {
+          count: GET_QUOTATIONS_RESPONSE_MOCK.archivedCount,
+          quotations: [],
+        },
+        inApproval: {
+          count: GET_QUOTATIONS_RESPONSE_MOCK.inApprovalCount,
+          quotations: [],
+        },
+        approved: {
+          count: GET_QUOTATIONS_RESPONSE_MOCK.approvedCount,
+          quotations: [],
+        },
+        rejected: {
+          count: 1,
+          quotations: [VIEW_QUOTATION_MOCK],
+        },
+      },
+      quotationsLoading: false,
+    });
+  });
+
   describe('updateCaseStatus', () => {
     test('should set deleteloading true', () => {
       const gqIds = [1];

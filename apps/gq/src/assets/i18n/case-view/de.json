@@ -7,7 +7,8 @@
       "deletedDrafts": "Gelöschte Entwürfe ({{variable}})",
       "toApprove": "Zu genehmigende Angebote ({{variable}})",
       "inApproval": "Meine Angebote in Genehmigung ({{variable}})",
-      "approved": "Genehmigte Angebote ({{variable}})"
+      "approved": "Genehmigte Angebote ({{variable}})",
+      "rejected": "Abgelehnte Angebote ({{variable}})"
     },
     "customerNumber": "Kundennummer",
     "customerName": "Kundenname",

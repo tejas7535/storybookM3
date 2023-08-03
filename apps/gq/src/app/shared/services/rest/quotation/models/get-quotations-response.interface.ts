@@ -8,4 +8,5 @@ export interface GetQuotationsResponse {
   toApproveCount: number;
   approvedCount: number;
   archivedCount: number;
+  rejectedCount: number;
 }

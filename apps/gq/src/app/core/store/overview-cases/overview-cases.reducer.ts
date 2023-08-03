@@ -40,6 +40,10 @@ export const initialState: OverviewCasesState = {
       quotations: [],
       count: undefined,
     },
+    rejected: {
+      quotations: [],
+      count: undefined,
+    },
   },
   deleteLoading: false,
   selectedCases: [],
@@ -76,9 +80,10 @@ export const overviewCasesFeature = createFeature({
           approvedCount,
           archivedCount,
           toApproveCount,
+          rejectedCount,
           statusTypeOfListedQuotation,
         } = response;
-        const { active, approved, archived, toApprove, activeTab } =
+        const { active, approved, archived, toApprove, activeTab, rejected } =
           state.quotations;
 
         const quotations: OverviewCasesStateQuotations = {
@@ -113,6 +118,14 @@ export const overviewCasesFeature = createFeature({
               response,
               approved.quotations,
               QuotationStatus.APPROVED
+            ),
+          },
+          rejected: {
+            count: rejectedCount,
+            quotations: getQuotationsFromResponse(
+              response,
+              rejected.quotations,
+              QuotationStatus.REJECTED
             ),
           },
           archived: {

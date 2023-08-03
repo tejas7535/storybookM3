@@ -57,7 +57,7 @@ describe('Overview Cases Selector', () => {
       ).toEqual(archivedFakeState.quotations.archived.quotations);
     });
     test('should return inApproval quotations', () => {
-      const archivedFakeState: OverviewCasesState = {
+      const inApprovalFakeState: OverviewCasesState = {
         ...VIEW_CASE_STATE_MOCK,
         quotations: {
           ...VIEW_CASE_STATE_MOCK.quotations,
@@ -69,12 +69,29 @@ describe('Overview Cases Selector', () => {
         },
       };
       expect(
-        overviewCasesSelectors.getQuotations.projector(archivedFakeState)
-      ).toEqual(archivedFakeState.quotations.inApproval.quotations);
+        overviewCasesSelectors.getQuotations.projector(inApprovalFakeState)
+      ).toEqual(inApprovalFakeState.quotations.inApproval.quotations);
+    });
+
+    test('should return toApprove quotations', () => {
+      const toApproveFakeState: OverviewCasesState = {
+        ...VIEW_CASE_STATE_MOCK,
+        quotations: {
+          ...VIEW_CASE_STATE_MOCK.quotations,
+          activeTab: QuotationTab.TO_APPROVE,
+          toApprove: {
+            quotations: [VIEW_QUOTATION_MOCK],
+            count: 1,
+          },
+        },
+      };
+      expect(
+        overviewCasesSelectors.getQuotations.projector(toApproveFakeState)
+      ).toEqual(toApproveFakeState.quotations.toApprove.quotations);
     });
 
     test('should return approved quotations', () => {
-      const archivedFakeState: OverviewCasesState = {
+      const approvedFakeState: OverviewCasesState = {
         ...VIEW_CASE_STATE_MOCK,
         quotations: {
           ...VIEW_CASE_STATE_MOCK.quotations,
@@ -86,9 +103,39 @@ describe('Overview Cases Selector', () => {
         },
       };
       expect(
-        overviewCasesSelectors.getQuotations.projector(archivedFakeState)
-      ).toEqual(archivedFakeState.quotations.approved.quotations);
+        overviewCasesSelectors.getQuotations.projector(approvedFakeState)
+      ).toEqual(approvedFakeState.quotations.approved.quotations);
     });
+  });
+
+  test('should return rejected quotations', () => {
+    const rejectedFakeState: OverviewCasesState = {
+      ...VIEW_CASE_STATE_MOCK,
+      quotations: {
+        ...VIEW_CASE_STATE_MOCK.quotations,
+        activeTab: QuotationTab.REJECTED,
+        rejected: {
+          quotations: [VIEW_QUOTATION_MOCK],
+          count: 1,
+        },
+      },
+    };
+    expect(
+      overviewCasesSelectors.getQuotations.projector(rejectedFakeState)
+    ).toEqual(rejectedFakeState.quotations.rejected.quotations);
+  });
+
+  test('should return undefined', () => {
+    const undefinedFakeState: OverviewCasesState = {
+      ...VIEW_CASE_STATE_MOCK,
+      quotations: {
+        ...VIEW_CASE_STATE_MOCK.quotations,
+        activeTab: undefined,
+      },
+    };
+    expect(
+      overviewCasesSelectors.getQuotations.projector(undefinedFakeState)
+    ).toBeUndefined();
   });
 
   describe('getStatusBarForQuotationStatus', () => {
@@ -150,12 +197,19 @@ describe('Overview Cases Selector', () => {
           title: 'translate it',
           disabled: false,
         },
+        {
+          id: 5,
+          tab: QuotationTab.REJECTED,
+          active: false,
+          title: 'translate it',
+          disabled: false,
+        },
       ];
       expect(
         overviewCasesSelectors.getViewToggles.projector(VIEW_CASE_STATE_MOCK)
       ).toEqual(expectedViewToggles);
 
-      expect(translate).toHaveBeenCalledTimes(5);
+      expect(translate).toHaveBeenCalledTimes(6);
       expect(translate).toHaveBeenCalledWith(
         'caseView.caseTable.viewToggle.openCases',
         { variable: 1 }
@@ -201,6 +255,13 @@ describe('Overview Cases Selector', () => {
           title: 'translate it',
           disabled: true,
         },
+        {
+          id: 5,
+          tab: QuotationTab.REJECTED,
+          active: false,
+          title: 'translate it',
+          disabled: false,
+        },
       ];
       expect(
         overviewCasesSelectors.getViewToggles.projector({
@@ -215,7 +276,7 @@ describe('Overview Cases Selector', () => {
         })
       ).toEqual(expectedViewToggles);
 
-      expect(translate).toHaveBeenCalledTimes(5);
+      expect(translate).toHaveBeenCalledTimes(6);
       expect(translate).toHaveBeenCalledWith(
         'caseView.caseTable.viewToggle.openCases',
         { variable: 1 }

@@ -8,5 +8,6 @@ export const GET_QUOTATIONS_RESPONSE_MOCK: GetQuotationsResponse = {
   inApprovalCount: 0,
   toApproveCount: 0,
   approvedCount: 0,
+  rejectedCount: 0,
   statusTypeOfListedQuotation: QuotationStatus.ACTIVE,
 };

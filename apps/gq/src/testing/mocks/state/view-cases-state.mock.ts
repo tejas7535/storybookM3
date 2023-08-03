@@ -10,6 +10,7 @@ export const VIEW_CASE_STATE_MOCK: OverviewCasesState = {
     toApprove: { count: 1, quotations: [] },
     inApproval: { count: 1, quotations: [] },
     approved: { count: 1, quotations: [] },
+    rejected: { count: 1, quotations: [] },
   },
   errorMessage: undefined,
   deleteLoading: true,

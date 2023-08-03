@@ -29,6 +29,8 @@ export const getQuotations = createSelector(
         return state.quotations.archived.quotations;
       case QuotationTab.TO_APPROVE:
         return state.quotations.toApprove.quotations;
+      case QuotationTab.REJECTED:
+        return state.quotations.rejected.quotations;
       default:
         return undefined;
     }
@@ -95,6 +97,15 @@ export const getViewToggles = createSelector(
         variable: state.quotations.archived.count,
       }),
       disabled: state.quotations.archived.count === 0,
+    },
+    {
+      id: 5,
+      tab: QuotationTab.REJECTED,
+      active: state.quotations.activeTab === QuotationTab.REJECTED,
+      title: translate('caseView.caseTable.viewToggle.rejected', {
+        variable: state.quotations.rejected.count,
+      }),
+      disabled: state.quotations.rejected.count === 0,
     },
   ]
 );
