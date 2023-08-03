@@ -269,6 +269,7 @@ export class ColumnUtilityService {
       tab !== QuotationTab.TO_APPROVE &&
       tab !== QuotationTab.IN_APPROVAL &&
       tab !== QuotationTab.APPROVED &&
+      tab !== QuotationTab.REJECTED &&
       colDef.field === CaseTableColumnFields.STATUS
     ) {
       return false;
