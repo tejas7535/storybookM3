@@ -4,9 +4,11 @@ import {
   BasicCalculationResultState,
   CalculationResultPreviewData,
   CalculationResultPreviewItem,
+  OverrollingPreviewKeys,
 } from '../../models';
 import { getCalculationTypes } from '../calculation-parameters/calculation-types.selector';
 import { getCalculationModuleInfo } from '../product-selection/product-selection.selector';
+import { getOverrollingFrequencies } from './calculation-result-report.selector';
 import {
   getCalculationResult as catalogCalculationResult,
   getError as catalogCalculationError,
@@ -76,6 +78,24 @@ export const catalogCalculation = createSelector(
   })
 );
 
+export const overrollingFrequencies = createSelector(
+  getOverrollingFrequencies,
+  catalogCalculationIsLoading,
+  catalogCalculationError,
+  (result, isLoading, error): ({ title: string } & ResultStateWithValue)[] => {
+    const overrollingValues: ({ title: string } & ResultStateWithValue)[] = [];
+    for (const overrollingObject of result) {
+      overrollingValues.push({
+        ...overrollingObject,
+        isLoading,
+        calculationError: error,
+      });
+    }
+
+    return overrollingValues;
+  }
+);
+
 export const getCalculationResultPreviewData = createSelector(
   getCalculationTypes,
   catalogCalculation,
@@ -83,13 +103,15 @@ export const getCalculationResultPreviewData = createSelector(
   co2Upstream,
   friction,
   getCalculationModuleInfo,
+  overrollingFrequencies,
   (
     calculationTypes,
     catalogCalculationPreviewResult,
     co2DownstreamResult,
     co2UpstreamResult,
     frictionResult,
-    moduleInfo
+    moduleInfo,
+    overrollingResult
   ): CalculationResultPreviewData => {
     const previewData: CalculationResultPreviewData = [];
 
@@ -138,6 +160,16 @@ export const getCalculationResultPreviewData = createSelector(
         title: 'emissions',
         svgIcon: 'co2',
         values,
+      });
+    }
+
+    if (calculationTypes.overrollingFrequency.selected) {
+      previewData.push({
+        title: 'overrollingFrequency',
+        svgIcon: 'airwaves',
+        values: overrollingResult.filter((valueItem) =>
+          OverrollingPreviewKeys.includes(valueItem.title)
+        ),
       });
     }
 

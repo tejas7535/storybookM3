@@ -2,13 +2,13 @@
   *transloco="let t; read: translocoRoot"
   class="grid grid-cols-2 gap-0 px-4 md:px-8 py-4 border-border border-t"
 >
-  <ng-container *ngFor="let item of items; let index = index">
+  <ng-container *ngFor="let item of items; let index = index; first as isFirst">
     <div
       class="flex flex-col justify-start border-border md:border-b-0 border-b md:mx-2 py-4 md:py-2"
       [ngClass]="{
         'md:border-r border-r-0 md:mr-4 pl-4 md:pl-0': index % 2 !== 1,
         'md:border-r-0 border-r md:mr-4 pr-4 md:pr-0': index % 2 === 1,
-        'col-span-2 md:col-span-1 !pl-0': index === 0
+        'col-span-2 md:col-span-1 !pl-0': isFirst
       }"
     >
       <div class="mb-4" *ngIf="item.short">
@@ -29,8 +29,8 @@
       >
         <div
           class="text-high-emphasis"
-          [class.text-h4]="index === 0"
-          [class.text-h6]="index !== 0"
+          [class.text-h4]="isFirst || !firstItemLarge"
+          [class.text-h6]="!isFirst && firstItemLarge"
         >
           {{ (item.value | meaningfulRound) || '-' }}
         </div>

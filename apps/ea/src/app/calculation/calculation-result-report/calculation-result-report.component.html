@@ -58,7 +58,6 @@
             ></ea-calculation-result-report-large-items>
           </ea-expansion-panel>
         </ng-container>
-
         <!-- Frictional power loss -->
         <ng-container
           *transloco="
@@ -269,6 +268,38 @@
                 >
               </div>
             </div>
+          </ea-expansion-panel>
+        </ng-container>
+
+        <!--- Overrolling frequencies -->
+        <ng-container
+          *transloco="
+            let t;
+            read: 'calculationResultReport.overrollingFrequencies'
+          "
+        >
+          <ea-expansion-panel
+            id="overrollingFrequency"
+            icon="airwaves"
+            *ngIf="
+              calculationResultFacade.isOverrollingFrequenciesAvailable$
+                | ngrxPush
+            "
+            [title]="t('title')"
+            [expanded]="
+              (selctedCalculationTypes$ | ngrxPush)?.overrollingFrequency
+                .selected
+            "
+          >
+            <ea-calculation-result-report-large-items
+              *ngIf="
+                calculationResultFacade.getOverrollingFrequencies$
+                  | ngrxPush as overrollingFrequencies
+              "
+              [items]="overrollingFrequencies"
+              translocoRoot="calculationResultReport.overrollingFrequencies"
+              [firstItemLarge]="false"
+            ></ea-calculation-result-report-large-items>
           </ea-expansion-panel>
         </ng-container>
 

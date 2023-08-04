@@ -33,4 +33,5 @@ export class CalculationResultReportLargeItemsComponent {
     /** Optional warning for this item */
     warning?: string;
   }[];
+  @Input() firstItemLarge = true;
 }

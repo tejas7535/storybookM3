@@ -35,6 +35,7 @@ module.exports = {
       backgroundColor: {
         warning: '#FFFBEF',
         info: '#F0F6FA',
+        inactive: '#DEDEDE',
       },
       borderColor: {
         warning: '#E9B300',

@@ -16,6 +16,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { CalculationResultPreviewItemComponent } from '../calculation-result-preview-item/calculation-result-preview-item.component';
 import { CalculationResultReportComponent } from '../calculation-result-report/calculation-result-report.component';
+import { OverrollingFrequenciesPreviewItemComponent } from '../overrolling-frequencies-preview-iterm/overrolling-frequencies-preview-item.component';
 
 @Component({
   selector: 'ea-calculation-result-preview',
@@ -28,6 +29,7 @@ import { CalculationResultReportComponent } from '../calculation-result-report/c
     MatButtonModule,
     MatDividerModule,
     CalculationResultPreviewItemComponent,
+    OverrollingFrequenciesPreviewItemComponent,
     SharedTranslocoModule,
     MatProgressSpinnerModule,
   ],

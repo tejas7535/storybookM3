@@ -85,7 +85,7 @@ export const initialState: CalculationParametersState = {
     },
     overrollingFrequency: {
       selected: false,
-      visible: false,
+      visible: true,
       disabled: false,
     },
   },

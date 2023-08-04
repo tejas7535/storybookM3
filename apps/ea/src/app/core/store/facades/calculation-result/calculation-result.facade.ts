@@ -6,6 +6,8 @@ import {
   CalculationResultPreviewSelector,
   CalculationResultReportSelector,
 } from '../../selectors/calculation-result';
+import { isOverrolingFrequenciesAvailable } from '../../selectors/calculation-result/calculation-result-report.selector';
+import { isLoading } from '../../selectors/calculation-result/catalog-calculation-result.selector';
 
 @Injectable({
   providedIn: 'root',
@@ -54,6 +56,16 @@ export class CalculationResultFacade {
   public readonly calculationReportRatingLife$ = this.store.select(
     CalculationResultReportSelector.getRatingLifeResultReport
   );
+
+  public readonly getOverrollingFrequencies$ = this.store.select(
+    CalculationResultReportSelector.getOverrollingFrequencies
+  );
+
+  public readonly isOverrollingFrequenciesAvailable$ = this.store.select(
+    isOverrolingFrequenciesAvailable
+  );
+
+  public readonly isOverrollingLoading$ = this.store.select(isLoading);
 
   constructor(private readonly store: Store) {}
 

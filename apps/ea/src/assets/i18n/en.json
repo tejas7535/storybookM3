@@ -208,6 +208,14 @@
       "n": "Equivalent speed",
       "s0_min": "Static safety",
       "p0_max": "Maximum equivalent static load"
+    },
+    "overrollingFrequencies": {
+      "title": "Overrolling frequencies",
+      "BPFO": "Overrolling frequency on outer ring",
+      "BPFI": "Overrolling frequency on inner ring",
+      "BSF": "Overrolling frequency on rolling element",
+      "RPFB": "Ring pass frequency on rolling element",
+      "FTF": "Speed of rolling element set"
     }
   },
   "basicFrequencies": {

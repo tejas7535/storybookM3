@@ -46,10 +46,20 @@
         >
           <ng-container *ngFor="let item of overlayData">
             <div class="snap-center my-4 md:my-0">
-              <ea-calculation-result-preview-item
-                styleClass="w-[50vw]"
-                [item]="item"
-              ></ea-calculation-result-preview-item>
+              <ng-container
+                *ngIf="!item.title.includes('overrolling'); else overrollingFrequenciesPreview"
+              >
+                <ea-calculation-result-preview-item
+                  styleClass="w-[50vw]"
+                  [item]="item"
+                ></ea-calculation-result-preview-item>
+              </ng-container>
+              <ng-template #overrollingFrequenciesPreview>
+                <ea-overrolling-frequencies-preview-item
+                  [item]="item"
+                  styleClass="w-[50vw]"
+                ></ea-overrolling-frequencies-preview-item>
+              </ng-template>
             </div>
             <mat-divider
               class="hidden md:block"

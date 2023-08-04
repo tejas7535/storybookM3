@@ -1,6 +1,10 @@
 import { createSelector } from '@ngrx/store';
 
-import { CalculationResultReportInput, CalculationType } from '../../models';
+import {
+  CalculationResultReportInput,
+  CalculationType,
+  OverrollingFrequencyKeys,
+} from '../../models';
 import { CalculationResultReportCalculationTypeSelection } from '../../models/calculation-result-report.model';
 import { CalculationResultReportMessage } from '../../models/calculation-result-report-message.model';
 import { getCalculationTypesConfig } from '../calculation-parameters/calculation-types.selector';
@@ -128,6 +132,42 @@ export const getRatingLifeResultReport = createSelector(
   }
 );
 
+export const getOverrollingFrequencies = createSelector(
+  getCalculationResult,
+  (calculationResult) => {
+    const result: {
+      value: number | string;
+      unit: string;
+      title: string;
+      short: string;
+      warning?: string;
+    }[] = [];
+
+    if (!calculationResult) {
+      return result;
+    }
+    for (const [key, value] of Object.entries(calculationResult)) {
+      if (!OverrollingFrequencyKeys.includes(key)) {
+        continue;
+      }
+      result.push({
+        ...value,
+        short: key,
+        title: key,
+      });
+    }
+
+    return result.filter(
+      (overrollingField) => overrollingField.title !== undefined
+    );
+  }
+);
+
+export const isOverrolingFrequenciesAvailable = createSelector(
+  getOverrollingFrequencies,
+  (overrrollingFields) => overrrollingFields?.length > 0
+);
+
 export const getResultInput = createSelector(
   frictionCalculationResult,
   (friction): CalculationResultReportInput[] =>
@@ -156,18 +196,20 @@ export const getSelectedCalculations = createSelector(
   getCalculationTypesConfig,
   isEmissionResultAvailable,
   isFrictionResultAvailable,
+  isOverrolingFrequenciesAvailable,
   isRatingLifeResultAvailable,
   (
     config,
     emissionResultAvailable,
     frictionResultAvailable,
+    overrollingFreqAvailable,
     ratingLifeResultAvailable
   ): CalculationResultReportCalculationTypeSelection => {
     const resultAvailableMapping: Record<CalculationType, boolean> = {
       emission: emissionResultAvailable,
       frictionalPowerloss: frictionResultAvailable,
       lubrication: false,
-      overrollingFrequency: false,
+      overrollingFrequency: overrollingFreqAvailable,
       ratingLife: ratingLifeResultAvailable,
     };
 

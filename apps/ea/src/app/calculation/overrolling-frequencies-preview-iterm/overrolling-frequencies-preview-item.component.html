@@ -1,0 +1,67 @@
+<ng-container
+  *transloco="let t; read: 'calculationResultReport.overrollingFrequencies'"
+>
+  <div
+    class="flex flex-shrink-0 flex-col items-center justify-between disabled-border border-border md:border-0 md:w-auto py-2 h-full disabled-bg-surface md:bg-transparent rounded-lg"
+    [ngClass]="styleClass"
+    *ngIf="_item"
+  >
+    <div class="flex items-center mx-4">
+      <mat-icon [svgIcon]="_item.svgIcon" color="primary" class="flex-shrink-0">
+        {{ _item.icon }}
+      </mat-icon>
+      <div class="text-caption text-medium-emphasis flex-shrink-0 font-medium">
+        {{ t('title') }}
+      </div>
+    </div>
+    <ng-container *ngIf="isLoading$ | ngrxPush; then loading; else display">
+    </ng-container>
+    <ng-template #display>
+      <ng-container *ngIf="resultUnavailable$ | ngrxPush">
+        <p>-</p>
+      </ng-container>
+
+      <div class="relative min-w-full data-items">
+        <ng-container *ngFor="let value of animationItems$ | ngrxPush">
+          <div
+            class="flex flex-row items-center space-x-2 absolute inset-x-0 -translate-y-1/2"
+            [@enterExitAnimation]
+            data-testid="data-value"
+            *ngIf="value.animationState === 'active'"
+          >
+            <div class="text-caption text-medium-emphasis flex-1">
+              {{ t(value.value.title) }}
+            </div>
+            <div class="flex items-center h-full shrink-0">
+              {{ value.value.value | meaningfulRound }} {{ value.value.unit }}
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <div
+        class="indicators flex flex-row justify-around space-x-1 min-w-full self-end"
+        data-testid="paging-container"
+      >
+        <ng-container
+          *ngFor="let item of dataFields$$ | ngrxPush; let i = index"
+        >
+          <div
+            class="block h-[2px] transition-all duration-1000 ease-in-out w-1/4"
+            [ngClass]="{
+              'cursor-pointer hover:scale-y-110': clickablePaging,
+              'bg-primary w-1/3': i === (currentIndex$$ | ngrxPush),
+              'bg-inactive w-1/4': i !== (currentIndex$$ | ngrxPush)
+            }"
+            (click)="selectIndex(i)"
+          ></div>
+        </ng-container>
+      </div>
+    </ng-template>
+
+    <ng-template #loading>
+      <div class="flex items-center justify-center h-full">
+        <mat-spinner diameter="16"></mat-spinner>
+      </div>
+    </ng-template>
+  </div>
+</ng-container>

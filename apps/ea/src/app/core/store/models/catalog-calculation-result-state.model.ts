@@ -42,7 +42,41 @@ export interface CatalogCalculationResult {
     value: string;
     unit: string;
   };
+
+  BPFO?: {
+    value: string;
+    unit: string;
+  };
+
+  BPFI?: {
+    value: string;
+    unit: string;
+  };
+
+  BSF?: {
+    value: string;
+    unit: string;
+  };
+
+  RPFB?: {
+    value: string;
+    unit: string;
+  };
+
+  FTF?: {
+    value: string;
+    unit: string;
+  };
 }
+
+export const OverrollingFrequencyKeys: string[] = [
+  'BPFI',
+  'BPFO',
+  'BSF',
+  'FTF',
+  'RPFB',
+];
+export const OverrollingPreviewKeys: string[] = ['BPFI', 'BPFO', 'BSF', 'RPFB'];
 
 export interface BasicFrequency {
   id: string;

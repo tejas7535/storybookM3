@@ -85,5 +85,88 @@ export const convertCatalogCalculationResult = (
     };
   }
 
+  const basicOverrollingFrequenciesSubordinate = extractSubordinatesFromPath(
+    originalResult,
+    [
+      { titleID: 'STRING_OUTP_RESULTS', identifier: 'block' },
+      {
+        titleID: 'STRING_OUTP_ROLLOVER_FREQUENCIES',
+        identifier: 'variableBlock',
+      },
+    ]
+  );
+
+  const overrollingOuterRing = extractSubordinatesFromPath(
+    basicOverrollingFrequenciesSubordinate,
+    [{ abbreviation: 'BPFO' }]
+  );
+  if (overrollingOuterRing) {
+    result.BPFO = {
+      unit: overrollingOuterRing.unit,
+      value: overrollingOuterRing.value,
+    };
+  }
+
+  const overrollingInnerRing = extractSubordinatesFromPath(
+    basicOverrollingFrequenciesSubordinate,
+    [
+      {
+        abbreviation: 'BPFI',
+      },
+    ]
+  );
+  if (overrollingInnerRing) {
+    result.BPFI = {
+      unit: overrollingInnerRing.unit,
+      value: overrollingInnerRing.value,
+    };
+  }
+
+  const overrollingRollingElement = extractSubordinatesFromPath(
+    basicOverrollingFrequenciesSubordinate,
+    [
+      {
+        abbreviation: 'BSF',
+      },
+    ]
+  );
+  if (overrollingRollingElement) {
+    result.BSF = {
+      value: overrollingRollingElement.value,
+      unit: overrollingRollingElement.unit,
+    };
+  }
+
+  const ringPassFrequency = extractSubordinatesFromPath(
+    basicOverrollingFrequenciesSubordinate,
+    [
+      {
+        abbreviation: 'RPFB',
+      },
+    ]
+  );
+  if (ringPassFrequency) {
+    result.RPFB = {
+      value: ringPassFrequency.value,
+      unit: ringPassFrequency.unit,
+    };
+  }
+
+  const rollingElementSetSpeed = extractSubordinatesFromPath(
+    basicOverrollingFrequenciesSubordinate,
+    [
+      {
+        abbreviation: 'FTF',
+      },
+    ]
+  );
+
+  if (rollingElementSetSpeed) {
+    result.FTF = {
+      value: rollingElementSetSpeed.value,
+      unit: rollingElementSetSpeed.unit,
+    };
+  }
+
   return result;
 };
