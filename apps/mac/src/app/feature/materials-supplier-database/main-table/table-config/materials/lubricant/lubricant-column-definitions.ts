@@ -8,7 +8,6 @@ import {
   MANUFACTURER_SUPPLIER_REGION,
   MATERIAL_NUMBERS,
   MATERIAL_STANDARD_STOFF_ID,
-  MATERIAL_STANDARD_WIAM_ID,
   PRODUCT_CATEGORY,
   RECENT_STATUS,
   RELEASE_RESTRICTIONS,
@@ -34,12 +33,6 @@ export const LUBRICANT_COLUMN_DEFINITIONS: ColDef[] = [
     BASE_COLUMN_DEFINITIONS
   ),
   {
-    field: CO2TYPE,
-    headerName: 'co2Type',
-    filterParams: FILTER_PARAMS,
-    hide: false,
-  },
-  {
     field: SAP_MATERIAL_ID,
     headerName: 'materialSapId',
     filterParams: FILTER_PARAMS,
@@ -62,9 +55,9 @@ export const LUBRICANT_COLUMN_DEFINITIONS: ColDef[] = [
     cellRenderer: LinkCellRendererComponent,
   },
   {
-    field: MATERIAL_STANDARD_WIAM_ID,
-    headerName: MATERIAL_STANDARD_WIAM_ID,
+    field: CO2TYPE,
+    headerName: 'co2Type',
     filterParams: FILTER_PARAMS,
-    hide: false,
+    hide: true,
   },
 ];

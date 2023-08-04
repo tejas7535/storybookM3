@@ -304,7 +304,7 @@
         "materialStandardStandardDocument": "Standard Document",
         "materialStandardStoffId": "Schaeffler Material ID",
         "materialStandardWiamId": "WIAM ID",
-        "co2Type": "PCF/CCF",
+        "co2Type": "Comment",
         "materialSapId": "SAP Materialnummer",
         "maxDimension": "Maximum Dimension (mm)",
         "minDimension": "Minimum Dimension (mm)",
