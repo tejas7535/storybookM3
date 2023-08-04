@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 
@@ -10,7 +11,11 @@ import { GetQuotationsResponse } from '@gq/shared/services/rest/quotation/models
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { translate } from '@ngneat/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
-import { ROUTER_NAVIGATED } from '@ngrx/router-store';
+import {
+  ROUTER_NAVIGATED,
+  RouterNavigatedAction,
+  SerializedRouterStateSnapshot,
+} from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 
 import { getUserUniqueIdentifier } from '@schaeffler/azure-auth';
@@ -28,11 +33,18 @@ export class OverviewCasesEffects {
   getCases$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ROUTER_NAVIGATED),
-      map((action: any) => action.payload.routerState),
-      filter((routerState) =>
+      map((action: RouterNavigatedAction) => action.payload.routerState),
+      filter((routerState: SerializedRouterStateSnapshot) =>
         routerState.url.includes(AppRoutePath.CaseViewPath)
       ),
-      map(() => OverviewCasesActions.loadCases({ tab: QuotationTab.ACTIVE }))
+      concatLatestFrom(() =>
+        this.store.select(fromOverviewCasesSelector.getActiveTab)
+      ),
+      map(([{ params }, activeTab]: [any, QuotationTab]) =>
+        OverviewCasesActions.loadCases({
+          tab: params?.quotationTab || activeTab || QuotationTab.ACTIVE,
+        })
+      )
     );
   });
 
@@ -58,16 +70,18 @@ export class OverviewCasesEffects {
     return this.actions$.pipe(
       ofType(OverviewCasesActions.loadCases),
       concatLatestFrom(() => this.store.select(getUserUniqueIdentifier)),
-      mergeMap(([action, userId]) =>
-        this.quotationService.getCases(action.tab, userId).pipe(
+      mergeMap(([action, userId]) => {
+        this.location.go(`${AppRoutePath.CaseViewPath}/${action.tab}`);
+
+        return this.quotationService.getCases(action.tab, userId).pipe(
           map((response: GetQuotationsResponse) =>
             OverviewCasesActions.loadCasesSuccess({ response })
           ),
           catchError((errorMessage) =>
             of(OverviewCasesActions.loadCasesFailure({ errorMessage }))
           )
-        )
-      )
+        );
+      })
     );
   });
 
@@ -123,6 +137,7 @@ export class OverviewCasesEffects {
     private readonly store: Store,
     private readonly actions$: Actions,
     private readonly quotationService: QuotationService,
-    private readonly snackBar: MatSnackBar
+    private readonly snackBar: MatSnackBar,
+    private readonly location: Location
   ) {}
 }

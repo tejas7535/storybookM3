@@ -69,12 +69,70 @@ describe('Overview Cases Effects', () => {
       };
     });
     test(
-      'should dispatch loadCases',
+      'should dispatch loadCases with defaultTab when no Tab is loaded from Store or URL',
       marbles((m) => {
         const result = OverviewCasesActions.loadCases({
           tab: QuotationTab.ACTIVE,
         });
+        store.overrideSelector(
+          fromOverviewCasesSelector.getActiveTab,
+          undefined as QuotationTab
+        );
+        actions$ = m.hot('-a', { a: action });
 
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.getCases$).toBeObservable(expected);
+      })
+    );
+
+    test(
+      'should not dispatch loadCases with Tab from URL',
+      marbles((m) => {
+        action = {
+          type: ROUTER_NAVIGATED,
+          payload: {
+            routerState: {
+              url: '/case-view',
+              params: { quotationTab: QuotationTab.IN_APPROVAL },
+            },
+          },
+        };
+
+        const result = OverviewCasesActions.loadCases({
+          tab: QuotationTab.IN_APPROVAL,
+        });
+        store.overrideSelector(
+          fromOverviewCasesSelector.getActiveTab,
+          undefined as QuotationTab
+        );
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.getCases$).toBeObservable(expected);
+      })
+    );
+
+    test(
+      'should not dispatch loadCases with Tab loaded from Store',
+      marbles((m) => {
+        action = {
+          type: ROUTER_NAVIGATED,
+          payload: {
+            routerState: {
+              url: '/case-view',
+            },
+          },
+        };
+
+        const result = OverviewCasesActions.loadCases({
+          tab: QuotationTab.TO_APPROVE,
+        });
+        store.overrideSelector(
+          fromOverviewCasesSelector.getActiveTab,
+          QuotationTab.TO_APPROVE
+        );
         actions$ = m.hot('-a', { a: action });
 
         const expected = m.cold('-b', { b: result });
@@ -114,11 +172,15 @@ describe('Overview Cases Effects', () => {
     );
   });
   describe('loadCases', () => {
+    const locationMock = jest.fn();
+
     beforeEach(() => {
       action = OverviewCasesActions.loadCases({
         tab: QuotationTab.ACTIVE,
       });
       store.overrideSelector(getUserUniqueIdentifier, 'userId');
+      effects['location'].go = locationMock;
+      locationMock.mockReset();
     });
 
     test(
@@ -146,6 +208,7 @@ describe('Overview Cases Effects', () => {
           QuotationTab.ACTIVE,
           'userId'
         );
+        expect(locationMock).toHaveBeenCalledTimes(1);
       })
     );
 
@@ -166,6 +229,7 @@ describe('Overview Cases Effects', () => {
         m.flush();
 
         expect(quotationService.getCases).toHaveBeenCalledTimes(1);
+        expect(locationMock).toHaveBeenCalledTimes(1);
       })
     );
   });

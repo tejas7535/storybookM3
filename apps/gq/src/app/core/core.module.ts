@@ -12,9 +12,11 @@ import { RouterModule } from '@angular/router';
 import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
 import { GlobalSearchBarModule } from '@gq/shared/components/global-search-bar/global-search-bar.module';
 import { UserSettingsModule } from '@gq/shared/components/user-settings/user-settings.module';
-import { AVAILABLE_LANGUAGES } from '@gq/shared/constants/language';
-import { FALLBACK_LANGUAGE } from '@gq/shared/constants/language';
-import { LANGUAGE_STORAGE_KEY } from '@gq/shared/constants/language';
+import {
+  AVAILABLE_LANGUAGES,
+  FALLBACK_LANGUAGE,
+  LANGUAGE_STORAGE_KEY,
+} from '@gq/shared/constants/language';
 import { HttpErrorInterceptor } from '@gq/shared/http/http-error.interceptor';
 import { HttpHeaderInterceptor } from '@gq/shared/http/http-header.interceptor';
 import {
@@ -100,9 +102,6 @@ export function appInitializer(
       cookiesGroups: COOKIE_GROUPS,
       domainScript: environment.oneTrustId,
     }),
-
-    // Monitoring
-    ApplicationInsightsModule.forRoot(environment.applicationInsights),
   ],
   providers: [
     {
