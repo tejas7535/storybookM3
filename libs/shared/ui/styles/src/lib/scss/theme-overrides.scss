@@ -127,3 +127,50 @@
     @apply #{$prefix}mr-2;
   }
 }
+
+@mixin schaeffler-theme-overrides-mdc($theme, $prefix) {
+  // button overrides
+  .mat-mdc-button-base {
+    @apply #{$prefix}text-button;
+    @apply #{$prefix}uppercase;
+
+    &.mat-mdc-stroked-button.mat-mdc-button-disabled {
+      @apply #{$prefix}border-border;
+    }
+  }
+
+  .mat-mdc-button-base:not(.mat-mdc-fab):not(.mat-mdc-mini-fab):not(.mat-mdc-icon-button) {
+    mat-icon {
+      @apply #{$prefix}-ml-1.5 #{$prefix}mr-2 #{$prefix}h-[18px] #{$prefix}w-[18px] #{$prefix}text-[18px];
+    }
+  }
+
+  // tooltip overrides
+  mat-tooltip-component .mdc-tooltip {
+    @apply #{$prefix}text-caption #{$prefix}whitespace-pre-line #{$prefix}px-4 #{$prefix}py-2;
+    //@apply #{$prefix}bg-secondary-900; // - apply style only for outer container
+    --mdc-plain-tooltip-container-color: #3c3c3c;
+  }
+
+  mat-slide-toggle .mdc-switch__icons {
+    @apply #{$prefix}hidden;
+  }
+
+  // input fields
+  mat-form-field .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    @apply #{$prefix}bg-transparent;
+  }
+
+  .mat-mdc-form-field-focus-overlay {
+    @apply #{$prefix}bg-transparent;
+  }
+
+  .mat-mdc-form-field-icon-prefix,
+  .mat-mdc-form-field-icon-suffix {
+    @apply #{$prefix}text-medium-emphasis;
+  }
+
+  .mat-mdc-form-field-icon-suffix {
+    @apply #{$prefix}mr-2;
+  }
+}

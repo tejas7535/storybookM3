@@ -40,6 +40,11 @@ $custom-typography: mat.define-legacy-typography-config(
 @include mat.legacy-core();
 @include mat.all-legacy-component-themes($schaeffler-theme);
 
+@include mat.all-component-themes($schaeffler-theme);
 $prefix: '' !default;
 
+//prior Angular material version 16.
 @include overrides.schaeffler-theme-overrides($schaeffler-theme, $prefix);
+
+// Angular material version 16 mdc components override
+@include overrides.schaeffler-theme-overrides-mdc($schaeffler-theme, $prefix);

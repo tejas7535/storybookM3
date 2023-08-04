@@ -26,6 +26,15 @@
   @apply hidden;
 }
 
+/*
+  weird border issue Angular material with Tailwind https://github.com/tailwindlabs/tailwindcss/discussions/9993
+  in preflight style of tailwinds sets border-style to solid, other way to fix it, would be to adjust 
+  preflight, which can case other issues for tailwind
+*/
+.mdc-notched-outline__notch {
+  border-right: none !important;
+}
+
 button {
   outline: none !important;
 }

@@ -14,19 +14,24 @@
             (click)="selectBearing(bearing)"
             [disabled]="bearing.disabled"
           >
-            <div>
-              <span class="mr-1 inline-block text-body-2">{{
-                bearing.disabled
-                  ? t('bearingsList.disabledOption')
-                  : t('bearingsList.selectOption')
-              }}</span>
-              <span class="inline-block text-subtitle-2">{{
-                bearing.title
-              }}</span>
+            <div class="flex items-center">
+              <div class="flex flex-col md:flex-row">
+                <span class="mr-1 inline-block text-body-2">{{
+                  bearing.disabled
+                    ? t('bearingsList.disabledOption')
+                    : t('bearingsList.selectOption')
+                }}</span>
+                <span class="inline-block text-subtitle-2">{{
+                  bearing.title
+                }}</span>
+              </div>
+              <mat-icon
+                *ngIf="!bearing.disabled"
+                color="primary"
+                class="align-bottom"
+                >chevron_right</mat-icon
+              >
             </div>
-            <mat-icon *ngIf="!bearing.disabled" color="primary"
-              >chevron_right</mat-icon
-            >
           </mat-list-item>
         </mat-action-list>
       </div>

@@ -1,4 +1,9 @@
-<mat-form-field *ngIf="rangeFilter" appearance="outline" class="!w-full">
+<mat-form-field
+  *ngIf="rangeFilter"
+  appearance="outline"
+  class="!w-full"
+  [subscriptSizing]="'dynamic'"
+>
   <mat-label>
     {{ rangeFilter.label || rangeFilter.name }}
   </mat-label>
@@ -11,14 +16,14 @@
     <mat-select-trigger>
       {{ rangeFilter | rangeFilterValue }}
     </mat-select-trigger>
-    <mat-option class="!h-0" value="selected"></mat-option>
+    <mat-option class="!h-0 !hidden" value="selected"></mat-option>
     <div class="flex flex-col py-1 px-4">
       <div class="flex items-center justify-between gap-1">
         <div class="truncate text-caption">
           {{ t('shared.min') }} {{ rangeFilter.name }}
         </div>
         <div>
-          <mat-form-field class="!w-full !text-right">
+          <mat-form-field class="!w-full" [subscriptSizing]="'dynamic'">
             <input
               #minInput
               matInput
@@ -31,6 +36,7 @@
               [max]="rangeFilter.max"
               [min]="rangeFilter.min"
               (change)="update(inputType.Min, minInput.value)"
+              class="!text-right"
             />
             <div *ngIf="rangeFilter.unit" matSuffix>
               &nbsp;{{ rangeFilter.unit }}
@@ -40,15 +46,19 @@
       </div>
       <div class="flex items-center gap-1">
         <mat-slider
-          thumbLabel
+          discrete
           color="primary"
           class="flex-1"
-          [value]="rangeFilter.minSelected || rangeFilter.min"
           [max]="rangeFilter.max"
           [min]="rangeFilter.min"
           [displayWith]="formatSliderThumbLabel"
-          (change)="update(inputType.Min, $event.value)"
         >
+          <input
+            matSliderThumb
+            #minSliderInput
+            (change)="update(inputType.Min, minSliderInput.value)"
+            [value]="rangeFilter.minSelected || rangeFilter.min"
+          />
         </mat-slider>
         <mat-icon class="cursor-pointer" (click)="resetInput(inputType.Min)"
           >restore</mat-icon
@@ -60,7 +70,7 @@
           {{ t('shared.max') }} {{ rangeFilter.name }}
         </div>
         <div>
-          <mat-form-field class="!w-full !text-right">
+          <mat-form-field class="!w-full" [subscriptSizing]="'dynamic'">
             <input
               #maxInput
               matInput
@@ -73,6 +83,7 @@
               [max]="rangeFilter.max"
               [min]="rangeFilter.min"
               (change)="update(inputType.Max, maxInput.value)"
+              class="!text-right"
             />
             <div *ngIf="rangeFilter.unit" matSuffix>
               &nbsp;{{ rangeFilter.unit }}
@@ -82,15 +93,20 @@
       </div>
       <div class="flex items-center gap-1">
         <mat-slider
+          discrete
           thumbLabel
           color="primary"
           class="flex-1"
-          [value]="rangeFilter.maxSelected || rangeFilter.max"
           [max]="rangeFilter.max"
           [min]="rangeFilter.min"
           [displayWith]="formatSliderThumbLabel"
-          (change)="update(inputType.Max, $event.value)"
         >
+          <input
+            matSliderThumb
+            #maxSliderInput
+            [value]="rangeFilter.maxSelected || rangeFilter.max"
+            (change)="update(inputType.Max, maxSliderInput.value)"
+          />
         </mat-slider>
         <mat-icon class="cursor-pointer" (click)="resetInput(inputType.Max)"
           >restore</mat-icon
