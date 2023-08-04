@@ -10,6 +10,7 @@ import {
   aqmCalculatorLearnMoreData,
   hardnessConverterLearnMoreData,
   insulationSolutionsLearnMoreData,
+  materialPropertiesEstimatorLearnMoreData,
   materialSupplierDbLearnMoreData,
 } from '../config/';
 import { LearnMoreData } from '../models';
@@ -32,6 +33,8 @@ export class LearnMoreResolver {
         return aqmCalculatorLearnMoreData;
       case RoutePath.InsulationSolutionsPath:
         return insulationSolutionsLearnMoreData;
+      case RoutePath.MaterialPropertiesEstimator:
+        return materialPropertiesEstimatorLearnMoreData;
       case RoutePath.MaterialsSupplierDatabasePath:
         return materialSupplierDbLearnMoreData;
       default:

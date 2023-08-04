@@ -4,6 +4,7 @@ export enum RoutePath {
   HardnessConverterPath = 'hardness-converter',
   AQMCalculatorPath = 'aqm-calculator',
   InsulationSolutionsPath = 'insulation-solutions',
+  MaterialPropertiesEstimator = 'material-properties-estimator',
   MaterialsSupplierDatabasePath = 'materials-supplier-database',
   LearnMorePath = 'learn-more',
   ForbiddenPath = 'forbidden',
@@ -16,6 +17,7 @@ export enum RouteNames {
   AQMCalculator = 'AQM Calculator',
   InsulationSolutions = 'Insulation Solutions',
   MaterialsSupplierDatabase = 'Materials Supplier Database',
+  MaterialPropertiesEstimator = 'Material Properties Estimator',
   LearnMore = 'Learn More',
   Forbidden = 'forbidden',
 }

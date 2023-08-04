@@ -189,6 +189,27 @@
       "linkgroup1_1_name": "Pfenning, Stefan  ST/SWE-CO",
       "linkgroup1_1_uri": "https://sconnect.schaeffler.com/people/pfennsef"
     },
+    "materialPropertiesEstimator": {
+      "title": "Material Properties Estimator",
+      "subTitle": " ",
+      "content": [
+        "Most important material parameters describing mechanical strength are the yield and tensile strength as well as dynamic material parameters like alternating tensile compressive strength. Unfortunately it requires medium to high effort to determine these parameters, especially dynamic material parameters. The hardness of the material is easy to determine and known in most cases – so the idea of this tool is to give the user the chance to convert the hardness value of steels, cast irons and aluminums to static and dynamic material properties. The calculation is conservative and does not overestimate the material properties and is based on the FKM guideline “Analytical strength assessment of components” with some Schaeffler specific expansions for aluminums and high hardness steels.",
+        "The application is Matlab based and therefore running on the Schaeffler Matlab server. Starting the application requires a login to the Matlab server which is free using Schaeffler Windows ID and Windows password.",
+        "After application start, you should first select the material type of interest (upper left – Material type). Steel, Cast iron and aluminum are available at the moment. Next, the basis for the estimation should be selected whether it is hardness or the ultimate tensile strength. Depending on the selection, the fields for hardness or tensile strength are highlighted and you can type in your value or use the slider on the HV input box.",
+        "For steels, the calculation of yield strength depends on the material annealing condition soft / normalized or hardened / quenched and tempered (QT). This information can be provided in the filed “estimation for condition”. If it is not set manually, it is assumed that hardness values over 300 HV are hardened or quenched and tempered. In the case of hardened and QT, the “hardness degree” is required if the calculation is based on hardness. Hardness degree is calculated using the maximum hardness calculation button where the carbon content of the steel of interest is required. Typical carbon values are 0,16 % for case hardening steels, 0,32-0,55 % for quenched and tempered steels and round about 1 % for bearing steels. The WIAM database can be used to get information about chemical composition.",
+        "Export of the estimated values:",
+        "You can mark the table and copy the data using standard Ctrl+C buttons. An error message will appear “Web apps does not support clipboard” – but nevertheless the copy function works and you can paste the data to Excel or other programs."
+      ],
+      "linkgroup1": "Contact",
+      "linkgroup1_1_name": "Johannes Weninger SP/HZA-AS",
+      "linkgroup1_1_uri": "https://sconnect.schaeffler.com/people/weninjha",
+
+      "linkgroup2": "Links for further information:",
+      "linkgroup2_1_name": "S130999 - EN (schaeffler.com)",
+      "linkgroup2_1_uri": "http://arp01.schaeffler.com:57610/irrelevant?get&pVersion=0046&contRep=Z1&docId=2244660000D41EDDADE52504576C8AD0&compId=Analytical%20Strength%20Assessment.pdf&accessMode=r&authId=CN%3DEP1,OU%3DI0020072016,OU%3DSAPWebAS,O%3DSchaeffler,C%3DDE&expiration=20230803133557&secKey=MIIBSgYJKoZIhvcNAQcCoIIBOzCCATcCAQExCzAJBgUrDgMCGgUAMAsGCSqGSIb3DQEHATGCARYwggESAgEBMGcwWzELMAkGA1UEBhMCREUxEzARBgNVBAoTClNjaGFlZmZsZXIxEzARBgNVBAsTClNBUCBXZWIgQVMxFDASBgNVBAsTC0kwMDIwMDcyMDE2MQwwCgYDVQQDEwNFUDECCAogFQQYEBQBMAkGBSsOAwIaBQCgXTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJBTEPFw0yMzA4MDMxMTM1NTdaMCMGCSqGSIb3DQEJBDEWBBQEUfGi%2F5YBAdNI%2BlpcW7ZV5%2BNYoDAJBgcqhkjOOAQDBC8wLQIUEiCkGzeamsz8fRq1HyXnzzJvcRYCFQDKaQeQZobIBYYjOVXOj5969E4ukA%3D%3D",
+      "linkgroup2_2_name": "VDMA FKM guideline",
+      "linkgroup2_2_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASP&doknr=VDMAFKM-RICHTLINIE&doktl=DE&dokvr=00"
+    },
     "materialsupplierdb": {
       "title": "Materials Supplier Database",
       "subTitle": "Find released materials suppliers and their CO₂ footprints",

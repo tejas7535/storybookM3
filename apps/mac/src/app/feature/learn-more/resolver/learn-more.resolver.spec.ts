@@ -7,6 +7,7 @@ import { RoutePath } from '../../../app-routing.enum';
 import {
   aqmCalculatorLearnMoreData,
   insulationSolutionsLearnMoreData,
+  materialPropertiesEstimatorLearnMoreData,
   materialSupplierDbLearnMoreData,
 } from '../config';
 import { hardnessConverterLearnMoreData } from '../config/hardness-converter';
@@ -70,6 +71,14 @@ describe('LearnMoreResolverResolver', () => {
       .mockReturnValue(RoutePath.InsulationSolutionsPath);
     const ret = resolver.resolve(mockBaseRoute, mockRouterState);
     expect(ret).toBe(insulationSolutionsLearnMoreData);
+  });
+
+  it('should resolve Material properties estimator', () => {
+    mockBaseRoute.paramMap.get = jest
+      .fn()
+      .mockReturnValue(RoutePath.MaterialPropertiesEstimator);
+    const ret = resolver.resolve(mockBaseRoute, mockRouterState);
+    expect(ret).toBe(materialPropertiesEstimatorLearnMoreData);
   });
 
   it('should resolve other routes', () => {

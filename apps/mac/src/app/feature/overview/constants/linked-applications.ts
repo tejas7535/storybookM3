@@ -8,10 +8,10 @@ export const linkedApps: OverviewCard[] = [
     description:
       'Estimate static and cyclic materials properties according to S 130999',
     link: 'https://matlab-web-app:9988/webapps/home/login.html?afterlogin=%2Fwebapps%2Fhome%2Fsession.html%3Fapp%3DSchaeffler%252FMaterialparameterestimation',
-    learnMoreLink: undefined,
+    learnMoreLink: '/learn-more/material-properties-estimator',
     disableImageHoverEffect: false,
     external: true,
-    learnMoreExternal: true,
+    learnMoreExternal: false,
     inverted: true,
     translationKey: 'linkedApplications.matp',
   },
