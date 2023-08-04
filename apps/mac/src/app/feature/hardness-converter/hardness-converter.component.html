@@ -44,6 +44,7 @@
               <mat-form-field appearance="outline" class="md:w-72">
                 <mat-label>{{ t('value') }}</mat-label>
                 <input
+                  #defaultInputValue
                   matInput
                   [formControl]="inputValue"
                   type="number"
@@ -104,7 +105,7 @@
             </button>
           </div>
         </div>
-        <div class="flex flex-col">
+        <div class="flex flex-col pb-4">
           <!-- MULTI VALUE CALCULATION -->
           <div *ngIf="multipleValues$ | ngrxPush">
             <div
@@ -200,6 +201,13 @@
             </div>
           </ng-template>
         </div>
+
+        <mac-geometrical-information
+          class="flex flex-row"
+          [activeConversion]="activeConversion$"
+          [inputElement]="defaultInputElement"
+        ></mac-geometrical-information>
+
         <div class="flex flex-row">
           <button
             mat-button

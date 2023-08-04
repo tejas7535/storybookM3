@@ -9,6 +9,8 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 import {
   ConversionResponse,
+  IndentationRequest,
+  IndentationResponse,
   Info,
   UnitsResponse,
 } from '@mac/feature/hardness-converter/models';
@@ -18,6 +20,7 @@ import {
   HARDNESS_CONVERSION_UNITS_MOCK,
 } from '@mac/testing/mocks';
 
+import { HB } from '../constants';
 import { HardnessConverterApiService } from './hardness-converter-api.service';
 
 describe('HardnessConverterApiService', () => {
@@ -92,6 +95,56 @@ describe('HardnessConverterApiService', () => {
       const req = httpMock.expectOne(`${service['BASE_URL']}/conversion`);
       expect(req.request.method).toBe('POST');
       req.flush(HARDNESS_CONVERSION_MOCK);
+    });
+  });
+
+  describe('getIndetation', () => {
+    it('should fetch the indentation', (done) => {
+      const request: IndentationRequest = { value: 3 };
+      const unit = HB;
+      const errorHandler = jest.fn();
+      const expected = {
+        depth: 9,
+        width: 82,
+      } as IndentationResponse;
+      service
+        .getIndentation(request, unit, errorHandler)
+        .subscribe((result: ConversionResponse) => {
+          expect(
+            service['applicationInsightService'].logEvent
+          ).toHaveBeenCalled();
+          expect(result).toEqual(expected);
+          expect(errorHandler).not.toBeCalled();
+          done();
+        });
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/indentation/${unit}`
+      );
+      expect(req.request.method).toBe('POST');
+      req.flush(expected);
+    });
+    it('should call the error handler', (done) => {
+      const request: IndentationRequest = { value: 3 };
+      const unit = HB;
+      const errorHandler = jest.fn(() => ['error response']);
+      const expected = 'error response';
+      service
+        .getIndentation(request, unit, errorHandler)
+        .subscribe((result: ConversionResponse) => {
+          expect(
+            service['applicationInsightService'].logEvent
+          ).toHaveBeenCalled();
+          expect(result).toEqual(expected);
+          expect(errorHandler).toBeCalled();
+          done();
+        });
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/indentation/${unit}`
+      );
+      expect(req.request.method).toBe('POST');
+      req.flush('', { status: 400, statusText: '' });
     });
   });
 });

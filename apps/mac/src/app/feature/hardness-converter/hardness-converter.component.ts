@@ -2,8 +2,10 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   OnDestroy,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import {
   FormControl,
@@ -14,7 +16,14 @@ import {
 import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 
 import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
-import { debounceTime, filter, map, take, takeUntil } from 'rxjs/operators';
+import {
+  debounceTime,
+  filter,
+  map,
+  take,
+  takeUntil,
+  tap,
+} from 'rxjs/operators';
 
 import { TranslocoService } from '@ngneat/transloco';
 
@@ -38,6 +47,9 @@ import { changeFavicon } from '@mac/shared/change-favicon';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HardnessConverterComponent implements OnInit, OnDestroy {
+  @ViewChild('defaultInputValue')
+  public defaultInputElement: ElementRef<HTMLInputElement>;
+
   public breadcrumbs: Breadcrumb[];
 
   public MPA = MPA;
@@ -67,6 +79,10 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
   public multipleValues$ = new ReplaySubject<boolean>();
   public average$ = new ReplaySubject<number>();
   public standardDeviation$ = new ReplaySubject<number>();
+  public activeConversion$ = new BehaviorSubject<{
+    value: number;
+    unit: string;
+  }>({ value: undefined, unit: undefined });
 
   public conversionResult$ = new ReplaySubject<HardnessConversionResponse>();
   public resultLoading$ = new BehaviorSubject<boolean>(false);
@@ -117,6 +133,12 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
       .pipe(
         debounceTime(250),
         takeUntil(this.destroy$),
+        tap((value: HardnessConversionFormValue) =>
+          this.activeConversion$.next({
+            value: undefined,
+            unit: value.initialInput.inputUnit,
+          })
+        ),
         map((value: HardnessConversionFormValue) => {
           const values = [];
           if (value.initialInput.inputValue) {
@@ -218,6 +240,7 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
         this.enabled$.next(enabled);
         if (!enabled.includes(this.inputUnit.value)) {
           this.inputUnit.setValue(enabled[0]);
+          this.activeConversion$.next({ value: undefined, unit: enabled[0] });
         }
       });
   }
@@ -248,6 +271,7 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
     unit: string,
     deviation?: number
   ): void {
+    this.activeConversion$.next({ value, unit });
     this.resultLoading$.next(true);
     this.hardnessService
       .getConversion({ conversionTable, unit, value, deviation })

@@ -17,6 +17,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../shared/shared.module';
 import { CopyInputModule } from './components/copy-input/copy-input.module';
+import { GeometricalInformationComponent } from './components/geometrical-information/geometrical-information.component';
 import { HardnessConverterComponent } from './hardness-converter.component';
 import { HardnessConverterRoutingModule } from './hardness-converter-routing.module';
 
@@ -24,7 +25,7 @@ import { HardnessConverterRoutingModule } from './hardness-converter-routing.mod
   declarations: [HardnessConverterComponent],
   imports: [
     CommonModule,
-
+    GeometricalInformationComponent,
     HardnessConverterRoutingModule,
     SubheaderModule,
     CopyInputModule,

@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { map } from 'rxjs/operators';
+import { ObservableInput } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
@@ -13,6 +14,9 @@ import {
   UnitsRequest,
   UnitsResponse,
 } from '@mac/feature/hardness-converter/models';
+
+import { IndentationRequest } from '../models/indentation-request.model';
+import { IndentationResponse } from '../models/indentation-response.model';
 
 @Injectable({
   providedIn: 'root',
@@ -48,6 +52,32 @@ export class HardnessConverterApiService {
             request: conversionRequest,
             response,
           });
+
+          return response;
+        })
+      );
+  }
+
+  public getIndentation(
+    indentationRequest: IndentationRequest,
+    unit: string,
+    errorHandler: (err: HttpErrorResponse) => ObservableInput<any>
+  ) {
+    return this.httpClient
+      .post<IndentationResponse>(
+        `${this.BASE_URL}/indentation/${unit}`,
+        indentationRequest
+      )
+      .pipe(
+        catchError(errorHandler),
+        map((response) => {
+          this.applicationInsightService.logEvent(
+            '[MAC - HC - INDENTATION REQUEST]',
+            {
+              request: indentationRequest,
+              response,
+            }
+          );
 
           return response;
         })

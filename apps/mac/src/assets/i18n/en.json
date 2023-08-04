@@ -76,7 +76,70 @@
     "utsTooltip": "Ultimate tensile strength",
     "value": "Value",
     "valuesCalculatedWith": "Values calculated with Backend v.{{version}}",
-    "notInTable": "not-in-table"
+    "notInTable": "not-in-table",
+    "clipboardcopy": "Copied value to clipboard!",
+    "formError": {
+      "min": "Value lower than {{min}}",
+      "max": "Value higher than {{max}}",
+      "generic": "Value is not valid",
+      "required": "Input required"
+    },
+    "geometricalInformation": {
+      "error": {
+        "400": "Calculation cannot be processed with given parameters!"
+      },
+      "control": "Geometrical Parameters and Indentation Properties",
+      "geometry": "Identational geometrical parameter",
+      "corrections": "Corrected values",
+      "others": "Others",
+      "unit": {
+        "mm": "mm",
+        "kp": "kp",
+        "boolean": " ",
+        "hv": "HV",
+        "hb": "HB",
+        "hra": "HRA",
+        "hrb": "HRB",
+        "hrc": "HRC"
+      },
+      "prop": {
+        "width": "Indentation width",
+        "depth": "Indentation depth",
+        "edge_distance": "Edge indentation spacing",
+        "indentation_distance": "Inter-indentation spacing",
+        "minimum_thickness": "Min. sample thickness",
+        "indenter_ratio": "Indenter ratio",
+        "force_diameter_index": "Force diameter index",
+        "hardness_convex_sphere": "Correction convex sphere",
+        "hardness_concave_sphere": "Correction concave sphere",
+        "hardness_convex_cylinder": "Correction convex cylinder",
+        "hardness_convex_cylinder_45": "Correction convex cylinder 45°",
+        "hardness_concave_cylinder_45": "Correction concave cylinder 45°",
+        "hardness_convex_cylinder_0": "Correction convex cylinder 0°",
+        "hardness_concave_cylinder_0": "Correction concave cylinder 0°",
+        "valid": "Valid",
+        "test_force": "Max. test force on sample thickness"
+      },
+      "material": {
+        "FE": "Steel (Fe)",
+        "CU": "Copper (Cu)",
+        "LI": "Lithium (Li)",
+        "MG": "Magnesium (Mg)",
+        "AL": "Aluminum (Al)",
+        "TI": "Titanium (Ti)",
+        "PB": "Lead (Pb)",
+        "SN": "Tin (Sn)",
+        "OTHER": "Others"
+      },
+      "controls": {
+        "diameter": "Sample diameter [mm]",
+        "diameterBall": "Sample ball diameter",
+        "load": "Indentation load [kp]",
+        "thickness": "Thickneess [mm]",
+        "material": "Material",
+        "value": "Value to be converted (readonly)"
+      }
+    }
   },
   "learnmore": {
     "default": {
