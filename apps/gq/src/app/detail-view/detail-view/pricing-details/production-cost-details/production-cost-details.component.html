@@ -6,16 +6,28 @@
       <gq-label-text>
         <span label> {{ t('gpc') }}</span>
         <span text>{{ quotationDetail.gpc | numberCurrency: currency }}</span>
-        <span *ngIf="quotationDetail.gpc" text>{{
-          ' (' + (quotationDetail.gqCreated | translocoDate) + ')'
-        }}</span>
+        <ng-container *ngIf="quotationDetail.gpc" text>
+          <ng-container *ngIf="quotationDetail.gpcYear; else gqCreatedDate">
+            <span>
+              {{
+                ' (' +
+                  (quotationDetail.gpcYear | yearToDate | translocoDate) +
+                  ')'
+              }}
+            </span>
+          </ng-container>
+        </ng-container>
       </gq-label-text>
       <gq-label-text>
         <span label>{{ t('sqv') }}</span>
         <span text>{{ quotationDetail.sqv | numberCurrency: currency }}</span>
-        <span *ngIf="quotationDetail.sqv" text>{{
-          ' (' + (quotationDetail.gqCreated | translocoDate) + ')'
-        }}</span>
+        <ng-container *ngIf="quotationDetail.sqv" text>
+          <ng-container *ngIf="quotationDetail.sqvDate; else gqCreatedDate">
+            <span>
+              {{ ' (' + (quotationDetail.sqvDate | translocoDate) + ')' }}
+            </span>
+          </ng-container>
+        </ng-container>
       </gq-label-text>
       <gq-label-text>
         <span label>{{ t('productionPlant') }}</span>
@@ -30,3 +42,9 @@
     </div>
   </gq-kpi-status-card>
 </div>
+
+<!-- SqvDate and gpcYear was added in a later version, 
+  quotationDetails created before that feature was released will not have that property => the gqCreated will be shown instead-->
+<ng-template #gqCreatedDate>
+  <span>{{ ' (' + (quotationDetail.gqCreated | translocoDate) + ')' }}</span>
+</ng-template>

@@ -18,7 +18,7 @@ import { PlantDisplayPipe } from './plant-display/plant-display.pipe';
 import { SapQuotationPipe } from './sap-quotation/sap-quotation.pipe';
 import { UomPipe } from './uom/uom.pipe';
 import { UserDisplayPipe } from './user-display/user-display.pipe';
-
+import { YearToDatePipe } from './year-to-date/year-to-date.pipe';
 @NgModule({
   declarations: [
     UserDisplayPipe,
@@ -39,6 +39,7 @@ import { UserDisplayPipe } from './user-display/user-display.pipe';
     MultiplyComparableCostWithPriceUnitPipe,
     MultiplyWithPriceUnitPipe,
     DurationPipe,
+    YearToDatePipe,
   ],
   imports: [],
   exports: [
@@ -60,6 +61,7 @@ import { UserDisplayPipe } from './user-display/user-display.pipe';
     MultiplyWithPriceUnitPipe,
     UserDisplayPipe,
     DurationPipe,
+    YearToDatePipe,
   ],
   providers: [MaterialTransformPipe],
 })

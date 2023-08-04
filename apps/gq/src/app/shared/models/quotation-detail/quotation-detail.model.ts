@@ -32,7 +32,9 @@ export class QuotationDetail {
   lastCustomerPriceQuantity: number;
 
   gpc: number;
+  gpcYear: number;
   sqv: number;
+  sqvDate: string;
   rlt: number;
   productionSegment: string;
   strategicPrice: number;
