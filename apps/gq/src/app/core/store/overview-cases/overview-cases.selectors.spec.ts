@@ -192,14 +192,14 @@ describe('Overview Cases Selector', () => {
         },
         {
           id: 4,
-          tab: QuotationTab.ARCHIVED,
+          tab: QuotationTab.REJECTED,
           active: false,
           title: 'translate it',
           disabled: false,
         },
         {
           id: 5,
-          tab: QuotationTab.REJECTED,
+          tab: QuotationTab.ARCHIVED,
           active: false,
           title: 'translate it',
           disabled: false,
@@ -250,17 +250,17 @@ describe('Overview Cases Selector', () => {
         },
         {
           id: 4,
-          tab: QuotationTab.ARCHIVED,
-          active: false,
-          title: 'translate it',
-          disabled: true,
-        },
-        {
-          id: 5,
           tab: QuotationTab.REJECTED,
           active: false,
           title: 'translate it',
           disabled: false,
+        },
+        {
+          id: 5,
+          tab: QuotationTab.ARCHIVED,
+          active: false,
+          title: 'translate it',
+          disabled: true,
         },
       ];
       expect(

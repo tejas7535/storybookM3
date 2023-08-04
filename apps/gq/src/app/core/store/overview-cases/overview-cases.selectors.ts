@@ -91,21 +91,21 @@ export const getViewToggles = createSelector(
     },
     {
       id: 4,
-      tab: QuotationTab.ARCHIVED,
-      active: state.quotations.activeTab === QuotationTab.ARCHIVED,
-      title: translate('caseView.caseTable.viewToggle.deletedDrafts', {
-        variable: state.quotations.archived.count,
-      }),
-      disabled: state.quotations.archived.count === 0,
-    },
-    {
-      id: 5,
       tab: QuotationTab.REJECTED,
       active: state.quotations.activeTab === QuotationTab.REJECTED,
       title: translate('caseView.caseTable.viewToggle.rejected', {
         variable: state.quotations.rejected.count,
       }),
       disabled: state.quotations.rejected.count === 0,
+    },
+    {
+      id: 5,
+      tab: QuotationTab.ARCHIVED,
+      active: state.quotations.activeTab === QuotationTab.ARCHIVED,
+      title: translate('caseView.caseTable.viewToggle.deletedDrafts', {
+        variable: state.quotations.archived.count,
+      }),
+      disabled: state.quotations.archived.count === 0,
     },
   ]
 );
