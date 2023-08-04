@@ -1,4 +1,19 @@
 # Release Notes of Material App Center
+## [1.12.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.11.0...mac-v1.12.0) (2023-08-04)
+
+
+### Features
+
+* **mac:** add lubricant materials to the MSD - UFTABI-6318 ([#5464](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5464)) ([d55ac17](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d55ac17fd996cd80ad76e747550c7265bb6fb780))
+* **mac:** geometric information for hardness coverter - UFTABI-6150 ([#5486](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5486)) ([f7bedbd](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f7bedbd41387ece53dd01c7115e288399920012e))
+* **mac:** new learn more page for material properties estimator UFTABI-6364 ([#5497](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5497)) ([3188503](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3188503cfb0c80ec026a681d428d14389bd2a012))
+
+
+### Bug Fixes
+
+* **mac:** correct green steel classification borders - UFTABI 6640 ([#5471](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5471)) ([049009d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/049009dcdd78d4c9199c1e18cd92b2d650528eaf))
+* **mac:** fix columns for display in Lubricant view ([#5488](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5488)) ([40369b9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/40369b9e06a7c765cea6b07acf9d7d821cf867d0))
+
 ## [1.11.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.10.0...mac-v1.11.0) (2023-07-20)
 
 
