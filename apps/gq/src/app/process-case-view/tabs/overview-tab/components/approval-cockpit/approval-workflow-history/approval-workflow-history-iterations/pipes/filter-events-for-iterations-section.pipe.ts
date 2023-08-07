@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
+import { QuotationStatus } from '@gq/shared/models';
 import {
   ApprovalEventType,
   ApprovalWorkflowEvent,
@@ -17,8 +18,11 @@ export class FilterEventsForIterationsSectionPipe implements PipeTransform {
     // it will not be displayed in Iterations Section
     events.pop();
 
+    // RELEASED event and REJECT event with QuotationStatus.REJECTED can be ignored in the displayed list
     return events.filter(
-      (item: ApprovalWorkflowEvent) => item.event !== ApprovalEventType.RELEASED
+      (item: ApprovalWorkflowEvent) =>
+        item.event !== ApprovalEventType.RELEASED &&
+        item.quotationStatus !== QuotationStatus.REJECTED
     );
   }
 }

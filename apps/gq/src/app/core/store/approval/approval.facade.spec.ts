@@ -603,6 +603,84 @@ describe('ApprovalFacade', () => {
       );
 
       test(
+        'should return the two approvers with its statuses (dismiss the rejected/rejected Event!!) provide 2 as  numberOfRequiredApprovals and 0 for numberOfReceivedApprovals$',
+        marbles((m) => {
+          const expectedFirstApprover: Approver = {
+            userId: 'KELLERBI',
+            firstName: 'firstName KELLERBI',
+            lastName: 'lastName KELLERBI',
+          } as Approver;
+          const expectedSecondApprover: Approver = {
+            userId: 'ZIRKLIS',
+            firstName: 'firstName ZIRKLIS',
+            lastName: 'lastName ZIRKLIS',
+          } as Approver;
+          // expected Result: KELLERBI has an Event present in mock
+          // ZIRKLIS has no Event in mock, so nothing is returned
+          const expectedResult: ApprovalStatusOfRequestedApprover[] = [
+            {
+              approver: expectedFirstApprover,
+              event: {
+                ...APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents[0],
+                event: ApprovalEventType.REJECTED,
+                quotationStatus: QuotationStatus.IN_APPROVAL,
+              },
+            } as unknown as ApprovalStatusOfRequestedApprover,
+            {
+              approver: expectedSecondApprover,
+              event: undefined,
+            } as unknown as ApprovalStatusOfRequestedApprover,
+          ];
+
+          mockStore.overrideSelector(
+            fromActiveCaseSelectors.getQuotationStatus,
+            QuotationStatus.IN_APPROVAL
+          );
+          mockStore.overrideSelector(
+            approvalFeature.getEventsOfLatestWorkflow,
+            [
+              {
+                ...APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents[0],
+                event: ApprovalEventType.REJECTED,
+                quotationStatus: QuotationStatus.IN_APPROVAL,
+              },
+              APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents[1],
+              APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents[2],
+              {
+                ...APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents[0],
+                event: ApprovalEventType.REJECTED,
+                quotationStatus: QuotationStatus.REJECTED,
+              },
+            ]
+          );
+          mockStore.overrideSelector(
+            approvalFeature.getApprovalCockpitInformation,
+            APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
+          );
+          mockStore.overrideSelector(approvalFeature.selectApprovers, [
+            expectedFirstApprover,
+            expectedSecondApprover,
+          ]);
+
+          m.expect(service.approvalStatusOfRequestedApprover$).toBeObservable(
+            m.cold('a', { a: expectedResult })
+          );
+
+          m.expect(service.numberOfRequiredApprovals$).toBeObservable(
+            m.cold('a', { a: 2 })
+          );
+
+          m.expect(service.numberOfReceivedApprovals$).toBeObservable(
+            m.cold('a', { a: 0 })
+          );
+
+          m.expect(
+            service.receivedApprovalsOfRequiredApprovals$
+          ).toBeObservable(m.cold('a', { a: '0/2' }));
+        })
+      );
+
+      test(
         'should return the three approvers with its statuses and provide 3 as  numberOfRequiredApprovals and 1 for numberOfReceivedApprovals$',
         marbles((m) => {
           const secondApproverEvent: ApprovalWorkflowEvent = {

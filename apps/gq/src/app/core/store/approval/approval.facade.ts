@@ -453,8 +453,8 @@ export class ApprovalFacade {
     const workflowEventsSorted = [...workflowEvents];
 
     // when userId has multiple Events at the same timestamp (would happen if workflow starting user is also first Approver --> Case would be preApproved)
-    // then the 'approved' event has priority over 'started' event
-    // only start and approved can be at same timestamp
+    // then the 'preApproved' event has priority over 'started' event
+    // only start and preApproved can be at same timestamp
     // sort the array descending by time but ascending by eventName
 
     // if approver has started event but no approved event, the started event will NOT be returned
@@ -467,9 +467,14 @@ export class ApprovalFacade {
       .find(
         (event: ApprovalWorkflowEvent) =>
           event.userId.toLowerCase() === userId.toLowerCase() &&
+          // do not consider eventTypes below, these events do not reflect the users approval decision
           event.event !== ApprovalEventType.STARTED &&
           event.event !== ApprovalEventType.RELEASED &&
-          event.event !== ApprovalEventType.CANCELLED
+          event.event !== ApprovalEventType.CANCELLED &&
+          // the approval decision "reject" comes with two events:
+          // (quotationStatus.IN_APPROVAL && event.REJECTED) and (quotationStatus.REJECTED && event.REJECTED)
+          // the event (quotationStatus.REJECTED && event.REJECTED) can be ignored and will not be displayed to the user
+          event.quotationStatus !== QuotationStatus.REJECTED
       );
   }
 

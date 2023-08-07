@@ -1,4 +1,8 @@
-import { ApprovalEventType, ApprovalWorkflowEvent } from '@gq/shared/models';
+import {
+  ApprovalEventType,
+  ApprovalWorkflowEvent,
+  QuotationStatus,
+} from '@gq/shared/models';
 
 import { FilterEventsForIterationsSectionPipe } from './filter-events-for-iterations-section.pipe';
 
@@ -46,6 +50,25 @@ describe('FilterEventsForIterationsSectionPipe', () => {
     const input = [
       ...expected,
       { event: ApprovalEventType.RELEASED } as ApprovalWorkflowEvent,
+    ];
+    const result = pipe.transform(input);
+    expect(result).toStrictEqual(expected);
+  });
+
+  test('should return dismiss rejected/rejected (quotationStatus/eventType) event', () => {
+    const expected: ApprovalWorkflowEvent[] = [
+      { event: ApprovalEventType.APPROVED } as ApprovalWorkflowEvent,
+      {
+        event: ApprovalEventType.REJECTED,
+      } as ApprovalWorkflowEvent,
+    ];
+
+    const input = [
+      ...expected,
+      {
+        event: ApprovalEventType.REJECTED,
+        quotationStatus: QuotationStatus.REJECTED,
+      } as ApprovalWorkflowEvent,
     ];
     const result = pipe.transform(input);
     expect(result).toStrictEqual(expected);
