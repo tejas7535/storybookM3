@@ -17,7 +17,6 @@ import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-p
 import { ActiveDirectoryUser, QuotationStatus } from '@gq/shared/models';
 import {
   ApprovalCockpitData,
-  ApprovalWorkflowEvent,
   ApprovalWorkflowInformation,
   Approver,
 } from '@gq/shared/models/approval';
@@ -206,31 +205,13 @@ export class ApprovalEffects {
     );
   });
 
-  updateQuotationStateOnWorkflowEvent$ = createEffect(() => {
+  updateQuotationOnWorkflowEvent$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(
         ApprovalActions.updateApprovalWorkflowSuccess,
         ApprovalActions.triggerApprovalWorkflowSuccess
       ),
-      concatLatestFrom(() =>
-        this.store.select(approvalFeature.getLastEventOfApprovalWorkflow)
-      ),
-      mergeMap(
-        ([_action, lastEvent]: [
-          ReturnType<
-            | typeof ApprovalActions.updateApprovalWorkflowSuccess
-            | typeof ApprovalActions.triggerApprovalWorkflowSuccess
-          >,
-          ApprovalWorkflowEvent
-        ]) =>
-          lastEvent
-            ? of(
-                ActiveCaseActions.updateQuotationStatusByApprovalEvent({
-                  quotationStatus: lastEvent.quotationStatus,
-                })
-              )
-            : EMPTY
-      )
+      map(() => ActiveCaseActions.getQuotation())
     );
   });
 

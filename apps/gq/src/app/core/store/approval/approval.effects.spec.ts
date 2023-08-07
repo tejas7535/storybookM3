@@ -650,12 +650,10 @@ describe('ApprovalEffects', () => {
         });
 
         const expected = m.cold('b', {
-          b: ActiveCaseActions.updateQuotationStatusByApprovalEvent({
-            quotationStatus: QuotationStatus.APPROVED,
-          }),
+          b: ActiveCaseActions.getQuotation(),
         });
         actions$ = m.hot('a', { a: action });
-        m.expect(effects.updateQuotationStateOnWorkflowEvent$).toBeObservable(
+        m.expect(effects.updateQuotationOnWorkflowEvent$).toBeObservable(
           expected
         );
         m.flush();
@@ -673,32 +671,10 @@ describe('ApprovalEffects', () => {
         });
 
         const expected = m.cold('b', {
-          b: ActiveCaseActions.updateQuotationStatusByApprovalEvent({
-            quotationStatus: QuotationStatus.APPROVED,
-          }),
+          b: ActiveCaseActions.getQuotation(),
         });
         actions$ = m.hot('a', { a: action });
-        m.expect(effects.updateQuotationStateOnWorkflowEvent$).toBeObservable(
-          expected
-        );
-        m.flush();
-      })
-    );
-
-    test(
-      'should dispatch empty action when there is no event',
-      marbles((m) => {
-        store.overrideSelector(
-          approvalFeature.getLastEventOfApprovalWorkflow,
-          undefined as ApprovalWorkflowEvent
-        );
-        action = ApprovalActions.updateApprovalWorkflowSuccess({
-          approvalInformation: {} as ApprovalCockpitData,
-        });
-
-        const expected = m.cold('');
-        actions$ = m.hot('a', { a: action });
-        m.expect(effects.updateQuotationStateOnWorkflowEvent$).toBeObservable(
+        m.expect(effects.updateQuotationOnWorkflowEvent$).toBeObservable(
           expected
         );
         m.flush();
