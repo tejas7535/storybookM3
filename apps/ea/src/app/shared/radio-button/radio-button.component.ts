@@ -7,7 +7,7 @@ import {
   NgControl,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { MatLegacyRadioModule as MatRadioModule } from '@angular/material/legacy-radio';
+import { MatRadioModule } from '@angular/material/radio';
 
 import { NOOP_VALUE_ACCESSOR } from '../constants/input';
 

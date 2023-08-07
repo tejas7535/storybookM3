@@ -18,7 +18,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatLegacyRadioModule as MatRadioModule } from '@angular/material/legacy-radio';
+import { MatRadioModule } from '@angular/material/radio';
 
 import { distinctUntilChanged, map, Observable, startWith } from 'rxjs';
 

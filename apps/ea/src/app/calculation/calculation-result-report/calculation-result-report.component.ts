@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, Inject, LOCALE_ID } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import {
+  MatDialog,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyButtonModule } from '@angular/material/legacy-button';
-import {
-  MatLegacyDialog as Dialog,
-  MatLegacyDialogModule as MatDialogModule,
-  MatLegacyDialogRef as MatDialogRef,
-} from '@angular/material/legacy-dialog';
-import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { map, Observable } from 'rxjs';
 
@@ -46,7 +46,7 @@ const COLOR_PLATTE = ['#DDE86E', '#7DC882'];
     MatIconModule,
     MatDividerModule,
     MatDialogModule,
-    MatLegacyButtonModule,
+    MatButtonModule,
     MatProgressSpinnerModule,
     SharedTranslocoModule,
     NgxEchartsModule,
@@ -146,7 +146,7 @@ export class CalculationResultReportComponent {
     private readonly translocoService: TranslocoService,
     @Inject(LOCALE_ID)
     private readonly locale: string,
-    private readonly dialog: Dialog
+    private readonly dialog: MatDialog
   ) {}
 
   closeDialog() {

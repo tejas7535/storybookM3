@@ -1,5 +1,3 @@
-import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
-
 import { of } from 'rxjs';
 
 import { CalculationModuleInfoService } from '@ea/core/services/calculation-module-info.service';
@@ -42,7 +40,6 @@ describe('Product Selection Effects', () => {
 
   const createService = createServiceFactory({
     service: ProductSelectionEffects,
-    imports: [MatSnackBarModule],
     providers: [
       provideMockActions(() => actions$),
       provideMockStore({

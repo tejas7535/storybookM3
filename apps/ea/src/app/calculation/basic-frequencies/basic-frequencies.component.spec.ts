@@ -1,9 +1,6 @@
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
-import {
-  MatLegacyDialogModule as MatDialogModule,
-  MatLegacyDialogRef as MatDialogRef,
-} from '@angular/material/legacy-dialog';
 
 import { CatalogCalculationResultActions } from '@ea/core/store/actions';
 import { APP_STATE_MOCK } from '@ea/testing/mocks';

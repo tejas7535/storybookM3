@@ -173,4 +173,8 @@
   .mat-mdc-form-field-icon-suffix {
     @apply #{$prefix}mr-2;
   }
+
+  .mat-form-field-subscript-wrapper {
+    @apply #{$prefix}text-[75%];
+  }
 }

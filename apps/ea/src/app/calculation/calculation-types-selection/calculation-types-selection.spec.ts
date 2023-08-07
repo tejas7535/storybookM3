@@ -1,7 +1,7 @@
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 import { CalculationParametersCalculationTypeConfig } from '@ea/core/store/models';
 import { APP_STATE_MOCK } from '@ea/testing/mocks';

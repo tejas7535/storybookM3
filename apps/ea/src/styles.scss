@@ -45,39 +45,6 @@ engineering-app {
     font-family: 'Material Icons' !important;
   }
 
-  mat-radio-button {
-    @apply px-2 py-1;
-    @apply text-subtitle-2;
-
-    .mat-radio-container {
-      transform: scale(0.7);
-    }
-    .mat-radio-ripple {
-      @apply hidden;
-    }
-
-    // green background
-    &.mat-radio-checked {
-      @apply rounded-full;
-      @apply bg-secondary-50;
-      @apply text-primary #{!important};
-    }
-
-    &:not(.mat-radio-checked) {
-      @apply text-medium-emphasis;
-    }
-
-    // suboption
-    &.suboption {
-      @apply rounded-full;
-      @apply text-[8px];
-
-      &:not(.mat-radio-checked) {
-        @apply bg-secondary-variant;
-      }
-    }
-  }
-
   // apply full width to wrapper so it actually takes the full width
   mat-form-field.w-full {
     .mat-form-field-wrapper {
@@ -114,7 +81,66 @@ engineering-app {
     }
 
     mat-dialog-content {
-      @apply max-h-none h-[calc(100%-156px)];
+      @apply max-h-none h-[calc(100%-170px)];
     }
+  }
+
+  .mat-mdc-dialog-title {
+    @apply py-0;
+  }
+
+  .mat-mdc-dialog-title::before {
+    @apply h-0;
+  }
+
+  mat-radio-button {
+    @apply text-subtitle-2;
+
+    .mdc-radio {
+      transform: scale(0.7);
+    }
+
+    .mdc-form-field {
+      height: 24px;
+    }
+
+    // green background
+    &.mat-mdc-radio-checked {
+      .mdc-form-field {
+        @apply pr-2;
+        @apply rounded-full;
+        @apply bg-secondary-50;
+      }
+
+      .mdc-label {
+        @apply text-primary #{!important};
+      }
+    }
+
+    &:not(.mat-mdc-radio-checked) {
+      @apply text-medium-emphasis;
+    }
+
+    // suboption
+    &.suboption {
+      @apply rounded-full;
+
+      .mdc-label {
+        @apply text-[8px];
+      }
+
+      &:not(.mat-mdc-radio-checked) {
+        @apply bg-secondary-variant;
+      }
+    }
+  }
+
+  /*
+  weird border issue Angular material with Tailwind https://github.com/tailwindlabs/tailwindcss/discussions/9993
+  in preflight style of tailwinds sets border-style to solid, other way to fix it, would be to adjust 
+  preflight, which can case other issues for tailwind
+  */
+  .mdc-notched-outline__notch {
+    border-right: none !important;
   }
 }
