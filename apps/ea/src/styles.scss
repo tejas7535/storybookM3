@@ -93,6 +93,22 @@ engineering-app {
     @apply h-0;
   }
 
+  //checkbox
+  .mat-mdc-checkbox.mat-primary {
+    --mdc-checkbox-selected-hover-state-layer-color: none;
+    --mdc-checkbox-unselected-hover-state-layer-color: none;
+  }
+
+  // slide toggle
+  .mat-mdc-slide-toggle .mdc-switch .mdc-switch__ripple {
+    --mdc-switch-state-layer-size: 0;
+  }
+
+  //radio button overrides
+  .mat-mdc-radio-button.mat-primary {
+    --mat-radio-checked-ripple-color: none;
+  }
+
   mat-radio-button {
     @apply text-subtitle-2;
 
