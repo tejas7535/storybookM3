@@ -63,6 +63,58 @@ export const API_RESULT_MOCK: Partial<BearinxOnlineResult> = {
         },
       ],
     },
+    {
+      identifier: 'block',
+      subordinates: [
+        {
+          designation: 'Designation',
+          identifier: 'variableLine',
+          value: '6210',
+        },
+        {
+          designation: 'Series',
+          identifier: 'variableLine',
+          value: '5510',
+        },
+        {
+          identifier: 'block',
+          title: 'Bearing internal data',
+          titleID: 'STRING_OUTP_CALCULATION_SELECTION',
+          subordinates: [],
+        },
+        {
+          identifier: 'block',
+          title: 'Test Parent Block',
+          titleID: 'STRING_OUTP_BEARING_DATA',
+          subordinates: [
+            {
+              identifier: 'variableBlock',
+              title: 'Sub Visible',
+              titleID: 'STRING_OUTP_LUBRICATION',
+              subordinates: [],
+            },
+            {
+              identifier: 'variableBlock',
+              title: 'Sub Hidden',
+              titleID: 'STRING_OUT_UNKNOWN',
+              subordinates: [],
+            },
+          ],
+        },
+      ],
+      title: 'Input',
+      titleID: 'STRING_OUTP_INPUT',
+    },
+    {
+      identifier: 'block',
+      title: 'Error title',
+      subordinates: [],
+    },
+    {
+      identifier: 'block',
+      title: 'Warning title',
+      subordinates: [],
+    },
   ],
 };
 

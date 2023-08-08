@@ -1,5 +1,10 @@
-import { CatalogCalculationResult } from '../store/models';
-import { extractSubordinatesFromPath } from './bearinx-helper';
+import { CatalogCalculationResult, ReportMessage } from '../store/models';
+import {
+  extractErrorsWarningsAndNotesFromResult,
+  extractSubordinatesFromPath,
+  formatErrorsWarningsAndNotesResult,
+  formatReportInputResult,
+} from './bearinx-helper';
 import { BearinxOnlineResult } from './bearinx-result.interface';
 
 export const convertCatalogCalculationResult = (
@@ -165,6 +170,37 @@ export const convertCatalogCalculationResult = (
     result.FTF = {
       value: rollingElementSetSpeed.value,
       unit: rollingElementSetSpeed.unit,
+    };
+  }
+
+  const inputData = extractSubordinatesFromPath(originalResult, [
+    { titleID: 'STRING_OUTP_INPUT', identifier: 'block' },
+  ]);
+
+  const formattedInputData = formatReportInputResult(inputData?.subordinates);
+
+  // format basic frequencies
+  const basicFrequencies = formattedInputData.find(
+    (item) => item.titleID === 'STRING_OUTP_BASIC_FREQUENCIES_FACTOR'
+  );
+  if (basicFrequencies) {
+    basicFrequencies.meaningfulRound = true;
+  }
+
+  if (formattedInputData) {
+    result.reportInputSuborinates = {
+      inputSubordinates: formattedInputData,
+    };
+  }
+
+  const messages = extractErrorsWarningsAndNotesFromResult(originalResult);
+
+  const formattedMessages: ReportMessage[] =
+    formatErrorsWarningsAndNotesResult(messages);
+
+  if (formattedMessages) {
+    result.reportMessages = {
+      messages: formattedMessages,
     };
   }
 

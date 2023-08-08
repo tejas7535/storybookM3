@@ -12,5 +12,23 @@ export const CATALOG_CALCULATION_RESULT_STATE_MOCK: CatalogCalculationResultStat
         unit: 'h',
         value: '123',
       },
+      reportInputSuborinates: {
+        inputSubordinates: [
+          {
+            hasNestedStructure: true,
+            title: 'some title',
+          },
+        ],
+      },
+      reportMessages: {
+        messages: [
+          {
+            title: 'Errors',
+          },
+          {
+            title: 'Warnings',
+          },
+        ],
+      },
     },
   };

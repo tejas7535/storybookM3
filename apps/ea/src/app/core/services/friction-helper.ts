@@ -1,25 +1,9 @@
-import { FrictionCalculationResult, ReportMessage } from '../store/models';
+import { FrictionCalculationResult } from '../store/models';
 import {
-  extractErrorsWarningsAndNotesFromResult,
   extractSubordinatesFromPath,
   extractTableFromSubordinate,
-  formatErrorsWarningsAndNotesResult,
-  formatReportInputResult,
 } from './bearinx-helper';
 import { BearinxOnlineResult } from './bearinx-result.interface';
-
-export const INPUT_WHITELIST_TITLE_IDS = [
-  'STRING_OUTP_BEARING_DATA',
-  'STRING_OUTP_CO2E_CALCULATION',
-  'STRING_OUTP_BEARING_DIMENSIONS',
-  'STRING_OUTP_LUBRICATION',
-  'STRING_OUTP_OPERATING_CONDITIONS',
-  'STRING_OUTP_OPERATING_CONDITIONS_STRING_OUTP_FOR_ALL_LOADCASES',
-  'STRING_OUTP_LOADS_AND_DISPLACEMENTS_STRING_OUTP_FOR_ALL_LOADCASES',
-  'STRING_OUTP_INPUT',
-  'STRING_OUTP_RESULTS',
-  'STRING_OUTP_CO2E',
-];
 
 export const convertFrictionApiResult = (
   originalResult: BearinxOnlineResult
@@ -49,46 +33,6 @@ export const convertFrictionApiResult = (
       { abbreviation: 'M_R_max', identifier: 'variableLine' },
     ]
   );
-
-  const inputData = extractSubordinatesFromPath(originalResult, [
-    { titleID: 'STRING_OUTP_INPUT', identifier: 'block' },
-  ]);
-
-  const formattedInputData = formatReportInputResult(inputData?.subordinates);
-
-  if (formattedInputData) {
-    const filteredInputData = formattedInputData
-      .filter((input) => INPUT_WHITELIST_TITLE_IDS.includes(input.titleID))
-      .map((input) => {
-        if (!input.hasNestedStructure) {
-          return input;
-        }
-
-        const newSubordinates = input.subItems.filter((filterInput) =>
-          INPUT_WHITELIST_TITLE_IDS.includes(filterInput.titleID)
-        );
-        if (newSubordinates) {
-          input.subItems = newSubordinates;
-        }
-
-        return input;
-      });
-
-    result.reportInputSuborinates = {
-      inputSubordinates: filteredInputData,
-    };
-  }
-
-  const messages = extractErrorsWarningsAndNotesFromResult(originalResult);
-
-  const formattedMessages: ReportMessage[] =
-    formatErrorsWarningsAndNotesResult(messages);
-
-  if (formattedMessages) {
-    result.reportMessages = {
-      messages: formattedMessages,
-    };
-  }
 
   if (maxFrictionalTorqueSubordinate) {
     result.max_frictionalTorque = {

@@ -8,7 +8,7 @@ import {
 import { CalculationResultReportCalculationTypeSelection } from '../../models/calculation-result-report.model';
 import { CalculationResultReportMessage } from '../../models/calculation-result-report-message.model';
 import { getCalculationTypesConfig } from '../calculation-parameters/calculation-types.selector';
-import { getCalculationResult } from './catalog-calculation-result.selector';
+import { getCalculationResult as catalogCalculationResult } from './catalog-calculation-result.selector';
 import { getCalculationResult as co2UpstreamCalculationResult } from './co2-upstream-calculation-result.selector';
 import { getCalculationResult as frictionCalculationResult } from './friction-calculation-result.selector';
 
@@ -83,7 +83,7 @@ export const getFrictionalalPowerlossReport = createSelector(
 );
 
 export const getRatingLifeResultReport = createSelector(
-  getCalculationResult,
+  catalogCalculationResult,
   (calculationResult) => {
     const result: {
       value: number | string;
@@ -133,7 +133,7 @@ export const getRatingLifeResultReport = createSelector(
 );
 
 export const getOverrollingFrequencies = createSelector(
-  getCalculationResult,
+  catalogCalculationResult,
   (calculationResult) => {
     const result: {
       value: number | string;
@@ -169,15 +169,13 @@ export const isOverrolingFrequenciesAvailable = createSelector(
 );
 
 export const getResultInput = createSelector(
-  frictionCalculationResult,
-  (friction): CalculationResultReportInput[] =>
-    friction?.reportInputSuborinates.inputSubordinates.map((subordinate) => ({
-      ...subordinate,
-    }))
+  catalogCalculationResult,
+  (catalog): CalculationResultReportInput[] =>
+    catalog?.reportInputSuborinates.inputSubordinates
 );
 
 export const getReportMessages = createSelector(
-  frictionCalculationResult,
+  catalogCalculationResult,
   (friction): CalculationResultReportMessage[] =>
     friction?.reportMessages?.messages
 );

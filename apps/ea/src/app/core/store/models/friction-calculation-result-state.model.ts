@@ -43,24 +43,6 @@ export interface FrictionCalculationResult {
     value: number;
     unit: string;
   };
-  reportInputSuborinates?: {
-    inputSubordinates: ReportInput[];
-  };
-  reportMessages?: {
-    // messages contains Erros, Warnings and Notes if available
-    messages: ReportMessage[];
-  };
-}
-
-export interface ReportInput {
-  hasNestedStructure: boolean;
-  titleID?: string;
-  title?: string;
-  designation?: string;
-  abbreviation?: string;
-  unit?: string;
-  value?: string;
-  subItems?: ReportInput[];
 }
 
 export interface ReportMessage {

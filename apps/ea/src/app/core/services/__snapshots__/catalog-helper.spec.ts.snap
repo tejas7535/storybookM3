@@ -1,0 +1,93 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Catalog Helper convertCatalogCalculationResult Should convert a valid result 1`] = `
+Object {
+  "BPFI": Object {
+    "unit": "1/s",
+    "value": "123.45",
+  },
+  "BPFO": Object {
+    "unit": "1/s",
+    "value": "123.45",
+  },
+  "BSF": Object {
+    "unit": "1/s",
+    "value": "123.45",
+  },
+  "FTF": Object {
+    "unit": "1/s",
+    "value": "123.45",
+  },
+  "RPFB": Object {
+    "unit": "1/s",
+    "value": "123.45",
+  },
+  "lh10": Object {
+    "unit": "h",
+    "value": "123.45",
+  },
+  "reportInputSuborinates": Object {
+    "inputSubordinates": Array [
+      Object {
+        "abbreviation": undefined,
+        "designation": "Designation",
+        "hasNestedStructure": false,
+        "title": undefined,
+        "titleID": undefined,
+        "unit": undefined,
+        "value": "6210",
+      },
+      Object {
+        "abbreviation": undefined,
+        "designation": "Series",
+        "hasNestedStructure": false,
+        "title": undefined,
+        "titleID": undefined,
+        "unit": undefined,
+        "value": "5510",
+      },
+      Object {
+        "hasNestedStructure": true,
+        "subItems": Array [],
+        "title": "Bearing internal data",
+        "titleID": "STRING_OUTP_CALCULATION_SELECTION",
+      },
+      Object {
+        "hasNestedStructure": true,
+        "subItems": Array [
+          Object {
+            "hasNestedStructure": false,
+            "subItems": Array [],
+            "title": "Sub Visible",
+            "titleID": "STRING_OUTP_LUBRICATION",
+          },
+          Object {
+            "hasNestedStructure": false,
+            "subItems": Array [],
+            "title": "Sub Hidden",
+            "titleID": "STRING_OUT_UNKNOWN",
+          },
+        ],
+        "title": "Test Parent Block",
+        "titleID": "STRING_OUTP_BEARING_DATA",
+      },
+    ],
+  },
+  "reportMessages": Object {
+    "messages": Array [
+      Object {
+        "item": Object {
+          "subItems": Array [],
+        },
+        "title": "Error title",
+      },
+      Object {
+        "item": Object {
+          "subItems": Array [],
+        },
+        "title": "Warning title",
+      },
+    ],
+  },
+}
+`;

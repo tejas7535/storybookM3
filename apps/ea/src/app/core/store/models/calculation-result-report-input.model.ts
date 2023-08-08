@@ -1,5 +1,6 @@
 export interface CalculationResultReportInput {
   hasNestedStructure: boolean;
+  meaningfulRound?: boolean;
   title?: string;
   designation?: string;
   abbreviation?: string;

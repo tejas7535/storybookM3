@@ -1,4 +1,4 @@
-import { ReportInput, ReportMessage } from '../store/models';
+import { CalculationResultReportInput, ReportMessage } from '../store/models';
 import {
   BearinxOnlineResult,
   BearinxOnlineResultSubordinate,
@@ -99,10 +99,13 @@ const getItemValue = (input: BearinxOnlineResultSubordinate): ReportMessage => {
 
 export const formatReportInputResult = (
   input: BearinxOnlineResultSubordinate[]
-): ReportInput[] => input?.map((reportInput) => getReportInput(reportInput));
+): CalculationResultReportInput[] =>
+  input?.map((reportInput) => getReportInput(reportInput));
 
-const getReportInput = (input: BearinxOnlineResultSubordinate): ReportInput => {
-  const result: ReportInput = {
+const getReportInput = (
+  input: BearinxOnlineResultSubordinate
+): CalculationResultReportInput => {
+  const result: CalculationResultReportInput = {
     hasNestedStructure: input.identifier === 'block' ? true : false,
     title: input?.title,
     titleID: input?.titleID,
@@ -128,7 +131,7 @@ const getReportInput = (input: BearinxOnlineResultSubordinate): ReportInput => {
 
 const extractReportInputFromTableSubordinate = (
   input: Partial<BearinxOnlineResultSubordinate>
-): ReportInput[] | undefined => {
+): CalculationResultReportInput[] | undefined => {
   if (!input?.data) {
     return undefined;
   }

@@ -1,7 +1,4 @@
-import {
-  API_RESULT_MOCK,
-  EXPECTED_RESULT,
-} from '@ea/testing/mocks/catalog-helper-mocks';
+import { API_RESULT_MOCK } from '@ea/testing/mocks/catalog-helper-mocks';
 
 import { BearinxOnlineResult } from './bearinx-result.interface';
 import { convertCatalogCalculationResult } from './catalog-helper';
@@ -11,7 +8,7 @@ describe('Catalog Helper', () => {
     it('Should convert a valid result', () => {
       expect(
         convertCatalogCalculationResult(API_RESULT_MOCK as BearinxOnlineResult)
-      ).toEqual(EXPECTED_RESULT);
+      ).toMatchSnapshot();
     });
 
     it('Should gracefully handle an invalid result', () => {

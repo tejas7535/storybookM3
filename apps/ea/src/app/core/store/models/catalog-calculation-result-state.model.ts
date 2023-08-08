@@ -1,4 +1,6 @@
+import { CalculationResultReportInput } from './calculation-result-report-input.model';
 import { BasicCalculationResultState } from './calculation-result-state.model';
+import { ReportMessage } from './friction-calculation-result-state.model';
 
 export interface CatalogCalculationResultState
   extends BasicCalculationResultState {
@@ -66,6 +68,14 @@ export interface CatalogCalculationResult {
   FTF?: {
     value: string;
     unit: string;
+  };
+
+  reportInputSuborinates?: {
+    inputSubordinates: CalculationResultReportInput[];
+  };
+  reportMessages?: {
+    // messages contains Erros, Warnings and Notes if available
+    messages: ReportMessage[];
   };
 }
 

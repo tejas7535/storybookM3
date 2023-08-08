@@ -26,6 +26,11 @@ describe('Calculation Result Selector', () => {
           unit: 'kg',
           value: 32.2,
         },
+      },
+      isLoading: false,
+    },
+    catalogCalculationResult: {
+      result: {
         reportInputSuborinates: {
           inputSubordinates: [
             {

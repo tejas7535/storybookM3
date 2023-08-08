@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 
 import { CalculationResultReportInput } from '@ea/core/store/models';
+import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
 import { LabelValue, LabelValueModule } from '@schaeffler/label-value';
@@ -37,6 +38,9 @@ export class CalculationResultReportInputItemComponent implements OnInit {
 
   private readonly htmlElement!: HTMLElement;
   private observer!: ResizeObserver;
+  private readonly meaningFulRoundPipe = new MeaningfulRoundPipe(
+    this.localeService.getLocale()
+  );
 
   public constructor(
     private readonly localeService: TranslocoLocaleService,
@@ -88,12 +92,23 @@ export class CalculationResultReportInputItemComponent implements OnInit {
   ): string => {
     const unit = this.getUnit(subordinate);
 
-    return unit
-      ? `${this.localeService.localizeNumber(
-          subordinate?.value || '',
-          'decimal'
-        )} ${unit}`
-      : subordinate?.value || '';
+    if (this.reportInputItem.meaningfulRound || subordinate.meaningfulRound) {
+      return `${this.meaningFulRoundPipe.transform(
+        subordinate?.value
+      )} ${unit}`.trim();
+    }
+
+    const localizedNumberString = this.localeService.localizeNumber(
+      subordinate?.value || '',
+      'decimal'
+    );
+
+    // return original if we couldn't transform to number (e.g. because input was a string after all)
+    if (!localizedNumberString) {
+      return (subordinate?.value || '').trim();
+    }
+
+    return `${localizedNumberString} ${unit}`.trim();
   };
 
   private readonly getUnit = (
