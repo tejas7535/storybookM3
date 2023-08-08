@@ -11,6 +11,7 @@ import { LineChartModule } from '../../shared/charts/line-chart/line-chart.modul
 import { SharedModule } from '../../shared/shared.module';
 import { AttritionDialogComponent } from './attrition-dialog.component';
 import { AttritionDialogMetaComponent } from './attrition-dialog-meta/attrition-dialog-meta.component';
+import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 
 @NgModule({
   declarations: [AttritionDialogComponent, AttritionDialogMetaComponent],
@@ -19,6 +20,7 @@ import { AttritionDialogMetaComponent } from './attrition-dialog-meta/attrition-
     MatDialogModule,
     MatButtonModule,
     SharedTranslocoModule,
+    SharedPipesModule,
     MatIconModule,
     MatDividerModule,
     LineChartModule,

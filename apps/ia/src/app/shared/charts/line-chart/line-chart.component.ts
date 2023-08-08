@@ -132,6 +132,7 @@ export class LineChartComponent {
       grid: {
         top: 20,
         left: '15%',
+        right: 0,
       },
     };
   }
