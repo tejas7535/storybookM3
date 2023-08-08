@@ -4,12 +4,15 @@ import {
 } from '@angular/common/http/testing';
 import { waitForAsync } from '@angular/core/testing';
 import { DomSanitizer } from '@angular/platform-browser';
-import { environment } from '@ea/environments/environment';
-import { SpectatorService } from '@ngneat/spectator';
-import { createServiceFactory } from '@ngneat/spectator/jest';
-import { TranslocoService } from '@ngneat/transloco';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
 import { of } from 'rxjs';
+
+import { environment } from '@ea/environments/environment';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+import { TranslocoService } from '@ngneat/transloco';
+
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
 import { StaticHTMLService } from './static-html.service';
 
 describe('Static HTML Service', () => {

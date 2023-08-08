@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+
 import { CalculationResultReportLargeItemsComponent } from './calculation-result-report-large-items.component';
 
 describe('CalculationResultReportLargeItemsComponent', () => {

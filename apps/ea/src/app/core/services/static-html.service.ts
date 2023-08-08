@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+
+import { map, Observable } from 'rxjs';
+
 import { environment } from '@ea/environments/environment';
 import { HashMap, TranslocoService } from '@ngneat/transloco';
-import { Observable, map } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class StaticHTMLService {
   constructor(
@@ -33,6 +35,7 @@ export class StaticHTMLService {
       localizedFilePath.indexOf('/') === 0
         ? localizedFilePath
         : `/${localizedFilePath}`;
+
     return this.getHtmlContent(`${environment.assetsPath}${localizedFilePath}`);
   }
 
