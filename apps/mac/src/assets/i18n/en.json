@@ -205,8 +205,8 @@
       "linkgroup1_1_uri": "https://sconnect.schaeffler.com/people/weninjha",
 
       "linkgroup2": "Links for further information:",
-      "linkgroup2_1_name": "S130999 - EN (schaeffler.com)",
-      "linkgroup2_1_uri": "http://arp01.schaeffler.com:57610/irrelevant?get&pVersion=0046&contRep=Z1&docId=2244660000D41EDDADE52504576C8AD0&compId=Analytical%20Strength%20Assessment.pdf&accessMode=r&authId=CN%3DEP1,OU%3DI0020072016,OU%3DSAPWebAS,O%3DSchaeffler,C%3DDE&expiration=20230803133557&secKey=MIIBSgYJKoZIhvcNAQcCoIIBOzCCATcCAQExCzAJBgUrDgMCGgUAMAsGCSqGSIb3DQEHATGCARYwggESAgEBMGcwWzELMAkGA1UEBhMCREUxEzARBgNVBAoTClNjaGFlZmZsZXIxEzARBgNVBAsTClNBUCBXZWIgQVMxFDASBgNVBAsTC0kwMDIwMDcyMDE2MQwwCgYDVQQDEwNFUDECCAogFQQYEBQBMAkGBSsOAwIaBQCgXTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJBTEPFw0yMzA4MDMxMTM1NTdaMCMGCSqGSIb3DQEJBDEWBBQEUfGi%2F5YBAdNI%2BlpcW7ZV5%2BNYoDAJBgcqhkjOOAQDBC8wLQIUEiCkGzeamsz8fRq1HyXnzzJvcRYCFQDKaQeQZobIBYYjOVXOj5969E4ukA%3D%3D",
+      "linkgroup2_1_name": "S 130999 - EN (schaeffler.com)",
+      "linkgroup2_1_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASI&doknr=S130999&doktl=EN",
       "linkgroup2_2_name": "VDMA FKM guideline",
       "linkgroup2_2_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASP&doknr=VDMAFKM-RICHTLINIE&doktl=DE&dokvr=00"
     },
