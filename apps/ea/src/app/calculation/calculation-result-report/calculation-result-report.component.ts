@@ -10,7 +10,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-import { map, Observable } from 'rxjs';
+import { map } from 'rxjs';
 
 import {
   CalculationParametersFacade,
@@ -24,8 +24,6 @@ import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
 import { TagComponent } from '@ea/shared/tag/tag.component';
 import { TranslocoService } from '@ngneat/transloco';
 import { LetDirective, PushPipe } from '@ngrx/component';
-import { EChartsOption } from 'echarts';
-import { NgxEchartsModule } from 'ngx-echarts';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -34,8 +32,6 @@ import { CalculationResultMessageComponent } from '../calculation-result-informa
 import { CalculationResultReportInputComponent } from '../calculation-result-report-input';
 import { CalculationResultReportLargeItemsComponent } from '../calculation-result-report-large-items/calculation-result-report-large-items.component';
 import { CalculationTypesSelectionComponent } from '../calculation-types-selection/calculation-types-selection';
-
-const COLOR_PLATTE = ['#DDE86E', '#7DC882'];
 
 @Component({
   templateUrl: './calculation-result-report.component.html',
@@ -49,7 +45,6 @@ const COLOR_PLATTE = ['#DDE86E', '#7DC882'];
     MatButtonModule,
     MatProgressSpinnerModule,
     SharedTranslocoModule,
-    NgxEchartsModule,
     TagComponent,
     LetDirective,
     MeaningfulRoundPipe,
@@ -74,68 +69,24 @@ export class CalculationResultReportComponent {
     this.productSelectionFacade.calcualtionModuleInfo$.pipe(
       map((res) => res?.frictionCalculation)
     );
+  public meaingfulRoundPipe = new MeaningfulRoundPipe(this.locale);
 
-  public co2EmissionOptions$: Observable<EChartsOption> =
+  public co2ResultItem$ =
     this.calculationResultFacade.calculationReportCO2Emission$.pipe(
-      map(
-        (co2Emissions) =>
-          ({
-            color: COLOR_PLATTE,
-            tooltip: {
-              trigger: 'item',
-              appendToBody: true,
-              valueFormatter: (value) =>
-                new MeaningfulRoundPipe(this.locale).transform(value as number),
-            },
-            series: [
-              {
-                name: this.translocoService.translate(
-                  'calculationResultReport.co2Emissions.chartTitle'
-                ),
-                type: 'pie',
-                radius: ['60%', '90%'],
-                avoidLabelOverlap: false,
-                itemStyle: {
-                  borderRadius: 4,
-                  borderColor: '#fff',
-                  borderWidth: 2,
-                },
-                emphasis: {
-                  itemStyle: {
-                    color: 'inherit',
-                  },
-                },
-                label: {
-                  show: true,
-                  position: 'center',
-                  fontSize: 24,
-                  formatter: `${new MeaningfulRoundPipe(this.locale).transform(
-                    (co2Emissions.co2_downstream || 0) +
-                      (co2Emissions.co2_upstream || 0)
-                  )} kg`,
-                },
-                labelLine: {
-                  show: false,
-                },
+      map((result) => {
+        const unit = this.translocoSevice.translate(
+          'calculationResultReport.co2Emissions.unit'
+        );
 
-                data: [
-                  {
-                    value: co2Emissions.co2_upstream,
-                    name: this.translocoService.translate(
-                      'calculationResultReport.co2Emissions.chartUpstream'
-                    ),
-                  },
-                  {
-                    value: co2Emissions.co2_downstream,
-                    name: this.translocoService.translate(
-                      'calculationResultReport.co2Emissions.chartDownstream'
-                    ),
-                  },
-                ],
-              },
-            ],
-          } as EChartsOption)
-      )
+        return [
+          {
+            value: this.meaingfulRoundPipe.transform(result.co2_upstream),
+            unit: 'kg',
+            short: unit,
+            title: 'upstreamTitle',
+          },
+        ];
+      })
     );
 
   constructor(
@@ -143,10 +94,10 @@ export class CalculationResultReportComponent {
     private readonly productSelectionFacade: ProductSelectionFacade,
     private readonly calculationParametersFacade: CalculationParametersFacade,
     public readonly dialogRef: MatDialogRef<CalculationResultReportComponent>,
-    private readonly translocoService: TranslocoService,
     @Inject(LOCALE_ID)
     private readonly locale: string,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly translocoSevice: TranslocoService
   ) {}
 
   closeDialog() {

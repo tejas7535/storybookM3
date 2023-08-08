@@ -2,12 +2,23 @@
   *transloco="let t; read: translocoRoot"
   class="grid grid-cols-2 gap-0 px-4 md:px-8 py-4 border-border border-t"
 >
-  <ng-container *ngFor="let item of items; let index = index; first as isFirst">
+  <ng-container
+    *ngFor="
+      let item of items;
+      let index = index;
+      first as isFirst;
+      count as length;
+      odd as isOdd;
+      even as isEven
+    "
+  >
     <div
       class="flex flex-col justify-start border-border md:border-b-0 border-b md:mx-2 py-4 md:py-2"
       [ngClass]="{
-        'md:border-r border-r-0 md:mr-4 pl-4 md:pl-0': index % 2 !== 1,
-        'md:border-r-0 border-r md:mr-4 pr-4 md:pr-0': index % 2 === 1,
+        'md:mr-4 pl-4 md:pl-0': isEven,
+        'md:border-r border-r-0': length > 1 && isEven,
+        'md:mr-4 pr-4 md:pr-0': isOdd,
+        'md:border-r-0 border-r': length > 1 && isOdd,
         'col-span-2 md:col-span-1 !pl-0': isFirst
       }"
     >

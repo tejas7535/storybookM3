@@ -172,17 +172,13 @@
     "reportSectionWarnings": "Errors/Warnings/Notes",
     "co2Emissions": {
       "title": "Estimation of CO₂e emissions per piece",
-      "co2DownstreamUnavailableHint": "For the selected bearing a calculation for CO₂e values during operation is currently not possible. For further information please contact our customer support.",
+      "unit": "CO₂e",
       "chartTitle": "Total value of CO₂e",
       "chartUpstream": "Upstream",
-      "chartDownstream": "Downstream",
       "chartDesc": "Value for 24/7 use for one year",
       "upstreamTitle": "CO₂e emitted for production* (Upstream)",
       "upstreamHint": "*Estimated value based on assumptions during production",
       "upstreamHintLinkText": "More information.",
-      "downstreamTitle": "CO₂e caused by friction during operation (use phase, part of Downstream)",
-      "downstreamHint": "This is how we calculated the values",
-      "downstreamHintLinkText": "More information.",
       "calculationHint": "Want to know more about CO₂ at Schaeffler?",
       "calculationHintLink": "https://medias.schaeffler.de/en/co2-calculation",
       "calculationHintLinkText": "Click here"
@@ -232,7 +228,7 @@
       "ratingLife": "Rating Life",
       "lubrication": "Lubrication parameter",
       "frictionalPowerloss": "Frictional power loss",
-      "co2": "CO₂e emissions",
+      "co2": "CO₂e emissions for production",
       "overrollingFrequency": "Overrolling frequency"
     },
     "basicFrequency": "Basic Frequencies",

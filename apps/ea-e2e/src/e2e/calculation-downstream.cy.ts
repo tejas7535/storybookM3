@@ -23,9 +23,6 @@ describe('EA: CO2 downstream values', () => {
       // rating life
       cy.get('ea-calculation-result-preview').contains('135,000');
 
-      // operation co2
-      cy.get('ea-calculation-result-preview').contains('0.182');
-
       // frictional power loss
       cy.get('ea-calculation-result-preview').contains('111');
     }

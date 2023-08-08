@@ -14,25 +14,15 @@ import { getCalculationResult as frictionCalculationResult } from './friction-ca
 
 export interface CO2EmissionResult {
   co2_upstream: number;
-  co2_downstream: number;
-  co2_upstream_percent: number;
-  co2_downstream_percent: number;
+  co2_downstream?: number;
 }
 
 export const getCO2EmissionReport = createSelector(
   co2UpstreamCalculationResult,
   frictionCalculationResult,
-  (co2Upstream, friction): CO2EmissionResult => {
-    const totalEmission =
-      co2Upstream?.upstreamEmissionTotal + friction?.co2_downstream?.value;
-
-    return {
-      co2_upstream: co2Upstream?.upstreamEmissionTotal,
-      co2_downstream: friction?.co2_downstream?.value,
-      co2_upstream_percent: co2Upstream?.upstreamEmissionTotal / totalEmission,
-      co2_downstream_percent: friction?.co2_downstream?.value / totalEmission,
-    };
-  }
+  (co2Upstream): CO2EmissionResult => ({
+    co2_upstream: co2Upstream?.upstreamEmissionTotal,
+  })
 );
 
 export const isEmissionResultAvailable = createSelector(

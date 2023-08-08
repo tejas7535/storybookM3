@@ -7,7 +7,6 @@ import {
   OverrollingPreviewKeys,
 } from '../../models';
 import { getCalculationTypes } from '../calculation-parameters/calculation-types.selector';
-import { getCalculationModuleInfo } from '../product-selection/product-selection.selector';
 import { getOverrollingFrequencies } from './calculation-result-report.selector';
 import {
   getCalculationResult as catalogCalculationResult,
@@ -99,18 +98,14 @@ export const overrollingFrequencies = createSelector(
 export const getCalculationResultPreviewData = createSelector(
   getCalculationTypes,
   catalogCalculation,
-  co2Downstream,
   co2Upstream,
   friction,
-  getCalculationModuleInfo,
   overrollingFrequencies,
   (
     calculationTypes,
     catalogCalculationPreviewResult,
-    co2DownstreamResult,
     co2UpstreamResult,
     frictionResult,
-    moduleInfo,
     overrollingResult
   ): CalculationResultPreviewData => {
     const previewData: CalculationResultPreviewData = [];
@@ -148,13 +143,6 @@ export const getCalculationResultPreviewData = createSelector(
           ...co2UpstreamResult,
         },
       ];
-
-      if (moduleInfo?.frictionCalculation) {
-        values.push({
-          title: 'operation',
-          ...co2DownstreamResult,
-        });
-      }
 
       previewData.push({
         title: 'emissions',
