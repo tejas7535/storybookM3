@@ -24,6 +24,7 @@ import {
   RELEASE_DATE_FORMATTER,
   RELEASE_DATE_VALUE_GETTER,
   replaceColumn,
+  SELF_CERTIFIED_VALUE_GETTER,
   STATUS_VALUE_GETTER,
   TRANSLATE_VALUE_FORMATTER_FACTORY,
 } from './index';
@@ -149,6 +150,32 @@ describe('helpers', () => {
       } as ValueGetterParams<DataResult>;
 
       const result = MANUFACTURER_VALUE_GETTER(mockParams);
+
+      expect(result).toEqual('materialsSupplierDatabase.mainTable.no');
+    });
+  });
+
+  describe('SELF_CERTIFIED_VALUE_GETTER', () => {
+    it('should return yes string if selfCertified is true', () => {
+      const mockParams = {
+        data: {
+          selfCertified: true,
+        } as DataResult,
+      } as ValueGetterParams<DataResult>;
+
+      const result = SELF_CERTIFIED_VALUE_GETTER(mockParams);
+
+      expect(result).toEqual('materialsSupplierDatabase.mainTable.yes');
+    });
+
+    it('should return no string if selfCertified is false', () => {
+      const mockParams = {
+        data: {
+          selfCertified: false,
+        } as DataResult,
+      } as ValueGetterParams<DataResult>;
+
+      const result = SELF_CERTIFIED_VALUE_GETTER(mockParams);
 
       expect(result).toEqual('materialsSupplierDatabase.mainTable.no');
     });

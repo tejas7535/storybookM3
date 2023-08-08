@@ -10,5 +10,6 @@ export * from './manufacturer-value-getter';
 export * from './recycling-rate-value-getter';
 export * from './release-date-formatter';
 export * from './release-date-value-getter';
+export * from './self-certified-value-getter';
 export * from './status-value-getter';
 export * from './translate-value-formatter';

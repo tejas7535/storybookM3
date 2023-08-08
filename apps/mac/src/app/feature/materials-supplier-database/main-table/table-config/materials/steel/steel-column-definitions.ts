@@ -36,6 +36,7 @@ import {
   RELEASE_DATE_FORMATTER,
   RELEASE_DATE_VALUE_GETTER,
   replaceColumn,
+  SELF_CERTIFIED_VALUE_GETTER,
   STATUS_VALUE_GETTER,
   TRANSLATE_VALUE_FORMATTER_FACTORY,
 } from '@mac/msd/main-table/table-config/helpers';
@@ -201,7 +202,7 @@ export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
     hide: true,
     headerTooltip: MANUFACTURER_SUPPLIER_SELFCERTIFIED,
     cellRenderer: EditCellRendererComponent,
-    valueGetter: MANUFACTURER_VALUE_GETTER,
+    valueGetter: SELF_CERTIFIED_VALUE_GETTER,
   },
   {
     field: MATERIAL_STANDARD_STOFF_ID,
