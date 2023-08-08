@@ -1,4 +1,13 @@
 # Release Notes of Grease App
+## [1.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.3.5...ga-v1.4.0) (2023-08-08)
+
+
+### Features
+
+* **ga:** added integration with qualtricks (UFTABI-6633) ([#5485](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5485)) ([18c345e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/18c345e39c53a8c3cbd1b7711a81dbad63493b9b))
+* **ga:** fix contact form links ([#5507](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5507)) ([d5de7b7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d5de7b766f315a03cd3ba7d7bcc71a74b228ad5f))
+* **ga:** switch to mdc based angular material components in grease app ([#5500](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5500)) ([32f192e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/32f192e1dde71a6b168b9caf811ef78293802785))
+
 ## [1.3.5](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.3.4...ga-v1.3.5) (2023-07-27)
 
 
