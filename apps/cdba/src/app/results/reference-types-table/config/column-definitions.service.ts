@@ -23,11 +23,6 @@ import { CurrencyService } from '@cdba/shared/services/currency/currency.service
   providedIn: 'root',
 })
 export class ColumnDefinitionService {
-  constructor(
-    private readonly columnUtilsService: ColumnUtilsService,
-    private readonly currencyService: CurrencyService
-  ) {}
-
   COLUMN_DEFINITIONS: ColDef[] = [
     {
       checkboxSelection: true,
@@ -575,10 +570,10 @@ export class ColumnDefinitionService {
     },
     {
       field: 'customers',
-      headerName: translate('results.referenceTypesTable.headers.customer'),
-      headerTooltip: translate('results.referenceTypesTable.tooltips.customer'),
-      type: 'numericColumn',
-      valueFormatter: this.columnUtilsService.formatNumber,
+      headerName: translate('results.referenceTypesTable.headers.customers'),
+      headerTooltip: translate(
+        'results.referenceTypesTable.tooltips.customers'
+      ),
     },
     {
       colId: 'rfq',
@@ -698,5 +693,10 @@ export class ColumnDefinitionService {
       valueFormatter: this.columnUtilsService.formatDate,
     },
   ];
+
+  constructor(
+    private readonly columnUtilsService: ColumnUtilsService,
+    private readonly currencyService: CurrencyService
+  ) {}
   // eslint-disable-next-line max-lines
 }

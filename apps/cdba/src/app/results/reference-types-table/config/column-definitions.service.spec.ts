@@ -70,6 +70,6 @@ describe('ColumnDefinitions', () => {
     expect(utils.valueGetterFromArray).toHaveBeenCalledTimes(10);
     expect(utils.valueGetterFromArrayOfObjects).toHaveBeenCalledTimes(6);
     expect(utils.valueGetterDate).toHaveBeenCalledTimes(4);
-    expect(formatNumberSpy).toHaveBeenCalledTimes(23);
+    expect(formatNumberSpy).toHaveBeenCalledTimes(22);
   });
 });

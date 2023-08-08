@@ -150,17 +150,17 @@ export class ReferenceTypesTableComponent implements OnInit, OnChanges {
     this.selectionChange.emit(event.api.getSelectedNodes().map((el) => el.id));
   }
 
+  public filterChange(): void {
+    const filters = this.gridApi.getFilterModel();
+
+    this.tableStore.setFilters(filters);
+  }
+
   private selectNodes(): void {
     if (this.selectedNodeIds) {
       this.selectedNodeIds.forEach((id) =>
         this.gridApi.getRowNode(id).setSelected(true, true, true)
       );
     }
-  }
-
-  public filterChange(): void {
-    const filters = this.gridApi.getFilterModel();
-
-    this.tableStore.setFilters(filters);
   }
 }
