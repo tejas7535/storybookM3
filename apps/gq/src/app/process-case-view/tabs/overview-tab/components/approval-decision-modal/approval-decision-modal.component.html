@@ -40,12 +40,16 @@
         <mat-label>{{ t('commentLabel') }}</mat-label>
         <textarea
           matInput
+          (paste)="onPaste($event)"
           class="h-20 max-h-32 !leading-6"
           formControlName="comment"
           type="text"
           [maxlength]="INPUT_MAX_LENGTH"
           #comment
         ></textarea>
+        <mat-hint class="text-error" *ngIf="isInvalidInput" align="start">
+          {{ t('exceededCharactersError') }}
+        </mat-hint>
         <mat-hint align="end">
           {{ comment.value.length }} / {{ INPUT_MAX_LENGTH }}</mat-hint
         >

@@ -25,7 +25,8 @@
       "invalidApproverError": "Invalid Approver",
       "equalApproversError": "Approvers must be different, it is not allowed to enter an approver multiple times!",
       "invalidUserError": "Invalid User",
-      "invalidSelectionApproverError": "Invalid Approver selected"
+      "invalidSelectionApproverError": "Invalid Approver selected",
+      "exceededCharactersError": "The pasted text exceeds 200 characters"
     },
     "cancelWorkflow": "Cancel Workflow",
     "cancelWorkflowModal": {
@@ -149,7 +150,8 @@
           "commentLabel": "Comment",
           "sendBack": "Send Back",
           "confirmApproval": "Confirm Approval",
-          "cancel": "Cancel"
+          "cancel": "Cancel",
+          "exceededCharactersError": "The pasted text exceeds 200 characters"
         },
         "forwardApprovalWorkflowModal": {
           "title": "Forward Approval Workflow",

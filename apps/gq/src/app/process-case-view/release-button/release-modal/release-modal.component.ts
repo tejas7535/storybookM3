@@ -1,6 +1,7 @@
 /* eslint-disable max-lines */
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Inject,
   OnDestroy,
@@ -62,7 +63,7 @@ interface ReleaseModalFormControl {
 export class ReleaseModalComponent implements OnInit, OnDestroy {
   formGroup: FormGroup<ReleaseModalFormControl>;
 
-  INPUT_MAX_LENGTH = 1000;
+  INPUT_MAX_LENGTH = 200;
   readonly approvalLevelEnum = ApprovalLevel;
 
   approver1FormControl = new FormControl<Approver>(
@@ -92,6 +93,8 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
   readonly quotationStatus = QuotationStatus;
   readonly INVALID_SELECTION_APPROVER = '';
 
+  isInvalidInput = false;
+
   private readonly REQUIRED_ERROR_MESSAGE = '';
   private readonly INVALID_APPROVER_ERROR_MESSAGE = '';
   private readonly INVALID_USER_ERROR_MESSAGE = '';
@@ -108,7 +111,8 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
     private readonly formBuilder: FormBuilder,
     private readonly translocoService: TranslocoService,
     private readonly router: Router,
-    private readonly activatedRoute: ActivatedRoute
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly changeDetectorRef: ChangeDetectorRef
   ) {
     this.REQUIRED_ERROR_MESSAGE = this.translocoService.translate(
       'processCaseView.header.releaseModal.requiredError'
@@ -140,7 +144,6 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
         Validators.maxLength(this.INPUT_MAX_LENGTH)
       ),
     });
-
     this.setApprovalControlsAndInitialData();
 
     this.approvalFacade.triggerApprovalWorkflowSucceeded$
@@ -150,6 +153,19 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
     this.approvalFacade.saveApprovalWorkflowInformationSucceeded$
       .pipe(takeUntil(this.shutdown$$))
       .subscribe(() => this.closeDialog());
+  }
+
+  onPaste(event: ClipboardEvent): void {
+    const pastedText = event.clipboardData?.getData('text/plain') || '';
+    if (pastedText.length > this.INPUT_MAX_LENGTH) {
+      this.isInvalidInput = true;
+
+      // Clear the error after 3 seconds
+      setTimeout(() => {
+        this.isInvalidInput = false;
+        this.changeDetectorRef.detectChanges();
+      }, 3000);
+    }
   }
 
   getErrorMessageOfControl(

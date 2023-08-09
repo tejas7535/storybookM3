@@ -25,7 +25,8 @@
       "invalidApproverError": "Genehmiger ungültig",
       "equalApproversError": "Die ausgewählten Genehmiger müssen unterschiedlich sein!",
       "invalidUserError": "Benutzer ungültig",
-      "invalidSelectionApproverError": "Genehmigerauswahl ungültig"
+      "invalidSelectionApproverError": "Genehmigerauswahl ungültig",
+      "exceededCharactersError": "Der eingefügte Text überschreitet 200 Zeichen"
     },
     "cancelWorkflow": "Freigabe abbrechen",
     "cancelWorkflowModal": {
@@ -149,7 +150,8 @@
           "commentLabel": "Kommentar",
           "sendBack": "Zurückschicken",
           "confirmApproval": "Genehmigung bestätigen",
-          "cancel": "Abbrechen"
+          "cancel": "Abbrechen",
+          "exceededCharactersError": "Der eingefügte Text überschreitet 200 Zeichen"
         },
         "forwardApprovalWorkflowModal": {
           "title": "Freigabeprozess weiterleiten",

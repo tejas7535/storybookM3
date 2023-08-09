@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Inject,
   OnDestroy,
@@ -33,7 +34,9 @@ interface ApprovalDecisionModalFormControl {
 export class ApprovalDecisionModalComponent implements OnInit, OnDestroy {
   formGroup: FormGroup<ApprovalDecisionModalFormControl>;
 
-  INPUT_MAX_LENGTH = 1000;
+  INPUT_MAX_LENGTH = 200;
+
+  isInvalidInput = false;
 
   readonly approvalModalType = ApprovalModalType;
 
@@ -44,6 +47,7 @@ export class ApprovalDecisionModalComponent implements OnInit, OnDestroy {
     public readonly modalData: { type: ApprovalModalType },
     private readonly dialogRef: MatDialogRef<ApprovalDecisionModalComponent>,
     private readonly formBuilder: FormBuilder,
+    private readonly changeDetectorRef: ChangeDetectorRef,
     readonly approvalFacade: ApprovalFacade
   ) {}
 
@@ -62,6 +66,19 @@ export class ApprovalDecisionModalComponent implements OnInit, OnDestroy {
     this.approvalFacade.updateApprovalWorkflowSucceeded$
       .pipe(takeUntil(this.shutdown$$))
       .subscribe(() => this.closeDialog());
+  }
+
+  onPaste(event: ClipboardEvent): void {
+    const pastedText = event.clipboardData?.getData('text/plain') || '';
+    if (pastedText.length > this.INPUT_MAX_LENGTH) {
+      this.isInvalidInput = true;
+
+      // Clear the error after 3 seconds
+      setTimeout(() => {
+        this.isInvalidInput = false;
+        this.changeDetectorRef.detectChanges();
+      }, 3000);
+    }
   }
 
   updateApprovalWorkflow(): void {
