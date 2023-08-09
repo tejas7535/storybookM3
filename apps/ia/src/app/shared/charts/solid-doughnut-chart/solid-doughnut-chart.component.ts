@@ -66,6 +66,16 @@ export class SolidDoughnutChartComponent extends ExternalLegend {
   setData(data: DoughnutChartData[]): void {
     this.mergeOptions = {
       ...this.mergeOptions,
+      title: {
+        ...this.mergeOptions?.title,
+        textStyle: {
+          fontFamily: 'Noto Sans',
+          color: 'rgba(0, 0, 0, 0.60)',
+          fontSize: '1rem',
+          fontStyle: 'normal',
+          fontWeight: 400,
+        },
+      },
       series: [{ data }],
       legend: {
         top: 'bottom',
