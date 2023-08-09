@@ -7,10 +7,10 @@ import {
 } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import {
-  LegacyTextOnlySnackBar as TextOnlySnackBar,
-  MatLegacySnackBar as MatSnackBar,
-  MatLegacySnackBarRef as MatSnackBarRef,
-} from '@angular/material/legacy-snack-bar';
+  MatSnackBar,
+  MatSnackBarRef,
+  TextOnlySnackBar,
+} from '@angular/material/snack-bar';
 
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 

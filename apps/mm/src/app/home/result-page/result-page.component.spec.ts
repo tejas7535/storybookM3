@@ -1,10 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormGroup } from '@angular/forms';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import {
-  MatLegacySnackBar as MatSnackBar,
-  MatLegacySnackBarModule as MatSnackBarModule,
-} from '@angular/material/legacy-snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { filter, of, throwError } from 'rxjs';
