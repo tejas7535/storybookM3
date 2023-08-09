@@ -1,4 +1,16 @@
 # Release Notes of Material App Center
+## [1.12.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.12.0...mac-v1.12.1) (2023-08-09)
+
+
+### Features
+
+* **mac:** fix display of self certification ([#5513](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5513)) ([0cb7f01](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0cb7f01865feaeb324fb45f2b5b461a9e81bbf21))
+
+
+### Bug Fixes
+
+* **mac:** adjust link ([#5514](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5514)) ([ef119ec](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ef119ecb6d691f45dce369be20cd3fdcc526436f))
+
 ## [1.12.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.11.0...mac-v1.12.0) (2023-08-04)
 
 
