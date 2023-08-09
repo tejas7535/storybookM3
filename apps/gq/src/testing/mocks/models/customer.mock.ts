@@ -43,4 +43,5 @@ export const CUSTOMER_MOCK: Customer = {
   sectorClusterChina: 'sectorClusterChina',
   netSalesClassification: NetSalesClassification.A,
   marginDetail: MARGIN_DETAIL_MOCK,
+  enabledForApprovalWorkflow: true,
 };

@@ -345,9 +345,11 @@ describe('ProcessCaseViewComponent', () => {
   describe('requestApprovalData', () => {
     test('should call requestApprovalData', () => {
       const sapId = 'testSapId';
-      component['setTabs'] = jest.fn();
       component['initObservables'] = jest.fn();
-      component.quotation$ = of({ sapId } as Quotation);
+      component.quotation$ = of({
+        sapId,
+        customer: { enabledForApprovalWorkflow: true },
+      } as Quotation);
 
       const getApprovalCockpitDataSpy = jest.spyOn(
         component['approvalFacade'],
@@ -356,11 +358,10 @@ describe('ProcessCaseViewComponent', () => {
 
       component.ngOnInit();
 
-      expect(getApprovalCockpitDataSpy).toHaveBeenCalledWith(sapId);
+      expect(getApprovalCockpitDataSpy).toHaveBeenCalledWith(sapId, true);
     });
 
     test('should not call requestApprovalData', () => {
-      component['setTabs'] = jest.fn();
       component['initObservables'] = jest.fn();
       component.quotation$ = of(undefined as Quotation);
 

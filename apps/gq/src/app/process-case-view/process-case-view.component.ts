@@ -14,6 +14,7 @@ import {
   activeCaseFeature,
   getGqId,
   getQuotationSapSyncStatus,
+  getTabsForProcessCaseView,
 } from '@gq/core/store/active-case';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { Tab } from '@gq/shared/components/tabs-header/tab.model';
@@ -30,9 +31,6 @@ import { Store } from '@ngrx/store';
 
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
-import { AppRoutePath } from '../app-route-path.enum';
-import { ProcessCaseRoutePath } from './process-case-route-path.enum';
-
 @Component({
   selector: 'gq-case-view',
   templateUrl: './process-case-view.component.html',
@@ -43,8 +41,7 @@ export class ProcessCaseViewComponent implements OnInit, OnDestroy {
   breadcrumbs$: Observable<Breadcrumb[]>;
   sapStatus$: Observable<SAP_SYNC_STATUS>;
   dataLoadingComplete$: Observable<boolean>;
-
-  tabs: Tab[] = [];
+  tabs$: Observable<Tab[]>;
 
   readonly sapSyncStatus = SAP_SYNC_STATUS;
   readonly quotationStatus = QuotationStatus;
@@ -59,7 +56,6 @@ export class ProcessCaseViewComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.setTabs();
     this.initObservables();
     this.requestApprovalData();
   }
@@ -77,30 +73,14 @@ export class ProcessCaseViewComponent implements OnInit, OnDestroy {
     this.shutDown$$.complete();
   }
 
-  private setTabs(): void {
-    if (this.featureToggleService.isEnabled('approvalWorkflow')) {
-      this.tabs.push({
-        label: 'processCaseView.tabs.overview.title',
-        link: ProcessCaseRoutePath.OverviewPath,
-        parentPath: AppRoutePath.ProcessCaseViewPath,
-      });
-    }
-    this.tabs.push(
-      {
-        label: 'processCaseView.tabs.singleQuotes.title',
-        link: ProcessCaseRoutePath.SingleQuotesPath,
-        parentPath: AppRoutePath.ProcessCaseViewPath,
-      },
-      {
-        label: 'processCaseView.tabs.customerDetails.title',
-        link: ProcessCaseRoutePath.CustomerDetailsPath,
-        parentPath: AppRoutePath.ProcessCaseViewPath,
-      }
-    );
-  }
-
   private initObservables(): void {
+    this.tabs$ = this.store.select(
+      getTabsForProcessCaseView(
+        this.featureToggleService.isEnabled('approvalWorkflow')
+      )
+    );
     this.quotation$ = this.store.select(activeCaseFeature.selectQuotation);
+
     this.sapStatus$ = this.store.select(getQuotationSapSyncStatus);
     this.breadcrumbs$ = this.store
       .select(getGqId)
@@ -139,8 +119,8 @@ export class ProcessCaseViewComponent implements OnInit, OnDestroy {
         ]) =>
           !customerLoading &&
           !quotationLoading &&
-          // Approval information loading status is relevant only if the quotation is synced with SAP
-          (quotation?.sapId
+          // Approval information loading status is relevant only if the quotation is synced with SAP and the salesOrg is enabled for the customer
+          (quotation?.sapId && quotation?.customer?.enabledForApprovalWorkflow
             ? !approvalInformationLoading &&
               (!!approvalInformation.sapId || !!error)
             : true)
@@ -154,7 +134,10 @@ export class ProcessCaseViewComponent implements OnInit, OnDestroy {
         takeUntil(this.shutDown$$),
         filter((quotation: Quotation) => !!quotation),
         map((quotation: Quotation) =>
-          this.approvalFacade.getApprovalCockpitData(quotation.sapId)
+          this.approvalFacade.getApprovalCockpitData(
+            quotation.sapId,
+            quotation.customer.enabledForApprovalWorkflow
+          )
         )
       )
       .subscribe();

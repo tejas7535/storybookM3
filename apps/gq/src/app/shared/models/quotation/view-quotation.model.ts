@@ -13,6 +13,7 @@ export interface ViewQuotation {
   gqLastUpdated: string;
   customerIdentifiers: CustomerId;
   customerName: string;
+  enabledForApprovalWorkflow: boolean;
   origin: number;
   status: QuotationStatus;
   statusVerified: boolean;

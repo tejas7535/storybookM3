@@ -798,17 +798,22 @@ describe('CreateColumnService', () => {
   describe('determineCaseNavigationPath', () => {
     test('should return ProcessCaseViewPath if status is non-approval', () => {
       expect(
-        service.determineCaseNavigationPath(QuotationStatus.ACTIVE)
+        service.determineCaseNavigationPath(QuotationStatus.ACTIVE, true)
       ).toEqual([AppRoutePath.ProcessCaseViewPath]);
     });
 
     test('should return ProcessCaseViewPath and OverviewPath if status is approval', () => {
       expect(
-        service.determineCaseNavigationPath(QuotationStatus.APPROVED)
+        service.determineCaseNavigationPath(QuotationStatus.APPROVED, true)
       ).toEqual([
         AppRoutePath.ProcessCaseViewPath,
         ProcessCaseRoutePath.OverviewPath,
       ]);
+    });
+    test('should return ProcessCaseViewPath if status is approval and not enabledForApprovalWorkflow', () => {
+      expect(
+        service.determineCaseNavigationPath(QuotationStatus.APPROVED, false)
+      ).toEqual([AppRoutePath.ProcessCaseViewPath]);
     });
   });
 });

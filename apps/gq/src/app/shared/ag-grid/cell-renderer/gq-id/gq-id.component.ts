@@ -36,7 +36,8 @@ export class GqIdComponent {
     this.url = this.router
       .createUrlTree(
         this.columnUtilityService.determineCaseNavigationPath(
-          this.quotation.status
+          this.quotation.status,
+          this.quotation.enabledForApprovalWorkflow
         ),
         this.urlQueryParams
       )
@@ -48,7 +49,8 @@ export class GqIdComponent {
 
     this.router.navigate(
       this.columnUtilityService.determineCaseNavigationPath(
-        this.quotation.status
+        this.quotation.status,
+        this.quotation.enabledForApprovalWorkflow
       ),
       this.urlQueryParams
     );

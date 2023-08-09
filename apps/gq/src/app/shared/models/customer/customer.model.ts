@@ -33,4 +33,5 @@ export class Customer {
   public netSalesClassification: NetSalesClassification;
   public marginDetail: MarginDetail;
   public accountPotential: AccountPotential;
+  public enabledForApprovalWorkflow: boolean;
 }

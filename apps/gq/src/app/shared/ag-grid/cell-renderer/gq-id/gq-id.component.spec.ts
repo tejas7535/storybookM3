@@ -60,6 +60,7 @@ describe('GqIdComponent', () => {
         gqId: 999,
         customerIdentifiers: { customerId: '1', salesOrg: '267' },
         status: QuotationStatus.IN_APPROVAL,
+        enabledForApprovalWorkflow: false,
       } as any;
 
       const urlQueryParams: NavigationExtras = {
@@ -89,7 +90,8 @@ describe('GqIdComponent', () => {
 
       expect(event.preventDefault).toHaveBeenCalledTimes(1);
       expect(determineCaseNavigationPathSpy).toHaveBeenCalledWith(
-        quotation.status
+        quotation.status,
+        quotation.enabledForApprovalWorkflow
       );
       expect(component['router'].navigate).toHaveBeenCalledTimes(1);
       expect(component['router'].navigate).toHaveBeenCalledWith(
@@ -126,7 +128,8 @@ describe('GqIdComponent', () => {
         },
       });
       expect(determineCaseNavigationPathSpy).toHaveBeenCalledWith(
-        VIEW_QUOTATION_MOCK.status
+        VIEW_QUOTATION_MOCK.status,
+        VIEW_QUOTATION_MOCK.enabledForApprovalWorkflow
       );
       expect(component.url).toEqual(url);
     });

@@ -417,10 +417,14 @@ export class ColumnUtilityService {
    * @param quotation The quotation status
    * @returns The parts of the navigation path as an array
    */
-  determineCaseNavigationPath(quotationStatus: QuotationStatus) {
-    return quotationStatus === QuotationStatus.IN_APPROVAL ||
-      quotationStatus === QuotationStatus.APPROVED ||
-      quotationStatus === QuotationStatus.REJECTED
+  determineCaseNavigationPath(
+    quotationStatus: QuotationStatus,
+    enabledForApprovalWorkflow: boolean
+  ) {
+    return enabledForApprovalWorkflow &&
+      (quotationStatus === QuotationStatus.IN_APPROVAL ||
+        quotationStatus === QuotationStatus.APPROVED ||
+        quotationStatus === QuotationStatus.REJECTED)
       ? [AppRoutePath.ProcessCaseViewPath, ProcessCaseRoutePath.OverviewPath]
       : [AppRoutePath.ProcessCaseViewPath];
   }

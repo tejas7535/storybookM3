@@ -148,8 +148,8 @@ export class DetailViewComponent implements OnInit, OnDestroy {
           error,
         ]: [boolean, Quotation, boolean, ApprovalWorkflowInformation, Error]) =>
           !quotationLoading &&
-          // Approval information loading status is relevant only if the quotation is synced with SAP
-          (quotation?.sapId
+          // Approval information loading status is relevant only if the quotation is synced with SAP and the salesOrg is enabled for the customer
+          (quotation?.sapId && quotation?.customer?.enabledForApprovalWorkflow
             ? !approvalInformationLoading &&
               (!!approvalInformation.sapId || !!error)
             : true)
@@ -163,7 +163,10 @@ export class DetailViewComponent implements OnInit, OnDestroy {
         takeUntil(this.shutDown$$),
         filter((quotation: Quotation) => !!quotation),
         map((quotation: Quotation) =>
-          this.approvalFacade.getApprovalCockpitData(quotation.sapId)
+          this.approvalFacade.getApprovalCockpitData(
+            quotation.sapId,
+            quotation.customer.enabledForApprovalWorkflow
+          )
         )
       )
       .subscribe();

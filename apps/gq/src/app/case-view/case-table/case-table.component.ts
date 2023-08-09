@@ -93,7 +93,10 @@ export class CaseTableComponent implements OnInit {
 
   onRowDoubleClicked(event: RowDoubleClickedEvent) {
     this.router.navigate(
-      this.columnUtilityService.determineCaseNavigationPath(event.data.status),
+      this.columnUtilityService.determineCaseNavigationPath(
+        event.data.status,
+        event.data.enabledForApprovalWorkflow
+      ),
       {
         queryParamsHandling: 'merge',
         queryParams: {

@@ -1,3 +1,6 @@
+import { AppRoutePath } from '@gq/app-route-path.enum';
+import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-path.enum';
+import { Tab } from '@gq/shared/components/tabs-header/tab.model';
 import {
   Coefficients,
   DetailViewQueryParams,
@@ -173,6 +176,36 @@ export const getQuotationDetailsByPL = createSelector(
     return groupedBy;
   }
 );
+
+export const getTabsForProcessCaseView = (featureEnabled: boolean) =>
+  createSelector(
+    activeCaseFeature.selectQuotation,
+    (quotation: Quotation): Tab[] => {
+      const tabs: Tab[] = [];
+
+      if (featureEnabled && quotation?.customer?.enabledForApprovalWorkflow) {
+        tabs.push({
+          label: 'processCaseView.tabs.overview.title',
+          link: ProcessCaseRoutePath.OverviewPath,
+          parentPath: AppRoutePath.ProcessCaseViewPath,
+        });
+      }
+      tabs.push(
+        {
+          label: 'processCaseView.tabs.singleQuotes.title',
+          link: ProcessCaseRoutePath.SingleQuotesPath,
+          parentPath: AppRoutePath.ProcessCaseViewPath,
+        },
+        {
+          label: 'processCaseView.tabs.customerDetails.title',
+          link: ProcessCaseRoutePath.CustomerDetailsPath,
+          parentPath: AppRoutePath.ProcessCaseViewPath,
+        }
+      );
+
+      return tabs;
+    }
+  );
 
 function groupBy<T>(arr: T[], fn: (item: T) => any) {
   const groupedBy = new Map();

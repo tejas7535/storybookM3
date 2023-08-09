@@ -5,6 +5,7 @@ export const VIEW_QUOTATION_MOCK: ViewQuotation = {
   gqId: 1234,
   caseName: 'caseName',
   customerName: 'name',
+  enabledForApprovalWorkflow: false,
   customerIdentifiers: { customerId: '1234', salesOrg: '0672' },
   sapCreated: '2022-02-21T09:14:17.2994738+01:00',
   sapCreatedByUser: { id: 'userid', name: 'username' },

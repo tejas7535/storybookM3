@@ -1,3 +1,5 @@
+import { AppRoutePath } from '@gq/app-route-path.enum';
+import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-path.enum';
 import {
   Quotation,
   QuotationDetail,
@@ -415,6 +417,67 @@ describe('Active Case Selectors', () => {
           processCase.quotation as unknown as Quotation
         )
       ).toEqual(undefined);
+    });
+  });
+
+  describe('getTabsForProcessCaseView', () => {
+    test('should return overViewPath', () => {
+      const expected = [
+        {
+          label: 'processCaseView.tabs.overview.title',
+          link: ProcessCaseRoutePath.OverviewPath,
+          parentPath: AppRoutePath.ProcessCaseViewPath,
+        },
+        {
+          label: 'processCaseView.tabs.singleQuotes.title',
+          link: ProcessCaseRoutePath.SingleQuotesPath,
+          parentPath: AppRoutePath.ProcessCaseViewPath,
+        },
+        {
+          label: 'processCaseView.tabs.customerDetails.title',
+          link: ProcessCaseRoutePath.CustomerDetailsPath,
+          parentPath: AppRoutePath.ProcessCaseViewPath,
+        },
+      ];
+      expect(
+        activeCaseSelectors.getTabsForProcessCaseView(true)(fakeState)
+      ).toEqual(expected);
+    });
+
+    test('should not return overViewPath', () => {
+      const expected = [
+        {
+          label: 'processCaseView.tabs.singleQuotes.title',
+          link: ProcessCaseRoutePath.SingleQuotesPath,
+          parentPath: AppRoutePath.ProcessCaseViewPath,
+        },
+        {
+          label: 'processCaseView.tabs.customerDetails.title',
+          link: ProcessCaseRoutePath.CustomerDetailsPath,
+          parentPath: AppRoutePath.ProcessCaseViewPath,
+        },
+      ];
+      fakeState.activeCase.customer.enabledForApprovalWorkflow = false;
+      expect(
+        activeCaseSelectors.getTabsForProcessCaseView(true)(fakeState)
+      ).toEqual(expected);
+    });
+    test('should not return overViewPath for disabled feature', () => {
+      const expected = [
+        {
+          label: 'processCaseView.tabs.singleQuotes.title',
+          link: ProcessCaseRoutePath.SingleQuotesPath,
+          parentPath: AppRoutePath.ProcessCaseViewPath,
+        },
+        {
+          label: 'processCaseView.tabs.customerDetails.title',
+          link: ProcessCaseRoutePath.CustomerDetailsPath,
+          parentPath: AppRoutePath.ProcessCaseViewPath,
+        },
+      ];
+      expect(
+        activeCaseSelectors.getTabsForProcessCaseView(false)(fakeState)
+      ).toEqual(expected);
     });
   });
 });

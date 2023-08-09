@@ -955,7 +955,7 @@ describe('ApprovalFacade', () => {
 
     test('should dispatch action getApprovalCockpitData', () => {
       mockStore.dispatch = jest.fn();
-      service.getApprovalCockpitData(expect.any(String));
+      service.getApprovalCockpitData(expect.any(String), expect.any(Boolean));
       expect(mockStore.dispatch).toHaveBeenCalledWith(
         ApprovalActions.getApprovalCockpitData({ sapId: expect.any(String) })
       );
@@ -964,7 +964,16 @@ describe('ApprovalFacade', () => {
     test('should dispatch action clearApprovalCockpitData', () => {
       mockStore.dispatch = jest.fn();
 
-      service.getApprovalCockpitData(undefined as string);
+      service.getApprovalCockpitData(undefined as string, false);
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        ApprovalActions.clearApprovalCockpitData()
+      );
+    });
+
+    test('should dispatch action clearApprovalCockpitData for not enabled salesOrg', () => {
+      mockStore.dispatch = jest.fn();
+
+      service.getApprovalCockpitData('123', false);
       expect(mockStore.dispatch).toHaveBeenCalledWith(
         ApprovalActions.clearApprovalCockpitData()
       );

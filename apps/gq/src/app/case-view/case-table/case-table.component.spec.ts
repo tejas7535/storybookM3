@@ -159,6 +159,7 @@ describe('CaseTableComponent', () => {
             salesOrg: 'sales-org-id',
           },
           status: QuotationStatus.ACTIVE,
+          enabledForApprovalWorkflow: true,
         },
       } as any;
 
@@ -180,7 +181,8 @@ describe('CaseTableComponent', () => {
         },
       });
       expect(determineCaseNavigationPathSpy).toHaveBeenCalledWith(
-        mockEvent.data.status
+        mockEvent.data.status,
+        mockEvent.data.enabledForApprovalWorkflow
       );
     });
   });

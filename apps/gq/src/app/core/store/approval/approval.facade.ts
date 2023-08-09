@@ -330,8 +330,11 @@ export class ApprovalFacade {
     this.store.dispatch(ApprovalActions.getAllApprovers());
   }
 
-  getApprovalCockpitData(sapId: string): void {
-    return sapId
+  getApprovalCockpitData(
+    sapId: string,
+    customerEnabledForQuotationWorkflow: boolean
+  ): void {
+    return sapId && customerEnabledForQuotationWorkflow
       ? this.store.dispatch(ApprovalActions.getApprovalCockpitData({ sapId }))
       : this.store.dispatch(ApprovalActions.clearApprovalCockpitData());
   }

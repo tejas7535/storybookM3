@@ -57,7 +57,7 @@
       else taskInProgress
     "
     class="grow"
-    [tabs]="tabs"
+    [tabs]="tabs$ | ngrxPush"
   ></gq-tabs-header>
 </div>
 
