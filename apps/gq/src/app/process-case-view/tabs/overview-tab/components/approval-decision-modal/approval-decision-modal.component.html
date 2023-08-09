@@ -53,6 +53,9 @@
         <mat-hint align="end">
           {{ comment.value.length }} / {{ INPUT_MAX_LENGTH }}</mat-hint
         >
+        <mat-error *ngIf="formGroup.get('comment').errors?.invalidCharacters">
+          {{ t('forbiddenSpecialCharacters') }}
+        </mat-error>
       </mat-form-field>
     </div>
 

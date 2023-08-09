@@ -28,6 +28,9 @@
           data-cy="comment-modal_comment-input"
         ></textarea>
         <mat-hint align="end"> {{ comment.value.length }} / 100</mat-hint>
+        <mat-error *ngIf="commentFormControl.errors?.invalidCharacters">
+          {{ t('forbiddenSpecialCharacters') }}
+        </mat-error>
       </mat-form-field>
     </div>
     <div>

@@ -26,7 +26,8 @@
       "equalApproversError": "Die ausgewählten Genehmiger müssen unterschiedlich sein!",
       "invalidUserError": "Benutzer ungültig",
       "invalidSelectionApproverError": "Genehmigerauswahl ungültig",
-      "exceededCharactersError": "Der eingefügte Text überschreitet 200 Zeichen"
+      "exceededCharactersError": "Der eingefügte Text überschreitet 200 Zeichen",
+      "forbiddenSpecialCharacters": "Die Sonderzeichen <,>,/ sind nicht erlaubt."
     },
     "cancelWorkflow": "Freigabe abbrechen",
     "cancelWorkflowModal": {
@@ -151,7 +152,8 @@
           "sendBack": "Zurückschicken",
           "confirmApproval": "Genehmigung bestätigen",
           "cancel": "Abbrechen",
-          "exceededCharactersError": "Der eingefügte Text überschreitet 200 Zeichen"
+          "exceededCharactersError": "Der eingefügte Text überschreitet 200 Zeichen",
+          "forbiddenSpecialCharacters": "Die Sonderzeichen <,>,/ sind nicht erlaubt."
         },
         "forwardApprovalWorkflowModal": {
           "title": "Freigabeprozess weiterleiten",
@@ -254,7 +256,8 @@
   "editingCommentModal": {
     "title": "Kommentar bearbeiten für Position {{id}}",
     "confirm": "Bestätigen",
-    "cancel": "Abbrechen"
+    "cancel": "Abbrechen",
+    "forbiddenSpecialCharacters": "Die Sonderzeichen <,>,/ sind nicht erlaubt."
   },
   "exportExcelModal": {
     "title": "Wählen Sie Ihr Download-Format",

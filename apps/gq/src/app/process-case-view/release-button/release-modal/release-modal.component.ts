@@ -43,6 +43,7 @@ import {
   QuotationStatus,
 } from '@gq/shared/models';
 import { approversDifferValidator } from '@gq/shared/validators/approvers-differ-validator';
+import { specialCharactersValidator } from '@gq/shared/validators/special-characters-validator';
 import { userValidator } from '@gq/shared/validators/user-validator';
 import { TranslocoService } from '@ngneat/transloco';
 
@@ -135,14 +136,14 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
     this.approvalFacade.getApprovers();
 
     this.formGroup = this.formBuilder.group<ReleaseModalFormControl>({
-      comment: new FormControl(
-        undefined,
-        Validators.maxLength(this.INPUT_MAX_LENGTH)
-      ),
-      projectInformation: new FormControl(
-        undefined,
-        Validators.maxLength(this.INPUT_MAX_LENGTH)
-      ),
+      comment: new FormControl(undefined, [
+        specialCharactersValidator(),
+        Validators.maxLength(this.INPUT_MAX_LENGTH),
+      ]),
+      projectInformation: new FormControl(undefined, [
+        specialCharactersValidator(),
+        Validators.maxLength(this.INPUT_MAX_LENGTH),
+      ]),
     });
     this.setApprovalControlsAndInitialData();
 

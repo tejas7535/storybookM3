@@ -26,7 +26,8 @@
       "equalApproversError": "Approvers must be different, it is not allowed to enter an approver multiple times!",
       "invalidUserError": "Invalid User",
       "invalidSelectionApproverError": "Invalid Approver selected",
-      "exceededCharactersError": "The pasted text exceeds 200 characters"
+      "exceededCharactersError": "The pasted text exceeds 200 characters",
+      "forbiddenSpecialCharacters": "Special characters <, >, / are not allowed."
     },
     "cancelWorkflow": "Cancel Workflow",
     "cancelWorkflowModal": {
@@ -151,7 +152,8 @@
           "sendBack": "Send Back",
           "confirmApproval": "Confirm Approval",
           "cancel": "Cancel",
-          "exceededCharactersError": "The pasted text exceeds 200 characters"
+          "exceededCharactersError": "The pasted text exceeds 200 characters",
+          "forbiddenSpecialCharacters": "Special characters <, >, / are not allowed."
         },
         "forwardApprovalWorkflowModal": {
           "title": "Forward Approval Workflow",
@@ -254,7 +256,8 @@
   "editingCommentModal": {
     "title": "Edit comment for Item {{id}}",
     "confirm": "Confirm",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "forbiddenSpecialCharacters": "Special characters <, >, / are not allowed."
   },
   "exportExcelModal": {
     "title": "Choose your download format",
