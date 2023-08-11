@@ -1,4 +1,27 @@
 # Release Notes of Insight Attrition
+## [1.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ia-v1.0.7...ia-v1.1.0) (2023-08-11)
+
+
+### Features
+
+* **ia:** add benchmark dimension (IA-1180) ([#5301](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5301)) ([65f0120](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/65f012004ca2a6008c0c20ee78774c1db1c6a656))
+* **ia:** clear dimensions data (IA-1155) ([#5226](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5226)) ([755d818](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/755d8189fe1a1cfb1baffd2b5798594a3679d5b8))
+* **ia:** reactivate reasons for leaving (IA-1148) ([#5359](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5359)) ([59b552f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/59b552f27241c3e5a525f6356cf5b7a027c35c95))
+* **ia:** show internal prev and next values (IA-1165) ([#5206](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5206)) ([234873f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/234873f38bd8157ad3be550b1f5dad1613023560))
+* replace font styles with m3 standard ([#5211](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5211)) ([0ef134c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0ef134c2cb41319de679919be47c318f010ce6c5))
+
+
+### Bug Fixes
+
+* **ia:** fix comparison of exits count (IA-1216) ([#5398](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5398)) ([b92e0c1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b92e0c1244b23442de10e50ddb9bb6c67432b419))
+* **ia:** fix not fully visible legend (IA-1240) ([#5420](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5420)) ([416030d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/416030dda1845bf2055f69fe95a88db43500768a))
+* **ia:** fix org chart on safari (IA-1223) ([#5394](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5394)) ([af426c4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/af426c42d853b6c2fb4b3ec3714bccdb3a7cfd73))
+* **ia:** fix overlapping icon (IA-1237) ([#5437](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5437)) ([6db0211](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6db0211a835c7dac741972a24b9c5562b08ef2f1))
+* **ia:** fix prod guard (IA-1148) ([#5375](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5375)) ([9d960a8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9d960a876e4a190b3a39eea165f5ef1286fb328f))
+* **ia:** ignore time range for resignations (IA-1173) ([#5182](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5182)) ([3439f14](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3439f14f5bae9738de5b10452880dcd7a2777fdb))
+* **ia:** remove cancel btn user settings (IA-1187) ([#5325](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5325)) ([758853c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/758853c2f12d1633214745b95b384c475fac4afd))
+* **ia:** set correct max dates (IA-1217) ([#5401](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5401)) ([94f644a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/94f644a797509bbeca5a6af76127bc82904d8a8e))
+
 ## [1.0.7](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ia-v1.0.6...ia-v1.0.7) (2023-04-11)
 
 
