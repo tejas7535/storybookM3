@@ -37,10 +37,11 @@
         >
         </span>
         <mat-icon
+          *ngIf="getTooltip()"
           class="!h-[18px] !w-[18px] cursor-help !text-[18px]"
           #tooltipDetail="matTooltip"
           (click)="tooltipDetail.toggle()"
-          [matTooltip]="settings.hint"
+          [matTooltip]="getTooltip()"
           >info_outline</mat-icon
         >
       </p>

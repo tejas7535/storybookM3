@@ -12,6 +12,7 @@ import {
   CONCEPT1_SIZES,
   GreaseReportSubordinateDataItem,
   GreaseResultData,
+  GreaseResultDataItem,
   GreaseSuitabilityLevels,
   SubordinateDataItemField,
   SUITABILITY,
@@ -32,13 +33,35 @@ export const adaptLabelValuesFromGreaseResultData = (
             ? `calculationResult.${greaseResultData.title}`
             : ''
         ),
-        labelHint: greaseResultData?.tooltip
-          ? translate(`calculationResult.${greaseResultData.tooltip}`)
-          : undefined,
+        labelHint: getLabelHintForResult(greaseResultData),
         value: greaseResultData?.values,
         ...(greaseResultData?.custom && { custom: greaseResultData.custom }),
       }))
     : [];
+
+const getLabelHintForResult = (
+  dataItem: GreaseResultDataItem
+): string | undefined =>
+  dataItem?.custom?.data
+    ? getLabelHintForCustomInput(dataItem)
+    : getLabelHintForRegularInput(dataItem);
+
+const getLabelHintForCustomInput = (
+  dataItem: GreaseResultDataItem
+): string | undefined => {
+  if (dataItem.custom?.data?.c1_60 || dataItem.custom?.data?.c1_125) {
+    return dataItem.custom?.data?.hint ?? undefined;
+  }
+
+  return undefined;
+};
+
+const getLabelHintForRegularInput = (
+  dataItem: GreaseResultDataItem
+): string | undefined =>
+  dataItem?.tooltip
+    ? translate(`calculationResult.${dataItem.tooltip}`)
+    : undefined;
 
 /**
  * Get value from table item

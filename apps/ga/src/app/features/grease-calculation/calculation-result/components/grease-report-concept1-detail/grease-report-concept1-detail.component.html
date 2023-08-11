@@ -3,11 +3,20 @@
     *transloco="let t; read: 'calculationResult.concept1settings'"
     class="flex w-full flex-col items-center px-3 py-1"
   >
-    <div class="flex w-full flex-row items-center justify-between">
+    <div class="flex w-full flex-row items-center">
       <span class="text-body-2" *transloco="let t; read: 'calculationResult'">
         {{ t('concept1') }}
       </span>
-      <button mat-icon-button (click)="onHideDetails()">
+      <mat-icon
+        color="primary"
+        class="cursor-help ml-2"
+        #tooltip="matTooltip"
+        [matTooltip]="settings.hint"
+        (click)="tooltip.toggle()"
+      >
+        info_outline
+      </mat-icon>
+      <button class="ml-auto" mat-icon-button (click)="onHideDetails()">
         <mat-icon>close</mat-icon>
       </button>
     </div>
@@ -20,13 +29,6 @@
     </div>
     <p class="flex items-center gap-1 py-2 text-body-2">
       {{ t('concept1Size', { size: concept1Selection }) }}
-      <mat-icon
-        class="!h-[18px] !w-[18px] !text-[18px]"
-        #tooltipDetail="matTooltip"
-        (click)="tooltipDetail.toggle()"
-        [matTooltip]="settings.hint"
-        >info_outline</mat-icon
-      >
     </p>
     <p class="text-body-2 text-low-emphasis">
       {{ t('emptyDuration', { duration: getDurationMonths() }) }}
@@ -45,11 +47,11 @@
         <div class="flex items-center gap-1">
           {{ t('ml', { ml: size }) }}
           <mat-icon
-            *ngIf="disabledOption(size)"
+            *ngIf="getTooltip(size)"
             class="!h-[18px] !w-[18px] cursor-help !text-[18px]"
             #tooltipSize="matTooltip"
             (click)="tooltipSize.toggle()"
-            [matTooltip]="t('sizeHint', { size })"
+            [matTooltip]="getTooltip(size)"
             >info_outline</mat-icon
           >
         </div>

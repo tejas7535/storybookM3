@@ -294,6 +294,9 @@
       "arrowSetting": "将箭头设为{{ setting }}",
       "ml": "{{ ml }}ml",
       "sizeHint": "对于你选择的操作条件，使用{{ size }}毫升的CONCEPT1是不合适的。",
+      "size60PossibleHint": "确定的 CONCEPT 60 滤芯设置值大于可设置的最大值。不过，润滑器可以按照显示的设置进行操作。",
+      "size125PossibleHint": "确定的 CONCEPT 125 滤芯设置大于可设置的最大值。我们建议使用较小的 CONCEPT 润滑器。",
+      "unsuitableHint": "确定的 CONCEPT 油盒设置值明显大于可设置的最大值。在这种情况下，不建议使用 CONCEPT 润滑器进行再润滑。",
       "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }}ml)"
     },
     "previouslySelected": "计算是针对{{ type }}进行的，例如：\"{{ grease }}\"。我们对油脂的质量不负责任。",

@@ -63,9 +63,14 @@ export class GreaseResultDataSourceService {
     const c1_60 =
       suitability !== SUITABILITY.NO &&
       helpers.getConcept1Setting(item, SubordinateDataItemField.C1_60);
+
+    const hint_60 = this.get60mlHintNote(c1_60, item);
+
     const c1_125 =
       suitability !== SUITABILITY.NO &&
       helpers.getConcept1Setting(item, SubordinateDataItemField.C1_125);
+
+    const hint_125 = this.get125mlHintNote(c1_125, item);
 
     const anySetting = !!(c1_60 || c1_125);
 
@@ -81,6 +86,8 @@ export class GreaseResultDataSourceService {
       label,
       c1_60,
       c1_125,
+      hint_60,
+      hint_125,
     };
 
     return {
@@ -505,5 +512,50 @@ export class GreaseResultDataSourceService {
           timespan ? `/${timespan}` : ''
         }</span>`
       : `<span>${translate('calculationResult.undefinedValue')}</span>`;
+  };
+
+  private readonly get60mlHintNote = (
+    c1_60: number | undefined,
+    item: GreaseReportSubordinateDataItem[]
+  ): string | undefined => {
+    const note60mlOvergreased = '1';
+
+    const overgreasingInfo = this.isOvergreased(item, note60mlOvergreased)
+      ? translate('calculationResult.concept1settings.size60PossibleHint')
+      : undefined;
+
+    return c1_60
+      ? overgreasingInfo
+      : translate('calculationResult.concept1settings.sizeHint', { size: 60 });
+  };
+
+  private readonly get125mlHintNote = (
+    c1_125: number | undefined,
+    item: GreaseReportSubordinateDataItem[]
+  ): string | undefined => {
+    const note125mlOvergreased = '2';
+
+    const overgreasingInfo = this.isOvergreased(item, note125mlOvergreased)
+      ? translate('calculationResult.concept1settings.size125PossibleHint')
+      : undefined;
+
+    return c1_125
+      ? overgreasingInfo
+      : translate('calculationResult.concept1settings.sizeHint', { size: 125 });
+  };
+
+  private readonly isOvergreased = (
+    item: GreaseReportSubordinateDataItem[],
+    searchedNotesNumber: string
+  ): boolean => {
+    let notes = helpers.itemValue(item, SubordinateDataItemField.NOTE);
+
+    if (!notes) {
+      // remove once api will fix response, as on the current state for some of the languages response key is translated.
+      const notesIndexArray = 6;
+      notes = helpers.itemValue(item, undefined, notesIndexArray);
+    }
+
+    return notes.toString().includes(searchedNotesNumber);
   };
 }

@@ -285,6 +285,9 @@
       "arrowSetting": "矢印を{{ setting }}に設定",
       "ml": "{{ ml }}ml",
       "sizeHint": "{{ size }}mlのコンセプト1は、選択した運転条件には適していません",
+      "size60PossibleHint": "決定されたCONCEPT 60カートリッジの設定値は、設定可能な最大値よりも大きくなっています。ただし、表示された設定値でルブリケーターを操作することは可能です。",
+      "size125PossibleHint": "決定されたCONCEPT 125カートリッジの設定値は、設定可能な最大値よりも大きい。より小さいCONCEPTルブリケータの使用をお勧めします。",
+      "unsuitableHint": "決定されたCONCEPTカートリッジの設定値は、設定可能な最大値よりも大幅に大きくなっています。この再潤滑量では、CONCEPTルブリケーターの使用は推奨されません。",
       "concept1ShopTitle": "コンセプト1（{{ title }} {{ size }}ml）"
     },
     "previouslySelected": "{{ grease }}などの{{ type }}に対して計算されました。潤滑剤の品質については責任を負いません。",

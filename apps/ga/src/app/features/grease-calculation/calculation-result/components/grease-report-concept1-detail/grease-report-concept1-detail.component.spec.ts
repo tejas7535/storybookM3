@@ -95,4 +95,25 @@ describe('GreaseReportConcept1DetailComponent', () => {
       });
     });
   });
+
+  describe('when get tooltip is called', () => {
+    beforeEach(() => {
+      component.settings.hint_60 =
+        'some 60 ml hint message for enabled or disabled';
+      component.settings.hint_125 =
+        'some 125 ml hint message for enabled or disabled';
+    });
+
+    it('should return correct message for 60ml size', () => {
+      const message = component.getTooltip(60);
+
+      expect(message).toBe(component.settings.hint_60);
+    });
+
+    it('should return correct message for 125ml size', () => {
+      const message = component.getTooltip(125);
+
+      expect(message).toBe(component.settings.hint_125);
+    });
+  });
 });

@@ -9,15 +9,23 @@ import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
-  greaseResultConcept1Mock,
+  GreaseReportConcept1HintMock,
+  GreaseReportConcept1ItemsMock,
+  GreaseReportConcept160ValueMock,
+  GreaseReportConcept1125ValueMock,
   greaseResultDataMock,
 } from '@ga/testing/mocks';
+import { GREASE_CONCEPT1_SUITABILITY } from '@ga/testing/mocks/models/grease-concept1-suitability.mock';
 import * as subordinateDataMock from '@ga/testing/mocks/models/grease-report-subordinate-data.mock';
 
 import { CalculationParametersService } from '../../calculation-parameters/services';
 import {
+  CONCEPT1,
   GreaseReportConcept1Subordinate,
+  GreaseReportSubordinate,
+  GreaseReportSubordinateTitle,
   SubordinateDataItemField,
+  SUITABILITY_LABEL,
 } from '../models';
 import { UndefinedValuePipe } from '../pipes/undefined-value.pipe';
 import { GreaseResultDataSourceService } from './grease-result-data-source.service';
@@ -32,6 +40,8 @@ jest.mock('@ngneat/transloco', () => ({
         return 'suitable';
       case 'calculationResult.undefinedValue':
         return 'n.a.';
+      case 'calculationResult.concept1settings.sizeHint':
+        return 'disabled size hint';
       default:
         return translateKey.toString().replace('calculationResult.', '');
     }
@@ -93,7 +103,147 @@ describe('GreaseResultDataSourceService', () => {
         0
       );
 
-      expect(item).toStrictEqual(greaseResultConcept1Mock);
+      expect(item).toStrictEqual({
+        title: 'concept1',
+        custom: {
+          selector: CONCEPT1,
+          data: {
+            ...GREASE_CONCEPT1_SUITABILITY,
+            hint_125: undefined,
+            hint_60: undefined,
+          },
+        },
+      });
+    });
+
+    describe('when there is no suitability', () => {
+      it('should return hint labels for not available items', () => {
+        const item = service.automaticLubrication(
+          subordinateDataMock.greaseReportSubordinateConcept1MockWithNoSuitability as GreaseReportConcept1Subordinate[],
+          0
+        );
+
+        expect(item).toStrictEqual({
+          title: 'concept1',
+          custom: {
+            selector: CONCEPT1,
+            data: {
+              label: SUITABILITY_LABEL.UNSUITED,
+              hint: GreaseReportConcept1HintMock,
+              c1_125: false,
+              c1_60: false,
+              hint_60: 'disabled size hint',
+              hint_125: 'disabled size hint',
+            },
+          },
+        });
+      });
+    });
+
+    describe('when items are overgreased', () => {
+      it('should return overgreased hints', () => {
+        const item = service.automaticLubrication(
+          [
+            {
+              titleID: GreaseReportSubordinateTitle.STRING_OUTP_CONCEPT1,
+              data: {
+                items: [
+                  [
+                    ...GreaseReportConcept1ItemsMock,
+                    {
+                      value: '1, 2',
+                      unit: undefined,
+                      field: SubordinateDataItemField.NOTE,
+                    },
+                  ],
+                ],
+              },
+            } as unknown as GreaseReportSubordinate,
+            subordinateDataMock.greaseReportSubordinateConcept1Mock[1],
+          ] as GreaseReportConcept1Subordinate[],
+          0
+        );
+
+        expect(item).toStrictEqual({
+          title: 'concept1',
+          custom: {
+            selector: CONCEPT1,
+            data: {
+              label: SUITABILITY_LABEL.SUITED,
+              hint: GreaseReportConcept1HintMock,
+              c1_125: GreaseReportConcept1125ValueMock,
+              c1_60: GreaseReportConcept160ValueMock,
+              hint_60: 'concept1settings.size60PossibleHint',
+              hint_125: 'concept1settings.size125PossibleHint',
+            },
+          },
+        });
+      });
+    });
+
+    describe('when there is no suitability', () => {
+      it('should return hint labels for not available items', () => {
+        const item = service.automaticLubrication(
+          subordinateDataMock.greaseReportSubordinateConcept1MockWithNoSuitability as GreaseReportConcept1Subordinate[],
+          0
+        );
+
+        expect(item).toStrictEqual({
+          title: 'concept1',
+          custom: {
+            selector: CONCEPT1,
+            data: {
+              label: SUITABILITY_LABEL.UNSUITED,
+              hint: GreaseReportConcept1HintMock,
+              c1_125: false,
+              c1_60: false,
+              hint_60: 'disabled size hint',
+              hint_125: 'disabled size hint',
+            },
+          },
+        });
+      });
+    });
+
+    describe('when items are overgreased', () => {
+      it('should return overgreased hints', () => {
+        const item = service.automaticLubrication(
+          [
+            {
+              titleID: GreaseReportSubordinateTitle.STRING_OUTP_CONCEPT1,
+              data: {
+                items: [
+                  [
+                    ...GreaseReportConcept1ItemsMock,
+                    {
+                      value: '1, 2',
+                      unit: undefined,
+                      field: SubordinateDataItemField.NOTE,
+                    },
+                  ],
+                ],
+              },
+            } as unknown as GreaseReportSubordinate,
+            subordinateDataMock.greaseReportSubordinateConcept1Mock[1],
+          ] as GreaseReportConcept1Subordinate[],
+          0
+        );
+
+        expect(item).toStrictEqual({
+          title: 'concept1',
+          custom: {
+            selector: CONCEPT1,
+            data: {
+              label: SUITABILITY_LABEL.SUITED,
+              hint: GreaseReportConcept1HintMock,
+              c1_125: GreaseReportConcept1125ValueMock,
+              c1_60: GreaseReportConcept160ValueMock,
+              hint_60: 'concept1settings.size60PossibleHint',
+              hint_125: 'concept1settings.size125PossibleHint',
+            },
+          },
+        });
+      });
     });
   });
 

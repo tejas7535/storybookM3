@@ -17,4 +17,6 @@ export interface GreaseConcep1Suitablity {
   label: SUITABILITY_LABEL;
   c1_60: number;
   c1_125: number;
+  hint_60?: string;
+  hint_125?: string;
 }

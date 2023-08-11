@@ -82,4 +82,10 @@ export class GreaseReportConcept1DetailComponent implements OnInit {
       'calculationResult.concept1Link'
     )}`;
   }
+
+  public getTooltip(size: number | CONCEPT1_SIZES): string {
+    return size === CONCEPT1_SIZES['60ML']
+      ? this.settings.hint_60
+      : this.settings.hint_125;
+  }
 }

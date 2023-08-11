@@ -284,6 +284,9 @@
       "arrowSetting": "set arrow to {{ setting }}",
       "ml": "{{ ml }}ml",
       "sizeHint": "For the operating conditions you selected using CONCEPT1 with {{ size }}ml is unsuited",
+      "size60PossibleHint": "The determined CONCEPT 60 cartridge setting is larger than the maximum value that can be set. However, the lubricator can be operated with the setting displayed.",
+      "size125PossibleHint": "The determined CONCEPT 125 cartridge setting is larger than the maximum value that can be set. We recommend the use of a smaller CONCEPT lubricator.",
+      "unsuitableHint": "The determined CONCEPT cartridge setting is significantly larger than the maximum value that can be set. The use of a CONCEPT lubricator is not recommended with these relubrication quantities.",
       "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }}ml)"
     },
     "previouslySelected": "The calculation was done for {{ type }} e.g. \"{{ grease }}\". We are not responsible for the grease quality",

@@ -54,6 +54,7 @@ export enum SubordinateDataItemField {
   C1 = 'C1',
   C1_60 = 'C1_60',
   C1_125 = 'C1_125',
+  NOTE = 'Note',
 }
 
 export interface GreaseReportSubordinateDataItem {

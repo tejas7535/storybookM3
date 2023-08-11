@@ -2,10 +2,14 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { LabelValue } from '@schaeffler/label-value';
 
+import { GREASE_CONCEPT1_SUITABILITY } from '@ga/testing/mocks/models/grease-concept1-suitability.mock';
 import * as subordinateDataMock from '@ga/testing/mocks/models/grease-report-subordinate-data.mock';
+import { GreaseReportConcept1HintMock } from '@ga/testing/mocks/models/grease-report-subordinate-data.mock';
 import * as resultMock from '@ga/testing/mocks/models/grease-result.mock';
+import { greaseResultConcept1Mock } from '@ga/testing/mocks/models/grease-result.mock';
 
 import {
+  CONCEPT1,
   CONCEPT1_SIZES,
   GreaseReportSubordinateDataItem,
   SubordinateDataItemField,
@@ -37,6 +41,90 @@ describe('Grease helpers', () => {
             subordinateDataMock.dataItemValueNumberMock,
             subordinateDataMock.dataItemUnitMock
           ),
+        },
+      ];
+
+      expect(validResultData).toStrictEqual(labelValueFromValidResultData);
+    });
+
+    it('should convert custom data with tooltip into a set of label-value pairs', () => {
+      const validResultData = helpers.adaptLabelValuesFromGreaseResultData([
+        greaseResultConcept1Mock,
+      ]);
+
+      const labelValueFromValidResultData: LabelValue[] = [
+        {
+          label: 'calculationResult.concept1',
+          labelHint: GreaseReportConcept1HintMock,
+          value: undefined,
+          custom: {
+            selector: CONCEPT1,
+            data: GREASE_CONCEPT1_SUITABILITY,
+          },
+        },
+      ];
+
+      expect(validResultData).toStrictEqual(labelValueFromValidResultData);
+    });
+
+    it('should convert custom data without tooltip into a set of label-value pairs', () => {
+      const data = {
+        ...GREASE_CONCEPT1_SUITABILITY,
+        hint: undefined,
+      } as any;
+
+      const validResultData = helpers.adaptLabelValuesFromGreaseResultData([
+        {
+          title: 'concept1',
+          custom: {
+            selector: CONCEPT1,
+            data,
+          },
+        },
+      ]);
+
+      const labelValueFromValidResultData: LabelValue[] = [
+        {
+          label: 'calculationResult.concept1',
+          labelHint: undefined,
+          value: undefined,
+          custom: {
+            selector: 'CONCEPT1',
+            data,
+          },
+        },
+      ];
+
+      expect(validResultData).toStrictEqual(labelValueFromValidResultData);
+    });
+
+    it('should convert custom data without available values into a set of label-value pairs', () => {
+      const data = {
+        ...GREASE_CONCEPT1_SUITABILITY,
+        hint: 'some hint',
+        c1_60: undefined,
+        c1_125: undefined,
+      } as any;
+
+      const validResultData = helpers.adaptLabelValuesFromGreaseResultData([
+        {
+          title: 'concept1',
+          custom: {
+            selector: CONCEPT1,
+            data,
+          },
+        },
+      ]);
+
+      const labelValueFromValidResultData: LabelValue[] = [
+        {
+          label: 'calculationResult.concept1',
+          labelHint: undefined,
+          value: undefined,
+          custom: {
+            selector: 'CONCEPT1',
+            data,
+          },
         },
       ];
 

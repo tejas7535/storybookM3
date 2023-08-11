@@ -67,4 +67,10 @@ export class GreaseReportConcept1Component {
   public isUnSuited(): boolean {
     return isGreaseUnSuited(this.settings.label);
   }
+
+  getTooltip(): string {
+    return this.settings?.c1_125
+      ? this.settings.hint_125
+      : this.settings.hint_60;
+  }
 }

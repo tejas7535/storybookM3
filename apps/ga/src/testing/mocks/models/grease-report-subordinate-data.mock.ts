@@ -35,6 +35,8 @@ export const GreaseReportConcept1LabelMock = SUITABILITY_LABEL.SUITED;
 export const GreaseReportConcept1HintMock = 'lube up bro';
 export const GreaseReportConcept1125ValueMock = 4.5;
 export const GreaseReportConcept160ValueMock = 9;
+export const GreaseReportConcet1SettingsHint60 = 'hint 60 message';
+export const GreaseReportConcet1SettingsHint125 = 'hint 125 message';
 
 export const GreaseReportConcept1ItemsMock: GreaseReportSubordinateDataItem[] =
   [
@@ -72,3 +74,22 @@ export const greaseReportSubordinateConcept1Mock: GreaseReportSubordinate[] = [
     ],
   } as unknown as GreaseReportSubordinate,
 ];
+
+export const greaseReportSubordinateConcept1MockWithNoSuitability: GreaseReportSubordinate[] =
+  [
+    {
+      titleID: GreaseReportSubordinateTitle.STRING_OUTP_CONCEPT1,
+      data: {
+        items: [GreaseReportConcept1ItemsMock],
+      },
+    } as unknown as GreaseReportSubordinate,
+    {
+      title: `${GreaseReportConcept1TitleMock}:`,
+      titleID: SUITABILITY.NO,
+      subordinates: [
+        {
+          text: [GreaseReportConcept1HintMock],
+        },
+      ],
+    } as unknown as GreaseReportSubordinate,
+  ];

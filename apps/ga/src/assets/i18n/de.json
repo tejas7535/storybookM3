@@ -284,6 +284,9 @@
       "arrowSetting": "Pfeil auf {{ setting }} stellen",
       "ml": "{{ ml }}ml",
       "sizeHint": "Für ihre gewählten Betriebsbedingungen ist der CONCEPT1 mit {{ size }}ml nicht geeignet",
+      "size60PossibleHint": "Die ermittelte CONCEPT1 60 Kartuscheneinstellung ist größer als der maximal einstellbare Wert. Der Schmierstoffgeber kann jedoch mit der angegebenen Einstellung betrieben werden.",
+      "size125PossibleHint": "Die ermittelte CONCEPT1 125 Kartuscheneinstellung ist größer als der maximal einstellbare Wert. Wir empfehlen die Verwendung eines kleineren CONCEPT1 Schmierstoffgebers.",
+      "unsuitableHint": "Die ermittelte CONCEPT1 Kartuscheneinstellung ist deutlich größer als der maximal einstellbare Wert. Der Einsatz eines CONCEPT1 Schmierstoffgebers wird bei diesen Nachschmiermengen nicht empfohlen.",
       "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }}ml)"
     },
     "previouslySelected": "Die Berechnung wurde für ein {{ type }} wie z.B \"{{ grease }}\" ausgeführt. Wir sind nicht verantwortlich für die Schmierungsqualität",

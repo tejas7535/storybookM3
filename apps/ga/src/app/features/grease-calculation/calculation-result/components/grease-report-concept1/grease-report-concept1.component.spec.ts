@@ -100,6 +100,23 @@ describe('GreaseReportConcept1Component', () => {
     });
   });
 
+  describe('getTooltip', () => {
+    it('should output the 125ml CONCEPT1 hint message if there is a setting value', () => {
+      component.settings = GREASE_CONCEPT1_SUITABILITY;
+
+      expect(component.getTooltip()).toBe(GREASE_CONCEPT1_SUITABILITY.hint_125);
+    });
+
+    it('should output the 60ml CONCEPT1 hint message if there is only a 60ml value', () => {
+      component.settings = {
+        ...GREASE_CONCEPT1_SUITABILITY,
+        c1_125: undefined,
+      };
+
+      expect(component.getTooltip()).toBe(GREASE_CONCEPT1_SUITABILITY.hint_60);
+    });
+  });
+
   describe('onShowDetails', () => {
     it('should emit hideDetails EventEmiiter', () => {
       const showDetailsSpy = jest.spyOn(component.showDetails, 'emit');
