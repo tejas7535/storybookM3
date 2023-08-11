@@ -10,7 +10,6 @@ const mandatoryFieldMapping: Record<
   ratingLife: {
     load: true,
     rotatingCondition: true,
-    time: false,
     lubrication: false,
     contamination: false,
     operatingTemperature: false,
@@ -19,7 +18,6 @@ const mandatoryFieldMapping: Record<
     load: true,
     rotatingCondition: true,
     lubrication: true,
-    time: false,
     operatingTemperature: false,
     contamination: false,
   },
@@ -33,9 +31,7 @@ const mandatoryFieldMapping: Record<
   emission: {
     load: true,
     rotatingCondition: true,
-    time: false,
     lubrication: false,
-    energySource: false,
     operatingTemperature: false,
   },
   overrollingFrequency: {

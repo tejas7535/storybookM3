@@ -2,4 +2,3 @@ export * as CalculationResultPreviewSelector from './calculation-result-preview.
 export * as CalculationResultReportSelector from './calculation-result-report.selector';
 export * as CatalogCalculationResultSelector from './catalog-calculation-result.selector';
 export * as CO2UpstreamCalculationResultSelector from './co2-upstream-calculation-result.selector';
-export * as FrictionCalculationResultSelector from './friction-calculation-result.selector';

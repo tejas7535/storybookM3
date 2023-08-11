@@ -3,8 +3,6 @@
 exports[`Calculation Fields Selector getCalculationFieldsConfig should return the fields config 1`] = `
 Object {
   "preset": Array [
-    "time",
-    "energySource",
     "operatingTemperature",
     "contamination",
   ],

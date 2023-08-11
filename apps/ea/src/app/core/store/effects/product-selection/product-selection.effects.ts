@@ -11,7 +11,6 @@ import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import {
   CalculationTypesActions,
   CO2UpstreamCalculationResultActions,
-  FrictionCalculationResultActions,
   ProductSelectionActions,
 } from '../../actions';
 import { CalculationParametersFacade } from '../../facades';
@@ -26,7 +25,6 @@ export class ProductSelectionEffects {
       mergeMap(() => [
         ProductSelectionActions.fetchBearingId(),
         ProductSelectionActions.fetchCalculationModuleInfo(),
-        FrictionCalculationResultActions.createModel({ forceRecreate: true }),
         CO2UpstreamCalculationResultActions.fetchResult(),
       ])
     );
@@ -88,8 +86,8 @@ export class ProductSelectionEffects {
                 },
                 frictionalPowerloss: {
                   ...calculationTypes.frictionalPowerloss,
-                  disabled: !result.frictionCalculation,
-                  selected: !result.frictionCalculation
+                  disabled: !result.catalogueCalculation,
+                  selected: !result.catalogueCalculation
                     ? false
                     : calculationTypes.frictionalPowerloss.selected,
                 },

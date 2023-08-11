@@ -40,7 +40,6 @@ import { CalculationParametersActions } from '@ea/core/store/actions';
 import { ProductSelectionFacade } from '@ea/core/store/facades/product-selection/product-selection.facade';
 import {
   CalculationParameterGroup,
-  CalculationParametersEnergySource,
   CalculationParametersOperationConditions,
 } from '@ea/core/store/models';
 import { Greases } from '@ea/shared/constants/greases';
@@ -65,10 +64,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { BasicFrequenciesComponent } from '../basic-frequencies/basic-frequencies.component';
 import { CalculationTypesSelectionComponent } from '../calculation-types-selection/calculation-types-selection';
 import { getContaminationOptions } from './contamination.options';
-import {
-  getElectricityRegionOptions,
-  getFossilOriginOptions,
-} from './energy-source.options';
 import { ParameterTemplateDirective } from './parameter-template.directive';
 
 @Component({
@@ -118,11 +113,6 @@ export class CalculationParametersComponent
 
   public readonly bearingDesignation$ =
     this.productSelectionFacade.bearingDesignation$;
-
-  public readonly isDownstreamUnavailable$ =
-    this.productSelectionFacade.calcualtionModuleInfo$.pipe(
-      map((res) => res && !res.frictionCalculation)
-    );
 
   public operationConditionsForm = new FormGroup({
     load: new FormGroup(
@@ -219,22 +209,6 @@ export class CalculationParametersComponent
       Validators.required,
     ]),
     externalHeatflow: new FormControl<number>(undefined, []),
-    operatingTime: new FormControl<number>(undefined, [Validators.required]),
-    energySource: new FormGroup({
-      type: new FormControl<'fossil' | 'electric'>(undefined, [
-        FormSelectValidatorSwitcher(),
-      ]),
-      fossil: new FormGroup({
-        fossilOrigin: new FormControl<
-          CalculationParametersEnergySource['fossil']['fossilOrigin']
-        >(undefined, [Validators.required]),
-      }),
-      electric: new FormGroup({
-        electricityRegion: new FormControl<
-          CalculationParametersEnergySource['electric']['electricityRegion']
-        >(undefined, [Validators.required]),
-      }),
-    }),
     conditionOfRotation: new FormControl<
       CalculationParametersOperationConditions['conditionOfRotation']
     >(undefined, [Validators.required]),
@@ -339,10 +313,6 @@ export class CalculationParametersComponent
     );
 
     this.contaminationOptions$ = getContaminationOptions(this.translocoService);
-    this.electricityRegionOptions$ = getElectricityRegionOptions(
-      this.translocoService
-    );
-    this.fossilOriginOptions$ = getFossilOriginOptions(this.translocoService);
   }
 
   public ngOnDestroy(): void {

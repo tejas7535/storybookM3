@@ -10,7 +10,6 @@ import { CalculationResultReportMessage } from '../../models/calculation-result-
 import { getCalculationTypesConfig } from '../calculation-parameters/calculation-types.selector';
 import { getCalculationResult as catalogCalculationResult } from './catalog-calculation-result.selector';
 import { getCalculationResult as co2UpstreamCalculationResult } from './co2-upstream-calculation-result.selector';
-import { getCalculationResult as frictionCalculationResult } from './friction-calculation-result.selector';
 
 export interface CO2EmissionResult {
   co2_upstream: number;
@@ -19,7 +18,6 @@ export interface CO2EmissionResult {
 
 export const getCO2EmissionReport = createSelector(
   co2UpstreamCalculationResult,
-  frictionCalculationResult,
   (co2Upstream): CO2EmissionResult => ({
     co2_upstream: co2Upstream?.upstreamEmissionTotal,
   })
@@ -32,8 +30,8 @@ export const isEmissionResultAvailable = createSelector(
 );
 
 export const getFrictionalalPowerlossReport = createSelector(
-  frictionCalculationResult,
-  (friction) => {
+  catalogCalculationResult,
+  (calculationResult) => {
     const result: {
       value?: number | string;
       warning?: string;
@@ -42,29 +40,29 @@ export const getFrictionalalPowerlossReport = createSelector(
       short: string;
     }[] = [
       {
-        ...friction?.frictionalTorque,
+        ...calculationResult?.totalFrictionalTorque,
         short: 'MR',
-        title: 'frictionalTorque',
+        title: 'totalFrictionalTorque',
       },
       {
-        ...friction?.frictionalPowerloss,
+        ...calculationResult?.totalFrictionalPowerLoss,
         short: 'NR',
-        title: 'frictionalPowerloss',
+        title: 'totalFrictionalPowerLoss',
       },
       {
-        ...friction?.frictionalPowerlossSealing,
-        short: 'NSe',
-        title: 'frictionalPowerlossSealing',
+        ...calculationResult?.speedDependentFrictionalTorque,
+        short: 'M0',
+        title: 'speedDependentFrictionalTorque',
       },
       {
-        ...friction?.frictionalPowerlossUnloadedZone,
-        short: 'NUz',
-        title: 'frictionalPowerlossUnloadedZone',
+        ...calculationResult?.loadDependentFrictionalTorque,
+        short: 'M1',
+        title: 'loadDependentFrictionalTorque',
       },
       {
-        ...friction?.operatingViscosity,
-        short: 'ny',
-        title: 'operatingViscosity',
+        ...calculationResult?.thermallySafeOperatingSpeed,
+        short: 'n_theta',
+        title: 'thermallySafeOperatingSpeed',
       },
     ];
 

@@ -18,11 +18,6 @@ import {
   getError as co2UpstreamError,
   isLoading as co2UpstreamIsLoading,
 } from './co2-upstream-calculation-result.selector';
-import {
-  getCalculationResult as frictionCalculationResult,
-  getError as frictionError,
-  isLoading as frictionIsLoading,
-} from './friction-calculation-result.selector';
 
 type ResultStateWithValue = BasicCalculationResultState & {
   value?: number | string;
@@ -41,25 +36,13 @@ export const co2Upstream = createSelector(
   })
 );
 
-export const co2Downstream = createSelector(
-  frictionCalculationResult,
-  frictionIsLoading,
-  frictionError,
-  (result, isLoading, error): ResultStateWithValue => ({
-    value: result?.co2_downstream?.value,
-    unit: result?.co2_downstream?.unit,
-    calculationError: error,
-    isLoading,
-  })
-);
-
 export const friction = createSelector(
-  frictionCalculationResult,
-  frictionIsLoading,
-  frictionError,
+  catalogCalculationResult,
+  catalogCalculationIsLoading,
+  catalogCalculationError,
   (result, isLoading, error): ResultStateWithValue => ({
-    value: result?.max_frictionalTorque?.value,
-    unit: result?.max_frictionalTorque?.unit,
+    value: result?.totalFrictionalTorque?.value,
+    unit: result?.totalFrictionalTorque?.unit,
     calculationError: error,
     isLoading,
   })

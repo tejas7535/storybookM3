@@ -10,7 +10,6 @@ import {
   CalculationParametersEffects,
   CatalogCalculationResultEffects,
   CO2UpstreamCalculationResultEffects,
-  FrictionCalculationResultEffects,
 } from './effects';
 import { ProductSelectionEffects } from './effects/product-selection';
 import { metaReducers, reducers } from './reducers';
@@ -28,7 +27,6 @@ import { metaReducers, reducers } from './reducers';
     EffectsModule.forRoot([
       ProductSelectionEffects,
       CalculationParametersEffects,
-      FrictionCalculationResultEffects,
       CO2UpstreamCalculationResultEffects,
       CatalogCalculationResultEffects,
     ]),

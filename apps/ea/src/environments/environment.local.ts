@@ -7,7 +7,7 @@ export const environment: Environment = {
   catalogApiBaseUrl:
     'https://caeonlinecalculation.schaeffler.com/CatalogWebApi',
   calculationModuleInfoApiBaseUrl:
-    'https://caeonlinecalculation-d.schaeffler.com/CalculationModuleInfo',
+    'https://bearinx-d.schaeffler.com/moduleinfo/api',
   frictionApiBaseUrl: 'https://bearinx-d.schaeffler.com/co_api',
   co2UpstreamApiBaseUrl: 'https://co2-api-d.dev.dp.schaeffler/api',
   tenantId: 'c6bd4298-997b-4600-a90a-1adb997581b7',

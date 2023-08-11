@@ -34,16 +34,9 @@ export const CALCULATION_PARAMETERS_STATE_MOCK: CalculationParametersState = {
         viscosity: { ny100: undefined, ny40: undefined },
       },
     },
-    operatingTime: 2000,
     operatingTemperature: 70,
     movementFrequency: 0,
     oscillationAngle: 0,
-    energySource: {
-      type: 'electric',
-      electric: {
-        electricityRegion: 'LB_GERMANY',
-      },
-    },
     ambientTemperature: 20,
     contamination: 'LB_STANDARD_CLEANLINESS',
     conditionOfRotation: 'innerring',

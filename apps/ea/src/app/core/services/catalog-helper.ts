@@ -2,6 +2,7 @@ import { CatalogCalculationResult, ReportMessage } from '../store/models';
 import {
   extractErrorsWarningsAndNotesFromResult,
   extractSubordinatesFromPath,
+  extractValues,
   formatErrorsWarningsAndNotesResult,
   formatReportInputResult,
 } from './bearinx-helper';
@@ -12,6 +13,23 @@ export const convertCatalogCalculationResult = (
 ): CatalogCalculationResult => {
   const result: CatalogCalculationResult = {};
 
+  extractBearingBehaviour(originalResult, result);
+
+  extractOverrolling(originalResult, result);
+
+  extractReportInput(originalResult, result);
+
+  extractErrorsWarnings(originalResult, result);
+
+  extractFriction(originalResult, result);
+
+  return result;
+};
+
+function extractBearingBehaviour(
+  originalResult: BearinxOnlineResult,
+  result: CatalogCalculationResult
+): void {
   const bearingBeahiourSubordinate = extractSubordinatesFromPath(
     originalResult,
     [
@@ -21,7 +39,7 @@ export const convertCatalogCalculationResult = (
   );
 
   if (!bearingBeahiourSubordinate) {
-    return result;
+    return;
   }
 
   const ratingLifeSubordinate = extractSubordinatesFromPath(
@@ -89,7 +107,12 @@ export const convertCatalogCalculationResult = (
       value: maximumStaticLoadSuboardinate.value,
     };
   }
+}
 
+function extractOverrolling(
+  originalResult: BearinxOnlineResult,
+  result: CatalogCalculationResult
+): void {
   const basicOverrollingFrequenciesSubordinate = extractSubordinatesFromPath(
     originalResult,
     [
@@ -100,6 +123,10 @@ export const convertCatalogCalculationResult = (
       },
     ]
   );
+
+  if (!basicOverrollingFrequenciesSubordinate) {
+    return;
+  }
 
   const overrollingOuterRing = extractSubordinatesFromPath(
     basicOverrollingFrequenciesSubordinate,
@@ -172,10 +199,19 @@ export const convertCatalogCalculationResult = (
       unit: rollingElementSetSpeed.unit,
     };
   }
+}
 
+function extractReportInput(
+  originalResult: BearinxOnlineResult,
+  result: CatalogCalculationResult
+): void {
   const inputData = extractSubordinatesFromPath(originalResult, [
     { titleID: 'STRING_OUTP_INPUT', identifier: 'block' },
   ]);
+
+  if (!inputData) {
+    return;
+  }
 
   const formattedInputData = formatReportInputResult(inputData?.subordinates);
 
@@ -192,17 +228,56 @@ export const convertCatalogCalculationResult = (
       inputSubordinates: formattedInputData,
     };
   }
+}
 
+function extractErrorsWarnings(
+  originalResult: BearinxOnlineResult,
+  result: CatalogCalculationResult
+): void {
   const messages = extractErrorsWarningsAndNotesFromResult(originalResult);
+
+  if (!messages) {
+    return;
+  }
 
   const formattedMessages: ReportMessage[] =
     formatErrorsWarningsAndNotesResult(messages);
 
-  if (formattedMessages) {
+  if (formattedMessages?.length) {
     result.reportMessages = {
       messages: formattedMessages,
     };
   }
+}
 
-  return result;
-};
+function extractFriction(
+  originalResult: BearinxOnlineResult,
+  result: CatalogCalculationResult
+): void {
+  const frictionResultSubordinate = extractSubordinatesFromPath(
+    originalResult,
+    [
+      { identifier: 'block', titleID: 'STRING_OUTP_RESULTS' },
+      {
+        identifier: 'variableBlock',
+        titleID: 'STRING_OUTP_FRICTION_AND_THERMALLY_PERMISSABLE_SPEED',
+      },
+    ]
+  );
+
+  if (!frictionResultSubordinate) {
+    return;
+  }
+
+  extractValues(
+    result as Record<string, { unit: string; value: string }>,
+    frictionResultSubordinate,
+    {
+      speedDependentFrictionalTorque: 'M0',
+      loadDependentFrictionalTorque: 'M1',
+      totalFrictionalTorque: 'MR',
+      totalFrictionalPowerLoss: 'NR',
+      thermallySafeOperatingSpeed: 'n_theta',
+    }
+  );
+}

@@ -14,10 +14,6 @@
             [isWarning]="true"
             [infoText]="t('prototypeWarning')"
           ></ea-info-banner>
-          <ea-info-banner
-            *ngIf="(isDownstreamUnavailable$ | ngrxPush)"
-            [infoText]="t('co2DownstreamUnavailableHint')"
-          ></ea-info-banner>
         </div>
         <div class="flex-row items-end w-full mb-4 flex md:hidden">
           <button
@@ -398,62 +394,6 @@
             ></ea-input-number>
           </ng-container>
         </ea-tabbed-suboption>
-      </ng-template>
-    </ea-tabbed-options>
-  </ea-input-group>
-</ng-template>
-
-<!-- TIME -->
-<ng-template parameterTemplate="time">
-  <ea-input-group
-    [title]="t('title')"
-    svgIcon="acute"
-    [isMandatory]="true"
-    *transloco="let t; read: 'operationConditions.time'"
-  >
-    <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4">
-      <ea-input-number
-        [formControl]="operationConditionsForm.controls.operatingTime"
-        [label]="t('operatingTime.label')"
-        [unit]="t('operatingTime.unit')"
-        [hint]="t('operatingTime.description')"
-        [placeholder]="'operationConditions.pleaseEnter' | transloco:{ label: t('operatingTime.label')}"
-        [onlyPositive]="true"
-      ></ea-input-number>
-    </div>
-  </ea-input-group>
-</ng-template>
-
-<!-- ENERGY SOURCE -->
-<ng-template parameterTemplate="energySource">
-  <ea-input-group
-    [title]="t('title')"
-    svgIcon="bolt"
-    [isMandatory]="true"
-    *transloco="let t; read: 'operationConditions.energySource'"
-    [formGroup]="operationConditionsForm.controls.energySource"
-  >
-    <ea-tabbed-options formControlName="type">
-      <ng-template optionTemplate="fossil" [label]="t('options.fossil')">
-        <!-- FOSSIL ENERGY -->
-        <ng-container formGroupName="fossil">
-          <ea-input-select
-            formControlName="fossilOrigin"
-            [label]="t('fossilOrigin')"
-            [options]="fossilOriginOptions$ | ngrxPush"
-          ></ea-input-select>
-        </ng-container>
-      </ng-template>
-
-      <ng-template optionTemplate="electric" [label]="t('options.electricity')">
-        <!-- ELECTIRCAL ENERGY -->
-        <ng-container formGroupName="electric">
-          <ea-input-select
-            formControlName="electricityRegion"
-            [label]="t('electricityRegion')"
-            [options]="electricityRegionOptions$ | ngrxPush"
-          ></ea-input-select>
-        </ng-container>
       </ng-template>
     </ea-tabbed-options>
   </ea-input-group>

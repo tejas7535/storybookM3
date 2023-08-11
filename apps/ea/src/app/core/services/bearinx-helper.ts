@@ -149,3 +149,25 @@ const extractReportInputFromTableSubordinate = (
     unit: tableRow?.unit,
   }));
 };
+
+export const extractValues = <
+  TResult extends Record<string, { unit: string; value: string }>
+>(
+  result: TResult,
+  subordinate: BearinxOnlineResultSubordinate,
+  values: Partial<Record<keyof TResult, string>>
+): void => {
+  for (const [key, abbreviation] of Object.entries(values)) {
+    const extractedValue = extractSubordinatesFromPath(subordinate, [
+      {
+        abbreviation,
+      },
+    ]);
+    if (extractedValue) {
+      result[key as keyof TResult] = {
+        value: Number.parseFloat(extractedValue.value),
+        unit: extractedValue.unit,
+      } as any;
+    }
+  }
+};

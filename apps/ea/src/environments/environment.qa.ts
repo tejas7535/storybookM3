@@ -9,7 +9,7 @@ export const environment: Environment = {
   frictionApiBaseUrl: 'https://bearinx-d.schaeffler.com/co_api',
   co2UpstreamApiBaseUrl: 'https://co2-api-d.dev.dp.schaeffler/api',
   calculationModuleInfoApiBaseUrl:
-    'https://caeonlinecalculation-d.schaeffler.com/CalculationModuleInfo',
+    'https://bearinx-d.schaeffler.com/moduleinfo/api',
   tenantId: 'c6bd4298-997b-4600-a90a-1adb997581b7',
   groupId: '111ab140-8e82-4ac4-a424-81edf0167301',
   assetsPath: 'https://engineeringapp-q.dev.dp.schaeffler/assets',

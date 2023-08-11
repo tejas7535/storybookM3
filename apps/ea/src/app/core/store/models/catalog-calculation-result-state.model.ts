@@ -1,6 +1,5 @@
 import { CalculationResultReportInput } from './calculation-result-report-input.model';
 import { BasicCalculationResultState } from './calculation-result-state.model';
-import { ReportMessage } from './friction-calculation-result-state.model';
 
 export interface CatalogCalculationResultState
   extends BasicCalculationResultState {
@@ -73,9 +72,36 @@ export interface CatalogCalculationResult {
   reportInputSuborinates?: {
     inputSubordinates: CalculationResultReportInput[];
   };
+
   reportMessages?: {
     // messages contains Erros, Warnings and Notes if available
     messages: ReportMessage[];
+  };
+
+  speedDependentFrictionalTorque?: {
+    // M0 (Speed-dependent frictional torque)
+    value: number;
+    unit: string;
+  };
+  loadDependentFrictionalTorque?: {
+    // M1 (Load-dependent frictional torque)
+    value: number;
+    unit: string;
+  };
+  totalFrictionalTorque?: {
+    // MR (Total frictional torque)
+    value: number;
+    unit: string;
+  };
+  totalFrictionalPowerLoss?: {
+    // NR (Total frictional power loss)
+    value: number;
+    unit: string;
+  };
+  thermallySafeOperatingSpeed?: {
+    // n_theta (Thermally safe operating speed)
+    value: number;
+    unit: string;
   };
 }
 
@@ -94,4 +120,12 @@ export interface BasicFrequency {
   abbreviation: string;
   value: number;
   unit: string;
+}
+
+export interface ReportMessage {
+  title?: string;
+  item?: {
+    messages?: string[];
+    subItems?: ReportMessage[];
+  };
 }

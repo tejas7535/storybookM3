@@ -20,15 +20,6 @@ describe('Calculation Result Selector', () => {
       },
       isLoading: false,
     },
-    frictionCalculationResult: {
-      calculationResult: {
-        co2_downstream: {
-          unit: 'kg',
-          value: 32.2,
-        },
-      },
-      isLoading: false,
-    },
     catalogCalculationResult: {
       result: {
         reportInputSuborinates: {

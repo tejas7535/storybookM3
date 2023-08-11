@@ -65,10 +65,6 @@ export class CalculationResultReportComponent {
   public calcualtionModuleInfo$ =
     this.productSelectionFacade.calcualtionModuleInfo$;
 
-  public isDownstreamAvailable$ =
-    this.productSelectionFacade.calcualtionModuleInfo$.pipe(
-      map((res) => res?.frictionCalculation)
-    );
   public meaingfulRoundPipe = new MeaningfulRoundPipe(this.locale);
 
   public co2ResultItem$ =

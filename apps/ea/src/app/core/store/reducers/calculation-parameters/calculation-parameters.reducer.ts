@@ -46,18 +46,11 @@ export const initialState: CalculationParametersState = {
         viscosity: { ny100: undefined, ny40: undefined },
       },
     },
-    operatingTime: 8766,
     ambientTemperature: 20,
     operatingTemperature: 70,
     movementFrequency: 0,
     oscillationAngle: 0,
     contamination: 'LB_STANDARD_CLEANLINESS',
-    energySource: {
-      type: 'electric',
-      electric: {
-        electricityRegion: 'LB_EUROPEAN_UNION',
-      },
-    },
     conditionOfRotation: 'innerring',
     externalHeatFlow: 0,
   },
