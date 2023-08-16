@@ -1,4 +1,6 @@
+/* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 
 import {
   catchError,
@@ -9,6 +11,7 @@ import {
   Observable,
   of,
   takeUntil,
+  tap,
   timer,
 } from 'rxjs';
 
@@ -21,6 +24,7 @@ import {
   Approver,
 } from '@gq/shared/models/approval';
 import { ApprovalService } from '@gq/shared/services/rest/approval/approval.service';
+import { translate } from '@ngneat/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
@@ -123,6 +127,13 @@ export class ApprovalEffects {
               priceDeviation: approvalWorkflowInformation.priceDeviation,
             })
             .pipe(
+              tap(() => {
+                this.snackBar.open(
+                  translate(
+                    `processCaseView.header.releaseModal.snackbar.startWorkflow`
+                  )
+                );
+              }),
               map((approvalInformation: ApprovalCockpitData) =>
                 ApprovalActions.triggerApprovalWorkflowSuccess({
                   approvalInformation,
@@ -156,6 +167,13 @@ export class ApprovalEffects {
               gqId: quotationIdentifier.gqId,
             })
             .pipe(
+              tap(() => {
+                this.snackBar.open(
+                  translate(
+                    `processCaseView.header.releaseModal.snackbar.informationSaved`
+                  )
+                );
+              }),
               map((approvalGeneral: ApprovalWorkflowInformation) =>
                 ApprovalActions.saveApprovalWorkflowInformationSuccess({
                   approvalGeneral,
@@ -192,6 +210,13 @@ export class ApprovalEffects {
               gqId: quotationIdentifier.gqId,
             })
             .pipe(
+              tap(() => {
+                this.snackBar.open(
+                  translate(
+                    `processCaseView.header.releaseModal.snackbar.${action.updateApprovalWorkflowData.updateFunction}`
+                  )
+                );
+              }),
               map((approvalInformation: ApprovalCockpitData) =>
                 ApprovalActions.updateApprovalWorkflowSuccess({
                   approvalInformation,
@@ -361,7 +386,8 @@ export class ApprovalEffects {
   constructor(
     private readonly store: Store,
     private readonly actions$: Actions,
-    private readonly approvalService: ApprovalService
+    private readonly approvalService: ApprovalService,
+    private readonly snackBar: MatSnackBar
   ) {}
 
   private getApprovalCockpitData(

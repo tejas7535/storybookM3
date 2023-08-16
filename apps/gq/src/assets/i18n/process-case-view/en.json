@@ -27,7 +27,15 @@
       "invalidUserError": "Invalid User",
       "invalidSelectionApproverError": "Invalid Approver selected",
       "exceededCharactersError": "The pasted text exceeds 200 characters",
-      "forbiddenSpecialCharacters": "Special characters <, >, / are not allowed."
+      "forbiddenSpecialCharacters": "Special characters <, >, / are not allowed.",
+      "snackbar": {
+        "startWorkflow": "Approval workflow was started",
+        "informationSaved": "Quotation approval information was saved",
+        "APPROVE_QUOTATION": "Quotation was approved",
+        "REJECT_QUOTATION": "Quotation was rejected",
+        "FORWARD_WF_ITEM": "Approval workflow was forwarded",
+        "CANCEL_WORKFLOW": "Approval workflow was cancelled"
+      }
     },
     "cancelWorkflow": "Cancel Workflow",
     "cancelWorkflowModal": {

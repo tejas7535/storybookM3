@@ -27,7 +27,15 @@
       "invalidUserError": "Benutzer ungültig",
       "invalidSelectionApproverError": "Genehmigerauswahl ungültig",
       "exceededCharactersError": "Der eingefügte Text überschreitet 200 Zeichen",
-      "forbiddenSpecialCharacters": "Die Sonderzeichen <,>,/ sind nicht erlaubt."
+      "forbiddenSpecialCharacters": "Die Sonderzeichen <,>,/ sind nicht erlaubt.",
+      "snackbar": {
+        "informationSaved": "Informationen zum Freigabeprozess wurden gespeichert",
+        "startWorkflow": "Freigabeprozess wurde gestartet",
+        "APPROVE_QUOTATION": "Angebot wurde genehmigt",
+        "REJECT_QUOTATION": "Angebot wurde abgelehnt",
+        "FORWARD_WF_ITEM": "Freigabeprozess wurde weitergeleitet",
+        "CANCEL_WORKFLOW": "Freigabeprozess wurde abgebrochen"
+      }
     },
     "cancelWorkflow": "Freigabe abbrechen",
     "cancelWorkflowModal": {

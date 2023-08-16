@@ -152,6 +152,7 @@ describe('UpdateCaseStatusButtonComponent', () => {
           origin: CASE_ORIGIN.CREATED_MANUALLY,
           status: QuotationStatus.ACTIVE,
           statusVerified: true,
+          enabledForApprovalWorkflow: false,
         },
       ];
 
@@ -185,6 +186,7 @@ describe('UpdateCaseStatusButtonComponent', () => {
           origin: CASE_ORIGIN.CREATED_MANUALLY,
           status: QuotationStatus.ACTIVE,
           statusVerified: true,
+          enabledForApprovalWorkflow: false,
         },
       ];
 

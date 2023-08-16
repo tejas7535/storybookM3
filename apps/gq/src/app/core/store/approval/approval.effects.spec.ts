@@ -1,4 +1,8 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+  MatLegacySnackBar as MatSnackBar,
+  MatLegacySnackBarModule as MatSnackBarModule,
+} from '@angular/material/legacy-snack-bar';
 
 import { AppRoutePath } from '@gq/app-route-path.enum';
 import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-path.enum';
@@ -20,6 +24,7 @@ import {
   mockProvider,
   SpectatorService,
 } from '@ngneat/spectator/jest';
+import { translate } from '@ngneat/transloco';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -43,12 +48,13 @@ describe('ApprovalEffects', () => {
   let effects: ApprovalEffects;
   let spectator: SpectatorService<ApprovalEffects>;
   let store: MockStore;
+  let snackBar: MatSnackBar;
 
   let approvalService: ApprovalService;
 
   const createService = createServiceFactory({
     service: ApprovalEffects,
-    imports: [HttpClientTestingModule],
+    imports: [HttpClientTestingModule, MatSnackBarModule],
     providers: [
       provideMockActions(() => actions$),
       provideMockStore({ initialState: { approval: initialState } }),
@@ -61,6 +67,7 @@ describe('ApprovalEffects', () => {
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(ApprovalEffects);
     store = spectator.inject(MockStore);
+    snackBar = spectator.inject(MatSnackBar);
 
     approvalService = spectator.inject(ApprovalService);
   });
@@ -181,6 +188,8 @@ describe('ApprovalEffects', () => {
     test(
       'should dispatch successAction',
       marbles((m) => {
+        snackBar.open = jest.fn();
+
         const sapId = '123456';
         const quotationIdentifier = {
           gqId: 999,
@@ -296,6 +305,12 @@ describe('ApprovalEffects', () => {
           priceDeviation:
             APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.priceDeviation,
         });
+
+        const translationKey =
+          'processCaseView.header.releaseModal.snackbar.startWorkflow';
+
+        expect(snackBar.open).toHaveBeenCalledTimes(1);
+        expect(translate).toHaveBeenCalledWith(translationKey);
       })
     );
 
@@ -554,6 +569,8 @@ describe('ApprovalEffects', () => {
       marbles((m) => {
         const sapId = '123456';
 
+        snackBar.open = jest.fn();
+
         const quotationIdentifier = {
           gqId: 999,
         } as any;
@@ -608,6 +625,11 @@ describe('ApprovalEffects', () => {
           ...updateApprovalWorkflowData,
           gqId: quotationIdentifier.gqId,
         });
+
+        const translationKey = `processCaseView.header.releaseModal.snackbar.${action.updateApprovalWorkflowData.updateFunction}`;
+
+        expect(snackBar.open).toHaveBeenCalledTimes(1);
+        expect(translate).toHaveBeenCalledWith(translationKey);
       })
     );
 
@@ -688,6 +710,8 @@ describe('ApprovalEffects', () => {
       marbles((m) => {
         const sapId = '123456';
 
+        snackBar.open = jest.fn();
+
         const quotationIdentifier = {
           gqId: 999,
         } as any;
@@ -749,6 +773,12 @@ describe('ApprovalEffects', () => {
           ...approvalWorkflowInformation,
           gqId: quotationIdentifier.gqId,
         });
+
+        const translationKey =
+          'processCaseView.header.releaseModal.snackbar.informationSaved';
+
+        expect(snackBar.open).toHaveBeenCalledTimes(1);
+        expect(translate).toHaveBeenCalledWith(translationKey);
       })
     );
 
