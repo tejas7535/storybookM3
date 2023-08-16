@@ -63,7 +63,7 @@ export const initialState: CalculationParametersState = {
     },
     lubrication: {
       selected: false,
-      visible: false,
+      visible: true,
       disabled: false,
     },
     frictionalPowerloss: {

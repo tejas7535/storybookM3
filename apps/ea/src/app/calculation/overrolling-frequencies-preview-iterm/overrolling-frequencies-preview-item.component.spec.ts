@@ -63,7 +63,6 @@ describe('OverrollingFrequenciesPreviewItemComponent', () => {
     it('should update the subjects accordingly', async () => {
       const previewItems = {
         title: 'Title',
-        icon: 'airwaves',
         svgIcon: 'airwaves',
         values: [{ title: 'value1', unit: '1/2', value: 'value1' }],
       } as CalculationResultPreviewItem;

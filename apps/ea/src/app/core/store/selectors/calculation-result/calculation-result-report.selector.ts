@@ -70,6 +70,52 @@ export const getFrictionalalPowerlossReport = createSelector(
   }
 );
 
+export const getLubricationReport = createSelector(
+  catalogCalculationResult,
+  (calculationResult) => {
+    const result: {
+      value?: number | string;
+      warning?: string;
+      unit: string;
+      title: string;
+      short: string;
+    }[] = [
+      {
+        ...calculationResult?.viscosityRatio,
+        short: 'kappa',
+        title: 'viscosityRatio',
+      },
+      {
+        ...calculationResult?.operatingViscosity,
+        short: 'ny',
+        title: 'operatingViscosity',
+      },
+      {
+        ...calculationResult?.referenceViscosity,
+        short: 'ny1',
+        title: 'referenceViscosity',
+      },
+      {
+        ...calculationResult?.lifeAdjustmentFactor,
+        short: 'a_ISO',
+        title: 'lifeAdjustmentFactor',
+      },
+      {
+        ...calculationResult?.lowerGuideInterval,
+        short: 'tfR_min',
+        title: 'lowerGuideInterval',
+      },
+      {
+        ...calculationResult?.upperGuideInterval,
+        short: 'tfR_max',
+        title: 'upperGuideInterval',
+      },
+    ];
+
+    return result.filter((item) => item.value !== undefined);
+  }
+);
+
 export const getRatingLifeResultReport = createSelector(
   catalogCalculationResult,
   (calculationResult) => {
@@ -173,6 +219,11 @@ export const isFrictionResultAvailable = createSelector(
   (report): boolean => report?.length > 0
 );
 
+export const isLubricationResultAvailable = createSelector(
+  getLubricationReport,
+  (report): boolean => report?.length > 0
+);
+
 export const isRatingLifeResultAvailable = createSelector(
   getRatingLifeResultReport,
   (report): boolean => report?.length > 0
@@ -180,23 +231,25 @@ export const isRatingLifeResultAvailable = createSelector(
 
 export const getSelectedCalculations = createSelector(
   getCalculationTypesConfig,
+  isLubricationResultAvailable,
   isEmissionResultAvailable,
   isFrictionResultAvailable,
   isOverrolingFrequenciesAvailable,
   isRatingLifeResultAvailable,
   (
     config,
+    lubricationResultAvailable,
     emissionResultAvailable,
     frictionResultAvailable,
     overrollingFreqAvailable,
     ratingLifeResultAvailable
   ): CalculationResultReportCalculationTypeSelection => {
     const resultAvailableMapping: Record<CalculationType, boolean> = {
-      emission: emissionResultAvailable,
-      frictionalPowerloss: frictionResultAvailable,
-      lubrication: false,
-      overrollingFrequency: overrollingFreqAvailable,
       ratingLife: ratingLifeResultAvailable,
+      lubrication: lubricationResultAvailable,
+      frictionalPowerloss: frictionResultAvailable,
+      emission: emissionResultAvailable,
+      overrollingFrequency: overrollingFreqAvailable,
     };
 
     return config

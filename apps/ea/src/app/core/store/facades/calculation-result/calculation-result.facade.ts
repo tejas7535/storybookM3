@@ -50,7 +50,15 @@ export class CalculationResultFacade {
   );
 
   public readonly isRatingLifeResultAvailable$ = this.store.select(
-    CalculationResultReportSelector.isFrictionResultAvailable
+    CalculationResultReportSelector.isRatingLifeResultAvailable
+  );
+
+  public readonly isLubricationResultAvailable$ = this.store.select(
+    CalculationResultReportSelector.isLubricationResultAvailable
+  );
+
+  public readonly calculationReportLubrication$ = this.store.select(
+    CalculationResultReportSelector.getLubricationReport
   );
 
   public readonly calculationReportRatingLife$ = this.store.select(

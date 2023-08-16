@@ -58,6 +58,34 @@
             ></ea-calculation-result-report-large-items>
           </ea-expansion-panel>
         </ng-container>
+
+        <!-- Lubrication Parameters -->
+        <ng-container
+          *transloco="let t; read: 'calculationResultReport.lubrication'"
+        >
+          <ea-expansion-panel
+            *ngIf="
+              calculationResultFacade.isLubricationResultAvailable$ | ngrxPush
+            "
+            id="lubrication"
+            svgIcon="water_drop"
+            [title]="t('title')"
+            [expanded]="
+              (selctedCalculationTypes$ | ngrxPush)?.lubrication.selected ===
+              true
+            "
+          >
+            <ea-calculation-result-report-large-items
+              *ngIf="
+                calculationResultFacade.calculationReportLubrication$
+                  | ngrxPush as ratingLife
+              "
+              [items]="ratingLife"
+              translocoRoot="calculationResultReport.lubrication"
+            ></ea-calculation-result-report-large-items>
+          </ea-expansion-panel>
+        </ng-container>
+
         <!-- Frictional power loss -->
         <ng-container
           *transloco="
@@ -156,7 +184,7 @@
         >
           <ea-expansion-panel
             id="overrollingFrequency"
-            icon="airwaves"
+            svgIcon="airwaves"
             *ngIf="
               calculationResultFacade.isOverrollingFrequenciesAvailable$
                 | ngrxPush

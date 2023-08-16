@@ -111,6 +111,8 @@
   "calculationResult": {
     "ratingLife": "Rating life",
     "ratingLifeSubtitle": "Total Rating Life (Lh10)",
+    "lubrication": "Lubrication Parameters",
+    "lubricationSubtitle": "Viscosity ratio (kappa)",
     "emissions": "CO₂e emitted",
     "overrollingFrequency": "Overrolling frequency",
     "overrollingFrequencySubtitle": "Frequency on inner ring (BPFI)",
@@ -135,6 +137,15 @@
       "calculationHint": "Want to know more about CO₂ at Schaeffler?",
       "calculationHintLink": "https://medias.schaeffler.de/en/co2-calculation",
       "calculationHintLinkText": "Click here"
+    },
+    "lubrication": {
+      "title": "Lubrication Parameters",
+      "viscosityRatio": "Viscosity ratio",
+      "operatingViscosity": "Operating viscosity",
+      "referenceViscosity": "Reference viscosity",
+      "lifeAdjustmentFactor": "Life adjustment factor",
+      "lowerGuideInterval": "Lower guide value for relubrication interval",
+      "upperGuideInterval": "Upper guide value for relubrication interval"
     },
     "frictionalPowerloss": {
       "title": "Frictional power loss",

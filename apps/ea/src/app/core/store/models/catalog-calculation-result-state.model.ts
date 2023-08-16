@@ -103,6 +103,36 @@ export interface CatalogCalculationResult {
     value: number;
     unit: string;
   };
+  operatingViscosity?: {
+    // ny (operating viscosity)
+    value: number;
+    unit: string;
+  };
+  referenceViscosity?: {
+    // ny1 (reference viscosity)
+    value: number;
+    unit: string;
+  };
+  viscosityRatio?: {
+    // kappa (Viscosity ratio)
+    value: number;
+    unit: string;
+  };
+  lifeAdjustmentFactor?: {
+    // a_ISO (Life adjustment factor)
+    value: number;
+    unit: string;
+  };
+  lowerGuideInterval?: {
+    // tfR_min (Lower guide value for relubrication interval)
+    value: string;
+    unit: string;
+  };
+  upperGuideInterval?: {
+    // tfR_max (Upper guide value for relubrication interval)
+    value: string;
+    unit: string;
+  };
 }
 
 export const OverrollingFrequencyKeys: string[] = [

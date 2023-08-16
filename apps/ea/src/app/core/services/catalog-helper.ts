@@ -23,6 +23,8 @@ export const convertCatalogCalculationResult = (
 
   extractFriction(originalResult, result);
 
+  extractLubrication(originalResult, result);
+
   return result;
 };
 
@@ -278,6 +280,70 @@ function extractFriction(
       totalFrictionalTorque: 'MR',
       totalFrictionalPowerLoss: 'NR',
       thermallySafeOperatingSpeed: 'n_theta',
+    }
+  );
+
+  const lowerGuideIntervalSubordinate = extractSubordinatesFromPath(
+    originalResult,
+    [
+      { titleID: 'STRING_OUTP_RESULTS', identifier: 'block' },
+      { titleID: 'STRING_OUTP_BEARING_BEHAVIOUR', identifier: 'variableBlock' },
+      { abbreviation: 'tfR_min' },
+    ]
+  );
+  if (lowerGuideIntervalSubordinate) {
+    result.lowerGuideInterval = {
+      unit: lowerGuideIntervalSubordinate.unit,
+      value: lowerGuideIntervalSubordinate.value,
+    };
+  }
+
+  const upperGuideIntervalSubordinate = extractSubordinatesFromPath(
+    originalResult,
+    [
+      { titleID: 'STRING_OUTP_RESULTS', identifier: 'block' },
+      { titleID: 'STRING_OUTP_BEARING_BEHAVIOUR', identifier: 'variableBlock' },
+      { abbreviation: 'tfR_max' },
+    ]
+  );
+  if (upperGuideIntervalSubordinate) {
+    result.upperGuideInterval = {
+      unit: upperGuideIntervalSubordinate.unit,
+      value: upperGuideIntervalSubordinate.value,
+    };
+  }
+}
+
+function extractLubrication(
+  originalResult: BearinxOnlineResult,
+  result: CatalogCalculationResult
+): void {
+  const resultSubordinate = extractSubordinatesFromPath(originalResult, [
+    { identifier: 'block', titleID: 'STRING_OUTP_RESULTS' },
+    {
+      identifier: 'variableBlock',
+      titleID: 'STRING_OUTP_LUBRICATION',
+    },
+  ]);
+
+  if (!resultSubordinate) {
+    return;
+  }
+
+  /**
+   * Viscosity ratio (symbol: kappa, no unit)
+   * Operating viscosity (symbol: ny, unit: mm²/s)
+   * Reference viscosity (symbol: ny1, unit: mm²/s)
+   * Life adjustment factor (symbol: a_ISO, no unit)
+   */
+  extractValues(
+    result as Record<string, { unit: string; value: string }>,
+    resultSubordinate,
+    {
+      operatingViscosity: 'ny',
+      referenceViscosity: 'ny1',
+      viscosityRatio: 'kappa',
+      lifeAdjustmentFactor: 'a_ISO',
     }
   );
 }

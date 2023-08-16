@@ -1,7 +1,21 @@
+import { getCalculationResultInputGroup } from '../support/app.po';
+
 describe('EA: CO2 downstream values', () => {
+  const expectedRatingLife = '181,000';
+  const expectedViscosityRating = '2.02';
+  const expectedUpstreamEmission = '1.33';
+  const expectedOverrollingFrequency = '102';
   const reportSectionValueMapping: Record<string, string[]> = {
-    'Rating life': ['135,000', '6,770,000', '1,500', '2,000', '15.5'],
-    'Frictional power loss': ['0.182', '38.1', '28'],
+    'Rating life': [expectedRatingLife, '9,030,000', '1,500', '1,500', '15.5'],
+    'Lubrication Parameters': [expectedViscosityRating, '28', '13.9', '50'],
+    'Estimation of': [expectedUpstreamEmission],
+    'Overrolling frequencies': [
+      expectedOverrollingFrequency,
+      '148',
+      '66.6',
+      '133',
+      '10.2',
+    ],
   };
 
   beforeEach(() => {
@@ -11,9 +25,24 @@ describe('EA: CO2 downstream values', () => {
     // enable all calcuations
     cy.get('ea-calculation-types-selection mat-checkbox').first().click();
 
-    // enter some data
-    cy.get('#mat-input-0').type('1500'); // radial load
-    cy.get('#mat-input-2').type('2000'); // rotation speed
+    cy.wait(100);
+
+    // enter some load data
+    getCalculationResultInputGroup('Load')
+      .find('.mat-mdc-input-element')
+      .first()
+      // needs force since maybe covered by label
+      .click({ force: true })
+      .focused()
+      .type('1500'); // radial load
+
+    getCalculationResultInputGroup('Motion Influences')
+      .find('.mat-mdc-input-element')
+      .first()
+      // needs force since maybe covered by label
+      .click({ force: true })
+      .focused()
+      .type('1500'); // rotation speed
   });
 
   it(
@@ -21,10 +50,20 @@ describe('EA: CO2 downstream values', () => {
     { defaultCommandTimeout: 15000 },
     () => {
       // rating life
-      cy.get('ea-calculation-result-preview').contains('135,000');
+      cy.get('ea-calculation-result-preview').contains(expectedRatingLife);
 
-      // frictional power loss
-      cy.get('ea-calculation-result-preview').contains('111');
+      // lubrication
+      cy.get('ea-calculation-result-preview').contains(expectedViscosityRating);
+
+      // upstream emissions
+      cy.get('ea-calculation-result-preview').contains(
+        expectedUpstreamEmission
+      );
+
+      // overrolling frequency
+      cy.get('ea-calculation-result-preview').contains(
+        expectedOverrollingFrequency
+      );
     }
   );
 

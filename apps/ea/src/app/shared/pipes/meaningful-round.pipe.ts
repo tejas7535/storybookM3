@@ -3,6 +3,14 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 import { roundToThreeSigFigs } from '../helper/number-helper';
 
+const extractPrefix = (input: string): string | undefined => {
+  const regex = /^(\S+\s)/;
+
+  const match = input.match(regex);
+
+  return match ? match[1] : undefined;
+};
+
 @Pipe({ name: 'meaningfulRound', standalone: true })
 export class MeaningfulRoundPipe extends DecimalPipe implements PipeTransform {
   transform(
@@ -25,16 +33,13 @@ export class MeaningfulRoundPipe extends DecimalPipe implements PipeTransform {
       return null;
     }
 
-    // special case for strings like "> 10000000"
-    if (typeof value === 'string' && value.startsWith('> ')) {
-      const numberPart = value.slice(2);
-      const transformed = super.transform(numberPart, digitsInfo, locale);
-
-      return `> ${transformed}`;
-    }
+    // extract prefix (special case for strings like "> 10000000")
+    const prefix = (typeof value === 'string' && extractPrefix(value)) || '';
 
     const roundedNumber = roundToThreeSigFigs(
-      typeof value === 'number' ? value : Number.parseFloat(value)
+      typeof value === 'number'
+        ? value
+        : Number.parseFloat(value.replace(prefix, ''))
     );
 
     // if this didn't work (e.g. value was no number after all) return original
@@ -42,6 +47,12 @@ export class MeaningfulRoundPipe extends DecimalPipe implements PipeTransform {
       return value as string;
     }
 
-    return super.transform(roundedNumber, digitsInfo, locale);
+    const transformedResult = super.transform(
+      roundedNumber,
+      digitsInfo,
+      locale
+    );
+
+    return `${prefix}${transformedResult}`;
   }
 }

@@ -78,18 +78,32 @@ export const overrollingFrequencies = createSelector(
   }
 );
 
+export const lubricationParameter = createSelector(
+  catalogCalculationResult,
+  catalogCalculationIsLoading,
+  catalogCalculationError,
+  (result, isLoading, error): ResultStateWithValue => ({
+    value: result?.viscosityRatio?.value,
+    unit: result?.viscosityRatio?.unit,
+    calculationError: error,
+    isLoading,
+  })
+);
+
 export const getCalculationResultPreviewData = createSelector(
   getCalculationTypes,
   catalogCalculation,
   co2Upstream,
   friction,
   overrollingFrequencies,
+  lubricationParameter,
   (
     calculationTypes,
     catalogCalculationPreviewResult,
     co2UpstreamResult,
     frictionResult,
-    overrollingResult
+    overrollingResult,
+    lubricationParameterResult
   ): CalculationResultPreviewData => {
     const previewData: CalculationResultPreviewData = [];
 
@@ -102,6 +116,16 @@ export const getCalculationResultPreviewData = createSelector(
             title: 'ratingLifeSubtitle',
             ...catalogCalculationPreviewResult,
           },
+        ],
+      });
+    }
+
+    if (calculationTypes.lubrication.selected) {
+      previewData.push({
+        title: 'lubrication',
+        svgIcon: 'water_drop',
+        values: [
+          { title: 'lubricationSubtitle', ...lubricationParameterResult },
         ],
       });
     }
