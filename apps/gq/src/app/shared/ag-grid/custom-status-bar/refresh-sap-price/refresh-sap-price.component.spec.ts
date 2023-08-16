@@ -16,7 +16,7 @@ import { MockDirective } from 'ng-mocks';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { HideIfQuotationHasStatusDirective } from '../../../directives/hide-if-quotation-has-status/hide-if-quotation-has-status.directive';
+import { HideIfQuotationNotActiveDirective } from '../../../directives/hide-if-quotation-not-active/hide-if-quotation-not-active.directive';
 import { EVENT_NAMES } from '../../../models';
 import { RefreshSapPriceComponent } from './refresh-sap-price.component';
 
@@ -28,7 +28,7 @@ describe('RefreshSapPriceComponent', () => {
 
   const createComponent = createComponentFactory({
     component: RefreshSapPriceComponent,
-    declarations: [MockDirective(HideIfQuotationHasStatusDirective)],
+    declarations: [MockDirective(HideIfQuotationNotActiveDirective)],
     imports: [
       MatButtonModule,
       MatIconModule,

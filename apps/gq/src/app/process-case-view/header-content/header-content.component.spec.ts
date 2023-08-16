@@ -9,7 +9,7 @@ import { of } from 'rxjs';
 
 import { InfoIconModule } from '@gq/shared/components/info-icon/info-icon.module';
 import { EditCaseModalComponent } from '@gq/shared/components/modal/edit-case-modal/edit-case-modal.component';
-import { HideIfQuotationHasStatusDirective } from '@gq/shared/directives/hide-if-quotation-has-status/hide-if-quotation-has-status.directive';
+import { HideIfQuotationNotActiveDirective } from '@gq/shared/directives/hide-if-quotation-not-active/hide-if-quotation-not-active.directive';
 import { Keyboard } from '@gq/shared/models';
 import { Customer } from '@gq/shared/models/customer';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
@@ -36,7 +36,7 @@ describe('HeaderContentComponent', () => {
 
   const createComponent = createComponentFactory({
     component: HeaderContentComponent,
-    declarations: [MockDirective(HideIfQuotationHasStatusDirective)],
+    declarations: [MockDirective(HideIfQuotationNotActiveDirective)],
     imports: [
       MatIconModule,
       InfoIconModule,

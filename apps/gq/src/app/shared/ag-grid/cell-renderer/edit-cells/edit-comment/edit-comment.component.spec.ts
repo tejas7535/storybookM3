@@ -1,9 +1,9 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
 import {
   MatLegacyDialog as MatDialog,
   MatLegacyDialogModule as MatDialogModule,
 } from '@angular/material/legacy-dialog';
-import { MatIconModule } from '@angular/material/icon';
 
 import { EditingCommentModalComponent } from '@gq/process-case-view/quotation-details-table/editing-comment-modal/editing-comment-modal.component';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -12,7 +12,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { MockDirective } from 'ng-mocks';
 
 import { QUOTATION_DETAIL_MOCK } from '../../../../../../testing/mocks';
-import { HideIfQuotationHasStatusDirective } from '../../../../directives/hide-if-quotation-has-status/hide-if-quotation-has-status.directive';
+import { HideIfQuotationNotActiveDirective } from '../../../../directives/hide-if-quotation-not-active/hide-if-quotation-not-active.directive';
 import { EditCommentComponent } from './edit-comment.component';
 
 describe('EditCommentComponent', () => {
@@ -24,7 +24,7 @@ describe('EditCommentComponent', () => {
     component: EditCommentComponent,
     imports: [MatIconModule, MatDialogModule],
     mocks: [MatDialog],
-    declarations: [MockDirective(HideIfQuotationHasStatusDirective)],
+    declarations: [MockDirective(HideIfQuotationNotActiveDirective)],
     providers: [
       provideMockStore(),
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },

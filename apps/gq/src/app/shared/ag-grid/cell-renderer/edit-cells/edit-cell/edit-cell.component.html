@@ -36,10 +36,7 @@
   </span>
   <ng-container *ngIf="isCellEditingAllowed">
     <mat-icon
-      *hideIfQuotationHasStatus="[
-        quotationStatus.DELETED,
-        quotationStatus.ARCHIVED
-      ]"
+      *hideIfQuotationNotActive
       class="text-medium-emphasis cursor-pointer align-text-top !text-[16px]"
       (click)="onIconClick()"
       >mode_edit</mat-icon

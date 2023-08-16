@@ -15,7 +15,7 @@ import { MockDirective } from 'ng-mocks';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { PROCESS_CASE_STATE_MOCK } from '../../../../../testing/mocks';
-import { HideIfQuotationHasStatusDirective } from '../../../directives/hide-if-quotation-has-status/hide-if-quotation-has-status.directive';
+import { HideIfQuotationNotActiveDirective } from '../../../directives/hide-if-quotation-not-active/hide-if-quotation-not-active.directive';
 import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-button.component';
 
 describe('uploadSelectionToSapButtonComponent', () => {
@@ -26,7 +26,7 @@ describe('uploadSelectionToSapButtonComponent', () => {
 
   const createComponent = createComponentFactory({
     component: UploadSelectionToSapButtonComponent,
-    declarations: [MockDirective(HideIfQuotationHasStatusDirective)],
+    declarations: [MockDirective(HideIfQuotationNotActiveDirective)],
     imports: [
       MatDialogModule,
       PushModule,

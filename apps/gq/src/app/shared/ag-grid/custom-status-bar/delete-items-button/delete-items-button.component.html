@@ -1,9 +1,4 @@
-<ng-container
-  *hideIfQuotationHasStatus="[
-    quotationStatus.DELETED,
-    quotationStatus.ARCHIVED
-  ]"
->
+<ng-container *hideIfQuotationNotActive>
   <div
     class="fixed bottom-40"
     [ngClass]="toolPanelOpened ? 'right-[250px]' : 'right-8'"

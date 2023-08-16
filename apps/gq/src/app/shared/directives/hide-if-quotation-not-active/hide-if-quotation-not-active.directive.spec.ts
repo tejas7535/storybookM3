@@ -3,27 +3,24 @@ import { createDirectiveFactory, SpectatorDirective } from '@ngneat/spectator';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { QuotationStatus } from '../../models';
-import { HideIfQuotationHasStatusDirective } from './hide-if-quotation-has-status.directive';
+import { HideIfQuotationNotActiveDirective } from './hide-if-quotation-not-active.directive';
 
-describe('HideIfQuotationHasStatusDirective', () => {
-  let spectator: SpectatorDirective<HideIfQuotationHasStatusDirective>;
-  let directive: HideIfQuotationHasStatusDirective;
+describe('HideIfQuotationNotActiveDirective', () => {
+  let spectator: SpectatorDirective<HideIfQuotationNotActiveDirective>;
+  let directive: HideIfQuotationNotActiveDirective;
   let store: MockStore;
   const quotationStatus = QuotationStatus;
 
   const createDirective = createDirectiveFactory({
-    directive: HideIfQuotationHasStatusDirective,
+    directive: HideIfQuotationNotActiveDirective,
     providers: [provideMockStore()],
     detectChanges: false,
   });
 
   beforeEach(() => {
-    spectator = createDirective(
-      `<div *hideIfQuotationHasStatus="['ARCHIVED','FORBIDDEN']"></div>`,
-      {
-        props: {},
-      }
-    );
+    spectator = createDirective(`<div *hideIfQuotationNotActive></div>`, {
+      props: {},
+    });
     store = spectator.inject(MockStore);
     directive = spectator.directive;
   });

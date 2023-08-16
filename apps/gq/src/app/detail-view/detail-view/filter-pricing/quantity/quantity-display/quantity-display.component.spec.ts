@@ -3,7 +3,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 
 import { EditingModalService } from '@gq/shared/components/modal/editing-modal/editing-modal.service';
-import { HideIfQuotationHasStatusDirective } from '@gq/shared/directives/hide-if-quotation-has-status/hide-if-quotation-has-status.directive';
+import { HideIfQuotationNotActiveDirective } from '@gq/shared/directives/hide-if-quotation-not-active/hide-if-quotation-not-active.directive';
 import {
   createComponentFactory,
   mockProvider,
@@ -24,7 +24,7 @@ describe('QuantityDisplayComponent', () => {
   const createComponent = createComponentFactory({
     component: QuantityDisplayComponent,
     imports: [MatIconModule, MatDialogModule, PushModule],
-    declarations: [MockDirective(HideIfQuotationHasStatusDirective)],
+    declarations: [MockDirective(HideIfQuotationNotActiveDirective)],
     providers: [
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockStore({

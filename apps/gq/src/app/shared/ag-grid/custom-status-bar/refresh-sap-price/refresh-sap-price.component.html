@@ -1,9 +1,4 @@
-<ng-container
-  *hideIfQuotationHasStatus="[
-    quotationStatus.DELETED,
-    quotationStatus.ARCHIVED
-  ]"
->
+<ng-container *hideIfQuotationNotActive>
   <div *ngIf="!(simulationModeEnabled$ | ngrxPush)">
     <button
       class="!text-link !my-4 truncate"

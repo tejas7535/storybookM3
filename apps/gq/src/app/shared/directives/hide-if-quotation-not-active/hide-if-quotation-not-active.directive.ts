@@ -1,6 +1,5 @@
 import {
   Directive,
-  Input,
   OnDestroy,
   OnInit,
   TemplateRef,
@@ -16,12 +15,10 @@ import { QuotationStatus } from '../../models';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
-  selector: '[hideIfQuotationHasStatus]',
-  exportAs: 'hideIfQuotationHasStatus',
+  selector: '[hideIfQuotationNotActive]',
+  exportAs: 'hideIfQuotationNotActive',
 })
-export class HideIfQuotationHasStatusDirective implements OnInit, OnDestroy {
-  @Input() hideIfQuotationHasStatus: QuotationStatus[];
-
+export class HideIfQuotationNotActiveDirective implements OnInit, OnDestroy {
   unsubscribe$ = new Subject();
 
   constructor(
@@ -35,10 +32,10 @@ export class HideIfQuotationHasStatusDirective implements OnInit, OnDestroy {
       .select(getQuotationStatus)
       .pipe(takeUntil(this.unsubscribe$), distinctUntilChanged())
       .subscribe((status: QuotationStatus) => {
-        if (this.hideIfQuotationHasStatus.includes(status)) {
-          this.viewContainer.clear();
-        } else {
+        if (QuotationStatus.ACTIVE === status) {
           this.viewContainer.createEmbeddedView(this.templateRef);
+        } else {
+          this.viewContainer.clear();
         }
       });
   }

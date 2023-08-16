@@ -18,7 +18,7 @@ import {
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
-import { HideIfQuotationHasStatusDirective } from '../../../directives/hide-if-quotation-has-status/hide-if-quotation-has-status.directive';
+import { HideIfQuotationNotActiveDirective } from '../../../directives/hide-if-quotation-not-active/hide-if-quotation-not-active.directive';
 import { DeleteItemsButtonComponent } from './delete-items-button.component';
 
 describe('DeleteItemsButtonComponent', () => {
@@ -31,7 +31,7 @@ describe('DeleteItemsButtonComponent', () => {
     component: DeleteItemsButtonComponent,
     declarations: [
       DeleteItemsButtonComponent,
-      MockDirective(HideIfQuotationHasStatusDirective),
+      MockDirective(HideIfQuotationNotActiveDirective),
     ],
     imports: [
       MatButtonModule,
