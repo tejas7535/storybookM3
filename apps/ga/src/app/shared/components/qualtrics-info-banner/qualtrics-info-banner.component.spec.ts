@@ -70,7 +70,7 @@ describe('QualtricsInfoBannerComponent', () => {
 
   describe('when not provided by qualtrics language is selected', () => {
     test('add a subscribtion that listens to language changes and update flag to display view', (done) => {
-      const mockLanguage = 'en';
+      const mockLanguage = 'es';
 
       component.ngOnInit();
 

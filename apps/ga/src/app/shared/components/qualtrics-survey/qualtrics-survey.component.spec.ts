@@ -1,3 +1,5 @@
+import { DIALOG_DATA } from '@angular/cdk/dialog';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { QualtricsSurveyComponent } from './qualtrics-survey.component';
@@ -8,6 +10,7 @@ describe('QualtricsSurveyComponent', () => {
 
   const createComponent = createComponentFactory({
     component: QualtricsSurveyComponent,
+    providers: [{ provide: DIALOG_DATA, useValue: { languageCode: 'en' } }],
     imports: [],
   });
 
@@ -23,7 +26,7 @@ describe('QualtricsSurveyComponent', () => {
   it('should provide sanitized survey url', () => {
     expect(component.surveyUrl).toEqual({
       changingThisBreaksApplicationSecurity:
-        'https://schaefflertech.qualtrics.com/jfe/form/SV_3wJxHoC3sDjvcCa',
+        'https://schaefflertech.qualtrics.com/jfe/form/SV_3wJxHoC3sDjvcCa?Q_Language=en',
     });
   });
 
@@ -31,7 +34,7 @@ describe('QualtricsSurveyComponent', () => {
     const iFrame: HTMLIFrameElement = spectator.query('iframe');
 
     expect(iFrame.src).toBe(
-      'https://schaefflertech.qualtrics.com/jfe/form/SV_3wJxHoC3sDjvcCa'
+      'https://schaefflertech.qualtrics.com/jfe/form/SV_3wJxHoC3sDjvcCa?Q_Language=en'
     );
   });
 

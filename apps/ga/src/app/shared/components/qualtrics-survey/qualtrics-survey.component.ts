@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { DIALOG_DATA } from '@angular/cdk/dialog';
+import { Component, Inject } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -11,9 +12,12 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 export class QualtricsSurveyComponent {
   surveyUrl: SafeResourceUrl;
 
-  constructor(private readonly sanitizer: DomSanitizer) {
+  constructor(
+    private readonly sanitizer: DomSanitizer,
+    @Inject(DIALOG_DATA) public data: { languageCode: string }
+  ) {
     this.surveyUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      'https://schaefflertech.qualtrics.com/jfe/form/SV_3wJxHoC3sDjvcCa'
+      `https://schaefflertech.qualtrics.com/jfe/form/SV_3wJxHoC3sDjvcCa?Q_Language=${data.languageCode}`
     );
   }
 }

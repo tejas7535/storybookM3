@@ -28,7 +28,8 @@ import { QualtricsSurveyComponent } from '@ga/shared/components/qualtrics-survey
 })
 export class QualtricsInfoBannerComponent implements OnInit, OnDestroy {
   shouldDisplayBanner = false;
-  private readonly providedLanguages: string[] = ['de'];
+  private languageCode = '';
+  private readonly providedLanguages: string[] = ['de', 'en'];
   private readonly subscription = new Subscription();
 
   constructor(
@@ -40,6 +41,7 @@ export class QualtricsInfoBannerComponent implements OnInit, OnDestroy {
     // Once Qualtrics will provide survey implementation in all languages shouldDisplayBanner can be removed.
     this.subscription.add(
       this.translocoService.langChanges$.subscribe((language) => {
+        this.languageCode = language;
         this.shouldDisplayBanner = this.providedLanguages.includes(language);
       })
     );
@@ -47,6 +49,9 @@ export class QualtricsInfoBannerComponent implements OnInit, OnDestroy {
 
   openSurveyDialog() {
     this.dialog.open(QualtricsSurveyComponent, {
+      data: {
+        languageCode: this.languageCode,
+      },
       autoFocus: false,
       hasBackdrop: true,
       width: '90vw',
