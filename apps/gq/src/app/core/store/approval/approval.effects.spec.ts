@@ -540,6 +540,64 @@ describe('ApprovalEffects', () => {
       })
     );
     test(
+      'should dispatch Success Action when forceLoad is enabled',
+      marbles((m) => {
+        store.overrideSelector(approvalFeature.selectApprovalCockpit, {
+          approvalGeneral: { sapId: '12345' },
+        } as ApprovalCockpitData);
+        action = ApprovalActions.getApprovalCockpitData({
+          sapId: '12345',
+          forceLoad: true,
+        });
+        const approvalCockpit: ApprovalCockpitData = {
+          approvalGeneral: {
+            approvalLevel: ApprovalLevel.L1,
+            sapId: '12345',
+            thirdApproverRequired: true,
+            autoApproval: false,
+            currency: 'EUR',
+            priceDeviation: 12.2,
+            gpm: 13.5,
+            totalNetValue: 120_014,
+            infoUser: 'ANY',
+            comment: 'comment',
+            projectInformation: 'projectInformation',
+            gqId: 98_765,
+            firstApprover: 'FIRSTAPPROVER',
+            secondApprover: 'SECONDAPPROVER',
+            thirdApprover: 'THIRDAPPROVER',
+          },
+          approvalEvents: [
+            {
+              id: 1,
+              gqId: 98_765,
+              sapId: '12345',
+              userId: 'EVENTUSER',
+              eventDate: '2022-10-10 14:00:00',
+              quotationStatus: QuotationStatus.IN_APPROVAL,
+              event: ApprovalEventType.STARTED,
+              verified: true,
+              comment: '',
+              user: undefined,
+            },
+          ],
+        };
+        const result = ApprovalActions.getApprovalCockpitDataSuccess({
+          approvalCockpit,
+        });
+        const response = m.cold('-a', {
+          a: approvalCockpit,
+        });
+        approvalService.getApprovalCockpitData = jest.fn(() => response);
+        const expected = m.cold('-b', { b: result });
+        actions$ = m.hot('a', { a: action });
+        m.expect(effects.getApprovalCockpitDataForSapQuotation$).toBeObservable(
+          expected
+        );
+        m.flush();
+      })
+    );
+    test(
       'should dispatch Failure Action',
       marbles((m) => {
         store.overrideSelector(

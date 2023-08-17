@@ -36,7 +36,10 @@ export const ApprovalActions = createActionGroup({
     }>(),
     'Update Approval Workflow Failure': props<{ error: Error }>(),
 
-    'Get Approval Cockpit Data': props<{ sapId: string }>(),
+    'Get Approval Cockpit Data': props<{
+      sapId: string;
+      forceLoad?: boolean;
+    }>(),
     'Get Approval Cockpit Data Success': props<{
       approvalCockpit: ApprovalCockpitData;
     }>(),

@@ -30,6 +30,7 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../../../app-route-path.enum';
+import { ApprovalActions } from '../approval/approval.actions';
 import { getAddQuotationDetailsRequest } from '../process-case';
 import { ActiveCaseActions } from './active-case.action';
 import { activeCaseFeature } from './active-case.reducer';
@@ -361,9 +362,13 @@ export class ActiveCaseEffects {
           tap((quotation) => {
             addCalculationsForDetails(quotation.quotationDetails);
           }),
-          map((updatedQuotation: Quotation) =>
-            ActiveCaseActions.uploadSelectionToSapSuccess({ updatedQuotation })
-          ),
+          mergeMap((updatedQuotation: Quotation) => [
+            ActiveCaseActions.uploadSelectionToSapSuccess({ updatedQuotation }),
+            ApprovalActions.getApprovalCockpitData({
+              sapId: updatedQuotation.sapId,
+              forceLoad: true,
+            }),
+          ]),
           catchError((errorMessage) =>
             of(ActiveCaseActions.uploadSelectionToSapFailure({ errorMessage }))
           )

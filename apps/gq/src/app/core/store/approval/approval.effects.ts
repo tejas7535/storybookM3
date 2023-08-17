@@ -243,15 +243,16 @@ export class ApprovalEffects {
   getApprovalCockpitDataForSapQuotation$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ApprovalActions.getApprovalCockpitData),
-      concatLatestFrom(() =>
-        this.store.select(approvalFeature.selectApprovalCockpit)
-      ),
+      concatLatestFrom(() => [
+        this.store.select(approvalFeature.selectApprovalCockpit),
+      ]),
       mergeMap(
         ([action, recentApprovalCockpit]: [
           ReturnType<typeof ApprovalActions.getApprovalCockpitData>,
           ApprovalCockpitData
         ]) => {
           if (
+            action.forceLoad ||
             !recentApprovalCockpit?.approvalGeneral?.sapId ||
             recentApprovalCockpit?.approvalGeneral?.sapId !== action.sapId
           ) {

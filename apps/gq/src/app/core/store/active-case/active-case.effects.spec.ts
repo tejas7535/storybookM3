@@ -30,6 +30,7 @@ import {
   QUOTATION_MOCK,
   SIMULATED_QUOTATION_MOCK,
 } from '../../../../testing/mocks';
+import { ApprovalActions } from '../approval/approval.actions';
 import { getAddQuotationDetailsRequest } from '../process-case';
 import { ActiveCaseActions } from './active-case.action';
 import { ActiveCaseEffects } from './active-case.effects';
@@ -681,15 +682,22 @@ describe('ActiveCaseEffectss', () => {
         action = ActiveCaseActions.uploadSelectionToSap({
           gqPositionIds: ['1'],
         });
-        const result = ActiveCaseActions.uploadSelectionToSapSuccess({
-          updatedQuotation: QUOTATION_MOCK,
-        });
+
         quotationService.uploadSelectionToSap = jest.fn(() => response);
         effects['showUploadSelectionToast'] = jest.fn();
 
         actions$ = m.hot('-a', { a: action });
         const response = m.cold('-a|', { a: QUOTATION_MOCK });
-        const expected = m.cold('--b', { b: result });
+
+        const expected = m.cold('--(bc)', {
+          b: ActiveCaseActions.uploadSelectionToSapSuccess({
+            updatedQuotation: QUOTATION_MOCK,
+          }),
+          c: ApprovalActions.getApprovalCockpitData({
+            sapId: QUOTATION_MOCK.sapId,
+            forceLoad: true,
+          }),
+        });
 
         m.expect(effects.uploadSelectionToSap$).toBeObservable(expected);
         m.flush();
