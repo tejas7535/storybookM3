@@ -53,12 +53,18 @@
               Show form errors
             </mat-slide-toggle>
 
-            <pre
-              class="bg-surface border-border border rounded-md mt-2 p-2"
-              *ngIf="showRawErrors.checked && operationConditionsForm.invalid"
-            >
+            <ng-container *ngIf="showRawErrors.checked">
+              <pre class="bg-surface border-border border rounded-md mt-2 p-2">
+Status: {{ operationConditionsForm.status }}</pre
+              >
+
+              <pre
+                *ngIf="operationConditionsForm.invalid"
+                class="bg-surface border-border border rounded-md mt-2 p-2"
+              >
 {{ formErrors$ | ngrxPush | json}}</pre
-            >
+              >
+            </ng-container>
           </div>
 
           <div class="flex flex-col">
@@ -161,19 +167,52 @@
 <!-- MOTION -->
 <ng-template parameterTemplate="rotatingCondition" let-t="t">
   <ea-input-group
-    [title]="t('motionInfluences')"
+    [title]="t('title')"
     icon="animation"
     [isMandatory]="true"
+    *transloco="let t; read: 'operationConditions.rotatingCondition'"
   >
     <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4">
-      <ea-input-number
-        [formControl]="operationConditionsForm.controls.rotation.controls.rotationalSpeed"
-        [label]="t('relativeRotationalSpeed')"
-        [unit]="t('onePerMinute')"
-        [tooltip]="t('tooltip.rotationSpeed')"
-        [placeholder]="t('pleaseEnter', { label: t('relativeRotationalSpeed') })"
-        [onlyPositive]="true"
-      ></ea-input-number>
+      <ea-input-select
+        class="w-full"
+        [formControl]="operationConditionsForm.controls.rotation.controls.typeOfMotion"
+        [label]="t('typeOfMotion')"
+        [options]="typeOfMotionOptions$ | ngrxPush"
+      ></ea-input-select>
+
+      <ng-container
+        *ngIf="operationConditionsForm.controls.rotation.controls.typeOfMotion.value === 'LB_ROTATING'; else oscillatingInputs"
+      >
+        <ea-input-number
+          [formControl]="operationConditionsForm.controls.rotation.controls.rotationalSpeed"
+          [label]="t('relativeRotationalSpeed')"
+          [unit]="t('onePerMinute')"
+          [tooltip]="t('tooltip.rotationSpeed')"
+          [placeholder]="'operationConditions.pleaseEnter' | transloco:{ label: t('relativeRotationalSpeed')}"
+          [onlyPositive]="true"
+        ></ea-input-number>
+      </ng-container>
+
+      <ng-template #oscillatingInputs>
+        <ea-input-number
+          class="md:row-start-2"
+          [formControl]="operationConditionsForm.controls.rotation.controls.shiftFrequency"
+          [label]="t('shiftFrequency')"
+          [unit]="t('rpm')"
+          [tooltip]="t('tooltip.shiftFrequency')"
+          [placeholder]="'operationConditions.pleaseEnter' | transloco:{ label: t('shiftFrequency')}"
+          [onlyPositive]="true"
+        ></ea-input-number>
+        <ea-input-number
+          class="md:row-start-2"
+          [formControl]="operationConditionsForm.controls.rotation.controls.shiftAngle"
+          [label]="t('shiftAngle')"
+          [unit]="t('degree')"
+          [tooltip]="t('tooltip.shiftAngle')"
+          [placeholder]="'operationConditions.pleaseEnter' | transloco:{ label: t('shiftAngle')}"
+          [onlyPositive]="true"
+        ></ea-input-number>
+      </ng-template>
     </div>
   </ea-input-group>
 </ng-template>

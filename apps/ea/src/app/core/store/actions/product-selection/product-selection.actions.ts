@@ -31,3 +31,25 @@ export const setProductFetchFailure = createAction(
   '[Product Selection] Set Product Fetch Failure',
   props<{ error: string }>()
 );
+
+export const fetchLoadcaseTemplate = createAction(
+  '[Product Selection] Fetch Loadcase Template'
+);
+
+export const setLoadcaseTemplate = createAction(
+  '[Product Selection] Set Loadcase Template',
+  props<{
+    loadcaseTemplate: ProductSelectionState['loadcaseTemplate'];
+  }>()
+);
+
+export const fetchOperatingConditionsTemplate = createAction(
+  '[Product Selection] Fetch OperatingConditions Template'
+);
+
+export const setOperatingConditionsTemplate = createAction(
+  '[Product Selection] Set OperatingConditions Template',
+  props<{
+    operatingConditionsTemplate: ProductSelectionState['operatingConditionsTemplate'];
+  }>()
+);

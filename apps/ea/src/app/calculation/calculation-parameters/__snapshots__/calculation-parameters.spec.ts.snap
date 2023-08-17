@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CalculationParametersComponent ngAfterViewInit should setup parameterTemplates after view init 1`] = `
+Object {
+  "mandatory": Array [
+    undefined,
+  ],
+  "preset": Array [
+    undefined,
+  ],
+}
+`;

@@ -6,6 +6,8 @@ import {
   getBearingDesignation,
   getBearingId,
   getCalculationModuleInfo,
+  getLoadCaseTemplateItem,
+  getOperatingConditionsTemplateItem,
 } from '../../selectors/product-selection/product-selection.selector';
 
 @Injectable({
@@ -22,5 +24,13 @@ export class ProductSelectionFacade {
 
   dispatch(action: Action) {
     this.store.dispatch(action);
+  }
+
+  loadcaseTemplateItem(itemId: string) {
+    return this.store.select(getLoadCaseTemplateItem({ itemId }));
+  }
+
+  operatingConditionsTemplateItem(itemId: string) {
+    return this.store.select(getOperatingConditionsTemplateItem({ itemId }));
   }
 }

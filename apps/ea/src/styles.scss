@@ -47,7 +47,11 @@ engineering-app {
 
   // apply full width to wrapper so it actually takes the full width
   mat-form-field.w-full {
-    .mat-form-field-wrapper {
+    .mat-mdc-text-field-wrapper {
+      width: 100%;
+      min-width: 100%;
+    }
+    .mat-mdc-form-field-infix {
       width: 100%;
     }
   }

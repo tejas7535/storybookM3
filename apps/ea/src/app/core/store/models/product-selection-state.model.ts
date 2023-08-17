@@ -6,4 +6,13 @@ export interface ProductSelectionState {
     frictionCalculation: boolean;
   };
   error?: string;
+  loadcaseTemplate?: ProductSelectionTemplate[];
+  operatingConditionsTemplate?: ProductSelectionTemplate[];
+}
+
+export interface ProductSelectionTemplate {
+  id: string;
+  minimum: number;
+  maximum: number;
+  options: { value: string }[];
 }

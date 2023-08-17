@@ -18,8 +18,12 @@ import {
   CatalogServiceLoadCaseData,
   CatalogServiceOperatingConditions,
   CatalogServiceOperatingConditionsISOClass,
+  CatalogServiceTemplateResult,
 } from './catalog.service.interface';
-import { convertCatalogCalculationResult } from './catalog-helper';
+import {
+  convertCatalogCalculationResult,
+  convertTemplateResult,
+} from './catalog-helper';
 
 @Injectable({ providedIn: 'root' })
 export class CatalogService {
@@ -154,8 +158,7 @@ export class CatalogService {
           : 'LB_ROTATING_OUTERRING',
     };
 
-    const { load, rotation, movementFrequency, operatingTemperature } =
-      operationConditions;
+    const { load, rotation, operatingTemperature } = operationConditions;
 
     const loadcaseData: CatalogServiceLoadCaseData[] = [
       {
@@ -165,10 +168,10 @@ export class CatalogService {
         IDSLC_RADIAL_LOAD: toNumberString(load?.radialLoad || 0),
         IDSLC_MEAN_BEARING_OPERATING_TEMPERATURE:
           toNumberString(operatingTemperature),
-        IDSLC_TYPE_OF_MOVEMENT: rotation.typeOfMovement,
+        IDSLC_TYPE_OF_MOVEMENT: rotation.typeOfMotion,
         IDLC_SPEED: toNumberString(rotation.rotationalSpeed || 0),
-        IDSLC_MOVEMENT_FREQUENCY: toNumberString(movementFrequency || 0),
-        IDSLC_OPERATING_ANGLE: '0',
+        IDSLC_MOVEMENT_FREQUENCY: toNumberString(rotation.shiftFrequency || 0),
+        IDSLC_OPERATING_ANGLE: toNumberString(rotation.shiftAngle || 0),
       },
     ];
 
@@ -209,6 +212,22 @@ export class CatalogService {
     }
 
     return this.httpClient.get<BearinxOnlineResult>(jsonReportUrl);
+  }
+
+  public getLoadcaseTemplate(bearingId: string) {
+    return this.httpClient
+      .get<CatalogServiceTemplateResult>(
+        `${this.baseUrl}/product/loadcasetemplate/${bearingId}`
+      )
+      .pipe(map((result) => convertTemplateResult(result)));
+  }
+
+  public getOperatingConditionsTemplate(bearingId: string) {
+    return this.httpClient
+      .get<CatalogServiceTemplateResult>(
+        `${this.baseUrl}/product/operatingconditonstemplate/${bearingId}`
+      )
+      .pipe(map((result) => convertTemplateResult(result)));
   }
 
   private convertLubricationMethod(

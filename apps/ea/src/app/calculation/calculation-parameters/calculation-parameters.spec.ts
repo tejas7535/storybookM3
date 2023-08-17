@@ -1,7 +1,11 @@
+import { QueryList } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
+
+import { firstValueFrom, of } from 'rxjs';
 
 import { resetCalculationParameters } from '@ea/core/store/actions/calculation-parameters/calculation-parameters.actions';
 import { APP_STATE_MOCK } from '@ea/testing/mocks';
@@ -34,6 +38,7 @@ describe('CalculationParametersComponent', () => {
       MatIconTestingModule,
       MockModule(MatTooltipModule),
       MockModule(MatSlideToggleModule),
+      MockModule(MatDialogModule),
 
       provideTranslocoTestingModule({ en: {} }),
     ],
@@ -79,6 +84,39 @@ describe('CalculationParametersComponent', () => {
       component.onResetButtonClick();
 
       expect(store.dispatch).toHaveBeenCalledWith(resetCalculationParameters());
+    });
+  });
+
+  describe('ngAfterViewInit', () => {
+    it('should setup parameterTemplates after view init', async () => {
+      component.templates = {
+        changes: of([]),
+        find: jest.fn().mockImplementation(() => ({ name: 'abc' })),
+      } as unknown as QueryList<ParameterTemplateDirective>;
+
+      component.ngAfterViewInit();
+
+      const res = await firstValueFrom(component.parameterTemplates$);
+
+      expect(res).toMatchSnapshot();
+    });
+  });
+
+  describe('Dialogs', () => {
+    it('should open basic frequencies dialog', () => {
+      jest.spyOn(component.matDialog, 'open').mockClear();
+
+      component.onShowBasicFrequenciesDialogClick();
+
+      expect(component.matDialog.open).toHaveBeenCalled();
+    });
+
+    it('should open calculation types dialog', () => {
+      jest.spyOn(component.matDialog, 'open').mockClear();
+
+      component.onShowCalculationTypesClick();
+
+      expect(component.matDialog.open).toHaveBeenCalled();
     });
   });
 });

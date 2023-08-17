@@ -16,7 +16,9 @@ export const initialState: CalculationParametersState = {
   operationConditions: {
     rotation: {
       rotationalSpeed: undefined,
-      typeOfMovement: 'LB_ROTATING',
+      typeOfMotion: 'LB_ROTATING',
+      shiftAngle: undefined,
+      shiftFrequency: undefined,
     },
     load: {
       axialLoad: undefined,
@@ -48,8 +50,6 @@ export const initialState: CalculationParametersState = {
     },
     ambientTemperature: 20,
     operatingTemperature: 70,
-    movementFrequency: 0,
-    oscillationAngle: 0,
     contamination: 'LB_STANDARD_CLEANLINESS',
     conditionOfRotation: 'innerring',
     externalHeatFlow: 0,

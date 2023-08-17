@@ -38,6 +38,20 @@ export const productSelectionReducer = createReducer(
       ...state,
       error,
     })
+  ),
+  on(
+    ProductSelectionActions.setLoadcaseTemplate,
+    (state, { loadcaseTemplate }): ProductSelectionState => ({
+      ...state,
+      loadcaseTemplate,
+    })
+  ),
+  on(
+    ProductSelectionActions.setOperatingConditionsTemplate,
+    (state, { operatingConditionsTemplate }): ProductSelectionState => ({
+      ...state,
+      operatingConditionsTemplate,
+    })
   )
 );
 

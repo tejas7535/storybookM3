@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TypeOfMotionOptions getTypeOfMotion 1`] = `
+Array [
+  Object {
+    "label": "operationConditions.rotatingCondition.options.LB_OSCILLATING",
+    "value": "LB_OSCILLATING",
+  },
+  Object {
+    "label": "operationConditions.rotatingCondition.options.LB_ROTATING",
+    "value": "LB_ROTATING",
+  },
+]
+`;

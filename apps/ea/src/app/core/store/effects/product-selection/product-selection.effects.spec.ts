@@ -24,6 +24,8 @@ const catalogServiceMock = {
   getBasicFrequencies: jest.fn(),
   getBasicFrequenciesPdf: jest.fn(),
   downloadBasicFrequenciesPdf: jest.fn(),
+  getLoadcaseTemplate: jest.fn(),
+  getOperatingConditionsTemplate: jest.fn(),
 };
 
 const calculationModuleInfoServiceMock = {
@@ -85,10 +87,12 @@ describe('Product Selection Effects', () => {
         action = ProductSelectionActions.fetchBearingId();
         actions$ = m.hot('-a', { a: action });
 
-        const expected = m.cold('-b', {
+        const expected = m.cold('-(bcd)', {
           b: ProductSelectionActions.setBearingId({
             bearingId: 'bearing-id-from-service',
           }),
+          c: ProductSelectionActions.fetchLoadcaseTemplate(),
+          d: ProductSelectionActions.fetchOperatingConditionsTemplate(),
         });
 
         m.expect(effects.fetchBearingId$).toBeObservable(expected);
@@ -109,10 +113,12 @@ describe('Product Selection Effects', () => {
         action = ProductSelectionActions.fetchBearingId();
         actions$ = m.hot('-a', { a: action });
 
-        const expected = m.cold('-b', {
+        const expected = m.cold('-(bcd)', {
           b: ProductSelectionActions.setBearingId({
             bearingId: 'abc',
           }),
+          c: ProductSelectionActions.fetchLoadcaseTemplate(),
+          d: ProductSelectionActions.fetchOperatingConditionsTemplate(),
         });
 
         m.expect(effects.fetchBearingId$).toBeObservable(expected);
@@ -159,6 +165,64 @@ describe('Product Selection Effects', () => {
         });
 
         m.expect(effects.fetchCalculationModuleInfo$).toBeObservable(expected);
+        m.flush();
+
+        expect(serviceSpy).toHaveBeenCalled();
+      })();
+    });
+  });
+
+  describe('fetchLoadcaseTemplate$', () => {
+    beforeEach(() => {
+      catalogServiceMock.getLoadcaseTemplate.mockReset();
+    });
+
+    it('should fetch load case template and write it to store', () => {
+      const serviceSpy = jest
+        .spyOn(catalogServiceMock, 'getLoadcaseTemplate')
+        .mockImplementation(() => of({}));
+
+      return marbles((m) => {
+        action = ProductSelectionActions.fetchLoadcaseTemplate();
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-b', {
+          b: ProductSelectionActions.setLoadcaseTemplate({
+            loadcaseTemplate: {} as any,
+          }),
+        });
+
+        m.expect(effects.fetchLoadcaseTemplate$).toBeObservable(expected);
+        m.flush();
+
+        expect(serviceSpy).toHaveBeenCalled();
+      })();
+    });
+  });
+
+  describe('fetchOperatingConditionsTemplate$', () => {
+    beforeEach(() => {
+      catalogServiceMock.getOperatingConditionsTemplate.mockReset();
+    });
+
+    it('should fetch load case template and write it to store', () => {
+      const serviceSpy = jest
+        .spyOn(catalogServiceMock, 'getOperatingConditionsTemplate')
+        .mockImplementation(() => of({}));
+
+      return marbles((m) => {
+        action = ProductSelectionActions.fetchOperatingConditionsTemplate();
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-b', {
+          b: ProductSelectionActions.setOperatingConditionsTemplate({
+            operatingConditionsTemplate: {} as any,
+          }),
+        });
+
+        m.expect(effects.fetchOperatingConditionsTemplate$).toBeObservable(
+          expected
+        );
         m.flush();
 
         expect(serviceSpy).toHaveBeenCalled();

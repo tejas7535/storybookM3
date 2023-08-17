@@ -1,4 +1,10 @@
-import { FormArray, FormGroup, ValidationErrors } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+} from '@angular/forms';
 
 /**
  * Extracts all nested errors from a FormGroup recursively.
@@ -37,4 +43,47 @@ export const extractNestedErrors = (formGroup: FormGroup): ValidationErrors => {
   });
 
   return result;
+};
+
+/**
+ * Helper function to set validators on control.
+ * Will only add missing validators and only update validity if any changes were made.
+ */
+export const addValidators = (
+  control: AbstractControl,
+  validators: ValidatorFn[]
+) => {
+  // find missing validators on control
+  const missingValidators = validators.filter(
+    (validator) => !control.hasValidator(validator)
+  );
+  if (missingValidators.length === 0) {
+    return;
+  }
+
+  control.addValidators(missingValidators);
+  control.updateValueAndValidity();
+};
+
+/**
+ * Helper function to remove validators from control
+ * Will only remove validators currently present and update validity only if changes were made
+ * @param control
+ * @param validatorsToRemove
+ * @returns
+ */
+export const removeValidators = (
+  control: AbstractControl,
+  validatorsToRemove: ValidatorFn[]
+) => {
+  const existingValidatorsToRemove = validatorsToRemove.filter((validator) =>
+    control.hasValidator(validator)
+  );
+
+  if (existingValidatorsToRemove.length === 0) {
+    return;
+  }
+
+  control.removeValidators(existingValidatorsToRemove);
+  control.updateValueAndValidity();
 };

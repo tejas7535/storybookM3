@@ -127,3 +127,42 @@ export interface CatalogServiceCalculationResultHint {
   message: string;
   userStrings: string[];
 }
+
+export interface CatalogServiceTemplateResult {
+  status: string;
+  message: string;
+  input: {
+    _id: string;
+    id: string;
+    categoryId: string;
+    title: string;
+    fields: CatalogServiceTemplateField[];
+  }[];
+  _links: {
+    rel: string;
+    href: string;
+  }[];
+}
+
+export interface CatalogServiceTemplateField {
+  _id: string;
+  id: string;
+  title: string;
+  type: string;
+  valueType: string;
+  abbreviation: string;
+  defaultValue: string;
+  conditions: string;
+  unit: string;
+  range: {
+    _id: string;
+    id: string;
+    title: string;
+    conditions: string;
+    calculationUrl: string;
+    subfields: CatalogServiceTemplateField[];
+  }[];
+  minimum: string;
+  maximum: string;
+  precision: number;
+}

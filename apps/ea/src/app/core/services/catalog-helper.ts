@@ -1,4 +1,8 @@
-import { CatalogCalculationResult, ReportMessage } from '../store/models';
+import {
+  CatalogCalculationResult,
+  ProductSelectionTemplate,
+  ReportMessage,
+} from '../store/models';
 import {
   extractErrorsWarningsAndNotesFromResult,
   extractSubordinatesFromPath,
@@ -7,6 +11,10 @@ import {
   formatReportInputResult,
 } from './bearinx-helper';
 import { BearinxOnlineResult } from './bearinx-result.interface';
+import {
+  CatalogServiceTemplateField,
+  CatalogServiceTemplateResult,
+} from './catalog.service.interface';
 
 export const convertCatalogCalculationResult = (
   originalResult: BearinxOnlineResult
@@ -347,3 +355,38 @@ function extractLubrication(
     }
   );
 }
+
+export const convertTemplateResult = (
+  rawResult: CatalogServiceTemplateResult
+): ProductSelectionTemplate[] => {
+  const result: ProductSelectionTemplate[] = rawResult.input.flatMap((input) =>
+    extractTemplates(input.id || input.categoryId || '', input.fields)
+  );
+
+  return result;
+};
+
+const extractTemplates = (
+  prefix: string,
+  fields: CatalogServiceTemplateField[]
+): ProductSelectionTemplate[] =>
+  fields.flatMap((field) => {
+    const result: ProductSelectionTemplate = {
+      id: `${prefix}_${field.id}`,
+      maximum: Number.parseFloat(field.maximum),
+      minimum: Number.parseFloat(field.minimum),
+      options: field.range?.map((item) => ({
+        value: item.id,
+      })),
+    };
+
+    // extract subfields recursively
+    const subFields =
+      field.range
+        ?.map((item) =>
+          extractTemplates(`${prefix}_${item.id}`, item?.subfields || [])
+        )
+        .flat() || [];
+
+    return [result, ...subFields];
+  });

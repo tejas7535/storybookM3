@@ -4,7 +4,9 @@ export const CALCULATION_PARAMETERS_STATE_MOCK: CalculationParametersState = {
   operationConditions: {
     rotation: {
       rotationalSpeed: 0,
-      typeOfMovement: 'LB_ROTATING',
+      shiftAngle: 0,
+      shiftFrequency: undefined,
+      typeOfMotion: 'LB_ROTATING',
     },
     load: {
       axialLoad: 0,
@@ -35,8 +37,6 @@ export const CALCULATION_PARAMETERS_STATE_MOCK: CalculationParametersState = {
       },
     },
     operatingTemperature: 70,
-    movementFrequency: 0,
-    oscillationAngle: 0,
     ambientTemperature: 20,
     contamination: 'LB_STANDARD_CLEANLINESS',
     conditionOfRotation: 'innerring',

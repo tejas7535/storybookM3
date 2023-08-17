@@ -16,15 +16,11 @@
     "loads": "Load",
     "radialLoad": "Radial load",
     "axialLoad": "Axial load",
-    "motionInfluences": "Motion Influences",
-    "relativeRotationalSpeed": "Rotation Speed",
     "resetInputs": "Reset inputs",
-    "onePerMinute": "1/min",
     "pleaseEnter": "Enter {{label}}",
     "tooltip": {
       "radialLoad": "Load in the radial direction (to be specified as an absolute value)",
-      "axialLoad": "Load in axial direction (to be specified as an absolute value)",
-      "rotationSpeed": "Relative rotational speed between the inner and the outer ring (to be specified as an absolute value)"
+      "axialLoad": "Load in axial direction (to be specified as an absolute value)"
     },
     "errors": {
       "min": "The value is too low",
@@ -34,6 +30,25 @@
       "innerOuterInconsistent": "The bore diameter must be smaller than the outer diameter",
       "minMaxInconsistent": "The minimum value must be smaller than than the maximum value",
       "anyLoad": "One load is required"
+    },
+    "rotatingCondition": {
+      "title": "Motion Influences",
+      "typeOfMotion": "Type of motion",
+      "relativeRotationalSpeed": "Rotation Speed",
+      "shiftFrequency": "Shift frequency",
+      "shiftAngle": "Shift angle",
+      "onePerMinute": "1/min",
+      "degree": "°",
+      "rpm": "RPM",
+      "options": {
+        "LB_ROTATING": "rotating",
+        "LB_OSCILLATING": "oscillating"
+      },
+      "tooltip": {
+        "rotationSpeed": "Relative rotational speed between the inner and the outer ring (to be specified as an absolute value)",
+        "shiftFrequency": "Number of oscillation motions per minute (full cycle, back and forth)",
+        "shiftAngle": "Angle between the turning points for oscillating motions"
+      }
     },
     "lubrication": {
       "title": "Lubrication conditions",

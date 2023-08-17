@@ -46,6 +46,8 @@ export class ProductSelectionEffects {
         return bearingId$.pipe(
           switchMap((result) => [
             ProductSelectionActions.setBearingId({ bearingId: result }),
+            ProductSelectionActions.fetchLoadcaseTemplate(),
+            ProductSelectionActions.fetchOperatingConditionsTemplate(),
           ]),
           catchError((error: HttpErrorResponse) =>
             of(
@@ -123,6 +125,56 @@ export class ProductSelectionEffects {
                 }),
               ];
             })
+          );
+      })
+    );
+  });
+
+  public fetchLoadcaseTemplate$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ProductSelectionActions.fetchLoadcaseTemplate),
+      concatLatestFrom(() => [this.productSelectionFacade.bearingId$]),
+      switchMap(([_action, bearingId]) => {
+        return this.catalogService.getLoadcaseTemplate(bearingId).pipe(
+          switchMap((result) => [
+            ProductSelectionActions.setLoadcaseTemplate({
+              loadcaseTemplate: result,
+            }),
+          ]),
+          catchError((_error: HttpErrorResponse) => {
+            console.error(_error);
+
+            return of(
+              ProductSelectionActions.setLoadcaseTemplate({
+                loadcaseTemplate: undefined,
+              })
+            );
+          })
+        );
+      })
+    );
+  });
+
+  public fetchOperatingConditionsTemplate$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ProductSelectionActions.fetchOperatingConditionsTemplate),
+      concatLatestFrom(() => [this.productSelectionFacade.bearingId$]),
+      switchMap(([_action, bearingId]) => {
+        return this.catalogService
+          .getOperatingConditionsTemplate(bearingId)
+          .pipe(
+            switchMap((result) => [
+              ProductSelectionActions.setOperatingConditionsTemplate({
+                operatingConditionsTemplate: result,
+              }),
+            ]),
+            catchError((_error: HttpErrorResponse) =>
+              of(
+                ProductSelectionActions.setOperatingConditionsTemplate({
+                  operatingConditionsTemplate: undefined,
+                })
+              )
+            )
           );
       })
     );

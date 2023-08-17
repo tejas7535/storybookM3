@@ -19,8 +19,10 @@ export interface CalculationParametersOperationConditions {
     radialLoad: number;
   };
   rotation: {
+    typeOfMotion: CatalogServiceLoadCaseData['IDSLC_TYPE_OF_MOVEMENT'];
     rotationalSpeed: number;
-    typeOfMovement: CatalogServiceLoadCaseData['IDSLC_TYPE_OF_MOVEMENT'];
+    shiftFrequency: number;
+    shiftAngle: number;
   };
 
   contamination: CatalogServiceOperatingConditions['IDL_CLEANESS_VALUE'];
@@ -71,9 +73,6 @@ export interface CalculationParametersOperationConditions {
       };
     };
   };
-
-  oscillationAngle: number;
-  movementFrequency: number;
 
   externalHeatFlow: number;
 

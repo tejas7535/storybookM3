@@ -14,7 +14,6 @@ import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
-  UntypedFormGroup,
   ValidationErrors,
   Validators,
 } from '@angular/forms';
@@ -32,6 +31,7 @@ import {
   Observable,
   startWith,
   Subject,
+  switchMap,
   takeUntil,
 } from 'rxjs';
 
@@ -64,7 +64,16 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { BasicFrequenciesComponent } from '../basic-frequencies/basic-frequencies.component';
 import { CalculationTypesSelectionComponent } from '../calculation-types-selection/calculation-types-selection';
 import { getContaminationOptions } from './contamination.options';
+import {
+  anyLoadGroupValidator,
+  loadValidators,
+  rotationalSpeedValidators,
+  rotationValidator,
+  shiftAngleValidators,
+  shiftFrequencyValidators,
+} from './form-validators';
 import { ParameterTemplateDirective } from './parameter-template.directive';
+import { getTypeOfMotion } from './type-of-motion.options';
 
 @Component({
   templateUrl: './calculation-parameters.html',
@@ -117,17 +126,28 @@ export class CalculationParametersComponent
   public operationConditionsForm = new FormGroup({
     load: new FormGroup(
       {
-        radialLoad: new FormControl<number>(undefined, Validators.required),
-        axialLoad: new FormControl<number>(undefined, Validators.required),
+        radialLoad: new FormControl<number>(undefined, loadValidators),
+        axialLoad: new FormControl<number>(undefined, loadValidators),
       },
-      [this.loadValidator()]
+      [anyLoadGroupValidator()]
     ),
-    rotation: new FormGroup({
-      rotationalSpeed: new FormControl<number>(undefined, Validators.required),
-      typeOfMovement: new FormControl<
-        CalculationParametersOperationConditions['rotation']['typeOfMovement']
-      >('LB_ROTATING'),
-    }),
+    rotation: new FormGroup(
+      {
+        typeOfMotion: new FormControl<
+          CalculationParametersOperationConditions['rotation']['typeOfMotion']
+        >('LB_ROTATING', Validators.required),
+        rotationalSpeed: new FormControl<number>(
+          undefined,
+          rotationalSpeedValidators
+        ),
+        shiftFrequency: new FormControl<number>(
+          undefined,
+          shiftFrequencyValidators
+        ),
+        shiftAngle: new FormControl<number>(undefined, shiftAngleValidators),
+      },
+      [rotationValidator()]
+    ),
     lubrication: new FormGroup({
       lubricationSelection: new FormControl<
         'grease' | 'oilBath' | 'oilMist' | 'recirculatingOil'
@@ -227,6 +247,9 @@ export class CalculationParametersComponent
 
   public readonly isoVgClasses = ISOVgClasses;
   public readonly greases = Greases;
+  public typeOfMotionOptions$:
+    | Observable<{ label: string; value: string }[]>
+    | undefined;
   public contaminationOptions$:
     | Observable<{ label: string; value: string }[]>
     | undefined;
@@ -242,7 +265,7 @@ export class CalculationParametersComponent
   constructor(
     private readonly calculationParametersFacade: CalculationParametersFacade,
     private readonly productSelectionFacade: ProductSelectionFacade,
-    private readonly matDialog: MatDialog,
+    public readonly matDialog: MatDialog,
     private readonly translocoService: TranslocoService
   ) {}
 
@@ -313,6 +336,20 @@ export class CalculationParametersComponent
     );
 
     this.contaminationOptions$ = getContaminationOptions(this.translocoService);
+    this.typeOfMotionOptions$ = this.productSelectionFacade
+      .loadcaseTemplateItem(
+        'DIALOG_CATALOGUE_BEARING_LOADCASE_IDSLC_TYPE_OF_MOVEMENT'
+      )
+      .pipe(
+        switchMap((template) =>
+          getTypeOfMotion(
+            this.translocoService,
+            (template?.options || []) as {
+              value: CalculationParametersOperationConditions['rotation']['typeOfMotion'];
+            }[]
+          )
+        )
+      );
   }
 
   public ngOnDestroy(): void {
@@ -332,48 +369,5 @@ export class CalculationParametersComponent
 
   public onShowCalculationTypesClick(): void {
     this.matDialog.open(CalculationTypesSelectionComponent);
-  }
-
-  private loadValidator(): any {
-    return (group: UntypedFormGroup): void => {
-      const { radialLoad, axialLoad } = group.value;
-      const { axialLoad: axialLoadControl, radialLoad: radialLoadControl } =
-        group.controls;
-
-      const anyLoadApplied = radialLoad > 0 || axialLoad > 0;
-
-      if (anyLoadApplied) {
-        // remove required validator on other field
-        if (radialLoad > 0) {
-          axialLoadControl.clearValidators();
-        } else {
-          radialLoadControl.clearValidators();
-        }
-        this.removeLoadErrors(group, 'radialLoad');
-        this.removeLoadErrors(group, 'axialLoad');
-      } else {
-        this.setLoadErrors(group, 'radialLoad');
-        this.setLoadErrors(group, 'axialLoad');
-
-        // set both fields as required
-        radialLoadControl.setValidators([Validators.required]);
-        axialLoadControl.setValidators([Validators.required]);
-      }
-    };
-  }
-
-  private setLoadErrors(group: UntypedFormGroup, type: string): void {
-    group.controls[type].setErrors({
-      ...group.controls[type].errors,
-      anyLoad: true,
-    });
-  }
-
-  private removeLoadErrors(group: UntypedFormGroup, type: string): void {
-    if (group.controls[type]?.errors?.anyLoad) {
-      const { anyLoad: _anyLoad, ...otherErrors } = group.controls[type].errors;
-      /* eslint-disable unicorn/no-null */
-      group.controls[type].setErrors(otherErrors?.length ? otherErrors : null);
-    }
   }
 }
