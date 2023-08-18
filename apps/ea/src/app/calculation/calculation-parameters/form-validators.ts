@@ -4,6 +4,7 @@ import {
   FormControl,
   FormGroup,
   ValidationErrors,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 
@@ -94,4 +95,42 @@ export const shiftAngleValidators = [
   Validators.required,
   Validators.min(0.001),
   Validators.max(10_000),
+];
+
+export const viscosityGroupValidators = (): ValidatorFn[] => [
+  (control: AbstractControl): ValidationErrors | null => {
+    const errorKey = 'viscosity';
+    const { ny40, ny100 } = (control as FormGroup).controls;
+
+    // ny40 must be greater than ny100
+    if (ny40.value && ny100.value && ny40.value <= ny100.value) {
+      if (!ny40.hasError(errorKey)) {
+        ny40.setErrors({ [errorKey]: true });
+      }
+      if (!ny100.hasError(errorKey)) {
+        ny100.setErrors({ [errorKey]: true });
+      }
+    } else {
+      if (ny40.hasError(errorKey)) {
+        ny40.setErrors(null);
+      }
+      if (ny100.hasError(errorKey)) {
+        ny100.setErrors(null);
+      }
+    }
+
+    return null;
+  },
+];
+
+export const viscosityNy40Validators = [
+  Validators.required,
+  Validators.min(0),
+  Validators.max(1500),
+];
+
+export const viscosityNy100Validators = [
+  Validators.required,
+  Validators.min(0),
+  Validators.max(1000),
 ];

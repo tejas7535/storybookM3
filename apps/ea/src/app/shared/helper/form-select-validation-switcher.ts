@@ -46,13 +46,3 @@ export const FormSelectValidatorSwitcher =
 
     return undefined;
   };
-
-export const FormGroupDisabledValidator =
-  () =>
-  (abstractControl: AbstractControl): ValidationErrors | undefined => {
-    if (!abstractControl.disabled) {
-      abstractControl.disable();
-    }
-
-    return undefined;
-  };

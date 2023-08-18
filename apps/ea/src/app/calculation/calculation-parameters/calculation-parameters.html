@@ -151,6 +151,7 @@ Status: {{ operationConditionsForm.status }}</pre
         [tooltip]="t('tooltip.radialLoad')"
         [placeholder]="t('pleaseEnter', { label: t('radialLoad') })"
         [onlyPositive]="true"
+        [customErrors]="[{name: 'anyLoad'}]"
       ></ea-input-number>
       <ea-input-number
         [formControl]="operationConditionsForm.controls.load.controls.axialLoad"
@@ -159,6 +160,7 @@ Status: {{ operationConditionsForm.status }}</pre
         [tooltip]="t('tooltip.axialLoad')"
         [placeholder]="t('pleaseEnter', { label: t('axialLoad') })"
         [onlyPositive]="true"
+        [customErrors]="[{name: 'anyLoad'}]"
       ></ea-input-number>
     </div>
   </ea-input-group>
@@ -272,7 +274,6 @@ Status: {{ operationConditionsForm.status }}</pre
           [label]="t('grease.viscosity.label')"
           name="viscosity"
           [description]="t('grease.viscosity.description')"
-          [isDisabled]="true"
         >
           <ng-container formGroupName="viscosity">
             <ea-input-number
@@ -280,6 +281,8 @@ Status: {{ operationConditionsForm.status }}</pre
               [label]="t('grease.viscosity.ny40')"
               [unit]="t('grease.viscosity.unit')"
               [onlyPositive]="true"
+              [customErrors]="[{name: 'viscosity'}]"
+              class="min-w-max"
             ></ea-input-number>
 
             <ea-input-number
@@ -287,6 +290,8 @@ Status: {{ operationConditionsForm.status }}</pre
               [label]="t('grease.viscosity.ny100')"
               [unit]="t('grease.viscosity.unit')"
               [onlyPositive]="true"
+              [customErrors]="[{name: 'viscosity'}]"
+              class="min-w-max"
             ></ea-input-number>
           </ng-container>
         </ea-tabbed-suboption>
@@ -302,6 +307,7 @@ Status: {{ operationConditionsForm.status }}</pre
           formControlName="selection"
           [label]="t('grease.isoVgClass.label')"
           name="isoVgClass"
+          class="min-w-[50%]"
           [description]="t('grease.isoVgClass.description')"
         >
           <ng-container formGroupName="isoVgClass">
@@ -319,8 +325,8 @@ Status: {{ operationConditionsForm.status }}</pre
           formControlName="selection"
           [label]="t('grease.viscosity.label')"
           name="viscosity"
+          class="min-w-[50%]"
           [description]="t('grease.viscosity.description')"
-          [isDisabled]="true"
         >
           <ng-container formGroupName="viscosity">
             <ea-input-number
@@ -328,6 +334,7 @@ Status: {{ operationConditionsForm.status }}</pre
               [label]="t('grease.viscosity.ny40')"
               [unit]="t('grease.viscosity.unit')"
               [onlyPositive]="true"
+              [customErrors]="[{name: 'viscosity'}]"
             ></ea-input-number>
 
             <ea-input-number
@@ -335,6 +342,7 @@ Status: {{ operationConditionsForm.status }}</pre
               [label]="t('grease.viscosity.ny100')"
               [unit]="t('grease.viscosity.unit')"
               [onlyPositive]="true"
+              [customErrors]="[{name: 'viscosity'}]"
             ></ea-input-number>
           </ng-container>
         </ea-tabbed-suboption>
@@ -350,6 +358,7 @@ Status: {{ operationConditionsForm.status }}</pre
           formControlName="selection"
           [label]="t('grease.isoVgClass.label')"
           name="isoVgClass"
+          class="min-w-[50%]"
           [description]="t('grease.isoVgClass.description')"
         >
           <ng-container formGroupName="isoVgClass">
@@ -367,8 +376,8 @@ Status: {{ operationConditionsForm.status }}</pre
           formControlName="selection"
           [label]="t('grease.viscosity.label')"
           name="viscosity"
+          class="min-w-[50%]"
           [description]="t('grease.viscosity.description')"
-          [isDisabled]="true"
         >
           <ng-container formGroupName="viscosity">
             <ea-input-number
@@ -376,6 +385,7 @@ Status: {{ operationConditionsForm.status }}</pre
               [label]="t('grease.viscosity.ny40')"
               [unit]="t('grease.viscosity.unit')"
               [onlyPositive]="true"
+              [customErrors]="[{name: 'viscosity'}]"
             ></ea-input-number>
 
             <ea-input-number
@@ -383,6 +393,7 @@ Status: {{ operationConditionsForm.status }}</pre
               [label]="t('grease.viscosity.ny100')"
               [unit]="t('grease.viscosity.unit')"
               [onlyPositive]="true"
+              [customErrors]="[{name: 'viscosity'}]"
             ></ea-input-number>
           </ng-container>
         </ea-tabbed-suboption>
@@ -398,6 +409,7 @@ Status: {{ operationConditionsForm.status }}</pre
           formControlName="selection"
           [label]="t('grease.isoVgClass.label')"
           name="isoVgClass"
+          class="min-w-[50%]"
           [description]="t('grease.isoVgClass.description')"
         >
           <ng-container formGroupName="isoVgClass">
@@ -415,6 +427,7 @@ Status: {{ operationConditionsForm.status }}</pre
           formControlName="selection"
           [label]="t('grease.viscosity.label')"
           name="viscosity"
+          class="min-w-[50%]"
           [description]="t('grease.viscosity.description')"
         >
           <ng-container formGroupName="viscosity">
@@ -423,6 +436,7 @@ Status: {{ operationConditionsForm.status }}</pre
               [label]="t('grease.viscosity.ny40')"
               [unit]="t('grease.viscosity.unit')"
               [onlyPositive]="true"
+              [customErrors]="[{name: 'viscosity'}]"
             ></ea-input-number>
 
             <ea-input-number
@@ -430,6 +444,7 @@ Status: {{ operationConditionsForm.status }}</pre
               [label]="t('grease.viscosity.ny100')"
               [unit]="t('grease.viscosity.unit')"
               [onlyPositive]="true"
+              [customErrors]="[{name: 'viscosity'}]"
             ></ea-input-number>
           </ng-container>
         </ea-tabbed-suboption>

@@ -45,10 +45,7 @@ import {
 import { Greases } from '@ea/shared/constants/greases';
 import { ISOVgClasses } from '@ea/shared/constants/iso-vg-classes';
 import { extractNestedErrors } from '@ea/shared/helper/form.helper';
-import {
-  FormGroupDisabledValidator,
-  FormSelectValidatorSwitcher,
-} from '@ea/shared/helper/form-select-validation-switcher';
+import { FormSelectValidatorSwitcher } from '@ea/shared/helper/form-select-validation-switcher';
 import { InfoBannerComponent } from '@ea/shared/info-banner/info-banner.component';
 import { InputGroupComponent } from '@ea/shared/input-group/input-group.component';
 import { InputNumberComponent } from '@ea/shared/input-number/input-number.component';
@@ -71,6 +68,9 @@ import {
   rotationValidator,
   shiftAngleValidators,
   shiftFrequencyValidators,
+  viscosityGroupValidators,
+  viscosityNy40Validators,
+  viscosityNy100Validators,
 } from './form-validators';
 import { ParameterTemplateDirective } from './parameter-template.directive';
 import { getTypeOfMotion } from './type-of-motion.options';
@@ -167,10 +167,10 @@ export class CalculationParametersComponent
         }),
         viscosity: new FormGroup(
           {
-            ny40: new FormControl<number>(undefined, [Validators.required]),
-            ny100: new FormControl<number>(undefined, [Validators.required]),
+            ny40: new FormControl<number>(undefined, viscosityNy40Validators),
+            ny100: new FormControl<number>(undefined, viscosityNy100Validators),
           },
-          [FormGroupDisabledValidator()]
+          viscosityGroupValidators()
         ),
       }),
       oilBath: new FormGroup({
@@ -182,10 +182,10 @@ export class CalculationParametersComponent
         }),
         viscosity: new FormGroup(
           {
-            ny40: new FormControl<number>(undefined, [Validators.required]),
-            ny100: new FormControl<number>(undefined, [Validators.required]),
+            ny40: new FormControl<number>(undefined, viscosityNy40Validators),
+            ny100: new FormControl<number>(undefined, viscosityNy100Validators),
           },
-          FormGroupDisabledValidator()
+          viscosityGroupValidators()
         ),
       }),
       oilMist: new FormGroup({
@@ -197,10 +197,10 @@ export class CalculationParametersComponent
         }),
         viscosity: new FormGroup(
           {
-            ny40: new FormControl<number>(undefined, [Validators.required]),
-            ny100: new FormControl<number>(undefined, [Validators.required]),
+            ny40: new FormControl<number>(undefined, viscosityNy40Validators),
+            ny100: new FormControl<number>(undefined, viscosityNy100Validators),
           },
-          FormGroupDisabledValidator()
+          viscosityGroupValidators()
         ),
       }),
       recirculatingOil: new FormGroup({
@@ -212,10 +212,10 @@ export class CalculationParametersComponent
         }),
         viscosity: new FormGroup(
           {
-            ny40: new FormControl<number>(undefined, [Validators.required]),
-            ny100: new FormControl<number>(undefined, [Validators.required]),
+            ny40: new FormControl<number>(undefined, viscosityNy40Validators),
+            ny100: new FormControl<number>(undefined, viscosityNy100Validators),
           },
-          FormGroupDisabledValidator()
+          viscosityGroupValidators()
         ),
       }),
     }),
