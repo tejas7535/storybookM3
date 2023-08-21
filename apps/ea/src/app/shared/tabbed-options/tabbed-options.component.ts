@@ -59,8 +59,16 @@ export class TabbedOptionsComponent implements AfterContentInit {
     .observe([`(min-width: ${TAILWIND_SCREENS.MD})`])
     .pipe(map((state) => state.matches));
 
-  templateMap: { [key: string]: TemplateRef<unknown> } = {};
-  visibleTemplate$: Observable<TemplateRef<unknown> | undefined>;
+  templateMap: {
+    [key: string]: {
+      ref: TemplateRef<unknown>;
+      label: string;
+      styleClass?: string | string[] | Record<string, boolean>;
+    };
+  } = {};
+  visibleTemplate$: Observable<
+    typeof this.templateMap[keyof typeof this.templateMap] | undefined
+  >;
 
   selectionOptions: { label: string; value: string }[] = [];
 
@@ -80,7 +88,11 @@ export class TabbedOptionsComponent implements AfterContentInit {
   ngAfterContentInit() {
     this.templateMap = {};
     this.templates.forEach((item) => {
-      this.templateMap[item.name] = item.template;
+      this.templateMap[item.name] = {
+        ref: item.template,
+        label: item.label,
+        styleClass: item.className,
+      };
     });
 
     this.selectionOptions = this.templates.map((item) => ({

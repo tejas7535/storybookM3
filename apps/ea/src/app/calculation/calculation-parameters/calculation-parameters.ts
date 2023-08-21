@@ -63,6 +63,7 @@ import { CalculationTypesSelectionComponent } from '../calculation-types-selecti
 import { getContaminationOptions } from './contamination.options';
 import {
   anyLoadGroupValidator,
+  increaseInOilTempValidators,
   loadValidators,
   rotationalSpeedValidators,
   rotationValidator,
@@ -205,7 +206,7 @@ export class CalculationParametersComponent
       }),
       recirculatingOil: new FormGroup({
         selection: new FormControl<'isoVgClass' | 'viscosity'>('isoVgClass', [
-          FormSelectValidatorSwitcher(),
+          FormSelectValidatorSwitcher({ onlyFormGroups: true }),
         ]),
         isoVgClass: new FormGroup({
           isoVgClass: new FormControl<number>(undefined, [Validators.required]),
@@ -216,6 +217,11 @@ export class CalculationParametersComponent
             ny100: new FormControl<number>(undefined, viscosityNy100Validators),
           },
           viscosityGroupValidators()
+        ),
+        oilFlow: new FormControl<number>(undefined, [Validators.required]),
+        oilTemperatureDifference: new FormControl<number>(
+          undefined,
+          increaseInOilTempValidators
         ),
       }),
     }),

@@ -62,9 +62,13 @@ export interface CatalogServiceBaseOperatingConditions {
   /**
    * Only used for LB_CALCULATE_VISCOSITIES
    */
-  // IDL_OILTEMP?: NumberString;
   // IDL_SPEED_WITHOUT_SIGN: NumberString;
   // IDL_ISO_VG_CLASS_CALCULATED?: string;
+  // IDL_OILTEMP: NumberString;
+
+  /** Only used for recirculating oil */
+  IDL_OIL_FLOW: NumberString;
+  IDL_OIL_TEMPERATURE_DIFFERENCE: NumberString;
 }
 
 export interface CatalogServiceOperatingConditionsISOClass {

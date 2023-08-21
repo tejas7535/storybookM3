@@ -46,6 +46,8 @@ export const initialState: CalculationParametersState = {
         selection: 'isoVgClass',
         isoVgClass: { isoVgClass: undefined },
         viscosity: { ny100: undefined, ny40: undefined },
+        oilFlow: undefined,
+        oilTemperatureDifference: 0,
       },
     },
     ambientTemperature: 20,

@@ -34,6 +34,8 @@ export const CALCULATION_PARAMETERS_STATE_MOCK: CalculationParametersState = {
         selection: 'isoVgClass',
         isoVgClass: { isoVgClass: undefined },
         viscosity: { ny100: undefined, ny40: undefined },
+        oilTemperatureDifference: 0,
+        oilFlow: undefined,
       },
     },
     operatingTemperature: 70,

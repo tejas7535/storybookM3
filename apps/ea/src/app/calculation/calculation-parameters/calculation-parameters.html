@@ -403,51 +403,69 @@ Status: {{ operationConditionsForm.status }}</pre
         optionTemplate="recirculatingOil"
         [label]="t('options.recirculatingOil')"
         formGroupName="recirculatingOil"
+        [className]="'flex-col'"
       >
-        <!-- ISO VG CLASS -->
-        <ea-tabbed-suboption
-          formControlName="selection"
-          [label]="t('grease.isoVgClass.label')"
-          name="isoVgClass"
-          class="min-w-[50%]"
-          [description]="t('grease.isoVgClass.description')"
-        >
-          <ng-container formGroupName="isoVgClass">
-            <ea-input-select
-              formControlName="isoVgClass"
-              [label]="t('grease.isoVgClass.label')"
-              [options]="isoVgClasses"
-              [tooltip]="t('grease.isoVgClass.tooltip')"
-            ></ea-input-select>
-          </ng-container>
-        </ea-tabbed-suboption>
+        <div class="grid md:grid-cols-2 grid-cols-1 gap-4">
+          <!-- ISO VG CLASS -->
+          <ea-tabbed-suboption
+            formControlName="selection"
+            [label]="t('grease.isoVgClass.label')"
+            name="isoVgClass"
+            [description]="t('grease.isoVgClass.description')"
+          >
+            <ng-container formGroupName="isoVgClass">
+              <ea-input-select
+                formControlName="isoVgClass"
+                [label]="t('grease.isoVgClass.label')"
+                [options]="isoVgClasses"
+                [tooltip]="t('grease.isoVgClass.tooltip')"
+              ></ea-input-select>
+            </ng-container>
+          </ea-tabbed-suboption>
 
-        <!-- VISCOSITY -->
-        <ea-tabbed-suboption
-          formControlName="selection"
-          [label]="t('grease.viscosity.label')"
-          name="viscosity"
-          class="min-w-[50%]"
-          [description]="t('grease.viscosity.description')"
-        >
-          <ng-container formGroupName="viscosity">
-            <ea-input-number
-              formControlName="ny40"
-              [label]="t('grease.viscosity.ny40')"
-              [unit]="t('grease.viscosity.unit')"
-              [onlyPositive]="true"
-              [customErrors]="[{name: 'viscosity'}]"
-            ></ea-input-number>
+          <!-- VISCOSITY -->
+          <ea-tabbed-suboption
+            formControlName="selection"
+            [label]="t('grease.viscosity.label')"
+            name="viscosity"
+            [description]="t('grease.viscosity.description')"
+          >
+            <ng-container formGroupName="viscosity">
+              <ea-input-number
+                formControlName="ny40"
+                [label]="t('grease.viscosity.ny40')"
+                [unit]="t('grease.viscosity.unit')"
+                [onlyPositive]="true"
+                [customErrors]="[{name: 'viscosity'}]"
+              ></ea-input-number>
 
-            <ea-input-number
-              formControlName="ny100"
-              [label]="t('grease.viscosity.ny100')"
-              [unit]="t('grease.viscosity.unit')"
-              [onlyPositive]="true"
-              [customErrors]="[{name: 'viscosity'}]"
-            ></ea-input-number>
-          </ng-container>
-        </ea-tabbed-suboption>
+              <ea-input-number
+                formControlName="ny100"
+                [label]="t('grease.viscosity.ny100')"
+                [unit]="t('grease.viscosity.unit')"
+                [onlyPositive]="true"
+                [customErrors]="[{name: 'viscosity'}]"
+              ></ea-input-number>
+            </ng-container>
+          </ea-tabbed-suboption>
+        </div>
+
+        <div class="grid grid-cols-1 mt-4 gap-0 md:grid-cols-2 md:gap-4">
+          <ea-input-number
+            formControlName="oilFlow"
+            [label]="t('recirculatingOil.oilFlow')"
+            [unit]="'l/min'"
+            [placeholder]="'operationConditions.pleaseEnter' | transloco:{ label: t('recirculatingOil.oilFlow')}"
+            [onlyPositive]="true"
+          ></ea-input-number>
+          <ea-input-number
+            formControlName="oilTemperatureDifference"
+            [label]="t('recirculatingOil.oilTemperatureDifference')"
+            [unit]="'K'"
+            [placeholder]="'operationConditions.pleaseEnter' | transloco:{ label: t('recirculatingOil.oilTemperatureDifference')}"
+            [onlyPositive]="true"
+          ></ea-input-number>
+        </div>
       </ng-template>
     </ea-tabbed-options>
   </ea-input-group>

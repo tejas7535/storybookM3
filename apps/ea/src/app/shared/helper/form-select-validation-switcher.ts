@@ -13,7 +13,7 @@ import {
  * Attach this validator to the selection form control.
  */
 export const FormSelectValidatorSwitcher =
-  (): ValidatorFn =>
+  (options?: { onlyFormGroups?: boolean }): ValidatorFn =>
   (abstractControl: AbstractControl): ValidationErrors | undefined => {
     const formGroup = abstractControl?.parent as FormGroup;
 
@@ -31,6 +31,10 @@ export const FormSelectValidatorSwitcher =
     for (const [key, control] of Object.entries(formGroup.controls)) {
       // skip selection control itself
       if (control === selectionFormControl) {
+        continue;
+      }
+
+      if (options?.onlyFormGroups && !(control instanceof FormGroup)) {
         continue;
       }
 

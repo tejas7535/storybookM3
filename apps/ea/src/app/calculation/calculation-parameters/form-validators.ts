@@ -134,3 +134,9 @@ export const viscosityNy100Validators = [
   Validators.min(0),
   Validators.max(1000),
 ];
+
+export const increaseInOilTempValidators = [
+  Validators.required,
+  Validators.min(0),
+  Validators.max(100),
+];

@@ -71,6 +71,8 @@ export interface CalculationParametersOperationConditions {
         ny40: number;
         ny100: number;
       };
+      oilFlow: number;
+      oilTemperatureDifference: number;
     };
   };
 

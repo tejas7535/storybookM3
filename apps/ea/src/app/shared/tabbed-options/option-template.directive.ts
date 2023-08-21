@@ -10,6 +10,7 @@ import { Directive, Input, TemplateRef } from '@angular/core';
 export class OptionTemplateDirective {
   @Input('optionTemplate') name: string | undefined;
   @Input() label: string | undefined;
+  @Input() className?: string | string[] | Record<string, boolean>;
 
   constructor(public template: TemplateRef<any>) {}
 }

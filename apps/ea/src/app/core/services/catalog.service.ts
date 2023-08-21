@@ -156,6 +156,13 @@ export class CatalogService {
         conditionOfRotation === 'innerring'
           ? 'LB_ROTATING_INNERRING'
           : 'LB_ROTATING_OUTERRING',
+
+      IDL_OIL_FLOW: toNumberString(
+        lubricationConditions.recirculatingOil.oilFlow || 0
+      ),
+      IDL_OIL_TEMPERATURE_DIFFERENCE: toNumberString(
+        lubricationConditions.recirculatingOil.oilTemperatureDifference || 0
+      ),
     };
 
     const { load, rotation, operatingTemperature } = operationConditions;

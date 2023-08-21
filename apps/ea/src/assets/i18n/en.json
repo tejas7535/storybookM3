@@ -77,6 +77,10 @@
           "ny100": "Viscosity at 100°C",
           "unit": "mm²/s"
         }
+      },
+      "recirculatingOil": {
+        "oilFlow": "Oil flow (dV/dt)",
+        "oilTemperatureDifference": "Increase in oil temperature (delta T)"
       }
     },
     "contamination": {

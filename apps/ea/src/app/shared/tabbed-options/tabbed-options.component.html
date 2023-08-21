@@ -14,9 +14,10 @@
 
     <div
       class="flex flex-row gap-4"
+      [ngClass]="visibleTemplate.styleClass"
       *ngIf="visibleTemplate$ | async as visibleTemplate"
     >
-      <ng-template *ngTemplateOutlet="visibleTemplate"></ng-template>
+      <ng-template *ngTemplateOutlet="visibleTemplate.ref"></ng-template>
     </div>
   </ng-container>
 </div>
@@ -33,8 +34,14 @@
       [formControl]="control"
     ></ea-radio-button>
 
-    <div class="flex flex-col gap-2" *ngIf="option.value === control?.value">
-      <ng-template *ngTemplateOutlet="templateMap[option.value]"></ng-template>
+    <div
+      class="flex flex-col gap-2"
+      [ngClass]="templateMap[option.value].styleClass"
+      *ngIf="option.value === control?.value"
+    >
+      <ng-template
+        *ngTemplateOutlet="templateMap[option.value].ref"
+      ></ng-template>
     </div>
   </div>
 </ng-template>
