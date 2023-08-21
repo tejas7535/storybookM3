@@ -183,5 +183,13 @@ describe('MiscUtils', () => {
         )
       ).toEqual({ years: 2, months: 3, days: 12 });
     });
+    test('should cound commenced day as additional day', () => {
+      expect(
+        miscUtils.calculateDuration(
+          '2021-02-28T10:00:00Z',
+          '2023-06-12T00:00:00Z'
+        )
+      ).toEqual({ years: 2, months: 3, days: 12 });
+    });
   });
 });

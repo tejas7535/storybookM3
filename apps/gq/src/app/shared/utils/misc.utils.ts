@@ -24,6 +24,16 @@ export const calculateDuration = (
   const difference = moment(endDate).diff(moment(startDate));
   const duration = moment.duration(difference);
 
+  if (
+    duration.hours() > 0 ||
+    duration.minutes() > 0 ||
+    duration.seconds() > 0 ||
+    duration.milliseconds() > 0
+  ) {
+    // Commenced day counts as additional day
+    duration.add(1, 'day');
+  }
+
   return {
     years: duration.years(),
     months: duration.months(),
