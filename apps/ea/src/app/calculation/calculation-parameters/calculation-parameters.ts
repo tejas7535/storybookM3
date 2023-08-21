@@ -50,6 +50,7 @@ import { InfoBannerComponent } from '@ea/shared/info-banner/info-banner.componen
 import { InputGroupComponent } from '@ea/shared/input-group/input-group.component';
 import { InputNumberComponent } from '@ea/shared/input-number/input-number.component';
 import { InputSelectComponent } from '@ea/shared/input-select/input-select.component';
+import { QualtricsInfoBannerComponent } from '@ea/shared/qualtrics-info-banner/qualtrics-info-banner.component';
 import { OptionTemplateDirective } from '@ea/shared/tabbed-options/option-template.directive';
 import { TabbedOptionsComponent } from '@ea/shared/tabbed-options/tabbed-options.component';
 import { TabbedSuboptionComponent } from '@ea/shared/tabbed-suboption/tabbed-suboption.component';
@@ -98,6 +99,7 @@ import { getTypeOfMotion } from './type-of-motion.options';
     LetDirective,
     PushPipe,
     InfoBannerComponent,
+    QualtricsInfoBannerComponent,
     SharedTranslocoModule,
   ],
 })

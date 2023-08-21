@@ -7,17 +7,8 @@ const {
 module.exports = {
   presets: [schaefflerTailwindPreset],
   content: [
-    join(__dirname, 'src/**/*.ts'),
-    ...createGlobPatternsForDependencies(__dirname, '../../**/*.{ts,html}'),
+    join(__dirname, 'src/**/!(*.stories|*.spec).{ts,html}'),
+    ...createGlobPatternsForDependencies(__dirname),
   ],
-  theme: {
-    extend: {
-      backgroundColor: {
-        info: '#F0F6FA',
-      },
-      textColor: {
-        'info-icon': '#1C98B5',
-      },
-    },
-  },
+  plugins: [],
 };

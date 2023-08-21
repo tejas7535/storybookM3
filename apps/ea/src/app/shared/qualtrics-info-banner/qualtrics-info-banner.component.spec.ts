@@ -39,11 +39,13 @@ describe('QualtricsInfoBannerComponent', () => {
     });
 
     it('should provide translated button text', () => {
-      expect(feedbackBanner.feedbackButtonText).toBe('shared.feedbackButton');
+      expect(feedbackBanner.feedbackButtonText).toBe(
+        'qualtricsInfoBanner.feedbackButton'
+      );
     });
 
     it('should provide translated info text', () => {
-      expect(feedbackBanner.infoText).toBe('shared.feedbackText');
+      expect(feedbackBanner.infoText).toBe('qualtricsInfoBanner.feedbackText');
     });
 
     it('should provide available languages', () => {
@@ -52,7 +54,7 @@ describe('QualtricsInfoBannerComponent', () => {
 
     it('should provide survey url', () => {
       expect(feedbackBanner.surveyUrl).toBe(
-        'https://schaefflertech.qualtrics.com/jfe/form/SV_3wJxHoC3sDjvcCa?Q_Language='
+        'https://schaefflertech.qualtrics.com/jfe/form/SV_8BQzm549jixUDyu?Q_Language='
       );
     });
   });

@@ -29,9 +29,10 @@ describe('InfoBannerComponent', () => {
     });
 
     it('should display info text', () => {
-      const infoDiv: HTMLDivElement = spectator.query('.text-subtitle-2');
+      const infoDiv: HTMLDivElement | null =
+        spectator.query('.text-subtitle-2');
 
-      expect(infoDiv.textContent.trim()).toBe('some info text');
+      expect(infoDiv?.textContent?.trim()).toBe('some info text');
     });
   });
 });

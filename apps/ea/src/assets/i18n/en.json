@@ -218,6 +218,10 @@
     "basicFrequency": "Basic Frequencies",
     "saveAsPDF": "Save as pdf"
   },
+  "qualtricsInfoBanner": {
+    "feedbackButton": "Feedback",
+    "feedbackText": "Your feedback is important to us, and we invite you to participate in our survey to help us improve. \nYour insights will guide our efforts to enhance our product, and we appreciate your time and feedback."
+  },
   "unit": {},
   "legal": {
     "imprint": "Imprint",

@@ -4,10 +4,10 @@ import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   standalone: true,
-  selector: 'ga-info-banner',
+  selector: 'schaeffler-info-banner',
   templateUrl: './info-banner.component.html',
   imports: [MatIconModule, CommonModule],
 })
 export class InfoBannerComponent {
-  @Input() infoText: string;
+  @Input() public infoText = '';
 }

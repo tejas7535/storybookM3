@@ -21,6 +21,7 @@ import { CalculationParametersCalculationTypeConfig } from '@ea/core/store/model
 import { ExpansionPanelComponent } from '@ea/expansion-panel/expansion-panel.component';
 import { InfoBannerComponent } from '@ea/shared/info-banner/info-banner.component';
 import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
+import { QualtricsInfoBannerComponent } from '@ea/shared/qualtrics-info-banner/qualtrics-info-banner.component';
 import { TagComponent } from '@ea/shared/tag/tag.component';
 import { TranslocoService } from '@ngneat/transloco';
 import { LetDirective, PushPipe } from '@ngrx/component';
@@ -54,6 +55,7 @@ import { CalculationTypesSelectionComponent } from '../calculation-types-selecti
     InfoBannerComponent,
     ExpansionPanelComponent,
     CalculationResultReportLargeItemsComponent,
+    QualtricsInfoBannerComponent,
   ],
 })
 export class CalculationResultReportComponent {

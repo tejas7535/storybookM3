@@ -5,19 +5,19 @@ import { MatIconModule } from '@angular/material/icon';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
-  templateUrl: './qualtrics-survey.component.html',
+  templateUrl: './survey.component.html',
   standalone: true,
   imports: [MatIconModule, MatDialogModule],
 })
-export class QualtricsSurveyComponent {
-  surveyUrl: SafeResourceUrl;
+export class SurveyComponent {
+  public safeSurveyUrl: SafeResourceUrl;
 
-  constructor(
+  public constructor(
     private readonly sanitizer: DomSanitizer,
-    @Inject(DIALOG_DATA) public data: { languageCode: string }
+    @Inject(DIALOG_DATA) public data: { url: string }
   ) {
-    this.surveyUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      `https://schaefflertech.qualtrics.com/jfe/form/SV_3wJxHoC3sDjvcCa?Q_Language=${data.languageCode}`
+    this.safeSurveyUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+      data.url
     );
   }
 }

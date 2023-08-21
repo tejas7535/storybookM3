@@ -1,0 +1,13 @@
+<ng-container *ngIf="shouldDisplayBanner">
+  <schaeffler-info-banner [infoText]="infoText">
+    <div class="pt-2 md:pt-0 md:ml-6">
+      <button
+        mat-raised-button
+        class="!text-medium-emphasis hover:!text-link whitespace-nowrap"
+        (click)="openSurveyDialog()"
+      >
+        <mat-icon>feedback</mat-icon> {{ feedbackButtonText }}
+      </button>
+    </div>
+  </schaeffler-info-banner>
+</ng-container>
