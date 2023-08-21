@@ -17,8 +17,8 @@ export class ApprovalWorkflowHistoryComponent {
   @Input() receivedApprovalsOfRequiredApprovals: string;
   @Input() quotationStatus: QuotationStatus;
 
-  workflowEventsAsc: ApprovalWorkflowEvent[];
-
+  startedEvent: ApprovalWorkflowEvent;
+  filteredWorkflowEvents: ApprovalWorkflowEvent[];
   readonly quotationStatusEnum = QuotationStatus;
   readonly eventType = ApprovalEventType;
   readonly translocoDatePipeConfig = TRANSLOCO_DATE_PIPE_CONFIG;
@@ -32,6 +32,31 @@ export class ApprovalWorkflowHistoryComponent {
   @Input()
   set workflowEvents(workflowEvents: ApprovalWorkflowEvent[]) {
     this._workflowEvents = workflowEvents;
-    this.workflowEventsAsc = workflowEvents?.slice().reverse();
+
+    this.filteredWorkflowEvents =
+      this.filterApprovalEventsForIterations(workflowEvents);
+
+    this.startedEvent = workflowEvents?.slice().reverse()[0];
+  }
+
+  filterApprovalEventsForIterations(
+    events: ApprovalWorkflowEvent[]
+  ): ApprovalWorkflowEvent[] {
+    if (!events) {
+      return [];
+    }
+
+    const shallowCopy = [...events];
+
+    // events are desc sorted, the last event, which is the very first STARTED/AUTO_APPROVED Event can be ignored
+    // it will not be displayed in Iterations Section
+    shallowCopy.pop();
+
+    // RELEASED event and REJECT event with QuotationStatus.REJECTED can be ignored in the displayed list
+    return shallowCopy.filter(
+      (item: ApprovalWorkflowEvent) =>
+        item.event !== ApprovalEventType.RELEASED &&
+        item.quotationStatus !== QuotationStatus.REJECTED
+    );
   }
 }

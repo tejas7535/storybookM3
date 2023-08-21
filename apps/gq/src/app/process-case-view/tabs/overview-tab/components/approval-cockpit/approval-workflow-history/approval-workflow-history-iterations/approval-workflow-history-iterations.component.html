@@ -4,11 +4,7 @@
     read: 'processCaseView.tabs.overview.approvalCockpit.workflow'
   "
 >
-  <ng-container
-    *ngrxLet="
-      workflowEvents | filterEventsForIterationsSection as workflowEvents
-    "
-  >
+  <ng-container *ngrxLet="workflowEvents">
     <!--auto approved event does not show a title for the Iterations-->
     <ng-container *ngIf="!autoApprovedEvent">
       <!--check which title to display find the template-->

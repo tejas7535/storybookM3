@@ -15,18 +15,14 @@
     [icon]="'check_circle_outline'"
     [iconColor]="'text-link'"
     [title]="
-      (workflowEventsAsc | slice: 0:1)[0]?.event === eventType.AUTO_APPROVAL
+      startedEvent?.event === eventType.AUTO_APPROVAL
         ? t('workflowAutoApprovedText')
         : t('workflowStartedText')
     "
     [subtitle]="
       t('eventCreatedBy', {
-        date:
-          (workflowEventsAsc | slice: 0:1)[0]?.eventDate
-          | translocoDate: translocoDatePipeConfig,
-        user:
-          (workflowEventsAsc | slice: 0:1)[0]?.user
-          | approverDisplay: t('unknownApprover')
+        date: startedEvent?.eventDate | translocoDate: translocoDatePipeConfig,
+        user: startedEvent?.user | approverDisplay: t('unknownApprover')
       })
     "
   ></gq-approval-workflow-history-section>
@@ -48,7 +44,7 @@
       [autoApprovedEvent]="quotationAutoApprovedEvent"
       [cancelledEvent]="quotationCancelledEvent"
       [rejectedEvent]="quotationRejectedEvent"
-      [workflowEvents]="workflowEvents"
+      [workflowEvents]="filteredWorkflowEvents"
       [isApproved]="quotationStatus === quotationStatusEnum.APPROVED"
       [inApproval]="quotationStatus === quotationStatusEnum.IN_APPROVAL"
       [receivedApprovalsOfRequiredApprovals]="
