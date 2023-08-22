@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
-import { MatLegacyChipsModule as MatChipsModule } from '@angular/material/legacy-chips';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { EffectsModule } from '@ngrx/effects';
@@ -31,7 +30,6 @@ import { AttritionAnalyticsEffects } from './store/effects/attrition-analytics.e
     FeatureImportanceModule,
     FeatureAnalysisModule,
     SelectInputModule,
-    MatCardModule,
     MatChipsModule,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'attrition-analytics' }],

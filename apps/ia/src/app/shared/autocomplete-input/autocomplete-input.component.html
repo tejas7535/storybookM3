@@ -29,6 +29,7 @@
     [displayWith]="displayFn"
     [panelWidth]="'auto'"
     [autoActiveFirstOption]="true"
+    [hideSingleSelectionIndicator]="true"
   >
     <mat-option
       *ngFor="let option of filter?.options; trackBy: trackByFn"

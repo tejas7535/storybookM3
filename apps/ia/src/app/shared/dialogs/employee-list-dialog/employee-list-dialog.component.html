@@ -1,6 +1,6 @@
 <div mat-dialog-title class="!flex flex-row" *ngIf="data?.headings?.header">
   <h6
-    class="!text-high-emphasis !mb-4 !ml-1 !mr-0 !mt-0 grow font-medium"
+    class="!text-high-emphasis grow font-medium"
     *transloco="let t; read: 'employeeListDialog'"
   >
     {{ data?.headings?.header }}
@@ -90,79 +90,82 @@
               </div>
             </div>
           </div>
-          <mat-chip-list
-            *ngIf="
-              data.showFluctuationTypeOnTeamMemberDialog ||
-              employee.reasonForLeaving
-            "
-            class="mat-chip-list-stacked"
-          >
-            <mat-chip
+          <div class="!ml-auto !mr-0">
+            <mat-chip-listbox
               *ngIf="
-                employee.actionType === ACTION_TYPE.INTERNAL &&
-                data.showFluctuationTypeOnTeamMemberDialog
+                data.showFluctuationTypeOnTeamMemberDialog ||
+                employee.reasonForLeaving
               "
-              disableRipple="true"
-              selectable="false"
-              class="!bg-lime text-caption !text-high-emphasis-dark-bg !w-[250px] justify-center self-center after:!bg-transparent"
-              [matTooltip]="t('fluctuationType.info')"
-              (click)="$event.stopPropagation()"
+              class="mat-mdc-chip-set-stacked"
             >
-              {{ t('fluctuationType.internal.label') }}
-            </mat-chip>
-            <mat-chip
-              *ngIf="
-                employee.actionType === ACTION_TYPE.EXTERNAL &&
-                data.showFluctuationTypeOnTeamMemberDialog
-              "
-              disableRipple="true"
-              selectable="false"
-              class="!bg-light-blue text-caption !text-high-emphasis-dark-bg !w-[250px] justify-center self-center after:!bg-transparent"
-              [matTooltip]="t('fluctuationType.info')"
-              (click)="$event.stopPropagation()"
-            >
-              {{ t('fluctuationType.external.label') }}
-            </mat-chip>
-            <mat-chip
-              *ngIf="employee.reasonForLeaving"
-              disableRipple="true"
-              selectable="false"
-              class="text-caption !text-high-emphasis-dark-bg !w-[250px] justify-center self-center after:!bg-transparent"
-              [ngClass]="{
-                '!bg-gray-blue':
-                  employee.reasonForLeaving === LEAVING_TYPE.FORCED,
-                '!bg-sea-blue':
-                  employee.reasonForLeaving === LEAVING_TYPE.UNFORCED,
-                '!bg-teal': employee.reasonForLeaving === LEAVING_TYPE.REMAINING
-              }"
-              [matTooltip]="t('reasonForLeaving')"
-              (click)="$event.stopPropagation()"
-            >
-              {{ employee.reasonForLeaving }}
-            </mat-chip>
-            <mat-chip
-              *ngIf="
-                employee.previousDimensionValue || employee.nextDimensionValue
-              "
-              disableRipple="true"
-              selectable="false"
-              class="text-caption !text-high-emphasis-dark-bg !grid !h-auto !max-h-20 !w-[250px] !grid-flow-col justify-center !bg-[#8fb2ca] after:!bg-transparent"
-              [matTooltip]="t('internalChangeTooltip')"
-              (click)="$event.stopPropagation()"
-            >
-              <span class="text-end">{{
-                employee.previousDimensionValue
-                  ? employee.previousDimensionValue
-                  : employee.currentDimensionValue
-              }}</span>
-              <mat-icon>chevron_right</mat-icon>
-              <span class="text-start">{{
-                employee.nextDimensionValue
-                  ? employee.nextDimensionValue
-                  : employee.currentDimensionValue
-              }}</span>
-            </mat-chip>
-          </mat-chip-list>
+              <mat-chip
+                *ngIf="
+                  employee.actionType === ACTION_TYPE.INTERNAL &&
+                  data.showFluctuationTypeOnTeamMemberDialog
+                "
+                disableRipple="true"
+                selectable="false"
+                class="!bg-lime text-caption !text-high-emphasis-dark-bg after:!bg-transparent !w-[250px] !ml-auto !mr-0"
+                [matTooltip]="t('fluctuationType.info')"
+                (click)="$event.stopPropagation()"
+              >
+                {{ t('fluctuationType.internal.label') }}
+              </mat-chip>
+              <mat-chip
+                *ngIf="
+                  employee.actionType === ACTION_TYPE.EXTERNAL &&
+                  data.showFluctuationTypeOnTeamMemberDialog
+                "
+                disableRipple="true"
+                selectable="false"
+                class="!bg-light-blue text-caption !text-high-emphasis-dark-bg after:!bg-transparent !w-[250px] !ml-auto !mr-0"
+                [matTooltip]="t('fluctuationType.info')"
+                (click)="$event.stopPropagation()"
+              >
+                {{ t('fluctuationType.external.label') }}
+              </mat-chip>
+              <mat-chip
+                *ngIf="employee.reasonForLeaving"
+                disableRipple="true"
+                selectable="false"
+                class="text-caption !text-high-emphasis-dark-bg !grid !h-auto !max-h-20 !grid-flow-col justify-center after:!bg-transparent !w-[250px] !ml-auto !mr-0"
+                [ngClass]="{
+                  '!bg-gray-blue':
+                    employee.reasonForLeaving === LEAVING_TYPE.FORCED,
+                  '!bg-sea-blue':
+                    employee.reasonForLeaving === LEAVING_TYPE.UNFORCED,
+                  '!bg-teal':
+                    employee.reasonForLeaving === LEAVING_TYPE.REMAINING
+                }"
+                [matTooltip]="t('reasonForLeaving')"
+                (click)="$event.stopPropagation()"
+              >
+                {{ employee.reasonForLeaving }}
+              </mat-chip>
+              <mat-chip
+                *ngIf="
+                  employee.previousDimensionValue || employee.nextDimensionValue
+                "
+                disableRipple="true"
+                selectable="false"
+                class="ia-mat-mdc-chip-path text-caption !text-high-emphasis-dark-bg !h-auto !w-[250px] !bg-[#8fb2ca] after:!bg-transparent !ml-auto !mr-0"
+                [matTooltip]="t('internalChangeTooltip')"
+                (click)="$event.stopPropagation()"
+              >
+                <span class="text-end">{{
+                  employee.previousDimensionValue
+                    ? employee.previousDimensionValue
+                    : employee.currentDimensionValue
+                }}</span>
+                <mat-icon>chevron_right</mat-icon>
+                <span class="text-start">{{
+                  employee.nextDimensionValue
+                    ? employee.nextDimensionValue
+                    : employee.currentDimensionValue
+                }}</span>
+              </mat-chip>
+            </mat-chip-listbox>
+          </div>
         </mat-list-item>
         <mat-divider *ngIf="!last"></mat-divider>
       </ng-container>

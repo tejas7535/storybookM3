@@ -1,9 +1,6 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import {
-  MatLegacySelectChange as MatSelectChange,
-  MatLegacySelectModule as MatSelectModule,
-} from '@angular/material/legacy-select';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 

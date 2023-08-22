@@ -5,10 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import {
-  MatLegacyDialog as MatDialog,
-  MatLegacyDialogRef as MatDialogRef,
-} from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { EXTENDED_LIST_ITEM_HEIGHT } from '../constants';
 import { EmployeeListDialogComponent } from '../dialogs/employee-list-dialog/employee-list-dialog.component';

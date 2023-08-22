@@ -9,8 +9,12 @@ import { OpenApplication } from '../../models/open-application.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [
     `
-      .mat-badge-medium.mat-badge-above .mat-badge-content {
-        top: 12px;
+      ::ng-deep {
+        .mat-badge-content {
+          top: unset !important;
+          bottom: unset !important;
+          left: 0 !important;
+        }
       }
     `,
   ],

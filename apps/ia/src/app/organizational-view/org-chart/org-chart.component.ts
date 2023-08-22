@@ -9,10 +9,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import {
-  MatLegacyDialog as MatDialog,
-  MatLegacyDialogRef as MatDialogRef,
-} from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { TranslocoService } from '@ngneat/transloco';
 import { OrgChart } from 'd3-org-chart';

@@ -11,11 +11,8 @@ import {
   NG_VALUE_ACCESSOR,
   UntypedFormControl,
 } from '@angular/forms';
-import { MatLegacyFormFieldAppearance as MatFormFieldAppearance } from '@angular/material/legacy-form-field';
-import {
-  MatLegacySelect as MatSelect,
-  MatLegacySelectChange as MatSelectChange,
-} from '@angular/material/legacy-select';
+import { MatFormFieldAppearance } from '@angular/material/form-field';
+import { MatSelect, MatSelectChange } from '@angular/material/select';
 
 import { IdValue } from '../models';
 

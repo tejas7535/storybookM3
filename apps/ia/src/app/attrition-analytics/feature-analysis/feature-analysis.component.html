@@ -14,9 +14,11 @@
       *ngFor="let config of barChartConfigs; trackBy: trackByFn"
     >
       <div class="relative">
-        <div class="absolute right-3 top-1 flex flex-row gap-2">
+        <div
+          class="flex flex-row gap-2 justify-end items-center relative z-20 -mb-[54px] mr-4"
+        >
           <button
-            class="text-medium-emphasis z-50"
+            class="text-medium-emphasis"
             mat-icon-button
             [attr.aria-label]="t('edit')"
             [matTooltip]="t('edit')"
@@ -26,14 +28,15 @@
           </button>
 
           <mat-icon
-            class="text-medium-emphasis z-50 mt-2 cursor-move"
+            class="text-medium-emphasis cursor-move"
+            mat-icon-button
             cdkDragHandle
             [attr.aria-label]="t('move')"
             [matTooltip]="t('move')"
             >open_with</mat-icon
           >
         </div>
-        <ia-bar-chart [config]="config"></ia-bar-chart>
+        <ia-bar-chart class="relative z-10" [config]="config"></ia-bar-chart>
       </div>
     </div>
     <div

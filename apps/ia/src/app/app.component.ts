@@ -27,6 +27,7 @@ interface TabElem {
 @Component({
   selector: 'ia-root',
   templateUrl: './app.component.html',
+  styles: ['.mat-mdc-tab-link {@apply text-button; }'],
 })
 export class AppComponent implements OnInit {
   title = 'Insight Attrition';

@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { LeavingType } from '../../../overview/models';
 import { ActionType } from '../../models';
@@ -8,6 +8,7 @@ import { EmployeeListDialogMeta } from './employee-list-dialog-meta.model';
 @Component({
   selector: 'ia-employee-list-dialog',
   templateUrl: './employee-list-dialog.component.html',
+  styleUrls: ['./employee-list-dialog.component.scss'],
 })
 export class EmployeeListDialogComponent {
   readonly LEAVING_TYPE = LeavingType;
