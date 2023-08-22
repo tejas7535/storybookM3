@@ -1,4 +1,13 @@
 # Release Notes of Grease App
+## [1.4.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.4.0...ga-v1.4.1) (2023-08-22)
+
+
+### Features
+
+* **ea:** add qualtrics survey ([#5535](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5535)) ([6f495ce](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6f495cea0432cb17f521804b149d12d79b9f22e1))
+* **ga:** add qualtrics survey for english version ([#5530](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5530)) ([7ccc843](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7ccc8435d4ea2ea1ae48cf9ef4785bac2bdc77b8))
+* **ga:** implement overgreasing for concept1 (UFTABI-6502) ([#5521](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5521)) ([e99a7aa](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e99a7aab621a9751058056fc55f1b98f7273bd81))
+
 ## [1.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.3.5...ga-v1.4.0) (2023-08-08)
 
 
