@@ -15,6 +15,7 @@ import {
 } from '../../../core/store/selectors';
 import { FilterService } from '../../../filter-section/filter.service';
 import { EmployeesRequest, IdValue } from '../../../shared/models';
+import { updateUserSettingsSuccess } from '../../../user/store/actions/user.action';
 import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
 import { ReasonsAndCounterMeasuresService } from '../../reasons-and-counter-measures.service';
 import {
@@ -47,7 +48,7 @@ export class ReasonsAndCounterMeasuresEffects {
 
   filterChange$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(filterSelected, routerNavigationAction),
+      ofType(filterSelected, routerNavigationAction, updateUserSettingsSuccess),
       concatLatestFrom(() => this.store.select(selectRouterState)),
       filter(
         ([_action, router]) =>
