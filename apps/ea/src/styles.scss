@@ -85,7 +85,9 @@ engineering-app {
     }
 
     mat-dialog-content {
-      @apply max-h-none h-[calc(100%-170px)];
+      // the following includes the height of the user survey box.
+      // remove 58px-3rem if you remove the box
+      @apply max-h-none h-[calc(100%-170px-58px-3rem)];
     }
   }
 

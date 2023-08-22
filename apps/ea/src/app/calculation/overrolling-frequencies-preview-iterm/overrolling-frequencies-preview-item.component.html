@@ -16,51 +16,64 @@
     </div>
     <ng-container *ngIf="isLoading$ | ngrxPush; then loading; else display">
     </ng-container>
+
     <ng-template #display>
       <ng-container *ngIf="resultUnavailable$ | ngrxPush">
         <p>-</p>
       </ng-container>
 
-      <div class="relative min-w-full data-items">
-        <ng-container *ngFor="let value of animationItems$ | ngrxPush">
-          <div
-            class="flex flex-row items-center space-x-2 absolute inset-x-0 -translate-y-1/2"
-            [@enterExitAnimation]
-            data-testid="data-value"
-            *ngIf="value.animationState === 'active'"
-          >
-            <div class="text-caption text-medium-emphasis flex-1">
-              {{ t(value.value.title) }}
+      <ng-container *ngIf="!_item?.values?.[0]?.calculationError; else error">
+        <div class="relative min-w-full data-items">
+          <ng-container *ngFor="let value of animationItems$ | ngrxPush">
+            <div
+              class="flex flex-row items-center space-x-2 absolute inset-x-0 -translate-y-1/2"
+              [@enterExitAnimation]
+              data-testid="data-value"
+              *ngIf="value.animationState === 'active'"
+            >
+              <div class="text-caption text-medium-emphasis flex-1">
+                {{ t(value.value.title) }}
+              </div>
+              <div class="flex items-center h-full shrink-0">
+                {{ value.value.value | meaningfulRound }} {{ value.value.unit }}
+              </div>
             </div>
-            <div class="flex items-center h-full shrink-0">
-              {{ value.value.value | meaningfulRound }} {{ value.value.unit }}
-            </div>
-          </div>
-        </ng-container>
-      </div>
-      <div
-        class="indicators flex flex-row justify-around space-x-1 min-w-full self-end"
-        data-testid="paging-container"
-      >
-        <ng-container
-          *ngFor="let item of dataFields$$ | ngrxPush; let i = index"
+          </ng-container>
+        </div>
+
+        <div
+          class="indicators flex flex-row justify-around space-x-1 min-w-full self-end"
+          data-testid="paging-container"
         >
-          <div
-            class="block h-[2px] transition-all duration-1000 ease-in-out w-1/4"
-            [ngClass]="{
-              'cursor-pointer hover:scale-y-110': clickablePaging,
-              'bg-primary w-1/3': i === (currentIndex$$ | ngrxPush),
-              'bg-inactive w-1/4': i !== (currentIndex$$ | ngrxPush)
-            }"
-            (click)="selectIndex(i)"
-          ></div>
-        </ng-container>
-      </div>
+          <ng-container
+            *ngFor="let item of dataFields$$ | ngrxPush; let i = index"
+          >
+            <div
+              class="block h-[2px] transition-all duration-1000 ease-in-out w-1/4"
+              [ngClass]="{
+                'cursor-pointer hover:scale-y-110': clickablePaging,
+                'bg-primary w-1/3': i === (currentIndex$$ | ngrxPush),
+                'bg-inactive w-1/4': i !== (currentIndex$$ | ngrxPush)
+              }"
+              (click)="selectIndex(i)"
+            ></div>
+          </ng-container>
+        </div>
+      </ng-container>
     </ng-template>
 
     <ng-template #loading>
       <div class="flex items-center justify-center h-full">
         <mat-spinner diameter="16"></mat-spinner>
+      </div>
+    </ng-template>
+
+    <ng-template #error>
+      <div
+        class="flex flex-shrink-0 flex-grow items-center"
+        [matTooltip]="_item?.values?.[0]?.calculationError"
+      >
+        <mat-icon color="error" class="!text-body-2 mx-auto">warning</mat-icon>
       </div>
     </ng-template>
   </div>

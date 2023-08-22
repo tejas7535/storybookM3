@@ -7,7 +7,10 @@ import {
   CalculationResultReportSelector,
 } from '../../selectors/calculation-result';
 import { isOverrolingFrequenciesAvailable } from '../../selectors/calculation-result/calculation-result-report.selector';
-import { isLoading } from '../../selectors/calculation-result/catalog-calculation-result.selector';
+import {
+  getError as getCatalogCalculationError,
+  isLoading,
+} from '../../selectors/calculation-result/catalog-calculation-result.selector';
 
 @Injectable({
   providedIn: 'root',
@@ -74,6 +77,10 @@ export class CalculationResultFacade {
   );
 
   public readonly isOverrollingLoading$ = this.store.select(isLoading);
+
+  public readonly getCatalogCalculationError$ = this.store.select(
+    getCatalogCalculationError
+  );
 
   constructor(private readonly store: Store) {}
 

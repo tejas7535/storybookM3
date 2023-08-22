@@ -8,7 +8,10 @@ import {
 import { CalculationResultReportCalculationTypeSelection } from '../../models/calculation-result-report.model';
 import { CalculationResultReportMessage } from '../../models/calculation-result-report-message.model';
 import { getCalculationTypesConfig } from '../calculation-parameters/calculation-types.selector';
-import { getCalculationResult as catalogCalculationResult } from './catalog-calculation-result.selector';
+import {
+  getCalculationResult as catalogCalculationResult,
+  isCalculationResultAvailable as isCatalogCalculationResultAvailable,
+} from './catalog-calculation-result.selector';
 import { getCalculationResult as co2UpstreamCalculationResult } from './co2-upstream-calculation-result.selector';
 
 export interface CO2EmissionResult {
@@ -199,13 +202,16 @@ export const getOverrollingFrequencies = createSelector(
 
 export const isOverrolingFrequenciesAvailable = createSelector(
   getOverrollingFrequencies,
-  (overrrollingFields) => overrrollingFields?.length > 0
+  isCatalogCalculationResultAvailable,
+  (overrrollingFields, isAvailable) =>
+    isAvailable && overrrollingFields?.length > 0
 );
 
 export const getResultInput = createSelector(
   catalogCalculationResult,
-  (catalog): CalculationResultReportInput[] =>
-    catalog?.reportInputSuborinates.inputSubordinates
+  isCatalogCalculationResultAvailable,
+  (catalog, isAvailable): CalculationResultReportInput[] =>
+    isAvailable ? catalog?.reportInputSuborinates.inputSubordinates : undefined
 );
 
 export const getReportMessages = createSelector(
@@ -216,17 +222,20 @@ export const getReportMessages = createSelector(
 
 export const isFrictionResultAvailable = createSelector(
   getFrictionalalPowerlossReport,
-  (report): boolean => report?.length > 0
+  isCatalogCalculationResultAvailable,
+  (report, isAvailable): boolean => isAvailable && report?.length > 0
 );
 
 export const isLubricationResultAvailable = createSelector(
   getLubricationReport,
-  (report): boolean => report?.length > 0
+  isCatalogCalculationResultAvailable,
+  (report, isAvailable): boolean => isAvailable && report?.length > 0
 );
 
 export const isRatingLifeResultAvailable = createSelector(
   getRatingLifeResultReport,
-  (report): boolean => report?.length > 0
+  isCatalogCalculationResultAvailable,
+  (report, isAvailable): boolean => isAvailable && report?.length > 0
 );
 
 export const getSelectedCalculations = createSelector(

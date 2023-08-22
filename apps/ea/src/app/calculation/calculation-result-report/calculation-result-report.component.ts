@@ -59,14 +59,6 @@ import { CalculationTypesSelectionComponent } from '../calculation-types-selecti
   ],
 })
 export class CalculationResultReportComponent {
-  public bearingDesignation$ = this.productSelectionFacade.bearingDesignation$;
-
-  public selctedCalculationTypes$ =
-    this.calculationParametersFacade.getCalculationTypes$;
-
-  public calcualtionModuleInfo$ =
-    this.productSelectionFacade.calcualtionModuleInfo$;
-
   public meaingfulRoundPipe = new MeaningfulRoundPipe(this.locale);
 
   public co2ResultItem$ =
@@ -89,8 +81,8 @@ export class CalculationResultReportComponent {
 
   constructor(
     public readonly calculationResultFacade: CalculationResultFacade,
-    private readonly productSelectionFacade: ProductSelectionFacade,
-    private readonly calculationParametersFacade: CalculationParametersFacade,
+    public readonly productSelectionFacade: ProductSelectionFacade,
+    public readonly calculationParametersFacade: CalculationParametersFacade,
     public readonly dialogRef: MatDialogRef<CalculationResultReportComponent>,
     @Inject(LOCALE_ID)
     private readonly locale: string,

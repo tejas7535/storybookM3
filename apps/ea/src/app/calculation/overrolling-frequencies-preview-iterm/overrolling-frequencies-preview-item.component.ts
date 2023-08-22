@@ -72,9 +72,8 @@ export class OverrollingFrequenciesPreviewItemComponent
   @Input() clickablePaging = false;
 
   public _item: CalculationResultPreviewItem;
-  public isSingleItem = false;
 
-  public readonly destroy$$ = new Subject();
+  public readonly destroy$$ = new Subject<void>();
 
   public readonly dataFields$$: BehaviorSubject<
     CalculationResultPreviewItem['values']
@@ -84,10 +83,10 @@ export class OverrollingFrequenciesPreviewItemComponent
 
   public readonly currentIndex$$ = new BehaviorSubject(0);
 
-  public readonly animationItems$ = combineLatest(
+  public readonly animationItems$ = combineLatest([
     this.currentIndex$$,
-    this.dataFields$$
-  ).pipe(
+    this.dataFields$$,
+  ]).pipe(
     map(([currentlyActiveIndex, dataItems]) => {
       const items = [];
       for (const [i, dataItem] of dataItems.entries()) {
@@ -113,7 +112,6 @@ export class OverrollingFrequenciesPreviewItemComponent
 
   @Input() set item(item: CalculationResultPreviewItem) {
     this._item = item;
-    this.isSingleItem = item.values.length === 1;
     this.dataFields$$.next(this._item.values);
   }
 
@@ -124,7 +122,8 @@ export class OverrollingFrequenciesPreviewItemComponent
   }
 
   ngOnDestroy(): void {
-    this.destroy$$.next(0);
+    this.destroy$$.next();
+    this.destroy$$.complete();
   }
 
   async selectIndex(index: number) {

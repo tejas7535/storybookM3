@@ -10,7 +10,8 @@
     <div class="text-h6 text-high-emphasis mb-4 md:mb-8">
       {{
         t('dialogTitle', {
-          bearingDesignation: bearingDesignation$ | ngrxPush
+          bearingDesignation:
+            productSelectionFacade.bearingDesignation$ | ngrxPush
         })
       }}
     </div>
@@ -45,8 +46,8 @@
             icon="animation"
             [title]="t('title')"
             [expanded]="
-              (selctedCalculationTypes$ | ngrxPush)?.ratingLife.selected ===
-              true
+              (calculationParametersFacade.getCalculationTypes$ | ngrxPush)
+                ?.ratingLife.selected === true
             "
           >
             <ea-calculation-result-report-large-items
@@ -72,8 +73,8 @@
             svgIcon="water_drop"
             [title]="t('title')"
             [expanded]="
-              (selctedCalculationTypes$ | ngrxPush)?.lubrication.selected ===
-              true
+              (calculationParametersFacade.getCalculationTypes$ | ngrxPush)
+                ?.lubrication.selected === true
             "
           >
             <ea-calculation-result-report-large-items
@@ -102,8 +103,8 @@
             icon="compress"
             [title]="t('title')"
             [expanded]="
-              (selctedCalculationTypes$ | ngrxPush)?.frictionalPowerloss
-                .selected === true
+              (calculationParametersFacade.getCalculationTypes$ | ngrxPush)
+                ?.frictionalPowerloss.selected === true
             "
           >
             <ea-calculation-result-report-large-items
@@ -129,7 +130,8 @@
             svgIcon="co2"
             [title]="t('title')"
             [expanded]="
-              (selctedCalculationTypes$ | ngrxPush)?.emission.selected === true
+              (calculationParametersFacade.getCalculationTypes$ | ngrxPush)
+                ?.emission.selected === true
             "
           >
             <div
@@ -192,8 +194,8 @@
             "
             [title]="t('title')"
             [expanded]="
-              (selctedCalculationTypes$ | ngrxPush)?.overrollingFrequency
-                .selected
+              (calculationParametersFacade.getCalculationTypes$ | ngrxPush)
+                ?.overrollingFrequency.selected
             "
           >
             <ea-calculation-result-report-large-items
@@ -217,6 +219,9 @@
           [title]="t('reportSectionWarnings')"
           icon="report_problem"
           [iconClassName]="'!text-warning-icon'"
+          [expanded]="
+            !!(calculationResultFacade.getCatalogCalculationError$ | ngrxPush)
+          "
         >
           <div class="px-4 md:px-8 py-4">
             <ea-calculation-result-message
@@ -231,7 +236,7 @@
 
       <!-- Right Hand Navigation -->
       <div
-        class="text-medium-emphasis ml-8 md:flex md:w-[250px] h-full mb-auto flex-row hidden"
+        class="text-medium-emphasis ml-8 md:flex md:min-w-[250px] h-full mb-auto flex-row hidden"
         *transloco="let t; read: 'calculationSelection'"
       >
         <mat-divider [vertical]="true"></mat-divider>

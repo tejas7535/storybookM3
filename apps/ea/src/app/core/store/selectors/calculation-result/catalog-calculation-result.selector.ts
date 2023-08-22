@@ -25,5 +25,6 @@ export const getError = createSelector(
 
 export const isCalculationResultAvailable = createSelector(
   getCalculationResult,
-  (state): boolean => !!state
+  getError,
+  (state, error): boolean => !error && !!state
 );
