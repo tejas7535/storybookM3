@@ -103,31 +103,27 @@ engineering-app {
     --mdc-checkbox-unselected-hover-state-layer-color: none;
   }
 
-  // slide toggle
-  .mat-mdc-slide-toggle .mdc-switch .mdc-switch__ripple {
-    --mdc-switch-state-layer-size: 0;
-  }
-
   //radio button overrides
   .mat-mdc-radio-button.mat-primary {
     --mat-radio-checked-ripple-color: none;
   }
 
-  mat-radio-button {
+  .mat-mdc-radio-button {
     @apply text-subtitle-2;
 
     .mdc-radio {
       transform: scale(0.7);
+      @apply pr-1;
     }
 
     .mdc-form-field {
       height: 24px;
+      @apply pr-2;
     }
 
     // green background
     &.mat-mdc-radio-checked {
       .mdc-form-field {
-        @apply pr-2;
         @apply rounded-full;
         @apply bg-secondary-50;
       }
@@ -147,10 +143,12 @@ engineering-app {
 
       .mdc-label {
         @apply text-[8px];
+        @apply whitespace-nowrap;
       }
 
       &:not(.mat-mdc-radio-checked) {
         @apply bg-secondary-variant;
+        @apply pb-1;
       }
     }
   }
