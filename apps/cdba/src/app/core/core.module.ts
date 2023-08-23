@@ -1,15 +1,20 @@
 import { PlatformModule } from '@angular/cdk/platform';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
+import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
 import {
   TRANSLOCO_PERSIST_LANG_STORAGE,
   TranslocoPersistLangModule,
 } from '@ngneat/transloco-persist-lang';
 import { PushPipe } from '@ngrx/component';
 
-import { ApplicationInsightsModule } from '@schaeffler/application-insights';
+import {
+  ApplicationInsightsModule,
+  ApplicationInsightsService,
+  COOKIE_GROUPS,
+} from '@schaeffler/application-insights';
 import {
   AzureConfig,
   MsalGuardConfig,
@@ -48,6 +53,10 @@ const azureConfig = new AzureConfig(
   )
 );
 
+export function appInitializer(oneTrustService: OneTrustService) {
+  return () => oneTrustService.loadOneTrust();
+}
+
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -82,11 +91,25 @@ const azureConfig = new AzureConfig(
     // Monitoring
     ApplicationInsightsModule.forRoot(environment.applicationInsights),
 
+    // Cookie Banner
+    OneTrustModule.forRoot({
+      cookiesGroups: COOKIE_GROUPS,
+      domainScript: environment.oneTrustId,
+    }),
+
     // Platform required for detecting the browser engine
     PlatformModule,
 
     // Auth
     SharedAzureAuthModule.forRoot(azureConfig),
+  ],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appInitializer,
+      deps: [OneTrustService, ApplicationInsightsService],
+      multi: true,
+    },
   ],
 })
 export class CoreModule {}

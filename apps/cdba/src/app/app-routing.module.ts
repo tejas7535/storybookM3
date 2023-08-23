@@ -57,6 +57,11 @@ export const appRoutes: Routes = [
       ),
   },
   {
+    path: AppRoutePath.LegalPath,
+    loadChildren: () =>
+      import('@schaeffler/legal-pages').then((m) => m.LegalModule),
+  },
+  {
     path: '**',
     redirectTo: `/${AppRoutePath.EmptyStatesPath}`,
     pathMatch: 'full',

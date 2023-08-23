@@ -8,6 +8,7 @@ export const environment: Environment = {
   clientId: 'ed9e7187-ba06-4b29-8165-61a507a37730', //SG_SSO_CDBA_Q
   appScope: 'https://SG_SSO_CDBA_API_Q/cdba-api',
   envName: 'https://cdba-q.dev.dp.schaeffler (qa)',
+  oneTrustId: '8a060067-1eb6-46af-ae2b-6998bc093ac3',
   applicationInsights: {
     applicationInsightsConfig: {
       instrumentationKey: '84609bb4-f253-4aee-a145-b00d5c5510cf',

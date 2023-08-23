@@ -6,6 +6,7 @@ export interface Environment {
   clientId: string;
   appScope: string;
   envName: string;
+  oneTrustId: string;
   applicationInsights: {
     applicationInsightsConfig: {
       instrumentationKey: string;
