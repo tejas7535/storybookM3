@@ -634,8 +634,7 @@ pipeline {
         stage('Build:Storybook') {
             when {
                 expression {
-                    return false;
-                    // return buildStorybook() // FIXME
+                    return buildStorybook()
                 }
             }
             steps {
@@ -770,8 +769,7 @@ pipeline {
                 stage('Deliver:Storybook') {
                     when {
                         expression {
-                            return false;
-                            // return publishStorybook() // FIXME
+                            return publishStorybook()
                         }
                     }
                     steps {
@@ -857,8 +855,7 @@ pipeline {
         stage ('Storybook Deployment') {
             when {
                 expression {
-                    return false;
-                    // return publishStorybook() // FIXME
+                    return publishStorybook()
                 }
             }
             steps {
