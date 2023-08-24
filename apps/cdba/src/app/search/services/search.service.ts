@@ -58,7 +58,7 @@ export class SearchService {
     return this.httpClient.post<SearchResult>(
       `${API.v2}/${this.SEARCH}`,
       {
-        payload,
+        filters: payload,
       },
       { params }
     );
