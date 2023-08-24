@@ -62,7 +62,7 @@
       "customerMaterial": "Customer Material",
       "productionSegment": "Production Segment",
       "mrpController": "MRP Controller",
-      "productionPlant": "Prod. Plant",
+      "productionPlant": "Production Plant",
       "productLine": "PL",
       "productLineInfoText": "Product line",
       "orderQuantity": "Quantity",
@@ -424,8 +424,8 @@
       "hints": {
         "price": "Change price",
         "targetPrice": "Change Target Price",
-        "gpi": "Change gpi",
-        "gpm": "Change gpm",
+        "gpi": "Change GPI",
+        "gpm": "Change GPM",
         "discount": "Change discount",
         "orderQuantity": "Change Quantity"
       },
@@ -486,7 +486,7 @@
       "status": {
         "GOOD": "Good",
         "MEDIUM": "Low",
-        "LOW": "too Low"
+        "LOW": "Too low"
       }
     },
     "uploadDialog": {

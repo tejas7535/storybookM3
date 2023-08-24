@@ -486,7 +486,7 @@
       "status": {
         "GOOD": "Gut",
         "MEDIUM": "Niedrig",
-        "LOW": "zu Niedrig"
+        "LOW": "Zu niedrig"
       }
     },
     "uploadDialog": {
