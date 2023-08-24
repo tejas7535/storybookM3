@@ -50,6 +50,6 @@ describe('ColumnDefinitions', () => {
       }
     });
 
-    expect(columnUtilsService.formatNumber).toHaveBeenCalledTimes(4);
+    expect(columnUtilsService.formatNumber).toHaveBeenCalledTimes(5);
   });
 });

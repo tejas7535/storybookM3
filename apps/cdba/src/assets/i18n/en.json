@@ -92,9 +92,11 @@
             "materialNumber": "Material Number",
             "costShare": "Share of costs",
             "vendor": "Vendor",
-            "operatingWeight": "Operating Weight",
-            "pricePerKg": "Price per KG",
-            "totalCosts": "Total Costs"
+            "operatingUnit": "Operating Unit",
+            "unitOfMeasure": "Unit",
+            "pricePerUnit": "Price per Unit",
+            "totalCosts": "Total Costs",
+            "uomBaseToPriceFactor": "Conversion rate to kg"
           }
         },
         "selectionHintBomElement": "Please select an element from the hierarchy on the left that has at least one sub-element below to view these details.",
@@ -186,7 +188,12 @@
         "productCostingBomAlternative": "BOM Alternative",
         "materialGroup": "Material Group",
         "materialGroupDescription": "Material Group Description",
-        "itemCategory": "ITEM Category"
+        "itemCategory": "ITEM Category",
+        "partType": "Part type",
+        "partNumber": "Part number",
+        "pointVersion": "Point version",
+        "assemblyComponentNumber": "Assembly/component number",
+        "uomBaseToPriceFactor": "Base to price factor"
       },
       "groupHeaders": {
         "materialInformation": "Material Information",

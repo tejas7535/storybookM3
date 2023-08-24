@@ -52,22 +52,32 @@ export class ColumnDefinitionService {
         width: 120,
       },
       {
-        field: 'operatingWeight',
+        field: 'operatingUnit',
         headerName: translate(
-          'shared.bom.additionalInformation.rawMaterialAnalysis.headers.operatingWeight'
+          'shared.bom.additionalInformation.rawMaterialAnalysis.headers.operatingUnit'
         ),
         filter: 'agNumberColumnFilter',
         type: 'numericColumn',
         valueFormatter: (params) =>
           `${this.columnUtilsService.formatNumber(params, {
             minimumFractionDigits: 3,
-          })} ${params.data.unitOfWeight || ''}`,
+          })}`,
         width: 170,
+      },
+      {
+        field: 'unitOfMeasure',
+        headerName: translate(
+          'shared.bom.additionalInformation.rawMaterialAnalysis.headers.unitOfMeasure'
+        ),
+        filter: 'agNumberColumnFilter',
+        type: 'numericColumn',
+        valueFormatter: (params) => `${params.data.unitOfMeasure || ''}`,
+        width: 100,
       },
       {
         field: 'price',
         headerName: translate(
-          'shared.bom.additionalInformation.rawMaterialAnalysis.headers.pricePerKg'
+          'shared.bom.additionalInformation.rawMaterialAnalysis.headers.pricePerUnit'
         ),
         filter: 'agNumberColumnFilter',
         type: 'numericColumn',
@@ -81,6 +91,17 @@ export class ColumnDefinitionService {
             'currency'
           ),
         width: 160,
+      },
+      {
+        field: 'uomBaseToPriceFactor',
+        headerName: translate(
+          'shared.bom.additionalInformation.rawMaterialAnalysis.headers.uomBaseToPriceFactor'
+        ),
+        valueFormatter: (params) =>
+          this.columnUtilsService.formatNumber(params, {
+            maximumFractionDigits: 4,
+          }),
+        width: 120,
       },
       {
         field: 'totalCosts',

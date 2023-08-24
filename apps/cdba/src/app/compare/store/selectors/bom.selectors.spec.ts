@@ -1,4 +1,5 @@
 import { BomItem } from '@cdba/shared/models';
+import { UnitOfMeasure } from '@cdba/shared/models/unit-of-measure.model';
 import {
   BOM_ITEM_MOCK,
   BOM_MOCK,
@@ -337,22 +338,26 @@ describe('BoM Selectors', () => {
           currency: 'mock-costAreaCurrency',
           materialDesignation: 'FE-2314',
           materialNumber: 'mock-materialNumber',
-          operatingWeight: 1234.567,
-          price: 1,
+          operatingUnit: 1234.567,
+          price: 0,
           supplier: 'mock-vendorDescription',
           totalCosts: 1234.567,
-          unitOfWeight: 'mock-baseUnitOfMeasure',
+          totalPrice: 1234.567,
+          unitOfMeasure: UnitOfMeasure.UNRECOGNISED,
+          uomBaseToPriceFactor: 1.234,
         },
         {
           costShare: 1,
           currency: 'mock-costAreaCurrency',
           materialDesignation: 'FE-2311',
           materialNumber: 'mock-materialNumber',
-          operatingWeight: 1234.567,
-          price: 1,
+          operatingUnit: 1234.567,
+          price: 0,
           supplier: 'mock-vendorDescription',
           totalCosts: 1234.567,
-          unitOfWeight: 'mock-baseUnitOfMeasure',
+          totalPrice: 1234.567,
+          unitOfMeasure: UnitOfMeasure.UNRECOGNISED,
+          uomBaseToPriceFactor: 1.234,
         },
       ];
 

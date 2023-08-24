@@ -35,6 +35,11 @@ export interface BomItem {
     type: string;
     materialGroup: string;
     materialGroupDescription: string;
+    partType: string;
+    partNumber: string;
+    pointVersion: string;
+    assemblyComponentNumber: string;
+    uomBaseToPriceFactor: number;
   };
 
   procurement: {

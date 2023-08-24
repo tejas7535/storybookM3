@@ -45,6 +45,11 @@ export const BOM_ITEM_MOCK: BomItem = {
     type: 'mock-type',
     materialGroup: 'mock-materialGroup',
     materialGroupDescription: 'mock-materialGroupDescription',
+    partType: 'mock-partType',
+    partNumber: 'mock-partNumber',
+    pointVersion: 'mock-pointVersion',
+    assemblyComponentNumber: 'mock-assemblyComponentNumber',
+    uomBaseToPriceFactor: 1.234,
   },
 
   procurement: {

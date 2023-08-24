@@ -92,9 +92,11 @@
             "materialNumber": "Materialnummer",
             "costShare": "Kostenanteil",
             "vendor": "Lieferant",
-            "operatingWeight": "Einsatzgewicht",
-            "pricePerKg": "Preis pro KG",
-            "totalCosts": "Gesamtkosten"
+            "operatingUnit": "Einsatzmenge per Einheit",
+            "unitOfMeasure": "Mengeneinheit",
+            "pricePerUnit": "Preis pro Mengeneinheit",
+            "totalCosts": "Gesamtkosten",
+            "uomBaseToPriceFactor": "Umrechnungwert in kg"
           }
         },
         "selectionHintBomElement": "Bitte wählen Sie ein Element aus der Hierarchie auf der linken Seite aus, das mindestens ein darunter liegendes Unterelement hat, um diese Details anzuzeigen.",
@@ -186,7 +188,12 @@
         "productCostingBomAlternative": "Stücklistenalternative",
         "materialGroup": "Warengruppe",
         "materialGroupDescription": "Warengruppenbezeichnung",
-        "itemCategory": "ITEM Kategorie"
+        "itemCategory": "ITEM Kategorie",
+        "partType": "Teileart",
+        "partNumber": "Bauteilnummer",
+        "pointVersion": "Punktvariante",
+        "assemblyComponentNumber": "Gruppen-/Teilenummer",
+        "uomBaseToPriceFactor": "Umrechnungsfaktor zu Preiseinheit"
       },
       "groupHeaders": {
         "materialInformation": "Material Information",

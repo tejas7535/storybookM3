@@ -1,5 +1,6 @@
 /* eslint-disable no-prototype-builtins */
 import { BomItem, RawMaterialAnalysis } from '../models';
+import { UnitOfMeasure } from '../models/unit-of-measure.model';
 
 export const extractRawMaterials = (bomItems: BomItem[]): BomItem[] =>
   bomItems?.filter(
@@ -18,7 +19,7 @@ export const mapBomItemsToRawMaterialAnalyses = (
       const rawMaterialAnalysis = aggregatedRawMaterials.get(
         bomItem.materialDesignation
       );
-      rawMaterialAnalysis.operatingWeight += bomItem.quantities.quantity;
+      rawMaterialAnalysis.operatingUnit += bomItem.quantities.quantity;
       rawMaterialAnalysis.totalCosts += bomItem.costing.costAreaTotalValue;
     } else {
       const rawMaterialAnalysis: RawMaterialAnalysis = {
@@ -26,10 +27,16 @@ export const mapBomItemsToRawMaterialAnalyses = (
         materialNumber: bomItem.materialNumber,
         costShare: undefined,
         supplier: bomItem.procurement.vendorDescription,
-        operatingWeight: bomItem.quantities.quantity,
-        unitOfWeight: bomItem.quantities.baseUnitOfMeasure,
+        operatingUnit: bomItem.quantities.quantity,
+        unitOfMeasure:
+          UnitOfMeasure[
+            bomItem.quantities.baseUnitOfMeasure as keyof typeof UnitOfMeasure
+          ] || UnitOfMeasure.UNRECOGNISED,
+        uomBaseToPriceFactor:
+          bomItem.materialCharacteristics.uomBaseToPriceFactor,
         price: undefined,
         totalCosts: bomItem.costing.costAreaTotalValue,
+        totalPrice: bomItem.costing.costAreaTotalPrice,
         currency: bomItem.costing.costAreaCurrency,
       };
 
@@ -50,21 +57,33 @@ export const addCostShareAndPriceValuesToRawMaterialAnalyses = (
   aggregatedRawMaterials.map((analysis) => ({
     ...analysis,
     costShare: analysis.totalCosts / selectedBomItem.costing.costAreaTotalValue,
-    price: calculatePricePerKg(
+    price: calculatePricePerUnit(
       analysis.totalCosts,
-      analysis.operatingWeight,
-      analysis.unitOfWeight
+      analysis.operatingUnit,
+      analysis.unitOfMeasure,
+      analysis.uomBaseToPriceFactor,
+      analysis.totalPrice
     ),
   }));
 
-const calculatePricePerKg = (
+const calculatePricePerUnit = (
   totalCosts: number,
-  operatingWeight: number,
-  unitOfDimension: string
-): number =>
-  unitOfDimension === 'G'
-    ? (totalCosts / operatingWeight) * 1000
-    : totalCosts / operatingWeight;
+  operatingUnit: number,
+  unitOfMeasure: string,
+  uomBaseToPriceFactor: number,
+  totalPrice: number
+): number => {
+  switch (unitOfMeasure) {
+    case UnitOfMeasure.G:
+      return operatingUnit !== 0 ? (totalCosts / operatingUnit) * 1000 : 0;
+    case UnitOfMeasure.KG:
+      return operatingUnit !== 0 ? totalCosts / operatingUnit : 0;
+    case UnitOfMeasure.M:
+      return totalPrice * uomBaseToPriceFactor;
+    default:
+      return 0;
+  }
+};
 
 export const getRawMaterialAnalysisSummary = (
   rawMaterialAnalysisData: RawMaterialAnalysis[]
@@ -76,13 +95,15 @@ export const getRawMaterialAnalysisSummary = (
           materialNumber: undefined,
           costShare: undefined,
           supplier: undefined,
-          operatingWeight: undefined,
-          unitOfWeight: undefined,
+          operatingUnit: undefined,
+          unitOfMeasure: undefined,
+          uomBaseToPriceFactor: undefined,
           price: undefined,
           currency: rawMaterialAnalysisData[0].currency,
           totalCosts: rawMaterialAnalysisData
             .map((item) => item.totalCosts)
             .reduce((current: number, previous: number) => previous + current),
+          totalPrice: undefined,
         },
       ]
     : undefined;

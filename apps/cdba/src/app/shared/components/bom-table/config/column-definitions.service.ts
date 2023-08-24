@@ -278,6 +278,31 @@ export class ColumnDefinitionService {
           field: 'materialCharacteristics.materialGroupDescription',
           headerName: translate('shared.bom.headers.materialGroupDescription'),
         },
+        {
+          field: 'materialCharacteristics.partType',
+          headerName: translate('shared.bom.headers.partType'),
+          hide: true,
+        },
+        {
+          field: 'materialCharacteristics.partNumber',
+          headerName: translate('shared.bom.headers.partNumber'),
+          hide: true,
+        },
+        {
+          field: 'materialCharacteristics.pointVersion',
+          headerName: translate('shared.bom.headers.pointVersion'),
+          hide: true,
+        },
+        {
+          field: 'materialCharacteristics.assemblyComponentNumber',
+          headerName: translate('shared.bom.headers.assemblyComponentNumber'),
+          hide: true,
+        },
+        {
+          field: 'materialCharacteristics.uomBaseToPriceFactor',
+          headerName: translate('shared.bom.headers.uomBaseToPriceFactor'),
+          hide: true,
+        },
       ],
     },
     {

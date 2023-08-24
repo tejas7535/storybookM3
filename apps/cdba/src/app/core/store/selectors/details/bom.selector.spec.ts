@@ -3,6 +3,7 @@ import {
   CostComponentSplit,
   RawMaterialAnalysis,
 } from '@cdba/shared/models';
+import { UnitOfMeasure } from '@cdba/shared/models/unit-of-measure.model';
 import {
   BOM_ITEM_MOCK,
   BOM_MOCK,
@@ -38,6 +39,51 @@ describe('Bom Selectors', () => {
   const initialDetailState: { detail: DetailState } = {
     detail: initialState,
   };
+
+  const LOCAL_BOM_ITEM_MOCK = BOM_ITEM_MOCK;
+
+  const MOCK_BOM_ITEMS = [
+    BOM_ITEM_MOCK,
+    {
+      ...BOM_ITEM_MOCK,
+      level: 2,
+      rowId: 2,
+      materialDesignation: 'FE-2313',
+      predecessorsInTree: ['FE-2313', 'FE-2313'],
+      costShareOfParent: 1,
+    },
+    {
+      ...BOM_ITEM_MOCK,
+      level: 3,
+      rowId: 3,
+      materialDesignation: 'FE-2315',
+      predecessorsInTree: ['FE-2313', 'FE-2313', 'FE-2315'],
+    },
+    {
+      ...BOM_ITEM_MOCK,
+      level: 3,
+      rowId: 4,
+      itemCategory: 'M',
+      materialCharacteristics: {
+        ...BOM_ITEM_MOCK.materialCharacteristics,
+        type: 'ROH',
+      },
+      materialDesignation: 'FE-2314',
+      predecessorsInTree: ['FE-2313', 'FE-2313', 'FE-2314'],
+    },
+    {
+      ...BOM_ITEM_MOCK,
+      level: 3,
+      rowId: 5,
+      itemCategory: 'M',
+      materialCharacteristics: {
+        ...BOM_ITEM_MOCK.materialCharacteristics,
+        type: 'ROH',
+      },
+      materialDesignation: 'FE-2311',
+      predecessorsInTree: ['FE-2313', 'FE-2313', 'FE-2311'],
+    },
+  ];
 
   describe('getBomItems', () => {
     test('should return bom entries', () => {
@@ -188,6 +234,12 @@ describe('Bom Selectors', () => {
   });
 
   describe('getRawMaterialAnalysisForSelectedBomItem', () => {
+    let bomItems: BomItem[] = [];
+
+    beforeEach(() => {
+      bomItems = MOCK_BOM_ITEMS;
+    });
+
     it('should return undefined for non existing bom items', () => {
       const result = getRawMaterialAnalysisForSelectedBomItem.projector(
         REFERENCE_TYPE_MOCK as unknown as BomItem,
@@ -206,49 +258,56 @@ describe('Bom Selectors', () => {
       expect(result).toBeUndefined();
     });
 
-    it('should return raw material analysis of selected bom item', () => {
-      const bomItems: BomItem[] = [
-        BOM_ITEM_MOCK,
+    it('should return raw material analysis of selected bom item with unspecified unit of measure', () => {
+      const expected = [
         {
-          ...BOM_ITEM_MOCK,
-          level: 2,
-          rowId: 2,
-          materialDesignation: 'FE-2313',
-          predecessorsInTree: ['FE-2313', 'FE-2313'],
-          costShareOfParent: 1,
-        },
-        {
-          ...BOM_ITEM_MOCK,
-          level: 3,
-          rowId: 3,
-          materialDesignation: 'FE-2315',
-          predecessorsInTree: ['FE-2313', 'FE-2313', 'FE-2315'],
-        },
-        {
-          ...BOM_ITEM_MOCK,
-          level: 3,
-          rowId: 4,
-          itemCategory: 'M',
-          materialCharacteristics: {
-            ...BOM_ITEM_MOCK.materialCharacteristics,
-            type: 'ROH',
-          },
+          costShare: 1,
+          currency: 'mock-costAreaCurrency',
           materialDesignation: 'FE-2314',
-          predecessorsInTree: ['FE-2313', 'FE-2313', 'FE-2314'],
+          materialNumber: 'mock-materialNumber',
+          operatingUnit: 1234.567,
+          price: 0,
+          supplier: 'mock-vendorDescription',
+          totalCosts: 1234.567,
+          unitOfMeasure: UnitOfMeasure.UNRECOGNISED,
+          totalPrice: 1234.567,
+          uomBaseToPriceFactor: 1.234,
         },
         {
-          ...BOM_ITEM_MOCK,
-          level: 3,
-          rowId: 5,
-          itemCategory: 'M',
-          materialCharacteristics: {
-            ...BOM_ITEM_MOCK.materialCharacteristics,
-            type: 'ROH',
-          },
+          costShare: 1,
+          currency: 'mock-costAreaCurrency',
           materialDesignation: 'FE-2311',
-          predecessorsInTree: ['FE-2313', 'FE-2313', 'FE-2311'],
+          materialNumber: 'mock-materialNumber',
+          operatingUnit: 1234.567,
+          price: 0,
+          supplier: 'mock-vendorDescription',
+          totalCosts: 1234.567,
+          unitOfMeasure: UnitOfMeasure.UNRECOGNISED,
+          totalPrice: 1234.567,
+          uomBaseToPriceFactor: 1.234,
         },
       ];
+
+      const result = getRawMaterialAnalysisForSelectedBomItem.projector(
+        LOCAL_BOM_ITEM_MOCK,
+        bomItems
+      );
+
+      expect(result).toEqual(expected);
+    });
+    it('should return raw material analysis of selected bom item with zero as operating unit', () => {
+      const preparedBomItems = bomItems.map((item) =>
+        item.itemCategory === 'M' && item.materialCharacteristics.type === 'ROH'
+          ? {
+              ...item,
+              quantities: {
+                ...item.quantities,
+                baseUnitOfMeasure: 'G',
+                quantity: 0,
+              },
+            }
+          : item
+      );
 
       const expected = [
         {
@@ -256,28 +315,179 @@ describe('Bom Selectors', () => {
           currency: 'mock-costAreaCurrency',
           materialDesignation: 'FE-2314',
           materialNumber: 'mock-materialNumber',
-          operatingWeight: 1234.567,
-          price: 1,
+          operatingUnit: 0,
+          price: 0,
           supplier: 'mock-vendorDescription',
           totalCosts: 1234.567,
-          unitOfWeight: 'mock-baseUnitOfMeasure',
+          unitOfMeasure: UnitOfMeasure.G,
+          totalPrice: 1234.567,
+          uomBaseToPriceFactor: 1.234,
         },
         {
           costShare: 1,
           currency: 'mock-costAreaCurrency',
           materialDesignation: 'FE-2311',
           materialNumber: 'mock-materialNumber',
-          operatingWeight: 1234.567,
+          operatingUnit: 0,
+          price: 0,
+          supplier: 'mock-vendorDescription',
+          totalCosts: 1234.567,
+          unitOfMeasure: UnitOfMeasure.G,
+          totalPrice: 1234.567,
+          uomBaseToPriceFactor: 1.234,
+        },
+      ];
+
+      const result = getRawMaterialAnalysisForSelectedBomItem.projector(
+        LOCAL_BOM_ITEM_MOCK,
+        preparedBomItems
+      );
+
+      expect(result).toEqual(expected);
+    });
+    it('should return raw material analysis of selected bom item with KG as unit of measure', () => {
+      const preparedBomItems = bomItems.map((item) =>
+        item.itemCategory === 'M' && item.materialCharacteristics.type === 'ROH'
+          ? {
+              ...item,
+              quantities: {
+                ...item.quantities,
+                baseUnitOfMeasure: 'KG',
+              },
+            }
+          : item
+      );
+
+      const expected = [
+        {
+          costShare: 1,
+          currency: 'mock-costAreaCurrency',
+          materialDesignation: 'FE-2314',
+          materialNumber: 'mock-materialNumber',
+          operatingUnit: 1234.567,
           price: 1,
           supplier: 'mock-vendorDescription',
           totalCosts: 1234.567,
-          unitOfWeight: 'mock-baseUnitOfMeasure',
+          unitOfMeasure: UnitOfMeasure.KG,
+          totalPrice: 1234.567,
+          uomBaseToPriceFactor: 1.234,
+        },
+        {
+          costShare: 1,
+          currency: 'mock-costAreaCurrency',
+          materialDesignation: 'FE-2311',
+          materialNumber: 'mock-materialNumber',
+          operatingUnit: 1234.567,
+          price: 1,
+          supplier: 'mock-vendorDescription',
+          totalCosts: 1234.567,
+          unitOfMeasure: UnitOfMeasure.KG,
+          totalPrice: 1234.567,
+          uomBaseToPriceFactor: 1.234,
         },
       ];
 
       const result = getRawMaterialAnalysisForSelectedBomItem.projector(
         BOM_ITEM_MOCK,
-        bomItems
+        preparedBomItems
+      );
+
+      expect(result).toEqual(expected);
+    });
+    it('should return raw material analysis of selected bom item with G as unit of measure', () => {
+      const preparedBomItems = bomItems.map((item) =>
+        item.itemCategory === 'M' && item.materialCharacteristics.type === 'ROH'
+          ? {
+              ...item,
+              quantities: {
+                ...item.quantities,
+                baseUnitOfMeasure: 'G',
+              },
+            }
+          : item
+      );
+
+      const expected = [
+        {
+          costShare: 1,
+          currency: 'mock-costAreaCurrency',
+          materialDesignation: 'FE-2314',
+          materialNumber: 'mock-materialNumber',
+          operatingUnit: 1234.567,
+          price: 1000,
+          supplier: 'mock-vendorDescription',
+          totalCosts: 1234.567,
+          unitOfMeasure: UnitOfMeasure.G,
+          totalPrice: 1234.567,
+          uomBaseToPriceFactor: 1.234,
+        },
+        {
+          costShare: 1,
+          currency: 'mock-costAreaCurrency',
+          materialDesignation: 'FE-2311',
+          materialNumber: 'mock-materialNumber',
+          operatingUnit: 1234.567,
+          price: 1000,
+          supplier: 'mock-vendorDescription',
+          totalCosts: 1234.567,
+          unitOfMeasure: UnitOfMeasure.G,
+          totalPrice: 1234.567,
+          uomBaseToPriceFactor: 1.234,
+        },
+      ];
+
+      const result = getRawMaterialAnalysisForSelectedBomItem.projector(
+        BOM_ITEM_MOCK,
+        preparedBomItems
+      );
+
+      expect(result).toEqual(expected);
+    });
+    it('should return raw material analysis of selected bom item with M as unit of measure', () => {
+      const preparedBomItems = bomItems.map((item) =>
+        item.itemCategory === 'M' && item.materialCharacteristics.type === 'ROH'
+          ? {
+              ...item,
+              quantities: {
+                ...item.quantities,
+                baseUnitOfMeasure: 'M',
+              },
+            }
+          : item
+      );
+
+      const expected = [
+        {
+          costShare: 1,
+          currency: 'mock-costAreaCurrency',
+          materialDesignation: 'FE-2314',
+          materialNumber: 'mock-materialNumber',
+          operatingUnit: 1234.567,
+          price: 1523.455_678,
+          supplier: 'mock-vendorDescription',
+          totalCosts: 1234.567,
+          unitOfMeasure: UnitOfMeasure.M,
+          totalPrice: 1234.567,
+          uomBaseToPriceFactor: 1.234,
+        },
+        {
+          costShare: 1,
+          currency: 'mock-costAreaCurrency',
+          materialDesignation: 'FE-2311',
+          materialNumber: 'mock-materialNumber',
+          operatingUnit: 1234.567,
+          price: 1523.455_678,
+          supplier: 'mock-vendorDescription',
+          totalCosts: 1234.567,
+          unitOfMeasure: UnitOfMeasure.M,
+          totalPrice: 1234.567,
+          uomBaseToPriceFactor: 1.234,
+        },
+      ];
+
+      const result = getRawMaterialAnalysisForSelectedBomItem.projector(
+        BOM_ITEM_MOCK,
+        preparedBomItems
       );
 
       expect(result).toEqual(expected);
@@ -310,11 +520,13 @@ describe('Bom Selectors', () => {
           currency: 'EUR',
           materialDesignation: undefined,
           materialNumber: undefined,
-          operatingWeight: undefined,
+          operatingUnit: undefined,
           price: undefined,
           supplier: undefined,
           totalCosts: 0.001_46,
-          unitOfWeight: undefined,
+          unitOfMeasure: undefined,
+          totalPrice: undefined,
+          uomBaseToPriceFactor: undefined,
         },
       ];
 
