@@ -41,13 +41,16 @@ import { Component, importProvidersFrom } from '@angular/core';
         [control]="control"
         [filterFn]="filterFn"
         [resetButton]="resetButton"
+        [searchValueLengthTrigger]="searchValueLengthTrigger"
         [showTriggerTooltip]="showTriggerTooltip"
         [triggerTooltipDelay]="triggerTooltipDelay"
         [tooltipPosition]="tooltipPosition"
+        [showNumberOfSelected]="showNumberOfSelected"
         (searchUpdated)="onSearchUpdated($event)"
         (entryAdded)="onEntryAdded($event)"
         (optionRemoved)="onOptionRemoved($event)"
         (optionSelected)="onOptionSelected($event)"
+        (openedChange)="onOpenedChange($event)"
       >
         <div
           loadingContent
@@ -104,6 +107,7 @@ const Template: StoryFn<WrapperComponentForSelect> = (
     onEntryAdded: action('onEntryAdded'),
     onOptionRemoved: action('onOptionRemoved'),
     onOptionSelected: action('onOptionSelected'),
+    onOpenedChange: action('onOpenedChange'),
   },
 });
 
@@ -134,6 +138,8 @@ Primary.args = {
   hint: 'optional hint',
   formFieldHint: 'optional outer hint',
   initialSearchValue: '',
+  searchValueLengthTrigger: 1,
+  showNumberOfSelected: false,
   loading: false,
   error: false,
   multiple: false,

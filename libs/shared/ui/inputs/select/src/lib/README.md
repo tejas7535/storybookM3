@@ -130,6 +130,7 @@ In the parent component:
     (entryAdded)="onEntryAdded($event)"
     (optionRemoved)="onOptionRemoved($event)"
     (optionSelected)="onOptionSelected($event)"
+    (openedChange)="onOpenedChange($event)"
 >
     <div loadingContent>
         The custom content to display in the panel while loading is set to true.
@@ -232,6 +233,11 @@ export class ExampleComponent implements OnInit {
         console.log(value);
     }
 
+    // react to opening/closing the dropdown window
+    public onOpenedChange(change: boolean): void {
+        console.log(change);
+    }
+
     // pass a custom filter function
     public filterFn(option?: StringOption, value?: string) {
         return option?.title?.includes(value);
@@ -255,29 +261,31 @@ For further information about the option type see [@schaeffler/inputs documentat
 
 #### Inputs
 
-| Name                  | Description                                                                                                      |
-| ----------------------| -----------------------------------------------------------------------------------------------------------------|
-| stringOptions         | the options to select from                                                                                       |
-| appearance            | (optional) ('fill' \| 'outline') (default: 'fill') the style to display the component with                       |
-| label                 | (optional) the label for the select control                                                                      |
-| placeholder           | (optional) the placeholder for the select control                                                                |
-| searchPlaceholder     | (optional) the placeholder for the search control inside the select                                              |
-| addEntryplaceholder   | (optional) the placeholder for the add entry input control                                                       |
-| hint                  | (optional) the hint to display below the search bar                                                              |
-| formFieldHint         | (optional) the hint to display below the form field                                                              |
-| initialValue          | (optional) the initial value to set for the select (has to be within the provided options)                       |
-| initialSearchValue    | (optional) the initial value to set in the search bar                                                            |
-| loading               | (optional) whether the control should be in loading state (displays ng-content with selector `loadingContent`)   |
-| error                 | (optional) whether the control should be in error state (displays ng-content with selector `errorContent`)       |
-| multiple              | (optional) whether the select control should should allow the selection of multiple items                        |
-| noResultsText         | (optional) the text to display if the length of the options array is 0                                           |
-| addEntry              | (optional) whether the control should allow addition of new items                                                |
-| control               | (optional) a form control to manage the value of the control                                                     |
-| filterFn              | (optional) a custom function to implement filter logic used by the component                                     |
-| resetButton           | (optional) (default: true) whether to display a reset button below the options                                   |
-| showTriggerTooltip    | (optional) whether to display a tooltip on the trigger                                                           |
-| triggerTooltipDelay   | (optional) the delay in ms to display the trigger tooltip with                                                   |
-| tooltipPosition       | (optional) the position to display option tooltips at                                                            |
+| Name                      | Description                                                                                                      |
+| --------------------------| -----------------------------------------------------------------------------------------------------------------|
+| stringOptions             | the options to select from                                                                                       |
+| appearance                | (optional) ('fill' \| 'outline') (default: 'fill') the style to display the component with                       |
+| label                     | (optional) the label for the select control                                                                      |
+| placeholder               | (optional) the placeholder for the select control                                                                |
+| searchPlaceholder         | (optional) the placeholder for the search control inside the select                                              |
+| addEntryplaceholder       | (optional) the placeholder for the add entry input control                                                       |
+| hint                      | (optional) the hint to display below the search bar                                                              |
+| formFieldHint             | (optional) the hint to display below the form field                                                              |
+| initialValue              | (optional) the initial value to set for the select (has to be within the provided options)                       |
+| initialSearchValue        | (optional) the initial value to set in the search bar                                                            |
+| loading                   | (optional) whether the control should be in loading state (displays ng-content with selector `loadingContent`)   |
+| error                     | (optional) whether the control should be in error state (displays ng-content with selector `errorContent`)       |
+| multiple                  | (optional) whether the select control should should allow the selection of multiple items                        |
+| noResultsText             | (optional) the text to display if the length of the options array is 0                                           |
+| addEntry                  | (optional) whether the control should allow addition of new items                                                |
+| control                   | (optional) a form control to manage the value of the control                                                     |
+| filterFn                  | (optional) a custom function to implement filter logic used by the component                                     |
+| resetButton               | (optional) (default: true) whether to display a reset button below the options                                   |
+| showTriggerTooltip        | (optional) whether to display a tooltip on the trigger                                                           |
+| showNumberOfSelected      | (optional) (default: false) whether to display the number of selected options in label for multiple options      |
+| searchValueLengthTrigger  | (optional) (default: 1) lenght threshold for emitting searchUpdated event                                        |
+| triggerTooltipDelay       | (optional) the delay in ms to display the trigger tooltip with                                                   |
+| tooltipPosition           | (optional) the position to display option tooltips at                                                            |
 
 #### Events
 
@@ -287,6 +295,7 @@ For further information about the option type see [@schaeffler/inputs documentat
 | entryAdded            | (string) emits the string value the user entered to add a new item                                               |
 | optionRemoved         | (StringOption) emits the value of the removed option                                                             |
 | optionSelected        | (StringOption) emits the value of the selected option                                                            |
+| openedChange          | (boolean) emits the status change of the dropdown window                                                         |
 
 ### i18n
 

@@ -1,10 +1,12 @@
 import {
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnDestroy,
   OnInit,
   Output,
+  ViewChild,
   ViewChildren,
 } from '@angular/core';
 import { ControlValueAccessor, FormControl, Validators } from '@angular/forms';
@@ -33,6 +35,8 @@ export class SelectComponent
   @Input() public initialValue?: StringOption;
   @Input() public initialSearchValue?: string;
 
+  @Input() public searchValueLengthTrigger = 1;
+
   @Input() public stringOptions!: StringOption[];
   @Input() public loading?: boolean;
   @Input() public error?: boolean;
@@ -41,6 +45,7 @@ export class SelectComponent
   @Input() public addEntry?: boolean;
   @Input() public resetButton? = true;
   @Input() public showTriggerTooltip?: boolean;
+  @Input() public showNumberOfSelected = false;
   @Input() public triggerTooltipDelay?: number;
   @Input() public tooltipPosition?:
     | 'left'
@@ -56,11 +61,13 @@ export class SelectComponent
   @Output() public readonly optionSelected = new EventEmitter<
     StringOption | StringOption[]
   >();
+  @Output() public readonly openedChange = new EventEmitter<boolean>();
 
   @Input() public control = new FormControl();
   @Input() public filterFn?: (option: StringOption, value: string) => boolean;
 
   @ViewChildren('selectOption') private readonly selectOptions!: MatOption[];
+  @ViewChild('searchInput') private readonly searchInput!: ElementRef;
 
   public searchControl = new FormControl();
 
@@ -106,7 +113,9 @@ export class SelectComponent
     if (this.initialSearchValue) {
       this.searchControl.setValue(this.initialSearchValue);
       this.searchUpdated.emit(
-        this.initialSearchValue.length > 1 ? this.initialSearchValue : ''
+        this.initialSearchValue.length > this.searchValueLengthTrigger
+          ? this.initialSearchValue
+          : ''
       );
     }
 
@@ -120,7 +129,9 @@ export class SelectComponent
       this.searchControl.valueChanges
         .pipe(debounceTime(500))
         .subscribe((value) =>
-          this.searchUpdated.emit(value?.length > 1 ? value : '')
+          this.searchUpdated.emit(
+            value?.length > this.searchValueLengthTrigger ? value : ''
+          )
         )
     );
   }
@@ -132,6 +143,13 @@ export class SelectComponent
   public onChange: (value: StringOption | StringOption[]) => void = () => {};
 
   public onTouched: () => void = () => {};
+
+  public onOpenedChange(change: boolean): void {
+    if (change) {
+      this.searchInput.nativeElement.focus();
+    }
+    this.openedChange.emit(change);
+  }
 
   public writeValue(input: StringOption | StringOption[]): void {
     this.control.setValue(input);
@@ -174,6 +192,11 @@ export class SelectComponent
   public onConfirmAddEntry(value: string): void {
     this.entryAdded.emit(value);
     this.addingEntry = false;
+  }
+
+  public resetControls(): void {
+    this.control.reset(this.initialValue ?? {});
+    this.searchControl.reset(this.initialSearchValue ?? {});
   }
 
   public filterOptions = (_option?: StringOption, _value?: string) => true;

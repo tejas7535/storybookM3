@@ -1,5 +1,12 @@
 <mat-form-field [appearance]="appearance" class="w-full" *transloco="let t">
-  <mat-label *ngIf="label && label !== ''">{{ label }}</mat-label>
+  <mat-label *ngIf="label && label !== ''">
+    <ng-container
+      *ngIf="multiple && showNumberOfSelected && control.value?.length > 0"
+    >
+      ({{ control.value?.length }})
+    </ng-container>
+    {{ label }}
+  </mat-label>
   <mat-select
     controlType="mat-select"
     disableOptionCentering
@@ -7,7 +14,7 @@
     [formControl]="control"
     [multiple]="multiple"
     panelClass="!overflow-hidden !max-h-min w-96 mt-[30px]"
-    (openedChange)="$event ? searchInput.focus() : undefined"
+    (openedChange)="onOpenedChange($event)"
     #selectInput
     [required]="formControlRequired"
     [compareWith]="compareWith"
@@ -23,7 +30,7 @@
         <div class="flex flex-col px-4">
           <div class="flex h-20 flex-row">
             <mat-form-field
-              class="w-full border-primary"
+              class="border-primary w-full"
               (keydown.Tab)="$event.preventDefault()"
               floatLabel="never"
             >
@@ -41,7 +48,7 @@
                   [disabled]="!searchInput.value"
                   (click)="searchControl.reset('')"
                   color="primary"
-                  class="!min-w-0 !px-1 !text-caption !font-normal !normal-case"
+                  class="!text-caption !min-w-0 !px-1 !font-normal !normal-case"
                 >
                   {{ t('clear') }}
                 </button>
@@ -52,27 +59,27 @@
               </div>
             </mat-form-field>
           </div>
-          <div *ngIf="addEntry" class="border-b border-border py-2">
+          <div *ngIf="addEntry" class="border-border border-b py-2">
             <button
               *ngIf="!addingEntry; else addingEntryTemplate"
               mat-button
               color="primary"
-              class="-ml-1 flex !min-w-0 flex-row !px-1 !text-body-1 !font-normal !normal-case text-medium-emphasis"
+              class="!text-body-1 text-medium-emphasis -ml-1 flex !min-w-0 flex-row !px-1 !font-normal !normal-case"
               [ngClass]="{ 'text-link': !loading }"
               (click)="onClickAddEntry()"
               [disabled]="loading"
             >
               <div class="flex flex-row justify-center">
-                <mat-icon class="!my-auto !h-6 !w-6 !text-icon">add</mat-icon>
+                <mat-icon class="!text-icon !my-auto !h-6 !w-6">add</mat-icon>
                 <div>{{ t('addEntry') }}</div>
               </div>
             </button>
             <ng-template #addingEntryTemplate>
               <div class="flex flex-row justify-center gap-4 py-1">
-                <div class="flex-1 rounded border border-primary px-4">
+                <div class="border-primary flex-1 rounded border px-4">
                   <input
                     type="text"
-                    class="w-full text-caption focus:outline-none"
+                    class="text-caption w-full focus:outline-none"
                     [placeholder]="addEntryPlaceholder"
                     #addEntryInput
                   />
@@ -83,7 +90,7 @@
                   [disabled]="loading"
                   class="!h-6 !w-6"
                 >
-                  <mat-icon class="!block text-error">close</mat-icon>
+                  <mat-icon class="text-error !block">close</mat-icon>
                 </button>
                 <button
                   mat-icon-button
@@ -102,7 +109,7 @@
               </div>
             </ng-template>
           </div>
-          <div *ngIf="multiple" class="my-0.5 border-b border-border pt-2 pb-3">
+          <div *ngIf="multiple" class="border-border my-0.5 border-b pb-3 pt-2">
             <div class="flex flex-row content-between">
               <mat-checkbox
                 color="primary"
@@ -115,12 +122,12 @@
                 [disabled]="stringOptions.length === 0 || loading"
                 (change)="onSelectAllToggle($event.checked)"
               >
-                <div class="flex flex-row gap-2 text-medium-emphasis">
+                <div class="text-medium-emphasis flex flex-row gap-2">
                   {{ t('selectAll') }}
                 </div>
               </mat-checkbox>
               <div
-                class="mt-auto pb-1 align-text-bottom text-caption text-low-emphasis"
+                class="text-caption text-low-emphasis mt-auto pb-1 align-text-bottom"
               >
                 {{ control.value?.length ?? 0 }} {{ t('selected') }}
               </div>
@@ -143,7 +150,7 @@
                 class="flex h-12 w-full flex-col content-around"
                 *ngIf="stringOptions.length === 0"
               >
-                <div class="relative my-auto text-center text-high-emphasis">
+                <div class="text-high-emphasis relative my-auto text-center">
                   {{ noResultsText }}
                 </div>
               </div>
@@ -155,7 +162,7 @@
                 [ngClass]="{
                   'mat-selected': option === control.value
                 }"
-                class="flex-1 text-high-emphasis"
+                class="text-high-emphasis flex-1"
                 [matTooltip]="option.tooltip ? option.tooltip : ''"
                 [matTooltipShowDelay]="option.tooltipDelay"
                 [matTooltipPosition]="tooltipPosition ?? 'below'"
@@ -170,7 +177,7 @@
                     (click)="onOptionRemoved(option); $event.stopPropagation()"
                     class="!mt-1"
                   >
-                    <mat-icon class="!mx-0 text-medium-emphasis"
+                    <mat-icon class="text-medium-emphasis !mx-0"
                       >delete_outline</mat-icon
                     >
                   </button>

@@ -275,6 +275,28 @@ describe('SelectComponent', () => {
     });
   });
 
+  describe('onOpenedChange', () => {
+    let spy: jest.SpyInstance<any, unknown[]>;
+
+    beforeEach(() => {
+      component.openedChange.emit = jest.fn();
+      spy = jest.spyOn(component['searchInput'].nativeElement, 'focus');
+    });
+
+    it('should emit the change (opening the dropdown) and not focus on input', () => {
+      component.onOpenedChange(false);
+
+      expect(component.openedChange.emit).toHaveBeenCalledWith(false);
+      expect(spy).toHaveBeenCalledTimes(0);
+    });
+    it('should emit the change (closing the dropdown) and focus on input', () => {
+      component.onOpenedChange(true);
+
+      expect(component.openedChange.emit).toHaveBeenCalledWith(true);
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe('get filteredOptions', () => {
     it('should call filterOptions', () => {
       const mockOptionYes = {
@@ -455,6 +477,31 @@ describe('SelectComponent', () => {
       const result = component.compareWith(option, selection);
 
       expect(result).toBe(false);
+    });
+  });
+
+  describe('resetControls', () => {
+    it('should reset controls to initial values', () => {
+      const initialValue: StringOption = {
+        id: '0',
+        title: 'initialValue',
+      };
+      const initialSearchValue = 'initialSearchValue';
+      const controlResetSpy = jest.spyOn(component.control, 'reset');
+      const searchControlResetSpy = jest.spyOn(
+        component.searchControl,
+        'reset'
+      );
+
+      component.initialValue = initialValue;
+      component.initialSearchValue = initialSearchValue;
+
+      component.resetControls();
+
+      expect(controlResetSpy).toHaveBeenCalledTimes(1);
+      expect(searchControlResetSpy).toHaveBeenCalledTimes(1);
+      expect(component.control.getRawValue()).toEqual(initialValue);
+      expect(component.searchControl.getRawValue()).toEqual(initialSearchValue);
     });
   });
 
