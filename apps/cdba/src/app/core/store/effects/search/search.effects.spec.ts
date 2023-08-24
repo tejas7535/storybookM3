@@ -11,6 +11,8 @@ import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/jest';
 
+import { StringOption } from '@schaeffler/inputs';
+
 import { REFERENCE_TYPE_MOCK } from '@cdba/testing/mocks';
 
 import { SearchService } from '../../../../search/services/search.service';
@@ -30,9 +32,10 @@ import {
   searchSuccess,
 } from '../../actions';
 import {
+  FilterItem,
   FilterItemIdValue,
   FilterItemRange,
-  IdValue,
+  FilterItemType,
   SearchResult,
   TextSearch,
 } from '../../reducers/search/models';
@@ -89,7 +92,9 @@ describe('Search Effects', () => {
         const items = [
           new FilterItemIdValue(
             'customer',
-            [new IdValue('audi', 'Audi', false)],
+            [{ id: 'audi', title: 'Audi' } as StringOption],
+            [],
+            false,
             true
           ),
         ];
@@ -140,7 +145,9 @@ describe('Search Effects', () => {
       marbles((m) => {
         const filterItemIdVal = new FilterItemIdValue(
           'plant',
-          [new IdValue('23', 'Best plant', false)],
+          [{ id: '23', title: 'Best plant' } as StringOption],
+          [],
+          false,
           false
         );
         const filterItemRange = new FilterItemRange(
@@ -185,7 +192,9 @@ describe('Search Effects', () => {
         jest.resetAllMocks();
         const filterItemIdVal = new FilterItemIdValue(
           'plant',
-          [new IdValue('23', 'Best plant', false)],
+          [{ id: '23', title: 'Best plant' } as StringOption],
+          [],
+          false,
           false
         );
         const filterItemRange = new FilterItemRange(
@@ -256,7 +265,9 @@ describe('Search Effects', () => {
       marbles((m) => {
         const filterItemIdVal = new FilterItemIdValue(
           'plant',
-          [new IdValue('23', 'Best plant', false)],
+          [{ id: '23', title: 'Best plant' } as StringOption],
+          [],
+          false,
           false
         );
         const filterItemRange = new FilterItemRange(
@@ -328,11 +339,11 @@ describe('Search Effects', () => {
   });
 
   describe('autocomplete$', () => {
-    let textSearch: TextSearch;
-
     beforeEach(() => {
-      textSearch = new TextSearch('customer', 'Aud');
-      action = autocomplete({ textSearch });
+      action = autocomplete({
+        searchFor: 'Audi',
+        filter: { name: 'customer', type: FilterItemType.ID_VALUE },
+      });
     });
 
     test(
@@ -340,7 +351,9 @@ describe('Search Effects', () => {
       marbles((m) => {
         const item = new FilterItemIdValue(
           'customer',
-          [new IdValue('audi', 'Audi', false)],
+          [{ id: 'audi', title: 'Audi' } as StringOption],
+          [],
+          false,
           true
         );
         const result = autocompleteSuccess({
@@ -359,18 +372,25 @@ describe('Search Effects', () => {
         m.expect(effects.autocomplete$).toBeObservable(expected);
         m.flush();
         expect(searchService.autocomplete).toHaveBeenCalled();
-        expect(searchService.autocomplete).toHaveBeenCalledWith(textSearch, []);
+        expect(searchService.autocomplete).toHaveBeenCalledWith(
+          action.searchFor,
+          action.filter.name
+        );
       })
     );
 
     test(
       'should return autocompleteFailure on REST error',
       marbles((m) => {
-        const error = new Error('damn');
-        const result = autocompleteFailure();
+        const filter = {
+          name: 'customer',
+          type: FilterItemType.ID_VALUE,
+        } as FilterItem;
+
+        const result = autocompleteFailure({ item: filter });
 
         actions$ = m.hot('-a', { a: action });
-        const response = m.cold('-#|', undefined, error);
+        const response = m.cold('-#|', undefined);
         const expected = m.cold('--b', { b: result });
 
         searchService.autocomplete = jest.fn(() => response);
@@ -378,7 +398,10 @@ describe('Search Effects', () => {
         m.expect(effects.autocomplete$).toBeObservable(expected);
         m.flush();
         expect(searchService.autocomplete).toHaveBeenCalled();
-        expect(searchService.autocomplete).toHaveBeenCalledWith(textSearch, []);
+        expect(searchService.autocomplete).toHaveBeenCalledWith(
+          action.searchFor,
+          action.filter.name
+        );
       })
     );
   });

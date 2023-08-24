@@ -19,18 +19,16 @@ export class CompareLabelValueComponent implements AfterViewInit {
   @Input() value: string;
   @Input() borderBottom: boolean;
 
-  private hideTooltip = false;
-
   @ViewChild('componentWrapper')
   private readonly componentWrapperRef: ElementRef;
+  private hideTooltip = false;
 
+  get hideTooltip$(): Observable<boolean> {
+    return of(this.hideTooltip);
+  }
   ngAfterViewInit() {
     this.hideTooltip =
       this.componentWrapperRef?.nativeElement?.offsetWidth >=
       this.componentWrapperRef?.nativeElement?.scrollWidth;
-  }
-
-  get hideTooltip$(): Observable<boolean> {
-    return of(this.hideTooltip);
   }
 }

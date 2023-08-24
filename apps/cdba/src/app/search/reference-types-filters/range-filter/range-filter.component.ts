@@ -24,16 +24,16 @@ import { InputType } from './input-type.enum';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RangeFilterComponent implements OnChanges, OnInit, Filter {
+  @Input() public filter: FilterItemRange;
+
+  @Output()
+  private readonly updateFilter: EventEmitter<FilterItemRange> = new EventEmitter();
+
   public form = new UntypedFormControl();
   public inputType = InputType;
   public disabledFilterHint: string;
 
   decimalNumberFormat: NumberFormatOptions = { maximumFractionDigits: 2 };
-
-  @Input() public filter: FilterItemRange;
-
-  @Output()
-  private readonly updateFilter: EventEmitter<FilterItemRange> = new EventEmitter();
 
   public constructor(private readonly translocoService: TranslocoService) {}
 
@@ -100,6 +100,18 @@ export class RangeFilterComponent implements OnChanges, OnInit, Filter {
     }
   }
 
+  public formatSliderThumbLabel(value: number): string {
+    if (value > 999 && value < 1_000_000) {
+      return `${Math.round(value / 1000)}K`;
+    }
+
+    if (value > 1_000_000) {
+      return `${(value / 1_000_000).toFixed(1)}M`;
+    }
+
+    return String(value);
+  }
+
   /**
    * Update filter selection dependent on new min input.
    */
@@ -151,17 +163,5 @@ export class RangeFilterComponent implements OnChanges, OnInit, Filter {
     }
 
     this.updateFilter.emit({ ...this.filter, minSelected, maxSelected: value });
-  }
-
-  public formatSliderThumbLabel(value: number): string {
-    if (value > 999 && value < 1_000_000) {
-      return `${Math.round(value / 1000)}K`;
-    }
-
-    if (value > 1_000_000) {
-      return `${(value / 1_000_000).toFixed(1)}M`;
-    }
-
-    return String(value);
   }
 }

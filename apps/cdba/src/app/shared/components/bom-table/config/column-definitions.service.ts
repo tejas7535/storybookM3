@@ -15,11 +15,6 @@ import { ScrambleMaterialNumberPipe } from '@cdba/shared/pipes';
 export class ColumnDefinitionService {
   defaultCellClass = 'line-height-30';
 
-  constructor(
-    private readonly columnUtilsService: ColumnUtilsService,
-    protected scrambleMaterialNumberPipe: ScrambleMaterialNumberPipe
-  ) {}
-
   DEFAULT_COL_DEF: ColDef = {
     sortable: true,
     resizable: true,
@@ -673,6 +668,11 @@ export class ColumnDefinitionService {
       ],
     },
   ];
+
+  constructor(
+    private readonly columnUtilsService: ColumnUtilsService,
+    protected scrambleMaterialNumberPipe: ScrambleMaterialNumberPipe
+  ) {}
 
   public getColDef(): (ColDef | ColGroupDef)[] {
     return this.COLUMN_DEFINITIONS;

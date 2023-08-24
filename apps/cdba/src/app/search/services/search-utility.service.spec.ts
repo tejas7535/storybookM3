@@ -1,6 +1,7 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
-import { IdValue } from '../../core/store/reducers/search/models';
+import { StringOption } from '@schaeffler/inputs';
+
 import { SearchUtilityService } from './search-utility.service';
 
 describe('SearchUtilityService', () => {
@@ -21,13 +22,13 @@ describe('SearchUtilityService', () => {
   describe('mergeOptionsWithSelectedOptions', () => {
     it('should add selected options to provided options', () => {
       const selectedOptions = [
-        new IdValue('001', 'already selected option 1', true),
-        new IdValue('002', 'already selected option 2', false),
+        { id: '001', title: 'already selected option 1' } as StringOption,
+        { id: '002', title: 'already selected option 2' } as StringOption,
       ];
 
       const options = [
-        new IdValue('004', 'new', true),
-        new IdValue('002', 'already selected option 2', false),
+        { id: '004', title: 'new' } as StringOption,
+        { id: '002', title: 'already selected option 2' } as StringOption,
       ];
 
       const result = service.mergeOptionsWithSelectedOptions(
@@ -36,9 +37,9 @@ describe('SearchUtilityService', () => {
       );
 
       expect(result).toEqual([
-        new IdValue('004', 'new', true),
-        new IdValue('002', 'already selected option 2', true),
-        new IdValue('001', 'already selected option 1', true),
+        { id: '001', title: 'already selected option 1' } as StringOption,
+        { id: '002', title: 'already selected option 2' } as StringOption,
+        { id: '004', title: 'new' } as StringOption,
       ]);
     });
   });

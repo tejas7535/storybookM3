@@ -10,10 +10,6 @@ interface TableState {
 
 @Injectable()
 export class TableStore extends ComponentStore<TableState> {
-  public constructor() {
-    super({ filters: undefined });
-  }
-
   public readonly filters$: Observable<any> = this.select(
     (state) => state.filters
   );
@@ -24,4 +20,8 @@ export class TableStore extends ComponentStore<TableState> {
       filters,
     })
   );
+
+  public constructor() {
+    super({ filters: undefined });
+  }
 }

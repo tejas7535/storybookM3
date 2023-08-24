@@ -17,11 +17,6 @@ import { MaterialDesignationCellRendererComponent } from './material-designation
 export class BomLegendComponent {
   @Input() data: BomItem[];
 
-  constructor(
-    private readonly columnUtilsService: ColumnUtilsService,
-    private readonly currencyService: CurrencyService
-  ) {}
-
   public columnDefs: ColDef[] = [
     {
       field: 'materialDesignation',
@@ -51,4 +46,9 @@ export class BomLegendComponent {
     sortable: true,
     resizable: true,
   };
+
+  constructor(
+    private readonly columnUtilsService: ColumnUtilsService,
+    private readonly currencyService: CurrencyService
+  ) {}
 }

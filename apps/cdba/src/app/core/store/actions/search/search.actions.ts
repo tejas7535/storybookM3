@@ -55,7 +55,7 @@ export const shareSearchResult = createAction('[Search] Share Search Result');
 
 export const autocomplete = createAction(
   '[Search] Get Autocomplete Suggestions For Provided Filter Type',
-  props<{ textSearch: TextSearch }>()
+  props<{ searchFor: string; filter: FilterItem }>()
 );
 
 export const autocompleteSuccess = createAction(
@@ -64,7 +64,8 @@ export const autocompleteSuccess = createAction(
 );
 
 export const autocompleteFailure = createAction(
-  '[Search] Get Autocomplete Suggestions For Provided Filter Type Failure'
+  '[Search] Get Autocomplete Suggestions For Provided Filter Type Failure',
+  props<{ item: FilterItem }>()
 );
 
 export const selectReferenceTypes = createAction(

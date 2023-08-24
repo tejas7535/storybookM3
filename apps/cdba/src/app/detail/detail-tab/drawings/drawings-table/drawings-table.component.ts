@@ -29,10 +29,6 @@ export class DrawingsTableComponent {
     drawing: Drawing;
   }> = new EventEmitter();
 
-  public constructor(
-    private readonly columnDefinitionService: ColumnDefinitionService
-  ) {}
-
   public defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
 
   public columnDefs: ColDef[] = this.columnDefinitionService.COLUMN_DEFINITIONS;
@@ -40,6 +36,10 @@ export class DrawingsTableComponent {
   public components = {
     actionsCellRenderer: ActionsCellRendererComponent,
   };
+
+  public constructor(
+    private readonly columnDefinitionService: ColumnDefinitionService
+  ) {}
 
   public onRowSelected({ node, api }: RowSelectedEvent): void {
     const nodeId = node.id;

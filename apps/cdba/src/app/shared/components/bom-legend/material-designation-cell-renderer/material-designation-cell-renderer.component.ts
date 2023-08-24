@@ -15,13 +15,13 @@ import { COST_SHARE_CATEGORY_COLORS } from '../../../constants/colors';
 export class MaterialDesignationCellRendererComponent
   implements ICellRendererAngularComp
 {
+  public materialDesignation: string;
+  public color: string;
+
   public constructor(
     protected scrambleMaterialDesignationPipe: ScrambleMaterialDesignationPipe,
     private readonly costShareService: CostShareService
   ) {}
-
-  public materialDesignation: string;
-  public color: string;
 
   agInit(params: Partial<ICellRendererParams>): void {
     this.assignRenderParams(params);

@@ -1,4 +1,5 @@
-import { IdValue } from '../../../../core/store/reducers/search/models';
+import { StringOption } from '@schaeffler/inputs';
+
 import { MultiSelectValuePipe } from './multi-select-value.pipe';
 
 describe('MultiSelectValuePipe', () => {
@@ -19,12 +20,12 @@ describe('MultiSelectValuePipe', () => {
 
   it('should return number of values as prefix including joined items', () => {
     const items = [
-      new IdValue('1', 'value1', false),
-      new IdValue('2', 'value2', false),
-      new IdValue('3', 'value3', false),
+      { id: '1', title: 'title1' } as StringOption,
+      { id: '2', title: 'title2' } as StringOption,
+      { id: '3', title: 'title3' } as StringOption,
     ];
     const result = pipe.transform(items);
 
-    expect(result).toEqual('(3) value1,value2,value3');
+    expect(result).toEqual('(3) title1,title2,title3');
   });
 });

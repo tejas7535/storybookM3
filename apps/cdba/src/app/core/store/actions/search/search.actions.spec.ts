@@ -1,9 +1,11 @@
+import { StringOption } from '@schaeffler/inputs';
+
 import { REFERENCE_TYPE_MOCK } from '@cdba/testing/mocks';
 
 import {
   FilterItemIdValue,
   FilterItemRange,
-  IdValue,
+  FilterItemType,
   SearchResult,
   TextSearch,
 } from '../../reducers/search/models';
@@ -43,7 +45,9 @@ describe('Search Actions', () => {
       const items = [
         new FilterItemIdValue(
           'plant',
-          [new IdValue('23', 'Super Plant', false)],
+          [{ id: '23', title: 'Super Plant' } as StringOption],
+          [],
+          false,
           false
         ),
       ];
@@ -77,7 +81,9 @@ describe('Search Actions', () => {
     test('searchSuccess', () => {
       const item = new FilterItemIdValue(
         'plant',
-        [new IdValue('23', 'Super Plant', false)],
+        [{ id: '23', title: 'Super Plant' } as StringOption],
+        [],
+        false,
         false
       );
       const ref = REFERENCE_TYPE_MOCK;
@@ -135,7 +141,9 @@ describe('Search Actions', () => {
     test('applyTextSearchSuccess', () => {
       const item = new FilterItemIdValue(
         'plant',
-        [new IdValue('23', 'Super Plant', false)],
+        [{ id: '23', title: 'Super Plant' } as StringOption],
+        [],
+        false,
         false
       );
       const ref = REFERENCE_TYPE_MOCK;
@@ -180,20 +188,24 @@ describe('Search Actions', () => {
 
   describe('Autocomplete Actions', () => {
     test('autocomplete', () => {
-      const textSearch = new TextSearch('customer', 'Awe');
-
-      const action = autocomplete({ textSearch });
+      const action = autocomplete({
+        searchFor: 'Awe',
+        filter: { name: 'customer', type: FilterItemType.ID_VALUE },
+      });
 
       expect(action).toEqual({
-        textSearch,
         type: '[Search] Get Autocomplete Suggestions For Provided Filter Type',
+        searchFor: 'Awe',
+        filter: { name: 'customer', type: FilterItemType.ID_VALUE },
       });
     });
 
     test('autocompleteSuccess', () => {
       const item = new FilterItemIdValue(
         'plant',
-        [new IdValue('23', 'Super Plant', false)],
+        [{ id: '23', title: 'Super Plant' } as StringOption],
+        [],
+        false,
         false
       );
 
@@ -206,10 +218,13 @@ describe('Search Actions', () => {
     });
 
     test('autocompleteFailure', () => {
-      const action = autocompleteFailure();
+      const action = autocompleteFailure({
+        item: { name: '', type: FilterItemType.ID_VALUE },
+      });
 
       expect(action).toEqual({
         type: '[Search] Get Autocomplete Suggestions For Provided Filter Type Failure',
+        item: { name: '', type: FilterItemType.ID_VALUE },
       });
     });
   });

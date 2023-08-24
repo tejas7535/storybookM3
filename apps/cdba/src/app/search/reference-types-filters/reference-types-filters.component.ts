@@ -13,7 +13,6 @@ import { Store } from '@ngrx/store';
 
 import {
   autocomplete,
-  getAutocompleteLoading,
   getFilters,
   getSelectedFilters,
   getSelectedIdValueFilters,
@@ -25,7 +24,6 @@ import {
 import {
   FilterItem,
   FilterItemType,
-  TextSearch,
 } from '../../core/store/reducers/search/models';
 import { TOO_MANY_RESULTS_THRESHOLD } from '../../core/store/reducers/search/search.reducer';
 import { MultiSelectFilterComponent } from './multi-select-filter/multi-select-filter.component';
@@ -42,11 +40,9 @@ export class ReferenceTypesFiltersComponent implements OnInit, OnDestroy {
   @ViewChildren(RangeFilterComponent)
   rangeFilters: QueryList<RangeFilterComponent>;
 
-  filters$ = this.store.select(getFilters);
   filtersSubscription: Subscription;
 
-  autocompleteLoading$ = this.store.select(getAutocompleteLoading);
-
+  filters$ = this.store.select(getFilters);
   selectedFilters$ = this.store.select(getSelectedFilters);
   selectedIdValueFilters$ = this.store.select(getSelectedIdValueFilters);
 
@@ -79,8 +75,10 @@ export class ReferenceTypesFiltersComponent implements OnInit, OnDestroy {
   /**
    * Get possible values for user input.
    */
-  public autocomplete(textSearch: TextSearch): void {
-    this.store.dispatch(autocomplete({ textSearch }));
+  public autocomplete(evt: any): void {
+    this.store.dispatch(
+      autocomplete({ searchFor: evt.searchFor, filter: evt.filter })
+    );
   }
 
   /**
@@ -94,9 +92,9 @@ export class ReferenceTypesFiltersComponent implements OnInit, OnDestroy {
    * Reset the Filter to its initial state.
    */
   public resetFilters(): void {
-    this.store.dispatch(resetFilters());
     this.multiSelectFilters.forEach((filter) => filter.reset());
     this.rangeFilters.forEach((filter) => filter.reset());
+    this.store.dispatch(resetFilters());
   }
 
   trackByFn: TrackByFunction<FilterItem> = (

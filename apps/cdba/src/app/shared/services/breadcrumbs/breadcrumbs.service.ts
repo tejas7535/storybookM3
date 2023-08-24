@@ -52,116 +52,6 @@ export class BreadcrumbsService extends ComponentStore<BreadcrumbState> {
   scrambleMaterialDesignationPipe: ScrambleMaterialDesignationPipe =
     new ScrambleMaterialDesignationPipe(getEnv());
 
-  public constructor(
-    private readonly store: Store,
-    private readonly router: Router,
-    private readonly activatedRoute: ActivatedRoute
-  ) {
-    super(initialState());
-
-    const { url, queryParams } = this.extractCurrentRouteProps();
-
-    const isDetailRoute = routeUtils.isDetailRoute(url);
-    const isCompareRoute = routeUtils.isCompareRoute(url);
-
-    if (isDetailRoute) {
-      this.setDetailBreadcrumb({
-        url,
-        queryParams,
-        label: translate('shared.breadcrumbs.detail'),
-      });
-    } else if (isCompareRoute) {
-      this.setCompareBreadcrumb({
-        url,
-        queryParams,
-        label: translate('shared.breadcrumbs.compare'),
-      });
-    }
-
-    this.resetBreadcrumbItems(this.search$);
-    this.updateMaterialDesignation(this.materialDesignation$);
-    this.setResultsBreadcrumb(this.resultsBreadcrumb$);
-    this.setDetailBreadcrumb(this.detailBreadcrumbs$);
-    this.setCompareBreadcrumb(this.compareBreadcrumbs$);
-    this.setPortfolioAnalysisBreadcrumb(this.portfolioAnalysisBreadcrumbs$);
-  }
-
-  private readonly routeProps$ = this.router.events.pipe(
-    filter((event) => event instanceof NavigationEnd),
-    map(() => this.extractCurrentRouteProps())
-  );
-
-  private readonly materialDesignation$: Observable<string> = merge(
-    this.store.select(getMaterialDesignationOfSelectedRefType),
-    this.store.select(getMaterialDesignation)
-  ).pipe(
-    filter((materialDesignation) => materialDesignation !== undefined),
-    distinctUntilChanged()
-  );
-
-  private readonly resultsBreadcrumb$: Observable<Breadcrumb> =
-    this.routeProps$.pipe(
-      filter((route) => routeUtils.isResultsRoute(route.url)),
-      concatLatestFrom(() => this.store.select(getResultCount)),
-      map(([{ url, queryParams }, resultCount]) => ({
-        url,
-        queryParams,
-        label: `${translate('shared.breadcrumbs.results')} (${resultCount})`,
-      }))
-    );
-
-  private readonly search$: Observable<boolean> = this.routeProps$.pipe(
-    filter((route) => routeUtils.isSearchRoute(route.url)),
-    mapTo(true)
-  );
-
-  private readonly detailBreadcrumbs$: Observable<Breadcrumb> =
-    this.routeProps$.pipe(
-      filter((route) => routeUtils.isDetailRoute(route.url)),
-      withLatestFrom(this.materialDesignation$),
-      map(([{ url, queryParams }, materialDesignation]) => ({
-        url,
-        queryParams,
-        label: materialDesignation
-          ? this.scrambleMaterialDesignationPipe.transform(
-              materialDesignation,
-              0
-            )
-          : translate('shared.breadcrumbs.detail'),
-      }))
-    );
-
-  private readonly compareBreadcrumbs$: Observable<Breadcrumb> =
-    this.routeProps$.pipe(
-      filter((route) => routeUtils.isCompareRoute(route.url)),
-      map(({ url, queryParams }) => ({
-        url,
-        queryParams,
-        label: translate('shared.breadcrumbs.compare'),
-      }))
-    );
-
-  private readonly portfolioAnalysisBreadcrumbs$: Observable<Breadcrumb> =
-    this.routeProps$.pipe(
-      filter((route) => routeUtils.isPortfolioAnalysisRoute(route.url)),
-      map(({ url, queryParams }) => ({
-        url,
-        queryParams,
-        label: translate('shared.breadcrumbs.portfolioAnalysis'),
-      }))
-    );
-
-  public readonly breadcrumbs$: Observable<Breadcrumb[]> = this.select(
-    (state) => {
-      const breadcrumbs = [...state.items];
-
-      const lastElement: Breadcrumb = { ...breadcrumbs.pop() };
-      lastElement.url = undefined;
-
-      return [...breadcrumbs, lastElement];
-    }
-  );
-
   public readonly setResultsBreadcrumb = this.updater(
     (state, breadcrumb: Breadcrumb): BreadcrumbState =>
       this.addBreadcrumb(state, breadcrumb)
@@ -242,6 +132,116 @@ export class BreadcrumbsService extends ComponentStore<BreadcrumbState> {
   public readonly resetBreadcrumbItems = this.updater(
     (_state, _bool: boolean): BreadcrumbState => initialState()
   );
+
+  public readonly breadcrumbs$: Observable<Breadcrumb[]> = this.select(
+    (state) => {
+      const breadcrumbs = [...state.items];
+
+      const lastElement: Breadcrumb = { ...breadcrumbs.pop() };
+      lastElement.url = undefined;
+
+      return [...breadcrumbs, lastElement];
+    }
+  );
+
+  private readonly routeProps$ = this.router.events.pipe(
+    filter((event) => event instanceof NavigationEnd),
+    map(() => this.extractCurrentRouteProps())
+  );
+
+  private readonly materialDesignation$: Observable<string> = merge(
+    this.store.select(getMaterialDesignationOfSelectedRefType),
+    this.store.select(getMaterialDesignation)
+  ).pipe(
+    filter((materialDesignation) => materialDesignation !== undefined),
+    distinctUntilChanged()
+  );
+
+  private readonly resultsBreadcrumb$: Observable<Breadcrumb> =
+    this.routeProps$.pipe(
+      filter((route) => routeUtils.isResultsRoute(route.url)),
+      concatLatestFrom(() => this.store.select(getResultCount)),
+      map(([{ url, queryParams }, resultCount]) => ({
+        url,
+        queryParams,
+        label: `${translate('shared.breadcrumbs.results')} (${resultCount})`,
+      }))
+    );
+
+  private readonly search$: Observable<boolean> = this.routeProps$.pipe(
+    filter((route) => routeUtils.isSearchRoute(route.url)),
+    mapTo(true)
+  );
+
+  private readonly detailBreadcrumbs$: Observable<Breadcrumb> =
+    this.routeProps$.pipe(
+      filter((route) => routeUtils.isDetailRoute(route.url)),
+      withLatestFrom(this.materialDesignation$),
+      map(([{ url, queryParams }, materialDesignation]) => ({
+        url,
+        queryParams,
+        label: materialDesignation
+          ? this.scrambleMaterialDesignationPipe.transform(
+              materialDesignation,
+              0
+            )
+          : translate('shared.breadcrumbs.detail'),
+      }))
+    );
+
+  private readonly compareBreadcrumbs$: Observable<Breadcrumb> =
+    this.routeProps$.pipe(
+      filter((route) => routeUtils.isCompareRoute(route.url)),
+      map(({ url, queryParams }) => ({
+        url,
+        queryParams,
+        label: translate('shared.breadcrumbs.compare'),
+      }))
+    );
+
+  private readonly portfolioAnalysisBreadcrumbs$: Observable<Breadcrumb> =
+    this.routeProps$.pipe(
+      filter((route) => routeUtils.isPortfolioAnalysisRoute(route.url)),
+      map(({ url, queryParams }) => ({
+        url,
+        queryParams,
+        label: translate('shared.breadcrumbs.portfolioAnalysis'),
+      }))
+    );
+
+  public constructor(
+    private readonly store: Store,
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute
+  ) {
+    super(initialState());
+
+    const { url, queryParams } = this.extractCurrentRouteProps();
+
+    const isDetailRoute = routeUtils.isDetailRoute(url);
+    const isCompareRoute = routeUtils.isCompareRoute(url);
+
+    if (isDetailRoute) {
+      this.setDetailBreadcrumb({
+        url,
+        queryParams,
+        label: translate('shared.breadcrumbs.detail'),
+      });
+    } else if (isCompareRoute) {
+      this.setCompareBreadcrumb({
+        url,
+        queryParams,
+        label: translate('shared.breadcrumbs.compare'),
+      });
+    }
+
+    this.resetBreadcrumbItems(this.search$);
+    this.updateMaterialDesignation(this.materialDesignation$);
+    this.setResultsBreadcrumb(this.resultsBreadcrumb$);
+    this.setDetailBreadcrumb(this.detailBreadcrumbs$);
+    this.setCompareBreadcrumb(this.compareBreadcrumbs$);
+    this.setPortfolioAnalysisBreadcrumb(this.portfolioAnalysisBreadcrumbs$);
+  }
 
   private readonly extractCurrentRouteProps = (): RouteProps => ({
     url: this.router.routerState.snapshot.url.split('?')[0],

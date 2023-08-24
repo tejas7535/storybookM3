@@ -1,5 +1,4 @@
-import { SpectatorService } from '@ngneat/spectator';
-import { createServiceFactory } from '@ngneat/spectator/jest';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { marbles } from 'rxjs-marbles/jest';
 
 import { TableStore } from './table.store';

@@ -8,13 +8,13 @@ import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { withCache } from '@ngneat/cashew';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
+import { StringOption } from '@schaeffler/inputs';
+
 import { LocalStorageMock } from '@cdba/testing/mocks/storage/local-storage.mock';
 
 import {
   FilterItem,
-  IdValue,
   SearchResult,
-  TextSearch,
 } from '../../core/store/reducers/search/models';
 import { SearchService } from './search.service';
 
@@ -81,19 +81,16 @@ describe('SearchService', () => {
 
   describe('autocomplete', () => {
     test('should get autocomplete suggestions', () => {
-      const textSearch = new TextSearch('customer', 'Audi');
-      const mock = [new IdValue('audi', 'Audi', true)];
+      const searchFor = 'Audi';
+      const filterName = 'customer';
+      const mock = [{ id: 'audi', title: 'Audi' } as StringOption];
 
-      service['searchUtilities'].mergeOptionsWithSelectedOptions = jest.fn(
-        () => mock
-      );
-
-      service.autocomplete(textSearch, []).subscribe((response) => {
+      service.autocomplete(searchFor, filterName).subscribe((response) => {
         expect(response).toEqual(mock);
       });
 
       const req = httpMock.expectOne(
-        `api/v1/possible-filter/${textSearch.field}?search_for=${textSearch.value}`
+        `api/v1/possible-filter/${filterName}?search_for=${searchFor}`
       );
       expect(req.request.method).toBe('GET');
       expect(req.request.context).toEqual(withCache());

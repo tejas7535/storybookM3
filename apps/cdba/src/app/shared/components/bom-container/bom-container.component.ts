@@ -108,6 +108,32 @@ export class BomContainerComponent implements OnInit {
     }
   }
 
+  onGridReady(gridApi: GridApi): void {
+    this.gridApi = gridApi;
+  }
+
+  public expandAll(): void {
+    this.gridApi.expandAll();
+  }
+
+  public collapseAll(): void {
+    this.gridApi.collapseAll();
+  }
+
+  public exportBomAsExcelFile(): void {
+    this.gridApi.exportDataAsExcel({
+      author: 'CDBA (Cost Database Analytics)',
+      fileName: `CDBA-Bill-Of-Materials-${this.materialDesignation}.xlsx`,
+      sheetName: this.materialDesignation,
+      allColumns: true,
+      prependContent: this.getBomMetadata(this.gridApi.getColumnDefs().length),
+    });
+
+    this.applicationInsights.logEvent('BoM Excel Export', {
+      materialDesignation: this.materialDesignation,
+    });
+  }
+
   private initializeWithCompareSelectors(): void {
     this.materialDesignation$ = this.store
       .select(fromCompare.getMaterialDesignation, this.index)
@@ -231,32 +257,6 @@ export class BomContainerComponent implements OnInit {
     this.rawMaterialAnalysisSummary$ = this.store.select(
       fromDetail.getRawMaterialAnalysisSummaryForSelectedBom
     );
-  }
-
-  onGridReady(gridApi: GridApi): void {
-    this.gridApi = gridApi;
-  }
-
-  public expandAll(): void {
-    this.gridApi.expandAll();
-  }
-
-  public collapseAll(): void {
-    this.gridApi.collapseAll();
-  }
-
-  public exportBomAsExcelFile(): void {
-    this.gridApi.exportDataAsExcel({
-      author: 'CDBA (Cost Database Analytics)',
-      fileName: `CDBA-Bill-Of-Materials-${this.materialDesignation}.xlsx`,
-      sheetName: this.materialDesignation,
-      allColumns: true,
-      prependContent: this.getBomMetadata(this.gridApi.getColumnDefs().length),
-    });
-
-    this.applicationInsights.logEvent('BoM Excel Export', {
-      materialDesignation: this.materialDesignation,
-    });
   }
 
   private getBomMetadata(numberOfColumns: number): ExcelRow[] {

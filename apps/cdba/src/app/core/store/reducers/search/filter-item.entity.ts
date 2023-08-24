@@ -10,27 +10,26 @@ import {
   FilterItemIdValue,
   FilterItemRange,
   FilterItemType,
-  IdValue,
 } from './models';
 
 export type FilterItemState = EntityState<FilterItem>;
 
-export const resetFilterItems: EntityMap<FilterItem> = (item: FilterItem) => {
-  if (item.type === FilterItemType.ID_VALUE) {
+export const resetFilterItems: EntityMap<FilterItem> = (
+  filterItem: FilterItem
+) => {
+  if (filterItem.type === FilterItemType.ID_VALUE) {
     return {
-      ...item,
-      items: (item as FilterItemIdValue).items.map((idValue: IdValue) => ({
-        ...idValue,
-        selected: false,
-      })),
-    };
+      ...filterItem,
+      items: [],
+      selectedItems: [],
+    } as FilterItemIdValue;
   }
 
   // then it must be range
   return {
-    ...item,
-    minSelected: (item as FilterItemRange).min,
-    maxSelected: (item as FilterItemRange).max,
+    ...filterItem,
+    minSelected: (filterItem as FilterItemRange).min,
+    maxSelected: (filterItem as FilterItemRange).max,
   };
 };
 

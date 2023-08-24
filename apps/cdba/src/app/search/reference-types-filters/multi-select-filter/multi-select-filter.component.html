@@ -1,102 +1,27 @@
-<mat-form-field
+<schaeffler-select
+  #select
+  *transloco="let t; read: 'search'"
   appearance="fill"
-  *transloco="let t; read: 'search.referenceTypesFilters'"
-  class="custom-mat-form-field"
+  [label]="t('referenceTypesFilters.names.' + filter.name)"
+  [searchPlaceholder]="t('referenceTypesFilters.searchPlaceholder')"
+  [hint]="t('referenceTypesFilters.formatHints.' + filter.name)"
+  [stringOptions]="stringOptions"
+  [searchValueLengthTrigger]="0"
+  [multiple]="true"
+  [noResultsText]="t('noResults.message')"
+  [addEntry]="false"
+  (searchUpdated)="onSearchUpdated($event)"
+  [control]="formControl"
+  [loading]="filter.autocompleteLoading"
+  [showNumberOfSelected]="true"
+  (openedChange)="onOpenedChange($event)"
 >
-  <mat-label>{{ t('names.' + filterName) }}</mat-label>
-  <mat-select
-    [formControl]="form"
-    multiple
-    disableOptionCentering
-    panelClass="custom-select-panel"
-    (openedChange)="dropdownOpenedChange($event)"
-  >
-    <mat-select-trigger>
-      {{ form.value | multiSelectValue }}
-    </mat-select-trigger>
-    <mat-form-field
-      class="search-field"
-      [ngClass]="{ 'mb-4': filter.autocomplete }"
-      floatLabel="never"
-    >
-      <input
-        #autocomplete
-        matInput
-        autocomplete="off"
-        placeholder="{{ t('searchPlaceholder') }}"
-        [formControl]="searchForm"
-        (keydown)="$event.stopPropagation()"
-      />
-      <mat-hint *ngIf="filter.autocomplete">{{
-        t('formatHints.' + filterName)
-      }}</mat-hint>
-      <button
-        mat-button
-        *ngIf="searchForm.value && !autocompleteLoading"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
-        (click)="resetSearchField()"
-      >
-        <mat-icon>close</mat-icon>
-      </button>
-      <mat-spinner
-        *ngIf="autocompleteLoading"
-        class="autocomplete-loading"
-        matSuffix
-        [diameter]="18"
-      ></mat-spinner>
-    </mat-form-field>
-
-    <mat-option
-      *ngIf="filterOptions.length === 0"
-      class="dummy-option"
-      (keydown)="$event.stopPropagation()"
-    ></mat-option>
-
-    <mat-checkbox
-      *ngIf="filterOptions.length > 0"
-      class="select-all"
-      [color]="'primary'"
-      [checked]="selectAllChecked"
-      [indeterminate]="selectAllIndeterminate"
-      [disabled]="filterOptions.length === 0"
-      (change)="selectAllChange($event.checked)"
-    >
-      {{ t('selectAllCheckbox') }}
-      <span class="label">
-        {{ t('selectedCountLabel', { count: form.value.length }) }}</span
-      >
-    </mat-checkbox>
-
-    <div class="divider" *ngIf="filterOptions.length > 0">
-      <hr />
-    </div>
-
-    <div class="custom-options-container">
-      <ng-container [ngSwitch]="filter.name">
-        <ng-container *ngSwitchCase="'material_number'">
-          <mat-option
-            (onSelectionChange)="selectionChange($event)"
-            *ngFor="let option of filterOptions; trackBy: trackByFn"
-            [value]="option"
-            [matTooltip]="option.value"
-            matTooltipShowDelay="1000"
-            >{{ option.value | materialNumber }}
-          </mat-option>
-        </ng-container>
-
-        <ng-container *ngSwitchDefault>
-          <mat-option
-            (onSelectionChange)="selectionChange($event)"
-            *ngFor="let option of filterOptions; trackBy: trackByFn"
-            [value]="option"
-            [matTooltip]="option.value"
-            matTooltipShowDelay="1000"
-            >{{ option | formatValue: filter?.autocomplete }}
-          </mat-option>
-        </ng-container>
-      </ng-container>
-    </div>
-  </mat-select>
-</mat-form-field>
+  <div loadingContent>
+    <schaeffler-loading-spinner
+      [diameter]="40"
+      [relative]="true"
+      [strokeWidth]="4"
+      class="h-16 mx-4 my-4"
+    ></schaeffler-loading-spinner>
+  </div>
+</schaeffler-select>

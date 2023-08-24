@@ -4,6 +4,5 @@ export * from './filter-item-id-value-update.model';
 export * from './filter-item-range.model';
 export * from './filter-item-range-update.model';
 export * from './filter-item-type.enum';
-export * from './id-value.model';
 export * from './search-result.model';
 export * from './text-search.model';

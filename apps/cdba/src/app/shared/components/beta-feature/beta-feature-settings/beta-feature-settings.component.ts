@@ -10,11 +10,11 @@ import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feat
   styleUrls: ['./beta-feature-settings.component.scss'],
 })
 export class BetaFeatureSettingsComponent {
+  @ViewChild('highFiveDialog') highFiveDialogTemplate: TemplateRef<any>;
+
   public disableToggles = false;
   private highFiveTimeout: number;
   private reloadPage: boolean;
-
-  @ViewChild('highFiveDialog') highFiveDialogTemplate: TemplateRef<any>;
 
   public constructor(
     private readonly dialog: MatDialog,

@@ -42,7 +42,13 @@
                 #searchInput
               />
               <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
-              <div matSuffix class="-mr-1 flex flex-row gap-1">
+              <div matSuffix *ngIf="loading">
+                <mat-spinner
+                  diameter="18"
+                  class="autocomplete-loading"
+                ></mat-spinner>
+              </div>
+              <div matSuffix class="-mr-1 flex flex-row gap-1" *ngIf="!loading">
                 <button
                   mat-button
                   [disabled]="!searchInput.value"

@@ -1,4 +1,5 @@
-import { IdValue } from '../../../../core/store/reducers/search/models';
+import { StringOption } from '@schaeffler/inputs';
+
 import { NoResultsFoundPipe } from './no-results-found.pipe';
 
 describe('NoResultsFoundPipe', () => {
@@ -12,8 +13,8 @@ describe('NoResultsFoundPipe', () => {
   });
 
   it('should return false when no searchStr is provided', () => {
-    const filterOptions = [new IdValue('001', 'test', false)];
-    const selected: IdValue[] = [];
+    const filterOptions = [{ id: '001', title: 'test' } as StringOption];
+    const selected: StringOption[] = [];
 
     const autoCompleteLoading = false;
     const debounceIsActive = false;
@@ -30,8 +31,8 @@ describe('NoResultsFoundPipe', () => {
   });
 
   it('should return false when debounceIsActive', () => {
-    const filterOptions = [new IdValue('001', 'test', false)];
-    const selected: IdValue[] = [];
+    const filterOptions = [{ id: '001', title: 'test' } as StringOption];
+    const selected: StringOption[] = [];
 
     const searchStr = 'te';
 
@@ -50,8 +51,8 @@ describe('NoResultsFoundPipe', () => {
   });
 
   it('should return false when autoCompleteLoading', () => {
-    const filterOptions = [new IdValue('001', 'test', false)];
-    const selected: IdValue[] = [];
+    const filterOptions = [{ id: '001', title: 'test' } as StringOption];
+    const selected: StringOption[] = [];
 
     const searchStr = 'te';
 
@@ -70,8 +71,8 @@ describe('NoResultsFoundPipe', () => {
   });
 
   it('should return true when no options avl', () => {
-    const filterOptions: IdValue[] = [];
-    const selected: IdValue[] = [];
+    const filterOptions: StringOption[] = [];
+    const selected: StringOption[] = [];
 
     const searchStr = 'te';
 
@@ -90,9 +91,9 @@ describe('NoResultsFoundPipe', () => {
   });
 
   it('should return true when only selected options avl', () => {
-    const opt = new IdValue('001', 'test', false);
-    const filterOptions: IdValue[] = [opt];
-    const selected: IdValue[] = [opt];
+    const opt = { id: '001', title: 'test' } as StringOption;
+    const filterOptions: StringOption[] = [opt];
+    const selected: StringOption[] = [opt];
 
     const searchStr = 'te';
 
@@ -111,10 +112,10 @@ describe('NoResultsFoundPipe', () => {
   });
 
   it('should return true when only selected options avl or searchStr is not part of filterOption', () => {
-    const opt = new IdValue('001', 'test', false);
-    const opt2 = new IdValue('002', 'yikes', false);
-    const filterOptions: IdValue[] = [opt, opt2];
-    const selected: IdValue[] = [opt];
+    const opt = { id: '001', title: 'test' } as StringOption;
+    const opt2 = { id: '002', title: 'yikes' } as StringOption;
+    const filterOptions: StringOption[] = [opt, opt2];
+    const selected: StringOption[] = [opt];
 
     const searchStr = 'te';
 

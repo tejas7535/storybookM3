@@ -33,7 +33,6 @@ export interface SearchState {
   filters: {
     dirty: boolean;
     loading: boolean;
-    autocompleteLoading: boolean;
     items: FilterItemState;
     searchText: {
       field: string;
@@ -55,7 +54,6 @@ export const initialState: SearchState = {
   filters: {
     dirty: false,
     loading: false,
-    autocompleteLoading: false,
     items: filterItemAdapter.getInitialState(),
     searchText: {
       field: undefined,
@@ -73,32 +71,17 @@ export const initialState: SearchState = {
   },
 };
 
-const sortFilterItem = (item: FilterItem) => {
+const changeAutocompleteLoading = (
+  item: FilterItem,
+  isLoadingAutocomplete: boolean
+) => {
   const tmp = { ...item };
 
   if (tmp.type === FilterItemType.ID_VALUE) {
-    (tmp as FilterItemIdValue).items = [
-      ...(tmp as FilterItemIdValue).items,
-    ].sort((a, b) => {
-      if (a.selected === b.selected) {
-        return 0;
-      } else {
-        return a.selected ? -1 : 1;
-      }
-    });
+    (tmp as FilterItemIdValue).autocompleteLoading = isLoadingAutocomplete;
   }
 
   return tmp;
-};
-
-const sortFilterItems = (items: FilterItem[]) => {
-  const itemsCopy: FilterItem[] = [];
-
-  items.forEach((item: FilterItem) => {
-    itemsCopy.push(sortFilterItem(item));
-  });
-
-  return itemsCopy;
 };
 
 export const searchReducer = createReducer(
@@ -122,10 +105,7 @@ export const searchReducer = createReducer(
       filters: {
         ...state.filters,
         loading: false,
-        items: filterItemAdapter.setAll(
-          sortFilterItems(items),
-          state.filters.items
-        ),
+        items: filterItemAdapter.setAll(items, state.filters.items),
       },
     })
   ),
@@ -155,10 +135,10 @@ export const searchReducer = createReducer(
       filters: {
         ...state.filters,
         items:
-          +searchResult.resultCount === 0
+          +searchResult.count === 0
             ? state.filters.items
             : filterItemAdapter.upsertMany(
-                sortFilterItems(searchResult.filters),
+                searchResult.filters,
                 state.filters.items
               ),
       },
@@ -166,8 +146,8 @@ export const searchReducer = createReducer(
         ...state.referenceTypes,
         items: searchResult.results,
         loading: false,
-        tooManyResults: searchResult.resultCount > TOO_MANY_RESULTS_THRESHOLD,
-        resultCount: searchResult.resultCount,
+        tooManyResults: searchResult.count > TOO_MANY_RESULTS_THRESHOLD,
+        resultCount: searchResult.count,
       },
     })
   ),
@@ -202,7 +182,7 @@ export const searchReducer = createReducer(
       filters: {
         ...state.filters,
         items: filterItemAdapter.setAll(
-          sortFilterItems(searchResult.filters),
+          searchResult.filters,
           state.filters.items
         ),
       },
@@ -234,10 +214,7 @@ export const searchReducer = createReducer(
       filters: {
         ...state.filters,
         dirty: true,
-        items: filterItemAdapter.upsertOne(
-          sortFilterItem(item),
-          state.filters.items
-        ),
+        items: filterItemAdapter.upsertOne(item, state.filters.items),
       },
     })
   ),
@@ -263,22 +240,29 @@ export const searchReducer = createReducer(
 
   // additional functionality
   on(shareSearchResult, (state: SearchState): SearchState => state),
+
   on(
     autocomplete,
-    (state: SearchState): SearchState => ({
+    (state: SearchState, { filter: item }): SearchState => ({
       ...state,
-      filters: { ...state.filters, autocompleteLoading: true },
+      filters: {
+        ...state.filters,
+        items: filterItemAdapter.upsertOne(
+          changeAutocompleteLoading(item, true),
+          state.filters.items
+        ),
+      },
     })
   ),
+
   on(
     autocompleteSuccess,
     (state: SearchState, { item }): SearchState => ({
       ...state,
       filters: {
         ...state.filters,
-        autocompleteLoading: false,
         items: filterItemAdapter.upsertOne(
-          sortFilterItem(item),
+          changeAutocompleteLoading(item, false),
           state.filters.items
         ),
       },
@@ -286,9 +270,15 @@ export const searchReducer = createReducer(
   ),
   on(
     autocompleteFailure,
-    (state: SearchState): SearchState => ({
+    (state: SearchState, { item }): SearchState => ({
       ...state,
-      filters: { ...state.filters, autocompleteLoading: false },
+      filters: {
+        ...state.filters,
+        items: filterItemAdapter.upsertOne(
+          changeAutocompleteLoading(item, false),
+          state.filters.items
+        ),
+      },
     })
   ),
   on(

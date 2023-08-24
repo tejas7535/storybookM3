@@ -18,6 +18,8 @@ interface DimensionData {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DimensionsWidgetComponent {
+  public dimensionData: DimensionData;
+
   public constructor(private readonly localeService: TranslocoLocaleService) {}
 
   @Input()
@@ -65,6 +67,4 @@ export class DimensionsWidgetComponent {
       };
     }
   }
-
-  public dimensionData: DimensionData;
 }

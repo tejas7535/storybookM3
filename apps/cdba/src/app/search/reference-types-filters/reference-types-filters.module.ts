@@ -18,9 +18,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { MaterialNumberModule } from '@cdba/shared/pipes';
 
-import { MultiSelectFilterComponent } from './multi-select-filter/multi-select-filter.component';
-import { FormatValuePipe } from './multi-select-filter/pipes/format-value.pipe';
-import { MultiSelectValuePipe } from './multi-select-filter/pipes/multi-select-value.pipe';
+import { MultiSelectFilterComponentModule } from '../reference-types-filters/multi-select-filter/multi-select-filter.component';
 import { NoResultsFoundPipe } from './multi-select-filter/pipes/no-results-found.pipe';
 import { RangeFilterComponent } from './range-filter/range-filter.component';
 import { RangeFilterValuePipe } from './range-filter/range-filter-value.pipe';
@@ -30,16 +28,14 @@ import { ReferenceTypesFiltersComponent } from './reference-types-filters.compon
   declarations: [
     ReferenceTypesFiltersComponent,
     RangeFilterComponent,
-    MultiSelectFilterComponent,
     RangeFilterValuePipe,
-    MultiSelectValuePipe,
     NoResultsFoundPipe,
-    FormatValuePipe,
   ],
   imports: [
     CommonModule,
     PushPipe,
     SharedTranslocoModule,
+    MultiSelectFilterComponentModule,
     FormsModule.withConfig({
       callSetDisabledState: 'whenDisabledForLegacyCode',
     }),

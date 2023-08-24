@@ -1,6 +1,8 @@
 /* eslint-disable max-lines */
 import { Action } from '@ngrx/store';
 
+import { StringOption } from '@schaeffler/inputs';
+
 import { REFERENCE_TYPE_MOCK } from '@cdba/testing/mocks';
 
 import {
@@ -22,9 +24,10 @@ import {
   updateFilter,
 } from '../../actions/search/search.actions';
 import {
+  FilterItem,
   FilterItemIdValue,
   FilterItemRange,
-  IdValue,
+  FilterItemType,
   SearchResult,
   TextSearch,
 } from './models';
@@ -33,7 +36,9 @@ import { initialState, reducer, searchReducer } from './search.reducer';
 describe('Search Reducer', () => {
   const filterItemIdVal = new FilterItemIdValue(
     'plant',
-    [new IdValue('23', 'Best plant', false)],
+    [{ id: '23', title: '23 | Best Plant' } as StringOption],
+    [],
+    false,
     false
   );
   const filterItemRange = new FilterItemRange('length', 0, 200, 0, 200, 'cm');
@@ -283,8 +288,13 @@ describe('Search Reducer', () => {
     test('should update filter', () => {
       const item = new FilterItemIdValue(
         'customer',
-        [new IdValue('audi', 'Audi', false), new IdValue('vw', 'VW', false)],
-        true
+        [
+          { id: 'audi', title: 'Audi' } as StringOption,
+          { id: 'vw', title: 'VW' } as StringOption,
+        ],
+        [],
+        true,
+        false
       );
       const fakeState = {
         ...initialState,
@@ -295,8 +305,10 @@ describe('Search Reducer', () => {
             entities: {
               customer: new FilterItemIdValue(
                 'customer',
-                [new IdValue('audi', 'Audi', false)],
-                true
+                [{ id: 'audi', title: 'Audi' } as StringOption],
+                [],
+                true,
+                false
               ),
             },
           },
@@ -312,8 +324,13 @@ describe('Search Reducer', () => {
     test('should set dirty flag to true', () => {
       const item = new FilterItemIdValue(
         'customer',
-        [new IdValue('audi', 'Audi', false), new IdValue('vw', 'VW', false)],
-        true
+        [
+          { id: 'audi', title: 'Audi' } as StringOption,
+          { id: 'vw', title: 'VW' } as StringOption,
+        ],
+        [],
+        true,
+        false
       );
       const fakeState = {
         ...initialState,
@@ -330,13 +347,17 @@ describe('Search Reducer', () => {
     test('should reset filters', () => {
       const customer = new FilterItemIdValue(
         'customer',
-        [new IdValue('audi', 'Audi', true)],
-        true
+        [{ id: 'audi', title: 'Audi' } as StringOption],
+        [],
+        true,
+        false
       );
 
       const plant = new FilterItemIdValue(
         'plant',
-        [new IdValue('23', 'Awesome Plant', true)],
+        [],
+        [{ id: '23', title: 'Awesome Plant' } as StringOption],
+        false,
         false
       );
 
@@ -368,23 +389,13 @@ describe('Search Reducer', () => {
       expect(state.filters.items.entities).toEqual({
         customer: {
           ...customer,
-          items: [
-            ...customer.items.map((it) => {
-              it.selected = false;
-
-              return it;
-            }),
-          ],
+          items: [],
+          selectedItems: [],
         },
         plant: {
           ...plant,
-          items: [
-            ...plant.items.map((it) => {
-              it.selected = false;
-
-              return it;
-            }),
-          ],
+          items: [],
+          selectedItems: [],
         },
         length: {
           ...length,
@@ -423,34 +434,85 @@ describe('Search Reducer', () => {
 
   describe('autocomplete', () => {
     test('should set autocomplete loading', () => {
-      const textSearch = new TextSearch('customer', 'Awesome Customer');
+      const searchFor = 'Awesome Customer';
+      const filter = new FilterItemIdValue('customer', [], [], true, false);
       const action = autocomplete({
-        textSearch,
+        searchFor,
+        filter,
       });
       const state = searchReducer(initialState, action);
 
       expect(state).toEqual({
         ...initialState,
-        filters: { ...initialState.filters, autocompleteLoading: true },
+        filters: {
+          ...initialState.filters,
+          items: {
+            ...initialState.filters.items,
+            entities: {
+              ...initialState.filters.items.entities,
+              customer: {
+                autocomplete: true,
+                autocompleteLoading: true,
+                disabled: false,
+                items: [],
+                name: 'customer',
+                selectedItems: [],
+                type: 'ID_VALUE',
+              },
+            },
+            ids: ['customer'],
+          },
+        },
       });
     });
   });
 
   describe('autocompleteSuccess', () => {
     test('should upsert possible filters', () => {
-      const action = autocompleteSuccess({ item: filterItemIdVal });
+      const preparedItem = { ...filterItemIdVal, autocompleteLoading: true };
+
+      const action = autocompleteSuccess({ item: preparedItem });
       const state = searchReducer(initialState, action);
 
-      expect(state.filters.items.entities.plant).toEqual(filterItemIdVal);
+      expect(state.filters.items.entities.plant).toEqual({
+        name: 'plant',
+        type: 'ID_VALUE',
+        disabled: false,
+        items: [{ id: '23', title: '23 | Best Plant' } as StringOption],
+        selectedItems: [],
+        autocomplete: false,
+        autocompleteLoading: false,
+      } as FilterItemIdValue);
     });
   });
 
   describe('autocompleteFailure', () => {
-    test('should not manipulate state', () => {
-      const action = autocompleteFailure();
+    test('should set autocompleteLoading to false on failed request', () => {
+      const filter = {
+        name: 'customer',
+        type: FilterItemType.ID_VALUE,
+      } as FilterItem;
+      const action = autocompleteFailure({ item: filter });
       const state = searchReducer(initialState, action);
 
-      expect(state).toEqual(initialState);
+      expect(state).toEqual({
+        ...initialState,
+        filters: {
+          ...initialState.filters,
+          items: {
+            ...initialState.filters.items,
+            entities: {
+              ...initialState.filters.items.entities,
+              customer: {
+                autocompleteLoading: false,
+                name: 'customer',
+                type: 'ID_VALUE',
+              },
+            },
+            ids: ['customer'],
+          },
+        },
+      });
     });
   });
 
@@ -466,7 +528,11 @@ describe('Search Reducer', () => {
   describe('Reducer function', () => {
     test('should return searchReducer', () => {
       // prepare any action
-      const action: Action = autocompleteFailure();
+      const filter = {
+        name: 'customer',
+        type: FilterItemType.ID_VALUE,
+      } as FilterItem;
+      const action: Action = autocompleteFailure({ item: filter });
       expect(reducer(initialState, action)).toEqual(
         searchReducer(initialState, action)
       );

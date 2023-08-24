@@ -1,8 +1,9 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
-  ElementRef,
   EventEmitter,
   Input,
+  NgModule,
   OnChanges,
   OnDestroy,
   OnInit,
@@ -10,234 +11,207 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
-import { MatLegacyOptionSelectionChange as MatOptionSelectionChange } from '@angular/material/legacy-core';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { Subscription, timer } from 'rxjs';
-import { debounce, tap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
-import {
-  FilterItemIdValue,
-  IdValue,
-  TextSearch,
-} from '../../../core/store/reducers/search/models';
-import { SearchUtilityService } from '../../services/search-utility.service';
-import { Filter } from '../filter';
+import { TranslocoModule } from '@ngneat/transloco';
+import { PushModule } from '@ngrx/component';
+
+import { StringOption } from '@schaeffler/inputs';
+import { SelectComponent, SelectModule } from '@schaeffler/inputs/select';
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+
+import { FilterItemIdValue } from '@cdba/core/store/reducers/search/models';
+import { SearchUtilityService } from '@cdba/search/services/search-utility.service';
+import { MaterialNumberPipe } from '@cdba/shared/pipes';
+import { MaterialNumberModule } from '@cdba/shared/pipes/material-number/material-number.module';
+
+import { FormatValuePipe } from '../multi-select-filter/pipes/format-value.pipe';
+import { MultiSelectValuePipe } from '../multi-select-filter/pipes/multi-select-value.pipe';
 
 @Component({
   selector: 'cdba-multi-select-filter',
   templateUrl: './multi-select-filter.component.html',
   styleUrls: ['./multi-select-filter.component.scss'],
+  providers: [MaterialNumberPipe],
 })
 export class MultiSelectFilterComponent
-  implements OnChanges, OnDestroy, OnInit, Filter
+  implements OnInit, OnChanges, OnDestroy
 {
-  @Input() filter: FilterItemIdValue;
-
-  @Input() autocompleteLoading = false;
+  @Output()
+  private readonly autocomplete: EventEmitter<{
+    searchFor: string;
+    filter: FilterItemIdValue;
+  }> = new EventEmitter();
 
   @Output()
   private readonly updateFilter: EventEmitter<FilterItemIdValue> = new EventEmitter();
 
-  @Output()
-  private readonly autocomplete: EventEmitter<TextSearch> = new EventEmitter();
+  @ViewChild('select')
+  private readonly selectComponent!: SelectComponent;
 
-  @ViewChild('autocomplete') autocompleteInput: ElementRef;
+  readonly TOOLTIP_DELAY = 500;
 
-  ONE_CHAR_LENGTH = 1;
-  DEBOUNCE_TIME_DEFAULT = 500;
-  DEBOUNCE_TIME_ONE_CHAR = 1000;
-
-  form = new UntypedFormControl();
-  searchForm = new UntypedFormControl();
-  selectAllChecked = false;
-  selectAllIndeterminate = false;
-
-  filterOptions: IdValue[] = [];
   filterName = '';
 
-  debounceIsActive = false;
+  formControl = new FormControl();
+
+  stringOptions: StringOption[] = [];
 
   readonly subscription: Subscription = new Subscription();
 
-  public constructor(private readonly searchUtilities: SearchUtilityService) {}
+  private selectedFilterOptions: StringOption[] = [];
+  private invariantLocalSearchFilterOptions: StringOption[] = [];
 
-  public ngOnInit(): void {
-    this.subscription.add(
-      this.searchForm.valueChanges
-        .pipe(
-          tap(() => (this.debounceIsActive = true)),
-          debounce(() => this.getDebounceTimer())
-        )
+  private _filter: FilterItemIdValue;
 
-        .subscribe((val: string) => {
-          // when user resets input, val will be null
-          this.searchFieldChange(val?.trim());
-          this.debounceIsActive = false;
-        })
-    );
+  constructor(private readonly searchUtilities: SearchUtilityService) {}
+
+  get filter(): FilterItemIdValue {
+    return this._filter;
   }
 
-  public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.filter) {
-      const filterUpdate = changes.filter.currentValue;
-      this.filterName = filterUpdate.name;
+  @Input()
+  set filter(filter: FilterItemIdValue) {
+    this._filter = filter;
 
-      // prevent overriding existing selections due to new autocomplete suggestions
-      this.filterOptions = filterUpdate.autocomplete
-        ? this.searchUtilities.mergeOptionsWithSelectedOptions(
-            filterUpdate.items,
-            this.form.value || []
-          )
-        : filterUpdate.items;
+    if (filter.selectedItems) {
+      this.selectedFilterOptions = filter.selectedItems;
+    }
 
-      // consider current search string if local search
-      if (!changes.filter.currentValue.autocomplete) {
-        const selectedIds = this.filterOptions
-          .filter((item: IdValue) => item.selected)
-          .map((item: IdValue) => item.id);
-        this.filterOptions = this.filterItemsLocally(
-          this.searchForm.value,
-          selectedIds
-        );
-      }
+    if (filter.items) {
+      this.stringOptions = filter.items
+        .map((x) => ({ id: x.id, title: x.title } as StringOption))
+        .filter((x) => !this.selectedFilterOptions.some((y) => y.id === x.id));
 
-      this.updateFormValue();
+      this.stringOptions = [
+        ...this.selectedFilterOptions,
+        ...this.stringOptions,
+      ];
+
+      this.formControl.setValue(this.formControl.value, { onlySelf: true });
     }
   }
 
-  public ngOnDestroy(): void {
+  ngOnInit(): void {
+    this.subscription.add(
+      this.formControl.valueChanges.subscribe((value) => {
+        if (value) {
+          this.selectedFilterOptions = [...value];
+        }
+      })
+    );
+
+    this.createInvariantFilterOptions();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.filter.currentValue?.selectedItems?.length > 0) {
+      this.formControl.setValue(this.filter.selectedItems);
+    }
+    if (
+      changes.filter.currentValue?.items.length !==
+      changes.filter.previousValue?.items.length
+    ) {
+      this.createInvariantFilterOptions();
+    }
+  }
+
+  ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  onSearchUpdated(search: string): void {
+    let searchText = search?.trim();
+    if (!this.filter.autocomplete) {
+      this.handleLocalSearch(searchText);
+    } else {
+      searchText =
+        this.filter.name === 'material_number' && searchText?.length > 0
+          ? searchText.split('-').join('')
+          : searchText;
+      this.handleRemoteSearch(searchText);
+    }
+  }
+
+  onOpenedChange(change: boolean): void {
+    if (!change) {
+      const options = this.stringOptions
+        .filter((x) => !this.selectedFilterOptions.some((y) => y.id === x.id))
+        .map((x) => ({ id: x.id, title: x.title } as StringOption));
+
+      this.stringOptions = [...this.selectedFilterOptions, ...options];
+
+      this.updateFilter.emit({
+        ...this.filter,
+        items: this.stringOptions,
+        selectedItems: this.selectedFilterOptions,
+      });
+    } else {
+      this.formControl.setValue(this.formControl.value, { onlySelf: true });
+    }
   }
 
   /**
    * Reset search field and the form itself.
    */
-  public reset(): void {
-    this.resetSearchField();
-    this.form.setValue([]);
+  reset(): void {
+    this.stringOptions = this.filter.autocomplete
+      ? []
+      : this.invariantLocalSearchFilterOptions;
+    this.selectComponent.resetControls();
+    this.formControl.setValue([]);
   }
 
   /**
-   * Listener for search input changes.
+   * Creates the list of options for prepopulated filters (plant and product line)
    */
-  public searchFieldChange(search: string): void {
+  private createInvariantFilterOptions() {
     if (!this.filter.autocomplete) {
-      this.handleLocalSearch(search);
-    } else {
-      const searchText =
-        this.filter.name === 'material_number' && search?.length > 0
-          ? search.split('-').join('')
-          : search;
-      this.handleRemoteSearch(searchText);
+      this.invariantLocalSearchFilterOptions = this.filter.items;
     }
   }
 
   /**
-   * Update current form value with new filter (options).
+   * Filter all invariant/local options by entered search value.
    */
-  public updateFormValue(): void {
-    const filteredItems = this.filterOptions.filter((it: any) => it.selected);
-
-    this.selectAllChecked =
-      filteredItems.length === this.filterOptions.length &&
-      filteredItems.length > 0;
-
-    this.selectAllIndeterminate =
-      filteredItems.length < this.filterOptions.length &&
-      filteredItems.length > 0;
-
-    this.form.setValue(filteredItems);
-  }
-
-  /**
-   * Reset Search Form Field.
-   */
-  public resetSearchField(): void {
-    this.searchForm.reset();
-  }
-
-  /**
-   * Filter all options by entered search value.
-   */
-  public filterItemsLocally(
-    search: string,
-    selectedValues: string[]
-  ): IdValue[] {
-    const result = [...this.filter.items].filter(
-      (item: IdValue) =>
-        !search ||
-        search.length === 0 ||
-        item.value.toLowerCase().includes(search.toLowerCase()) ||
-        item.id.includes(search.toLowerCase()) ||
-        selectedValues.includes(item.id)
+  private filterItemsLocally(search: string): StringOption[] {
+    const result = this.invariantLocalSearchFilterOptions.filter(
+      (item: StringOption) =>
+        // search only in title since it also contains the id
+        item.title.toLocaleLowerCase().includes(search.toLocaleLowerCase())
     );
 
     return result;
   }
 
   /**
-   * Toggle all options.
-   */
-  public selectAllChange(checked: boolean): void {
-    this.selectAllChecked = checked;
-    this.selectAllIndeterminate = false;
-    this.form.setValue(this.selectAllChecked ? this.filterOptions : []);
-  }
-
-  /**
-   * Check/Uncheck select all checkbox correctly dependent on selected options.
-   */
-  public selectionChange(evt: MatOptionSelectionChange): void {
-    if (evt.isUserInput) {
-      const isSelected = evt.source.selected;
-
-      const formValueLength = isSelected
-        ? +this.form.value.length + 1
-        : +this.form.value.length - 1;
-
-      this.selectAllChecked = formValueLength === this.filterOptions.length;
-
-      this.selectAllIndeterminate =
-        formValueLength < this.filterOptions.length && formValueLength > 0;
-    }
-  }
-
-  /**
-   * Update store when dropdown is closed / focus input on open.
-   */
-  public dropdownOpenedChange(isOpened: boolean): void {
-    if (!isOpened) {
-      this.emitUpdate(this.form.value);
-    } else {
-      setTimeout(() => {
-        this.autocompleteInput.nativeElement.focus();
-      }, 100);
-    }
-  }
-
-  /**
-   * Improves performance of ngFor.
-   */
-  public trackByFn(_index: number, item: IdValue): IdValue {
-    return item;
-  }
-
-  /**
-   * Search within given options.
+   * Search within prepopulated filter with options.
    */
   private handleLocalSearch(search: string): void {
-    const selectedIds = this.form.value.map((item: IdValue) => item.id);
-    const updatedOptions = this.filterItemsLocally(search, selectedIds);
-
-    const countSelectedOptions = this.form.value.length;
-
-    this.selectAllChecked = countSelectedOptions === updatedOptions.length;
-
-    this.selectAllIndeterminate =
-      countSelectedOptions > 0 && countSelectedOptions < updatedOptions.length;
-
-    this.filterOptions = updatedOptions;
+    if (search && search.length > 0) {
+      const filteredItemsLocally = this.filterItemsLocally(search);
+      this.stringOptions = this.searchUtilities.mergeOptionsWithSelectedOptions(
+        this.selectedFilterOptions,
+        filteredItemsLocally
+      );
+    } else {
+      this.stringOptions = this.searchUtilities.mergeOptionsWithSelectedOptions(
+        this.invariantLocalSearchFilterOptions,
+        this.selectedFilterOptions
+      );
+    }
   }
 
   /**
@@ -245,41 +219,44 @@ export class MultiSelectFilterComponent
    *
    */
   private handleRemoteSearch(search: string): void {
-    // only dispatch event when search at at least of length 1
+    // only dispatch event when search contains at least 1 character
     if (search && search.length > 0) {
-      this.emitUpdate(this.form.value);
-      this.autocomplete.emit({ field: this.filter.name, value: search });
+      this.autocomplete.emit({
+        searchFor: search,
+        filter: this.filter,
+      });
     } else {
-      this.filterOptions = this.form.value;
+      this.stringOptions = [...this.selectedFilterOptions];
     }
-  }
-
-  /**
-   * Update store with current selections.
-   */
-  private emitUpdate(values: IdValue[]): void {
-    this.updateFilter.emit({
-      ...this.filter,
-      items: [...this.filter.items].map((it) => {
-        const tmp = { ...it };
-        const item = values.find((i: IdValue) => i.id && i.id === it.id);
-
-        tmp.selected = item !== undefined;
-
-        return tmp;
-      }),
-    });
-  }
-  private getDebounceTimer(): any {
-    let debounceTime = 0;
-
-    if (this.filter?.autocomplete) {
-      debounceTime =
-        this.searchForm.value?.length > this.ONE_CHAR_LENGTH
-          ? this.DEBOUNCE_TIME_DEFAULT
-          : this.DEBOUNCE_TIME_ONE_CHAR;
-    }
-
-    return timer(debounceTime);
   }
 }
+
+@NgModule({
+  declarations: [
+    MultiSelectFilterComponent,
+    FormatValuePipe,
+    MultiSelectValuePipe,
+  ],
+  imports: [
+    CommonModule,
+    SelectModule,
+    FormsModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDividerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    LoadingSpinnerModule,
+    PushModule,
+    MatSliderModule,
+    MatCheckboxModule,
+    MatTooltipModule,
+    MatProgressSpinnerModule,
+    MaterialNumberModule,
+    TranslocoModule,
+  ],
+  exports: [MultiSelectFilterComponent],
+})
+export class MultiSelectFilterComponentModule {}

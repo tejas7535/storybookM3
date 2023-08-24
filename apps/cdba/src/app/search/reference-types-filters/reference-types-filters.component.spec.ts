@@ -8,6 +8,7 @@ import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockComponent } from 'ng-mocks';
 
+import { StringOption } from '@schaeffler/inputs';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
@@ -20,11 +21,9 @@ import {
 import {
   FilterItemIdValue,
   FilterItemRange,
-  IdValue,
-  TextSearch,
+  FilterItemType,
 } from '../../core/store/reducers/search/models';
 import {
-  getAutocompleteLoading,
   getFilters,
   getSelectedFilters,
   getTooManyResults,
@@ -37,19 +36,23 @@ const filters = [
   new FilterItemIdValue(
     'id1',
     [
-      new IdValue('1', 'test1', false),
-      new IdValue('2', 'test2', false),
-      new IdValue('3', 'test3', false),
+      { id: '1', title: 'test1' } as StringOption,
+      { id: '2', title: 'test2' } as StringOption,
+      { id: '3', title: 'test3' } as StringOption,
     ],
+    [],
+    false,
     false
   ),
   new FilterItemIdValue(
     'id2',
     [
-      new IdValue('a', 'test4', false),
-      new IdValue('b', 'test5', false),
-      new IdValue('c', 'test6', false),
+      { id: 'a', title: 'test4' } as StringOption,
+      { id: 'b', title: 'test5' } as StringOption,
+      { id: 'c', title: 'test6' } as StringOption,
     ],
+    [],
+    false,
     false
   ),
   new FilterItemRange('filter1', 0, 500, undefined, undefined, 'xy'),
@@ -80,7 +83,6 @@ describe('ReferenceTypesFiltersComponent', () => {
         },
         selectors: [
           { selector: getFilters, value: filters },
-          { selector: getAutocompleteLoading, value: true },
           { selector: getTooManyResults, value: false },
           { selector: getSelectedFilters, value: [] },
         ],
@@ -139,12 +141,17 @@ describe('ReferenceTypesFiltersComponent', () => {
   describe('autocomplete', () => {
     it('should dispatch autocomplete action', () => {
       mockStore.dispatch = jest.fn();
-      const textSearch = new TextSearch('name', 'Hans');
 
-      component.autocomplete(textSearch);
+      component.autocomplete({
+        searchFor: 'searchFor',
+        filter: { name: 'filterName', type: FilterItemType.ID_VALUE },
+      });
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        autocomplete({ textSearch })
+        autocomplete({
+          searchFor: 'searchFor',
+          filter: { name: 'filterName', type: FilterItemType.ID_VALUE },
+        })
       );
     });
   });
@@ -171,7 +178,7 @@ describe('ReferenceTypesFiltersComponent', () => {
 
   describe('trackByFn', () => {
     test('should return index', () => {
-      const filter = new FilterItemIdValue('test', [], true, false);
+      const filter = new FilterItemIdValue('test', [], [], true, false);
 
       const result = component.trackByFn(undefined, filter);
 

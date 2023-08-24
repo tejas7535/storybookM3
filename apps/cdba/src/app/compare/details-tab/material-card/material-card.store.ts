@@ -14,10 +14,6 @@ const initialMaterialCardState: MaterialCardState = {
 
 @Injectable()
 export class MaterialCardStore extends ComponentStore<MaterialCardState> {
-  constructor() {
-    super(initialMaterialCardState);
-  }
-
   public readonly expandedItems$ = this.select(
     ({ expandedItems }) => expandedItems
   );
@@ -38,4 +34,8 @@ export class MaterialCardStore extends ComponentStore<MaterialCardState> {
         state.expandedItems,
     })
   );
+
+  constructor() {
+    super(initialMaterialCardState);
+  }
 }

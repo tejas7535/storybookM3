@@ -8,11 +8,8 @@ import { filterItemAdapter } from '../../reducers/search/filter-item.entity';
 import {
   FilterItem,
   FilterItemIdValue,
-  FilterItemIdValueUpdate,
   FilterItemRange,
-  FilterItemRangeUpdate,
   FilterItemType,
-  IdValue,
 } from '../../reducers/search/models';
 import { SearchState } from '../../reducers/search/search.reducer';
 
@@ -30,52 +27,38 @@ const getFiltersEntityState = createSelector(
 
 export const getFilters = createSelector(getFiltersEntityState, selectAll);
 
-const mapSelectedFilters = (
-  filters: FilterItem[]
-): (FilterItemIdValueUpdate | FilterItemRangeUpdate)[] => {
-  const mapped = filters
-    .filter(
-      (filter: FilterItem) =>
-        filter.type === FilterItemType.ID_VALUE ||
-        filter.type === FilterItemType.RANGE
-    )
-    .map((filter: FilterItem) => {
-      if (filter.type === FilterItemType.ID_VALUE) {
-        return new FilterItemIdValueUpdate(
-          filter.name,
-          (filter as FilterItemIdValue).items
-            .filter((it) => it.selected)
-            .map((it) => it.id)
-        );
-      }
-
-      return new FilterItemRangeUpdate(
-        filter.name,
-        (filter as FilterItemRange).minSelected,
-        (filter as FilterItemRange).maxSelected
-      );
-    })
-    .filter(
-      (filter: FilterItemIdValueUpdate | FilterItemRangeUpdate) =>
-        (filter.type === FilterItemType.ID_VALUE &&
-          (filter as FilterItemIdValueUpdate).ids.length > 0) ||
-        (filter.type === FilterItemType.RANGE &&
-          (filter as FilterItemRangeUpdate).minSelected !== null &&
-          (filter as FilterItemRangeUpdate).maxSelected !== null)
-    );
-
-  return mapped;
-};
-
 export const getSelectedFilters = createSelector(
   getFilters,
-  mapSelectedFilters
+  (filters: FilterItem[]) =>
+    filters
+      .filter((filter) => {
+        switch (filter.type) {
+          case FilterItemType.ID_VALUE: {
+            return (filter as FilterItemIdValue).selectedItems?.length > 0
+              ? filter
+              : undefined;
+          }
+
+          case FilterItemType.RANGE: {
+            return (filter as FilterItemRange).minSelected !== undefined &&
+              (filter as FilterItemRange).minSelected !== null &&
+              (filter as FilterItemRange).maxSelected !== undefined &&
+              (filter as FilterItemRange).maxSelected !== null
+              ? filter
+              : undefined;
+          }
+          default: {
+            return undefined;
+          }
+        }
+      })
+      .filter((item) => item !== undefined)
 );
 
 export const getSelectedIdValueFilters = createSelector(
   getSelectedFilters,
-  (filters: (FilterItemIdValueUpdate | FilterItemRangeUpdate)[]) =>
-    filters.filter(
+  (selectedFilters: FilterItem[]) =>
+    selectedFilters.filter(
       (filter: FilterItem) => filter.type === FilterItemType.ID_VALUE
     )
 );
@@ -88,9 +71,7 @@ const getSelectedOptionsByName = (
 
   const options =
     filter?.type === FilterItemType.ID_VALUE
-      ? (filter as FilterItemIdValue).items.filter(
-          (item: IdValue) => item.selected
-        )
+      ? (filter as FilterItemIdValue).selectedItems
       : [];
 
   return options;
@@ -133,11 +114,6 @@ export const getNoResultsFound = createSelector(
   (state: SearchState) =>
     state.referenceTypes.items !== undefined &&
     state.referenceTypes.resultCount === 0
-);
-
-export const getAutocompleteLoading = createSelector(
-  getSearchState,
-  (state: SearchState) => state.filters.autocompleteLoading
 );
 
 export const getIsDirty = createSelector(

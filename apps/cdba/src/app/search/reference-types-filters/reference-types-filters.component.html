@@ -8,9 +8,8 @@
         class="w-[233px]"
         *ngSwitchCase="filterType.ID_VALUE"
         [filter]="$any(filter)"
-        [autocompleteLoading]="autocompleteLoading$ | ngrxPush"
-        (autocomplete)="autocomplete($event)"
         (updateFilter)="updateFilter($event)"
+        (autocomplete)="autocomplete($event)"
       ></cdba-multi-select-filter>
 
       <cdba-range-filter

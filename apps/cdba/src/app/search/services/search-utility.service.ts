@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { IdValue } from '../../core/store/reducers/search/models';
+import { StringOption } from '@schaeffler/inputs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,25 +10,36 @@ export class SearchUtilityService {
    * Merge provided selected options with given options of a filter item.
    */
   public mergeOptionsWithSelectedOptions(
-    options: IdValue[],
-    selectedOptions: IdValue[]
-  ): IdValue[] {
-    const currentSelections: IdValue[] = [];
-    let newItems = options.map((it: IdValue) => ({
-      ...it,
-      selected:
-        selectedOptions.some((item) => item.id === it.id) || it.selected,
-    }));
+    options: StringOption[],
+    selectedOptions: StringOption[]
+  ): StringOption[] {
+    if (selectedOptions.length > 0) {
+      const selectionsToMerge: StringOption[] = [];
+      const tmpOptions = [...options];
 
-    selectedOptions.forEach((option: IdValue) => {
-      const selectedOptionFound = newItems.find((it) => it.id === option.id);
-      if (!selectedOptionFound) {
-        currentSelections.push(option);
-      }
-    });
+      selectedOptions.forEach((selectedOption: StringOption) => {
+        const selectedOptionFound = tmpOptions.find(
+          (item) => item.id === selectedOption.id
+        );
+        if (!selectedOptionFound) {
+          selectionsToMerge.push(selectedOption);
+        } else {
+          /**
+           * if selectedOption is in the options array then remove it from options
+           * move it to the top of options and preserve selection order
+           *
+           */
+          const index = tmpOptions.findIndex(
+            (item) => item.id === selectedOption.id
+          );
+          tmpOptions.splice(index, 1);
+          selectionsToMerge.push(selectedOption);
+        }
+      });
 
-    newItems = [...newItems, ...currentSelections];
+      return [...selectionsToMerge, ...tmpOptions];
+    }
 
-    return newItems;
+    return [...options];
   }
 }

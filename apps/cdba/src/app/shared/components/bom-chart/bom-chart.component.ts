@@ -21,15 +21,21 @@ import { DataPoint } from './data-point.model';
   providers: [BomChartConfigService],
 })
 export class BomChartComponent implements OnChanges {
+  @Input() public materialDesignation: string;
+  @Input() public selectedBomItem: BomItem;
+  @Input() public selectedCalculation: Calculation;
+
+  public barChartData: DataPoint[];
+  options: any;
+
+  private lineChartData: number[];
+  private hasNegativeCostValues = false;
+
   public constructor(
     protected bomChartConfigService: BomChartConfigService,
     protected scrambleMaterialDesignationPipe: ScrambleMaterialDesignationPipe,
     private readonly costShareService: CostShareService
   ) {}
-
-  @Input() public materialDesignation: string;
-  @Input() public selectedBomItem: BomItem;
-  @Input() public selectedCalculation: Calculation;
 
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input() public set data(data: BomItem[]) {
@@ -61,12 +67,6 @@ export class BomChartComponent implements OnChanges {
       this.lineChartData.push((accumulatedCosts / totalCosts) * 100);
     });
   }
-
-  public barChartData: DataPoint[];
-  private lineChartData: number[];
-  private hasNegativeCostValues = false;
-
-  options: any;
 
   createDataPoint(bomItem: BomItem): DataPoint {
     return {

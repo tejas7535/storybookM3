@@ -1,6 +1,6 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockModule } from 'ng-mocks';

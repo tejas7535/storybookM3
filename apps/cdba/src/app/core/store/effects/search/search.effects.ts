@@ -27,10 +27,7 @@ import {
 } from '../../actions';
 import { FilterItem } from '../../reducers/search/models';
 import { TOO_MANY_RESULTS_THRESHOLD } from '../../reducers/search/search.reducer';
-import {
-  getSelectedFilterIdValueOptionsByFilterName,
-  getSelectedFilters,
-} from '../../selectors';
+import { getSelectedFilters } from '../../selectors';
 
 /**
  * Effect class for all tagging related actions which trigger side effects
@@ -66,8 +63,8 @@ export class SearchEffects {
         this.searchService.search(items).pipe(
           tap((searchResult) => {
             if (
-              searchResult.resultCount > 0 &&
-              searchResult.resultCount <= TOO_MANY_RESULTS_THRESHOLD
+              searchResult.count > 0 &&
+              searchResult.count <= TOO_MANY_RESULTS_THRESHOLD
             ) {
               this.router.navigateByUrl(AppRoutePath.ResultsPath);
             }
@@ -115,17 +112,13 @@ export class SearchEffects {
   autocomplete$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(autocomplete),
-      map((action) => action.textSearch),
-      concatLatestFrom((textSearch) =>
-        this.store.select(getSelectedFilterIdValueOptionsByFilterName, {
-          name: textSearch.field,
-        })
-      ),
-      mergeMap(([textSearch, selectedOptions]) =>
-        this.searchService.autocomplete(textSearch, selectedOptions).pipe(
-          map((item) => autocompleteSuccess({ item })),
-          catchError(() => of(autocompleteFailure()))
-        )
+      mergeMap((action) =>
+        this.searchService
+          .autocomplete(action.searchFor, action.filter.name)
+          .pipe(
+            map((item) => autocompleteSuccess({ item })),
+            catchError(() => of(autocompleteFailure({ item: action.filter })))
+          )
       )
     );
   });

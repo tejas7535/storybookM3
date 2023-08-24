@@ -6,6 +6,6 @@ export class SearchResult {
   public constructor(
     public filters: FilterItem[],
     public results: ReferenceType[],
-    public resultCount: number
+    public count: number
   ) {}
 }

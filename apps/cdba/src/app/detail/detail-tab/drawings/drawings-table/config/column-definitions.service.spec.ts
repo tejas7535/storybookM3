@@ -2,7 +2,7 @@ import {
   createServiceFactory,
   mockProvider,
   SpectatorService,
-} from '@ngneat/spectator';
+} from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 

@@ -10,16 +10,15 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import * as rxjs from 'rxjs';
-
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
+import { StringOption } from '@schaeffler/inputs';
+import { SelectModule } from '@schaeffler/inputs/select';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import {
-  FilterItemIdValue,
-  IdValue,
-} from '../../../core/store/reducers/search/models';
+import { MaterialNumberPipe } from '@cdba/shared/pipes';
+
+import { FilterItemIdValue } from '../../../core/store/reducers/search/models';
 import { SearchUtilityService } from '../../services/search-utility.service';
 import { MultiSelectFilterComponent } from './multi-select-filter.component';
 import { FormatValuePipe } from './pipes/format-value.pipe';
@@ -34,6 +33,7 @@ describe('MultiSelectFilterComponent', () => {
     component: MultiSelectFilterComponent,
     imports: [
       CommonModule,
+      SelectModule,
       FormsModule,
       ReactiveFormsModule,
       MatFormFieldModule,
@@ -48,6 +48,7 @@ describe('MultiSelectFilterComponent', () => {
     declarations: [MultiSelectValuePipe, NoResultsFoundPipe, FormatValuePipe],
     providers: [
       SearchUtilityService,
+      MaterialNumberPipe,
       {
         provide: MATERIAL_SANITY_CHECKS,
         useValue: false,
@@ -61,7 +62,7 @@ describe('MultiSelectFilterComponent', () => {
     spectator = createComponent();
     component = spectator.component;
 
-    component.filter = new FilterItemIdValue('test', [], false, true);
+    component.filter = new FilterItemIdValue('test', [], [], true, false);
     spectator.detectChanges();
   });
 
@@ -70,144 +71,87 @@ describe('MultiSelectFilterComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should add valueChanges subscription after DEBOUNCE_TIME_DEFAULT on searchRemote with > 1 chars', (done) => {
-      component.searchFieldChange = jest.fn();
-      component.filter.autocomplete = true;
-      component.searchForm.setValue('test');
-      const spy = jest.spyOn(rxjs, 'timer');
-
-      component.ngOnInit();
-
-      const testVal = 'test1';
-      component.searchForm.setValue(testVal);
-
-      expect(component.searchFieldChange).not.toHaveBeenCalledWith(testVal);
-
-      setTimeout(() => {
-        expect(component.searchFieldChange).toHaveBeenCalledWith(testVal);
-        expect(spy).toHaveBeenCalledWith(component.DEBOUNCE_TIME_DEFAULT);
-        done();
-      }, component.DEBOUNCE_TIME_DEFAULT);
+    beforeEach(() => {
+      component['createInvariantFilterOptions'] = jest.fn();
     });
 
-    it('should add valueChanges subscription after DEBOUNCE_TIME_ONE_CHAR on searchRemote with 1 char', (done) => {
-      component.searchFieldChange = jest.fn();
-      component.filter.autocomplete = true;
-      component.searchForm.setValue('t');
-      const spy = jest.spyOn(rxjs, 'timer');
-
+    it('should subscribe to formControl changes', () => {
       component.ngOnInit();
+      const testVal = [{ id: 'test', title: 'test' } as StringOption];
 
-      const testVal = 'test2';
-      component.searchForm.setValue(testVal);
+      component.formControl.setValue(testVal);
 
-      expect(component.searchFieldChange).not.toHaveBeenCalledWith(testVal);
-
-      setTimeout(() => {
-        expect(component.searchFieldChange).toHaveBeenCalledWith(testVal);
-        expect(spy).toHaveBeenCalledWith(component.DEBOUNCE_TIME_ONE_CHAR);
-        done();
-      }, component.DEBOUNCE_TIME_ONE_CHAR);
+      expect(component['selectedFilterOptions']).toStrictEqual([
+        { id: 'test', title: 'test' },
+      ]);
     });
 
-    it('should trim the input value', (done) => {
-      component.searchFieldChange = jest.fn();
-      component.filter.autocomplete = true;
-      component.searchForm.setValue('S');
-      const spy = jest.spyOn(rxjs, 'timer');
+    it('should run logic for invariant filter options', () => {
+      component['subscription'].add = jest.fn();
 
       component.ngOnInit();
 
-      const testVal = 'SLH  ';
-      component.searchForm.setValue(testVal);
-
-      expect(component.searchFieldChange).not.toHaveBeenCalledWith(testVal);
-
-      setTimeout(() => {
-        expect(component.searchFieldChange).toHaveBeenCalledWith('SLH');
-        expect(spy).toHaveBeenCalledWith(component.DEBOUNCE_TIME_ONE_CHAR);
-        done();
-      }, component.DEBOUNCE_TIME_ONE_CHAR);
+      expect(component['createInvariantFilterOptions']).toHaveBeenCalledTimes(
+        1
+      );
     });
   });
 
   describe('ngOnChanges', () => {
     let filter: FilterItemIdValue;
+    let newFilter: FilterItemIdValue;
 
     beforeEach(() => {
-      const idValue = new IdValue('001', 'boring', false);
-      const idValueSel = new IdValue('002', 'selected', true);
-      filter = new FilterItemIdValue('test', [idValue, idValueSel], true);
-      component.filterItemsLocally = jest.fn(() => filter.items);
-      component.updateFormValue = jest.fn();
-      component['searchUtilities'].mergeOptionsWithSelectedOptions = jest.fn(
-        () => filter.items
+      const option = { id: '001', title: 'option' } as StringOption;
+      const selectedOption = {
+        id: '002',
+        title: 'selectedOption',
+      } as StringOption;
+
+      filter = new FilterItemIdValue(
+        'test',
+        [option],
+        [selectedOption],
+        true,
+        false
       );
+      newFilter = new FilterItemIdValue(
+        'test',
+        [option, selectedOption],
+        [selectedOption],
+        true,
+        false
+      );
+
+      component['formControl'].setValue = jest.fn();
+      component['createInvariantFilterOptions'] = jest.fn();
     });
 
-    it('should update filter and form on filter change with autocomplete correctly', () => {
+    it('should update selected filter options with new selected filter options', () => {
       component.ngOnChanges({
         filter: {
           currentValue: filter,
-          previousValue: undefined,
+          previousValue: filter,
           firstChange: true,
           isFirstChange: () => true,
         },
       });
 
-      expect(component.filterName).toEqual(filter.name);
-      expect(component.filterOptions).toEqual(filter.items);
-      expect(component.updateFormValue).toHaveBeenCalled();
-      expect(component.filterItemsLocally).not.toHaveBeenCalled();
-      expect(
-        component['searchUtilities'].mergeOptionsWithSelectedOptions
-      ).toHaveBeenCalled();
+      expect(component['formControl'].setValue).toHaveBeenCalled();
+      expect(component['createInvariantFilterOptions']).not.toHaveBeenCalled();
     });
-
-    it('should update filter and form on filter change and consider local search on non autocomplete', () => {
-      filter.autocomplete = false;
-
+    it('should create invariant filter options when items differ', () => {
       component.ngOnChanges({
         filter: {
           currentValue: filter,
-          previousValue: undefined,
+          previousValue: newFilter,
           firstChange: true,
           isFirstChange: () => true,
         },
       });
 
-      expect(component.filterOptions).toEqual(filter.items);
-      expect(component.updateFormValue).toHaveBeenCalled();
-      expect(component.filterItemsLocally).toHaveBeenCalled();
-      expect(
-        component['searchUtilities'].mergeOptionsWithSelectedOptions
-      ).not.toHaveBeenCalled();
-    });
-
-    it('should merge old selections with changes on autocomplete filter', () => {
-      component.form.setValue([new IdValue('003', 'selected 2', true)]);
-
-      component.ngOnChanges({
-        filter: {
-          currentValue: filter,
-          previousValue: undefined,
-          firstChange: true,
-          isFirstChange: () => true,
-        },
-      });
-
-      expect(component.filterOptions).toEqual(filter.items);
-      expect(component.updateFormValue).toHaveBeenCalled();
-      expect(component.filterItemsLocally).not.toHaveBeenCalled();
-      expect(
-        component['searchUtilities'].mergeOptionsWithSelectedOptions
-      ).toHaveBeenCalledWith(filter.items, component.form.value);
-    });
-
-    it('should do nothing when something else than filter changes', () => {
-      component.ngOnChanges({});
-
-      expect(component.form.value).toBeNull();
+      expect(component['formControl'].setValue).toHaveBeenCalled();
+      expect(component['createInvariantFilterOptions']).toHaveBeenCalled();
     });
   });
 
@@ -221,39 +165,49 @@ describe('MultiSelectFilterComponent', () => {
     });
   });
 
-  describe('searchFieldChange', () => {
+  describe('onSearchUpdated', () => {
     let testString: string;
 
     beforeEach(() => {
       testString = undefined;
+
+      component['handleLocalSearch'] = jest.fn();
+      component['handleRemoteSearch'] = jest.fn();
+    });
+
+    it('should trim the input value', () => {
+      component.filter.autocomplete = true;
+      testString = 'SLH  ';
+
+      component.onSearchUpdated(testString);
+
+      expect(component['handleRemoteSearch']).toHaveBeenCalledWith('SLH');
     });
 
     it('should call handleLocalSearch when autocomplete off', () => {
       testString = 'search';
-      component.filter = new FilterItemIdValue('name', [], false);
-      component['handleLocalSearch'] = jest.fn();
+      component.filter.autocomplete = false;
 
-      component.searchFieldChange(testString);
+      component.onSearchUpdated(testString);
 
       expect(component['handleLocalSearch']).toHaveBeenCalledWith(testString);
     });
 
     it('should call handleRemoteSearch when autocomplete on', () => {
       testString = 'search';
-      component.filter = new FilterItemIdValue('name', [], true);
-      component['handleRemoteSearch'] = jest.fn();
+      component.filter.autocomplete = true;
 
-      component.searchFieldChange(testString);
+      component.onSearchUpdated(testString);
 
       expect(component['handleRemoteSearch']).toHaveBeenCalledWith(testString);
     });
 
     it('should try to replace dashes for material number inputs', () => {
       testString = '012618918-0000';
-      component.filter = new FilterItemIdValue('material_number', [], true);
-      component['handleRemoteSearch'] = jest.fn();
+      component.filter.name = 'material_number';
+      component.filter.autocomplete = true;
 
-      component.searchFieldChange(testString);
+      component.onSearchUpdated(testString);
 
       expect(component['handleRemoteSearch']).toHaveBeenCalledWith(
         '0126189180000'
@@ -261,455 +215,285 @@ describe('MultiSelectFilterComponent', () => {
     });
 
     it('should not replace dashes for material number inputs if value is undefined', () => {
-      component.filter = new FilterItemIdValue('material_number', [], true);
-      component['handleRemoteSearch'] = jest.fn();
+      component.filter.name = 'material_number';
+      component.filter.autocomplete = true;
 
-      component.searchFieldChange(testString);
+      component.onSearchUpdated(testString);
 
       expect(component['handleRemoteSearch']).toHaveBeenCalledWith(undefined);
     });
   });
 
-  describe('updateFormValue', () => {
-    let filter: FilterItemIdValue;
-
+  describe('onOpenedChange', () => {
     beforeEach(() => {
-      const idValue1 = new IdValue('001', 'baum', true);
-      const idValue2 = new IdValue('002', 'cdba', true);
-      const idValue3 = new IdValue('003', 'dont find me', true);
-
-      filter = new FilterItemIdValue(
+      const option1 = { id: '001', title: 'aaa' } as StringOption;
+      const option2 = { id: '002', title: 'bbb' } as StringOption;
+      component.filter = new FilterItemIdValue(
         'name',
-        [idValue1, idValue2, idValue3],
+        [option1, option2],
+        [option2],
+        true,
         false
       );
-
-      component.filterOptions = filter.items;
-      component.filterName = filter.name;
-      component.form.setValue = jest.fn();
+      component['selectedFilterOptions'] = [option2];
+      component['updateFilter'].emit = jest.fn();
+      component['formControl'].setValue = jest.fn();
     });
 
-    it('should select all when all options are selected', () => {
-      component.updateFormValue();
+    it('should update filter on close', () => {
+      const option1 = { id: '001', title: 'aaa' } as StringOption;
+      const option2 = { id: '002', title: 'bbb' } as StringOption;
 
-      expect(component.form.setValue).toHaveBeenCalledWith(filter.items);
-      expect(component.selectAllChecked).toBeTruthy();
-      expect(component.selectAllIndeterminate).toBeFalsy();
+      component.onOpenedChange(false);
+
+      expect(component['updateFilter'].emit).toHaveBeenCalledWith({
+        autocomplete: true,
+        autocompleteLoading: false,
+        disabled: false,
+        items: [option2, option1],
+        name: 'name',
+        selectedItems: [option2],
+        type: 'ID_VALUE',
+      });
     });
+    it('should update set value of filter on open', () => {
+      // this fixes the issue with schaeffler-select losing track of selected items
+      component.onOpenedChange(true);
 
-    it('should set indeterminate when not all but at least one option selected', () => {
-      filter.items[1].selected = false;
-
-      component.updateFormValue();
-
-      expect(component.form.setValue).toHaveBeenCalledWith([
-        filter.items[0],
-        filter.items[2],
-      ]);
-      expect(component.selectAllChecked).toBeFalsy();
-      expect(component.selectAllIndeterminate).toBeTruthy();
-    });
-
-    it('should unset indeterminate and select all when no options selected', () => {
-      filter.items[0].selected = false;
-      filter.items[1].selected = false;
-      filter.items[2].selected = false;
-
-      component.filterOptions = filter.items;
-      component.filterName = filter.name;
-      component.form.setValue = jest.fn();
-
-      component.updateFormValue();
-
-      expect(component.form.setValue).toHaveBeenCalledWith([]);
-      expect(component.selectAllChecked).toBeFalsy();
-      expect(component.selectAllIndeterminate).toBeFalsy();
+      expect(component['formControl'].setValue).toHaveBeenCalled();
+      expect(component['updateFilter'].emit).not.toHaveBeenCalled();
     });
   });
 
   describe('reset', () => {
-    it('should reset the form', () => {
-      component.resetSearchField = jest.fn();
+    it('should reset the form and set the stringOptions to empty Array for autocomplete filter', () => {
+      component.filter.autocomplete = true;
+      component['selectComponent'].resetControls = jest.fn();
 
       component.reset();
 
-      expect(component.resetSearchField).toHaveBeenCalled();
-      expect(component.form.value).toEqual([]);
+      expect(component['stringOptions']).toEqual([]);
+      expect(component['selectComponent'].resetControls).toHaveBeenCalled();
+      expect(component.formControl.value).toEqual([]);
     });
-  });
+    it('should reset the form and set the stringOptions to invariantFilerOptions for prepopulated filter', () => {
+      component.filter.autocomplete = false;
+      component['invariantLocalSearchFilterOptions'] = [
+        { id: '001', title: 'test1' } as StringOption,
+        { id: '002', title: 'test2' } as StringOption,
+      ];
+      component['selectComponent'].resetControls = jest.fn();
 
-  describe('resetSearchField', () => {
-    it('should reset searchForm', () => {
-      component.searchForm.reset = jest.fn();
+      component.reset();
 
-      component.resetSearchField();
-
-      expect(component.searchForm.reset).toHaveBeenCalled();
+      expect(component['stringOptions']).toEqual([
+        { id: '001', title: 'test1' } as StringOption,
+        { id: '002', title: 'test2' } as StringOption,
+      ]);
+      expect(component['selectComponent'].resetControls).toHaveBeenCalled();
+      expect(component.formControl.value).toEqual([]);
     });
   });
 
   describe('filterItemsLocally', () => {
-    const idValue1 = new IdValue('001', 'baum', true);
-    const idValue2 = new IdValue('002', 'cdba', true);
-    const idValue3 = new IdValue('003', 'goldwind', true);
+    const option1 = { id: '001', title: '001 | baum' } as StringOption;
+    const option2 = { id: '002', title: '002 | cdba' } as StringOption;
+    const option3 = { id: '003', title: '003 | goldwind' } as StringOption;
 
-    let search;
+    let searchText;
     let result;
 
     beforeEach(() => {
       component.filter = new FilterItemIdValue(
         'test',
-        [idValue1, idValue2, idValue3],
+        [option1, option2, option3],
+        [],
+        false,
         false
       );
 
-      search = undefined;
+      component['invariantLocalSearchFilterOptions'] = [
+        option1,
+        option2,
+        option3,
+      ];
+
+      searchText = undefined;
       result = undefined;
     });
 
     it('should filter items according provided search string', () => {
-      search = 'ba';
+      searchText = 'ba';
 
-      result = component.filterItemsLocally(search, []);
+      result = component['filterItemsLocally'](searchText);
 
-      expect(result).toEqual([idValue1, idValue2]);
+      expect(result).toEqual([option1, option2]);
     });
 
     it('should filter items by their id', () => {
-      search = '002';
+      searchText = '002';
 
-      result = component.filterItemsLocally(search, []);
+      result = component['filterItemsLocally'](searchText);
 
-      expect(result).toEqual([idValue2]);
-    });
-  });
-
-  describe('selectAllChange', () => {
-    let items: IdValue[];
-
-    beforeEach(() => {
-      const idValue1 = new IdValue('001', 'baum', false);
-      const idValue2 = new IdValue('002', 'cdba', true);
-      const idValue3 = new IdValue('003', 'dont find me', false);
-      items = [idValue1, idValue2, idValue3];
-
-      component.filter = new FilterItemIdValue('test', items, false);
-      component.filterOptions = items;
-    });
-
-    it('should select all if true, unset indeterminate and set form value', () => {
-      component.selectAllChange(true);
-
-      expect(component.form.value).toEqual(items);
-      expect(component.selectAllChecked).toBeTruthy();
-      expect(component.selectAllIndeterminate).toBeFalsy();
-    });
-
-    it('should unselect all if false', () => {
-      component.selectAllChange(false);
-
-      expect(component.form.value).toEqual([]);
-      expect(component.selectAllChecked).toBeFalsy();
-      expect(component.selectAllIndeterminate).toBeFalsy();
-    });
-  });
-
-  describe('selectionChange', () => {
-    let filter: FilterItemIdValue;
-    let form: IdValue[];
-
-    beforeEach(() => {
-      const idValue1 = new IdValue('001', 'baum', false);
-      const idValue2 = new IdValue('002', 'cdba', true);
-      const idValue3 = new IdValue('003', 'dont find me', false);
-      const items = [idValue1, idValue2, idValue3];
-
-      filter = new FilterItemIdValue('name', items, false);
-      form = [idValue1, idValue2];
-
-      component.filter = filter;
-      component.filterOptions = filter.items;
-    });
-
-    it('should do nothing when change is not from user', () => {
-      component.selectAllChecked = true;
-
-      const evt: any = {
-        isUserInput: false,
-      };
-
-      component.selectionChange(evt);
-
-      expect(component.selectAllChecked).toBeTruthy();
-    });
-
-    it('should set select all when all options are checked now', () => {
-      component.form.setValue(form);
-
-      const evt: any = {
-        isUserInput: true,
-        source: {
-          selected: true,
-        },
-      };
-
-      component.selectionChange(evt);
-
-      expect(component.selectAllChecked).toBeTruthy();
-      expect(component.selectAllIndeterminate).toBeFalsy();
-    });
-
-    it('should unset select all when not all options are checked now', () => {
-      component.form.setValue(form);
-
-      const evt: any = {
-        isUserInput: true,
-        source: {
-          selected: false,
-        },
-      };
-
-      component.selectionChange(evt);
-
-      expect(component.selectAllChecked).toBeFalsy();
-      expect(component.selectAllIndeterminate).toBeTruthy();
-    });
-
-    it('should unset select all and indeterminate when no options are checked', () => {
-      component.form.setValue([filter.items[0]]);
-
-      const evt: any = {
-        isUserInput: true,
-        source: {
-          selected: false,
-        },
-      };
-
-      component.selectionChange(evt);
-
-      expect(component.selectAllChecked).toBeFalsy();
-      expect(component.selectAllIndeterminate).toBeFalsy();
-    });
-  });
-
-  describe('dropdownOpenedChange', () => {
-    beforeEach(() => {
-      jest.useFakeTimers();
-    });
-
-    afterEach(() => {
-      // this is a workaround:
-      // only using useFakeTimers will affect all following specs, which leads to failures
-      jest.useRealTimers();
-    });
-
-    it('should autofocus autocomplete input on open', () => {
-      component['emitUpdate'] = jest.fn();
-      component.autocompleteInput = {
-        nativeElement: {
-          focus: jest.fn(),
-        },
-      };
-
-      component.dropdownOpenedChange(true);
-
-      expect(component['emitUpdate']).not.toHaveBeenCalled();
-      jest.advanceTimersByTime(101);
-      expect(
-        component.autocompleteInput.nativeElement.focus
-      ).toHaveBeenCalled();
-    });
-
-    it('should update filter on close', () => {
-      component.form.setValue([new IdValue('001', 'val', true)]);
-
-      component.autocompleteInput = {
-        nativeElement: {
-          focus: jest.fn(),
-        },
-      };
-
-      component['emitUpdate'] = jest.fn();
-
-      component.dropdownOpenedChange(false);
-
-      expect(component['emitUpdate']).toHaveBeenCalled();
-      expect(
-        component.autocompleteInput.nativeElement.focus
-      ).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('trackByFn', () => {
-    test('should return index', () => {
-      const idValue = new IdValue('001', 'Bam', false);
-
-      const result = component.trackByFn(0, idValue);
-
-      expect(result).toEqual(idValue);
+      expect(result).toEqual([option2]);
     });
   });
 
   describe('handleLocalSearch', () => {
-    let items: IdValue[];
+    const option1 = { id: '001', title: 'baum' } as StringOption;
+    const option2 = { id: '002', title: 'cdba' } as StringOption;
+    const option3 = { id: '003', title: 'dont find me' } as StringOption;
+
+    let searchText;
 
     beforeEach(() => {
-      const idValue1 = new IdValue('001', 'baum', false);
-      const idValue2 = new IdValue('002', 'cdba', true);
-      const idValue3 = new IdValue('003', 'dont find me', false);
-      items = [idValue1, idValue2, idValue3];
+      component['invariantLocalSearchFilterOptions'] = [
+        option1,
+        option2,
+        option3,
+      ];
+
+      component.stringOptions = [];
+      component['selectedFilterOptions'] = [];
     });
 
-    it('should select all if updated search result options are all checked', () => {
-      component.form.setValue(items);
-      component.filterItemsLocally = jest.fn(() => items);
+    it('should search through invariant filter options', () => {
+      searchText = 'baum';
+      component['filterItemsLocally'] = jest
+        .fn()
+        .mockImplementationOnce(() => [option1]);
 
-      const test = 'test';
+      component['handleLocalSearch'](searchText);
 
-      component['handleLocalSearch'](test);
-
-      expect(component.filterOptions).toEqual(items);
-      expect(component.selectAllChecked).toBeTruthy();
-      expect(component.selectAllIndeterminate).toBeFalsy();
-      expect(component.filterItemsLocally).toHaveBeenCalled();
+      expect(component.stringOptions).toEqual([option1]);
+      expect(component['filterItemsLocally']).toHaveBeenCalled();
     });
 
-    it('should unset select all if not all updated search result options are checked', () => {
-      component.form.setValue([items[0]]);
-      component.filterItemsLocally = jest.fn(() => items);
+    it('should reset options to invariant filter options when nothing is in the search bar', () => {
+      searchText = '';
+      component['filterItemsLocally'] = jest.fn();
 
-      const test = 'test';
+      component['handleLocalSearch'](searchText);
 
-      component['handleLocalSearch'](test);
-
-      expect(component.filterOptions).toEqual(items);
-      expect(component.selectAllChecked).toBeFalsy();
-      expect(component.selectAllIndeterminate).toBeTruthy();
-      expect(component.filterItemsLocally).toHaveBeenCalled();
+      expect(component.stringOptions).toEqual(
+        component['invariantLocalSearchFilterOptions']
+      );
+      expect(component['filterItemsLocally']).not.toHaveBeenCalled();
     });
 
-    it('should unset select all and undetermined if no updated search result options are checked', () => {
-      component.form.setValue(items);
-      component.filterItemsLocally = jest.fn(() => []);
+    it('should put the selected options in front of invariant options', () => {
+      component['selectedFilterOptions'] = [option3];
+      component['filterItemsLocally'] = jest
+        .fn()
+        .mockImplementationOnce(() => [option3]);
+      searchText = 'find';
 
-      const test = 'test';
+      component['handleLocalSearch'](searchText);
+      searchText = '';
+      component['handleLocalSearch'](searchText);
 
-      component['handleLocalSearch'](test);
+      expect(component.stringOptions).toEqual([option3, option1, option2]);
+      expect(component['filterItemsLocally']).toHaveBeenCalled();
+    });
 
-      expect(component.filterOptions).toEqual([]);
-      expect(component.selectAllChecked).toBeFalsy();
-      expect(component.selectAllIndeterminate).toBeFalsy();
-      expect(component.filterItemsLocally).toHaveBeenCalled();
+    it('should not filter items when searchText is undefined', () => {
+      searchText = undefined;
+
+      component['handleLocalSearch'](searchText);
+
+      expect(component.stringOptions).toEqual([option1, option2, option3]);
+    });
+    it('should not filter items when searchText is empty', () => {
+      searchText = '';
+
+      component['handleLocalSearch'](searchText);
+
+      expect(component.stringOptions).toEqual([option1, option2, option3]);
     });
   });
 
   describe('handleRemoteSearch', () => {
-    let items: IdValue[];
+    const option1 = { id: '001', title: 'baum' } as StringOption;
+    const option2 = { id: '002', title: 'cdba' } as StringOption;
+    const option3 = { id: '003', title: 'dont find me' } as StringOption;
+    const items = [option1, option2, option3];
 
     beforeEach(() => {
-      const idValue1 = new IdValue('001', 'baum', false);
-      const idValue2 = new IdValue('002', 'cdba', true);
-      const idValue3 = new IdValue('003', 'dont find me', false);
-      items = [idValue1, idValue2, idValue3];
+      component['updateFilter'].emit = jest.fn();
+      component['autocomplete'].emit = jest.fn();
     });
 
     it('should autocomplete when search val is set', () => {
-      component['emitUpdate'] = jest.fn();
-      component['autocomplete'].emit = jest.fn();
-      component.filter = new FilterItemIdValue('name', [], false);
-
       component['handleRemoteSearch']('test');
 
-      expect(component['emitUpdate']).toHaveBeenCalled();
       expect(component['autocomplete'].emit).toHaveBeenCalledWith({
-        field: 'name',
-        value: 'test',
+        searchFor: 'test',
+        filter: {
+          name: 'test',
+          items: [],
+          selectedItems: [],
+          autocomplete: true,
+          autocompleteLoading: false,
+          type: 'ID_VALUE',
+          disabled: false,
+        } as FilterItemIdValue,
       });
+
+      expect(component['updateFilter'].emit).not.toHaveBeenCalled();
     });
 
     it('should reset options when no search val is set', () => {
-      component['emitUpdate'] = jest.fn();
-      component.form.setValue(items);
-
-      component.filter = new FilterItemIdValue('name', [], false);
+      component['selectedFilterOptions'] = items;
 
       component['handleRemoteSearch']('');
 
-      expect(component['emitUpdate']).not.toHaveBeenCalled();
-      expect(component.filterOptions).toEqual(items);
+      expect(component['updateFilter'].emit).not.toHaveBeenCalled();
+      expect(component['autocomplete'].emit).not.toHaveBeenCalled();
+      expect(component.stringOptions).toEqual(items);
     });
   });
 
   describe('emitUpdate', () => {
-    it('should emit update with selected options', () => {
-      const idValue1 = new IdValue('001', 'baum', false);
-      const idValue2 = new IdValue('002', 'cdba', true);
-      const idValue3 = new IdValue('003', 'dont find me', false);
-      const items = [idValue1, idValue2, idValue3];
-      const filter = new FilterItemIdValue('name', items, false);
+    it('should emit update', () => {
+      const option1 = { id: '001', title: 'baum' } as StringOption;
+      const option2 = { id: '002', title: 'cdba' } as StringOption;
+      const option3 = { id: '003', title: 'dont find me' } as StringOption;
+      const items = [option1, option3];
+      const selectedItems = [option2];
+
+      const filter = new FilterItemIdValue(
+        'name',
+        items,
+        selectedItems,
+        false,
+        false
+      );
+
       component.filter = filter;
       component.filterName = filter.name;
-      component.filterOptions = filter.items;
+      component.stringOptions = filter.items;
 
       component['updateFilter'].emit = jest.fn();
 
-      component['emitUpdate']([items[0], items[1]]);
+      component.onOpenedChange(false);
 
       expect(component['updateFilter'].emit).toHaveBeenCalledWith({
         ...filter,
         items: [
+          { id: '002', title: 'cdba' },
           {
             id: '001',
-            value: 'baum',
-            selected: true,
-          },
-          {
-            id: '002',
-            value: 'cdba',
-            selected: true,
+            title: 'baum',
           },
           {
             id: '003',
-            value: 'dont find me',
-            selected: false,
+            title: 'dont find me',
           },
         ],
-      });
-    });
-
-    it('should also consider unselected options', () => {
-      const idValue1 = new IdValue('001', 'baum', true);
-      const idValue2 = new IdValue('002', 'cdba', true);
-      const idValue3 = new IdValue('003', 'dont find me', true);
-      const items = [idValue1, idValue2, idValue3];
-
-      const filter = new FilterItemIdValue('name', items, false);
-      component.filter = filter;
-      component.filterName = filter.name;
-      component.filterOptions = filter.items;
-
-      component.form.setValue([idValue1, idValue3]);
-      component['updateFilter'].emit = jest.fn();
-
-      component['emitUpdate']([idValue1, idValue3]);
-
-      expect(component['updateFilter'].emit).toHaveBeenCalledWith({
-        ...filter,
-        items: [
-          {
-            id: '001',
-            value: 'baum',
-            selected: true,
-          },
+        selectedItems: [
           {
             id: '002',
-            value: 'cdba',
-            selected: false,
-          },
-          {
-            id: '003',
-            value: 'dont find me',
-            selected: true,
+            title: 'cdba',
           },
         ],
       });

@@ -71,9 +71,9 @@ export class BomChartConfigService {
   ];
 
   private readonly barchartTooltipFormatter = (params: {
+    [key: string]: any;
     name: string;
     value: number;
-    [key: string]: any;
   }): string =>
     `${params.name}: ${this.localeService.localizeNumber(
       params.value,
@@ -81,8 +81,8 @@ export class BomChartConfigService {
     )} ${this.currencyService.getCurrency()}`;
 
   private readonly linechartTooltipFormatter = (params: {
-    value: number;
     [key: string]: any;
+    value: number;
   }): string =>
     `${this.localeService.localizeNumber(params.value, 'decimal')} %`;
 }

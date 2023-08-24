@@ -25,8 +25,6 @@ import {
   templateUrl: './cost-elements-table.component.html',
 })
 export class CostElementsTableComponent implements OnInit, OnChanges {
-  public odataFeatureEnabled: boolean;
-
   @Input() materialDesignation: string;
   @Input() selectedBomItem: BomItem;
   @Input() selectedCalculation: Calculation;
@@ -37,6 +35,8 @@ export class CostElementsTableComponent implements OnInit, OnChanges {
   @Input() errorMessage: string;
 
   @Input() index: number;
+
+  public odataFeatureEnabled: boolean;
 
   public defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
   public columnDefs: ColDef[];

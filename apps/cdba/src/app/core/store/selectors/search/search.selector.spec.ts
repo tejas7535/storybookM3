@@ -1,3 +1,5 @@
+import { StringOption } from '@schaeffler/inputs';
+
 import { ReferenceType } from '@cdba/shared/models';
 
 import { REFERENCE_TYPE_MOCK } from '../../../../../../src/testing/mocks';
@@ -5,12 +7,9 @@ import {
   FilterItemIdValue,
   FilterItemIdValueUpdate,
   FilterItemRange,
-  FilterItemRangeUpdate,
-  IdValue,
 } from '../../reducers/search/models';
 import { initialState } from '../../reducers/search/search.reducer';
 import {
-  getAutocompleteLoading,
   getFilters,
   getInitialFiltersLoading,
   getIsDirty,
@@ -34,7 +33,6 @@ describe('Search Selector', () => {
       filters: {
         ...initialState.filters,
         dirty: true,
-        autocompleteLoading: true,
         searchText: {
           field: 'customer',
           value: 'aud',
@@ -59,18 +57,22 @@ describe('Search Selector', () => {
       const customer = new FilterItemIdValue(
         'customer',
         [
-          new IdValue('vw', 'VW', false),
-          new IdValue('vw2', 'VW 2', false),
-          new IdValue('vw3', 'VW 3', true),
+          { id: 'vw', title: 'VW' } as StringOption,
+          { id: 'vw2', title: 'VW 2' } as StringOption,
+          { id: 'vw3', title: 'VW 3' } as StringOption,
         ],
-        true
+        [],
+        true,
+        false
       );
       const plant = new FilterItemIdValue(
         'plant',
         [
-          new IdValue('32', 'Nice Plant', false),
-          new IdValue('33', 'Nicer Plant', true),
+          { id: '32', title: '32 | Nice Plant' } as StringOption,
+          { id: '33', title: '33 | Nicer Plant' } as StringOption,
         ],
+        [],
+        false,
         false
       );
       const items = [customer, plant];
@@ -91,21 +93,54 @@ describe('Search Selector', () => {
     test('should return selected filters', () => {
       const customer = new FilterItemIdValue(
         'customer',
-        [new IdValue('vw', 'VW', false)],
+        [{ id: 'id', title: 'VW' } as StringOption],
+        [],
+        false,
         true
       );
       const plant = new FilterItemIdValue(
         'plant',
-        [new IdValue('32', 'Nice Plant', true)],
+        [{ id: '32', title: '32 | Nice Plant' } as StringOption],
+        [{ id: '32', title: '32 | Nice Plant' } as StringOption],
+        false,
         false
       );
       const range = new FilterItemRange('length', 0, 200, 0, 200, 'kg');
       const items = [customer, plant, range];
 
-      expect(getSelectedFilters.projector(items)).toEqual([
-        new FilterItemIdValueUpdate('plant', ['32']),
-        new FilterItemRangeUpdate('length', 0, 200),
-      ]);
+      const expectedFilters = [
+        {
+          autocomplete: false,
+          autocompleteLoading: false,
+          disabled: false,
+          items: [
+            {
+              id: '32',
+              title: '32 | Nice Plant',
+            } as StringOption,
+          ],
+          name: 'plant',
+          selectedItems: [
+            {
+              id: '32',
+              title: '32 | Nice Plant',
+            } as StringOption,
+          ],
+          type: 'ID_VALUE',
+        } as FilterItemIdValue,
+        {
+          disabled: false,
+          max: 200,
+          maxSelected: 200,
+          min: 0,
+          minSelected: 0,
+          name: 'length',
+          type: 'RANGE',
+          unit: 'kg',
+        } as FilterItemRange,
+      ];
+
+      expect(getSelectedFilters.projector(items)).toEqual(expectedFilters);
     });
   });
 
@@ -113,7 +148,9 @@ describe('Search Selector', () => {
     test('should return selected IdValue filters', () => {
       const plant = new FilterItemIdValue(
         'plant',
-        [new IdValue('32', 'Nice Plant', true)],
+        [{ id: '32', title: '32 | Nice Plant' } as StringOption],
+        [],
+        false,
         false
       );
       const range = new FilterItemRange('length', 0, 200, 0, 200, 'kg');
@@ -126,7 +163,8 @@ describe('Search Selector', () => {
       ).toEqual([
         new FilterItemIdValue(
           'plant',
-          [new IdValue('32', 'Nice Plant', true)],
+          [{ id: '32', title: '32 | Nice Plant' } as StringOption],
+          [],
           false,
           false
         ),
@@ -148,12 +186,16 @@ describe('Search Selector', () => {
     test('should return filter by name', () => {
       const customer = new FilterItemIdValue(
         'customer',
-        [new IdValue('vw', 'VW', true)],
-        true
+        [{ id: 'vw', title: 'VW' } as StringOption],
+        [{ id: 'vw', title: 'VW' } as StringOption],
+        true,
+        false
       );
       const plant = new FilterItemIdValue(
         'plant',
-        [new IdValue('32', 'Nice Plant', false)],
+        [{ id: '32', title: '32 | Nice Plant' } as StringOption],
+        [],
+        false,
         false
       );
       const items = {
@@ -167,7 +209,7 @@ describe('Search Selector', () => {
         getSelectedFilterIdValueOptionsByFilterName.projector(items.entities, {
           name: 'customer',
         })
-      ).toEqual([new IdValue('vw', 'VW', true)]);
+      ).toEqual([{ id: 'vw', title: 'VW' } as StringOption]);
     });
   });
 
@@ -219,12 +261,6 @@ describe('Search Selector', () => {
 
     test('should return false when reftype items are defined', () => {
       expect(getNoResultsFound(fakeState)).toBeFalsy();
-    });
-  });
-
-  describe('getAutocompleteLoading', () => {
-    test('should return true if autocomplete is currently loading', () => {
-      expect(getAutocompleteLoading(fakeState)).toBeTruthy();
     });
   });
 

@@ -16,6 +16,10 @@ export class CustomHeaderComponent implements IHeaderAngularComp {
   isXButtonVisible: boolean;
   nodeId: string;
 
+  constructor(private readonly store: Store) {
+    this.isXButtonVisible = false;
+  }
+
   refresh(_params: IHeaderParams) {
     return false;
   }
@@ -23,10 +27,6 @@ export class CustomHeaderComponent implements IHeaderAngularComp {
   agInit(params: IHeaderParams & { nodeId: string }): void {
     this.params = params;
     this.nodeId = params.nodeId;
-  }
-
-  constructor(private readonly store: Store) {
-    this.isXButtonVisible = false;
   }
 
   onMouseOver(): void {

@@ -1,6 +1,6 @@
 export interface TransposedRowData {
-  label: string;
   [index: string]: string | number;
+  label: string;
 }
 
 export interface DataField {

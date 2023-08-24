@@ -1,4 +1,5 @@
-import { IdValue } from '../../../../core/store/reducers/search/models';
+import { StringOption } from '@schaeffler/inputs';
+
 import { FormatValuePipe } from './format-value.pipe';
 
 describe('FormatValuePipe', () => {
@@ -13,7 +14,7 @@ describe('FormatValuePipe', () => {
   });
 
   describe('transform', () => {
-    it('should return nothing when idValue not defined', () => {
+    it('should return nothing when option not defined', () => {
       let result = pipe.transform(undefined, true);
       expect(result).toBeUndefined();
 
@@ -24,18 +25,18 @@ describe('FormatValuePipe', () => {
       expect(result).toEqual(`${undefined} | ${undefined}`);
     });
 
-    it('should return value when autocomplete', () => {
-      const idValue = new IdValue('001', 'Autocomplete', true);
-      const result = pipe.transform(idValue, true);
+    it('should return title when autocomplete', () => {
+      const option = { id: '001', title: 'Autocomplete' } as StringOption;
+      const result = pipe.transform(option, true);
 
-      expect(result).toEqual(idValue.value);
+      expect(result).toEqual(option.title);
     });
 
-    it('should return id - value when non autocomplete', () => {
-      const idValue = new IdValue('001', 'Autocomplete', true);
-      const result = pipe.transform(idValue, false);
+    it('should return id - title when non autocomplete', () => {
+      const option = { id: '001', title: 'Autocomplete' } as StringOption;
+      const result = pipe.transform(option, false);
 
-      expect(result).toEqual(`${idValue?.id} | ${idValue?.value}`);
+      expect(result).toEqual(`${option?.id} | ${option?.title}`);
     });
   });
 });

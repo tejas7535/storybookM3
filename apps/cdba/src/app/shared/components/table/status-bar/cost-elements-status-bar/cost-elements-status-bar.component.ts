@@ -26,9 +26,10 @@ import {
   templateUrl: './cost-elements-status-bar.component.html',
 })
 export class CostElementsStatusBarComponent {
-  private index: number;
   public currentSplitType$: Observable<CostComponentSplitType>;
   public costElements$: Observable<CostComponentSplit[]>;
+
+  private index: number;
 
   constructor(private readonly store: Store) {}
 

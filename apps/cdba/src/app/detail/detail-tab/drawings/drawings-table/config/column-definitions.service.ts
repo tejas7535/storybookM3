@@ -14,8 +14,6 @@ import { Drawing } from '@cdba/shared/models';
   providedIn: 'root',
 })
 export class ColumnDefinitionService {
-  constructor(private readonly columnUtilsService: ColumnUtilsService) {}
-
   public COLUMN_DEFINITIONS: ColDef[] = [
     {
       field: 'version',
@@ -76,4 +74,6 @@ export class ColumnDefinitionService {
       maxWidth: 60,
     },
   ];
+
+  constructor(private readonly columnUtilsService: ColumnUtilsService) {}
 }

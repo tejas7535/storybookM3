@@ -17,11 +17,6 @@ import { AggregationService } from './service/aggregation.service';
   styleUrls: ['./aggregation.component.scss'],
 })
 export class AggregationComponent implements IStatusPanelAngularComp {
-  public constructor(
-    private readonly aggregationService: AggregationService,
-    private readonly changeDetectorRef: ChangeDetectorRef
-  ) {}
-
   aggregationModel = new AggregationStatusBar(
     false,
     false,
@@ -32,6 +27,11 @@ export class AggregationComponent implements IStatusPanelAngularComp {
     0,
     0
   );
+
+  public constructor(
+    private readonly aggregationService: AggregationService,
+    private readonly changeDetectorRef: ChangeDetectorRef
+  ) {}
 
   agInit(params: IStatusPanelParams): void {
     params.api.addEventListener('rangeSelectionChanged', () => {

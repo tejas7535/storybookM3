@@ -26,7 +26,9 @@
       "key_account": "Example Value: VW",
       "material_short_description": "Example Value: SLH",
       "project_name": "Example Value: Mazda J59Y",
-      "rfq": "Example Value: 000031144313 or 80061259-01"
+      "rfq": "Example Value: 000031144313 or 80061259-01",
+      "plant": "Example Value: 00002 | DE - IWL - Lahr",
+      "product_line": "Example Value: 03 | Engine Components"
     },
     "tooltips": {
       "disabledBudgetQuantity": "To activate the budget quantity filter, please first use another filter and click on the search button.",

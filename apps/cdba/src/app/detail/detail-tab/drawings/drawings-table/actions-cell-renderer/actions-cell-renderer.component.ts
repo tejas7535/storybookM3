@@ -9,9 +9,9 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
   templateUrl: './actions-cell-renderer.component.html',
 })
 export class ActionsCellRendererComponent {
-  private readonly DOWNLOAD_DRAWING_EVENT = 'Download Drawing';
-
   public downloadUrl: string;
+
+  private readonly DOWNLOAD_DRAWING_EVENT = 'Download Drawing';
 
   constructor(
     private readonly applicationInsightsService: ApplicationInsightsService

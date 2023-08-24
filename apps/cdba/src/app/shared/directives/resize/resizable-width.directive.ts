@@ -66,32 +66,6 @@ export class ResizableWidthDirective implements OnInit {
     }
   }
 
-  private addResizeHolder(): void {
-    const resizeHolder = this.renderer.createElement('span');
-    this.renderer.setStyle(
-      resizeHolder,
-      'background-image',
-      "url('./assets/images/resizable_handle_vertical.png')"
-    );
-    this.renderer.setStyle(resizeHolder, 'background-size', '16px');
-    this.renderer.setStyle(resizeHolder, 'background-position', 'center');
-    this.renderer.setStyle(resizeHolder, 'background-repeat', 'no-repeat');
-    this.renderer.setStyle(resizeHolder, 'cursor', 'col-resize');
-    this.renderer.setStyle(resizeHolder, 'position', 'absolute');
-    this.renderer.setStyle(resizeHolder, 'top', '0');
-    this.renderer.setStyle(
-      resizeHolder,
-      this.resizableAlignment === 'left' ? 'right' : 'left',
-      '-10px'
-    );
-    this.renderer.setStyle(resizeHolder, 'width', '20px');
-    this.renderer.setStyle(resizeHolder, 'height', '100%');
-    this.renderer.setStyle(resizeHolder, 'z-index', '1');
-
-    this.renderer.appendChild(this.resizableElement, resizeHolder);
-    this.renderer.listen(resizeHolder, 'mousedown', this.onMouseDown);
-  }
-
   onMouseDown = (event: MouseEvent) => {
     this.pressed = true;
     this.startX = event.pageX;
@@ -129,4 +103,30 @@ export class ResizableWidthDirective implements OnInit {
       this.renderer.removeClass(document.body, 'select-none');
     }
   };
+
+  private addResizeHolder(): void {
+    const resizeHolder = this.renderer.createElement('span');
+    this.renderer.setStyle(
+      resizeHolder,
+      'background-image',
+      "url('./assets/images/resizable_handle_vertical.png')"
+    );
+    this.renderer.setStyle(resizeHolder, 'background-size', '16px');
+    this.renderer.setStyle(resizeHolder, 'background-position', 'center');
+    this.renderer.setStyle(resizeHolder, 'background-repeat', 'no-repeat');
+    this.renderer.setStyle(resizeHolder, 'cursor', 'col-resize');
+    this.renderer.setStyle(resizeHolder, 'position', 'absolute');
+    this.renderer.setStyle(resizeHolder, 'top', '0');
+    this.renderer.setStyle(
+      resizeHolder,
+      this.resizableAlignment === 'left' ? 'right' : 'left',
+      '-10px'
+    );
+    this.renderer.setStyle(resizeHolder, 'width', '20px');
+    this.renderer.setStyle(resizeHolder, 'height', '100%');
+    this.renderer.setStyle(resizeHolder, 'z-index', '1');
+
+    this.renderer.appendChild(this.resizableElement, resizeHolder);
+    this.renderer.listen(resizeHolder, 'mousedown', this.onMouseDown);
+  }
 }

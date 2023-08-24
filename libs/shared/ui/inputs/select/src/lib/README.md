@@ -261,6 +261,7 @@ For further information about the option type see [@schaeffler/inputs documentat
 
 #### Inputs
 
+
 | Name                      | Description                                                                                                      |
 | --------------------------| -----------------------------------------------------------------------------------------------------------------|
 | stringOptions             | the options to select from                                                                                       |
@@ -286,6 +287,7 @@ For further information about the option type see [@schaeffler/inputs documentat
 | searchValueLengthTrigger  | (optional) (default: 1) lenght threshold for emitting searchUpdated event                                        |
 | triggerTooltipDelay       | (optional) the delay in ms to display the trigger tooltip with                                                   |
 | tooltipPosition           | (optional) the position to display option tooltips at                                                            |
+
 
 #### Events
 

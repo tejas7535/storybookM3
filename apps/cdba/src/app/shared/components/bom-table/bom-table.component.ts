@@ -42,14 +42,6 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BomTableComponent implements OnChanges {
-  public constructor(
-    protected columnDefinitionService: ColumnDefinitionService,
-    protected sidebarService: SidebarService,
-    protected scrambleMaterialDesignationPipe: ScrambleMaterialDesignationPipe,
-    private readonly costShareService: CostShareService,
-    @Inject(LOCAL_STORAGE) readonly localStorage: Storage
-  ) {}
-
   @Input() index: number;
   @Input() rowData: BomItem[];
   @Input() isLoading: boolean;
@@ -87,6 +79,14 @@ export class BomTableComponent implements OnChanges {
   private gridColumnApi: ColumnApi;
 
   private readonly customColumnsOrderKey = 'custom_columns_order';
+
+  public constructor(
+    protected columnDefinitionService: ColumnDefinitionService,
+    protected sidebarService: SidebarService,
+    protected scrambleMaterialDesignationPipe: ScrambleMaterialDesignationPipe,
+    private readonly costShareService: CostShareService,
+    @Inject(LOCAL_STORAGE) readonly localStorage: Storage
+  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!this.gridApi) {

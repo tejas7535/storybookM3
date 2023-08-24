@@ -14,13 +14,12 @@ import {
   FilterItem,
   FilterItemIdValue,
   FilterItemIdValueUpdate,
+  FilterItemRange,
   FilterItemRangeUpdate,
-  IdValue,
+  FilterItemType,
   SearchResult,
-  TextSearch,
 } from '../../core/store/reducers/search/models';
 import { InitialFiltersResponse } from '../initial-filters-response.model';
-import { SearchUtilityService } from './search-utility.service';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +36,6 @@ export class SearchService {
 
   public constructor(
     private readonly httpClient: HttpClient,
-    private readonly searchUtilities: SearchUtilityService,
     @Inject(LOCAL_STORAGE) readonly localStorage: Storage
   ) {}
 
@@ -49,52 +47,70 @@ export class SearchService {
       .pipe(map((response) => response.items));
   }
 
-  public search(
-    items: (FilterItemRangeUpdate | FilterItemIdValueUpdate)[]
-  ): Observable<SearchResult> {
+  public search(filters: FilterItem[]): Observable<SearchResult> {
     const params: HttpParams = new HttpParams().set(
       this.PARAM_LANGUAGE,
       this.localStorage.getItem('language')
     );
 
+    const payload = this.preparePayload(filters);
+
     return this.httpClient.post<SearchResult>(
       `${API.v2}/${this.SEARCH}`,
       {
-        items,
+        payload,
       },
       { params }
     );
   }
 
   public autocomplete(
-    textSearch: TextSearch,
-    selectedOptions: IdValue[]
+    textSearch: string,
+    filterName: string
   ): Observable<FilterItemIdValue> {
     const params = new HttpParams({ encoder: new HttpParamsEncoder() }).set(
       this.PARAM_SEARCH_FOR,
-      textSearch.value
+      textSearch
     );
 
-    return this.httpClient
-      .get<FilterItemIdValue>(
-        `${API.v1}/${this.POSSIBLE_FILTER}/${textSearch.field}`,
-        {
-          params,
-          context: withCache(),
-        }
-      )
-      .pipe(
-        map((item: FilterItemIdValue) => ({
-          ...item,
-          items: this.searchUtilities.mergeOptionsWithSelectedOptions(
-            item.items,
-            selectedOptions
-          ),
-        }))
-      );
+    return this.httpClient.get<FilterItemIdValue>(
+      `${API.v1}/${this.POSSIBLE_FILTER}/${filterName}`,
+      {
+        params,
+        context: withCache(),
+      }
+    );
   }
 
   public textSearch(_textSearch: any): Observable<SearchResult> {
     return of(new SearchResult([], [], 0));
+  }
+
+  private preparePayload(
+    filters: FilterItem[]
+  ): (FilterItemIdValueUpdate | FilterItemRangeUpdate)[] {
+    return filters
+      .map((filter) => {
+        switch (filter.type) {
+          case FilterItemType.ID_VALUE: {
+            const ids = (filter as FilterItemIdValue).selectedItems.map(
+              (item) => item.id as string
+            );
+
+            return new FilterItemIdValueUpdate(filter.name, ids);
+          }
+          case FilterItemType.RANGE: {
+            return new FilterItemRangeUpdate(
+              filter.name,
+              (filter as FilterItemRange).minSelected,
+              (filter as FilterItemRange).maxSelected
+            );
+          }
+          default: {
+            return undefined;
+          }
+        }
+      })
+      .filter((item) => item !== undefined);
   }
 }
