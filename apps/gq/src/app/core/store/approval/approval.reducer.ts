@@ -251,11 +251,20 @@ export const approvalFeature = createFeature({
       })
     ),
     on(
-      ApprovalActions.getApprovalCockpitDataSuccess,
+      ApprovalActions.startPollingApprovalCockpitDataSuccess,
       (state: ApprovalState, { approvalCockpit }): ApprovalState => ({
         ...state,
-        approvalCockpitLoading: false,
-        approvalCockpit,
+        approvalCockpit: {
+          ...state.approvalCockpit,
+          approvalEvents: approvalCockpit.approvalEvents, // only update events as only last event potentially changed
+        },
+      })
+    ),
+    on(
+      ApprovalActions.startPollingApprovalCockpitDataFailure,
+      (state: ApprovalState, { error }): ApprovalState => ({
+        ...state,
+        error,
       })
     ),
     on(
@@ -265,6 +274,14 @@ export const approvalFeature = createFeature({
         approvalCockpitLoading: false,
         approvalCockpit: { ...initialState.approvalCockpit },
         error,
+      })
+    ),
+    on(
+      ApprovalActions.getApprovalCockpitDataSuccess,
+      (state: ApprovalState, { approvalCockpit }): ApprovalState => ({
+        ...state,
+        approvalCockpitLoading: false,
+        approvalCockpit,
       })
     ),
     on(

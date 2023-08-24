@@ -379,6 +379,33 @@ describe('approvalReducer', () => {
       });
     });
 
+    test('should set approvalCockpitLoading to false in success case', () => {
+      const action = ApprovalActions.startPollingApprovalCockpitDataSuccess({
+        approvalCockpit: APPROVAL_STATE_MOCK.approvalCockpit,
+      });
+      const state = approvalFeature.reducer(initialState, action);
+
+      expect(state).toEqual({
+        ...initialState,
+        approvalCockpit: {
+          ...initialState.approvalCockpit,
+          approvalEvents: APPROVAL_STATE_MOCK.approvalCockpit.approvalEvents,
+        },
+      });
+    });
+
+    test('should set approvalCockpitLoading to false in error case', () => {
+      const action = ApprovalActions.startPollingApprovalCockpitDataFailure({
+        error: new Error('error'),
+      });
+      const state = approvalFeature.reducer(initialState, action);
+
+      expect(state).toEqual({
+        ...initialState,
+        error: new Error('error'),
+      });
+    });
+
     test('should set pollingApprovalCockpitDataInProgress to false', () => {
       const action = ApprovalActions.stopPollingApprovalCockpitData();
       const state = approvalFeature.reducer(

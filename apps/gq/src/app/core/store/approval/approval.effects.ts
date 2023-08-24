@@ -4,12 +4,11 @@ import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack
 
 import {
   catchError,
-  EMPTY,
   filter,
   map,
   mergeMap,
-  Observable,
   of,
+  switchMap,
   takeUntil,
   tap,
   timer,
@@ -256,7 +255,18 @@ export class ApprovalEffects {
             !recentApprovalCockpit?.approvalGeneral?.sapId ||
             recentApprovalCockpit?.approvalGeneral?.sapId !== action.sapId
           ) {
-            return this.getApprovalCockpitData(action.sapId);
+            return this.approvalService
+              .getApprovalCockpitData(action.sapId)
+              .pipe(
+                map((approvalCockpit: ApprovalCockpitData) =>
+                  ApprovalActions.getApprovalCockpitDataSuccess({
+                    approvalCockpit,
+                  })
+                ),
+                catchError((error: Error) =>
+                  of(ApprovalActions.getApprovalCockpitDataFailure({ error }))
+                )
+              );
           }
 
           return of(ApprovalActions.approvalCockpitDataAlreadyLoaded());
@@ -267,7 +277,6 @@ export class ApprovalEffects {
 
   /**
    * Start approval cockpit data polling if not started yet and if the latest event is not verified.
-   * Stop polling if it is running and the latest event is verified.
    */
   handleApprovalCockpitDataPolling$ = createEffect(() => {
     return this.actions$.pipe(
@@ -287,9 +296,9 @@ export class ApprovalEffects {
       filter(
         ([
           _action,
-          _pollingApprovalCockpitDataInProgress,
+          pollingApprovalCockpitDataInProgress,
           quotationStatus,
-          _isLatestApprovalEventVerified,
+          isLatestApprovalEventVerified,
         ]: [
           ReturnType<
             | typeof ApprovalActions.getApprovalCockpitDataSuccess
@@ -303,14 +312,16 @@ export class ApprovalEffects {
         ]) =>
           quotationStatus !== QuotationStatus.ACTIVE &&
           quotationStatus !== QuotationStatus.DELETED &&
-          quotationStatus !== QuotationStatus.ARCHIVED
+          quotationStatus !== QuotationStatus.ARCHIVED &&
+          !pollingApprovalCockpitDataInProgress &&
+          !isLatestApprovalEventVerified
       ),
       mergeMap(
         ([
           _action,
-          pollingApprovalCockpitDataInProgress,
+          _pollingApprovalCockpitDataInProgress,
           _quotationStatus,
-          isLatestApprovalEventVerified,
+          _isLatestApprovalEventVerified,
         ]: [
           ReturnType<
             | typeof ApprovalActions.getApprovalCockpitDataSuccess
@@ -321,41 +332,20 @@ export class ApprovalEffects {
           boolean,
           QuotationStatus,
           boolean
-        ]) => {
-          if (pollingApprovalCockpitDataInProgress) {
-            if (isLatestApprovalEventVerified) {
-              return of(ApprovalActions.stopPollingApprovalCockpitData());
-            }
-          } else {
-            if (!isLatestApprovalEventVerified) {
-              return of(ApprovalActions.startPollingApprovalCockpitData());
-            }
-          }
-
-          return EMPTY;
-        }
+        ]) => of(ApprovalActions.startPollingApprovalCockpitData())
       )
     );
   });
 
-  /**
-   * Stop approval cockpit data polling if it is running
-   */
-  getApprovalCockpitDataFailure$ = createEffect(() => {
+  startPollingApprovalCockpitDataSuccess$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(ApprovalActions.getApprovalCockpitDataFailure),
-      concatLatestFrom(() =>
-        this.store.select(
-          approvalFeature.selectPollingApprovalCockpitDataInProgress
-        )
-      ),
+      ofType(ApprovalActions.startPollingApprovalCockpitDataSuccess),
       filter(
-        ([_action, pollingApprovalCockpitDataInProgress]: [
-          ReturnType<typeof ApprovalActions.getApprovalCockpitDataFailure>,
-          boolean
-        ]) => pollingApprovalCockpitDataInProgress
-      ),
-      map(() => ApprovalActions.stopPollingApprovalCockpitData())
+        (action) => action.approvalCockpit?.approvalEvents?.at(0).verified
+      ), // stop polling if event has been verified
+      mergeMap((_action) =>
+        of(ApprovalActions.stopPollingApprovalCockpitData())
+      )
     );
   });
 
@@ -378,7 +368,23 @@ export class ApprovalEffects {
                 ofType(ApprovalActions.stopPollingApprovalCockpitData)
               )
             ),
-            mergeMap(() => this.getApprovalCockpitData(sapId))
+            switchMap(() =>
+              this.approvalService.getApprovalCockpitData(sapId).pipe(
+                map((approvalCockpit: ApprovalCockpitData) =>
+                  ApprovalActions.startPollingApprovalCockpitDataSuccess({
+                    approvalCockpit,
+                  })
+                ),
+                catchError((error: Error) =>
+                  of(
+                    ApprovalActions.startPollingApprovalCockpitDataFailure({
+                      error,
+                    }),
+                    ApprovalActions.stopPollingApprovalCockpitData() // stop polling on failure
+                  )
+                )
+              )
+            )
           )
       )
     );
@@ -390,24 +396,4 @@ export class ApprovalEffects {
     private readonly approvalService: ApprovalService,
     private readonly snackBar: MatSnackBar
   ) {}
-
-  private getApprovalCockpitData(
-    sapId: string
-  ): Observable<
-    ReturnType<
-      | typeof ApprovalActions.getApprovalCockpitDataSuccess
-      | typeof ApprovalActions.getApprovalCockpitDataFailure
-    >
-  > {
-    return this.approvalService.getApprovalCockpitData(sapId).pipe(
-      map((approvalCockpit: ApprovalCockpitData) =>
-        ApprovalActions.getApprovalCockpitDataSuccess({
-          approvalCockpit,
-        })
-      ),
-      catchError((error: Error) =>
-        of(ApprovalActions.getApprovalCockpitDataFailure({ error }))
-      )
-    );
-  }
 }
