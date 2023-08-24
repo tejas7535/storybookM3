@@ -195,8 +195,14 @@ export class SelectComponent
   }
 
   public resetControls(): void {
-    this.control.reset(this.initialValue ?? {});
-    this.searchControl.reset(this.initialSearchValue ?? {});
+    this.control.reset();
+    if (this.initialValue) {
+      this.control.setValue(this.initialValue);
+    }
+    this.searchControl.reset();
+    if (this.initialSearchValue) {
+      this.searchControl.setValue(this.initialSearchValue);
+    }
   }
 
   public filterOptions = (_option?: StringOption, _value?: string) => true;
