@@ -7,6 +7,7 @@ import {
   calculateStatusBarValues,
   getPriceUnit,
   multiplyAndRoundValues,
+  roundToTwoDecimals,
   roundValue,
 } from '@gq/shared/utils/pricing.utils';
 
@@ -138,8 +139,11 @@ const calculateRsp = (detail: QuotationDetail): number | undefined => {
   return rsp;
 };
 
-export const calculateMsp = (rsp: number, zrtu: number): number =>
-  rsp * (1 - zrtu / 100);
+export const calculateMsp = (rsp: number, zrtu: number): number => {
+  const msp = rsp * (1 - zrtu / 100);
+
+  return roundToTwoDecimals(msp);
+};
 
 export const mapQueryParamsToIdentifier = (
   queryParams: any

@@ -90,7 +90,7 @@ describe('ActiveCaseUtils', () => {
           } as SapPriceConditionDetail,
           {
             sapConditionType: SapConditionType.ZRTU,
-            amount: 15,
+            amount: 15.001,
           } as SapPriceConditionDetail,
         ],
       } as QuotationDetail;
