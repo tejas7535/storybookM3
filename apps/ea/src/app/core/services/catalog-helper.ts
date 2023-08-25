@@ -360,32 +360,34 @@ export const convertTemplateResult = (
   rawResult: CatalogServiceTemplateResult
 ): ProductSelectionTemplate[] => {
   const result: ProductSelectionTemplate[] = rawResult.input.flatMap((input) =>
-    extractTemplates(input.id || input.categoryId || '', input.fields)
+    extractTemplates(input.fields)
   );
 
   return result;
 };
 
 const extractTemplates = (
-  prefix: string,
   fields: CatalogServiceTemplateField[]
 ): ProductSelectionTemplate[] =>
   fields.flatMap((field) => {
     const result: ProductSelectionTemplate = {
-      id: `${prefix}_${field.id}`,
+      id: field.id,
       maximum: Number.parseFloat(field.maximum),
       minimum: Number.parseFloat(field.minimum),
       options: field.range?.map((item) => ({
         value: item.id,
       })),
+      defaultValue: field.defaultValue,
+      editable: field.conditions.editable,
+      visible: field.conditions.visible,
+      precision: field.precision,
+      unit: field.unit,
     };
 
     // extract subfields recursively
     const subFields =
       field.range
-        ?.map((item) =>
-          extractTemplates(`${prefix}_${item.id}`, item?.subfields || [])
-        )
+        ?.map((item) => extractTemplates(item?.subfields || []))
         .flat() || [];
 
     return [result, ...subFields];

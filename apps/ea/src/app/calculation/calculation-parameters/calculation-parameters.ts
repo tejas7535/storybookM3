@@ -20,6 +20,7 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -71,8 +72,6 @@ import {
   shiftAngleValidators,
   shiftFrequencyValidators,
   viscosityGroupValidators,
-  viscosityNy40Validators,
-  viscosityNy100Validators,
 } from './form-validators';
 import { ParameterTemplateDirective } from './parameter-template.directive';
 import { getTypeOfMotion } from './type-of-motion.options';
@@ -101,6 +100,7 @@ import { getTypeOfMotion } from './type-of-motion.options';
     InfoBannerComponent,
     QualtricsInfoBannerComponent,
     SharedTranslocoModule,
+    MatProgressSpinnerModule,
   ],
 })
 export class CalculationParametersComponent
@@ -126,11 +126,23 @@ export class CalculationParametersComponent
   public readonly bearingDesignation$ =
     this.productSelectionFacade.bearingDesignation$;
 
+  public readonly loadAvailable$ = this.productSelectionFacade.availableLoads$;
+  public readonly lubricationMethodsAvailable$ =
+    this.productSelectionFacade.availableLubricationMethods$;
+
   public operationConditionsForm = new FormGroup({
     load: new FormGroup(
       {
-        radialLoad: new FormControl<number>(undefined, loadValidators),
-        axialLoad: new FormControl<number>(undefined, loadValidators),
+        radialLoad: new FormControl<number>(
+          undefined,
+          loadValidators,
+          this.productSelectionFacade.templateValidator('IDSLC_RADIAL_LOAD')
+        ),
+        axialLoad: new FormControl<number>(
+          undefined,
+          loadValidators,
+          this.productSelectionFacade.templateValidator('IDSLC_AXIAL_LOAD')
+        ),
       },
       [anyLoadGroupValidator()]
     ),
@@ -141,11 +153,15 @@ export class CalculationParametersComponent
         >('LB_ROTATING', Validators.required),
         rotationalSpeed: new FormControl<number>(
           undefined,
-          rotationalSpeedValidators
+          rotationalSpeedValidators,
+          this.productSelectionFacade.templateValidator('IDLC_SPEED')
         ),
         shiftFrequency: new FormControl<number>(
           undefined,
-          shiftFrequencyValidators
+          shiftFrequencyValidators,
+          this.productSelectionFacade.templateValidator(
+            'IDSLC_MOVEMENT_FREQUENCY'
+          )
         ),
         shiftAngle: new FormControl<number>(undefined, shiftAngleValidators),
       },
@@ -170,8 +186,16 @@ export class CalculationParametersComponent
         }),
         viscosity: new FormGroup(
           {
-            ny40: new FormControl<number>(undefined, viscosityNy40Validators),
-            ny100: new FormControl<number>(undefined, viscosityNy100Validators),
+            ny40: new FormControl<number>(
+              undefined,
+              Validators.required,
+              this.productSelectionFacade.templateValidator('IDL_NY_40')
+            ),
+            ny100: new FormControl<number>(
+              undefined,
+              Validators.required,
+              this.productSelectionFacade.templateValidator('IDL_NY_100')
+            ),
           },
           viscosityGroupValidators()
         ),
@@ -185,8 +209,16 @@ export class CalculationParametersComponent
         }),
         viscosity: new FormGroup(
           {
-            ny40: new FormControl<number>(undefined, viscosityNy40Validators),
-            ny100: new FormControl<number>(undefined, viscosityNy100Validators),
+            ny40: new FormControl<number>(
+              undefined,
+              Validators.required,
+              this.productSelectionFacade.templateValidator('IDL_NY_40')
+            ),
+            ny100: new FormControl<number>(
+              undefined,
+              Validators.required,
+              this.productSelectionFacade.templateValidator('IDL_NY_100')
+            ),
           },
           viscosityGroupValidators()
         ),
@@ -200,8 +232,16 @@ export class CalculationParametersComponent
         }),
         viscosity: new FormGroup(
           {
-            ny40: new FormControl<number>(undefined, viscosityNy40Validators),
-            ny100: new FormControl<number>(undefined, viscosityNy100Validators),
+            ny40: new FormControl<number>(
+              undefined,
+              Validators.required,
+              this.productSelectionFacade.templateValidator('IDL_NY_40')
+            ),
+            ny100: new FormControl<number>(
+              undefined,
+              Validators.required,
+              this.productSelectionFacade.templateValidator('IDL_NY_100')
+            ),
           },
           viscosityGroupValidators()
         ),
@@ -215,8 +255,16 @@ export class CalculationParametersComponent
         }),
         viscosity: new FormGroup(
           {
-            ny40: new FormControl<number>(undefined, viscosityNy40Validators),
-            ny100: new FormControl<number>(undefined, viscosityNy100Validators),
+            ny40: new FormControl<number>(
+              undefined,
+              Validators.required,
+              this.productSelectionFacade.templateValidator('IDL_NY_40')
+            ),
+            ny100: new FormControl<number>(
+              undefined,
+              Validators.required,
+              this.productSelectionFacade.templateValidator('IDL_NY_100')
+            ),
           },
           viscosityGroupValidators()
         ),
@@ -230,13 +278,23 @@ export class CalculationParametersComponent
     contamination: new FormControl<
       CalculationParametersOperationConditions['contamination']
     >(undefined, [Validators.required]),
-    ambientTemperature: new FormControl<number>(undefined, [
+    ambientTemperature: new FormControl<number>(
+      undefined,
       Validators.required,
-    ]),
-    operatingTemperature: new FormControl<number>(undefined, [
+      this.productSelectionFacade.templateValidator('IDSLC_TEMPERATURE')
+    ),
+    operatingTemperature: new FormControl<number>(
+      undefined,
       Validators.required,
-    ]),
-    externalHeatflow: new FormControl<number>(undefined, []),
+      this.productSelectionFacade.templateValidator(
+        'IDSLC_MEAN_BEARING_OPERATING_TEMPERATURE'
+      )
+    ),
+    externalHeatflow: new FormControl<number>(
+      undefined,
+      [],
+      this.productSelectionFacade.templateValidator('IDL_EXTERNAL_HEAT_FLOW')
+    ),
     conditionOfRotation: new FormControl<
       CalculationParametersOperationConditions['conditionOfRotation']
     >(undefined, [Validators.required]),
@@ -345,9 +403,7 @@ export class CalculationParametersComponent
 
     this.contaminationOptions$ = getContaminationOptions(this.translocoService);
     this.typeOfMotionOptions$ = this.productSelectionFacade
-      .loadcaseTemplateItem(
-        'DIALOG_CATALOGUE_BEARING_LOADCASE_IDSLC_TYPE_OF_MOVEMENT'
-      )
+      .getTemplateItem('IDSLC_TYPE_OF_MOVEMENT')
       .pipe(
         switchMap((template) =>
           getTypeOfMotion(

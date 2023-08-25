@@ -15,8 +15,12 @@
       {{ unit }}
     </div>
     <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
-    <mat-error *ngIf="control.hasError('max')">{{ t('max') }}</mat-error>
-    <mat-error *ngIf="control.hasError('min')">{{ t('min') }}</mat-error>
+    <mat-error *ngIf="control.hasError('max')">{{
+      t('max', control.getError('max'))
+    }}</mat-error>
+    <mat-error *ngIf="control.hasError('min')">{{
+      t('min', control.getError('min'))
+    }}</mat-error>
     <mat-error *ngIf="control.hasError('required')">
       {{ t('required') }}
     </mat-error>

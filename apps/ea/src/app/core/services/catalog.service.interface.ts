@@ -156,7 +156,10 @@ export interface CatalogServiceTemplateField {
   valueType: string;
   abbreviation: string;
   defaultValue: string;
-  conditions: string;
+  conditions: null | {
+    visible: boolean | CatalogServiceTemplateCondition[];
+    editable: boolean | CatalogServiceTemplateCondition[];
+  };
   unit: string;
   range: {
     _id: string;
@@ -169,4 +172,12 @@ export interface CatalogServiceTemplateField {
   minimum: string;
   maximum: string;
   precision: number;
+}
+
+export interface CatalogServiceTemplateCondition {
+  type: string;
+  field: string;
+  value: string;
+  operator: string;
+  matchOperator: string;
 }

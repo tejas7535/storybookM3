@@ -1,17 +1,12 @@
-import {
-  LOADCASE_ITEM,
-  OPERATING_CONDITIONS_ITEM,
-  PRODUCT_SELECTION_STATE_MOCK,
-} from '@ea/testing/mocks';
+import { PRODUCT_SELECTION_STATE_MOCK, TEMPLATE_ITEM } from '@ea/testing/mocks';
 
 import {
   getBearingDesignation,
   getBearingId,
   getCalculationModuleInfo,
   getLoadcaseTemplate,
-  getLoadCaseTemplateItem,
   getOperatingConditionsTemplate,
-  getOperatingConditionsTemplateItem,
+  getTemplateItem,
 } from './product-selection.selector';
 
 describe('Product Selection Selector', () => {
@@ -63,19 +58,9 @@ describe('Product Selection Selector', () => {
 
   describe('getLoadCaseTemplateItem', () => {
     it('should return load case template item', () => {
-      expect(
-        getLoadCaseTemplateItem({ itemId: LOADCASE_ITEM.id })(mockState)
-      ).toEqual(LOADCASE_ITEM);
-    });
-  });
-
-  describe('getOperatingConditionsTemplateItem', () => {
-    it('should return operating conditions template item', () => {
-      expect(
-        getOperatingConditionsTemplateItem({
-          itemId: OPERATING_CONDITIONS_ITEM.id,
-        })(mockState)
-      ).toEqual(OPERATING_CONDITIONS_ITEM);
+      expect(getTemplateItem({ itemId: TEMPLATE_ITEM.id })(mockState)).toEqual(
+        TEMPLATE_ITEM
+      );
     });
   });
 });

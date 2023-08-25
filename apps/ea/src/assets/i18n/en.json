@@ -23,8 +23,8 @@
       "axialLoad": "Load in axial direction (to be specified as an absolute value)"
     },
     "errors": {
-      "min": "The value is too low",
-      "max": "The value is too high",
+      "min": "The minimum value is {{ min }}",
+      "max": "The maximum value is {{ max }}",
       "required": "This field is required",
       "lowerThanEnvironmentTemperature": "Cannot be less than ambient temperature",
       "innerOuterInconsistent": "The bore diameter must be smaller than the outer diameter",

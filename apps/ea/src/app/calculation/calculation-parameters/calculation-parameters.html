@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <ng-container *transloco="let t; read: 'operationConditions'">
   <div class="flex w-full flex-col max-w-[850px]">
     <div class="flex flex-1 flex-col items-center gap-10">
@@ -144,8 +145,12 @@ Status: {{ operationConditionsForm.status }}</pre
 <!-- LOAD -->
 <ng-template parameterTemplate="load" let-t="t">
   <ea-input-group [title]="t('loads')" icon="compress" [isMandatory]="true">
-    <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4">
+    <div
+      class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4"
+      *ngIf="loadAvailable$ | ngrxPush as loadAvailable; else loading"
+    >
       <ea-input-number
+        *ngIf="loadAvailable.radialLoad"
         [formControl]="operationConditionsForm.controls.load.controls.radialLoad"
         [label]="t('radialLoad')"
         [unit]="'N'"
@@ -155,6 +160,7 @@ Status: {{ operationConditionsForm.status }}</pre
         [customErrors]="[{name: 'anyLoad'}]"
       ></ea-input-number>
       <ea-input-number
+        *ngIf="loadAvailable.axialLoad"
         [formControl]="operationConditionsForm.controls.load.controls.axialLoad"
         [label]="t('axialLoad')"
         [unit]="'N'"
@@ -175,12 +181,15 @@ Status: {{ operationConditionsForm.status }}</pre
     [isMandatory]="true"
     *transloco="let t; read: 'operationConditions.rotatingCondition'"
   >
-    <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4">
+    <div
+      class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4"
+      *ngIf="typeOfMotionOptions$ | ngrxPush as typeOfMotionOptions else loading"
+    >
       <ea-input-select
         class="w-full"
         [formControl]="operationConditionsForm.controls.rotation.controls.typeOfMotion"
         [label]="t('typeOfMotion')"
-        [options]="typeOfMotionOptions$ | ngrxPush"
+        [options]="typeOfMotionOptions"
       ></ea-input-select>
 
       <ng-container
@@ -229,11 +238,15 @@ Status: {{ operationConditionsForm.status }}</pre
     [formGroup]="operationConditionsForm.controls.lubrication"
     *transloco="let t; read: 'operationConditions.lubrication'"
   >
-    <ea-tabbed-options formControlName="lubricationSelection">
+    <ea-tabbed-options
+      formControlName="lubricationSelection"
+      *ngIf="lubricationMethodsAvailable$ | ngrxPush as lubricationMethodsAvailable else loading"
+    >
       <ng-template
         optionTemplate="grease"
         [label]="t('options.grease')"
         formGroupName="grease"
+        *ngIf="lubricationMethodsAvailable.grease"
       >
         <!-- TYPE OF GREASE -->
         <ea-tabbed-suboption
@@ -302,6 +315,7 @@ Status: {{ operationConditionsForm.status }}</pre
         optionTemplate="oilBath"
         [label]="t('options.oilBath')"
         formGroupName="oilBath"
+        *ngIf="lubricationMethodsAvailable.oilBath"
       >
         <!-- ISO VG CLASS -->
         <ea-tabbed-suboption
@@ -353,6 +367,7 @@ Status: {{ operationConditionsForm.status }}</pre
         optionTemplate="oilMist"
         [label]="t('options.oilMist')"
         formGroupName="oilMist"
+        *ngIf="lubricationMethodsAvailable.oilMist"
       >
         <!-- ISO VG CLASS -->
         <ea-tabbed-suboption
@@ -405,6 +420,7 @@ Status: {{ operationConditionsForm.status }}</pre
         [label]="t('options.recirculatingOil')"
         formGroupName="recirculatingOil"
         [className]="'flex-col'"
+        *ngIf="lubricationMethodsAvailable.recirculatingOil"
       >
         <div class="grid md:grid-cols-2 grid-cols-1 gap-4">
           <!-- ISO VG CLASS -->
@@ -498,7 +514,6 @@ Status: {{ operationConditionsForm.status }}</pre
         [unit]="t('ambientTemperature.unit')"
         [tooltip]="t('ambientTemperature.tooltip')"
         [placeholder]="'operationConditions.pleaseEnter' | transloco:{ label: t('ambientTemperature.label')}"
-        [onlyPositive]="true"
       ></ea-input-number>
     </div>
   </ea-input-group>
@@ -568,3 +583,8 @@ Status: {{ operationConditionsForm.status }}</pre
     </ea-tabbed-options>
   </ea-input-group>
 </ng-template>
+
+<ng-template #loading>
+  <div class="flex items-center justify-center md:mb-4">
+    <mat-spinner diameter="16" /></div
+></ng-template>

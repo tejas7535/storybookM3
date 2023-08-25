@@ -123,18 +123,6 @@ export const viscosityGroupValidators = (): ValidatorFn[] => [
   },
 ];
 
-export const viscosityNy40Validators = [
-  Validators.required,
-  Validators.min(0),
-  Validators.max(1500),
-];
-
-export const viscosityNy100Validators = [
-  Validators.required,
-  Validators.min(0),
-  Validators.max(1000),
-];
-
 export const increaseInOilTempValidators = [
   Validators.required,
   Validators.min(0),

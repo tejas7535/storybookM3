@@ -1,3 +1,4 @@
+import { CatalogServiceOperatingConditions } from '@ea/core/services/catalog.service.interface';
 import { createSelector } from '@ngrx/store';
 
 import { getProductSelectionState } from '../../reducers';
@@ -27,12 +28,61 @@ export const getOperatingConditionsTemplate = createSelector(
   (state) => state.operatingConditionsTemplate
 );
 
-export const getLoadCaseTemplateItem = (props: { itemId: string }) =>
-  createSelector(getLoadcaseTemplate, (templates) =>
-    templates?.find((template) => template.id === props.itemId)
+export const getTemplateItem = (props: { itemId: string }) =>
+  createSelector(
+    getLoadcaseTemplate,
+    getOperatingConditionsTemplate,
+    (loadCaseTemplates, operatingConditionsTemplate) => {
+      // return null if the templates have not been loaded so this case can be detected
+      if (!loadCaseTemplates || !operatingConditionsTemplate) {
+        // eslint-disable-next-line unicorn/no-null
+        return null;
+      }
+
+      return [
+        ...(loadCaseTemplates || []),
+        ...(operatingConditionsTemplate || []),
+      ].find((template) => template.id === props.itemId);
+    }
   );
 
-export const getOperatingConditionsTemplateItem = (props: { itemId: string }) =>
-  createSelector(getOperatingConditionsTemplate, (templates) =>
-    templates?.find((template) => template.id === props.itemId)
-  );
+export const getAvailableLoads = createSelector(
+  getTemplateItem({ itemId: 'IDSLC_RADIAL_LOAD' }),
+  getTemplateItem({ itemId: 'IDSLC_AXIAL_LOAD' }),
+  (radial, axial) =>
+    !radial && !axial
+      ? undefined
+      : {
+          radialLoad: !!radial?.visible,
+          axialLoad: !!axial?.visible,
+        }
+);
+
+export const getAvailableLubricationMethods = createSelector(
+  getTemplateItem({ itemId: 'IDL_LUBRICATION_METHOD' }),
+  (template) => {
+    if (!template) {
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      return undefined;
+    }
+
+    const options = template.options as {
+      value: CatalogServiceOperatingConditions['IDL_LUBRICATION_METHOD'];
+    }[];
+
+    return {
+      grease: options.some(
+        (option) => option.value === 'LB_GREASE_LUBRICATION'
+      ),
+      oilBath: options.some(
+        (option) => option.value === 'LB_OIL_BATH_LUBRICATION'
+      ),
+      oilMist: options.some(
+        (option) => option.value === 'LB_OIL_MIST_LUBRICATION'
+      ),
+      recirculatingOil: options.some(
+        (option) => option.value === 'LB_RECIRCULATING_OIL_LUBRICATION'
+      ),
+    };
+  }
+);

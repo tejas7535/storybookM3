@@ -1,3 +1,5 @@
+import { CatalogServiceTemplateCondition } from '@ea/core/services/catalog.service.interface';
+
 export interface ProductSelectionState {
   bearingDesignation?: string;
   bearingId?: string;
@@ -12,7 +14,12 @@ export interface ProductSelectionState {
 
 export interface ProductSelectionTemplate {
   id: string;
-  minimum: number;
-  maximum: number;
+  minimum: number | null;
+  maximum: number | null;
   options: { value: string }[];
+  precision: number;
+  unit: string;
+  defaultValue: string;
+  visible: boolean | CatalogServiceTemplateCondition[];
+  editable: boolean | CatalogServiceTemplateCondition[];
 }

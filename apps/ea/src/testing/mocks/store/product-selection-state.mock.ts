@@ -1,18 +1,16 @@
 import { ProductSelectionState } from '@ea/core/store/models';
 
-export const LOADCASE_ITEM: ProductSelectionState['loadcaseTemplate'][number] =
+export const TEMPLATE_ITEM: ProductSelectionState['loadcaseTemplate'][number] =
   {
     id: 'abc',
     maximum: 0,
     minimum: 10,
     options: [],
-  };
-export const OPERATING_CONDITIONS_ITEM: ProductSelectionState['operatingConditionsTemplate'][number] =
-  {
-    id: 'cde',
-    maximum: 1,
-    minimum: 10,
-    options: [],
+    editable: true,
+    visible: true,
+    precision: 3,
+    unit: 'abc',
+    defaultValue: '2',
   };
 
 export const PRODUCT_SELECTION_STATE_MOCK: ProductSelectionState = {
@@ -22,6 +20,6 @@ export const PRODUCT_SELECTION_STATE_MOCK: ProductSelectionState = {
     catalogueCalculation: true,
     frictionCalculation: false,
   },
-  loadcaseTemplate: [LOADCASE_ITEM],
-  operatingConditionsTemplate: [OPERATING_CONDITIONS_ITEM],
+  loadcaseTemplate: [{ ...TEMPLATE_ITEM }],
+  operatingConditionsTemplate: [{ ...TEMPLATE_ITEM }],
 };
