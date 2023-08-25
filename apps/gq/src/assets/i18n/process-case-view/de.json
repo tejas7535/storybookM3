@@ -126,7 +126,7 @@
       "netValueCardTitleWarning": "Nettowert aus SAP Angebot",
       "netValueCardSubtitle": "Nettowert gesamt  in {{currency}}",
       "gpmCardTitle": "GPM %",
-      "gpmCardTitleWarning": "GPM aus SAP Quotation",
+      "gpmCardTitleWarning": "GPM aus SAP Angebot",
       "gpmCardSubtitle": "Gross Profit Marge (SAW)",
       "gpiCardTitle": "GPI %",
       "gpiCardSubtitle": "Gross Profit I (KHK)",
