@@ -783,7 +783,7 @@ describe('Create Case Reducer', () => {
               info: {
                 valid: true,
                 description: [ValidationDescription.Duplicate],
-                errorCode: SAP_ERROR_MESSAGE_CODE.SDG101,
+                errorCodes: [SAP_ERROR_MESSAGE_CODE.SDG101],
               },
             },
           ],
@@ -795,7 +795,7 @@ describe('Create Case Reducer', () => {
             info: {
               valid: false,
               description: [ValidationDescription.Not_Validated],
-              errorCode: undefined as unknown,
+              errorCodes: undefined as unknown,
             },
           } as MaterialTableItem,
         ];
@@ -863,7 +863,7 @@ describe('Create Case Reducer', () => {
             info: {
               valid: true,
               description: [ValidationDescription.Duplicate],
-              errorCode: SAP_ERROR_MESSAGE_CODE.SDG101,
+              errorCodes: [SAP_ERROR_MESSAGE_CODE.SDG101],
             },
           },
         ],
@@ -902,7 +902,7 @@ describe('Create Case Reducer', () => {
             info: {
               valid: true,
               description: [ValidationDescription.Duplicate],
-              errorCode: SAP_ERROR_MESSAGE_CODE.SDG101,
+              errorCodes: [SAP_ERROR_MESSAGE_CODE.SDG101],
             },
             currency: undefined,
           },

@@ -82,7 +82,7 @@ describe('InfoCellComponent', () => {
     test('should set isErrorText to true', () => {
       const params: CellClassParams = cellClassParams;
       params.data.info.description = [ValidationDescription.Not_Validated];
-      params.data.info.errorCode = SAP_ERROR_MESSAGE_CODE.SDG1000;
+      params.data.info.errorCodes = [SAP_ERROR_MESSAGE_CODE.SDG1000];
       params.value.valid = false;
 
       component.agInit(params);

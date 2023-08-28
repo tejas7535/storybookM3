@@ -135,7 +135,7 @@ describe('TableService', () => {
           id: 1,
           info: {
             description: [ValidationDescription.Duplicate],
-            errorCode: SAP_ERROR_MESSAGE_CODE.SDG1000,
+            errorCodes: [SAP_ERROR_MESSAGE_CODE.SDG1000],
             valid: true,
           },
         },
@@ -153,7 +153,7 @@ describe('TableService', () => {
           currency: undefined,
           info: {
             description: [ValidationDescription.Not_Validated],
-            errorCode: undefined,
+            errorCodes: undefined,
             valid: false,
           },
         },
@@ -162,7 +162,7 @@ describe('TableService', () => {
           currency: undefined,
           info: {
             description: [ValidationDescription.Not_Validated],
-            errorCode: undefined,
+            errorCodes: undefined,
             valid: false,
           },
         },
@@ -184,7 +184,7 @@ describe('TableService', () => {
           currency: 'EUR',
           info: {
             description: [ValidationDescription.Not_Validated],
-            errorCode: undefined,
+            errorCodes: undefined,
             valid: false,
           },
         } as MaterialTableItem,
@@ -193,7 +193,7 @@ describe('TableService', () => {
           currency: 'EUR',
           info: {
             description: [ValidationDescription.Not_Validated],
-            errorCode: undefined,
+            errorCodes: undefined,
             valid: false,
           },
         } as MaterialTableItem,
@@ -416,7 +416,7 @@ describe('TableService', () => {
       } as unknown as MaterialValidation;
 
       const result = TableService.validateData(materialNumber, rowData);
-      expect(result.info.errorCode).toBeUndefined();
+      expect(result.info.errorCodes).toBeUndefined();
     });
     test('should set the errorCode if present', () => {
       const materialNumber: MaterialTableItem = {};
@@ -424,11 +424,11 @@ describe('TableService', () => {
         materialNumber15: '23457',
         materialDescription: 'desc',
         valid: true,
-        errorCode: SAP_ERROR_MESSAGE_CODE.SDG1000,
+        errorCodes: [SAP_ERROR_MESSAGE_CODE.SDG1000],
       } as unknown as MaterialValidation;
 
       const result = TableService.validateData(materialNumber, rowData);
-      expect(result.info.errorCode).toEqual(SAP_ERROR_MESSAGE_CODE.SDG1000);
+      expect(result.info.errorCodes).toEqual([SAP_ERROR_MESSAGE_CODE.SDG1000]);
     });
 
     test('should set priceUnit and UoM if target price present', () => {

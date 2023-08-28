@@ -520,7 +520,7 @@ describe('CreateColumnService', () => {
     test('should set the tooltip text to errorCode', () => {
       const result = service.buildMaterialInfoTooltipText(
         [ValidationDescription.Not_Validated],
-        SAP_ERROR_MESSAGE_CODE.SDG1000
+        [SAP_ERROR_MESSAGE_CODE.SDG1000]
       );
 
       expect(result).toMatch('translate it');

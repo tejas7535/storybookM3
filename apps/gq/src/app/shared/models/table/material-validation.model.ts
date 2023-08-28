@@ -6,5 +6,5 @@ export interface MaterialValidation {
   materialDescription?: string;
   materialPriceUnit?: number;
   materialUoM?: string;
-  errorCode?: SAP_ERROR_MESSAGE_CODE;
+  errorCodes?: SAP_ERROR_MESSAGE_CODE[];
 }

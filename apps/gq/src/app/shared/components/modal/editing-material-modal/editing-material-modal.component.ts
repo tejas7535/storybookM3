@@ -237,7 +237,7 @@ export class EditingMaterialModalComponent
       info: {
         valid: true,
         description: [ValidationDescription.Valid],
-        errorCode: this.modalData.material.info?.errorCode,
+        errorCodes: this.modalData.material.info?.errorCodes,
       },
     };
     this.dialogRef.close(updatedMaterial);

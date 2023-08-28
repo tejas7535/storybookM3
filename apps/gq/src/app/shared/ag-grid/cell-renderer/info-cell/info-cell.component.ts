@@ -24,8 +24,8 @@ export class InfoCellComponent {
     this.valid = params.value.valid;
     this.toolTipText = this.columnUtilityService.buildMaterialInfoTooltipText(
       params.data.info.description,
-      params.data.info.errorCode
+      params.data.info.errorCodes
     );
-    this.isErrorText = params?.data?.info?.errorCode ? true : false;
+    this.isErrorText = params?.data?.info?.errorCodes ? true : false;
   }
 }

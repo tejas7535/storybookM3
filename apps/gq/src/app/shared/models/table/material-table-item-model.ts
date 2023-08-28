@@ -13,6 +13,6 @@ export class MaterialTableItem {
   info?: {
     valid: boolean;
     description: ValidationDescription[];
-    errorCode?: SAP_ERROR_MESSAGE_CODE;
+    errorCodes?: SAP_ERROR_MESSAGE_CODE[];
   };
 }

@@ -100,7 +100,7 @@ export class TableService {
           currency,
           info: {
             valid: false,
-            errorCode: undefined,
+            errorCodes: undefined,
             description: [ValidationDescription.Not_Validated],
           },
         };
@@ -136,8 +136,8 @@ export class TableService {
           ),
     };
 
-    if (materialValidation?.errorCode) {
-      updatedRow.info.errorCode = materialValidation.errorCode;
+    if (materialValidation?.errorCodes) {
+      updatedRow.info.errorCodes = materialValidation.errorCodes;
     }
 
     updatedRow.priceUnit = materialValidation?.materialPriceUnit;

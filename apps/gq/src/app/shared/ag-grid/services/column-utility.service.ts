@@ -391,15 +391,15 @@ export class ColumnUtilityService {
 
   buildMaterialInfoTooltipText(
     description: ValidationDescription[],
-    errorCode?: string
+    errorCodes?: string[]
   ): string {
     let text = '';
 
     // show either errorCode Message or DescriptionMessages, No mixes
-    if (errorCode) {
-      text += `${translate(
-        `shared.sapStatusLabels.errorCodes.${errorCode}`
-      )}\n`;
+    if (errorCodes?.length > 0) {
+      errorCodes.forEach((item) => {
+        text += `${translate(`shared.sapStatusLabels.errorCodes.${item}`)}\n`;
+      });
     } else {
       description.forEach((item) => {
         text += `${translate(

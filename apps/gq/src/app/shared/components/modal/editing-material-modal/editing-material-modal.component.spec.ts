@@ -428,7 +428,7 @@ describe('EditingMaterialModalComponent', () => {
           ...MATERIAL_TABLE_ITEM_MOCK,
           info: {
             ...MATERIAL_TABLE_ITEM_MOCK.info,
-            errorCode: SAP_ERROR_MESSAGE_CODE.SDG101,
+            errorCodes: [SAP_ERROR_MESSAGE_CODE.SDG101],
           },
         },
         field: MaterialColumnFields.MATERIAL,
@@ -468,7 +468,7 @@ describe('EditingMaterialModalComponent', () => {
         info: {
           valid: true,
           description: [ValidationDescription.Valid],
-          errorCode: SAP_ERROR_MESSAGE_CODE.SDG101,
+          errorCodes: [SAP_ERROR_MESSAGE_CODE.SDG101],
         },
       });
     });
