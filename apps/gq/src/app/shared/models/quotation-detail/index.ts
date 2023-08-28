@@ -5,6 +5,7 @@ export * from './material-classification-sop.enum';
 export * from './material-cost-details';
 export * from './material-details.model';
 export * from './material-stock-by-plant.model';
+export * from './mrp-data.model';
 export * from './plant.model';
 export * from './plant-material-detail.model';
 export * from './price-source.enum';

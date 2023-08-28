@@ -11,6 +11,7 @@ import {
 } from '../../../app/shared/models/quotation-detail';
 import { LAST_OFFER_DETAIL_MOCK } from './last-offer-detail.mock';
 import { MATERIAL_STOCK_BY_PLANT_MOCK } from './material-stock-by-plant.mock';
+import { MRP_DATA_MOCK } from './mrp-data.mock';
 import { PLANT_MOCK } from './plant.mock';
 import {
   SAP_PRICE_DETAIL_ZEVO_MOCK,
@@ -50,7 +51,7 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   syncInSap: false,
   abcxClassification: AbcxClassification.UR1,
   targetPrice: 90.55,
-  mrpController: 'Test MRP Controller',
+  mrpData: MRP_DATA_MOCK,
 
   priceDiff: 17.65,
   gpc: 20,

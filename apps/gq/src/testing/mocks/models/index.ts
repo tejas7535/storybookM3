@@ -12,6 +12,7 @@ export * from './material-details.mock';
 export * from './material-sales-org.mock';
 export * from './material-stock-by-plant.mock';
 export * from './material-table-item.mock';
+export * from './mrp-data.mock';
 export * from './plant.mock';
 export * from './quotation.mock';
 export * from './quotation-details.mock';

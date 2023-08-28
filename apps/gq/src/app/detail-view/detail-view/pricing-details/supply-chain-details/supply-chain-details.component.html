@@ -45,7 +45,7 @@
       <gq-label-text [marginBottom]="false">
         <span label>{{ t('mrpController') }}</span>
         <span text>
-          {{ quotationDetail.mrpController | nullableString }}
+          {{ quotationDetail.mrpData | mrpDisplay }}
         </span>
       </gq-label-text>
     </div>

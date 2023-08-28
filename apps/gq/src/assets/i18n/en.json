@@ -61,7 +61,10 @@
       "productionCountry": "Country",
       "customerMaterial": "Customer Material",
       "productionSegment": "Production Segment",
-      "mrpController": "MRP Controller",
+      "mrpData": {
+        "mrpController": "MRP Controller",
+        "mrpControllerName": "MRP ControllerName"
+      },
       "productionPlant": "Production Plant",
       "productLine": "PL",
       "productLineInfoText": "Product line",

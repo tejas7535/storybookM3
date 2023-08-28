@@ -5,6 +5,7 @@ import { LastCustomerPriceCondition } from './last-customer-price-condition.enum
 import { LastOfferDetail } from './last-offer-detail.model';
 import { MaterialDetails } from './material-details.model';
 import { MaterialStockByPlant } from './material-stock-by-plant.model';
+import { MrpData } from './mrp-data.model';
 import { Plant } from './plant.model';
 import { PriceSource } from './price-source.enum';
 import { SAP_ERROR_MESSAGE_CODE } from './sap-error-message-code.enum';
@@ -59,7 +60,7 @@ export class QuotationDetail {
   sapPriceUnit: number;
   abcxClassification: AbcxClassification;
   targetPrice: number;
-  mrpController: string;
+  mrpData: MrpData;
 
   // properties added in GQ application
   priceDiff: number;

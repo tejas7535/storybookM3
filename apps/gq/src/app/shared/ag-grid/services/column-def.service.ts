@@ -701,8 +701,18 @@ export class ColumnDefService {
       filterParams: FILTER_PARAMS,
     },
     {
-      headerName: translate('shared.quotationDetailsTable.mrpController'),
-      field: 'mrpController',
+      headerName: translate(
+        'shared.quotationDetailsTable.mrpData.mrpController'
+      ),
+      field: 'mrpData.mrpController',
+      valueFormatter: ColumnUtilityService.basicTransform,
+      filterParams: FILTER_PARAMS,
+    },
+    {
+      headerName: translate(
+        'shared.quotationDetailsTable.mrpData.mrpControllerName'
+      ),
+      field: 'mrpData.mrpControllerName',
       valueFormatter: ColumnUtilityService.basicTransform,
       filterParams: FILTER_PARAMS,
     },

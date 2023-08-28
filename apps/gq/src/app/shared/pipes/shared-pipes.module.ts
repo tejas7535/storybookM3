@@ -8,6 +8,7 @@ import { MaterialClassificationSOPPipe } from './material-classification-sop/mat
 import { MaterialInfoPipe } from './material-info/material-info.pipe';
 import { MaterialTransformPipe } from './material-transform/material-transform.pipe';
 import { MillimeterUnitPipe } from './millimeter-unit/millimeter-unit.pipe';
+import { MrpDisplayPipe } from './mrp-display/mrp-display.pipe';
 import { MultiSelectPipe } from './multi-select/multi-select.pipe';
 import { MultiplyComparableCostWithPriceUnitPipe } from './multiply-comparable-cost-with-price-unit/multiply-comparable-cost-with-price-unit.pipe';
 import { MultiplyWithPriceUnitPipe } from './multiply-with-price-unit/multiply-with-price-unit.pipe';
@@ -40,6 +41,7 @@ import { YearToDatePipe } from './year-to-date/year-to-date.pipe';
     MultiplyWithPriceUnitPipe,
     DurationPipe,
     YearToDatePipe,
+    MrpDisplayPipe,
   ],
   imports: [],
   exports: [
@@ -62,6 +64,7 @@ import { YearToDatePipe } from './year-to-date/year-to-date.pipe';
     UserDisplayPipe,
     DurationPipe,
     YearToDatePipe,
+    MrpDisplayPipe,
   ],
   providers: [MaterialTransformPipe],
 })
