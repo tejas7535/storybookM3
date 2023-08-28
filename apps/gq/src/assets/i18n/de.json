@@ -114,6 +114,7 @@
       "rspInfoText": "Empfohlener Verkaufspreis (SAP)",
       "msp": "MSP",
       "mspInfoText": "Minimaler Verkaufspreis (SAP)",
+      "strategicHierarchy": "Strateg. Hierarchie (GC)",
       "strategicMaterial": "Strateg. Material (GC)",
       "sapVolumeScale": "SAP Volumen Staffel %",
       "targetPrice": "Zielpreis",

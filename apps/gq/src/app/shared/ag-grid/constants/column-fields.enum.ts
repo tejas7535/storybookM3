@@ -37,6 +37,7 @@ export enum ColumnFields {
   PRICE_DIFF = 'priceDiff',
   DATE_NEXT_FREE_ATP = 'materialStockByPlant.dateNextFree',
   STRATEGIC_MATERIAL = 'strategicMaterial',
+  STRATEGIC_HIERARCHY = 'material.strategicHierarchy',
   SAP_VOLUME_SCALE = 'sapVolumeScale',
   TARGET_PRICE = 'targetPrice',
   DELIVERY_UNIT = 'deliveryUnit',
@@ -132,4 +133,7 @@ export const GpcColumns = [
   ColumnFields.LAST_CUSTOMER_PRICE_GPI,
 ];
 
-export const ChinaSpecificColumns = [ColumnFields.STRATEGIC_MATERIAL];
+export const ChinaSpecificColumns = [
+  ColumnFields.STRATEGIC_MATERIAL,
+  ColumnFields.STRATEGIC_HIERARCHY,
+];

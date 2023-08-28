@@ -22,4 +22,7 @@ export class MaterialDetails {
   series: string;
   weightUnit: string;
   width: string;
+
+  // strategic hierarchy is only relevant for greater china
+  strategicHierarchy: string;
 }

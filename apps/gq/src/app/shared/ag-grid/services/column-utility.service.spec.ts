@@ -199,31 +199,37 @@ describe('CreateColumnService', () => {
         UserRoles.COST_SQV,
         UserRoles.SECTOR_ALL,
       ];
-      const col = { field: ColumnFields.STRATEGIC_MATERIAL };
-      const res = ColumnUtilityService.filterChinaSpecificColumns(
-        col,
-        userRoles
-      );
+      let col = { field: ColumnFields.STRATEGIC_MATERIAL };
+      let res = ColumnUtilityService.filterChinaSpecificColumns(col, userRoles);
+
+      expect(res).toBeFalsy();
+
+      col = { field: ColumnFields.STRATEGIC_HIERARCHY };
+      res = ColumnUtilityService.filterChinaSpecificColumns(col, userRoles);
 
       expect(res).toBeFalsy();
     });
     test('should return true on REGION.GREATER.CHINA', () => {
       const userRoles = [UserRoles.REGION_GREATER_CHINA];
-      const col = { field: ColumnFields.STRATEGIC_MATERIAL };
-      const res = ColumnUtilityService.filterChinaSpecificColumns(
-        col,
-        userRoles
-      );
+      let col = { field: ColumnFields.STRATEGIC_MATERIAL };
+      let res = ColumnUtilityService.filterChinaSpecificColumns(col, userRoles);
+
+      expect(res).toBeTruthy();
+
+      col = { field: ColumnFields.STRATEGIC_HIERARCHY };
+      res = ColumnUtilityService.filterChinaSpecificColumns(col, userRoles);
 
       expect(res).toBeTruthy();
     });
     test('should return true on REGION.WORLD', () => {
       const userRoles = [UserRoles.REGION_WORLD];
-      const col = { field: ColumnFields.STRATEGIC_MATERIAL };
-      const res = ColumnUtilityService.filterChinaSpecificColumns(
-        col,
-        userRoles
-      );
+      let col = { field: ColumnFields.STRATEGIC_MATERIAL };
+      let res = ColumnUtilityService.filterChinaSpecificColumns(col, userRoles);
+
+      expect(res).toBeTruthy();
+
+      col = { field: ColumnFields.STRATEGIC_HIERARCHY };
+      res = ColumnUtilityService.filterChinaSpecificColumns(col, userRoles);
 
       expect(res).toBeTruthy();
     });

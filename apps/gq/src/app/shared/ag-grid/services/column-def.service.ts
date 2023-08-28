@@ -31,12 +31,6 @@ import { ComparatorService } from './comparator.service';
   providedIn: 'root',
 })
 export class ColumnDefService {
-  constructor(
-    private readonly columnUtilityService: ColumnUtilityService,
-    private readonly translocoService: TranslocoService,
-    private readonly comparatorService: ComparatorService
-  ) {}
-
   DATE_FILTER_PARAMS = {
     filters: [
       {
@@ -800,6 +794,12 @@ export class ColumnDefService {
       filterParams: FILTER_PARAMS,
     },
     {
+      headerName: translate('shared.quotationDetailsTable.strategicHierarchy'),
+      field: ColumnFields.STRATEGIC_HIERARCHY,
+      valueFormatter: ColumnUtilityService.basicTransform,
+      filterParams: FILTER_PARAMS,
+    },
+    {
       headerName: translate('shared.quotationDetailsTable.strategicMaterial'),
       field: ColumnFields.STRATEGIC_MATERIAL,
       valueFormatter: ColumnUtilityService.basicTransform,
@@ -820,4 +820,10 @@ export class ColumnDefService {
       filter: TEXT_COLUMN_FILTER,
     },
   ];
+
+  constructor(
+    private readonly columnUtilityService: ColumnUtilityService,
+    private readonly translocoService: TranslocoService,
+    private readonly comparatorService: ComparatorService
+  ) {}
 }

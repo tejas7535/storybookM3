@@ -24,4 +24,5 @@ export const MATERIAL_DETAILS_MOCK: MaterialDetails = {
   weightUnit: 'KG',
   width: '50',
   priceUnit: 1,
+  strategicHierarchy: 'Y-123',
 };
