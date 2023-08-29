@@ -27,7 +27,7 @@ export class ApprovalWorkflowApproverComponent {
 
   // have a colorSet of possible Colors and we randomly choose a Set
   // this is to not accidentally gender people wrong
-  colorSetNumber = Math.floor(Math.random() * 5) + 1;
+  colorSetNumber: number = Math.floor(Math.random() * 5) + 1;
   constructor(
     readonly transformationService: TransformationService,
     readonly translationService: TranslocoService

@@ -76,7 +76,8 @@
         *ngFor="
           let approvalStatus of approvalFacade.approvalStatusOfRequestedApprover$
             | ngrxPush as approvalStatuses;
-          let i = index
+          let i = index;
+          trackBy: trackByFn
         "
       >
         <gq-approval-workflow-approver
