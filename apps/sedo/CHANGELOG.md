@@ -1,4 +1,12 @@
 # Release Notes of Series Delivery Obligation
+## [1.18.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/sedo-v1.17.0...sedo-v1.18.0) (2023-08-29)
+
+
+### Features
+
+* replace font styles with m3 standard ([#5211](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5211)) ([0ef134c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0ef134c2cb41319de679919be47c318f010ce6c5))
+* **sedo:** migrate to priv cluster ([#5477](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5477)) ([b2ba9d3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b2ba9d363dc4b33ada3733eb1f4826f46d9fe6eb))
+
 ## [1.17.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/sedo-v1.16.0...sedo-v1.17.0) (2023-02-27)
 
 
