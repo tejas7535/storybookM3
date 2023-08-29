@@ -26,6 +26,6 @@ export class InfoCellComponent {
       params.data.info.description,
       params.data.info.errorCodes
     );
-    this.isErrorText = params?.data?.info?.errorCodes ? true : false;
+    this.isErrorText = params?.data?.info?.errorCodes?.length > 0;
   }
 }
