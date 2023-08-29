@@ -61,15 +61,12 @@ export class MultiSelectFilterComponent
   @ViewChild('select')
   private readonly selectComponent!: SelectComponent;
 
-  readonly TOOLTIP_DELAY = 500;
+  public filterName = '';
+  public formControl = new FormControl();
 
-  filterName = '';
+  public stringOptions: StringOption[] = [];
 
-  formControl = new FormControl();
-
-  stringOptions: StringOption[] = [];
-
-  readonly subscription: Subscription = new Subscription();
+  public readonly subscription: Subscription = new Subscription();
 
   private selectedFilterOptions: StringOption[] = [];
   private invariantLocalSearchFilterOptions: StringOption[] = [];
@@ -92,7 +89,15 @@ export class MultiSelectFilterComponent
 
     if (filter.items) {
       this.stringOptions = filter.items
-        .map((x) => ({ id: x.id, title: x.title } as StringOption))
+        .map(
+          (x) =>
+            ({
+              id: x.id,
+              title: x.title,
+              tooltip: x.tooltip,
+              tooltipDelay: x.tooltipDelay,
+            } as StringOption)
+        )
         .filter((x) => !this.selectedFilterOptions.some((y) => y.id === x.id));
 
       this.stringOptions = [
@@ -149,7 +154,15 @@ export class MultiSelectFilterComponent
     if (!change) {
       const options = this.stringOptions
         .filter((x) => !this.selectedFilterOptions.some((y) => y.id === x.id))
-        .map((x) => ({ id: x.id, title: x.title } as StringOption));
+        .map(
+          (x) =>
+            ({
+              id: x.id,
+              title: x.title,
+              tooltip: x.tooltip,
+              tooltipDelay: x.tooltipDelay,
+            } as StringOption)
+        );
 
       this.stringOptions = [...this.selectedFilterOptions, ...options];
 

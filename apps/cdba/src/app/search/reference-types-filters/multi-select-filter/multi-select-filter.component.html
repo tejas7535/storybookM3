@@ -1,7 +1,6 @@
 <schaeffler-select
   #select
   *transloco="let t; read: 'search'"
-  appearance="fill"
   [label]="t('referenceTypesFilters.names.' + filter.name)"
   [searchPlaceholder]="t('referenceTypesFilters.searchPlaceholder')"
   [hint]="t('referenceTypesFilters.formatHints.' + filter.name)"
@@ -10,10 +9,11 @@
   [multiple]="true"
   [noResultsText]="t('noResults.message')"
   [addEntry]="false"
-  (searchUpdated)="onSearchUpdated($event)"
   [control]="formControl"
   [loading]="filter.autocompleteLoading"
   [showNumberOfSelected]="true"
+  [showTriggerTooltip]="false"
+  (searchUpdated)="onSearchUpdated($event)"
   (openedChange)="onOpenedChange($event)"
 >
   <div loadingContent>
