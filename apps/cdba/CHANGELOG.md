@@ -1,4 +1,20 @@
 # Release Notes of Cost Database Analytics
+## [4.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v4.0.1...cdba-v4.1.0) (2023-08-30)
+
+
+### Features
+
+* **cdba:** enabled tooltips for filter's options ([#5559](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5559)) ([8d3ea13](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8d3ea13a544eb3db9c805d88c4e872f1777bb6aa))
+* **cdba:** odata fields integration, operating unit conversion ([#5505](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5505)) ([634c831](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/634c83161453bd721c1d08e32a3c84ba955649fb))
+* **cdba:** onetrust cookie banner implementation ([#5487](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5487)) ([cca0d7f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/cca0d7fe05bb7c7994d741f46a8d3e0afd58e82f))
+* **cdba:** unifying search boxes ([#5135](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5135)) ([b363bd2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b363bd2ce5837488ccbdba9e4fc6e1ee2855c30e)), closes [#5197](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5197)
+
+
+### Bug Fixes
+
+* **cdba:** added var name for payload ([#5547](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5547)) ([d94ff51](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d94ff51c413d084c05644216d45a81992864b301))
+* **cdba:** fix for not displayed customers column ([#5509](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5509)) ([9613273](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9613273cdd5c4ee820758ee719c5a94e856f0df7))
+
 ## [4.0.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v4.0.0...cdba-v4.0.1) (2023-06-23)
 
 
