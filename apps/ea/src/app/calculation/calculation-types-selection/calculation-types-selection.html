@@ -64,7 +64,7 @@
               [matTooltipDisabled]="!config.disabled"
               [matTooltipPosition]="isInDialog ? 'below' : 'left'"
               #tooltipRef="matTooltip"
-              (click)="!config.disabled && selectionChanged(!config.selected, config)"
+              (click)="!config.disabled && selectionChanged(!config.selected, config, calculationTypesConfig)"
             >
               <div class="flex flex-row items-center">
                 <mat-icon class="mr-2 flex-shrink-0" [svgIcon]="config.svgIcon"

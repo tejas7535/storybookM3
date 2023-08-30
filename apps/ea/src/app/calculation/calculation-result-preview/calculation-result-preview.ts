@@ -8,6 +8,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { of } from 'rxjs';
 
+import { EmbeddedGoogleAnalyticsService } from '@ea/core/services/embedded-google-analytics';
 import { CalculationParametersFacade } from '@ea/core/store';
 import { CalculationResultFacade } from '@ea/core/store/facades/calculation-result/calculation-result.facade';
 import { PushPipe } from '@ngrx/component';
@@ -48,10 +49,12 @@ export class CalculationResultPreviewComponent {
   constructor(
     private readonly calculationResultFacade: CalculationResultFacade,
     private readonly calculationParametersFacade: CalculationParametersFacade,
+    private readonly analyticsService: EmbeddedGoogleAnalyticsService,
     private readonly dialog: MatDialog
   ) {}
 
   showReport() {
+    this.analyticsService.logShowReport();
     this.dialog.open(CalculationResultReportComponent, {
       autoFocus: false,
       hasBackdrop: true,

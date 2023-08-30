@@ -21,8 +21,12 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { Subject } from 'rxjs';
+import { firstValueFrom, Subject } from 'rxjs';
 
+import {
+  CalculationTypeChangeEvent,
+  EmbeddedGoogleAnalyticsService,
+} from '@ea/core/services/embedded-google-analytics';
 import { CalculationParametersFacade } from '@ea/core/store';
 import { CalculationTypesActions } from '@ea/core/store/actions';
 import { CalculationParametersCalculationTypeConfig } from '@ea/core/store/models';
@@ -68,6 +72,7 @@ export class CalculationTypesSelectionComponent implements OnDestroy {
   constructor(
     private readonly calculationParametersFacade: CalculationParametersFacade,
     private readonly matDialog: MatDialog,
+    private readonly trackingService: EmbeddedGoogleAnalyticsService,
     @Optional()
     public readonly dialogRef?: MatDialogRef<CalculationTypesSelectionComponent>
   ) {}
@@ -77,15 +82,25 @@ export class CalculationTypesSelectionComponent implements OnDestroy {
     this.destroy$.complete();
   }
 
-  public selectAllChanged(selectAll: boolean) {
+  public async selectAllChanged(selectAll: boolean) {
     this.calculationParametersFacade.dispatch(
       CalculationTypesActions.selectAll({ selectAll })
     );
+
+    // track changed items
+    const config = await firstValueFrom(this.calculationTypesConfig$);
+    const nonDisabledItems = config.filter((item) => !item.disabled);
+    const methods: CalculationTypeChangeEvent['methods'] = {};
+    for (const item of nonDisabledItems) {
+      methods[item.name] = item.selected !== selectAll;
+    }
+    this.trackingService.logToggleCalculationType(selectAll, methods);
   }
 
   public selectionChanged(
     select: boolean,
-    config: CalculationParametersCalculationTypeConfig
+    config: CalculationParametersCalculationTypeConfig,
+    configs: CalculationParametersCalculationTypeConfig[]
   ) {
     this.calculationParametersFacade.dispatch(
       CalculationTypesActions.selectType({
@@ -93,6 +108,14 @@ export class CalculationTypesSelectionComponent implements OnDestroy {
         calculationType: config.name,
       })
     );
+
+    // track changed items
+    const nonDisabledItems = configs.filter((item) => !item.disabled);
+    const methods: CalculationTypeChangeEvent['methods'] = {};
+    for (const item of nonDisabledItems) {
+      methods[item.name] = item.name === config.name;
+    }
+    this.trackingService.logToggleCalculationType(select, methods);
   }
 
   public onShowBasicFrequenciesDialogClick(): void {

@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { catchError, of, switchMap, takeUntil } from 'rxjs';
 
 import { CatalogService } from '@ea/core/services/catalog.service';
+import { EmbeddedGoogleAnalyticsService } from '@ea/core/services/embedded-google-analytics';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 
 import { CatalogCalculationResultActions } from '../../actions';
@@ -68,8 +69,9 @@ export class CatalogCalculationResultEffects {
       concatLatestFrom(() => [
         this.productSelectionFacade.bearingId$,
         this.calculationParametersFacade.operationConditions$,
+        this.calculationParametersFacade.getCalculationTypes$,
       ]),
-      switchMap(([_action, bearingId, operatingConditions]) =>
+      switchMap(([_action, bearingId, operatingConditions, calculationTypes]) =>
         this.catalogService
           .getCalculationResult(bearingId, operatingConditions)
           .pipe(
@@ -79,18 +81,27 @@ export class CatalogCalculationResultEffects {
                 ofType(CatalogCalculationResultActions.fetchCalculationResult)
               )
             ),
-            switchMap((calculationResult) => [
-              CatalogCalculationResultActions.setCalculationResult({
-                calculationResult,
-              }),
-            ]),
-            catchError((error: HttpErrorResponse) =>
-              of(
+            switchMap((calculationResult) => {
+              this.trackingService.logCalculation(calculationTypes);
+
+              return [
+                CatalogCalculationResultActions.setCalculationResult({
+                  calculationResult,
+                }),
+              ];
+            }),
+            catchError((error: HttpErrorResponse) => {
+              this.trackingService.logCalculation(
+                calculationTypes,
+                error.message
+              );
+
+              return of(
                 CatalogCalculationResultActions.setCalculationFailure({
                   error: error.message,
                 })
-              )
-            )
+              );
+            })
           )
       )
     );
@@ -100,6 +111,7 @@ export class CatalogCalculationResultEffects {
     private readonly actions$: Actions,
     private readonly catalogService: CatalogService,
     private readonly productSelectionFacade: ProductSelectionFacade,
-    private readonly calculationParametersFacade: CalculationParametersFacade
+    private readonly calculationParametersFacade: CalculationParametersFacade,
+    private readonly trackingService: EmbeddedGoogleAnalyticsService
   ) {}
 }

@@ -18,7 +18,7 @@ import {
 } from '@ea/core/store';
 import { ProductSelectionFacade } from '@ea/core/store/facades/product-selection/product-selection.facade';
 import { CalculationParametersCalculationTypeConfig } from '@ea/core/store/models';
-import { ExpansionPanelComponent } from '@ea/expansion-panel/expansion-panel.component';
+import { ExpansionPanelComponent } from '@ea/shared/expansion-panel/expansion-panel.component';
 import { InfoBannerComponent } from '@ea/shared/info-banner/info-banner.component';
 import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
 import { QualtricsInfoBannerComponent } from '@ea/shared/qualtrics-info-banner/qualtrics-info-banner.component';

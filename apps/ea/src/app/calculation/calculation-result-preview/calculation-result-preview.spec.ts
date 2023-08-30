@@ -4,6 +4,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { EmbeddedGoogleAnalyticsService } from '@ea/core/services/embedded-google-analytics';
 import { APP_STATE_MOCK } from '@ea/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
@@ -14,6 +15,10 @@ import { MockModule } from 'ng-mocks';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CalculationResultPreviewComponent } from './calculation-result-preview';
+
+const analyticsServiceMock = {
+  logShowReport: jest.fn(),
+};
 
 describe('CalculationResultPreviewComponent', () => {
   let spectator: Spectator<CalculationResultPreviewComponent>;
@@ -53,6 +58,10 @@ describe('CalculationResultPreviewComponent', () => {
         useValue: jest.fn(),
       },
       { provide: MatDialog, useValue: dialogMock },
+      {
+        provide: EmbeddedGoogleAnalyticsService,
+        useValue: analyticsServiceMock,
+      },
     ],
   });
 
@@ -78,9 +87,11 @@ describe('CalculationResultPreviewComponent', () => {
 
   it('should open a dialog if showReport() is called', () => {
     dialogMock.open.mockReset();
+    analyticsServiceMock.logShowReport.mockReset();
 
     spectator.component.showReport();
 
     expect(dialogMock.open).toHaveBeenCalled();
+    expect(analyticsServiceMock.logShowReport).toHaveBeenCalled();
   });
 });

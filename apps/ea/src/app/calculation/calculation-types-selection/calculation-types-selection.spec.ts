@@ -82,7 +82,7 @@ describe('CalculationTypesSelectionComponent', () => {
         name: 'emission',
         selected: true,
       } as CalculationParametersCalculationTypeConfig;
-      component.selectionChanged(true, config);
+      component.selectionChanged(true, config, [config]);
       expect(store.dispatch).toHaveBeenCalledWith({
         type: '[Calculation Types] Select type',
         calculationType: config.name,
