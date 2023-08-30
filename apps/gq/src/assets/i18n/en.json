@@ -63,7 +63,7 @@
       "productionSegment": "Production Segment",
       "mrpData": {
         "mrpController": "MRP Controller",
-        "mrpControllerName": "MRP ControllerName"
+        "mrpControllerName": "MRP Controller Name"
       },
       "productionPlant": "Production Plant",
       "productLine": "PL",
