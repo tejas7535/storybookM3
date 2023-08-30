@@ -9,7 +9,7 @@ import { of } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoTestingModule } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { FeedbackDialogComponent } from '../shared/dialogs/feedback-dialog/feedback-dialog.component';
@@ -25,7 +25,7 @@ describe('UserComponent', () => {
     component: UserComponent,
     detectChanges: false,
     imports: [
-      PushModule,
+      PushPipe,
       TranslocoTestingModule,
       UserSettingsModule,
       MatDividerModule,

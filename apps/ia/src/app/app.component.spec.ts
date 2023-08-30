@@ -8,7 +8,7 @@ import { ReplaySubject } from 'rxjs';
 
 import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/marbles';
 
@@ -39,7 +39,7 @@ describe('AppComponent', () => {
     imports: [
       NoopAnimationsModule,
       MatButtonModule,
-      PushModule,
+      PushPipe,
       MatProgressSpinnerModule,
       FilterSectionModule,
       MatTabsModule,

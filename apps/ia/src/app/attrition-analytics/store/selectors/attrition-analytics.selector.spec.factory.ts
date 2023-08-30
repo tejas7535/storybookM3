@@ -76,9 +76,7 @@ export function createFakeState(): AttritionAnalyticsState {
       errorMessage: undefined,
     },
     selectedByUser: {
-      features: [
-        { feature: 'Position', region: 'Alasca', year: 2021, month: 4 },
-      ],
+      features: [{ feature: 'Position', region: 'Asia', year: 2021, month: 4 }],
     },
   };
 }

@@ -7,7 +7,6 @@ import {
   FeatureParams,
 } from '../models';
 import {
-  changeOrderOfFeatures,
   changeSelectedFeatures,
   loadAvailableFeatures,
   loadAvailableFeaturesFailure,
@@ -71,7 +70,7 @@ export const initialState: AttritionAnalyticsState = {
     },
   },
   selectedByUser: {
-    features: undefined,
+    features: [],
   },
   featureImportance: {
     data: undefined,
@@ -159,19 +158,6 @@ export const attritionAnalyticsReducer = createReducer(
   ),
   on(
     changeSelectedFeatures,
-    (
-      state: AttritionAnalyticsState,
-      { features: employeeAnalyticsFeatures }
-    ): AttritionAnalyticsState => ({
-      ...state,
-      selectedByUser: {
-        ...state.selectedByUser,
-        features: employeeAnalyticsFeatures,
-      },
-    })
-  ),
-  on(
-    changeOrderOfFeatures,
     (
       state: AttritionAnalyticsState,
       { features: employeeAnalyticsFeatures }

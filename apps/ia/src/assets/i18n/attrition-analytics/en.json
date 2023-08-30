@@ -1,6 +1,11 @@
 {
   "unforcedFluctuationAnalytics": {
-    "title": "Unforced Fluctuation Analytics"
+    "title": "Unforced Fluctuation",
+    "filter": {
+      "label": "Region or subregion",
+      "hint": "Select a region or subregion"
+    },
+    "editButtonTitle": "Edit feature selection"
   },
   "addAnalysis": {
     "buttonText": "Add analysis",
@@ -17,12 +22,12 @@
   "edit": "Edit",
   "move": "Move",
   "barChart": {
-    "belowOverall": "Below Overall",
-    "aboveOverall": "Above Overall",
-    "overallAttritionRate": "Overall Unforced Fluctuation Rate",
-    "attritionRate": "Unforced Fluctuation Rate",
-    "totalEmployees": "Total Employees",
-    "totalUnforcedLeavers": "Total Unforced Leavers"
+    "belowOverall": "below average",
+    "aboveOverall": "above average",
+    "overallAttritionRate": "Overall unforced fluctuation",
+    "attritionRate": "Unforced fluctuation",
+    "totalEmployees": "Total employees",
+    "totalUnforcedLeavers": "Total unforced leavers"
   },
   "featureImportance": {
     "title": "Top Drivers of Unforced Fluctuation",

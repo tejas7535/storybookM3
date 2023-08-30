@@ -10,53 +10,49 @@
       cdkDrag
       cdkDragLockAxis="x"
       cdkDragBoundary=".drag-list"
-      class="flex w-full flex-col shadow"
+      class="flex w-full flex-col bg-secondary border border-border rounded"
       *ngFor="let config of barChartConfigs; trackBy: trackByFn"
     >
-      <div class="relative">
-        <div
-          class="flex flex-row gap-2 justify-end items-center relative z-20 -mb-[54px] mr-4"
-        >
-          <button
-            class="text-medium-emphasis"
-            mat-icon-button
-            [attr.aria-label]="t('edit')"
-            [matTooltip]="t('edit')"
-            (click)="openFeaturesDialog()"
-          >
-            <mat-icon>edit</mat-icon>
-          </button>
-
+      <div
+        *cdkDragPlaceholder
+        class="w-full h-full opacity-0 border-collapse"
+      ></div>
+      <div class="relative bg-secondary">
+        <div class="flex flex-row gap-2 justify-end items-center relative z-20">
           <mat-icon
-            class="text-medium-emphasis cursor-move"
+            class="text-medium-emphasis cursor-move m-4"
             mat-icon-button
             cdkDragHandle
             [attr.aria-label]="t('move')"
             [matTooltip]="t('move')"
-            >open_with</mat-icon
+            >drag_indicator</mat-icon
           >
         </div>
-        <ia-bar-chart class="relative z-10" [config]="config"></ia-bar-chart>
+        <ia-bar-chart
+          class="block -mt-[52px] z-10"
+          [config]="config"
+        ></ia-bar-chart>
       </div>
     </div>
     <div
       *ngIf="barChartConfigs?.length < NUMBER_OF_TILES"
-      class="flex h-[520px] w-full items-center justify-center shadow"
+      class="flex w-full items-center justify-center border border-border rounded"
+      [ngClass]="{ 'h-[526px]': barChartConfigs?.length === 0 }"
     >
       <div
-        class="flex h-[190px] w-[190px] flex-col items-center justify-center rounded-full bg-[#F5F7FA] text-center"
+        class="flex h-[270px] w-[270px] flex-col items-center justify-center rounded-full bg-[#F5F7FA] text-center"
         *transloco="let t; read: 'attritionAnalytics.addAnalysis'"
+        (click)="openEditFeatureSelectorDialog()"
       >
         <div
           class="cursor-pointer"
-          (click)="openFeaturesDialog()"
           [attr.aria-label]="t('add')"
           [matTooltip]="t('add')"
         >
-          <mat-icon class="text-medium-emphasis !h-[48px] !w-[48px] text-[48px]"
+          <mat-icon [inline]="true" class="text-medium-emphasis !text-[56px]"
             >add_circle_outline</mat-icon
           >
-          <h6 class="text-medium-emphasis">{{ t('buttonText') }}</h6>
+          <h6 class="text-medium-emphasis text-icon">{{ t('buttonText') }}</h6>
         </div>
       </div>
     </div>

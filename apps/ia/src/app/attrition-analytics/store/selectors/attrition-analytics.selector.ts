@@ -59,6 +59,13 @@ export const getSelectedFeatureParams = createSelector(
   (state: AttritionAnalyticsState) => state.selectedByUser.features
 );
 
+export const getSelectedFeaturesForSelectedRegion = createSelector(
+  getSelectedFeatureParams,
+  getSelectedRegion,
+  (features: FeatureParams[], region: string) =>
+    features.filter((feature) => feature.region === region)
+);
+
 export const getFeatureSelectorsForSelectedRegion = createSelector(
   getAvailableFeaturesForSelectedRegion,
   getSelectedFeatureParams,

@@ -3,7 +3,7 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoTestingModule } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { LossOfSkillComponent } from './loss-of-skill.component';
@@ -22,7 +22,7 @@ describe('LossOfSkillComponent', () => {
       RiskOfLeavingModule,
       MatCardModule,
       TranslocoTestingModule,
-      PushModule,
+      PushPipe,
     ],
     providers: [
       provideMockStore({}),

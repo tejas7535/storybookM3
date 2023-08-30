@@ -85,7 +85,10 @@ export class AttritionAnalyticsEffects implements OnInitEffects {
         this.store.select(getSelectedFeatureParams).pipe(
           // eslint-disable-next-line ngrx/avoid-mapping-selectors
           map((featuresSelectedByUser) => {
-            const features = featuresSelectedByUser ?? data.features;
+            const features =
+              featuresSelectedByUser.length > 0
+                ? featuresSelectedByUser
+                : data.features;
 
             return changeSelectedFeatures({ features });
           })

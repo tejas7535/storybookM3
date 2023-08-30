@@ -1,11 +1,11 @@
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/marbles';
 
@@ -28,7 +28,7 @@ describe('UserSettingsComponent', () => {
   const createComponent = createComponentFactory({
     component: UserSettingsComponent,
     imports: [
-      PushModule,
+      PushPipe,
       LanguageSelectModule,
       AutocompleteInputModule,
       provideTranslocoTestingModule({ en: {} }),

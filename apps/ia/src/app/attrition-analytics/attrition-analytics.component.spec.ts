@@ -3,7 +3,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockComponent } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles/marbles';
@@ -12,8 +12,10 @@ import { LoadingSpinnerComponent } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { BarChartConfig } from '../shared/charts/models/bar-chart-config.model';
+import { IdValue } from '../shared/models';
 import { SelectInputModule } from '../shared/select-input/select-input.module';
 import { AttritionAnalyticsComponent } from './attrition-analytics.component';
+import { EditFeatureSelectionComponent } from './edit-feature-selection/edit-feature-selection.component';
 import { FeatureAnalysisComponent } from './feature-analysis/feature-analysis.component';
 import { FeatureImportanceComponent } from './feature-importance/feature-importance.component';
 import { FeatureParams } from './models/feature-params.model';
@@ -21,6 +23,7 @@ import { initialState } from './store';
 import {
   changeSelectedFeatures,
   loadFeatureImportance,
+  selectRegion,
 } from './store/actions/attrition-analytics.action';
 import {
   getEmployeeAnalyticsLoading,
@@ -38,7 +41,7 @@ describe('AttritionAnalyticsComponent', () => {
   const createComponent = createComponentFactory({
     component: AttritionAnalyticsComponent,
     imports: [
-      PushModule,
+      PushPipe,
       provideTranslocoTestingModule({ en: {} }),
       SelectInputModule,
       MatCardModule,
@@ -56,6 +59,7 @@ describe('AttritionAnalyticsComponent', () => {
       MockComponent(FeatureAnalysisComponent),
       MockComponent(FeatureImportanceComponent),
       MockComponent(LoadingSpinnerComponent),
+      MockComponent(EditFeatureSelectionComponent),
     ],
   });
 
@@ -65,6 +69,7 @@ describe('AttritionAnalyticsComponent', () => {
 
     store = spectator.inject(MockStore);
     store.dispatch = jest.fn();
+    component.allSelectedFeatures = [];
   });
 
   it('should create', () => {
@@ -139,16 +144,19 @@ describe('AttritionAnalyticsComponent', () => {
     );
   });
 
-  describe('onSelectedFeatures', () => {
+  describe('changeSelectedFeatures', () => {
     test('should dispatch selected features', () => {
       const feature1 = { feature: 'test 1' } as FeatureParams;
       const feature2 = { feature: 'test 2' } as FeatureParams;
       const features = [feature1, feature2];
+      component.replaceRegionSelectedFeatures = jest
+        .fn()
+        .mockReturnValue(features);
 
-      component.onSelectedFeatures(features);
+      component.changeSelectedFeatures(features);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        changeSelectedFeatures({ features: [feature1, feature2] })
+        changeSelectedFeatures({ features })
       );
     });
   });
@@ -158,6 +166,47 @@ describe('AttritionAnalyticsComponent', () => {
       component.loadNextFeatureImportance();
 
       expect(store.dispatch).toHaveBeenCalledWith(loadFeatureImportance());
+    });
+  });
+
+  describe('regionSelected', () => {
+    test('should dispatch action', () => {
+      const region = new IdValue('AP', 'Asia Pacific');
+      component.regionSelected(region);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        selectRegion({ selectedRegion: region.id })
+      );
+    });
+  });
+
+  describe('replaceRegionSelectedFeatures', () => {
+    test('should replace region selected features', () => {
+      const region = 'AP';
+      const europeFeature = { feature: 'Distance', region: 'Europe' };
+      component.region = region;
+
+      const allSelectedFeatures = [
+        { feature: 'Age', region },
+        { feature: 'Gender', region },
+        { feature: 'Position', region },
+        europeFeature,
+      ] as FeatureParams[];
+
+      const regionFeatures = [
+        { feature: 'Height', region },
+        { feature: 'Gender', region },
+      ] as FeatureParams[];
+
+      const result = component.replaceRegionSelectedFeatures(
+        allSelectedFeatures,
+        regionFeatures
+      );
+
+      expect(result.length).toBe(3);
+      expect(result[0]).toBe(europeFeature);
+      expect(result[1]).toBe(regionFeatures[0]);
+      expect(result[2]).toBe(regionFeatures[1]);
     });
   });
 });

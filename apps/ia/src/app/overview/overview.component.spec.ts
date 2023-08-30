@@ -1,6 +1,6 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoTestingModule } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/marbles';
 
@@ -43,7 +43,7 @@ describe('OverviewComponent', () => {
   const createComponent = createComponentFactory({
     component: OverviewComponent,
     detectChanges: false,
-    imports: [PushModule, TranslocoTestingModule],
+    imports: [PushPipe, TranslocoTestingModule],
     providers: [provideMockStore({})],
   });
 

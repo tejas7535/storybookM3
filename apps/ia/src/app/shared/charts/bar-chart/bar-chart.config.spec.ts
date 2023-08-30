@@ -161,22 +161,34 @@ describe('Bar Chart Config', () => {
       expect((option.visualMap as VisualMapComponentOption[])[0]).toEqual({
         show: true,
         dimension: 0,
+        itemGap: 16,
         showLabel: true,
+        padding: 16,
         pieces: [
           {
             label: config.belowReferenceValueText,
             colorAlpha: 0.3,
             color: config.series[0].color,
             lte: config.referenceValue,
+            symbol: 'circle',
           },
           {
             label: config.aboveReferenceValueText,
             colorAlpha: 1,
             color: config.series[0].color,
             gt: config.referenceValue,
+            symbol: 'circle',
           },
         ],
         orient: 'horizontal',
+        textGap: 8,
+        textStyle: {
+          color: 'rgba(0, 0, 0, 0.60)',
+          fontWeight: 500,
+          lineHeight: 16,
+          fontSize: 12,
+          letterSpacing: 0.5,
+        },
       });
     });
   });

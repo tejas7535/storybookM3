@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable, Subscription, tap } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
 import { BarChartConfig } from '../shared/charts/models/bar-chart-config.model';
 import { IdValue, SortDirection } from '../shared/models';
+import { EditFeatureSelectionComponent } from './edit-feature-selection/edit-feature-selection.component';
 import {
   FeatureImportanceGroup,
   FeatureParams,
@@ -26,6 +27,7 @@ import {
   getFeatureOverallAttritionRate,
   getFeatureSelectorsForSelectedRegion,
   getSelectedFeatureParams,
+  getSelectedFeaturesForSelectedRegion,
   getSelectedRegion,
   getYearFromCurrentFilters,
 } from './store/selectors/attrition-analytics.selector';
@@ -35,23 +37,30 @@ import {
   templateUrl: './attrition-analytics.component.html',
   styleUrls: ['./attrition-analytics.scss'],
 })
-export class AttritionAnalyticsComponent implements OnInit {
+export class AttritionAnalyticsComponent implements OnInit, OnDestroy {
   barChartConfigs$: Observable<BarChartConfig[]>;
   selectedFeatureParams: FeatureParams[];
   availableRegions$: Observable<IdValue[]>;
-  selectedRegion$: Observable<string>;
   year$: Observable<number>;
 
-  allFeatureParams$: Observable<FeatureParams[]>;
+  selectedFeaturesForSelectedRegion$: Observable<FeatureParams[]>;
+  allSelectedFeatures: FeatureParams[];
 
   featureAnalysisLoading$: Observable<boolean>;
-  featureAnalysisSelectors$: Observable<FeatureSelector[]>;
   featureAnalysisOverallAttritionRate$: Observable<number>;
 
   featureImportanceLoading$: Observable<boolean>;
   featureImportanceGroups$: Observable<FeatureImportanceGroup[]>;
   featureImportanceHasNext$: Observable<boolean>;
   featureImportanceSortDirection$: Observable<SortDirection>;
+
+  region: string;
+  selectors$: Observable<FeatureSelector[]>;
+
+  @ViewChild(EditFeatureSelectionComponent)
+  editFeatureSelectionComponent: EditFeatureSelectionComponent;
+
+  subscriptions: Subscription[] = [];
 
   constructor(private readonly store: Store) {}
 
@@ -60,16 +69,30 @@ export class AttritionAnalyticsComponent implements OnInit {
       getEmployeeAnalyticsLoading
     );
     this.availableRegions$ = this.store.select(getAvailableRegionsIdValues);
-    this.selectedRegion$ = this.store.select(getSelectedRegion);
-    this.year$ = this.store.select(getYearFromCurrentFilters);
-    this.allFeatureParams$ = this.store.select(getSelectedFeatureParams);
-
-    this.featureAnalysisSelectors$ = this.store.select(
-      getFeatureSelectorsForSelectedRegion
-    );
     this.barChartConfigs$ = this.store.select(
       getBarChartConfigsForSelectedFeatures
     );
+
+    this.year$ = this.store.select(getYearFromCurrentFilters);
+    this.selectedFeaturesForSelectedRegion$ = this.store.select(
+      getSelectedFeaturesForSelectedRegion
+    );
+    this.subscriptions.push(
+      this.store
+        .select(getSelectedFeatureParams)
+        .pipe(
+          tap(
+            (allSelectedFeatures) =>
+              (this.allSelectedFeatures = allSelectedFeatures)
+          )
+        )
+        .subscribe(),
+      this.store
+        .select(getSelectedRegion)
+        .pipe(tap((region) => (this.region = region)))
+        .subscribe()
+    );
+    this.selectors$ = this.store.select(getFeatureSelectorsForSelectedRegion);
 
     this.featureImportanceLoading$ = this.store.select(
       getFeatureImportanceLoading
@@ -85,15 +108,40 @@ export class AttritionAnalyticsComponent implements OnInit {
     );
   }
 
-  onSelectedFeatures(features: FeatureParams[]): void {
-    this.store.dispatch(changeSelectedFeatures({ features }));
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
   loadNextFeatureImportance(): void {
     this.store.dispatch(loadFeatureImportance());
   }
 
-  regionSelected(region: IdValue) {
+  regionSelected(region: IdValue): void {
     this.store.dispatch(selectRegion({ selectedRegion: region.id }));
+  }
+
+  changeSelectedFeatures(selectedFeatures: FeatureParams[]) {
+    const allSelectedFeatures = this.replaceRegionSelectedFeatures(
+      this.allSelectedFeatures,
+      selectedFeatures
+    );
+    this.store.dispatch(
+      changeSelectedFeatures({ features: allSelectedFeatures })
+    );
+  }
+
+  openEditFeatureSelectionDialog() {
+    this.editFeatureSelectionComponent.editFeatureSelection();
+  }
+
+  replaceRegionSelectedFeatures(
+    allFeatures: FeatureParams[],
+    newFeatures: FeatureParams[]
+  ) {
+    const otherFeatures = allFeatures.filter(
+      (feature) => feature.region !== this.region
+    );
+
+    return [...otherFeatures, ...newFeatures];
   }
 }

@@ -32,11 +32,6 @@ export const changeSelectedFeatures = createAction(
   props<{ features: FeatureParams[] }>()
 );
 
-export const changeOrderOfFeatures = createAction(
-  '[AttritionAnalytics] Change Order Of Features',
-  props<{ features: FeatureParams[] }>()
-);
-
 export const initializeSelectedFeatures = createAction(
   '[AttritionAnalytics] Initialize Selected Features',
   props<{ features: FeatureParams[] }>()
@@ -77,7 +72,6 @@ const all = union({
   loadAvailableFeatures,
   loadAvailableFeaturesSuccess,
   loadAvailableFeaturesFailure,
-  changeOrderOfFeatures,
   changeSelectedFeatures,
   initializeSelectedFeatures,
   loadFeatureImportance,

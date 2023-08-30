@@ -16,6 +16,7 @@ import {
   getFeatureSelectorsForSelectedRegion,
   getSelectedFeatureParams,
   getSelectedFeatures,
+  getSelectedFeaturesForSelectedRegion,
 } from './attrition-analytics.selector';
 import { createFakeState } from './attrition-analytics.selector.spec.factory';
 
@@ -76,13 +77,26 @@ describe('attrition analytics selector', () => {
     test('should get selected features', () => {
       expect(getSelectedFeatureParams.projector(fakeState)).toEqual(
         expect.arrayContaining([
-          { feature: 'Position', region: 'Alasca', year: 2021, month: 4 },
+          { feature: 'Position', region: 'Asia', year: 2021, month: 4 },
         ])
       );
     });
 
-    test('should return undefined when no features selected', () => {
-      expect(getSelectedFeatureParams.projector(initialState)).toBeUndefined();
+    test('should return empty array when no features selected', () => {
+      expect(getSelectedFeatureParams.projector(initialState)).toEqual([]);
+    });
+  });
+
+  describe('getSelectedFeaturesForSelectedRegion', () => {
+    test('should get selected features for region', () => {
+      expect(
+        getSelectedFeaturesForSelectedRegion.projector(
+          fakeState.selectedByUser.features,
+          fakeState.filter.selectedRegion
+        )
+      ).toEqual([
+        { feature: 'Position', region: 'Asia', year: 2021, month: 4 },
+      ]);
     });
   });
 

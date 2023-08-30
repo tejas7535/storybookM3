@@ -1,62 +1,44 @@
-<div class="bg-surface p-4" *transloco="let t; read: 'attritionAnalytics'">
-  <div class="flex flex-row">
-    <h5 class="mb-5 font-bold">
-      {{ t('unforcedFluctuationAnalytics.title') }}
-    </h5>
-    <mat-chip-set class="ml-24 items-center text-subtitle-2">
+<ng-container *transloco="let t; read: 'attritionAnalytics'">
+  <div class="flex flex-col lg:grid lg:grid-cols-12 gap-4 pb-4">
+    <div class="col-span-5 self-center mr-auto text-high-emphasis">
+      <h5>
+        {{ t('unforcedFluctuationAnalytics.title') }}
+        {{ year$ | ngrxPush
+        }}<ng-container *ngIf="featureAnalysisOverallAttritionRate$ | ngrxPush">
+          ({{
+            featureAnalysisOverallAttritionRate$ | ngrxPush | percent: '1.0-2'
+          }})</ng-container
+        >
+      </h5>
+    </div>
+    <div class="col-span-3 xl:col-span-2">
       <ia-select-input
-        class="mr-1 flex-1"
         [appearance]="'fill'"
         [options]="availableRegions$ | ngrxPush"
-        [selectedOption]="selectedRegion$ | ngrxPush"
+        [selectedOption]="region"
         [disabled]="false"
-        [label]="'Region'"
+        [label]="t('unforcedFluctuationAnalytics.filter.label')"
+        [hint]="t('unforcedFluctuationAnalytics.filter.hint')"
         (selected)="regionSelected($event)"
       ></ia-select-input>
-      <mat-chip
-        *ngIf="year$ | ngrxPush"
-        color="secondary"
-        selected
-        disableRipple="true"
-        selectable="false"
-        class="after:!bg-transparent !bg-primary self-center"
-        (click)="$event.stopPropagation()"
-        >Time-Range: {{ year$ | ngrxPush }}</mat-chip
-      >
-      <mat-chip
-        color="secondary"
-        selected
-        disableRipple="true"
-        selectable="false"
-        class="after:!bg-transparent !bg-primary self-center"
-        (click)="$event.stopPropagation()"
-        >Feature-Count:
-        {{ (featureAnalysisSelectors$ | ngrxPush)?.length }}</mat-chip
-      >
-      <mat-chip
-        *ngIf="featureAnalysisOverallAttritionRate$ | ngrxPush"
-        color="secondary"
-        selected
-        disableRipple="true"
-        selectable="false"
-        class="after:!bg-transparent !bg-primary self-center"
-        (click)="$event.stopPropagation()"
-        >{{ t('barChart.attritionRate') }}:
-        {{
-          featureAnalysisOverallAttritionRate$ | ngrxPush | percent: '1.0-1'
-        }}</mat-chip
-      >
-    </mat-chip-set>
+    </div>
+    <div class="col-start-10 col-span-3 self-center justify-self-end">
+      <ia-edit-feature-selection
+        [region]="region"
+        [selectors]="selectors$ | ngrxPush"
+        (changeSelectedFeatures)="changeSelectedFeatures($event)"
+      ></ia-edit-feature-selection>
+    </div>
   </div>
 
-  <div class="flex flex-col gap-4">
+  <div class="lg:col-span-2 col-span-4 flex flex-col gap-4">
     <ia-feature-analysis
-      (selectFeatures)="onSelectedFeatures($event)"
       [barChartConfigs]="barChartConfigs$ | ngrxPush"
       [loading]="featureAnalysisLoading$ | ngrxPush"
-      [allFeatureSelectors]="featureAnalysisSelectors$ | ngrxPush"
-      [allSelectedFeatureParams]="allFeatureParams$ | ngrxPush"
-      [region]="selectedRegion$ | ngrxPush"
+      [region]="region"
+      [selectedFeatures]="selectedFeaturesForSelectedRegion$ | ngrxPush"
+      (reorderFeatures)="changeSelectedFeatures($event)"
+      (editFeatureSelection)="openEditFeatureSelectionDialog()"
     ></ia-feature-analysis>
     <ia-feature-importance
       class="w-full"
@@ -66,4 +48,4 @@
       (loadNext)="loadNextFeatureImportance()"
     ></ia-feature-importance>
   </div>
-</div>
+</ng-container>

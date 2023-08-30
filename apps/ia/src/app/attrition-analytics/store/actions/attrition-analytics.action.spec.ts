@@ -2,7 +2,6 @@ import { FeatureImportanceGroup } from '../../models';
 import { EmployeeAnalytics } from '../../models/employee-analytics.model';
 import { FeatureParams } from '../../models/feature-params.model';
 import {
-  changeOrderOfFeatures,
   changeSelectedFeatures,
   loadEmployeeAnalytics,
   loadEmployeeAnalyticsFailure,
@@ -49,16 +48,6 @@ describe('Attrition Analytics Actions', () => {
 
     expect(action).toEqual({
       type: '[AttritionAnalytics] Change Selected Features',
-      features,
-    });
-  });
-
-  test('changeOrderOfFeatures', () => {
-    const features: FeatureParams[] = [];
-    const action = changeOrderOfFeatures({ features });
-
-    expect(action).toEqual({
-      type: '[AttritionAnalytics] Change Order Of Features',
       features,
     });
   });

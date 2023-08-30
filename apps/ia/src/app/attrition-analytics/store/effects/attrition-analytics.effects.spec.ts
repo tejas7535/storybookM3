@@ -233,13 +233,9 @@ describe('Attrition Anayltics Effects', () => {
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('-b', { b: result });
 
-        store.select = jest
-          .fn()
-          .mockReturnValue(of(undefined as FeatureParams[]));
+        store.select = jest.fn().mockReturnValue(of([] as FeatureParams[]));
 
-        store.select = jest
-          .fn()
-          .mockReturnValue(of(undefined as FeatureParams[]));
+        store.select = jest.fn().mockReturnValue(of([] as FeatureParams[]));
 
         m.expect(effects.initializeSelectedFeatures$).toBeObservable(expected);
       })

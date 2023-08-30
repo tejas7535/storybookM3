@@ -1,5 +1,5 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { LineSeriesOption } from 'echarts';
 import { NgxEchartsModule } from 'ngx-echarts';
@@ -16,7 +16,7 @@ describe('LineChartComponent', () => {
   const createComponent = createComponentFactory({
     component: LineChartComponent,
     imports: [
-      PushModule,
+      PushPipe,
       NgxEchartsModule.forRoot({
         echarts: async () => import('echarts'),
       }),
