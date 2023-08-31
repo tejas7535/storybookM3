@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { debounceTime, Subscription } from 'rxjs';
@@ -6,7 +6,6 @@ import { debounceTime, Subscription } from 'rxjs';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
-import { environment } from '@ga/../environments/environment';
 import { AppRoutePath } from '@ga/app-route-path.enum';
 import { getSelectedBearing, SettingsFacade } from '@ga/core/store';
 import { getCalculation } from '@ga/core/store/actions/calculation-result/calculation-result.actions';
@@ -15,6 +14,8 @@ import {
   getPreferredGreaseSelection,
 } from '@ga/core/store/selectors/calculation-parameters/calculation-parameters.selector';
 import { getReportUrls } from '@ga/core/store/selectors/calculation-result/calculation-result.selector';
+import { Environment } from '@ga/environments/environment.model';
+import { ENV } from '@ga/environments/environments.provider';
 import { GreaseCalculationPath } from '@ga/features/grease-calculation/grease-calculation-path.enum';
 import { ReportUrls } from '@ga/shared/models';
 
@@ -28,7 +29,7 @@ import { GreaseReportPdfGeneratorService } from './services/grease-report-pdf-ge
 export class CalculationResultComponent implements OnInit, OnDestroy {
   @ViewChild('greaseReport') greaseReport: GreaseReportComponent;
 
-  public isProduction = environment.production;
+  public isProduction;
   public reportUrls: ReportUrls;
   public reportSelector = '.content';
   public showCompactView = true;
@@ -48,8 +49,11 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly translocoService: TranslocoService,
     private readonly settingsFacade: SettingsFacade,
-    private readonly greaseReportGeneratorService: GreaseReportPdfGeneratorService
-  ) {}
+    private readonly greaseReportGeneratorService: GreaseReportPdfGeneratorService,
+    @Inject(ENV) private readonly env: Environment
+  ) {
+    this.isProduction = this.env.production;
+  }
 
   public ngOnInit(): void {
     this.store.dispatch(getCalculation());
@@ -97,12 +101,14 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
     const hint = this.translocoService.translate(
       'calculationResult.title.247hint'
     );
-    const reportTitle = `${title} ${selectedBearing} - ${hint}`;
+    const reportTitle = `${title} ${selectedBearing}`;
 
     this.greaseReportGeneratorService.generateReport({
       reportTitle,
+      sectionSubTitle: hint,
       data: this.greaseReport.subordinates,
       legalNote: this.greaseReport.legalNote,
+      automaticLubrication: this.greaseReport.automaticLubrication,
     });
   }
 

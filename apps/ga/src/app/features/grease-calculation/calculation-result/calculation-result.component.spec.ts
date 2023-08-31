@@ -19,7 +19,9 @@ import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppRoutePath } from '@ga/app-route-path.enum';
+import { SettingsFacade } from '@ga/core/store';
 import { getCalculation } from '@ga/core/store/actions/calculation-result/calculation-result.actions';
+import { ENV, getEnv } from '@ga/environments/environments.provider';
 import { MediasButtonComponent } from '@ga/shared/components/medias-button';
 import { QualtricsInfoBannerComponent } from '@ga/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
 
@@ -61,7 +63,10 @@ describe('CalculationResultComponent', () => {
         provide: translate,
         useValue: jest.fn(),
       },
+
+      mockProvider(SettingsFacade),
       mockProvider(GreaseReportPdfGeneratorService),
+      { provide: ENV, useValue: { ...getEnv(), production: false } },
     ],
   });
 
@@ -110,6 +115,10 @@ describe('CalculationResultComponent', () => {
     });
   });
 
+  it('should display qualtrics info banner', () => {
+    expect(spectator.query('ga-qualtrics-info-banner')).toBeTruthy();
+  });
+
   describe('when generate pdf report', () => {
     let spy: jest.SpyInstance;
 
@@ -117,6 +126,7 @@ describe('CalculationResultComponent', () => {
       component.greaseReport = {
         subordinates: [{ indentifier: 'text' }],
         legalNote: 'some legal note',
+        automaticLubrication: true,
       } as any as GreaseReportComponent;
 
       spy = jest.spyOn(
@@ -131,13 +141,10 @@ describe('CalculationResultComponent', () => {
       expect(spy).toHaveBeenCalledWith({
         data: [{ indentifier: 'text' }],
         legalNote: 'some legal note',
-        reportTitle:
-          'de.calculationResult.title.main bearing 123 - de.calculationResult.title.247hint',
+        reportTitle: 'de.calculationResult.title.main bearing 123',
+        sectionSubTitle: 'de.calculationResult.title.247hint',
+        automaticLubrication: true,
       });
-    });
-
-    it('should display qualtrics info banner', () => {
-      expect(spectator.query('ga-qualtrics-info-banner')).toBeTruthy();
     });
   });
 });

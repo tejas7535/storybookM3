@@ -4,6 +4,19 @@ export const GREASE_PDF_RESULT_MOCK: GreasePdfResult = {
   sectionTitle: 'calculationResult.resultsDefault',
   tableItems: [
     {
+      concept1: {
+        concept60ml: {
+          conceptTitle: 'calculationResult.concept1settings.concept1Size',
+          notes: '',
+          settingArrow: 'calculationResult.concept1settings.setArrowSetting',
+        },
+        concept125ml: {
+          conceptTitle: 'calculationResult.concept1settings.concept1Size',
+          notes: '',
+          settingArrow: 'calculationResult.concept1settings.setArrowSetting',
+        },
+        title: 'calculationResult.concept1',
+      },
       title: 'Arcanol MULTI2',
       subTitle: 'Mineral oil',
       items: [
@@ -93,6 +106,19 @@ export const GREASE_PDF_RESULT_MOCK: GreasePdfResult = {
     {
       title: 'Arcanol MULTI2',
       subTitle: 'Mineral oil',
+      concept1: {
+        concept60ml: {
+          conceptTitle: 'calculationResult.concept1settings.concept1Size',
+          notes: 'not supported for greasing',
+          settingArrow: '',
+        },
+        concept125ml: {
+          conceptTitle: 'calculationResult.concept1settings.concept1Size',
+          notes: 'not supported for greasing',
+          settingArrow: '',
+        },
+        title: 'calculationResult.concept1',
+      },
       items: [
         {
           itemTitle: 'calculationResult.initialGreaseQuantity',

@@ -282,6 +282,7 @@
       "concept1Size": "{{ size }}ml Kartusche",
       "emptyDuration": "Für Entleerung in {{ duration }} Monaten",
       "arrowSetting": "Pfeil auf {{ setting }} stellen",
+      "setArrowSetting": "Einstellung: Pfeil auf {{ setting }}",
       "ml": "{{ ml }}ml",
       "sizeHint": "Für ihre gewählten Betriebsbedingungen ist der CONCEPT1 mit {{ size }}ml nicht geeignet",
       "size60PossibleHint": "Die ermittelte CONCEPT1 60 Kartuscheneinstellung ist größer als der maximal einstellbare Wert. Der Schmierstoffgeber kann jedoch mit der angegebenen Einstellung betrieben werden.",

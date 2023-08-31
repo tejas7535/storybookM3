@@ -292,6 +292,7 @@
       "concept1Size": "{{ size }}毫升筒状物",
       "emptyDuration": "{{ duration }}个月内出院",
       "arrowSetting": "将箭头设为{{ setting }}",
+      "setArrowSetting": "设置：将箭头设置为 {{ setting }",
       "ml": "{{ ml }}ml",
       "sizeHint": "对于你选择的操作条件，使用{{ size }}毫升的CONCEPT1是不合适的。",
       "size60PossibleHint": "确定的 CONCEPT 60 滤芯设置值大于可设置的最大值。不过，润滑器可以按照显示的设置进行操作。",

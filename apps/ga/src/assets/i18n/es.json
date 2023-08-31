@@ -282,6 +282,7 @@
       "concept1Size": "Cartucho de {{ size }}ml",
       "emptyDuration": "para el alta en {{ duration }} meses",
       "arrowSetting": "poner la flecha en {{ setting }}",
+      "setArrowSetting": "Ajuste: poner flecha a {{ setting }}",
       "ml": "{{ ml }}ml",
       "sizeHint": "Para las condiciones de funcionamiento que ha seleccionado, el uso de CONCEPT1 con {{ size }}ml no es adecuado",
       "size60PossibleHint": "El ajuste determinado del cartucho CONCEPT 60 es mayor que el valor máximo que puede ajustarse. No obstante, el lubricador puede funcionar con el ajuste indicado.",

@@ -6,6 +6,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { TranslocoDatePipe } from '@ngneat/transloco-locale';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -16,6 +17,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { CalculationResultEffects } from '@ga/core/store';
 import { calculationResultReducer } from '@ga/core/store/reducers/calculation-result/calculation-result.reducer';
+import { ENV, getEnv } from '@ga/environments/environments.provider';
 import { MediasButtonComponent } from '@ga/shared/components/medias-button';
 import { QualtricsInfoBannerComponent } from '@ga/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
 
@@ -61,6 +63,11 @@ import {
     CalculationParametersService,
     GreaseReportDataGeneratorService,
     GreaseReportPdfGeneratorService,
+    TranslocoDatePipe,
+    {
+      provide: ENV,
+      useFactory: getEnv,
+    },
   ],
 })
 export class CalculationResultModule {}

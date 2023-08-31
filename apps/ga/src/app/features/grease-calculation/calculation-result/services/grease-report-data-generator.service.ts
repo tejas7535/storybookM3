@@ -4,6 +4,7 @@ import { HashMap, TranslocoService } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
 import {
+  GreasePdfConcept1Result,
   GreasePdfInput,
   GreasePdfInputTable,
   GreasePdfMessage,
@@ -37,12 +38,13 @@ export class GreaseReportDataGeneratorService {
   }
 
   public prepareReportResultData(
-    greaseReportData: GreaseReportSubordinate[]
+    greaseReportData: GreaseReportSubordinate[],
+    automaticLubrication: boolean
   ): GreasePdfResult {
     const greaseReportSubordinate: GreaseReportSubordinate =
       this.getResultData(greaseReportData);
 
-    return this.mapToResultModel(greaseReportSubordinate);
+    return this.mapToResultModel(greaseReportSubordinate, automaticLubrication);
   }
 
   public prepareReportErrorsAndWarningsData(
@@ -74,7 +76,8 @@ export class GreaseReportDataGeneratorService {
   }
 
   private mapToResultModel(
-    greaseReportSubordinate: GreaseReportSubordinate
+    greaseReportSubordinate: GreaseReportSubordinate,
+    automaticLubrication: boolean
   ): GreasePdfResult {
     let title = '';
     let tableItems: GreasePdfResultTable[] = [];
@@ -86,6 +89,9 @@ export class GreaseReportDataGeneratorService {
         items: this.extractItemsFromGreaseResultData(
           item.greaseResult?.dataSource
         ),
+        concept1: automaticLubrication
+          ? this.extractConcept1Result(item.greaseResult?.dataSource)
+          : undefined,
       }));
 
       title = this.getTranslatedTitle('resultsDefault', {
@@ -118,10 +124,71 @@ export class GreaseReportDataGeneratorService {
           };
         }
 
-        // case where data contains custom value, to be extended in later stage
         return returnItem;
       })
       .filter((dataSource) => dataSource !== undefined);
+  }
+
+  private extractConcept1Result(
+    data: GreaseResultData
+  ): GreasePdfConcept1Result | undefined {
+    if (!data) {
+      return undefined;
+    }
+
+    return data
+      .filter((dataSource) => dataSource && 'custom' in dataSource)
+      .map(
+        (customDataSource) =>
+          ({
+            title: this.getTranslatedTitle('concept1'),
+            concept60ml: {
+              conceptTitle: this.getTranslatedTitle(
+                'concept1settings.concept1Size',
+                { size: 60 }
+              ),
+              settingArrow: customDataSource?.custom?.data?.c1_60
+                ? this.getTranslatedTitle('concept1settings.setArrowSetting', {
+                    setting: customDataSource.custom.data.c1_60,
+                  })
+                : '',
+              notes: this.getNoteFor60ml(customDataSource?.custom?.data),
+            },
+            concept125ml: {
+              conceptTitle: this.getTranslatedTitle(
+                'concept1settings.concept1Size',
+                { size: 125 }
+              ),
+              settingArrow: customDataSource?.custom?.data?.c1_125
+                ? this.getTranslatedTitle('concept1settings.setArrowSetting', {
+                    setting: customDataSource.custom.data.c1_125,
+                  })
+                : '',
+              notes: this.getNoteFor125ml(customDataSource?.custom?.data),
+            },
+          } as GreasePdfConcept1Result)
+      )
+      .shift();
+  }
+
+  private getNoteFor60ml(data: any): string {
+    if (this.isGreasingSettingNotAvailable(data)) {
+      return data.hint;
+    }
+
+    return data?.hint_60 ?? '';
+  }
+
+  private getNoteFor125ml(data: any): string {
+    if (this.isGreasingSettingNotAvailable(data)) {
+      return data.hint;
+    }
+
+    return data?.hint_125 ?? '';
+  }
+
+  private isGreasingSettingNotAvailable(data: any): boolean {
+    return !data?.c1_60 && !data?.c1_125;
   }
 
   private getTranslatedTitle(translationKey: string, params?: HashMap): string {

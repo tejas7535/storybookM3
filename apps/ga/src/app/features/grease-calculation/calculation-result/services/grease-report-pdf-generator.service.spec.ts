@@ -5,6 +5,7 @@ import {
   SpectatorService,
   SpyObject,
 } from '@ngneat/spectator/jest';
+import { TranslocoDatePipe } from '@ngneat/transloco-locale';
 
 import {
   GREASE_PDF_INPUT_MOCK,
@@ -18,6 +19,9 @@ import { GreaseReportPdfGeneratorService } from './grease-report-pdf-generator.s
 const saveFile = jest.fn();
 const textSpy = jest.fn();
 const fontSpy = jest.fn();
+const addFontSpy = jest.fn();
+const setPageSpy = jest.fn();
+const addImageSpy = jest.fn();
 
 jest.mock(
   'jspdf',
@@ -29,12 +33,18 @@ jest.mock(
             getHeight: jest.fn(() => 400),
             getWidth: jest.fn(() => 200),
           },
+          pages: [undefined, 1, 2],
         },
         lastAutoTable: {
           finalY: undefined,
         },
+        addFont: addFontSpy,
         setFont: fontSpy,
+        setPage: setPageSpy,
         setFontSize: jest.fn(),
+        getFontSize: jest.fn(),
+        getStringUnitWidth: jest.fn(),
+        addImage: addImageSpy,
         text: textSpy,
         splitTextToSize: jest.fn(() => ['text 1', 'text 2']),
         addPage: jest.fn(),
@@ -57,16 +67,27 @@ describe('GreaseReportPdfGeneratorService', () => {
   let spectator: SpectatorService<GreaseReportPdfGeneratorService>;
   let service: GreaseReportPdfGeneratorService;
   let dataServiceSpy: SpyObject<GreaseReportDataGeneratorService>;
+  const pageMargin = 35;
+  const REPORT_GENERATION_DATE = '2022-11-14T00:00:00Z';
 
   const createService = createServiceFactory({
     service: GreaseReportPdfGeneratorService,
-    providers: [mockProvider(GreaseReportDataGeneratorService)],
+    providers: [
+      mockProvider(GreaseReportDataGeneratorService),
+      mockProvider(TranslocoDatePipe, { transform: () => '14.11.2022' }),
+    ],
   });
 
   beforeEach(() => {
+    jest.useFakeTimers();
+    jest.setSystemTime(Date.parse(REPORT_GENERATION_DATE));
     spectator = createService();
     service = spectator.service;
     dataServiceSpy = spectator.inject(GreaseReportDataGeneratorService);
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
   });
 
   it('should be created', () => {
@@ -83,21 +104,41 @@ describe('GreaseReportPdfGeneratorService', () => {
 
       service.generateReport({
         reportTitle: 'report title',
+        sectionSubTitle: 'All results refer to continuous 24/7 operation.',
         legalNote: 'legal note info',
         data: [],
+        automaticLubrication: true,
       });
     });
 
+    it('should load NotoSans fonts', () => {
+      expect(addFontSpy).toHaveBeenCalledWith(
+        '/assets/pdf-report/fonts/NotoSans-Regular.ttf',
+        'NotoSans',
+        'normal'
+      );
+
+      expect(addFontSpy).toHaveBeenCalledWith(
+        '/assets/pdf-report/fonts/NotoSans-Bold.ttf',
+        'NotoSans',
+        'bold'
+      );
+
+      expect(addFontSpy).toBeCalledTimes(2);
+    });
+
     it('should print report title', () => {
-      expect(textSpy).toHaveBeenCalledWith('report title', 100, 10, {
-        align: 'center',
-      });
+      expect(textSpy).toHaveBeenCalledWith(
+        'report title',
+        pageMargin,
+        expect.any(Number)
+      );
     });
 
     it('should set document font style', () => {
       expect(fontSpy).toHaveBeenCalledWith(
         service.fontFamily,
-        service.fontStyle
+        service.fontBoldStyle
       );
     });
 
@@ -105,11 +146,8 @@ describe('GreaseReportPdfGeneratorService', () => {
       expect(dataServiceSpy.prepareReportInputData).toHaveBeenCalled();
       expect(textSpy).toBeCalledWith(
         GREASE_PDF_INPUT_MOCK.sectionTitle,
-        100,
-        expect.any(Number),
-        {
-          align: 'center',
-        }
+        pageMargin,
+        expect.any(Number)
       );
     });
 
@@ -117,11 +155,8 @@ describe('GreaseReportPdfGeneratorService', () => {
       expect(dataServiceSpy.prepareReportResultData).toHaveBeenCalled();
       expect(textSpy).toBeCalledWith(
         GREASE_PDF_RESULT_MOCK.sectionTitle,
-        100,
-        expect.any(Number),
-        {
-          align: 'center',
-        }
+        pageMargin,
+        expect.any(Number)
       );
     });
 
@@ -132,18 +167,45 @@ describe('GreaseReportPdfGeneratorService', () => {
 
       expect(textSpy).toBeCalledWith(
         GREASE_PDF_RESULT_MOCK.sectionTitle,
-        100,
-        expect.any(Number),
-        {
-          align: 'center',
-        }
+        pageMargin,
+        expect.any(Number)
       );
     });
 
     it('should save file to pdf', () => {
-      expect(saveFile).toHaveBeenCalledWith('greaseReport.pdf', {
-        returnPromise: true,
-      });
+      expect(saveFile).toHaveBeenCalledWith(
+        'Grease App report title - 14.11.2022.pdf',
+        {
+          returnPromise: true,
+        }
+      );
+    });
+
+    it('should generate page numbers', () => {
+      const xPositionValue = 200 - 2 * pageMargin;
+      const yPositionValue = 400 - 25;
+
+      expect(textSpy).toHaveBeenCalledWith(
+        '1/2',
+        xPositionValue,
+        yPositionValue
+      );
+      expect(textSpy).toHaveBeenCalledWith(
+        '2/2',
+        xPositionValue,
+        yPositionValue
+      );
+    });
+
+    it('should load image for every page', () => {
+      expect(addImageSpy).toHaveBeenCalledWith(
+        '/assets/images/schaeffler-logo.png',
+        'png',
+        21,
+        pageMargin + 1,
+        160,
+        47
+      );
     });
   });
 });

@@ -31,6 +31,7 @@ jest.mock('@ngneat/transloco', () => ({
 describe('GreaseReportDataGeneratorService', () => {
   let spectator: SpectatorService<GreaseReportDataGeneratorService>;
   let service: GreaseReportDataGeneratorService;
+  let automaticallyLubricated = true;
   const localizeNumber = jest.fn((number) => `${number}`);
 
   const createService = createServiceFactory({
@@ -78,7 +79,8 @@ describe('GreaseReportDataGeneratorService', () => {
   describe('prepare report result data', () => {
     it('should return formatted data', () => {
       const result: GreasePdfResult = service.prepareReportResultData(
-        GREASE_RESULT_SUBORDINATES_MOCK
+        GREASE_RESULT_SUBORDINATES_MOCK,
+        automaticallyLubricated
       );
 
       expect(result).toEqual(GREASE_PDF_RESULT_MOCK);
@@ -86,12 +88,53 @@ describe('GreaseReportDataGeneratorService', () => {
     });
 
     it('should gracefully return empty data if empty input provided', () => {
-      const result: GreasePdfResult = service.prepareReportResultData([]);
+      const result: GreasePdfResult = service.prepareReportResultData(
+        [],
+        automaticallyLubricated
+      );
 
       expect(result).toEqual({
         sectionTitle: '',
         tableItems: [],
       } as GreasePdfResult);
+    });
+  });
+
+  describe('prepare report result data for not autolubrciated configuration', () => {
+    beforeEach(() => {
+      automaticallyLubricated = false;
+    });
+
+    it('should exclude concept1 information from result', () => {
+      const result: GreasePdfResult = service.prepareReportResultData(
+        GREASE_RESULT_SUBORDINATES_MOCK,
+        automaticallyLubricated
+      );
+
+      expect(result).toEqual({
+        sectionTitle: GREASE_PDF_RESULT_MOCK.sectionTitle,
+        tableItems: [
+          {
+            title: GREASE_PDF_RESULT_MOCK.tableItems[0].title,
+            subTitle: GREASE_PDF_RESULT_MOCK.tableItems[0].subTitle,
+            items: GREASE_PDF_RESULT_MOCK.tableItems[0].items,
+            concept1: undefined,
+          },
+          {
+            title: GREASE_PDF_RESULT_MOCK.tableItems[1].title,
+            subTitle: GREASE_PDF_RESULT_MOCK.tableItems[1].subTitle,
+            items: GREASE_PDF_RESULT_MOCK.tableItems[1].items,
+            concept1: undefined,
+          },
+          {
+            title: GREASE_PDF_RESULT_MOCK.tableItems[2].title,
+            subTitle: GREASE_PDF_RESULT_MOCK.tableItems[2].subTitle,
+            items: GREASE_PDF_RESULT_MOCK.tableItems[2].items,
+            concept1: undefined,
+          },
+        ],
+      });
+      expect(localizeNumber).toBeCalled();
     });
   });
 

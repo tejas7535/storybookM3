@@ -283,6 +283,7 @@
       "concept1Size": "{{ size }}mlカートリッジ",
       "emptyDuration": "{{ duration }}月で使い切り",
       "arrowSetting": "矢印を{{ setting }}に設定",
+      "setArrowSetting": "設定：矢印を{{ setting }}に設定",
       "ml": "{{ ml }}ml",
       "sizeHint": "{{ size }}mlのコンセプト1は、選択した運転条件には適していません",
       "size60PossibleHint": "決定されたCONCEPT 60カートリッジの設定値は、設定可能な最大値よりも大きくなっています。ただし、表示された設定値でルブリケーターを操作することは可能です。",

@@ -282,6 +282,7 @@
       "concept1Size": "{{ size }}ml cartridge",
       "emptyDuration": "for unloading in {{ duration }} months",
       "arrowSetting": "set arrow to {{ setting }}",
+      "setArrowSetting": "Setting: set arrow to {{ setting }}",
       "ml": "{{ ml }}ml",
       "sizeHint": "For the operating conditions you selected using CONCEPT1 with {{ size }}ml is unsuited",
       "size60PossibleHint": "The determined CONCEPT 60 cartridge setting is larger than the maximum value that can be set. However, the lubricator can be operated with the setting displayed.",
