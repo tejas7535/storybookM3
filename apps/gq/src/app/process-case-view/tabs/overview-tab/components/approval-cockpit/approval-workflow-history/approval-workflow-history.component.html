@@ -27,8 +27,13 @@
     "
   ></gq-approval-workflow-history-section>
   <!--timeline under start event-->
+  <!--
+    an auto_approved quotation has for a short period of time just the GQ generated autoApproved event. A little later the Released events is received and displayed. 
+    we display the short form for auto-approval, when we have  a) only the auto_approved event and b) only the auto_approved and released event
+    when an auto_approved quotation has been cancelled and auto-approved again, we will display the iterations section
+    -->
   <ng-container
-    *ngIf="!(quotationAutoApprovedEvent && workflowEvents?.length === 2)"
+    *ngIf="!(quotationAutoApprovedEvent && workflowEvents?.length <= 2)"
   >
     <div
       class="timeline history border-l-2 border-solid h-[1.5rem] bg border-y-border ml-3"
