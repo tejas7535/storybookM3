@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatLegacyProgressBarModule as MatProgressBarModule } from '@angular/material/legacy-progress-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { RouterModule } from '@angular/router';
 
 import { PushPipe } from '@ngrx/component';
@@ -12,7 +12,6 @@ import { HomeRoutingModule } from './home-routing.module';
   declarations: [HomeComponent],
   imports: [
     CommonModule,
-    MatProgressBarModule,
     HomeRoutingModule,
     RouterModule,
     MatProgressBarModule,
