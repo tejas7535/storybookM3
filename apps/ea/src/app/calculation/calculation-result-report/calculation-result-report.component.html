@@ -129,6 +129,7 @@
             id="emission"
             svgIcon="co2"
             [title]="t('title')"
+            [titleTooltip]="'calculationResult.emissionsTooltip' | transloco"
             [expanded]="
               (calculationParametersFacade.getCalculationTypes$ | ngrxPush)
                 ?.emission.selected === true

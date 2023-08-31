@@ -7,6 +7,11 @@ export interface CalculationResultPreviewItem {
   title: string;
 
   /**
+   * Transloco key
+   */
+  titleTooltip?: string;
+
+  /**
    * Material SVG icon name
    */
   svgIcon?: string;
@@ -24,6 +29,11 @@ export interface CalculationResultPreviewItem {
      * Transloco key
      */
     title: string;
+
+    /**
+     * Transloco key
+     */
+    titleTooltip?: string;
 
     value?: number | string;
     unit?: string;

@@ -12,7 +12,10 @@
       >
         {{ _item.icon }}
       </mat-icon>
-      <div class="text-caption text-medium-emphasis flex-shrink-0 font-medium">
+      <div
+        class="text-caption text-medium-emphasis flex-shrink-0 font-medium"
+        [matTooltip]="_item.titleTooltip ? t(_item.titleTooltip) : undefined"
+      >
         {{ t(_item.title) }}
       </div>
     </div>
@@ -26,6 +29,9 @@
           <div
             class="text-caption text-medium-emphasis mb-2 flex flex-col"
             [class.text-center]="isSingleItem"
+            [matTooltip]="
+              value.titleTooltip ? t(value.titleTooltip) : undefined
+            "
           >
             {{ value.title && t(value.title) }}
           </div>

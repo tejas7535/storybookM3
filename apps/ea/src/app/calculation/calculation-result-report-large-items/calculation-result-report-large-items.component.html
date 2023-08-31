@@ -62,7 +62,10 @@
         </div>
       </div>
 
-      <div class="text-caption text-medium-emphasis mt-4">
+      <div
+        class="text-caption text-medium-emphasis mt-4"
+        [matTooltip]="item.titleTooltip"
+      >
         {{ t(item.title) }}
       </div>
     </div>

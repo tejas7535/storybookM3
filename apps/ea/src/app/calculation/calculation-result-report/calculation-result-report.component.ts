@@ -23,7 +23,7 @@ import { InfoBannerComponent } from '@ea/shared/info-banner/info-banner.componen
 import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
 import { QualtricsInfoBannerComponent } from '@ea/shared/qualtrics-info-banner/qualtrics-info-banner.component';
 import { TagComponent } from '@ea/shared/tag/tag.component';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { LetDirective, PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -49,6 +49,7 @@ import { CalculationTypesSelectionComponent } from '../calculation-types-selecti
     TagComponent,
     LetDirective,
     MeaningfulRoundPipe,
+    TranslocoModule,
     CalculationTypesSelectionComponent,
     CalculationResultReportInputComponent,
     CalculationResultMessageComponent,
@@ -68,12 +69,17 @@ export class CalculationResultReportComponent {
           'calculationResultReport.co2Emissions.unit'
         );
 
+        const productionTooltip = this.translocoSevice.translate(
+          'calculationResult.productionTooltip'
+        );
+
         return [
           {
             value: this.meaingfulRoundPipe.transform(result.co2_upstream),
             unit: 'kg',
             short: unit,
             title: 'upstreamTitle',
+            titleTooltip: productionTooltip,
           },
         ];
       })

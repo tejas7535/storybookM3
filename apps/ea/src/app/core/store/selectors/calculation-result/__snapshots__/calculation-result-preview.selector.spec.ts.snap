@@ -36,11 +36,13 @@ Array [
   Object {
     "svgIcon": "co2",
     "title": "emissions",
+    "titleTooltip": "emissionsTooltip",
     "values": Array [
       Object {
         "calculationError": undefined,
         "isLoading": false,
         "title": "production",
+        "titleTooltip": "productionTooltip",
         "unit": "kg",
         "value": 2,
       },

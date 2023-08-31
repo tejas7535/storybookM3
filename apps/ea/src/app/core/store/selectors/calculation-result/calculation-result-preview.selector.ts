@@ -147,12 +147,14 @@ export const getCalculationResultPreviewData = createSelector(
       const values: CalculationResultPreviewItem['values'] = [
         {
           title: 'production',
+          titleTooltip: 'productionTooltip',
           ...co2UpstreamResult,
         },
       ];
 
       previewData.push({
         title: 'emissions',
+        titleTooltip: 'emissionsTooltip',
         svgIcon: 'co2',
         values,
       });
