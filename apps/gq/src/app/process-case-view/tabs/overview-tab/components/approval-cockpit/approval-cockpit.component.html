@@ -7,6 +7,7 @@
       {{ t('approvalOverview') }}
     </div>
     <gq-approval-workflow-history
+      class="pb-4"
       [workflowEvents]="approvalFacade.getApprovalWorkflowEvents$ | ngrxPush"
       [quotationAutoApprovedEvent]="
         approvalFacade.quotationAutoApprovedEvent$ | ngrxPush

@@ -13,4 +13,11 @@ export class ApprovalWorkflowHistorySectionComponent {
   @Input() comment: string;
   @Input() isIterationItem = false;
   @Input() iterationItemIconColor: string;
+  @Input() showTimeline = false;
+  @Input() showInterruptedTimeline = false;
+  @Input() borderClass: string[];
+
+  get getBorderClass(): string {
+    return this.borderClass ? this.borderClass.join(' ') : '';
+  }
 }

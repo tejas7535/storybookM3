@@ -1,12 +1,23 @@
-<div class="flex flex-row items-center">
+<!--when timeline Border is to be interrupted a gradient is used to create or border line only half way down-->
+<div
+  class="flex flex-row items-center"
+  [ngClass]="[
+    showTimeline && !showInterruptedTimeline ? 'timeline border-l-2' : '',
+    showTimeline && showInterruptedTimeline
+      ? ' timeline-interrupted bg-gradient-to-l from-error to-error bg-no-repeat bg-left-top bg-[size:2px_50%]'
+      : ''
+  ]"
+  class="{{ getBorderClass }}"
+>
   <mat-icon
     *ngIf="isIterationItem && !icon"
-    class="!h-2 ml-[-5px] !w-2 !text-[8px] font-normal"
-    [ngClass]="
+    class="!h-2 !w-2 !text-[8px] font-normal"
+    [ngClass]="[
       iterationItemIconColor
         ? iterationItemIconColor
-        : '!text-iteration-item-icon'
-    "
+        : '!text-iteration-item-icon',
+      showTimeline && showInterruptedTimeline ? 'ml-[-3px]' : 'ml-[-5px]'
+    ]"
     >circle</mat-icon
   >
   <div

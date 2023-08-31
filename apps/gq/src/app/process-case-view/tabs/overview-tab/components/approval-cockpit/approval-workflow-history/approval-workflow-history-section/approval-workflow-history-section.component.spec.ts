@@ -22,4 +22,15 @@ describe('ApprovalWorkflowHistorySectionComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('getBorderClass', () => {
+    it('should return empty string if borderClass is undefined', () => {
+      expect(component.getBorderClass).toEqual('');
+    });
+
+    it('should return borderClass as string', () => {
+      component.borderClass = ['border-1', 'border-2'];
+      expect(component.getBorderClass).toEqual('border-1 border-2');
+    });
+  });
 });

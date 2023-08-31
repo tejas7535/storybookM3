@@ -26,13 +26,14 @@
     <!-- show Iterations Section-->
     <div
       *ngIf="workflowEvents.length >= 1"
-      class="timeline iterations border-l-2 ml-3"
+      class="ml-3"
       [ngClass]="[
         inApproval ? 'border-dashed border-l-border' : 'border-solid',
         rejectedEvent || cancelledEvent ? 'text-error' : '',
         isApproved ? 'text-approval-status-green' : ''
       ]"
     >
+      <!--when cancelled or rejected event, the toggle button has no timeline -> property showTimeline-->
       <gq-approval-workflow-history-section
         *ngIf="!iterationVisible"
         class="cursor-pointer"
@@ -40,13 +41,22 @@
         [iconColor]="'text-low-emphasis'"
         [title]="t('viewIterationsLabel', { amount: workflowEvents.length })"
         [isIterationItem]="true"
+        [borderClass]="[
+          inApproval ? 'border-dashed border-l-border' : 'border-solid',
+          rejectedEvent || cancelledEvent ? 'text-error' : '',
+          isApproved ? 'text-approval-status-green' : ''
+        ]"
+        [showTimeline]="!(!!rejectedEvent || !!cancelledEvent)"
         (click)="toggleIteration()"
       >
       </gq-approval-workflow-history-section>
 
       <ng-container *ngIf="iterationVisible">
         <!-- we want the events asc for the iterations-->
-        <ng-container *ngFor="let event of workflowEvents?.slice().reverse()">
+        <ng-container
+          *ngFor="let event of workflowEvents?.slice().reverse(); let i = index"
+        >
+          <!--the very last event of a rejected/cancelled workflow will display an interrupted timeline-->
           <gq-approval-workflow-history-section
             [title]="t(event.event)"
             [subtitle]="
@@ -58,11 +68,22 @@
             [comment]="event.comment"
             [isIterationItem]="true"
             [iterationItemIconColor]="iconColor"
+            [borderClass]="[
+              inApproval ? 'border-dashed border-l-border' : 'border-solid',
+              rejectedEvent || cancelledEvent ? 'text-error' : '',
+              isApproved ? 'text-approval-status-green' : ''
+            ]"
+            [showTimeline]="true"
+            [showInterruptedTimeline]="
+              (!!rejectedEvent || !!cancelledEvent) &&
+              i === workflowEvents.length - 1
+            "
           >
           </gq-approval-workflow-history-section>
         </ng-container>
       </ng-container>
 
+      <!--when cancelled or rejected event, the toggle button has no timeline -> property showTimeline-->
       <gq-approval-workflow-history-section
         *ngIf="iterationVisible"
         class="cursor-pointer"
@@ -70,6 +91,12 @@
         [iconColor]="'text-low-emphasis'"
         [title]="t('hideIterationsLabel', { amount: workflowEvents.length })"
         [isIterationItem]="true"
+        [borderClass]="[
+          inApproval ? 'border-dashed border-l-border' : 'border-solid',
+          rejectedEvent || cancelledEvent ? 'text-error' : '',
+          isApproved ? 'text-approval-status-green' : ''
+        ]"
+        [showTimeline]="!(!!rejectedEvent || !!cancelledEvent)"
         (click)="toggleIteration()"
       >
       </gq-approval-workflow-history-section>

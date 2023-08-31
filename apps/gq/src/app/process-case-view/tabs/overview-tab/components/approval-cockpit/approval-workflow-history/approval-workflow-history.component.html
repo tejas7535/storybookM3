@@ -105,11 +105,14 @@
   ></ng-template>
 
   <ng-template #approvalPending>
-    <gq-approval-workflow-history-section
-      [icon]="'timer_outline'"
-      [iconColor]="'text-low-emphasis'"
-      [title]="t('caseApprovalStatus')"
-      [subtitle]="t('approvalPending')"
-    ></gq-approval-workflow-history-section>
+    <!-- when quotation has been rejected, we do not want the end event to be displayed-->
+    <ng-container *ngIf="!quotationRejectedEvent">
+      <gq-approval-workflow-history-section
+        [icon]="'timer_outline'"
+        [iconColor]="'text-low-emphasis'"
+        [title]="t('caseApprovalStatus')"
+        [subtitle]="t('approvalPending')"
+      ></gq-approval-workflow-history-section>
+    </ng-container>
   </ng-template>
 </div>
