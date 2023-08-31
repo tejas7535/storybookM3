@@ -9,4 +9,11 @@ import { QuotationDetail } from '@gq/shared/models/quotation-detail';
 export class ProductionCostDetailsComponent {
   @Input() quotationDetail: QuotationDetail;
   @Input() currency: string;
+  @Input() materialCostUpdateAvl: boolean;
+  @Input() updateMaterialCostsInQuotationDetailLoading: boolean; // TODO: use to spin refresh icon - use loading information from store
+
+  refreshPrice(): void {
+    // eslint-disable-next-line no-console
+    console.log('emit action here');
+  }
 }

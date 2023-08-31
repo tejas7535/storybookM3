@@ -77,7 +77,9 @@
       "gpc": "GPC",
       "sqv": "SQV",
       "productionPlant": "Production Plant",
-      "productionSegment": "Production Segment"
+      "productionSegment": "Production Segment",
+      "refreshCosts": "Refresh costs",
+      "costsUpToDate": "Costs are up to date"
     },
     "materialComparableCostDetails": {
       "title": "Comparable Cost #{{number}}",

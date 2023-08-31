@@ -47,6 +47,14 @@ describe('DetailViewComponent', () => {
           },
           materialStock: MATERIAL_STOCK_STATE_MOCK,
           plantMaterialDetails: PLANT_MATERIAL_DETAILS_STATE_MOCK,
+          materialCostDetails: {
+            materialCostDetails: {
+              gpcYear: 2023,
+              sqvDate: '2024-01-01',
+            },
+            materialCostDetailsLoading: false,
+            errorMessage: undefined,
+          },
         },
       }),
       MockProvider(AgGridStateService),
@@ -85,6 +93,9 @@ describe('DetailViewComponent', () => {
         );
         m.expect(component.quotationDetail$).toBeObservable(
           m.cold('a', { a: QUOTATION_DETAIL_MOCK })
+        );
+        m.expect(component.materialCostUpdateAvl$).toBeObservable(
+          m.cold('a', { a: true })
         );
         m.expect(component.materialStock$).toBeObservable(
           m.cold('a', { a: MATERIAL_STOCK_MOCK })

@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { FreeStockTrafficLightComponent } from '@gq/shared/components/free-stock-traffic-light/free-stock-traffic-light.component';
 import { KpiStatusCardComponent } from '@gq/shared/components/kpi-status-card/kpi-status-card.component';
@@ -40,6 +42,8 @@ import { SupplyChainDetailsComponent } from './supply-chain-details/supply-chain
     LabelTextModule,
     FreeStockTrafficLightComponent,
     KpiStatusCardComponent,
+    MatIconModule,
+    MatTooltipModule,
   ],
   providers: [
     {

@@ -19,6 +19,7 @@ import {
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { MaterialStock } from '@gq/core/store/reducers/models';
 import {
+  getMaterialCostUpdateAvl,
   getMaterialStock,
   getMaterialStockLoading,
   getPlantMaterialDetails,
@@ -49,6 +50,7 @@ import { AppRoutePath } from '../../app-route-path.enum';
 export class DetailViewComponent implements OnInit, OnDestroy {
   quotation$: Observable<Quotation>;
   quotationDetail$: Observable<QuotationDetail>;
+  materialCostUpdateAvl$: Observable<boolean>;
   plantMaterialDetails$: Observable<PlantMaterialDetail[]>;
   materialStock$: Observable<MaterialStock>;
   materialStockLoading$: Observable<boolean>;
@@ -105,6 +107,8 @@ export class DetailViewComponent implements OnInit, OnDestroy {
   private initObservables(): void {
     this.quotation$ = this.store.select(activeCaseFeature.selectQuotation);
     this.quotationDetail$ = this.store.select(getSelectedQuotationDetail);
+
+    this.materialCostUpdateAvl$ = this.store.select(getMaterialCostUpdateAvl);
 
     this.sapStatusPosition$ = this.quotationDetail$.pipe(
       filter((quotationDetail: QuotationDetail) => !!quotationDetail),

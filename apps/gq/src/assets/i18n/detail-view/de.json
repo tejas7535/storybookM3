@@ -77,7 +77,9 @@
       "gpc": "KHK",
       "sqv": "SAW",
       "productionPlant": "Produktionswerk",
-      "productionSegment": "Produktionssegment"
+      "productionSegment": "Produktionssegment",
+      "refreshCosts": "Kosten aktualisieren",
+      "costsUpToDate": "Die Kosten sind aktuell"
     },
     "materialComparableCostDetails": {
       "title": "Vergleichbare Kosten #{{number}}",

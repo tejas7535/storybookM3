@@ -99,8 +99,7 @@ describe('MaterialCostDetails', () => {
     );
   });
 
-  // Temporary skip (GQUOTE-2654)
-  describe.skip('triggerLoadMaterialCostDetails$', () => {
+  describe('triggerLoadMaterialCostDetails$', () => {
     beforeEach(() => {
       store.overrideSelector(getSelectedQuotationDetail, QUOTATION_DETAIL_MOCK);
     });

@@ -20,6 +20,7 @@ import { Store } from '@ngrx/store';
 })
 export class PricingDetailsComponent implements OnInit {
   @Input() quotationDetail: QuotationDetail;
+  @Input() materialCostUpdateAvl: boolean;
 
   quotationCurrency$: Observable<string>;
   materialComparableCostsLoading$: Observable<boolean>;

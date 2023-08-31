@@ -82,31 +82,31 @@ describe('MaterialService', () => {
 
   describe('getPlantMaterialDetails', () => {
     test('should call', () => {
-      const materialId = '123';
+      const materialNumber15 = '123';
       const plantIds = ['456', '789'];
 
       service
-        .getPlantMaterialDetails(materialId, plantIds)
+        .getPlantMaterialDetails(materialNumber15, plantIds)
         .subscribe((response) => {
           expect(response).toEqual([]);
         });
 
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/materials/${materialId}/plant-material-details`
+        `${ApiVersion.V1}/materials/${materialNumber15}/plant-material-details`
       );
 
       expect(req.request.method).toBe('POST');
     });
 
     test('should extract plantIds', () => {
-      const materialId = '123';
+      const materialNumber15 = '123';
       const plantIds = ['456', '789'];
       service['http'].post = jest.fn().mockReturnValue(of([]));
 
-      service.getPlantMaterialDetails(materialId, plantIds);
+      service.getPlantMaterialDetails(materialNumber15, plantIds);
 
       expect(service['http'].post).toHaveBeenCalledWith(
-        `${ApiVersion.V1}/materials/${materialId}/plant-material-details`,
+        `${ApiVersion.V1}/materials/${materialNumber15}/plant-material-details`,
         { plantIds }
       );
     });
